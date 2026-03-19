@@ -34,7 +34,7 @@ TextMessage {
         height: root.stateEventIconSize
         width: root.stateEventIconSize
         fillMode: Image.PreserveAspectFit
-        source: "image://colorimage/" + root.stateEventIconSource + "?" + root.color
+        source: root.stateEventIconSource ? ("image://colorimage/" + root.stateEventIconSource + "?" + root.color) : ""
         sourceSize.height: root.stateEventIconSize
         sourceSize.width: root.stateEventIconSize
     }

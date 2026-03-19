@@ -173,8 +173,23 @@ Item {
                 model: filteredModel
                 boundsBehavior: Flickable.StopAtBounds
                 highlightMoveDuration: 0
+
+                readonly property bool hasVerticalOverflow: contentHeight > height
+                readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
+                readonly property bool scrollbarVisible: {
+                    switch (scrollbarPolicy) {
+                    case Settings.ScrollbarPolicy.Always:
+                        return true;
+                    case Settings.ScrollbarPolicy.Never:
+                        return false;
+                    case Settings.ScrollbarPolicy.WhenNeeded:
+                    default:
+                        return hasVerticalOverflow;
+                    }
+                }
+
                 ScrollBar.vertical: ScrollBar {
-                    policy: ScrollBar.AsNeeded
+                    policy: listView.scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
                 }
 
                 delegate: ItemDelegate {

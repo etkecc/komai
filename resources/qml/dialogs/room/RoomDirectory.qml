@@ -16,16 +16,86 @@ OverlayDialog {
 
     property Item appRoot: null
 
-    // 0 = Mine (homeserver), 1 = MRS, 2 = Another one
-    property int serverMode: 0
+    readonly property int largeRoomThreshold: 2000
+    readonly property int veryLargeRoomThreshold: 10000
+
+    // Per-tab room size filter combo index: 0 = up to large, 1 = up to very large, 2 = any
+    property var sizeFilterPerTab: ({
+        [RoomDirectory.ServerMode.Mine]: 2,
+        [RoomDirectory.ServerMode.MRS]: 0,
+        [RoomDirectory.ServerMode.Custom]: 2
+    })
+
+    function sizeFilterValueForIndex(index) {
+        switch (index) {
+        case 0: return largeRoomThreshold;
+        case 1: return veryLargeRoomThreshold;
+        case 2: return 0;
+        default: return 0;
+        }
+    }
+
+    function applySizeFilter(comboIndex) {
+        roomSizeFilter.currentIndex = comboIndex;
+        publicRooms.maxMemberFilter = sizeFilterValueForIndex(comboIndex);
+    }
+
+    function roomSizeWarning(memberCount) {
+        if (memberCount >= veryLargeRoomThreshold)
+            return qsTr("This room is extremely large. You should probably stay away from it unless you have a very powerful server. Joining may take a very long time.");
+        if (memberCount >= largeRoomThreshold)
+            return qsTr("This room is large. Joining may take a long time and increase resource usage on your server.");
+        return "";
+    }
+
+    property Item hoveredMemberBadge: null
+    property string hoveredMemberBadgeText: ""
+
+    KomaiToolTip {
+        parent: roomDirectoryRoot.contentItem.parent
+        anchorItem: roomDirectoryRoot.hoveredMemberBadge
+        anchorX: roomDirectoryRoot.hoveredMemberBadge ? roomDirectoryRoot.hoveredMemberBadge.width / 2 : 0
+        anchorY: 0
+        gapY: Komai.paddingMedium
+        preferBelow: false
+        text: roomDirectoryRoot.hoveredMemberBadgeText
+        delay: 0
+        requestedVisible: roomDirectoryRoot.hoveredMemberBadge !== null
+    }
+
+    JoinLargeRoomDialog {
+        id: joinConfirmDialog
+
+        overlayViewport: roomDirectoryRoot.appRoot
+
+        onConfirmed: function(index) {
+            publicRooms.joinRoom(index);
+        }
+    }
+
+    enum ServerMode { Mine, MRS, Custom }
+    property int serverMode: RoomDirectory.ServerMode.Mine
     property string customServer: ""
     property bool autoSelectionDone: false
 
-    // MRS room count stub — will be populated via MRS API later
-    property int mrsRoomCount: -1
+    // Cached room counts per server mode (totalRoomCountEstimate is shared/volatile)
+    property int homeserverRoomCount: -1
+    property int customServerRoomCount: -1
 
     readonly property bool mrsEnabled: Settings.networkMrsEnabled
     readonly property string mrsServerName: Settings.networkMrsServerName
+
+    onMrsServerNameChanged: {
+        // Server changed — clear stale data and re-fetch
+        publicRooms.fetchMrsRoomCount(mrsEnabled ? mrsServerName : "");
+        if (serverMode === RoomDirectory.ServerMode.MRS)
+            publicRooms.setMatrixServer(mrsServerName);
+    }
+
+    onMrsEnabledChanged: {
+        if (!mrsEnabled)
+            publicRooms.fetchMrsRoomCount("");  // clears count
+    }
 
     readonly property string localHomeserver: {
         var uid = Settings.userId;
@@ -36,11 +106,7 @@ OverlayDialog {
     function roomCountBadgeText(estimate) {
         if (estimate < 0)
             return "";
-        if (estimate >= 1000000)
-            return Math.round(estimate / 1000000) + "M";
-        if (estimate >= 1000)
-            return Math.round(estimate / 1000) + "k";
-        return String(estimate);
+        return estimate.toLocaleString();
     }
 
     title: qsTr("Explore Public Rooms")
@@ -49,29 +115,54 @@ OverlayDialog {
     overlayDialogMinWidth: 640
     overlayDialogMaxWidthRatio: 0.85
 
-    width: {
-        var vpW = overlayDialogViewport ? overlayDialogViewport.width : 760;
-        var pad = Komai.paddingLarge;
-        return Math.min(Math.max(240, vpW - pad * 2), Math.max(240, Math.floor(vpW * 0.85)));
-    }
+    readonly property int dialogViewportWidth: overlayDialogViewport ? overlayDialogViewport.width : 760
+    readonly property int dialogViewportHeight: overlayDialogViewport ? overlayDialogViewport.height : 600
+
+    width: Math.min(
+        Math.max(240, dialogViewportWidth - Komai.paddingLarge * 2),
+        Math.max(240, Math.floor(dialogViewportWidth * overlayDialogMaxWidthRatio))
+    )
+    height: Math.min(implicitHeight, dialogViewportHeight - Komai.paddingLarge * 2)
+    x: Math.round((dialogViewportWidth - width) / 2)
+    y: Math.max(Komai.paddingLarge, Math.round((dialogViewportHeight - height) / 2))
 
     onOpened: {
         if (!autoSelectionDone) {
-            switchServer(0);
+            switchServer(RoomDirectory.ServerMode.Mine);
+        }
+        if (mrsEnabled) {
+            publicRooms.fetchMrsRoomCount(mrsServerName);
         }
         roomSearch.forceActiveFocus();
     }
 
     function switchServer(mode) {
+        // Save current tab's size filter before switching
+        if (serverMode !== mode)
+            sizeFilterPerTab[serverMode] = roomSizeFilter.currentIndex;
+
         serverMode = mode;
-        if (mode === 0) {
+
+        // Restore new tab's size filter
+        applySizeFilter(sizeFilterPerTab[mode] ?? 2);
+
+        // Clear language filter when leaving MRS tab
+        if (mode !== RoomDirectory.ServerMode.MRS && publicRooms.mrsLanguageFilter !== "") {
+            publicRooms.mrsLanguageFilter = "";
+            languageFilter.currentIndex = 0;
+        }
+        if (mode === RoomDirectory.ServerMode.Mine) {
             publicRooms.setMatrixServer("");
             roomSearch.forceActiveFocus();
-        } else if (mode === 1) {
+        } else if (mode === RoomDirectory.ServerMode.MRS) {
             publicRooms.setMatrixServer(mrsServerName);
             roomSearch.forceActiveFocus();
-        } else if (mode === 2) {
-            publicRooms.setMatrixServer(customServer);
+        } else if (mode === RoomDirectory.ServerMode.Custom) {
+            if (customServer.trim().length > 0) {
+                publicRooms.setMatrixServer(customServer);
+            } else {
+                publicRooms.clearResults();
+            }
             customServerField.forceActiveFocus();
         }
     }
@@ -81,16 +172,24 @@ OverlayDialog {
         function onHasResultsChanged() {
             if (!publicRooms.hasResults
                 && publicRooms.reachedEndOfPagination
-                && serverMode === 0
+                && serverMode === RoomDirectory.ServerMode.Mine
                 && !autoSelectionDone) {
                 // Homeserver returned empty — fall back to MRS if enabled
                 if (mrsEnabled) {
-                    serverSegment.currentIndex = 1;
-                    switchServer(1);
+                    serverSegment.currentIndex = RoomDirectory.ServerMode.MRS;
+                    switchServer(RoomDirectory.ServerMode.MRS);
                 }
             }
-            if (publicRooms.hasResults && serverMode === 0) {
+            if (publicRooms.hasResults && serverMode === RoomDirectory.ServerMode.Mine) {
                 autoSelectionDone = true;
+            }
+        }
+        function onTotalRoomCountEstimateChanged() {
+            if (publicRooms.totalRoomCountEstimate >= 0) {
+                if (serverMode === RoomDirectory.ServerMode.Mine)
+                    homeserverRoomCount = publicRooms.totalRoomCountEstimate;
+                else if (serverMode === RoomDirectory.ServerMode.Custom && customServer.trim().length > 0)
+                    customServerRoomCount = publicRooms.totalRoomCountEstimate;
             }
         }
     }
@@ -106,15 +205,26 @@ OverlayDialog {
         id: serverSegment
 
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         currentIndex: roomDirectoryRoot.serverMode
         model: {
+            var mineBadge = roomDirectoryRoot.homeserverRoomCount >= 0
+                ? roomDirectoryRoot.roomCountBadgeText(roomDirectoryRoot.homeserverRoomCount)
+                : "";
             var segments = [
-                { text: qsTr("Mine (%1)").arg(roomDirectoryRoot.localHomeserver), value: 0 }
+                { text: qsTr("Mine (%1)").arg(roomDirectoryRoot.localHomeserver), value: RoomDirectory.ServerMode.Mine, badge: mineBadge }
             ];
             if (roomDirectoryRoot.mrsEnabled) {
-                segments.push({ text: roomDirectoryRoot.mrsServerName, value: 1 });
+                var mrsBadge = publicRooms.mrsRoomCount >= 0
+                    ? roomDirectoryRoot.roomCountBadgeText(publicRooms.mrsRoomCount)
+                    : "";
+                segments.push({ text: roomDirectoryRoot.mrsServerName, value: RoomDirectory.ServerMode.MRS, badge: mrsBadge });
             }
-            segments.push({ text: qsTr("Another one"), value: 2 });
+            var customBadge = (roomDirectoryRoot.customServer.trim().length > 0 && roomDirectoryRoot.customServerRoomCount >= 0)
+                ? roomDirectoryRoot.roomCountBadgeText(roomDirectoryRoot.customServerRoomCount)
+                : "";
+            segments.push({ text: qsTr("Another server"), value: RoomDirectory.ServerMode.Custom, badge: customBadge });
             return segments;
         }
         onActivated: function(index) {
@@ -123,85 +233,26 @@ OverlayDialog {
         }
     }
 
-    // Room count badges row
-    RowLayout {
-        Layout.fillWidth: true
-        spacing: 0
+    KomaiToolTip {
+        id: badgeTooltip
 
-        Item { Layout.fillWidth: true }
+        property Item badge: serverSegment.hoveredBadge
 
-        // Mine badge
-        Rectangle {
-            visible: publicRooms.totalRoomCountEstimate >= 0 && roomDirectoryRoot.serverMode === 0
-            implicitHeight: mineBadgeLabel.implicitHeight + Komai.paddingSmall
-            implicitWidth: Math.max(mineBadgeLabel.implicitWidth + Komai.paddingSmall * 2, implicitHeight)
-            radius: height / 2
-            color: palette.highlight
-            Layout.alignment: Qt.AlignHCenter
-
-            Label {
-                id: mineBadgeLabel
-                anchors.centerIn: parent
-                font.bold: true
-                font.pixelSize: Komai.fontPixelSize * 0.75
-                color: palette.brightText
-                text: roomDirectoryRoot.roomCountBadgeText(publicRooms.totalRoomCountEstimate)
-            }
-        }
-
-        // MRS badge
-        Rectangle {
-            visible: roomDirectoryRoot.mrsEnabled && (
-                (roomDirectoryRoot.serverMode === 1 && publicRooms.totalRoomCountEstimate >= 0)
-                || roomDirectoryRoot.mrsRoomCount >= 0)
-            implicitHeight: mrsBadgeLabel.implicitHeight + Komai.paddingSmall
-            implicitWidth: Math.max(mrsBadgeLabel.implicitWidth + Komai.paddingSmall * 2, implicitHeight)
-            radius: height / 2
-            color: palette.highlight
-            Layout.alignment: Qt.AlignHCenter
-
-            Label {
-                id: mrsBadgeLabel
-                anchors.centerIn: parent
-                font.bold: true
-                font.pixelSize: Komai.fontPixelSize * 0.75
-                color: palette.brightText
-                text: {
-                    if (roomDirectoryRoot.serverMode === 1 && publicRooms.totalRoomCountEstimate >= 0)
-                        return roomDirectoryRoot.roomCountBadgeText(publicRooms.totalRoomCountEstimate);
-                    if (roomDirectoryRoot.mrsRoomCount >= 0)
-                        return roomDirectoryRoot.roomCountBadgeText(roomDirectoryRoot.mrsRoomCount);
-                    return "";
-                }
-            }
-        }
-
-        // Custom badge
-        Rectangle {
-            visible: roomDirectoryRoot.serverMode === 2 && publicRooms.totalRoomCountEstimate >= 0
-            implicitHeight: customBadgeLabel.implicitHeight + Komai.paddingSmall
-            implicitWidth: Math.max(customBadgeLabel.implicitWidth + Komai.paddingSmall * 2, implicitHeight)
-            radius: height / 2
-            color: palette.highlight
-            Layout.alignment: Qt.AlignHCenter
-
-            Label {
-                id: customBadgeLabel
-                anchors.centerIn: parent
-                font.bold: true
-                font.pixelSize: Komai.fontPixelSize * 0.75
-                color: palette.brightText
-                text: roomDirectoryRoot.roomCountBadgeText(publicRooms.totalRoomCountEstimate)
-            }
-        }
-
-        Item { Layout.fillWidth: true }
+        parent: roomDirectoryRoot.contentItem.parent
+        anchorItem: badge
+        anchorX: badge ? badge.width / 2 : 0
+        anchorY: badge ? badge.height : 0
+        gapY: Komai.paddingMedium
+        preferBelow: false
+        text: qsTr("Number of known public rooms in this server's directory")
+        delay: 0
+        requestedVisible: badge !== null
     }
 
     // -- Custom server card (visible when "Another one" is selected) --
 
     Item {
-        visible: roomDirectoryRoot.serverMode === 2
+        visible: roomDirectoryRoot.serverMode === RoomDirectory.ServerMode.Custom
         Layout.fillWidth: true
         Layout.leftMargin: Komai.paddingMedium
         Layout.rightMargin: Komai.paddingMedium
@@ -243,10 +294,12 @@ OverlayDialog {
                     onTextChanged: {
                         roomDirectoryRoot.customServer = text;
                         customServerTimer.restart();
-                        if (text.trim().length > 0)
+                        if (text.trim().length > 0) {
                             serverSuggestions.model = publicRooms.knownServers(text.trim());
-                        else
+                        } else {
                             serverSuggestions.model = publicRooms.knownServers("");
+                            roomDirectoryRoot.customServerRoomCount = -1;
+                        }
                     }
 
                     Timer {
@@ -254,7 +307,7 @@ OverlayDialog {
 
                         interval: 350
                         onTriggered: {
-                            if (roomDirectoryRoot.serverMode === 2)
+                            if (roomDirectoryRoot.serverMode === RoomDirectory.ServerMode.Custom)
                                 publicRooms.setMatrixServer(customServerField.text.trim());
                         }
                     }
@@ -267,54 +320,75 @@ OverlayDialog {
     ListView {
         id: serverSuggestions
 
-        visible: roomDirectoryRoot.serverMode === 2 && count > 0
+        visible: roomDirectoryRoot.serverMode === RoomDirectory.ServerMode.Custom && count > 0
             && !(count === 1 && model.length === 1
                  && model[0].toLowerCase() === customServerField.text.trim().toLowerCase())
         Layout.fillWidth: true
         Layout.leftMargin: Komai.paddingMedium
         Layout.rightMargin: Komai.paddingMedium
-        Layout.preferredHeight: Math.min(contentHeight, 150)
+        Layout.preferredHeight: Math.min(contentHeight, 200)
         clip: true
+        spacing: 2
         model: []
 
-        delegate: AbstractButton {
+        delegate: Item {
             id: suggestionDelegate
 
             required property string modelData
             required property int index
 
             width: ListView.view.width
-            implicitHeight: suggestionLabel.implicitHeight + Komai.paddingSmall * 2
-            hoverEnabled: true
+            implicitHeight: suggestionRow.implicitHeight + Komai.paddingSmall * 2
 
-            readonly property bool activeState: hovered || pressed
+            readonly property bool activeState: suggestionHover.hovered
 
-            background: Rectangle {
-                radius: Komai.paddingSmall
-                color: suggestionDelegate.activeState ? palette.dark : "transparent"
+            HoverHandler {
+                id: suggestionHover
             }
 
-            contentItem: Label {
-                id: suggestionLabel
-
-                leftPadding: Komai.paddingMedium
-                text: suggestionDelegate.modelData
-                color: suggestionDelegate.activeState ? palette.brightText : palette.text
-                font.pointSize: Settings.uiFontSizePt * 0.9
-                elide: Text.ElideRight
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            onClicked: {
-                customServerField.text = modelData;
-                roomDirectoryRoot.customServer = modelData;
-                publicRooms.setMatrixServer(modelData);
-                serverSuggestions.model = [];
-            }
-
-            KomaiCursorShape {
+            Rectangle {
                 anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
+                radius: Komai.paddingMedium
+                color: suggestionDelegate.activeState ? palette.dark : palette.window
+            }
+
+            RowLayout {
+                id: suggestionRow
+
+                anchors.fill: parent
+                anchors.leftMargin: Komai.paddingMedium
+                anchors.rightMargin: Komai.paddingMedium
+                spacing: Komai.paddingMedium
+
+                Avatar {
+                    Layout.preferredWidth: Komai.listIconSize
+                    Layout.preferredHeight: Komai.listIconSize
+                    Layout.alignment: Qt.AlignVCenter
+                    displayName: suggestionDelegate.modelData
+                    roomid: "!" + suggestionDelegate.modelData + ":server"
+                    enabled: false
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: suggestionDelegate.modelData
+                    color: suggestionDelegate.activeState ? palette.brightText : palette.text
+                    font.pointSize: Settings.uiFontSizePt
+                    font.bold: true
+                    elide: Text.ElideRight
+                }
+
+                KomaiButton {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr("Choose")
+                    highlighted: true
+                    onClicked: {
+                        customServerField.text = suggestionDelegate.modelData;
+                        roomDirectoryRoot.customServer = suggestionDelegate.modelData;
+                        publicRooms.setMatrixServer(suggestionDelegate.modelData);
+                        serverSuggestions.model = [];
+                    }
+                }
             }
         }
     }
@@ -322,15 +396,527 @@ OverlayDialog {
     // -- Search rooms section --
 
     SettingsSection {
-        label: qsTr("Search rooms")
+        label: qsTr("Filtering")
         Layout.fillWidth: true
     }
 
-    RowLayout {
-        Layout.fillWidth: true
-        spacing: Komai.paddingSmall
+    // -- Room size filter card --
 
-        // Animated Komai logo (search status indicator)
+    Item {
+        Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
+        implicitHeight: roomSizeCardContent.implicitHeight
+
+        HoverHandler { id: roomSizeCardHover; blocking: false }
+        Rectangle {
+            anchors.fill: roomSizeCardContent
+            color: roomSizeCardHover.hovered ? palette.dark : palette.window
+            radius: Komai.paddingMedium
+            z: -1
+        }
+
+        RowLayout {
+            id: roomSizeCardContent
+            width: parent.width
+            spacing: Komai.paddingMedium
+
+            Label {
+                text: qsTr("Show rooms of size")
+                color: roomSizeCardHover.hovered ? palette.brightText : palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+            }
+
+            KomaiComboBox {
+                id: roomSizeFilter
+
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.preferredWidth: Math.max(implicitWidth, Math.min(350, parent.width * 0.5))
+                model: [
+                    qsTr("Up to large (≤ %1 members)").arg(roomDirectoryRoot.largeRoomThreshold.toLocaleString()),
+                    qsTr("Up to very large (≤ %1 members)").arg(roomDirectoryRoot.veryLargeRoomThreshold.toLocaleString()),
+                    qsTr("Any")
+                ]
+                currentIndex: roomDirectoryRoot.sizeFilterPerTab[roomDirectoryRoot.serverMode] ?? 2
+                onActivated: function(index) {
+                    roomDirectoryRoot.sizeFilterPerTab[roomDirectoryRoot.serverMode] = index;
+                    publicRooms.maxMemberFilter = roomDirectoryRoot.sizeFilterValueForIndex(index);
+                    // Don't auto-fetch if on Custom tab with no server entered
+                    if (roomDirectoryRoot.serverMode === RoomDirectory.ServerMode.Custom
+                        && roomDirectoryRoot.customServer.trim().length === 0) {
+                        publicRooms.clearResults();
+                    }
+                }
+            }
+        }
+    }
+
+    // -- Keyword search card --
+
+    Item {
+        Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
+        implicitHeight: searchCardContent.implicitHeight
+
+        HoverHandler { id: searchCardHover; blocking: false }
+        Rectangle {
+            anchors.fill: searchCardContent
+            color: searchCardHover.hovered ? palette.dark : palette.window
+            radius: Komai.paddingMedium
+            z: -1
+        }
+
+        ColumnLayout {
+            id: searchCardContent
+            width: parent.width
+            spacing: 0
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Komai.paddingMedium
+
+                Label {
+                    text: qsTr("Keyword")
+                    color: searchCardHover.hovered ? palette.brightText : palette.text
+                    font.pointSize: 1.1 * Settings.uiFontSizePt
+                    Layout.fillWidth: true
+                    Layout.leftMargin: Komai.paddingMedium
+                    Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                    Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                }
+
+                KomaiTextField {
+                    id: roomSearch
+
+                    Layout.preferredWidth: Math.max(implicitWidth, Math.min(350, parent.width * 0.5))
+                    Layout.rightMargin: Komai.paddingMedium
+                    Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                    Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                    placeholderText: qsTr("e.g. Matrix, food, coffee, tech")
+                    onTextChanged: searchTimer.restart()
+
+                    Timer {
+                        id: searchTimer
+
+                        interval: 350
+                        onTriggered: publicRooms.setSearchTerm(roomSearch.text)
+                    }
+                }
+            }
+
+            // Quick keyword presets (MRS only)
+            Flow {
+                visible: roomDirectoryRoot.serverMode === RoomDirectory.ServerMode.MRS
+                Layout.maximumWidth: parent.width - Komai.paddingMedium * 2
+                Layout.alignment: Qt.AlignRight
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                spacing: Komai.paddingSmall
+
+                Label {
+                    text: qsTr("Quick presets:")
+                    color: searchCardHover.hovered ? palette.brightText : palette.buttonText
+                    font.pointSize: Settings.uiFontSizePt * 0.8
+                    height: quickPresetRepeater.count > 0 ? quickPresetRepeater.itemAt(0).height : implicitHeight
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Repeater {
+                    id: quickPresetRepeater
+                    model: ["Matrix Hosting", "FOSS", "mastodon", "Android", "food", "coffee", "linux", "gaming", "minecraft", "social", "tech", "travel", "photography"]
+
+                    KomaiButton {
+                        required property string modelData
+                        text: modelData
+                        highlighted: roomSearch.text.toLowerCase() === modelData.toLowerCase()
+                        font.pointSize: Settings.uiFontSizePt * 0.8
+                        topPadding: Komai.paddingSmall * 0.5
+                        bottomPadding: Komai.paddingSmall * 0.5
+                        leftPadding: Komai.paddingSmall
+                        rightPadding: Komai.paddingSmall
+                        onClicked: {
+                            roomSearch.text = modelData;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // -- Language filter card (MRS only) --
+
+    Item {
+        visible: roomDirectoryRoot.serverMode === RoomDirectory.ServerMode.MRS
+        Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
+        implicitHeight: languageCardContent.implicitHeight
+
+        HoverHandler { id: languageCardHover; blocking: false }
+        Rectangle {
+            anchors.fill: languageCardContent
+            color: languageCardHover.hovered ? palette.dark : palette.window
+            radius: Komai.paddingMedium
+            z: -1
+        }
+
+        RowLayout {
+            id: languageCardContent
+            width: parent.width
+            spacing: Komai.paddingMedium
+
+            Label {
+                text: qsTr("Language")
+                color: languageCardHover.hovered ? palette.brightText : palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+            }
+
+            KomaiSearchableComboBox {
+                id: languageFilter
+
+                Layout.preferredWidth: Math.max(implicitWidth, Math.min(350, parent.width * 0.5))
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                model: {
+                    var langs = publicRooms.availableLanguages();
+                    langs.unshift(qsTr("Any language"));
+                    return langs;
+                }
+                currentIndex: 0
+                onActivated: function(index) {
+                    languageFilter.currentIndex = index;
+                    if (index === 0) {
+                        publicRooms.mrsLanguageFilter = "";
+                    } else {
+                        var entry = languageFilter.model[index];
+                        var match = entry.match(/\(([a-z]{2})\)$/);
+                        publicRooms.mrsLanguageFilter = match ? match[1] : "";
+                    }
+                }
+            }
+        }
+    }
+
+    // -- Results section --
+
+    SettingsSection {
+        label: qsTr("Rooms & spaces")
+        Layout.fillWidth: true
+    }
+
+    Item {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.preferredHeight: Math.max(
+            160,
+            roomDirectoryRoot.dialogViewportHeight - overlayDialogChromeHeight - Komai.paddingLarge * 2
+        )
+
+        ListView {
+            id: roomDirView
+
+            anchors.fill: parent
+            readonly property bool hasVerticalOverflow: contentHeight > height
+            readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
+            readonly property bool scrollbarVisible: {
+                switch (scrollbarPolicy) {
+                case Settings.ScrollbarPolicy.Always:
+                    return true;
+                case Settings.ScrollbarPolicy.Never:
+                    return false;
+                case Settings.ScrollbarPolicy.WhenNeeded:
+                default:
+                    return hasVerticalOverflow;
+                }
+            }
+            readonly property real reservedScrollbarWidth: scrollbarVisible
+                ? Math.max(resultsScrollbar.width, resultsScrollbar.implicitWidth) + Komai.paddingSmall
+                : 0
+
+            rightMargin: reservedScrollbarWidth
+            model: publicRooms
+            clip: true
+            spacing: 2
+            boundsBehavior: Flickable.StopAtBounds
+
+            ScrollBar.vertical: ScrollBar {
+                id: resultsScrollbar
+
+                policy: roomDirView.scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            }
+
+            delegate: Item {
+                id: roomDelegate
+
+                required property string name
+                required property string roomid
+                required property string avatarUrl
+                required property string topic
+                required property int numMembers
+                required property bool canJoin
+                required property bool isSpace
+                required property int index
+
+                width: ListView.view.width - roomDirView.rightMargin
+                implicitHeight: delegateRow.implicitHeight + Komai.paddingSmall * 2
+
+                readonly property bool activeState: delegateHover.hovered
+                readonly property color actionTextColor: activeState ? palette.brightText : palette.text
+
+                HoverHandler {
+                    id: delegateHover
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    radius: Komai.paddingMedium
+                    color: roomDelegate.activeState ? palette.dark : palette.window
+                }
+
+                RowLayout {
+                    id: delegateRow
+
+                    anchors.fill: parent
+                    anchors.leftMargin: Komai.paddingMedium
+                    anchors.rightMargin: Komai.paddingMedium
+                    spacing: Komai.paddingMedium
+
+                    Avatar {
+                        Layout.preferredWidth: Math.round(Komai.listIconSize * 1.3)
+                        Layout.preferredHeight: Math.round(Komai.listIconSize * 1.3)
+                        Layout.alignment: Qt.AlignVCenter
+                        url: roomDelegate.avatarUrl.replace("mxc://", "image://MxcImage/")
+                        roomid: roomDelegate.roomid
+                        displayName: roomDelegate.name
+                        enabled: false
+                    }
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 2
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: Komai.paddingMedium
+
+                            TextEdit {
+                                Layout.fillWidth: true
+                                text: roomDelegate.name || roomDelegate.roomid || qsTr("(unnamed room)")
+                                color: roomDelegate.actionTextColor
+                                font.pointSize: Settings.uiFontSizePt * 1.1
+                                font.bold: true
+                                readOnly: true
+                                selectByMouse: true
+                                wrapMode: TextEdit.NoWrap
+                            }
+
+                            Rectangle {
+                                id: spaceBadgeRect
+                                visible: roomDelegate.isSpace
+                                Layout.alignment: Qt.AlignVCenter
+                                implicitWidth: spaceBadgeLabel.implicitWidth + Komai.paddingSmall * 2
+                                implicitHeight: spaceBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
+                                radius: Komai.paddingSmall
+                                color: Qt.rgba(palette.text.r, palette.text.g, palette.text.b, 0.15)
+                                border.color: Qt.rgba(palette.text.r, palette.text.g, palette.text.b, 0.4)
+                                border.width: 1
+
+                                Label {
+                                    id: spaceBadgeLabel
+                                    anchors.centerIn: parent
+                                    text: qsTr("Space")
+                                    color: palette.text
+                                    font.pointSize: Settings.uiFontSizePt * 0.8
+                                }
+                            }
+                        }
+
+                        TextEdit {
+                            Layout.fillWidth: true
+                            Layout.maximumHeight: Math.ceil(font.pixelSize * 2.8)
+                            visible: text.length > 0
+                            text: roomDelegate.topic
+                            color: roomDelegate.activeState ? palette.brightText : palette.buttonText
+                            font.pointSize: Settings.uiFontSizePt
+                            readOnly: true
+                            selectByMouse: true
+                            wrapMode: TextEdit.WordWrap
+                            clip: true
+                        }
+                    }
+
+                    Rectangle {
+                        id: memberBadge
+
+                        readonly property bool isLargeRoom: roomDelegate.numMembers >= roomDirectoryRoot.largeRoomThreshold
+                        readonly property bool isVeryLargeRoom: roomDelegate.numMembers >= roomDirectoryRoot.veryLargeRoomThreshold
+                        readonly property string warningText: roomDirectoryRoot.roomSizeWarning(roomDelegate.numMembers)
+                        readonly property color badgeColor: isVeryLargeRoom
+                            ? Komai.theme.error
+                            : isLargeRoom ? Komai.theme.warning : palette.text
+                        readonly property int badgeIconSize: Math.max(14, Math.round(Settings.uiFontSizePt * 1.5))
+
+                        Layout.alignment: Qt.AlignVCenter
+                        implicitWidth: memberBadgeRow.implicitWidth + Komai.paddingSmall * 2
+                        implicitHeight: memberBadgeRow.implicitHeight + Komai.paddingSmall * 0.5
+                        radius: Komai.paddingSmall
+                        color: Qt.rgba(badgeColor.r, badgeColor.g, badgeColor.b, 0.15)
+                        border.color: Qt.rgba(badgeColor.r, badgeColor.g, badgeColor.b, 0.4)
+                        border.width: 1
+
+                        Row {
+                            id: memberBadgeRow
+                            anchors.centerIn: parent
+                            spacing: Komai.paddingSmall * 0.5
+
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: memberBadge.badgeIconSize
+                                height: memberBadge.badgeIconSize
+                                sourceSize.width: width
+                                sourceSize.height: height
+                                source: "image://colorimage/:/icons/icons/ui/people.svg?" + memberBadge.badgeColor
+                            }
+
+                            Label {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: roomDelegate.numMembers.toLocaleString()
+                                color: memberBadge.badgeColor
+                                font.pointSize: Settings.uiFontSizePt * 0.8
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            acceptedButtons: Qt.NoButton
+                            onContainsMouseChanged: {
+                                if (containsMouse) {
+                                    roomDirectoryRoot.hoveredMemberBadge = memberBadge;
+                                    roomDirectoryRoot.hoveredMemberBadgeText = memberBadge.isLargeRoom
+                                        ? memberBadge.warningText
+                                        : qsTr("There are %1 members in this room").arg(roomDelegate.numMembers.toLocaleString());
+                                } else if (roomDirectoryRoot.hoveredMemberBadge === memberBadge) {
+                                    roomDirectoryRoot.hoveredMemberBadge = null;
+                                }
+                            }
+                        }
+                    }
+
+                    KomaiButton {
+                        Layout.alignment: Qt.AlignVCenter
+                        text: roomDelegate.canJoin ? qsTr("Join") : qsTr("Open")
+                        highlighted: roomDelegate.canJoin
+                        enabled: roomDelegate.roomid !== ""
+                        onClicked: {
+                            if (!roomDelegate.canJoin) {
+                                Rooms.setCurrentRoom(roomDelegate.roomid);
+                                roomDirectoryRoot.close();
+                            } else if (roomDelegate.numMembers >= roomDirectoryRoot.largeRoomThreshold) {
+                                joinConfirmDialog.roomName = roomDelegate.name || roomDelegate.roomid;
+                                joinConfirmDialog.roomIndex = roomDelegate.index;
+                                joinConfirmDialog.memberCount = roomDelegate.numMembers;
+                                joinConfirmDialog.warningText = roomDirectoryRoot.roomSizeWarning(roomDelegate.numMembers);
+                                joinConfirmDialog.open();
+                            } else {
+                                publicRooms.joinRoom(roomDelegate.index);
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            // Error overlay
+            Label {
+                anchors.centerIn: parent
+                width: parent.width - Komai.paddingLarge * 2
+                visible: publicRooms.errorString.length > 0
+                text: publicRooms.errorString
+                color: Komai.theme.error
+                font.pointSize: Settings.uiFontSizePt
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.Wrap
+            }
+
+            // Empty state
+            Label {
+                anchors.centerIn: parent
+                width: parent.width - Komai.paddingLarge * 2
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+                visible: roomDirView.count === 0
+                    && !publicRooms.loadingMoreRooms
+                    && publicRooms.reachedEndOfPagination
+                    && publicRooms.errorString.length === 0
+                text: qsTr("No rooms found.")
+                color: palette.buttonText
+                font.pointSize: Settings.uiFontSizePt * 1.5
+            }
+
+            // Filter hint
+            Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: Math.round(parent.height / 2) + Komai.paddingLarge
+                width: parent.width - Komai.paddingLarge * 2
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+                visible: roomDirView.count === 0
+                    && !publicRooms.loadingMoreRooms
+                    && publicRooms.reachedEndOfPagination
+                    && publicRooms.errorString.length === 0
+                    && publicRooms.maxMemberFilter > 0
+                text: qsTr("The room size filter may be hiding results. Try a larger size or \"Any\".")
+                color: palette.buttonText
+                font.pointSize: Settings.uiFontSizePt
+            }
+
+            // Custom server hint
+            Label {
+                anchors.centerIn: parent
+                width: parent.width - Komai.paddingLarge * 2
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+                visible: roomDirView.count === 0
+                    && !publicRooms.loadingMoreRooms
+                    && !publicRooms.reachedEndOfPagination
+                    && roomDirectoryRoot.serverMode === RoomDirectory.ServerMode.Custom
+                    && roomDirectoryRoot.customServer.trim().length === 0
+                text: qsTr("Enter a server address above to explore its public rooms.")
+                color: palette.buttonText
+                font.pointSize: Settings.uiFontSizePt * 1.5
+            }
+
+            // Loading footer
+            footer: Item {
+                width: ListView.view ? ListView.view.width : 0
+                visible: !publicRooms.reachedEndOfPagination && publicRooms.loadingMoreRooms
+                height: visible ? loadingSpinner.height + Komai.paddingLarge * 2 : 0
+
+                Spinner {
+                    id: loadingSpinner
+
+                    anchors.centerIn: parent
+                    running: visible
+                    foreground: palette.mid
+                }
+            }
+        }
+
+        // Search progress overlay — centered over results
         Item {
             id: searchStatusIcon
 
@@ -346,12 +932,16 @@ OverlayDialog {
 
             Timer {
                 id: searchLoadingHoldTimer
-                interval: 200
+                interval: 600
             }
 
-            Layout.preferredHeight: 32
-            Layout.preferredWidth: 32
-            Layout.alignment: Qt.AlignVCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: Math.max(Komai.paddingLarge, (parent.height - height) / 3)
+            width: 160
+            height: 160
+            visible: isLoading
+            z: 10
 
             Item {
                 id: searchIconContent
@@ -371,13 +961,13 @@ OverlayDialog {
                 Rectangle {
                     id: searchBadge
 
-                    property int badgeSize: Math.round(32 * 0.55)
+                    property int badgeSize: Math.round(parent.width * 0.55)
                     property int iconSize: Math.round(badgeSize * 0.69)
 
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
-                    anchors.bottomMargin: -2
-                    anchors.rightMargin: -2
+                    anchors.bottomMargin: -4
+                    anchors.rightMargin: -4
                     width: badgeSize
                     height: badgeSize
                     radius: Math.round(badgeSize * 0.25)
@@ -392,7 +982,7 @@ OverlayDialog {
                         ParallelAnimation {
                             NumberAnimation {
                                 target: badgeTranslate; property: "x"
-                                from: 0; to: 3
+                                from: 0; to: 5
                                 duration: 300; easing.type: Easing.InOutQuad
                             }
                             NumberAnimation {
@@ -404,7 +994,7 @@ OverlayDialog {
                         ParallelAnimation {
                             NumberAnimation {
                                 target: badgeTranslate; property: "x"
-                                from: 3; to: -3
+                                from: 5; to: -5
                                 duration: 600; easing.type: Easing.InOutQuad
                             }
                             NumberAnimation {
@@ -416,7 +1006,7 @@ OverlayDialog {
                         ParallelAnimation {
                             NumberAnimation {
                                 target: badgeTranslate; property: "x"
-                                from: -3; to: 0
+                                from: -5; to: 0
                                 duration: 300; easing.type: Easing.InOutQuad
                             }
                             NumberAnimation {
@@ -456,17 +1046,22 @@ OverlayDialog {
                     loops: Animation.Infinite
                     running: searchStatusIcon.isLoading && Settings.uiMotionAnimationsEnabled
 
+                    PropertyAction {
+                        target: searchEffect
+                        property: "saturation"
+                        value: -0.4
+                    }
                     NumberAnimation {
                         target: searchEffect
                         property: "saturation"
-                        from: -1.0; to: 0.0
-                        duration: 800; easing.type: Easing.InOutQuad
+                        from: -0.4; to: 0.0
+                        duration: 150; easing.type: Easing.OutQuad
                     }
                     NumberAnimation {
                         target: searchEffect
                         property: "saturation"
                         from: 0.0; to: -1.0
-                        duration: 800; easing.type: Easing.InOutQuad
+                        duration: 500; easing.type: Easing.InQuad
                     }
 
                     onRunningChanged: {
@@ -476,190 +1071,6 @@ OverlayDialog {
                             });
                         }
                     }
-                }
-            }
-        }
-
-        KomaiTextField {
-            id: roomSearch
-
-            Layout.fillWidth: true
-            placeholderText: qsTr("Search for public rooms")
-            onTextChanged: searchTimer.restart()
-
-            Timer {
-                id: searchTimer
-
-                interval: 350
-                onTriggered: publicRooms.setSearchTerm(roomSearch.text)
-            }
-        }
-    }
-
-    // -- Results --
-
-    Item {
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        Layout.preferredHeight: 400
-
-        ListView {
-            id: roomDirView
-
-            anchors.fill: parent
-            model: publicRooms
-            clip: true
-            spacing: 2
-            boundsBehavior: Flickable.StopAtBounds
-
-            ScrollBar.vertical: ScrollBar {
-                id: resultsScrollbar
-
-                readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
-                policy: {
-                    switch (scrollbarPolicy) {
-                    case Settings.ScrollbarPolicy.Always:
-                        return ScrollBar.AlwaysOn;
-                    case Settings.ScrollbarPolicy.Never:
-                        return ScrollBar.AlwaysOff;
-                    case Settings.ScrollbarPolicy.WhenNeeded:
-                    default:
-                        return ScrollBar.AsNeeded;
-                    }
-                }
-            }
-
-            delegate: AbstractButton {
-                id: roomDelegate
-
-                required property string name
-                required property string roomid
-                required property string avatarUrl
-                required property string topic
-                required property int numMembers
-                required property bool canJoin
-                required property int index
-
-                width: ListView.view.width
-                implicitHeight: delegateRow.implicitHeight + Komai.paddingSmall * 2
-                hoverEnabled: true
-
-                readonly property bool activeState: hovered || pressed
-
-                background: Rectangle {
-                    radius: Komai.paddingMedium
-                    color: roomDelegate.activeState ? palette.dark : "transparent"
-                }
-
-                contentItem: RowLayout {
-                    id: delegateRow
-
-                    spacing: Komai.paddingMedium
-
-                    Avatar {
-                        Layout.preferredWidth: Komai.listIconSize
-                        Layout.preferredHeight: Komai.listIconSize
-                        Layout.alignment: Qt.AlignVCenter
-                        Layout.leftMargin: Komai.paddingSmall
-                        url: roomDelegate.avatarUrl.replace("mxc://", "image://MxcImage/")
-                        roomid: roomDelegate.roomid
-                        displayName: roomDelegate.name
-                        enabled: false
-                    }
-
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        spacing: 2
-
-                        RowLayout {
-                            Layout.fillWidth: true
-
-                            Label {
-                                Layout.fillWidth: true
-                                text: roomDelegate.name || roomDelegate.roomid
-                                color: roomDelegate.activeState ? palette.brightText : palette.text
-                                font.pointSize: Settings.uiFontSizePt
-                                font.bold: true
-                                elide: Text.ElideRight
-                            }
-
-                            Label {
-                                text: roomDelegate.numMembers.toString()
-                                color: roomDelegate.activeState ? palette.brightText : palette.buttonText
-                                font.pointSize: Settings.uiFontSizePt * 0.85
-                            }
-                        }
-
-                        Label {
-                            Layout.fillWidth: true
-                            visible: text.length > 0
-                            text: roomDelegate.topic
-                            color: roomDelegate.activeState ? palette.brightText : palette.buttonText
-                            font.pointSize: Settings.uiFontSizePt * 0.9
-                            elide: Text.ElideRight
-                            maximumLineCount: 2
-                            wrapMode: Text.WordWrap
-                        }
-                    }
-
-                    KomaiButton {
-                        Layout.alignment: Qt.AlignVCenter
-                        Layout.rightMargin: Komai.paddingSmall
-                        text: roomDelegate.canJoin ? qsTr("Join") : qsTr("Open")
-                        enabled: roomDelegate.roomid !== ""
-                        onClicked: {
-                            if (roomDelegate.canJoin) {
-                                publicRooms.joinRoom(roomDelegate.index);
-                            } else {
-                                Rooms.setCurrentRoom(roomDelegate.roomid);
-                                roomDirectoryRoot.close();
-                            }
-                        }
-                    }
-                }
-
-                KomaiCursorShape {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                }
-            }
-
-            // Error overlay
-            Label {
-                anchors.centerIn: parent
-                width: parent.width - Komai.paddingLarge * 2
-                visible: publicRooms.errorString.length > 0
-                text: publicRooms.errorString
-                color: Komai.theme.error
-                font.pointSize: Settings.uiFontSizePt
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.Wrap
-            }
-
-            // Empty state
-            Label {
-                anchors.centerIn: parent
-                visible: roomDirView.count === 0
-                    && !publicRooms.loadingMoreRooms
-                    && publicRooms.reachedEndOfPagination
-                    && publicRooms.errorString.length === 0
-                text: qsTr("No rooms found")
-                color: palette.buttonText
-                font.pointSize: Settings.uiFontSizePt * 0.9
-            }
-
-            // Loading footer
-            footer: Item {
-                width: ListView.view ? ListView.view.width : 0
-                visible: !publicRooms.reachedEndOfPagination && publicRooms.loadingMoreRooms
-                height: visible ? loadingSpinner.height + Komai.paddingLarge * 2 : 0
-
-                Spinner {
-                    id: loadingSpinner
-
-                    anchors.centerIn: parent
-                    running: visible
-                    foreground: palette.mid
                 }
             }
         }

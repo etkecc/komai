@@ -51,6 +51,11 @@ class RoomDirectoryModel : public QAbstractListModel
     Q_PROPERTY(bool hasResults READ hasResults NOTIFY hasResultsChanged)
     Q_PROPERTY(
       int totalRoomCountEstimate READ totalRoomCountEstimate NOTIFY totalRoomCountEstimateChanged)
+    Q_PROPERTY(int mrsRoomCount READ mrsRoomCount NOTIFY mrsRoomCountChanged)
+    Q_PROPERTY(QString mrsLanguageFilter READ mrsLanguageFilter WRITE setMrsLanguageFilter NOTIFY
+                 mrsLanguageFilterChanged)
+    Q_PROPERTY(int maxMemberFilter READ maxMemberFilter WRITE setMaxMemberFilter NOTIFY
+                 maxMemberFilterChanged)
 
 public:
     explicit RoomDirectoryModel(QObject *parent = nullptr, const std::string &server = "");
@@ -64,6 +69,7 @@ public:
         MemberCount,
         Previewable,
         CanJoin,
+        IsSpace,
     };
     QHash<int, QByteArray> roleNames() const override;
 
@@ -89,10 +95,22 @@ public:
 
     int totalRoomCountEstimate() const { return totalRoomCountEstimate_; }
 
+    int mrsRoomCount() const { return mrsRoomCount_; }
+
+    QString mrsLanguageFilter() const { return mrsLanguageFilter_; }
+    void setMrsLanguageFilter(const QString &lang);
+
+    int maxMemberFilter() const { return maxMemberFilter_; }
+    void setMaxMemberFilter(int max);
+
+    Q_INVOKABLE static QStringList availableLanguages();
+    Q_INVOKABLE void clearResults();
+
     void fetchMore(const QModelIndex &) override;
 
     Q_INVOKABLE void joinRoom(const int &index = -1);
     Q_INVOKABLE QStringList knownServers(const QString &prefix) const;
+    Q_INVOKABLE void fetchMrsRoomCount(const QString &serverName);
 
 signals:
     void loadingMoreRoomsChanged();
@@ -101,6 +119,9 @@ signals:
     void serverChanged();
     void hasResultsChanged();
     void totalRoomCountEstimateChanged();
+    void mrsRoomCountChanged();
+    void mrsLanguageFilterChanged();
+    void maxMemberFilterChanged();
 
 public slots:
     void setMatrixServer(const QString &s = QLatin1String(""));
@@ -129,15 +150,23 @@ private:
     std::string userSearchString_;
     std::string prevBatch_;
     std::string nextBatch_;
-    bool canFetchMore_{true};
+    bool canFetchMore_{false};
     bool loadingMoreRooms_{false};
+    uint64_t fetchGeneration_{0};
+    int filterSkipCount_{0};
+    static constexpr int maxFilterSkips_ = 10;
     bool reachedEndOfPagination_{false};
     std::vector<mtx::responses::PublicRoomsChunk> publicRoomsData_;
     QString errorString_;
     int totalRoomCountEstimate_{-1};
+    int mrsRoomCount_{-1};
+    bool mrsRoomCountLoading_{false};
+    QString mrsLanguageFilter_;
+    int maxMemberFilter_{0};
     mutable QStringList cachedKnownServers_;
     mutable bool knownServersCached_{false};
 
     std::vector<std::string> getViasForRoom(const std::vector<std::string> &room);
     void resetDisplayedData();
+    void fetchMrsStats(const QString &statsUrl);
 };

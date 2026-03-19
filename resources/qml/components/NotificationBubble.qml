@@ -22,7 +22,7 @@ Rectangle {
     visible: mayBeVisible && notificationCount > 0
     implicitHeight: notificationBubbleText.height + Komai.paddingSmall
     implicitWidth: Math.max(notificationBubbleText.width, height)
-    radius: height / 2
+    radius: height / 8
     color: hasLoudNotification ? Komai.theme.attention : bubbleBackgroundColor
 
     KomaiToolTip {

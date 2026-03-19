@@ -45,7 +45,8 @@ Control {
                 return;
             }
             completer = TimelineManager.completerFor(backend, needsRoom ? popup.roomId : "");
-            completer.setSearchString("");
+            if (completer)
+                completer.setSearchString("");
         } else {
             completer = undefined;
         }
@@ -364,7 +365,7 @@ Control {
                     anchors.fill: parent
                     anchors.margins: popup.rowMargin
                     enabled: false
-                    roleValue: popup.completerType
+                    roleValue: popup.completerType === "customEmoji" ? "emoji" : popup.completerType
 
                     DelegateChoice {
                         roleValue: "user"

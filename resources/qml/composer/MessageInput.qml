@@ -74,7 +74,8 @@ Rectangle {
                     completer.completerType = type;
                     if (!popup.opened)
                         popup.open();
-                    completer.completer.setSearchString(messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText);
+                    if (completer.completer)
+                        completer.completer.setSearchString(messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText);
                 }
                 function completerTypeForTrigger(trigger, tokenStart) {
                     if ((trigger === '@' || trigger === '＠') && Settings.composerInputInlineUserPickerEnabled)
@@ -285,10 +286,12 @@ Rectangle {
                     if (popup.opened && cursorPosition <= completerTriggeredAt)
                         popup.close();
                     if (popup.opened)
+                        if (completer.completer)
                         completer.completer.setSearchString(messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText);
                 }
                 onPreeditTextChanged: {
                     if (popup.opened)
+                        if (completer.completer)
                         completer.completer.setSearchString(messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText);
                 }
                 onSelectionEndChanged: room.input.updateState(selectionStart, selectionEnd, cursorPosition, text)

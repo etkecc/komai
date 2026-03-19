@@ -22,13 +22,16 @@ public:
         Unicode,
     };
 
-    CombinedImagePackModel(const std::string &roomId, QObject *parent = nullptr);
+    CombinedImagePackModel(const std::string &roomId,
+                           bool includeUnicode = true,
+                           QObject *parent     = nullptr);
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
 private:
     std::string room_id;
+    bool includeUnicode_;
 
     struct ImageDesc
     {

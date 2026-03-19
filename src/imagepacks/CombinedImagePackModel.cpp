@@ -9,9 +9,12 @@
 #include "emoji/Provider.h"
 #include "models/CompletionModelRoles.h"
 
-CombinedImagePackModel::CombinedImagePackModel(const std::string &roomId, QObject *parent)
+CombinedImagePackModel::CombinedImagePackModel(const std::string &roomId,
+                                               bool includeUnicode,
+                                               QObject *parent)
   : QAbstractListModel(parent)
   , room_id(roomId)
+  , includeUnicode_(includeUnicode)
 {
     auto packs = cache::getImagePacks(room_id, false);
 
@@ -32,7 +35,8 @@ CombinedImagePackModel::CombinedImagePackModel(const std::string &roomId, QObjec
 int
 CombinedImagePackModel::rowCount(const QModelIndex &) const
 {
-    return static_cast<int>(emoji::Provider::emoji().size() + images.size());
+    return static_cast<int>((includeUnicode_ ? emoji::Provider::emoji().size() : 0) +
+                            images.size());
 }
 
 QHash<int, QByteArray>
@@ -56,8 +60,9 @@ QVariant
 CombinedImagePackModel::data(const QModelIndex &index, int role) const
 {
     const auto &emojiData = emoji::Provider::emoji();
+    const auto emojiCount = includeUnicode_ ? static_cast<int>(emojiData.size()) : 0;
     if (hasIndex(index.row(), index.column(), index.parent())) {
-        if (index.row() < (int)emojiData.size()) {
+        if (index.row() < emojiCount) {
             switch (role) {
             case CompletionModel::CompletionRole:
             case Roles::Unicode:
@@ -82,7 +87,7 @@ CombinedImagePackModel::data(const QModelIndex &index, int role) const
                 return {};
             }
         } else {
-            int row = index.row() - static_cast<int>(emojiData.size());
+            int row = index.row() - emojiCount;
             switch (role) {
             case CompletionModel::CompletionRole:
                 return QStringLiteral(

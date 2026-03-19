@@ -47,6 +47,11 @@ TimelineViewManager::completerFor(const QString &completerName, const QString &r
         auto proxy      = new CompletionProxyModel(emojiModel);
         emojiModel->setParent(proxy);
         return proxy;
+    } else if (completerName == QLatin1String("customEmoji")) {
+        auto emojiModel = new CombinedImagePackModel(roomId.toStdString(), false);
+        auto proxy      = new CompletionProxyModel(emojiModel);
+        emojiModel->setParent(proxy);
+        return proxy;
     } else if (completerName == QLatin1String("room")) {
         auto roomModel = new RoomsModel(false);
         auto proxy     = new CompletionProxyModel(roomModel, 4);

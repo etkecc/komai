@@ -9,6 +9,7 @@
 #include <malloc.h>
 #endif
 
+#include "CommunitiesModel.h"
 #include "TimelineModel.h"
 #include "logging/Logging.h"
 
@@ -69,7 +70,16 @@ RoomlistModel::performLruEviction()
     const QString currentRoomId = currentRoom_ ? currentRoom_->roomId() : QString();
     const qint64 now            = QDateTime::currentMSecsSinceEpoch();
 
-    // Collect eviction candidates: all materialized rooms except current and pending.
+    // Extract the space room ID from the current community filter (if any).
+    QString activeSpaceId;
+    if (auto *communities = CommunitiesModel::instance()) {
+        const auto filterId = communities->currentFilterId();
+        if (filterId.startsWith(u"space:"))
+            activeSpaceId = filterId.mid(6);
+    }
+
+    // Collect eviction candidates: all materialized rooms except current, pending, and active
+    // space.
     struct Candidate
     {
         QString roomId;
@@ -80,7 +90,7 @@ RoomlistModel::performLruEviction()
 
     for (auto it = models.constBegin(); it != models.constEnd(); ++it) {
         const auto &roomId = it.key();
-        if (roomId == currentRoomId || roomId == pendingCurrentRoomId_)
+        if (roomId == currentRoomId || roomId == pendingCurrentRoomId_ || roomId == activeSpaceId)
             continue;
 
         candidates.append({roomId, roomLruAccessMs_.value(roomId, 0)});

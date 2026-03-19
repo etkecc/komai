@@ -174,6 +174,8 @@ public:
 
     CommunitiesModel(QObject *parent);
 
+    static CommunitiesModel *instance() { return instance_; }
+
     static CommunitiesModel *create(QQmlEngine *qmlEngine, QJSEngine *)
     {
         // The instance has to exist before it is used. We cannot replace it.

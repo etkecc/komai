@@ -23,6 +23,8 @@ Rectangle {
     color: palette.alternateBase
 
     RowLayout {
+        id: mainRow
+
         anchors.fill: parent
         anchors.margins: Komai.paddingMedium
         spacing: Komai.paddingMedium
@@ -41,15 +43,46 @@ Rectangle {
             onRightClicked: TimelineManager.openRoomInfo(root.spaceId, "settings")
         }
 
-        Label {
+        Item {
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignVCenter
-            text: root.spaceRoom ? root.spaceRoom.roomName : ""
-            font.bold: true
-            font.pixelSize: Komai.fontPixelSize
-            elide: Text.ElideRight
-            color: palette.text
+            implicitHeight: nameRow.implicitHeight
             visible: !root.collapsed
+
+            Row {
+                id: nameRow
+                width: parent.width
+                spacing: Komai.paddingMedium
+                clip: true
+
+                Label {
+                    width: Math.min(implicitWidth, nameRow.width - (spaceBadgeRect.visible ? spaceBadgeRect.width + nameRow.spacing : 0))
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: root.spaceRoom ? root.spaceRoom.roomName : ""
+                    font.bold: true
+                    font.pixelSize: Komai.fontPixelSize
+                    elide: Text.ElideRight
+                    color: palette.text
+                }
+
+                Rectangle {
+                    id: spaceBadgeRect
+                    anchors.verticalCenter: parent.verticalCenter
+                    implicitWidth: spaceBadgeLabel.implicitWidth + Komai.paddingSmall * 2
+                    implicitHeight: spaceBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
+                    radius: Komai.paddingSmall
+                    color: Qt.rgba(palette.text.r, palette.text.g, palette.text.b, 0.15)
+                    border.color: Qt.rgba(palette.text.r, palette.text.g, palette.text.b, 0.4)
+                    border.width: 1
+
+                    Label {
+                        id: spaceBadgeLabel
+                        anchors.centerIn: parent
+                        text: qsTr("Space")
+                        color: palette.text
+                        font.pointSize: Settings.uiFontSizePt * 0.8
+                    }
+                }
+            }
         }
 
         AbstractButton {

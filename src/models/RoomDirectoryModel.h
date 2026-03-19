@@ -70,6 +70,7 @@ public:
         Previewable,
         CanJoin,
         IsSpace,
+        Alias,
     };
     QHash<int, QByteArray> roleNames() const override;
 

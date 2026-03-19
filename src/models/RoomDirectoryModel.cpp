@@ -54,6 +54,7 @@ RoomDirectoryModel::roleNames() const
       {Roles::Previewable, "canPreview"},
       {Roles::CanJoin, "canJoin"},
       {Roles::IsSpace, "isSpace"},
+      {Roles::Alias, "alias"},
     };
 }
 
@@ -89,8 +90,14 @@ RoomDirectoryModel::resetDisplayedData()
 
     endResetModel();
 
-    loadingMoreRooms_ = false;
-    emit loadingMoreRoomsChanged();
+    // Reset loading state — any in-flight request will be discarded by generation counter.
+    if (loadingMoreRooms_) {
+        loadingMoreRooms_ = false;
+        emit loadingMoreRoomsChanged();
+    }
+
+    reachedEndOfPagination_ = false;
+    emit reachedEndOfPaginationChanged();
 
     totalRoomCountEstimate_ = -1;
     emit totalRoomCountEstimateChanged();
@@ -102,7 +109,8 @@ RoomDirectoryModel::setMatrixServer(const QString &s)
 {
     server_ = s.toStdString();
 
-    nhlog::ui()->info("Received matrix server: {}", server_);
+    nhlog::ui()->info("Switching room directory to server: {}",
+                      server_.empty() ? "(homeserver)" : server_);
 
     errorString_.clear();
     emit errorStringChanged();
@@ -114,9 +122,13 @@ RoomDirectoryModel::setMatrixServer(const QString &s)
 void
 RoomDirectoryModel::setSearchTerm(const QString &f)
 {
-    userSearchString_ = f.toStdString();
+    auto newTerm = f.toStdString();
+    if (newTerm == userSearchString_)
+        return;
 
-    nhlog::ui()->info("Received user query: {}", userSearchString_);
+    userSearchString_ = newTerm;
+
+    nhlog::ui()->info("Search term changed: '{}'", userSearchString_);
 
     errorString_.clear();
     emit errorStringChanged();
@@ -187,6 +199,8 @@ RoomDirectoryModel::data(const QModelIndex &index, int role) const
             return canJoinRoom(QString::fromStdString(room_chunk.room_id));
         case Roles::IsSpace:
             return room_chunk.room_type == "m.space";
+        case Roles::Alias:
+            return QString::fromStdString(room_chunk.canonical_alias);
         }
     }
     return {};
@@ -214,9 +228,10 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
     auto requested_server    = server_;
     auto requested_user_term = userSearchString_;
 
-    nhlog::net()->info("Fetching public rooms: server='{}', query='{}', since='{}'",
+    nhlog::net()->info("Fetching public rooms: server='{}', query='{}', limit={}, since='{}'",
                        requested_server.empty() ? "(homeserver)" : requested_server,
                        req.filter.generic_search_term,
+                       limit_,
                        prevBatch_);
 
     reachedEndOfPagination_ = false;
@@ -231,17 +246,24 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
             &FetchRoomsChunkFromDirectoryJob::fetchedRoomsBatch,
             this,
             [this, generation](auto &&...args) {
-                if (generation == fetchGeneration_)
+                if (generation == fetchGeneration_) {
                     displayRooms(std::forward<decltype(args)>(args)...);
-                else
+                } else {
                     nhlog::net()->info("Discarding stale public rooms response");
+                    loadingMoreRooms_ = false;
+                    emit loadingMoreRoomsChanged();
+                }
             });
     connect(job.data(),
             &FetchRoomsChunkFromDirectoryJob::fetchError,
             this,
             [this, generation](auto &&...args) {
-                if (generation == fetchGeneration_)
+                if (generation == fetchGeneration_) {
                     handleFetchError(std::forward<decltype(args)>(args)...);
+                } else {
+                    loadingMoreRooms_ = false;
+                    emit loadingMoreRoomsChanged();
+                }
             });
 
     http::client()->post_public_rooms(
@@ -299,7 +321,11 @@ RoomDirectoryModel::displayRooms(std::vector<mtx::responses::PublicRoomsChunk> f
         emit totalRoomCountEstimateChanged();
     }
 
-    nhlog::net()->info("Prev batch: {} | Next batch: {}", prevBatch_, next_batch);
+    nhlog::net()->info("Received {} rooms (requested {}), prev batch: '{}', next batch: '{}'",
+                       fetched_rooms.size(),
+                       limit_,
+                       prevBatch_,
+                       next_batch);
 
     // Apply client-side member count filter
     if (maxMemberFilter_ > 0) {

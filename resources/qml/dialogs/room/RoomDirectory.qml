@@ -21,16 +21,16 @@ OverlayDialog {
 
     // Per-tab room size filter combo index: 0 = up to large, 1 = up to very large, 2 = any
     property var sizeFilterPerTab: ({
-        [RoomDirectory.ServerMode.Mine]: 2,
-        [RoomDirectory.ServerMode.MRS]: 0,
-        [RoomDirectory.ServerMode.Custom]: 2
+        [RoomDirectory.ServerMode.Mine]: RoomDirectory.SizeFilter.Any,
+        [RoomDirectory.ServerMode.MRS]: RoomDirectory.SizeFilter.Any,
+        [RoomDirectory.ServerMode.Custom]: RoomDirectory.SizeFilter.Any
     })
 
     function sizeFilterValueForIndex(index) {
         switch (index) {
-        case 0: return largeRoomThreshold;
-        case 1: return veryLargeRoomThreshold;
-        case 2: return 0;
+        case RoomDirectory.SizeFilter.UpToLarge: return largeRoomThreshold;
+        case RoomDirectory.SizeFilter.UpToVeryLarge: return veryLargeRoomThreshold;
+        case RoomDirectory.SizeFilter.Any: return 0;
         default: return 0;
         }
     }
@@ -74,6 +74,7 @@ OverlayDialog {
     }
 
     enum ServerMode { Mine, MRS, Custom }
+    enum SizeFilter { UpToLarge, UpToVeryLarge, Any }
     property int serverMode: RoomDirectory.ServerMode.Mine
     property string customServer: ""
     property bool autoSelectionDone: false
@@ -144,13 +145,16 @@ OverlayDialog {
         serverMode = mode;
 
         // Restore new tab's size filter
-        applySizeFilter(sizeFilterPerTab[mode] ?? 2);
+        applySizeFilter(sizeFilterPerTab[mode] ?? RoomDirectory.SizeFilter.Any);
 
         // Clear language filter when leaving MRS tab
         if (mode !== RoomDirectory.ServerMode.MRS && publicRooms.mrsLanguageFilter !== "") {
             publicRooms.mrsLanguageFilter = "";
             languageFilter.currentIndex = 0;
         }
+        // Show loading indicator immediately
+        searchLoadingHoldTimer.start();
+
         if (mode === RoomDirectory.ServerMode.Mine) {
             publicRooms.setMatrixServer("");
             roomSearch.forceActiveFocus();
@@ -383,9 +387,10 @@ OverlayDialog {
                     text: qsTr("Choose")
                     highlighted: true
                     onClicked: {
-                        customServerField.text = suggestionDelegate.modelData;
-                        roomDirectoryRoot.customServer = suggestionDelegate.modelData;
-                        publicRooms.setMatrixServer(suggestionDelegate.modelData);
+                        var server = suggestionDelegate.modelData;
+                        customServerField.text = server;
+                        roomDirectoryRoot.customServer = server;
+                        publicRooms.setMatrixServer(server);
                         serverSuggestions.model = [];
                     }
                 }
@@ -443,7 +448,7 @@ OverlayDialog {
                     qsTr("Up to very large (≤ %1 members)").arg(roomDirectoryRoot.veryLargeRoomThreshold.toLocaleString()),
                     qsTr("Any")
                 ]
-                currentIndex: roomDirectoryRoot.sizeFilterPerTab[roomDirectoryRoot.serverMode] ?? 2
+                currentIndex: roomDirectoryRoot.sizeFilterPerTab[roomDirectoryRoot.serverMode] ?? RoomDirectory.SizeFilter.Any
                 onActivated: function(index) {
                     roomDirectoryRoot.sizeFilterPerTab[roomDirectoryRoot.serverMode] = index;
                     publicRooms.maxMemberFilter = roomDirectoryRoot.sizeFilterValueForIndex(index);
@@ -667,6 +672,7 @@ OverlayDialog {
                 required property int numMembers
                 required property bool canJoin
                 required property bool isSpace
+                required property string alias
                 required property int index
 
                 width: ListView.view.width - roomDirView.rightMargin
@@ -707,40 +713,91 @@ OverlayDialog {
                         Layout.fillWidth: true
                         spacing: 2
 
+                        Item {
+                            Layout.fillWidth: true
+                            implicitHeight: nameRow.implicitHeight
+
+                            Row {
+                                id: nameRow
+                                width: parent.width
+                                spacing: Komai.paddingMedium
+                                clip: true
+
+                                TextEdit {
+                                    width: Math.min(implicitWidth, nameRow.width - (spaceBadgeRect.visible ? spaceBadgeRect.width + nameRow.spacing : 0))
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: roomDelegate.name || roomDelegate.roomid || qsTr("(unnamed room)")
+                                    color: roomDelegate.actionTextColor
+                                    font.pointSize: Settings.uiFontSizePt * 1.1
+                                    font.bold: true
+                                    readOnly: true
+                                    selectByMouse: true
+                                    wrapMode: TextEdit.NoWrap
+                                }
+
+                                Rectangle {
+                                    id: spaceBadgeRect
+                                    visible: roomDelegate.isSpace
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    implicitWidth: spaceBadgeLabel.implicitWidth + Komai.paddingSmall * 2
+                                    implicitHeight: spaceBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
+                                    radius: Komai.paddingSmall
+                                    color: Qt.rgba(palette.text.r, palette.text.g, palette.text.b, 0.15)
+                                    border.color: Qt.rgba(palette.text.r, palette.text.g, palette.text.b, 0.4)
+                                    border.width: 1
+
+                                    Label {
+                                        id: spaceBadgeLabel
+                                        anchors.centerIn: parent
+                                        text: qsTr("Space")
+                                        color: palette.text
+                                        font.pointSize: Settings.uiFontSizePt * 0.8
+                                    }
+                                }
+                            }
+                        }
+
                         RowLayout {
                             Layout.fillWidth: true
-                            spacing: Komai.paddingMedium
+                            visible: roomDelegate.alias.length > 0
+                            spacing: Komai.paddingSmall
 
                             TextEdit {
-                                Layout.fillWidth: true
-                                text: roomDelegate.name || roomDelegate.roomid || qsTr("(unnamed room)")
-                                color: roomDelegate.actionTextColor
-                                font.pointSize: Settings.uiFontSizePt * 1.1
-                                font.bold: true
+                                text: roomDelegate.alias
+                                color: roomDelegate.activeState ? palette.brightText : palette.buttonText
+                                font.pointSize: Settings.uiFontSizePt
                                 readOnly: true
                                 selectByMouse: true
                                 wrapMode: TextEdit.NoWrap
                             }
 
-                            Rectangle {
-                                id: spaceBadgeRect
-                                visible: roomDelegate.isSpace
-                                Layout.alignment: Qt.AlignVCenter
-                                implicitWidth: spaceBadgeLabel.implicitWidth + Komai.paddingSmall * 2
-                                implicitHeight: spaceBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
-                                radius: Komai.paddingSmall
-                                color: Qt.rgba(palette.text.r, palette.text.g, palette.text.b, 0.15)
-                                border.color: Qt.rgba(palette.text.r, palette.text.g, palette.text.b, 0.4)
-                                border.width: 1
+                            ImageButton {
+                                id: copyAliasBtn
 
-                                Label {
-                                    id: spaceBadgeLabel
-                                    anchors.centerIn: parent
-                                    text: qsTr("Space")
-                                    color: palette.text
-                                    font.pointSize: Settings.uiFontSizePt * 0.8
+                                property bool copied: false
+
+                                Layout.preferredWidth: Math.round(Settings.uiFontSizePt * 1.6)
+                                Layout.preferredHeight: Layout.preferredWidth
+                                Layout.alignment: Qt.AlignVCenter
+                                buttonTextColor: roomDelegate.activeState ? palette.brightText : palette.buttonText
+                                image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
+                                hoverEnabled: true
+                                toolTipVisible: hovered
+                                toolTipText: copied ? qsTr("Copied!") : qsTr("Copy room address")
+                                onClicked: {
+                                    Clipboard.text = roomDelegate.alias;
+                                    copied = true;
+                                    copyAliasTimer.restart();
+                                }
+
+                                Timer {
+                                    id: copyAliasTimer
+                                    interval: 2000
+                                    onTriggered: copyAliasBtn.copied = false
                                 }
                             }
+
+                            Item { Layout.fillWidth: true }
                         }
 
                         TextEdit {
@@ -900,20 +957,6 @@ OverlayDialog {
                 font.pointSize: Settings.uiFontSizePt * 1.5
             }
 
-            // Loading footer
-            footer: Item {
-                width: ListView.view ? ListView.view.width : 0
-                visible: !publicRooms.reachedEndOfPagination && publicRooms.loadingMoreRooms
-                height: visible ? loadingSpinner.height + Komai.paddingLarge * 2 : 0
-
-                Spinner {
-                    id: loadingSpinner
-
-                    anchors.centerIn: parent
-                    running: visible
-                    foreground: palette.mid
-                }
-            }
         }
 
         // Search progress overlay — centered over results

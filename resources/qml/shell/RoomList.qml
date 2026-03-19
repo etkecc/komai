@@ -170,5 +170,11 @@ Page {
             collapsed: roomListPage.collapsed
         }
         }
+
+        RoomListExploreFooter {
+            Layout.fillWidth: true
+            collapsed: roomListPage.collapsed
+            timelineRoot: roomListPage.timelineRoot
+        }
     }
 }

@@ -30,7 +30,7 @@ TextMessage {
 
         visible: root.isStateEvent
         anchors.left: root.left
-        y: Math.round((stateEventFontMetrics.height - height) / 2)
+        y: Math.round((stateEventFontMetrics.lineSpacing - height) / 2)
         height: root.stateEventIconSize
         width: root.stateEventIconSize
         fillMode: Image.PreserveAspectFit

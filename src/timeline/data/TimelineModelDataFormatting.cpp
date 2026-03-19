@@ -9,6 +9,7 @@
 #include <QFontMetrics>
 #include <QGuiApplication>
 #include <QRegularExpression>
+#include <QScreen>
 #include <QUrl>
 #include <QVariant>
 
@@ -176,8 +177,17 @@ TimelineModel::formattedStateEventForEvent(
                     .arg(QString::fromStdString(e.content.topic).toHtmlEscaped());
           } else if constexpr (t == mtx::events::EventType::RoomAvatar) {
               if (e.content.url.starts_with("mxc://")) {
-                  const int inlinePreviewLogicalPx = Komai::listIconLogicalSize();
-                  const int avatarThumbPx          = Komai::avatarThumbnailPhysicalSize();
+                  // Size the inline preview to the state event text line height.
+                  // State events render at 0.95x the UI font (NoticeMessage.qml).
+                  QFont stateFont = QGuiApplication::font();
+                  if (auto s = UserSettings::instance())
+                      stateFont.setPointSizeF(s->uiFontSizePt() * 0.95);
+                  const int inlinePreviewLogicalPx = qMax(12, QFontMetrics(stateFont).height());
+                  // Download at DPR-scaled size for crisp HiDPI rendering.
+                  double dpr = 1.0;
+                  for (const auto *screen : QGuiApplication::screens())
+                      dpr = qMax(dpr, screen->devicePixelRatio());
+                  const int avatarThumbPx = qMax(1, qRound(inlinePreviewLogicalPx * dpr));
                   // Match avatar rounding used in Avatar.qml + MxcImageProvider.
                   const int avatarCornerRadiusPercent =
                     UserSettings::instance()->uiAvatarsCircular() ? 100 : 25;
@@ -185,7 +195,7 @@ TimelineModel::formattedStateEventForEvent(
                   auto avatarMxcUrl = QString::fromStdString(e.content.url);
                   avatarMxcUrl.append("#room-avatar");
                   auto avatarPreviewUrl = QString::fromStdString(e.content.url);
-                  avatarPreviewUrl.replace("mxc://", "image://MxcImage/");
+                  avatarPreviewUrl.replace("mxc://", "image://mxcImage/");
                   avatarPreviewUrl.append(QStringLiteral("?height=%1&radius=%2")
                                             .arg(avatarThumbPx)
                                             .arg(avatarCornerRadiusPercent));

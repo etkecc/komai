@@ -75,7 +75,7 @@ Menu {
             prompt: qsTr("Enter reason for removal or hit enter for no reason:")
             title: qsTr("Reason for removal")
 
-            onAccepted: function (text) {
+            onInputAccepted: function (text) {
                 roomModel.redactEvent(eventId, text);
             }
         }

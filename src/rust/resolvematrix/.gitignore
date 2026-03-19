@@ -1,1 +1,4 @@
 /target/
+# The workspace-level src/rust/Cargo.lock is the authoritative lock file.
+# Cargo generates this crate-level one during standalone builds; it is not needed.
+/Cargo.lock

@@ -36,6 +36,7 @@ makedepends=(
 	nlohmann-json
 	python
 	qt6-tools
+	rust
 )
 optdepends=(
 	'kimageformats: Extends the formats Komai supports for image attachments'

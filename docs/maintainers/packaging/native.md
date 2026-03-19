@@ -8,6 +8,7 @@ Build and install Komai directly on your system using CMake.
 - **Python 3** (for theme generation and emoji data generation at build time)
 - **CMake** 3.15+
 - **C++20 compiler**: GCC 11.3+, Clang 16+, or MSVC 19.13+
+- **Rust** 1.70+ (rustc + cargo) -- for the CXX-bridged Rust crate (`resolvematrix`)
 
 ## Quick start
 
@@ -107,7 +108,7 @@ See [CPM.cmake options](https://github.com/cpm-cmake/CPM.cmake#options) for deta
 
 ```sh
 sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
-    cmake gcc fontconfig python \
+    cmake gcc fontconfig python rust \
     coeurl libolm lmdb lmdbxx cmark syntax-highlighting spdlog fmt re2 openssl \
     nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication litehtml
 ```
@@ -115,7 +116,7 @@ sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimed
 ### Debian 13+ / Ubuntu 24.04+
 
 ```sh
-sudo apt install -y build-essential cmake pkg-config python3 \
+sudo apt install -y build-essential cmake pkg-config python3 cargo rustc \
     libevent-dev libspdlog-dev libfmt-dev libre2-dev \
     liblmdb++-dev libcurl4-openssl-dev libssl-dev libolm-dev libcmark-dev \
     libkf6syntaxhighlighting-dev \

@@ -286,8 +286,12 @@ settings-generate-3-layer-mapping *args:
 settings-check-3-layer-mapping *args:
 	just --justfile {{ justfile() }} settings-3-layer-mapping-check {{ args }}
 
+# Regenerates etc/packaging/flatpak/cargo-sources.json from src/rust/Cargo.lock
+flatpak-cargo-sources:
+	python3 {{ justfile_directory() }}/bin/flatpak/cargo-sources.py {{ justfile_directory() }}
+
 # Builds a Flatpak bundle from the local source tree
-flatpak-build: _ensure_just_temp_directory emoji-fetch
+flatpak-build: _ensure_just_temp_directory emoji-fetch flatpak-cargo-sources
 	#!/usr/bin/env bash
 	set -euo pipefail
 

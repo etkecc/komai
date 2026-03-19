@@ -33,7 +33,7 @@ jobs:
           # - jack -> pipewire-jack (pulled transitively via ffmpeg)
           # Also install python-yaml because the emoji pipeline requires PyYAML.
           pacman -S --noconfirm --needed \
-            cmake just python python-yaml mise reuse \
+            cmake just python python-yaml mise reuse rust \
             qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-multimedia-ffmpeg qt6-svg \
             syntax-highlighting \
             coeurl libolm lmdb lmdbxx cmark spdlog fmt re2 openssl \

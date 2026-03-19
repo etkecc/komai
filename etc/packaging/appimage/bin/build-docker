@@ -48,9 +48,14 @@ docker run --rm \
             libsecret-1-dev \
             libgl1-mesa-dev libxkbcommon-dev \
             libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
+            curl \
             desktop-file-utils elfutils fakeroot file squashfs-tools zsync \
             gtk-update-icon-cache \
             >/dev/null 2>&1
+
+        # Install Rust via rustup (distro Rust may be too old for edition 2024 crates)
+        curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal >/dev/null 2>&1
+        export PATH="$HOME/.cargo/bin:$PATH"
 
         # Workaround: appimage-builder checks for apt-key on $PATH but never
         # actually calls it (keys are handled via trusted.gpg.d).  Ubuntu 25.04

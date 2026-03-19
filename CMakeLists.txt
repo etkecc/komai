@@ -613,6 +613,8 @@ set(SRC_FILES
     src/ui/MainWindow.h
     src/matrix/MatrixClient.cpp
     src/matrix/MatrixClient.h
+    src/matrix/MatrixServerResolver.cpp
+    src/matrix/MatrixServerResolver.h
     src/models/MemberList.cpp
     src/models/MemberList.h
     src/providers/MxcImageProvider.cpp
@@ -840,6 +842,22 @@ if(litehtml_ADDED)
         set_target_properties(litehtml PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${_litehtml_inc}")
     endif()
 endif()
+
+# Rust integration via Corrosion (CXX bridge for resolvematrix and future crates)
+CPMAddPackage(
+    NAME Corrosion
+    GIT_REPOSITORY https://github.com/corrosion-rs/corrosion.git
+    GIT_TAG v0.5.2
+)
+corrosion_import_crate(MANIFEST_PATH src/rust/Cargo.toml)
+corrosion_add_cxxbridge(komai-rust-cxxbridge
+    CRATE komai_rust
+    FILES lib.rs
+)
+# The Rust crate uses native-tls (OpenSSL). Declare the dependency on the
+# static lib target so the linker sees OpenSSL after the Rust archive.
+set_property(TARGET komai_rust-static APPEND
+    PROPERTY INTERFACE_LINK_LIBRARIES OpenSSL::SSL OpenSSL::Crypto)
 
 if(VOIP)
     include(FindPkgConfig)
@@ -1613,7 +1631,9 @@ target_link_libraries(komai PRIVATE
     nlohmann_json::nlohmann_json
     ${YAMLCPP_TARGET_NAME}
     komai_db
-    litehtml)
+    litehtml
+    komai_rust
+    komai-rust-cxxbridge)
 
 if(UNIX)
     # for wayland activation tokens

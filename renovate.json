@@ -96,6 +96,11 @@
       "description": "Ubuntu Docker image — managed manually, not by Renovate",
       "matchPackageNames": ["ubuntu"],
       "enabled": false
+    },
+    {
+      "description": "Group all Rust crate updates",
+      "matchManagers": ["cargo"],
+      "groupName": "rust dependencies"
     }
   ]
 }

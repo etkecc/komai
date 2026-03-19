@@ -22,7 +22,7 @@ tokio = { version = "1", features = ["rt-multi-thread"] }
 #   2. aws-lc-sys includes C sources that require -O0, which conflicts with build
 #      environments that inject optimization flags (Flatpak).
 #   3. Fewer dependencies (~48 crates fewer).
-resolvematrix = { version = "0.0.1", default-features = false, features = ["server"] }
+resolvematrix = { path = "resolvematrix", default-features = false, features = ["server"] }
 hickory-resolver = { version = "0.25", default-features = false, features = ["tokio", "system-config"] }
 reqwest = { version = "0.13", default-features = false, features = ["native-tls"] }
 

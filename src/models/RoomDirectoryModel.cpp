@@ -18,6 +18,8 @@
 #include <QPointer>
 #include <mtx/requests.hpp>
 
+#include "utils/Utils.h"
+
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
@@ -189,8 +191,12 @@ RoomDirectoryModel::data(const QModelIndex &index, int role) const
             return QString::fromStdString(room_chunk.room_id);
         case Roles::AvatarUrl:
             return QString::fromStdString(room_chunk.avatar_url);
-        case Roles::Topic:
-            return QString::fromStdString(room_chunk.topic);
+        case Roles::Topic: {
+            auto topic = QString::fromStdString(room_chunk.topic)
+                           .toHtmlEscaped()
+                           .replace(QLatin1String("\n"), QLatin1String(" "));
+            return utils::linkifyMessage(topic);
+        }
         case Roles::MemberCount:
             return QVariant::fromValue(room_chunk.num_joined_members);
         case Roles::Previewable:

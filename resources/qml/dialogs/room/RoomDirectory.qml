@@ -803,14 +803,21 @@ OverlayDialog {
                         TextEdit {
                             Layout.fillWidth: true
                             Layout.maximumHeight: Math.ceil(font.pixelSize * 2.8)
-                            visible: text.length > 0
+                            visible: roomDelegate.topic.length > 0
                             text: roomDelegate.topic
+                            textFormat: TextEdit.RichText
                             color: roomDelegate.activeState ? palette.brightText : palette.buttonText
                             font.pointSize: Settings.uiFontSizePt
                             readOnly: true
                             selectByMouse: true
                             wrapMode: TextEdit.WordWrap
                             clip: true
+                            onLinkActivated: function(link) { Komai.openLink(link); }
+
+                            KomaiCursorShape {
+                                anchors.fill: parent
+                                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.IBeamCursor
+                            }
                         }
                     }
 

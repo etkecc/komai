@@ -78,6 +78,10 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 
 ## 📋 Dialogs
 
+- 🧭 **Revamped Explore Public Rooms dialog** -- a modern room directory with three browsing modes: your homeserver, a configurable [Matrix Room Search](https://github.com/etkecc/mrs) (MRS) server (optional, enabled by default; the default server is [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=differences-from-nheko) hosted by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=differences-from-nheko)), or any custom Matrix server. Features include:
+  - **Room size filtering** -- filter results by member count (up to 2,000 / up to 10,000 / any) on every tab, with color-coded member badges and confirmation dialogs before joining large rooms
+  - **Language filtering** -- narrow MRS results by language via a searchable dropdown
+  - **Room alias display** with a copy button, clickable links in room topics, space badges, and automatic pagination
 - **Room search** -- rounded, with room-ID search support and keyboard hints
 - **Room members** -- wider dialog with a full "Invite" button
 - **Welcome, Login, and Registration pages** prettified with consistent layout and branding

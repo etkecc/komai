@@ -521,156 +521,151 @@ MediaProxyServer::handleMediaRequest(const httplib::Request &req, httplib::Respo
         }
 
         if (knownNoRange) {
-            // Upstream doesn't support Range — tell the client immediately.
-            // The client (mpv, VLC, etc.) will fall back to a plain GET and
-            // stream sequentially.  This avoids downloading the full file
-            // just to serve a partial range.
-            nhlog::net()->info(
-              "media-proxy [{}]: upstream doesn't support Range (cached), returning 416",
-              shortToken);
-            res.status = 416;
-            res.set_header("Accept-Ranges", "none");
-            res.set_content("Range not supported by upstream", "text/plain");
-            return;
-        }
-
-        // ── Try forwarding Range to upstream ─────────────────────────
-        struct RangeCtx
-        {
-            std::string body;
-            std::string contentType;
-            std::string contentRange;
-            long httpStatus = 0;
-            bool abort      = false;
-        };
-        RangeCtx ctx;
-
-        CURL *curl = curl_easy_init();
-        if (!curl) {
-            nhlog::net()->warn("media-proxy [{}]: failed to init curl for Range request",
+            // Upstream doesn't support Range — skip the probe and fall
+            // through to the streaming GET section so the player gets the
+            // full content immediately instead of an error.
+            nhlog::net()->info("media-proxy [{}]: upstream doesn't support Range (cached), "
+                               "falling through to streaming GET",
                                shortToken);
-            res.status = 502;
-            res.set_content("Failed to init curl", "text/plain");
-            return;
-        }
-
-        nhlog::net()->info("media-proxy [{}]: forwarding Range to upstream", shortToken);
-        curl_easy_setopt(curl, CURLOPT_URL, upstreamUrl.c_str());
-        struct curl_slist *hdrs = nullptr;
-        hdrs                    = curl_slist_append(hdrs, ("Authorization: " + authHeader).c_str());
-        hdrs = curl_slist_append(hdrs, ("Range: " + req.get_header_value("Range")).c_str());
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, hdrs);
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-
-        auto writeCb = +[](char *ptr, size_t, size_t nmemb, void *ud) -> size_t {
-            auto *c = static_cast<RangeCtx *>(ud);
-            if (c->abort)
-                return 0;
-            c->body.append(ptr, nmemb);
-            return nmemb;
-        };
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCb);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ctx);
-
-        auto headerCb = +[](char *buf, size_t, size_t nitems, void *ud) -> size_t {
-            auto *c = static_cast<RangeCtx *>(ud);
-            std::string line(buf, nitems);
-
-            if (line.rfind("HTTP/", 0) == 0) {
-                auto spacePos = line.find(' ');
-                if (spacePos != std::string::npos)
-                    c->httpStatus = std::strtol(line.c_str() + spacePos + 1, nullptr, 10);
-                if (c->httpStatus != 0 && c->httpStatus != 206)
-                    c->abort = true;
-                return nitems;
-            }
-
-            auto colon = line.find(':');
-            if (colon == std::string::npos)
-                return nitems;
-            std::string key = line.substr(0, colon);
-            for (auto &ch : key)
-                ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
-            auto val   = line.substr(colon + 1);
-            auto start = val.find_first_not_of(" \t");
-            auto end   = val.find_last_not_of(" \t\r\n");
-            if (start == std::string::npos)
-                return nitems;
-            auto trimmed = val.substr(start, end - start + 1);
-            if (key == "content-type")
-                c->contentType = trimmed;
-            if (key == "content-range")
-                c->contentRange = trimmed;
-            return nitems;
-        };
-        curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, headerCb);
-        curl_easy_setopt(curl, CURLOPT_HEADERDATA, &ctx);
-
-        CURLcode rc     = curl_easy_perform(curl);
-        long statusCode = ctx.httpStatus;
-        if (rc == CURLE_OK && statusCode == 0)
-            curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &statusCode);
-
-        curl_slist_free_all(hdrs);
-        curl_easy_cleanup(curl);
-
-        if (statusCode == 206) {
-            nhlog::net()->info("media-proxy [{}]: upstream returned 206 ({} bytes, {})",
-                               shortToken,
-                               ctx.body.size(),
-                               ctx.contentRange);
-            std::string ct = ctx.contentType.empty() ? "application/octet-stream" : ctx.contentType;
-            res.status     = 206;
-            if (!ctx.contentRange.empty())
-                res.set_header("Content-Range", ctx.contentRange);
-            res.set_header("Accept-Ranges", "bytes");
-            auto partial = std::make_shared<std::string>(std::move(ctx.body));
-            res.set_chunked_content_provider(
-              ct,
-              [partial, sent = false](size_t /*offset*/, httplib::DataSink &sink) mutable {
-                  if (!sent) {
-                      sink.write(partial->data(), partial->size());
-                      sent = true;
-                      sink.done();
-                  }
-                  return true;
-              },
-              [](bool /*success*/) {});
-            return;
-        }
-
-        if (rc != CURLE_OK && !ctx.abort) {
-            nhlog::net()->warn("media-proxy [{}]: upstream Range request failed: {}",
-                               shortToken,
-                               curl_easy_strerror(rc));
-            res.status = 502;
-            res.set_content("Upstream request failed", "text/plain");
-            return;
-        }
-
-        if (statusCode == 200) {
-            nhlog::net()->info(
-              "media-proxy [{}]: upstream returned 200 for Range (no Range support), returning 416",
-              shortToken);
-            // Remember so subsequent Range requests skip the probe entirely.
+        } else {
+            // ── Try forwarding Range to upstream ─────────────────────────
+            struct RangeCtx
             {
-                std::lock_guard lock(mapMutex_);
-                auto it = tokenMap_.find(token);
-                if (it != tokenMap_.end())
-                    it->second.noRangeSupport = true;
-            }
-            res.status = 416;
-            res.set_header("Accept-Ranges", "none");
-            res.set_content("Range not supported by upstream", "text/plain");
-            return;
-        }
+                std::string body;
+                std::string contentType;
+                std::string contentRange;
+                long httpStatus = 0;
+                bool abort      = false;
+            };
+            RangeCtx ctx;
 
-        if (statusCode != 0) {
-            nhlog::net()->warn(
-              "media-proxy [{}]: upstream returned {} for Range request", shortToken, statusCode);
-            res.status = static_cast<int>(statusCode);
-            res.set_content("Upstream error", "text/plain");
-            return;
+            CURL *curl = curl_easy_init();
+            if (!curl) {
+                nhlog::net()->warn("media-proxy [{}]: failed to init curl for Range request",
+                                   shortToken);
+                res.status = 502;
+                res.set_content("Failed to init curl", "text/plain");
+                return;
+            }
+
+            nhlog::net()->info("media-proxy [{}]: forwarding Range to upstream", shortToken);
+            curl_easy_setopt(curl, CURLOPT_URL, upstreamUrl.c_str());
+            struct curl_slist *hdrs = nullptr;
+            hdrs = curl_slist_append(hdrs, ("Authorization: " + authHeader).c_str());
+            hdrs = curl_slist_append(hdrs, ("Range: " + req.get_header_value("Range")).c_str());
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, hdrs);
+            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+
+            auto writeCb = +[](char *ptr, size_t, size_t nmemb, void *ud) -> size_t {
+                auto *c = static_cast<RangeCtx *>(ud);
+                if (c->abort)
+                    return 0;
+                c->body.append(ptr, nmemb);
+                return nmemb;
+            };
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCb);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ctx);
+
+            auto headerCb = +[](char *buf, size_t, size_t nitems, void *ud) -> size_t {
+                auto *c = static_cast<RangeCtx *>(ud);
+                std::string line(buf, nitems);
+
+                if (line.rfind("HTTP/", 0) == 0) {
+                    auto spacePos = line.find(' ');
+                    if (spacePos != std::string::npos)
+                        c->httpStatus = std::strtol(line.c_str() + spacePos + 1, nullptr, 10);
+                    if (c->httpStatus != 0 && c->httpStatus != 206)
+                        c->abort = true;
+                    return nitems;
+                }
+
+                auto colon = line.find(':');
+                if (colon == std::string::npos)
+                    return nitems;
+                std::string key = line.substr(0, colon);
+                for (auto &ch : key)
+                    ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+                auto val   = line.substr(colon + 1);
+                auto start = val.find_first_not_of(" \t");
+                auto end   = val.find_last_not_of(" \t\r\n");
+                if (start == std::string::npos)
+                    return nitems;
+                auto trimmed = val.substr(start, end - start + 1);
+                if (key == "content-type")
+                    c->contentType = trimmed;
+                if (key == "content-range")
+                    c->contentRange = trimmed;
+                return nitems;
+            };
+            curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, headerCb);
+            curl_easy_setopt(curl, CURLOPT_HEADERDATA, &ctx);
+
+            CURLcode rc     = curl_easy_perform(curl);
+            long statusCode = ctx.httpStatus;
+            if (rc == CURLE_OK && statusCode == 0)
+                curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &statusCode);
+
+            curl_slist_free_all(hdrs);
+            curl_easy_cleanup(curl);
+
+            if (statusCode == 206) {
+                nhlog::net()->info("media-proxy [{}]: upstream returned 206 ({} bytes, {})",
+                                   shortToken,
+                                   ctx.body.size(),
+                                   ctx.contentRange);
+                std::string ct =
+                  ctx.contentType.empty() ? "application/octet-stream" : ctx.contentType;
+                res.status = 206;
+                if (!ctx.contentRange.empty())
+                    res.set_header("Content-Range", ctx.contentRange);
+                res.set_header("Accept-Ranges", "bytes");
+                auto partial = std::make_shared<std::string>(std::move(ctx.body));
+                res.set_chunked_content_provider(
+                  ct,
+                  [partial, sent = false](size_t /*offset*/, httplib::DataSink &sink) mutable {
+                      if (!sent) {
+                          sink.write(partial->data(), partial->size());
+                          sent = true;
+                          sink.done();
+                      }
+                      return true;
+                  },
+                  [](bool /*success*/) {});
+                return;
+            }
+
+            if (rc != CURLE_OK && !ctx.abort) {
+                nhlog::net()->warn("media-proxy [{}]: upstream Range request failed: {}",
+                                   shortToken,
+                                   curl_easy_strerror(rc));
+                res.status = 502;
+                res.set_content("Upstream request failed", "text/plain");
+                return;
+            }
+
+            if (statusCode == 200) {
+                nhlog::net()->info(
+                  "media-proxy [{}]: upstream returned 200 for Range (no Range support), "
+                  "falling through to streaming GET",
+                  shortToken);
+                // Remember so subsequent Range requests skip the probe entirely.
+                {
+                    std::lock_guard lock(mapMutex_);
+                    auto it = tokenMap_.find(token);
+                    if (it != tokenMap_.end())
+                        it->second.noRangeSupport = true;
+                }
+                // Fall through to the streaming GET section below instead of
+                // returning 416, so the player receives the full content on the
+                // first attempt rather than needing an error→retry cycle.
+            } else if (statusCode != 0) {
+                nhlog::net()->warn("media-proxy [{}]: upstream returned {} for Range request",
+                                   shortToken,
+                                   statusCode);
+                res.status = static_cast<int>(statusCode);
+                res.set_content("Upstream error", "text/plain");
+                return;
+            }
         }
     }
 

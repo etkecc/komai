@@ -847,7 +847,7 @@ endif()
 CPMAddPackage(
     NAME Corrosion
     GIT_REPOSITORY https://github.com/corrosion-rs/corrosion.git
-    GIT_TAG v0.5.2
+    GIT_TAG v0.6.1
 )
 corrosion_import_crate(MANIFEST_PATH src/rust/Cargo.toml)
 corrosion_add_cxxbridge(komai-rust-cxxbridge

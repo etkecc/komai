@@ -37,22 +37,51 @@ These shortcuts apply while you are looking at a room timeline.
 | `Ctrl+W` | Close the current room view |
 | `Page Up` | Scroll the timeline up by about one page |
 | `Page Down` | Scroll the timeline down by about one page |
-| `Escape` | Clear uploads, cancel reply/edit/thread state, then focus the composer |
+| `Escape` | Close the keyboard-opened inline actions bar, then cancel uploads/reply/edit/thread state and return to the selected message if one is still selected, otherwise focus the composer; if no composer state is active, clear the selected message |
 | Any typed character | Focus the composer and start typing immediately |
 
-### Reply Navigation Shortcuts
+### Message Selection
 
-These are implemented in the timeline itself and work on the currently selected reply target.
+These shortcuts move a visual message selection through the currently displayed timeline, including
+filtered search and thread views.
 
 | Shortcut | Action |
 | --- | --- |
-| `Alt+Up` | Select or move the reply target upward through the timeline |
-| `Alt+Down` | Move the reply target downward through the timeline |
-| `Alt+F` | Forward the currently selected reply target |
-| `Ctrl+E` | Edit the currently selected reply target |
+| `Alt+Up` | Select the bottom-most visible message, or move the current selection upward |
+| `Alt+Down` | Move the current selection downward |
 
-Practical note: these shortcuts are fairly power-user oriented. They act on the message currently
-stored as the timeline's reply target, not on a generic visual selection cursor.
+The selection is view-local. It stays on the same event when new messages arrive, but it clears if
+you switch rooms, reset the timeline, or filter the current view so the selected event disappears.
+Starting or moving the selection also moves keyboard focus from the composer into the timeline so
+message-walking shortcuts behave predictably.
+
+### Selected Message Actions
+
+These shortcuts only do anything when a message is selected.
+If the selected event does not support an action, that shortcut does nothing.
+
+| Shortcut | Action |
+| --- | --- |
+| `Enter` | Open the inline message-actions bar for the selected message and focus the first visible button |
+| `Alt+R` | Reply to the selected message |
+| `Alt+Shift+T` | Reply in thread, or continue the selected message's thread |
+| `Alt+E` | Edit the selected message |
+| `Alt+F` | Forward the selected message |
+| `Alt+D` | Open the remove-message dialog for the selected message |
+| `Alt+U` | View the selected message as raw JSON |
+| `Menu` / `Shift+F10` | Open the **Message actions** dialog for the selected message |
+
+### Inline Message Actions Bar
+
+When the inline actions bar is opened from the keyboard:
+If the selected message is off-screen, Komai scrolls it into view before opening the bar.
+
+| Shortcut | Action |
+| --- | --- |
+| `Left` | Move focus to the previous visible inline action |
+| `Right` | Move focus to the next visible inline action |
+| `Enter` | Activate the focused inline action |
+| `Escape` | Close the inline actions bar and return to selected-message mode |
 
 
 ## ✍️ Composer
@@ -119,13 +148,18 @@ In the **Forward Message** dialog:
 | `Enter` (during confirmation) | Confirm forwarding |
 
 
-## 🧾 Message Actions
+## 🧾 Message Actions Dialog
 
 In the **Message actions** dialog, the available shortcuts depend on the selected event type and
 your permissions.
 
 | Shortcut | Action |
 | --- | --- |
+| `Up` | Move focus to the previous visible action row |
+| `Down` | Move focus to the next visible action row |
+| `Tab` / `Shift+Tab` | Move focus forward or backward through the visible actions |
+| `Enter` | Activate the focused action |
+| `Escape` | Close the dialog |
 | `Alt+C` | Copy text, or copy media for media events |
 | `Alt+H` | Copy formatted text |
 | `Alt+L` | Copy link location |

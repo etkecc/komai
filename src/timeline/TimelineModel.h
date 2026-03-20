@@ -369,6 +369,7 @@ signals:
     void mediaCached(QString mxcUrl, QString cacheUrl);
     void newEncryptedImage(mtx::crypto::EncryptedFile encryptionInfo);
     void typingUsersChanged(QStringList users);
+    void eventIdReplaced(QString oldId, QString newId);
     void replyChanged(QString reply);
     void editChanged(QString reply);
     void threadChanged(QString id);

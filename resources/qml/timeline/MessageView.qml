@@ -27,14 +27,301 @@ Item {
     property var pendingRoomModel: null
     property bool roomSwitchInProgress: false
     property int roomSwitchBindSerial: 0
+    property string selectedEventId: ""
+    property bool keyboardActionsOpen: false
+    property var visibleTimelineDelegates: ({})
+    property string pendingKeyboardActionsEventId: ""
+    readonly property bool hasSelectedEvent: selectedEventId.length > 0
     readonly property real listViewDisplayMargin: roomSwitchInProgress ? 0 : chat.height / 8
     readonly property real listViewCacheBuffer: roomSwitchInProgress ? 0 : 320
+
+    MessageActionSupport {
+        id: messageActionSupport
+    }
+
+    function resetVisibleDelegateRegistry() {
+        visibleTimelineDelegates = ({});
+    }
+
+    function registerVisibleDelegate(eventId, delegate) {
+        if (!eventId || !delegate)
+            return;
+
+        visibleTimelineDelegates[eventId] = delegate;
+        if (pendingKeyboardActionsEventId === eventId)
+            Qt.callLater(tryOpenPendingKeyboardActions);
+    }
+
+    function unregisterVisibleDelegate(eventId, delegate) {
+        if (!eventId)
+            return;
+
+        if (!delegate || visibleTimelineDelegates[eventId] === delegate)
+            delete visibleTimelineDelegates[eventId];
+    }
+
+    function clearSelectedEvent() {
+        pendingKeyboardActionsEventId = "";
+
+        if (typeof messageActionsHost !== "undefined"
+                && messageActionsHost
+                && messageActionsHost.control
+                && messageActionsHost.control.keyboardActive)
+            messageActionsHost.control.dismiss();
+
+        selectedEventId = "";
+    }
+
+    function focusTimelineSelection() {
+        if (typeof chat === "undefined" || !chat)
+            return false;
+
+        chat.forceActiveFocus(Qt.ShortcutFocusReason);
+        return true;
+    }
+
+    function displayedEventIdAt(index) {
+        if (index < 0 || index >= chat.count || !chat.model || typeof chat.model.dataByIndex !== "function")
+            return "";
+
+        const value = chat.model.dataByIndex(index, Room.EventId);
+        return value === undefined || value === null ? "" : String(value);
+    }
+
+    function displayedEventHiddenAt(index) {
+        if (index < 0 || index >= chat.count || !chat.model || typeof chat.model.dataByIndex !== "function")
+            return true;
+
+        return !!chat.model.dataByIndex(index, Room.IsHiddenEvent);
+    }
+
+    function selectedVisibleIndex() {
+        if (!selectedEventId || !chat.model)
+            return -1;
+
+        for (let index = 0; index < chat.count; index++) {
+            if (displayedEventIdAt(index) === selectedEventId)
+                return index;
+        }
+
+        return -1;
+    }
+
+    function selectedDelegate() {
+        if (!selectedEventId)
+            return null;
+
+        return visibleTimelineDelegates[selectedEventId] || null;
+    }
+
+    function bottomMostVisibleDelegate() {
+        let bestDelegate = null;
+        let bestBottom = -1;
+        const viewportTop = chat.contentY;
+        const viewportBottom = viewportTop + chat.height;
+
+        for (const eventId in visibleTimelineDelegates) {
+            const delegate = visibleTimelineDelegates[eventId];
+            if (!delegate || delegate.visible === false || delegate.height <= 0)
+                continue;
+
+            const delegateTop = delegate.y;
+            const delegateBottom = delegate.y + delegate.height;
+            if (delegateBottom <= viewportTop || delegateTop >= viewportBottom)
+                continue;
+
+            if (!bestDelegate || delegateBottom > bestBottom) {
+                bestDelegate = delegate;
+                bestBottom = delegateBottom;
+            }
+        }
+
+        return bestDelegate;
+    }
+
+    function scrollDisplayedIndexIntoView(index) {
+        if (index < 0)
+            return;
+
+        chat.keepPinnedToBottom = false;
+        chat.positionViewAtIndex(index, ListView.Visible);
+        chat.updateLastScroll();
+    }
+
+    function selectedMessageInfo() {
+        const index = selectedVisibleIndex();
+        if (index < 0 || !chat.model || typeof chat.model.dataByIndex !== "function")
+            return null;
+
+        function roleValue(role, fallbackValue) {
+            const value = chat.model.dataByIndex(index, role);
+            return value === undefined || value === null ? fallbackValue : value;
+        }
+
+        return {
+            "eventId": displayedEventIdAt(index),
+            "threadId": String(roleValue(Room.ThreadId, "") || ""),
+            "type": Number(roleValue(Room.Type, -1)),
+            "isSender": !!roleValue(Room.IsSender, false),
+            "isEncrypted": !!roleValue(Room.IsEncrypted, false),
+            "isEditable": !!roleValue(Room.IsEditable, false),
+            "isStateEvent": !!roleValue(Room.IsStateEvent, false),
+            "body": String(roleValue(Room.Body, "") || "")
+        };
+    }
+
+    function validateSelectedEvent() {
+        if (!selectedEventId)
+            return false;
+
+        if (selectedVisibleIndex() < 0) {
+            clearSelectedEvent();
+            return false;
+        }
+
+        return true;
+    }
+
+    function moveSelection(delta) {
+        const currentIndex = selectedVisibleIndex();
+        if (currentIndex < 0)
+            return false;
+
+        const step = delta >= 0 ? 1 : -1;
+        for (let nextIndex = currentIndex + step; nextIndex >= 0 && nextIndex < chat.count; nextIndex += step) {
+            if (displayedEventHiddenAt(nextIndex))
+                continue;
+
+            const nextEventId = displayedEventIdAt(nextIndex);
+            if (!nextEventId)
+                continue;
+
+            if (messageActionsHost.control.keyboardActive)
+                messageActionsHost.control.dismiss();
+
+            pendingKeyboardActionsEventId = "";
+            selectedEventId = nextEventId;
+            focusTimelineSelection();
+            scrollDisplayedIndexIntoView(nextIndex);
+            return true;
+        }
+
+        return false;
+    }
+
+    function openKeyboardActionsForSelection() {
+        if (!validateSelectedEvent())
+            return false;
+
+        focusTimelineSelection();
+
+        const delegate = selectedDelegate();
+        if (!delegate) {
+            pendingKeyboardActionsEventId = selectedEventId;
+            scrollDisplayedIndexIntoView(selectedVisibleIndex());
+            return false;
+        }
+
+        pendingKeyboardActionsEventId = "";
+        delegate.openKeyboardMessageActions();
+        Qt.callLater(function () {
+            messageActionsHost.control.focusFirstVisibleButton();
+        });
+        return true;
+    }
+
+    function closeKeyboardActions() {
+        pendingKeyboardActionsEventId = "";
+        if (!messageActionsHost.control.keyboardActive)
+            return false;
+
+        messageActionsHost.control.dismiss();
+        focusTimelineSelection();
+        return true;
+    }
+
+    function moveKeyboardActionsFocus(step) {
+        if (!messageActionsHost.control.keyboardActive)
+            return false;
+
+        return messageActionsHost.control.moveFocus(step);
+    }
+
+    function tryOpenPendingKeyboardActions() {
+        if (!pendingKeyboardActionsEventId || pendingKeyboardActionsEventId !== selectedEventId)
+            return false;
+
+        if (!selectedDelegate())
+            return false;
+
+        return openKeyboardActionsForSelection();
+    }
+
+    function selectBottomMostVisibleEvent() {
+        const delegate = bottomMostVisibleDelegate();
+        if (!delegate || !delegate.eventId)
+            return false;
+
+        pendingKeyboardActionsEventId = "";
+        selectedEventId = String(delegate.eventId);
+        focusTimelineSelection();
+        return true;
+    }
+
+    function performSelectedMessageAction(actionName) {
+        const message = selectedMessageInfo();
+        if (!message)
+            return false;
+
+        let handled = false;
+
+        switch (actionName) {
+        case "reply":
+            handled = messageActionSupport.applyReply(room, message);
+            break;
+        case "thread":
+            handled = messageActionSupport.applyThread(room, message);
+            break;
+        case "edit":
+            handled = messageActionSupport.applyEdit(room, message);
+            break;
+        case "forward":
+            handled = messageActionSupport.applyForward(chatRoot, message);
+            break;
+        case "remove":
+            handled = messageActionSupport.applyRemove(chatRoot, room, message);
+            break;
+        case "raw":
+            handled = messageActionSupport.applyViewRaw(room, message);
+            break;
+        default:
+            handled = false;
+        }
+
+        if (handled && messageActionsHost.control.keyboardActive)
+            messageActionsHost.control.dismiss();
+
+        return handled;
+    }
+
+    function openSelectedMessageActionsDialog() {
+        const message = selectedMessageInfo();
+        if (!message)
+            return false;
+
+        if (messageActionsHost.control.keyboardActive)
+            messageActionsHost.control.dismiss();
+
+        return messageActionSupport.openOptionsDialog(chatRoot, message);
+    }
 
     function scheduleTimelineModelBinding() {
         roomSwitchBindSerial += 1;
         const targetRoom = roommodel;
 
         if (!targetRoom || disableTimelineList) {
+            clearSelectedEvent();
+            resetVisibleDelegateRegistry();
             pendingRoomModel = null;
             activeRoomModel = null;
             roomSwitchInProgress = false;
@@ -70,7 +357,11 @@ Item {
         paginationController.onBindCompleted();
     }
 
-    onRoommodelChanged: scheduleTimelineModelBinding()
+    onRoommodelChanged: {
+        clearSelectedEvent();
+        resetVisibleDelegateRegistry();
+        scheduleTimelineModelBinding();
+    }
     onDisableTimelineListChanged: scheduleTimelineModelBinding()
 
     Component.onCompleted: scheduleTimelineModelBinding()
@@ -278,6 +569,15 @@ Item {
             updateLastScroll();
             keepPinnedToBottom = !chatRoot.filteringRequested && atYEnd;
             paginationController.onTimelineModelChanged();
+            if (!model) {
+                chatRoot.clearSelectedEvent();
+                chatRoot.resetVisibleDelegateRegistry();
+                return;
+            }
+            Qt.callLater(function () {
+                chatRoot.validateSelectedEvent();
+                chatRoot.tryOpenPendingKeyboardActions();
+            });
         }
         onAtYBeginningChanged: paginationController.onAtYBeginningChanged(atYBeginning)
         onHeightChanged: {
@@ -369,6 +669,7 @@ Item {
             if (atYEnd && model && room)
                 model.currentIndex = 0;
             paginationController.onCountChanged();
+            chatRoot.tryOpenPendingKeyboardActions();
         }
 
         TimelineFilter {
@@ -386,6 +687,46 @@ Item {
             emojiPopup: chatRoot.emojiPopup
             filteredTimeline: filteredTimeline
             roomModel: room
+        }
+        Connections {
+            function onRowsInserted() {
+                chatRoot.validateSelectedEvent();
+                chatRoot.tryOpenPendingKeyboardActions();
+            }
+
+            function onRowsRemoved() {
+                chatRoot.validateSelectedEvent();
+            }
+
+            function onLayoutChanged() {
+                chatRoot.validateSelectedEvent();
+                chatRoot.tryOpenPendingKeyboardActions();
+            }
+
+            function onModelReset() {
+                chatRoot.clearSelectedEvent();
+                chatRoot.resetVisibleDelegateRegistry();
+            }
+
+            target: chat.model
+            ignoreUnknownSignals: true
+        }
+        Connections {
+            function onActivationModeChanged() {
+                chatRoot.keyboardActionsOpen = messageActionsHost.control.keyboardActive;
+            }
+
+            target: messageActionsHost.control
+        }
+        Connections {
+            function onEventIdReplaced(oldId, newId) {
+                if (chatRoot.selectedEventId === oldId)
+                    chatRoot.selectedEventId = newId;
+                if (chatRoot.pendingKeyboardActionsEventId === oldId)
+                    chatRoot.pendingKeyboardActionsEventId = newId;
+            }
+
+            target: chatRoot.activeRoomModel
         }
         TimelineKeyboardShortcuts {
             chatList: chat

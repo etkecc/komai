@@ -158,6 +158,8 @@ TimelineModel::TimelineModel(TimelineViewManager *manager, QString room_id, QObj
       &EventStore::messageSent,
       this,
       [this](const std::string &txn_id, const std::string &event_id) {
+          emit eventIdReplaced(QString::fromStdString(txn_id), QString::fromStdString(event_id));
+
           if (edit_.toStdString() == txn_id) {
               edit_ = QString::fromStdString(event_id);
               emit editChanged(edit_);

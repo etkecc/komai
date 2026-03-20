@@ -24,7 +24,8 @@ AbstractButton {
     readonly property bool showImage: normalizedReaction.startsWith("mxc://")
     readonly property bool activeState: hovered || pressed || visualFocus
 
-    focusPolicy: Qt.NoFocus
+    activeFocusOnTab: true
+    focusPolicy: Qt.StrongFocus
     leftPadding: itemHorizontalPadding
     rightPadding: itemHorizontalPadding
     topPadding: itemVerticalPadding

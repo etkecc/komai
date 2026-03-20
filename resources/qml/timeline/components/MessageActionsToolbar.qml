@@ -5,6 +5,7 @@
 
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Window 2.15
 import cc.etke.komai
 
 Item {
@@ -25,14 +26,11 @@ Item {
         ? messageActionsControl.parent.width
         : (chatRoot ? chatRoot.width : width)
     readonly property bool isStateEvent: !!messageModel && messageModel.isStateEvent
-    readonly property bool canReact: !isStateEvent && (roomModel ? roomModel.permissions.canSend(MtxEvent.Reaction) : false)
-    readonly property bool canSendText: !isStateEvent && (roomModel ? roomModel.permissions.canSend(MtxEvent.TextMessage) : false)
-    readonly property bool canEdit: !!messageModel && messageModel.isEditable
-    readonly property bool canForward: !!messageModel && isForwardableType(messageModel.type)
-    readonly property bool canGoToMessage: !!messageModel
-        && !!messageModel.eventId
-        && !!filteredTimeline
-        && !!filteredTimeline.filterByContent
+    readonly property bool canReact: messageActionSupport.canReact(messageModel, roomModel)
+    readonly property bool canSendText: messageActionSupport.canSendText(messageModel, roomModel)
+    readonly property bool canEdit: messageActionSupport.canEdit(messageModel, roomModel)
+    readonly property bool canForward: messageActionSupport.canForward(messageModel)
+    readonly property bool canGoToMessage: messageActionSupport.canGoToMessage(messageModel, filteredTimeline)
     readonly property real requiredLabeledWidth: reactionButtonsWidth
         + (canReact ? iconOnlyButtonWidth() : 0)
         + (canReact ? separatorSlotWidth : 0)
@@ -71,12 +69,114 @@ Item {
         ? actionsRow.implicitHeight + twoRowSpacing + reactionsRow.implicitHeight
         : Math.max(actionsRow.implicitHeight, reactionsRow.implicitHeight)
 
-    function isForwardableType(eventType) {
-        return eventType == MtxEvent.ImageMessage || eventType == MtxEvent.VideoMessage || eventType == MtxEvent.AudioMessage || eventType == MtxEvent.FileMessage || eventType == MtxEvent.Sticker || eventType == MtxEvent.TextMessage || eventType == MtxEvent.LocationMessage || eventType == MtxEvent.EmoteMessage || eventType == MtxEvent.NoticeMessage;
-    }
-
     function threadActionLabel() {
         return (toolbar.messageModel && toolbar.messageModel.threadId) ? qsTr("Reply in thread") : qsTr("New thread");
+    }
+
+    function addVisibleButton(buttons, button) {
+        if (button && button.visible !== false && button.enabled !== false)
+            buttons.push(button);
+    }
+
+    function addRepeaterButtons(buttons, repeater) {
+        if (!repeater)
+            return;
+
+        for (let i = 0; i < repeater.count; i++)
+            addVisibleButton(buttons, repeater.itemAt(i));
+    }
+
+    function visibleButtons() {
+        const buttons = [];
+
+        if (twoRowMode) {
+            addVisibleButton(buttons, editButton);
+            addVisibleButton(buttons, threadButton);
+            addVisibleButton(buttons, replyButton);
+            addVisibleButton(buttons, forwardButton);
+            addVisibleButton(buttons, goToMessageButton);
+            addVisibleButton(buttons, optionsButton);
+            addRepeaterButtons(buttons, pinnedReactionsRepeater);
+            addRepeaterButtons(buttons, recentReactionsRepeater);
+            addVisibleButton(buttons, reactButton);
+        } else {
+            addRepeaterButtons(buttons, pinnedReactionsRepeater);
+            addRepeaterButtons(buttons, recentReactionsRepeater);
+            addVisibleButton(buttons, reactButton);
+            addVisibleButton(buttons, editButton);
+            addVisibleButton(buttons, threadButton);
+            addVisibleButton(buttons, replyButton);
+            addVisibleButton(buttons, forwardButton);
+            addVisibleButton(buttons, goToMessageButton);
+            addVisibleButton(buttons, optionsButton);
+        }
+
+        return buttons;
+    }
+
+    function activeButtonIndex() {
+        const buttons = visibleButtons();
+        let activeItem = toolbar.Window.activeFocusItem;
+
+        for (let index = 0; index < buttons.length; index++) {
+            let current = activeItem;
+            while (current) {
+                if (current === buttons[index])
+                    return index;
+                current = current.parent;
+            }
+        }
+
+        return -1;
+    }
+
+    function focusFirstVisibleButton() {
+        const buttons = visibleButtons();
+        if (buttons.length === 0)
+            return false;
+
+        buttons[0].forceActiveFocus();
+        return true;
+    }
+
+    function focusLastVisibleButton() {
+        const buttons = visibleButtons();
+        if (buttons.length === 0)
+            return false;
+
+        buttons[buttons.length - 1].forceActiveFocus();
+        return true;
+    }
+
+    function moveFocus(step) {
+        const buttons = visibleButtons();
+        if (buttons.length === 0)
+            return false;
+
+        const currentIndex = activeButtonIndex();
+        const nextIndex = currentIndex < 0
+            ? (step >= 0 ? 0 : buttons.length - 1)
+            : (currentIndex + step + buttons.length) % buttons.length;
+
+        buttons[nextIndex].forceActiveFocus();
+        return true;
+    }
+
+    function activateFocusedButton() {
+        const buttons = visibleButtons();
+        if (buttons.length === 0)
+            return false;
+
+        const currentIndex = activeButtonIndex();
+        if (currentIndex < 0)
+            return false;
+
+        buttons[currentIndex].clicked();
+        return true;
+    }
+
+    MessageActionSupport {
+        id: messageActionSupport
     }
 
     function repeaterItemsWidth(repeater) {
@@ -255,6 +355,8 @@ Item {
         y: toolbar.twoRowMode ? (reactionsRow.height + toolbar.twoRowSpacing) : 0
 
         MessageActionsToolbarButton {
+            id: editButton
+
             toolbarRef: toolbar
             image: ":/icons/icons/ui/edit.svg"
             labelText: toolbar.showActionLabels ? qsTr("Edit") : ""
@@ -262,13 +364,14 @@ Item {
             visible: toolbar.canEdit
 
             onClicked: {
-                if (toolbar.messageModel.isEditable)
-                    roomModel.edit = toolbar.messageModel.eventId;
-                toolbar.messageActionsControl.dismiss();
+                if (messageActionSupport.applyEdit(roomModel, toolbar.messageModel))
+                    toolbar.messageActionsControl.dismiss();
             }
         }
 
         MessageActionsToolbarButton {
+            id: threadButton
+
             toolbarRef: toolbar
             image: ":/icons/icons/ui/thread.svg"
             labelText: toolbar.showActionLabels ? toolbar.threadActionLabel() : ""
@@ -276,12 +379,14 @@ Item {
             visible: toolbar.canSendText
 
             onClicked: {
-                roomModel.thread = (toolbar.messageModel.threadId || toolbar.messageModel.eventId);
-                toolbar.messageActionsControl.dismiss();
+                if (messageActionSupport.applyThread(roomModel, toolbar.messageModel))
+                    toolbar.messageActionsControl.dismiss();
             }
         }
 
         MessageActionsToolbarButton {
+            id: replyButton
+
             toolbarRef: toolbar
             image: ":/icons/icons/ui/reply.svg"
             labelText: toolbar.showActionLabels ? qsTr("Reply") : ""
@@ -289,12 +394,14 @@ Item {
             visible: toolbar.canSendText
 
             onClicked: {
-                roomModel.reply = toolbar.messageModel.eventId;
-                toolbar.messageActionsControl.dismiss();
+                if (messageActionSupport.applyReply(roomModel, toolbar.messageModel))
+                    toolbar.messageActionsControl.dismiss();
             }
         }
 
         MessageActionsToolbarButton {
+            id: forwardButton
+
             toolbarRef: toolbar
             image: ":/icons/icons/ui/reply.svg"
             labelText: toolbar.showActionLabels ? qsTr("Forward") : ""
@@ -303,12 +410,14 @@ Item {
             visible: toolbar.canForward
 
             onClicked: {
-                toolbar.chatRoot.openForwardDialog(toolbar.messageModel.eventId);
-                toolbar.messageActionsControl.dismiss();
+                if (messageActionSupport.applyForward(toolbar.chatRoot, toolbar.messageModel))
+                    toolbar.messageActionsControl.dismiss();
             }
         }
 
         MessageActionsToolbarButton {
+            id: goToMessageButton
+
             toolbarRef: toolbar
             image: ":/icons/icons/ui/go-to.svg"
             labelText: toolbar.showActionLabels ? qsTr("Go to message") : ""
@@ -316,13 +425,8 @@ Item {
             visible: toolbar.canGoToMessage
 
             onClicked: {
-                const eventId = toolbar.messageModel ? toolbar.messageModel.eventId : "";
-                if (!eventId)
-                    return;
-
-                toolbar.chatRoot.clearSearch();
-                roomModel.showEvent(eventId);
-                toolbar.messageActionsControl.dismiss();
+                if (messageActionSupport.applyGoToMessage(toolbar.chatRoot, roomModel, toolbar.filteredTimeline, toolbar.messageModel))
+                    toolbar.messageActionsControl.dismiss();
             }
         }
 
@@ -335,19 +439,8 @@ Item {
             toolTipText: qsTr("Options")
 
             onClicked: {
-                if (!toolbar.messageModel)
-                    return;
-
-                toolbar.chatRoot.openMessageActionsDialog(
-                    toolbar.messageModel.eventId,
-                    toolbar.messageModel.threadId,
-                    toolbar.messageModel.type,
-                    toolbar.messageModel.isSender,
-                    toolbar.messageModel.isEncrypted,
-                    toolbar.messageModel.isEditable,
-                    "",
-                    toolbar.messageModel.body);
-                toolbar.messageActionsControl.dismiss();
+                if (messageActionSupport.openOptionsDialog(toolbar.chatRoot, toolbar.messageModel))
+                    toolbar.messageActionsControl.dismiss();
             }
         }
     }

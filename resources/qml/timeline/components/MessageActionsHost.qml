@@ -38,12 +38,14 @@ Item {
         property Item attached: null
         // use comma to update on scroll
         property var model: null
-        property bool pinned: false
+        property string activationMode: ""
+        readonly property bool pinned: activationMode === "button" || activationMode === "keyboard"
+        readonly property bool keyboardActive: activationMode === "keyboard"
         property bool positioned: false
         property Item anchorItem: null
 
         function dismiss() {
-            pinned = false;
+            activationMode = "";
             attached = null;
             anchorItem = null;
             positioned = false;
@@ -63,8 +65,24 @@ Item {
             // intrinsic-size/layout updates that happen after visibility flips.
             Qt.callLater(function () {
                 if (visible && attached && anchorItem)
-                    attached.repositionMessageActions(anchorItem, pinned, 0);
+                    attached.repositionMessageActions(anchorItem, activationMode, 0);
             });
+        }
+
+        function focusFirstVisibleButton() {
+            return messageActionsToolbar.focusFirstVisibleButton();
+        }
+
+        function focusLastVisibleButton() {
+            return messageActionsToolbar.focusLastVisibleButton();
+        }
+
+        function moveFocus(step) {
+            return messageActionsToolbar.moveFocus(step);
+        }
+
+        function activateFocusedButton() {
+            return messageActionsToolbar.activateFocusedButton();
         }
 
         hoverEnabled: true
@@ -80,7 +98,11 @@ Item {
         implicitHeight: contentItem ? contentItem.implicitHeight : 0
         // Keep the control in the layout pass before first placement so
         // implicitWidth/implicitHeight can settle. Opacity gates first paint.
-        visible: Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsActivationPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.OnHover)
+        visible: Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsActivationPolicy.Never
+            && !!attached
+            && (pinned
+                || (activationMode === "hover"
+                    && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.OnHover))
         opacity: positioned ? 1 : 0
         enabled: positioned
         z: 10

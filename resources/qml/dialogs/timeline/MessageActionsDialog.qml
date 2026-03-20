@@ -7,6 +7,7 @@ import "../../delegates/"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
+import QtQuick.Window 2.15
 import cc.etke.komai 1.0
 
 Components.OverlayDialog {
@@ -51,6 +52,66 @@ Components.OverlayDialog {
     y: Math.max(Komai.paddingLarge, Math.round((dialogViewportHeight - height) / 2))
     title: qsTr("Message actions")
     titleIcon: ":/icons/icons/ui/options-circle.svg"
+    initialFocusItem: firstVisibleActionButton()
+
+    function addVisibleAction(buttons, button) {
+        if (button && button.visible !== false && button.enabled !== false)
+            buttons.push(button);
+    }
+
+    function visibleActionButtons() {
+        const buttons = [];
+        addVisibleAction(buttons, copyTextBtn);
+        addVisibleAction(buttons, copyFormattedTextBtn);
+        addVisibleAction(buttons, copyMediaBtn);
+        addVisibleAction(buttons, copyLinkLocationBtn);
+        addVisibleAction(buttons, copyPermalinkBtn);
+        addVisibleAction(buttons, pinBtn);
+        addVisibleAction(buttons, markReadBtn);
+        addVisibleAction(buttons, saveAsBtn);
+        addVisibleAction(buttons, openExternalBtn);
+        addVisibleAction(buttons, readReceiptsBtn);
+        addVisibleAction(buttons, viewRawBtn);
+        addVisibleAction(buttons, viewDecryptedRawBtn);
+        addVisibleAction(buttons, removeBtn);
+        addVisibleAction(buttons, reportBtn);
+        return buttons;
+    }
+
+    function firstVisibleActionButton() {
+        const buttons = visibleActionButtons();
+        return buttons.length > 0 ? buttons[0] : null;
+    }
+
+    function activeActionButtonIndex() {
+        const buttons = visibleActionButtons();
+        let activeItem = root.Window.activeFocusItem;
+
+        for (let index = 0; index < buttons.length; index++) {
+            let current = activeItem;
+            while (current) {
+                if (current === buttons[index])
+                    return index;
+                current = current.parent;
+            }
+        }
+
+        return -1;
+    }
+
+    function moveActionFocus(step) {
+        const buttons = visibleActionButtons();
+        if (buttons.length === 0)
+            return false;
+
+        const currentIndex = activeActionButtonIndex();
+        const nextIndex = currentIndex < 0
+            ? (step >= 0 ? 0 : buttons.length - 1)
+            : (currentIndex + step + buttons.length) % buttons.length;
+
+        buttons[nextIndex].forceActiveFocus();
+        return true;
+    }
 
     component ActionButton: Components.KomaiActionRowButton {
         id: actionBtn
@@ -380,5 +441,20 @@ Components.OverlayDialog {
                 }
             }
         }
+    }
+
+    Shortcut {
+        enabled: root.visible
+        sequence: "Up"
+        context: Qt.WindowShortcut
+
+        onActivated: root.moveActionFocus(-1)
+    }
+    Shortcut {
+        enabled: root.visible
+        sequence: "Down"
+        context: Qt.WindowShortcut
+
+        onActivated: root.moveActionFocus(1)
     }
 }

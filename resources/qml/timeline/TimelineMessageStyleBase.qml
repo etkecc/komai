@@ -46,12 +46,15 @@ TimelineEvent {
     required property QtObject messageContextMenu
     required property QtObject replyContextMenu
     required property Item messageActions
+    property Item keyboardActionAnchorItem: null
     // Optional preview payload used when no TimelineModel room is available.
     property var previewData: ({})
     readonly property var roomForColorCoding: room ? room : ((previewData && previewData.room) ? previewData.room : null)
     readonly property string roomIdForColorCoding: (roomForColorCoding && roomForColorCoding.roomId) ? String(roomForColorCoding.roomId) : ""
+    readonly property bool selectedInView: !!chatRoot && chatRoot.selectedEventId === wrapper.eventId
 
     property var hoverDismissTimerRef: null
+    property string registeredEventId: ""
     readonly property color themeWindowColor: (Komai.colors && Komai.colors.window !== undefined)
         ? Komai.colors.window
         : palette.window
@@ -203,16 +206,51 @@ TimelineEvent {
         return fallback;
     }
 
-    function openMessageActions(pin, anchorItem) {
+    function registerDelegate(eventIdToRegister) {
+        if (!chatRoot || !eventIdToRegister || typeof chatRoot.registerVisibleDelegate !== "function")
+            return;
+
+        chatRoot.registerVisibleDelegate(eventIdToRegister, wrapper);
+    }
+
+    function unregisterDelegate(eventIdToUnregister) {
+        if (!chatRoot || !eventIdToUnregister || typeof chatRoot.unregisterVisibleDelegate !== "function")
+            return;
+
+        chatRoot.unregisterVisibleDelegate(eventIdToUnregister, wrapper);
+    }
+
+    function updateDelegateRegistration() {
+        const nextEventId = eventId ? String(eventId) : "";
+        if (registeredEventId === nextEventId)
+            return;
+
+        if (chatRoot && registeredEventId.length > 0 && nextEventId.length > 0) {
+            if (chatRoot.selectedEventId === registeredEventId)
+                chatRoot.selectedEventId = nextEventId;
+            if (chatRoot.pendingKeyboardActionsEventId === registeredEventId)
+                chatRoot.pendingKeyboardActionsEventId = nextEventId;
+        }
+
+        unregisterDelegate(registeredEventId);
+        registeredEventId = nextEventId;
+        registerDelegate(registeredEventId);
+    }
+
+    function openMessageActions(pin, anchorItem, activationMode) {
         if (!anchorItem)
             return;
 
         if (hoverDismissTimerRef)
             hoverDismissTimerRef.stop();
 
+        const resolvedActivationMode = activationMode !== undefined
+            ? activationMode
+            : (pin ? "button" : "hover");
+
         messageActions.model = wrapper;
         messageActions.attached = wrapper;
-        messageActions.pinned = pin;
+        messageActions.activationMode = resolvedActivationMode;
         messageActions.anchorItem = anchorItem;
         messageActions.positioned = false;
 
@@ -221,16 +259,26 @@ TimelineEvent {
         // On first show after app startup, immediate mapToItem/implicitWidth reads can use
         // partial geometry and place the bar outside the visible viewport.
         Qt.callLater(function() {
-            wrapper.repositionMessageActions(anchorItem, pin, 0);
+            wrapper.repositionMessageActions(anchorItem, resolvedActivationMode, 0);
         });
     }
 
-    function repositionMessageActions(anchorItem, pinnedState, attempt) {
+    function openKeyboardMessageActions() {
+        if (!keyboardActionAnchorItem)
+            return;
+
+        openMessageActions(false, keyboardActionAnchorItem, "keyboard");
+    }
+
+    function repositionMessageActions(anchorItem, activationMode, attempt) {
         if (!anchorItem)
             return;
 
         if (attempt === undefined)
             attempt = 0;
+
+        if (activationMode === undefined || activationMode === null || activationMode === "")
+            activationMode = messageActions.activationMode;
 
         // Give the popup a few frames to settle before forcing coordinates.
         if (attempt > 60)
@@ -284,7 +332,7 @@ TimelineEvent {
             minX = viewportLeft;
             maxX = viewportRight - barW;
         }
-        if (pinnedState) {
+        if (activationMode === "button") {
             // X (button mode): center on anchor, clamped to delegate bounds
             var centerX = pos.x + anchorItem.width / 2 - barW / 2;
             messageActions.x = Math.max(minX, Math.min(centerX, maxX));
@@ -304,24 +352,24 @@ TimelineEvent {
     }
 
     function isUnpinnedActionBarAttached() {
-        return messageActions.attached === wrapper && !messageActions.pinned;
+        return messageActions.attached === wrapper && messageActions.activationMode === "hover";
     }
 
     function handleMessageHoverChanged(isHovered, anchorItem) {
-        if (!isHoverActionsEnabled())
+        if (!isHoverActionsEnabled() || messageActions.activationMode === "keyboard")
             return;
 
         if (isHovered) {
             if (hoverDismissTimerRef)
                 hoverDismissTimerRef.stop();
-            openMessageActions(false, anchorItem);
+            openMessageActions(false, anchorItem, "hover");
         } else if (isUnpinnedActionBarAttached() && hoverDismissTimerRef) {
             hoverDismissTimerRef.restart();
         }
     }
 
     function handleHoverDismissTimerTriggered(isHovered) {
-        if (!isHoverActionsEnabled())
+        if (!isHoverActionsEnabled() || messageActions.activationMode === "keyboard")
             return;
         if (!isUnpinnedActionBarAttached())
             return;
@@ -344,7 +392,7 @@ TimelineEvent {
         if (messageActions.pinned && messageActions.attached === wrapper)
             messageActions.dismiss();
         else
-            openMessageActions(true, anchorItem);
+            openMessageActions(true, anchorItem, "button");
     }
 
     function openMessageContextMenu(hoveredLink, copyText) {
@@ -379,4 +427,8 @@ TimelineEvent {
 
         return "";
     }
+
+    onEventIdChanged: updateDelegateRegistration()
+    Component.onCompleted: updateDelegateRegistration()
+    Component.onDestruction: unregisterDelegate(registeredEventId)
 }

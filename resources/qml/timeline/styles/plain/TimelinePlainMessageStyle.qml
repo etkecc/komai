@@ -17,6 +17,7 @@ TimelineBubbleMessageStyle {
 
     messageBubblePadding: 0
     messageBubbleBackgroundEnabled: false
+    selectionTintOpacity: 0.2
     messageBubbleHorizontalPadding: Komai.paddingSmall
     messageBubbleVerticalPadding: 0
     alignMessageTextToSide: true

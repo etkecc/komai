@@ -43,6 +43,16 @@ TimelineMessageStyleBase {
     property bool avatarIsOnRight: wrapper.messageIsRightAligned
 
     property alias hovered: messageHover.hovered
+    keyboardActionAnchorItem: messageBubble
+    property real selectionTintOpacity: messageBubbleBackgroundEnabled ? 0.12 : 0.18
+    readonly property color selectionOutlineColor: Qt.rgba(palette.highlight.r,
+                                                            palette.highlight.g,
+                                                            palette.highlight.b,
+                                                            0.95)
+    readonly property color selectionTintColor: Qt.rgba(selectionOutlineColor.r,
+                                                        selectionOutlineColor.g,
+                                                        selectionOutlineColor.b,
+                                                        selectionTintOpacity)
     mainMessageTextColor: (messageBubble && messageBubble.roomBubblePalette && messageBubble.roomBubblePalette.text !== undefined)
                           ? messageBubble.roomBubblePalette.text
                           : palette.text
@@ -119,6 +129,14 @@ TimelineMessageStyleBase {
 
                 onSingleTapped: wrapper.openMessageContextMenu(wrapper.main.hoveredLink, wrapper.main.copyText)
             }
+        },
+        Rectangle {
+            id: selectionTint
+            anchors.fill: gridContainer
+            radius: 8
+            color: wrapper.selectionTintColor
+            visible: wrapper.selectedInView
+            z: 0.5
         },
         Rectangle {
             id: scrollHighlight
@@ -698,6 +716,31 @@ TimelineMessageStyleBase {
                 onSingleTapped: (event) => {
                     wrapper.openMessageContextMenu(wrapper.main.hoveredLink, wrapper.main.copyText);
                 }
+            }
+        },
+        Canvas {
+            id: selectionBorderCanvas
+            anchors.fill: gridContainer
+            z: 3
+            visible: wrapper.selectedInView
+            property color borderColor: wrapper.selectionOutlineColor
+
+            onWidthChanged: requestPaint()
+            onHeightChanged: requestPaint()
+            onBorderColorChanged: requestPaint()
+            onVisibleChanged: requestPaint()
+
+            onPaint: {
+                var ctx = getContext("2d");
+                ctx.clearRect(0, 0, width, height);
+                ctx.strokeStyle = borderColor;
+                ctx.lineWidth = 2;
+                ctx.setLineDash([8, 6]);
+                var r = 8;
+                var inset = 1;
+                ctx.beginPath();
+                ctx.roundedRect(inset, inset, width - 2 * inset, height - 2 * inset, r, r);
+                ctx.stroke();
             }
         },
         Canvas {

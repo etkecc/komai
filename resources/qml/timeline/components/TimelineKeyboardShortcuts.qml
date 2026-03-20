@@ -34,49 +34,110 @@ Item {
         sequences: [StandardKey.Cancel]
 
         onActivated: {
-            if (roomModel.input.uploads.length > 0)
+            let handledComposerState = false;
+
+            if (chatRoot.keyboardActionsOpen) {
+                chatRoot.closeKeyboardActions();
+            } else if (roomModel.input.uploads.length > 0) {
                 roomModel.input.declineUploads();
-            else if (roomModel.reply)
+                handledComposerState = true;
+            } else if (roomModel.reply) {
                 roomModel.reply = undefined;
-            else if (roomModel.edit)
+                handledComposerState = true;
+            } else if (roomModel.edit) {
                 roomModel.edit = undefined;
-            else
+                handledComposerState = true;
+            } else if (roomModel.thread) {
                 roomModel.thread = undefined;
-            TimelineManager.focusMessageInput();
-        }
-    }
+                handledComposerState = true;
+            } else if (chatRoot.hasSelectedEvent) {
+                chatRoot.clearSelectedEvent();
+            }
 
-    // These shortcuts use the room timeline because switching to threads and out is annoying otherwise.
-    // Better solution welcome.
-    Shortcut {
-        sequence: "Alt+Up"
-
-        onActivated: roomModel.reply = roomModel.indexToId(roomModel.reply ? roomModel.idToIndex(roomModel.reply) + 1 : 0)
-    }
-    Shortcut {
-        sequence: "Alt+Down"
-
-        onActivated: {
-            var idx = roomModel.reply ? roomModel.idToIndex(roomModel.reply) - 1 : -1;
-            roomModel.reply = idx >= 0 ? roomModel.indexToId(idx) : null;
-        }
-    }
-    Shortcut {
-        sequence: "Alt+F"
-
-        onActivated: {
-            if (roomModel.reply) {
-                chatRoot.openForwardDialog(roomModel.reply);
-                roomModel.reply = null;
+            if (handledComposerState) {
+                if (chatRoot.hasSelectedEvent)
+                    chatRoot.focusTimelineSelection();
+                else
+                    TimelineManager.focusMessageInput();
             }
         }
     }
+
     Shortcut {
-        sequence: "Ctrl+E"
+        sequence: "Alt+Up"
 
         onActivated: {
-            roomModel.edit = roomModel.reply;
+            if (chatRoot.hasSelectedEvent)
+                chatRoot.moveSelection(1);
+            else
+                chatRoot.selectBottomMostVisibleEvent();
         }
+    }
+    Shortcut {
+        sequence: "Alt+Down"
+        enabled: chatRoot.hasSelectedEvent
+
+        onActivated: chatRoot.moveSelection(-1)
+    }
+    Shortcut {
+        sequence: "Alt+R"
+        enabled: chatRoot.hasSelectedEvent
+
+        onActivated: chatRoot.performSelectedMessageAction("reply")
+    }
+    Shortcut {
+        sequence: "Alt+Shift+T"
+        enabled: chatRoot.hasSelectedEvent
+
+        onActivated: chatRoot.performSelectedMessageAction("thread")
+    }
+    Shortcut {
+        sequence: "Alt+E"
+        enabled: chatRoot.hasSelectedEvent
+
+        onActivated: chatRoot.performSelectedMessageAction("edit")
+    }
+    Shortcut {
+        sequence: "Alt+F"
+        enabled: chatRoot.hasSelectedEvent
+
+        onActivated: chatRoot.performSelectedMessageAction("forward")
+    }
+    Shortcut {
+        sequence: "Alt+D"
+        enabled: chatRoot.hasSelectedEvent
+
+        onActivated: chatRoot.performSelectedMessageAction("remove")
+    }
+    Shortcut {
+        sequence: "Alt+U"
+        enabled: chatRoot.hasSelectedEvent
+
+        onActivated: chatRoot.performSelectedMessageAction("raw")
+    }
+    Shortcut {
+        sequences: ["Menu", "Shift+F10"]
+        enabled: chatRoot.hasSelectedEvent
+
+        onActivated: chatRoot.openSelectedMessageActionsDialog()
+    }
+    Shortcut {
+        sequences: ["Return", "Enter"]
+        enabled: chatRoot.hasSelectedEvent && !chatRoot.keyboardActionsOpen
+
+        onActivated: chatRoot.openKeyboardActionsForSelection()
+    }
+    Shortcut {
+        sequence: "Left"
+        enabled: chatRoot.keyboardActionsOpen
+
+        onActivated: chatRoot.moveKeyboardActionsFocus(-1)
+    }
+    Shortcut {
+        sequence: "Right"
+        enabled: chatRoot.keyboardActionsOpen
+
+        onActivated: chatRoot.moveKeyboardActionsFocus(1)
     }
     Timer {
         id: readTimer

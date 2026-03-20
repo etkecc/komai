@@ -11,37 +11,31 @@ import QtQuick.Layouts 1.10
 import cc.etke.komai 1.0
 
 ColumnLayout {
-    property string title: qsTr("Waiting for other party…")
+    property string title: qsTr("Waiting for Other Device")
     spacing: 16
 
     Label {
-        id: content
-
-        Layout.preferredWidth: 400
         Layout.fillWidth: true
         wrapMode: Text.Wrap
         text: {
             switch (flow.state) {
                 case "WaitingForOtherToAccept":
-                    return qsTr("Waiting for other side to accept the verification request.");
+                    return qsTr("Waiting for the other device to accept the verification request.");
                 case "WaitingForKeys":
-                    return qsTr("Waiting for other side to continue the verification process.");
+                    return qsTr("Waiting for the other device to continue the verification process.");
                 case "WaitingForMac":
-                    return qsTr("Waiting for other side to complete the verification process.");
+                    return qsTr("Waiting for the other device to complete the verification process.");
                 default:
                     return "";
             }
         }
         color: palette.text
-        verticalAlignment: Text.AlignVCenter
     }
 
-    Item { Layout.fillHeight: true; }
     Spinner {
         Layout.alignment: Qt.AlignHCenter
         foreground: palette.mid
     }
-    Item { Layout.fillHeight: true; }
 
     RowLayout {
         Components.KomaiButton {

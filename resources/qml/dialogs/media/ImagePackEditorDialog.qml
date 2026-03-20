@@ -11,7 +11,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import cc.etke.komai 1.0
 
-ApplicationWindow {
+OverlayDialog {
     id: win
 
     property int avatarSize: Math.ceil(fontMetrics.lineSpacing * 2.3)
@@ -21,16 +21,18 @@ ApplicationWindow {
     readonly property int stickerDimPad: 128 + Komai.paddingSmall
 
     title: qsTr("Editing image pack")
-    height: 600
-    width: 600
-    color: palette.base
-    modality: Qt.WindowModal
-    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
+    titleIcon: ":/icons/icons/ui/edit.svg"
+    overlayDialogMinWidth: 600
+    overlayDialogMaxWidthRatio: 0.85
 
     AdaptiveLayout {
         id: adaptiveView
 
-        anchors.fill: parent
+        Layout.fillWidth: true
+        Layout.preferredHeight: {
+            var vh = win.overlayDialogViewport ? win.overlayDialogViewport.height : 700;
+            return Math.min(520, Math.round(vh * 0.55));
+        }
         singlePageMode: false
         pageIndex: 0
 
@@ -196,7 +198,6 @@ ApplicationWindow {
                     MatrixText {
                         Layout.margins: statekeyField.textPadding
                         font.weight: Font.DemiBold
-                        font.letterSpacing: font.pixelSize * 0.02
                         text: qsTr("Use as Emoji")
                     }
 
@@ -209,7 +210,6 @@ ApplicationWindow {
                     MatrixText {
                         Layout.margins: statekeyField.textPadding
                         font.weight: Font.DemiBold
-                        font.letterSpacing: font.pixelSize * 0.02
                         text: qsTr("Use as Sticker")
                     }
 
@@ -234,10 +234,18 @@ ApplicationWindow {
                     columns: 2
                     rowSpacing: Komai.paddingLarge
 
+                    function imgData(role) {
+                        if (currentImageIndex < 0) return undefined;
+                        return imagePack.data(imagePack.index(currentImageIndex, 0), role);
+                    }
+
                     Avatar {
                         Layout.columnSpan: 2
-                        url: imagePack.data(imagePack.index(currentImageIndex, 0), SingleImagePackModel.Url).replace("mxc://", "image://MxcImage/") + "?scale"
-                        displayName: imagePack.data(imagePack.index(currentImageIndex, 0), SingleImagePackModel.ShortCode)
+                        url: {
+                            var u = parent.imgData(SingleImagePackModel.Url);
+                            return u ? u.replace("mxc://", "image://MxcImage/") + "?scale" : "";
+                        }
+                        displayName: parent.imgData(SingleImagePackModel.ShortCode) || ""
                         roomid: displayName
                         Layout.preferredHeight: 130
                         Layout.preferredWidth: 130
@@ -251,10 +259,10 @@ ApplicationWindow {
                             label: qsTr("Shortcode")
                             property int bindingCounter: 0
                             text: {
-                                const currentCode = imagePack.data(imagePack.index(currentImageIndex, 0), SingleImagePackModel.ShortCode);
+                                const currentCode = parent.imgData(SingleImagePackModel.ShortCode);
                                 if (bindingCounter % 2 === -1)
-                                    return currentCode;
-                                return currentCode;
+                                    return currentCode || "";
+                                return currentCode || "";
                             }
                             onTextEdited: {
                                 imagePack.setData(imagePack.index(currentImageIndex, 0), text, SingleImagePackModel.ShortCode);
@@ -269,19 +277,18 @@ ApplicationWindow {
                         Layout.fillWidth: true
                         Layout.columnSpan: 2
                         label: qsTr("Body")
-                        text: imagePack.data(imagePack.index(currentImageIndex, 0), SingleImagePackModel.Body)
+                        text: parent.imgData(SingleImagePackModel.Body) || ""
                         onTextEdited: imagePack.setData(imagePack.index(currentImageIndex, 0), text, SingleImagePackModel.Body)
                     }
 
                     MatrixText {
                         Layout.margins: bodyField.textPadding
                         font.weight: Font.DemiBold
-                        font.letterSpacing: font.pixelSize * 0.02
                         text: qsTr("Use as Emoji")
                     }
 
                     ToggleButton {
-                        checked: imagePack.data(imagePack.index(currentImageIndex, 0), SingleImagePackModel.IsEmote)
+                        checked: !!parent.imgData(SingleImagePackModel.IsEmote)
                         onCheckedChanged: imagePack.setData(imagePack.index(currentImageIndex, 0), checked, SingleImagePackModel.IsEmote)
                         Layout.alignment: Qt.AlignRight
                     }
@@ -289,12 +296,11 @@ ApplicationWindow {
                     MatrixText {
                         Layout.margins: bodyField.textPadding
                         font.weight: Font.DemiBold
-                        font.letterSpacing: font.pixelSize * 0.02
                         text: qsTr("Use as Sticker")
                     }
 
                     ToggleButton {
-                        checked: imagePack.data(imagePack.index(currentImageIndex, 0), SingleImagePackModel.IsSticker)
+                        checked: !!parent.imgData(SingleImagePackModel.IsSticker)
                         onCheckedChanged: imagePack.setData(imagePack.index(currentImageIndex, 0), checked, SingleImagePackModel.IsSticker)
                         Layout.alignment: Qt.AlignRight
                     }
@@ -302,7 +308,6 @@ ApplicationWindow {
                     MatrixText {
                         Layout.margins: bodyField.textPadding
                         font.weight: Font.DemiBold
-                        font.letterSpacing: font.pixelSize * 0.02
                         text: qsTr("Remove from pack")
                     }
 
@@ -329,15 +334,27 @@ ApplicationWindow {
 
     }
 
-    footer: DialogButtonBox {
-        id: buttons
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
 
-        standardButtons: DialogButtonBox.Save | DialogButtonBox.Cancel
-        onAccepted: {
-            imagePack.save();
-            win.close();
+        KomaiButton {
+            text: qsTr("Cancel")
+            onClicked: win.close()
         }
-        onRejected: win.close()
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        KomaiButton {
+            text: qsTr("Save")
+            highlighted: true
+            onClicked: {
+                imagePack.save();
+                win.close();
+            }
+        }
     }
 
 }

@@ -27,7 +27,7 @@ Item {
     }
     Connections {
         function onNewDeviceVerificationRequest(flow) {
-            timelineRoot.showCatalogDialog(componentCatalog.verificationDeviceDialog, {
+            timelineRoot.openCatalogDialog(componentCatalog.verificationDeviceDialog, {
                     "flow": flow
                 });
         }
@@ -98,7 +98,7 @@ Item {
             timelineRoot.destroyOnClose(dialog);
         }
         function onShowImagePackSettings(room, packlist) {
-            timelineRoot.showCatalogDialog(componentCatalog.mediaImagePackSettingsDialog, {
+            timelineRoot.openCatalogDialog(componentCatalog.mediaImagePackSettingsDialog, {
                     "room": room,
                     "packlist": packlist
                 });

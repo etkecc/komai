@@ -10,26 +10,22 @@ import QtQuick.Layouts 1.10
 import cc.etke.komai
 
 ColumnLayout {
-    property string title: flow.sender ? qsTr("Send Verification Request") : qsTr("Received Verification Request")
+    property string title: flow.sender ? qsTr("Send verification request?") : qsTr("Received Verification Request")
 
     spacing: 16
 
     Label {
-        // Self verification
-
-        Layout.preferredWidth: 400
         Layout.fillWidth: true
         wrapMode: Text.Wrap
-        font.pointSize: Settings.uiFontSizePt
         text: {
             if (flow.sender) {
                 if (flow.isSelfVerification)
                     if (flow.isMultiDeviceVerification)
-                        return qsTr("Some of your logged-in devices are not verified yet. Verification helps protect encrypted chats and keeps key backup working.\n\nTo start, make sure one of your other devices is available.");
+                        return qsTr("Some of your logged-in devices are not verified yet. Verify to unlock encrypted messages.\n\nTo start, make sure one of your other devices is available.");
                     else
-                        return qsTr("This device ID is: %1\n\nThis device is not verified yet. Verification helps protect encrypted chats and keeps key backup working.\n\nStart now?").arg(flow.deviceId);
+                        return qsTr("This device (ID: %1) is not verified yet.\n\nVerify to unlock encrypted messages.").arg(flow.deviceId);
                 else
-                    return qsTr("To ensure that no malicious user can eavesdrop on your encrypted communications you can verify the other party.");
+                    return qsTr("Verify the other party to ensure your encrypted communications are secure.");
             } else {
                 if (!flow.isSelfVerification && flow.isDeviceVerification)
                     return qsTr("%1 has requested to verify their device %2.").arg(flow.userId).arg(flow.deviceId);
@@ -40,10 +36,7 @@ ColumnLayout {
             }
         }
         color: palette.text
-        verticalAlignment: Text.AlignVCenter
     }
-
-    Item { Layout.fillHeight: true; }
 
     RowLayout {
         Components.KomaiButton {
@@ -61,6 +54,7 @@ ColumnLayout {
 
         Components.KomaiButton {
             Layout.alignment: Qt.AlignRight
+            highlighted: true
             text: flow.sender ? qsTr("Start verification") : qsTr("Accept")
             onClicked: flow.next()
         }

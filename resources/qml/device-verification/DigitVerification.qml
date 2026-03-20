@@ -10,20 +10,10 @@ import QtQuick.Layouts 1.10
 import cc.etke.komai 1.0
 
 ColumnLayout {
-    property string title: qsTr("Verification Code")
+    property string title: qsTr("Do both devices show the same sequence of numbers?")
 
     spacing: 16
 
-    Label {
-        Layout.preferredWidth: 400
-        Layout.fillWidth: true
-        wrapMode: Text.Wrap
-        text: qsTr("Please verify the following digits. You should see the same numbers on both sides. If they differ, please press 'They do not match!' to abort verification!")
-        color: palette.text
-        verticalAlignment: Text.AlignVCenter
-    }
-
-    Item { Layout.fillHeight: true; }
     RowLayout {
         Layout.alignment: Qt.AlignHCenter
 
@@ -46,7 +36,6 @@ ColumnLayout {
         }
 
     }
-    Item { Layout.fillHeight: true; }
 
     RowLayout {
         Components.KomaiButton {
@@ -64,6 +53,7 @@ ColumnLayout {
 
         Components.KomaiButton {
             Layout.alignment: Qt.AlignRight
+            highlighted: true
             text: qsTr("They match!")
             onClicked: flow.next()
         }

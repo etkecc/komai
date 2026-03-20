@@ -10,7 +10,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import cc.etke.komai 1.0
 
-ApplicationWindow {
+OverlayDialog {
     id: win
 
     property Room room
@@ -22,11 +22,9 @@ ApplicationWindow {
     readonly property int stickerDimPad: 128 + Komai.paddingSmall
 
     title: qsTr("Image pack settings")
-    height: 600
-    width: 800
-    color: palette.base
-    modality: Qt.NonModal
-    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
+    titleIcon: ":/icons/icons/ui/smile.svg"
+    overlayDialogMinWidth: 700
+    overlayDialogMaxWidthRatio: 0.9
 
     Component {
         id: packEditor
@@ -43,7 +41,11 @@ ApplicationWindow {
     AdaptiveLayout {
         id: adaptiveView
 
-        anchors.fill: parent
+        Layout.fillWidth: true
+        Layout.preferredHeight: {
+            var vh = win.overlayDialogViewport ? win.overlayDialogViewport.height : 700;
+            return Math.min(520, Math.round(vh * 0.55));
+        }
         singlePageMode: false
         pageIndex: 0
 
@@ -68,7 +70,7 @@ ApplicationWindow {
                             var dialog = packEditor.createObject(timelineRoot, {
                                 "imagePack": packlist.newPack(false)
                             });
-                            dialog.show();
+                            dialog.open();
                             timelineRoot.destroyOnClose(dialog);
                         }
                         Layout.preferredWidth: packlistC.width
@@ -81,7 +83,7 @@ ApplicationWindow {
                             var dialog = packEditor.createObject(timelineRoot, {
                                 "imagePack": packlist.newPack(true)
                             });
-                            dialog.show();
+                            dialog.open();
                             timelineRoot.destroyOnClose(dialog);
                         }
                         Layout.preferredWidth: packlistC.width
@@ -215,7 +217,7 @@ ApplicationWindow {
                                 var dialog = packEditor.createObject(timelineRoot, {
                                     "imagePack": currentPack
                                 });
-                                dialog.show();
+                                dialog.open();
                                 timelineRoot.destroyOnClose(dialog);
                             }
                         }
@@ -281,17 +283,6 @@ ApplicationWindow {
 
             }
 
-        }
-
-    }
-
-    footer: DialogButtonBox {
-        id: buttons
-
-        KomaiButton {
-            text: qsTr("Close")
-            DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
-            onClicked: win.close()
         }
 
     }

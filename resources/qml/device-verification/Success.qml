@@ -9,22 +9,16 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.10
 
 ColumnLayout {
-    property string title: qsTr("Successful Verification")
+    property string title: qsTr("Verification Complete")
 
     spacing: 16
 
     Label {
-        id: content
-
-        Layout.preferredWidth: 400
         Layout.fillWidth: true
         wrapMode: Text.Wrap
-        text: qsTr("Verification successful! Both sides verified their devices!")
+        text: qsTr("Verification complete. Both devices have been verified.")
         color: palette.text
-        verticalAlignment: Text.AlignVCenter
     }
-
-    Item { Layout.fillHeight: true; }
 
     RowLayout {
         Item {

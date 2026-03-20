@@ -3,40 +3,30 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components" as Components
 import QtQuick 2.10
 import QtQuick.Controls 2.3
-import QtQuick.Window 2.13
+import QtQuick.Layouts 1.12
 import cc.etke.komai 1.0
 
-ApplicationWindow {
+Components.OverlayDialog {
     id: dialog
 
     property var flow
 
-    onClosing: VerificationManager.removeVerificationFlow(flow)
-    title: stack.currentItem ? (stack.currentItem.title_ || "") : ""
-    modality: Qt.NonModal
-    color: palette.window
-    //height: stack.currentItem.implicitHeight
-    minimumHeight: stack.currentItem.implicitHeight + 2 * Komai.paddingLarge
-    height: stack.currentItem.implicitHeight + 2 * Komai.paddingMedium
-    minimumWidth: 400
-    width: 400
-    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
-
-    background: Rectangle {
-        color: palette.window
-    }
-
+    onClosed: VerificationManager.removeVerificationFlow(flow)
+    title: stack.currentItem ? (stack.currentItem.title || "") : ""
+    titleIcon: ":/icons/icons/ui/shield-regular-checkmark.svg"
+    overlayDialogMinWidth: 640
 
     StackView {
         id: stack
 
-        anchors.centerIn: parent
+        Layout.fillWidth: true
+        implicitHeight: currentItem ? currentItem.implicitHeight : 0
+        clip: true
 
         initialItem: newVerificationRequest
-        implicitWidth: dialog.width - 2* Komai.paddingMedium
-        implicitHeight: dialog.height - 2* Komai.paddingMedium
     }
 
     Component {
@@ -89,6 +79,7 @@ ApplicationWindow {
 
     Item {
         state: flow.state
+        visible: false
         states: [
             State {
                 name: "PromptStartVerification"

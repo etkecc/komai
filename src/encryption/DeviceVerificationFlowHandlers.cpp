@@ -32,8 +32,8 @@ DeviceVerificationFlow::handleVerificationAccept(const mtx::events::msg::KeyVeri
     if (state_ == Failed || state_ == Success)
         return;
 
-    nhlog::crypto()->info("verification: received accept with mac methods {}",
-                          fmt::join(msg.message_authentication_code, ", "));
+    nhlog::crypto()->info("verification: received accept with mac method {}",
+                          msg.message_authentication_code);
     if (msg.transaction_id.has_value()) {
         if (msg.transaction_id.value() != this->transaction_id)
             return;

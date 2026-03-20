@@ -46,15 +46,7 @@ Pane {
             console.error("Failed to create dialog object for: " + componentUrl);
         return dialog;
     }
-    function showCatalogDialog(componentUrl, properties) {
-        var dialog = createDialog(componentUrl, properties);
-        if (!dialog)
-            return null;
-        dialog.show();
-        destroyOnClose(dialog);
-        return dialog;
-    }
-    function openCatalogDialog(componentUrl, properties) {
+function openCatalogDialog(componentUrl, properties) {
         var dialog = createDialog(componentUrl, properties);
         if (!dialog)
             return null;

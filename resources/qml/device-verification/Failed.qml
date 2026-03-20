@@ -5,23 +5,21 @@
 
 import "../components" as Components
 import QtQuick 2.3
+import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.10
 import cc.etke.komai 1.0
 
 ColumnLayout {
-    property string title: qsTr("Verification failed")
+    property string title: qsTr("Verification Failed")
     spacing: 16
 
-    Text {
-        id: content
-
-        Layout.preferredWidth: 400
+    Label {
         Layout.fillWidth: true
         wrapMode: Text.Wrap
         text: {
             switch (flow.error) {
                 case DeviceVerificationFlow.UnknownMethod:
-                return qsTr("Other client does not support our verification protocol.");
+                return qsTr("The other client does not support this verification method.");
                 case DeviceVerificationFlow.MismatchedCommitment:
                 case DeviceVerificationFlow.MismatchedSAS:
                 case DeviceVerificationFlow.KeyMismatch:
@@ -29,7 +27,7 @@ ColumnLayout {
                 case DeviceVerificationFlow.Timeout:
                 return qsTr("Device verification timed out.");
                 case DeviceVerificationFlow.User:
-                return qsTr("Other party canceled the verification.");
+                return qsTr("The other party canceled the verification.");
                 case DeviceVerificationFlow.AcceptedOnOtherDevice:
                 return qsTr("The verification was accepted by a different device.");
                 case DeviceVerificationFlow.OutOfOrder:
@@ -39,10 +37,7 @@ ColumnLayout {
             }
         }
         color: palette.text
-        verticalAlignment: Text.AlignVCenter
     }
-
-    Item { Layout.fillHeight: true; }
 
     RowLayout {
         Item {

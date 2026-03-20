@@ -39,6 +39,7 @@
 #include "cli/CliDispatch.h"
 #include "config/komai.h"
 #include "matrix/MatrixClient.h"
+#include "profile/KeyringEnvironment.h"
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
 #include "profile/ProfileManager.h"
@@ -261,11 +262,16 @@ app::runMainApplication(int argc, char *argv[])
 
     const QString singleInstanceProfileKey =
       showStartupProfileSelector
-        ? QStringLiteral("__profile-manager__")
-        : (profileName == QLatin1String("default") ? QLatin1String("") : profileName);
+        ? QStringLiteral("profile-manager")
+        : (profileName == QLatin1String("default") ? QStringLiteral("default") : profileName);
+    // Keep single-instance isolation aligned with the storage environment tag so native and
+    // Flatpak builds can run side by side while preserving per-profile uniqueness.
+    const QString singleInstanceName = QStringLiteral("%1.instance.%2.%3")
+                                         .arg(QString::fromLatin1(komai::desktop_id),
+                                              keyring_environment::tag(),
+                                              singleInstanceProfileKey);
 
-    KDSingleApplication singleapp(
-      QStringLiteral("im.komai.komai-%1").arg(singleInstanceProfileKey));
+    KDSingleApplication singleapp(singleInstanceName);
 
     // This check needs to happen _after_ process(), so that we actually print help for --help when
     // Komai is already running.

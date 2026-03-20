@@ -181,7 +181,7 @@ modules:
       # Pre-fetched CPM dependency sources (no network in sandbox)
       - dest: .deps/corrosion
         disable-lfs: true
-        tag: v0.5.2
+        tag: v0.6.1
         type: git
         url: https://github.com/corrosion-rs/corrosion.git
       - dest: .deps/coeurl

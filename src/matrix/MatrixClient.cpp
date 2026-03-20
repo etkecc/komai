@@ -25,10 +25,17 @@ client()
     static auto client_ = [] {
         auto c = std::make_shared<mtx::http::Client>();
 
-        // Disabled by default until CPU usage and reliability improves
+        // HTTP/3 (QUIC) is disabled by default. QUIC runs its transport and per-packet
+        // encryption in userspace rather than the kernel, which increases CPU usage and
+        // power consumption. Its main benefits (faster connection establishment, connection
+        // migration across networks) don't help much here: libcurl already keeps a
+        // persistent HTTP/2 connection that multiplexes sync polling and media fetches,
+        // and desktop/laptop network switches are infrequent enough that a clean reconnect
+        // is fine.
         if (UserSettings::instance()->networkHttp3Enabled()) {
-            nhlog::net()->warn("Enabling http3 support. This is currently usually a worse "
-                               "experience, so you are on your own.");
+            nhlog::net()->warn("Enabling experimental HTTP/3 (QUIC) support. This generally "
+                               "increases CPU and power usage with little benefit for a "
+                               "Matrix client. You are on your own.");
             c->alt_svc_cache_path(
               app_paths::cache::altSvcCacheFile(UserSettings::instance()->profile()).toStdString());
         }

@@ -2,7 +2,7 @@
 <!-- Copyright 2020-2022 mujx, Komai developers -->
 <component type="desktop">
   <id>cc.etke.komai</id>
-  <launchable type="desktop-id">@APPID@.desktop</launchable>
+  <launchable type="desktop-id">@KOMAI_DESKTOP_ID@.desktop</launchable>
   <replaces>
     <id>cc.etke.komai</id>
   </replaces>

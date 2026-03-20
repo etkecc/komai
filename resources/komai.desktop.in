@@ -2,11 +2,11 @@
 Name=Komai
 Version=1.0
 Comment=Desktop client for Matrix
-Exec=@APPID@ %u
-Icon=@APPID@
+Exec=@KOMAI_EXECUTABLE_NAME@ %u
+Icon=@KOMAI_DESKTOP_ICON_NAME@
 Type=Application
 Categories=Network;InstantMessaging;Qt;
-StartupWMClass=@APPID@
+StartupWMClass=@KOMAI_STARTUP_WM_CLASS@
 Terminal=false
 MimeType=x-scheme-handler/matrix;
 X-GNOME-UsesNotifications=true

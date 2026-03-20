@@ -27,6 +27,8 @@ generateMasterStylesheet(const QPalette &palette,
              "  padding: 0;"
              "}"
              "body {"
+             "  display: inline-block;"
+             "  max-width: 100%;"
              "  font-family: '%1';"
              "  font-size: %2pt;"
              "  color: %3;"

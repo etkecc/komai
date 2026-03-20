@@ -66,6 +66,14 @@ The user CSS has higher priority than the master CSS in litehtml's cascade.
 5. `EventDelegateChooser` reads `implicitWidth` and constrains the final width.
 6. On subsequent width changes, `geometryChange()` triggers re-layout.
 
+### Body `inline-block` and Bubble Shrink-to-fit
+
+The user CSS sets `body { display: inline-block; max-width: 100%; }`. This is required for correct bubble width measurement.
+
+litehtml's `document::content_width()` walks all rendered elements via `calc_document_size()` and returns `max(x + right())` for non-root, non-body elements. For block-level elements (`<p>`, `<pre>`, `<blockquote>`, headings, etc.), `right()` equals the full container width — blocks expand to fill their parent in standard CSS. Many Matrix clients emit `<p>` tags in `formatted_body` even for single-line messages, so without this fix `content_width()` would equal the render width for most messages, making `EventDelegateChooser`'s two-pass layout a no-op and causing bubbles to always fill to maximum width.
+
+With `display: inline-block`, `<body>` shrink-wraps to its max-content width (the widest text line or inline element). Its block children then render at that narrower width, and `content_width()` reports the true intrinsic width. `max-width: 100%` ensures content that is genuinely wider than the constraint still caps correctly.
+
 ### Link Hover Detection
 
 litehtml's `set_cursor("pointer")` callback indicates the cursor is over a link but does not provide the URL. To obtain the URL during hover:

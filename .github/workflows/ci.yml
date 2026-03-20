@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build-and-lint:
-    runs-on: self-hosted
+    runs-on: [self-hosted, k150]
     container:
       image: docker.io/archlinux:base-devel
 

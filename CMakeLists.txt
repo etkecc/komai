@@ -439,6 +439,8 @@ set(SRC_FILES
     src/ui/KomaiDropArea.h
     src/ui/KomaiGlobalObject.cpp
     src/ui/KomaiGlobalObject.h
+    src/ui/LayoutAgnosticKeys.cpp
+    src/ui/LayoutAgnosticKeys.h
     src/ui/KomaiMenuVisibilityFilter.h
     src/ui/KomaiMenuVisibilityFilter.cpp
     src/ui/RoomSettings.cpp

@@ -45,6 +45,15 @@ Rectangle {
         return true;
     }
 
+    function eventMatchesLatinKey(event, latinKey) {
+        if (!event)
+            return false;
+
+        return LayoutAgnosticKeys.matchesLatinKey(latinKey,
+                                                  event.key,
+                                                  event.nativeScanCode);
+    }
+
     Layout.fillWidth: true
     implicitHeight: Math.max(minimumBarHeight, row.implicitHeight)
     Layout.minimumHeight: minimumBarHeight
@@ -178,7 +187,7 @@ Rectangle {
                             popup.close();
                         if (popup.opened && completer.count <= 0)
                             popup.close();
-                    } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_U) {
+                    } else if (event.modifiers == Qt.ControlModifier && inputBar.eventMatchesLatinKey(event, "u")) {
                         inputBar.walkModeOlderChunkRequested();
                         event.accepted = true;
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_P) {

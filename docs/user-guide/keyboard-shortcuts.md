@@ -1,16 +1,14 @@
 # ⌨️ Keyboard Shortcuts
 
-Komai has a mix of app-wide shortcuts and context-specific shortcuts that only work when a
-particular view, dialog, or popup is open.
+This page lists the keyboard shortcuts currently documented in Komai.
 
-The examples below use Linux and Windows notation. On macOS, Qt platform-standard shortcuts
-usually use `Command` instead of `Ctrl`.
+The examples below use Linux and Windows notation. On macOS, platform-standard shortcuts usually
+use `Command` instead of `Ctrl`.
 
 
 ## 🌍 App-Wide Shortcuts
 
-These shortcuts work across the main application window unless a more specific control handles
-them first.
+These shortcuts work across the main window unless a more specific control handles them first.
 
 | Shortcut | Action |
 | --- | --- |
@@ -29,7 +27,7 @@ them first.
 
 ## 💬 Timeline and Room View
 
-These shortcuts apply while you are looking at a room timeline.
+These shortcuts apply while you are viewing a room timeline.
 
 | Shortcut | Action |
 | --- | --- |
@@ -37,23 +35,26 @@ These shortcuts apply while you are looking at a room timeline.
 | `Ctrl+W` | Close the current room view |
 | `Page Up` | Scroll the timeline up by about one page |
 | `Page Down` | Scroll the timeline down by about one page |
-| `Alt+Up` | Enter walk mode at the bottom-most visible message |
-| `Escape` | In composer mode, cancel inline uploads/reply/edit/thread state first; if none of those are active, enter walk mode at the bottom-most visible message. In walk mode, `Escape` closes inline actions first, then clears explicit selection, then exits back to the composer |
-| Any typed character | Focus the composer and start typing immediately, except while walk mode is active |
+| `Alt+Up` | Enter Selection mode at the bottom-most visible message |
+| `Escape` | In the composer, cancel uploads/reply/edit/thread first; otherwise enter Selection mode. In Selection mode, close inline actions first, then clear selection, then return to the composer |
+| Any typed character | Focus the composer and start typing, except while Selection mode is active |
 
-### Walk Mode
+### Selection Mode
 
-Walk mode is a view-local keyboard cursor for the timeline. It keeps a focused message and can also
-keep an explicit multi-selection. Focus and selection are separate: the focused message is the solid
-keyboard cursor, while selected messages keep their own selection styling. Walk mode also supports
-several [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-like navigation keys such as `j`/`k`,
-`Ctrl+U`, `Ctrl+D`, `gg`, and `Shift+G`.
+Selection mode lets you move through the timeline with the keyboard. One message is focused, and
+you can also select more than one message. Focused and selected messages are shown differently.
+
+Selection mode also supports several [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-like
+keys such as `j`/`k`, `Ctrl+U`, `Ctrl+D`, `gg`, and `Shift+G`.
+
+On platforms that provide stable native scan codes, Komai also tries to keep those Latin-letter
+bindings on the same physical keys when you use a non-Latin keyboard layout.
 
 | Shortcut | Action |
 | --- | --- |
 | `Up` / `k` | Move focus toward older messages |
 | `Down` / `j` | Move focus toward newer messages |
-| `Ctrl+U` | Move focus about half a screen toward older messages; from the composer, enter walk mode and do the same jump |
+| `Ctrl+U` | Move focus about half a screen toward older messages; from the composer, enter Selection mode and do the same jump |
 | `Ctrl+D` | Move focus about half a screen toward newer messages |
 | `gg` | Move focus to the oldest currently loaded message |
 | `Shift+G` | Move focus to the latest message in the current view |
@@ -67,26 +68,25 @@ several [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-like navigation k
 | `d` | Delete message |
 | `u` | View the selected or focused message as raw JSON |
 | `o` | Open the full **Message actions** dialog for the selected or focused message |
-| `i` | Exit walk mode and return to the composer |
+| `i` | Exit Selection mode and return to the composer |
 
-Action target rules:
+Which message does an action use?
 
-- If exactly one message is explicitly selected, actions target that selected message.
-- If nothing is explicitly selected, actions target the focused message.
-- If more than one message is selected, direct message actions do nothing in this pass; use `Escape`
-  to clear selection or the bottom walk bar's **Clear** button.
+- If one message is selected, actions use that message.
+- If nothing is selected, actions use the focused message.
+- If more than one message is selected, direct message actions do nothing yet. Use `Escape` or the bottom bar's **Clear** button first.
 
 ### Inline Message Actions Bar
 
-When the inline actions bar is opened from the keyboard:
-If the selected or focused message is off-screen, Komai scrolls it into view before opening the bar.
+When you open the inline actions bar from the keyboard, Komai scrolls the selected or focused
+message into view first if needed.
 
 | Shortcut | Action |
 | --- | --- |
 | `Left` | Move focus to the previous visible inline action |
 | `Right` | Move focus to the next visible inline action |
 | `Enter` | Activate the focused inline action |
-| `Escape` | Close the inline actions bar and return to walk mode |
+| `Escape` | Close the inline actions bar and return to Selection mode |
 
 
 ## ✍️ Composer
@@ -96,7 +96,7 @@ These shortcuts apply in the message composer.
 | Shortcut | Action |
 | --- | --- |
 | `Ctrl+Shift+V` | Paste as plain text |
-| `Ctrl+U` | Enter walk mode and move about half a screen toward older messages |
+| `Ctrl+U` | Enter Selection mode and move about half a screen toward older messages |
 | `Ctrl+P` | Load the previous composer draft/history entry |
 | `Ctrl+N` | Load the next composer draft/history entry |
 | `Tab` | Open the inline completer, or move within completer results |
@@ -106,9 +106,9 @@ These shortcuts apply in the message composer.
 | `Escape` | Close the inline completer popup |
 | `Enter` / `Shift+Enter` / `Ctrl+Enter` | Send or insert a newline depending on your configured send-key setting |
 
-Typing note: when the room timeline has focus, typing a character usually moves focus into the
-composer automatically. On some platforms or keyboard layouts, certain `Ctrl+letter` combinations
-may also trigger that focus behavior even though they are not dedicated composer shortcuts.
+Typing note: when the timeline has focus, typing usually moves focus into the composer. On some
+platforms or keyboard layouts, some `Ctrl+letter` combinations may also do that even though they
+are not dedicated composer shortcuts.
 
 
 ## 🔎 Find and Switch Room
@@ -155,8 +155,8 @@ In the **Forward Message** dialog:
 
 ## 🧾 Message Actions Dialog
 
-In the **Message actions** dialog, the available shortcuts depend on the selected event type and
-your permissions.
+In the **Message actions** dialog, available shortcuts depend on the message type and your
+permissions.
 
 | Shortcut | Action |
 | --- | --- |
@@ -206,7 +206,7 @@ In **Invite users to room**:
 
 ## 📝 Notes
 
-- Some shortcuts are only active when the relevant popup, dialog, or media overlay is visible.
+- Some shortcuts only work when the relevant popup, dialog, or media overlay is open.
 - Some entries use Qt's platform-standard shortcuts, so the exact modifier may differ on macOS.
 - This page documents the shortcuts currently implemented in Komai. If a shortcut is missing here,
   it may be unimplemented, platform-specific, or an incidental side effect rather than a deliberate

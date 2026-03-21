@@ -766,13 +766,22 @@ Item {
             && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
     }
 
+    function eventMatchesWalkModeLatinKey(event, latinKey) {
+        if (!event)
+            return false;
+
+        return LayoutAgnosticKeys.matchesLatinKey(latinKey,
+                                                  event.key,
+                                                  event.nativeScanCode);
+    }
+
     function isWalkModeEnterKey(event) {
         return event.key === Qt.Key_Return || event.key === Qt.Key_Enter;
     }
 
     function isWalkModeOptionsKey(event) {
         return (event.key === Qt.Key_Menu && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_O && eventUsesWalkModeModifiers(event));
+            || (eventMatchesWalkModeLatinKey(event, "o") && eventUsesWalkModeModifiers(event));
     }
 
     function isWalkModeHelpKey(event) {
@@ -790,19 +799,19 @@ Item {
             || (event.key === Qt.Key_Right && eventUsesWalkModeModifiers(event))
             || (event.key === Qt.Key_Up && eventUsesWalkModeModifiers(event))
             || (event.key === Qt.Key_Down && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_J && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_K && eventUsesWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "j") && eventUsesWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "k") && eventUsesWalkModeModifiers(event))
             || (event.key === Qt.Key_Space && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_R && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_T && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_E && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_F && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_D && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_U && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_I && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_D && eventUsesCtrlWalkModeModifiers(event))
-            || (event.key === Qt.Key_U && eventUsesCtrlWalkModeModifiers(event))
-            || (event.key === Qt.Key_G && eventUsesWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "r") && eventUsesWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "t") && eventUsesWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "e") && eventUsesWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "f") && eventUsesWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "d") && eventUsesWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "u") && eventUsesWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "i") && eventUsesWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "d") && eventUsesCtrlWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "u") && eventUsesCtrlWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, "g") && eventUsesWalkModeModifiers(event))
             || isWalkModeHelpKey(event)
             || isWalkModeEnterKey(event)
             || isWalkModeOptionsKey(event);
@@ -856,19 +865,22 @@ Item {
         if (!walkModeActive)
             return false;
 
-        const plainGPressed = event.key === Qt.Key_G && eventUsesNoWalkModeModifiers(event);
-        const shiftGPressed = event.key === Qt.Key_G && eventUsesShiftOnlyWalkModeModifiers(event);
+        const gKeyPressed = eventMatchesWalkModeLatinKey(event, "g");
+        const plainGPressed = gKeyPressed && eventUsesNoWalkModeModifiers(event);
+        const shiftGPressed = gKeyPressed && eventUsesShiftOnlyWalkModeModifiers(event);
 
         if (!plainGPressed)
             resetWalkModeGoToTopSequence();
 
-        if ((event.key === Qt.Key_Up || event.key === Qt.Key_K) && eventUsesWalkModeModifiers(event)) {
+        if ((event.key === Qt.Key_Up || eventMatchesWalkModeLatinKey(event, "k"))
+                && eventUsesWalkModeModifiers(event)) {
             moveFocusTowardOlderEvents();
             event.accepted = true;
             return true;
         }
 
-        if ((event.key === Qt.Key_Down || event.key === Qt.Key_J) && eventUsesWalkModeModifiers(event)) {
+        if ((event.key === Qt.Key_Down || eventMatchesWalkModeLatinKey(event, "j"))
+                && eventUsesWalkModeModifiers(event)) {
             moveFocusTowardNewerEvents();
             event.accepted = true;
             return true;
@@ -880,13 +892,13 @@ Item {
             return true;
         }
 
-        if (event.key === Qt.Key_U && eventUsesCtrlWalkModeModifiers(event)) {
+        if (eventMatchesWalkModeLatinKey(event, "u") && eventUsesCtrlWalkModeModifiers(event)) {
             moveFocusTowardOlderEventsByChunk();
             event.accepted = true;
             return true;
         }
 
-        if (event.key === Qt.Key_D && eventUsesCtrlWalkModeModifiers(event)) {
+        if (eventMatchesWalkModeLatinKey(event, "d") && eventUsesCtrlWalkModeModifiers(event)) {
             moveFocusTowardNewerEventsByChunk();
             event.accepted = true;
             return true;
@@ -928,43 +940,43 @@ Item {
             return true;
         }
 
-        if (event.key === Qt.Key_R && eventUsesWalkModeModifiers(event)) {
+        if (eventMatchesWalkModeLatinKey(event, "r") && eventUsesWalkModeModifiers(event)) {
             performWalkModeAction("reply");
             event.accepted = true;
             return true;
         }
 
-        if (event.key === Qt.Key_T && eventUsesWalkModeModifiers(event)) {
+        if (eventMatchesWalkModeLatinKey(event, "t") && eventUsesWalkModeModifiers(event)) {
             performWalkModeAction("thread");
             event.accepted = true;
             return true;
         }
 
-        if (event.key === Qt.Key_E && eventUsesWalkModeModifiers(event)) {
+        if (eventMatchesWalkModeLatinKey(event, "e") && eventUsesWalkModeModifiers(event)) {
             performWalkModeAction("edit");
             event.accepted = true;
             return true;
         }
 
-        if (event.key === Qt.Key_F && eventUsesWalkModeModifiers(event)) {
+        if (eventMatchesWalkModeLatinKey(event, "f") && eventUsesWalkModeModifiers(event)) {
             performWalkModeAction("forward");
             event.accepted = true;
             return true;
         }
 
-        if (event.key === Qt.Key_D && eventUsesWalkModeModifiers(event)) {
+        if (eventMatchesWalkModeLatinKey(event, "d") && eventUsesWalkModeModifiers(event)) {
             performWalkModeAction("remove");
             event.accepted = true;
             return true;
         }
 
-        if (event.key === Qt.Key_U && eventUsesWalkModeModifiers(event)) {
+        if (eventMatchesWalkModeLatinKey(event, "u") && eventUsesWalkModeModifiers(event)) {
             performWalkModeAction("raw");
             event.accepted = true;
             return true;
         }
 
-        if (event.key === Qt.Key_I && eventUsesWalkModeModifiers(event)) {
+        if (eventMatchesWalkModeLatinKey(event, "i") && eventUsesWalkModeModifiers(event)) {
             exitWalkMode({
                 "focusComposer": true
             });

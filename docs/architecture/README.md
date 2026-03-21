@@ -14,6 +14,7 @@ Technical documentation for Komai internals.
 - 🗃️ [Cache Architecture](cache/README.md) -- Matrix cache domain built on storage APIs
 - 🧾 [Cache Storage Invariants](cache/storage-invariants.md) -- cache reset rules, room cleanup, read-receipt semantics, and derived-edge invariants
 - 🧩 [QML/UI Structure](qml-ui.md) -- QML layering, placement rules, and loader decoupling
+- ⌨️ [Keyboard Shortcuts Architecture](keyboard-shortcuts.md) -- shortcut layers, Selection mode key flow, and layout-agnostic Latin-key handling
 - 🧵 [Timeline HTML Rendering](timeline-html-rendering.md) -- formatted message pipeline, sanitization, and code highlighting
 - 🎨 [Themes Architecture](themes.md) -- theme sources, generation, and runtime mapping
 - 🎯 [Theme Design Guide](theme-design-guide.md) -- palette role semantics, contrast targets, and authoring guardrails

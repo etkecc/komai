@@ -136,9 +136,11 @@ Selection mode distinguishes the focused message from the explicit selection.
 
 Current targeting rule:
 
-- one selected message wins
+- `forward` and `remove` operate on all selected messages that support that action, ordered from
+  oldest to newest
+- otherwise one selected message wins
 - otherwise the focused message is used
-- multiple selected messages are allowed, but direct message actions no-op in the current pass
+- with more than one selected message, the other direct actions remain unavailable
 
 That targeting logic is kept near `MessageView` so keyboard shortcuts, the bottom Selection mode
 bar, and inline actions use the same event target.

@@ -15,6 +15,8 @@ Popup {
     id: forwardMessagePopup
 
     property string mid: ""
+    property var messageEventIds: []
+    property int selectionCount: 0
     property var roomSource: null
     readonly property var activeRoom: roomSource
     property var timelineSource: null
@@ -28,22 +30,83 @@ Popup {
     property string pendingRoomName: ""
     property string pendingRoomAvatarUrl: ""
     property bool confirming: false
+    readonly property int messageCount: messageEventIds.length
+    readonly property int effectiveSelectionCount: Math.max(selectionCount, messageCount)
     readonly property bool darkPopupChrome: palette.window.hslLightness < 0.5
     readonly property color popupOutlineColor: Qt.tint(
         palette.mid,
         Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, darkPopupChrome ? 0.22 : 0.32))
 
+    function normalizedMessageEventIds(eventIdsIn) {
+        const sourceIds = eventIdsIn || [];
+        const normalizedIds = [];
+        const seenIds = ({});
+
+        for (let index = 0; index < sourceIds.length; index++) {
+            const eventId = String(sourceIds[index] || "");
+            if (!eventId || seenIds[eventId])
+                continue;
+
+            seenIds[eventId] = true;
+            normalizedIds.push(eventId);
+        }
+
+        return normalizedIds;
+    }
+
     function setMessageEventId(mid_in) {
-        mid = mid_in;
+        setMessageEventIds([mid_in], 1);
+    }
+    function setMessageEventIds(eventIdsIn, selectionCountIn) {
+        messageEventIds = normalizedMessageEventIds(eventIdsIn);
+        selectionCount = Math.max(Number(selectionCountIn || 0), messageEventIds.length);
+        mid = messageEventIds.length > 0 ? String(messageEventIds[0] || "") : "";
     }
     function cancelConfirmation() {
         confirming = false;
         roomTextInput.forceActiveFocus();
     }
     function confirmForward() {
-        if (activeRoom)
-            activeRoom.forwardMessage(forwardMessagePopup.mid, forwardMessagePopup.pendingRoomId);
+        if (activeRoom) {
+            for (let index = 0; index < forwardMessagePopup.messageEventIds.length; index++)
+                activeRoom.forwardMessage(String(forwardMessagePopup.messageEventIds[index] || ""),
+                                          forwardMessagePopup.pendingRoomId);
+        }
         forwardMessagePopup.close();
+    }
+
+    function titleText() {
+        if (messageCount === 1 && effectiveSelectionCount <= 1)
+            return qsTr("Forward message?");
+        if (effectiveSelectionCount > messageCount)
+            return qsTr("Forward %1 of %2 messages?").arg(messageCount).arg(effectiveSelectionCount);
+
+        return qsTr("Forward %n messages?", "", messageCount);
+    }
+
+    function hintText() {
+        if (messageCount <= 1)
+            return qsTr("Forwarding sends this content (without revealing its sender) to another room.");
+        if (effectiveSelectionCount > messageCount) {
+            if (messageCount === 1)
+                return qsTr("Only 1 of %1 selected messages can be forwarded. Unsupported messages will be skipped.").arg(effectiveSelectionCount);
+            return qsTr("Only %1 of %2 selected messages can be forwarded. Unsupported messages will be skipped.").arg(messageCount).arg(effectiveSelectionCount);
+        }
+
+        return qsTr("Forwarding sends these messages (without revealing their sender) to another room.");
+    }
+
+    function confirmationText(roomName) {
+        const resolvedRoomName = roomName || pendingRoomId;
+        if (messageCount === 1 && effectiveSelectionCount <= 1)
+            return qsTr("Forward to <b>%1</b>?").arg(resolvedRoomName);
+        if (effectiveSelectionCount > messageCount) {
+            if (messageCount === 1)
+                return qsTr("Forward 1 of %1 selected messages to <b>%2</b>?").arg(effectiveSelectionCount).arg(resolvedRoomName);
+            return qsTr("Forward %1 of %2 selected messages to <b>%3</b>?").arg(messageCount).arg(effectiveSelectionCount).arg(resolvedRoomName);
+        }
+
+        return qsTr("Forward %n selected messages to <b>%1</b>?", "", messageCount).arg(resolvedRoomName);
     }
 
     padding: Komai.paddingMedium
@@ -122,7 +185,7 @@ Popup {
                 color: palette.text
                 font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
                 font.bold: true
-                text: qsTr("Forward Message")
+                text: forwardMessagePopup.titleText()
             }
 
             Item {
@@ -150,7 +213,7 @@ Popup {
 
             color: palette.buttonText
             font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.4)
-            text: qsTr("Forwarding sends this content (without revealing its sender) to another room.")
+            text: forwardMessagePopup.hintText()
             leftPadding: Komai.paddingSmall
             topPadding: Komai.paddingMedium
             bottomPadding: Komai.paddingMedium
@@ -161,7 +224,7 @@ Popup {
         Loader {
             id: replyPreviewLoader
 
-            active: forwardMessagePopup.showReplyPreview
+            active: forwardMessagePopup.showReplyPreview && forwardMessagePopup.messageCount === 1
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
             sourceComponent: replyPreviewComponent
         }
@@ -288,7 +351,7 @@ Popup {
                 anchors.verticalCenter: parent.verticalCenter
                 color: palette.text
                 font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.5)
-                text: qsTr("Forward to <b>%1</b>?").arg(forwardMessagePopup.pendingRoomName)
+                text: forwardMessagePopup.confirmationText(forwardMessagePopup.pendingRoomName)
                 textFormat: Text.StyledText
                 width: confirmRow.width - confirmAvatar.width - confirmRow.spacing
                 wrapMode: Text.Wrap

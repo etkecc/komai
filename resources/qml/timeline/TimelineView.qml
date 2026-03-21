@@ -227,7 +227,6 @@ Item {
                     Layout.maximumHeight: visible ? timelineView.composerBaselineHeight : 0
                     minimumHeight: timelineView.composerBaselineHeight
                     chatRoot: messageView
-                    roomModel: timelineView.room
                     visible: messageView.walkModeActive
                 }
             }

@@ -182,6 +182,27 @@ Item {
         return true;
     }
 
+    function removeSelectedEventIds(eventIds) {
+        const removalIds = normalizedEventIds(eventIds || []);
+        if (removalIds.length === 0 || selectedEventIds.length === 0)
+            return false;
+
+        const removalSet = ({});
+        for (let index = 0; index < removalIds.length; index++)
+            removalSet[removalIds[index]] = true;
+
+        const nextSelectedEventIds = selectedEventIds.filter(function (eventId) {
+            return !removalSet[String(eventId || "")];
+        });
+
+        if (sameEventIdList(selectedEventIds, nextSelectedEventIds))
+            return false;
+
+        selectedEventIds = nextSelectedEventIds;
+        updateSelectionAnchor(selectionAnchorEventId);
+        return true;
+    }
+
     function clearFocusedEvent() {
         focusedEventId = "";
     }
@@ -241,6 +262,31 @@ Item {
 
     function canExplicitlySelectEventId(eventId) {
         return messageInfoForEventId(eventId) !== null;
+    }
+
+    function orderedExistingEventIds(eventIds) {
+        const orderedEntries = [];
+        const normalizedIds = normalizedEventIds(eventIds || []);
+
+        for (let index = 0; index < normalizedIds.length; index++) {
+            const eventId = String(normalizedIds[index] || "");
+            const displayedIndex = displayedIndexForEventId(eventId);
+            if (displayedIndex < 0 || displayedEventHiddenAt(displayedIndex))
+                continue;
+
+            orderedEntries.push({
+                    "eventId": eventId,
+                    "displayedIndex": displayedIndex
+                });
+        }
+
+        orderedEntries.sort(function (left, right) {
+            return right.displayedIndex - left.displayedIndex;
+        });
+
+        return orderedEntries.map(function (entry) {
+            return entry.eventId;
+        });
     }
 
     function updateSelectionAnchor(preferredEventId) {
@@ -455,11 +501,86 @@ Item {
         };
     }
 
+    function selectedMessageInfosInActionOrder() {
+        const orderedIds = orderedExistingEventIds(selectedEventIds);
+        const messages = [];
+
+        for (let index = 0; index < orderedIds.length; index++) {
+            const message = messageInfoForEventId(orderedIds[index]);
+            if (message)
+                messages.push(message);
+        }
+
+        return messages;
+    }
+
     function primaryActionMessageInfo() {
         if (!primaryActionEventId)
             return null;
 
         return messageInfoForEventId(primaryActionEventId);
+    }
+
+    function walkModeActionMessages(actionName) {
+        const messages = [];
+
+        if (selectedCount > 1) {
+            if (actionName !== "forward" && actionName !== "remove")
+                return messages;
+
+            const selectedMessages = selectedMessageInfosInActionOrder();
+            for (let index = 0; index < selectedMessages.length; index++) {
+                const selectedMessage = selectedMessages[index];
+                if (actionName === "forward" && messageActionSupport.canForward(selectedMessage))
+                    messages.push(selectedMessage);
+                else if (actionName === "remove" && messageActionSupport.canRemove(selectedMessage, room))
+                    messages.push(selectedMessage);
+            }
+
+            return messages;
+        }
+
+        const message = primaryActionMessageInfo();
+        if (!message)
+            return messages;
+
+        switch (actionName) {
+        case "reply":
+            if (messageActionSupport.canReply(message, room))
+                messages.push(message);
+            break;
+        case "thread":
+            if (messageActionSupport.canThread(message, room))
+                messages.push(message);
+            break;
+        case "edit":
+            if (messageActionSupport.canEdit(message, room))
+                messages.push(message);
+            break;
+        case "forward":
+            if (messageActionSupport.canForward(message))
+                messages.push(message);
+            break;
+        case "remove":
+            if (messageActionSupport.canRemove(message, room))
+                messages.push(message);
+            break;
+        case "raw":
+            if (messageActionSupport.canViewRaw(message))
+                messages.push(message);
+            break;
+        case "options":
+            messages.push(message);
+            break;
+        default:
+            break;
+        }
+
+        return messages;
+    }
+
+    function canPerformWalkModeAction(actionName) {
+        return walkModeActionMessages(actionName).length > 0;
     }
 
     function closeKeyboardActions(options) {
@@ -786,41 +907,14 @@ Item {
     }
 
     function performWalkModeAction(actionName) {
-        if (selectedCount > 1)
+        const messages = walkModeActionMessages(actionName);
+        if (messages.length === 0)
             return false;
 
-        const message = primaryActionMessageInfo();
-        if (!message)
-            return false;
-
-        switch (actionName) {
-        case "reply":
-            if (!messageActionSupport.canReply(message, room))
-                return false;
-            break;
-        case "thread":
-            if (!messageActionSupport.canThread(message, room))
-                return false;
-            break;
-        case "edit":
-            if (!messageActionSupport.canEdit(message, room))
-                return false;
-            break;
-        case "forward":
-            if (!messageActionSupport.canForward(message))
-                return false;
-            break;
-        case "remove":
-            if (!messageActionSupport.canRemove(message, room))
-                return false;
-            break;
-        case "raw":
-            if (!messageActionSupport.canViewRaw(message))
-                return false;
-            break;
-        default:
-            break;
-        }
+        const message = messages[0];
+        const eventIds = messages.map(function (actionMessage) {
+            return String(actionMessage.eventId || "");
+        });
 
         const exitsToComposer = actionName === "reply" || actionName === "thread" || actionName === "edit";
 
@@ -841,10 +935,10 @@ Item {
             handled = messageActionSupport.applyEdit(room, message);
             break;
         case "forward":
-            handled = messageActionSupport.applyForward(chatRoot, message);
+            handled = !!openForwardDialog(eventIds, selectedCount > 1 ? selectedCount : eventIds.length);
             break;
         case "remove":
-            handled = messageActionSupport.applyRemove(chatRoot, room, message);
+            handled = !!openRemoveMessageDialog(eventIds, selectedCount > 1 ? selectedCount : eventIds.length);
             break;
         case "raw":
             handled = messageActionSupport.applyViewRaw(room, message);
@@ -1342,12 +1436,22 @@ Item {
         return dialog;
     }
 
-    function openForwardDialog(eventId) {
-        if (!eventId)
+    function openForwardDialog(eventIdsOrEventId, sourceSelectionCount) {
+        const sourceEventIds = Array.isArray(eventIdsOrEventId)
+            ? eventIdsOrEventId
+            : [eventIdsOrEventId];
+        const eventIds = orderedExistingEventIds(sourceEventIds);
+        if (eventIds.length === 0)
             return null;
 
+        const effectiveSelectionCount = Math.max(Number(sourceSelectionCount || 0), eventIds.length);
+
         if (dialogHost && dialogHost.showForwardMessageDialog != undefined)
-            return dialogHost.showForwardMessageDialog(room, eventId, timeline, timelineView);
+            return dialogHost.showForwardMessageDialog(room,
+                                                      eventIds,
+                                                      timeline,
+                                                      timelineView,
+                                                      effectiveSelectionCount);
 
         var forwardDialog = createCatalogDialog(componentCatalog.navigationForwardCompleterDialog, {
                 "roomSource": room,
@@ -1357,7 +1461,7 @@ Item {
             });
         if (!forwardDialog)
             return null;
-        forwardDialog.setMessageEventId(eventId);
+        forwardDialog.setMessageEventIds(eventIds, effectiveSelectionCount);
         forwardDialog.open();
         destroyOnClose(forwardDialog);
         return forwardDialog;
@@ -1723,16 +1827,31 @@ Item {
         id: removeReasonDialogComponent
 
         InputDialog {
-            property string eventId
+            property var eventIds: []
+            property int selectionCount: 0
+            readonly property int actionableCount: eventIds.length
+            readonly property int effectiveSelectionCount: Math.max(selectionCount, actionableCount)
 
             placeholderText: qsTr("Optional reason")
-            prompt: ""
-            title: qsTr("Delete this message?")
+            prompt: actionableCount > 0 && actionableCount < effectiveSelectionCount
+                ? qsTr("Some selected messages cannot be deleted and will be skipped.")
+                : ""
+            title: {
+                if (effectiveSelectionCount <= 1)
+                    return qsTr("Delete this message?");
+                if (actionableCount === 1 && effectiveSelectionCount > 1)
+                    return qsTr("Delete 1 of %1 selected messages?").arg(effectiveSelectionCount);
+                if (actionableCount > 0 && actionableCount < effectiveSelectionCount)
+                    return qsTr("Delete %1 of %2 selected messages?").arg(actionableCount).arg(effectiveSelectionCount);
+                return qsTr("Delete %n selected messages?", "", actionableCount);
+            }
             titleIcon: ":/icons/icons/ui/delete.svg"
             acceptText: qsTr("Delete")
 
             onInputAccepted: function (text) {
-                room.redactEvent(eventId, text);
+                chatRoot.removeSelectedEventIds(eventIds);
+                for (let index = 0; index < eventIds.length; index++)
+                    room.redactEvent(String(eventIds[index] || ""), text);
             }
         }
     }
@@ -1767,9 +1886,17 @@ Item {
         destroyOnClose(dialog);
     }
 
-    function openRemoveMessageDialog(eventId) {
-        showDialogFromComponent(removeReasonDialogComponent, {
-            "eventId": eventId
+    function openRemoveMessageDialog(eventIdsOrEventId, sourceSelectionCount) {
+        const sourceEventIds = Array.isArray(eventIdsOrEventId)
+            ? eventIdsOrEventId
+            : [eventIdsOrEventId];
+        const eventIds = orderedExistingEventIds(sourceEventIds);
+        if (eventIds.length === 0)
+            return null;
+
+        return showDialogFromComponent(removeReasonDialogComponent, {
+            "eventIds": eventIds,
+            "selectionCount": Math.max(Number(sourceSelectionCount || 0), eventIds.length)
         });
     }
 

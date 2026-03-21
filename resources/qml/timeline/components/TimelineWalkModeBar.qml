@@ -11,18 +11,14 @@ Rectangle {
     id: walkBar
 
     required property var chatRoot
-    required property var roomModel
     property int minimumHeight: Math.max(48, Komai.navigationRowHeight)
-    readonly property var primaryMessage: chatRoot.primaryActionMessageInfo()
     readonly property bool showActionLabels: width >= 1180
-    readonly property bool hasPrimaryMessage: !!primaryMessage
-    readonly property bool hasSingleActionTarget: chatRoot.selectedCount <= 1 && hasPrimaryMessage
-    readonly property bool canReply: hasSingleActionTarget && messageActionSupport.canReply(primaryMessage, roomModel)
-    readonly property bool canThread: hasSingleActionTarget && messageActionSupport.canThread(primaryMessage, roomModel)
-    readonly property bool canEdit: hasSingleActionTarget && messageActionSupport.canEdit(primaryMessage, roomModel)
-    readonly property bool canForward: hasSingleActionTarget && messageActionSupport.canForward(primaryMessage)
-    readonly property bool canRemove: hasSingleActionTarget && messageActionSupport.canRemove(primaryMessage, roomModel)
-    readonly property bool canOpenOptions: hasSingleActionTarget
+    readonly property bool canReply: chatRoot.canPerformWalkModeAction("reply")
+    readonly property bool canThread: chatRoot.canPerformWalkModeAction("thread")
+    readonly property bool canEdit: chatRoot.canPerformWalkModeAction("edit")
+    readonly property bool canForward: chatRoot.canPerformWalkModeAction("forward")
+    readonly property bool canRemove: chatRoot.canPerformWalkModeAction("remove")
+    readonly property bool canOpenOptions: chatRoot.canPerformWalkModeAction("options")
     readonly property bool canClearSelection: chatRoot.selectedCount > 0
     readonly property int headerButtonHeight: Komai.listIconSize
     readonly property int separatorSlotWidth: Komai.paddingMedium * 2 + 1
@@ -184,10 +180,6 @@ Rectangle {
 
     Component.onCompleted: scheduleButtonNavigationTargetsRefresh()
 
-    MessageActionSupport {
-        id: messageActionSupport
-    }
-
     component GroupDivider: Item {
         Layout.alignment: Qt.AlignVCenter
         Layout.preferredWidth: walkBar.separatorSlotWidth
@@ -317,7 +309,9 @@ Rectangle {
                         || (walkBar.chatRoot ? walkBar.chatRoot.timelineSelectionFocusTarget() : null)
                     showLabel: walkBar.showActionLabels
                     mirrorIcon: true
-                    toolTipText: qsTr("Forward message [F]")
+                    toolTipText: chatRoot.selectedCount > 1
+                        ? qsTr("Forward selected messages [F]")
+                        : qsTr("Forward message [F]")
 
                     onClicked: walkBar.chatRoot.performWalkModeAction("forward")
                 }
@@ -329,12 +323,16 @@ Rectangle {
                     navigationHost: walkBar
                     enabled: walkBar.canRemove
                     image: ":/icons/icons/ui/delete.svg"
-                    labelText: qsTr("Delete message")
+                    labelText: chatRoot.selectedCount > 1
+                        ? qsTr("Delete messages")
+                        : qsTr("Delete message")
                     nextTabTarget: walkBar.nextVisibleButton(deleteButton)
                     previousTabTarget: walkBar.previousVisibleButton(deleteButton)
                         || (walkBar.chatRoot ? walkBar.chatRoot.timelineSelectionFocusTarget() : null)
                     showLabel: walkBar.showActionLabels
-                    toolTipText: qsTr("Delete message [D]")
+                    toolTipText: chatRoot.selectedCount > 1
+                        ? qsTr("Delete selected messages [D]")
+                        : qsTr("Delete message [D]")
 
                     onClicked: walkBar.chatRoot.performWalkModeAction("remove")
                 }

@@ -54,8 +54,14 @@ function openCatalogDialog(componentUrl, properties) {
         destroyOnClose(dialog);
         return dialog;
     }
-    function showForwardMessageDialog(room, eventId, timeline, timelineView) {
-        if (!room || !eventId)
+    function showForwardMessageDialog(room, eventIdsOrEventId, timeline, timelineView, selectionCount) {
+        if (!room || !eventIdsOrEventId)
+            return;
+
+        const eventIds = Array.isArray(eventIdsOrEventId)
+            ? eventIdsOrEventId
+            : [eventIdsOrEventId];
+        if (eventIds.length === 0)
             return;
 
         var dialog = createDialog(componentCatalog.navigationForwardCompleterDialog, {
@@ -69,9 +75,10 @@ function openCatalogDialog(componentUrl, properties) {
             return;
         }
 
-        dialog.setMessageEventId(eventId);
+        dialog.setMessageEventIds(eventIds, selectionCount);
         dialog.open();
         destroyOnClose(dialog);
+        return dialog;
     }
 
     //Timer {

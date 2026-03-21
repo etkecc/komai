@@ -77,17 +77,18 @@ bindings on the same physical keys when you use a non-Latin keyboard layout.
 | `r` | Reply to the selected or focused message |
 | `t` | Reply in thread, or continue the selected or focused message's thread |
 | `e` | Edit the selected or focused message |
-| `f` | Forward the selected or focused message |
-| `d` | Delete message |
+| `f` | Forward selected messages, or the selected or focused message |
+| `d` | Delete selected messages, or the selected or focused message |
 | `u` | View the selected or focused message as raw JSON |
 | `o` | Open the full **Message actions** dialog for the selected or focused message |
 | `i` | Exit Selection mode and return to the composer |
 
 Which message does an action use?
 
-- If one message is selected, actions use that message.
-- If nothing is selected, actions use the focused message.
-- If more than one message is selected, direct message actions do nothing yet. Use `Escape` or the bottom bar's **Clear** button first.
+- If one or more messages are selected, `f` and `d` act on the selected messages that support that action.
+- Other direct actions use one selected message if there is one.
+- If nothing is selected, direct actions use the focused message.
+- If more than one message is selected, `Enter`, `r`, `t`, `e`, `u`, and `o` stay unavailable.
 
 Focus note:
 

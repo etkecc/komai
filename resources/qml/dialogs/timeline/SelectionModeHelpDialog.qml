@@ -99,14 +99,14 @@ Components.OverlayDialog {
                 {
                     "warningKey": "forward",
                     "shortcuts": [qsTr("F")],
-                    "label": qsTr("Forward the selected or focused message"),
+                    "label": qsTr("Forward selected messages, or the selected or focused message"),
                     "icon": ":/icons/icons/ui/reply.svg",
                     "mirrorIcon": true
                 },
                 {
                     "warningKey": "delete",
                     "shortcuts": [qsTr("D")],
-                    "label": qsTr("Delete the selected or focused message"),
+                    "label": qsTr("Delete selected messages, or the selected or focused message"),
                     "icon": ":/icons/icons/ui/delete.svg"
                 },
                 {

@@ -481,6 +481,15 @@ Item {
         return moveFocusByChunk(-1);
     }
 
+    function enterWalkModeAndMoveTowardOlderEventsByChunk() {
+        if (!walkModeActive) {
+            if (!enterWalkModeFromBottomMostVisible())
+                return false;
+        }
+
+        return moveFocusTowardOlderEventsByChunk() || walkModeActive;
+    }
+
     function focusOldestLoadedWalkModeEvent() {
         const index = lastDisplayedNonHiddenEventIndex();
         if (index < 0)

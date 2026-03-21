@@ -244,6 +244,13 @@ Item {
 
         target: messageInput
     }
+    Connections {
+        function onWalkModeOlderChunkRequested() {
+            messageView.enterWalkModeAndMoveTowardOlderEventsByChunk();
+        }
+
+        target: messageInput
+    }
     TimelinePreviewPane {
         room: timelineView.room
         roomPreview: timelineView.roomPreview

@@ -25,6 +25,7 @@ Rectangle {
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
     readonly property int minimumBarHeight: Math.max(48, Komai.navigationRowHeight)
     signal composerInteractionRequested()
+    signal walkModeOlderChunkRequested()
 
     function focusTextInput() {
         if (walkModeActive) {
@@ -178,7 +179,8 @@ Rectangle {
                         if (popup.opened && completer.count <= 0)
                             popup.close();
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_U) {
-                        messageInput.clear();
+                        inputBar.walkModeOlderChunkRequested();
+                        event.accepted = true;
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_P) {
                         messageInput.text = room.input.previousText();
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_N) {

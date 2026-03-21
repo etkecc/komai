@@ -45,13 +45,15 @@ These shortcuts apply while you are looking at a room timeline.
 
 Walk mode is a view-local keyboard cursor for the timeline. It keeps a focused message and can also
 keep an explicit multi-selection. Focus and selection are separate: the focused message is the solid
-keyboard cursor, while selected messages keep their own selection styling.
+keyboard cursor, while selected messages keep their own selection styling. Walk mode also supports
+several [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-like navigation keys such as `j`/`k`,
+`Ctrl+U`, `Ctrl+D`, `gg`, and `Shift+G`.
 
 | Shortcut | Action |
 | --- | --- |
 | `Up` / `k` | Move focus toward older messages |
 | `Down` / `j` | Move focus toward newer messages |
-| `Ctrl+U` | Move focus about half a screen toward older messages |
+| `Ctrl+U` | Move focus about half a screen toward older messages; from the composer, enter walk mode and do the same jump |
 | `Ctrl+D` | Move focus about half a screen toward newer messages |
 | `g`, then `g` | Move focus to the oldest currently loaded message |
 | `Shift+G` | Move focus to the latest message in the current view |
@@ -93,7 +95,7 @@ These shortcuts apply in the message composer.
 | Shortcut | Action |
 | --- | --- |
 | `Ctrl+Shift+V` | Paste as plain text |
-| `Ctrl+U` | Clear the composer |
+| `Ctrl+U` | Enter walk mode and move about half a screen toward older messages |
 | `Ctrl+P` | Load the previous composer draft/history entry |
 | `Ctrl+N` | Load the next composer draft/history entry |
 | `Tab` | Open the inline completer, or move within completer results |

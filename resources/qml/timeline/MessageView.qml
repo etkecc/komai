@@ -35,6 +35,7 @@ Item {
     property bool keyboardActionsOpen: false
     property var visibleTimelineDelegates: ({})
     property string pendingKeyboardActionsEventId: ""
+    property bool pendingWalkModeGoToTopRequest: false
     readonly property bool hasFocusedEvent: focusedEventId.length > 0
     readonly property bool hasSelectedEvents: selectedEventIds.length > 0
     readonly property int selectedCount: selectedEventIds.length
@@ -46,6 +47,7 @@ Item {
     readonly property real listViewDisplayMargin: roomSwitchInProgress ? 0 : chat.height / 8
     readonly property real listViewCacheBuffer: roomSwitchInProgress ? 0 : 320
     readonly property int walkModeOlderPrefetchThresholdItems: 6
+    readonly property int walkModeChunkDivisor: 2
 
     MessageActionSupport {
         id: messageActionSupport
@@ -167,9 +169,8 @@ Item {
         return visibleTimelineDelegates[focusedEventId] || null;
     }
 
-    function bottomMostVisibleDelegate() {
-        let bestDelegate = null;
-        let bestBottom = -1;
+    function visibleWalkModeDelegatesInViewport() {
+        const delegates = [];
         const viewportTop = chat.contentY;
         const viewportBottom = viewportTop + chat.height;
 
@@ -183,13 +184,18 @@ Item {
             if (delegateBottom <= viewportTop || delegateTop >= viewportBottom)
                 continue;
 
-            if (!bestDelegate || delegateBottom > bestBottom) {
-                bestDelegate = delegate;
-                bestBottom = delegateBottom;
-            }
+            delegates.push(delegate);
         }
 
-        return bestDelegate;
+        delegates.sort(function (left, right) {
+            return left.y - right.y;
+        });
+        return delegates;
+    }
+
+    function bottomMostVisibleDelegate() {
+        const delegates = visibleWalkModeDelegatesInViewport();
+        return delegates.length > 0 ? delegates[delegates.length - 1] : null;
     }
 
     function scrollDisplayedIndexIntoView(index) {
@@ -199,6 +205,86 @@ Item {
         chat.keepPinnedToBottom = false;
         chat.positionViewAtIndex(index, ListView.Visible);
         chat.updateLastScroll();
+    }
+
+    function resetWalkModeGoToTopSequence() {
+        pendingWalkModeGoToTopRequest = false;
+        walkModeGoToTopSequenceTimer.stop();
+    }
+
+    function focusDisplayedIndex(index, options) {
+        if (index < 0 || index >= chat.count)
+            return false;
+        if (displayedEventHiddenAt(index))
+            return false;
+
+        const eventId = displayedEventIdAt(index);
+        if (!eventId)
+            return false;
+
+        pendingKeyboardActionsEventId = "";
+        focusedEventId = eventId;
+        focusTimelineSelection();
+        if (!(options && options.skipScroll))
+            scrollDisplayedIndexIntoView(index);
+        if (options && options.prefetchOlder)
+            maybePrefetchOlderTimelineForWalk(index);
+        return true;
+    }
+
+    function findDisplayedIndexByStep(startIndex, step, desiredStepCount) {
+        if (startIndex < 0 || desiredStepCount <= 0)
+            return -1;
+
+        let stepsTaken = 0;
+        let lastCandidateIndex = -1;
+
+        for (let nextIndex = startIndex + step; nextIndex >= 0 && nextIndex < chat.count; nextIndex += step) {
+            if (displayedEventHiddenAt(nextIndex))
+                continue;
+
+            const eventId = displayedEventIdAt(nextIndex);
+            if (!eventId)
+                continue;
+
+            lastCandidateIndex = nextIndex;
+            stepsTaken += 1;
+            if (stepsTaken >= desiredStepCount)
+                break;
+        }
+
+        return lastCandidateIndex;
+    }
+
+    function firstDisplayedNonHiddenEventIndex() {
+        for (let index = 0; index < chat.count; index++) {
+            if (displayedEventHiddenAt(index))
+                continue;
+
+            const eventId = displayedEventIdAt(index);
+            if (eventId)
+                return index;
+        }
+
+        return -1;
+    }
+
+    function lastDisplayedNonHiddenEventIndex() {
+        for (let index = chat.count - 1; index >= 0; index--) {
+            if (displayedEventHiddenAt(index))
+                continue;
+
+            const eventId = displayedEventIdAt(index);
+            if (eventId)
+                return index;
+        }
+
+        return -1;
+    }
+
+    function walkModeChunkSize() {
+        const visibleCount = visibleWalkModeDelegatesInViewport().length;
+        return Math.max(1, Math.floor(visibleCount / walkModeChunkDivisor));
     }
 
     function maybePrefetchOlderTimelineForWalk(targetIndex) {
@@ -350,22 +436,11 @@ Item {
         if (currentIndex < 0)
             return false;
 
-        for (let nextIndex = currentIndex + step; nextIndex >= 0 && nextIndex < chat.count; nextIndex += step) {
-            if (displayedEventHiddenAt(nextIndex))
-                continue;
-
-            const nextEventId = displayedEventIdAt(nextIndex);
-            if (!nextEventId)
-                continue;
-
-            pendingKeyboardActionsEventId = "";
-            focusedEventId = nextEventId;
-            focusTimelineSelection();
-            scrollDisplayedIndexIntoView(nextIndex);
-            if (step > 0)
-                maybePrefetchOlderTimelineForWalk(nextIndex);
-            return true;
-        }
+        const targetIndex = findDisplayedIndexByStep(currentIndex, step, 1);
+        if (targetIndex >= 0)
+            return focusDisplayedIndex(targetIndex, {
+                "prefetchOlder": step > 0
+            });
 
         if (step > 0)
             maybePrefetchOlderTimelineForWalk(currentIndex);
@@ -379,6 +454,49 @@ Item {
 
     function moveFocusTowardNewerEvents() {
         return moveFocusByStep(-1);
+    }
+
+    function moveFocusByChunk(step) {
+        const currentIndex = displayedIndexForEventId(focusedEventId);
+        if (currentIndex < 0)
+            return false;
+
+        const targetIndex = findDisplayedIndexByStep(currentIndex, step, walkModeChunkSize());
+        if (targetIndex >= 0)
+            return focusDisplayedIndex(targetIndex, {
+                "prefetchOlder": step > 0
+            });
+
+        if (step > 0)
+            maybePrefetchOlderTimelineForWalk(currentIndex);
+
+        return false;
+    }
+
+    function moveFocusTowardOlderEventsByChunk() {
+        return moveFocusByChunk(1);
+    }
+
+    function moveFocusTowardNewerEventsByChunk() {
+        return moveFocusByChunk(-1);
+    }
+
+    function focusOldestLoadedWalkModeEvent() {
+        const index = lastDisplayedNonHiddenEventIndex();
+        if (index < 0)
+            return false;
+
+        return focusDisplayedIndex(index, {
+            "prefetchOlder": true
+        });
+    }
+
+    function focusLatestWalkModeEvent() {
+        const index = firstDisplayedNonHiddenEventIndex();
+        if (index < 0)
+            return false;
+
+        return focusDisplayedIndex(index);
     }
 
     function openKeyboardActionsForPrimaryEvent() {
@@ -452,6 +570,7 @@ Item {
             "skipTimelineFocus": true
         });
         pendingKeyboardActionsEventId = "";
+        resetWalkModeGoToTopSequence();
         clearSelectedEvents();
         focusedEventId = String(delegate.eventId);
         walkModeActive = true;
@@ -604,9 +723,26 @@ Item {
         return enterWalkModeFromBottomMostVisible();
     }
 
+    function eventUsesNoWalkModeModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
+    }
+
     function eventUsesWalkModeModifiers(event) {
         const modifiers = Number(event.modifiers);
         return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function eventUsesCtrlWalkModeModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & Qt.ControlModifier) !== 0
+            && (modifiers & (Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
+    }
+
+    function eventUsesShiftOnlyWalkModeModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & Qt.ShiftModifier) !== 0
+            && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
     }
 
     function isWalkModeEnterKey(event) {
@@ -638,6 +774,9 @@ Item {
             || (event.key === Qt.Key_D && eventUsesWalkModeModifiers(event))
             || (event.key === Qt.Key_U && eventUsesWalkModeModifiers(event))
             || (event.key === Qt.Key_I && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_D && eventUsesCtrlWalkModeModifiers(event))
+            || (event.key === Qt.Key_U && eventUsesCtrlWalkModeModifiers(event))
+            || (event.key === Qt.Key_G && eventUsesWalkModeModifiers(event))
             || isWalkModeEnterKey(event)
             || isWalkModeOptionsKey(event);
     }
@@ -690,6 +829,12 @@ Item {
         if (!walkModeActive)
             return false;
 
+        const plainGPressed = event.key === Qt.Key_G && eventUsesNoWalkModeModifiers(event);
+        const shiftGPressed = event.key === Qt.Key_G && eventUsesShiftOnlyWalkModeModifiers(event);
+
+        if (!plainGPressed)
+            resetWalkModeGoToTopSequence();
+
         if ((event.key === Qt.Key_Up || event.key === Qt.Key_K) && eventUsesWalkModeModifiers(event)) {
             moveFocusTowardOlderEvents();
             event.accepted = true;
@@ -704,6 +849,36 @@ Item {
 
         if (event.key === Qt.Key_Space && eventUsesWalkModeModifiers(event)) {
             toggleFocusedEventSelection();
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_U && eventUsesCtrlWalkModeModifiers(event)) {
+            moveFocusTowardOlderEventsByChunk();
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_D && eventUsesCtrlWalkModeModifiers(event)) {
+            moveFocusTowardNewerEventsByChunk();
+            event.accepted = true;
+            return true;
+        }
+
+        if (shiftGPressed) {
+            focusLatestWalkModeEvent();
+            event.accepted = true;
+            return true;
+        }
+
+        if (plainGPressed) {
+            if (pendingWalkModeGoToTopRequest) {
+                resetWalkModeGoToTopSequence();
+                focusOldestLoadedWalkModeEvent();
+            } else {
+                pendingWalkModeGoToTopRequest = true;
+                walkModeGoToTopSequenceTimer.restart();
+            }
             event.accepted = true;
             return true;
         }
@@ -839,6 +1014,14 @@ Item {
     }
 
     Component.onCompleted: scheduleTimelineModelBinding()
+
+    Timer {
+        id: walkModeGoToTopSequenceTimer
+
+        interval: 400
+        repeat: false
+        onTriggered: chatRoot.pendingWalkModeGoToTopRequest = false
+    }
 
     Timer {
         id: timelineBindDelay

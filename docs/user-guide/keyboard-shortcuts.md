@@ -51,6 +51,10 @@ keyboard cursor, while selected messages keep their own selection styling.
 | --- | --- |
 | `Up` / `k` | Move focus toward older messages |
 | `Down` / `j` | Move focus toward newer messages |
+| `Ctrl+U` | Move focus about half a screen toward older messages |
+| `Ctrl+D` | Move focus about half a screen toward newer messages |
+| `g`, then `g` | Move focus to the oldest currently loaded message |
+| `Shift+G` | Move focus to the latest message in the current view |
 | `Space` | Toggle whether the focused message is in the explicit selection |
 | `Enter` | Open the inline message-actions bar for the primary message and focus its first visible button |
 | `r` | Reply to the primary message |

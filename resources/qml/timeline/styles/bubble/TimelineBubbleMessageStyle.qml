@@ -44,7 +44,7 @@ TimelineMessageStyleBase {
 
     property alias hovered: messageHover.hovered
     keyboardActionAnchorItem: messageBubble
-    property real selectionTintOpacity: messageBubbleBackgroundEnabled ? 0.12 : 0.18
+    property real selectionTintOpacity: messageBubbleBackgroundEnabled ? 0.16 : 0.22
     readonly property color selectionOutlineColor: Qt.rgba(palette.highlight.r,
                                                             palette.highlight.g,
                                                             palette.highlight.b,
@@ -52,11 +52,11 @@ TimelineMessageStyleBase {
     readonly property color focusedOutlineColor: Qt.rgba(selectionOutlineColor.r,
                                                          selectionOutlineColor.g,
                                                          selectionOutlineColor.b,
-                                                         1.0)
+                                                         0.72)
     readonly property color selectedBorderColor: Qt.rgba(selectionOutlineColor.r,
                                                          selectionOutlineColor.g,
                                                          selectionOutlineColor.b,
-                                                         0.75)
+                                                         1.0)
     readonly property color selectionTintColor: Qt.rgba(selectionOutlineColor.r,
                                                         selectionOutlineColor.g,
                                                         selectionOutlineColor.b,
@@ -742,10 +742,10 @@ TimelineMessageStyleBase {
                 var ctx = getContext("2d");
                 ctx.clearRect(0, 0, width, height);
                 ctx.strokeStyle = borderColor;
-                ctx.lineWidth = 2;
-                ctx.setLineDash([8, 6]);
+                ctx.lineWidth = 3;
+                ctx.setLineDash([]);
                 var r = 8;
-                var inset = 1;
+                var inset = 1.5;
                 ctx.beginPath();
                 ctx.roundedRect(inset, inset, width - 2 * inset, height - 2 * inset, r, r);
                 ctx.stroke();
@@ -767,10 +767,10 @@ TimelineMessageStyleBase {
                 var ctx = getContext("2d");
                 ctx.clearRect(0, 0, width, height);
                 ctx.strokeStyle = borderColor;
-                ctx.lineWidth = 2.5;
+                ctx.lineWidth = 1.5;
                 ctx.setLineDash([]);
                 var r = 8;
-                var inset = 1.25;
+                var inset = 4;
                 ctx.beginPath();
                 ctx.roundedRect(inset, inset, width - 2 * inset, height - 2 * inset, r, r);
                 ctx.stroke();

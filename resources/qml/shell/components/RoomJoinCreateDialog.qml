@@ -122,8 +122,8 @@ Components.OverlayDialog {
             labelText: qsTr("Join room")
             descriptionText: qsTr("Enter a room address or alias to join")
             iconSource: ":/icons/icons/ui/arrow-join.svg"
-            shortcutSequence: "Alt+J"
-            shortcutDisplayText: qsTr("Alt+J")
+            shortcutSequence: "J"
+            shortcutDisplayText: qsTr("J")
             onClicked: {
                 root.close();
                 Komai.openJoinRoomDialog();
@@ -134,8 +134,8 @@ Components.OverlayDialog {
             labelText: qsTr("Explore public rooms")
             descriptionText: qsTr("Browse the public room directory")
             iconSource: ":/icons/icons/ui/compass-northwest.svg"
-            shortcutSequence: "Alt+E"
-            shortcutDisplayText: qsTr("Alt+E")
+            shortcutSequence: "E"
+            shortcutDisplayText: qsTr("E")
             onClicked: {
                 root.close();
                 root.profileContextMenu.openRoomDirectoryDialog();
@@ -153,8 +153,8 @@ Components.OverlayDialog {
             labelText: qsTr("New direct chat")
             descriptionText: qsTr("A 1-on-1 conversation with another user where you both get the same power level")
             iconSource: ":/icons/icons/ui/person.svg"
-            shortcutSequence: "Alt+D"
-            shortcutDisplayText: qsTr("Alt+D")
+            shortcutSequence: "D"
+            shortcutDisplayText: qsTr("D")
             onClicked: {
                 root.close();
                 root.profileContextMenu.openCreateDirectDialog();
@@ -165,8 +165,8 @@ Components.OverlayDialog {
             labelText: qsTr("New room")
             descriptionText: qsTr("A public or private room for group conversations")
             iconSource: ":/icons/icons/ui/people-community.svg"
-            shortcutSequence: "Alt+R"
-            shortcutDisplayText: qsTr("Alt+R")
+            shortcutSequence: "R"
+            shortcutDisplayText: qsTr("R")
             onClicked: {
                 root.close();
                 root.profileContextMenu.openCreateRoomDialog({});
@@ -177,8 +177,8 @@ Components.OverlayDialog {
             labelText: qsTr("New space")
             descriptionText: qsTr("Create a new public or private collection of rooms")
             iconSource: ":/icons/icons/ui/squares-nested.svg"
-            shortcutSequence: "Alt+S"
-            shortcutDisplayText: qsTr("Alt+S")
+            shortcutSequence: "S"
+            shortcutDisplayText: qsTr("S")
             onClicked: {
                 root.close();
                 root.profileContextMenu.openCreateRoomDialog({

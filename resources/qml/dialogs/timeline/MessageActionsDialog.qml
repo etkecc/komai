@@ -85,7 +85,7 @@ Components.OverlayDialog {
 
     function activeActionButtonIndex() {
         const buttons = visibleActionButtons();
-        let activeItem = root.Window.activeFocusItem;
+        let activeItem = root.contentItem ? root.contentItem.Window.activeFocusItem : null;
 
         for (let index = 0; index < buttons.length; index++) {
             let current = activeItem;
@@ -254,8 +254,8 @@ Components.OverlayDialog {
                     id: copyTextBtn
                     labelText: qsTr("Copy text")
                     iconSource: ":/icons/icons/ui/copy.svg"
-                    shortcutSequence: "Alt+C"
-                    shortcutDisplayText: qsTr("Alt+C")
+                    shortcutSequence: "C"
+                    shortcutDisplayText: qsTr("C")
                     visible: root.isTextType && root.messageText !== ""
                     onClicked: {
                         Clipboard.text = root.messageText;
@@ -267,8 +267,8 @@ Components.OverlayDialog {
                     id: copyFormattedTextBtn
                     labelText: qsTr("Copy formatted text")
                     iconSource: ":/icons/icons/ui/copy.svg"
-                    shortcutSequence: "Alt+H"
-                    shortcutDisplayText: qsTr("Alt+H")
+                    shortcutSequence: "H"
+                    shortcutDisplayText: qsTr("H")
                     visible: root.isTextType && root.hasFormattedBody
                     onClicked: {
                         Clipboard.text = root.formattedBodyText;
@@ -280,8 +280,8 @@ Components.OverlayDialog {
                     id: copyMediaBtn
                     labelText: qsTr("Copy")
                     iconSource: ":/icons/icons/ui/copy.svg"
-                    shortcutSequence: "Alt+C"
-                    shortcutDisplayText: qsTr("Alt+C")
+                    shortcutSequence: "C"
+                    shortcutDisplayText: qsTr("C")
                     visible: root.isMediaType
                     onClicked: {
                         root.roomModel.copyMedia(root.eventId);
@@ -293,8 +293,8 @@ Components.OverlayDialog {
                 id: copyLinkLocationBtn
                 labelText: qsTr("Copy link location")
                 iconSource: ":/icons/icons/ui/copy.svg"
-                shortcutSequence: "Alt+L"
-                shortcutDisplayText: qsTr("Alt+L")
+                shortcutSequence: "L"
+                shortcutDisplayText: qsTr("L")
                 visible: root.link !== ""
                 onClicked: {
                     Clipboard.text = root.link;
@@ -306,8 +306,8 @@ Components.OverlayDialog {
                 id: copyPermalinkBtn
                 labelText: qsTr("Copy permalink")
                 iconSource: ":/icons/icons/ui/link.svg"
-                shortcutSequence: "Alt+K"
-                shortcutDisplayText: qsTr("Alt+K")
+                shortcutSequence: "K"
+                shortcutDisplayText: qsTr("K")
                 visible: root.eventId !== "" && !root.isStateEvent
                 onClicked: {
                     root.roomModel.copyLinkToEvent(root.eventId);
@@ -327,8 +327,8 @@ Components.OverlayDialog {
                 id: pinBtn
                 labelText: root.isPinned ? qsTr("Unpin") : qsTr("Pin")
                 iconSource: root.isPinned ? ":/icons/icons/ui/pin-off.svg" : ":/icons/icons/ui/pin.svg"
-                shortcutSequence: "Alt+P"
-                shortcutDisplayText: qsTr("Alt+P")
+                shortcutSequence: "P"
+                shortcutDisplayText: qsTr("P")
                 visible: root.canChangePinned && !root.isStateEvent
                 onClicked: {
                     if (root.isPinned)
@@ -343,8 +343,8 @@ Components.OverlayDialog {
                 id: markReadBtn
                 labelText: qsTr("Mark as read")
                 iconSource: ":/icons/icons/ui/double-checkmark.svg"
-                shortcutSequence: "Alt+M"
-                shortcutDisplayText: qsTr("Alt+M")
+                shortcutSequence: "M"
+                shortcutDisplayText: qsTr("M")
                 visible: !root.isStateEvent
                 onClicked: {
                     root.roomModel.markEventAsRead(root.eventId);
@@ -364,8 +364,8 @@ Components.OverlayDialog {
                 id: saveAsBtn
                 labelText: qsTr("Save as")
                 iconSource: ":/icons/icons/ui/download.svg"
-                shortcutSequence: "Alt+S"
-                shortcutDisplayText: qsTr("Alt+S")
+                shortcutSequence: "S"
+                shortcutDisplayText: qsTr("S")
                 visible: root.isMediaType
                 onClicked: {
                     root.close();
@@ -377,8 +377,8 @@ Components.OverlayDialog {
                 id: openExternalBtn
                 labelText: qsTr("Open in external program")
                 iconSource: ":/icons/icons/ui/open-externally.svg"
-                shortcutSequence: "Alt+O"
-                shortcutDisplayText: qsTr("Alt+O")
+                shortcutSequence: "O"
+                shortcutDisplayText: qsTr("O")
                 visible: root.isMediaType
                 onClicked: {
                     root.close();
@@ -398,8 +398,8 @@ Components.OverlayDialog {
                 id: readReceiptsBtn
                 labelText: qsTr("Read receipts")
                 iconSource: ":/icons/icons/ui/eye-show.svg"
-                shortcutSequence: "Alt+I"
-                shortcutDisplayText: qsTr("Alt+I")
+                shortcutSequence: "I"
+                shortcutDisplayText: qsTr("I")
                 visible: !root.isStateEvent
                 onClicked: {
                     root.close();
@@ -411,8 +411,8 @@ Components.OverlayDialog {
                 id: viewRawBtn
                 labelText: qsTr("View raw message")
                 iconSource: ":/icons/icons/ui/raw-message.svg"
-                shortcutSequence: "Alt+U"
-                shortcutDisplayText: qsTr("Alt+U")
+                shortcutSequence: "U"
+                shortcutDisplayText: qsTr("U")
                 onClicked: {
                     root.close();
                     root.roomModel.viewRawMessage(root.eventId);
@@ -423,8 +423,8 @@ Components.OverlayDialog {
                 id: viewDecryptedRawBtn
                 labelText: qsTr("View decrypted raw message")
                 iconSource: ":/icons/icons/ui/raw-message.svg"
-                shortcutSequence: "Alt+E"
-                shortcutDisplayText: qsTr("Alt+E")
+                shortcutSequence: "E"
+                shortcutDisplayText: qsTr("E")
                 visible: root.isEncrypted
                 onClicked: {
                     root.close();
@@ -444,8 +444,8 @@ Components.OverlayDialog {
                 id: removeBtn
                 labelText: qsTr("Delete message")
                 iconSource: ":/icons/icons/ui/delete.svg"
-                shortcutSequence: "Alt+D"
-                shortcutDisplayText: qsTr("Alt+D")
+                shortcutSequence: "D"
+                shortcutDisplayText: qsTr("D")
                 visible: root.canRedact || root.isSender
                 onClicked: {
                     root.close();
@@ -457,8 +457,8 @@ Components.OverlayDialog {
                     id: reportBtn
                     labelText: qsTr("Report message")
                     iconSource: ":/icons/icons/ui/alert.svg"
-                    shortcutSequence: "Alt+R"
-                    shortcutDisplayText: qsTr("Alt+R")
+                    shortcutSequence: "R"
+                    shortcutDisplayText: qsTr("R")
                     visible: !root.isStateEvent
                     onClicked: {
                         root.close();

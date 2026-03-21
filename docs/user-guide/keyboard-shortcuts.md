@@ -153,11 +153,11 @@ In the **New** dialog opened by `Ctrl+N`:
 
 | Shortcut | Action |
 | --- | --- |
-| `Alt+J` | Join room |
-| `Alt+E` | Explore public rooms |
-| `Alt+D` | New direct chat |
-| `Alt+R` | New room |
-| `Alt+S` | New space |
+| `J` | Join room |
+| `E` | Explore public rooms |
+| `D` | New direct chat |
+| `R` | New room |
+| `S` | New space |
 
 
 ## ↪️ Forward Dialog
@@ -191,19 +191,19 @@ permissions.
 | `Tab` / `Shift+Tab` | Move focus forward or backward through the visible actions |
 | `Enter` | Activate the focused action |
 | `Escape` | Close the dialog |
-| `Alt+C` | Copy text, or copy media for media events |
-| `Alt+H` | Copy formatted text |
-| `Alt+L` | Copy link location |
-| `Alt+K` | Copy permalink |
-| `Alt+P` | Pin or unpin the message |
-| `Alt+M` | Mark the message as read |
-| `Alt+S` | Save media as |
-| `Alt+O` | Open media in an external program |
-| `Alt+I` | Show read receipts |
-| `Alt+U` | View raw message |
-| `Alt+E` | View decrypted raw message |
-| `Alt+D` | Delete message |
-| `Alt+R` | Report message |
+| `C` | Copy text, or copy media for media events |
+| `H` | Copy formatted text |
+| `L` | Copy link location |
+| `K` | Copy permalink |
+| `P` | Pin or unpin the message |
+| `M` | Mark the message as read |
+| `S` | Save media as |
+| `O` | Open media in an external program |
+| `I` | Show read receipts |
+| `U` | View raw message |
+| `E` | View decrypted raw message |
+| `D` | Delete message |
+| `R` | Report message |
 
 
 ## 🖼️ Media Viewer

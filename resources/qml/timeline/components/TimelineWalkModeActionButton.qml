@@ -22,6 +22,7 @@ AbstractButton {
     property bool alwaysShowToolTip: true
     property string toolTipText: labelText
     property real toolTipAnchorX: width / 2
+    property real toolTipGapY: Komai.paddingLarge
     property bool mirrorIcon: false
     readonly property bool hasLabel: showLabel && labelText.length > 0
     readonly property int iconSize: Math.max(14, buttonHeight - 2 * buttonPaddingH)
@@ -64,7 +65,7 @@ AbstractButton {
         anchorX: button.toolTipAnchorX
         anchorY: button.height
         gapX: Komai.paddingMedium
-        gapY: Komai.paddingMedium
+        gapY: button.toolTipGapY
         text: button.toolTipText
         delay: 0
         requestedVisible: button.hovered

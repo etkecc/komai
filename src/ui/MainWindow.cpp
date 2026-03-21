@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QApplication>
+#include <QEvent>
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QMessageBox>
@@ -42,6 +43,81 @@ MainWindow *MainWindow::instance_ = nullptr;
 namespace {
 constexpr int kWindowMinHeightPx = 420;
 constexpr int kWindowMinWidthPx  = 340;
+
+void
+hideMenuOnWaylandMousePress()
+{
+#if defined(Q_OS_LINUX)
+    if (QGuiApplication::platformName() == "wayland")
+        emit MainWindow::instance()->hideMenu();
+#endif
+}
+}
+
+bool
+MainWindow::handleNavigationMouseButtonEvent(QEvent *event)
+{
+    if (!event)
+        return false;
+
+    if (event->type() != QEvent::MouseButtonPress && event->type() != QEvent::MouseButtonRelease)
+        return false;
+
+    auto *mouseEvent = static_cast<QMouseEvent *>(event);
+    if (!mouseEvent)
+        return false;
+
+    const bool isPress   = event->type() == QEvent::MouseButtonPress;
+    const bool isRelease = event->type() == QEvent::MouseButtonRelease;
+
+    if (mouseEvent->button() == Qt::BackButton) {
+        if (isPress)
+            hideMenuOnWaylandMousePress();
+        nhlog::ui()->info("[nav-history] mouse BackButton {}", isPress ? "pressed" : "released");
+        if (isPress) {
+            backButtonPressSeen_ = true;
+            if (auto *mgr = ChatPage::instance()->timelineManager())
+                mgr->navigateBack();
+        } else if (isRelease) {
+            if (!backButtonPressSeen_) {
+                if (auto *mgr = ChatPage::instance()->timelineManager())
+                    mgr->navigateBack();
+            }
+            backButtonPressSeen_ = false;
+        }
+        event->accept();
+        return true;
+    }
+
+    if (mouseEvent->button() == Qt::ForwardButton) {
+        if (isPress)
+            hideMenuOnWaylandMousePress();
+        nhlog::ui()->info("[nav-history] mouse ForwardButton {}", isPress ? "pressed" : "released");
+        if (isPress) {
+            forwardButtonPressSeen_ = true;
+            if (auto *mgr = ChatPage::instance()->timelineManager())
+                mgr->navigateForward();
+        } else if (isRelease) {
+            if (!forwardButtonPressSeen_) {
+                if (auto *mgr = ChatPage::instance()->timelineManager())
+                    mgr->navigateForward();
+            }
+            forwardButtonPressSeen_ = false;
+        }
+        event->accept();
+        return true;
+    }
+
+    return false;
+}
+
+bool
+MainWindow::event(QEvent *event)
+{
+    if (handleNavigationMouseButtonEvent(event))
+        return true;
+
+    return QQuickView::event(event);
 }
 
 MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
@@ -202,26 +278,7 @@ MainWindow::setWindowTitle(int notificationCount)
 void
 MainWindow::mousePressEvent(QMouseEvent *event)
 {
-#if defined(Q_OS_LINUX)
-    if (QGuiApplication::platformName() == "wayland") {
-        emit hideMenu();
-    }
-#endif
-
-    if (event->button() == Qt::BackButton) {
-        nhlog::ui()->info("[nav-history] mouse BackButton pressed");
-        if (auto *mgr = ChatPage::instance()->timelineManager())
-            mgr->navigateBack();
-        event->accept();
-        return;
-    }
-    if (event->button() == Qt::ForwardButton) {
-        nhlog::ui()->info("[nav-history] mouse ForwardButton pressed");
-        if (auto *mgr = ChatPage::instance()->timelineManager())
-            mgr->navigateForward();
-        event->accept();
-        return;
-    }
+    hideMenuOnWaylandMousePress();
 
     return QQuickView::mousePressEvent(event);
 }

@@ -568,6 +568,30 @@ Item {
         return control.moveFocus(step);
     }
 
+    function keyboardActionsUseVerticalMovement() {
+        const control = keyboardActionsControl();
+        if (!control || !control.keyboardActive || typeof control.usesTwoRowLayout !== "function")
+            return false;
+
+        return control.usesTwoRowLayout();
+    }
+
+    function focusFirstKeyboardAction() {
+        const control = keyboardActionsControl();
+        if (!control || !control.keyboardActive)
+            return false;
+
+        return control.focusFirstVisibleButton();
+    }
+
+    function focusLastKeyboardAction() {
+        const control = keyboardActionsControl();
+        if (!control || !control.keyboardActive)
+            return false;
+
+        return control.focusLastVisibleButton();
+    }
+
     function tryOpenPendingKeyboardActions() {
         if (!pendingKeyboardActionsEventId || pendingKeyboardActionsEventId !== primaryActionEventId)
             return false;
@@ -847,15 +871,60 @@ Item {
         if (!event)
             return false;
 
+        const gKeyPressed = eventMatchesWalkModeLatinKey(event, "g");
+        const plainGPressed = gKeyPressed && eventUsesNoWalkModeModifiers(event);
+        const shiftGPressed = gKeyPressed && eventUsesShiftOnlyWalkModeModifiers(event);
+
         if (keyboardActionsOpen) {
-            if (event.key === Qt.Key_Left && eventUsesWalkModeModifiers(event)) {
+            if (!plainGPressed)
+                resetWalkModeGoToTopSequence();
+
+            if ((event.key === Qt.Key_Left
+                        || eventMatchesWalkModeLatinKey(event, "h"))
+                    && eventUsesWalkModeModifiers(event)) {
                 moveKeyboardActionsFocus(-1);
                 event.accepted = true;
                 return true;
             }
 
-            if (event.key === Qt.Key_Right && eventUsesWalkModeModifiers(event)) {
+            if ((event.key === Qt.Key_Right
+                        || eventMatchesWalkModeLatinKey(event, "l"))
+                    && eventUsesWalkModeModifiers(event)) {
                 moveKeyboardActionsFocus(1);
+                event.accepted = true;
+                return true;
+            }
+
+            if (keyboardActionsUseVerticalMovement()
+                    && (event.key === Qt.Key_Up || eventMatchesWalkModeLatinKey(event, "k"))
+                    && eventUsesWalkModeModifiers(event)) {
+                moveKeyboardActionsFocus(-1);
+                event.accepted = true;
+                return true;
+            }
+
+            if (keyboardActionsUseVerticalMovement()
+                    && (event.key === Qt.Key_Down || eventMatchesWalkModeLatinKey(event, "j"))
+                    && eventUsesWalkModeModifiers(event)) {
+                moveKeyboardActionsFocus(1);
+                event.accepted = true;
+                return true;
+            }
+
+            if (shiftGPressed) {
+                focusLastKeyboardAction();
+                event.accepted = true;
+                return true;
+            }
+
+            if (plainGPressed) {
+                if (pendingWalkModeGoToTopRequest) {
+                    resetWalkModeGoToTopSequence();
+                    focusFirstKeyboardAction();
+                } else {
+                    pendingWalkModeGoToTopRequest = true;
+                    walkModeGoToTopSequenceTimer.restart();
+                }
                 event.accepted = true;
                 return true;
             }
@@ -882,10 +951,6 @@ Item {
 
         if (!walkModeActive)
             return false;
-
-        const gKeyPressed = eventMatchesWalkModeLatinKey(event, "g");
-        const plainGPressed = gKeyPressed && eventUsesNoWalkModeModifiers(event);
-        const shiftGPressed = gKeyPressed && eventUsesShiftOnlyWalkModeModifiers(event);
 
         if (!plainGPressed)
             resetWalkModeGoToTopSequence();

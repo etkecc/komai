@@ -81,6 +81,10 @@ Item {
             return messageActionsToolbar.moveFocus(step);
         }
 
+        function usesTwoRowLayout() {
+            return messageActionsToolbar.twoRowMode;
+        }
+
         function activateFocusedButton() {
             return messageActionsToolbar.activateFocusedButton();
         }

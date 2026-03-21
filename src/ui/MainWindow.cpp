@@ -7,7 +7,6 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QMessageBox>
-
 #include <mtx/events/collections.hpp>
 #include <mtx/requests.hpp>
 #include <mtx/responses/login.hpp>

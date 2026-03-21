@@ -710,6 +710,41 @@ TimelineMessageStyleBase {
 
         },
         Item {
+            id: selectionToggleSurface
+
+            x: 0
+            y: gridContainer.y
+            width: wrapper.width
+            height: gridContainer.height
+            z: 30
+            visible: width > 0 && height > 0
+
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton
+                propagateComposedEvents: false
+                preventStealing: true
+                cursorShape: undefined
+
+                function isSelectionToggleClick(modifiers) {
+                    return (Number(modifiers) & (Qt.ControlModifier | Qt.MetaModifier)) !== 0;
+                }
+
+                onPressed: mouse => {
+                    if (!isSelectionToggleClick(mouse.modifiers))
+                        mouse.accepted = false;
+                }
+                onClicked: mouse => {
+                    if (!isSelectionToggleClick(mouse.modifiers)) {
+                        mouse.accepted = false;
+                        return;
+                    }
+
+                    wrapper.handleMouseSelectionToggle();
+                }
+            }
+        },
+        Item {
             // We need this item to grab events, that otherwise would go to the TextArea in the main item. If we don't have this, it would trigger a right click menu on KDE...
             // https://invent.kde.org/frameworks/qqc2-desktop-style/-/blob/9d71fe874186009f76d392e203d9fa25a49f8be7/org.kde.desktop/TextArea.qml#L55
 

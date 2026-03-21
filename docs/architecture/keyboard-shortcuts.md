@@ -78,6 +78,7 @@ Its view-local state is:
 - `walkModeActive`
 - `focusedEventId`
 - `selectedEventIds`
+- `selectionAnchorEventId`
 
 Despite the internal `walkMode*` names, user-facing docs and UI call this feature `Selection mode`.
 
@@ -87,6 +88,7 @@ The main entry paths are:
 
 - plain `Up` from [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml) when the composer caret is already at the start of the top line; it enters at the bottom-most visible message
 - `Ctrl+U` from the composer, routed from [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml) into the timeline
+- `Ctrl+Click` on a timeline message, routed from [resources/qml/timeline/TimelineMessageStyleBase.qml](../../resources/qml/timeline/TimelineMessageStyleBase.qml) into [resources/qml/timeline/MessageView.qml](../../resources/qml/timeline/MessageView.qml)
 
 `TimelineView.qml` also blocks its usual "type to focus composer" behavior while Selection mode is
 active.

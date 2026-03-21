@@ -34,6 +34,7 @@ Item {
     property bool walkModeActive: false
     property string focusedEventId: ""
     property var selectedEventIds: []
+    property string selectionAnchorEventId: ""
     property bool keyboardActionsOpen: false
     property var visibleTimelineDelegates: ({})
     property string pendingKeyboardActionsEventId: ""
@@ -174,9 +175,11 @@ Item {
 
     function clearSelectedEvents() {
         if (selectedEventIds.length === 0)
-            return;
+            return false;
 
         selectedEventIds = [];
+        selectionAnchorEventId = "";
+        return true;
     }
 
     function clearFocusedEvent() {
@@ -234,6 +237,40 @@ Item {
             return false;
 
         return selectedEventIds.indexOf(String(eventId)) >= 0;
+    }
+
+    function canExplicitlySelectEventId(eventId) {
+        return messageInfoForEventId(eventId) !== null;
+    }
+
+    function updateSelectionAnchor(preferredEventId) {
+        const normalizedPreferredEventId = String(preferredEventId || "");
+        if (normalizedPreferredEventId && selectedEventIdsContains(normalizedPreferredEventId)) {
+            selectionAnchorEventId = normalizedPreferredEventId;
+            return;
+        }
+
+        selectionAnchorEventId = selectedEventIds.length > 0
+            ? String(selectedEventIds[selectedEventIds.length - 1] || "")
+            : "";
+    }
+
+    function toggleSelectionForEventId(eventId) {
+        const normalizedEventId = String(eventId || "");
+        if (!normalizedEventId || !canExplicitlySelectEventId(normalizedEventId))
+            return false;
+
+        const wasSelected = selectedEventIdsContains(normalizedEventId);
+        if (wasSelected) {
+            selectedEventIds = selectedEventIds.filter(function (selectedEventId) {
+                return selectedEventId !== normalizedEventId;
+            });
+        } else {
+            selectedEventIds = normalizedEventIds(selectedEventIds.concat([normalizedEventId]));
+        }
+
+        updateSelectionAnchor(wasSelected ? "" : normalizedEventId);
+        return true;
     }
 
     function focusedDelegate() {
@@ -298,6 +335,27 @@ Item {
 
         pendingKeyboardActionsEventId = "";
         focusedEventId = eventId;
+        focusTimelineSelection();
+        if (!(options && options.skipScroll))
+            scrollDisplayedIndexIntoView(index);
+        if (options && options.prefetchOlder)
+            maybePrefetchOlderTimelineForWalk(index);
+        return true;
+    }
+
+    function focusWalkModeEventById(eventId, options) {
+        const normalizedEventId = String(eventId || "");
+        const index = displayedIndexForEventId(normalizedEventId);
+        if (index < 0 || displayedEventHiddenAt(index))
+            return false;
+
+        closeKeyboardActions({
+            "skipTimelineFocus": true
+        });
+        pendingKeyboardActionsEventId = "";
+        resetWalkModeGoToTopSequence();
+        focusedEventId = normalizedEventId;
+        walkModeActive = true;
         focusTimelineSelection();
         if (!(options && options.skipScroll))
             scrollDisplayedIndexIntoView(index);
@@ -458,6 +516,7 @@ Item {
         const normalizedSelectedEventIds = normalizedEventIds(nextSelectedEventIds);
         if (!sameEventIdList(selectedEventIds, normalizedSelectedEventIds))
             selectedEventIds = normalizedSelectedEventIds;
+        updateSelectionAnchor(selectionAnchorEventId);
 
         if (pendingKeyboardActionsEventId) {
             const pendingIndex = displayedIndexForEventId(pendingKeyboardActionsEventId);
@@ -673,31 +732,34 @@ Item {
         if (!delegate || !delegate.eventId)
             return false;
 
-        closeKeyboardActions({
-            "skipTimelineFocus": true
-        });
-        pendingKeyboardActionsEventId = "";
-        resetWalkModeGoToTopSequence();
         clearSelectedEvents();
-        focusedEventId = String(delegate.eventId);
-        walkModeActive = true;
-        focusTimelineSelection();
-        return true;
+        return focusWalkModeEventById(String(delegate.eventId));
+    }
+
+    function handleMouseSelectionToggle(eventId) {
+        const normalizedEventId = String(eventId || "");
+        if (!normalizedEventId || !canExplicitlySelectEventId(normalizedEventId))
+            return false;
+
+        if (!walkModeActive) {
+            if (!clearSelectedEvents() && selectionAnchorEventId.length > 0)
+                selectionAnchorEventId = "";
+        }
+
+        if (!focusWalkModeEventById(normalizedEventId, {
+                "skipScroll": true
+            })) {
+            return false;
+        }
+
+        return toggleSelectionForEventId(normalizedEventId);
     }
 
     function toggleFocusedEventSelection() {
         if (!walkModeActive || !focusedEventId)
             return false;
 
-        if (selectedEventIdsContains(focusedEventId)) {
-            selectedEventIds = selectedEventIds.filter(function (eventId) {
-                return eventId !== focusedEventId;
-            });
-        } else {
-            selectedEventIds = normalizedEventIds(selectedEventIds.concat([focusedEventId]));
-        }
-
-        return true;
+        return toggleSelectionForEventId(focusedEventId);
     }
 
     function openPrimaryMessageActionsDialog() {
@@ -1623,7 +1685,7 @@ Item {
                 chatRoot.resetVisibleDelegateRegistry();
             }
 
-            target: chat.model
+            target: chat.model ? chat.model : null
             ignoreUnknownSignals: true
         }
         Connections {

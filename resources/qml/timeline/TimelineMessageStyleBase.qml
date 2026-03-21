@@ -410,6 +410,13 @@ TimelineEvent {
         replyContextMenu.show(copyText, resolveReplyLink(replyDelegate, x, y, quoteLineWidth, replyHeaderHeight), replyTo);
     }
 
+    function handleMouseSelectionToggle() {
+        if (!chatRoot || typeof chatRoot.handleMouseSelectionToggle !== "function")
+            return;
+
+        chatRoot.handleMouseSelectionToggle(eventId);
+    }
+
     function avatarImageUrl(userId) {
         if (room)
             return room.avatarUrl(userId).replace("mxc://", "image://MxcImage/");

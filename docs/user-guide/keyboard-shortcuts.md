@@ -43,6 +43,9 @@ These shortcuts apply while you are viewing a room timeline.
 Selection mode lets you move through the timeline with the keyboard. One message is focused, and
 you can also select more than one message. Focused and selected messages are shown differently.
 
+`Ctrl+Click` on a message also enters Selection mode if needed and toggles that message in the
+explicit selection.
+
 Selection mode also supports several [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-like
 keys such as `j`/`k`, `Ctrl+U`, `Ctrl+D`, `gg`, and `Shift+G`.
 

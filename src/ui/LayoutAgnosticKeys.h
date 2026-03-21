@@ -15,8 +15,26 @@ class LayoutAgnosticKeys : public QObject
     QML_SINGLETON
 
 public:
+    enum class LatinKey
+    {
+        D,
+        E,
+        F,
+        G,
+        H,
+        I,
+        J,
+        K,
+        L,
+        O,
+        R,
+        T,
+        U,
+        Count,
+    };
+    Q_ENUM(LatinKey)
+
     explicit LayoutAgnosticKeys(QObject *parent = nullptr);
 
-    Q_INVOKABLE bool
-    matchesLatinKey(const QString &latinKey, int key, quint32 nativeScanCode) const;
+    Q_INVOKABLE bool matchesLatinKey(LatinKey latinKey, int key, quint32 nativeScanCode) const;
 };

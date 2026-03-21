@@ -1597,6 +1597,21 @@ if(BUILD_TESTING)
     add_test(NAME komai_navigation_history_test COMMAND komai_navigation_history_test)
     komai_configure_test(komai_navigation_history_test "unit;timeline")
 
+    add_executable(komai_layout_agnostic_keys_test
+        tests/LayoutAgnosticKeysTest.cpp
+        tests/LoggingStub.cpp
+        src/ui/LayoutAgnosticKeys.cpp
+    )
+    target_include_directories(komai_layout_agnostic_keys_test PRIVATE src)
+    target_link_libraries(komai_layout_agnostic_keys_test PRIVATE
+        Qt::Core
+        Qt::Qml
+        spdlog::spdlog
+    )
+    set_target_properties(komai_layout_agnostic_keys_test PROPERTIES AUTOMOC ON)
+    add_test(NAME komai_layout_agnostic_keys_test COMMAND komai_layout_agnostic_keys_test)
+    komai_configure_test(komai_layout_agnostic_keys_test "unit;ui")
+
     add_custom_target(komai_tests DEPENDS
         komai_yaml_settings_test
         komai_staged_load_plan_test
@@ -1616,6 +1631,7 @@ if(BUILD_TESTING)
         komai_bot_detection_test
         komai_emoji_completion_search_test
         komai_navigation_history_test
+        komai_layout_agnostic_keys_test
     )
 endif()
 

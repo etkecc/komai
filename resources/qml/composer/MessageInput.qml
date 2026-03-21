@@ -187,7 +187,7 @@ Rectangle {
                             popup.close();
                         if (popup.opened && completer.count <= 0)
                             popup.close();
-                    } else if (event.modifiers == Qt.ControlModifier && inputBar.eventMatchesLatinKey(event, "u")) {
+                    } else if (event.modifiers == Qt.ControlModifier && inputBar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.U)) {
                         inputBar.walkModeOlderChunkRequested();
                         event.accepted = true;
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_P) {

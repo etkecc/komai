@@ -27,7 +27,7 @@ AbstractButton {
     property string toolTipText: labelText
     property real toolTipAnchorX: width / 2
     readonly property bool hasLabel: labelText.length > 0
-    readonly property bool activeState: hovered || pressed || visualFocus
+    readonly property bool activeState: hovered || pressed || activeFocus
     readonly property int labelHeight: hasLabel ? label.implicitHeight : 0
 
     function handleWalkModeEvent(event) {

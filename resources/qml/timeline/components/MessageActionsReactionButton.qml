@@ -22,7 +22,7 @@ AbstractButton {
     required property int itemVerticalPadding
     readonly property string normalizedReaction: reaction !== undefined && reaction !== null ? String(reaction) : ""
     readonly property bool showImage: normalizedReaction.startsWith("mxc://")
-    readonly property bool activeState: hovered || pressed || visualFocus
+    readonly property bool activeState: hovered || pressed || activeFocus
 
     function handleWalkModeEvent(event) {
         if (typeof chatRoot === "undefined" || !chatRoot || typeof chatRoot.handleWalkModeKey !== "function")

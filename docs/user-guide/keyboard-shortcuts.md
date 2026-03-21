@@ -35,7 +35,8 @@ These shortcuts apply while you are viewing a room timeline.
 | `Ctrl+W` | Close the current room view |
 | `Page Up` | Scroll the timeline up by about one page |
 | `Page Down` | Scroll the timeline down by about one page |
-| `Alt+Up` | Enter Selection mode at the bottom-most visible message |
+| `Alt+Up` | Enter Selection mode at the bottom-most visible message, or move toward older messages if Selection mode is already active |
+| `Alt+Down` | Enter Selection mode at the top-most visible message, or move toward newer messages if Selection mode is already active |
 | `Escape` | Close the nearest timeline or composer state first. Repeated `Escape` always settles back to the composer |
 | Any typed character | Focus the composer and start typing, except while Selection mode is active |
 
@@ -49,6 +50,9 @@ keys such as `j`/`k`, `Ctrl+U`, `Ctrl+D`, `gg`, and `Shift+G`.
 
 Unlike Vim, `Escape` does not enter Selection mode. In Komai, `Escape` always moves back toward
 typing: it closes local UI first and eventually leaves you in the composer.
+
+`Alt+Up` and `Alt+Down` are also entry keys: they start from the bottom-most or top-most visible
+message in the current viewport, not from the absolute ends of room history.
 
 On platforms that provide stable native scan codes, Komai also tries to keep those Latin-letter
 bindings on the same physical keys when you use a non-Latin keyboard layout.

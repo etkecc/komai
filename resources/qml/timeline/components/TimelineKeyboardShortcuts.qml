@@ -37,9 +37,13 @@ Item {
     }
     Shortcut {
         sequence: "Alt+Up"
-        enabled: !chatRoot.walkModeActive
 
-        onActivated: chatRoot.enterWalkModeFromBottomMostVisible()
+        onActivated: chatRoot.handleAltWalkModeMoveTowardOlderEvents()
+    }
+    Shortcut {
+        sequence: "Alt+Down"
+
+        onActivated: chatRoot.handleAltWalkModeMoveTowardNewerEvents()
     }
     Timer {
         id: readTimer

@@ -48,6 +48,13 @@ Item {
     readonly property real listViewCacheBuffer: roomSwitchInProgress ? 0 : 320
     readonly property int walkModeOlderPrefetchThresholdItems: 6
     readonly property int walkModeChunkDivisor: 2
+    readonly property bool selectionModeEnterShortcutEnabled: {
+        if (!(walkModeActive || keyboardActionsOpen))
+            return false;
+
+        const activeItem = chatRoot.Window.activeFocusItem;
+        return itemIsInSubtree(activeItem, chatRoot);
+    }
 
     MessageActionSupport {
         id: messageActionSupport
@@ -153,6 +160,17 @@ Item {
         }
 
         return -1;
+    }
+
+    function itemIsInSubtree(item, ancestor) {
+        let current = item;
+        while (current) {
+            if (current === ancestor)
+                return true;
+            current = current.parent;
+        }
+
+        return false;
     }
 
     function selectedEventIdsContains(eventId) {
@@ -1202,6 +1220,25 @@ Item {
         disableTimelineList: chatRoot.disableTimelineList
         filteringRequested: chatRoot.filteringRequested
         roomSwitchInProgress: chatRoot.roomSwitchInProgress
+    }
+
+    Shortcut {
+        enabled: chatRoot.selectionModeEnterShortcutEnabled
+        sequences: ["Return", "Enter"]
+        context: Qt.ApplicationShortcut
+
+        onActivated: {
+            if (chatRoot.keyboardActionsOpen)
+                chatRoot.activateFocusedKeyboardAction();
+            else
+                chatRoot.openKeyboardActionsForPrimaryEvent();
+        }
+        onActivatedAmbiguously: {
+            if (chatRoot.keyboardActionsOpen)
+                chatRoot.activateFocusedKeyboardAction();
+            else
+                chatRoot.openKeyboardActionsForPrimaryEvent();
+        }
     }
 
     ListView {

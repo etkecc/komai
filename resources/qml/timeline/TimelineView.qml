@@ -128,6 +128,8 @@ Item {
                         dialogHost: timelineView.dialogHost
                         componentCatalog: componentCatalog
                         composerAvailable: !timelineView.perfDisableComposer
+                        selectionModeBar: walkModeBar
+                        roomHeader: topBar
                         roomSearchHasFocus: topBar.searchHasFocus
                         searchString: topBar.searchString
                         filterByNotifications: topBar.filterNotifications

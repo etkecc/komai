@@ -79,6 +79,38 @@ Pane {
         }
     }
 
+    function addVisibleActionButton(buttons, button) {
+        if (button && button.visible !== false)
+            buttons.push(button);
+    }
+
+    function visibleActionButtons() {
+        const buttons = [];
+
+        addVisibleActionButton(buttons, backToRoomsButton);
+        addVisibleActionButton(buttons, pinButton);
+        addVisibleActionButton(buttons, searchButton);
+        addVisibleActionButton(buttons, memberButton);
+        addVisibleActionButton(buttons, encryptionButton);
+        addVisibleActionButton(buttons, leaveRoomButton);
+
+        return buttons;
+    }
+
+    function focusLastVisibleActionButton() {
+        const buttons = visibleActionButtons();
+        if (buttons.length === 0)
+            return false;
+
+        buttons[buttons.length - 1].forceActiveFocus();
+        return true;
+    }
+
+    function lastVisibleActionButtonItem() {
+        const buttons = visibleActionButtons();
+        return buttons.length > 0 ? buttons[buttons.length - 1] : null;
+    }
+
     Layout.fillWidth: true
     Layout.minimumHeight: Komai.uiLayoutCompactMode ? Komai.navigationRowHeight : 0
     implicitHeight: Math.max(topLayout.height + (Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium) * 2, Komai.navigationRowHeight)

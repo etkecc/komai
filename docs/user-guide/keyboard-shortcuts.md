@@ -61,6 +61,10 @@ bindings on the same physical keys when you use a non-Latin keyboard layout.
 | --- | --- |
 | `Up` / `k` | Move focus toward older messages |
 | `Down` / `j` | Move focus toward newer messages |
+| `Left` / `h` | Move focus to the previous Selection mode bar button, or focus the last one from the timeline |
+| `Right` / `l` | Move focus to the next Selection mode bar button, or focus the first one from the timeline |
+| `Tab` | Focus the first enabled Selection mode bar button, then move to the next one |
+| `Shift+Tab` | Move to the previous Selection mode bar button; from the first one, return to the timeline; from the timeline, move to the last room-header action button |
 | `Ctrl+U` | Move focus about half a screen toward older messages; from the composer, enter Selection mode and do the same jump |
 | `Ctrl+D` | Move focus about half a screen toward newer messages |
 | `gg` | Move focus to the oldest currently loaded message |
@@ -82,6 +86,11 @@ Which message does an action use?
 - If one message is selected, actions use that message.
 - If nothing is selected, actions use the focused message.
 - If more than one message is selected, direct message actions do nothing yet. Use `Escape` or the bottom bar's **Clear** button first.
+
+Focus note:
+
+- `Up` / `Down` keep moving through messages.
+- `Tab`, `Shift+Tab`, `Left` / `Right`, and `h` / `l` move between the Selection mode bar and nearby header controls.
 
 ### Inline Message Actions Bar
 

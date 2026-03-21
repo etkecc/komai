@@ -16,6 +16,8 @@ Item {
     property int availableWidth: width
     property int padding: Komai.paddingMedium
     property bool composerAvailable: true
+    property var selectionModeBar: null
+    property var roomHeader: null
     property string searchString: ""
     property bool filterByNotifications: false
     property bool disableTimelineList: false
@@ -53,7 +55,8 @@ Item {
             return false;
 
         const activeItem = chatRoot.Window.activeFocusItem;
-        return itemIsInSubtree(activeItem, chatRoot);
+        return itemIsInSubtree(activeItem, chatRoot)
+            && !(selectionModeBar && itemIsInSubtree(activeItem, selectionModeBar));
     }
 
     MessageActionSupport {
@@ -98,6 +101,59 @@ Item {
         }
 
         return true;
+    }
+
+    function selectionModeBarHasFocus() {
+        if (!selectionModeBar)
+            return false;
+
+        return itemIsInSubtree(chatRoot.Window.activeFocusItem, selectionModeBar);
+    }
+
+    function focusFirstSelectionModeBarButton() {
+        if (!selectionModeBar || typeof selectionModeBar.focusFirstVisibleButton !== "function")
+            return false;
+
+        return selectionModeBar.focusFirstVisibleButton();
+    }
+
+    function focusLastSelectionModeBarButton() {
+        if (!selectionModeBar || typeof selectionModeBar.focusLastVisibleButton !== "function")
+            return false;
+
+        return selectionModeBar.focusLastVisibleButton();
+    }
+
+    function moveSelectionModeBarFocus(step) {
+        if (!selectionModeBar || typeof selectionModeBar.moveFocus !== "function")
+            return false;
+
+        return selectionModeBar.moveFocus(step);
+    }
+
+    function focusLastRoomHeaderActionButton() {
+        if (!roomHeader || typeof roomHeader.focusLastVisibleActionButton !== "function")
+            return false;
+
+        return roomHeader.focusLastVisibleActionButton();
+    }
+
+    function timelineSelectionFocusTarget() {
+        return chat;
+    }
+
+    function firstSelectionModeBarTabTarget() {
+        if (!selectionModeBar || typeof selectionModeBar.firstVisibleButtonItem !== "function")
+            return null;
+
+        return selectionModeBar.firstVisibleButtonItem();
+    }
+
+    function lastRoomHeaderActionButtonTarget() {
+        if (!roomHeader || typeof roomHeader.lastVisibleActionButtonItem !== "function")
+            return null;
+
+        return roomHeader.lastVisibleActionButtonItem();
     }
 
     function normalizedEventIds(eventIds) {
@@ -1010,8 +1066,33 @@ Item {
         if (!walkModeActive)
             return false;
 
+        const walkBarFocused = selectionModeBarHasFocus();
+
         if (!plainGPressed)
             resetWalkModeGoToTopSequence();
+
+        if ((event.key === Qt.Key_Left || eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.H))
+                && eventUsesWalkModeModifiers(event)) {
+            if (walkBarFocused) {
+                if (!moveSelectionModeBarFocus(-1))
+                    focusTimelineSelection();
+            } else {
+                focusLastSelectionModeBarButton();
+            }
+            event.accepted = true;
+            return true;
+        }
+
+        if ((event.key === Qt.Key_Right || eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.L))
+                && eventUsesWalkModeModifiers(event)) {
+            if (walkBarFocused) {
+                moveSelectionModeBarFocus(1);
+            } else {
+                focusFirstSelectionModeBarButton();
+            }
+            event.accepted = true;
+            return true;
+        }
 
         if ((event.key === Qt.Key_Up || eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.K))
                 && eventUsesWalkModeModifiers(event)) {
@@ -1369,6 +1450,13 @@ Item {
 
         property int delegateMaxWidth: ((Settings.uiLayoutContentMaxWidthEffectivePx > 0 && Settings.uiLayoutContentMaxWidthEffectivePx < chatRoot.availableWidth) ? Settings.uiLayoutContentMaxWidthEffectivePx : chatRoot.availableWidth) - chatRoot.padding * 2 - (scrollbar.interactive ? scrollbar.width : 0)
 
+        KeyNavigation.tab: chatRoot.walkModeActive && !chatRoot.keyboardActionsOpen
+            ? chatRoot.firstSelectionModeBarTabTarget()
+            : null
+        KeyNavigation.backtab: chatRoot.walkModeActive && !chatRoot.keyboardActionsOpen
+            ? chatRoot.lastRoomHeaderActionButtonTarget()
+            : null
+        KeyNavigation.priority: KeyNavigation.BeforeItem
         Keys.priority: Keys.BeforeItem
         Keys.onPressed: event => chatRoot.handleWalkModeKey(event)
         ScrollBar.vertical: scrollbar

@@ -27,13 +27,36 @@ AbstractButton {
     readonly property color actionTextColor: activeState ? palette.brightText : palette.buttonText
     readonly property color actionLabelColor: activeState ? palette.brightText : palette.text
 
+    function isActivationKey(event) {
+        if (!event)
+            return false;
+
+        const modifiers = Number(event.modifiers);
+        if ((modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) !== 0)
+            return false;
+
+        return event.key === Qt.Key_Return
+            || event.key === Qt.Key_Enter
+            || event.key === Qt.Key_Space;
+    }
+
     Layout.alignment: Qt.AlignVCenter
     Layout.column: column
     Layout.preferredHeight: topBarRef.topBarAvatarSize
     Layout.preferredWidth: implicitWidth
     Layout.row: row
+    activeFocusOnTab: true
+    focusPolicy: Qt.StrongFocus
     font.pointSize: Settings.uiFontSizePt
     hoverEnabled: true
+    Keys.priority: Keys.BeforeItem
+    Keys.onPressed: event => {
+        if (!button.enabled || !button.isActivationKey(event))
+            return;
+
+        button.clicked();
+        event.accepted = true;
+    }
     leftPadding: topBarRef.buttonPaddingH
     rightPadding: topBarRef.buttonPaddingH
     topPadding: topBarRef.buttonPaddingV

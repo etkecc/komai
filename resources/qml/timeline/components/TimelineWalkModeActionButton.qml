@@ -24,6 +24,9 @@ AbstractButton {
     property real toolTipAnchorX: width / 2
     property real toolTipGapY: Komai.paddingLarge
     property bool mirrorIcon: false
+    property var navigationHost: null
+    property Item nextTabTarget: null
+    property Item previousTabTarget: null
     readonly property bool hasLabel: showLabel && labelText.length > 0
     readonly property int iconSize: Math.max(14, buttonHeight - 2 * buttonPaddingH)
     readonly property bool activeState: enabled && (hovered || pressed || visualFocus)
@@ -42,6 +45,53 @@ AbstractButton {
         ? disabledActionLabelColor
         : (activeState ? palette.brightText : palette.text)
 
+    function isTabNavigationEvent(event) {
+        if (!event)
+            return false;
+
+        return event.key === Qt.Key_Backtab
+            || event.key === Qt.Key_Tab;
+    }
+
+    function isActivationKey(event) {
+        if (!event)
+            return false;
+
+        const modifiers = Number(event.modifiers);
+        if ((modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) !== 0)
+            return false;
+
+        return event.key === Qt.Key_Return
+            || event.key === Qt.Key_Enter
+            || event.key === Qt.Key_Space;
+    }
+
+    function tabNavigationTarget(forward) {
+        return forward ? nextTabTarget : previousTabTarget;
+    }
+
+    function handleTabNavigation(event) {
+        if (!event)
+            return false;
+
+        const forward = event.key === Qt.Key_Tab
+            && (Number(event.modifiers) & Qt.ShiftModifier) === 0;
+        const backward = event.key === Qt.Key_Backtab
+            || (event.key === Qt.Key_Tab && (Number(event.modifiers) & Qt.ShiftModifier) !== 0);
+        if (!forward && !backward)
+            return false;
+
+        const target = tabNavigationTarget(forward);
+        if (!target || typeof target.forceActiveFocus !== "function")
+            return false;
+
+        event.accepted = true;
+        Qt.callLater(function () {
+            target.forceActiveFocus(forward ? Qt.TabFocusReason : Qt.BacktabFocusReason);
+        });
+        return true;
+    }
+
     function handleWalkModeEvent(event) {
         if (!chatRoot || typeof chatRoot.handleWalkModeKey !== "function")
             return false;
@@ -56,8 +106,19 @@ AbstractButton {
     focusPolicy: Qt.StrongFocus
     font.pointSize: Settings.uiFontSizePt
     hoverEnabled: true
+    onEnabledChanged: if (navigationHost && typeof navigationHost.scheduleButtonNavigationTargetsRefresh === "function")
+        navigationHost.scheduleButtonNavigationTargetsRefresh()
     Keys.priority: Keys.BeforeItem
-    Keys.onPressed: event => button.handleWalkModeEvent(event)
+    Keys.onShortcutOverride: event => button.handleTabNavigation(event)
+    Keys.onPressed: event => {
+        if (button.enabled && button.isActivationKey(event)) {
+            button.clicked();
+            event.accepted = true;
+            return;
+        }
+
+        button.handleWalkModeEvent(event);
+    }
     leftPadding: buttonPaddingH
     rightPadding: buttonPaddingH
     topPadding: buttonPaddingV
@@ -137,5 +198,10 @@ AbstractButton {
     KomaiCursorShape {
         anchors.fill: parent
         cursorShape: button.enabled ? Qt.PointingHandCursor : Qt.ForbiddenCursor
+    }
+
+    Component.onCompleted: {
+        if (navigationHost && typeof navigationHost.scheduleButtonNavigationTargetsRefresh === "function")
+            navigationHost.scheduleButtonNavigationTargetsRefresh();
     }
 }

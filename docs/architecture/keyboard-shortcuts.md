@@ -101,12 +101,33 @@ focuses the composer instead of entering Selection mode.
 `MessageView.handleWalkModeKey()` is the central dispatcher for Selection mode keys. It handles:
 
 - movement keys such as `Up`, `Down`, `j`, `k`, `Ctrl+U`, `Ctrl+D`, `gg`, and `Shift+G`
+- focus-routing keys such as `Tab`, `Shift+Tab`, `Left` / `Right`, and `h` / `l`
 - action keys such as `r`, `t`, `e`, `f`, `d`, `u`, `o`, and `Enter`
 - Selection mode lifecycle keys such as `Space`, `Escape`, `i`, and `?`
 - inline action-bar navigation when keyboard actions are open
 
 This is intentionally one ordered handler because `Escape`, `Enter`, and focus movement depend on
 current sub-state.
+
+### Selection mode focus routing
+
+When inline message actions are not open, Selection mode has three nearby focus zones:
+
+- the timeline selection itself
+- the bottom Selection mode bar
+- the room header action buttons
+
+`MessageView.qml` owns the routing rules, but it calls helper methods on:
+
+- [resources/qml/timeline/components/TimelineWalkModeBar.qml](../../resources/qml/timeline/components/TimelineWalkModeBar.qml) for first/last/next/previous enabled Selection mode bar buttons
+- [resources/qml/room/components/RoomHeader.qml](../../resources/qml/room/components/RoomHeader.qml) for the last visible room-header action button
+
+Current behavior:
+
+- `Tab` from the timeline focuses the first enabled Selection mode bar button
+- `Shift+Tab` from the timeline focuses the last visible room-header action button
+- `Shift+Tab` from the first Selection mode bar button returns to the timeline
+- `Left` / `Right` and `h` / `l` move through the Selection mode bar, with timeline-to-bar entry from the matching edge
 
 ### Action targeting
 

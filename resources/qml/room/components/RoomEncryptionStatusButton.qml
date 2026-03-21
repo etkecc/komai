@@ -52,13 +52,36 @@ AbstractButton {
         }
     }
 
+    function isActivationKey(event) {
+        if (!event)
+            return false;
+
+        const modifiers = Number(event.modifiers);
+        if ((modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) !== 0)
+            return false;
+
+        return event.key === Qt.Key_Return
+            || event.key === Qt.Key_Enter
+            || event.key === Qt.Key_Space;
+    }
+
     Layout.alignment: Qt.AlignVCenter
     Layout.column: 7
     Layout.preferredHeight: topBarAvatarSize
     Layout.preferredWidth: implicitWidth
     Layout.row: 1
+    activeFocusOnTab: true
+    focusPolicy: Qt.StrongFocus
     font.pointSize: Settings.uiFontSizePt
     hoverEnabled: true
+    Keys.priority: Keys.BeforeItem
+    Keys.onPressed: event => {
+        if (!encryptionButton.enabled || !encryptionButton.isActivationKey(event))
+            return;
+
+        encryptionButton.clicked();
+        event.accepted = true;
+    }
     leftPadding: buttonPaddingH
     rightPadding: buttonPaddingH
     topPadding: buttonPaddingV

@@ -69,6 +69,17 @@ matchesLinuxScanCode(quint32 nativeScanCode, const NativeLatinKeyDefinition &def
                                    nativeScanCode == definition.linuxScanCodes[1]);
 }
 
+bool
+canUseNativeScanCodeFallback(int key)
+{
+    if (key == 0 || key == Qt::Key_unknown)
+        return true;
+
+    // Native scan-code matching is only safe for printable text keys. Special keys like
+    // Backspace can share platform keycodes with letter positions on some backends.
+    return key >= Qt::Key_Space && key < Qt::Key_Escape;
+}
+
 }
 
 LayoutAgnosticKeys::LayoutAgnosticKeys(QObject *parent)
@@ -89,6 +100,9 @@ LayoutAgnosticKeys::matchesLatinKey(LatinKey latinKey, int key, quint32 nativeSc
 
     if (key == definition.logicalQtKey)
         return true;
+
+    if (!canUseNativeScanCodeFallback(key))
+        return false;
 
 #if defined(Q_OS_WIN)
     return nativeScanCode != 0 && nativeScanCode == definition.windowsScanCode;

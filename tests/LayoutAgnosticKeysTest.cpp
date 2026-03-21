@@ -110,6 +110,20 @@ testInvalidEnumValueReturnsFalse()
                   "invalid LatinKey enum value returns false");
 }
 
+bool
+testSpecialKeysDoNotUseScanCodeFallback()
+{
+    LayoutAgnosticKeys matcher;
+
+    bool ok = true;
+    ok &= expect(!matcher.matchesLatinKey(LatinKey::U, Qt::Key_Backspace, 22),
+                 "Backspace does not match LatinKey::U via native scan code");
+    ok &= expect(!matcher.matchesLatinKey(LatinKey::O, Qt::Key_Backspace, 24),
+                 "Backspace does not match LatinKey::O via native scan code");
+
+    return ok;
+}
+
 } // namespace
 
 int
@@ -119,6 +133,7 @@ main()
     ok &= testLogicalQtKeys();
     ok &= testLinuxScanCodes();
     ok &= testInvalidEnumValueReturnsFalse();
+    ok &= testSpecialKeysDoNotUseScanCodeFallback();
 
     if (!ok)
         return 1;

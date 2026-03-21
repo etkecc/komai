@@ -27,8 +27,20 @@ AbstractButton {
     readonly property bool hasLabel: showLabel && labelText.length > 0
     readonly property int iconSize: Math.max(14, buttonHeight - 2 * buttonPaddingH)
     readonly property bool activeState: enabled && (hovered || pressed || visualFocus)
-    readonly property color actionTextColor: !enabled ? palette.buttonText : (activeState ? palette.brightText : palette.buttonText)
-    readonly property color actionLabelColor: !enabled ? palette.buttonText : (activeState ? palette.brightText : palette.text)
+    readonly property color disabledActionTextColor: Qt.rgba(palette.buttonText.r,
+                                                             palette.buttonText.g,
+                                                             palette.buttonText.b,
+                                                             0.38)
+    readonly property color disabledActionLabelColor: Qt.rgba(palette.buttonText.r,
+                                                              palette.buttonText.g,
+                                                              palette.buttonText.b,
+                                                              0.58)
+    readonly property color actionTextColor: !enabled
+        ? disabledActionTextColor
+        : (activeState ? palette.brightText : palette.buttonText)
+    readonly property color actionLabelColor: !enabled
+        ? disabledActionLabelColor
+        : (activeState ? palette.brightText : palette.text)
 
     function handleWalkModeEvent(event) {
         if (!chatRoot || typeof chatRoot.handleWalkModeKey !== "function")
@@ -82,7 +94,11 @@ AbstractButton {
 
     background: Rectangle {
         radius: Komai.paddingSmall
-        color: button.activeState ? palette.dark : "transparent"
+        color: !button.enabled
+            ? Qt.rgba(palette.buttonText.r, palette.buttonText.g, palette.buttonText.b, 0.05)
+            : button.activeState
+                ? palette.dark
+                : "transparent"
     }
 
     contentItem: RowLayout {
@@ -92,6 +108,7 @@ AbstractButton {
         anchors.topMargin: button.topPadding
         anchors.bottomMargin: button.bottomPadding
         spacing: Komai.paddingSmall
+        opacity: button.enabled ? 1.0 : 0.68
 
         Image {
             Layout.alignment: Qt.AlignVCenter
@@ -119,6 +136,6 @@ AbstractButton {
 
     KomaiCursorShape {
         anchors.fill: parent
-        cursorShape: button.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+        cursorShape: button.enabled ? Qt.PointingHandCursor : Qt.ForbiddenCursor
     }
 }

@@ -417,7 +417,7 @@ Components.OverlayDialog {
 
             ActionButton {
                 id: removeBtn
-                labelText: qsTr("Remove message")
+                labelText: qsTr("Delete message")
                 iconSource: ":/icons/icons/ui/delete.svg"
                 shortcutSequence: "Alt+D"
                 shortcutDisplayText: qsTr("Alt+D")

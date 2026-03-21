@@ -51,7 +51,10 @@ TimelineEvent {
     property var previewData: ({})
     readonly property var roomForColorCoding: room ? room : ((previewData && previewData.room) ? previewData.room : null)
     readonly property string roomIdForColorCoding: (roomForColorCoding && roomForColorCoding.roomId) ? String(roomForColorCoding.roomId) : ""
-    readonly property bool selectedInView: !!chatRoot && chatRoot.selectedEventId === wrapper.eventId
+    readonly property bool focusedInView: !!chatRoot && chatRoot.focusedEventId === wrapper.eventId
+    readonly property bool selectedInView: !!chatRoot
+        && chatRoot.selectedEventIds
+        && chatRoot.selectedEventIds.indexOf(wrapper.eventId) >= 0
 
     property var hoverDismissTimerRef: null
     property string registeredEventId: ""
@@ -225,12 +228,9 @@ TimelineEvent {
         if (registeredEventId === nextEventId)
             return;
 
-        if (chatRoot && registeredEventId.length > 0 && nextEventId.length > 0) {
-            if (chatRoot.selectedEventId === registeredEventId)
-                chatRoot.selectedEventId = nextEventId;
-            if (chatRoot.pendingKeyboardActionsEventId === registeredEventId)
-                chatRoot.pendingKeyboardActionsEventId = nextEventId;
-        }
+        if (chatRoot && registeredEventId.length > 0 && nextEventId.length > 0
+                && typeof chatRoot.replaceTrackedEventId === "function")
+            chatRoot.replaceTrackedEventId(registeredEventId, nextEventId);
 
         unregisterDelegate(registeredEventId);
         registeredEventId = nextEventId;

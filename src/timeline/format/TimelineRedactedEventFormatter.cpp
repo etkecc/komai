@@ -54,12 +54,12 @@ timeline::format::formatRedactedEvent(const QString &id,
     }
 
     if (reason.isEmpty()) {
-        pair[QStringLiteral("first")] = tr("Removed by %1").arg(redactedName);
+        pair[QStringLiteral("first")] = tr("Deleted by %1").arg(redactedName);
         pair[QStringLiteral("second")] =
-          tr("%1 (%2) removed this message at %3").arg(redactedName, redactedUser, dateTime);
+          tr("%1 (%2) deleted this message at %3").arg(redactedName, redactedUser, dateTime);
     } else {
-        pair[QStringLiteral("first")]  = tr("Removed by %1 because: %2").arg(redactedName, reason);
-        pair[QStringLiteral("second")] = tr("%1 (%2) removed this message at %3\nReason: %4")
+        pair[QStringLiteral("first")]  = tr("Deleted by %1 because: %2").arg(redactedName, reason);
+        pair[QStringLiteral("second")] = tr("%1 (%2) deleted this message at %3\nReason: %4")
                                            .arg(redactedName, redactedUser, dateTime, reason);
     }
 

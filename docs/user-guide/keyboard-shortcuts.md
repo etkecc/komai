@@ -37,51 +37,49 @@ These shortcuts apply while you are looking at a room timeline.
 | `Ctrl+W` | Close the current room view |
 | `Page Up` | Scroll the timeline up by about one page |
 | `Page Down` | Scroll the timeline down by about one page |
-| `Escape` | Close the keyboard-opened inline actions bar, then cancel uploads/reply/edit/thread state and return to the selected message if one is still selected, otherwise focus the composer; if no composer state is active, clear the selected message |
-| Any typed character | Focus the composer and start typing immediately |
+| `Alt+Up` | Enter walk mode at the bottom-most visible message |
+| `Escape` | In composer mode, cancel inline uploads/reply/edit/thread state first; if none of those are active, enter walk mode at the bottom-most visible message. In walk mode, `Escape` closes inline actions first, then clears explicit selection, then exits back to the composer |
+| Any typed character | Focus the composer and start typing immediately, except while walk mode is active |
 
-### Message Selection
+### Walk Mode
 
-These shortcuts move a visual message selection through the currently displayed timeline, including
-filtered search and thread views.
-
-| Shortcut | Action |
-| --- | --- |
-| `Alt+Up` | Select the bottom-most visible message, or move the current selection upward |
-| `Alt+Down` | Move the current selection downward |
-
-The selection is view-local. It stays on the same event when new messages arrive, but it clears if
-you switch rooms, reset the timeline, or filter the current view so the selected event disappears.
-Starting or moving the selection also moves keyboard focus from the composer into the timeline so
-message-walking shortcuts behave predictably.
-
-### Selected Message Actions
-
-These shortcuts only do anything when a message is selected.
-If the selected event does not support an action, that shortcut does nothing.
+Walk mode is a view-local keyboard cursor for the timeline. It keeps a focused message and can also
+keep an explicit multi-selection. Focus and selection are separate: the focused message is the solid
+keyboard cursor, while selected messages keep their own selection styling.
 
 | Shortcut | Action |
 | --- | --- |
-| `Enter` | Open the inline message-actions bar for the selected message and focus the first visible button |
-| `Alt+R` | Reply to the selected message |
-| `Alt+Shift+T` | Reply in thread, or continue the selected message's thread |
-| `Alt+E` | Edit the selected message |
-| `Alt+F` | Forward the selected message |
-| `Alt+D` | Open the remove-message dialog for the selected message |
-| `Alt+U` | View the selected message as raw JSON |
-| `Menu` / `Shift+F10` | Open the **Message actions** dialog for the selected message |
+| `Up` / `k` | Move focus toward older messages |
+| `Down` / `j` | Move focus toward newer messages |
+| `Space` | Toggle whether the focused message is in the explicit selection |
+| `Enter` | Open the inline message-actions bar for the primary message and focus its first visible button |
+| `r` | Reply to the primary message |
+| `t` | Reply in thread, or continue the primary message's thread |
+| `e` | Edit the primary message |
+| `f` | Forward the primary message |
+| `d` | Delete message |
+| `u` | View the primary message as raw JSON |
+| `o` / `Menu` / `Shift+F10` | Open the full **Message actions** dialog for the primary message |
+| `i` | Exit walk mode and return to the composer |
+
+Primary-message rules:
+
+- If nothing is explicitly selected, actions target the focused message.
+- If exactly one message is explicitly selected, actions target that selected message.
+- If more than one message is selected, direct message actions do nothing in this pass; use `Escape`
+  to clear selection or the bottom walk bar's **Clear** button.
 
 ### Inline Message Actions Bar
 
 When the inline actions bar is opened from the keyboard:
-If the selected message is off-screen, Komai scrolls it into view before opening the bar.
+If the primary message is off-screen, Komai scrolls it into view before opening the bar.
 
 | Shortcut | Action |
 | --- | --- |
 | `Left` | Move focus to the previous visible inline action |
 | `Right` | Move focus to the next visible inline action |
 | `Enter` | Activate the focused inline action |
-| `Escape` | Close the inline actions bar and return to selected-message mode |
+| `Escape` | Close the inline actions bar and return to walk mode |
 
 
 ## ✍️ Composer
@@ -171,7 +169,7 @@ your permissions.
 | `Alt+I` | Show read receipts |
 | `Alt+U` | View raw message |
 | `Alt+E` | View decrypted raw message |
-| `Alt+D` | Remove message |
+| `Alt+D` | Delete message |
 | `Alt+R` | Report message |
 
 

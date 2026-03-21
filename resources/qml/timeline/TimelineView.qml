@@ -21,6 +21,7 @@ Item {
     readonly property bool perfDisableRoomHeader: TimelineManager.perfUiFlagEnabled("disable_room_header")
     readonly property bool perfDisableTimelineEffects: TimelineManager.perfUiFlagEnabled("disable_timeline_effects")
     readonly property bool perfDisableTimelineList: TimelineManager.perfUiFlagEnabled("disable_timeline_list")
+    readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
 
     ComponentCatalog {
         id: componentCatalog
@@ -30,7 +31,11 @@ Item {
 
     // focus message input on key press, but not on Ctrl-C and such.
     Keys.onPressed: event => {
-        if (event.text && event.key !== Qt.Key_Enter && event.key !== Qt.Key_Return && !topBar.searchHasFocus) {
+        if (event.text
+                && event.key !== Qt.Key_Enter
+                && event.key !== Qt.Key_Return
+                && !topBar.searchHasFocus
+                && !messageView.walkModeActive) {
             TimelineManager.focusMessageInput();
             if (event.modifiers != Qt.ControlModifier) {
                 room.input.setText(room.input.text + event.text);
@@ -122,6 +127,8 @@ Item {
                         disableTimelineList: timelineView.perfDisableTimelineList
                         dialogHost: timelineView.dialogHost
                         componentCatalog: componentCatalog
+                        composerAvailable: !timelineView.perfDisableComposer
+                        roomSearchHasFocus: topBar.searchHasFocus
                         searchString: topBar.searchString
                         filterByNotifications: topBar.filterNotifications
                     }
@@ -167,22 +174,75 @@ Item {
             id: composerWarnings
 
             Layout.minimumHeight: 0
-            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
-            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
+            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible && !messageView.walkModeActive ? implicitHeight : 0
+            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible && !messageView.walkModeActive ? implicitHeight : 0
             roomModel: timelineView.room
             replyPopupVisible: replyPopup.visible
         }
-        TimelineSeparator {
+        Item {
+            id: bottomInputShell
+
+            readonly property int contentHeight: messageView.walkModeActive
+                ? timelineView.composerBaselineHeight
+                : Math.max(timelineView.composerBaselineHeight, messageInput.implicitHeight)
+            Layout.fillWidth: true
             Layout.minimumHeight: visible ? implicitHeight : 0
             Layout.preferredHeight: visible ? implicitHeight : 0
             Layout.maximumHeight: visible ? implicitHeight : 0
+            implicitHeight: inputShellSeparator.implicitHeight + contentHeight
             visible: !timelineView.perfDisableComposer
+
+            ColumnLayout {
+                anchors.fill: parent
+                spacing: 0
+
+                TimelineSeparator {
+                    id: inputShellSeparator
+
+                    Layout.minimumHeight: implicitHeight
+                    Layout.preferredHeight: implicitHeight
+                    Layout.maximumHeight: implicitHeight
+                }
+                Composer.MessageInput {
+                    id: messageInput
+
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: visible ? timelineView.composerBaselineHeight : 0
+                    Layout.preferredHeight: visible ? Math.max(timelineView.composerBaselineHeight, implicitHeight) : 0
+                    Layout.maximumHeight: visible ? Math.max(timelineView.composerBaselineHeight, implicitHeight) : 0
+                    room: timelineView.room
+                    timelineRoot: timelineView.dialogHost
+                    visible: !messageView.walkModeActive
+                    walkModeActive: messageView.walkModeActive
+                }
+                TimelineWalkModeBar {
+                    id: walkModeBar
+
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: visible ? timelineView.composerBaselineHeight : 0
+                    Layout.preferredHeight: visible ? timelineView.composerBaselineHeight : 0
+                    Layout.maximumHeight: visible ? timelineView.composerBaselineHeight : 0
+                    minimumHeight: timelineView.composerBaselineHeight
+                    chatRoot: messageView
+                    roomModel: timelineView.room
+                    visible: messageView.walkModeActive
+                }
+            }
         }
-        Composer.MessageInput {
-            room: timelineView.room
-            timelineRoot: timelineView.dialogHost
-            visible: !timelineView.perfDisableComposer
+    }
+    Connections {
+        function onComposerInteractionRequested() {
+            if (messageView.walkModeActive) {
+                messageView.exitWalkMode({
+                    "focusComposer": false
+                });
+                Qt.callLater(function () {
+                    messageInput.focusTextInput();
+                });
+            }
         }
+
+        target: messageInput
     }
     TimelinePreviewPane {
         room: timelineView.room

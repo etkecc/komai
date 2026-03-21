@@ -179,6 +179,38 @@ Item {
         scheduleNeededPagination();
     }
 
+    function triggerRequestMore(phase) {
+        const model = activeRoomModel;
+
+        if (!model || !chatList || disableTimelineList || filteringRequested || roomSwitchInProgress)
+            return false;
+        if (model.paginationInProgress)
+            return false;
+        if (paginationCooldownActive)
+            return false;
+        if (!model.canPaginateBack()) {
+            markPhase(phase + ".skip.no_more");
+            return false;
+        }
+
+        markPhase(phase);
+        model.requestMore();
+        paginationCooldownActive = true;
+        paginationCooldown.restart();
+        return true;
+    }
+
+    function requestMoreForOlderKeyboardWalk() {
+        userInteractedSinceBind = true;
+        suppressPaginationUntilUserScroll = false;
+        pendingTopPaginationAfterInteraction = false;
+
+        if (chatList)
+            chatList.keepPinnedToBottom = false;
+
+        return triggerRequestMore("qml.message_view.expand_if_needed.request.keyboard_walk");
+    }
+
     function scheduleNeededPagination() {
         if (!neededPaginationTimer.running)
             neededPaginationTimer.start();
@@ -269,16 +301,8 @@ Item {
             return;
         }
 
-        if (!model.canPaginateBack()) {
-            markPhase("qml.message_view.expand_if_needed.skip.no_more");
+        if (!triggerRequestMore("qml.message_view.expand_if_needed.request"))
             return;
-        }
-
-        markPhase("qml.message_view.expand_if_needed.request");
-
-        model.requestMore();
-        paginationCooldownActive = true;
-        paginationCooldown.restart();
         if (automaticUnderfillTopup)
             autoExpandRemaining -= 1;
         if (userDrivenTopPagination) {

@@ -188,7 +188,7 @@ TimelineModel::redactEvent(const QString &id, const QString &reason)
                         });
                       return;
                   }
-                  emit redactionFailed(tr("Message redaction failed: %1")
+                  emit redactionFailed(tr("Deleting message failed: %1")
                                          .arg(QString::fromStdString(err->matrix_error.error)));
                   return;
               }
@@ -205,7 +205,7 @@ TimelineModel::redactEvent(const QString &id, const QString &reason)
               id_,
               [this, id, id_](const mtx::responses::EventId &, mtx::http::RequestErr err) {
                   if (err) {
-                      emit redactionFailed(tr("Message redaction failed: %1")
+                      emit redactionFailed(tr("Deleting message failed: %1")
                                              .arg(QString::fromStdString(err->matrix_error.error)));
                       return;
                   }

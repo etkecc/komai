@@ -24,8 +24,17 @@ AbstractButton {
     readonly property bool showImage: normalizedReaction.startsWith("mxc://")
     readonly property bool activeState: hovered || pressed || visualFocus
 
+    function handleWalkModeEvent(event) {
+        if (typeof chatRoot === "undefined" || !chatRoot || typeof chatRoot.handleWalkModeKey !== "function")
+            return false;
+
+        return chatRoot.handleWalkModeKey(event);
+    }
+
     activeFocusOnTab: true
     focusPolicy: Qt.StrongFocus
+    Keys.priority: Keys.BeforeItem
+    Keys.onPressed: event => button.handleWalkModeEvent(event)
     leftPadding: itemHorizontalPadding
     rightPadding: itemHorizontalPadding
     topPadding: itemVerticalPadding

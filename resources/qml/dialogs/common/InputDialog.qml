@@ -15,6 +15,7 @@ Components.OverlayDialog {
 
     property alias prompt: promptLabel.text
     property alias echoMode: statusInput.echoMode
+    property alias placeholderText: statusInput.placeholderText
     property alias text: statusInput.text
     property string acceptText: qsTr("OK")
 
@@ -27,10 +28,11 @@ Components.OverlayDialog {
 
         Layout.fillWidth: true
         color: palette.text
+        visible: text.length > 0
         wrapMode: Text.WordWrap
     }
 
-    MatrixTextField {
+    Components.KomaiTextField {
         id: statusInput
 
         Layout.fillWidth: true

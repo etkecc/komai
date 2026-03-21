@@ -65,22 +65,6 @@ Menu {
     }
 
     Component {
-        id: removeReason
-
-        InputDialog {
-            id: removeReasonDialog
-
-            property string eventId
-
-            prompt: qsTr("Enter reason for removal or hit enter for no reason:")
-            title: qsTr("Reason for removal")
-
-            onInputAccepted: function (text) {
-                roomModel.redactEvent(eventId, text);
-            }
-        }
-    }
-    Component {
         id: reportDialog
 
         ReportMessage {
@@ -216,14 +200,10 @@ Menu {
         }
         Component {
             MenuItem {
-                text: qsTr("Remo&ve message")
+                text: qsTr("&Delete message")
                 visible: (roomModel ? roomModel.permissions.canRedact() : false) || messageContextMenuRoot.isSender
 
-                onTriggered: function () {
-                    chatRoot.showDialogFromComponent(removeReason, {
-                            "eventId": messageContextMenuRoot.eventId
-                        });
-                }
+                onTriggered: chatRoot.openRemoveMessageDialog(messageContextMenuRoot.eventId)
             }
         }
         Component {

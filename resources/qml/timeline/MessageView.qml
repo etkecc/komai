@@ -15,9 +15,11 @@ Item {
     required property var componentCatalog
     property int availableWidth: width
     property int padding: Komai.paddingMedium
+    property bool composerAvailable: true
     property string searchString: ""
     property bool filterByNotifications: false
     property bool disableTimelineList: false
+    property bool roomSearchHasFocus: false
     property bool suppressRoomSwitchSpinner: false
     readonly property bool filteringInProgress: filteredTimeline.filteringInProgress
     readonly property bool filteringRequested: searchString.length > 0 || filterByNotifications || (activeRoomModel && activeRoomModel.thread !== "")
@@ -27,13 +29,23 @@ Item {
     property var pendingRoomModel: null
     property bool roomSwitchInProgress: false
     property int roomSwitchBindSerial: 0
-    property string selectedEventId: ""
+    property bool walkModeActive: false
+    property string focusedEventId: ""
+    property var selectedEventIds: []
     property bool keyboardActionsOpen: false
     property var visibleTimelineDelegates: ({})
     property string pendingKeyboardActionsEventId: ""
-    readonly property bool hasSelectedEvent: selectedEventId.length > 0
+    readonly property bool hasFocusedEvent: focusedEventId.length > 0
+    readonly property bool hasSelectedEvents: selectedEventIds.length > 0
+    readonly property int selectedCount: selectedEventIds.length
+    readonly property bool hasSingleSelection: selectedCount === 1
+    readonly property string singleSelectedEventId: hasSingleSelection ? String(selectedEventIds[0]) : ""
+    readonly property string primaryActionEventId: hasSingleSelection
+        ? singleSelectedEventId
+        : (!hasSelectedEvents ? focusedEventId : "")
     readonly property real listViewDisplayMargin: roomSwitchInProgress ? 0 : chat.height / 8
     readonly property real listViewCacheBuffer: roomSwitchInProgress ? 0 : 320
+    readonly property int walkModeOlderPrefetchThresholdItems: 6
 
     MessageActionSupport {
         id: messageActionSupport
@@ -60,16 +72,50 @@ Item {
             delete visibleTimelineDelegates[eventId];
     }
 
-    function clearSelectedEvent() {
-        pendingKeyboardActionsEventId = "";
+    function keyboardActionsControl() {
+        if (typeof messageActionsHost === "undefined" || !messageActionsHost || !messageActionsHost.control)
+            return null;
 
-        if (typeof messageActionsHost !== "undefined"
-                && messageActionsHost
-                && messageActionsHost.control
-                && messageActionsHost.control.keyboardActive)
-            messageActionsHost.control.dismiss();
+        return messageActionsHost.control;
+    }
 
-        selectedEventId = "";
+    function sameEventIdList(left, right) {
+        if (left.length !== right.length)
+            return false;
+
+        for (let index = 0; index < left.length; index++) {
+            if (String(left[index]) !== String(right[index]))
+                return false;
+        }
+
+        return true;
+    }
+
+    function normalizedEventIds(eventIds) {
+        const normalizedIds = [];
+        const seenIds = ({});
+
+        for (let index = 0; index < eventIds.length; index++) {
+            const eventId = String(eventIds[index] || "");
+            if (!eventId || seenIds[eventId])
+                continue;
+
+            seenIds[eventId] = true;
+            normalizedIds.push(eventId);
+        }
+
+        return normalizedIds;
+    }
+
+    function clearSelectedEvents() {
+        if (selectedEventIds.length === 0)
+            return;
+
+        selectedEventIds = [];
+    }
+
+    function clearFocusedEvent() {
+        focusedEventId = "";
     }
 
     function focusTimelineSelection() {
@@ -95,23 +141,30 @@ Item {
         return !!chat.model.dataByIndex(index, Room.IsHiddenEvent);
     }
 
-    function selectedVisibleIndex() {
-        if (!selectedEventId || !chat.model)
+    function displayedIndexForEventId(eventId) {
+        if (!eventId || !chat.model)
             return -1;
 
         for (let index = 0; index < chat.count; index++) {
-            if (displayedEventIdAt(index) === selectedEventId)
+            if (displayedEventIdAt(index) === eventId)
                 return index;
         }
 
         return -1;
     }
 
-    function selectedDelegate() {
-        if (!selectedEventId)
+    function selectedEventIdsContains(eventId) {
+        if (!eventId)
+            return false;
+
+        return selectedEventIds.indexOf(String(eventId)) >= 0;
+    }
+
+    function focusedDelegate() {
+        if (!focusedEventId)
             return null;
 
-        return visibleTimelineDelegates[selectedEventId] || null;
+        return visibleTimelineDelegates[focusedEventId] || null;
     }
 
     function bottomMostVisibleDelegate() {
@@ -148,9 +201,23 @@ Item {
         chat.updateLastScroll();
     }
 
-    function selectedMessageInfo() {
-        const index = selectedVisibleIndex();
+    function maybePrefetchOlderTimelineForWalk(targetIndex) {
+        if (!walkModeActive || targetIndex < 0)
+            return false;
+
+        const olderDisplayedCount = (chat.count - 1) - targetIndex;
+        if (olderDisplayedCount > walkModeOlderPrefetchThresholdItems)
+            return false;
+
+        return paginationController.requestMoreForOlderKeyboardWalk();
+    }
+
+    function messageInfoForEventId(eventId) {
+        const index = displayedIndexForEventId(eventId);
         if (index < 0 || !chat.model || typeof chat.model.dataByIndex !== "function")
+            return null;
+
+        if (displayedEventHiddenAt(index))
             return null;
 
         function roleValue(role, fallbackValue) {
@@ -159,7 +226,7 @@ Item {
         }
 
         return {
-            "eventId": displayedEventIdAt(index),
+            "eventId": String(eventId),
             "threadId": String(roleValue(Room.ThreadId, "") || ""),
             "type": Number(roleValue(Room.Type, -1)),
             "isSender": !!roleValue(Room.IsSender, false),
@@ -170,24 +237,119 @@ Item {
         };
     }
 
-    function validateSelectedEvent() {
-        if (!selectedEventId)
+    function primaryActionMessageInfo() {
+        if (!primaryActionEventId)
+            return null;
+
+        return messageInfoForEventId(primaryActionEventId);
+    }
+
+    function closeKeyboardActions(options) {
+        const control = keyboardActionsControl();
+
+        pendingKeyboardActionsEventId = "";
+        if (!control || !control.keyboardActive)
             return false;
 
-        if (selectedVisibleIndex() < 0) {
-            clearSelectedEvent();
+        control.dismiss();
+        if (!(options && options.skipTimelineFocus))
+            focusTimelineSelection();
+        return true;
+    }
+
+    function clearWalkState(options) {
+        const shouldFocusComposer = !!(options && options.focusComposer);
+
+        closeKeyboardActions({
+            "skipTimelineFocus": true
+        });
+        pendingKeyboardActionsEventId = "";
+        clearSelectedEvents();
+        clearFocusedEvent();
+        walkModeActive = false;
+
+        if (shouldFocusComposer && composerAvailable) {
+            Qt.callLater(function () {
+                TimelineManager.focusMessageInput();
+            });
+        }
+    }
+
+    function exitWalkMode(options) {
+        if (!walkModeActive && !hasFocusedEvent && !hasSelectedEvents && !keyboardActionsOpen)
+            return false;
+
+        clearWalkState(options);
+        return true;
+    }
+
+    function reconcileWalkState(options) {
+        const nextSelectedEventIds = [];
+
+        for (let index = 0; index < selectedEventIds.length; index++) {
+            const eventId = String(selectedEventIds[index] || "");
+            const displayedIndex = displayedIndexForEventId(eventId);
+            if (displayedIndex < 0 || displayedEventHiddenAt(displayedIndex))
+                continue;
+
+            nextSelectedEventIds.push(eventId);
+        }
+
+        const normalizedSelectedEventIds = normalizedEventIds(nextSelectedEventIds);
+        if (!sameEventIdList(selectedEventIds, normalizedSelectedEventIds))
+            selectedEventIds = normalizedSelectedEventIds;
+
+        if (pendingKeyboardActionsEventId) {
+            const pendingIndex = displayedIndexForEventId(pendingKeyboardActionsEventId);
+            if (pendingIndex < 0
+                    || displayedEventHiddenAt(pendingIndex)
+                    || pendingKeyboardActionsEventId !== primaryActionEventId)
+                pendingKeyboardActionsEventId = "";
+        }
+
+        if (!hasFocusedEvent) {
+            if (walkModeActive || hasSelectedEvents)
+                clearWalkState(options);
             return false;
         }
+
+        const focusedIndex = displayedIndexForEventId(focusedEventId);
+        if (focusedIndex < 0 || displayedEventHiddenAt(focusedIndex)) {
+            clearWalkState(options);
+            return false;
+        }
+
+        if (keyboardActionsOpen && !primaryActionEventId)
+            closeKeyboardActions();
 
         return true;
     }
 
-    function moveSelection(delta) {
-        const currentIndex = selectedVisibleIndex();
+    function replaceTrackedEventId(oldId, newId) {
+        const previousId = String(oldId || "");
+        const nextId = String(newId || "");
+        if (!previousId || !nextId || previousId === nextId)
+            return;
+
+        if (focusedEventId === previousId)
+            focusedEventId = nextId;
+
+        if (pendingKeyboardActionsEventId === previousId)
+            pendingKeyboardActionsEventId = nextId;
+
+        if (selectedEventIdsContains(previousId)) {
+            const replacedEventIds = selectedEventIds.map(function (eventId) {
+                return eventId === previousId ? nextId : eventId;
+            });
+            selectedEventIds = normalizedEventIds(replacedEventIds);
+        }
+    }
+
+    function moveFocusByStep(step) {
+        const currentIndex = displayedIndexForEventId(focusedEventId);
         if (currentIndex < 0)
             return false;
 
-        const step = delta >= 0 ? 1 : -1;
         for (let nextIndex = currentIndex + step; nextIndex >= 0 && nextIndex < chat.count; nextIndex += step) {
             if (displayedEventHiddenAt(nextIndex))
                 continue;
@@ -196,85 +358,178 @@ Item {
             if (!nextEventId)
                 continue;
 
-            if (messageActionsHost.control.keyboardActive)
-                messageActionsHost.control.dismiss();
-
             pendingKeyboardActionsEventId = "";
-            selectedEventId = nextEventId;
+            focusedEventId = nextEventId;
             focusTimelineSelection();
             scrollDisplayedIndexIntoView(nextIndex);
+            if (step > 0)
+                maybePrefetchOlderTimelineForWalk(nextIndex);
             return true;
         }
+
+        if (step > 0)
+            maybePrefetchOlderTimelineForWalk(currentIndex);
 
         return false;
     }
 
-    function openKeyboardActionsForSelection() {
-        if (!validateSelectedEvent())
+    function moveFocusTowardOlderEvents() {
+        return moveFocusByStep(1);
+    }
+
+    function moveFocusTowardNewerEvents() {
+        return moveFocusByStep(-1);
+    }
+
+    function openKeyboardActionsForPrimaryEvent() {
+        if (!walkModeActive || !primaryActionEventId)
+            return false;
+
+        if (selectedCount > 1)
             return false;
 
         focusTimelineSelection();
 
-        const delegate = selectedDelegate();
+        const delegate = visibleTimelineDelegates[primaryActionEventId] || null;
         if (!delegate) {
-            pendingKeyboardActionsEventId = selectedEventId;
-            scrollDisplayedIndexIntoView(selectedVisibleIndex());
+            pendingKeyboardActionsEventId = primaryActionEventId;
+            scrollDisplayedIndexIntoView(displayedIndexForEventId(primaryActionEventId));
             return false;
         }
 
         pendingKeyboardActionsEventId = "";
         delegate.openKeyboardMessageActions();
         Qt.callLater(function () {
-            messageActionsHost.control.focusFirstVisibleButton();
+            const control = keyboardActionsControl();
+            if (control)
+                control.focusFirstVisibleButton();
         });
         return true;
     }
 
-    function closeKeyboardActions() {
-        pendingKeyboardActionsEventId = "";
-        if (!messageActionsHost.control.keyboardActive)
+    function activateFocusedKeyboardAction() {
+        const control = keyboardActionsControl();
+        if (!control || !control.keyboardActive)
             return false;
 
-        messageActionsHost.control.dismiss();
-        focusTimelineSelection();
-        return true;
+        return control.activateFocusedButton();
     }
 
     function moveKeyboardActionsFocus(step) {
-        if (!messageActionsHost.control.keyboardActive)
+        const control = keyboardActionsControl();
+        if (!control || !control.keyboardActive)
             return false;
 
-        return messageActionsHost.control.moveFocus(step);
+        return control.moveFocus(step);
     }
 
     function tryOpenPendingKeyboardActions() {
-        if (!pendingKeyboardActionsEventId || pendingKeyboardActionsEventId !== selectedEventId)
+        if (!pendingKeyboardActionsEventId || pendingKeyboardActionsEventId !== primaryActionEventId)
             return false;
 
-        if (!selectedDelegate())
+        if (!visibleTimelineDelegates[pendingKeyboardActionsEventId])
             return false;
 
-        return openKeyboardActionsForSelection();
+        return openKeyboardActionsForPrimaryEvent();
     }
 
-    function selectBottomMostVisibleEvent() {
+    function enterWalkModeFromBottomMostVisible() {
+        if (!composerAvailable
+                || disableTimelineList
+                || roomSearchHasFocus
+                || !roommodel
+                || roommodel.input.uploads.length > 0
+                || roommodel.reply
+                || roommodel.edit
+                || roommodel.thread)
+            return false;
+
         const delegate = bottomMostVisibleDelegate();
         if (!delegate || !delegate.eventId)
             return false;
 
+        closeKeyboardActions({
+            "skipTimelineFocus": true
+        });
         pendingKeyboardActionsEventId = "";
-        selectedEventId = String(delegate.eventId);
+        clearSelectedEvents();
+        focusedEventId = String(delegate.eventId);
+        walkModeActive = true;
         focusTimelineSelection();
         return true;
     }
 
-    function performSelectedMessageAction(actionName) {
-        const message = selectedMessageInfo();
+    function toggleFocusedEventSelection() {
+        if (!walkModeActive || !focusedEventId)
+            return false;
+
+        if (selectedEventIdsContains(focusedEventId)) {
+            selectedEventIds = selectedEventIds.filter(function (eventId) {
+                return eventId !== focusedEventId;
+            });
+        } else {
+            selectedEventIds = normalizedEventIds(selectedEventIds.concat([focusedEventId]));
+        }
+
+        return true;
+    }
+
+    function openPrimaryMessageActionsDialog() {
+        const message = primaryActionMessageInfo();
         if (!message)
             return false;
 
-        let handled = false;
+        closeKeyboardActions({
+            "skipTimelineFocus": true
+        });
+        return messageActionSupport.openOptionsDialog(chatRoot, message);
+    }
 
+    function performWalkModeAction(actionName) {
+        if (selectedCount > 1)
+            return false;
+
+        const message = primaryActionMessageInfo();
+        if (!message)
+            return false;
+
+        switch (actionName) {
+        case "reply":
+            if (!messageActionSupport.canReply(message, room))
+                return false;
+            break;
+        case "thread":
+            if (!messageActionSupport.canThread(message, room))
+                return false;
+            break;
+        case "edit":
+            if (!messageActionSupport.canEdit(message, room))
+                return false;
+            break;
+        case "forward":
+            if (!messageActionSupport.canForward(message))
+                return false;
+            break;
+        case "remove":
+            if (!messageActionSupport.canRemove(message, room))
+                return false;
+            break;
+        case "raw":
+            if (!messageActionSupport.canViewRaw(message))
+                return false;
+            break;
+        default:
+            break;
+        }
+
+        const exitsToComposer = actionName === "reply" || actionName === "thread" || actionName === "edit";
+
+        if (exitsToComposer)
+            exitWalkMode({
+                "focusComposer": false
+            });
+
+        let handled = false;
         switch (actionName) {
         case "reply":
             handled = messageActionSupport.applyReply(room, message);
@@ -294,25 +549,233 @@ Item {
         case "raw":
             handled = messageActionSupport.applyViewRaw(room, message);
             break;
+        case "options":
+            handled = messageActionSupport.openOptionsDialog(chatRoot, message);
+            break;
         default:
             handled = false;
         }
 
-        if (handled && messageActionsHost.control.keyboardActive)
-            messageActionsHost.control.dismiss();
-
         return handled;
     }
 
-    function openSelectedMessageActionsDialog() {
-        const message = selectedMessageInfo();
-        if (!message)
+    function handleEscape() {
+        if (keyboardActionsOpen) {
+            closeKeyboardActions();
+            return true;
+        }
+
+        if (walkModeActive && selectedCount > 0) {
+            clearSelectedEvents();
+            focusTimelineSelection();
+            return true;
+        }
+
+        if (walkModeActive) {
+            exitWalkMode({
+                "focusComposer": true
+            });
+            return true;
+        }
+
+        if (roommodel && roommodel.input.uploads.length > 0) {
+            roommodel.input.declineUploads();
+            return true;
+        }
+
+        if (roommodel && roommodel.reply) {
+            roommodel.reply = undefined;
+            return true;
+        }
+
+        if (roommodel && roommodel.edit) {
+            roommodel.edit = undefined;
+            return true;
+        }
+
+        if (roommodel && roommodel.thread) {
+            roommodel.thread = undefined;
+            return true;
+        }
+
+        if (roomSearchHasFocus)
             return false;
 
-        if (messageActionsHost.control.keyboardActive)
-            messageActionsHost.control.dismiss();
+        return enterWalkModeFromBottomMostVisible();
+    }
 
-        return messageActionSupport.openOptionsDialog(chatRoot, message);
+    function eventUsesWalkModeModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function isWalkModeEnterKey(event) {
+        return event.key === Qt.Key_Return || event.key === Qt.Key_Enter;
+    }
+
+    function isWalkModeOptionsKey(event) {
+        const modifiers = Number(event.modifiers);
+        return (event.key === Qt.Key_Menu && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_F10
+                && (modifiers & Qt.ShiftModifier) !== 0
+                && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0)
+            || (event.key === Qt.Key_O && eventUsesWalkModeModifiers(event));
+    }
+
+    function isRecognizedWalkModeKey(event) {
+        return (event.key === Qt.Key_Escape)
+            || (event.key === Qt.Key_Left && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_Right && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_Up && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_Down && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_J && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_K && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_Space && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_R && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_T && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_E && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_F && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_D && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_U && eventUsesWalkModeModifiers(event))
+            || (event.key === Qt.Key_I && eventUsesWalkModeModifiers(event))
+            || isWalkModeEnterKey(event)
+            || isWalkModeOptionsKey(event);
+    }
+
+    function isPrintableWalkModeText(event) {
+        if (!eventUsesWalkModeModifiers(event) || isWalkModeEnterKey(event))
+            return false;
+
+        const text = String(event.text || "");
+        return text.length > 0;
+    }
+
+    function handleWalkModeKey(event) {
+        if (!event)
+            return false;
+
+        if (keyboardActionsOpen) {
+            if (event.key === Qt.Key_Left && eventUsesWalkModeModifiers(event)) {
+                moveKeyboardActionsFocus(-1);
+                event.accepted = true;
+                return true;
+            }
+
+            if (event.key === Qt.Key_Right && eventUsesWalkModeModifiers(event)) {
+                moveKeyboardActionsFocus(1);
+                event.accepted = true;
+                return true;
+            }
+
+            if (isWalkModeEnterKey(event) && eventUsesWalkModeModifiers(event)) {
+                activateFocusedKeyboardAction();
+                event.accepted = true;
+                return true;
+            }
+
+            if (event.key === Qt.Key_Escape) {
+                handleEscape();
+                event.accepted = true;
+                return true;
+            }
+
+            if (isRecognizedWalkModeKey(event) || isPrintableWalkModeText(event)) {
+                event.accepted = true;
+                return true;
+            }
+
+            return false;
+        }
+
+        if (!walkModeActive)
+            return false;
+
+        if ((event.key === Qt.Key_Up || event.key === Qt.Key_K) && eventUsesWalkModeModifiers(event)) {
+            moveFocusTowardOlderEvents();
+            event.accepted = true;
+            return true;
+        }
+
+        if ((event.key === Qt.Key_Down || event.key === Qt.Key_J) && eventUsesWalkModeModifiers(event)) {
+            moveFocusTowardNewerEvents();
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_Space && eventUsesWalkModeModifiers(event)) {
+            toggleFocusedEventSelection();
+            event.accepted = true;
+            return true;
+        }
+
+        if (isWalkModeEnterKey(event) && eventUsesWalkModeModifiers(event)) {
+            openKeyboardActionsForPrimaryEvent();
+            event.accepted = true;
+            return true;
+        }
+
+        if (isWalkModeOptionsKey(event)) {
+            openPrimaryMessageActionsDialog();
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_R && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("reply");
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_T && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("thread");
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_E && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("edit");
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_F && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("forward");
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_D && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("remove");
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_U && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("raw");
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_I && eventUsesWalkModeModifiers(event)) {
+            exitWalkMode({
+                "focusComposer": true
+            });
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_Escape) {
+            handleEscape();
+            event.accepted = true;
+            return true;
+        }
+
+        if (isPrintableWalkModeText(event)) {
+            event.accepted = true;
+            return true;
+        }
+
+        return false;
     }
 
     function scheduleTimelineModelBinding() {
@@ -320,7 +783,9 @@ Item {
         const targetRoom = roommodel;
 
         if (!targetRoom || disableTimelineList) {
-            clearSelectedEvent();
+            clearWalkState({
+                "focusComposer": false
+            });
             resetVisibleDelegateRegistry();
             pendingRoomModel = null;
             activeRoomModel = null;
@@ -358,11 +823,20 @@ Item {
     }
 
     onRoommodelChanged: {
-        clearSelectedEvent();
+        clearWalkState({
+            "focusComposer": false
+        });
         resetVisibleDelegateRegistry();
         scheduleTimelineModelBinding();
     }
     onDisableTimelineListChanged: scheduleTimelineModelBinding()
+    onRoomSearchHasFocusChanged: {
+        if (roomSearchHasFocus && walkModeActive) {
+            exitWalkMode({
+                "focusComposer": false
+            });
+        }
+    }
 
     Component.onCompleted: scheduleTimelineModelBinding()
 
@@ -507,6 +981,8 @@ Item {
 
         property int delegateMaxWidth: ((Settings.uiLayoutContentMaxWidthEffectivePx > 0 && Settings.uiLayoutContentMaxWidthEffectivePx < chatRoot.availableWidth) ? Settings.uiLayoutContentMaxWidthEffectivePx : chatRoot.availableWidth) - chatRoot.padding * 2 - (scrollbar.interactive ? scrollbar.width : 0)
 
+        Keys.priority: Keys.BeforeItem
+        Keys.onPressed: event => chatRoot.handleWalkModeKey(event)
         ScrollBar.vertical: scrollbar
         anchors.fill: parent
         anchors.rightMargin: scrollbar.interactive ? scrollbar.width : 0
@@ -570,12 +1046,16 @@ Item {
             keepPinnedToBottom = !chatRoot.filteringRequested && atYEnd;
             paginationController.onTimelineModelChanged();
             if (!model) {
-                chatRoot.clearSelectedEvent();
+                chatRoot.clearWalkState({
+                    "focusComposer": false
+                });
                 chatRoot.resetVisibleDelegateRegistry();
                 return;
             }
             Qt.callLater(function () {
-                chatRoot.validateSelectedEvent();
+                chatRoot.reconcileWalkState({
+                    "focusComposer": false
+                });
                 chatRoot.tryOpenPendingKeyboardActions();
             });
         }
@@ -669,6 +1149,9 @@ Item {
             if (atYEnd && model && room)
                 model.currentIndex = 0;
             paginationController.onCountChanged();
+            chatRoot.reconcileWalkState({
+                "focusComposer": false
+            });
             chatRoot.tryOpenPendingKeyboardActions();
         }
 
@@ -690,21 +1173,29 @@ Item {
         }
         Connections {
             function onRowsInserted() {
-                chatRoot.validateSelectedEvent();
+                chatRoot.reconcileWalkState({
+                    "focusComposer": false
+                });
                 chatRoot.tryOpenPendingKeyboardActions();
             }
 
             function onRowsRemoved() {
-                chatRoot.validateSelectedEvent();
+                chatRoot.reconcileWalkState({
+                    "focusComposer": false
+                });
             }
 
             function onLayoutChanged() {
-                chatRoot.validateSelectedEvent();
+                chatRoot.reconcileWalkState({
+                    "focusComposer": false
+                });
                 chatRoot.tryOpenPendingKeyboardActions();
             }
 
             function onModelReset() {
-                chatRoot.clearSelectedEvent();
+                chatRoot.clearWalkState({
+                    "focusComposer": false
+                });
                 chatRoot.resetVisibleDelegateRegistry();
             }
 
@@ -714,16 +1205,15 @@ Item {
         Connections {
             function onActivationModeChanged() {
                 chatRoot.keyboardActionsOpen = messageActionsHost.control.keyboardActive;
+                if (chatRoot.keyboardActionsOpen && !chatRoot.walkModeActive && chatRoot.hasFocusedEvent)
+                    chatRoot.walkModeActive = true;
             }
 
             target: messageActionsHost.control
         }
         Connections {
             function onEventIdReplaced(oldId, newId) {
-                if (chatRoot.selectedEventId === oldId)
-                    chatRoot.selectedEventId = newId;
-                if (chatRoot.pendingKeyboardActionsEventId === oldId)
-                    chatRoot.pendingKeyboardActionsEventId = newId;
+                chatRoot.replaceTrackedEventId(oldId, newId);
             }
 
             target: chatRoot.activeRoomModel
@@ -749,10 +1239,11 @@ Item {
         InputDialog {
             property string eventId
 
-            prompt: qsTr("Enter reason for removal or hit enter for no reason:")
-            title: qsTr("Reason for removal")
+            placeholderText: qsTr("Optional reason")
+            prompt: ""
+            title: qsTr("Delete this message?")
             titleIcon: ":/icons/icons/ui/delete.svg"
-            acceptText: qsTr("Remove")
+            acceptText: qsTr("Delete")
 
             onInputAccepted: function (text) {
                 room.redactEvent(eventId, text);

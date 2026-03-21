@@ -17,14 +17,37 @@ Rectangle {
     required property var room
     required property var timelineRoot
     property bool showAllButtons: width > 450 || (messageInput.length == 0 && !messageInput.inputMethodComposing)
+    property bool walkModeActive: false
     readonly property string text: messageInput.text
+    readonly property bool textInputActiveFocus: messageInput.activeFocus
     readonly property bool hasUploads: room && room.input.uploads.length > 0
     readonly property bool composerEnabled: !hasUploads
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
+    readonly property int minimumBarHeight: Math.max(48, Komai.navigationRowHeight)
+    signal composerInteractionRequested()
+
+    function focusTextInput() {
+        if (walkModeActive) {
+            composerInteractionRequested();
+            return false;
+        }
+
+        messageInput.forceActiveFocus();
+        return true;
+    }
+
+    function focusTextInputIfAllowed() {
+        if (walkModeActive)
+            return false;
+
+        messageInput.forceActiveFocus();
+        return true;
+    }
 
     Layout.fillWidth: true
-    Layout.minimumHeight: 48
-    Layout.preferredHeight: row.implicitHeight
+    implicitHeight: Math.max(minimumBarHeight, row.implicitHeight)
+    Layout.minimumHeight: minimumBarHeight
+    Layout.preferredHeight: implicitHeight
     color: palette.window
 
     RowLayout {
@@ -300,7 +323,7 @@ Rectangle {
                     const insertedLength = text.length - previousTextLength;
                     if (room)
                         room.input.updateState(selectionStart, selectionEnd, cursorPosition, text);
-                    forceActiveFocus();
+                    inputBar.focusTextInputIfAllowed();
                     if (cursorPosition > 0)
                         lastChar = text.charAt(cursorPosition - 1);
                     else
@@ -324,7 +347,7 @@ Rectangle {
                         if (room)
                             messageInput.append(room.input.text);
                         completer.completerType = "";
-                        messageInput.forceActiveFocus();
+                        inputBar.focusTextInputIfAllowed();
                         if (room) {
                             const roomId = room.roomId;
                             TimelineManager.markRoomSwitchPhase(roomId, "qml.message_input.room_changed");
@@ -475,13 +498,13 @@ Rectangle {
                 }
                 Connections {
                     function onEditChanged() {
-                        messageInput.forceActiveFocus();
+                        inputBar.focusTextInput();
                     }
                     function onReplyChanged() {
-                        messageInput.forceActiveFocus();
+                        inputBar.focusTextInput();
                     }
                     function onThreadChanged() {
-                        messageInput.forceActiveFocus();
+                        inputBar.focusTextInput();
                     }
 
                     ignoreUnknownSignals: true
@@ -489,7 +512,7 @@ Rectangle {
                 }
                 Connections {
                     function onFocusInput() {
-                        messageInput.forceActiveFocus();
+                        inputBar.focusTextInput();
                     }
 
                     target: TimelineManager

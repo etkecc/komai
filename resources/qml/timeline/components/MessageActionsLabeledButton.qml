@@ -30,6 +30,13 @@ AbstractButton {
     readonly property bool activeState: hovered || pressed || visualFocus
     readonly property int labelHeight: hasLabel ? label.implicitHeight : 0
 
+    function handleWalkModeEvent(event) {
+        if (typeof chatRoot === "undefined" || !chatRoot || typeof chatRoot.handleWalkModeKey !== "function")
+            return false;
+
+        return chatRoot.handleWalkModeKey(event);
+    }
+
     TextMetrics {
         id: toolTipMetrics
 
@@ -54,6 +61,8 @@ AbstractButton {
     hoverEnabled: true
     activeFocusOnTab: true
     focusPolicy: Qt.StrongFocus
+    Keys.priority: Keys.BeforeItem
+    Keys.onPressed: event => button.handleWalkModeEvent(event)
     leftPadding: contentHorizontalPadding
     rightPadding: contentHorizontalPadding
     topPadding: contentVerticalPadding

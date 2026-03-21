@@ -49,6 +49,14 @@ TimelineMessageStyleBase {
                                                             palette.highlight.g,
                                                             palette.highlight.b,
                                                             0.95)
+    readonly property color focusedOutlineColor: Qt.rgba(selectionOutlineColor.r,
+                                                         selectionOutlineColor.g,
+                                                         selectionOutlineColor.b,
+                                                         1.0)
+    readonly property color selectedBorderColor: Qt.rgba(selectionOutlineColor.r,
+                                                         selectionOutlineColor.g,
+                                                         selectionOutlineColor.b,
+                                                         0.75)
     readonly property color selectionTintColor: Qt.rgba(selectionOutlineColor.r,
                                                         selectionOutlineColor.g,
                                                         selectionOutlineColor.b,
@@ -721,9 +729,9 @@ TimelineMessageStyleBase {
         Canvas {
             id: selectionBorderCanvas
             anchors.fill: gridContainer
-            z: 3
+            z: 2.8
             visible: wrapper.selectedInView
-            property color borderColor: wrapper.selectionOutlineColor
+            property color borderColor: wrapper.selectedBorderColor
 
             onWidthChanged: requestPaint()
             onHeightChanged: requestPaint()
@@ -738,6 +746,31 @@ TimelineMessageStyleBase {
                 ctx.setLineDash([8, 6]);
                 var r = 8;
                 var inset = 1;
+                ctx.beginPath();
+                ctx.roundedRect(inset, inset, width - 2 * inset, height - 2 * inset, r, r);
+                ctx.stroke();
+            }
+        },
+        Canvas {
+            id: focusedBorderCanvas
+            anchors.fill: gridContainer
+            z: 3.2
+            visible: wrapper.focusedInView
+            property color borderColor: wrapper.focusedOutlineColor
+
+            onWidthChanged: requestPaint()
+            onHeightChanged: requestPaint()
+            onBorderColorChanged: requestPaint()
+            onVisibleChanged: requestPaint()
+
+            onPaint: {
+                var ctx = getContext("2d");
+                ctx.clearRect(0, 0, width, height);
+                ctx.strokeStyle = borderColor;
+                ctx.lineWidth = 2.5;
+                ctx.setLineDash([]);
+                var r = 8;
+                var inset = 1.25;
                 ctx.beginPath();
                 ctx.roundedRect(inset, inset, width - 2 * inset, height - 2 * inset, r, r);
                 ctx.stroke();

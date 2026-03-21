@@ -129,7 +129,7 @@ RowLayout {
         buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
         highlightColor: effectiveHighlightColor
         changeColorOnHover: true
-        image: ":/icons/icons/ui/options-circle.svg"
+        image: ":/icons/icons/ui/textbox-more.svg"
         visible: metadata.forceTrailingTimestampLayout
             && metadata.leadingActionInTrailingLayout
             && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
@@ -214,7 +214,7 @@ RowLayout {
         buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
         highlightColor: effectiveHighlightColor
         changeColorOnHover: true
-        image: ":/icons/icons/ui/options-circle.svg"
+        image: ":/icons/icons/ui/textbox-more.svg"
         visible: !metadata.forceTrailingTimestampLayout
             && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
 
@@ -335,7 +335,7 @@ RowLayout {
         buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
         highlightColor: effectiveHighlightColor
         changeColorOnHover: true
-        image: ":/icons/icons/ui/options-circle.svg"
+        image: ":/icons/icons/ui/textbox-more.svg"
         visible: metadata.forceTrailingTimestampLayout
             && !metadata.leadingActionInTrailingLayout
             && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton

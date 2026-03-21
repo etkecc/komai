@@ -109,6 +109,12 @@
         <file alias="icons/ui/state-room-pinned-off.svg">icons/fluent/assets/Pin Off/SVG/ic_fluent_pin_off_20_regular.svg</file>
         <file alias="icons/ui/state-room-permissions.svg">icons/fluent/assets/People Lock/SVG/ic_fluent_people_lock_20_regular.svg</file>
         <file alias="icons/ui/cloud-arrow-up.svg">icons/fluent/assets/Cloud Arrow Up/SVG/ic_fluent_cloud_arrow_up_20_regular.svg</file>
+        <file alias="icons/ui/chevron-double-up.svg">icons/fluent/assets/Chevron Double Up/SVG/ic_fluent_chevron_double_up_20_regular.svg</file>
+        <file alias="icons/ui/chevron-double-down.svg">icons/fluent/assets/Chevron Double Down/SVG/ic_fluent_chevron_double_down_20_regular.svg</file>
+        <file alias="icons/ui/textbox-more.svg">icons/fluent/assets/TextBox More/SVG/ic_fluent_textbox_more_24_regular.svg</file>
+        <file alias="icons/ui/chevron-up.svg">icons/fluent/assets/Chevron Up/SVG/ic_fluent_chevron_up_24_regular.svg</file>
+        <file alias="icons/ui/chevron-down.svg">icons/fluent/assets/Chevron Down/SVG/ic_fluent_chevron_down_24_regular.svg</file>
+        <file alias="icons/ui/select-all-on.svg">icons/fluent/assets/Select All On/SVG/ic_fluent_select_all_on_20_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

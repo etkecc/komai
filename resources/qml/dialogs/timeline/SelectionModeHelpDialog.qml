@@ -13,34 +13,48 @@ Components.OverlayDialog {
 
     property var appRoot
     readonly property string keyboardShortcutsGuideUrl: "https://github.com/etkecc/komai/blob/main/docs/user-guide/keyboard-shortcuts.md"
-    readonly property int shortcutColumnWidth: 180
+    property string activeWarningKey: ""
+    readonly property string selectionModeShortcutWarningText: qsTr("This keyboard shortcut only works in Selection mode, after closing Help.")
+    readonly property string defaultIntroText: qsTr("These shortcuts apply in Selection mode after closing Help. See the <a href=\"%1\">full guide</a>.").arg(root.keyboardShortcutsGuideUrl)
     readonly property var helpSections: [
         {
-            "title": qsTr("Navigation"),
+            "title": qsTr("Movement"),
             "items": [
                 {
-                    "shortcut": qsTr("Up / k"),
-                    "description": qsTr("Move toward older messages")
+                    "warningKey": "move-up",
+                    "shortcuts": [qsTr("Up"), qsTr("K")],
+                    "label": qsTr("Move to older messages"),
+                    "icon": ":/icons/icons/ui/chevron-up.svg"
                 },
                 {
-                    "shortcut": qsTr("Down / j"),
-                    "description": qsTr("Move toward newer messages")
+                    "warningKey": "move-down",
+                    "shortcuts": [qsTr("Down"), qsTr("J")],
+                    "label": qsTr("Move to newer messages"),
+                    "icon": ":/icons/icons/ui/chevron-down.svg"
                 },
                 {
-                    "shortcut": qsTr("Ctrl+U"),
-                    "description": qsTr("Move about half a screen up")
+                    "warningKey": "page-up",
+                    "shortcuts": [qsTr("Ctrl+U")],
+                    "label": qsTr("Move about half a screen up"),
+                    "icon": ":/icons/icons/ui/chevron-double-up.svg"
                 },
                 {
-                    "shortcut": qsTr("Ctrl+D"),
-                    "description": qsTr("Move about half a screen down")
+                    "warningKey": "page-down",
+                    "shortcuts": [qsTr("Ctrl+D")],
+                    "label": qsTr("Move about half a screen down"),
+                    "icon": ":/icons/icons/ui/chevron-double-down.svg"
                 },
                 {
-                    "shortcut": qsTr("gg"),
-                    "description": qsTr("Go to the oldest loaded message")
+                    "warningKey": "jump-top-loaded",
+                    "shortcuts": [qsTr("gg")],
+                    "label": qsTr("Go to the oldest loaded message"),
+                    "icon": ":/icons/icons/ui/upload.svg"
                 },
                 {
-                    "shortcut": qsTr("Shift+G"),
-                    "description": qsTr("Go to the latest message in view")
+                    "warningKey": "jump-bottom-loaded",
+                    "shortcuts": [qsTr("Shift+G")],
+                    "label": qsTr("Go to the newest loaded message"),
+                    "icon": ":/icons/icons/ui/download.svg"
                 }
             ]
         },
@@ -48,8 +62,10 @@ Components.OverlayDialog {
             "title": qsTr("Selection"),
             "items": [
                 {
-                    "shortcut": qsTr("Space"),
-                    "description": qsTr("Toggle explicit selection for the focused message")
+                    "warningKey": "toggle-selection",
+                    "shortcuts": [qsTr("Space")],
+                    "label": qsTr("Toggle selection for the focused message"),
+                    "icon": ":/icons/icons/ui/select-all-on.svg"
                 }
             ]
         },
@@ -57,36 +73,53 @@ Components.OverlayDialog {
             "title": qsTr("Actions"),
             "items": [
                 {
-                    "shortcut": qsTr("Enter"),
-                    "description": qsTr("Open inline actions for the selected or focused message")
+                    "warningKey": "open-actions",
+                    "shortcuts": [qsTr("Enter")],
+                    "label": qsTr("Open inline actions for the selected or focused message"),
+                    "icon": ":/icons/icons/ui/textbox-more.svg"
                 },
                 {
-                    "shortcut": qsTr("r"),
-                    "description": qsTr("Reply to the selected or focused message")
+                    "warningKey": "reply",
+                    "shortcuts": [qsTr("R")],
+                    "label": qsTr("Reply to the selected or focused message"),
+                    "icon": ":/icons/icons/ui/reply.svg"
                 },
                 {
-                    "shortcut": qsTr("t"),
-                    "description": qsTr("Reply in thread or continue that thread")
+                    "warningKey": "thread",
+                    "shortcuts": [qsTr("T")],
+                    "label": qsTr("Open or continue the selected or focused thread"),
+                    "icon": ":/icons/icons/ui/thread.svg"
                 },
                 {
-                    "shortcut": qsTr("e"),
-                    "description": qsTr("Edit the selected or focused message")
+                    "warningKey": "edit",
+                    "shortcuts": [qsTr("E")],
+                    "label": qsTr("Edit the selected or focused message"),
+                    "icon": ":/icons/icons/ui/edit.svg"
                 },
                 {
-                    "shortcut": qsTr("f"),
-                    "description": qsTr("Forward the selected or focused message")
+                    "warningKey": "forward",
+                    "shortcuts": [qsTr("F")],
+                    "label": qsTr("Forward the selected or focused message"),
+                    "icon": ":/icons/icons/ui/reply.svg",
+                    "mirrorIcon": true
                 },
                 {
-                    "shortcut": qsTr("d"),
-                    "description": qsTr("Delete message")
+                    "warningKey": "delete",
+                    "shortcuts": [qsTr("D")],
+                    "label": qsTr("Delete the selected or focused message"),
+                    "icon": ":/icons/icons/ui/delete.svg"
                 },
                 {
-                    "shortcut": qsTr("u"),
-                    "description": qsTr("View raw JSON for the selected or focused message")
+                    "warningKey": "view-raw",
+                    "shortcuts": [qsTr("U")],
+                    "label": qsTr("View raw JSON for the selected or focused message"),
+                    "icon": ":/icons/icons/ui/raw-message.svg"
                 },
                 {
-                    "shortcut": qsTr("o"),
-                    "description": qsTr("Open full Message actions for the selected or focused message")
+                    "warningKey": "open-message-actions",
+                    "shortcuts": [qsTr("O")],
+                    "label": qsTr("Open full Message actions for the selected or focused message"),
+                    "icon": ":/icons/icons/ui/options-circle.svg"
                 }
             ]
         },
@@ -94,16 +127,22 @@ Components.OverlayDialog {
             "title": qsTr("Mode"),
             "items": [
                 {
-                    "shortcut": qsTr("?"),
-                    "description": qsTr("Open this help")
+                    "warningKey": "open-help",
+                    "shortcuts": [qsTr("?")],
+                    "label": qsTr("Open this help"),
+                    "icon": ":/icons/icons/ui/keyboard-shortcut.svg"
                 },
                 {
-                    "shortcut": qsTr("i"),
-                    "description": qsTr("Exit selection mode and return to the composer")
+                    "warningKey": "return-to-composer",
+                    "shortcuts": [qsTr("I")],
+                    "label": qsTr("Exit Selection mode and return to the composer"),
+                    "icon": ":/icons/icons/ui/send.svg"
                 },
                 {
-                    "shortcut": qsTr("Escape"),
-                    "description": qsTr("Close inline actions, clear selection, or exit selection mode")
+                    "warningKey": "escape",
+                    "shortcuts": [qsTr("Escape")],
+                    "label": qsTr("Close actions, clear selection, or exit Selection mode"),
+                    "icon": ":/icons/icons/ui/dismiss.svg"
                 }
             ]
         }
@@ -114,44 +153,180 @@ Components.OverlayDialog {
     overlayDialogMaxWidthRatio: 0.98
     title: qsTr("Keyboard Shortcuts in Selection mode")
     titleIcon: ":/icons/icons/ui/keyboard-shortcut.svg"
+    readonly property var warningShortcutBindings: [
+        { "sequence": "Up", "warningKey": "move-up" },
+        { "sequence": "K", "warningKey": "move-up" },
+        { "sequence": "Down", "warningKey": "move-down" },
+        { "sequence": "J", "warningKey": "move-down" },
+        { "sequence": "Ctrl+U", "warningKey": "page-up" },
+        { "sequence": "Ctrl+D", "warningKey": "page-down" },
+        { "sequence": "G, G", "warningKey": "jump-top-loaded" },
+        { "sequence": "Shift+G", "warningKey": "jump-bottom-loaded" },
+        { "sequence": "Space", "warningKey": "toggle-selection" },
+        { "sequence": "Return", "warningKey": "open-actions" },
+        { "sequence": "Enter", "warningKey": "open-actions" },
+        { "sequence": "R", "warningKey": "reply" },
+        { "sequence": "T", "warningKey": "thread" },
+        { "sequence": "E", "warningKey": "edit" },
+        { "sequence": "F", "warningKey": "forward" },
+        { "sequence": "D", "warningKey": "delete" },
+        { "sequence": "U", "warningKey": "view-raw" },
+        { "sequence": "O", "warningKey": "open-message-actions" },
+        { "sequence": "?", "warningKey": "open-help" },
+        { "sequence": "I", "warningKey": "return-to-composer" }
+    ]
 
-    component ShortcutRow: Rectangle {
+    function showSelectionModeShortcutWarning(warningKey) {
+        activeWarningKey = warningKey;
+        shortcutWarningResetTimer.restart();
+    }
+
+    Timer {
+        id: shortcutWarningResetTimer
+
+        interval: 1800
+        repeat: false
+        onTriggered: root.activeWarningKey = ""
+    }
+
+    Instantiator {
+        model: root.warningShortcutBindings
+
+        delegate: Shortcut {
+            required property var modelData
+
+            enabled: root.visible
+            sequence: modelData.sequence
+            context: Qt.ApplicationShortcut
+
+            onActivated: root.showSelectionModeShortcutWarning(modelData.warningKey)
+        }
+    }
+
+    component ShortcutBadgeGroup: Item {
+        id: badgeGroup
+
+        required property var shortcutTexts
+        property string separatorText: "/"
+
+        implicitWidth: badgeRow.implicitWidth
+        implicitHeight: badgeRow.implicitHeight
+
+        RowLayout {
+            id: badgeRow
+
+            anchors.fill: parent
+            spacing: Komai.paddingSmall
+
+            Repeater {
+                model: badgeGroup.shortcutTexts
+
+                delegate: RowLayout {
+                    required property string modelData
+                    required property int index
+
+                    spacing: Komai.paddingSmall
+
+                    Components.ShortcutKeyBadge {
+                        Layout.alignment: Qt.AlignVCenter
+                        text: modelData
+                        showKeyboardIcon: index === 0
+                        keyTextColor: palette.buttonText
+                        toolTipText: ""
+                    }
+
+                    Label {
+                        Layout.alignment: Qt.AlignVCenter
+                        color: palette.buttonText
+                        text: badgeGroup.separatorText
+                        visible: index < badgeGroup.shortcutTexts.length - 1
+                    }
+                }
+            }
+        }
+    }
+
+    component ShortcutRow: Item {
         id: shortcutRow
 
-        required property string shortcutText
-        required property string descriptionText
+        required property var shortcutTexts
+        required property string labelText
+        required property string warningKey
+        property string shortcutSeparatorText: "/"
+        property string iconSource: ""
+        property bool mirrorIcon: false
+        readonly property int actionIconSize: 24
+        readonly property int controlHeight: Math.max(40, Math.round(Settings.uiFontSizePt * 2.9))
+        readonly property bool showingWarning: root.activeWarningKey === warningKey
+
+        function tintedIconSource(source)
+        {
+            if (!source)
+                return "";
+
+            let resolved = (typeof source.toString === "function") ? source.toString() : String(source);
+            if (!resolved || resolved.length === 0)
+                return "";
+            if (resolved.startsWith("image://"))
+                return resolved;
+            if (resolved.startsWith("qrc:/"))
+                resolved = ":" + resolved.substring(4);
+            return "image://colorimage/" + resolved + "?" + palette.text;
+        }
 
         Layout.fillWidth: true
-        implicitHeight: rowLayout.implicitHeight + Komai.paddingSmall * 2
-        radius: 6
-        color: palette.base
-        border.color: palette.mid
-        border.width: 1
+        implicitHeight: Math.max(controlHeight,
+                                 rowLayout.implicitHeight + Komai.paddingSmall * 2 + 4)
+
+        Rectangle {
+            anchors.fill: parent
+            color: palette.window
+            radius: Komai.paddingSmall
+            border.color: Komai.theme.separator
+            border.width: 1
+        }
 
         RowLayout {
             id: rowLayout
 
             anchors.fill: parent
-            anchors.margins: Komai.paddingSmall
-            spacing: Komai.paddingMedium
+            anchors.leftMargin: Komai.paddingMedium + 2
+            anchors.rightMargin: Komai.paddingMedium + 2
+            anchors.topMargin: Komai.paddingSmall + 2
+            anchors.bottomMargin: Komai.paddingSmall + 2
+            spacing: Komai.paddingSmall
 
-            Label {
-                Layout.alignment: Qt.AlignTop
-                Layout.preferredWidth: root.shortcutColumnWidth
-                Layout.maximumWidth: root.shortcutColumnWidth
-                color: palette.text
-                font.bold: true
-                text: shortcutRow.shortcutText
-                wrapMode: Text.WordWrap
+            Image {
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredWidth: shortcutRow.actionIconSize
+                Layout.preferredHeight: shortcutRow.actionIconSize
+                fillMode: Image.PreserveAspectFit
+                source: shortcutRow.iconSource.length > 0 ? shortcutRow.tintedIconSource(shortcutRow.iconSource) : ""
+                sourceSize.width: shortcutRow.actionIconSize
+                sourceSize.height: shortcutRow.actionIconSize
+                visible: shortcutRow.iconSource.length > 0
+                smooth: true
+
+                transform: Scale {
+                    origin.x: shortcutRow.actionIconSize / 2
+                    xScale: shortcutRow.mirrorIcon ? -1 : 1
+                }
             }
 
             Label {
-                Layout.alignment: Qt.AlignTop
+                Layout.alignment: Qt.AlignVCenter
                 Layout.fillWidth: true
                 Layout.minimumWidth: 0
-                color: palette.text
-                text: shortcutRow.descriptionText
+                color: shortcutRow.showingWarning ? Komai.theme.warning : palette.text
+                font.bold: true
+                text: shortcutRow.showingWarning ? root.selectionModeShortcutWarningText : shortcutRow.labelText
                 wrapMode: Text.WordWrap
+            }
+
+            ShortcutBadgeGroup {
+                Layout.alignment: Qt.AlignVCenter
+                shortcutTexts: shortcutRow.shortcutTexts
+                separatorText: shortcutRow.shortcutSeparatorText
             }
         }
     }
@@ -200,8 +375,7 @@ Components.OverlayDialog {
                     Layout.fillWidth: true
                     color: palette.buttonText
                     textFormat: Text.RichText
-                    text: "<style>a { color: " + palette.highlight + "; }</style>"
-                        + qsTr("These shortcuts apply in Selection mode after you close this help. See the <a href=\"%1\">full guide</a>.").arg(root.keyboardShortcutsGuideUrl)
+                    text: "<style>a { color: " + palette.highlight + "; }</style>" + root.defaultIntroText
                     wrapMode: Text.WordWrap
 
                     onLinkActivated: function(link) {
@@ -224,11 +398,9 @@ Components.OverlayDialog {
                         Layout.fillWidth: true
                         spacing: Komai.paddingSmall
 
-                        Label {
+                        Components.SettingsSection {
                             Layout.fillWidth: true
-                            color: palette.text
-                            font.bold: true
-                            text: parent.modelData.title
+                            label: parent.modelData.title
                         }
 
                         Repeater {
@@ -237,8 +409,12 @@ Components.OverlayDialog {
                             delegate: ShortcutRow {
                                 required property var modelData
 
-                                shortcutText: modelData.shortcut
-                                descriptionText: modelData.description
+                                shortcutTexts: modelData.shortcuts ?? []
+                                labelText: modelData.label
+                                warningKey: modelData.warningKey ?? ""
+                                shortcutSeparatorText: modelData.shortcutSeparator ?? "/"
+                                iconSource: modelData.icon ?? ""
+                                mirrorIcon: !!modelData.mirrorIcon
                             }
                         }
                     }

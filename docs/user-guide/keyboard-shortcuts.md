@@ -40,8 +40,8 @@ These shortcuts apply while you are viewing a room timeline.
 
 ### Selection Mode
 
-Selection mode lets you move through the timeline with the keyboard. One message is focused, and
-you can also select more than one message. Focused and selected messages are shown differently.
+Selection mode lets you move through the timeline with the keyboard and optionally select more
+than one message. Focused and selected messages are shown differently.
 
 `Ctrl+Click` on a message also enters Selection mode if needed and toggles that message in the
 explicit selection.
@@ -56,8 +56,8 @@ You can enter Selection mode from the composer with `Up` when the caret is alrea
 the top composer line. Komai also differs from older chat-style `Up` behavior: it enters
 Selection mode instead of jumping straight into last-message editing.
 
-On platforms that provide stable native scan codes, Komai also tries to keep those Latin-letter
-bindings on the same physical keys when you use a non-Latin keyboard layout.
+On some platforms, Komai also keeps those Latin-letter bindings on the same physical keys when you
+use a non-Latin keyboard layout.
 
 | Shortcut | Action |
 | --- | --- |
@@ -85,15 +85,14 @@ bindings on the same physical keys when you use a non-Latin keyboard layout.
 
 Which message does an action use?
 
-- If one or more messages are selected, `f` and `d` act on the selected messages that support that action.
-- Other direct actions use one selected message if there is one.
-- If nothing is selected, direct actions use the focused message.
-- If more than one message is selected, `Enter`, `r`, `t`, `e`, `u`, and `o` stay unavailable.
+- `f` and `d` use the current selection.
+- Other actions use one selected message, or the focused message if nothing is selected.
+- With more than one message selected, the other actions are unavailable.
 
 Focus note:
 
 - `Up` / `Down` keep moving through messages.
-- `Tab`, `Shift+Tab`, `Left` / `Right`, and `h` / `l` move between the Selection mode bar and nearby header controls.
+- `Tab` / `Shift+Tab` move between the timeline, the Selection mode bar, and nearby header controls.
 
 ### Inline Message Actions Bar
 
@@ -102,8 +101,12 @@ message into view first if needed.
 
 | Shortcut | Action |
 | --- | --- |
-| `Left` | Move focus to the previous visible inline action |
-| `Right` | Move focus to the next visible inline action |
+| `Left` / `h` | Move focus to the previous visible inline action |
+| `Right` / `l` | Move focus to the next visible inline action |
+| `Up` / `k` | In the two-row layout, move focus to the previous visible inline action |
+| `Down` / `j` | In the two-row layout, move focus to the next visible inline action |
+| `gg` | Focus the first visible inline action |
+| `Shift+G` | Focus the last visible inline action |
 | `Enter` | Activate the focused inline action |
 | `Escape` | Close the inline actions bar and return to Selection mode |
 
@@ -157,9 +160,13 @@ In the **New** dialog opened by `Ctrl+N`:
 | `Alt+S` | New space |
 
 
-## ↪️ Forward Message
+## ↪️ Forward Dialog
 
-In the **Forward Message** dialog:
+In the forward dialog:
+
+- The title changes to match what you are forwarding.
+- When you forward several selected messages, the dialog tells you how many will be sent.
+- If some selected messages cannot be forwarded, the dialog says they will be skipped.
 
 | Shortcut | Action |
 | --- | --- |

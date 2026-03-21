@@ -43,6 +43,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 
 ## 💬 Timeline Interaction
 
+- **Selection mode** -- timeline navigation with a focused message, explicit multi-selection, strong keyboard support including Vim-like movement keys, and bottom-bar actions for reply/thread/edit plus bulk forward/delete where supported
 - **Click-to-toggle message actions** replace the hover-only action bar, eliminating mis-targeting on wide windows
 - **Revamped in-app media viewer** -- replaces nheko's basic image popup with a proper media overlay:
   - **Unified gallery for images and videos** -- prev/next navigation browses all media in the room chronologically, with automatic prefetching so navigation stays responsive

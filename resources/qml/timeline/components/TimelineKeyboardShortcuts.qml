@@ -35,16 +35,6 @@ Item {
 
         onActivated: chatRoot.handleEscape()
     }
-    Shortcut {
-        sequence: "Alt+Up"
-
-        onActivated: chatRoot.handleAltWalkModeMoveTowardOlderEvents()
-    }
-    Shortcut {
-        sequence: "Alt+Down"
-
-        onActivated: chatRoot.handleAltWalkModeMoveTowardNewerEvents()
-    }
     Timer {
         id: readTimer
 

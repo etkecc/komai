@@ -35,8 +35,6 @@ These shortcuts apply while you are viewing a room timeline.
 | `Ctrl+W` | Close the current room view |
 | `Page Up` | Scroll the timeline up by about one page |
 | `Page Down` | Scroll the timeline down by about one page |
-| `Alt+Up` | Enter Selection mode at the bottom-most visible message, or move toward older messages if Selection mode is already active |
-| `Alt+Down` | Enter Selection mode at the top-most visible message, or move toward newer messages if Selection mode is already active |
 | `Escape` | Close the nearest timeline or composer state first. Repeated `Escape` always settles back to the composer |
 | Any typed character | Focus the composer and start typing, except while Selection mode is active |
 
@@ -51,8 +49,9 @@ keys such as `j`/`k`, `Ctrl+U`, `Ctrl+D`, `gg`, and `Shift+G`.
 Unlike Vim, `Escape` does not enter Selection mode. In Komai, `Escape` always moves back toward
 typing: it closes local UI first and eventually leaves you in the composer.
 
-`Alt+Up` and `Alt+Down` are also entry keys: they start from the bottom-most or top-most visible
-message in the current viewport, not from the absolute ends of room history.
+You can enter Selection mode from the composer with `Up` when the caret is already at the start of
+the top composer line. Komai also differs from older chat-style `Up` behavior: it enters
+Selection mode instead of jumping straight into last-message editing.
 
 On platforms that provide stable native scan codes, Komai also tries to keep those Latin-letter
 bindings on the same physical keys when you use a non-Latin keyboard layout.
@@ -117,8 +116,8 @@ These shortcuts apply in the message composer.
 | `Ctrl+N` | Load the next composer draft/history entry |
 | `Tab` | Open the inline completer, or move within completer results |
 | `Shift+Tab` | Move the other direction within completer results |
-| `Up` | Move up inside the completer, or jump into editing the previous editable message when at the start of the composer |
-| `Down` | Move down inside the completer, or move toward the next editable message when editing |
+| `Up` | Move up inside the completer, or enter Selection mode when the caret is already at the start of the top composer line |
+| `Down` | Move down inside the completer |
 | `Escape` | Close the inline completer popup, or otherwise keep you in the composer |
 | `Enter` / `Shift+Enter` / `Ctrl+Enter` | Send or insert a newline depending on your configured send-key setting |
 

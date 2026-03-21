@@ -272,11 +272,6 @@ Item {
         return delegates.length > 0 ? delegates[delegates.length - 1] : null;
     }
 
-    function topMostVisibleDelegate() {
-        const delegates = visibleWalkModeDelegatesInViewport();
-        return delegates.length > 0 ? delegates[0] : null;
-    }
-
     function scrollDisplayedIndexIntoView(index) {
         if (index < 0)
             return;
@@ -569,26 +564,6 @@ Item {
         return moveFocusTowardOlderEventsByChunk() || walkModeActive;
     }
 
-    function handleAltWalkModeMoveTowardOlderEvents() {
-        if (keyboardActionsOpen)
-            return false;
-
-        if (walkModeActive)
-            return moveFocusTowardOlderEvents();
-
-        return enterWalkModeFromBottomMostVisible();
-    }
-
-    function handleAltWalkModeMoveTowardNewerEvents() {
-        if (keyboardActionsOpen)
-            return false;
-
-        if (walkModeActive)
-            return moveFocusTowardNewerEvents();
-
-        return enterWalkModeFromTopMostVisible();
-    }
-
     function focusOldestLoadedWalkModeEvent() {
         const index = lastDisplayedNonHiddenEventIndex();
         if (index < 0)
@@ -695,33 +670,6 @@ Item {
             return false;
 
         const delegate = bottomMostVisibleDelegate();
-        if (!delegate || !delegate.eventId)
-            return false;
-
-        closeKeyboardActions({
-            "skipTimelineFocus": true
-        });
-        pendingKeyboardActionsEventId = "";
-        resetWalkModeGoToTopSequence();
-        clearSelectedEvents();
-        focusedEventId = String(delegate.eventId);
-        walkModeActive = true;
-        focusTimelineSelection();
-        return true;
-    }
-
-    function enterWalkModeFromTopMostVisible() {
-        if (!composerAvailable
-                || disableTimelineList
-                || roomSearchHasFocus
-                || !roommodel
-                || roommodel.input.uploads.length > 0
-                || roommodel.reply
-                || roommodel.edit
-                || roommodel.thread)
-            return false;
-
-        const delegate = topMostVisibleDelegate();
         if (!delegate || !delegate.eventId)
             return false;
 

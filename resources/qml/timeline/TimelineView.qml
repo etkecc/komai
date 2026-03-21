@@ -214,6 +214,7 @@ Item {
                     Layout.maximumHeight: visible ? Math.max(timelineView.composerBaselineHeight, implicitHeight) : 0
                     room: timelineView.room
                     timelineRoot: timelineView.dialogHost
+                    selectionModeRoot: messageView
                     visible: !messageView.walkModeActive
                     walkModeActive: messageView.walkModeActive
                 }
@@ -242,13 +243,6 @@ Item {
                     messageInput.focusTextInput();
                 });
             }
-        }
-
-        target: messageInput
-    }
-    Connections {
-        function onWalkModeOlderChunkRequested() {
-            messageView.enterWalkModeAndMoveTowardOlderEventsByChunk();
         }
 
         target: messageInput

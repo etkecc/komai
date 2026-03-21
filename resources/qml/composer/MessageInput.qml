@@ -16,6 +16,7 @@ Rectangle {
 
     required property var room
     required property var timelineRoot
+    required property var selectionModeRoot
     property bool showAllButtons: width > 450 || (messageInput.length == 0 && !messageInput.inputMethodComposing)
     property bool walkModeActive: false
     readonly property string text: messageInput.text
@@ -25,7 +26,6 @@ Rectangle {
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
     readonly property int minimumBarHeight: Math.max(48, Komai.navigationRowHeight)
     signal composerInteractionRequested()
-    signal walkModeOlderChunkRequested()
 
     function focusTextInput() {
         if (walkModeActive) {
@@ -52,6 +52,20 @@ Rectangle {
         return LayoutAgnosticKeys.matchesLatinKey(latinKey,
                                                   event.key,
                                                   event.nativeScanCode);
+    }
+
+    function requestSelectionModeEntry() {
+        if (!selectionModeRoot || typeof selectionModeRoot.enterWalkModeFromBottomMostVisible !== "function")
+            return false;
+
+        return selectionModeRoot.enterWalkModeFromBottomMostVisible();
+    }
+
+    function requestSelectionModeOlderChunk() {
+        if (!selectionModeRoot || typeof selectionModeRoot.enterWalkModeAndMoveTowardOlderEventsByChunk !== "function")
+            return false;
+
+        return selectionModeRoot.enterWalkModeAndMoveTowardOlderEventsByChunk();
     }
 
     Layout.fillWidth: true
@@ -123,11 +137,20 @@ Rectangle {
                         return "command";
                     return "";
                 }
-                function positionCursorAtEnd() {
-                    cursorPosition = messageInput.length;
+                function isCursorOnTopLine() {
+                    return currentVisualLineStartPosition() === 0;
                 }
-                function positionCursorAtStart() {
-                    cursorPosition = 0;
+                function currentVisualLineStartPosition() {
+                    return positionAt(0, cursorRectangle.y + cursorRectangle.height / 2);
+                }
+                function currentVisualLineEndPosition() {
+                    return positionAt(width, cursorRectangle.y + cursorRectangle.height / 2);
+                }
+                function isCursorAtSelectionModeBoundary() {
+                    if (!messageInput.isCursorOnTopLine())
+                        return false;
+
+                    return cursorPosition === currentVisualLineStartPosition();
                 }
                 function maybeOpenCompleterForTrailingTokenAfterBulkInsert() {
                     if (popup.opened || cursorPosition !== text.length)
@@ -188,8 +211,7 @@ Rectangle {
                         if (popup.opened && completer.count <= 0)
                             popup.close();
                     } else if (event.modifiers == Qt.ControlModifier && inputBar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.U)) {
-                        inputBar.walkModeOlderChunkRequested();
-                        event.accepted = true;
+                        event.accepted = inputBar.requestSelectionModeOlderChunk();
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_P) {
                         messageInput.text = room.input.previousText();
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_N) {
@@ -275,39 +297,17 @@ Rectangle {
                         event.accepted = true;
                         completer.down();
                     } else if (event.key == Qt.Key_Up && (event.modifiers == Qt.NoModifier || event.modifiers == Qt.KeypadModifier)) {
-                        if (cursorPosition == 0) {
+                        if (messageInput.isCursorAtSelectionModeBoundary()) {
+                            event.accepted = inputBar.requestSelectionModeEntry();
+                        } else if (messageInput.isCursorOnTopLine()) {
                             event.accepted = true;
-                            var idx = room.edit ? room.idToIndex(room.edit) + 1 : 0;
-                            while (true) {
-                                var id = room.indexToId(idx);
-                                if (!id || room.getDump(id, "").isEditable) {
-                                    room.edit = id;
-                                    cursorPosition = 0;
-                                    Qt.callLater(positionCursorAtEnd);
-                                    break;
-                                }
-                                idx++;
-                            }
-                        } else if (positionAt(0, cursorRectangle.y + cursorRectangle.height / 2) === 0) {
-                            event.accepted = true;
-                            positionCursorAtStart();
+                            cursorPosition = messageInput.currentVisualLineStartPosition();
                         }
                     } else if (event.key == Qt.Key_Down && (event.modifiers == Qt.NoModifier || event.modifiers == Qt.KeypadModifier)) {
-                        if (cursorPosition == messageInput.length && room.edit) {
+                        const lineEnd = messageInput.currentVisualLineEndPosition();
+                        if (cursorPosition !== lineEnd) {
                             event.accepted = true;
-                            var idx = room.idToIndex(room.edit) - 1;
-                            while (true) {
-                                var id = room.indexToId(idx);
-                                if (!id || room.getDump(id, "").isEditable) {
-                                    room.edit = id;
-                                    Qt.callLater(positionCursorAtStart);
-                                    break;
-                                }
-                                idx--;
-                            }
-                        } else if (positionAt(width, cursorRectangle.y + cursorRectangle.height / 2) === messageInput.length) {
-                            event.accepted = true;
-                            positionCursorAtEnd();
+                            cursorPosition = lineEnd;
                         }
                     }
                 }

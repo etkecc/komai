@@ -56,8 +56,8 @@ Important examples:
 - [resources/qml/timeline/TimelineView.qml](../../resources/qml/timeline/TimelineView.qml)
   Timeline typing moves focus into the composer, except while Selection mode is active.
 - [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml)
-  The composer distinguishes paste, send/newline logic, completer navigation, edit-history
-  navigation, and Selection mode entry.
+  The composer distinguishes paste, send/newline logic, completer navigation, and Selection mode
+  entry from the start-of-top-line `Up` boundary.
 - [resources/qml/timeline/MessageView.qml](../../resources/qml/timeline/MessageView.qml)
   Selection mode movement, action keys, inline-actions navigation, `gg`, and `Escape` precedence
   all live here.
@@ -85,8 +85,7 @@ Despite the internal `walkMode*` names, user-facing docs and UI call this featur
 
 The main entry paths are:
 
-- `Alt+Up` in [resources/qml/timeline/components/TimelineKeyboardShortcuts.qml](../../resources/qml/timeline/components/TimelineKeyboardShortcuts.qml), which enters at the bottom-most visible message and then keeps moving older while Selection mode is active
-- `Alt+Down` in [resources/qml/timeline/components/TimelineKeyboardShortcuts.qml](../../resources/qml/timeline/components/TimelineKeyboardShortcuts.qml), which enters at the top-most visible message and then keeps moving newer while Selection mode is active
+- plain `Up` from [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml) when the composer caret is already at the start of the top line; it enters at the bottom-most visible message
 - `Ctrl+U` from the composer, routed from [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml) into the timeline
 
 `TimelineView.qml` also blocks its usual "type to focus composer" behavior while Selection mode is

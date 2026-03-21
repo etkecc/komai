@@ -156,113 +156,138 @@ Components.OverlayDialog {
         }
     }
 
-    ScrollView {
-        id: actionsScrollView
+    Item {
+        id: actionsScrollArea
+
+        readonly property bool showScrollbar: {
+            switch (Settings.uiScrollbarPolicy) {
+            case Settings.ScrollbarPolicy.Always:
+                return true;
+            case Settings.ScrollbarPolicy.Never:
+                return false;
+            case Settings.ScrollbarPolicy.WhenNeeded:
+            default:
+                return scrollContent.implicitHeight > actionsFlickable.height;
+            }
+        }
+        readonly property real reservedScrollbarWidth: showScrollbar
+            ? Math.max(actionsScrollbar.width, actionsScrollbar.implicitWidth) + Komai.paddingSmall
+            : 0
 
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.preferredHeight: Math.min(scrollContent.implicitHeight, root.parent ? root.parent.height * 0.85 : 600)
-        ScrollBar.vertical.policy: ScrollBar.AsNeeded
-        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+        clip: true
 
-        ColumnLayout {
-            id: scrollContent
-            width: actionsScrollView.availableWidth
-            spacing: Komai.paddingSmall
+        Flickable {
+            id: actionsFlickable
 
-            // Message preview
-            Reply {
-                id: replyPreview
+            anchors.fill: parent
+            anchors.rightMargin: actionsScrollArea.reservedScrollbarWidth
+            contentWidth: width
+            contentHeight: scrollContent.implicitHeight
+            clip: true
+            boundsBehavior: Flickable.StopAtBounds
+            flickableDirection: Flickable.VerticalFlick
 
-                Layout.fillWidth: true
-                Layout.maximumHeight: Math.min(root.parent ? root.parent.height * 0.4 : 300, 300)
-                clip: true
-                enabled: false
-                eventId: root.eventId
-                room_: root.roomModel
-                maxWidth: actionsScrollView.availableWidth
+            ColumnLayout {
+                id: scrollContent
+                width: actionsFlickable.width
+                spacing: Komai.paddingSmall
 
-                property bool isReplyFromCurrentUser: {
-                    const currentUser = Komai.currentUser;
-                    const currentUserId = (currentUser && currentUser.userid)
-                            ? String(currentUser.userid)
-                            : "";
-                    return currentUserId.length > 0 && replyPreview.userId === currentUserId;
-                }
-                readonly property color previewWindowColor: (Komai.colors && Komai.colors.window !== undefined)
-                    ? Komai.colors.window
-                    : root.palette.window
-                readonly property color previewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
-                    ? Komai.colors.base
-                    : root.palette.base
-                bubblePalette: root.roomModel ? TimelineManager.roomUserBubblePalette(root.roomModel.roomId, replyPreview.userId, roomColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userBubblePalette(replyPreview.userId, roomColor)
-                userColor: isReplyFromCurrentUser
-                    ? Komai.theme.userColorSelf
-                    : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, previewWindowColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewWindowColor)
-                roomColor: isReplyFromCurrentUser
-                    ? Komai.theme.userColorSelf
-                    : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, previewBaseColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewBaseColor)
+                // Message preview
+                Reply {
+                    id: replyPreview
 
-                // Gradient fade when preview is clipped by maximumHeight
-                Rectangle {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.bottom: parent.bottom
-                    height: 60
-                    visible: replyPreview.implicitHeight > replyPreview.height
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: "transparent" }
-                        GradientStop { position: 1.0; color: palette.base }
+                    Layout.fillWidth: true
+                    Layout.maximumHeight: Math.min(root.parent ? root.parent.height * 0.4 : 300, 300)
+                    clip: true
+                    enabled: false
+                    eventId: root.eventId
+                    room_: root.roomModel
+                    maxWidth: actionsFlickable.width
+
+                    property bool isReplyFromCurrentUser: {
+                        const currentUser = Komai.currentUser;
+                        const currentUserId = (currentUser && currentUser.userid)
+                                ? String(currentUser.userid)
+                                : "";
+                        return currentUserId.length > 0 && replyPreview.userId === currentUserId;
+                    }
+                    readonly property color previewWindowColor: (Komai.colors && Komai.colors.window !== undefined)
+                        ? Komai.colors.window
+                        : root.palette.window
+                    readonly property color previewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
+                        ? Komai.colors.base
+                        : root.palette.base
+                    bubblePalette: root.roomModel ? TimelineManager.roomUserBubblePalette(root.roomModel.roomId, replyPreview.userId, roomColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userBubblePalette(replyPreview.userId, roomColor)
+                    userColor: isReplyFromCurrentUser
+                        ? Komai.theme.userColorSelf
+                        : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, previewWindowColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewWindowColor)
+                    roomColor: isReplyFromCurrentUser
+                        ? Komai.theme.userColorSelf
+                        : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, previewBaseColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewBaseColor)
+
+                    // Gradient fade when preview is clipped by maximumHeight
+                    Rectangle {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        height: 60
+                        visible: replyPreview.implicitHeight > replyPreview.height
+                        gradient: Gradient {
+                            GradientStop { position: 0.0; color: "transparent" }
+                            GradientStop { position: 1.0; color: palette.base }
+                        }
                     }
                 }
-            }
 
-            // --- Clipboard section ---
-            Components.SettingsSection {
-                label: qsTr("Clipboard")
-                Layout.fillWidth: true
-                Layout.topMargin: Komai.paddingMedium
-                visible: copyTextBtn.visible || copyFormattedTextBtn.visible || copyMediaBtn.visible || copyLinkLocationBtn.visible || copyPermalinkBtn.visible
-            }
-
-            ActionButton {
-                id: copyTextBtn
-                labelText: qsTr("Copy text")
-                iconSource: ":/icons/icons/ui/copy.svg"
-                shortcutSequence: "Alt+C"
-                shortcutDisplayText: qsTr("Alt+C")
-                visible: root.isTextType && root.messageText !== ""
-                onClicked: {
-                    Clipboard.text = root.messageText;
-                    showFeedback(qsTr("Copied!"));
+                // --- Clipboard section ---
+                Components.SettingsSection {
+                    label: qsTr("Clipboard")
+                    Layout.fillWidth: true
+                    Layout.topMargin: Komai.paddingMedium
+                    visible: copyTextBtn.visible || copyFormattedTextBtn.visible || copyMediaBtn.visible || copyLinkLocationBtn.visible || copyPermalinkBtn.visible
                 }
-            }
 
-            ActionButton {
-                id: copyFormattedTextBtn
-                labelText: qsTr("Copy formatted text")
-                iconSource: ":/icons/icons/ui/copy.svg"
-                shortcutSequence: "Alt+H"
-                shortcutDisplayText: qsTr("Alt+H")
-                visible: root.isTextType && root.hasFormattedBody
-                onClicked: {
-                    Clipboard.text = root.formattedBodyText;
-                    showFeedback(qsTr("Copied!"));
+                ActionButton {
+                    id: copyTextBtn
+                    labelText: qsTr("Copy text")
+                    iconSource: ":/icons/icons/ui/copy.svg"
+                    shortcutSequence: "Alt+C"
+                    shortcutDisplayText: qsTr("Alt+C")
+                    visible: root.isTextType && root.messageText !== ""
+                    onClicked: {
+                        Clipboard.text = root.messageText;
+                        showFeedback(qsTr("Copied!"));
+                    }
                 }
-            }
 
-            ActionButton {
-                id: copyMediaBtn
-                labelText: qsTr("Copy")
-                iconSource: ":/icons/icons/ui/copy.svg"
-                shortcutSequence: "Alt+C"
-                shortcutDisplayText: qsTr("Alt+C")
-                visible: root.isMediaType
-                onClicked: {
-                    root.roomModel.copyMedia(root.eventId);
-                    showFeedback(qsTr("Copied!"));
+                ActionButton {
+                    id: copyFormattedTextBtn
+                    labelText: qsTr("Copy formatted text")
+                    iconSource: ":/icons/icons/ui/copy.svg"
+                    shortcutSequence: "Alt+H"
+                    shortcutDisplayText: qsTr("Alt+H")
+                    visible: root.isTextType && root.hasFormattedBody
+                    onClicked: {
+                        Clipboard.text = root.formattedBodyText;
+                        showFeedback(qsTr("Copied!"));
+                    }
                 }
-            }
+
+                ActionButton {
+                    id: copyMediaBtn
+                    labelText: qsTr("Copy")
+                    iconSource: ":/icons/icons/ui/copy.svg"
+                    shortcutSequence: "Alt+C"
+                    shortcutDisplayText: qsTr("Alt+C")
+                    visible: root.isMediaType
+                    onClicked: {
+                        root.roomModel.copyMedia(root.eventId);
+                        showFeedback(qsTr("Copied!"));
+                    }
+                }
 
             ActionButton {
                 id: copyLinkLocationBtn
@@ -428,17 +453,43 @@ Components.OverlayDialog {
                 }
             }
 
-            ActionButton {
-                id: reportBtn
-                labelText: qsTr("Report message")
-                iconSource: ":/icons/icons/ui/alert.svg"
-                shortcutSequence: "Alt+R"
-                shortcutDisplayText: qsTr("Alt+R")
-                visible: !root.isStateEvent
-                onClicked: {
-                    root.close();
-                    root.chatRoot.openReportMessageDialog(root.eventId);
+                ActionButton {
+                    id: reportBtn
+                    labelText: qsTr("Report message")
+                    iconSource: ":/icons/icons/ui/alert.svg"
+                    shortcutSequence: "Alt+R"
+                    shortcutDisplayText: qsTr("Alt+R")
+                    visible: !root.isStateEvent
+                    onClicked: {
+                        root.close();
+                        root.chatRoot.openReportMessageDialog(root.eventId);
+                    }
                 }
+            }
+        }
+
+        ScrollBar {
+            id: actionsScrollbar
+
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            orientation: Qt.Vertical
+            z: 1
+            policy: ScrollBar.AlwaysOn
+            visible: actionsScrollArea.showScrollbar
+            opacity: actionsScrollArea.showScrollbar ? 1 : 0
+
+            Binding on position {
+                when: !actionsScrollbar.pressed
+                value: actionsFlickable.contentHeight > 0 ? actionsFlickable.visibleArea.yPosition : 0
+            }
+
+            size: actionsFlickable.contentHeight > 0 ? actionsFlickable.visibleArea.heightRatio : 1
+
+            onPositionChanged: {
+                if (pressed)
+                    actionsFlickable.contentY = position * Math.max(0, actionsFlickable.contentHeight - actionsFlickable.height);
             }
         }
     }

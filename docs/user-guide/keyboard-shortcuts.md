@@ -55,30 +55,31 @@ several [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-like navigation k
 | `Down` / `j` | Move focus toward newer messages |
 | `Ctrl+U` | Move focus about half a screen toward older messages; from the composer, enter walk mode and do the same jump |
 | `Ctrl+D` | Move focus about half a screen toward newer messages |
-| `g`, then `g` | Move focus to the oldest currently loaded message |
+| `gg` | Move focus to the oldest currently loaded message |
 | `Shift+G` | Move focus to the latest message in the current view |
 | `Space` | Toggle whether the focused message is in the explicit selection |
-| `Enter` | Open the inline message-actions bar for the primary message and focus its first visible button |
-| `r` | Reply to the primary message |
-| `t` | Reply in thread, or continue the primary message's thread |
-| `e` | Edit the primary message |
-| `f` | Forward the primary message |
+| `?` | Open Selection mode help |
+| `Enter` | Open the inline message-actions bar for the selected or focused message and focus its first visible button |
+| `r` | Reply to the selected or focused message |
+| `t` | Reply in thread, or continue the selected or focused message's thread |
+| `e` | Edit the selected or focused message |
+| `f` | Forward the selected or focused message |
 | `d` | Delete message |
-| `u` | View the primary message as raw JSON |
-| `o` / `Menu` / `Shift+F10` | Open the full **Message actions** dialog for the primary message |
+| `u` | View the selected or focused message as raw JSON |
+| `o` | Open the full **Message actions** dialog for the selected or focused message |
 | `i` | Exit walk mode and return to the composer |
 
-Primary-message rules:
+Action target rules:
 
-- If nothing is explicitly selected, actions target the focused message.
 - If exactly one message is explicitly selected, actions target that selected message.
+- If nothing is explicitly selected, actions target the focused message.
 - If more than one message is selected, direct message actions do nothing in this pass; use `Escape`
   to clear selection or the bottom walk bar's **Clear** button.
 
 ### Inline Message Actions Bar
 
 When the inline actions bar is opened from the keyboard:
-If the primary message is off-screen, Komai scrolls it into view before opening the bar.
+If the selected or focused message is off-screen, Komai scrolls it into view before opening the bar.
 
 | Shortcut | Action |
 | --- | --- |

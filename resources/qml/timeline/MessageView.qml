@@ -613,6 +613,18 @@ Item {
         return messageActionSupport.openOptionsDialog(chatRoot, message);
     }
 
+    function openWalkModeHelpDialog() {
+        var helpDialog = createCatalogDialog(componentCatalog.timelineSelectionModeHelpDialog, {
+                "appRoot": dialogHost || chatRoot
+            });
+        if (!helpDialog)
+            return false;
+
+        helpDialog.open();
+        destroyOnClose(helpDialog);
+        return true;
+    }
+
     function performWalkModeAction(actionName) {
         if (selectedCount > 1)
             return false;
@@ -759,12 +771,17 @@ Item {
     }
 
     function isWalkModeOptionsKey(event) {
-        const modifiers = Number(event.modifiers);
         return (event.key === Qt.Key_Menu && eventUsesWalkModeModifiers(event))
-            || (event.key === Qt.Key_F10
-                && (modifiers & Qt.ShiftModifier) !== 0
-                && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0)
             || (event.key === Qt.Key_O && eventUsesWalkModeModifiers(event));
+    }
+
+    function isWalkModeHelpKey(event) {
+        if (!event)
+            return false;
+
+        const text = String(event.text || "");
+        const modifiers = Number(event.modifiers);
+        return text === "?" && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
     }
 
     function isRecognizedWalkModeKey(event) {
@@ -786,6 +803,7 @@ Item {
             || (event.key === Qt.Key_D && eventUsesCtrlWalkModeModifiers(event))
             || (event.key === Qt.Key_U && eventUsesCtrlWalkModeModifiers(event))
             || (event.key === Qt.Key_G && eventUsesWalkModeModifiers(event))
+            || isWalkModeHelpKey(event)
             || isWalkModeEnterKey(event)
             || isWalkModeOptionsKey(event);
     }
@@ -888,6 +906,12 @@ Item {
                 pendingWalkModeGoToTopRequest = true;
                 walkModeGoToTopSequenceTimer.restart();
             }
+            event.accepted = true;
+            return true;
+        }
+
+        if (isWalkModeHelpKey(event)) {
+            openWalkModeHelpDialog();
             event.accepted = true;
             return true;
         }

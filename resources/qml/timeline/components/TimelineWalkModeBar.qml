@@ -15,7 +15,6 @@ Rectangle {
     property int minimumHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property var primaryMessage: chatRoot.primaryActionMessageInfo()
     readonly property bool showActionLabels: width >= 1180
-    readonly property bool showHints: width >= 900
     readonly property bool hasPrimaryMessage: !!primaryMessage
     readonly property bool hasSingleActionTarget: chatRoot.selectedCount <= 1 && hasPrimaryMessage
     readonly property bool canReply: hasSingleActionTarget && messageActionSupport.canReply(primaryMessage, roomModel)
@@ -61,38 +60,19 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
         }
         RowLayout {
-            spacing: Komai.paddingMedium
-            visible: walkBar.showHints
-
-            Label {
-                color: palette.buttonText
-                font.bold: true
-                text: qsTr("j/k move")
-            }
-            Label {
-                color: palette.buttonText
-                font.bold: true
-                text: qsTr("space select")
-            }
-            Label {
-                color: palette.buttonText
-                font.bold: true
-                text: qsTr("enter actions")
-            }
-            Label {
-                color: palette.buttonText
-                font.bold: true
-                text: qsTr("i compose")
-            }
-            Label {
-                color: palette.buttonText
-                font.bold: true
-                text: qsTr("esc close")
-            }
-        }
-        RowLayout {
             spacing: 0
 
+            TimelineWalkModeActionButton {
+                buttonHeight: walkBar.headerButtonHeight
+                chatRoot: walkBar.chatRoot
+                alwaysShowToolTip: true
+                image: ":/icons/icons/ui/keyboard-shortcut.svg"
+                labelText: qsTr("Help")
+                showLabel: true
+                toolTipText: qsTr("Show selection mode help [?]")
+
+                onClicked: walkBar.chatRoot.openWalkModeHelpDialog()
+            }
             TimelineWalkModeActionButton {
                 buttonHeight: walkBar.headerButtonHeight
                 chatRoot: walkBar.chatRoot

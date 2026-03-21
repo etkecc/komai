@@ -783,7 +783,13 @@ Item {
         if (roomSearchHasFocus)
             return false;
 
-        return enterWalkModeFromBottomMostVisible();
+        if (!composerAvailable)
+            return false;
+
+        Qt.callLater(function () {
+            TimelineManager.focusMessageInput();
+        });
+        return true;
     }
 
     function eventUsesNoWalkModeModifiers(event) {

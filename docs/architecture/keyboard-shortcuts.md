@@ -85,12 +85,15 @@ Despite the internal `walkMode*` names, user-facing docs and UI call this featur
 
 The main entry paths are:
 
-- `Escape` in the timeline via `handleEscape()`
 - `Alt+Up` in [resources/qml/timeline/components/TimelineKeyboardShortcuts.qml](../../resources/qml/timeline/components/TimelineKeyboardShortcuts.qml)
 - `Ctrl+U` from the composer, routed from [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml) into the timeline
 
 `TimelineView.qml` also blocks its usual "type to focus composer" behavior while Selection mode is
 active.
+
+Komai intentionally does not use Vim's `Escape`-to-enter-navigation model. Here, `Escape` is a
+return-to-compose key: it closes the nearest active timeline/composer sub-state first and otherwise
+focuses the composer instead of entering Selection mode.
 
 ### Key dispatch
 

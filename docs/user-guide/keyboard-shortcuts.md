@@ -36,7 +36,7 @@ These shortcuts apply while you are viewing a room timeline.
 | `Page Up` | Scroll the timeline up by about one page |
 | `Page Down` | Scroll the timeline down by about one page |
 | `Alt+Up` | Enter Selection mode at the bottom-most visible message |
-| `Escape` | In the composer, cancel uploads/reply/edit/thread first; otherwise enter Selection mode. In Selection mode, close inline actions first, then clear selection, then return to the composer |
+| `Escape` | Close the nearest timeline or composer state first. Repeated `Escape` always settles back to the composer |
 | Any typed character | Focus the composer and start typing, except while Selection mode is active |
 
 ### Selection Mode
@@ -46,6 +46,9 @@ you can also select more than one message. Focused and selected messages are sho
 
 Selection mode also supports several [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-like
 keys such as `j`/`k`, `Ctrl+U`, `Ctrl+D`, `gg`, and `Shift+G`.
+
+Unlike Vim, `Escape` does not enter Selection mode. In Komai, `Escape` always moves back toward
+typing: it closes local UI first and eventually leaves you in the composer.
 
 On platforms that provide stable native scan codes, Komai also tries to keep those Latin-letter
 bindings on the same physical keys when you use a non-Latin keyboard layout.
@@ -103,7 +106,7 @@ These shortcuts apply in the message composer.
 | `Shift+Tab` | Move the other direction within completer results |
 | `Up` | Move up inside the completer, or jump into editing the previous editable message when at the start of the composer |
 | `Down` | Move down inside the completer, or move toward the next editable message when editing |
-| `Escape` | Close the inline completer popup |
+| `Escape` | Close the inline completer popup, or otherwise keep you in the composer |
 | `Enter` / `Shift+Enter` / `Ctrl+Enter` | Send or insert a newline depending on your configured send-key setting |
 
 Typing note: when the timeline has focus, typing usually moves focus into the composer. On some

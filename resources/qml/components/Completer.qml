@@ -133,6 +133,7 @@ Control {
                 || popup.completerType === "customEmoji"
                 || popup.completerType === "user"
                 || popup.completerType === "roomAliases"
+                || popup.completerType === "command"
             readonly property int headerGlyphSize: Math.max(14, Math.ceil(Settings.uiFontSizePt * 1.05), Math.round(Komai.listIconSize * 0.62))
             readonly property int headerButtonSize: headerGlyphSize + Komai.paddingSmall
 
@@ -173,6 +174,8 @@ Control {
                             icon = "mention.svg";
                         else if (popup.completerType === "roomAliases")
                             icon = "tag.svg";
+                        else if (popup.completerType === "command")
+                            icon = "textbox-more.svg";
                         else
                             icon = "link.svg";
                         return "image://colorimage/:/icons/icons/ui/" + icon + "?" + palette.text;
@@ -191,6 +194,8 @@ Control {
                             return qsTr("Pick an emoji");
                         else if (popup.completerType === "user")
                             return qsTr("Pick a user to mention");
+                        else if (popup.completerType === "command")
+                            return qsTr("Pick a command");
                         else
                             return qsTr("Pick a room to link to");
                     }
@@ -490,18 +495,34 @@ Control {
                             anchors.left: parent.left
                             anchors.right: parent.right
                             anchors.verticalCenter: parent.verticalCenter
-                            anchors.leftMargin: Komai.paddingSmall
-                            anchors.rightMargin: Komai.paddingSmall
-                            spacing: Komai.paddingSmall
+                            anchors.leftMargin: Komai.paddingMedium
+                            anchors.rightMargin: Komai.paddingMedium
+                            spacing: Komai.paddingMedium
 
-                            Label {
-                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
-                                font.bold: true
-                                text: model.name
-                            }
-                            Label {
-                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
-                                text: model.description
+                            ColumnLayout {
+                                Layout.alignment: Qt.AlignVCenter
+                                Layout.fillWidth: true
+                                Layout.minimumWidth: 0
+                                spacing: 1
+
+                                Label {
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
+                                    color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                    elide: Text.ElideRight
+                                    font.pointSize: Settings.uiFontSizePt * 1.1
+                                    font.bold: true
+                                    text: model.name
+                                }
+                                Label {
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
+                                    color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                    elide: Text.ElideRight
+                                    font.pointSize: Settings.uiFontSizePt
+                                    text: model.description
+                                    textFormat: Text.PlainText
+                                }
                             }
                         }
                     }

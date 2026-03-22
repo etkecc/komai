@@ -546,7 +546,7 @@ Rectangle {
                                 return availableWidth;
                             return Math.max(minWidth, Math.ceil(Settings.uiFontSizePt * 30));
                         case "command":
-                            return Math.max(minWidth, Math.ceil(Settings.uiFontSizePt * 28));
+                            return availableWidth;
                         default:
                             return Math.max(minWidth, Math.ceil(Settings.uiFontSizePt * 30));
                         }

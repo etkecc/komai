@@ -55,6 +55,29 @@ Rectangle {
                                                   event.nativeScanCode);
     }
 
+    function isBackwardTabEvent(event) {
+        if (!event)
+            return false;
+
+        const modifiers = Number(event.modifiers);
+        if ((modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) !== 0)
+            return false;
+
+        return event.key === Qt.Key_Backtab
+            || (event.key === Qt.Key_Tab && (modifiers & Qt.ShiftModifier) !== 0);
+    }
+
+    function isForwardTabEvent(event) {
+        if (!event)
+            return false;
+
+        return event.key === Qt.Key_Tab && event.modifiers === Qt.NoModifier;
+    }
+
+    function isComposerTabEvent(event) {
+        return isForwardTabEvent(event) || isBackwardTabEvent(event);
+    }
+
     function requestSelectionModeEntry() {
         if (!selectionModeRoot || typeof selectionModeRoot.enterWalkModeFromBottomMostVisible !== "function")
             return false;
@@ -67,6 +90,49 @@ Rectangle {
             return false;
 
         return selectionModeRoot.enterWalkModeAndMoveTowardOlderEventsByChunk();
+    }
+
+    function roomHeaderBacktabTarget() {
+        if (!selectionModeRoot || typeof selectionModeRoot.lastRoomHeaderActionButtonTarget !== "function")
+            return null;
+
+        return selectionModeRoot.lastRoomHeaderActionButtonTarget();
+    }
+
+    function composerBacktabTarget() {
+        if (attachButton.visible && attachButton.enabled)
+            return attachButton;
+        if (callButton.visible && callButton.enabled)
+            return callButton;
+        return roomHeaderBacktabTarget();
+    }
+
+    function composerTabTarget() {
+        if (stickerButton.visible && stickerButton.enabled)
+            return stickerButton;
+        if (emojiButton.visible && emojiButton.enabled)
+            return emojiButton;
+        if (sendButton.visible && sendButton.enabled)
+            return sendButton;
+        return null;
+    }
+
+    function focusComposerBacktabTarget() {
+        const target = composerBacktabTarget();
+        if (!target)
+            return false;
+
+        target.forceActiveFocus(Qt.TabFocusReason);
+        return true;
+    }
+
+    function focusComposerTabTarget() {
+        const target = composerTabTarget();
+        if (!target)
+            return false;
+
+        target.forceActiveFocus(Qt.TabFocusReason);
+        return true;
     }
 
     Layout.fillWidth: true
@@ -83,13 +149,23 @@ Rectangle {
         visible: room ? room.permissions.canSend(room.isEncrypted ? MtxEvent.Encrypted :  MtxEvent.TextMessage) : false
 
         ComposerCallButton {
+            id: callButton
+
             Layout.alignment: inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter
+            Layout.leftMargin: Komai.paddingMedium
+            KeyNavigation.backtab: inputBar.roomHeaderBacktabTarget()
+            KeyNavigation.tab: attachButton.visible ? attachButton : messageInput
             room: inputBar.room
             timelineRoot: inputBar.timelineRoot
             showAllButtons: inputBar.showAllButtons
         }
         ComposerAttachButton {
+            id: attachButton
+
             Layout.alignment: inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter
+            Layout.leftMargin: callButton.visible ? 0 : Komai.paddingMedium
+            KeyNavigation.backtab: callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget()
+            KeyNavigation.tab: messageInput
             room: inputBar.room
             showAllButtons: inputBar.showAllButtons
         }
@@ -191,7 +267,7 @@ Rectangle {
                 color: palette.text
                 enabled: inputBar.composerEnabled
                 focus: true
-                leftPadding: inputBar.showAllButtons ? 0 : 8
+                leftPadding: inputBar.showAllButtons ? Komai.paddingSmall : 8
                 padding: 0
                 font.pointSize: Settings.uiFontSizePt
                 placeholderText: qsTr("Write a message, or press Up to select messages.")
@@ -274,10 +350,19 @@ Rectangle {
                             event.accepted = true;
                         }
                         // Any other Enter key combo is ignored here.
-                    } else if (event.key == Qt.Key_Tab && (event.modifiers == Qt.NoModifier || event.modifiers == Qt.ShiftModifier)) {
+                    } else if (inputBar.isComposerTabEvent(event)) {
+                        if (!popup.opened && messageInput.length === 0 && !messageInput.inputMethodComposing) {
+                            event.accepted = true;
+                            if (inputBar.isBackwardTabEvent(event))
+                                inputBar.focusComposerBacktabTarget();
+                            else
+                                inputBar.focusComposerTabTarget();
+                            return;
+                        }
+
                         event.accepted = true;
                         if (popup.opened) {
-                            if (event.modifiers & Qt.ShiftModifier)
+                            if (inputBar.isBackwardTabEvent(event))
                                 completer.down();
                             else
                                 completer.up();
@@ -302,7 +387,7 @@ Rectangle {
                     } else if (event.key == Qt.Key_Up && popup.opened) {
                         event.accepted = true;
                         completer.up();
-                    } else if ((event.key == Qt.Key_Down || event.key == Qt.Key_Backtab) && popup.opened) {
+                    } else if (event.key == Qt.Key_Down && popup.opened) {
                         event.accepted = true;
                         completer.down();
                     } else if (event.key == Qt.Key_Up && (event.modifiers == Qt.NoModifier || event.modifiers == Qt.KeypadModifier)) {
@@ -321,7 +406,19 @@ Rectangle {
                     }
                 }
                 // Ensure that we get escape key press events first.
-                Keys.onShortcutOverride: event => event.accepted = (popup.opened && (event.key === Qt.Key_Escape || event.key === Qt.Key_Tab || event.key === Qt.Key_Enter || event.key === Qt.Key_Space))
+                Keys.onShortcutOverride: event => {
+                    if (inputBar.isComposerTabEvent(event)) {
+                        event.accepted = true;
+                        return;
+                    }
+
+                    event.accepted = popup.opened
+                        && (event.key === Qt.Key_Escape
+                            || event.key === Qt.Key_Tab
+                            || event.key === Qt.Key_Backtab
+                            || event.key === Qt.Key_Enter
+                            || event.key === Qt.Key_Space);
+                }
                 onCursorPositionChanged: {
                     if (!room)
                         return;
@@ -551,6 +648,8 @@ Rectangle {
             id: stickerButton
 
             Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
+            KeyNavigation.backtab: messageInput
+            KeyNavigation.tab: emojiButton.visible ? emojiButton : sendButton
             toolTipText: qsTr("Stickers")
             image: ":/icons/icons/ui/sticky-note-solid.svg"
             visible: showAllButtons && Settings.composerExtrasStickersEnabled
@@ -570,6 +669,8 @@ Rectangle {
             id: emojiButton
 
             Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
+            KeyNavigation.backtab: stickerButton.visible ? stickerButton : messageInput
+            KeyNavigation.tab: sendButton
             toolTipText: qsTr("Emoji")
             image: ":/icons/icons/ui/smile.svg"
             visible: inputBar.composerEnabled
@@ -589,7 +690,8 @@ Rectangle {
             id: sendButton
 
             Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
-            Layout.rightMargin: 8
+            Layout.rightMargin: Komai.paddingMedium
+            KeyNavigation.backtab: emojiButton.visible ? emojiButton : (stickerButton.visible ? stickerButton : messageInput)
             toolTipText: qsTr("Send")
             buttonTextColor: inputBar.hasSendableContent ? palette.highlight : palette.buttonText
             image: ":/icons/icons/ui/send.svg"

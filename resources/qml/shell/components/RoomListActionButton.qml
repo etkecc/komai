@@ -51,6 +51,8 @@ AbstractButton {
     implicitWidth: buttonSize + (hasLabel ? (Komai.paddingSmall + actionLabel.implicitWidth) : 0)
     Layout.preferredHeight: buttonSize
     Layout.preferredWidth: implicitWidth
+    activeFocusOnTab: visible && enabled
+    focusPolicy: Qt.StrongFocus
     hoverEnabled: true
     leftPadding: buttonPaddingH
     rightPadding: buttonPaddingH

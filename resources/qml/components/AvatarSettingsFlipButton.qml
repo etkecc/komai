@@ -24,16 +24,38 @@ MouseArea {
         : (avatarDisplayName + (avatarUserId.length > 0 ? ("\n" + avatarUserId) : ""))
     readonly property bool hoverActive: containsMouse && !suppressHoverUntilExit
     property real flipAngle: (motionEnabled && hoverActive) ? 180 : 0
-    readonly property bool activeState: hoverActive || pressed
+    readonly property bool activeState: hoverActive || pressed || activeFocus
     readonly property color settingsInnerBackgroundColor: activeState ? palette.dark : palette.window
     readonly property color settingsCogColor: activeState ? palette.brightText : palette.buttonText
 
     signal leftClicked()
     signal rightClicked()
 
+    function isActivationKey(event) {
+        if (!event)
+            return false;
+
+        const modifiers = Number(event.modifiers);
+        if ((modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) !== 0)
+            return false;
+
+        return event.key === Qt.Key_Return
+            || event.key === Qt.Key_Enter
+            || event.key === Qt.Key_Space;
+    }
+
+    activeFocusOnTab: visible && enabled
     hoverEnabled: true
     cursorShape: Qt.PointingHandCursor
     acceptedButtons: Qt.LeftButton | Qt.RightButton
+    Keys.priority: Keys.BeforeItem
+    Keys.onPressed: event => {
+        if (!control.enabled || !control.isActivationKey(event))
+            return;
+
+        control.leftClicked();
+        event.accepted = true;
+    }
 
     KomaiToolTip {
         anchorItem: control

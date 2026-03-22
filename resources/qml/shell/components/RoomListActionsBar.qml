@@ -99,6 +99,7 @@ Pane {
 
             profile: Komai.currentUser
             avatarButtonSize: roomActionsBar.avatarSize
+            KeyNavigation.tab: roomActionsBar.showActionButtons ? startChatButton : null
 
             Layout.preferredHeight: Komai.navigationRowHeight
             Layout.preferredWidth: effectiveButtonSize
@@ -123,6 +124,19 @@ Pane {
                 id: startChatButton
 
                 buttonSize: roomActionsBar.buttonSize
+                KeyNavigation.tab: switchRoomsButton
+                Keys.priority: Keys.BeforeItem
+                Keys.onPressed: event => {
+                    const modifiers = Number(event.modifiers);
+                    const isBacktab = event.key === Qt.Key_Backtab
+                        || (event.key === Qt.Key_Tab && (modifiers & Qt.ShiftModifier) !== 0);
+
+                    if (!isBacktab || (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) !== 0)
+                        return;
+
+                    userSettingsButton.forceActiveFocus(Qt.TabFocusReason);
+                    event.accepted = true;
+                }
                 toolTipText: qsTr("Join or create a new chat or space [Ctrl+N]")
                 iconSource: ":/icons/icons/ui/plus-circle.svg"
                 labelText: roomActionsBar.newActionLabel
@@ -131,7 +145,10 @@ Pane {
                 onClicked: roomJoinCreateDialog.open()
             }
             RoomListActionButton {
+                id: switchRoomsButton
+
                 buttonSize: roomActionsBar.buttonSize
+                KeyNavigation.backtab: startChatButton
                 toolTipText: qsTr("Find & switch room or space [Ctrl+K or Ctrl+P]")
                 iconSource: ":/icons/icons/ui/globe-search.svg"
                 labelText: roomActionsBar.switchActionLabel

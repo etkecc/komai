@@ -20,8 +20,9 @@ RoomListActionButton {
     labelText: qsTr("Scroll to top")
     showLabel: !collapsed && labeledWidth <= (roomList.width - roomList.reservedScrollbarWidth) / 2
     opacity: 0
+    activeFocusOnTab: shouldShow
     visible: opacity > 0
-    enabled: visible
+    enabled: shouldShow
 
     TextMetrics {
         id: labelMetrics
@@ -34,6 +35,10 @@ RoomListActionButton {
     }
 
     onClicked: roomList.positionViewAtBeginning()
+    onShouldShowChanged: {
+        if (!shouldShow && activeFocus)
+            roomList.forceActiveFocus(Qt.TabFocusReason);
+    }
 
     background: Rectangle {
         color: toTopButton.activeState ? palette.dark : palette.alternateBase

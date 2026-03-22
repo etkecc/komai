@@ -193,9 +193,19 @@ Pane {
 
                     topBarRef: topBar
                     column: 0
+                    KeyNavigation.tab: roomSettingsButton
                     showBackButton: topBar.showBackButton
                 }
                 RoomHeaderRoomAvatar {
+                    id: roomSettingsButton
+
+                    KeyNavigation.backtab: backToRoomsButton.visible ? backToRoomsButton : null
+                    KeyNavigation.tab: pinButton.visible ? pinButton
+                        : searchButton.visible ? searchButton
+                        : memberButton.visible ? memberButton
+                        : encryptionButton.visible ? encryptionButton
+                        : leaveRoomButton.visible ? leaveRoomButton
+                        : null
                     room: topBar.roomModel
                     roomId: topBar.roomId
                     roomAvatarUrl: topBar.avatarUrl
@@ -238,6 +248,7 @@ Pane {
 
                     topBarRef: topBar
                     column: 4
+                    KeyNavigation.backtab: roomSettingsButton
                     room: topBar.roomModel
                     roomId: topBar.roomId
                     showTextLabel: topBar.showActionLabels
@@ -247,6 +258,7 @@ Pane {
 
                     topBarRef: topBar
                     column: 5
+                    KeyNavigation.backtab: pinButton.visible ? pinButton : roomSettingsButton
                     room: topBar.roomModel
                     showTextLabel: topBar.showActionLabels
 

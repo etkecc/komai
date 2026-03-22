@@ -222,35 +222,18 @@ TimelineModel::copyLinkToEvent(const QString &eventId) const
 void
 TimelineModel::triggerSpecialEffects()
 {
-    if (needsSpecialEffects_) {
-        // Note (Loren): Without the timer, this apparently emits before QML is ready
-        if (specialEffects_.testFlag(Confetti)) {
-            QTimer::singleShot(1, this, [this] { emit confetti(); });
-            specialEffects_.setFlag(Confetti, false);
-        }
-        if (specialEffects_.testFlag(Rainfall)) {
-            QTimer::singleShot(1, this, [this] { emit rainfall(); });
-            specialEffects_.setFlag(Rainfall, false);
-        }
-        if (specialEffects_.testFlag(KomaiLogo)) {
-            QTimer::singleShot(1, this, [this] { emit komaiLogo(); });
-            specialEffects_.setFlag(KomaiLogo, false);
-        }
-        needsSpecialEffects_ = false;
-    }
-}
+    if (!needsSpecialEffects_)
+        return;
 
-void
-TimelineModel::markSpecialEffectsDone()
-{
-    needsSpecialEffects_ = false;
-    emit confettiDone();
-    emit rainfallDone();
-    emit komaiLogoDone();
+    const auto effectNames = timeline::effects::effectNames(specialEffects_);
+    needsSpecialEffects_   = false;
+    specialEffects_.clear();
 
-    specialEffects_.setFlag(Confetti, false);
-    specialEffects_.setFlag(Rainfall, false);
-    specialEffects_.setFlag(KomaiLogo, false);
+    if (effectNames.isEmpty())
+        return;
+
+    // Note (Loren): Without the timer, this apparently emits before QML is ready
+    QTimer::singleShot(1, this, [this, effectNames] { emit specialEffectsTriggered(effectNames); });
 }
 
 QString

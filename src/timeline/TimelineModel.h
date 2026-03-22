@@ -21,6 +21,7 @@
 #include "Permissions.h"
 #include "Reaction.h"
 #include "TimelineEventTypes.h"
+#include "TimelineSpecialEffects.h"
 #include "cache/crypto/CacheCryptoStructs.h"
 #include "matrix/MatrixStateTypes.h"
 #include "timeline/media/TimelineMediaController.h"
@@ -153,14 +154,6 @@ public:
         IsHiddenEvent,
     };
     Q_ENUM(Roles);
-
-    enum SpecialEffect
-    {
-        Confetti,
-        Rainfall,
-        KomaiLogo,
-    };
-    Q_DECLARE_FLAGS(SpecialEffects, SpecialEffect)
 
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -357,7 +350,6 @@ public slots:
     QString scrollTarget() const;
 
     void triggerSpecialEffects();
-    void markSpecialEffectsDone();
 
 private slots:
     void addPendingMessage(mtx::events::collections::TimelineEvents event);
@@ -382,12 +374,7 @@ signals:
     void paginationInProgressChanged(const bool);
     void newCallEvent(const mtx::events::collections::TimelineEvents &event);
     void scrollToIndex(int index);
-    void confetti();
-    void confettiDone();
-    void rainfall();
-    void rainfallDone();
-    void komaiLogo();
-    void komaiLogoDone();
+    void specialEffectsTriggered(QStringList effectNames);
 
     void lastMessageChanged();
     void notificationsChanged();
@@ -512,13 +499,11 @@ private:
     std::string fullyReadEventId_;
 
     bool needsSpecialEffects_ = false;
-    QFlags<SpecialEffect> specialEffects_;
+    timeline::effects::SpecialEffects specialEffects_;
 
     std::unique_ptr<RoomSummary, DeleteLaterDeleter> parentSummary = nullptr;
     bool parentChecked                                             = false;
 };
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(TimelineModel::SpecialEffects)
 
 template<class T>
 void

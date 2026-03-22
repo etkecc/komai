@@ -8,23 +8,47 @@ import QtQuick.Particles 2.15
 
 Item {
     id: effectRoot
-    readonly property int maxLifespan: Math.max(confettiEmitter.lifeSpan, Math.max(rainfallEmitter.lifeSpan, komaiEmitter.lifeSpan))
+    readonly property var effectEmitters: ({
+        "confetti": confettiEmitter,
+        "rainfall": rainfallEmitter,
+        "komaiLogo": komaiEmitter
+    })
+    readonly property var effectPulseScales: ({
+        "confetti": 2.0,
+        "rainfall": 3.3,
+        "komaiLogo": 3.3
+    })
+    readonly property int maxLifespan: {
+        var max = 0;
+        for (var name in effectEmitters) {
+            var emitter = effectEmitters[name];
+            if (emitter && emitter.lifeSpan > max)
+                max = emitter.lifeSpan;
+        }
+        return max;
+    }
     required property bool shouldEffectsRun
     visible: effectRoot.shouldEffectsRun
 
-    function pulseConfetti()
+    function pulseEffects(effectNames)
     {
-        confettiEmitter.pulse(effectRoot.height * 2)
+        if (!effectNames)
+            return;
+
+        for (let i = 0; i < effectNames.length; ++i)
+            pulseEffect(effectNames[i]);
     }
 
-    function pulseRainfall()
+    function pulseEffect(effectName)
     {
-        rainfallEmitter.pulse(effectRoot.height * 3.3)
-    }
+        const emitter = effectEmitters[effectName];
+        if (!emitter) {
+            console.warn("Unknown timeline effect:", effectName);
+            return;
+        }
 
-    function pulseKomaiLogo()
-    {
-        komaiEmitter.pulse(effectRoot.height * 3.3)
+        const scale = effectPulseScales[effectName] || 1.0;
+        emitter.pulse(effectRoot.height * scale);
     }
 
     function removeParticles()

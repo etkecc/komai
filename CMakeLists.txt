@@ -414,6 +414,8 @@ set(SRC_FILES
     src/timeline/TimelineEventTypes.h
     src/timeline/TimelineModel.cpp
     src/timeline/TimelineModel.h
+    src/timeline/TimelineSpecialEffects.cpp
+    src/timeline/TimelineSpecialEffects.h
     src/timeline/NavigationHistory.cpp
     src/timeline/NavigationHistory.h
     src/timeline/TimelineViewManager.cpp
@@ -1526,6 +1528,18 @@ if(BUILD_TESTING)
     )
     add_test(NAME komai_raw_message_dialog_payload_test COMMAND komai_raw_message_dialog_payload_test)
     komai_configure_test(komai_raw_message_dialog_payload_test "unit;timeline")
+
+    add_executable(komai_timeline_special_effects_test
+        tests/TimelineSpecialEffectsTest.cpp
+        src/timeline/TimelineSpecialEffects.cpp
+    )
+    target_include_directories(komai_timeline_special_effects_test PRIVATE src)
+    target_link_libraries(komai_timeline_special_effects_test PRIVATE
+        Qt::Core
+        MatrixClient::MatrixClient
+    )
+    add_test(NAME komai_timeline_special_effects_test COMMAND komai_timeline_special_effects_test)
+    komai_configure_test(komai_timeline_special_effects_test "unit;timeline")
 
     add_executable(komai_roomlist_preview_selection_test
         tests/RoomlistPreviewSelectionTest.cpp

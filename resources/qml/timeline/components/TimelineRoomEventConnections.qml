@@ -33,31 +33,12 @@ Connections {
         }
     }
 
-    function onConfetti() {
+    function onSpecialEffectsTriggered(effectNames) {
         if (!Settings.timelineMediaEffectsEnabled)
             return;
+
         timelineView.shouldEffectsRun = true;
-        timelineEffects.pulseConfetti();
-        room.markSpecialEffectsDone();
-    }
-
-    function onConfettiDone() {
-        if (!Settings.timelineMediaEffectsEnabled)
-            return;
-        effectsTimer.restart();
-    }
-
-    function onKomaiLogo() {
-        if (!Settings.timelineMediaEffectsEnabled)
-            return;
-        timelineView.shouldEffectsRun = true;
-        timelineEffects.pulseKomaiLogo();
-        room.markSpecialEffectsDone();
-    }
-
-    function onKomaiLogoDone() {
-        if (!Settings.timelineMediaEffectsEnabled)
-            return;
+        timelineEffects.pulseEffects(effectNames);
         effectsTimer.restart();
     }
 
@@ -73,20 +54,6 @@ Connections {
         } else {
             console.error("Failed to create component: " + component.errorString());
         }
-    }
-
-    function onRainfall() {
-        if (!Settings.timelineMediaEffectsEnabled)
-            return;
-        timelineView.shouldEffectsRun = true;
-        timelineEffects.pulseRainfall();
-        room.markSpecialEffectsDone();
-    }
-
-    function onRainfallDone() {
-        if (!Settings.timelineMediaEffectsEnabled)
-            return;
-        effectsTimer.restart();
     }
 
     function onShowRawMessageDialog(renderedRawMessage, rawMessageJson, rawMessageBody, rawMessageFormattedBody) {

@@ -260,38 +260,12 @@ TimelineModel::dispatchCallEventIfNeeded(mtx::events::collections::TimelineEvent
 void
 TimelineModel::processSpecialEffectEvent(const mtx::events::collections::TimelineEvents &event)
 {
-    using namespace mtx::events;
-    if (auto text = std::get_if<RoomEvent<msg::Text>>(&event)) {
-        if (const auto msg = QString::fromStdString(text->content.body);
-            msg.contains("🎉") || msg.contains("🎊")) {
-            needsSpecialEffects_ = true;
-            specialEffects_.setFlag(Confetti);
-        }
-        if (const auto msg = QString::fromStdString(text->content.body);
-            msg.contains(QString::fromUtf8(u8"🦁")) || msg.contains(QString::fromUtf8(u8"⛩️"))) {
-            needsSpecialEffects_ = true;
-            specialEffects_.setFlag(KomaiLogo);
-        }
-    } else if (auto unknown = std::get_if<RoomEvent<msg::Unknown>>(&event)) {
-        if (const auto msg = QString::fromStdString(unknown->content.body);
-            msg.contains("🎉") || msg.contains("🎊")) {
-            needsSpecialEffects_ = true;
-            specialEffects_.setFlag(Confetti);
-        }
-        if (const auto msg = QString::fromStdString(unknown->content.body);
-            msg.contains(QString::fromUtf8(u8"🦁")) || msg.contains(QString::fromUtf8(u8"⛩️"))) {
-            needsSpecialEffects_ = true;
-            specialEffects_.setFlag(KomaiLogo);
-        }
-    } else if (auto effect = std::get_if<RoomEvent<msg::ElementEffect>>(&event)) {
-        if (effect->content.msgtype == "nic.custom.confetti") {
-            needsSpecialEffects_ = true;
-            specialEffects_.setFlag(Confetti);
-        } else if (effect->content.msgtype == "io.element.effect.rainfall") {
-            needsSpecialEffects_ = true;
-            specialEffects_.setFlag(Rainfall);
-        }
-    }
+    const auto effects = timeline::effects::detect(event);
+    if (effects.isEmpty())
+        return;
+
+    needsSpecialEffects_ = true;
+    timeline::effects::appendUnique(specialEffects_, effects);
 }
 
 void

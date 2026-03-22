@@ -410,6 +410,9 @@ prek-install-git-pre-commit-hook: _ensure_mise_tools_installed
 	set -eu
 	just --justfile {{ justfile() }} mise exec -- prek install
 	hook="{{ justfile_directory() }}/.git/hooks/pre-commit"
+	# The installed git hook runs later under Git, outside this just/mise environment.
+	# Injecting PREK_HOME keeps prek's cache under var/prek instead of a global home dir,
+	# which is more predictable and works better in sandboxed tools like Codex/OpenCode.
 	if [ -f "$hook" ] && ! grep -q '^export PREK_HOME=' "$hook"; then
 		sed -i '2iexport PREK_HOME="{{ prek_home }}"' "$hook"
 	fi

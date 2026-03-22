@@ -342,32 +342,6 @@ InputBar::confetti(const QString &body, bool rainbowify)
 }
 
 void
-InputBar::rainfall(const QString &body)
-{
-    const QString emoBody = replaceTextEmoticons(body);
-    auto html             = utils::markdownToHtml(emoBody);
-
-    mtx::events::msg::Unknown rain;
-    rain.msgtype = "io.element.effect.rainfall";
-    rain.body    = emoBody.trimmed().toStdString();
-
-    if (html != emoBody.trimmed().toHtmlEscaped() &&
-        ChatPage::instance()->userSettings()->composerInputMarkdownToHtmlEnabled()) {
-        nlohmann::json j;
-        j["formatted_body"] = html.toStdString();
-        j["format"]         = "org.matrix.custom.html";
-        rain.content        = j.dump();
-        // Remove markdown links by completer
-        rain.body = replaceMatrixToMarkdownLink(emoBody.trimmed()).toStdString();
-    }
-
-    rain.mentions  = generateMentions();
-    rain.relations = generateRelations();
-
-    room->sendMessageEvent(rain, mtx::events::EventType::RoomMessage);
-}
-
-void
 InputBar::customMsgtype(const QString &msgtype, const QString &body)
 {
     const QString emoBody = replaceTextEmoticons(body);

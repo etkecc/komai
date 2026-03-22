@@ -169,8 +169,6 @@ InputBar::command(const QString &command, QString args)
         confetti(args, false);
     } else if (command == QLatin1String("rainbowconfetti")) {
         confetti(args, true);
-    } else if (command == QLatin1String("rainfall")) {
-        rainfall(args);
     } else if (command == QLatin1String("msgtype")) {
         customMsgtype(args.section(' ', 0, 0), args.section(' ', 1, -1));
     } else if (command == QLatin1String("glitch")) {

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <QStringList>
+#include <QStringView>
 #include <QVector>
 
 #include <mtx/events/collections.hpp>
@@ -26,6 +27,8 @@ void
 appendUnique(SpecialEffects &target, SpecialEffect effect);
 void
 appendUnique(SpecialEffects &target, const SpecialEffects &effects);
+bool
+bodyHasTrigger(SpecialEffect effect, QStringView body);
 QString
 effectName(SpecialEffect effect);
 QStringList

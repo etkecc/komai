@@ -240,7 +240,6 @@ InputBar::updateTextContentProperties(const QString &t, bool charDeleted)
                                              QStringLiteral("rainbownotice"),
                                              QStringLiteral("confetti"),
                                              QStringLiteral("rainbowconfetti"),
-                                             QStringLiteral("rainfall"),
                                              QStringLiteral("msgtype"),
                                              QStringLiteral("glitch"),
                                              QStringLiteral("gradualglitch"),

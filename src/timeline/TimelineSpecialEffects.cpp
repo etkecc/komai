@@ -43,6 +43,21 @@ containsAny(QStringView body, std::span<const QStringView> triggers)
     return false;
 }
 
+std::span<const QStringView>
+triggersFor(SpecialEffect effect)
+{
+    switch (effect) {
+    case SpecialEffect::Confetti:
+        return CONFETTI_TRIGGERS;
+    case SpecialEffect::Rainfall:
+        return RAINFALL_TRIGGERS;
+    case SpecialEffect::KomaiLogo:
+        return KOMAI_LOGO_TRIGGERS;
+    }
+
+    return {};
+}
+
 void
 addContentTriggeredEffects(SpecialEffects &effects, QStringView body)
 {
@@ -92,6 +107,12 @@ appendUnique(SpecialEffects &target, const SpecialEffects &effects)
 {
     for (const auto effect : effects)
         appendUnique(target, effect);
+}
+
+bool
+bodyHasTrigger(SpecialEffect effect, QStringView body)
+{
+    return containsAny(body, triggersFor(effect));
 }
 
 QString

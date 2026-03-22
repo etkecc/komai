@@ -88,8 +88,6 @@ CommandCompleter::data(const QModelIndex &index, int role) const
                 return QStringLiteral("/confetti ");
             case RainbowConfetti:
                 return QStringLiteral("/rainbowconfetti ");
-            case Rainfall:
-                return QStringLiteral("/rainfall ");
             case Msgtype:
                 return QStringLiteral("/msgtype ");
             case Glitch:
@@ -173,8 +171,6 @@ CommandCompleter::data(const QModelIndex &index, int role) const
                 return tr("/confetti [message]");
             case RainbowConfetti:
                 return tr("/rainbowconfetti [message]");
-            case Rainfall:
-                return tr("/rainfall [message]");
             case Msgtype:
                 return tr("/msgtype <msgtype> [message]");
             case Glitch:
@@ -262,8 +258,6 @@ CommandCompleter::data(const QModelIndex &index, int role) const
                 return tr("Send a message with confetti.");
             case RainbowConfetti:
                 return tr("Send a message in rainbow colors with confetti.");
-            case Rainfall:
-                return tr("Send a message with rain.");
             case Msgtype:
                 return tr("Send a message with a custom message type.");
             case Glitch:

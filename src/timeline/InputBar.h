@@ -282,7 +282,6 @@ private:
     void emote(const QString &body, bool rainbowify);
     void notice(const QString &body, bool rainbowify);
     void confetti(const QString &body, bool rainbowify);
-    void rainfall(const QString &body);
     void customMsgtype(const QString &msgtype, const QString &body);
     bool command(const QString &name, QString args);
     void image(const QString &filename,

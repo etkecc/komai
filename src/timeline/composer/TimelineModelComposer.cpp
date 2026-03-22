@@ -117,9 +117,16 @@ TimelineModel::applyEditedMessageText(const mtx::events::collections::TimelineEv
     else if (msgType == mtx::events::MessageType::ElementEffect) {
         auto u = std::get_if<mtx::events::RoomEvent<mtx::events::msg::ElementEffect>>(&event);
         auto msgtypeString = u ? u->content.msgtype : "";
-        if (msgtypeString == "io.element.effect.rainfall")
-            input()->setText("/rainfall " + editText);
-        else if (msgtypeString == "nic.custom.confetti")
+        if (msgtypeString == "io.element.effect.rainfall") {
+            if (timeline::effects::bodyHasTrigger(timeline::effects::SpecialEffect::Rainfall,
+                                                  QStringView{editText})) {
+                input()->setText(editText);
+            } else if (editText.isEmpty()) {
+                input()->setText(QStringLiteral("🌧️"));
+            } else {
+                input()->setText(editText + QStringLiteral(" 🌧️"));
+            }
+        } else if (msgtypeString == "nic.custom.confetti")
             input()->setText("/confetti " + editText);
         else
             input()->setText("/msgtype " + QString::fromStdString(msgtypeString) + " " + editText);

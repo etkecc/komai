@@ -17,6 +17,43 @@ Page {
     property int avatarSize: Komai.listIconSize
     property bool collapsed: false
     property var roomListTarget: null
+    property bool pendingGoToTopRequest: false
+
+    function eventMatchesLatinKey(event, latinKey) {
+        if (!event)
+            return false;
+
+        return LayoutAgnosticKeys.matchesLatinKey(latinKey,
+                                                  event.key,
+                                                  event.nativeScanCode);
+    }
+
+    function eventUsesNoModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
+    }
+
+    function eventUsesNavigationModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function eventUsesCtrlOnlyModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & Qt.ControlModifier) !== 0
+            && (modifiers & (Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
+    }
+
+    function eventUsesShiftOnlyModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & Qt.ShiftModifier) !== 0
+            && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function resetGoToTopSequence() {
+        pendingGoToTopRequest = false;
+        goToTopSequenceTimer.stop();
+    }
 
     function isBackwardTabEvent(event) {
         if (!event)
@@ -73,6 +110,13 @@ Page {
 
         onActivated: communitySidebar.focusKeyboardNavigation()
         onActivatedAmbiguously: communitySidebar.focusKeyboardNavigation()
+    }
+    Timer {
+        id: goToTopSequenceTimer
+
+        interval: 500
+        repeat: false
+        onTriggered: communitySidebar.pendingGoToTopRequest = false
     }
 
     // HACK: https://bugreports.qt.io/browse/QTBUG-83972, qtwayland cannot auto hide menu
@@ -139,12 +183,64 @@ Page {
             ensureKeyboardCursorVisible();
         }
 
+        function moveKeyboardCursorByChunk(delta) {
+            if (count <= 0)
+                return;
+
+            const halfScreenRows = Math.max(1, Math.floor((height / Math.max(1, Komai.navigationRowHeight)) / 2));
+            moveKeyboardCursor(delta * halfScreenRows);
+        }
+
         function activateKeyboardCursor() {
             if (currentIndex < 0 || currentIndex >= count || !model || !model.filterIdAt)
                 return;
 
             Communities.setCurrentFilterId(model.filterIdAt(currentIndex));
             ensureKeyboardCursorVisible();
+        }
+
+        function goToFirstItem() {
+            if (count <= 0)
+                return;
+
+            currentIndex = 0;
+            ensureKeyboardCursorVisible();
+        }
+
+        function goToLastItem() {
+            if (count <= 0)
+                return;
+
+            currentIndex = count - 1;
+            ensureKeyboardCursorVisible();
+        }
+
+        function currentKeyboardItem() {
+            if (currentIndex < 0 || currentIndex >= count)
+                return null;
+
+            ensureKeyboardCursorVisible();
+            return currentItem;
+        }
+
+        function expandCurrentSpace() {
+            const item = currentKeyboardItem();
+            if (!item || !item.model || !item.model.collapsible || !item.model.collapsed)
+                return false;
+
+            item.model.collapsed = false;
+            ensureKeyboardCursorVisible();
+            return true;
+        }
+
+        function collapseCurrentSpace() {
+            const item = currentKeyboardItem();
+            if (!item || !item.model || !item.model.collapsible || item.model.collapsed)
+                return false;
+
+            item.model.collapsed = true;
+            ensureKeyboardCursorVisible();
+            return true;
         }
 
         anchors.left: parent.left
@@ -161,32 +257,90 @@ Page {
         }
         Keys.priority: Keys.BeforeItem
         Keys.onPressed: event => {
+            const gKeyPressed = communitySidebar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.G);
+            const plainGPressed = gKeyPressed && communitySidebar.eventUsesNoModifiers(event);
+            const shiftGPressed = gKeyPressed && communitySidebar.eventUsesShiftOnlyModifiers(event);
+
             if (communitySidebar.isForwardTabEvent(event) || communitySidebar.isBackwardTabEvent(event)) {
+                communitySidebar.resetGoToTopSequence();
                 event.accepted = communitySidebar.focusRoomList();
                 return;
             }
 
-            switch (event.key) {
-            case Qt.Key_Up:
+            if (!plainGPressed)
+                communitySidebar.resetGoToTopSequence();
+
+            if ((event.key === Qt.Key_Up
+                        || communitySidebar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.K))
+                    && communitySidebar.eventUsesNavigationModifiers(event)) {
                 communitiesList.moveKeyboardCursor(-1);
                 event.accepted = true;
-                break;
-            case Qt.Key_Down:
+                return;
+            }
+
+            if ((event.key === Qt.Key_Down
+                        || communitySidebar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.J))
+                    && communitySidebar.eventUsesNavigationModifiers(event)) {
                 communitiesList.moveKeyboardCursor(1);
                 event.accepted = true;
-                break;
-            case Qt.Key_Home:
-                if (communitiesList.count > 0) {
-                    communitiesList.currentIndex = 0;
-                    communitiesList.ensureKeyboardCursorVisible();
+                return;
+            }
+
+            if ((event.key === Qt.Key_Left
+                        || communitySidebar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.H))
+                    && communitySidebar.eventUsesNavigationModifiers(event)) {
+                communitiesList.collapseCurrentSpace();
+                event.accepted = true;
+                return;
+            }
+
+            if ((event.key === Qt.Key_Right
+                        || communitySidebar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.L))
+                    && communitySidebar.eventUsesNavigationModifiers(event)) {
+                communitiesList.expandCurrentSpace();
+                event.accepted = true;
+                return;
+            }
+
+            if (communitySidebar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.U)
+                    && communitySidebar.eventUsesCtrlOnlyModifiers(event)) {
+                communitiesList.moveKeyboardCursorByChunk(-1);
+                event.accepted = true;
+                return;
+            }
+
+            if (communitySidebar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.D)
+                    && communitySidebar.eventUsesCtrlOnlyModifiers(event)) {
+                communitiesList.moveKeyboardCursorByChunk(1);
+                event.accepted = true;
+                return;
+            }
+
+            if (shiftGPressed) {
+                communitiesList.goToLastItem();
+                event.accepted = true;
+                return;
+            }
+
+            if (plainGPressed) {
+                if (communitySidebar.pendingGoToTopRequest) {
+                    communitySidebar.resetGoToTopSequence();
+                    communitiesList.goToFirstItem();
+                } else {
+                    communitySidebar.pendingGoToTopRequest = true;
+                    goToTopSequenceTimer.restart();
                 }
+                event.accepted = true;
+                return;
+            }
+
+            switch (event.key) {
+            case Qt.Key_Home:
+                communitiesList.goToFirstItem();
                 event.accepted = true;
                 break;
             case Qt.Key_End:
-                if (communitiesList.count > 0) {
-                    communitiesList.currentIndex = communitiesList.count - 1;
-                    communitiesList.ensureKeyboardCursorVisible();
-                }
+                communitiesList.goToLastItem();
                 event.accepted = true;
                 break;
             case Qt.Key_Return:

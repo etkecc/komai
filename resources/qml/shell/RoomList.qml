@@ -18,7 +18,44 @@ Page {
     property int avatarSize: Komai.listIconSize
     property bool collapsed: false
     property var communitiesTarget: null
+    property bool pendingGoToTopRequest: false
     readonly property var profileMenu: profileContextMenu
+
+    function eventMatchesLatinKey(event, latinKey) {
+        if (!event)
+            return false;
+
+        return LayoutAgnosticKeys.matchesLatinKey(latinKey,
+                                                  event.key,
+                                                  event.nativeScanCode);
+    }
+
+    function eventUsesNoModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
+    }
+
+    function eventUsesNavigationModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function eventUsesCtrlOnlyModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & Qt.ControlModifier) !== 0
+            && (modifiers & (Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
+    }
+
+    function eventUsesShiftOnlyModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & Qt.ShiftModifier) !== 0
+            && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function resetGoToTopSequence() {
+        pendingGoToTopRequest = false;
+        goToTopSequenceTimer.stop();
+    }
 
     function isBackwardTabEvent(event) {
         if (!event)
@@ -78,6 +115,13 @@ Page {
 
         onActivated: roomListPage.focusKeyboardNavigation()
         onActivatedAmbiguously: roomListPage.focusKeyboardNavigation()
+    }
+    Timer {
+        id: goToTopSequenceTimer
+
+        interval: 500
+        repeat: false
+        onTriggered: roomListPage.pendingGoToTopRequest = false
     }
     header: ColumnLayout {
         spacing: 0
@@ -176,30 +220,54 @@ Page {
                 ensureKeyboardCursorVisible();
             }
 
-            function moveKeyboardCursor(delta) {
-                if (count <= 0)
-                    return;
+        function moveKeyboardCursor(delta) {
+            if (count <= 0)
+                return;
 
-                if (currentIndex < 0) {
+            if (currentIndex < 0) {
                     seedKeyboardCursor();
                     return;
                 }
 
-                currentIndex = Math.max(0, Math.min(count - 1, currentIndex + delta));
-                ensureKeyboardCursorVisible();
-            }
+            currentIndex = Math.max(0, Math.min(count - 1, currentIndex + delta));
+            ensureKeyboardCursorVisible();
+        }
 
-            function activateKeyboardCursor() {
-                if (currentIndex < 0 || currentIndex >= count || !Rooms.roomIdAt)
-                    return;
+        function moveKeyboardCursorByChunk(delta) {
+            if (count <= 0)
+                return;
+
+            const halfScreenRows = Math.max(1, Math.floor((height / Math.max(1, Komai.navigationRowHeight)) / 2));
+            moveKeyboardCursor(delta * halfScreenRows);
+        }
+
+        function activateKeyboardCursor() {
+            if (currentIndex < 0 || currentIndex >= count || !Rooms.roomIdAt)
+                return;
 
                 const roomId = Rooms.roomIdAt(currentIndex);
                 if (!roomId)
                     return;
 
-                Rooms.setCurrentRoom(roomId);
-                ensureKeyboardCursorVisible();
-            }
+            Rooms.setCurrentRoom(roomId);
+            ensureKeyboardCursorVisible();
+        }
+
+        function goToFirstItem() {
+            if (count <= 0)
+                return;
+
+            currentIndex = 0;
+            ensureKeyboardCursorVisible();
+        }
+
+        function goToLastItem() {
+            if (count <= 0)
+                return;
+
+            currentIndex = count - 1;
+            ensureKeyboardCursorVisible();
+        }
 
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -212,41 +280,83 @@ Page {
                 if (roomListPage.isForwardTabEvent(event) || roomListPage.isBackwardTabEvent(event))
                     event.accepted = true;
             }
-            Keys.priority: Keys.BeforeItem
-            Keys.onPressed: event => {
-                if (roomListPage.isForwardTabEvent(event) || roomListPage.isBackwardTabEvent(event)) {
-                    event.accepted = roomListPage.focusCommunities();
-                    return;
-                }
+        Keys.priority: Keys.BeforeItem
+        Keys.onPressed: event => {
+            const gKeyPressed = roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.G);
+            const plainGPressed = gKeyPressed && roomListPage.eventUsesNoModifiers(event);
+            const shiftGPressed = gKeyPressed && roomListPage.eventUsesShiftOnlyModifiers(event);
 
-                switch (event.key) {
-                case Qt.Key_Up:
-                    roomlist.moveKeyboardCursor(-1);
-                    event.accepted = true;
-                    break;
-                case Qt.Key_Down:
-                    roomlist.moveKeyboardCursor(1);
-                    event.accepted = true;
-                    break;
-                case Qt.Key_Home:
-                    if (roomlist.count > 0) {
-                        roomlist.currentIndex = 0;
-                        roomlist.ensureKeyboardCursorVisible();
-                    }
-                    event.accepted = true;
-                    break;
-                case Qt.Key_End:
-                    if (roomlist.count > 0) {
-                        roomlist.currentIndex = roomlist.count - 1;
-                        roomlist.ensureKeyboardCursorVisible();
-                    }
-                    event.accepted = true;
-                    break;
-                case Qt.Key_Return:
-                case Qt.Key_Enter:
-                    roomlist.activateKeyboardCursor();
-                    event.accepted = true;
-                    break;
+            if (roomListPage.isForwardTabEvent(event) || roomListPage.isBackwardTabEvent(event)) {
+                roomListPage.resetGoToTopSequence();
+                event.accepted = roomListPage.focusCommunities();
+                return;
+            }
+
+            if (!plainGPressed)
+                roomListPage.resetGoToTopSequence();
+
+            if ((event.key === Qt.Key_Up
+                        || roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.K))
+                    && roomListPage.eventUsesNavigationModifiers(event)) {
+                roomlist.moveKeyboardCursor(-1);
+                event.accepted = true;
+                return;
+            }
+
+            if ((event.key === Qt.Key_Down
+                        || roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.J))
+                    && roomListPage.eventUsesNavigationModifiers(event)) {
+                roomlist.moveKeyboardCursor(1);
+                event.accepted = true;
+                return;
+            }
+
+            if (roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.U)
+                    && roomListPage.eventUsesCtrlOnlyModifiers(event)) {
+                roomlist.moveKeyboardCursorByChunk(-1);
+                event.accepted = true;
+                return;
+            }
+
+            if (roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.D)
+                    && roomListPage.eventUsesCtrlOnlyModifiers(event)) {
+                roomlist.moveKeyboardCursorByChunk(1);
+                event.accepted = true;
+                return;
+            }
+
+            if (shiftGPressed) {
+                roomlist.goToLastItem();
+                event.accepted = true;
+                return;
+            }
+
+            if (plainGPressed) {
+                if (roomListPage.pendingGoToTopRequest) {
+                    roomListPage.resetGoToTopSequence();
+                    roomlist.goToFirstItem();
+                } else {
+                    roomListPage.pendingGoToTopRequest = true;
+                    goToTopSequenceTimer.restart();
+                }
+                event.accepted = true;
+                return;
+            }
+
+            switch (event.key) {
+            case Qt.Key_Home:
+                roomlist.goToFirstItem();
+                event.accepted = true;
+                break;
+            case Qt.Key_End:
+                roomlist.goToLastItem();
+                event.accepted = true;
+                break;
+            case Qt.Key_Return:
+            case Qt.Key_Enter:
+                roomlist.activateKeyboardCursor();
+                event.accepted = true;
+                break;
                 case Qt.Key_Escape:
                     TimelineManager.focusMessageInput();
                     event.accepted = true;

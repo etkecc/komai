@@ -34,11 +34,15 @@ These shortcuts apply after you focus the [**Communities sidebar**](communities-
 
 | Shortcut | Action |
 | --- | --- |
-| `Up` | Move the keyboard cursor up |
-| `Down` | Move the keyboard cursor down |
+| `Up` / `k` | Move the keyboard cursor up |
+| `Down` / `j` | Move the keyboard cursor down |
 | `Tab` / `Shift+Tab` | Move focus to the other sidebar list |
-| `Home` | Jump to the first visible item |
-| `End` | Jump to the last visible item |
+| `Home` / `gg` | Jump to the first visible item |
+| `End` / `Shift+G` | Jump to the last visible item |
+| `Ctrl+U` | Move the keyboard cursor about half a screen up |
+| `Ctrl+D` | Move the keyboard cursor about half a screen down |
+| `Left` / `h` | In the [**Communities sidebar**](communities-sidebar.md), collapse the focused space |
+| `Right` / `l` | In the [**Communities sidebar**](communities-sidebar.md), expand the focused space |
 | `Enter` | Activate the focused room or community filter |
 | `Escape` | Return focus to the composer textarea |
 

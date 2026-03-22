@@ -7,6 +7,7 @@
 - ⌨️ [Keyboard Shortcuts](keyboard-shortcuts.md) -- app-wide, timeline, composer, sidebar, media, and dialog shortcuts
 - 💾 [Storage Locations](storage.md) -- where config/data/cache live
 - 🎨 [Themes](themes.md) -- built-in and custom themes
+- ✨ [Message Effects](message-effects.md) -- confetti, sunshine, rain, storms, and other timeline flourishes
 - 😀 [Emoji Search and Picker](emojis.md) -- localized emoji discovery, aliases, and trigger behavior
 - 🏘️ [Communities Sidebar](communities-sidebar.md) -- filter your Matrix rooms by various builtin filters and Matrix Spaces
 - 🎬 [Media Playback](media-playback.md) -- inline GIF video auto-play and media handling

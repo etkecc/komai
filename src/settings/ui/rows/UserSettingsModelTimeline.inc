@@ -71,7 +71,7 @@
     // TimelineMediaEffectsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show message effects",
-      QT_TR_NOOP("Some messages can be sent with fancy effects. For example, messages sent with '/confetti' will show confetti on screen."),
+      QT_TR_NOOP("Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md\">timeline effect</a>."),
       SM::TabTimeline, timelineMediaEffectsEnabled, setTimelineMediaEffectsEnabled, nullptr, TimelineMediaEffectsEnabled, SettingKey::TimelineMediaEffectsEnabled),
     // TimelineFeedbackSection
     { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabTimeline,

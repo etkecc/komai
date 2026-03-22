@@ -153,6 +153,10 @@ LitehtmlContainer::draw_text(litehtml::uint_ptr /*hdc*/,
     // litehtml positions the text run assuming our fake ascent, so the
     // rendered baseline (pos.y + realAscent) ends up wrong.  Shift the
     // draw rect so that the real baseline aligns with the expected one.
+    // Use TextDontClip: italic glyphs lean beyond their layout box, so
+    // clipping to the litehtml position rect cuts off ascenders (e.g. the
+    // top of 'l' in "<em>still</em>").  Element-level clipping is already
+    // handled by litehtml's own clip stack (set_clip / del_clip).
     QString str = QString::fromUtf8(text);
     if (!m_emojiFontFamily.isEmpty() && font->family() == m_emojiFontFamily) {
         QFontMetrics realMetrics(*font);
@@ -169,9 +173,10 @@ LitehtmlContainer::draw_text(litehtml::uint_ptr /*hdc*/,
         }());
 
         int yOffset = fakeMetrics.ascent() - realMetrics.ascent();
-        m_painter->drawText(QRect(pos.x, pos.y + yOffset, pos.width, realMetrics.height()), 0, str);
+        m_painter->drawText(
+          QRect(pos.x, pos.y + yOffset, pos.width, realMetrics.height()), Qt::TextDontClip, str);
     } else {
-        m_painter->drawText(QRect(pos.x, pos.y, pos.width, pos.height), 0, str);
+        m_painter->drawText(QRect(pos.x, pos.y, pos.width, pos.height), Qt::TextDontClip, str);
     }
 }
 

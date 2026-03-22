@@ -31,6 +31,8 @@ public:
     explicit FilteredCommunitiesModel(CommunitiesModel *model, QObject *parent = nullptr);
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
     bool filterAcceptsRow(int sourceRow, const QModelIndex &) const override;
+    Q_INVOKABLE int filterIdToIndex(const QString &filterId) const;
+    Q_INVOKABLE QString filterIdAt(int row) const;
 };
 
 class SpaceItem
@@ -290,3 +292,23 @@ private:
 
     inline static CommunitiesModel *instance_ = nullptr;
 };
+
+inline int
+FilteredCommunitiesModel::filterIdToIndex(const QString &filterId) const
+{
+    for (int row = 0; row < rowCount(); row++) {
+        if (data(index(row, 0), CommunitiesModel::Roles::Id).toString() == filterId)
+            return row;
+    }
+
+    return rowCount() > 0 ? 0 : -1;
+}
+
+inline QString
+FilteredCommunitiesModel::filterIdAt(int row) const
+{
+    if (row < 0 || row >= rowCount())
+        return {};
+
+    return data(index(row, 0), CommunitiesModel::Roles::Id).toString();
+}

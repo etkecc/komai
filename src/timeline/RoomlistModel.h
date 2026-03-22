@@ -285,6 +285,13 @@ public slots:
     {
         return mapFromSource(roomlistmodel->index(roomlistmodel->roomidToIndex(roomid))).row();
     }
+    QString roomIdAt(int row) const
+    {
+        if (row < 0 || row >= rowCount())
+            return {};
+
+        return data(index(row, 0), RoomlistModel::Roles::RoomId).toString();
+    }
     void joinPreview(QString roomid) { roomlistmodel->joinPreview(roomid); }
     void acceptInvite(QString roomid) { roomlistmodel->acceptInvite(roomid); }
     void declineInvite(QString roomid) { roomlistmodel->declineInvite(roomid); }

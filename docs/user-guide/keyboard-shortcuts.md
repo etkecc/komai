@@ -16,6 +16,8 @@ These shortcuts work across the main window unless a more specific control handl
 | `Ctrl+Shift+N` | Fallback for opening the **New** dialog when `Ctrl+N` is captured by a focused text field |
 | `Ctrl+K` | Open **Find & switch room or space** |
 | `Ctrl+P` | Alternative shortcut for **Find & switch room or space** |
+| `Ctrl+Shift+C` | Focus the [**Communities sidebar**](communities-sidebar.md) list |
+| `Ctrl+Shift+R` | Focus the **Room list** sidebar |
 | `Ctrl++` / `Ctrl+=` | Increase UI font size |
 | `Ctrl+-` | Decrease UI font size |
 | `Alt+A` | Jump to the next room with activity |
@@ -23,6 +25,21 @@ These shortcuts work across the main window unless a more specific control handl
 | `Ctrl+Down` / `Ctrl+PgDown` | Switch to the next room |
 | `Ctrl+Up` / `Ctrl+PgUp` | Switch to the previous room |
 | `Ctrl+Q` | Quit Komai |
+
+
+## 🧭 Sidebar Lists
+
+These shortcuts apply after you focus the [**Communities sidebar**](communities-sidebar.md) with `Ctrl+Shift+C` or the
+**Room list** with `Ctrl+Shift+R`.
+
+| Shortcut | Action |
+| --- | --- |
+| `Up` | Move the keyboard cursor up |
+| `Down` | Move the keyboard cursor down |
+| `Home` | Jump to the first visible item |
+| `End` | Jump to the last visible item |
+| `Enter` | Activate the focused room or community filter |
+| `Escape` | Return focus to the composer textarea |
 
 
 ## 💬 Timeline and Room View

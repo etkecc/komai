@@ -44,6 +44,7 @@ ItemDelegate {
     readonly property bool emphasizeUnreadState: hasUnreadMessages && (!isLowPriorityRoom || hasLoudNotification || Communities.currentFilterId === "tag:m.lowpriority")
     readonly property bool emphasizeDraftState: hasDraft && !emphasizeUnreadState
     readonly property bool emphasizeActivityState: emphasizeUnreadState || emphasizeDraftState
+    readonly property bool keyboardFocused: ListView.view && ListView.view.activeFocus && ListView.isCurrentItem
     readonly property color draftActivityBase: Qt.rgba((Komai.theme.attention.r + palette.highlight.r) / 2, (Komai.theme.attention.g + palette.highlight.g) / 2, (Komai.theme.attention.b + palette.highlight.b) / 2, 1)
     readonly property color draftHoverBackground: Qt.rgba((palette.dark.r * 0.7) + (draftActivityBase.r * 0.3), (palette.dark.g * 0.7) + (draftActivityBase.g * 0.3), (palette.dark.b * 0.7) + (draftActivityBase.b * 0.3), 1)
     readonly property color draftSelectedBackground: Qt.rgba((palette.highlight.r * 0.75) + (draftActivityBase.r * 0.25), (palette.highlight.g * 0.75) + (draftActivityBase.g * 0.25), (palette.highlight.b * 0.75) + (draftActivityBase.b * 0.25), 1)
@@ -81,6 +82,12 @@ ItemDelegate {
                 ? Qt.rgba(Komai.theme.attention.r, Komai.theme.attention.g, Komai.theme.attention.b, 0.12)
                 : Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15)
             visible: roomItem.emphasizeActivityState && roomItem.state !== "selected"
+        }
+        Rectangle {
+            anchors.fill: parent
+            color: "transparent"
+            border.color: roomItem.isSelected ? palette.highlightedText : palette.highlight
+            border.width: roomItem.keyboardFocused ? 2 : 0
         }
     }
     states: [

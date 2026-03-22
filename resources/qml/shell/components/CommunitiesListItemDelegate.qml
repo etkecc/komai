@@ -18,6 +18,7 @@ ItemDelegate {
     required property real scrollbarReservedWidth
     readonly property real baseFontPixelSize: Komai.fontPixelSize
     readonly property real depthAvatarSize: Math.max(avatarSize * 0.5, Math.round(avatarSize * Math.pow(0.85, model.depth)))
+    readonly property bool keyboardFocused: ListView.view && ListView.view.activeFocus && ListView.isCurrentItem
     readonly property real lineSpacing: Math.max(1, Math.round(baseFontPixelSize * 1.2))
 
     property color backgroundColor: palette.window
@@ -48,6 +49,13 @@ ItemDelegate {
 
     background: Rectangle {
         color: communityItem.backgroundColor
+
+        Rectangle {
+            anchors.fill: parent
+            color: "transparent"
+            border.color: communityItem.state === "selected" ? palette.highlightedText : palette.highlight
+            border.width: communityItem.keyboardFocused ? 2 : 0
+        }
     }
     states: [
         State {

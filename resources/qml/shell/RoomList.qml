@@ -12,11 +12,26 @@ Page {
     id: roomListPage
     //leftPadding: Komai.paddingSmall
     //rightPadding: Komai.paddingSmall
+    required property var adaptiveView
     required property var timelineRoot
     property bool compactMode: Komai.uiLayoutCompactMode
     property int avatarSize: Komai.listIconSize
     property bool collapsed: false
     readonly property var profileMenu: profileContextMenu
+
+    function focusKeyboardNavigation() {
+        if (!visible)
+            return false;
+
+        if (adaptiveView && adaptiveView.singlePageMode)
+            adaptiveView.pageIndex = 1;
+
+        Qt.callLater(function () {
+            roomlist.seedKeyboardCursor();
+            roomlist.forceActiveFocus(Qt.ShortcutFocusReason);
+        });
+        return true;
+    }
 
     ComponentCatalog {
         id: componentCatalog
@@ -24,6 +39,14 @@ Page {
 
     background: Rectangle {
         color: Komai.theme.sidebarBackground
+    }
+    Shortcut {
+        sequences: ["Ctrl+Shift+R"]
+        context: Qt.ApplicationShortcut
+        enabled: roomListPage.visible
+
+        onActivated: roomListPage.focusKeyboardNavigation()
+        onActivatedAmbiguously: roomListPage.focusKeyboardNavigation()
     }
     header: ColumnLayout {
         spacing: 0
@@ -100,93 +123,192 @@ Page {
                 ? Math.max(scrollbar.width, scrollbar.implicitWidth)
                 : 0
 
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        clip: true
-        model: Rooms
-        boundsBehavior: Flickable.StopAtBounds
-
-        //reuseItems: true
-        ScrollBar.vertical: ScrollBar {
-            id: scrollbar
-
-            parent: roomlist
-            activeFocusOnTab: false
-            focusPolicy: Qt.NoFocus
-            policy: roomlist.scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
-            palette.dark: Qt.darker(parent.palette.alternateBase, 1.5)
-            palette.mid: Qt.darker(parent.palette.alternateBase, 1.3)
-
-            Rectangle {
-                anchors.fill: parent
-                color: palette.window
-                z: -1
-            }
-        }
-        delegate: RoomListItemDelegate {
-            compactMode: roomListPage.compactMode
-            avatarSize: roomListPage.avatarSize
-            collapsed: roomListPage.collapsed
-            roomContextMenu: roomListContextMenu
-            scrollbarReservedWidth: roomlist.reservedScrollbarWidth
-        }
-
-        Connections {
-            function onCurrentRoomChanged() {
-                if (!Rooms.currentRoom)
+            function ensureKeyboardCursorVisible() {
+                if (currentIndex < 0 || currentIndex >= count)
                     return;
 
-                const roomId = Rooms.currentRoom.roomId;
-                Qt.callLater(function () {
-                    if (!Rooms.currentRoom || Rooms.currentRoom.roomId !== roomId)
-                        return;
-
-                    const index = Rooms.roomidToIndex(roomId);
-                    if (index < 0)
-                        return;
-
-                    if (TimelineManager.roomSwitchPerfEnabled())
-                        TimelineManager.markRoomSwitchPhase(roomId, "qml.room_list.scroll_into_view.begin");
-                    roomlist.positionViewAtIndex(index, ListView.Contain);
-                    if (TimelineManager.roomSwitchPerfEnabled())
-                        TimelineManager.markRoomSwitchPhase(roomId, "qml.room_list.scroll_into_view.end");
-                });
+                positionViewAtIndex(currentIndex, ListView.Contain);
             }
 
-            target: Rooms
-        }
-        Component {
-            id: roomWindowComponent
+            function seedKeyboardCursor() {
+                if (count <= 0) {
+                    currentIndex = -1;
+                    return;
+                }
 
-            DetachedRoomWindow {
+                const currentRoomId = Rooms.currentRoom
+                    ? Rooms.currentRoom.roomId
+                    : Rooms.currentRoomPreview.roomid;
+                const selectedIndex = currentRoomId ? Rooms.roomidToIndex(currentRoomId) : -1;
+
+                currentIndex = selectedIndex >= 0 ? selectedIndex : 0;
+                ensureKeyboardCursorVisible();
             }
-        }
-        RoomListContextMenu {
-            id: roomListContextMenu
 
-            timelineRoot: roomListPage.timelineRoot
-            roomWindowComponent: roomWindowComponent
-        }
-        RoomListToTopButton {
-            roomList: roomlist
-            scrollbarItem: scrollbar
-            collapsed: roomListPage.collapsed
-        }
+            function moveKeyboardCursor(delta) {
+                if (count <= 0)
+                    return;
 
-        footer: Column {
-            width: roomlist.width
+                if (currentIndex < 0) {
+                    seedKeyboardCursor();
+                    return;
+                }
 
-            RoomListExploreFooter {
-                width: parent.width
+                currentIndex = Math.max(0, Math.min(count - 1, currentIndex + delta));
+                ensureKeyboardCursorVisible();
+            }
+
+            function activateKeyboardCursor() {
+                if (currentIndex < 0 || currentIndex >= count || !Rooms.roomIdAt)
+                    return;
+
+                const roomId = Rooms.roomIdAt(currentIndex);
+                if (!roomId)
+                    return;
+
+                Rooms.setCurrentRoom(roomId);
+                ensureKeyboardCursorVisible();
+            }
+
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            activeFocusOnTab: false
+            clip: true
+            model: Rooms
+            boundsBehavior: Flickable.StopAtBounds
+
+            Keys.priority: Keys.BeforeItem
+            Keys.onPressed: event => {
+                switch (event.key) {
+                case Qt.Key_Up:
+                    roomlist.moveKeyboardCursor(-1);
+                    event.accepted = true;
+                    break;
+                case Qt.Key_Down:
+                    roomlist.moveKeyboardCursor(1);
+                    event.accepted = true;
+                    break;
+                case Qt.Key_Home:
+                    if (roomlist.count > 0) {
+                        roomlist.currentIndex = 0;
+                        roomlist.ensureKeyboardCursorVisible();
+                    }
+                    event.accepted = true;
+                    break;
+                case Qt.Key_End:
+                    if (roomlist.count > 0) {
+                        roomlist.currentIndex = roomlist.count - 1;
+                        roomlist.ensureKeyboardCursorVisible();
+                    }
+                    event.accepted = true;
+                    break;
+                case Qt.Key_Return:
+                case Qt.Key_Enter:
+                    roomlist.activateKeyboardCursor();
+                    event.accepted = true;
+                    break;
+                case Qt.Key_Escape:
+                    TimelineManager.focusMessageInput();
+                    event.accepted = true;
+                    break;
+                default:
+                    break;
+                }
+            }
+
+            //reuseItems: true
+            ScrollBar.vertical: ScrollBar {
+                id: scrollbar
+
+                parent: roomlist
+                activeFocusOnTab: false
+                focusPolicy: Qt.NoFocus
+                policy: roomlist.scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                palette.dark: Qt.darker(parent.palette.alternateBase, 1.5)
+                palette.mid: Qt.darker(parent.palette.alternateBase, 1.3)
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: palette.window
+                    z: -1
+                }
+            }
+            delegate: RoomListItemDelegate {
+                compactMode: roomListPage.compactMode
+                avatarSize: roomListPage.avatarSize
                 collapsed: roomListPage.collapsed
+                roomContextMenu: roomListContextMenu
+                scrollbarReservedWidth: roomlist.reservedScrollbarWidth
+            }
+
+            Connections {
+                function onCurrentRoomChanged() {
+                    const roomId = Rooms.currentRoom
+                        ? Rooms.currentRoom.roomId
+                        : Rooms.currentRoomPreview.roomid;
+                    if (!roomId)
+                        return;
+
+                    Qt.callLater(function () {
+                        const activeRoomId = Rooms.currentRoom
+                            ? Rooms.currentRoom.roomId
+                            : Rooms.currentRoomPreview.roomid;
+                        if (!activeRoomId || activeRoomId !== roomId)
+                            return;
+
+                        const index = Rooms.roomidToIndex(roomId);
+                        if (index < 0)
+                            return;
+
+                        if (roomlist.activeFocus)
+                            roomlist.currentIndex = index;
+                        if (TimelineManager.roomSwitchPerfEnabled())
+                            TimelineManager.markRoomSwitchPhase(roomId, "qml.room_list.scroll_into_view.begin");
+                        roomlist.positionViewAtIndex(index, ListView.Contain);
+                        if (TimelineManager.roomSwitchPerfEnabled())
+                            TimelineManager.markRoomSwitchPhase(roomId, "qml.room_list.scroll_into_view.end");
+                    });
+                }
+
+                target: Rooms
+            }
+            Component {
+                id: roomWindowComponent
+
+                DetachedRoomWindow {
+                }
+            }
+            RoomListContextMenu {
+                id: roomListContextMenu
+
                 timelineRoot: roomListPage.timelineRoot
+                roomWindowComponent: roomWindowComponent
             }
-            RoomListBotChatFooter {
-                width: parent.width
+            RoomListToTopButton {
+                roomList: roomlist
+                scrollbarItem: scrollbar
                 collapsed: roomListPage.collapsed
-                profileContextMenu: roomListPage.profileMenu
             }
-        }
+
+            footer: Column {
+                width: roomlist.width
+
+                RoomListExploreFooter {
+                    width: parent.width
+                    collapsed: roomListPage.collapsed
+                    timelineRoot: roomListPage.timelineRoot
+                }
+                RoomListBotChatFooter {
+                    width: parent.width
+                    collapsed: roomListPage.collapsed
+                    profileContextMenu: roomListPage.profileMenu
+                }
+            }
+
+            onActiveFocusChanged: {
+                if (activeFocus)
+                    seedKeyboardCursor();
+            }
         }
     }
 }

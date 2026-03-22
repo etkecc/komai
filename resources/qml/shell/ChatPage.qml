@@ -59,6 +59,7 @@ Rectangle {
                 CommunitiesList {
                     id: communitiesList
 
+                    adaptiveView: adaptiveView
                     collapsed: parent.collapsed
                 }
                 Binding {
@@ -80,6 +81,7 @@ Rectangle {
                 RoomList {
                     id: roomlist
 
+                    adaptiveView: adaptiveView
                     collapsed: parent.collapsed
                     height: adaptiveView.height
                     timelineRoot: chatPage.timelineRoot

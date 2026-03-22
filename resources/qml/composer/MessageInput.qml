@@ -448,7 +448,15 @@ Rectangle {
                     const triggerPos = selectionStart - 1;
                     const type = messageInput.completerTypeForTrigger(lastChar, triggerPos);
                     if (type !== "") {
-                        messageInput.openCompleter(triggerPos, type);
+                        const charBefore = triggerPos > 0 ? text.charAt(triggerPos - 1) : '';
+                        const atWordBoundary = triggerPos === 0
+                            || charBefore === ' '
+                            || charBefore === '\t'
+                            || charBefore === '\n'
+                            || charBefore === '\r'
+                            || charBefore === '\u3000';
+                        if (type === "command" || atWordBoundary)
+                            messageInput.openCompleter(triggerPos, type);
                     } else if (insertedLength > 1) {
                         messageInput.maybeOpenCompleterForTrailingTokenAfterBulkInsert();
                     }

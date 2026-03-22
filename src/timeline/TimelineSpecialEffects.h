@@ -15,6 +15,7 @@ namespace timeline::effects {
 enum class SpecialEffect
 {
     Confetti,
+    Sunlight,
     Rainfall,
     Lightning,
     KomaiLogo,

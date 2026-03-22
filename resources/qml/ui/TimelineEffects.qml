@@ -20,7 +20,7 @@ Item {
     })
     readonly property int maxEffectDuration: {
         var max = 0;
-        const effectNames = ["confetti", "rainfall", "lightning", "komaiLogo"];
+        const effectNames = ["confetti", "sunlight", "rainfall", "lightning", "komaiLogo"];
         for (let i = 0; i < effectNames.length; ++i) {
             var duration = effectDuration(effectNames[i]);
             if (duration > max)
@@ -34,6 +34,15 @@ Item {
     property real lightningBoltScale: 1.0
     property real lightningBoltRotation: 0
     property bool lightningRepeaterActive: false
+    property real sunlightOverlayOpacity: 0
+    property real sunlightHaloOpacity: 0
+    property real sunlightDiscOpacity: 0
+    property real sunlightRayOpacity: 0
+    property real sunlightDiscScale: 0.7
+    property real sunlightHaloScale: 0.72
+    property real sunlightRayScale: 0.68
+    property real sunlightCenterX: 0.82
+    property real sunlightCenterY: 0.14
     visible: effectRoot.shouldEffectsRun
 
     function durationForEffects(effectNames)
@@ -53,7 +62,7 @@ Item {
 
     function pulseDurationForEffect(effectName)
     {
-        if (effectName === "lightning")
+        if (effectName === "lightning" || effectName === "sunlight")
             return 0;
 
         const scale = effectPulseScales[effectName] || 1.0;
@@ -67,6 +76,8 @@ Item {
     {
         if (effectName === "lightning")
             return 440;
+        if (effectName === "sunlight")
+            return 2200;
 
         const emitter = effectEmitters[effectName];
         if (!emitter)
@@ -95,6 +106,10 @@ Item {
             pulseLightning();
             return;
         }
+        if (effectName === "sunlight") {
+            pulseSunlight();
+            return;
+        }
 
         const emitter = effectEmitters[effectName];
         if (!emitter) {
@@ -119,6 +134,20 @@ Item {
         lightningFlash.restart();
     }
 
+    function pulseSunlight()
+    {
+        sunlightCenterX = 0.78 + Math.random() * 0.1;
+        sunlightCenterY = 0.08 + Math.random() * 0.08;
+        sunlightOverlayOpacity = 0;
+        sunlightHaloOpacity = 0;
+        sunlightDiscOpacity = 0;
+        sunlightRayOpacity = 0;
+        sunlightDiscScale = 0.7;
+        sunlightHaloScale = 0.72;
+        sunlightRayScale = 0.68;
+        sunlightBurst.restart();
+    }
+
     function scheduleNextLightningRepeat()
     {
         lightningRepeatTimer.interval = 500 + Math.random() * 650;
@@ -133,9 +162,14 @@ Item {
 
     function removeParticles()
     {
+        sunlightBurst.stop()
         lightningFlash.stop()
         lightningRepeatTimer.stop()
         lightningRepeaterActive = false
+        sunlightOverlayOpacity = 0
+        sunlightHaloOpacity = 0
+        sunlightDiscOpacity = 0
+        sunlightRayOpacity = 0
         lightningFlashOpacity = 0
         particlesLoader.active = false
         Qt.callLater(function() {
@@ -157,6 +191,111 @@ Item {
         anchors.fill: parent
         active: true
         sourceComponent: particleLayerComponent
+    }
+
+    SequentialAnimation {
+        id: sunlightBurst
+
+        running: false
+
+        ParallelAnimation {
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightOverlayOpacity"
+                to: 1
+                duration: 220
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightHaloOpacity"
+                to: 1
+                duration: 260
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightDiscOpacity"
+                to: 1
+                duration: 230
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightRayOpacity"
+                to: 0.72
+                duration: 240
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightDiscScale"
+                to: 1
+                duration: 320
+                easing.type: Easing.OutBack
+            }
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightHaloScale"
+                to: 1.06
+                duration: 340
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightRayScale"
+                to: 1
+                duration: 300
+                easing.type: Easing.OutCubic
+            }
+        }
+        PauseAnimation {
+            duration: 260
+        }
+        ParallelAnimation {
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightOverlayOpacity"
+                to: 0
+                duration: 1400
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightHaloOpacity"
+                to: 0
+                duration: 1450
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightDiscOpacity"
+                to: 0
+                duration: 1250
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightRayOpacity"
+                to: 0
+                duration: 1180
+                easing.type: Easing.InOutQuad
+            }
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightHaloScale"
+                to: 1.18
+                duration: 1450
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: effectRoot
+                property: "sunlightRayScale"
+                to: 1.08
+                duration: 1180
+                easing.type: Easing.OutCubic
+            }
+        }
     }
 
     SequentialAnimation {
@@ -208,6 +347,72 @@ Item {
 
             effectRoot.pulseLightning();
             effectRoot.scheduleNextLightningRepeat();
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        z: 7
+        color: "#ffde7a"
+        opacity: effectRoot.sunlightOverlayOpacity * 0.11
+        visible: opacity > 0
+    }
+
+    Item {
+        width: Math.min(Math.max(effectRoot.width * 0.55, 320), 560)
+        height: width
+        x: effectRoot.width * effectRoot.sunlightCenterX - width / 2
+        y: effectRoot.height * effectRoot.sunlightCenterY - height / 2
+        z: 8
+        visible: opacity > 0
+        opacity: Math.max(effectRoot.sunlightHaloOpacity,
+                          effectRoot.sunlightDiscOpacity,
+                          effectRoot.sunlightRayOpacity)
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: parent.width * 0.94
+            height: width
+            radius: width / 2
+            color: "#ffe082"
+            opacity: effectRoot.sunlightHaloOpacity * 0.24
+            scale: effectRoot.sunlightHaloScale
+        }
+
+        Repeater {
+            model: 8
+
+            Rectangle {
+                width: Math.max(parent.width * 0.03, 16)
+                height: parent.width * 0.44
+                radius: width / 2
+                anchors.centerIn: parent
+                color: "#ffd54f"
+                opacity: effectRoot.sunlightRayOpacity * (index % 2 === 0 ? 0.36 : 0.26)
+                rotation: index * 45
+                scale: effectRoot.sunlightRayScale
+                transformOrigin: Item.Center
+            }
+        }
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: Math.min(parent.width * 0.31, 150)
+            height: width
+            radius: width / 2
+            color: "#fff1a8"
+            opacity: effectRoot.sunlightDiscOpacity * 0.95
+            scale: effectRoot.sunlightDiscScale
+        }
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: Math.min(parent.width * 0.18, 90)
+            height: width
+            radius: width / 2
+            color: "#fff9de"
+            opacity: effectRoot.sunlightDiscOpacity
+            scale: effectRoot.sunlightDiscScale * 0.94
         }
     }
 

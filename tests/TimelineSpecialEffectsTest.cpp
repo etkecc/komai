@@ -73,6 +73,16 @@ testContentTriggeredEffects()
     ok &= expect(containsEffect(komaiLogo, timeline::effects::SpecialEffect::KomaiLogo),
                  "unknown message body can trigger komai logo effect");
 
+    const auto sunlight =
+      timeline::effects::detect(mtx::events::collections::TimelineEvents{makeTextEvent("clear ☀️")});
+    ok &= expect(containsEffect(sunlight, timeline::effects::SpecialEffect::Sunlight),
+                 "sun emoji triggers sunlight effect");
+
+    const auto sunlightVariant =
+      timeline::effects::detect(mtx::events::collections::TimelineEvents{makeUnknownEvent("bright 🌞")});
+    ok &= expect(containsEffect(sunlightVariant, timeline::effects::SpecialEffect::Sunlight),
+                 "sun face emoji triggers sunlight effect");
+
     const auto rainfall =
       timeline::effects::detect(mtx::events::collections::TimelineEvents{makeTextEvent("bring ☔☔")});
     ok &= expect(containsEffect(rainfall, timeline::effects::SpecialEffect::Rainfall),
@@ -98,9 +108,11 @@ testContentTriggeredEffects()
                  "storm emoji adds lightning effect");
 
     const auto combined = timeline::effects::detect(
-      mtx::events::collections::TimelineEvents{makeTextEvent("🎉⛈🦁")});
+      mtx::events::collections::TimelineEvents{makeTextEvent("🎉☀️⛈🦁")});
     ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::Confetti),
                  "combined body keeps confetti effect");
+    ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::Sunlight),
+                 "combined body keeps sunlight effect");
     ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::Rainfall),
                  "combined body keeps rainfall effect");
     ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::Lightning),
@@ -134,19 +146,22 @@ testEffectNamesFollowInsertionOrder()
 {
     timeline::effects::SpecialEffects effects;
     timeline::effects::appendUnique(effects, timeline::effects::SpecialEffect::Confetti);
+    timeline::effects::appendUnique(effects, timeline::effects::SpecialEffect::Sunlight);
     timeline::effects::appendUnique(effects, timeline::effects::SpecialEffect::Lightning);
     timeline::effects::appendUnique(effects, timeline::effects::SpecialEffect::KomaiLogo);
 
     const QStringList names = timeline::effects::effectNames(effects);
 
     bool ok = true;
-    ok &= expect(names.size() == 3, "three effect names are returned");
+    ok &= expect(names.size() == 4, "four effect names are returned");
     ok &= expect(names.at(0) == QStringLiteral("confetti"),
                  "first effect name matches insertion order");
-    ok &= expect(names.at(1) == QStringLiteral("lightning"),
+    ok &= expect(names.at(1) == QStringLiteral("sunlight"),
                  "second effect name matches insertion order");
-    ok &= expect(names.at(2) == QStringLiteral("komaiLogo"),
-                 "second effect name matches insertion order");
+    ok &= expect(names.at(2) == QStringLiteral("lightning"),
+                 "third effect name matches insertion order");
+    ok &= expect(names.at(3) == QStringLiteral("komaiLogo"),
+                 "fourth effect name matches insertion order");
     return ok;
 }
 

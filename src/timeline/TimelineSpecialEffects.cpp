@@ -21,6 +21,10 @@ const std::array<QStringView, 2> CONFETTI_TRIGGERS = {
   QStringView(u"🎉"),
   QStringView(u"🎊"),
 };
+const std::array<QStringView, 2> SUNLIGHT_TRIGGERS = {
+  QStringView(u"☀"),
+  QStringView(u"🌞"),
+};
 const std::array<QStringView, 3> RAINFALL_TRIGGERS = {
   QStringView(u"🌧"),
   QStringView(u"🌦"),
@@ -54,6 +58,8 @@ triggersFor(SpecialEffect effect)
     switch (effect) {
     case SpecialEffect::Confetti:
         return CONFETTI_TRIGGERS;
+    case SpecialEffect::Sunlight:
+        return SUNLIGHT_TRIGGERS;
     case SpecialEffect::Rainfall:
         return RAINFALL_TRIGGERS;
     case SpecialEffect::Lightning:
@@ -73,6 +79,7 @@ combinedTriggersFor(SpecialEffect effect)
     case SpecialEffect::Lightning:
         return STORM_TRIGGERS;
     case SpecialEffect::Confetti:
+    case SpecialEffect::Sunlight:
     case SpecialEffect::KomaiLogo:
         return {};
     }
@@ -85,6 +92,9 @@ addContentTriggeredEffects(SpecialEffects &effects, QStringView body)
 {
     if (bodyHasTrigger(SpecialEffect::Confetti, body))
         appendUnique(effects, SpecialEffect::Confetti);
+
+    if (bodyHasTrigger(SpecialEffect::Sunlight, body))
+        appendUnique(effects, SpecialEffect::Sunlight);
 
     if (bodyHasTrigger(SpecialEffect::Rainfall, body))
         appendUnique(effects, SpecialEffect::Rainfall);
@@ -146,6 +156,8 @@ effectName(SpecialEffect effect)
     switch (effect) {
     case SpecialEffect::Confetti:
         return QStringLiteral("confetti");
+    case SpecialEffect::Sunlight:
+        return QStringLiteral("sunlight");
     case SpecialEffect::Rainfall:
         return QStringLiteral("rainfall");
     case SpecialEffect::Lightning:

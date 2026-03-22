@@ -8,7 +8,7 @@ import QtQuick 2.15
 Item {
     id: effectRoot
 
-    readonly property var supportedEffectNames: ["confetti", "sunlight", "rainfall", "lightning", "komaiLogo"]
+    readonly property var supportedEffectNames: ["confetti", "sunlight", "love", "rainfall", "lightning", "komaiLogo"]
     readonly property var effectEmitters: ({
         "confetti": particlesLoader.item ? particlesLoader.item.confettiEmitter : null,
         "rainfall": particlesLoader.item ? particlesLoader.item.rainfallEmitter : null
@@ -19,6 +19,7 @@ Item {
     })
     readonly property var overlayEffects: ({
         "sunlight": sunlightEffect,
+        "love": loveEffect,
         "lightning": lightningEffect,
         "komaiLogo": komaiEffect
     })
@@ -134,6 +135,7 @@ Item {
     {
         lightningEffect.reset();
         sunlightEffect.reset();
+        loveEffect.reset();
         komaiEffect.reset();
     }
 
@@ -176,10 +178,17 @@ Item {
         z: 9
     }
 
+    TimelineLoveEffect {
+        id: loveEffect
+
+        anchors.fill: parent
+        z: 10
+    }
+
     TimelineLightningEffect {
         id: lightningEffect
 
         anchors.fill: parent
-        z: 10
+        z: 11
     }
 }

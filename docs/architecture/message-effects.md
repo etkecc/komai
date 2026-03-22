@@ -43,6 +43,22 @@ Supported content-triggered effect families:
 - `sunlight`
   - `☀`
   - `🌞`
+- `love`
+  - `❤`
+  - `🫶`
+  - `💕`
+  - `💓`
+  - `💘`
+  - `💖`
+  - `💗`
+  - `💞`
+  - `💝`
+  - `💟`
+  - `❣`
+  - `😻`
+  - `😘`
+  - `🥰`
+  - `😍`
 - `rainfall`
   - `🌧`
   - `🌦`
@@ -93,6 +109,7 @@ High-level flow:
 Relevant QML files:
 
 - `resources/qml/ui/TimelineEffects.qml`
+- `resources/qml/ui/TimelineLoveEffect.qml`
 - `resources/qml/ui/TimelineParticleLayer.qml`
 - `resources/qml/ui/TimelineLightningEffect.qml`
 - `resources/qml/ui/TimelineSunlightEffect.qml`
@@ -108,6 +125,7 @@ Komai now splits effect rendering by style:
   - `confetti`
   - `rainfall`
 - overlay effects:
+  - `love`
   - `lightning`
   - `sunlight`
   - `komaiLogo`
@@ -167,6 +185,7 @@ Current intended product direction:
 This is why:
 
 - `☀️` and `🌞` both map to `sunlight`
+- multiple heart and affection emoji map to one shared `love` effect
 - `⛈` maps to `rainfall + lightning`
 
 ## Adding a New Effect

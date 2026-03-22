@@ -25,6 +25,25 @@ const std::array<QStringView, 2> SUNLIGHT_TRIGGERS = {
   QStringView(u"☀"),
   QStringView(u"🌞"),
 };
+const std::array<QStringView, 14> LOVE_TRIGGERS = {
+  QStringView(u"❤"),
+  QStringView(u"🫶"),
+  QStringView(u"💕"),
+  QStringView(u"💓"),
+  QStringView(u"💘"),
+  QStringView(u"💖"),
+  QStringView(u"💗"),
+  QStringView(u"💞"),
+  QStringView(u"💝"),
+  QStringView(u"💟"),
+  QStringView(u"❣"),
+  QStringView(u"😻"),
+  QStringView(u"😘"),
+  QStringView(u"🥰"),
+};
+const std::array<QStringView, 1> LOVE_FACE_TRIGGERS = {
+  QStringView(u"😍"),
+};
 const std::array<QStringView, 3> RAINFALL_TRIGGERS = {
   QStringView(u"🌧"),
   QStringView(u"🌦"),
@@ -60,6 +79,8 @@ triggersFor(SpecialEffect effect)
         return CONFETTI_TRIGGERS;
     case SpecialEffect::Sunlight:
         return SUNLIGHT_TRIGGERS;
+    case SpecialEffect::Love:
+        return LOVE_TRIGGERS;
     case SpecialEffect::Rainfall:
         return RAINFALL_TRIGGERS;
     case SpecialEffect::Lightning:
@@ -80,6 +101,7 @@ combinedTriggersFor(SpecialEffect effect)
         return STORM_TRIGGERS;
     case SpecialEffect::Confetti:
     case SpecialEffect::Sunlight:
+    case SpecialEffect::Love:
     case SpecialEffect::KomaiLogo:
         return {};
     }
@@ -95,6 +117,9 @@ addContentTriggeredEffects(SpecialEffects &effects, QStringView body)
 
     if (bodyHasTrigger(SpecialEffect::Sunlight, body))
         appendUnique(effects, SpecialEffect::Sunlight);
+
+    if (bodyHasTrigger(SpecialEffect::Love, body))
+        appendUnique(effects, SpecialEffect::Love);
 
     if (bodyHasTrigger(SpecialEffect::Rainfall, body))
         appendUnique(effects, SpecialEffect::Rainfall);
@@ -147,6 +172,9 @@ appendUnique(SpecialEffects &target, const SpecialEffects &effects)
 bool
 bodyHasTrigger(SpecialEffect effect, QStringView body)
 {
+    if (effect == SpecialEffect::Love)
+        return containsAny(body, LOVE_TRIGGERS) || containsAny(body, LOVE_FACE_TRIGGERS);
+
     return containsAny(body, triggersFor(effect)) || containsAny(body, combinedTriggersFor(effect));
 }
 
@@ -158,6 +186,8 @@ effectName(SpecialEffect effect)
         return QStringLiteral("confetti");
     case SpecialEffect::Sunlight:
         return QStringLiteral("sunlight");
+    case SpecialEffect::Love:
+        return QStringLiteral("love");
     case SpecialEffect::Rainfall:
         return QStringLiteral("rainfall");
     case SpecialEffect::Lightning:

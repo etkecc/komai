@@ -3,8 +3,8 @@
 Some messages can make the timeline feel a little more alive.
 
 Komai recognizes a small set of emojis and special effect messages and can
-turn them into playful timeline effects like confetti, sunshine, rain, or
-lightning.
+turn them into playful timeline effects like confetti, sunshine, hearts, rain,
+or lightning.
 
 Think of them as tiny bits of atmosphere, not essential message content.
 
@@ -14,6 +14,7 @@ Depending on the message, Komai may show effects such as:
 
 - `🎉` or `🎊` for confetti
 - `☀️` or `🌞` for sunlight
+- `❤️`, `🫶`, `💕`, `😍`, or `🥰` for a soft heart-themed effect
 - `🌧️`, `🌦️`, or `☔` for rain
 - `⚡` for lightning
 - `⛈️` for a short storm with rain and lightning together
@@ -27,7 +28,9 @@ Most effects are triggered by the message itself, usually by emoji.
 
 That means you do not need to learn a long list of slash commands just to see
 them. If someone sends a sunny message with `☀️`, Komai can show sunlight. If a
-message arrives with `⛈️`, Komai can show a brief storm.
+message arrives with `⛈️`, Komai can show a brief storm. If someone fills a
+message with hearts like `❤️` or `💕`, Komai can answer with a matching love
+effect.
 
 Some older explicit effect messages still exist for compatibility, but the
 main idea in Komai is simple:

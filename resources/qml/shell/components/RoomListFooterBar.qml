@@ -51,6 +51,8 @@ Rectangle {
 
             Layout.rightMargin: Komai.paddingMedium
             buttonSize: Komai.barIconSize
+            activeFocusOnTab: false
+            focusPolicy: Qt.NoFocus
             toolTipText: hasRoom ? "" : root.actionLabel
             iconSource: root.actionIcon
             labelText: root.actionLabel
@@ -77,6 +79,8 @@ Rectangle {
         anchors.rightMargin: Komai.paddingMedium
         anchors.verticalCenter: parent.verticalCenter
         buttonSize: Komai.barIconSize
+        activeFocusOnTab: false
+        focusPolicy: Qt.NoFocus
         toolTipText: root.actionLabel
         iconSource: root.actionIcon
 

@@ -111,6 +111,8 @@ Page {
             id: scrollbar
 
             parent: roomlist
+            activeFocusOnTab: false
+            focusPolicy: Qt.NoFocus
             policy: roomlist.scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             palette.dark: Qt.darker(parent.palette.alternateBase, 1.5)
             palette.mid: Qt.darker(parent.palette.alternateBase, 1.3)

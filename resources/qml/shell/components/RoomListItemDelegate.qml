@@ -69,6 +69,8 @@ ItemDelegate {
     bottomInset: 0
     leftInset: 0
     rightInset: 0
+    activeFocusOnTab: false
+    focusPolicy: Qt.NoFocus
 
     background: Rectangle {
         color: backgroundColor

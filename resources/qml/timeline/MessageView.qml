@@ -59,6 +59,16 @@ Item {
         return itemIsInSubtree(activeItem, chatRoot)
             && !(selectionModeBar && itemIsInSubtree(activeItem, selectionModeBar));
     }
+    readonly property bool selectionModeCopyShortcutEnabled: {
+        if (!(walkModeActive || keyboardActionsOpen))
+            return false;
+
+        const activeItem = chatRoot.Window.activeFocusItem;
+        return (itemIsInSubtree(activeItem, chatRoot)
+                || itemIsInSubtree(activeItem, selectionModeBar)
+                || itemIsInSubtree(activeItem, roomHeader))
+            && !focusOwnsSelectedTextCopy(activeItem);
+    }
 
     MessageActionSupport {
         id: messageActionSupport
@@ -247,6 +257,26 @@ Item {
         while (current) {
             if (current === ancestor)
                 return true;
+            current = current.parent;
+        }
+
+        return false;
+    }
+
+    function focusOwnsSelectedTextCopy(item) {
+        const activeItem = item || chatRoot.Window.activeFocusItem;
+        if (!activeItem)
+            return false;
+
+        let current = activeItem;
+        while (current) {
+            const selectedText = current.selectedText;
+            if (selectedText !== undefined && String(selectedText).length > 0)
+                return true;
+
+            if (current === chatRoot)
+                break;
+
             current = current.parent;
         }
 
@@ -581,6 +611,24 @@ Item {
 
     function canPerformWalkModeAction(actionName) {
         return walkModeActionMessages(actionName).length > 0;
+    }
+
+    function copySelectionModeText(plainText) {
+        if (!roommodel || typeof roommodel.copyTextForEventIds !== "function")
+            return false;
+
+        const eventIds = hasSelectedEvents
+            ? orderedExistingEventIds(selectedEventIds)
+            : (focusedEventId ? [focusedEventId] : []);
+        if (eventIds.length === 0)
+            return false;
+
+        const copiedText = roommodel.copyTextForEventIds(eventIds, !!plainText);
+        if (!copiedText)
+            return false;
+
+        Clipboard.text = copiedText;
+        return true;
     }
 
     function closeKeyboardActions(options) {
@@ -1557,6 +1605,24 @@ Item {
             else
                 chatRoot.openKeyboardActionsForPrimaryEvent();
         }
+    }
+
+    Shortcut {
+        enabled: chatRoot.selectionModeCopyShortcutEnabled
+        sequences: [StandardKey.Copy]
+        context: Qt.ApplicationShortcut
+
+        onActivated: chatRoot.copySelectionModeText(false)
+        onActivatedAmbiguously: chatRoot.copySelectionModeText(false)
+    }
+
+    Shortcut {
+        enabled: chatRoot.selectionModeCopyShortcutEnabled
+        sequences: ["Ctrl+Shift+C"]
+        context: Qt.ApplicationShortcut
+
+        onActivated: chatRoot.copySelectionModeText(true)
+        onActivatedAmbiguously: chatRoot.copySelectionModeText(true)
     }
 
     ListView {

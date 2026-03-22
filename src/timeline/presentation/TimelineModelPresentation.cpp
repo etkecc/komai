@@ -10,13 +10,24 @@
 #include <QGuiApplication>
 #include <QLocale>
 #include <QRegularExpression>
+#include <QTextDocumentFragment>
 #include <QTimer>
 #include <QUrl>
 
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/format/TimelineRedactedEventFormatter.h"
 #include "utils/Utils.h"
+
+namespace {
+QString
+htmlToPlainText(const QString &html)
+{
+    return QTextDocumentFragment::fromHtml(html).toPlainText();
+}
+}
 
 QString
 TimelineModel::displayName(const QString &id) const
@@ -87,6 +98,114 @@ TimelineModel::getRoomVias(const QString &roomId)
     }
 
     return vias.join("&");
+}
+
+QString
+TimelineModel::copyTextForEventIds(const QVariantList &eventIds, bool plainText) const
+{
+    QStringList copiedTexts;
+    copiedTexts.reserve(eventIds.size());
+
+    for (const auto &eventIdValue : eventIds) {
+        const auto eventId = eventIdValue.toString();
+        if (eventId.isEmpty())
+            continue;
+
+        auto event = events.get(eventId.toStdString(), "");
+        if (!event)
+            continue;
+
+        const auto text =
+          plainText ? plainCopyTextForEvent(*event) : originalCopyTextForEvent(*event);
+        if (!text.isEmpty())
+            copiedTexts.push_back(text);
+    }
+
+    return copiedTexts.join(QStringLiteral("\n\n"));
+}
+
+QString
+TimelineModel::originalCopyTextForEvent(const mtx::events::collections::TimelineEvents &event) const
+{
+    return QString::fromStdString(utils::stripReplyFromBody(mtx::accessors::body(event)));
+}
+
+QString
+TimelineModel::plainCopyTextForCallEvent(
+  const mtx::events::collections::TimelineEvents &event) const
+{
+    const auto senderId   = QString::fromStdString(mtx::accessors::sender(event));
+    const auto senderName = htmlToPlainText(displayName(senderId));
+
+    switch (mtx::accessors::event_type(event)) {
+    case mtx::events::EventType::CallInvite: {
+        const auto callType = QString::fromStdString(mtx::accessors::call_type(event));
+        if (callType == QLatin1String("voice"))
+            return tr("%1 placed a voice call.").arg(senderName);
+        if (callType == QLatin1String("video"))
+            return tr("%1 placed a video call.").arg(senderName);
+        return tr("%1 placed a call.").arg(senderName);
+    }
+    case mtx::events::EventType::CallAnswer:
+        return tr("%1 answered the call.").arg(senderName);
+    case mtx::events::EventType::CallReject:
+        return tr("%1 rejected the call.").arg(senderName);
+    case mtx::events::EventType::CallSelectAnswer:
+        return tr("%1 selected answer.").arg(senderName);
+    case mtx::events::EventType::CallHangUp:
+        return tr("%1 ended the call.").arg(senderName);
+    case mtx::events::EventType::CallCandidates:
+    case mtx::events::EventType::CallNegotiate:
+        return tr("%1 is negotiating the call...").arg(senderName);
+    default:
+        return {};
+    }
+}
+
+QString
+TimelineModel::plainCopyTextForEvent(const mtx::events::collections::TimelineEvents &event) const
+{
+    switch (qml_mtx_events::toRoomEventType(event)) {
+    case qml_mtx_events::EventType::CallInvite:
+    case qml_mtx_events::EventType::CallAnswer:
+    case qml_mtx_events::EventType::CallHangUp:
+    case qml_mtx_events::EventType::CallCandidates:
+    case qml_mtx_events::EventType::CallSelectAnswer:
+    case qml_mtx_events::EventType::CallReject:
+    case qml_mtx_events::EventType::CallNegotiate:
+        return plainCopyTextForCallEvent(event);
+    case qml_mtx_events::EventType::Encryption:
+        return tr("%1 enabled end-to-end encryption")
+          .arg(htmlToPlainText(displayName(QString::fromStdString(mtx::accessors::sender(event)))));
+    case qml_mtx_events::EventType::Tombstone:
+        return tr("This room was replaced for the following reason: %1")
+          .arg(originalCopyTextForEvent(event));
+    case qml_mtx_events::EventType::Redacted: {
+        const auto redacted = timeline::format::formatRedactedEvent(
+          QString::fromStdString(mtx::accessors::event_id(event)),
+          events,
+          [this](const QString &userId) { return displayName(userId); });
+        return htmlToPlainText(redacted.value(QStringLiteral("first")).toString());
+    }
+    default:
+        break;
+    }
+
+    if (mtx::accessors::is_state_event(event)) {
+        const auto stateText = htmlToPlainText(formattedStateEventForEvent(event));
+        if (!stateText.isEmpty())
+            return stateText;
+    }
+
+    const auto formattedBody = mtx::accessors::formatted_body(event);
+    if (!formattedBody.empty()) {
+        const auto plainText = htmlToPlainText(
+          QString::fromStdString(utils::stripReplyFromFormattedBody(formattedBody)));
+        if (!plainText.isEmpty())
+            return plainText;
+    }
+
+    return originalCopyTextForEvent(event);
 }
 
 void

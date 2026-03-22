@@ -233,6 +233,7 @@ public:
     Q_INVOKABLE void cacheMedia(const QString &eventId);
     Q_INVOKABLE bool saveMedia(const QString &eventId) const;
     Q_INVOKABLE bool copyMedia(const QString &eventId) const;
+    Q_INVOKABLE QString copyTextForEventIds(const QVariantList &eventIds, bool plainText) const;
     Q_INVOKABLE QVariantMap adjacentMediaEvent(const QString &currentEventId, int direction) const;
     Q_INVOKABLE int countNearbyMedia(const QString &currentEventId, int direction, int limit) const;
     Q_INVOKABLE void showEvent(QString eventId);
@@ -459,6 +460,9 @@ private:
     QString effectiveEventIdForEvent(const mtx::events::collections::TimelineEvents &event) const;
     QString replyToForEvent(const mtx::events::collections::TimelineEvents &event) const;
     QString threadIdForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    QString originalCopyTextForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    QString plainCopyTextForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    QString plainCopyTextForCallEvent(const mtx::events::collections::TimelineEvents &event) const;
     QVariant reactionsForEvent(const mtx::events::collections::TimelineEvents &event) const;
     bool isEncryptedForEvent(const mtx::events::collections::TimelineEvents &event) const;
     crypto::Trust trustLevelForEvent(const mtx::events::collections::TimelineEvents &event) const;

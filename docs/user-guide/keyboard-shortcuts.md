@@ -96,6 +96,8 @@ use a non-Latin keyboard layout.
 | `Space` | Toggle whether the focused message is in the explicit selection |
 | `?` | Open Selection mode help |
 | `Enter` | Open the inline message-actions bar for the selected or focused message and focus its first visible button |
+| `Ctrl+C` | Copy the original body for selected messages, or the selected or focused message |
+| `Ctrl+Shift+C` | Copy plain text for selected messages, or the selected or focused message |
 | `r` | Reply to the selected or focused message |
 | `t` | Reply in thread, or continue the selected or focused message's thread |
 | `e` | Edit the selected or focused message |
@@ -107,7 +109,7 @@ use a non-Latin keyboard layout.
 
 Which message does an action use?
 
-- `f` and `d` use the current selection.
+- `Ctrl+C`, `Ctrl+Shift+C`, `f`, and `d` use the current selection.
 - Other actions use one selected message, or the focused message if nothing is selected.
 - With more than one message selected, the other actions are unavailable.
 

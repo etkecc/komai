@@ -149,6 +149,12 @@ focuses the composer instead of entering Selection mode.
 This is intentionally one ordered handler because `Escape`, `Enter`, and focus movement depend on
 current sub-state.
 
+`Ctrl+C` and `Ctrl+Shift+C` are handled by dedicated `Shortcut` objects in
+[resources/qml/timeline/MessageView.qml](../../resources/qml/timeline/MessageView.qml), not by
+`handleWalkModeKey()`. That keeps standard copy sequences out of the layout-agnostic Latin-key
+path and lets Selection mode defer to delegate-local text selection when focus is inside a message
+text item.
+
 ### Selection mode focus routing
 
 When inline message actions are not open, Selection mode has three nearby focus zones:
@@ -177,6 +183,8 @@ Current targeting rule:
 
 - `forward` and `remove` operate on all selected messages that support that action, ordered from
   oldest to newest
+- `Ctrl+C` and `Ctrl+Shift+C` also iterate the current selection in oldest-to-newest order,
+  skipping messages that have no copyable text
 - otherwise one selected message wins
 - otherwise the focused message is used
 - with more than one selected message, the other direct actions remain unavailable

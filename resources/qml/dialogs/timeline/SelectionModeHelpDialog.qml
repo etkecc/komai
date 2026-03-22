@@ -79,6 +79,18 @@ Components.OverlayDialog {
                     "icon": ":/icons/icons/ui/textbox-more.svg"
                 },
                 {
+                    "warningKey": "copy-original-body",
+                    "shortcuts": [qsTr("Ctrl+C")],
+                    "label": qsTr("Copy original body for selected messages, or the selected or focused message"),
+                    "icon": ":/icons/icons/ui/copy.svg"
+                },
+                {
+                    "warningKey": "copy-plain-text",
+                    "shortcuts": [qsTr("Ctrl+Shift+C")],
+                    "label": qsTr("Copy plain text for selected messages, or the selected or focused message"),
+                    "icon": ":/icons/icons/ui/copy.svg"
+                },
+                {
                     "warningKey": "reply",
                     "shortcuts": [qsTr("R")],
                     "label": qsTr("Reply to the selected or focused message"),
@@ -165,6 +177,8 @@ Components.OverlayDialog {
         { "sequence": "Space", "warningKey": "toggle-selection" },
         { "sequence": "Return", "warningKey": "open-actions" },
         { "sequence": "Enter", "warningKey": "open-actions" },
+        { "sequence": "Ctrl+C", "warningKey": "copy-original-body" },
+        { "sequence": "Ctrl+Shift+C", "warningKey": "copy-plain-text" },
         { "sequence": "R", "warningKey": "reply" },
         { "sequence": "T", "warningKey": "thread" },
         { "sequence": "E", "warningKey": "edit" },

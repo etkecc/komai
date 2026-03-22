@@ -802,10 +802,10 @@ TimelineMessageStyleBase {
                 var ctx = getContext("2d");
                 ctx.clearRect(0, 0, width, height);
                 ctx.strokeStyle = borderColor;
-                ctx.lineWidth = 1.5;
-                ctx.setLineDash([]);
+                ctx.lineWidth = 3;
+                ctx.setLineDash([8, 6]);
                 var r = 8;
-                var inset = 4;
+                var inset = 1.5;
                 ctx.beginPath();
                 ctx.roundedRect(inset, inset, width - 2 * inset, height - 2 * inset, r, r);
                 ctx.stroke();

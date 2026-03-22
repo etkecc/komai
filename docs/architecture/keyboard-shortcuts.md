@@ -39,6 +39,8 @@ Use explicit sequences only for app-specific commands such as room switching or 
 Timeline, overlay, and dialog shortcuts often use local `Shortcut` objects inside the component that
 owns the behavior:
 
+- [resources/qml/shell/CommunitiesList.qml](../../resources/qml/shell/CommunitiesList.qml)
+- [resources/qml/shell/RoomList.qml](../../resources/qml/shell/RoomList.qml)
 - [resources/qml/timeline/components/TimelineKeyboardShortcuts.qml](../../resources/qml/timeline/components/TimelineKeyboardShortcuts.qml)
 - [resources/qml/dialogs/timeline/MessageActionsDialog.qml](../../resources/qml/dialogs/timeline/MessageActionsDialog.qml)
 - [resources/qml/dialogs/media/MediaOverlay.qml](../../resources/qml/dialogs/media/MediaOverlay.qml)
@@ -53,6 +55,12 @@ precedence that would be awkward with plain `Shortcut` objects.
 
 Important examples:
 
+- [resources/qml/shell/CommunitiesList.qml](../../resources/qml/shell/CommunitiesList.qml)
+  The communities sidebar keeps a keyboard cursor separate from the active filter and handles
+  `Tab`, arrows, Vim-like movement keys, space collapse/expand, `Enter`, and `Escape` in one place.
+- [resources/qml/shell/RoomList.qml](../../resources/qml/shell/RoomList.qml)
+  The room list uses the same focused-list pattern, including local `Tab` routing to the communities
+  sidebar, Vim-like movement keys, page-sized jumps, and `Enter` activation.
 - [resources/qml/timeline/TimelineView.qml](../../resources/qml/timeline/TimelineView.qml)
   Timeline typing moves focus into the composer, except while Selection mode is active.
 - [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml)
@@ -68,6 +76,37 @@ Use raw key handling when:
 - focus and mode state matter
 - the action is a sequence such as `gg`
 - the action is not a simple one-shot command
+
+## Sidebar List Focus Mode
+
+The communities sidebar and room list now use the same focused-list model:
+
+- an application-scoped `Shortcut` enters the list directly
+- `focusKeyboardNavigation()` seeds a keyboard cursor from the current filter or room
+- the target `ListView` receives focus with `Qt.callLater(...)`
+- movement changes the keyboard cursor only; activation is deferred to `Enter`
+- `ensureKeyboardCursorVisible()` keeps the focused row scrolled into view
+
+Entry shortcuts:
+
+- [resources/qml/shell/CommunitiesList.qml](../../resources/qml/shell/CommunitiesList.qml): `Ctrl+Shift+C`
+- [resources/qml/shell/RoomList.qml](../../resources/qml/shell/RoomList.qml): `Ctrl+Shift+R`
+
+Both list views use `Keys.onPressed` for the actual navigation layer because behavior depends on
+focus, key sequences, and local routing rules:
+
+- `Up` / `Down` and `j` / `k` move the keyboard cursor
+- `Home` / `End`, `gg`, and `Shift+G` jump within the list
+- `Ctrl+U` / `Ctrl+D` move about half a screen
+- `Enter` activates the focused room or filter
+- `Escape` returns focus to the composer
+- `Tab` / `Shift+Tab` cycle locally between the two sidebar lists
+
+The communities sidebar adds `Left` / `Right` and `h` / `l` for collapsing or expanding the
+currently focused space.
+
+This keeps sidebar browsing predictable: arrows and Vim-like keys inspect items first, while
+`Enter` is the commit point that actually switches the room or filter.
 
 ## Selection Mode Implementation
 
@@ -159,7 +198,8 @@ This avoids teaching the user that the help dialog itself is an active shortcut 
 
 ## Layout-Agnostic Latin Keys
 
-Selection mode uses [src/ui/LayoutAgnosticKeys.cpp](../../src/ui/LayoutAgnosticKeys.cpp) and
+Selection mode, sidebar list focus mode, and composer `Ctrl+U` use
+[src/ui/LayoutAgnosticKeys.cpp](../../src/ui/LayoutAgnosticKeys.cpp) and
 [src/ui/LayoutAgnosticKeys.h](../../src/ui/LayoutAgnosticKeys.h) for Vim-like Latin-letter keys.
 
 `LayoutAgnosticKeys.matchesLatinKey()` checks:
@@ -168,11 +208,13 @@ Selection mode uses [src/ui/LayoutAgnosticKeys.cpp](../../src/ui/LayoutAgnosticK
 2. native scan codes as a fallback on Linux and Windows
 3. no native fallback on macOS yet
 
-This makes keys such as `j`, `k`, `d`, `u`, `g`, and `o` follow the same physical key on supported
-platforms even when the active keyboard layout is non-Latin.
+This makes keys such as `j`, `k`, `h`, `l`, `d`, `u`, `g`, and `o` follow the same physical key on
+supported platforms even when the active keyboard layout is non-Latin.
 
 Current call sites:
 
+- [resources/qml/shell/CommunitiesList.qml](../../resources/qml/shell/CommunitiesList.qml)
+- [resources/qml/shell/RoomList.qml](../../resources/qml/shell/RoomList.qml)
 - [resources/qml/timeline/MessageView.qml](../../resources/qml/timeline/MessageView.qml)
 - [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml) for composer `Ctrl+U`
 

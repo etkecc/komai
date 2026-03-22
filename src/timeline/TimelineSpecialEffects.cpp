@@ -21,14 +21,16 @@ const std::array<QStringView, 2> CONFETTI_TRIGGERS = {
   QStringView(u"🎉"),
   QStringView(u"🎊"),
 };
-const std::array<QStringView, 4> RAINFALL_TRIGGERS = {
+const std::array<QStringView, 3> RAINFALL_TRIGGERS = {
   QStringView(u"🌧"),
   QStringView(u"🌦"),
-  QStringView(u"⛈"),
   QStringView(u"☔"),
 };
 const std::array<QStringView, 1> LIGHTNING_TRIGGERS = {
   QStringView(u"⚡"),
+};
+const std::array<QStringView, 1> STORM_TRIGGERS = {
+  QStringView(u"⛈"),
 };
 const std::array<QStringView, 2> KOMAI_LOGO_TRIGGERS = {
   QStringView(u"🦁"),
@@ -63,19 +65,34 @@ triggersFor(SpecialEffect effect)
     return {};
 }
 
+std::span<const QStringView>
+combinedTriggersFor(SpecialEffect effect)
+{
+    switch (effect) {
+    case SpecialEffect::Rainfall:
+    case SpecialEffect::Lightning:
+        return STORM_TRIGGERS;
+    case SpecialEffect::Confetti:
+    case SpecialEffect::KomaiLogo:
+        return {};
+    }
+
+    return {};
+}
+
 void
 addContentTriggeredEffects(SpecialEffects &effects, QStringView body)
 {
-    if (containsAny(body, CONFETTI_TRIGGERS))
+    if (bodyHasTrigger(SpecialEffect::Confetti, body))
         appendUnique(effects, SpecialEffect::Confetti);
 
-    if (containsAny(body, RAINFALL_TRIGGERS))
+    if (bodyHasTrigger(SpecialEffect::Rainfall, body))
         appendUnique(effects, SpecialEffect::Rainfall);
 
-    if (containsAny(body, LIGHTNING_TRIGGERS))
+    if (bodyHasTrigger(SpecialEffect::Lightning, body))
         appendUnique(effects, SpecialEffect::Lightning);
 
-    if (containsAny(body, KOMAI_LOGO_TRIGGERS))
+    if (bodyHasTrigger(SpecialEffect::KomaiLogo, body))
         appendUnique(effects, SpecialEffect::KomaiLogo);
 }
 
@@ -120,7 +137,7 @@ appendUnique(SpecialEffects &target, const SpecialEffects &effects)
 bool
 bodyHasTrigger(SpecialEffect effect, QStringView body)
 {
-    return containsAny(body, triggersFor(effect));
+    return containsAny(body, triggersFor(effect)) || containsAny(body, combinedTriggersFor(effect));
 }
 
 QString

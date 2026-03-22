@@ -84,12 +84,21 @@ testContentTriggeredEffects()
                  "lightning emoji triggers lightning effect");
 
     const auto rainfallVariant = timeline::effects::detect(
-      mtx::events::collections::TimelineEvents{makeUnknownEvent("later 🌧️ then 🌦️ then ⛈️")});
+      mtx::events::collections::TimelineEvents{makeUnknownEvent("later 🌧️ then 🌦️ then ☔")});
     ok &= expect(containsEffect(rainfallVariant, timeline::effects::SpecialEffect::Rainfall),
                  "rain emoji variants trigger rainfall effect");
+    ok &= expect(!containsEffect(rainfallVariant, timeline::effects::SpecialEffect::Lightning),
+                 "rain emoji variants do not trigger lightning");
+
+    const auto storm =
+      timeline::effects::detect(mtx::events::collections::TimelineEvents{makeTextEvent("storm ⛈️")});
+    ok &= expect(containsEffect(storm, timeline::effects::SpecialEffect::Rainfall),
+                 "storm emoji keeps rainfall effect");
+    ok &= expect(containsEffect(storm, timeline::effects::SpecialEffect::Lightning),
+                 "storm emoji adds lightning effect");
 
     const auto combined = timeline::effects::detect(
-      mtx::events::collections::TimelineEvents{makeTextEvent("🎉⚡🌧🦁")});
+      mtx::events::collections::TimelineEvents{makeTextEvent("🎉⛈🦁")});
     ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::Confetti),
                  "combined body keeps confetti effect");
     ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::Rainfall),

@@ -274,8 +274,8 @@ Item {
         running: false
 
         onTriggered: {
-            timelineEffects.removeParticles()
             shouldEffectsRun = false
+            timelineEffects.removeParticles()
         }
     }
     TimelineRoomEventConnections {

@@ -17,7 +17,38 @@ Page {
     property bool compactMode: Komai.uiLayoutCompactMode
     property int avatarSize: Komai.listIconSize
     property bool collapsed: false
+    property var communitiesTarget: null
     readonly property var profileMenu: profileContextMenu
+
+    function isBackwardTabEvent(event) {
+        if (!event)
+            return false;
+
+        const modifiers = Number(event.modifiers);
+        if ((modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) !== 0)
+            return false;
+
+        return event.key === Qt.Key_Backtab
+            || (event.key === Qt.Key_Tab && (modifiers & Qt.ShiftModifier) !== 0);
+    }
+
+    function isForwardTabEvent(event) {
+        if (!event)
+            return false;
+
+        const modifiers = Number(event.modifiers);
+        if ((modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) !== 0)
+            return false;
+
+        return event.key === Qt.Key_Tab;
+    }
+
+    function focusCommunities() {
+        if (!communitiesTarget || !communitiesTarget.visible)
+            return false;
+
+        return communitiesTarget.focusKeyboardNavigation();
+    }
 
     function focusKeyboardNavigation() {
         if (!visible)
@@ -177,8 +208,17 @@ Page {
             model: Rooms
             boundsBehavior: Flickable.StopAtBounds
 
+            Keys.onShortcutOverride: event => {
+                if (roomListPage.isForwardTabEvent(event) || roomListPage.isBackwardTabEvent(event))
+                    event.accepted = true;
+            }
             Keys.priority: Keys.BeforeItem
             Keys.onPressed: event => {
+                if (roomListPage.isForwardTabEvent(event) || roomListPage.isBackwardTabEvent(event)) {
+                    event.accepted = roomListPage.focusCommunities();
+                    return;
+                }
+
                 switch (event.key) {
                 case Qt.Key_Up:
                     roomlist.moveKeyboardCursor(-1);

@@ -36,6 +36,7 @@ These shortcuts apply after you focus the [**Communities sidebar**](communities-
 | --- | --- |
 | `Up` | Move the keyboard cursor up |
 | `Down` | Move the keyboard cursor down |
+| `Tab` / `Shift+Tab` | Move focus to the other sidebar list |
 | `Home` | Jump to the first visible item |
 | `End` | Jump to the last visible item |
 | `Enter` | Activate the focused room or community filter |

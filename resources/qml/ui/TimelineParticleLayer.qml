@@ -14,7 +14,6 @@ Item {
     property alias particleSystem: particleSystem
     property alias confettiEmitter: confettiEmitter
     property alias rainfallEmitter: rainfallEmitter
-    property alias komaiEmitter: komaiEmitter
 
     anchors.fill: parent
 
@@ -118,54 +117,4 @@ Item {
         }
     }
 
-    Emitter {
-        id: komaiEmitter
-
-        group: "komai"
-        width: root.width
-        enabled: false
-        anchors.horizontalCenter: root.horizontalCenter
-        y: -60
-        emitRate: root.width / 100
-        lifeSpan: 7000
-        system: particleSystem
-        size: 28
-        sizeVariation: 3
-        velocity: PointDirection {
-            x: 0
-            y: 350
-            xVariation: 100
-            yVariation: 60
-        }
-    }
-
-    ImageParticle {
-        system: particleSystem
-        groups: ["komai"]
-        source: "qrc:/logos/komai.svg"
-        rotationVelocity: 0
-        rotationVelocityVariation: 90
-        colorVariation: 0
-        color: "white"
-        entryEffect: ImageParticle.None
-        xVector: PointDirection {
-            x: 1
-            y: 0
-            xVariation: 0.2
-            yVariation: 0.2
-        }
-        yVector: PointDirection {
-            x: 0
-            y: 1
-            xVariation: 0.2
-            yVariation: 0.2
-        }
-    }
-
-    Turbulence {
-        system: particleSystem
-        groups: ["komai"]
-        anchors.fill: root
-        strength: 300
-    }
 }

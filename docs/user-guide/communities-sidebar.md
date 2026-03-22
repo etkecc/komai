@@ -2,6 +2,16 @@
 
 The communities sidebar is a panel on the left side of Komai that lets you quickly filter your room list by category. Each filter can be configured in **Settings > Sidebars**.
 
+## Keyboard Navigation
+
+You can focus the communities sidebar directly with `Ctrl+Shift+C`, then move through filters with
+`Up` / `Down` or `j` / `k`, expand or collapse spaces with `Right` / `Left` or `l` / `h`, activate
+the focused filter with `Enter`, and use `Tab` / `Shift+Tab` to cycle between the communities
+sidebar and the room list.
+
+For the full list, including `gg`, `Shift+G`, and `Ctrl+U` / `Ctrl+D`, see
+[⌨️ Keyboard Shortcuts](keyboard-shortcuts.md#-sidebar-lists).
+
 ## Filter Sections
 
 ### All Rooms

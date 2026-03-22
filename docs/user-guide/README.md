@@ -4,7 +4,7 @@
 - 👥 [Application Profiles](application-profiles.md) -- profile switcher, create/launch/delete workflows
 - 🔌 [Integrations](settings/integrations/README.md) -- D-Bus and automation hooks
 - 🦁 [Identity](identity.md) -- what Komai is, project naming, and identity background
-- ⌨️ [Keyboard Shortcuts](keyboard-shortcuts.md) -- app-wide, timeline, composer, and dialog shortcuts
+- ⌨️ [Keyboard Shortcuts](keyboard-shortcuts.md) -- app-wide, timeline, composer, sidebar, media, and dialog shortcuts
 - 💾 [Storage Locations](storage.md) -- where config/data/cache live
 - 🎨 [Themes](themes.md) -- built-in and custom themes
 - 😀 [Emoji Search and Picker](emojis.md) -- localized emoji discovery, aliases, and trigger behavior

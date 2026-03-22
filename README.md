@@ -25,7 +25,6 @@ Everything [nheko](https://nheko.im/nheko-reborn/nheko) offers, plus [UX improve
 Highlights:
 
 - 💬 [Matrix](https://matrix.org/) messaging with end-to-end encryption support (powered by [mtxclient](https://github.com/Nheko-Reborn/mtxclient) and [olm](https://gitlab.matrix.org/matrix-org/olm))
-- ⌨️ Timeline [Selection mode](docs/user-guide/keyboard-shortcuts.md#selection-mode) with strong keyboard support, explicit multi-selection, and bulk forward/delete where supported
 - 📞 (Legacy) Voice & video calls (no [Element Call](https://github.com/element-hq/element-call) support yet)
 - 📎 File, image, audio & emoji messages (including custom stickers), with a built-in media viewer featuring gallery navigation and in-app video playback
 - 😀 Richer emoji discovery via localized [Unicode CLDR](https://cldr.unicode.org/) keywords (for example, `:whiskey` finds 🥃) -- see [Emoji Search and Picker](docs/user-guide/emojis.md)
@@ -37,6 +36,8 @@ Highlights:
 - 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md) - you're in control
 - 🧭 First-class [Matrix Room Search](https://github.com/etkecc/mrs) support (enabled by default via [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=readme), with language filtering) and room size filtering
 - 📋 Good support for hundreds of rooms and spaces
+- ⌨️ [Keyboard-driven main chat workflow](docs/user-guide/keyboard-shortcuts.md), with human and [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-style shortcuts
+- 🔀 [Selection mode](docs/user-guide/keyboard-shortcuts.md#selection-mode) for bulk actions (forwarding, moderation)
 - ⚡ Quick & lightweight native application ([C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML)). No [Electron](https://www.electronjs.org/) here
 - 🕊️ Fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping
 

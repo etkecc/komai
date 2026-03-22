@@ -73,10 +73,22 @@ testContentTriggeredEffects()
     ok &= expect(containsEffect(komaiLogo, timeline::effects::SpecialEffect::KomaiLogo),
                  "unknown message body can trigger komai logo effect");
 
+    const auto rainfall =
+      timeline::effects::detect(mtx::events::collections::TimelineEvents{makeTextEvent("bring ☔☔")});
+    ok &= expect(containsEffect(rainfall, timeline::effects::SpecialEffect::Rainfall),
+                 "rain emojis trigger rainfall effect");
+
+    const auto rainfallVariant = timeline::effects::detect(
+      mtx::events::collections::TimelineEvents{makeUnknownEvent("later 🌧️ then 🌦️ then ⛈️")});
+    ok &= expect(containsEffect(rainfallVariant, timeline::effects::SpecialEffect::Rainfall),
+                 "rain emoji variants trigger rainfall effect");
+
     const auto combined = timeline::effects::detect(
-      mtx::events::collections::TimelineEvents{makeTextEvent("🎉🦁")});
+      mtx::events::collections::TimelineEvents{makeTextEvent("🎉🌧🦁")});
     ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::Confetti),
                  "combined body keeps confetti effect");
+    ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::Rainfall),
+                 "combined body keeps rainfall effect");
     ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::KomaiLogo),
                  "combined body keeps komai logo effect");
 

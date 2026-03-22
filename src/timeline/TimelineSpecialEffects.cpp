@@ -21,6 +21,12 @@ const std::array<QStringView, 2> CONFETTI_TRIGGERS = {
   QStringView(u"🎉"),
   QStringView(u"🎊"),
 };
+const std::array<QStringView, 4> RAINFALL_TRIGGERS = {
+  QStringView(u"🌧"),
+  QStringView(u"🌦"),
+  QStringView(u"⛈"),
+  QStringView(u"☔"),
+};
 const std::array<QStringView, 2> KOMAI_LOGO_TRIGGERS = {
   QStringView(u"🦁"),
   QStringView(u"⛩️"),
@@ -42,6 +48,9 @@ addContentTriggeredEffects(SpecialEffects &effects, QStringView body)
 {
     if (containsAny(body, CONFETTI_TRIGGERS))
         appendUnique(effects, SpecialEffect::Confetti);
+
+    if (containsAny(body, RAINFALL_TRIGGERS))
+        appendUnique(effects, SpecialEffect::Rainfall);
 
     if (containsAny(body, KOMAI_LOGO_TRIGGERS))
         appendUnique(effects, SpecialEffect::KomaiLogo);

@@ -28,91 +28,128 @@ Item {
     // so image messages don't collapse to near-zero width in bubble style.
     implicitWidth: Math.max(1, Math.round(tempWidth * Math.min((containerHeight / divisor) / (tempWidth * safeProportionalHeight), 1)))
     width: Math.min(parent?.width ?? implicitWidth, implicitWidth)
-    height: mediaFrame.height
-    implicitHeight: height
+    height: implicitHeight
 
     readonly property var roomContext: (typeof room !== "undefined") ? room : null
-    readonly property string hoverOverlayText: hasCaption ? body : filename
+    readonly property string hoverOverlayText: hasCaption ? body : (filename.length > 0 ? filename : body)
 
-    EventDelegateChooser.keepAspectRatio: true
     EventDelegateChooser.maxWidth: originalWidth
-    EventDelegateChooser.maxHeight: containerHeight / divisor
-    EventDelegateChooser.aspectRatio: safeProportionalHeight
 
     // A non-empty body that doesn't look like a filename is treated as a real caption
     readonly property bool hasCaption: body.length > 0 && !body.match(/\.\w{2,5}$/)
+    readonly property bool showPersistentCaption: hasCaption && !EventDelegateChooser.isReply
+    readonly property bool showHoverOverlay: mediaHover.hovered
+                                             && hoverOverlayText.length > 0
+                                             && !showPersistentCaption
+    property string copyText: persistentCaptionText.selectedText.length > 0
+        ? persistentCaptionText.selectedText
+        : body
 
     property int metadataWidth
-    property bool fitsMetadata: parent != null ? (parent.width - width) > metadataWidth+4 : false
+    property bool fitsMetadata: parent != null ? (parent.width - width) > metadataWidth + 4 : false
 
-    Item {
-        id: mediaFrame
+    implicitHeight: contentColumn.implicitHeight
+
+    Column {
+        id: contentColumn
 
         width: root.width
-        height: Math.max(1, Math.round(root.width * root.safeProportionalHeight))
+        spacing: root.showPersistentCaption ? Komai.paddingSmall : 0
 
-        HoverHandler {
-            id: mediaHover
-        }
+        Item {
+            id: mediaFrame
 
-        MediaImageSurface {
-            anchors.fill: parent
-            originalWidth: root.originalWidth
-            safeProportionalHeight: root.safeProportionalHeight
-            url: root.url
-            blurhash: root.blurhash
-            eventId: root.eventId
-            roomContext: root.roomContext
-            hovered: mediaHover.hovered
-            interactive: !EventDelegateChooser.isReply
-            revealEnabled: !EventDelegateChooser.isReply
-            onActivated: {
-                if (!root.roomContext)
-                    return;
+            width: parent.width
+            height: Math.max(1, Math.round(root.width * root.safeProportionalHeight))
 
-                if (Settings.timelineMediaOpenImagesExternal) {
-                    root.roomContext.openMedia(root.eventId);
-                } else {
-                    TimelineManager.openMediaOverlayWithContext(root.roomContext,
-                                                                root.url,
-                                                                root.eventId,
-                                                                root.originalWidth,
-                                                                root.proportionalHeight,
-                                                                timeline,
-                                                                timelineView);
+            HoverHandler {
+                id: mediaHover
+            }
+
+            MediaImageSurface {
+                anchors.fill: parent
+                originalWidth: root.originalWidth
+                safeProportionalHeight: root.safeProportionalHeight
+                url: root.url
+                blurhash: root.blurhash
+                eventId: root.eventId
+                roomContext: root.roomContext
+                hovered: mediaHover.hovered
+                interactive: !EventDelegateChooser.isReply
+                revealEnabled: !EventDelegateChooser.isReply
+                onActivated: {
+                    if (!root.roomContext)
+                        return;
+
+                    if (Settings.timelineMediaOpenImagesExternal) {
+                        root.roomContext.openMedia(root.eventId);
+                    } else {
+                        TimelineManager.openMediaOverlayWithContext(root.roomContext,
+                                                                    root.url,
+                                                                    root.eventId,
+                                                                    root.originalWidth,
+                                                                    root.proportionalHeight,
+                                                                    timeline,
+                                                                    timelineView);
+                    }
+                }
+            }
+
+            Item {
+                id: overlay
+
+                anchors.fill: parent
+
+                visible: root.showHoverOverlay
+
+                Rectangle {
+                    id: container
+
+                    width: parent.width
+                    implicitHeight: imgcaption.implicitHeight
+                    anchors.bottom: overlay.bottom
+                    color: palette.window
+                    opacity: 0.75
+                }
+
+                Text {
+                    id: imgcaption
+
+                    anchors.fill: container
+                    elide: Text.ElideMiddle
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    // See this MSC: https://github.com/matrix-org/matrix-doc/pull/2530
+                    text: root.hoverOverlayText
+                    color: palette.text
                 }
             }
         }
 
-        Item {
-            id: overlay
+        Rectangle {
+            id: persistentCaptionContainer
 
-            anchors.fill: parent
+            visible: root.showPersistentCaption
+            width: parent.width
+            implicitHeight: persistentCaptionText.implicitHeight + Komai.paddingSmall * 2
+            radius: 8
+            color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.92)
 
-            visible: root.hasCaption || mediaHover.hovered
+            TextEdit {
+                id: persistentCaptionText
 
-            Rectangle {
-                id: container
-
-                width: parent.width
-                implicitHeight: imgcaption.implicitHeight
-                anchors.bottom: overlay.bottom
-                color: palette.window
-                opacity: 0.75
-            }
-
-            Text {
-                id: imgcaption
-
-                anchors.fill: container
-                elide: Text.ElideMiddle
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                // See this MSC: https://github.com/matrix-org/matrix-doc/pull/2530
-                text: root.hoverOverlayText
+                width: Math.max(1, parent.width - Komai.paddingMedium * 2)
+                x: Komai.paddingMedium
+                y: Komai.paddingSmall
+                readOnly: true
+                selectByMouse: true
+                selectionColor: palette.highlight
+                selectedTextColor: palette.highlightedText
+                wrapMode: TextEdit.Wrap
+                textFormat: TextEdit.PlainText
+                text: root.body
                 color: palette.text
             }
-
         }
     }
 }

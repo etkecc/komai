@@ -218,7 +218,7 @@ EventDelegateChooser {
         }
     }
     EventDelegateChoice {
-        roleValues: [MtxEvent.ImageMessage, MtxEvent.Sticker,]
+        roleValues: [MtxEvent.ImageMessage,]
 
         ImageMessage {
             required property string userId
@@ -227,6 +227,17 @@ EventDelegateChooser {
             Layout.fillWidth: true
             //Layout.maximumWidth: tempWidth
             //Layout.maximumHeight: timelineView.height / 8
+            containerHeight: timelineView ? timelineView.height : Screen.height
+        }
+    }
+    EventDelegateChoice {
+        roleValues: [MtxEvent.Sticker,]
+
+        StickerMessage {
+            required property string userId
+            required property string userName
+
+            Layout.fillWidth: true
             containerHeight: timelineView ? timelineView.height : Screen.height
         }
     }

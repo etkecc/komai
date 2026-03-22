@@ -16,6 +16,7 @@ enum class SpecialEffect
 {
     Confetti,
     Rainfall,
+    Lightning,
     KomaiLogo,
 };
 

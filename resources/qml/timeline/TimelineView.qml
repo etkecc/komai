@@ -269,7 +269,7 @@ Item {
     Timer {
         id: effectsTimer
 
-        interval: timelineEffects.maxLifespan
+        interval: timelineEffects.maxEffectDuration
         repeat: false
         running: false
 

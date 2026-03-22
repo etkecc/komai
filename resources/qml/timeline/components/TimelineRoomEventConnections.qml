@@ -39,6 +39,7 @@ Connections {
 
         timelineView.shouldEffectsRun = true;
         timelineEffects.pulseEffects(effectNames);
+        effectsTimer.interval = timelineEffects.durationForEffects(effectNames);
         effectsTimer.restart();
     }
 

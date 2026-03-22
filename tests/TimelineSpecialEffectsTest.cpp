@@ -78,17 +78,24 @@ testContentTriggeredEffects()
     ok &= expect(containsEffect(rainfall, timeline::effects::SpecialEffect::Rainfall),
                  "rain emojis trigger rainfall effect");
 
+    const auto lightning =
+      timeline::effects::detect(mtx::events::collections::TimelineEvents{makeTextEvent("⚡ now")});
+    ok &= expect(containsEffect(lightning, timeline::effects::SpecialEffect::Lightning),
+                 "lightning emoji triggers lightning effect");
+
     const auto rainfallVariant = timeline::effects::detect(
       mtx::events::collections::TimelineEvents{makeUnknownEvent("later 🌧️ then 🌦️ then ⛈️")});
     ok &= expect(containsEffect(rainfallVariant, timeline::effects::SpecialEffect::Rainfall),
                  "rain emoji variants trigger rainfall effect");
 
     const auto combined = timeline::effects::detect(
-      mtx::events::collections::TimelineEvents{makeTextEvent("🎉🌧🦁")});
+      mtx::events::collections::TimelineEvents{makeTextEvent("🎉⚡🌧🦁")});
     ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::Confetti),
                  "combined body keeps confetti effect");
     ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::Rainfall),
                  "combined body keeps rainfall effect");
+    ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::Lightning),
+                 "combined body keeps lightning effect");
     ok &= expect(containsEffect(combined, timeline::effects::SpecialEffect::KomaiLogo),
                  "combined body keeps komai logo effect");
 
@@ -118,15 +125,18 @@ testEffectNamesFollowInsertionOrder()
 {
     timeline::effects::SpecialEffects effects;
     timeline::effects::appendUnique(effects, timeline::effects::SpecialEffect::Confetti);
+    timeline::effects::appendUnique(effects, timeline::effects::SpecialEffect::Lightning);
     timeline::effects::appendUnique(effects, timeline::effects::SpecialEffect::KomaiLogo);
 
     const QStringList names = timeline::effects::effectNames(effects);
 
     bool ok = true;
-    ok &= expect(names.size() == 2, "two effect names are returned");
+    ok &= expect(names.size() == 3, "three effect names are returned");
     ok &= expect(names.at(0) == QStringLiteral("confetti"),
                  "first effect name matches insertion order");
-    ok &= expect(names.at(1) == QStringLiteral("komaiLogo"),
+    ok &= expect(names.at(1) == QStringLiteral("lightning"),
+                 "second effect name matches insertion order");
+    ok &= expect(names.at(2) == QStringLiteral("komaiLogo"),
                  "second effect name matches insertion order");
     return ok;
 }

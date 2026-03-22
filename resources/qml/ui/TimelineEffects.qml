@@ -18,17 +18,42 @@ Item {
         "rainfall": 3.3,
         "komaiLogo": 3.3
     })
-    readonly property int maxLifespan: {
+    readonly property var effectDurations: ({
+        "confetti": confettiEmitter.lifeSpan,
+        "rainfall": rainfallEmitter.lifeSpan,
+        "lightning": 440,
+        "komaiLogo": komaiEmitter.lifeSpan
+    })
+    readonly property int maxEffectDuration: {
         var max = 0;
-        for (var name in effectEmitters) {
-            var emitter = effectEmitters[name];
-            if (emitter && emitter.lifeSpan > max)
-                max = emitter.lifeSpan;
+        for (var name in effectDurations) {
+            var duration = effectDurations[name];
+            if (duration > max)
+                max = duration;
         }
         return max;
     }
     required property bool shouldEffectsRun
+    property real lightningFlashOpacity: 0
+    property real lightningBoltX: 0.5
+    property real lightningBoltScale: 1.0
+    property real lightningBoltRotation: 0
     visible: effectRoot.shouldEffectsRun
+
+    function durationForEffects(effectNames)
+    {
+        if (!effectNames || effectNames.length === 0)
+            return maxEffectDuration;
+
+        let max = 0;
+        for (let i = 0; i < effectNames.length; ++i) {
+            const duration = effectDurations[effectNames[i]] || 0;
+            if (duration > max)
+                max = duration;
+        }
+
+        return max || maxEffectDuration;
+    }
 
     function pulseEffects(effectNames)
     {
@@ -41,6 +66,11 @@ Item {
 
     function pulseEffect(effectName)
     {
+        if (effectName === "lightning") {
+            pulseLightning();
+            return;
+        }
+
         const emitter = effectEmitters[effectName];
         if (!emitter) {
             console.warn("Unknown timeline effect:", effectName);
@@ -51,9 +81,19 @@ Item {
         emitter.pulse(effectRoot.height * scale);
     }
 
+    function pulseLightning()
+    {
+        lightningBoltX = 0.18 + Math.random() * 0.64;
+        lightningBoltScale = 0.9 + Math.random() * 0.35;
+        lightningBoltRotation = -18 + Math.random() * 36;
+        lightningFlash.restart();
+    }
+
     function removeParticles()
     {
         particleSystem.reset()
+        lightningFlash.stop()
+        lightningFlashOpacity = 0
     }
 
     ParticleSystem {
@@ -62,6 +102,103 @@ Item {
         Component.onCompleted: stop();
         paused: !effectRoot.shouldEffectsRun
         running: effectRoot.shouldEffectsRun
+    }
+
+    SequentialAnimation {
+        id: lightningFlash
+
+        running: false
+
+        NumberAnimation {
+            target: effectRoot
+            property: "lightningFlashOpacity"
+            to: 0.95
+            duration: 45
+        }
+        PauseAnimation {
+            duration: 35
+        }
+        NumberAnimation {
+            target: effectRoot
+            property: "lightningFlashOpacity"
+            to: 0.3
+            duration: 55
+        }
+        PauseAnimation {
+            duration: 45
+        }
+        NumberAnimation {
+            target: effectRoot
+            property: "lightningFlashOpacity"
+            to: 0.8
+            duration: 40
+        }
+        NumberAnimation {
+            target: effectRoot
+            property: "lightningFlashOpacity"
+            to: 0
+            duration: 220
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        z: 10
+        color: "#fff6cf"
+        opacity: effectRoot.lightningFlashOpacity * 0.22
+        visible: opacity > 0
+    }
+
+    Item {
+        width: 120
+        height: Math.min(effectRoot.height * 0.55, 240)
+        x: effectRoot.width * effectRoot.lightningBoltX - width / 2
+        y: 18
+        z: 11
+        visible: opacity > 0
+        opacity: effectRoot.lightningFlashOpacity
+        scale: effectRoot.lightningBoltScale
+        rotation: effectRoot.lightningBoltRotation
+
+        Rectangle {
+            x: 18
+            y: 18
+            width: 66
+            height: 66
+            radius: 33
+            color: "#fff8db"
+            opacity: 0.18
+        }
+
+        Rectangle {
+            x: 44
+            y: 0
+            width: 20
+            height: 92
+            radius: 10
+            rotation: 18
+            color: "#fffce9"
+        }
+
+        Rectangle {
+            x: 56
+            y: 76
+            width: 20
+            height: 88
+            radius: 10
+            rotation: -30
+            color: "#ffd54f"
+        }
+
+        Rectangle {
+            x: 28
+            y: 146
+            width: 18
+            height: 78
+            radius: 9
+            rotation: 22
+            color: "#fff176"
+        }
     }
 
     Emitter {
@@ -220,4 +357,4 @@ Item {
         anchors.fill: effectRoot
         strength: 300
     }
-    }
+}

@@ -25,6 +25,7 @@ Rectangle {
     readonly property bool composerEnabled: !hasUploads
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
     readonly property int minimumBarHeight: Math.max(48, Komai.navigationRowHeight)
+    readonly property bool composerExpanded: textInput.targetTextAreaHeight > textInput.singleLineHeight
     signal composerInteractionRequested()
 
     function focusTextInput() {
@@ -82,24 +83,31 @@ Rectangle {
         visible: room ? room.permissions.canSend(room.isEncrypted ? MtxEvent.Encrypted :  MtxEvent.TextMessage) : false
 
         ComposerCallButton {
+            Layout.alignment: inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter
             room: inputBar.room
             timelineRoot: inputBar.timelineRoot
             showAllButtons: inputBar.showAllButtons
         }
         ComposerAttachButton {
+            Layout.alignment: inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter
             room: inputBar.room
             showAllButtons: inputBar.showAllButtons
         }
         ScrollView {
             id: textInput
 
+            readonly property int singleLineHeight: Math.ceil(fontMetrics.lineSpacing + messageInput.topPadding + messageInput.bottomPadding)
+            readonly property int targetTextAreaHeight: Math.max(singleLineHeight,
+                                                                 Math.ceil(messageInput.contentHeight + messageInput.topPadding + messageInput.bottomPadding))
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
             Layout.maximumHeight: Window.height / 4
-            Layout.minimumHeight: visible ? fontMetrics.lineSpacing : 0
-            Layout.preferredHeight: visible ? contentHeight : 0
+            Layout.minimumHeight: visible ? targetTextAreaHeight : 0
+            Layout.preferredHeight: visible ? targetTextAreaHeight : 0
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             contentWidth: availableWidth
+            implicitHeight: targetTextAreaHeight
+            padding: 0
 
             TextArea {
                 id: messageInput
@@ -179,7 +187,7 @@ Rectangle {
                 }
 
                 background: null
-                bottomPadding: 8
+                bottomPadding: 6
                 color: palette.text
                 enabled: inputBar.composerEnabled
                 focus: true
@@ -189,8 +197,9 @@ Rectangle {
                 placeholderText: qsTr("Write a message...")
                 placeholderTextColor: palette.buttonText
                 selectByMouse: true
-                topPadding: 8
+                topPadding: 6
                 verticalAlignment: TextEdit.AlignVCenter
+                implicitHeight: textInput.targetTextAreaHeight
                 width: textInput.width
                 wrapMode: TextEdit.Wrap
 
@@ -541,7 +550,7 @@ Rectangle {
         ComposerToolbarButton {
             id: stickerButton
 
-            Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+            Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
             toolTipText: qsTr("Stickers")
             image: ":/icons/icons/ui/sticky-note-solid.svg"
             visible: showAllButtons && Settings.composerExtrasStickersEnabled
@@ -560,7 +569,7 @@ Rectangle {
         ComposerToolbarButton {
             id: emojiButton
 
-            Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+            Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
             toolTipText: qsTr("Emoji")
             image: ":/icons/icons/ui/smile.svg"
             visible: inputBar.composerEnabled
@@ -579,7 +588,7 @@ Rectangle {
         ComposerToolbarButton {
             id: sendButton
 
-            Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+            Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
             Layout.rightMargin: 8
             toolTipText: qsTr("Send")
             buttonTextColor: inputBar.hasSendableContent ? palette.highlight : palette.buttonText

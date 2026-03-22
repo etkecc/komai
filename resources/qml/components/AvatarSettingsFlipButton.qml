@@ -23,7 +23,7 @@ MouseArea {
         ? toolTipText
         : (avatarDisplayName + (avatarUserId.length > 0 ? ("\n" + avatarUserId) : ""))
     readonly property bool hoverActive: containsMouse && !suppressHoverUntilExit
-    property real flipAngle: (motionEnabled && hoverActive) ? 180 : 0
+    property real flipAngle: (hoverActive || activeFocus) ? 180 : 0
     readonly property bool activeState: hoverActive || pressed || activeFocus
     readonly property color settingsInnerBackgroundColor: activeState ? palette.dark : palette.window
     readonly property color settingsCogColor: activeState ? palette.brightText : palette.buttonText

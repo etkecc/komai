@@ -138,7 +138,7 @@ linkifyMessage(const QString &body);
 
 //! Convert the input markdown text to html.
 QString
-markdownToHtml(const QString &text, bool rainbowify = false, bool noExtensions = false);
+markdownToHtml(const QString &text, bool rainbowify = false);
 
 QString
 escapeMentionMarkdown(QString input);

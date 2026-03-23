@@ -290,7 +290,7 @@ validateInvitePermissionTarget(const ParsedCommand &parsed, const CommandContext
 
 #define CMD_TR(text) QT_TRANSLATE_NOOP("CommandCompleter", text)
 
-const std::array<CommandDefinition, 24> kCommands{{
+const std::array<CommandDefinition, 23> kCommands{{
   {CommandId::Me,
    "me",
    "/me ",
@@ -385,13 +385,6 @@ const std::array<CommandDefinition, 24> kCommands{{
    CMD_TR("/md <message>"),
    CMD_TR("Send a markdown formatted message (ignoring the global setting)."),
    "markdown formatted message",
-   validateRequiredMessage},
-  {CommandId::Cmark,
-   "cmark",
-   "/cmark ",
-   CMD_TR("/cmark <message>"),
-   CMD_TR("Send a commonmark formatted message disabling most extensions compared to /md."),
-   "commonmark markdown message",
    validateRequiredMessage},
   {CommandId::Plain,
    "plain",

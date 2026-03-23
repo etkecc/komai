@@ -255,14 +255,6 @@ InputBar::message(const QString &msg, MarkdownOverride useMarkdown, bool rainbow
             text.formatted_body = "";
         else
             text.format = "org.matrix.custom.html";
-    } else if (useMarkdown == MarkdownOverride::CMARK) {
-        // disable all markdown extensions
-        text.formatted_body = utils::markdownToHtml(body, rainbowify, true).toStdString();
-        // keep everything as it was
-        text.body = body.trimmed().toStdString();
-
-        // always send formatted
-        text.format = "org.matrix.custom.html";
     }
 
     text.mentions  = generateMentions();

@@ -42,7 +42,6 @@ enum class MarkdownOverride
     NOT_SPECIFIED, // no override set
     ON,
     OFF,
-    CMARK,
 };
 
 class MediaUpload final : public QObject

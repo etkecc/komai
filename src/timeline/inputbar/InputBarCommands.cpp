@@ -195,9 +195,6 @@ timeline::slash_commands::execute(InputBar &inputBar, const ParsedCommand &parse
     case CommandId::Md:
         inputBar.message(args, MarkdownOverride::ON);
         return CommandResult::dispatched();
-    case CommandId::Cmark:
-        inputBar.message(args, MarkdownOverride::CMARK);
-        return CommandResult::dispatched();
     case CommandId::Plain:
         inputBar.message(args, MarkdownOverride::OFF);
         return CommandResult::dispatched();

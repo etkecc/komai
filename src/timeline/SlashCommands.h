@@ -28,7 +28,6 @@ enum class CommandId
     Roomnick,
     Shrug,
     Md,
-    Cmark,
     Plain,
     Notice,
     Msgtype,

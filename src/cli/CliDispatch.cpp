@@ -71,8 +71,15 @@ dispatchCliCommand(int argc, char *argv[])
 
     const auto &groups = commandGroups();
     auto it            = groups.find(group);
-    if (it == groups.end())
-        return -1;
+    if (it == groups.end()) {
+        std::cerr << "Unknown command: " << group.toStdString() << "\n"
+                  << "Available commands:";
+        for (const auto &[name, _] : groups)
+            std::cerr << " " << name.toStdString();
+        std::cerr << "\n"
+                  << "Run 'komai <command> --help' for usage.\n";
+        return 1;
+    }
 
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName(QStringLiteral("komai"));

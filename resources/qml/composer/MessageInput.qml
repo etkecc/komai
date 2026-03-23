@@ -536,6 +536,7 @@ Rectangle {
                     id: popup
 
                     readonly property real popupMargin: Komai.paddingSmall
+                    readonly property bool composerIsTall: textInput.height > textInput.singleLineHeight * 2.5
 
                     function clamp(value, minValue, maxValue) {
                         return Math.max(minValue, Math.min(value, maxValue));
@@ -593,12 +594,13 @@ Rectangle {
                         return Math.round(popup.clamp(anchorRect.x, minX, Math.max(minX, maxX)));
                     }
                     y: {
-                        const anchorRect = popup.anchorRectInOverlay();
+                        const anchorRect = popup.composerIsTall ? popup.anchorRectInOverlay() : popup.inputBarRectInOverlay();
                         const popupHeight = Math.max(popup.height, popup.implicitHeight);
                         const overlayHeight = popup.parent ? popup.parent.height : textInput.Window.height;
                         const minY = popup.popupMargin;
                         const maxY = Math.max(minY, overlayHeight - popupHeight - popup.popupMargin);
-                        const aboveY = anchorRect.y - popupHeight;
+                        const gap = popup.composerIsTall ? 0 : popup.popupMargin;
+                        const aboveY = anchorRect.y - popupHeight - gap;
                         const belowY = anchorRect.y + anchorRect.height;
                         const canOpenAbove = aboveY >= minY;
                         const canOpenBelow = belowY + popupHeight <= overlayHeight - popup.popupMargin;

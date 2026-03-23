@@ -176,22 +176,46 @@ InputBar::command(const QString &command, QString args)
     } else if (command == QLatin1String("gradualglitch")) {
         message(utils::graduallyGlitchText(args));
     } else if (command == QLatin1String("goto")) {
+        const auto trimmedArgs = args.trimmed();
+
+        if (trimmedArgs.isEmpty()) {
+            commandRejected_ = true;
+            MainWindow::instance()->showNotification(
+              tr("Enter an event ID, numeric message index, or Matrix link after /goto."));
+            return false;
+        }
+
         // Goto has three different modes:
         // 1 - Going directly to a given event ID
-        if (args[0] == '$') {
-            room->showEvent(args);
-            return true;
+        if (trimmedArgs[0] == '$') {
+            if (room->showEvent(trimmedArgs))
+                return true;
+
+            commandRejected_ = true;
+            MainWindow::instance()->showNotification(
+              tr("That event ID could not be resolved in this room."));
+            return false;
         }
         // 2 - Going directly to a given message index
-        if (args[0] >= '0' && args[0] <= '9') {
-            room->showEvent(args);
-            return true;
+        if (trimmedArgs[0] >= '0' && trimmedArgs[0] <= '9') {
+            if (room->showEvent(trimmedArgs))
+                return true;
+
+            commandRejected_ = true;
+            MainWindow::instance()->showNotification(
+              tr("That message index could not be resolved in this room."));
+            return false;
         }
         // 3 - Matrix URI handler, as if you clicked the URI
-        if (ChatPage::instance()->tryHandleMatrixUri(args)) {
+        if (ChatPage::instance()->tryHandleMatrixUri(trimmedArgs)) {
             return true;
         }
-        nhlog::net()->error("Could not resolve goto: {}", args.toStdString());
+
+        commandRejected_ = true;
+        MainWindow::instance()->showNotification(
+          tr("Could not resolve that /goto target. Use an event ID, numeric message index, or "
+             "Matrix link."));
+        return false;
     } else if (command == QLatin1String("converttodm")) {
         utils::markRoomAsDirect(this->room->roomId(),
                                 cache::getMembers(this->room->roomId().toStdString(), 0, -1));

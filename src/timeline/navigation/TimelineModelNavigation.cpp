@@ -161,29 +161,33 @@ TimelineModel::checkAfterFetch()
     }
 }
 
-void
+bool
 TimelineModel::showEvent(QString eventId)
 {
     using namespace std::chrono_literals;
+    if (eventId.isEmpty())
+        return false;
+
     // Direct to eventId
     if (eventId[0] == '$') {
         int idx = idToIndex(eventId);
-        if (idx == -1) {
-            nhlog::ui()->warn("Scrolling to event id {}, failed - no known index",
-                              eventId.toStdString());
-            return;
-        }
+        if (idx == -1)
+            return false;
+
         eventIdToShow = eventId;
         emit scrollTargetChanged();
         showEventTimer.start(50ms);
-        return;
+        return true;
     }
     // to message index
-    eventId       = indexToId(eventId.toInt());
+    eventId = indexToId(eventId.toInt());
+    if (eventId.isEmpty())
+        return false;
+
     eventIdToShow = eventId;
     emit scrollTargetChanged();
     showEventTimer.start(50ms);
-    return;
+    return true;
 }
 
 void

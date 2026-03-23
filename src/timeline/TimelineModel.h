@@ -229,7 +229,7 @@ public:
     Q_INVOKABLE QString copyTextForEventIds(const QVariantList &eventIds, bool plainText) const;
     Q_INVOKABLE QVariantMap adjacentMediaEvent(const QString &currentEventId, int direction) const;
     Q_INVOKABLE int countNearbyMedia(const QString &currentEventId, int direction, int limit) const;
-    Q_INVOKABLE void showEvent(QString eventId);
+    Q_INVOKABLE bool showEvent(QString eventId);
     Q_INVOKABLE void copyLinkToEvent(const QString &eventId) const;
 
     void

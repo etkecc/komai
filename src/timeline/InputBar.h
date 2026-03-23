@@ -356,6 +356,7 @@ private:
     bool containsAtRoom_            = false;
     bool containsInvalidCommand_    = false;
     bool containsIncompleteCommand_ = false;
+    bool commandRejected_           = false;
     QString currentCommand_;
     QStringList mentions_, mentionTexts_;
     // store stuff during edits

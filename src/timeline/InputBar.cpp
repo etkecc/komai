@@ -377,8 +377,14 @@ InputBar::send()
     updateTextContentProperties(text());
     if (containsIncompleteCommand_)
         return;
-    if (commandName.isEmpty() || !command(commandName, args))
+    commandRejected_ = false;
+    if (commandName.isEmpty())
         message(text());
+    else if (!command(commandName, args)) {
+        if (commandRejected_)
+            return;
+        message(text());
+    }
 
     if (!wasEdit) {
         history_.push_front(QLatin1String(""));

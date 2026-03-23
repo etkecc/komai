@@ -193,15 +193,6 @@ timeline::slash_commands::execute(InputBar &inputBar, const ParsedCommand &parse
         inputBar.message(QStringLiteral("¯\\\\\\_(ツ)\\_/¯") +
                          (args.isEmpty() ? QLatin1String("") : QLatin1String(" ") + args));
         return CommandResult::dispatched();
-    case CommandId::Fliptable:
-        inputBar.message(QStringLiteral("(╯°□°)╯︵ ┻━┻"));
-        return CommandResult::dispatched();
-    case CommandId::Unfliptable:
-        inputBar.message(QStringLiteral(" ┯━┯╭( º _ º╭)"));
-        return CommandResult::dispatched();
-    case CommandId::Sovietflip:
-        inputBar.message(QStringLiteral("ノ┬─┬ノ ︵ ( \\o°o)\\"));
-        return CommandResult::dispatched();
     case CommandId::ClearTimeline:
         inputBar.room->clearTimeline();
         return CommandResult::dispatched();

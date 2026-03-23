@@ -89,7 +89,7 @@ testRegistryInventory()
     const auto *gotoCmd = timeline::slash_commands::find(QStringLiteral("goto"));
     const auto *ignore  = timeline::slash_commands::find(CommandId::Ignore);
 
-    ok &= expect(cmds.size() == 38, "registry contains all currently listed slash commands");
+    ok &= expect(cmds.size() == 35, "registry contains all currently listed slash commands");
     ok &= expect(gotoCmd != nullptr && gotoCmd->id == CommandId::Goto,
                  "registry can look up /goto by name");
     ok &= expect(ignore != nullptr && QString::fromLatin1(ignore->name) == QStringLiteral("ignore"),
@@ -240,7 +240,7 @@ testValidationAndSendBehavior()
                            ValidationState::Valid,
                            SubmitAction::ExecuteCommand,
                            "/ignore accepts a Matrix user id");
-    ok &= expectInspection(QStringLiteral("/fliptable extra"),
+    ok &= expectInspection(QStringLiteral("/converttodm extra"),
                            {},
                            ValidationState::Invalid,
                            SubmitAction::PreserveComposer,

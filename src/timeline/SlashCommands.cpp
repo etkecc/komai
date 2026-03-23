@@ -290,7 +290,7 @@ validateInvitePermissionTarget(const ParsedCommand &parsed, const CommandContext
 
 #define CMD_TR(text) QT_TRANSLATE_NOOP("CommandCompleter", text)
 
-const std::array<CommandDefinition, 38> kCommands{{
+const std::array<CommandDefinition, 35> kCommands{{
   {CommandId::Me,
    "me",
    "/me ",
@@ -386,27 +386,6 @@ const std::array<CommandDefinition, 38> kCommands{{
    CMD_TR("¯\\_(ツ)_/¯ with an optional message."),
    "shrug macro",
    validateOptionalArguments},
-  {CommandId::Fliptable,
-   "fliptable",
-   "/fliptable",
-   CMD_TR("/fliptable"),
-   CMD_TR("(╯°□°)╯︵ ┻━┻"),
-   "fliptable macro table",
-   validateNoArguments},
-  {CommandId::Unfliptable,
-   "unfliptable",
-   "/unfliptable",
-   CMD_TR("/unfliptable"),
-   CMD_TR("┯━┯╭( º _ º╭)"),
-   "unfliptable macro table",
-   validateNoArguments},
-  {CommandId::Sovietflip,
-   "sovietflip",
-   "/sovietflip",
-   CMD_TR("/sovietflip"),
-   CMD_TR("ノ┬─┬ノ ︵ ( \\o°o)\\"),
-   "sovietflip macro table",
-   validateNoArguments},
   {CommandId::ClearTimeline,
    "clear-timeline",
    "/clear-timeline",

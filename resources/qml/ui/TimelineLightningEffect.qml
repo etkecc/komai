@@ -13,6 +13,7 @@ Item {
     property real boltScale: 1.0
     property real boltRotation: 0
     property bool repeating: false
+    property bool animationsEnabled: true
 
     anchors.fill: parent
     visible: flashOpacity > 0
@@ -33,11 +34,26 @@ Item {
 
     function trigger(repeatStrikes)
     {
+        if (!animationsEnabled) {
+            triggerStatic();
+            return;
+        }
         repeatTimer.stop();
         repeating = !!repeatStrikes;
         pulseStrike();
         if (repeating)
             scheduleNextRepeat();
+    }
+
+    function triggerStatic()
+    {
+        flash.stop();
+        repeatTimer.stop();
+        repeating = false;
+        boltX = 0.18 + Math.random() * 0.64;
+        boltScale = 0.9 + Math.random() * 0.35;
+        boltRotation = -18 + Math.random() * 36;
+        flashOpacity = 0.95;
     }
 
     function reset()

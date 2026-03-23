@@ -263,6 +263,7 @@ Item {
 
         anchors.fill: parent
         shouldEffectsRun: timelineView.shouldEffectsRun
+        animationsEnabled: Settings.uiMotionAnimationsEnabled
         visible: !timelineView.perfDisableTimelineEffects
     }
     KomaiDropArea {

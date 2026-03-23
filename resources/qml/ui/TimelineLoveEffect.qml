@@ -18,6 +18,7 @@ Item {
     property real heartScale: 0.68
     property real sparkleScale: 0.7
     property real heartLift: 18
+    property bool animationsEnabled: true
     readonly property real activeOpacity: Math.max(overlayOpacity,
                                                    haloOpacity,
                                                    ringOpacity,
@@ -29,6 +30,10 @@ Item {
 
     function trigger()
     {
+        if (!animationsEnabled) {
+            triggerStatic();
+            return;
+        }
         overlayOpacity = 0;
         haloOpacity = 0;
         ringOpacity = 0;
@@ -40,6 +45,21 @@ Item {
         sparkleScale = 0.7;
         heartLift = 18;
         burst.restart();
+    }
+
+    function triggerStatic()
+    {
+        burst.stop();
+        overlayOpacity = 1;
+        haloOpacity = 1;
+        ringOpacity = 0.74;
+        heartOpacity = 1;
+        sparkleOpacity = 1;
+        haloScale = 1;
+        ringScale = 1.06;
+        heartScale = 1;
+        sparkleScale = 1;
+        heartLift = 0;
     }
 
     function reset()

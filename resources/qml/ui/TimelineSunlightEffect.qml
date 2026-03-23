@@ -17,6 +17,7 @@ Item {
     property real rayScale: 0.68
     property real centerX: 0.82
     property real centerY: 0.14
+    property bool animationsEnabled: true
     readonly property real activeOpacity: Math.max(overlayOpacity, haloOpacity, discOpacity, rayOpacity)
 
     anchors.fill: parent
@@ -26,6 +27,10 @@ Item {
     {
         centerX = 0.78 + Math.random() * 0.1;
         centerY = 0.08 + Math.random() * 0.08;
+        if (!animationsEnabled) {
+            triggerStatic();
+            return;
+        }
         overlayOpacity = 0;
         haloOpacity = 0;
         discOpacity = 0;
@@ -34,6 +39,18 @@ Item {
         haloScale = 0.72;
         rayScale = 0.68;
         burst.restart();
+    }
+
+    function triggerStatic()
+    {
+        burst.stop();
+        overlayOpacity = 1;
+        haloOpacity = 1;
+        discOpacity = 1;
+        rayOpacity = 0.72;
+        discScale = 1;
+        haloScale = 1.06;
+        rayScale = 1;
     }
 
     function reset()

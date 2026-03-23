@@ -19,6 +19,7 @@ Item {
     property real ringScale: 0.62
     property real glintScale: 0.65
     property real logoScale: 0.8
+    property bool animationsEnabled: true
     readonly property real activeOpacity: Math.max(overlayOpacity,
                                                    haloOpacity,
                                                    petalOpacity,
@@ -31,6 +32,10 @@ Item {
 
     function trigger()
     {
+        if (!animationsEnabled) {
+            triggerStatic();
+            return;
+        }
         overlayOpacity = 0;
         haloOpacity = 0;
         petalOpacity = 0;
@@ -43,6 +48,22 @@ Item {
         glintScale = 0.65;
         logoScale = 0.8;
         burst.restart();
+    }
+
+    function triggerStatic()
+    {
+        burst.stop();
+        overlayOpacity = 1;
+        haloOpacity = 1;
+        petalOpacity = 1;
+        ringOpacity = 0.8;
+        glintOpacity = 1;
+        logoOpacity = 1;
+        bloomScale = 1;
+        haloScale = 1;
+        ringScale = 1.08;
+        glintScale = 1;
+        logoScale = 1;
     }
 
     function reset()

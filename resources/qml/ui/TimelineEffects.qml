@@ -23,6 +23,10 @@ Item {
         "lightning": lightningEffect,
         "komaiLogo": komaiEffect
     })
+    readonly property var staticParticleEffects: ({
+        "confetti": confettiStaticEffect,
+        "rainfall": rainfallStaticEffect
+    })
     readonly property int maxEffectDuration: {
         var max = 0;
         for (let i = 0; i < supportedEffectNames.length; ++i) {
@@ -34,6 +38,7 @@ Item {
     }
 
     required property bool shouldEffectsRun
+    property bool animationsEnabled: true
 
     visible: effectRoot.shouldEffectsRun
 
@@ -62,6 +67,9 @@ Item {
         if (!isParticleEffect(effectName))
             return 0;
 
+        if (!animationsEnabled)
+            return 0;
+
         const scale = effectPulseScales[effectName] || 1.0;
         let pulseDuration = effectRoot.height * scale;
         if (effectName === "rainfall")
@@ -71,6 +79,17 @@ Item {
 
     function effectDuration(effectName)
     {
+        if (!animationsEnabled) {
+            const staticEffect = staticParticleEffects[effectName];
+            if (staticEffect)
+                return staticEffect.durationMs;
+
+            if (overlayEffects[effectName])
+                return 800;
+
+            return 0;
+        }
+
         const overlay = overlayEffects[effectName];
         if (overlay)
             return overlay.durationMs;
@@ -98,7 +117,7 @@ Item {
             }
         }
 
-        if (hasParticleEffects)
+        if (hasParticleEffects && animationsEnabled)
             ensureParticleLayer();
 
         for (let i = 0; i < effectNames.length; ++i)
@@ -114,6 +133,14 @@ Item {
             else
                 overlay.trigger();
             return;
+        }
+
+        if (!animationsEnabled) {
+            const staticEffect = staticParticleEffects[effectName];
+            if (staticEffect) {
+                staticEffect.trigger();
+                return;
+            }
         }
 
         const emitter = effectEmitters[effectName];
@@ -137,15 +164,19 @@ Item {
         sunlightEffect.reset();
         loveEffect.reset();
         komaiEffect.reset();
+        confettiStaticEffect.reset();
+        rainfallStaticEffect.reset();
     }
 
     function removeParticles()
     {
         resetOverlays();
-        particlesLoader.active = false;
-        Qt.callLater(function() {
-            particlesLoader.active = true;
-        });
+        if (animationsEnabled) {
+            particlesLoader.active = false;
+            Qt.callLater(function() {
+                particlesLoader.active = true;
+            });
+        }
     }
 
     Component {
@@ -164,10 +195,25 @@ Item {
         sourceComponent: particleLayerComponent
     }
 
+    TimelineConfettiStaticEffect {
+        id: confettiStaticEffect
+
+        anchors.fill: parent
+        z: 5
+    }
+
+    TimelineRainfallStaticEffect {
+        id: rainfallStaticEffect
+
+        anchors.fill: parent
+        z: 6
+    }
+
     TimelineKomaiEffect {
         id: komaiEffect
 
         anchors.fill: parent
+        animationsEnabled: effectRoot.animationsEnabled
         z: 8
     }
 
@@ -175,6 +221,7 @@ Item {
         id: sunlightEffect
 
         anchors.fill: parent
+        animationsEnabled: effectRoot.animationsEnabled
         z: 9
     }
 
@@ -182,6 +229,7 @@ Item {
         id: loveEffect
 
         anchors.fill: parent
+        animationsEnabled: effectRoot.animationsEnabled
         z: 10
     }
 
@@ -189,6 +237,7 @@ Item {
         id: lightningEffect
 
         anchors.fill: parent
+        animationsEnabled: effectRoot.animationsEnabled
         z: 11
     }
 }

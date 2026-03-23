@@ -1,8 +1,8 @@
 # 🤖 MCP Server
 
-Komai can expose a running profile as a local [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server over **stdio**.
+Komai can expose a running [application profile](../application-profiles.md) as a local [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server over **stdio**.
 
-MCP is an open protocol for connecting apps to MCP-compatible hosts, including AI assistants, editors, and local automation tools. In Komai, that means a host can discover tools, read room and account data, fetch media, and, when allowed, trigger actions in the running app.
+MCP is an open protocol for connecting apps to MCP-compatible hosts, including MCP clients like [Claude Code](#claude-code), [Codex](#codex), and others. In Komai, that means a host can discover tools, read room and account data, fetch media, and, when allowed, trigger actions in the running app.
 
 > **Need shell scripts or quick terminal automation?** Use the [CLI commands](cli.md).
 >
@@ -12,80 +12,24 @@ MCP is an open protocol for connecting apps to MCP-compatible hosts, including A
 
 ## ✨ Quick start
 
-1. Start Komai with the profile you want to expose.
-2. Point your MCP host at `komai mcp serve`.
-3. Start with `read_only`, then switch to `read_write` only if the host should send messages or change settings.
+1. Start Komai with the [application profile](../application-profiles.md) you want to expose.
+2. Pick an [access mode](#-access-modes) — `read_only` (default) is safest; use `read_write` only if the host should send messages or change settings.
+3. Register `komai mcp serve` in your MCP host — see [Claude Code](#claude-code), [Codex](#codex), or [other hosts](#other-mcp-hosts).
 
-Default profile:
+## 🚦 Current capabilities
 
-```bash
-komai mcp serve
-```
-
-Specific profile:
-
-```bash
-komai -p work mcp serve
-komai mcp serve -p work
-komai mcp serve --profile work
-```
-
-Read-write mode:
-
-```bash
-komai mcp serve --access read_write
-```
-
-## 🚦 What Komai supports today
-
-The current implementation is intentionally narrow:
-
-- transport: stdio only
-- capabilities: tools only
-- backend boundary: Komai's existing local IPC transport
+- stdio transport on Linux, macOS, and Windows
+- MCP tools only (no resources or prompts yet)
 - default access mode: `read_only`
-- supported platforms: Linux, macOS, and Windows
+- does not require [D-Bus](dbus.md) to be enabled
 
-Not included yet:
-
-- HTTP transport
-- auth
-- resources
-- prompts
-- tasks
-- GUI settings for MCP
-
-## 🔧 How it works
-
-`komai mcp serve` is a thin wrapper around the Rust `komai-mcp` helper.
-
-The wrapper:
-
-- appears in `komai --help`
-- honors Komai's normal `-p` / `--profile` semantics
-- forwards the resolved profile and access mode to `komai-mcp`
-
-The Rust helper:
-
-- speaks MCP over stdio
-- exposes Komai automation as MCP tools
-- talks to the running Komai instance through the same local IPC surface used by the [CLI](cli.md)
-
-MCP does **not** depend on D-Bus being enabled.
-
-It also does **not** shell out to CLI subcommands like `komai rooms list`, and it does **not** call Qt/C++ internals through Rust FFI.
+Not supported yet: HTTP transport, auth, GUI settings for MCP.
 
 ## 👥 Running instance required
 
-The MCP server is only the frontend. The target Komai profile must already be running, just like the regular [CLI commands](cli.md).
+Komai must already be running with the target [application profile](../application-profiles.md), just like the [CLI commands](cli.md). The `--profile` flag decides which running instance your MCP host talks to.
 
-Each [application profile](../application-profiles.md) has its own local automation endpoint, so `--profile` decides which running profile your MCP host talks to.
-
-If the profile is not running:
-
-- MCP initialization still succeeds
-- `tools/list` still works
-- tool calls fail with `isError: true`
+If the profile is not running, MCP initialization and `tools/list` still succeed, but tool calls fail with `isError: true`.
 
 ## 🔐 Access modes
 
@@ -125,7 +69,63 @@ Examples of additional write tools:
 
 ## 🧩 Using it from an MCP host
 
-Most MCP hosts only need a command and an argument list. Use an absolute path for locally launched servers:
+Most MCP hosts only need a command and an argument list. Use an absolute path for locally launched servers.
+
+If you are not sure where to start, keep the host in `read_only`, confirm the tool list looks right, and only then opt into `read_write`.
+
+### Claude Code
+
+[Claude Code](https://docs.anthropic.com/en/docs/claude-code) has three scopes for MCP servers:
+
+| Scope | File | Shared? | Reach |
+|-------|------|---------|-------|
+| **local** (default) | `~/.claude.json` (keyed by project path) | no | this project only |
+| **project** | `.mcp.json` in project root | yes, committed to git | this project, whole team |
+| **user** | `~/.claude.json` | no | all projects on your machine |
+
+Most users will want `user` scope so Komai tools are available in every project:
+
+```bash
+claude mcp add --scope user komai-default -- /absolute/path/to/komai mcp serve --profile default --access read_only
+```
+
+Or edit `~/.claude.json` directly:
+
+```json
+{
+  "mcpServers": {
+    "komai-default": {
+      "type": "stdio",
+      "command": "/absolute/path/to/komai",
+      "args": ["mcp", "serve", "--profile", "default", "--access", "read_only"]
+    }
+  }
+}
+```
+
+Run `/mcp` inside Claude Code to verify the server is connected.
+
+### Codex
+
+[Codex](https://github.com/openai/codex) config goes in `~/.codex/config.toml` (global) or `.codex/config.toml` in your project root:
+
+```toml
+[mcp_servers.komai-default]
+command = "/absolute/path/to/komai"
+args = ["mcp", "serve", "--profile", "default", "--access", "read_only"]
+```
+
+Or use the CLI:
+
+```bash
+codex mcp add komai-default -- /absolute/path/to/komai mcp serve --profile default --access read_only
+```
+
+The server name includes the profile (`komai-default`) so you can add multiple profiles side by side (e.g. `komai-work`).
+
+### Other MCP hosts
+
+For hosts that accept a generic JSON configuration:
 
 ```json
 {
@@ -137,8 +137,6 @@ Most MCP hosts only need a command and an argument list. Use an absolute path fo
   }
 }
 ```
-
-If you are not sure where to start, keep the host in `read_only`, confirm the tool list looks right, and only then opt into `read_write`.
 
 ## 🧪 Manual testing with MCP Inspector
 
@@ -161,7 +159,7 @@ Verify the following in Inspector:
 
 - `initialize` succeeds
 - `tools/list` shows the expected read-only catalog
-- `rooms_list` returns `structuredContent` with a `rooms` field
+- `rooms_list` returns `structuredContent` with a `rooms` field, and each room includes explicit fields such as `read`, `serverNotificationCount`, `memberCount`, `highlighted`, `categories`, and `tags`
 - `media_fetch_image` returns image content
 - tool failures return `isError: true`
 

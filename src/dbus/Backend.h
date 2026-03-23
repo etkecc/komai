@@ -135,4 +135,8 @@ public:
 
 public slots:
     QImage fetch(const QString &mxcUri, const QDBusMessage &message) const;
+    QString upload(const QString &filePath,
+                   const QString &filename,
+                   const QString &contentType,
+                   const QDBusMessage &message) const;
 };

@@ -97,4 +97,23 @@ using MediaFetchCallback = std::function<void(const QImage &)>;
 void
 mediaFetch(const QString &mxcUri, MediaFetchCallback callback);
 
+struct UploadResult
+{
+    QString mxcUri;
+    QString contentType;
+    QString filename;
+    uint64_t size = 0;
+
+    QJsonObject toJson() const;
+};
+
+using MediaUploadCallback = std::function<void(const UploadResult &result, const QString &error)>;
+
+/// Uploads a file to the homeserver (unencrypted) and returns its mxc:// URI.
+void
+mediaUpload(const QString &filePath,
+            const QString &filename,
+            const QString &contentType,
+            MediaUploadCallback callback);
+
 } // namespace komai::ipc

@@ -5,8 +5,12 @@
 #include "SharedLogic.h"
 
 #include <QDateTime>
+#include <QFile>
+#include <QFileInfo>
+#include <QMimeDatabase>
 
 #include <mtx/events/collections.hpp>
+#include <mtx/responses/media.hpp>
 
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
@@ -317,6 +321,68 @@ mediaFetch(const QString &mxcUri, MediaFetchCallback callback)
               callback(image);
       },
       true);
+}
+
+QJsonObject
+UploadResult::toJson() const
+{
+    return {
+      {QStringLiteral("mxcUri"), mxcUri},
+      {QStringLiteral("contentType"), contentType},
+      {QStringLiteral("filename"), filename},
+      {QStringLiteral("size"), static_cast<qint64>(size)},
+    };
+}
+
+void
+mediaUpload(const QString &filePath,
+            const QString &filename,
+            const QString &contentType,
+            MediaUploadCallback callback)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly)) {
+        if (callback)
+            callback({}, QStringLiteral("cannot open file: ") + filePath);
+        return;
+    }
+
+    const auto data = file.readAll();
+    file.close();
+
+    const auto resolvedFilename = filename.isEmpty() ? QFileInfo(filePath).fileName() : filename;
+
+    auto resolvedContentType = contentType;
+    if (resolvedContentType.isEmpty()) {
+        QMimeDatabase db;
+        resolvedContentType = db.mimeTypeForFileNameAndData(resolvedFilename, data).name();
+    }
+
+    const auto payload = std::string(data.constData(), data.size());
+
+    http::client()->upload(payload,
+                           resolvedContentType.toStdString(),
+                           resolvedFilename.toStdString(),
+                           [callback,
+                            resolvedFilename,
+                            resolvedContentType,
+                            fileSize = static_cast<uint64_t>(data.size())](
+                             const mtx::responses::ContentURI &res, mtx::http::RequestErr err) {
+                               if (err) {
+                                   if (callback)
+                                       callback({},
+                                                QString::fromStdString(err->matrix_error.error));
+                                   return;
+                               }
+                               if (callback) {
+                                   UploadResult result;
+                                   result.mxcUri      = QString::fromStdString(res.content_uri);
+                                   result.contentType = resolvedContentType;
+                                   result.filename    = resolvedFilename;
+                                   result.size        = fileSize;
+                                   callback(result, {});
+                               }
+                           });
 }
 
 } // namespace komai::ipc

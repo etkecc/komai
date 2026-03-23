@@ -288,6 +288,21 @@ mediaFetch(const QString &profileId, const QString &mxcUri)
     return {};
 }
 
+QString
+mediaUpload(const QString &profileId,
+            const QString &filePath,
+            const QString &filename,
+            const QString &contentType)
+{
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Media")};
+    if (iface.isValid())
+        return QDBusReply<QString>{
+          iface.call(QStringLiteral("upload"), filePath, filename, contentType)}
+          .value();
+    return {};
+}
+
 } // komai::dbus
 
 /**

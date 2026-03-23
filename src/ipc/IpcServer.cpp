@@ -226,6 +226,30 @@ IpcServer::handleRequest(QLocalSocket *socket)
         return;
     }
 
+    if (method == QLatin1String("media.upload")) {
+        QPointer<QLocalSocket> safeSocket = socket;
+        mediaUpload(params.value(QStringLiteral("path")).toString(),
+                    params.value(QStringLiteral("filename")).toString(),
+                    params.value(QStringLiteral("contentType")).toString(),
+                    [safeSocket](const UploadResult &result, const QString &error) {
+                        if (!safeSocket)
+                            return;
+                        QJsonObject response;
+                        if (!error.isEmpty())
+                            response.insert(QStringLiteral("error"), error);
+                        else
+                            response.insert(QStringLiteral("result"), result.toJson());
+                        QMetaObject::invokeMethod(
+                          safeSocket.data(),
+                          [safeSocket, response]() {
+                              if (safeSocket)
+                                  writeResponse(safeSocket.data(), response);
+                          },
+                          Qt::QueuedConnection);
+                    });
+        return;
+    }
+
     writeResponse(socket, {{QStringLiteral("error"), QStringLiteral("unknown method: ") + method}});
 }
 

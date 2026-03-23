@@ -213,6 +213,28 @@ Fetches an image by its `mxc://` URI and writes PNG data to stdout. Useful for r
 komai media fetch 'mxc://example.org/abc123' > avatar.png
 ```
 
+### upload
+
+Uploads a file to the homeserver and returns its `mxc://` URI. Uploads are not end-to-end encrypted. To send media to an encrypted room, use [`rooms send-image`](#send-image) with a file path instead.
+
+```bash
+komai media upload /path/to/photo.png
+komai media upload /path/to/file.pdf --filename report.pdf --content-type application/pdf
+cat photo.png | komai media upload --stdin --filename photo.png --content-type image/png
+```
+
+Output:
+
+```json
+{"mxcUri":"mxc://example.org/abc123","contentType":"image/png","filename":"photo.png","size":204800}
+```
+
+| Flag | Description |
+|---|---|
+| `--filename <name>` | Override the filename (required with `--stdin`) |
+| `--content-type <mime>` | Override the MIME type |
+| `--stdin` | Read from stdin instead of a file path |
+
 ## 🔧 Offline commands
 
 The following commands work without a running Komai instance:

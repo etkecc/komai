@@ -339,3 +339,25 @@ DbusMediaInterface::fetch(const QString &mxcUri, const QDBusMessage &message) co
     });
     return {};
 }
+
+QString
+DbusMediaInterface::upload(const QString &filePath,
+                           const QString &filename,
+                           const QString &contentType,
+                           const QDBusMessage &message) const
+{
+    if (!dbusWriteAccessEnabled())
+        return {};
+
+    message.setDelayedReply(true);
+    komai::ipc::mediaUpload(
+      stripDbusTypePrefix(filePath),
+      stripDbusTypePrefix(filename),
+      stripDbusTypePrefix(contentType),
+      [message](const komai::ipc::UploadResult &result, const QString &error) {
+          auto reply = message.createReply();
+          reply << (error.isEmpty() ? result.mxcUri : QString{});
+          QDBusConnection::sessionBus().send(reply);
+      });
+    return {};
+}

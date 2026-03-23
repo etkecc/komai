@@ -222,6 +222,22 @@ Fetches an image by its `mxc://` URI. Useful for resolving room avatars returned
 busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Media fetch s 'mxc://example.org/abc123'
 ```
 
+### upload
+
+Uploads a file (unencrypted) to the homeserver and returns its `mxc://` URI. Uploads are not end-to-end encrypted. To send media to an encrypted room, use [Rooms.sendImageFile](#sendimagefile) with a file path instead.
+
+> Required D-Bus access level: ✏️ write
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Media upload sss '/path/to/photo.png' '' ''
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `filePath` | string | *(required)* | Absolute path to the file |
+| `filename` | string | *(auto)* | Override the display filename |
+| `contentType` | string | *(auto)* | Override the MIME type |
+
 ## 🔐 Security notes
 
 - Access is local-only to users that can talk to your current session bus.

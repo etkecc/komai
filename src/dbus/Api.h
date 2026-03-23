@@ -130,6 +130,12 @@ setTheme(const QString &profileId, const QString &theme);
 //! Fetch an image using a matrix content URI.
 QImage
 mediaFetch(const QString &profileId, const QString &mxcUri);
+//! Uploads a file (unencrypted) and returns its mxc:// URI.
+QString
+mediaUpload(const QString &profileId,
+            const QString &filePath,
+            const QString &filename    = {},
+            const QString &contentType = {});
 
 QDBusArgument &
 operator<<(QDBusArgument &arg, const RoomInfoItem &item);

@@ -94,6 +94,7 @@ Simple JSON-lines over the socket — one request line, one response line:
 | `settings.ui.theme`          | —                             | `string`        |
 | `settings.ui.setTheme`       | `theme`                       | `true`          |
 | `media.fetch`                | `mxcUri`                      | `string` (b64)  |
+| `media.upload`               | `path`, `filename`?, `contentType`? | `object`  |
 
 ### Socket naming
 

@@ -142,6 +142,39 @@ busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms send ssss
 | `msgtype` | string | `m.text` | `m.text` or `m.notice` |
 | `format` | string | `auto` | `auto`, `plain`, or `html` |
 
+### sendImageFile
+
+Uploads an image from disk and sends it to a room in one step. Handles encryption transparently for encrypted rooms.
+
+> Required D-Bus access level: ✏️ write
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms sendImageFile sss '!abc:example.org' '/path/to/photo.jpg' ''
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `roomIdOrAlias` | string | *(required)* | Room ID or alias |
+| `filePath` | string | *(required)* | Absolute path to the image |
+| `body` | string | *(auto)* | Caption (defaults to filename) |
+
+### sendImage
+
+Sends an image using an already-uploaded `mxc://` URI. Only works for unencrypted rooms. Returns an error if the target room is encrypted.
+
+> Required D-Bus access level: ✏️ write
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms sendImage ssss '!abc:example.org' 'mxc://hs/abc' '' 'photo.jpg'
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `roomIdOrAlias` | string | *(required)* | Room ID or alias |
+| `mxcUri` | string | *(required)* | The `mxc://` URI from `media.upload` |
+| `body` | string | *(auto)* | Caption (defaults to filename) |
+| `filename` | string | | Original filename |
+
 ## 👤 User
 
 Account and presence.

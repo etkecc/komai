@@ -191,6 +191,59 @@ IpcServer::handleRequest(QLocalSocket *socket)
         return;
     }
 
+    if (method == QLatin1String("rooms.sendImageFile")) {
+        QPointer<QLocalSocket> safeSocket = socket;
+        sendImageFromFile(params.value(QStringLiteral("roomIdOrAlias")).toString(),
+                          params.value(QStringLiteral("path")).toString(),
+                          params.value(QStringLiteral("body")).toString(),
+                          [safeSocket](const QString &eventId, const QString &error) {
+                              if (!safeSocket)
+                                  return;
+                              QJsonObject response;
+                              if (!error.isEmpty())
+                                  response.insert(QStringLiteral("error"), error);
+                              else
+                                  response.insert(
+                                    QStringLiteral("result"),
+                                    QJsonObject{{QStringLiteral("eventId"), eventId}});
+                              QMetaObject::invokeMethod(
+                                safeSocket.data(),
+                                [safeSocket, response]() {
+                                    if (safeSocket)
+                                        writeResponse(safeSocket.data(), response);
+                                },
+                                Qt::QueuedConnection);
+                          });
+        return;
+    }
+
+    if (method == QLatin1String("rooms.sendImage")) {
+        QPointer<QLocalSocket> safeSocket = socket;
+        sendImage(params.value(QStringLiteral("roomIdOrAlias")).toString(),
+                  params.value(QStringLiteral("mxcUri")).toString(),
+                  params.value(QStringLiteral("body")).toString(),
+                  params.value(QStringLiteral("filename")).toString(),
+                  params.value(QStringLiteral("info")).toObject(),
+                  [safeSocket](const QString &eventId, const QString &error) {
+                      if (!safeSocket)
+                          return;
+                      QJsonObject response;
+                      if (!error.isEmpty())
+                          response.insert(QStringLiteral("error"), error);
+                      else
+                          response.insert(QStringLiteral("result"),
+                                          QJsonObject{{QStringLiteral("eventId"), eventId}});
+                      QMetaObject::invokeMethod(
+                        safeSocket.data(),
+                        [safeSocket, response]() {
+                            if (safeSocket)
+                                writeResponse(safeSocket.data(), response);
+                        },
+                        Qt::QueuedConnection);
+                  });
+        return;
+    }
+
     // -- media (async) --
 
     if (method == QLatin1String("media.fetch")) {

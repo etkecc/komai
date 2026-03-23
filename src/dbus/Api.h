@@ -97,6 +97,19 @@ sendMessage(const QString &profileId,
             const QString &body,
             const QString &msgtype = QStringLiteral("m.text"),
             const QString &format  = QStringLiteral("auto"));
+//! Uploads an image from disk and sends it to a room. Handles encryption.
+QString
+sendImageFromFile(const QString &profileId,
+                  const QString &roomIdOrAlias,
+                  const QString &filePath,
+                  const QString &body = {});
+//! Sends an image using an already-uploaded mxc:// URI (unencrypted rooms only).
+QString
+sendImage(const QString &profileId,
+          const QString &roomIdOrAlias,
+          const QString &mxcUri,
+          const QString &body     = {},
+          const QString &filename = {});
 
 // -- cc.etke.komai.User --
 

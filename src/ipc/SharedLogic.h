@@ -91,6 +91,24 @@ sendMessage(const QString &roomIdOrAlias,
             const QString &format,
             SendMessageCallback callback);
 
+/// Uploads an image from disk and sends it to a room in one step.
+/// Handles encryption transparently for encrypted rooms.
+void
+sendImageFromFile(const QString &roomIdOrAlias,
+                  const QString &filePath,
+                  const QString &body,
+                  SendMessageCallback callback);
+
+/// Sends an image message using an already-uploaded mxc:// URI.
+/// Only works for unencrypted rooms.
+void
+sendImage(const QString &roomIdOrAlias,
+          const QString &mxcUri,
+          const QString &body,
+          const QString &filename,
+          const QJsonObject &info,
+          SendMessageCallback callback);
+
 // -- media --
 
 using MediaFetchCallback = std::function<void(const QImage &)>;

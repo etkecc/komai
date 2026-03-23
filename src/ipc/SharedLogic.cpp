@@ -4,6 +4,7 @@
 
 #include "SharedLogic.h"
 
+#include <QBuffer>
 #include <QDateTime>
 #include <QFile>
 #include <QFileInfo>
@@ -11,6 +12,9 @@
 
 #include <mtx/events/collections.hpp>
 #include <mtx/responses/media.hpp>
+#include <mtxclient/crypto/utils.hpp>
+
+#include "blurhash.hpp"
 
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
@@ -383,6 +387,265 @@ mediaUpload(const QString &filePath,
                                    callback(result, {});
                                }
                            });
+}
+
+void
+sendImageFromFile(const QString &roomIdOrAlias,
+                  const QString &filePath,
+                  const QString &body,
+                  SendMessageCallback callback)
+{
+    const auto roomId = resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
+    }
+
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly)) {
+        if (callback)
+            callback({}, QStringLiteral("cannot open file: ") + filePath);
+        return;
+    }
+
+    const auto fileData = file.readAll();
+    file.close();
+
+    const auto fname = QFileInfo(filePath).fileName();
+
+    QMimeDatabase mimeDb;
+    const auto mime = mimeDb.mimeTypeForFileNameAndData(fname, fileData).name();
+
+    // Read image for dimensions and blurhash.
+    QImage img            = utils::readImage(fileData);
+    const auto dimensions = img.size();
+
+    // Compute blurhash on a scaled-down version.
+    QString blurhashStr;
+    if (!img.isNull()) {
+        QImage bhImg = img;
+        if (bhImg.height() > 200 && bhImg.width() > 360)
+            bhImg = bhImg.scaled(360, 200, Qt::KeepAspectRatioByExpanding);
+        std::vector<unsigned char> rgbData;
+        for (int y = 0; y < bhImg.height(); y++) {
+            for (int x = 0; x < bhImg.width(); x++) {
+                auto p = bhImg.pixel(x, y);
+                rgbData.push_back(static_cast<unsigned char>(qRed(p)));
+                rgbData.push_back(static_cast<unsigned char>(qGreen(p)));
+                rgbData.push_back(static_cast<unsigned char>(qBlue(p)));
+            }
+        }
+        blurhashStr = QString::fromStdString(
+          blurhash::encode(rgbData.data(), bhImg.width(), bhImg.height(), 4, 3));
+    }
+
+    // Generate thumbnail (scale to max 800x800 if larger, save as PNG).
+    QByteArray thumbnailData;
+    QSize thumbnailDimensions;
+    if (!img.isNull() && (img.width() > 800 || img.height() > 800)) {
+        QImage thumbImg = img.scaled(std::min(800, img.width()),
+                                     std::min(800, img.height()),
+                                     Qt::KeepAspectRatio,
+                                     Qt::SmoothTransformation);
+        QBuffer thumbBuffer(&thumbnailData);
+        thumbBuffer.open(QIODevice::WriteOnly);
+        thumbImg.save(&thumbBuffer, "PNG");
+        thumbnailDimensions = thumbImg.size();
+    }
+
+    const auto roomIdStd = roomId.toStdString();
+    const bool encrypted = cache::isRoomEncrypted(roomIdStd);
+
+    auto mainPayload    = std::string(fileData.constData(), fileData.size());
+    const auto mainSize = static_cast<uint64_t>(fileData.size());
+
+    std::optional<mtx::crypto::EncryptedFile> mainEncFile;
+    std::optional<mtx::crypto::EncryptedFile> thumbEncFile;
+
+    if (encrypted) {
+        mtx::crypto::BinaryBuf buf;
+        std::tie(buf, mainEncFile) = mtx::crypto::encrypt_file(std::move(mainPayload));
+        mainPayload                = mtx::crypto::to_string(buf);
+    }
+
+    std::string thumbPayload;
+    uint64_t thumbSize = 0;
+    if (!thumbnailData.isEmpty()) {
+        thumbPayload = std::string(thumbnailData.constData(), thumbnailData.size());
+        thumbSize    = static_cast<uint64_t>(thumbnailData.size());
+        if (encrypted) {
+            mtx::crypto::BinaryBuf buf;
+            std::tie(buf, thumbEncFile) = mtx::crypto::encrypt_file(std::move(thumbPayload));
+            thumbPayload                = mtx::crypto::to_string(buf);
+        }
+    }
+
+    // Upload thumbnail first (if present), then main file.
+    auto uploadMainAndSend = [roomIdStd,
+                              encrypted,
+                              fname,
+                              mime,
+                              body,
+                              dimensions,
+                              mainSize,
+                              mainEncFile,
+                              blurhashStr,
+                              thumbnailDimensions,
+                              thumbSize,
+                              thumbEncFile,
+                              callback](std::string mainPayload, const QString &thumbUrl) {
+        const auto mainContentType =
+          encrypted ? std::string("application/octet-stream") : mime.toStdString();
+        const auto mainFilename = encrypted ? std::string() : fname.toStdString();
+        http::client()->upload(
+          mainPayload,
+          mainContentType,
+          mainFilename,
+          [=](const mtx::responses::ContentURI &res, mtx::http::RequestErr err) {
+              if (err) {
+                  if (callback)
+                      callback({}, QString::fromStdString(err->matrix_error.error));
+                  return;
+              }
+
+              mtx::events::msg::Image image;
+              image.info.mimetype = mime.toStdString();
+              image.info.size     = mainSize;
+              image.info.h        = dimensions.height();
+              image.info.w        = dimensions.width();
+              image.info.blurhash = blurhashStr.toStdString();
+              image.body = body.isEmpty() ? fname.toStdString() : body.trimmed().toStdString();
+              if (!fname.isEmpty())
+                  image.filename = fname.toStdString();
+
+              if (mainEncFile) {
+                  auto ef    = mainEncFile.value();
+                  ef.url     = res.content_uri;
+                  image.file = ef;
+              } else {
+                  image.url = res.content_uri;
+              }
+
+              if (!thumbUrl.isEmpty()) {
+                  if (thumbEncFile) {
+                      auto tef                  = thumbEncFile.value();
+                      tef.url                   = thumbUrl.toStdString();
+                      image.info.thumbnail_file = tef;
+                  } else {
+                      image.info.thumbnail_url = thumbUrl.toStdString();
+                  }
+                  image.info.thumbnail_info.h        = thumbnailDimensions.height();
+                  image.info.thumbnail_info.w        = thumbnailDimensions.width();
+                  image.info.thumbnail_info.size     = thumbSize;
+                  image.info.thumbnail_info.mimetype = "image/png";
+              }
+
+              auto txnId = std::string("m") + std::to_string(QDateTime::currentMSecsSinceEpoch());
+
+              auto sendCb = [callback](const mtx::responses::EventId &eventId,
+                                       mtx::http::RequestErr sendErr) {
+                  if (sendErr) {
+                      if (callback)
+                          callback({}, QString::fromStdString(sendErr->matrix_error.error));
+                      return;
+                  }
+                  if (callback)
+                      callback(QString::fromStdString(eventId.event_id.to_string()), {});
+              };
+
+              if (encrypted) {
+                  try {
+                      nlohmann::json doc = {{"type", "m.room.message"},
+                                            {"content", nlohmann::json(image)},
+                                            {"room_id", roomIdStd}};
+                      auto enc =
+                        olm::encrypt_group_message(roomIdStd, http::client()->device_id(), doc);
+                      http::client()->send_room_message(roomIdStd, txnId, enc, sendCb);
+                  } catch (const std::exception &e) {
+                      if (callback)
+                          callback({},
+                                   QStringLiteral("encryption failed: ") +
+                                     QString::fromStdString(e.what()));
+                  }
+              } else {
+                  http::client()->send_room_message(roomIdStd, txnId, image, sendCb);
+              }
+          });
+    };
+
+    if (!thumbPayload.empty()) {
+        const auto thumbContentType =
+          encrypted ? std::string("application/octet-stream") : std::string("image/png");
+        http::client()->upload(
+          thumbPayload,
+          thumbContentType,
+          encrypted ? std::string() : std::string("thumbnail.png"),
+          [uploadMainAndSend, mainPayload = std::move(mainPayload), callback](
+            const mtx::responses::ContentURI &res, mtx::http::RequestErr err) mutable {
+              if (err) {
+                  if (callback)
+                      callback({}, QString::fromStdString(err->matrix_error.error));
+                  return;
+              }
+              uploadMainAndSend(std::move(mainPayload), QString::fromStdString(res.content_uri));
+          });
+    } else {
+        uploadMainAndSend(std::move(mainPayload), {});
+    }
+}
+
+void
+sendImage(const QString &roomIdOrAlias,
+          const QString &mxcUri,
+          const QString &body,
+          const QString &filename,
+          const QJsonObject &info,
+          SendMessageCallback callback)
+{
+    const auto roomId = resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
+    }
+
+    const auto roomIdStd = roomId.toStdString();
+    if (cache::isRoomEncrypted(roomIdStd)) {
+        if (callback)
+            callback({},
+                     QStringLiteral("cannot send unencrypted media to encrypted room; "
+                                    "use rooms.sendImageFile with a file path"));
+        return;
+    }
+
+    mtx::events::msg::Image image;
+    image.url  = mxcUri.toStdString();
+    image.body = body.isEmpty()
+                   ? (filename.isEmpty() ? std::string("image") : filename.toStdString())
+                   : body.trimmed().toStdString();
+    if (!filename.isEmpty())
+        image.filename = filename.toStdString();
+
+    if (!info.isEmpty()) {
+        image.info.mimetype = info.value(QStringLiteral("mimetype")).toString().toStdString();
+        image.info.w        = info.value(QStringLiteral("w")).toInt();
+        image.info.h        = info.value(QStringLiteral("h")).toInt();
+        image.info.size     = static_cast<uint64_t>(info.value(QStringLiteral("size")).toInt());
+    }
+
+    const auto txnId = std::string("m") + std::to_string(QDateTime::currentMSecsSinceEpoch());
+    auto sendCb = [callback](const mtx::responses::EventId &eventId, mtx::http::RequestErr err) {
+        if (err) {
+            if (callback)
+                callback({}, QString::fromStdString(err->matrix_error.error));
+            return;
+        }
+        if (callback)
+            callback(QString::fromStdString(eventId.event_id.to_string()), {});
+    };
+
+    http::client()->send_room_message(roomIdStd, txnId, image, sendCb);
 }
 
 } // namespace komai::ipc

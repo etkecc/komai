@@ -218,6 +218,51 @@ DbusRoomsInterface::send(const QString &roomIdOrAlias,
     return {};
 }
 
+QString
+DbusRoomsInterface::sendImageFile(const QString &roomIdOrAlias,
+                                  const QString &filePath,
+                                  const QString &body,
+                                  const QDBusMessage &message) const
+{
+    if (!dbusWriteAccessEnabled())
+        return {};
+
+    message.setDelayedReply(true);
+    komai::ipc::sendImageFromFile(stripDbusTypePrefix(roomIdOrAlias),
+                                  stripDbusTypePrefix(filePath),
+                                  stripDbusTypePrefix(body),
+                                  [message](const QString &eventId, const QString &error) {
+                                      auto reply = message.createReply();
+                                      reply << (error.isEmpty() ? eventId : QString{});
+                                      QDBusConnection::sessionBus().send(reply);
+                                  });
+    return {};
+}
+
+QString
+DbusRoomsInterface::sendImage(const QString &roomIdOrAlias,
+                              const QString &mxcUri,
+                              const QString &body,
+                              const QString &filename,
+                              const QDBusMessage &message) const
+{
+    if (!dbusWriteAccessEnabled())
+        return {};
+
+    message.setDelayedReply(true);
+    komai::ipc::sendImage(stripDbusTypePrefix(roomIdOrAlias),
+                          stripDbusTypePrefix(mxcUri),
+                          stripDbusTypePrefix(body),
+                          stripDbusTypePrefix(filename),
+                          {},
+                          [message](const QString &eventId, const QString &error) {
+                              auto reply = message.createReply();
+                              reply << (error.isEmpty() ? eventId : QString{});
+                              QDBusConnection::sessionBus().send(reply);
+                          });
+    return {};
+}
+
 // ---------------------------------------------------------------------------
 // cc.etke.komai.User
 // ---------------------------------------------------------------------------

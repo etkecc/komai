@@ -134,6 +134,34 @@ Output:
 - `plain` — sends the body as-is, no formatting
 - `html` — always converts Markdown to HTML
 
+### send-image
+
+Uploads and sends an image to a room. Handles encryption transparently for encrypted rooms. Computes image metadata (dimensions, blurhash, thumbnail) automatically.
+
+```bash
+# Upload from disk and send (recommended; works with encrypted rooms)
+komai rooms send-image '!abc:example.org' /path/to/photo.jpg
+komai rooms send-image '!abc:example.org' /path/to/photo.jpg --caption "Look at this"
+
+# From a previously-uploaded mxc:// URI (unencrypted rooms only)
+komai rooms send-image '!abc:example.org' mxc://hs/abc --filename photo.jpg --caption "Look"
+```
+
+The CLI detects whether the second argument is a file path or `mxc://` URI:
+- Starts with `mxc://` -- uses the pre-uploaded URI (unencrypted rooms only)
+- Otherwise -- treats as file path, uploads and encrypts if needed
+
+Output:
+
+```json
+{"eventId":"$img789:example.org"}
+```
+
+| Flag | Description |
+|---|---|
+| `--caption <text>` | Image caption (defaults to filename) |
+| `--filename <name>` | Filename (required with `mxc://` URI) |
+
 ## 👤 User
 
 Account and presence.

@@ -204,6 +204,37 @@ sendMessage(const QString &profileId,
     return {};
 }
 
+QString
+sendImageFromFile(const QString &profileId,
+                  const QString &roomIdOrAlias,
+                  const QString &filePath,
+                  const QString &body)
+{
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Rooms")};
+    if (iface.isValid())
+        return QDBusReply<QString>{
+          iface.call(QStringLiteral("sendImageFile"), roomIdOrAlias, filePath, body)}
+          .value();
+    return {};
+}
+
+QString
+sendImage(const QString &profileId,
+          const QString &roomIdOrAlias,
+          const QString &mxcUri,
+          const QString &body,
+          const QString &filename)
+{
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Rooms")};
+    if (iface.isValid())
+        return QDBusReply<QString>{
+          iface.call(QStringLiteral("sendImage"), roomIdOrAlias, mxcUri, body, filename)}
+          .value();
+    return {};
+}
+
 // -- cc.etke.komai.User --
 
 QString

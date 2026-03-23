@@ -82,6 +82,15 @@ public slots:
                  const QString &msgtype,
                  const QString &format,
                  const QDBusMessage &message) const;
+    QString sendImageFile(const QString &roomIdOrAlias,
+                          const QString &filePath,
+                          const QString &body,
+                          const QDBusMessage &message) const;
+    QString sendImage(const QString &roomIdOrAlias,
+                      const QString &mxcUri,
+                      const QString &body,
+                      const QString &filename,
+                      const QDBusMessage &message) const;
 };
 
 // ---------------------------------------------------------------------------

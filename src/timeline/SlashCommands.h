@@ -19,7 +19,6 @@ enum class CommandId
     React,
     Join,
     Knock,
-    Part,
     Leave,
     Invite,
     Kick,

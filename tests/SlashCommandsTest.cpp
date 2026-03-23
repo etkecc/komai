@@ -89,13 +89,15 @@ testRegistryInventory()
     const auto *gotoCmd = timeline::slash_commands::find(QStringLiteral("goto"));
     const auto *ignore  = timeline::slash_commands::find(CommandId::Ignore);
 
-    ok &= expect(cmds.size() == 28, "registry contains all currently listed slash commands");
+    ok &= expect(cmds.size() == 27, "registry contains all currently listed slash commands");
     ok &= expect(gotoCmd != nullptr && gotoCmd->id == CommandId::Goto,
                  "registry can look up /goto by name");
     ok &= expect(ignore != nullptr && QString::fromLatin1(ignore->name) == QStringLiteral("ignore"),
                  "registry can look up /ignore by id");
     ok &= expect(timeline::slash_commands::find(QStringLiteral("confetti")) == nullptr,
                  "registry no longer exposes /confetti");
+    ok &= expect(timeline::slash_commands::find(QStringLiteral("part")) == nullptr,
+                 "registry no longer exposes /part");
     return ok;
 }
 

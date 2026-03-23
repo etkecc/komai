@@ -290,7 +290,7 @@ validateInvitePermissionTarget(const ParsedCommand &parsed, const CommandContext
 
 #define CMD_TR(text) QT_TRANSLATE_NOOP("CommandCompleter", text)
 
-const std::array<CommandDefinition, 28> kCommands{{
+const std::array<CommandDefinition, 27> kCommands{{
   {CommandId::Me,
    "me",
    "/me ",
@@ -319,19 +319,12 @@ const std::array<CommandDefinition, 28> kCommands{{
    CMD_TR("Ask to join a room. Reason is optional."),
    "knock room alias roomid",
    validateJoin},
-  {CommandId::Part,
-   "part",
-   "/part ",
-   CMD_TR("/part [reason]"),
-   CMD_TR("Leave a room. Reason is optional."),
-   "part leave",
-   validateOptionalArguments},
   {CommandId::Leave,
    "leave",
    "/leave ",
    CMD_TR("/leave [reason]"),
    CMD_TR("Leave a room. Reason is optional."),
-   "leave part",
+   "leave",
    validateOptionalArguments},
   {CommandId::Invite,
    "invite",

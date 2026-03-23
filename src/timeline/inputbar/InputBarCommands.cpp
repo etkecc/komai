@@ -105,7 +105,6 @@ timeline::slash_commands::execute(InputBar &inputBar, const ParsedCommand &parse
         ChatPage::instance()->knockRoom(target, reason);
         return CommandResult::dispatched();
     }
-    case CommandId::Part:
     case CommandId::Leave:
         ChatPage::instance()->timelineManager()->openLeaveRoomDialog(inputBar.room->roomId(), args);
         return CommandResult::dispatched();

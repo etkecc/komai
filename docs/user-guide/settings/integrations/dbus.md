@@ -11,7 +11,7 @@ This is controlled in **Settings → Integrations → D-Bus** with the **D-Bus a
 
 No restart is needed when changing it.
 
-## 🧭 What’s available
+## 🧭 What's available
 
 - [🛰 Read methods](#read-methods)
   - [apiVersion](#apiversion)
@@ -26,6 +26,7 @@ No restart is needed when changing it.
   - [setStatusMessage](#setstatusmessage)
   - [setTheme](#settheme)
 - [🛰️ Service details](#service-details)
+- [👥 Multiple profiles](#multiple-profiles)
 - [🔐 Security notes](#security-notes)
 
 ## 🛰 Read methods
@@ -35,7 +36,7 @@ No restart is needed when changing it.
 Returns API version as a string.
 
 ```bash
-gdbus call --session --dest cc.etke.komai --object-path / --method cc.etke.komai.apiVersion
+gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.apiVersion
 ```
 
 Example result:
@@ -49,7 +50,7 @@ Example result:
 Returns Komai version string.
 
 ```bash
-gdbus call --session --dest cc.etke.komai --object-path / --method cc.etke.komai.appVersion
+gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.appVersion
 ```
 
 Example result:
@@ -63,7 +64,7 @@ Example result:
 Returns a compact list of known rooms with IDs and names.
 
 ```bash
-gdbus call --session --dest cc.etke.komai --object-path / --method cc.etke.komai.rooms
+gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.rooms
 ```
 
 Example result:
@@ -78,7 +79,7 @@ Example result:
 Returns an image file path or URL for a room state ID.
 
 ```bash
-gdbus call --session --dest cc.etke.komai --object-path / --method cc.etke.komai.image '!a:example.org'
+gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.image '!a:example.org'
 ```
 
 Example result:
@@ -92,7 +93,7 @@ Example result:
 Reads the current user presence/status text.
 
 ```bash
-gdbus call --session --dest cc.etke.komai --object-path / --method cc.etke.komai.statusMessage
+gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.statusMessage
 ```
 
 Example result:
@@ -108,7 +109,7 @@ Example result:
 Activates (focuses) a room in the current session.
 
 ```bash
-gdbus call --session --dest cc.etke.komai --object-path / --method cc.etke.komai.activateRoom '!a:example.org'
+gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.activateRoom '!a:example.org'
 ```
 
 Example result:
@@ -122,7 +123,7 @@ Example result:
 Joins a room by room ID or alias.
 
 ```bash
-gdbus call --session --dest cc.etke.komai --object-path / --method cc.etke.komai.joinRoom '#komai:example.org'
+gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.joinRoom '#komai:example.org'
 ```
 
 Example result:
@@ -136,7 +137,7 @@ Example result:
 Starts or opens a one-to-one chat.
 
 ```bash
-gdbus call --session --dest cc.etke.komai --object-path / --method cc.etke.komai.directChat '@alice:example.org'
+gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.directChat '@alice:example.org'
 ```
 
 Example result:
@@ -150,7 +151,7 @@ Example result:
 Sets the user status message.
 
 ```bash
-gdbus call --session --dest cc.etke.komai --object-path / --method cc.etke.komai.setStatusMessage '📣 status from D-Bus'
+gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.setStatusMessage '📣 status from D-Bus'
 ```
 
 Example result:
@@ -164,7 +165,7 @@ Example result:
 Changes the active theme.
 
 ```bash
-gdbus call --session --dest cc.etke.komai --object-path / --method cc.etke.komai.setTheme 'komai-dark'
+gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.setTheme 'komai-dark'
 ```
 
 Example result:
@@ -173,22 +174,56 @@ Example result:
 ()
 ```
 
-`setTheme` expects a valid theme slug from Komai’s theme list (`komai-light`, `komai-dark`, `nheko-light`, ...), not a display label.
+`setTheme` expects a valid theme slug from Komai's theme list (`komai-light`, `komai-dark`, `nheko-light`, ...), not a display label.
 
 ## 🛰️ Service details
 
-- **D-Bus service:** `cc.etke.komai`
+Each [application profile](../../application-profiles.md) registers its own D-Bus service:
+
+- **Service name format:** `cc.etke.komai.profile.<profile-id>`
 - **Object path:** `/`
 - **Interface:** `cc.etke.komai`
+
+Examples:
+
+| Profile | D-Bus service name |
+|---|---|
+| *(default)* | `cc.etke.komai.profile.default` |
+| `work` | `cc.etke.komai.profile.work` |
+| `personal` | `cc.etke.komai.profile.personal` |
 
 Discovery check:
 
 ```bash
-gdbus introspect --session --dest cc.etke.komai --object-path /
+gdbus introspect --session --dest cc.etke.komai.profile.default --object-path /
+```
+
+## 👥 Multiple profiles
+
+When running multiple profiles (`komai -p work`, `komai -p personal`), each instance registers its own D-Bus service. You can target any profile independently.
+
+### Discovering running profiles
+
+List all active Komai D-Bus services:
+
+```bash
+busctl --user list | grep cc.etke.komai.profile
+```
+
+### Targeting a specific profile
+
+Replace `default` with the profile name in any `gdbus` command:
+
+```bash
+# Get rooms from the "work" profile
+gdbus call --session --dest cc.etke.komai.profile.work --object-path / --method cc.etke.komai.rooms
+
+# Set theme on the "personal" profile
+gdbus call --session --dest cc.etke.komai.profile.personal --object-path / --method cc.etke.komai.setTheme 'komai-dark'
 ```
 
 ## 🔐 Security notes
 
 - Access is local-only to users that can talk to your current session bus.
-- Access is controlled by **Settings → Integrations → D-Bus**.
+- Access is controlled per profile by **Settings → Integrations → D-Bus**.
 - Keep these switches enabled only when needed for your workflow.

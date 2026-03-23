@@ -5,9 +5,12 @@
 
 #include "Api.h"
 
+#include <QDBusConnectionInterface>
 #include <QDBusInterface>
 #include <QDBusMetaType>
 #include <QDBusReply>
+
+#include "profile/ProfileId.h"
 
 namespace komai::dbus {
 void
@@ -16,6 +19,41 @@ init()
     qDBusRegisterMetaType<RoomInfoItem>();
     qDBusRegisterMetaType<QVector<RoomInfoItem>>();
     qDBusRegisterMetaType<QImage>();
+}
+
+QString
+serviceName(const QString &profileId)
+{
+    QString normalized = profile_id::normalized(profileId);
+
+    // D-Bus name elements: [A-Za-z_][A-Za-z0-9_]* — dots separate elements, so replace them.
+    QString sanitized = normalized.replace(QLatin1Char('.'), QLatin1Char('_'));
+
+    // D-Bus element must not start with a digit.
+    if (!sanitized.isEmpty() && sanitized.front().isDigit())
+        sanitized.prepend(QLatin1Char('_'));
+
+    return QLatin1String(dbusServicePrefix) + sanitized;
+}
+
+QStringList
+runningProfiles()
+{
+    QStringList profiles;
+    auto *iface = QDBusConnection::sessionBus().interface();
+    if (!iface)
+        return profiles;
+
+    const QDBusReply<QStringList> reply = iface->registeredServiceNames();
+    if (!reply.isValid())
+        return profiles;
+
+    const QString prefix = QLatin1String(dbusServicePrefix);
+    for (const QString &name : reply.value()) {
+        if (name.startsWith(prefix))
+            profiles.append(name.mid(prefix.size()));
+    }
+    return profiles;
 }
 
 bool
@@ -90,92 +128,82 @@ operator>>(const QDBusArgument &arg, RoomInfoItem &item)
 }
 
 QString
-apiVersion()
+apiVersion(const QString &profileId)
 {
-    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
-        interface.isValid())
+    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
         return QDBusReply<QString>{interface.call(QStringLiteral("apiVersion"))}.value();
     else
         return {};
 }
 
 QString
-appVersion()
+appVersion(const QString &profileId)
 {
-    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
-        interface.isValid())
+    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
         return QDBusReply<QString>{interface.call(QStringLiteral("appVersion"))}.value();
     else
         return {};
 }
 
 QVector<RoomInfoItem>
-rooms()
+rooms(const QString &profileId)
 {
-    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
-        interface.isValid())
+    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
         return QDBusReply<QVector<RoomInfoItem>>{interface.call(QStringLiteral("rooms"))}.value();
     else
         return {};
 }
 
 QImage
-image(const QString &mxcuri)
+image(const QString &profileId, const QString &mxcuri)
 {
-    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
-        interface.isValid())
+    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
         return QDBusReply<QImage>{interface.call(QStringLiteral("image"), mxcuri)}.value();
     else
         return {};
 }
 
 void
-activateRoom(const QString &alias)
+activateRoom(const QString &profileId, const QString &alias)
 {
-    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
-        interface.isValid())
+    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
         interface.call(QDBus::NoBlock, QStringLiteral("activateRoom"), alias);
 }
 
 void
-joinRoom(const QString &alias)
+joinRoom(const QString &profileId, const QString &alias)
 {
-    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
-        interface.isValid())
+    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
         interface.call(QDBus::NoBlock, QStringLiteral("joinRoom"), alias);
 }
 
 void
-directChat(const QString &userId)
+directChat(const QString &profileId, const QString &userId)
 {
-    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
-        interface.isValid())
+    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
         interface.call(QDBus::NoBlock, QStringLiteral("directChat"), userId);
 }
 
 QString
-statusMessage()
+statusMessage(const QString &profileId)
 {
-    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
-        interface.isValid())
+    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
         return QDBusReply<QString>{interface.call(QStringLiteral("statusMessage"))}.value();
     else
         return {};
 }
 
 void
-setStatusMessage(const QString &message)
+setStatusMessage(const QString &profileId, const QString &message)
 {
-    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
-        interface.isValid())
+    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
         interface.call(QDBus::NoBlock, QStringLiteral("setStatusMessage"), message);
 }
 
 void
-setTheme(const QString &theme)
+setTheme(const QString &profileId, const QString &theme)
 {
-    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
-        interface.isValid())
+    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
         interface.call(QDBus::NoBlock, QStringLiteral("setTheme"), theme);
 }
 

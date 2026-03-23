@@ -25,6 +25,15 @@ inline const QVersionNumber dbusApiVersion{1, 0, 2};
 bool
 apiVersionIsCompatible(const QVersionNumber &clientAppVersion);
 
+//! Returns the D-Bus service name for the given profile.
+//! An empty or "default" profile maps to "cc.etke.komai.profile.default".
+QString
+serviceName(const QString &profileId);
+
+//! Returns profile IDs for all Komai instances currently registered on the session bus.
+QStringList
+runningProfiles();
+
 class RoomInfoItem final : public QObject
 {
     Q_OBJECT
@@ -60,36 +69,36 @@ private:
 
 //! Get the Komai D-Bus API version.
 QString
-apiVersion();
+apiVersion(const QString &profileId);
 //! Get the app version.
 QString
-appVersion();
+appVersion(const QString &profileId);
 //! Call this function to get a list of all joined rooms.
 QVector<RoomInfoItem>
-rooms();
+rooms(const QString &profileId);
 //! Fetch an image using a matrix URI
 QImage
-image(const QString &uri);
+image(const QString &profileId, const QString &uri);
 //! Activates a currently joined room.
 void
-activateRoom(const QString &alias);
+activateRoom(const QString &profileId, const QString &alias);
 //! Joins a room. It is your responsibility to ask for confirmation (if desired).
 void
-joinRoom(const QString &alias);
+joinRoom(const QString &profileId, const QString &alias);
 //! Starts or activates a direct chat. It is your responsibility to ask for confirmation (if
 //! desired).
 void
-directChat(const QString &userId);
+directChat(const QString &profileId, const QString &userId);
 //! Get the user's status message.
 QString
-statusMessage();
+statusMessage(const QString &profileId);
 //! Sets the user's status message (if supported by the homeserver).
 void
-setStatusMessage(const QString &message);
+setStatusMessage(const QString &profileId, const QString &message);
 //! Sets the current theme. Use a valid theme slug (for example "komai-light", "komai-dark",
 //! "nheko-light").
 void
-setTheme(const QString &theme);
+setTheme(const QString &profileId, const QString &theme);
 
 QDBusArgument &
 operator<<(QDBusArgument &arg, const RoomInfoItem &item);
@@ -102,4 +111,4 @@ operator<<(QDBusArgument &arg, const QImage &image);
 const QDBusArgument &
 operator>>(const QDBusArgument &arg, QImage &);
 
-#define KOMAI_DBUS_SERVICE_NAME "cc.etke.komai"
+inline constexpr auto dbusServicePrefix = "cc.etke.komai.profile.";

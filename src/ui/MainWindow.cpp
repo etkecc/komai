@@ -227,13 +227,14 @@ MainWindow::refreshDbusAvailability()
     const auto shouldExpose =
       UserSettings::instance()->integrationsDbusApiAccess() != integrationsDbusAccessDisabled;
 
+    const auto service = komai::dbus::serviceName(userSettings_->profile());
+
     if (!shouldExpose) {
         if (chatRoomModel)
             chatRoomModel->setDbusInterfaceEnabled(false);
 
         QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/"));
-        if (dbusAvailable_ &&
-            !QDBusConnection::sessionBus().unregisterService(KOMAI_DBUS_SERVICE_NAME))
+        if (dbusAvailable_ && !QDBusConnection::sessionBus().unregisterService(service))
             nhlog::ui()->warn("Could not unregister D-Bus service");
         dbusAvailable_ = false;
         return;
@@ -246,12 +247,12 @@ MainWindow::refreshDbusAvailability()
     }
 
     if (!dbusAvailable_) {
-        if (QDBusConnection::sessionBus().registerService(KOMAI_DBUS_SERVICE_NAME)) {
+        if (QDBusConnection::sessionBus().registerService(service)) {
             komai::dbus::init();
-            nhlog::ui()->info("Initialized D-Bus");
+            nhlog::ui()->info("Initialized D-Bus as {}", service.toStdString());
             dbusAvailable_ = true;
         } else {
-            nhlog::ui()->warn("Could not connect to D-Bus!");
+            nhlog::ui()->warn("Could not register D-Bus service: {}", service.toStdString());
             return;
         }
     }

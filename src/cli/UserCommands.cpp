@@ -10,12 +10,12 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "CliDbusHelper.h"
+#include "IpcClient.h"
 
 int
 runUserCommand(int argc, char *argv[], QCoreApplication & /*app*/)
 {
-    auto args   = cli_dbus::positionalsAfter(argc, argv, QStringLiteral("user"));
+    auto args   = cli_ipc::positionalsAfter(argc, argv, QStringLiteral("user"));
     auto subcmd = args.isEmpty() ? QString{} : args.first();
 
     if (subcmd.isEmpty()) {
@@ -26,15 +26,16 @@ runUserCommand(int argc, char *argv[], QCoreApplication & /*app*/)
                   << "  device-id              Print the device ID (JSON)\n"
                   << "  status                 Print the user's status message (JSON)\n"
                   << "  set-status <message>   Set the user's status message\n";
-        return cli_dbus::hasHelpFlag(argc, argv) ? 0 : 1;
+        return cli_ipc::hasHelpFlag(argc, argv) ? 0 : 1;
     }
 
-    auto profileId = cli_dbus::profileFromArgs(argc, argv);
-    if (!cli_dbus::ensureConnected(profileId))
+    auto profileId = cli_ipc::profileFromArgs(argc, argv);
+    if (!cli_ipc::ensureConnected(profileId))
         return 1;
 
     if (subcmd == QLatin1String("id")) {
-        auto result = komai::dbus::userId(profileId);
+        auto response = cli_ipc::call(profileId, QStringLiteral("user.userId"));
+        auto result   = response.value(QStringLiteral("result")).toString();
         if (result.isEmpty()) {
             std::cerr << "Error: failed to get user ID\n";
             return 1;
@@ -47,7 +48,8 @@ runUserCommand(int argc, char *argv[], QCoreApplication & /*app*/)
     }
 
     if (subcmd == QLatin1String("homeserver-url")) {
-        auto result = komai::dbus::homeserverUrl(profileId);
+        auto response = cli_ipc::call(profileId, QStringLiteral("user.homeserverUrl"));
+        auto result   = response.value(QStringLiteral("result")).toString();
         if (result.isEmpty()) {
             std::cerr << "Error: failed to get homeserver URL\n";
             return 1;
@@ -60,7 +62,8 @@ runUserCommand(int argc, char *argv[], QCoreApplication & /*app*/)
     }
 
     if (subcmd == QLatin1String("device-id")) {
-        auto result = komai::dbus::deviceId(profileId);
+        auto response = cli_ipc::call(profileId, QStringLiteral("user.deviceId"));
+        auto result   = response.value(QStringLiteral("result")).toString();
         if (result.isEmpty()) {
             std::cerr << "Error: failed to get device ID\n";
             return 1;
@@ -73,7 +76,8 @@ runUserCommand(int argc, char *argv[], QCoreApplication & /*app*/)
     }
 
     if (subcmd == QLatin1String("status")) {
-        auto result = komai::dbus::statusMessage(profileId);
+        auto response = cli_ipc::call(profileId, QStringLiteral("user.statusMessage"));
+        auto result   = response.value(QStringLiteral("result")).toString();
         std::cout << QJsonDocument(QJsonObject{{QStringLiteral("statusMessage"), result}})
                        .toJson(QJsonDocument::Compact)
                        .toStdString()
@@ -88,7 +92,9 @@ runUserCommand(int argc, char *argv[], QCoreApplication & /*app*/)
         }
         // Join remaining args so unquoted multi-word messages work
         auto message = QStringList(args.mid(1)).join(QLatin1Char(' '));
-        komai::dbus::setStatusMessage(profileId, message);
+        cli_ipc::call(profileId,
+                      QStringLiteral("user.setStatusMessage"),
+                      {{QStringLiteral("message"), message}});
         return 0;
     }
 

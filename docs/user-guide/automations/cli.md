@@ -1,10 +1,10 @@
-# CLI Commands
+# 💻 CLI Commands
 
-Komai can be controlled from the terminal. CLI commands talk to a running Komai instance over [D-Bus](dbus.md), so the target instance must be running. No display server is needed on the machine running the command.
+Komai can be controlled from the terminal. CLI commands talk to a running Komai instance over a local Unix socket, so the target instance must be running. No display server is needed on the machine running the command.
 
-> **Prefer a D-Bus library?** The same operations are available through the [D-Bus API](dbus.md) for use from any programming language.
+> **Prefer a D-Bus library?** The same operations are also available through the [D-Bus API](dbus.md) for use from any programming language.
 
-## Output format
+## 📤 Output format
 
 Read commands output **JSON** to stdout. Write commands produce no output on success (exit code 0). Errors go to stderr as plain text (exit code 1).
 
@@ -21,9 +21,9 @@ komai rooms list | jq .
 komai rooms list | jq '[.[] | select(.unreadNotifications > 0)]'
 ```
 
-## Profile targeting
+## 👥 Profile targeting
 
-Each [application profile](../application-profiles.md) registers its own D-Bus service. Use `-p` to target a specific profile:
+Each [application profile](../application-profiles.md) listens on its own socket. Use `-p` to target a specific profile:
 
 ```bash
 komai -p work rooms list
@@ -31,7 +31,7 @@ komai -p work rooms list
 
 If `-p` is omitted, the `default` profile is used.
 
-## App
+## 📡 App
 
 Instance metadata.
 
@@ -49,13 +49,13 @@ komai app api-version
 # {"apiVersion":"1.0.2"}
 ```
 
-## Rooms
+## 🚪 Rooms
 
 Room discovery and navigation.
 
 ### list
 
-Returns a JSON array of joined rooms.
+Returns a JSON array of joined rooms. See also: [activate](#activate), [join](#join).
 
 ```bash
 komai rooms list
@@ -77,7 +77,7 @@ komai rooms list | jq -r '.[] | select(.alias == "#komai:example.org") | .id'
 
 ### activate
 
-Activates (focuses) a room by room ID or alias.
+Activates (focuses) a room by room ID or alias. See also: [list](#list).
 
 ```bash
 komai rooms activate '!abc123:example.org'
@@ -86,7 +86,7 @@ komai rooms activate '#komai:example.org'
 
 ### join
 
-Joins a room by room ID or alias.
+Joins a room by room ID or alias. See also: [list](#list).
 
 ```bash
 komai rooms join '#komai:example.org'
@@ -100,11 +100,13 @@ Starts or opens a one-to-one chat with a user.
 komai rooms new-direct-chat '@alice:example.org'
 ```
 
-## User
+## 👤 User
 
 Account and presence.
 
 ### id
+
+Returns the logged-in user's Matrix ID.
 
 ```bash
 komai user id
@@ -113,6 +115,8 @@ komai user id
 
 ### homeserver-url
 
+Returns the homeserver URL.
+
 ```bash
 komai user homeserver-url
 # {"homeserverUrl":"https://example.org"}
@@ -120,23 +124,23 @@ komai user homeserver-url
 
 ### device-id
 
+Returns the device ID for the current session.
+
 ```bash
 komai user device-id
 # {"deviceId":"ABCDEF1234"}
 ```
 
-### status
+### status / set-status
+
+Reads or sets the user's presence status text.
 
 ```bash
+# Get
 komai user status
 # {"statusMessage":"brb"}
-```
 
-### set-status
-
-Sets the user's status message.
-
-```bash
+# Set
 komai user set-status 'brb'
 ```
 
@@ -146,36 +150,36 @@ Unquoted multi-word messages are joined automatically:
 komai user set-status away for lunch
 ```
 
-## Settings
+## ⚙️ Settings
 
-### ui theme
+Appearance settings.
+
+### ui theme / ui set-theme
+
+Reads or sets the active theme. `set-theme` expects a valid theme slug (`komai-light`, `komai-dark`, `nheko-light`, ...), not a display label.
 
 ```bash
+# Get
 komai settings ui theme
 # {"theme":"komai-dark"}
-```
 
-### ui set-theme
-
-Sets the active theme by slug (`komai-light`, `komai-dark`, `nheko-light`, ...).
-
-```bash
+# Set
 komai settings ui set-theme komai-dark
 ```
 
-## Media
+## 🖼️ Media
 
 Media content resolution. Resolves Matrix content URIs (`mxc://`) into image data through Komai's authenticated session.
 
 ### fetch
 
-Fetches an image by its `mxc://` URI and writes PNG data to stdout. Useful for resolving room avatars returned by `rooms list`.
+Fetches an image by its `mxc://` URI and writes PNG data to stdout. Useful for resolving room avatars returned by [`rooms list`](#list).
 
 ```bash
 komai media fetch 'mxc://example.org/abc123' > avatar.png
 ```
 
-## Offline commands
+## 🔧 Offline commands
 
 The following commands work without a running Komai instance:
 
@@ -186,7 +190,7 @@ The following commands work without a running Komai instance:
 | `komai theme tinted-import <slug> [name]` | Import a Base16 theme from tinted-theming |
 | `komai theme tinted-search [query]` | Search available Base16 themes |
 
-## Error handling
+## ⚠️ Error handling
 
 If no Komai instance is running for the target profile, CLI commands print an error to stderr and exit with code 1:
 
@@ -195,6 +199,8 @@ Error: no running Komai instance for profile 'work'
 Start Komai first: komai -p work
 ```
 
-## Security
+## 🔐 Security
 
-CLI commands do not require enabling D-Bus access in Settings. Unlike the [D-Bus API](dbus.md), which can be called by any process on the session bus (including other apps you run), the CLI is the Komai binary itself -- running it requires the same OS-level access as launching Komai. If you can execute `komai`, you already have full access to the user's session, config files, and credentials. An additional permission gate would add friction without meaningfully improving security.
+CLI commands use a per-profile Unix socket and do not require enabling [D-Bus access](../settings/integrations/dbus.md) in Settings. The socket's filesystem permissions restrict access to the owning user, which is the same trust boundary as running the Komai binary itself. If you can execute `komai`, you already have full access to the user's session, config files, and credentials.
+
+This is distinct from the [D-Bus API](dbus.md), which can be called by any process on the session bus. The CLI channel is not exposed on D-Bus and is not affected by the [D-Bus access setting](../settings/integrations/dbus.md).

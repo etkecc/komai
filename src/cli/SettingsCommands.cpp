@@ -10,7 +10,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "CliDbusHelper.h"
+#include "IpcClient.h"
 
 static int
 runSettingsUiCommand(int argc, char *argv[], const QStringList &args)
@@ -23,15 +23,16 @@ runSettingsUiCommand(int argc, char *argv[], const QStringList &args)
                   << "Subcommands:\n"
                   << "  theme                  Print the current theme slug (JSON)\n"
                   << "  set-theme <slug>       Set the active theme\n";
-        return cli_dbus::hasHelpFlag(argc, argv) ? 0 : 1;
+        return cli_ipc::hasHelpFlag(argc, argv) ? 0 : 1;
     }
 
-    auto profileId = cli_dbus::profileFromArgs(argc, argv);
-    if (!cli_dbus::ensureConnected(profileId))
+    auto profileId = cli_ipc::profileFromArgs(argc, argv);
+    if (!cli_ipc::ensureConnected(profileId))
         return 1;
 
     if (subcmd == QLatin1String("theme")) {
-        auto result = komai::dbus::theme(profileId);
+        auto response = cli_ipc::call(profileId, QStringLiteral("settings.ui.theme"));
+        auto result   = response.value(QStringLiteral("result")).toString();
         if (result.isEmpty()) {
             std::cerr << "Error: failed to get current theme\n";
             return 1;
@@ -48,7 +49,9 @@ runSettingsUiCommand(int argc, char *argv[], const QStringList &args)
             std::cerr << "Usage: komai settings ui set-theme <slug>\n";
             return 1;
         }
-        komai::dbus::setTheme(profileId, args.at(2));
+        cli_ipc::call(profileId,
+                      QStringLiteral("settings.ui.setTheme"),
+                      {{QStringLiteral("theme"), args.at(2)}});
         return 0;
     }
 
@@ -60,14 +63,14 @@ runSettingsUiCommand(int argc, char *argv[], const QStringList &args)
 int
 runSettingsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
 {
-    auto args     = cli_dbus::positionalsAfter(argc, argv, QStringLiteral("settings"));
+    auto args     = cli_ipc::positionalsAfter(argc, argv, QStringLiteral("settings"));
     auto subgroup = args.isEmpty() ? QString{} : args.first();
 
     if (subgroup.isEmpty()) {
         std::cout << "Usage: komai [-p <profile>] settings <group> <subcommand> [args...]\n\n"
                   << "Groups:\n"
                   << "  ui    Appearance settings (theme)\n";
-        return cli_dbus::hasHelpFlag(argc, argv) ? 0 : 1;
+        return cli_ipc::hasHelpFlag(argc, argv) ? 0 : 1;
     }
 
     if (subgroup == QLatin1String("ui"))

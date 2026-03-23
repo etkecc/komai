@@ -6,7 +6,7 @@ over SSH, in containers, and in CI pipelines.
 
 Commands fall into two categories:
 
-- **D-Bus-backed** — talk to a running Komai instance over D-Bus
+- **IPC-backed** — talk to a running Komai instance over a local Unix socket
   (`app`, `rooms`, `user`, `settings`, `media`)
 - **Offline** — work without a running instance (`theme`)
 
@@ -24,11 +24,11 @@ main()
   │    │
   │    └─ (match) → QCoreApplication + handler
   │         │
-  │         ├─ runAppCommand()          ← D-Bus: version, api-version
-  │         ├─ runRoomsCommand()        ← D-Bus: list, activate, join, new-direct-chat
-  │         ├─ runUserCommand()         ← D-Bus: status, set-status
-  │         ├─ runSettingsCommand()     ← D-Bus: ui theme, ui set-theme
-  │         ├─ runMediaCommand()        ← D-Bus: fetch
+  │         ├─ runAppCommand()          ← IPC: version, api-version
+  │         ├─ runRoomsCommand()        ← IPC: list, activate, join, new-direct-chat
+  │         ├─ runUserCommand()         ← IPC: status, set-status
+  │         ├─ runSettingsCommand()     ← IPC: ui theme, ui set-theme
+  │         ├─ runMediaCommand()        ← IPC: fetch
   │         └─ runThemeCommand()        ← offline: tinted-import, tinted-search, list, create-sample
   │
   └─ (cliResult >= 0) → return cliResult
@@ -44,22 +44,93 @@ group names to handler functions. Currently registered groups:
 
 | Group      | Handler               | File                          | Backend  |
 |------------|-----------------------|-------------------------------|----------|
-| `app`      | `runAppCommand`       | `src/cli/AppCommands.cpp`     | D-Bus    |
-| `media`    | `runMediaCommand`     | `src/cli/MediaCommands.cpp`   | D-Bus    |
-| `rooms`    | `runRoomsCommand`     | `src/cli/RoomCommands.cpp`    | D-Bus    |
-| `settings` | `runSettingsCommand`  | `src/cli/SettingsCommands.cpp` | D-Bus   |
+| `app`      | `runAppCommand`       | `src/cli/AppCommands.cpp`     | IPC      |
+| `media`    | `runMediaCommand`     | `src/cli/MediaCommands.cpp`   | IPC      |
+| `rooms`    | `runRoomsCommand`     | `src/cli/RoomCommands.cpp`    | IPC      |
+| `settings` | `runSettingsCommand`  | `src/cli/SettingsCommands.cpp` | IPC     |
 | `theme`    | `runThemeCommand`     | `src/cli/ThemeCommands.cpp`   | Offline  |
-| `user`     | `runUserCommand`      | `src/cli/UserCommands.cpp`    | D-Bus    |
+| `user`     | `runUserCommand`      | `src/cli/UserCommands.cpp`    | IPC      |
 
 
-## D-Bus-backed commands
+## IPC transport
 
-D-Bus commands use the client API in `src/dbus/Api.h` to call a running Komai
-instance over the session bus.  Shared boilerplate (profile extraction, D-Bus
-init, connectivity check) lives in `src/cli/CliDbusHelper.h`.
+CLI commands communicate with the running Komai instance via a per-profile
+`QLocalServer`/`QLocalSocket` pair (Unix domain socket).
 
-The `-p` / `--profile` flag selects which profile to target (maps to the D-Bus
-service name `cc.etke.komai.profile.<id>`).  Default profile is `default`.
+### Protocol
+
+Simple JSON-lines over the socket — one request line, one response line:
+
+```
+→  {"method":"rooms.list"}
+←  {"result":[...]}
+
+→  {"method":"user.setStatusMessage","params":{"message":"brb"}}
+←  {"result":true}
+
+→  {"method":"media.fetch","params":{"mxcUri":"mxc://example.org/abc"}}
+←  {"result":"<base64-encoded PNG>"}
+
+→  {"method":"unknown.thing"}
+←  {"error":"unknown method: unknown.thing"}
+```
+
+### Method table
+
+| Method                       | Params                        | Result type     |
+|------------------------------|-------------------------------|-----------------|
+| `app.version`                | —                             | `string`        |
+| `app.apiVersion`             | —                             | `string`        |
+| `rooms.list`                 | —                             | `array`         |
+| `rooms.activate`             | `roomIdOrAlias`               | `true`          |
+| `rooms.join`                 | `roomIdOrAlias`               | `true`          |
+| `rooms.newDirectChat`        | `userId`                      | `true`          |
+| `user.userId`                | —                             | `string`        |
+| `user.homeserverUrl`         | —                             | `string`        |
+| `user.deviceId`              | —                             | `string`        |
+| `user.statusMessage`         | —                             | `string`        |
+| `user.setStatusMessage`      | `message`                     | `true`          |
+| `settings.ui.theme`          | —                             | `string`        |
+| `settings.ui.setTheme`       | `theme`                       | `true`          |
+| `media.fetch`                | `mxcUri`                      | `string` (b64)  |
+
+### Socket naming
+
+The socket name follows the pattern `komai-cli-<profile-id>`, e.g.
+`komai-cli-default` or `komai-cli-work`. The socket is placed wherever
+`QLocalServer` defaults to (typically `$XDG_RUNTIME_DIR` or `/tmp`).
+
+### Architecture layers
+
+```
+CLI process                              GUI process
+───────────                              ───────────
+IpcClient.h                              IpcServer.h/.cpp
+  cli_ipc::call()                          ↓ QLocalServer
+  ↓ QLocalSocket                         handleRequest()
+  → JSON request line ──────────────→      ↓
+  ← JSON response line ←────────────    SharedLogic.h/.cpp
+                                          (business logic)
+
+                                        D-Bus adaptors (Backend.cpp)
+                                          ↓ access checks
+                                        SharedLogic.h/.cpp
+                                          (same business logic)
+```
+
+The shared business logic in `src/ipc/SharedLogic.h/.cpp` is called by both
+the IPC server (no access gating — socket filesystem permissions suffice) and
+the D-Bus adaptors (which wrap calls with `dbusReadAccessEnabled()` /
+`dbusWriteAccessEnabled()` checks).
+
+
+## IPC-backed commands
+
+IPC commands use the client helpers in `src/cli/IpcClient.h` to send
+JSON-line requests to a running Komai instance over a local socket.
+
+The `-p` / `--profile` flag selects which profile to target (maps to the
+socket name `komai-cli-<id>`). Default profile is `default`.
 
 The `settings` group uses nested dispatch:
 `settings` → subgroup (`ui`) → subcommand (`theme`, `set-theme`).
@@ -80,16 +151,19 @@ The `settings` group uses nested dispatch:
 3. Add the source files to `CMakeLists.txt` in the `SRC_FILES` CLI section.
 4. Done — `komai foo <subcommand>` is now available.
 
-For D-Bus commands, use the helpers in `CliDbusHelper.h`:
+For IPC commands, use the helpers in `IpcClient.h`:
 ```cpp
-#include "CliDbusHelper.h"
+#include "IpcClient.h"
 
-auto args      = cli_dbus::positionalsAfter(argc, argv, QStringLiteral("foo"));
-auto profileId = cli_dbus::profileFromArgs(argc, argv);
-if (!cli_dbus::ensureConnected(profileId))
+auto args      = cli_ipc::positionalsAfter(argc, argv, QStringLiteral("foo"));
+auto profileId = cli_ipc::profileFromArgs(argc, argv);
+if (!cli_ipc::ensureConnected(profileId))
     return 1;
-// Call dbus::* functions from Api.h
+auto response = cli_ipc::call(profileId, QStringLiteral("foo.bar"));
 ```
+
+To add a new server-side method, add the business logic to `SharedLogic.h/.cpp`
+and register the method name in `IpcServer::handleRequest()`.
 
 
 ## Adding a new theme subcommand
@@ -115,7 +189,7 @@ if (!cli_dbus::ensureConnected(profileId))
 The first remaining positional argument is treated as the command group name.
 This lets `komai -p myprofile rooms list` work correctly.
 
-`cli_dbus::positionalsAfter()` uses the same skipping rules to collect all
+`cli_ipc::positionalsAfter()` uses the same skipping rules to collect all
 positional arguments after a given keyword (the group name), which gives
 each handler its subcommand and arguments.
 

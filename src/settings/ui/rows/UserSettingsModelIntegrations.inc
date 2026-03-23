@@ -19,7 +19,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // IntegrationsDbusApiAccess
     { QT_TR_NOOP("D-Bus access"),
-      QT_TR_NOOP("Choose how much D-Bus access Komai exposes to local callers."),
+      QT_TR_NOOP("Choose how much <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/integrations/dbus.md\">D-Bus access</a> Komai exposes to local callers."),
       SM::Options, SM::TabIntegrations,
       integrationsDbusApiAccessValue,
       setIntegrationsDbusApiAccessValue,

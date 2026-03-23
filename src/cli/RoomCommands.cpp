@@ -11,12 +11,12 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "CliDbusHelper.h"
+#include "IpcClient.h"
 
 int
 runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
 {
-    auto args   = cli_dbus::positionalsAfter(argc, argv, QStringLiteral("rooms"));
+    auto args   = cli_ipc::positionalsAfter(argc, argv, QStringLiteral("rooms"));
     auto subcmd = args.isEmpty() ? QString{} : args.first();
 
     if (subcmd.isEmpty()) {
@@ -26,25 +26,16 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
                   << "  activate <room-id-or-alias>  Activate (focus) a room\n"
                   << "  join <room-id-or-alias>      Join a room\n"
                   << "  new-direct-chat <user-id>    Start or open a direct chat\n";
-        return cli_dbus::hasHelpFlag(argc, argv) ? 0 : 1;
+        return cli_ipc::hasHelpFlag(argc, argv) ? 0 : 1;
     }
 
-    auto profileId = cli_dbus::profileFromArgs(argc, argv);
-    if (!cli_dbus::ensureConnected(profileId))
+    auto profileId = cli_ipc::profileFromArgs(argc, argv);
+    if (!cli_ipc::ensureConnected(profileId))
         return 1;
 
     if (subcmd == QLatin1String("list")) {
-        auto rooms = komai::dbus::roomList(profileId);
-        QJsonArray arr;
-        for (const auto &room : rooms) {
-            arr.append(QJsonObject{
-              {QStringLiteral("id"), room.roomId()},
-              {QStringLiteral("alias"), room.alias()},
-              {QStringLiteral("name"), room.roomName()},
-              {QStringLiteral("avatarUrl"), room.avatarUrl()},
-              {QStringLiteral("unreadNotifications"), room.unreadNotifications()},
-            });
-        }
+        auto response = cli_ipc::call(profileId, QStringLiteral("rooms.list"));
+        auto arr      = response.value(QStringLiteral("result")).toArray();
         std::cout << QJsonDocument(arr).toJson(QJsonDocument::Compact).toStdString() << "\n";
         return 0;
     }
@@ -54,7 +45,9 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
             std::cerr << "Usage: komai rooms activate <room-id-or-alias>\n";
             return 1;
         }
-        komai::dbus::activateRoom(profileId, args.at(1));
+        cli_ipc::call(profileId,
+                      QStringLiteral("rooms.activate"),
+                      {{QStringLiteral("roomIdOrAlias"), args.at(1)}});
         return 0;
     }
 
@@ -63,7 +56,8 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
             std::cerr << "Usage: komai rooms join <room-id-or-alias>\n";
             return 1;
         }
-        komai::dbus::joinRoom(profileId, args.at(1));
+        cli_ipc::call(
+          profileId, QStringLiteral("rooms.join"), {{QStringLiteral("roomIdOrAlias"), args.at(1)}});
         return 0;
     }
 
@@ -72,7 +66,9 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
             std::cerr << "Usage: komai rooms new-direct-chat <user-id>\n";
             return 1;
         }
-        komai::dbus::newDirectChat(profileId, args.at(1));
+        cli_ipc::call(profileId,
+                      QStringLiteral("rooms.newDirectChat"),
+                      {{QStringLiteral("userId"), args.at(1)}});
         return 0;
     }
 

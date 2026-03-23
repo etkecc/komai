@@ -38,6 +38,7 @@
 #endif
 #include "cli/CliDispatch.h"
 #include "config/komai.h"
+#include "ipc/IpcServer.h"
 #include "matrix/MatrixClient.h"
 #include "profile/KeyringEnvironment.h"
 #include "profile/Paths.h"
@@ -401,6 +402,17 @@ app::runMainApplication(int argc, char *argv[])
 
     MainWindow w(nullptr, showStartupProfileSelector);
     // QQuickView w;
+
+    // Start the IPC server unconditionally so CLI commands work regardless of
+    // the D-Bus access setting.  The socket is per-profile, so concurrent
+    // instances do not collide.
+    komai::ipc::IpcServer ipcServer(profileName);
+    if (!ipcServer.start())
+        nhlog::ui()->warn("Could not start IPC server (socket: {})",
+                          komai::ipc::IpcServer::socketName(profileName).toStdString());
+    else
+        nhlog::ui()->info("IPC server listening on socket: {}",
+                          komai::ipc::IpcServer::socketName(profileName).toStdString());
 
     QTimer::singleShot(0, [showStartupProfileSelector]() {
         // In standalone selector mode keep settings persistence suspended so the helper

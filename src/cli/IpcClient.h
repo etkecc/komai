@@ -6,15 +6,23 @@
 
 #include <iostream>
 
-#include <QDBusConnection>
-#include <QDBusConnectionInterface>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QLocalSocket>
 #include <QString>
 #include <QStringList>
 
 #include "app/MainApplicationSupport.h"
-#include "dbus/Api.h"
+#include "profile/ProfileId.h"
 
-namespace cli_dbus {
+namespace cli_ipc {
+
+/// Socket name derived from the profile ID (matches IpcServer::socketName).
+inline QString
+socketName(const QString &profileId)
+{
+    return QStringLiteral("komai-cli-") + profile_id::normalized(profileId);
+}
 
 /// Returns the profile ID from the -p / --profile flag, or empty for default.
 inline QString
@@ -23,22 +31,15 @@ profileFromArgs(int argc, char *argv[])
     return app::support::selectedProfileFromArgs(argc, argv).value;
 }
 
-/// Initializes D-Bus metatypes and checks that the target profile has a running
-/// Komai instance on the session bus.  Returns true on success; prints an error
-/// to stderr and returns false otherwise.
+/// Checks that a running Komai instance is listening on the IPC socket for the
+/// given profile.  Returns true on success; prints an error to stderr and
+/// returns false otherwise.
 inline bool
 ensureConnected(const QString &profileId)
 {
-    komai::dbus::init();
-
-    auto *iface = QDBusConnection::sessionBus().interface();
-    if (!iface) {
-        std::cerr << "Error: cannot connect to the session D-Bus\n";
-        return false;
-    }
-
-    auto service = komai::dbus::serviceName(profileId);
-    if (!iface->isServiceRegistered(service)) {
+    QLocalSocket socket;
+    socket.connectToServer(socketName(profileId));
+    if (!socket.waitForConnected(1000)) {
         auto display = profileId.isEmpty() ? QStringLiteral("default") : profileId;
         std::cerr << "Error: no running Komai instance for profile '" << display.toStdString()
                   << "'\n"
@@ -48,8 +49,44 @@ ensureConnected(const QString &profileId)
         std::cerr << "\n";
         return false;
     }
-
+    socket.disconnectFromServer();
     return true;
+}
+
+/// Send a JSON-line request to the running instance and return the parsed
+/// response object.  On transport failure the response contains an "error" key.
+inline QJsonObject
+call(const QString &profileId, const QString &method, const QJsonObject &params = {})
+{
+    QLocalSocket socket;
+    socket.connectToServer(socketName(profileId));
+    if (!socket.waitForConnected(5000))
+        return {{QStringLiteral("error"), QStringLiteral("connection failed")}};
+
+    QJsonObject request{{QStringLiteral("method"), method}};
+    if (!params.isEmpty())
+        request.insert(QStringLiteral("params"), params);
+
+    const auto data = QJsonDocument(request).toJson(QJsonDocument::Compact) + "\n";
+    socket.write(data);
+    if (!socket.waitForBytesWritten(5000))
+        return {{QStringLiteral("error"), QStringLiteral("write failed")}};
+
+    // Read until we get a complete JSON line.
+    QByteArray response;
+    while (!response.contains('\n')) {
+        if (!socket.waitForReadyRead(30000))
+            return {{QStringLiteral("error"), QStringLiteral("read timeout")}};
+        response.append(socket.readAll());
+    }
+
+    socket.disconnectFromServer();
+
+    const auto doc = QJsonDocument::fromJson(response.trimmed());
+    if (!doc.isObject())
+        return {{QStringLiteral("error"), QStringLiteral("invalid response")}};
+
+    return doc.object();
 }
 
 /// Collects positional arguments after the given keyword in argv,
@@ -96,4 +133,4 @@ hasHelpFlag(int argc, char *argv[])
     return false;
 }
 
-} // namespace cli_dbus
+} // namespace cli_ipc

@@ -749,8 +749,14 @@ set(SRC_FILES
     src/utils/UtilsTextAndUri.cpp
 
 
+    # IPC (shared logic + local socket server)
+    src/ipc/SharedLogic.h
+    src/ipc/SharedLogic.cpp
+    src/ipc/IpcServer.h
+    src/ipc/IpcServer.cpp
+
     # CLI subcommands
-    src/cli/CliDbusHelper.h
+    src/cli/IpcClient.h
     src/cli/CliDispatch.cpp
     src/cli/CliDispatch.h
     src/cli/AppCommands.cpp

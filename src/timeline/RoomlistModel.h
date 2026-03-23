@@ -28,6 +28,12 @@
 class TimelineModel;
 class TimelineViewManager;
 
+namespace komai::ipc {
+struct RoomInfo;
+QVector<RoomInfo>
+roomList();
+} // namespace komai::ipc
+
 class RoomPreview
 {
     Q_GADGET
@@ -249,6 +255,7 @@ private:
     friend class DbusRoomsInterface;
 #endif
 
+    friend QVector<komai::ipc::RoomInfo> komai::ipc::roomList();
     friend class FilteredRoomlistModel;
 };
 

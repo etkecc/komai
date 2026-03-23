@@ -4,7 +4,7 @@ Komai exposes a local [D-Bus](https://www.freedesktop.org/wiki/Software/dbus/) A
 
 > **Before you start:** D-Bus integration must be enabled in [Settings → Integrations → D-Bus](../settings/integrations/dbus.md).
 
-> **Just need a quick command?** The [CLI](cli.md) provides the same operations as ready-made commands with human & agent-friendly JSON output -- no D-Bus library needed.
+> **Just need a quick command?** The [CLI](cli.md) provides the same operations as ready-made commands with human & agent-friendly JSON output -- no D-Bus library needed. CLI commands are always available regardless of the D-Bus access setting.
 
 ## 🛰️ Service details
 

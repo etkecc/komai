@@ -10,16 +10,10 @@
 #include <string_view>
 #include <utility>
 
-#include "cache/Cache.h"
-#include "chat/ChatPage.h"
-#include "config/komai.h"
-#include "matrix/MatrixClient.h"
-#include "providers/MxcImageProvider.h"
+#include "ipc/SharedLogic.h"
 #include "settings/SettingKeys.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
-#include "timeline/TimelineModel.h"
-#include "ui/MainWindow.h"
 #include <spdlog/logger.h>
 
 #include <QDBusConnection>
@@ -136,13 +130,13 @@ DbusAppInterface::DbusAppInterface(DbusHost *parent)
 QString
 DbusAppInterface::apiVersion() const
 {
-    return komai::dbus::dbusApiVersion.toString();
+    return komai::ipc::apiVersion();
 }
 
 QString
 DbusAppInterface::appVersion() const
 {
-    return komai::version;
+    return komai::ipc::appVersion();
 }
 
 // ---------------------------------------------------------------------------
@@ -160,54 +154,15 @@ DbusRoomsInterface::list() const
     if (!dbusReadAccessEnabled())
         return {};
 
-    auto *rl = static_cast<DbusHost *>(parent())->roomlist();
     activeLoggers().ui->debug("Rooms requested over D-Bus.");
 
+    const auto rooms = komai::ipc::roomList();
+
     QVector<komai::dbus::RoomInfoItem> model;
-    model.reserve((int)rl->roomids.size());
-
-    for (const auto &roomId : rl->roomids) {
-        if (rl->invites.contains(roomId) || rl->previewedRooms.contains(roomId))
-            continue;
-
-        const auto aliases =
-          cache::getStateEvent<mtx::events::state::CanonicalAlias>(roomId.toStdString());
-        QString alias;
-        if (aliases.has_value()) {
-            const auto &val = aliases.value().content;
-            if (!val.alias.empty())
-                alias = QString::fromStdString(val.alias);
-            else if (val.alt_aliases.size() > 0)
-                alias = QString::fromStdString(val.alt_aliases.front());
-        }
-
-        QString roomName;
-        QString roomAvatar;
-        int notificationCount = 0;
-
-        if (rl->models.contains(roomId)) {
-            const auto &room = rl->models.value(roomId);
-            if (room.isNull())
-                continue;
-
-            roomName          = room->plainRoomName();
-            roomAvatar        = room->roomAvatarUrl();
-            notificationCount = room->notificationCount();
-        } else if (rl->cachedJoinedRooms_.contains(roomId)) {
-            const auto roomInfo = rl->cachedJoinedRooms_.value(roomId);
-            roomName            = QString::fromStdString(roomInfo.name);
-            roomAvatar          = QString::fromStdString(roomInfo.avatar_url);
-            notificationCount   = static_cast<int>(roomInfo.notification_count);
-        } else {
-            continue;
-        }
-
-        if (roomAvatar.isEmpty())
-            roomAvatar = cache::roomAvatarUrl(roomId.toStdString());
-
+    model.reserve(rooms.size());
+    for (const auto &r : rooms)
         model.push_back(
-          komai::dbus::RoomInfoItem{roomId, alias, roomName, roomAvatar, notificationCount});
-    }
+          komai::dbus::RoomInfoItem{r.roomId, r.alias, r.name, r.avatarUrl, r.unreadNotifications});
 
     activeLoggers().ui->debug("Sending {} rooms over D-Bus...", model.size());
     return model;
@@ -219,9 +174,7 @@ DbusRoomsInterface::activate(const QString &roomIdOrAlias) const
     if (!dbusWriteAccessEnabled())
         return;
 
-    bringWindowToTop();
-    static_cast<DbusHost *>(parent())->roomlist()->setCurrentRoom(
-      stripDbusTypePrefix(roomIdOrAlias));
+    komai::ipc::activateRoom(stripDbusTypePrefix(roomIdOrAlias));
 }
 
 void
@@ -230,8 +183,7 @@ DbusRoomsInterface::join(const QString &roomIdOrAlias) const
     if (!dbusWriteAccessEnabled())
         return;
 
-    bringWindowToTop();
-    ChatPage::instance()->joinRoom(stripDbusTypePrefix(roomIdOrAlias));
+    komai::ipc::joinRoom(stripDbusTypePrefix(roomIdOrAlias));
 }
 
 void
@@ -240,15 +192,7 @@ DbusRoomsInterface::newDirectChat(const QString &userId) const
     if (!dbusWriteAccessEnabled())
         return;
 
-    bringWindowToTop();
-    ChatPage::instance()->startChat(stripDbusTypePrefix(userId));
-}
-
-void
-DbusRoomsInterface::bringWindowToTop() const
-{
-    MainWindow::instance()->show();
-    MainWindow::instance()->raise();
+    komai::ipc::newDirectChat(stripDbusTypePrefix(userId));
 }
 
 // ---------------------------------------------------------------------------
@@ -266,7 +210,7 @@ DbusUserInterface::userId() const
     if (!dbusReadAccessEnabled())
         return {};
 
-    return QString::fromStdString(http::client()->user_id().to_string());
+    return komai::ipc::userId();
 }
 
 QString
@@ -275,7 +219,7 @@ DbusUserInterface::homeserverUrl() const
     if (!dbusReadAccessEnabled())
         return {};
 
-    return QString::fromStdString(http::client()->server_url());
+    return komai::ipc::homeserverUrl();
 }
 
 QString
@@ -284,7 +228,7 @@ DbusUserInterface::deviceId() const
     if (!dbusReadAccessEnabled())
         return {};
 
-    return QString::fromStdString(http::client()->device_id());
+    return komai::ipc::deviceId();
 }
 
 QString
@@ -293,7 +237,7 @@ DbusUserInterface::statusMessage() const
     if (!dbusReadAccessEnabled())
         return {};
 
-    return ChatPage::instance()->status();
+    return komai::ipc::statusMessage();
 }
 
 void
@@ -302,7 +246,7 @@ DbusUserInterface::setStatusMessage(const QString &message)
     if (!dbusWriteAccessEnabled())
         return;
 
-    ChatPage::instance()->setStatus(stripDbusTypePrefix(message));
+    komai::ipc::setStatusMessage(stripDbusTypePrefix(message));
 }
 
 // ---------------------------------------------------------------------------
@@ -320,11 +264,7 @@ DbusSettingsUiInterface::theme() const
     if (!dbusReadAccessEnabled())
         return {};
 
-    const auto settings = UserSettings::instance();
-    if (!settings)
-        return {};
-
-    return settings->uiThemeSlug();
+    return komai::ipc::uiTheme();
 }
 
 void
@@ -337,20 +277,16 @@ DbusSettingsUiInterface::setTheme(const QString &theme)
         return;
     }
 
-    const auto settings = UserSettings::instance();
-    if (!settings)
-        return;
-
     const auto normalizedTheme = stripDbusTypePrefix(theme);
-    const auto oldTheme        = settings->uiThemeSlug();
-    settings->setUiThemeSlug(normalizedTheme);
-    if (settings->uiThemeSlug() == oldTheme) {
+    const auto oldTheme        = komai::ipc::uiTheme();
+    komai::ipc::setUiTheme(normalizedTheme);
+    const auto newTheme = komai::ipc::uiTheme();
+    if (newTheme == oldTheme) {
         activeLoggers().ui->warn("Ignoring D-Bus setTheme call: theme '{}' is not applicable",
                                  normalizedTheme.toStdString());
     } else {
-        activeLoggers().ui->info("Applied D-Bus theme: {} -> {}",
-                                 oldTheme.toStdString(),
-                                 settings->uiThemeSlug().toStdString());
+        activeLoggers().ui->info(
+          "Applied D-Bus theme: {} -> {}", oldTheme.toStdString(), newTheme.toStdString());
     }
 }
 
@@ -373,14 +309,10 @@ DbusMediaInterface::fetch(const QString &mxcUri, const QDBusMessage &message) co
 
     message.setDelayedReply(true);
     activeLoggers().ui->debug("Media fetch requested over D-Bus.");
-    MainWindow::instance()->imageProvider()->download(
-      QString(normalizedUri).remove("mxc://"),
-      {96, 96},
-      [message](const QString &, const QSize &, const QImage &image, const QString &) {
-          auto reply = message.createReply();
-          reply << QVariant::fromValue(image);
-          QDBusConnection::sessionBus().send(reply);
-      },
-      true);
+    komai::ipc::mediaFetch(normalizedUri, [message](const QImage &image) {
+        auto reply = message.createReply();
+        reply << QVariant::fromValue(image);
+        QDBusConnection::sessionBus().send(reply);
+    });
     return {};
 }

@@ -10,12 +10,12 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "CliDbusHelper.h"
+#include "IpcClient.h"
 
 int
 runAppCommand(int argc, char *argv[], QCoreApplication & /*app*/)
 {
-    auto args   = cli_dbus::positionalsAfter(argc, argv, QStringLiteral("app"));
+    auto args   = cli_ipc::positionalsAfter(argc, argv, QStringLiteral("app"));
     auto subcmd = args.isEmpty() ? QString{} : args.first();
 
     if (subcmd.isEmpty()) {
@@ -23,15 +23,16 @@ runAppCommand(int argc, char *argv[], QCoreApplication & /*app*/)
                   << "Subcommands:\n"
                   << "  version        Print the Komai version (JSON)\n"
                   << "  api-version    Print the D-Bus API version (JSON)\n";
-        return cli_dbus::hasHelpFlag(argc, argv) ? 0 : 1;
+        return cli_ipc::hasHelpFlag(argc, argv) ? 0 : 1;
     }
 
-    auto profileId = cli_dbus::profileFromArgs(argc, argv);
-    if (!cli_dbus::ensureConnected(profileId))
+    auto profileId = cli_ipc::profileFromArgs(argc, argv);
+    if (!cli_ipc::ensureConnected(profileId))
         return 1;
 
     if (subcmd == QLatin1String("version")) {
-        auto result = komai::dbus::appVersion(profileId);
+        auto response = cli_ipc::call(profileId, QStringLiteral("app.version"));
+        auto result   = response.value(QStringLiteral("result")).toString();
         if (result.isEmpty()) {
             std::cerr << "Error: failed to get app version\n";
             return 1;
@@ -44,7 +45,8 @@ runAppCommand(int argc, char *argv[], QCoreApplication & /*app*/)
     }
 
     if (subcmd == QLatin1String("api-version")) {
-        auto result = komai::dbus::apiVersion(profileId);
+        auto response = cli_ipc::call(profileId, QStringLiteral("app.apiVersion"));
+        auto result   = response.value(QStringLiteral("result")).toString();
         if (result.isEmpty()) {
             std::cerr << "Error: failed to get API version\n";
             return 1;

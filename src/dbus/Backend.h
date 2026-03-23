@@ -77,9 +77,6 @@ public slots:
     void activate(const QString &roomIdOrAlias) const;
     void join(const QString &roomIdOrAlias) const;
     void newDirectChat(const QString &userId) const;
-
-private:
-    void bringWindowToTop() const;
 };
 
 // ---------------------------------------------------------------------------

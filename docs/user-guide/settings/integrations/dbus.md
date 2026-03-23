@@ -13,6 +13,8 @@ This is controlled in **Settings → Integrations → D-Bus** with the **D-Bus a
 
 No restart is needed when changing it.
 
+> **Note:** This setting only affects the D-Bus API. The [CLI](../../automations/cli.md) uses a separate local socket channel and is always available regardless of this setting.
+
 ## What's exposed
 
 Each [application profile](../../application-profiles.md) registers its own D-Bus service (e.g. `cc.etke.komai.profile.default`), so multiple profiles can be targeted independently.

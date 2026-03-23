@@ -674,15 +674,8 @@ Control {
             id: commandFooter
 
             Layout.fillWidth: true
-            Layout.leftMargin: Komai.paddingSmall
-            Layout.rightMargin: Komai.paddingSmall
-            Layout.topMargin: Komai.paddingSmall
-            Layout.bottomMargin: Komai.paddingSmall
-            border.color: popup.commandFooterBorderColor
-            border.width: 1
             color: popup.commandFooterColor
             implicitHeight: commandFooterLabel.implicitHeight + 2 * Komai.paddingSmall
-            radius: Komai.paddingSmall
             visible: popup.commandFooterVisible
 
             Label {

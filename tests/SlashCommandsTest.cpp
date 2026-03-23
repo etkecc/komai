@@ -89,7 +89,7 @@ testRegistryInventory()
     const auto *gotoCmd = timeline::slash_commands::find(QStringLiteral("goto"));
     const auto *ignore  = timeline::slash_commands::find(CommandId::Ignore);
 
-    ok &= expect(cmds.size() == 27, "registry contains all currently listed slash commands");
+    ok &= expect(cmds.size() == 26, "registry contains all currently listed slash commands");
     ok &= expect(gotoCmd != nullptr && gotoCmd->id == CommandId::Goto,
                  "registry can look up /goto by name");
     ok &= expect(ignore != nullptr && QString::fromLatin1(ignore->name) == QStringLiteral("ignore"),
@@ -98,6 +98,9 @@ testRegistryInventory()
                  "registry no longer exposes /confetti");
     ok &= expect(timeline::slash_commands::find(QStringLiteral("part")) == nullptr,
                  "registry no longer exposes /part");
+    ok &= expect(timeline::slash_commands::find(QStringLiteral("rotate-megolm-session")) ==
+                   nullptr,
+                 "registry no longer exposes /rotate-megolm-session");
     return ok;
 }
 

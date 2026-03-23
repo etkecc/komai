@@ -198,9 +198,6 @@ timeline::slash_commands::execute(InputBar &inputBar, const ParsedCommand &parse
     case CommandId::ResetState:
         inputBar.room->resetState();
         return CommandResult::dispatched();
-    case CommandId::RotateMegolmSession:
-        cache::dropOutboundMegolmSession(inputBar.room->roomId().toStdString());
-        return CommandResult::dispatched();
     case CommandId::Md:
         inputBar.message(args, MarkdownOverride::ON);
         return CommandResult::dispatched();

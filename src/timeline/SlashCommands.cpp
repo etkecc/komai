@@ -290,7 +290,7 @@ validateInvitePermissionTarget(const ParsedCommand &parsed, const CommandContext
 
 #define CMD_TR(text) QT_TRANSLATE_NOOP("CommandCompleter", text)
 
-const std::array<CommandDefinition, 27> kCommands{{
+const std::array<CommandDefinition, 26> kCommands{{
   {CommandId::Me,
    "me",
    "/me ",
@@ -392,13 +392,6 @@ const std::array<CommandDefinition, 27> kCommands{{
    CMD_TR("/reset-state"),
    CMD_TR("Refetch the state in this room."),
    "reset state refetch",
-   validateNoArguments},
-  {CommandId::RotateMegolmSession,
-   "rotate-megolm-session",
-   "/rotate-megolm-session",
-   CMD_TR("/rotate-megolm-session"),
-   CMD_TR("Rotate the current symmetric encryption key."),
-   "rotate megolm encryption session",
    validateNoArguments},
   {CommandId::Md,
    "md",

@@ -29,7 +29,6 @@ enum class CommandId
     Shrug,
     ClearTimeline,
     ResetState,
-    RotateMegolmSession,
     Md,
     Cmark,
     Plain,

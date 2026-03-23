@@ -174,6 +174,7 @@ IpcServer::handleRequest(QLocalSocket *socket)
               if (!safeSocket)
                   return;
 
+              // Build the response payload (safe on any thread).
               QJsonObject response;
               if (image.isNull()) {
                   response.insert(QStringLiteral("error"), QStringLiteral("failed to fetch image"));
@@ -185,7 +186,16 @@ IpcServer::handleRequest(QLocalSocket *socket)
                   response.insert(QStringLiteral("result"),
                                   QString::fromLatin1(pngData.toBase64()));
               }
-              writeResponse(safeSocket.data(), response);
+
+              // The callback may fire on a background thread, but the socket
+              // must be written to on the thread that owns it (main thread).
+              QMetaObject::invokeMethod(
+                safeSocket.data(),
+                [safeSocket, response]() {
+                    if (safeSocket)
+                        writeResponse(safeSocket.data(), response);
+                },
+                Qt::QueuedConnection);
           });
         return;
     }

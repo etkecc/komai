@@ -192,7 +192,7 @@ timeline::slash_commands::execute(InputBar &inputBar, const ParsedCommand &parse
         inputBar.message(QStringLiteral("¯\\\\\\_(ツ)\\_/¯") +
                          (args.isEmpty() ? QLatin1String("") : QLatin1String(" ") + args));
         return CommandResult::dispatched();
-    case CommandId::Md:
+    case CommandId::Markdown:
         inputBar.message(args, MarkdownOverride::ON);
         return CommandResult::dispatched();
     case CommandId::Plain:

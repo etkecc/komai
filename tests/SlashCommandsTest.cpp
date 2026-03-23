@@ -89,11 +89,17 @@ testRegistryInventory()
     const auto *gotoCmd = timeline::slash_commands::find(QStringLiteral("goto"));
     const auto *ignore  = timeline::slash_commands::find(CommandId::Ignore);
 
-    ok &= expect(cmds.size() == 23, "registry contains all currently listed slash commands");
+    if (cmds.size() != 23) {
+        std::cerr << "FAILED: registry contains all currently listed slash commands\n"
+                  << "  actual count: " << cmds.size() << '\n';
+        ok = false;
+    }
     ok &= expect(gotoCmd != nullptr && gotoCmd->id == CommandId::Goto,
                  "registry can look up /goto by name");
     ok &= expect(ignore != nullptr && QString::fromLatin1(ignore->name) == QStringLiteral("ignore"),
                  "registry can look up /ignore by id");
+    ok &= expect(timeline::slash_commands::find(QStringLiteral("markdown")) != nullptr,
+                 "registry exposes /markdown");
     ok &= expect(timeline::slash_commands::find(QStringLiteral("confetti")) == nullptr,
                  "registry no longer exposes /confetti");
     ok &= expect(timeline::slash_commands::find(QStringLiteral("part")) == nullptr,
@@ -107,6 +113,8 @@ testRegistryInventory()
                  "registry no longer exposes /reset-state");
     ok &= expect(timeline::slash_commands::find(QStringLiteral("cmark")) == nullptr,
                  "registry no longer exposes /cmark");
+    ok &= expect(timeline::slash_commands::find(QStringLiteral("md")) == nullptr,
+                 "registry no longer exposes /md");
     return ok;
 }
 
@@ -156,6 +164,8 @@ testCompleterTemplates()
     const int blockRow    = commandRowByName("blockinvites");
     const int gotoRow     = commandRowByName("goto");
     const int inviteRow   = commandRowByName("invite");
+    const int markdownRow = commandRowByName("markdown");
+    const int plainRow    = commandRowByName("plain");
 
     ok &= expect(model.rowCount() == static_cast<int>(timeline::slash_commands::all().size()),
                  "command completer row count matches registry size");
@@ -175,6 +185,22 @@ testCompleterTemplates()
                    model.data(model.index(inviteRow, 0), CompletionModel::CompletionRole)
                        .toString() == QStringLiteral("/invite @"),
                  "/invite completion template keeps the user-id affordance");
+    ok &= expect(markdownRow >= 0 &&
+                   model.data(model.index(markdownRow, 0), CompletionModel::CompletionRole)
+                       .toString() == QStringLiteral("/markdown "),
+                 "/markdown completion template uses the clearer command name");
+    ok &= expect(markdownRow >= 0 &&
+                   model.data(model.index(markdownRow, 0), CommandCompleter::Roles::Description)
+                       .toString() ==
+                     QStringLiteral("Send a Markdown (converted to HTML) message, even if you "
+                                    "have this disabled in Settings -> Composer."),
+                 "/markdown help text explains the forced Markdown conversion");
+    ok &= expect(plainRow >= 0 &&
+                   model.data(model.index(plainRow, 0), CommandCompleter::Roles::Description)
+                       .toString() ==
+                     QStringLiteral(
+                       "Send a plain message without Markdown -> HTML conversion."),
+                 "/plain help text explains the plain-text override");
     return ok;
 }
 

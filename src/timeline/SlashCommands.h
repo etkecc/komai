@@ -27,7 +27,7 @@ enum class CommandId
     Redact,
     Roomnick,
     Shrug,
-    Md,
+    Markdown,
     Plain,
     Notice,
     Msgtype,

@@ -211,32 +211,11 @@ timeline::slash_commands::execute(InputBar &inputBar, const ParsedCommand &parse
     case CommandId::Plain:
         inputBar.message(args, MarkdownOverride::OFF);
         return CommandResult::dispatched();
-    case CommandId::Rainbow:
-        inputBar.message(args, MarkdownOverride::ON, true);
-        return CommandResult::dispatched();
-    case CommandId::RainbowMe:
-        inputBar.emote(args, true);
-        return CommandResult::dispatched();
     case CommandId::Notice:
         inputBar.notice(args, false);
         return CommandResult::dispatched();
-    case CommandId::RainbowNotice:
-        inputBar.notice(args, true);
-        return CommandResult::dispatched();
-    case CommandId::Confetti:
-        inputBar.confetti(args, false);
-        return CommandResult::dispatched();
-    case CommandId::RainbowConfetti:
-        inputBar.confetti(args, true);
-        return CommandResult::dispatched();
     case CommandId::Msgtype:
         inputBar.customMsgtype(firstToken(args), remainingAfterFirstToken(args));
-        return CommandResult::dispatched();
-    case CommandId::Glitch:
-        inputBar.message(utils::glitchText(args));
-        return CommandResult::dispatched();
-    case CommandId::GradualGlitch:
-        inputBar.message(utils::graduallyGlitchText(args));
         return CommandResult::dispatched();
     case CommandId::Goto: {
         const auto trimmedArgs = args.trimmed();

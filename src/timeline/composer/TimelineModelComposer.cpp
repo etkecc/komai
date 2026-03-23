@@ -128,10 +128,7 @@ TimelineModel::applyEditedMessageText(const mtx::events::collections::TimelineEv
             } else {
                 input()->setText(editText + QStringLiteral(" 🌧️"));
             }
-        } else if (msgtypeString == "nic.custom.confetti")
-            input()->setText(timeline::slash_commands::commandText(
-              timeline::slash_commands::CommandId::Confetti, editText));
-        else {
+        } else {
             QString arguments = QString::fromStdString(msgtypeString);
             if (!editText.isEmpty()) {
                 if (!arguments.isEmpty())

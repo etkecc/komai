@@ -313,7 +313,6 @@ signals:
 private:
     void emote(const QString &body, bool rainbowify);
     void notice(const QString &body, bool rainbowify);
-    void confetti(const QString &body, bool rainbowify);
     void customMsgtype(const QString &msgtype, const QString &body);
     void image(const QString &filename,
                const std::optional<mtx::crypto::EncryptedFile> &file,

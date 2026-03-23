@@ -318,30 +318,6 @@ InputBar::notice(const QString &msg, bool rainbowify)
 }
 
 void
-InputBar::confetti(const QString &body, bool rainbowify)
-{
-    const QString emoBody = replaceTextEmoticons(body);
-    auto html             = utils::markdownToHtml(emoBody, rainbowify);
-
-    mtx::events::msg::ElementEffect confetti;
-    confetti.msgtype = "nic.custom.confetti";
-    confetti.body    = emoBody.trimmed().toStdString();
-
-    if (html != emoBody.trimmed().toHtmlEscaped() &&
-        ChatPage::instance()->userSettings()->composerInputMarkdownToHtmlEnabled()) {
-        confetti.formatted_body = html.toStdString();
-        confetti.format         = "org.matrix.custom.html";
-        // Remove markdown links by completer
-        confetti.body = replaceMatrixToMarkdownLink(emoBody.trimmed()).toStdString();
-    }
-
-    confetti.mentions  = generateMentions();
-    confetti.relations = generateRelations();
-
-    room->sendMessageEvent(confetti, mtx::events::EventType::RoomMessage);
-}
-
-void
 InputBar::customMsgtype(const QString &msgtype, const QString &body)
 {
     const QString emoBody = replaceTextEmoticons(body);

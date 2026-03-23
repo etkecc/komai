@@ -58,6 +58,7 @@ class MediaUpload final : public QObject
     Q_PROPERTY(QString body READ body WRITE setBody NOTIFY bodyChanged)
     Q_PROPERTY(QString filename READ filename WRITE setFilename NOTIFY filenameChanged)
     Q_PROPERTY(QString mimetype READ mimetype CONSTANT)
+    Q_PROPERTY(QString fileTypeIconSource READ fileTypeIconSource CONSTANT)
 
     // thumbnail video
     // https://stackoverflow.com/questions/26229633/display-on-screen-using-qabstractvideosurface
@@ -91,6 +92,7 @@ public:
     }
     [[nodiscard]] QString url() const { return url_; }
     [[nodiscard]] QString mimetype() const { return mimetype_; }
+    [[nodiscard]] QString fileTypeIconSource() const;
     [[nodiscard]] QString mimeClass() const { return mimeClass_; }
     [[nodiscard]] QString body() const { return body_; }
     [[nodiscard]] QString filename() const { return originalFilename_; }

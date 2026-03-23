@@ -215,6 +215,7 @@ TimelineModel::roleNames() const
       {Filesize, "filesize"},
       {FilesizeBytes, "filesizeBytes"},
       {MimeType, "mimetype"},
+      {FileTypeIconSource, "fileTypeIconSource"},
       {OriginalHeight, "originalHeight"},
       {OriginalWidth, "originalWidth"},
       {ProportionalHeight, "proportionalHeight"},

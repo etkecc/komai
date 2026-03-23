@@ -9,6 +9,8 @@
 
 #include <QTime>
 
+#include "utils/MediaIcons.h"
+
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "encryption/Olm.h"
@@ -36,6 +38,9 @@ TimelineModel::mediaMetadataForEvent(const mtx::events::collections::TimelineEve
         return QVariant(static_cast<qulonglong>(mtx::accessors::filesize(event)));
     case MimeType:
         return QVariant(QString::fromStdString(mtx::accessors::mimetype(event)));
+    case FileTypeIconSource:
+        return QVariant(
+          utils::fileTypeIconSource(QString::fromStdString(mtx::accessors::mimetype(event))));
     case OriginalHeight:
         return QVariant(qulonglong{mtx::accessors::media_height(event)});
     case OriginalWidth:

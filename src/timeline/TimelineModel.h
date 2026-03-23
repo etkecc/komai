@@ -152,6 +152,7 @@ public:
         Dump,
         RelatedEventCacheBuster,
         IsHiddenEvent,
+        FileTypeIconSource,
     };
     Q_ENUM(Roles);
 

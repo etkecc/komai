@@ -352,6 +352,7 @@ TimelineModel::dumpForEvent(const mtx::events::collections::TimelineEvents &even
     m.insert(names[Filename], data(event, static_cast<int>(Filename)));
     m.insert(names[Filesize], data(event, static_cast<int>(Filesize)));
     m.insert(names[MimeType], data(event, static_cast<int>(MimeType)));
+    m.insert(names[FileTypeIconSource], data(event, static_cast<int>(FileTypeIconSource)));
     m.insert(names[OriginalHeight], data(event, static_cast<int>(OriginalHeight)));
     m.insert(names[OriginalWidth], data(event, static_cast<int>(OriginalWidth)));
     m.insert(names[ProportionalHeight], data(event, static_cast<int>(ProportionalHeight)));

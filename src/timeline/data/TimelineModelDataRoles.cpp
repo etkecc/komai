@@ -45,6 +45,7 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
     case Filesize:
     case FilesizeBytes:
     case MimeType:
+    case FileTypeIconSource:
     case OriginalHeight:
     case OriginalWidth:
     case ProportionalHeight:

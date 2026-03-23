@@ -139,41 +139,17 @@ Rectangle {
                     Image {
                         id: previewImage
 
-                        function fileTypeIcon(mediaType, mime) {
-                            var icon;
-                            switch (mediaType) {
-                            case MediaUpload.Video:
-                                icon = "video-file"; break;
-                            case MediaUpload.Audio:
-                                icon = "music"; break;
-                            case MediaUpload.Image:
-                                icon = "image"; break;
-                            default:
-                                if (mime === "application/pdf")
-                                    icon = "document-pdf";
-                                else if (mime.startsWith("text/plain"))
-                                    icon = "document-text";
-                                else if (mime.startsWith("text/") || mime === "application/json"
-                                         || mime === "application/xml" || mime === "application/javascript")
-                                    icon = "code";
-                                else if (mime.indexOf("spreadsheet") >= 0 || mime === "text/csv")
-                                    icon = "table-simple";
-                                else if (mime.indexOf("presentation") >= 0)
-                                    icon = "slide-content";
-                                else
-                                    icon = "document-data";
-                            }
-                            return "image://colorimage/:/icons/icons/ui/" + icon + ".svg?" + palette.buttonText;
-                        }
-                        property string fallbackIconSource: fileTypeIcon(modelData.mediaType, modelData.mimetype)
+                        property string fallbackIconSource: "image://colorimage/" + modelData.fileTypeIconSource + "?" + palette.buttonText
 
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectFit
                         mipmap: true
                         smooth: true
-                        source: (modelData.thumbnail != "") ? modelData.thumbnail : fallbackIconSource
-                        sourceSize.height: parent.height * Screen.devicePixelRatio
-                        sourceSize.width: parent.width * Screen.devicePixelRatio
+                        source: (parent.width > 0 && parent.height > 0)
+                            ? ((modelData.thumbnail != "") ? modelData.thumbnail : fallbackIconSource)
+                            : ""
+                        sourceSize.height: Math.max(1, parent.height) * Screen.devicePixelRatio
+                        sourceSize.width: Math.max(1, parent.width) * Screen.devicePixelRatio
                     }
                 }
 

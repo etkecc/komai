@@ -25,6 +25,7 @@
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
+#include "utils/MediaIcons.h"
 #include "utils/Utils.h"
 
 #include "blurhash.hpp"
@@ -171,6 +172,12 @@ MediaUpload::MediaUpload(std::unique_ptr<QIODevice> source_,
 
         mediaPlayer->play();
     }
+}
+
+QString
+MediaUpload::fileTypeIconSource() const
+{
+    return utils::fileTypeIconSource(mimetype_);
 }
 
 void

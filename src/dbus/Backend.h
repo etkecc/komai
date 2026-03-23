@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <QDBusAbstractAdaptor>
 #include <QDBusMessage>
 #include <QObject>
 
@@ -28,40 +29,105 @@ activeLoggers();
 
 class RoomlistModel;
 
-class DbusBackend final : public QObject
+/// Host object registered at "/" on the session bus.
+/// D-Bus interfaces are implemented as QDBusAbstractAdaptor children.
+class DbusHost final : public QObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "cc.etke.komai")
 
 public:
-    DbusBackend(RoomlistModel *parent);
+    explicit DbusHost(RoomlistModel *roomlist);
+    RoomlistModel *roomlist() const { return m_roomlist; }
+
+private:
+    RoomlistModel *m_roomlist;
+};
+
+// ---------------------------------------------------------------------------
+// cc.etke.komai.App
+// ---------------------------------------------------------------------------
+
+class DbusAppInterface final : public QDBusAbstractAdaptor
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "cc.etke.komai.App")
+
+public:
+    explicit DbusAppInterface(DbusHost *parent);
 
 public slots:
-    //! Get the Komai D-Bus API version.
-    Q_SCRIPTABLE QString apiVersion() const;
-    //! Get the app version.
-    Q_SCRIPTABLE QString appVersion() const;
-    //! Call this function to get a list of all joined rooms.
-    Q_SCRIPTABLE QVector<komai::dbus::RoomInfoItem> rooms() const;
-    //! Call this function to convert a URI into an image
-    Q_SCRIPTABLE QImage image(const QString &uri, const QDBusMessage &message) const;
-    //! Activates a currently joined room.
-    Q_SCRIPTABLE void activateRoom(const QString &alias) const;
-    //! Joins a room. It is your responsibility to ask for confirmation (if desired).
-    Q_SCRIPTABLE void joinRoom(const QString &alias) const;
-    //! Starts or activates a direct chat. It is your responsibility to ask for confirmation (if
-    //! desired).
-    Q_SCRIPTABLE void directChat(const QString &userId) const;
-    //! Gets the user's status message.
-    Q_SCRIPTABLE QString statusMessage() const;
-    //! Sets the user's status message.
-    Q_SCRIPTABLE void setStatusMessage(const QString &message);
-    //! Sets the current theme. Use a valid theme slug (for example "komai-light", "komai-dark",
-    //! "nheko-light").
-    Q_SCRIPTABLE void setTheme(const QString &theme);
+    QString apiVersion() const;
+    QString appVersion() const;
+};
+
+// ---------------------------------------------------------------------------
+// cc.etke.komai.Rooms
+// ---------------------------------------------------------------------------
+
+class DbusRoomsInterface final : public QDBusAbstractAdaptor
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "cc.etke.komai.Rooms")
+
+public:
+    explicit DbusRoomsInterface(DbusHost *parent);
+
+public slots:
+    QVector<komai::dbus::RoomInfoItem> list() const;
+    void activate(const QString &roomIdOrAlias) const;
+    void join(const QString &roomIdOrAlias) const;
+    void newDirectChat(const QString &userId) const;
 
 private:
     void bringWindowToTop() const;
+};
 
-    RoomlistModel *m_parent;
+// ---------------------------------------------------------------------------
+// cc.etke.komai.User
+// ---------------------------------------------------------------------------
+
+class DbusUserInterface final : public QDBusAbstractAdaptor
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "cc.etke.komai.User")
+
+public:
+    explicit DbusUserInterface(DbusHost *parent);
+
+public slots:
+    QString statusMessage() const;
+    void setStatusMessage(const QString &message);
+};
+
+// ---------------------------------------------------------------------------
+// cc.etke.komai.Settings.UI
+// ---------------------------------------------------------------------------
+
+class DbusSettingsUiInterface final : public QDBusAbstractAdaptor
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "cc.etke.komai.Settings.UI")
+
+public:
+    explicit DbusSettingsUiInterface(DbusHost *parent);
+
+public slots:
+    QString theme() const;
+    void setTheme(const QString &theme);
+};
+
+// ---------------------------------------------------------------------------
+// cc.etke.komai.Media
+// ---------------------------------------------------------------------------
+
+class DbusMediaInterface final : public QDBusAbstractAdaptor
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "cc.etke.komai.Media")
+
+public:
+    explicit DbusMediaInterface(DbusHost *parent);
+
+public slots:
+    QImage fetch(const QString &mxcUri, const QDBusMessage &message) const;
 };

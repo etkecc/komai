@@ -127,84 +127,119 @@ operator>>(const QDBusArgument &arg, RoomInfoItem &item)
     return arg;
 }
 
+// -- cc.etke.komai.App --
+
 QString
 apiVersion(const QString &profileId)
 {
-    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
-        return QDBusReply<QString>{interface.call(QStringLiteral("apiVersion"))}.value();
-    else
-        return {};
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.App")};
+    if (iface.isValid())
+        return QDBusReply<QString>{iface.call(QStringLiteral("apiVersion"))}.value();
+    return {};
 }
 
 QString
 appVersion(const QString &profileId)
 {
-    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
-        return QDBusReply<QString>{interface.call(QStringLiteral("appVersion"))}.value();
-    else
-        return {};
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.App")};
+    if (iface.isValid())
+        return QDBusReply<QString>{iface.call(QStringLiteral("appVersion"))}.value();
+    return {};
 }
+
+// -- cc.etke.komai.Rooms --
 
 QVector<RoomInfoItem>
-rooms(const QString &profileId)
+roomList(const QString &profileId)
 {
-    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
-        return QDBusReply<QVector<RoomInfoItem>>{interface.call(QStringLiteral("rooms"))}.value();
-    else
-        return {};
-}
-
-QImage
-image(const QString &profileId, const QString &mxcuri)
-{
-    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
-        return QDBusReply<QImage>{interface.call(QStringLiteral("image"), mxcuri)}.value();
-    else
-        return {};
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Rooms")};
+    if (iface.isValid())
+        return QDBusReply<QVector<RoomInfoItem>>{iface.call(QStringLiteral("list"))}.value();
+    return {};
 }
 
 void
-activateRoom(const QString &profileId, const QString &alias)
+activateRoom(const QString &profileId, const QString &roomIdOrAlias)
 {
-    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
-        interface.call(QDBus::NoBlock, QStringLiteral("activateRoom"), alias);
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Rooms")};
+    if (iface.isValid())
+        iface.call(QDBus::NoBlock, QStringLiteral("activate"), roomIdOrAlias);
 }
 
 void
-joinRoom(const QString &profileId, const QString &alias)
+joinRoom(const QString &profileId, const QString &roomIdOrAlias)
 {
-    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
-        interface.call(QDBus::NoBlock, QStringLiteral("joinRoom"), alias);
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Rooms")};
+    if (iface.isValid())
+        iface.call(QDBus::NoBlock, QStringLiteral("join"), roomIdOrAlias);
 }
 
 void
-directChat(const QString &profileId, const QString &userId)
+newDirectChat(const QString &profileId, const QString &userId)
 {
-    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
-        interface.call(QDBus::NoBlock, QStringLiteral("directChat"), userId);
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Rooms")};
+    if (iface.isValid())
+        iface.call(QDBus::NoBlock, QStringLiteral("newDirectChat"), userId);
 }
+
+// -- cc.etke.komai.User --
 
 QString
 statusMessage(const QString &profileId)
 {
-    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
-        return QDBusReply<QString>{interface.call(QStringLiteral("statusMessage"))}.value();
-    else
-        return {};
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.User")};
+    if (iface.isValid())
+        return QDBusReply<QString>{iface.call(QStringLiteral("statusMessage"))}.value();
+    return {};
 }
 
 void
 setStatusMessage(const QString &profileId, const QString &message)
 {
-    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
-        interface.call(QDBus::NoBlock, QStringLiteral("setStatusMessage"), message);
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.User")};
+    if (iface.isValid())
+        iface.call(QDBus::NoBlock, QStringLiteral("setStatusMessage"), message);
+}
+
+// -- cc.etke.komai.Settings.UI --
+
+QString
+theme(const QString &profileId)
+{
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Settings.UI")};
+    if (iface.isValid())
+        return QDBusReply<QString>{iface.call(QStringLiteral("theme"))}.value();
+    return {};
 }
 
 void
 setTheme(const QString &profileId, const QString &theme)
 {
-    if (QDBusInterface interface{serviceName(profileId), QStringLiteral("/")}; interface.isValid())
-        interface.call(QDBus::NoBlock, QStringLiteral("setTheme"), theme);
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Settings.UI")};
+    if (iface.isValid())
+        iface.call(QDBus::NoBlock, QStringLiteral("setTheme"), theme);
+}
+
+// -- cc.etke.komai.Media --
+
+QImage
+mediaFetch(const QString &profileId, const QString &mxcUri)
+{
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Media")};
+    if (iface.isValid())
+        return QDBusReply<QImage>{iface.call(QStringLiteral("fetch"), mxcUri)}.value();
+    return {};
 }
 
 } // komai::dbus

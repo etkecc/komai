@@ -10,7 +10,6 @@ Each [application profile](../application-profiles.md) registers its own D-Bus s
 
 - **Service name format:** `cc.etke.komai.profile.<profile-id>`
 - **Object path:** `/`
-- **Interface:** `cc.etke.komai`
 
 | Profile | D-Bus service name |
 |---|---|
@@ -18,10 +17,20 @@ Each [application profile](../application-profiles.md) registers its own D-Bus s
 | `work` | `cc.etke.komai.profile.work` |
 | `personal` | `cc.etke.komai.profile.personal` |
 
-Introspect a running instance:
+Methods are organized into **interfaces**:
+
+| Interface | Purpose |
+|---|---|
+| `cc.etke.komai.App` | Instance metadata |
+| `cc.etke.komai.Rooms` | Room discovery and navigation |
+| `cc.etke.komai.User` | Account and presence |
+| `cc.etke.komai.Settings.UI` | Appearance settings |
+| `cc.etke.komai.Media` | Media content resolution |
+
+Introspect a running instance to see all interfaces:
 
 ```bash
-gdbus introspect --session --dest cc.etke.komai.profile.default --object-path /
+busctl --user introspect cc.etke.komai.profile.default /
 ```
 
 ## 👥 Multiple profiles
@@ -36,115 +45,132 @@ busctl --user list | grep cc.etke.komai.profile
 
 ### Targeting a specific profile
 
-Replace `default` with the profile name in any `gdbus` command:
+Replace `default` with the profile name:
 
 ```bash
-# Get rooms from the "work" profile
-gdbus call --session --dest cc.etke.komai.profile.work --object-path / --method cc.etke.komai.rooms
-
-# Set theme on the "personal" profile
-gdbus call --session --dest cc.etke.komai.profile.personal --object-path / --method cc.etke.komai.setTheme 'komai-dark'
+busctl --user call cc.etke.komai.profile.work / cc.etke.komai.Rooms list
 ```
 
-## 🛰 Read methods
+## 🔧 How to use
+
+The `busctl` examples below are for **quick testing from a terminal**. For actual scripting and automation, use a D-Bus library in your language of choice -- for example [dbus-python](https://dbus.freedesktop.org/doc/dbus-python/), [zbus](https://docs.rs/zbus/) (Rust), [godbus](https://github.com/godbus/dbus) (Go), or [dbus-next](https://github.com/altdesktop/python-dbus-next) (Python, asyncio).
+
+## 📡 App
+
+Instance metadata.
 
 ### apiVersion
 
-Returns API version as a string.
+Returns the D-Bus API version string.
+
+> Required D-Bus access level: 👁️ any (always available)
 
 ```bash
-gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.apiVersion
-```
-
-```text
-( "1" )
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.App apiVersion
 ```
 
 ### appVersion
 
-Returns Komai version string.
+Returns the Komai version string.
+
+> Required D-Bus access level: 👁️ any (always available)
 
 ```bash
-gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.appVersion
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.App appVersion
 ```
 
-```text
-( "0.9.0" )
-```
+## 🚪 Rooms
 
-### rooms
+Room discovery and navigation.
 
-Returns a compact list of known rooms with IDs and names. See also: [activateRoom](#activateroom), [joinRoom](#joinroom).
+### list
+
+Returns all joined rooms with IDs, aliases, names, avatar URLs, and unread notification counts. See also: [activate](#activate), [join](#join).
+
+> Required D-Bus access level: 👁️ read
 
 ```bash
-gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.rooms
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms list
 ```
 
-```text
-( [('!a:example.org', 'komai-dev'), ('!b:example.org', 'random')],
-  '/tmp' )
-```
+### activate
 
-### image
+Activates (focuses) a room by room ID or alias. See also: [list](#list).
 
-Returns an image for a matrix content URI.
+> Required D-Bus access level: ✏️ write
 
 ```bash
-gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.image 'mxc://example.org/abc123'
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms activate s '!a:example.org'
 ```
 
-### statusMessage
+### join
 
-Reads the current user presence/status text. See also: [setStatusMessage](#setstatusmessage).
+Joins a room by room ID or alias. See also: [list](#list).
+
+> Required D-Bus access level: ✏️ write
 
 ```bash
-gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.statusMessage
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms join s '#komai:example.org'
 ```
 
-```text
-( "building D-Bus docs 🎉" )
-```
+### newDirectChat
 
-## 🛠 Write methods
+Starts or opens a one-to-one chat with a user.
 
-### activateRoom
-
-Activates (focuses) a room in the current session. See also: [rooms](#rooms).
+> Required D-Bus access level: ✏️ write
 
 ```bash
-gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.activateRoom '!a:example.org'
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms newDirectChat s '@alice:example.org'
 ```
 
-### joinRoom
+## 👤 User
 
-Joins a room by room ID or alias. See also: [rooms](#rooms).
+Account and presence.
+
+### statusMessage / setStatusMessage
+
+Reads or sets the user's presence status text.
+
+> Required D-Bus access level: 👁️ read (get) / ✏️ write (set)
 
 ```bash
-gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.joinRoom '#komai:example.org'
+# Get
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.User statusMessage
+
+# Set
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.User setStatusMessage s 'brb'
 ```
 
-### directChat
+## ⚙️ Settings.UI
 
-Starts or opens a one-to-one chat.
+Appearance settings.
+
+### theme / setTheme
+
+Reads or sets the active theme. `setTheme` expects a valid theme slug (`komai-light`, `komai-dark`, `nheko-light`, ...), not a display label.
+
+> Required D-Bus access level: 👁️ read (get) / ✏️ write (set)
 
 ```bash
-gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.directChat '@alice:example.org'
+# Get
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Settings.UI theme
+
+# Set
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Settings.UI setTheme s 'komai-dark'
 ```
 
-### setStatusMessage
+## 🖼️ Media
 
-Sets the user status message. See also: [statusMessage](#statusmessage).
+Media content resolution. Resolves Matrix content URIs (`mxc://`) into image data through Komai's authenticated session.
 
-```bash
-gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.setStatusMessage '📣 status from D-Bus'
-```
+### fetch
 
-### setTheme
+Fetches an image by its `mxc://` URI. Useful for resolving room avatars returned by [Rooms.list](#list).
 
-Changes the active theme. Expects a valid theme slug (`komai-light`, `komai-dark`, `nheko-light`, ...), not a display label.
+> Required D-Bus access level: 👁️ read
 
 ```bash
-gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.setTheme 'komai-dark'
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Media fetch s 'mxc://example.org/abc123'
 ```
 
 ## 🔐 Security notes

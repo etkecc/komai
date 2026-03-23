@@ -67,38 +67,53 @@ private:
     int unreadNotifications_;
 };
 
+// -- cc.etke.komai.App --
+
 //! Get the Komai D-Bus API version.
 QString
 apiVersion(const QString &profileId);
 //! Get the app version.
 QString
 appVersion(const QString &profileId);
-//! Call this function to get a list of all joined rooms.
+
+// -- cc.etke.komai.Rooms --
+
+//! Get a list of all joined rooms.
 QVector<RoomInfoItem>
-rooms(const QString &profileId);
-//! Fetch an image using a matrix URI
-QImage
-image(const QString &profileId, const QString &uri);
+roomList(const QString &profileId);
 //! Activates a currently joined room.
 void
-activateRoom(const QString &profileId, const QString &alias);
-//! Joins a room. It is your responsibility to ask for confirmation (if desired).
+activateRoom(const QString &profileId, const QString &roomIdOrAlias);
+//! Joins a room.
 void
-joinRoom(const QString &profileId, const QString &alias);
-//! Starts or activates a direct chat. It is your responsibility to ask for confirmation (if
-//! desired).
+joinRoom(const QString &profileId, const QString &roomIdOrAlias);
+//! Starts or activates a direct chat.
 void
-directChat(const QString &profileId, const QString &userId);
+newDirectChat(const QString &profileId, const QString &userId);
+
+// -- cc.etke.komai.User --
+
 //! Get the user's status message.
 QString
 statusMessage(const QString &profileId);
-//! Sets the user's status message (if supported by the homeserver).
+//! Sets the user's status message.
 void
 setStatusMessage(const QString &profileId, const QString &message);
-//! Sets the current theme. Use a valid theme slug (for example "komai-light", "komai-dark",
-//! "nheko-light").
+
+// -- cc.etke.komai.Settings.UI --
+
+//! Get the current theme slug.
+QString
+theme(const QString &profileId);
+//! Sets the current theme.
 void
 setTheme(const QString &profileId, const QString &theme);
+
+// -- cc.etke.komai.Media --
+
+//! Fetch an image using a matrix content URI.
+QImage
+mediaFetch(const QString &profileId, const QString &mxcUri);
 
 QDBusArgument &
 operator<<(QDBusArgument &arg, const RoomInfoItem &item);

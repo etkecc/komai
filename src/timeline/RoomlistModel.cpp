@@ -312,27 +312,27 @@ void
 RoomlistModel::setDbusInterfaceEnabled(bool enabled)
 {
     if (enabled) {
-        if (dbusInterface_)
+        if (dbusHost_)
             return;
 
-        dbusInterface_ = new DbusBackend{this};
+        dbusHost_ = new DbusHost{this};
         if (!QDBusConnection::sessionBus().registerObject(
-              QStringLiteral("/"), dbusInterface_, QDBusConnection::ExportScriptableSlots)) {
-            nhlog::ui()->warn("Failed to register rooms with D-Bus");
-            delete dbusInterface_;
-            dbusInterface_ = nullptr;
+              QStringLiteral("/"), dbusHost_, QDBusConnection::ExportAdaptors)) {
+            nhlog::ui()->warn("Failed to register D-Bus interfaces");
+            delete dbusHost_;
+            dbusHost_ = nullptr;
             return;
         }
         return;
     }
 
-    if (!dbusInterface_)
+    if (!dbusHost_)
         return;
 
     QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/"));
 
-    delete dbusInterface_;
-    dbusInterface_ = nullptr;
+    delete dbusHost_;
+    dbusHost_ = nullptr;
 }
 #endif
 

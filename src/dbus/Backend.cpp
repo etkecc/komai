@@ -5,7 +5,7 @@
 
 #include "Backend.h"
 
-#include <mutex>
+#include <memory>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -24,11 +24,9 @@
 #include <QDBusConnection>
 #include <spdlog/sinks/null_sink.h>
 
-DbusBackend::DbusBackend(RoomlistModel *parent)
-  : QObject{parent}
-  , m_parent{parent}
-{
-}
+// ---------------------------------------------------------------------------
+// Shared helpers
+// ---------------------------------------------------------------------------
 
 namespace {
 
@@ -97,18 +95,6 @@ setMissingLoggers(DbusBackendLoggers loggers)
 }
 } // namespace
 
-QString
-DbusBackend::apiVersion() const
-{
-    return komai::dbus::dbusApiVersion.toString();
-}
-
-QString
-DbusBackend::appVersion() const
-{
-    return komai::version;
-}
-
 void
 setLoggers(DbusBackendLoggers loggers)
 {
@@ -121,26 +107,66 @@ activeLoggers()
     return backendCurrentLoggers();
 }
 
-struct RoomReplyState
+// ---------------------------------------------------------------------------
+// DbusHost
+// ---------------------------------------------------------------------------
+
+DbusHost::DbusHost(RoomlistModel *roomlist)
+  : QObject{roomlist}
+  , m_roomlist{roomlist}
 {
-    QVector<komai::dbus::RoomInfoItem> model;
-    std::map<QString, RoomInfo> roominfos;
-    std::mutex m;
-};
+    // Adaptors attach themselves to this host via their constructors.
+    new DbusAppInterface{this};
+    new DbusRoomsInterface{this};
+    new DbusUserInterface{this};
+    new DbusSettingsUiInterface{this};
+    new DbusMediaInterface{this};
+}
+
+// ---------------------------------------------------------------------------
+// cc.etke.komai.App
+// ---------------------------------------------------------------------------
+
+DbusAppInterface::DbusAppInterface(DbusHost *parent)
+  : QDBusAbstractAdaptor{parent}
+{
+}
+
+QString
+DbusAppInterface::apiVersion() const
+{
+    return komai::dbus::dbusApiVersion.toString();
+}
+
+QString
+DbusAppInterface::appVersion() const
+{
+    return komai::version;
+}
+
+// ---------------------------------------------------------------------------
+// cc.etke.komai.Rooms
+// ---------------------------------------------------------------------------
+
+DbusRoomsInterface::DbusRoomsInterface(DbusHost *parent)
+  : QDBusAbstractAdaptor{parent}
+{
+}
 
 QVector<komai::dbus::RoomInfoItem>
-DbusBackend::rooms() const
+DbusRoomsInterface::list() const
 {
     if (!dbusReadAccessEnabled())
         return {};
 
+    auto *rl = static_cast<DbusHost *>(parent())->roomlist();
     activeLoggers().ui->debug("Rooms requested over D-Bus.");
 
     QVector<komai::dbus::RoomInfoItem> model;
-    model.reserve((int)m_parent->roomids.size());
+    model.reserve((int)rl->roomids.size());
 
-    for (const auto &roomId : m_parent->roomids) {
-        if (m_parent->invites.contains(roomId) || m_parent->previewedRooms.contains(roomId))
+    for (const auto &roomId : rl->roomids) {
+        if (rl->invites.contains(roomId) || rl->previewedRooms.contains(roomId))
             continue;
 
         const auto aliases =
@@ -158,16 +184,16 @@ DbusBackend::rooms() const
         QString roomAvatar;
         int notificationCount = 0;
 
-        if (m_parent->models.contains(roomId)) {
-            const auto &room = m_parent->models.value(roomId);
+        if (rl->models.contains(roomId)) {
+            const auto &room = rl->models.value(roomId);
             if (room.isNull())
                 continue;
 
             roomName          = room->plainRoomName();
             roomAvatar        = room->roomAvatarUrl();
             notificationCount = room->notificationCount();
-        } else if (m_parent->cachedJoinedRooms_.contains(roomId)) {
-            const auto roomInfo = m_parent->cachedJoinedRooms_.value(roomId);
+        } else if (rl->cachedJoinedRooms_.contains(roomId)) {
+            const auto roomInfo = rl->cachedJoinedRooms_.value(roomId);
             roomName            = QString::fromStdString(roomInfo.name);
             roomAvatar          = QString::fromStdString(roomInfo.avatar_url);
             notificationCount   = static_cast<int>(roomInfo.notification_count);
@@ -186,50 +212,29 @@ DbusBackend::rooms() const
     return model;
 }
 
-QImage
-DbusBackend::image(const QString &uri, const QDBusMessage &message) const
-{
-    if (!dbusReadAccessEnabled())
-        return {};
-
-    const auto normalizedUri = stripDbusTypePrefix(uri);
-
-    message.setDelayedReply(true);
-    activeLoggers().ui->debug("Rooms requested over D-Bus.");
-    MainWindow::instance()->imageProvider()->download(
-      QString(normalizedUri).remove("mxc://"),
-      {96, 96},
-      [message](const QString &, const QSize &, const QImage &image, const QString &) {
-          auto reply = message.createReply();
-          reply << QVariant::fromValue(image);
-          QDBusConnection::sessionBus().send(reply);
-      },
-      true);
-    return {};
-}
-
 void
-DbusBackend::activateRoom(const QString &alias) const
+DbusRoomsInterface::activate(const QString &roomIdOrAlias) const
 {
     if (!dbusWriteAccessEnabled())
         return;
 
     bringWindowToTop();
-    m_parent->setCurrentRoom(stripDbusTypePrefix(alias));
+    static_cast<DbusHost *>(parent())->roomlist()->setCurrentRoom(
+      stripDbusTypePrefix(roomIdOrAlias));
 }
 
 void
-DbusBackend::joinRoom(const QString &alias) const
+DbusRoomsInterface::join(const QString &roomIdOrAlias) const
 {
     if (!dbusWriteAccessEnabled())
         return;
 
     bringWindowToTop();
-    ChatPage::instance()->joinRoom(stripDbusTypePrefix(alias));
+    ChatPage::instance()->joinRoom(stripDbusTypePrefix(roomIdOrAlias));
 }
 
 void
-DbusBackend::directChat(const QString &userId) const
+DbusRoomsInterface::newDirectChat(const QString &userId) const
 {
     if (!dbusWriteAccessEnabled())
         return;
@@ -238,8 +243,24 @@ DbusBackend::directChat(const QString &userId) const
     ChatPage::instance()->startChat(stripDbusTypePrefix(userId));
 }
 
+void
+DbusRoomsInterface::bringWindowToTop() const
+{
+    MainWindow::instance()->show();
+    MainWindow::instance()->raise();
+}
+
+// ---------------------------------------------------------------------------
+// cc.etke.komai.User
+// ---------------------------------------------------------------------------
+
+DbusUserInterface::DbusUserInterface(DbusHost *parent)
+  : QDBusAbstractAdaptor{parent}
+{
+}
+
 QString
-DbusBackend::statusMessage() const
+DbusUserInterface::statusMessage() const
 {
     if (!dbusReadAccessEnabled())
         return {};
@@ -248,7 +269,7 @@ DbusBackend::statusMessage() const
 }
 
 void
-DbusBackend::setStatusMessage(const QString &message)
+DbusUserInterface::setStatusMessage(const QString &message)
 {
     if (!dbusWriteAccessEnabled())
         return;
@@ -256,8 +277,30 @@ DbusBackend::setStatusMessage(const QString &message)
     ChatPage::instance()->setStatus(stripDbusTypePrefix(message));
 }
 
+// ---------------------------------------------------------------------------
+// cc.etke.komai.Settings.UI
+// ---------------------------------------------------------------------------
+
+DbusSettingsUiInterface::DbusSettingsUiInterface(DbusHost *parent)
+  : QDBusAbstractAdaptor{parent}
+{
+}
+
+QString
+DbusSettingsUiInterface::theme() const
+{
+    if (!dbusReadAccessEnabled())
+        return {};
+
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return {};
+
+    return settings->uiThemeSlug();
+}
+
 void
-DbusBackend::setTheme(const QString &theme)
+DbusSettingsUiInterface::setTheme(const QString &theme)
 {
     if (!dbusWriteAccessEnabled()) {
         activeLoggers().ui->warn(
@@ -283,9 +326,33 @@ DbusBackend::setTheme(const QString &theme)
     }
 }
 
-void
-DbusBackend::bringWindowToTop() const
+// ---------------------------------------------------------------------------
+// cc.etke.komai.Media
+// ---------------------------------------------------------------------------
+
+DbusMediaInterface::DbusMediaInterface(DbusHost *parent)
+  : QDBusAbstractAdaptor{parent}
 {
-    MainWindow::instance()->show();
-    MainWindow::instance()->raise();
+}
+
+QImage
+DbusMediaInterface::fetch(const QString &mxcUri, const QDBusMessage &message) const
+{
+    if (!dbusReadAccessEnabled())
+        return {};
+
+    const auto normalizedUri = stripDbusTypePrefix(mxcUri);
+
+    message.setDelayedReply(true);
+    activeLoggers().ui->debug("Media fetch requested over D-Bus.");
+    MainWindow::instance()->imageProvider()->download(
+      QString(normalizedUri).remove("mxc://"),
+      {96, 96},
+      [message](const QString &, const QSize &, const QImage &image, const QString &) {
+          auto reply = message.createReply();
+          reply << QVariant::fromValue(image);
+          QDBusConnection::sessionBus().send(reply);
+      },
+      true);
+    return {};
 }

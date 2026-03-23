@@ -245,8 +245,8 @@ private:
     QString pendingCurrentRoomId_;
 
 #ifdef KOMAI_DBUS_SYS
-    DbusBackend *dbusInterface_ = nullptr;
-    friend class DbusBackend;
+    DbusHost *dbusHost_ = nullptr;
+    friend class DbusRoomsInterface;
 #endif
 
     friend class FilteredRoomlistModel;

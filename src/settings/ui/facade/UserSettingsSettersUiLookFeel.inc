@@ -18,12 +18,6 @@ UserSettings::setUiMotionAnimationsEnabled(bool state)
     (void)coreStore_.set(settings::core::SettingId::UiMotionAnimationsEnabled, state);
     emit uiMotionAnimationsEnabledChanged(state);
     save();
-
-    // Also toggle other motion related settings
-    if (!uiMotionAnimationsEnabled_) {
-        setTimelineMediaEffectsEnabled(false);
-        setTimelineMediaAnimateOnHover(true);
-    }
 }
 
 void

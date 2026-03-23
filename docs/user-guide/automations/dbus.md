@@ -74,7 +74,7 @@ gdbus call --session --dest cc.etke.komai.profile.default --object-path / --meth
 
 ### rooms
 
-Returns a compact list of known rooms with IDs and names.
+Returns a compact list of known rooms with IDs and names. See also: [activateRoom](#activateroom), [joinRoom](#joinroom).
 
 ```bash
 gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.rooms
@@ -95,7 +95,7 @@ gdbus call --session --dest cc.etke.komai.profile.default --object-path / --meth
 
 ### statusMessage
 
-Reads the current user presence/status text.
+Reads the current user presence/status text. See also: [setStatusMessage](#setstatusmessage).
 
 ```bash
 gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.statusMessage
@@ -109,7 +109,7 @@ gdbus call --session --dest cc.etke.komai.profile.default --object-path / --meth
 
 ### activateRoom
 
-Activates (focuses) a room in the current session.
+Activates (focuses) a room in the current session. See also: [rooms](#rooms).
 
 ```bash
 gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.activateRoom '!a:example.org'
@@ -117,7 +117,7 @@ gdbus call --session --dest cc.etke.komai.profile.default --object-path / --meth
 
 ### joinRoom
 
-Joins a room by room ID or alias.
+Joins a room by room ID or alias. See also: [rooms](#rooms).
 
 ```bash
 gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.joinRoom '#komai:example.org'
@@ -133,7 +133,7 @@ gdbus call --session --dest cc.etke.komai.profile.default --object-path / --meth
 
 ### setStatusMessage
 
-Sets the user status message.
+Sets the user status message. See also: [statusMessage](#statusmessage).
 
 ```bash
 gdbus call --session --dest cc.etke.komai.profile.default --object-path / --method cc.etke.komai.setStatusMessage '📣 status from D-Bus'

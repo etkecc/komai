@@ -75,6 +75,7 @@ EventDelegateChooser {
 
             Layout.fillWidth: true
             //Layout.maximumWidth: implicitWidth
+            readonly property int chooserColorRevision: (parent && parent.colorRevision !== undefined && parent.colorRevision !== null) ? parent.colorRevision : 0
             readonly property color chooserMainLinkColor: (parent && parent.mainMessageLinkColor !== undefined && parent.mainMessageLinkColor !== null) ? parent.mainMessageLinkColor : palette.link
             readonly property color chooserMainSurfaceColor: (parent && parent.mainMessageSurfaceColor !== undefined && parent.mainMessageSurfaceColor !== null) ? parent.mainMessageSurfaceColor : palette.alternateBase
             readonly property color chooserReplyLinkColor: (parent && parent.replyMessageLinkColor !== undefined && parent.replyMessageLinkColor !== null) ? parent.replyMessageLinkColor : palette.link
@@ -82,7 +83,7 @@ EventDelegateChooser {
 
             color: Komai.readableAccentTextColor(
                 (function() {
-                    const _revision = wrapper.colorRevision;
+                    const _revision = chooserColorRevision;
                     return room ? TimelineManager.roomUserColor(room.roomId, userId, palette.base, Settings.timelineUserColorCodingPolicy)
                                 : TimelineManager.userColor(userId, palette.base);
                 })(),

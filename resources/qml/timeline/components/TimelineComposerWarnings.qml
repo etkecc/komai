@@ -11,12 +11,14 @@ ColumnLayout {
     id: root
 
     required property var roomModel
+    required property bool commandPickerVisible
     required property bool replyPopupVisible
 
     readonly property int mentionCount: roomModel ? roomModel.input.mentions.length : 0
     readonly property string commandValidationState: roomModel ? roomModel.input.commandValidationState : "none"
     readonly property string commandValidationMessage: roomModel ? roomModel.input.commandValidationMessage : ""
-    readonly property bool commandWarningVisible: commandValidationMessage.length > 0
+    readonly property bool commandWarningVisible: !commandPickerVisible
+        && commandValidationMessage.length > 0
     readonly property color commandWarningColor: commandValidationState === "incomplete"
         || commandValidationState === "unrecognized"
         ? Komai.theme.warning

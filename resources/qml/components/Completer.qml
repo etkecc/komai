@@ -18,6 +18,8 @@ Control {
     property bool bottomToTop: true
     property var completer
     property string completerType
+    property string commandValidationMessage: ""
+    property string commandValidationState: "none"
     property string backendModel: completerType
     property alias count: listView.count
     property alias currentIndex: listView.currentIndex
@@ -25,6 +27,37 @@ Control {
     property string roomId
     property int rowMargin: 0
     property int rowSpacing: Komai.paddingSmall
+    readonly property bool commandSuccessVisible: completerType === "command"
+        && commandValidationState === "valid"
+    readonly property color commandFooterBorderColor: commandValidationVisible
+        ? commandValidationColor
+        : commandSuccessVisible
+        ? Komai.theme.success
+        : palette.mid
+    readonly property color commandFooterColor: commandValidationVisible
+        ? Qt.rgba(commandValidationColor.r, commandValidationColor.g, commandValidationColor.b, 0.3)
+        : commandSuccessVisible
+        ? Qt.rgba(Komai.theme.success.r, Komai.theme.success.g, Komai.theme.success.b, 0.2)
+        : palette.base
+    readonly property string commandFooterText: commandValidationVisible
+        ? commandValidationMessage
+        : commandSuccessVisible
+        ? (currentIndex >= 0
+            ? qsTr("Hit Enter to insert it.")
+            : qsTr("Looks good! Hit Enter to send it."))
+        : qsTr("Select a command first. Enter inserts if selected; otherwise it sends.")
+    readonly property color commandFooterTextColor: commandValidationVisible
+        ? palette.text
+        : commandSuccessVisible
+        ? Komai.theme.success
+        : palette.buttonText
+    readonly property bool commandFooterVisible: completerType === "command"
+    readonly property color commandValidationColor: commandValidationState === "incomplete"
+        || commandValidationState === "unrecognized"
+        ? Komai.theme.warning
+        : Komai.theme.error
+    readonly property bool commandValidationVisible: completerType === "command"
+        && commandValidationMessage.length > 0
     readonly property int secondaryTextMaxWidth: Math.max(180, Math.ceil(Settings.uiFontSizePt * 18))
     readonly property int emptyStateMinWidth: Math.max(Math.ceil(Settings.uiFontSizePt * 22), 280)
     implicitWidth: Math.max(emptyStateMinWidth, contentColumn.implicitWidth || 0)
@@ -642,6 +675,37 @@ Control {
                     height: 1
                     visible: model.index < listView.count - 1
                 }
+            }
+        }
+
+        Rectangle {
+            id: commandFooter
+
+            Layout.fillWidth: true
+            Layout.leftMargin: Komai.paddingSmall
+            Layout.rightMargin: Komai.paddingSmall
+            Layout.topMargin: Komai.paddingSmall
+            Layout.bottomMargin: Komai.paddingSmall
+            border.color: popup.commandFooterBorderColor
+            border.width: 1
+            color: popup.commandFooterColor
+            implicitHeight: commandFooterLabel.implicitHeight + 2 * Komai.paddingSmall
+            radius: Komai.paddingSmall
+            visible: popup.commandFooterVisible
+
+            Label {
+                id: commandFooterLabel
+
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: Komai.paddingSmall
+                anchors.rightMargin: Komai.paddingSmall
+                color: popup.commandFooterTextColor
+                elide: Text.ElideRight
+                text: popup.commandFooterText
+                textFormat: Text.PlainText
+                wrapMode: Text.NoWrap
             }
         }
     }

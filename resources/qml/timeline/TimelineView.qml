@@ -180,6 +180,7 @@ Item {
             Layout.minimumHeight: 0
             Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible && !messageView.walkModeActive ? implicitHeight : 0
             Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible && !messageView.walkModeActive ? implicitHeight : 0
+            commandPickerVisible: messageInput.commandPickerVisible
             roomModel: timelineView.room
             replyPopupVisible: replyPopup.visible
         }

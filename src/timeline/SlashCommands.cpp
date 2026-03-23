@@ -14,7 +14,7 @@
 namespace timeline::slash_commands {
 namespace {
 
-constexpr auto kCommandTranslationContext = "CommandCompleter";
+constexpr auto kCommandTranslationContext  = "CommandCompleter";
 constexpr auto kInputBarTranslationContext = "InputBar";
 
 QString
@@ -87,8 +87,7 @@ validateRequiredMessage(const ParsedCommand &parsed, const CommandContext &)
     if (!trimmedArguments(parsed).isEmpty())
         return valid();
 
-    return makeValidationResult(ValidationState::Incomplete,
-                                "Enter a message after this command.");
+    return makeValidationResult(ValidationState::Incomplete, "Enter a message after this command.");
 }
 
 ValidationResult
@@ -710,10 +709,10 @@ inspect(const QString &text, const CommandContext &context)
         return inspection;
     }
 
-    inspection.validation = inspection.parsed.definition->validate(inspection.parsed, context);
-    inspection.submitAction =
-      inspection.validation.state == ValidationState::Valid ? SubmitAction::ExecuteCommand
-                                                            : SubmitAction::PreserveComposer;
+    inspection.validation   = inspection.parsed.definition->validate(inspection.parsed, context);
+    inspection.submitAction = inspection.validation.state == ValidationState::Valid
+                                ? SubmitAction::ExecuteCommand
+                                : SubmitAction::PreserveComposer;
 
     return inspection;
 }

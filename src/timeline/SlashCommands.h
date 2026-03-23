@@ -106,9 +106,9 @@ struct ParsedCommand
     QString inputText;
     QString name;
     QString arguments;
-    int tokenStart        = -1;
-    int tokenEnd          = -1;
-    bool hasLeadingSlash  = false;
+    int tokenStart                      = -1;
+    int tokenEnd                        = -1;
+    bool hasLeadingSlash                = false;
     const CommandDefinition *definition = nullptr;
 
     [[nodiscard]] bool isSlashCommandCandidate() const
@@ -146,22 +146,36 @@ struct CommandResult
     static CommandResult rejected(const QString &feedback = {});
 };
 
-std::span<const CommandDefinition> all();
-const CommandDefinition *find(QStringView name);
-const CommandDefinition *find(CommandId id);
+std::span<const CommandDefinition>
+all();
+const CommandDefinition *
+find(QStringView name);
+const CommandDefinition *
+find(CommandId id);
 
-QString syntaxText(const CommandDefinition &definition);
-QString descriptionText(const CommandDefinition &definition);
-QString searchText(const CommandDefinition &definition);
-QString completionText(const CommandDefinition &definition);
-QString commandText(CommandId id, const QString &arguments = {});
-QString validationStateName(ValidationState state);
+QString
+syntaxText(const CommandDefinition &definition);
+QString
+descriptionText(const CommandDefinition &definition);
+QString
+searchText(const CommandDefinition &definition);
+QString
+completionText(const CommandDefinition &definition);
+QString
+commandText(CommandId id, const QString &arguments = {});
+QString
+validationStateName(ValidationState state);
 
-ParsedCommand parse(const QString &text);
-Inspection inspect(const QString &text, const CommandContext &context);
-QString completionSearchString(const QString &text, int cursorPosition);
-int completionReplacementEnd(const QString &text, int cursorPosition);
+ParsedCommand
+parse(const QString &text);
+Inspection
+inspect(const QString &text, const CommandContext &context);
+QString
+completionSearchString(const QString &text, int cursorPosition);
+int
+completionReplacementEnd(const QString &text, int cursorPosition);
 
-CommandResult execute(InputBar &inputBar, const ParsedCommand &parsed);
+CommandResult
+execute(InputBar &inputBar, const ParsedCommand &parsed);
 
 } // namespace timeline::slash_commands

@@ -26,6 +26,7 @@ Rectangle {
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
     readonly property int minimumBarHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property bool composerExpanded: textInput.targetTextAreaHeight > textInput.singleLineHeight
+    readonly property bool commandPickerVisible: popup.opened && completer.completerType === "command"
     signal composerInteractionRequested()
 
     function focusTextInput() {
@@ -629,6 +630,8 @@ Rectangle {
                     contentItem: Completer {
                         id: completer
 
+                        commandValidationMessage: room && room.input ? room.input.commandValidationMessage : ""
+                        commandValidationState: room && room.input ? room.input.commandValidationState : "none"
                         rowMargin: 2
                         rowSpacing: 0
                         roomId: room ? room.roomId : ""

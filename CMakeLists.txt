@@ -750,8 +750,19 @@ set(SRC_FILES
 
 
     # CLI subcommands
+    src/cli/CliDbusHelper.h
     src/cli/CliDispatch.cpp
     src/cli/CliDispatch.h
+    src/cli/AppCommands.cpp
+    src/cli/AppCommands.h
+    src/cli/MediaCommands.cpp
+    src/cli/MediaCommands.h
+    src/cli/RoomCommands.cpp
+    src/cli/RoomCommands.h
+    src/cli/SettingsCommands.cpp
+    src/cli/SettingsCommands.h
+    src/cli/UserCommands.cpp
+    src/cli/UserCommands.h
     src/cli/ThemeColorUtils.cpp
     src/cli/ThemeColorUtils.h
     src/cli/ThemeCommands.cpp

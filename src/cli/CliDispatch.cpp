@@ -11,7 +11,12 @@
 #include <QCoreApplication>
 #include <QString>
 
+#include "AppCommands.h"
+#include "MediaCommands.h"
+#include "RoomCommands.h"
+#include "SettingsCommands.h"
 #include "ThemeCommands.h"
+#include "UserCommands.h"
 
 using HandlerFn = std::function<int(int argc, char *argv[], QCoreApplication &app)>;
 
@@ -19,7 +24,12 @@ static const std::map<QString, HandlerFn> &
 commandGroups()
 {
     static const std::map<QString, HandlerFn> groups = {
+      {QStringLiteral("app"), runAppCommand},
+      {QStringLiteral("media"), runMediaCommand},
+      {QStringLiteral("rooms"), runRoomsCommand},
+      {QStringLiteral("settings"), runSettingsCommand},
       {QStringLiteral("theme"), runThemeCommand},
+      {QStringLiteral("user"), runUserCommand},
     };
     return groups;
 }

@@ -122,12 +122,14 @@ app::runMainApplication(int argc, char *argv[])
       QObject::tr("A fine Matrix chat app you can get to love.\n"
                   "\n"
                   "Subcommands (run without a display server):\n"
-                  "  %1 theme tinted-import <slug> [name]   Import a Base16 theme\n"
-                  "  %1 theme tinted-search [query]         Search available Base16 themes\n"
-                  "  %1 theme list                          List all loaded themes\n"
-                  "  %1 theme create-sample <variant> <name> Create a starter theme\n"
+                  "  %1 app        Instance metadata (JSON)\n"
+                  "  %1 rooms      Room discovery and navigation (JSON)\n"
+                  "  %1 user       Account and presence (JSON)\n"
+                  "  %1 settings   Appearance settings (JSON)\n"
+                  "  %1 media      Media content resolution\n"
+                  "  %1 theme      Theme file management (offline)\n"
                   "\n"
-                  "Run '%1 theme --help' for subcommand details.")
+                  "Run '%1 <group> --help' for subcommand details.")
         .arg(QCoreApplication::applicationName()));
     parser.addHelpOption();
     parser.addVersionOption();

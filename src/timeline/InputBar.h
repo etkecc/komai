@@ -282,6 +282,20 @@ public slots:
         return timeline::slash_commands::completionReplacementEnd(currentText,
                                                                   currentCursorPosition);
     }
+    Q_INVOKABLE QString applyCommandCompletion(const QString &currentText,
+                                               int currentCursorPosition,
+                                               const QString &completion) const
+    {
+        return timeline::slash_commands::applyCompletion(
+          currentText, currentCursorPosition, completion);
+    }
+    Q_INVOKABLE int commandCompletionCursorPosition(const QString &currentText,
+                                                    int currentCursorPosition,
+                                                    const QString &completion) const
+    {
+        return timeline::slash_commands::completionCursorPosition(
+          currentText, currentCursorPosition, completion);
+    }
 
 private slots:
     void startTyping();

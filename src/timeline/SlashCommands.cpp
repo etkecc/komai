@@ -81,6 +81,21 @@ validateNoArguments(const ParsedCommand &parsed, const CommandContext &)
                                 "This command does not take any arguments.");
 }
 
+int
+adjustedCompletionReplacementEnd(const ParsedCommand &parsed, QStringView completion)
+{
+    if (!parsed.hasLeadingSlash || parsed.tokenStart != 0 || parsed.tokenEnd < 0)
+        return -1;
+
+    int replaceEnd = parsed.tokenEnd;
+    if (replaceEnd < parsed.inputText.size() && !completion.isEmpty() &&
+        parsed.inputText.at(replaceEnd) == completion.back()) {
+        ++replaceEnd;
+    }
+
+    return replaceEnd;
+}
+
 ValidationResult
 validateRequiredMessage(const ParsedCommand &parsed, const CommandContext &)
 {
@@ -740,6 +755,36 @@ completionReplacementEnd(const QString &text, int cursorPosition)
         return clampedCursor;
 
     return parsed.tokenEnd;
+}
+
+QString
+applyCompletion(const QString &text, int cursorPosition, QStringView completion)
+{
+    (void)cursorPosition;
+
+    const auto parsed    = parse(text);
+    const int replaceEnd = adjustedCompletionReplacementEnd(parsed, completion);
+    if (replaceEnd < 0)
+        return text;
+
+    QString updated = text;
+    updated.remove(parsed.tokenStart, replaceEnd - parsed.tokenStart);
+    updated.insert(parsed.tokenStart, completion.toString());
+    return updated;
+}
+
+int
+completionCursorPosition(const QString &text, int cursorPosition, QStringView completion)
+{
+    const int clampedCursor = std::clamp(cursorPosition, 0, static_cast<int>(text.size()));
+    const auto parsed       = parse(text);
+    const int replaceEnd    = adjustedCompletionReplacementEnd(parsed, completion);
+
+    if (replaceEnd < 0)
+        return clampedCursor;
+
+    const int trailingOffset = std::max(0, clampedCursor - replaceEnd);
+    return parsed.tokenStart + static_cast<int>(completion.size()) + trailingOffset;
 }
 
 } // namespace timeline::slash_commands

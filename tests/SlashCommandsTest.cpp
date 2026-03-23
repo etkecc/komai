@@ -101,6 +101,21 @@ testParserAndCompletionRanges()
     ok &= expect(
       timeline::slash_commands::completionSearchString(QStringLiteral("/"), 1) == QStringLiteral("/"),
       "command picker still shows all commands for a bare slash");
+    const auto replacedWithArgs =
+      timeline::slash_commands::applyCompletion(QStringLiteral("/me something"),
+                                                13,
+                                                QStringLiteral("/notice "));
+    ok &= expect(replacedWithArgs == QStringLiteral("/notice something"),
+                 "command completion preserves already-typed arguments");
+    ok &= expect(timeline::slash_commands::completionCursorPosition(
+                   QStringLiteral("/me something"), 13, QStringLiteral("/notice ")) ==
+                   replacedWithArgs.size(),
+                 "command completion keeps the cursor at the end of preserved arguments");
+    ok &= expect(timeline::slash_commands::applyCompletion(QStringLiteral("/goto 123"),
+                                                           9,
+                                                           QStringLiteral("/join ")) ==
+                   QStringLiteral("/join 123"),
+                 "command completion avoids duplicating separator spaces");
     return ok;
 }
 

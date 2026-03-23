@@ -203,18 +203,19 @@ Rectangle {
                     return messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText;
                 }
                 function insertCompletion(completion) {
-                    let replaceEnd = cursorPosition;
                     if (completer.completerType === "command" && room && room.input) {
-                        replaceEnd = room.input.commandCompletionReplaceEnd(messageInput.text,
-                                                                           cursorPosition);
-                        if (replaceEnd < messageInput.length && completion.length > 0) {
-                            const nextChar = messageInput.getText(replaceEnd, replaceEnd + 1);
-                            const completionLastChar = completion.charAt(completion.length - 1);
-                            if (nextChar === completionLastChar)
-                                replaceEnd = replaceEnd + 1;
-                        }
+                        const updatedText = room.input.applyCommandCompletion(messageInput.text,
+                                                                              cursorPosition,
+                                                                              completion);
+                        const updatedCursorPosition = room.input.commandCompletionCursorPosition(messageInput.text,
+                                                                                                 cursorPosition,
+                                                                                                 completion);
+                        messageInput.text = updatedText;
+                        messageInput.cursorPosition = updatedCursorPosition;
+                        return;
                     }
 
+                    let replaceEnd = cursorPosition;
                     messageInput.remove(completerTriggeredAt, replaceEnd);
                     messageInput.insert(completerTriggeredAt, completion);
                     messageInput.cursorPosition = completerTriggeredAt + completion.length;

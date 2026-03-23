@@ -174,6 +174,10 @@ QString
 completionSearchString(const QString &text, int cursorPosition);
 int
 completionReplacementEnd(const QString &text, int cursorPosition);
+QString
+applyCompletion(const QString &text, int cursorPosition, QStringView completion);
+int
+completionCursorPosition(const QString &text, int cursorPosition, QStringView completion);
 
 CommandResult
 execute(InputBar &inputBar, const ParsedCommand &parsed);

@@ -166,6 +166,50 @@ InputBar::removeMention(QString mention)
 }
 
 void
+InputBar::syncSlashCommandInspection(const timeline::slash_commands::Inspection &inspection)
+{
+    const auto validationState = inspection.validation.state;
+    const bool hasInvalidCommand =
+      validationState == timeline::slash_commands::ValidationState::Unrecognized ||
+      validationState == timeline::slash_commands::ValidationState::Invalid ||
+      validationState == timeline::slash_commands::ValidationState::ContextRejected;
+    const bool hasIncompleteCommand =
+      validationState == timeline::slash_commands::ValidationState::Incomplete ||
+      (validationState == timeline::slash_commands::ValidationState::Unrecognized &&
+       inspection.parsed.isBareCommandToken());
+
+    bool signalsChanged{false};
+    if (containsInvalidCommand_ != hasInvalidCommand) {
+        containsInvalidCommand_ = hasInvalidCommand;
+        signalsChanged          = true;
+    }
+    if (containsIncompleteCommand_ != hasIncompleteCommand) {
+        containsIncompleteCommand_ = hasIncompleteCommand;
+        signalsChanged             = true;
+    }
+    if (currentCommand_ != inspection.parsed.name) {
+        currentCommand_ = inspection.parsed.name;
+        signalsChanged  = true;
+    }
+    const bool validationStateChanged = commandValidationState_ != validationState;
+    const bool validationMessageChanged =
+      commandValidationMessage_ != inspection.validation.message;
+    if (validationStateChanged)
+        commandValidationState_ = validationState;
+    if (validationMessageChanged)
+        commandValidationMessage_ = inspection.validation.message;
+    if (signalsChanged) {
+        emit currentCommandChanged();
+        emit containsInvalidCommandChanged();
+        emit containsIncompleteCommandChanged();
+    }
+    if (validationStateChanged)
+        emit commandValidationStateChanged();
+    if (validationMessageChanged)
+        emit commandValidationMessageChanged();
+}
+
+void
 InputBar::updateTextContentProperties(const QString &t, bool charDeleted)
 {
     auto containsRoomMention = [](QStringView text) {
@@ -210,46 +254,7 @@ InputBar::updateTextContentProperties(const QString &t, bool charDeleted)
             removeMention(QStringLiteral(u"@room"));
     }
 
-    const auto inspection      = timeline::slash_commands::inspect(t, commandContext());
-    const auto validationState = inspection.validation.state;
-    const bool hasInvalidCommand =
-      validationState == timeline::slash_commands::ValidationState::Unrecognized ||
-      validationState == timeline::slash_commands::ValidationState::Invalid ||
-      validationState == timeline::slash_commands::ValidationState::ContextRejected;
-    const bool hasIncompleteCommand =
-      validationState == timeline::slash_commands::ValidationState::Incomplete ||
-      (validationState == timeline::slash_commands::ValidationState::Unrecognized &&
-       inspection.parsed.isBareCommandToken());
-
-    bool signalsChanged{false};
-    if (containsInvalidCommand_ != hasInvalidCommand) {
-        containsInvalidCommand_ = hasInvalidCommand;
-        signalsChanged          = true;
-    }
-    if (containsIncompleteCommand_ != hasIncompleteCommand) {
-        containsIncompleteCommand_ = hasIncompleteCommand;
-        signalsChanged             = true;
-    }
-    if (currentCommand_ != inspection.parsed.name) {
-        currentCommand_ = inspection.parsed.name;
-        signalsChanged  = true;
-    }
-    const bool validationStateChanged = commandValidationState_ != validationState;
-    const bool validationMessageChanged =
-      commandValidationMessage_ != inspection.validation.message;
-    if (validationStateChanged)
-        commandValidationState_ = validationState;
-    if (validationMessageChanged)
-        commandValidationMessage_ = inspection.validation.message;
-    if (signalsChanged) {
-        emit currentCommandChanged();
-        emit containsInvalidCommandChanged();
-        emit containsIncompleteCommandChanged();
-    }
-    if (validationStateChanged)
-        emit commandValidationStateChanged();
-    if (validationMessageChanged)
-        emit commandValidationMessageChanged();
+    syncSlashCommandInspection(timeline::slash_commands::inspect(t, commandContext()));
 }
 
 void
@@ -353,7 +358,7 @@ InputBar::send()
     auto wasEdit = !room->edit().isEmpty();
 
     const auto inspection = timeline::slash_commands::inspect(text(), commandContext());
-    updateTextContentProperties(text());
+    syncSlashCommandInspection(inspection);
 
     bool sent = false;
     switch (inspection.submitAction) {

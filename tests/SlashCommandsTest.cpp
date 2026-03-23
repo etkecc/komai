@@ -64,6 +64,24 @@ expectInspection(const QString &text,
 }
 
 bool
+expectInspectionMessageContains(const QString &text,
+                                const CommandContext &context,
+                                std::string_view needle,
+                                std::string_view message)
+{
+    const auto inspection = timeline::slash_commands::inspect(text, context);
+    if (inspection.validation.message.contains(
+          QString::fromLatin1(needle.data(), static_cast<qsizetype>(needle.size())))) {
+        return true;
+    }
+
+    std::cerr << "FAILED: " << message << "\n"
+              << "  text: " << text.toStdString() << "\n"
+              << "  validation message: " << inspection.validation.message.toStdString() << '\n';
+    return false;
+}
+
+bool
 testRegistryInventory()
 {
     bool ok          = true;
@@ -152,6 +170,16 @@ testValidationAndSendBehavior()
 {
     bool ok = true;
 
+    ok &= expectInspection(QStringLiteral("/ "),
+                           {},
+                           ValidationState::None,
+                           SubmitAction::SendPlainText,
+                           "a bare slash followed by a separator stays plain text");
+    ok &= expectInspection(QStringLiteral("hello /foo"),
+                           {},
+                           ValidationState::None,
+                           SubmitAction::SendPlainText,
+                           "non-leading slash text is never treated as a command");
     ok &= expectInspection(QStringLiteral("hello world"),
                            {},
                            ValidationState::None,
@@ -226,6 +254,36 @@ testValidationAndSendBehavior()
 }
 
 bool
+testValidationMessages()
+{
+    bool ok = true;
+
+    ok &= expectInspectionMessageContains(QStringLiteral("/foo"),
+                                          {},
+                                          "not recognized",
+                                          "bare unknown slash text explains that it is not recognized");
+    ok &= expectInspectionMessageContains(
+      QStringLiteral("/foo "),
+      {},
+      "will be sent as part of your message",
+      "unknown slash text with a separator explains that it will send literally");
+    ok &= expectInspectionMessageContains(
+      QStringLiteral("/goto"),
+      {},
+      "Enter an event ID",
+      "/goto without arguments shows a targeted incomplete-message hint");
+    ok &= expectInspectionMessageContains(
+      QStringLiteral("/react fire"),
+      {},
+      "Reply to a message",
+      "/react without reply context explains the rejection");
+    ok &= expect(timeline::slash_commands::inspect(QStringLiteral("/notice hello"), {})
+                     .validation.message.isEmpty(),
+                 "valid commands keep the validation surface quiet");
+    return ok;
+}
+
+bool
 testCommandHelpers()
 {
     bool ok = true;
@@ -254,6 +312,7 @@ main(int argc, char **argv)
     ok &= testParserAndCompletionRanges();
     ok &= testCompleterTemplates();
     ok &= testValidationAndSendBehavior();
+    ok &= testValidationMessages();
     ok &= testCommandHelpers();
     return ok ? 0 : 1;
 }

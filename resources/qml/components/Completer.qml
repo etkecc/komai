@@ -27,37 +27,21 @@ Control {
     property string roomId
     property int rowMargin: 0
     property int rowSpacing: Komai.paddingSmall
-    readonly property bool commandSuccessVisible: completerType === "command"
-        && commandValidationState === "valid"
-    readonly property color commandFooterBorderColor: commandValidationVisible
-        ? commandValidationColor
-        : commandSuccessVisible
-        ? Komai.theme.success
+    readonly property color commandFooterBorderColor: commandValidation.footerAccentVisible
+        ? commandValidation.footerAccentColor
         : palette.mid
-    readonly property color commandFooterColor: commandValidationVisible
-        ? Qt.rgba(commandValidationColor.r, commandValidationColor.g, commandValidationColor.b, 0.3)
-        : commandSuccessVisible
-        ? Qt.rgba(Komai.theme.success.r, Komai.theme.success.g, Komai.theme.success.b, 0.2)
+    readonly property color commandFooterColor: commandValidation.messageVisible
+        ? Qt.rgba(commandValidation.footerAccentColor.r, commandValidation.footerAccentColor.g, commandValidation.footerAccentColor.b, 0.3)
+        : commandValidation.successVisible
+        ? Qt.rgba(commandValidation.footerAccentColor.r, commandValidation.footerAccentColor.g, commandValidation.footerAccentColor.b, 0.2)
         : palette.base
-    readonly property string commandFooterText: commandValidationVisible
-        ? commandValidationMessage
-        : commandSuccessVisible
-        ? (currentIndex >= 0
-            ? qsTr("Hit Enter to insert it.")
-            : qsTr("Looks good! Hit Enter to send it."))
-        : qsTr("Select a command first. Enter inserts if selected; otherwise it sends.")
-    readonly property color commandFooterTextColor: commandValidationVisible
+    readonly property string commandFooterText: commandValidation.footerText
+    readonly property color commandFooterTextColor: commandValidation.messageVisible
         ? palette.text
-        : commandSuccessVisible
-        ? Komai.theme.success
+        : commandValidation.successVisible
+        ? commandValidation.footerAccentColor
         : palette.buttonText
     readonly property bool commandFooterVisible: completerType === "command"
-    readonly property color commandValidationColor: commandValidationState === "incomplete"
-        || commandValidationState === "unrecognized"
-        ? Komai.theme.warning
-        : Komai.theme.error
-    readonly property bool commandValidationVisible: completerType === "command"
-        && commandValidationMessage.length > 0
     readonly property int secondaryTextMaxWidth: Math.max(180, Math.ceil(Settings.uiFontSizePt * 18))
     readonly property int emptyStateMinWidth: Math.max(Math.ceil(Settings.uiFontSizePt * 22), 280)
     implicitWidth: Math.max(emptyStateMinWidth, contentColumn.implicitWidth || 0)
@@ -141,6 +125,14 @@ Control {
     palette: timelineRoot.palette
     rightPadding: 1
     topPadding: 1
+
+    CommandValidationPresentation {
+        id: commandValidation
+
+        selectionActive: popup.currentIndex >= 0
+        validationMessage: popup.commandValidationMessage
+        validationState: popup.commandValidationState
+    }
 
     background: Rectangle {
         border.color: palette.mid

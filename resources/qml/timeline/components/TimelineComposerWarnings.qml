@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../../composer" as Composer
+import "../../components" as Components
 import QtQuick
 import QtQuick.Layouts
 import cc.etke.komai
@@ -18,11 +19,7 @@ ColumnLayout {
     readonly property string commandValidationState: roomModel ? roomModel.input.commandValidationState : "none"
     readonly property string commandValidationMessage: roomModel ? roomModel.input.commandValidationMessage : ""
     readonly property bool commandWarningVisible: !commandPickerVisible
-        && commandValidationMessage.length > 0
-    readonly property color commandWarningColor: commandValidationState === "incomplete"
-        || commandValidationState === "unrecognized"
-        ? Komai.theme.warning
-        : Komai.theme.error
+        && commandValidation.messageVisible
     readonly property bool layoutVisible: mentionCount > 0 || commandWarningVisible
 
     Layout.fillWidth: true
@@ -31,6 +28,13 @@ ColumnLayout {
     Layout.maximumHeight: layoutVisible ? implicitHeight : 0
     spacing: 0
     visible: layoutVisible
+
+    Components.CommandValidationPresentation {
+        id: commandValidation
+
+        validationMessage: root.commandValidationMessage
+        validationState: root.commandValidationState
+    }
 
     Repeater {
         model: root.roomModel ? root.roomModel.input.mentions : null
@@ -48,7 +52,7 @@ ColumnLayout {
 
     Composer.MessageInputWarning {
         roundTopCorners: !root.replyPopupVisible && root.mentionCount == 0
-        bubbleColor: root.commandWarningColor
+        bubbleColor: commandValidation.validationColor
         text: root.commandValidationMessage
         visible: root.commandWarningVisible
     }

@@ -370,6 +370,7 @@ private:
         }
     }
 
+    void syncSlashCommandInspection(const timeline::slash_commands::Inspection &inspection);
     void updateTextContentProperties(const QString &t, bool textDeleted = false);
 
     void toggleIgnore(const QString &user, const bool ignored);

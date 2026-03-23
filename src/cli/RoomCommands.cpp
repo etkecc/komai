@@ -13,6 +13,31 @@
 
 #include "IpcClient.h"
 
+namespace {
+
+bool
+requireNonEmptyValue(const QString &value, const char *label)
+{
+    if (!value.trimmed().isEmpty())
+        return true;
+
+    std::cerr << "Error: " << label << " must not be empty\n";
+    return false;
+}
+
+bool
+handleIpcError(const QJsonObject &response)
+{
+    if (!response.contains(QStringLiteral("error")))
+        return false;
+
+    std::cerr << "Error: " << response.value(QStringLiteral("error")).toString().toStdString()
+              << "\n";
+    return true;
+}
+
+} // namespace
+
 int
 runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
 {
@@ -53,9 +78,13 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
             std::cerr << "Usage: komai rooms activate <room-id-or-alias>\n";
             return 1;
         }
-        cli_ipc::call(profileId,
-                      QStringLiteral("rooms.activate"),
-                      {{QStringLiteral("roomIdOrAlias"), args.at(1)}});
+        if (!requireNonEmptyValue(args.at(1), "room-id-or-alias"))
+            return 1;
+        auto response = cli_ipc::call(profileId,
+                                      QStringLiteral("rooms.activate"),
+                                      {{QStringLiteral("roomIdOrAlias"), args.at(1)}});
+        if (handleIpcError(response))
+            return 1;
         return 0;
     }
 
@@ -64,8 +93,12 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
             std::cerr << "Usage: komai rooms join <room-id-or-alias>\n";
             return 1;
         }
-        cli_ipc::call(
+        if (!requireNonEmptyValue(args.at(1), "room-id-or-alias"))
+            return 1;
+        auto response = cli_ipc::call(
           profileId, QStringLiteral("rooms.join"), {{QStringLiteral("roomIdOrAlias"), args.at(1)}});
+        if (handleIpcError(response))
+            return 1;
         return 0;
     }
 
@@ -74,9 +107,13 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
             std::cerr << "Usage: komai rooms new-direct-chat <user-id>\n";
             return 1;
         }
-        cli_ipc::call(profileId,
-                      QStringLiteral("rooms.newDirectChat"),
-                      {{QStringLiteral("userId"), args.at(1)}});
+        if (!requireNonEmptyValue(args.at(1), "user-id"))
+            return 1;
+        auto response = cli_ipc::call(profileId,
+                                      QStringLiteral("rooms.newDirectChat"),
+                                      {{QStringLiteral("userId"), args.at(1)}});
+        if (handleIpcError(response))
+            return 1;
         return 0;
     }
 
@@ -106,9 +143,7 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
                                        {QStringLiteral("body"), body},
                                        {QStringLiteral("msgtype"), msgtype},
                                        {QStringLiteral("format"), format}});
-        if (response.contains(QStringLiteral("error"))) {
-            std::cerr << "Error: "
-                      << response.value(QStringLiteral("error")).toString().toStdString() << "\n";
+        if (handleIpcError(response)) {
             return 1;
         }
         auto result = response.value(QStringLiteral("result")).toObject();

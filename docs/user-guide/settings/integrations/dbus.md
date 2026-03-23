@@ -13,7 +13,7 @@ This is controlled in **Settings → Integrations → D-Bus** with the **D-Bus a
 
 No restart is needed when changing it.
 
-> **Note:** This setting only affects the D-Bus API. The [CLI](../../automations/cli.md) uses a separate local socket channel and is always available regardless of this setting.
+> **Note:** This setting only affects the D-Bus API. The [CLI](../../automations/cli.md) and [MCP server](../../automations/mcp.md) use separate local channels and are not controlled by this setting. For the full automation overview, see [Automations](../../automations/README.md).
 
 ## What's exposed
 

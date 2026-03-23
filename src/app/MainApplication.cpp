@@ -128,6 +128,7 @@ app::runMainApplication(int argc, char *argv[])
                   "  %1 user       Account and presence (JSON)\n"
                   "  %1 settings   Appearance settings (JSON)\n"
                   "  %1 media      Media content resolution\n"
+                  "  %1 mcp        MCP stdio server wrapper\n"
                   "  %1 theme      Theme file management (offline)\n"
                   "\n"
                   "Run '%1 <group> --help' for subcommand details.")

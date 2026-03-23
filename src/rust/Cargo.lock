@@ -723,6 +723,7 @@ dependencies = [
  "hickory-resolver",
  "reqwest",
  "resolvematrix",
+ "serde_json",
  "tokio",
 ]
 

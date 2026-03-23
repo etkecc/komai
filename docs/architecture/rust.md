@@ -30,11 +30,24 @@ This means the rest of Komai never sees CXX types. If we ever change interop mec
 
 ```
 src/rust/
-├── Cargo.toml          # Crate manifest (staticlib)
+├── Cargo.toml          # Package manifest (staticlib + rlib + binaries)
 ├── Cargo.lock          # Committed for reproducible builds
 ├── build.rs            # CXX build script
 └── src/
-    └── lib.rs          # CXX bridge + implementation
+    ├── lib.rs          # Shared Rust library modules + CXX bridge
+    ├── bin/
+    │   └── komai-mcp.rs
+    ├── ipc/
+    │   ├── client.rs
+    │   ├── mod.rs
+    │   ├── protocol.rs
+    │   └── unix.rs
+    └── mcp/
+        ├── errors.rs
+        ├── mod.rs
+        ├── results.rs
+        ├── server.rs
+        └── tools.rs
 
 src/matrix/
 ├── MatrixServerResolver.h    # C++ wrapper (public API)
@@ -51,7 +64,14 @@ corrosion_import_crate(MANIFEST_PATH src/rust/Cargo.toml)
 target_link_libraries(komai PRIVATE komai-rust)
 ```
 
-Corrosion invokes `cargo build` and produces a static library that links into the `komai` binary.
+Corrosion invokes `cargo build` and produces both:
+
+- the Rust library that links into the `komai` binary
+- the sibling `komai-mcp` executable used by `komai mcp serve`
+
+The `komai` CLI does not embed the MCP protocol implementation directly. It
+dispatches to `komai-mcp`, which then talks back to the running app over the
+existing IPC socket.
 
 ## Async Strategy
 

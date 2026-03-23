@@ -8,6 +8,8 @@ Commands fall into two categories:
 
 - **IPC-backed** — talk to a running Komai instance over a local Unix socket
   (`app`, `rooms`, `user`, `settings`, `media`)
+- **Wrapper-backed** — dispatch to another local helper process
+  (`mcp`)
 - **Offline** — work without a running instance (`theme`)
 
 
@@ -25,6 +27,7 @@ main()
   │    └─ (match) → QCoreApplication + handler
   │         │
   │         ├─ runAppCommand()          ← IPC: version, api-version
+  │         ├─ runMcpCommand()          ← wrapper: execs komai-mcp
   │         ├─ runRoomsCommand()        ← IPC: list, activate, join, new-direct-chat
   │         ├─ runUserCommand()         ← IPC: status, set-status
   │         ├─ runSettingsCommand()     ← IPC: ui theme, ui set-theme
@@ -46,6 +49,7 @@ group names to handler functions. Currently registered groups:
 |------------|-----------------------|-------------------------------|----------|
 | `app`      | `runAppCommand`       | `src/cli/AppCommands.cpp`     | IPC      |
 | `media`    | `runMediaCommand`     | `src/cli/MediaCommands.cpp`   | IPC      |
+| `mcp`      | `runMcpCommand`       | `src/cli/McpCommands.cpp`     | Wrapper  |
 | `rooms`    | `runRoomsCommand`     | `src/cli/RoomCommands.cpp`    | IPC      |
 | `settings` | `runSettingsCommand`  | `src/cli/SettingsCommands.cpp` | IPC     |
 | `theme`    | `runThemeCommand`     | `src/cli/ThemeCommands.cpp`   | Offline  |
@@ -138,6 +142,20 @@ socket name `komai-cli-<id>`). Default profile is `default`.
 
 The `settings` group uses nested dispatch:
 `settings` → subgroup (`ui`) → subcommand (`theme`, `set-theme`).
+
+## MCP wrapper command
+
+`komai mcp serve` is a thin C++ wrapper around the Rust `komai-mcp` binary.
+
+The wrapper is responsible for:
+
+- making `mcp` show up in `komai --help`
+- reusing the normal `-p` / `--profile` parsing semantics
+- forwarding the resolved profile to `komai-mcp`
+- forwarding `--access read_only|read_write`
+
+The Rust helper then speaks MCP over stdio and uses the same IPC socket
+protocol described above as its backend boundary.
 
 
 ## Adding a new command group

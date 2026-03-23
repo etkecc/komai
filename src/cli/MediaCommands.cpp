@@ -42,10 +42,16 @@ runMediaCommand(int argc, char *argv[], QCoreApplication & /*app*/)
             std::cerr << "Usage: komai media fetch <mxc-uri>\n";
             return 1;
         }
+        const auto mxcUri = args.at(1).trimmed();
+        if (mxcUri.isEmpty()) {
+            std::cerr << "Error: mxc-uri must not be empty\n";
+            return 1;
+        }
         auto response = cli_ipc::call(
-          profileId, QStringLiteral("media.fetch"), {{QStringLiteral("mxcUri"), args.at(1)}});
+          profileId, QStringLiteral("media.fetch"), {{QStringLiteral("mxcUri"), mxcUri}});
         if (response.contains(QStringLiteral("error"))) {
-            std::cerr << "Error: failed to fetch image or empty response\n";
+            std::cerr << "Error: "
+                      << response.value(QStringLiteral("error")).toString().toStdString() << "\n";
             return 1;
         }
         auto base64Data = response.value(QStringLiteral("result")).toString();
@@ -94,7 +100,11 @@ runMediaCommand(int argc, char *argv[], QCoreApplication & /*app*/)
                              "[--content-type <mime>]\n";
                 return 1;
             }
-            filePath = args.at(1);
+            filePath = args.at(1).trimmed();
+            if (filePath.isEmpty()) {
+                std::cerr << "Error: path must not be empty\n";
+                return 1;
+            }
         }
 
         QJsonObject params{{QStringLiteral("path"), filePath}};

@@ -12,6 +12,7 @@
 #include <QString>
 
 #include "AppCommands.h"
+#include "McpCommands.h"
 #include "MediaCommands.h"
 #include "RoomCommands.h"
 #include "SettingsCommands.h"
@@ -26,6 +27,7 @@ commandGroups()
     static const std::map<QString, HandlerFn> groups = {
       {QStringLiteral("app"), runAppCommand},
       {QStringLiteral("media"), runMediaCommand},
+      {QStringLiteral("mcp"), runMcpCommand},
       {QStringLiteral("rooms"), runRoomsCommand},
       {QStringLiteral("settings"), runSettingsCommand},
       {QStringLiteral("theme"), runThemeCommand},
@@ -44,7 +46,8 @@ findCommandGroup(int argc, char *argv[])
         // Skip known option+value pairs that consume the next arg
         if (arg == QLatin1String("-p") || arg == QLatin1String("--profile") ||
             arg == QLatin1String("-l") || arg == QLatin1String("--log-level") ||
-            arg == QLatin1String("-L") || arg == QLatin1String("--log-type")) {
+            arg == QLatin1String("-L") || arg == QLatin1String("--log-type") ||
+            arg == QLatin1String("--access")) {
             ++i; // skip the value
             continue;
         }

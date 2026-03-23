@@ -28,6 +28,7 @@ CMakeLists.txt.user
 *.lo
 *.la
 *.lai
+src/rust/target/
 
 # Packaging outputs
 *.AppImage

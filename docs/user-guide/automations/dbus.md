@@ -2,6 +2,10 @@
 
 Komai exposes a local [D-Bus](https://www.freedesktop.org/wiki/Software/dbus/) API so external tools can interact with your running session -- query rooms, switch themes, open chats, and more.
 
+> **Looking for the overview?** Start with [Automations](README.md) for a quick guide to MCP, CLI, and D-Bus.
+
+> **Need MCP host integration?** See the [MCP server guide](mcp.md). MCP is stdio-based, uses the same running-instance automation surface, and does not require D-Bus to be enabled.
+
 > **Before you start:** D-Bus integration must be enabled in [Settings → Integrations → D-Bus](../settings/integrations/dbus.md).
 
 > **Just need a quick command?** The [CLI](cli.md) provides the same operations as ready-made commands with human & agent-friendly JSON output -- no D-Bus library needed. CLI commands are always available regardless of the D-Bus access setting.

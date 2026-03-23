@@ -2,7 +2,7 @@
 
 - ⚙️ [Settings](settings/README.md) -- profiles, settings, secret providers, backup
 - 👥 [Application Profiles](application-profiles.md) -- profile switcher, create/launch/delete workflows
-- 🤖 [Automations](automations/README.md) -- D-Bus API for scripting and external tool integration
+- 🤖 [Automations](automations/README.md) -- MCP, CLI, and D-Bus surfaces for scripts, desktop tools, and AI hosts
 - 🔌 [Integrations](settings/integrations/README.md) -- D-Bus access settings
 - 🦁 [Identity](identity.md) -- what Komai is, project naming, and identity background
 - ⌨️ [Keyboard Shortcuts](keyboard-shortcuts.md) -- app-wide, timeline, composer, sidebar, media, and dialog shortcuts

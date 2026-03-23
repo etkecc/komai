@@ -7,6 +7,9 @@ use std::sync::OnceLock;
 use resolvematrix::server::MatrixResolver;
 use tokio::runtime::Runtime;
 
+pub mod ipc;
+pub mod mcp;
+
 #[cxx::bridge(namespace = "komai::rust")]
 mod ffi {
     struct ResolveResult {

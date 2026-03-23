@@ -232,6 +232,19 @@ sendMessage(const QString &roomIdOrAlias,
             const QString &format,
             SendMessageCallback callback)
 {
+    if (msgtype != QLatin1String("m.text") && msgtype != QLatin1String("m.notice")) {
+        if (callback)
+            callback({}, QStringLiteral("msgtype must be one of: m.text, m.notice"));
+        return;
+    }
+
+    if (format != QLatin1String("auto") && format != QLatin1String("plain") &&
+        format != QLatin1String("html")) {
+        if (callback)
+            callback({}, QStringLiteral("format must be one of: auto, plain, html"));
+        return;
+    }
+
     const auto roomId = resolveRoomId(roomIdOrAlias);
     if (roomId.isEmpty()) {
         if (callback)
@@ -243,6 +256,12 @@ sendMessage(const QString &roomIdOrAlias,
 
     // Build formatted_body based on format parameter.
     const auto trimmedBody = body.trimmed();
+    if (trimmedBody.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("message body must not be empty"));
+        return;
+    }
+
     std::string formattedBody;
 
     if (format == QLatin1String("html")) {
@@ -603,6 +622,13 @@ sendImage(const QString &roomIdOrAlias,
           const QJsonObject &info,
           SendMessageCallback callback)
 {
+    const auto normalizedMxcUri = mxcUri.trimmed();
+    if (normalizedMxcUri.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("mxcUri must not be empty"));
+        return;
+    }
+
     const auto roomId = resolveRoomId(roomIdOrAlias);
     if (roomId.isEmpty()) {
         if (callback)
@@ -620,7 +646,7 @@ sendImage(const QString &roomIdOrAlias,
     }
 
     mtx::events::msg::Image image;
-    image.url  = mxcUri.toStdString();
+    image.url  = normalizedMxcUri.toStdString();
     image.body = body.isEmpty()
                    ? (filename.isEmpty() ? std::string("image") : filename.toStdString())
                    : body.trimmed().toStdString();

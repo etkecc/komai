@@ -763,6 +763,8 @@ set(SRC_FILES
     src/cli/AppCommands.h
     src/cli/MediaCommands.cpp
     src/cli/MediaCommands.h
+    src/cli/McpCommands.cpp
+    src/cli/McpCommands.h
     src/cli/RoomCommands.cpp
     src/cli/RoomCommands.h
     src/cli/SettingsCommands.cpp
@@ -1581,6 +1583,20 @@ if(BUILD_TESTING)
     add_test(NAME komai_theme_color_utils_test COMMAND komai_theme_color_utils_test)
     komai_configure_test(komai_theme_color_utils_test "unit;theme")
 
+    add_executable(komai_mcp_commands_test
+        tests/McpCommandsTest.cpp
+        src/cli/McpCommands.cpp
+        src/app/MainApplicationSupport.cpp
+    )
+    target_include_directories(komai_mcp_commands_test PRIVATE src src/cli/)
+    target_link_libraries(komai_mcp_commands_test PRIVATE
+        Qt::Core
+        Qt::Network
+        Qt::Widgets
+    )
+    add_test(NAME komai_mcp_commands_test COMMAND komai_mcp_commands_test)
+    komai_configure_test(komai_mcp_commands_test "unit;cli")
+
     add_executable(komai_bot_detection_test
         tests/BotDetectionTest.cpp
         src/utils/BotDetection.cpp
@@ -1677,12 +1693,17 @@ if(BUILD_TESTING)
         komai_raw_message_dialog_payload_test
         komai_roomlist_preview_selection_test
         komai_theme_color_utils_test
+        komai_mcp_commands_test
         komai_bot_detection_test
         komai_emoji_completion_search_test
         komai_navigation_history_test
         komai_slash_commands_test
         komai_layout_agnostic_keys_test
     )
+endif()
+
+if(TARGET komai-mcp)
+    add_dependencies(komai komai-mcp)
 endif()
 
 target_link_libraries(komai PRIVATE
@@ -1775,6 +1796,10 @@ if(APPLE)
         BUNDLE  DESTINATION .
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
+    if(TARGET komai-mcp)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/komai-mcp"
+            DESTINATION ${CMAKE_INSTALL_BINDIR})
+    endif()
     qt_generate_deploy_qml_app_script(
         TARGET komai
         OUTPUT_SCRIPT deploy_script
@@ -1787,6 +1812,10 @@ if(UNIX AND NOT APPLE)
     set_target_properties(komai PROPERTIES OUTPUT_NAME "${KOMAI_EXECUTABLE_NAME}")
 
     install(TARGETS komai RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    if(TARGET komai-mcp)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/komai-mcp"
+            DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    endif()
     install(FILES "${KOMAI_LOGO_ASSET_DIR}/komai-16.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/16x16/apps" RENAME "${KOMAI_DESKTOP_ICON_NAME}.png")
     install(FILES "${KOMAI_LOGO_ASSET_DIR}/komai-32.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/32x32/apps" RENAME "${KOMAI_DESKTOP_ICON_NAME}.png")
     install(FILES "${KOMAI_LOGO_ASSET_DIR}/komai-48.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/48x48/apps" RENAME "${KOMAI_DESKTOP_ICON_NAME}.png")

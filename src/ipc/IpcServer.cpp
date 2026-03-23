@@ -78,6 +78,25 @@ writeResponse(QLocalSocket *socket, const QJsonObject &response)
     socket->disconnectFromServer();
 }
 
+static bool
+requireNonEmptyString(QLocalSocket *socket,
+                      const QJsonObject &params,
+                      const QString &key,
+                      QString *value)
+{
+    const auto normalized = params.value(key).toString().trimmed();
+    if (normalized.isEmpty()) {
+        writeResponse(
+          socket,
+          {{QStringLiteral("error"),
+            QStringLiteral("Argument '") + key + QStringLiteral("' must not be empty.")}});
+        return false;
+    }
+
+    *value = normalized;
+    return true;
+}
+
 void
 IpcServer::handleRequest(QLocalSocket *socket)
 {
@@ -114,17 +133,31 @@ IpcServer::handleRequest(QLocalSocket *socket)
         return;
     }
     if (method == QLatin1String("rooms.activate")) {
-        activateRoom(params.value(QStringLiteral("roomIdOrAlias")).toString());
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+        activateRoom(roomIdOrAlias);
         writeResponse(socket, {{QStringLiteral("result"), true}});
         return;
     }
     if (method == QLatin1String("rooms.join")) {
-        joinRoom(params.value(QStringLiteral("roomIdOrAlias")).toString());
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+        joinRoom(roomIdOrAlias);
         writeResponse(socket, {{QStringLiteral("result"), true}});
         return;
     }
     if (method == QLatin1String("rooms.newDirectChat")) {
-        newDirectChat(params.value(QStringLiteral("userId")).toString());
+        QString userId;
+        if (!requireNonEmptyString(socket, params, QStringLiteral("userId"), &userId)) {
+            return;
+        }
+        newDirectChat(userId);
         writeResponse(socket, {{QStringLiteral("result"), true}});
         return;
     }
@@ -160,7 +193,16 @@ IpcServer::handleRequest(QLocalSocket *socket)
         return;
     }
     if (method == QLatin1String("settings.ui.setTheme")) {
-        setUiTheme(params.value(QStringLiteral("theme")).toString());
+        QString theme;
+        if (!requireNonEmptyString(socket, params, QStringLiteral("theme"), &theme))
+            return;
+
+        setUiTheme(theme);
+        if (uiTheme() != theme) {
+            writeResponse(
+              socket, {{QStringLiteral("error"), QStringLiteral("invalid theme slug: ") + theme}});
+            return;
+        }
         writeResponse(socket, {{QStringLiteral("result"), true}});
         return;
     }
@@ -248,40 +290,44 @@ IpcServer::handleRequest(QLocalSocket *socket)
 
     if (method == QLatin1String("media.fetch")) {
         QPointer<QLocalSocket> safeSocket = socket;
-        mediaFetch(
-          params.value(QStringLiteral("mxcUri")).toString(), [safeSocket](const QImage &image) {
-              if (!safeSocket)
-                  return;
+        QString mxcUri;
+        if (!requireNonEmptyString(socket, params, QStringLiteral("mxcUri"), &mxcUri))
+            return;
+        mediaFetch(mxcUri, [safeSocket](const QImage &image) {
+            if (!safeSocket)
+                return;
 
-              // Build the response payload (safe on any thread).
-              QJsonObject response;
-              if (image.isNull()) {
-                  response.insert(QStringLiteral("error"), QStringLiteral("failed to fetch image"));
-              } else {
-                  QByteArray pngData;
-                  QBuffer buffer(&pngData);
-                  buffer.open(QIODevice::WriteOnly);
-                  image.save(&buffer, "PNG");
-                  response.insert(QStringLiteral("result"),
-                                  QString::fromLatin1(pngData.toBase64()));
-              }
+            // Build the response payload (safe on any thread).
+            QJsonObject response;
+            if (image.isNull()) {
+                response.insert(QStringLiteral("error"), QStringLiteral("failed to fetch image"));
+            } else {
+                QByteArray pngData;
+                QBuffer buffer(&pngData);
+                buffer.open(QIODevice::WriteOnly);
+                image.save(&buffer, "PNG");
+                response.insert(QStringLiteral("result"), QString::fromLatin1(pngData.toBase64()));
+            }
 
-              // The callback may fire on a background thread, but the socket
-              // must be written to on the thread that owns it (main thread).
-              QMetaObject::invokeMethod(
-                safeSocket.data(),
-                [safeSocket, response]() {
-                    if (safeSocket)
-                        writeResponse(safeSocket.data(), response);
-                },
-                Qt::QueuedConnection);
-          });
+            // The callback may fire on a background thread, but the socket
+            // must be written to on the thread that owns it (main thread).
+            QMetaObject::invokeMethod(
+              safeSocket.data(),
+              [safeSocket, response]() {
+                  if (safeSocket)
+                      writeResponse(safeSocket.data(), response);
+              },
+              Qt::QueuedConnection);
+        });
         return;
     }
 
     if (method == QLatin1String("media.upload")) {
         QPointer<QLocalSocket> safeSocket = socket;
-        mediaUpload(params.value(QStringLiteral("path")).toString(),
+        QString path;
+        if (!requireNonEmptyString(socket, params, QStringLiteral("path"), &path))
+            return;
+        mediaUpload(path,
                     params.value(QStringLiteral("filename")).toString(),
                     params.value(QStringLiteral("contentType")).toString(),
                     [safeSocket](const UploadResult &result, const QString &error) {

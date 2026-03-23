@@ -2,6 +2,10 @@
 
 Komai can be controlled from the terminal. CLI commands talk to a running Komai instance over a local Unix socket, so the target instance must be running. No display server is needed on the machine running the command.
 
+> **Looking for the overview?** Start with [Automations](README.md) for a quick guide to MCP, CLI, and D-Bus.
+
+> **Need MCP host integration?** See the [MCP server guide](mcp.md). MCP uses the same running-instance IPC backend as the CLI, but exposes it through the Model Context Protocol over stdio.
+
 > **Prefer a D-Bus library?** The same operations are also available through the [D-Bus API](dbus.md) for use from any programming language.
 
 ## 📤 Output format

@@ -111,6 +111,11 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Revamped settings storage** -- Komai uses per-profile, human-readable YAML files (`config.yml`, `state.yml`, `session.yml`, `secrets.yml`) instead of one monolithic Qt settings store.
 
 
+## 🤖 Automation and Scripting
+
+- **Broader local automation surface** -- Komai supports a documented JSON [CLI](automations/cli.md), a [D-Bus API](automations/dbus.md), and [Model Context Protocol (MCP)](automations/mcp.md) support for MCP-compatible hosts, making the running app easier to script, integrate, and use with AI tooling.
+
+
 ## 🔧 Internal Improvements
 
 - We completed a major codebase reorganization and refactoring to make Komai easier to maintain and evolve.

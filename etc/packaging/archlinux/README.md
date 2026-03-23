@@ -13,6 +13,8 @@ The PKGBUILD clones the Komai git repository at a release tag (e.g., `v0.1.0`) a
 | `build()` | CMake configure + build with `-DCMAKE_INSTALL_PREFIX=/usr -DMAN=OFF` |
 | `package()` | `cmake --install` with `DESTDIR` to stage files into the package directory |
 
+That means additional installed binaries, such as `komai-mcp`, are packaged automatically as long as the release tag being built includes the corresponding CMake install rules.
+
 ## Differences from the official nheko package
 
 | | nheko (official) | komai |

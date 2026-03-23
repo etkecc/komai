@@ -12,6 +12,21 @@
 
 #include "IpcClient.h"
 
+namespace {
+
+bool
+handleIpcError(const QJsonObject &response)
+{
+    if (!response.contains(QStringLiteral("error")))
+        return false;
+
+    std::cerr << "Error: " << response.value(QStringLiteral("error")).toString().toStdString()
+              << "\n";
+    return true;
+}
+
+} // namespace
+
 static int
 runSettingsUiCommand(int argc, char *argv[], const QStringList &args)
 {
@@ -32,7 +47,9 @@ runSettingsUiCommand(int argc, char *argv[], const QStringList &args)
 
     if (subcmd == QLatin1String("theme")) {
         auto response = cli_ipc::call(profileId, QStringLiteral("settings.ui.theme"));
-        auto result   = response.value(QStringLiteral("result")).toString();
+        if (handleIpcError(response))
+            return 1;
+        auto result = response.value(QStringLiteral("result")).toString();
         if (result.isEmpty()) {
             std::cerr << "Error: failed to get current theme\n";
             return 1;
@@ -49,9 +66,15 @@ runSettingsUiCommand(int argc, char *argv[], const QStringList &args)
             std::cerr << "Usage: komai settings ui set-theme <slug>\n";
             return 1;
         }
-        cli_ipc::call(profileId,
-                      QStringLiteral("settings.ui.setTheme"),
-                      {{QStringLiteral("theme"), args.at(2)}});
+        const auto theme = args.at(2).trimmed();
+        if (theme.isEmpty()) {
+            std::cerr << "Error: theme slug must not be empty\n";
+            return 1;
+        }
+        auto response = cli_ipc::call(
+          profileId, QStringLiteral("settings.ui.setTheme"), {{QStringLiteral("theme"), theme}});
+        if (handleIpcError(response))
+            return 1;
         return 0;
     }
 

@@ -174,7 +174,11 @@ DbusRoomsInterface::activate(const QString &roomIdOrAlias) const
     if (!dbusWriteAccessEnabled())
         return;
 
-    komai::ipc::activateRoom(stripDbusTypePrefix(roomIdOrAlias));
+    const auto normalized = stripDbusTypePrefix(roomIdOrAlias);
+    if (normalized.isEmpty())
+        return;
+
+    komai::ipc::activateRoom(normalized);
 }
 
 void
@@ -183,7 +187,11 @@ DbusRoomsInterface::join(const QString &roomIdOrAlias) const
     if (!dbusWriteAccessEnabled())
         return;
 
-    komai::ipc::joinRoom(stripDbusTypePrefix(roomIdOrAlias));
+    const auto normalized = stripDbusTypePrefix(roomIdOrAlias);
+    if (normalized.isEmpty())
+        return;
+
+    komai::ipc::joinRoom(normalized);
 }
 
 void
@@ -192,7 +200,11 @@ DbusRoomsInterface::newDirectChat(const QString &userId) const
     if (!dbusWriteAccessEnabled())
         return;
 
-    komai::ipc::newDirectChat(stripDbusTypePrefix(userId));
+    const auto normalized = stripDbusTypePrefix(userId);
+    if (normalized.isEmpty())
+        return;
+
+    komai::ipc::newDirectChat(normalized);
 }
 
 QString

@@ -11,6 +11,8 @@ makepkg -si
 
 This clones the Komai git repository at the release tag specified in `pkgver`, builds it with CMake, and installs it system-wide.
 
+Because the PKGBUILD uses `cmake --install` during `package()`, newly installed helper binaries such as `komai-mcp` are picked up automatically once the tagged release contains the matching CMake install rules.
+
 ## How it works
 
 The PKGBUILD is modeled after the [official nheko PKGBUILD](https://gitlab.archlinux.org/archlinux/packaging/packages/nheko) from the Arch repos. It uses `git+https://github.com/etkecc/komai.git#tag=v${pkgver}` as the source, so it pulls from a tagged release -- no pre-packaged tarball needed.

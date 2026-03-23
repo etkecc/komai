@@ -133,6 +133,7 @@ positionalsAfter(int argc, char *argv[], const QString &keyword)
       QStringLiteral("--caption"),
       QStringLiteral("--filename"),
       QStringLiteral("--content-type"),
+      QStringLiteral("--access"),
     };
 
     QStringList result;

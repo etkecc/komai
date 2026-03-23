@@ -27,8 +27,6 @@ enum class CommandId
     Redact,
     Roomnick,
     Shrug,
-    ClearTimeline,
-    ResetState,
     Md,
     Cmark,
     Plain,

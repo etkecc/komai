@@ -290,7 +290,7 @@ validateInvitePermissionTarget(const ParsedCommand &parsed, const CommandContext
 
 #define CMD_TR(text) QT_TRANSLATE_NOOP("CommandCompleter", text)
 
-const std::array<CommandDefinition, 26> kCommands{{
+const std::array<CommandDefinition, 24> kCommands{{
   {CommandId::Me,
    "me",
    "/me ",
@@ -379,20 +379,6 @@ const std::array<CommandDefinition, 26> kCommands{{
    CMD_TR("¯\\_(ツ)_/¯ with an optional message."),
    "shrug macro",
    validateOptionalArguments},
-  {CommandId::ClearTimeline,
-   "clear-timeline",
-   "/clear-timeline",
-   CMD_TR("/clear-timeline"),
-   CMD_TR("Clear the currently cached messages in this room."),
-   "clear timeline cache",
-   validateNoArguments},
-  {CommandId::ResetState,
-   "reset-state",
-   "/reset-state",
-   CMD_TR("/reset-state"),
-   CMD_TR("Refetch the state in this room."),
-   "reset state refetch",
-   validateNoArguments},
   {CommandId::Md,
    "md",
    "/md ",

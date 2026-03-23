@@ -38,17 +38,16 @@ komai mcp serve --access read_write
 
 ## 🚦 What Komai supports today
 
-This first implementation pass is intentionally narrow:
+The current implementation is intentionally narrow:
 
 - transport: stdio only
 - capabilities: tools only
-- backend boundary: Komai's existing local IPC socket
+- backend boundary: Komai's existing local IPC transport
 - default access mode: `read_only`
-- supported first: Linux and macOS
+- supported platforms: Linux, macOS, and Windows
 
 Not included yet:
 
-- Windows named-pipe transport
 - HTTP transport
 - auth
 - resources

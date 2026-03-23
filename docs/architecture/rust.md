@@ -41,7 +41,8 @@ src/rust/
     │   ├── client.rs
     │   ├── mod.rs
     │   ├── protocol.rs
-    │   └── unix.rs
+    │   ├── unix.rs
+    │   └── windows.rs
     └── mcp/
         ├── errors.rs
         ├── mod.rs
@@ -71,7 +72,7 @@ Corrosion invokes `cargo build` and produces both:
 
 The `komai` CLI does not embed the MCP protocol implementation directly. It
 dispatches to `komai-mcp`, which then talks back to the running app over the
-existing IPC socket.
+existing IPC transport.
 
 ## Async Strategy
 

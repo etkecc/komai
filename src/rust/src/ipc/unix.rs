@@ -8,18 +8,8 @@ use std::io;
 use std::os::unix::net::UnixStream;
 use std::path::PathBuf;
 
-fn socket_name(profile: &str) -> String {
-    let normalized = if profile.is_empty() || profile == "default" {
-        "default"
-    } else {
-        profile
-    };
-
-    format!("komai-cli-{normalized}")
-}
-
 fn socket_paths(profile: &str) -> Vec<PathBuf> {
-    let socket_name = socket_name(profile);
+    let socket_name = super::socket_name(profile);
     let mut dirs = Vec::new();
 
     if let Some(runtime_dir) = env::var_os("XDG_RUNTIME_DIR") {
@@ -40,11 +30,7 @@ fn socket_paths(profile: &str) -> Vec<PathBuf> {
 }
 
 pub fn connect(profile: &str) -> Result<UnixStream, String> {
-    let normalized_profile = if profile.is_empty() || profile == "default" {
-        "default"
-    } else {
-        profile
-    };
+    let normalized_profile = super::normalized_profile(profile);
 
     let mut last_error: Option<io::Error> = None;
     for path in socket_paths(normalized_profile) {

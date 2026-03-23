@@ -1797,7 +1797,7 @@ if(APPLE)
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
     if(TARGET komai-mcp)
-        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/komai-mcp"
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/komai-mcp${CMAKE_EXECUTABLE_SUFFIX}"
             DESTINATION ${CMAKE_INSTALL_BINDIR})
     endif()
     qt_generate_deploy_qml_app_script(
@@ -1813,7 +1813,7 @@ if(UNIX AND NOT APPLE)
 
     install(TARGETS komai RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
     if(TARGET komai-mcp)
-        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/komai-mcp"
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/komai-mcp${CMAKE_EXECUTABLE_SUFFIX}"
             DESTINATION "${CMAKE_INSTALL_BINDIR}")
     endif()
     install(FILES "${KOMAI_LOGO_ASSET_DIR}/komai-16.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/16x16/apps" RENAME "${KOMAI_DESKTOP_ICON_NAME}.png")
@@ -1838,6 +1838,16 @@ if(UNIX AND NOT APPLE)
             IMMEDIATE @ONLY)
         add_custom_target(uninstall
             COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+    endif()
+endif()
+
+if(WIN32)
+    set_target_properties(komai PROPERTIES OUTPUT_NAME "${KOMAI_EXECUTABLE_NAME}")
+
+    install(TARGETS komai RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    if(TARGET komai-mcp)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/komai-mcp${CMAKE_EXECUTABLE_SUFFIX}"
+            DESTINATION "${CMAKE_INSTALL_BINDIR}")
     endif()
 endif()
 # vim: tabstop=4 shiftwidth=4 expandtab

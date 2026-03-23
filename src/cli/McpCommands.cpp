@@ -12,6 +12,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
+#include <QProcess>
 #include <QStandardPaths>
 
 #include "IpcClient.h"
@@ -125,12 +126,6 @@ runMcpCommand(int argc, char *argv[], QCoreApplication & /*app*/)
         return 1;
     }
 
-#if defined(Q_OS_WIN)
-    std::cerr
-      << "Error: MCP support is not available on Windows yet. Named-pipe IPC support is planned "
-         "for a follow-up milestone.\n";
-    return 1;
-#else
     const auto binaryPath = resolveBinaryPath();
     if (binaryPath.isEmpty()) {
         std::cerr << "Error: could not find the 'komai-mcp' helper binary next to komai or in "
@@ -138,6 +133,31 @@ runMcpCommand(int argc, char *argv[], QCoreApplication & /*app*/)
         return 1;
     }
 
+#if defined(Q_OS_WIN)
+    QProcess child;
+    child.setInputChannelMode(QProcess::ForwardedInputChannel);
+    child.setProcessChannelMode(QProcess::ForwardedChannels);
+    child.start(binaryPath, command.childArguments());
+
+    if (!child.waitForStarted()) {
+        std::cerr << "Error: failed to launch '" << binaryPath.toStdString()
+                  << "': " << child.errorString().toStdString() << "\n";
+        return 1;
+    }
+
+    if (!child.waitForFinished(-1)) {
+        std::cerr << "Error: failed while waiting for '" << binaryPath.toStdString()
+                  << "': " << child.errorString().toStdString() << "\n";
+        return 1;
+    }
+
+    if (child.exitStatus() != QProcess::NormalExit) {
+        std::cerr << "Error: '" << binaryPath.toStdString() << "' terminated abnormally.\n";
+        return 1;
+    }
+
+    return child.exitCode();
+#else
     std::vector<QByteArray> encodedArgs;
     encodedArgs.reserve(static_cast<size_t>(command.childArguments().size()) + 1);
     encodedArgs.emplace_back(QFile::encodeName(binaryPath));

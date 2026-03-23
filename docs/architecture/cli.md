@@ -4,9 +4,10 @@ Komai supports headless CLI subcommands that run without a display server.
 CLI commands use `QCoreApplication` (not `QApplication`), so they work
 over SSH, in containers, and in CI pipelines.
 
-Commands fall into two categories:
+Commands fall into three categories:
 
-- **IPC-backed** — talk to a running Komai instance over a local Unix socket
+- **IPC-backed** — talk to a running Komai instance over a local `QLocalSocket`
+  transport
   (`app`, `rooms`, `user`, `settings`, `media`)
 - **Wrapper-backed** — dispatch to another local helper process
   (`mcp`)
@@ -27,7 +28,7 @@ main()
   │    └─ (match) → QCoreApplication + handler
   │         │
   │         ├─ runAppCommand()          ← IPC: version, api-version
-  │         ├─ runMcpCommand()          ← wrapper: execs komai-mcp
+  │         ├─ runMcpCommand()          ← wrapper: launches komai-mcp
   │         ├─ runRoomsCommand()        ← IPC: list, activate, join, new-direct-chat
   │         ├─ runUserCommand()         ← IPC: status, set-status
   │         ├─ runSettingsCommand()     ← IPC: ui theme, ui set-theme
@@ -59,11 +60,14 @@ group names to handler functions. Currently registered groups:
 ## IPC transport
 
 CLI commands communicate with the running Komai instance via a per-profile
-`QLocalServer`/`QLocalSocket` pair (Unix domain socket).
+`QLocalServer`/`QLocalSocket` pair:
+
+- Unix: Unix domain socket
+- Windows: named pipe
 
 ### Protocol
 
-Simple JSON-lines over the socket — one request line, one response line:
+Simple JSON-lines over the transport — one request line, one response line:
 
 ```
 →  {"method":"rooms.list"}
@@ -154,7 +158,7 @@ The wrapper is responsible for:
 - forwarding the resolved profile to `komai-mcp`
 - forwarding `--access read_only|read_write`
 
-The Rust helper then speaks MCP over stdio and uses the same IPC socket
+The Rust helper then speaks MCP over stdio and uses the same IPC transport
 protocol described above as its backend boundary.
 
 

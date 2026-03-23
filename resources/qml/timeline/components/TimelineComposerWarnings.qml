@@ -14,13 +14,14 @@ ColumnLayout {
     required property bool replyPopupVisible
 
     readonly property int mentionCount: roomModel ? roomModel.input.mentions.length : 0
-    readonly property bool invalidCommandVisible: roomModel
-        ? roomModel.input.containsInvalidCommand && !roomModel.input.containsIncompleteCommand
-        : false
-    readonly property bool incompleteCommandVisible: roomModel
-        ? roomModel.input.containsIncompleteCommand
-        : false
-    readonly property bool layoutVisible: mentionCount > 0 || invalidCommandVisible || incompleteCommandVisible
+    readonly property string commandValidationState: roomModel ? roomModel.input.commandValidationState : "none"
+    readonly property string commandValidationMessage: roomModel ? roomModel.input.commandValidationMessage : ""
+    readonly property bool commandWarningVisible: commandValidationMessage.length > 0
+    readonly property color commandWarningColor: commandValidationState === "incomplete"
+        || commandValidationState === "unrecognized"
+        ? Komai.theme.warning
+        : Komai.theme.error
+    readonly property bool layoutVisible: mentionCount > 0 || commandWarningVisible
 
     Layout.fillWidth: true
     Layout.minimumHeight: 0
@@ -45,14 +46,8 @@ ColumnLayout {
 
     Composer.MessageInputWarning {
         roundTopCorners: !root.replyPopupVisible && root.mentionCount == 0
-        text: qsTr("The command /%1 is not recognized and will be sent as part of your message").arg(root.roomModel ? root.roomModel.input.currentCommand : "")
-        visible: root.invalidCommandVisible
-    }
-
-    Composer.MessageInputWarning {
-        roundTopCorners: !root.replyPopupVisible && root.mentionCount == 0
-        bubbleColor: Komai.theme.warning
-        text: qsTr("/%1 looks like an incomplete command. To send it anyway, add a space to the end of your message.").arg(root.roomModel ? root.roomModel.input.currentCommand : "")
-        visible: root.incompleteCommandVisible
+        bubbleColor: root.commandWarningColor
+        text: root.commandValidationMessage
+        visible: root.commandWarningVisible
     }
 }

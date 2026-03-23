@@ -342,6 +342,8 @@ set(SRC_FILES
     src/timeline/EventDelegateChooser.h
     src/timeline/InputBar.cpp
     src/timeline/InputBar.h
+    src/timeline/SlashCommands.cpp
+    src/timeline/SlashCommands.h
     src/timeline/inputbar/InputBarCommands.cpp
     src/timeline/inputbar/InputBarMessaging.cpp
     src/timeline/inputbar/InputBarMediaMessages.cpp
@@ -1611,6 +1613,22 @@ if(BUILD_TESTING)
     add_test(NAME komai_navigation_history_test COMMAND komai_navigation_history_test)
     komai_configure_test(komai_navigation_history_test "unit;timeline")
 
+    add_executable(komai_slash_commands_test
+        tests/SlashCommandsTest.cpp
+        tests/LoggingStub.cpp
+        src/models/CommandCompleter.cpp
+        src/timeline/SlashCommands.cpp
+        src/utils/UtilsTextAndUri.cpp
+    )
+    target_include_directories(komai_slash_commands_test PRIVATE src)
+    target_link_libraries(komai_slash_commands_test PRIVATE
+        Qt::Core
+        Qt::Gui
+        spdlog::spdlog
+    )
+    add_test(NAME komai_slash_commands_test COMMAND komai_slash_commands_test)
+    komai_configure_test(komai_slash_commands_test "unit;timeline")
+
     add_executable(komai_layout_agnostic_keys_test
         tests/LayoutAgnosticKeysTest.cpp
         tests/LoggingStub.cpp
@@ -1645,6 +1663,7 @@ if(BUILD_TESTING)
         komai_bot_detection_test
         komai_emoji_completion_search_test
         komai_navigation_history_test
+        komai_slash_commands_test
         komai_layout_agnostic_keys_test
     )
 endif()

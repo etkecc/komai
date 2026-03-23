@@ -9,6 +9,7 @@
 
 #include "cache/Cache.h"
 #include "events/EventAccessors.h"
+#include "timeline/SlashCommands.h"
 #include "timeline/formattedmessage/LinkPatterns.h"
 #include "utils/Utils.h"
 
@@ -113,7 +114,8 @@ TimelineModel::applyEditedMessageText(const mtx::events::collections::TimelineEv
                                       const QString &editText)
 {
     if (msgType == mtx::events::MessageType::Emote)
-        input()->setText("/me " + editText);
+        input()->setText(
+          timeline::slash_commands::commandText(timeline::slash_commands::CommandId::Me, editText));
     else if (msgType == mtx::events::MessageType::ElementEffect) {
         auto u = std::get_if<mtx::events::RoomEvent<mtx::events::msg::ElementEffect>>(&event);
         auto msgtypeString = u ? u->content.msgtype : "";
@@ -127,13 +129,28 @@ TimelineModel::applyEditedMessageText(const mtx::events::collections::TimelineEv
                 input()->setText(editText + QStringLiteral(" 🌧️"));
             }
         } else if (msgtypeString == "nic.custom.confetti")
-            input()->setText("/confetti " + editText);
-        else
-            input()->setText("/msgtype " + QString::fromStdString(msgtypeString) + " " + editText);
+            input()->setText(timeline::slash_commands::commandText(
+              timeline::slash_commands::CommandId::Confetti, editText));
+        else {
+            QString arguments = QString::fromStdString(msgtypeString);
+            if (!editText.isEmpty()) {
+                if (!arguments.isEmpty())
+                    arguments += QStringLiteral(" ");
+                arguments += editText;
+            }
+            input()->setText(timeline::slash_commands::commandText(
+              timeline::slash_commands::CommandId::Msgtype, arguments));
+        }
     } else if (msgType == mtx::events::MessageType::Unknown) {
-        auto u = std::get_if<mtx::events::RoomEvent<mtx::events::msg::Unknown>>(&event);
-        input()->setText("/msgtype " + (u ? QString::fromStdString(u->content.msgtype) : "") + " " +
-                         editText);
+        auto u            = std::get_if<mtx::events::RoomEvent<mtx::events::msg::Unknown>>(&event);
+        QString arguments = u ? QString::fromStdString(u->content.msgtype) : QString();
+        if (!editText.isEmpty()) {
+            if (!arguments.isEmpty())
+                arguments += QStringLiteral(" ");
+            arguments += editText;
+        }
+        input()->setText(timeline::slash_commands::commandText(
+          timeline::slash_commands::CommandId::Msgtype, arguments));
     } else
         input()->setText(editText);
 }

@@ -192,9 +192,31 @@ Rectangle {
                 property string lastChar
                 property int previousTextLength: 0
 
+                function currentCompleterSearchString() {
+                    if (completer.completerType === "command" && room && room.input) {
+                        const prefix = messageInput.getText(0, cursorPosition) + messageInput.preeditText;
+                        return room.input.commandCompletionSearchString(prefix,
+                                                                       cursorPosition + messageInput.preeditText.length);
+                    }
+
+                    return messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText;
+                }
                 function insertCompletion(completion) {
-                    messageInput.remove(completerTriggeredAt, cursorPosition);
-                    messageInput.insert(cursorPosition, completion);
+                    let replaceEnd = cursorPosition;
+                    if (completer.completerType === "command" && room && room.input) {
+                        replaceEnd = room.input.commandCompletionReplaceEnd(messageInput.text,
+                                                                           cursorPosition);
+                        if (replaceEnd < messageInput.length && completion.length > 0) {
+                            const nextChar = messageInput.getText(replaceEnd, replaceEnd + 1);
+                            const completionLastChar = completion.charAt(completion.length - 1);
+                            if (nextChar === completionLastChar)
+                                replaceEnd = replaceEnd + 1;
+                        }
+                    }
+
+                    messageInput.remove(completerTriggeredAt, replaceEnd);
+                    messageInput.insert(completerTriggeredAt, completion);
+                    messageInput.cursorPosition = completerTriggeredAt + completion.length;
                     let userid = completer.currentUserid();
                     if (userid) {
                         room.input.addMention(userid, completion);
@@ -206,7 +228,7 @@ Rectangle {
                     if (!popup.opened)
                         popup.open();
                     if (completer.completer)
-                        completer.completer.setSearchString(messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText);
+                        completer.completer.setSearchString(messageInput.currentCompleterSearchString());
                 }
                 function completerTypeForTrigger(trigger, tokenStart) {
                     if ((trigger === '@' || trigger === '＠') && Settings.composerInputInlineUserPickerEnabled)
@@ -427,12 +449,12 @@ Rectangle {
                         popup.close();
                     if (popup.opened)
                         if (completer.completer)
-                        completer.completer.setSearchString(messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText);
+                        completer.completer.setSearchString(messageInput.currentCompleterSearchString());
                 }
                 onPreeditTextChanged: {
                     if (popup.opened)
                         if (completer.completer)
-                        completer.completer.setSearchString(messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText);
+                        completer.completer.setSearchString(messageInput.currentCompleterSearchString());
                 }
                 onSelectionEndChanged: room.input.updateState(selectionStart, selectionEnd, cursorPosition, text)
                 onSelectionStartChanged: room.input.updateState(selectionStart, selectionEnd, cursorPosition, text)
@@ -495,7 +517,7 @@ Rectangle {
                         // before the search has updated (Qt::QueuedConnection),
                         // while still allowing multi-word searches that DO produce
                         // results (e.g. ":bearded woman").
-                        if (popup.opened && completer.count <= 0) {
+                        if (popup.opened && completer.completerType !== "command" && completer.count <= 0) {
                             var raw = messageInput.getText(messageInput.completerTriggeredAt, messageInput.cursorPosition);
                             if (raw.indexOf(' ') >= 0)
                                 popup.close();

@@ -5,7 +5,7 @@
 
 #include "InputBar.h"
 
-#include <QRegularExpression>
+#include <QCoreApplication>
 
 #include <optional>
 #include <string_view>
@@ -27,6 +27,7 @@
 namespace {
 using InvitePermissionsContent = mtx::events::account_data::nheko_extensions::InvitePermissions;
 constexpr std::string_view KOMAI_INVITE_PERMISSIONS_TYPE = "cc.etke.komai.invite_permissions";
+constexpr auto kInputBarTranslationContext               = "InputBar";
 
 std::optional<InvitePermissionsContent>
 parseInvitePermissionsFromRawAccountData(const std::string &eventJson)
@@ -41,95 +42,144 @@ parseInvitePermissionsFromRawAccountData(const std::string &eventJson)
         return std::nullopt;
     }
 }
-} // namespace
 
-QPair<QString, QString>
-InputBar::getCommandAndArgs(const QString &currentText) const
+QString
+firstToken(const QString &arguments)
 {
-    if (!currentText.startsWith('/'))
-        return {{}, currentText};
+    const auto trimmed = arguments.trimmed();
+    if (trimmed.isEmpty())
+        return {};
 
-    static QRegularExpression spaceRegex(QStringLiteral("\\s"));
+    int end = 0;
+    while (end < trimmed.size() && !trimmed.at(end).isSpace())
+        ++end;
 
-    int command_end = currentText.indexOf(spaceRegex);
-    if (command_end == -1)
-        command_end = currentText.size();
-    auto name = currentText.mid(1, command_end - 1);
-    auto args = currentText.mid(command_end + 1);
-    if (name.isEmpty() || name == QLatin1String("/")) {
-        return {{}, currentText};
-    } else {
-        return {name, args};
-    }
+    return trimmed.left(end);
 }
 
-bool
-InputBar::command(const QString &command, QString args)
+QString
+remainingAfterFirstToken(const QString &arguments)
 {
-    if (command == QLatin1String("me")) {
-        emote(args, false);
-    } else if (command == QLatin1String("react")) {
-        auto eventId = room->reply();
+    const auto trimmed = arguments.trimmed();
+    if (trimmed.isEmpty())
+        return {};
+
+    int split = 0;
+    while (split < trimmed.size() && !trimmed.at(split).isSpace())
+        ++split;
+    while (split < trimmed.size() && trimmed.at(split).isSpace())
+        ++split;
+
+    return trimmed.mid(split);
+}
+} // namespace
+
+timeline::slash_commands::CommandResult
+timeline::slash_commands::execute(InputBar &inputBar, const ParsedCommand &parsed)
+{
+    if (!parsed.definition)
+        return CommandResult::rejected();
+
+    const auto command = parsed.definition->id;
+    const auto args    = parsed.arguments;
+
+    switch (command) {
+    case CommandId::Me:
+        inputBar.emote(args, false);
+        return CommandResult::dispatched();
+    case CommandId::React: {
+        auto eventId = inputBar.room->reply();
         if (!eventId.isEmpty())
-            reaction(eventId, args.trimmed());
-    } else if (command == QLatin1String("join")) {
-        ChatPage::instance()->joinRoom(args.section(' ', 0, 0), args.section(' ', 1, -1));
-    } else if (command == QLatin1String("knock")) {
-        ChatPage::instance()->knockRoom(args.section(' ', 0, 0), args.section(' ', 1, -1));
-    } else if (command == QLatin1String("part") || command == QLatin1String("leave")) {
-        ChatPage::instance()->timelineManager()->openLeaveRoomDialog(room->roomId(), args);
-    } else if (command == QLatin1String("invite")) {
-        ChatPage::instance()->inviteUser(
-          room->roomId(), args.section(' ', 0, 0), args.section(' ', 1, -1));
-    } else if (command == QLatin1String("kick")) {
-        if (args.startsWith('@')) {
-            ChatPage::instance()->kickUser(
-              room->roomId(), args.section(' ', 0, 0), args.section(' ', 1, -1));
-        } else if (auto reply = room->reply(); !reply.isEmpty()) {
+            inputBar.reaction(eventId, args.trimmed());
+        return CommandResult::dispatched();
+    }
+    case CommandId::Join: {
+        const auto target = firstToken(args);
+        const auto reason = remainingAfterFirstToken(args);
+        ChatPage::instance()->joinRoom(target, reason);
+        return CommandResult::dispatched();
+    }
+    case CommandId::Knock: {
+        const auto target = firstToken(args);
+        const auto reason = remainingAfterFirstToken(args);
+        ChatPage::instance()->knockRoom(target, reason);
+        return CommandResult::dispatched();
+    }
+    case CommandId::Part:
+    case CommandId::Leave:
+        ChatPage::instance()->timelineManager()->openLeaveRoomDialog(inputBar.room->roomId(), args);
+        return CommandResult::dispatched();
+    case CommandId::Invite: {
+        const auto target = firstToken(args);
+        const auto reason = remainingAfterFirstToken(args);
+        ChatPage::instance()->inviteUser(inputBar.room->roomId(), target, reason);
+        return CommandResult::dispatched();
+    }
+    case CommandId::Kick: {
+        if (args.trimmed().startsWith(u'@')) {
+            const auto target = firstToken(args);
+            const auto reason = remainingAfterFirstToken(args);
+            ChatPage::instance()->kickUser(inputBar.room->roomId(), target, reason);
+        } else if (auto reply = inputBar.room->reply(); !reply.isEmpty()) {
             auto replySender =
-              room->dataById(room->reply(), TimelineModel::Roles::UserId, "").toString();
+              inputBar.room->dataById(inputBar.room->reply(), TimelineModel::Roles::UserId, "")
+                .toString();
             if (!replySender.isEmpty()) {
-                ChatPage::instance()->kickUser(room->roomId(), replySender, args);
+                ChatPage::instance()->kickUser(inputBar.room->roomId(), replySender, args);
             }
         }
-    } else if (command == QLatin1String("ban")) {
-        if (args.startsWith('@')) {
-            ChatPage::instance()->banUser(
-              room->roomId(), args.section(' ', 0, 0), args.section(' ', 1, -1));
-        } else if (auto reply = room->reply(); !reply.isEmpty()) {
+        return CommandResult::dispatched();
+    }
+    case CommandId::Ban: {
+        if (args.trimmed().startsWith(u'@')) {
+            const auto target = firstToken(args);
+            const auto reason = remainingAfterFirstToken(args);
+            ChatPage::instance()->banUser(inputBar.room->roomId(), target, reason);
+        } else if (auto reply = inputBar.room->reply(); !reply.isEmpty()) {
             auto replySender =
-              room->dataById(room->reply(), TimelineModel::Roles::UserId, "").toString();
+              inputBar.room->dataById(inputBar.room->reply(), TimelineModel::Roles::UserId, "")
+                .toString();
             if (!replySender.isEmpty()) {
-                ChatPage::instance()->banUser(room->roomId(), replySender, args);
+                ChatPage::instance()->banUser(inputBar.room->roomId(), replySender, args);
             }
         }
-    } else if (command == QLatin1String("unban")) {
-        if (args.startsWith('@')) {
-            ChatPage::instance()->unbanUser(
-              room->roomId(), args.section(' ', 0, 0), args.section(' ', 1, -1));
-        } else if (auto reply = room->reply(); !reply.isEmpty()) {
+        return CommandResult::dispatched();
+    }
+    case CommandId::Unban: {
+        if (args.trimmed().startsWith(u'@')) {
+            const auto target = firstToken(args);
+            const auto reason = remainingAfterFirstToken(args);
+            ChatPage::instance()->unbanUser(inputBar.room->roomId(), target, reason);
+        } else if (auto reply = inputBar.room->reply(); !reply.isEmpty()) {
             auto replySender =
-              room->dataById(room->reply(), TimelineModel::Roles::UserId, "").toString();
+              inputBar.room->dataById(inputBar.room->reply(), TimelineModel::Roles::UserId, "")
+                .toString();
             if (!replySender.isEmpty()) {
-                ChatPage::instance()->unbanUser(room->roomId(), replySender, args);
+                ChatPage::instance()->unbanUser(inputBar.room->roomId(), replySender, args);
             }
         }
-    } else if (command == QLatin1String("redact")) {
-        if (args.startsWith('@')) {
-            room->redactAllFromUser(args.section(' ', 0, 0), args.section(' ', 1, -1));
-        } else if (args.startsWith('$')) {
-            room->redactEvent(args.section(' ', 0, 0), args.section(' ', 1, -1));
-        } else if (auto reply = room->reply(); !reply.isEmpty()) {
-            room->redactEvent(reply, args);
+        return CommandResult::dispatched();
+    }
+    case CommandId::Redact: {
+        const auto trimmedArgs = args.trimmed();
+        if (trimmedArgs.startsWith(u'@')) {
+            inputBar.room->redactAllFromUser(firstToken(args), remainingAfterFirstToken(args));
+        } else if (trimmedArgs.startsWith(u'$')) {
+            inputBar.room->redactEvent(firstToken(args), remainingAfterFirstToken(args));
+        } else if (auto reply = inputBar.room->reply(); !reply.isEmpty()) {
+            inputBar.room->redactEvent(reply, trimmedArgs);
         }
-    } else if (command == QLatin1String("roomnick")) {
+        return CommandResult::dispatched();
+    }
+    case CommandId::Roomnick: {
         mtx::events::state::Member member;
         member.display_name = args.toStdString();
-        member.avatar_url   = cache::avatarUrl(room->roomId(), utils::localUser()).toStdString();
-        member.membership   = mtx::events::state::Membership::Join;
+        member.avatar_url =
+          cache::avatarUrl(inputBar.room->roomId(), utils::localUser()).toStdString();
+        member.membership = mtx::events::state::Membership::Join;
 
         http::client()->send_state_event(
-          room->roomId().toStdString(),
+          inputBar.room->roomId().toStdString(),
           utils::localUser().toStdString(),
           member,
           [](const mtx::responses::EventId &, mtx::http::RequestErr err) {
@@ -137,103 +187,124 @@ InputBar::command(const QString &command, QString args)
                   nhlog::net()->error("Failed to set room displayname: {}",
                                       err->matrix_error.error);
           });
-    } else if (command == QLatin1String("shrug")) {
-        message("¯\\\\\\_(ツ)\\_/¯" + (args.isEmpty() ? QLatin1String("") : " " + args));
-    } else if (command == QLatin1String("fliptable")) {
-        message(QStringLiteral("(╯°□°)╯︵ ┻━┻"));
-    } else if (command == QLatin1String("unfliptable")) {
-        message(QStringLiteral(" ┯━┯╭( º _ º╭)"));
-    } else if (command == QLatin1String("sovietflip")) {
-        message(QStringLiteral("ノ┬─┬ノ ︵ ( \\o°o)\\"));
-    } else if (command == QLatin1String("clear-timeline")) {
-        room->clearTimeline();
-    } else if (command == QLatin1String("reset-state")) {
-        room->resetState();
-    } else if (command == QLatin1String("rotate-megolm-session")) {
-        cache::dropOutboundMegolmSession(room->roomId().toStdString());
-    } else if (command == QLatin1String("md")) {
-        message(args, MarkdownOverride::ON);
-    } else if (command == QLatin1String("cmark")) {
-        message(args, MarkdownOverride::CMARK);
-    } else if (command == QLatin1String("plain")) {
-        message(args, MarkdownOverride::OFF);
-    } else if (command == QLatin1String("rainbow")) {
-        message(args, MarkdownOverride::ON, true);
-    } else if (command == QLatin1String("rainbowme")) {
-        emote(args, true);
-    } else if (command == QLatin1String("notice")) {
-        notice(args, false);
-    } else if (command == QLatin1String("rainbownotice")) {
-        notice(args, true);
-    } else if (command == QLatin1String("confetti")) {
-        confetti(args, false);
-    } else if (command == QLatin1String("rainbowconfetti")) {
-        confetti(args, true);
-    } else if (command == QLatin1String("msgtype")) {
-        customMsgtype(args.section(' ', 0, 0), args.section(' ', 1, -1));
-    } else if (command == QLatin1String("glitch")) {
-        message(utils::glitchText(args));
-    } else if (command == QLatin1String("gradualglitch")) {
-        message(utils::graduallyGlitchText(args));
-    } else if (command == QLatin1String("goto")) {
+        return CommandResult::dispatched();
+    }
+    case CommandId::Shrug:
+        inputBar.message(QStringLiteral("¯\\\\\\_(ツ)\\_/¯") +
+                         (args.isEmpty() ? QLatin1String("") : QLatin1String(" ") + args));
+        return CommandResult::dispatched();
+    case CommandId::Fliptable:
+        inputBar.message(QStringLiteral("(╯°□°)╯︵ ┻━┻"));
+        return CommandResult::dispatched();
+    case CommandId::Unfliptable:
+        inputBar.message(QStringLiteral(" ┯━┯╭( º _ º╭)"));
+        return CommandResult::dispatched();
+    case CommandId::Sovietflip:
+        inputBar.message(QStringLiteral("ノ┬─┬ノ ︵ ( \\o°o)\\"));
+        return CommandResult::dispatched();
+    case CommandId::ClearTimeline:
+        inputBar.room->clearTimeline();
+        return CommandResult::dispatched();
+    case CommandId::ResetState:
+        inputBar.room->resetState();
+        return CommandResult::dispatched();
+    case CommandId::RotateMegolmSession:
+        cache::dropOutboundMegolmSession(inputBar.room->roomId().toStdString());
+        return CommandResult::dispatched();
+    case CommandId::Md:
+        inputBar.message(args, MarkdownOverride::ON);
+        return CommandResult::dispatched();
+    case CommandId::Cmark:
+        inputBar.message(args, MarkdownOverride::CMARK);
+        return CommandResult::dispatched();
+    case CommandId::Plain:
+        inputBar.message(args, MarkdownOverride::OFF);
+        return CommandResult::dispatched();
+    case CommandId::Rainbow:
+        inputBar.message(args, MarkdownOverride::ON, true);
+        return CommandResult::dispatched();
+    case CommandId::RainbowMe:
+        inputBar.emote(args, true);
+        return CommandResult::dispatched();
+    case CommandId::Notice:
+        inputBar.notice(args, false);
+        return CommandResult::dispatched();
+    case CommandId::RainbowNotice:
+        inputBar.notice(args, true);
+        return CommandResult::dispatched();
+    case CommandId::Confetti:
+        inputBar.confetti(args, false);
+        return CommandResult::dispatched();
+    case CommandId::RainbowConfetti:
+        inputBar.confetti(args, true);
+        return CommandResult::dispatched();
+    case CommandId::Msgtype:
+        inputBar.customMsgtype(firstToken(args), remainingAfterFirstToken(args));
+        return CommandResult::dispatched();
+    case CommandId::Glitch:
+        inputBar.message(utils::glitchText(args));
+        return CommandResult::dispatched();
+    case CommandId::GradualGlitch:
+        inputBar.message(utils::graduallyGlitchText(args));
+        return CommandResult::dispatched();
+    case CommandId::Goto: {
         const auto trimmedArgs = args.trimmed();
 
-        if (trimmedArgs.isEmpty()) {
-            commandRejected_ = true;
-            MainWindow::instance()->showNotification(
-              tr("Enter an event ID, numeric message index, or Matrix link after /goto."));
-            return false;
+        if (trimmedArgs.startsWith(u'$')) {
+            if (inputBar.room->showEvent(trimmedArgs))
+                return CommandResult::dispatched();
+
+            return CommandResult::rejected(QCoreApplication::translate(
+              kInputBarTranslationContext, "That event ID could not be resolved in this room."));
         }
 
-        // Goto has three different modes:
-        // 1 - Going directly to a given event ID
-        if (trimmedArgs[0] == '$') {
-            if (room->showEvent(trimmedArgs))
-                return true;
-
-            commandRejected_ = true;
-            MainWindow::instance()->showNotification(
-              tr("That event ID could not be resolved in this room."));
-            return false;
+        bool allDigits = !trimmedArgs.isEmpty();
+        for (const auto ch : trimmedArgs) {
+            if (!ch.isDigit()) {
+                allDigits = false;
+                break;
+            }
         }
-        // 2 - Going directly to a given message index
-        if (trimmedArgs[0] >= '0' && trimmedArgs[0] <= '9') {
-            if (room->showEvent(trimmedArgs))
-                return true;
+        if (allDigits) {
+            if (inputBar.room->showEvent(trimmedArgs))
+                return CommandResult::dispatched();
 
-            commandRejected_ = true;
-            MainWindow::instance()->showNotification(
-              tr("That message index could not be resolved in this room."));
-            return false;
-        }
-        // 3 - Matrix URI handler, as if you clicked the URI
-        if (ChatPage::instance()->tryHandleMatrixUri(trimmedArgs)) {
-            return true;
+            return CommandResult::rejected(
+              QCoreApplication::translate(kInputBarTranslationContext,
+                                          "That message index could not be resolved in this "
+                                          "room."));
         }
 
-        commandRejected_ = true;
-        MainWindow::instance()->showNotification(
-          tr("Could not resolve that /goto target. Use an event ID, numeric message index, or "
-             "Matrix link."));
-        return false;
-    } else if (command == QLatin1String("converttodm")) {
-        utils::markRoomAsDirect(this->room->roomId(),
-                                cache::getMembers(this->room->roomId().toStdString(), 0, -1));
-    } else if (command == QLatin1String("converttoroom")) {
-        utils::removeDirectFromRoom(this->room->roomId());
-    } else if (command == QLatin1String("ignore")) {
-        this->toggleIgnore(args.trimmed(), true);
-    } else if (command == QLatin1String("unignore")) {
-        this->toggleIgnore(args.trimmed(), false);
-    } else if (command == QLatin1String("blockinvites")) {
-        this->toggleInvitePermission(args.trimmed(), true);
-    } else if (command == QLatin1String("allowinvites")) {
-        this->toggleInvitePermission(args.trimmed(), false);
-    } else {
-        return false;
+        if (ChatPage::instance()->tryHandleMatrixUri(trimmedArgs))
+            return CommandResult::dispatched();
+
+        return CommandResult::rejected(QCoreApplication::translate(
+          kInputBarTranslationContext,
+          "Could not resolve that /goto target. Use an event ID, numeric message index, or "
+          "Matrix link."));
+    }
+    case CommandId::ConvertToDm:
+        utils::markRoomAsDirect(inputBar.room->roomId(),
+                                cache::getMembers(inputBar.room->roomId().toStdString(), 0, -1));
+        return CommandResult::dispatched();
+    case CommandId::ConvertToRoom:
+        utils::removeDirectFromRoom(inputBar.room->roomId());
+        return CommandResult::dispatched();
+    case CommandId::Ignore:
+        inputBar.toggleIgnore(args.trimmed(), true);
+        return CommandResult::dispatched();
+    case CommandId::Unignore:
+        inputBar.toggleIgnore(args.trimmed(), false);
+        return CommandResult::dispatched();
+    case CommandId::BlockInvites:
+        inputBar.toggleInvitePermission(args.trimmed(), true);
+        return CommandResult::dispatched();
+    case CommandId::AllowInvites:
+        inputBar.toggleInvitePermission(args.trimmed(), false);
+        return CommandResult::dispatched();
     }
 
-    return true;
+    return CommandResult::rejected();
 }
 
 void

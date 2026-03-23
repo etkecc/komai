@@ -8,6 +8,8 @@
 #include <QAbstractListModel>
 #include <QString>
 
+#include <cstddef>
+
 class CommandCompleter final : public QAbstractListModel
 {
 public:
@@ -17,55 +19,15 @@ public:
         Description,
     };
 
-    enum Commands
-    {
-        Me,
-        React,
-        Join,
-        Knock,
-        Part,
-        Leave,
-        Invite,
-        Kick,
-        Ban,
-        Unban,
-        Redact,
-        Roomnick,
-        Shrug,
-        Fliptable,
-        Unfliptable,
-        Sovietflip,
-        ClearTimeline,
-        ResetState,
-        RotateMegolmSession,
-        Md,
-        Cmark,
-        Plain,
-        Rainbow,
-        RainbowMe,
-        Notice,
-        RainbowNotice,
-        Confetti,
-        RainbowConfetti,
-        Msgtype,
-        Glitch,
-        GradualGlitch,
-        Goto,
-        ConvertToDm,
-        ConvertToRoom,
-        Ignore,
-        Unignore,
-        BlockInvites,
-        AllowInvites,
-        COUNT,
-    };
-
     CommandCompleter(QObject *parent = nullptr);
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override
     {
         (void)parent;
-        return (int)Commands::COUNT;
+        return static_cast<int>(commandCount_);
     }
     QVariant data(const QModelIndex &index, int role) const override;
+
+private:
+    std::size_t commandCount_ = 0;
 };

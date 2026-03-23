@@ -21,6 +21,8 @@
 #include <mtx/common.hpp>
 #include <mtx/events/common.hpp>
 
+#include "timeline/SlashCommands.h"
+
 class TimelineModel;
 class CombinedImagePackModel;
 class QMimeData;
@@ -177,6 +179,10 @@ class InputBar final : public QObject
     Q_PROPERTY(bool containsIncompleteCommand READ containsIncompleteCommand NOTIFY
                  containsIncompleteCommandChanged)
     Q_PROPERTY(QString currentCommand READ currentCommand NOTIFY currentCommandChanged)
+    Q_PROPERTY(QString commandValidationState READ commandValidationState NOTIFY
+                 commandValidationStateChanged)
+    Q_PROPERTY(QString commandValidationMessage READ commandValidationMessage NOTIFY
+                 commandValidationMessageChanged)
     Q_PROPERTY(QStringList mentions READ mentions NOTIFY mentionsChanged)
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
     Q_PROPERTY(QVariantList uploads READ uploads NOTIFY uploadsChanged)
@@ -243,6 +249,11 @@ public slots:
     bool containsInvalidCommand() const { return containsInvalidCommand_; }
     bool containsIncompleteCommand() const { return containsIncompleteCommand_; }
     QString currentCommand() const { return currentCommand_; }
+    QString commandValidationState() const
+    {
+        return timeline::slash_commands::validationStateName(commandValidationState_);
+    }
+    QString commandValidationMessage() const { return commandValidationMessage_; }
 
     void send();
     bool tryPasteAttachment(bool fromMouse);
@@ -260,6 +271,17 @@ public slots:
     void declineUploads();
     Q_INVOKABLE void removeUpload(int index);
     Q_INVOKABLE QString clipboardText() const;
+    Q_INVOKABLE QString commandCompletionSearchString(const QString &currentText,
+                                                      int currentCursorPosition) const
+    {
+        return timeline::slash_commands::completionSearchString(currentText, currentCursorPosition);
+    }
+    Q_INVOKABLE int
+    commandCompletionReplaceEnd(const QString &currentText, int currentCursorPosition) const
+    {
+        return timeline::slash_commands::completionReplacementEnd(currentText,
+                                                                  currentCursorPosition);
+    }
 
 private slots:
     void startTyping();
@@ -276,6 +298,8 @@ signals:
     void mentionsChanged();
     void containsIncompleteCommandChanged();
     void currentCommandChanged();
+    void commandValidationStateChanged();
+    void commandValidationMessageChanged();
     void uploadsChanged();
 
 private:
@@ -283,7 +307,6 @@ private:
     void notice(const QString &body, bool rainbowify);
     void confetti(const QString &body, bool rainbowify);
     void customMsgtype(const QString &msgtype, const QString &body);
-    bool command(const QString &name, QString args);
     void image(const QString &filename,
                const std::optional<mtx::crypto::EncryptedFile> &file,
                const QString &url,
@@ -323,11 +346,10 @@ private:
                const QString &blurhash,
                const QString &body = {});
 
-    QPair<QString, QString> getCommandAndArgs() const { return getCommandAndArgs(text()); }
-    QPair<QString, QString> getCommandAndArgs(const QString &currentText) const;
     mtx::common::Relations generateRelations() const;
     mtx::common::Mentions generateMentions() const;
     QString replaceTextEmoticons(const QString &text) const;
+    timeline::slash_commands::CommandContext commandContext() const;
 
     void startUploadFromPath(const QString &path);
     void startUploadFromMimeData(const QMimeData &source, const QString &format);
@@ -345,6 +367,10 @@ private:
     void toggleIgnore(const QString &user, const bool ignored);
     void toggleInvitePermission(const QString &id, bool block);
 
+    friend timeline::slash_commands::CommandResult
+    timeline::slash_commands::execute(InputBar &inputBar,
+                                      const timeline::slash_commands::ParsedCommand &parsed);
+
     QTimer typingRefresh_;
     QTimer typingTimeout_;
     bool typingSent_ = false;
@@ -356,8 +382,10 @@ private:
     bool containsAtRoom_            = false;
     bool containsInvalidCommand_    = false;
     bool containsIncompleteCommand_ = false;
-    bool commandRejected_           = false;
     QString currentCommand_;
+    timeline::slash_commands::ValidationState commandValidationState_ =
+      timeline::slash_commands::ValidationState::None;
+    QString commandValidationMessage_;
     QStringList mentions_, mentionTexts_;
     // store stuff during edits
     QStringList mentionsBefore, mentionTextsBefore;

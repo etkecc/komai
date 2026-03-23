@@ -210,48 +210,16 @@ InputBar::updateTextContentProperties(const QString &t, bool charDeleted)
             removeMention(QStringLiteral(u"@room"));
     }
 
-    // check for invalid commands
-    auto commandName = getCommandAndArgs(t).first;
-    static const QSet<QString> validCommands{QStringLiteral("me"),
-                                             QStringLiteral("react"),
-                                             QStringLiteral("join"),
-                                             QStringLiteral("knock"),
-                                             QStringLiteral("part"),
-                                             QStringLiteral("leave"),
-                                             QStringLiteral("invite"),
-                                             QStringLiteral("kick"),
-                                             QStringLiteral("ban"),
-                                             QStringLiteral("unban"),
-                                             QStringLiteral("redact"),
-                                             QStringLiteral("roomnick"),
-                                             QStringLiteral("shrug"),
-                                             QStringLiteral("fliptable"),
-                                             QStringLiteral("unfliptable"),
-                                             QStringLiteral("sovietflip"),
-                                             QStringLiteral("clear-timeline"),
-                                             QStringLiteral("reset-state"),
-                                             QStringLiteral("rotate-megolm-session"),
-                                             QStringLiteral("md"),
-                                             QStringLiteral("cmark"),
-                                             QStringLiteral("plain"),
-                                             QStringLiteral("rainbow"),
-                                             QStringLiteral("rainbowme"),
-                                             QStringLiteral("notice"),
-                                             QStringLiteral("rainbownotice"),
-                                             QStringLiteral("confetti"),
-                                             QStringLiteral("rainbowconfetti"),
-                                             QStringLiteral("msgtype"),
-                                             QStringLiteral("glitch"),
-                                             QStringLiteral("gradualglitch"),
-                                             QStringLiteral("goto"),
-                                             QStringLiteral("converttodm"),
-                                             QStringLiteral("converttoroom"),
-                                             QStringLiteral("ignore"),
-                                             QStringLiteral("unignore"),
-                                             QStringLiteral("blockinvites"),
-                                             QStringLiteral("allowinvites")};
-    bool hasInvalidCommand    = !commandName.isNull() && !validCommands.contains(commandName);
-    bool hasIncompleteCommand = hasInvalidCommand && '/' + commandName == t;
+    const auto inspection      = timeline::slash_commands::inspect(t, commandContext());
+    const auto validationState = inspection.validation.state;
+    const bool hasInvalidCommand =
+      validationState == timeline::slash_commands::ValidationState::Unrecognized ||
+      validationState == timeline::slash_commands::ValidationState::Invalid ||
+      validationState == timeline::slash_commands::ValidationState::ContextRejected;
+    const bool hasIncompleteCommand =
+      validationState == timeline::slash_commands::ValidationState::Incomplete ||
+      (validationState == timeline::slash_commands::ValidationState::Unrecognized &&
+       inspection.parsed.isBareCommandToken());
 
     bool signalsChanged{false};
     if (containsInvalidCommand_ != hasInvalidCommand) {
@@ -262,15 +230,26 @@ InputBar::updateTextContentProperties(const QString &t, bool charDeleted)
         containsIncompleteCommand_ = hasIncompleteCommand;
         signalsChanged             = true;
     }
-    if (currentCommand_ != commandName) {
-        currentCommand_ = commandName;
+    if (currentCommand_ != inspection.parsed.name) {
+        currentCommand_ = inspection.parsed.name;
         signalsChanged  = true;
     }
+    const bool validationStateChanged = commandValidationState_ != validationState;
+    const bool validationMessageChanged =
+      commandValidationMessage_ != inspection.validation.message;
+    if (validationStateChanged)
+        commandValidationState_ = validationState;
+    if (validationMessageChanged)
+        commandValidationMessage_ = inspection.validation.message;
     if (signalsChanged) {
         emit currentCommandChanged();
         emit containsInvalidCommandChanged();
         emit containsIncompleteCommandChanged();
     }
+    if (validationStateChanged)
+        emit commandValidationStateChanged();
+    if (validationMessageChanged)
+        emit commandValidationMessageChanged();
 }
 
 void
@@ -373,23 +352,45 @@ InputBar::send()
 
     auto wasEdit = !room->edit().isEmpty();
 
-    auto [commandName, args] = getCommandAndArgs();
+    const auto inspection = timeline::slash_commands::inspect(text(), commandContext());
     updateTextContentProperties(text());
-    if (containsIncompleteCommand_)
-        return;
-    commandRejected_ = false;
-    if (commandName.isEmpty())
+
+    bool sent = false;
+    switch (inspection.submitAction) {
+    case timeline::slash_commands::SubmitAction::SendPlainText:
         message(text());
-    else if (!command(commandName, args)) {
-        if (commandRejected_)
+        sent = true;
+        break;
+    case timeline::slash_commands::SubmitAction::ExecuteCommand: {
+        const auto result = timeline::slash_commands::execute(*this, inspection.parsed);
+        if (!result.feedback.isEmpty())
+            emit ChatPage::instance()->showNotification(result.feedback);
+        if (!result.clearsComposer())
             return;
-        message(text());
+        sent = true;
+        break;
+    }
+    case timeline::slash_commands::SubmitAction::PreserveComposer:
+    case timeline::slash_commands::SubmitAction::None:
+        return;
     }
 
-    if (!wasEdit) {
+    if (sent && !wasEdit) {
         history_.push_front(QLatin1String(""));
         setText(QLatin1String(""));
     }
+}
+
+timeline::slash_commands::CommandContext
+InputBar::commandContext() const
+{
+    timeline::slash_commands::CommandContext context;
+    context.replyEventId = room->reply();
+    if (!context.replyEventId.isEmpty()) {
+        context.replySenderId =
+          room->dataById(context.replyEventId, TimelineModel::Roles::UserId, "").toString();
+    }
+    return context;
 }
 
 void

@@ -73,6 +73,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Improved emoji discovery** -- emoji search/completion now uses localized [Unicode CLDR](https://cldr.unicode.org/) keywords, so common names are easier to find (for example, `:whiskey` finds 🥃 instead of requiring `:tumbler_glass`)
 - **Inline pickers individually toggleable** -- the inline emoji (`:`), room (`#`), and user (`@`) pickers can each be enabled or disabled in Settings (all enabled by default)
 - **Revamped file/image attachment staging area** -- file uploads now show in a compact vertical list with an "Attachments" header bar, per-file remove buttons, file-type-specific icons, HiDPI-aware rounded image previews, and caption support for image uploads (each image can be captioned individually via its filename field, or a shared caption can be typed in the composer)
+- **Improved snackbar notifications** -- in-app notifications are easier to read, sit near the bottom-right, support selecting/copying text, and stay visible once you interact with them until you dismiss them
 - Polished reply popup with proper background, headers, and spacing
 - Polished forward dialog with a confirmation step and a more relevant default set of rooms (excluding "Low Priority" or rooms you haven't interacted in recently)
 - Legacy VoIP call UI and sticker button hidden for a cleaner look

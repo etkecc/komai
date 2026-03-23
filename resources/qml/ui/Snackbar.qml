@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
@@ -18,7 +19,10 @@ Popup {
     property Item avoidBottomItem: null
     property var messages: []
     property string currentMessage: ""
+    property bool interactionLocked: false
     property real slideOffset: 0
+    property real timeoutProgress: 0
+    property point dismissToolTipPoint: Qt.point(0, 0)
     readonly property int queuedMessageCount: Math.max(0, messages.length - 1)
     readonly property real placementLeftInset: Math.max(Komai.paddingLarge, 16)
     readonly property real placementRightInset: Math.max(Komai.paddingMedium, 10)
@@ -26,7 +30,8 @@ Popup {
     readonly property real composerGap: Math.max(Komai.paddingMedium, 12)
     readonly property real minimumWidth: 280
     readonly property real maximumWidthRatio: 0.8
-    readonly property real cardContentInset: 2 * Komai.paddingMedium + 6
+    readonly property real cardContentInset: 2 * Komai.paddingMedium
+    readonly property int dismissButtonSize: Math.max(22, Math.round(Settings.uiFontSizePt * 1.7))
     readonly property real titleWidth: Math.ceil(titleMetrics.advanceWidth || 0)
     readonly property real bodyWidth: Math.ceil(bodyMetrics.advanceWidth || 0)
     readonly property real queuedWidth: queuedChip.visible ? queuedChip.implicitWidth + Komai.paddingMedium : 0
@@ -70,14 +75,47 @@ Popup {
         currentMessage = messages[0];
         if (!visible) {
             open();
-            dismissTimer.start();
+            startLifetime();
         }
+    }
+
+    function startLifetime() {
+        interactionLocked = false;
+        timeoutProgress = 0;
+        progressAnimation.stop();
+        progressAnimation.start();
+        dismissTimer.restart();
+    }
+
+    function lockCurrent() {
+        if (interactionLocked)
+            return;
+
+        interactionLocked = true;
+        progressAnimation.stop();
+        dismissTimer.stop();
+    }
+
+    function dismissCurrent() {
+        progressAnimation.stop();
+        dismissTimer.stop();
+        close();
     }
 
     Timer {
         id: dismissTimer
         interval: 10000
         onTriggered: snackbar.close()
+    }
+    NumberAnimation {
+        id: progressAnimation
+
+        target: snackbar
+        property: "timeoutProgress"
+        from: 0
+        to: 1
+        duration: dismissTimer.interval
+        easing.type: Easing.Linear
     }
 
     onAboutToHide: {
@@ -87,7 +125,10 @@ Popup {
         if (messages.length > 0) {
             currentMessage = messages[0];
             open();
-            dismissTimer.restart();
+            startLifetime();
+        } else {
+            interactionLocked = false;
+            timeoutProgress = 0;
         }
     }
 
@@ -125,6 +166,12 @@ Popup {
         font: snackbarMessage.font
         text: snackbar.currentMessage
     }
+    TextMetrics {
+        id: dismissToolTipMetrics
+
+        font: dismissButton.font
+        text: qsTr("Dismiss this message")
+    }
 
     contentItem: Item {
         implicitWidth: snackbar.width
@@ -147,80 +194,178 @@ Popup {
             id: snackbarCard
 
             width: snackbar.width
-            implicitHeight: snackbarLayout.implicitHeight + 2 * Komai.paddingMedium
+            implicitHeight: snackbarCardLayout.implicitHeight + 2 * Komai.paddingMedium
             radius: Komai.paddingMedium + 2
             color: palette.window
-            border.width: 1
+            border.width: 2
             border.color: Qt.tint(Komai.theme.separator, Qt.rgba(palette.highlight.r,
                                                                  palette.highlight.g,
                                                                  palette.highlight.b,
-                                                                 0.18))
+                                                                 0.28))
 
-            Rectangle {
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                width: 4
-                radius: 2
-                color: palette.highlight
+            HoverHandler {
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                onHoveredChanged: if (hovered)
+                    snackbar.lockCurrent()
             }
 
-            RowLayout {
-                id: snackbarLayout
+            ColumnLayout {
+                id: snackbarCardLayout
 
                 anchors.fill: parent
                 anchors.margins: Komai.paddingMedium
-                anchors.leftMargin: Komai.paddingMedium + 6
-                spacing: Komai.paddingMedium
+                spacing: Komai.paddingSmall + 2
 
-                ColumnLayout {
+                RowLayout {
+                    id: snackbarLayout
+
                     Layout.fillWidth: true
                     Layout.minimumWidth: 0
-                    spacing: 3
+                    spacing: Komai.paddingMedium
 
-                    Label {
+                    ColumnLayout {
                         Layout.fillWidth: true
                         Layout.minimumWidth: 0
-                        id: titleLabel
-                        color: palette.text
-                        font.bold: true
-                        font.pointSize: Settings.uiFontSizePt
-                        text: qsTr("Notification")
+                        spacing: 3
+
+                        Label {
+                            Layout.fillWidth: true
+                            Layout.minimumWidth: 0
+                            id: titleLabel
+                            color: palette.text
+                            font.bold: true
+                            font.pointSize: Settings.uiFontSizePt
+                            text: qsTr("Notification")
+                        }
+
+                        KomaiTextArea {
+                            Layout.fillWidth: true
+                            Layout.minimumWidth: 0
+                            id: snackbarMessage
+                            activeFocusOnPress: true
+                            background: null
+                            color: palette.text
+                            cursorVisible: activeFocus
+                            font.pointSize: Settings.uiFontSizePt
+                            leftPadding: 0
+                            readOnly: true
+                            rightPadding: 0
+                            selectByMouse: true
+                            selectedTextColor: palette.highlightedText
+                            selectionColor: Qt.rgba(palette.highlight.r,
+                                                    palette.highlight.g,
+                                                    palette.highlight.b,
+                                                    0.85)
+                            text: snackbar.currentMessage
+                            textFormat: Text.PlainText
+                            topPadding: 0
+                            wrapMode: Text.Wrap
+                            onActiveFocusChanged: if (activeFocus)
+                                snackbar.lockCurrent()
+                            onSelectedTextChanged: if (selectedText.length > 0)
+                                snackbar.lockCurrent()
+                        }
                     }
 
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.minimumWidth: 0
-                        id: snackbarMessage
-                        color: palette.text
-                        text: snackbar.currentMessage
-                        textFormat: Text.PlainText
-                        wrapMode: Text.Wrap
-                        font.pointSize: Settings.uiFontSizePt
+                    Rectangle {
+                        id: queuedChip
+
+                        Layout.alignment: Qt.AlignTop
+                        color: "transparent"
+                        implicitWidth: sideControls.implicitWidth
+                        implicitHeight: sideControls.implicitHeight
+
+                        RowLayout {
+                            id: sideControls
+
+                            anchors.fill: parent
+                            spacing: Komai.paddingSmall
+
+                            Rectangle {
+                                visible: snackbar.queuedMessageCount > 0
+                                radius: Math.round(height / 2)
+                                color: palette.alternateBase
+                                border.width: 1
+                                border.color: Komai.theme.separator
+                                implicitWidth: queuedLabel.implicitWidth + Komai.paddingMedium
+                                implicitHeight: queuedLabel.implicitHeight + Komai.paddingSmall
+
+                                Label {
+                                    id: queuedLabel
+
+                                    anchors.centerIn: parent
+                                    color: palette.buttonText
+                                    font.pointSize: Math.max(Settings.uiFontSizePt - 1, 8)
+                                    text: qsTr("+%1").arg(snackbar.queuedMessageCount)
+                                }
+                            }
+
+                            ImageButton {
+                                id: dismissButton
+
+                                Layout.alignment: Qt.AlignTop
+                                Layout.preferredWidth: snackbar.dismissButtonSize
+                                Layout.preferredHeight: snackbar.dismissButtonSize
+                                Layout.minimumWidth: snackbar.dismissButtonSize
+                                Layout.minimumHeight: snackbar.dismissButtonSize
+                                buttonTextColor: palette.buttonText
+                                highlightColor: palette.text
+                                hoverEnabled: true
+                                image: ":/icons/icons/ui/dismiss.svg"
+                                ripple: false
+                                onClicked: snackbar.dismissCurrent()
+
+                                HoverHandler {
+                                    id: dismissButtonHover
+
+                                    acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                                    onHoveredChanged: if (hovered && snackbar.parent)
+                                        snackbar.dismissToolTipPoint = dismissButton.mapToItem(snackbar.parent,
+                                                                                                 dismissButton.width / 2,
+                                                                                                 0)
+                                    onPointChanged: if (snackbar.parent)
+                                        snackbar.dismissToolTipPoint = dismissButton.mapToItem(snackbar.parent,
+                                                                                                 point.position.x,
+                                                                                                 point.position.y)
+                                }
+                            }
+
+                        }
                     }
                 }
 
                 Rectangle {
-                    id: queuedChip
-
-                    Layout.alignment: Qt.AlignTop
-                    visible: snackbar.queuedMessageCount > 0
-                    radius: Math.round(height / 2)
+                    Layout.fillWidth: true
+                    Layout.topMargin: 2
+                    Layout.minimumWidth: 0
+                    implicitHeight: 4
+                    radius: 2
                     color: palette.alternateBase
-                    border.width: 1
-                    border.color: Komai.theme.separator
-                    implicitWidth: queuedLabel.implicitWidth + Komai.paddingMedium
-                    implicitHeight: queuedLabel.implicitHeight + Komai.paddingSmall
 
-                    Label {
-                        id: queuedLabel
-
-                        anchors.centerIn: parent
-                        color: palette.buttonText
-                        font.pointSize: Math.max(Settings.uiFontSizePt - 1, 8)
-                        text: qsTr("+%1").arg(snackbar.queuedMessageCount)
+                    Rectangle {
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: parent.width * snackbar.timeoutProgress
+                        radius: parent.radius
+                        color: palette.highlight
                     }
                 }
+            }
+
+            KomaiToolTip {
+                parent: snackbar.parent
+                anchorX: snackbar.dismissToolTipPoint.x
+                anchorY: snackbar.dismissToolTipPoint.y
+                gapX: Math.max(Komai.paddingSmall + 2, 8)
+                gapY: Math.max(Komai.paddingMedium * 2, 14)
+                preferRight: false
+                text: qsTr("Dismiss this message")
+                delay: 0
+                requestedVisible: dismissButtonHover.hovered
+                width: Math.min(dismissToolTipMetrics.advanceWidth + leftPadding + rightPadding,
+                                (snackbar.parent ? snackbar.parent.width : 500) * 0.5)
+                z: 10000
             }
         }
     }

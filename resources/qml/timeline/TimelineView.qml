@@ -22,6 +22,8 @@ Item {
     readonly property bool perfDisableTimelineEffects: TimelineManager.perfUiFlagEnabled("disable_timeline_effects")
     readonly property bool perfDisableTimelineList: TimelineManager.perfUiFlagEnabled("disable_timeline_list")
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
+    readonly property var notificationAreaItem: timelineView
+    readonly property var notificationAvoidBottomItem: bottomInputShell.visible ? bottomInputShell : null
 
     ComponentCatalog {
         id: componentCatalog

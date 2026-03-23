@@ -256,6 +256,18 @@ function openCatalogDialog(componentUrl, properties) {
     Snackbar {
         id: snackbar
 
+        contentAreaItem: {
+            const current = mainWindow.currentItem;
+            if (current && current.notificationAreaItem)
+                return current.notificationAreaItem;
+            return current || timelineRoot;
+        }
+        avoidBottomItem: {
+            const current = mainWindow.currentItem;
+            if (current && current.notificationAvoidBottomItem)
+                return current.notificationAvoidBottomItem;
+            return null;
+        }
     }
     Connections {
         function onShowNotification(msg) {

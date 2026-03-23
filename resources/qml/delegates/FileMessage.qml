@@ -15,10 +15,9 @@ Control {
     required property string eventId
     required property string filename
     required property string filesize
+    required property string fileTypeIconSource
 
     padding: styleProfile.fileMessagePadding
-    //Layout.preferredHeight: rowa.implicitHeight + padding
-    //Layout.maximumWidth: rowa.Layout.maximumWidth + metadataWidth + padding
     property int metadataWidth: 0
     property bool fitsMetadata: false
 
@@ -27,43 +26,36 @@ Control {
     contentItem: RowLayout {
         id: rowa
 
-        spacing: 16
+        spacing: Komai.paddingMedium * 2
 
         Rectangle {
-            id: button
+            id: iconCircle
+
+            readonly property int circleSize: Komai.listIconSize + 2 * Komai.paddingMedium
 
             color: palette.light
-            radius: 22
-            Layout.preferredHeight: 44
-            Layout.preferredWidth: 44
+            radius: circleSize / 2
+            Layout.preferredHeight: circleSize
+            Layout.preferredWidth: circleSize
 
             Image {
                 id: img
 
-                height: 40
-                width: 40
-                sourceSize.height: 40
-                sourceSize.width: 40
+                height: Komai.listIconSize
+                width: Komai.listIconSize
+                sourceSize.height: Komai.listIconSize * Screen.devicePixelRatio
+                sourceSize.width: Komai.listIconSize * Screen.devicePixelRatio
 
                 anchors.centerIn: parent
-                source: "qrc:/icons/icons/ui/download.svg"
-                fillMode: Image.Pad
+                source: "image://colorimage/" + evRoot.fileTypeIconSource + "?" + palette.buttonText
+                fillMode: Image.PreserveAspectFit
             }
-
-            TapHandler {
-                onSingleTapped: room.saveMedia(eventId)
-                gesturePolicy: TapHandler.ReleaseWithinBounds
-            }
-
-            KomaiCursorShape {
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-            }
-
         }
 
         ColumnLayout {
             id: col
+
+            Layout.fillWidth: true
 
             Text {
                 id: filename_
@@ -86,7 +78,14 @@ Control {
                 elide: Text.ElideRight
                 color: palette.text
             }
+        }
 
+        KomaiButton {
+            text: qsTr("Save")
+            icon.source: "qrc:/icons/icons/ui/download.svg"
+            toolTipText: qsTr("Save file")
+
+            onClicked: room.saveMedia(eventId)
         }
 
     }

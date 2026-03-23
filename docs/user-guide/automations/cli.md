@@ -100,6 +100,40 @@ Starts or opens a one-to-one chat with a user.
 komai rooms new-direct-chat '@alice:example.org'
 ```
 
+### send
+
+Sends a text or notice message to a room. Returns the event ID as JSON.
+
+```bash
+komai rooms send '!abc:example.org' 'Hello, world!'
+komai rooms send '#room:example.org' 'Hello, world!'
+komai rooms send '!abc:example.org' 'Server alert' --msgtype notice
+komai rooms send '!abc:example.org' '**bold** text' --format html
+komai rooms send '!abc:example.org' 'plain text only' --format plain
+```
+
+Multi-word messages are joined automatically:
+
+```bash
+komai rooms send '!abc:example.org' hello world
+# sends "hello world"
+```
+
+Output:
+
+```json
+{"eventId":"$abc123:example.org"}
+```
+
+| Flag | Values | Default | Description |
+|---|---|---|---|
+| `--msgtype` | `text`, `notice` | `text` | Message type |
+| `--format` | `auto`, `plain`, `html` | `auto` | Markdown handling |
+
+- `auto` — follows the user's Markdown setting in Komai preferences
+- `plain` — sends the body as-is, no formatting
+- `html` — always converts Markdown to HTML
+
 ## 👤 User
 
 Account and presence.

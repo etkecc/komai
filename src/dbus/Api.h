@@ -18,7 +18,7 @@ init();
 
 //! The Komai D-Bus API version provided by this file. The API version number follows semantic
 //! versioning as defined by https://semver.org.
-inline const QVersionNumber dbusApiVersion{1, 0, 2};
+inline const QVersionNumber dbusApiVersion{1, 1, 0};
 
 //! Compare the installed API version to the version that your client app targets to see if they
 //! are compatible.
@@ -90,6 +90,13 @@ joinRoom(const QString &profileId, const QString &roomIdOrAlias);
 //! Starts or activates a direct chat.
 void
 newDirectChat(const QString &profileId, const QString &userId);
+//! Sends a text or notice message to a room. Returns the event ID.
+QString
+sendMessage(const QString &profileId,
+            const QString &roomIdOrAlias,
+            const QString &body,
+            const QString &msgtype = QStringLiteral("m.text"),
+            const QString &format  = QStringLiteral("auto"));
 
 // -- cc.etke.komai.User --
 

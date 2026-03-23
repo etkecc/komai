@@ -4,9 +4,14 @@
 
 #include "SharedLogic.h"
 
+#include <QDateTime>
+
+#include <mtx/events/collections.hpp>
+
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "config/komai.h"
+#include "encryption/Olm.h"
 #include "matrix/MatrixClient.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -14,6 +19,7 @@
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
+#include "utils/Utils.h"
 
 namespace {
 
@@ -190,6 +196,112 @@ setUiTheme(const QString &theme)
         return;
 
     settings->setUiThemeSlug(theme);
+}
+
+// -- rooms (messaging) --
+
+QString
+resolveRoomId(const QString &roomIdOrAlias)
+{
+    if (roomIdOrAlias.startsWith(QLatin1Char('!')))
+        return roomIdOrAlias;
+
+    if (roomIdOrAlias.startsWith(QLatin1Char('#'))) {
+        const auto rooms  = cache::roomNamesAndAliases();
+        const auto needle = roomIdOrAlias.toStdString();
+        for (const auto &room : rooms) {
+            if (room.alias == needle)
+                return QString::fromStdString(room.id);
+        }
+    }
+    return {};
+}
+
+void
+sendMessage(const QString &roomIdOrAlias,
+            const QString &body,
+            const QString &msgtype,
+            const QString &format,
+            SendMessageCallback callback)
+{
+    const auto roomId = resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
+    }
+
+    const auto roomIdStd = roomId.toStdString();
+
+    // Build formatted_body based on format parameter.
+    const auto trimmedBody = body.trimmed();
+    std::string formattedBody;
+
+    if (format == QLatin1String("html")) {
+        formattedBody = utils::markdownToHtml(trimmedBody, false).toStdString();
+    } else if (format == QLatin1String("auto")) {
+        if (UserSettings::instance()->composerInputMarkdownToHtmlEnabled())
+            formattedBody = utils::markdownToHtml(trimmedBody, false).toStdString();
+    }
+    // "plain" or anything else: no formatted_body
+
+    // Smart-skip: if formatted_body has no HTML tags and body has no newlines
+    // or backslashes, clear it to avoid redundant formatting.
+    if (!formattedBody.empty() && formattedBody.find('<') == std::string::npos &&
+        trimmedBody.toStdString().find('\n') == std::string::npos &&
+        trimmedBody.toStdString().find('\\') == std::string::npos)
+        formattedBody.clear();
+
+    const auto txnId     = std::string("m") + std::to_string(QDateTime::currentMSecsSinceEpoch());
+    const bool encrypted = cache::isRoomEncrypted(roomIdStd);
+
+    auto doSend = [roomIdStd, txnId, encrypted, callback](auto content) {
+        auto sendCb = [callback](const mtx::responses::EventId &eventId,
+                                 mtx::http::RequestErr err) {
+            if (err) {
+                if (callback)
+                    callback({}, QString::fromStdString(err->matrix_error.error));
+                return;
+            }
+            if (callback)
+                callback(QString::fromStdString(eventId.event_id.to_string()), {});
+        };
+
+        if (encrypted) {
+            try {
+                nlohmann::json doc = {{"type", "m.room.message"},
+                                      {"content", nlohmann::json(content)},
+                                      {"room_id", roomIdStd}};
+                auto encryptedContent =
+                  olm::encrypt_group_message(roomIdStd, http::client()->device_id(), doc);
+                http::client()->send_room_message(roomIdStd, txnId, encryptedContent, sendCb);
+            } catch (const std::exception &e) {
+                if (callback)
+                    callback(
+                      {}, QStringLiteral("encryption failed: ") + QString::fromStdString(e.what()));
+            }
+        } else {
+            http::client()->send_room_message(roomIdStd, txnId, content, sendCb);
+        }
+    };
+
+    if (msgtype == QLatin1String("m.notice")) {
+        mtx::events::msg::Notice notice;
+        notice.body = trimmedBody.toStdString();
+        if (!formattedBody.empty()) {
+            notice.formatted_body = formattedBody;
+            notice.format         = "org.matrix.custom.html";
+        }
+        doSend(notice);
+    } else {
+        mtx::events::msg::Text text;
+        text.body = trimmedBody.toStdString();
+        if (!formattedBody.empty()) {
+            text.formatted_body = formattedBody;
+            text.format         = "org.matrix.custom.html";
+        }
+        doSend(text);
+    }
 }
 
 // -- media --

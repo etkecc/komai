@@ -125,6 +125,23 @@ Starts or opens a one-to-one chat with a user.
 busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms newDirectChat s '@alice:example.org'
 ```
 
+### send
+
+Sends a text or notice message to a room. Returns the event ID string.
+
+> Required D-Bus access level: ✏️ write
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms send ssss '!abc:example.org' 'Hello' 'm.text' 'auto'
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `roomIdOrAlias` | string | *(required)* | Room ID or alias |
+| `body` | string | *(required)* | Message text |
+| `msgtype` | string | `m.text` | `m.text` or `m.notice` |
+| `format` | string | `auto` | `auto`, `plain`, or `html` |
+
 ## 👤 User
 
 Account and presence.

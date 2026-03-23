@@ -85,6 +85,7 @@ Simple JSON-lines over the socket — one request line, one response line:
 | `rooms.activate`             | `roomIdOrAlias`               | `true`          |
 | `rooms.join`                 | `roomIdOrAlias`               | `true`          |
 | `rooms.newDirectChat`        | `userId`                      | `true`          |
+| `rooms.send`                 | `roomIdOrAlias`, `body`, `msgtype`?, `format`? | `object` |
 | `user.userId`                | —                             | `string`        |
 | `user.homeserverUrl`         | —                             | `string`        |
 | `user.deviceId`              | —                             | `string`        |

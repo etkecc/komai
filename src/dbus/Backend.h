@@ -77,6 +77,11 @@ public slots:
     void activate(const QString &roomIdOrAlias) const;
     void join(const QString &roomIdOrAlias) const;
     void newDirectChat(const QString &userId) const;
+    QString send(const QString &roomIdOrAlias,
+                 const QString &body,
+                 const QString &msgtype,
+                 const QString &format,
+                 const QDBusMessage &message) const;
 };
 
 // ---------------------------------------------------------------------------

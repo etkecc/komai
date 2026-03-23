@@ -195,6 +195,29 @@ DbusRoomsInterface::newDirectChat(const QString &userId) const
     komai::ipc::newDirectChat(stripDbusTypePrefix(userId));
 }
 
+QString
+DbusRoomsInterface::send(const QString &roomIdOrAlias,
+                         const QString &body,
+                         const QString &msgtype,
+                         const QString &format,
+                         const QDBusMessage &message) const
+{
+    if (!dbusWriteAccessEnabled())
+        return {};
+
+    message.setDelayedReply(true);
+    komai::ipc::sendMessage(stripDbusTypePrefix(roomIdOrAlias),
+                            stripDbusTypePrefix(body),
+                            stripDbusTypePrefix(msgtype),
+                            stripDbusTypePrefix(format),
+                            [message](const QString &eventId, const QString &error) {
+                                auto reply = message.createReply();
+                                reply << (error.isEmpty() ? eventId : QString{});
+                                QDBusConnection::sessionBus().send(reply);
+                            });
+    return {};
+}
+
 // ---------------------------------------------------------------------------
 // cc.etke.komai.User
 // ---------------------------------------------------------------------------

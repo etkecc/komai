@@ -165,6 +165,32 @@ IpcServer::handleRequest(QLocalSocket *socket)
         return;
     }
 
+    if (method == QLatin1String("rooms.send")) {
+        QPointer<QLocalSocket> safeSocket = socket;
+        sendMessage(params.value(QStringLiteral("roomIdOrAlias")).toString(),
+                    params.value(QStringLiteral("body")).toString(),
+                    params.value(QStringLiteral("msgtype")).toString(QStringLiteral("m.text")),
+                    params.value(QStringLiteral("format")).toString(QStringLiteral("auto")),
+                    [safeSocket](const QString &eventId, const QString &error) {
+                        if (!safeSocket)
+                            return;
+                        QJsonObject response;
+                        if (!error.isEmpty())
+                            response.insert(QStringLiteral("error"), error);
+                        else
+                            response.insert(QStringLiteral("result"),
+                                            QJsonObject{{QStringLiteral("eventId"), eventId}});
+                        QMetaObject::invokeMethod(
+                          safeSocket.data(),
+                          [safeSocket, response]() {
+                              if (safeSocket)
+                                  writeResponse(safeSocket.data(), response);
+                          },
+                          Qt::QueuedConnection);
+                    });
+        return;
+    }
+
     // -- media (async) --
 
     if (method == QLatin1String("media.fetch")) {

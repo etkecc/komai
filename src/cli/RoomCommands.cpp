@@ -25,7 +25,10 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
                   << "  list                         List all joined rooms (JSON)\n"
                   << "  activate <room-id-or-alias>  Activate (focus) a room\n"
                   << "  join <room-id-or-alias>      Join a room\n"
-                  << "  new-direct-chat <user-id>    Start or open a direct chat\n";
+                  << "  new-direct-chat <user-id>    Start or open a direct chat\n"
+                  << "  send <room-id-or-alias> <message>  Send a message to a room\n"
+                  << "    --msgtype text|notice            Message type (default: text)\n"
+                  << "    --format  auto|plain|html        Markdown handling (default: auto)\n";
         return cli_ipc::hasHelpFlag(argc, argv) ? 0 : 1;
     }
 
@@ -69,6 +72,42 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
         cli_ipc::call(profileId,
                       QStringLiteral("rooms.newDirectChat"),
                       {{QStringLiteral("userId"), args.at(1)}});
+        return 0;
+    }
+
+    if (subcmd == QLatin1String("send")) {
+        if (args.size() < 3) {
+            std::cerr << "Usage: komai rooms send <room-id-or-alias> <message> "
+                         "[--msgtype text|notice] [--format auto|plain|html]\n";
+            return 1;
+        }
+
+        // All positionals after the room ID are joined as the message body.
+        QStringList bodyParts;
+        for (int i = 2; i < args.size(); ++i)
+            bodyParts.append(args.at(i));
+        const auto body = bodyParts.join(QLatin1Char(' '));
+
+        auto msgtypeFlag =
+          cli_ipc::flagValue(argc, argv, QStringLiteral("--msgtype"), QStringLiteral("text"));
+        auto msgtype = (msgtypeFlag == QLatin1String("notice")) ? QStringLiteral("m.notice")
+                                                                : QStringLiteral("m.text");
+        auto format =
+          cli_ipc::flagValue(argc, argv, QStringLiteral("--format"), QStringLiteral("auto"));
+
+        auto response = cli_ipc::call(profileId,
+                                      QStringLiteral("rooms.send"),
+                                      {{QStringLiteral("roomIdOrAlias"), args.at(1)},
+                                       {QStringLiteral("body"), body},
+                                       {QStringLiteral("msgtype"), msgtype},
+                                       {QStringLiteral("format"), format}});
+        if (response.contains(QStringLiteral("error"))) {
+            std::cerr << "Error: "
+                      << response.value(QStringLiteral("error")).toString().toStdString() << "\n";
+            return 1;
+        }
+        auto result = response.value(QStringLiteral("result")).toObject();
+        std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
         return 0;
     }
 

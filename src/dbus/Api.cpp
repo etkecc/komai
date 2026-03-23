@@ -188,6 +188,22 @@ newDirectChat(const QString &profileId, const QString &userId)
         iface.call(QDBus::NoBlock, QStringLiteral("newDirectChat"), userId);
 }
 
+QString
+sendMessage(const QString &profileId,
+            const QString &roomIdOrAlias,
+            const QString &body,
+            const QString &msgtype,
+            const QString &format)
+{
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Rooms")};
+    if (iface.isValid())
+        return QDBusReply<QString>{
+          iface.call(QStringLiteral("send"), roomIdOrAlias, body, msgtype, format)}
+          .value();
+    return {};
+}
+
 // -- cc.etke.komai.User --
 
 QString

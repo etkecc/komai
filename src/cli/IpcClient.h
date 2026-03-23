@@ -89,6 +89,28 @@ call(const QString &profileId, const QString &method, const QJsonObject &params 
     return doc.object();
 }
 
+/// Returns the value of a --flag from argv, or defaultValue if absent.
+inline QString
+flagValue(int argc, char *argv[], const QString &flag, const QString &defaultValue = {})
+{
+    for (int i = 1; i < argc - 1; ++i) {
+        if (QString{argv[i]} == flag)
+            return QString{argv[i + 1]};
+    }
+    return defaultValue;
+}
+
+/// Returns true if a boolean flag (no value) appears anywhere in argv.
+inline bool
+hasFlag(int argc, char *argv[], const QString &flag)
+{
+    for (int i = 1; i < argc; ++i) {
+        if (QString{argv[i]} == flag)
+            return true;
+    }
+    return false;
+}
+
 /// Collects positional arguments after the given keyword in argv,
 /// skipping known option+value pairs and flags.
 inline QStringList
@@ -102,7 +124,10 @@ positionalsAfter(int argc, char *argv[], const QString &keyword)
         // Skip known option+value pairs
         if (arg == QLatin1String("-p") || arg == QLatin1String("--profile") ||
             arg == QLatin1String("-l") || arg == QLatin1String("--log-level") ||
-            arg == QLatin1String("-L") || arg == QLatin1String("--log-type")) {
+            arg == QLatin1String("-L") || arg == QLatin1String("--log-type") ||
+            arg == QLatin1String("--msgtype") || arg == QLatin1String("--format") ||
+            arg == QLatin1String("--caption") || arg == QLatin1String("--filename") ||
+            arg == QLatin1String("--content-type")) {
             ++i;
             continue;
         }

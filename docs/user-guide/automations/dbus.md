@@ -4,6 +4,8 @@ Komai exposes a local [D-Bus](https://www.freedesktop.org/wiki/Software/dbus/) A
 
 > **Before you start:** D-Bus integration must be enabled in [Settings → Integrations → D-Bus](../settings/integrations/dbus.md).
 
+> **Just need a quick command?** The [CLI](cli.md) provides the same operations as ready-made commands with human & agent-friendly JSON output -- no D-Bus library needed.
+
 ## 🛰️ Service details
 
 Each [application profile](../application-profiles.md) registers its own D-Bus service:
@@ -126,6 +128,36 @@ busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms newDirect
 ## 👤 User
 
 Account and presence.
+
+### userId
+
+Returns the logged-in user's Matrix ID.
+
+> Required D-Bus access level: 👁️ read
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.User userId
+```
+
+### homeserverUrl
+
+Returns the homeserver URL.
+
+> Required D-Bus access level: 👁️ read
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.User homeserverUrl
+```
+
+### deviceId
+
+Returns the device ID for the current session.
+
+> Required D-Bus access level: 👁️ read
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.User deviceId
+```
 
 ### statusMessage / setStatusMessage
 

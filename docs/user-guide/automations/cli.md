@@ -1,8 +1,8 @@
 # CLI Commands
 
-Komai can be controlled from the terminal. CLI commands talk to a running Komai instance over [D-Bus](dbus.md), so the target instance must be running and have D-Bus integration enabled in [Settings → Integrations → D-Bus](../settings/integrations/dbus.md).
+Komai can be controlled from the terminal. CLI commands talk to a running Komai instance over [D-Bus](dbus.md), so the target instance must be running. No display server is needed on the machine running the command.
 
-CLI commands use `QCoreApplication` (headless) -- no display server is needed on the machine running the command.
+> **Prefer a D-Bus library?** The same operations are available through the [D-Bus API](dbus.md) for use from any programming language.
 
 ## Output format
 
@@ -104,6 +104,27 @@ komai rooms new-direct-chat '@alice:example.org'
 
 Account and presence.
 
+### id
+
+```bash
+komai user id
+# {"userId":"@alice:example.org"}
+```
+
+### homeserver-url
+
+```bash
+komai user homeserver-url
+# {"homeserverUrl":"https://example.org"}
+```
+
+### device-id
+
+```bash
+komai user device-id
+# {"deviceId":"ABCDEF1234"}
+```
+
 ### status
 
 ```bash
@@ -160,7 +181,7 @@ The following commands work without a running Komai instance:
 
 | Command | Description |
 |---|---|
-| `komai theme list` | List all loaded themes |
+| `komai theme list` | List all available themes |
 | `komai theme create-sample <variant> <name>` | Create a starter theme YAML |
 | `komai theme tinted-import <slug> [name]` | Import a Base16 theme from tinted-theming |
 | `komai theme tinted-search [query]` | Search available Base16 themes |
@@ -173,3 +194,7 @@ If no Komai instance is running for the target profile, CLI commands print an er
 Error: no running Komai instance for profile 'work'
 Start Komai first: komai -p work
 ```
+
+## Security
+
+CLI commands do not require enabling D-Bus access in Settings. Unlike the [D-Bus API](dbus.md), which can be called by any process on the session bus (including other apps you run), the CLI is the Komai binary itself -- running it requires the same OS-level access as launching Komai. If you can execute `komai`, you already have full access to the user's session, config files, and credentials. An additional permission gate would add friction without meaningfully improving security.

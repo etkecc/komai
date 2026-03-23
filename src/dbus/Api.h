@@ -93,6 +93,15 @@ newDirectChat(const QString &profileId, const QString &userId);
 
 // -- cc.etke.komai.User --
 
+//! Get the logged-in user's Matrix ID.
+QString
+userId(const QString &profileId);
+//! Get the homeserver URL.
+QString
+homeserverUrl(const QString &profileId);
+//! Get the device ID.
+QString
+deviceId(const QString &profileId);
 //! Get the user's status message.
 QString
 statusMessage(const QString &profileId);

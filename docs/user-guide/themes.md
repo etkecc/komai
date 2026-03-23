@@ -73,7 +73,7 @@ komai theme tinted-import rose-pine --variant light
 # Overwrite an existing imported theme
 komai theme tinted-import rose-pine --force
 
-# List all loaded themes (built-in + user)
+# List all available themes (built-in + user)
 komai theme list
 
 # Create a starter theme for manual customisation

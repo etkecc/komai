@@ -95,6 +95,9 @@ public:
     explicit DbusUserInterface(DbusHost *parent);
 
 public slots:
+    QString userId() const;
+    QString homeserverUrl() const;
+    QString deviceId() const;
     QString statusMessage() const;
     void setStatusMessage(const QString &message);
 };

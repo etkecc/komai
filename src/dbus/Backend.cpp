@@ -13,6 +13,7 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "config/komai.h"
+#include "matrix/MatrixClient.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/SettingKeys.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -257,6 +258,33 @@ DbusRoomsInterface::bringWindowToTop() const
 DbusUserInterface::DbusUserInterface(DbusHost *parent)
   : QDBusAbstractAdaptor{parent}
 {
+}
+
+QString
+DbusUserInterface::userId() const
+{
+    if (!dbusReadAccessEnabled())
+        return {};
+
+    return QString::fromStdString(http::client()->user_id().to_string());
+}
+
+QString
+DbusUserInterface::homeserverUrl() const
+{
+    if (!dbusReadAccessEnabled())
+        return {};
+
+    return QString::fromStdString(http::client()->server_url());
+}
+
+QString
+DbusUserInterface::deviceId() const
+{
+    if (!dbusReadAccessEnabled())
+        return {};
+
+    return QString::fromStdString(http::client()->device_id());
 }
 
 QString

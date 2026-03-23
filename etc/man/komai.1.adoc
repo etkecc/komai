@@ -90,7 +90,7 @@ List available Base16 themes from the tinted-theming/schemes repository. If
 _query_ is given, filter by substring match.
 
 *komai theme list*::
-List all loaded themes (built-in and user) with slug, name, variant, and source.
+List all available themes (built-in and user) with slug, name, variant, and source.
 Source shows _builtin_ for compiled themes or the full file path for external
 themes.
 

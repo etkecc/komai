@@ -191,6 +191,36 @@ newDirectChat(const QString &profileId, const QString &userId)
 // -- cc.etke.komai.User --
 
 QString
+userId(const QString &profileId)
+{
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.User")};
+    if (iface.isValid())
+        return QDBusReply<QString>{iface.call(QStringLiteral("userId"))}.value();
+    return {};
+}
+
+QString
+homeserverUrl(const QString &profileId)
+{
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.User")};
+    if (iface.isValid())
+        return QDBusReply<QString>{iface.call(QStringLiteral("homeserverUrl"))}.value();
+    return {};
+}
+
+QString
+deviceId(const QString &profileId)
+{
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.User")};
+    if (iface.isValid())
+        return QDBusReply<QString>{iface.call(QStringLiteral("deviceId"))}.value();
+    return {};
+}
+
+QString
 statusMessage(const QString &profileId)
 {
     QDBusInterface iface{

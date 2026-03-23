@@ -53,7 +53,7 @@ runThemeCommand(int argc, char *argv[], QCoreApplication &app)
                   << "Subcommands:\n"
                   << "  tinted-import <slug> [name]   Import a Base16 theme from tinted-theming\n"
                   << "  tinted-search [query]         Search available Base16 themes\n"
-                  << "  list                          List all loaded themes\n"
+                  << "  list                          List all available themes\n"
                   << "  create-sample <variant> <name> Create a starter theme YAML\n";
         return subcmd.isEmpty() ? 1 : 0;
     }

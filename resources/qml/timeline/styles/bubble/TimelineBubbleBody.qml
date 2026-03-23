@@ -157,7 +157,10 @@ Item {
                 Math.max(replyContentWidth + root.wrapper.replyInset, mainContentWidth + root.wrapper.mainInset),
                 root.wrapper.maxWidth
             )
-            implicitHeight: contentColumn.implicitHeight
+            // Ensure at least one text-line height so that the metadata
+            // (bottom-anchored to the bubble) never overflows above the
+            // body bounds when the message content is empty.
+            implicitHeight: Math.max(contentColumn.implicitHeight, fontMetrics.height)
 
             Column {
                 id: contentColumn

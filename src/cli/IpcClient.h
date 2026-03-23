@@ -90,12 +90,17 @@ call(const QString &profileId, const QString &method, const QJsonObject &params 
 }
 
 /// Returns the value of a --flag from argv, or defaultValue if absent.
+/// Supports both "--flag value" and "--flag=value" forms.
 inline QString
 flagValue(int argc, char *argv[], const QString &flag, const QString &defaultValue = {})
 {
-    for (int i = 1; i < argc - 1; ++i) {
-        if (QString{argv[i]} == flag)
+    const auto eqPrefix = flag + QLatin1Char('=');
+    for (int i = 1; i < argc; ++i) {
+        QString arg{argv[i]};
+        if (arg == flag && i + 1 < argc)
             return QString{argv[i + 1]};
+        if (arg.startsWith(eqPrefix))
+            return arg.mid(eqPrefix.size());
     }
     return defaultValue;
 }
@@ -116,22 +121,42 @@ hasFlag(int argc, char *argv[], const QString &flag)
 inline QStringList
 positionalsAfter(int argc, char *argv[], const QString &keyword)
 {
+    static const QString optionsWithValues[] = {
+      QStringLiteral("-p"),
+      QStringLiteral("--profile"),
+      QStringLiteral("-l"),
+      QStringLiteral("--log-level"),
+      QStringLiteral("-L"),
+      QStringLiteral("--log-type"),
+      QStringLiteral("--msgtype"),
+      QStringLiteral("--format"),
+      QStringLiteral("--caption"),
+      QStringLiteral("--filename"),
+      QStringLiteral("--content-type"),
+    };
+
     QStringList result;
     bool pastKeyword = false;
     for (int i = 1; i < argc; ++i) {
         QString arg{argv[i]};
 
-        // Skip known option+value pairs
-        if (arg == QLatin1String("-p") || arg == QLatin1String("--profile") ||
-            arg == QLatin1String("-l") || arg == QLatin1String("--log-level") ||
-            arg == QLatin1String("-L") || arg == QLatin1String("--log-type") ||
-            arg == QLatin1String("--msgtype") || arg == QLatin1String("--format") ||
-            arg == QLatin1String("--caption") || arg == QLatin1String("--filename") ||
-            arg == QLatin1String("--content-type")) {
-            ++i;
-            continue;
+        // Skip known option+value pairs (both "--flag value" and "--flag=value")
+        bool skipped = false;
+        for (const auto &opt : optionsWithValues) {
+            if (arg == opt) {
+                ++i; // skip the next arg (the value)
+                skipped = true;
+                break;
+            }
+            if (arg.startsWith(opt + QLatin1Char('='))) {
+                skipped = true;
+                break;
+            }
         }
-        // Skip flags (including --profile=value, -pvalue, etc.)
+        if (skipped)
+            continue;
+
+        // Skip flags (including -pvalue, --unknown, etc.)
         if (arg.startsWith(QLatin1Char('-')))
             continue;
 

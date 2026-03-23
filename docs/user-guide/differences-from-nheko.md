@@ -57,6 +57,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
   - **Timeline video thumbnails** -- videos in the timeline show a thumbnail with a play button overlay and hover effects; clicking opens the media viewer directly
 - **Revamped inline audio player** -- audio clips stay in the timeline, play without a separate Download step, and support adjustable playback speed
 - **Forward button** in the message action bar
+- **[Message special effects](message-effects.md)** -- emoji-triggered visual effects (confetti, sunlight, hearts, rainfall, lightning, and the Komai logo) that also work in a non-animated static form when UI animations are disabled
 - **Pinned and recent emoji reactions** directly in the action bar
 - **Swipe-to-reply disabled** by default to prevent accidental replies on desktop
 - **Formatted-message code block highlighting** (powered by [KSyntaxHighlighting](https://api.kde.org/frameworks/syntax-highlighting/html/index.html)) with MIME-assisted and heuristic language auto-detection for unlabeled fenced blocks, and a user toggle under [Settings](settings/README.md).

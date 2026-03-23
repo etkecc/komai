@@ -115,6 +115,13 @@
         <file alias="icons/ui/chevron-up.svg">icons/fluent/assets/Chevron Up/SVG/ic_fluent_chevron_up_24_regular.svg</file>
         <file alias="icons/ui/chevron-down.svg">icons/fluent/assets/Chevron Down/SVG/ic_fluent_chevron_down_24_regular.svg</file>
         <file alias="icons/ui/select-all-on.svg">icons/fluent/assets/Select All On/SVG/ic_fluent_select_all_on_20_regular.svg</file>
+        <file alias="icons/ui/document-pdf.svg">icons/fluent/assets/Document PDF/SVG/ic_fluent_document_pdf_24_regular.svg</file>
+        <file alias="icons/ui/document-text.svg">icons/fluent/assets/Document Text/SVG/ic_fluent_document_text_24_regular.svg</file>
+        <file alias="icons/ui/document-data.svg">icons/fluent/assets/Document Data/SVG/ic_fluent_document_data_24_regular.svg</file>
+        <file alias="icons/ui/code.svg">icons/fluent/assets/Code/SVG/ic_fluent_code_24_regular.svg</file>
+        <file alias="icons/ui/table-simple.svg">icons/fluent/assets/Table Simple/SVG/ic_fluent_table_simple_24_regular.svg</file>
+        <file alias="icons/ui/slide-content.svg">icons/fluent/assets/Slide Content/SVG/ic_fluent_slide_content_24_regular.svg</file>
+        <file alias="icons/ui/image.svg">icons/fluent/assets/Image/SVG/ic_fluent_image_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

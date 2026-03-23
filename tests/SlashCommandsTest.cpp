@@ -96,9 +96,6 @@ testParserAndCompletionRanges()
         QStringLiteral("/goto"),
       "command picker search string stays on the command token once arguments exist");
     ok &= expect(
-      timeline::slash_commands::completionReplacementEnd(QStringLiteral("/goto 123"), 9) == 5,
-      "command completion replaces only the command token");
-    ok &= expect(
       timeline::slash_commands::completionSearchString(QStringLiteral("/"), 1) == QStringLiteral("/"),
       "command picker still shows all commands for a bare slash");
     const auto replacedWithArgs =

@@ -276,12 +276,6 @@ public slots:
     {
         return timeline::slash_commands::completionSearchString(currentText, currentCursorPosition);
     }
-    Q_INVOKABLE int
-    commandCompletionReplaceEnd(const QString &currentText, int currentCursorPosition) const
-    {
-        return timeline::slash_commands::completionReplacementEnd(currentText,
-                                                                  currentCursorPosition);
-    }
     Q_INVOKABLE QString applyCommandCompletion(const QString &currentText,
                                                int currentCursorPosition,
                                                const QString &completion) const

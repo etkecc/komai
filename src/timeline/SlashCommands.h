@@ -172,8 +172,6 @@ Inspection
 inspect(const QString &text, const CommandContext &context);
 QString
 completionSearchString(const QString &text, int cursorPosition);
-int
-completionReplacementEnd(const QString &text, int cursorPosition);
 QString
 applyCompletion(const QString &text, int cursorPosition, QStringView completion);
 int

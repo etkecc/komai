@@ -745,18 +745,6 @@ completionSearchString(const QString &text, int cursorPosition)
     return prefix.left(parsed.tokenEnd);
 }
 
-int
-completionReplacementEnd(const QString &text, int cursorPosition)
-{
-    const int clampedCursor = std::clamp(cursorPosition, 0, static_cast<int>(text.size()));
-    const auto parsed       = parse(text);
-
-    if (!parsed.hasLeadingSlash || parsed.tokenStart != 0 || parsed.tokenEnd < 0)
-        return clampedCursor;
-
-    return parsed.tokenEnd;
-}
-
 QString
 applyCompletion(const QString &text, int cursorPosition, QStringView completion)
 {

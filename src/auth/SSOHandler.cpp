@@ -9,56 +9,80 @@
 #include <QLocale>
 #include <QTimer>
 
-#include <thread>
-
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixAuthService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/Theme.h"
 
-SSOHandler::SSOHandler(QObject *)
+SSOHandler::SSOHandler(QObject *parent)
+  : QObject(parent)
 {
-    QTimer::singleShot(120000, this, &SSOHandler::ssoFailed);
-
-    using namespace httplib;
-
-    svr.set_logger([](const Request &req, const Response &res) {
-        nhlog::net()->info("req: {}, res: {}", req.path, res.status);
-    });
-
-    svr.Get("/sso", [this](const Request &req, Response &res) {
-        if (req.has_param("loginToken")) {
-            auto val = req.get_param_value("loginToken");
-            res.set_content(pageHtml(true), "text/html");
-            emit ssoSuccess(val);
-        } else {
-            res.set_content(pageHtml(false), "text/html");
-            emit ssoFailed();
-        }
-    });
-
-    std::thread t([this]() {
-        this->port = svr.bind_to_any_port("localhost");
-        svr.listen_after_bind();
-    });
-    t.detach();
-
-    while (!svr.is_running()) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    QString error;
+    auto server =
+      komai::MatrixAuthService::startSsoCallbackServer(QString::fromStdString(pageHtml(true)),
+                                                       QString::fromStdString(pageHtml(false)),
+                                                       120000,
+                                                       &error);
+    if (!server) {
+        nhlog::net()->error("Failed to start Rust SSO callback server: {}", error.toStdString());
+        QTimer::singleShot(0, this, [this]() { emit ssoFailed(); });
+        return;
     }
+
+    listenerId  = server->listenerId;
+    callbackUrl = server->callbackUrl.toStdString();
+
+    connect(&pollTimer, &QTimer::timeout, this, &SSOHandler::pollStatus);
+    pollTimer.setInterval(50);
+    pollTimer.start();
 }
 
 SSOHandler::~SSOHandler()
 {
-    svr.stop();
-    while (svr.is_running()) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    pollTimer.stop();
+
+    if (listenerId != 0) {
+        QString error;
+        if (!komai::MatrixAuthService::stopSsoCallbackServer(listenerId, &error) &&
+            !error.isEmpty()) {
+            nhlog::net()->warn("Failed to stop Rust SSO callback server: {}", error.toStdString());
+        }
     }
 }
 
 std::string
 SSOHandler::url() const
 {
-    return "http://localhost:" + std::to_string(port) + "/sso";
+    return callbackUrl;
+}
+
+void
+SSOHandler::pollStatus()
+{
+    if (listenerId == 0)
+        return;
+
+    QString error;
+    auto status = komai::MatrixAuthService::pollSsoCallbackServer(listenerId, &error);
+    if (!status) {
+        pollTimer.stop();
+        listenerId = 0;
+        nhlog::net()->error("Failed to poll Rust SSO callback server: {}", error.toStdString());
+        emit ssoFailed();
+        return;
+    }
+
+    if (!status->ready)
+        return;
+
+    pollTimer.stop();
+    listenerId = 0;
+
+    if (status->success) {
+        emit ssoSuccess(status->loginToken.toStdString());
+    } else {
+        emit ssoFailed();
+    }
 }
 
 std::string

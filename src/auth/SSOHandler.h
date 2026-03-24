@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include "httplib.h"
-
 #include <QObject>
+#include <QTimer>
+#include <cstdint>
 #include <string>
 
 class SSOHandler final : public QObject
@@ -26,9 +26,12 @@ signals:
     void ssoFailed();
 
 private:
+    void pollStatus();
+
     static std::string loadSvgLogo();
     static std::string pageHtml(bool success);
 
-    httplib::Server svr;
-    int port = 0;
+    QTimer pollTimer;
+    uint64_t listenerId = 0;
+    std::string callbackUrl;
 };

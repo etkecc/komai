@@ -59,6 +59,17 @@ mod ffi {
         identity_providers: Vec<MatrixLoginIdentityProvider>,
     }
 
+    struct MatrixSsoCallbackServer {
+        listener_id: u64,
+        callback_url: String,
+    }
+
+    struct MatrixSsoCallbackStatus {
+        ready: bool,
+        success: bool,
+        login_token: String,
+    }
+
     unsafe extern "C++" {
         include!("matrix/backend/MatrixBackendBridge.h");
 
@@ -97,6 +108,13 @@ mod ffi {
             identity_provider_id: &str,
             verify_certificates: bool,
         ) -> Result<String>;
+        fn matrix_start_sso_callback_server(
+            success_html: &str,
+            failure_html: &str,
+            timeout_ms: u32,
+        ) -> Result<MatrixSsoCallbackServer>;
+        fn matrix_poll_sso_callback_server(listener_id: u64) -> Result<MatrixSsoCallbackStatus>;
+        fn matrix_stop_sso_callback_server(listener_id: u64) -> Result<()>;
         fn matrix_login_password(
             profile_id: &str,
             homeserver_url: &str,
@@ -213,6 +231,36 @@ fn matrix_get_sso_login_url(
         identity_provider_id,
         verify_certificates,
     ))
+}
+
+fn matrix_start_sso_callback_server(
+    success_html: &str,
+    failure_html: &str,
+    timeout_ms: u32,
+) -> Result<ffi::MatrixSsoCallbackServer, String> {
+    let result =
+        matrix_backend::auth::start_sso_callback_server(success_html, failure_html, timeout_ms)?;
+
+    Ok(ffi::MatrixSsoCallbackServer {
+        listener_id: result.listener_id,
+        callback_url: result.callback_url,
+    })
+}
+
+fn matrix_poll_sso_callback_server(
+    listener_id: u64,
+) -> Result<ffi::MatrixSsoCallbackStatus, String> {
+    let result = matrix_backend::auth::poll_sso_callback_server(listener_id)?;
+
+    Ok(ffi::MatrixSsoCallbackStatus {
+        ready: result.ready,
+        success: result.success,
+        login_token: result.login_token,
+    })
+}
+
+fn matrix_stop_sso_callback_server(listener_id: u64) -> Result<(), String> {
+    matrix_backend::auth::stop_sso_callback_server(listener_id)
 }
 
 fn matrix_login_password(

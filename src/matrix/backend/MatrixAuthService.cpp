@@ -12,6 +12,25 @@ namespace komai {
 
 namespace {
 
+MatrixSsoCallbackServer
+fromRustSsoCallbackServer(const ::komai::rust::MatrixSsoCallbackServer &server)
+{
+    return MatrixSsoCallbackServer{
+      .listenerId  = server.listener_id,
+      .callbackUrl = QString::fromStdString(std::string(server.callback_url)),
+    };
+}
+
+MatrixSsoCallbackStatus
+fromRustSsoCallbackStatus(const ::komai::rust::MatrixSsoCallbackStatus &status)
+{
+    return MatrixSsoCallbackStatus{
+      .ready      = status.ready,
+      .success    = status.success,
+      .loginToken = QString::fromStdString(std::string(status.login_token)),
+    };
+}
+
 MatrixLoginIdentityProvider
 fromRustProvider(const ::komai::rust::MatrixLoginIdentityProvider &provider)
 {
@@ -51,6 +70,49 @@ fromRustResult(const ::komai::rust::MatrixLoginResult &result)
 }
 
 } // namespace
+
+std::optional<MatrixSsoCallbackServer>
+MatrixAuthService::startSsoCallbackServer(const QString &successHtml,
+                                          const QString &failureHtml,
+                                          uint32_t timeoutMs,
+                                          QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_start_sso_callback_server(
+          successHtml.toStdString(), failureHtml.toStdString(), timeoutMs);
+        return fromRustSsoCallbackServer(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<MatrixSsoCallbackStatus>
+MatrixAuthService::pollSsoCallbackServer(uint64_t listenerId, QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_poll_sso_callback_server(listenerId);
+        return fromRustSsoCallbackStatus(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixAuthService::stopSsoCallbackServer(uint64_t listenerId, QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_stop_sso_callback_server(listenerId);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
 
 std::optional<MatrixLoginFlows>
 MatrixAuthService::discoverLoginFlows(const QString &serverNameOrUrl,

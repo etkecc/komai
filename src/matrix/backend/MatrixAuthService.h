@@ -6,6 +6,7 @@
 
 #include <QMetaType>
 #include <QString>
+#include <cstdint>
 #include <optional>
 #include <vector>
 
@@ -35,9 +36,33 @@ struct MatrixLoginResult
     QString homeserverUrl;
 };
 
+struct MatrixSsoCallbackServer
+{
+    uint64_t listenerId = 0;
+    QString callbackUrl;
+};
+
+struct MatrixSsoCallbackStatus
+{
+    bool ready   = false;
+    bool success = false;
+    QString loginToken;
+};
+
 class MatrixAuthService
 {
 public:
+    static std::optional<MatrixSsoCallbackServer>
+    startSsoCallbackServer(const QString &successHtml,
+                           const QString &failureHtml,
+                           uint32_t timeoutMs,
+                           QString *errorOut = nullptr);
+
+    static std::optional<MatrixSsoCallbackStatus>
+    pollSsoCallbackServer(uint64_t listenerId, QString *errorOut = nullptr);
+
+    static bool stopSsoCallbackServer(uint64_t listenerId, QString *errorOut = nullptr);
+
     static std::optional<MatrixLoginFlows> discoverLoginFlows(const QString &serverNameOrUrl,
                                                               bool verifyCertificates,
                                                               QString *errorOut = nullptr);

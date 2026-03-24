@@ -146,8 +146,8 @@ ChatPage::startInitialSync()
                 cache::saveState(res);
 
                 olm::handle_to_device_messages(res.to_device.events);
-
-                emit initializeViews(std::move(res));
+                const auto localUserId = utils::localUser().toStdString();
+                view_manager_->sync(komai::buildSyncUpdate(res, localUserId));
 
                 cache::calculateRoomReadStatus();
             } catch (const std::exception &e) {
@@ -239,7 +239,8 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
             }
         }
 
-        emit syncUI(std::move(res));
+        view_manager_->sync(komai::buildSyncUpdate(res, localUserId));
+        processSyncUi(komai::buildNotificationSyncUpdate(res));
 
         // if the ignored users changed, clear timeline of all affected rooms.
         if (oldIgnoredUsers) {

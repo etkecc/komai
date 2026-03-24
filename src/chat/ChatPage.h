@@ -16,6 +16,7 @@
 #include <QSharedPointer>
 #include <QTimer>
 
+#include "matrix/MatrixSyncUpdate.h"
 #include "ui/RoomSummary.h"
 
 class TimelineViewManager;
@@ -133,9 +134,7 @@ signals:
     void changeToRoom(const QString &room_id);
     void startRemoveFallbackKeyTimer();
 
-    void initializeViews(const mtx::responses::Sync &rooms);
     void initializeEmptyViews();
-    void syncUI(const mtx::responses::Sync &sync);
     void dropToLoginPageCb(const QString &msg);
 
     void notifyMessage(const QString &roomid,
@@ -215,7 +214,7 @@ private:
     void loadStateFromCache();
     void resetUI();
     void deleteConfigs();
-    void processSyncUi(const mtx::responses::Sync &sync);
+    void processSyncUi(const komai::NotificationSyncUpdate &sync);
 
     // returns if the user had no interaction with Komai for quite a while, which means we set our
     // presence to unavailable if automatic presence is enabled

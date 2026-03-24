@@ -28,11 +28,9 @@
 #include "utils/Utils.h"
 
 void
-ChatPage::processSyncUi(const mtx::responses::Sync &sync)
+ChatPage::processSyncUi(const komai::NotificationSyncUpdate &notificationUpdate)
 {
     const auto localUserId = utils::localUser().toStdString();
-    view_manager_->sync(komai::buildSyncUpdate(sync, localUserId));
-    const auto notificationUpdate = komai::buildNotificationSyncUpdate(sync);
 
     static unsigned int prevNotificationCount = 0;
     const auto notificationCount              = notificationUpdate.notificationCount;

@@ -161,20 +161,10 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
             this,
             &ChatPage::sendNotificationReply);
 
-    connect(
-      this,
-      &ChatPage::initializeViews,
-      view_manager_,
-      [this](const mtx::responses::Sync &sync) {
-          const auto localUserId = utils::localUser().toStdString();
-          view_manager_->sync(komai::buildSyncUpdate(sync, localUserId));
-      },
-      Qt::QueuedConnection);
     connect(this,
             &ChatPage::initializeEmptyViews,
             view_manager_,
             &TimelineViewManager::initializeRoomlist);
-    connect(this, &ChatPage::syncUI, this, &ChatPage::processSyncUi);
 
     connect(
       this, &ChatPage::tryInitialSyncCb, this, &ChatPage::tryInitialSync, Qt::QueuedConnection);

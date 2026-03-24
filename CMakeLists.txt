@@ -633,6 +633,8 @@ set(SRC_FILES
     src/ui/MainWindow.h
     src/matrix/backend/MatrixBackendBridge.cpp
     src/matrix/backend/MatrixBackendBridge.h
+    src/matrix/backend/MatrixSessionSecrets.cpp
+    src/matrix/backend/MatrixSessionSecrets.h
     src/matrix/backend/MatrixSdkPaths.cpp
     src/matrix/backend/MatrixSdkPaths.h
     src/matrix/MatrixClient.cpp
@@ -1349,6 +1351,7 @@ if(BUILD_TESTING)
         tests/SettingsStorageTest.cpp
         tests/LoggingStub.cpp
         tests/ProfileSecretsStub.cpp
+        src/matrix/backend/MatrixSessionSecrets.cpp
         src/profile/KeyringEnvironment.cpp
         src/profile/Paths.cpp
         src/cache/api/CacheApiLoggers.cpp

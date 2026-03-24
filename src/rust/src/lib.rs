@@ -37,6 +37,18 @@ mod ffi {
         fn matrix_profile_cache_root(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
         fn matrix_storage_user_component(profile_id: &str, user_id: &str) -> String;
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_store_passphrase(profile_id: &str) -> String;
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_serialized_session(profile_id: &str) -> String;
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_save_session_secrets(
+            profile_id: &str,
+            store_passphrase: &str,
+            serialized_session: &str,
+        );
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_clear_session_secrets(profile_id: &str);
     }
 
     extern "Rust" {

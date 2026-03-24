@@ -20,6 +20,7 @@
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
 #include "profile/ProfileSecrets.h"
+#include "matrix/backend/MatrixSessionSecrets.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
 #include "cache/api/CacheApiContext.h"
@@ -389,6 +390,76 @@ testProviderSelectionHonorsConfigAndOverrides()
     return defaultSecretService && explicitFileConfig;
 }
 
+bool
+testMatrixSessionSecretsRoundtripWithFileProvider()
+{
+    bool ok = true;
+
+    const auto writer =
+      settings::storage::inMemoryReaderWriter(QStringLiteral("/tmp/komai-test-matrix-session-secrets"));
+    settings::storage::ReaderWriterOverride writerOverride{writer};
+
+    const QString profile = QStringLiteral("matrix-sdk");
+    const auto configPath = settings::storage::configFilePathForProfile(profile);
+    const auto secretsPath = settings::storage::secretsFilePathForProfile(profile);
+
+    YAML::Node config(YAML::NodeType::Map);
+    config["secrets"]["provider"] = staged_load_plan::ProviderFileValue;
+    ok &= expect(settings::storage::writeYamlFile(configPath, config, false),
+                 "matrix session secrets test writes config");
+
+    settings::persistence::saveProfileSecrets(
+      profile,
+      true,
+      secretsPath,
+      QStringLiteral("existing-access-token"),
+      QMap<QString, QString>{{QStringLiteral("existing.secret"), QStringLiteral("keep-me")}});
+
+    komai::matrix_backend::savePersistedMatrixSessionSecrets(
+      profile,
+      {
+        .storePassphrase = QStringLiteral("store-passphrase"),
+        .serializedSession = QStringLiteral("serialized-session"),
+      });
+
+    const auto persisted = komai::matrix_backend::loadPersistedMatrixSessionSecrets(profile);
+    ok &= expect(persisted.storePassphrase == QStringLiteral("store-passphrase"),
+                 "matrix session secrets load returns saved store passphrase");
+    ok &= expect(persisted.serializedSession == QStringLiteral("serialized-session"),
+                 "matrix session secrets load returns saved session blob");
+
+    const auto payload = settings::persistence::loadProfileSecrets(profile, true, secretsPath);
+    ok &= expect(payload.accessToken == QStringLiteral("existing-access-token"),
+                 "matrix session save preserves access token");
+    ok &= expect(payload.secrets.value(QStringLiteral("existing.secret")) == QStringLiteral("keep-me"),
+                 "matrix session save preserves unrelated secrets");
+    ok &= expect(
+      payload.secrets.value(QStringLiteral("matrix_sdk.store_passphrase")) ==
+        QStringLiteral("store-passphrase"),
+      "matrix session save persists store passphrase secret");
+    ok &= expect(
+      payload.secrets.value(QStringLiteral("matrix_sdk.serialized_session")) ==
+        QStringLiteral("serialized-session"),
+      "matrix session save persists serialized session secret");
+
+    komai::matrix_backend::clearPersistedMatrixSessionSecrets(profile);
+
+    const auto clearedPayload = settings::persistence::loadProfileSecrets(profile, true, secretsPath);
+    ok &= expect(
+      clearedPayload.secrets.value(QStringLiteral("matrix_sdk.store_passphrase")).isEmpty(),
+      "matrix session clear removes store passphrase secret");
+    ok &= expect(
+      clearedPayload.secrets.value(QStringLiteral("matrix_sdk.serialized_session")).isEmpty(),
+      "matrix session clear removes serialized session secret");
+    ok &= expect(clearedPayload.accessToken == QStringLiteral("existing-access-token"),
+                 "matrix session clear preserves access token");
+    ok &= expect(
+      clearedPayload.secrets.value(QStringLiteral("existing.secret")) == QStringLiteral("keep-me"),
+      "matrix session clear preserves unrelated secrets");
+
+    return ok;
+}
+
 } // namespace
 
 int
@@ -415,6 +486,7 @@ main()
     ok &= testLoggerInjectionNullAndInjectedLoggers();
     ok &= testCacheLoggerInjection();
     ok &= testProviderSelectionHonorsConfigAndOverrides();
+    ok &= testMatrixSessionSecretsRoundtripWithFileProvider();
     ok &= testInMemoryReaderWriterOverride();
 
     return ok ? 0 : 1;

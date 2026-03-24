@@ -17,4 +17,18 @@ matrix_profile_cache_root(rust::Str profile_id);
 rust::String
 matrix_storage_user_component(rust::Str profile_id, rust::Str user_id);
 
+rust::String
+matrix_store_passphrase(rust::Str profile_id);
+
+rust::String
+matrix_serialized_session(rust::Str profile_id);
+
+void
+matrix_save_session_secrets(rust::Str profile_id,
+                            rust::Str store_passphrase,
+                            rust::Str serialized_session);
+
+void
+matrix_clear_session_secrets(rust::Str profile_id);
+
 } // namespace komai::rust_bridge

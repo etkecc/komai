@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 pub mod bootstrap;
+pub mod session_persistence;
 
 pub struct DerivedMatrixSdkPaths {
     pub profile_data_root: String,

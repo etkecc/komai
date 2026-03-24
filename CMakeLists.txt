@@ -890,6 +890,15 @@ if(litehtml_ADDED)
 endif()
 
 # Rust integration via Corrosion (CXX bridge for resolvematrix and future crates)
+#
+# matrix-sdk 0.16 currently fails to compile on Rust 1.94.x due an upstream
+# compiler/query-depth issue. Pin the Corrosion toolchain to 1.93.0 by default
+# so clean configs use the working toolchain automatically.
+if(NOT DEFINED Rust_TOOLCHAIN)
+    set(Rust_TOOLCHAIN "1.93.0-x86_64-unknown-linux-gnu" CACHE STRING
+        "Rust toolchain used by Corrosion"
+    )
+endif()
 CPMAddPackage(
     NAME Corrosion
     GIT_REPOSITORY https://github.com/corrosion-rs/corrosion.git

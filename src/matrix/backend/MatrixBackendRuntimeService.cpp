@@ -32,6 +32,25 @@ fromRustOwnProfile(const ::komai::rust::MatrixOwnProfile &profile)
     };
 }
 
+MatrixRoomSummary
+fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
+{
+    return MatrixRoomSummary{
+      .roomId            = QString::fromStdString(std::string(room.room_id)),
+      .displayName       = QString::fromStdString(std::string(room.display_name)),
+      .avatarUrl         = QString::fromStdString(std::string(room.avatar_url)),
+      .topic             = QString::fromStdString(std::string(room.topic)),
+      .isInvite          = room.is_invite,
+      .isSpace           = room.is_space,
+      .isDirect          = room.is_direct,
+      .isEncrypted       = room.is_encrypted,
+      .unreadMessages    = room.unread_message_count,
+      .notificationCount = room.notification_count,
+      .highlightCount    = room.highlight_count,
+      .timestamp         = room.timestamp,
+    };
+}
+
 } // namespace
 
 std::optional<MatrixBackendHandleInfo>
@@ -79,6 +98,23 @@ MatrixBackendRuntimeService::fetchOwnProfile(uint64_t handleId, QString *errorOu
     try {
         auto result = ::komai::rust::matrix_fetch_own_profile(handleId);
         return fromRustOwnProfile(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<QVector<MatrixRoomSummary>>
+MatrixBackendRuntimeService::fetchRoomList(uint64_t handleId, QString *errorOut)
+{
+    try {
+        const auto result = ::komai::rust::matrix_fetch_room_list(handleId);
+        QVector<MatrixRoomSummary> rooms;
+        rooms.reserve(static_cast<int>(result.size()));
+        for (const auto &room : result)
+            rooms.push_back(fromRustRoomSummary(room));
+        return rooms;
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());

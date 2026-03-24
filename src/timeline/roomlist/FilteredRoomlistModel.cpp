@@ -524,8 +524,8 @@ FilteredRoomlistModel::nextRoomWithActivity()
     int roomWithMention       = -1;
     int roomWithNotification  = -1;
     int roomWithUnreadMessage = -1;
-    auto r                    = currentRoom();
-    int currentRoomIdx        = r ? roomidToIndex(r->roomId()) : -1;
+    const auto selectedRoomId = currentRoomId();
+    int currentRoomIdx        = selectedRoomId.isEmpty() ? -1 : roomidToIndex(selectedRoomId);
     // first look for mentions
     for (int i = 0; i < (int)roomlistmodel->roomids.size(); i++) {
         if (i == currentRoomIdx)
@@ -565,10 +565,10 @@ FilteredRoomlistModel::nextRoomWithActivity()
 void
 FilteredRoomlistModel::nextRoom()
 {
-    auto r = currentRoom();
+    const auto selectedRoomId = this->currentRoomId();
 
-    if (r) {
-        int idx = roomidToIndex(r->roomId());
+    if (!selectedRoomId.isEmpty()) {
+        int idx = roomidToIndex(selectedRoomId);
         idx++;
         if (idx < rowCount()) {
             setCurrentRoom(data(index(idx, 0), RoomlistModel::Roles::RoomId).toString());
@@ -579,10 +579,10 @@ FilteredRoomlistModel::nextRoom()
 void
 FilteredRoomlistModel::previousRoom()
 {
-    auto r = currentRoom();
+    const auto selectedRoomId = this->currentRoomId();
 
-    if (r) {
-        int idx = roomidToIndex(r->roomId());
+    if (!selectedRoomId.isEmpty()) {
+        int idx = roomidToIndex(selectedRoomId);
         idx--;
         if (idx >= 0) {
             setCurrentRoom(data(index(idx, 0), RoomlistModel::Roles::RoomId).toString());

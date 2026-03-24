@@ -103,7 +103,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         text: qsTr("Join the conversation")
         highlighted: true
-        visible: roomPreview && !roomPreview.isInvite
+        visible: roomPreview && roomPreview.canJoin
 
         onClicked: Rooms.joinPreview(roomPreview.roomid)
     }
@@ -138,6 +138,14 @@ ColumnLayout {
         visible: !!room
 
         onClicked: TimelineManager.openLeaveRoomDialog(room.roomId)
+    }
+    MatrixText {
+        Layout.alignment: Qt.AlignHCenter
+        Layout.maximumWidth: Math.max(320, preview.width * 0.6)
+        horizontalAlignment: TextEdit.AlignHCenter
+        text: qsTr("This room is available in the room list, but its timeline is not loaded yet.")
+        visible: !room && roomPreview && !roomPreview.isInvite && !roomPreview.canJoin
+        wrapMode: Text.WordWrap
     }
     RowLayout {
         Layout.alignment: Qt.AlignHCenter

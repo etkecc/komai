@@ -14,8 +14,16 @@ use std::{
 
 use matrix_sdk::{
     Client,
+    RoomState,
     ruma::api::client::profile::{AvatarUrl, DisplayName},
+    stream::StreamExt,
 };
+use matrix_sdk_ui::{
+    RoomListService,
+    eyeball_im::{Vector, VectorDiff},
+    room_list_service::{RoomListItem, filters},
+};
+
 use super::bootstrap;
 
 pub struct MatrixBackendHandleInfo {
@@ -31,11 +39,29 @@ pub struct MatrixOwnProfile {
     pub avatar_url: String,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixRoomSummary {
+    pub room_id: String,
+    pub display_name: String,
+    pub avatar_url: String,
+    pub topic: String,
+    pub is_invite: bool,
+    pub is_space: bool,
+    pub is_direct: bool,
+    pub is_encrypted: bool,
+    pub unread_message_count: u64,
+    pub notification_count: u64,
+    pub highlight_count: u64,
+    pub timestamp: u64,
+}
+
 static NEXT_BACKEND_HANDLE_ID: AtomicU64 = AtomicU64::new(1);
+const ROOM_LIST_PAGE_SIZE: usize = 100_000;
 
 struct MatrixBackendHandle {
     client: Client,
     sync_task: Option<MatrixBackendSyncTask>,
+    room_list_snapshot: Arc<Mutex<Vec<MatrixRoomSummary>>>,
 }
 
 struct MatrixBackendSyncTask {
@@ -80,6 +106,7 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
             MatrixBackendHandle {
                 client: restored.client,
                 sync_task: None,
+                room_list_snapshot: Arc::new(Mutex::new(Vec::new())),
             },
         );
 
@@ -125,7 +152,7 @@ pub fn stop_backend(handle_id: u64) -> Result<(), String> {
 }
 
 pub fn start_sync(handle_id: u64) -> Result<(), String> {
-    let client = {
+    let (client, room_list_snapshot) = {
         let mut handles = backend_handles()
             .lock()
             .expect("poisoned matrix backend handle registry mutex");
@@ -140,13 +167,18 @@ pub fn start_sync(handle_id: u64) -> Result<(), String> {
             }
         }
 
-        handle.client.clone()
+        (handle.client.clone(), Arc::clone(&handle.room_list_snapshot))
     };
 
     let stop_requested = Arc::new(AtomicBool::new(false));
     let stop_requested_for_thread = Arc::clone(&stop_requested);
     let sync_task = std::thread::spawn(move || {
-        crate::runtime().block_on(run_sync_loop(handle_id, client, stop_requested_for_thread));
+        crate::runtime().block_on(run_sync_loop(
+            handle_id,
+            client,
+            room_list_snapshot,
+            stop_requested_for_thread,
+        ));
     });
 
     backend_handles()
@@ -164,34 +196,132 @@ pub fn start_sync(handle_id: u64) -> Result<(), String> {
     Ok(())
 }
 
-async fn run_sync_loop(handle_id: u64, client: Client, stop_requested: Arc<AtomicBool>) {
-    let sync_settings = matrix_sdk::config::SyncSettings::new().timeout(Duration::from_secs(5));
+async fn run_sync_loop(
+    handle_id: u64,
+    client: Client,
+    room_list_snapshot: Arc<Mutex<Vec<MatrixRoomSummary>>>,
+    stop_requested: Arc<AtomicBool>,
+) {
+    tracing::info!(handle_id, "Running matrix-sdk room-list sync loop");
 
-    tracing::info!(handle_id, "Running matrix-sdk sync loop");
+    let room_list_service = match RoomListService::new(client.clone()).await {
+        Ok(service) => Arc::new(service),
+        Err(error) => {
+            tracing::warn!(handle_id, %error, "Failed to create matrix-sdk-ui RoomListService");
+            return;
+        }
+    };
+
+    let room_list = match room_list_service.all_rooms().await {
+        Ok(room_list) => room_list,
+        Err(error) => {
+            tracing::warn!(handle_id, %error, "Failed to acquire matrix-sdk-ui room list");
+            return;
+        }
+    };
+
+    let (entries_stream, entries_controller) =
+        room_list.entries_with_dynamic_adapters_with(ROOM_LIST_PAGE_SIZE, true);
+    if !entries_controller.set_filter(Box::new(filters::new_filter_non_left())) {
+        tracing::warn!(handle_id, "Failed to install matrix-sdk-ui room-list filter");
+    }
+
+    let sync_stream = room_list_service.sync();
+    let mut entries_stream = Box::pin(entries_stream);
+    let mut sync_stream = Box::pin(sync_stream);
+
+    let mut current_values = Vector::<RoomListItem>::new();
 
     while !stop_requested.load(Ordering::Relaxed) {
-        match client.sync_once(sync_settings.clone()).await {
-            Ok(response) => {
-                tracing::debug!(
-                    handle_id,
-                    joined_rooms = response.rooms.joined.len(),
-                    invited_rooms = response.rooms.invited.len(),
-                    left_rooms = response.rooms.left.len(),
-                    "Completed matrix-sdk sync iteration"
-                );
+        tokio::select! {
+            maybe_diffs = entries_stream.next() => {
+                match maybe_diffs {
+                    Some(diffs) => {
+                        let diffs: Vec<VectorDiff<RoomListItem>> = diffs;
+                        for diff in diffs.iter().cloned() {
+                            diff.apply(&mut current_values);
+                        }
+
+                        let snapshot = build_room_list_snapshot(&current_values);
+                        let room_count = snapshot.len();
+                        *room_list_snapshot
+                            .lock()
+                            .expect("poisoned matrix room-list snapshot mutex") = snapshot;
+
+                        tracing::debug!(
+                            handle_id,
+                            room_count,
+                            "Updated matrix-sdk room-list snapshot"
+                        );
+                    }
+                    None => {
+                        tracing::info!(handle_id, "Matrix-sdk-ui room-list entries stream ended");
+                        break;
+                    }
+                }
             }
-            Err(error) => {
+
+            maybe_sync = sync_stream.next() => {
+                match maybe_sync {
+                    Some(Ok(())) => {
+                        tracing::debug!(handle_id, "Completed matrix-sdk-ui room-list sync iteration");
+                    }
+                    Some(Err(error)) => {
+                        tracing::warn!(handle_id, %error, "Matrix-sdk-ui room-list sync failed");
+                        break;
+                    }
+                    None => {
+                        tracing::info!(handle_id, "Matrix-sdk-ui room-list sync stream ended");
+                        break;
+                    }
+                }
+            }
+
+            _ = tokio::time::sleep(Duration::from_millis(200)) => {
                 if stop_requested.load(Ordering::Relaxed) {
                     break;
                 }
-
-                tracing::warn!(handle_id, %error, "Matrix-sdk sync loop failed; retrying");
-                tokio::time::sleep(Duration::from_secs(5)).await;
             }
         }
     }
 
-    tracing::info!(handle_id, "Matrix-sdk sync loop stopped");
+    if let Err(error) = room_list_service.stop_sync() {
+        tracing::debug!(handle_id, %error, "Stopping matrix-sdk-ui room-list sync returned an error");
+    }
+
+    tracing::info!(handle_id, "Matrix-sdk room-list sync loop stopped");
+}
+
+fn build_room_list_snapshot(values: &Vector<RoomListItem>) -> Vec<MatrixRoomSummary> {
+    values.iter().map(room_list_item_to_summary).collect()
+}
+
+fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
+    let room_state = room.state();
+    let timestamp = room
+        .new_latest_event_timestamp()
+        .map(|ts| u64::from(ts.get()))
+        .or_else(|| room.recency_stamp().map(u64::from))
+        .unwrap_or_default();
+
+    MatrixRoomSummary {
+        room_id: room.room_id().to_string(),
+        display_name: room
+            .cached_display_name()
+            .map(|name| name.to_string())
+            .or_else(|| room.name())
+            .unwrap_or_else(|| room.room_id().to_string()),
+        avatar_url: room.avatar_url().map(|url| url.to_string()).unwrap_or_default(),
+        topic: room.topic().unwrap_or_default(),
+        is_invite: matches!(room_state, RoomState::Invited),
+        is_space: room.is_space(),
+        is_direct: room.direct_targets_length() == 1,
+        is_encrypted: room.encryption_state().is_encrypted(),
+        unread_message_count: room.num_unread_messages(),
+        notification_count: room.num_unread_notifications(),
+        highlight_count: room.num_unread_mentions(),
+        timestamp,
+    }
 }
 
 pub async fn fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile, String> {
@@ -232,4 +362,23 @@ pub async fn fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile, Strin
         display_name,
         avatar_url,
     })
+}
+
+pub async fn fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>, String> {
+    let snapshot = backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .get(&handle_id)
+        .map(|handle| {
+            handle
+                .room_list_snapshot
+                .lock()
+                .expect("poisoned matrix room-list snapshot mutex")
+                .clone()
+        })
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))?;
+
+    tracing::debug!(handle_id, room_count = snapshot.len(), "Fetched matrix room-list snapshot");
+
+    Ok(snapshot)
 }

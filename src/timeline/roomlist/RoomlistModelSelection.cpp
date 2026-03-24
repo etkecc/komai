@@ -76,6 +76,28 @@ RoomlistModel::trySelectCurrentMaterializedRoom(const QString &roomid)
 }
 
 bool
+RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
+{
+    if (!matrixJoinedRooms_.contains(roomid))
+        return false;
+
+    pendingCurrentRoomId_.clear();
+    currentRoom_        = nullptr;
+    currentRoomPreview_ = getRoomPreviewById(roomid);
+    UserSettings::instance()->setCurrentRoomId(roomid);
+
+    if (manager)
+        manager->markRoomSwitchPhaseCpp(roomid, "cpp.matrix_summary_selected");
+    nhlog::ui()->debug("Switched to matrix room summary: {}", roomid.toStdString());
+
+    emit currentRoomChanged(roomid);
+    if (manager)
+        manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_summary_changed_emitted");
+
+    return true;
+}
+
+bool
 RoomlistModel::trySelectCurrentPreviewRoom(const QString &roomid)
 {
     if (!(invites.contains(roomid) || previewedRooms.contains(roomid)))
@@ -137,6 +159,9 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
     scheduleLruEviction();
 
     if (trySelectCurrentMaterializedRoom(roomid))
+        return;
+
+    if (trySelectCurrentMatrixSummaryRoom(roomid))
         return;
 
     if (trySelectCurrentPreviewRoom(roomid))

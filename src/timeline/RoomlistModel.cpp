@@ -21,6 +21,20 @@
 #include <QDBusConnection>
 #endif
 
+namespace {
+bool
+matrixRoomSummaryEquals(const komai::MatrixRoomSummary &left, const komai::MatrixRoomSummary &right)
+{
+    return left.roomId == right.roomId && left.displayName == right.displayName &&
+           left.avatarUrl == right.avatarUrl && left.topic == right.topic &&
+           left.isInvite == right.isInvite && left.isSpace == right.isSpace &&
+           left.isDirect == right.isDirect && left.isEncrypted == right.isEncrypted &&
+           left.unreadMessages == right.unreadMessages &&
+           left.notificationCount == right.notificationCount &&
+           left.highlightCount == right.highlightCount && left.timestamp == right.timestamp;
+}
+} // namespace
+
 bool
 RoomlistModel::isCachedEncryptedPreview(const QString &room_id, const DescInfo &description)
 {
@@ -96,6 +110,13 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
       },
       Qt::QueuedConnection);
 
+    matrixBackendRefreshTimer_ = new QTimer(this);
+    matrixBackendRefreshTimer_->setInterval(1000);
+    connect(matrixBackendRefreshTimer_,
+            &QTimer::timeout,
+            this,
+            &RoomlistModel::refreshMatrixBackendRooms);
+
     initLruEviction();
 }
 
@@ -137,6 +158,9 @@ RoomlistModel::getRoomByIdWithReason(QString id, const char *reason) const
     if (models.contains(id))
         return models.value(id);
 
+    if (matrixJoinedRooms_.contains(id))
+        return {};
+
     if (!cachedJoinedRooms_.contains(id))
         return {};
 
@@ -150,6 +174,13 @@ RoomlistModel::getMaterializedRoomById(QString id) const
         return models.value(id);
 
     return {};
+}
+
+QString
+RoomlistModel::currentRoomId() const
+{
+    return currentRoom_ ? currentRoom_->roomId()
+                        : (currentRoomPreview_ ? currentRoomPreview_->roomid() : QString());
 }
 
 QSharedPointer<TimelineModel>
@@ -175,6 +206,7 @@ void
 RoomlistModel::resetRoomCollections(bool clearAllDrafts)
 {
     models.clear();
+    matrixJoinedRooms_.clear();
     cachedJoinedRooms_.clear();
     cachedEncryptedRooms_.clear();
     cachedLastMessages_.clear();
@@ -188,6 +220,8 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
     roomLruAccessMs_.clear();
     if (lruEvictionTimer_)
         lruEvictionTimer_->stop();
+    if (matrixBackendRefreshTimer_)
+        matrixBackendRefreshTimer_->stop();
     startupMaterializationTrackingActive_ = false;
     startupMaterializationCount_          = 0;
     startupMaterializationWarningEmitted_ = false;
@@ -209,6 +243,7 @@ void
 RoomlistModel::removeRoomState(const QString &room_id, bool clearDraftForRoom)
 {
     models.remove(room_id);
+    matrixJoinedRooms_.remove(room_id);
     invites.remove(room_id);
     previewedRooms.remove(room_id);
     cachedJoinedRooms_.remove(room_id);
@@ -230,6 +265,78 @@ RoomlistModel::removeRoomState(const QString &room_id, bool clearDraftForRoom)
 
     if (pendingCurrentRoomId_ == room_id)
         pendingCurrentRoomId_.clear();
+}
+
+void
+RoomlistModel::refreshMatrixBackendRooms()
+{
+    const auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() == 0) {
+        if (matrixBackendRefreshTimer_)
+            matrixBackendRefreshTimer_->stop();
+        return;
+    }
+
+    QString error;
+    const auto roomList = komai::MatrixBackendRuntimeService::fetchRoomList(
+      mainWindow->matrixBackendHandleId(), &error);
+    if (!roomList.has_value()) {
+        nhlog::ui()->warn("Failed to fetch matrix-sdk room list snapshot: {}", error.toStdString());
+        return;
+    }
+
+    std::vector<QString> newRoomIds;
+    newRoomIds.reserve(static_cast<size_t>(roomList->size()));
+
+    QHash<QString, komai::MatrixRoomSummary> newMatrixRooms;
+    int totalUnreadMessages = 0;
+    const QString selectedRoomId =
+      currentRoom_ ? currentRoom_->roomId()
+                   : (currentRoomPreview_ ? currentRoomPreview_->roomid()
+                                          : UserSettings::instance()->currentRoomId());
+
+    for (const auto &room : *roomList) {
+        newRoomIds.push_back(room.roomId);
+        newMatrixRooms.insert(room.roomId, room);
+        totalUnreadMessages += static_cast<int>(room.unreadMessages);
+    }
+
+    bool changed =
+      roomids.size() != newRoomIds.size() || matrixJoinedRooms_.size() != newMatrixRooms.size();
+    if (!changed) {
+        for (size_t i = 0; i < newRoomIds.size(); ++i) {
+            if (roomids[i] != newRoomIds[i]) {
+                changed = true;
+                break;
+            }
+
+            const auto it = matrixJoinedRooms_.find(newRoomIds[i]);
+            if (it == matrixJoinedRooms_.end() ||
+                !matrixRoomSummaryEquals(it.value(), newMatrixRooms.value(newRoomIds[i]))) {
+                changed = true;
+                break;
+            }
+        }
+    }
+
+    if (!changed) {
+        emit totalUnreadMessageCountUpdated(totalUnreadMessages);
+        return;
+    }
+
+    beginResetModel();
+    resetRoomCollections(false);
+    matrixJoinedRooms_ = std::move(newMatrixRooms);
+    roomids            = std::move(newRoomIds);
+    endResetModel();
+
+    if (!selectedRoomId.isEmpty() && matrixJoinedRooms_.contains(selectedRoomId))
+        setCurrentRoom(selectedRoomId);
+
+    if (matrixBackendRefreshTimer_ && !matrixBackendRefreshTimer_->isActive())
+        matrixBackendRefreshTimer_->start();
+
+    emit totalUnreadMessageCountUpdated(totalUnreadMessages);
 }
 
 bool

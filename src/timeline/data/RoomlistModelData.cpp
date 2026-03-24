@@ -24,6 +24,9 @@ RoomlistModel::commonRoomData(const QString &room_id, int role) const
 {
     switch (role) {
     case Roles::ParentSpaces: {
+        if (matrixJoinedRooms_.contains(room_id))
+            return QVariant{QStringList{}};
+
         auto parents = cache::getParentRoomIds(room_id.toStdString());
         QStringList list;
         list.reserve(static_cast<int>(parents.size()));
@@ -34,10 +37,16 @@ RoomlistModel::commonRoomData(const QString &room_id, int role) const
     case Roles::RoomId:
         return QVariant{room_id};
     case Roles::IsDirect:
+        if (matrixJoinedRooms_.contains(room_id))
+            return QVariant{matrixJoinedRooms_.value(room_id).isDirect};
         return QVariant{DirectChatResolver::instance().isDirectChat(room_id)};
     case Roles::DirectChatOtherUserId:
+        if (matrixJoinedRooms_.contains(room_id))
+            return QVariant{QString{}};
         return QVariant{DirectChatResolver::instance().directChatPartner(room_id)};
     case Roles::IsBotRoom:
+        if (matrixJoinedRooms_.contains(room_id))
+            return QVariant{false};
         return QVariant{DirectChatResolver::instance().isBotRoom(room_id)};
     case Roles::HasDraft:
         return QVariant{hasDraft(room_id)};
@@ -45,6 +54,47 @@ RoomlistModel::commonRoomData(const QString &room_id, int role) const
         return QVariant{draftPreviewText(room_id)};
     default:
         return std::nullopt;
+    }
+}
+
+QVariant
+RoomlistModel::dataForMatrixRoom(const QString &room_id,
+                                 const komai::MatrixRoomSummary &room,
+                                 int role) const
+{
+    switch (role) {
+    case Roles::AvatarUrl:
+        return room.avatarUrl;
+    case Roles::RoomName:
+        return room.displayName.isEmpty() ? room_id : room.displayName;
+    case Roles::LastMessage:
+        return QString{};
+    case Roles::Time:
+        if (room.timestamp > 0) {
+            return utils::descriptiveTime(
+              QDateTime::fromMSecsSinceEpoch(static_cast<qint64>(room.timestamp)));
+        }
+        return QString{};
+    case Roles::Timestamp:
+        return QVariant::fromValue<qulonglong>(room.timestamp);
+    case Roles::HasUnreadMessages:
+        return room.unreadMessages > 0;
+    case Roles::HasLoudNotification:
+        return room.highlightCount > 0;
+    case Roles::NotificationCount:
+        return static_cast<int>(room.notificationCount);
+    case Roles::IsInvite:
+        return room.isInvite;
+    case Roles::IsSpace:
+        return room.isSpace;
+    case Roles::IsPreview:
+        return false;
+    case Roles::Tags:
+        return QStringList{};
+    case Roles::IsEncrypted:
+        return room.isEncrypted;
+    default:
+        return {};
     }
 }
 
@@ -368,6 +418,9 @@ RoomlistModel::data(const QModelIndex &index, int role) const
 
     if (models.contains(room_id))
         return dataForMaterializedRoom(room_id, models.value(room_id), role);
+
+    if (matrixJoinedRooms_.contains(room_id))
+        return dataForMatrixRoom(room_id, matrixJoinedRooms_.value(room_id), role);
 
     if (cachedJoinedRooms_.contains(room_id))
         return dataForCachedRoom(room_id, cachedJoinedRooms_.value(room_id), role);

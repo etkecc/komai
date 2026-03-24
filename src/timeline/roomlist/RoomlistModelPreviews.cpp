@@ -137,11 +137,24 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
 {
     RoomPreview preview{};
 
+    if (matrixJoinedRooms_.contains(roomid)) {
+        const auto room        = matrixJoinedRooms_.value(roomid);
+        preview.roomid_        = roomid;
+        preview.roomName_      = room.displayName.isEmpty() ? roomid : room.displayName;
+        preview.roomTopic_     = room.topic;
+        preview.roomAvatarUrl_ = room.avatarUrl;
+        preview.isFetched_     = true;
+        preview.isInvite_      = false;
+        preview.canJoin_       = false;
+        return preview;
+    }
+
     if (invites.contains(roomid) || previewedRooms.contains(roomid)) {
         std::optional<RoomInfo> i;
         if (invites.contains(roomid)) {
             i                 = invites.value(roomid);
             preview.isInvite_ = true;
+            preview.canJoin_  = false;
 
             auto member =
               cache::getInviteMember(roomid.toStdString(), utils::localUser().toStdString());
@@ -152,6 +165,7 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
         } else {
             i                 = previewedRooms.value(roomid);
             preview.isInvite_ = false;
+            preview.canJoin_  = true;
         }
 
         preview.isFetched_ = i.has_value();

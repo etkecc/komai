@@ -110,8 +110,7 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
       communities_, &CommunitiesModel::currentFilterIdChanged, this, [this](QString filterId) {
           if (navigating_)
               return;
-          auto room = rooms_->currentRoom();
-          navHistory_.push(filterId, room ? room->roomId() : QString(), true);
+          navHistory_.push(filterId, rooms_->currentRoomId(), true);
       });
     connect(rooms_, &RoomlistModel::currentRoomChanged, this, [this](QString roomId) {
         if (navigating_)
@@ -250,9 +249,7 @@ void
 TimelineViewManager::navigateBack()
 {
     nhlog::ui()->info("[nav-history] navigateBack called");
-    auto currentRoom = rooms_->currentRoom();
-    auto entry       = navHistory_.back(communities_->currentFilterId(),
-                                  currentRoom ? currentRoom->roomId() : QString());
+    auto entry = navHistory_.back(communities_->currentFilterId(), rooms_->currentRoomId());
     if (!entry) {
         nhlog::ui()->info("[nav-history] navigateBack: no entry to restore");
         return;
@@ -271,9 +268,7 @@ void
 TimelineViewManager::navigateForward()
 {
     nhlog::ui()->info("[nav-history] navigateForward called");
-    auto currentRoom = rooms_->currentRoom();
-    auto entry       = navHistory_.forward(communities_->currentFilterId(),
-                                     currentRoom ? currentRoom->roomId() : QString());
+    auto entry = navHistory_.forward(communities_->currentFilterId(), rooms_->currentRoomId());
     if (!entry) {
         nhlog::ui()->info("[nav-history] navigateForward: no entry to restore");
         return;

@@ -52,6 +52,21 @@ mod ffi {
         avatar_url: String,
     }
 
+    struct MatrixRoomSummary {
+        room_id: String,
+        display_name: String,
+        avatar_url: String,
+        topic: String,
+        is_invite: bool,
+        is_space: bool,
+        is_direct: bool,
+        is_encrypted: bool,
+        unread_message_count: u64,
+        notification_count: u64,
+        highlight_count: u64,
+        timestamp: u64,
+    }
+
     struct MatrixLoginResult {
         user_id: String,
         access_token: String,
@@ -125,6 +140,7 @@ mod ffi {
         fn matrix_stop_backend(handle_id: u64) -> Result<()>;
         fn matrix_start_backend_sync(handle_id: u64) -> Result<()>;
         fn matrix_fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile>;
+        fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>>;
         fn matrix_discover_login_flows(
             server_name_or_url: &str,
             verify_certificates: bool,
@@ -251,6 +267,29 @@ fn matrix_fetch_own_profile(handle_id: u64) -> Result<ffi::MatrixOwnProfile, Str
         display_name: result.display_name,
         avatar_url: result.avatar_url,
     })
+}
+
+fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<ffi::MatrixRoomSummary>, String> {
+    runtime()
+        .block_on(matrix_backend::runtime::fetch_room_list(handle_id))
+        .map(|rooms| {
+            rooms.into_iter()
+                .map(|room| ffi::MatrixRoomSummary {
+                    room_id: room.room_id,
+                    display_name: room.display_name,
+                    avatar_url: room.avatar_url,
+                    topic: room.topic,
+                    is_invite: room.is_invite,
+                    is_space: room.is_space,
+                    is_direct: room.is_direct,
+                    is_encrypted: room.is_encrypted,
+                    unread_message_count: room.unread_message_count,
+                    notification_count: room.notification_count,
+                    highlight_count: room.highlight_count,
+                    timestamp: room.timestamp,
+                })
+                .collect()
+        })
 }
 
 fn matrix_discover_login_flows(

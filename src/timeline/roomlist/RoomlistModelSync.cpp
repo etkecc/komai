@@ -145,6 +145,19 @@ RoomlistModel::sync(const komai::SyncUpdate &sync)
 void
 RoomlistModel::initializeRooms()
 {
+    const auto *mainWindow = MainWindow::instance();
+    if (mainWindow && mainWindow->matrixBackendHandleId() != 0) {
+        beginResetModel();
+        resetRoomCollections(false);
+        endResetModel();
+
+        if (matrixBackendRefreshTimer_ && !matrixBackendRefreshTimer_->isActive())
+            matrixBackendRefreshTimer_->start();
+
+        refreshMatrixBackendRooms();
+        return;
+    }
+
     beginResetModel();
     resetRoomCollections(false);
 

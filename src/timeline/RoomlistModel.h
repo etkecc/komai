@@ -7,6 +7,7 @@
 
 #include "matrix/MatrixStateTypes.h"
 #include "matrix/MatrixSyncUpdate.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include <QAbstractListModel>
 #include <QHash>
@@ -46,6 +47,7 @@ class RoomPreview
     Q_PROPERTY(QString inviterUserId READ inviterUserId CONSTANT)
     Q_PROPERTY(bool isInvite READ isInvite CONSTANT)
     Q_PROPERTY(bool isFetched READ isFetched CONSTANT)
+    Q_PROPERTY(bool canJoin READ canJoin CONSTANT)
 
 public:
     RoomPreview() {}
@@ -60,9 +62,10 @@ public:
     QString inviterUserId() const;
     bool isInvite() const { return isInvite_; }
     bool isFetched() const { return isFetched_; }
+    bool canJoin() const { return canJoin_; }
 
     QString roomid_, roomName_, roomAvatarUrl_, roomTopic_, reason_;
-    bool isInvite_ = false, isFetched_ = true;
+    bool isInvite_ = false, isFetched_ = true, canJoin_ = false;
 };
 
 class RoomlistModel final : public QAbstractListModel
@@ -110,6 +113,7 @@ public:
     QSharedPointer<TimelineModel> getRoomByIdWithReason(QString id, const char *reason) const;
     QSharedPointer<TimelineModel> getMaterializedRoomById(QString id) const;
     RoomPreview getRoomPreviewById(QString roomid) const;
+    QString currentRoomId() const;
 
     void refetchOnlineKeyBackupKeys();
     void clearDecryptionErrors();
@@ -164,6 +168,8 @@ signals:
 
 private:
     std::optional<QVariant> commonRoomData(const QString &room_id, int role) const;
+    QVariant
+    dataForMatrixRoom(const QString &room_id, const komai::MatrixRoomSummary &room, int role) const;
     QVariant dataForMaterializedRoom(const QString &room_id,
                                      const QSharedPointer<TimelineModel> &room,
                                      int role) const;
@@ -208,12 +214,14 @@ private:
     void clearCurrentRoomSelection();
     void activateMaterializedCurrentRoom(const QString &room_id, bool updateLastMessage);
     bool trySelectCurrentMaterializedRoom(const QString &roomid);
+    bool trySelectCurrentMatrixSummaryRoom(const QString &roomid);
     bool trySelectCurrentPreviewRoom(const QString &roomid);
     void deferCurrentRoomSelection(const QString &roomid);
     QString draftPreviewText(const QString &room_id) const;
     bool hasDraft(const QString &room_id) const;
     void persistDraftForRoom(const QString &room_id, const QString &draftText);
     void fetchPreviews(QString roomid, const std::string &from = "");
+    void refreshMatrixBackendRooms();
     void initLruEviction();
     void touchRoomLru(const QString &room_id);
     void scheduleLruEviction();
@@ -223,6 +231,7 @@ private:
     std::vector<QString> roomids;
     QHash<QString, RoomInfo> invites;
     QHash<QString, QSharedPointer<TimelineModel>> models;
+    QHash<QString, komai::MatrixRoomSummary> matrixJoinedRooms_;
     QHash<QString, RoomInfo> cachedJoinedRooms_;
     QHash<QString, bool> cachedEncryptedRooms_;
     QHash<QString, DescInfo> cachedLastMessages_;
@@ -235,6 +244,7 @@ private:
     QHash<QString, qint64> prewarmLastAttemptMs_;
     QHash<QString, qint64> roomLruAccessMs_;
     QTimer *lruEvictionTimer_                  = nullptr;
+    QTimer *matrixBackendRefreshTimer_         = nullptr;
     int lruCapacity_                           = 0;
     int lruGracePeriodMs_                      = 0;
     bool startupMaterializationTrackingActive_ = false;
@@ -320,6 +330,7 @@ public slots:
     }
 
     TimelineModel *currentRoom() const { return roomlistmodel->currentRoom(); }
+    QString currentRoomId() const { return roomlistmodel->currentRoomId(); }
     RoomPreview currentRoomPreview() const { return roomlistmodel->currentRoomPreview(); }
     void setCurrentRoom(QString roomid) { roomlistmodel->setCurrentRoom(std::move(roomid)); }
     void resetCurrentRoom() { roomlistmodel->resetCurrentRoom(); }

@@ -247,7 +247,20 @@ Item {
             }
         }
 
+        function onTextInputActiveFocusChanged() {
+            if (messageInput.textInputActiveFocus && messageView.buttonActionsOpen)
+                messageView.dismissButtonActions();
+        }
+
         target: messageInput
+    }
+    Connections {
+        function onButtonActionsOpenChanged() {
+            if (messageView.buttonActionsOpen && messageInput.textInputActiveFocus)
+                messageView.forceActiveFocus();
+        }
+
+        target: messageView
     }
     TimelinePreviewPane {
         room: timelineView.room

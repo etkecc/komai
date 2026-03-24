@@ -36,6 +36,7 @@ Item {
     property var selectedEventIds: []
     property string selectionAnchorEventId: ""
     property bool keyboardActionsOpen: false
+    property bool buttonActionsOpen: false
     property var visibleTimelineDelegates: ({})
     property string pendingKeyboardActionsEventId: ""
     property bool pendingWalkModeGoToTopRequest: false
@@ -644,6 +645,14 @@ Item {
         return true;
     }
 
+    function dismissButtonActions() {
+        const control = keyboardActionsControl();
+        if (!control || control.activationMode !== "button")
+            return false;
+        control.dismiss();
+        return true;
+    }
+
     function clearWalkState(options) {
         const shouldFocusComposer = !!(options && options.focusComposer);
 
@@ -1004,6 +1013,16 @@ Item {
     function handleEscape() {
         if (keyboardActionsOpen) {
             closeKeyboardActions();
+            return true;
+        }
+
+        if (buttonActionsOpen) {
+            dismissButtonActions();
+            if (composerAvailable) {
+                Qt.callLater(function () {
+                    TimelineManager.focusMessageInput();
+                });
+            }
             return true;
         }
 
@@ -1861,6 +1880,7 @@ Item {
         Connections {
             function onActivationModeChanged() {
                 chatRoot.keyboardActionsOpen = messageActionsHost.control.keyboardActive;
+                chatRoot.buttonActionsOpen = messageActionsHost.control.activationMode === "button";
                 if (chatRoot.keyboardActionsOpen && !chatRoot.walkModeActive && chatRoot.hasFocusedEvent)
                     chatRoot.walkModeActive = true;
             }

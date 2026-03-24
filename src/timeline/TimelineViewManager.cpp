@@ -129,13 +129,6 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
             return;
         navHistory_.push(communities_->currentFilterId(), roomId);
     });
-
-    matrixTimelineRefreshTimer_ = new QTimer(this);
-    matrixTimelineRefreshTimer_->setInterval(500);
-    connect(matrixTimelineRefreshTimer_,
-            &QTimer::timeout,
-            this,
-            &TimelineViewManager::refreshCurrentMatrixTimeline);
 }
 
 TimelineViewManager *

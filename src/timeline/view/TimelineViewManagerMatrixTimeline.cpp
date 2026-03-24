@@ -50,8 +50,7 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
         return;
     }
 
-    if (activeMatrixTimelineRoomId_ == roomId && matrixTimelineRefreshTimer_ &&
-        matrixTimelineRefreshTimer_->isActive()) {
+    if (activeMatrixTimelineRoomId_ == roomId) {
         return;
     }
 
@@ -68,12 +67,9 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
 
     activeMatrixTimelineRoomId_ = roomId;
     matrixTimelineLoading_      = true;
+    if (matrixTimelineModel_)
+        matrixTimelineModel_->clear();
     emit matrixTimelineStateChanged();
-
-    if (matrixTimelineRefreshTimer_ && !matrixTimelineRefreshTimer_->isActive())
-        matrixTimelineRefreshTimer_->start();
-
-    refreshCurrentMatrixTimeline();
 }
 
 void
@@ -112,9 +108,6 @@ void
 TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
 {
     bool stateChanged = false;
-
-    if (matrixTimelineRefreshTimer_ && matrixTimelineRefreshTimer_->isActive())
-        matrixTimelineRefreshTimer_->stop();
 
     if (matrixTimelineLoading_) {
         matrixTimelineLoading_ = false;
@@ -182,6 +175,31 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
     }
 
     return true;
+}
+
+void
+TimelineViewManager::handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t handleId)
+{
+    const auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
+        return;
+
+    rooms_->refreshMatrixBackendRooms();
+    communities_->initializeSidebar();
+}
+
+void
+TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_t handleId,
+                                                                    const QString &roomId)
+{
+    const auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
+        return;
+
+    if (activeMatrixTimelineRoomId_ != roomId)
+        return;
+
+    refreshCurrentMatrixTimeline();
 }
 
 bool

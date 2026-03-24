@@ -144,6 +144,10 @@ mod ffi {
             line: u32,
             message: &str,
         );
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_room_list_snapshot_updated(handle_id: u64);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_room_timeline_snapshot_updated(handle_id: u64, room_id: &str);
     }
 
     extern "Rust" {

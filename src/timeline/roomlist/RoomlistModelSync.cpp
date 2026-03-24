@@ -151,9 +151,6 @@ RoomlistModel::initializeRooms()
         resetRoomCollections(false);
         endResetModel();
 
-        if (matrixBackendRefreshTimer_ && !matrixBackendRefreshTimer_->isActive())
-            matrixBackendRefreshTimer_->start();
-
         refreshMatrixBackendRooms();
         return;
     }

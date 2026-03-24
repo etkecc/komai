@@ -9,10 +9,10 @@
 #include <QHash>
 #include <QPalette>
 #include <QQmlEngine>
-#include <QTimer>
 #include <QVariantMap>
 
 #include <algorithm>
+#include <cstdint>
 #include <optional>
 #include <unordered_map>
 #include <vector>
@@ -210,6 +210,9 @@ public slots:
     void receivedSessionKey(const std::string &room_id, const std::string &session_id);
     void clearDecryptionErrors();
     void initializeRoomlist();
+    void handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t handleId);
+    void
+    handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_t handleId, const QString &roomId);
 
     void showEvent(const QString &room_id, const QString &event_id);
 
@@ -269,7 +272,6 @@ private:
     NavigationHistory navHistory_;
     bool navigating_                                 = false;
     komai::MatrixTimelineModel *matrixTimelineModel_ = nullptr;
-    QTimer *matrixTimelineRefreshTimer_              = nullptr;
     QString activeMatrixTimelineRoomId_;
     bool matrixTimelineLoading_ = false;
 

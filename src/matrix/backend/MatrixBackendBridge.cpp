@@ -12,10 +12,13 @@
 
 #include <optional>
 #include <type_traits>
+#include <utility>
 
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "profile/Paths.h"
+#include "timeline/TimelineViewManager.h"
+#include "ui/MainWindow.h"
 
 namespace {
 
@@ -63,6 +66,27 @@ invokeOnAppThread(Func &&func)
             result.emplace(func());
         }
         return std::move(*result);
+    }
+}
+
+template<typename Func>
+void
+postToAppThread(Func &&func)
+{
+    auto callback = std::forward<Func>(func);
+    auto *app     = QCoreApplication::instance();
+    if (!app || QThread::currentThread() == app->thread()) {
+        callback();
+        return;
+    }
+
+    const bool invoked = QMetaObject::invokeMethod(app, callback, Qt::QueuedConnection);
+    if (!invoked) {
+        if (auto logger = nhlog::rust(); logger) {
+            logger->warn(
+              "Failed to queue matrix backend bridge notification on app thread; running inline");
+        }
+        callback();
     }
 }
 
@@ -179,6 +203,33 @@ matrix_log_event(rust::Str level,
         logger->error("{}", formattedStd);
     else
         logger->info("{}", formattedStd);
+}
+
+void
+matrix_notify_room_list_snapshot_updated(std::uint64_t handle_id)
+{
+    postToAppThread([handle_id]() {
+        auto *mainWindow = MainWindow::instance();
+        auto *manager    = TimelineViewManager::instance();
+        if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+
+        manager->handleMatrixBackendRoomListSnapshotUpdated(handle_id);
+    });
+}
+
+void
+matrix_notify_room_timeline_snapshot_updated(std::uint64_t handle_id, rust::Str room_id)
+{
+    const auto roomId = toQString(room_id);
+    postToAppThread([handle_id, roomId]() {
+        auto *mainWindow = MainWindow::instance();
+        auto *manager    = TimelineViewManager::instance();
+        if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+
+        manager->handleMatrixBackendRoomTimelineSnapshotUpdated(handle_id, roomId);
+    });
 }
 
 } // namespace komai::rust_bridge

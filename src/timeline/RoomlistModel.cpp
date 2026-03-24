@@ -111,13 +111,6 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
       },
       Qt::QueuedConnection);
 
-    matrixBackendRefreshTimer_ = new QTimer(this);
-    matrixBackendRefreshTimer_->setInterval(1000);
-    connect(matrixBackendRefreshTimer_,
-            &QTimer::timeout,
-            this,
-            &RoomlistModel::refreshMatrixBackendRooms);
-
     initLruEviction();
 }
 
@@ -221,8 +214,6 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
     roomLruAccessMs_.clear();
     if (lruEvictionTimer_)
         lruEvictionTimer_->stop();
-    if (matrixBackendRefreshTimer_)
-        matrixBackendRefreshTimer_->stop();
     startupMaterializationTrackingActive_ = false;
     startupMaterializationCount_          = 0;
     startupMaterializationWarningEmitted_ = false;
@@ -273,8 +264,6 @@ RoomlistModel::refreshMatrixBackendRooms()
 {
     const auto *mainWindow = MainWindow::instance();
     if (!mainWindow || mainWindow->matrixBackendHandleId() == 0) {
-        if (matrixBackendRefreshTimer_)
-            matrixBackendRefreshTimer_->stop();
         return;
     }
 
@@ -333,9 +322,6 @@ RoomlistModel::refreshMatrixBackendRooms()
 
     if (!selectedRoomId.isEmpty() && matrixJoinedRooms_.contains(selectedRoomId))
         setCurrentRoom(selectedRoomId);
-
-    if (matrixBackendRefreshTimer_ && !matrixBackendRefreshTimer_->isActive())
-        matrixBackendRefreshTimer_->start();
 
     emit totalUnreadMessageCountUpdated(totalUnreadMessages);
 }

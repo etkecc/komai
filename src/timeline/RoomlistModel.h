@@ -253,7 +253,6 @@ private:
     QHash<QString, qint64> prewarmLastAttemptMs_;
     QHash<QString, qint64> roomLruAccessMs_;
     QTimer *lruEvictionTimer_                  = nullptr;
-    QTimer *matrixBackendRefreshTimer_         = nullptr;
     int lruCapacity_                           = 0;
     int lruGracePeriodMs_                      = 0;
     bool startupMaterializationTrackingActive_ = false;

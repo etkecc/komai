@@ -455,6 +455,7 @@ async fn run_sync_loop(
                         *room_list_snapshot
                             .lock()
                             .expect("poisoned matrix room-list snapshot mutex") = snapshot;
+                        crate::ffi::matrix_notify_room_list_snapshot_updated(handle_id);
 
                         tracing::debug!(
                             handle_id,
@@ -547,6 +548,7 @@ async fn run_room_timeline_loop(
         *room_timeline_snapshot
             .lock()
             .expect("poisoned matrix room timeline snapshot mutex") = snapshot;
+        crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
     }
 
     let mut stream = Box::pin(stream);
@@ -565,6 +567,7 @@ async fn run_room_timeline_loop(
                         *room_timeline_snapshot
                             .lock()
                             .expect("poisoned matrix room timeline snapshot mutex") = snapshot;
+                        crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
 
                         tracing::debug!(
                             handle_id,

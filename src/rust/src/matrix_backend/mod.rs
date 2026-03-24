@@ -4,6 +4,7 @@
 
 pub mod auth;
 pub mod bootstrap;
+pub mod runtime;
 pub mod session_persistence;
 
 pub struct DerivedMatrixSdkPaths {

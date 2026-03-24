@@ -38,6 +38,14 @@ mod ffi {
         cache_root: String,
     }
 
+    struct MatrixBackendHandleInfo {
+        handle_id: u64,
+        has_session: bool,
+        homeserver_url: String,
+        user_id: String,
+        device_id: String,
+    }
+
     struct MatrixLoginResult {
         user_id: String,
         access_token: String,
@@ -98,6 +106,8 @@ mod ffi {
         fn resolve_server(server_name: &str) -> Result<ResolveResult>;
         fn matrix_sdk_paths(profile_id: &str) -> MatrixSdkPaths;
         fn matrix_restore_session_preview(profile_id: &str) -> Result<MatrixRestorePreview>;
+        fn matrix_start_restored_backend(profile_id: &str) -> Result<MatrixBackendHandleInfo>;
+        fn matrix_stop_backend(handle_id: u64) -> Result<()>;
         fn matrix_discover_login_flows(
             server_name_or_url: &str,
             verify_certificates: bool,
@@ -191,6 +201,22 @@ fn matrix_restore_session_preview(profile_id: &str) -> Result<ffi::MatrixRestore
         state_store_root: preview.state_store_root,
         cache_root: preview.cache_root,
     })
+}
+
+fn matrix_start_restored_backend(profile_id: &str) -> Result<ffi::MatrixBackendHandleInfo, String> {
+    let result = runtime().block_on(matrix_backend::runtime::start_restored_backend(profile_id))?;
+
+    Ok(ffi::MatrixBackendHandleInfo {
+        handle_id: result.handle_id,
+        has_session: result.has_session,
+        homeserver_url: result.homeserver_url,
+        user_id: result.user_id,
+        device_id: result.device_id,
+    })
+}
+
+fn matrix_stop_backend(handle_id: u64) -> Result<(), String> {
+    matrix_backend::runtime::stop_backend(handle_id)
 }
 
 fn matrix_discover_login_flows(

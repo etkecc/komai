@@ -34,6 +34,15 @@ pub struct MatrixRestorePreview {
     pub cache_root: String,
 }
 
+pub struct RestoredMatrixBackend {
+    pub client: Client,
+    pub homeserver_url: String,
+    pub user_id: String,
+    pub device_id: String,
+    pub state_store_root: String,
+    pub cache_root: String,
+}
+
 struct StoredSession {
     homeserver_url: String,
     session: MatrixSession,
@@ -55,7 +64,7 @@ pub async fn build_client(
 }
 
 pub async fn restore_session_preview(profile_id: &str) -> Result<MatrixRestorePreview, String> {
-    let Some(stored_session) = load_stored_session(profile_id)? else {
+    let Some(restored) = restore_client(profile_id).await? else {
         return Ok(MatrixRestorePreview {
             has_session: false,
             session_source: String::new(),
@@ -65,6 +74,22 @@ pub async fn restore_session_preview(profile_id: &str) -> Result<MatrixRestorePr
             state_store_root: String::new(),
             cache_root: String::new(),
         });
+    };
+
+    Ok(MatrixRestorePreview {
+        has_session: true,
+        session_source: "serialized".to_owned(),
+        homeserver_url: restored.homeserver_url,
+        user_id: restored.user_id,
+        device_id: restored.device_id,
+        state_store_root: restored.state_store_root,
+        cache_root: restored.cache_root,
+    })
+}
+
+pub async fn restore_client(profile_id: &str) -> Result<Option<RestoredMatrixBackend>, String> {
+    let Some(stored_session) = load_stored_session(profile_id)? else {
+        return Ok(None);
     };
 
     let store_passphrase = ensure_store_passphrase(profile_id);
@@ -101,15 +126,14 @@ pub async fn restore_session_preview(profile_id: &str) -> Result<MatrixRestorePr
         &client,
     )?;
 
-    Ok(MatrixRestorePreview {
-        has_session: true,
-        session_source: "serialized".to_owned(),
+    Ok(Some(RestoredMatrixBackend {
+        client,
         homeserver_url: stored_session.homeserver_url,
         user_id: stored_session.session.meta.user_id.to_string(),
         device_id: stored_session.session.meta.device_id.to_string(),
         state_store_root: paths.state_store_root,
         cache_root: paths.cache_root,
-    })
+    }))
 }
 
 fn load_stored_session(profile_id: &str) -> Result<Option<StoredSession>, String> {

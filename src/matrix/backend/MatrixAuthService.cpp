@@ -6,11 +6,42 @@
 
 #include "komai-rust-cxxbridge/lib.h"
 
+#include <QUrl>
+
 #include <stdexcept>
 
 namespace komai {
 
 namespace {
+
+QString
+normalizeHomeserverUrl(QString homeserver)
+{
+    homeserver = homeserver.trimmed();
+    homeserver.remove(u'\r');
+    homeserver.remove(u'\n');
+
+    if (homeserver.isEmpty())
+        return homeserver;
+
+    if (!homeserver.contains("://"))
+        homeserver.prepend("https://");
+
+    QUrl url(homeserver, QUrl::TolerantMode);
+    if (!url.isValid() || url.host().isEmpty())
+        return homeserver;
+
+    if (url.port() < 0)
+        url.setPort(443);
+
+    url.setPath(QString());
+    url.setQuery(QString());
+    url.setFragment(QString());
+    url.setUserName(QString());
+    url.setPassword(QString());
+
+    return url.toString(QUrl::FullyEncoded);
+}
 
 MatrixSsoCallbackServer
 fromRustSsoCallbackServer(const ::komai::rust::MatrixSsoCallbackServer &server)
@@ -46,7 +77,8 @@ MatrixLoginFlows
 fromRustFlows(const ::komai::rust::MatrixLoginFlows &flows)
 {
     MatrixLoginFlows result;
-    result.homeserverUrl     = QString::fromStdString(std::string(flows.homeserver_url));
+    result.homeserverUrl =
+      normalizeHomeserverUrl(QString::fromStdString(std::string(flows.homeserver_url)));
     result.passwordSupported = flows.password_supported;
     result.ssoSupported      = flows.sso_supported;
 
@@ -62,10 +94,11 @@ MatrixLoginResult
 fromRustResult(const ::komai::rust::MatrixLoginResult &result)
 {
     return MatrixLoginResult{
-      .userId        = QString::fromStdString(std::string(result.user_id)),
-      .accessToken   = QString::fromStdString(std::string(result.access_token)),
-      .deviceId      = QString::fromStdString(std::string(result.device_id)),
-      .homeserverUrl = QString::fromStdString(std::string(result.homeserver_url)),
+      .userId      = QString::fromStdString(std::string(result.user_id)),
+      .accessToken = QString::fromStdString(std::string(result.access_token)),
+      .deviceId    = QString::fromStdString(std::string(result.device_id)),
+      .homeserverUrl =
+        normalizeHomeserverUrl(QString::fromStdString(std::string(result.homeserver_url))),
     };
 }
 

@@ -223,7 +223,6 @@ LoginPage::versionOk(bool passwordSupported, bool ssoSupported, QVariantList idp
 
     lookingUpHs_     = false;
     homeserverValid_ = true;
-    emit homeserverChanged();
     emit lookingUpHsChanged();
     emit versionLookedUp();
 }

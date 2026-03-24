@@ -23,9 +23,19 @@ mod ffi {
         matrix_data_root: String,
         matrix_cache_root: String,
         state_store_root: String,
-        user_cache_root: String,
+        cache_root: String,
         event_cache_root: String,
         media_cache_root: String,
+    }
+
+    struct MatrixRestorePreview {
+        has_session: bool,
+        session_source: String,
+        homeserver_url: String,
+        user_id: String,
+        device_id: String,
+        state_store_root: String,
+        cache_root: String,
     }
 
     unsafe extern "C++" {
@@ -36,7 +46,7 @@ mod ffi {
         #[namespace = "komai::rust_bridge"]
         fn matrix_profile_cache_root(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
-        fn matrix_storage_user_component(profile_id: &str, user_id: &str) -> String;
+        fn matrix_legacy_session_json(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
         fn matrix_store_passphrase(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
@@ -53,7 +63,8 @@ mod ffi {
 
     extern "Rust" {
         fn resolve_server(server_name: &str) -> Result<ResolveResult>;
-        fn matrix_sdk_paths(profile_id: &str, user_id: &str) -> MatrixSdkPaths;
+        fn matrix_sdk_paths(profile_id: &str) -> MatrixSdkPaths;
+        fn matrix_restore_session_preview(profile_id: &str) -> Result<MatrixRestorePreview>;
     }
 }
 
@@ -83,11 +94,10 @@ fn resolve_server(server_name: &str) -> Result<ffi::ResolveResult, String> {
     })
 }
 
-fn matrix_sdk_paths(profile_id: &str, user_id: &str) -> ffi::MatrixSdkPaths {
+fn matrix_sdk_paths(profile_id: &str) -> ffi::MatrixSdkPaths {
     let paths = matrix_backend::derive_matrix_sdk_paths(
         &ffi::matrix_profile_data_root(profile_id),
         &ffi::matrix_profile_cache_root(profile_id),
-        &ffi::matrix_storage_user_component(profile_id, user_id),
     );
 
     ffi::MatrixSdkPaths {
@@ -96,8 +106,23 @@ fn matrix_sdk_paths(profile_id: &str, user_id: &str) -> ffi::MatrixSdkPaths {
         matrix_data_root: paths.matrix_data_root,
         matrix_cache_root: paths.matrix_cache_root,
         state_store_root: paths.state_store_root,
-        user_cache_root: paths.user_cache_root,
+        cache_root: paths.cache_root,
         event_cache_root: paths.event_cache_root,
         media_cache_root: paths.media_cache_root,
     }
+}
+
+fn matrix_restore_session_preview(profile_id: &str) -> Result<ffi::MatrixRestorePreview, String> {
+    let preview =
+        runtime().block_on(matrix_backend::bootstrap::restore_session_preview(profile_id))?;
+
+    Ok(ffi::MatrixRestorePreview {
+        has_session: preview.has_session,
+        session_source: preview.session_source,
+        homeserver_url: preview.homeserver_url,
+        user_id: preview.user_id,
+        device_id: preview.device_id,
+        state_store_root: preview.state_store_root,
+        cache_root: preview.cache_root,
+    })
 }

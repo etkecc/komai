@@ -20,6 +20,7 @@
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
 #include "profile/ProfileSecrets.h"
+#include "matrix/backend/MatrixLegacySession.h"
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
@@ -460,6 +461,54 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
     return ok;
 }
 
+bool
+testLegacyMatrixSessionSnapshotRoundtripWithFileProvider()
+{
+    bool ok = true;
+
+    const auto writer =
+      settings::storage::inMemoryReaderWriter(QStringLiteral("/tmp/komai-test-legacy-matrix-session"));
+    settings::storage::ReaderWriterOverride writerOverride{writer};
+
+    const QString profile = QStringLiteral("legacy-matrix-sdk");
+    const auto configPath = settings::storage::configFilePathForProfile(profile);
+    const auto sessionPath = settings::storage::sessionFilePathForProfile(profile);
+    const auto secretsPath = settings::storage::secretsFilePathForProfile(profile);
+
+    YAML::Node config(YAML::NodeType::Map);
+    config["secrets"]["provider"] = staged_load_plan::ProviderFileValue;
+    ok &= expect(settings::storage::writeYamlFile(configPath, config, false),
+                 "legacy matrix session test writes config");
+
+    YAML::Node sessionRoot(YAML::NodeType::Map);
+    sessionRoot["session"]["account"]["user_id"] = "@komai:example.com";
+    sessionRoot["session"]["account"]["homeserver"] = "https://matrix.example.com";
+    sessionRoot["session"]["device"]["id"] = "KOMAIDEVICE";
+    ok &= expect(settings::storage::writeYamlFile(sessionPath, sessionRoot, false),
+                 "legacy matrix session test writes session");
+
+    settings::persistence::saveProfileSecrets(profile,
+                                              true,
+                                              secretsPath,
+                                              QStringLiteral("legacy-access-token"),
+                                              {});
+
+    const auto legacySession =
+      komai::matrix_backend::loadPersistedLegacyMatrixSession(profile);
+    ok &= expect(legacySession.userId == QStringLiteral("@komai:example.com"),
+                 "legacy matrix session snapshot reads user id");
+    ok &= expect(legacySession.deviceId == QStringLiteral("KOMAIDEVICE"),
+                 "legacy matrix session snapshot reads device id");
+    ok &= expect(legacySession.homeserverUrl == QStringLiteral("https://matrix.example.com"),
+                 "legacy matrix session snapshot reads homeserver");
+    ok &= expect(legacySession.accessToken == QStringLiteral("legacy-access-token"),
+                 "legacy matrix session snapshot reads access token");
+    ok &= expect(legacySession.hasCompleteSession(),
+                 "legacy matrix session snapshot reports complete session");
+
+    return ok;
+}
+
 } // namespace
 
 int
@@ -486,6 +535,7 @@ main()
     ok &= testLoggerInjectionNullAndInjectedLoggers();
     ok &= testCacheLoggerInjection();
     ok &= testProviderSelectionHonorsConfigAndOverrides();
+    ok &= testLegacyMatrixSessionSnapshotRoundtripWithFileProvider();
     ok &= testMatrixSessionSecretsRoundtripWithFileProvider();
     ok &= testInMemoryReaderWriterOverride();
 

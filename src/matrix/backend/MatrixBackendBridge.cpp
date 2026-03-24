@@ -4,9 +4,11 @@
 
 #include "matrix/backend/MatrixBackendBridge.h"
 
-#include <QFileInfo>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QString>
 
+#include "matrix/backend/MatrixLegacySession.h"
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "profile/Paths.h"
 
@@ -35,11 +37,17 @@ matrix_profile_cache_root(rust::Str profile_id)
 }
 
 rust::String
-matrix_storage_user_component(rust::Str profile_id, rust::Str user_id)
+matrix_legacy_session_json(rust::Str profile_id)
 {
-    const auto databaseDirectory =
-      app_paths::data::databaseDirectory(toQString(user_id), toQString(profile_id));
-    return rust::String(QFileInfo(databaseDirectory).fileName().toStdString());
+    const auto session  = matrix_backend::loadPersistedLegacyMatrixSession(toQString(profile_id));
+    const auto document = QJsonDocument(QJsonObject{
+      {QStringLiteral("user_id"), session.userId},
+      {QStringLiteral("device_id"), session.deviceId},
+      {QStringLiteral("homeserver_url"), session.homeserverUrl},
+      {QStringLiteral("access_token"), session.accessToken},
+    });
+
+    return rust::String(document.toJson(QJsonDocument::Compact).toStdString());
 }
 
 rust::String

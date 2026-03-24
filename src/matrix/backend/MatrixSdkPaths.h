@@ -15,7 +15,7 @@ struct MatrixSdkPaths
     QString matrixDataRoot;
     QString matrixCacheRoot;
     QString stateStoreRoot;
-    QString userCacheRoot;
+    QString cacheRoot;
     QString eventCacheRoot;
     QString mediaCacheRoot;
 };
@@ -23,7 +23,7 @@ struct MatrixSdkPaths
 class MatrixSdkPathsProvider
 {
 public:
-    static MatrixSdkPaths forProfile(const QString &profileId, const QString &userId);
+    static MatrixSdkPaths forProfile(const QString &profileId);
 };
 
 } // namespace komai

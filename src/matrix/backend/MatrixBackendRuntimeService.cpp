@@ -40,14 +40,15 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
       .displayName = QString::fromStdString(std::string(room.display_name)),
       .avatarUrl   = matrix::normalizeMxcUri(QString::fromStdString(std::string(room.avatar_url))),
       .topic       = QString::fromStdString(std::string(room.topic)),
-      .isInvite    = room.is_invite,
-      .isSpace     = room.is_space,
-      .isDirect    = room.is_direct,
-      .isEncrypted = room.is_encrypted,
-      .unreadMessages    = room.unread_message_count,
-      .notificationCount = room.notification_count,
-      .highlightCount    = room.highlight_count,
-      .timestamp         = room.timestamp,
+      .directChatOtherUserId = QString::fromStdString(std::string(room.direct_chat_other_user_id)),
+      .isInvite              = room.is_invite,
+      .isSpace               = room.is_space,
+      .isDirect              = room.is_direct,
+      .isEncrypted           = room.is_encrypted,
+      .unreadMessages        = room.unread_message_count,
+      .notificationCount     = room.notification_count,
+      .highlightCount        = room.highlight_count,
+      .timestamp             = room.timestamp,
     };
 }
 
@@ -168,6 +169,43 @@ MatrixBackendRuntimeService::fetchActiveRoomTimeline(uint64_t handleId, QString 
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::paginateActiveRoomTimelineBackwards(uint64_t handleId,
+                                                                 uint16_t pageSize,
+                                                                 QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_paginate_active_room_timeline_backwards(handleId, pageSize);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::sendRoomMessage(uint64_t handleId,
+                                             const QString &roomId,
+                                             const QString &body,
+                                             const QString &formattedHtml,
+                                             const QString &messageKind,
+                                             QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_send_room_message(handleId,
+                                                roomId.toStdString(),
+                                                body.toStdString(),
+                                                formattedHtml.toStdString(),
+                                                messageKind.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
     }
 }
 

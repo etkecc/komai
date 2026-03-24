@@ -43,7 +43,7 @@ RoomlistModel::commonRoomData(const QString &room_id, int role) const
         return QVariant{DirectChatResolver::instance().isDirectChat(room_id)};
     case Roles::DirectChatOtherUserId:
         if (matrixJoinedRooms_.contains(room_id))
-            return QVariant{QString{}};
+            return QVariant{matrixJoinedRooms_.value(room_id).directChatOtherUserId};
         return QVariant{DirectChatResolver::instance().directChatPartner(room_id)};
     case Roles::IsBotRoom:
         if (matrixJoinedRooms_.contains(room_id))

@@ -4,11 +4,33 @@
 
 #include "timeline/TimelineViewManager.h"
 
+#include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
+#include "utils/Utils.h"
+
+namespace {
+QString
+matrixMessageFormattedHtml(const QString &body)
+{
+    const auto *chatPage = ChatPage::instance();
+    const auto *settings = chatPage ? chatPage->userSettings().get() : nullptr;
+    if (!settings || !settings->composerInputMarkdownToHtmlEnabled())
+        return {};
+
+    const auto html        = utils::markdownToHtml(body, false);
+    const auto trimmedBody = body.trimmed();
+
+    if (html.contains(u'<') || trimmedBody.contains(u'\n') || trimmedBody.contains(u'\\'))
+        return html;
+
+    return {};
+}
+}
 
 void
 TimelineViewManager::updateCurrentMatrixTimelineSelection()
@@ -124,4 +146,67 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
 
     if (stateChanged)
         emit matrixTimelineStateChanged();
+}
+
+bool
+TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
+{
+    const auto plainBody = body.trimmed();
+    if (plainBody.isEmpty())
+        return false;
+
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to send matrix-sdk room message without an active runtime "
+                          "handle or selected matrix room");
+        return false;
+    }
+
+    const auto formattedHtml = matrixMessageFormattedHtml(body);
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::sendRoomMessage(handleId,
+                                                             activeMatrixTimelineRoomId_,
+                                                             plainBody,
+                                                             formattedHtml,
+                                                             QStringLiteral("text"),
+                                                             &error)) {
+        nhlog::ui()->warn("Failed to queue matrix-sdk room message for '{}' on handle {}: {}",
+                          activeMatrixTimelineRoomId_.toStdString(),
+                          handleId,
+                          error.toStdString());
+        if (mainWindow)
+            mainWindow->showNotification(tr("Failed to send message: %1").arg(error));
+        return false;
+    }
+
+    return true;
+}
+
+bool
+TimelineViewManager::paginateActiveMatrixTimelineBackwards(int pageSize)
+{
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to paginate matrix-sdk room timeline without an active "
+                          "runtime handle or selected matrix room");
+        return false;
+    }
+
+    const auto clampedPageSize = static_cast<uint16_t>(std::clamp(pageSize, 0, 500));
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::paginateActiveRoomTimelineBackwards(
+          handleId, clampedPageSize, &error)) {
+        nhlog::ui()->warn(
+          "Failed to paginate matrix-sdk room timeline backwards for '{}' on handle {}: {}",
+          activeMatrixTimelineRoomId_.toStdString(),
+          handleId,
+          error.toStdString());
+        return false;
+    }
+
+    return true;
 }

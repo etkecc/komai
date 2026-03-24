@@ -139,15 +139,18 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
     RoomPreview preview{};
 
     if (matrixJoinedRooms_.contains(roomid)) {
-        const auto room          = matrixJoinedRooms_.value(roomid);
-        preview.roomid_          = roomid;
-        preview.roomName_        = room.displayName.isEmpty() ? roomid : room.displayName;
-        preview.roomTopic_       = room.topic;
-        preview.roomAvatarUrl_   = komai::matrix::normalizeMxcUri(room.avatarUrl);
-        preview.isFetched_       = true;
-        preview.isInvite_        = false;
-        preview.canJoin_         = false;
-        preview.isMatrixSummary_ = true;
+        const auto room                = matrixJoinedRooms_.value(roomid);
+        preview.roomid_                = roomid;
+        preview.roomName_              = room.displayName.isEmpty() ? roomid : room.displayName;
+        preview.roomTopic_             = room.topic;
+        preview.roomAvatarUrl_         = komai::matrix::normalizeMxcUri(room.avatarUrl);
+        preview.directChatOtherUserId_ = room.directChatOtherUserId;
+        preview.isDirect_              = room.isDirect;
+        preview.isEncrypted_           = room.isEncrypted;
+        preview.isFetched_             = true;
+        preview.isInvite_              = false;
+        preview.canJoin_               = false;
+        preview.isMatrixSummary_       = true;
         return preview;
     }
 

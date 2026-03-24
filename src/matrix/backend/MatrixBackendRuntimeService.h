@@ -33,6 +33,7 @@ struct MatrixRoomSummary
     QString displayName;
     QString avatarUrl;
     QString topic;
+    QString directChatOtherUserId;
     bool isInvite              = false;
     bool isSpace               = false;
     bool isDirect              = false;
@@ -78,6 +79,17 @@ public:
 
     static std::optional<QVector<MatrixTimelineItem>>
     fetchActiveRoomTimeline(uint64_t handleId, QString *errorOut = nullptr);
+
+    static bool paginateActiveRoomTimelineBackwards(uint64_t handleId,
+                                                    uint16_t pageSize,
+                                                    QString *errorOut = nullptr);
+
+    static bool sendRoomMessage(uint64_t handleId,
+                                const QString &roomId,
+                                const QString &body,
+                                const QString &formattedHtml,
+                                const QString &messageKind,
+                                QString *errorOut = nullptr);
 
     static std::optional<QByteArray> fetchMediaContent(uint64_t handleId,
                                                        const QString &mxcUri,

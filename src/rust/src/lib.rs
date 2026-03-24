@@ -57,6 +57,7 @@ mod ffi {
         display_name: String,
         avatar_url: String,
         topic: String,
+        direct_chat_other_user_id: String,
         is_invite: bool,
         is_space: bool,
         is_direct: bool,
@@ -162,6 +163,17 @@ mod ffi {
         ) -> Result<Vec<u8>>;
         fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<()>;
         fn matrix_fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTimelineItem>>;
+        fn matrix_paginate_active_room_timeline_backwards(
+            handle_id: u64,
+            page_size: u16,
+        ) -> Result<()>;
+        fn matrix_send_room_message(
+            handle_id: u64,
+            room_id: &str,
+            body: &str,
+            formatted_html: &str,
+            message_kind: &str,
+        ) -> Result<()>;
         fn matrix_discover_login_flows(
             server_name_or_url: &str,
             verify_certificates: bool,
@@ -300,6 +312,7 @@ fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<ffi::MatrixRoomSummary>,
                     display_name: room.display_name,
                     avatar_url: room.avatar_url,
                     topic: room.topic,
+                    direct_chat_other_user_id: room.direct_chat_other_user_id,
                     is_invite: room.is_invite,
                     is_space: room.is_space,
                     is_direct: room.is_direct,
@@ -350,6 +363,30 @@ fn matrix_fetch_active_room_timeline(
                 })
                 .collect()
         })
+}
+
+fn matrix_paginate_active_room_timeline_backwards(
+    handle_id: u64,
+    page_size: u16,
+) -> Result<(), String> {
+    logging::ensure_initialized();
+    matrix_backend::runtime::paginate_active_room_timeline_backwards(handle_id, page_size)
+}
+
+fn matrix_send_room_message(
+    handle_id: u64,
+    room_id: &str,
+    body: &str,
+    formatted_html: &str,
+    message_kind: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::send_room_message(
+        handle_id,
+        room_id,
+        body,
+        formatted_html,
+        message_kind,
+    ))
 }
 
 fn matrix_discover_login_flows(

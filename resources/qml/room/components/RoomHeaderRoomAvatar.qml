@@ -10,6 +10,7 @@ AvatarSettingsFlipButton {
 
     required property var room
     required property string roomId
+    required property string avatarDisplayName
     required property string roomAvatarUrl
     required property bool isDirect
     required property string directChatOtherUserId
@@ -23,7 +24,7 @@ AvatarSettingsFlipButton {
     Layout.preferredWidth: topBarAvatarSize
     Layout.row: 1
     avatarButtonSize: topBarAvatarSize
-    avatarDisplayName: room ? room.plainRoomName : qsTr("No room selected")
+    avatarDisplayName: root.avatarDisplayName
     avatarRoomId: roomId
     avatarUrl: roomAvatarUrl.replace("mxc://", "image://MxcImage/")
     avatarUserId: isDirect ? directChatOtherUserId : ""

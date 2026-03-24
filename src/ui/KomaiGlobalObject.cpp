@@ -188,6 +188,10 @@ Komai::Komai()
             &UserSettings::sessionAuthStateChanged,
             this,
             &Komai::localCacheInfoChanged);
+    connect(UserSettings::instance().get(),
+            &UserSettings::sessionAuthStateChanged,
+            this,
+            &Komai::updateUserProfile);
     connect(ChatPage::instance(), &ChatPage::contentLoaded, this, &Komai::updateUserProfile);
     connect(ChatPage::instance(), &ChatPage::showRoomJoinPrompt, this, &Komai::showRoomJoinPrompt);
     connect(
@@ -201,11 +205,27 @@ Komai::Komai()
 void
 Komai::updateUserProfile()
 {
-    if (cache::isAvailable() && cache::isInitialized())
-        currentUser_.reset(new UserProfile(
-          QLatin1String(""), utils::localUser(), ChatPage::instance()->timelineManager()));
-    else
+    const auto *mainWindow      = MainWindow::instance();
+    const bool hasMatrixRuntime = mainWindow && mainWindow->matrixBackendHandleId() != 0;
+    const bool hasLegacyCache   = cache::isAvailable() && cache::isInitialized();
+    const auto localUserId      = utils::localUser().trimmed();
+
+    if ((hasLegacyCache || hasMatrixRuntime) && !localUserId.isEmpty()) {
+        nhlog::ui()->info("Refreshing Komai.currentUser (user_id='{}', legacy_cache={}, "
+                          "matrix_runtime={})",
+                          localUserId.toStdString(),
+                          hasLegacyCache,
+                          hasMatrixRuntime);
+        currentUser_.reset(
+          new UserProfile(QLatin1String(""), localUserId, ChatPage::instance()->timelineManager()));
+    } else {
+        nhlog::ui()->info("Clearing Komai.currentUser (user_id='{}', legacy_cache={}, "
+                          "matrix_runtime={})",
+                          localUserId.toStdString(),
+                          hasLegacyCache,
+                          hasMatrixRuntime);
         currentUser_.reset();
+    }
     emit profileChanged();
 }
 

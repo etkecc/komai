@@ -41,10 +41,13 @@ class RoomPreview
     Q_PROPERTY(QString roomName READ roomName CONSTANT)
     Q_PROPERTY(QString roomTopic READ roomTopic CONSTANT)
     Q_PROPERTY(QString roomAvatarUrl READ roomAvatarUrl CONSTANT)
+    Q_PROPERTY(QString directChatOtherUserId READ directChatOtherUserId CONSTANT)
     Q_PROPERTY(QString reason READ reason CONSTANT)
     Q_PROPERTY(QString inviterAvatarUrl READ inviterAvatarUrl CONSTANT)
     Q_PROPERTY(QString inviterDisplayName READ inviterDisplayName CONSTANT)
     Q_PROPERTY(QString inviterUserId READ inviterUserId CONSTANT)
+    Q_PROPERTY(bool isDirect READ isDirect CONSTANT)
+    Q_PROPERTY(bool isEncrypted READ isEncrypted CONSTANT)
     Q_PROPERTY(bool isInvite READ isInvite CONSTANT)
     Q_PROPERTY(bool isFetched READ isFetched CONSTANT)
     Q_PROPERTY(bool canJoin READ canJoin CONSTANT)
@@ -57,16 +60,20 @@ public:
     QString roomName() const { return roomName_; }
     QString roomTopic() const { return roomTopic_; }
     QString roomAvatarUrl() const { return roomAvatarUrl_; }
+    QString directChatOtherUserId() const { return directChatOtherUserId_; }
     QString reason() const { return reason_; }
     QString inviterAvatarUrl() const;
     QString inviterDisplayName() const;
     QString inviterUserId() const;
+    bool isDirect() const { return isDirect_; }
+    bool isEncrypted() const { return isEncrypted_; }
     bool isInvite() const { return isInvite_; }
     bool isFetched() const { return isFetched_; }
     bool canJoin() const { return canJoin_; }
     bool isMatrixSummary() const { return isMatrixSummary_; }
 
-    QString roomid_, roomName_, roomAvatarUrl_, roomTopic_, reason_;
+    QString roomid_, roomName_, roomAvatarUrl_, roomTopic_, directChatOtherUserId_, reason_;
+    bool isDirect_ = false, isEncrypted_ = false;
     bool isInvite_ = false, isFetched_ = true, canJoin_ = false, isMatrixSummary_ = false;
 };
 

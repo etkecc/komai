@@ -18,6 +18,7 @@ Pane {
     property var roomModel: room
     property string roomId: room ? room.roomId : ""
     property string roomName: room ? room.roomName : qsTr("No room selected")
+    property string avatarDisplayName: room ? room.plainRoomName : roomName
     property string roomTopic: room ? room.roomTopic : ""
     property bool searchHasFocus: roomSearchRow.searchHasFocus
     property string searchString: ""
@@ -208,6 +209,7 @@ Pane {
                         : null
                     room: topBar.roomModel
                     roomId: topBar.roomId
+                    avatarDisplayName: topBar.avatarDisplayName
                     roomAvatarUrl: topBar.avatarUrl
                     isDirect: topBar.isDirect
                     directChatOtherUserId: topBar.directChatOtherUserId

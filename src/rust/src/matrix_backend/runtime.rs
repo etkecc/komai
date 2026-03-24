@@ -21,7 +21,13 @@ use matrix_sdk::{
         RoomId,
         api::client::media::get_content_thumbnail::v3::Method,
         api::client::profile::{AvatarUrl, DisplayName},
-        events::room::{MediaSource, message::MessageType},
+        events::{
+            AnyMessageLikeEventContent,
+            room::{
+                MediaSource,
+                message::{MessageType, RoomMessageEventContent},
+            },
+        },
     },
     stream::StreamExt,
 };
@@ -34,6 +40,7 @@ use matrix_sdk_ui::{
         VirtualTimelineItem,
     },
 };
+use tokio::sync::mpsc;
 
 use super::bootstrap;
 
@@ -56,6 +63,7 @@ pub struct MatrixRoomSummary {
     pub display_name: String,
     pub avatar_url: String,
     pub topic: String,
+    pub direct_chat_other_user_id: String,
     pub is_invite: bool,
     pub is_space: bool,
     pub is_direct: bool,
@@ -98,8 +106,13 @@ struct MatrixBackendSyncTask {
 
 struct MatrixBackendRoomTimelineTask {
     room_id: String,
+    commands: mpsc::UnboundedSender<MatrixBackendRoomTimelineCommand>,
     stop_requested: Arc<AtomicBool>,
     thread: JoinHandle<()>,
+}
+
+enum MatrixBackendRoomTimelineCommand {
+    PaginateBackwards(u16),
 }
 
 fn backend_handles() -> &'static Mutex<HashMap<u64, MatrixBackendHandle>> {
@@ -297,6 +310,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
 
     let stop_requested = Arc::new(AtomicBool::new(false));
     let stop_requested_for_thread = Arc::clone(&stop_requested);
+    let (command_sender, command_receiver) = mpsc::unbounded_channel();
     let room_id_owned = room_id.to_owned();
     let room_id_for_thread = room_id_owned.clone();
     let room_timeline_task = std::thread::spawn(move || {
@@ -305,6 +319,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             client,
             room_id_for_thread,
             room_timeline_snapshot,
+            command_receiver,
             stop_requested_for_thread,
         ));
     });
@@ -316,6 +331,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
         .and_modify(|handle| {
             handle.room_timeline_task = Some(MatrixBackendRoomTimelineTask {
                 room_id: room_id_owned.clone(),
+                commands: command_sender,
                 stop_requested,
                 thread: room_timeline_task,
             });
@@ -326,6 +342,58 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
         room_id = %room_id_owned,
         "Started matrix-sdk room timeline task"
     );
+    Ok(())
+}
+
+pub fn paginate_active_room_timeline_backwards(
+    handle_id: u64,
+    page_size: u16,
+) -> Result<(), String> {
+    let (room_id, command_sender) = {
+        let handles = backend_handles()
+            .lock()
+            .expect("poisoned matrix backend handle registry mutex");
+        let Some(handle) = handles.get(&handle_id) else {
+            return Err(format!("matrix-sdk backend runtime handle {handle_id} is not active"));
+        };
+        let Some(task) = handle.room_timeline_task.as_ref() else {
+            return Err(format!(
+                "matrix-sdk backend runtime handle {handle_id} has no active room timeline"
+            ));
+        };
+
+        if task.thread.is_finished() {
+            return Err(format!(
+                "matrix-sdk active room timeline task for '{}' is no longer running",
+                task.room_id
+            ));
+        }
+
+        (task.room_id.clone(), task.commands.clone())
+    };
+
+    let page_size = if page_size == 0 {
+        ROOM_TIMELINE_PAGE_SIZE
+    } else {
+        page_size
+    };
+
+    command_sender
+        .send(MatrixBackendRoomTimelineCommand::PaginateBackwards(page_size))
+        .map_err(|_| {
+            format!(
+                "failed to send pagination command to active matrix-sdk room timeline '{}'",
+                room_id
+            )
+        })?;
+
+    tracing::debug!(
+        handle_id,
+        room_id,
+        page_size,
+        "Queued matrix-sdk room timeline backwards pagination"
+    );
+
     Ok(())
 }
 
@@ -430,6 +498,7 @@ async fn run_room_timeline_loop(
     client: Client,
     room_id: String,
     room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
+    mut commands: mpsc::UnboundedReceiver<MatrixBackendRoomTimelineCommand>,
     stop_requested: Arc<AtomicBool>,
 ) {
     tracing::info!(handle_id, room_id, "Running matrix-sdk room timeline loop");
@@ -504,6 +573,36 @@ async fn run_room_timeline_loop(
                 }
             }
 
+            maybe_command = commands.recv() => {
+                match maybe_command {
+                    Some(MatrixBackendRoomTimelineCommand::PaginateBackwards(page_size)) => {
+                        tracing::debug!(
+                            handle_id,
+                            room_id,
+                            page_size,
+                            "Paginating active matrix-sdk room timeline backwards"
+                        );
+                        if let Err(error) = timeline.paginate_backwards(page_size).await {
+                            tracing::warn!(
+                                handle_id,
+                                room_id,
+                                page_size,
+                                %error,
+                                "Failed to paginate active matrix-sdk room timeline backwards"
+                            );
+                        }
+                    }
+                    None => {
+                        tracing::debug!(
+                            handle_id,
+                            room_id,
+                            "Matrix-sdk room timeline command channel closed"
+                        );
+                        break;
+                    }
+                }
+            }
+
             _ = tokio::time::sleep(Duration::from_millis(200)) => {
                 if stop_requested.load(Ordering::Relaxed) {
                     break;
@@ -536,6 +635,14 @@ fn normalize_mxc_uri(uri: String) -> String {
     format!("mxc://{uri}")
 }
 
+fn explicit_direct_partner_user_id(room: &RoomListItem) -> String {
+    room.direct_targets()
+        .into_iter()
+        .find_map(|target| target.into_user_id())
+        .map(|user_id| user_id.to_string())
+        .unwrap_or_default()
+}
+
 fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
     let room_state = room.state();
     let timestamp = room
@@ -556,6 +663,7 @@ fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
             .map(|url| normalize_mxc_uri(url.to_string()))
             .unwrap_or_default(),
         topic: room.topic().unwrap_or_default(),
+        direct_chat_other_user_id: explicit_direct_partner_user_id(room),
         is_invite: matches!(room_state, RoomState::Invited),
         is_space: room.is_space(),
         is_direct: room.direct_targets_length() == 1,
@@ -799,4 +907,87 @@ pub async fn fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTime
     );
 
     Ok(snapshot)
+}
+
+pub async fn send_room_message(
+    handle_id: u64,
+    room_id: &str,
+    body: &str,
+    formatted_html: &str,
+    message_kind: &str,
+) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    let room_id = room_id.trim();
+    if room_id.is_empty() {
+        return Err("cannot send a matrix-sdk room message without a room id".to_owned());
+    }
+
+    let body = body.trim();
+    if body.is_empty() {
+        return Err("cannot send an empty matrix-sdk room message".to_owned());
+    }
+
+    let parsed_room_id =
+        RoomId::parse(room_id).map_err(|e| format!("invalid room id '{room_id}': {e}"))?;
+    let room = client
+        .get_room(&parsed_room_id)
+        .ok_or_else(|| format!("matrix-sdk client does not know room '{room_id}'"))?;
+
+    if room.state() != RoomState::Joined {
+        return Err(format!(
+            "cannot send a matrix-sdk room message to room '{room_id}' because it is not joined"
+        ));
+    }
+
+    let formatted_html = formatted_html.trim();
+    let content: AnyMessageLikeEventContent = match message_kind {
+        "text" => {
+            if formatted_html.is_empty() {
+                RoomMessageEventContent::text_plain(body).into()
+            } else {
+                RoomMessageEventContent::text_html(body, formatted_html).into()
+            }
+        }
+        "notice" => {
+            if formatted_html.is_empty() {
+                RoomMessageEventContent::notice_plain(body).into()
+            } else {
+                RoomMessageEventContent::notice_html(body, formatted_html).into()
+            }
+        }
+        "emote" => {
+            if formatted_html.is_empty() {
+                RoomMessageEventContent::emote_plain(body).into()
+            } else {
+                RoomMessageEventContent::emote_html(body, formatted_html).into()
+            }
+        }
+        other => {
+            return Err(format!(
+                "unsupported matrix-sdk room message kind '{other}' for room '{room_id}'"
+            ));
+        }
+    };
+
+    tracing::info!(
+        handle_id,
+        room_id,
+        message_kind,
+        has_formatted_html = !formatted_html.is_empty(),
+        "Queueing matrix-sdk room message"
+    );
+
+    room.send_queue()
+        .send(content)
+        .await
+        .map_err(|e| format!("failed to queue matrix-sdk room message: {e}"))?;
+
+    tracing::debug!(
+        handle_id,
+        room_id,
+        message_kind,
+        "Queued matrix-sdk room message"
+    );
+
+    Ok(())
 }

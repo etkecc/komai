@@ -165,6 +165,8 @@ public:
     Q_INVOKABLE void markRoomSwitchPhase(const QString &roomId, const QString &phase);
     Q_INVOKABLE bool roomSwitchPerfEnabled() const { return roomSwitchPerfEnabled_; }
     Q_INVOKABLE bool perfUiFlagEnabled(const QString &flag) const;
+    Q_INVOKABLE bool sendActiveMatrixTextMessage(const QString &body);
+    Q_INVOKABLE bool paginateActiveMatrixTimelineBackwards(int pageSize = 0);
 
     Q_INVOKABLE void fixImageRendering(QQuickTextDocument *t, QQuickItem *i);
 

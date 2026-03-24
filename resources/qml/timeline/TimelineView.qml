@@ -21,9 +21,11 @@ Item {
     readonly property bool perfDisableRoomHeader: TimelineManager.perfUiFlagEnabled("disable_room_header")
     readonly property bool perfDisableTimelineEffects: TimelineManager.perfUiFlagEnabled("disable_timeline_effects")
     readonly property bool perfDisableTimelineList: TimelineManager.perfUiFlagEnabled("disable_timeline_list")
+    readonly property bool useMatrixRoomView: !room && roomPreview && roomPreview.isMatrixSummary
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property var notificationAreaItem: timelineView
-    readonly property var notificationAvoidBottomItem: bottomInputShell.visible ? bottomInputShell : null
+    readonly property var notificationAvoidBottomItem: bottomInputShell.visible ? bottomInputShell
+        : (matrixRoomView.visible ? matrixRoomView.composerShell : null)
 
     ComponentCatalog {
         id: componentCatalog
@@ -33,7 +35,8 @@ Item {
 
     // focus message input on key press, but not on Ctrl-C and such.
     Keys.onPressed: event => {
-        if (event.text
+        if (room
+                && event.text
                 && event.key !== Qt.Key_Enter
                 && event.key !== Qt.Key_Return
                 && !topBar.searchHasFocus
@@ -41,6 +44,16 @@ Item {
             TimelineManager.focusMessageInput();
             if (event.modifiers != Qt.ControlModifier) {
                 room.input.setText(room.input.text + event.text);
+            }
+        } else if (useMatrixRoomView
+                && event.text
+                && event.key !== Qt.Key_Enter
+                && event.key !== Qt.Key_Return
+                && !topBar.searchHasFocus
+                && !messageView.walkModeActive) {
+            TimelineManager.focusMessageInput();
+            if (event.modifiers !== Qt.ControlModifier) {
+                matrixRoomView.appendText(event.text);
             }
         }
     }
@@ -68,7 +81,7 @@ Item {
     }
     TimelineEmptyState {
         anchors.centerIn: parent
-        visible: !room && !TimelineManager.waitingForFirstSync && (!roomPreview || !roomPreview.roomid)
+        visible: !room && !useMatrixRoomView && !TimelineManager.waitingForFirstSync && (!roomPreview || !roomPreview.roomid)
     }
     TimelineFirstSyncSpinner {
         waitingForFirstSync: TimelineManager.waitingForFirstSync
@@ -235,6 +248,12 @@ Item {
             }
         }
     }
+    MatrixRoomView {
+        id: matrixRoomView
+
+        roomPreview: timelineView.useMatrixRoomView ? timelineView.roomPreview : null
+        showBackButton: timelineView.showBackButton
+    }
     Connections {
         function onComposerInteractionRequested() {
             if (messageView.walkModeActive) {
@@ -264,12 +283,12 @@ Item {
     }
     TimelinePreviewPane {
         room: timelineView.room
-        roomPreview: timelineView.roomPreview
+        roomPreview: timelineView.useMatrixRoomView ? null : timelineView.roomPreview
     }
 
     TimelineBackButton {
-        roomModel: timelineView.room
-        showBackButton: timelineView.showBackButton
+        roomModel: timelineView.useMatrixRoomView ? {} : timelineView.room
+        showBackButton: timelineView.showBackButton && !timelineView.useMatrixRoomView
     }
     TimelineEffects {
         id: timelineEffects

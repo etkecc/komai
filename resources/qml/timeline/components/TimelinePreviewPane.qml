@@ -20,9 +20,6 @@ ColumnLayout {
     property string roomId: room ? room.roomId : (roomPreview ? roomPreview.roomid : "")
     property string roomName: room ? room.roomName : (roomPreview ? roomPreview.roomName : "")
     property string roomTopic: room ? room.roomTopic : (roomPreview ? roomPreview.roomTopic : "")
-    readonly property bool isMatrixSummaryPreview: !room && roomPreview && roomPreview.isMatrixSummary
-    readonly property bool hasMatrixTimeline: isMatrixSummaryPreview && TimelineManager.matrixTimelineItemCount > 0
-    readonly property bool matrixTimelineLoading: isMatrixSummaryPreview && TimelineManager.matrixTimelineLoading
 
     anchors.fill: parent
     anchors.margins: Komai.paddingLarge
@@ -33,7 +30,6 @@ ColumnLayout {
     Item {
         Layout.fillHeight: true
         Layout.fillWidth: true
-        visible: !hasMatrixTimeline
     }
     Avatar {
         Layout.alignment: Qt.AlignHCenter
@@ -103,132 +99,6 @@ ColumnLayout {
             textFormat: TextEdit.RichText
         }
     }
-    Rectangle {
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        Layout.minimumHeight: 0
-        color: "transparent"
-        visible: hasMatrixTimeline
-
-        ListView {
-            id: matrixTimelineList
-
-            anchors.fill: parent
-            clip: true
-            model: TimelineManager.matrixTimelineModel
-            spacing: Komai.paddingMedium
-
-            delegate: Item {
-                required property string itemKind
-                required property string senderDisplayName
-                required property string senderAvatarUrl
-                required property string senderId
-                required property string body
-                required property double timestamp
-                required property bool isOwn
-
-                width: ListView.view.width
-                height: itemKind === "date_divider" ? dateDivider.implicitHeight : messageRow.implicitHeight
-
-                Rectangle {
-                    id: dateDivider
-
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color: palette.mid
-                    height: dividerLabel.implicitHeight + Komai.paddingSmall * 2
-                    radius: height / 2
-                    visible: itemKind === "date_divider"
-                    width: dividerLabel.implicitWidth + Komai.paddingLarge * 2
-
-                    MatrixText {
-                        id: dividerLabel
-
-                        anchors.centerIn: parent
-                        color: palette.base
-                        text: Qt.formatDateTime(new Date(timestamp), "dddd, d MMMM")
-                        textFormat: TextEdit.PlainText
-                    }
-                }
-
-                Item {
-                    id: messageRow
-
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    implicitHeight: messageRowLayout.implicitHeight
-                    visible: itemKind !== "date_divider"
-
-                    RowLayout {
-                        id: messageRowLayout
-
-                        anchors.left: isOwn ? undefined : parent.left
-                        anchors.right: isOwn ? parent.right : undefined
-                        spacing: Komai.paddingSmall
-                        width: Math.min(parent.width * 0.9, Math.max(320, parent.width * 0.7))
-
-                        Avatar {
-                            Layout.alignment: Qt.AlignTop
-                            crop: true
-                            displayName: senderDisplayName
-                            implicitHeight: Komai.listIconSize
-                            implicitWidth: Komai.listIconSize
-                            roomid: preview.roomId
-                            url: senderAvatarUrl.replace("mxc://", "image://MxcImage/")
-                            userid: senderId
-                            visible: !isOwn
-                        }
-
-                        Item {
-                            Layout.preferredWidth: visible ? Komai.paddingSmall : 0
-                            visible: !isOwn
-                        }
-
-                        ColumnLayout {
-                            id: bubbleColumn
-
-                            Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                            Layout.preferredWidth: Math.min(messageRow.width * 0.82, Math.max(280, messageRow.width * 0.6))
-                            spacing: Komai.paddingSmall
-
-                            MatrixText {
-                                Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                                color: palette.buttonText
-                                text: senderDisplayName
-                                textFormat: TextEdit.PlainText
-                            }
-
-                            Rectangle {
-                                Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                                color: isOwn ? palette.highlight : palette.alternateBase
-                                implicitHeight: bubbleBody.implicitHeight + Komai.paddingMedium * 2
-                                implicitWidth: Math.min(parent.width, bubbleBody.implicitWidth + Komai.paddingLarge * 2)
-                                radius: Komai.paddingMedium * 2
-
-                                MatrixText {
-                                    id: bubbleBody
-
-                                    anchors.fill: parent
-                                    anchors.margins: Komai.paddingMedium
-                                    color: isOwn ? palette.highlightedText : palette.text
-                                    text: body
-                                    textFormat: TextEdit.PlainText
-                                    width: parent.width - Komai.paddingMedium * 2
-                                    wrapMode: Text.WordWrap
-                                }
-                            }
-
-                            MatrixText {
-                                Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                                color: palette.buttonText
-                                text: Qt.formatTime(new Date(timestamp), "h:mm ap")
-                                textFormat: TextEdit.PlainText
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
     Components.KomaiButton {
         Layout.alignment: Qt.AlignHCenter
         text: qsTr("Join the conversation")
@@ -273,12 +143,8 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         Layout.maximumWidth: Math.max(320, preview.width * 0.6)
         horizontalAlignment: TextEdit.AlignHCenter
-        text: matrixTimelineLoading
-            ? qsTr("Loading room timeline…")
-            : (isMatrixSummaryPreview
-                ? qsTr("No timeline items are loaded for this room yet.")
-                : qsTr("This room is available in the room list, but its timeline is not loaded yet."))
-        visible: !room && roomPreview && !roomPreview.isInvite && !roomPreview.canJoin && !hasMatrixTimeline
+        text: qsTr("This room is available in the room list, but its timeline is not loaded yet.")
+        visible: !room && roomPreview && !roomPreview.isInvite && !roomPreview.canJoin
         wrapMode: Text.WordWrap
     }
     RowLayout {
@@ -348,6 +214,6 @@ ColumnLayout {
     }
     Item {
         Layout.fillHeight: true
-        visible: !hasMatrixTimeline
+        visible: true
     }
 }

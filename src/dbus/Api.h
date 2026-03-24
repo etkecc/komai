@@ -113,7 +113,7 @@ roomList(const QString &profileId);
 QString
 roomTimeline(const QString &profileId,
              const QString &roomIdOrAlias,
-             int limit                    = 50,
+             int limit                    = 10,
              const QString &beforeEventId = {},
              bool includeUnsignedFields   = false,
              const QString &fetchMode     = {});

@@ -67,7 +67,7 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
           << "Subcommands:\n"
           << "  list                         List all joined rooms (JSON)\n"
           << "  timeline <room-id-or-alias> Read visible timeline events (JSON)\n"
-          << "    --limit <n>                     Max events to return (default: 50, max: 500)\n"
+          << "    --limit <n>                     Max events to return (default: 10, max: 500)\n"
           << "    --before-event-id <id>         Return events older than this event ID\n"
           << "    --include-unsigned-fields      Include Matrix unsigned event fields\n"
           << "    --fetch-mode cached_only|server_fetch_if_needed\n"
@@ -108,7 +108,7 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
 
         QJsonObject params{{QStringLiteral("roomIdOrAlias"), args.at(1)}};
 
-        int limit            = 50;
+        int limit            = 10;
         const auto limitFlag = cli_ipc::flagValue(argc, argv, QStringLiteral("--limit"));
         if (!parseIntFlag(limitFlag, "--limit", &limit))
             return 1;

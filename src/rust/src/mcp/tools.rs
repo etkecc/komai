@@ -422,7 +422,7 @@ fn room_info_schema() -> Value {
 
 const TIMELINE_FETCH_MODE_CACHED_ONLY: &str = "cached_only";
 const TIMELINE_FETCH_MODE_SERVER_IF_NEEDED: &str = "server_fetch_if_needed";
-const DEFAULT_TIMELINE_LIMIT: i64 = 50;
+const DEFAULT_TIMELINE_LIMIT: i64 = 10;
 const MAX_TIMELINE_LIMIT: i64 = 500;
 
 fn nullable_string_schema(description: &'static str) -> Value {

@@ -162,6 +162,7 @@ endif()
 if(KOMAI_DB_ENABLE_LMDB_BACKEND)
     find_package(LMDB REQUIRED)
 endif()
+find_package(SQLite3 REQUIRED)
 
 #
 # Discover Qt dependencies.
@@ -900,10 +901,11 @@ corrosion_add_cxxbridge(komai-rust-cxxbridge
     FILES lib.rs
 )
 target_include_directories(komai-rust-cxxbridge PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-# The Rust crate uses native-tls (OpenSSL). Declare the dependency on the
-# static lib target so the linker sees OpenSSL after the Rust archive.
+# The Rust crate uses native-tls (OpenSSL) and matrix-sdk-sqlite. Declare the
+# dependency on the static lib target so the linker sees these system libs
+# after the Rust archive.
 set_property(TARGET komai_rust-static APPEND
-    PROPERTY INTERFACE_LINK_LIBRARIES OpenSSL::SSL OpenSSL::Crypto)
+    PROPERTY INTERFACE_LINK_LIBRARIES OpenSSL::SSL OpenSSL::Crypto SQLite3::SQLite3)
 
 if(VOIP)
     include(FindPkgConfig)

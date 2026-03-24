@@ -23,6 +23,7 @@ mod ffi {
         matrix_data_root: String,
         matrix_cache_root: String,
         state_store_root: String,
+        user_cache_root: String,
         event_cache_root: String,
         media_cache_root: String,
     }
@@ -83,6 +84,7 @@ fn matrix_sdk_paths(profile_id: &str, user_id: &str) -> ffi::MatrixSdkPaths {
         matrix_data_root: paths.matrix_data_root,
         matrix_cache_root: paths.matrix_cache_root,
         state_store_root: paths.state_store_root,
+        user_cache_root: paths.user_cache_root,
         event_cache_root: paths.event_cache_root,
         media_cache_root: paths.media_cache_root,
     }

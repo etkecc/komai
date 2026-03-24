@@ -2,12 +2,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+pub mod bootstrap;
+
 pub struct DerivedMatrixSdkPaths {
     pub profile_data_root: String,
     pub profile_cache_root: String,
     pub matrix_data_root: String,
     pub matrix_cache_root: String,
     pub state_store_root: String,
+    pub user_cache_root: String,
     pub event_cache_root: String,
     pub media_cache_root: String,
 }
@@ -37,6 +40,7 @@ pub fn derive_matrix_sdk_paths(
         matrix_data_root,
         matrix_cache_root,
         state_store_root: user_data_root,
+        user_cache_root: user_cache_root.clone(),
         event_cache_root: join_path(&user_cache_root, "event-cache"),
         media_cache_root: join_path(&user_cache_root, "media-cache"),
     }

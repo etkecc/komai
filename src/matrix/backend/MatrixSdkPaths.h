@@ -15,6 +15,7 @@ struct MatrixSdkPaths
     QString matrixDataRoot;
     QString matrixCacheRoot;
     QString stateStoreRoot;
+    QString userCacheRoot;
     QString eventCacheRoot;
     QString mediaCacheRoot;
 };

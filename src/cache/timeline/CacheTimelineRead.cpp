@@ -10,6 +10,7 @@
 #include <limits>
 #include <unordered_map>
 
+#include "emoji/EmojiNormalize.h"
 #include "events/EventAccessors.h"
 #include "settings/core/SettingsDefinitions.h"
 #include <spdlog/logger.h>
@@ -374,7 +375,8 @@ MatrixStore::topUserReactions(const std::string &room_id, int lookbackDays, int 
                   reaction && reaction->sender == localUser &&
                   reaction->content.relations.annotates() &&
                   reaction->content.relations.annotates()->key) {
-                  ++frequency[reaction->content.relations.annotates()->key.value()];
+                  ++frequency[emoji::normalizeForComparison(
+                    reaction->content.relations.annotates()->key.value())];
               }
           } catch (const std::exception &) {
               // Skip unparsable events.

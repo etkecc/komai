@@ -245,6 +245,27 @@ Source: `src/imagepacks/`
 - `resources/qml/dialogs/media/ImagePackSettingsDialog.qml`: pack management
 - `resources/qml/dialogs/media/ImagePackEditorDialog.qml`: pack editor
 
+## Reaction Deduplication
+
+The message-actions toolbar shows a row of quick-reaction emoji buttons drawn from two
+sources: user-pinned reactions (from settings) and frequently used reactions (from room
+history). These two sets are deduplicated so visually identical emojis don't appear twice.
+
+Different Matrix clients disagree on whether to include Unicode Variation Selector 16
+(U+FE0F), which requests emoji-style presentation. For example, one client may send a
+thumbs-up reaction as U+1F44D while another sends U+1F44D U+FE0F — both render
+identically but are different byte sequences.
+
+`src/emoji/EmojiNormalize.h` provides `normalizeForComparison()`, which strips variation
+selectors (U+FE0F and U+FE0E) for equality checks. This is applied:
+
+- in `CacheTimelineRead.cpp` `topUserReactions()` when building the frequency map, so
+  variant forms contribute to the same count
+- in `MessageActionsToolbar.qml` when filtering frequent reactions against pinned ones
+
+Skin-tone modifiers (U+1F3FB–U+1F3FF), ZWJ sequences, and all other combining characters
+are preserved — only presentation-style variation selectors are removed.
+
 ## Packaging and Repository Size
 
 - Upstream Unicode/CLDR payloads are not vendored in git.

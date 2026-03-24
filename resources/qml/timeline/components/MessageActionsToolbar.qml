@@ -278,17 +278,18 @@ Item {
         Repeater {
             id: recentReactionsRepeater
 
-            property var pinnedSet: toolbar.canReact
+            property var pinnedNormalized: toolbar.canReact
                 ? Settings.timelineMessageActionsPinnedReactions.split(",").map(function (s) {
-                    return s.trim();
+                    return Komai.normalizeEmojiForComparison(s.trim());
                 }).filter(function (s) {
                     return s.length > 0;
                 }).slice(0, 8)
                 : []
             model: toolbar.canReact && toolbar.roomModel
                 ? toolbar.roomModel.frequentReactions.filter(function (reaction) {
-                    return pinnedSet.indexOf(reaction) < 0;
-                }).slice(0, Math.max(0, 8 - pinnedSet.length))
+                    return pinnedNormalized.indexOf(
+                        Komai.normalizeEmojiForComparison(reaction)) < 0;
+                }).slice(0, Math.max(0, 8 - pinnedNormalized.length))
                 : []
 
             delegate: MessageActionsReactionButton {

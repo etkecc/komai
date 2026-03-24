@@ -322,6 +322,8 @@ set(SRC_FILES
     src/emoji/Provider.h
     src/emoji/Emoji.cpp
     src/emoji/Emoji.h
+    src/emoji/EmojiNormalize.cpp
+    src/emoji/EmojiNormalize.h
 
     # Timeline
     src/timeline/CommunitiesModel.cpp
@@ -1453,6 +1455,7 @@ if(BUILD_TESTING)
         src/settings/core/SettingsSerializer.cpp
         src/settings/core/SettingsStore.cpp
         src/emoji/Provider.cpp
+        src/emoji/EmojiNormalize.cpp
         src/matrix/MatrixClient.cpp
         src/cache/core/Cache.cpp
         src/cache/core/CacheCoreStorage.cpp
@@ -1635,6 +1638,15 @@ if(BUILD_TESTING)
     add_test(NAME komai_emoji_completion_search_test_ja
         COMMAND komai_emoji_completion_search_test --locale ja)
     komai_configure_test(komai_emoji_completion_search_test_ja "unit;emoji")
+
+    add_executable(komai_emoji_normalization_test
+        tests/EmojiNormalizationTest.cpp
+        src/emoji/EmojiNormalize.cpp
+    )
+    target_include_directories(komai_emoji_normalization_test PRIVATE src)
+    target_link_libraries(komai_emoji_normalization_test PRIVATE Qt::Core)
+    add_test(NAME komai_emoji_normalization_test COMMAND komai_emoji_normalization_test)
+    komai_configure_test(komai_emoji_normalization_test "unit;emoji")
 
     add_executable(komai_navigation_history_test
         tests/NavigationHistoryTest.cpp

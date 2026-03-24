@@ -7,6 +7,8 @@
 
 #include <algorithm>
 
+#include "emoji/EmojiNormalize.h"
+
 #include <QApplication>
 #include <QDesktopServices>
 #include <QDir>
@@ -385,6 +387,12 @@ Komai::openLink(QString link) const
                               url.toDisplayString().toStdString());
     }
 }
+QString
+Komai::normalizeEmojiForComparison(const QString &emoji)
+{
+    return emoji::normalizeForComparison(emoji);
+}
+
 QString
 Komai::punyLink(QString link) const
 {

@@ -6,7 +6,6 @@
 #include "LoginPage.h"
 
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 
@@ -14,7 +13,7 @@ LoginPage::LoginPage(QObject *parent)
   : QObject(parent)
   , inferredServerAddress_()
 {
-    [[maybe_unused]] static auto ignored = qRegisterMetaType<mtx::responses::Login>();
+    [[maybe_unused]] static auto ignored = qRegisterMetaType<komai::MatrixLoginResult>();
 
     connect(this, &LoginPage::versionOkCb, this, &LoginPage::versionOk, Qt::QueuedConnection);
     connect(this, &LoginPage::versionErrorCb, this, &LoginPage::versionError, Qt::QueuedConnection);
@@ -22,19 +21,19 @@ LoginPage::LoginPage(QObject *parent)
       this,
       &LoginPage::loginOk,
       this,
-      [this](const mtx::responses::Login &res) {
+      [this](const komai::MatrixLoginResult &res) {
           loggingIn_ = false;
           emit loggingInChanged();
 
           auto *settings                = UserSettings::instance().get();
           const bool hadSessionIdentity = settings->hasPersistedSessionIdentity();
 
-          const auto homeserver = QString::fromStdString(http::client()->server_url());
-          const bool persisted  = settings->persistSessionSnapshot(
-            UserSettings::SessionSnapshot{.userId = QString::fromStdString(res.user_id.to_string()),
-                                           .accessToken = QString::fromStdString(res.access_token),
-                                           .deviceId    = QString::fromStdString(res.device_id),
-                                           .homeserver  = homeserver});
+          const bool persisted = settings->persistSessionSnapshot(UserSettings::SessionSnapshot{
+            .userId      = res.userId,
+            .accessToken = res.accessToken,
+            .deviceId    = res.deviceId,
+            .homeserver  = res.homeserverUrl,
+          });
 
           if (!persisted) {
               showError(tr("Login failed: server returned incomplete session data."));
@@ -43,9 +42,9 @@ LoginPage::LoginPage(QObject *parent)
 
           nhlog::ui()->info(
             "Persisted login session snapshot (user_id='{}', device_id='{}', homeserver='{}')",
-            QString::fromStdString(res.user_id.to_string()).toStdString(),
-            QString::fromStdString(res.device_id).toStdString(),
-            homeserver.toStdString());
+            res.userId.toStdString(),
+            res.deviceId.toStdString(),
+            res.homeserverUrl.toStdString());
 
           MainWindow::instance()->showChatPage(hadSessionIdentity);
       },

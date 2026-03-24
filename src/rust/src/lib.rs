@@ -38,6 +38,13 @@ mod ffi {
         cache_root: String,
     }
 
+    struct MatrixLoginResult {
+        user_id: String,
+        access_token: String,
+        device_id: String,
+        homeserver_url: String,
+    }
+
     unsafe extern "C++" {
         include!("matrix/backend/MatrixBackendBridge.h");
 
@@ -66,6 +73,23 @@ mod ffi {
         fn resolve_server(server_name: &str) -> Result<ResolveResult>;
         fn matrix_sdk_paths(profile_id: &str) -> MatrixSdkPaths;
         fn matrix_restore_session_preview(profile_id: &str) -> Result<MatrixRestorePreview>;
+        fn matrix_login_password(
+            profile_id: &str,
+            homeserver_url: &str,
+            user_id: &str,
+            password: &str,
+            device_id: &str,
+            initial_device_display_name: &str,
+            verify_certificates: bool,
+        ) -> Result<MatrixLoginResult>;
+        fn matrix_login_token(
+            profile_id: &str,
+            homeserver_url: &str,
+            login_token: &str,
+            device_id: &str,
+            initial_device_display_name: &str,
+            verify_certificates: bool,
+        ) -> Result<MatrixLoginResult>;
     }
 }
 
@@ -124,5 +148,57 @@ fn matrix_restore_session_preview(profile_id: &str) -> Result<ffi::MatrixRestore
         device_id: preview.device_id,
         state_store_root: preview.state_store_root,
         cache_root: preview.cache_root,
+    })
+}
+
+fn matrix_login_password(
+    profile_id: &str,
+    homeserver_url: &str,
+    user_id: &str,
+    password: &str,
+    device_id: &str,
+    initial_device_display_name: &str,
+    verify_certificates: bool,
+) -> Result<ffi::MatrixLoginResult, String> {
+    let result = runtime().block_on(matrix_backend::auth::login_password(
+        profile_id,
+        homeserver_url,
+        user_id,
+        password,
+        device_id,
+        initial_device_display_name,
+        verify_certificates,
+    ))?;
+
+    Ok(ffi::MatrixLoginResult {
+        user_id: result.user_id,
+        access_token: result.access_token,
+        device_id: result.device_id,
+        homeserver_url: result.homeserver_url,
+    })
+}
+
+fn matrix_login_token(
+    profile_id: &str,
+    homeserver_url: &str,
+    login_token: &str,
+    device_id: &str,
+    initial_device_display_name: &str,
+    verify_certificates: bool,
+) -> Result<ffi::MatrixLoginResult, String> {
+    let result = runtime().block_on(matrix_backend::auth::login_token(
+        profile_id,
+        homeserver_url,
+        login_token,
+        device_id,
+        initial_device_display_name,
+        verify_certificates,
+    ))?;
+
+    Ok(ffi::MatrixLoginResult {
+        user_id: result.user_id,
+        access_token: result.access_token,
+        device_id: result.device_id,
+        homeserver_url: result.homeserver_url,
     })
 }

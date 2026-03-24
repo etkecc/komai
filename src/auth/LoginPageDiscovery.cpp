@@ -3,10 +3,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include <QCoreApplication>
 #include <QDesktopServices>
+#include <QPointer>
 #include <QUrl>
 
 #include <set>
+#include <thread>
 
 #include <mtx/identifiers.hpp>
 #include <mtx/requests.hpp>
@@ -17,6 +20,7 @@
 #include "SSOHandler.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
+#include "matrix/backend/MatrixAuthService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 using namespace mtx::identifiers;
@@ -342,83 +346,104 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
         if (password.isEmpty())
             return showError(tr("Empty password"));
 
-        mtx::requests::Login req{};
-        req.identifier = mtx::requests::login_identifier::User{user.localpart()};
-        req.password   = password.toStdString();
-        req.initial_device_display_name =
-          deviceName.trimmed().isEmpty() ? initialDeviceName_() : deviceName.toStdString();
+        const auto initialDeviceDisplayName = deviceName.trimmed().isEmpty()
+                                                ? QString::fromStdString(initialDeviceName_())
+                                                : deviceName;
+        const auto existingDeviceId         = UserSettings::instance()->deviceId().trimmed();
+        if (!existingDeviceId.isEmpty())
+            nhlog::net()->info("Login reusing existing device ID: {}",
+                               existingDeviceId.toStdString());
 
-        const auto existingDeviceId = UserSettings::instance()->deviceId().trimmed();
-        if (!existingDeviceId.isEmpty()) {
-            req.device_id = existingDeviceId.toStdString();
-            nhlog::net()->info("Login reusing existing device ID: {}", req.device_id);
-        }
+        QPointer<LoginPage> guard(this);
+        const auto profileId  = UserSettings::instance()->profile();
+        const auto homeserver = homeserver_;
+        const bool verifyCertificates =
+          UserSettings::instance()->networkTlsEnableCertificateValidation();
+        std::thread([guard,
+                     profileId,
+                     homeserver,
+                     userid,
+                     password,
+                     existingDeviceId,
+                     initialDeviceDisplayName,
+                     verifyCertificates]() {
+            QString error;
+            auto result = komai::MatrixAuthService::loginWithPassword(profileId,
+                                                                      homeserver,
+                                                                      userid,
+                                                                      password,
+                                                                      existingDeviceId,
+                                                                      initialDeviceDisplayName,
+                                                                      verifyCertificates,
+                                                                      &error);
 
-        http::client()->login(
-          req, [this](const mtx::responses::Login &res, mtx::http::RequestErr err) {
-              if (err) {
-                  auto error = err->matrix_error.error;
-                  if (error.empty())
-                      error = err->parse_error;
+            QMetaObject::invokeMethod(QCoreApplication::instance(), [guard, result, error]() {
+                if (!guard)
+                    return;
 
-                  showError(QString::fromStdString(error));
-                  return;
-              }
+                if (!result) {
+                    guard->showError(error);
+                    return;
+                }
 
-              if (res.well_known) {
-                  http::client()->set_server(
-                    normalizeHomeserverUrl(
-                      QString::fromStdString(res.well_known->homeserver.base_url))
-                      .toStdString());
-                  nhlog::net()->info("Login requested to use server: " +
-                                     res.well_known->homeserver.base_url);
-              }
-
-              emit loginOk(res);
-          });
+                emit guard->loginOk(*result);
+            });
+        }).detach();
     } else {
         auto sso = new SSOHandler();
         connect(
-          sso,
-          &SSOHandler::ssoSuccess,
-          this,
-          [this, sso, userid, deviceName](const std::string &token) {
-              mtx::requests::Login req{};
-              req.token = token;
-              req.type  = mtx::user_interactive::auth_types::token;
-              req.initial_device_display_name =
-                deviceName.trimmed().isEmpty() ? initialDeviceName_() : deviceName.toStdString();
+          sso, &SSOHandler::ssoSuccess, this, [this, sso, deviceName](const std::string &token) {
+              const auto initialDeviceDisplayName = deviceName.trimmed().isEmpty()
+                                                      ? QString::fromStdString(initialDeviceName_())
+                                                      : deviceName;
+              const auto existingDeviceId         = UserSettings::instance()->deviceId().trimmed();
+              if (!existingDeviceId.isEmpty())
+                  nhlog::net()->info("SSO login reusing existing device ID: {}",
+                                     existingDeviceId.toStdString());
 
-              const auto existingDeviceId = UserSettings::instance()->deviceId().trimmed();
-              if (!existingDeviceId.isEmpty()) {
-                  req.device_id = existingDeviceId.toStdString();
-                  nhlog::net()->info("SSO login reusing existing device ID: {}", req.device_id);
-              }
+              QPointer<LoginPage> guard(this);
+              QPointer<SSOHandler> ssoGuard(sso);
+              const auto profileId  = UserSettings::instance()->profile();
+              const auto homeserver = homeserver_;
+              const auto loginToken = QString::fromStdString(token);
+              const bool verifyCertificates =
+                UserSettings::instance()->networkTlsEnableCertificateValidation();
 
-              http::client()->login(
-                req, [this](const mtx::responses::Login &res, mtx::http::RequestErr err) {
-                    if (err) {
-                        showError(QString::fromStdString(err->matrix_error.error));
-                        emit errorOccurred();
-                        return;
-                    }
+              std::thread([guard,
+                           ssoGuard,
+                           profileId,
+                           homeserver,
+                           loginToken,
+                           existingDeviceId,
+                           initialDeviceDisplayName,
+                           verifyCertificates]() {
+                  QString error;
+                  auto result = komai::MatrixAuthService::loginWithToken(profileId,
+                                                                         homeserver,
+                                                                         loginToken,
+                                                                         existingDeviceId,
+                                                                         initialDeviceDisplayName,
+                                                                         verifyCertificates,
+                                                                         &error);
 
-                    if (res.well_known) {
-                        http::client()->set_server(
-                          normalizeHomeserverUrl(
-                            QString::fromStdString(res.well_known->homeserver.base_url))
-                            .toStdString());
-                        nhlog::net()->info("Login requested to use server: " +
-                                           res.well_known->homeserver.base_url);
-                    }
+                  QMetaObject::invokeMethod(QCoreApplication::instance(),
+                                            [guard, ssoGuard, result, error]() {
+                                                if (ssoGuard)
+                                                    ssoGuard->deleteLater();
+                                                if (!guard)
+                                                    return;
 
-                    emit loginOk(res);
-                });
-              sso->deleteLater();
+                                                if (!result) {
+                                                    guard->showError(error);
+                                                    return;
+                                                }
+
+                                                emit guard->loginOk(*result);
+                                            });
+              }).detach();
           });
         connect(sso, &SSOHandler::ssoFailed, this, [this, sso]() {
             showError(tr("SSO login failed"));
-            emit errorOccurred();
             sso->deleteLater();
         });
 

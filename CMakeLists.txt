@@ -631,6 +631,8 @@ set(SRC_FILES
     src/auth/LoginPage.h
     src/ui/MainWindow.cpp
     src/ui/MainWindow.h
+    src/matrix/backend/MatrixAuthService.cpp
+    src/matrix/backend/MatrixAuthService.h
     src/matrix/backend/MatrixBackendBridge.cpp
     src/matrix/backend/MatrixBackendBridge.h
     src/matrix/backend/MatrixSessionSecrets.cpp

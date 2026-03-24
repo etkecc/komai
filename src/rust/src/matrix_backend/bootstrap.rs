@@ -128,7 +128,7 @@ fn load_stored_session(profile_id: &str) -> Result<Option<StoredSession>, String
     }))
 }
 
-fn ensure_store_passphrase(profile_id: &str) -> String {
+pub(crate) fn ensure_store_passphrase(profile_id: &str) -> String {
     let persisted = load_persisted_session_secrets(profile_id);
     if !persisted.store_passphrase.trim().is_empty() {
         return persisted.store_passphrase;
@@ -153,16 +153,18 @@ fn ensure_store_passphrase(profile_id: &str) -> String {
     store_passphrase
 }
 
-fn deserialize_matrix_session(serialized_session: &str) -> Result<MatrixSession, String> {
+pub(crate) fn deserialize_matrix_session(
+    serialized_session: &str,
+) -> Result<MatrixSession, String> {
     serde_json::from_str(serialized_session)
         .map_err(|e| format!("failed to deserialize persisted MatrixSession: {e}"))
 }
 
-fn serialize_matrix_session(session: &MatrixSession) -> Result<String, String> {
+pub(crate) fn serialize_matrix_session(session: &MatrixSession) -> Result<String, String> {
     serde_json::to_string(session).map_err(|e| format!("failed to serialize MatrixSession: {e}"))
 }
 
-fn persist_current_session(
+pub(crate) fn persist_current_session(
     profile_id: &str,
     store_passphrase: &str,
     homeserver_url: &str,
@@ -186,7 +188,7 @@ fn persist_current_session(
     Ok(())
 }
 
-fn configure_session_callbacks(
+pub(crate) fn configure_session_callbacks(
     client: &Client,
     profile_id: &str,
     store_passphrase: &str,

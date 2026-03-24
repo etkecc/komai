@@ -5,11 +5,10 @@
 
 #pragma once
 
+#include "matrix/backend/MatrixAuthService.h"
 #include <QObject>
 #include <QQmlEngine>
 #include <QVariantList>
-
-#include <mtx/responses/login.hpp>
 
 struct SSOProvider
 {
@@ -111,7 +110,7 @@ signals:
     void versionErrorCb(const QString &err);
     void versionOkCb(bool passwordSupported, bool ssoSupported, QVariantList identityProviders);
 
-    void loginOk(const mtx::responses::Login &res);
+    void loginOk(const komai::MatrixLoginResult &res);
 
     void onServerAddressEntered();
 

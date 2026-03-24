@@ -152,16 +152,18 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
     if (manager)
         manager->markRoomSwitchRequested(roomid, "setCurrentRoom");
 
-    if (!models.contains(roomid) && cachedJoinedRooms_.contains(roomid))
-        ensureRoomModel(roomid, false, "setCurrentRoom");
-
     touchRoomLru(roomid);
     scheduleLruEviction();
 
-    if (trySelectCurrentMaterializedRoom(roomid))
+    // On the migration branch, Rust-owned room summaries should win selection as soon as the
+    // room is present in the matrix-sdk room list, even if a legacy TimelineModel still exists.
+    if (trySelectCurrentMatrixSummaryRoom(roomid))
         return;
 
-    if (trySelectCurrentMatrixSummaryRoom(roomid))
+    if (!models.contains(roomid) && cachedJoinedRooms_.contains(roomid))
+        ensureRoomModel(roomid, false, "setCurrentRoom");
+
+    if (trySelectCurrentMaterializedRoom(roomid))
         return;
 
     if (trySelectCurrentPreviewRoom(roomid))

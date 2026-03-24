@@ -29,6 +29,17 @@ ChatPage::bootstrap(QString userid,
 {
     shuttingDown_ = false;
 
+    if (MainWindow::instance() && MainWindow::instance()->matrixBackendHandleId() != 0) {
+        nhlog::ui()->info(
+          "Bootstrapping chat page from resident matrix-sdk runtime only; skipping legacy "
+          "mtxclient/cache/olm bootstrap");
+        emit initializeEmptyViews();
+        getProfileInfo();
+        emit contentLoaded();
+        emit MainWindow::instance()->reload();
+        return;
+    }
+
     using namespace mtx::identifiers;
 
     try {

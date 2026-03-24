@@ -140,7 +140,7 @@ Rectangle {
     implicitHeight: Math.max(minimumBarHeight, row.implicitHeight)
     Layout.minimumHeight: minimumBarHeight
     Layout.preferredHeight: implicitHeight
-    color: palette.window
+    color: inputBar.hasUploads ? palette.alternateBase : palette.window
 
     RowLayout {
         id: row
@@ -294,7 +294,7 @@ Rectangle {
                 leftPadding: inputBar.showAllButtons ? Komai.paddingSmall : 8
                 padding: 0
                 font.pointSize: Settings.uiFontSizePt
-                placeholderText: qsTr("Write a message, or press Up to select messages.")
+                placeholderText: inputBar.hasUploads ? "" : qsTr("Write a message, or press Up to select messages.")
                 placeholderTextColor: palette.buttonText
                 selectByMouse: true
                 topPadding: 6
@@ -782,5 +782,11 @@ Rectangle {
         color: Komai.theme.warning
         text: qsTr("You don't have permission to send messages in this room")
         visible: room ? (!room.permissions.canSend(MtxEvent.TextMessage)) : false
+    }
+    Label {
+        anchors.centerIn: parent
+        color: palette.buttonText
+        text: qsTr("Attach more files or send the upload")
+        visible: inputBar.hasUploads
     }
 }

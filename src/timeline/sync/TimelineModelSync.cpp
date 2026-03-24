@@ -78,8 +78,13 @@ TimelineModel::fetchMore(const QModelIndex &)
 }
 
 void
-TimelineModel::sync(const mtx::responses::JoinedRoom &room)
+TimelineModel::sync(const komai::JoinedRoomSyncUpdate &roomUpdate)
 {
+    if (!roomUpdate.room)
+        return;
+
+    const auto &room = *roomUpdate.room;
+
     this->syncState(room.state);
     this->addEvents(room.timeline);
 

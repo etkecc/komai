@@ -24,6 +24,7 @@
 #include "TimelineSpecialEffects.h"
 #include "cache/crypto/CacheCryptoStructs.h"
 #include "matrix/MatrixStateTypes.h"
+#include "matrix/MatrixSyncUpdate.h"
 #include "timeline/media/TimelineMediaController.h"
 #include "ui/RoomSummary.h"
 
@@ -254,7 +255,7 @@ public:
     }
 
     void updateLastMessage();
-    void sync(const mtx::responses::JoinedRoom &room);
+    void sync(const komai::JoinedRoomSyncUpdate &roomUpdate);
     void addEvents(const mtx::responses::Timeline &events);
     void syncState(const mtx::responses::State &state);
     template<class T>

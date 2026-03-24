@@ -39,11 +39,7 @@ RoomlistModel::emitRoomRowUpdate(const QString &room_id)
 void
 RoomlistModel::syncJoinedRoom(const komai::JoinedRoomSyncUpdate &roomUpdate)
 {
-    if (!roomUpdate.room)
-        return;
-
-    const auto &room = *roomUpdate.room;
-    auto qroomid     = roomUpdate.roomId;
+    auto qroomid = roomUpdate.roomId;
     const bool shouldMaterialize =
       models.contains(qroomid) || pendingCurrentRoomId_ == qroomid ||
       (currentRoomPreview_ && currentRoomPreview_->roomid() == qroomid);
@@ -62,7 +58,7 @@ RoomlistModel::syncJoinedRoom(const komai::JoinedRoomSyncUpdate &roomUpdate)
                     &CallManager::syncEvent,
                     Qt::UniqueConnection); // clazy:exclude=lambda-unique-connection
 
-            room_model->sync(room);
+            room_model->sync(roomUpdate);
 
             if (ChatPage::instance()->userSettings()->timelineTypingShowEnabled())
                 room_model->updateTypingUsers(roomUpdate.typingUsers);

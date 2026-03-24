@@ -77,18 +77,13 @@ UserProfile::UserProfile(const QString &roomid,
     else
         sharedRooms_ = new RoomInfoModel({}, this);
 
-    connect(ChatPage::instance(), &ChatPage::syncUI, this, [this](const mtx::responses::Sync &res) {
-        if (auto ignoreEv = std::ranges::find_if(
-              res.account_data.events,
-              [](const mtx::events::collections::RoomAccountDataEvents &e) {
-                  return std::holds_alternative<
-                    mtx::events::AccountDataEvent<mtx::events::account_data::IgnoredUsers>>(e);
-              });
-            ignoreEv != res.account_data.events.end()) {
-            // doesn't matter much if it was actually us
-            emit ignoredChanged();
-        }
-    });
+    connect(ChatPage::instance()->timelineManager(),
+            &TimelineViewManager::ignoredUsersChanged,
+            this,
+            [this](const QVector<QString> &) {
+                // It doesn't matter much whether the change was triggered by this profile view.
+                emit ignoredChanged();
+            });
 }
 
 DeviceInfoModel *

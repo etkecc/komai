@@ -140,7 +140,7 @@ Rectangle {
     implicitHeight: Math.max(minimumBarHeight, row.implicitHeight)
     Layout.minimumHeight: minimumBarHeight
     Layout.preferredHeight: implicitHeight
-    color: inputBar.hasUploads ? palette.alternateBase : palette.window
+    color: inputBar.hasUploads || (room && !room.permissions.canSend(MtxEvent.TextMessage)) ? palette.alternateBase : palette.window
 
     RowLayout {
         id: row
@@ -779,7 +779,7 @@ Rectangle {
     }
     Label {
         anchors.centerIn: parent
-        color: Komai.theme.warning
+        color: palette.buttonText
         text: qsTr("You don't have permission to send messages in this room")
         visible: room ? (!room.permissions.canSend(MtxEvent.TextMessage)) : false
     }

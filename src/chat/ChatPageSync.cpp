@@ -177,6 +177,11 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
 
     nhlog::net()->debug("sync completed: {}", res.next_batch);
 
+    if (scheduleFallbackKeyRemovalOnNextSync_) {
+        scheduleFallbackKeyRemovalOnNextSync_ = false;
+        emit startRemoveFallbackKeyTimer();
+    }
+
     // Ensure that we have enough one-time keys available.
     std::map<std::string_view, std::uint16_t> counts{res.device_one_time_keys_count.begin(),
                                                      res.device_one_time_keys_count.end()};
@@ -330,7 +335,7 @@ ChatPage::trySync()
 
           if (!isConnected_)
               emit connectionRestored();
-          emit newSyncResponse(res, since);
+          QTimer::singleShot(0, this, [this, res, since] { handleSyncResponse(res, since); });
       });
 }
 

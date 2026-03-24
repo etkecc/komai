@@ -128,7 +128,6 @@ signals:
     void trySyncCb();
     void tryDelayedSyncCb();
     void tryInitialSyncCb();
-    void newSyncResponse(const mtx::responses::Sync &res, const std::string &prev_batch_token);
     void leftRoom(const QString &room_id);
     void newRoom(const QString &room_id);
     void changeToRoom(const QString &room_id);
@@ -243,7 +242,8 @@ private:
 
     std::unique_ptr<mtx::pushrules::PushRuleEvaluator> pushrules;
 
-    QDateTime lastSpacesUpdate = QDateTime::currentDateTime();
+    QDateTime lastSpacesUpdate                 = QDateTime::currentDateTime();
+    bool scheduleFallbackKeyRemovalOnNextSync_ = false;
 
     // Stores when our windows lost focus. Invalid when our windows have focus.
     QDateTime lastWindowActive;

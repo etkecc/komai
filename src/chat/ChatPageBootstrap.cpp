@@ -199,8 +199,10 @@ ChatPage::loadStateFromCache()
 
     emit contentLoaded();
 
+    // Schedule fallback-key retirement after the first steady-state sync arrives.
+    scheduleFallbackKeyRemovalOnNextSync_ = true;
+
     // Start receiving events.
-    connect(this, &ChatPage::newSyncResponse, &ChatPage::startRemoveFallbackKeyTimer);
     emit trySyncCb();
 }
 

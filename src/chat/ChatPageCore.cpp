@@ -176,9 +176,6 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
       [this]() { QTimer::singleShot(RETRY_TIMEOUT, this, &ChatPage::trySync); },
       Qt::QueuedConnection);
 
-    connect(
-      this, &ChatPage::newSyncResponse, this, &ChatPage::handleSyncResponse, Qt::QueuedConnection);
-
     connect(this, &ChatPage::dropToLoginPageCb, this, &ChatPage::dropToLoginPage);
 
     connect(
@@ -187,8 +184,6 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
       this,
       [this]() {
           QTimer::singleShot(std::chrono::minutes(5), this, &ChatPage::removeOldFallbackKey);
-          disconnect(
-            this, &ChatPage::newSyncResponse, this, &ChatPage::startRemoveFallbackKeyTimer);
       },
       Qt::QueuedConnection);
 

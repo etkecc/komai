@@ -7,8 +7,7 @@
 #include "cache/api/CacheApiContext.h"
 #include "cache/core/Cache_p.h"
 
-#include <memory>
-#include <utility>
+#include <algorithm>
 #include <vector>
 
 #include <QObject>
@@ -16,20 +15,20 @@
 
 namespace cache {
 
-namespace {
 struct PendingCacheCallback
 {
     QPointer<QObject> receiver;
     std::function<void()> callback;
 };
 
-std::vector<PendingCacheCallback> &
+static std::vector<PendingCacheCallback> &
 pendingCallbacks()
 {
     static std::vector<PendingCacheCallback> instance;
     return instance;
 }
 
+namespace {
 void
 connectWhenCacheAvailable(QObject *receiver, std::function<void()> callback)
 {
@@ -48,10 +47,13 @@ connectWhenCacheAvailable(QObject *receiver, std::function<void()> callback)
 void
 drainPendingCacheCallbacks()
 {
-    auto pending = std::move(pendingCallbacks());
-    pendingCallbacks().clear();
+    // Prune dead receivers.
+    auto &list = pendingCallbacks();
+    std::erase_if(list, [](const PendingCacheCallback &e) { return !e.receiver; });
 
-    for (auto &entry : pending) {
+    // Replay all callbacks but keep the list — these need to reconnect on
+    // each cache::init() (e.g. after logout + re-login creates a new MatrixStore).
+    for (auto &entry : list) {
         if (entry.receiver)
             entry.callback();
     }
@@ -101,6 +103,11 @@ onRoomReadStatusChanged(QObject *receiver,
 void
 disconnectFromCache(QObject *receiver)
 {
+    // Remove any stored callbacks for this receiver so they don't reconnect
+    // on the next cache::init().
+    std::erase_if(pendingCallbacks(),
+                  [receiver](const PendingCacheCallback &e) { return e.receiver == receiver; });
+
     if (!cacheInstance())
         return;
     QObject::disconnect(cacheInstance().get(), nullptr, receiver, nullptr);

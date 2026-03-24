@@ -59,10 +59,12 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .eventId           = QString::fromStdString(std::string(item.event_id)),
       .senderId          = QString::fromStdString(std::string(item.sender_id)),
       .senderDisplayName = QString::fromStdString(std::string(item.sender_display_name)),
-      .body              = QString::fromStdString(std::string(item.body)),
-      .itemKind          = QString::fromStdString(std::string(item.item_kind)),
-      .timestamp         = item.timestamp,
-      .isOwn             = item.is_own,
+      .senderAvatarUrl =
+        matrix::normalizeMxcUri(QString::fromStdString(std::string(item.sender_avatar_url))),
+      .body      = QString::fromStdString(std::string(item.body)),
+      .itemKind  = QString::fromStdString(std::string(item.item_kind)),
+      .timestamp = item.timestamp,
+      .isOwn     = item.is_own,
     };
 }
 

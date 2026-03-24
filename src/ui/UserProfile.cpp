@@ -5,11 +5,17 @@
 
 #include <mtx/errors.hpp>
 
+#include <QMetaObject>
+
+#include <thread>
+
 #include "UserProfile.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
+#include "matrix/MatrixMediaUri.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
@@ -58,6 +64,19 @@ UserProfile::UserProfile(const QString &roomid,
             this,
             &UserProfile::updateVerificationStatus,
             Qt::QueuedConnection);
+
+    if (isGlobalUserProfile() && isSelf() && ChatPage::instance()) {
+        connect(ChatPage::instance(),
+                &ChatPage::setUserDisplayName,
+                this,
+                [this](const QString &name) { emit globalUsernameRetrieved(name); });
+        connect(
+          ChatPage::instance(), &ChatPage::setUserAvatar, this, [this](const QString &avatar) {
+              globalAvatarUrl = komai::matrix::normalizeMxcUri(avatar);
+              emit avatarUrlChanged();
+              emit globalAvatarUrlChanged();
+          });
+    }
 
     getGlobalProfileData();
 
@@ -386,6 +405,44 @@ UserProfile::isLoading() const
 void
 UserProfile::getGlobalProfileData()
 {
+    if (isGlobalUserProfile() && isSelf()) {
+        const auto *mainWindow = MainWindow::instance();
+        const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+        if (handleId != 0) {
+            QPointer<UserProfile> guard(this);
+            std::thread([guard, handleId]() {
+                QString error;
+                auto result = komai::MatrixBackendRuntimeService::fetchOwnProfile(handleId, &error);
+
+                if (!guard)
+                    return;
+
+                emit guard->globalUsernameRetrieved(result ? result->displayName : QString{});
+                QMetaObject::invokeMethod(
+                  guard,
+                  [guard, result = std::move(result), error]() {
+                      if (!guard)
+                          return;
+
+                      if (!result) {
+                          nhlog::net()->warn("failed to retrieve own profile info for current user "
+                                             "via matrix-sdk runtime: {}",
+                                             error.toStdString());
+                          emit guard->failedToFetchProfile();
+                          return;
+                      }
+
+                      guard->globalAvatarUrl = komai::matrix::normalizeMxcUri(result->avatarUrl);
+                      if (guard->isGlobalUserProfile())
+                          emit guard->avatarUrlChanged();
+                      emit guard->globalAvatarUrlChanged();
+                  },
+                  Qt::QueuedConnection);
+            }).detach();
+            return;
+        }
+    }
+
     auto profProx = std::make_shared<UserProfileFetchProxy>();
     connect(profProx.get(),
             &UserProfileFetchProxy::profileFetched,

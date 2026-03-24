@@ -37,6 +37,8 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
         return item.senderId;
     case SenderDisplayName:
         return item.senderDisplayName;
+    case SenderAvatarUrl:
+        return item.senderAvatarUrl;
     case Body:
         return item.body;
     case Timestamp:
@@ -58,6 +60,7 @@ MatrixTimelineModel::roleNames() const
       {EventId, "eventId"},
       {SenderId, "senderId"},
       {SenderDisplayName, "senderDisplayName"},
+      {SenderAvatarUrl, "senderAvatarUrl"},
       {Body, "body"},
       {Timestamp, "timestamp"},
       {ItemKind, "itemKind"},

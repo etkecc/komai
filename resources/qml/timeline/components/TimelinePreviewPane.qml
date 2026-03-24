@@ -121,6 +121,8 @@ ColumnLayout {
             delegate: Item {
                 required property string itemKind
                 required property string senderDisplayName
+                required property string senderAvatarUrl
+                required property string senderId
                 required property string body
                 required property double timestamp
                 required property bool isOwn
@@ -153,41 +155,73 @@ ColumnLayout {
 
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    implicitHeight: bubbleColumn.implicitHeight
+                    implicitHeight: messageRowLayout.implicitHeight
                     visible: itemKind !== "date_divider"
 
-                    ColumnLayout {
-                        id: bubbleColumn
+                    RowLayout {
+                        id: messageRowLayout
 
                         anchors.left: isOwn ? undefined : parent.left
                         anchors.right: isOwn ? parent.right : undefined
                         spacing: Komai.paddingSmall
-                        width: Math.min(parent.width * 0.82, Math.max(280, parent.width * 0.6))
+                        width: Math.min(parent.width * 0.9, Math.max(320, parent.width * 0.7))
 
-                        MatrixText {
-                            Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                            color: palette.buttonText
-                            text: senderDisplayName
-                            textFormat: TextEdit.PlainText
+                        Avatar {
+                            Layout.alignment: Qt.AlignTop
+                            crop: true
+                            displayName: senderDisplayName
+                            implicitHeight: Komai.listIconSize
+                            implicitWidth: Komai.listIconSize
+                            roomid: preview.roomId
+                            url: senderAvatarUrl.replace("mxc://", "image://MxcImage/")
+                            userid: senderId
+                            visible: !isOwn
                         }
 
-                        Rectangle {
+                        Item {
+                            Layout.preferredWidth: visible ? Komai.paddingSmall : 0
+                            visible: !isOwn
+                        }
+
+                        ColumnLayout {
+                            id: bubbleColumn
+
                             Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                            color: isOwn ? palette.highlight : palette.alternateBase
-                            implicitHeight: bubbleBody.implicitHeight + Komai.paddingMedium * 2
-                            implicitWidth: Math.min(parent.width, bubbleBody.implicitWidth + Komai.paddingLarge * 2)
-                            radius: Komai.paddingMedium * 2
+                            Layout.preferredWidth: Math.min(messageRow.width * 0.82, Math.max(280, messageRow.width * 0.6))
+                            spacing: Komai.paddingSmall
 
                             MatrixText {
-                                id: bubbleBody
-
-                                anchors.fill: parent
-                                anchors.margins: Komai.paddingMedium
-                                color: isOwn ? palette.highlightedText : palette.text
-                                text: body
+                                Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
+                                color: palette.buttonText
+                                text: senderDisplayName
                                 textFormat: TextEdit.PlainText
-                                width: parent.width - Komai.paddingMedium * 2
-                                wrapMode: Text.WordWrap
+                            }
+
+                            Rectangle {
+                                Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
+                                color: isOwn ? palette.highlight : palette.alternateBase
+                                implicitHeight: bubbleBody.implicitHeight + Komai.paddingMedium * 2
+                                implicitWidth: Math.min(parent.width, bubbleBody.implicitWidth + Komai.paddingLarge * 2)
+                                radius: Komai.paddingMedium * 2
+
+                                MatrixText {
+                                    id: bubbleBody
+
+                                    anchors.fill: parent
+                                    anchors.margins: Komai.paddingMedium
+                                    color: isOwn ? palette.highlightedText : palette.text
+                                    text: body
+                                    textFormat: TextEdit.PlainText
+                                    width: parent.width - Komai.paddingMedium * 2
+                                    wrapMode: Text.WordWrap
+                                }
+                            }
+
+                            MatrixText {
+                                Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
+                                color: palette.buttonText
+                                text: Qt.formatTime(new Date(timestamp), "h:mm ap")
+                                textFormat: TextEdit.PlainText
                             }
                         }
                     }

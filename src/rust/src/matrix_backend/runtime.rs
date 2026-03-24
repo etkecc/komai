@@ -21,7 +21,7 @@ use matrix_sdk::{
         RoomId,
         api::client::media::get_content_thumbnail::v3::Method,
         api::client::profile::{AvatarUrl, DisplayName},
-        events::room::MediaSource,
+        events::room::{MediaSource, message::MessageType},
     },
     stream::StreamExt,
 };
@@ -72,6 +72,7 @@ pub struct MatrixTimelineItem {
     pub event_id: String,
     pub sender_id: String,
     pub sender_display_name: String,
+    pub sender_avatar_url: String,
     pub body: String,
     pub item_kind: String,
     pub timestamp: u64,
@@ -571,12 +572,19 @@ fn timeline_item_to_summary(item: &TimelineItem) -> Option<MatrixTimelineItem> {
 
     if let Some(event) = item.as_event() {
         let sender_id = event.sender().to_string();
-        let sender_display_name = match event.sender_profile() {
-            TimelineDetails::Ready(profile) => profile
-                .display_name
-                .clone()
-                .unwrap_or_else(|| sender_id.clone()),
-            _ => sender_id.clone(),
+        let (sender_display_name, sender_avatar_url) = match event.sender_profile() {
+            TimelineDetails::Ready(profile) => (
+                profile
+                    .display_name
+                    .clone()
+                    .unwrap_or_else(|| sender_id.clone()),
+                profile
+                    .avatar_url
+                    .as_ref()
+                    .map(|url| normalize_mxc_uri(url.to_string()))
+                    .unwrap_or_default(),
+            ),
+            _ => (sender_id.clone(), String::new()),
         };
         let (item_kind, body) = timeline_event_content_summary(event.content());
 
@@ -585,6 +593,7 @@ fn timeline_item_to_summary(item: &TimelineItem) -> Option<MatrixTimelineItem> {
             event_id: event.event_id().map(ToString::to_string).unwrap_or_default(),
             sender_id,
             sender_display_name,
+            sender_avatar_url,
             body,
             item_kind,
             timestamp: u64::from(event.timestamp().get()),
@@ -598,6 +607,7 @@ fn timeline_item_to_summary(item: &TimelineItem) -> Option<MatrixTimelineItem> {
             event_id: String::new(),
             sender_id: String::new(),
             sender_display_name: String::new(),
+            sender_avatar_url: String::new(),
             body: String::new(),
             item_kind: "date_divider".to_owned(),
             timestamp: u64::from(timestamp.get()),
@@ -612,7 +622,17 @@ fn timeline_item_to_summary(item: &TimelineItem) -> Option<MatrixTimelineItem> {
 fn timeline_event_content_summary(content: &TimelineItemContent) -> (String, String) {
     match content {
         TimelineItemContent::MsgLike(content) => match &content.kind {
-            MsgLikeKind::Message(message) => ("message".to_owned(), message.body().to_owned()),
+            MsgLikeKind::Message(message) => match message.msgtype() {
+                MessageType::Text(_) => ("message".to_owned(), message.body().to_owned()),
+                MessageType::Notice(_) => ("notice".to_owned(), message.body().to_owned()),
+                MessageType::Emote(_) => ("emote".to_owned(), message.body().to_owned()),
+                MessageType::Image(_) => ("image".to_owned(), message.body().to_owned()),
+                MessageType::Video(_) => ("video".to_owned(), message.body().to_owned()),
+                MessageType::Audio(_) => ("audio".to_owned(), message.body().to_owned()),
+                MessageType::File(_) => ("file".to_owned(), message.body().to_owned()),
+                MessageType::Location(_) => ("location".to_owned(), message.body().to_owned()),
+                _ => ("message".to_owned(), message.body().to_owned()),
+            },
             MsgLikeKind::Sticker(_) => ("sticker".to_owned(), "[Sticker]".to_owned()),
             MsgLikeKind::Poll(_) => ("poll".to_owned(), "[Poll]".to_owned()),
             MsgLikeKind::Redacted => ("redacted".to_owned(), "[Redacted message]".to_owned()),

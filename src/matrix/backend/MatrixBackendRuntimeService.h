@@ -49,6 +49,7 @@ struct MatrixTimelineItem
     QString eventId;
     QString senderId;
     QString senderDisplayName;
+    QString senderAvatarUrl;
     QString body;
     QString itemKind;
     uint64_t timestamp = 0;

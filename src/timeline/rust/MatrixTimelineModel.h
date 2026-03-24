@@ -23,6 +23,7 @@ public:
         EventId,
         SenderId,
         SenderDisplayName,
+        SenderAvatarUrl,
         Body,
         Timestamp,
         ItemKind,

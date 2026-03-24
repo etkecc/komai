@@ -19,6 +19,7 @@
 #include "encryption/DeviceVerificationFlow.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "providers/BlurhashProvider.h"
 #include "providers/ColorImageProvider.h"
 #include "providers/MxcImageProvider.h"
@@ -142,10 +143,12 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
 
     trayIcon_ = new TrayIcon(QStringLiteral(":/logos/komai.svg"), this);
 
-    connect(chat_page_, &ChatPage::closing, this, [this] { switchToLoginPage(""); });
+    connect(chat_page_, &ChatPage::closing, this, [this] { transitionToLoginPage(QString()); });
     connect(chat_page_, &ChatPage::unreadMessages, this, &MainWindow::setWindowTitle);
     connect(chat_page_, &ChatPage::unreadMessages, trayIcon_, &TrayIcon::setUnreadCount);
-    connect(chat_page_, &ChatPage::showLoginPage, this, &MainWindow::switchToLoginPage);
+    connect(chat_page_, &ChatPage::showLoginPage, this, [this](const QString &msg) {
+        transitionToLoginPage(msg);
+    });
     connect(chat_page_, &ChatPage::showNotification, this, &MainWindow::showNotification);
 
     connect(
@@ -360,9 +363,11 @@ MainWindow::showChatPage(bool hadSessionIdentity)
           !snapshot.accessToken.trimmed().isEmpty(),
           !snapshot.deviceId.trimmed().isEmpty(),
           !snapshot.homeserver.trimmed().isEmpty());
-        emit switchToLoginPage(QString());
+        transitionToLoginPage(QString());
         return;
     }
+
+    startMatrixBackendHandleForActiveSession();
 
     const auto snapshot = userSettings_->sessionSnapshot();
     chat_page_->bootstrap(snapshot.userId,
@@ -376,6 +381,67 @@ MainWindow::showChatPage(bool hadSessionIdentity)
     emit reload();
     nhlog::ui()->info("Switching to chat page");
     emit switchToChatPage();
+}
+
+void
+MainWindow::startMatrixBackendHandleForActiveSession()
+{
+    if (!userSettings_->hasActiveSession())
+        return;
+
+    stopMatrixBackendHandle();
+
+    QString error;
+    const auto handleInfo =
+      komai::MatrixBackendRuntimeService::startRestoredBackend(userSettings_->profile(), &error);
+    if (!handleInfo) {
+        nhlog::ui()->warn("Failed to start matrix-sdk backend handle for profile '{}': {}",
+                          userSettings_->profile().toStdString(),
+                          error.toStdString());
+        return;
+    }
+
+    if (!handleInfo->hasSession || handleInfo->handleId == 0) {
+        nhlog::ui()->info("No persisted matrix-sdk session is available yet for profile '{}'; "
+                          "continuing with mtxclient bootstrap only",
+                          userSettings_->profile().toStdString());
+        return;
+    }
+
+    matrixBackendHandleId_ = handleInfo->handleId;
+    nhlog::ui()->info("Started matrix-sdk backend handle {} for profile '{}' "
+                      "(user_id='{}', device_id='{}', homeserver='{}')",
+                      matrixBackendHandleId_,
+                      userSettings_->profile().toStdString(),
+                      handleInfo->userId.toStdString(),
+                      handleInfo->deviceId.toStdString(),
+                      handleInfo->homeserverUrl.toStdString());
+}
+
+void
+MainWindow::stopMatrixBackendHandle()
+{
+    if (matrixBackendHandleId_ == 0)
+        return;
+
+    const auto handleId    = matrixBackendHandleId_;
+    matrixBackendHandleId_ = 0;
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::stopBackend(handleId, &error)) {
+        nhlog::ui()->warn(
+          "Failed to stop matrix-sdk backend handle {}: {}", handleId, error.toStdString());
+        return;
+    }
+
+    nhlog::ui()->info("Stopped matrix-sdk backend handle {}", handleId);
+}
+
+void
+MainWindow::transitionToLoginPage(const QString &error)
+{
+    stopMatrixBackendHandle();
+    emit switchToLoginPage(error);
 }
 
 void

@@ -140,6 +140,9 @@ private:
     void showDialog(QWidget *dialog);
     bool hasActiveUser();
     void restoreWindowSize();
+    void startMatrixBackendHandleForActiveSession();
+    void stopMatrixBackendHandle();
+    void transitionToLoginPage(const QString &error = QString());
     //! Check if the current page supports the "minimize to tray" functionality.
     bool pageSupportsTray() const;
 
@@ -170,6 +173,7 @@ private:
 #ifdef KOMAI_DBUS_SYS
     bool dbusAvailable_{false};
 #endif
+    uint64_t matrixBackendHandleId_{0};
     bool altPressed_{false};
     bool backButtonPressSeen_{false};
     bool forwardButtonPressSeen_{false};

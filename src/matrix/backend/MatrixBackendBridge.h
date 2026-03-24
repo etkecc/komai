@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 #include "rust/cxx.h"
 
 namespace komai::rust_bridge {
@@ -31,5 +33,13 @@ matrix_save_session_secrets(rust::Str profile_id,
 
 void
 matrix_clear_session_secrets(rust::Str profile_id);
+
+void
+matrix_log_event(rust::Str level,
+                 rust::Str target,
+                 rust::Str module_path,
+                 rust::Str file,
+                 std::uint32_t line,
+                 rust::Str message);
 
 } // namespace komai::rust_bridge

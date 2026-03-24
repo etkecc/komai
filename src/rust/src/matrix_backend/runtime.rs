@@ -30,7 +30,10 @@ fn backend_handles() -> &'static Mutex<HashMap<u64, Client>> {
 }
 
 pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHandleInfo, String> {
+    tracing::info!(profile_id, "Starting restored matrix-sdk backend runtime");
+
     let Some(restored) = bootstrap::restore_client(profile_id).await? else {
+        tracing::info!(profile_id, "No persisted matrix-sdk session is available for restore");
         return Ok(MatrixBackendHandleInfo {
             handle_id: 0,
             has_session: false,
@@ -46,6 +49,15 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
         .expect("poisoned matrix backend handle registry mutex")
         .insert(handle_id, restored.client);
 
+    tracing::info!(
+        profile_id,
+        handle_id,
+        user_id = %restored.user_id,
+        device_id = %restored.device_id,
+        homeserver_url = %restored.homeserver_url,
+        "Started restored matrix-sdk backend runtime"
+    );
+
     Ok(MatrixBackendHandleInfo {
         handle_id,
         has_session: true,
@@ -60,9 +72,15 @@ pub fn stop_backend(handle_id: u64) -> Result<(), String> {
         return Ok(());
     }
 
-    backend_handles()
+    let removed = backend_handles()
         .lock()
         .expect("poisoned matrix backend handle registry mutex")
         .remove(&handle_id);
+
+    if removed.is_some() {
+        tracing::info!(handle_id, "Stopped matrix-sdk backend runtime");
+    } else {
+        tracing::debug!(handle_id, "Matrix-sdk backend runtime handle was already absent");
+    }
     Ok(())
 }

@@ -1763,6 +1763,9 @@ dependencies = [
  "resolvematrix",
  "serde_json",
  "tokio",
+ "tracing",
+ "tracing-log",
+ "tracing-subscriber",
  "windows-sys 0.61.2",
 ]
 

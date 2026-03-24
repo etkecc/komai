@@ -30,4 +30,7 @@ crypto();
 std::shared_ptr<spdlog::logger>
 qml();
 
+std::shared_ptr<spdlog::logger>
+rust();
+
 }

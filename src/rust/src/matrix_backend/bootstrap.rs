@@ -88,7 +88,10 @@ pub async fn restore_session_preview(profile_id: &str) -> Result<MatrixRestorePr
 }
 
 pub async fn restore_client(profile_id: &str) -> Result<Option<RestoredMatrixBackend>, String> {
+    tracing::debug!(profile_id, "Attempting to restore persisted matrix-sdk session");
+
     let Some(stored_session) = load_stored_session(profile_id)? else {
+        tracing::debug!(profile_id, "No serialized matrix-sdk session is stored for this profile");
         return Ok(None);
     };
 
@@ -125,6 +128,14 @@ pub async fn restore_client(profile_id: &str) -> Result<Option<RestoredMatrixBac
         &stored_session.homeserver_url,
         &client,
     )?;
+
+    tracing::info!(
+        profile_id,
+        homeserver_url = %stored_session.homeserver_url,
+        user_id = %stored_session.session.meta.user_id,
+        device_id = %stored_session.session.meta.device_id,
+        "Restored persisted matrix-sdk session"
+    );
 
     Ok(Some(RestoredMatrixBackend {
         client,

@@ -22,6 +22,7 @@ static std::shared_ptr<spdlog::logger> net_logger    = nullptr;
 static std::shared_ptr<spdlog::logger> crypto_logger = nullptr;
 static std::shared_ptr<spdlog::logger> ui_logger     = nullptr;
 static std::shared_ptr<spdlog::logger> qml_logger    = nullptr;
+static std::shared_ptr<spdlog::logger> rust_logger   = nullptr;
 
 static constexpr auto MAX_FILE_SIZE = 1024 * 1024 * 6;
 static constexpr auto MAX_LOG_FILES = 3;
@@ -83,6 +84,7 @@ init(const QString &level, const QString &path, bool to_stderr)
     db_logger     = std::make_shared<spdlog::logger>("db", std::begin(sinks), std::end(sinks));
     crypto_logger = std::make_shared<spdlog::logger>("crypto", std::begin(sinks), std::end(sinks));
     qml_logger    = std::make_shared<spdlog::logger>("qml", std::begin(sinks), std::end(sinks));
+    rust_logger   = std::make_shared<spdlog::logger>("rust", std::begin(sinks), std::end(sinks));
 
     if (komai::enable_debug_log) {
         db_logger->set_level(spdlog::level::trace);
@@ -90,6 +92,7 @@ init(const QString &level, const QString &path, bool to_stderr)
         crypto_logger->set_level(spdlog::level::trace);
         net_logger->set_level(spdlog::level::trace);
         qml_logger->set_level(spdlog::level::trace);
+        rust_logger->set_level(spdlog::level::trace);
         mtx::utils::log::log()->set_level(spdlog::level::trace);
     }
 
@@ -98,6 +101,7 @@ init(const QString &level, const QString &path, bool to_stderr)
     spdlog::register_logger(db_logger);
     spdlog::register_logger(crypto_logger);
     spdlog::register_logger(qml_logger);
+    spdlog::register_logger(rust_logger);
     // We assume the mtxclient library will register its own logger.
 
     if (!level.isEmpty()) {
@@ -135,5 +139,11 @@ std::shared_ptr<spdlog::logger>
 qml()
 {
     return qml_logger;
+}
+
+std::shared_ptr<spdlog::logger>
+rust()
+{
+    return rust_logger;
 }
 }

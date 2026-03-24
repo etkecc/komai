@@ -83,6 +83,12 @@ pub async fn discover_login_flows(
     server_name_or_url: &str,
     verify_certificates: bool,
 ) -> Result<MatrixLoginFlows, String> {
+    tracing::info!(
+        server_name_or_url,
+        verify_certificates,
+        "Discovering Matrix login flows"
+    );
+
     let client = build_discovery_client(server_name_or_url, verify_certificates)
         .await
         .map_err(|e| format_client_build_error(&e))?;
@@ -120,6 +126,14 @@ pub async fn discover_login_flows(
         password_supported = true;
     }
 
+    tracing::info!(
+        homeserver_url = %client.homeserver(),
+        password_supported,
+        sso_supported,
+        identity_provider_count = identity_providers.len(),
+        "Discovered Matrix login flows"
+    );
+
     Ok(MatrixLoginFlows {
         homeserver_url: client.homeserver().to_string(),
         password_supported,
@@ -134,6 +148,14 @@ pub async fn get_sso_login_url(
     identity_provider_id: &str,
     verify_certificates: bool,
 ) -> Result<String, String> {
+    tracing::debug!(
+        homeserver_url,
+        redirect_url,
+        identity_provider_id,
+        verify_certificates,
+        "Building Matrix SSO redirect URL"
+    );
+
     let client = build_login_client(homeserver_url, verify_certificates)
         .await
         .map_err(|e| format!("failed to build matrix-sdk SSO client: {e}"))?;
@@ -190,6 +212,13 @@ pub fn start_sso_callback_server(
         .expect("poisoned SSO listener registry mutex")
         .insert(listener_id, entry);
 
+    tracing::info!(
+        listener_id,
+        port,
+        timeout_ms,
+        "Started local Matrix SSO callback listener"
+    );
+
     Ok(MatrixSsoCallbackServer {
         listener_id,
         callback_url: format!("http://localhost:{port}/sso"),
@@ -227,6 +256,13 @@ pub fn poll_sso_callback_server(listener_id: u64) -> Result<MatrixSsoCallbackSta
         .remove(&listener_id);
     join_sso_listener(&entry);
 
+    tracing::info!(
+        listener_id,
+        success = result.success,
+        has_login_token = !result.login_token.is_empty(),
+        "SSO callback listener completed"
+    );
+
     Ok(MatrixSsoCallbackStatus {
         ready: true,
         success: result.success,
@@ -241,11 +277,13 @@ pub fn stop_sso_callback_server(listener_id: u64) -> Result<(), String> {
         .remove(&listener_id);
 
     let Some(entry) = entry else {
+        tracing::debug!(listener_id, "SSO callback listener was already absent");
         return Ok(());
     };
 
     entry.stop_requested.store(true, Ordering::Relaxed);
     join_sso_listener(&entry);
+    tracing::info!(listener_id, "Stopped local Matrix SSO callback listener");
     Ok(())
 }
 
@@ -258,6 +296,15 @@ pub async fn login_password(
     initial_device_display_name: &str,
     verify_certificates: bool,
 ) -> Result<MatrixLoginResult, String> {
+    tracing::info!(
+        profile_id,
+        homeserver_url,
+        user_id = %user_id,
+        reusing_device_id = !device_id.trim().is_empty(),
+        verify_certificates,
+        "Logging in with Matrix password flow"
+    );
+
     let client = build_login_client(homeserver_url, verify_certificates)
         .await
         .map_err(|e| format!("failed to build matrix-sdk login client: {e}"))?;
@@ -292,6 +339,14 @@ pub async fn login_token(
     initial_device_display_name: &str,
     verify_certificates: bool,
 ) -> Result<MatrixLoginResult, String> {
+    tracing::info!(
+        profile_id,
+        homeserver_url,
+        reusing_device_id = !device_id.trim().is_empty(),
+        verify_certificates,
+        "Logging in with Matrix token flow"
+    );
+
     let client = build_login_client(homeserver_url, verify_certificates)
         .await
         .map_err(|e| format!("failed to build matrix-sdk login client: {e}"))?;
@@ -350,6 +405,14 @@ fn persist_login(
     let homeserver_url = client.homeserver().to_string();
     let store_passphrase = bootstrap::ensure_store_passphrase(profile_id);
     bootstrap::persist_current_session(profile_id, &store_passphrase, &homeserver_url, client)?;
+
+    tracing::info!(
+        profile_id,
+        homeserver_url = %homeserver_url,
+        user_id = %user_id,
+        device_id = %device_id,
+        "Persisted Matrix login session"
+    );
 
     Ok(MatrixLoginResult {
         user_id,

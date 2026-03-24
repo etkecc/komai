@@ -8,6 +8,7 @@ use resolvematrix::server::MatrixResolver;
 use tokio::runtime::Runtime;
 
 pub mod ipc;
+pub mod logging;
 pub mod matrix_backend;
 pub mod mcp;
 
@@ -100,6 +101,15 @@ mod ffi {
         );
         #[namespace = "komai::rust_bridge"]
         fn matrix_clear_session_secrets(profile_id: &str);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_log_event(
+            level: &str,
+            target: &str,
+            module_path: &str,
+            file: &str,
+            line: u32,
+            message: &str,
+        );
     }
 
     extern "Rust" {
@@ -147,6 +157,7 @@ mod ffi {
 
 fn runtime() -> &'static Runtime {
     static RT: OnceLock<Runtime> = OnceLock::new();
+    logging::ensure_initialized();
     RT.get_or_init(|| Runtime::new().expect("failed to create tokio runtime"))
 }
 
@@ -170,6 +181,7 @@ fn resolve_server(server_name: &str) -> Result<ffi::ResolveResult, String> {
 }
 
 fn matrix_sdk_paths(profile_id: &str) -> ffi::MatrixSdkPaths {
+    logging::ensure_initialized();
     let paths = matrix_backend::derive_matrix_sdk_paths(
         &ffi::matrix_profile_data_root(profile_id),
         &ffi::matrix_profile_cache_root(profile_id),
@@ -216,6 +228,7 @@ fn matrix_start_restored_backend(profile_id: &str) -> Result<ffi::MatrixBackendH
 }
 
 fn matrix_stop_backend(handle_id: u64) -> Result<(), String> {
+    logging::ensure_initialized();
     matrix_backend::runtime::stop_backend(handle_id)
 }
 
@@ -264,6 +277,7 @@ fn matrix_start_sso_callback_server(
     failure_html: &str,
     timeout_ms: u32,
 ) -> Result<ffi::MatrixSsoCallbackServer, String> {
+    logging::ensure_initialized();
     let result =
         matrix_backend::auth::start_sso_callback_server(success_html, failure_html, timeout_ms)?;
 
@@ -276,6 +290,7 @@ fn matrix_start_sso_callback_server(
 fn matrix_poll_sso_callback_server(
     listener_id: u64,
 ) -> Result<ffi::MatrixSsoCallbackStatus, String> {
+    logging::ensure_initialized();
     let result = matrix_backend::auth::poll_sso_callback_server(listener_id)?;
 
     Ok(ffi::MatrixSsoCallbackStatus {
@@ -286,6 +301,7 @@ fn matrix_poll_sso_callback_server(
 }
 
 fn matrix_stop_sso_callback_server(listener_id: u64) -> Result<(), String> {
+    logging::ensure_initialized();
     matrix_backend::auth::stop_sso_callback_server(listener_id)
 }
 

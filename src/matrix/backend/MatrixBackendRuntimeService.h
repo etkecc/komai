@@ -37,6 +37,7 @@ struct MatrixRoomSummary
     bool isInvite              = false;
     bool isSpace               = false;
     bool isDirect              = false;
+    bool isBotRoom             = false;
     bool isEncrypted           = false;
     uint64_t unreadMessages    = 0;
     uint64_t notificationCount = 0;

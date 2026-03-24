@@ -67,6 +67,7 @@ pub struct MatrixRoomSummary {
     pub is_invite: bool,
     pub is_space: bool,
     pub is_direct: bool,
+    pub is_bot_room: bool,
     pub is_encrypted: bool,
     pub unread_message_count: u64,
     pub notification_count: u64,
@@ -113,6 +114,12 @@ struct MatrixBackendRoomTimelineTask {
 
 enum MatrixBackendRoomTimelineCommand {
     PaginateBackwards(u16),
+}
+
+struct MatrixRoomClassification {
+    direct_chat_other_user_id: String,
+    is_direct: bool,
+    is_bot_room: bool,
 }
 
 fn backend_handles() -> &'static Mutex<HashMap<u64, MatrixBackendHandle>> {
@@ -635,16 +642,182 @@ fn normalize_mxc_uri(uri: String) -> String {
     format!("mxc://{uri}")
 }
 
-fn explicit_direct_partner_user_id(room: &RoomListItem) -> String {
-    room.direct_targets()
+fn ci_contains(haystack: &str, needle: &str) -> bool {
+    haystack.to_ascii_lowercase().contains(&needle.to_ascii_lowercase())
+}
+
+fn ci_starts_with(s: &str, prefix: &str) -> bool {
+    s.get(..prefix.len())
+        .is_some_and(|candidate| candidate.eq_ignore_ascii_case(prefix))
+}
+
+fn ci_ends_with(s: &str, suffix: &str) -> bool {
+    if suffix.len() > s.len() {
+        return false;
+    }
+
+    s.get(s.len() - suffix.len()..)
+        .is_some_and(|candidate| candidate.eq_ignore_ascii_case(suffix))
+}
+
+fn is_likely_bot_user(user_id: &str, display_name: &str) -> bool {
+    if ci_starts_with(user_id, "@bot") {
+        return true;
+    }
+
+    if ci_contains(user_id, "bot:") {
+        return true;
+    }
+
+    let localpart = user_id
+        .split_once(':')
+        .map(|(localpart, _)| localpart)
+        .unwrap_or(user_id);
+    if ci_contains(localpart, "puppet") {
+        return false;
+    }
+
+    if ci_starts_with(user_id, "@_") {
+        return true;
+    }
+
+    if ci_ends_with(localpart, "bridge") {
+        return true;
+    }
+
+    if ci_contains(display_name, "bridge bot") {
+        return true;
+    }
+
+    if ci_ends_with(display_name, "bot")
+        && display_name
+            .chars()
+            .rev()
+            .nth(3)
+            .is_none_or(|c| !c.is_ascii_alphabetic())
+    {
+        return true;
+    }
+
+    if ci_starts_with(display_name, "bot")
+        && display_name
+            .chars()
+            .nth(3)
+            .is_none_or(|c| !c.is_ascii_alphabetic())
+    {
+        return true;
+    }
+
+    false
+}
+
+fn room_hero_candidates(room: &RoomListItem) -> Vec<(String, String)> {
+    let own_user_id = room.own_user_id();
+    let mut candidates: Vec<(String, String)> = room
+        .heroes()
         .into_iter()
-        .find_map(|target| target.into_user_id())
+        .filter(|hero| hero.user_id != own_user_id)
+        .map(|hero| (hero.user_id.to_string(), hero.display_name.unwrap_or_default()))
+        .collect();
+
+    candidates.sort_by(|left, right| left.0.cmp(&right.0));
+    candidates.dedup_by(|left, right| left.0 == right.0);
+    candidates
+}
+
+fn classify_room(room: &RoomListItem) -> MatrixRoomClassification {
+    let hero_candidates = room_hero_candidates(room);
+
+    let mut direct_targets: Vec<String> = room
+        .direct_targets()
+        .into_iter()
+        .filter_map(|target| target.into_user_id())
         .map(|user_id| user_id.to_string())
-        .unwrap_or_default()
+        .collect();
+    direct_targets.sort();
+    direct_targets.dedup();
+
+    if let Some(partner_user_id) = direct_targets.first().cloned() {
+        let partner_display_name = hero_candidates
+            .iter()
+            .find(|(user_id, _)| user_id == &partner_user_id)
+            .map(|(_, display_name)| display_name.as_str())
+            .unwrap_or_default();
+
+        return MatrixRoomClassification {
+            is_direct: true,
+            is_bot_room: is_likely_bot_user(&partner_user_id, partner_display_name),
+            direct_chat_other_user_id: partner_user_id,
+        };
+    }
+
+    match room.active_members_count() {
+        2 => {
+            if let Some((partner_user_id, display_name)) = hero_candidates.first() {
+                MatrixRoomClassification {
+                    is_direct: true,
+                    is_bot_room: is_likely_bot_user(partner_user_id, display_name),
+                    direct_chat_other_user_id: partner_user_id.clone(),
+                }
+            } else {
+                MatrixRoomClassification {
+                    is_direct: false,
+                    is_bot_room: false,
+                    direct_chat_other_user_id: String::new(),
+                }
+            }
+        }
+        3 => {
+            if hero_candidates.len() < 2 {
+                return MatrixRoomClassification {
+                    is_direct: false,
+                    is_bot_room: false,
+                    direct_chat_other_user_id: String::new(),
+                };
+            }
+
+            let (first_user_id, first_display_name) = &hero_candidates[0];
+            let (second_user_id, second_display_name) = &hero_candidates[1];
+            let first_is_bot = is_likely_bot_user(first_user_id, first_display_name);
+            let second_is_bot = is_likely_bot_user(second_user_id, second_display_name);
+
+            if first_is_bot && !second_is_bot {
+                MatrixRoomClassification {
+                    is_direct: true,
+                    is_bot_room: false,
+                    direct_chat_other_user_id: second_user_id.clone(),
+                }
+            } else if second_is_bot && !first_is_bot {
+                MatrixRoomClassification {
+                    is_direct: true,
+                    is_bot_room: false,
+                    direct_chat_other_user_id: first_user_id.clone(),
+                }
+            } else if first_is_bot && second_is_bot {
+                MatrixRoomClassification {
+                    is_direct: true,
+                    is_bot_room: true,
+                    direct_chat_other_user_id: first_user_id.clone(),
+                }
+            } else {
+                MatrixRoomClassification {
+                    is_direct: false,
+                    is_bot_room: false,
+                    direct_chat_other_user_id: String::new(),
+                }
+            }
+        }
+        _ => MatrixRoomClassification {
+            is_direct: false,
+            is_bot_room: false,
+            direct_chat_other_user_id: String::new(),
+        },
+    }
 }
 
 fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
     let room_state = room.state();
+    let classification = classify_room(room);
     let timestamp = room
         .new_latest_event_timestamp()
         .map(|ts| u64::from(ts.get()))
@@ -663,10 +836,11 @@ fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
             .map(|url| normalize_mxc_uri(url.to_string()))
             .unwrap_or_default(),
         topic: room.topic().unwrap_or_default(),
-        direct_chat_other_user_id: explicit_direct_partner_user_id(room),
+        direct_chat_other_user_id: classification.direct_chat_other_user_id,
         is_invite: matches!(room_state, RoomState::Invited),
         is_space: room.is_space(),
-        is_direct: room.direct_targets_length() == 1,
+        is_direct: classification.is_direct,
+        is_bot_room: classification.is_bot_room,
         is_encrypted: room.encryption_state().is_encrypted(),
         unread_message_count: room.num_unread_messages(),
         notification_count: room.num_unread_notifications(),

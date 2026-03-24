@@ -305,13 +305,13 @@ FilteredCommunitiesModel::filterAcceptsRow(int sourceRow, const QModelIndex &) c
     if (settings) {
         const auto tagId = m->data(m->index(sourceRow), CommunitiesModel::Roles::Id).toString();
         if (tagId == QLatin1String("people") &&
-            (!settings->sidebarsCommunitiesFilterPeople() || !m->hasPeopleRooms_))
+            (!settings->sidebarsCommunitiesFilterPeople() || !m->hasRoomsForFixedFilter(tagId)))
             return false;
         if (tagId == QLatin1String("bot") &&
-            (!settings->sidebarsCommunitiesFilterBots() || !m->hasBotRooms_))
+            (!settings->sidebarsCommunitiesFilterBots() || !m->hasRoomsForFixedFilter(tagId)))
             return false;
         if (tagId == QLatin1String("group") &&
-            (!settings->sidebarsCommunitiesFilterGroups() || !m->hasGroupRooms_))
+            (!settings->sidebarsCommunitiesFilterGroups() || !m->hasRoomsForFixedFilter(tagId)))
             return false;
         if (tagId == QLatin1String("tag:m.favourite") &&
             !settings->sidebarsCommunitiesFilterFavourites())

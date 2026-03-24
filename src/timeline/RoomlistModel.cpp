@@ -29,8 +29,8 @@ matrixRoomSummaryEquals(const komai::MatrixRoomSummary &left, const komai::Matri
            left.avatarUrl == right.avatarUrl && left.topic == right.topic &&
            left.directChatOtherUserId == right.directChatOtherUserId &&
            left.isInvite == right.isInvite && left.isSpace == right.isSpace &&
-           left.isDirect == right.isDirect && left.isEncrypted == right.isEncrypted &&
-           left.unreadMessages == right.unreadMessages &&
+           left.isDirect == right.isDirect && left.isBotRoom == right.isBotRoom &&
+           left.isEncrypted == right.isEncrypted && left.unreadMessages == right.unreadMessages &&
            left.notificationCount == right.notificationCount &&
            left.highlightCount == right.highlightCount && left.timestamp == right.timestamp;
 }

@@ -44,6 +44,7 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
       .isInvite              = room.is_invite,
       .isSpace               = room.is_space,
       .isDirect              = room.is_direct,
+      .isBotRoom             = room.is_bot_room,
       .isEncrypted           = room.is_encrypted,
       .unreadMessages        = room.unread_message_count,
       .notificationCount     = room.notification_count,

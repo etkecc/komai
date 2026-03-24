@@ -126,6 +126,38 @@ CommunitiesModel::recomputeFilterBadges()
         emit dataChanged(index(0), index(rowCount() - 1), {UnreadMessages, HasLoudNotification});
 }
 
+bool
+CommunitiesModel::hasRoomsForFixedFilter(const QString &filterId) const
+{
+    auto *filtered = FilteredRoomlistModel::instance();
+    auto *model    = filtered ? filtered->sourceModel() : nullptr;
+    if (!model)
+        return false;
+
+    const int rows = model->rowCount();
+    for (int row = 0; row < rows; ++row) {
+        const auto idx = model->index(row, 0, QModelIndex());
+
+        if (model->data(idx, RoomlistModel::IsPreview).toBool() ||
+            model->data(idx, RoomlistModel::IsSpace).toBool() ||
+            model->data(idx, RoomlistModel::IsInvite).toBool()) {
+            continue;
+        }
+
+        const bool isDirect = model->data(idx, RoomlistModel::IsDirect).toBool();
+        const bool isBot    = model->data(idx, RoomlistModel::IsBotRoom).toBool();
+
+        if (filterId == QLatin1String("people") && isDirect && !isBot)
+            return true;
+        if (filterId == QLatin1String("bot") && isBot)
+            return true;
+        if (filterId == QLatin1String("group") && !isDirect)
+            return true;
+    }
+
+    return false;
+}
+
 void
 CommunitiesModel::clear()
 {

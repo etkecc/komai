@@ -206,6 +206,7 @@ public:
     QString fixedFilterDisplayName(int row) const;
     QString fixedFilterTooltip(int row) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+    bool hasRoomsForFixedFilter(const QString &filterId) const;
 
     bool containsSubspaces() const
     {

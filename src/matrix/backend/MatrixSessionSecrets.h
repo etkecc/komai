@@ -11,6 +11,7 @@ namespace komai::matrix_backend {
 struct PersistedMatrixSessionSecrets
 {
     QString storePassphrase;
+    QString homeserverUrl;
     QString serializedSession;
 };
 

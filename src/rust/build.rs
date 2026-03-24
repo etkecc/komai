@@ -9,6 +9,5 @@ fn main() {
         .compile("komai_rust_cxx");
     println!("cargo:rerun-if-changed=src/lib.rs");
     println!("cargo:rerun-if-changed=../matrix/backend/MatrixBackendBridge.h");
-    println!("cargo:rerun-if-changed=src/matrix_backend/legacy_session.rs");
     println!("cargo:rerun-if-changed=src/matrix_backend/session_persistence.rs");
 }

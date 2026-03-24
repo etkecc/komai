@@ -15,10 +15,10 @@ rust::String
 matrix_profile_cache_root(rust::Str profile_id);
 
 rust::String
-matrix_legacy_session_json(rust::Str profile_id);
+matrix_store_passphrase(rust::Str profile_id);
 
 rust::String
-matrix_store_passphrase(rust::Str profile_id);
+matrix_homeserver_url(rust::Str profile_id);
 
 rust::String
 matrix_serialized_session(rust::Str profile_id);
@@ -26,6 +26,7 @@ matrix_serialized_session(rust::Str profile_id);
 void
 matrix_save_session_secrets(rust::Str profile_id,
                             rust::Str store_passphrase,
+                            rust::Str homeserver_url,
                             rust::Str serialized_session);
 
 void

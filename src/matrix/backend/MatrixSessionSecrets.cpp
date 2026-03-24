@@ -12,6 +12,7 @@
 namespace {
 
 constexpr auto MatrixSdkStorePassphraseKey   = "matrix_sdk.store_passphrase";
+constexpr auto MatrixSdkHomeserverUrlKey     = "matrix_sdk.homeserver_url";
 constexpr auto MatrixSdkSerializedSessionKey = "matrix_sdk.serialized_session";
 
 struct SecretsPersistenceContext
@@ -46,6 +47,7 @@ loadPersistedMatrixSessionSecrets(const QString &profileId)
 
     return {
       .storePassphrase   = payload.secrets.value(MatrixSdkStorePassphraseKey),
+      .homeserverUrl     = payload.secrets.value(MatrixSdkHomeserverUrlKey),
       .serializedSession = payload.secrets.value(MatrixSdkSerializedSessionKey),
     };
 }
@@ -62,6 +64,11 @@ savePersistedMatrixSessionSecrets(const QString &profileId,
         payload.secrets.remove(MatrixSdkStorePassphraseKey);
     else
         payload.secrets[MatrixSdkStorePassphraseKey] = secrets.storePassphrase;
+
+    if (secrets.homeserverUrl.isEmpty())
+        payload.secrets.remove(MatrixSdkHomeserverUrlKey);
+    else
+        payload.secrets[MatrixSdkHomeserverUrlKey] = secrets.homeserverUrl;
 
     if (secrets.serializedSession.isEmpty())
         payload.secrets.remove(MatrixSdkSerializedSessionKey);

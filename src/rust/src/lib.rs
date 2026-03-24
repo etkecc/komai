@@ -46,15 +46,16 @@ mod ffi {
         #[namespace = "komai::rust_bridge"]
         fn matrix_profile_cache_root(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
-        fn matrix_legacy_session_json(profile_id: &str) -> String;
-        #[namespace = "komai::rust_bridge"]
         fn matrix_store_passphrase(profile_id: &str) -> String;
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_homeserver_url(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
         fn matrix_serialized_session(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
         fn matrix_save_session_secrets(
             profile_id: &str,
             store_passphrase: &str,
+            homeserver_url: &str,
             serialized_session: &str,
         );
         #[namespace = "komai::rust_bridge"]
@@ -70,9 +71,7 @@ mod ffi {
 
 fn runtime() -> &'static Runtime {
     static RT: OnceLock<Runtime> = OnceLock::new();
-    RT.get_or_init(|| {
-        Runtime::new().expect("failed to create tokio runtime")
-    })
+    RT.get_or_init(|| Runtime::new().expect("failed to create tokio runtime"))
 }
 
 fn resolver() -> &'static MatrixResolver {
@@ -113,8 +112,9 @@ fn matrix_sdk_paths(profile_id: &str) -> ffi::MatrixSdkPaths {
 }
 
 fn matrix_restore_session_preview(profile_id: &str) -> Result<ffi::MatrixRestorePreview, String> {
-    let preview =
-        runtime().block_on(matrix_backend::bootstrap::restore_session_preview(profile_id))?;
+    let preview = runtime().block_on(matrix_backend::bootstrap::restore_session_preview(
+        profile_id,
+    ))?;
 
     Ok(ffi::MatrixRestorePreview {
         has_session: preview.has_session,

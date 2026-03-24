@@ -20,7 +20,6 @@
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
 #include "profile/ProfileSecrets.h"
-#include "matrix/backend/MatrixLegacySession.h"
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
@@ -420,12 +419,15 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
       profile,
       {
         .storePassphrase = QStringLiteral("store-passphrase"),
+        .homeserverUrl = QStringLiteral("https://matrix.example.com"),
         .serializedSession = QStringLiteral("serialized-session"),
       });
 
     const auto persisted = komai::matrix_backend::loadPersistedMatrixSessionSecrets(profile);
     ok &= expect(persisted.storePassphrase == QStringLiteral("store-passphrase"),
                  "matrix session secrets load returns saved store passphrase");
+    ok &= expect(persisted.homeserverUrl == QStringLiteral("https://matrix.example.com"),
+                 "matrix session secrets load returns saved homeserver url");
     ok &= expect(persisted.serializedSession == QStringLiteral("serialized-session"),
                  "matrix session secrets load returns saved session blob");
 
@@ -439,6 +441,10 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
         QStringLiteral("store-passphrase"),
       "matrix session save persists store passphrase secret");
     ok &= expect(
+      payload.secrets.value(QStringLiteral("matrix_sdk.homeserver_url")) ==
+        QStringLiteral("https://matrix.example.com"),
+      "matrix session save persists homeserver secret");
+    ok &= expect(
       payload.secrets.value(QStringLiteral("matrix_sdk.serialized_session")) ==
         QStringLiteral("serialized-session"),
       "matrix session save persists serialized session secret");
@@ -450,6 +456,9 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
       clearedPayload.secrets.value(QStringLiteral("matrix_sdk.store_passphrase")).isEmpty(),
       "matrix session clear removes store passphrase secret");
     ok &= expect(
+      clearedPayload.secrets.value(QStringLiteral("matrix_sdk.homeserver_url")).isEmpty(),
+      "matrix session clear removes homeserver secret");
+    ok &= expect(
       clearedPayload.secrets.value(QStringLiteral("matrix_sdk.serialized_session")).isEmpty(),
       "matrix session clear removes serialized session secret");
     ok &= expect(clearedPayload.accessToken == QStringLiteral("existing-access-token"),
@@ -457,54 +466,6 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
     ok &= expect(
       clearedPayload.secrets.value(QStringLiteral("existing.secret")) == QStringLiteral("keep-me"),
       "matrix session clear preserves unrelated secrets");
-
-    return ok;
-}
-
-bool
-testLegacyMatrixSessionSnapshotRoundtripWithFileProvider()
-{
-    bool ok = true;
-
-    const auto writer =
-      settings::storage::inMemoryReaderWriter(QStringLiteral("/tmp/komai-test-legacy-matrix-session"));
-    settings::storage::ReaderWriterOverride writerOverride{writer};
-
-    const QString profile = QStringLiteral("legacy-matrix-sdk");
-    const auto configPath = settings::storage::configFilePathForProfile(profile);
-    const auto sessionPath = settings::storage::sessionFilePathForProfile(profile);
-    const auto secretsPath = settings::storage::secretsFilePathForProfile(profile);
-
-    YAML::Node config(YAML::NodeType::Map);
-    config["secrets"]["provider"] = staged_load_plan::ProviderFileValue;
-    ok &= expect(settings::storage::writeYamlFile(configPath, config, false),
-                 "legacy matrix session test writes config");
-
-    YAML::Node sessionRoot(YAML::NodeType::Map);
-    sessionRoot["session"]["account"]["user_id"] = "@komai:example.com";
-    sessionRoot["session"]["account"]["homeserver"] = "https://matrix.example.com";
-    sessionRoot["session"]["device"]["id"] = "KOMAIDEVICE";
-    ok &= expect(settings::storage::writeYamlFile(sessionPath, sessionRoot, false),
-                 "legacy matrix session test writes session");
-
-    settings::persistence::saveProfileSecrets(profile,
-                                              true,
-                                              secretsPath,
-                                              QStringLiteral("legacy-access-token"),
-                                              {});
-
-    const auto legacySession =
-      komai::matrix_backend::loadPersistedLegacyMatrixSession(profile);
-    ok &= expect(legacySession.userId == QStringLiteral("@komai:example.com"),
-                 "legacy matrix session snapshot reads user id");
-    ok &= expect(legacySession.deviceId == QStringLiteral("KOMAIDEVICE"),
-                 "legacy matrix session snapshot reads device id");
-    ok &= expect(legacySession.homeserverUrl == QStringLiteral("https://matrix.example.com"),
-                 "legacy matrix session snapshot reads homeserver");
-    ok &= expect(legacySession.accessToken == QStringLiteral("legacy-access-token"),
-                 "legacy matrix session snapshot reads access token");
-    ok &= expect(legacySession.hasCompleteSession(),
-                 "legacy matrix session snapshot reports complete session");
 
     return ok;
 }
@@ -535,7 +496,6 @@ main()
     ok &= testLoggerInjectionNullAndInjectedLoggers();
     ok &= testCacheLoggerInjection();
     ok &= testProviderSelectionHonorsConfigAndOverrides();
-    ok &= testLegacyMatrixSessionSnapshotRoundtripWithFileProvider();
     ok &= testMatrixSessionSecretsRoundtripWithFileProvider();
     ok &= testInMemoryReaderWriterOverride();
 

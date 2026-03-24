@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 pub mod bootstrap;
-pub mod legacy_session;
 pub mod session_persistence;
 
 pub struct DerivedMatrixSdkPaths {
@@ -25,7 +24,10 @@ fn join_path(base: &str, segment: &str) -> String {
     }
 }
 
-pub fn derive_matrix_sdk_paths(profile_data_root: &str, profile_cache_root: &str) -> DerivedMatrixSdkPaths {
+pub fn derive_matrix_sdk_paths(
+    profile_data_root: &str,
+    profile_cache_root: &str,
+) -> DerivedMatrixSdkPaths {
     let matrix_data_root = join_path(profile_data_root, "matrix-sdk");
     let matrix_cache_root = join_path(profile_cache_root, "matrix-sdk");
     let state_store_root = join_path(&matrix_data_root, "state-store");

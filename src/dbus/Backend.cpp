@@ -161,8 +161,19 @@ DbusRoomsInterface::list() const
     QVector<komai::dbus::RoomInfoItem> model;
     model.reserve(rooms.size());
     for (const auto &r : rooms)
-        model.push_back(
-          komai::dbus::RoomInfoItem{r.roomId, r.alias, r.name, r.avatarUrl, r.unreadNotifications});
+        model.push_back(komai::dbus::RoomInfoItem{r.roomId,
+                                                  r.alias,
+                                                  r.name,
+                                                  r.avatarUrl,
+                                                  r.read,
+                                                  r.serverNotificationCount,
+                                                  r.memberCount,
+                                                  r.highlighted,
+                                                  r.categories,
+                                                  r.tags,
+                                                  r.parentSpaces,
+                                                  r.directUserId,
+                                                  r.encrypted});
 
     activeLoggers().ui->debug("Sending {} rooms over D-Bus...", model.size());
     return model;

@@ -9,13 +9,14 @@
 #include <QImage>
 #include <QJsonObject>
 #include <QString>
+#include <QStringList>
 #include <QVector>
 #include <QVersionNumber>
 
 namespace komai::ipc {
 
 /// The IPC API version. Kept in sync with komai::dbus::dbusApiVersion in Api.h.
-inline const QVersionNumber apiVersionNumber{1, 1, 0};
+inline const QVersionNumber apiVersionNumber{1, 0, 0};
 
 /// Shared business logic called by both D-Bus adaptors and IPC server.
 /// These functions do NOT perform access checks -- callers are responsible.
@@ -35,7 +36,15 @@ struct RoomInfo
     QString alias;
     QString name;
     QString avatarUrl;
-    int unreadNotifications = 0;
+    bool read                   = true;
+    int serverNotificationCount = 0;
+    int memberCount             = 0;
+    bool highlighted            = false;
+    QStringList categories      = {};
+    QStringList tags            = {};
+    QStringList parentSpaces;
+    QString directUserId;
+    bool encrypted = false;
 
     QJsonObject toJson() const;
 };

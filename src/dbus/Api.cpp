@@ -72,16 +72,32 @@ apiVersionIsCompatible(const QVersionNumber &clientAppVersion)
 
 RoomInfoItem::RoomInfoItem(const QString &roomId,
                            const QString &alias,
-                           const QString &title,
+                           const QString &name,
                            const QString &avatarUrl,
-                           const int unreadNotifications,
+                           const bool read,
+                           const int serverNotificationCount,
+                           const int memberCount,
+                           const bool highlighted,
+                           const QStringList &categories,
+                           const QStringList &tags,
+                           const QStringList &parentSpaces,
+                           const QString &dmUserId,
+                           const bool encrypted,
                            QObject *parent)
   : QObject{parent}
   , roomId_{roomId}
   , alias_{alias}
-  , roomName_{title}
+  , name_{name}
   , avatarUrl_{avatarUrl}
-  , unreadNotifications_{unreadNotifications}
+  , read_{read}
+  , serverNotificationCount_{serverNotificationCount}
+  , memberCount_{memberCount}
+  , highlighted_{highlighted}
+  , categories_{categories}
+  , tags_{tags}
+  , parentSpaces_{parentSpaces}
+  , dmUserId_{dmUserId}
+  , encrypted_{encrypted}
 {
 }
 
@@ -89,20 +105,36 @@ RoomInfoItem::RoomInfoItem(const RoomInfoItem &other)
   : QObject{other.parent()}
   , roomId_{other.roomId_}
   , alias_{other.alias_}
-  , roomName_{other.roomName_}
+  , name_{other.name_}
   , avatarUrl_{other.avatarUrl_}
-  , unreadNotifications_{other.unreadNotifications_}
+  , read_{other.read_}
+  , serverNotificationCount_{other.serverNotificationCount_}
+  , memberCount_{other.memberCount_}
+  , highlighted_{other.highlighted_}
+  , categories_{other.categories_}
+  , tags_{other.tags_}
+  , parentSpaces_{other.parentSpaces_}
+  , dmUserId_{other.dmUserId_}
+  , encrypted_{other.encrypted_}
 {
 }
 
 RoomInfoItem &
 RoomInfoItem::operator=(const RoomInfoItem &other)
 {
-    roomId_              = other.roomId_;
-    alias_               = other.alias_;
-    roomName_            = other.roomName_;
-    avatarUrl_           = other.avatarUrl_;
-    unreadNotifications_ = other.unreadNotifications_;
+    roomId_                  = other.roomId_;
+    alias_                   = other.alias_;
+    name_                    = other.name_;
+    avatarUrl_               = other.avatarUrl_;
+    read_                    = other.read_;
+    serverNotificationCount_ = other.serverNotificationCount_;
+    memberCount_             = other.memberCount_;
+    highlighted_             = other.highlighted_;
+    categories_              = other.categories_;
+    tags_                    = other.tags_;
+    parentSpaces_            = other.parentSpaces_;
+    dmUserId_                = other.dmUserId_;
+    encrypted_               = other.encrypted_;
     return *this;
 }
 
@@ -110,8 +142,10 @@ QDBusArgument &
 operator<<(QDBusArgument &arg, const RoomInfoItem &item)
 {
     arg.beginStructure();
-    arg << item.roomId_ << item.alias_ << item.roomName_ << item.avatarUrl_
-        << item.unreadNotifications_;
+    arg << item.roomId_ << item.alias_ << item.name_ << item.avatarUrl_ << item.read_
+        << item.serverNotificationCount_ << item.memberCount_ << item.highlighted_
+        << item.categories_ << item.tags_ << item.parentSpaces_ << item.dmUserId_
+        << item.encrypted_;
     arg.endStructure();
     return arg;
 }
@@ -120,8 +154,9 @@ const QDBusArgument &
 operator>>(const QDBusArgument &arg, RoomInfoItem &item)
 {
     arg.beginStructure();
-    arg >> item.roomId_ >> item.alias_ >> item.roomName_ >> item.avatarUrl_ >>
-      item.unreadNotifications_;
+    arg >> item.roomId_ >> item.alias_ >> item.name_ >> item.avatarUrl_ >> item.read_ >>
+      item.serverNotificationCount_ >> item.memberCount_ >> item.highlighted_ >> item.categories_ >>
+      item.tags_ >> item.parentSpaces_ >> item.dmUserId_ >> item.encrypted_;
 
     arg.endStructure();
     return arg;

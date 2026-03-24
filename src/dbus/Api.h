@@ -8,6 +8,7 @@
 #include <QDBusArgument>
 #include <QIcon>
 #include <QObject>
+#include <QStringList>
 #include <QVersionNumber>
 
 namespace komai::dbus {
@@ -18,7 +19,7 @@ init();
 
 //! The Komai D-Bus API version provided by this file. The API version number follows semantic
 //! versioning as defined by https://semver.org.
-inline const QVersionNumber dbusApiVersion{1, 1, 0};
+inline const QVersionNumber dbusApiVersion{1, 0, 0};
 
 //! Compare the installed API version to the version that your client app targets to see if they
 //! are compatible.
@@ -39,20 +40,36 @@ class RoomInfoItem final : public QObject
     Q_OBJECT
 
 public:
-    RoomInfoItem(const QString &roomId         = QString{},
-                 const QString &alias          = QString{},
-                 const QString &title          = QString{},
-                 const QString &avatarUrl      = QString{},
-                 const int unreadNotifications = 0,
-                 QObject *parent               = nullptr);
+    RoomInfoItem(const QString &roomId             = QString{},
+                 const QString &alias              = QString{},
+                 const QString &name               = QString{},
+                 const QString &avatarUrl          = QString{},
+                 const bool read                   = true,
+                 const int serverNotificationCount = 0,
+                 const int memberCount             = 0,
+                 const bool highlighted            = false,
+                 const QStringList &categories     = {},
+                 const QStringList &tags           = {},
+                 const QStringList &parentSpaces   = {},
+                 const QString &dmUserId           = QString{},
+                 const bool encrypted              = false,
+                 QObject *parent                   = nullptr);
 
     RoomInfoItem(const RoomInfoItem &other);
 
     const QString &roomId() const { return roomId_; }
     const QString &alias() const { return alias_; }
-    const QString &roomName() const { return roomName_; }
+    const QString &name() const { return name_; }
     const QString &avatarUrl() const { return avatarUrl_; }
-    int unreadNotifications() const { return unreadNotifications_; }
+    bool read() const { return read_; }
+    int serverNotificationCount() const { return serverNotificationCount_; }
+    int memberCount() const { return memberCount_; }
+    bool highlighted() const { return highlighted_; }
+    const QStringList &categories() const { return categories_; }
+    const QStringList &tags() const { return tags_; }
+    const QStringList &parentSpaces() const { return parentSpaces_; }
+    const QString &dmUserId() const { return dmUserId_; }
+    bool encrypted() const { return encrypted_; }
 
     RoomInfoItem &operator=(const RoomInfoItem &other);
     friend QDBusArgument &operator<<(QDBusArgument &arg, const komai::dbus::RoomInfoItem &item);
@@ -62,9 +79,17 @@ public:
 private:
     QString roomId_;
     QString alias_;
-    QString roomName_;
+    QString name_;
     QString avatarUrl_;
-    int unreadNotifications_;
+    bool read_;
+    int serverNotificationCount_;
+    int memberCount_;
+    bool highlighted_;
+    QStringList categories_;
+    QStringList tags_;
+    QStringList parentSpaces_;
+    QString dmUserId_;
+    bool encrypted_;
 };
 
 // -- cc.etke.komai.App --

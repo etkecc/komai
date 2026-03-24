@@ -8,6 +8,7 @@
 #include <QDateTime>
 #include <QFile>
 #include <QFileInfo>
+#include <QJsonArray>
 #include <QMimeDatabase>
 
 #include <mtx/events/collections.hpp>
@@ -40,6 +41,47 @@ currentRoomlistModel()
     return chatPage->timelineManager()->rooms();
 }
 
+QString
+primaryAliasForRoom(const QString &roomId)
+{
+    const auto aliases =
+      cache::getStateEvent<mtx::events::state::CanonicalAlias>(roomId.toStdString());
+    if (!aliases.has_value())
+        return {};
+
+    const auto &value = aliases.value().content;
+    if (!value.alias.empty())
+        return QString::fromStdString(value.alias);
+    if (!value.alt_aliases.empty())
+        return QString::fromStdString(value.alt_aliases.front());
+    return {};
+}
+
+QStringList
+roomCategories(RoomlistModel *roomlist, const QModelIndex &index)
+{
+    QStringList categories;
+
+    const bool isSpace     = roomlist->data(index, RoomlistModel::IsSpace).toBool();
+    const bool isDirect    = roomlist->data(index, RoomlistModel::IsDirect).toBool();
+    const bool isBotRoom   = roomlist->data(index, RoomlistModel::IsBotRoom).toBool();
+    const bool isEncrypted = roomlist->data(index, RoomlistModel::IsEncrypted).toBool();
+
+    if (isSpace) {
+        categories.push_back(QStringLiteral("space"));
+    } else if (isDirect) {
+        categories.push_back(QStringLiteral("direct"));
+        categories.push_back(isBotRoom ? QStringLiteral("bot") : QStringLiteral("person"));
+    } else {
+        categories.push_back(QStringLiteral("group"));
+    }
+
+    if (isEncrypted)
+        categories.push_back(QStringLiteral("encrypted"));
+
+    return categories;
+}
+
 } // namespace
 
 namespace komai::ipc {
@@ -68,7 +110,15 @@ RoomInfo::toJson() const
       {QStringLiteral("alias"), alias},
       {QStringLiteral("name"), name},
       {QStringLiteral("avatarUrl"), avatarUrl},
-      {QStringLiteral("unreadNotifications"), unreadNotifications},
+      {QStringLiteral("read"), read},
+      {QStringLiteral("serverNotificationCount"), serverNotificationCount},
+      {QStringLiteral("memberCount"), memberCount},
+      {QStringLiteral("highlighted"), highlighted},
+      {QStringLiteral("categories"), QJsonArray::fromStringList(categories)},
+      {QStringLiteral("tags"), QJsonArray::fromStringList(tags)},
+      {QStringLiteral("parentSpaces"), QJsonArray::fromStringList(parentSpaces)},
+      {QStringLiteral("dmUserId"), directUserId},
+      {QStringLiteral("encrypted"), encrypted},
     };
 }
 
@@ -80,48 +130,39 @@ roomList()
         return {};
 
     QVector<RoomInfo> result;
-    result.reserve(static_cast<int>(rl->roomids.size()));
+    result.reserve(rl->rowCount());
 
-    for (const auto &roomId : rl->roomids) {
-        if (rl->invites.contains(roomId) || rl->previewedRooms.contains(roomId))
-            continue;
-
-        const auto aliases =
-          cache::getStateEvent<mtx::events::state::CanonicalAlias>(roomId.toStdString());
-        QString alias;
-        if (aliases.has_value()) {
-            const auto &val = aliases.value().content;
-            if (!val.alias.empty())
-                alias = QString::fromStdString(val.alias);
-            else if (val.alt_aliases.size() > 0)
-                alias = QString::fromStdString(val.alt_aliases.front());
-        }
-
-        QString roomName;
-        QString roomAvatar;
-        int notificationCount = 0;
-
-        if (rl->models.contains(roomId)) {
-            const auto &room = rl->models.value(roomId);
-            if (room.isNull())
-                continue;
-
-            roomName          = room->plainRoomName();
-            roomAvatar        = room->roomAvatarUrl();
-            notificationCount = room->notificationCount();
-        } else if (rl->cachedJoinedRooms_.contains(roomId)) {
-            const auto roomInfo = rl->cachedJoinedRooms_.value(roomId);
-            roomName            = QString::fromStdString(roomInfo.name);
-            roomAvatar          = QString::fromStdString(roomInfo.avatar_url);
-            notificationCount   = static_cast<int>(roomInfo.notification_count);
-        } else {
+    for (int row = 0; row < rl->rowCount(); ++row) {
+        const auto index = rl->index(row, 0);
+        if (rl->data(index, RoomlistModel::IsInvite).toBool() ||
+            rl->data(index, RoomlistModel::IsPreview).toBool()) {
             continue;
         }
 
-        if (roomAvatar.isEmpty())
-            roomAvatar = cache::roomAvatarUrl(roomId.toStdString());
+        const auto roomId = rl->data(index, RoomlistModel::RoomId).toString();
+        if (roomId.isEmpty())
+            continue;
 
-        result.push_back({roomId, alias, roomName, roomAvatar, notificationCount});
+        const auto memberCount =
+          rl->cachedJoinedRooms_.contains(roomId)
+            ? static_cast<int>(rl->cachedJoinedRooms_.value(roomId).member_count)
+            : 0;
+
+        result.push_back({
+          .roomId                  = roomId,
+          .alias                   = primaryAliasForRoom(roomId),
+          .name                    = rl->data(index, RoomlistModel::RoomName).toString(),
+          .avatarUrl               = rl->data(index, RoomlistModel::AvatarUrl).toString(),
+          .read                    = !rl->data(index, RoomlistModel::HasUnreadMessages).toBool(),
+          .serverNotificationCount = rl->data(index, RoomlistModel::NotificationCount).toInt(),
+          .memberCount             = memberCount,
+          .highlighted             = rl->data(index, RoomlistModel::HasLoudNotification).toBool(),
+          .categories              = roomCategories(rl, index),
+          .tags                    = rl->data(index, RoomlistModel::Tags).toStringList(),
+          .parentSpaces            = rl->data(index, RoomlistModel::ParentSpaces).toStringList(),
+          .directUserId = rl->data(index, RoomlistModel::DirectChatOtherUserId).toString(),
+          .encrypted    = rl->data(index, RoomlistModel::IsEncrypted).toBool(),
+        });
     }
 
     return result;

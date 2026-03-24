@@ -292,6 +292,13 @@ fn string_schema(description: &'static str) -> Value {
     })
 }
 
+fn boolean_schema(description: &'static str) -> Value {
+    json!({
+        "type": "boolean",
+        "description": description,
+    })
+}
+
 fn enum_string_schema(description: &'static str, values: &[&str]) -> Value {
     json!({
         "type": "string",
@@ -314,6 +321,16 @@ fn generic_object_schema(description: &'static str) -> Value {
     })
 }
 
+fn string_array_schema(description: &'static str) -> Value {
+    json!({
+        "type": "array",
+        "description": description,
+        "items": {
+            "type": "string",
+        },
+    })
+}
+
 fn room_info_schema() -> Value {
     object_schema(
         vec![
@@ -322,11 +339,51 @@ fn room_info_schema() -> Value {
             ("name", string_schema("Current room display name.")),
             ("avatarUrl", string_schema("Room avatar MXC URI, if any.")),
             (
-                "unreadNotifications",
-                integer_schema("Unread notification count for the room."),
+                "read",
+                boolean_schema(
+                    "Whether Komai currently considers the room locally read.",
+                ),
             ),
+            (
+                "serverNotificationCount",
+                integer_schema(
+                    "Notification count derived from homeserver push-rule state.",
+                ),
+            ),
+            ("memberCount", integer_schema("Joined member count for the room.")),
+            ("highlighted", boolean_schema("Whether the room currently has a highlight.")),
+            (
+                "categories",
+                string_array_schema(
+                    "Derived room categories such as direct, person, bot, group, space, or encrypted.",
+                ),
+            ),
+            ("tags", string_array_schema("Matrix room tags, including custom tags.")),
+            (
+                "parentSpaces",
+                string_array_schema("Parent Matrix space room IDs for this room."),
+            ),
+            (
+                "dmUserId",
+                string_schema("Direct-chat partner user ID when the room is a DM, otherwise empty."),
+            ),
+            ("encrypted", boolean_schema("Whether the room is end-to-end encrypted.")),
         ],
-        &["id", "alias", "name", "avatarUrl", "unreadNotifications"],
+        &[
+            "id",
+            "alias",
+            "name",
+            "avatarUrl",
+            "read",
+            "serverNotificationCount",
+            "memberCount",
+            "highlighted",
+            "categories",
+            "tags",
+            "parentSpaces",
+            "dmUserId",
+            "encrypted",
+        ],
     )
 }
 
@@ -1107,7 +1164,15 @@ mod tests {
                     "alias": "#example:example.org",
                     "name": "Example",
                     "avatarUrl": "mxc://example.org/avatar",
-                    "unreadNotifications": 3
+                    "read": false,
+                    "serverNotificationCount": 3,
+                    "memberCount": 2,
+                    "highlighted": false,
+                    "categories": ["direct", "person", "encrypted"],
+                    "tags": ["m.favourite"],
+                    "parentSpaces": ["!space:example.org"],
+                    "dmUserId": "@alice:example.org",
+                    "encrypted": true
                 }
             ])),
         );

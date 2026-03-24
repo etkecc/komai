@@ -22,7 +22,7 @@ komai app version | jq -r '.version'
 komai rooms list | jq .
 
 # Filter
-komai rooms list | jq '[.[] | select(.unreadNotifications > 0)]'
+komai rooms list | jq '[.[] | select(.read == false)]'
 ```
 
 ## 👥 Profile targeting
@@ -50,7 +50,7 @@ komai app version
 
 ```bash
 komai app api-version
-# {"apiVersion":"1.0.2"}
+# {"apiVersion":"1.0.0"}
 ```
 
 ## 🚪 Rooms
@@ -59,11 +59,25 @@ Room discovery and navigation.
 
 ### list
 
-Returns a JSON array of joined rooms. See also: [activate](#activate), [join](#join).
+Returns a JSON array of joined rooms. Each room summary includes:
+
+- `read` -- Komai's local room-list read state
+- `serverNotificationCount` -- homeserver-derived notification count
+- `memberCount` -- joined member count from Komai's cached room metadata
+- `highlighted` -- whether the room currently has a highlight
+- `categories` -- derived labels such as `direct`, `person`, `bot`, `group`, `space`, `encrypted`
+- `tags` -- Matrix room tags such as `m.favourite` or `m.lowpriority`
+- `parentSpaces` -- parent space room IDs
+- `dmUserId` -- direct-chat partner user ID when the room is a DM
+- `encrypted` -- whether the room is end-to-end encrypted
+
+Draft state is intentionally not exposed here.
+
+See also: [activate](#activate), [join](#join).
 
 ```bash
 komai rooms list
-# [{"id":"!abc:example.org","alias":"#room:example.org","name":"My Room","avatarUrl":"mxc://example.org/abc","unreadNotifications":3},...]
+# [{"id":"!abc:example.org","alias":"#room:example.org","name":"My Room","avatarUrl":"mxc://example.org/abc","read":false,"serverNotificationCount":3,"memberCount":42,"highlighted":false,"categories":["group","encrypted"],"tags":["m.favourite"],"parentSpaces":["!space:example.org"],"dmUserId":"","encrypted":true},...]
 ```
 
 Scripting examples:
@@ -72,8 +86,14 @@ Scripting examples:
 # Room names only
 komai rooms list | jq -r '.[].name'
 
-# Rooms with unread messages
-komai rooms list | jq '[.[] | select(.unreadNotifications > 0)]'
+# Rooms with unread timeline activity
+komai rooms list | jq '[.[] | select(.read == false)]'
+
+# Small group rooms
+komai rooms list | jq '[.[] | select(.memberCount <= 5 and (.categories | index("group")))]'
+
+# Favourite bot rooms
+komai rooms list | jq '[.[] | select((.categories | index("bot")) and (.tags | index("m.favourite")))]'
 
 # Find a room by alias
 komai rooms list | jq -r '.[] | select(.alias == "#komai:example.org") | .id'

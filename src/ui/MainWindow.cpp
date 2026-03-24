@@ -528,7 +528,7 @@ MainWindow::hasActiveUser()
 bool
 MainWindow::pageSupportsTray() const
 {
-    return !http::client()->access_token().empty();
+    return userSettings_ && userSettings_->hasActiveSession();
 }
 
 inline void

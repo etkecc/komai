@@ -368,6 +368,12 @@ MainWindow::showChatPage(bool hadSessionIdentity)
     }
 
     startMatrixBackendHandleForActiveSession();
+    if (matrixBackendHandleId_ == 0) {
+        nhlog::ui()->warn("Refusing to show chat page without an active matrix-sdk backend "
+                          "handle for the current session");
+        transitionToLoginPage(tr("Failed to initialize the Matrix session. Please sign in again."));
+        return;
+    }
 
     const auto snapshot = userSettings_->sessionSnapshot();
     chat_page_->bootstrap(snapshot.userId,

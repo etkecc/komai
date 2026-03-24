@@ -48,6 +48,7 @@ class RoomPreview
     Q_PROPERTY(bool isInvite READ isInvite CONSTANT)
     Q_PROPERTY(bool isFetched READ isFetched CONSTANT)
     Q_PROPERTY(bool canJoin READ canJoin CONSTANT)
+    Q_PROPERTY(bool isMatrixSummary READ isMatrixSummary CONSTANT)
 
 public:
     RoomPreview() {}
@@ -63,9 +64,10 @@ public:
     bool isInvite() const { return isInvite_; }
     bool isFetched() const { return isFetched_; }
     bool canJoin() const { return canJoin_; }
+    bool isMatrixSummary() const { return isMatrixSummary_; }
 
     QString roomid_, roomName_, roomAvatarUrl_, roomTopic_, reason_;
-    bool isInvite_ = false, isFetched_ = true, canJoin_ = false;
+    bool isInvite_ = false, isFetched_ = true, canJoin_ = false, isMatrixSummary_ = false;
 };
 
 class RoomlistModel final : public QAbstractListModel

@@ -42,6 +42,20 @@ struct MatrixRoomSummary
     uint64_t timestamp         = 0;
 };
 
+struct MatrixTimelineItem
+{
+    QString itemId;
+    QString eventId;
+    QString senderId;
+    QString senderDisplayName;
+    QString body;
+    QString itemKind;
+    uint64_t timestamp = 0;
+    bool isOwn         = false;
+
+    bool operator==(const MatrixTimelineItem &) const = default;
+};
+
 class MatrixBackendRuntimeService
 {
 public:
@@ -56,6 +70,12 @@ public:
 
     static std::optional<QVector<MatrixRoomSummary>>
     fetchRoomList(uint64_t handleId, QString *errorOut = nullptr);
+
+    static bool
+    selectActiveRoomTimeline(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static std::optional<QVector<MatrixTimelineItem>>
+    fetchActiveRoomTimeline(uint64_t handleId, QString *errorOut = nullptr);
 };
 
 } // namespace komai

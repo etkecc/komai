@@ -9,6 +9,7 @@
 #include <QHash>
 #include <QPalette>
 #include <QQmlEngine>
+#include <QTimer>
 #include <QVariantMap>
 
 #include <algorithm>
@@ -51,6 +52,10 @@ namespace mtx::events::collections {
 struct TimelineEvents;
 }
 
+namespace komai {
+class MatrixTimelineModel;
+}
+
 class TimelineViewManager final : public QObject
 {
     Q_OBJECT
@@ -63,6 +68,12 @@ class TimelineViewManager final : public QObject
     Q_PROPERTY(bool isConnected READ isConnected NOTIFY isConnectedChanged)
     Q_PROPERTY(QVector<QString> ignoredUsers READ getIgnoredUsers NOTIFY ignoredUsersChanged)
     Q_PROPERTY(int colorRevision READ colorRevision NOTIFY colorRevisionChanged)
+    Q_PROPERTY(QAbstractItemModel *matrixTimelineModel READ matrixTimelineModel NOTIFY
+                 matrixTimelineStateChanged)
+    Q_PROPERTY(
+      int matrixTimelineItemCount READ matrixTimelineItemCount NOTIFY matrixTimelineStateChanged)
+    Q_PROPERTY(
+      bool matrixTimelineLoading READ matrixTimelineLoading NOTIFY matrixTimelineStateChanged)
 
 public:
     TimelineViewManager(CallManager *callManager, ChatPage *parent = nullptr);
@@ -82,6 +93,9 @@ public:
     Q_INVOKABLE bool waitingForFirstSync() const { return waitingForFirstSync_; }
     bool isConnected() const { return isConnected_; }
     int colorRevision() const { return colorRevision_; }
+    QAbstractItemModel *matrixTimelineModel() const;
+    int matrixTimelineItemCount() const;
+    bool matrixTimelineLoading() const { return matrixTimelineLoading_; }
     Q_INVOKABLE void openMediaOverlay(TimelineModel *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
@@ -187,6 +201,7 @@ signals:
                           QObject *timelineView);
     void ignoredUsersChanged(const QVector<QString> &ignoredUsers);
     void colorRevisionChanged();
+    void matrixTimelineStateChanged();
 
 public slots:
     void updateReadReceipts(const QString &room_id, const std::vector<QString> &event_ids);
@@ -250,8 +265,15 @@ private:
     inline static TimelineViewManager *instance_ = nullptr;
 
     NavigationHistory navHistory_;
-    bool navigating_ = false;
+    bool navigating_                                 = false;
+    komai::MatrixTimelineModel *matrixTimelineModel_ = nullptr;
+    QTimer *matrixTimelineRefreshTimer_              = nullptr;
+    QString activeMatrixTimelineRoomId_;
+    bool matrixTimelineLoading_ = false;
 
     void processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers);
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
+    void updateCurrentMatrixTimelineSelection();
+    void refreshCurrentMatrixTimeline();
+    void clearCurrentMatrixTimeline(bool stopBackendTask = true);
 };

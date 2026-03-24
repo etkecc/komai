@@ -51,6 +51,21 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
     };
 }
 
+MatrixTimelineItem
+fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
+{
+    return MatrixTimelineItem{
+      .itemId            = QString::fromStdString(std::string(item.item_id)),
+      .eventId           = QString::fromStdString(std::string(item.event_id)),
+      .senderId          = QString::fromStdString(std::string(item.sender_id)),
+      .senderDisplayName = QString::fromStdString(std::string(item.sender_display_name)),
+      .body              = QString::fromStdString(std::string(item.body)),
+      .itemKind          = QString::fromStdString(std::string(item.item_kind)),
+      .timestamp         = item.timestamp,
+      .isOwn             = item.is_own,
+    };
+}
+
 } // namespace
 
 std::optional<MatrixBackendHandleInfo>
@@ -115,6 +130,38 @@ MatrixBackendRuntimeService::fetchRoomList(uint64_t handleId, QString *errorOut)
         for (const auto &room : result)
             rooms.push_back(fromRustRoomSummary(room));
         return rooms;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::selectActiveRoomTimeline(uint64_t handleId,
+                                                      const QString &roomId,
+                                                      QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_select_active_room_timeline(handleId, roomId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+std::optional<QVector<MatrixTimelineItem>>
+MatrixBackendRuntimeService::fetchActiveRoomTimeline(uint64_t handleId, QString *errorOut)
+{
+    try {
+        const auto result = ::komai::rust::matrix_fetch_active_room_timeline(handleId);
+        QVector<MatrixTimelineItem> items;
+        items.reserve(static_cast<int>(result.size()));
+        for (const auto &item : result)
+            items.push_back(fromRustTimelineItem(item));
+        return items;
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());

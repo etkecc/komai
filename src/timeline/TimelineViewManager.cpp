@@ -14,12 +14,15 @@
 #include "encryption/VerificationManager.h"
 #include "imagepacks/ImagePackListModel.h"
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "models/InviteesModel.h"
 #include "models/MemberList.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/CommunitiesModel.h"
 #include "timeline/PresenceEmitter.h"
 #include "timeline/RoomlistModel.h"
+#include "timeline/rust/MatrixTimelineModel.h"
+#include "ui/MainWindow.h"
 #include "ui/RoomSettings.h"
 #include "ui/UserProfile.h"
 #include "utils/Utils.h"
@@ -41,6 +44,7 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
   , communities_(new CommunitiesModel(this))
   , verificationManager_(new VerificationManager(this))
   , presenceEmitter(new PresenceEmitter(this))
+  , matrixTimelineModel_(new komai::MatrixTimelineModel(this))
 {
     instance_              = this;
     roomSwitchPerfEnabled_ = isTruthyEnvValue(qgetenv("KOMAI_ROOM_SWITCH_PERF")) ||
@@ -84,6 +88,7 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
             verificationManager_,
             &VerificationManager::receivedDeviceVerificationStart);
     connect(parent, &ChatPage::loggedOut, this, [this]() {
+        clearCurrentMatrixTimeline();
         waitingForFirstSync_ = true;
         emit waitingForFirstSyncChanged(true);
     });
@@ -98,6 +103,13 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
     connect(rooms_, &RoomlistModel::spaceSelected, communities_, [this](QString roomId) {
         communities_->setCurrentFilterId("space:" + roomId);
     });
+    connect(rooms_, &RoomlistModel::currentRoomChanged, this, [this](const QString &) {
+        updateCurrentMatrixTimelineSelection();
+    });
+    connect(matrixTimelineModel_,
+            &komai::MatrixTimelineModel::countChanged,
+            this,
+            &TimelineViewManager::matrixTimelineStateChanged);
 
     // Seed navigation history with the initial state (no room open).
     navHistory_.push(communities_->currentFilterId(), QString());
@@ -117,6 +129,13 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
             return;
         navHistory_.push(communities_->currentFilterId(), roomId);
     });
+
+    matrixTimelineRefreshTimer_ = new QTimer(this);
+    matrixTimelineRefreshTimer_->setInterval(500);
+    connect(matrixTimelineRefreshTimer_,
+            &QTimer::timeout,
+            this,
+            &TimelineViewManager::refreshCurrentMatrixTimeline);
 }
 
 TimelineViewManager *
@@ -142,6 +161,7 @@ TimelineViewManager::create(QQmlEngine *qmlEngine, QJSEngine *)
 void
 TimelineViewManager::clearAll()
 {
+    clearCurrentMatrixTimeline();
     rooms_->clear();
 }
 
@@ -192,6 +212,18 @@ void
 TimelineViewManager::markRoomSwitchPhase(const QString &roomId, const QString &phase)
 {
     logRoomSwitchPhase(roomId, phase, "qml");
+}
+
+QAbstractItemModel *
+TimelineViewManager::matrixTimelineModel() const
+{
+    return matrixTimelineModel_;
+}
+
+int
+TimelineViewManager::matrixTimelineItemCount() const
+{
+    return matrixTimelineModel_ ? matrixTimelineModel_->count() : 0;
 }
 
 bool

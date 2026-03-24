@@ -15,13 +15,20 @@ use std::{
 use matrix_sdk::{
     Client,
     RoomState,
-    ruma::api::client::profile::{AvatarUrl, DisplayName},
+    ruma::{
+        RoomId,
+        api::client::profile::{AvatarUrl, DisplayName},
+    },
     stream::StreamExt,
 };
 use matrix_sdk_ui::{
     RoomListService,
     eyeball_im::{Vector, VectorDiff},
     room_list_service::{RoomListItem, filters},
+    timeline::{
+        MsgLikeKind, RoomExt, TimelineDetails, TimelineItem, TimelineItemContent,
+        VirtualTimelineItem,
+    },
 };
 
 use super::bootstrap;
@@ -55,16 +62,37 @@ pub struct MatrixRoomSummary {
     pub timestamp: u64,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixTimelineItem {
+    pub item_id: String,
+    pub event_id: String,
+    pub sender_id: String,
+    pub sender_display_name: String,
+    pub body: String,
+    pub item_kind: String,
+    pub timestamp: u64,
+    pub is_own: bool,
+}
+
 static NEXT_BACKEND_HANDLE_ID: AtomicU64 = AtomicU64::new(1);
 const ROOM_LIST_PAGE_SIZE: usize = 100_000;
+const ROOM_TIMELINE_PAGE_SIZE: u16 = 50;
 
 struct MatrixBackendHandle {
     client: Client,
     sync_task: Option<MatrixBackendSyncTask>,
     room_list_snapshot: Arc<Mutex<Vec<MatrixRoomSummary>>>,
+    room_timeline_task: Option<MatrixBackendRoomTimelineTask>,
+    room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
 }
 
 struct MatrixBackendSyncTask {
+    stop_requested: Arc<AtomicBool>,
+    thread: JoinHandle<()>,
+}
+
+struct MatrixBackendRoomTimelineTask {
+    room_id: String,
     stop_requested: Arc<AtomicBool>,
     thread: JoinHandle<()>,
 }
@@ -107,6 +135,8 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
                 client: restored.client,
                 sync_task: None,
                 room_list_snapshot: Arc::new(Mutex::new(Vec::new())),
+                room_timeline_task: None,
+                room_timeline_snapshot: Arc::new(Mutex::new(Vec::new())),
             },
         );
 
@@ -140,15 +170,34 @@ pub fn stop_backend(handle_id: u64) -> Result<(), String> {
 
     if let Some(mut handle) = removed {
         if let Some(sync_task) = handle.sync_task.take() {
-            tracing::info!(handle_id, "Stopping matrix-sdk sync task");
-            sync_task.stop_requested.store(true, Ordering::Relaxed);
-            let _ = sync_task.thread.join();
+            stop_sync_task(handle_id, sync_task);
+        }
+        if let Some(room_timeline_task) = handle.room_timeline_task.take() {
+            stop_room_timeline_task(handle_id, room_timeline_task);
         }
         tracing::info!(handle_id, "Stopped matrix-sdk backend runtime");
     } else {
         tracing::debug!(handle_id, "Matrix-sdk backend runtime handle was already absent");
     }
     Ok(())
+}
+
+fn stop_sync_task(handle_id: u64, sync_task: MatrixBackendSyncTask) {
+    tracing::info!(handle_id, "Stopping matrix-sdk sync task");
+    sync_task.stop_requested.store(true, Ordering::Relaxed);
+    let _ = sync_task.thread.join();
+}
+
+fn stop_room_timeline_task(handle_id: u64, room_timeline_task: MatrixBackendRoomTimelineTask) {
+    tracing::info!(
+        handle_id,
+        room_id = %room_timeline_task.room_id,
+        "Stopping matrix-sdk room timeline task"
+    );
+    room_timeline_task
+        .stop_requested
+        .store(true, Ordering::Relaxed);
+    let _ = room_timeline_task.thread.join();
 }
 
 pub fn start_sync(handle_id: u64) -> Result<(), String> {
@@ -193,6 +242,85 @@ pub fn start_sync(handle_id: u64) -> Result<(), String> {
         });
 
     tracing::info!(handle_id, "Started matrix-sdk sync task");
+    Ok(())
+}
+
+pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
+    let room_id = room_id.trim();
+
+    let (client, room_timeline_snapshot, previous_task) = {
+        let mut handles = backend_handles()
+            .lock()
+            .expect("poisoned matrix backend handle registry mutex");
+        let Some(handle) = handles.get_mut(&handle_id) else {
+            return Err(format!("matrix-sdk backend runtime handle {handle_id} is not active"));
+        };
+
+        if let Some(task) = handle.room_timeline_task.as_ref() {
+            if task.room_id == room_id && !task.thread.is_finished() {
+                tracing::debug!(
+                    handle_id,
+                    room_id,
+                    "Matrix-sdk room timeline task is already running for the active room"
+                );
+                return Ok(());
+            }
+        }
+
+        let previous_task = handle.room_timeline_task.take();
+        handle
+            .room_timeline_snapshot
+            .lock()
+            .expect("poisoned matrix room timeline snapshot mutex")
+            .clear();
+
+        (
+            handle.client.clone(),
+            Arc::clone(&handle.room_timeline_snapshot),
+            previous_task,
+        )
+    };
+
+    if let Some(previous_task) = previous_task {
+        stop_room_timeline_task(handle_id, previous_task);
+    }
+
+    if room_id.is_empty() {
+        tracing::info!(handle_id, "Cleared active matrix-sdk room timeline selection");
+        return Ok(());
+    }
+
+    let stop_requested = Arc::new(AtomicBool::new(false));
+    let stop_requested_for_thread = Arc::clone(&stop_requested);
+    let room_id_owned = room_id.to_owned();
+    let room_id_for_thread = room_id_owned.clone();
+    let room_timeline_task = std::thread::spawn(move || {
+        crate::runtime().block_on(run_room_timeline_loop(
+            handle_id,
+            client,
+            room_id_for_thread,
+            room_timeline_snapshot,
+            stop_requested_for_thread,
+        ));
+    });
+
+    backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .entry(handle_id)
+        .and_modify(|handle| {
+            handle.room_timeline_task = Some(MatrixBackendRoomTimelineTask {
+                room_id: room_id_owned.clone(),
+                stop_requested,
+                thread: room_timeline_task,
+            });
+        });
+
+    tracing::info!(
+        handle_id,
+        room_id = %room_id_owned,
+        "Started matrix-sdk room timeline task"
+    );
     Ok(())
 }
 
@@ -292,8 +420,107 @@ async fn run_sync_loop(
     tracing::info!(handle_id, "Matrix-sdk room-list sync loop stopped");
 }
 
+async fn run_room_timeline_loop(
+    handle_id: u64,
+    client: Client,
+    room_id: String,
+    room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
+    stop_requested: Arc<AtomicBool>,
+) {
+    tracing::info!(handle_id, room_id, "Running matrix-sdk room timeline loop");
+
+    let parsed_room_id = match RoomId::parse(&room_id) {
+        Ok(room_id) => room_id,
+        Err(error) => {
+            tracing::warn!(handle_id, room_id, %error, "Invalid room id for room timeline task");
+            return;
+        }
+    };
+
+    let Some(room) = client.get_room(&parsed_room_id) else {
+        tracing::warn!(handle_id, room_id, "Matrix-sdk client does not know the requested room");
+        return;
+    };
+
+    let timeline = match room.timeline().await {
+        Ok(timeline) => timeline,
+        Err(error) => {
+            tracing::warn!(handle_id, room_id, %error, "Failed to build matrix-sdk timeline");
+            return;
+        }
+    };
+
+    if let Err(error) = timeline.paginate_backwards(ROOM_TIMELINE_PAGE_SIZE).await {
+        tracing::debug!(
+            handle_id,
+            room_id,
+            %error,
+            "Initial matrix-sdk room timeline pagination failed"
+        );
+    }
+
+    let (items, stream) = timeline.subscribe().await;
+    let mut current_values = items;
+    {
+        let snapshot = build_room_timeline_snapshot(&current_values);
+        *room_timeline_snapshot
+            .lock()
+            .expect("poisoned matrix room timeline snapshot mutex") = snapshot;
+    }
+
+    let mut stream = Box::pin(stream);
+    while !stop_requested.load(Ordering::Relaxed) {
+        tokio::select! {
+            maybe_diffs = stream.next() => {
+                match maybe_diffs {
+                    Some(diffs) => {
+                        let diffs: Vec<VectorDiff<Arc<TimelineItem>>> = diffs;
+                        for diff in diffs.iter().cloned() {
+                            diff.apply(&mut current_values);
+                        }
+
+                        let snapshot = build_room_timeline_snapshot(&current_values);
+                        let item_count = snapshot.len();
+                        *room_timeline_snapshot
+                            .lock()
+                            .expect("poisoned matrix room timeline snapshot mutex") = snapshot;
+
+                        tracing::debug!(
+                            handle_id,
+                            room_id,
+                            item_count,
+                            "Updated matrix-sdk room timeline snapshot"
+                        );
+                    }
+                    None => {
+                        tracing::info!(handle_id, room_id, "Matrix-sdk room timeline stream ended");
+                        break;
+                    }
+                }
+            }
+
+            _ = tokio::time::sleep(Duration::from_millis(200)) => {
+                if stop_requested.load(Ordering::Relaxed) {
+                    break;
+                }
+            }
+        }
+    }
+
+    tracing::info!(handle_id, room_id, "Matrix-sdk room timeline loop stopped");
+}
+
 fn build_room_list_snapshot(values: &Vector<RoomListItem>) -> Vec<MatrixRoomSummary> {
     values.iter().map(room_list_item_to_summary).collect()
+}
+
+fn build_room_timeline_snapshot(
+    values: &Vector<Arc<TimelineItem>>,
+) -> Vec<MatrixTimelineItem> {
+    values
+        .iter()
+        .filter_map(|item| timeline_item_to_summary(item.as_ref()))
+        .collect()
 }
 
 fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
@@ -321,6 +548,89 @@ fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         notification_count: room.num_unread_notifications(),
         highlight_count: room.num_unread_mentions(),
         timestamp,
+    }
+}
+
+fn timeline_item_to_summary(item: &TimelineItem) -> Option<MatrixTimelineItem> {
+    let item_id = item.unique_id().0.clone();
+
+    if let Some(event) = item.as_event() {
+        let sender_id = event.sender().to_string();
+        let sender_display_name = match event.sender_profile() {
+            TimelineDetails::Ready(profile) => profile
+                .display_name
+                .clone()
+                .unwrap_or_else(|| sender_id.clone()),
+            _ => sender_id.clone(),
+        };
+        let (item_kind, body) = timeline_event_content_summary(event.content());
+
+        return Some(MatrixTimelineItem {
+            item_id,
+            event_id: event.event_id().map(ToString::to_string).unwrap_or_default(),
+            sender_id,
+            sender_display_name,
+            body,
+            item_kind,
+            timestamp: u64::from(event.timestamp().get()),
+            is_own: event.is_own(),
+        });
+    }
+
+    match item.as_virtual() {
+        Some(VirtualTimelineItem::DateDivider(timestamp)) => Some(MatrixTimelineItem {
+            item_id,
+            event_id: String::new(),
+            sender_id: String::new(),
+            sender_display_name: String::new(),
+            body: String::new(),
+            item_kind: "date_divider".to_owned(),
+            timestamp: u64::from(timestamp.get()),
+            is_own: false,
+        }),
+        Some(VirtualTimelineItem::ReadMarker) | Some(VirtualTimelineItem::TimelineStart) | None => {
+            None
+        }
+    }
+}
+
+fn timeline_event_content_summary(content: &TimelineItemContent) -> (String, String) {
+    match content {
+        TimelineItemContent::MsgLike(content) => match &content.kind {
+            MsgLikeKind::Message(message) => ("message".to_owned(), message.body().to_owned()),
+            MsgLikeKind::Sticker(_) => ("sticker".to_owned(), "[Sticker]".to_owned()),
+            MsgLikeKind::Poll(_) => ("poll".to_owned(), "[Poll]".to_owned()),
+            MsgLikeKind::Redacted => ("redacted".to_owned(), "[Redacted message]".to_owned()),
+            MsgLikeKind::UnableToDecrypt(_) => (
+                "unable_to_decrypt".to_owned(),
+                "[Unable to decrypt message]".to_owned(),
+            ),
+            MsgLikeKind::Other(_) => (
+                "other_message".to_owned(),
+                "[Unsupported message event]".to_owned(),
+            ),
+        },
+        TimelineItemContent::MembershipChange(_) => (
+            "membership_change".to_owned(),
+            "[Membership change]".to_owned(),
+        ),
+        TimelineItemContent::ProfileChange(_) => {
+            ("profile_change".to_owned(), "[Profile change]".to_owned())
+        }
+        TimelineItemContent::OtherState(_) => ("other_state".to_owned(), "[State event]".to_owned()),
+        TimelineItemContent::FailedToParseMessageLike { .. } => (
+            "failed_to_parse_message_like".to_owned(),
+            "[Unreadable message event]".to_owned(),
+        ),
+        TimelineItemContent::FailedToParseState { .. } => (
+            "failed_to_parse_state".to_owned(),
+            "[Unreadable state event]".to_owned(),
+        ),
+        TimelineItemContent::CallInvite => ("call_invite".to_owned(), "[Call invite]".to_owned()),
+        TimelineItemContent::RtcNotification => (
+            "rtc_notification".to_owned(),
+            "[RTC notification]".to_owned(),
+        ),
     }
 }
 
@@ -379,6 +689,29 @@ pub async fn fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>, S
         .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))?;
 
     tracing::debug!(handle_id, room_count = snapshot.len(), "Fetched matrix room-list snapshot");
+
+    Ok(snapshot)
+}
+
+pub async fn fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTimelineItem>, String> {
+    let snapshot = backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .get(&handle_id)
+        .map(|handle| {
+            handle
+                .room_timeline_snapshot
+                .lock()
+                .expect("poisoned matrix room timeline snapshot mutex")
+                .clone()
+        })
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))?;
+
+    tracing::debug!(
+        handle_id,
+        item_count = snapshot.len(),
+        "Fetched matrix room timeline snapshot"
+    );
 
     Ok(snapshot)
 }

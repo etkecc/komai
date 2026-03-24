@@ -67,6 +67,17 @@ mod ffi {
         timestamp: u64,
     }
 
+    struct MatrixTimelineItem {
+        item_id: String,
+        event_id: String,
+        sender_id: String,
+        sender_display_name: String,
+        body: String,
+        item_kind: String,
+        timestamp: u64,
+        is_own: bool,
+    }
+
     struct MatrixLoginResult {
         user_id: String,
         access_token: String,
@@ -141,6 +152,8 @@ mod ffi {
         fn matrix_start_backend_sync(handle_id: u64) -> Result<()>;
         fn matrix_fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile>;
         fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>>;
+        fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<()>;
+        fn matrix_fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTimelineItem>>;
         fn matrix_discover_login_flows(
             server_name_or_url: &str,
             verify_certificates: bool,
@@ -287,6 +300,32 @@ fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<ffi::MatrixRoomSummary>,
                     notification_count: room.notification_count,
                     highlight_count: room.highlight_count,
                     timestamp: room.timestamp,
+                })
+                .collect()
+        })
+}
+
+fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
+    logging::ensure_initialized();
+    matrix_backend::runtime::select_active_room_timeline(handle_id, room_id)
+}
+
+fn matrix_fetch_active_room_timeline(
+    handle_id: u64,
+) -> Result<Vec<ffi::MatrixTimelineItem>, String> {
+    runtime()
+        .block_on(matrix_backend::runtime::fetch_active_room_timeline(handle_id))
+        .map(|items| {
+            items.into_iter()
+                .map(|item| ffi::MatrixTimelineItem {
+                    item_id: item.item_id,
+                    event_id: item.event_id,
+                    sender_id: item.sender_id,
+                    sender_display_name: item.sender_display_name,
+                    body: item.body,
+                    item_kind: item.item_kind,
+                    timestamp: item.timestamp,
+                    is_own: item.is_own,
                 })
                 .collect()
         })

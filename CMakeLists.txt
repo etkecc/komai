@@ -399,6 +399,8 @@ set(SRC_FILES
     src/timeline/roomlist/RoomlistModelEviction.cpp
     src/timeline/roomlist/RoomlistModelSelection.cpp
     src/timeline/roomlist/RoomlistModelSync.cpp
+    src/timeline/rust/MatrixTimelineModel.cpp
+    src/timeline/rust/MatrixTimelineModel.h
     src/timeline/DirectChatResolver.cpp
     src/timeline/DirectChatResolver.h
     src/timeline/state/TimelineModelRoomState.cpp
@@ -426,6 +428,7 @@ set(SRC_FILES
     src/timeline/TimelineViewManager.cpp
     src/timeline/TimelineViewManager.h
     src/timeline/view/TimelineViewManagerMedia.cpp
+    src/timeline/view/TimelineViewManagerMatrixTimeline.cpp
     src/timeline/view/TimelineViewManagerForwarding.cpp
     src/timeline/view/TimelineViewManagerRoomActions.cpp
     src/timeline/view/TimelineViewManagerColors.cpp

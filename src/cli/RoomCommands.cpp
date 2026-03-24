@@ -36,6 +36,23 @@ handleIpcError(const QJsonObject &response)
     return true;
 }
 
+bool
+parseIntFlag(const QString &value, const char *label, int *parsed)
+{
+    if (value.isEmpty())
+        return true;
+
+    bool ok         = false;
+    const int asInt = value.toInt(&ok);
+    if (!ok) {
+        std::cerr << "Error: " << label << " must be an integer\n";
+        return false;
+    }
+
+    *parsed = asInt;
+    return true;
+}
+
 } // namespace
 
 int
@@ -49,6 +66,12 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
           << "Usage: komai [-p <profile>] rooms <subcommand> [args...]\n\n"
           << "Subcommands:\n"
           << "  list                         List all joined rooms (JSON)\n"
+          << "  timeline <room-id-or-alias> Read visible timeline events (JSON)\n"
+          << "    --limit <n>                     Max events to return (default: 50, max: 500)\n"
+          << "    --before-event-id <id>         Return events older than this event ID\n"
+          << "    --include-unsigned-fields      Include Matrix unsigned event fields\n"
+          << "    --fetch-mode cached_only|server_fetch_if_needed\n"
+          << "                                   Fetch older history from the server when needed\n"
           << "  activate <room-id-or-alias>  Activate (focus) a room\n"
           << "  join <room-id-or-alias>      Join a room\n"
           << "  new-direct-chat <user-id>    Start or open a direct chat\n"
@@ -70,6 +93,46 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
         auto response = cli_ipc::call(profileId, QStringLiteral("rooms.list"));
         auto arr      = response.value(QStringLiteral("result")).toArray();
         std::cout << QJsonDocument(arr).toJson(QJsonDocument::Compact).toStdString() << "\n";
+        return 0;
+    }
+
+    if (subcmd == QLatin1String("timeline")) {
+        if (args.size() < 2) {
+            std::cerr << "Usage: komai rooms timeline <room-id-or-alias> [--limit <n>] "
+                         "[--before-event-id <id>] [--include-unsigned-fields] "
+                         "[--fetch-mode cached_only|server_fetch_if_needed]\n";
+            return 1;
+        }
+        if (!requireNonEmptyValue(args.at(1), "room-id-or-alias"))
+            return 1;
+
+        QJsonObject params{{QStringLiteral("roomIdOrAlias"), args.at(1)}};
+
+        int limit            = 50;
+        const auto limitFlag = cli_ipc::flagValue(argc, argv, QStringLiteral("--limit"));
+        if (!parseIntFlag(limitFlag, "--limit", &limit))
+            return 1;
+        if (!limitFlag.isEmpty())
+            params.insert(QStringLiteral("limit"), limit);
+
+        const auto beforeEventId =
+          cli_ipc::flagValue(argc, argv, QStringLiteral("--before-event-id"));
+        if (!beforeEventId.isEmpty())
+            params.insert(QStringLiteral("beforeEventId"), beforeEventId);
+
+        if (cli_ipc::hasFlag(argc, argv, QStringLiteral("--include-unsigned-fields")))
+            params.insert(QStringLiteral("includeUnsignedFields"), true);
+
+        const auto fetchMode = cli_ipc::flagValue(argc, argv, QStringLiteral("--fetch-mode"));
+        if (!fetchMode.isEmpty())
+            params.insert(QStringLiteral("fetchMode"), fetchMode);
+
+        const auto response = cli_ipc::call(profileId, QStringLiteral("rooms.timeline"), params);
+        if (handleIpcError(response))
+            return 1;
+
+        const auto result = response.value(QStringLiteral("result")).toObject();
+        std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
         return 0;
     }
 

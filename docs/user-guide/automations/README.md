@@ -12,7 +12,7 @@ Komai can be scripted and controlled by external tools. All automation surfaces 
 
 - They operate on a running Komai instance.
 - They can target a specific [application profile](../application-profiles.md).
-- They expose overlapping capabilities such as room discovery, account info, settings, and media operations.
+- They expose overlapping capabilities such as room discovery, timeline retrieval, account info, settings, and media operations.
 - They are local automation surfaces, not remote hosted APIs.
 
 ## Which one should I use?

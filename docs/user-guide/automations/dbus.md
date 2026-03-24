@@ -114,6 +114,38 @@ Activates (focuses) a room by room ID or alias. See also: [list](#list).
 busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms activate s '!a:example.org'
 ```
 
+### timeline
+
+Returns a JSON string containing visible timeline events from a room, newest first. The payload
+matches the CLI and MCP result shape:
+
+- `roomId`
+- `events`
+- `hasMore`
+- `nextBeforeEventId`
+
+Each event keeps its original Matrix `content` object and selected envelope fields such as
+`event_id`, `type`, `sender`, `origin_server_ts`, and `state_key` when present. `unsigned` fields
+are omitted unless requested.
+
+> Required D-Bus access level: 👁️ read
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms timeline sisbs \
+  '!abc:example.org' 50 '' false 'cached_only'
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `roomIdOrAlias` | string | *(required)* | Room ID or alias |
+| `limit` | int32 | `50` | Maximum number of events to return (`1..500`) |
+| `beforeEventId` | string | empty | Exclusive pagination anchor; returns older events |
+| `includeUnsignedFields` | boolean | `false` | Include Matrix `unsigned` event fields |
+| `fetchMode` | string | `cached_only` | `cached_only` or `server_fetch_if_needed` |
+
+`server_fetch_if_needed` starts from the local cache, then back-paginates older history from the
+homeserver only if the cached page is too short.
+
 ### join
 
 Joins a room by room ID or alias. See also: [list](#list).

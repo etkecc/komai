@@ -17,6 +17,7 @@
 #include <spdlog/logger.h>
 
 #include <QDBusConnection>
+#include <QJsonDocument>
 #include <spdlog/sinks/null_sink.h>
 
 // ---------------------------------------------------------------------------
@@ -178,6 +179,42 @@ DbusRoomsInterface::list() const
 
     activeLoggers().ui->debug("Sending {} rooms over D-Bus...", model.size());
     return model;
+}
+
+QString
+DbusRoomsInterface::timeline(const QString &roomIdOrAlias,
+                             const int limit,
+                             const QString &beforeEventId,
+                             const bool includeUnsignedFields,
+                             const QString &fetchMode,
+                             const QDBusMessage &message) const
+{
+    if (!dbusReadAccessEnabled()) {
+        QDBusConnection::sessionBus().send(
+          message.createErrorReply(QStringLiteral("cc.etke.komai.Error.AccessDenied"),
+                                   QStringLiteral("D-Bus read access is disabled.")));
+        return {};
+    }
+
+    message.setDelayedReply(true);
+    komai::ipc::readTimeline(
+      stripDbusTypePrefix(roomIdOrAlias),
+      limit,
+      stripDbusTypePrefix(beforeEventId),
+      includeUnsignedFields,
+      stripDbusTypePrefix(fetchMode),
+      [message](const QJsonObject &result, const QString &error) {
+          if (!error.isEmpty()) {
+              QDBusConnection::sessionBus().send(
+                message.createErrorReply(QStringLiteral("cc.etke.komai.Error.Failed"), error));
+              return;
+          }
+
+          auto reply = message.createReply();
+          reply << QString::fromUtf8(QJsonDocument(result).toJson(QJsonDocument::Compact));
+          QDBusConnection::sessionBus().send(reply);
+      });
+    return {};
 }
 
 void

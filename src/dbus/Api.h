@@ -109,6 +109,14 @@ appVersion(const QString &profileId);
 //! Get a list of all joined rooms.
 QVector<RoomInfoItem>
 roomList(const QString &profileId);
+//! Read visible timeline events from a room. Returns a JSON object string.
+QString
+roomTimeline(const QString &profileId,
+             const QString &roomIdOrAlias,
+             int limit                    = 50,
+             const QString &beforeEventId = {},
+             bool includeUnsignedFields   = false,
+             const QString &fetchMode     = {});
 //! Activates a currently joined room.
 void
 activateRoom(const QString &profileId, const QString &roomIdOrAlias);

@@ -9,10 +9,15 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QMimeDatabase>
+#include <QPointer>
+
+#include <optional>
 
 #include <mtx/events/collections.hpp>
 #include <mtx/responses/media.hpp>
+#include <mtx/responses/messages.hpp>
 #include <mtxclient/crypto/utils.hpp>
 
 #include "blurhash.hpp"
@@ -21,6 +26,7 @@
 #include "chat/ChatPage.h"
 #include "config/komai.h"
 #include "encryption/Olm.h"
+#include "events/EventAccessors.h"
 #include "matrix/MatrixClient.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -81,6 +87,322 @@ roomCategories(RoomlistModel *roomlist, const QModelIndex &index)
 
     return categories;
 }
+
+constexpr int kMaxTimelineLimit                 = 500;
+constexpr int kTimelineServerFetchPageSize      = 200;
+constexpr int kTimelineServerFetchMaxRequests   = 10;
+constexpr auto kTimelineFetchModeCachedOnly     = "cached_only";
+constexpr auto kTimelineFetchModeServerIfNeeded = "server_fetch_if_needed";
+
+enum class TimelineFetchMode
+{
+    CachedOnly,
+    ServerFetchIfNeeded,
+};
+
+std::optional<TimelineFetchMode>
+parseTimelineFetchMode(const QString &value)
+{
+    const auto normalized = value.trimmed();
+    if (normalized.isEmpty() || normalized == QLatin1String(kTimelineFetchModeCachedOnly))
+        return TimelineFetchMode::CachedOnly;
+    if (normalized == QLatin1String(kTimelineFetchModeServerIfNeeded))
+        return TimelineFetchMode::ServerFetchIfNeeded;
+    return std::nullopt;
+}
+
+QJsonObject
+jsonObjectFromNlohmann(const nlohmann::json &value)
+{
+    const auto encoded = QByteArray::fromStdString(value.dump());
+    return QJsonDocument::fromJson(encoded).object();
+}
+
+mtx::events::collections::TimelineEvents
+materializedTimelineEvent(const std::string &roomId,
+                          const mtx::events::collections::TimelineEvents &event)
+{
+    if (const auto *encrypted =
+          std::get_if<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(&event)) {
+        MegolmSessionIndex index;
+        index.room_id    = roomId;
+        index.session_id = encrypted->content.session_id;
+
+        auto decrypted = olm::decryptEvent(index, *encrypted);
+        if (decrypted.event.has_value())
+            return *decrypted.event;
+    }
+
+    return event;
+}
+
+QJsonObject
+serializedTimelineEvent(const std::string &roomId,
+                        const mtx::events::collections::TimelineEvents &event,
+                        const bool includeUnsignedFields)
+{
+    auto serialized = mtx::accessors::serialize_event(materializedTimelineEvent(roomId, event));
+    serialized.erase("room_id");
+    if (!includeUnsignedFields)
+        serialized.erase("unsigned");
+    return jsonObjectFromNlohmann(serialized);
+}
+
+struct TimelineSlice
+{
+    QJsonArray events;
+    bool hasMoreLocal         = false;
+    QString nextBeforeEventId = {};
+};
+
+bool
+hasOlderCachedTimelineEvents(const std::string &roomId,
+                             const std::uint64_t nextIndex,
+                             const std::uint64_t rangeFirst)
+{
+    if (nextIndex < rangeFirst)
+        return false;
+
+    for (std::uint64_t idx = nextIndex;; --idx) {
+        if (cache::getTimelineEventId(roomId, idx).has_value())
+            return true;
+
+        if (idx == rangeFirst)
+            break;
+    }
+
+    return false;
+}
+
+std::optional<TimelineSlice>
+sliceTimelineFromCache(const std::string &roomId,
+                       const QString &beforeEventId,
+                       const int limit,
+                       const bool includeUnsignedFields,
+                       QString *error)
+{
+    TimelineSlice slice;
+
+    const auto range = cache::getTimelineRange(roomId);
+    if (!range.has_value())
+        return slice;
+
+    std::uint64_t startIndex = range->last;
+    if (!beforeEventId.isEmpty()) {
+        const auto anchorIndex = cache::getTimelineIndex(roomId, beforeEventId.toStdString());
+        if (!anchorIndex.has_value()) {
+            if (error)
+                *error =
+                  QStringLiteral("beforeEventId not found in local timeline: ") + beforeEventId;
+            return std::nullopt;
+        }
+
+        if (*anchorIndex == range->first)
+            return slice;
+
+        startIndex = *anchorIndex - 1;
+    }
+
+    if (startIndex < range->first)
+        return slice;
+
+    std::optional<std::uint64_t> nextIndexToProbe;
+    for (std::uint64_t idx = startIndex;; --idx) {
+        const auto eventId = cache::getTimelineEventId(roomId, idx);
+        if (eventId.has_value()) {
+            const auto event = cache::getEvent(roomId, *eventId);
+            if (event.has_value()) {
+                slice.events.append(serializedTimelineEvent(roomId, *event, includeUnsignedFields));
+                if (slice.events.size() >= limit) {
+                    nextIndexToProbe =
+                      (idx > range->first) ? std::optional<std::uint64_t>(idx - 1) : std::nullopt;
+                    break;
+                }
+            }
+        }
+
+        if (idx == range->first)
+            break;
+    }
+
+    if (nextIndexToProbe.has_value())
+        slice.hasMoreLocal = hasOlderCachedTimelineEvents(roomId, *nextIndexToProbe, range->first);
+
+    if (!slice.events.isEmpty())
+        slice.nextBeforeEventId = slice.events.at(slice.events.size() - 1)
+                                    .toObject()
+                                    .value(QStringLiteral("event_id"))
+                                    .toString();
+
+    return slice;
+}
+
+QJsonObject
+timelineResultToJson(const QString &roomId, const TimelineSlice &slice, const bool hasMore)
+{
+    return {
+      {QStringLiteral("roomId"), roomId},
+      {QStringLiteral("events"), slice.events},
+      {QStringLiteral("hasMore"), hasMore},
+      {QStringLiteral("nextBeforeEventId"),
+       hasMore && !slice.nextBeforeEventId.isEmpty() ? QJsonValue(slice.nextBeforeEventId)
+                                                     : QJsonValue(QJsonValue::Null)},
+    };
+}
+
+class TimelineReadOperation final : public QObject
+{
+public:
+    TimelineReadOperation(const QString &roomId,
+                          const int limit,
+                          const QString &beforeEventId,
+                          const bool includeUnsignedFields,
+                          const TimelineFetchMode fetchMode,
+                          komai::ipc::ReadTimelineCallback callback)
+      : QObject(ChatPage::instance())
+      , roomId_{roomId}
+      , roomIdStd_{roomId.toStdString()}
+      , limit_{limit}
+      , beforeEventId_{beforeEventId}
+      , includeUnsignedFields_{includeUnsignedFields}
+      , fetchMode_{fetchMode}
+      , callback_{std::move(callback)}
+    {
+    }
+
+    void start()
+    {
+        if (!refreshSlice())
+            return;
+
+        maybeFetchOlder();
+    }
+
+private:
+    bool refreshSlice()
+    {
+        QString error;
+        const auto slice = sliceTimelineFromCache(
+          roomIdStd_, beforeEventId_, limit_, includeUnsignedFields_, &error);
+        if (!slice.has_value()) {
+            fail(error);
+            return false;
+        }
+
+        slice_ = *slice;
+        return true;
+    }
+
+    bool serverCanFetchMore() const
+    {
+        if (fetchMode_ != TimelineFetchMode::ServerFetchIfNeeded || serverHistoryExhausted_)
+            return false;
+
+        return !cache::previousBatchToken(roomIdStd_).empty();
+    }
+
+    bool shouldFetchOlder() const
+    {
+        return slice_.events.size() < limit_ && serverCanFetchMore() &&
+               requestsDone_ < kTimelineServerFetchMaxRequests;
+    }
+
+    void maybeFetchOlder()
+    {
+        if (!shouldFetchOlder()) {
+            finish();
+            return;
+        }
+
+        const auto fromToken = QString::fromStdString(cache::previousBatchToken(roomIdStd_));
+        if (fromToken.isEmpty()) {
+            finish();
+            return;
+        }
+
+        ++requestsDone_;
+
+        mtx::http::MessagesOpts opts;
+        opts.room_id = roomIdStd_;
+        opts.from    = fromToken.toStdString();
+        opts.limit   = kTimelineServerFetchPageSize;
+
+        QPointer<TimelineReadOperation> self(this);
+        http::client()->messages(
+          opts, [self, fromToken](const mtx::responses::Messages &res, mtx::http::RequestErr err) {
+              if (!self)
+                  return;
+
+              QMetaObject::invokeMethod(
+                self.data(),
+                [self, fromToken, res, err]() {
+                    if (self)
+                        self->handleFetchResult(fromToken, res, err);
+                },
+                Qt::QueuedConnection);
+          });
+    }
+
+    void handleFetchResult(const QString &fromToken,
+                           const mtx::responses::Messages &res,
+                           mtx::http::RequestErr err)
+    {
+        if (err) {
+            fail(QStringLiteral("failed to fetch older messages: ") +
+                 QString::fromStdString(err->matrix_error.error));
+            return;
+        }
+
+        const auto currentToken = QString::fromStdString(cache::previousBatchToken(roomIdStd_));
+        if (currentToken != fromToken) {
+            if (!refreshSlice())
+                return;
+            maybeFetchOlder();
+            return;
+        }
+
+        const bool noMoreServerHistory =
+          res.end.empty() || QString::fromStdString(res.end) == fromToken;
+        const bool tokenAdvanced = !res.end.empty() && QString::fromStdString(res.end) != fromToken;
+
+        if (!res.chunk.empty() || tokenAdvanced)
+            cache::saveOldMessages(roomIdStd_, res);
+
+        if (noMoreServerHistory)
+            serverHistoryExhausted_ = true;
+
+        if (!refreshSlice())
+            return;
+
+        maybeFetchOlder();
+    }
+
+    void finish()
+    {
+        const bool hasMore = slice_.hasMoreLocal || serverCanFetchMore();
+        if (callback_)
+            callback_(timelineResultToJson(roomId_, slice_, hasMore), {});
+        deleteLater();
+    }
+
+    void fail(const QString &error)
+    {
+        if (callback_)
+            callback_({}, error);
+        deleteLater();
+    }
+
+    QString roomId_;
+    std::string roomIdStd_;
+    int limit_;
+    QString beforeEventId_;
+    bool includeUnsignedFields_;
+    TimelineFetchMode fetchMode_;
+    komai::ipc::ReadTimelineCallback callback_;
+    TimelineSlice slice_;
+    int requestsDone_            = 0;
+    bool serverHistoryExhausted_ = false;
+};
 
 } // namespace
 
@@ -267,6 +589,48 @@ resolveRoomId(const QString &roomIdOrAlias)
         }
     }
     return {};
+}
+
+void
+readTimeline(const QString &roomIdOrAlias,
+             const int limit,
+             const QString &beforeEventId,
+             const bool includeUnsignedFields,
+             const QString &fetchMode,
+             ReadTimelineCallback callback)
+{
+    const auto roomId = resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
+    }
+
+    if (limit <= 0 || limit > kMaxTimelineLimit) {
+        if (callback) {
+            callback({}, QStringLiteral("limit must be between 1 and %1").arg(kMaxTimelineLimit));
+        }
+        return;
+    }
+
+    const auto parsedFetchMode = parseTimelineFetchMode(fetchMode);
+    if (!parsedFetchMode.has_value()) {
+        if (callback) {
+            callback({},
+                     QStringLiteral("fetchMode must be one of: %1, %2")
+                       .arg(QLatin1String(kTimelineFetchModeCachedOnly),
+                            QLatin1String(kTimelineFetchModeServerIfNeeded)));
+        }
+        return;
+    }
+
+    auto *operation = new TimelineReadOperation{roomId,
+                                                limit,
+                                                beforeEventId.trimmed(),
+                                                includeUnsignedFields,
+                                                *parsedFetchMode,
+                                                std::move(callback)};
+    operation->start();
 }
 
 void

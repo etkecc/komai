@@ -74,6 +74,12 @@ public:
 
 public slots:
     QVector<komai::dbus::RoomInfoItem> list() const;
+    QString timeline(const QString &roomIdOrAlias,
+                     int limit,
+                     const QString &beforeEventId,
+                     bool includeUnsignedFields,
+                     const QString &fetchMode,
+                     const QDBusMessage &message) const;
     void activate(const QString &roomIdOrAlias) const;
     void join(const QString &roomIdOrAlias) const;
     void newDirectChat(const QString &userId) const;

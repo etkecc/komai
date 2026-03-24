@@ -86,12 +86,26 @@ setUiTheme(const QString &theme);
 /// On failure: eventId is empty, error describes what went wrong.
 using SendMessageCallback = std::function<void(const QString &eventId, const QString &error)>;
 
+/// Callback for async timeline retrieval.
+/// On success: result is set, error is empty.
+/// On failure: result is empty, error describes what went wrong.
+using ReadTimelineCallback = std::function<void(const QJsonObject &result, const QString &error)>;
+
 /// Resolves a room ID or alias to a room ID.
 /// If the input starts with '!', returns it directly.
 /// If it starts with '#', searches the local cache for a match.
 /// Returns empty string if the room is not found among joined rooms.
 QString
 resolveRoomId(const QString &roomIdOrAlias);
+
+/// Reads visible timeline events for a room, newest first.
+void
+readTimeline(const QString &roomIdOrAlias,
+             int limit,
+             const QString &beforeEventId,
+             bool includeUnsignedFields,
+             const QString &fetchMode,
+             ReadTimelineCallback callback);
 
 /// Sends a text or notice message to a room.
 void

@@ -201,6 +201,29 @@ roomList(const QString &profileId)
     return {};
 }
 
+QString
+roomTimeline(const QString &profileId,
+             const QString &roomIdOrAlias,
+             const int limit,
+             const QString &beforeEventId,
+             const bool includeUnsignedFields,
+             const QString &fetchMode)
+{
+    QDBusInterface iface{
+      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Rooms")};
+    if (iface.isValid()) {
+        const auto reply = QDBusReply<QString>{iface.call(QStringLiteral("timeline"),
+                                                          roomIdOrAlias,
+                                                          limit,
+                                                          beforeEventId,
+                                                          includeUnsignedFields,
+                                                          fetchMode)};
+        if (reply.isValid())
+            return reply.value();
+    }
+    return {};
+}
+
 void
 activateRoom(const QString &profileId, const QString &roomIdOrAlias)
 {

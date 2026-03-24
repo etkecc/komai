@@ -29,7 +29,7 @@ main()
   │         │
   │         ├─ runAppCommand()          ← IPC: version, api-version
   │         ├─ runMcpCommand()          ← wrapper: launches komai-mcp
-  │         ├─ runRoomsCommand()        ← IPC: list, activate, join, new-direct-chat
+  │         ├─ runRoomsCommand()        ← IPC: list, timeline, activate, join, new-direct-chat
   │         ├─ runUserCommand()         ← IPC: status, set-status
   │         ├─ runSettingsCommand()     ← IPC: ui theme, ui set-theme
   │         ├─ runMediaCommand()        ← IPC: fetch
@@ -90,6 +90,7 @@ Simple JSON-lines over the transport — one request line, one response line:
 | `app.version`                | —                             | `string`        |
 | `app.apiVersion`             | —                             | `string`        |
 | `rooms.list`                 | —                             | `array`         |
+| `rooms.timeline`             | `roomIdOrAlias`, `limit`?, `beforeEventId`?, `includeUnsignedFields`?, `fetchMode`? | `object` |
 | `rooms.activate`             | `roomIdOrAlias`               | `true`          |
 | `rooms.join`                 | `roomIdOrAlias`               | `true`          |
 | `rooms.newDirectChat`        | `userId`                      | `true`          |
@@ -146,6 +147,9 @@ socket name `komai-cli-<id>`). Default profile is `default`.
 
 The `settings` group uses nested dispatch:
 `settings` → subgroup (`ui`) → subcommand (`theme`, `set-theme`).
+
+The `rooms` group currently exposes read subcommands `list` and `timeline`, plus write
+subcommands such as `activate`, `join`, `new-direct-chat`, `send`, and image sending.
 
 ## MCP wrapper command
 

@@ -112,6 +112,49 @@ komai rooms activate '!abc123:example.org'
 komai rooms activate '#komai:example.org'
 ```
 
+### timeline
+
+Returns visible timeline events from a room as JSON, newest first. Each event keeps its original
+Matrix `content` object and selected envelope fields such as `event_id`, `type`, `sender`,
+`origin_server_ts`, and `state_key` when present.
+
+By default Komai reads only from the locally cached timeline. Use `--fetch-mode
+server_fetch_if_needed` to back-paginate older history from the homeserver until the requested
+page is filled or no older history remains.
+
+```bash
+komai rooms timeline '!abc:example.org'
+komai rooms timeline '#komai:example.org' --limit 100
+komai rooms timeline '!abc:example.org' --before-event-id '$older:example.org'
+komai rooms timeline '!abc:example.org' --fetch-mode server_fetch_if_needed
+komai rooms timeline '!abc:example.org' --include-unsigned-fields
+```
+
+Output:
+
+```json
+{"roomId":"!abc:example.org","events":[{"content":{"body":"How are you doing?","msgtype":"m.text"},"event_id":"$0Akk93vnCBLjeOoAlu2zUy9Ym7ottC0dF_9AFw1Z_4Y","origin_server_ts":1774304714130,"sender":"@test8:example.org","type":"m.room.message"}],"hasMore":true,"nextBeforeEventId":"$0Akk93vnCBLjeOoAlu2zUy9Ym7ottC0dF_9AFw1Z_4Y"}
+```
+
+| Flag | Values | Default | Description |
+|---|---|---|---|
+| `--limit` | `1..500` | `50` | Maximum number of events to return |
+| `--before-event-id` | Matrix event ID | | Exclusive pagination anchor; returns older events |
+| `--include-unsigned-fields` | flag | off | Include Matrix `unsigned` event fields |
+| `--fetch-mode` | `cached_only`, `server_fetch_if_needed` | `cached_only` | Read only from local cache or fetch older history when needed |
+
+Pagination example:
+
+```bash
+# First page
+komai rooms timeline '!abc:example.org' --limit 50 | jq .
+
+# Next older page
+komai rooms timeline '!abc:example.org' \
+  --before-event-id "$(komai rooms timeline '!abc:example.org' --limit 50 | jq -r '.nextBeforeEventId')" \
+  --limit 50 | jq .
+```
+
 ### join
 
 Joins a room by room ID or alias. See also: [list](#list).

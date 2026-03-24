@@ -211,6 +211,32 @@ fn optional_string(arguments: &Map<String, Value>, key: &str) -> Result<Option<S
     }
 }
 
+fn optional_bool(arguments: &Map<String, Value>, key: &str) -> Result<Option<bool>, ToolFailure> {
+    match arguments.get(key) {
+        Some(Value::Bool(value)) => Ok(Some(*value)),
+        Some(Value::Null) => Ok(None),
+        Some(_) => Err(ToolFailure::InvalidParams(format!(
+            "Argument '{key}' must be a boolean when provided."
+        ))),
+        None => Ok(None),
+    }
+}
+
+fn optional_integer(arguments: &Map<String, Value>, key: &str) -> Result<Option<i64>, ToolFailure> {
+    match arguments.get(key) {
+        Some(Value::Number(value)) => value.as_i64().map(Some).ok_or_else(|| {
+            ToolFailure::InvalidParams(format!(
+                "Argument '{key}' must be an integer when provided."
+            ))
+        }),
+        Some(Value::Null) => Ok(None),
+        Some(_) => Err(ToolFailure::InvalidParams(format!(
+            "Argument '{key}' must be an integer when provided."
+        ))),
+        None => Ok(None),
+    }
+}
+
 fn optional_object(arguments: &Map<String, Value>, key: &str) -> Result<Option<Map<String, Value>>, ToolFailure> {
     match arguments.get(key) {
         Some(Value::Object(value)) => Ok(Some(value.clone())),
@@ -394,6 +420,53 @@ fn room_info_schema() -> Value {
     )
 }
 
+const TIMELINE_FETCH_MODE_CACHED_ONLY: &str = "cached_only";
+const TIMELINE_FETCH_MODE_SERVER_IF_NEEDED: &str = "server_fetch_if_needed";
+const DEFAULT_TIMELINE_LIMIT: i64 = 50;
+const MAX_TIMELINE_LIMIT: i64 = 500;
+
+fn nullable_string_schema(description: &'static str) -> Value {
+    json!({
+        "type": ["string", "null"],
+        "description": description,
+    })
+}
+
+fn timeline_event_schema() -> Value {
+    json!({
+        "type": "object",
+        "description": "Serialized Matrix timeline event with original content and selected envelope fields.",
+        "additionalProperties": true,
+        "properties": {
+            "content": {
+                "type": "object",
+                "description": "Original Matrix event content object.",
+            },
+            "event_id": {
+                "type": "string",
+                "description": "Matrix event ID.",
+            },
+            "origin_server_ts": {
+                "type": "integer",
+                "description": "Origin server timestamp in milliseconds.",
+            },
+            "sender": {
+                "type": "string",
+                "description": "Matrix user ID of the sender.",
+            },
+            "state_key": {
+                "type": "string",
+                "description": "Matrix state key when the event is a state event.",
+            },
+            "type": {
+                "type": "string",
+                "description": "Matrix event type.",
+            }
+        },
+        "required": ["content", "event_id", "origin_server_ts", "sender", "type"],
+    })
+}
+
 fn ok_with_key_output_schema(key: &'static str, description: &'static str) -> Value {
     object_schema(
         vec![
@@ -406,6 +479,30 @@ fn ok_with_key_output_schema(key: &'static str, description: &'static str) -> Va
 
 fn getter_output_schema(key: &'static str, description: &'static str) -> Value {
     object_schema(vec![(key, string_schema(description))], &[key])
+}
+
+fn parse_timeline_limit(arguments: &Map<String, Value>) -> Result<i64, ToolFailure> {
+    match optional_integer(arguments, "limit")? {
+        None => Ok(DEFAULT_TIMELINE_LIMIT),
+        Some(limit) if (1..=MAX_TIMELINE_LIMIT).contains(&limit) => Ok(limit),
+        Some(_) => Err(ToolFailure::InvalidParams(format!(
+            "Argument 'limit' must be between 1 and {MAX_TIMELINE_LIMIT}."
+        ))),
+    }
+}
+
+fn parse_timeline_fetch_mode(arguments: &Map<String, Value>) -> Result<String, ToolFailure> {
+    match optional_string(arguments, "fetchMode")?.as_deref() {
+        None | Some(TIMELINE_FETCH_MODE_CACHED_ONLY) => {
+            Ok(TIMELINE_FETCH_MODE_CACHED_ONLY.to_owned())
+        }
+        Some(TIMELINE_FETCH_MODE_SERVER_IF_NEEDED) => {
+            Ok(TIMELINE_FETCH_MODE_SERVER_IF_NEEDED.to_owned())
+        }
+        Some(_) => Err(ToolFailure::InvalidParams(format!(
+            "Argument 'fetchMode' must be one of: {TIMELINE_FETCH_MODE_CACHED_ONLY}, {TIMELINE_FETCH_MODE_SERVER_IF_NEEDED}."
+        ))),
+    }
 }
 
 fn parse_msgtype(arguments: &Map<String, Value>) -> Result<String, ToolFailure> {
@@ -467,6 +564,58 @@ fn handle_rooms_list(
         vec![results::text_content(format!(
             "Listed {} rooms.",
             rooms.len()
+        ))],
+    )
+}
+
+fn handle_rooms_get_timeline(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(
+        arguments,
+        &[
+            "roomIdOrAlias",
+            "limit",
+            "beforeEventId",
+            "includeUnsignedFields",
+            "fetchMode",
+        ],
+    )?;
+    let room_id_or_alias = require_non_empty_string(arguments, "roomIdOrAlias")?;
+    let limit = parse_timeline_limit(arguments)?;
+    let before_event_id = optional_string(arguments, "beforeEventId")?;
+    let include_unsigned_fields = optional_bool(arguments, "includeUnsignedFields")?.unwrap_or(false);
+    let fetch_mode = parse_timeline_fetch_mode(arguments)?;
+
+    let mut params = Map::new();
+    params.insert(
+        "roomIdOrAlias".to_owned(),
+        Value::String(room_id_or_alias.clone()),
+    );
+    params.insert("limit".to_owned(), Value::Number(limit.into()));
+    if let Some(before_event_id) = before_event_id {
+        params.insert("beforeEventId".to_owned(), Value::String(before_event_id));
+    }
+    if include_unsigned_fields {
+        params.insert(
+            "includeUnsignedFields".to_owned(),
+            Value::Bool(include_unsigned_fields),
+        );
+    }
+    params.insert("fetchMode".to_owned(), Value::String(fetch_mode));
+
+    let result = backend_object(backend, "rooms.timeline", Value::Object(params))?;
+    let event_count = result
+        .get("events")
+        .and_then(Value::as_array)
+        .map(Vec::len)
+        .unwrap_or(0);
+
+    success(
+        Value::Object(result),
+        vec![results::text_content(format!(
+            "Retrieved {event_count} timeline event(s) from {room_id_or_alias}."
         ))],
     )
 }
@@ -835,6 +984,75 @@ const TOOLS: &[ToolDefinition] = &[
         handler: handle_rooms_list,
     },
     ToolDefinition {
+        name: "rooms_get_timeline",
+        title: "Get Room Timeline",
+        description: "Read visible timeline events from a room, newest first.",
+        access: ToolAccess::Read,
+        destructive: false,
+        idempotent: true,
+        open_world: false,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+                    (
+                        "limit",
+                        json!({
+                            "type": "integer",
+                            "description": "Maximum number of events to return.",
+                            "minimum": 1,
+                            "maximum": MAX_TIMELINE_LIMIT,
+                            "default": DEFAULT_TIMELINE_LIMIT,
+                        }),
+                    ),
+                    (
+                        "beforeEventId",
+                        string_schema("Exclusive pagination anchor. Returns events older than this event ID."),
+                    ),
+                    (
+                        "includeUnsignedFields",
+                        boolean_schema("Whether to include Matrix unsigned event fields."),
+                    ),
+                    (
+                        "fetchMode",
+                        enum_string_schema(
+                            "Whether to read only from the local cache or fetch older history from the server when needed.",
+                            &[
+                                TIMELINE_FETCH_MODE_CACHED_ONLY,
+                                TIMELINE_FETCH_MODE_SERVER_IF_NEEDED,
+                            ],
+                        ),
+                    ),
+                ],
+                &["roomIdOrAlias"],
+            )
+        },
+        output_schema: || {
+            object_schema(
+                vec![
+                    ("roomId", string_schema("Resolved Matrix room ID.")),
+                    (
+                        "events",
+                        json!({
+                            "type": "array",
+                            "items": timeline_event_schema(),
+                        }),
+                    ),
+                    (
+                        "hasMore",
+                        boolean_schema("Whether more older events are available with the selected fetch mode."),
+                    ),
+                    (
+                        "nextBeforeEventId",
+                        nullable_string_schema("Use this value as beforeEventId to retrieve the next older page."),
+                    ),
+                ],
+                &["roomId", "events", "hasMore", "nextBeforeEventId"],
+            )
+        },
+        handler: handle_rooms_get_timeline,
+    },
+    ToolDefinition {
         name: "rooms_activate",
         title: "Activate Room",
         description: "Focus a room in the running Komai UI.",
@@ -1147,6 +1365,7 @@ mod tests {
             .collect();
 
         assert!(names.contains(&"rooms_list".to_owned()));
+        assert!(names.contains(&"rooms_get_timeline".to_owned()));
         assert!(!names.contains(&"rooms_send".to_owned()));
     }
 
@@ -1193,6 +1412,45 @@ mod tests {
             Some("!room:example.org")
         );
         assert_eq!(result["content"][0]["type"].as_str(), Some("text"));
+    }
+
+    #[test]
+    fn rooms_get_timeline_wraps_events_in_structured_content() {
+        let backend = MockBackend::with_response(
+            "rooms.timeline",
+            Ok(json!({
+                "roomId": "!room:example.org",
+                "events": [
+                    {
+                        "content": {"body": "Hello", "msgtype": "m.text"},
+                        "event_id": "$event:example.org",
+                        "origin_server_ts": 1742810400000_i64,
+                        "sender": "@alice:example.org",
+                        "type": "m.room.message"
+                    }
+                ],
+                "hasMore": true,
+                "nextBeforeEventId": "$event:example.org"
+            })),
+        );
+
+        let result = call_tool(
+            &backend,
+            AccessMode::ReadOnly,
+            "rooms_get_timeline",
+            Some(json!({ "roomIdOrAlias": "!room:example.org" })),
+        )
+        .unwrap();
+
+        assert_eq!(
+            result["structuredContent"]["roomId"].as_str(),
+            Some("!room:example.org")
+        );
+        assert!(result["structuredContent"]["events"].is_array());
+        assert_eq!(
+            result["structuredContent"]["events"][0]["event_id"].as_str(),
+            Some("$event:example.org")
+        );
     }
 
     #[test]
@@ -1259,6 +1517,68 @@ mod tests {
                 "Argument 'msgtype' must be one of: text, notice, m.text, m.notice."
                     .to_owned()
             )
+        );
+    }
+
+    #[test]
+    fn invalid_timeline_limit_is_reported_as_protocol_error() {
+        let backend = MockBackend::default();
+
+        let error = call_tool(
+            &backend,
+            AccessMode::ReadOnly,
+            "rooms_get_timeline",
+            Some(json!({
+                "roomIdOrAlias": "!room:example.org",
+                "limit": 0
+            })),
+        )
+        .unwrap_err();
+
+        assert_eq!(
+            error,
+            CallToolError::InvalidParams(
+                "Argument 'limit' must be between 1 and 500.".to_owned()
+            )
+        );
+    }
+
+    #[test]
+    fn rooms_get_timeline_maps_arguments_to_existing_ipc_protocol() {
+        let backend = MockBackend::with_response(
+            "rooms.timeline",
+            Ok(json!({
+                "roomId": "!room:example.org",
+                "events": [],
+                "hasMore": false,
+                "nextBeforeEventId": null
+            })),
+        );
+
+        call_tool(
+            &backend,
+            AccessMode::ReadOnly,
+            "rooms_get_timeline",
+            Some(json!({
+                "roomIdOrAlias": "#example:example.org",
+                "limit": 75,
+                "beforeEventId": "$older:example.org",
+                "includeUnsignedFields": true,
+                "fetchMode": "server_fetch_if_needed"
+            })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        let (method, params) = &calls[0];
+        assert_eq!(method, "rooms.timeline");
+        assert_eq!(params["roomIdOrAlias"].as_str(), Some("#example:example.org"));
+        assert_eq!(params["limit"].as_i64(), Some(75));
+        assert_eq!(params["beforeEventId"].as_str(), Some("$older:example.org"));
+        assert_eq!(params["includeUnsignedFields"].as_bool(), Some(true));
+        assert_eq!(
+            params["fetchMode"].as_str(),
+            Some("server_fetch_if_needed")
         );
     }
 

@@ -134,6 +134,9 @@ positionalsAfter(int argc, char *argv[], const QString &keyword)
       QStringLiteral("--filename"),
       QStringLiteral("--content-type"),
       QStringLiteral("--access"),
+      QStringLiteral("--limit"),
+      QStringLiteral("--before-event-id"),
+      QStringLiteral("--fetch-mode"),
     };
 
     QStringList result;

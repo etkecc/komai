@@ -97,6 +97,73 @@ requireNonEmptyString(QLocalSocket *socket,
     return true;
 }
 
+static bool
+optionalStringParam(QLocalSocket *socket,
+                    const QJsonObject &params,
+                    const QString &key,
+                    QString *value)
+{
+    if (!params.contains(key)) {
+        value->clear();
+        return true;
+    }
+
+    if (!params.value(key).isString()) {
+        writeResponse(
+          socket,
+          {{QStringLiteral("error"),
+            QStringLiteral("Argument '") + key + QStringLiteral("' must be a string.")}});
+        return false;
+    }
+
+    *value = params.value(key).toString();
+    return true;
+}
+
+static bool
+optionalBoolParam(QLocalSocket *socket, const QJsonObject &params, const QString &key, bool *value)
+{
+    if (!params.contains(key)) {
+        *value = false;
+        return true;
+    }
+
+    if (!params.value(key).isBool()) {
+        writeResponse(
+          socket,
+          {{QStringLiteral("error"),
+            QStringLiteral("Argument '") + key + QStringLiteral("' must be a boolean.")}});
+        return false;
+    }
+
+    *value = params.value(key).toBool();
+    return true;
+}
+
+static bool
+optionalIntParam(QLocalSocket *socket,
+                 const QJsonObject &params,
+                 const QString &key,
+                 int defaultValue,
+                 int *value)
+{
+    if (!params.contains(key)) {
+        *value = defaultValue;
+        return true;
+    }
+
+    if (!params.value(key).isDouble()) {
+        writeResponse(
+          socket,
+          {{QStringLiteral("error"),
+            QStringLiteral("Argument '") + key + QStringLiteral("' must be an integer.")}});
+        return false;
+    }
+
+    *value = params.value(key).toInt();
+    return true;
+}
+
 void
 IpcServer::handleRequest(QLocalSocket *socket)
 {
@@ -159,6 +226,60 @@ IpcServer::handleRequest(QLocalSocket *socket)
         }
         newDirectChat(userId);
         writeResponse(socket, {{QStringLiteral("result"), true}});
+        return;
+    }
+
+    if (method == QLatin1String("rooms.timeline")) {
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+
+        int limit = 50;
+        if (!optionalIntParam(socket, params, QStringLiteral("limit"), 50, &limit))
+            return;
+
+        QString beforeEventId;
+        if (!optionalStringParam(socket, params, QStringLiteral("beforeEventId"), &beforeEventId))
+            return;
+
+        bool includeUnsignedFields = false;
+        if (!optionalBoolParam(
+              socket, params, QStringLiteral("includeUnsignedFields"), &includeUnsignedFields)) {
+            return;
+        }
+
+        QString fetchMode = QStringLiteral("cached_only");
+        if (!optionalStringParam(socket, params, QStringLiteral("fetchMode"), &fetchMode))
+            return;
+        if (fetchMode.trimmed().isEmpty())
+            fetchMode = QStringLiteral("cached_only");
+
+        QPointer<QLocalSocket> safeSocket = socket;
+        readTimeline(roomIdOrAlias,
+                     limit,
+                     beforeEventId,
+                     includeUnsignedFields,
+                     fetchMode,
+                     [safeSocket](const QJsonObject &result, const QString &error) {
+                         if (!safeSocket)
+                             return;
+
+                         QJsonObject response;
+                         if (!error.isEmpty())
+                             response.insert(QStringLiteral("error"), error);
+                         else
+                             response.insert(QStringLiteral("result"), result);
+
+                         QMetaObject::invokeMethod(
+                           safeSocket.data(),
+                           [safeSocket, response]() {
+                               if (safeSocket)
+                                   writeResponse(safeSocket.data(), response);
+                           },
+                           Qt::QueuedConnection);
+                     });
         return;
     }
 

@@ -42,6 +42,7 @@ Examples:
 - `app_get_version`
 - `app_get_api_version`
 - `rooms_list`
+- `rooms_get_timeline`
 - `user_get_id`
 - `user_get_homeserver_url`
 - `user_get_device_id`
@@ -72,6 +73,27 @@ Examples of additional write tools:
 Most MCP hosts only need a command and an argument list. Use an absolute path for locally launched servers.
 
 If you are not sure where to start, keep the host in `read_only`, confirm the tool list looks right, and only then opt into `read_write`.
+
+### `rooms_get_timeline`
+
+Reads visible timeline events from a room, newest first. The tool keeps each event's original
+Matrix `content` object and selected envelope fields such as `event_id`, `type`, `sender`,
+`origin_server_ts`, and `state_key` when present.
+
+Arguments:
+
+- `roomIdOrAlias` -- required room ID or alias
+- `limit` -- optional, default `50`, max `500`
+- `beforeEventId` -- optional exclusive pagination anchor
+- `includeUnsignedFields` -- optional, default `false`
+- `fetchMode` -- optional, `cached_only` or `server_fetch_if_needed`
+
+Structured result fields:
+
+- `roomId`
+- `events`
+- `hasMore`
+- `nextBeforeEventId`
 
 ### Claude Code
 
@@ -153,13 +175,14 @@ From the browser UI:
 - connect to the server
 - let Inspector handle MCP initialization
 - open the tools view
-- run a simple read tool such as `app_get_version` or `rooms_list`
+- run a simple read tool such as `app_get_version`, `rooms_list`, or `rooms_get_timeline`
 
 Verify the following in Inspector:
 
 - `initialize` succeeds
 - `tools/list` shows the expected read-only catalog
 - `rooms_list` returns `structuredContent` with a `rooms` field, and each room includes explicit fields such as `read`, `serverNotificationCount`, `memberCount`, `mostRecentEventTimestampMs`, `highlighted`, `categories`, and `tags`
+- `rooms_get_timeline` returns `structuredContent.events` ordered newest first, plus `hasMore` and `nextBeforeEventId` for pagination
 - `media_fetch_image` returns image content
 - tool failures return `isError: true`
 

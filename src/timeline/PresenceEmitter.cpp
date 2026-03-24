@@ -51,13 +51,11 @@ pullPresence(const QString &id)
 }
 
 void
-PresenceEmitter::sync(
-  const std::vector<mtx::events::Event<mtx::events::presence::Presence>> &presences_)
+PresenceEmitter::sync(const QVector<QString> &userIds)
 {
-    for (const auto &p : presences_) {
-        auto id = QString::fromStdString(p.sender);
+    for (const auto &id : userIds) {
         presences.remove(id);
-        emit presenceChanged(std::move(id));
+        emit presenceChanged(id);
     }
 }
 

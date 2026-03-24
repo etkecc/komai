@@ -12,7 +12,6 @@
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
-#include "utils/Utils.h"
 #include "voip/CallManager.h"
 
 void
@@ -38,9 +37,13 @@ RoomlistModel::emitRoomRowUpdate(const QString &room_id)
 }
 
 void
-RoomlistModel::syncJoinedRoom(const std::string &room_id, const mtx::responses::JoinedRoom &room)
+RoomlistModel::syncJoinedRoom(const komai::JoinedRoomSyncUpdate &roomUpdate)
 {
-    auto qroomid = QString::fromStdString(room_id);
+    if (!roomUpdate.room)
+        return;
+
+    const auto &room = *roomUpdate.room;
+    auto qroomid     = roomUpdate.roomId;
     const bool shouldMaterialize =
       models.contains(qroomid) || pendingCurrentRoomId_ == qroomid ||
       (currentRoomPreview_ && currentRoomPreview_->roomid() == qroomid);
@@ -61,21 +64,8 @@ RoomlistModel::syncJoinedRoom(const std::string &room_id, const mtx::responses::
 
             room_model->sync(room);
 
-            if (ChatPage::instance()->userSettings()->timelineTypingShowEnabled()) {
-                for (const auto &ev : room.ephemeral.events) {
-                    if (auto t =
-                          std::get_if<mtx::events::EphemeralEvent<mtx::events::ephemeral::Typing>>(
-                            &ev)) {
-                        QStringList typing;
-                        typing.reserve(t->content.user_ids.size());
-                        for (const auto &user : t->content.user_ids) {
-                            if (user != utils::localUser().toStdString())
-                                typing.push_back(QString::fromStdString(user));
-                        }
-                        room_model->updateTypingUsers(typing);
-                    }
-                }
-            }
+            if (ChatPage::instance()->userSettings()->timelineTypingShowEnabled())
+                room_model->updateTypingUsers(roomUpdate.typingUsers);
         }
     } else {
         const int existingIdx = roomidToIndex(qroomid);
@@ -96,10 +86,8 @@ RoomlistModel::syncJoinedRoom(const std::string &room_id, const mtx::responses::
 }
 
 void
-RoomlistModel::syncLeftRoom(const std::string &room_id)
+RoomlistModel::syncLeftRoom(const QString &qroomid)
 {
-    auto qroomid = QString::fromStdString(room_id);
-
     if ((currentRoom_ && currentRoom_->roomId() == qroomid) ||
         (currentRoomPreview_ && currentRoomPreview_->roomid() == qroomid))
         resetCurrentRoom();
@@ -115,11 +103,9 @@ RoomlistModel::syncLeftRoom(const std::string &room_id)
 }
 
 void
-RoomlistModel::syncInvitedRoom(const std::string &room_id)
+RoomlistModel::syncInvitedRoom(const QString &qroomid)
 {
-    auto qroomid = QString::fromStdString(room_id);
-
-    auto invite = cache::invite(room_id);
+    auto invite = cache::invite(qroomid.toStdString());
     if (!invite)
         return;
 
@@ -136,35 +122,28 @@ RoomlistModel::syncInvitedRoom(const std::string &room_id)
 }
 
 void
-RoomlistModel::sync(const mtx::responses::Sync &sync_)
+RoomlistModel::sync(const komai::SyncUpdate &sync)
 {
-    for (const auto &e : sync_.account_data.events) {
-        if (std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(&e)) {
-            auto changedRooms = DirectChatResolver::instance().reload();
-            for (const auto &r : changedRooms) {
-                if (auto idx = roomidToIndex(r); idx != -1)
-                    emit dataChanged(index(idx), index(idx), {IsDirect, DirectChatOtherUserId});
-                if (auto room = models.value(r); !room.isNull()) {
-                    emit room->isDirectChanged();
-                    emit room->directChatOtherUserIdChanged();
-                }
+    if (sync.directChatsChanged) {
+        auto changedRooms = DirectChatResolver::instance().reload();
+        for (const auto &r : changedRooms) {
+            if (auto idx = roomidToIndex(r); idx != -1)
+                emit dataChanged(index(idx), index(idx), {IsDirect, DirectChatOtherUserId});
+            if (auto room = models.value(r); !room.isNull()) {
+                emit room->isDirectChanged();
+                emit room->directChatOtherUserIdChanged();
             }
         }
     }
 
-    for (const auto &[room_id, room] : sync_.rooms.join) {
-        syncJoinedRoom(room_id, room);
-    }
+    for (const auto &roomUpdate : sync.joinedRooms)
+        syncJoinedRoom(roomUpdate);
 
-    for (const auto &[room_id, room] : sync_.rooms.leave) {
-        (void)room;
-        syncLeftRoom(room_id);
-    }
+    for (const auto &roomId : sync.leftRoomIds)
+        syncLeftRoom(roomId);
 
-    for (const auto &[room_id, room] : sync_.rooms.invite) {
-        (void)room;
-        syncInvitedRoom(room_id);
-    }
+    for (const auto &roomId : sync.invitedRoomIds)
+        syncInvitedRoom(roomId);
 }
 
 void

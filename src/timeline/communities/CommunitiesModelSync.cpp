@@ -6,13 +6,11 @@
 #include "CommunitiesModel.h"
 
 #include <algorithm>
-#include <mtx/responses/common.hpp>
 #include <set>
 
 #include "DirectChatResolver.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
-#include "utils/Utils.h"
 
 namespace {
 struct temptree
@@ -187,60 +185,38 @@ CommunitiesModel::initializeSidebar()
 }
 
 void
-CommunitiesModel::sync(const mtx::responses::Sync &sync_)
+CommunitiesModel::sync(const komai::SyncUpdate &sync)
 {
-    bool tagsUpdated  = false;
-    const auto userid = utils::localUser().toStdString();
+    bool tagsUpdated = false;
 
-    for (const auto &[roomid, room] : sync_.rooms.join) {
-        for (const auto &e : room.account_data.events)
-            if (std::holds_alternative<
-                  mtx::events::AccountDataEvent<mtx::events::account_data::Tags>>(e)) {
-                tagsUpdated = true;
-            }
-        for (const auto &e : room.state.events) {
-            if (std::holds_alternative<mtx::events::StateEvent<mtx::events::state::space::Child>>(
-                  e) ||
-                std::holds_alternative<mtx::events::StateEvent<mtx::events::state::space::Parent>>(
-                  e))
-                tagsUpdated = true;
-
-            if (auto ev = std::get_if<mtx::events::StateEvent<mtx::events::state::Member>>(&e);
-                ev && ev->state_key == userid)
-                tagsUpdated = true;
-        }
-        for (const auto &e : room.timeline.events) {
-            if (std::holds_alternative<mtx::events::StateEvent<mtx::events::state::space::Child>>(
-                  e) ||
-                std::holds_alternative<mtx::events::StateEvent<mtx::events::state::space::Parent>>(
-                  e))
-                tagsUpdated = true;
-
-            if (auto ev = std::get_if<mtx::events::StateEvent<mtx::events::state::Member>>(&e);
-                ev && ev->state_key == userid)
-                tagsUpdated = true;
-        }
-    }
-    for (const auto &[roomid, room] : sync_.rooms.leave) {
-        (void)room;
-        if (spaces_.count(QString::fromStdString(roomid)))
+    for (const auto &roomUpdate : sync.joinedRooms) {
+        if (roomUpdate.tagsChanged || roomUpdate.spaceInfoChanged ||
+            roomUpdate.ownMembershipChanged)
             tagsUpdated = true;
-        if (globalExcludedFilterIds_.contains(QString::fromStdString("space:" + roomid))) {
-            globalExcludedFilterIds_.removeAll(QString::fromStdString("space:" + roomid));
+    }
+    for (const auto &roomId : sync.leftRoomIds) {
+        if (spaces_.count(roomId))
+            tagsUpdated = true;
+        const auto filterId = QStringLiteral("space:%1").arg(roomId);
+        if (globalExcludedFilterIds_.contains(filterId)) {
+            globalExcludedFilterIds_.removeAll(filterId);
             UserSettings::instance()->setGlobalExcludes(globalExcludedFilterIds_);
             tagsUpdated = true;
         }
     }
-    for (const auto &e : sync_.account_data.events) {
-        if (auto event =
-              std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(&e)) {
-            directMessages_.clear();
-            for (const auto &[userId, roomIds] : event->content.user_to_rooms)
-                for (const auto &roomId : roomIds)
-                    directMessages_.push_back(roomId);
-            tagsUpdated = true;
-            break;
+    if (sync.directChatsChanged) {
+        directMessages_.clear();
+        auto event = cache::getAccountData(mtx::events::EventType::Direct);
+        if (event) {
+            if (auto direct =
+                  std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(
+                    &event.value())) {
+                for (const auto &[userId, roomIds] : direct->content.user_to_rooms)
+                    for (const auto &roomId : roomIds)
+                        directMessages_.push_back(roomId);
+            }
         }
+        tagsUpdated = true;
     }
 
     if (tagsUpdated)

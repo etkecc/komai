@@ -94,15 +94,8 @@ TimelineViewManager::getIgnoredUsers()
 }
 
 void
-TimelineViewManager::processIgnoredUsers(const mtx::responses::AccountData &data)
+TimelineViewManager::processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers)
 {
-    for (const mtx::events::collections::RoomAccountDataEvents::variant &ev : data.events) {
-        if (!std::holds_alternative<IgnoredUsers>(ev)) {
-            continue;
-        }
-        const auto &ignoredEv = std::get<IgnoredUsers>(ev);
-
-        emit this->ignoredUsersChanged(convertIgnoredToQt(ignoredEv));
-        break;
-    }
+    if (ignoredUsers)
+        emit this->ignoredUsersChanged(*ignoredUsers);
 }

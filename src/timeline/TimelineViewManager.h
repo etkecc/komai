@@ -12,10 +12,12 @@
 #include <QVariantMap>
 
 #include <algorithm>
+#include <optional>
 #include <unordered_map>
 #include <vector>
 
 #include "NavigationHistory.h"
+#include "matrix/MatrixSyncUpdate.h"
 
 class QQuickItem;
 class QQuickTextDocument;
@@ -35,11 +37,6 @@ class UserProfile;
 class RoomSettings;
 class FilteredRoomlistModel;
 class QAbstractItemModel;
-
-namespace mtx::responses {
-struct Sync;
-struct AccountData;
-}
 
 namespace mtx::events::voip {
 struct CallInvite;
@@ -76,7 +73,7 @@ public:
 
     QVector<QString> getIgnoredUsers();
 
-    void sync(const mtx::responses::Sync &sync_);
+    void sync(const komai::SyncUpdate &sync);
 
     VerificationManager *verificationManager() { return verificationManager_; }
 
@@ -255,6 +252,6 @@ private:
     NavigationHistory navHistory_;
     bool navigating_ = false;
 
-    void processIgnoredUsers(const mtx::responses::AccountData &data);
+    void processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers);
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
 };

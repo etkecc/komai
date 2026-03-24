@@ -15,9 +15,8 @@
 #include <array>
 #include <unordered_map>
 
-#include <mtx/responses/sync.hpp>
-
 #include "matrix/MatrixStateTypes.h"
+#include "matrix/MatrixSyncUpdate.h"
 
 class CommunitiesModel;
 
@@ -225,7 +224,7 @@ public:
 
 public slots:
     void initializeSidebar();
-    void sync(const mtx::responses::Sync &sync_);
+    void sync(const komai::SyncUpdate &sync);
     void clear();
     QString currentFilterId() const { return currentFilterId_; }
     void setCurrentFilterId(const QString &filterId);

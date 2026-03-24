@@ -147,12 +147,12 @@ TimelineViewManager::clearAll()
 }
 
 void
-TimelineViewManager::sync(const mtx::responses::Sync &sync_)
+TimelineViewManager::sync(const komai::SyncUpdate &sync)
 {
-    this->rooms_->sync(sync_);
-    this->communities_->sync(sync_);
-    this->presenceEmitter->sync(sync_.presence);
-    this->processIgnoredUsers(sync_.account_data);
+    this->rooms_->sync(sync);
+    this->communities_->sync(sync);
+    this->presenceEmitter->sync(sync.presenceUserIds);
+    this->processIgnoredUsers(sync.ignoredUsers);
 
     if (waitingForFirstSync_) {
         this->waitingForFirstSync_ = false;

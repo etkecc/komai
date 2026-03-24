@@ -28,6 +28,7 @@
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
+#include "matrix/MatrixSyncUpdate.h"
 #include "providers/AvatarProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
@@ -164,7 +165,10 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
       this,
       &ChatPage::initializeViews,
       view_manager_,
-      [this](const mtx::responses::Sync &sync) { view_manager_->sync(sync); },
+      [this](const mtx::responses::Sync &sync) {
+          const auto localUserId = utils::localUser().toStdString();
+          view_manager_->sync(komai::buildSyncUpdate(sync, localUserId));
+      },
       Qt::QueuedConnection);
     connect(this,
             &ChatPage::initializeEmptyViews,

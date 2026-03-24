@@ -18,6 +18,7 @@
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
 #include "events/EventAccessors.h"
+#include "matrix/MatrixSyncUpdate.h"
 #include "notifications/Manager.h"
 #include "providers/AvatarProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -29,7 +30,8 @@
 void
 ChatPage::processSyncUi(const mtx::responses::Sync &sync)
 {
-    view_manager_->sync(sync);
+    const auto localUserId = utils::localUser().toStdString();
+    view_manager_->sync(komai::buildSyncUpdate(sync, localUserId));
 
     static unsigned int prevNotificationCount = 0;
     unsigned int notificationCount            = 0;

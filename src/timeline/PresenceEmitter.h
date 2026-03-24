@@ -7,11 +7,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-
-#include <vector>
-
-#include <mtx/events.hpp>
-#include <mtx/events/presence.hpp>
+#include <QVector>
 
 class PresenceEmitter final : public QObject
 {
@@ -46,7 +42,7 @@ public:
         return instance_;
     }
 
-    void sync(const std::vector<mtx::events::Event<mtx::events::presence::Presence>> &presences);
+    void sync(const QVector<QString> &userIds);
 
     Q_INVOKABLE QString userPresence(QString id) const;
     Q_INVOKABLE QString userStatus(QString id) const;

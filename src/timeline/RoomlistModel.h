@@ -6,6 +6,7 @@
 #pragma once
 
 #include "matrix/MatrixStateTypes.h"
+#include "matrix/MatrixSyncUpdate.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include <QAbstractListModel>
 #include <QHash>
@@ -18,8 +19,6 @@
 #include <optional>
 #include <set>
 #include <string>
-
-#include <mtx/responses/sync.hpp>
 
 #ifdef KOMAI_DBUS_SYS
 #include "dbus/Backend.h"
@@ -117,7 +116,7 @@ public:
 
 public slots:
     void initializeRooms();
-    void sync(const mtx::responses::Sync &sync_);
+    void sync(const komai::SyncUpdate &sync);
     void clear();
     int roomidToIndex(const QString &roomid)
     {
@@ -200,9 +199,9 @@ private:
     connectRoomModelSignals(const QString &room_id, const QSharedPointer<TimelineModel> &roomModel);
     void restoreRoomDraft(const QString &room_id, const QSharedPointer<TimelineModel> &roomModel);
     QSharedPointer<TimelineModel> createRoomModel(const QString &room_id);
-    void syncJoinedRoom(const std::string &room_id, const mtx::responses::JoinedRoom &room);
-    void syncLeftRoom(const std::string &room_id);
-    void syncInvitedRoom(const std::string &room_id);
+    void syncJoinedRoom(const komai::JoinedRoomSyncUpdate &roomUpdate);
+    void syncLeftRoom(const QString &roomId);
+    void syncInvitedRoom(const QString &roomId);
     void emitRoomRowUpdate(const QString &room_id);
     static bool isCachedEncryptedPreview(const QString &room_id, const DescInfo &description);
     bool isCurrentRoomSelection(const QString &roomid) const;

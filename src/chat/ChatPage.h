@@ -208,6 +208,7 @@ private:
                                const std::optional<std::vector<std::string>> &fallback_keys);
     void removeOldFallbackKey();
     void getProfileInfo();
+    void getProfileInfoViaMtxclient();
     void getBackupVersion();
 
     void loadStateFromCache();

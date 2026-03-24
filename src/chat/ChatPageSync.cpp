@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QApplication>
+#include <QPointer>
 #include <QTimer>
 
 #include <algorithm>
@@ -11,6 +12,7 @@
 #include <memory>
 #include <optional>
 #include <string_view>
+#include <thread>
 #include <unordered_set>
 
 #include <nlohmann/json.hpp>
@@ -22,6 +24,7 @@
 #include "encryption/Olm.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/Permissions.h"
 #include "timeline/RoomlistModel.h"
@@ -507,6 +510,44 @@ ChatPage::removeOldFallbackKey()
 
 void
 ChatPage::getProfileInfo()
+{
+    const auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() == 0) {
+        getProfileInfoViaMtxclient();
+        return;
+    }
+
+    const auto handleId = mainWindow->matrixBackendHandleId();
+    QPointer<ChatPage> guard(this);
+
+    std::thread([guard, handleId]() {
+        QString error;
+        auto result = komai::MatrixBackendRuntimeService::fetchOwnProfile(handleId, &error);
+
+        if (!guard)
+            return;
+
+        emit guard->callFunctionOnGuiThread([guard, result = std::move(result), error]() {
+            if (!guard || guard->shuttingDown_)
+                return;
+
+            if (!result) {
+                nhlog::net()->warn(
+                  "Failed to retrieve own profile info via matrix-sdk runtime handle: {}. "
+                  "Falling back to mtxclient.",
+                  error.toStdString());
+                guard->getProfileInfoViaMtxclient();
+                return;
+            }
+
+            emit guard->setUserDisplayName(result->displayName);
+            emit guard->setUserAvatar(result->avatarUrl);
+        });
+    }).detach();
+}
+
+void
+ChatPage::getProfileInfoViaMtxclient()
 {
     const auto userid = utils::localUser().toStdString();
 

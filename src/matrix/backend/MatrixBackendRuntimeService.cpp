@@ -23,6 +23,15 @@ fromRustHandleInfo(const ::komai::rust::MatrixBackendHandleInfo &info)
     };
 }
 
+MatrixOwnProfile
+fromRustOwnProfile(const ::komai::rust::MatrixOwnProfile &profile)
+{
+    return MatrixOwnProfile{
+      .displayName = QString::fromStdString(std::string(profile.display_name)),
+      .avatarUrl   = QString::fromStdString(std::string(profile.avatar_url)),
+    };
+}
+
 } // namespace
 
 std::optional<MatrixBackendHandleInfo>
@@ -48,6 +57,19 @@ MatrixBackendRuntimeService::stopBackend(uint64_t handleId, QString *errorOut)
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return false;
+    }
+}
+
+std::optional<MatrixOwnProfile>
+MatrixBackendRuntimeService::fetchOwnProfile(uint64_t handleId, QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_fetch_own_profile(handleId);
+        return fromRustOwnProfile(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
     }
 }
 

@@ -86,6 +86,7 @@ public:
 
     MxcImageProvider *imageProvider() { return imgProvider; }
     bool altPressed() const { return altPressed_; }
+    uint64_t matrixBackendHandleId() const { return matrixBackendHandleId_; }
 
     //! Show the chat page using the currently persisted session snapshot.
     void showChatPage(bool hadSessionIdentity);

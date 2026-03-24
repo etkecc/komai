@@ -47,6 +47,11 @@ mod ffi {
         device_id: String,
     }
 
+    struct MatrixOwnProfile {
+        display_name: String,
+        avatar_url: String,
+    }
+
     struct MatrixLoginResult {
         user_id: String,
         access_token: String,
@@ -118,6 +123,7 @@ mod ffi {
         fn matrix_restore_session_preview(profile_id: &str) -> Result<MatrixRestorePreview>;
         fn matrix_start_restored_backend(profile_id: &str) -> Result<MatrixBackendHandleInfo>;
         fn matrix_stop_backend(handle_id: u64) -> Result<()>;
+        fn matrix_fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile>;
         fn matrix_discover_login_flows(
             server_name_or_url: &str,
             verify_certificates: bool,
@@ -230,6 +236,15 @@ fn matrix_start_restored_backend(profile_id: &str) -> Result<ffi::MatrixBackendH
 fn matrix_stop_backend(handle_id: u64) -> Result<(), String> {
     logging::ensure_initialized();
     matrix_backend::runtime::stop_backend(handle_id)
+}
+
+fn matrix_fetch_own_profile(handle_id: u64) -> Result<ffi::MatrixOwnProfile, String> {
+    let result = runtime().block_on(matrix_backend::runtime::fetch_own_profile(handle_id))?;
+
+    Ok(ffi::MatrixOwnProfile {
+        display_name: result.display_name,
+        avatar_url: result.avatar_url,
+    })
 }
 
 fn matrix_discover_login_flows(

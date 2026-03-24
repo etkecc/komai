@@ -42,4 +42,27 @@ struct SyncUpdate
 SyncUpdate
 buildSyncUpdate(const mtx::responses::Sync &sync, std::string_view localUserId);
 
+struct JoinedRoomNotificationUpdate
+{
+    QString roomId;
+
+    // Non-owning view into the source sync payload. It is only valid while the surrounding
+    // NotificationSyncUpdate is being applied synchronously.
+    const mtx::responses::JoinedRoom *room = nullptr;
+};
+
+struct NotificationSyncUpdate
+{
+    unsigned int notificationCount = 0;
+
+    // Non-owning view into the source sync payload. It is only valid while the surrounding
+    // NotificationSyncUpdate is being applied synchronously.
+    const mtx::events::AccountDataEvent<mtx::pushrules::GlobalRuleset> *pushRulesUpdate = nullptr;
+
+    std::vector<JoinedRoomNotificationUpdate> joinedRooms;
+};
+
+NotificationSyncUpdate
+buildNotificationSyncUpdate(const mtx::responses::Sync &sync);
+
 } // namespace komai

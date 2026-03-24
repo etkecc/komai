@@ -32,13 +32,10 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
 {
     const auto localUserId = utils::localUser().toStdString();
     view_manager_->sync(komai::buildSyncUpdate(sync, localUserId));
+    const auto notificationUpdate = komai::buildNotificationSyncUpdate(sync);
 
     static unsigned int prevNotificationCount = 0;
-    unsigned int notificationCount            = 0;
-    for (const auto &room : sync.rooms.join) {
-        notificationCount +=
-          static_cast<unsigned int>(room.second.unread_notifications.notification_count);
-    }
+    const auto notificationCount              = notificationUpdate.notificationCount;
 
     // HACK: If we had less notifications last time we checked, send an alert if the
     // user wanted one. Technically, this may cause an alert to be missed if new ones
@@ -54,13 +51,10 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
 
     // No need to check amounts for this section, as this function internally checks for
     // duplicates.
-    if (notificationCount && userSettings_->hasNotifications())
-        for (const auto &e : sync.account_data.events) {
-            if (auto newRules =
-                  std::get_if<mtx::events::AccountDataEvent<mtx::pushrules::GlobalRuleset>>(&e))
-                pushrules =
-                  std::make_unique<mtx::pushrules::PushRuleEvaluator>(newRules->content.global);
-        }
+    if (notificationCount && userSettings_->hasNotifications() &&
+        notificationUpdate.pushRulesUpdate)
+        pushrules = std::make_unique<mtx::pushrules::PushRuleEvaluator>(
+          notificationUpdate.pushRulesUpdate->content.global);
     if (!pushrules) {
         auto eventInDb = cache::getAccountData(mtx::events::EventType::PushRules);
         if (eventInDb) {
@@ -73,7 +67,7 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
         }
     }
     if (pushrules) {
-        const auto local_user = utils::localUser().toStdString();
+        const auto &local_user = localUserId;
 
         // Desktop notifications to be sent
         struct PendingNotification
@@ -86,7 +80,13 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
         };
 
         std::vector<PendingNotification> notifications;
-        for (const auto &[room_id, room] : sync.rooms.join) {
+        for (const auto &roomUpdate : notificationUpdate.joinedRooms) {
+            if (!roomUpdate.room)
+                continue;
+
+            const auto room_id = roomUpdate.roomId.toStdString();
+            const auto &room   = *roomUpdate.room;
+
             // clear old notifications
             for (const auto &e : room.ephemeral.events) {
                 if (auto receiptsEv =

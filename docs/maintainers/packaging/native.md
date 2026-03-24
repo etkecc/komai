@@ -93,9 +93,6 @@ Distro packagers can use system packages instead:
 # Use system packages for all dependencies
 just configure -DCPM_USE_LOCAL_PACKAGES=ON
 
-# Use system packages for everything except a specific library
-just configure -DCPM_USE_LOCAL_PACKAGES=ON -DCPM_MatrixClient_USE_LOCAL=OFF
-
 # Use a system package for a single library
 just configure -DCPM_Qt6Keychain_USE_LOCAL=ON
 ```
@@ -128,8 +125,8 @@ sudo apt install -y build-essential cmake pkg-config python3 cargo rustc \
 
 By default, CPM downloads and builds all non-system dependencies (mtxclient,
 litehtml, blurhash, cpp-httplib, etc.). Pass `-DCPM_USE_LOCAL_PACKAGES=ON` to
-prefer system packages instead, with `-DCPM_MatrixClient_USE_LOCAL=OFF` to keep
-bundling mtxclient (distro packages are typically outdated and lack our patches).
+prefer system packages instead. `mtxclient` remains bundled intentionally,
+because distro packages are typically outdated and may lack our pinned patches.
 
 Note: macOS bundle builds also need the Qt installation used for the build to
 include ICNS imageformat support, because the app bundle icon is generated from

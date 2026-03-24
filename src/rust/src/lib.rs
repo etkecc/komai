@@ -45,6 +45,20 @@ mod ffi {
         homeserver_url: String,
     }
 
+    struct MatrixLoginIdentityProvider {
+        id: String,
+        name: String,
+        icon: String,
+        brand: String,
+    }
+
+    struct MatrixLoginFlows {
+        homeserver_url: String,
+        password_supported: bool,
+        sso_supported: bool,
+        identity_providers: Vec<MatrixLoginIdentityProvider>,
+    }
+
     unsafe extern "C++" {
         include!("matrix/backend/MatrixBackendBridge.h");
 
@@ -73,6 +87,16 @@ mod ffi {
         fn resolve_server(server_name: &str) -> Result<ResolveResult>;
         fn matrix_sdk_paths(profile_id: &str) -> MatrixSdkPaths;
         fn matrix_restore_session_preview(profile_id: &str) -> Result<MatrixRestorePreview>;
+        fn matrix_discover_login_flows(
+            server_name_or_url: &str,
+            verify_certificates: bool,
+        ) -> Result<MatrixLoginFlows>;
+        fn matrix_get_sso_login_url(
+            homeserver_url: &str,
+            redirect_url: &str,
+            identity_provider_id: &str,
+            verify_certificates: bool,
+        ) -> Result<String>;
         fn matrix_login_password(
             profile_id: &str,
             homeserver_url: &str,
@@ -149,6 +173,46 @@ fn matrix_restore_session_preview(profile_id: &str) -> Result<ffi::MatrixRestore
         state_store_root: preview.state_store_root,
         cache_root: preview.cache_root,
     })
+}
+
+fn matrix_discover_login_flows(
+    server_name_or_url: &str,
+    verify_certificates: bool,
+) -> Result<ffi::MatrixLoginFlows, String> {
+    let result = runtime().block_on(matrix_backend::auth::discover_login_flows(
+        server_name_or_url,
+        verify_certificates,
+    ))?;
+
+    Ok(ffi::MatrixLoginFlows {
+        homeserver_url: result.homeserver_url,
+        password_supported: result.password_supported,
+        sso_supported: result.sso_supported,
+        identity_providers: result
+            .identity_providers
+            .into_iter()
+            .map(|provider| ffi::MatrixLoginIdentityProvider {
+                id: provider.id,
+                name: provider.name,
+                icon: provider.icon,
+                brand: provider.brand,
+            })
+            .collect(),
+    })
+}
+
+fn matrix_get_sso_login_url(
+    homeserver_url: &str,
+    redirect_url: &str,
+    identity_provider_id: &str,
+    verify_certificates: bool,
+) -> Result<String, String> {
+    runtime().block_on(matrix_backend::auth::get_sso_login_url(
+        homeserver_url,
+        redirect_url,
+        identity_provider_id,
+        verify_certificates,
+    ))
 }
 
 fn matrix_login_password(

@@ -138,6 +138,9 @@ public slots:
     void versionOk(bool passwordSupported, bool ssoSupported, QVariantList identityProviders);
 
 private:
+    void startLoginFlowDiscovery(const QString &serverNameOrUrl, const QString &expectedHomeserver);
+    QVariantList buildIdentityProviders(
+      const std::vector<komai::MatrixLoginIdentityProvider> &identityProviders) const;
     void checkHomeserverVersion();
     void onMatrixIdEntered();
     void clearErrors()

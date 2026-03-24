@@ -12,6 +12,33 @@ namespace komai {
 
 namespace {
 
+MatrixLoginIdentityProvider
+fromRustProvider(const ::komai::rust::MatrixLoginIdentityProvider &provider)
+{
+    return MatrixLoginIdentityProvider{
+      .id      = QString::fromStdString(std::string(provider.id)),
+      .name    = QString::fromStdString(std::string(provider.name)),
+      .iconUrl = QString::fromStdString(std::string(provider.icon)),
+      .brand   = QString::fromStdString(std::string(provider.brand)),
+    };
+}
+
+MatrixLoginFlows
+fromRustFlows(const ::komai::rust::MatrixLoginFlows &flows)
+{
+    MatrixLoginFlows result;
+    result.homeserverUrl     = QString::fromStdString(std::string(flows.homeserver_url));
+    result.passwordSupported = flows.password_supported;
+    result.ssoSupported      = flows.sso_supported;
+
+    result.identityProviders.reserve(flows.identity_providers.size());
+    for (const auto &provider : flows.identity_providers) {
+        result.identityProviders.push_back(fromRustProvider(provider));
+    }
+
+    return result;
+}
+
 MatrixLoginResult
 fromRustResult(const ::komai::rust::MatrixLoginResult &result)
 {
@@ -24,6 +51,42 @@ fromRustResult(const ::komai::rust::MatrixLoginResult &result)
 }
 
 } // namespace
+
+std::optional<MatrixLoginFlows>
+MatrixAuthService::discoverLoginFlows(const QString &serverNameOrUrl,
+                                      bool verifyCertificates,
+                                      QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_discover_login_flows(serverNameOrUrl.toStdString(),
+                                                                 verifyCertificates);
+        return fromRustFlows(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<QString>
+MatrixAuthService::getSsoLoginUrl(const QString &homeserverUrl,
+                                  const QString &redirectUrl,
+                                  const QString &identityProviderId,
+                                  bool verifyCertificates,
+                                  QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_get_sso_login_url(homeserverUrl.toStdString(),
+                                                              redirectUrl.toStdString(),
+                                                              identityProviderId.toStdString(),
+                                                              verifyCertificates);
+        return QString::fromStdString(std::string(result));
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
 
 std::optional<MatrixLoginResult>
 MatrixAuthService::loginWithPassword(const QString &profileId,

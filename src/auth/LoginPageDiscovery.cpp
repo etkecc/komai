@@ -8,18 +8,13 @@
 #include <QPointer>
 #include <QUrl>
 
-#include <set>
 #include <thread>
 
 #include <mtx/identifiers.hpp>
-#include <mtx/requests.hpp>
-#include <mtx/responses/login.hpp>
-#include <mtx/responses/version.hpp>
 
 #include "LoginPage.h"
 #include "SSOHandler.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "matrix/backend/MatrixAuthService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
@@ -62,23 +57,6 @@ normalizeHomeserverUrl(QString homeserver)
     return url.toString(QUrl::FullyEncoded);
 }
 
-QString
-requestErrorDetails(const mtx::http::ClientError &err)
-{
-    if (!err.matrix_error.error.empty())
-        return QString::fromStdString(err.matrix_error.error);
-
-    if (!err.parse_error.empty())
-        return QString::fromStdString(err.parse_error);
-
-    if (err.error_code != 0)
-        return QString::fromLatin1(err.error_code_string());
-
-    if (err.status_code != 0)
-        return QStringLiteral("HTTP %1").arg(err.status_code);
-
-    return {};
-}
 } // namespace
 
 void
@@ -95,11 +73,8 @@ LoginPage::setHomeserver(const QString &hs)
         return;
     }
 
-    http::client()->set_server(normalized.toStdString());
-    const auto effectiveHomeserver = QString::fromStdString(http::client()->server_url());
-
-    if (effectiveHomeserver != homeserver_) {
-        homeserver_      = effectiveHomeserver;
+    if (normalized != homeserver_) {
+        homeserver_      = normalized;
         homeserverValid_ = false;
         emit homeserverChanged();
         checkHomeserverVersion();
@@ -129,66 +104,84 @@ LoginPage::onMatrixIdEntered()
         mxidError_ = tr("You have entered an invalid Matrix ID e.g. @user:yourserver.example.com");
         emit mxidErrorChanged();
         return;
-    } else {
-        nhlog::net()->debug("hostname: {}", user.hostname());
     }
 
-    if (user.hostname() != inferredServerAddress_.toStdString()) {
-        homeserverNeeded_ = false;
-        lookingUpHs_      = true;
-        emit lookingUpHsChanged();
+    nhlog::net()->debug("hostname: {}", user.hostname());
 
-        http::client()->set_server(
-          normalizeHomeserverUrl(QString::fromStdString(user.hostname())).toStdString());
-        http::client()->verify_certificates(
-          UserSettings::instance()->networkTlsEnableCertificateValidation());
-        homeserver_ = QString::fromStdString(http::client()->server_url());
-        emit homeserverChanged();
+    homeserverNeeded_ = false;
+    lookingUpHs_      = true;
+    homeserver_       = normalizeHomeserverUrl(QString::fromStdString(user.hostname()));
+    emit homeserverChanged();
+    emit lookingUpHsChanged();
 
-        http::client()->well_known(
-          [this, orginal_hostname = user.hostname()](const mtx::responses::WellKnown &res,
-                                                     mtx::http::RequestErr err) {
-              // Ignore if server changed
-              auto currentUser = parse<User>(mxid_.toStdString());
-              if (currentUser.hostname() != orginal_hostname)
+    startLoginFlowDiscovery(QString::fromStdString(user.hostname()), homeserver_);
+}
+
+QVariantList
+LoginPage::buildIdentityProviders(
+  const std::vector<komai::MatrixLoginIdentityProvider> &identityProviders) const
+{
+    QVariantList idps;
+
+    for (const auto &idp : identityProviders) {
+        SSOProvider prov;
+        if (idp.brand == QStringLiteral("apple"))
+            prov.name_ = tr("Sign in with Apple");
+        else if (idp.brand == QStringLiteral("facebook"))
+            prov.name_ = tr("Continue with Facebook");
+        else if (idp.brand == QStringLiteral("google"))
+            prov.name_ = tr("Sign in with Google");
+        else if (idp.brand == QStringLiteral("twitter"))
+            prov.name_ = tr("Sign in with Twitter");
+        else
+            prov.name_ = tr("Login using %1").arg(idp.name);
+
+        prov.avatarUrl_ = idp.iconUrl;
+        prov.id_        = idp.id;
+        idps.push_back(QVariant::fromValue(prov));
+    }
+
+    return idps;
+}
+
+void
+LoginPage::startLoginFlowDiscovery(const QString &serverNameOrUrl,
+                                   const QString &expectedHomeserver)
+{
+    QPointer<LoginPage> guard(this);
+    const bool verifyCertificates =
+      UserSettings::instance()->networkTlsEnableCertificateValidation();
+
+    std::thread([guard, serverNameOrUrl, expectedHomeserver, verifyCertificates]() {
+        QString error;
+        auto result =
+          komai::MatrixAuthService::discoverLoginFlows(serverNameOrUrl, verifyCertificates, &error);
+
+        QMetaObject::invokeMethod(
+          QCoreApplication::instance(), [guard, expectedHomeserver, result, error]() {
+              if (!guard || guard->homeserver_ != expectedHomeserver)
                   return;
 
-              if (err) {
-                  if (err->status_code == 404) {
-                      nhlog::net()->info("Autodiscovery: No .well-known.");
-                      checkHomeserverVersion();
-                      return;
-                  }
-
-                  if (!err->parse_error.empty()) {
-                      emit versionErrorCb(tr("Autodiscovery failed. Received malformed response."));
-                      nhlog::net()->error("Autodiscovery failed. Received malformed response. {}",
-                                          err->parse_error);
-                      return;
-                  }
-
-                  const auto details = requestErrorDetails(*err);
-                  if (details.isEmpty())
-                      emit versionErrorCb(
-                        tr("Autodiscovery failed. Unknown error when requesting .well-known."));
-                  else
-                      emit versionErrorCb(
-                        tr("Autodiscovery failed while requesting .well-known: %1").arg(details));
-                  nhlog::net()->error("Autodiscovery failed. Unknown error when "
-                                      "requesting .well-known. {}",
-                                      *err);
+              if (!result) {
+                  guard->versionError(error);
                   return;
               }
 
-              nhlog::net()->info("Autodiscovery: Discovered '" + res.homeserver.base_url + "'");
-              http::client()->set_server(
-                normalizeHomeserverUrl(QString::fromStdString(res.homeserver.base_url))
-                  .toStdString());
-              homeserver_ = QString::fromStdString(http::client()->server_url());
-              emit homeserverChanged();
-              checkHomeserverVersion();
+              if (guard->homeserver_ != result->homeserverUrl) {
+                  guard->homeserver_ = result->homeserverUrl;
+                  emit guard->homeserverChanged();
+              }
+
+              auto idps = guard->buildIdentityProviders(result->identityProviders);
+              if (result->ssoSupported && result->identityProviders.empty()) {
+                  SSOProvider provider;
+                  provider.name_ = tr("SSO LOGIN");
+                  idps.push_back(QVariant::fromValue(provider));
+              }
+
+              guard->versionOk(result->passwordSupported, result->ssoSupported, idps);
           });
-    }
+    }).detach();
 }
 
 void
@@ -197,105 +190,16 @@ LoginPage::checkHomeserverVersion()
     clearErrors();
 
     try {
-        User user = parse<User>(mxid_.toStdString());
+        [[maybe_unused]] auto user = parse<User>(mxid_.toStdString());
     } catch (const std::exception &) {
         mxidError_ = tr("You have entered an invalid Matrix ID e.g. @user:yourserver.example.com");
         emit mxidErrorChanged();
         return;
     }
 
-    http::client()->versions([this](const mtx::responses::Versions &versions,
-                                    mtx::http::RequestErr err) {
-        if (err) {
-            if (err->status_code == 404) {
-                emit versionErrorCb(tr("The required endpoints were not found. "
-                                       "Possibly not a Matrix server."));
-                return;
-            }
-
-            if (!err->parse_error.empty()) {
-                emit versionErrorCb(tr("Received malformed response. Make sure "
-                                       "the homeserver domain is valid."));
-                return;
-            }
-
-            nhlog::net()->error("Error requesting versions: {}", *err);
-
-            const auto details = requestErrorDetails(*err);
-            if (details.isEmpty()) {
-                emit versionErrorCb(
-                  tr("An unknown error occured. Make sure the homeserver domain is valid."));
-            } else {
-                emit versionErrorCb(tr("Failed to contact the homeserver: %1").arg(details));
-            }
-            return;
-        }
-
-        if (std::find_if(
-              versions.versions.cbegin(), versions.versions.cend(), [](const std::string &v) {
-                  static const std::set<std::string_view, std::less<>> supported{
-                    "v1.1",
-                    "v1.2",
-                    "v1.3",
-                    "v1.4",
-                    "v1.5",
-                    "v1.6",
-                    "v1.7",
-                    "v1.8",
-                    "v1.9",
-                    "v1.10",
-                  };
-                  return supported.count(v) != 0;
-              }) == versions.versions.cend()) {
-            emit versionErrorCb(
-              tr("The selected server does not support a version of the Matrix protocol, that this "
-                 "client understands (%1 to %2). You can't sign in.")
-                .arg(u"v1.1", u"v1.10"));
-            return;
-        }
-
-        http::client()->get_login([this](mtx::responses::LoginFlows flows,
-                                         mtx::http::RequestErr err) {
-            if (err || flows.flows.empty())
-                emit versionOkCb(true, false, {});
-
-            QVariantList idps;
-            bool ssoSupported      = false;
-            bool passwordSupported = false;
-            for (const auto &flow : flows.flows) {
-                if (flow.type == mtx::user_interactive::auth_types::sso) {
-                    ssoSupported = true;
-
-                    for (const auto &idp : flow.identity_providers) {
-                        SSOProvider prov;
-                        if (idp.brand == "apple")
-                            prov.name_ = tr("Sign in with Apple");
-                        else if (idp.brand == "facebook")
-                            prov.name_ = tr("Continue with Facebook");
-                        else if (idp.brand == "google")
-                            prov.name_ = tr("Sign in with Google");
-                        else if (idp.brand == "twitter")
-                            prov.name_ = tr("Sign in with Twitter");
-                        else
-                            prov.name_ = tr("Login using %1").arg(QString::fromStdString(idp.name));
-
-                        prov.avatarUrl_ = QString::fromStdString(idp.icon);
-                        prov.id_        = QString::fromStdString(idp.id);
-                        idps.push_back(QVariant::fromValue(prov));
-                    }
-
-                    if (flow.identity_providers.empty()) {
-                        SSOProvider prov;
-                        prov.name_ = tr("SSO LOGIN");
-                        idps.push_back(QVariant::fromValue(prov));
-                    }
-                } else if (flow.type == mtx::user_interactive::auth_types::password) {
-                    passwordSupported = true;
-                }
-            }
-            emit versionOkCb(passwordSupported, ssoSupported, idps);
-        });
-    });
+    lookingUpHs_ = true;
+    emit lookingUpHsChanged();
+    startLoginFlowDiscovery(homeserver_, homeserver_);
 }
 
 void
@@ -391,6 +295,7 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
         }).detach();
     } else {
         auto sso = new SSOHandler();
+        QPointer<LoginPage> guard(this);
         connect(
           sso, &SSOHandler::ssoSuccess, this, [this, sso, deviceName](const std::string &token) {
               const auto initialDeviceDisplayName = deviceName.trimmed().isEmpty()
@@ -448,8 +353,38 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
         });
 
         // password doubles as the idp id for SSO login
-        QDesktopServices::openUrl(QString::fromStdString(
-          http::client()->login_sso_redirect(sso->url(), password.toStdString())));
+        QPointer<SSOHandler> ssoGuard(sso);
+        const auto homeserver         = homeserver_;
+        const auto identityProviderId = password;
+        const auto callbackUrl        = QString::fromStdString(sso->url());
+        const bool verifyCertificates =
+          UserSettings::instance()->networkTlsEnableCertificateValidation();
+        std::thread(
+          [guard, ssoGuard, homeserver, identityProviderId, callbackUrl, verifyCertificates]() {
+              QString error;
+              auto ssoUrl = komai::MatrixAuthService::getSsoLoginUrl(
+                homeserver, callbackUrl, identityProviderId, verifyCertificates, &error);
+
+              QMetaObject::invokeMethod(
+                QCoreApplication::instance(), [guard, ssoGuard, ssoUrl, error]() {
+                    if (!guard)
+                        return;
+
+                    if (!ssoUrl) {
+                        if (ssoGuard)
+                            ssoGuard->deleteLater();
+                        guard->showError(error);
+                        return;
+                    }
+
+                    if (!QDesktopServices::openUrl(QUrl(*ssoUrl))) {
+                        if (ssoGuard)
+                            ssoGuard->deleteLater();
+                        guard->showError(tr("Failed to open the SSO login page."));
+                    }
+                });
+          })
+          .detach();
     }
 
     loggingIn_ = true;

@@ -33,6 +33,7 @@ matrix_profile_cache_root(rust::Str profile_id)
     return rust::String(app_paths::cache::profileDirectory(toQString(profile_id)).toStdString());
 }
 
+rust::String
 matrix_store_passphrase(rust::Str profile_id)
 {
     const auto secrets = matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));

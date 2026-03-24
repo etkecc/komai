@@ -1657,6 +1657,7 @@ if(BUILD_TESTING)
     target_link_libraries(komai_slash_commands_test PRIVATE
         Qt::Core
         Qt::Gui
+        MatrixClient::MatrixClient
         spdlog::spdlog
     )
     add_test(NAME komai_slash_commands_test COMMAND komai_slash_commands_test)

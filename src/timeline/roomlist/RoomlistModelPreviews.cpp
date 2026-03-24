@@ -10,6 +10,7 @@
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
+#include "matrix/MatrixMediaUri.h"
 #include "utils/Utils.h"
 
 void
@@ -142,7 +143,7 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
         preview.roomid_          = roomid;
         preview.roomName_        = room.displayName.isEmpty() ? roomid : room.displayName;
         preview.roomTopic_       = room.topic;
-        preview.roomAvatarUrl_   = room.avatarUrl;
+        preview.roomAvatarUrl_   = komai::matrix::normalizeMxcUri(room.avatarUrl);
         preview.isFetched_       = true;
         preview.isInvite_        = false;
         preview.canJoin_         = false;
@@ -172,10 +173,11 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
         preview.isFetched_ = i.has_value();
 
         if (i) {
-            preview.roomid_        = roomid;
-            preview.roomName_      = QString::fromStdString(i->name);
-            preview.roomTopic_     = QString::fromStdString(i->topic);
-            preview.roomAvatarUrl_ = QString::fromStdString(i->avatar_url);
+            preview.roomid_    = roomid;
+            preview.roomName_  = QString::fromStdString(i->name);
+            preview.roomTopic_ = QString::fromStdString(i->topic);
+            preview.roomAvatarUrl_ =
+              komai::matrix::normalizeMxcUri(QString::fromStdString(i->avatar_url));
         } else {
             preview.roomid_ = roomid;
         }

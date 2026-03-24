@@ -11,6 +11,7 @@
 #include "DirectChatResolver.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 
 namespace {
 struct temptree
@@ -87,6 +88,7 @@ CommunitiesModel::initializeSidebar()
     tags_.clear();
     spaceOrder_.tree.clear();
     spaces_.clear();
+    directMessages_.clear();
     tagBadgeCache.clear();
     for (auto &f : fixedFilters_) {
         f.unreadRoomCount = 0;
@@ -95,6 +97,19 @@ CommunitiesModel::initializeSidebar()
     hasPeopleRooms_ = false;
     hasBotRooms_    = false;
     hasGroupRooms_  = false;
+
+    const auto *window = MainWindow::instance();
+    if (window && window->matrixBackendHandleId() != 0) {
+        computeFilterBadges();
+        endResetModel();
+
+        emit tagsChanged();
+        emit globalExcludesChanged();
+        emit containsSubspacesChanged();
+
+        setCurrentFilterId(UserSettings::instance()->currentFilterId());
+        return;
+    }
 
     {
         auto e = cache::getAccountData(mtx::events::EventType::Direct);
@@ -206,14 +221,17 @@ CommunitiesModel::sync(const komai::SyncUpdate &sync)
     }
     if (sync.directChatsChanged) {
         directMessages_.clear();
-        auto event = cache::getAccountData(mtx::events::EventType::Direct);
-        if (event) {
-            if (auto direct =
-                  std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(
-                    &event.value())) {
-                for (const auto &[userId, roomIds] : direct->content.user_to_rooms)
-                    for (const auto &roomId : roomIds)
-                        directMessages_.push_back(roomId);
+        const auto *window = MainWindow::instance();
+        if (!(window && window->matrixBackendHandleId() != 0)) {
+            auto event = cache::getAccountData(mtx::events::EventType::Direct);
+            if (event) {
+                if (auto direct =
+                      std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(
+                        &event.value())) {
+                    for (const auto &[userId, roomIds] : direct->content.user_to_rooms)
+                        for (const auto &roomId : roomIds)
+                            directMessages_.push_back(roomId);
+                }
             }
         }
         tagsUpdated = true;

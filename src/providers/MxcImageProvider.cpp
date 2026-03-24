@@ -23,11 +23,17 @@
 
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
+#include "matrix/MatrixMediaUri.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
 QHash<QString, mtx::crypto::EncryptedFile> infos;
+
+static QImage
+clipRadius(QImage img, double radius);
 
 namespace {
 QString
@@ -35,6 +41,12 @@ currentProfileId()
 {
     auto settings = UserSettings::instance();
     return settings ? settings->profile() : QStringLiteral("default");
+}
+
+QString
+providerIdToMxcUri(const QString &id)
+{
+    return komai::matrix::normalizeMxcUri(id);
 }
 
 void
@@ -56,6 +68,48 @@ purgeFilesInDir(const QString &dirPath)
                                    fileInfo.absoluteFilePath().toStdString());
         }
     }
+}
+
+std::optional<uint64_t>
+activeMatrixBackendHandleId()
+{
+    const auto *window = MainWindow::instance();
+    if (!window || window->matrixBackendHandleId() == 0)
+        return std::nullopt;
+
+    return window->matrixBackendHandleId();
+}
+
+QImage
+prepareThumbnailImage(QByteArray data,
+                      const QSize &requestedSize,
+                      bool cropLocally,
+                      double radius,
+                      const QString &id)
+{
+    QImage image = utils::readImage(data);
+    if (!image.isNull()) {
+        if (requestedSize.width() <= 0) {
+            image = image.scaledToHeight(requestedSize.height(), Qt::SmoothTransformation);
+        } else {
+            image = image.scaled(requestedSize,
+                                 cropLocally ? Qt::KeepAspectRatioByExpanding : Qt::KeepAspectRatio,
+                                 Qt::SmoothTransformation);
+            if (cropLocally) {
+                image = image.copy((image.width() - requestedSize.width()) / 2,
+                                   (image.height() - requestedSize.height()) / 2,
+                                   requestedSize.width(),
+                                   requestedSize.height());
+            }
+        }
+
+        if (radius != 0) {
+            image = clipRadius(std::move(image), radius);
+        }
+    }
+
+    image.setText(QStringLiteral("mxc url"), providerIdToMxcUri(id));
+    return image;
 }
 }
 
@@ -265,6 +319,55 @@ MxcImageProvider::download(const QString &id,
             }
         }
 
+        if (!encryptionInfo) {
+            if (const auto handleId = activeMatrixBackendHandleId()) {
+                const auto requestedWidth = requestedSize.width() > 0 ? requestedSize.width() : 0;
+                const auto requestedHeight =
+                  requestedSize.height() > 0 ? requestedSize.height() : 0;
+
+                QThreadPool::globalInstance()->start([fileInfo,
+                                                      requestedSize,
+                                                      radius,
+                                                      then,
+                                                      id,
+                                                      cropLocally,
+                                                      handleId,
+                                                      requestedWidth,
+                                                      requestedHeight] {
+                    QString error;
+                    const auto data =
+                      komai::MatrixBackendRuntimeService::fetchMediaContent(*handleId,
+                                                                            providerIdToMxcUri(id),
+                                                                            requestedWidth,
+                                                                            requestedHeight,
+                                                                            !cropLocally,
+                                                                            &error);
+                    if (!data || data->isEmpty()) {
+                        nhlog::net()->warn(
+                          "Failed to fetch matrix-sdk thumbnail {} via backend handle {}: {}",
+                          id.toStdString(),
+                          *handleId,
+                          error.toStdString());
+                        then(id, QSize(), {}, QLatin1String(""));
+                        return;
+                    }
+
+                    auto image =
+                      prepareThumbnailImage(*data, requestedSize, cropLocally, radius, id);
+                    if (image.save(fileInfo.absoluteFilePath(), "png")) {
+                        utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
+                        nhlog::ui()->debug("Wrote: {}", fileInfo.absoluteFilePath().toStdString());
+                    } else {
+                        nhlog::ui()->debug("Failed to write: {}",
+                                           fileInfo.absoluteFilePath().toStdString());
+                    }
+
+                    then(id, requestedSize, image, fileInfo.absoluteFilePath());
+                });
+                return;
+            }
+        }
+
         mtx::http::ThumbOpts opts;
         opts.mxc_url = "mxc://" + id.toStdString();
         opts.width = static_cast<uint16_t>(requestedSize.width() > 0 ? requestedSize.width() : -1);
@@ -350,6 +453,47 @@ MxcImageProvider::download(const QString &id,
                         then(id, requestedSize, image, fileInfo.absoluteFilePath());
                         return;
                     }
+                }
+            }
+
+            if (!encryptionInfo) {
+                if (const auto handleId = activeMatrixBackendHandleId()) {
+                    QThreadPool::globalInstance()->start(
+                      [fileInfo, requestedSize, then, id, radius, handleId] {
+                          QString error;
+                          const auto data = komai::MatrixBackendRuntimeService::fetchMediaContent(
+                            *handleId, providerIdToMxcUri(id), 0, 0, false, &error);
+                          if (!data || data->isEmpty()) {
+                              nhlog::net()->warn(
+                                "Failed to fetch matrix-sdk media {} via backend handle {}: {}",
+                                id.toStdString(),
+                                *handleId,
+                                error.toStdString());
+                              then(id, QSize(), {}, QLatin1String(""));
+                              return;
+                          }
+
+                          QFile f(fileInfo.absoluteFilePath());
+                          if (!f.open(QIODevice::Truncate | QIODevice::WriteOnly)) {
+                              nhlog::net()->error("Failed to write {}: {}",
+                                                  id.toStdString(),
+                                                  f.errorString().toStdString());
+                              then(id, QSize(), {}, QLatin1String(""));
+                              return;
+                          }
+                          f.write(*data);
+                          f.close();
+                          utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
+
+                          QImage image = utils::readImageFromFile(fileInfo.absoluteFilePath());
+                          if (radius != 0) {
+                              image = clipRadius(std::move(image), radius);
+                          }
+                          image.setText(QStringLiteral("mxc url"), "mxc://" + id);
+
+                          then(id, requestedSize, image, fileInfo.absoluteFilePath());
+                      });
+                    return;
                 }
             }
 

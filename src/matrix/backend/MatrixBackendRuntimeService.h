@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <QByteArray>
 #include <QString>
 #include <QVector>
 #include <cstdint>
@@ -76,6 +77,13 @@ public:
 
     static std::optional<QVector<MatrixTimelineItem>>
     fetchActiveRoomTimeline(uint64_t handleId, QString *errorOut = nullptr);
+
+    static std::optional<QByteArray> fetchMediaContent(uint64_t handleId,
+                                                       const QString &mxcUri,
+                                                       int width,
+                                                       int height,
+                                                       bool crop,
+                                                       QString *errorOut = nullptr);
 };
 
 } // namespace komai

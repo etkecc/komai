@@ -14,10 +14,14 @@ use std::{
 
 use matrix_sdk::{
     Client,
+    media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings},
     RoomState,
     ruma::{
+        MxcUri, UInt,
         RoomId,
+        api::client::media::get_content_thumbnail::v3::Method,
         api::client::profile::{AvatarUrl, DisplayName},
+        events::room::MediaSource,
     },
     stream::StreamExt,
 };
@@ -523,6 +527,14 @@ fn build_room_timeline_snapshot(
         .collect()
 }
 
+fn normalize_mxc_uri(uri: String) -> String {
+    if uri.is_empty() || uri.contains("://") {
+        return uri;
+    }
+
+    format!("mxc://{uri}")
+}
+
 fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
     let room_state = room.state();
     let timestamp = room
@@ -538,7 +550,10 @@ fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
             .map(|name| name.to_string())
             .or_else(|| room.name())
             .unwrap_or_else(|| room.room_id().to_string()),
-        avatar_url: room.avatar_url().map(|url| url.to_string()).unwrap_or_default(),
+        avatar_url: room
+            .avatar_url()
+            .map(|url| normalize_mxc_uri(url.to_string()))
+            .unwrap_or_default(),
         topic: room.topic().unwrap_or_default(),
         is_invite: matches!(room_state, RoomState::Invited),
         is_space: room.is_space(),
@@ -657,7 +672,7 @@ pub async fn fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile, Strin
     let avatar_url = profile
         .get_static::<AvatarUrl>()
         .map_err(|e| format!("failed to parse avatar URL from matrix-sdk profile response: {e}"))?
-        .map(|url| url.to_string())
+        .map(|url| normalize_mxc_uri(url.to_string()))
         .unwrap_or_default();
 
     tracing::debug!(
@@ -691,6 +706,56 @@ pub async fn fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>, S
     tracing::debug!(handle_id, room_count = snapshot.len(), "Fetched matrix room-list snapshot");
 
     Ok(snapshot)
+}
+
+pub async fn fetch_media_content(
+    handle_id: u64,
+    mxc_uri: &str,
+    width: i32,
+    height: i32,
+    crop: bool,
+) -> Result<Vec<u8>, String> {
+    let client = client_for_handle(handle_id)?;
+    let normalized_mxc_uri = normalize_mxc_uri(mxc_uri.trim().to_owned());
+    let uri = Box::<MxcUri>::from(normalized_mxc_uri.as_str());
+    uri.validate()
+        .map_err(|e| format!("invalid mxc uri '{normalized_mxc_uri}': {e}"))?;
+    let uri = uri.to_owned();
+
+    let request = if width > 0 && height > 0 {
+        let width =
+            UInt::try_from(width).map_err(|_| format!("invalid thumbnail width: {width}"))?;
+        let height =
+            UInt::try_from(height).map_err(|_| format!("invalid thumbnail height: {height}"))?;
+        let method = if crop { Method::Crop } else { Method::Scale };
+
+        MediaRequestParameters {
+            source: MediaSource::Plain(uri.into()),
+            format: MediaFormat::Thumbnail(MediaThumbnailSettings::with_method(
+                method, width, height,
+            )),
+        }
+    } else {
+        MediaRequestParameters {
+            source: MediaSource::Plain(uri.into()),
+            format: MediaFormat::File,
+        }
+    };
+
+    tracing::debug!(
+        handle_id,
+        mxc_uri = normalized_mxc_uri,
+        width,
+        height,
+        crop,
+        "Fetching matrix media content via matrix-sdk backend runtime"
+    );
+
+    client
+        .media()
+        .get_media_content(&request, false)
+        .await
+        .map_err(|e| format!("failed to fetch matrix media content via matrix-sdk: {e}"))
 }
 
 pub async fn fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTimelineItem>, String> {

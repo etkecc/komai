@@ -15,6 +15,7 @@
 #include "TimelineModel.h"
 #include "cache/Cache.h"
 #include "events/EventAccessors.h"
+#include "matrix/MatrixMediaUri.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/roomlist/RoomlistPreviewSelection.h"
 #include "utils/Utils.h"
@@ -64,7 +65,7 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
 {
     switch (role) {
     case Roles::AvatarUrl:
-        return room.avatarUrl;
+        return komai::matrix::normalizeMxcUri(room.avatarUrl);
     case Roles::RoomName:
         return room.displayName.isEmpty() ? room_id : room.displayName;
     case Roles::LastMessage:
@@ -160,11 +161,11 @@ RoomlistModel::dataForMaterializedRoom(const QString &room_id,
     case Roles::AvatarUrl: {
         const auto roomModelAvatar = room->roomAvatarUrl();
         if (!roomModelAvatar.isEmpty())
-            return roomModelAvatar;
+            return komai::matrix::normalizeMxcUri(roomModelAvatar);
 
         const auto avatarUrl = cache::roomAvatarUrl(room_id.toStdString());
         if (!avatarUrl.isEmpty())
-            return avatarUrl;
+            return komai::matrix::normalizeMxcUri(avatarUrl);
 
         return roomModelAvatar;
     }
@@ -213,8 +214,8 @@ RoomlistModel::dataForCachedRoom(const QString &room_id, const RoomInfo &room, i
     switch (role) {
     case Roles::AvatarUrl: {
         if (!room.avatar_url.empty())
-            return QString::fromStdString(room.avatar_url);
-        return cache::roomAvatarUrl(room_id.toStdString());
+            return komai::matrix::normalizeMxcUri(QString::fromStdString(room.avatar_url));
+        return komai::matrix::normalizeMxcUri(cache::roomAvatarUrl(room_id.toStdString()));
     }
     case Roles::RoomName: {
         // Use the DM-aware display name so the room list shows the partner's
@@ -303,7 +304,7 @@ RoomlistModel::dataForInviteRoom(const RoomInfo &room, int role) const
 {
     switch (role) {
     case Roles::AvatarUrl:
-        return QString::fromStdString(room.avatar_url);
+        return komai::matrix::normalizeMxcUri(QString::fromStdString(room.avatar_url));
     case Roles::RoomName:
         return QString::fromStdString(room.name);
     case Roles::LastMessage:
@@ -337,7 +338,7 @@ RoomlistModel::dataForPreviewRoom(const RoomInfo &room, int role) const
 {
     switch (role) {
     case Roles::AvatarUrl:
-        return QString::fromStdString(room.avatar_url);
+        return komai::matrix::normalizeMxcUri(QString::fromStdString(room.avatar_url));
     case Roles::RoomName:
         return QString::fromStdString(room.name);
     case Roles::LastMessage:

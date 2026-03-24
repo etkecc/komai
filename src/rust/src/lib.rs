@@ -152,6 +152,13 @@ mod ffi {
         fn matrix_start_backend_sync(handle_id: u64) -> Result<()>;
         fn matrix_fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile>;
         fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>>;
+        fn matrix_fetch_media_content(
+            handle_id: u64,
+            mxc_uri: &str,
+            width: i32,
+            height: i32,
+            crop: bool,
+        ) -> Result<Vec<u8>>;
         fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<()>;
         fn matrix_fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTimelineItem>>;
         fn matrix_discover_login_flows(
@@ -303,6 +310,18 @@ fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<ffi::MatrixRoomSummary>,
                 })
                 .collect()
         })
+}
+
+fn matrix_fetch_media_content(
+    handle_id: u64,
+    mxc_uri: &str,
+    width: i32,
+    height: i32,
+    crop: bool,
+) -> Result<Vec<u8>, String> {
+    runtime().block_on(matrix_backend::runtime::fetch_media_content(
+        handle_id, mxc_uri, width, height, crop,
+    ))
 }
 
 fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {

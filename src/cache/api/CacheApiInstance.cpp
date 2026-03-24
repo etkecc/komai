@@ -5,6 +5,7 @@
 
 #include "cache/api/CacheApiContext.h"
 #include "cache/api/CacheApiLifecycle.h"
+#include "cache/api/CacheApiSignals.h"
 #include "cache/core/Cache_p.h"
 
 #include <memory>
@@ -25,6 +26,7 @@ void
 init(const QString &user_id)
 {
     instance_ = std::make_unique<MatrixStore>(user_id);
+    drainPendingCacheCallbacks();
 }
 
 bool

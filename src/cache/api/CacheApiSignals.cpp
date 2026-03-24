@@ -13,31 +13,49 @@
 
 #include <QObject>
 #include <QPointer>
-#include <QTimer>
 
 namespace cache {
 
 namespace {
+struct PendingCacheCallback
+{
+    QPointer<QObject> receiver;
+    std::function<void()> callback;
+};
+
+std::vector<PendingCacheCallback> &
+pendingCallbacks()
+{
+    static std::vector<PendingCacheCallback> instance;
+    return instance;
+}
+
 void
 connectWhenCacheAvailable(QObject *receiver, std::function<void()> callback)
 {
     if (!receiver)
         return;
 
-    QPointer<QObject> receiverPtr(receiver);
-    QTimer::singleShot(0, [receiverPtr, callback = std::move(callback)]() mutable {
-        if (!receiverPtr)
-            return;
-
-        if (!cacheInstance()) {
-            connectWhenCacheAvailable(receiverPtr, std::move(callback));
-            return;
-        }
-
+    if (cacheInstance()) {
         callback();
-    });
+        return;
+    }
+
+    pendingCallbacks().push_back({QPointer<QObject>(receiver), std::move(callback)});
 }
 } // namespace
+
+void
+drainPendingCacheCallbacks()
+{
+    auto pending = std::move(pendingCallbacks());
+    pendingCallbacks().clear();
+
+    for (auto &entry : pending) {
+        if (entry.receiver)
+            entry.callback();
+    }
+}
 
 void
 onReadReceiptsChanged(QObject *receiver, std::function<void()> callback)

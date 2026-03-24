@@ -17,6 +17,8 @@ void
 onRoomReadStatusChanged(QObject *receiver,
                         std::function<void(const std::map<QString, bool> &)> callback);
 void
+drainPendingCacheCallbacks();
+void
 disconnectFromCache(QObject *receiver);
 void
 onDatabaseReady(QObject *receiver, std::function<void()> callback);

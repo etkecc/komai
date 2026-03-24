@@ -117,10 +117,15 @@ root()
 }
 
 QString
+profileDirectory(QStringView profileId)
+{
+    return root() + QStringLiteral("/profiles/") + normalizedProfileId(profileId);
+}
+
+QString
 dbRoot(QStringView profileId)
 {
-    return root() + QStringLiteral("/profiles/") + normalizedProfileId(profileId) +
-           QStringLiteral("/db");
+    return profileDirectory(profileId) + QStringLiteral("/db");
 }
 
 QString

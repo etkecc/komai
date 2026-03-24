@@ -32,6 +32,8 @@ namespace data {
 QString
 dbRoot(QStringView profileId);
 QString
+profileDirectory(QStringView profileId);
+QString
 databaseDirectory(QStringView userId, QStringView profileId);
 QString
 userThemesDirectory();

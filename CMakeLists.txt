@@ -630,6 +630,10 @@ set(SRC_FILES
     src/auth/LoginPage.h
     src/ui/MainWindow.cpp
     src/ui/MainWindow.h
+    src/matrix/backend/MatrixBackendBridge.cpp
+    src/matrix/backend/MatrixBackendBridge.h
+    src/matrix/backend/MatrixSdkPaths.cpp
+    src/matrix/backend/MatrixSdkPaths.h
     src/matrix/MatrixClient.cpp
     src/matrix/MatrixClient.h
     src/matrix/MatrixServerResolver.cpp
@@ -895,6 +899,7 @@ corrosion_add_cxxbridge(komai-rust-cxxbridge
     CRATE komai_rust
     FILES lib.rs
 )
+target_include_directories(komai-rust-cxxbridge PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 # The Rust crate uses native-tls (OpenSSL). Declare the dependency on the
 # static lib target so the linker sees OpenSSL after the Rust archive.
 set_property(TARGET komai_rust-static APPEND

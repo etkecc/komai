@@ -100,7 +100,7 @@ OverlayDialog {
         font.bold: true
     }
 
-    MatrixTextField {
+    KomaiTextField {
         id: reason
 
         Layout.fillWidth: true

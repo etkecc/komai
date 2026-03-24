@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../ui"
+import "../../components"
 import QtQuick
 import QtQuick.Layouts
 import cc.etke.komai
@@ -40,16 +40,21 @@ RowLayout {
         filteringInProgress: root.filteringInProgress
         topBarAvatarSize: root.topBarAvatarSize
     }
-    MatrixTextField {
+    KomaiTextField {
         id: searchField
 
         Layout.fillWidth: true
         enabled: root.searchActive
-        hasClear: false
         placeholderText: qsTr("Type to search in this room's messages")
-        radius: Komai.paddingSmall
 
-        onEditingFinished: root.searchStringCommitted(text)
+        onTextChanged: searchDebounce.restart()
+
+        Timer {
+            id: searchDebounce
+
+            interval: 350
+            onTriggered: root.searchStringCommitted(searchField.text)
+        }
     }
     ImageButton {
         Layout.preferredHeight: root.topBarAvatarSize

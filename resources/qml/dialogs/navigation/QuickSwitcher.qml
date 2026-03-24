@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../ui"
+import "../../components"
 import QtQuick
 import QtQuick.Controls
 import cc.etke.komai
@@ -103,13 +103,11 @@ Popup {
             wrapMode: Text.Wrap
         }
 
-        MatrixTextField {
+        KomaiTextField {
             id: roomTextInput
 
-            color: palette.text
             font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.6)
             placeholderText: qsTr("Room or space name, #address or !id...")
-            radius: Komai.paddingSmall
             width: parent.width
 
             Keys.onPressed: event => {

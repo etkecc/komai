@@ -146,7 +146,7 @@ Item {
                     checked: false
                 }
             }
-            MatrixTextField {
+            Components.KomaiTextField {
                 id: passwordField
 
                 Layout.alignment: Qt.AlignLeft | Qt.AlignTop

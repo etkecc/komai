@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../components"
-import "../ui"
 import QtQuick 2.9
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
@@ -163,7 +162,7 @@ Rectangle {
                     Layout.rightMargin: Komai.paddingMedium
                     spacing: Komai.paddingMedium
 
-                    MatrixTextField {
+                    KomaiTextField {
                         Layout.fillWidth: true
                         placeholderText: qsTr("Add an optional filename...")
                         text: modelData.filename
@@ -172,7 +171,7 @@ Rectangle {
                         Keys.onPressed: event => uploadPopup.maybeSend(event)
                     }
 
-                    MatrixTextField {
+                    KomaiTextField {
                         Layout.fillWidth: true
                         placeholderText: qsTr("Add an optional caption...")
                         text: modelData.body

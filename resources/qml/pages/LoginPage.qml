@@ -14,7 +14,7 @@ import "../ui/"
 
 Item {
     id: loginPage
-    property int maxExpansion: 400
+    property int maxExpansion: 800
 
     property string error: login.error
     property bool hasPendingLoginInput: matrixIdLabel.text !== login.mxid || (login.homeserverNeeded && hsLabel.text !== login.homeserver)
@@ -51,28 +51,53 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            RowLayout {
-                spacing: Komai.paddingLarge
-
+            // ── Card 1: Matrix ID ──
+            Item {
                 Layout.fillWidth: true
-                MatrixTextField {
-                    id: matrixIdLabel
-                    label: qsTr("Matrix ID")
-                    placeholderText: qsTr("e.g @user:yourserver.example.com")
-                    onEditingFinished: login.mxid = text
+                implicitHeight: mxidRow.implicitHeight
 
-                    toolTipText: qsTr("Your login name. A mxid should start with @ followed by the user ID. After the user ID you need to include your server name after a :.\nYou can also put your homeserver address there if your server doesn't support .well-known lookup.\nExample: @user:yourserver.example.com\nIf Komai fails to discover your homeserver, it will show you a field to enter the server manually.")
-                    Keys.forwardTo: [pwBtn, ssoRepeater]
-                }
+                HoverHandler { id: mxidHover; blocking: false }
+                Rectangle { anchors.fill: mxidRow; color: mxidHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
 
+                RowLayout {
+                    id: mxidRow
+                    width: parent.width
+                    spacing: Komai.paddingSmall
 
-                Spinner {
-                    Layout.preferredHeight: matrixIdLabel.height/2
-                    Layout.alignment: Qt.AlignBottom
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.margins: Komai.paddingMedium
+                        text: qsTr("Matrix ID")
+                        color: mxidHover.hovered ? palette.brightText : palette.text
+                    }
 
-                    visible: running
-                    running: login.lookingUpHs
-                    foreground: palette.mid
+                    Spinner {
+                        Layout.preferredHeight: matrixIdLabel.height / 2
+                        Layout.alignment: Qt.AlignVCenter
+                        visible: running
+                        running: login.lookingUpHs
+                        foreground: palette.mid
+                    }
+
+                    KomaiTextField {
+                        id: matrixIdLabel
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 300
+                        Layout.topMargin: Komai.paddingSmall
+                        Layout.bottomMargin: Komai.paddingSmall
+                        Layout.rightMargin: Komai.paddingSmall
+                        placeholderText: qsTr("e.g @user:server.example")
+                        Keys.forwardTo: [pwBtn, ssoRepeater]
+
+                        onTextChanged: mxidDebounce.restart()
+
+                        Timer {
+                            id: mxidDebounce
+
+                            interval: 350
+                            onTriggered: login.mxid = matrixIdLabel.text
+                        }
+                    }
                 }
             }
 
@@ -84,59 +109,130 @@ Item {
                 visible: text
                 wrapMode: TextEdit.Wrap
             }
-            RowLayout {
 
-                MatrixTextField {
-                    id: passwordLabel
-                    Layout.fillWidth: true
-                    label: qsTr("Password")
-                    echoMode: TextInput.Password
-                    toolTipText: qsTr("Your password.")
-                    visible: login.passwordSupported
-                    Keys.forwardTo: [pwBtn, ssoRepeater]
-                }
+            // ── Card 2: Password ──
+            Item {
+                Layout.fillWidth: true
+                implicitHeight: pwRow.implicitHeight
+                visible: login.passwordSupported
 
-                ImageButton {
-                    id: showPwButton
-                    Layout.preferredWidth: 30
-                    Layout.preferredHeight: 30
-                    visible: login.passwordSupported
-                    Layout.alignment: Qt.AlignBottom
-                    image: passwordLabel.echoMode === TextInput.Password ? ":/icons/icons/ui/eye-show.svg" : ":/icons/icons/ui/eye-hide.svg"
-                    toolTipVisible: hovered
-                    toolTipText: qsTr("Show/Hide Password")
-                    onClicked: {
-                        if (passwordLabel.echoMode === TextInput.Normal) {
-                            passwordLabel.echoMode = TextInput.Password
+                HoverHandler { id: pwHover; blocking: false }
+                Rectangle { anchors.fill: pwRow; color: pwHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+
+                RowLayout {
+                    id: pwRow
+                    width: parent.width
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.margins: Komai.paddingMedium
+                        text: qsTr("Password")
+                        color: pwHover.hovered ? palette.brightText : palette.text
+                    }
+
+                    ImageButton {
+                        id: showPwButton
+                        Layout.preferredWidth: Math.round(Settings.uiFontSizePt * 2)
+                        Layout.preferredHeight: Math.round(Settings.uiFontSizePt * 2)
+                        Layout.alignment: Qt.AlignVCenter
+                        buttonTextColor: pwHover.hovered ? palette.brightText : palette.buttonText
+                        image: passwordLabel.echoMode === TextInput.Password ? ":/icons/icons/ui/eye-show.svg" : ":/icons/icons/ui/eye-hide.svg"
+                        toolTipVisible: hovered
+                        toolTipText: qsTr("Show/Hide Password")
+                        onClicked: {
+                            passwordLabel.echoMode = passwordLabel.echoMode === TextInput.Normal
+                                ? TextInput.Password : TextInput.Normal
                         }
-                        else {
-                            passwordLabel.echoMode = TextInput.Normal
-                        }
+                    }
+
+                    KomaiTextField {
+                        id: passwordLabel
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 300
+                        Layout.topMargin: Komai.paddingSmall
+                        Layout.bottomMargin: Komai.paddingSmall
+                        Layout.rightMargin: Komai.paddingSmall
+                        echoMode: TextInput.Password
+                        Keys.forwardTo: [pwBtn, ssoRepeater]
                     }
                 }
             }
 
-            MatrixTextField {
-                id: deviceNameLabel
+            // ── Card 3: Device name ──
+            Item {
                 Layout.fillWidth: true
-                label: qsTr("Device name")
-                placeholderText: login.initialDeviceName()
-                toolTipText: qsTr("A name for this device which will be shown to others when verifying your devices. If nothing is provided, a default is used.")
-                Keys.forwardTo: [pwBtn, ssoRepeater]
+                implicitHeight: deviceRow.implicitHeight
+
+                HoverHandler { id: deviceHover; blocking: false }
+                Rectangle { anchors.fill: deviceRow; color: deviceHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+
+                RowLayout {
+                    id: deviceRow
+                    width: parent.width
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.margins: Komai.paddingMedium
+                        text: qsTr("Device name")
+                        color: deviceHover.hovered ? palette.brightText : palette.text
+                    }
+
+                    KomaiTextField {
+                        id: deviceNameLabel
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 300
+                        Layout.topMargin: Komai.paddingSmall
+                        Layout.bottomMargin: Komai.paddingSmall
+                        Layout.rightMargin: Komai.paddingSmall
+                        Keys.forwardTo: [pwBtn, ssoRepeater]
+                    }
+                }
             }
 
-            MatrixTextField {
-                id: hsLabel
-                enabled: visible
+            // ── Card 4: Homeserver (conditional) ──
+            Item {
+                Layout.fillWidth: true
+                implicitHeight: hsRow.implicitHeight
                 visible: login.homeserverNeeded
 
-                Layout.fillWidth: true
-                label: qsTr("Homeserver address")
-                placeholderText: qsTr("yourserver.example.com:8787")
-                text: login.homeserver
-                onEditingFinished: login.homeserver = text
-                toolTipText: qsTr("The address that can be used to contact your homeserver's client API.\nExample: https://yourserver.example.com:8787")
-                Keys.forwardTo: [pwBtn, ssoRepeater]
+                HoverHandler { id: hsHover; blocking: false }
+                Rectangle { anchors.fill: hsRow; color: hsHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+
+                RowLayout {
+                    id: hsRow
+                    width: parent.width
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.margins: Komai.paddingMedium
+                        text: qsTr("Homeserver")
+                        color: hsHover.hovered ? palette.brightText : palette.text
+                    }
+
+                    KomaiTextField {
+                        id: hsLabel
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 300
+                        Layout.topMargin: Komai.paddingSmall
+                        Layout.bottomMargin: Komai.paddingSmall
+                        Layout.rightMargin: Komai.paddingSmall
+                        placeholderText: qsTr("yourserver.example.com:8787")
+                        text: login.homeserver
+                        Keys.forwardTo: [pwBtn, ssoRepeater]
+
+                        onTextChanged: hsDebounce.restart()
+
+                        Timer {
+                            id: hsDebounce
+
+                            interval: 350
+                            onTriggered: login.homeserver = hsLabel.text
+                        }
+                    }
+                }
             }
 
             Item {

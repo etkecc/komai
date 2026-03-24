@@ -168,35 +168,35 @@ OverlayDialog {
                         }
                     }
 
-                    MatrixTextField {
+                    KomaiTextField {
                         id: statekeyField
 
                         visible: imagePack.roomid
                         Layout.fillWidth: true
                         Layout.columnSpan: 2
-                        label: qsTr("State key")
+                        placeholderText: qsTr("State key")
                         text: imagePack.statekey
                         onTextEdited: imagePack.statekey = text
                     }
 
-                    MatrixTextField {
+                    KomaiTextField {
                         Layout.fillWidth: true
                         Layout.columnSpan: 2
-                        label: qsTr("Packname")
+                        placeholderText: qsTr("Packname")
                         text: imagePack.packname
                         onTextEdited: imagePack.packname = text
                     }
 
-                    MatrixTextField {
+                    KomaiTextField {
                         Layout.fillWidth: true
                         Layout.columnSpan: 2
-                        label: qsTr("Attribution")
+                        placeholderText: qsTr("Attribution")
                         text: imagePack.attribution
                         onTextEdited: imagePack.attribution = text
                     }
 
                     MatrixText {
-                        Layout.margins: statekeyField.textPadding
+                        Layout.margins: statekeyField.padding
                         font.weight: Font.DemiBold
                         text: qsTr("Use as Emoji")
                     }
@@ -208,7 +208,7 @@ OverlayDialog {
                     }
 
                     MatrixText {
-                        Layout.margins: statekeyField.textPadding
+                        Layout.margins: statekeyField.padding
                         font.weight: Font.DemiBold
                         text: qsTr("Use as Sticker")
                     }
@@ -253,10 +253,10 @@ OverlayDialog {
                         Layout.alignment: Qt.AlignHCenter
                     }
 
-                        MatrixTextField {
+                        KomaiTextField {
                             Layout.fillWidth: true
                             Layout.columnSpan: 2
-                            label: qsTr("Shortcode")
+                            placeholderText: qsTr("Shortcode")
                             property int bindingCounter: 0
                             text: {
                                 const currentCode = parent.imgData(SingleImagePackModel.ShortCode);
@@ -271,18 +271,18 @@ OverlayDialog {
                             }
                     }
 
-                    MatrixTextField {
+                    KomaiTextField {
                         id: bodyField
 
                         Layout.fillWidth: true
                         Layout.columnSpan: 2
-                        label: qsTr("Body")
+                        placeholderText: qsTr("Body")
                         text: parent.imgData(SingleImagePackModel.Body) || ""
                         onTextEdited: imagePack.setData(imagePack.index(currentImageIndex, 0), text, SingleImagePackModel.Body)
                     }
 
                     MatrixText {
-                        Layout.margins: bodyField.textPadding
+                        Layout.margins: bodyField.padding
                         font.weight: Font.DemiBold
                         text: qsTr("Use as Emoji")
                     }

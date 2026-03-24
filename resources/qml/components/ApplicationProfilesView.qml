@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 pragma ComponentBehavior: Bound
-import "../ui"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -80,7 +79,7 @@ Item {
             text: qsTr("Profile name")
         }
 
-        MatrixTextField {
+        KomaiTextField {
             id: profileNameField
 
             Layout.fillWidth: true

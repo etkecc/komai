@@ -53,7 +53,7 @@ OverlayDialog {
     }
 
     // Search field — large, rounded, like ForwardCompleter
-    MatrixTextField {
+    KomaiTextField {
         id: userID
 
         readonly property string localHomeserver: {
@@ -79,7 +79,6 @@ OverlayDialog {
         visible: !createDirectRoot.selectedMxid
         Layout.fillWidth: true
         placeholderText: qsTr("Search by name or @user:example.com")
-        radius: Komai.paddingSmall
         font.pixelSize: Math.ceil(Komai.fontPixelSize * 1.2)
         onTextChanged: {
             if (text.trim().length === 0)

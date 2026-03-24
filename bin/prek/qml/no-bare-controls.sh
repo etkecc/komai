@@ -10,7 +10,6 @@
 # controls that ignore the active theme, so we reject it at commit time.
 #
 # Intentional exclusions beyond the wrapper files:
-#   - MatrixTextField.qml — wrapper component that contains a TextField
 #   - composer/MessageInput.qml — heavily customized input with its own
 #     completion system and sizing constraints
 
@@ -26,7 +25,6 @@ fi
 target_dir="$repo_root/resources/qml"
 
 # Each Komai wrapper extends the bare control — exclude the wrapper files.
-# MatrixTextField is a ColumnLayout wrapper containing a TextField.
 # MessageInput is the composer with special TextArea handling.
 excludes="
 --exclude=KomaiButton.qml
@@ -36,7 +34,6 @@ excludes="
 --exclude=KomaiTextArea.qml
 --exclude=KomaiTabButton.qml
 --exclude=KomaiToolTip.qml
---exclude=MatrixTextField.qml
 --exclude=MessageInput.qml
 "
 

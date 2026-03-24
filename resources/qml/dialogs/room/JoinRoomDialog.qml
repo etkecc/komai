@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../../components" as Components
-import "../../ui"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
@@ -22,7 +21,7 @@ Components.OverlayDialog {
         color: palette.text
     }
 
-    MatrixTextField {
+    Components.KomaiTextField {
         id: input
 
         Layout.fillWidth: true

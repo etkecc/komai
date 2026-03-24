@@ -189,7 +189,7 @@ OverlayDialog {
         font.pointSize: Settings.uiFontSizePt * 1.1
     }
 
-    MatrixTextField {
+    KomaiTextField {
         id: inviteeEntry
 
         readonly property string localHomeserver: {
@@ -214,7 +214,6 @@ OverlayDialog {
 
         Layout.fillWidth: true
         placeholderText: qsTr("Search by name or @user:example.com")
-        radius: Komai.paddingSmall
         font.pixelSize: Math.ceil(Komai.fontPixelSize * 1.2)
         onAccepted: inviteDialogRoot.addCurrentInvite()
         Keys.onShortcutOverride: event.accepted = ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && (event.modifiers & Qt.ControlModifier))

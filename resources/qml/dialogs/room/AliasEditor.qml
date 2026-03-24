@@ -112,13 +112,11 @@ Components.OverlayDialog {
         spacing: Komai.paddingMedium
         Layout.fillWidth: true
 
-        MatrixTextField {
+        Components.KomaiTextField {
             id: newAliasVal
 
             Layout.fillWidth: true
-            selectByMouse: true
             font.pixelSize: fontMetrics.font.pixelSize
-            color: palette.text
             placeholderText: qsTr("#new-alias:example.com")
 
             Keys.onPressed: {

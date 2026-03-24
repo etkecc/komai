@@ -5,7 +5,6 @@
 
 import "../../components" as Components
 import "../../delegates/"
-import "../../ui"
 import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
@@ -265,13 +264,11 @@ Popup {
         }
 
         // Room search (visible when not confirming)
-        MatrixTextField {
+        Components.KomaiTextField {
             id: roomTextInput
 
-            color: palette.text
             font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
             placeholderText: qsTr("Room name, address or id...")
-            radius: Komai.paddingSmall
             visible: !forwardMessagePopup.confirming
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
 

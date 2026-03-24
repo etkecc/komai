@@ -14,7 +14,7 @@ import "../ui/"
 
 Item {
     id: registrationPage
-    property int maxExpansion: 600
+    property int maxExpansion: 800
 
     property string error: regis.error
 
@@ -210,27 +210,52 @@ Item {
                 }
             }
 
-            RowLayout {
-                spacing: Komai.paddingLarge
-
+            // ── Card 1: Homeserver ──
+            Item {
                 Layout.fillWidth: true
-                MatrixTextField {
-                    id: hsLabel
-                    label: qsTr("Homeserver")
-                    placeholderText: qsTr("your.server")
-                    onEditingFinished: regis.setServer(text)
+                implicitHeight: hsRow.implicitHeight
 
-                    toolTipText: qsTr("The server address where you want to create your account")
-                }
+                HoverHandler { id: hsHover; blocking: false }
+                Rectangle { anchors.fill: hsRow; color: hsHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
 
+                RowLayout {
+                    id: hsRow
+                    width: parent.width
+                    spacing: Komai.paddingSmall
 
-                Spinner {
-                    Layout.preferredHeight: hsLabel.height/2
-                    Layout.alignment: Qt.AlignBottom
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.margins: Komai.paddingMedium
+                        text: qsTr("Homeserver")
+                        color: hsHover.hovered ? palette.brightText : palette.text
+                    }
 
-                    visible: running
-                    running: regis.lookingUpHs
-                    foreground: palette.mid
+                    Spinner {
+                        Layout.preferredHeight: hsLabel.height / 2
+                        Layout.alignment: Qt.AlignVCenter
+                        visible: running
+                        running: regis.lookingUpHs
+                        foreground: palette.mid
+                    }
+
+                    KomaiTextField {
+                        id: hsLabel
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 300
+                        Layout.topMargin: Komai.paddingSmall
+                        Layout.bottomMargin: Komai.paddingSmall
+                        Layout.rightMargin: Komai.paddingSmall
+                        placeholderText: qsTr("your.server")
+
+                        onTextChanged: hsDebounce.restart()
+
+                        Timer {
+                            id: hsDebounce
+
+                            interval: 350
+                            onTriggered: regis.setServer(hsLabel.text)
+                        }
+                    }
                 }
             }
 
@@ -243,52 +268,79 @@ Item {
                 wrapMode: TextEdit.Wrap
             }
 
-            RowLayout {
-                spacing: Komai.paddingLarge
-
+            // ── Card 2: Username ──
+            Item {
+                Layout.fillWidth: true
+                implicitHeight: usernameRow.implicitHeight
                 visible: regis.supported
 
-                Layout.fillWidth: true
-                MatrixTextField {
-                    id: usernameLabel
-                    Layout.fillWidth: true
-                    label: qsTr("Username")
-                    toolTipText: qsTr("The username must not be empty, and must contain only the characters a-z, 0-9, ., _, =, -, and /.")
-                    onEditingFinished: regis.checkUsername(text)
-                }
-                Spinner {
-                    Layout.preferredHeight: usernameLabel.height/2
-                    Layout.alignment: Qt.AlignBottom
+                HoverHandler { id: usernameHover; blocking: false }
+                Rectangle { anchors.fill: usernameRow; color: usernameHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
 
-                    visible: running
-                    running: regis.lookingUpUsername
-                    foreground: palette.mid
-                }
+                RowLayout {
+                    id: usernameRow
+                    width: parent.width
+                    spacing: Komai.paddingSmall
 
-                Image {
-                    id: usernameAvailabilityIcon
-
-                    readonly property string statusToolTipText: regis.usernameAvailable
-                        ? qsTr("Username is available")
-                        : qsTr("Username is unavailable")
-
-                    Layout.preferredHeight: usernameLabel.height/2
-                    Layout.preferredWidth: usernameLabel.height/2
-                    Layout.alignment: Qt.AlignBottom
-                    source: regis.usernameAvailable ? ("image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success) : ("image://colorimage/:/icons/icons/ui/dismiss.svg?" + Komai.theme.error)
-                    visible: regis.usernameAvailable || regis.usernameUnavailable
-                    sourceSize.height: height
-                    sourceSize.width: width
-                    HoverHandler {
-                        id: ma
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.margins: Komai.paddingMedium
+                        text: qsTr("Username")
+                        color: usernameHover.hovered ? palette.brightText : palette.text
                     }
 
-                    KomaiToolTip {
-                        anchorItem: usernameAvailabilityIcon
-                        anchorX: usernameAvailabilityIcon.width / 2
-                        anchorY: 0
-                        text: usernameAvailabilityIcon.statusToolTipText
-                        requestedVisible: ma.hovered && usernameAvailabilityIcon.visible
+                    Spinner {
+                        Layout.preferredHeight: usernameLabel.height / 2
+                        Layout.alignment: Qt.AlignVCenter
+                        visible: running
+                        running: regis.lookingUpUsername
+                        foreground: palette.mid
+                    }
+
+                    Image {
+                        id: usernameAvailabilityIcon
+
+                        readonly property string statusToolTipText: regis.usernameAvailable
+                            ? qsTr("Username is available")
+                            : qsTr("Username is unavailable")
+
+                        Layout.preferredHeight: usernameLabel.height / 2
+                        Layout.preferredWidth: usernameLabel.height / 2
+                        Layout.alignment: Qt.AlignVCenter
+                        source: regis.usernameAvailable ? ("image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success) : ("image://colorimage/:/icons/icons/ui/dismiss.svg?" + Komai.theme.error)
+                        visible: regis.usernameAvailable || regis.usernameUnavailable
+                        sourceSize.height: height
+                        sourceSize.width: width
+                        HoverHandler {
+                            id: ma
+                        }
+
+                        KomaiToolTip {
+                            anchorItem: usernameAvailabilityIcon
+                            anchorX: usernameAvailabilityIcon.width / 2
+                            anchorY: 0
+                            text: usernameAvailabilityIcon.statusToolTipText
+                            requestedVisible: ma.hovered && usernameAvailabilityIcon.visible
+                        }
+                    }
+
+                    KomaiTextField {
+                        id: usernameLabel
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 300
+                        Layout.topMargin: Komai.paddingSmall
+                        Layout.bottomMargin: Komai.paddingSmall
+                        Layout.rightMargin: Komai.paddingSmall
+                        placeholderText: qsTr("Username")
+
+                        onTextChanged: usernameDebounce.restart()
+
+                        Timer {
+                            id: usernameDebounce
+
+                            interval: 350
+                            onTriggered: regis.checkUsername(usernameLabel.text)
+                        }
                     }
                 }
             }
@@ -302,22 +354,70 @@ Item {
                 wrapMode: TextEdit.Wrap
             }
 
-
-            MatrixTextField {
-                visible: regis.supported
-                id: passwordLabel
+            // ── Card 3: Password ──
+            Item {
                 Layout.fillWidth: true
-                label: qsTr("Password")
-                echoMode: TextInput.Password
-                toolTipText: qsTr("Please choose a secure password. The exact requirements for password strength may depend on your server.")
+                implicitHeight: pwRow.implicitHeight
+                visible: regis.supported
+
+                HoverHandler { id: pwHover; blocking: false }
+                Rectangle { anchors.fill: pwRow; color: pwHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+
+                RowLayout {
+                    id: pwRow
+                    width: parent.width
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.margins: Komai.paddingMedium
+                        text: qsTr("Password")
+                        color: pwHover.hovered ? palette.brightText : palette.text
+                    }
+
+                    KomaiTextField {
+                        id: passwordLabel
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 300
+                        Layout.topMargin: Komai.paddingSmall
+                        Layout.bottomMargin: Komai.paddingSmall
+                        Layout.rightMargin: Komai.paddingSmall
+                        echoMode: TextInput.Password
+                    }
+                }
             }
 
-            MatrixTextField {
-                visible: regis.supported
-                id: passwordConfirmationLabel
+            // ── Card 4: Confirm password ──
+            Item {
                 Layout.fillWidth: true
-                label: qsTr("Password confirmation")
-                echoMode: TextInput.Password
+                implicitHeight: pwConfirmRow.implicitHeight
+                visible: regis.supported
+
+                HoverHandler { id: pwConfirmHover; blocking: false }
+                Rectangle { anchors.fill: pwConfirmRow; color: pwConfirmHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+
+                RowLayout {
+                    id: pwConfirmRow
+                    width: parent.width
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.margins: Komai.paddingMedium
+                        text: qsTr("Confirm password")
+                        color: pwConfirmHover.hovered ? palette.brightText : palette.text
+                    }
+
+                    KomaiTextField {
+                        id: passwordConfirmationLabel
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 300
+                        Layout.topMargin: Komai.paddingSmall
+                        Layout.bottomMargin: Komai.paddingSmall
+                        Layout.rightMargin: Komai.paddingSmall
+                        echoMode: TextInput.Password
+                    }
+                }
             }
 
             MatrixText {
@@ -329,13 +429,36 @@ Item {
                 wrapMode: TextEdit.Wrap
             }
 
-            MatrixTextField {
-                visible: regis.supported
-                id: deviceNameLabel
+            // ── Card 5: Device name ──
+            Item {
                 Layout.fillWidth: true
-                label: qsTr("Device name")
-                placeholderText: regis.initialDeviceName()
-                toolTipText: qsTr("A name for this device which will be shown to others when verifying your devices. If nothing is provided a default is used.")
+                implicitHeight: deviceRow.implicitHeight
+                visible: regis.supported
+
+                HoverHandler { id: deviceHover; blocking: false }
+                Rectangle { anchors.fill: deviceRow; color: deviceHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+
+                RowLayout {
+                    id: deviceRow
+                    width: parent.width
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.margins: Komai.paddingMedium
+                        text: qsTr("Device name")
+                        color: deviceHover.hovered ? palette.brightText : palette.text
+                    }
+
+                    KomaiTextField {
+                        id: deviceNameLabel
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 300
+                        Layout.topMargin: Komai.paddingSmall
+                        Layout.bottomMargin: Komai.paddingSmall
+                        Layout.rightMargin: Komai.paddingSmall
+                    }
+                }
             }
 
             Item {

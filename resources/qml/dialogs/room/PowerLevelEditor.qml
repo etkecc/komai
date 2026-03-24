@@ -127,7 +127,7 @@ OverlayDialog {
                                 }
                             }
 
-                            MatrixTextField {
+                            KomaiTextField {
                                 id: typeEntry
 
                                 property int index
@@ -135,7 +135,6 @@ OverlayDialog {
                                 width: parent.width
                                 z: 5
                                 visible: false
-                                color: palette.text
 
                                 Keys.onPressed: event => {
                                     if (typeEntry.text.includes('.') && event.matches(StandardKey.InsertParagraphSeparator)) {
@@ -223,11 +222,10 @@ OverlayDialog {
                                 spacing: 1
                                 z: 5
 
-                                MatrixTextField {
+                                KomaiTextField {
                                     id: userEntry
 
                                     width: parent.width
-                                    color: palette.text
                                     onTextEdited: {
                                         userCompleter.completer.searchString = text;
                                     }

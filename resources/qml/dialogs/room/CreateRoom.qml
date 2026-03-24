@@ -20,20 +20,18 @@ Components.OverlayDialog {
     initialFocusItem: newRoomName
     overlayDialogMinWidth: 620
 
-    MatrixTextField {
+    Components.KomaiTextField {
         id: newRoomName
 
         Layout.fillWidth: true
-        label: qsTr("Name")
-        placeholderText: qsTr("No name")
+        placeholderText: qsTr("Name")
     }
 
-    MatrixTextField {
+    Components.KomaiTextField {
         id: newRoomTopic
 
         Layout.fillWidth: true
-        label: qsTr("Topic")
-        placeholderText: qsTr("No topic")
+        placeholderText: qsTr("Topic")
     }
 
     RowLayout {
@@ -45,7 +43,7 @@ Components.OverlayDialog {
             color: palette.text
         }
 
-        MatrixTextField {
+        Components.KomaiTextField {
             id: newRoomAlias
 
             Layout.fillWidth: true

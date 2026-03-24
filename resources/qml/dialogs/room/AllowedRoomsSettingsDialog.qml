@@ -92,12 +92,11 @@ OverlayDialog {
             rowSpacing: 2
         }
 
-        MatrixTextField {
+        KomaiTextField {
             id: roomEntry
 
             width: parent.width
             placeholderText: qsTr("Enter additional rooms not in the list yet...")
-            color: palette.text
             onTextEdited: {
                 roomCompleter.completer.searchString = text;
             }

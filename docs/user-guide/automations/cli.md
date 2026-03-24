@@ -64,6 +64,7 @@ Returns a JSON array of joined rooms. Each room summary includes:
 - `read` -- Komai's local room-list read state
 - `serverNotificationCount` -- homeserver-derived notification count
 - `memberCount` -- joined member count from Komai's cached room metadata
+- `mostRecentEventTimestampMs` -- best-known most recent room event timestamp in Unix milliseconds
 - `highlighted` -- whether the room currently has a highlight
 - `categories` -- derived labels such as `direct`, `person`, `bot`, `group`, `space`, `encrypted`
 - `tags` -- Matrix room tags such as `m.favourite` or `m.lowpriority`
@@ -77,7 +78,7 @@ See also: [activate](#activate), [join](#join).
 
 ```bash
 komai rooms list
-# [{"id":"!abc:example.org","alias":"#room:example.org","name":"My Room","avatarUrl":"mxc://example.org/abc","read":false,"serverNotificationCount":3,"memberCount":42,"highlighted":false,"categories":["group","encrypted"],"tags":["m.favourite"],"parentSpaces":["!space:example.org"],"dmUserId":"","encrypted":true},...]
+# [{"id":"!abc:example.org","alias":"#room:example.org","name":"My Room","avatarUrl":"mxc://example.org/abc","read":false,"serverNotificationCount":3,"memberCount":42,"mostRecentEventTimestampMs":1742810400000,"highlighted":false,"categories":["group","encrypted"],"tags":["m.favourite"],"parentSpaces":["!space:example.org"],"dmUserId":"","encrypted":true},...]
 ```
 
 Scripting examples:
@@ -91,6 +92,9 @@ komai rooms list | jq '[.[] | select(.read == false)]'
 
 # Small group rooms
 komai rooms list | jq '[.[] | select(.memberCount <= 5 and (.categories | index("group")))]'
+
+# Rooms quiet since before 2025-01-01 UTC
+komai rooms list | jq '[.[] | select(.mostRecentEventTimestampMs < 1735689600000)]'
 
 # Favourite bot rooms
 komai rooms list | jq '[.[] | select((.categories | index("bot")) and (.tags | index("m.favourite")))]'

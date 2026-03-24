@@ -168,6 +168,7 @@ DbusRoomsInterface::list() const
                                                   r.read,
                                                   r.serverNotificationCount,
                                                   r.memberCount,
+                                                  r.mostRecentEventTimestampMs,
                                                   r.highlighted,
                                                   r.categories,
                                                   r.tags,

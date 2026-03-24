@@ -77,6 +77,7 @@ RoomInfoItem::RoomInfoItem(const QString &roomId,
                            const bool read,
                            const int serverNotificationCount,
                            const int memberCount,
+                           const qulonglong mostRecentEventTimestampMs,
                            const bool highlighted,
                            const QStringList &categories,
                            const QStringList &tags,
@@ -92,6 +93,7 @@ RoomInfoItem::RoomInfoItem(const QString &roomId,
   , read_{read}
   , serverNotificationCount_{serverNotificationCount}
   , memberCount_{memberCount}
+  , mostRecentEventTimestampMs_{mostRecentEventTimestampMs}
   , highlighted_{highlighted}
   , categories_{categories}
   , tags_{tags}
@@ -110,6 +112,7 @@ RoomInfoItem::RoomInfoItem(const RoomInfoItem &other)
   , read_{other.read_}
   , serverNotificationCount_{other.serverNotificationCount_}
   , memberCount_{other.memberCount_}
+  , mostRecentEventTimestampMs_{other.mostRecentEventTimestampMs_}
   , highlighted_{other.highlighted_}
   , categories_{other.categories_}
   , tags_{other.tags_}
@@ -122,19 +125,20 @@ RoomInfoItem::RoomInfoItem(const RoomInfoItem &other)
 RoomInfoItem &
 RoomInfoItem::operator=(const RoomInfoItem &other)
 {
-    roomId_                  = other.roomId_;
-    alias_                   = other.alias_;
-    name_                    = other.name_;
-    avatarUrl_               = other.avatarUrl_;
-    read_                    = other.read_;
-    serverNotificationCount_ = other.serverNotificationCount_;
-    memberCount_             = other.memberCount_;
-    highlighted_             = other.highlighted_;
-    categories_              = other.categories_;
-    tags_                    = other.tags_;
-    parentSpaces_            = other.parentSpaces_;
-    dmUserId_                = other.dmUserId_;
-    encrypted_               = other.encrypted_;
+    roomId_                     = other.roomId_;
+    alias_                      = other.alias_;
+    name_                       = other.name_;
+    avatarUrl_                  = other.avatarUrl_;
+    read_                       = other.read_;
+    serverNotificationCount_    = other.serverNotificationCount_;
+    memberCount_                = other.memberCount_;
+    mostRecentEventTimestampMs_ = other.mostRecentEventTimestampMs_;
+    highlighted_                = other.highlighted_;
+    categories_                 = other.categories_;
+    tags_                       = other.tags_;
+    parentSpaces_               = other.parentSpaces_;
+    dmUserId_                   = other.dmUserId_;
+    encrypted_                  = other.encrypted_;
     return *this;
 }
 
@@ -143,9 +147,9 @@ operator<<(QDBusArgument &arg, const RoomInfoItem &item)
 {
     arg.beginStructure();
     arg << item.roomId_ << item.alias_ << item.name_ << item.avatarUrl_ << item.read_
-        << item.serverNotificationCount_ << item.memberCount_ << item.highlighted_
-        << item.categories_ << item.tags_ << item.parentSpaces_ << item.dmUserId_
-        << item.encrypted_;
+        << item.serverNotificationCount_ << item.memberCount_ << item.mostRecentEventTimestampMs_
+        << item.highlighted_ << item.categories_ << item.tags_ << item.parentSpaces_
+        << item.dmUserId_ << item.encrypted_;
     arg.endStructure();
     return arg;
 }
@@ -155,8 +159,9 @@ operator>>(const QDBusArgument &arg, RoomInfoItem &item)
 {
     arg.beginStructure();
     arg >> item.roomId_ >> item.alias_ >> item.name_ >> item.avatarUrl_ >> item.read_ >>
-      item.serverNotificationCount_ >> item.memberCount_ >> item.highlighted_ >> item.categories_ >>
-      item.tags_ >> item.parentSpaces_ >> item.dmUserId_ >> item.encrypted_;
+      item.serverNotificationCount_ >> item.memberCount_ >> item.mostRecentEventTimestampMs_ >>
+      item.highlighted_ >> item.categories_ >> item.tags_ >> item.parentSpaces_ >> item.dmUserId_ >>
+      item.encrypted_;
 
     arg.endStructure();
     return arg;

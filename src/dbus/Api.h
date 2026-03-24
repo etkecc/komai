@@ -40,20 +40,21 @@ class RoomInfoItem final : public QObject
     Q_OBJECT
 
 public:
-    RoomInfoItem(const QString &roomId             = QString{},
-                 const QString &alias              = QString{},
-                 const QString &name               = QString{},
-                 const QString &avatarUrl          = QString{},
-                 const bool read                   = true,
-                 const int serverNotificationCount = 0,
-                 const int memberCount             = 0,
-                 const bool highlighted            = false,
-                 const QStringList &categories     = {},
-                 const QStringList &tags           = {},
-                 const QStringList &parentSpaces   = {},
-                 const QString &dmUserId           = QString{},
-                 const bool encrypted              = false,
-                 QObject *parent                   = nullptr);
+    RoomInfoItem(const QString &roomId                       = QString{},
+                 const QString &alias                        = QString{},
+                 const QString &name                         = QString{},
+                 const QString &avatarUrl                    = QString{},
+                 const bool read                             = true,
+                 const int serverNotificationCount           = 0,
+                 const int memberCount                       = 0,
+                 const qulonglong mostRecentEventTimestampMs = 0,
+                 const bool highlighted                      = false,
+                 const QStringList &categories               = {},
+                 const QStringList &tags                     = {},
+                 const QStringList &parentSpaces             = {},
+                 const QString &dmUserId                     = QString{},
+                 const bool encrypted                        = false,
+                 QObject *parent                             = nullptr);
 
     RoomInfoItem(const RoomInfoItem &other);
 
@@ -64,6 +65,7 @@ public:
     bool read() const { return read_; }
     int serverNotificationCount() const { return serverNotificationCount_; }
     int memberCount() const { return memberCount_; }
+    qulonglong mostRecentEventTimestampMs() const { return mostRecentEventTimestampMs_; }
     bool highlighted() const { return highlighted_; }
     const QStringList &categories() const { return categories_; }
     const QStringList &tags() const { return tags_; }
@@ -84,6 +86,7 @@ private:
     bool read_;
     int serverNotificationCount_;
     int memberCount_;
+    qulonglong mostRecentEventTimestampMs_;
     bool highlighted_;
     QStringList categories_;
     QStringList tags_;

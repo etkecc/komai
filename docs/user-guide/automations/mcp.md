@@ -159,7 +159,7 @@ Verify the following in Inspector:
 
 - `initialize` succeeds
 - `tools/list` shows the expected read-only catalog
-- `rooms_list` returns `structuredContent` with a `rooms` field, and each room includes explicit fields such as `read`, `serverNotificationCount`, `memberCount`, `highlighted`, `categories`, and `tags`
+- `rooms_list` returns `structuredContent` with a `rooms` field, and each room includes explicit fields such as `read`, `serverNotificationCount`, `memberCount`, `mostRecentEventTimestampMs`, `highlighted`, `categories`, and `tags`
 - `media_fetch_image` returns image content
 - tool failures return `isError: true`
 

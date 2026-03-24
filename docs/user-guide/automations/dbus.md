@@ -94,7 +94,7 @@ Room discovery and navigation.
 Returns all joined rooms with explicit local read state, notification/highlight state, derived categories, Matrix tags, parent-space IDs, DM partner metadata, and encryption state. Draft state is intentionally not exposed.
 
 Returned struct fields are ordered as:
-`id`, `alias`, `name`, `avatarUrl`, `read`, `serverNotificationCount`, `memberCount`, `highlighted`, `categories`, `tags`, `parentSpaces`, `dmUserId`, `encrypted`.
+`id`, `alias`, `name`, `avatarUrl`, `read`, `serverNotificationCount`, `memberCount`, `mostRecentEventTimestampMs`, `highlighted`, `categories`, `tags`, `parentSpaces`, `dmUserId`, `encrypted`.
 
 See also: [activate](#activate), [join](#join).
 

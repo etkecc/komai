@@ -351,6 +351,12 @@ fn room_info_schema() -> Value {
                 ),
             ),
             ("memberCount", integer_schema("Joined member count for the room.")),
+            (
+                "mostRecentEventTimestampMs",
+                integer_schema(
+                    "Best-known most recent room event timestamp in Unix milliseconds.",
+                ),
+            ),
             ("highlighted", boolean_schema("Whether the room currently has a highlight.")),
             (
                 "categories",
@@ -377,6 +383,7 @@ fn room_info_schema() -> Value {
             "read",
             "serverNotificationCount",
             "memberCount",
+            "mostRecentEventTimestampMs",
             "highlighted",
             "categories",
             "tags",
@@ -1167,6 +1174,7 @@ mod tests {
                     "read": false,
                     "serverNotificationCount": 3,
                     "memberCount": 2,
+                    "mostRecentEventTimestampMs": 1742810400000_i64,
                     "highlighted": false,
                     "categories": ["direct", "person", "encrypted"],
                     "tags": ["m.favourite"],

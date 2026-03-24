@@ -416,6 +416,15 @@ MainWindow::startMatrixBackendHandleForActiveSession()
                       handleInfo->userId.toStdString(),
                       handleInfo->deviceId.toStdString(),
                       handleInfo->homeserverUrl.toStdString());
+
+    if (!komai::MatrixBackendRuntimeService::startSync(matrixBackendHandleId_, &error)) {
+        nhlog::ui()->warn("Failed to start matrix-sdk sync for backend handle {}: {}",
+                          matrixBackendHandleId_,
+                          error.toStdString());
+        return;
+    }
+
+    nhlog::ui()->info("Started matrix-sdk sync for backend handle {}", matrixBackendHandleId_);
 }
 
 void

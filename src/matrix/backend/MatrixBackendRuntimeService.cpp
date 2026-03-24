@@ -60,6 +60,19 @@ MatrixBackendRuntimeService::stopBackend(uint64_t handleId, QString *errorOut)
     }
 }
 
+bool
+MatrixBackendRuntimeService::startSync(uint64_t handleId, QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_start_backend_sync(handleId);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<MatrixOwnProfile>
 MatrixBackendRuntimeService::fetchOwnProfile(uint64_t handleId, QString *errorOut)
 {

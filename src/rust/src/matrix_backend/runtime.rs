@@ -5,16 +5,17 @@
 use std::{
     collections::HashMap,
     sync::{
-        Mutex, OnceLock,
-        atomic::{AtomicU64, Ordering},
+        Arc, Mutex, OnceLock,
+        atomic::{AtomicBool, AtomicU64, Ordering},
     },
+    thread::JoinHandle,
+    time::Duration,
 };
 
 use matrix_sdk::{
     Client,
     ruma::api::client::profile::{AvatarUrl, DisplayName},
 };
-
 use super::bootstrap;
 
 pub struct MatrixBackendHandleInfo {
@@ -32,8 +33,18 @@ pub struct MatrixOwnProfile {
 
 static NEXT_BACKEND_HANDLE_ID: AtomicU64 = AtomicU64::new(1);
 
-fn backend_handles() -> &'static Mutex<HashMap<u64, Client>> {
-    static HANDLES: OnceLock<Mutex<HashMap<u64, Client>>> = OnceLock::new();
+struct MatrixBackendHandle {
+    client: Client,
+    sync_task: Option<MatrixBackendSyncTask>,
+}
+
+struct MatrixBackendSyncTask {
+    stop_requested: Arc<AtomicBool>,
+    thread: JoinHandle<()>,
+}
+
+fn backend_handles() -> &'static Mutex<HashMap<u64, MatrixBackendHandle>> {
+    static HANDLES: OnceLock<Mutex<HashMap<u64, MatrixBackendHandle>>> = OnceLock::new();
     HANDLES.get_or_init(|| Mutex::new(HashMap::new()))
 }
 
@@ -42,7 +53,7 @@ fn client_for_handle(handle_id: u64) -> Result<Client, String> {
         .lock()
         .expect("poisoned matrix backend handle registry mutex")
         .get(&handle_id)
-        .cloned()
+        .map(|handle| handle.client.clone())
         .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
 }
 
@@ -64,7 +75,13 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
     backend_handles()
         .lock()
         .expect("poisoned matrix backend handle registry mutex")
-        .insert(handle_id, restored.client);
+        .insert(
+            handle_id,
+            MatrixBackendHandle {
+                client: restored.client,
+                sync_task: None,
+            },
+        );
 
     tracing::info!(
         profile_id,
@@ -94,12 +111,87 @@ pub fn stop_backend(handle_id: u64) -> Result<(), String> {
         .expect("poisoned matrix backend handle registry mutex")
         .remove(&handle_id);
 
-    if removed.is_some() {
+    if let Some(mut handle) = removed {
+        if let Some(sync_task) = handle.sync_task.take() {
+            tracing::info!(handle_id, "Stopping matrix-sdk sync task");
+            sync_task.stop_requested.store(true, Ordering::Relaxed);
+            let _ = sync_task.thread.join();
+        }
         tracing::info!(handle_id, "Stopped matrix-sdk backend runtime");
     } else {
         tracing::debug!(handle_id, "Matrix-sdk backend runtime handle was already absent");
     }
     Ok(())
+}
+
+pub fn start_sync(handle_id: u64) -> Result<(), String> {
+    let client = {
+        let mut handles = backend_handles()
+            .lock()
+            .expect("poisoned matrix backend handle registry mutex");
+        let Some(handle) = handles.get_mut(&handle_id) else {
+            return Err(format!("matrix-sdk backend runtime handle {handle_id} is not active"));
+        };
+
+        if let Some(sync_task) = handle.sync_task.as_ref() {
+            if !sync_task.thread.is_finished() {
+                tracing::debug!(handle_id, "Matrix-sdk sync task is already running");
+                return Ok(());
+            }
+        }
+
+        handle.client.clone()
+    };
+
+    let stop_requested = Arc::new(AtomicBool::new(false));
+    let stop_requested_for_thread = Arc::clone(&stop_requested);
+    let sync_task = std::thread::spawn(move || {
+        crate::runtime().block_on(run_sync_loop(handle_id, client, stop_requested_for_thread));
+    });
+
+    backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .entry(handle_id)
+        .and_modify(|handle| {
+            handle.sync_task = Some(MatrixBackendSyncTask {
+                stop_requested,
+                thread: sync_task,
+            });
+        });
+
+    tracing::info!(handle_id, "Started matrix-sdk sync task");
+    Ok(())
+}
+
+async fn run_sync_loop(handle_id: u64, client: Client, stop_requested: Arc<AtomicBool>) {
+    let sync_settings = matrix_sdk::config::SyncSettings::new().timeout(Duration::from_secs(5));
+
+    tracing::info!(handle_id, "Running matrix-sdk sync loop");
+
+    while !stop_requested.load(Ordering::Relaxed) {
+        match client.sync_once(sync_settings.clone()).await {
+            Ok(response) => {
+                tracing::debug!(
+                    handle_id,
+                    joined_rooms = response.rooms.joined.len(),
+                    invited_rooms = response.rooms.invited.len(),
+                    left_rooms = response.rooms.left.len(),
+                    "Completed matrix-sdk sync iteration"
+                );
+            }
+            Err(error) => {
+                if stop_requested.load(Ordering::Relaxed) {
+                    break;
+                }
+
+                tracing::warn!(handle_id, %error, "Matrix-sdk sync loop failed; retrying");
+                tokio::time::sleep(Duration::from_secs(5)).await;
+            }
+        }
+    }
+
+    tracing::info!(handle_id, "Matrix-sdk sync loop stopped");
 }
 
 pub async fn fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile, String> {

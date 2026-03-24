@@ -32,6 +32,7 @@ public:
     startRestoredBackend(const QString &profileId, QString *errorOut = nullptr);
 
     static bool stopBackend(uint64_t handleId, QString *errorOut = nullptr);
+    static bool startSync(uint64_t handleId, QString *errorOut = nullptr);
 
     static std::optional<MatrixOwnProfile>
     fetchOwnProfile(uint64_t handleId, QString *errorOut = nullptr);

@@ -27,6 +27,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineViewManager.h"
+#include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
 namespace {
@@ -36,6 +37,12 @@ constexpr auto LOGOUT_REQUEST_TIMEOUT = std::chrono::seconds(10);
 void
 ChatPage::getBackupVersion()
 {
+    if (MainWindow::instance() && MainWindow::instance()->matrixBackendHandleId() != 0) {
+        nhlog::crypto()->info(
+          "Skipping legacy online key backup lookup because matrix-sdk runtime owns sync");
+        return;
+    }
+
     if (!UserSettings::instance()->encryptionBackupOnlineEnabled()) {
         nhlog::crypto()->info("Online key backup disabled.");
         return;

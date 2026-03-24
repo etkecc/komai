@@ -51,11 +51,27 @@ parseInvitePermissionsFromRawAccountData(const std::string &eventJson)
         return std::nullopt;
     }
 }
+
+bool
+legacySyncDisabledByMatrixSdkRuntime()
+{
+    const auto *mainWindow = MainWindow::instance();
+    return mainWindow && mainWindow->matrixBackendHandleId() != 0;
+}
 } // namespace
 
 void
 ChatPage::tryInitialSync()
 {
+    if (legacySyncDisabledByMatrixSdkRuntime()) {
+        nhlog::net()->info(
+          "Skipping legacy mtxclient initial sync because matrix-sdk runtime owns sync");
+        emit initializeEmptyViews();
+        emit contentLoaded();
+        emit MainWindow::instance()->reload();
+        return;
+    }
+
     nhlog::crypto()->info("ed25519   : {}", olm::client()->identity_keys().ed25519);
     nhlog::crypto()->info("curve25519: {}", olm::client()->identity_keys().curve25519);
 
@@ -299,6 +315,11 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
 void
 ChatPage::trySync()
 {
+    if (legacySyncDisabledByMatrixSdkRuntime()) {
+        nhlog::net()->debug("Skipping legacy mtxclient sync because matrix-sdk runtime owns sync");
+        return;
+    }
+
     mtx::http::SyncOpts opts;
     opts.set_presence = currentPresence();
 
@@ -403,6 +424,12 @@ ChatPage::currentPresence() const
 void
 ChatPage::verifyOneTimeKeyCountAfterStartup()
 {
+    if (legacySyncDisabledByMatrixSdkRuntime()) {
+        nhlog::crypto()->info("Skipping legacy one-time key verification because matrix-sdk "
+                              "runtime owns sync");
+        return;
+    }
+
     nhlog::crypto()->info("verifyOneTimeKeyCountAfterStartup: device_id={}",
                           http::client()->device_id());
 
@@ -513,7 +540,8 @@ ChatPage::getProfileInfo()
 {
     const auto *mainWindow = MainWindow::instance();
     if (!mainWindow || mainWindow->matrixBackendHandleId() == 0) {
-        getProfileInfoViaMtxclient();
+        nhlog::net()->warn(
+          "Cannot retrieve own profile via matrix-sdk runtime because no runtime handle is active");
         return;
     }
 
@@ -532,11 +560,9 @@ ChatPage::getProfileInfo()
                 return;
 
             if (!result) {
-                nhlog::net()->warn(
-                  "Failed to retrieve own profile info via matrix-sdk runtime handle: {}. "
-                  "Falling back to mtxclient.",
-                  error.toStdString());
-                guard->getProfileInfoViaMtxclient();
+                nhlog::net()->warn("Failed to retrieve own profile info via matrix-sdk runtime "
+                                   "handle: {}",
+                                   error.toStdString());
                 return;
             }
 
@@ -544,24 +570,6 @@ ChatPage::getProfileInfo()
             emit guard->setUserAvatar(result->avatarUrl);
         });
     }).detach();
-}
-
-void
-ChatPage::getProfileInfoViaMtxclient()
-{
-    const auto userid = utils::localUser().toStdString();
-
-    http::client()->get_profile(
-      userid, [this](const mtx::responses::Profile &res, mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->warn("failed to retrieve own profile info");
-              return;
-          }
-
-          emit setUserDisplayName(QString::fromStdString(res.display_name));
-
-          emit setUserAvatar(QString::fromStdString(res.avatar_url));
-      });
 }
 
 bool

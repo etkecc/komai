@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string_view>
 
+#include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QMap>
@@ -23,6 +24,7 @@
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
+#include "settings/YamlSettings.h"
 #include "cache/api/CacheApiContext.h"
 #include "TestEnvironment.h"
 
@@ -402,6 +404,8 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
     const QString profile = QStringLiteral("matrix-sdk");
     const auto configPath = settings::storage::configFilePathForProfile(profile);
     const auto secretsPath = settings::storage::secretsFilePathForProfile(profile);
+    const auto matrixSdkSecretsPath =
+      QDir(settings::storage::profileDirPath(profile)).filePath(QStringLiteral("matrix-sdk-secrets.yml"));
 
     YAML::Node config(YAML::NodeType::Map);
     config["secrets"]["provider"] = staged_load_plan::ProviderFileValue;
@@ -436,18 +440,26 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
                  "matrix session save preserves access token");
     ok &= expect(payload.secrets.value(QStringLiteral("existing.secret")) == QStringLiteral("keep-me"),
                  "matrix session save preserves unrelated secrets");
-    ok &= expect(
-      payload.secrets.value(QStringLiteral("matrix_sdk.store_passphrase")) ==
-        QStringLiteral("store-passphrase"),
-      "matrix session save persists store passphrase secret");
-    ok &= expect(
-      payload.secrets.value(QStringLiteral("matrix_sdk.homeserver_url")) ==
-        QStringLiteral("https://matrix.example.com"),
-      "matrix session save persists homeserver secret");
-    ok &= expect(
-      payload.secrets.value(QStringLiteral("matrix_sdk.serialized_session")) ==
-        QStringLiteral("serialized-session"),
-      "matrix session save persists serialized session secret");
+    ok &= expect(payload.secrets.value(QStringLiteral("matrix_sdk.store_passphrase")).isEmpty(),
+                 "matrix session save no longer writes store passphrase into profile secrets");
+    ok &= expect(payload.secrets.value(QStringLiteral("matrix_sdk.homeserver_url")).isEmpty(),
+                 "matrix session save no longer writes homeserver into profile secrets");
+    ok &= expect(payload.secrets.value(QStringLiteral("matrix_sdk.serialized_session")).isEmpty(),
+                 "matrix session save no longer writes serialized session into profile secrets");
+
+    const auto matrixSdkSecretsRoot =
+      settings::storage::loadYamlFile(matrixSdkSecretsPath, "matrix-sdk secrets test");
+    const auto matrixSdkSecrets =
+      yaml_settings::readStringMap(matrixSdkSecretsRoot, SettingKey::SecretsFileMap);
+    ok &= expect(matrixSdkSecrets.value(QStringLiteral("matrix_sdk.store_passphrase")) ==
+                   QStringLiteral("store-passphrase"),
+                 "matrix session save persists store passphrase in dedicated matrix-sdk secret store");
+    ok &= expect(matrixSdkSecrets.value(QStringLiteral("matrix_sdk.homeserver_url")) ==
+                   QStringLiteral("https://matrix.example.com"),
+                 "matrix session save persists homeserver in dedicated matrix-sdk secret store");
+    ok &= expect(matrixSdkSecrets.value(QStringLiteral("matrix_sdk.serialized_session")) ==
+                   QStringLiteral("serialized-session"),
+                 "matrix session save persists serialized session in dedicated matrix-sdk secret store");
 
     komai::matrix_backend::clearPersistedMatrixSessionSecrets(profile);
 
@@ -466,6 +478,8 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
     ok &= expect(
       clearedPayload.secrets.value(QStringLiteral("existing.secret")) == QStringLiteral("keep-me"),
       "matrix session clear preserves unrelated secrets");
+    ok &= expect(!settings::storage::pathExists(matrixSdkSecretsPath),
+                 "matrix session clear removes dedicated matrix-sdk secret store");
 
     return ok;
 }

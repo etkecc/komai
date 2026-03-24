@@ -4,21 +4,27 @@
 
 #include "matrix/backend/MatrixSessionSecrets.h"
 
+#include <QDir>
 #include <QMap>
 
+#include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
+#include "settings/YamlSettings.h"
 
 namespace {
 
 constexpr auto MatrixSdkStorePassphraseKey   = "matrix_sdk.store_passphrase";
 constexpr auto MatrixSdkHomeserverUrlKey     = "matrix_sdk.homeserver_url";
 constexpr auto MatrixSdkSerializedSessionKey = "matrix_sdk.serialized_session";
+constexpr auto MatrixSdkSecureStoreKey       = "matrix_sdk.session";
+constexpr auto MatrixSdkSecretsFileName      = "matrix-sdk-secrets.yml";
 
 struct SecretsPersistenceContext
 {
     bool usesFileSecretsProvider = false;
     QString secretsFilePath;
+    QString secureStoreKey;
 };
 
 SecretsPersistenceContext
@@ -30,8 +36,51 @@ loadSecretsPersistenceContext(const QString &profileId)
 
     return {
       .usesFileSecretsProvider = provider == staged_load_plan::SecretsProvider::File,
-      .secretsFilePath         = settings::storage::secretsFilePathForProfile(profileId),
+      .secretsFilePath         = QDir(settings::storage::profileDirPath(profileId))
+                           .filePath(QString::fromLatin1(MatrixSdkSecretsFileName)),
+      .secureStoreKey = settings::storage::secureStoreKey(profileId, MatrixSdkSecureStoreKey),
     };
+}
+
+QMap<QString, QString>
+loadStoredMatrixSdkSecrets(const SecretsPersistenceContext &context)
+{
+    if (context.usesFileSecretsProvider) {
+        const auto root =
+          settings::storage::loadYamlFile(context.secretsFilePath, "matrix-sdk secrets");
+        return yaml_settings::readStringMap(root, SettingKey::SecretsFileMap);
+    }
+
+    const auto serializedSecrets = settings::storage::readSecureValue(context.secureStoreKey);
+    if (!serializedSecrets.has_value() || serializedSecrets->isEmpty())
+        return {};
+
+    return settings::storage::decodeSecretsMap(*serializedSecrets);
+}
+
+void
+saveStoredMatrixSdkSecrets(const SecretsPersistenceContext &context,
+                           const QMap<QString, QString> &secrets)
+{
+    if (context.usesFileSecretsProvider) {
+        if (secrets.isEmpty()) {
+            settings::storage::removePath(context.secretsFilePath);
+            return;
+        }
+
+        YAML::Node root(YAML::NodeType::Map);
+        yaml_settings::writeStringMap(root, SettingKey::SecretsFileMap, secrets);
+        settings::storage::writeYamlFile(context.secretsFilePath, root, true);
+        return;
+    }
+
+    if (secrets.isEmpty()) {
+        settings::storage::deleteSecureValue(context.secureStoreKey);
+        return;
+    }
+
+    settings::storage::writeSecureValue(context.secureStoreKey,
+                                        settings::storage::encodeSecretsMap(secrets));
 }
 
 } // namespace
@@ -42,13 +91,12 @@ PersistedMatrixSessionSecrets
 loadPersistedMatrixSessionSecrets(const QString &profileId)
 {
     const auto context = loadSecretsPersistenceContext(profileId);
-    const auto payload = settings::persistence::loadProfileSecrets(
-      profileId, context.usesFileSecretsProvider, context.secretsFilePath);
+    const auto secrets = loadStoredMatrixSdkSecrets(context);
 
     return {
-      .storePassphrase   = payload.secrets.value(MatrixSdkStorePassphraseKey),
-      .homeserverUrl     = payload.secrets.value(MatrixSdkHomeserverUrlKey),
-      .serializedSession = payload.secrets.value(MatrixSdkSerializedSessionKey),
+      .storePassphrase   = secrets.value(MatrixSdkStorePassphraseKey),
+      .homeserverUrl     = secrets.value(MatrixSdkHomeserverUrlKey),
+      .serializedSession = secrets.value(MatrixSdkSerializedSessionKey),
     };
 }
 
@@ -57,29 +105,24 @@ savePersistedMatrixSessionSecrets(const QString &profileId,
                                   const PersistedMatrixSessionSecrets &secrets)
 {
     const auto context = loadSecretsPersistenceContext(profileId);
-    auto payload       = settings::persistence::loadProfileSecrets(
-      profileId, context.usesFileSecretsProvider, context.secretsFilePath);
+    QMap<QString, QString> storedSecrets;
 
     if (secrets.storePassphrase.isEmpty())
-        payload.secrets.remove(MatrixSdkStorePassphraseKey);
+        storedSecrets.remove(MatrixSdkStorePassphraseKey);
     else
-        payload.secrets[MatrixSdkStorePassphraseKey] = secrets.storePassphrase;
+        storedSecrets[MatrixSdkStorePassphraseKey] = secrets.storePassphrase;
 
     if (secrets.homeserverUrl.isEmpty())
-        payload.secrets.remove(MatrixSdkHomeserverUrlKey);
+        storedSecrets.remove(MatrixSdkHomeserverUrlKey);
     else
-        payload.secrets[MatrixSdkHomeserverUrlKey] = secrets.homeserverUrl;
+        storedSecrets[MatrixSdkHomeserverUrlKey] = secrets.homeserverUrl;
 
     if (secrets.serializedSession.isEmpty())
-        payload.secrets.remove(MatrixSdkSerializedSessionKey);
+        storedSecrets.remove(MatrixSdkSerializedSessionKey);
     else
-        payload.secrets[MatrixSdkSerializedSessionKey] = secrets.serializedSession;
+        storedSecrets[MatrixSdkSerializedSessionKey] = secrets.serializedSession;
 
-    settings::persistence::saveProfileSecrets(profileId,
-                                              context.usesFileSecretsProvider,
-                                              context.secretsFilePath,
-                                              payload.accessToken,
-                                              payload.secrets);
+    saveStoredMatrixSdkSecrets(context, storedSecrets);
 }
 
 void

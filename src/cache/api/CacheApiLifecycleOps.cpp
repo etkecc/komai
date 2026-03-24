@@ -29,7 +29,7 @@ updateState(const std::string &room, const mtx::responses::StateEvents &state, b
 bool
 isInitialized()
 {
-    return cacheInstance()->isInitialized();
+    return cacheInstance() && cacheInstance()->isInitialized();
 }
 
 std::string

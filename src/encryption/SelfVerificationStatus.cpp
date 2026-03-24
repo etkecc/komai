@@ -19,7 +19,17 @@
 #include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineViewManager.h"
+#include "ui/MainWindow.h"
 #include "ui/UIA.h"
+
+namespace {
+bool
+legacyVerificationDisabledByMatrixSdkRuntime()
+{
+    const auto *mainWindow = MainWindow::instance();
+    return mainWindow && mainWindow->matrixBackendHandleId() != 0;
+}
+}
 
 SelfVerificationStatus::SelfVerificationStatus(QObject *o)
   : QObject(o)
@@ -28,6 +38,11 @@ SelfVerificationStatus::SelfVerificationStatus(QObject *o)
     cache::onDatabaseReady(this, [this] { invalidate(); });
 
     connect(ChatPage::instance(), &ChatPage::contentLoaded, this, [this] {
+        if (legacyVerificationDisabledByMatrixSdkRuntime()) {
+            invalidate();
+            return;
+        }
+
         cache::markUserKeysOutOfDate({http::client()->user_id().to_string()});
         invalidate();
     });
@@ -343,6 +358,22 @@ SelfVerificationStatus::invalidate()
     using namespace mtx::secret_storage;
 
     nhlog::db()->debug("Invalidating self verification status");
+    if (legacyVerificationDisabledByMatrixSdkRuntime()) {
+        if (hasSSSS_) {
+            hasSSSS_ = false;
+            emit hasSSSSChanged();
+        }
+        if (canVerifyWithAnotherDevice_) {
+            canVerifyWithAnotherDevice_ = false;
+            emit canVerifyWithAnotherDeviceChanged();
+        }
+        if (status_ != SelfVerificationStatus::AllVerified) {
+            status_ = SelfVerificationStatus::AllVerified;
+            emit statusChanged();
+        }
+        return;
+    }
+
     if (!cache::isInitialized()) {
         nhlog::db()->debug("SelfVerificationStatus: cache not initialized yet");
         if (canVerifyWithAnotherDevice_) {

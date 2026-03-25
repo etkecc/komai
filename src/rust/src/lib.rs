@@ -344,6 +344,9 @@ mod ffi {
             handle_id: u64,
             room_id: &str,
             file_path: &str,
+            filename: &str,
+            caption: &str,
+            reply_event_id: &str,
             mime_type: &str,
         ) -> Result<()>;
         fn matrix_discover_login_flows(
@@ -874,10 +877,19 @@ fn matrix_send_room_attachment(
     handle_id: u64,
     room_id: &str,
     file_path: &str,
+    filename: &str,
+    caption: &str,
+    reply_event_id: &str,
     mime_type: &str,
 ) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::send_room_attachment(
-        handle_id, room_id, file_path, mime_type,
+        handle_id,
+        room_id,
+        file_path,
+        filename,
+        caption,
+        reply_event_id,
+        mime_type,
     ))
 }
 

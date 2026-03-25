@@ -23,6 +23,8 @@ ColumnLayout {
     readonly property bool hasTimeline: TimelineManager.matrixTimelineItemCount > 0
     readonly property bool loading: TimelineManager.matrixTimelineLoading
     readonly property var composerShell: composerContainer
+    readonly property int pendingAttachmentCount: TimelineManager.matrixTimelineAttachmentCount
+    readonly property bool hasPendingAttachments: pendingAttachmentCount > 0
     property int lastPaginationTriggerCount: -1
 
     function matrixEventTypeForItemKind(kind) {
@@ -59,6 +61,9 @@ ColumnLayout {
     }
 
     function trySendMessage() {
+        if (root.hasPendingAttachments)
+            return TimelineManager.sendActiveMatrixAttachments();
+
         const body = composerInput.text;
         if (!TimelineManager.sendActiveMatrixTextMessage(body))
             return false;
@@ -66,6 +71,24 @@ ColumnLayout {
         composerInput.text = "";
         composerInput.forceActiveFocus();
         return true;
+    }
+
+    QtObject {
+        id: matrixUploadsController
+
+        property var uploads: TimelineManager.matrixTimelineAttachments
+
+        function declineUploads() {
+            TimelineManager.clearActiveMatrixAttachments();
+        }
+
+        function removeUpload(index) {
+            TimelineManager.removeActiveMatrixAttachment(index);
+        }
+
+        function send() {
+            return TimelineManager.sendActiveMatrixAttachments();
+        }
     }
 
     anchors.fill: parent
@@ -660,6 +683,14 @@ ColumnLayout {
                     anchors.margins: Komai.paddingMedium
                     spacing: Komai.paddingSmall
 
+                    Composer.UploadBox {
+                        Layout.minimumHeight: 0
+                        Layout.preferredHeight: layoutVisible ? implicitHeight : 0
+                        Layout.maximumHeight: layoutVisible ? implicitHeight : 0
+                        uploadsController: matrixUploadsController
+                        uploadsSending: TimelineManager.matrixTimelineAttachmentSending
+                    }
+
                     Composer.ReplyPopup {
                         Layout.minimumHeight: 0
                         Layout.preferredHeight: layoutVisible ? implicitHeight : 0
@@ -712,20 +743,22 @@ ColumnLayout {
                         MatrixText {
                             Layout.fillWidth: true
                             color: palette.buttonText
-                            text: qsTr("Shift+Enter inserts a newline. Attachments are sent in order while the Rust room composer keeps growing toward the old room view.")
+                            text: qsTr("Shift+Enter inserts a newline.")
                             wrapMode: Text.WordWrap
                         }
 
                         Components.KomaiButton {
                             enabled: !TimelineManager.matrixTimelineAttachmentSending
-                            text: TimelineManager.matrixTimelineAttachmentSending ? qsTr("Sending…") : qsTr("Attach")
+                            text: qsTr("Attach")
 
                             onClicked: TimelineManager.openActiveMatrixAttachmentSelection()
                         }
 
                         Components.KomaiButton {
-                            enabled: composerInput.text.trim().length > 0
-                            text: qsTr("Send")
+                            enabled: root.hasPendingAttachments
+                                ? !TimelineManager.matrixTimelineAttachmentSending
+                                : composerInput.text.trim().length > 0
+                            text: TimelineManager.matrixTimelineAttachmentSending ? qsTr("Sending…") : qsTr("Send")
 
                             onClicked: root.trySendMessage()
                         }

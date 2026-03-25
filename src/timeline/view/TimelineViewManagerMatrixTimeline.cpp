@@ -23,6 +23,7 @@
 #include "timeline/RoomlistModel.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
+#include "utils/MediaIcons.h"
 #include "utils/Utils.h"
 
 namespace {
@@ -70,6 +71,26 @@ matrixTimelineMediaCachePath(const QString &fileName)
     QDir().mkpath(cacheDir);
     return QDir(cacheDir).filePath(fileName);
 }
+}
+
+QVariantList
+TimelineViewManager::matrixTimelineAttachments() const
+{
+    QVariantList attachments;
+    attachments.reserve(matrixPendingAttachmentItems_.size());
+
+    for (auto *attachment : matrixPendingAttachmentItems_) {
+        if (attachment)
+            attachments.push_back(QVariant::fromValue(attachment));
+    }
+
+    return attachments;
+}
+
+int
+TimelineViewManager::matrixTimelineAttachmentCount() const
+{
+    return matrixPendingAttachmentItems_.size();
 }
 
 void
@@ -150,6 +171,16 @@ void
 TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
 {
     bool stateChanged = clearActiveMatrixReplyState();
+
+    if (!pendingMatrixAttachments_.empty() || !matrixPendingAttachmentItems_.empty()) {
+        pendingMatrixAttachments_.clear();
+        for (auto *attachment : matrixPendingAttachmentItems_) {
+            if (attachment)
+                attachment->deleteLater();
+        }
+        matrixPendingAttachmentItems_.clear();
+        stateChanged = true;
+    }
 
     if (matrixTimelineLoading_) {
         matrixTimelineLoading_ = false;
@@ -319,18 +350,80 @@ TimelineViewManager::openActiveMatrixAttachmentSelection()
     QMimeDatabase mimeDatabase;
     for (const auto &filePath : filePaths) {
         const auto mimeType = mimeDatabase.mimeTypeForFile(filePath).name();
+        const auto effectiveMimeType =
+          mimeType.isEmpty() ? QStringLiteral("application/octet-stream") : mimeType;
+        const auto fileName = QFileInfo(filePath).fileName();
         pendingMatrixAttachments_.push_back(PendingMatrixAttachment{
-          .handleId = handleId,
-          .roomId   = activeMatrixTimelineRoomId_,
-          .filePath = filePath,
-          .mimeType = mimeType.isEmpty() ? QStringLiteral("application/octet-stream") : mimeType,
+          .handleId     = handleId,
+          .roomId       = activeMatrixTimelineRoomId_,
+          .filePath     = filePath,
+          .filename     = fileName,
+          .body         = {},
+          .replyEventId = {},
+          .mimeType     = effectiveMimeType,
         });
+        matrixPendingAttachmentItems_.push_back(
+          new MatrixPendingAttachmentUpload(filePath,
+                                            fileName,
+                                            effectiveMimeType,
+                                            utils::fileTypeIconSource(effectiveMimeType),
+                                            this));
     }
 
     emit matrixTimelineStateChanged();
-    startNextPendingMatrixAttachment();
     focusMessageInput();
     return true;
+}
+
+bool
+TimelineViewManager::sendActiveMatrixAttachments()
+{
+    if (pendingMatrixAttachments_.empty() || matrixAttachmentUploadInFlight_)
+        return false;
+
+    const auto replyEventId = matrixTimelineReplyEventId_.trimmed();
+    if (!replyEventId.isEmpty()) {
+        for (auto &attachment : pendingMatrixAttachments_) {
+            if (attachment.replyEventId.isEmpty())
+                attachment.replyEventId = replyEventId;
+        }
+    }
+
+    const auto clearedReplyState = clearActiveMatrixReplyState();
+    startNextPendingMatrixAttachment();
+    if (clearedReplyState)
+        emit replyClosed();
+    return true;
+}
+
+void
+TimelineViewManager::clearActiveMatrixAttachments()
+{
+    if (pendingMatrixAttachments_.empty() && matrixPendingAttachmentItems_.empty())
+        return;
+
+    pendingMatrixAttachments_.clear();
+    for (auto *attachment : matrixPendingAttachmentItems_) {
+        if (attachment)
+            attachment->deleteLater();
+    }
+    matrixPendingAttachmentItems_.clear();
+
+    emit matrixTimelineStateChanged();
+}
+
+void
+TimelineViewManager::removeActiveMatrixAttachment(int index)
+{
+    if (index < 0 || index >= matrixPendingAttachmentItems_.size())
+        return;
+
+    pendingMatrixAttachments_.erase(pendingMatrixAttachments_.begin() + index);
+    auto *attachment = matrixPendingAttachmentItems_.takeAt(index);
+    if (attachment)
+        attachment->deleteLater();
+
+    emit matrixTimelineStateChanged();
 }
 
 void
@@ -424,14 +517,26 @@ TimelineViewManager::startNextPendingMatrixAttachment()
     if (matrixAttachmentUploadInFlight_ || pendingMatrixAttachments_.empty())
         return;
 
-    const auto attachment           = pendingMatrixAttachments_.front();
+    auto attachment = pendingMatrixAttachments_.front();
+    if (!matrixPendingAttachmentItems_.isEmpty() && matrixPendingAttachmentItems_.front()) {
+        const auto *item    = matrixPendingAttachmentItems_.front();
+        attachment.filename = item->filename().trimmed();
+        attachment.body     = item->body().trimmed();
+    }
     matrixAttachmentUploadInFlight_ = true;
     emit matrixTimelineStateChanged();
 
     std::thread([this, attachment]() {
         QString error;
-        const bool ok = komai::MatrixBackendRuntimeService::sendRoomAttachment(
-          attachment.handleId, attachment.roomId, attachment.filePath, attachment.mimeType, &error);
+        const bool ok =
+          komai::MatrixBackendRuntimeService::sendRoomAttachment(attachment.handleId,
+                                                                 attachment.roomId,
+                                                                 attachment.filePath,
+                                                                 attachment.filename,
+                                                                 attachment.body,
+                                                                 attachment.replyEventId,
+                                                                 attachment.mimeType,
+                                                                 &error);
 
         QMetaObject::invokeMethod(
           this,
@@ -489,6 +594,11 @@ TimelineViewManager::finishPendingMatrixAttachment(bool ok,
         pendingMatrixAttachments_.front().roomId == attachment.roomId &&
         pendingMatrixAttachments_.front().handleId == attachment.handleId) {
         pendingMatrixAttachments_.pop_front();
+    }
+    if (!matrixPendingAttachmentItems_.isEmpty()) {
+        auto *pendingItem = matrixPendingAttachmentItems_.takeFirst();
+        if (pendingItem)
+            pendingItem->deleteLater();
     }
 
     matrixAttachmentUploadInFlight_ = false;

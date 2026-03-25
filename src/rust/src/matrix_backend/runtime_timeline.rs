@@ -4,7 +4,11 @@
 
 use super::*;
 use super::event_summary::summarize_timeline_content;
-use matrix_sdk::attachment::AttachmentConfig;
+use matrix_sdk::{
+    attachment::AttachmentConfig,
+    room::reply::{EnforceThread, Reply},
+    ruma::events::room::message::TextMessageEventContent,
+};
 use mime::Mime;
 use std::{fs, path::Path};
 
@@ -389,6 +393,9 @@ pub async fn send_room_attachment(
     handle_id: u64,
     room_id: &str,
     file_path: &str,
+    filename: &str,
+    caption: &str,
+    reply_event_id: &str,
     mime_type: &str,
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
@@ -403,23 +410,51 @@ pub async fn send_room_attachment(
         .map_err(|e| format!("invalid attachment mime type '{mime_type}': {e}"))?;
     let data = fs::read(file_path)
         .map_err(|e| format!("failed to read attachment file '{file_path}': {e}"))?;
-    let filename = Path::new(file_path)
+    let fallback_filename = Path::new(file_path)
         .file_name()
         .and_then(|name| name.to_str())
         .filter(|name| !name.is_empty())
-        .ok_or_else(|| format!("attachment path '{file_path}' does not include a file name"))?
-        .to_owned();
+        .ok_or_else(|| format!("attachment path '{file_path}' does not include a file name"))?;
+    let filename = {
+        let trimmed = filename.trim();
+        if trimmed.is_empty() {
+            fallback_filename.to_owned()
+        } else {
+            trimmed.to_owned()
+        }
+    };
+    let caption = caption.trim();
+    let reply = if reply_event_id.trim().is_empty() {
+        None
+    } else {
+        Some(Reply {
+            event_id: EventId::parse(reply_event_id.trim())
+                .map_err(|e| format!("invalid reply event id '{reply_event_id}': {e}"))?,
+            enforce_thread: EnforceThread::Unthreaded,
+        })
+    };
+
+    let mut config = AttachmentConfig::new();
+    if !caption.is_empty() {
+        config = config.caption(Some(TextMessageEventContent::plain(caption)));
+    }
+    if let Some(reply) = reply {
+        config = config.reply(Some(reply));
+    }
 
     tracing::info!(
         handle_id,
         room_id = room_id.trim(),
         file_path,
+        filename,
+        has_caption = !caption.is_empty(),
+        has_reply = !reply_event_id.trim().is_empty(),
         mime_type,
         file_size = data.len(),
         "Sending matrix-sdk room attachment"
     );
 
-    room.send_attachment(filename, &mime, data, AttachmentConfig::new())
+    room.send_attachment(filename, &mime, data, config)
         .await
         .map(|_| ())
         .map_err(|e| format!("failed to send matrix-sdk room attachment: {e}"))

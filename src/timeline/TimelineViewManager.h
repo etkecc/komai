@@ -9,6 +9,7 @@
 #include <QHash>
 #include <QPalette>
 #include <QQmlEngine>
+#include <QVariantList>
 #include <QVariantMap>
 
 #include <algorithm>
@@ -57,6 +58,65 @@ namespace komai {
 class MatrixTimelineModel;
 }
 
+class MatrixPendingAttachmentUpload final : public QObject
+{
+    Q_OBJECT
+
+    Q_PROPERTY(QString thumbnail READ thumbnail CONSTANT)
+    Q_PROPERTY(QString body READ body WRITE setBody NOTIFY bodyChanged)
+    Q_PROPERTY(QString filename READ filename WRITE setFilename NOTIFY filenameChanged)
+    Q_PROPERTY(QString mimetype READ mimetype CONSTANT)
+    Q_PROPERTY(QString fileTypeIconSource READ fileTypeIconSource CONSTANT)
+
+public:
+    MatrixPendingAttachmentUpload(QString filePath,
+                                  QString filename,
+                                  QString mimeType,
+                                  QString fileTypeIconSource,
+                                  QObject *parent = nullptr)
+      : QObject(parent)
+      , filePath_(std::move(filePath))
+      , filename_(std::move(filename))
+      , mimeType_(std::move(mimeType))
+      , fileTypeIconSource_(std::move(fileTypeIconSource))
+    {
+    }
+
+    QString thumbnail() const { return {}; }
+    QString body() const { return body_; }
+    QString filename() const { return filename_; }
+    QString mimetype() const { return mimeType_; }
+    QString fileTypeIconSource() const { return fileTypeIconSource_; }
+    QString filePath() const { return filePath_; }
+
+    void setBody(QString body)
+    {
+        if (body_ == body)
+            return;
+        body_ = std::move(body);
+        emit bodyChanged();
+    }
+
+    void setFilename(QString filename)
+    {
+        if (filename_ == filename)
+            return;
+        filename_ = std::move(filename);
+        emit filenameChanged();
+    }
+
+signals:
+    void bodyChanged();
+    void filenameChanged();
+
+private:
+    QString filePath_;
+    QString body_;
+    QString filename_;
+    QString mimeType_;
+    QString fileTypeIconSource_;
+};
+
 class TimelineViewManager final : public QObject
 {
     Q_OBJECT
@@ -76,6 +136,10 @@ class TimelineViewManager final : public QObject
     Q_PROPERTY(
       bool matrixTimelineLoading READ matrixTimelineLoading NOTIFY matrixTimelineStateChanged)
     Q_PROPERTY(bool matrixTimelineAttachmentSending READ matrixTimelineAttachmentSending NOTIFY
+                 matrixTimelineStateChanged)
+    Q_PROPERTY(QVariantList matrixTimelineAttachments READ matrixTimelineAttachments NOTIFY
+                 matrixTimelineStateChanged)
+    Q_PROPERTY(int matrixTimelineAttachmentCount READ matrixTimelineAttachmentCount NOTIFY
                  matrixTimelineStateChanged)
     Q_PROPERTY(QString matrixTimelineReplyEventId READ matrixTimelineReplyEventId NOTIFY
                  matrixTimelineStateChanged)
@@ -105,10 +169,9 @@ public:
     QAbstractItemModel *matrixTimelineModel() const;
     int matrixTimelineItemCount() const;
     bool matrixTimelineLoading() const { return matrixTimelineLoading_; }
-    bool matrixTimelineAttachmentSending() const
-    {
-        return matrixAttachmentUploadInFlight_ || !pendingMatrixAttachments_.empty();
-    }
+    bool matrixTimelineAttachmentSending() const { return matrixAttachmentUploadInFlight_; }
+    QVariantList matrixTimelineAttachments() const;
+    int matrixTimelineAttachmentCount() const;
     QString matrixTimelineReplyEventId() const { return matrixTimelineReplyEventId_; }
     QString matrixTimelineReplySenderDisplayName() const
     {
@@ -192,6 +255,9 @@ public:
     Q_INVOKABLE bool
     toggleActiveMatrixTimelineReaction(const QString &eventId, const QString &reactionKey);
     Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
+    Q_INVOKABLE bool sendActiveMatrixAttachments();
+    Q_INVOKABLE void clearActiveMatrixAttachments();
+    Q_INVOKABLE void removeActiveMatrixAttachment(int index);
     Q_INVOKABLE bool paginateActiveMatrixTimelineBackwards(int pageSize = 0);
     Q_INVOKABLE bool
     openActiveMatrixTimelineMedia(const QString &itemId, const QString &suggestedFileName = {});
@@ -310,9 +376,13 @@ private:
         uint64_t handleId = 0;
         QString roomId;
         QString filePath;
+        QString filename;
+        QString body;
+        QString replyEventId;
         QString mimeType;
     };
     std::deque<PendingMatrixAttachment> pendingMatrixAttachments_;
+    QList<MatrixPendingAttachmentUpload *> matrixPendingAttachmentItems_;
     bool matrixAttachmentUploadInFlight_ = false;
     QString matrixTimelineReplyEventId_;
     QString matrixTimelineReplySenderDisplayName_;

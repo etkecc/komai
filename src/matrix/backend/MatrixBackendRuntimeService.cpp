@@ -747,12 +747,20 @@ bool
 MatrixBackendRuntimeService::sendRoomAttachment(uint64_t handleId,
                                                 const QString &roomId,
                                                 const QString &filePath,
+                                                const QString &filename,
+                                                const QString &caption,
+                                                const QString &replyEventId,
                                                 const QString &mimeType,
                                                 QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_send_room_attachment(
-          handleId, roomId.toStdString(), filePath.toStdString(), mimeType.toStdString());
+        ::komai::rust::matrix_send_room_attachment(handleId,
+                                                   roomId.toStdString(),
+                                                   filePath.toStdString(),
+                                                   filename.toStdString(),
+                                                   caption.toStdString(),
+                                                   replyEventId.toStdString(),
+                                                   mimeType.toStdString());
         return true;
     } catch (const std::exception &e) {
         if (errorOut)

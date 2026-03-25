@@ -14,8 +14,11 @@ import cc.etke.komai 1.0
 Rectangle {
     id: uploadPopup
 
-    readonly property bool layoutVisible: room && room.input.uploads.length > 0
-    readonly property int uploadCount: room ? room.input.uploads.length : 0
+    property var room: null
+    property var uploadsController: room ? room.input : null
+    property bool uploadsSending: false
+    readonly property bool layoutVisible: uploadsController && uploadsController.uploads.length > 0
+    readonly property int uploadCount: uploadsController ? uploadsController.uploads.length : 0
     property int headerTextHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int headerIconSize: Math.ceil(headerTextHeight * 0.5)
     property int headerFontSize: Math.ceil(headerTextHeight * 0.45)
@@ -31,7 +34,10 @@ Rectangle {
 
     function maybeSend(event) {
         if ((event.key == Qt.Key_Enter || event.key == Qt.Key_Return) && matchesSendShortcut(event)) {
-            room.input.send();
+            if (!uploadsController || uploadsSending)
+                return;
+
+            uploadsController.send();
             event.accepted = true;
         }
     }
@@ -96,7 +102,9 @@ Rectangle {
                 hoverEnabled: true
                 image: ":/icons/icons/ui/dismiss.svg"
 
-                onClicked: room.input.declineUploads()
+                enabled: !uploadPopup.uploadsSending
+
+                onClicked: uploadsController.declineUploads()
             }
         }
 
@@ -107,7 +115,7 @@ Rectangle {
             width: parent.width
             height: Math.min(contentHeight, uploadPopup.previewSize * 5)
             boundsBehavior: Flickable.StopAtBounds
-            model: room ? room.input.uploads : undefined
+            model: uploadsController ? uploadsController.uploads : undefined
             orientation: ListView.Vertical
             spacing: Komai.paddingSmall
             clip: true
@@ -166,6 +174,7 @@ Rectangle {
                         Layout.fillWidth: true
                         placeholderText: qsTr("Add an optional filename...")
                         text: modelData.filename
+                        enabled: !uploadPopup.uploadsSending
 
                         onTextEdited: modelData.filename = text
                         Keys.onPressed: event => uploadPopup.maybeSend(event)
@@ -175,6 +184,7 @@ Rectangle {
                         Layout.fillWidth: true
                         placeholderText: qsTr("Add an optional caption...")
                         text: modelData.body
+                        enabled: !uploadPopup.uploadsSending
 
                         onTextEdited: modelData.body = text
                         Keys.onPressed: event => uploadPopup.maybeSend(event)
@@ -188,8 +198,9 @@ Rectangle {
                     icon.source: "qrc:/icons/icons/ui/dismiss.svg"
                     toolTipText: qsTr("Detach")
                     toolTipVisible: hovered && !uploadPopup.showRemoveLabel
+                    enabled: !uploadPopup.uploadsSending
 
-                    onClicked: room.input.removeUpload(index)
+                    onClicked: uploadsController.removeUpload(index)
                 }
             }
         }

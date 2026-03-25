@@ -286,6 +286,9 @@ public:
     static bool sendRoomAttachment(uint64_t handleId,
                                    const QString &roomId,
                                    const QString &filePath,
+                                   const QString &filename,
+                                   const QString &caption,
+                                   const QString &replyEventId,
                                    const QString &mimeType,
                                    QString *errorOut = nullptr);
 

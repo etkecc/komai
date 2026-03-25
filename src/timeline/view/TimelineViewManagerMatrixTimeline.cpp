@@ -539,6 +539,14 @@ TimelineViewManager::handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t ha
 
     rooms_->refreshMatrixBackendRooms();
     communities_->initializeSidebar();
+
+    if (waitingForFirstSync_) {
+        nhlog::ui()->info("Clearing waitingForFirstSync from first matrix-sdk room-list snapshot "
+                          "for handle {}",
+                          handleId);
+        waitingForFirstSync_ = false;
+        emit waitingForFirstSyncChanged(false);
+    }
 }
 
 void
@@ -551,6 +559,15 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
 
     if (activeMatrixTimelineRoomId_ != roomId)
         return;
+
+    if (waitingForFirstSync_) {
+        nhlog::ui()->info("Clearing waitingForFirstSync from first active matrix-sdk room "
+                          "timeline snapshot for handle {} room '{}'",
+                          handleId,
+                          roomId.toStdString());
+        waitingForFirstSync_ = false;
+        emit waitingForFirstSyncChanged(false);
+    }
 
     refreshCurrentMatrixTimeline();
 }

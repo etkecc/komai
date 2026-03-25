@@ -15,6 +15,19 @@
 
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
+#include "utils/Utils.h"
+
+namespace {
+void
+reportUia3pidUnavailable(UIA *uia, QString action)
+{
+    nhlog::ui()->warn(
+      "Refusing legacy UIA action '{}'; this flow is not migrated to the matrix-sdk backend yet",
+      action.toStdString());
+    emit uia->error(
+      UIA::tr("%1 is not migrated to the matrix-sdk backend yet.").arg(std::move(action)));
+}
+}
 
 UIA *
 UIA::instance()
@@ -155,7 +168,7 @@ UIA::continuePassword(const QString &password)
     mtx::user_interactive::auth::Password p{};
     p.identifier_type = mtx::user_interactive::auth::Password::UserId;
     p.password        = password.toStdString();
-    p.identifier_user = http::client()->user_id().to_string();
+    p.identifier_user = utils::localUser().toStdString();
 
     if (currentHandler)
         currentHandler->next(mtx::user_interactive::Auth{currentStatus.session, p});
@@ -164,64 +177,15 @@ UIA::continuePassword(const QString &password)
 void
 UIA::continueEmail(const QString &email)
 {
-    mtx::requests::RequestEmailToken r{};
-    r.client_secret = this->client_secret = mtx::client::utils::random_token(128, false);
-    r.email                               = email.toStdString();
-    r.send_attempt                        = 0;
-    http::client()->register_email_request_token(
-      r, [this](const mtx::responses::RequestToken &token, mtx::http::RequestErr e) {
-          if (!e) {
-              this->sid        = token.sid;
-              this->submit_url = token.submit_url;
-              this->email_     = true;
-
-              if (submit_url.empty()) {
-                  nhlog::ui()->debug("Got no submit url.");
-                  emit confirm3pidToken();
-              } else {
-                  nhlog::ui()->debug("Got submit url: {}", token.submit_url);
-                  emit prompt3pidToken();
-              }
-          } else {
-              nhlog::ui()->debug("Registering email failed! ({},{},{},{})",
-                                 e->status_code,
-                                 e->status_code,
-                                 e->parse_error,
-                                 e->matrix_error.error);
-              emit error(QString::fromStdString(e->matrix_error.error));
-          }
-      });
+    (void)email;
+    reportUia3pidUnavailable(this, tr("Email verification"));
 }
 void
 UIA::continuePhoneNumber(const QString &countryCode, const QString &phoneNumber)
 {
-    mtx::requests::RequestMSISDNToken r{};
-    r.client_secret = this->client_secret = mtx::client::utils::random_token(128, false);
-    r.country                             = countryCode.toStdString();
-    r.phone_number                        = phoneNumber.toStdString();
-    r.send_attempt                        = 0;
-    http::client()->register_phone_request_token(
-      r, [this](const mtx::responses::RequestToken &token, mtx::http::RequestErr e) {
-          if (!e) {
-              this->sid        = token.sid;
-              this->submit_url = token.submit_url;
-              this->email_     = false;
-              if (submit_url.empty()) {
-                  nhlog::ui()->debug("Got no submit url.");
-                  emit confirm3pidToken();
-              } else {
-                  nhlog::ui()->debug("Got submit url: {}", token.submit_url);
-                  emit prompt3pidToken();
-              }
-          } else {
-              nhlog::ui()->debug("Registering phone number failed! ({},{},{},{})",
-                                 e->status_code,
-                                 e->status_code,
-                                 e->parse_error,
-                                 e->matrix_error.error);
-              emit error(QString::fromStdString(e->matrix_error.error));
-          }
-      });
+    (void)countryCode;
+    (void)phoneNumber;
+    reportUia3pidUnavailable(this, tr("Phone-number verification"));
 }
 
 void
@@ -245,47 +209,8 @@ UIA::continue3pidReceived()
 void
 UIA::submit3pidToken(const QString &token)
 {
-    mtx::requests::IdentitySubmitToken t{};
-    t.client_secret = this->client_secret;
-    t.sid           = this->sid;
-    t.token         = token.toStdString();
-
-    http::client()->validate_submit_token(
-      submit_url, t, [this](const mtx::responses::Success &success, mtx::http::RequestErr e) {
-          if (!e && success.success) {
-              mtx::user_interactive::auth::ThreePIDCred c{};
-              c.client_secret = this->client_secret;
-              c.sid           = this->sid;
-
-              nhlog::ui()->debug("Submit token success");
-
-              if (this->email_) {
-                  mtx::user_interactive::auth::EmailIdentity i{};
-                  i.threepidCred = c;
-                  this->currentHandler->next(mtx::user_interactive::Auth{currentStatus.session, i});
-              } else {
-                  mtx::user_interactive::auth::MSISDN i{};
-                  i.threepidCred = c;
-                  this->currentHandler->next(mtx::user_interactive::Auth{currentStatus.session, i});
-              }
-          } else {
-              if (e) {
-                  nhlog::ui()->debug("Submit token invalid! ({},{},{},{})",
-                                     e->status_code,
-                                     e->status_code,
-                                     e->parse_error,
-                                     e->matrix_error.error);
-                  emit error(QString::fromStdString(e->matrix_error.error));
-              } else {
-                  nhlog::ui()->debug("Submit token invalid!");
-                  emit error(tr("Invalid token"));
-              }
-          }
-
-          this->client_secret.clear();
-          this->sid.clear();
-          this->submit_url.clear();
-      });
+    (void)token;
+    reportUia3pidUnavailable(this, tr("3PID token submission"));
 }
 
 #include "moc_UIA.cpp"

@@ -12,7 +12,6 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
 QVariantList
@@ -76,100 +75,14 @@ CommunitiesModel::updateSpaceStatus(QString space,
                                     bool setChild,
                                     bool canonical) const
 {
-    nhlog::ui()->critical("Setting space {} children {}: {} {} {}",
-                          space.toStdString(),
-                          room.toStdString(),
-                          setParent,
-                          setChild,
-                          canonical);
-    auto child = cache::getStateEvent<mtx::events::state::space::Child>(space.toStdString(),
-                                                                        room.toStdString())
-                   .value_or(mtx::events::StateEvent<mtx::events::state::space::Child>{})
-                   .content;
-    auto parent = cache::getStateEvent<mtx::events::state::space::Parent>(room.toStdString(),
-                                                                          space.toStdString())
-                    .value_or(mtx::events::StateEvent<mtx::events::state::space::Parent>{})
-                    .content;
-
-    if (setChild) {
-        if (!child.via || child.via->empty()) {
-            child.via       = utils::roomVias(room.toStdString());
-            child.suggested = true;
-
-            http::client()->send_state_event(
-              space.toStdString(),
-              room.toStdString(),
-              child,
-              [space, room](mtx::responses::EventId, mtx::http::RequestErr err) {
-                  if (err) {
-                      ChatPage::instance()->showNotification(
-                        tr("Failed to update community: %1")
-                          .arg(QString::fromStdString(err->matrix_error.error)));
-                      nhlog::net()->error("Failed to update child {} of {}: {}",
-                                          room.toStdString(),
-                                          space.toStdString(),
-                                          *err);
-                  }
-              });
-        }
-    } else {
-        if (child.via && !child.via->empty()) {
-            http::client()->send_state_event(
-              space.toStdString(),
-              room.toStdString(),
-              mtx::events::state::space::Child{},
-              [space, room](mtx::responses::EventId, mtx::http::RequestErr err) {
-                  if (err) {
-                      ChatPage::instance()->showNotification(
-                        tr("Failed to delete room from community: %1")
-                          .arg(QString::fromStdString(err->matrix_error.error)));
-                      nhlog::net()->error("Failed to delete child {} of {}: {}",
-                                          room.toStdString(),
-                                          space.toStdString(),
-                                          *err);
-                  }
-              });
-        }
-    }
-
-    if (setParent) {
-        if (!parent.via || parent.via->empty() || canonical != parent.canonical) {
-            parent.via       = utils::roomVias(room.toStdString());
-            parent.canonical = canonical;
-
-            http::client()->send_state_event(
-              room.toStdString(),
-              space.toStdString(),
-              parent,
-              [space, room](mtx::responses::EventId, mtx::http::RequestErr err) {
-                  if (err) {
-                      ChatPage::instance()->showNotification(
-                        tr("Failed to update community for room: %1")
-                          .arg(QString::fromStdString(err->matrix_error.error)));
-                      nhlog::net()->error("Failed to update parent {} of {}: {}",
-                                          space.toStdString(),
-                                          room.toStdString(),
-                                          *err);
-                  }
-              });
-        }
-    } else {
-        if (parent.via && !parent.via->empty()) {
-            http::client()->send_state_event(
-              room.toStdString(),
-              space.toStdString(),
-              mtx::events::state::space::Parent{},
-              [space, room](mtx::responses::EventId, mtx::http::RequestErr err) {
-                  if (err) {
-                      ChatPage::instance()->showNotification(
-                        tr("Failed to remove community from room: %1")
-                          .arg(QString::fromStdString(err->matrix_error.error)));
-                      nhlog::net()->error("Failed to delete parent {} of {}: {}",
-                                          space.toStdString(),
-                                          room.toStdString(),
-                                          *err);
-                  }
-              });
-        }
-    }
+    (void)setParent;
+    (void)setChild;
+    (void)canonical;
+    nhlog::ui()->warn(
+      "Refusing legacy community/space relationship update for space '{}' room '{}'; this flow "
+      "is not migrated to the matrix-sdk backend yet",
+      space.toStdString(),
+      room.toStdString());
+    ChatPage::instance()->showNotification(
+      tr("Community/space relationship editing is not migrated to the matrix-sdk backend yet."));
 }

@@ -215,6 +215,7 @@ public:
     Q_INVOKABLE void openMedia(QString mxcUrl);
     Q_INVOKABLE void saveMedia(QString mxcUrl);
     Q_INVOKABLE void copyImage(const QString &mxcUrl) const;
+    Q_INVOKABLE void copyMatrixEventLink(const QString &roomId, const QString &eventId) const;
     Q_INVOKABLE QColor userColor(QString id, QColor background);
     Q_INVOKABLE QVariantMap userBubblePalette(QString id, QColor background);
     Q_INVOKABLE QColor roomUserColor(QString roomId,

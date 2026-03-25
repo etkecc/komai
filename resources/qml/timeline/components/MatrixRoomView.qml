@@ -598,6 +598,12 @@ ColumnLayout {
                             function showEvent(eventId) {
                                 return root.jumpToLoadedMatrixEvent(eventId);
                             }
+
+                            function copyLinkToEvent(eventId) {
+                                TimelineManager.copyMatrixEventLink(
+                                    roomId,
+                                    String(eventId || timelineItemDelegate.eventId || ""));
+                            }
                         }
 
                         QtObject {
@@ -629,7 +635,7 @@ ColumnLayout {
                             readonly property bool supportsReport: false
                             readonly property bool supportsOpenMedia: timelineItemDelegate.isMediaItem
                             readonly property bool supportsSaveMedia: timelineItemDelegate.isMediaItem
-                            readonly property bool supportsCopyEventLink: false
+                            readonly property bool supportsCopyEventLink: eventId.length > 0
                         }
 
                         Rectangle {

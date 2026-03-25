@@ -66,149 +66,24 @@ send_key_request_for(mtx::events::EncryptedEvent<mtx::events::msg::Encrypted> e,
                      const std::string &request_id,
                      bool cancel)
 {
-    using namespace mtx::events;
-
-    nhlog::crypto()->debug("sending key request: sender_key {}, session_id {}",
-                           e.content.sender_key,
-                           e.content.session_id);
-
-    mtx::events::msg::KeyRequest request;
-    request.action = cancel ? mtx::events::msg::RequestAction::Cancellation
-                            : mtx::events::msg::RequestAction::Request;
-
-    request.algorithm            = MEGOLM_ALGO;
-    request.room_id              = e.room_id;
-    request.sender_key           = e.content.sender_key;
-    request.session_id           = e.content.session_id;
-    request.request_id           = request_id;
-    request.requesting_device_id = http::client()->device_id();
-
-    nhlog::crypto()->debug("m.room_key_request: {}", nlohmann::json(request).dump(2));
-
-    std::map<mtx::identifiers::User, std::map<std::string, decltype(request)>> body;
-    body[mtx::identifiers::parse<mtx::identifiers::User>(e.sender)]["*"] = request;
-    body[http::client()->user_id()]["*"]                                 = request;
-
-    http::client()->send_to_device(
-      http::client()->generate_txn_id(), body, [e](mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->warn("failed to send "
-                                 "send_to_device "
-                                 "message: {}",
-                                 err->matrix_error.error);
-          }
-
-          nhlog::net()->info(
-            "m.room_key_request sent to {}:{} and your own devices", e.sender, e.content.device_id);
-      });
+    nhlog::crypto()->warn(
+      "Ignoring legacy room-key {} for {}:{} (request_id={}); this flow is not migrated to "
+      "the matrix-sdk backend yet",
+      cancel ? "cancellation" : "request",
+      e.sender,
+      e.content.device_id,
+      request_id);
 }
 
 void
 handle_key_request_message(const mtx::events::DeviceEvent<mtx::events::msg::KeyRequest> &req)
 {
-    if (req.content.algorithm != MEGOLM_ALGO) {
-        nhlog::crypto()->debug("ignoring key request {} with invalid algorithm: {}",
-                               req.content.request_id,
-                               req.content.algorithm);
-        return;
-    }
-
-    // Check that the requested session_id and the one we have saved match.
-    MegolmSessionIndex index{};
-    index.room_id    = req.content.room_id;
-    index.session_id = req.content.session_id;
-
-    // Check if we have the keys for the requested session.
-    auto sessionData = cache::getMegolmSessionData(index);
-    if (!sessionData) {
-        nhlog::crypto()->warn("requested session not found in room: {}", req.content.room_id);
-        return;
-    }
-
-    // Check if we were the sender of the session being requested (unless it is actually us
-    // requesting the session).
-    if (req.sender != http::client()->user_id().to_string() &&
-        sessionData->sender_key != olm::client()->identity_keys().curve25519) {
-        nhlog::crypto()->debug(
-          "ignoring key request {} because we did not create the requested session: "
-          "\nrequested({}) ours({})",
-          req.content.request_id,
-          sessionData->sender_key,
-          olm::client()->identity_keys().curve25519);
-        return;
-    }
-
-    const auto session = cache::getInboundMegolmSession(index);
-    if (!session) {
-        nhlog::crypto()->warn("No session with id {} in db", req.content.session_id);
-        return;
-    }
-
-    if (!cache::isRoomMember(req.sender, req.content.room_id)) {
-        nhlog::crypto()->warn("user {} that requested the session key is not member of the room {}",
-                              req.sender,
-                              req.content.room_id);
-        return;
-    }
-
-    // check if device is verified
-    auto verificationStatus = cache::verificationStatus(req.sender);
-    bool verifiedDevice     = false;
-    if (verificationStatus &&
-        // Share keys, if the option to share with trusted users is enabled or with yourself
-        (ChatPage::instance()->userSettings()->encryptionKeySharingShareWithTrusted() ||
-         req.sender == http::client()->user_id().to_string())) {
-        for (const auto &dev : verificationStatus->verified_devices) {
-            if (dev == req.content.requesting_device_id) {
-                verifiedDevice = true;
-                nhlog::crypto()->debug("Verified device: {}", dev);
-                break;
-            }
-        }
-    }
-
-    bool shouldSeeKeys    = false;
-    uint32_t minimumIndex = -1;
-    if (sessionData->currently.keys.count(req.sender)) {
-        if (sessionData->currently.keys.at(req.sender)
-              .deviceids.count(req.content.requesting_device_id)) {
-            shouldSeeKeys = true;
-            minimumIndex  = sessionData->currently.keys.at(req.sender)
-                             .deviceids.at(req.content.requesting_device_id);
-        }
-    }
-
-    if (!verifiedDevice && !shouldSeeKeys) {
-        nhlog::crypto()->debug("ignoring key request for room {}", req.content.room_id);
-        return;
-    }
-
-    if (verifiedDevice) {
-        // share the minimum index we have
-        minimumIndex = -1;
-    }
-
-    try {
-        auto session_key = mtx::crypto::export_session(session.get(), minimumIndex);
-
-        //
-        // Prepare the m.room_key event.
-        //
-        mtx::events::msg::ForwardedRoomKey forward_key{};
-        forward_key.algorithm   = MEGOLM_ALGO;
-        forward_key.room_id     = index.room_id;
-        forward_key.session_id  = index.session_id;
-        forward_key.session_key = session_key;
-        forward_key.sender_key  = sessionData->sender_key;
-
-        // TODO(Nico): Figure out if this is correct
-        forward_key.sender_claimed_ed25519_key      = sessionData->sender_claimed_ed25519_key;
-        forward_key.forwarding_curve25519_key_chain = sessionData->forwarding_curve25519_key_chain;
-
-        send_megolm_key_to_device(req.sender, req.content.requesting_device_id, forward_key);
-    } catch (std::exception &e) {
-        nhlog::crypto()->error("Failed to forward session key: {}", e.what());
-    }
+    nhlog::crypto()->warn(
+      "Ignoring legacy inbound room-key request {} from {}:{}; this flow is not migrated to "
+      "the matrix-sdk backend yet",
+      req.content.request_id,
+      req.sender,
+      req.content.requesting_device_id);
 }
 
 void
@@ -216,14 +91,12 @@ send_megolm_key_to_device(const std::string &user_id,
                           const std::string &device_id,
                           const mtx::events::msg::ForwardedRoomKey &payload)
 {
-    mtx::events::DeviceEvent<mtx::events::msg::ForwardedRoomKey> room_key;
-    room_key.content = payload;
-    room_key.type    = mtx::events::EventType::ForwardedRoomKey;
-
-    std::map<std::string, std::vector<std::string>> targets;
-    targets[user_id] = {device_id};
-    send_encrypted_to_device_messages(targets, room_key);
-    nhlog::crypto()->debug("Forwarded key to {}:{}", user_id, device_id);
+    nhlog::crypto()->warn(
+      "Ignoring legacy forwarded room-key send to {}:{} for session {}; this flow is not "
+      "migrated to the matrix-sdk backend yet",
+      user_id,
+      device_id,
+      payload.session_id);
 }
 
 DecryptionResult

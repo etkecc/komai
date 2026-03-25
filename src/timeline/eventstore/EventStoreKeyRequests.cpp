@@ -5,11 +5,9 @@
 
 #include "EventStore.h"
 
-#include <QDateTime>
-
 #include <utility>
 
-#include "matrix/MatrixClient.h"
+#include "logging/Logging.h"
 
 void
 EventStore::receivedSessionKey(const std::string &session_id)
@@ -62,9 +60,11 @@ EventStore::clearDecryptionErrors()
 void
 EventStore::refetchOnlineKeyBackupKeys()
 {
-    for (const auto &[session_id, request] : this->pending_key_requests) {
-        (void)request;
-        olm::lookup_keybackup(this->room_id_, session_id);
+    if (!this->pending_key_requests.empty()) {
+        nhlog::crypto()->warn(
+          "Ignoring legacy key-backup refetch for room {}; this flow is not migrated to the "
+          "matrix-sdk backend yet",
+          this->room_id_);
     }
 }
 
@@ -72,32 +72,16 @@ void
 EventStore::requestSession(const mtx::events::EncryptedEvent<mtx::events::msg::Encrypted> &ev,
                            bool manual)
 {
+    (void)ev;
+    (void)manual;
     // we may not want to request keys during initial sync and such
     if (suppressKeyRequests)
         return;
 
-    auto copy    = ev;
-    copy.room_id = room_id_;
-    if (pending_key_requests.count(ev.content.session_id)) {
-        auto &r = pending_key_requests.at(ev.content.session_id);
-        r.events.push_back(copy);
-
-        // automatically request once every 2 min, manually every 30 s
-        qint64 delay = manual ? 30 : (60 * 2);
-        if (r.requested_at + delay < QDateTime::currentSecsSinceEpoch()) {
-            r.requested_at = QDateTime::currentSecsSinceEpoch();
-            olm::lookup_keybackup(room_id_, ev.content.session_id);
-            olm::send_key_request_for(copy, r.request_id);
-        }
-    } else {
-        PendingKeyRequests request;
-        request.request_id   = "key_request." + http::client()->generate_txn_id();
-        request.requested_at = QDateTime::currentSecsSinceEpoch();
-        request.events.push_back(copy);
-        olm::lookup_keybackup(room_id_, ev.content.session_id);
-        olm::send_key_request_for(copy, request.request_id);
-        pending_key_requests[ev.content.session_id] = request;
-    }
+    nhlog::crypto()->warn(
+      "Ignoring legacy missing-session request for room {}; this flow is not migrated to the "
+      "matrix-sdk backend yet",
+      room_id_);
 }
 
 void

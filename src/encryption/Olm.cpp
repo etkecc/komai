@@ -421,77 +421,9 @@ handle_olm_message(const OlmMessage &msg, const UserKeyCache &otherUserDeviceKey
 void
 request_cross_signing_keys()
 {
-    mtx::events::msg::SecretRequest secretRequest{};
-    secretRequest.action               = mtx::events::msg::RequestAction::Request;
-    secretRequest.requesting_device_id = http::client()->device_id();
-
-    auto local_user = http::client()->user_id();
-
-    auto verificationStatus = cache::verificationStatus(local_user.to_string());
-
-    if (!verificationStatus)
-        return;
-
-    auto request = [&](std::string secretName) {
-        secretRequest.name       = secretName;
-        secretRequest.request_id = "ss." + http::client()->generate_txn_id();
-
-        request_id_to_secret_name[secretRequest.request_id] = secretRequest.name;
-
-        std::map<mtx::identifiers::User, std::map<std::string, mtx::events::msg::SecretRequest>>
-          body;
-
-        for (const auto &dev : verificationStatus->verified_devices) {
-            if (dev != secretRequest.requesting_device_id)
-                body[local_user][dev] = secretRequest;
-        }
-
-        if (body.empty()) {
-            nhlog::net()->warn("No verified devices to request {} from.", secretName);
-            return;
-        }
-
-        http::client()->send_to_device<mtx::events::msg::SecretRequest>(
-          http::client()->generate_txn_id(),
-          body,
-          [request_id = secretRequest.request_id, secretName](mtx::http::RequestErr err) {
-              if (err) {
-                  nhlog::net()->error("Failed to send request for secrect '{}'", secretName);
-                  // Cancel request on UI thread
-                  QTimer::singleShot(0, ChatPage::instance(), [request_id]() {
-                      request_id_to_secret_name.erase(request_id);
-                  });
-                  return;
-              }
-          });
-
-        for (const auto &dev : verificationStatus->verified_devices) {
-            if (dev != secretRequest.requesting_device_id)
-                body[local_user][dev].action = mtx::events::msg::RequestAction::Cancellation;
-        }
-
-        // timeout after 15 min
-        QTimer::singleShot(15 * 60 * 1000, ChatPage::instance(), [secretRequest, body]() {
-            if (request_id_to_secret_name.count(secretRequest.request_id)) {
-                request_id_to_secret_name.erase(secretRequest.request_id);
-                http::client()->send_to_device<mtx::events::msg::SecretRequest>(
-                  http::client()->generate_txn_id(),
-                  body,
-                  [secretRequest](mtx::http::RequestErr err) {
-                      if (err) {
-                          nhlog::net()->error("Failed to cancel request for secrect '{}'",
-                                              secretRequest.name);
-                          return;
-                      }
-                  });
-            }
-        });
-    };
-
-    request(std::string(mtx::secret_storage::secrets::cross_signing_master));
-    request(std::string(mtx::secret_storage::secrets::cross_signing_self_signing));
-    request(std::string(mtx::secret_storage::secrets::cross_signing_user_signing));
-    request(std::string(mtx::secret_storage::secrets::megolm_backup_v1));
+    nhlog::crypto()->warn(
+      "Ignoring legacy cross-signing secret request; this flow is not migrated to the "
+      "matrix-sdk backend yet");
 }
 
 } // namespace olm

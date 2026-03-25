@@ -326,6 +326,9 @@ ColumnLayout {
                             parts.push(Qt.formatTime(new Date(timestamp), "h:mm ap"));
                             return parts.join(" · ");
                         }
+                        readonly property bool showInlineActions: Settings.timelineMessageActionsActivationPolicy
+                            !== Settings.TimelineMessageActionsActivationPolicy.Never
+                            && (timelineItemHover.hovered || actionToolbarHover.hovered)
                         readonly property string mediaKindLabel: {
                             switch (itemKind) {
                             case "image":
@@ -359,6 +362,10 @@ ColumnLayout {
 
                         width: ListView.view.width
                         height: itemKind === "date_divider" ? dateDivider.implicitHeight : messageRow.implicitHeight
+
+                        HoverHandler {
+                            id: timelineItemHover
+                        }
 
                         QtObject {
                             id: matrixToolbarNoopControl
@@ -747,7 +754,7 @@ ColumnLayout {
                                         Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
                                         implicitHeight: visible ? actionToolbarBackground.implicitHeight : 0
                                         implicitWidth: visible ? actionToolbarBackground.implicitWidth : 0
-                                        visible: supportsSharedToolbarActions
+                                        visible: supportsSharedToolbarActions && showInlineActions
 
                                         TimelineFloatingActionBarBackground {
                                             id: actionToolbarBackground
@@ -760,6 +767,10 @@ ColumnLayout {
                                             barRadius: Komai.paddingSmall
                                             implicitHeight: actionToolbar.implicitHeight + Komai.paddingSmall * 2
                                             implicitWidth: actionToolbar.implicitWidth + Komai.paddingSmall * 2
+
+                                            HoverHandler {
+                                                id: actionToolbarHover
+                                            }
 
                                             MessageActionsToolbar {
                                                 id: actionToolbar

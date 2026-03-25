@@ -15,7 +15,6 @@
 
 #include <nlohmann/json.hpp>
 
-#include "encryption/Olm.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
 
@@ -55,15 +54,9 @@ MatrixStore::isHiddenEvent(db::Transaction &txn,
     if (mtx::accessors::relations(e).replaces())
         return true;
 
-    if (auto encryptedEvent = std::get_if<EncryptedEvent<msg::Encrypted>>(&e)) {
-        MegolmSessionIndex index;
-        index.room_id    = room_id;
-        index.session_id = encryptedEvent->content.session_id;
-
-        auto result = olm::decryptEvent(index, *encryptedEvent, true);
-        if (!result.error)
-            e = result.event.value();
-    }
+    // Do not eagerly invoke the legacy Olm/event-store decryption graph from the cache layer on
+    // this migration branch. Encrypted events may slip through this index-time filter, but the UI
+    // layer already has a later IsHiddenEvent guard once an event is actually materialized.
 
     HiddenEventsContent hiddenEvents;
     hiddenEvents.hidden_event_types = qml_mtx_events::defaultHiddenEventTypes();

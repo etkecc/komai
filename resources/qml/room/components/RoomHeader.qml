@@ -348,7 +348,7 @@ Pane {
     Component.onCompleted: updateActionLabelVisibility()
 
     Shortcut {
-        sequence: StandardKey.Find
+        sequences: [StandardKey.Find]
 
         onActivated: searchButton.searchActive = !searchButton.searchActive
     }

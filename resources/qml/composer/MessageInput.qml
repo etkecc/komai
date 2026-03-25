@@ -17,16 +17,23 @@ Rectangle {
     required property var room
     required property var timelineRoot
     required property var selectionModeRoot
+    property var inputController: room && room.input ? room.input : null
+    property bool allowCalls: true
+    property bool allowStickers: true
+    property bool allowCommandCompleter: true
+    property bool attachmentsEnabled: true
     property bool showAllButtons: width > 450 || (messageInput.length == 0 && !messageInput.inputMethodComposing)
     property bool walkModeActive: false
     readonly property string text: messageInput.text
     readonly property bool textInputActiveFocus: messageInput.activeFocus
-    readonly property bool hasUploads: room && room.input.uploads.length > 0
+    readonly property bool hasUploads: !!(inputController && inputController.uploads && inputController.uploads.length > 0)
     readonly property bool composerEnabled: !hasUploads
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
     readonly property int minimumBarHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property bool composerExpanded: textInput.targetTextAreaHeight > textInput.singleLineHeight
     readonly property bool commandPickerVisible: popup.opened && completer.completerType === "command"
+    readonly property bool canSendCurrentRoom: room ? room.permissions.canSend(room.isEncrypted ? MtxEvent.Encrypted : MtxEvent.TextMessage) : false
+    readonly property bool canSendTextMessages: room ? room.permissions.canSend(MtxEvent.TextMessage) : false
     signal composerInteractionRequested()
 
     function focusTextInput() {
@@ -44,6 +51,22 @@ Rectangle {
             return false;
 
         messageInput.forceActiveFocus();
+        return true;
+    }
+
+    function appendText(text) {
+        if (!text)
+            return false;
+
+        messageInput.forceActiveFocus();
+        messageInput.insert(messageInput.cursorPosition, text);
+        return true;
+    }
+
+    function replaceText(text) {
+        const value = String(text || "");
+        messageInput.text = value;
+        messageInput.cursorPosition = value.length;
         return true;
     }
 
@@ -140,14 +163,14 @@ Rectangle {
     implicitHeight: Math.max(minimumBarHeight, row.implicitHeight)
     Layout.minimumHeight: minimumBarHeight
     Layout.preferredHeight: implicitHeight
-    color: inputBar.hasUploads || (room && !room.permissions.canSend(MtxEvent.TextMessage)) ? palette.alternateBase : palette.window
+    color: inputBar.hasUploads || (room && !inputBar.canSendTextMessages) ? palette.alternateBase : palette.window
 
     RowLayout {
         id: row
 
         anchors.fill: parent
         spacing: 0
-        visible: room ? room.permissions.canSend(room.isEncrypted ? MtxEvent.Encrypted :  MtxEvent.TextMessage) : false
+        visible: inputBar.canSendCurrentRoom
 
         ComposerCallButton {
             id: callButton
@@ -158,13 +181,14 @@ Rectangle {
             KeyNavigation.tab: attachButton.visible ? attachButton : messageInput
             room: inputBar.room
             timelineRoot: inputBar.timelineRoot
-            showAllButtons: inputBar.showAllButtons
+            showAllButtons: inputBar.showAllButtons && inputBar.allowCalls
         }
         ComposerAttachButton {
             id: attachButton
 
             Layout.alignment: inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter
             Layout.leftMargin: callButton.visible ? 0 : Komai.paddingMedium
+            enabled: inputBar.attachmentsEnabled
             KeyNavigation.backtab: callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget()
             KeyNavigation.tab: messageInput
             room: inputBar.room
@@ -194,22 +218,22 @@ Rectangle {
                 property int previousTextLength: 0
 
                 function currentCompleterSearchString() {
-                    if (completer.completerType === "command" && room && room.input) {
+                    if (completer.completerType === "command" && inputBar.inputController) {
                         const prefix = messageInput.getText(0, cursorPosition) + messageInput.preeditText;
-                        return room.input.commandCompletionSearchString(prefix,
-                                                                       cursorPosition + messageInput.preeditText.length);
+                        return inputBar.inputController.commandCompletionSearchString(prefix,
+                                                                                      cursorPosition + messageInput.preeditText.length);
                     }
 
                     return messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText;
                 }
                 function insertCompletion(completion) {
-                    if (completer.completerType === "command" && room && room.input) {
-                        const updatedText = room.input.applyCommandCompletion(messageInput.text,
-                                                                              cursorPosition,
-                                                                              completion);
-                        const updatedCursorPosition = room.input.commandCompletionCursorPosition(messageInput.text,
-                                                                                                 cursorPosition,
-                                                                                                 completion);
+                    if (completer.completerType === "command" && inputBar.inputController) {
+                        const updatedText = inputBar.inputController.applyCommandCompletion(messageInput.text,
+                                                                                            cursorPosition,
+                                                                                            completion);
+                        const updatedCursorPosition = inputBar.inputController.commandCompletionCursorPosition(messageInput.text,
+                                                                                                               cursorPosition,
+                                                                                                               completion);
                         messageInput.text = updatedText;
                         messageInput.cursorPosition = updatedCursorPosition;
                         return;
@@ -220,9 +244,8 @@ Rectangle {
                     messageInput.insert(completerTriggeredAt, completion);
                     messageInput.cursorPosition = completerTriggeredAt + completion.length;
                     let userid = completer.currentUserid();
-                    if (userid) {
-                        room.input.addMention(userid, completion);
-                    }
+                    if (userid && inputBar.inputController)
+                        inputBar.inputController.addMention(userid, completion);
                 }
                 function openCompleter(pos, type) {
                     completerTriggeredAt = pos;
@@ -241,7 +264,9 @@ Rectangle {
                         return "roomAliases";
                     if (trigger === '~' || trigger === '～')
                         return "customEmoji";
-                    if ((trigger === '/' || trigger === '／') && tokenStart === 0)
+                    if (inputBar.allowCommandCompleter
+                            && (trigger === '/' || trigger === '／')
+                            && tokenStart === 0)
                         return "command";
                     return "";
                 }
@@ -307,12 +332,14 @@ Rectangle {
                     if (event.modifiers === (Qt.ControlModifier | Qt.ShiftModifier) && event.key === Qt.Key_V) {
                         // Ctrl+Shift+V: paste as plain text (Qt doesn't handle this natively,
                         // and the unhandled key event produces a control character / tofu square)
-                        var clipText = room.input.clipboardText();
+                        var clipText = inputBar.inputController ? inputBar.inputController.clipboardText() : "";
                         if (clipText)
                             messageInput.insert(messageInput.cursorPosition, clipText);
                         event.accepted = true;
                     } else if (event.matches(StandardKey.Paste)) {
-                        event.accepted = room.input.tryPasteAttachment(false);
+                        event.accepted = inputBar.inputController
+                            ? inputBar.inputController.tryPasteAttachment(false)
+                            : false;
                     } else if (event.key == Qt.Key_Space) {
                         // close popup if user enters space after colon
                         if (cursorPosition == completerTriggeredAt + 1)
@@ -322,9 +349,13 @@ Rectangle {
                     } else if (event.modifiers == Qt.ControlModifier && inputBar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.U)) {
                         event.accepted = inputBar.requestSelectionModeOlderChunk();
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_P) {
-                        messageInput.text = room.input.previousText();
+                        messageInput.text = inputBar.inputController
+                            ? inputBar.inputController.previousText()
+                            : messageInput.text;
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_N) {
-                        messageInput.text = room.input.nextText();
+                        messageInput.text = inputBar.inputController
+                            ? inputBar.inputController.nextText()
+                            : messageInput.text;
                     } else if (event.key == Qt.Key_Escape && popup.opened) {
                         completer.completerType = "";
                         popup.close();
@@ -349,7 +380,8 @@ Rectangle {
                                 messageInput.insertCompletion(currentCompletion);
                                 if (userid) {
                                     console.log(userid);
-                                    room.input.addMention(userid, currentCompletion);
+                                    if (inputBar.inputController)
+                                        inputBar.inputController.addMention(userid, currentCompletion);
                                 }
                                 event.accepted = true;
                             }
@@ -361,7 +393,8 @@ Rectangle {
                               || Settings.composerInputSendKey == 1 && event.modifiers == Qt.ShiftModifier
                               || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ControlModifier)
                         ) {
-                            room.input.send();
+                            if (inputBar.inputController)
+                                inputBar.inputController.send();
                             event.accepted = true;
                         }
                         // Add newline Enter key combination event.
@@ -444,9 +477,9 @@ Rectangle {
                             || event.key === Qt.Key_Space);
                 }
                 onCursorPositionChanged: {
-                    if (!room)
+                    if (!inputBar.inputController)
                         return;
-                    room.input.updateState(selectionStart, selectionEnd, cursorPosition, text);
+                    inputBar.inputController.updateState(selectionStart, selectionEnd, cursorPosition, text);
                     if (popup.opened && cursorPosition <= completerTriggeredAt)
                         popup.close();
                     if (popup.opened)
@@ -458,12 +491,18 @@ Rectangle {
                         if (completer.completer)
                         completer.completer.setSearchString(messageInput.currentCompleterSearchString());
                 }
-                onSelectionEndChanged: room.input.updateState(selectionStart, selectionEnd, cursorPosition, text)
-                onSelectionStartChanged: room.input.updateState(selectionStart, selectionEnd, cursorPosition, text)
+                onSelectionEndChanged: {
+                    if (inputBar.inputController)
+                        inputBar.inputController.updateState(selectionStart, selectionEnd, cursorPosition, text);
+                }
+                onSelectionStartChanged: {
+                    if (inputBar.inputController)
+                        inputBar.inputController.updateState(selectionStart, selectionEnd, cursorPosition, text);
+                }
                 onTextChanged: {
                     const insertedLength = text.length - previousTextLength;
-                    if (room)
-                        room.input.updateState(selectionStart, selectionEnd, cursorPosition, text);
+                    if (inputBar.inputController)
+                        inputBar.inputController.updateState(selectionStart, selectionEnd, cursorPosition, text);
                     inputBar.focusTextInputIfAllowed();
                     if (cursorPosition > 0)
                         lastChar = text.charAt(cursorPosition - 1);
@@ -493,8 +532,8 @@ Rectangle {
                             return;
 
                         messageInput.clear();
-                        if (room)
-                            messageInput.append(room.input.text);
+                        if (inputBar.inputController && inputBar.inputController.text)
+                            messageInput.append(inputBar.inputController.text);
                         completer.completerType = "";
                         inputBar.focusTextInputIfAllowed();
                         if (room) {
@@ -633,8 +672,8 @@ Rectangle {
                     contentItem: Completer {
                         id: completer
 
-                        commandValidationMessage: room && room.input ? room.input.commandValidationMessage : ""
-                        commandValidationState: room && room.input ? room.input.commandValidationState : "none"
+                        commandValidationMessage: inputBar.inputController ? inputBar.inputController.commandValidationMessage : ""
+                        commandValidationState: inputBar.inputController ? inputBar.inputController.commandValidationState : "none"
                         rowMargin: 2
                         rowSpacing: 0
                         roomId: room ? room.roomId : ""
@@ -642,12 +681,14 @@ Rectangle {
                 }
                 Connections {
                     function onTextChanged(newText) {
+                        if (messageInput.text === newText)
+                            return;
                         messageInput.text = newText;
                         messageInput.cursorPosition = newText.length;
                     }
 
                     ignoreUnknownSignals: true
-                    target: room ? room.input : null
+                    target: inputBar.inputController
                 }
                 Connections {
                     function onEditChanged() {
@@ -676,7 +717,9 @@ Rectangle {
                     anchors.fill: parent
                     cursorShape: Qt.IBeamCursor
 
-                    onPressed: mouse => mouse.accepted = room.input.tryPasteAttachment(true)
+                    onPressed: mouse => mouse.accepted = inputBar.inputController
+                        ? inputBar.inputController.tryPasteAttachment(true)
+                        : false
                 }
             }
         }
@@ -688,12 +731,17 @@ Rectangle {
             KeyNavigation.tab: emojiButton.visible ? emojiButton : sendButton
             toolTipText: qsTr("Stickers")
             image: ":/icons/icons/ui/sticky-note-solid.svg"
-            visible: showAllButtons && Settings.composerExtrasStickersEnabled
+            visible: showAllButtons && inputBar.allowStickers && Settings.composerExtrasStickersEnabled
 
-            onClicked: stickerPopup.visible ? stickerPopup.close() : stickerPopup.show(stickerButton, room.roomId, function (row) {
-                    room.input.sticker(row);
-                    TimelineManager.focusMessageInput();
-                }, inputBar)
+            onClicked: {
+                if (!inputBar.inputController || typeof inputBar.inputController.sticker !== "function")
+                    return;
+
+                stickerPopup.visible ? stickerPopup.close() : stickerPopup.show(stickerButton, room.roomId, function (row) {
+                        inputBar.inputController.sticker(row);
+                        TimelineManager.focusMessageInput();
+                    }, inputBar);
+            }
 
             StickerPicker {
                 id: stickerPopup
@@ -764,7 +812,7 @@ Rectangle {
             }
 
             Connections {
-                target: room ? room.input : null
+                target: inputBar.inputController
                 ignoreUnknownSignals: true
                 function onUploadsChanged() {
                     if (inputBar.hasUploads && Settings.uiMotionAnimationsEnabled)
@@ -773,7 +821,8 @@ Rectangle {
             }
 
             onClicked: {
-                room.input.send();
+                if (inputBar.inputController)
+                    inputBar.inputController.send();
             }
         }
     }
@@ -781,7 +830,7 @@ Rectangle {
         anchors.centerIn: parent
         color: palette.buttonText
         text: qsTr("You don't have permission to send messages in this room")
-        visible: room ? (!room.permissions.canSend(MtxEvent.TextMessage)) : false
+        visible: room ? (!inputBar.canSendTextMessages) : false
     }
     Label {
         anchors.centerIn: parent

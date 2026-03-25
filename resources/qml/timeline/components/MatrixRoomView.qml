@@ -137,17 +137,11 @@ ColumnLayout {
     }
 
     function focusTextInput() {
-        composerInput.forceActiveFocus();
-        return true;
+        return composerInput ? composerInput.focusTextInput() : false;
     }
 
     function appendText(text) {
-        if (!text)
-            return false;
-
-        composerInput.forceActiveFocus();
-        composerInput.insert(composerInput.cursorPosition, text);
-        return true;
+        return composerInput ? composerInput.appendText(text) : false;
     }
 
     function trySendMessage() {
@@ -162,8 +156,8 @@ ColumnLayout {
             return false;
 
         if (!root.editing)
-            composerInput.text = "";
-        composerInput.forceActiveFocus();
+            matrixComposerInputController.setText("");
+        root.focusTextInput();
         return true;
     }
 
@@ -184,8 +178,8 @@ ColumnLayout {
             return false;
         }
 
-        composerInput.text = String(body);
-        composerInput.forceActiveFocus();
+        matrixComposerInputController.setText(String(body));
+        root.focusTextInput();
         return true;
     }
 
@@ -210,16 +204,79 @@ ColumnLayout {
     QtObject {
         id: matrixComposerInputController
 
+        property var uploads: TimelineManager.matrixTimelineAttachments
         readonly property bool uploading: TimelineManager.matrixTimelineAttachmentSending
+        property string text: ""
+        property string commandValidationMessage: ""
+        property string commandValidationState: "none"
+
+        function setText(value) {
+            text = String(value || "");
+        }
 
         function openFileSelection() {
-            TimelineManager.openActiveMatrixAttachmentSelection();
+            return TimelineManager.openActiveMatrixAttachmentSelection();
+        }
+
+        function send() {
+            return root.trySendMessage();
+        }
+
+        function previousText() {
+            return text;
+        }
+
+        function nextText() {
+            return text;
+        }
+
+        function updateState(_selectionStart, _selectionEnd, _cursorPosition, value) {
+            const normalized = String(value || "");
+            if (text !== normalized)
+                text = normalized;
+        }
+
+        function clipboardText() {
+            return Clipboard.text;
+        }
+
+        function tryPasteAttachment(_strict) {
+            return false;
+        }
+
+        function commandCompletionSearchString(prefix, _cursorPosition) {
+            return String(prefix || "");
+        }
+
+        function applyCommandCompletion(currentText, _cursorPosition, _completion) {
+            return String(currentText || "");
+        }
+
+        function commandCompletionCursorPosition(_currentText, cursorPosition, _completion) {
+            return cursorPosition;
+        }
+
+        function addMention(_userId, _completion) {
+        }
+
+        function sticker(_row) {
+        }
+    }
+
+    QtObject {
+        id: matrixComposerPermissions
+
+        function canSend(_eventType) {
+            return true;
         }
     }
 
     QtObject {
         id: matrixComposerRoom
 
+        property string roomId: root.roomPreview ? root.roomPreview.roomid : ""
+        property bool isEncrypted: root.roomPreview ? !!root.roomPreview.isEncrypted : false
+        property var permissions: matrixComposerPermissions
         property var input: matrixComposerInputController
     }
 
@@ -1253,73 +1310,19 @@ ColumnLayout {
                         roundTopCorners: true
                     }
 
-                    ScrollView {
+                    Composer.MessageInput {
+                        id: composerInput
+
                         Layout.fillWidth: true
-                        Layout.preferredHeight: Math.min(Math.max(56, composerInput.contentHeight + Komai.paddingMedium * 2), 160)
-                        Layout.maximumHeight: 160
-                        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                        contentWidth: availableWidth
-                        padding: 0
-
-                        Components.KomaiTextArea {
-                            id: composerInput
-
-                            placeholderText: qsTr("Write a message…")
-                            selectByMouse: true
-                            textFormat: TextEdit.PlainText
-                            wrapMode: TextEdit.Wrap
-
-                            Keys.onPressed: event => {
-                                if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
-                                        && root.matchesSendShortcut(event)) {
-                                    event.accepted = root.trySendMessage();
-                                } else if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
-                                           && root.matchesNewlineShortcut(event)) {
-                                    composerInput.insert(composerInput.cursorPosition, "\n");
-                                    event.accepted = true;
-                                }
-                            }
-
-                            background: Rectangle {
-                                border.color: palette.mid
-                                border.width: 1
-                                color: palette.base
-                                radius: Komai.paddingMedium
-                            }
-                        }
-                    }
-
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: Komai.paddingMedium
-
-                        MatrixText {
-                            Layout.fillWidth: true
-                            color: palette.buttonText
-                            text: root.composerShortcutHintText()
-                            wrapMode: Text.WordWrap
-                        }
-
-                        Composer.ComposerAttachButton {
-                            Layout.alignment: Qt.AlignBottom
-                            enabled: !root.editing
-                            room: matrixComposerRoom
-                            showAllButtons: true
-                        }
-
-                        Composer.ComposerToolbarButton {
-                            Layout.alignment: Qt.AlignBottom
-                            enabled: root.hasPendingAttachments
-                                ? !TimelineManager.matrixTimelineAttachmentSending
-                                : composerInput.text.trim().length > 0
-                            toolTipText: TimelineManager.matrixTimelineAttachmentSending
-                                ? qsTr("Sending")
-                                : qsTr("Send")
-                            buttonTextColor: enabled ? palette.highlight : palette.buttonText
-                            image: ":/icons/icons/ui/send.svg"
-
-                            onClicked: root.trySendMessage()
-                        }
+                        room: matrixComposerRoom
+                        timelineRoot: root.chatRoot ? root.chatRoot : root
+                        selectionModeRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
+                        inputController: matrixComposerInputController
+                        allowCalls: false
+                        allowStickers: false
+                        allowCommandCompleter: false
+                        attachmentsEnabled: !root.editing
+                        showAllButtons: true
                     }
                 }
             }
@@ -1331,7 +1334,7 @@ ColumnLayout {
             if (!root.restoringEditDraft || root.activeEditEventId.length > 0)
                 return;
 
-            composerInput.text = root.draftBeforeEdit;
+            matrixComposerInputController.setText(root.draftBeforeEdit);
             root.draftBeforeEdit = "";
             root.restoringEditDraft = false;
             root.focusTextInput();

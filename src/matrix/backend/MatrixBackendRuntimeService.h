@@ -277,6 +277,14 @@ public:
                                      const QString &messageKind,
                                      QString *errorOut = nullptr);
 
+    static bool sendRoomEditMessage(uint64_t handleId,
+                                    const QString &roomId,
+                                    const QString &targetEventId,
+                                    const QString &body,
+                                    const QString &formattedHtml,
+                                    const QString &messageKind,
+                                    QString *errorOut = nullptr);
+
     static bool toggleRoomReaction(uint64_t handleId,
                                    const QString &roomId,
                                    const QString &eventId,

@@ -18,9 +18,11 @@ Rectangle {
     property string matrixReplyEventId: ""
     property string matrixReplyDisplayName: ""
     property string matrixReplyBody: ""
+    property string matrixEditEventId: ""
     readonly property bool matrixReplyMode: matrixReplyEventId.length > 0
+    readonly property bool matrixEditMode: matrixEditEventId.length > 0
     property color threadColor: roomModel ? TimelineManager.userColor(roomModel.thread, palette.base) : palette.buttonText
-    readonly property bool layoutVisible: matrixReplyMode || (roomModel && (roomModel.reply || roomModel.thread || roomModel.edit))
+    readonly property bool layoutVisible: matrixReplyMode || matrixEditMode || (roomModel && (roomModel.reply || roomModel.thread || roomModel.edit))
     property int headerTextHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int headerIconSize: Math.ceil(replyPopup.headerTextHeight * 0.5)
     property int headerFontSize: Math.ceil(replyPopup.headerTextHeight * 0.45)
@@ -152,7 +154,7 @@ Rectangle {
 
         // ── Edit header (visible when editing a message) ──
         RowLayout {
-            visible: roomModel && roomModel.edit && !replyPopup.matrixReplyMode
+            visible: replyPopup.matrixEditMode || (roomModel && roomModel.edit && !replyPopup.matrixReplyMode)
             spacing: Komai.paddingSmall
             width: parent.width
 
@@ -187,7 +189,12 @@ Rectangle {
                 hoverEnabled: true
                 image: ":/icons/icons/ui/dismiss.svg"
 
-                onClicked: roomModel.edit = undefined
+                onClicked: {
+                    if (replyPopup.matrixEditMode)
+                        TimelineManager.clearActiveMatrixEdit();
+                    else
+                        roomModel.edit = undefined;
+                }
             }
         }
 

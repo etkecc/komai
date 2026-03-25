@@ -726,6 +726,30 @@ MatrixBackendRuntimeService::sendRoomReplyMessage(uint64_t handleId,
 }
 
 bool
+MatrixBackendRuntimeService::sendRoomEditMessage(uint64_t handleId,
+                                                 const QString &roomId,
+                                                 const QString &targetEventId,
+                                                 const QString &body,
+                                                 const QString &formattedHtml,
+                                                 const QString &messageKind,
+                                                 QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_send_room_edit_message(handleId,
+                                                     roomId.toStdString(),
+                                                     targetEventId.toStdString(),
+                                                     body.toStdString(),
+                                                     formattedHtml.toStdString(),
+                                                     messageKind.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
 MatrixBackendRuntimeService::toggleRoomReaction(uint64_t handleId,
                                                 const QString &roomId,
                                                 const QString &eventId,

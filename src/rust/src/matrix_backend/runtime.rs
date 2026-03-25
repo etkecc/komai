@@ -18,7 +18,7 @@ use matrix_sdk::{
     RoomState,
     media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings},
     ruma::{
-        EventId, MxcUri, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
+        MxcUri, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
         RoomOrAliasId, ServerName, UInt, UserId,
         api::client::{
             error::ErrorKind,
@@ -29,10 +29,7 @@ use matrix_sdk::{
         api::client::profile::{AvatarUrl, DisplayName},
         events::{
             AnyMessageLikeEventContent, InitialStateEvent,
-            room::{
-                MediaSource, encryption::RoomEncryptionEventContent,
-                message::{RoomMessageEventContent, RoomMessageEventContentWithoutRelation},
-            },
+            room::{MediaSource, encryption::RoomEncryptionEventContent, message::RoomMessageEventContent},
         },
         room::RoomType,
         serde::Raw,
@@ -83,7 +80,7 @@ pub use room_settings::{
 pub use timeline::{
     fetch_active_room_timeline, fetch_active_room_timeline_media_content,
     paginate_active_room_timeline_backwards, select_active_room_timeline, send_room_attachment,
-    send_room_message, send_room_reply_message, toggle_room_reaction,
+    send_room_edit_message, send_room_message, send_room_reply_message, toggle_room_reaction,
 };
 
 pub struct MatrixBackendHandleInfo {

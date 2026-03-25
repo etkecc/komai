@@ -6,8 +6,14 @@ use super::*;
 use super::event_summary::summarize_timeline_content;
 use matrix_sdk::{
     attachment::AttachmentConfig,
+    room::edit::EditedContent,
     room::reply::{EnforceThread, Reply},
-    ruma::events::room::message::TextMessageEventContent,
+    ruma::{
+        EventId,
+        events::room::message::{
+            RoomMessageEventContentWithoutRelation, TextMessageEventContent,
+        },
+    },
 };
 use mime::Mime;
 use std::{fs, path::Path};
@@ -384,6 +390,88 @@ pub async fn send_room_reply_message(
         replied_to_event_id,
         message_kind,
         "Queued matrix-sdk room reply"
+    );
+
+    Ok(())
+}
+
+pub async fn send_room_edit_message(
+    handle_id: u64,
+    room_id: &str,
+    target_event_id: &str,
+    body: &str,
+    formatted_html: &str,
+    message_kind: &str,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let target_event_id = target_event_id.trim();
+    if target_event_id.is_empty() {
+        return Err("cannot send a matrix-sdk room edit without a target event id".to_owned());
+    }
+
+    let body = body.trim();
+    if body.is_empty() {
+        return Err("cannot send an empty matrix-sdk room edit".to_owned());
+    }
+
+    let parsed_event_id = EventId::parse(target_event_id)
+        .map_err(|e| format!("invalid target event id '{target_event_id}': {e}"))?;
+    let formatted_html = formatted_html.trim();
+    let content = match message_kind {
+        "notice" => {
+            if formatted_html.is_empty() {
+                RoomMessageEventContentWithoutRelation::notice_plain(body)
+            } else {
+                RoomMessageEventContentWithoutRelation::notice_html(body, formatted_html)
+            }
+        }
+        "emote" => {
+            if formatted_html.is_empty() {
+                RoomMessageEventContentWithoutRelation::emote_plain(body)
+            } else {
+                RoomMessageEventContentWithoutRelation::emote_html(body, formatted_html)
+            }
+        }
+        "message" | "text" => {
+            if formatted_html.is_empty() {
+                RoomMessageEventContentWithoutRelation::text_plain(body)
+            } else {
+                RoomMessageEventContentWithoutRelation::text_html(body, formatted_html)
+            }
+        }
+        other => {
+            return Err(format!(
+                "unsupported matrix-sdk room edit kind '{other}' for room '{}'",
+                room_id.trim()
+            ));
+        }
+    };
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        target_event_id,
+        message_kind,
+        has_formatted_html = !formatted_html.is_empty(),
+        "Queueing matrix-sdk room edit"
+    );
+
+    let edit_event = room
+        .make_edit_event(&parsed_event_id, EditedContent::RoomMessage(content))
+        .await
+        .map_err(|e| format!("failed to build matrix-sdk room edit event: {e}"))?;
+
+    room.send_queue()
+        .send(edit_event)
+        .await
+        .map_err(|e| format!("failed to queue matrix-sdk room edit: {e}"))?;
+
+    tracing::debug!(
+        handle_id,
+        room_id = room_id.trim(),
+        target_event_id,
+        message_kind,
+        "Queued matrix-sdk room edit"
     );
 
     Ok(())

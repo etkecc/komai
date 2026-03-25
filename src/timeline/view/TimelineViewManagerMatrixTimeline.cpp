@@ -171,6 +171,7 @@ void
 TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
 {
     bool stateChanged = clearActiveMatrixReplyState();
+    stateChanged      = clearActiveMatrixEditState() || stateChanged;
 
     if (!pendingMatrixAttachments_.empty() || !matrixPendingAttachmentItems_.empty()) {
         pendingMatrixAttachments_.clear();
@@ -266,6 +267,99 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
     return true;
 }
 
+QString
+TimelineViewManager::normalizedMatrixMessageKind(const QString &messageKind) const
+{
+    const auto normalizedKind = messageKind.trimmed().toLower();
+    if (normalizedKind == QStringLiteral("notice"))
+        return QStringLiteral("notice");
+    if (normalizedKind == QStringLiteral("emote"))
+        return QStringLiteral("emote");
+    return QStringLiteral("text");
+}
+
+bool
+TimelineViewManager::queueActiveMatrixEdit(const QString &eventId,
+                                           const QString &body,
+                                           const QString &messageKind)
+{
+    if (activeMatrixTimelineRoomId_.isEmpty())
+        return false;
+
+    if (matrixAttachmentUploadInFlight_ || !pendingMatrixAttachments_.empty())
+        return false;
+
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty())
+        return false;
+
+    if (body.trimmed().isEmpty())
+        return false;
+
+    const auto clearedReplyState = clearActiveMatrixReplyState();
+    const auto stateChanged =
+      setActiveMatrixEditState(trimmedEventId, normalizedMatrixMessageKind(messageKind));
+
+    if (!stateChanged && !clearedReplyState)
+        return false;
+
+    if (clearedReplyState)
+        emit replyClosed();
+    emit matrixTimelineStateChanged();
+    return true;
+}
+
+void
+TimelineViewManager::clearActiveMatrixEdit()
+{
+    if (clearActiveMatrixEditState())
+        emit matrixTimelineStateChanged();
+}
+
+bool
+TimelineViewManager::sendActiveMatrixEditMessage(const QString &body)
+{
+    const auto plainBody = body.trimmed();
+    if (plainBody.isEmpty())
+        return false;
+
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty() ||
+        matrixTimelineEditEventId_.trimmed().isEmpty()) {
+        nhlog::ui()->warn("Refusing to send matrix-sdk room edit without an active runtime "
+                          "handle, selected matrix room, and edit target");
+        return false;
+    }
+
+    QString error;
+    const bool ok =
+      komai::MatrixBackendRuntimeService::sendRoomEditMessage(handleId,
+                                                              activeMatrixTimelineRoomId_,
+                                                              matrixTimelineEditEventId_.trimmed(),
+                                                              plainBody,
+                                                              matrixMessageFormattedHtml(body),
+                                                              matrixTimelineEditMessageKind_,
+                                                              &error);
+
+    if (!ok) {
+        nhlog::ui()->warn(
+          "Failed to queue matrix-sdk room edit for '{}' on handle {} targeting '{}': {}",
+          activeMatrixTimelineRoomId_.toStdString(),
+          handleId,
+          matrixTimelineEditEventId_.toStdString(),
+          error.toStdString());
+        if (mainWindow)
+            mainWindow->showNotification(tr("Failed to edit message: %1").arg(error));
+        return false;
+    }
+
+    if (clearActiveMatrixEditState())
+        emit matrixTimelineStateChanged();
+
+    return true;
+}
+
 bool
 TimelineViewManager::queueActiveMatrixReply(const QString &eventId,
                                             const QString &senderDisplayName,
@@ -338,6 +432,16 @@ TimelineViewManager::openActiveMatrixAttachmentSelection()
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
         nhlog::ui()->warn("Refusing to queue matrix-sdk room attachment without an active "
                           "runtime handle or selected matrix room");
+        return false;
+    }
+
+    if (!matrixTimelineEditEventId_.isEmpty()) {
+        nhlog::ui()->warn(
+          "Refusing to stage matrix-sdk room attachments while editing an existing message");
+        if (mainWindow) {
+            mainWindow->showNotification(
+              tr("Finish editing the current message before attaching files."));
+        }
         return false;
     }
 
@@ -581,6 +685,33 @@ TimelineViewManager::clearActiveMatrixReplyState()
     matrixTimelineReplySenderDisplayName_.clear();
     matrixTimelineReplyBody_.clear();
     emit replyingEventChanged(QString());
+    return true;
+}
+
+bool
+TimelineViewManager::setActiveMatrixEditState(const QString &eventId, const QString &messageKind)
+{
+    const auto trimmedEventId    = eventId.trimmed();
+    const auto normalizedMessage = normalizedMatrixMessageKind(messageKind);
+
+    if (matrixTimelineEditEventId_ == trimmedEventId &&
+        matrixTimelineEditMessageKind_ == normalizedMessage) {
+        return false;
+    }
+
+    matrixTimelineEditEventId_     = trimmedEventId;
+    matrixTimelineEditMessageKind_ = normalizedMessage;
+    return true;
+}
+
+bool
+TimelineViewManager::clearActiveMatrixEditState()
+{
+    if (matrixTimelineEditEventId_.isEmpty() && matrixTimelineEditMessageKind_.isEmpty())
+        return false;
+
+    matrixTimelineEditEventId_.clear();
+    matrixTimelineEditMessageKind_.clear();
     return true;
 }
 

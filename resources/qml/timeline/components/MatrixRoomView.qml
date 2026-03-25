@@ -25,6 +25,10 @@ ColumnLayout {
     readonly property var composerShell: composerContainer
     readonly property int pendingAttachmentCount: TimelineManager.matrixTimelineAttachmentCount
     readonly property bool hasPendingAttachments: pendingAttachmentCount > 0
+    readonly property string activeEditEventId: TimelineManager.matrixTimelineEditEventId
+    readonly property bool editing: activeEditEventId.length > 0
+    property string draftBeforeEdit: ""
+    property bool restoringEditDraft: false
     property int lastPaginationTriggerCount: -1
 
     function matrixEventTypeForItemKind(kind) {
@@ -65,10 +69,36 @@ ColumnLayout {
             return TimelineManager.sendActiveMatrixAttachments();
 
         const body = composerInput.text;
-        if (!TimelineManager.sendActiveMatrixTextMessage(body))
+        const ok = root.editing
+            ? TimelineManager.sendActiveMatrixEditMessage(body)
+            : TimelineManager.sendActiveMatrixTextMessage(body);
+        if (!ok)
             return false;
 
-        composerInput.text = "";
+        if (!root.editing)
+            composerInput.text = "";
+        composerInput.forceActiveFocus();
+        return true;
+    }
+
+    function beginEdit(eventId, body, messageKind) {
+        if (!eventId || !body)
+            return false;
+
+        if (!root.editing) {
+            draftBeforeEdit = composerInput.text;
+            restoringEditDraft = true;
+        }
+
+        if (!TimelineManager.queueActiveMatrixEdit(String(eventId), String(body), String(messageKind || "message"))) {
+            if (restoringEditDraft) {
+                draftBeforeEdit = "";
+                restoringEditDraft = false;
+            }
+            return false;
+        }
+
+        composerInput.text = String(body);
         composerInput.forceActiveFocus();
         return true;
     }
@@ -310,8 +340,13 @@ ColumnLayout {
                                 reply = "";
                             }
                             onEditChanged: {
-                                if (edit)
-                                    edit = "";
+                                if (!edit)
+                                    return;
+
+                                root.beginEdit(edit,
+                                               timelineItemDelegate.body,
+                                               timelineItemDelegate.itemKind);
+                                edit = "";
                             }
                             onThreadChanged: {
                                 if (thread)
@@ -327,7 +362,10 @@ ColumnLayout {
                             readonly property int type: timelineItemDelegate.matrixEventType
                             readonly property bool isSender: timelineItemDelegate.isOwn
                             readonly property bool isEncrypted: timelineItemDelegate.mediaIsEncrypted || timelineItemDelegate.thumbnailIsEncrypted || timelineItemDelegate.itemKind === "unable_to_decrypt"
-                            readonly property bool isEditable: false
+                            readonly property bool isEditable: !root.hasPendingAttachments
+                                && !TimelineManager.matrixTimelineAttachmentSending
+                                && timelineItemDelegate.isOwn
+                                && ["message", "notice", "emote"].indexOf(timelineItemDelegate.itemKind) >= 0
                             readonly property bool isStateEvent: timelineItemDelegate.isStateLikeItem
                             readonly property string body: timelineItemDelegate.body
                             readonly property bool supportsReaction: timelineItemDelegate.supportsSharedToolbarActions
@@ -336,7 +374,7 @@ ColumnLayout {
                             readonly property bool supportsForward: false
                             readonly property bool supportsGoToMessage: false
                             readonly property bool supportsOptions: false
-                            readonly property bool supportsEdit: false
+                            readonly property bool supportsEdit: isEditable
                             readonly property bool supportsRemove: false
                             readonly property bool supportsViewRaw: false
                         }
@@ -698,6 +736,7 @@ ColumnLayout {
                         matrixReplyEventId: TimelineManager.matrixTimelineReplyEventId
                         matrixReplyDisplayName: TimelineManager.matrixTimelineReplySenderDisplayName
                         matrixReplyBody: TimelineManager.matrixTimelineReplyBody
+                        matrixEditEventId: TimelineManager.matrixTimelineEditEventId
                         roundTopCorners: true
                     }
 
@@ -748,7 +787,7 @@ ColumnLayout {
                         }
 
                         Components.KomaiButton {
-                            enabled: !TimelineManager.matrixTimelineAttachmentSending
+                            enabled: !TimelineManager.matrixTimelineAttachmentSending && !root.editing
                             text: qsTr("Attach")
 
                             onClicked: TimelineManager.openActiveMatrixAttachmentSelection()
@@ -769,6 +808,16 @@ ColumnLayout {
     }
 
     Connections {
+        function onMatrixTimelineStateChanged() {
+            if (!root.restoringEditDraft || root.activeEditEventId.length > 0)
+                return;
+
+            composerInput.text = root.draftBeforeEdit;
+            root.draftBeforeEdit = "";
+            root.restoringEditDraft = false;
+            root.focusTextInput();
+        }
+
         function onFocusInput() {
             root.focusTextInput();
         }

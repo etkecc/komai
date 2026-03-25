@@ -147,6 +147,8 @@ class TimelineViewManager final : public QObject
                  matrixTimelineReplySenderDisplayName NOTIFY matrixTimelineStateChanged)
     Q_PROPERTY(QString matrixTimelineReplyBody READ matrixTimelineReplyBody NOTIFY
                  matrixTimelineStateChanged)
+    Q_PROPERTY(QString matrixTimelineEditEventId READ matrixTimelineEditEventId NOTIFY
+                 matrixTimelineStateChanged)
 
 public:
     TimelineViewManager(CallManager *callManager, ChatPage *parent = nullptr);
@@ -178,6 +180,7 @@ public:
         return matrixTimelineReplySenderDisplayName_;
     }
     QString matrixTimelineReplyBody() const { return matrixTimelineReplyBody_; }
+    QString matrixTimelineEditEventId() const { return matrixTimelineEditEventId_; }
     Q_INVOKABLE void openMediaOverlay(TimelineModel *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
@@ -258,6 +261,10 @@ public:
     Q_INVOKABLE bool sendActiveMatrixAttachments();
     Q_INVOKABLE void clearActiveMatrixAttachments();
     Q_INVOKABLE void removeActiveMatrixAttachment(int index);
+    Q_INVOKABLE bool
+    queueActiveMatrixEdit(const QString &eventId, const QString &body, const QString &messageKind);
+    Q_INVOKABLE void clearActiveMatrixEdit();
+    Q_INVOKABLE bool sendActiveMatrixEditMessage(const QString &body);
     Q_INVOKABLE bool paginateActiveMatrixTimelineBackwards(int pageSize = 0);
     Q_INVOKABLE bool
     openActiveMatrixTimelineMedia(const QString &itemId, const QString &suggestedFileName = {});
@@ -387,6 +394,8 @@ private:
     QString matrixTimelineReplyEventId_;
     QString matrixTimelineReplySenderDisplayName_;
     QString matrixTimelineReplyBody_;
+    QString matrixTimelineEditEventId_;
+    QString matrixTimelineEditMessageKind_;
 
     void processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers);
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
@@ -401,8 +410,12 @@ private:
                                    const QString &senderDisplayName,
                                    const QString &body);
     bool clearActiveMatrixReplyState();
+    bool setActiveMatrixEditState(const QString &eventId, const QString &messageKind);
+    bool clearActiveMatrixEditState();
     void fetchActiveMatrixTimelineMediaToFile(const QString &itemId,
                                               const QString &outputPath,
                                               const QString &userVisibleName,
                                               bool openAfterSave);
+
+    QString normalizedMatrixMessageKind(const QString &messageKind) const;
 };

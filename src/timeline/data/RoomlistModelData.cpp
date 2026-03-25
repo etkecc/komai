@@ -68,8 +68,13 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
         return komai::matrix::normalizeMxcUri(room.avatarUrl);
     case Roles::RoomName:
         return room.displayName.isEmpty() ? room_id : room.displayName;
-    case Roles::LastMessage:
-        return QString{};
+    case Roles::LastMessage: {
+        const auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
+        const bool previewsEnabled =
+          style == UserSettings::LastMessagePreview::Always ||
+          (style == UserSettings::LastMessagePreview::OnlyUnencrypted && !room.isEncrypted);
+        return previewsEnabled ? room.lastMessage : QString{};
+    }
     case Roles::Time:
         if (room.timestamp > 0) {
             return utils::descriptiveTime(

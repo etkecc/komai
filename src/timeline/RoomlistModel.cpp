@@ -27,6 +27,7 @@ matrixRoomSummaryEquals(const komai::MatrixRoomSummary &left, const komai::Matri
 {
     return left.roomId == right.roomId && left.displayName == right.displayName &&
            left.avatarUrl == right.avatarUrl && left.topic == right.topic &&
+           left.lastMessage == right.lastMessage && left.lastMessageKind == right.lastMessageKind &&
            left.directChatOtherUserId == right.directChatOtherUserId &&
            left.isInvite == right.isInvite && left.isSpace == right.isSpace &&
            left.isDirect == right.isDirect && left.isBotRoom == right.isBotRoom &&

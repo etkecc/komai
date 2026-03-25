@@ -39,6 +39,8 @@ struct MatrixRoomSummary
     QString displayName;
     QString avatarUrl;
     QString topic;
+    QString lastMessage;
+    QString lastMessageKind;
     QString directChatOtherUserId;
     bool isInvite              = false;
     bool isSpace               = false;

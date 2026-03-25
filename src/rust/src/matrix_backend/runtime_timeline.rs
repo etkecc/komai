@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use super::*;
+use super::event_summary::summarize_timeline_content;
 use matrix_sdk::attachment::AttachmentConfig;
 use mime::Mime;
 use std::{fs, path::Path};
@@ -436,7 +437,7 @@ fn timeline_item_to_summary(item: &TimelineItem) -> Option<MatrixTimelineItem> {
             ),
             _ => (sender_id.clone(), String::new()),
         };
-        let (item_kind, body) = timeline_event_content_summary(event.content());
+        let summary = summarize_timeline_content(event.content());
 
         return Some(MatrixTimelineItem {
             item_id,
@@ -444,8 +445,8 @@ fn timeline_item_to_summary(item: &TimelineItem) -> Option<MatrixTimelineItem> {
             sender_id,
             sender_display_name,
             sender_avatar_url,
-            body,
-            item_kind,
+            body: summary.body,
+            item_kind: summary.kind,
             timestamp: u64::from(event.timestamp().get()),
             is_own: event.is_own(),
         });
@@ -466,55 +467,5 @@ fn timeline_item_to_summary(item: &TimelineItem) -> Option<MatrixTimelineItem> {
         Some(VirtualTimelineItem::ReadMarker) | Some(VirtualTimelineItem::TimelineStart) | None => {
             None
         }
-    }
-}
-
-fn timeline_event_content_summary(content: &TimelineItemContent) -> (String, String) {
-    match content {
-        TimelineItemContent::MsgLike(content) => match &content.kind {
-            MsgLikeKind::Message(message) => match message.msgtype() {
-                MessageType::Text(_) => ("message".to_owned(), message.body().to_owned()),
-                MessageType::Notice(_) => ("notice".to_owned(), message.body().to_owned()),
-                MessageType::Emote(_) => ("emote".to_owned(), message.body().to_owned()),
-                MessageType::Image(_) => ("image".to_owned(), message.body().to_owned()),
-                MessageType::Video(_) => ("video".to_owned(), message.body().to_owned()),
-                MessageType::Audio(_) => ("audio".to_owned(), message.body().to_owned()),
-                MessageType::File(_) => ("file".to_owned(), message.body().to_owned()),
-                MessageType::Location(_) => ("location".to_owned(), message.body().to_owned()),
-                _ => ("message".to_owned(), message.body().to_owned()),
-            },
-            MsgLikeKind::Sticker(_) => ("sticker".to_owned(), "[Sticker]".to_owned()),
-            MsgLikeKind::Poll(_) => ("poll".to_owned(), "[Poll]".to_owned()),
-            MsgLikeKind::Redacted => ("redacted".to_owned(), "[Redacted message]".to_owned()),
-            MsgLikeKind::UnableToDecrypt(_) => (
-                "unable_to_decrypt".to_owned(),
-                "[Unable to decrypt message]".to_owned(),
-            ),
-            MsgLikeKind::Other(_) => (
-                "other_message".to_owned(),
-                "[Unsupported message event]".to_owned(),
-            ),
-        },
-        TimelineItemContent::MembershipChange(_) => (
-            "membership_change".to_owned(),
-            "[Membership change]".to_owned(),
-        ),
-        TimelineItemContent::ProfileChange(_) => {
-            ("profile_change".to_owned(), "[Profile change]".to_owned())
-        }
-        TimelineItemContent::OtherState(_) => ("other_state".to_owned(), "[State event]".to_owned()),
-        TimelineItemContent::FailedToParseMessageLike { .. } => (
-            "failed_to_parse_message_like".to_owned(),
-            "[Unreadable message event]".to_owned(),
-        ),
-        TimelineItemContent::FailedToParseState { .. } => (
-            "failed_to_parse_state".to_owned(),
-            "[Unreadable state event]".to_owned(),
-        ),
-        TimelineItemContent::CallInvite => ("call_invite".to_owned(), "[Call invite]".to_owned()),
-        TimelineItemContent::RtcNotification => (
-            "rtc_notification".to_owned(),
-            "[RTC notification]".to_owned(),
-        ),
     }
 }

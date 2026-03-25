@@ -31,7 +31,7 @@ use matrix_sdk::{
             AnyMessageLikeEventContent, InitialStateEvent,
             room::{
                 MediaSource, encryption::RoomEncryptionEventContent,
-                message::{MessageType, RoomMessageEventContent},
+                message::RoomMessageEventContent,
             },
         },
         room::RoomType,
@@ -44,8 +44,7 @@ use matrix_sdk_ui::{
     eyeball_im::{Vector, VectorDiff},
     room_list_service::{RoomListItem, filters},
     timeline::{
-        MsgLikeKind, RoomExt, TimelineDetails, TimelineItem, TimelineItemContent,
-        VirtualTimelineItem,
+        RoomExt, TimelineDetails, TimelineItem, VirtualTimelineItem,
     },
 };
 use tokio::sync::mpsc;
@@ -54,6 +53,8 @@ use super::bootstrap;
 
 #[path = "runtime_profile_media.rs"]
 mod profile_media;
+#[path = "runtime_event_summary.rs"]
+mod event_summary;
 #[path = "runtime_registry.rs"]
 mod registry;
 #[path = "runtime_room_actions.rs"]
@@ -108,6 +109,8 @@ pub struct MatrixRoomSummary {
     pub display_name: String,
     pub avatar_url: String,
     pub topic: String,
+    pub last_message: String,
+    pub last_message_kind: String,
     pub direct_chat_other_user_id: String,
     pub is_invite: bool,
     pub is_space: bool,

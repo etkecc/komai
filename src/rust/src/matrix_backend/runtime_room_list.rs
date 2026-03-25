@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use super::*;
+use super::event_summary::summarize_sync_timeline_event;
+use matrix_sdk::ruma::{events::AnySyncTimelineEvent, serde::Raw};
 
 pub fn start_sync(handle_id: u64) -> Result<(), String> {
     let (client, room_list_snapshot) = {
@@ -354,6 +356,11 @@ fn classify_room(room: &RoomListItem) -> MatrixRoomClassification {
 fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
     let room_state = room.state();
     let classification = classify_room(room);
+    let latest_preview = room.latest_event().and_then(|event| {
+        let raw_event: Raw<AnySyncTimelineEvent> = event.event().raw().clone();
+        let event = raw_event.deserialize().ok()?;
+        summarize_sync_timeline_event(&event)
+    });
     let timestamp = room
         .new_latest_event_timestamp()
         .map(|ts| u64::from(ts.get()))
@@ -372,6 +379,13 @@ fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
             .map(|url| normalize_mxc_uri(url.to_string()))
             .unwrap_or_default(),
         topic: room.topic().unwrap_or_default(),
+        last_message: latest_preview
+            .as_ref()
+            .map(|preview| preview.body.clone())
+            .unwrap_or_default(),
+        last_message_kind: latest_preview
+            .map(|preview| preview.kind)
+            .unwrap_or_default(),
         direct_chat_other_user_id: classification.direct_chat_other_user_id,
         is_invite: matches!(room_state, RoomState::Invited),
         is_space: room.is_space(),

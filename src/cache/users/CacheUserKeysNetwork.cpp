@@ -6,12 +6,9 @@
 #include "cache/Cache.h"
 #include "cache/core/Cache_p.h"
 
-#include <mtx/requests.hpp>
-
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
-#include "matrix/MatrixClient.h"
 
 void
 MatrixStore::markUserKeysOutOfDate(db::Transaction &txn,
@@ -19,9 +16,6 @@ MatrixStore::markUserKeysOutOfDate(db::Transaction &txn,
                                    const std::vector<std::string> &user_ids,
                                    const std::string &sync_token)
 {
-    mtx::requests::QueryKeys query;
-    query.token = sync_token;
-
     for (const auto &user : user_ids) {
         if (user.size() > 255) {
             cache::activeLoggers().db->debug(
@@ -40,44 +34,18 @@ MatrixStore::markUserKeysOutOfDate(db::Transaction &txn,
         cacheEntry.last_changed = sync_token;
 
         db::putJsonValue(txn, db_, user, cacheEntry);
-
-        query.device_keys[user] = {};
-
-        if (query.device_keys.size() >= 32) {
-            http::client()->query_keys(
-              query,
-              [this, sync_token](const mtx::responses::QueryKeys &keys, mtx::http::RequestErr err) {
-                  if (err) {
-                      cache::activeLoggers().net->warn("failed to query device keys: {} {}",
-                                                       err->matrix_error.error,
-                                                       static_cast<int>(err->status_code));
-                      return;
-                  }
-
-                  emit userKeysUpdate(sync_token, keys);
-              });
-            query.device_keys.clear();
-        }
     }
 
-    if (!query.device_keys.empty())
-        http::client()->query_keys(
-          query,
-          [this, sync_token](const mtx::responses::QueryKeys &keys, mtx::http::RequestErr err) {
-              if (err) {
-                  cache::activeLoggers().net->warn("failed to query device keys: {} {}",
-                                                   err->matrix_error.error,
-                                                   static_cast<int>(err->status_code));
-                  return;
-              }
-
-              emit userKeysUpdate(sync_token, keys);
-          });
+    if (!user_ids.empty())
+        cache::activeLoggers().crypto->warn(
+          "Skipping legacy user-key refresh for {} users during the matrix-sdk migration",
+          user_ids.size());
 }
 
 void
-MatrixStore::query_keys(const std::string &user_id,
-                        std::function<void(const UserKeyCache &, mtx::http::RequestErr)> cb)
+MatrixStore::query_keys(
+  const std::string &user_id,
+  std::function<void(const UserKeyCache &, const std::optional<mtx::http::ClientError> &)> cb)
 {
     if (user_id.size() > 255) {
         cache::activeLoggers().db->debug("Skipping device key query for user with invalid mxid: {}",
@@ -89,8 +57,7 @@ MatrixStore::query_keys(const std::string &user_id,
         return;
     }
 
-    mtx::requests::QueryKeys req;
-    std::string last_changed;
+    std::optional<UserKeyCache> cachedKeys;
     {
         auto txn    = ro_txn(storage());
         auto cache_ = userKeys_(user_id, txn);
@@ -106,43 +73,13 @@ MatrixStore::query_keys(const std::string &user_id,
                                                 cache_->last_changed);
         } else
             cache::activeLoggers().db->info("No keys found for {}", user_id);
-
-        req.device_keys[user_id] = {};
-
-        if (cache_)
-            last_changed = cache_->last_changed;
-        req.token = last_changed;
+        cachedKeys = cache_;
     }
 
-    // use context object so that we can disconnect again
-    QObject *context{new QObject(this)};
-    QObject::connect(
-      this,
-      &MatrixStore::userKeysUpdateFinalize,
-      context,
-      [cb, user_id, context_ = context, this](std::string updated_user) mutable {
-          if (user_id == updated_user) {
-              context_->deleteLater();
-              auto txn  = ro_txn(storage());
-              auto keys = this->userKeys_(user_id, txn);
-              cb(keys.value_or(UserKeyCache{}), {});
-          }
-      },
-      Qt::QueuedConnection);
+    cache::activeLoggers().crypto->warn(
+      "Legacy device-key query for {} is unavailable during the matrix-sdk migration", user_id);
 
-    http::client()->query_keys(
-      req,
-      [cb, user_id, last_changed, this](const mtx::responses::QueryKeys &res,
-                                        mtx::http::RequestErr err) {
-          if (err) {
-              cache::activeLoggers().net->warn("failed to query device keys: {},{}",
-                                               mtx::errors::to_string(err->matrix_error.errcode),
-                                               static_cast<int>(err->status_code));
-              cb({}, err);
-              return;
-          }
-
-          emit userKeysUpdate(last_changed, res);
-          emit userKeysUpdateFinalize(user_id);
-      });
+    mtx::http::ClientError err{};
+    err.parse_error = "legacy device-key query is unavailable during the matrix-sdk migration";
+    cb(cachedKeys.value_or(UserKeyCache{}), err);
 }

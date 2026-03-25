@@ -12,7 +12,6 @@
 
 #include "cache/Cache.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "timeline/TimelineModel.h"
 #include "ui/MainWindow.h"
 
@@ -42,6 +41,14 @@ loadEventExpiryForRoom(const std::string &roomId, EventExpiryContent &event)
             event = std::move(*content);
     }
 }
+
+void
+notifyEventExpirySaveUnavailable()
+{
+    nhlog::ui()->warn("Event expiry persistence is not migrated to matrix-sdk yet");
+    MainWindow::instance()->showNotification(
+      EventExpiry::tr("Saving event expiry is not available yet during the matrix-sdk migration."));
+}
 } // namespace
 
 void
@@ -62,29 +69,7 @@ EventExpiry::load()
 void
 EventExpiry::save()
 {
-    if (roomid_.isEmpty())
-        http::client()->put_account_data(
-          std::string(KOMAI_EVENT_EXPIRY_TYPE), event, [](mtx::http::RequestErr e) {
-              if (e) {
-                  nhlog::net()->error("Failed to set event expiry: {}", *e);
-                  MainWindow::instance()->showNotification(
-                    tr("Failed to set event expiry: %1")
-                      .arg(QString::fromStdString(e->matrix_error.error)));
-              }
-          });
-    else
-        http::client()->put_room_account_data(
-          roomid_.toStdString(),
-          std::string(KOMAI_EVENT_EXPIRY_TYPE),
-          event,
-          [](mtx::http::RequestErr e) {
-              if (e) {
-                  nhlog::net()->error("Failed to set event expiry: {}", *e);
-                  MainWindow::instance()->showNotification(
-                    tr("Failed to set event expiry: %1")
-                      .arg(QString::fromStdString(e->matrix_error.error)));
-              }
-          });
+    notifyEventExpirySaveUnavailable();
 }
 
 int

@@ -12,7 +12,6 @@
 
 #include "cache/Cache.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "timeline/TimelineEventTypes.h"
 #include "timeline/TimelineModel.h"
 #include "ui/MainWindow.h"
@@ -46,6 +45,14 @@ loadHiddenEventsForRoom(const std::string &roomId, HiddenEventsContent &hiddenEv
             hiddenEvents = std::move(*content);
         }
     }
+}
+
+void
+notifyHiddenEventsSaveUnavailable()
+{
+    nhlog::ui()->warn("Hidden event persistence is not migrated to matrix-sdk yet");
+    MainWindow::instance()->showNotification(HiddenEvents::tr(
+      "Saving hidden events is not available yet during the matrix-sdk migration."));
 }
 } // namespace
 
@@ -91,32 +98,7 @@ HiddenEvents::hiddenEvents() const
 void
 HiddenEvents::save()
 {
-    HiddenEventsContent hiddenEvents;
-    hiddenEvents.hidden_event_types = hiddenEvents_;
-
-    if (roomid_.isEmpty())
-        http::client()->put_account_data(
-          std::string(KOMAI_HIDDEN_EVENTS_TYPE), hiddenEvents, [](mtx::http::RequestErr e) {
-              if (e) {
-                  nhlog::net()->error("Failed to set hidden events: {}", *e);
-                  MainWindow::instance()->showNotification(
-                    tr("Failed to set hidden events: %1")
-                      .arg(QString::fromStdString(e->matrix_error.error)));
-              }
-          });
-    else
-        http::client()->put_room_account_data(
-          std::string(roomid_.toStdString()),
-          std::string(KOMAI_HIDDEN_EVENTS_TYPE),
-          hiddenEvents,
-          [](mtx::http::RequestErr e) {
-              if (e) {
-                  nhlog::net()->error("Failed to set hidden events: {}", *e);
-                  MainWindow::instance()->showNotification(
-                    tr("Failed to set hidden events: %1")
-                      .arg(QString::fromStdString(e->matrix_error.error)));
-              }
-          });
+    notifyHiddenEventsSaveUnavailable();
 }
 
 #include "moc_HiddenEvents.cpp"

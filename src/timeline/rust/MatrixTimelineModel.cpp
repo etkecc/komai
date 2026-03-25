@@ -132,6 +132,23 @@ MatrixTimelineModel::rowForEventId(const QString &eventId) const
     return -1;
 }
 
+QVariantMap
+MatrixTimelineModel::itemAt(int row) const
+{
+    QVariantMap itemData;
+
+    if (row < 0 || row >= items_.size())
+        return itemData;
+
+    const auto roleNameMap = roleNames();
+    const auto itemIndex   = index(row);
+    for (auto it = roleNameMap.cbegin(); it != roleNameMap.cend(); ++it) {
+        itemData.insert(QString::fromUtf8(it.value()), data(itemIndex, it.key()));
+    }
+
+    return itemData;
+}
+
 void
 MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
 {

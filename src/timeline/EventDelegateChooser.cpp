@@ -134,8 +134,12 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
 
     auto readPreviewValue =
       [this, chooserContext, evaluateInContext](const char *propertyName) -> QVariant {
-        auto key         = QString::fromUtf8(propertyName);
-        auto previewData = chooser.property("previewData");
+        auto key = QString::fromUtf8(propertyName);
+        auto previewData =
+          forReply ? chooser.property("replyPreviewData") : chooser.property("previewData");
+        if (!previewData.isValid() && forReply)
+            previewData = chooser.property("previewData");
+
         if (previewData.isValid()) {
             QVariantMap previewMap;
             if (previewData.canConvert<QVariantMap>()) {
@@ -338,7 +342,25 @@ EventDelegateChooser::DelegateIncubator::reset(QString id)
                  ->dataById(id, TimelineModel::Roles::Type, forReply ? chooser.eventId_ : QString())
                  .toInt();
     } else {
-        QVariant roleValue = chooser.property("type");
+        QVariant roleValue;
+
+        if (forReply) {
+            auto replyPreviewData = chooser.property("replyPreviewData");
+            if (replyPreviewData.isValid()) {
+                QVariantMap previewMap;
+                if (replyPreviewData.canConvert<QVariantMap>()) {
+                    previewMap = replyPreviewData.toMap();
+                } else if (replyPreviewData.userType() == qMetaTypeId<QJSValue>()) {
+                    previewMap = replyPreviewData.value<QJSValue>().toVariant().toMap();
+                }
+
+                if (auto it = previewMap.find(QStringLiteral("type")); it != previewMap.end())
+                    roleValue = it.value();
+            }
+        }
+
+        if (!roleValue.isValid())
+            roleValue = chooser.property("type");
         if (!roleValue.isValid()) {
             if (auto chooserContext = QQmlEngine::contextForObject(&chooser)) {
                 roleValue = chooserContext->contextProperty(QStringLiteral("type"));

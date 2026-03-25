@@ -9,8 +9,8 @@ TimelineEvent {
     id: wrapper
 
     ListView.delayRemove: true
-    width: chat.delegateMaxWidth
-    anchors.horizontalCenter: ListView.view.contentItem.horizontalCenter
+    width: chat ? chat.delegateMaxWidth : 0
+    anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
 
     required property var day
     required property bool isSender
@@ -49,6 +49,8 @@ TimelineEvent {
     property Item keyboardActionAnchorItem: null
     // Optional preview payload used when no TimelineModel room is available.
     property var previewData: ({})
+    property var replyPreviewData: ({})
+    property var roomModelOverride: null
     readonly property var roomForColorCoding: room ? room : ((previewData && previewData.room) ? previewData.room : null)
     readonly property string roomIdForColorCoding: (roomForColorCoding && roomForColorCoding.roomId) ? String(roomForColorCoding.roomId) : ""
     readonly property bool focusedInView: !!chatRoot && chatRoot.focusedEventId === wrapper.eventId
@@ -396,7 +398,19 @@ TimelineEvent {
     }
 
     function openMessageContextMenu(hoveredLink, copyText) {
-        messageContextMenu.show(eventId, threadId, type, isSender, isEncrypted, isEditable, isStateEvent, hoveredLink, copyText);
+        messageContextMenu.show(
+            eventId,
+            threadId,
+            type,
+            isSender,
+            isEncrypted,
+            isEditable,
+            isStateEvent,
+            hoveredLink,
+            copyText,
+            null,
+            wrapper,
+            roomModelOverride);
     }
 
     function resolveReplyLink(replyDelegate, x, y, quoteLineWidth, replyHeaderHeight) {

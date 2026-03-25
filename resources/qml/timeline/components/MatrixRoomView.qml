@@ -5,6 +5,7 @@
 import "../../room/components"
 import "../../components" as Components
 import "../../composer" as Composer
+import "../styles/bubble"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -48,6 +49,19 @@ ColumnLayout {
         default:
             return MtxEvent.TextMessage;
         }
+    }
+
+    function matrixTimelineDayKey(timestampMs) {
+        const day = new Date(Number(timestampMs || 0));
+        return day.getFullYear() * 10000 + (day.getMonth() + 1) * 100 + day.getDate();
+    }
+
+    function isMatrixStateLikeKind(kind) {
+        return ["membership_change", "profile_change", "other_state", "failed_to_parse_state", "date_divider"].indexOf(String(kind || "")) >= 0;
+    }
+
+    function formattedMatrixTextHtml(text) {
+        return TimelineManager.escapeEmoji(TimelineManager.htmlEscape(String(text || "")).replace(/\n/g, "<br>"));
     }
 
     function matchesSendShortcut(event) {
@@ -293,6 +307,8 @@ ColumnLayout {
                 ListView {
                     id: matrixTimelineList
 
+                    property int delegateMaxWidth: width
+
                     anchors.fill: parent
                     anchors.margins: Komai.paddingLarge
                     clip: true
@@ -316,6 +332,9 @@ ColumnLayout {
 
                     delegate: Item {
                         id: timelineItemDelegate
+
+                        property var chat: matrixTimelineList
+                        property var chatRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
 
                         function formatBytes(bytes) {
                             const value = Number(bytes);
@@ -369,6 +388,9 @@ ColumnLayout {
                         required property bool isEdited
                         required property bool isOwn
 
+                        readonly property int modelIndex: TimelineManager.matrixTimelineModel
+                            ? TimelineManager.matrixTimelineModel.rowForEventId(eventId)
+                            : -1
                         readonly property bool isMediaItem: ["image", "video", "audio", "file", "sticker"].indexOf(itemKind) >= 0
                         readonly property string effectiveFileName: fileName.length > 0 ? fileName : (body.length > 0 ? body : qsTr("Attachment"))
                         readonly property bool showCaption: isMediaItem && body.length > 0 && body !== effectiveFileName
@@ -377,9 +399,33 @@ ColumnLayout {
                         readonly property string replySourceBody: body.length > 0 ? body : effectiveFileName
                         readonly property double safePreviewAspectRatio: mediaWidth > 0 && mediaHeight > 0 ? (mediaHeight / mediaWidth) : 0.75
                         readonly property bool isStateLikeItem: ["membership_change", "profile_change", "other_state", "failed_to_parse_state"].indexOf(itemKind) >= 0
+                        readonly property bool usesSharedTextBubble: ["message", "notice", "emote"].indexOf(itemKind) >= 0
                         readonly property bool supportsSharedToolbarActions: eventId.length > 0 && itemKind !== "date_divider" && !isStateLikeItem
                         readonly property int matrixEventType: root.matrixEventTypeForItemKind(itemKind)
                         readonly property bool messageIsRightAligned: isOwn
+                        readonly property int dayKey: root.matrixTimelineDayKey(timestamp)
+                        readonly property var previousItem: TimelineManager.matrixTimelineModel ? TimelineManager.matrixTimelineModel.itemAt(modelIndex + 1) : ({})
+                        readonly property var sharedPreviewData: ({
+                                "room": matrixToolbarRoomModel,
+                                "avatarUrl": senderAvatarUrl,
+                                "body": body,
+                                "formattedBody": root.formattedMatrixTextHtml(body),
+                                "isOnlyEmoji": 0,
+                                "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
+                                "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
+                                "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
+                                "previousUserId": previousItem.senderId !== undefined ? String(previousItem.senderId || "") : ""
+                            })
+                        readonly property var sharedReplyPreviewData: replyEventId.length > 0
+                            ? ({
+                                "type": MtxEvent.TextMessage,
+                                "body": replyBody,
+                                "formattedBody": root.formattedMatrixTextHtml(replyBody),
+                                "isOnlyEmoji": 0,
+                                "userId": "",
+                                "userName": replySenderDisplayName.length > 0 ? replySenderDisplayName : qsTr("Reply")
+                            })
+                            : ({})
                         readonly property string mediaKindLabel: {
                             switch (itemKind) {
                             case "image":
@@ -412,7 +458,11 @@ ColumnLayout {
                         }
 
                         width: matrixTimelineList.width
-                        height: itemKind === "date_divider" ? dateDivider.implicitHeight : messageRow.implicitHeight
+                        height: itemKind === "date_divider"
+                            ? dateDivider.implicitHeight
+                            : usesSharedTextBubble
+                                ? sharedTextBubble.height
+                                : messageRow.implicitHeight
 
                         function openMessageActions(pin, anchorItem, activationMode) {
                             const actionsControl = matrixMessageActionsHost.control;
@@ -554,17 +604,8 @@ ColumnLayout {
                             }
                         }
 
-                        QtObject {
-                            id: matrixToolbarPermissions
-
-                            function canSend(eventType) {
-                                return supportsSharedToolbarActions
-                                    && (eventType === MtxEvent.TextMessage || eventType === MtxEvent.Reaction);
-                            }
-
-                            function canRedact() {
-                                return false;
-                            }
+                        PreviewPermissions {
+                            id: matrixToolbarPreviewPermissions
                         }
 
                         QtObject {
@@ -581,13 +622,30 @@ ColumnLayout {
                             id: matrixToolbarRoomModel
 
                             property string roomId: root.roomPreview ? root.roomPreview.roomid : ""
+                            property int roomMemberCount: root.roomPreview && root.roomPreview.roomMemberCount !== undefined
+                                ? Number(root.roomPreview.roomMemberCount)
+                                : 0
                             property bool isEncrypted: root.roomPreview ? !!root.roomPreview.isEncrypted : false
-                            property var permissions: matrixToolbarPermissions
+                            property AbstractPermissions permissions: matrixToolbarPreviewPermissions
                             property var input: matrixToolbarInput
                             property var frequentReactions: []
                             property string reply: ""
                             property string edit: ""
                             property string thread: ""
+
+                            function formatDateSeparator(timestamp) {
+                                return Qt.formatDate(timestamp, "ddd, MMM d");
+                            }
+
+                            function formatLaterSeparator(_previous, currentTimestamp) {
+                                return Qt.formatTime(currentTimestamp, "hh:mm");
+                            }
+
+                            function openUserProfile(_userId) {
+                            }
+
+                            function eventShown() {
+                            }
 
                             function openMedia(targetEventId) {
                                 if (timelineItemDelegate.itemId.length === 0)
@@ -671,6 +729,7 @@ ColumnLayout {
                         TapHandler {
                             acceptedButtons: Qt.RightButton
                             gesturePolicy: TapHandler.ReleaseWithinBounds
+                            enabled: !usesSharedTextBubble
 
                             onSingleTapped: root.openMatrixMessageContextMenu(
                                 matrixToolbarMessageModel,
@@ -714,7 +773,7 @@ ColumnLayout {
                             anchors.left: parent.left
                             anchors.right: parent.right
                             implicitHeight: messageRowLayout.implicitHeight
-                            visible: itemKind !== "date_divider"
+                            visible: itemKind !== "date_divider" && !usesSharedTextBubble
 
                             RowLayout {
                                 id: messageRowLayout
@@ -985,6 +1044,40 @@ ColumnLayout {
                                     }
                                 }
                             }
+                        }
+
+                        TimelineBubbleMessageStyle {
+                            id: sharedTextBubble
+
+                            eventId: timelineItemDelegate.eventId
+                            replyTo: timelineItemDelegate.replyEventId
+                            room: null
+                            index: timelineItemDelegate.modelIndex
+                            day: timelineItemDelegate.dayKey
+                            isSender: timelineItemDelegate.isOwn
+                            isStateEvent: false
+                            timestamp: new Date(Number(timelineItemDelegate.timestamp))
+                            userId: timelineItemDelegate.senderId
+                            userName: timelineItemDelegate.senderDisplayName
+                            threadId: ""
+                            userPowerlevel: 0
+                            isEdited: timelineItemDelegate.isEdited
+                            isEncrypted: false
+                            reactions: timelineItemDelegate.reactions
+                            status: MtxEvent.Empty
+                            trustlevel: 0
+                            notificationlevel: MtxEvent.Empty
+                            type: timelineItemDelegate.matrixEventType
+                            isEditable: matrixToolbarMessageModel.isEditable
+                            isHiddenEvent: false
+                            messageContextMenu: matrixMessageContextMenu
+                            replyContextMenu: matrixReplyContextMenu
+                            messageActions: matrixMessageActionsHost.control
+                            previewData: timelineItemDelegate.sharedPreviewData
+                            replyPreviewData: timelineItemDelegate.sharedReplyPreviewData
+                            roomModelOverride: matrixToolbarRoomModel
+                            scrolledToThis: false
+                            visible: timelineItemDelegate.usesSharedTextBubble
                         }
                     }
                 }

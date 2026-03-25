@@ -285,8 +285,11 @@ Item {
                             Komai.openLink(link)
                         } else {
                             console.log("Scrolling to " + root.wrapper.replyTo);
-                            if (root.wrapper.room)
+                            if (root.wrapper.room && typeof root.wrapper.room.showEvent === "function")
                                 root.wrapper.room.showEvent(root.wrapper.replyTo)
+                            else if (root.wrapper.roomForColorCoding
+                                     && typeof root.wrapper.roomForColorCoding.showEvent === "function")
+                                root.wrapper.roomForColorCoding.showEvent(root.wrapper.replyTo)
                         }
                     }
                     onPressAndHold: root.wrapper.openReplyContextMenu(root.wrapper.reply, root.wrapper.replyTo, pressX, pressY, replyLine.width, replyUserButton.implicitHeight)

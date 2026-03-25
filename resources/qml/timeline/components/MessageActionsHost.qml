@@ -138,7 +138,11 @@ Item {
                 filteredTimeline: root.filteredTimeline
                 messageActionsControl: messageActionsC
                 messageModel: messageActionsC.model
-                roomModel: messageActionsC.roomModelOverride ? messageActionsC.roomModelOverride : root.roomModel
+                roomModel: messageActionsC.roomModelOverride
+                    ? messageActionsC.roomModelOverride
+                    : (messageActionsC.model && messageActionsC.model.roomModelOverride)
+                        ? messageActionsC.model.roomModelOverride
+                        : root.roomModel
             }
         }
     }

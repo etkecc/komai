@@ -30,7 +30,11 @@ Menu {
     property string lastClosedEventId: ""
     property double lastClosedAtMs: 0
     property int closedReuseIgnoreMs: 250
-    readonly property var effectiveRoomModel: actionRoomModel ? actionRoomModel : roomModel
+    readonly property var effectiveRoomModel: actionRoomModel
+        ? actionRoomModel
+        : (effectiveMessageModel && effectiveMessageModel.roomModelOverride)
+            ? effectiveMessageModel.roomModelOverride
+            : roomModel
     readonly property var effectiveMessageModel: actionMessageModel ? actionMessageModel : ({
             "eventId": eventId,
             "threadId": threadId,

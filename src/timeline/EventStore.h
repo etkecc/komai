@@ -17,13 +17,29 @@
 #include <mtx/responses/messages.hpp>
 #include <mtx/responses/sync.hpp>
 
-#include "encryption/Olm.h"
-
 class EventStore final : public QObject
 {
     Q_OBJECT
 
 public:
+    enum LegacyDecryptionErrorCode
+    {
+        NoError,
+        MissingSession,
+        MissingSessionIndex,
+        DbError,
+        DecryptionFailed,
+        ParsingFailed,
+        ReplayAttack,
+    };
+
+    struct LegacyDecryptionResult
+    {
+        LegacyDecryptionErrorCode error;
+        std::optional<std::string> error_message;
+        std::optional<mtx::events::collections::TimelineEvents> event;
+    };
+
     EventStore(std::string room_id, QObject *parent);
 
     void refetchOnlineKeyBackupKeys();
@@ -84,7 +100,7 @@ public:
 
     QVariantList reactions(const std::string &event_id);
     std::vector<mtx::events::collections::TimelineEvents> edits(const std::string &event_id);
-    olm::DecryptionErrorCode decryptionError(std::string id);
+    LegacyDecryptionErrorCode decryptionError(std::string id);
     void
     requestSession(const mtx::events::EncryptedEvent<mtx::events::msg::Encrypted> &ev, bool manual);
 
@@ -129,7 +145,7 @@ public slots:
     void enableKeyRequests(bool suppressKeyRequests_);
 
 private:
-    olm::DecryptionResult const *
+    LegacyDecryptionResult const *
     decryptEvent(const IdIndex &idx,
                  const mtx::events::EncryptedEvent<mtx::events::msg::Encrypted> &e);
     void setupPendingPipeline();
@@ -145,7 +161,7 @@ private:
     int initialWindowSize_;
     int expandChunkSize_;
 
-    static QCache<IdIndex, olm::DecryptionResult> decryptedEvents_;
+    static QCache<IdIndex, LegacyDecryptionResult> decryptedEvents_;
     static QCache<Index, mtx::events::collections::TimelineEvents> events_;
     static QCache<IdIndex, mtx::events::collections::TimelineEvents> events_by_id_;
 

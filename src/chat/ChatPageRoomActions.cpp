@@ -13,6 +13,7 @@
 #include <QUrl>
 
 #include <algorithm>
+#include <mtx/requests.hpp>
 #include <optional>
 #include <string>
 #include <thread>

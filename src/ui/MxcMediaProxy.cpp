@@ -15,6 +15,8 @@
 #include <QPointer>
 #include <QUrl>
 
+#include <mtxclient/crypto/utils.hpp>
+
 #include <thread>
 
 #include "chat/ChatPage.h"

@@ -13,7 +13,7 @@
 #include "logging/Logging.h"
 #include "utils/Utils.h"
 
-QCache<EventStore::IdIndex, olm::DecryptionResult> EventStore::decryptedEvents_{1000};
+QCache<EventStore::IdIndex, EventStore::LegacyDecryptionResult> EventStore::decryptedEvents_{1000};
 QCache<EventStore::IdIndex, mtx::events::collections::TimelineEvents> EventStore::events_by_id_{
   1000};
 QCache<EventStore::Index, mtx::events::collections::TimelineEvents> EventStore::events_{1000};

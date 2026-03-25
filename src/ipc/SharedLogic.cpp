@@ -13,6 +13,8 @@
 #include <QMimeDatabase>
 #include <QPointer>
 
+#include <nlohmann/json.hpp>
+
 #include <optional>
 
 #include <mtx/events/collections.hpp>

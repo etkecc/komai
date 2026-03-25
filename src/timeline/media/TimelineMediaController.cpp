@@ -21,6 +21,8 @@
 #include <QStandardPaths>
 #include <QTimer>
 
+#include <mtxclient/crypto/utils.hpp>
+
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"

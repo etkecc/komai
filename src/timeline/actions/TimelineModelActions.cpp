@@ -5,6 +5,8 @@
 
 #include "TimelineModel.h"
 
+#include <nlohmann/json.hpp>
+
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"

@@ -79,15 +79,15 @@ EventStore::indexToId(int idx) const
     return cache::getTimelineEventId(room_id_, toInternalIdx(idx));
 }
 
-olm::DecryptionResult const *
+EventStore::LegacyDecryptionResult const *
 EventStore::decryptEvent(const IdIndex &idx,
                          const mtx::events::EncryptedEvent<mtx::events::msg::Encrypted> &e)
 {
     if (auto cachedEvent = decryptedEvents_.object(idx))
         return cachedEvent;
 
-    auto asCacheEntry = [&idx](olm::DecryptionResult &&event) {
-        auto event_ptr = new olm::DecryptionResult(std::move(event));
+    auto asCacheEntry = [&idx](LegacyDecryptionResult &&event) {
+        auto event_ptr = new LegacyDecryptionResult(std::move(event));
         decryptedEvents_.insert(idx, event_ptr);
         return event_ptr;
     };
@@ -99,7 +99,7 @@ EventStore::decryptEvent(const IdIndex &idx,
       room_id_);
 
     return asCacheEntry(
-      {olm::DecryptionErrorCode::MissingSession,
+      {LegacyDecryptionErrorCode::MissingSession,
        std::optional<std::string>("Legacy EventStore decryption is not migrated yet"),
        std::nullopt});
 }
@@ -153,14 +153,14 @@ EventStore::get(const std::string &id,
     return event_ptr;
 }
 
-olm::DecryptionErrorCode
+EventStore::LegacyDecryptionErrorCode
 EventStore::decryptionError(std::string id)
 {
     if (this->thread() != QThread::currentThread())
         nhlog::db()->warn("{} called from a different thread!", __func__);
 
     if (id.empty())
-        return olm::DecryptionErrorCode::NoError;
+        return LegacyDecryptionErrorCode::NoError;
 
     IdIndex index{room_id_, std::move(id)};
     auto edits_ = edits(index.id);
@@ -174,7 +174,7 @@ EventStore::decryptionError(std::string id)
     if (!event_ptr) {
         auto event = cache::getEvent(room_id_, index.id);
         if (!event) {
-            return olm::DecryptionErrorCode::NoError;
+            return LegacyDecryptionErrorCode::NoError;
         }
         event_ptr = new mtx::events::collections::TimelineEvents(std::move(*event));
         events_by_id_.insert(index, event_ptr);
@@ -186,5 +186,5 @@ EventStore::decryptionError(std::string id)
         return decrypted->error;
     }
 
-    return olm::DecryptionErrorCode::NoError;
+    return LegacyDecryptionErrorCode::NoError;
 }

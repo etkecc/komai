@@ -14,6 +14,8 @@
 #include <QSGImageNode>
 #include <QTimer>
 
+#include <mtxclient/crypto/utils.hpp>
+
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"

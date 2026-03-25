@@ -63,7 +63,7 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
         return notificationLevelForEvent(event, localUserStd);
 
     case EncryptionError:
-        return events.decryptionError(event_id(event));
+        return static_cast<int>(events.decryptionError(event_id(event)));
 
     case ReplyTo:
         return QVariant(replyToForEvent(event));

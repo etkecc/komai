@@ -8,7 +8,6 @@
 #include <type_traits>
 
 #include "cache/Cache.h"
-#include "encryption/Olm.h"
 #include "logging/Logging.h"
 #include "utils/Utils.h"
 
@@ -292,14 +291,6 @@ TimelineModel::addEvents(const mtx::responses::Timeline &timeline)
     const auto localUserStd = utils::localUser().toStdString();
 
     for (auto e : timeline.events) {
-        if (auto encryptedEvent = std::get_if<EncryptedEvent<msg::Encrypted>>(&e)) {
-            MegolmSessionIndex index(room_id_.toStdString(), encryptedEvent->content);
-
-            auto result = olm::decryptEvent(index, *encryptedEvent);
-            if (result.event)
-                e = result.event.value();
-        }
-
         if (dispatchCallEventIfNeeded(e, localUserStd))
             continue;
 

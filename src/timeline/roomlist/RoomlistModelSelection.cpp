@@ -175,23 +175,14 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
 void
 RoomlistModel::refetchOnlineKeyBackupKeys()
 {
-    for (auto i = models.begin(); i != models.end(); ++i) {
-        auto ptr = i.value();
-
-        if (!ptr.isNull()) {
-            ptr->refetchOnlineKeyBackupKeys();
-        }
-    }
+    nhlog::crypto()->warn(
+      "Ignoring legacy room-list key-backup refetch on the matrix-sdk migration branch");
 }
 
 void
 RoomlistModel::clearDecryptionErrors()
 {
-    for (auto i = models.begin(); i != models.end(); ++i) {
-        auto ptr = i.value();
-
-        if (!ptr.isNull()) {
-            ptr->clearDecryptionErrors();
-        }
-    }
+    nhlog::crypto()->warn(
+      "Ignoring legacy room-list clear-decryption-errors request on the matrix-sdk migration "
+      "branch");
 }

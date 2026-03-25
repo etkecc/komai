@@ -17,14 +17,12 @@
 
 #include <mtx/events/collections.hpp>
 #include <mtx/responses/media.hpp>
-#include <mtxclient/crypto/utils.hpp>
 
 #include "blurhash.hpp"
 
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "config/komai.h"
-#include "encryption/Olm.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
@@ -130,17 +128,7 @@ mtx::events::collections::TimelineEvents
 materializedTimelineEvent(const std::string &roomId,
                           const mtx::events::collections::TimelineEvents &event)
 {
-    if (const auto *encrypted =
-          std::get_if<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(&event)) {
-        MegolmSessionIndex index;
-        index.room_id    = roomId;
-        index.session_id = encrypted->content.session_id;
-
-        auto decrypted = olm::decryptEvent(index, *encrypted);
-        if (decrypted.event.has_value())
-            return *decrypted.event;
-    }
-
+    (void)roomId;
     return event;
 }
 

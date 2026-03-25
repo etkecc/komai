@@ -57,5 +57,9 @@ ChatPage::removeRoom(const QString &room_id)
 void
 ChatPage::receivedSessionKey(const std::string &room_id, const std::string &session_id)
 {
-    view_manager_->receivedSessionKey(room_id, session_id);
+    nhlog::crypto()->warn(
+      "Ignoring legacy room-session-key callback for room '{}' session '{}'; this flow is not "
+      "migrated to the matrix-sdk backend yet",
+      room_id,
+      session_id);
 }

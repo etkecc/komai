@@ -23,8 +23,6 @@
 
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
-#include "encryption/DeviceVerificationFlow.h"
-#include "encryption/Olm.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixSyncUpdate.h"

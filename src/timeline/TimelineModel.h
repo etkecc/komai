@@ -285,8 +285,8 @@ public:
             return std::nullopt;
     }
 
-    void refetchOnlineKeyBackupKeys() { events.refetchOnlineKeyBackupKeys(); };
-    void clearDecryptionErrors() { events.clearDecryptionErrors(); };
+    void refetchOnlineKeyBackupKeys() {}
+    void clearDecryptionErrors() {}
 
 public slots:
     void setCurrentIndex(int index);
@@ -330,10 +330,7 @@ public slots:
         setPaginationInProgress(false);
     }
     void resetState();
-    void receivedSessionKey(const std::string &session_key)
-    {
-        events.receivedSessionKey(session_key);
-    }
+    void receivedSessionKey(const std::string &) {}
 
     QString roomName() const;
     QString plainRoomName() const;

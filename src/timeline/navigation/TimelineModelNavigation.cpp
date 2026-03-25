@@ -282,10 +282,9 @@ TimelineModel::countNearbyMedia(const QString &currentEventId, int direction, in
 void
 TimelineModel::requestKeyForEvent(const QString &id)
 {
-    auto encrypted_event = events.get(id.toStdString(), "", false);
-    if (encrypted_event) {
-        if (auto ev = std::get_if<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
-              encrypted_event))
-            events.requestSession(*ev, true);
-    }
+    nhlog::crypto()->warn(
+      "Ignoring legacy request-key-for-event flow for room '{}' event '{}'; this flow is not "
+      "migrated to the matrix-sdk backend yet",
+      room_id_.toStdString(),
+      id.toStdString());
 }

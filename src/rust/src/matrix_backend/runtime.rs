@@ -65,7 +65,10 @@ mod room_settings;
 #[path = "runtime_timeline.rs"]
 mod timeline;
 
-pub use profile_media::{fetch_media_content, fetch_own_profile};
+pub use profile_media::{
+    fetch_media_content, fetch_own_profile, fetch_user_profile, ignore_user, remove_own_avatar,
+    set_own_display_name, unignore_user, upload_own_avatar,
+};
 pub use registry::{start_restored_backend, stop_backend};
 pub use room_actions::{
     ban_user, create_room, invite_user, join_room, kick_user, knock_room, leave_room, unban_user,
@@ -90,6 +93,11 @@ pub struct MatrixBackendHandleInfo {
 }
 
 pub struct MatrixOwnProfile {
+    pub display_name: String,
+    pub avatar_url: String,
+}
+
+pub struct MatrixUserProfile {
     pub display_name: String,
     pub avatar_url: String,
 }

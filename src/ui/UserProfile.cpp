@@ -80,8 +80,20 @@ UserProfile::UserProfile(const QString &roomid,
 
     getGlobalProfileData();
 
-    if (!cache::isDatabaseReady() || !ChatPage::instance()->timelineManager())
+    if (ChatPage::instance() && ChatPage::instance()->timelineManager()) {
+        connect(ChatPage::instance()->timelineManager(),
+                &TimelineViewManager::ignoredUsersChanged,
+                this,
+                [this](const QVector<QString> &) {
+                    ignoredOverride_.reset();
+                    emit ignoredChanged();
+                });
+    }
+
+    if (!cache::isDatabaseReady() || !ChatPage::instance()->timelineManager()) {
+        sharedRooms_ = new RoomInfoModel({}, this);
         return;
+    }
 
     cache::onVerificationStatusChanged(this, [this](const std::string &user_id) {
         if (user_id != this->userid_.toStdString())
@@ -95,14 +107,6 @@ UserProfile::UserProfile(const QString &roomid,
         sharedRooms_ = new RoomInfoModel(cache::getCommonRooms(userid.toStdString()), this);
     else
         sharedRooms_ = new RoomInfoModel({}, this);
-
-    connect(ChatPage::instance()->timelineManager(),
-            &TimelineViewManager::ignoredUsersChanged,
-            this,
-            [this](const QVector<QString> &) {
-                // It doesn't matter much whether the change was triggered by this profile view.
-                emit ignoredChanged();
-            });
 }
 
 DeviceInfoModel *
@@ -156,6 +160,13 @@ bool
 UserProfile::isSelf() const
 {
     return this->userid_ == utils::localUser();
+}
+
+uint64_t
+UserProfile::matrixBackendHandleId() const
+{
+    const auto *mainWindow = MainWindow::instance();
+    return mainWindow ? mainWindow->matrixBackendHandleId() : 0;
 }
 
 void
@@ -212,6 +223,9 @@ UserProfile::refreshDevices()
 bool
 UserProfile::ignored() const
 {
+    if (ignoredOverride_)
+        return *ignoredOverride_;
+
     auto old = TimelineViewManager::instance()->getIgnoredUsers();
     return old.contains(userid_);
 }
@@ -219,6 +233,26 @@ UserProfile::ignored() const
 void
 UserProfile::setIgnored(bool ignore)
 {
+    const auto handleId = matrixBackendHandleId();
+    if (handleId != 0) {
+        QString error;
+        const bool ok =
+          ignore ? komai::MatrixBackendRuntimeService::ignoreUser(handleId, userid_, &error)
+                 : komai::MatrixBackendRuntimeService::unignoreUser(handleId, userid_, &error);
+        if (!ok) {
+            MainWindow::instance()->showNotification(
+              error.isEmpty()
+                ? tr("Failed to update ignored-user state for \"%1\".").arg(userid_)
+                : tr("Failed to update ignored-user state for \"%1\": %2").arg(userid_, error));
+            emit ignoredChanged();
+            return;
+        }
+
+        ignoredOverride_ = ignore;
+        emit ignoredChanged();
+        return;
+    }
+
     auto old = TimelineViewManager::instance()->getIgnoredUsers();
     if (ignore) {
         if (old.contains(userid_)) {
@@ -405,42 +439,55 @@ UserProfile::isLoading() const
 void
 UserProfile::getGlobalProfileData()
 {
-    if (isGlobalUserProfile() && isSelf()) {
-        const auto *mainWindow = MainWindow::instance();
-        const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
-        if (handleId != 0) {
-            QPointer<UserProfile> guard(this);
-            std::thread([guard, handleId]() {
-                QString error;
-                auto result = komai::MatrixBackendRuntimeService::fetchOwnProfile(handleId, &error);
+    const auto handleId = matrixBackendHandleId();
+    if (handleId != 0) {
+        QPointer<UserProfile> guard(this);
+        const auto userId     = userid_;
+        const bool ownProfile = isSelf();
 
-                if (!guard)
-                    return;
+        std::thread([guard, handleId, userId, ownProfile]() {
+            QString error;
+            const auto ownResult =
+              ownProfile ? komai::MatrixBackendRuntimeService::fetchOwnProfile(handleId, &error)
+                         : std::optional<komai::MatrixOwnProfile>{};
+            const auto userResult =
+              ownProfile
+                ? std::optional<komai::MatrixUserProfile>{}
+                : komai::MatrixBackendRuntimeService::fetchUserProfile(handleId, userId, &error);
 
-                emit guard->globalUsernameRetrieved(result ? result->displayName : QString{});
-                QMetaObject::invokeMethod(
-                  guard,
-                  [guard, result = std::move(result), error]() {
-                      if (!guard)
-                          return;
+            if (!guard)
+                return;
 
-                      if (!result) {
-                          nhlog::net()->warn("failed to retrieve own profile info for current user "
-                                             "via matrix-sdk runtime: {}",
-                                             error.toStdString());
-                          emit guard->failedToFetchProfile();
-                          return;
-                      }
+            const bool ok             = ownProfile ? ownResult.has_value() : userResult.has_value();
+            const QString displayName = ownProfile
+                                          ? (ownResult ? ownResult->displayName : QString{})
+                                          : (userResult ? userResult->displayName : QString{});
+            const QString avatarUrl   = ownProfile ? (ownResult ? ownResult->avatarUrl : QString{})
+                                                   : (userResult ? userResult->avatarUrl : QString{});
 
-                      guard->globalAvatarUrl = komai::matrix::normalizeMxcUri(result->avatarUrl);
-                      if (guard->isGlobalUserProfile())
-                          emit guard->avatarUrlChanged();
-                      emit guard->globalAvatarUrlChanged();
-                  },
-                  Qt::QueuedConnection);
-            }).detach();
-            return;
-        }
+            emit guard->globalUsernameRetrieved(displayName);
+            QMetaObject::invokeMethod(
+              guard,
+              [guard, ok, avatarUrl, error]() {
+                  if (!guard)
+                      return;
+
+                  if (!ok) {
+                      nhlog::net()->warn("failed to retrieve user profile info via matrix-sdk "
+                                         "runtime: {}",
+                                         error.toStdString());
+                      emit guard->failedToFetchProfile();
+                      return;
+                  }
+
+                  guard->globalAvatarUrl = komai::matrix::normalizeMxcUri(avatarUrl);
+                  if (guard->isGlobalUserProfile())
+                      emit guard->avatarUrlChanged();
+                  emit guard->globalAvatarUrlChanged();
+              },
+              Qt::QueuedConnection);
+        }).detach();
+        return;
     }
 
     auto profProx = std::make_shared<UserProfileFetchProxy>();
@@ -449,7 +496,8 @@ UserProfile::getGlobalProfileData()
             this,
             [this](const mtx::responses::Profile &res) {
                 emit globalUsernameRetrieved(QString::fromStdString(res.display_name));
-                globalAvatarUrl = QString::fromStdString(res.avatar_url);
+                globalAvatarUrl =
+                  komai::matrix::normalizeMxcUri(QString::fromStdString(res.avatar_url));
                 if (isGlobalUserProfile())
                     emit avatarUrlChanged();
                 emit globalAvatarUrlChanged();

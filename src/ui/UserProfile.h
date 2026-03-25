@@ -12,6 +12,7 @@
 #include <QVector>
 #include <mtx/responses.hpp>
 #include <mtx/responses/common.hpp>
+#include <optional>
 
 #include "cache/crypto/CacheCryptoStructs.h"
 #include "matrix/MatrixStateTypes.h"
@@ -229,6 +230,7 @@ private slots:
     void updateVerificationStatus();
 
 private:
+    uint64_t matrixBackendHandleId() const;
     void updateRoomMemberState(mtx::events::state::Member member);
     void getGlobalProfileData();
 
@@ -240,6 +242,7 @@ private:
     crypto::Trust isUserVerified = crypto::Trust::Unverified;
     bool hasMasterKey            = false;
     bool isLoading_              = false;
+    std::optional<bool> ignoredOverride_;
     TimelineViewManager *manager;
     TimelineModel *model;
     RoomInfoModel *sharedRooms_ = nullptr;

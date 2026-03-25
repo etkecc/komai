@@ -41,6 +41,15 @@ fromRustOwnProfile(const ::komai::rust::MatrixOwnProfile &profile)
     };
 }
 
+MatrixUserProfile
+fromRustUserProfile(const ::komai::rust::MatrixUserProfile &profile)
+{
+    return MatrixUserProfile{
+      .displayName = QString::fromStdString(std::string(profile.display_name)),
+      .avatarUrl = matrix::normalizeMxcUri(QString::fromStdString(std::string(profile.avatar_url))),
+    };
+}
+
 MatrixRoomSummary
 fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
 {
@@ -342,6 +351,94 @@ MatrixBackendRuntimeService::fetchOwnProfile(uint64_t handleId, QString *errorOu
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return std::nullopt;
+    }
+}
+
+std::optional<MatrixUserProfile>
+MatrixBackendRuntimeService::fetchUserProfile(uint64_t handleId,
+                                              const QString &userId,
+                                              QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_fetch_user_profile(handleId, userId.toStdString());
+        return fromRustUserProfile(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::setOwnDisplayName(uint64_t handleId,
+                                               const QString &displayName,
+                                               QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_set_own_display_name(handleId, displayName.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::uploadOwnAvatar(uint64_t handleId,
+                                             const QString &filePath,
+                                             const QString &mimeType,
+                                             QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_upload_own_avatar(
+          handleId, filePath.toStdString(), mimeType.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::removeOwnAvatar(uint64_t handleId, QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_remove_own_avatar(handleId);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::ignoreUser(uint64_t handleId, const QString &userId, QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_ignore_user(handleId, userId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::unignoreUser(uint64_t handleId,
+                                          const QString &userId,
+                                          QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_unignore_user(handleId, userId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
     }
 }
 

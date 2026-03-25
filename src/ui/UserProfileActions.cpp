@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QMimeDatabase>
 #include <QStandardPaths>
 
@@ -13,6 +14,7 @@
 #include "encryption/VerificationManager.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/TimelineViewManager.h"
 #include "utils/Utils.h"
 
@@ -43,6 +45,21 @@ UserProfile::startChat()
 void
 UserProfile::changeUsername(const QString &username)
 {
+    if (isGlobalUserProfile() && isSelf()) {
+        const auto handleId = matrixBackendHandleId();
+        if (handleId != 0) {
+            QString error;
+            if (!komai::MatrixBackendRuntimeService::setOwnDisplayName(
+                  handleId, username, &error)) {
+                emit displayError(error.isEmpty() ? tr("Failed to update display name.") : error);
+                return;
+            }
+
+            getGlobalProfileData();
+            return;
+        }
+    }
+
     if (isGlobalUserProfile()) {
         // change global
         http::client()->set_displayname(username.toStdString(), [](mtx::http::RequestErr err) {
@@ -124,6 +141,25 @@ UserProfile::changeAvatar()
     isLoading_ = true;
     emit loadingChanged();
 
+    if (isGlobalUserProfile() && isSelf()) {
+        const auto handleId = matrixBackendHandleId();
+        if (handleId != 0) {
+            QString error;
+            if (!komai::MatrixBackendRuntimeService::uploadOwnAvatar(
+                  handleId, fileName, mime.name(), &error)) {
+                isLoading_ = false;
+                emit loadingChanged();
+                emit displayError(error.isEmpty() ? tr("Failed to upload avatar.") : error);
+                return;
+            }
+
+            isLoading_ = false;
+            emit loadingChanged();
+            getGlobalProfileData();
+            return;
+        }
+    }
+
     // First we need to create a new mxc URI
     // (i.e upload media to the Matrix content repository) for the new avatar.
     http::client()->upload(
@@ -178,6 +214,24 @@ UserProfile::removeAvatar()
 
     isLoading_ = true;
     emit loadingChanged();
+
+    if (isSelf()) {
+        const auto handleId = matrixBackendHandleId();
+        if (handleId != 0) {
+            QString error;
+            if (!komai::MatrixBackendRuntimeService::removeOwnAvatar(handleId, &error)) {
+                isLoading_ = false;
+                emit loadingChanged();
+                emit displayError(error.isEmpty() ? tr("Failed to remove avatar.") : error);
+                return;
+            }
+
+            isLoading_ = false;
+            emit loadingChanged();
+            getGlobalProfileData();
+            return;
+        }
+    }
 
     http::client()->set_avatar_url("", [this](mtx::http::RequestErr err) {
         if (err) {

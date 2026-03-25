@@ -27,6 +27,12 @@ struct MatrixOwnProfile
     QString avatarUrl;
 };
 
+struct MatrixUserProfile
+{
+    QString displayName;
+    QString avatarUrl;
+};
+
 struct MatrixRoomSummary
 {
     QString roomId;
@@ -165,6 +171,23 @@ public:
 
     static std::optional<MatrixOwnProfile>
     fetchOwnProfile(uint64_t handleId, QString *errorOut = nullptr);
+
+    static std::optional<MatrixUserProfile>
+    fetchUserProfile(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);
+
+    static bool
+    setOwnDisplayName(uint64_t handleId, const QString &displayName, QString *errorOut = nullptr);
+
+    static bool uploadOwnAvatar(uint64_t handleId,
+                                const QString &filePath,
+                                const QString &mimeType,
+                                QString *errorOut = nullptr);
+
+    static bool removeOwnAvatar(uint64_t handleId, QString *errorOut = nullptr);
+
+    static bool ignoreUser(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);
+
+    static bool unignoreUser(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);
 
     static std::optional<QVector<MatrixRoomSummary>>
     fetchRoomList(uint64_t handleId, QString *errorOut = nullptr);

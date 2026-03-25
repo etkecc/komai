@@ -17,51 +17,31 @@ default:
 
 # Configures the build (CMake configure step)
 configure *args:
-	cmake -S {{ justfile_directory() }} -B {{ build_dir }} \
-		-DCMAKE_BUILD_TYPE=Release \
-		-DMAN=OFF \
-		{{ args }}
+	bash {{ justfile_directory() }}/bin/build/native.sh configure {{ args }}
 
 # Builds the project (configures first if needed)
 build *args: _ensure_just_temp_directory
-	#!/usr/bin/env bash
-	set -euo pipefail
-	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]] || grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "{{ build_dir }}/CMakeCache.txt"; then
-		just --justfile {{ justfile() }} configure
-	fi
-	cmake --build {{ build_dir }} --parallel "$(nproc)" {{ args }}
+	bash {{ justfile_directory() }}/bin/build/native.sh build {{ args }}
 
 # Runs all tests
-test: test-unit test-integration
+test *args: _ensure_just_temp_directory
+	bash {{ justfile_directory() }}/bin/build/native.sh test-all {{ args }}
 
 # Runs unit tests
 test-unit *args: _ensure_just_temp_directory
-	#!/usr/bin/env bash
-	set -euo pipefail
-	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]] || grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "{{ build_dir }}/CMakeCache.txt"; then
-		just --justfile {{ justfile() }} configure
-	fi
-	cmake --build {{ build_dir }} --parallel "$(nproc)" --target komai_tests
-	ctest --test-dir {{ build_dir }} --output-on-failure -L unit {{ args }}
+	bash {{ justfile_directory() }}/bin/build/native.sh test-unit {{ args }}
 
 # Runs integration tests
 test-integration *args: _ensure_just_temp_directory
-	#!/usr/bin/env bash
-	set -euo pipefail
-	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]] || grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "{{ build_dir }}/CMakeCache.txt"; then
-		just --justfile {{ justfile() }} configure
-	fi
-	cmake --build {{ build_dir }} --parallel "$(nproc)" --target komai_tests
-	ctest --test-dir {{ build_dir }} --output-on-failure -L integration {{ args }}
+	bash {{ justfile_directory() }}/bin/build/native.sh test-integration {{ args }}
 
 # Configures and builds from scratch
 rebuild *args:
-	just --justfile {{ justfile() }} configure {{ args }}
-	just --justfile {{ justfile() }} build
+	bash {{ justfile_directory() }}/bin/build/native.sh rebuild {{ args }}
 
 # Installs the compiled binary (may require sudo)
 install:
-	cmake --install {{ build_dir }}
+	bash {{ justfile_directory() }}/bin/build/native.sh install
 
 # Runs the compiled binary (builds first if needed)
 run *args: _ensure_just_temp_directory
@@ -207,15 +187,11 @@ icons-fetch rel_path alias_svg_name:
 
 # Removes the build directory
 clean:
-	rm -rf {{ build_dir }}
+	bash {{ justfile_directory() }}/bin/build/native.sh clean
 
 # Configures a debug build
 configure-debug *args:
-	cmake -S {{ justfile_directory() }} -B {{ build_dir }} \
-		-DCMAKE_BUILD_TYPE=Debug \
-		-DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
-		-DMAN=OFF \
-		{{ args }}
+	bash {{ justfile_directory() }}/bin/build/native.sh configure-debug {{ args }}
 
 # Extracts translatable strings from source code into .ts files, then normalizes
 translations-update: _ensure_just_temp_directory

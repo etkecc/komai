@@ -412,10 +412,14 @@ ColumnLayout {
                         readonly property double safePreviewAspectRatio: mediaWidth > 0 && mediaHeight > 0 ? (mediaHeight / mediaWidth) : 0.75
                         readonly property bool isStateLikeItem: ["membership_change", "profile_change", "other_state", "failed_to_parse_state"].indexOf(itemKind) >= 0
                         readonly property bool usesSharedTextBubble: ["message", "notice", "emote"].indexOf(itemKind) >= 0
+                        readonly property bool usesSharedImageBubble: itemKind === "image"
+                        readonly property bool usesSharedStickerBubble: itemKind === "sticker"
                         readonly property bool usesSharedFileBubble: itemKind === "file"
                         readonly property bool usesSharedAudioBubble: itemKind === "audio"
                         readonly property bool usesSharedStateBubble: isStateLikeItem
                         readonly property bool usesSharedTimelineBubble: usesSharedTextBubble
+                            || usesSharedImageBubble
+                            || usesSharedStickerBubble
                             || usesSharedFileBubble
                             || usesSharedAudioBubble
                             || usesSharedStateBubble
@@ -449,6 +453,25 @@ ColumnLayout {
                                 "fileTypeIconSource": sharedFileTypeIconSource,
                                 "mimetype": mimeType,
                                 "duration": Math.round(Number(mediaDurationMs)),
+                                "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
+                                "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
+                                "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
+                                "previousUserId": previousItem.senderId !== undefined ? String(previousItem.senderId || "") : ""
+                            })
+                        readonly property var sharedVisualPreviewData: ({
+                                "room": matrixToolbarRoomModel,
+                                "avatarUrl": senderAvatarUrl,
+                                "url": mediaUrl,
+                                "blurhash": "",
+                                "eventId": itemId,
+                                "body": body,
+                                "filename": effectiveFileName,
+                                "mimetype": mimeType,
+                                "thumbnailUrl": thumbnailUrl,
+                                "originalWidth": Math.round(Number(mediaWidth)),
+                                "originalHeight": Math.round(Number(mediaHeight)),
+                                "proportionalHeight": safePreviewAspectRatio,
+                                "containerHeight": matrixTimelineList.height > 0 ? matrixTimelineList.height : root.height,
                                 "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
                                 "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
                                 "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
@@ -670,6 +693,7 @@ ColumnLayout {
                             id: matrixToolbarRoomModel
 
                             property string roomId: root.roomPreview ? root.roomPreview.roomid : ""
+                            property bool isActiveMatrixTimelineRoom: true
                             property int roomMemberCount: root.roomPreview && root.roomPreview.roomMemberCount !== undefined
                                 ? Number(root.roomPreview.roomMemberCount)
                                 : 0
@@ -696,21 +720,27 @@ ColumnLayout {
                             }
 
                             function openMedia(targetEventId) {
-                                if (timelineItemDelegate.itemId.length === 0)
+                                const targetItemId = String(targetEventId || timelineItemDelegate.itemId || "");
+                                if (targetItemId.length === 0)
                                     return;
 
                                 TimelineManager.openActiveMatrixTimelineMedia(
-                                    timelineItemDelegate.itemId,
+                                    targetItemId,
                                     timelineItemDelegate.effectiveFileName);
                             }
 
                             function saveMedia(targetEventId) {
-                                if (timelineItemDelegate.itemId.length === 0)
+                                const targetItemId = String(targetEventId || timelineItemDelegate.itemId || "");
+                                if (targetItemId.length === 0)
                                     return;
 
                                 TimelineManager.saveActiveMatrixTimelineMedia(
-                                    timelineItemDelegate.itemId,
+                                    targetItemId,
                                     timelineItemDelegate.effectiveFileName);
+                            }
+
+                            function showImage() {
+                                return true;
                             }
 
                             onReplyChanged: {
@@ -1131,7 +1161,9 @@ ColumnLayout {
                             messageActions: matrixMessageActionsHost.control
                             previewData: timelineItemDelegate.usesSharedStateBubble
                                 ? timelineItemDelegate.sharedStatePreviewData
-                                : (timelineItemDelegate.usesSharedFileBubble || timelineItemDelegate.usesSharedAudioBubble)
+                                : (timelineItemDelegate.usesSharedImageBubble || timelineItemDelegate.usesSharedStickerBubble)
+                                    ? timelineItemDelegate.sharedVisualPreviewData
+                                    : (timelineItemDelegate.usesSharedFileBubble || timelineItemDelegate.usesSharedAudioBubble)
                                     ? timelineItemDelegate.sharedAttachmentPreviewData
                                     : timelineItemDelegate.sharedPreviewData
                             replyPreviewData: !timelineItemDelegate.usesSharedStateBubble

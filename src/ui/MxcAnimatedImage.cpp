@@ -5,6 +5,7 @@
 
 #include "MxcAnimatedImage.h"
 
+#include <QCryptographicHash>
 #include <QDir>
 #include <QFileInfo>
 #include <QImageReader>
@@ -33,6 +34,30 @@ currentMatrixRuntimeHandleId()
     const auto *mainWindow = MainWindow::instance();
     return mainWindow ? mainWindow->matrixBackendHandleId() : 0;
 }
+
+TimelineModel *
+legacyRoomContext(QObject *roomContext)
+{
+    return qobject_cast<TimelineModel *>(roomContext);
+}
+
+QString
+roomContextRoomId(QObject *roomContext)
+{
+    if (auto *room = legacyRoomContext(roomContext))
+        return room->roomId();
+
+    return roomContext ? roomContext->property("roomId").toString().trimmed() : QString{};
+}
+
+QString
+matrixRuntimeMediaCacheKey(const QString &roomId, const QString &itemId)
+{
+    const auto digest =
+      QCryptographicHash::hash((roomId + u':' + itemId).toUtf8(), QCryptographicHash::Sha256)
+        .toHex();
+    return QString::fromUtf8(digest);
+}
 }
 
 void
@@ -51,44 +76,70 @@ MxcAnimatedImage::startDownload()
         buffer.close();
     buffer.setData({});
 
-    if (!room_)
-        return;
     if (eventId_.isEmpty())
         return;
 
-    auto event = room_->eventById(eventId_);
-    if (!event) {
-        nhlog::ui()->error("Failed to load media for event {}, event not found.",
-                           eventId_.toStdString());
-        return;
-    }
+    auto *legacyRoom  = legacyRoomContext(room_);
+    const auto roomId = roomContextRoomId(room_);
 
-    QByteArray mimeType = QString::fromStdString(mtx::accessors::mimetype(*event)).toUtf8();
+    QString mxcUrl;
+    QByteArray mimeType = mimeTypeHint_.trimmed().toUtf8();
+    std::optional<mtx::crypto::EncryptedFile> encryptionInfo;
+
+    if (legacyRoom) {
+        auto event = legacyRoom->eventById(eventId_);
+        if (!event) {
+            nhlog::ui()->error("Failed to load media for event {}, event not found.",
+                               eventId_.toStdString());
+            return;
+        }
+
+        mxcUrl          = QString::fromStdString(mtx::accessors::url(*event));
+        const auto mime = QString::fromStdString(mtx::accessors::mimetype(*event));
+        if (!mime.isEmpty())
+            mimeType = mime.toUtf8();
+        encryptionInfo = mtx::accessors::file(*event);
+
+        if (!mxcUrl.startsWith(QLatin1String("mxc://")))
+            return;
+    } else {
+        if (roomId.isEmpty()) {
+            nhlog::ui()->warn(
+              "Cannot load matrix-runtime animated media '{}' without a room id hint",
+              eventId_.toStdString());
+            return;
+        }
+
+        if (mimeType.isEmpty())
+            return;
+    }
 
     static const auto formats = QMovie::supportedFormats();
-    animatable_               = formats.contains(mimeType.split('/').back());
-    animatableChanged();
-
-    if (!animatable_)
-        return;
-
-    QString mxcUrl = QString::fromStdString(mtx::accessors::url(*event));
-
-    auto encryptionInfo = mtx::accessors::file(*event);
-
-    // If the message is a link to a non mxcUrl, don't download it
-    if (!mxcUrl.startsWith(QLatin1String("mxc://"))) {
-        return;
+    const bool animatable     = formats.contains(mimeType.split('/').back());
+    if (animatable_ != animatable) {
+        animatable_ = animatable;
+        emit animatableChanged();
     }
 
-    QString suffix = QMimeDatabase().mimeTypeForName(mimeType).preferredSuffix();
+    if (!animatable)
+        return;
 
-    const auto url  = mxcUrl.toStdString();
-    const auto name = QString(mxcUrl).remove(QStringLiteral("mxc://"));
-    QFileInfo filename(app_paths::cache::mediaFileForMxc(
-      UserSettings::instance()->profile(), name, suffix, room_->roomId()));
+    QString suffix = QMimeDatabase().mimeTypeForName(mimeType).preferredSuffix();
+    const auto url = mxcUrl.toStdString();
+    QFileInfo filename(
+      legacyRoom
+        ? QFileInfo(
+            app_paths::cache::mediaFileForMxc(UserSettings::instance()->profile(),
+                                              QString(mxcUrl).remove(QStringLiteral("mxc://")),
+                                              suffix,
+                                              roomId))
+        : QFileInfo(app_paths::cache::mediaFileForMxc(UserSettings::instance()->profile(),
+                                                      matrixRuntimeMediaCacheKey(roomId, eventId_),
+                                                      suffix,
+                                                      roomId)));
     if (QDir::cleanPath(filename.filePath()) != filename.filePath()) {
-        nhlog::net()->warn("mxcUrl '{}' is not safe, not downloading file", url);
+        nhlog::net()->warn("Media cache path '{}' is not safe, not downloading file",
+                           filename.filePath().toStdString());
         return;
     }
 
@@ -235,18 +286,32 @@ MxcAnimatedImage::startDownload()
         return;
     }
 
-    std::thread([handleId, mxcUrl, self, processData = std::move(processData)]() mutable {
+    std::thread([handleId,
+                 mxcUrl,
+                 eventId = eventId_,
+                 legacyRoom,
+                 self,
+                 processData = std::move(processData)]() mutable {
         QString error;
-        auto bytes = komai::MatrixBackendRuntimeService::fetchMediaContent(
-          handleId, mxcUrl, 0, 0, false, &error);
+        auto bytes = legacyRoom
+                       ? komai::MatrixBackendRuntimeService::fetchMediaContent(
+                           handleId, mxcUrl, 0, 0, false, &error)
+                       : komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
+                           handleId, eventId, 0, 0, false, &error);
 
         if (!self)
             return;
 
         if (!bytes.has_value()) {
-            nhlog::net()->warn("Failed to retrieve animated media '{}': {}",
-                               mxcUrl.toStdString(),
-                               error.toStdString());
+            if (legacyRoom) {
+                nhlog::net()->warn("Failed to retrieve animated media '{}': {}",
+                                   mxcUrl.toStdString(),
+                                   error.toStdString());
+            } else {
+                nhlog::net()->warn("Failed to retrieve active timeline animated media '{}': {}",
+                                   eventId.toStdString(),
+                                   error.toStdString());
+            }
             return;
         }
 

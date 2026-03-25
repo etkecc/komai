@@ -17,6 +17,7 @@ Item {
     required property string body
     required property string filename
     required property string eventId
+    required property string mimetype
     required property int containerHeight
 
     property double divisor: EventDelegateChooser.isReply ? 10 : 4
@@ -30,7 +31,9 @@ Item {
     width: Math.min(parent?.width ?? implicitWidth, implicitWidth)
     height: implicitHeight
 
-    readonly property var roomContext: (typeof room !== "undefined") ? room : null
+    readonly property var roomContext: (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
+        ? effectiveRoomContext
+        : ((typeof room !== "undefined" && room) ? room : null)
     readonly property string hoverOverlayText: hasCaption ? body : (filename.length > 0 ? filename : body)
 
     EventDelegateChooser.maxWidth: originalWidth
@@ -73,6 +76,7 @@ Item {
                 url: root.url
                 blurhash: root.blurhash
                 eventId: root.eventId
+                mimeType: root.mimetype
                 roomContext: root.roomContext
                 hovered: mediaHover.hovered
                 interactive: !EventDelegateChooser.isReply
@@ -81,7 +85,8 @@ Item {
                     if (!root.roomContext)
                         return;
 
-                    if (Settings.timelineMediaOpenImagesExternal) {
+                    if (Settings.timelineMediaOpenImagesExternal
+                            || root.roomContext.isActiveMatrixTimelineRoom === true) {
                         root.roomContext.openMedia(root.eventId);
                     } else {
                         TimelineManager.openMediaOverlayWithContext(root.roomContext,

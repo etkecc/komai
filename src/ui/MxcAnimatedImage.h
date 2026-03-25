@@ -17,8 +17,10 @@ class MxcAnimatedImage : public QQuickItem
 {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(TimelineModel *roomm READ room WRITE setRoom NOTIFY roomChanged REQUIRED)
+    Q_PROPERTY(QObject *roomm READ room WRITE setRoom NOTIFY roomChanged REQUIRED)
     Q_PROPERTY(QString eventId READ eventId WRITE setEventId NOTIFY eventIdChanged)
+    Q_PROPERTY(
+      QString mimeTypeHint READ mimeTypeHint WRITE setMimeTypeHint NOTIFY mimeTypeHintChanged)
     Q_PROPERTY(bool animatable READ animatable NOTIFY animatableChanged)
     Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
     Q_PROPERTY(bool play READ play WRITE setPlay NOTIFY playChanged)
@@ -38,7 +40,8 @@ public:
     bool loaded() const { return loaded_; }
     bool play() const { return play_; }
     QString eventId() const { return eventId_; }
-    TimelineModel *room() const { return room_; }
+    QString mimeTypeHint() const { return mimeTypeHint_; }
+    QObject *room() const { return room_; }
     void setEventId(QString newEventId)
     {
         if (eventId_ != newEventId) {
@@ -46,7 +49,15 @@ public:
             emit eventIdChanged();
         }
     }
-    void setRoom(TimelineModel *room)
+    void setMimeTypeHint(QString mimeTypeHint)
+    {
+        if (mimeTypeHint_ == mimeTypeHint)
+            return;
+
+        mimeTypeHint_ = std::move(mimeTypeHint);
+        emit mimeTypeHintChanged();
+    }
+    void setRoom(QObject *room)
     {
         if (room_ != room) {
             room_ = room;
@@ -74,6 +85,7 @@ public:
 signals:
     void roomChanged();
     void eventIdChanged();
+    void mimeTypeHintChanged();
     void animatableChanged();
     void loadedChanged();
     void playChanged();
@@ -89,8 +101,9 @@ private slots:
     }
 
 private:
-    TimelineModel *room_ = nullptr;
+    QObject *room_ = nullptr;
     QString eventId_;
+    QString mimeTypeHint_;
     QString filename_;
     bool animatable_ = false;
     bool loaded_     = false;

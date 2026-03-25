@@ -18,12 +18,17 @@ Item {
     required property string url
     required property string blurhash
     required property string eventId
+    property string mimeType: ""
     property var roomContext: null
-    property bool showImage: roomContext ? roomContext.showImage() : true
+    property bool showImage: roomContext && typeof roomContext.showImage === "function"
+        ? roomContext.showImage()
+        : true
     property bool hovered: false
     property bool interactive: false
     property bool revealEnabled: true
     property int cornerRadius: 8
+    readonly property bool useActiveMatrixTimelineSource: !!roomContext
+        && roomContext.isActiveMatrixTimelineRoom === true
 
     readonly property string blurhashAlphabet: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#$%*+,-.:;=?@[]^_{|}~"
     readonly property bool blurOverlayActive: !!timeline && !!timeline.windowFocusBlurOverlay && timeline.windowFocusBlurOverlay.active
@@ -148,7 +153,9 @@ Item {
             visible: !mxcimage.loaded
             anchors.fill: parent
             source: (surface.url != "" && surface.showImage)
-                ? (surface.url.replace("mxc://", "image://MxcImage/") + "?scale" + (surface.roomContext ? "&room=" + surface.roomContext.roomId : ""))
+                ? (surface.useActiveMatrixTimelineSource
+                    ? ("image://MxcImage/matrix-timeline:" + surface.eventId + "?scale")
+                    : (surface.url.replace("mxc://", "image://MxcImage/") + "?scale" + (surface.roomContext ? "&room=" + surface.roomContext.roomId : "")))
                 : ""
             asynchronous: true
             fillMode: Image.PreserveAspectFit
@@ -165,6 +172,7 @@ Item {
 
             visible: loaded
             roomm: surface.roomContext
+            mimeTypeHint: surface.mimeType
             play: !Settings.timelineMediaAnimateOnHover || surface.hovered
             eventId: surface.showImage ? surface.eventId : ""
 

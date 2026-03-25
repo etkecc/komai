@@ -41,10 +41,18 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
         return item.senderAvatarUrl;
     case Body:
         return item.body;
+    case ReplySenderDisplayName:
+        return item.replySenderDisplayName;
+    case ReplyBody:
+        return item.replyBody;
+    case ReactionsSummary:
+        return item.reactionsSummary;
     case Timestamp:
         return static_cast<qulonglong>(item.timestamp);
     case ItemKind:
         return item.itemKind;
+    case IsEdited:
+        return item.isEdited;
     case IsOwn:
         return item.isOwn;
     case MediaUrl:
@@ -82,8 +90,12 @@ MatrixTimelineModel::roleNames() const
       {SenderDisplayName, "senderDisplayName"},
       {SenderAvatarUrl, "senderAvatarUrl"},
       {Body, "body"},
+      {ReplySenderDisplayName, "replySenderDisplayName"},
+      {ReplyBody, "replyBody"},
+      {ReactionsSummary, "reactionsSummary"},
       {Timestamp, "timestamp"},
       {ItemKind, "itemKind"},
+      {IsEdited, "isEdited"},
       {IsOwn, "isOwn"},
       {MediaUrl, "mediaUrl"},
       {ThumbnailUrl, "thumbnailUrl"},

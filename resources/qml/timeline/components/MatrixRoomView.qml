@@ -142,6 +142,9 @@ ColumnLayout {
                         required property string senderAvatarUrl
                         required property string senderId
                         required property string body
+                        required property string replySenderDisplayName
+                        required property string replyBody
+                        required property string reactionsSummary
                         required property string fileName
                         required property string mimeType
                         required property string mediaUrl
@@ -152,13 +155,22 @@ ColumnLayout {
                         required property double mediaSizeBytes
                         required property bool mediaIsEncrypted
                         required property double timestamp
+                        required property bool isEdited
                         required property bool isOwn
 
                         readonly property bool isMediaItem: ["image", "video", "audio", "file", "sticker"].indexOf(itemKind) >= 0
                         readonly property string effectiveFileName: fileName.length > 0 ? fileName : (body.length > 0 ? body : qsTr("Attachment"))
                         readonly property bool showCaption: isMediaItem && body.length > 0 && body !== effectiveFileName
+                        readonly property bool hasReplyPreview: replyBody.length > 0
                         readonly property bool showVisualPreview: ["image", "video", "sticker"].indexOf(itemKind) >= 0 && itemId.length > 0
                         readonly property double safePreviewAspectRatio: mediaWidth > 0 && mediaHeight > 0 ? (mediaHeight / mediaWidth) : 0.75
+                        readonly property string footerMetaText: {
+                            const parts = [];
+                            if (isEdited)
+                                parts.push(qsTr("edited"));
+                            parts.push(Qt.formatTime(new Date(timestamp), "h:mm ap"));
+                            return parts.join(" · ");
+                        }
                         readonly property string mediaKindLabel: {
                             switch (itemKind) {
                             case "image":
@@ -271,6 +283,39 @@ ColumnLayout {
                                             anchors.margins: Komai.paddingMedium
                                             spacing: Komai.paddingSmall
                                             width: parent.width - Komai.paddingMedium * 2
+
+                                            Rectangle {
+                                                Layout.fillWidth: true
+                                                color: Qt.rgba(palette.base.r, palette.base.g, palette.base.b, isOwn ? 0.22 : 0.5)
+                                                implicitHeight: replyPreviewLayout.implicitHeight + Komai.paddingSmall * 2
+                                                radius: Komai.paddingMedium
+                                                visible: hasReplyPreview
+
+                                                ColumnLayout {
+                                                    id: replyPreviewLayout
+
+                                                    anchors.fill: parent
+                                                    anchors.margins: Komai.paddingSmall
+                                                    spacing: Math.max(2, Math.round(Komai.paddingSmall / 2))
+
+                                                    MatrixText {
+                                                        Layout.fillWidth: true
+                                                        color: isOwn ? palette.highlightedText : palette.text
+                                                        font.bold: true
+                                                        text: replySenderDisplayName.length > 0 ? replySenderDisplayName : qsTr("Reply")
+                                                        textFormat: TextEdit.PlainText
+                                                        wrapMode: Text.WordWrap
+                                                    }
+
+                                                    MatrixText {
+                                                        Layout.fillWidth: true
+                                                        color: isOwn ? palette.highlightedText : palette.buttonText
+                                                        text: replyBody
+                                                        textFormat: TextEdit.PlainText
+                                                        wrapMode: Text.WordWrap
+                                                    }
+                                                }
+                                            }
 
                                             MatrixText {
                                                 id: bubbleBody
@@ -390,10 +435,28 @@ ColumnLayout {
                                         }
                                     }
 
+                                    Rectangle {
+                                        Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
+                                        color: Qt.rgba(palette.base.r, palette.base.g, palette.base.b, isOwn ? 0.18 : 0.5)
+                                        implicitHeight: reactionsLabel.implicitHeight + Komai.paddingSmall * 2
+                                        implicitWidth: reactionsLabel.implicitWidth + Komai.paddingMedium * 2
+                                        radius: implicitHeight / 2
+                                        visible: reactionsSummary.length > 0
+
+                                        MatrixText {
+                                            id: reactionsLabel
+
+                                            anchors.centerIn: parent
+                                            color: isOwn ? palette.highlightedText : palette.text
+                                            text: reactionsSummary
+                                            textFormat: TextEdit.PlainText
+                                        }
+                                    }
+
                                     MatrixText {
                                         Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
                                         color: palette.buttonText
-                                        text: Qt.formatTime(new Date(timestamp), "h:mm ap")
+                                        text: footerMetaText
                                         textFormat: TextEdit.PlainText
                                     }
                                 }

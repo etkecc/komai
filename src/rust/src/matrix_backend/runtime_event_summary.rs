@@ -18,13 +18,18 @@ use matrix_sdk::{
     },
 };
 use matrix_sdk_ui::timeline::{
-    AnyOtherFullStateEventContent, MemberProfileChange, MembershipChange, MsgLikeKind, OtherState,
-    RoomMembershipChange, TimelineItemContent,
+    AnyOtherFullStateEventContent, InReplyToDetails, MemberProfileChange, MembershipChange,
+    MsgLikeContent, MsgLikeKind, OtherState, ReactionsByKeyBySender, RoomMembershipChange,
+    TimelineDetails, TimelineItemContent,
 };
 
 pub struct MatrixEventSummary {
     pub kind: String,
     pub body: String,
+    pub reply_sender_display_name: String,
+    pub reply_body: String,
+    pub reactions_summary: String,
+    pub is_edited: bool,
     pub media: Option<MatrixEventMediaSummary>,
 }
 
@@ -46,16 +51,7 @@ pub struct MatrixEventMediaSummary {
 
 pub fn summarize_timeline_content(content: &TimelineItemContent) -> MatrixEventSummary {
     match content {
-        TimelineItemContent::MsgLike(content) => match &content.kind {
-            MsgLikeKind::Message(message) => summary_from_message_type(message.msgtype()),
-            MsgLikeKind::Sticker(sticker) => summarize_sticker(sticker.content()),
-            MsgLikeKind::Poll(_) => summary("poll", "[Poll]"),
-            MsgLikeKind::Redacted => summary("redacted", "[Redacted message]"),
-            MsgLikeKind::UnableToDecrypt(_) => {
-                summary("unable_to_decrypt", "[Unable to decrypt message]")
-            }
-            MsgLikeKind::Other(_) => summary("other_message", "[Unsupported message event]"),
-        },
+        TimelineItemContent::MsgLike(content) => summarize_msg_like_content(content),
         TimelineItemContent::MembershipChange(change) => summarize_membership_change(change),
         TimelineItemContent::ProfileChange(change) => summarize_profile_change(change),
         TimelineItemContent::OtherState(state) => summarize_other_state(state),
@@ -69,6 +65,33 @@ pub fn summarize_timeline_content(content: &TimelineItemContent) -> MatrixEventS
         TimelineItemContent::RtcNotification => {
             summary("rtc_notification", "[RTC notification]")
         }
+    }
+}
+
+fn summarize_msg_like_content(content: &MsgLikeContent) -> MatrixEventSummary {
+    let mut summary = summarize_msg_like_kind(&content.kind);
+
+    if let Some((reply_sender_display_name, reply_body)) =
+        summarize_reply_preview(content.in_reply_to.as_ref())
+    {
+        summary.reply_sender_display_name = reply_sender_display_name;
+        summary.reply_body = reply_body;
+    }
+
+    summary.reactions_summary = summarize_reactions(&content.reactions);
+    summary.is_edited = matches!(&content.kind, MsgLikeKind::Message(message) if message.is_edited());
+
+    summary
+}
+
+fn summarize_msg_like_kind(kind: &MsgLikeKind) -> MatrixEventSummary {
+    match kind {
+        MsgLikeKind::Message(message) => summary_from_message_type(message.msgtype()),
+        MsgLikeKind::Sticker(sticker) => summarize_sticker(sticker.content()),
+        MsgLikeKind::Poll(_) => summary("poll", "[Poll]"),
+        MsgLikeKind::Redacted => summary("redacted", "[Redacted message]"),
+        MsgLikeKind::UnableToDecrypt(_) => summary("unable_to_decrypt", "[Unable to decrypt message]"),
+        MsgLikeKind::Other(_) => summary("other_message", "[Unsupported message event]"),
     }
 }
 
@@ -268,7 +291,15 @@ fn human_name(display_name: Option<&str>, user_id: &str) -> String {
 }
 
 fn summary(kind: &str, body: &str) -> MatrixEventSummary {
-    MatrixEventSummary { kind: kind.to_owned(), body: body.to_owned(), media: None }
+    MatrixEventSummary {
+        kind: kind.to_owned(),
+        body: body.to_owned(),
+        reply_sender_display_name: String::new(),
+        reply_body: String::new(),
+        reactions_summary: String::new(),
+        is_edited: false,
+        media: None,
+    }
 }
 
 fn summary_with_media(
@@ -276,7 +307,61 @@ fn summary_with_media(
     body: &str,
     media: MatrixEventMediaSummary,
 ) -> MatrixEventSummary {
-    MatrixEventSummary { kind: kind.to_owned(), body: body.to_owned(), media: Some(media) }
+    MatrixEventSummary {
+        kind: kind.to_owned(),
+        body: body.to_owned(),
+        reply_sender_display_name: String::new(),
+        reply_body: String::new(),
+        reactions_summary: String::new(),
+        is_edited: false,
+        media: Some(media),
+    }
+}
+
+fn summarize_reply_preview(details: Option<&InReplyToDetails>) -> Option<(String, String)> {
+    let details = details?;
+
+    match &details.event {
+        TimelineDetails::Ready(event) => {
+            let sender_display_name = match &event.sender_profile {
+                TimelineDetails::Ready(profile) => {
+                    human_name(profile.display_name.as_deref(), event.sender.as_str())
+                }
+                _ => human_name(None, event.sender.as_str()),
+            };
+            let reply_summary = summarize_embedded_content(&event.content);
+            Some((sender_display_name, reply_summary.body))
+        }
+        TimelineDetails::Unavailable | TimelineDetails::Pending | TimelineDetails::Error(_) => {
+            Some((String::new(), "[Original message unavailable]".to_owned()))
+        }
+    }
+}
+
+fn summarize_embedded_content(content: &TimelineItemContent) -> MatrixEventSummary {
+    match content {
+        TimelineItemContent::MsgLike(content) => summarize_msg_like_kind(&content.kind),
+        TimelineItemContent::MembershipChange(change) => summarize_membership_change(change),
+        TimelineItemContent::ProfileChange(change) => summarize_profile_change(change),
+        TimelineItemContent::OtherState(state) => summarize_other_state(state),
+        TimelineItemContent::FailedToParseMessageLike { .. } => {
+            summary("failed_to_parse_message_like", "[Unreadable message event]")
+        }
+        TimelineItemContent::FailedToParseState { .. } => {
+            summary("failed_to_parse_state", "[Unreadable state event]")
+        }
+        TimelineItemContent::CallInvite => summary("call_invite", "[Call invite]"),
+        TimelineItemContent::RtcNotification => summary("rtc_notification", "[RTC notification]"),
+    }
+}
+
+fn summarize_reactions(reactions: &ReactionsByKeyBySender) -> String {
+    reactions
+        .iter()
+        .take(6)
+        .map(|(key, senders)| format!("{key} {}", senders.len()))
+        .collect::<Vec<_>>()
+        .join("  ")
 }
 
 fn summarize_sticker(

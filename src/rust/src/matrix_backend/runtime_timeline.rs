@@ -516,7 +516,11 @@ fn timeline_item_to_summary(
         };
         let summary = summarize_timeline_content(event.content());
         let body = summary.body;
+        let reply_sender_display_name = summary.reply_sender_display_name;
+        let reply_body = summary.reply_body;
+        let reactions_summary = summary.reactions_summary;
         let item_kind = summary.kind;
+        let is_edited = summary.is_edited;
         let media = summary.media;
         let media_request = media.as_ref().and_then(|media| {
             media.source.clone().map(|source| MatrixTimelineMediaRequest {
@@ -533,7 +537,11 @@ fn timeline_item_to_summary(
                 sender_display_name,
                 sender_avatar_url,
                 body,
+                reply_sender_display_name,
+                reply_body,
+                reactions_summary,
                 item_kind,
+                is_edited,
                 media_url: media
                     .as_ref()
                     .map(|media| media.media_url.clone())
@@ -587,7 +595,11 @@ fn timeline_item_to_summary(
                 sender_display_name: String::new(),
                 sender_avatar_url: String::new(),
                 body: String::new(),
+                reply_sender_display_name: String::new(),
+                reply_body: String::new(),
+                reactions_summary: String::new(),
                 item_kind: "date_divider".to_owned(),
+                is_edited: false,
                 media_url: String::new(),
                 thumbnail_url: String::new(),
                 file_name: String::new(),

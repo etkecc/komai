@@ -83,7 +83,11 @@ struct MatrixTimelineItem
     QString senderDisplayName;
     QString senderAvatarUrl;
     QString body;
+    QString replySenderDisplayName;
+    QString replyBody;
+    QString reactionsSummary;
     QString itemKind;
+    bool isEdited = false;
     QString mediaUrl;
     QString thumbnailUrl;
     QString fileName;

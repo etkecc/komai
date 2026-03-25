@@ -411,7 +411,7 @@ ColumnLayout {
                         readonly property string replySourceBody: body.length > 0 ? body : effectiveFileName
                         readonly property double safePreviewAspectRatio: mediaWidth > 0 && mediaHeight > 0 ? (mediaHeight / mediaWidth) : 0.75
                         readonly property bool isStateLikeItem: ["membership_change", "profile_change", "other_state", "failed_to_parse_state"].indexOf(itemKind) >= 0
-                        readonly property bool usesSharedTextBubble: ["message", "notice", "emote"].indexOf(itemKind) >= 0
+                        readonly property bool usesSharedTextBubble: ["message", "notice", "emote", "poll", "call_invite", "rtc_notification", "other_message", "failed_to_parse_message_like"].indexOf(itemKind) >= 0
                         readonly property bool usesSharedImageBubble: itemKind === "image"
                         readonly property bool usesSharedStickerBubble: itemKind === "sticker"
                         readonly property bool usesSharedVideoBubble: itemKind === "video"

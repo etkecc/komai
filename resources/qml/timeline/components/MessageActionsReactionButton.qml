@@ -56,7 +56,8 @@ AbstractButton {
             return;
         roomModel.input.reaction(messageModel.eventId, normalizedReaction);
         TimelineManager.focusMessageInput();
-        messageActionsControl.dismiss();
+        if (messageActionsControl && typeof messageActionsControl.dismiss === "function")
+            messageActionsControl.dismiss();
     }
 
     Label {

@@ -15,11 +15,33 @@ ColumnLayout {
 
     required property var roomPreview
     required property bool showBackButton
+    property var chatRoot: null
+    property var emojiPopup: null
+    property var filteredTimeline: null
 
     readonly property bool hasTimeline: TimelineManager.matrixTimelineItemCount > 0
     readonly property bool loading: TimelineManager.matrixTimelineLoading
     readonly property var composerShell: composerContainer
     property int lastPaginationTriggerCount: -1
+
+    function matrixEventTypeForItemKind(kind) {
+        switch (kind) {
+        case "notice":
+            return MtxEvent.NoticeMessage;
+        case "image":
+            return MtxEvent.ImageMessage;
+        case "video":
+            return MtxEvent.VideoMessage;
+        case "audio":
+            return MtxEvent.AudioMessage;
+        case "file":
+            return MtxEvent.FileMessage;
+        case "sticker":
+            return MtxEvent.Sticker;
+        default:
+            return MtxEvent.TextMessage;
+        }
+    }
 
     function focusTextInput() {
         composerInput.forceActiveFocus();
@@ -109,6 +131,8 @@ ColumnLayout {
                     }
 
                     delegate: Item {
+                        id: timelineItemDelegate
+
                         function formatBytes(bytes) {
                             const value = Number(bytes);
                             if (!isFinite(value) || value <= 0)
@@ -165,12 +189,10 @@ ColumnLayout {
                         readonly property bool hasReplyPreview: replyBody.length > 0
                         readonly property bool showVisualPreview: ["image", "video", "sticker"].indexOf(itemKind) >= 0 && itemId.length > 0
                         readonly property string replySourceBody: body.length > 0 ? body : effectiveFileName
-                        readonly property var quickReactions: Settings.timelineMessageActionsPinnedReactions.split(",").map(function (s) {
-                            return s.trim();
-                        }).filter(function (s) {
-                            return s.length > 0;
-                        }).slice(0, 4)
                         readonly property double safePreviewAspectRatio: mediaWidth > 0 && mediaHeight > 0 ? (mediaHeight / mediaWidth) : 0.75
+                        readonly property bool isStateLikeItem: ["membership_change", "profile_change", "other_state", "failed_to_parse_state"].indexOf(itemKind) >= 0
+                        readonly property bool supportsSharedToolbarActions: eventId.length > 0 && itemKind !== "date_divider" && !isStateLikeItem
+                        readonly property int matrixEventType: root.matrixEventTypeForItemKind(itemKind)
                         readonly property string footerMetaText: {
                             const parts = [];
                             if (isEdited)
@@ -211,6 +233,89 @@ ColumnLayout {
 
                         width: ListView.view.width
                         height: itemKind === "date_divider" ? dateDivider.implicitHeight : messageRow.implicitHeight
+
+                        QtObject {
+                            id: matrixToolbarNoopControl
+
+                            function dismiss() {
+                            }
+                        }
+
+                        QtObject {
+                            id: matrixToolbarPermissions
+
+                            function canSend(eventType) {
+                                return supportsSharedToolbarActions
+                                    && (eventType === MtxEvent.TextMessage || eventType === MtxEvent.Reaction);
+                            }
+
+                            function canRedact() {
+                                return false;
+                            }
+                        }
+
+                        QtObject {
+                            id: matrixToolbarInput
+
+                            function reaction(targetEventId, reactionKey) {
+                                TimelineManager.toggleActiveMatrixTimelineReaction(
+                                    String(targetEventId || timelineItemDelegate.eventId || ""),
+                                    String(reactionKey || ""));
+                            }
+                        }
+
+                        QtObject {
+                            id: matrixToolbarRoomModel
+
+                            property string roomId: root.roomPreview ? root.roomPreview.roomid : ""
+                            property var permissions: matrixToolbarPermissions
+                            property var input: matrixToolbarInput
+                            property var frequentReactions: []
+                            property string reply: ""
+                            property string edit: ""
+                            property string thread: ""
+
+                            onReplyChanged: {
+                                if (!reply)
+                                    return;
+
+                                TimelineManager.queueActiveMatrixReply(
+                                    reply,
+                                    timelineItemDelegate.senderDisplayName,
+                                    timelineItemDelegate.replySourceBody);
+                                reply = "";
+                            }
+                            onEditChanged: {
+                                if (edit)
+                                    edit = "";
+                            }
+                            onThreadChanged: {
+                                if (thread)
+                                    thread = "";
+                            }
+                        }
+
+                        QtObject {
+                            id: matrixToolbarMessageModel
+
+                            readonly property string eventId: timelineItemDelegate.eventId
+                            readonly property string threadId: ""
+                            readonly property int type: timelineItemDelegate.matrixEventType
+                            readonly property bool isSender: timelineItemDelegate.isOwn
+                            readonly property bool isEncrypted: timelineItemDelegate.mediaIsEncrypted || timelineItemDelegate.thumbnailIsEncrypted || timelineItemDelegate.itemKind === "unable_to_decrypt"
+                            readonly property bool isEditable: false
+                            readonly property bool isStateEvent: timelineItemDelegate.isStateLikeItem
+                            readonly property string body: timelineItemDelegate.body
+                            readonly property bool supportsReaction: timelineItemDelegate.supportsSharedToolbarActions
+                            readonly property bool supportsReply: timelineItemDelegate.supportsSharedToolbarActions
+                            readonly property bool supportsThread: false
+                            readonly property bool supportsForward: false
+                            readonly property bool supportsGoToMessage: false
+                            readonly property bool supportsOptions: false
+                            readonly property bool supportsEdit: false
+                            readonly property bool supportsRemove: false
+                            readonly property bool supportsViewRaw: false
+                        }
 
                         Rectangle {
                             id: dateDivider
@@ -467,61 +572,34 @@ ColumnLayout {
                                         textFormat: TextEdit.PlainText
                                     }
 
-                                    Flow {
+                                    Item {
                                         Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                                        Layout.fillWidth: true
-                                        spacing: Komai.paddingSmall
-                                        visible: eventId.length > 0
+                                        implicitHeight: visible ? actionToolbarBackground.implicitHeight : 0
+                                        implicitWidth: visible ? actionToolbarBackground.implicitWidth : 0
+                                        visible: supportsSharedToolbarActions
 
-                                        Repeater {
-                                            model: quickReactions
+                                        TimelineFloatingActionBarBackground {
+                                            id: actionToolbarBackground
 
-                                            delegate: Rectangle {
-                                                required property var modelData
+                                            anchors.left: isOwn ? undefined : parent.left
+                                            anchors.right: isOwn ? parent.right : undefined
+                                            barColor: palette.alternateBase
+                                            barBorderColor: Komai.theme.separator
+                                            barBorderWidth: 1
+                                            barRadius: Komai.paddingSmall
+                                            implicitHeight: actionToolbar.implicitHeight + Komai.paddingSmall * 2
+                                            implicitWidth: actionToolbar.implicitWidth + Komai.paddingSmall * 2
 
-                                                color: Qt.rgba(palette.base.r, palette.base.g, palette.base.b, isOwn ? 0.2 : 0.45)
-                                                implicitHeight: reactionLabel.implicitHeight + Komai.paddingSmall * 2
-                                                implicitWidth: reactionLabel.implicitWidth + Komai.paddingMedium * 2
-                                                radius: implicitHeight / 2
-
-                                                MatrixText {
-                                                    id: reactionLabel
-
-                                                    anchors.centerIn: parent
-                                                    color: isOwn ? palette.highlightedText : palette.text
-                                                    text: modelData
-                                                    textFormat: TextEdit.PlainText
-                                                }
-
-                                                MouseArea {
-                                                    anchors.fill: parent
-                                                    cursorShape: Qt.PointingHandCursor
-
-                                                    onClicked: TimelineManager.toggleActiveMatrixTimelineReaction(eventId, modelData)
-                                                }
-                                            }
-                                        }
-
-                                        Rectangle {
-                                            color: Qt.rgba(palette.base.r, palette.base.g, palette.base.b, isOwn ? 0.2 : 0.45)
-                                            implicitHeight: replyActionLabel.implicitHeight + Komai.paddingSmall * 2
-                                            implicitWidth: replyActionLabel.implicitWidth + Komai.paddingMedium * 2
-                                            radius: implicitHeight / 2
-
-                                            MatrixText {
-                                                id: replyActionLabel
+                                            MessageActionsToolbar {
+                                                id: actionToolbar
 
                                                 anchors.centerIn: parent
-                                                color: isOwn ? palette.highlightedText : palette.text
-                                                text: qsTr("Reply")
-                                                textFormat: TextEdit.PlainText
-                                            }
-
-                                            MouseArea {
-                                                anchors.fill: parent
-                                                cursorShape: Qt.PointingHandCursor
-
-                                                onClicked: TimelineManager.queueActiveMatrixReply(eventId, senderDisplayName, replySourceBody)
+                                                chatRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
+                                                emojiPopup: root.emojiPopup
+                                                filteredTimeline: root.filteredTimeline
+                                                messageActionsControl: matrixToolbarNoopControl
+                                                messageModel: matrixToolbarMessageModel
+                                                roomModel: matrixToolbarRoomModel
                                             }
                                         }
                                     }

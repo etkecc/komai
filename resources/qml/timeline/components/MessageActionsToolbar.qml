@@ -28,28 +28,31 @@ Item {
     readonly property bool isStateEvent: !!messageModel && messageModel.isStateEvent
     readonly property bool canReact: messageActionSupport.canReact(messageModel, roomModel)
     readonly property bool canSendText: messageActionSupport.canSendText(messageModel, roomModel)
+    readonly property bool canReply: messageActionSupport.canReply(messageModel, roomModel)
+    readonly property bool canThread: messageActionSupport.canThread(messageModel, roomModel)
     readonly property bool canEdit: messageActionSupport.canEdit(messageModel, roomModel)
     readonly property bool canForward: messageActionSupport.canForward(messageModel)
     readonly property bool canGoToMessage: messageActionSupport.canGoToMessage(messageModel, filteredTimeline)
+    readonly property bool canOpenOptions: messageActionSupport.canOpenOptions(messageModel)
     readonly property real requiredLabeledWidth: reactionButtonsWidth
         + (canReact ? iconOnlyButtonWidth() : 0)
         + (canReact ? separatorSlotWidth : 0)
         + (canEdit ? labeledButtonWidth(editLabelMetrics.advanceWidth) : 0)
-        + (canSendText ? labeledButtonWidth(threadLabelMetrics.advanceWidth) : 0)
-        + (canSendText ? labeledButtonWidth(replyLabelMetrics.advanceWidth) : 0)
+        + (canThread ? labeledButtonWidth(threadLabelMetrics.advanceWidth) : 0)
+        + (canReply ? labeledButtonWidth(replyLabelMetrics.advanceWidth) : 0)
         + (canForward ? labeledButtonWidth(forwardLabelMetrics.advanceWidth) : 0)
         + (canGoToMessage ? labeledButtonWidth(goToLabelMetrics.advanceWidth) : 0)
-        + iconOnlyButtonWidth()
+        + (canOpenOptions ? iconOnlyButtonWidth() : 0)
     // Minimum width needed to fit everything on a single row (icon-only, no labels).
     readonly property real requiredSingleRowWidth: reactionButtonsWidth
         + (canReact ? iconOnlyButtonWidth() : 0)
         + (canReact ? separatorSlotWidth : 0)
         + (canEdit ? iconOnlyButtonWidth() : 0)
-        + (canSendText ? iconOnlyButtonWidth() : 0)
-        + (canSendText ? iconOnlyButtonWidth() : 0)
+        + (canThread ? iconOnlyButtonWidth() : 0)
+        + (canReply ? iconOnlyButtonWidth() : 0)
         + (canForward ? iconOnlyButtonWidth() : 0)
         + (canGoToMessage ? iconOnlyButtonWidth() : 0)
-        + iconOnlyButtonWidth()
+        + (canOpenOptions ? iconOnlyButtonWidth() : 0)
     readonly property bool twoRowMode: actionHostWidth > 0 && actionHostWidth < requiredSingleRowWidth
     readonly property bool showActionLabels: !twoRowMode
         && actionHostWidth >= labelBreakpointWidth
@@ -71,6 +74,11 @@ Item {
 
     function threadActionLabel() {
         return (toolbar.messageModel && toolbar.messageModel.threadId) ? qsTr("Reply in thread") : qsTr("New thread");
+    }
+
+    function dismissActionBar() {
+        if (toolbar.messageActionsControl && typeof toolbar.messageActionsControl.dismiss === "function")
+            toolbar.messageActionsControl.dismiss();
     }
 
     function addVisibleButton(buttons, button) {
@@ -317,11 +325,16 @@ Item {
             labelText: ""
             toolTipText: qsTr("React")
 
-            onClicked: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(reactButton, roomModel.roomId, function (plaintext, markdown) {
+            onClicked: {
+                if (!emojiPopup)
+                    return;
+
+                emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(reactButton, roomModel.roomId, function (plaintext, markdown) {
                     var eventId = toolbar.messageModel ? toolbar.messageModel.eventId : "";
                     roomModel.input.reaction(eventId, plaintext);
                     TimelineManager.focusMessageInput();
-                })
+                });
+            }
         }
     }
 
@@ -366,7 +379,7 @@ Item {
 
             onClicked: {
                 if (messageActionSupport.applyEdit(roomModel, toolbar.messageModel))
-                    toolbar.messageActionsControl.dismiss();
+                    toolbar.dismissActionBar();
             }
         }
 
@@ -377,11 +390,11 @@ Item {
             image: ":/icons/icons/ui/thread.svg"
             labelText: toolbar.showActionLabels ? toolbar.threadActionLabel() : ""
             toolTipText: toolbar.threadActionLabel()
-            visible: toolbar.canSendText
+            visible: toolbar.canThread
 
             onClicked: {
                 if (messageActionSupport.applyThread(roomModel, toolbar.messageModel))
-                    toolbar.messageActionsControl.dismiss();
+                    toolbar.dismissActionBar();
             }
         }
 
@@ -392,11 +405,11 @@ Item {
             image: ":/icons/icons/ui/reply.svg"
             labelText: toolbar.showActionLabels ? qsTr("Reply") : ""
             toolTipText: qsTr("Reply")
-            visible: toolbar.canSendText
+            visible: toolbar.canReply
 
             onClicked: {
                 if (messageActionSupport.applyReply(roomModel, toolbar.messageModel))
-                    toolbar.messageActionsControl.dismiss();
+                    toolbar.dismissActionBar();
             }
         }
 
@@ -412,7 +425,7 @@ Item {
 
             onClicked: {
                 if (messageActionSupport.applyForward(toolbar.chatRoot, toolbar.messageModel))
-                    toolbar.messageActionsControl.dismiss();
+                    toolbar.dismissActionBar();
             }
         }
 
@@ -427,7 +440,7 @@ Item {
 
             onClicked: {
                 if (messageActionSupport.applyGoToMessage(toolbar.chatRoot, roomModel, toolbar.filteredTimeline, toolbar.messageModel))
-                    toolbar.messageActionsControl.dismiss();
+                    toolbar.dismissActionBar();
             }
         }
 
@@ -438,10 +451,11 @@ Item {
             image: ":/icons/icons/ui/options-circle.svg"
             labelText: ""
             toolTipText: qsTr("Options")
+            visible: toolbar.canOpenOptions
 
             onClicked: {
                 if (messageActionSupport.openOptionsDialog(toolbar.chatRoot, toolbar.messageModel))
-                    toolbar.messageActionsControl.dismiss();
+                    toolbar.dismissActionBar();
             }
         }
     }

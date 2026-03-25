@@ -6,6 +6,14 @@ import QtQuick
 import cc.etke.komai
 
 QtObject {
+    function actionCapability(messageModel, propertyName, fallbackValue) {
+        if (!messageModel)
+            return fallbackValue;
+
+        const value = messageModel[propertyName];
+        return value === undefined || value === null ? fallbackValue : !!value;
+    }
+
     function isForwardableType(eventType) {
         return eventType == MtxEvent.ImageMessage
             || eventType == MtxEvent.VideoMessage
@@ -21,6 +29,7 @@ QtObject {
     function canSendText(messageModel, roomModel) {
         return !!messageModel
             && !messageModel.isStateEvent
+            && actionCapability(messageModel, "supportsSendText", true)
             && !!roomModel
             && roomModel.permissions
             && roomModel.permissions.canSend(MtxEvent.TextMessage);
@@ -29,6 +38,7 @@ QtObject {
     function canReact(messageModel, roomModel) {
         return !!messageModel
             && !messageModel.isStateEvent
+            && actionCapability(messageModel, "supportsReaction", true)
             && !!roomModel
             && roomModel.permissions
             && roomModel.permissions.canSend(MtxEvent.Reaction);
@@ -37,41 +47,56 @@ QtObject {
     function canEdit(messageModel, roomModel) {
         return !!messageModel
             && !!messageModel.isEditable
+            && actionCapability(messageModel, "supportsEdit", true)
             && canSendText(messageModel, roomModel);
     }
 
     function canReply(messageModel, roomModel) {
-        return canSendText(messageModel, roomModel);
+        return actionCapability(messageModel, "supportsReply", true)
+            && canSendText(messageModel, roomModel);
     }
 
     function canThread(messageModel, roomModel) {
-        return canSendText(messageModel, roomModel);
+        return actionCapability(messageModel, "supportsThread", true)
+            && canSendText(messageModel, roomModel);
     }
 
     function canForward(messageModel) {
-        return !!messageModel && isForwardableType(messageModel.type);
+        return !!messageModel
+            && actionCapability(messageModel, "supportsForward", true)
+            && isForwardableType(messageModel.type);
     }
 
     function canGoToMessage(messageModel, filteredTimeline) {
         return !!messageModel
             && !!messageModel.eventId
+            && actionCapability(messageModel, "supportsGoToMessage", true)
             && !!filteredTimeline
             && !!filteredTimeline.filterByContent;
     }
 
+    function canOpenOptions(messageModel) {
+        return !!messageModel
+            && !!messageModel.eventId
+            && actionCapability(messageModel, "supportsOptions", true);
+    }
+
     function canRemove(messageModel, roomModel) {
         return !!messageModel
+            && actionCapability(messageModel, "supportsRemove", true)
             && !!roomModel
             && roomModel.permissions
             && (roomModel.permissions.canRedact() || messageModel.isSender);
     }
 
     function canViewRaw(messageModel) {
-        return !!messageModel && !!messageModel.eventId;
+        return !!messageModel
+            && !!messageModel.eventId
+            && actionCapability(messageModel, "supportsViewRaw", true);
     }
 
     function openOptionsDialog(chatRoot, messageModel) {
-        if (!chatRoot || !messageModel || !messageModel.eventId)
+        if (!chatRoot || !canOpenOptions(messageModel))
             return false;
 
         chatRoot.openMessageActionsDialog(

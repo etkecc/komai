@@ -253,6 +253,9 @@ Item {
 
         roomPreview: timelineView.useMatrixRoomView ? timelineView.roomPreview : null
         showBackButton: timelineView.showBackButton
+        chatRoot: messageView
+        emojiPopup: timelineEmojiPopup
+        filteredTimeline: null
     }
     Connections {
         function onComposerInteractionRequested() {

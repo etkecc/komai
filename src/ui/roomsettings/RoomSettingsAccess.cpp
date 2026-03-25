@@ -10,154 +10,77 @@
 #include <set>
 #include <string_view>
 
-#include <mtx/events/event_type.hpp>
-#include <mtx/responses/common.hpp>
-
-#include "cache/Cache.h"
-#include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
-#include "utils/Utils.h"
-
-using namespace mtx::events;
-
 namespace {
-QString
-joinRuleKey(mtx::events::state::JoinRule joinRule)
-{
-    using mtx::events::state::JoinRule;
-
-    switch (joinRule) {
-    case JoinRule::Public:
-        return QStringLiteral("public");
-    case JoinRule::Knock:
-        return QStringLiteral("knock");
-    case JoinRule::Restricted:
-        return QStringLiteral("restricted");
-    case JoinRule::KnockRestricted:
-        return QStringLiteral("knock_restricted");
-    case JoinRule::Private:
-        return QStringLiteral("private");
-    case JoinRule::Invite:
-    default:
-        return QStringLiteral("invite");
-    }
-}
-
-QString
-historyVisibilityKey(mtx::events::state::Visibility visibility)
-{
-    using mtx::events::state::Visibility;
-
-    switch (visibility) {
-    case Visibility::WorldReadable:
-        return QStringLiteral("world_readable");
-    case Visibility::Invited:
-        return QStringLiteral("invited");
-    case Visibility::Joined:
-        return QStringLiteral("joined");
-    case Visibility::Shared:
-    default:
-        return QStringLiteral("shared");
-    }
-}
+constexpr auto WorldReadableKey = "world_readable";
+constexpr auto SharedKey        = "shared";
+constexpr auto InvitedKey       = "invited";
+constexpr auto JoinedKey        = "joined";
 } // namespace
 
 RoomSettings::Visibility
 RoomSettings::historyVisibility() const
 {
-    switch (this->historyVisibility_) {
-    case mtx::events::state::Visibility::WorldReadable:
+    if (historyVisibilityKey_ == QLatin1String(WorldReadableKey))
         return WorldReadable;
-    case mtx::events::state::Visibility::Joined:
+    if (historyVisibilityKey_ == QLatin1String(JoinedKey))
         return Joined;
-    case mtx::events::state::Visibility::Invited:
+    if (historyVisibilityKey_ == QLatin1String(InvitedKey))
         return Invited;
-    case mtx::events::state::Visibility::Shared:
-        return Shared;
-    }
     return Shared;
 }
 
 bool
 RoomSettings::privateAccess() const
 {
-    return accessRules_.join_rule != mtx::events::state::JoinRule::Public;
+    return joinRule_ != QLatin1String("public");
 }
 
 bool
 RoomSettings::guestAccess() const
 {
-    return guestRules_ == mtx::events::state::AccessState::CanJoin;
+    return guestAccess_;
 }
 
 bool
 RoomSettings::knockingEnabled() const
 {
-    return accessRules_.join_rule == mtx::events::state::JoinRule::Knock ||
-           accessRules_.join_rule == mtx::events::state::JoinRule::KnockRestricted;
+    return joinRule_ == QLatin1String("knock") || joinRule_ == QLatin1String("knock_restricted");
 }
 
 bool
 RoomSettings::restrictedEnabled() const
 {
-    return accessRules_.join_rule == mtx::events::state::JoinRule::Restricted ||
-           accessRules_.join_rule == mtx::events::state::JoinRule::KnockRestricted;
+    return joinRule_ == QLatin1String("restricted") ||
+           joinRule_ == QLatin1String("knock_restricted");
 }
 
 QStringList
 RoomSettings::allowedRooms() const
 {
+    assert(allowedRoomIds_.size() < std::numeric_limits<int>::max());
     QStringList rooms;
-    assert(accessRules_.allow.size() < std::numeric_limits<int>::max());
-    rooms.reserve(static_cast<int>(accessRules_.allow.size()));
-    for (const auto &e : accessRules_.allow) {
-        if (e.type == mtx::events::state::JoinAllowanceType::RoomMembership)
-            rooms.push_back(QString::fromStdString(e.room_id));
-    }
+    rooms.reserve(static_cast<int>(allowedRoomIds_.size()));
+    for (const auto &roomId : allowedRoomIds_)
+        rooms.push_back(roomId);
     return rooms;
 }
 
 void
 RoomSettings::setAllowedRooms(QStringList rooms)
 {
-    accessRules_.allow.clear();
-    for (const auto &e : rooms) {
-        accessRules_.allow.push_back(
-          {mtx::events::state::JoinAllowanceType::RoomMembership, e.toStdString()});
-    }
+    allowedRoomIds_ = QVector<QString>(rooms.begin(), rooms.end());
 }
 
 bool
 RoomSettings::canChangeJoinRules() const
 {
-    if (matrixRoomSettings_)
-        return matrixRoomSettings_->canChangeJoinRules;
-
-    try {
-        return cache::hasEnoughPowerLevel(
-          {EventType::RoomJoinRules}, roomid_.toStdString(), utils::localUser().toStdString());
-    } catch (const std::exception &e) {
-        nhlog::db()->warn("database error: {}", e.what());
-    }
-
-    return false;
+    return matrixRoomSettings_ && matrixRoomSettings_->canChangeJoinRules;
 }
 
 bool
 RoomSettings::canChangeHistoryVisibility() const
 {
-    if (matrixRoomSettings_)
-        return matrixRoomSettings_->canChangeHistoryVisibility;
-
-    try {
-        return cache::hasEnoughPowerLevel({EventType::RoomHistoryVisibility},
-                                          roomid_.toStdString(),
-                                          utils::localUser().toStdString());
-    } catch (const std::exception &e) {
-        nhlog::db()->warn("database error: {}", e.what());
-    }
-
-    return false;
+    return matrixRoomSettings_ && matrixRoomSettings_->canChangeHistoryVisibility;
 }
 
 bool
@@ -215,179 +138,86 @@ RoomSettings::changeAccessRules(bool private_,
                                 bool knockingAllowed,
                                 bool restrictedAllowed)
 {
-    using namespace mtx::events::state;
+    QString joinRule = QStringLiteral("invite");
+    if (!private_) {
+        joinRule = QStringLiteral("public");
+    } else if (knockingAllowed && restrictedAllowed && supportsKnockRestricted()) {
+        joinRule = QStringLiteral("knock_restricted");
+    } else if (knockingAllowed && supportsKnocking()) {
+        joinRule = QStringLiteral("knock");
+    } else if (restrictedAllowed && supportsRestricted()) {
+        joinRule = QStringLiteral("restricted");
+    }
 
-    auto guest_access = [guestsAllowed]() -> state::GuestAccess {
-        state::GuestAccess event;
-
-        if (guestsAllowed)
-            event.guest_access = state::AccessState::CanJoin;
-        else
-            event.guest_access = state::AccessState::Forbidden;
-
-        return event;
-    }();
-
-    auto join_rule = [this, private_, knockingAllowed, restrictedAllowed]() -> state::JoinRules {
-        state::JoinRules event = this->accessRules_;
-
-        if (!private_) {
-            event.join_rule = state::JoinRule::Public;
-        } else if (knockingAllowed && restrictedAllowed && supportsKnockRestricted()) {
-            event.join_rule = state::JoinRule::KnockRestricted;
-        } else if (knockingAllowed && supportsKnocking()) {
-            event.join_rule = state::JoinRule::Knock;
-        } else if (restrictedAllowed && supportsRestricted()) {
-            event.join_rule = state::JoinRule::Restricted;
-        } else {
-            event.join_rule = state::JoinRule::Invite;
-        }
-
-        return event;
-    }();
-
-    updateAccessRules(roomid_.toStdString(), join_rule, guest_access);
+    updateAccessRules(joinRule, guestsAllowed, allowedRoomIds_);
 }
 
 void
 RoomSettings::changeHistoryVisibility(Visibility value)
 {
-    auto tempVis = mtx::events::state::Visibility::Shared;
+    QString historyVisibility = QLatin1String(SharedKey);
 
     switch (value) {
     case WorldReadable:
-        tempVis = mtx::events::state::Visibility::WorldReadable;
+        historyVisibility = QLatin1String(WorldReadableKey);
         break;
     case Joined:
-        tempVis = mtx::events::state::Visibility::Joined;
+        historyVisibility = QLatin1String(JoinedKey);
         break;
     case Invited:
-        tempVis = mtx::events::state::Visibility::Invited;
+        historyVisibility = QLatin1String(InvitedKey);
         break;
     case Shared:
-        tempVis = mtx::events::state::Visibility::Shared;
+        historyVisibility = QLatin1String(SharedKey);
         break;
     default:
         return;
     }
 
-    if (matrixRoomSettings_ && matrixBackendHandleId() != 0) {
-        QString error;
-        if (!komai::MatrixBackendRuntimeService::setRoomHistoryVisibility(
-              matrixBackendHandleId(), roomid_, historyVisibilityKey(tempVis), &error)) {
-            emit displayError(error.isEmpty() ? tr("Failed to update history visibility.") : error);
-            return;
-        }
-
-        this->historyVisibility_               = tempVis;
-        matrixRoomSettings_->historyVisibility = historyVisibilityKey(tempVis);
-        emit historyVisibilityChanged();
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::setRoomHistoryVisibility(
+          matrixBackendHandleId(), roomid_, historyVisibility, &error)) {
+        emit displayError(error.isEmpty() ? tr("Failed to update history visibility.") : error);
         return;
     }
 
-    auto proxy = std::make_shared<ThreadProxy>();
-    connect(proxy.get(), &ThreadProxy::eventSent, this, [this, tempVis]() {
-        this->historyVisibility_ = tempVis;
-        emit historyVisibilityChanged();
-    });
-    connect(proxy.get(), &ThreadProxy::error, this, &RoomSettings::displayError);
-
-    state::HistoryVisibility body;
-    body.history_visibility = tempVis;
-
-    http::client()->send_state_event(
-      roomid_.toStdString(),
-      body,
-      [proxy](const mtx::responses::EventId &, mtx::http::RequestErr err) {
-          if (err) {
-              emit proxy->error(QString::fromStdString(err->matrix_error.error));
-              return;
-          }
-
-          emit proxy->eventSent();
-      });
+    historyVisibilityKey_ = historyVisibility;
+    if (matrixRoomSettings_)
+        matrixRoomSettings_->historyVisibility = historyVisibility;
+    emit historyVisibilityChanged();
 }
 
 void
-RoomSettings::updateAccessRules(const std::string &room_id,
-                                const mtx::events::state::JoinRules &join_rule,
-                                const mtx::events::state::GuestAccess &guest_access)
+RoomSettings::updateAccessRules(const QString &joinRule,
+                                bool guestAccess,
+                                const QVector<QString> &allowedRoomIds)
 {
     isLoading_            = true;
     allowedRoomsModified_ = false;
     emit loadingChanged();
     emit allowedRoomsModifiedChanged();
 
-    if (matrixRoomSettings_ && matrixBackendHandleId() != 0) {
-        QString error;
-        QVector<QString> allowedRoomIds;
-        allowedRoomIds.reserve(static_cast<int>(join_rule.allow.size()));
-        for (const auto &entry : join_rule.allow) {
-            if (entry.type == mtx::events::state::JoinAllowanceType::RoomMembership)
-                allowedRoomIds.push_back(QString::fromStdString(entry.room_id));
-        }
-
-        if (!komai::MatrixBackendRuntimeService::setRoomAccessRules(
-              matrixBackendHandleId(),
-              QString::fromStdString(room_id),
-              joinRuleKey(join_rule.join_rule),
-              guest_access.guest_access == state::AccessState::CanJoin,
-              allowedRoomIds,
-              &error)) {
-            isLoading_ = false;
-            emit loadingChanged();
-            emit displayError(error.isEmpty() ? tr("Failed to update room access rules.") : error);
-            return;
-        }
-
-        accessRules_ = join_rule;
-        guestRules_  = guest_access.guest_access;
-        if (matrixRoomSettings_) {
-            matrixRoomSettings_->joinRule = joinRuleKey(join_rule.join_rule);
-            matrixRoomSettings_->guestAccess =
-              guest_access.guest_access == state::AccessState::CanJoin;
-            matrixRoomSettings_->allowedRoomIds = allowedRoomIds;
-        }
-
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::setRoomAccessRules(
+          matrixBackendHandleId(), roomid_, joinRule, guestAccess, allowedRoomIds, &error)) {
         isLoading_ = false;
         emit loadingChanged();
-        emit accessJoinRulesChanged();
+        emit displayError(error.isEmpty() ? tr("Failed to update room access rules.") : error);
         return;
     }
 
-    http::client()->send_state_event(
-      room_id,
-      join_rule,
-      [this, room_id, guest_access, join_rule](const mtx::responses::EventId &,
-                                               mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->warn("failed to send m.room.join_rule: {} {}",
-                                 static_cast<int>(err->status_code),
-                                 err->matrix_error.error);
-              emit displayError(QString::fromStdString(err->matrix_error.error));
-              isLoading_ = false;
-              emit loadingChanged();
-              return;
-          }
+    joinRule_       = joinRule;
+    guestAccess_    = guestAccess;
+    allowedRoomIds_ = allowedRoomIds;
+    if (matrixRoomSettings_) {
+        matrixRoomSettings_->joinRule       = joinRule;
+        matrixRoomSettings_->guestAccess    = guestAccess;
+        matrixRoomSettings_->allowedRoomIds = allowedRoomIds;
+    }
 
-          http::client()->send_state_event(
-            room_id,
-            guest_access,
-            [this, join_rule](const mtx::responses::EventId &, mtx::http::RequestErr err) {
-                if (err) {
-                    nhlog::net()->warn("failed to send m.room.guest_access: {} {}",
-                                       static_cast<int>(err->status_code),
-                                       err->matrix_error.error);
-                    emit displayError(QString::fromStdString(err->matrix_error.error));
-                }
-
-                isLoading_ = false;
-                emit loadingChanged();
-
-                this->accessRules_ = join_rule;
-                emit accessJoinRulesChanged();
-            });
-      });
+    isLoading_ = false;
+    emit loadingChanged();
+    emit accessJoinRulesChanged();
 }
 
 void

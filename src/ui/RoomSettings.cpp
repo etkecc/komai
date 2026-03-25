@@ -5,87 +5,22 @@
 
 #include "RoomSettings.h"
 
-#include <mtx/events/event_type.hpp>
-#include <mtx/responses/common.hpp>
-
-#include "cache/Cache.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "matrix/MatrixMediaUri.h"
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
-using namespace mtx::events;
-
 namespace {
-mtx::events::state::JoinRule
-joinRuleFromKey(const QString &joinRule)
-{
-    if (joinRule == QLatin1String("public"))
-        return mtx::events::state::JoinRule::Public;
-    if (joinRule == QLatin1String("knock"))
-        return mtx::events::state::JoinRule::Knock;
-    if (joinRule == QLatin1String("restricted"))
-        return mtx::events::state::JoinRule::Restricted;
-    if (joinRule == QLatin1String("knock_restricted"))
-        return mtx::events::state::JoinRule::KnockRestricted;
-    if (joinRule == QLatin1String("private"))
-        return mtx::events::state::JoinRule::Private;
-
-    return mtx::events::state::JoinRule::Invite;
-}
-
 QString
-joinRuleKey(mtx::events::state::JoinRule joinRule)
-{
-    using mtx::events::state::JoinRule;
-
-    switch (joinRule) {
-    case JoinRule::Public:
-        return QStringLiteral("public");
-    case JoinRule::Knock:
-        return QStringLiteral("knock");
-    case JoinRule::Restricted:
-        return QStringLiteral("restricted");
-    case JoinRule::KnockRestricted:
-        return QStringLiteral("knock_restricted");
-    case JoinRule::Private:
-        return QStringLiteral("private");
-    case JoinRule::Invite:
-    default:
-        return QStringLiteral("invite");
-    }
-}
-
-mtx::events::state::Visibility
-historyVisibilityFromKey(const QString &historyVisibility)
+normalizedHistoryVisibilityKey(const QString &historyVisibility)
 {
     if (historyVisibility == QLatin1String("world_readable"))
-        return mtx::events::state::Visibility::WorldReadable;
-    if (historyVisibility == QLatin1String("invited"))
-        return mtx::events::state::Visibility::Invited;
-    if (historyVisibility == QLatin1String("joined"))
-        return mtx::events::state::Visibility::Joined;
-
-    return mtx::events::state::Visibility::Shared;
-}
-
-QString
-historyVisibilityKey(mtx::events::state::Visibility visibility)
-{
-    using mtx::events::state::Visibility;
-
-    switch (visibility) {
-    case Visibility::WorldReadable:
         return QStringLiteral("world_readable");
-    case Visibility::Invited:
+    if (historyVisibility == QLatin1String("invited"))
         return QStringLiteral("invited");
-    case Visibility::Joined:
+    if (historyVisibility == QLatin1String("joined"))
         return QStringLiteral("joined");
-    case Visibility::Shared:
-    default:
-        return QStringLiteral("shared");
-    }
+    return QStringLiteral("shared");
 }
 } // namespace
 
@@ -95,60 +30,11 @@ RoomSettings::RoomSettings(QString roomid, QObject *parent)
 {
     connect(this, &RoomSettings::accessJoinRulesChanged, &RoomSettings::allowedRoomsChanged);
 
-    if (loadMatrixRuntimeRoomSettings()) {
-        this->allowedRoomsModel = new RoomSettingsAllowedRoomsModel(this);
-        return;
-    }
-
-    retrieveRoomInfo();
-
-    // get room setting notifications
-    http::client()->get_pushrules(
-      "global",
-      "override",
-      roomid_.toStdString(),
-      [this](const mtx::pushrules::PushRule &rule, mtx::http::RequestErr err) {
-          if (err) {
-              if (err->status_code == 404)
-                  http::client()->get_pushrules(
-                    "global",
-                    "room",
-                    roomid_.toStdString(),
-                    [this](const mtx::pushrules::PushRule &rule, mtx::http::RequestErr err) {
-                        if (err) {
-                            notifications_ = 2; // all messages
-                            emit notificationsChanged();
-                            return;
-                        }
-
-                        if (rule.enabled) {
-                            notifications_ = 1; // mentions only
-                            emit notificationsChanged();
-                        }
-                    });
-              return;
-          }
-
-          if (rule.enabled) {
-              notifications_ = 0; // muted
-              emit notificationsChanged();
-          } else {
-              notifications_ = 2; // all messages
-              emit notificationsChanged();
-          }
-      });
-
-    // access rules
-    this->accessRules_ = cache::getStateEvent<mtx::events::state::JoinRules>(roomid_.toStdString())
-                           .value_or(mtx::events::StateEvent<mtx::events::state::JoinRules>{})
-                           .content;
-    using mtx::events::state::AccessState;
-    guestRules_ = info_.guest_access ? AccessState::CanJoin : AccessState::Forbidden;
-    emit accessJoinRulesChanged();
-
-    if (auto ev =
-          cache::getStateEvent<mtx::events::state::HistoryVisibility>(roomid_.toStdString())) {
-        this->historyVisibility_ = ev->content.history_visibility;
+    QString error;
+    if (!loadMatrixRuntimeRoomSettings(&error) && !error.isEmpty()) {
+        nhlog::ui()->warn("Failed to load room settings via matrix-sdk runtime for '{}': {}",
+                          roomid_.toStdString(),
+                          error.toStdString());
     }
 
     this->allowedRoomsModel = new RoomSettingsAllowedRoomsModel(this);
@@ -157,12 +43,7 @@ RoomSettings::RoomSettings(QString roomid, QObject *parent)
 bool
 RoomSettings::isRoomNameSet() const
 {
-    if (matrixRoomSettings_)
-        return !info_.name.empty();
-
-    return !cache::getStateEvent<mtx::events::state::Name>(roomid_.toStdString())
-              .value_or(mtx::events::StateEvent<mtx::events::state::Name>{})
-              .content.name.empty();
+    return !info_.name.empty();
 }
 
 // Deliberately returns the raw cached name without DM-aware overrides.
@@ -229,14 +110,11 @@ RoomSettings::memberCount() const
 void
 RoomSettings::retrieveRoomInfo()
 {
-    if (loadMatrixRuntimeRoomSettings())
-        return;
-
-    try {
-        usesEncryption_ = cache::isRoomEncrypted(roomid_.toStdString());
-        info_           = cache::singleRoomInfo(roomid_.toStdString());
-    } catch (const std::exception &) {
-        nhlog::db()->warn("failed to retrieve room info from cache: {}", roomid_.toStdString());
+    QString error;
+    if (!loadMatrixRuntimeRoomSettings(&error) && !error.isEmpty()) {
+        nhlog::ui()->warn("Failed to refresh room settings via matrix-sdk runtime for '{}': {}",
+                          roomid_.toStdString(),
+                          error.toStdString());
     }
 }
 
@@ -244,8 +122,11 @@ bool
 RoomSettings::loadMatrixRuntimeRoomSettings(QString *errorOut)
 {
     const auto handleId = matrixBackendHandleId();
-    if (handleId == 0)
+    if (handleId == 0) {
+        if (errorOut)
+            *errorOut = tr("Matrix backend runtime is not available.");
         return false;
+    }
 
     auto result =
       komai::MatrixBackendRuntimeService::fetchRoomSettings(handleId, roomid_, errorOut);
@@ -259,19 +140,13 @@ RoomSettings::loadMatrixRuntimeRoomSettings(QString *errorOut)
     info_.version       = result->roomVersion.toStdString();
     info_.member_count  = static_cast<size_t>(result->memberCount);
 
-    notifications_     = result->notifications;
-    usesEncryption_    = result->isEncrypted;
-    guestRules_        = result->guestAccess ? mtx::events::state::AccessState::CanJoin
-                                             : mtx::events::state::AccessState::Forbidden;
-    historyVisibility_ = historyVisibilityFromKey(result->historyVisibility);
-
-    accessRules_           = {};
-    accessRules_.join_rule = joinRuleFromKey(result->joinRule);
-    accessRules_.allow.clear();
-    for (const auto &roomId : result->allowedRoomIds) {
-        accessRules_.allow.push_back(
-          {mtx::events::state::JoinAllowanceType::RoomMembership, roomId.toStdString()});
-    }
+    notifications_        = result->notifications;
+    usesEncryption_       = result->isEncrypted;
+    guestAccess_          = result->guestAccess;
+    historyVisibilityKey_ = normalizedHistoryVisibilityKey(result->historyVisibility);
+    joinRule_             = result->joinRule.trimmed();
+    allowedRoomIds_       = result->allowedRoomIds;
+    parentSpaceRoomIds_   = result->parentSpaceRoomIds;
 
     return true;
 }
@@ -295,92 +170,37 @@ RoomSettings::enableEncryption()
     if (usesEncryption_)
         return;
 
-    if (matrixRoomSettings_ && matrixBackendHandleId() != 0) {
-        QString error;
-        if (!komai::MatrixBackendRuntimeService::enableRoomEncryption(
-              matrixBackendHandleId(), roomid_, &error)) {
-            emit displayError(error.isEmpty() ? tr("Failed to enable encryption.") : error);
-            usesEncryption_ = false;
-            emit encryptionChanged();
-            return;
-        }
-
-        usesEncryption_ = true;
-        if (matrixRoomSettings_)
-            matrixRoomSettings_->isEncrypted = true;
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::enableRoomEncryption(
+          matrixBackendHandleId(), roomid_, &error)) {
+        emit displayError(error.isEmpty() ? tr("Failed to enable encryption.") : error);
+        usesEncryption_ = false;
         emit encryptionChanged();
         return;
     }
 
-    const auto room_id = roomid_.toStdString();
-    http::client()->enable_encryption(
-      room_id, [room_id, this](const mtx::responses::EventId &, mtx::http::RequestErr err) {
-          if (err) {
-              int status_code = static_cast<int>(err->status_code);
-              nhlog::net()->warn("failed to enable encryption in room ({}): {} {}",
-                                 room_id,
-                                 err->matrix_error.error,
-                                 status_code);
-              emit displayError(tr("Failed to enable encryption: %1")
-                                  .arg(QString::fromStdString(err->matrix_error.error)));
-              usesEncryption_ = false;
-              emit encryptionChanged();
-              return;
-          }
-
-          nhlog::net()->info("enabled encryption on room ({})", room_id);
-      });
-
     usesEncryption_ = true;
+    if (matrixRoomSettings_)
+        matrixRoomSettings_->isEncrypted = true;
     emit encryptionChanged();
 }
 
 bool
 RoomSettings::canChangeName() const
 {
-    if (matrixRoomSettings_)
-        return matrixRoomSettings_->canChangeName;
-
-    try {
-        return cache::hasEnoughPowerLevel(
-          {EventType::RoomName}, roomid_.toStdString(), utils::localUser().toStdString());
-    } catch (const std::exception &e) {
-        nhlog::db()->warn("database error: {}", e.what());
-    }
-
-    return false;
+    return matrixRoomSettings_ && matrixRoomSettings_->canChangeName;
 }
 
 bool
 RoomSettings::canChangeTopic() const
 {
-    if (matrixRoomSettings_)
-        return matrixRoomSettings_->canChangeTopic;
-
-    try {
-        return cache::hasEnoughPowerLevel(
-          {EventType::RoomTopic}, roomid_.toStdString(), utils::localUser().toStdString());
-    } catch (const std::exception &e) {
-        nhlog::db()->warn("database error: {}", e.what());
-    }
-
-    return false;
+    return matrixRoomSettings_ && matrixRoomSettings_->canChangeTopic;
 }
 
 bool
 RoomSettings::canChangeAvatar() const
 {
-    if (matrixRoomSettings_)
-        return matrixRoomSettings_->canChangeAvatar;
-
-    try {
-        return cache::hasEnoughPowerLevel(
-          {EventType::RoomAvatar}, roomid_.toStdString(), utils::localUser().toStdString());
-    } catch (const std::exception &e) {
-        nhlog::db()->warn("database error: {}", e.what());
-    }
-
-    return false;
+    return matrixRoomSettings_ && matrixRoomSettings_->canChangeAvatar;
 }
 
 bool
@@ -394,65 +214,16 @@ RoomSettings::changeNotifications(int currentIndex)
 {
     notifications_ = currentIndex;
 
-    if (matrixRoomSettings_ && matrixBackendHandleId() != 0) {
-        QString error;
-        if (!komai::MatrixBackendRuntimeService::setRoomNotificationMode(
-              matrixBackendHandleId(), roomid_, currentIndex, &error)) {
-            emit displayError(error.isEmpty() ? tr("Failed to update notifications.") : error);
-            return;
-        }
-
-        if (matrixRoomSettings_)
-            matrixRoomSettings_->notifications = currentIndex;
-        emit notificationsChanged();
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::setRoomNotificationMode(
+          matrixBackendHandleId(), roomid_, currentIndex, &error)) {
+        emit displayError(error.isEmpty() ? tr("Failed to update notifications.") : error);
         return;
     }
 
-    std::string room_id = roomid_.toStdString();
-    if (notifications_ == 0) {
-        // mute room
-        // delete old rule first, then add new rule
-        mtx::pushrules::PushRule rule;
-        rule.actions = {mtx::pushrules::actions::dont_notify{}};
-        mtx::pushrules::PushCondition condition;
-        condition.kind    = "event_match";
-        condition.key     = "room_id";
-        condition.pattern = room_id;
-        rule.conditions   = {condition};
-
-        http::client()->put_pushrules(
-          "global", "override", room_id, rule, [room_id](mtx::http::RequestErr &err) {
-              if (err)
-                  nhlog::net()->error("failed to set pushrule for room {}: {} {}",
-                                      room_id,
-                                      static_cast<int>(err->status_code),
-                                      err->matrix_error.error);
-              http::client()->delete_pushrules(
-                "global", "room", room_id, [room_id](mtx::http::RequestErr &) {});
-          });
-    } else if (notifications_ == 1) {
-        // mentions only
-        // delete old rule first, then add new rule
-        mtx::pushrules::PushRule rule;
-        rule.actions = {mtx::pushrules::actions::dont_notify{}};
-        http::client()->put_pushrules(
-          "global", "room", room_id, rule, [room_id](mtx::http::RequestErr &err) {
-              if (err)
-                  nhlog::net()->error("failed to set pushrule for room {}: {} {}",
-                                      room_id,
-                                      static_cast<int>(err->status_code),
-                                      err->matrix_error.error);
-              http::client()->delete_pushrules(
-                "global", "override", room_id, [room_id](mtx::http::RequestErr &) {});
-          });
-    } else {
-        // all messages
-        http::client()->delete_pushrules(
-          "global", "override", room_id, [room_id](mtx::http::RequestErr &) {
-              http::client()->delete_pushrules(
-                "global", "room", room_id, [room_id](mtx::http::RequestErr &) {});
-          });
-    }
+    if (matrixRoomSettings_)
+        matrixRoomSettings_->notifications = currentIndex;
+    emit notificationsChanged();
 }
 
 void
@@ -465,43 +236,17 @@ RoomSettings::changeName(const QString &name)
         return;
     }
 
-    if (matrixRoomSettings_ && matrixBackendHandleId() != 0) {
-        QString error;
-        if (!komai::MatrixBackendRuntimeService::setRoomName(
-              matrixBackendHandleId(), roomid_, QString::fromStdString(newName), &error)) {
-            emit displayError(error.isEmpty() ? tr("Failed to update room name.") : error);
-            return;
-        }
-
-        this->info_.name = newName;
-        if (matrixRoomSettings_)
-            matrixRoomSettings_->roomName = QString::fromStdString(newName);
-        emit roomNameChanged();
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::setRoomName(
+          matrixBackendHandleId(), roomid_, QString::fromStdString(newName), &error)) {
+        emit displayError(error.isEmpty() ? tr("Failed to update room name.") : error);
         return;
     }
 
-    using namespace mtx::events;
-    auto proxy = std::make_shared<ThreadProxy>();
-    connect(proxy.get(), &ThreadProxy::nameEventSent, this, [this](const QString &newRoomName) {
-        this->info_.name = newRoomName.toStdString();
-        emit roomNameChanged();
-    });
-    connect(proxy.get(), &ThreadProxy::error, this, &RoomSettings::displayError);
-
-    state::Name body;
-    body.name = newName;
-
-    http::client()->send_state_event(
-      roomid_.toStdString(),
-      body,
-      [proxy, newName](const mtx::responses::EventId &, mtx::http::RequestErr err) {
-          if (err) {
-              emit proxy->error(QString::fromStdString(err->matrix_error.error));
-              return;
-          }
-
-          emit proxy->nameEventSent(QString::fromStdString(newName));
-      });
+    this->info_.name = newName;
+    if (matrixRoomSettings_)
+        matrixRoomSettings_->roomName = QString::fromStdString(newName);
+    emit roomNameChanged();
 }
 
 void
@@ -514,55 +259,23 @@ RoomSettings::changeTopic(const QString &topic)
         return;
     }
 
-    if (matrixRoomSettings_ && matrixBackendHandleId() != 0) {
-        QString error;
-        if (!komai::MatrixBackendRuntimeService::setRoomTopic(
-              matrixBackendHandleId(), roomid_, QString::fromStdString(newTopic), &error)) {
-            emit displayError(error.isEmpty() ? tr("Failed to update room topic.") : error);
-            return;
-        }
-
-        this->info_.topic = newTopic;
-        if (matrixRoomSettings_)
-            matrixRoomSettings_->roomTopic = QString::fromStdString(newTopic);
-        emit roomTopicChanged();
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::setRoomTopic(
+          matrixBackendHandleId(), roomid_, QString::fromStdString(newTopic), &error)) {
+        emit displayError(error.isEmpty() ? tr("Failed to update room topic.") : error);
         return;
     }
 
-    using namespace mtx::events;
-    auto proxy = std::make_shared<ThreadProxy>();
-    connect(proxy.get(), &ThreadProxy::topicEventSent, this, [this](const QString &newRoomTopic) {
-        this->info_.topic = newRoomTopic.toStdString();
-        emit roomTopicChanged();
-    });
-    connect(proxy.get(), &ThreadProxy::error, this, &RoomSettings::displayError);
-
-    state::Topic body;
-    body.topic = newTopic;
-
-    http::client()->send_state_event(
-      roomid_.toStdString(),
-      body,
-      [proxy, newTopic](const mtx::responses::EventId &, mtx::http::RequestErr err) {
-          if (err) {
-              emit proxy->error(QString::fromStdString(err->matrix_error.error));
-              return;
-          }
-
-          emit proxy->topicEventSent(QString::fromStdString(newTopic));
-      });
+    this->info_.topic = newTopic;
+    if (matrixRoomSettings_)
+        matrixRoomSettings_->roomTopic = QString::fromStdString(newTopic);
+    emit roomTopicChanged();
 }
 
 QStringList
 RoomSettings::parentSpaceRoomIds() const
 {
-    if (matrixRoomSettings_)
-        return matrixRoomSettings_->parentSpaceRoomIds;
-
-    QStringList parentSpaceRoomIds;
-    for (const auto &roomId : cache::getParentRoomIds(roomid_.toStdString()))
-        parentSpaceRoomIds.push_back(QString::fromStdString(roomId));
-    return parentSpaceRoomIds;
+    return QStringList(parentSpaceRoomIds_.begin(), parentSpaceRoomIds_.end());
 }
 
 #include "moc_RoomSettings.cpp"

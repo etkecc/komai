@@ -14,10 +14,6 @@
 
 #include <unordered_set>
 
-#include <mtx/events/event_type.hpp>
-#include <mtx/events/guest_access.hpp>
-#include <mtx/events/history_visibility.hpp>
-
 #include "matrix/MatrixStateTypes.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 
@@ -111,7 +107,6 @@ class RoomSettings final : public QObject
       bool allowedRoomsModified READ allowedRoomsModified NOTIFY allowedRoomsModifiedChanged)
 
 public:
-    // match mtx::events::state::Visibility
     enum Visibility
     {
         WorldReadable,
@@ -193,9 +188,9 @@ private:
     void retrieveRoomInfo();
     bool loadMatrixRuntimeRoomSettings(QString *errorOut = nullptr);
     uint64_t matrixBackendHandleId() const;
-    void updateAccessRules(const std::string &room_id,
-                           const mtx::events::state::JoinRules &,
-                           const mtx::events::state::GuestAccess &);
+    void updateAccessRules(const QString &joinRule,
+                           bool guestAccess,
+                           const QVector<QString> &allowedRoomIds);
 
 private:
     QString roomid_;
@@ -205,9 +200,11 @@ private:
     RoomInfo info_;
     int notifications_ = 0;
 
-    mtx::events::state::JoinRules accessRules_;
-    mtx::events::state::Visibility historyVisibility_ = mtx::events::state::Visibility::Shared;
-    mtx::events::state::AccessState guestRules_       = mtx::events::state::AccessState::Forbidden;
+    QString joinRule_             = QStringLiteral("invite");
+    QString historyVisibilityKey_ = QStringLiteral("shared");
+    bool guestAccess_             = false;
+    QVector<QString> allowedRoomIds_;
+    QVector<QString> parentSpaceRoomIds_;
     std::optional<komai::MatrixRoomSettings> matrixRoomSettings_;
 
     RoomSettingsAllowedRoomsModel *allowedRoomsModel;

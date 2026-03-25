@@ -5,18 +5,16 @@
 
 #pragma once
 
-#include <QHash>
 #include <QObject>
 #include <QQmlEngine>
-#include <QSharedPointer>
 
 #include <mtx/events.hpp>
 #include <mtx/events/encrypted.hpp>
 
-class DeviceVerificationFlow;
-class TimelineModel;
+#include "DeviceVerificationFlow.h"
+#include "timeline/TimelineModel.h"
+
 class TimelineViewManager;
-class RoomlistModel;
 
 class VerificationManager final : public QObject
 {
@@ -65,9 +63,5 @@ public slots:
                                          std::string sender);
 
 private:
-    QHash<QString, QSharedPointer<DeviceVerificationFlow>> dvList;
-    bool isInitialSync_ = false;
-    RoomlistModel *rooms_;
-
     inline static VerificationManager *instance_ = nullptr;
 };

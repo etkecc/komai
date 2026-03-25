@@ -7,15 +7,16 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include <QSharedPointer>
+#include <QString>
 
-#include <mtxclient/crypto/client.hpp>
+#include <string>
+#include <vector>
 
-#include "cache/crypto/CacheCryptoStructs.h"
+#include <mtx/events.hpp>
+#include <mtx/events/encrypted.hpp>
 
-class QTimer;
 class TimelineModel;
-
-using sas_ptr = std::unique_ptr<mtx::crypto::SAS>;
 
 // clang-format off
 /*
@@ -167,7 +168,6 @@ signals:
 private:
     DeviceVerificationFlow(QObject *,
                            DeviceVerificationFlow::Type flow_type,
-                           TimelineModel *model,
                            const QString &userID,
                            const std::vector<QString> &deviceIds_);
     void setState(State state)
@@ -178,62 +178,20 @@ private:
         }
     }
 
-    void handleStartMessage(const mtx::events::msg::KeyVerificationStart &msg, std::string);
-    void handleVerificationAccept(const mtx::events::msg::KeyVerificationAccept &msg);
-    void handleVerificationCancel(const mtx::events::msg::KeyVerificationCancel &msg);
-    void handleVerificationKey(const mtx::events::msg::KeyVerificationKey &msg);
-    void handleVerificationMac(const mtx::events::msg::KeyVerificationMac &msg);
-    void handleVerificationReady(const mtx::events::msg::KeyVerificationReady &msg);
-    void handleVerificationDone(const mtx::events::msg::KeyVerificationDone &msg);
-    //! sends a verification request
-    void sendVerificationRequest();
-    //! accepts a verification request
-    void sendVerificationReady();
-    //! completes the verification flow();
-    void sendVerificationDone();
-    //! accepts a verification
-    void acceptVerificationRequest();
-    //! starts the verification flow
-    void startVerificationRequest();
     //! cancels a verification flow
     void cancelVerification(DeviceVerificationFlow::Error error_code);
-    //! sends the verification key
-    void sendVerificationKey();
-    //! sends the mac of the keys
-    void sendVerificationMac();
-    //! Completes the verification flow
-    void acceptDevice();
+    void failNotMigrated();
 
     std::string transaction_id;
 
     bool sender;
     Type type;
-    mtx::identifiers::User toClient;
+    QString userId_;
     QString deviceId;
     std::vector<QString> deviceIds;
 
-    // public part of our master key, when trusted or empty
-    std::string our_trusted_master_key;
-
-    mtx::events::msg::SASMethods method = mtx::events::msg::SASMethods::Emoji;
-    QTimer *timeout                     = nullptr;
-    sas_ptr sas;
-    std::string mac_method;
-    std::string commitment;
-    std::string canonical_json;
-
     std::vector<int> sasList;
-    UserKeyCache their_keys;
-    TimelineModel *model_;
-    mtx::common::Relation relation;
 
     State state_ = PromptStartVerification;
     Error error_ = UnknownMethod;
-
-    bool isMacVerified = false;
-
-    bool keySent = false, macSent = false, acceptSent = false, startSent = false;
-
-    template<typename T>
-    void send(T msg);
 };

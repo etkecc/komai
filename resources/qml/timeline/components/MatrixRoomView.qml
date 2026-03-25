@@ -64,6 +64,17 @@ ColumnLayout {
         return TimelineManager.escapeEmoji(TimelineManager.htmlEscape(String(text || "")).replace(/\n/g, "<br>"));
     }
 
+    function matrixStateEventIconForKind(kind) {
+        switch (String(kind || "")) {
+        case "membership_change":
+            return ":/icons/icons/ui/state-member-join.svg";
+        case "profile_change":
+            return ":/icons/icons/ui/state-member-display-name.svg";
+        default:
+            return ":/icons/icons/ui/state-event.svg";
+        }
+    }
+
     function matchesSendShortcut(event) {
         if (!event)
             return false;
@@ -400,6 +411,8 @@ ColumnLayout {
                         readonly property double safePreviewAspectRatio: mediaWidth > 0 && mediaHeight > 0 ? (mediaHeight / mediaWidth) : 0.75
                         readonly property bool isStateLikeItem: ["membership_change", "profile_change", "other_state", "failed_to_parse_state"].indexOf(itemKind) >= 0
                         readonly property bool usesSharedTextBubble: ["message", "notice", "emote"].indexOf(itemKind) >= 0
+                        readonly property bool usesSharedStateBubble: isStateLikeItem
+                        readonly property bool usesSharedTimelineBubble: usesSharedTextBubble || usesSharedStateBubble
                         readonly property bool supportsSharedToolbarActions: eventId.length > 0 && itemKind !== "date_divider" && !isStateLikeItem
                         readonly property int matrixEventType: root.matrixEventTypeForItemKind(itemKind)
                         readonly property bool messageIsRightAligned: isOwn
@@ -426,6 +439,16 @@ ColumnLayout {
                                 "userName": replySenderDisplayName.length > 0 ? replySenderDisplayName : qsTr("Reply")
                             })
                             : ({})
+                        readonly property var sharedStatePreviewData: ({
+                                "room": matrixToolbarRoomModel,
+                                "avatarUrl": senderAvatarUrl,
+                                "formattedStateEvent": root.formattedMatrixTextHtml(body),
+                                "stateEventIconSource": root.matrixStateEventIconForKind(itemKind),
+                                "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
+                                "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
+                                "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
+                                "previousUserId": previousItem.senderId !== undefined ? String(previousItem.senderId || "") : ""
+                            })
                         readonly property string mediaKindLabel: {
                             switch (itemKind) {
                             case "image":
@@ -460,7 +483,7 @@ ColumnLayout {
                         width: matrixTimelineList.width
                         height: itemKind === "date_divider"
                             ? dateDivider.implicitHeight
-                            : usesSharedTextBubble
+                            : usesSharedTimelineBubble
                                 ? sharedTextBubble.height
                                 : messageRow.implicitHeight
 
@@ -729,7 +752,7 @@ ColumnLayout {
                         TapHandler {
                             acceptedButtons: Qt.RightButton
                             gesturePolicy: TapHandler.ReleaseWithinBounds
-                            enabled: !usesSharedTextBubble
+                            enabled: !usesSharedTimelineBubble
 
                             onSingleTapped: root.openMatrixMessageContextMenu(
                                 matrixToolbarMessageModel,
@@ -773,7 +796,7 @@ ColumnLayout {
                             anchors.left: parent.left
                             anchors.right: parent.right
                             implicitHeight: messageRowLayout.implicitHeight
-                            visible: itemKind !== "date_divider" && !usesSharedTextBubble
+                            visible: itemKind !== "date_divider" && !usesSharedTimelineBubble
 
                             RowLayout {
                                 id: messageRowLayout
@@ -1050,12 +1073,14 @@ ColumnLayout {
                             id: sharedTextBubble
 
                             eventId: timelineItemDelegate.eventId
-                            replyTo: timelineItemDelegate.replyEventId
+                            replyTo: timelineItemDelegate.usesSharedTextBubble
+                                ? timelineItemDelegate.replyEventId
+                                : ""
                             room: null
                             index: timelineItemDelegate.modelIndex
                             day: timelineItemDelegate.dayKey
                             isSender: timelineItemDelegate.isOwn
-                            isStateEvent: false
+                            isStateEvent: timelineItemDelegate.usesSharedStateBubble
                             timestamp: new Date(Number(timelineItemDelegate.timestamp))
                             userId: timelineItemDelegate.senderId
                             userName: timelineItemDelegate.senderDisplayName
@@ -1063,21 +1088,30 @@ ColumnLayout {
                             userPowerlevel: 0
                             isEdited: timelineItemDelegate.isEdited
                             isEncrypted: false
-                            reactions: timelineItemDelegate.reactions
+                            reactions: timelineItemDelegate.usesSharedTextBubble
+                                ? timelineItemDelegate.reactions
+                                : []
                             status: MtxEvent.Empty
                             trustlevel: 0
                             notificationlevel: MtxEvent.Empty
-                            type: timelineItemDelegate.matrixEventType
-                            isEditable: matrixToolbarMessageModel.isEditable
+                            type: timelineItemDelegate.usesSharedStateBubble
+                                ? MtxEvent.Name
+                                : timelineItemDelegate.matrixEventType
+                            isEditable: timelineItemDelegate.usesSharedTextBubble
+                                && matrixToolbarMessageModel.isEditable
                             isHiddenEvent: false
                             messageContextMenu: matrixMessageContextMenu
                             replyContextMenu: matrixReplyContextMenu
                             messageActions: matrixMessageActionsHost.control
-                            previewData: timelineItemDelegate.sharedPreviewData
-                            replyPreviewData: timelineItemDelegate.sharedReplyPreviewData
+                            previewData: timelineItemDelegate.usesSharedStateBubble
+                                ? timelineItemDelegate.sharedStatePreviewData
+                                : timelineItemDelegate.sharedPreviewData
+                            replyPreviewData: timelineItemDelegate.usesSharedTextBubble
+                                ? timelineItemDelegate.sharedReplyPreviewData
+                                : ({})
                             roomModelOverride: matrixToolbarRoomModel
                             scrolledToThis: false
-                            visible: timelineItemDelegate.usesSharedTextBubble
+                            visible: timelineItemDelegate.usesSharedTimelineBubble
                         }
                     }
                 }

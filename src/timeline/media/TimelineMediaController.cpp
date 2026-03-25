@@ -5,6 +5,7 @@
 
 #include "TimelineMediaController.h"
 
+#include <thread>
 #include <utility>
 
 #include <QClipboard>
@@ -23,12 +24,57 @@
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineEventTypes.h"
+#include "ui/MainWindow.h"
 #include "ui/MediaProxyServer.h"
 #include "utils/Utils.h"
+
+namespace {
+uint64_t
+currentMatrixRuntimeHandleId()
+{
+    auto *mainWindow = MainWindow::instance();
+    return mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+}
+
+void
+notifyMediaFetchUnavailable(const QString &roomId, const QString &eventId)
+{
+    nhlog::ui()->warn(
+      "Refusing legacy media fetch for room '{}' event '{}'; no active matrix-sdk runtime "
+      "handle is available",
+      roomId.toStdString(),
+      eventId.toStdString());
+    emit ChatPage::instance()->showNotification(
+      QObject::tr("Media loading is unavailable until the matrix-sdk runtime is active."));
+}
+
+using MediaBytesCallback = std::function<void(std::optional<QByteArray>, QString)>;
+
+void
+fetchMediaBytesAsync(uint64_t handleId, const QString &mxcUrl, MediaBytesCallback callback)
+{
+    std::thread([handleId, mxcUrl, callback = std::move(callback)]() mutable {
+        QString error;
+        auto bytes = komai::MatrixBackendRuntimeService::fetchMediaContent(
+          handleId, mxcUrl, 0, 0, false, &error);
+
+        QTimer::singleShot(0,
+                           ChatPage::instance(),
+                           [bytes    = std::move(bytes),
+                            error    = std::move(error),
+                            callback = std::move(callback)]() mutable {
+                               if (bytes)
+                                   callback(QByteArray(*bytes), QString{});
+                               else
+                                   callback(std::nullopt, error);
+                           });
+    }).detach();
+}
+}
 
 timeline::media::TimelineMediaController::TimelineMediaController(QString roomId,
                                                                   EventStore &events,
@@ -130,41 +176,41 @@ timeline::media::TimelineMediaController::saveMedia(const QString &eventId) cons
     if (filename.isEmpty())
         return false;
 
-    const auto url = mxcUrl.toStdString();
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (handleId == 0) {
+        notifyMediaFetchUnavailable(roomId_, eventId);
+        return false;
+    }
 
-    http::client()->download(url,
-                             [filename, url, encryptionInfo](const std::string &data,
-                                                             const std::string &,
-                                                             const std::string &,
-                                                             mtx::http::RequestErr err) {
-                                 if (err) {
-                                     nhlog::net()->warn("failed to retrieve image {}: {} {}",
-                                                        url,
-                                                        err->matrix_error.error,
-                                                        static_cast<int>(err->status_code));
-                                     return;
-                                 }
+    fetchMediaBytesAsync(
+      handleId,
+      mxcUrl,
+      [filename, mxcUrl, encryptionInfo](std::optional<QByteArray> bytes, QString error) {
+          if (!bytes) {
+              nhlog::ui()->warn("Failed to fetch media '{}' via matrix-sdk "
+                                "runtime for save: {}",
+                                mxcUrl.toStdString(),
+                                error.toStdString());
+              return;
+          }
 
-                                 try {
-                                     auto temp = data;
-                                     if (encryptionInfo)
-                                         temp = mtx::crypto::to_string(
-                                           mtx::crypto::decrypt_file(temp, encryptionInfo.value()));
+          try {
+              auto temp = bytes->toStdString();
+              if (encryptionInfo)
+                  temp =
+                    mtx::crypto::to_string(mtx::crypto::decrypt_file(temp, encryptionInfo.value()));
 
-                                     QFile file(filename);
+              QFile file(filename);
+              if (!file.open(QIODevice::WriteOnly))
+                  return;
 
-                                     if (!file.open(QIODevice::WriteOnly))
-                                         return;
-
-                                     file.write(QByteArray(temp.data(), (int)temp.size()));
-                                     file.close();
-                                     utils::markFileAsFromWeb(filename);
-
-                                     return;
-                                 } catch (const std::exception &e) {
-                                     nhlog::ui()->warn("Error while saving file to: {}", e.what());
-                                 }
-                             });
+              file.write(QByteArray(temp.data(), static_cast<int>(temp.size())));
+              file.close();
+              utils::markFileAsFromWeb(filename);
+          } catch (const std::exception &e) {
+              nhlog::ui()->warn("Error while saving file to: {}", e.what());
+          }
+      });
     return true;
 }
 
@@ -181,24 +227,27 @@ timeline::media::TimelineMediaController::copyMedia(const QString &eventId) cons
 
     auto encryptionInfo = mtx::accessors::file(*event);
 
-    const auto url = mxcUrl.toStdString();
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (handleId == 0) {
+        notifyMediaFetchUnavailable(roomId_, eventId);
+        return false;
+    }
 
-    http::client()->download(
-      url,
-      [url, mimeType, eventType, encryptionInfo](const std::string &data,
-                                                 const std::string &,
-                                                 const std::string &,
-                                                 mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->warn("failed to retrieve media {}: {} {}",
-                                 url,
-                                 err->matrix_error.error,
-                                 static_cast<int>(err->status_code));
+    fetchMediaBytesAsync(
+      handleId,
+      mxcUrl,
+      [mxcUrl, mimeType, eventType, encryptionInfo](std::optional<QByteArray> bytes,
+                                                    QString error) {
+          if (!bytes) {
+              nhlog::ui()->warn("Failed to fetch media '{}' via matrix-sdk "
+                                "runtime for clipboard copy: {}",
+                                mxcUrl.toStdString(),
+                                error.toStdString());
               return;
           }
 
           try {
-              auto temp = data;
+              auto temp = bytes->toStdString();
               if (encryptionInfo)
                   temp =
                     mtx::crypto::to_string(mtx::crypto::decrypt_file(temp, encryptionInfo.value()));
@@ -208,17 +257,13 @@ timeline::media::TimelineMediaController::copyMedia(const QString &eventId) cons
               clipContents->setData(mimeType, by);
 
               if (eventType == qml_mtx_events::EventType::ImageMessage) {
-                  auto img = utils::readImage(QByteArray(data.data(), (qsizetype)data.size()));
+                  auto img = utils::readImage(by);
                   clipContents->setImageData(img);
               }
 
-              // Qt uses COM for clipboard management on windows and our HTTP threads do not
-              // initialize it, so run in the event loop
               QTimer::singleShot(0, ChatPage::instance(), [clipContents] {
                   QGuiApplication::clipboard()->setMimeData(clipContents);
               });
-
-              return;
           } catch (const std::exception &e) {
               nhlog::ui()->warn("Error while copying file to clipboard: {}", e.what());
           }
@@ -288,33 +333,37 @@ timeline::media::TimelineMediaController::cacheMedia(
                       eventId.toStdString(),
                       mxcUrl.toStdString());
 
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (handleId == 0) {
+        notifyMediaFetchUnavailable(roomId_, eventId);
+        return;
+    }
+
     const auto mediaCached = mediaCached_;
-    http::client()->download(
-      url,
-      [callback, mediaCached, mxcUrl, filename, url, encryptionInfo](const std::string &data,
-                                                                     const std::string &,
-                                                                     const std::string &,
-                                                                     mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->warn("failed to retrieve image {}: {} {}",
-                                 url,
-                                 err->matrix_error.error,
-                                 static_cast<int>(err->status_code));
+    fetchMediaBytesAsync(
+      handleId,
+      mxcUrl,
+      [callback, mediaCached, mxcUrl, filename, encryptionInfo](std::optional<QByteArray> bytes,
+                                                                QString error) {
+          if (!bytes) {
+              nhlog::ui()->warn("Failed to fetch media '{}' via matrix-sdk "
+                                "runtime for cache write: {}",
+                                mxcUrl.toStdString(),
+                                error.toStdString());
               return;
           }
 
           try {
-              auto temp = data;
+              auto temp = bytes->toStdString();
               if (encryptionInfo)
                   temp =
                     mtx::crypto::to_string(mtx::crypto::decrypt_file(temp, encryptionInfo.value()));
 
               QFile file(filename.filePath());
-
               if (!file.open(QIODevice::WriteOnly))
                   return;
 
-              file.write(QByteArray(temp.data(), (int)temp.size()));
+              file.write(QByteArray(temp.data(), static_cast<int>(temp.size())));
               file.close();
 
               if (callback) {

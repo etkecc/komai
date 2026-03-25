@@ -9,14 +9,23 @@
 
 #include <set>
 
-#include <mtx/responses/common.hpp>
-
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "timeline/Permissions.h"
 #include "timeline/TimelineModel.h"
+
+namespace {
+void
+notifyAliasEditingUnavailable()
+{
+    nhlog::ui()->warn(
+      "Refusing legacy alias editing action; this flow is not migrated to the matrix-sdk "
+      "backend yet");
+    ChatPage::instance()->showNotification(
+      AliasEditingModel::tr("Room alias editing is not migrated to the matrix-sdk backend yet."));
+}
+}
 
 AliasEditingModel::AliasEditingModel(const std::string &rid, QObject *parent)
   : QAbstractListModel(parent)
@@ -50,28 +59,20 @@ AliasEditingModel::AliasEditingModel(const std::string &rid, QObject *parent)
 void
 AliasEditingModel::fetchPublishedAliases()
 {
-    auto job = QSharedPointer<FetchPublishedAliasesJob>::create();
-    connect(job.data(),
-            &FetchPublishedAliasesJob::advertizedAliasesFetched,
-            this,
-            &AliasEditingModel::updatePublishedAliases);
-    http::client()->list_room_aliases(
-      room_id, [job](const mtx::responses::Aliases &aliasesFetched, mtx::http::RequestErr) {
-          emit job->advertizedAliasesFetched(std::move(aliasesFetched.aliases));
-      });
+    nhlog::ui()->warn(
+      "Skipping legacy published-alias fetch for room '{}'; this flow is not migrated to the "
+      "matrix-sdk backend yet",
+      room_id);
 }
 
 void
 AliasEditingModel::fetchAliasesStatus(const std::string &alias)
 {
-    auto job = QSharedPointer<FetchPublishedAliasesJob>::create();
-    connect(
-      job.data(), &FetchPublishedAliasesJob::aliasFetched, this, &AliasEditingModel::updateAlias);
-    http::client()->resolve_room_alias(
-      alias, [job, alias](const mtx::responses::RoomId &roomIdFetched, mtx::http::RequestErr e) {
-          if (!e)
-              emit job->aliasFetched(alias, std::move(roomIdFetched.room_id));
-      });
+    nhlog::ui()->warn(
+      "Skipping legacy alias resolution for '{}' in room '{}'; this flow is not migrated to "
+      "the matrix-sdk backend yet",
+      alias,
+      room_id);
 }
 
 QHash<int, QByteArray>
@@ -120,15 +121,7 @@ AliasEditingModel::deleteAlias(int row)
     endRemoveRows();
 
     if (alias.published)
-        http::client()->delete_room_alias(alias.alias, [alias](mtx::http::RequestErr e) {
-            if (e) {
-                nhlog::net()->error("Failed to delete {}: {}", alias.alias, *e);
-                ChatPage::instance()->showNotification(
-                  tr("Failed to unpublish alias %1: %2")
-                    .arg(QString::fromStdString(alias.alias),
-                         QString::fromStdString(e->matrix_error.error)));
-            }
-        });
+        notifyAliasEditingUnavailable();
 
     if (aliasEvent.alias == alias.alias)
         aliasEvent.alias.clear();
@@ -165,20 +158,8 @@ AliasEditingModel::addAlias(QString newAlias)
     auto job = QSharedPointer<FetchPublishedAliasesJob>::create();
     connect(
       job.data(), &FetchPublishedAliasesJob::aliasFetched, this, &AliasEditingModel::updateAlias);
-    auto room = room_id;
-    http::client()->add_room_alias(
-      aliasStr, room_id, [job, aliasStr, room](mtx::http::RequestErr e) {
-          if (e) {
-              nhlog::net()->error("Failed to publish {}: {}", aliasStr, *e);
-              ChatPage::instance()->showNotification(
-                tr("Failed to unpublish alias %1: %2")
-                  .arg(QString::fromStdString(aliasStr),
-                       QString::fromStdString(e->matrix_error.error)));
-              emit job->aliasFetched(aliasStr, "");
-          } else {
-              emit job->aliasFetched(aliasStr, room);
-          }
-      });
+    notifyAliasEditingUnavailable();
+    emit job->aliasFetched(aliasStr, "");
 }
 
 void
@@ -224,34 +205,8 @@ AliasEditingModel::togglePublish(int row)
     auto job = QSharedPointer<FetchPublishedAliasesJob>::create();
     connect(
       job.data(), &FetchPublishedAliasesJob::aliasFetched, this, &AliasEditingModel::updateAlias);
-    auto room = room_id;
-    if (!aliases[row].published)
-        http::client()->add_room_alias(
-          aliasStr, room_id, [job, aliasStr, room](mtx::http::RequestErr e) {
-              if (e) {
-                  nhlog::net()->error("Failed to publish {}: {}", aliasStr, *e);
-                  ChatPage::instance()->showNotification(
-                    tr("Failed to unpublish alias %1: %2")
-                      .arg(QString::fromStdString(aliasStr),
-                           QString::fromStdString(e->matrix_error.error)));
-                  emit job->aliasFetched(aliasStr, "");
-              } else {
-                  emit job->aliasFetched(aliasStr, room);
-              }
-          });
-    else
-        http::client()->delete_room_alias(aliasStr, [job, aliasStr, room](mtx::http::RequestErr e) {
-            if (e) {
-                nhlog::net()->error("Failed to unpublish {}: {}", aliasStr, *e);
-                ChatPage::instance()->showNotification(
-                  tr("Failed to unpublish alias %1: %2")
-                    .arg(QString::fromStdString(aliasStr),
-                         QString::fromStdString(e->matrix_error.error)));
-                emit job->aliasFetched(aliasStr, room);
-            } else {
-                emit job->aliasFetched(aliasStr, "");
-            }
-        });
+    notifyAliasEditingUnavailable();
+    emit job->aliasFetched(aliasStr, aliases[row].published ? room_id : std::string{});
 }
 
 void
@@ -322,16 +277,7 @@ AliasEditingModel::commit()
 {
     if (!canSendStateEvent)
         return;
-
-    http::client()->send_state_event(
-      room_id, aliasEvent, [](const mtx::responses::EventId &, mtx::http::RequestErr e) {
-          if (e) {
-              nhlog::net()->error("Failed to send Alias event: {}", *e);
-              ChatPage::instance()->showNotification(
-                tr("Failed to update aliases: %1")
-                  .arg(QString::fromStdString(e->matrix_error.error)));
-          }
-      });
+    notifyAliasEditingUnavailable();
 }
 
 #include "moc_AliasEditModel.cpp"

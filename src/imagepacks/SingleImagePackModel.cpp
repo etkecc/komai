@@ -14,15 +14,23 @@
 
 #include <unordered_set>
 
-#include <mtx/responses/media.hpp>
-
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "timeline/Permissions.h"
 #include "timeline/TimelineModel.h"
 #include "utils/Utils.h"
+
+namespace {
+void
+notifyImagePackEditingUnavailable()
+{
+    nhlog::ui()->warn("Refusing legacy image-pack editing action; this flow is not migrated to the "
+                      "matrix-sdk backend yet");
+    ChatPage::instance()->showNotification(SingleImagePackModel::tr(
+      "Image-pack editing is not migrated to the matrix-sdk backend yet."));
+}
+}
 
 SingleImagePackModel::SingleImagePackModel(ImagePackInfo pack_, QObject *parent)
   : QAbstractListModel(parent)
@@ -163,23 +171,8 @@ SingleImagePackModel::isGloballyEnabled() const
 void
 SingleImagePackModel::setGloballyEnabled(bool enabled)
 {
-    mtx::events::msc2545::ImagePackRooms content{};
-    if (auto roomPacks = cache::getAccountData(mtx::events::EventType::ImagePackRooms)) {
-        if (auto tmp =
-              std::get_if<mtx::events::EphemeralEvent<mtx::events::msc2545::ImagePackRooms>>(
-                &*roomPacks)) {
-            content = tmp->content;
-        }
-    }
-
-    if (enabled)
-        content.rooms[roomid_][statekey_] = {};
-    else
-        content.rooms[roomid_].erase(statekey_);
-
-    http::client()->put_account_data(content, [](mtx::http::RequestErr) {
-        // emit this->globallyEnabledChanged();
-    });
+    (void)enabled;
+    notifyImagePackEditingUnavailable();
 }
 
 bool
@@ -278,137 +271,27 @@ SingleImagePackModel::setIsEmotePack(bool val)
 void
 SingleImagePackModel::save()
 {
-    if (roomid_.empty()) {
-        http::client()->put_account_data(pack, [](mtx::http::RequestErr e) {
-            if (e)
-                ChatPage::instance()->showNotification(
-                  tr("Failed to update image pack: %1")
-                    .arg(QString::fromStdString(e->matrix_error.error)));
-        });
-    } else {
-        if (old_statekey_ != statekey_) {
-            this->remove();
-        }
-
-        http::client()->send_state_event(
-          roomid_,
-          statekey_,
-          pack,
-          [this](const mtx::responses::EventId &, mtx::http::RequestErr e) {
-              if (e)
-                  ChatPage::instance()->showNotification(
-                    tr("Failed to update image pack: %1")
-                      .arg(QString::fromStdString(e->matrix_error.error)));
-
-              nhlog::net()->info("Uploaded image pack: %1", statekey_);
-          });
-    }
+    notifyImagePackEditingUnavailable();
 }
 
 void
 SingleImagePackModel::remove()
 {
-    // handle account pack deletion.
-    // Sadly we cannot actually delete the pack,
-    // so we just send an empty pack to clear out its information.
-    if (roomid_.empty()) {
-        http::client()->put_account_data(
-          mtx::events::msc2545::ImagePack(), [](mtx::http::RequestErr e) {
-              if (e)
-                  ChatPage::instance()->showNotification(
-                    tr("Failed to update image pack: %1")
-                      .arg(QString::fromStdString(e->matrix_error.error)));
-          });
-        return;
-    }
-
-    http::client()->send_state_event(
-      roomid_,
-      to_string(mtx::events::EventType::ImagePackInRoom),
-      old_statekey_,
-      nlohmann::json::object(),
-      [](const mtx::responses::EventId &, mtx::http::RequestErr e) {
-          if (e)
-              ChatPage::instance()->showNotification(
-                tr("Failed to delete old image pack: %1")
-                  .arg(QString::fromStdString(e->matrix_error.error)));
-      });
-    old_statekey_ = statekey_;
+    notifyImagePackEditingUnavailable();
 }
 
 void
 SingleImagePackModel::addStickers(QList<QUrl> files)
 {
-    for (const auto &f : files) {
-        auto file = QFile(f.toLocalFile());
-        if (!file.open(QFile::ReadOnly)) {
-            ChatPage::instance()->showNotification(
-              tr("Failed to open image: %1").arg(f.toLocalFile()));
-            return;
-        }
-
-        auto bytes = file.readAll();
-        auto img   = utils::readImage(bytes);
-
-        mtx::common::ImageInfo info{};
-
-        auto sz = img.size() / 2;
-        if (sz.width() > 512 || sz.height() > 512) {
-            sz.scale(512, 512, Qt::AspectRatioMode::KeepAspectRatio);
-        } else if (img.height() < 128 && img.width() < 128) {
-            sz = img.size();
-        }
-
-        info.h        = sz.height();
-        info.w        = sz.width();
-        info.size     = bytes.size();
-        info.mimetype = QMimeDatabase().mimeTypeForFile(f.toLocalFile()).name().toStdString();
-
-        auto filename = f.fileName().toStdString();
-        auto basename = QFileInfo(file).baseName().toStdString();
-        http::client()->upload(
-          bytes.toStdString(),
-          QMimeDatabase().mimeTypeForFile(f.toLocalFile()).name().toStdString(),
-          filename,
-          [this, basename, info](const mtx::responses::ContentURI &uri, mtx::http::RequestErr e) {
-              if (e) {
-                  ChatPage::instance()->showNotification(
-                    tr("Failed to upload image: %1")
-                      .arg(QString::fromStdString(e->matrix_error.error)));
-                  return;
-              }
-
-              emit addImage(uri.content_uri, basename, info);
-          });
-    }
+    (void)files;
+    notifyImagePackEditingUnavailable();
 }
 
 void
 SingleImagePackModel::setAvatar(QUrl f)
 {
-    auto file = QFile(f.toLocalFile());
-    if (!file.open(QFile::ReadOnly)) {
-        ChatPage::instance()->showNotification(tr("Failed to open image: %1").arg(f.toLocalFile()));
-        return;
-    }
-
-    auto bytes = file.readAll();
-
-    auto filename = f.fileName().toStdString();
-    http::client()->upload(
-      bytes.toStdString(),
-      QMimeDatabase().mimeTypeForFile(f.toLocalFile()).name().toStdString(),
-      filename,
-      [this, filename](const mtx::responses::ContentURI &uri, mtx::http::RequestErr e) {
-          if (e) {
-              ChatPage::instance()->showNotification(
-                tr("Failed to upload image: %1")
-                  .arg(QString::fromStdString(e->matrix_error.error)));
-              return;
-          }
-
-          emit avatarUploaded(QString::fromStdString(uri.content_uri));
-      });
+    (void)f;
+    notifyImagePackEditingUnavailable();
 }
 
 void

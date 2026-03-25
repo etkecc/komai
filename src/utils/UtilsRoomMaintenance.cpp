@@ -35,64 +35,20 @@
 void
 utils::removeDirectFromRoom(QString roomid)
 {
-    http::client()->get_account_data<mtx::events::account_data::Direct>(
-      [roomid](mtx::events::account_data::Direct ev, mtx::http::RequestErr e) {
-          if (e && e->status_code == 404)
-              ev = {};
-          else if (e) {
-              nhlog::net()->error("Failed to retrieve m.direct: {}", *e);
-              return;
-          }
-
-          auto r = roomid.toStdString();
-
-          for (auto it = ev.user_to_rooms.begin(); it != ev.user_to_rooms.end();) {
-              for (auto rit = it->second.begin(); rit != it->second.end();) {
-                  if (r == *rit)
-                      rit = it->second.erase(rit);
-                  else
-                      ++rit;
-              }
-
-              if (it->second.empty())
-                  it = ev.user_to_rooms.erase(it);
-              else
-                  ++it;
-          }
-
-          http::client()->put_account_data(ev, [r](mtx::http::RequestErr e) {
-              if (e)
-                  nhlog::net()->error("Failed to update m.direct: {}", *e);
-          });
-      });
+    nhlog::ui()->warn(
+      "Refusing legacy m.direct removal for room '{}'; this flow is not migrated to the "
+      "matrix-sdk backend yet",
+      roomid.toStdString());
 }
 
 void
 utils::markRoomAsDirect(QString roomid, std::vector<RoomMember> members)
 {
-    http::client()->get_account_data<mtx::events::account_data::Direct>(
-      [roomid, members](mtx::events::account_data::Direct ev, mtx::http::RequestErr e) {
-          if (e && e->status_code == 404)
-              ev = {};
-          else if (e) {
-              nhlog::net()->error("Failed to retrieve m.direct: {}", *e);
-              return;
-          }
-
-          auto local = utils::localUser();
-          auto r     = roomid.toStdString();
-
-          for (const auto &m : members) {
-              if (m.user_id != local) {
-                  ev.user_to_rooms[m.user_id.toStdString()].push_back(r);
-              }
-          }
-
-          http::client()->put_account_data(ev, [r](mtx::http::RequestErr e) {
-              if (e)
-                  nhlog::net()->error("Failed to update m.direct: {}", *e);
-          });
-      });
+    (void)members;
+    nhlog::ui()->warn(
+      "Refusing legacy m.direct update for room '{}'; this flow is not migrated to the "
+      "matrix-sdk backend yet",
+      roomid.toStdString());
 }
 
 std::vector<std::string>
@@ -245,8 +201,9 @@ utils::roomVias(const std::string &roomid)
                 vias.push_back(
                   mtx::identifiers::parse<mtx::identifiers::User>(localUser().toStdString())
                     .hostname());
-            } catch (const std::exception &) {
-                vias.push_back(http::client()->user_id().hostname());
+            } catch (const std::exception &e) {
+                nhlog::ui()->warn("Failed to derive local homeserver for invite vias: {}",
+                                  e.what());
             }
             for (const auto &m : members) {
                 if (vias.size() >= 3)

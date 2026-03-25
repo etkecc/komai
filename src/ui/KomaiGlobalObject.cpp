@@ -34,6 +34,7 @@
 #include "profile/ProfileManager.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
+#include "utils/MediaIcons.h"
 #include "utils/Utils.h"
 
 #if XCB_AVAILABLE && QT_CONFIG(xcb)
@@ -253,6 +254,18 @@ QColor
 Komai::readableAccentTextColor(QColor accentColor, QColor backgroundColor) const
 {
     return utils::deriveReadableAccentTextColor(accentColor, backgroundColor);
+}
+
+QString
+Komai::humanReadableFileSize(qulonglong bytes) const
+{
+    return utils::humanReadableFileSize(bytes);
+}
+
+QString
+Komai::fileTypeIconSource(const QString &mimeType) const
+{
+    return utils::fileTypeIconSource(mimeType);
 }
 
 int

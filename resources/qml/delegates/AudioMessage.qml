@@ -13,7 +13,9 @@ Item {
     required property string body
     required property string filename
     required property string filesize
-    readonly property var roomContext: (typeof room !== "undefined" && room) ? room : null
+    readonly property var roomContext: (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
+        ? effectiveRoomContext
+        : ((typeof room !== "undefined" && room) ? room : null)
 
     implicitWidth: 500
     width: Math.min(parent?.width ?? implicitWidth, implicitWidth)

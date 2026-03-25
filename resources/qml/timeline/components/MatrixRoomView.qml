@@ -395,6 +395,7 @@ ColumnLayout {
                         required property double mediaDurationMs
                         required property double mediaSizeBytes
                         required property bool mediaIsEncrypted
+                        required property bool thumbnailIsEncrypted
                         required property double timestamp
                         required property bool isEdited
                         required property bool isOwn
@@ -411,19 +412,42 @@ ColumnLayout {
                         readonly property double safePreviewAspectRatio: mediaWidth > 0 && mediaHeight > 0 ? (mediaHeight / mediaWidth) : 0.75
                         readonly property bool isStateLikeItem: ["membership_change", "profile_change", "other_state", "failed_to_parse_state"].indexOf(itemKind) >= 0
                         readonly property bool usesSharedTextBubble: ["message", "notice", "emote"].indexOf(itemKind) >= 0
+                        readonly property bool usesSharedFileBubble: itemKind === "file"
+                        readonly property bool usesSharedAudioBubble: itemKind === "audio"
                         readonly property bool usesSharedStateBubble: isStateLikeItem
-                        readonly property bool usesSharedTimelineBubble: usesSharedTextBubble || usesSharedStateBubble
+                        readonly property bool usesSharedTimelineBubble: usesSharedTextBubble
+                            || usesSharedFileBubble
+                            || usesSharedAudioBubble
+                            || usesSharedStateBubble
                         readonly property bool supportsSharedToolbarActions: eventId.length > 0 && itemKind !== "date_divider" && !isStateLikeItem
                         readonly property int matrixEventType: root.matrixEventTypeForItemKind(itemKind)
                         readonly property bool messageIsRightAligned: isOwn
                         readonly property int dayKey: root.matrixTimelineDayKey(timestamp)
                         readonly property var previousItem: TimelineManager.matrixTimelineModel ? TimelineManager.matrixTimelineModel.itemAt(modelIndex + 1) : ({})
+                        readonly property string sharedHumanReadableMediaSize: mediaSizeBytes > 0
+                            ? Komai.humanReadableFileSize(Number(mediaSizeBytes))
+                            : ""
+                        readonly property string sharedFileTypeIconSource: Komai.fileTypeIconSource(mimeType)
                         readonly property var sharedPreviewData: ({
                                 "room": matrixToolbarRoomModel,
                                 "avatarUrl": senderAvatarUrl,
                                 "body": body,
                                 "formattedBody": root.formattedMatrixTextHtml(body),
                                 "isOnlyEmoji": 0,
+                                "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
+                                "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
+                                "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
+                                "previousUserId": previousItem.senderId !== undefined ? String(previousItem.senderId || "") : ""
+                            })
+                        readonly property var sharedAttachmentPreviewData: ({
+                                "room": matrixToolbarRoomModel,
+                                "avatarUrl": senderAvatarUrl,
+                                "eventId": eventId,
+                                "body": body,
+                                "filename": effectiveFileName,
+                                "filesize": sharedHumanReadableMediaSize,
+                                "fileTypeIconSource": sharedFileTypeIconSource,
+                                "duration": Math.round(Number(mediaDurationMs)),
                                 "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
                                 "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
                                 "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
@@ -1073,7 +1097,7 @@ ColumnLayout {
                             id: sharedTextBubble
 
                             eventId: timelineItemDelegate.eventId
-                            replyTo: timelineItemDelegate.usesSharedTextBubble
+                            replyTo: !timelineItemDelegate.usesSharedStateBubble
                                 ? timelineItemDelegate.replyEventId
                                 : ""
                             room: null
@@ -1087,10 +1111,11 @@ ColumnLayout {
                             threadId: ""
                             userPowerlevel: 0
                             isEdited: timelineItemDelegate.isEdited
-                            isEncrypted: false
-                            reactions: timelineItemDelegate.usesSharedTextBubble
-                                ? timelineItemDelegate.reactions
-                                : []
+                            isEncrypted: timelineItemDelegate.mediaIsEncrypted
+                                || timelineItemDelegate.thumbnailIsEncrypted
+                            reactions: timelineItemDelegate.usesSharedStateBubble
+                                ? []
+                                : timelineItemDelegate.reactions
                             status: MtxEvent.Empty
                             trustlevel: 0
                             notificationlevel: MtxEvent.Empty
@@ -1105,8 +1130,10 @@ ColumnLayout {
                             messageActions: matrixMessageActionsHost.control
                             previewData: timelineItemDelegate.usesSharedStateBubble
                                 ? timelineItemDelegate.sharedStatePreviewData
-                                : timelineItemDelegate.sharedPreviewData
-                            replyPreviewData: timelineItemDelegate.usesSharedTextBubble
+                                : (timelineItemDelegate.usesSharedFileBubble || timelineItemDelegate.usesSharedAudioBubble)
+                                    ? timelineItemDelegate.sharedAttachmentPreviewData
+                                    : timelineItemDelegate.sharedPreviewData
+                            replyPreviewData: !timelineItemDelegate.usesSharedStateBubble
                                 ? timelineItemDelegate.sharedReplyPreviewData
                                 : ({})
                             roomModelOverride: matrixToolbarRoomModel

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
+import QtQuick.Window
 import cc.etke.komai
 
 TimelineEvent {
@@ -51,6 +52,10 @@ TimelineEvent {
     property var previewData: ({})
     property var replyPreviewData: ({})
     property var roomModelOverride: null
+    readonly property var effectiveRoomContext: room ? room : roomModelOverride
+    readonly property int delegateContainerHeight: (typeof timelineView !== "undefined" && timelineView && timelineView.height > 0)
+        ? timelineView.height
+        : Screen.height
     readonly property var roomForColorCoding: room ? room : ((previewData && previewData.room) ? previewData.room : null)
     readonly property string roomIdForColorCoding: (roomForColorCoding && roomForColorCoding.roomId) ? String(roomForColorCoding.roomId) : ""
     readonly property bool focusedInView: !!chatRoot && chatRoot.focusedEventId === wrapper.eventId

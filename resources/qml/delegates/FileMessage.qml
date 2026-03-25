@@ -20,6 +20,9 @@ Control {
     padding: styleProfile.fileMessagePadding
     property int metadataWidth: 0
     property bool fitsMetadata: false
+    readonly property var effectiveDelegateRoom: (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
+        ? effectiveRoomContext
+        : ((typeof room !== "undefined" && room) ? room : null)
 
     Layout.maximumWidth: rowa.Layout.maximumWidth + padding * 2
 
@@ -85,7 +88,10 @@ Control {
             icon.source: "qrc:/icons/icons/ui/download.svg"
             toolTipText: qsTr("Save file")
 
-            onClicked: room.saveMedia(eventId)
+            onClicked: {
+                if (evRoot.effectiveDelegateRoom)
+                    evRoot.effectiveDelegateRoom.saveMedia(eventId);
+            }
         }
 
     }

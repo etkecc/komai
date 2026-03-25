@@ -10,6 +10,7 @@
 #include <QQmlEngine>
 #include <QSet>
 #include <QString>
+#include <optional>
 
 #include <unordered_set>
 
@@ -18,6 +19,7 @@
 #include <mtx/events/history_visibility.hpp>
 
 #include "matrix/MatrixStateTypes.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 
 /// Convenience class which connects events emmited from threads
 /// outside of main with the UI code.
@@ -152,6 +154,7 @@ public:
     QStringList allowedRooms() const;
     void setAllowedRooms(QStringList rooms);
     bool allowedRoomsModified() const { return allowedRoomsModified_; }
+    QStringList parentSpaceRoomIds() const;
 
     Visibility historyVisibility() const;
     Q_INVOKABLE void changeHistoryVisibility(Visibility visibility);
@@ -188,6 +191,8 @@ public slots:
 
 private:
     void retrieveRoomInfo();
+    bool loadMatrixRuntimeRoomSettings(QString *errorOut = nullptr);
+    uint64_t matrixBackendHandleId() const;
     void updateAccessRules(const std::string &room_id,
                            const mtx::events::state::JoinRules &,
                            const mtx::events::state::GuestAccess &);
@@ -203,6 +208,7 @@ private:
     mtx::events::state::JoinRules accessRules_;
     mtx::events::state::Visibility historyVisibility_ = mtx::events::state::Visibility::Shared;
     mtx::events::state::AccessState guestRules_       = mtx::events::state::AccessState::Forbidden;
+    std::optional<komai::MatrixRoomSettings> matrixRoomSettings_;
 
     RoomSettingsAllowedRoomsModel *allowedRoomsModel;
 };

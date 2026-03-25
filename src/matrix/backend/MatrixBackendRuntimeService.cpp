@@ -62,6 +62,42 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
     };
 }
 
+MatrixRoomSettings
+fromRustRoomSettings(const ::komai::rust::MatrixRoomSettings &room)
+{
+    QVector<QString> allowedRoomIds;
+    allowedRoomIds.reserve(static_cast<int>(room.allowed_room_ids.size()));
+    for (const auto &value : room.allowed_room_ids)
+        allowedRoomIds.push_back(QString::fromStdString(std::string(value)));
+
+    QVector<QString> parentSpaceRoomIds;
+    parentSpaceRoomIds.reserve(static_cast<int>(room.parent_space_room_ids.size()));
+    for (const auto &value : room.parent_space_room_ids)
+        parentSpaceRoomIds.push_back(QString::fromStdString(std::string(value)));
+
+    return MatrixRoomSettings{
+      .roomId    = QString::fromStdString(std::string(room.room_id)),
+      .roomName  = QString::fromStdString(std::string(room.room_name)),
+      .roomTopic = QString::fromStdString(std::string(room.room_topic)),
+      .roomAvatarUrl =
+        matrix::normalizeMxcUri(QString::fromStdString(std::string(room.room_avatar_url))),
+      .roomVersion                = QString::fromStdString(std::string(room.room_version)),
+      .memberCount                = room.member_count,
+      .notifications              = room.notifications,
+      .joinRule                   = QString::fromStdString(std::string(room.join_rule)),
+      .historyVisibility          = QString::fromStdString(std::string(room.history_visibility)),
+      .allowedRoomIds             = allowedRoomIds,
+      .parentSpaceRoomIds         = parentSpaceRoomIds,
+      .guestAccess                = room.guest_access,
+      .isEncrypted                = room.is_encrypted,
+      .canChangeName              = room.can_change_name,
+      .canChangeTopic             = room.can_change_topic,
+      .canChangeAvatar            = room.can_change_avatar,
+      .canChangeJoinRules         = room.can_change_join_rules,
+      .canChangeHistoryVisibility = room.can_change_history_visibility,
+    };
+}
+
 MatrixTimelineItem
 fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
 {
@@ -323,6 +359,162 @@ MatrixBackendRuntimeService::fetchRoomList(uint64_t handleId, QString *errorOut)
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return std::nullopt;
+    }
+}
+
+std::optional<MatrixRoomSettings>
+MatrixBackendRuntimeService::fetchRoomSettings(uint64_t handleId,
+                                               const QString &roomId,
+                                               QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_fetch_room_settings(handleId, roomId.toStdString());
+        return fromRustRoomSettings(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::setRoomNotificationMode(uint64_t handleId,
+                                                     const QString &roomId,
+                                                     int mode,
+                                                     QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_set_room_notification_mode(handleId, roomId.toStdString(), mode);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::setRoomName(uint64_t handleId,
+                                         const QString &roomId,
+                                         const QString &name,
+                                         QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_set_room_name(handleId, roomId.toStdString(), name.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::setRoomTopic(uint64_t handleId,
+                                          const QString &roomId,
+                                          const QString &topic,
+                                          QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_set_room_topic(handleId, roomId.toStdString(), topic.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::uploadRoomAvatar(uint64_t handleId,
+                                              const QString &roomId,
+                                              const QString &filePath,
+                                              const QString &mimeType,
+                                              int width,
+                                              int height,
+                                              QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_upload_room_avatar(handleId,
+                                                 roomId.toStdString(),
+                                                 filePath.toStdString(),
+                                                 mimeType.toStdString(),
+                                                 width,
+                                                 height);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::removeRoomAvatar(uint64_t handleId,
+                                              const QString &roomId,
+                                              QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_remove_room_avatar(handleId, roomId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::enableRoomEncryption(uint64_t handleId,
+                                                  const QString &roomId,
+                                                  QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_enable_room_encryption(handleId, roomId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::setRoomHistoryVisibility(uint64_t handleId,
+                                                      const QString &roomId,
+                                                      const QString &historyVisibility,
+                                                      QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_set_room_history_visibility(
+          handleId, roomId.toStdString(), historyVisibility.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::setRoomAccessRules(uint64_t handleId,
+                                                const QString &roomId,
+                                                const QString &joinRule,
+                                                bool guestAccess,
+                                                const QVector<QString> &allowedRoomIds,
+                                                QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_set_room_access_rules(handleId,
+                                                    roomId.toStdString(),
+                                                    joinRule.toStdString(),
+                                                    guestAccess,
+                                                    toRustStringVec(allowedRoomIds));
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
     }
 }
 

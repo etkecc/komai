@@ -14,6 +14,7 @@ use std::{
 
 use matrix_sdk::{
     Client,
+    Room,
     RoomState,
     media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings},
     ruma::{
@@ -59,6 +60,8 @@ mod registry;
 mod room_actions;
 #[path = "runtime_room_list.rs"]
 mod room_list;
+#[path = "runtime_room_settings.rs"]
+mod room_settings;
 #[path = "runtime_timeline.rs"]
 mod timeline;
 
@@ -68,6 +71,11 @@ pub use room_actions::{
     ban_user, create_room, invite_user, join_room, kick_user, knock_room, leave_room, unban_user,
 };
 pub use room_list::{fetch_room_list, start_sync};
+pub use room_settings::{
+    enable_room_encryption, fetch_room_settings, remove_room_avatar, set_room_access_rules,
+    set_room_history_visibility, set_room_name, set_room_notification_mode, set_room_topic,
+    upload_room_avatar,
+};
 pub use timeline::{
     fetch_active_room_timeline, paginate_active_room_timeline_backwards,
     select_active_room_timeline, send_room_message,
@@ -102,6 +110,28 @@ pub struct MatrixRoomSummary {
     pub notification_count: u64,
     pub highlight_count: u64,
     pub timestamp: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixRoomSettings {
+    pub room_id: String,
+    pub room_name: String,
+    pub room_topic: String,
+    pub room_avatar_url: String,
+    pub room_version: String,
+    pub member_count: u64,
+    pub notifications: i32,
+    pub join_rule: String,
+    pub history_visibility: String,
+    pub allowed_room_ids: Vec<String>,
+    pub parent_space_room_ids: Vec<String>,
+    pub guest_access: bool,
+    pub is_encrypted: bool,
+    pub can_change_name: bool,
+    pub can_change_topic: bool,
+    pub can_change_avatar: bool,
+    pub can_change_join_rules: bool,
+    pub can_change_history_visibility: bool,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -163,6 +193,28 @@ fn client_for_handle(handle_id: u64) -> Result<Client, String> {
         .get(&handle_id)
         .map(|handle| handle.client.clone())
         .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
+}
+
+fn room_for_handle(handle_id: u64, room_id: &str) -> Result<Room, String> {
+    let client = client_for_handle(handle_id)?;
+    let parsed_room_id = parse_room_id(room_id)?;
+    client
+        .get_room(&parsed_room_id)
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} cannot see room {}", room_id.trim()))
+}
+
+fn joined_room_for_handle(handle_id: u64, room_id: &str) -> Result<Room, String> {
+    let room = room_for_handle(handle_id, room_id)?;
+
+    if room.state() != RoomState::Joined {
+        return Err(format!(
+            "matrix-sdk backend runtime handle {handle_id} cannot operate on non-joined room {} (state: {:?})",
+            room_id.trim(),
+            room.state()
+        ));
+    }
+
+    Ok(room)
 }
 
 fn trim_reason(reason: &str) -> Option<String> {

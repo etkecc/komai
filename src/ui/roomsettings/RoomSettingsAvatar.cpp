@@ -15,7 +15,9 @@
 
 #include <mtx/responses/media.hpp>
 
+#include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
+#include "matrix/MatrixMediaUri.h"
 
 void
 RoomSettings::stopLoading()
@@ -58,8 +60,37 @@ RoomSettings::updateAvatar()
         return;
     }
 
+    const auto dimensions = QImageReader(&file).size();
+
     isLoading_ = true;
     emit loadingChanged();
+
+    if (matrixRoomSettings_ && matrixBackendHandleId() != 0) {
+        QString error;
+        if (!komai::MatrixBackendRuntimeService::uploadRoomAvatar(matrixBackendHandleId(),
+                                                                  roomid_,
+                                                                  fileName,
+                                                                  mime.name(),
+                                                                  dimensions.width(),
+                                                                  dimensions.height(),
+                                                                  &error)) {
+            isLoading_ = false;
+            emit loadingChanged();
+            emit displayError(error.isEmpty() ? tr("Failed to upload image.") : error);
+            return;
+        }
+
+        if (loadMatrixRuntimeRoomSettings(&error)) {
+            emit avatarUrlChanged();
+        } else {
+            nhlog::ui()->warn("Failed to refresh room settings after avatar upload: {}",
+                              error.toStdString());
+        }
+
+        isLoading_ = false;
+        emit loadingChanged();
+        return;
+    }
 
     // Events emitted from the http callbacks (different threads) will
     // be queued back into the UI thread through this proxy object.
@@ -67,9 +98,8 @@ RoomSettings::updateAvatar()
     connect(proxy.get(), &ThreadProxy::error, this, &RoomSettings::displayError);
     connect(proxy.get(), &ThreadProxy::stopLoading, this, &RoomSettings::stopLoading);
 
-    const auto bin        = file.peek(file.size());
-    const auto payload    = std::string(bin.data(), bin.size());
-    const auto dimensions = QImageReader(&file).size();
+    const auto bin     = file.peek(file.size());
+    const auto payload = std::string(bin.data(), bin.size());
 
     // First we need to create a new mxc URI
     // (i.e upload media to the Matrix content repository) for the new avatar.
@@ -120,6 +150,28 @@ RoomSettings::removeAvatar()
 {
     isLoading_ = true;
     emit loadingChanged();
+
+    if (matrixRoomSettings_ && matrixBackendHandleId() != 0) {
+        QString error;
+        if (!komai::MatrixBackendRuntimeService::removeRoomAvatar(
+              matrixBackendHandleId(), roomid_, &error)) {
+            isLoading_ = false;
+            emit loadingChanged();
+            emit displayError(error.isEmpty() ? tr("Failed to remove avatar.") : error);
+            return;
+        }
+
+        if (loadMatrixRuntimeRoomSettings(&error)) {
+            emit avatarUrlChanged();
+        } else {
+            nhlog::ui()->warn("Failed to refresh room settings after avatar removal: {}",
+                              error.toStdString());
+        }
+
+        isLoading_ = false;
+        emit loadingChanged();
+        return;
+    }
 
     auto proxy = std::make_shared<ThreadProxy>();
     connect(proxy.get(), &ThreadProxy::error, this, &RoomSettings::displayError);

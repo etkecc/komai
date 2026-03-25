@@ -7,7 +7,7 @@
 
 #include <utility>
 
-#include "cache/Cache.h"
+#include "timeline/RoomlistModel.h"
 
 RoomSettingsAllowedRoomsModel::RoomSettingsAllowedRoomsModel(RoomSettings *parent)
   : QAbstractListModel(parent)
@@ -15,10 +15,8 @@ RoomSettingsAllowedRoomsModel::RoomSettingsAllowedRoomsModel(RoomSettings *paren
 {
     this->allowedRoomIds = settings->allowedRooms();
 
-    auto prIds = cache::getParentRoomIds(settings->roomId().toStdString());
-    for (const auto &prId : prIds) {
-        this->parentSpaces.insert(QString::fromStdString(prId));
-    }
+    for (const auto &parentRoomId : settings->parentSpaceRoomIds())
+        this->parentSpaces.insert(parentRoomId);
 
     this->listedRoomIds = QStringList(parentSpaces.begin(), parentSpaces.end());
 
@@ -55,14 +53,14 @@ RoomSettingsAllowedRoomsModel::data(const QModelIndex &index, int role) const
     } else if (role == Roles::IsSpaceParent) {
         return parentSpaces.find(listedRoomIds.at(index.row())) != parentSpaces.cend();
     } else if (role == Roles::Name) {
-        auto id   = listedRoomIds.at(index.row());
-        auto info = cache::getRoomInfo({
-          id.toStdString(),
-        });
-        if (!info.empty())
-            return QString::fromStdString(info[id].name);
-        else
-            return "";
+        const auto id = listedRoomIds.at(index.row());
+        if (const auto *roomModel = FilteredRoomlistModel::instance()) {
+            const auto preview = roomModel->getRoomPreviewById(id);
+            if (!preview.roomName().isEmpty())
+                return preview.roomName();
+        }
+
+        return id;
     } else {
         return {};
     }

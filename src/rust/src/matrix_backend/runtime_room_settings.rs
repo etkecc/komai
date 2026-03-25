@@ -1,0 +1,432 @@
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+use std::fs;
+
+use super::*;
+use matrix_sdk::{
+    notification_settings::RoomNotificationMode,
+    room::ParentSpace,
+    ruma::{
+        UInt,
+        events::{
+            StateEventType,
+            room::{
+                avatar::ImageInfo,
+                encryption::RoomEncryptionEventContent,
+                guest_access::{GuestAccess, RoomGuestAccessEventContent},
+                history_visibility::{HistoryVisibility, RoomHistoryVisibilityEventContent},
+                join_rules::{AllowRule, JoinRule, RoomJoinRulesEventContent},
+            },
+        },
+    },
+};
+use mime::Mime;
+
+fn notification_mode_to_int(mode: &RoomNotificationMode) -> i32 {
+    match mode {
+        RoomNotificationMode::Mute => 0,
+        RoomNotificationMode::MentionsAndKeywordsOnly => 1,
+        RoomNotificationMode::AllMessages => 2,
+    }
+}
+
+fn notification_mode_from_int(mode: i32) -> RoomNotificationMode {
+    match mode {
+        0 => RoomNotificationMode::Mute,
+        1 => RoomNotificationMode::MentionsAndKeywordsOnly,
+        _ => RoomNotificationMode::AllMessages,
+    }
+}
+
+fn history_visibility_to_key(value: HistoryVisibility) -> String {
+    match value {
+        HistoryVisibility::WorldReadable => "world_readable".to_owned(),
+        HistoryVisibility::Shared => "shared".to_owned(),
+        HistoryVisibility::Invited => "invited".to_owned(),
+        HistoryVisibility::Joined => "joined".to_owned(),
+        HistoryVisibility::_Custom(_) => "shared".to_owned(),
+        _ => "shared".to_owned(),
+    }
+}
+
+fn history_visibility_from_key(value: &str) -> HistoryVisibility {
+    match value.trim() {
+        "world_readable" => HistoryVisibility::WorldReadable,
+        "invited" => HistoryVisibility::Invited,
+        "joined" => HistoryVisibility::Joined,
+        _ => HistoryVisibility::Shared,
+    }
+}
+
+fn default_join_rule() -> JoinRule {
+    JoinRule::Invite
+}
+
+fn extract_allowed_room_ids(join_rule: &JoinRule) -> Vec<String> {
+    match join_rule {
+        JoinRule::Restricted(restricted) | JoinRule::KnockRestricted(restricted) => restricted
+            .allow
+            .iter()
+            .filter_map(|rule| match rule {
+                AllowRule::RoomMembership(room_membership) => {
+                    Some(room_membership.room_id.to_string())
+                }
+                AllowRule::_Custom(_) => None,
+                _ => None,
+            })
+            .collect(),
+        _ => Vec::new(),
+    }
+}
+
+fn build_join_rule(kind: &str, allowed_room_ids: &[String]) -> Result<JoinRule, String> {
+    let allow = allowed_room_ids
+        .iter()
+        .map(|room_id| parse_room_id(room_id).map(AllowRule::room_membership))
+        .collect::<Result<Vec<_>, _>>()?;
+
+    Ok(match kind.trim() {
+        "public" => JoinRule::Public,
+        "knock" => JoinRule::Knock,
+        "private" => JoinRule::Private,
+        "restricted" => JoinRule::Restricted(matrix_sdk::ruma::room::Restricted::new(allow)),
+        "knock_restricted" => {
+            JoinRule::KnockRestricted(matrix_sdk::ruma::room::Restricted::new(allow))
+        }
+        _ => JoinRule::Invite,
+    })
+}
+
+async fn load_join_rule(room: &Room) -> Result<JoinRule, String> {
+    let Some(raw_event) = room
+        .get_state_event_static::<RoomJoinRulesEventContent>()
+        .await
+        .map_err(|e| format!("failed to load room join rules from matrix-sdk: {e}"))?
+    else {
+        return Ok(default_join_rule());
+    };
+
+    let event = raw_event
+        .deserialize()
+        .map_err(|e| format!("failed to deserialize room join rules from matrix-sdk: {e}"))?;
+    Ok(match event {
+        matrix_sdk::deserialized_responses::SyncOrStrippedState::Sync(ev) => ev.join_rule().clone(),
+        matrix_sdk::deserialized_responses::SyncOrStrippedState::Stripped(ev) => ev.content.join_rule,
+    })
+}
+
+async fn load_guest_access(room: &Room) -> Result<GuestAccess, String> {
+    let Some(raw_event) = room
+        .get_state_event_static::<RoomGuestAccessEventContent>()
+        .await
+        .map_err(|e| format!("failed to load room guest access from matrix-sdk: {e}"))?
+    else {
+        return Ok(GuestAccess::Forbidden);
+    };
+
+    let event = raw_event
+        .deserialize()
+        .map_err(|e| format!("failed to deserialize room guest access from matrix-sdk: {e}"))?;
+    Ok(match event {
+        matrix_sdk::deserialized_responses::SyncOrStrippedState::Sync(ev) => {
+            ev.guest_access().clone()
+        }
+        matrix_sdk::deserialized_responses::SyncOrStrippedState::Stripped(ev) => {
+            ev.content.guest_access.unwrap_or(GuestAccess::Forbidden)
+        }
+    })
+}
+
+async fn load_history_visibility(room: &Room) -> Result<HistoryVisibility, String> {
+    let Some(raw_event) = room
+        .get_state_event_static::<RoomHistoryVisibilityEventContent>()
+        .await
+        .map_err(|e| format!("failed to load room history visibility from matrix-sdk: {e}"))?
+    else {
+        return Ok(HistoryVisibility::Shared);
+    };
+
+    let event = raw_event.deserialize().map_err(|e| {
+        format!("failed to deserialize room history visibility from matrix-sdk: {e}")
+    })?;
+    Ok(match event {
+        matrix_sdk::deserialized_responses::SyncOrStrippedState::Sync(ev) => {
+            ev.history_visibility().clone()
+        }
+        matrix_sdk::deserialized_responses::SyncOrStrippedState::Stripped(ev) => {
+            ev.content.history_visibility
+        }
+    })
+}
+
+async fn fetch_parent_space_room_ids(room: &Room) -> Vec<String> {
+    let Ok(mut parents) = room.parent_spaces().await else {
+        return Vec::new();
+    };
+
+    let mut room_ids = Vec::new();
+    while let Some(parent) = parents.next().await {
+        match parent {
+            Ok(ParentSpace::Reciprocal(parent_room))
+            | Ok(ParentSpace::WithPowerlevel(parent_room))
+            | Ok(ParentSpace::Illegitimate(parent_room)) => {
+                room_ids.push(parent_room.room_id().to_string());
+            }
+            Ok(ParentSpace::Unverifiable(parent_room_id)) => {
+                room_ids.push(parent_room_id.to_string());
+            }
+            Err(error) => {
+                tracing::debug!(room_id = room.room_id().as_str(), %error, "Failed to inspect room parent space");
+            }
+        }
+    }
+
+    room_ids.sort();
+    room_ids.dedup();
+    room_ids
+}
+
+pub async fn fetch_room_settings(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<MatrixRoomSettings, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let client = client_for_handle(handle_id)?;
+    let own_user_id = client
+        .user_id()
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} has no logged-in user"))?
+        .to_owned();
+
+    let join_rule = load_join_rule(&room).await?;
+    let guest_access = load_guest_access(&room).await?;
+    let history_visibility = load_history_visibility(&room).await?;
+    let power_levels = room.power_levels().await.ok();
+    let room_info = room.clone_info();
+
+    let notification_mode = room.notification_mode().await.unwrap_or(RoomNotificationMode::AllMessages);
+    let parent_space_room_ids = fetch_parent_space_room_ids(&room).await;
+
+    tracing::debug!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        "Fetched room settings via matrix-sdk backend runtime"
+    );
+
+    Ok(MatrixRoomSettings {
+        room_id: room.room_id().to_string(),
+        room_name: room.name().unwrap_or_default(),
+        room_topic: room.topic().unwrap_or_default(),
+        room_avatar_url: room.avatar_url().map(|uri| uri.to_string()).unwrap_or_default(),
+        room_version: room_info
+            .room_version()
+            .map(ToString::to_string)
+            .unwrap_or_default(),
+        member_count: room.active_members_count(),
+        notifications: notification_mode_to_int(&notification_mode),
+        join_rule: join_rule.as_str().to_owned(),
+        history_visibility: history_visibility_to_key(history_visibility),
+        allowed_room_ids: extract_allowed_room_ids(&join_rule),
+        parent_space_room_ids,
+        guest_access: guest_access == GuestAccess::CanJoin,
+        is_encrypted: room.encryption_state().is_encrypted(),
+        can_change_name: power_levels
+            .as_ref()
+            .is_some_and(|levels| levels.user_can_send_state(&own_user_id, StateEventType::RoomName)),
+        can_change_topic: power_levels
+            .as_ref()
+            .is_some_and(|levels| levels.user_can_send_state(&own_user_id, StateEventType::RoomTopic)),
+        can_change_avatar: power_levels
+            .as_ref()
+            .is_some_and(|levels| levels.user_can_send_state(&own_user_id, StateEventType::RoomAvatar)),
+        can_change_join_rules: power_levels.as_ref().is_some_and(|levels| {
+            levels.user_can_send_state(&own_user_id, StateEventType::RoomJoinRules)
+        }),
+        can_change_history_visibility: power_levels.as_ref().is_some_and(|levels| {
+            levels.user_can_send_state(&own_user_id, StateEventType::RoomHistoryVisibility)
+        }),
+    })
+}
+
+pub async fn set_room_notification_mode(
+    handle_id: u64,
+    room_id: &str,
+    mode: i32,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let client = client_for_handle(handle_id)?;
+    let settings = client.notification_settings().await;
+    let mode = notification_mode_from_int(mode);
+
+    tracing::info!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        notification_mode = notification_mode_to_int(&mode),
+        "Updating room notification mode via matrix-sdk backend runtime"
+    );
+
+    settings
+        .set_room_notification_mode(room.room_id(), mode)
+        .await
+        .map_err(|e| format!("failed to update room notification mode via matrix-sdk: {e}"))
+}
+
+pub async fn set_room_name(handle_id: u64, room_id: &str, name: &str) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        has_name = !name.trim().is_empty(),
+        "Updating room name via matrix-sdk backend runtime"
+    );
+
+    room.set_name(name.trim().to_owned())
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to update room name via matrix-sdk: {e}"))
+}
+
+pub async fn set_room_topic(handle_id: u64, room_id: &str, topic: &str) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        has_topic = !topic.trim().is_empty(),
+        "Updating room topic via matrix-sdk backend runtime"
+    );
+
+    room.set_room_topic(topic.trim())
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to update room topic via matrix-sdk: {e}"))
+}
+
+pub async fn upload_room_avatar(
+    handle_id: u64,
+    room_id: &str,
+    file_path: &str,
+    mime_type: &str,
+    width: i32,
+    height: i32,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let file_path = file_path.trim();
+    let mime: Mime = mime_type
+        .trim()
+        .parse()
+        .map_err(|e| format!("invalid avatar mime type '{mime_type}': {e}"))?;
+    let data = fs::read(file_path)
+        .map_err(|e| format!("failed to read avatar file '{file_path}': {e}"))?;
+
+    let mut info = ImageInfo::new();
+    info.width = (width > 0)
+        .then(|| UInt::new(width as u64))
+        .flatten();
+    info.height = (height > 0)
+        .then(|| UInt::new(height as u64))
+        .flatten();
+    info.size = UInt::new(data.len() as u64);
+
+    tracing::info!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        file_path,
+        mime_type,
+        byte_count = data.len(),
+        "Uploading room avatar via matrix-sdk backend runtime"
+    );
+
+    room.upload_avatar(&mime, data, Some(info))
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to upload room avatar via matrix-sdk: {e}"))
+}
+
+pub async fn remove_room_avatar(handle_id: u64, room_id: &str) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        "Removing room avatar via matrix-sdk backend runtime"
+    );
+
+    room.remove_avatar()
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to remove room avatar via matrix-sdk: {e}"))
+}
+
+pub async fn enable_room_encryption(handle_id: u64, room_id: &str) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        "Enabling room encryption via matrix-sdk backend runtime"
+    );
+
+    room.send_state_event(RoomEncryptionEventContent::with_recommended_defaults())
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to enable room encryption via matrix-sdk: {e}"))
+}
+
+pub async fn set_room_history_visibility(
+    handle_id: u64,
+    room_id: &str,
+    history_visibility: &str,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let history_visibility = history_visibility_from_key(history_visibility);
+
+    tracing::info!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        history_visibility = history_visibility_to_key(history_visibility.clone()),
+        "Updating room history visibility via matrix-sdk backend runtime"
+    );
+
+    room.privacy_settings()
+        .update_room_history_visibility(history_visibility)
+        .await
+        .map_err(|e| format!("failed to update room history visibility via matrix-sdk: {e}"))
+}
+
+pub async fn set_room_access_rules(
+    handle_id: u64,
+    room_id: &str,
+    join_rule_kind: &str,
+    guest_access: bool,
+    allowed_room_ids: &[String],
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let join_rule = build_join_rule(join_rule_kind, allowed_room_ids)?;
+    let guest_access = if guest_access {
+        GuestAccess::CanJoin
+    } else {
+        GuestAccess::Forbidden
+    };
+
+    tracing::info!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        join_rule = join_rule.as_str(),
+        guest_access = matches!(guest_access, GuestAccess::CanJoin),
+        allowed_room_count = allowed_room_ids.len(),
+        "Updating room access rules via matrix-sdk backend runtime"
+    );
+
+    room.privacy_settings()
+        .update_join_rule(join_rule)
+        .await
+        .map_err(|e| format!("failed to update room join rules via matrix-sdk: {e}"))?;
+
+    room.send_state_event(RoomGuestAccessEventContent::new(guest_access))
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to update room guest access via matrix-sdk: {e}"))
+}

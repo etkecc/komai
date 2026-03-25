@@ -69,6 +69,27 @@ mod ffi {
         timestamp: u64,
     }
 
+    struct MatrixRoomSettings {
+        room_id: String,
+        room_name: String,
+        room_topic: String,
+        room_avatar_url: String,
+        room_version: String,
+        member_count: u64,
+        notifications: i32,
+        join_rule: String,
+        history_visibility: String,
+        allowed_room_ids: Vec<String>,
+        parent_space_room_ids: Vec<String>,
+        guest_access: bool,
+        is_encrypted: bool,
+        can_change_name: bool,
+        can_change_topic: bool,
+        can_change_avatar: bool,
+        can_change_join_rules: bool,
+        can_change_history_visibility: bool,
+    }
+
     struct MatrixTimelineItem {
         item_id: String,
         event_id: String,
@@ -217,6 +238,7 @@ mod ffi {
         ) -> Result<()>;
         fn matrix_fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile>;
         fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>>;
+        fn matrix_fetch_room_settings(handle_id: u64, room_id: &str) -> Result<MatrixRoomSettings>;
         fn matrix_fetch_media_content(
             handle_id: u64,
             mxc_uri: &str,
@@ -224,6 +246,35 @@ mod ffi {
             height: i32,
             crop: bool,
         ) -> Result<Vec<u8>>;
+        fn matrix_set_room_notification_mode(
+            handle_id: u64,
+            room_id: &str,
+            mode: i32,
+        ) -> Result<()>;
+        fn matrix_set_room_name(handle_id: u64, room_id: &str, name: &str) -> Result<()>;
+        fn matrix_set_room_topic(handle_id: u64, room_id: &str, topic: &str) -> Result<()>;
+        fn matrix_upload_room_avatar(
+            handle_id: u64,
+            room_id: &str,
+            file_path: &str,
+            mime_type: &str,
+            width: i32,
+            height: i32,
+        ) -> Result<()>;
+        fn matrix_remove_room_avatar(handle_id: u64, room_id: &str) -> Result<()>;
+        fn matrix_enable_room_encryption(handle_id: u64, room_id: &str) -> Result<()>;
+        fn matrix_set_room_history_visibility(
+            handle_id: u64,
+            room_id: &str,
+            history_visibility: &str,
+        ) -> Result<()>;
+        fn matrix_set_room_access_rules(
+            handle_id: u64,
+            room_id: &str,
+            join_rule_kind: &str,
+            guest_access: bool,
+            allowed_room_ids: &Vec<String>,
+        ) -> Result<()>;
         fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<()>;
         fn matrix_fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTimelineItem>>;
         fn matrix_paginate_active_room_timeline_backwards(
@@ -507,6 +558,34 @@ fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<ffi::MatrixRoomSummary>,
         })
 }
 
+fn matrix_fetch_room_settings(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<ffi::MatrixRoomSettings, String> {
+    let result = runtime().block_on(matrix_backend::runtime::fetch_room_settings(handle_id, room_id))?;
+
+    Ok(ffi::MatrixRoomSettings {
+        room_id: result.room_id,
+        room_name: result.room_name,
+        room_topic: result.room_topic,
+        room_avatar_url: result.room_avatar_url,
+        room_version: result.room_version,
+        member_count: result.member_count,
+        notifications: result.notifications,
+        join_rule: result.join_rule,
+        history_visibility: result.history_visibility,
+        allowed_room_ids: result.allowed_room_ids,
+        parent_space_room_ids: result.parent_space_room_ids,
+        guest_access: result.guest_access,
+        is_encrypted: result.is_encrypted,
+        can_change_name: result.can_change_name,
+        can_change_topic: result.can_change_topic,
+        can_change_avatar: result.can_change_avatar,
+        can_change_join_rules: result.can_change_join_rules,
+        can_change_history_visibility: result.can_change_history_visibility,
+    })
+}
+
 fn matrix_fetch_media_content(
     handle_id: u64,
     mxc_uri: &str,
@@ -516,6 +595,78 @@ fn matrix_fetch_media_content(
 ) -> Result<Vec<u8>, String> {
     runtime().block_on(matrix_backend::runtime::fetch_media_content(
         handle_id, mxc_uri, width, height, crop,
+    ))
+}
+
+fn matrix_set_room_notification_mode(
+    handle_id: u64,
+    room_id: &str,
+    mode: i32,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::set_room_notification_mode(
+        handle_id, room_id, mode,
+    ))
+}
+
+fn matrix_set_room_name(handle_id: u64, room_id: &str, name: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::set_room_name(handle_id, room_id, name))
+}
+
+fn matrix_set_room_topic(handle_id: u64, room_id: &str, topic: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::set_room_topic(handle_id, room_id, topic))
+}
+
+fn matrix_upload_room_avatar(
+    handle_id: u64,
+    room_id: &str,
+    file_path: &str,
+    mime_type: &str,
+    width: i32,
+    height: i32,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::upload_room_avatar(
+        handle_id,
+        room_id,
+        file_path,
+        mime_type,
+        width,
+        height,
+    ))
+}
+
+fn matrix_remove_room_avatar(handle_id: u64, room_id: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::remove_room_avatar(handle_id, room_id))
+}
+
+fn matrix_enable_room_encryption(handle_id: u64, room_id: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::enable_room_encryption(handle_id, room_id))
+}
+
+fn matrix_set_room_history_visibility(
+    handle_id: u64,
+    room_id: &str,
+    history_visibility: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::set_room_history_visibility(
+        handle_id,
+        room_id,
+        history_visibility,
+    ))
+}
+
+fn matrix_set_room_access_rules(
+    handle_id: u64,
+    room_id: &str,
+    join_rule_kind: &str,
+    guest_access: bool,
+    allowed_room_ids: &Vec<String>,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::set_room_access_rules(
+        handle_id,
+        room_id,
+        join_rule_kind,
+        guest_access,
+        allowed_room_ids,
     ))
 }
 

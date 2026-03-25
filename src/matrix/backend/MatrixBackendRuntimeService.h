@@ -45,6 +45,28 @@ struct MatrixRoomSummary
     uint64_t timestamp         = 0;
 };
 
+struct MatrixRoomSettings
+{
+    QString roomId;
+    QString roomName;
+    QString roomTopic;
+    QString roomAvatarUrl;
+    QString roomVersion;
+    uint64_t memberCount = 0;
+    int notifications    = 2;
+    QString joinRule;
+    QString historyVisibility;
+    QVector<QString> allowedRoomIds;
+    QVector<QString> parentSpaceRoomIds;
+    bool guestAccess                = false;
+    bool isEncrypted                = false;
+    bool canChangeName              = false;
+    bool canChangeTopic             = false;
+    bool canChangeAvatar            = false;
+    bool canChangeJoinRules         = false;
+    bool canChangeHistoryVisibility = false;
+};
+
 struct MatrixTimelineItem
 {
     QString itemId;
@@ -146,6 +168,50 @@ public:
 
     static std::optional<QVector<MatrixRoomSummary>>
     fetchRoomList(uint64_t handleId, QString *errorOut = nullptr);
+
+    static std::optional<MatrixRoomSettings>
+    fetchRoomSettings(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static bool setRoomNotificationMode(uint64_t handleId,
+                                        const QString &roomId,
+                                        int mode,
+                                        QString *errorOut = nullptr);
+
+    static bool setRoomName(uint64_t handleId,
+                            const QString &roomId,
+                            const QString &name,
+                            QString *errorOut = nullptr);
+
+    static bool setRoomTopic(uint64_t handleId,
+                             const QString &roomId,
+                             const QString &topic,
+                             QString *errorOut = nullptr);
+
+    static bool uploadRoomAvatar(uint64_t handleId,
+                                 const QString &roomId,
+                                 const QString &filePath,
+                                 const QString &mimeType,
+                                 int width,
+                                 int height,
+                                 QString *errorOut = nullptr);
+
+    static bool
+    removeRoomAvatar(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static bool
+    enableRoomEncryption(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static bool setRoomHistoryVisibility(uint64_t handleId,
+                                         const QString &roomId,
+                                         const QString &historyVisibility,
+                                         QString *errorOut = nullptr);
+
+    static bool setRoomAccessRules(uint64_t handleId,
+                                   const QString &roomId,
+                                   const QString &joinRule,
+                                   bool guestAccess,
+                                   const QVector<QString> &allowedRoomIds,
+                                   QString *errorOut = nullptr);
 
     static bool
     selectActiveRoomTimeline(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);

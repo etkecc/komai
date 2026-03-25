@@ -20,6 +20,48 @@
 
 using namespace mtx::events;
 
+namespace {
+QString
+joinRuleKey(mtx::events::state::JoinRule joinRule)
+{
+    using mtx::events::state::JoinRule;
+
+    switch (joinRule) {
+    case JoinRule::Public:
+        return QStringLiteral("public");
+    case JoinRule::Knock:
+        return QStringLiteral("knock");
+    case JoinRule::Restricted:
+        return QStringLiteral("restricted");
+    case JoinRule::KnockRestricted:
+        return QStringLiteral("knock_restricted");
+    case JoinRule::Private:
+        return QStringLiteral("private");
+    case JoinRule::Invite:
+    default:
+        return QStringLiteral("invite");
+    }
+}
+
+QString
+historyVisibilityKey(mtx::events::state::Visibility visibility)
+{
+    using mtx::events::state::Visibility;
+
+    switch (visibility) {
+    case Visibility::WorldReadable:
+        return QStringLiteral("world_readable");
+    case Visibility::Invited:
+        return QStringLiteral("invited");
+    case Visibility::Joined:
+        return QStringLiteral("joined");
+    case Visibility::Shared:
+    default:
+        return QStringLiteral("shared");
+    }
+}
+} // namespace
+
 RoomSettings::Visibility
 RoomSettings::historyVisibility() const
 {
@@ -88,6 +130,9 @@ RoomSettings::setAllowedRooms(QStringList rooms)
 bool
 RoomSettings::canChangeJoinRules() const
 {
+    if (matrixRoomSettings_)
+        return matrixRoomSettings_->canChangeJoinRules;
+
     try {
         return cache::hasEnoughPowerLevel(
           {EventType::RoomJoinRules}, roomid_.toStdString(), utils::localUser().toStdString());
@@ -101,6 +146,9 @@ RoomSettings::canChangeJoinRules() const
 bool
 RoomSettings::canChangeHistoryVisibility() const
 {
+    if (matrixRoomSettings_)
+        return matrixRoomSettings_->canChangeHistoryVisibility;
+
     try {
         return cache::hasEnoughPowerLevel({EventType::RoomHistoryVisibility},
                                           roomid_.toStdString(),
@@ -223,6 +271,20 @@ RoomSettings::changeHistoryVisibility(Visibility value)
         return;
     }
 
+    if (matrixRoomSettings_ && matrixBackendHandleId() != 0) {
+        QString error;
+        if (!komai::MatrixBackendRuntimeService::setRoomHistoryVisibility(
+              matrixBackendHandleId(), roomid_, historyVisibilityKey(tempVis), &error)) {
+            emit displayError(error.isEmpty() ? tr("Failed to update history visibility.") : error);
+            return;
+        }
+
+        this->historyVisibility_               = tempVis;
+        matrixRoomSettings_->historyVisibility = historyVisibilityKey(tempVis);
+        emit historyVisibilityChanged();
+        return;
+    }
+
     auto proxy = std::make_shared<ThreadProxy>();
     connect(proxy.get(), &ThreadProxy::eventSent, this, [this, tempVis]() {
         this->historyVisibility_ = tempVis;
@@ -255,6 +317,43 @@ RoomSettings::updateAccessRules(const std::string &room_id,
     allowedRoomsModified_ = false;
     emit loadingChanged();
     emit allowedRoomsModifiedChanged();
+
+    if (matrixRoomSettings_ && matrixBackendHandleId() != 0) {
+        QString error;
+        QVector<QString> allowedRoomIds;
+        allowedRoomIds.reserve(static_cast<int>(join_rule.allow.size()));
+        for (const auto &entry : join_rule.allow) {
+            if (entry.type == mtx::events::state::JoinAllowanceType::RoomMembership)
+                allowedRoomIds.push_back(QString::fromStdString(entry.room_id));
+        }
+
+        if (!komai::MatrixBackendRuntimeService::setRoomAccessRules(
+              matrixBackendHandleId(),
+              QString::fromStdString(room_id),
+              joinRuleKey(join_rule.join_rule),
+              guest_access.guest_access == state::AccessState::CanJoin,
+              allowedRoomIds,
+              &error)) {
+            isLoading_ = false;
+            emit loadingChanged();
+            emit displayError(error.isEmpty() ? tr("Failed to update room access rules.") : error);
+            return;
+        }
+
+        accessRules_ = join_rule;
+        guestRules_  = guest_access.guest_access;
+        if (matrixRoomSettings_) {
+            matrixRoomSettings_->joinRule = joinRuleKey(join_rule.join_rule);
+            matrixRoomSettings_->guestAccess =
+              guest_access.guest_access == state::AccessState::CanJoin;
+            matrixRoomSettings_->allowedRoomIds = allowedRoomIds;
+        }
+
+        isLoading_ = false;
+        emit loadingChanged();
+        emit accessJoinRulesChanged();
+        return;
+    }
 
     http::client()->send_state_event(
       room_id,

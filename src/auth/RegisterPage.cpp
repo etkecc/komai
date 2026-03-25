@@ -3,23 +3,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include <set>
-
-#include <fmt/ranges.h>
-
-#include <mtx/responses/common.hpp>
-#include <mtx/responses/register.hpp>
-#include <mtx/responses/version.hpp>
-#include <mtx/responses/well-known.hpp>
-#include <mtxclient/http/client.hpp>
+#include "RegisterPage.h"
 
 #include "LoginPage.h"
-#include "RegisterPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
-#include "settings/ui/facade/UserSettingsPage.h"
-#include "ui/MainWindow.h"
-#include "ui/UIA.h"
 
 namespace {
 QString
@@ -29,6 +16,12 @@ normalizeHomeserverInput(QString homeserver)
     homeserver.remove(u'\r');
     homeserver.remove(u'\n');
     return homeserver;
+}
+
+QString
+notMigratedMessage()
+{
+    return RegisterPage::tr("Registration is not migrated to the matrix-sdk backend yet.");
 }
 }
 
@@ -45,6 +38,7 @@ RegisterPage::setError(const QString &err)
     registering_ = false;
     emit registeringChanged();
 }
+
 void
 RegisterPage::setHsError(const QString &err)
 {
@@ -64,165 +58,32 @@ void
 RegisterPage::setServer(const QString &server)
 {
     const auto normalized = normalizeHomeserverInput(server);
-
     if (normalized == lastServer)
         return;
 
     lastServer = normalized;
 
-    http::client()->set_server(normalized.toStdString());
-    http::client()->verify_certificates(
-      UserSettings::instance()->networkTlsEnableCertificateValidation());
+    usernameError_.clear();
+    emit lookingUpUsernameChanged();
 
-    hsError_.clear();
-    emit hsErrorChanged();
-    supported_   = false;
     lookingUpHs_ = true;
     emit lookingUpHsChanged();
 
-    http::client()->well_known([this, prevServer = normalized](const mtx::responses::WellKnown &res,
-                                                               mtx::http::RequestErr err) {
-        // server changed in between
-        if (lastServer != prevServer)
-            return;
-
-        if (err) {
-            if (err->status_code == 404) {
-                nhlog::net()->info("Autodiscovery: No .well-known.");
-                // Check that the homeserver can be reached
-                versionsCheck();
-                return;
-            }
-
-            if (!err->parse_error.empty()) {
-                setHsError(tr("Autodiscovery failed. Received malformed response."));
-                nhlog::net()->error("Autodiscovery failed. Received malformed response. {}",
-                                    err->parse_error);
-                emit hsErrorChanged();
-                return;
-            }
-
-            setHsError(tr("Autodiscovery failed. Unknown error when requesting .well-known."));
-            nhlog::net()->error("Autodiscovery failed. Unknown error when "
-                                "requesting .well-known. {}",
-                                *err);
-            return;
-        }
-
-        nhlog::net()->info("Autodiscovery: Discovered '" + res.homeserver.base_url + "'");
-        http::client()->set_server(res.homeserver.base_url);
-        emit hsErrorChanged();
-        // Check that the homeserver can be reached
-        versionsCheck();
-    });
-}
-
-void
-RegisterPage::versionsCheck()
-{
-    // Make a request to /_matrix/client/versions to check the address
-    // given is a Matrix homeserver.
-    http::client()->versions([this](const mtx::responses::Versions &versions,
-                                    mtx::http::RequestErr err) {
-        if (err) {
-            if (err->status_code == 404) {
-                setHsError(
-                  tr("The required endpoints were not found. Possibly not a Matrix server."));
-                emit hsErrorChanged();
-                return;
-            }
-
-            if (!err->parse_error.empty()) {
-                setHsError(
-                  tr("Received malformed response. Make sure the homeserver domain is valid."));
-                emit hsErrorChanged();
-                return;
-            }
-
-            setHsError(tr("An unknown error occured. Make sure the homeserver domain is valid."));
-            emit hsErrorChanged();
-            return;
-        }
-
-        if (std::find_if(
-              versions.versions.cbegin(), versions.versions.cend(), [](const std::string &v) {
-                  static const std::set<std::string_view, std::less<>> supported{
-                    "v1.1",
-                    "v1.2",
-                    "v1.3",
-                    "v1.4",
-                    "v1.5",
-                    "v1.6",
-                    "v1.7",
-                    "v1.8",
-                    "v1.9",
-                    "v1.10",
-                  };
-                  return supported.count(v) != 0;
-              }) == versions.versions.cend()) {
-            emit setHsError(
-              tr("The selected server does not support a version of the Matrix protocol that "
-                 "this client understands (%1 to %2). You can't register.")
-                .arg(u"v1.1", u"v1.10"));
-            emit hsErrorChanged();
-            return;
-        }
-
-        http::client()->registration([this](const mtx::responses::Register &,
-                                            mtx::http::RequestErr e) {
-            nhlog::net()->debug("Registration check: {}", e);
-
-            if (!e) {
-                setHsError(tr("Server does not support querying registration flows!"));
-                emit hsErrorChanged();
-                return;
-            }
-            if (e->status_code != 401) {
-                setHsError(tr("Server does not support registration."));
-                emit hsErrorChanged();
-                return;
-            }
-
-            for (const auto &f : e->matrix_error.unauthorized.flows)
-                nhlog::ui()->debug("Registration flows for server: {}", fmt::join(f.stages, ", "));
-
-            supported_   = true;
-            lookingUpHs_ = false;
-            emit lookingUpHsChanged();
-        });
-    });
+    supported_ = false;
+    setHsError(notMigratedMessage());
+    nhlog::net()->warn("Registration discovery is not migrated to matrix-sdk yet");
 }
 
 void
 RegisterPage::checkUsername(const QString &name)
 {
-    usernameAvailable_ = usernameUnavailable_ = false;
-    usernameError_.clear();
-    lookingUpUsername_ = true;
+    Q_UNUSED(name);
+
+    usernameAvailable_   = false;
+    usernameUnavailable_ = false;
+    usernameError_       = notMigratedMessage();
+    lookingUpUsername_   = false;
     emit lookingUpUsernameChanged();
-
-    http::client()->register_username_available(
-      name.toStdString(),
-      [this](const mtx::responses::Available &available, mtx::http::RequestErr e) {
-          if (e) {
-              if (e->matrix_error.errcode == mtx::errors::ErrorCode::M_INVALID_USERNAME) {
-                  usernameError_ = tr("Invalid username.");
-              } else if (e->matrix_error.errcode == mtx::errors::ErrorCode::M_USER_IN_USE) {
-                  usernameError_ = tr("Name already in use.");
-              } else if (e->matrix_error.errcode == mtx::errors::ErrorCode::M_EXCLUSIVE) {
-                  usernameError_ = tr("Part of the reserved namespace.");
-              } else {
-              }
-
-              usernameAvailable_   = false;
-              usernameUnavailable_ = true;
-          } else {
-              usernameAvailable_   = available.available;
-              usernameUnavailable_ = !available.available;
-          }
-          lookingUpUsername_ = false;
-          emit lookingUpUsernameChanged();
-      });
 }
 
 void
@@ -230,69 +91,12 @@ RegisterPage::startRegistration(const QString &username,
                                 const QString &password,
                                 const QString &devicename)
 {
-    // These inputs should still be alright, but check just in case
-    if (!username.isEmpty() && !password.isEmpty() && usernameAvailable_ && supported_) {
-        registrationError_.clear();
-        emit errorChanged();
-        registering_ = true;
-        emit registeringChanged();
+    Q_UNUSED(username);
+    Q_UNUSED(password);
+    Q_UNUSED(devicename);
 
-        connect(UIA::instance(), &UIA::error, this, [this](const QString &msg) {
-            setError(msg);
-            disconnect(UIA::instance(), &UIA::error, this, nullptr);
-        });
-        http::client()->registration(
-          username.toStdString(),
-          password.toStdString(),
-          ::UIA::instance()->genericHandler(QStringLiteral("Registration")),
-          [this](const mtx::responses::Register &res, mtx::http::RequestErr err) {
-              registering_ = false;
-              emit registeringChanged();
-
-              if (!err) {
-                  auto *settings                = UserSettings::instance().get();
-                  const bool hadSessionIdentity = settings->hasPersistedSessionIdentity();
-
-                  const auto homeserver = QString::fromStdString(http::client()->server_url());
-                  const bool persisted =
-                    settings->persistSessionSnapshot(UserSettings::SessionSnapshot{
-                      .userId      = QString::fromStdString(res.user_id.to_string()),
-                      .accessToken = QString::fromStdString(res.access_token),
-                      .deviceId    = QString::fromStdString(res.device_id),
-                      .homeserver  = homeserver});
-                  if (!persisted) {
-                      setError(tr("Registration failed: server returned incomplete session data."));
-                      disconnect(UIA::instance(), &UIA::error, this, nullptr);
-                      return;
-                  }
-
-                  nhlog::ui()->info("Persisted registration session snapshot (user_id='{}', "
-                                    "device_id='{}', homeserver='{}')",
-                                    QString::fromStdString(res.user_id.to_string()).toStdString(),
-                                    QString::fromStdString(res.device_id).toStdString(),
-                                    homeserver.toStdString());
-
-                  MainWindow::instance()->showChatPage(hadSessionIdentity);
-                  emit registerOk();
-                  disconnect(UIA::instance(), &UIA::error, this, nullptr);
-                  return;
-              }
-
-              // The server requires registration flows.
-              if (err->status_code == 401 && err->matrix_error.unauthorized.flows.empty()) {
-                  nhlog::net()->warn("failed to retrieve registration flows: {}", *err);
-                  setError(QString::fromStdString(err->matrix_error.error));
-                  disconnect(UIA::instance(), &UIA::error, this, nullptr);
-                  return;
-              }
-
-              nhlog::net()->error("failed to register: {}", *err);
-
-              setError(QString::fromStdString(err->matrix_error.error));
-              disconnect(UIA::instance(), &UIA::error, this, nullptr);
-          },
-          devicename.isEmpty() ? LoginPage::initialDeviceName_() : devicename.toStdString());
-    }
+    nhlog::net()->warn("Registration is not migrated to matrix-sdk yet");
+    setError(notMigratedMessage());
 }
 
 #include "moc_RegisterPage.cpp"

@@ -55,8 +55,6 @@ signals:
     void registerOk();
 
 private:
-    void versionsCheck();
-
     void setHsError(const QString &err);
     void setError(const QString &err);
 

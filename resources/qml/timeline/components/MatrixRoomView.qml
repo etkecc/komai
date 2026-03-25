@@ -121,6 +121,22 @@ ColumnLayout {
         }
     }
 
+    QtObject {
+        id: matrixComposerInputController
+
+        readonly property bool uploading: TimelineManager.matrixTimelineAttachmentSending
+
+        function openFileSelection() {
+            TimelineManager.openActiveMatrixAttachmentSelection();
+        }
+    }
+
+    QtObject {
+        id: matrixComposerRoom
+
+        property var input: matrixComposerInputController
+    }
+
     anchors.fill: parent
     enabled: visible
     spacing: 0
@@ -786,18 +802,23 @@ ColumnLayout {
                             wrapMode: Text.WordWrap
                         }
 
-                        Components.KomaiButton {
-                            enabled: !TimelineManager.matrixTimelineAttachmentSending && !root.editing
-                            text: qsTr("Attach")
-
-                            onClicked: TimelineManager.openActiveMatrixAttachmentSelection()
+                        Composer.ComposerAttachButton {
+                            Layout.alignment: Qt.AlignBottom
+                            enabled: !root.editing
+                            room: matrixComposerRoom
+                            showAllButtons: true
                         }
 
-                        Components.KomaiButton {
+                        Composer.ComposerToolbarButton {
+                            Layout.alignment: Qt.AlignBottom
                             enabled: root.hasPendingAttachments
                                 ? !TimelineManager.matrixTimelineAttachmentSending
                                 : composerInput.text.trim().length > 0
-                            text: TimelineManager.matrixTimelineAttachmentSending ? qsTr("Sending…") : qsTr("Send")
+                            toolTipText: TimelineManager.matrixTimelineAttachmentSending
+                                ? qsTr("Sending")
+                                : qsTr("Send")
+                            buttonTextColor: enabled ? palette.highlight : palette.buttonText
+                            image: ":/icons/icons/ui/send.svg"
 
                             onClicked: root.trySendMessage()
                         }

@@ -10,8 +10,6 @@
 #include <QQmlEngine>
 #include <QString>
 #include <QVector>
-#include <mtx/responses.hpp>
-#include <mtx/responses/common.hpp>
 #include <optional>
 
 #include "cache/crypto/CacheCryptoStructs.h"
@@ -36,21 +34,6 @@ Q_ENUM_NS(Status)
 
 class DeviceVerificationFlow;
 class TimelineViewManager;
-
-class UserProfileFetchProxy final : public QObject
-{
-    Q_OBJECT
-
-public:
-    UserProfileFetchProxy(QObject *p = nullptr)
-      : QObject(p)
-    {
-    }
-
-signals:
-    void profileFetched(mtx::responses::Profile);
-    void failedToFetchProfile();
-};
 
 class DeviceInfo
 {
@@ -231,7 +214,6 @@ private slots:
 
 private:
     uint64_t matrixBackendHandleId() const;
-    void updateRoomMemberState(mtx::events::state::Member member);
     void getGlobalProfileData();
 
 private:

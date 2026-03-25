@@ -9,14 +9,9 @@
 #include <QStandardPaths>
 
 #include "UserProfile.h"
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
-#include "encryption/VerificationManager.h"
-#include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/TimelineViewManager.h"
-#include "utils/Utils.h"
 
 void
 UserProfile::banUser(const QString &reason)
@@ -45,67 +40,46 @@ UserProfile::startChat()
 void
 UserProfile::changeUsername(const QString &username)
 {
-    if (isGlobalUserProfile() && isSelf()) {
-        const auto handleId = matrixBackendHandleId();
-        if (handleId != 0) {
-            QString error;
-            if (!komai::MatrixBackendRuntimeService::setOwnDisplayName(
-                  handleId, username, &error)) {
-                emit displayError(error.isEmpty() ? tr("Failed to update display name.") : error);
-                return;
-            }
-
-            getGlobalProfileData();
-            return;
-        }
+    if (!isGlobalUserProfile() || !isSelf()) {
+        emit displayError(tr("Room-specific profile overrides are not migrated yet."));
+        return;
     }
 
-    if (isGlobalUserProfile()) {
-        // change global
-        http::client()->set_displayname(username.toStdString(), [](mtx::http::RequestErr err) {
-            if (err) {
-                nhlog::net()->warn("could not change username: {}", *err);
-                return;
-            }
-        });
-    } else {
-        // change room username
-        mtx::events::state::Member member;
-        member.display_name = username.toStdString();
-        member.avatar_url   = cache::avatarUrl(roomid_, utils::localUser()).toStdString();
-        member.membership   = mtx::events::state::Membership::Join;
-
-        updateRoomMemberState(std::move(member));
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
+        emit displayError(tr("Matrix backend runtime is not available."));
+        return;
     }
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::setOwnDisplayName(handleId, username, &error)) {
+        emit displayError(error.isEmpty() ? tr("Failed to update display name.") : error);
+        return;
+    }
+
+    getGlobalProfileData();
 }
 
 void
 UserProfile::changeDeviceName(const QString &deviceID, const QString &deviceName)
 {
-    http::client()->set_device_name(
-      deviceID.toStdString(), deviceName.toStdString(), [this](mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->warn("could not change device name: {}", *err);
-              return;
-          }
-          refreshDevices();
-      });
+    Q_UNUSED(deviceID);
+    Q_UNUSED(deviceName);
+    emit displayError(tr("Device management is not migrated to the matrix-sdk backend yet."));
 }
 
 void
 UserProfile::verify(QString device)
 {
-    if (!device.isEmpty())
-        manager->verificationManager()->verifyDevice(userid_, device);
-    else {
-        manager->verificationManager()->verifyUser(userid_);
-    }
+    Q_UNUSED(device);
+    emit displayError(tr("Device verification is not migrated to the matrix-sdk backend yet."));
 }
 
 void
 UserProfile::unverify(const QString &device)
 {
-    cache::markDeviceUnverified(userid_.toStdString(), device.toStdString());
+    Q_UNUSED(device);
+    emit displayError(tr("Device verification is not migrated to the matrix-sdk backend yet."));
 }
 
 void
@@ -135,128 +109,68 @@ UserProfile::changeAvatar()
         return;
     }
 
-    const auto bin     = file.peek(file.size());
-    const auto payload = std::string(bin.data(), bin.size());
-
     isLoading_ = true;
     emit loadingChanged();
 
-    if (isGlobalUserProfile() && isSelf()) {
-        const auto handleId = matrixBackendHandleId();
-        if (handleId != 0) {
-            QString error;
-            if (!komai::MatrixBackendRuntimeService::uploadOwnAvatar(
-                  handleId, fileName, mime.name(), &error)) {
-                isLoading_ = false;
-                emit loadingChanged();
-                emit displayError(error.isEmpty() ? tr("Failed to upload avatar.") : error);
-                return;
-            }
-
-            isLoading_ = false;
-            emit loadingChanged();
-            getGlobalProfileData();
-            return;
-        }
+    if (!isGlobalUserProfile() || !isSelf()) {
+        isLoading_ = false;
+        emit loadingChanged();
+        emit displayError(tr("Room-specific profile overrides are not migrated yet."));
+        return;
     }
 
-    // First we need to create a new mxc URI
-    // (i.e upload media to the Matrix content repository) for the new avatar.
-    http::client()->upload(
-      payload,
-      mime.name().toStdString(),
-      QFileInfo(fileName).fileName().toStdString(),
-      [this,
-       payload,
-       mimetype = mime.name().toStdString(),
-       size     = payload.size(),
-       room_id  = roomid_.toStdString(),
-       content = std::move(bin)](const mtx::responses::ContentURI &res, mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::ui()->error("Failed to upload image: {}", *err);
-              return;
-          }
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
+        isLoading_ = false;
+        emit loadingChanged();
+        emit displayError(tr("Matrix backend runtime is not available."));
+        return;
+    }
 
-          if (isGlobalUserProfile()) {
-              http::client()->set_avatar_url(res.content_uri, [this](mtx::http::RequestErr err) {
-                  if (err) {
-                      nhlog::ui()->error("Failed to set user avatar url: {}", *err);
-                  }
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::uploadOwnAvatar(
+          handleId, fileName, mime.name(), &error)) {
+        isLoading_ = false;
+        emit loadingChanged();
+        emit displayError(error.isEmpty() ? tr("Failed to upload avatar.") : error);
+        return;
+    }
 
-                  isLoading_ = false;
-                  emit loadingChanged();
-                  getGlobalProfileData();
-              });
-          } else {
-              // change room username
-              mtx::events::state::Member member;
-              member.display_name = cache::displayName(roomid_, userid_).toStdString();
-              member.avatar_url   = res.content_uri;
-              member.membership   = mtx::events::state::Membership::Join;
-
-              updateRoomMemberState(std::move(member));
-          }
-      });
+    isLoading_ = false;
+    emit loadingChanged();
+    getGlobalProfileData();
 }
 
 void
 UserProfile::removeAvatar()
 {
-    if (!isGlobalUserProfile()) {
-        // For room profiles, reset to the global avatar instead of clearing
-        mtx::events::state::Member member;
-        member.display_name = cache::displayName(roomid_, userid_).toStdString();
-        member.avatar_url   = globalAvatarUrl.toStdString();
-        member.membership   = mtx::events::state::Membership::Join;
-        updateRoomMemberState(std::move(member));
+    if (!isGlobalUserProfile() || !isSelf()) {
+        emit displayError(tr("Room-specific profile overrides are not migrated yet."));
         return;
     }
 
     isLoading_ = true;
     emit loadingChanged();
 
-    if (isSelf()) {
-        const auto handleId = matrixBackendHandleId();
-        if (handleId != 0) {
-            QString error;
-            if (!komai::MatrixBackendRuntimeService::removeOwnAvatar(handleId, &error)) {
-                isLoading_ = false;
-                emit loadingChanged();
-                emit displayError(error.isEmpty() ? tr("Failed to remove avatar.") : error);
-                return;
-            }
-
-            isLoading_ = false;
-            emit loadingChanged();
-            getGlobalProfileData();
-            return;
-        }
-    }
-
-    http::client()->set_avatar_url("", [this](mtx::http::RequestErr err) {
-        if (err) {
-            nhlog::ui()->error("Failed to remove user avatar: {}", *err);
-            emit displayError(tr("Failed to remove avatar: %1")
-                                .arg(QString::fromStdString(err->matrix_error.error)));
-        }
-
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
         isLoading_ = false;
         emit loadingChanged();
-        getGlobalProfileData();
-    });
-}
+        emit displayError(tr("Matrix backend runtime is not available."));
+        return;
+    }
 
-void
-UserProfile::updateRoomMemberState(mtx::events::state::Member member)
-{
-    http::client()->send_state_event(roomid_.toStdString(),
-                                     utils::localUser().toStdString(),
-                                     member,
-                                     [](mtx::responses::EventId, mtx::http::RequestErr err) {
-                                         if (err)
-                                             nhlog::net()->error(
-                                               "Failed to update room member state: {}", *err);
-                                     });
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::removeOwnAvatar(handleId, &error)) {
+        isLoading_ = false;
+        emit loadingChanged();
+        emit displayError(error.isEmpty() ? tr("Failed to remove avatar.") : error);
+        return;
+    }
+
+    isLoading_ = false;
+    emit loadingChanged();
+    getGlobalProfileData();
 }
 
 void

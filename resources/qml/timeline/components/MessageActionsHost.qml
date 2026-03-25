@@ -13,7 +13,7 @@ Item {
     required property var chatRoot
     required property var emojiPopup
     required property var filteredTimeline
-    required property var roomModel
+    property var roomModel: null
     property alias control: messageActionsC
 
     // Click-outside overlay: dismisses the action bar when clicking
@@ -38,6 +38,7 @@ Item {
         property Item attached: null
         // use comma to update on scroll
         property var model: null
+        property var roomModelOverride: null
         property string activationMode: ""
         readonly property bool pinned: activationMode === "button" || activationMode === "keyboard"
         readonly property bool keyboardActive: activationMode === "keyboard"
@@ -48,6 +49,7 @@ Item {
             activationMode = "";
             attached = null;
             anchorItem = null;
+            roomModelOverride = null;
             positioned = false;
         }
 
@@ -136,7 +138,7 @@ Item {
                 filteredTimeline: root.filteredTimeline
                 messageActionsControl: messageActionsC
                 messageModel: messageActionsC.model
-                roomModel: root.roomModel
+                roomModel: messageActionsC.roomModelOverride ? messageActionsC.roomModelOverride : root.roomModel
             }
         }
     }

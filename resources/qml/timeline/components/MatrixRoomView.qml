@@ -185,12 +185,47 @@ ColumnLayout {
         property var input: matrixComposerInputController
     }
 
+    QtObject {
+        id: matrixMessageActionsDefaultPermissions
+
+        function canSend(eventType) {
+            return false;
+        }
+
+        function canRedact() {
+            return false;
+        }
+
+        function canChange(eventType) {
+            return false;
+        }
+    }
+
+    QtObject {
+        id: matrixMessageActionsDefaultRoomModel
+
+        property string roomId: root.roomPreview ? root.roomPreview.roomid : ""
+        property var permissions: matrixMessageActionsDefaultPermissions
+        property var input: null
+        property var frequentReactions: []
+    }
+
     MessageContextMenu {
         id: matrixMessageContextMenu
 
         chatRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
         emojiPopup: root.emojiPopup
         filteredTimelineModel: root.filteredTimeline
+    }
+
+    MessageActionsHost {
+        id: matrixMessageActionsHost
+
+        chatList: matrixTimelineList
+        chatRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
+        emojiPopup: root.emojiPopup
+        filteredTimeline: root.filteredTimeline
+        roomModel: matrixMessageActionsDefaultRoomModel
     }
 
     anchors.fill: parent
@@ -326,9 +361,7 @@ ColumnLayout {
                             parts.push(Qt.formatTime(new Date(timestamp), "h:mm ap"));
                             return parts.join(" · ");
                         }
-                        readonly property bool showInlineActions: Settings.timelineMessageActionsActivationPolicy
-                            !== Settings.TimelineMessageActionsActivationPolicy.Never
-                            && (timelineItemHover.hovered || actionToolbarHover.hovered)
+                        readonly property bool messageIsRightAligned: isOwn
                         readonly property string mediaKindLabel: {
                             switch (itemKind) {
                             case "image":
@@ -363,8 +396,137 @@ ColumnLayout {
                         width: ListView.view.width
                         height: itemKind === "date_divider" ? dateDivider.implicitHeight : messageRow.implicitHeight
 
-                        HoverHandler {
-                            id: timelineItemHover
+                        function openMessageActions(pin, anchorItem, activationMode) {
+                            const actionsControl = matrixMessageActionsHost.control;
+                            if (!actionsControl || !anchorItem)
+                                return;
+
+                            if (hoverDismissTimer.running)
+                                hoverDismissTimer.stop();
+
+                            const resolvedActivationMode = activationMode !== undefined
+                                ? activationMode
+                                : (pin ? "button" : "hover");
+
+                            actionsControl.model = matrixToolbarMessageModel;
+                            actionsControl.roomModelOverride = matrixToolbarRoomModel;
+                            actionsControl.attached = timelineItemDelegate;
+                            actionsControl.activationMode = resolvedActivationMode;
+                            actionsControl.anchorItem = anchorItem;
+                            actionsControl.positioned = false;
+
+                            Qt.callLater(function () {
+                                timelineItemDelegate.repositionMessageActions(anchorItem, resolvedActivationMode, 0);
+                            });
+                        }
+
+                        function repositionMessageActions(anchorItem, activationMode, attempt) {
+                            const actionsControl = matrixMessageActionsHost.control;
+                            if (!actionsControl || !anchorItem)
+                                return;
+
+                            if (attempt === undefined)
+                                attempt = 0;
+
+                            if (activationMode === undefined || activationMode === null || activationMode === "")
+                                activationMode = actionsControl.activationMode;
+
+                            if (attempt > 60)
+                                return;
+
+                            const nextAttempt = attempt + 1;
+                            const actionsParent = actionsControl.parent ? actionsControl.parent : matrixTimelineList.contentItem;
+                            if (!actionsParent) {
+                                Qt.callLater(function () {
+                                    timelineItemDelegate.repositionMessageActions(anchorItem, activationMode, nextAttempt);
+                                });
+                                return;
+                            }
+
+                            const pos = anchorItem.mapToItem(actionsParent, 0, 0);
+                            const wrapperPos = timelineItemDelegate.mapToItem(actionsParent, 0, 0);
+                            const barW = actionsControl.implicitWidth;
+                            const barH = actionsControl.implicitHeight;
+                            const chatWidth = matrixTimelineList.width;
+                            const chatHeight = matrixTimelineList.height;
+
+                            if (barW <= 0 || barH <= 0 || chatWidth <= 0 || chatHeight <= 0) {
+                                Qt.callLater(function () {
+                                    timelineItemDelegate.repositionMessageActions(anchorItem, activationMode, nextAttempt);
+                                });
+                                return;
+                            }
+
+                            const viewportTop = actionsParent === matrixTimelineList.contentItem ? matrixTimelineList.contentY : 0;
+                            const viewportBottom = viewportTop + chatHeight;
+                            const targetY = pos.y - barH;
+                            actionsControl.y = Math.max(viewportTop, Math.min(targetY, viewportBottom - barH));
+
+                            const viewportLeft = 0;
+                            const viewportRight = chatWidth;
+                            let minX = wrapperPos.x + Komai.paddingLarge;
+                            let maxX = wrapperPos.x + timelineItemDelegate.width - Komai.paddingLarge - barW;
+                            if (maxX < minX) {
+                                minX = viewportLeft;
+                                maxX = viewportRight - barW;
+                            }
+
+                            if (activationMode === "button") {
+                                const centerX = pos.x + anchorItem.width / 2 - barW / 2;
+                                actionsControl.x = Math.max(minX, Math.min(centerX, maxX));
+                            } else {
+                                actionsControl.x = messageIsRightAligned ? maxX : minX;
+                            }
+
+                            actionsControl.x = Math.max(viewportLeft, Math.min(actionsControl.x, viewportRight - barW));
+                            actionsControl.positioned = true;
+                        }
+
+                        function isHoverActionsEnabled() {
+                            return Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.OnHover;
+                        }
+
+                        function isUnpinnedActionBarAttached() {
+                            const actionsControl = matrixMessageActionsHost.control;
+                            return !!actionsControl
+                                && actionsControl.attached === timelineItemDelegate
+                                && actionsControl.activationMode === "hover";
+                        }
+
+                        function handleMessageHoverChanged(isHovered, anchorItem) {
+                            const actionsControl = matrixMessageActionsHost.control;
+                            if (!actionsControl || !isHoverActionsEnabled() || actionsControl.activationMode === "keyboard")
+                                return;
+
+                            if (isHovered) {
+                                if (hoverDismissTimer.running)
+                                    hoverDismissTimer.stop();
+                                openMessageActions(false, anchorItem, "hover");
+                            } else if (isUnpinnedActionBarAttached()) {
+                                hoverDismissTimer.restart();
+                            }
+                        }
+
+                        function handleHoverDismissTimerTriggered(isHovered) {
+                            const actionsControl = matrixMessageActionsHost.control;
+                            if (!actionsControl || !isHoverActionsEnabled() || actionsControl.activationMode === "keyboard")
+                                return;
+                            if (!isUnpinnedActionBarAttached())
+                                return;
+                            if (isHovered || actionsControl.hovered)
+                                return;
+                            actionsControl.dismiss();
+                        }
+
+                        function togglePinnedMessageActions(anchorItem) {
+                            const actionsControl = matrixMessageActionsHost.control;
+                            if (!actionsControl)
+                                return;
+
+                            if (actionsControl.pinned && actionsControl.attached === timelineItemDelegate)
+                                actionsControl.dismiss();
+                            else
+                                openMessageActions(true, anchorItem, "button");
                         }
 
                         QtObject {
@@ -495,6 +657,14 @@ ColumnLayout {
                                     : timelineItemDelegate.effectiveFileName)
                         }
 
+                        Timer {
+                            id: hoverDismissTimer
+
+                            interval: 180
+                            repeat: false
+                            onTriggered: timelineItemDelegate.handleHoverDismissTimerTriggered(messageBubbleHover.hovered)
+                        }
+
                         Rectangle {
                             id: dateDivider
 
@@ -561,11 +731,22 @@ ColumnLayout {
                                     }
 
                                     Rectangle {
+                                        id: messageBubble
+
                                         Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
                                         color: isOwn ? palette.highlight : palette.alternateBase
                                         implicitHeight: bubbleContent.implicitHeight + Komai.paddingMedium * 2
                                         implicitWidth: Math.min(parent.width, bubbleContent.implicitWidth + Komai.paddingLarge * 2)
                                         radius: Komai.paddingMedium * 2
+
+                                        HoverHandler {
+                                            id: messageBubbleHover
+
+                                            blocking: false
+                                            onHoveredChanged: timelineItemDelegate.handleMessageHoverChanged(
+                                                hovered,
+                                                footerActionsRow)
+                                        }
 
                                         ColumnLayout {
                                             id: bubbleContent
@@ -743,46 +924,40 @@ ColumnLayout {
                                         }
                                     }
 
-                                    MatrixText {
+                                    RowLayout {
+                                        id: footerActionsRow
+
                                         Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                                        color: palette.buttonText
-                                        text: footerMetaText
-                                        textFormat: TextEdit.PlainText
-                                    }
+                                        spacing: Komai.paddingSmall
 
-                                    Item {
-                                        Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                                        implicitHeight: visible ? actionToolbarBackground.implicitHeight : 0
-                                        implicitWidth: visible ? actionToolbarBackground.implicitWidth : 0
-                                        visible: supportsSharedToolbarActions && showInlineActions
+                                        MatrixText {
+                                            Layout.alignment: Qt.AlignVCenter
+                                            color: palette.buttonText
+                                            text: footerMetaText
+                                            textFormat: TextEdit.PlainText
+                                        }
 
-                                        TimelineFloatingActionBarBackground {
-                                            id: actionToolbarBackground
+                                        Components.ImageButton {
+                                            id: actionToggleButton
 
-                                            anchors.left: isOwn ? undefined : parent.left
-                                            anchors.right: isOwn ? parent.right : undefined
-                                            barColor: palette.alternateBase
-                                            barBorderColor: Komai.theme.separator
-                                            barBorderWidth: 1
-                                            barRadius: Komai.paddingSmall
-                                            implicitHeight: actionToolbar.implicitHeight + Komai.paddingSmall * 2
-                                            implicitWidth: actionToolbar.implicitWidth + Komai.paddingSmall * 2
+                                            Layout.alignment: Qt.AlignVCenter
+                                            Layout.preferredHeight: Math.max(16, Math.round(Komai.listIconSize * 0.9))
+                                            Layout.preferredWidth: Layout.preferredHeight
+                                            toolTipDelay: 0
+                                            toolTipText: qsTr("Message actions")
+                                            toolTipVisible: hovered
+                                            buttonTextColor: matrixMessageActionsHost.control.pinned
+                                                && matrixMessageActionsHost.control.attached === timelineItemDelegate
+                                                ? palette.highlight
+                                                : Qt.rgba(palette.buttonText.r, palette.buttonText.g, palette.buttonText.b, 0.35)
+                                            highlightColor: palette.highlight
+                                            changeColorOnHover: true
+                                            image: ":/icons/icons/ui/textbox-more.svg"
+                                            visible: supportsSharedToolbarActions
+                                                && Settings.timelineMessageActionsActivationPolicy
+                                                    === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
 
-                                            HoverHandler {
-                                                id: actionToolbarHover
-                                            }
-
-                                            MessageActionsToolbar {
-                                                id: actionToolbar
-
-                                                anchors.centerIn: parent
-                                                chatRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
-                                                emojiPopup: root.emojiPopup
-                                                filteredTimeline: root.filteredTimeline
-                                                messageActionsControl: matrixToolbarNoopControl
-                                                messageModel: matrixToolbarMessageModel
-                                                roomModel: matrixToolbarRoomModel
-                                            }
+                                            onClicked: timelineItemDelegate.togglePinnedMessageActions(actionToggleButton)
                                         }
                                     }
                                 }

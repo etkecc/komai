@@ -19,6 +19,7 @@ Item {
     required property string filename
     required property string filesize
     required property int filesizeBytes
+    required property string mimetype
 
     readonly property bool isGifVideo: Settings.timelineMediaAutoplayGifVideos
         && content.filesizeBytes > 0
@@ -52,6 +53,7 @@ Item {
                 body: content.body
                 filename: content.filename
                 filesize: content.filesize
+                mimetype: content.mimetype
             }
         }
     }
@@ -69,6 +71,7 @@ Item {
                 eventId: content.eventId
                 url: content.url
                 thumbnailUrl: content.thumbnailUrl
+                mimetype: content.mimetype
             }
         }
     }

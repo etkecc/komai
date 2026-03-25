@@ -414,12 +414,14 @@ ColumnLayout {
                         readonly property bool usesSharedTextBubble: ["message", "notice", "emote"].indexOf(itemKind) >= 0
                         readonly property bool usesSharedImageBubble: itemKind === "image"
                         readonly property bool usesSharedStickerBubble: itemKind === "sticker"
+                        readonly property bool usesSharedVideoBubble: itemKind === "video"
                         readonly property bool usesSharedFileBubble: itemKind === "file"
                         readonly property bool usesSharedAudioBubble: itemKind === "audio"
                         readonly property bool usesSharedStateBubble: isStateLikeItem
                         readonly property bool usesSharedTimelineBubble: usesSharedTextBubble
                             || usesSharedImageBubble
                             || usesSharedStickerBubble
+                            || usesSharedVideoBubble
                             || usesSharedFileBubble
                             || usesSharedAudioBubble
                             || usesSharedStateBubble
@@ -466,6 +468,8 @@ ColumnLayout {
                                 "eventId": itemId,
                                 "body": body,
                                 "filename": effectiveFileName,
+                                "filesize": sharedHumanReadableMediaSize,
+                                "filesizeBytes": Math.round(Number(mediaSizeBytes)),
                                 "mimetype": mimeType,
                                 "thumbnailUrl": thumbnailUrl,
                                 "originalWidth": Math.round(Number(mediaWidth)),
@@ -1161,7 +1165,9 @@ ColumnLayout {
                             messageActions: matrixMessageActionsHost.control
                             previewData: timelineItemDelegate.usesSharedStateBubble
                                 ? timelineItemDelegate.sharedStatePreviewData
-                                : (timelineItemDelegate.usesSharedImageBubble || timelineItemDelegate.usesSharedStickerBubble)
+                                : (timelineItemDelegate.usesSharedImageBubble
+                                    || timelineItemDelegate.usesSharedStickerBubble
+                                    || timelineItemDelegate.usesSharedVideoBubble)
                                     ? timelineItemDelegate.sharedVisualPreviewData
                                     : (timelineItemDelegate.usesSharedFileBubble || timelineItemDelegate.usesSharedAudioBubble)
                                     ? timelineItemDelegate.sharedAttachmentPreviewData

@@ -20,9 +20,13 @@ Item {
     required property string body
     required property string filename
     required property string filesize
+    required property string mimetype
 
     property double divisor: EventDelegateChooser.isReply ? 10 : 4
     property int tempWidth: originalWidth < 1 ? 400 : originalWidth
+    readonly property var roomContext: (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
+        ? effectiveRoomContext
+        : ((typeof room !== "undefined" && room) ? room : null)
     readonly property string mediaLabel: body.length > 0 && filename.length > 0 && body !== filename
         ? body + " (" + filename + ")"
         : (filename.length > 0 ? filename : body)
@@ -34,8 +38,9 @@ Item {
     MxcMedia {
         id: videoMedia
 
-        roomm: room
+        roomm: roomContext
         eventId: content.eventId
+        mimeTypeHint: content.mimetype
         videoOutput: videoOutput
         muted: true
         volume: 1.0
@@ -63,11 +68,15 @@ Item {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                if (Settings.timelineMediaOpenVideosExternal) {
-                    room.openMedia(content.eventId);
+                if (!roomContext)
+                    return;
+
+                if (Settings.timelineMediaOpenVideosExternal
+                        || roomContext.isActiveMatrixTimelineRoom === true) {
+                    roomContext.openMedia(content.eventId);
                 } else {
                     TimelineManager.openMediaOverlayWithContext(
-                        room, content.url, content.eventId,
+                        roomContext, content.url, content.eventId,
                         content.originalWidth, content.proportionalHeight,
                         MtxEvent.VideoMessage, content.duration, content.thumbnailUrl,
                         timeline, timelineView);
@@ -79,7 +88,9 @@ Item {
             id: videoThumb
             anchors.fill: parent
             source: content.thumbnailUrl
-                ? (thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale&room=" + room.roomId)
+                ? ((roomContext && roomContext.isActiveMatrixTimelineRoom === true)
+                    ? ("image://MxcImage/matrix-timeline:" + content.eventId + "?scale")
+                    : (thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale" + (roomContext ? "&room=" + roomContext.roomId : "")))
                 : "image://colorimage/:/icons/icons/ui/video-file.svg?" + palette.windowText
             asynchronous: true
             fillMode: Image.PreserveAspectFit

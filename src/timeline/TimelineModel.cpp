@@ -353,7 +353,7 @@ TimelineModel::addPendingMessage(mtx::events::collections::TimelineEvents event)
       },
       [this]() {
           emit ChatPage::instance()->showNotification(
-            tr("Failed to encrypt event, sending aborted!"));
+            tr("This legacy timeline send path is not migrated to the matrix-sdk backend yet."));
       });
 
     fullyReadEventId_ = this->EventId;

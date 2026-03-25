@@ -6,9 +6,13 @@ script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd -- "${script_dir}/../.." && pwd)"
 build_dir="${repo_root}/var/build/native"
 lock_dir="${repo_root}/var/lock"
-lock_file="${lock_dir}/native-build.lock"
-info_file="${lock_dir}/native-build.lock.info"
+lock_state_dir="${lock_dir}/native-build.lock.d"
+info_file="${lock_state_dir}/info"
+heartbeat_file="${lock_state_dir}/heartbeat"
 jobs="${KOMAI_BUILD_JOBS:-$(nproc)}"
+lock_heartbeat_interval="${KOMAI_BUILD_LOCK_HEARTBEAT_SECONDS:-5}"
+lock_stale_after="${KOMAI_BUILD_LOCK_STALE_SECONDS:-45}"
+heartbeat_pid=""
 
 usage() {
 	cat >&2 <<'EOF'
@@ -36,13 +40,35 @@ lock_command=("${command_name}" "$@")
 
 acquire_lock() {
 	mkdir -p "${lock_dir}"
-	exec 9>"${lock_file}"
 
-	if ! flock -n 9; then
+	if [[ -d "${lock_state_dir}" ]]; then
+		local heartbeat_age=""
+		if [[ -f "${heartbeat_file}" ]]; then
+			local now
+			now="$(date +%s)"
+			local beat
+			beat="$(stat -c %Y "${heartbeat_file}")"
+			heartbeat_age="$((now - beat))"
+		fi
+
+		if [[ -n "${heartbeat_age}" && "${heartbeat_age}" -gt "${lock_stale_after}" ]]; then
+			echo "Removing stale native build lock (last heartbeat ${heartbeat_age}s ago)." >&2
+			rm -rf "${lock_state_dir}"
+		fi
+	fi
+
+	if ! mkdir "${lock_state_dir}" 2>/dev/null; then
 		echo "Another native build/configure/test command is already running." >&2
 		if [[ -f "${info_file}" ]]; then
 			echo "Current lock holder:" >&2
 			sed 's/^/  /' "${info_file}" >&2
+		fi
+		if [[ -f "${heartbeat_file}" ]]; then
+			local now
+			now="$(date +%s)"
+			local beat
+			beat="$(stat -c %Y "${heartbeat_file}")"
+			echo "  heartbeat_age_seconds=$((now - beat))" >&2
 		fi
 		echo "Refusing to run concurrently against ${build_dir}." >&2
 		exit 73
@@ -55,8 +81,17 @@ acquire_lock() {
 		printf '%q ' "${lock_command[@]}"
 		printf '\n'
 	} >"${info_file}"
+	touch "${heartbeat_file}"
 
-	trap 'rm -f "${info_file}"' EXIT
+	(
+		while :; do
+			touch "${heartbeat_file}" 2>/dev/null || exit 0
+			sleep "${lock_heartbeat_interval}" || exit 0
+		done
+	) &
+	heartbeat_pid="$!"
+
+	trap 'status=$?; if [[ -n "${heartbeat_pid}" ]]; then kill "${heartbeat_pid}" 2>/dev/null || true; wait "${heartbeat_pid}" 2>/dev/null || true; fi; rm -rf "${lock_state_dir}"; exit "${status}"' EXIT INT TERM HUP
 }
 
 needs_release_configure() {

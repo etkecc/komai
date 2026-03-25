@@ -75,36 +75,6 @@ ColumnLayout {
         }
     }
 
-    function matchesSendShortcut(event) {
-        if (!event)
-            return false;
-
-        return Settings.composerInputSendKey == 0 && event.modifiers == Qt.NoModifier
-            || Settings.composerInputSendKey == 1 && event.modifiers == Qt.ShiftModifier
-            || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ControlModifier;
-    }
-
-    function matchesNewlineShortcut(event) {
-        if (!event)
-            return false;
-
-        return Settings.composerInputSendKey == 0 && event.modifiers == Qt.ShiftModifier
-            || Settings.composerInputSendKey == 1 && event.modifiers == Qt.NoModifier
-            || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ShiftModifier;
-    }
-
-    function composerShortcutHintText() {
-        switch (Settings.composerInputSendKey) {
-        case 1:
-            return qsTr("Press Shift+Enter to send. Enter inserts a newline.");
-        case 2:
-            return qsTr("Press Ctrl+Enter to send. Shift+Enter inserts a newline.");
-        case 0:
-        default:
-            return qsTr("Press Enter to send. Shift+Enter inserts a newline.");
-        }
-    }
-
     function openMatrixMessageContextMenu(messageModel, roomModel, copyText) {
         if (!messageModel || !roomModel || !messageModel.eventId)
             return;
@@ -1260,7 +1230,7 @@ ColumnLayout {
                         Layout.fillWidth: true
                         color: palette.buttonText
                         horizontalAlignment: TextEdit.AlignHCenter
-                        text: qsTr("This room is now backed by the Rust matrix-sdk timeline. Plain text sending is available while richer composer features are migrated.")
+                        text: qsTr("This room is now backed by the Rust matrix-sdk timeline and shared Komai composer surface while the remaining gaps are migrated.")
                         wrapMode: Text.WordWrap
                     }
                 }

@@ -4,6 +4,7 @@
 
 import "../../room/components"
 import "../../components" as Components
+import "../../composer" as Composer
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -659,50 +660,14 @@ ColumnLayout {
                     anchors.margins: Komai.paddingMedium
                     spacing: Komai.paddingSmall
 
-                    Rectangle {
-                        Layout.fillWidth: true
-                        color: palette.alternateBase
-                        implicitHeight: replyComposerLayout.implicitHeight + Komai.paddingMedium * 2
-                        radius: Komai.paddingMedium
-                        visible: TimelineManager.matrixTimelineReplyEventId.length > 0
-
-                        RowLayout {
-                            id: replyComposerLayout
-
-                            anchors.fill: parent
-                            anchors.margins: Komai.paddingMedium
-                            spacing: Komai.paddingMedium
-
-                            ColumnLayout {
-                                Layout.fillWidth: true
-                                spacing: Math.max(2, Math.round(Komai.paddingSmall / 2))
-
-                                MatrixText {
-                                    Layout.fillWidth: true
-                                    color: palette.text
-                                    font.bold: true
-                                    text: TimelineManager.matrixTimelineReplySenderDisplayName.length > 0
-                                        ? qsTr("Replying to %1").arg(TimelineManager.matrixTimelineReplySenderDisplayName)
-                                        : qsTr("Replying to this message")
-                                    textFormat: TextEdit.PlainText
-                                    wrapMode: Text.WordWrap
-                                }
-
-                                MatrixText {
-                                    Layout.fillWidth: true
-                                    color: palette.buttonText
-                                    text: TimelineManager.matrixTimelineReplyBody
-                                    textFormat: TextEdit.PlainText
-                                    wrapMode: Text.WordWrap
-                                }
-                            }
-
-                            Components.KomaiButton {
-                                text: qsTr("Cancel")
-
-                                onClicked: TimelineManager.clearActiveMatrixReply()
-                            }
-                        }
+                    Composer.ReplyPopup {
+                        Layout.minimumHeight: 0
+                        Layout.preferredHeight: layoutVisible ? implicitHeight : 0
+                        Layout.maximumHeight: layoutVisible ? implicitHeight : 0
+                        matrixReplyEventId: TimelineManager.matrixTimelineReplyEventId
+                        matrixReplyDisplayName: TimelineManager.matrixTimelineReplySenderDisplayName
+                        matrixReplyBody: TimelineManager.matrixTimelineReplyBody
+                        roundTopCorners: true
                     }
 
                     ScrollView {

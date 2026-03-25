@@ -29,9 +29,6 @@ UserSettings::setEncryptionBackupOnlineEnabled(bool useBackup)
     (void)coreStore_.set(settings::core::SettingId::EncryptionBackupOnlineEnabled, useBackup);
     emit encryptionBackupOnlineEnabledChanged(useBackup);
     save();
-
-    if (useBackup)
-        olm::download_full_keybackup();
 }
 
 void

@@ -14,8 +14,9 @@
 #include <QTextStream>
 #include <exception>
 
+#include <mtxclient/crypto/client.hpp>
+
 #include "cache/Cache.h"
-#include "encryption/Olm.h"
 
 namespace settings::ui {
 
@@ -123,13 +124,19 @@ exportSessionKeys()
 void
 requestCrossSigningSecrets()
 {
-    olm::request_cross_signing_keys();
+    QMessageBox::information(nullptr,
+                             QObject::tr("Not migrated yet"),
+                             QObject::tr("Cross-signing secret request has not been migrated to "
+                                         "the matrix-sdk backend yet."));
 }
 
 void
 downloadCrossSigningSecrets()
 {
-    olm::download_cross_signing_keys();
+    QMessageBox::information(nullptr,
+                             QObject::tr("Not migrated yet"),
+                             QObject::tr("Cross-signing secret download has not been migrated to "
+                                         "the matrix-sdk backend yet."));
 }
 
 } // namespace settings::ui

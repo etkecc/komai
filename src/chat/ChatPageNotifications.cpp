@@ -16,8 +16,8 @@
 #include <mtx/responses.hpp>
 
 #include "cache/Cache.h"
-#include "encryption/Olm.h"
 #include "events/EventAccessors.h"
+#include "logging/Logging.h"
 #include "matrix/MatrixSyncUpdate.h"
 #include "notifications/Manager.h"
 #include "providers/AvatarProvider.h"
@@ -164,21 +164,15 @@ ChatPage::processSyncUi(const komai::NotificationSyncUpdate &notificationUpdate)
                     std::visit([room_id_ = room_id](auto &event_) { event_.room_id = room_id_; },
                                te);
 
-                    const auto notificationsMessageContentPolicy =
-                      userSettings_->notificationsMessageContentPolicy();
-                    const bool decryptEncryptedNotificationContent =
-                      notificationsMessageContentPolicy ==
-                      UserSettings::NotificationMessageContentPolicy::WheneverAvailable;
-
                     if (auto encryptedEvent =
                           std::get_if<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
                             &event);
-                        encryptedEvent && decryptEncryptedNotificationContent) {
-                        MegolmSessionIndex index(room_id, encryptedEvent->content);
-
-                        auto result = olm::decryptEvent(index, *encryptedEvent);
-                        if (result.event)
-                            te = std::move(result.event).value();
+                        encryptedEvent) {
+                        nhlog::crypto()->debug(
+                          "Skipping legacy encrypted notification-body decryption for {} in room "
+                          "{}; this flow is not migrated to the matrix-sdk backend yet",
+                          encryptedEvent->event_id,
+                          room_id);
                     }
 
                     relatedEvents.clear();
@@ -189,12 +183,13 @@ ChatPage::processSyncUi(const komai::NotificationSyncUpdate &notificationUpdate)
                             if (auto encryptedEvent = std::get_if<
                                   mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
                                   &related.value());
-                                encryptedEvent && decryptEncryptedNotificationContent) {
-                                MegolmSessionIndex index(room_id, encryptedEvent->content);
-
-                                auto result = olm::decryptEvent(index, *encryptedEvent);
-                                if (result.event)
-                                    relatedEvents.back().second = std::move(result.event).value();
+                                encryptedEvent) {
+                                nhlog::crypto()->debug(
+                                  "Skipping legacy encrypted related-event notification "
+                                  "decryption for {} in room {}; this flow is not migrated to "
+                                  "the matrix-sdk backend yet",
+                                  encryptedEvent->event_id,
+                                  room_id);
                             }
                         }
                     }

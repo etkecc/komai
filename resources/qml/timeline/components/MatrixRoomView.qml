@@ -379,13 +379,6 @@ ColumnLayout {
                         readonly property bool isStateLikeItem: ["membership_change", "profile_change", "other_state", "failed_to_parse_state"].indexOf(itemKind) >= 0
                         readonly property bool supportsSharedToolbarActions: eventId.length > 0 && itemKind !== "date_divider" && !isStateLikeItem
                         readonly property int matrixEventType: root.matrixEventTypeForItemKind(itemKind)
-                        readonly property string footerMetaText: {
-                            const parts = [];
-                            if (isEdited)
-                                parts.push(qsTr("edited"));
-                            parts.push(Qt.formatTime(new Date(timestamp), "h:mm ap"));
-                            return parts.join(" · ");
-                        }
                         readonly property bool messageIsRightAligned: isOwn
                         readonly property string mediaKindLabel: {
                             switch (itemKind) {
@@ -588,6 +581,7 @@ ColumnLayout {
                             id: matrixToolbarRoomModel
 
                             property string roomId: root.roomPreview ? root.roomPreview.roomid : ""
+                            property bool isEncrypted: root.roomPreview ? !!root.roomPreview.isEncrypted : false
                             property var permissions: matrixToolbarPermissions
                             property var input: matrixToolbarInput
                             property var frequentReactions: []
@@ -774,7 +768,7 @@ ColumnLayout {
                                             blocking: false
                                             onHoveredChanged: timelineItemDelegate.handleMessageHoverChanged(
                                                 hovered,
-                                                footerActionsRow)
+                                                footerMetadata)
                                         }
 
                                         ColumnLayout {
@@ -966,41 +960,28 @@ ColumnLayout {
                                         width: messageBubble.width
                                     }
 
-                                    RowLayout {
-                                        id: footerActionsRow
-
+                                    TimelineMetadata {
+                                        id: footerMetadata
                                         Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                                        spacing: Komai.paddingSmall
+                                        forceTrailingTimestampLayout: true
+                                        scaling: 0.9
+                                        eventId: timelineItemDelegate.eventId
+                                        status: MtxEvent.Empty
+                                        trustlevel: 0
+                                        isEdited: timelineItemDelegate.isEdited
+                                        isEncrypted: timelineItemDelegate.mediaIsEncrypted
+                                            || timelineItemDelegate.thumbnailIsEncrypted
+                                            || timelineItemDelegate.itemKind === "unable_to_decrypt"
+                                        isStateEvent: timelineItemDelegate.isStateLikeItem
+                                        threadId: ""
+                                        timestamp: new Date(timelineItemDelegate.timestamp)
+                                        room: matrixToolbarRoomModel
+                                        isSender: timelineItemDelegate.isOwn
+                                        actionBarActive: matrixMessageActionsHost.control.pinned
+                                            && matrixMessageActionsHost.control.attached === timelineItemDelegate
 
-                                        MatrixText {
-                                            Layout.alignment: Qt.AlignVCenter
-                                            color: palette.buttonText
-                                            text: footerMetaText
-                                            textFormat: TextEdit.PlainText
-                                        }
-
-                                        Components.ImageButton {
-                                            id: actionToggleButton
-
-                                            Layout.alignment: Qt.AlignVCenter
-                                            Layout.preferredHeight: Math.max(16, Math.round(Komai.listIconSize * 0.9))
-                                            Layout.preferredWidth: Layout.preferredHeight
-                                            toolTipDelay: 0
-                                            toolTipText: qsTr("Message actions")
-                                            toolTipVisible: hovered
-                                            buttonTextColor: matrixMessageActionsHost.control.pinned
-                                                && matrixMessageActionsHost.control.attached === timelineItemDelegate
-                                                ? palette.highlight
-                                                : Qt.rgba(palette.buttonText.r, palette.buttonText.g, palette.buttonText.b, 0.35)
-                                            highlightColor: palette.highlight
-                                            changeColorOnHover: true
-                                            image: ":/icons/icons/ui/textbox-more.svg"
-                                            visible: supportsSharedToolbarActions
-                                                && Settings.timelineMessageActionsActivationPolicy
-                                                    === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
-
-                                            onClicked: timelineItemDelegate.togglePinnedMessageActions(actionToggleButton)
-                                        }
+                                        onActionToggled: timelineItemDelegate.togglePinnedMessageActions(
+                                            actionToggleButton)
                                     }
                                 }
                             }

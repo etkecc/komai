@@ -80,6 +80,24 @@ ColumnLayout {
         }
     }
 
+    function openMatrixMessageContextMenu(messageModel, roomModel, copyText) {
+        if (!messageModel || !roomModel || !messageModel.eventId)
+            return;
+
+        matrixMessageContextMenu.show(messageModel.eventId,
+                                      messageModel.threadId || "",
+                                      messageModel.type,
+                                      !!messageModel.isSender,
+                                      !!messageModel.isEncrypted,
+                                      !!messageModel.isEditable,
+                                      !!messageModel.isStateEvent,
+                                      "",
+                                      copyText || "",
+                                      null,
+                                      messageModel,
+                                      roomModel);
+    }
+
     function focusTextInput() {
         composerInput.forceActiveFocus();
         return true;
@@ -165,6 +183,14 @@ ColumnLayout {
         id: matrixComposerRoom
 
         property var input: matrixComposerInputController
+    }
+
+    MessageContextMenu {
+        id: matrixMessageContextMenu
+
+        chatRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
+        emojiPopup: root.emojiPopup
+        filteredTimelineModel: root.filteredTimeline
     }
 
     anchors.fill: parent
@@ -375,6 +401,24 @@ ColumnLayout {
                             property string edit: ""
                             property string thread: ""
 
+                            function openMedia(targetEventId) {
+                                if (timelineItemDelegate.itemId.length === 0)
+                                    return;
+
+                                TimelineManager.openActiveMatrixTimelineMedia(
+                                    timelineItemDelegate.itemId,
+                                    timelineItemDelegate.effectiveFileName);
+                            }
+
+                            function saveMedia(targetEventId) {
+                                if (timelineItemDelegate.itemId.length === 0)
+                                    return;
+
+                                TimelineManager.saveActiveMatrixTimelineMedia(
+                                    timelineItemDelegate.itemId,
+                                    timelineItemDelegate.effectiveFileName);
+                            }
+
                             onReplyChanged: {
                                 if (!reply)
                                     return;
@@ -423,6 +467,25 @@ ColumnLayout {
                             readonly property bool supportsEdit: isEditable
                             readonly property bool supportsRemove: false
                             readonly property bool supportsViewRaw: false
+                            readonly property bool supportsReadReceipts: false
+                            readonly property bool supportsMarkAsRead: false
+                            readonly property bool supportsPin: false
+                            readonly property bool supportsReport: false
+                            readonly property bool supportsOpenMedia: timelineItemDelegate.isMediaItem
+                            readonly property bool supportsSaveMedia: timelineItemDelegate.isMediaItem
+                            readonly property bool supportsCopyEventLink: false
+                        }
+
+                        TapHandler {
+                            acceptedButtons: Qt.RightButton
+                            gesturePolicy: TapHandler.ReleaseWithinBounds
+
+                            onSingleTapped: root.openMatrixMessageContextMenu(
+                                matrixToolbarMessageModel,
+                                matrixToolbarRoomModel,
+                                timelineItemDelegate.body.length > 0
+                                    ? timelineItemDelegate.body
+                                    : timelineItemDelegate.effectiveFileName)
                         }
 
                         Rectangle {

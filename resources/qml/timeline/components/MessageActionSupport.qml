@@ -6,6 +6,24 @@ import QtQuick
 import cc.etke.komai
 
 QtObject {
+    function roomHasMethod(roomModel, methodName) {
+        return !!roomModel && typeof roomModel[methodName] === "function";
+    }
+
+    function roomCanSend(roomModel, eventType) {
+        return !!roomModel
+            && !!roomModel.permissions
+            && typeof roomModel.permissions.canSend === "function"
+            && roomModel.permissions.canSend(eventType);
+    }
+
+    function roomCanChange(roomModel, eventType) {
+        return !!roomModel
+            && !!roomModel.permissions
+            && typeof roomModel.permissions.canChange === "function"
+            && roomModel.permissions.canChange(eventType);
+    }
+
     function actionCapability(messageModel, propertyName, fallbackValue) {
         if (!messageModel)
             return fallbackValue;
@@ -26,22 +44,26 @@ QtObject {
             || eventType == MtxEvent.NoticeMessage;
     }
 
+    function isMediaType(eventType) {
+        return eventType == MtxEvent.ImageMessage
+            || eventType == MtxEvent.VideoMessage
+            || eventType == MtxEvent.AudioMessage
+            || eventType == MtxEvent.FileMessage
+            || eventType == MtxEvent.Sticker;
+    }
+
     function canSendText(messageModel, roomModel) {
         return !!messageModel
             && !messageModel.isStateEvent
             && actionCapability(messageModel, "supportsSendText", true)
-            && !!roomModel
-            && roomModel.permissions
-            && roomModel.permissions.canSend(MtxEvent.TextMessage);
+            && roomCanSend(roomModel, MtxEvent.TextMessage);
     }
 
     function canReact(messageModel, roomModel) {
         return !!messageModel
             && !messageModel.isStateEvent
             && actionCapability(messageModel, "supportsReaction", true)
-            && !!roomModel
-            && roomModel.permissions
-            && roomModel.permissions.canSend(MtxEvent.Reaction);
+            && roomCanSend(roomModel, MtxEvent.Reaction);
     }
 
     function canEdit(messageModel, roomModel) {
@@ -93,6 +115,56 @@ QtObject {
         return !!messageModel
             && !!messageModel.eventId
             && actionCapability(messageModel, "supportsViewRaw", true);
+    }
+
+    function canPin(messageModel, roomModel) {
+        return !!messageModel
+            && !!messageModel.eventId
+            && actionCapability(messageModel, "supportsPin", true)
+            && roomCanChange(roomModel, MtxEvent.PinnedEvents);
+    }
+
+    function canReadReceipts(messageModel, roomModel) {
+        return !!messageModel
+            && !!messageModel.eventId
+            && actionCapability(messageModel, "supportsReadReceipts", true)
+            && roomHasMethod(roomModel, "showReadReceipts");
+    }
+
+    function canMarkAsRead(messageModel, roomModel) {
+        return !!messageModel
+            && !!messageModel.eventId
+            && actionCapability(messageModel, "supportsMarkAsRead", true)
+            && roomHasMethod(roomModel, "markEventAsRead");
+    }
+
+    function canReport(messageModel, chatRoot) {
+        return !!messageModel
+            && !!messageModel.eventId
+            && actionCapability(messageModel, "supportsReport", true)
+            && !!chatRoot
+            && typeof chatRoot.showDialogFromComponent === "function";
+    }
+
+    function canSaveMedia(messageModel, roomModel) {
+        return !!messageModel
+            && actionCapability(messageModel, "supportsSaveMedia", true)
+            && isMediaType(messageModel.type)
+            && roomHasMethod(roomModel, "saveMedia");
+    }
+
+    function canOpenMedia(messageModel, roomModel) {
+        return !!messageModel
+            && actionCapability(messageModel, "supportsOpenMedia", true)
+            && isMediaType(messageModel.type)
+            && roomHasMethod(roomModel, "openMedia");
+    }
+
+    function canCopyEventLink(messageModel, roomModel) {
+        return !!messageModel
+            && !!messageModel.eventId
+            && actionCapability(messageModel, "supportsCopyEventLink", true)
+            && roomHasMethod(roomModel, "copyLinkToEvent");
     }
 
     function openOptionsDialog(chatRoot, messageModel) {

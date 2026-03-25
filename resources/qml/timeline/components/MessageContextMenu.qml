@@ -13,7 +13,9 @@ Menu {
     required property var chatRoot
     required property var emojiPopup
     required property var filteredTimelineModel
-    required property var roomModel
+    property var roomModel: null
+    property var actionMessageModel: null
+    property var actionRoomModel: null
     property string eventId
     property int eventType
     property bool isEditable
@@ -28,6 +30,16 @@ Menu {
     property string lastClosedEventId: ""
     property double lastClosedAtMs: 0
     property int closedReuseIgnoreMs: 250
+    readonly property var effectiveRoomModel: actionRoomModel ? actionRoomModel : roomModel
+    readonly property var effectiveMessageModel: actionMessageModel ? actionMessageModel : ({
+            "eventId": eventId,
+            "threadId": threadId,
+            "type": eventType,
+            "isSender": isSender,
+            "isEncrypted": isEncrypted,
+            "isEditable": isEditable,
+            "isStateEvent": isStateEvent
+        })
 
     function wasJustClosedFor(eventId_, anchor_) {
         if (!eventId_ || !anchor_)
@@ -36,7 +48,7 @@ Menu {
         return lastClosedEventId === eventId_ && lastClosedAnchorItem === anchor_ && (Date.now() - lastClosedAtMs) <= closedReuseIgnoreMs;
     }
 
-    function show(eventId_, threadId_, eventType_, isSender_, isEncrypted_, isEditable_, isStateEvent_, link_, text_, showAt_) {
+    function show(eventId_, threadId_, eventType_, isSender_, isEncrypted_, isEditable_, isStateEvent_, link_, text_, showAt_, actionMessageModel_, actionRoomModel_) {
         eventId = eventId_;
         threadId = threadId_;
         eventType = eventType_;
@@ -45,6 +57,8 @@ Menu {
         isSender = isSender_;
         isStateEvent = isStateEvent_;
         popupAnchorItem = showAt_ || null;
+        actionMessageModel = actionMessageModel_ || null;
+        actionRoomModel = actionRoomModel_ || null;
         if (text_)
             text = text_;
         else
@@ -80,6 +94,12 @@ Menu {
         lastClosedEventId = eventId;
         lastClosedAnchorItem = popupAnchorItem;
         popupAnchorItem = null;
+        actionMessageModel = null;
+        actionRoomModel = null;
+    }
+
+    MessageActionSupport {
+        id: messageActionSupport
     }
 
     KomaiMenuVisibilityFilter on contentData {
@@ -88,14 +108,15 @@ Menu {
         Component {
             MenuItem {
                 text: qsTr("Go to &message")
-                visible: filteredTimelineModel && filteredTimelineModel.filterByContent
+                visible: messageActionSupport.canGoToMessage(messageContextMenuRoot.effectiveMessageModel,
+                                                             filteredTimelineModel)
 
                 onTriggered: function () {
                     if (!messageContextMenuRoot.eventId)
                         return;
 
                     chatRoot.clearSearch();
-                    roomModel.showEvent(messageContextMenuRoot.eventId);
+                    messageContextMenuRoot.effectiveRoomModel.showEvent(messageContextMenuRoot.eventId);
                 }
             }
         }
@@ -120,10 +141,11 @@ Menu {
                 id: reactionOption
 
                 text: qsTr("Re&act")
-                visible: !messageContextMenuRoot.isStateEvent && (roomModel ? roomModel.permissions.canSend(MtxEvent.Reaction) : false)
+                visible: messageActionSupport.canReact(messageContextMenuRoot.effectiveMessageModel,
+                                                       messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(null, roomModel.roomId, function (plaintext, markdown) {
-                    roomModel.input.reaction(messageContextMenuRoot.eventId, plaintext);
+                onTriggered: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(null, messageContextMenuRoot.effectiveRoomModel.roomId, function (plaintext, markdown) {
+                    messageContextMenuRoot.effectiveRoomModel.input.reaction(messageContextMenuRoot.eventId, plaintext);
                     TimelineManager.focusMessageInput();
                 })
             }
@@ -131,46 +153,54 @@ Menu {
         Component {
             MenuItem {
                 text: qsTr("Repl&y")
-                visible: roomModel ? roomModel.permissions.canSend(MtxEvent.TextMessage) : false
+                visible: messageActionSupport.canReply(messageContextMenuRoot.effectiveMessageModel,
+                                                       messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: roomModel.reply = (messageContextMenuRoot.eventId)
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.reply = (messageContextMenuRoot.eventId)
             }
         }
         Component {
             MenuItem {
                 text: qsTr("&Edit")
-                visible: messageContextMenuRoot.isEditable && (roomModel ? roomModel.permissions.canSend(MtxEvent.TextMessage) : false)
+                visible: messageActionSupport.canEdit(messageContextMenuRoot.effectiveMessageModel,
+                                                      messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: roomModel.edit = (messageContextMenuRoot.eventId)
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.edit = (messageContextMenuRoot.eventId)
             }
         }
         Component {
             MenuItem {
                 text: qsTr("&Thread")
-                visible: roomModel ? roomModel.permissions.canSend(MtxEvent.TextMessage) : false
+                visible: messageActionSupport.canThread(messageContextMenuRoot.effectiveMessageModel,
+                                                        messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: roomModel.thread = (messageContextMenuRoot.threadId || messageContextMenuRoot.eventId)
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.thread = (messageContextMenuRoot.threadId || messageContextMenuRoot.eventId)
             }
         }
         Component {
             MenuItem {
-                text: visible && roomModel.pinnedMessages.includes(messageContextMenuRoot.eventId) ? qsTr("Un&pin") : qsTr("&Pin")
-                visible: roomModel ? roomModel.permissions.canChange(MtxEvent.PinnedEvents) : false
+                text: visible && messageContextMenuRoot.effectiveRoomModel.pinnedMessages.includes(messageContextMenuRoot.eventId) ? qsTr("Un&pin") : qsTr("&Pin")
+                visible: messageActionSupport.canPin(messageContextMenuRoot.effectiveMessageModel,
+                                                     messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: visible && roomModel.pinnedMessages.includes(messageContextMenuRoot.eventId) ? roomModel.unpin(messageContextMenuRoot.eventId) : roomModel.pin(messageContextMenuRoot.eventId)
+                onTriggered: visible && messageContextMenuRoot.effectiveRoomModel.pinnedMessages.includes(messageContextMenuRoot.eventId)
+                    ? messageContextMenuRoot.effectiveRoomModel.unpin(messageContextMenuRoot.eventId)
+                    : messageContextMenuRoot.effectiveRoomModel.pin(messageContextMenuRoot.eventId)
             }
         }
         Component {
             MenuItem {
                 text: qsTr("&Read receipts")
+                visible: messageActionSupport.canReadReceipts(messageContextMenuRoot.effectiveMessageModel,
+                                                              messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: roomModel.showReadReceipts(messageContextMenuRoot.eventId)
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.showReadReceipts(messageContextMenuRoot.eventId)
             }
         }
         Component {
             MenuItem {
                 text: qsTr("&Forward")
-                visible: messageContextMenuRoot.eventType == MtxEvent.ImageMessage || messageContextMenuRoot.eventType == MtxEvent.VideoMessage || messageContextMenuRoot.eventType == MtxEvent.AudioMessage || messageContextMenuRoot.eventType == MtxEvent.FileMessage || messageContextMenuRoot.eventType == MtxEvent.Sticker || messageContextMenuRoot.eventType == MtxEvent.TextMessage || messageContextMenuRoot.eventType == MtxEvent.LocationMessage || messageContextMenuRoot.eventType == MtxEvent.EmoteMessage || messageContextMenuRoot.eventType == MtxEvent.NoticeMessage
+                visible: messageActionSupport.canForward(messageContextMenuRoot.effectiveMessageModel)
 
                 onTriggered: chatRoot.openForwardDialog(messageContextMenuRoot.eventId)
             }
@@ -178,15 +208,18 @@ Menu {
         Component {
             MenuItem {
                 text: qsTr("&Mark as read")
+                visible: messageActionSupport.canMarkAsRead(messageContextMenuRoot.effectiveMessageModel,
+                                                            messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: roomModel.markEventAsRead(messageContextMenuRoot.eventId)
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.markEventAsRead(messageContextMenuRoot.eventId)
             }
         }
         Component {
             MenuItem {
                 text: qsTr("View raw message")
+                visible: messageActionSupport.canViewRaw(messageContextMenuRoot.effectiveMessageModel)
 
-                onTriggered: roomModel.viewRawMessage(messageContextMenuRoot.eventId)
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.viewRawMessage(messageContextMenuRoot.eventId)
             }
         }
         Component {
@@ -194,14 +227,16 @@ Menu {
                 text: qsTr("View decrypted raw message")
                 // TODO(Nico): Fix this still being iterated over, when using keyboard to select options
                 visible: messageContextMenuRoot.isEncrypted
+                    && messageActionSupport.canViewRaw(messageContextMenuRoot.effectiveMessageModel)
 
-                onTriggered: roomModel.viewDecryptedRawMessage(messageContextMenuRoot.eventId)
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.viewDecryptedRawMessage(messageContextMenuRoot.eventId)
             }
         }
         Component {
             MenuItem {
                 text: qsTr("&Delete message")
-                visible: (roomModel ? roomModel.permissions.canRedact() : false) || messageContextMenuRoot.isSender
+                visible: messageActionSupport.canRemove(messageContextMenuRoot.effectiveMessageModel,
+                                                        messageContextMenuRoot.effectiveRoomModel)
 
                 onTriggered: chatRoot.openRemoveMessageDialog(messageContextMenuRoot.eventId)
             }
@@ -209,6 +244,8 @@ Menu {
         Component {
             MenuItem {
                 text: qsTr("Report message")
+                visible: messageActionSupport.canReport(messageContextMenuRoot.effectiveMessageModel, chatRoot)
+
                 onTriggered: function () {
                     chatRoot.showDialogFromComponent(reportDialog, {
                             "eventId": messageContextMenuRoot.eventId
@@ -219,25 +256,28 @@ Menu {
         Component {
             MenuItem {
                 text: qsTr("&Save as")
-                visible: messageContextMenuRoot.eventType == MtxEvent.ImageMessage || messageContextMenuRoot.eventType == MtxEvent.VideoMessage || messageContextMenuRoot.eventType == MtxEvent.AudioMessage || messageContextMenuRoot.eventType == MtxEvent.FileMessage || messageContextMenuRoot.eventType == MtxEvent.Sticker
+                visible: messageActionSupport.canSaveMedia(messageContextMenuRoot.effectiveMessageModel,
+                                                           messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: roomModel.saveMedia(messageContextMenuRoot.eventId)
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.saveMedia(messageContextMenuRoot.eventId)
             }
         }
         Component {
             MenuItem {
                 text: qsTr("&Open in external program")
-                visible: messageContextMenuRoot.eventType == MtxEvent.ImageMessage || messageContextMenuRoot.eventType == MtxEvent.VideoMessage || messageContextMenuRoot.eventType == MtxEvent.AudioMessage || messageContextMenuRoot.eventType == MtxEvent.FileMessage || messageContextMenuRoot.eventType == MtxEvent.Sticker
+                visible: messageActionSupport.canOpenMedia(messageContextMenuRoot.effectiveMessageModel,
+                                                           messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: roomModel.openMedia(messageContextMenuRoot.eventId)
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.openMedia(messageContextMenuRoot.eventId)
             }
         }
         Component {
             MenuItem {
                 text: qsTr("Copy link to eve&nt")
-                visible: messageContextMenuRoot.eventId
+                visible: messageActionSupport.canCopyEventLink(messageContextMenuRoot.effectiveMessageModel,
+                                                               messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: roomModel.copyLinkToEvent(messageContextMenuRoot.eventId)
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.copyLinkToEvent(messageContextMenuRoot.eventId)
             }
         }
     }

@@ -14,8 +14,8 @@
 #include "Permissions.h"
 #include "TimelineModel.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 
 namespace {
 enum NotificationImportance : short
@@ -491,23 +491,11 @@ FilteredRoomlistModel::computeFilterBadges(const QStringList &communityIds) cons
 void
 FilteredRoomlistModel::toggleTag(const QString &roomid, const QString &tag, bool on)
 {
-    if (on) {
-        http::client()->put_tag(
-          roomid.toStdString(), tag.toStdString(), {}, [tag](mtx::http::RequestErr err) {
-              if (err) {
-                  nhlog::ui()->error(
-                    "Failed to add tag: {}, {}", tag.toStdString(), err->matrix_error.error);
-              }
-          });
-    } else {
-        http::client()->delete_tag(
-          roomid.toStdString(), tag.toStdString(), [tag](mtx::http::RequestErr err) {
-              if (err) {
-                  nhlog::ui()->error(
-                    "Failed to delete tag: {}, {}", tag.toStdString(), err->matrix_error.error);
-              }
-          });
-    }
+    Q_UNUSED(roomid)
+    nhlog::ui()->warn("Room tag '{}' toggle is not migrated to matrix-sdk yet", tag.toStdString());
+    MainWindow::instance()->showNotification(
+      on ? tr("Adding room tags is not available yet during the matrix-sdk migration.")
+         : tr("Removing room tags is not available yet during the matrix-sdk migration."));
 }
 
 void

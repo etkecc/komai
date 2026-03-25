@@ -14,7 +14,7 @@
 #include "cache/Cache.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
+#include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
 namespace {
@@ -93,63 +93,13 @@ TimelineViewManager::forwardMessageToRoom(mtx::events::collections::TimelineEven
                                           QString roomId)
 {
     auto room                                                = rooms_->getRoomById(roomId);
-    auto content                                             = mtx::accessors::url(*e);
     std::optional<mtx::crypto::EncryptedFile> encryptionInfo = mtx::accessors::file(*e);
 
     if (encryptionInfo && !cache::isRoomEncrypted(roomId.toStdString())) {
-        http::client()->download(
-          content,
-          [this, roomId, e, encryptionInfo](const std::string &res,
-                                            const std::string &content_type,
-                                            const std::string &originalFilename,
-                                            mtx::http::RequestErr err) {
-              if (err)
-                  return;
-
-              auto data =
-                mtx::crypto::to_string(mtx::crypto::decrypt_file(res, encryptionInfo.value()));
-
-              http::client()->upload(
-                data,
-                content_type,
-                originalFilename,
-                [this, roomId, e](const mtx::responses::ContentURI &res,
-                                  mtx::http::RequestErr err) mutable {
-                    if (err) {
-                        nhlog::net()->warn("failed to upload media: {} {} ({})",
-                                           err->matrix_error.error,
-                                           to_string(err->matrix_error.errcode),
-                                           static_cast<int>(err->status_code));
-                        return;
-                    }
-
-                    std::visit(
-                      [this, roomId, url = res.content_uri](auto ev) {
-                          using namespace mtx::events;
-                          if constexpr (EventType::RoomMessage ==
-                                          message_content_to_type<decltype(ev.content)> ||
-                                        EventType::Sticker ==
-                                          message_content_to_type<decltype(ev.content)>) {
-                              if constexpr (messageWithFileAndUrl(ev)) {
-                                  ev.content.relations.relations.clear();
-                                  ev.content.file.reset();
-                                  ev.content.url = url;
-                              }
-
-                              if (auto room = rooms_->getRoomById(roomId)) {
-                                  removeReplyFallback(ev);
-                                  ev.content.relations.relations.clear();
-                                  room->sendMessageEvent(ev.content,
-                                                         mtx::events::EventType::RoomMessage);
-                              }
-                          }
-                      },
-                      *e);
-                });
-
-              return;
-          });
-
+        nhlog::ui()->warn(
+          "Forwarding encrypted media into unencrypted rooms is not migrated to matrix-sdk yet");
+        MainWindow::instance()->showNotification(
+          tr("Forwarding encrypted media into unencrypted rooms is not available yet."));
         return;
     }
 

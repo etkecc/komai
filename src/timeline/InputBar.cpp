@@ -18,7 +18,6 @@
 #include "TimelineViewManager.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 static constexpr size_t INPUT_HISTORY_SIZE = 10;
@@ -427,35 +426,17 @@ InputBar::startTyping()
         return;
     }
 
-    if (!typingRefresh_.isActive()) {
-        typingRefresh_.start();
-        typingSent_ = true;
-        http::client()->start_typing(
-          room->roomId().toStdString(), 10'000, [](mtx::http::RequestErr err) {
-              if (err) {
-                  nhlog::net()->warn("failed to send typing notification: {}",
-                                     err->matrix_error.error);
-              }
-          });
-    }
-
-    typingTimeout_.start();
+    typingRefresh_.stop();
+    typingTimeout_.stop();
+    typingSent_ = false;
 }
+
 void
 InputBar::stopTyping()
 {
     typingRefresh_.stop();
     typingTimeout_.stop();
-
-    if (!typingSent_)
-        return;
-
     typingSent_ = false;
-    http::client()->stop_typing(room->roomId().toStdString(), [](mtx::http::RequestErr err) {
-        if (err) {
-            nhlog::net()->warn("failed to stop typing notifications: {}", err->matrix_error.error);
-        }
-    });
 }
 
 void

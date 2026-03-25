@@ -33,13 +33,13 @@
 #include "cache/api/CacheApiContext.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #ifdef KOMAI_DBUS_SYS
 #include "dbus/Backend.h"
 #endif
 #include "cli/CliDispatch.h"
 #include "config/komai.h"
 #include "ipc/IpcServer.h"
-#include "matrix/MatrixClient.h"
 #include "profile/KeyringEnvironment.h"
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
@@ -435,11 +435,6 @@ app::runMainApplication(int argc, char *argv[])
         ChatPage::instance()->removeAllNotifications();
         w.saveCurrentWindowSize();
         ChatPage::instance()->prepareShutdown();
-        if (http::client() != nullptr) {
-            nhlog::net()->debug("shutting down all I/O threads & open connections");
-            http::client()->close(true);
-            nhlog::net()->debug("bye");
-        }
         // Skip normal destruction to avoid SIGSEGV in coeurl/curl cleanup.
         // All important state is already saved above.
         _exit(0);

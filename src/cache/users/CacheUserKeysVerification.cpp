@@ -16,7 +16,7 @@
 
 #include "cache/api/CacheApiContext.h"
 #include "encryption/Olm.h"
-#include "matrix/MatrixClient.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
 
 std::optional<VerificationCache>
@@ -134,10 +134,13 @@ MatrixStore::verificationStatus_(const std::string &user_id, db::Transaction &tx
     }
 
     const auto local_user = utils::localUser().toStdString();
+    const auto local_device_id =
+      UserSettings::instance() ? UserSettings::instance()->deviceId() : QString{};
 
     crypto::Trust trustlevel = crypto::Trust::Unverified;
     if (user_id == local_user) {
-        status.verified_devices.insert(http::client()->device_id());
+        if (!local_device_id.isEmpty())
+            status.verified_devices.insert(local_device_id.toStdString());
         trustlevel = crypto::Trust::Verified;
     }
 
@@ -191,8 +194,15 @@ MatrixStore::verificationStatus_(const std::string &user_id, db::Transaction &tx
         updateUnverifiedDevices(theirKeys->device_keys);
 
         {
-            auto &mk           = ourKeys->master_keys;
-            std::string dev_id = "ed25519:" + http::client()->device_id();
+            auto &mk = ourKeys->master_keys;
+            if (local_device_id.isEmpty()) {
+                cache::activeLoggers().crypto->debug(
+                  "Cannot verify local master key without a current device id");
+                verification_storage.status[user_id] = status;
+                return status;
+            }
+
+            std::string dev_id = "ed25519:" + local_device_id.toStdString();
             if (!mk.signatures.count(local_user) || !mk.signatures.at(local_user).count(dev_id) ||
                 !mtx::crypto::ed25519_verify_signature(olm::client()->identity_keys().ed25519,
                                                        nlohmann::json(mk),

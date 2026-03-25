@@ -7,11 +7,6 @@
 
 #include <QCoreApplication>
 
-#include <optional>
-#include <string_view>
-
-#include <nlohmann/json.hpp>
-
 #include <mtx/responses/common.hpp>
 
 #include "TimelineModel.h"
@@ -19,29 +14,12 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "ui/MainWindow.h"
 #include "ui/UserProfile.h"
 #include "utils/Utils.h"
 
 namespace {
-using InvitePermissionsContent = mtx::events::account_data::nheko_extensions::InvitePermissions;
-constexpr std::string_view KOMAI_INVITE_PERMISSIONS_TYPE = "cc.etke.komai.invite_permissions";
-constexpr auto kInputBarTranslationContext               = "InputBar";
-
-std::optional<InvitePermissionsContent>
-parseInvitePermissionsFromRawAccountData(const std::string &eventJson)
-{
-    try {
-        const auto parsedEvent = nlohmann::json::parse(eventJson);
-        if (!parsedEvent.is_object() || !parsedEvent.contains("content"))
-            return std::nullopt;
-
-        return parsedEvent.at("content").get<InvitePermissionsContent>();
-    } catch (const std::exception &) {
-        return std::nullopt;
-    }
-}
+constexpr auto kInputBarTranslationContext = "InputBar";
 
 QString
 firstToken(const QString &arguments)
@@ -71,6 +49,14 @@ remainingAfterFirstToken(const QString &arguments)
         ++split;
 
     return trimmed.mid(split);
+}
+
+void
+notifyInputBarMetadataWriteUnavailable(const QString &message)
+{
+    nhlog::ui()->warn("Input-bar metadata write is not migrated to matrix-sdk yet: {}",
+                      message.toStdString());
+    MainWindow::instance()->showNotification(message);
 }
 } // namespace
 
@@ -171,21 +157,8 @@ timeline::slash_commands::execute(InputBar &inputBar, const ParsedCommand &parse
         return CommandResult::dispatched();
     }
     case CommandId::Roomnick: {
-        mtx::events::state::Member member;
-        member.display_name = args.toStdString();
-        member.avatar_url =
-          cache::avatarUrl(inputBar.room->roomId(), utils::localUser()).toStdString();
-        member.membership = mtx::events::state::Membership::Join;
-
-        http::client()->send_state_event(
-          inputBar.room->roomId().toStdString(),
-          utils::localUser().toStdString(),
-          member,
-          [](const mtx::responses::EventId &, mtx::http::RequestErr err) {
-              if (err)
-                  nhlog::net()->error("Failed to set room displayname: {}",
-                                      err->matrix_error.error);
-          });
+        notifyInputBarMetadataWriteUnavailable(QCoreApplication::translate(
+          kInputBarTranslationContext, "Setting a room-specific nickname is not available yet."));
         return CommandResult::dispatched();
     }
     case CommandId::Shrug:
@@ -291,70 +264,8 @@ InputBar::toggleIgnore(const QString &user, const bool ignored)
 void
 InputBar::toggleInvitePermission(const QString &id, bool block)
 {
-    InvitePermissionsContent permissions;
-    if (auto raw = cache::getAccountDataByType(std::string(KOMAI_INVITE_PERMISSIONS_TYPE))) {
-        if (auto content = parseInvitePermissionsFromRawAccountData(*raw))
-            permissions = std::move(*content);
-    }
-
-    auto idstr = id.toStdString();
-
-    if (id.startsWith("matrix:") || id.startsWith("https://matrix.to")) {
-        auto m = utils::parseMatrixUri(id);
-        if (m) {
-            idstr = m->mxid1.toStdString();
-        } else {
-            return;
-        }
-    }
-
-    if (idstr.starts_with("@")) {
-        if (block) {
-            permissions.user_allow.erase(idstr);
-            permissions.user_deny.emplace(idstr, "{}");
-        } else {
-            permissions.user_deny.erase(idstr);
-            permissions.user_allow.emplace(idstr, "{}");
-        }
-    } else if (idstr.starts_with("!")) {
-        if (block) {
-            permissions.room_allow.erase(idstr);
-            permissions.room_deny.emplace(idstr, "{}");
-        } else {
-            permissions.room_deny.erase(idstr);
-            permissions.room_allow.emplace(idstr, "{}");
-        }
-    } else if (idstr == "all" || idstr == "default") {
-        if (block)
-            permissions.default_ = "deny";
-        else
-            permissions.default_ = "allow";
-    } else if (!idstr.starts_with("#")) {
-        if (block) {
-            permissions.server_allow.erase(idstr);
-            permissions.server_deny.emplace(idstr, "{}");
-        } else {
-            permissions.server_deny.erase(idstr);
-            permissions.server_allow.emplace(idstr, "{}");
-        }
-    }
-
-    http::client()->put_account_data(
-      std::string(KOMAI_INVITE_PERMISSIONS_TYPE), permissions, [](mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::ui()->error("Failed to update invite permissions: {}", *err);
-          }
-      });
-
-    auto invites = cache::invites();
-
-    for (const auto &[roomid, info] : invites.asKeyValueRange()) {
-        auto roomid_ = roomid.toStdString();
-        auto self    = cache::getInviteMember(roomid_, utils::localUser().toStdString());
-        if (!self->inviter.empty()) {
-            if (!permissions.invite_allowed(roomid_, self->inviter)) {
-                ChatPage::instance()->leaveRoom(roomid, "");
-            }
-        }
-    }
+    Q_UNUSED(id)
+    notifyInputBarMetadataWriteUnavailable(
+      block ? tr("Blocking invites is not available yet during the matrix-sdk migration.")
+            : tr("Allowing invites is not available yet during the matrix-sdk migration."));
 }

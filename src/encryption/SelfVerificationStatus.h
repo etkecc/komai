@@ -8,7 +8,6 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QString>
-#include <vector>
 
 class SelfVerificationStatus : public QObject
 {
@@ -59,9 +58,7 @@ public slots:
     void invalidate();
 
 private:
-    std::vector<QString> verificationDevicesFromMasterSignatures() const;
-
     Status status_                   = AllVerified;
-    bool hasSSSS_                    = true;
+    bool hasSSSS_                    = false;
     bool canVerifyWithAnotherDevice_ = false;
 };

@@ -56,6 +56,9 @@ class MainWindow : public QQuickView
     QML_ELEMENT
     QML_SINGLETON
     Q_PROPERTY(bool altPressed READ altPressed NOTIFY altPressedChanged)
+    Q_PROPERTY(QString startupHeadline READ startupHeadline NOTIFY startupStatusChanged)
+    Q_PROPERTY(QString startupDetail READ startupDetail NOTIFY startupStatusChanged)
+    Q_PROPERTY(bool startupRestoreHoldEnabled READ startupRestoreHoldEnabled CONSTANT)
 
 public:
     explicit MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup = false);
@@ -87,6 +90,9 @@ public:
     MxcImageProvider *imageProvider() { return imgProvider; }
     bool altPressed() const { return altPressed_; }
     uint64_t matrixBackendHandleId() const { return matrixBackendHandleId_; }
+    QString startupHeadline() const { return startupHeadline_; }
+    QString startupDetail() const { return startupDetail_; }
+    bool startupRestoreHoldEnabled() const { return startupRestoreHoldEnabled_; }
 
     //! Show the chat page using the currently persisted session snapshot.
     void showChatPage(bool hadSessionIdentity);
@@ -127,6 +133,7 @@ signals:
 
     void showNotification(QString msg);
     void altPressedChanged();
+    void startupStatusChanged();
 
     void switchToChatPage();
     void switchToWelcomePage();
@@ -144,6 +151,7 @@ private:
     void startMatrixBackendHandleForActiveSession();
     void stopMatrixBackendHandle();
     void transitionToLoginPage(const QString &error = QString());
+    void setStartupStatus(const QString &headline, const QString &detail);
     //! Check if the current page supports the "minimize to tray" functionality.
     bool pageSupportsTray() const;
 
@@ -178,4 +186,7 @@ private:
     bool altPressed_{false};
     bool backButtonPressSeen_{false};
     bool forwardButtonPressSeen_{false};
+    bool startupRestoreHoldEnabled_{false};
+    QString startupHeadline_;
+    QString startupDetail_;
 };

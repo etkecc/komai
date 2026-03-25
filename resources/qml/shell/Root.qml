@@ -188,7 +188,7 @@ function openCatalogDialog(componentUrl, properties) {
         }
 
         anchors.fill: parent
-        initialItem: welcomePage
+        initialItem: startupRestorePage
 
         Component.onCompleted: {
             pushEnterOrg = pushEnter;
@@ -214,6 +214,12 @@ function openCatalogDialog(componentUrl, properties) {
             }
 
             target: Settings
+        }
+    }
+    Component {
+        id: startupRestorePage
+
+        StartupRestorePage {
         }
     }
     Component {
@@ -275,14 +281,20 @@ function openCatalogDialog(componentUrl, properties) {
             console.log("New snack: " + msg);
         }
         function onSwitchToChatPage() {
+            if (MainWindow.startupRestoreHoldEnabled)
+                return;
             mainWindow.replace(null, chatPage);
         }
         function onSwitchToLoginPage(error) {
-            mainWindow.replace(welcomePage, {}, loginPage, {
+            if (MainWindow.startupRestoreHoldEnabled)
+                return;
+            mainWindow.replace(null, loginPage, {
                     "error": error
                 }, StackView.PopTransition);
         }
         function onSwitchToWelcomePage() {
+            if (MainWindow.startupRestoreHoldEnabled)
+                return;
             mainWindow.replace(null, welcomePage);
         }
         function onShowUserSettingsPageRequested() {
@@ -292,6 +304,8 @@ function openCatalogDialog(componentUrl, properties) {
             mainWindow.openUserSettingsPage(initialTab);
         }
         function onShowProfileSwitcherPageRequested() {
+            if (MainWindow.startupRestoreHoldEnabled)
+                return;
             mainWindow.replace(null, profileSwitcherPage);
         }
         function onOpenRoomDirectoryRequested() {

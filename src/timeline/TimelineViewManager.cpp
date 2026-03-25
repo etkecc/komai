@@ -172,6 +172,20 @@ TimelineViewManager::sync(const komai::SyncUpdate &sync)
     }
 }
 
+void
+TimelineViewManager::handleMatrixBackendInitialSyncReady(std::uint64_t handleId)
+{
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
+        return;
+
+    if (!waitingForFirstSync_)
+        return;
+
+    waitingForFirstSync_ = false;
+    emit waitingForFirstSyncChanged(false);
+}
+
 QString
 TimelineViewManager::escapeEmoji(QString str) const
 {

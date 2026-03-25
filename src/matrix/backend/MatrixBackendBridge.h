@@ -46,6 +46,9 @@ void
 matrix_notify_room_list_snapshot_updated(std::uint64_t handle_id);
 
 void
+matrix_notify_initial_sync_ready(std::uint64_t handle_id);
+
+void
 matrix_notify_room_timeline_snapshot_updated(std::uint64_t handle_id, rust::Str room_id);
 
 } // namespace komai::rust_bridge

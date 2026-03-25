@@ -45,6 +45,13 @@ namespace {
 constexpr int kWindowMinHeightPx = 420;
 constexpr int kWindowMinWidthPx  = 340;
 
+bool
+isTruthyEnvValue(const QByteArray &value)
+{
+    const auto normalized = value.trimmed().toLower();
+    return normalized == "1" || normalized == "true" || normalized == "yes" || normalized == "on";
+}
+
 void
 hideMenuOnWaylandMousePress()
 {
@@ -126,7 +133,10 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
   , userSettings_{UserSettings::instance()}
   , showProfileSwitcherOnStartup_{showProfileSwitcherOnStartup}
 {
-    instance_ = this;
+    instance_                  = this;
+    startupRestoreHoldEnabled_ = isTruthyEnvValue(qgetenv("KOMAI_DEBUG_HOLD_STARTUP_RESTORE"));
+    startupHeadline_           = tr("Plugging you into the Matrix...");
+    startupDetail_             = tr("Checking for a saved session...");
 
     MainWindow::setWindowTitle(0);
     setObjectName(QStringLiteral("MainWindow"));
@@ -175,9 +185,16 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
     dock_ = new Dock(this);
     connect(chat_page_, SIGNAL(unreadMessages(int)), dock_, SLOT(setUnreadCount(int)));
 
+    if (startupRestoreHoldEnabled_) {
+        nhlog::ui()->info("Startup restore-screen review hold is enabled via "
+                          "KOMAI_DEBUG_HOLD_STARTUP_RESTORE");
+    }
+
     // load cache on event loop
     QTimer::singleShot(0, this, [this] {
         if (showProfileSwitcherOnStartup_) {
+            setStartupStatus(tr("Plugging you into the Matrix..."),
+                             tr("Opening the profile chooser..."));
             nhlog::ui()->info("Startup selector mode active, showing profile switcher page");
             emit showProfileSwitcherPageRequested();
             return;
@@ -196,9 +213,15 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
                           snapshot.homeserver.toStdString());
 
         if (hasActiveUser()) {
+            setStartupStatus(tr("Plugging you into the Matrix..."),
+                             tr("Restoring your Matrix session..."));
             nhlog::ui()->info("User already signed in, showing chat page");
             showChatPage(userSettings_->hasPersistedSessionIdentity());
+            return;
         }
+
+        setStartupStatus(tr("Welcome to Komai"), tr("Preparing sign-in..."));
+        emit switchToWelcomePage();
     });
 }
 
@@ -363,14 +386,17 @@ MainWindow::showChatPage(bool hadSessionIdentity)
           !snapshot.accessToken.trimmed().isEmpty(),
           !snapshot.deviceId.trimmed().isEmpty(),
           !snapshot.homeserver.trimmed().isEmpty());
+        setStartupStatus(tr("Welcome to Komai"), tr("Preparing sign-in..."));
         transitionToLoginPage(QString());
         return;
     }
 
+    setStartupStatus(tr("Plugging you into the Matrix..."), tr("Restoring your Matrix session..."));
     startMatrixBackendHandleForActiveSession();
     if (matrixBackendHandleId_ == 0) {
         nhlog::ui()->warn("Refusing to show chat page without an active matrix-sdk backend "
                           "handle for the current session");
+        setStartupStatus(tr("Welcome to Komai"), tr("Preparing sign-in..."));
         transitionToLoginPage(tr("Failed to initialize the Matrix session. Please sign in again."));
         return;
     }
@@ -396,6 +422,7 @@ MainWindow::startMatrixBackendHandleForActiveSession()
         return;
 
     stopMatrixBackendHandle();
+    setStartupStatus(tr("Plugging you into the Matrix..."), tr("Restoring your Matrix session..."));
 
     QString error;
     const auto handleInfo =
@@ -423,6 +450,7 @@ MainWindow::startMatrixBackendHandleForActiveSession()
                       handleInfo->deviceId.toStdString(),
                       handleInfo->homeserverUrl.toStdString());
 
+    setStartupStatus(tr("Plugging you into the Matrix..."), tr("Opening your rooms..."));
     if (!komai::MatrixBackendRuntimeService::startSync(matrixBackendHandleId_, &error)) {
         nhlog::ui()->warn("Failed to start matrix-sdk sync for backend handle {}: {}",
                           matrixBackendHandleId_,
@@ -457,6 +485,17 @@ MainWindow::transitionToLoginPage(const QString &error)
 {
     stopMatrixBackendHandle();
     emit switchToLoginPage(error);
+}
+
+void
+MainWindow::setStartupStatus(const QString &headline, const QString &detail)
+{
+    if (startupHeadline_ == headline && startupDetail_ == detail)
+        return;
+
+    startupHeadline_ = headline;
+    startupDetail_   = detail;
+    emit startupStatusChanged();
 }
 
 void

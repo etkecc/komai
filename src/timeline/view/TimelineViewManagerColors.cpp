@@ -346,6 +346,19 @@ TimelineViewManager::roomUserColor(QString roomId,
         return resolveBubbleSlot(slot, currentThemePalette(), background).background;
     }
 
+    if (!cache::isInitialized()) {
+        const auto slot = previewThemeSlot(currentThemeDef(),
+                                           roomId,
+                                           userId,
+                                           selfId,
+                                           -1,
+                                           false,
+                                           policy,
+                                           roomUserColorSlots_,
+                                           background);
+        return resolveBubbleSlot(slot, currentThemePalette(), background).background;
+    }
+
     // Former member: return a neutral gray regardless of room size.
     if (!cache::isRoomMember(userId.toStdString(), roomId.toStdString()))
         return formerMemberColor(background);
@@ -457,6 +470,13 @@ TimelineViewManager::roomUserBubblePalette(QString roomId,
     }
 
     if (isPreviewRoom) {
+        const auto slot = previewThemeSlot(
+          def, roomId, userId, selfId, -1, false, policy, roomUserColorSlots_, background);
+        const auto palette = buildBubblePalette(slot, themePalette, background);
+        return bubblePaletteMap(palette);
+    }
+
+    if (!cache::isInitialized()) {
         const auto slot = previewThemeSlot(
           def, roomId, userId, selfId, -1, false, policy, roomUserColorSlots_, background);
         const auto palette = buildBubblePalette(slot, themePalette, background);

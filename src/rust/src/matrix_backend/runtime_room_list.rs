@@ -103,6 +103,7 @@ async fn run_sync_loop(
     let mut sync_stream = Box::pin(sync_stream);
 
     let mut current_values = Vector::<RoomListItem>::new();
+    let mut initial_sync_ready_notified = false;
 
     while !stop_requested.load(Ordering::Relaxed) {
         tokio::select! {
@@ -137,6 +138,14 @@ async fn run_sync_loop(
             maybe_sync = sync_stream.next() => {
                 match maybe_sync {
                     Some(Ok(())) => {
+                        if !initial_sync_ready_notified {
+                            crate::ffi::matrix_notify_initial_sync_ready(handle_id);
+                            initial_sync_ready_notified = true;
+                            tracing::info!(
+                                handle_id,
+                                "Completed initial matrix-sdk-ui room-list sync iteration"
+                            );
+                        }
                         tracing::debug!(handle_id, "Completed matrix-sdk-ui room-list sync iteration");
                     }
                     Some(Err(error)) => {

@@ -43,6 +43,24 @@ acquire_lock() {
 
 	if [[ -d "${lock_state_dir}" ]]; then
 		local heartbeat_age=""
+		local lock_owner_pid=""
+		local lock_owner_dead="false"
+
+		if [[ -f "${info_file}" ]]; then
+			lock_owner_pid="$(sed -n 's/^pid=//p' "${info_file}" | head -n1)"
+			if [[ -n "${lock_owner_pid}" ]]; then
+				if ! kill -0 "${lock_owner_pid}" 2>/dev/null; then
+					lock_owner_dead="true"
+				else
+					local lock_owner_args=""
+					lock_owner_args="$(ps -p "${lock_owner_pid}" -o args= 2>/dev/null || true)"
+					if [[ "${lock_owner_args}" != *"bin/build/native.sh"* ]]; then
+						lock_owner_dead="true"
+					fi
+				fi
+			fi
+		fi
+
 		if [[ -f "${heartbeat_file}" ]]; then
 			local now
 			now="$(date +%s)"
@@ -51,7 +69,10 @@ acquire_lock() {
 			heartbeat_age="$((now - beat))"
 		fi
 
-		if [[ -n "${heartbeat_age}" && "${heartbeat_age}" -gt "${lock_stale_after}" ]]; then
+		if [[ "${lock_owner_dead}" == "true" ]]; then
+			echo "Removing stale native build lock (owner pid ${lock_owner_pid} is no longer running)." >&2
+			rm -rf "${lock_state_dir}"
+		elif [[ -n "${heartbeat_age}" && "${heartbeat_age}" -gt "${lock_stale_after}" ]]; then
 			echo "Removing stale native build lock (last heartbeat ${heartbeat_age}s ago)." >&2
 			rm -rf "${lock_state_dir}"
 		fi

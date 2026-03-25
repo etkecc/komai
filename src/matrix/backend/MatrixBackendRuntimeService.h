@@ -6,9 +6,12 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QVariant>
 #include <QVector>
 #include <cstdint>
 #include <optional>
+
+#include "timeline/Reaction.h"
 
 namespace komai {
 
@@ -86,6 +89,7 @@ struct MatrixTimelineItem
     QString replyEventId;
     QString replySenderDisplayName;
     QString replyBody;
+    QVariantList reactions;
     QString reactionsSummary;
     QString itemKind;
     bool isEdited = false;

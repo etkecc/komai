@@ -144,6 +144,14 @@ pub struct MatrixRoomSettings {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixReactionSummary {
+    pub key: String,
+    pub users: String,
+    pub self_reacted_event: String,
+    pub count: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MatrixTimelineItem {
     pub item_id: String,
     pub event_id: String,
@@ -154,6 +162,7 @@ pub struct MatrixTimelineItem {
     pub reply_event_id: String,
     pub reply_sender_display_name: String,
     pub reply_body: String,
+    pub reactions: Vec<MatrixReactionSummary>,
     pub reactions_summary: String,
     pub item_kind: String,
     pub is_edited: bool,

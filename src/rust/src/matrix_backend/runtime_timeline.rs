@@ -626,10 +626,12 @@ async fn run_room_timeline_loop(
         );
     }
 
+    let own_user_id = client.user_id();
+
     let (items, stream) = timeline.subscribe().await;
     let mut current_values = items;
     {
-        let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values);
+        let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values, own_user_id);
         *room_timeline_snapshot
             .lock()
             .expect("poisoned matrix room timeline snapshot mutex") = snapshot;
@@ -650,7 +652,8 @@ async fn run_room_timeline_loop(
                             diff.apply(&mut current_values);
                         }
 
-                        let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values);
+                        let (snapshot, media_lookup) =
+                            build_room_timeline_snapshot(&current_values, own_user_id);
                         let item_count = snapshot.len();
                         *room_timeline_snapshot
                             .lock()
@@ -717,12 +720,15 @@ async fn run_room_timeline_loop(
 
 fn build_room_timeline_snapshot(
     values: &Vector<Arc<TimelineItem>>,
+    own_user_id: Option<&matrix_sdk::ruma::UserId>,
 ) -> (Vec<MatrixTimelineItem>, HashMap<String, MatrixTimelineMediaRequest>) {
     let mut items = Vec::new();
     let mut media_lookup = HashMap::new();
 
     for item in values.iter() {
-        if let Some((summary, media_request)) = timeline_item_to_summary(item.as_ref()) {
+        if let Some((summary, media_request)) =
+            timeline_item_to_summary(item.as_ref(), own_user_id)
+        {
             if let Some(media_request) = media_request {
                 media_lookup.insert(summary.item_id.clone(), media_request);
             }
@@ -735,6 +741,7 @@ fn build_room_timeline_snapshot(
 
 fn timeline_item_to_summary(
     item: &TimelineItem,
+    own_user_id: Option<&matrix_sdk::ruma::UserId>,
 ) -> Option<(MatrixTimelineItem, Option<MatrixTimelineMediaRequest>)> {
     let item_id = item.unique_id().0.clone();
 
@@ -754,11 +761,12 @@ fn timeline_item_to_summary(
             ),
             _ => (sender_id.clone(), String::new()),
         };
-        let summary = summarize_timeline_content(event.content());
+        let summary = summarize_timeline_content(event.content(), own_user_id);
         let body = summary.body;
         let reply_event_id = summary.reply_event_id;
         let reply_sender_display_name = summary.reply_sender_display_name;
         let reply_body = summary.reply_body;
+        let reactions = summary.reactions;
         let reactions_summary = summary.reactions_summary;
         let item_kind = summary.kind;
         let is_edited = summary.is_edited;
@@ -781,6 +789,7 @@ fn timeline_item_to_summary(
                 reply_event_id,
                 reply_sender_display_name,
                 reply_body,
+                reactions,
                 reactions_summary,
                 item_kind,
                 is_edited,
@@ -840,6 +849,7 @@ fn timeline_item_to_summary(
                 reply_event_id: String::new(),
                 reply_sender_display_name: String::new(),
                 reply_body: String::new(),
+                reactions: Vec::new(),
                 reactions_summary: String::new(),
                 item_kind: "date_divider".to_owned(),
                 is_edited: false,

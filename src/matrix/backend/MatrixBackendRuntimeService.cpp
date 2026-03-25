@@ -112,6 +112,17 @@ fromRustRoomSettings(const ::komai::rust::MatrixRoomSettings &room)
 MatrixTimelineItem
 fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
 {
+    QVariantList reactions;
+    reactions.reserve(static_cast<qsizetype>(item.reactions.size()));
+    for (const auto &reaction : item.reactions) {
+        Reaction value;
+        value.key_              = QString::fromStdString(std::string(reaction.key));
+        value.users_            = QString::fromStdString(std::string(reaction.users));
+        value.selfReactedEvent_ = QString::fromStdString(std::string(reaction.self_reacted_event));
+        value.count_            = static_cast<int>(reaction.count);
+        reactions.push_back(QVariant::fromValue(value));
+    }
+
     return MatrixTimelineItem{
       .itemId            = QString::fromStdString(std::string(item.item_id)),
       .eventId           = QString::fromStdString(std::string(item.event_id)),
@@ -123,6 +134,7 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .replyEventId           = QString::fromStdString(std::string(item.reply_event_id)),
       .replySenderDisplayName = QString::fromStdString(std::string(item.reply_sender_display_name)),
       .replyBody              = QString::fromStdString(std::string(item.reply_body)),
+      .reactions              = reactions,
       .reactionsSummary       = QString::fromStdString(std::string(item.reactions_summary)),
       .itemKind               = QString::fromStdString(std::string(item.item_kind)),
       .isEdited               = item.is_edited,

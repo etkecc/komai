@@ -107,6 +107,7 @@ mod ffi {
         reply_event_id: String,
         reply_sender_display_name: String,
         reply_body: String,
+        reactions: Vec<MatrixReactionSummary>,
         reactions_summary: String,
         item_kind: String,
         is_edited: bool,
@@ -122,6 +123,13 @@ mod ffi {
         thumbnail_is_encrypted: bool,
         timestamp: u64,
         is_own: bool,
+    }
+
+    struct MatrixReactionSummary {
+        key: String,
+        users: String,
+        self_reacted_event: String,
+        count: u64,
     }
 
     struct MatrixJoinRoomResult {
@@ -795,6 +803,16 @@ fn matrix_fetch_active_room_timeline(
                     reply_event_id: item.reply_event_id,
                     reply_sender_display_name: item.reply_sender_display_name,
                     reply_body: item.reply_body,
+                    reactions: item
+                        .reactions
+                        .into_iter()
+                        .map(|reaction| ffi::MatrixReactionSummary {
+                            key: reaction.key,
+                            users: reaction.users,
+                            self_reacted_event: reaction.self_reacted_event,
+                            count: reaction.count,
+                        })
+                        .collect(),
                     reactions_summary: item.reactions_summary,
                     item_kind: item.item_kind,
                     is_edited: item.is_edited,

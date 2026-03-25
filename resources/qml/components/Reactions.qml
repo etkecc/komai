@@ -13,6 +13,8 @@ Flow {
     id: reactionFlow
 
     property string eventId
+    property var roomModel: null
+    readonly property var effectiveRoomModel: roomModel ? roomModel : (typeof room !== "undefined" ? room : null)
 
     // lower-contrast colors to avoid distracting from text & to enhance hover effect
     property color gentleHighlight: Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.35)
@@ -112,8 +114,8 @@ Flow {
 
             onClicked: {
                 console.debug("Picked " + modelData.key + "in response to " + reactionFlow.eventId + ". selfReactedEvent: " + modelData.selfReactedEvent);
-                if (room && room.input)
-                    room.input.reaction(reactionFlow.eventId, modelData.key);
+                if (reactionFlow.effectiveRoomModel && reactionFlow.effectiveRoomModel.input)
+                    reactionFlow.effectiveRoomModel.input.reaction(reactionFlow.eventId, modelData.key);
             }
 
             KomaiCursorShape {

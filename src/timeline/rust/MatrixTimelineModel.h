@@ -28,6 +28,7 @@ public:
         ReplyEventId,
         ReplySenderDisplayName,
         ReplyBody,
+        Reactions,
         ReactionsSummary,
         Timestamp,
         ItemKind,

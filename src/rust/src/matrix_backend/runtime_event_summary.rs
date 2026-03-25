@@ -4,6 +4,7 @@
 
 use matrix_sdk::{
     ruma::{
+        UserId,
         UInt,
         events::{
             AnySyncMessageLikeEvent, AnySyncStateEvent, AnySyncTimelineEvent,
@@ -23,12 +24,15 @@ use matrix_sdk_ui::timeline::{
     TimelineDetails, TimelineEventItemId, TimelineItemContent,
 };
 
+use super::MatrixReactionSummary;
+
 pub struct MatrixEventSummary {
     pub kind: String,
     pub body: String,
     pub reply_event_id: String,
     pub reply_sender_display_name: String,
     pub reply_body: String,
+    pub reactions: Vec<MatrixReactionSummary>,
     pub reactions_summary: String,
     pub is_edited: bool,
     pub media: Option<MatrixEventMediaSummary>,
@@ -50,9 +54,12 @@ pub struct MatrixEventMediaSummary {
     pub thumbnail_source: Option<MediaSource>,
 }
 
-pub fn summarize_timeline_content(content: &TimelineItemContent) -> MatrixEventSummary {
+pub fn summarize_timeline_content(
+    content: &TimelineItemContent,
+    own_user_id: Option<&UserId>,
+) -> MatrixEventSummary {
     match content {
-        TimelineItemContent::MsgLike(content) => summarize_msg_like_content(content),
+        TimelineItemContent::MsgLike(content) => summarize_msg_like_content(content, own_user_id),
         TimelineItemContent::MembershipChange(change) => summarize_membership_change(change),
         TimelineItemContent::ProfileChange(change) => summarize_profile_change(change),
         TimelineItemContent::OtherState(state) => summarize_other_state(state),
@@ -69,7 +76,10 @@ pub fn summarize_timeline_content(content: &TimelineItemContent) -> MatrixEventS
     }
 }
 
-fn summarize_msg_like_content(content: &MsgLikeContent) -> MatrixEventSummary {
+fn summarize_msg_like_content(
+    content: &MsgLikeContent,
+    own_user_id: Option<&UserId>,
+) -> MatrixEventSummary {
     let mut summary = summarize_msg_like_kind(&content.kind);
 
     if let Some((reply_event_id, reply_sender_display_name, reply_body)) =
@@ -80,7 +90,8 @@ fn summarize_msg_like_content(content: &MsgLikeContent) -> MatrixEventSummary {
         summary.reply_body = reply_body;
     }
 
-    summary.reactions_summary = summarize_reactions(&content.reactions);
+    summary.reactions = summarize_reaction_items(&content.reactions, own_user_id);
+    summary.reactions_summary = summarize_reactions(&summary.reactions);
     summary.is_edited = matches!(&content.kind, MsgLikeKind::Message(message) if message.is_edited());
 
     summary
@@ -299,6 +310,7 @@ fn summary(kind: &str, body: &str) -> MatrixEventSummary {
         reply_event_id: String::new(),
         reply_sender_display_name: String::new(),
         reply_body: String::new(),
+        reactions: Vec::new(),
         reactions_summary: String::new(),
         is_edited: false,
         media: None,
@@ -316,6 +328,7 @@ fn summary_with_media(
         reply_event_id: String::new(),
         reply_sender_display_name: String::new(),
         reply_body: String::new(),
+        reactions: Vec::new(),
         reactions_summary: String::new(),
         is_edited: false,
         media: Some(media),
@@ -367,11 +380,46 @@ fn summarize_embedded_content(content: &TimelineItemContent) -> MatrixEventSumma
     }
 }
 
-fn summarize_reactions(reactions: &ReactionsByKeyBySender) -> String {
+fn summarize_reaction_items(
+    reactions: &ReactionsByKeyBySender,
+    own_user_id: Option<&UserId>,
+) -> Vec<MatrixReactionSummary> {
     reactions
         .iter()
         .take(6)
-        .map(|(key, senders)| format!("{key} {}", senders.len()))
+        .map(|(key, senders)| {
+            let users = senders
+                .keys()
+                .map(|sender_id| sender_id.to_string())
+                .collect::<Vec<_>>()
+                .join(", ");
+            let self_reacted_event = own_user_id
+                .and_then(|user_id| senders.get(user_id))
+                .map(|info| match &info.status {
+                    matrix_sdk_ui::timeline::ReactionStatus::RemoteToRemote(event_id) => {
+                        event_id.to_string()
+                    }
+                    matrix_sdk_ui::timeline::ReactionStatus::LocalToLocal(_)
+                    | matrix_sdk_ui::timeline::ReactionStatus::LocalToRemote(_) => {
+                        "__local__".to_owned()
+                    }
+                })
+                .unwrap_or_default();
+
+            MatrixReactionSummary {
+                key: key.clone(),
+                users,
+                self_reacted_event,
+                count: senders.len() as u64,
+            }
+        })
+        .collect()
+}
+
+fn summarize_reactions(reactions: &[MatrixReactionSummary]) -> String {
+    reactions
+        .iter()
+        .map(|reaction| format!("{} {}", reaction.key, reaction.count))
         .collect::<Vec<_>>()
         .join("  ")
 }

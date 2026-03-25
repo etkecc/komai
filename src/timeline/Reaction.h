@@ -28,4 +28,8 @@ public:
     QString users_;
     QString selfReactedEvent_;
     int count_;
+
+    bool operator==(const Reaction &) const = default;
 };
+
+Q_DECLARE_METATYPE(Reaction)

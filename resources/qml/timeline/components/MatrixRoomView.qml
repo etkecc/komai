@@ -354,6 +354,7 @@ ColumnLayout {
                         required property string replyEventId
                         required property string replySenderDisplayName
                         required property string replyBody
+                        required property var reactions
                         required property string reactionsSummary
                         required property string fileName
                         required property string mimeType
@@ -955,22 +956,14 @@ ColumnLayout {
                                         }
                                     }
 
-                                    Rectangle {
+                                    Reactions {
                                         Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                                        color: Qt.rgba(palette.base.r, palette.base.g, palette.base.b, isOwn ? 0.18 : 0.5)
-                                        implicitHeight: reactionsLabel.implicitHeight + Komai.paddingSmall * 2
-                                        implicitWidth: reactionsLabel.implicitWidth + Komai.paddingMedium * 2
-                                        radius: implicitHeight / 2
-                                        visible: reactionsSummary.length > 0
-
-                                        MatrixText {
-                                            id: reactionsLabel
-
-                                            anchors.centerIn: parent
-                                            color: isOwn ? palette.highlightedText : palette.text
-                                            text: reactionsSummary
-                                            textFormat: TextEdit.PlainText
-                                        }
+                                        eventId: timelineItemDelegate.eventId
+                                        layoutDirection: isOwn ? Qt.RightToLeft : Qt.LeftToRight
+                                        reactions: timelineItemDelegate.reactions
+                                        roomModel: matrixToolbarRoomModel
+                                        visible: reactions.length > 0
+                                        width: messageBubble.width
                                     }
 
                                     RowLayout {

@@ -47,6 +47,8 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
         return item.replySenderDisplayName;
     case ReplyBody:
         return item.replyBody;
+    case Reactions:
+        return item.reactions;
     case ReactionsSummary:
         return item.reactionsSummary;
     case Timestamp:
@@ -95,6 +97,7 @@ MatrixTimelineModel::roleNames() const
       {ReplyEventId, "replyEventId"},
       {ReplySenderDisplayName, "replySenderDisplayName"},
       {ReplyBody, "replyBody"},
+      {Reactions, "reactions"},
       {ReactionsSummary, "reactionsSummary"},
       {Timestamp, "timestamp"},
       {ItemKind, "itemKind"},

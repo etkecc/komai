@@ -1746,10 +1746,6 @@ if(BUILD_TESTING)
     )
 endif()
 
-if(TARGET komai-mcp)
-    add_dependencies(komai komai-mcp)
-endif()
-
 target_link_libraries(komai PRIVATE
     ${COEURL_TARGET_NAME}
     MatrixClient::MatrixClient

@@ -82,17 +82,23 @@ configure_debug() {
 		"$@"
 }
 
-stage_rust_targets() {
-	cmake --build "${build_dir}" --parallel 1 \
-		--target cargo-build_komai_rust cargo-build_komai-mcp
-}
-
 build_target() {
 	local target="$1"
-	shift || true
+	local parallelism="${2:-${jobs}}"
+	if [[ $# -ge 2 ]]; then
+		shift 2 || true
+	else
+		shift || true
+	fi
 
-	stage_rust_targets
-	cmake --build "${build_dir}" --parallel "${jobs}" --target "${target}" "$@"
+	cmake --build "${build_dir}" --parallel "${parallelism}" --target "${target}" "$@"
+}
+
+build_runtime_bundle() {
+	local extra_args=("$@")
+
+	build_target komai "${jobs}" "${extra_args[@]}"
+	build_target komai-mcp 1 "${extra_args[@]}"
 }
 
 run_test_label() {
@@ -116,12 +122,12 @@ build)
 	if needs_release_configure; then
 		configure_release
 	fi
-	build_target komai "$@"
+	build_runtime_bundle "$@"
 	;;
 rebuild)
 	rm -rf "${build_dir}"
 	configure_release "$@"
-	build_target komai
+	build_runtime_bundle
 	;;
 test-unit)
 	if needs_release_configure; then

@@ -59,16 +59,5 @@ Item {
             text: root.detail
             wrapMode: Text.Wrap
         }
-
-        Label {
-            Layout.fillWidth: true
-            color: palette.buttonText
-            font.pointSize: Settings.uiFontSizePt * 0.9
-            horizontalAlignment: Text.AlignHCenter
-            opacity: 0.8
-            text: qsTr("Debug review hold is enabled. Unset KOMAI_DEBUG_HOLD_STARTUP_RESTORE to continue.")
-            visible: MainWindow.startupRestoreHoldEnabled
-            wrapMode: Text.Wrap
-        }
     }
 }

@@ -13,12 +13,10 @@
 #include <mtx/responses/login.hpp>
 
 #include "avatars/default/DefaultAvatarProvider.h"
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "dock/Dock.h"
 #include "encryption/DeviceVerificationFlow.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "providers/BlurhashProvider.h"
 #include "providers/ColorImageProvider.h"
@@ -44,13 +42,6 @@ MainWindow *MainWindow::instance_ = nullptr;
 namespace {
 constexpr int kWindowMinHeightPx = 420;
 constexpr int kWindowMinWidthPx  = 340;
-
-bool
-isTruthyEnvValue(const QByteArray &value)
-{
-    const auto normalized = value.trimmed().toLower();
-    return normalized == "1" || normalized == "true" || normalized == "yes" || normalized == "on";
-}
 
 void
 hideMenuOnWaylandMousePress()
@@ -133,10 +124,9 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
   , userSettings_{UserSettings::instance()}
   , showProfileSwitcherOnStartup_{showProfileSwitcherOnStartup}
 {
-    instance_                  = this;
-    startupRestoreHoldEnabled_ = isTruthyEnvValue(qgetenv("KOMAI_DEBUG_HOLD_STARTUP_RESTORE"));
-    startupHeadline_           = tr("Plugging you into the Matrix...");
-    startupDetail_             = tr("Checking for a saved session...");
+    instance_        = this;
+    startupHeadline_ = tr("Plugging you into the Matrix...");
+    startupDetail_   = tr("Checking for a saved session...");
 
     MainWindow::setWindowTitle(0);
     setObjectName(QStringLiteral("MainWindow"));
@@ -184,11 +174,6 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
     trayIcon_->setVisible(userSettings_->integrationsSystemTrayEnabled());
     dock_ = new Dock(this);
     connect(chat_page_, SIGNAL(unreadMessages(int)), dock_, SLOT(setUnreadCount(int)));
-
-    if (startupRestoreHoldEnabled_) {
-        nhlog::ui()->info("Startup restore-screen review hold is enabled via "
-                          "KOMAI_DEBUG_HOLD_STARTUP_RESTORE");
-    }
 
     // load cache on event loop
     QTimer::singleShot(0, this, [this] {
@@ -407,8 +392,6 @@ MainWindow::showChatPage(bool hadSessionIdentity)
                           snapshot.homeserver,
                           snapshot.accessToken,
                           hadSessionIdentity);
-    cache::onDatabaseReady(this, [this] { emit secretsChanged(); });
-    cache::onSecretChanged(this, [this](const std::string &) { emit secretsChanged(); });
 
     emit reload();
     nhlog::ui()->info("Switching to chat page");

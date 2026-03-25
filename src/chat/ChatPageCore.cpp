@@ -4,9 +4,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QApplication>
+#include <QDir>
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QMetaObject>
+#include <QPointer>
 #include <QPushButton>
 #include <QThread>
 
@@ -19,16 +21,16 @@
 
 #include <nlohmann/json.hpp>
 
-#include <mtx/responses.hpp>
-
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "encryption/DeviceVerificationFlow.h"
 #include "encryption/Olm.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "matrix/MatrixSyncUpdate.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "matrix/backend/MatrixSdkPaths.h"
+#include "matrix/backend/MatrixSessionSecrets.h"
 #include "providers/AvatarProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
@@ -44,9 +46,8 @@
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 
-ChatPage *ChatPage::instance_                    = nullptr;
-static constexpr int CHECK_CONNECTIVITY_INTERVAL = 15'000;
-static constexpr int RETRY_TIMEOUT               = 5'000;
+ChatPage *ChatPage::instance_      = nullptr;
+static constexpr int RETRY_TIMEOUT = 5'000;
 
 ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
   : QObject(parent)
@@ -70,66 +71,63 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
     connect(this, &ChatPage::connectionLost, this, [this]() {
         nhlog::net()->info("connectivity lost");
         isConnected_ = false;
-        http::client()->shutdown();
     });
     connect(this, &ChatPage::connectionRestored, this, [this]() {
-        nhlog::net()->info("trying to re-connect");
+        nhlog::net()->info("connectivity restored");
         isConnected_ = true;
-
-        // Drop all pending connections.
-        http::client()->shutdown();
-        trySync();
     });
 
-    connectivityTimer_.setInterval(CHECK_CONNECTIVITY_INTERVAL);
-    connect(&connectivityTimer_, &QTimer::timeout, this, [this]() {
-        if (http::client()->access_token().empty()) {
-            connectivityTimer_.stop();
-            return;
-        }
+    connect(view_manager_,
+            &TimelineViewManager::inviteUsers,
+            this,
+            [this](QString roomId, QStringList users) {
+                auto *mainWindow    = MainWindow::instance();
+                const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+                if (handleId == 0) {
+                    emit showNotification(
+                      tr("Cannot invite users until the Matrix session is ready."));
+                    return;
+                }
 
-        http::client()->versions(
-          [this](const mtx::responses::Versions &, mtx::http::RequestErr err) {
-              if (err) {
-                  emit connectionLost();
-                  return;
-              }
+                auto inviteNext = std::make_shared<std::function<void(int)>>();
+                *inviteNext     = [this, roomId, users, handleId, inviteNext](int index) {
+                    if (index >= users.size())
+                        return;
 
-              // only update spaces every 20 minutes
-              if (lastSpacesUpdate < QDateTime::currentDateTime().addSecs(-20 * 60)) {
-                  lastSpacesUpdate = QDateTime::currentDateTime();
-                  utils::updateSpaceVias();
-                  utils::removeExpiredEvents();
-              }
+                    const auto user = users.at(index);
+                    QPointer<ChatPage> guard(this);
+                    std::thread([guard, roomId, user, handleId, index, inviteNext]() {
+                        QString error;
+                        const bool ok = komai::MatrixBackendRuntimeService::inviteUser(
+                          handleId, roomId, user, QString(), &error);
 
-              if (!isConnected_)
-                  emit connectionRestored();
-          });
-    });
-
-    connect(
-      view_manager_,
-      &TimelineViewManager::inviteUsers,
-      this,
-      [this](QString roomId, QStringList users) {
-          for (int ii = 0; ii < users.size(); ++ii) {
-              QTimer::singleShot(ii * 500, this, [this, roomId, ii, users]() {
-                  const auto user = users.at(ii);
-
-                  http::client()->invite_user(
-                    roomId.toStdString(),
-                    user.toStdString(),
-                    [this, user](const mtx::responses::RoomInvite &, mtx::http::RequestErr err) {
-                        if (err) {
-                            emit showNotification(tr("Failed to invite user: %1").arg(user));
+                        if (!guard)
                             return;
-                        }
 
-                        emit showNotification(tr("Invited user: %1").arg(user));
-                    });
-              });
-          }
-      });
+                        emit guard->callFunctionOnGuiThread(
+                          [guard, roomId, user, ok, error, index, inviteNext]() {
+                              if (!guard || guard->shuttingDown_)
+                                  return;
+
+                              if (!ok) {
+                                  nhlog::ui()->warn(
+                                    "Failed to invite {} to {} via matrix-sdk runtime: {}",
+                                    user.toStdString(),
+                                    roomId.toStdString(),
+                                    error.toStdString());
+                                  emit guard->showNotification(
+                                    ChatPage::tr("Failed to invite %1: %2").arg(user, error));
+                              } else {
+                                  emit guard->showNotification(
+                                    ChatPage::tr("Invited user: %1").arg(user));
+                              }
+
+                              (*inviteNext)(index + 1);
+                          });
+                    }).detach();
+                };
+                (*inviteNext)(0);
+            });
 
     connect(this,
             &ChatPage::internalKnock,
@@ -224,7 +222,6 @@ ChatPage::dropToLoginPage(const QString &msg)
 
     nhlog::ui()->info("dropping to the login page: {}", msg.toStdString());
 
-    http::client()->shutdown();
     connectivityTimer_.stop();
 
     QMessageBox msgBox;
@@ -264,8 +261,17 @@ void
 ChatPage::deleteConfigs()
 {
     cache::disconnectFromCache(this);
+
+    const auto profileId = UserSettings::instance()->profile();
     UserSettings::instance()->clearAuth();
-    http::client()->shutdown();
+    komai::matrix_backend::clearPersistedMatrixSessionSecrets(profileId);
+
+    const auto matrixPaths = komai::MatrixSdkPathsProvider::forProfile(profileId);
+    if (!matrixPaths.matrixDataRoot.isEmpty())
+        QDir(matrixPaths.matrixDataRoot).removeRecursively();
+    if (!matrixPaths.matrixCacheRoot.isEmpty())
+        QDir(matrixPaths.matrixCacheRoot).removeRecursively();
+
     cache::deleteData();
 }
 

@@ -58,7 +58,6 @@ class MainWindow : public QQuickView
     Q_PROPERTY(bool altPressed READ altPressed NOTIFY altPressedChanged)
     Q_PROPERTY(QString startupHeadline READ startupHeadline NOTIFY startupStatusChanged)
     Q_PROPERTY(QString startupDetail READ startupDetail NOTIFY startupStatusChanged)
-    Q_PROPERTY(bool startupRestoreHoldEnabled READ startupRestoreHoldEnabled CONSTANT)
 
 public:
     explicit MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup = false);
@@ -92,7 +91,6 @@ public:
     uint64_t matrixBackendHandleId() const { return matrixBackendHandleId_; }
     QString startupHeadline() const { return startupHeadline_; }
     QString startupDetail() const { return startupDetail_; }
-    bool startupRestoreHoldEnabled() const { return startupRestoreHoldEnabled_; }
 
     //! Show the chat page using the currently persisted session snapshot.
     void showChatPage(bool hadSessionIdentity);
@@ -186,7 +184,6 @@ private:
     bool altPressed_{false};
     bool backButtonPressSeen_{false};
     bool forwardButtonPressSeen_{false};
-    bool startupRestoreHoldEnabled_{false};
     QString startupHeadline_;
     QString startupDetail_;
 };

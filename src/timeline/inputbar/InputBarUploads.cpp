@@ -18,13 +18,9 @@
 #include <algorithm>
 #include <iterator>
 
-#include <mtx/responses/media.hpp>
-#include <mtxclient/crypto/client.hpp>
-
 #include "TimelineModel.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "utils/MediaIcons.h"
 #include "utils/Utils.h"
 
@@ -183,83 +179,13 @@ MediaUpload::fileTypeIconSource() const
 void
 MediaUpload::startUpload()
 {
-    if (!thumbnail_.isNull() && thumbnailUrl_.isEmpty()) {
-        QByteArray ba;
-        QBuffer buffer(&ba);
-        buffer.open(QIODevice::WriteOnly);
-        thumbnail_.save(&buffer, "PNG", 0);
-        if (type() == MediaType::Image && ba.size() >= (data.size() - data.size() / 10)) {
-            nhlog::ui()->info(
-              "Thumbnail is not a lot smaller than original image, not uploading it");
-            nhlog::ui()->debug(
-              "\n    Image size: {:9d}\nThumbnail size: {:9d}", data.size(), ba.size());
-        } else {
-            auto payload = std::string(ba.data(), ba.size());
-            if (encrypt_) {
-                mtx::crypto::BinaryBuf buf;
-                std::tie(buf, thumbnailEncryptedFile) =
-                  mtx::crypto::encrypt_file(std::move(payload));
-                payload = mtx::crypto::to_string(buf);
-            }
-            thumbnailSize_ = payload.size();
-
-            http::client()->upload(
-              payload,
-              encryptedFile ? "application/octet-stream" : "image/png",
-              "",
-              [this](const mtx::responses::ContentURI &res, mtx::http::RequestErr err) mutable {
-                  if (err) {
-                      emit ChatPage::instance()->showNotification(
-                        tr("Failed to upload media. Please try again."));
-                      nhlog::net()->warn("failed to upload media: {} {} ({})",
-                                         err->matrix_error.error,
-                                         to_string(err->matrix_error.errcode),
-                                         static_cast<int>(err->status_code));
-                      thumbnail_ = QImage();
-                      startUpload();
-                      return;
-                  }
-
-                  thumbnailUrl_ = QString::fromStdString(res.content_uri);
-                  if (thumbnailEncryptedFile)
-                      thumbnailEncryptedFile->url = res.content_uri;
-
-                  startUpload();
-              });
-            return;
-        }
-    }
-
-    auto payload = std::string(data.data(), data.size());
-    if (encrypt_) {
-        mtx::crypto::BinaryBuf buf;
-        std::tie(buf, encryptedFile) = mtx::crypto::encrypt_file(std::move(payload));
-        payload                      = mtx::crypto::to_string(buf);
-    }
-    size_ = payload.size();
-
-    http::client()->upload(
-      payload,
-      encryptedFile ? "application/octet-stream" : mimetype_.toStdString(),
-      encrypt_ ? "" : originalFilename_.toStdString(),
-      [this](const mtx::responses::ContentURI &res, mtx::http::RequestErr err) mutable {
-          if (err) {
-              emit ChatPage::instance()->showNotification(
-                tr("Failed to upload media. Please try again."));
-              nhlog::net()->warn("failed to upload media: {} {} ({})",
-                                 err->matrix_error.error,
-                                 to_string(err->matrix_error.errcode),
-                                 static_cast<int>(err->status_code));
-              emit uploadFailed(this);
-              return;
-          }
-
-          auto url = QString::fromStdString(res.content_uri);
-          if (encryptedFile)
-              encryptedFile->url = res.content_uri;
-
-          emit uploadComplete(this, std::move(url));
-      });
+    nhlog::ui()->warn("Rejecting attachment upload for '{}' (mime '{}'); attachment sending is "
+                      "not migrated to the matrix-sdk backend yet",
+                      originalFilename_.toStdString(),
+                      mimetype_.toStdString());
+    emit ChatPage::instance()->showNotification(
+      tr("Sending attachments has not been migrated to the matrix-sdk backend yet."));
+    emit uploadFailed(this);
 }
 
 void
@@ -385,17 +311,13 @@ InputBar::acceptUploads()
     if (unconfirmedUploads.empty())
         return;
 
-    bool wasntRunning = runningUploads.empty();
-    runningUploads.insert(runningUploads.end(),
-                          std::make_move_iterator(unconfirmedUploads.begin()),
-                          std::make_move_iterator(unconfirmedUploads.end()));
+    nhlog::ui()->warn("Rejecting {} queued attachments; attachment sending is not migrated to "
+                      "the matrix-sdk backend yet",
+                      unconfirmedUploads.size());
+    ChatPage::instance()->showNotification(
+      tr("Sending attachments has not been migrated to the matrix-sdk backend yet."));
     unconfirmedUploads.clear();
     emit uploadsChanged();
-
-    if (wasntRunning) {
-        setUploading(true);
-        runningUploads.front()->startUpload();
-    }
 }
 
 void

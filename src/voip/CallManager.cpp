@@ -20,7 +20,6 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
 
@@ -861,14 +860,10 @@ CallManager::refreshTurnServer()
 void
 CallManager::retrieveTurnServer()
 {
-    http::client()->get_turn_server(
-      [this](const mtx::responses::TurnServer &res, mtx::http::RequestErr err) {
-          if (err) {
-              turnServerTimer_.setInterval(5000);
-              return;
-          }
-          emit turnServerRetrieved(res);
-      });
+    turnServerTimer_.stop();
+    nhlog::ui()->warn(
+      "Skipping legacy TURN server retrieval; VoIP TURN bootstrap is not migrated to "
+      "matrix-sdk yet");
 }
 
 void

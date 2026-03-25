@@ -30,7 +30,7 @@ UserSettings::notificationsEnabled() const
 bool
 UserSettings::notificationsAccountToggleEnabled() const
 {
-    return hasActiveSession() && !notificationsAccountEnabledInFlight_;
+    return false;
 }
 
 void
@@ -51,32 +51,13 @@ UserSettings::refreshNotificationsAccountEnabled()
     if (notificationsAccountEnabledLoaded_ || notificationsAccountEnabledInFlight_)
         return;
 
-    notificationsAccountEnabledInFlight_ = true;
-    emit sessionAuthStateChanged();
+    notificationsAccountEnabledInFlight_ = false;
+    notificationsAccountEnabledLoaded_   = true;
 
-    http::client()->get_pushrules_enabled(
-      "global",
-      "override",
-      ".m.rule.master",
-      [this](const mtx::pushrules::Enabled &ruleEnabled, mtx::http::RequestErr err) {
-          notificationsAccountEnabledInFlight_ = false;
-          emit sessionAuthStateChanged();
-
-          if (err) {
-              nhlog::net()->warn("failed to fetch '.m.rule.master' pushrule: {} {}",
-                                 static_cast<int>(err->status_code),
-                                 err->matrix_error.error);
-              return;
-          }
-
-          notificationsAccountEnabledLoaded_ = true;
-          const bool enabled                 = !ruleEnabled.enabled;
-          if (notificationsAccountEnabled_ == enabled)
-              return;
-
-          notificationsAccountEnabled_ = enabled;
-          emit notificationsAccountEnabledChanged(enabled);
-      });
+    if (!notificationsAccountEnabled_) {
+        notificationsAccountEnabled_ = true;
+        emit notificationsAccountEnabledChanged(true);
+    }
 }
 
 bool

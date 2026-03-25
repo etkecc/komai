@@ -8,7 +8,6 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 
 PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *parent)
   : QObject(parent)
@@ -62,16 +61,11 @@ void
 PowerlevelEditingModels::commit()
 {
     powerLevels_ = calculateNewPowerlevel();
-
-    http::client()->send_state_event(
-      room_id_, powerLevels_, [](const mtx::responses::EventId &, mtx::http::RequestErr e) {
-          if (e) {
-              nhlog::net()->error("Failed to send PL event: {}", *e);
-              ChatPage::instance()->showNotification(
-                tr("Failed to update powerlevel: %1")
-                  .arg(QString::fromStdString(e->matrix_error.error)));
-          }
-      });
+    nhlog::ui()->warn("Ignoring power level update for '{}'; this flow is not migrated to "
+                      "matrix-sdk yet",
+                      room_id_);
+    ChatPage::instance()->showNotification(
+      tr("Power level editing has not been migrated to the matrix-sdk backend yet."));
 }
 
 void

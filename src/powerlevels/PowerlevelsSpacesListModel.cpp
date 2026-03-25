@@ -5,9 +5,6 @@
 
 #include "powerlevels/PowerlevelsEditModels.h"
 
-#include <QCoreApplication>
-#include <QTimer>
-
 #include <functional>
 #include <tuple>
 #include <unordered_set>
@@ -17,7 +14,6 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
 static bool
@@ -93,54 +89,22 @@ PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(
     updateToDefaults();
 }
 
-struct PowerLevelApplier
-{
-    std::vector<std::string> spaces;
-    mtx::events::state::PowerLevels pl;
-
-    void next()
-    {
-        if (spaces.empty())
-            return;
-
-        auto room_id_ = spaces.back();
-        http::client()->send_state_event(
-          room_id_,
-          pl,
-          [self = *this](const mtx::responses::EventId &, mtx::http::RequestErr e) mutable {
-              if (e) {
-                  if (e->status_code == 429 && e->matrix_error.retry_after.count() != 0) {
-                      ChatPage::instance()->callFunctionOnGuiThread(
-                        [self = std::move(self), interval = e->matrix_error.retry_after]() {
-                            QTimer::singleShot(interval,
-                                               ChatPage::instance(),
-                                               [self = std::move(self)]() mutable { self.next(); });
-                        });
-                      return;
-                  }
-
-                  nhlog::net()->error("Failed to send PL event: {}", *e);
-                  ChatPage::instance()->showNotification(
-                    QCoreApplication::translate("PowerLevels", "Failed to update powerlevel: %1")
-                      .arg(QString::fromStdString(e->matrix_error.error)));
-              }
-              self.spaces.pop_back();
-              self.next();
-          });
-    }
-};
-
 void
 PowerlevelsSpacesListModel::commit()
 {
-    std::vector<std::string> spacesToApplyTo;
+    int selectedSpaceCount = 0;
+    for (const auto &space : std::as_const(spaces)) {
+        if (space.apply)
+            ++selectedSpaceCount;
+    }
 
-    for (const auto &s : std::as_const(spaces))
-        if (s.apply)
-            spacesToApplyTo.push_back(s.roomid);
-
-    PowerLevelApplier context{std::move(spacesToApplyTo), newPowerlevels_};
-    context.next();
+    nhlog::ui()->warn("Ignoring power level propagation for '{}' to {} child rooms; this flow "
+                      "is not migrated to matrix-sdk yet",
+                      room_id,
+                      selectedSpaceCount);
+    ChatPage::instance()->showNotification(
+      tr("Applying power levels to child spaces has not been migrated to the matrix-sdk "
+         "backend yet."));
 }
 
 void

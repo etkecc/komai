@@ -48,6 +48,19 @@ providerIdToMxcUri(const QString &id)
     return komai::matrix::normalizeMxcUri(id);
 }
 
+bool
+isMatrixTimelineProviderId(const QString &id)
+{
+    return id.startsWith(QStringLiteral("matrix-timeline:"));
+}
+
+QString
+providerIdToMatrixTimelineItemId(const QString &id)
+{
+    return isMatrixTimelineProviderId(id) ? id.mid(QStringLiteral("matrix-timeline:").size())
+                                          : QString();
+}
+
 void
 purgeFilesInDir(const QString &dirPath)
 {
@@ -107,7 +120,8 @@ prepareThumbnailImage(QByteArray data,
         }
     }
 
-    image.setText(QStringLiteral("mxc url"), providerIdToMxcUri(id));
+    if (!isMatrixTimelineProviderId(id))
+        image.setText(QStringLiteral("mxc url"), providerIdToMxcUri(id));
     return image;
 }
 }
@@ -263,6 +277,49 @@ MxcImageProvider::download(const QString &id,
 {
     if (id.isEmpty()) {
         nhlog::net()->warn("Attempted to download image with empty ID");
+        then(id, QSize{}, QImage{}, QString{});
+        return;
+    }
+
+    if (isMatrixTimelineProviderId(id)) {
+        if (const auto handleId = activeMatrixBackendHandleId()) {
+            const auto requestedWidth  = requestedSize.width() > 0 ? requestedSize.width() : 0;
+            const auto requestedHeight = requestedSize.height() > 0 ? requestedSize.height() : 0;
+            const auto itemId          = providerIdToMatrixTimelineItemId(id);
+
+            QThreadPool::globalInstance()->start([requestedSize,
+                                                  radius,
+                                                  then,
+                                                  id,
+                                                  handleId,
+                                                  requestedWidth,
+                                                  requestedHeight,
+                                                  crop,
+                                                  itemId] {
+                QString error;
+                const auto data =
+                  komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
+                    *handleId, itemId, requestedWidth, requestedHeight, crop, &error);
+                if (!data || data->isEmpty()) {
+                    nhlog::net()->warn(
+                      "Failed to fetch matrix-sdk active timeline media {} via backend handle {}: "
+                      "{}",
+                      itemId.toStdString(),
+                      *handleId,
+                      error.toStdString());
+                    then(id, QSize(), {}, QLatin1String(""));
+                    return;
+                }
+
+                auto image = prepareThumbnailImage(*data, requestedSize, false, radius, id);
+                then(id, requestedSize, image, QLatin1String(""));
+            });
+            return;
+        }
+
+        nhlog::net()->warn("Refusing matrix-sdk active-timeline media fetch for '{}' without an "
+                           "active runtime handle",
+                           id.toStdString());
         then(id, QSize{}, QImage{}, QString{});
         return;
     }

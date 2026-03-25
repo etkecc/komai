@@ -7,6 +7,7 @@ import "../../components" as Components
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Window
 import cc.etke.komai
 
 ColumnLayout {
@@ -156,6 +157,8 @@ ColumnLayout {
                         readonly property bool isMediaItem: ["image", "video", "audio", "file", "sticker"].indexOf(itemKind) >= 0
                         readonly property string effectiveFileName: fileName.length > 0 ? fileName : (body.length > 0 ? body : qsTr("Attachment"))
                         readonly property bool showCaption: isMediaItem && body.length > 0 && body !== effectiveFileName
+                        readonly property bool showVisualPreview: ["image", "video", "sticker"].indexOf(itemKind) >= 0 && itemId.length > 0
+                        readonly property double safePreviewAspectRatio: mediaWidth > 0 && mediaHeight > 0 ? (mediaHeight / mediaWidth) : 0.75
                         readonly property string mediaKindLabel: {
                             switch (itemKind) {
                             case "image":
@@ -299,6 +302,34 @@ ColumnLayout {
                                                         color: isOwn ? palette.highlightedText : palette.text
                                                         text: mediaKindLabel
                                                         textFormat: TextEdit.PlainText
+                                                    }
+
+                                                    Rectangle {
+                                                        Layout.fillWidth: true
+                                                        color: palette.base
+                                                        implicitHeight: Math.round(Math.min(280, Math.max(120, width * safePreviewAspectRatio)))
+                                                        radius: Komai.paddingMedium
+                                                        visible: showVisualPreview
+
+                                                        Image {
+                                                            anchors.fill: parent
+                                                            anchors.margins: 1
+                                                            asynchronous: true
+                                                            fillMode: Image.PreserveAspectFit
+                                                            source: parent.visible
+                                                                ? ("image://MxcImage/matrix-timeline:" + itemId + "?scale")
+                                                                : ""
+                                                            sourceSize.width: Math.max(320, width * Screen.devicePixelRatio)
+                                                            sourceSize.height: Math.max(180, parent.height * Screen.devicePixelRatio)
+                                                            smooth: true
+                                                        }
+
+                                                        MouseArea {
+                                                            anchors.fill: parent
+                                                            cursorShape: Qt.PointingHandCursor
+
+                                                            onClicked: TimelineManager.openActiveMatrixTimelineMedia(itemId, effectiveFileName)
+                                                        }
                                                     }
 
                                                     MatrixText {

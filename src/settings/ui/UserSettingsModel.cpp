@@ -5,7 +5,6 @@
 
 #include <QSortFilterProxyModel>
 
-#include "encryption/Olm.h"
 #include "settings/ui/SessionKeyActions.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/UserSettingsModel.h"
@@ -94,9 +93,7 @@ UserSettingsModel::downloadCrossSigningSecrets()
 QString
 UserSettingsModel::deviceFingerprint() const
 {
-    auto fingerprint = utils::humanReadableFingerprint(olm::client()->identity_keys().ed25519);
-    fingerprint.replace(u'\n', u' ');
-    return fingerprint.simplified();
+    return tr("Not available on the matrix-sdk migration branch");
 }
 
 UserSettingsModel::UserSettingsModel(QObject *p)

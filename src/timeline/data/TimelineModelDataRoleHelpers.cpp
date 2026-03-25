@@ -13,7 +13,6 @@
 
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
-#include "encryption/Olm.h"
 #include "events/EventAccessors.h"
 #include "utils/Utils.h"
 
@@ -277,13 +276,6 @@ TimelineModel::isEncryptedForEvent(const mtx::events::collections::TimelineEvent
 crypto::Trust
 TimelineModel::trustLevelForEvent(const mtx::events::collections::TimelineEvents &event) const
 {
-    auto encrypted_event = events.get(mtx::accessors::event_id(event), "", false);
-    if (encrypted_event) {
-        if (auto encrypted = std::get_if<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
-              &*encrypted_event)) {
-            return olm::calculate_trust(
-              encrypted->sender, room_id_.toStdString(), encrypted->content);
-        }
-    }
+    (void)event;
     return crypto::Trust::Unverified;
 }

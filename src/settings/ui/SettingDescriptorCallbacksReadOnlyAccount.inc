@@ -17,7 +17,6 @@ sessionProfileValue()
 static QVariant
 sessionDeviceFingerprintValue()
 {
-    auto fingerprint = utils::humanReadableFingerprint(olm::client()->identity_keys().ed25519);
-    fingerprint.replace(u'\n', u' ');
-    return fingerprint.simplified();
+    return QCoreApplication::translate("UserSettingsModel",
+                                       "Not available on the matrix-sdk migration branch");
 }

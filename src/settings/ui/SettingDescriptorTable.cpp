@@ -13,9 +13,10 @@
 #include <QStringList>
 #include <array>
 
+#include <mtx/secret_storage.hpp>
+
 #include "cache/Cache.h"
 #include "config/komai.h"
-#include "encryption/Olm.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/ui/SettingDescriptorValueAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"

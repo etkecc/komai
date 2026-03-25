@@ -11,8 +11,9 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/logger.h>
 
+#include <mtxclient/crypto/client.hpp>
+
 #include "cache/api/CacheApiContext.h"
-#include "encryption/Olm.h"
 #include "utils/Utils.h"
 
 std::optional<UserKeyCache>

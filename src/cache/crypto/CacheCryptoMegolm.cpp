@@ -8,6 +8,7 @@
 
 #include <string_view>
 
+#include <mtxclient/crypto/client.hpp>
 #include <nlohmann/json.hpp>
 #include <spdlog/logger.h>
 
@@ -17,7 +18,6 @@
 #include "db/Serde.h"
 #include "db/storage/Crypto.h"
 #include "db/storage/Serde.h"
-#include "encryption/Olm.h"
 
 //
 // Session Management

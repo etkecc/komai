@@ -14,8 +14,9 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/logger.h>
 
+#include <mtxclient/crypto/client.hpp>
+
 #include "cache/api/CacheApiContext.h"
-#include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
 
@@ -202,9 +203,19 @@ MatrixStore::verificationStatus_(const std::string &user_id, db::Transaction &tx
                 return status;
             }
 
-            std::string dev_id = "ed25519:" + local_device_id.toStdString();
+            std::string dev_id         = "ed25519:" + local_device_id.toStdString();
+            const auto local_device_it = ourKeys->device_keys.find(local_device_id.toStdString());
+            if (local_device_it == ourKeys->device_keys.end() ||
+                !local_device_it->second.keys.count(dev_id)) {
+                cache::activeLoggers().crypto->debug(
+                  "Cannot verify local master key without cached local device signing key");
+                verification_storage.status[user_id] = status;
+                return status;
+            }
+
+            const auto &local_device_signing_key = local_device_it->second.keys.at(dev_id);
             if (!mk.signatures.count(local_user) || !mk.signatures.at(local_user).count(dev_id) ||
-                !mtx::crypto::ed25519_verify_signature(olm::client()->identity_keys().ed25519,
+                !mtx::crypto::ed25519_verify_signature(local_device_signing_key,
                                                        nlohmann::json(mk),
                                                        mk.signatures.at(local_user).at(dev_id))) {
                 cache::activeLoggers().crypto->debug("We have not verified our own master key");

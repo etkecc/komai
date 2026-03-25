@@ -8,6 +8,7 @@
 
 #include <string_view>
 
+#include <mtxclient/crypto/client.hpp>
 #include <nlohmann/json.hpp>
 
 #include "chat/ChatPage.h"
@@ -21,7 +22,6 @@
 #include "db/storage/Crypto.h"
 #include "db/storage/Scan.h"
 #include "db/storage/Serde.h"
-#include "encryption/Olm.h"
 
 void
 MatrixStore::storeEventExpirationProgress(const std::string &room,

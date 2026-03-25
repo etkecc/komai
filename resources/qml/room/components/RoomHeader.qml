@@ -11,6 +11,7 @@ import cc.etke.komai 1.0
 Pane {
     id: topBar
 
+    property var room: null
     property string avatarUrl: room ? room.roomAvatarUrl : ""
     property string directChatOtherUserId: room ? room.directChatOtherUserId : ""
     property bool isDirect: room ? room.isDirect : false

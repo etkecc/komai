@@ -269,6 +269,14 @@ public:
                                 const QString &messageKind,
                                 QString *errorOut = nullptr);
 
+    static bool sendRoomReplyMessage(uint64_t handleId,
+                                     const QString &roomId,
+                                     const QString &repliedToEventId,
+                                     const QString &body,
+                                     const QString &formattedHtml,
+                                     const QString &messageKind,
+                                     QString *errorOut = nullptr);
+
     static bool sendRoomAttachment(uint64_t handleId,
                                    const QString &roomId,
                                    const QString &filePath,

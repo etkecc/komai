@@ -702,6 +702,30 @@ MatrixBackendRuntimeService::sendRoomMessage(uint64_t handleId,
 }
 
 bool
+MatrixBackendRuntimeService::sendRoomReplyMessage(uint64_t handleId,
+                                                  const QString &roomId,
+                                                  const QString &repliedToEventId,
+                                                  const QString &body,
+                                                  const QString &formattedHtml,
+                                                  const QString &messageKind,
+                                                  QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_send_room_reply_message(handleId,
+                                                      roomId.toStdString(),
+                                                      repliedToEventId.toStdString(),
+                                                      body.toStdString(),
+                                                      formattedHtml.toStdString(),
+                                                      messageKind.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
 MatrixBackendRuntimeService::sendRoomAttachment(uint64_t handleId,
                                                 const QString &roomId,
                                                 const QString &filePath,

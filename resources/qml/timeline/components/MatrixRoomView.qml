@@ -138,6 +138,7 @@ ColumnLayout {
 
                         required property string itemKind
                         required property string itemId
+                        required property string eventId
                         required property string senderDisplayName
                         required property string senderAvatarUrl
                         required property string senderId
@@ -163,6 +164,7 @@ ColumnLayout {
                         readonly property bool showCaption: isMediaItem && body.length > 0 && body !== effectiveFileName
                         readonly property bool hasReplyPreview: replyBody.length > 0
                         readonly property bool showVisualPreview: ["image", "video", "sticker"].indexOf(itemKind) >= 0 && itemId.length > 0
+                        readonly property string replySourceBody: body.length > 0 ? body : effectiveFileName
                         readonly property double safePreviewAspectRatio: mediaWidth > 0 && mediaHeight > 0 ? (mediaHeight / mediaWidth) : 0.75
                         readonly property string footerMetaText: {
                             const parts = [];
@@ -459,6 +461,31 @@ ColumnLayout {
                                         text: footerMetaText
                                         textFormat: TextEdit.PlainText
                                     }
+
+                                    Rectangle {
+                                        Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
+                                        color: Qt.rgba(palette.base.r, palette.base.g, palette.base.b, isOwn ? 0.2 : 0.45)
+                                        implicitHeight: replyActionLabel.implicitHeight + Komai.paddingSmall * 2
+                                        implicitWidth: replyActionLabel.implicitWidth + Komai.paddingMedium * 2
+                                        radius: implicitHeight / 2
+                                        visible: eventId.length > 0
+
+                                        MatrixText {
+                                            id: replyActionLabel
+
+                                            anchors.centerIn: parent
+                                            color: isOwn ? palette.highlightedText : palette.text
+                                            text: qsTr("Reply")
+                                            textFormat: TextEdit.PlainText
+                                        }
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            cursorShape: Qt.PointingHandCursor
+
+                                            onClicked: TimelineManager.queueActiveMatrixReply(eventId, senderDisplayName, replySourceBody)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -515,6 +542,52 @@ ColumnLayout {
                     anchors.margins: Komai.paddingMedium
                     spacing: Komai.paddingSmall
 
+                    Rectangle {
+                        Layout.fillWidth: true
+                        color: palette.alternateBase
+                        implicitHeight: replyComposerLayout.implicitHeight + Komai.paddingMedium * 2
+                        radius: Komai.paddingMedium
+                        visible: TimelineManager.matrixTimelineReplyEventId.length > 0
+
+                        RowLayout {
+                            id: replyComposerLayout
+
+                            anchors.fill: parent
+                            anchors.margins: Komai.paddingMedium
+                            spacing: Komai.paddingMedium
+
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: Math.max(2, Math.round(Komai.paddingSmall / 2))
+
+                                MatrixText {
+                                    Layout.fillWidth: true
+                                    color: palette.text
+                                    font.bold: true
+                                    text: TimelineManager.matrixTimelineReplySenderDisplayName.length > 0
+                                        ? qsTr("Replying to %1").arg(TimelineManager.matrixTimelineReplySenderDisplayName)
+                                        : qsTr("Replying to this message")
+                                    textFormat: TextEdit.PlainText
+                                    wrapMode: Text.WordWrap
+                                }
+
+                                MatrixText {
+                                    Layout.fillWidth: true
+                                    color: palette.buttonText
+                                    text: TimelineManager.matrixTimelineReplyBody
+                                    textFormat: TextEdit.PlainText
+                                    wrapMode: Text.WordWrap
+                                }
+                            }
+
+                            Components.KomaiButton {
+                                text: qsTr("Cancel")
+
+                                onClicked: TimelineManager.clearActiveMatrixReply()
+                            }
+                        }
+                    }
+
                     ScrollView {
                         Layout.fillWidth: true
                         Layout.preferredHeight: Math.min(Math.max(56, composerInput.contentHeight + Komai.paddingMedium * 2), 160)
@@ -557,7 +630,7 @@ ColumnLayout {
                         MatrixText {
                             Layout.fillWidth: true
                             color: palette.buttonText
-                            text: qsTr("Shift+Enter inserts a newline. Attachments are sent in order; replies and other composer tools will move here as the Rust room view grows.")
+                            text: qsTr("Shift+Enter inserts a newline. Attachments are sent in order while the Rust room composer keeps growing toward the old room view.")
                             wrapMode: Text.WordWrap
                         }
 

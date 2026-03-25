@@ -94,6 +94,8 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
         return;
     }
 
+    clearActiveMatrixReplyState();
+
     QString error;
     if (!komai::MatrixBackendRuntimeService::selectActiveRoomTimeline(handleId, roomId, &error)) {
         nhlog::ui()->warn(
@@ -147,7 +149,7 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
 void
 TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
 {
-    bool stateChanged = false;
+    bool stateChanged = clearActiveMatrixReplyState();
 
     if (matrixTimelineLoading_) {
         matrixTimelineLoading_ = false;
@@ -197,15 +199,28 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
     }
 
     const auto formattedHtml = matrixMessageFormattedHtml(body);
+    const auto replyEventId  = matrixTimelineReplyEventId_.trimmed();
 
     QString error;
-    if (!komai::MatrixBackendRuntimeService::sendRoomMessage(handleId,
-                                                             activeMatrixTimelineRoomId_,
-                                                             plainBody,
-                                                             formattedHtml,
-                                                             QStringLiteral("text"),
-                                                             &error)) {
-        nhlog::ui()->warn("Failed to queue matrix-sdk room message for '{}' on handle {}: {}",
+    const bool ok =
+      replyEventId.isEmpty()
+        ? komai::MatrixBackendRuntimeService::sendRoomMessage(handleId,
+                                                              activeMatrixTimelineRoomId_,
+                                                              plainBody,
+                                                              formattedHtml,
+                                                              QStringLiteral("text"),
+                                                              &error)
+        : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(handleId,
+                                                                   activeMatrixTimelineRoomId_,
+                                                                   replyEventId,
+                                                                   plainBody,
+                                                                   formattedHtml,
+                                                                   QStringLiteral("text"),
+                                                                   &error);
+
+    if (!ok) {
+        nhlog::ui()->warn("Failed to queue matrix-sdk room {} for '{}' on handle {}: {}",
+                          replyEventId.isEmpty() ? "message" : "reply",
                           activeMatrixTimelineRoomId_.toStdString(),
                           handleId,
                           error.toStdString());
@@ -214,7 +229,42 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
         return false;
     }
 
+    if (clearActiveMatrixReplyState())
+        emit matrixTimelineStateChanged();
+
     return true;
+}
+
+bool
+TimelineViewManager::queueActiveMatrixReply(const QString &eventId,
+                                            const QString &senderDisplayName,
+                                            const QString &body)
+{
+    if (activeMatrixTimelineRoomId_.isEmpty())
+        return false;
+
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty())
+        return false;
+
+    const auto trimmedSenderDisplayName = senderDisplayName.trimmed();
+    const auto trimmedBody              = body.trimmed();
+    const auto changed =
+      setActiveMatrixReplyState(trimmedEventId, trimmedSenderDisplayName, trimmedBody);
+    if (changed)
+        emit matrixTimelineStateChanged();
+    focusMessageInput();
+    return true;
+}
+
+void
+TimelineViewManager::clearActiveMatrixReply()
+{
+    if (!clearActiveMatrixReplyState())
+        return;
+
+    emit matrixTimelineStateChanged();
+    emit replyClosed();
 }
 
 bool
@@ -358,6 +408,43 @@ TimelineViewManager::startNextPendingMatrixAttachment()
           },
           Qt::QueuedConnection);
     }).detach();
+}
+
+bool
+TimelineViewManager::setActiveMatrixReplyState(const QString &eventId,
+                                               const QString &senderDisplayName,
+                                               const QString &body)
+{
+    const auto trimmedEventId           = eventId.trimmed();
+    const auto trimmedSenderDisplayName = senderDisplayName.trimmed();
+    const auto trimmedBody              = body.trimmed();
+
+    if (matrixTimelineReplyEventId_ == trimmedEventId &&
+        matrixTimelineReplySenderDisplayName_ == trimmedSenderDisplayName &&
+        matrixTimelineReplyBody_ == trimmedBody) {
+        return false;
+    }
+
+    matrixTimelineReplyEventId_           = trimmedEventId;
+    matrixTimelineReplySenderDisplayName_ = trimmedSenderDisplayName;
+    matrixTimelineReplyBody_              = trimmedBody;
+    emit replyingEventChanged(matrixTimelineReplyEventId_);
+    return true;
+}
+
+bool
+TimelineViewManager::clearActiveMatrixReplyState()
+{
+    if (matrixTimelineReplyEventId_.isEmpty() && matrixTimelineReplySenderDisplayName_.isEmpty() &&
+        matrixTimelineReplyBody_.isEmpty()) {
+        return false;
+    }
+
+    matrixTimelineReplyEventId_.clear();
+    matrixTimelineReplySenderDisplayName_.clear();
+    matrixTimelineReplyBody_.clear();
+    emit replyingEventChanged(QString());
+    return true;
 }
 
 void

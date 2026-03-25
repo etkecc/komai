@@ -305,6 +305,86 @@ pub async fn send_room_message(
     Ok(())
 }
 
+pub async fn send_room_reply_message(
+    handle_id: u64,
+    room_id: &str,
+    replied_to_event_id: &str,
+    body: &str,
+    formatted_html: &str,
+    message_kind: &str,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let replied_to_event_id = replied_to_event_id.trim();
+    if replied_to_event_id.is_empty() {
+        return Err("cannot send a matrix-sdk room reply without a replied-to event id".to_owned());
+    }
+
+    let body = body.trim();
+    if body.is_empty() {
+        return Err("cannot send an empty matrix-sdk room reply".to_owned());
+    }
+
+    let parsed_event_id = EventId::parse(replied_to_event_id)
+        .map_err(|e| format!("invalid event id '{replied_to_event_id}': {e}"))?;
+
+    let formatted_html = formatted_html.trim();
+    let content = match message_kind {
+        "text" => {
+            if formatted_html.is_empty() {
+                RoomMessageEventContentWithoutRelation::text_plain(body)
+            } else {
+                RoomMessageEventContentWithoutRelation::text_html(body, formatted_html)
+            }
+        }
+        "notice" => {
+            if formatted_html.is_empty() {
+                RoomMessageEventContentWithoutRelation::notice_plain(body)
+            } else {
+                RoomMessageEventContentWithoutRelation::notice_html(body, formatted_html)
+            }
+        }
+        "emote" => {
+            if formatted_html.is_empty() {
+                RoomMessageEventContentWithoutRelation::emote_plain(body)
+            } else {
+                RoomMessageEventContentWithoutRelation::emote_html(body, formatted_html)
+            }
+        }
+        other => {
+            return Err(format!(
+                "unsupported matrix-sdk room reply kind '{other}' for room '{}'",
+                room_id.trim()
+            ));
+        }
+    };
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        replied_to_event_id,
+        message_kind,
+        has_formatted_html = !formatted_html.is_empty(),
+        "Sending matrix-sdk room reply"
+    );
+
+    room.timeline()
+        .await
+        .map_err(|e| format!("failed to build matrix-sdk room timeline for reply: {e}"))?
+        .send_reply(content, parsed_event_id)
+        .await
+        .map_err(|e| format!("failed to send matrix-sdk room reply: {e}"))?;
+
+    tracing::debug!(
+        handle_id,
+        room_id = room_id.trim(),
+        replied_to_event_id,
+        message_kind,
+        "Queued matrix-sdk room reply"
+    );
+
+    Ok(())
+}
+
 pub async fn send_room_attachment(
     handle_id: u64,
     room_id: &str,

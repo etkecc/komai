@@ -77,6 +77,12 @@ class TimelineViewManager final : public QObject
       bool matrixTimelineLoading READ matrixTimelineLoading NOTIFY matrixTimelineStateChanged)
     Q_PROPERTY(bool matrixTimelineAttachmentSending READ matrixTimelineAttachmentSending NOTIFY
                  matrixTimelineStateChanged)
+    Q_PROPERTY(QString matrixTimelineReplyEventId READ matrixTimelineReplyEventId NOTIFY
+                 matrixTimelineStateChanged)
+    Q_PROPERTY(QString matrixTimelineReplySenderDisplayName READ
+                 matrixTimelineReplySenderDisplayName NOTIFY matrixTimelineStateChanged)
+    Q_PROPERTY(QString matrixTimelineReplyBody READ matrixTimelineReplyBody NOTIFY
+                 matrixTimelineStateChanged)
 
 public:
     TimelineViewManager(CallManager *callManager, ChatPage *parent = nullptr);
@@ -103,6 +109,12 @@ public:
     {
         return matrixAttachmentUploadInFlight_ || !pendingMatrixAttachments_.empty();
     }
+    QString matrixTimelineReplyEventId() const { return matrixTimelineReplyEventId_; }
+    QString matrixTimelineReplySenderDisplayName() const
+    {
+        return matrixTimelineReplySenderDisplayName_;
+    }
+    QString matrixTimelineReplyBody() const { return matrixTimelineReplyBody_; }
     Q_INVOKABLE void openMediaOverlay(TimelineModel *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
@@ -173,6 +185,10 @@ public:
     Q_INVOKABLE bool roomSwitchPerfEnabled() const { return roomSwitchPerfEnabled_; }
     Q_INVOKABLE bool perfUiFlagEnabled(const QString &flag) const;
     Q_INVOKABLE bool sendActiveMatrixTextMessage(const QString &body);
+    Q_INVOKABLE bool queueActiveMatrixReply(const QString &eventId,
+                                            const QString &senderDisplayName,
+                                            const QString &body);
+    Q_INVOKABLE void clearActiveMatrixReply();
     Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
     Q_INVOKABLE bool paginateActiveMatrixTimelineBackwards(int pageSize = 0);
     Q_INVOKABLE bool
@@ -296,6 +312,9 @@ private:
     };
     std::deque<PendingMatrixAttachment> pendingMatrixAttachments_;
     bool matrixAttachmentUploadInFlight_ = false;
+    QString matrixTimelineReplyEventId_;
+    QString matrixTimelineReplySenderDisplayName_;
+    QString matrixTimelineReplyBody_;
 
     void processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers);
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
@@ -306,6 +325,10 @@ private:
     void finishPendingMatrixAttachment(bool ok,
                                        const PendingMatrixAttachment &attachment,
                                        QString error = {});
+    bool setActiveMatrixReplyState(const QString &eventId,
+                                   const QString &senderDisplayName,
+                                   const QString &body);
+    bool clearActiveMatrixReplyState();
     void fetchActiveMatrixTimelineMediaToFile(const QString &itemId,
                                               const QString &outputPath,
                                               const QString &userVisibleName,

@@ -303,6 +303,12 @@ mod ffi {
             formatted_html: &str,
             message_kind: &str,
         ) -> Result<()>;
+        fn matrix_send_room_attachment(
+            handle_id: u64,
+            room_id: &str,
+            file_path: &str,
+            mime_type: &str,
+        ) -> Result<()>;
         fn matrix_discover_login_flows(
             server_name_or_url: &str,
             verify_certificates: bool,
@@ -764,6 +770,17 @@ fn matrix_send_room_message(
         body,
         formatted_html,
         message_kind,
+    ))
+}
+
+fn matrix_send_room_attachment(
+    handle_id: u64,
+    room_id: &str,
+    file_path: &str,
+    mime_type: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::send_room_attachment(
+        handle_id, room_id, file_path, mime_type,
     ))
 }
 

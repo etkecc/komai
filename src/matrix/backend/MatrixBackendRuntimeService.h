@@ -253,6 +253,12 @@ public:
                                 const QString &messageKind,
                                 QString *errorOut = nullptr);
 
+    static bool sendRoomAttachment(uint64_t handleId,
+                                   const QString &roomId,
+                                   const QString &filePath,
+                                   const QString &mimeType,
+                                   QString *errorOut = nullptr);
+
     static std::optional<QByteArray> fetchMediaContent(uint64_t handleId,
                                                        const QString &mxcUri,
                                                        int width,

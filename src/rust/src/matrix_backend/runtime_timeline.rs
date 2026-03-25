@@ -3,6 +3,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use super::*;
+use matrix_sdk::attachment::AttachmentConfig;
+use mime::Mime;
+use std::{fs, path::Path};
 
 pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
     let room_id = room_id.trim();
@@ -242,6 +245,46 @@ pub async fn send_room_message(
     );
 
     Ok(())
+}
+
+pub async fn send_room_attachment(
+    handle_id: u64,
+    room_id: &str,
+    file_path: &str,
+    mime_type: &str,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let file_path = file_path.trim();
+    if file_path.is_empty() {
+        return Err("cannot send a matrix-sdk room attachment without a file path".to_owned());
+    }
+
+    let mime = mime_type
+        .trim()
+        .parse::<Mime>()
+        .map_err(|e| format!("invalid attachment mime type '{mime_type}': {e}"))?;
+    let data = fs::read(file_path)
+        .map_err(|e| format!("failed to read attachment file '{file_path}': {e}"))?;
+    let filename = Path::new(file_path)
+        .file_name()
+        .and_then(|name| name.to_str())
+        .filter(|name| !name.is_empty())
+        .ok_or_else(|| format!("attachment path '{file_path}' does not include a file name"))?
+        .to_owned();
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        file_path,
+        mime_type,
+        file_size = data.len(),
+        "Sending matrix-sdk room attachment"
+    );
+
+    room.send_attachment(filename, &mime, data, AttachmentConfig::new())
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to send matrix-sdk room attachment: {e}"))
 }
 
 async fn run_room_timeline_loop(

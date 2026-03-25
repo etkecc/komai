@@ -684,6 +684,24 @@ MatrixBackendRuntimeService::sendRoomMessage(uint64_t handleId,
     }
 }
 
+bool
+MatrixBackendRuntimeService::sendRoomAttachment(uint64_t handleId,
+                                                const QString &roomId,
+                                                const QString &filePath,
+                                                const QString &mimeType,
+                                                QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_send_room_attachment(
+          handleId, roomId.toStdString(), filePath.toStdString(), mimeType.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<QByteArray>
 MatrixBackendRuntimeService::fetchMediaContent(uint64_t handleId,
                                                const QString &mxcUri,

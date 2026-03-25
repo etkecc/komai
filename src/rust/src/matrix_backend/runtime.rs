@@ -81,7 +81,7 @@ pub use room_settings::{
 };
 pub use timeline::{
     fetch_active_room_timeline, paginate_active_room_timeline_backwards,
-    select_active_room_timeline, send_room_message,
+    select_active_room_timeline, send_room_attachment, send_room_message,
 };
 
 pub struct MatrixBackendHandleInfo {

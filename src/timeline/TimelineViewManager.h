@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <deque>
 #include <optional>
 #include <unordered_map>
 #include <vector>
@@ -74,6 +75,8 @@ class TimelineViewManager final : public QObject
       int matrixTimelineItemCount READ matrixTimelineItemCount NOTIFY matrixTimelineStateChanged)
     Q_PROPERTY(
       bool matrixTimelineLoading READ matrixTimelineLoading NOTIFY matrixTimelineStateChanged)
+    Q_PROPERTY(bool matrixTimelineAttachmentSending READ matrixTimelineAttachmentSending NOTIFY
+                 matrixTimelineStateChanged)
 
 public:
     TimelineViewManager(CallManager *callManager, ChatPage *parent = nullptr);
@@ -96,6 +99,10 @@ public:
     QAbstractItemModel *matrixTimelineModel() const;
     int matrixTimelineItemCount() const;
     bool matrixTimelineLoading() const { return matrixTimelineLoading_; }
+    bool matrixTimelineAttachmentSending() const
+    {
+        return matrixAttachmentUploadInFlight_ || !pendingMatrixAttachments_.empty();
+    }
     Q_INVOKABLE void openMediaOverlay(TimelineModel *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
@@ -166,6 +173,7 @@ public:
     Q_INVOKABLE bool roomSwitchPerfEnabled() const { return roomSwitchPerfEnabled_; }
     Q_INVOKABLE bool perfUiFlagEnabled(const QString &flag) const;
     Q_INVOKABLE bool sendActiveMatrixTextMessage(const QString &body);
+    Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
     Q_INVOKABLE bool paginateActiveMatrixTimelineBackwards(int pageSize = 0);
 
     Q_INVOKABLE void fixImageRendering(QQuickTextDocument *t, QQuickItem *i);
@@ -275,10 +283,23 @@ private:
     komai::MatrixTimelineModel *matrixTimelineModel_ = nullptr;
     QString activeMatrixTimelineRoomId_;
     bool matrixTimelineLoading_ = false;
+    struct PendingMatrixAttachment
+    {
+        uint64_t handleId = 0;
+        QString roomId;
+        QString filePath;
+        QString mimeType;
+    };
+    std::deque<PendingMatrixAttachment> pendingMatrixAttachments_;
+    bool matrixAttachmentUploadInFlight_ = false;
 
     void processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers);
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
     void updateCurrentMatrixTimelineSelection();
     void refreshCurrentMatrixTimeline();
     void clearCurrentMatrixTimeline(bool stopBackendTask = true);
+    void startNextPendingMatrixAttachment();
+    void finishPendingMatrixAttachment(bool ok,
+                                       const PendingMatrixAttachment &attachment,
+                                       QString error = {});
 };

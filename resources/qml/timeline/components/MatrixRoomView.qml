@@ -308,8 +308,15 @@ ColumnLayout {
                         MatrixText {
                             Layout.fillWidth: true
                             color: palette.buttonText
-                            text: qsTr("Shift+Enter inserts a newline. Rich replies, uploads, and other composer tools will move here as the Rust room view grows.")
+                            text: qsTr("Shift+Enter inserts a newline. Attachments are sent in order; replies and other composer tools will move here as the Rust room view grows.")
                             wrapMode: Text.WordWrap
+                        }
+
+                        Components.KomaiButton {
+                            enabled: !TimelineManager.matrixTimelineAttachmentSending
+                            text: TimelineManager.matrixTimelineAttachmentSending ? qsTr("Sending…") : qsTr("Attach")
+
+                            onClicked: TimelineManager.openActiveMatrixAttachmentSelection()
                         }
 
                         Components.KomaiButton {

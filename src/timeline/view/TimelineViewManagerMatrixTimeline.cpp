@@ -4,6 +4,13 @@
 
 #include "timeline/TimelineViewManager.h"
 
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QMimeDatabase>
+#include <QStandardPaths>
+
+#include <thread>
+
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
@@ -178,6 +185,40 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
     return true;
 }
 
+bool
+TimelineViewManager::openActiveMatrixAttachmentSelection()
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to queue matrix-sdk room attachment without an active "
+                          "runtime handle or selected matrix room");
+        return false;
+    }
+
+    const QString homeFolder = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+    const QStringList filePaths =
+      QFileDialog::getOpenFileNames(nullptr, tr("Select file(s)"), homeFolder, tr("All Files (*)"));
+    if (filePaths.isEmpty())
+        return false;
+
+    QMimeDatabase mimeDatabase;
+    for (const auto &filePath : filePaths) {
+        const auto mimeType = mimeDatabase.mimeTypeForFile(filePath).name();
+        pendingMatrixAttachments_.push_back(PendingMatrixAttachment{
+          .handleId = handleId,
+          .roomId   = activeMatrixTimelineRoomId_,
+          .filePath = filePath,
+          .mimeType = mimeType.isEmpty() ? QStringLiteral("application/octet-stream") : mimeType,
+        });
+    }
+
+    emit matrixTimelineStateChanged();
+    startNextPendingMatrixAttachment();
+    focusMessageInput();
+    return true;
+}
+
 void
 TimelineViewManager::handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t handleId)
 {
@@ -228,4 +269,60 @@ TimelineViewManager::paginateActiveMatrixTimelineBackwards(int pageSize)
     }
 
     return true;
+}
+
+void
+TimelineViewManager::startNextPendingMatrixAttachment()
+{
+    if (matrixAttachmentUploadInFlight_ || pendingMatrixAttachments_.empty())
+        return;
+
+    const auto attachment           = pendingMatrixAttachments_.front();
+    matrixAttachmentUploadInFlight_ = true;
+    emit matrixTimelineStateChanged();
+
+    std::thread([this, attachment]() {
+        QString error;
+        const bool ok = komai::MatrixBackendRuntimeService::sendRoomAttachment(
+          attachment.handleId, attachment.roomId, attachment.filePath, attachment.mimeType, &error);
+
+        QMetaObject::invokeMethod(
+          this,
+          [this, attachment, ok, error]() mutable {
+              finishPendingMatrixAttachment(ok, attachment, error);
+          },
+          Qt::QueuedConnection);
+    }).detach();
+}
+
+void
+TimelineViewManager::finishPendingMatrixAttachment(bool ok,
+                                                   const PendingMatrixAttachment &attachment,
+                                                   QString error)
+{
+    if (!pendingMatrixAttachments_.empty() &&
+        pendingMatrixAttachments_.front().filePath == attachment.filePath &&
+        pendingMatrixAttachments_.front().roomId == attachment.roomId &&
+        pendingMatrixAttachments_.front().handleId == attachment.handleId) {
+        pendingMatrixAttachments_.pop_front();
+    }
+
+    matrixAttachmentUploadInFlight_ = false;
+    emit matrixTimelineStateChanged();
+
+    if (!ok) {
+        nhlog::ui()->warn("Failed to send matrix-sdk room attachment '{}' for '{}' on handle {}: "
+                          "{}",
+                          attachment.filePath.toStdString(),
+                          attachment.roomId.toStdString(),
+                          attachment.handleId,
+                          error.toStdString());
+        if (auto *mainWindow = MainWindow::instance()) {
+            const auto filename = QFileInfo(attachment.filePath).fileName();
+            mainWindow->showNotification(
+              tr("Failed to send attachment '%1': %2").arg(filename, error));
+        }
+    }
+
+    startNextPendingMatrixAttachment();
 }

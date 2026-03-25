@@ -5,23 +5,32 @@
 
 #include "TimelineModel.h"
 
-#include <chrono>
-#include <thread>
-
-#include <QTimer>
-
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "models/ReadReceiptsModel.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/rawmessage/RawMessageDialogPayload.h"
 #include "ui/Theme.h"
 #include "ui/UserProfile.h"
 #include "utils/Utils.h"
+
+namespace {
+void
+notifyLegacyTimelineActionUnavailable(const QString &roomId, const QString &action)
+{
+    nhlog::ui()->warn(
+      "Refusing legacy timeline action '{}' in room '{}'; this flow is not migrated to the "
+      "matrix-sdk backend yet",
+      action.toStdString(),
+      roomId.toStdString());
+    emit ChatPage::instance()->showNotification(
+      QObject::tr("%1 from this legacy timeline is not migrated to the matrix-sdk backend yet.")
+        .arg(action));
+}
+}
 
 void
 TimelineModel::viewRawMessage(const QString &id)
@@ -78,53 +87,15 @@ TimelineModel::openUserProfile(QString userid)
 void
 TimelineModel::unpin(const QString &id)
 {
-    auto pinned = cache::getStateEvent<mtx::events::state::PinnedEvents>(room_id_.toStdString());
-
-    mtx::events::state::PinnedEvents content{};
-    if (pinned)
-        content = pinned->content;
-
-    auto idStr = id.toStdString();
-
-    for (auto it = content.pinned.begin(); it != content.pinned.end(); ++it) {
-        if (*it == idStr) {
-            content.pinned.erase(it);
-            break;
-        }
-    }
-
-    http::client()->send_state_event(
-      room_id_.toStdString(),
-      content,
-      [idStr](const mtx::responses::EventId &, mtx::http::RequestErr err) {
-          if (err)
-              nhlog::net()->error("Failed to unpin {}: {}", idStr, *err);
-          else
-              nhlog::net()->debug("Unpinned {}", idStr);
-      });
+    (void)id;
+    notifyLegacyTimelineActionUnavailable(room_id_, tr("Unpinning messages"));
 }
 
 void
 TimelineModel::pin(const QString &id)
 {
-    auto pinned = cache::getStateEvent<mtx::events::state::PinnedEvents>(room_id_.toStdString());
-
-    mtx::events::state::PinnedEvents content{};
-    if (pinned)
-        content = pinned->content;
-
-    auto idStr = id.toStdString();
-    content.pinned.push_back(idStr);
-
-    http::client()->send_state_event(
-      room_id_.toStdString(),
-      content,
-      [idStr](const mtx::responses::EventId &, mtx::http::RequestErr err) {
-          if (err)
-              nhlog::net()->error("Failed to pin {}: {}", idStr, *err);
-          else
-              nhlog::net()->debug("Pinned {}", idStr);
-      });
+    (void)id;
+    notifyLegacyTimelineActionUnavailable(room_id_, tr("Pinning messages"));
 }
 
 RelatedInfo
@@ -146,73 +117,24 @@ TimelineModel::showReadReceipts(const QString &id)
 void
 TimelineModel::redactAllFromUser(const QString &userid, const QString &reason)
 {
-    auto user = userid.toStdString();
-    std::vector<QString> toRedact;
-    for (auto it = events.size() - 1; it >= 0; --it) {
-        auto event = events.get(it, false);
-        if (event && mtx::accessors::sender(*event) == user &&
-            !std::holds_alternative<mtx::events::RoomEvent<mtx::events::msg::Redacted>>(*event)) {
-            toRedact.push_back(QString::fromStdString(mtx::accessors::event_id(*event)));
-        }
-    }
-
-    for (const auto &e : toRedact) {
-        redactEvent(e, reason);
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    }
+    (void)userid;
+    (void)reason;
+    notifyLegacyTimelineActionUnavailable(room_id_, tr("Deleting messages"));
 }
 
 void
 TimelineModel::reportEvent(const QString &eventId, const QString &reason, const int score)
 {
-    http::client()->report_event(
-      room_id_.toStdString(), eventId.toStdString(), reason.toStdString(), score);
+    (void)eventId;
+    (void)reason;
+    (void)score;
+    notifyLegacyTimelineActionUnavailable(room_id_, tr("Reporting messages"));
 }
 
 void
 TimelineModel::redactEvent(const QString &id, const QString &reason)
 {
-    if (!id.isEmpty()) {
-        auto edits = events.edits(id.toStdString());
-        http::client()->redact_event(
-          room_id_.toStdString(),
-          id.toStdString(),
-          [this, id, reason](const mtx::responses::EventId &, mtx::http::RequestErr err) {
-              if (err) {
-                  if (err->status_code == 429 && err->matrix_error.retry_after.count() != 0) {
-                      ChatPage::instance()->callFunctionOnGuiThread(
-                        [this, id, reason, interval = err->matrix_error.retry_after] {
-                            QTimer::singleShot(interval * 2, this, [this, id, reason]() {
-                                this->redactEvent(id, reason);
-                            });
-                        });
-                      return;
-                  }
-                  emit redactionFailed(tr("Deleting message failed: %1")
-                                         .arg(QString::fromStdString(err->matrix_error.error)));
-                  return;
-              }
-
-              emit dataAtIdChanged(id);
-          },
-          reason.toStdString());
-
-        // redact all edits to prevent leaks
-        for (const auto &e : edits) {
-            const auto &id_ = mtx::accessors::event_id(e);
-            http::client()->redact_event(
-              room_id_.toStdString(),
-              id_,
-              [this, id, id_](const mtx::responses::EventId &, mtx::http::RequestErr err) {
-                  if (err) {
-                      emit redactionFailed(tr("Deleting message failed: %1")
-                                             .arg(QString::fromStdString(err->matrix_error.error)));
-                      return;
-                  }
-
-                  emit dataAtIdChanged(id);
-              },
-              reason.toStdString());
-        }
-    }
+    (void)id;
+    (void)reason;
+    notifyLegacyTimelineActionUnavailable(room_id_, tr("Deleting messages"));
 }

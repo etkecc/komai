@@ -9,7 +9,6 @@
 
 #include "cache/Cache.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 
 namespace {
 bool
@@ -120,31 +119,9 @@ EventStore::fetchMore()
         return;
     }
 
-    mtx::http::MessagesOpts opts;
-    opts.room_id = room_id_;
-    opts.from    = cache::previousBatchToken(room_id_);
-    opts.limit   = 80;
-
-    nhlog::ui()->debug("Paginating room {}, token {}", opts.room_id, opts.from);
-
-    http::client()->messages(
-      opts, [this, opts](const mtx::responses::Messages &res, mtx::http::RequestErr err) {
-          if (cache::previousBatchToken(room_id_) != opts.from) {
-              nhlog::net()->warn("Cache cleared while fetching more messages, dropping "
-                                 "/messages response");
-              emit fetchedMore();
-              return;
-          }
-          if (err) {
-              nhlog::net()->error("failed to call /messages ({}): {} - {} - {}",
-                                  opts.room_id,
-                                  mtx::errors::to_string(err->matrix_error.errcode),
-                                  err->matrix_error.error,
-                                  err->parse_error);
-              emit fetchedMore();
-              return;
-          }
-
-          emit oldMessagesRetrieved(std::move(res));
-      });
+    nhlog::ui()->warn(
+      "Refusing to paginate the legacy EventStore timeline for room '{}'; this flow is not "
+      "migrated to the matrix-sdk backend yet",
+      room_id_);
+    emit fetchedMore();
 }

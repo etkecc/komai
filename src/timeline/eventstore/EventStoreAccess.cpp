@@ -6,13 +6,10 @@
 #include "EventStore.h"
 
 #include <QThread>
-#include <QTimer>
 
 #include "cache/Cache.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
-#include "utils/Utils.h"
 
 mtx::events::collections::TimelineEvents const *
 EventStore::get(int idx, bool decrypt)
@@ -89,74 +86,22 @@ EventStore::decryptEvent(const IdIndex &idx,
     if (auto cachedEvent = decryptedEvents_.object(idx))
         return cachedEvent;
 
-    MegolmSessionIndex index(room_id_, e.content);
-
     auto asCacheEntry = [&idx](olm::DecryptionResult &&event) {
         auto event_ptr = new olm::DecryptionResult(std::move(event));
         decryptedEvents_.insert(idx, event_ptr);
         return event_ptr;
     };
 
-    auto decryptionResult = olm::decryptEvent(index, e);
+    nhlog::crypto()->warn(
+      "Refusing to decrypt legacy EventStore event {} in room {}; this flow is not migrated "
+      "to the matrix-sdk backend yet",
+      e.event_id,
+      room_id_);
 
-    if (decryptionResult.error) {
-        switch (decryptionResult.error) {
-        case olm::DecryptionErrorCode::MissingSession:
-        case olm::DecryptionErrorCode::MissingSessionIndex: {
-            nhlog::crypto()->info("Could not find inbound megolm session ({}, {}, {})",
-                                  index.room_id,
-                                  index.session_id,
-                                  e.sender);
-
-            requestSession(e, false);
-            break;
-        }
-        case olm::DecryptionErrorCode::DbError:
-            nhlog::db()->critical("failed to retrieve megolm session with index ({}, {})",
-                                  index.room_id,
-                                  index.session_id,
-                                  decryptionResult.error_message.value_or(""));
-            break;
-        case olm::DecryptionErrorCode::DecryptionFailed:
-            nhlog::crypto()->critical("failed to decrypt message with index ({},  {}): {}",
-                                      index.room_id,
-                                      index.session_id,
-                                      decryptionResult.error_message.value_or(""));
-            break;
-        case olm::DecryptionErrorCode::ParsingFailed:
-            break;
-        case olm::DecryptionErrorCode::ReplayAttack:
-            nhlog::crypto()->critical(
-              "Replay attack while decryptiong event {} in room {} from {}!",
-              e.event_id,
-              room_id_,
-              e.sender);
-            break;
-        case olm::DecryptionErrorCode::NoError:
-            // unreachable
-            break;
-        }
-        return asCacheEntry(std::move(decryptionResult));
-    }
-
-    auto encInfo = mtx::accessors::file(decryptionResult.event.value());
-    if (encInfo)
-        emit newEncryptedImage(encInfo.value());
-    encInfo = mtx::accessors::thumbnail_file(decryptionResult.event.value());
-    if (encInfo)
-        emit newEncryptedImage(encInfo.value());
-
-    auto cachedResult = asCacheEntry(std::move(decryptionResult));
-    if (cachedResult->event) {
-        if (auto idx = cache::getTimelineIndex(room_id_, e.event_id);
-            idx && *idx >= first && *idx <= last) {
-            const auto externalIdx = toExternalIdx(*idx);
-            QTimer::singleShot(
-              0, this, [this, externalIdx]() { emit dataChanged(externalIdx, externalIdx); });
-        }
-    }
-
-    return cachedResult;
+    return asCacheEntry(
+      {olm::DecryptionErrorCode::MissingSession,
+       std::optional<std::string>("Legacy EventStore decryption is not migrated yet"),
+       std::nullopt});
 }
 
 mtx::events::collections::TimelineEvents const *
@@ -185,21 +130,11 @@ EventStore::get(const std::string &id,
     if (!event_ptr) {
         auto event = cache::getEvent(room_id_, index.id);
         if (!event) {
-            http::client()->get_event(room_id_,
-                                      index.id,
-                                      [this, relatedTo = std::string(related_to), id = index.id](
-                                        const mtx::events::collections::TimelineEvents &timeline,
-                                        mtx::http::RequestErr err) {
-                                          if (err) {
-                                              nhlog::net()->error(
-                                                "Failed to retrieve event with id {}, which was "
-                                                "requested to show the replyTo for event {}",
-                                                id,
-                                                relatedTo);
-                                              return;
-                                          }
-                                          emit eventFetched(id, relatedTo, timeline);
-                                      });
+            nhlog::ui()->warn(
+              "Refusing to fetch missing related event {} for {}; this legacy EventStore path "
+              "is not migrated to the matrix-sdk backend yet",
+              index.id,
+              related_to);
             return nullptr;
         }
         event_ptr = new mtx::events::collections::TimelineEvents(std::move(*event));

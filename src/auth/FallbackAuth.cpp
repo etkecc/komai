@@ -5,10 +5,8 @@
 
 #include "FallbackAuth.h"
 
-#include <QDesktopServices>
-#include <QUrl>
-
-#include "matrix/MatrixClient.h"
+#include "logging/Logging.h"
+#include "ui/MainWindow.h"
 
 FallbackAuth::FallbackAuth(const QString &session, const QString &authType, QObject *parent)
   : QObject{parent}
@@ -20,13 +18,10 @@ FallbackAuth::FallbackAuth(const QString &session, const QString &authType, QObj
 void
 FallbackAuth::openFallbackAuth()
 {
-    const auto url = QStringLiteral("https://%1:%2/_matrix/client/r0/auth/%4/"
-                                    "fallback/web?session=%3")
-                       .arg(QString::fromStdString(http::client()->server()))
-                       .arg(http::client()->port())
-                       .arg(m_session, m_authType);
-
-    QDesktopServices::openUrl(url);
+    nhlog::ui()->warn("Fallback auth '{}' is not migrated to matrix-sdk yet",
+                      m_authType.toStdString());
+    MainWindow::instance()->showNotification(
+      tr("Fallback authentication is not available yet during the matrix-sdk migration."));
 }
 
 #include "moc_FallbackAuth.cpp"

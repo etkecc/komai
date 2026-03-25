@@ -5,10 +5,8 @@
 
 #include "ReCaptcha.h"
 
-#include <QDesktopServices>
-#include <QUrl>
-
-#include "matrix/MatrixClient.h"
+#include "logging/Logging.h"
+#include "ui/MainWindow.h"
 
 ReCaptcha::ReCaptcha(const QString &session, const QString &context, QObject *parent)
   : QObject{parent}
@@ -20,13 +18,9 @@ ReCaptcha::ReCaptcha(const QString &session, const QString &context, QObject *pa
 void
 ReCaptcha::openReCaptcha()
 {
-    const auto url = QStringLiteral("https://%1:%2/_matrix/client/r0/auth/m.login.recaptcha/"
-                                    "fallback/web?session=%3")
-                       .arg(QString::fromStdString(http::client()->server()))
-                       .arg(http::client()->port())
-                       .arg(m_session);
-
-    QDesktopServices::openUrl(url);
+    nhlog::ui()->warn("ReCaptcha fallback auth is not migrated to matrix-sdk yet");
+    MainWindow::instance()->showNotification(tr(
+      "ReCaptcha fallback authentication is not available yet during the matrix-sdk migration."));
 }
 
 #include "moc_ReCaptcha.cpp"

@@ -9,7 +9,10 @@
 
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
-#include "matrix/MatrixClient.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixMediaUri.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
 RoomSummary::RoomSummary(std::string roomIdOrAlias_,
@@ -50,32 +53,41 @@ RoomSummary::RoomSummary(std::string roomIdOrAlias_,
             return;
         }
 
-        // newInfo.encryption;
+        if (const auto *window = MainWindow::instance();
+            window && window->matrixBackendHandleId()) {
+            QString error;
+            const auto roomId   = QString::fromStdString(roomIdOrAlias);
+            const auto settings = komai::MatrixBackendRuntimeService::fetchRoomSettings(
+              window->matrixBackendHandleId(), roomId, &error);
+
+            if (settings.has_value()) {
+                mtx::responses::PublicRoom newInfo{};
+                newInfo.name               = settings->roomName.toStdString();
+                newInfo.room_id            = roomIdOrAlias;
+                newInfo.topic              = settings->roomTopic.toStdString();
+                newInfo.num_joined_members = static_cast<uint64_t>(settings->memberCount);
+                newInfo.avatar_url =
+                  komai::matrix::normalizeMxcUri(settings->roomAvatarUrl).toStdString();
+                newInfo.room_version = settings->roomVersion.toStdString();
+                newInfo.join_rule =
+                  mtx::events::state::stringToJoinRule(settings->joinRule.toStdString());
+                newInfo.guest_can_join = settings->guestAccess;
+                newInfo.membership     = mtx::events::state::Membership::Join;
+                this->room             = std::move(newInfo);
+                loaded_                = true;
+                return;
+            }
+
+            if (!error.isEmpty()) {
+                nhlog::ui()->warn("Failed to fetch runtime room summary for '{}': {}",
+                                  roomIdOrAlias,
+                                  error.toStdString());
+            }
+        }
     }
 
-    auto ctx = std::make_shared<RoomSummaryProxy>();
-
-    connect(ctx.get(), &RoomSummaryProxy::failed, this, [this]() {
-        loaded_ = true;
-        emit loaded();
-    });
-    connect(
-      ctx.get(), &RoomSummaryProxy::loaded, this, [this](const mtx::responses::PublicRoom &resp) {
-          loaded_ = true;
-          room    = resp;
-          emit loaded();
-      });
-
-    http::client()->get_summary(
-      roomIdOrAlias,
-      [proxy = std::move(ctx)](const mtx::responses::PublicRoom &room_, mtx::http::RequestErr e) {
-          if (e) {
-              emit proxy->failed();
-          } else {
-              emit proxy->loaded(room_);
-          }
-      },
-      vias);
+    loaded_ = true;
+    emit loaded();
 }
 
 QString

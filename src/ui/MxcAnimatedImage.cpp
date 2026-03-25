@@ -9,15 +9,29 @@
 #include <QFileInfo>
 #include <QImageReader>
 #include <QMimeDatabase>
+#include <QPointer>
 #include <QQuickWindow>
 #include <QSGImageNode>
+#include <QTimer>
 
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineModel.h"
+#include "ui/MainWindow.h"
+
+#include <thread>
+
+namespace {
+uint64_t
+currentMatrixRuntimeHandleId()
+{
+    const auto *mainWindow = MainWindow::instance();
+    return mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+}
+}
 
 void
 MxcAnimatedImage::startDownload()
@@ -182,6 +196,27 @@ MxcAnimatedImage::startDownload()
         });
     };
 
+    const auto filenamePath = filename.filePath();
+
+    auto processData = [processBuffer, filenamePath, self](QByteArray data) mutable {
+        if (!self)
+            return;
+
+        try {
+            QFile file(filenamePath);
+            if (file.open(QIODevice::WriteOnly)) {
+                file.write(data);
+                file.close();
+            }
+
+            QBuffer buf(&data);
+            buf.open(QIODevice::ReadOnly);
+            processBuffer(buf);
+        } catch (const std::exception &e) {
+            nhlog::ui()->warn("Error while saving animated media to cache: {}", e.what());
+        }
+    };
+
     if (filename.isReadable()) {
         QFile f(filename.filePath());
         if (f.open(QIODevice::ReadOnly)) {
@@ -190,36 +225,37 @@ MxcAnimatedImage::startDownload()
         }
     }
 
-    http::client()->download(url,
-                             [filename, url, processBuffer](const std::string &data,
-                                                            const std::string &,
-                                                            const std::string &,
-                                                            mtx::http::RequestErr err) {
-                                 if (err) {
-                                     nhlog::net()->warn("failed to retrieve media {}: {} {}",
-                                                        url,
-                                                        err->matrix_error.error,
-                                                        static_cast<int>(err->status_code));
-                                     return;
-                                 }
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (handleId == 0) {
+        nhlog::ui()->warn("Refusing legacy animated media fetch for event '{}' without an active "
+                          "matrix-sdk runtime handle",
+                          eventId_.toStdString());
+        return;
+    }
 
-                                 try {
-                                     QFile file(filename.filePath());
+    std::thread([handleId, mxcUrl, self, processData = std::move(processData)]() mutable {
+        QString error;
+        auto bytes = komai::MatrixBackendRuntimeService::fetchMediaContent(
+          handleId, mxcUrl, 0, 0, false, &error);
 
-                                     if (!file.open(QIODevice::WriteOnly))
-                                         return;
+        if (!self)
+            return;
 
-                                     QByteArray ba(data.data(), (int)data.size());
-                                     file.write(ba);
-                                     file.close();
+        if (!bytes.has_value()) {
+            nhlog::net()->warn("Failed to retrieve animated media '{}': {}",
+                               mxcUrl.toStdString(),
+                               error.toStdString());
+            return;
+        }
 
-                                     QBuffer buf(&ba);
-                                     buf.open(QBuffer::ReadOnly);
-                                     processBuffer(buf);
-                                 } catch (const std::exception &e) {
-                                     nhlog::ui()->warn("Error while saving file to: {}", e.what());
-                                 }
-                             });
+        QTimer::singleShot(
+          0, self, [self, processData = std::move(processData), data = *bytes]() mutable {
+              if (!self)
+                  return;
+
+              processData(std::move(data));
+          });
+    }).detach();
 }
 
 void

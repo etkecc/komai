@@ -14,7 +14,6 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 
@@ -53,34 +52,24 @@ TimelineModel::setCurrentIndex(int index, bool ignoreInactiveState)
 void
 TimelineModel::readEvent(const std::string &id)
 {
-    http::client()->read_event(
+    Q_UNUSED(UserSettings::instance()->timelineReadReceiptsEnabled());
+
+    nhlog::ui()->debug(
+      "Applying local-only read marker for legacy timeline room_id='{}' event_id='{}'",
       room_id_.toStdString(),
-      id,
-      [this, newId = id, oldId = currentReadId](mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->warn("failed to read_event ({}, {})", room_id_.toStdString(), newId);
+      id);
 
-              ChatPage::instance()->callFunctionOnGuiThread([this, newId, oldId] {
-                  if (currentReadId.toStdString() == newId)
-                      this->currentReadId = oldId;
-              });
-          } else {
-              ChatPage::instance()->callFunctionOnGuiThread([this, newId] {
-                  cache::markRoomReadLocally(room_id_.toStdString(), newId);
+    cache::markRoomReadLocally(room_id_.toStdString(), id);
 
-                  const auto previousNotificationCount = notification_count;
-                  const auto previousHighlightCount    = highlight_count;
-                  notification_count                   = 0;
-                  highlight_count                      = 0;
-                  fullyReadEventId_                    = newId;
-                  emit fullyReadEventIdChanged();
+    const auto previousNotificationCount = notification_count;
+    const auto previousHighlightCount    = highlight_count;
+    notification_count                   = 0;
+    highlight_count                      = 0;
+    fullyReadEventId_                    = id;
+    emit fullyReadEventIdChanged();
 
-                  if (previousNotificationCount != 0 || previousHighlightCount != 0)
-                      emit notificationsChanged();
-              });
-          }
-      },
-      !UserSettings::instance()->timelineReadReceiptsEnabled());
+    if (previousNotificationCount != 0 || previousHighlightCount != 0)
+        emit notificationsChanged();
 }
 
 int

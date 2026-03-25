@@ -12,17 +12,6 @@
 
 #include <mtx/responses/public_rooms.hpp>
 
-class RoomSummaryProxy final : public QObject
-{
-    Q_OBJECT
-
-public:
-    RoomSummaryProxy() {}
-signals:
-    void loaded(mtx::responses::PublicRoom room);
-    void failed();
-};
-
 class RoomSummary final : public QObject
 {
     Q_OBJECT
@@ -55,7 +44,10 @@ public:
     }
     QString reason() const { return reason_; }
 
-    QString roomid() const { return room ? QString::fromStdString(room->room_id) : ""; }
+    QString roomid() const
+    {
+        return room ? QString::fromStdString(room->room_id) : QString::fromStdString(roomIdOrAlias);
+    }
     QString roomName() const;
     QString roomTopic() const;
     QString roomAvatarUrl() const { return room ? QString::fromStdString(room->avatar_url) : ""; }

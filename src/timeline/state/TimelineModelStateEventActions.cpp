@@ -12,7 +12,6 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/format/TimelineImagePackFormatter.h"
 #include "timeline/format/TimelineMemberEventFormatter.h"
@@ -212,14 +211,7 @@ TimelineModel::formatMemberEvent(
 void
 TimelineModel::resetState()
 {
-    http::client()->get_state(
-      room_id_.toStdString(),
-      [this](const mtx::responses::StateEvents &events_, mtx::http::RequestErr e) {
-          if (e) {
-              nhlog::net()->error("Failed to retrieve current room state: {}", *e);
-              return;
-          }
-
-          emit newState(events_);
-      });
+    nhlog::ui()->warn("Skipping legacy room-state reset for room '{}' because the old Matrix "
+                      "network path has been removed",
+                      room_id_.toStdString());
 }

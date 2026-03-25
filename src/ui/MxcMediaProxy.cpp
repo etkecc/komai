@@ -5,24 +5,37 @@
 
 #include "MxcMediaProxy.h"
 
+#include <QBuffer>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QMediaMetaData>
 #include <QMediaPlayer>
 #include <QMimeDatabase>
+#include <QPointer>
 #include <QUrl>
+
+#include <thread>
 
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
-#include "ui/MediaProxyServer.h"
+#include "ui/MainWindow.h"
+
+namespace {
+uint64_t
+currentMatrixRuntimeHandleId()
+{
+    auto *mainWindow = MainWindow::instance();
+    return mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+}
+}
 
 MxcMediaProxy::MxcMediaProxy(QObject *parent)
   : QMediaPlayer(parent)
@@ -154,12 +167,11 @@ MxcMediaProxy::startDownload(bool onlyCached)
 
     QString suffix = QMimeDatabase().mimeTypeForName(mimeType).preferredSuffix();
 
-    const auto url  = mxcUrl.toStdString();
     const auto name = QString(mxcUrl).remove(QStringLiteral("mxc://"));
     QFileInfo filename(app_paths::cache::mediaFileForMxc(
       UserSettings::instance()->profile(), name, suffix, room_->roomId()));
     if (QDir::cleanPath(filename.filePath()) != filename.filePath()) {
-        nhlog::net()->warn("mxcUrl '{}' is not safe, not downloading file", url);
+        nhlog::net()->warn("mxcUrl '{}' is not safe, not downloading file", mxcUrl.toStdString());
         return;
     }
 
@@ -202,58 +214,53 @@ MxcMediaProxy::startDownload(bool onlyCached)
     if (onlyCached)
         return;
 
-    if (!encryptionInfo && !streamingFallbackAttempted_) {
-        // Unencrypted media: stream via the local media proxy.
-        // The proxy injects the Authorization header and streams from the homeserver,
-        // enabling QMediaPlayer to seek and buffer without downloading the full file.
-        auto proxyUrl = MediaProxyServer::instance()->urlForMxc(mxcUrl, mimeType, room_->roomId());
-        nhlog::ui()->info("Streaming unencrypted media via proxy: {}",
-                          proxyUrl.toString().toStdString());
-        streaming_ = true;
-        QTimer::singleShot(0, this, [this, proxyUrl] {
-            this->setSource(proxyUrl);
-            emit loadedChanged();
-        });
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (handleId == 0) {
+        nhlog::ui()->warn("Refusing legacy media fetch for event '{}' without an active "
+                          "matrix-sdk runtime handle",
+                          eventId_.toStdString());
         return;
     }
 
-    // Full download path — used for:
-    // 1. Encrypted media (streaming not possible: AES-256-CTR + HMAC-SHA256 requires
-    //    the complete ciphertext for verification).
-    // 2. Streaming fallback (upstream doesn't support Range → proxy returned 416 →
-    //    QMediaPlayer failed → retry with full download).
-    http::client()->download(url,
-                             [filename, url, processBuffer, self](const std::string &data,
-                                                                  const std::string &,
-                                                                  const std::string &,
-                                                                  mtx::http::RequestErr err) {
-                                 if (err) {
-                                     if (self)
-                                         self->setRecoveringFromStreamingFallback(false);
-                                     nhlog::net()->warn("failed to retrieve media {}: {} {}",
-                                                        url,
-                                                        err->matrix_error.error,
-                                                        static_cast<int>(err->status_code));
-                                     return;
-                                 }
+    std::thread([filename, mxcUrl, processBuffer, self, handleId]() mutable {
+        QString error;
+        auto bytes = komai::MatrixBackendRuntimeService::fetchMediaContent(
+          handleId, mxcUrl, 0, 0, false, &error);
 
-                                 try {
-                                     QFile file(filename.filePath());
+        QTimer::singleShot(0,
+                           ChatPage::instance(),
+                           [filename,
+                            mxcUrl,
+                            processBuffer = std::move(processBuffer),
+                            self,
+                            bytes = std::move(bytes),
+                            error = std::move(error)]() mutable {
+                               if (!bytes || bytes->isEmpty()) {
+                                   if (self)
+                                       self->setRecoveringFromStreamingFallback(false);
+                                   nhlog::net()->warn(
+                                     "failed to retrieve media {} via matrix-sdk runtime: {}",
+                                     mxcUrl.toStdString(),
+                                     error.toStdString());
+                                   return;
+                               }
 
-                                     if (!file.open(QIODevice::WriteOnly))
-                                         return;
+                               try {
+                                   QFile file(filename.filePath());
+                                   if (!file.open(QIODevice::WriteOnly))
+                                       return;
 
-                                     QByteArray ba(data.data(), (int)data.size());
-                                     file.write(ba);
-                                     file.close();
+                                   file.write(*bytes);
+                                   file.close();
 
-                                     QBuffer buf(&ba);
-                                     buf.open(QBuffer::ReadOnly);
-                                     processBuffer(buf);
-                                 } catch (const std::exception &e) {
-                                     nhlog::ui()->warn("Error while saving file to: {}", e.what());
-                                 }
-                             });
+                                   QBuffer buf(&*bytes);
+                                   buf.open(QBuffer::ReadOnly);
+                                   processBuffer(buf);
+                               } catch (const std::exception &e) {
+                                   nhlog::ui()->warn("Error while saving file to: {}", e.what());
+                               }
+                           });
+    }).detach();
 }
 
 void

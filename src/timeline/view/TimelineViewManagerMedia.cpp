@@ -8,20 +8,20 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDesktopServices>
+#include <QFile>
 #include <QFileDialog>
 #include <QQuickItem>
 #include <QQuickTextDocument>
 #include <QStandardPaths>
+#include <QTimer>
 #include <QUrl>
 
 #include "RoomlistModel.h"
 #include "TimelineModel.h"
 #include "imagepacks/ImagePackListModel.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "providers/MxcImageProvider.h"
 #include "ui/MainWindow.h"
-#include "ui/MediaProxyServer.h"
 #include "utils/Utils.h"
 
 void
@@ -135,36 +135,33 @@ TimelineViewManager::saveMedia(QString mxcUrl)
     if (filename.isEmpty())
         return;
 
-    const auto url = mxcUrl.toStdString();
+    if (!mxcUrl.startsWith(QLatin1String("mxc://"))) {
+        nhlog::ui()->warn("Saving non-mxc media is not supported here: {}", mxcUrl.toStdString());
+        return;
+    }
 
-    http::client()->download(url,
-                             [filename, url](const std::string &data,
-                                             const std::string &,
-                                             const std::string &,
-                                             mtx::http::RequestErr err) {
-                                 if (err) {
-                                     nhlog::net()->warn("failed to retrieve image {}: {} {}",
-                                                        url,
-                                                        err->matrix_error.error,
-                                                        static_cast<int>(err->status_code));
-                                     return;
-                                 }
+    const auto id = QString(mxcUrl).remove(QStringLiteral("mxc://"));
+    MxcImageProvider::download(
+      id,
+      QSize{},
+      [filename, mxcUrl](QString, QSize, QImage, QString filePath) {
+          if (filePath.isEmpty()) {
+              nhlog::ui()->warn("Failed to resolve local file path for media '{}'",
+                                mxcUrl.toStdString());
+              return;
+          }
 
-                                 try {
-                                     QFile file(filename);
+          QFile::remove(filename);
+          if (!QFile::copy(filePath, filename)) {
+              nhlog::ui()->warn(
+                "Failed to save media '{}' to '{}'", mxcUrl.toStdString(), filename.toStdString());
+              return;
+          }
 
-                                     if (!file.open(QIODevice::WriteOnly))
-                                         return;
-
-                                     file.write(QByteArray(data.data(), (int)data.size()));
-                                     file.close();
-                                     utils::markFileAsFromWeb(filename);
-
-                                     return;
-                                 } catch (const std::exception &e) {
-                                     nhlog::ui()->warn("Error while saving file to: {}", e.what());
-                                 }
-                             });
+          utils::markFileAsFromWeb(filename);
+      },
+      false,
+      0);
 }
 
 void
@@ -178,13 +175,7 @@ TimelineViewManager::openMedia(QString mxcUrl)
         return;
     }
 
-    // When the media proxy is running and upstream supports Range,
-    // open via proxy so the player can stream with auth.
-    auto *proxy = MediaProxyServer::instance();
-    if (proxy->port() > 0 && proxy->openInExternalPlayer(mxcUrl))
-        return;
-
-    // Fallback: download to temp file and open locally.
+    // Download to cache, then open the local file.
     const auto id = QString(mxcUrl).remove(QStringLiteral("mxc://"));
     MxcImageProvider::download(
       id,
@@ -209,32 +200,34 @@ TimelineViewManager::openMedia(QString mxcUrl)
 void
 TimelineViewManager::copyImage(const QString &mxcUrl) const
 {
-    const auto url = mxcUrl.toStdString();
-    QString mimeType;
+    if (!mxcUrl.startsWith(QLatin1String("mxc://"))) {
+        nhlog::ui()->warn("Copying non-mxc media is not supported here: {}", mxcUrl.toStdString());
+        return;
+    }
 
-    http::client()->download(
-      url,
-      [url, mimeType](const std::string &data,
-                      const std::string &,
-                      const std::string &,
-                      mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->warn("failed to retrieve media {}: {} {}",
-                                 url,
-                                 err->matrix_error.error,
-                                 static_cast<int>(err->status_code));
-              return;
-          }
-
+    const auto id = QString(mxcUrl).remove(QStringLiteral("mxc://"));
+    MxcImageProvider::download(
+      id,
+      QSize{},
+      [mxcUrl](QString, QSize, QImage image, QString filePath) {
           try {
-              auto img = utils::readImage(QByteArray(data.data(), (qsizetype)data.size()));
-              QGuiApplication::clipboard()->setImage(img);
+              if (image.isNull() && !filePath.isEmpty())
+                  image = utils::readImageFromFile(filePath);
 
-              return;
+              if (image.isNull()) {
+                  nhlog::ui()->warn("Failed to resolve image data for '{}'", mxcUrl.toStdString());
+                  return;
+              }
+
+              QTimer::singleShot(0, qApp, [image = std::move(image)] {
+                  QGuiApplication::clipboard()->setImage(image);
+              });
           } catch (const std::exception &e) {
               nhlog::ui()->warn("Error while copying file to clipboard: {}", e.what());
           }
-      });
+      },
+      false,
+      0);
 }
 
 //! WORKAROUND(Nico): for https://bugreports.qt.io/browse/QTBUG-93281

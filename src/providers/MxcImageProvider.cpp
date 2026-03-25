@@ -22,7 +22,6 @@
 #include <QTimer>
 
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "profile/Paths.h"
@@ -368,56 +367,10 @@ MxcImageProvider::download(const QString &id,
             }
         }
 
-        mtx::http::ThumbOpts opts;
-        opts.mxc_url = "mxc://" + id.toStdString();
-        opts.width = static_cast<uint16_t>(requestedSize.width() > 0 ? requestedSize.width() : -1);
-        opts.height =
-          static_cast<uint16_t>(requestedSize.height() > 0 ? requestedSize.height() : -1);
-        opts.method = crop ? "crop" : "scale";
-        http::client()->get_thumbnail(
-          opts,
-          [fileInfo, requestedSize, radius, then, id, crop, cropLocally, roomId](
-            const std::string &res, mtx::http::RequestErr err) {
-              if (err || res.empty()) {
-                  download(id, QSize(), then, crop, radius, roomId);
-                  return;
-              }
-
-              auto data    = QByteArray(res.data(), (int)res.size());
-              QImage image = utils::readImage(data);
-              if (!image.isNull()) {
-                  possiblyUpdateAccessTime(fileInfo);
-
-                  if (requestedSize.width() <= 0) {
-                      image =
-                        image.scaledToHeight(requestedSize.height(), Qt::SmoothTransformation);
-                  } else {
-                      image = image.scaled(requestedSize,
-                                           cropLocally ? Qt::KeepAspectRatioByExpanding
-                                                       : Qt::KeepAspectRatio,
-                                           Qt::SmoothTransformation);
-                      if (cropLocally) {
-                          image = image.copy((image.width() - requestedSize.width()) / 2,
-                                             (image.height() - requestedSize.height()) / 2,
-                                             requestedSize.width(),
-                                             requestedSize.height());
-                      }
-                  }
-
-                  if (radius != 0) {
-                      image = clipRadius(std::move(image), radius);
-                  }
-              }
-              image.setText(QStringLiteral("mxc url"), "mxc://" + id);
-              if (image.save(fileInfo.absoluteFilePath(), "png")) {
-                  utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
-                  nhlog::ui()->debug("Wrote: {}", fileInfo.absoluteFilePath().toStdString());
-              } else
-                  nhlog::ui()->debug("Failed to write: {}",
-                                     fileInfo.absoluteFilePath().toStdString());
-
-              then(id, requestedSize, image, fileInfo.absoluteFilePath());
-          });
+        nhlog::net()->warn("Refusing legacy thumbnail fetch for '{}' without an active matrix-sdk "
+                           "runtime handle",
+                           id.toStdString());
+        then(id, QSize(), {}, QLatin1String(""));
     } else {
         try {
             QFileInfo fileInfo(
@@ -456,100 +409,63 @@ MxcImageProvider::download(const QString &id,
                 }
             }
 
-            if (!encryptionInfo) {
-                if (const auto handleId = activeMatrixBackendHandleId()) {
-                    QThreadPool::globalInstance()->start(
-                      [fileInfo, requestedSize, then, id, radius, handleId] {
-                          QString error;
-                          const auto data = komai::MatrixBackendRuntimeService::fetchMediaContent(
-                            *handleId, providerIdToMxcUri(id), 0, 0, false, &error);
-                          if (!data || data->isEmpty()) {
-                              nhlog::net()->warn(
-                                "Failed to fetch matrix-sdk media {} via backend handle {}: {}",
-                                id.toStdString(),
-                                *handleId,
-                                error.toStdString());
-                              then(id, QSize(), {}, QLatin1String(""));
-                              return;
-                          }
-
-                          QFile f(fileInfo.absoluteFilePath());
-                          if (!f.open(QIODevice::Truncate | QIODevice::WriteOnly)) {
-                              nhlog::net()->error("Failed to write {}: {}",
-                                                  id.toStdString(),
-                                                  f.errorString().toStdString());
-                              then(id, QSize(), {}, QLatin1String(""));
-                              return;
-                          }
-                          f.write(*data);
-                          f.close();
-                          utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
-
-                          QImage image = utils::readImageFromFile(fileInfo.absoluteFilePath());
-                          if (radius != 0) {
-                              image = clipRadius(std::move(image), radius);
-                          }
-                          image.setText(QStringLiteral("mxc url"), "mxc://" + id);
-
-                          then(id, requestedSize, image, fileInfo.absoluteFilePath());
-                      });
-                    return;
-                }
-            }
-
-            http::client()->download(
-              "mxc://" + id.toStdString(),
-              [fileInfo, requestedSize, then, id, radius, encryptionInfo](
-                const std::string &res,
-                const std::string &,
-                const std::string &originalFilename,
-                mtx::http::RequestErr err) {
-                  if (err) {
-                      nhlog::net()->error("Failed to download {}: {}", id.toStdString(), *err);
-                      then(id, QSize(), {}, QLatin1String(""));
-                      return;
-                  }
-
-                  auto tempData = res;
-                  QFile f(fileInfo.absoluteFilePath());
-                  if (!f.open(QIODevice::Truncate | QIODevice::WriteOnly)) {
-                      nhlog::net()->error(
-                        "Failed to write {}: {}", id.toStdString(), f.errorString().toStdString());
-                      then(id, QSize(), {}, QLatin1String(""));
-                      return;
-                  }
-                  f.write(tempData.data(), tempData.size());
-                  f.close();
-                  utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
-
-                  if (encryptionInfo) {
-                      tempData = mtx::crypto::to_string(
-                        mtx::crypto::decrypt_file(tempData, encryptionInfo.value()));
-                      auto data    = QByteArray(tempData.data(), (int)tempData.size());
-                      QImage image = utils::readImage(data);
-                      if (radius != 0) {
-                          image = clipRadius(std::move(image), radius);
+            if (const auto handleId = activeMatrixBackendHandleId()) {
+                QThreadPool::globalInstance()->start(
+                  [fileInfo, requestedSize, then, id, radius, handleId, encryptionInfo] {
+                      QString error;
+                      const auto data = komai::MatrixBackendRuntimeService::fetchMediaContent(
+                        *handleId, providerIdToMxcUri(id), 0, 0, false, &error);
+                      if (!data || data->isEmpty()) {
+                          nhlog::net()->warn(
+                            "Failed to fetch matrix-sdk media {} via backend handle {}: {}",
+                            id.toStdString(),
+                            *handleId,
+                            error.toStdString());
+                          then(id, QSize(), {}, QLatin1String(""));
+                          return;
                       }
 
-                      image.setText(QStringLiteral("original filename"),
-                                    QString::fromStdString(originalFilename));
+                      QFile f(fileInfo.absoluteFilePath());
+                      if (!f.open(QIODevice::Truncate | QIODevice::WriteOnly)) {
+                          nhlog::net()->error("Failed to write {}: {}",
+                                              id.toStdString(),
+                                              f.errorString().toStdString());
+                          then(id, QSize(), {}, QLatin1String(""));
+                          return;
+                      }
+                      f.write(*data);
+                      f.close();
+                      utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
+
+                      if (encryptionInfo) {
+                          auto tempData = data->toStdString();
+                          tempData      = mtx::crypto::to_string(
+                            mtx::crypto::decrypt_file(tempData, encryptionInfo.value()));
+                          auto decryptedData = QByteArray(tempData.data(), (int)tempData.size());
+                          QImage image       = utils::readImage(decryptedData);
+                          if (radius != 0)
+                              image = clipRadius(std::move(image), radius);
+
+                          image.setText(QStringLiteral("mxc url"), "mxc://" + id);
+                          then(id, requestedSize, image, fileInfo.absoluteFilePath());
+                          return;
+                      }
+
+                      QImage image = utils::readImageFromFile(fileInfo.absoluteFilePath());
+                      if (radius != 0)
+                          image = clipRadius(std::move(image), radius);
                       image.setText(QStringLiteral("mxc url"), "mxc://" + id);
 
                       then(id, requestedSize, image, fileInfo.absoluteFilePath());
-                      return;
-                  }
+                  });
+                return;
+            }
 
-                  QImage image = utils::readImageFromFile(fileInfo.absoluteFilePath());
-                  if (radius != 0) {
-                      image = clipRadius(std::move(image), radius);
-                  }
-
-                  image.setText(QStringLiteral("original filename"),
-                                QString::fromStdString(originalFilename));
-                  image.setText(QStringLiteral("mxc url"), "mxc://" + id);
-
-                  then(id, requestedSize, image, fileInfo.absoluteFilePath());
-              });
+            nhlog::net()->warn(
+              "Refusing legacy full-media fetch for '{}' without an active matrix-sdk runtime "
+              "handle",
+              id.toStdString());
+            then(id, QSize(), {}, QLatin1String(""));
         } catch (std::exception &e) {
             nhlog::net()->error("Exception while downloading media: {}", e.what());
         }

@@ -23,7 +23,6 @@ UserSettings::setNetworkTlsEnableCertificateValidation(bool enabled)
         return;
     networkTlsEnableCertificateValidation_ = enabled;
     (void)coreStore_.set(settings::core::SettingId::NetworkTlsEnableCertificateValidation, enabled);
-    http::client()->verify_certificates(enabled);
     emit networkTlsEnableCertificateValidationChanged(enabled);
     save();
 }

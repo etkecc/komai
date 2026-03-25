@@ -10,7 +10,6 @@
 #include <mtx/responses/users.hpp>
 
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 
 UserDirectoryModel::UserDirectoryModel(QObject *parent)
   : QAbstractListModel{parent}
@@ -47,28 +46,10 @@ UserDirectoryModel::fetchMore(const QModelIndex &)
     if (!canFetchMore_)
         return;
 
-    nhlog::net()->debug("Fetching users from mtxclient...");
-    std::string searchTerm = userSearchString_;
-    searchingUsers_        = true;
+    nhlog::ui()->warn("User directory search is not migrated to matrix-sdk yet");
+    searchingUsers_ = false;
+    canFetchMore_   = false;
     emit searchingUsersChanged();
-    auto job = QSharedPointer<FetchUsersFromDirectoryJob>::create();
-    connect(job.data(),
-            &FetchUsersFromDirectoryJob::fetchedSearchResults,
-            this,
-            &UserDirectoryModel::displaySearchResults);
-    http::client()->search_user_directory(
-      searchTerm,
-      [job, searchTerm](const mtx::responses::Users &res, mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->error("Failed to retrieve users from mtxclient - {} - {} - {}",
-                                  mtx::errors::to_string(err->matrix_error.errcode),
-                                  err->matrix_error.error,
-                                  err->parse_error);
-          } else {
-              emit job->fetchedSearchResults(res.results, searchTerm);
-          }
-      },
-      50);
 }
 
 QVariant

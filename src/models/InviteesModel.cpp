@@ -6,8 +6,6 @@
 #include "models/InviteesModel.h"
 
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
-#include "mtx/responses/profile.hpp"
 #include "timeline/TimelineModel.h"
 
 InviteesModel::InviteesModel(TimelineModel *room, QObject *parent)
@@ -102,20 +100,10 @@ Invitee::Invitee(QString mxid, QString displayName, QString avatarUrl, QObject *
     // checking for empty avatarUrl will cause profiles that don't have an avatar
     // to needlessly be loaded. Can we make sure we either provide both or none?
     if (displayName == "" && avatarUrl == "") {
-        http::client()->get_profile(
-          mxid_.toStdString(),
-          [this](const mtx::responses::Profile &res, mtx::http::RequestErr err) {
-              if (err) {
-                  nhlog::net()->warn("failed to retrieve profile info");
-                  emit userInfoLoaded();
-                  return;
-              }
-
-              displayName_ = QString::fromStdString(res.display_name);
-              avatarUrl_   = QString::fromStdString(res.avatar_url);
-
-              emit userInfoLoaded();
-          });
+        nhlog::ui()->debug("Invitee profile lookup for '{}' is not migrated to matrix-sdk yet",
+                           mxid_.toStdString());
+        displayName_ = mxid_;
+        emit userInfoLoaded();
     } else {
         displayName_ = displayName;
         avatarUrl_   = avatarUrl;

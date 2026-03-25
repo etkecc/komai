@@ -105,9 +105,7 @@ TimelineModel::widgetLinks() const
 
     QStringList list;
 
-    auto user = utils::localUser();
-    // auto av   = QUrl::toPercentEncoding(
-    //   QString::fromStdString(http::client()->mxc_to_download_url(avatarUrl(user).toStdString())));
+    auto user  = utils::localUser();
     auto disp  = QUrl::toPercentEncoding(displayName(user));
     auto theme = UserSettings::instance()->uiThemeSlug();
     user       = QUrl::toPercentEncoding(user);

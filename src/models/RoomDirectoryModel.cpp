@@ -23,7 +23,6 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "matrix/MatrixServerResolver.h"
 
 RoomDirectoryModel::RoomDirectoryModel(QObject *parent, const std::string &server)
@@ -246,64 +245,17 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
     loadingMoreRooms_ = true;
     emit loadingMoreRoomsChanged();
 
-    auto generation = fetchGeneration_;
-    auto job        = QSharedPointer<FetchRoomsChunkFromDirectoryJob>::create();
-    connect(job.data(),
-            &FetchRoomsChunkFromDirectoryJob::fetchedRoomsBatch,
-            this,
-            [this, generation](auto &&...args) {
-                if (generation == fetchGeneration_) {
-                    displayRooms(std::forward<decltype(args)>(args)...);
-                } else {
-                    nhlog::net()->info("Discarding stale public rooms response");
-                    loadingMoreRooms_ = false;
-                    emit loadingMoreRoomsChanged();
-                }
-            });
-    connect(job.data(),
-            &FetchRoomsChunkFromDirectoryJob::fetchError,
-            this,
-            [this, generation](auto &&...args) {
-                if (generation == fetchGeneration_) {
-                    handleFetchError(std::forward<decltype(args)>(args)...);
-                } else {
-                    loadingMoreRooms_ = false;
-                    emit loadingMoreRoomsChanged();
-                }
-            });
+    Q_UNUSED(req);
+    Q_UNUSED(requested_server);
+    Q_UNUSED(requested_user_term);
 
-    http::client()->post_public_rooms(
-      req,
-      [requested_server, requested_user_term, job, req](const mtx::responses::PublicRooms &res,
-                                                        mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->error("Failed to retrieve rooms from mtxclient - {} - {} - {}",
-                                  mtx::errors::to_string(err->matrix_error.errcode),
-                                  err->matrix_error.error,
-                                  err->parse_error);
-              QString errorMsg;
-              if (!err->matrix_error.error.empty())
-                  errorMsg = QString::fromStdString(err->matrix_error.error);
-              else if (!err->parse_error.empty())
-                  errorMsg = QString::fromStdString(err->parse_error);
-              else
-                  errorMsg =
-                    QString::fromStdString(mtx::errors::to_string(err->matrix_error.errcode));
-              emit job->fetchError(errorMsg, requested_user_term, requested_server, req.since);
-          } else {
-              nhlog::net()->info("signalling chunk to GUI thread");
-              emit job->fetchedRoomsBatch(
-                res.chunk,
-                res.next_batch,
-                requested_user_term,
-                requested_server,
-                req.since,
-                res.total_room_count_estimate.has_value()
-                  ? static_cast<int>(res.total_room_count_estimate.value())
-                  : -1);
-          }
-      },
-      requested_server);
+    loadingMoreRooms_ = false;
+    emit loadingMoreRoomsChanged();
+    canFetchMore_           = false;
+    reachedEndOfPagination_ = true;
+    emit reachedEndOfPaginationChanged();
+    errorString_ = tr("Room directory is not migrated to matrix-sdk yet.");
+    emit errorStringChanged();
 }
 
 void

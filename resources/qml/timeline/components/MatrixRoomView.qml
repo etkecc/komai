@@ -50,6 +50,36 @@ ColumnLayout {
         }
     }
 
+    function matchesSendShortcut(event) {
+        if (!event)
+            return false;
+
+        return Settings.composerInputSendKey == 0 && event.modifiers == Qt.NoModifier
+            || Settings.composerInputSendKey == 1 && event.modifiers == Qt.ShiftModifier
+            || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ControlModifier;
+    }
+
+    function matchesNewlineShortcut(event) {
+        if (!event)
+            return false;
+
+        return Settings.composerInputSendKey == 0 && event.modifiers == Qt.ShiftModifier
+            || Settings.composerInputSendKey == 1 && event.modifiers == Qt.NoModifier
+            || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ShiftModifier;
+    }
+
+    function composerShortcutHintText() {
+        switch (Settings.composerInputSendKey) {
+        case 1:
+            return qsTr("Press Shift+Enter to send. Enter inserts a newline.");
+        case 2:
+            return qsTr("Press Ctrl+Enter to send. Shift+Enter inserts a newline.");
+        case 0:
+        default:
+            return qsTr("Press Enter to send. Shift+Enter inserts a newline.");
+        }
+    }
+
     function focusTextInput() {
         composerInput.forceActiveFocus();
         return true;
@@ -774,11 +804,12 @@ ColumnLayout {
 
                             Keys.onPressed: event => {
                                 if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
-                                        && !(event.modifiers & Qt.ShiftModifier)
-                                        && !(event.modifiers & Qt.ControlModifier)
-                                        && !(event.modifiers & Qt.AltModifier)
-                                        && !(event.modifiers & Qt.MetaModifier)) {
+                                        && root.matchesSendShortcut(event)) {
                                     event.accepted = root.trySendMessage();
+                                } else if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
+                                           && root.matchesNewlineShortcut(event)) {
+                                    composerInput.insert(composerInput.cursorPosition, "\n");
+                                    event.accepted = true;
                                 }
                             }
 
@@ -798,7 +829,7 @@ ColumnLayout {
                         MatrixText {
                             Layout.fillWidth: true
                             color: palette.buttonText
-                            text: qsTr("Shift+Enter inserts a newline.")
+                            text: root.composerShortcutHintText()
                             wrapMode: Text.WordWrap
                         }
 

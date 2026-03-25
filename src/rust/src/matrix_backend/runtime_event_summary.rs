@@ -20,12 +20,13 @@ use matrix_sdk::{
 use matrix_sdk_ui::timeline::{
     AnyOtherFullStateEventContent, InReplyToDetails, MemberProfileChange, MembershipChange,
     MsgLikeContent, MsgLikeKind, OtherState, ReactionsByKeyBySender, RoomMembershipChange,
-    TimelineDetails, TimelineItemContent,
+    TimelineDetails, TimelineEventItemId, TimelineItemContent,
 };
 
 pub struct MatrixEventSummary {
     pub kind: String,
     pub body: String,
+    pub reply_event_id: String,
     pub reply_sender_display_name: String,
     pub reply_body: String,
     pub reactions_summary: String,
@@ -71,9 +72,10 @@ pub fn summarize_timeline_content(content: &TimelineItemContent) -> MatrixEventS
 fn summarize_msg_like_content(content: &MsgLikeContent) -> MatrixEventSummary {
     let mut summary = summarize_msg_like_kind(&content.kind);
 
-    if let Some((reply_sender_display_name, reply_body)) =
+    if let Some((reply_event_id, reply_sender_display_name, reply_body)) =
         summarize_reply_preview(content.in_reply_to.as_ref())
     {
+        summary.reply_event_id = reply_event_id;
         summary.reply_sender_display_name = reply_sender_display_name;
         summary.reply_body = reply_body;
     }
@@ -294,6 +296,7 @@ fn summary(kind: &str, body: &str) -> MatrixEventSummary {
     MatrixEventSummary {
         kind: kind.to_owned(),
         body: body.to_owned(),
+        reply_event_id: String::new(),
         reply_sender_display_name: String::new(),
         reply_body: String::new(),
         reactions_summary: String::new(),
@@ -310,6 +313,7 @@ fn summary_with_media(
     MatrixEventSummary {
         kind: kind.to_owned(),
         body: body.to_owned(),
+        reply_event_id: String::new(),
         reply_sender_display_name: String::new(),
         reply_body: String::new(),
         reactions_summary: String::new(),
@@ -318,11 +322,15 @@ fn summary_with_media(
     }
 }
 
-fn summarize_reply_preview(details: Option<&InReplyToDetails>) -> Option<(String, String)> {
+fn summarize_reply_preview(details: Option<&InReplyToDetails>) -> Option<(String, String, String)> {
     let details = details?;
 
     match &details.event {
         TimelineDetails::Ready(event) => {
+            let reply_event_id = match &event.identifier {
+                TimelineEventItemId::EventId(event_id) => event_id.to_string(),
+                TimelineEventItemId::TransactionId(transaction_id) => transaction_id.to_string(),
+            };
             let sender_display_name = match &event.sender_profile {
                 TimelineDetails::Ready(profile) => {
                     human_name(profile.display_name.as_deref(), event.sender.as_str())
@@ -330,10 +338,14 @@ fn summarize_reply_preview(details: Option<&InReplyToDetails>) -> Option<(String
                 _ => human_name(None, event.sender.as_str()),
             };
             let reply_summary = summarize_embedded_content(&event.content);
-            Some((sender_display_name, reply_summary.body))
+            Some((reply_event_id, sender_display_name, reply_summary.body))
         }
         TimelineDetails::Unavailable | TimelineDetails::Pending | TimelineDetails::Error(_) => {
-            Some((String::new(), "[Original message unavailable]".to_owned()))
+            Some((
+                String::new(),
+                String::new(),
+                "[Original message unavailable]".to_owned(),
+            ))
         }
     }
 }

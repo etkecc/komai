@@ -83,6 +83,7 @@ struct MatrixTimelineItem
     QString senderDisplayName;
     QString senderAvatarUrl;
     QString body;
+    QString replyEventId;
     QString replySenderDisplayName;
     QString replyBody;
     QString reactionsSummary;

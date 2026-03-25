@@ -41,6 +41,8 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
         return item.senderAvatarUrl;
     case Body:
         return item.body;
+    case ReplyEventId:
+        return item.replyEventId;
     case ReplySenderDisplayName:
         return item.replySenderDisplayName;
     case ReplyBody:
@@ -90,6 +92,7 @@ MatrixTimelineModel::roleNames() const
       {SenderDisplayName, "senderDisplayName"},
       {SenderAvatarUrl, "senderAvatarUrl"},
       {Body, "body"},
+      {ReplyEventId, "replyEventId"},
       {ReplySenderDisplayName, "replySenderDisplayName"},
       {ReplyBody, "replyBody"},
       {ReactionsSummary, "reactionsSummary"},
@@ -108,6 +111,22 @@ MatrixTimelineModel::roleNames() const
       {MediaIsEncrypted, "mediaIsEncrypted"},
       {ThumbnailIsEncrypted, "thumbnailIsEncrypted"},
     };
+}
+
+int
+MatrixTimelineModel::rowForEventId(const QString &eventId) const
+{
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty())
+        return -1;
+
+    for (int row = 0; row < items_.size(); ++row) {
+        const auto &item = items_.at(row);
+        if (item.eventId == trimmedEventId || item.itemId == trimmedEventId)
+            return row;
+    }
+
+    return -1;
 }
 
 void

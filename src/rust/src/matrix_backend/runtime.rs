@@ -151,6 +151,7 @@ pub struct MatrixTimelineItem {
     pub sender_display_name: String,
     pub sender_avatar_url: String,
     pub body: String,
+    pub reply_event_id: String,
     pub reply_sender_display_name: String,
     pub reply_body: String,
     pub reactions_summary: String,

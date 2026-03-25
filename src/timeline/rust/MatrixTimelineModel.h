@@ -25,6 +25,7 @@ public:
         SenderDisplayName,
         SenderAvatarUrl,
         Body,
+        ReplyEventId,
         ReplySenderDisplayName,
         ReplyBody,
         ReactionsSummary,
@@ -49,6 +50,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
+    Q_INVOKABLE int rowForEventId(const QString &eventId) const;
 
     int count() const { return items_.size(); }
     void replaceItems(QVector<MatrixTimelineItem> items);

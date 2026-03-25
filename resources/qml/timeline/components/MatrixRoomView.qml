@@ -98,6 +98,19 @@ ColumnLayout {
                                       roomModel);
     }
 
+    function jumpToLoadedMatrixEvent(eventId) {
+        const trimmedEventId = String(eventId || "").trim();
+        if (trimmedEventId.length === 0 || !TimelineManager.matrixTimelineModel || !matrixTimelineList)
+            return false;
+
+        const row = TimelineManager.matrixTimelineModel.rowForEventId(trimmedEventId);
+        if (row < 0)
+            return false;
+
+        matrixTimelineList.positionViewAtIndex(row, ListView.Center);
+        return true;
+    }
+
     function focusTextInput() {
         composerInput.forceActiveFocus();
         return true;
@@ -208,6 +221,10 @@ ColumnLayout {
         property var permissions: matrixMessageActionsDefaultPermissions
         property var input: null
         property var frequentReactions: []
+
+        function showEvent(eventId) {
+            return root.jumpToLoadedMatrixEvent(eventId);
+        }
     }
 
     MessageContextMenu {
@@ -216,6 +233,12 @@ ColumnLayout {
         chatRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
         emojiPopup: root.emojiPopup
         filteredTimelineModel: root.filteredTimeline
+    }
+
+    ReplyContextMenu {
+        id: matrixReplyContextMenu
+
+        roomModel: matrixMessageActionsDefaultRoomModel
     }
 
     MessageActionsHost {
@@ -328,6 +351,7 @@ ColumnLayout {
                         required property string senderAvatarUrl
                         required property string senderId
                         required property string body
+                        required property string replyEventId
                         required property string replySenderDisplayName
                         required property string replyBody
                         required property string reactionsSummary
@@ -393,7 +417,7 @@ ColumnLayout {
                             return parts.join(" · ");
                         }
 
-                        width: ListView.view.width
+                        width: matrixTimelineList.width
                         height: itemKind === "date_divider" ? dateDivider.implicitHeight : messageRow.implicitHeight
 
                         function openMessageActions(pin, anchorItem, activationMode) {
@@ -611,6 +635,10 @@ ColumnLayout {
                                 if (thread)
                                     thread = "";
                             }
+
+                            function showEvent(eventId) {
+                                return root.jumpToLoadedMatrixEvent(eventId);
+                            }
                         }
 
                         QtObject {
@@ -761,6 +789,27 @@ ColumnLayout {
                                                 implicitHeight: replyPreviewLayout.implicitHeight + Komai.paddingSmall * 2
                                                 radius: Komai.paddingMedium
                                                 visible: hasReplyPreview
+
+                                                TapHandler {
+                                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                                    gesturePolicy: TapHandler.ReleaseWithinBounds
+
+                                                    onSingleTapped: eventPoint => {
+                                                        if (eventPoint.button === Qt.RightButton) {
+                                                            matrixReplyContextMenu.show(replyBody, "", replyEventId);
+                                                            return;
+                                                        }
+
+                                                        root.jumpToLoadedMatrixEvent(replyEventId);
+                                                    }
+                                                }
+
+                                                Components.KomaiCursorShape {
+                                                    anchors.fill: parent
+                                                    cursorShape: replyEventId.length > 0
+                                                        ? Qt.PointingHandCursor
+                                                        : Qt.ArrowCursor
+                                                }
 
                                                 ColumnLayout {
                                                     id: replyPreviewLayout

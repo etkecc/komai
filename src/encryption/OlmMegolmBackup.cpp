@@ -7,12 +7,9 @@
 
 #include <QDateTime>
 
-#include <mtx/secret_storage.hpp>
-
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {
@@ -31,7 +28,8 @@ encrypt_group_message(const std::string &room_id, const std::string &device_id, 
     using namespace mtx::events;
     using namespace mtx::identifiers;
 
-    auto own_user_id = http::client()->user_id().to_string();
+    const auto own_user_id =
+      UserSettings::instance() ? UserSettings::instance()->userId().toStdString() : std::string{};
 
     auto members = cache::getMembersWithKeys(
       room_id, UserSettings::instance()->encryptionKeySharingOnlyVerifiedUsers());
@@ -287,61 +285,17 @@ backup_session_key(const MegolmSessionIndex &idx,
                    const GroupSessionData &data,
                    mtx::crypto::InboundGroupSessionPtr &session)
 {
+    (void)data;
+    (void)session;
     try {
         if (!UserSettings::instance()->encryptionBackupOnlineEnabled()) {
             // Online key backup disabled
             return;
         }
-
-        auto backupVersion = cache::backupVersion();
-        if (!backupVersion) {
-            // no trusted OKB
-            return;
-        }
-
-        using namespace mtx::crypto;
-
-        auto decryptedSecret = cache::secret(mtx::secret_storage::secrets::megolm_backup_v1);
-        if (!decryptedSecret) {
-            // no backup key available
-            return;
-        }
-        auto sessionDecryptionKey = to_binary_buf(base642bin(*decryptedSecret));
-
-        auto public_key = mtx::crypto::CURVE25519_public_key_from_private(sessionDecryptionKey);
-
-        mtx::responses::backup::SessionData sessionData;
-        sessionData.algorithm                       = mtx::crypto::MEGOLM_ALGO;
-        sessionData.forwarding_curve25519_key_chain = data.forwarding_curve25519_key_chain;
-        sessionData.sender_claimed_keys["ed25519"]  = data.sender_claimed_ed25519_key;
-        sessionData.sender_key                      = data.sender_key;
-        sessionData.session_key = mtx::crypto::export_session(session.get(), -1);
-
-        auto encrypt_session = mtx::crypto::encrypt_session(sessionData, public_key);
-
-        mtx::responses::backup::SessionBackup bk;
-        bk.first_message_index = olm_inbound_group_session_first_known_index(session.get());
-        bk.forwarded_count     = data.forwarding_curve25519_key_chain.size();
-        bk.is_verified         = false;
-        bk.session_data        = std::move(encrypt_session);
-
-        http::client()->put_room_keys(
-          backupVersion->version,
-          idx.room_id,
-          idx.session_id,
-          bk,
-          [idx](mtx::http::RequestErr err) {
-              if (err) {
-                  nhlog::net()->warn("failed to backup session key ({}:{}): {} ({})",
-                                     idx.room_id,
-                                     idx.session_id,
-                                     err->matrix_error.error,
-                                     static_cast<int>(err->status_code));
-              } else {
-                  nhlog::crypto()->debug(
-                    "backed up session key ({}:{})", idx.room_id, idx.session_id);
-              }
-          });
+        nhlog::crypto()->warn("Skipping legacy online key-backup upload for session ({}:{}); "
+                              "this flow is not migrated to the matrix-sdk backend yet",
+                              idx.room_id,
+                              idx.session_id);
     } catch (std::exception &e) {
         nhlog::net()->warn("failed to backup session key: {}", e.what());
     }

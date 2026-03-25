@@ -27,6 +27,20 @@ namespace {
 auto client_ = std::make_unique<mtx::crypto::OlmClient>();
 
 std::map<std::string, std::string> request_id_to_secret_name;
+
+std::string
+local_user_id()
+{
+    const auto settings = UserSettings::instance();
+    return settings ? settings->userId().toStdString() : std::string{};
+}
+
+std::string
+local_device_id()
+{
+    const auto settings = UserSettings::instance();
+    return settings ? settings->deviceId().toStdString() : std::string{};
+}
 }
 
 namespace olm {
@@ -46,17 +60,17 @@ handle_secret_request(const mtx::events::DeviceEvent<mtx::events::msg::SecretReq
     if (e->content.action != mtx::events::msg::RequestAction::Request)
         return;
 
-    auto local_user = http::client()->user_id();
+    const auto local_user = local_user_id();
 
-    if (sender != local_user.to_string())
+    if (local_user.empty() || sender != local_user)
         return;
 
-    auto verificationStatus = cache::verificationStatus(local_user.to_string());
+    auto verificationStatus = cache::verificationStatus(local_user);
 
     if (!verificationStatus)
         return;
 
-    auto deviceKeys = cache::userKeys(local_user.to_string());
+    auto deviceKeys = cache::userKeys(local_user);
     if (!deviceKeys)
         return;
 
@@ -80,12 +94,11 @@ handle_secret_request(const mtx::events::DeviceEvent<mtx::events::msg::SecretReq
                        ChatPage::instance(),
                        [local_user, e = *e, secretSend] {
                            send_encrypted_to_device_messages(
-                             {{local_user.to_string(), {{e.content.requesting_device_id}}}},
-                             secretSend);
+                             {{local_user, {{e.content.requesting_device_id}}}}, secretSend);
 
                            nhlog::net()->info("Sent secret '{}' to ({},{})",
                                               e.content.name,
-                                              local_user.to_string(),
+                                              local_user,
                                               e.content.requesting_device_id);
                        });
 }
@@ -237,8 +250,9 @@ handle_olm_message(const OlmMessage &msg, const UserKeyCache &otherUserDeviceKey
                                       payload.dump());
                 return;
             }
-            std::string receiver = payload["recipient"].get<std::string>();
-            if (receiver.empty() || receiver != http::client()->user_id().to_string()) {
+            std::string receiver   = payload["recipient"].get<std::string>();
+            const auto localUserId = local_user_id();
+            if (receiver.empty() || localUserId.empty() || receiver != localUserId) {
                 nhlog::crypto()->warn("Decrypted event doesn't include our user_id: {}",
                                       payload.dump());
                 return;
@@ -320,9 +334,9 @@ handle_olm_message(const OlmMessage &msg, const UserKeyCache &otherUserDeviceKey
                 forwardedRoomKey->content.forwarding_curve25519_key_chain.push_back(msg.sender_key);
                 import_inbound_megolm_session(*forwardedRoomKey);
             } else if (auto e = std::get_if<DeviceEvent<msg::SecretSend>>(&device_event)) {
-                auto local_user = http::client()->user_id();
+                const auto local_user = local_user_id();
 
-                if (msg.sender != local_user.to_string())
+                if (local_user.empty() || msg.sender != local_user)
                     return;
 
                 auto secret_name_it = request_id_to_secret_name.find(e->content.request_id);
@@ -333,17 +347,14 @@ handle_olm_message(const OlmMessage &msg, const UserKeyCache &otherUserDeviceKey
 
                     nhlog::crypto()->info("Received secret: {}", secret_name);
 
-                    mtx::events::msg::SecretRequest secretRequest{};
-                    secretRequest.action = mtx::events::msg::RequestAction::Cancellation;
-                    secretRequest.requesting_device_id = http::client()->device_id();
-                    secretRequest.request_id           = e->content.request_id;
+                    const auto requesting_device_id = local_device_id();
 
-                    auto verificationStatus = cache::verificationStatus(local_user.to_string());
+                    auto verificationStatus = cache::verificationStatus(local_user);
 
                     if (!verificationStatus)
                         return;
 
-                    auto deviceKeys = cache::userKeys(local_user.to_string());
+                    auto deviceKeys = cache::userKeys(local_user);
                     if (!deviceKeys)
                         return;
 
@@ -363,27 +374,13 @@ handle_olm_message(const OlmMessage &msg, const UserKeyCache &otherUserDeviceKey
                         return;
                     }
 
-                    std::map<mtx::identifiers::User,
-                             std::map<std::string, mtx::events::msg::SecretRequest>>
-                      body;
-
-                    for (const auto &dev : verificationStatus->verified_devices) {
-                        if (dev != secretRequest.requesting_device_id && dev != sender_device_id)
-                            body[local_user][dev] = secretRequest;
-                    }
-
-                    if (!body.empty()) {
-                        http::client()->send_to_device<mtx::events::msg::SecretRequest>(
-                          http::client()->generate_txn_id(),
-                          body,
-                          [secret_name](mtx::http::RequestErr err) {
-                              if (err) {
-                                  nhlog::net()->error("Failed to send request cancellation "
-                                                      "for secrect "
-                                                      "'{}'",
-                                                      secret_name);
-                              }
-                          });
+                    if (!requesting_device_id.empty()) {
+                        nhlog::crypto()->warn("Skipping legacy cross-device secret-request "
+                                              "cancellation for '{}' after receiving it on '{}'; "
+                                              "this flow is not migrated to the matrix-sdk "
+                                              "backend yet",
+                                              secret_name,
+                                              sender_device_id);
                     }
 
                     nhlog::crypto()->info("Storing secret {}", secret_name);

@@ -25,8 +25,10 @@ class MxcMediaProxy : public QMediaPlayer
     Q_OBJECT
     QML_NAMED_ELEMENT(MxcMedia)
 
-    Q_PROPERTY(TimelineModel *roomm READ room WRITE setRoom NOTIFY roomChanged REQUIRED)
+    Q_PROPERTY(QObject *roomm READ room WRITE setRoom NOTIFY roomChanged REQUIRED)
     Q_PROPERTY(QString eventId READ eventId WRITE setEventId NOTIFY eventIdChanged)
+    Q_PROPERTY(
+      QString mimeTypeHint READ mimeTypeHint WRITE setMimeTypeHint NOTIFY mimeTypeHintChanged)
     Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
     Q_PROPERTY(bool encrypted READ isEncrypted NOTIFY encryptedChanged)
     Q_PROPERTY(bool recoveringFromStreamingFallback READ recoveringFromStreamingFallback NOTIFY
@@ -68,13 +70,22 @@ public:
     bool isEncrypted() const { return encrypted_; }
     bool recoveringFromStreamingFallback() const { return recoveringFromStreamingFallback_; }
     QString eventId() const { return eventId_; }
-    TimelineModel *room() const { return room_; }
+    QString mimeTypeHint() const { return mimeTypeHint_; }
+    QObject *room() const { return room_; }
     void setEventId(QString newEventId)
     {
         eventId_ = newEventId;
         emit eventIdChanged();
     }
-    void setRoom(TimelineModel *room)
+    void setMimeTypeHint(QString mimeTypeHint)
+    {
+        if (mimeTypeHint_ == mimeTypeHint)
+            return;
+
+        mimeTypeHint_ = std::move(mimeTypeHint);
+        emit mimeTypeHintChanged();
+    }
+    void setRoom(QObject *room)
     {
         room_ = room;
         emit roomChanged();
@@ -113,6 +124,7 @@ public:
 signals:
     void roomChanged();
     void eventIdChanged();
+    void mimeTypeHintChanged();
     void loadedChanged();
     void newBuffer(QUrl, QIODevice *buf);
 
@@ -139,8 +151,9 @@ private:
         emit recoveringFromStreamingFallbackChanged();
     }
 
-    TimelineModel *room_ = nullptr;
+    QObject *room_ = nullptr;
     QString eventId_;
+    QString mimeTypeHint_;
     QString filename_;
     QBuffer buffer;
     float volume_                         = 1.f;

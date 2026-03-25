@@ -13,6 +13,7 @@ Item {
     required property string body
     required property string filename
     required property string filesize
+    required property string mimetype
     readonly property var roomContext: (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
         ? effectiveRoomContext
         : ((typeof room !== "undefined" && room) ? room : null)
@@ -34,5 +35,6 @@ Item {
         body: content.body
         filename: content.filename
         filesize: content.filesize
+        mimetype: content.mimetype
     }
 }

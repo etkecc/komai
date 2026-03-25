@@ -21,6 +21,7 @@ Rectangle {
     required property string body
     required property string filename
     required property string filesize
+    required property string mimetype
 
     property bool autoPlayPending: false
     property real desiredVolume: 1.0
@@ -307,6 +308,7 @@ Rectangle {
 
         roomm: root.room
         eventId: root.eventId
+        mimeTypeHint: root.mimetype
         muted: root.muted
         volume: root.desiredVolume
 

@@ -442,11 +442,12 @@ ColumnLayout {
                         readonly property var sharedAttachmentPreviewData: ({
                                 "room": matrixToolbarRoomModel,
                                 "avatarUrl": senderAvatarUrl,
-                                "eventId": eventId,
+                                "eventId": itemId,
                                 "body": body,
                                 "filename": effectiveFileName,
                                 "filesize": sharedHumanReadableMediaSize,
                                 "fileTypeIconSource": sharedFileTypeIconSource,
+                                "mimetype": mimeType,
                                 "duration": Math.round(Number(mediaDurationMs)),
                                 "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
                                 "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),

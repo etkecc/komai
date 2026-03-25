@@ -283,7 +283,9 @@ RoomlistModel::refreshMatrixBackendRooms()
     const QString selectedRoomId =
       currentRoom_ ? currentRoom_->roomId()
                    : (currentRoomPreview_ ? currentRoomPreview_->roomid()
-                                          : UserSettings::instance()->currentRoomId());
+                                          : (!pendingCurrentRoomId_.isEmpty()
+                                               ? pendingCurrentRoomId_
+                                               : UserSettings::instance()->currentRoomId()));
 
     for (const auto &room : *roomList) {
         newRoomIds.push_back(room.roomId);

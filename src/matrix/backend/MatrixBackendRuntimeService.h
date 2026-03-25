@@ -60,6 +60,34 @@ struct MatrixTimelineItem
     bool operator==(const MatrixTimelineItem &) const = default;
 };
 
+struct MatrixJoinRoomResult
+{
+    bool ok = false;
+    QString roomId;
+    QString error;
+    QString matrixErrcode;
+};
+
+enum class MatrixCreateRoomPreset
+{
+    PrivateChat,
+    PublicChat,
+    TrustedPrivateChat,
+};
+
+struct MatrixCreateRoomRequest
+{
+    QString name;
+    QString topic;
+    QString roomAliasLocalpart;
+    QVector<QString> inviteUserIds;
+    MatrixCreateRoomPreset preset = MatrixCreateRoomPreset::PrivateChat;
+    bool isDirect                 = false;
+    bool isEncrypted              = false;
+    bool isSpace                  = false;
+    bool isPublic                 = false;
+};
+
 class MatrixBackendRuntimeService
 {
 public:
@@ -68,6 +96,50 @@ public:
 
     static bool stopBackend(uint64_t handleId, QString *errorOut = nullptr);
     static bool startSync(uint64_t handleId, QString *errorOut = nullptr);
+
+    static MatrixJoinRoomResult joinRoom(uint64_t handleId,
+                                         const QString &roomIdOrAlias,
+                                         const QVector<QString> &via,
+                                         const QString &reason = {});
+
+    static std::optional<QString> knockRoom(uint64_t handleId,
+                                            const QString &roomIdOrAlias,
+                                            const QVector<QString> &via,
+                                            const QString &reason,
+                                            QString *errorOut = nullptr);
+
+    static std::optional<QString> createRoom(uint64_t handleId,
+                                             const MatrixCreateRoomRequest &request,
+                                             QString *errorOut = nullptr);
+
+    static bool leaveRoom(uint64_t handleId,
+                          const QString &roomId,
+                          const QString &reason = {},
+                          QString *errorOut     = nullptr);
+
+    static bool inviteUser(uint64_t handleId,
+                           const QString &roomId,
+                           const QString &userId,
+                           const QString &reason = {},
+                           QString *errorOut     = nullptr);
+
+    static bool kickUser(uint64_t handleId,
+                         const QString &roomId,
+                         const QString &userId,
+                         const QString &reason = {},
+                         QString *errorOut     = nullptr);
+
+    static bool banUser(uint64_t handleId,
+                        const QString &roomId,
+                        const QString &userId,
+                        const QString &reason = {},
+                        QString *errorOut     = nullptr);
+
+    static bool unbanUser(uint64_t handleId,
+                          const QString &roomId,
+                          const QString &userId,
+                          const QString &reason = {},
+                          QString *errorOut     = nullptr);
 
     static std::optional<MatrixOwnProfile>
     fetchOwnProfile(uint64_t handleId, QString *errorOut = nullptr);

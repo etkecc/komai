@@ -8,6 +8,7 @@
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/CommunitiesModel.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
@@ -17,7 +18,7 @@ namespace {
 QString
 matrixMessageFormattedHtml(const QString &body)
 {
-    const auto *chatPage = ChatPage::instance();
+    auto *chatPage       = ChatPage::instance();
     const auto *settings = chatPage ? chatPage->userSettings().get() : nullptr;
     if (!settings || !settings->composerInputMarkdownToHtmlEnabled())
         return {};
@@ -35,8 +36,8 @@ matrixMessageFormattedHtml(const QString &body)
 void
 TimelineViewManager::updateCurrentMatrixTimelineSelection()
 {
-    const auto *mainWindow = MainWindow::instance();
-    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
 
     const auto preview = rooms_->currentRoomPreview();
     if (!preview.isMatrixSummary() || rooms_->currentRoom() != nullptr || handleId == 0) {
@@ -75,8 +76,8 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
 void
 TimelineViewManager::refreshCurrentMatrixTimeline()
 {
-    const auto *mainWindow = MainWindow::instance();
-    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
 
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
         clearCurrentMatrixTimeline(false);
@@ -148,8 +149,8 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
     if (plainBody.isEmpty())
         return false;
 
-    const auto *mainWindow = MainWindow::instance();
-    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
         nhlog::ui()->warn("Refusing to send matrix-sdk room message without an active runtime "
                           "handle or selected matrix room");
@@ -180,7 +181,7 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
 void
 TimelineViewManager::handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t handleId)
 {
-    const auto *mainWindow = MainWindow::instance();
+    auto *mainWindow = MainWindow::instance();
     if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
         return;
 
@@ -192,7 +193,7 @@ void
 TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_t handleId,
                                                                     const QString &roomId)
 {
-    const auto *mainWindow = MainWindow::instance();
+    auto *mainWindow = MainWindow::instance();
     if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
         return;
 

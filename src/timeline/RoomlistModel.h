@@ -272,6 +272,7 @@ private:
     friend class DbusRoomsInterface;
 #endif
 
+    friend class TimelineViewManager;
     friend QVector<komai::ipc::RoomInfo> komai::ipc::roomList();
     friend class FilteredRoomlistModel;
 };

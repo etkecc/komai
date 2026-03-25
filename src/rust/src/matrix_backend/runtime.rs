@@ -17,17 +17,26 @@ use matrix_sdk::{
     media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings},
     RoomState,
     ruma::{
-        MxcUri, UInt,
-        RoomId,
+        MxcUri, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
+        RoomOrAliasId, ServerName, UInt, UserId,
+        api::client::{
+            error::ErrorKind,
+            membership::{ban_user, invite_user, kick_user, leave_room, unban_user},
+            room::{Visibility, create_room},
+        },
         api::client::media::get_content_thumbnail::v3::Method,
         api::client::profile::{AvatarUrl, DisplayName},
         events::{
             AnyMessageLikeEventContent,
+            InitialStateEvent,
             room::{
                 MediaSource,
+                encryption::RoomEncryptionEventContent,
                 message::{MessageType, RoomMessageEventContent},
             },
         },
+        room::RoomType,
+        serde::Raw,
     },
     stream::StreamExt,
 };
@@ -134,6 +143,46 @@ fn client_for_handle(handle_id: u64) -> Result<Client, String> {
         .get(&handle_id)
         .map(|handle| handle.client.clone())
         .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
+}
+
+fn trim_reason(reason: &str) -> Option<String> {
+    let reason = reason.trim();
+    if reason.is_empty() {
+        None
+    } else {
+        Some(reason.to_owned())
+    }
+}
+
+fn parse_room_or_alias_id(room_id_or_alias: &str) -> Result<OwnedRoomOrAliasId, String> {
+    RoomOrAliasId::parse(room_id_or_alias.trim())
+        .map_err(|e| format!("invalid room id or alias '{room_id_or_alias}': {e}"))
+}
+
+fn parse_room_id(room_id: &str) -> Result<OwnedRoomId, String> {
+    RoomId::parse(room_id.trim()).map_err(|e| format!("invalid room id '{room_id}': {e}"))
+}
+
+fn parse_user_id(user_id: &str) -> Result<OwnedUserId, String> {
+    UserId::parse(user_id.trim()).map_err(|e| format!("invalid user id '{user_id}': {e}"))
+}
+
+fn parse_via_server_names(via: &[String]) -> Result<Vec<OwnedServerName>, String> {
+    via.iter()
+        .map(|server_name| {
+            ServerName::parse(server_name.trim())
+                .map_err(|e| format!("invalid via server name '{}': {e}", server_name))
+        })
+        .collect()
+}
+
+fn matrix_errcode(error: &matrix_sdk::Error) -> String {
+    match error.client_api_error_kind() {
+        Some(ErrorKind::Forbidden { .. }) => "M_FORBIDDEN".to_owned(),
+        Some(ErrorKind::NotFound) => "M_NOT_FOUND".to_owned(),
+        Some(ErrorKind::UnknownToken { .. }) => "M_UNKNOWN_TOKEN".to_owned(),
+        _ => String::new(),
+    }
 }
 
 pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHandleInfo, String> {
@@ -952,6 +1001,277 @@ fn timeline_event_content_summary(content: &TimelineItemContent) -> (String, Str
             "[RTC notification]".to_owned(),
         ),
     }
+}
+
+pub async fn join_room(
+    handle_id: u64,
+    room_id_or_alias: &str,
+    via: &[String],
+    reason: &str,
+) -> Result<String, (String, String)> {
+    let client = client_for_handle(handle_id).map_err(|e| (e, String::new()))?;
+    let parsed_room_or_alias = parse_room_or_alias_id(room_id_or_alias).map_err(|e| (e, String::new()))?;
+    let via_server_names = parse_via_server_names(via).map_err(|e| (e, String::new()))?;
+    let reason = trim_reason(reason);
+
+    tracing::info!(
+        handle_id,
+        room_id_or_alias = room_id_or_alias.trim(),
+        via_count = via_server_names.len(),
+        has_reason = reason.is_some(),
+        "Joining room via matrix-sdk backend runtime"
+    );
+
+    client
+        .join_room_by_id_or_alias(parsed_room_or_alias.as_ref(), &via_server_names)
+        .await
+        .map(|room| room.room_id().to_string())
+        .map_err(|error| {
+            let matrix_errcode = matrix_errcode(&error);
+            tracing::warn!(
+                handle_id,
+                room_id_or_alias = room_id_or_alias.trim(),
+                via_count = via_server_names.len(),
+                ?reason,
+                %error,
+                matrix_errcode,
+                "Failed to join room via matrix-sdk backend runtime"
+            );
+            (error.to_string(), matrix_errcode)
+        })
+}
+
+pub async fn knock_room(
+    handle_id: u64,
+    room_id_or_alias: &str,
+    via: &[String],
+    reason: &str,
+) -> Result<String, String> {
+    let client = client_for_handle(handle_id)?;
+    let parsed_room_or_alias = parse_room_or_alias_id(room_id_or_alias)?;
+    let via_server_names = parse_via_server_names(via)?;
+    let reason = trim_reason(reason);
+
+    tracing::info!(
+        handle_id,
+        room_id_or_alias = room_id_or_alias.trim(),
+        via_count = via_server_names.len(),
+        has_reason = reason.is_some(),
+        "Knocking room via matrix-sdk backend runtime"
+    );
+
+    client
+        .knock(parsed_room_or_alias, reason, via_server_names)
+        .await
+        .map(|room| room.room_id().to_string())
+        .map_err(|e| format!("failed to knock room via matrix-sdk: {e}"))
+}
+
+#[allow(clippy::too_many_arguments)]
+pub async fn create_room(
+    handle_id: u64,
+    name: &str,
+    topic: &str,
+    room_alias_localpart: &str,
+    invite_user_ids: &[String],
+    preset: &str,
+    is_direct: bool,
+    is_encrypted: bool,
+    is_space: bool,
+    is_public: bool,
+) -> Result<String, String> {
+    let client = client_for_handle(handle_id)?;
+    let invite = invite_user_ids
+        .iter()
+        .map(|user_id| parse_user_id(user_id))
+        .collect::<Result<Vec<_>, _>>()?;
+
+    let preset = match preset.trim() {
+        "public_chat" => create_room::v3::RoomPreset::PublicChat,
+        "trusted_private_chat" => create_room::v3::RoomPreset::TrustedPrivateChat,
+        _ => create_room::v3::RoomPreset::PrivateChat,
+    };
+
+    let mut request = create_room::v3::Request::new();
+    request.name = trim_reason(name);
+    request.topic = trim_reason(topic);
+    request.room_alias_name = trim_reason(room_alias_localpart);
+    request.invite = invite;
+    request.is_direct = is_direct;
+    request.preset = Some(preset);
+    request.visibility = if is_public {
+        Visibility::Public
+    } else {
+        Visibility::Private
+    };
+
+    if is_space {
+        let mut creation_content = create_room::v3::CreationContent::new();
+        creation_content.room_type = Some(RoomType::Space);
+        request.creation_content =
+            Some(Raw::new(&creation_content).expect("ruma creation content should serialize"));
+    }
+
+    if is_encrypted {
+        request.initial_state.push(
+            InitialStateEvent::with_empty_state_key(
+                RoomEncryptionEventContent::with_recommended_defaults(),
+            )
+            .to_raw_any(),
+        );
+    }
+
+    tracing::info!(
+        handle_id,
+        is_direct,
+        is_encrypted,
+        is_space,
+        is_public,
+        invite_count = request.invite.len(),
+        has_name = request.name.is_some(),
+        has_topic = request.topic.is_some(),
+        has_alias = request.room_alias_name.is_some(),
+        "Creating room via matrix-sdk backend runtime"
+    );
+
+    client
+        .create_room(request)
+        .await
+        .map(|room| room.room_id().to_string())
+        .map_err(|e| format!("failed to create room via matrix-sdk: {e}"))
+}
+
+pub async fn leave_room(handle_id: u64, room_id: &str, reason: &str) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    let parsed_room_id = parse_room_id(room_id)?;
+    let mut request = leave_room::v3::Request::new(parsed_room_id);
+    request.reason = trim_reason(reason);
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        has_reason = request.reason.is_some(),
+        "Leaving room via matrix-sdk backend runtime"
+    );
+
+    client
+        .send(request)
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to leave room via matrix-sdk: {e}"))
+}
+
+pub async fn invite_user(
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+    reason: &str,
+) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    let parsed_room_id = parse_room_id(room_id)?;
+    let parsed_user_id = parse_user_id(user_id)?;
+    let mut request = invite_user::v3::Request::new(
+        parsed_room_id,
+        invite_user::v3::InvitationRecipient::UserId {
+            user_id: parsed_user_id,
+        },
+    );
+    request.reason = trim_reason(reason);
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        user_id = user_id.trim(),
+        has_reason = request.reason.is_some(),
+        "Inviting user via matrix-sdk backend runtime"
+    );
+
+    client
+        .send(request)
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to invite user via matrix-sdk: {e}"))
+}
+
+pub async fn kick_user(
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+    reason: &str,
+) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    let parsed_room_id = parse_room_id(room_id)?;
+    let parsed_user_id = parse_user_id(user_id)?;
+    let mut request = kick_user::v3::Request::new(parsed_room_id, parsed_user_id);
+    request.reason = trim_reason(reason);
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        user_id = user_id.trim(),
+        has_reason = request.reason.is_some(),
+        "Kicking user via matrix-sdk backend runtime"
+    );
+
+    client
+        .send(request)
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to kick user via matrix-sdk: {e}"))
+}
+
+pub async fn ban_user(
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+    reason: &str,
+) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    let parsed_room_id = parse_room_id(room_id)?;
+    let parsed_user_id = parse_user_id(user_id)?;
+    let mut request = ban_user::v3::Request::new(parsed_room_id, parsed_user_id);
+    request.reason = trim_reason(reason);
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        user_id = user_id.trim(),
+        has_reason = request.reason.is_some(),
+        "Banning user via matrix-sdk backend runtime"
+    );
+
+    client
+        .send(request)
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to ban user via matrix-sdk: {e}"))
+}
+
+pub async fn unban_user(
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+    reason: &str,
+) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    let parsed_room_id = parse_room_id(room_id)?;
+    let parsed_user_id = parse_user_id(user_id)?;
+    let mut request = unban_user::v3::Request::new(parsed_room_id, parsed_user_id);
+    request.reason = trim_reason(reason);
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        user_id = user_id.trim(),
+        has_reason = request.reason.is_some(),
+        "Unbanning user via matrix-sdk backend runtime"
+    );
+
+    client
+        .send(request)
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to unban user via matrix-sdk: {e}"))
 }
 
 pub async fn fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile, String> {

@@ -11,6 +11,15 @@
 namespace komai {
 
 namespace {
+::rust::Vec<::rust::String>
+toRustStringVec(const QVector<QString> &values)
+{
+    ::rust::Vec<::rust::String> rustValues;
+    for (const auto &value : values)
+        rustValues.push_back(value.toStdString());
+    return rustValues;
+}
+
 MatrixBackendHandleInfo
 fromRustHandleInfo(const ::komai::rust::MatrixBackendHandleInfo &info)
 {
@@ -70,6 +79,31 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
     };
 }
 
+MatrixJoinRoomResult
+fromRustJoinRoomResult(const ::komai::rust::MatrixJoinRoomResult &result)
+{
+    return MatrixJoinRoomResult{
+      .ok            = result.ok,
+      .roomId        = QString::fromStdString(std::string(result.room_id)),
+      .error         = QString::fromStdString(std::string(result.error)),
+      .matrixErrcode = QString::fromStdString(std::string(result.matrix_errcode)),
+    };
+}
+
+::rust::String
+toRustCreateRoomPreset(MatrixCreateRoomPreset preset)
+{
+    switch (preset) {
+    case MatrixCreateRoomPreset::PublicChat:
+        return ::rust::String("public_chat");
+    case MatrixCreateRoomPreset::TrustedPrivateChat:
+        return ::rust::String("trusted_private_chat");
+    case MatrixCreateRoomPreset::PrivateChat:
+    default:
+        return ::rust::String("private_chat");
+    }
+}
+
 } // namespace
 
 std::optional<MatrixBackendHandleInfo>
@@ -103,6 +137,157 @@ MatrixBackendRuntimeService::startSync(uint64_t handleId, QString *errorOut)
 {
     try {
         ::komai::rust::matrix_start_backend_sync(handleId);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+MatrixJoinRoomResult
+MatrixBackendRuntimeService::joinRoom(uint64_t handleId,
+                                      const QString &roomIdOrAlias,
+                                      const QVector<QString> &via,
+                                      const QString &reason)
+{
+    try {
+        const auto result = ::komai::rust::matrix_join_room(
+          handleId, roomIdOrAlias.toStdString(), toRustStringVec(via), reason.toStdString());
+        return fromRustJoinRoomResult(result);
+    } catch (const std::exception &e) {
+        return MatrixJoinRoomResult{
+          .ok            = false,
+          .roomId        = roomIdOrAlias,
+          .error         = QString::fromUtf8(e.what()),
+          .matrixErrcode = {},
+        };
+    }
+}
+
+std::optional<QString>
+MatrixBackendRuntimeService::knockRoom(uint64_t handleId,
+                                       const QString &roomIdOrAlias,
+                                       const QVector<QString> &via,
+                                       const QString &reason,
+                                       QString *errorOut)
+{
+    try {
+        const auto result = ::komai::rust::matrix_knock_room(
+          handleId, roomIdOrAlias.toStdString(), toRustStringVec(via), reason.toStdString());
+        return QString::fromStdString(std::string(result));
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<QString>
+MatrixBackendRuntimeService::createRoom(uint64_t handleId,
+                                        const MatrixCreateRoomRequest &request,
+                                        QString *errorOut)
+{
+    try {
+        const auto result =
+          ::komai::rust::matrix_create_room(handleId,
+                                            request.name.toStdString(),
+                                            request.topic.toStdString(),
+                                            request.roomAliasLocalpart.toStdString(),
+                                            toRustStringVec(request.inviteUserIds),
+                                            toRustCreateRoomPreset(request.preset),
+                                            request.isDirect,
+                                            request.isEncrypted,
+                                            request.isSpace,
+                                            request.isPublic);
+        return QString::fromStdString(std::string(result));
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::leaveRoom(uint64_t handleId,
+                                       const QString &roomId,
+                                       const QString &reason,
+                                       QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_leave_room(handleId, roomId.toStdString(), reason.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::inviteUser(uint64_t handleId,
+                                        const QString &roomId,
+                                        const QString &userId,
+                                        const QString &reason,
+                                        QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_invite_user(
+          handleId, roomId.toStdString(), userId.toStdString(), reason.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::kickUser(uint64_t handleId,
+                                      const QString &roomId,
+                                      const QString &userId,
+                                      const QString &reason,
+                                      QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_kick_user(
+          handleId, roomId.toStdString(), userId.toStdString(), reason.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::banUser(uint64_t handleId,
+                                     const QString &roomId,
+                                     const QString &userId,
+                                     const QString &reason,
+                                     QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_ban_user(
+          handleId, roomId.toStdString(), userId.toStdString(), reason.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::unbanUser(uint64_t handleId,
+                                       const QString &roomId,
+                                       const QString &userId,
+                                       const QString &reason,
+                                       QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_unban_user(
+          handleId, roomId.toStdString(), userId.toStdString(), reason.toStdString());
         return true;
     } catch (const std::exception &e) {
         if (errorOut)

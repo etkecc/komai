@@ -81,6 +81,13 @@ mod ffi {
         is_own: bool,
     }
 
+    struct MatrixJoinRoomResult {
+        ok: bool,
+        room_id: String,
+        error: String,
+        matrix_errcode: String,
+    }
+
     struct MatrixLoginResult {
         user_id: String,
         access_token: String,
@@ -157,6 +164,55 @@ mod ffi {
         fn matrix_start_restored_backend(profile_id: &str) -> Result<MatrixBackendHandleInfo>;
         fn matrix_stop_backend(handle_id: u64) -> Result<()>;
         fn matrix_start_backend_sync(handle_id: u64) -> Result<()>;
+        fn matrix_join_room(
+            handle_id: u64,
+            room_id_or_alias: &str,
+            via: &Vec<String>,
+            reason: &str,
+        ) -> MatrixJoinRoomResult;
+        fn matrix_knock_room(
+            handle_id: u64,
+            room_id_or_alias: &str,
+            via: &Vec<String>,
+            reason: &str,
+        ) -> Result<String>;
+        fn matrix_create_room(
+            handle_id: u64,
+            name: &str,
+            topic: &str,
+            room_alias_localpart: &str,
+            invite_user_ids: &Vec<String>,
+            preset: &str,
+            is_direct: bool,
+            is_encrypted: bool,
+            is_space: bool,
+            is_public: bool,
+        ) -> Result<String>;
+        fn matrix_leave_room(handle_id: u64, room_id: &str, reason: &str) -> Result<()>;
+        fn matrix_invite_user(
+            handle_id: u64,
+            room_id: &str,
+            user_id: &str,
+            reason: &str,
+        ) -> Result<()>;
+        fn matrix_kick_user(
+            handle_id: u64,
+            room_id: &str,
+            user_id: &str,
+            reason: &str,
+        ) -> Result<()>;
+        fn matrix_ban_user(
+            handle_id: u64,
+            room_id: &str,
+            user_id: &str,
+            reason: &str,
+        ) -> Result<()>;
+        fn matrix_unban_user(
+            handle_id: u64,
+            room_id: &str,
+            user_id: &str,
+            reason: &str,
+        ) -> Result<()>;
         fn matrix_fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile>;
         fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>>;
         fn matrix_fetch_media_content(
@@ -296,6 +352,123 @@ fn matrix_stop_backend(handle_id: u64) -> Result<(), String> {
 fn matrix_start_backend_sync(handle_id: u64) -> Result<(), String> {
     logging::ensure_initialized();
     matrix_backend::runtime::start_sync(handle_id)
+}
+
+fn matrix_join_room(
+    handle_id: u64,
+    room_id_or_alias: &str,
+    via: &Vec<String>,
+    reason: &str,
+) -> ffi::MatrixJoinRoomResult {
+    logging::ensure_initialized();
+    match runtime().block_on(matrix_backend::runtime::join_room(
+        handle_id,
+        room_id_or_alias,
+        via.as_slice(),
+        reason,
+    )) {
+        Ok(room_id) => ffi::MatrixJoinRoomResult {
+            ok: true,
+            room_id,
+            error: String::new(),
+            matrix_errcode: String::new(),
+        },
+        Err((error, matrix_errcode)) => ffi::MatrixJoinRoomResult {
+            ok: false,
+            room_id: room_id_or_alias.to_owned(),
+            error,
+            matrix_errcode,
+        },
+    }
+}
+
+fn matrix_knock_room(
+    handle_id: u64,
+    room_id_or_alias: &str,
+    via: &Vec<String>,
+    reason: &str,
+) -> Result<String, String> {
+    runtime().block_on(matrix_backend::runtime::knock_room(
+        handle_id,
+        room_id_or_alias,
+        via.as_slice(),
+        reason,
+    ))
+}
+
+#[allow(clippy::too_many_arguments)]
+fn matrix_create_room(
+    handle_id: u64,
+    name: &str,
+    topic: &str,
+    room_alias_localpart: &str,
+    invite_user_ids: &Vec<String>,
+    preset: &str,
+    is_direct: bool,
+    is_encrypted: bool,
+    is_space: bool,
+    is_public: bool,
+) -> Result<String, String> {
+    runtime().block_on(matrix_backend::runtime::create_room(
+        handle_id,
+        name,
+        topic,
+        room_alias_localpart,
+        invite_user_ids.as_slice(),
+        preset,
+        is_direct,
+        is_encrypted,
+        is_space,
+        is_public,
+    ))
+}
+
+fn matrix_leave_room(handle_id: u64, room_id: &str, reason: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::leave_room(handle_id, room_id, reason))
+}
+
+fn matrix_invite_user(
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+    reason: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::invite_user(
+        handle_id, room_id, user_id, reason,
+    ))
+}
+
+fn matrix_kick_user(
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+    reason: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::kick_user(
+        handle_id, room_id, user_id, reason,
+    ))
+}
+
+fn matrix_ban_user(
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+    reason: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::ban_user(
+        handle_id, room_id, user_id, reason,
+    ))
+}
+
+fn matrix_unban_user(
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+    reason: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::unban_user(
+        handle_id, room_id, user_id, reason,
+    ))
 }
 
 fn matrix_fetch_own_profile(handle_id: u64) -> Result<ffi::MatrixOwnProfile, String> {

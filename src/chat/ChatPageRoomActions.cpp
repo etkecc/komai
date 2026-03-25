@@ -8,26 +8,133 @@
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QPointer>
 #include <QQmlEngine>
 #include <QUrl>
 
 #include <algorithm>
 #include <optional>
 #include <string>
+#include <thread>
 #include <vector>
-
-#include <mtx/responses.hpp>
-#include <mtxclient/crypto/client.hpp>
 
 #include "cache/Cache.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "ui/RoomSummary.h"
 #include "utils/Utils.h"
+
+namespace {
+std::optional<uint64_t>
+requireMatrixBackendHandle(ChatPage *page, const char *action)
+{
+    const auto *mainWindow = MainWindow::instance();
+    if (mainWindow && mainWindow->matrixBackendHandleId() != 0)
+        return mainWindow->matrixBackendHandleId();
+
+    nhlog::ui()->warn("Cannot {} because no active matrix-sdk runtime handle exists", action);
+    if (page)
+        Q_EMIT page->showNotification(ChatPage::tr("Matrix backend is not ready yet."));
+    return std::nullopt;
+}
+
+QVector<QString>
+toQStringVector(const std::vector<std::string> &values)
+{
+    QVector<QString> result;
+    result.reserve(static_cast<qsizetype>(values.size()));
+    for (const auto &value : values)
+        result.push_back(QString::fromStdString(value));
+    return result;
+}
+
+QString
+displayNameOrUserId(const QString &roomId, const QString &userId)
+{
+    if (!cache::isInitialized())
+        return userId;
+
+    const auto displayName = cache::displayName(roomId, userId).trimmed();
+    return displayName.isEmpty() ? userId : displayName;
+}
+
+template<typename WorkFnT, typename UiFnT>
+void
+runMatrixRuntimeTask(ChatPage *page, WorkFnT work, UiFnT ui)
+{
+    QPointer<ChatPage> guard(page);
+    std::thread([guard, work = std::move(work), ui = std::move(ui)]() mutable {
+        const auto result = work();
+
+        if (!guard)
+            return;
+
+        Q_EMIT guard->callFunctionOnGuiThread([guard, result, ui = std::move(ui)]() mutable {
+            if (!guard || guard->isShuttingDown())
+                return;
+
+            ui(guard.data(), result);
+        });
+    }).detach();
+}
+
+komai::MatrixCreateRoomRequest
+toMatrixCreateRoomRequest(const mtx::requests::CreateRoom &request)
+{
+    komai::MatrixCreateRoomRequest result;
+    result.name               = QString::fromStdString(request.name);
+    result.topic              = QString::fromStdString(request.topic);
+    result.roomAliasLocalpart = QString::fromStdString(request.room_alias_name);
+    result.preset             = komai::MatrixCreateRoomPreset::PrivateChat;
+    result.isDirect           = request.is_direct;
+    result.isSpace            = request.creation_content.has_value() &&
+                     request.creation_content->type == mtx::events::state::room_type::space;
+    result.isPublic = request.visibility == mtx::common::RoomVisibility::Public;
+
+    result.inviteUserIds.reserve(static_cast<qsizetype>(request.invite.size()));
+    for (const auto &userId : request.invite)
+        result.inviteUserIds.push_back(QString::fromStdString(userId));
+
+    switch (request.preset) {
+    case mtx::requests::Preset::PublicChat:
+        result.preset = komai::MatrixCreateRoomPreset::PublicChat;
+        break;
+    case mtx::requests::Preset::TrustedPrivateChat:
+        result.preset = komai::MatrixCreateRoomPreset::TrustedPrivateChat;
+        break;
+    case mtx::requests::Preset::PrivateChat:
+    default:
+        result.preset = komai::MatrixCreateRoomPreset::PrivateChat;
+        break;
+    }
+
+    result.isEncrypted = std::any_of(
+      request.initial_state.cbegin(), request.initial_state.cend(), [](const auto &event) {
+          return std::holds_alternative<mtx::events::StrippedEvent<mtx::events::state::Encryption>>(
+            event);
+      });
+
+    return result;
+}
+
+std::optional<QVector<komai::MatrixRoomSummary>>
+fetchMatrixRoomList(uint64_t handleId)
+{
+    QString error;
+    const auto roomList = komai::MatrixBackendRuntimeService::fetchRoomList(handleId, &error);
+    if (roomList.has_value())
+        return roomList;
+
+    nhlog::ui()->warn("Failed to fetch matrix-sdk room list snapshot for handle {}: {}",
+                      handleId,
+                      error.toStdString());
+    return std::nullopt;
+}
+} // namespace
 
 void
 ChatPage::knockRoom(const QString &room,
@@ -36,8 +143,7 @@ ChatPage::knockRoom(const QString &room,
                     bool failedJoin,
                     bool promptForConfirmation)
 {
-    const auto room_id = room.toStdString();
-    bool confirmed     = false;
+    bool confirmed = false;
     if (promptForConfirmation) {
         reason = QInputDialog::getText(
           nullptr,
@@ -55,17 +161,27 @@ ChatPage::knockRoom(const QString &room,
         }
     }
 
-    http::client()->knock_room(
-      room_id,
-      via,
-      [this, room_id](const mtx::responses::RoomId &, mtx::http::RequestErr err) {
-          if (err) {
-              emit showNotification(tr("Failed to knock room: %1")
-                                      .arg(QString::fromStdString(err->matrix_error.error)));
+    const auto handleId = requireMatrixBackendHandle(this, "knock on a room");
+    if (!handleId)
+        return;
+
+    runMatrixRuntimeTask(
+      this,
+      [handleId = *handleId, room, via = toQStringVector(via), reason]() {
+          QString error;
+          return std::make_pair(
+            komai::MatrixBackendRuntimeService::knockRoom(handleId, room, via, reason, &error),
+            error);
+      },
+      [room](ChatPage *page, const auto &result) {
+          const auto &[roomId, error] = result;
+          if (!roomId.has_value()) {
+              Q_EMIT page->showNotification(ChatPage::tr("Failed to knock room: %1").arg(error));
               return;
           }
-      },
-      reason.toStdString());
+
+          nhlog::ui()->info("Knocked on room '{}' via matrix-sdk runtime", roomId->toStdString());
+      });
 }
 
 void
@@ -88,29 +204,30 @@ ChatPage::joinRoomVia(const std::string &room_id,
         return;
     }
 
-    http::client()->join_room(
-      room_id,
-      via,
-      [this, room_id, reason, via](const mtx::responses::RoomId &, mtx::http::RequestErr err) {
-          if (err) {
-              if (err->matrix_error.errcode == mtx::errors::ErrorCode::M_FORBIDDEN)
-                  emit internalKnock(QString::fromStdString(room_id), via, reason, true, true);
-              else
-                  emit showNotification(tr("Failed to join room: %1")
-                                          .arg(QString::fromStdString(err->matrix_error.error)));
+    const auto handleId = requireMatrixBackendHandle(this, "join a room");
+    if (!handleId)
+        return;
+
+    const auto requestedRoomId = QString::fromStdString(room_id);
+    runMatrixRuntimeTask(
+      this,
+      [handleId = *handleId, requestedRoomId, via = toQStringVector(via), reason]() {
+          return komai::MatrixBackendRuntimeService::joinRoom(
+            handleId, requestedRoomId, via, reason);
+      },
+      [requestedRoomId, reason, via](ChatPage *page, const komai::MatrixJoinRoomResult &result) {
+          if (!result.ok) {
+              if (result.matrixErrcode == QLatin1String("M_FORBIDDEN")) {
+                  Q_EMIT page->internalKnock(requestedRoomId, via, reason, true, true);
+              } else {
+                  Q_EMIT page->showNotification(
+                    ChatPage::tr("Failed to join room: %1").arg(result.error));
+              }
               return;
           }
 
-          // We remove any invites with the same room_id.
-          try {
-              cache::removeInvite(room_id);
-          } catch (const std::exception &e) {
-              emit showNotification(tr("Failed to remove invite: %1").arg(e.what()));
-          }
-
-          view_manager_->rooms()->setCurrentRoom(QString::fromStdString(room_id));
-      },
-      reason.toStdString());
+          page->view_manager_->rooms()->setCurrentRoom(result.roomId);
+      });
 }
 
 void
@@ -123,66 +240,57 @@ ChatPage::createRoom(const mtx::requests::CreateRoom &req)
         return;
     }
 
-    bool direct = req.is_direct;
-    std::string direct_user;
-    if (direct && !req.invite.empty())
-        direct_user = req.invite.front();
+    const auto handleId = requireMatrixBackendHandle(this, "create a room");
+    if (!handleId)
+        return;
 
-    http::client()->create_room(
-      req,
-      [this, direct, direct_user](const mtx::responses::CreateRoom &res,
-                                  mtx::http::RequestErr err) {
-          if (err) {
-              const auto err_code = mtx::errors::to_string(err->matrix_error.errcode);
-              const auto error    = err->matrix_error.error;
-
-              nhlog::net()->warn("failed to create room: {})", err);
-
-              emit showNotification(
-                tr("Room creation failed: %1").arg(QString::fromStdString(error)));
+    const auto request = toMatrixCreateRoomRequest(req);
+    runMatrixRuntimeTask(
+      this,
+      [handleId = *handleId, request]() {
+          QString error;
+          return std::make_pair(
+            komai::MatrixBackendRuntimeService::createRoom(handleId, request, &error), error);
+      },
+      [](ChatPage *page, const auto &result) {
+          const auto &[roomId, error] = result;
+          if (!roomId.has_value()) {
+              Q_EMIT page->showNotification(ChatPage::tr("Room creation failed: %1").arg(error));
               return;
           }
 
-          QString newRoomId = QString::fromStdString(res.room_id.to_string());
-
-          if (direct && !direct_user.empty()) {
-              utils::markRoomAsDirect(newRoomId,
-                                      {RoomMember{
-                                        .user_id      = QString::fromStdString(direct_user),
-                                        .display_name = "",
-                                        .avatar_url   = "",
-                                      }});
-          }
-
-          emit newRoom(newRoomId);
-          emit changeToRoom(newRoomId);
+          Q_EMIT page->newRoom(*roomId);
+          Q_EMIT page->changeToRoom(*roomId);
       });
 }
 
 void
 ChatPage::leaveRoom(const QString &room_id, const QString &reason)
 {
-    http::client()->leave_room(
-      room_id.toStdString(),
-      [this, room_id](const mtx::responses::Empty &, mtx::http::RequestErr err) {
-          if (err) {
-              emit showNotification(tr("Failed to leave room: %1")
-                                      .arg(QString::fromStdString(err->matrix_error.error)));
-              nhlog::net()->error("Failed to leave room '{}': {}", room_id.toStdString(), err);
+    const auto handleId = requireMatrixBackendHandle(this, "leave a room");
+    if (!handleId)
+        return;
 
-              if (err->status_code == 404 &&
-                  err->matrix_error.errcode == mtx::errors::ErrorCode::M_UNKNOWN) {
-                  nhlog::db()->debug("Removing room-local cache for {}, even though we couldn't "
-                                     "leave.",
-                                     room_id.toStdString());
-                  cache::removeRoom(room_id.toStdString());
-              }
+    runMatrixRuntimeTask(
+      this,
+      [handleId = *handleId, room_id, reason]() {
+          QString error;
+          const bool ok =
+            komai::MatrixBackendRuntimeService::leaveRoom(handleId, room_id, reason, &error);
+          return std::make_pair(ok, error);
+      },
+      [room_id](ChatPage *page, const auto &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              Q_EMIT page->showNotification(ChatPage::tr("Failed to leave room: %1").arg(error));
+              nhlog::ui()->warn("Failed to leave room '{}' via matrix-sdk runtime: {}",
+                                room_id.toStdString(),
+                                error.toStdString());
               return;
           }
 
-          emit leftRoom(room_id);
-      },
-      reason.toStdString());
+          Q_EMIT page->leftRoom(room_id);
+      });
 }
 
 void
@@ -197,57 +305,90 @@ ChatPage::inviteUser(const QString &room, QString userid, QString reason)
     if (QMessageBox::question(nullptr,
                               tr("Confirm invite"),
                               tr("Do you really want to invite %1 (%2)?")
-                                .arg(cache::displayName(room, userid), userid)) != QMessageBox::Yes)
+                                .arg(displayNameOrUserId(room, userid), userid)) !=
+        QMessageBox::Yes)
         return;
 
-    http::client()->invite_user(
-      room.toStdString(),
-      userid.toStdString(),
-      [this, userid, room](const mtx::responses::Empty &, mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->error(
-                "Failed to invite {} to {}: {}", userid.toStdString(), room.toStdString(), *err);
-              emit showNotification(
-                tr("Failed to invite %1 to %2: %3")
-                  .arg(userid, room, QString::fromStdString(err->matrix_error.error)));
-          } else
-              emit showNotification(tr("Invited user: %1").arg(userid));
+    const auto handleId = requireMatrixBackendHandle(this, "invite a user");
+    if (!handleId)
+        return;
+
+    runMatrixRuntimeTask(
+      this,
+      [handleId = *handleId, room, userid, reason]() {
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::inviteUser(
+            handleId, room, userid, reason.trimmed(), &error);
+          return std::make_pair(ok, error);
       },
-      reason.trimmed().toStdString());
+      [userid, room](ChatPage *page, const auto &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              nhlog::ui()->warn("Failed to invite {} to {} via matrix-sdk runtime: {}",
+                                userid.toStdString(),
+                                room.toStdString(),
+                                error.toStdString());
+              Q_EMIT page->showNotification(
+                ChatPage::tr("Failed to invite %1 to %2: %3").arg(userid, room, error));
+              return;
+          }
+
+          Q_EMIT page->showNotification(ChatPage::tr("Invited user: %1").arg(userid));
+      });
 }
 
 void
 ChatPage::kickUser(const QString &room, QString userid, QString reason)
 {
-    http::client()->kick_user(
-      room.toStdString(),
-      userid.toStdString(),
-      [this, userid, room](const mtx::responses::Empty &, mtx::http::RequestErr err) {
-          if (err) {
-              emit showNotification(
-                tr("Failed to kick %1 from %2: %3")
-                  .arg(userid, room, QString::fromStdString(err->matrix_error.error)));
-          } else
-              emit showNotification(tr("Kicked user: %1").arg(userid));
+    const auto handleId = requireMatrixBackendHandle(this, "kick a user");
+    if (!handleId)
+        return;
+
+    runMatrixRuntimeTask(
+      this,
+      [handleId = *handleId, room, userid, reason]() {
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::kickUser(
+            handleId, room, userid, reason.trimmed(), &error);
+          return std::make_pair(ok, error);
       },
-      reason.trimmed().toStdString());
+      [userid, room](ChatPage *page, const auto &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              Q_EMIT page->showNotification(
+                ChatPage::tr("Failed to kick %1 from %2: %3").arg(userid, room, error));
+              return;
+          }
+
+          Q_EMIT page->showNotification(ChatPage::tr("Kicked user: %1").arg(userid));
+      });
 }
 
 void
 ChatPage::banUser(const QString &room, QString userid, QString reason)
 {
-    http::client()->ban_user(
-      room.toStdString(),
-      userid.toStdString(),
-      [this, userid, room](const mtx::responses::Empty &, mtx::http::RequestErr err) {
-          if (err) {
-              emit showNotification(
-                tr("Failed to ban %1 in %2: %3")
-                  .arg(userid, room, QString::fromStdString(err->matrix_error.error)));
-          } else
-              emit showNotification(tr("Banned user: %1").arg(userid));
+    const auto handleId = requireMatrixBackendHandle(this, "ban a user");
+    if (!handleId)
+        return;
+
+    runMatrixRuntimeTask(
+      this,
+      [handleId = *handleId, room, userid, reason]() {
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::banUser(
+            handleId, room, userid, reason.trimmed(), &error);
+          return std::make_pair(ok, error);
       },
-      reason.trimmed().toStdString());
+      [userid, room](ChatPage *page, const auto &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              Q_EMIT page->showNotification(
+                ChatPage::tr("Failed to ban %1 in %2: %3").arg(userid, room, error));
+              return;
+          }
+
+          Q_EMIT page->showNotification(ChatPage::tr("Banned user: %1").arg(userid));
+      });
 }
 
 void
@@ -256,39 +397,50 @@ ChatPage::unbanUser(const QString &room, QString userid, QString reason)
     if (QMessageBox::question(nullptr,
                               tr("Confirm unban"),
                               tr("Do you really want to unban %1 (%2)?")
-                                .arg(cache::displayName(room, userid).toHtmlEscaped(),
+                                .arg(displayNameOrUserId(room, userid).toHtmlEscaped(),
                                      userid.toHtmlEscaped())) != QMessageBox::Yes)
         return;
 
-    http::client()->unban_user(
-      room.toStdString(),
-      userid.toStdString(),
-      [this, userid, room](const mtx::responses::Empty &, mtx::http::RequestErr err) {
-          if (err) {
-              emit showNotification(
-                tr("Failed to unban %1 in %2: %3")
-                  .arg(userid, room, QString::fromStdString(err->matrix_error.error)));
-          } else
-              emit showNotification(tr("Unbanned user: %1").arg(userid));
+    const auto handleId = requireMatrixBackendHandle(this, "unban a user");
+    if (!handleId)
+        return;
+
+    runMatrixRuntimeTask(
+      this,
+      [handleId = *handleId, room, userid, reason]() {
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::unbanUser(
+            handleId, room, userid, reason.trimmed(), &error);
+          return std::make_pair(ok, error);
       },
-      reason.trimmed().toStdString());
+      [userid, room](ChatPage *page, const auto &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              Q_EMIT page->showNotification(
+                ChatPage::tr("Failed to unban %1 in %2: %3").arg(userid, room, error));
+              return;
+          }
+
+          Q_EMIT page->showNotification(ChatPage::tr("Unbanned user: %1").arg(userid));
+      });
 }
 
 void
 ChatPage::startChat(QString userid, std::optional<bool> encryptionEnabled)
 {
-    auto joined_rooms = cache::joinedRooms();
-    auto room_infos   = cache::getRoomInfo(joined_rooms);
+    const auto handleId = requireMatrixBackendHandle(this, "start a direct chat");
+    if (!handleId)
+        return;
 
-    for (const std::string &room_id : joined_rooms) {
-        if (const auto &info = room_infos[QString::fromStdString(room_id)];
-            info.member_count == 2 && !info.is_space) {
-            auto room_members = cache::roomMembers(room_id);
-            if (std::find(room_members.begin(), room_members.end(), userid.toStdString()) !=
-                room_members.end()) {
-                view_manager_->rooms()->setCurrentRoom(QString::fromStdString(room_id));
-                return;
-            }
+    if (const auto rooms = fetchMatrixRoomList(*handleId); rooms.has_value()) {
+        const auto existingRoom =
+          std::find_if(rooms->cbegin(), rooms->cend(), [&userid](const auto &room) {
+              return room.isDirect && !room.isInvite && !room.isSpace &&
+                     room.directChatOtherUserId == userid;
+          });
+        if (existingRoom != rooms->cend()) {
+            view_manager_->rooms()->setCurrentRoom(existingRoom->roomId);
+            return;
         }
     }
 
@@ -304,8 +456,12 @@ ChatPage::startChat(QString userid, std::optional<bool> encryptionEnabled)
     req.visibility = mtx::common::RoomVisibility::Private;
 
     if (!encryptionEnabled.has_value()) {
-        if (auto keys = cache::userKeys(userid.toStdString()))
-            encryptionEnabled = !keys->device_keys.empty();
+        if (cache::isInitialized()) {
+            if (auto keys = cache::userKeys(userid.toStdString()))
+                encryptionEnabled = !keys->device_keys.empty();
+        } else {
+            encryptionEnabled = true;
+        }
     }
 
     if (encryptionEnabled.value_or(false)) {
@@ -343,11 +499,14 @@ ChatPage::tryHandleMatrixUri(QString uri)
     }
 
     const auto &[sigil1, mxid1, sigil2, mxid2, action, vias] = *m;
+    const auto matrixBackendHandleId =
+      MainWindow::instance() ? MainWindow::instance()->matrixBackendHandleId() : 0;
 
     if (sigil1 == u"u") {
         if (action.isEmpty()) {
             auto t = MainWindow::instance()->focusedRoom();
-            if (!t.isEmpty() && cache::isRoomMember(mxid1.toStdString(), t.toStdString())) {
+            if (!t.isEmpty() && cache::isInitialized() &&
+                cache::isRoomMember(mxid1.toStdString(), t.toStdString())) {
                 auto rm = view_manager_->rooms()->getRoomById(t);
                 if (rm)
                     rm->openUserProfile(mxid1);
@@ -359,38 +518,70 @@ ChatPage::tryHandleMatrixUri(QString uri)
         }
         return true;
     } else if (sigil1 == u"roomid") {
-        auto joined_rooms = cache::joinedRooms();
-        auto targetRoomId = mxid1.toStdString();
+        if (matrixBackendHandleId != 0) {
+            if (const auto rooms = fetchMatrixRoomList(matrixBackendHandleId); rooms.has_value()) {
+                const auto existingRoom =
+                  std::find_if(rooms->cbegin(), rooms->cend(), [&mxid1](const auto &room) {
+                      return room.roomId == mxid1 && !room.isInvite;
+                  });
+                if (existingRoom != rooms->cend()) {
+                    view_manager_->rooms()->setCurrentRoom(existingRoom->roomId);
+                    if (!mxid2.isEmpty())
+                        view_manager_->showEvent(existingRoom->roomId, mxid2);
+                    return true;
+                }
+            }
 
-        for (const auto &roomid : joined_rooms) {
-            if (roomid == targetRoomId) {
-                view_manager_->rooms()->setCurrentRoom(mxid1);
-                if (!mxid2.isEmpty())
-                    view_manager_->showEvent(mxid1, mxid2);
+            if (action == u"join" || action.isEmpty()) {
+                joinRoomVia(mxid1.toStdString(), vias);
                 return true;
+            }
+
+            if (action == u"knock" || action.isEmpty()) {
+                knockRoom(mxid1, vias);
+                return true;
+            }
+
+            return false;
+        }
+
+        if (cache::isInitialized()) {
+            auto joined_rooms = cache::joinedRooms();
+            auto targetRoomId = mxid1.toStdString();
+
+            for (const auto &roomid : joined_rooms) {
+                if (roomid == targetRoomId) {
+                    view_manager_->rooms()->setCurrentRoom(mxid1);
+                    if (!mxid2.isEmpty())
+                        view_manager_->showEvent(mxid1, mxid2);
+                    return true;
+                }
             }
         }
 
         if (action == u"join" || action.isEmpty()) {
-            joinRoomVia(targetRoomId, vias);
+            joinRoomVia(mxid1.toStdString(), vias);
             return true;
-        } else if (action == u"knock" || action.isEmpty()) {
+        }
+        if (action == u"knock" || action.isEmpty()) {
             knockRoom(mxid1, vias);
             return true;
         }
         return false;
     } else if (sigil1 == u"r") {
-        auto joined_rooms    = cache::joinedRooms();
-        auto targetRoomAlias = mxid1.toStdString();
+        if (matrixBackendHandleId == 0 && cache::isInitialized()) {
+            auto joined_rooms    = cache::joinedRooms();
+            auto targetRoomAlias = mxid1.toStdString();
 
-        for (const auto &roomid : joined_rooms) {
-            auto aliases = cache::getStateEvent<mtx::events::state::CanonicalAlias>(roomid);
-            if (aliases) {
-                if (aliases->content.alias == targetRoomAlias) {
-                    view_manager_->rooms()->setCurrentRoom(QString::fromStdString(roomid));
-                    if (!mxid2.isEmpty())
-                        view_manager_->showEvent(QString::fromStdString(roomid), mxid2);
-                    return true;
+            for (const auto &roomid : joined_rooms) {
+                auto aliases = cache::getStateEvent<mtx::events::state::CanonicalAlias>(roomid);
+                if (aliases) {
+                    if (aliases->content.alias == targetRoomAlias) {
+                        view_manager_->rooms()->setCurrentRoom(QString::fromStdString(roomid));
+                        if (!mxid2.isEmpty())
+                            view_manager_->showEvent(QString::fromStdString(roomid), mxid2);
+                        return true;
+                    }
                 }
             }
         }

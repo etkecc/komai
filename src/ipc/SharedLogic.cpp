@@ -17,7 +17,6 @@
 
 #include <mtx/events/collections.hpp>
 #include <mtx/responses/media.hpp>
-#include <mtx/responses/messages.hpp>
 #include <mtxclient/crypto/utils.hpp>
 
 #include "blurhash.hpp"
@@ -27,7 +26,7 @@
 #include "config/komai.h"
 #include "encryption/Olm.h"
 #include "events/EventAccessors.h"
-#include "matrix/MatrixClient.h"
+#include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -100,8 +99,6 @@ roomCategories(RoomlistModel *roomlist, const QModelIndex &index)
 }
 
 constexpr int kMaxTimelineLimit                 = 500;
-constexpr int kTimelineServerFetchPageSize      = 200;
-constexpr int kTimelineServerFetchMaxRequests   = 10;
 constexpr auto kTimelineFetchModeCachedOnly     = "cached_only";
 constexpr auto kTimelineFetchModeServerIfNeeded = "server_fetch_if_needed";
 
@@ -286,7 +283,13 @@ public:
         if (!refreshSlice())
             return;
 
-        maybeFetchOlder();
+        if (fetchMode_ == TimelineFetchMode::ServerFetchIfNeeded) {
+            nhlog::ui()->debug("IPC timeline read requested server fetch for room '{}', but this "
+                               "migration branch is cache-only here",
+                               roomId_.toStdString());
+        }
+
+        finish();
     }
 
 private:
@@ -304,93 +307,9 @@ private:
         return true;
     }
 
-    bool serverCanFetchMore() const
-    {
-        if (fetchMode_ != TimelineFetchMode::ServerFetchIfNeeded || serverHistoryExhausted_)
-            return false;
-
-        return !cache::previousBatchToken(roomIdStd_).empty();
-    }
-
-    bool shouldFetchOlder() const
-    {
-        return slice_.events.size() < limit_ && serverCanFetchMore() &&
-               requestsDone_ < kTimelineServerFetchMaxRequests;
-    }
-
-    void maybeFetchOlder()
-    {
-        if (!shouldFetchOlder()) {
-            finish();
-            return;
-        }
-
-        const auto fromToken = QString::fromStdString(cache::previousBatchToken(roomIdStd_));
-        if (fromToken.isEmpty()) {
-            finish();
-            return;
-        }
-
-        ++requestsDone_;
-
-        mtx::http::MessagesOpts opts;
-        opts.room_id = roomIdStd_;
-        opts.from    = fromToken.toStdString();
-        opts.limit   = kTimelineServerFetchPageSize;
-
-        QPointer<TimelineReadOperation> self(this);
-        http::client()->messages(
-          opts, [self, fromToken](const mtx::responses::Messages &res, mtx::http::RequestErr err) {
-              if (!self)
-                  return;
-
-              QMetaObject::invokeMethod(
-                self.data(),
-                [self, fromToken, res, err]() {
-                    if (self)
-                        self->handleFetchResult(fromToken, res, err);
-                },
-                Qt::QueuedConnection);
-          });
-    }
-
-    void handleFetchResult(const QString &fromToken,
-                           const mtx::responses::Messages &res,
-                           mtx::http::RequestErr err)
-    {
-        if (err) {
-            fail(QStringLiteral("failed to fetch older messages: ") +
-                 QString::fromStdString(err->matrix_error.error));
-            return;
-        }
-
-        const auto currentToken = QString::fromStdString(cache::previousBatchToken(roomIdStd_));
-        if (currentToken != fromToken) {
-            if (!refreshSlice())
-                return;
-            maybeFetchOlder();
-            return;
-        }
-
-        const bool noMoreServerHistory =
-          res.end.empty() || QString::fromStdString(res.end) == fromToken;
-        const bool tokenAdvanced = !res.end.empty() && QString::fromStdString(res.end) != fromToken;
-
-        if (!res.chunk.empty() || tokenAdvanced)
-            cache::saveOldMessages(roomIdStd_, res);
-
-        if (noMoreServerHistory)
-            serverHistoryExhausted_ = true;
-
-        if (!refreshSlice())
-            return;
-
-        maybeFetchOlder();
-    }
-
     void finish()
     {
-        const bool hasMore = slice_.hasMoreLocal || serverCanFetchMore();
+        const bool hasMore = slice_.hasMoreLocal;
         if (callback_)
             callback_(timelineResultToJson(roomId_, slice_, hasMore), {});
         deleteLater();
@@ -411,8 +330,6 @@ private:
     TimelineFetchMode fetchMode_;
     komai::ipc::ReadTimelineCallback callback_;
     TimelineSlice slice_;
-    int requestsDone_            = 0;
-    bool serverHistoryExhausted_ = false;
 };
 
 } // namespace

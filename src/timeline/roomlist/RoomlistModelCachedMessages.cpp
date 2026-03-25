@@ -12,15 +12,10 @@
 #include "cache/Cache.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
 namespace {
-constexpr uint64_t kCachedLastMessageScanLimit    = 200;
-constexpr int kCachedLastMessageBackfillPageSize  = 200;
-constexpr int kCachedLastMessageBackfillMaxEvents = 5000;
-constexpr int kCachedLastMessageBackfillMaxRequests =
-  kCachedLastMessageBackfillMaxEvents / kCachedLastMessageBackfillPageSize;
+constexpr uint64_t kCachedLastMessageScanLimit        = 200;
 constexpr int kCachedLastMessageBackfillMaxConcurrent = 1;
 constexpr int kCurrentRoomWarmupTargetEvents          = 100;
 constexpr int kCurrentRoomWarmupMaxRequests           = 3;
@@ -177,74 +172,13 @@ RoomlistModel::backfillCachedLastMessage(const QString &room_id,
                                          const std::string &fromToken,
                                          int requestsDone)
 {
-    if (room_id.isEmpty() || fromToken.empty() ||
-        requestsDone >= kCachedLastMessageBackfillMaxRequests) {
-        finalizeCachedLastMessageBackfill(room_id);
-        return;
-    }
+    Q_UNUSED(fromToken);
+    Q_UNUSED(requestsDone);
 
-    mtx::http::MessagesOpts opts;
-    opts.room_id = room_id.toStdString();
-    opts.from    = fromToken;
-    opts.limit   = kCachedLastMessageBackfillPageSize;
-
-    const QPointer<RoomlistModel> self(this);
-    http::client()->messages(
-      opts,
-      [self, room_id, fromToken, requestsDone](const mtx::responses::Messages &res,
-                                               mtx::http::RequestErr err) {
-          if (!self)
-              return;
-
-          if (!self->cachedLastMessageBackfillInProgress_.contains(room_id))
-              return;
-
-          if (err) {
-              nhlog::net()->warn(
-                "Failed to backfill room list last-message preview for {}: {} - {} - {}",
-                room_id.toStdString(),
-                mtx::errors::to_string(err->matrix_error.errcode),
-                err->matrix_error.error,
-                err->parse_error);
-              self->finalizeCachedLastMessageBackfill(room_id);
-              return;
-          }
-
-          const auto roomId = room_id.toStdString();
-          if (cache::previousBatchToken(roomId) != fromToken) {
-              nhlog::net()->warn(
-                "Room list preview backfill token changed for {}, dropping response",
-                room_id.toStdString());
-              self->finalizeCachedLastMessageBackfill(room_id);
-              return;
-          }
-
-          const bool noMoreMessages = res.end.empty() || res.end == fromToken;
-          if (!res.chunk.empty())
-              cache::saveOldMessages(roomId, res);
-
-          self->invalidateCachedLastMessage(room_id);
-          self->ensureCachedLastMessage(room_id);
-
-          const auto refreshedDescription = self->cachedLastMessages_.value(room_id);
-          if (!refreshedDescription.body.isEmpty() &&
-              !isCachedEncryptedPreview(room_id, refreshedDescription)) {
-              if (auto idx = self->roomidToIndex(room_id); idx != -1) {
-                  emit self->dataChanged(self->index(idx),
-                                         self->index(idx),
-                                         {Roles::LastMessage, Roles::Time, Roles::Timestamp});
-              }
-              self->finalizeCachedLastMessageBackfill(room_id);
-              return;
-          }
-
-          if (noMoreMessages || requestsDone + 1 >= kCachedLastMessageBackfillMaxRequests) {
-              self->finalizeCachedLastMessageBackfill(room_id);
-              return;
-          }
-
-          self->backfillCachedLastMessage(room_id, res.end, requestsDone + 1);
-      });
+    nhlog::ui()->debug("Skipping legacy room-list last-message backfill for '{}'; old "
+                       "/messages pagination path has been removed",
+                       room_id.toStdString());
+    finalizeCachedLastMessageBackfill(room_id);
 }
 
 void

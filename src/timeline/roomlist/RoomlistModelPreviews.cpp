@@ -9,65 +9,54 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "matrix/MatrixMediaUri.h"
 #include "utils/Utils.h"
 
 void
 RoomlistModel::fetchPreviews(QString roomid_, const std::string &from)
 {
-    auto roomid = roomid_.toStdString();
-    if (from.empty()) {
-        // check if we need to fetch anything
-        auto children = cache::getChildRoomIds(roomid);
-        bool fetch    = false;
-        for (const auto &c : children) {
-            auto id = QString::fromStdString(c);
-            if (invites.contains(id) || models.contains(id) ||
-                (previewedRooms.contains(id) && previewedRooms.value(id).has_value()))
-                continue;
-            else {
-                fetch = true;
-                break;
-            }
+    Q_UNUSED(from);
+
+    auto roomid   = roomid_.toStdString();
+    auto children = cache::getChildRoomIds(roomid);
+    bool fetched  = false;
+
+    for (const auto &childRoomId : children) {
+        const auto id = QString::fromStdString(childRoomId);
+        if (invites.contains(id) || models.contains(id) ||
+            (previewedRooms.contains(id) && previewedRooms.value(id).has_value()))
+            continue;
+
+        if (cachedJoinedRooms_.contains(id)) {
+            emit fetchedPreview(id, cachedJoinedRooms_.value(id));
+            fetched = true;
+            continue;
         }
-        if (!fetch) {
-            nhlog::net()->info("Not feching previews for children of {}", roomid);
-            return;
+
+        if (matrixJoinedRooms_.contains(id)) {
+            const auto room = matrixJoinedRooms_.value(id);
+            RoomInfo info{};
+            info.name       = room.displayName.toStdString();
+            info.topic      = room.topic.toStdString();
+            info.avatar_url = komai::matrix::normalizeMxcUri(room.avatarUrl).toStdString();
+            info.is_space   = room.isSpace;
+            emit fetchedPreview(id, info);
+            fetched = true;
+            continue;
+        }
+
+        const auto cachedInfo = cache::singleRoomInfo(childRoomId);
+        if (!cachedInfo.name.empty() || !cachedInfo.topic.empty() ||
+            !cachedInfo.avatar_url.empty() || cachedInfo.member_count != 0 || cachedInfo.is_space) {
+            emit fetchedPreview(id, cachedInfo);
+            fetched = true;
         }
     }
 
-    nhlog::net()->info("Feching previews for children of {}", roomid);
-    http::client()->get_hierarchy(
-      roomid,
-      [this, roomid, roomid_](const mtx::responses::HierarchyRooms &h, mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->error("Failed to fetch previews for children of {}: {}", roomid, *err);
-              return;
-          }
-
-          nhlog::net()->info("Feched previews for children of {}: {}", roomid, h.rooms.size());
-
-          for (const auto &e : h.rooms) {
-              RoomInfo info{};
-              info.name         = e.name;
-              info.is_space     = e.room_type == mtx::events::state::room_type::space;
-              info.avatar_url   = e.avatar_url;
-              info.topic        = e.topic;
-              info.guest_access = e.guest_can_join;
-              info.join_rule    = e.join_rule;
-              info.member_count = e.num_joined_members;
-
-              emit fetchedPreview(QString::fromStdString(e.room_id), info);
-          }
-
-          if (!h.next_batch.empty())
-              fetchPreviews(roomid_, h.next_batch);
-      },
-      from,
-      50,
-      1,
-      false);
+    if (!fetched)
+        nhlog::net()->debug("Skipping legacy hierarchy preview fetch for '{}'; no local preview "
+                            "data is available",
+                            roomid);
 }
 
 void

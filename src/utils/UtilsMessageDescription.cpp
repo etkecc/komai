@@ -287,7 +287,7 @@ utils::localUser()
             return sessionUserId;
     }
 
-    return QString::fromStdString(http::client()->user_id().to_string());
+    return {};
 }
 
 bool

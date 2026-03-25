@@ -165,6 +165,11 @@ ColumnLayout {
                         readonly property bool hasReplyPreview: replyBody.length > 0
                         readonly property bool showVisualPreview: ["image", "video", "sticker"].indexOf(itemKind) >= 0 && itemId.length > 0
                         readonly property string replySourceBody: body.length > 0 ? body : effectiveFileName
+                        readonly property var quickReactions: Settings.timelineMessageActionsPinnedReactions.split(",").map(function (s) {
+                            return s.trim();
+                        }).filter(function (s) {
+                            return s.length > 0;
+                        }).slice(0, 4)
                         readonly property double safePreviewAspectRatio: mediaWidth > 0 && mediaHeight > 0 ? (mediaHeight / mediaWidth) : 0.75
                         readonly property string footerMetaText: {
                             const parts = [];
@@ -462,28 +467,62 @@ ColumnLayout {
                                         textFormat: TextEdit.PlainText
                                     }
 
-                                    Rectangle {
+                                    Flow {
                                         Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
-                                        color: Qt.rgba(palette.base.r, palette.base.g, palette.base.b, isOwn ? 0.2 : 0.45)
-                                        implicitHeight: replyActionLabel.implicitHeight + Komai.paddingSmall * 2
-                                        implicitWidth: replyActionLabel.implicitWidth + Komai.paddingMedium * 2
-                                        radius: implicitHeight / 2
+                                        Layout.fillWidth: true
+                                        spacing: Komai.paddingSmall
                                         visible: eventId.length > 0
 
-                                        MatrixText {
-                                            id: replyActionLabel
+                                        Repeater {
+                                            model: quickReactions
 
-                                            anchors.centerIn: parent
-                                            color: isOwn ? palette.highlightedText : palette.text
-                                            text: qsTr("Reply")
-                                            textFormat: TextEdit.PlainText
+                                            delegate: Rectangle {
+                                                required property var modelData
+
+                                                color: Qt.rgba(palette.base.r, palette.base.g, palette.base.b, isOwn ? 0.2 : 0.45)
+                                                implicitHeight: reactionLabel.implicitHeight + Komai.paddingSmall * 2
+                                                implicitWidth: reactionLabel.implicitWidth + Komai.paddingMedium * 2
+                                                radius: implicitHeight / 2
+
+                                                MatrixText {
+                                                    id: reactionLabel
+
+                                                    anchors.centerIn: parent
+                                                    color: isOwn ? palette.highlightedText : palette.text
+                                                    text: modelData
+                                                    textFormat: TextEdit.PlainText
+                                                }
+
+                                                MouseArea {
+                                                    anchors.fill: parent
+                                                    cursorShape: Qt.PointingHandCursor
+
+                                                    onClicked: TimelineManager.toggleActiveMatrixTimelineReaction(eventId, modelData)
+                                                }
+                                            }
                                         }
 
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            cursorShape: Qt.PointingHandCursor
+                                        Rectangle {
+                                            color: Qt.rgba(palette.base.r, palette.base.g, palette.base.b, isOwn ? 0.2 : 0.45)
+                                            implicitHeight: replyActionLabel.implicitHeight + Komai.paddingSmall * 2
+                                            implicitWidth: replyActionLabel.implicitWidth + Komai.paddingMedium * 2
+                                            radius: implicitHeight / 2
 
-                                            onClicked: TimelineManager.queueActiveMatrixReply(eventId, senderDisplayName, replySourceBody)
+                                            MatrixText {
+                                                id: replyActionLabel
+
+                                                anchors.centerIn: parent
+                                                color: isOwn ? palette.highlightedText : palette.text
+                                                text: qsTr("Reply")
+                                                textFormat: TextEdit.PlainText
+                                            }
+
+                                            MouseArea {
+                                                anchors.fill: parent
+                                                cursorShape: Qt.PointingHandCursor
+
+                                                onClicked: TimelineManager.queueActiveMatrixReply(eventId, senderDisplayName, replySourceBody)
+                                            }
                                         }
                                     }
                                 }

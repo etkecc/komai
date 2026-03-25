@@ -425,6 +425,43 @@ pub async fn send_room_attachment(
         .map_err(|e| format!("failed to send matrix-sdk room attachment: {e}"))
 }
 
+pub async fn toggle_room_reaction(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+    reaction_key: &str,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let event_id = event_id.trim();
+    if event_id.is_empty() {
+        return Err("cannot toggle a matrix-sdk room reaction without an event id".to_owned());
+    }
+
+    let reaction_key = reaction_key.trim();
+    if reaction_key.is_empty() {
+        return Err("cannot toggle an empty matrix-sdk room reaction".to_owned());
+    }
+
+    let parsed_event_id =
+        EventId::parse(event_id).map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        event_id,
+        reaction_key,
+        "Toggling matrix-sdk room reaction"
+    );
+
+    room.timeline()
+        .await
+        .map_err(|e| format!("failed to build matrix-sdk room timeline for reaction: {e}"))?
+        .toggle_reaction(&TimelineEventItemId::EventId(parsed_event_id), reaction_key)
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to toggle matrix-sdk room reaction: {e}"))
+}
+
 async fn run_room_timeline_loop(
     handle_id: u64,
     client: Client,

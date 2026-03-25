@@ -268,6 +268,38 @@ TimelineViewManager::clearActiveMatrixReply()
 }
 
 bool
+TimelineViewManager::toggleActiveMatrixTimelineReaction(const QString &eventId,
+                                                        const QString &reactionKey)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to toggle a matrix-sdk room reaction without an active "
+                          "runtime handle or selected matrix room");
+        return false;
+    }
+
+    const auto trimmedEventId     = eventId.trimmed();
+    const auto trimmedReactionKey = reactionKey.trimmed();
+    if (trimmedEventId.isEmpty() || trimmedReactionKey.isEmpty())
+        return false;
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::toggleRoomReaction(
+          handleId, activeMatrixTimelineRoomId_, trimmedEventId, trimmedReactionKey, &error)) {
+        nhlog::ui()->warn("Failed to toggle matrix-sdk room reaction for '{}' on handle {}: {}",
+                          activeMatrixTimelineRoomId_.toStdString(),
+                          handleId,
+                          error.toStdString());
+        if (mainWindow)
+            mainWindow->showNotification(tr("Failed to react: %1").arg(error));
+        return false;
+    }
+
+    return true;
+}
+
+bool
 TimelineViewManager::openActiveMatrixAttachmentSelection()
 {
     auto *mainWindow    = MainWindow::instance();

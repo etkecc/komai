@@ -334,6 +334,12 @@ mod ffi {
             formatted_html: &str,
             message_kind: &str,
         ) -> Result<()>;
+        fn matrix_toggle_room_reaction(
+            handle_id: u64,
+            room_id: &str,
+            event_id: &str,
+            reaction_key: &str,
+        ) -> Result<()>;
         fn matrix_send_room_attachment(
             handle_id: u64,
             room_id: &str,
@@ -847,6 +853,20 @@ fn matrix_send_room_reply_message(
         body,
         formatted_html,
         message_kind,
+    ))
+}
+
+fn matrix_toggle_room_reaction(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+    reaction_key: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::toggle_room_reaction(
+        handle_id,
+        room_id,
+        event_id,
+        reaction_key,
     ))
 }
 

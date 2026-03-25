@@ -277,6 +277,12 @@ public:
                                      const QString &messageKind,
                                      QString *errorOut = nullptr);
 
+    static bool toggleRoomReaction(uint64_t handleId,
+                                   const QString &roomId,
+                                   const QString &eventId,
+                                   const QString &reactionKey,
+                                   QString *errorOut = nullptr);
+
     static bool sendRoomAttachment(uint64_t handleId,
                                    const QString &roomId,
                                    const QString &filePath,

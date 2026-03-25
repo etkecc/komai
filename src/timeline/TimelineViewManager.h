@@ -189,6 +189,8 @@ public:
                                             const QString &senderDisplayName,
                                             const QString &body);
     Q_INVOKABLE void clearActiveMatrixReply();
+    Q_INVOKABLE bool
+    toggleActiveMatrixTimelineReaction(const QString &eventId, const QString &reactionKey);
     Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
     Q_INVOKABLE bool paginateActiveMatrixTimelineBackwards(int pageSize = 0);
     Q_INVOKABLE bool

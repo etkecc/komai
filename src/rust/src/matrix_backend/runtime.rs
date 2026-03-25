@@ -44,7 +44,7 @@ use matrix_sdk_ui::{
     eyeball_im::{Vector, VectorDiff},
     room_list_service::{RoomListItem, filters},
     timeline::{
-        RoomExt, TimelineDetails, TimelineItem, VirtualTimelineItem,
+        RoomExt, TimelineDetails, TimelineEventItemId, TimelineItem, VirtualTimelineItem,
     },
 };
 use tokio::sync::mpsc;
@@ -83,7 +83,7 @@ pub use room_settings::{
 pub use timeline::{
     fetch_active_room_timeline, fetch_active_room_timeline_media_content,
     paginate_active_room_timeline_backwards, select_active_room_timeline, send_room_attachment,
-    send_room_message, send_room_reply_message,
+    send_room_message, send_room_reply_message, toggle_room_reaction,
 };
 
 pub struct MatrixBackendHandleInfo {

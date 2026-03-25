@@ -4,9 +4,16 @@
 
 use matrix_sdk::{
     ruma::{
+        UInt,
         events::{
             AnySyncMessageLikeEvent, AnySyncStateEvent, AnySyncTimelineEvent,
-            room::message::{MessageType, Relation, SyncRoomMessageEvent},
+            room::{
+                MediaSource,
+                message::{
+                    AudioMessageEventContent, FileMessageEventContent, ImageMessageEventContent,
+                    MessageType, Relation, SyncRoomMessageEvent, VideoMessageEventContent,
+                },
+            },
         },
     },
 };
@@ -18,13 +25,30 @@ use matrix_sdk_ui::timeline::{
 pub struct MatrixEventSummary {
     pub kind: String,
     pub body: String,
+    pub media: Option<MatrixEventMediaSummary>,
+}
+
+#[derive(Clone, Debug)]
+pub struct MatrixEventMediaSummary {
+    pub media_url: String,
+    pub thumbnail_url: String,
+    pub file_name: String,
+    pub mime_type: String,
+    pub media_width: u64,
+    pub media_height: u64,
+    pub media_duration_ms: u64,
+    pub media_size_bytes: u64,
+    pub media_is_encrypted: bool,
+    pub thumbnail_is_encrypted: bool,
+    pub source: Option<MediaSource>,
+    pub thumbnail_source: Option<MediaSource>,
 }
 
 pub fn summarize_timeline_content(content: &TimelineItemContent) -> MatrixEventSummary {
     match content {
         TimelineItemContent::MsgLike(content) => match &content.kind {
             MsgLikeKind::Message(message) => summary_from_message_type(message.msgtype()),
-            MsgLikeKind::Sticker(_) => summary("sticker", "[Sticker]"),
+            MsgLikeKind::Sticker(sticker) => summarize_sticker(sticker.content()),
             MsgLikeKind::Poll(_) => summary("poll", "[Poll]"),
             MsgLikeKind::Redacted => summary("redacted", "[Redacted message]"),
             MsgLikeKind::UnableToDecrypt(_) => {
@@ -218,10 +242,18 @@ fn summary_from_message_type(message_type: &MessageType) -> MatrixEventSummary {
         MessageType::Text(_) => summary("message", message_type.body()),
         MessageType::Notice(_) => summary("notice", message_type.body()),
         MessageType::Emote(_) => summary("emote", message_type.body()),
-        MessageType::Image(_) => summary("image", message_type.body()),
-        MessageType::Video(_) => summary("video", message_type.body()),
-        MessageType::Audio(_) => summary("audio", message_type.body()),
-        MessageType::File(_) => summary("file", message_type.body()),
+        MessageType::Image(content) => {
+            summary_with_media("image", caption_or_filename(content), media_for_image(content))
+        }
+        MessageType::Video(content) => {
+            summary_with_media("video", caption_or_filename(content), media_for_video(content))
+        }
+        MessageType::Audio(content) => {
+            summary_with_media("audio", caption_or_filename(content), media_for_audio(content))
+        }
+        MessageType::File(content) => {
+            summary_with_media("file", caption_or_filename(content), media_for_file(content))
+        }
         MessageType::Location(_) => summary("location", message_type.body()),
         _ => summary("message", message_type.body()),
     }
@@ -236,5 +268,240 @@ fn human_name(display_name: Option<&str>, user_id: &str) -> String {
 }
 
 fn summary(kind: &str, body: &str) -> MatrixEventSummary {
-    MatrixEventSummary { kind: kind.to_owned(), body: body.to_owned() }
+    MatrixEventSummary { kind: kind.to_owned(), body: body.to_owned(), media: None }
+}
+
+fn summary_with_media(
+    kind: &str,
+    body: &str,
+    media: MatrixEventMediaSummary,
+) -> MatrixEventSummary {
+    MatrixEventSummary { kind: kind.to_owned(), body: body.to_owned(), media: Some(media) }
+}
+
+fn summarize_sticker(
+    content: &matrix_sdk::ruma::events::sticker::StickerEventContent,
+) -> MatrixEventSummary {
+    let media_source = sticker_media_source_to_media_source(&content.source);
+    let media_url = media_source
+        .as_ref()
+        .map(media_source_url)
+        .unwrap_or_default();
+    let thumbnail_url = media_source
+        .as_ref()
+        .map(|primary_source| {
+            thumbnail_url_or_primary(content.info.thumbnail_source.as_ref(), primary_source)
+        })
+        .unwrap_or_default();
+    let media_is_encrypted = media_source
+        .as_ref()
+        .map(media_source_is_encrypted)
+        .unwrap_or(false);
+    let thumbnail_is_encrypted = media_source
+        .as_ref()
+        .map(|primary_source| {
+            thumbnail_is_encrypted_or_primary(content.info.thumbnail_source.as_ref(), primary_source)
+        })
+        .unwrap_or(false);
+
+    summary_with_media(
+        "sticker",
+        content.body.as_str(),
+        MatrixEventMediaSummary {
+            media_url,
+            thumbnail_url,
+            file_name: content.body.clone(),
+            mime_type: content.info.mimetype.clone().unwrap_or_default(),
+            media_width: opt_uint_to_u64(content.info.width),
+            media_height: opt_uint_to_u64(content.info.height),
+            media_duration_ms: 0,
+            media_size_bytes: opt_uint_to_u64(content.info.size),
+            media_is_encrypted,
+            thumbnail_is_encrypted,
+            source: media_source,
+            thumbnail_source: content.info.thumbnail_source.clone(),
+        },
+    )
+}
+
+fn media_for_image(content: &ImageMessageEventContent) -> MatrixEventMediaSummary {
+    let info = content.info.as_deref();
+    let thumbnail_source = info.and_then(|info| info.thumbnail_source.clone());
+
+    MatrixEventMediaSummary {
+        media_url: media_source_url(&content.source),
+        thumbnail_url: thumbnail_url_or_primary(thumbnail_source.as_ref(), &content.source),
+        file_name: content.filename().to_owned(),
+        mime_type: info.and_then(|info| info.mimetype.clone()).unwrap_or_default(),
+        media_width: info.and_then(|info| info.width).map_or(0, uint_to_u64),
+        media_height: info.and_then(|info| info.height).map_or(0, uint_to_u64),
+        media_duration_ms: 0,
+        media_size_bytes: info.and_then(|info| info.size).map_or(0, uint_to_u64),
+        media_is_encrypted: media_source_is_encrypted(&content.source),
+        thumbnail_is_encrypted: thumbnail_is_encrypted_or_primary(
+            thumbnail_source.as_ref(),
+            &content.source,
+        ),
+        source: Some(content.source.clone()),
+        thumbnail_source,
+    }
+}
+
+fn media_for_video(content: &VideoMessageEventContent) -> MatrixEventMediaSummary {
+    let info = content.info.as_deref();
+    let thumbnail_source = info.and_then(|info| info.thumbnail_source.clone());
+
+    MatrixEventMediaSummary {
+        media_url: media_source_url(&content.source),
+        thumbnail_url: thumbnail_source
+            .as_ref()
+            .map(media_source_url)
+            .unwrap_or_default(),
+        file_name: content.filename().to_owned(),
+        mime_type: info.and_then(|info| info.mimetype.clone()).unwrap_or_default(),
+        media_width: info.and_then(|info| info.width).map_or(0, uint_to_u64),
+        media_height: info.and_then(|info| info.height).map_or(0, uint_to_u64),
+        media_duration_ms: info
+            .and_then(|info| info.duration)
+            .map_or(0, duration_to_millis_u64),
+        media_size_bytes: info.and_then(|info| info.size).map_or(0, uint_to_u64),
+        media_is_encrypted: media_source_is_encrypted(&content.source),
+        thumbnail_is_encrypted: thumbnail_source
+            .as_ref()
+            .map(media_source_is_encrypted)
+            .unwrap_or(false),
+        source: Some(content.source.clone()),
+        thumbnail_source,
+    }
+}
+
+fn media_for_audio(content: &AudioMessageEventContent) -> MatrixEventMediaSummary {
+    let info = content.info.as_deref();
+
+    MatrixEventMediaSummary {
+        media_url: media_source_url(&content.source),
+        thumbnail_url: String::new(),
+        file_name: content.filename().to_owned(),
+        mime_type: info.and_then(|info| info.mimetype.clone()).unwrap_or_default(),
+        media_width: 0,
+        media_height: 0,
+        media_duration_ms: info
+            .and_then(|info| info.duration)
+            .map_or(0, duration_to_millis_u64),
+        media_size_bytes: info.and_then(|info| info.size).map_or(0, uint_to_u64),
+        media_is_encrypted: media_source_is_encrypted(&content.source),
+        thumbnail_is_encrypted: false,
+        source: Some(content.source.clone()),
+        thumbnail_source: None,
+    }
+}
+
+fn media_for_file(content: &FileMessageEventContent) -> MatrixEventMediaSummary {
+    let info = content.info.as_deref();
+    let thumbnail_source = info.and_then(|info| info.thumbnail_source.clone());
+
+    MatrixEventMediaSummary {
+        media_url: media_source_url(&content.source),
+        thumbnail_url: thumbnail_source
+            .as_ref()
+            .map(media_source_url)
+            .unwrap_or_default(),
+        file_name: content.filename().to_owned(),
+        mime_type: info.and_then(|info| info.mimetype.clone()).unwrap_or_default(),
+        media_width: 0,
+        media_height: 0,
+        media_duration_ms: 0,
+        media_size_bytes: info.and_then(|info| info.size).map_or(0, uint_to_u64),
+        media_is_encrypted: media_source_is_encrypted(&content.source),
+        thumbnail_is_encrypted: thumbnail_source
+            .as_ref()
+            .map(media_source_is_encrypted)
+            .unwrap_or(false),
+        source: Some(content.source.clone()),
+        thumbnail_source,
+    }
+}
+
+fn caption_or_filename<T>(content: &T) -> &str
+where
+    T: MediaCaption,
+{
+    content.caption().unwrap_or_else(|| content.filename())
+}
+
+trait MediaCaption {
+    fn filename(&self) -> &str;
+    fn caption(&self) -> Option<&str>;
+}
+
+impl MediaCaption for ImageMessageEventContent {
+    fn filename(&self) -> &str { ImageMessageEventContent::filename(self) }
+    fn caption(&self) -> Option<&str> { ImageMessageEventContent::caption(self) }
+}
+
+impl MediaCaption for VideoMessageEventContent {
+    fn filename(&self) -> &str { VideoMessageEventContent::filename(self) }
+    fn caption(&self) -> Option<&str> { VideoMessageEventContent::caption(self) }
+}
+
+impl MediaCaption for AudioMessageEventContent {
+    fn filename(&self) -> &str { AudioMessageEventContent::filename(self) }
+    fn caption(&self) -> Option<&str> { AudioMessageEventContent::caption(self) }
+}
+
+impl MediaCaption for FileMessageEventContent {
+    fn filename(&self) -> &str { FileMessageEventContent::filename(self) }
+    fn caption(&self) -> Option<&str> { FileMessageEventContent::caption(self) }
+}
+
+fn sticker_media_source_to_media_source(
+    source: &matrix_sdk::ruma::events::sticker::StickerMediaSource,
+) -> Option<MediaSource> {
+    match source {
+        matrix_sdk::ruma::events::sticker::StickerMediaSource::Plain(url) => {
+            Some(MediaSource::Plain(url.clone()))
+        }
+        _ => None,
+    }
+}
+
+fn media_source_url(source: &MediaSource) -> String {
+    match source {
+        MediaSource::Plain(uri) => uri.to_string(),
+        MediaSource::Encrypted(file) => file.url.to_string(),
+    }
+}
+
+fn media_source_is_encrypted(source: &MediaSource) -> bool {
+    matches!(source, MediaSource::Encrypted(_))
+}
+
+fn thumbnail_url_or_primary(
+    thumbnail_source: Option<&MediaSource>,
+    primary_source: &MediaSource,
+) -> String {
+    thumbnail_source
+        .map(media_source_url)
+        .unwrap_or_else(|| media_source_url(primary_source))
+}
+
+fn thumbnail_is_encrypted_or_primary(
+    thumbnail_source: Option<&MediaSource>,
+    primary_source: &MediaSource,
+) -> bool {
+    thumbnail_source
+        .map(media_source_is_encrypted)
+        .unwrap_or_else(|| media_source_is_encrypted(primary_source))
+}
+
+fn opt_uint_to_u64(value: Option<UInt>) -> u64 {
+    value.map_or(0, uint_to_u64)
+}
+
+fn uint_to_u64(value: UInt) -> u64 {
+    u64::from(value)
+}
+
+fn duration_to_millis_u64(duration: std::time::Duration) -> u64 {
+    u64::try_from(duration.as_millis()).unwrap_or(u64::MAX)
 }

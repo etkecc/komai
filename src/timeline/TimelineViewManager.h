@@ -175,6 +175,10 @@ public:
     Q_INVOKABLE bool sendActiveMatrixTextMessage(const QString &body);
     Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
     Q_INVOKABLE bool paginateActiveMatrixTimelineBackwards(int pageSize = 0);
+    Q_INVOKABLE bool
+    openActiveMatrixTimelineMedia(const QString &itemId, const QString &suggestedFileName = {});
+    Q_INVOKABLE bool
+    saveActiveMatrixTimelineMedia(const QString &itemId, const QString &suggestedFileName = {});
 
     Q_INVOKABLE void fixImageRendering(QQuickTextDocument *t, QQuickItem *i);
 
@@ -302,4 +306,8 @@ private:
     void finishPendingMatrixAttachment(bool ok,
                                        const PendingMatrixAttachment &attachment,
                                        QString error = {});
+    void fetchActiveMatrixTimelineMediaToFile(const QString &itemId,
+                                              const QString &outputPath,
+                                              const QString &userVisibleName,
+                                              bool openAfterSave);
 };

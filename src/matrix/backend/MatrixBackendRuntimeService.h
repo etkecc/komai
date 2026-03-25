@@ -84,8 +84,18 @@ struct MatrixTimelineItem
     QString senderAvatarUrl;
     QString body;
     QString itemKind;
-    uint64_t timestamp = 0;
-    bool isOwn         = false;
+    QString mediaUrl;
+    QString thumbnailUrl;
+    QString fileName;
+    QString mimeType;
+    uint64_t mediaWidth       = 0;
+    uint64_t mediaHeight      = 0;
+    uint64_t mediaDurationMs  = 0;
+    uint64_t mediaSizeBytes   = 0;
+    bool mediaIsEncrypted     = false;
+    bool thumbnailIsEncrypted = false;
+    uint64_t timestamp        = 0;
+    bool isOwn                = false;
 
     bool operator==(const MatrixTimelineItem &) const = default;
 };
@@ -260,6 +270,14 @@ public:
                                    const QString &filePath,
                                    const QString &mimeType,
                                    QString *errorOut = nullptr);
+
+    static std::optional<QByteArray>
+    fetchActiveRoomTimelineMediaContent(uint64_t handleId,
+                                        const QString &itemId,
+                                        int width,
+                                        int height,
+                                        bool crop,
+                                        QString *errorOut = nullptr);
 
     static std::optional<QByteArray> fetchMediaContent(uint64_t handleId,
                                                        const QString &mxcUri,

@@ -105,6 +105,16 @@ mod ffi {
         sender_avatar_url: String,
         body: String,
         item_kind: String,
+        media_url: String,
+        thumbnail_url: String,
+        file_name: String,
+        mime_type: String,
+        media_width: u64,
+        media_height: u64,
+        media_duration_ms: u64,
+        media_size_bytes: u64,
+        media_is_encrypted: bool,
+        thumbnail_is_encrypted: bool,
         timestamp: u64,
         is_own: bool,
     }
@@ -298,6 +308,13 @@ mod ffi {
             handle_id: u64,
             page_size: u16,
         ) -> Result<()>;
+        fn matrix_fetch_active_room_timeline_media_content(
+            handle_id: u64,
+            item_id: &str,
+            width: i32,
+            height: i32,
+            crop: bool,
+        ) -> Result<Vec<u8>>;
         fn matrix_send_room_message(
             handle_id: u64,
             room_id: &str,
@@ -746,6 +763,16 @@ fn matrix_fetch_active_room_timeline(
                     sender_avatar_url: item.sender_avatar_url,
                     body: item.body,
                     item_kind: item.item_kind,
+                    media_url: item.media_url,
+                    thumbnail_url: item.thumbnail_url,
+                    file_name: item.file_name,
+                    mime_type: item.mime_type,
+                    media_width: item.media_width,
+                    media_height: item.media_height,
+                    media_duration_ms: item.media_duration_ms,
+                    media_size_bytes: item.media_size_bytes,
+                    media_is_encrypted: item.media_is_encrypted,
+                    thumbnail_is_encrypted: item.thumbnail_is_encrypted,
                     timestamp: item.timestamp,
                     is_own: item.is_own,
                 })
@@ -759,6 +786,18 @@ fn matrix_paginate_active_room_timeline_backwards(
 ) -> Result<(), String> {
     logging::ensure_initialized();
     matrix_backend::runtime::paginate_active_room_timeline_backwards(handle_id, page_size)
+}
+
+fn matrix_fetch_active_room_timeline_media_content(
+    handle_id: u64,
+    item_id: &str,
+    width: i32,
+    height: i32,
+    crop: bool,
+) -> Result<Vec<u8>, String> {
+    runtime().block_on(matrix_backend::runtime::fetch_active_room_timeline_media_content(
+        handle_id, item_id, width, height, crop,
+    ))
 }
 
 fn matrix_send_room_message(

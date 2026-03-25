@@ -28,6 +28,16 @@ public:
         Timestamp,
         ItemKind,
         IsOwn,
+        MediaUrl,
+        ThumbnailUrl,
+        FileName,
+        MimeType,
+        MediaWidth,
+        MediaHeight,
+        MediaDurationMs,
+        MediaSizeBytes,
+        MediaIsEncrypted,
+        ThumbnailIsEncrypted,
     };
 
     explicit MatrixTimelineModel(QObject *parent = nullptr);

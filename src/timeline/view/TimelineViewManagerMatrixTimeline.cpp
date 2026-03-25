@@ -4,10 +4,14 @@
 
 #include "timeline/TimelineViewManager.h"
 
+#include <QDesktopServices>
+#include <QDir>
+#include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QMimeDatabase>
 #include <QStandardPaths>
+#include <QUrl>
 
 #include <thread>
 
@@ -37,6 +41,34 @@ matrixMessageFormattedHtml(const QString &body)
         return html;
 
     return {};
+}
+
+QString
+matrixTimelineAttachmentFileName(const QString &suggestedFileName, const QString &itemId)
+{
+    const auto fileName = QFileInfo(suggestedFileName).fileName().trimmed();
+    if (!fileName.isEmpty())
+        return fileName;
+
+    const auto trimmedItemId = itemId.trimmed();
+    if (!trimmedItemId.isEmpty())
+        return trimmedItemId + QStringLiteral(".bin");
+
+    return QStringLiteral("matrix-attachment.bin");
+}
+
+QString
+matrixTimelineMediaCachePath(const QString &fileName)
+{
+    auto baseDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    if (baseDir.isEmpty())
+        baseDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    if (baseDir.isEmpty())
+        baseDir = QDir::tempPath();
+
+    const auto cacheDir = QDir(baseDir).filePath(QStringLiteral("matrix-runtime-media"));
+    QDir().mkpath(cacheDir);
+    return QDir(cacheDir).filePath(fileName);
 }
 }
 
@@ -271,6 +303,39 @@ TimelineViewManager::paginateActiveMatrixTimelineBackwards(int pageSize)
     return true;
 }
 
+bool
+TimelineViewManager::openActiveMatrixTimelineMedia(const QString &itemId,
+                                                   const QString &suggestedFileName)
+{
+    const auto trimmedItemId = itemId.trimmed();
+    if (trimmedItemId.isEmpty())
+        return false;
+
+    const auto fileName = matrixTimelineAttachmentFileName(suggestedFileName, trimmedItemId);
+    fetchActiveMatrixTimelineMediaToFile(
+      trimmedItemId, matrixTimelineMediaCachePath(fileName), fileName, true);
+    return true;
+}
+
+bool
+TimelineViewManager::saveActiveMatrixTimelineMedia(const QString &itemId,
+                                                   const QString &suggestedFileName)
+{
+    const auto trimmedItemId = itemId.trimmed();
+    if (trimmedItemId.isEmpty())
+        return false;
+
+    const auto downloadsFolder = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+    const auto fileName        = matrixTimelineAttachmentFileName(suggestedFileName, trimmedItemId);
+    const auto outputPath      = QFileDialog::getSaveFileName(
+      nullptr, tr("Save attachment"), downloadsFolder + u'/' + fileName);
+    if (outputPath.isEmpty())
+        return false;
+
+    fetchActiveMatrixTimelineMediaToFile(trimmedItemId, outputPath, fileName, false);
+    return true;
+}
+
 void
 TimelineViewManager::startNextPendingMatrixAttachment()
 {
@@ -325,4 +390,74 @@ TimelineViewManager::finishPendingMatrixAttachment(bool ok,
     }
 
     startNextPendingMatrixAttachment();
+}
+
+void
+TimelineViewManager::fetchActiveMatrixTimelineMediaToFile(const QString &itemId,
+                                                          const QString &outputPath,
+                                                          const QString &userVisibleName,
+                                                          bool openAfterSave)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to fetch matrix-sdk timeline media without an active runtime "
+                          "handle or selected matrix room");
+        if (mainWindow) {
+            mainWindow->showNotification(
+              tr("Failed to fetch attachment '%1': no active Matrix session").arg(userVisibleName));
+        }
+        return;
+    }
+
+    std::thread([this, handleId, itemId, outputPath, userVisibleName, openAfterSave]() {
+        QString error;
+        const auto data = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
+          handleId, itemId, 0, 0, false, &error);
+        bool ok = data.has_value() && !data->isEmpty();
+
+        if (ok) {
+            QFileInfo outputInfo(outputPath);
+            QDir().mkpath(outputInfo.absolutePath());
+
+            QFile outputFile(outputPath);
+            if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+                ok    = false;
+                error = outputFile.errorString();
+            } else if (outputFile.write(*data) != data->size()) {
+                ok    = false;
+                error = outputFile.errorString();
+            } else {
+                outputFile.close();
+                utils::markFileAsFromWeb(outputPath);
+            }
+        }
+
+        QMetaObject::invokeMethod(
+          this,
+          [this, ok, outputPath, userVisibleName, openAfterSave, error]() {
+              auto *mainWindow = MainWindow::instance();
+              if (!ok) {
+                  nhlog::ui()->warn("Failed to fetch matrix-sdk timeline media '{}' to '{}': {}",
+                                    userVisibleName.toStdString(),
+                                    outputPath.toStdString(),
+                                    error.toStdString());
+                  if (mainWindow) {
+                      mainWindow->showNotification(
+                        tr("Failed to fetch attachment '%1': %2").arg(userVisibleName, error));
+                  }
+                  return;
+              }
+
+              if (openAfterSave && !QDesktopServices::openUrl(QUrl::fromLocalFile(outputPath))) {
+                  nhlog::ui()->warn("Failed to open fetched matrix-sdk timeline media '{}'",
+                                    outputPath.toStdString());
+                  if (mainWindow) {
+                      mainWindow->showNotification(
+                        tr("Saved attachment '%1' but failed to open it").arg(userVisibleName));
+                  }
+              }
+          },
+          Qt::QueuedConnection);
+    }).detach();
 }

@@ -47,6 +47,26 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
         return item.itemKind;
     case IsOwn:
         return item.isOwn;
+    case MediaUrl:
+        return item.mediaUrl;
+    case ThumbnailUrl:
+        return item.thumbnailUrl;
+    case FileName:
+        return item.fileName;
+    case MimeType:
+        return item.mimeType;
+    case MediaWidth:
+        return static_cast<qulonglong>(item.mediaWidth);
+    case MediaHeight:
+        return static_cast<qulonglong>(item.mediaHeight);
+    case MediaDurationMs:
+        return static_cast<qulonglong>(item.mediaDurationMs);
+    case MediaSizeBytes:
+        return static_cast<qulonglong>(item.mediaSizeBytes);
+    case MediaIsEncrypted:
+        return item.mediaIsEncrypted;
+    case ThumbnailIsEncrypted:
+        return item.thumbnailIsEncrypted;
     default:
         return {};
     }
@@ -65,6 +85,16 @@ MatrixTimelineModel::roleNames() const
       {Timestamp, "timestamp"},
       {ItemKind, "itemKind"},
       {IsOwn, "isOwn"},
+      {MediaUrl, "mediaUrl"},
+      {ThumbnailUrl, "thumbnailUrl"},
+      {FileName, "fileName"},
+      {MimeType, "mimeType"},
+      {MediaWidth, "mediaWidth"},
+      {MediaHeight, "mediaHeight"},
+      {MediaDurationMs, "mediaDurationMs"},
+      {MediaSizeBytes, "mediaSizeBytes"},
+      {MediaIsEncrypted, "mediaIsEncrypted"},
+      {ThumbnailIsEncrypted, "thumbnailIsEncrypted"},
     };
 }
 

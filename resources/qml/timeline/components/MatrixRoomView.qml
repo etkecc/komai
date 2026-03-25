@@ -108,13 +108,84 @@ ColumnLayout {
                     }
 
                     delegate: Item {
+                        function formatBytes(bytes) {
+                            const value = Number(bytes);
+                            if (!isFinite(value) || value <= 0)
+                                return "";
+
+                            const units = ["B", "KB", "MB", "GB"];
+                            let size = value;
+                            let unitIndex = 0;
+                            while (size >= 1024 && unitIndex < units.length - 1) {
+                                size /= 1024;
+                                unitIndex += 1;
+                            }
+
+                            return (size >= 10 || unitIndex === 0 ? Math.round(size) : size.toFixed(1)) + " " + units[unitIndex];
+                        }
+
+                        function formatDuration(durationMs) {
+                            const value = Number(durationMs);
+                            if (!isFinite(value) || value <= 0)
+                                return "";
+
+                            const totalSeconds = Math.round(value / 1000);
+                            const minutes = Math.floor(totalSeconds / 60);
+                            const seconds = totalSeconds % 60;
+                            return minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+                        }
+
                         required property string itemKind
+                        required property string itemId
                         required property string senderDisplayName
                         required property string senderAvatarUrl
                         required property string senderId
                         required property string body
+                        required property string fileName
+                        required property string mimeType
+                        required property string mediaUrl
+                        required property string thumbnailUrl
+                        required property double mediaWidth
+                        required property double mediaHeight
+                        required property double mediaDurationMs
+                        required property double mediaSizeBytes
+                        required property bool mediaIsEncrypted
                         required property double timestamp
                         required property bool isOwn
+
+                        readonly property bool isMediaItem: ["image", "video", "audio", "file", "sticker"].indexOf(itemKind) >= 0
+                        readonly property string effectiveFileName: fileName.length > 0 ? fileName : (body.length > 0 ? body : qsTr("Attachment"))
+                        readonly property bool showCaption: isMediaItem && body.length > 0 && body !== effectiveFileName
+                        readonly property string mediaKindLabel: {
+                            switch (itemKind) {
+                            case "image":
+                                return qsTr("Image");
+                            case "video":
+                                return qsTr("Video");
+                            case "audio":
+                                return qsTr("Audio");
+                            case "sticker":
+                                return qsTr("Sticker");
+                            case "file":
+                            default:
+                                return qsTr("File");
+                            }
+                        }
+                        readonly property string mediaMetaText: {
+                            const parts = [];
+                            if (mimeType.length > 0)
+                                parts.push(mimeType);
+                            const dimensions = mediaWidth > 0 && mediaHeight > 0 ? (Math.round(mediaWidth) + "×" + Math.round(mediaHeight)) : "";
+                            if (dimensions.length > 0)
+                                parts.push(dimensions);
+                            const durationText = formatDuration(mediaDurationMs);
+                            if (durationText.length > 0)
+                                parts.push(durationText);
+                            const sizeText = formatBytes(mediaSizeBytes);
+                            if (sizeText.length > 0)
+                                parts.push(sizeText);
+                            return parts.join(" · ");
+                        }
 
                         width: ListView.view.width
                         height: itemKind === "date_divider" ? dateDivider.implicitHeight : messageRow.implicitHeight
@@ -187,20 +258,104 @@ ColumnLayout {
                                     Rectangle {
                                         Layout.alignment: isOwn ? Qt.AlignRight : Qt.AlignLeft
                                         color: isOwn ? palette.highlight : palette.alternateBase
-                                        implicitHeight: bubbleBody.implicitHeight + Komai.paddingMedium * 2
-                                        implicitWidth: Math.min(parent.width, bubbleBody.implicitWidth + Komai.paddingLarge * 2)
+                                        implicitHeight: bubbleContent.implicitHeight + Komai.paddingMedium * 2
+                                        implicitWidth: Math.min(parent.width, bubbleContent.implicitWidth + Komai.paddingLarge * 2)
                                         radius: Komai.paddingMedium * 2
 
-                                        MatrixText {
-                                            id: bubbleBody
-
+                                        ColumnLayout {
+                                            id: bubbleContent
                                             anchors.fill: parent
                                             anchors.margins: Komai.paddingMedium
-                                            color: isOwn ? palette.highlightedText : palette.text
-                                            text: body
-                                            textFormat: TextEdit.PlainText
+                                            spacing: Komai.paddingSmall
                                             width: parent.width - Komai.paddingMedium * 2
-                                            wrapMode: Text.WordWrap
+
+                                            MatrixText {
+                                                id: bubbleBody
+
+                                                Layout.fillWidth: true
+                                                color: isOwn ? palette.highlightedText : palette.text
+                                                text: body
+                                                textFormat: TextEdit.PlainText
+                                                visible: !isMediaItem
+                                                wrapMode: Text.WordWrap
+                                            }
+
+                                            Rectangle {
+                                                Layout.fillWidth: true
+                                                color: Qt.rgba(palette.base.r, palette.base.g, palette.base.b, isOwn ? 0.2 : 0.55)
+                                                implicitHeight: mediaCardLayout.implicitHeight + Komai.paddingMedium * 2
+                                                radius: Komai.paddingMedium * 1.5
+                                                visible: isMediaItem
+
+                                                ColumnLayout {
+                                                    id: mediaCardLayout
+
+                                                    anchors.fill: parent
+                                                    anchors.margins: Komai.paddingMedium
+                                                    spacing: Komai.paddingSmall
+
+                                                    MatrixText {
+                                                        Layout.fillWidth: true
+                                                        color: isOwn ? palette.highlightedText : palette.text
+                                                        text: mediaKindLabel
+                                                        textFormat: TextEdit.PlainText
+                                                    }
+
+                                                    MatrixText {
+                                                        Layout.fillWidth: true
+                                                        color: isOwn ? palette.highlightedText : palette.text
+                                                        font.bold: true
+                                                        text: effectiveFileName
+                                                        textFormat: TextEdit.PlainText
+                                                        wrapMode: Text.WordWrap
+                                                    }
+
+                                                    MatrixText {
+                                                        Layout.fillWidth: true
+                                                        color: isOwn ? palette.highlightedText : palette.text
+                                                        text: body
+                                                        textFormat: TextEdit.PlainText
+                                                        visible: showCaption
+                                                        wrapMode: Text.WordWrap
+                                                    }
+
+                                                    MatrixText {
+                                                        Layout.fillWidth: true
+                                                        color: isOwn ? palette.highlightedText : palette.buttonText
+                                                        text: mediaMetaText
+                                                        textFormat: TextEdit.PlainText
+                                                        visible: mediaMetaText.length > 0
+                                                        wrapMode: Text.WordWrap
+                                                    }
+
+                                                    MatrixText {
+                                                        Layout.fillWidth: true
+                                                        color: isOwn ? palette.highlightedText : palette.buttonText
+                                                        text: mediaIsEncrypted
+                                                            ? qsTr("Encrypted attachment. Open and save are handled through the Rust matrix-sdk backend.")
+                                                            : qsTr("Open and save are handled through the Rust matrix-sdk backend.")
+                                                        textFormat: TextEdit.PlainText
+                                                        wrapMode: Text.WordWrap
+                                                    }
+
+                                                    RowLayout {
+                                                        Layout.fillWidth: true
+                                                        spacing: Komai.paddingSmall
+
+                                                        Components.KomaiButton {
+                                                            text: qsTr("Open")
+
+                                                            onClicked: TimelineManager.openActiveMatrixTimelineMedia(itemId, effectiveFileName)
+                                                        }
+
+                                                        Components.KomaiButton {
+                                                            text: qsTr("Save")
+
+                                                            onClicked: TimelineManager.saveActiveMatrixTimelineMedia(itemId, effectiveFileName)
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
 

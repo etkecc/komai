@@ -11,7 +11,7 @@ use std::{fs, path::Path};
 pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
     let room_id = room_id.trim();
 
-    let (client, room_timeline_snapshot, previous_task) = {
+    let (client, room_timeline_snapshot, room_timeline_media_lookup, previous_task) = {
         let mut handles = backend_handles()
             .lock()
             .expect("poisoned matrix backend handle registry mutex");
@@ -36,10 +36,16 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             .lock()
             .expect("poisoned matrix room timeline snapshot mutex")
             .clear();
+        handle
+            .room_timeline_media_lookup
+            .lock()
+            .expect("poisoned matrix room timeline media lookup mutex")
+            .clear();
 
         (
             handle.client.clone(),
             Arc::clone(&handle.room_timeline_snapshot),
+            Arc::clone(&handle.room_timeline_media_lookup),
             previous_task,
         )
     };
@@ -64,6 +70,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             client,
             room_id_for_thread,
             room_timeline_snapshot,
+            room_timeline_media_lookup,
             command_receiver,
             stop_requested_for_thread,
         ));
@@ -163,6 +170,56 @@ pub async fn fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTime
     );
 
     Ok(snapshot)
+}
+
+pub async fn fetch_active_room_timeline_media_content(
+    handle_id: u64,
+    item_id: &str,
+    width: i32,
+    height: i32,
+    crop: bool,
+) -> Result<Vec<u8>, String> {
+    let client = client_for_handle(handle_id)?;
+    let item_id = item_id.trim();
+    if item_id.is_empty() {
+        return Err("cannot fetch matrix-sdk timeline media without an item id".to_owned());
+    }
+
+    let media_request = backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .get(&handle_id)
+        .and_then(|handle| {
+            handle
+                .room_timeline_media_lookup
+                .lock()
+                .expect("poisoned matrix room timeline media lookup mutex")
+                .get(item_id)
+                .cloned()
+        })
+        .ok_or_else(|| {
+            format!(
+                "matrix-sdk backend runtime handle {handle_id} has no active timeline media for item '{item_id}'"
+            )
+        })?;
+
+    let request =
+        build_timeline_media_request_parameters(&media_request, width, height, crop)?;
+
+    tracing::debug!(
+        handle_id,
+        item_id,
+        width,
+        height,
+        crop,
+        "Fetching matrix-sdk active timeline media content"
+    );
+
+    client
+        .media()
+        .get_media_content(&request, false)
+        .await
+        .map_err(|e| format!("failed to fetch matrix-sdk active timeline media: {e}"))
 }
 
 pub async fn send_room_message(
@@ -293,6 +350,7 @@ async fn run_room_timeline_loop(
     client: Client,
     room_id: String,
     room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
+    room_timeline_media_lookup: Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
     mut commands: mpsc::UnboundedReceiver<MatrixBackendRoomTimelineCommand>,
     stop_requested: Arc<AtomicBool>,
 ) {
@@ -331,10 +389,13 @@ async fn run_room_timeline_loop(
     let (items, stream) = timeline.subscribe().await;
     let mut current_values = items;
     {
-        let snapshot = build_room_timeline_snapshot(&current_values);
+        let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values);
         *room_timeline_snapshot
             .lock()
             .expect("poisoned matrix room timeline snapshot mutex") = snapshot;
+        *room_timeline_media_lookup
+            .lock()
+            .expect("poisoned matrix room timeline media lookup mutex") = media_lookup;
         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
     }
 
@@ -349,11 +410,14 @@ async fn run_room_timeline_loop(
                             diff.apply(&mut current_values);
                         }
 
-                        let snapshot = build_room_timeline_snapshot(&current_values);
+                        let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values);
                         let item_count = snapshot.len();
                         *room_timeline_snapshot
                             .lock()
                             .expect("poisoned matrix room timeline snapshot mutex") = snapshot;
+                        *room_timeline_media_lookup
+                            .lock()
+                            .expect("poisoned matrix room timeline media lookup mutex") = media_lookup;
                         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
 
                         tracing::debug!(
@@ -411,14 +475,27 @@ async fn run_room_timeline_loop(
     tracing::info!(handle_id, room_id, "Matrix-sdk room timeline loop stopped");
 }
 
-fn build_room_timeline_snapshot(values: &Vector<Arc<TimelineItem>>) -> Vec<MatrixTimelineItem> {
-    values
-        .iter()
-        .filter_map(|item| timeline_item_to_summary(item.as_ref()))
-        .collect()
+fn build_room_timeline_snapshot(
+    values: &Vector<Arc<TimelineItem>>,
+) -> (Vec<MatrixTimelineItem>, HashMap<String, MatrixTimelineMediaRequest>) {
+    let mut items = Vec::new();
+    let mut media_lookup = HashMap::new();
+
+    for item in values.iter() {
+        if let Some((summary, media_request)) = timeline_item_to_summary(item.as_ref()) {
+            if let Some(media_request) = media_request {
+                media_lookup.insert(summary.item_id.clone(), media_request);
+            }
+            items.push(summary);
+        }
+    }
+
+    (items, media_lookup)
 }
 
-fn timeline_item_to_summary(item: &TimelineItem) -> Option<MatrixTimelineItem> {
+fn timeline_item_to_summary(
+    item: &TimelineItem,
+) -> Option<(MatrixTimelineItem, Option<MatrixTimelineMediaRequest>)> {
     let item_id = item.unique_id().0.clone();
 
     if let Some(event) = item.as_event() {
@@ -438,34 +515,132 @@ fn timeline_item_to_summary(item: &TimelineItem) -> Option<MatrixTimelineItem> {
             _ => (sender_id.clone(), String::new()),
         };
         let summary = summarize_timeline_content(event.content());
-
-        return Some(MatrixTimelineItem {
-            item_id,
-            event_id: event.event_id().map(ToString::to_string).unwrap_or_default(),
-            sender_id,
-            sender_display_name,
-            sender_avatar_url,
-            body: summary.body,
-            item_kind: summary.kind,
-            timestamp: u64::from(event.timestamp().get()),
-            is_own: event.is_own(),
+        let body = summary.body;
+        let item_kind = summary.kind;
+        let media = summary.media;
+        let media_request = media.as_ref().and_then(|media| {
+            media.source.clone().map(|source| MatrixTimelineMediaRequest {
+                source,
+                thumbnail_source: media.thumbnail_source.clone(),
+            })
         });
+
+        return Some((
+            MatrixTimelineItem {
+                item_id,
+                event_id: event.event_id().map(ToString::to_string).unwrap_or_default(),
+                sender_id,
+                sender_display_name,
+                sender_avatar_url,
+                body,
+                item_kind,
+                media_url: media
+                    .as_ref()
+                    .map(|media| media.media_url.clone())
+                    .unwrap_or_default(),
+                thumbnail_url: media
+                    .as_ref()
+                    .map(|media| media.thumbnail_url.clone())
+                    .unwrap_or_default(),
+                file_name: media
+                    .as_ref()
+                    .map(|media| media.file_name.clone())
+                    .unwrap_or_default(),
+                mime_type: media
+                    .as_ref()
+                    .map(|media| media.mime_type.clone())
+                    .unwrap_or_default(),
+                media_width: media.as_ref().map(|media| media.media_width).unwrap_or(0),
+                media_height: media
+                    .as_ref()
+                    .map(|media| media.media_height)
+                    .unwrap_or(0),
+                media_duration_ms: media
+                    .as_ref()
+                    .map(|media| media.media_duration_ms)
+                    .unwrap_or(0),
+                media_size_bytes: media
+                    .as_ref()
+                    .map(|media| media.media_size_bytes)
+                    .unwrap_or(0),
+                media_is_encrypted: media
+                    .as_ref()
+                    .map(|media| media.media_is_encrypted)
+                    .unwrap_or(false),
+                thumbnail_is_encrypted: media
+                    .as_ref()
+                    .map(|media| media.thumbnail_is_encrypted)
+                    .unwrap_or(false),
+                timestamp: u64::from(event.timestamp().get()),
+                is_own: event.is_own(),
+            },
+            media_request,
+        ));
     }
 
     match item.as_virtual() {
-        Some(VirtualTimelineItem::DateDivider(timestamp)) => Some(MatrixTimelineItem {
-            item_id,
-            event_id: String::new(),
-            sender_id: String::new(),
-            sender_display_name: String::new(),
-            sender_avatar_url: String::new(),
-            body: String::new(),
-            item_kind: "date_divider".to_owned(),
-            timestamp: u64::from(timestamp.get()),
-            is_own: false,
-        }),
+        Some(VirtualTimelineItem::DateDivider(timestamp)) => Some((
+            MatrixTimelineItem {
+                item_id,
+                event_id: String::new(),
+                sender_id: String::new(),
+                sender_display_name: String::new(),
+                sender_avatar_url: String::new(),
+                body: String::new(),
+                item_kind: "date_divider".to_owned(),
+                media_url: String::new(),
+                thumbnail_url: String::new(),
+                file_name: String::new(),
+                mime_type: String::new(),
+                media_width: 0,
+                media_height: 0,
+                media_duration_ms: 0,
+                media_size_bytes: 0,
+                media_is_encrypted: false,
+                thumbnail_is_encrypted: false,
+                timestamp: u64::from(timestamp.get()),
+                is_own: false,
+            },
+            None,
+        )),
         Some(VirtualTimelineItem::ReadMarker) | Some(VirtualTimelineItem::TimelineStart) | None => {
             None
         }
     }
+}
+
+fn build_timeline_media_request_parameters(
+    media_request: &MatrixTimelineMediaRequest,
+    width: i32,
+    height: i32,
+    crop: bool,
+) -> Result<MediaRequestParameters, String> {
+    if width > 0 && height > 0 {
+        if let Some(thumbnail_source) = media_request.thumbnail_source.clone() {
+            return Ok(MediaRequestParameters {
+                source: thumbnail_source,
+                format: MediaFormat::File,
+            });
+        }
+
+        if matches!(&media_request.source, MediaSource::Plain(_)) {
+            let width =
+                UInt::try_from(width).map_err(|_| format!("invalid thumbnail width: {width}"))?;
+            let height =
+                UInt::try_from(height).map_err(|_| format!("invalid thumbnail height: {height}"))?;
+            let method = if crop { Method::Crop } else { Method::Scale };
+
+            return Ok(MediaRequestParameters {
+                source: media_request.source.clone(),
+                format: MediaFormat::Thumbnail(MediaThumbnailSettings::with_method(
+                    method, width, height,
+                )),
+            });
+        }
+    }
+
+    Ok(MediaRequestParameters {
+        source: media_request.source.clone(),
+        format: MediaFormat::File,
+    })
 }

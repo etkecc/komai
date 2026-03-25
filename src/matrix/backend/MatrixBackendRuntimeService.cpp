@@ -119,10 +119,21 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .senderDisplayName = QString::fromStdString(std::string(item.sender_display_name)),
       .senderAvatarUrl =
         matrix::normalizeMxcUri(QString::fromStdString(std::string(item.sender_avatar_url))),
-      .body      = QString::fromStdString(std::string(item.body)),
-      .itemKind  = QString::fromStdString(std::string(item.item_kind)),
-      .timestamp = item.timestamp,
-      .isOwn     = item.is_own,
+      .body     = QString::fromStdString(std::string(item.body)),
+      .itemKind = QString::fromStdString(std::string(item.item_kind)),
+      .mediaUrl = matrix::normalizeMxcUri(QString::fromStdString(std::string(item.media_url))),
+      .thumbnailUrl =
+        matrix::normalizeMxcUri(QString::fromStdString(std::string(item.thumbnail_url))),
+      .fileName             = QString::fromStdString(std::string(item.file_name)),
+      .mimeType             = QString::fromStdString(std::string(item.mime_type)),
+      .mediaWidth           = item.media_width,
+      .mediaHeight          = item.media_height,
+      .mediaDurationMs      = item.media_duration_ms,
+      .mediaSizeBytes       = item.media_size_bytes,
+      .mediaIsEncrypted     = item.media_is_encrypted,
+      .thumbnailIsEncrypted = item.thumbnail_is_encrypted,
+      .timestamp            = item.timestamp,
+      .isOwn                = item.is_own,
     };
 }
 
@@ -701,6 +712,29 @@ MatrixBackendRuntimeService::sendRoomAttachment(uint64_t handleId,
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return false;
+    }
+}
+
+std::optional<QByteArray>
+MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(uint64_t handleId,
+                                                                 const QString &itemId,
+                                                                 int width,
+                                                                 int height,
+                                                                 bool crop,
+                                                                 QString *errorOut)
+{
+    try {
+        const auto result = ::komai::rust::matrix_fetch_active_room_timeline_media_content(
+          handleId, itemId.toStdString(), width, height, crop);
+        QByteArray data;
+        data.reserve(static_cast<qsizetype>(result.size()));
+        data.append(reinterpret_cast<const char *>(result.data()),
+                    static_cast<qsizetype>(result.size()));
+        return data;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
     }
 }
 

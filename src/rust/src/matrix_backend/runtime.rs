@@ -81,8 +81,9 @@ pub use room_settings::{
     upload_room_avatar,
 };
 pub use timeline::{
-    fetch_active_room_timeline, paginate_active_room_timeline_backwards,
-    select_active_room_timeline, send_room_attachment, send_room_message,
+    fetch_active_room_timeline, fetch_active_room_timeline_media_content,
+    paginate_active_room_timeline_backwards, select_active_room_timeline, send_room_attachment,
+    send_room_message,
 };
 
 pub struct MatrixBackendHandleInfo {
@@ -154,6 +155,16 @@ pub struct MatrixTimelineItem {
     pub sender_avatar_url: String,
     pub body: String,
     pub item_kind: String,
+    pub media_url: String,
+    pub thumbnail_url: String,
+    pub file_name: String,
+    pub mime_type: String,
+    pub media_width: u64,
+    pub media_height: u64,
+    pub media_duration_ms: u64,
+    pub media_size_bytes: u64,
+    pub media_is_encrypted: bool,
+    pub thumbnail_is_encrypted: bool,
     pub timestamp: u64,
     pub is_own: bool,
 }
@@ -168,6 +179,7 @@ struct MatrixBackendHandle {
     room_list_snapshot: Arc<Mutex<Vec<MatrixRoomSummary>>>,
     room_timeline_task: Option<MatrixBackendRoomTimelineTask>,
     room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
+    room_timeline_media_lookup: Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
 }
 
 struct MatrixBackendSyncTask {
@@ -184,6 +196,12 @@ struct MatrixBackendRoomTimelineTask {
 
 enum MatrixBackendRoomTimelineCommand {
     PaginateBackwards(u16),
+}
+
+#[derive(Clone, Debug)]
+struct MatrixTimelineMediaRequest {
+    source: MediaSource,
+    thumbnail_source: Option<MediaSource>,
 }
 
 struct MatrixRoomClassification {

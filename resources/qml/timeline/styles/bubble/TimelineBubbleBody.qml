@@ -468,7 +468,7 @@ Item {
         anchors.bottom: root.wrapper.isStateEvent ? undefined : messageBubble.bottom
         anchors.bottomMargin: root.wrapper.isStateEvent
             ? 0
-            : Math.round(Math.max(1, messageBubble.bottomPadding - (metadataOuter.height - fontMetrics.height) / 2))
+            : Math.round(Math.max(1, messageBubble.bottomPadding - (metadataOuter.implicitHeight - fontMetrics.height) / 2))
         anchors.verticalCenter: root.wrapper.isStateEvent ? root.verticalCenter : undefined
 
         anchors.left: undefined

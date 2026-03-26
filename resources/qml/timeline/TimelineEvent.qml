@@ -17,6 +17,20 @@ EventDelegateChooser {
     property var replyPreviewData: ({})
     property var roomModelOverride: null
     readonly property var effectiveRoomContext: room ? room : roomModelOverride
+    readonly property string effectiveFormattedStateEvent: {
+        if (previewData && previewData.formattedStateEvent !== undefined)
+            return String(previewData.formattedStateEvent || "");
+        if (typeof model !== "undefined" && model && model.formattedStateEvent !== undefined)
+            return String(model.formattedStateEvent || "");
+        return "";
+    }
+    readonly property string effectiveStateEventIconSource: {
+        if (previewData && previewData.stateEventIconSource !== undefined)
+            return String(previewData.stateEventIconSource || "");
+        if (typeof model !== "undefined" && model && model.stateEventIconSource !== undefined)
+            return String(model.stateEventIconSource || "");
+        return "";
+    }
     readonly property int colorRevision: TimelineManager.colorRevision
     property bool scrolledToThis: false
     property QtObject styleProfile: TimelineStyleProfile {}
@@ -113,6 +127,8 @@ EventDelegateChooser {
             required property string userName
 
             Layout.fillWidth: true
+            formattedStateEvent: effectiveFormattedStateEvent
+            stateEventIconSource: effectiveStateEventIconSource
             body: formatted
             formatted: formattedStateEvent
             isOnlyEmoji: 0
@@ -319,6 +335,9 @@ EventDelegateChooser {
             required property string userId
             required property string userName
             readonly property bool hasKnockAction: room && room.showAcceptKnockButton(eventId)
+
+            formattedStateEvent: effectiveFormattedStateEvent
+            stateEventIconSource: effectiveStateEventIconSource
 
             NoticeMessage {
                 Layout.fillWidth: true

@@ -14,6 +14,7 @@ Control {
     property Item attached: null
     property Item anchorItem: null
     property var model: null
+    property string activationMode: ""
     property bool pinned: false
     property bool positioned: false
     readonly property bool canEdit: !!root.model && root.model.isEditable

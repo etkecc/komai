@@ -167,14 +167,9 @@ MatrixTimelineModel::itemByEventId(const QString &eventId) const
     return items_.at(row);
 }
 
-bool
-MatrixTimelineModel::redactItemByEventId(const QString &eventId)
+void
+MatrixTimelineModel::applyRedactedPresentation(MatrixTimelineItem &item) const
 {
-    const auto row = rowForEventId(eventId);
-    if (row < 0 || row >= items_.size())
-        return false;
-
-    auto &item = items_[row];
     item.body.clear();
     item.replyEventId.clear();
     item.replySenderId.clear();
@@ -194,14 +189,60 @@ MatrixTimelineModel::redactItemByEventId(const QString &eventId)
     item.mediaSizeBytes       = 0;
     item.mediaIsEncrypted     = false;
     item.thumbnailIsEncrypted = false;
+}
+
+bool
+MatrixTimelineModel::redactItemByEventId(const QString &eventId)
+{
+    const auto normalizedEventId = eventId.trimmed();
+    const auto row               = rowForEventId(normalizedEventId);
+    if (row < 0 || row >= items_.size())
+        return false;
+
+    optimisticRedactedEventIds_.insert(normalizedEventId);
+
+    auto &item = items_[row];
+    applyRedactedPresentation(item);
 
     emit dataChanged(index(row), index(row));
     return true;
 }
 
 void
+MatrixTimelineModel::applyOptimisticRedactions(QVector<MatrixTimelineItem> &items)
+{
+    if (optimisticRedactedEventIds_.isEmpty())
+        return;
+
+    QSet<QString> resolvedEventIds;
+    for (auto &item : items) {
+        const auto eventId = item.eventId.trimmed();
+        const auto itemId  = item.itemId.trimmed();
+        if (!optimisticRedactedEventIds_.contains(eventId) &&
+            !optimisticRedactedEventIds_.contains(itemId)) {
+            continue;
+        }
+
+        if (item.itemKind == QStringLiteral("redacted")) {
+            if (!eventId.isEmpty())
+                resolvedEventIds.insert(eventId);
+            if (!itemId.isEmpty())
+                resolvedEventIds.insert(itemId);
+            continue;
+        }
+
+        applyRedactedPresentation(item);
+    }
+
+    for (const auto &resolvedEventId : resolvedEventIds)
+        optimisticRedactedEventIds_.remove(resolvedEventId);
+}
+
+void
 MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
 {
+    applyOptimisticRedactions(items);
+
     if (items_ == items)
         return;
 
@@ -250,6 +291,7 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
 void
 MatrixTimelineModel::clear()
 {
+    optimisticRedactedEventIds_.clear();
     replaceItems({});
 }
 

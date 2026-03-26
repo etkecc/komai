@@ -40,6 +40,28 @@ Components.OverlayDialog {
     readonly property bool isStateEvent: hasLegacyRoomModel
         ? ((eventId && effectiveRoomModel) ? !!effectiveRoomModel.dataById(eventId, Room.IsStateEvent, false) : false)
         : !!(messageModelOverride && messageModelOverride.isStateEvent)
+    readonly property var previewMessageData: {
+        if (!hasLegacyRoomModel
+                && effectiveRoomModel
+                && typeof effectiveRoomModel.previewDataForEvent === "function") {
+            const preview = effectiveRoomModel.previewDataForEvent(root.eventId);
+            if (preview !== undefined && preview !== null)
+                return preview;
+        }
+
+        return {
+            "type": root.eventType,
+            "userId": messageModelOverride && messageModelOverride.userId !== undefined
+                ? String(messageModelOverride.userId || "")
+                : "",
+            "userName": messageModelOverride && messageModelOverride.userName !== undefined
+                ? String(messageModelOverride.userName || "")
+                : "",
+            "body": root.messageText,
+            "formattedBody": root.formattedBodyText,
+            "isOnlyEmoji": 0
+        };
+    }
 
     readonly property bool canRedact: effectiveRoomModel ? effectiveRoomModel.permissions.canRedact() : false
     readonly property bool canChangePinned: effectiveRoomModel ? effectiveRoomModel.permissions.canChange(MtxEvent.PinnedEvents) : false
@@ -218,18 +240,7 @@ Components.OverlayDialog {
                     enabled: false
                     eventId: root.eventId
                     room_: root.hasLegacyRoomModel ? root.effectiveRoomModel : null
-                    previewData: root.hasLegacyRoomModel ? ({}) : ({
-                            "type": root.eventType,
-                            "userId": messageModelOverride && messageModelOverride.userId !== undefined
-                                ? String(messageModelOverride.userId || "")
-                                : "",
-                            "userName": messageModelOverride && messageModelOverride.userName !== undefined
-                                ? String(messageModelOverride.userName || "")
-                                : "",
-                            "body": root.messageText,
-                            "formattedBody": root.formattedBodyText,
-                            "isOnlyEmoji": 0
-                        })
+                    previewData: root.hasLegacyRoomModel ? ({}) : root.previewMessageData
                     roomModelOverride: root.hasLegacyRoomModel ? null : root.effectiveRoomModel
                     maxWidth: actionsFlickable.width
 

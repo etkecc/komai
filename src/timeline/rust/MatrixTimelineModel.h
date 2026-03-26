@@ -5,6 +5,7 @@
 #pragma once
 
 #include <QAbstractListModel>
+#include <QSet>
 #include <QVariantMap>
 #include <QVector>
 #include <optional>
@@ -68,7 +69,11 @@ signals:
     void countChanged();
 
 private:
+    void applyRedactedPresentation(MatrixTimelineItem &item) const;
+    void applyOptimisticRedactions(QVector<MatrixTimelineItem> &items);
+
     QVector<MatrixTimelineItem> items_;
+    QSet<QString> optimisticRedactedEventIds_;
 };
 
 } // namespace komai

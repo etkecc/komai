@@ -59,6 +59,13 @@ ColumnLayout {
         id: messageActionSupport
     }
 
+    Timer {
+        id: walkModeEntrySuppressTimer
+
+        interval: 0
+        onTriggered: root.suppressNextWalkModeOlderStep = false
+    }
+
     function clearSearch() {
         if (root.chatRoot && typeof root.chatRoot.clearSearch === "function")
             root.chatRoot.clearSearch();
@@ -239,6 +246,7 @@ ColumnLayout {
         clearFocusedEvent();
         walkModeActive = false;
         suppressNextWalkModeOlderStep = false;
+        walkModeEntrySuppressTimer.stop();
 
         if (shouldFocusComposer) {
             Qt.callLater(function () {
@@ -285,6 +293,7 @@ ColumnLayout {
             "focusComposer": false
         });
         suppressNextWalkModeOlderStep = true;
+        walkModeEntrySuppressTimer.restart();
         if (!delegateItem || !delegateItem.eventId)
             return focusLatestWalkModeEvent({
                     "deferFocus": true
@@ -1074,6 +1083,13 @@ ColumnLayout {
         function formatRedactedEvent(_eventId) {
             return root.matrixRedactedEventPair("", "");
         }
+
+        function previewDataForEvent(eventId) {
+            const preview = matrixHeaderRoomModel.previewDataForEvent(eventId);
+            return Object.assign({}, preview || {}, {
+                "room": matrixMessageActionsDefaultRoomModel
+            });
+        }
     }
 
     MessageContextMenu {
@@ -1113,6 +1129,9 @@ ColumnLayout {
 
             onInputAccepted: function (text) {
                 TimelineManager.redactActiveMatrixTimelineEvent(eventId, text);
+                root.exitWalkMode({
+                        "focusComposer": true
+                    });
             }
         }
     }
@@ -1853,6 +1872,13 @@ ColumnLayout {
 
                             function openUserProfile(userId) {
                                 matrixDialogRoomModel.openUserProfile(userId);
+                            }
+
+                            function previewDataForEvent(eventId) {
+                                const preview = matrixHeaderRoomModel.previewDataForEvent(eventId);
+                                return Object.assign({}, preview || {}, {
+                                    "room": matrixToolbarRoomModel
+                                });
                             }
 
                             function eventShown() {

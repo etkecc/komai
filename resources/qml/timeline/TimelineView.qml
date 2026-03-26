@@ -290,7 +290,7 @@ Item {
     }
 
     TimelineBackButton {
-        roomModel: timelineView.useMatrixRoomView ? {} : timelineView.room
+        roomModel: timelineView.useMatrixRoomView ? null : timelineView.room
         showBackButton: timelineView.showBackButton && !timelineView.useMatrixRoomView
     }
     TimelineEffects {

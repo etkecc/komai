@@ -8,23 +8,9 @@
 #include <QAbstractListModel>
 #include <QQmlEngine>
 #include <QString>
-#include <string>
-#include <vector>
+#include <QVector>
+#include <cstdint>
 
-#include <mtx/responses/users.hpp>
-
-class FetchUsersFromDirectoryJob final : public QObject
-{
-    Q_OBJECT
-public:
-    explicit FetchUsersFromDirectoryJob(QObject *p = nullptr)
-      : QObject(p)
-    {
-    }
-signals:
-    void
-    fetchedSearchResults(std::vector<mtx::responses::User> results, const std::string &searchTerm);
-};
 class UserDirectoryModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -54,10 +40,24 @@ public:
     void fetchMore(const QModelIndex &) override;
 
 private:
-    std::vector<mtx::responses::User> results_;
-    std::string userSearchString_;
+    struct UserDirectoryEntry
+    {
+        QString displayName;
+        QString userId;
+        QString avatarUrl;
+    };
+
+    QVector<UserDirectoryEntry> results_;
+    QString userSearchString_;
     bool searchingUsers_{false};
     bool canFetchMore_{false};
+    uint64_t searchGeneration_{0};
+    static constexpr uint64_t searchLimit_ = 50;
+
+    void finishSearch(uint64_t generation,
+                      const QString &searchTerm,
+                      const QVector<UserDirectoryEntry> &results);
+    void failSearch(uint64_t generation, const QString &searchTerm, const QString &errorMessage);
 
 signals:
     void searchingUsersChanged();
@@ -65,8 +65,4 @@ signals:
 public slots:
     void setSearchString(const QString &f);
     bool searchingUsers() const { return searchingUsers_; }
-
-private slots:
-    void
-    displaySearchResults(std::vector<mtx::responses::User> results, const std::string &searchTerm);
 };

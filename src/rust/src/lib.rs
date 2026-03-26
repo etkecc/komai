@@ -57,6 +57,12 @@ mod ffi {
         avatar_url: String,
     }
 
+    struct MatrixDirectoryUser {
+        display_name: String,
+        user_id: String,
+        avatar_url: String,
+    }
+
     struct MatrixRoomSummary {
         room_id: String,
         display_name: String,
@@ -281,6 +287,11 @@ mod ffi {
         ) -> Result<()>;
         fn matrix_fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile>;
         fn matrix_fetch_user_profile(handle_id: u64, user_id: &str) -> Result<MatrixUserProfile>;
+        fn matrix_search_users(
+            handle_id: u64,
+            search_term: &str,
+            limit: u64,
+        ) -> Result<Vec<MatrixDirectoryUser>>;
         fn matrix_set_own_display_name(handle_id: u64, display_name: &str) -> Result<()>;
         fn matrix_upload_own_avatar(
             handle_id: u64,
@@ -669,6 +680,29 @@ fn matrix_fetch_user_profile(handle_id: u64, user_id: &str) -> Result<ffi::Matri
         display_name: result.display_name,
         avatar_url: result.avatar_url,
     })
+}
+
+fn matrix_search_users(
+    handle_id: u64,
+    search_term: &str,
+    limit: u64,
+) -> Result<Vec<ffi::MatrixDirectoryUser>, String> {
+    runtime()
+        .block_on(matrix_backend::runtime::search_users(
+            handle_id,
+            search_term,
+            limit,
+        ))
+        .map(|users| {
+            users
+                .into_iter()
+                .map(|user| ffi::MatrixDirectoryUser {
+                    display_name: user.display_name,
+                    user_id: user.user_id,
+                    avatar_url: user.avatar_url,
+                })
+                .collect()
+        })
 }
 
 fn matrix_set_own_display_name(handle_id: u64, display_name: &str) -> Result<(), String> {

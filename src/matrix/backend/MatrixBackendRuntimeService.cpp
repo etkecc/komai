@@ -50,6 +50,16 @@ fromRustUserProfile(const ::komai::rust::MatrixUserProfile &profile)
     };
 }
 
+MatrixDirectoryUser
+fromRustDirectoryUser(const ::komai::rust::MatrixDirectoryUser &user)
+{
+    return MatrixDirectoryUser{
+      .displayName = QString::fromStdString(std::string(user.display_name)),
+      .userId      = QString::fromStdString(std::string(user.user_id)),
+      .avatarUrl   = matrix::normalizeMxcUri(QString::fromStdString(std::string(user.avatar_url))),
+    };
+}
+
 MatrixRoomSummary
 fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
 {
@@ -413,6 +423,27 @@ MatrixBackendRuntimeService::fetchUserProfile(uint64_t handleId,
     try {
         auto result = ::komai::rust::matrix_fetch_user_profile(handleId, userId.toStdString());
         return fromRustUserProfile(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<QVector<MatrixDirectoryUser>>
+MatrixBackendRuntimeService::searchUsers(uint64_t handleId,
+                                         const QString &searchTerm,
+                                         uint64_t limit,
+                                         QString *errorOut)
+{
+    try {
+        const auto result =
+          ::komai::rust::matrix_search_users(handleId, searchTerm.toStdString(), limit);
+        QVector<MatrixDirectoryUser> users;
+        users.reserve(static_cast<int>(result.size()));
+        for (const auto &user : result)
+            users.push_back(fromRustDirectoryUser(user));
+        return users;
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());

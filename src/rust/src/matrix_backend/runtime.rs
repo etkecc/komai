@@ -62,6 +62,8 @@ mod room_list;
 mod room_settings;
 #[path = "runtime_timeline.rs"]
 mod timeline;
+#[path = "runtime_user_directory.rs"]
+mod user_directory;
 
 pub use profile_media::{
     fetch_media_content, fetch_own_profile, fetch_user_profile, ignore_user, remove_own_avatar,
@@ -86,6 +88,7 @@ pub use timeline::{
     send_room_edit_message, send_room_message, send_room_reply_message,
     toggle_room_reaction, unpin_room_event,
 };
+pub use user_directory::search_users;
 
 pub struct MatrixBackendHandleInfo {
     pub handle_id: u64,
@@ -102,6 +105,13 @@ pub struct MatrixOwnProfile {
 
 pub struct MatrixUserProfile {
     pub display_name: String,
+    pub avatar_url: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixDirectoryUser {
+    pub display_name: String,
+    pub user_id: String,
     pub avatar_url: String,
 }
 

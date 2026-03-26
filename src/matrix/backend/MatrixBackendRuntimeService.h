@@ -37,6 +37,13 @@ struct MatrixUserProfile
     QString avatarUrl;
 };
 
+struct MatrixDirectoryUser
+{
+    QString displayName;
+    QString userId;
+    QString avatarUrl;
+};
+
 struct MatrixRoomSummary
 {
     QString roomId;
@@ -211,6 +218,11 @@ public:
 
     static std::optional<MatrixUserProfile>
     fetchUserProfile(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);
+
+    static std::optional<QVector<MatrixDirectoryUser>> searchUsers(uint64_t handleId,
+                                                                   const QString &searchTerm,
+                                                                   uint64_t limit,
+                                                                   QString *errorOut = nullptr);
 
     static bool
     setOwnDisplayName(uint64_t handleId, const QString &displayName, QString *errorOut = nullptr);

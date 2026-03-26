@@ -5,11 +5,25 @@
 
 #include "models/UserDirectoryModel.h"
 
-#include <QSharedPointer>
-
-#include <mtx/responses/users.hpp>
+#include <QCoreApplication>
+#include <QMetaObject>
+#include <QPointer>
+#include <thread>
 
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "ui/MainWindow.h"
+
+namespace {
+
+uint64_t
+matrixBackendHandleId()
+{
+    const auto *mainWindow = MainWindow::instance();
+    return mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+}
+
+} // namespace
 
 UserDirectoryModel::UserDirectoryModel(QObject *parent)
   : QAbstractListModel{parent}
@@ -29,27 +43,84 @@ UserDirectoryModel::roleNames() const
 void
 UserDirectoryModel::setSearchString(const QString &f)
 {
-    userSearchString_ = f.toStdString();
-    nhlog::ui()->debug("Received user directory query: {}", userSearchString_);
+    userSearchString_ = f.trimmed();
+    searchGeneration_++;
+
+    nhlog::ui()->debug("Received user directory query: {}", userSearchString_.toStdString());
+
     beginResetModel();
     results_.clear();
-    if (userSearchString_ == "")
-        nhlog::ui()->debug("Rejecting empty search string");
-    else
-        canFetchMore_ = true;
     endResetModel();
+
+    const bool wasSearching = searchingUsers_;
+    searchingUsers_         = false;
+    if (wasSearching)
+        emit searchingUsersChanged();
+
+    if (userSearchString_.isEmpty()) {
+        nhlog::ui()->debug("Rejecting empty search string");
+        canFetchMore_ = false;
+    } else {
+        canFetchMore_ = true;
+    }
 }
 
 void
 UserDirectoryModel::fetchMore(const QModelIndex &)
 {
-    if (!canFetchMore_)
+    if (!canFetchMore_ || searchingUsers_)
         return;
 
-    nhlog::ui()->warn("User directory search is not migrated to matrix-sdk yet");
-    searchingUsers_ = false;
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
+        nhlog::ui()->warn(
+          "User directory search requires an active matrix-sdk backend runtime handle");
+        canFetchMore_ = false;
+        return;
+    }
+
+    const auto generation = searchGeneration_;
+    const auto searchTerm = userSearchString_;
+
+    searchingUsers_ = true;
     canFetchMore_   = false;
     emit searchingUsersChanged();
+
+    QPointer<UserDirectoryModel> guard(this);
+    std::thread([guard, handleId, generation, searchTerm]() {
+        QString error;
+        const auto users = komai::MatrixBackendRuntimeService::searchUsers(
+          handleId, searchTerm, searchLimit_, &error);
+
+        QVector<UserDirectoryEntry> entries;
+        if (users.has_value()) {
+            entries.reserve(users->size());
+            for (const auto &user : *users) {
+                entries.push_back(UserDirectoryEntry{
+                  .displayName = user.displayName,
+                  .userId      = user.userId,
+                  .avatarUrl   = user.avatarUrl,
+                });
+            }
+        }
+
+        QMetaObject::invokeMethod(QCoreApplication::instance(),
+                                  [guard,
+                                   generation,
+                                   searchTerm,
+                                   error,
+                                   entries = std::move(entries),
+                                   ok      = users.has_value()]() mutable {
+                                      if (!guard)
+                                          return;
+
+                                      if (ok) {
+                                          guard->finishSearch(generation, searchTerm, entries);
+                                      } else {
+                                          guard->failSearch(generation, searchTerm, error);
+                                      }
+                                  });
+    }).detach();
 }
 
 QVariant
@@ -59,31 +130,51 @@ UserDirectoryModel::data(const QModelIndex &index, int role) const
         return {};
     switch (role) {
     case Roles::DisplayName:
-        return QString::fromStdString(results_[index.row()].display_name);
+        return results_[index.row()].displayName;
     case Roles::Mxid:
-        return QString::fromStdString(results_[index.row()].user_id);
+        return results_[index.row()].userId;
     case Roles::AvatarUrl:
-        return QString::fromStdString(results_[index.row()].avatar_url);
+        return results_[index.row()].avatarUrl;
     }
     return {};
 }
 
 void
-UserDirectoryModel::displaySearchResults(std::vector<mtx::responses::User> results,
-                                         const std::string &searchTerm)
+UserDirectoryModel::finishSearch(uint64_t generation,
+                                 const QString &searchTerm,
+                                 const QVector<UserDirectoryEntry> &results)
 {
-    if (searchTerm != this->userSearchString_)
+    if (generation != searchGeneration_ || searchTerm != userSearchString_)
         return;
+
     searchingUsers_ = false;
     emit searchingUsersChanged();
-    if (results.empty()) {
-        nhlog::net()->debug("mtxclient helper thread yielded no results!");
-        return;
-    }
+
     beginResetModel();
     results_ = results;
     endResetModel();
     canFetchMore_ = false;
+
+    nhlog::ui()->debug("Matrix user directory query '{}' returned {} result(s)",
+                       searchTerm.toStdString(),
+                       results_.size());
+}
+
+void
+UserDirectoryModel::failSearch(uint64_t generation,
+                               const QString &searchTerm,
+                               const QString &errorMessage)
+{
+    if (generation != searchGeneration_ || searchTerm != userSearchString_)
+        return;
+
+    searchingUsers_ = false;
+    canFetchMore_   = false;
+    emit searchingUsersChanged();
+
+    nhlog::ui()->warn("Matrix user directory query '{}' failed: {}",
+                      searchTerm.toStdString(),
+                      errorMessage.toStdString());
 }
 
 #include "moc_UserDirectoryModel.cpp"

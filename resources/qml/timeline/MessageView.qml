@@ -1949,7 +1949,16 @@ Item {
         }
     }
 
-    function openMessageActionsDialog(eventId, threadId, eventType, isSender, isEncrypted, isEditable, link, text) {
+    function openMessageActionsDialog(eventId,
+                                      threadId,
+                                      eventType,
+                                      isSender,
+                                      isEncrypted,
+                                      isEditable,
+                                      link,
+                                      text,
+                                      messageModelOverride,
+                                      roomModelOverride) {
         var component = Qt.createComponent("qrc:/resources/qml/dialogs/timeline/MessageActionsDialog.qml");
         if (component.status !== Component.Ready) {
             console.error("MessageActionsDialog: " + component.errorString());
@@ -1963,6 +1972,8 @@ Item {
             "isEncrypted": isEncrypted,
             "link": link || "",
             "roomModel": room,
+            "roomModelOverride": roomModelOverride || null,
+            "messageModelOverride": messageModelOverride || null,
             "chatRoot": chatRoot,
             "appRoot": dialogParent
         });

@@ -332,6 +332,7 @@ Item {
                 emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(reactButton, roomModel.roomId, function (plaintext, markdown) {
                     var eventId = toolbar.messageModel ? toolbar.messageModel.eventId : "";
                     roomModel.input.reaction(eventId, plaintext);
+                    toolbar.dismissActionBar();
                     TimelineManager.focusMessageInput();
                 });
             }
@@ -454,7 +455,7 @@ Item {
             visible: toolbar.canOpenOptions
 
             onClicked: {
-                if (messageActionSupport.openOptionsDialog(toolbar.chatRoot, toolbar.messageModel))
+                if (messageActionSupport.openOptionsDialog(toolbar.chatRoot, toolbar.messageModel, roomModel))
                     toolbar.dismissActionBar();
             }
         }

@@ -167,10 +167,13 @@ QtObject {
             && roomHasMethod(roomModel, "copyLinkToEvent");
     }
 
-    function openOptionsDialog(chatRoot, messageModel) {
+    function openOptionsDialog(chatRoot, messageModel, roomModelOverride) {
         if (!chatRoot || !canOpenOptions(messageModel))
             return false;
 
+        const effectiveRoomModel = roomModelOverride
+            ? roomModelOverride
+            : ((messageModel && messageModel.roomModelOverride) ? messageModel.roomModelOverride : null);
         chatRoot.openMessageActionsDialog(
             messageModel.eventId,
             messageModel.threadId,
@@ -179,7 +182,9 @@ QtObject {
             messageModel.isEncrypted,
             messageModel.isEditable,
             "",
-            messageModel.body || "");
+            messageModel.body || "",
+            messageModel,
+            effectiveRoomModel);
         return true;
     }
 

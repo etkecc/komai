@@ -4,6 +4,7 @@
 
 import "../../room/components"
 import "../../composer" as Composer
+import "../../dialogs/moderation" as ModerationDialogs
 import "../../dialogs/navigation" as NavigationDialogs
 import "../../dialogs/timeline" as TimelineDialogs
 import "../styles/bubble"
@@ -378,8 +379,19 @@ ColumnLayout {
 
         property string roomId: root.roomPreview ? root.roomPreview.roomid : ""
         property bool isEncrypted: root.roomPreview ? !!root.roomPreview.isEncrypted : false
+        property int roomMemberCount: root.roomPreview && root.roomPreview.roomMemberCount !== undefined
+            ? Number(root.roomPreview.roomMemberCount)
+            : 0
         property var permissions: matrixComposerPermissions
         property var input: matrixComposerInputController
+
+        function showEvent(eventId) {
+            return root.jumpToLoadedMatrixEvent(eventId);
+        }
+
+        function openUserProfile(userId) {
+            matrixDialogRoomModel.openUserProfile(userId);
+        }
     }
 
     QtObject {
@@ -405,6 +417,7 @@ ColumnLayout {
         property var permissions: matrixMessageActionsDefaultPermissions
         property var input: null
         property var frequentReactions: []
+        property var pinnedMessages: TimelineManager.matrixTimelinePinnedEventIds
 
         function showEvent(eventId) {
             return root.jumpToLoadedMatrixEvent(eventId);
@@ -467,6 +480,13 @@ ColumnLayout {
     }
 
     Component {
+        id: reportMessageDialogComponent
+
+        ModerationDialogs.ReportMessage {
+        }
+    }
+
+    Component {
         id: forwardDialogComponent
 
         NavigationDialogs.ForwardCompleter {
@@ -514,6 +534,55 @@ ColumnLayout {
 
         dialog.setMessageEventIds([trimmedEventId], 1);
         return dialog;
+    }
+
+    function openReportMessageDialog(eventId) {
+        const trimmedEventId = String(eventId || "").trim();
+        if (trimmedEventId.length === 0)
+            return null;
+
+        return showDialogFromComponent(reportMessageDialogComponent, {
+                "eventId": trimmedEventId,
+                "room": matrixMessageActionsDefaultRoomModel
+            });
+    }
+
+    function openMessageActionsDialog(eventId,
+                                      threadId,
+                                      eventType,
+                                      isSender,
+                                      isEncrypted,
+                                      isEditable,
+                                      link,
+                                      text,
+                                      messageModelOverride,
+                                      roomModelOverride) {
+        const component = Qt.createComponent("qrc:/resources/qml/dialogs/timeline/MessageActionsDialog.qml");
+        if (component.status !== Component.Ready) {
+            console.error("MessageActionsDialog: " + component.errorString());
+            return;
+        }
+
+        const dialogParent = root.chatRoot && root.chatRoot.dialogHost
+            ? root.chatRoot.dialogHost
+            : (root.chatRoot ? root.chatRoot : root);
+        const dialog = component.createObject(dialogParent, {
+                "eventId": eventId,
+                "eventType": eventType,
+                "isSender": isSender,
+                "isEncrypted": isEncrypted,
+                "link": link || "",
+                "roomModel": roomModelOverride || matrixMessageActionsDefaultRoomModel,
+                "roomModelOverride": roomModelOverride || null,
+                "messageModelOverride": messageModelOverride || null,
+                "chatRoot": root,
+                "appRoot": dialogParent
+            });
+        if (!dialog)
+            return;
+
+        dialog.open();
+        root.destroyOnClose(dialog);
     }
 
     PreviewPermissions {
@@ -1093,6 +1162,7 @@ ColumnLayout {
 
                                 TimelineManager.queueActiveMatrixReply(
                                     reply,
+                                    timelineItemDelegate.senderId,
                                     timelineItemDelegate.senderDisplayName,
                                     timelineItemDelegate.replySourceBody);
                                 reply = "";
@@ -1171,18 +1241,23 @@ ColumnLayout {
                             readonly property int type: timelineItemDelegate.matrixEventType
                             readonly property bool isSender: timelineItemDelegate.isOwn
                             readonly property bool isEncrypted: timelineItemDelegate.mediaIsEncrypted || timelineItemDelegate.thumbnailIsEncrypted || timelineItemDelegate.itemKind === "unable_to_decrypt"
+                            readonly property string userId: timelineItemDelegate.senderId
+                            readonly property string userName: timelineItemDelegate.senderDisplayName
                             readonly property bool isEditable: !root.hasPendingAttachments
                                 && !TimelineManager.matrixTimelineAttachmentSending
                                 && timelineItemDelegate.isOwn
                                 && ["message", "notice", "emote"].indexOf(timelineItemDelegate.itemKind) >= 0
                             readonly property bool isStateEvent: timelineItemDelegate.isStateLikeItem
                             readonly property string body: timelineItemDelegate.body
+                            readonly property string formattedBody: timelineItemDelegate.usesSharedStateBubble
+                                ? timelineItemDelegate.sharedStatePreviewData.formattedStateEvent
+                                : timelineItemDelegate.sharedPreviewData.formattedBody
                             readonly property bool supportsReaction: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsReply: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsThread: false
                             readonly property bool supportsForward: ["message", "notice", "emote", "image", "video", "audio", "file"].indexOf(timelineItemDelegate.itemKind) >= 0
                             readonly property bool supportsGoToMessage: false
-                            readonly property bool supportsOptions: false
+                            readonly property bool supportsOptions: eventId.length > 0
                             readonly property bool supportsEdit: isEditable
                             readonly property bool supportsRemove: eventId.length > 0
                                 && (TimelineManager.matrixTimelineCanRedactOther
@@ -1419,9 +1494,11 @@ ColumnLayout {
                         Layout.preferredHeight: layoutVisible ? implicitHeight : 0
                         Layout.maximumHeight: layoutVisible ? implicitHeight : 0
                         matrixReplyEventId: TimelineManager.matrixTimelineReplyEventId
+                        matrixReplySenderId: TimelineManager.matrixTimelineReplySenderId
                         matrixReplyDisplayName: TimelineManager.matrixTimelineReplySenderDisplayName
                         matrixReplyBody: TimelineManager.matrixTimelineReplyBody
                         matrixEditEventId: TimelineManager.matrixTimelineEditEventId
+                        roomModel: matrixComposerRoom
                         roundTopCorners: true
                     }
 

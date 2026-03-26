@@ -16,13 +16,25 @@ Rectangle {
     property bool roundTopCorners: true
     property var roomModel: (typeof room !== "undefined") ? room : null
     property string matrixReplyEventId: ""
+    property string matrixReplySenderId: ""
     property string matrixReplyDisplayName: ""
     property string matrixReplyBody: ""
     property string matrixEditEventId: ""
     readonly property bool matrixReplyMode: matrixReplyEventId.length > 0
     readonly property bool matrixEditMode: matrixEditEventId.length > 0
     property color threadColor: roomModel ? TimelineManager.userColor(roomModel.thread, palette.base) : palette.buttonText
-    readonly property bool layoutVisible: matrixReplyMode || matrixEditMode || (roomModel && (roomModel.reply || roomModel.thread || roomModel.edit))
+    readonly property string matrixReplyPreviewUserId: matrixReplySenderId !== ""
+        ? matrixReplySenderId
+        : (matrixReplyDisplayName !== "" ? matrixReplyDisplayName : matrixReplyEventId)
+    readonly property color matrixReplyPreviewWindowColor: (Komai.colors && Komai.colors.window !== undefined)
+        ? Komai.colors.window
+        : replyPopup.palette.window
+    readonly property color matrixReplyPreviewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
+        ? Komai.colors.base
+        : replyPopup.palette.base
+    readonly property bool layoutVisible: matrixReplyMode
+        || matrixEditMode
+        || !!(roomModel && (roomModel.reply || roomModel.thread || roomModel.edit))
     property int headerTextHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int headerIconSize: Math.ceil(replyPopup.headerTextHeight * 0.5)
     property int headerFontSize: Math.ceil(replyPopup.headerTextHeight * 0.45)
@@ -60,7 +72,7 @@ Rectangle {
 
         // ── Thread header (visible when in a thread) ──
         RowLayout {
-            visible: roomModel && roomModel.thread && !replyPopup.matrixReplyMode
+            visible: !!(roomModel && roomModel.thread) && !replyPopup.matrixReplyMode
             spacing: Komai.paddingSmall
             width: parent.width
 
@@ -101,7 +113,7 @@ Rectangle {
 
         // ── Reply header (visible when replying to a specific message) ──
         RowLayout {
-            visible: replyPopup.matrixReplyMode || (roomModel && roomModel.reply)
+            visible: replyPopup.matrixReplyMode || !!(roomModel && roomModel.reply)
             spacing: Komai.paddingSmall
             width: parent.width
 
@@ -154,7 +166,8 @@ Rectangle {
 
         // ── Edit header (visible when editing a message) ──
         RowLayout {
-            visible: replyPopup.matrixEditMode || (roomModel && roomModel.edit && !replyPopup.matrixReplyMode)
+            visible: replyPopup.matrixEditMode
+                || (!!(roomModel && roomModel.edit) && !replyPopup.matrixReplyMode)
             spacing: Komai.paddingSmall
             width: parent.width
 
@@ -202,9 +215,13 @@ Rectangle {
         Reply {
             id: replyPreview
 
-            visible: roomModel && roomModel.reply && !replyPopup.matrixReplyMode
+            visible: !!(roomModel && roomModel.reply) && !replyPopup.matrixReplyMode
 
-            property var modelData: roomModel ? roomModel.getDump(roomModel.reply, roomModel.id) : {}
+            property var modelData: (roomModel
+                    && typeof roomModel.getDump === "function"
+                    && roomModel.reply)
+                ? roomModel.getDump(roomModel.reply, roomModel.id)
+                : {}
             property string replyUserId: (modelData && modelData.userId)
                 ? String(modelData.userId)
                 : ""
@@ -243,37 +260,45 @@ Rectangle {
             limitHeight: true
         }
 
-        Rectangle {
+        Reply {
+            id: matrixReplyPreview
+
             visible: replyPopup.matrixReplyMode
+            enabled: false
             width: parent.width
-            color: palette.window
-            radius: Komai.paddingMedium
-            implicitHeight: matrixReplyPreviewLayout.implicitHeight + Komai.paddingMedium * 2
-
-            ColumnLayout {
-                id: matrixReplyPreviewLayout
-
-                anchors.fill: parent
-                anchors.margins: Komai.paddingMedium
-                spacing: Komai.paddingSmall
-
-                Label {
-                    Layout.fillWidth: true
-                    color: palette.text
-                    font.bold: true
-                    text: replyPopup.matrixReplyDisplayName !== ""
+            eventId: replyPopup.matrixReplyEventId
+            previewData: ({
+                    "userId": replyPopup.matrixReplyPreviewUserId,
+                    "userName": replyPopup.matrixReplyDisplayName !== ""
                         ? replyPopup.matrixReplyDisplayName
-                        : qsTr("Reply")
-                    wrapMode: Text.WordWrap
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    color: palette.buttonText
-                    text: replyPopup.matrixReplyBody
-                    wrapMode: Text.WordWrap
-                }
-            }
+                        : qsTr("Reply"),
+                    "body": replyPopup.matrixReplyBody,
+                    "formattedBody": TimelineManager.formatMatrixMessageHtml(replyPopup.matrixReplyBody),
+                    "isOnlyEmoji": 0
+                })
+            roomModelOverride: replyPopup.roomModel
+            bubblePalette: replyPopup.roomModel
+                ? TimelineManager.roomUserBubblePalette(replyPopup.roomModel.roomId,
+                                                        replyPopup.matrixReplyPreviewUserId,
+                                                        roomColor,
+                                                        Settings.timelineUserColorCodingPolicy)
+                : TimelineManager.userBubblePalette(replyPopup.matrixReplyPreviewUserId, roomColor)
+            userColor: replyPopup.roomModel
+                ? TimelineManager.roomUserColor(replyPopup.roomModel.roomId,
+                                                replyPopup.matrixReplyPreviewUserId,
+                                                replyPopup.matrixReplyPreviewWindowColor,
+                                                Settings.timelineUserColorCodingPolicy)
+                : TimelineManager.userColor(replyPopup.matrixReplyPreviewUserId,
+                                            replyPopup.matrixReplyPreviewWindowColor)
+            roomColor: replyPopup.roomModel
+                ? TimelineManager.roomUserColor(replyPopup.roomModel.roomId,
+                                                replyPopup.matrixReplyPreviewUserId,
+                                                replyPopup.matrixReplyPreviewBaseColor,
+                                                Settings.timelineUserColorCodingPolicy)
+                : TimelineManager.userColor(replyPopup.matrixReplyPreviewUserId,
+                                            replyPopup.matrixReplyPreviewBaseColor)
+            maxWidth: parent.width
+            limitHeight: true
         }
     }
 

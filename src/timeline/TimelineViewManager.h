@@ -148,6 +148,8 @@ class TimelineViewManager final : public QObject
                  matrixTimelineStateChanged)
     Q_PROPERTY(QString matrixTimelineReplySenderDisplayName READ
                  matrixTimelineReplySenderDisplayName NOTIFY matrixTimelineStateChanged)
+    Q_PROPERTY(QString matrixTimelineReplySenderId READ matrixTimelineReplySenderId NOTIFY
+                 matrixTimelineStateChanged)
     Q_PROPERTY(QString matrixTimelineReplyBody READ matrixTimelineReplyBody NOTIFY
                  matrixTimelineStateChanged)
     Q_PROPERTY(QString matrixTimelineEditEventId READ matrixTimelineEditEventId NOTIFY
@@ -188,6 +190,7 @@ public:
     {
         return matrixTimelineReplySenderDisplayName_;
     }
+    QString matrixTimelineReplySenderId() const { return matrixTimelineReplySenderId_; }
     QString matrixTimelineReplyBody() const { return matrixTimelineReplyBody_; }
     QString matrixTimelineEditEventId() const { return matrixTimelineEditEventId_; }
     QStringList matrixTimelinePinnedEventIds() const { return matrixTimelinePinnedEventIds_; }
@@ -266,6 +269,7 @@ public:
     Q_INVOKABLE bool perfUiFlagEnabled(const QString &flag) const;
     Q_INVOKABLE bool sendActiveMatrixTextMessage(const QString &body);
     Q_INVOKABLE bool queueActiveMatrixReply(const QString &eventId,
+                                            const QString &senderId,
                                             const QString &senderDisplayName,
                                             const QString &body);
     Q_INVOKABLE void clearActiveMatrixReply();
@@ -424,6 +428,7 @@ private:
     bool matrixAttachmentUploadInFlight_ = false;
     QString matrixTimelineReplyEventId_;
     QString matrixTimelineReplySenderDisplayName_;
+    QString matrixTimelineReplySenderId_;
     QString matrixTimelineReplyBody_;
     QString matrixTimelineEditEventId_;
     QString matrixTimelineEditMessageKind_;
@@ -440,6 +445,7 @@ private:
                                        const PendingMatrixAttachment &attachment,
                                        QString error = {});
     bool setActiveMatrixReplyState(const QString &eventId,
+                                   const QString &senderId,
                                    const QString &senderDisplayName,
                                    const QString &body);
     bool clearActiveMatrixReplyState();

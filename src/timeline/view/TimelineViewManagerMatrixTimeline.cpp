@@ -496,20 +496,22 @@ TimelineViewManager::sendActiveMatrixEditMessage(const QString &body)
 
 bool
 TimelineViewManager::queueActiveMatrixReply(const QString &eventId,
+                                            const QString &senderId,
                                             const QString &senderDisplayName,
                                             const QString &body)
 {
     if (activeMatrixTimelineRoomId_.isEmpty())
         return false;
 
-    const auto trimmedEventId = eventId.trimmed();
+    const auto trimmedEventId  = eventId.trimmed();
+    const auto trimmedSenderId = senderId.trimmed();
     if (trimmedEventId.isEmpty())
         return false;
 
     const auto trimmedSenderDisplayName = senderDisplayName.trimmed();
     const auto trimmedBody              = body.trimmed();
-    const auto changed =
-      setActiveMatrixReplyState(trimmedEventId, trimmedSenderDisplayName, trimmedBody);
+    const auto changed                  = setActiveMatrixReplyState(
+      trimmedEventId, trimmedSenderId, trimmedSenderDisplayName, trimmedBody);
     if (changed)
         emit matrixTimelineStateChanged();
     focusMessageInput();
@@ -1206,20 +1208,24 @@ TimelineViewManager::startNextPendingMatrixAttachment()
 
 bool
 TimelineViewManager::setActiveMatrixReplyState(const QString &eventId,
+                                               const QString &senderId,
                                                const QString &senderDisplayName,
                                                const QString &body)
 {
     const auto trimmedEventId           = eventId.trimmed();
+    const auto trimmedSenderId          = senderId.trimmed();
     const auto trimmedSenderDisplayName = senderDisplayName.trimmed();
     const auto trimmedBody              = body.trimmed();
 
     if (matrixTimelineReplyEventId_ == trimmedEventId &&
+        matrixTimelineReplySenderId_ == trimmedSenderId &&
         matrixTimelineReplySenderDisplayName_ == trimmedSenderDisplayName &&
         matrixTimelineReplyBody_ == trimmedBody) {
         return false;
     }
 
     matrixTimelineReplyEventId_           = trimmedEventId;
+    matrixTimelineReplySenderId_          = trimmedSenderId;
     matrixTimelineReplySenderDisplayName_ = trimmedSenderDisplayName;
     matrixTimelineReplyBody_              = trimmedBody;
     emit replyingEventChanged(matrixTimelineReplyEventId_);
@@ -1229,12 +1235,13 @@ TimelineViewManager::setActiveMatrixReplyState(const QString &eventId,
 bool
 TimelineViewManager::clearActiveMatrixReplyState()
 {
-    if (matrixTimelineReplyEventId_.isEmpty() && matrixTimelineReplySenderDisplayName_.isEmpty() &&
-        matrixTimelineReplyBody_.isEmpty()) {
+    if (matrixTimelineReplyEventId_.isEmpty() && matrixTimelineReplySenderId_.isEmpty() &&
+        matrixTimelineReplySenderDisplayName_.isEmpty() && matrixTimelineReplyBody_.isEmpty()) {
         return false;
     }
 
     matrixTimelineReplyEventId_.clear();
+    matrixTimelineReplySenderId_.clear();
     matrixTimelineReplySenderDisplayName_.clear();
     matrixTimelineReplyBody_.clear();
     emit replyingEventChanged(QString());

@@ -19,17 +19,30 @@ Components.OverlayDialog {
     property bool isEncrypted
     property string link
     property var appRoot
+    property var roomModelOverride: null
+    property var messageModelOverride: null
 
     required property var roomModel
     required property var chatRoot
 
-    readonly property string messageText: (eventId && roomModel) ? String(roomModel.dataById(eventId, Room.Body, "") || "") : ""
-    readonly property string formattedBodyText: (eventId && roomModel) ? String(roomModel.dataById(eventId, Room.FormattedBody, "") || "") : ""
-    readonly property bool hasFormattedBody: (eventId && roomModel) ? !!roomModel.dataById(eventId, Room.HasFormattedBody, false) : false
-    readonly property bool isStateEvent: (eventId && roomModel) ? !!roomModel.dataById(eventId, Room.IsStateEvent, false) : false
+    readonly property var effectiveRoomModel: roomModelOverride ? roomModelOverride : roomModel
+    readonly property bool hasLegacyRoomModel: !!effectiveRoomModel
+        && typeof effectiveRoomModel.dataById === "function"
+    readonly property string messageText: hasLegacyRoomModel
+        ? ((eventId && effectiveRoomModel) ? String(effectiveRoomModel.dataById(eventId, Room.Body, "") || "") : "")
+        : (messageModelOverride && messageModelOverride.body !== undefined ? String(messageModelOverride.body || "") : "")
+    readonly property string formattedBodyText: hasLegacyRoomModel
+        ? ((eventId && effectiveRoomModel) ? String(effectiveRoomModel.dataById(eventId, Room.FormattedBody, "") || "") : "")
+        : (messageModelOverride && messageModelOverride.formattedBody !== undefined ? String(messageModelOverride.formattedBody || "") : "")
+    readonly property bool hasFormattedBody: hasLegacyRoomModel
+        ? ((eventId && effectiveRoomModel) ? !!effectiveRoomModel.dataById(eventId, Room.HasFormattedBody, false) : false)
+        : formattedBodyText !== ""
+    readonly property bool isStateEvent: hasLegacyRoomModel
+        ? ((eventId && effectiveRoomModel) ? !!effectiveRoomModel.dataById(eventId, Room.IsStateEvent, false) : false)
+        : !!(messageModelOverride && messageModelOverride.isStateEvent)
 
-    readonly property bool canRedact: roomModel ? roomModel.permissions.canRedact() : false
-    readonly property bool canChangePinned: roomModel ? roomModel.permissions.canChange(MtxEvent.PinnedEvents) : false
+    readonly property bool canRedact: effectiveRoomModel ? effectiveRoomModel.permissions.canRedact() : false
+    readonly property bool canChangePinned: effectiveRoomModel ? effectiveRoomModel.permissions.canChange(MtxEvent.PinnedEvents) : false
     readonly property bool isMediaType: eventType == MtxEvent.ImageMessage
         || eventType == MtxEvent.VideoMessage
         || eventType == MtxEvent.AudioMessage
@@ -38,7 +51,7 @@ Components.OverlayDialog {
     readonly property bool isTextType: eventType == MtxEvent.TextMessage
         || eventType == MtxEvent.EmoteMessage
         || eventType == MtxEvent.NoticeMessage
-    readonly property bool isPinned: roomModel && roomModel.pinnedMessages.includes(eventId)
+    readonly property bool isPinned: effectiveRoomModel && effectiveRoomModel.pinnedMessages && effectiveRoomModel.pinnedMessages.includes(eventId)
 
     overlayViewport: appRoot
     readonly property int dialogViewportWidth: overlayDialogViewport ? overlayDialogViewport.width : 760
@@ -204,7 +217,19 @@ Components.OverlayDialog {
                     clip: true
                     enabled: false
                     eventId: root.eventId
-                    room_: root.roomModel
+                    room_: root.hasLegacyRoomModel ? root.effectiveRoomModel : null
+                    previewData: root.hasLegacyRoomModel ? ({}) : ({
+                            "userId": messageModelOverride && messageModelOverride.userId !== undefined
+                                ? String(messageModelOverride.userId || "")
+                                : "",
+                            "userName": messageModelOverride && messageModelOverride.userName !== undefined
+                                ? String(messageModelOverride.userName || "")
+                                : "",
+                            "body": root.messageText,
+                            "formattedBody": root.formattedBodyText,
+                            "isOnlyEmoji": 0
+                        })
+                    roomModelOverride: root.hasLegacyRoomModel ? null : root.effectiveRoomModel
                     maxWidth: actionsFlickable.width
 
                     property bool isReplyFromCurrentUser: {
@@ -220,13 +245,13 @@ Components.OverlayDialog {
                     readonly property color previewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
                         ? Komai.colors.base
                         : root.palette.base
-                    bubblePalette: root.roomModel ? TimelineManager.roomUserBubblePalette(root.roomModel.roomId, replyPreview.userId, roomColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userBubblePalette(replyPreview.userId, roomColor)
+                    bubblePalette: root.effectiveRoomModel ? TimelineManager.roomUserBubblePalette(root.effectiveRoomModel.roomId, replyPreview.userId, roomColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userBubblePalette(replyPreview.userId, roomColor)
                     userColor: isReplyFromCurrentUser
                         ? Komai.theme.userColorSelf
-                        : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, previewWindowColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewWindowColor)
+                        : root.effectiveRoomModel ? TimelineManager.roomUserColor(root.effectiveRoomModel.roomId, replyPreview.userId, previewWindowColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewWindowColor)
                     roomColor: isReplyFromCurrentUser
                         ? Komai.theme.userColorSelf
-                        : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, previewBaseColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewBaseColor)
+                        : root.effectiveRoomModel ? TimelineManager.roomUserColor(root.effectiveRoomModel.roomId, replyPreview.userId, previewBaseColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewBaseColor)
 
                     // Gradient fade when preview is clipped by maximumHeight
                     Rectangle {
@@ -282,9 +307,9 @@ Components.OverlayDialog {
                     iconSource: ":/icons/icons/ui/copy.svg"
                     shortcutSequence: "C"
                     shortcutDisplayText: qsTr("C")
-                    visible: root.isMediaType
+                    visible: root.isMediaType && root.effectiveRoomModel && typeof root.effectiveRoomModel.copyMedia === "function"
                     onClicked: {
-                        root.roomModel.copyMedia(root.eventId);
+                        root.effectiveRoomModel.copyMedia(root.eventId);
                         showFeedback(qsTr("Copied!"));
                     }
                 }
@@ -308,9 +333,9 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/link.svg"
                 shortcutSequence: "K"
                 shortcutDisplayText: qsTr("K")
-                visible: root.eventId !== "" && !root.isStateEvent
+                visible: root.eventId !== "" && !root.isStateEvent && root.effectiveRoomModel && typeof root.effectiveRoomModel.copyLinkToEvent === "function"
                 onClicked: {
-                    root.roomModel.copyLinkToEvent(root.eventId);
+                    root.effectiveRoomModel.copyLinkToEvent(root.eventId);
                     showFeedback(qsTr("Copied!"));
                 }
             }
@@ -330,11 +355,14 @@ Components.OverlayDialog {
                 shortcutSequence: "P"
                 shortcutDisplayText: qsTr("P")
                 visible: root.canChangePinned && !root.isStateEvent
+                    && root.effectiveRoomModel
+                    && typeof root.effectiveRoomModel.pin === "function"
+                    && typeof root.effectiveRoomModel.unpin === "function"
                 onClicked: {
                     if (root.isPinned)
-                        root.roomModel.unpin(root.eventId);
+                        root.effectiveRoomModel.unpin(root.eventId);
                     else
-                        root.roomModel.pin(root.eventId);
+                        root.effectiveRoomModel.pin(root.eventId);
                     showFeedback(root.isPinned ? qsTr("Unpinned!") : qsTr("Pinned!"));
                 }
             }
@@ -345,9 +373,9 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/double-checkmark.svg"
                 shortcutSequence: "M"
                 shortcutDisplayText: qsTr("M")
-                visible: !root.isStateEvent
+                visible: !root.isStateEvent && root.effectiveRoomModel && typeof root.effectiveRoomModel.markEventAsRead === "function"
                 onClicked: {
-                    root.roomModel.markEventAsRead(root.eventId);
+                    root.effectiveRoomModel.markEventAsRead(root.eventId);
                     showFeedback(qsTr("Done!"));
                 }
             }
@@ -366,10 +394,10 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/download.svg"
                 shortcutSequence: "S"
                 shortcutDisplayText: qsTr("S")
-                visible: root.isMediaType
+                visible: root.isMediaType && root.effectiveRoomModel && typeof root.effectiveRoomModel.saveMedia === "function"
                 onClicked: {
                     root.close();
-                    root.roomModel.saveMedia(root.eventId);
+                    root.effectiveRoomModel.saveMedia(root.eventId);
                 }
             }
 
@@ -379,10 +407,10 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/open-externally.svg"
                 shortcutSequence: "O"
                 shortcutDisplayText: qsTr("O")
-                visible: root.isMediaType
+                visible: root.isMediaType && root.effectiveRoomModel && typeof root.effectiveRoomModel.openMedia === "function"
                 onClicked: {
                     root.close();
-                    root.roomModel.openMedia(root.eventId);
+                    root.effectiveRoomModel.openMedia(root.eventId);
                 }
             }
 
@@ -400,10 +428,10 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/eye-show.svg"
                 shortcutSequence: "I"
                 shortcutDisplayText: qsTr("I")
-                visible: !root.isStateEvent
+                visible: !root.isStateEvent && root.effectiveRoomModel && typeof root.effectiveRoomModel.showReadReceipts === "function"
                 onClicked: {
                     root.close();
-                    root.roomModel.showReadReceipts(root.eventId);
+                    root.effectiveRoomModel.showReadReceipts(root.eventId);
                 }
             }
 
@@ -413,9 +441,10 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/raw-message.svg"
                 shortcutSequence: "U"
                 shortcutDisplayText: qsTr("U")
+                visible: root.effectiveRoomModel && typeof root.effectiveRoomModel.viewRawMessage === "function"
                 onClicked: {
                     root.close();
-                    root.roomModel.viewRawMessage(root.eventId);
+                    root.effectiveRoomModel.viewRawMessage(root.eventId);
                 }
             }
 
@@ -425,10 +454,10 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/raw-message.svg"
                 shortcutSequence: "E"
                 shortcutDisplayText: qsTr("E")
-                visible: root.isEncrypted
+                visible: root.isEncrypted && root.effectiveRoomModel && typeof root.effectiveRoomModel.viewDecryptedRawMessage === "function"
                 onClicked: {
                     root.close();
-                    root.roomModel.viewDecryptedRawMessage(root.eventId);
+                    root.effectiveRoomModel.viewDecryptedRawMessage(root.eventId);
                 }
             }
 

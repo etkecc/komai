@@ -7,6 +7,7 @@
 #include <QAbstractListModel>
 #include <QVariantMap>
 #include <QVector>
+#include <optional>
 
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 
@@ -54,6 +55,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     Q_INVOKABLE int rowForEventId(const QString &eventId) const;
     Q_INVOKABLE QVariantMap itemAt(int row) const;
+    std::optional<MatrixTimelineItem> itemByEventId(const QString &eventId) const;
 
     int count() const { return items_.size(); }
     void replaceItems(QVector<MatrixTimelineItem> items);

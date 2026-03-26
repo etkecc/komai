@@ -149,6 +149,16 @@ MatrixTimelineModel::itemAt(int row) const
     return itemData;
 }
 
+std::optional<MatrixTimelineItem>
+MatrixTimelineModel::itemByEventId(const QString &eventId) const
+{
+    const auto row = rowForEventId(eventId);
+    if (row < 0 || row >= items_.size())
+        return std::nullopt;
+
+    return items_.at(row);
+}
+
 void
 MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
 {

@@ -4,6 +4,7 @@
 
 import "../../room/components"
 import "../../composer" as Composer
+import "../../dialogs/navigation" as NavigationDialogs
 import "../../dialogs/timeline" as TimelineDialogs
 import "../styles/bubble"
 import "../styles/plain"
@@ -399,6 +400,13 @@ ColumnLayout {
         }
     }
 
+    Component {
+        id: forwardDialogComponent
+
+        NavigationDialogs.ForwardCompleter {
+        }
+    }
+
     QtObject {
         id: matrixDialogRoomModel
 
@@ -411,6 +419,35 @@ ColumnLayout {
 
             TimelineManager.openGlobalUserProfile(trimmedUserId);
         }
+    }
+
+    QtObject {
+        id: matrixForwardRoomModel
+
+        property string roomId: root.roomPreview ? root.roomPreview.roomid : ""
+
+        function forwardMessage(eventId, targetRoomId) {
+            TimelineManager.forwardActiveMatrixTimelineEvent(String(eventId || ""),
+                                                            String(targetRoomId || ""));
+        }
+    }
+
+    function openMatrixForwardDialog(eventId) {
+        const trimmedEventId = String(eventId || "").trim();
+        if (trimmedEventId.length === 0)
+            return null;
+
+        const dialog = showDialogFromComponent(forwardDialogComponent, {
+                "roomSource": matrixForwardRoomModel,
+                "timelineSource": null,
+                "timelineViewSource": null,
+                "showReplyPreview": false
+            });
+        if (!dialog)
+            return null;
+
+        dialog.setMessageEventIds([trimmedEventId], 1);
+        return dialog;
     }
 
     PreviewPermissions {
@@ -866,6 +903,11 @@ ColumnLayout {
                                     String(eventId || timelineItemDelegate.eventId || ""));
                             }
 
+                            function openForwardDialog(eventId) {
+                                root.openMatrixForwardDialog(
+                                    String(eventId || timelineItemDelegate.eventId || ""));
+                            }
+
                             function markEventAsRead(eventId) {
                                 TimelineManager.markActiveMatrixTimelineEventAsRead(
                                     String(eventId || timelineItemDelegate.eventId || ""));
@@ -920,7 +962,7 @@ ColumnLayout {
                             readonly property bool supportsReaction: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsReply: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsThread: false
-                            readonly property bool supportsForward: false
+                            readonly property bool supportsForward: ["message", "notice", "emote", "image", "video", "audio", "file"].indexOf(timelineItemDelegate.itemKind) >= 0
                             readonly property bool supportsGoToMessage: false
                             readonly property bool supportsOptions: false
                             readonly property bool supportsEdit: isEditable

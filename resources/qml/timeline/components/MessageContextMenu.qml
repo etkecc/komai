@@ -206,7 +206,9 @@ Menu {
                 text: qsTr("&Forward")
                 visible: messageActionSupport.canForward(messageContextMenuRoot.effectiveMessageModel)
 
-                onTriggered: chatRoot.openForwardDialog(messageContextMenuRoot.eventId)
+                onTriggered: messageActionSupport.applyForward(messageContextMenuRoot.chatRoot,
+                                                               messageContextMenuRoot.effectiveRoomModel,
+                                                               messageContextMenuRoot.effectiveMessageModel)
             }
         }
         Component {

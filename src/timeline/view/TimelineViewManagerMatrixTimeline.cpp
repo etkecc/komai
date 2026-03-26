@@ -12,6 +12,7 @@
 #include <QMimeDatabase>
 #include <QStandardPaths>
 #include <QUrl>
+#include <QUuid>
 
 #include <nlohmann/json.hpp>
 
@@ -75,6 +76,20 @@ matrixTimelineMediaCachePath(const QString &fileName)
     const auto cacheDir = QDir(baseDir).filePath(QStringLiteral("matrix-runtime-media"));
     QDir().mkpath(cacheDir);
     return QDir(cacheDir).filePath(fileName);
+}
+
+bool
+isForwardableActiveMatrixTimelineTextKind(const QString &itemKind)
+{
+    return itemKind == QStringLiteral("message") || itemKind == QStringLiteral("notice") ||
+           itemKind == QStringLiteral("emote");
+}
+
+bool
+isForwardableActiveMatrixTimelineMediaKind(const QString &itemKind)
+{
+    return itemKind == QStringLiteral("image") || itemKind == QStringLiteral("video") ||
+           itemKind == QStringLiteral("audio") || itemKind == QStringLiteral("file");
 }
 }
 
@@ -598,6 +613,148 @@ TimelineViewManager::reportActiveMatrixTimelineEvent(const QString &eventId,
             mainWindow->showNotification(tr("Failed to report message: %1").arg(error));
         return false;
     }
+
+    return true;
+}
+
+bool
+TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
+                                                      const QString &targetRoomId)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to forward a matrix-sdk room event without an active runtime "
+                          "handle or selected matrix room");
+        return false;
+    }
+
+    const auto trimmedEventId      = eventId.trimmed();
+    const auto trimmedTargetRoomId = targetRoomId.trimmed();
+    if (trimmedEventId.isEmpty() || trimmedTargetRoomId.isEmpty())
+        return false;
+
+    if (!matrixTimelineModel_) {
+        nhlog::ui()->warn("Refusing to forward matrix-sdk room event '{}' without an active "
+                          "timeline model",
+                          trimmedEventId.toStdString());
+        return false;
+    }
+
+    const auto item = matrixTimelineModel_->itemByEventId(trimmedEventId);
+    if (!item) {
+        nhlog::ui()->warn("Refusing to forward unknown matrix-sdk room event '{}' in '{}'",
+                          trimmedEventId.toStdString(),
+                          activeMatrixTimelineRoomId_.toStdString());
+        return false;
+    }
+
+    const auto itemKind = item->itemKind.trimmed().toLower();
+    QString error;
+
+    if (isForwardableActiveMatrixTimelineTextKind(itemKind)) {
+        const auto ok = komai::MatrixBackendRuntimeService::sendRoomMessage(
+          handleId,
+          trimmedTargetRoomId,
+          item->body,
+          matrixMessageFormattedHtml(item->body),
+          normalizedMatrixMessageKind(itemKind),
+          &error);
+        if (!ok) {
+            nhlog::ui()->warn("Failed to forward matrix-sdk room event '{}' from '{}' to '{}' on "
+                              "handle {}: {}",
+                              trimmedEventId.toStdString(),
+                              activeMatrixTimelineRoomId_.toStdString(),
+                              trimmedTargetRoomId.toStdString(),
+                              handleId,
+                              error.toStdString());
+            if (mainWindow) {
+                mainWindow->showNotification(tr("Failed to forward message: %1").arg(error));
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+    if (!isForwardableActiveMatrixTimelineMediaKind(itemKind)) {
+        nhlog::ui()->warn("Forwarding matrix-sdk room event kind '{}' is not implemented yet",
+                          itemKind.toStdString());
+        if (mainWindow) {
+            mainWindow->showNotification(tr("Forwarding this message type is not available yet."));
+        }
+        return false;
+    }
+
+    const auto sourceItemId      = item->itemId.trimmed().isEmpty() ? trimmedEventId : item->itemId;
+    const auto suggestedFileName = matrixTimelineAttachmentFileName(item->fileName, sourceItemId);
+    const auto mimeType          = item->mimeType.trimmed().isEmpty()
+                                     ? QStringLiteral("application/octet-stream")
+                                     : item->mimeType.trimmed();
+    const auto suffix            = QFileInfo(suggestedFileName).suffix().trimmed();
+    auto tempFileName =
+      QStringLiteral("forward-%1").arg(QUuid::createUuid().toString(QUuid::Id128));
+    if (!suffix.isEmpty())
+        tempFileName += QStringLiteral(".") + suffix;
+    const auto outputPath = matrixTimelineMediaCachePath(tempFileName);
+    const auto caption    = item->body;
+
+    std::thread([this,
+                 handleId,
+                 sourceItemId,
+                 sourceRoomId = activeMatrixTimelineRoomId_,
+                 targetRoomId = trimmedTargetRoomId,
+                 outputPath,
+                 suggestedFileName,
+                 mimeType,
+                 caption]() {
+        QString error;
+        const auto data = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
+          handleId, sourceItemId, 0, 0, false, &error);
+        bool ok = data.has_value() && !data->isEmpty();
+
+        if (ok) {
+            QFileInfo outputInfo(outputPath);
+            QDir().mkpath(outputInfo.absolutePath());
+
+            QFile outputFile(outputPath);
+            if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+                ok    = false;
+                error = outputFile.errorString();
+            } else if (outputFile.write(*data) != data->size()) {
+                ok    = false;
+                error = outputFile.errorString();
+            }
+        }
+
+        if (ok) {
+            ok = komai::MatrixBackendRuntimeService::sendRoomAttachment(
+              handleId, targetRoomId, outputPath, suggestedFileName, caption, {}, mimeType, &error);
+        }
+
+        QFile::remove(outputPath);
+
+        QMetaObject::invokeMethod(
+          this,
+          [handleId, ok, sourceItemId, sourceRoomId, targetRoomId, suggestedFileName, error]() {
+              if (ok)
+                  return;
+
+              nhlog::ui()->warn("Failed to forward matrix-sdk room media '{}' from '{}' to '{}' "
+                                "on handle {}: {}",
+                                sourceItemId.toStdString(),
+                                sourceRoomId.toStdString(),
+                                targetRoomId.toStdString(),
+                                handleId,
+                                error.toStdString());
+              if (auto *mainWindow = MainWindow::instance()) {
+                  mainWindow->showNotification(
+                    TimelineViewManager::tr("Failed to forward attachment '%1': %2")
+                      .arg(suggestedFileName, error));
+              }
+          },
+          Qt::QueuedConnection);
+    }).detach();
 
     return true;
 }

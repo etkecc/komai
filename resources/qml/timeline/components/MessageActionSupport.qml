@@ -210,8 +210,16 @@ QtObject {
         return true;
     }
 
-    function applyForward(chatRoot, messageModel) {
-        if (!chatRoot || !canForward(messageModel))
+    function applyForward(chatRoot, roomModel, messageModel) {
+        if (!canForward(messageModel))
+            return false;
+
+        if (roomHasMethod(roomModel, "openForwardDialog")) {
+            roomModel.openForwardDialog(messageModel.eventId);
+            return true;
+        }
+
+        if (!chatRoot || typeof chatRoot.openForwardDialog !== "function")
             return false;
 
         chatRoot.openForwardDialog(messageModel.eventId);

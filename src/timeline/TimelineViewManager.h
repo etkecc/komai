@@ -273,6 +273,8 @@ public:
     Q_INVOKABLE bool reportActiveMatrixTimelineEvent(const QString &eventId,
                                                      const QString &reason = QString(),
                                                      int score             = -50);
+    Q_INVOKABLE bool
+    forwardActiveMatrixTimelineEvent(const QString &eventId, const QString &targetRoomId);
     Q_INVOKABLE bool pinActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE bool unpinActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE QVariantMap

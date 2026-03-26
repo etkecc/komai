@@ -424,7 +424,7 @@ Item {
             visible: toolbar.canForward
 
             onClicked: {
-                if (messageActionSupport.applyForward(toolbar.chatRoot, toolbar.messageModel))
+                if (messageActionSupport.applyForward(toolbar.chatRoot, roomModel, toolbar.messageModel))
                     toolbar.dismissActionBar();
             }
         }

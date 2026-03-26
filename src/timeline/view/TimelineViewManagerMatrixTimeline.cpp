@@ -135,10 +135,40 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
 
     activeMatrixTimelineRoomId_ = roomId;
     matrixTimelineLoading_      = true;
+    refreshActiveMatrixTimelinePinnedEventIds();
     refreshActiveMatrixTimelineRedactionPermissions();
     if (matrixTimelineModel_)
         matrixTimelineModel_->clear();
     emit matrixTimelineStateChanged();
+}
+
+bool
+TimelineViewManager::refreshActiveMatrixTimelinePinnedEventIds()
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+
+    QStringList pinnedEventIds;
+    if (handleId != 0 && !activeMatrixTimelineRoomId_.isEmpty()) {
+        QString error;
+        const auto pinned = komai::MatrixBackendRuntimeService::fetchRoomPinnedEventIds(
+          handleId, activeMatrixTimelineRoomId_, &error);
+        if (!pinned) {
+            nhlog::ui()->warn("Failed to fetch matrix-sdk room pinned events for '{}' on handle "
+                              "{}: {}",
+                              activeMatrixTimelineRoomId_.toStdString(),
+                              handleId,
+                              error.toStdString());
+        } else {
+            pinnedEventIds = *pinned;
+        }
+    }
+
+    if (matrixTimelinePinnedEventIds_ == pinnedEventIds)
+        return false;
+
+    matrixTimelinePinnedEventIds_ = std::move(pinnedEventIds);
+    return true;
 }
 
 bool
@@ -227,6 +257,11 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
     if (matrixTimelineLoading_) {
         matrixTimelineLoading_ = false;
         stateChanged           = true;
+    }
+
+    if (!matrixTimelinePinnedEventIds_.isEmpty()) {
+        matrixTimelinePinnedEventIds_.clear();
+        stateChanged = true;
     }
 
     if (matrixTimelineCanRedactOwn_ || matrixTimelineCanRedactOther_) {
@@ -563,6 +598,74 @@ TimelineViewManager::reportActiveMatrixTimelineEvent(const QString &eventId,
             mainWindow->showNotification(tr("Failed to report message: %1").arg(error));
         return false;
     }
+
+    return true;
+}
+
+bool
+TimelineViewManager::pinActiveMatrixTimelineEvent(const QString &eventId)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to pin a matrix-sdk room event without an active runtime "
+                          "handle or selected matrix room");
+        return false;
+    }
+
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty())
+        return false;
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::pinRoomEvent(
+          handleId, activeMatrixTimelineRoomId_, trimmedEventId, &error)) {
+        nhlog::ui()->warn("Failed to pin matrix-sdk room event '{}' in '{}' on handle {}: {}",
+                          trimmedEventId.toStdString(),
+                          activeMatrixTimelineRoomId_.toStdString(),
+                          handleId,
+                          error.toStdString());
+        if (mainWindow)
+            mainWindow->showNotification(tr("Failed to pin message: %1").arg(error));
+        return false;
+    }
+
+    if (refreshActiveMatrixTimelinePinnedEventIds())
+        emit matrixTimelineStateChanged();
+
+    return true;
+}
+
+bool
+TimelineViewManager::unpinActiveMatrixTimelineEvent(const QString &eventId)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to unpin a matrix-sdk room event without an active runtime "
+                          "handle or selected matrix room");
+        return false;
+    }
+
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty())
+        return false;
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::unpinRoomEvent(
+          handleId, activeMatrixTimelineRoomId_, trimmedEventId, &error)) {
+        nhlog::ui()->warn("Failed to unpin matrix-sdk room event '{}' in '{}' on handle {}: {}",
+                          trimmedEventId.toStdString(),
+                          activeMatrixTimelineRoomId_.toStdString(),
+                          handleId,
+                          error.toStdString());
+        if (mainWindow)
+            mainWindow->showNotification(tr("Failed to unpin message: %1").arg(error));
+        return false;
+    }
+
+    if (refreshActiveMatrixTimelinePinnedEventIds())
+        emit matrixTimelineStateChanged();
 
     return true;
 }

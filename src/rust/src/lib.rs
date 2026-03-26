@@ -387,6 +387,12 @@ mod ffi {
             reason: &str,
             score: i32,
         ) -> Result<()>;
+        fn matrix_fetch_room_pinned_event_ids(
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<Vec<String>>;
+        fn matrix_pin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<()>;
+        fn matrix_unpin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<()>;
         fn matrix_fetch_active_room_raw_event_json(
             handle_id: u64,
             room_id: &str,
@@ -989,6 +995,27 @@ fn matrix_report_room_event(
 ) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::report_room_event(
         handle_id, room_id, event_id, reason, score,
+    ))
+}
+
+fn matrix_fetch_room_pinned_event_ids(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<Vec<String>, String> {
+    runtime().block_on(matrix_backend::runtime::fetch_room_pinned_event_ids(
+        handle_id, room_id,
+    ))
+}
+
+fn matrix_pin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::pin_room_event(
+        handle_id, room_id, event_id,
+    ))
+}
+
+fn matrix_unpin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::unpin_room_event(
+        handle_id, room_id, event_id,
     ))
 }
 

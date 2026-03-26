@@ -149,6 +149,8 @@ class TimelineViewManager final : public QObject
                  matrixTimelineStateChanged)
     Q_PROPERTY(QString matrixTimelineEditEventId READ matrixTimelineEditEventId NOTIFY
                  matrixTimelineStateChanged)
+    Q_PROPERTY(QStringList matrixTimelinePinnedEventIds READ matrixTimelinePinnedEventIds NOTIFY
+                 matrixTimelineStateChanged)
     Q_PROPERTY(bool matrixTimelineCanRedactOwn READ matrixTimelineCanRedactOwn NOTIFY
                  matrixTimelineStateChanged)
     Q_PROPERTY(bool matrixTimelineCanRedactOther READ matrixTimelineCanRedactOther NOTIFY
@@ -185,6 +187,7 @@ public:
     }
     QString matrixTimelineReplyBody() const { return matrixTimelineReplyBody_; }
     QString matrixTimelineEditEventId() const { return matrixTimelineEditEventId_; }
+    QStringList matrixTimelinePinnedEventIds() const { return matrixTimelinePinnedEventIds_; }
     bool matrixTimelineCanRedactOwn() const { return matrixTimelineCanRedactOwn_; }
     bool matrixTimelineCanRedactOther() const { return matrixTimelineCanRedactOther_; }
     Q_INVOKABLE void openMediaOverlay(TimelineModel *room,
@@ -270,6 +273,8 @@ public:
     Q_INVOKABLE bool reportActiveMatrixTimelineEvent(const QString &eventId,
                                                      const QString &reason = QString(),
                                                      int score             = -50);
+    Q_INVOKABLE bool pinActiveMatrixTimelineEvent(const QString &eventId);
+    Q_INVOKABLE bool unpinActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE QVariantMap
     rawMessageDialogForActiveMatrixTimelineEvent(const QString &eventId) const;
     Q_INVOKABLE QObject *
@@ -394,7 +399,8 @@ private:
     bool navigating_                                 = false;
     komai::MatrixTimelineModel *matrixTimelineModel_ = nullptr;
     QString activeMatrixTimelineRoomId_;
-    bool matrixTimelineLoading_        = false;
+    bool matrixTimelineLoading_ = false;
+    QStringList matrixTimelinePinnedEventIds_;
     bool matrixTimelineCanRedactOwn_   = false;
     bool matrixTimelineCanRedactOther_ = false;
     struct PendingMatrixAttachment
@@ -419,6 +425,7 @@ private:
     void processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers);
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
     void updateCurrentMatrixTimelineSelection();
+    bool refreshActiveMatrixTimelinePinnedEventIds();
     bool refreshActiveMatrixTimelineRedactionPermissions();
     void refreshCurrentMatrixTimeline();
     void clearCurrentMatrixTimeline(bool stopBackendTask = true);

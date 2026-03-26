@@ -6,6 +6,7 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
 #include <QVariant>
 #include <QVector>
 #include <cstdint>
@@ -332,6 +333,19 @@ public:
                                 const QString &reason,
                                 int score,
                                 QString *errorOut = nullptr);
+
+    static std::optional<QStringList>
+    fetchRoomPinnedEventIds(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static bool pinRoomEvent(uint64_t handleId,
+                             const QString &roomId,
+                             const QString &eventId,
+                             QString *errorOut = nullptr);
+
+    static bool unpinRoomEvent(uint64_t handleId,
+                               const QString &roomId,
+                               const QString &eventId,
+                               QString *errorOut = nullptr);
 
     static std::optional<QString> fetchActiveRoomRawEventJson(uint64_t handleId,
                                                               const QString &roomId,

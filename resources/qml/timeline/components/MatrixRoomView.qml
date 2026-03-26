@@ -639,6 +639,7 @@ ColumnLayout {
                             property AbstractPermissions permissions: matrixToolbarPreviewPermissions
                             property var input: matrixToolbarInput
                             property var frequentReactions: []
+                            property var pinnedMessages: TimelineManager.matrixTimelinePinnedEventIds
                             property string reply: ""
                             property string edit: ""
                             property string thread: ""
@@ -721,6 +722,16 @@ ColumnLayout {
                                     String(eventId || timelineItemDelegate.eventId || ""));
                             }
 
+                            function pin(eventId) {
+                                TimelineManager.pinActiveMatrixTimelineEvent(
+                                    String(eventId || timelineItemDelegate.eventId || ""));
+                            }
+
+                            function unpin(eventId) {
+                                TimelineManager.unpinActiveMatrixTimelineEvent(
+                                    String(eventId || timelineItemDelegate.eventId || ""));
+                            }
+
                             function reportEvent(eventId, reason, score) {
                                 TimelineManager.reportActiveMatrixTimelineEvent(
                                     String(eventId || timelineItemDelegate.eventId || ""),
@@ -768,7 +779,7 @@ ColumnLayout {
                             readonly property bool supportsReadReceipts: timelineItemDelegate.isOwn
                                 && timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsMarkAsRead: timelineItemDelegate.supportsSharedToolbarActions
-                            readonly property bool supportsPin: false
+                            readonly property bool supportsPin: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsReport: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsOpenMedia: timelineItemDelegate.isMediaItem
                             readonly property bool supportsSaveMedia: timelineItemDelegate.isMediaItem

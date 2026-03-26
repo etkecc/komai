@@ -870,6 +870,59 @@ MatrixBackendRuntimeService::reportRoomEvent(uint64_t handleId,
     }
 }
 
+std::optional<QStringList>
+MatrixBackendRuntimeService::fetchRoomPinnedEventIds(uint64_t handleId,
+                                                     const QString &roomId,
+                                                     QString *errorOut)
+{
+    try {
+        const auto result =
+          ::komai::rust::matrix_fetch_room_pinned_event_ids(handleId, roomId.toStdString());
+        QStringList pinnedEventIds;
+        pinnedEventIds.reserve(static_cast<qsizetype>(result.size()));
+        for (const auto &eventId : result)
+            pinnedEventIds.push_back(QString::fromStdString(std::string(eventId)));
+        return pinnedEventIds;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::pinRoomEvent(uint64_t handleId,
+                                          const QString &roomId,
+                                          const QString &eventId,
+                                          QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_pin_room_event(handleId, roomId.toStdString(), eventId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::unpinRoomEvent(uint64_t handleId,
+                                            const QString &roomId,
+                                            const QString &eventId,
+                                            QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_unpin_room_event(
+          handleId, roomId.toStdString(), eventId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<QString>
 MatrixBackendRuntimeService::fetchActiveRoomRawEventJson(uint64_t handleId,
                                                          const QString &roomId,

@@ -12,6 +12,7 @@ use matrix_sdk::{
     ruma::{
         EventId,
         events::receipt::{ReceiptThread, ReceiptType},
+        events::room::pinned_events::RoomPinnedEventsEventContent,
         events::room::message::{
             RoomMessageEventContentWithoutRelation, TextMessageEventContent,
         },
@@ -685,6 +686,36 @@ pub async fn report_room_event(
         .map_err(|e| format!("failed to report matrix-sdk room event: {e}"))
 }
 
+pub async fn fetch_room_pinned_event_ids(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<Vec<String>, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+
+    room.load_pinned_events()
+        .await
+        .map(|events| {
+            events
+                .unwrap_or_default()
+                .into_iter()
+                .map(|event_id| event_id.to_string())
+                .collect()
+        })
+        .map_err(|e| format!("failed to load matrix-sdk room pinned events: {e}"))
+}
+
+pub async fn pin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<(), String> {
+    update_room_pinned_event_ids(handle_id, room_id, event_id, true).await
+}
+
+pub async fn unpin_room_event(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+) -> Result<(), String> {
+    update_room_pinned_event_ids(handle_id, room_id, event_id, false).await
+}
+
 pub async fn fetch_room_redaction_permissions(
     handle_id: u64,
     room_id: &str,
@@ -807,6 +838,57 @@ pub async fn fetch_room_read_receipts(
     }
 
     Ok(entries)
+}
+
+async fn update_room_pinned_event_ids(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+    should_pin: bool,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let event_id = event_id.trim();
+    if event_id.is_empty() {
+        return Err("cannot update matrix-sdk room pinned events without an event id".to_owned());
+    }
+
+    let parsed_event_id =
+        EventId::parse(event_id).map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
+    let mut pinned_event_ids = room
+        .load_pinned_events()
+        .await
+        .map_err(|e| format!("failed to load matrix-sdk room pinned events: {e}"))?
+        .unwrap_or_default();
+
+    let mut changed = false;
+    if should_pin {
+        if !pinned_event_ids.iter().any(|candidate| candidate == &parsed_event_id) {
+            pinned_event_ids.push(parsed_event_id.clone());
+            changed = true;
+        }
+    } else {
+        let original_len = pinned_event_ids.len();
+        pinned_event_ids.retain(|candidate| candidate != &parsed_event_id);
+        changed = pinned_event_ids.len() != original_len;
+    }
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        event_id,
+        should_pin,
+        changed,
+        "Updating matrix-sdk room pinned events"
+    );
+
+    if !changed {
+        return Ok(());
+    }
+
+    room.send_state_event(RoomPinnedEventsEventContent::new(pinned_event_ids))
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to update matrix-sdk room pinned events: {e}"))
 }
 
 async fn run_room_timeline_loop(

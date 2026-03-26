@@ -136,6 +136,7 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
         preview.directChatOtherUserId_ = room.directChatOtherUserId;
         preview.isDirect_              = room.isDirect;
         preview.isEncrypted_           = room.isEncrypted;
+        preview.isPublic_              = room.isPublic;
         preview.isFetched_             = true;
         preview.isInvite_              = false;
         preview.canJoin_               = false;

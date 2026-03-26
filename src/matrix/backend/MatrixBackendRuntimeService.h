@@ -51,6 +51,7 @@ struct MatrixRoomSummary
     bool isDirect              = false;
     bool isBotRoom             = false;
     bool isEncrypted           = false;
+    bool isPublic              = false;
     uint64_t unreadMessages    = 0;
     uint64_t notificationCount = 0;
     uint64_t highlightCount    = 0;

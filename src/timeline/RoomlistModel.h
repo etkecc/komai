@@ -48,6 +48,7 @@ class RoomPreview
     Q_PROPERTY(QString inviterUserId READ inviterUserId CONSTANT)
     Q_PROPERTY(bool isDirect READ isDirect CONSTANT)
     Q_PROPERTY(bool isEncrypted READ isEncrypted CONSTANT)
+    Q_PROPERTY(bool isPublic READ isPublic CONSTANT)
     Q_PROPERTY(bool isInvite READ isInvite CONSTANT)
     Q_PROPERTY(bool isFetched READ isFetched CONSTANT)
     Q_PROPERTY(bool canJoin READ canJoin CONSTANT)
@@ -67,13 +68,14 @@ public:
     QString inviterUserId() const;
     bool isDirect() const { return isDirect_; }
     bool isEncrypted() const { return isEncrypted_; }
+    bool isPublic() const { return isPublic_; }
     bool isInvite() const { return isInvite_; }
     bool isFetched() const { return isFetched_; }
     bool canJoin() const { return canJoin_; }
     bool isMatrixSummary() const { return isMatrixSummary_; }
 
     QString roomid_, roomName_, roomAvatarUrl_, roomTopic_, directChatOtherUserId_, reason_;
-    bool isDirect_ = false, isEncrypted_ = false;
+    bool isDirect_ = false, isEncrypted_ = false, isPublic_ = true;
     bool isInvite_ = false, isFetched_ = true, canJoin_ = false, isMatrixSummary_ = false;
 };
 

@@ -429,10 +429,11 @@ ColumnLayout {
         property var pinnedMessages: TimelineManager.matrixTimelinePinnedEventIds
         property var widgetLinks: []
         property bool isEncrypted: !!root.roomPreview && root.roomPreview.isEncrypted
+        property bool isPublic: !root.roomPreview || root.roomPreview.isPublic
         property AbstractPermissions permissions: matrixHeaderPreviewPermissions
         property bool supportsSearch: false
         property bool supportsPinnedMessagesUi: true
-        property bool supportsVisibilityInfo: false
+        property bool supportsVisibilityInfo: true
 
         function previewDataForEvent(eventId) {
             const model = TimelineManager.matrixTimelineModel;

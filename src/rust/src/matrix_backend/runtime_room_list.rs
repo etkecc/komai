@@ -4,7 +4,10 @@
 
 use super::*;
 use super::event_summary::summarize_sync_timeline_event;
-use matrix_sdk::ruma::{events::AnySyncTimelineEvent, serde::Raw};
+use matrix_sdk::ruma::{
+    events::{AnySyncTimelineEvent, room::join_rules::JoinRule},
+    serde::Raw,
+};
 
 pub fn start_sync(handle_id: u64) -> Result<(), String> {
     let (client, room_list_snapshot) = {
@@ -392,6 +395,7 @@ fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         is_direct: classification.is_direct,
         is_bot_room: classification.is_bot_room,
         is_encrypted: room.encryption_state().is_encrypted(),
+        is_public: matches!(room.join_rule(), Some(JoinRule::Public)),
         unread_message_count: room.num_unread_messages(),
         notification_count: room.num_unread_notifications(),
         highlight_count: room.num_unread_mentions(),

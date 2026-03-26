@@ -66,6 +66,7 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
       .isDirect              = room.is_direct,
       .isBotRoom             = room.is_bot_room,
       .isEncrypted           = room.is_encrypted,
+      .isPublic              = room.is_public,
       .unreadMessages        = room.unread_message_count,
       .notificationCount     = room.notification_count,
       .highlightCount        = room.highlight_count,

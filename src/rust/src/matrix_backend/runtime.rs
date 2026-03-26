@@ -119,6 +119,7 @@ pub struct MatrixRoomSummary {
     pub is_direct: bool,
     pub is_bot_room: bool,
     pub is_encrypted: bool,
+    pub is_public: bool,
     pub unread_message_count: u64,
     pub notification_count: u64,
     pub highlight_count: u64,

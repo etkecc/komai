@@ -527,7 +527,10 @@ ColumnLayout {
         if (trimmedEventId.length === 0)
             return null;
 
-        const dialog = showDialogFromComponent(forwardDialogComponent, {
+        const dialogParent = root.chatRoot && root.chatRoot.dialogHost
+            ? root.chatRoot.dialogHost
+            : (root.chatRoot ? root.chatRoot : root);
+        const dialog = forwardDialogComponent.createObject(dialogParent, {
                 "roomSource": matrixForwardRoomModel,
                 "timelineSource": null,
                 "timelineViewSource": null,
@@ -537,6 +540,8 @@ ColumnLayout {
             return null;
 
         dialog.setMessageEventIds([trimmedEventId], 1);
+        dialog.open();
+        root.destroyOnClose(dialog);
         return dialog;
     }
 
@@ -628,7 +633,7 @@ ColumnLayout {
             if (!item || item.itemKind === undefined)
                 return ({});
 
-            const previousItem = model.itemAt(row + 1);
+            const previousItem = row > 0 ? model.itemAt(row - 1) : ({});
             const timestamp = Number(item.timestamp || 0);
             const dayKey = root.matrixTimelineDayKey(timestamp);
             const previousTimestamp = previousItem.timestamp !== undefined
@@ -1006,7 +1011,9 @@ ColumnLayout {
                         readonly property bool supportsSharedToolbarActions: eventId.length > 0 && itemKind !== "date_divider" && !isStateLikeItem
                         readonly property int matrixEventType: root.matrixEventTypeForItemKind(itemKind)
                         readonly property int dayKey: root.matrixTimelineDayKey(timestamp)
-                        readonly property var previousItem: TimelineManager.matrixTimelineModel ? TimelineManager.matrixTimelineModel.itemAt(modelIndex + 1) : ({})
+                        readonly property var previousItem: TimelineManager.matrixTimelineModel && modelIndex > 0
+                            ? TimelineManager.matrixTimelineModel.itemAt(modelIndex - 1)
+                            : ({})
                         readonly property string sharedHumanReadableMediaSize: mediaSizeBytes > 0
                             ? Komai.humanReadableFileSize(Number(mediaSizeBytes))
                             : ""

@@ -268,6 +268,7 @@ Rectangle {
             width: parent.width
             eventId: replyPopup.matrixReplyEventId
             previewData: ({
+                    "type": MtxEvent.TextMessage,
                     "userId": replyPopup.matrixReplyPreviewUserId,
                     "userName": replyPopup.matrixReplyDisplayName !== ""
                         ? replyPopup.matrixReplyDisplayName

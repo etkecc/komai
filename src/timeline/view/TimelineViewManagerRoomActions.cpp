@@ -35,8 +35,18 @@ void
 TimelineViewManager::openRoomInfo(const QString &roomId, const QString &initialTab)
 {
     auto room = rooms_->getRoomById(roomId);
-    if (!room)
+    if (!room) {
+        const auto preview = rooms_->getRoomPreviewById(roomId);
+        if (preview.isMatrixSummary()) {
+            nhlog::ui()->warn("Room info dialog for matrix-sdk room '{}' is not migrated yet",
+                              roomId.toStdString());
+            if (auto *mainWindow = MainWindow::instance()) {
+                mainWindow->showNotification(
+                  tr("Room settings and member list for matrix-sdk rooms are not migrated yet."));
+            }
+        }
         return;
+    }
 
     auto *settings = new RoomSettings(roomId);
     connect(

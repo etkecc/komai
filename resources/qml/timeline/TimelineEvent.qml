@@ -378,12 +378,14 @@ EventDelegateChooser {
         roleValues: []
 
         MatrixText {
-            required property string typeString
+            property string typeString: ""
             required property string userId
             required property string userName
 
             Layout.fillWidth: true
-            text: "Unsupported: " + typeString
+            text: typeString !== ""
+                ? qsTr("Unsupported: %1").arg(typeString)
+                : qsTr("Unsupported message")
         }
     }
     // qmllint enable required

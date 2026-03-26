@@ -219,6 +219,7 @@ Components.OverlayDialog {
                     eventId: root.eventId
                     room_: root.hasLegacyRoomModel ? root.effectiveRoomModel : null
                     previewData: root.hasLegacyRoomModel ? ({}) : ({
+                            "type": root.eventType,
                             "userId": messageModelOverride && messageModelOverride.userId !== undefined
                                 ? String(messageModelOverride.userId || "")
                                 : "",

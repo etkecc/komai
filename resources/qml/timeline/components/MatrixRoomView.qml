@@ -6,6 +6,7 @@ import "../../room/components"
 import "../../composer" as Composer
 import "../../dialogs/timeline" as TimelineDialogs
 import "../styles/bubble"
+import "../styles/plain"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -611,7 +612,7 @@ ColumnLayout {
                         width: matrixTimelineList.width
                         height: itemKind === "date_divider"
                             ? dateDivider.implicitHeight
-                            : sharedTextBubble.height
+                            : (sharedTimelineBubble.item ? sharedTimelineBubble.item.height : 0)
 
                         PreviewPermissions {
                             id: matrixToolbarPreviewPermissions
@@ -806,56 +807,120 @@ ColumnLayout {
                             }
                         }
 
-                        TimelineBubbleMessageStyle {
-                            id: sharedTextBubble
+                        Component {
+                            id: matrixPlainMessageStyle
 
-                            eventId: timelineItemDelegate.eventId
-                            replyTo: !timelineItemDelegate.usesSharedStateBubble
-                                ? timelineItemDelegate.replyEventId
-                                : ""
-                            room: null
-                            index: timelineItemDelegate.modelIndex
-                            day: timelineItemDelegate.dayKey
-                            isSender: timelineItemDelegate.isOwn
-                            isStateEvent: timelineItemDelegate.usesSharedStateBubble
-                            timestamp: new Date(Number(timelineItemDelegate.timestamp))
-                            userId: timelineItemDelegate.senderId
-                            userName: timelineItemDelegate.senderDisplayName
-                            threadId: ""
-                            userPowerlevel: 0
-                            isEdited: timelineItemDelegate.isEdited
-                            isEncrypted: timelineItemDelegate.mediaIsEncrypted
-                                || timelineItemDelegate.thumbnailIsEncrypted
-                            reactions: timelineItemDelegate.usesSharedStateBubble
-                                ? []
-                                : timelineItemDelegate.reactions
-                            status: MtxEvent.Empty
-                            trustlevel: 0
-                            notificationlevel: MtxEvent.Empty
-                            type: timelineItemDelegate.usesSharedStateBubble
-                                ? MtxEvent.Name
-                                : timelineItemDelegate.matrixEventType
-                            isEditable: timelineItemDelegate.usesSharedTextBubble
-                                && matrixToolbarMessageModel.isEditable
-                            isHiddenEvent: false
-                            messageContextMenu: matrixMessageContextMenu
-                            replyContextMenu: matrixReplyContextMenu
-                            messageActions: matrixMessageActionsHost.control
-                            previewData: timelineItemDelegate.usesSharedStateBubble
-                                ? timelineItemDelegate.sharedStatePreviewData
-                                : (timelineItemDelegate.usesSharedImageBubble
-                                    || timelineItemDelegate.usesSharedStickerBubble
-                                    || timelineItemDelegate.usesSharedVideoBubble)
-                                    ? timelineItemDelegate.sharedVisualPreviewData
-                                    : (timelineItemDelegate.usesSharedFileBubble || timelineItemDelegate.usesSharedAudioBubble)
-                                    ? timelineItemDelegate.sharedAttachmentPreviewData
-                                    : timelineItemDelegate.sharedPreviewData
-                            replyPreviewData: !timelineItemDelegate.usesSharedStateBubble
-                                ? timelineItemDelegate.sharedReplyPreviewData
-                                : ({})
-                            roomModelOverride: matrixToolbarRoomModel
-                            scrolledToThis: false
-                            visible: timelineItemDelegate.usesSharedTimelineBubble
+                            TimelinePlainMessageStyle {
+                                eventId: timelineItemDelegate.eventId
+                                replyTo: !timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.replyEventId
+                                    : ""
+                                room: null
+                                index: timelineItemDelegate.modelIndex
+                                day: timelineItemDelegate.dayKey
+                                isSender: timelineItemDelegate.isOwn
+                                isStateEvent: timelineItemDelegate.usesSharedStateBubble
+                                timestamp: new Date(Number(timelineItemDelegate.timestamp))
+                                userId: timelineItemDelegate.senderId
+                                userName: timelineItemDelegate.senderDisplayName
+                                threadId: ""
+                                userPowerlevel: 0
+                                isEdited: timelineItemDelegate.isEdited
+                                isEncrypted: timelineItemDelegate.mediaIsEncrypted
+                                    || timelineItemDelegate.thumbnailIsEncrypted
+                                reactions: timelineItemDelegate.usesSharedStateBubble
+                                    ? []
+                                    : timelineItemDelegate.reactions
+                                status: MtxEvent.Empty
+                                trustlevel: 0
+                                notificationlevel: MtxEvent.Empty
+                                type: timelineItemDelegate.usesSharedStateBubble
+                                    ? MtxEvent.Name
+                                    : timelineItemDelegate.matrixEventType
+                                isEditable: timelineItemDelegate.usesSharedTextBubble
+                                    && matrixToolbarMessageModel.isEditable
+                                isHiddenEvent: false
+                                messageContextMenu: matrixMessageContextMenu
+                                replyContextMenu: matrixReplyContextMenu
+                                messageActions: matrixMessageActionsHost.control
+                                previewData: timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.sharedStatePreviewData
+                                    : (timelineItemDelegate.usesSharedImageBubble
+                                        || timelineItemDelegate.usesSharedStickerBubble
+                                        || timelineItemDelegate.usesSharedVideoBubble)
+                                        ? timelineItemDelegate.sharedVisualPreviewData
+                                        : (timelineItemDelegate.usesSharedFileBubble || timelineItemDelegate.usesSharedAudioBubble)
+                                        ? timelineItemDelegate.sharedAttachmentPreviewData
+                                        : timelineItemDelegate.sharedPreviewData
+                                replyPreviewData: !timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.sharedReplyPreviewData
+                                    : ({})
+                                roomModelOverride: matrixToolbarRoomModel
+                                scrolledToThis: false
+                            }
+                        }
+
+                        Component {
+                            id: matrixBubbleMessageStyle
+
+                            TimelineBubbleMessageStyle {
+                                eventId: timelineItemDelegate.eventId
+                                replyTo: !timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.replyEventId
+                                    : ""
+                                room: null
+                                index: timelineItemDelegate.modelIndex
+                                day: timelineItemDelegate.dayKey
+                                isSender: timelineItemDelegate.isOwn
+                                isStateEvent: timelineItemDelegate.usesSharedStateBubble
+                                timestamp: new Date(Number(timelineItemDelegate.timestamp))
+                                userId: timelineItemDelegate.senderId
+                                userName: timelineItemDelegate.senderDisplayName
+                                threadId: ""
+                                userPowerlevel: 0
+                                isEdited: timelineItemDelegate.isEdited
+                                isEncrypted: timelineItemDelegate.mediaIsEncrypted
+                                    || timelineItemDelegate.thumbnailIsEncrypted
+                                reactions: timelineItemDelegate.usesSharedStateBubble
+                                    ? []
+                                    : timelineItemDelegate.reactions
+                                status: MtxEvent.Empty
+                                trustlevel: 0
+                                notificationlevel: MtxEvent.Empty
+                                type: timelineItemDelegate.usesSharedStateBubble
+                                    ? MtxEvent.Name
+                                    : timelineItemDelegate.matrixEventType
+                                isEditable: timelineItemDelegate.usesSharedTextBubble
+                                    && matrixToolbarMessageModel.isEditable
+                                isHiddenEvent: false
+                                messageContextMenu: matrixMessageContextMenu
+                                replyContextMenu: matrixReplyContextMenu
+                                messageActions: matrixMessageActionsHost.control
+                                previewData: timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.sharedStatePreviewData
+                                    : (timelineItemDelegate.usesSharedImageBubble
+                                        || timelineItemDelegate.usesSharedStickerBubble
+                                        || timelineItemDelegate.usesSharedVideoBubble)
+                                        ? timelineItemDelegate.sharedVisualPreviewData
+                                        : (timelineItemDelegate.usesSharedFileBubble || timelineItemDelegate.usesSharedAudioBubble)
+                                        ? timelineItemDelegate.sharedAttachmentPreviewData
+                                        : timelineItemDelegate.sharedPreviewData
+                                replyPreviewData: !timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.sharedReplyPreviewData
+                                    : ({})
+                                roomModelOverride: matrixToolbarRoomModel
+                                scrolledToThis: false
+                            }
+                        }
+
+                        Loader {
+                            id: sharedTimelineBubble
+
+                            active: timelineItemDelegate.usesSharedTimelineBubble
+                            sourceComponent: Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Plain
+                                ? matrixPlainMessageStyle
+                                : matrixBubbleMessageStyle
+                            visible: active
                         }
                     }
                 }

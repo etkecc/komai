@@ -1988,7 +1988,8 @@ Item {
 
     function openReportMessageDialog(eventId) {
         showDialogFromComponent(reportMessageDialogComponent, {
-            "eventId": eventId
+            "eventId": eventId,
+            "room": room
         });
     }
     ReplyContextMenu {

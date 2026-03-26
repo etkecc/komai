@@ -721,6 +721,13 @@ ColumnLayout {
                                     String(eventId || timelineItemDelegate.eventId || ""));
                             }
 
+                            function reportEvent(eventId, reason, score) {
+                                TimelineManager.reportActiveMatrixTimelineEvent(
+                                    String(eventId || timelineItemDelegate.eventId || ""),
+                                    String(reason || ""),
+                                    Number(score || -50));
+                            }
+
                             function viewRawMessage(eventId) {
                                 root.openRawMessageDialog(
                                     String(eventId || timelineItemDelegate.eventId || ""));
@@ -762,7 +769,7 @@ ColumnLayout {
                                 && timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsMarkAsRead: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsPin: false
-                            readonly property bool supportsReport: false
+                            readonly property bool supportsReport: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsOpenMedia: timelineItemDelegate.isMediaItem
                             readonly property bool supportsSaveMedia: timelineItemDelegate.isMediaItem
                             readonly property bool supportsCopyEventLink: eventId.length > 0

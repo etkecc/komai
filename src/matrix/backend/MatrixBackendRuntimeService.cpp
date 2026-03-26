@@ -851,6 +851,25 @@ MatrixBackendRuntimeService::markRoomEventAsRead(uint64_t handleId,
     }
 }
 
+bool
+MatrixBackendRuntimeService::reportRoomEvent(uint64_t handleId,
+                                             const QString &roomId,
+                                             const QString &eventId,
+                                             const QString &reason,
+                                             int score,
+                                             QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_report_room_event(
+          handleId, roomId.toStdString(), eventId.toStdString(), reason.toStdString(), score);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<QString>
 MatrixBackendRuntimeService::fetchActiveRoomRawEventJson(uint64_t handleId,
                                                          const QString &roomId,

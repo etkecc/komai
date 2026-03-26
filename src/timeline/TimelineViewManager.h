@@ -267,6 +267,9 @@ public:
     Q_INVOKABLE bool
     redactActiveMatrixTimelineEvent(const QString &eventId, const QString &reason = QString());
     Q_INVOKABLE bool markActiveMatrixTimelineEventAsRead(const QString &eventId);
+    Q_INVOKABLE bool reportActiveMatrixTimelineEvent(const QString &eventId,
+                                                     const QString &reason = QString(),
+                                                     int score             = -50);
     Q_INVOKABLE QVariantMap
     rawMessageDialogForActiveMatrixTimelineEvent(const QString &eventId) const;
     Q_INVOKABLE QObject *

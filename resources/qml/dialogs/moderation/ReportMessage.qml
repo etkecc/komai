@@ -13,6 +13,7 @@ Components.OverlayDialog {
     id: root
 
     required property string eventId
+    required property var room
 
     title: qsTr("Report message")
     titleIcon: ":/icons/icons/ui/alert.svg"

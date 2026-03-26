@@ -6,7 +6,7 @@ use super::*;
 use super::event_summary::summarize_timeline_content;
 use matrix_sdk::{
     attachment::AttachmentConfig,
-    room::Receipts,
+    room::{Receipts, ReportedContentScore},
     room::edit::EditedContent,
     room::reply::{EnforceThread, Reply},
     ruma::{
@@ -645,6 +645,44 @@ pub async fn mark_room_event_as_read(
     )
     .await
     .map_err(|e| format!("failed to mark matrix-sdk room event as read: {e}"))
+}
+
+pub async fn report_room_event(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+    reason: &str,
+    score: i32,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let event_id = event_id.trim();
+    if event_id.is_empty() {
+        return Err("cannot report a matrix-sdk room event without an event id".to_owned());
+    }
+
+    let parsed_event_id =
+        EventId::parse(event_id).map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
+    let trimmed_reason = trim_reason(reason);
+    let clamped_score = score.clamp(
+        i32::from(ReportedContentScore::MIN.value()),
+        i32::from(ReportedContentScore::MAX.value()),
+    );
+    let reported_score = ReportedContentScore::try_from(clamped_score)
+        .map_err(|_| format!("invalid reported-content score '{score}'"))?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        event_id,
+        score = clamped_score,
+        has_reason = trimmed_reason.is_some(),
+        "Reporting matrix-sdk room event"
+    );
+
+    room.report_content(parsed_event_id, Some(reported_score), trimmed_reason)
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to report matrix-sdk room event: {e}"))
 }
 
 pub async fn fetch_room_redaction_permissions(

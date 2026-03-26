@@ -534,6 +534,39 @@ TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
     return true;
 }
 
+bool
+TimelineViewManager::reportActiveMatrixTimelineEvent(const QString &eventId,
+                                                     const QString &reason,
+                                                     int score)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to report a matrix-sdk room event without an active runtime "
+                          "handle or selected matrix room");
+        return false;
+    }
+
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty())
+        return false;
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::reportRoomEvent(
+          handleId, activeMatrixTimelineRoomId_, trimmedEventId, reason, score, &error)) {
+        nhlog::ui()->warn("Failed to report matrix-sdk room event '{}' in '{}' on handle {}: {}",
+                          trimmedEventId.toStdString(),
+                          activeMatrixTimelineRoomId_.toStdString(),
+                          handleId,
+                          error.toStdString());
+        if (mainWindow)
+            mainWindow->showNotification(tr("Failed to report message: %1").arg(error));
+        return false;
+    }
+
+    return true;
+}
+
 QVariantMap
 TimelineViewManager::rawMessageDialogForActiveMatrixTimelineEvent(const QString &eventId) const
 {

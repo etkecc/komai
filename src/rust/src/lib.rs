@@ -380,6 +380,13 @@ mod ffi {
             room_id: &str,
             event_id: &str,
         ) -> Result<()>;
+        fn matrix_report_room_event(
+            handle_id: u64,
+            room_id: &str,
+            event_id: &str,
+            reason: &str,
+            score: i32,
+        ) -> Result<()>;
         fn matrix_fetch_active_room_raw_event_json(
             handle_id: u64,
             room_id: &str,
@@ -970,6 +977,18 @@ fn matrix_redact_room_event(
 fn matrix_mark_room_event_as_read(handle_id: u64, room_id: &str, event_id: &str) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::mark_room_event_as_read(
         handle_id, room_id, event_id,
+    ))
+}
+
+fn matrix_report_room_event(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+    reason: &str,
+    score: i32,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::report_room_event(
+        handle_id, room_id, event_id, reason, score,
     ))
 }
 

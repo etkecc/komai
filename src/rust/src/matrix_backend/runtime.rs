@@ -78,12 +78,12 @@ pub use room_settings::{
     upload_room_avatar,
 };
 pub use timeline::{
-    fetch_active_room_raw_event_json, fetch_active_room_timeline, fetch_room_read_receipts,
-    fetch_active_room_timeline_media_content,
+    fetch_active_room_raw_event_json, fetch_active_room_timeline,
+    fetch_active_room_timeline_media_content, fetch_room_read_receipts,
     fetch_room_redaction_permissions, mark_room_event_as_read,
-    paginate_active_room_timeline_backwards, redact_room_event, select_active_room_timeline,
-    send_room_attachment, send_room_edit_message, send_room_message, send_room_reply_message,
-    toggle_room_reaction,
+    paginate_active_room_timeline_backwards, redact_room_event, report_room_event,
+    select_active_room_timeline, send_room_attachment, send_room_edit_message,
+    send_room_message, send_room_reply_message, toggle_room_reaction,
 };
 
 pub struct MatrixBackendHandleInfo {

@@ -326,6 +326,13 @@ public:
                                     const QString &eventId,
                                     QString *errorOut = nullptr);
 
+    static bool reportRoomEvent(uint64_t handleId,
+                                const QString &roomId,
+                                const QString &eventId,
+                                const QString &reason,
+                                int score,
+                                QString *errorOut = nullptr);
+
     static std::optional<QString> fetchActiveRoomRawEventJson(uint64_t handleId,
                                                               const QString &roomId,
                                                               const QString &eventId,

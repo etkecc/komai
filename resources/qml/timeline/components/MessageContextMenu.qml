@@ -252,7 +252,8 @@ Menu {
 
                 onTriggered: function () {
                     chatRoot.showDialogFromComponent(reportDialog, {
-                            "eventId": messageContextMenuRoot.eventId
+                            "eventId": messageContextMenuRoot.eventId,
+                            "room": messageContextMenuRoot.effectiveRoomModel
                         });
                 }
             }

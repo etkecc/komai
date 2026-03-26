@@ -254,6 +254,7 @@ Item {
         roomPreview: timelineView.useMatrixRoomView ? timelineView.roomPreview : null
         showBackButton: timelineView.showBackButton
         chatRoot: messageView
+        timelineRoot: timelineView.dialogHost
         emojiPopup: timelineEmojiPopup
         filteredTimeline: null
     }

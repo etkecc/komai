@@ -20,6 +20,7 @@ ColumnLayout {
     required property var roomPreview
     required property bool showBackButton
     property var chatRoot: null
+    property var timelineRoot: null
     property var emojiPopup: null
     property var filteredTimeline: null
 
@@ -643,6 +644,20 @@ ColumnLayout {
                     id: matrixTimelineList
 
                     property int delegateMaxWidth: width
+                    property bool keepPinnedToBottom: true
+                    property int previousCount: 0
+
+                    function updateBottomPin() {
+                        keepPinnedToBottom = atYEnd;
+                    }
+
+                    function maybeScrollToBottom(force) {
+                        if (count <= 0)
+                            return;
+
+                        if (force || keepPinnedToBottom)
+                            positionViewAtEnd();
+                    }
 
                     anchors.fill: parent
                     anchors.margins: Komai.paddingLarge
@@ -651,6 +666,7 @@ ColumnLayout {
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline
 
+                    onMovementEnded: updateBottomPin()
                     onAtYBeginningChanged: {
                         if (atYBeginning
                                 && root.hasTimeline
@@ -663,6 +679,30 @@ ColumnLayout {
                     onContentYChanged: {
                         if (contentY > 0 && root.lastPaginationTriggerCount === TimelineManager.matrixTimelineItemCount)
                             root.lastPaginationTriggerCount = -1;
+
+                        if (!moving && !flicking && !dragging)
+                            updateBottomPin();
+                    }
+                    onContentHeightChanged: {
+                        if (!moving && !flicking && !dragging)
+                            maybeScrollToBottom(previousCount === 0);
+                    }
+                    onHeightChanged: {
+                        if (!moving && !flicking && !dragging)
+                            maybeScrollToBottom(previousCount === 0);
+                    }
+                    onCountChanged: {
+                        const forceScroll = previousCount === 0;
+                        maybeScrollToBottom(forceScroll);
+                        previousCount = count;
+                    }
+                    onModelChanged: {
+                        keepPinnedToBottom = true;
+                        previousCount = count;
+                    }
+                    Component.onCompleted: {
+                        previousCount = count;
+                        maybeScrollToBottom(true);
                     }
 
                     delegate: Item {
@@ -1196,7 +1236,7 @@ ColumnLayout {
 
                         Layout.fillWidth: true
                         room: matrixComposerRoom
-                        timelineRoot: root.chatRoot ? root.chatRoot : root
+                        timelineRoot: root.timelineRoot ? root.timelineRoot : (root.chatRoot ? root.chatRoot : root)
                         selectionModeRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
                         inputController: matrixComposerInputController
                         allowCalls: false

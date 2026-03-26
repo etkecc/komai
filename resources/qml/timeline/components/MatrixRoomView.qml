@@ -655,8 +655,16 @@ ColumnLayout {
                         if (count <= 0)
                             return;
 
-                        if (force || keepPinnedToBottom)
+                        if (!(force || keepPinnedToBottom))
+                            return;
+
+                        Qt.callLater(function () {
+                            if (count <= 0 || !(force || keepPinnedToBottom))
+                                return;
+
                             positionViewAtEnd();
+                            updateBottomPin();
+                        });
                     }
 
                     anchors.fill: parent
@@ -1029,7 +1037,8 @@ ColumnLayout {
 
                             anchors.horizontalCenter: parent.horizontalCenter
                             color: palette.mid
-                            height: dividerLabel.implicitHeight + Komai.paddingSmall * 2
+                            implicitHeight: dividerLabel.implicitHeight + Komai.paddingSmall * 2
+                            height: implicitHeight
                             radius: height / 2
                             visible: itemKind === "date_divider"
                             width: dividerLabel.implicitWidth + Komai.paddingLarge * 2

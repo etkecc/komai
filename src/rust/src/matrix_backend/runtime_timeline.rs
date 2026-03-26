@@ -945,15 +945,6 @@ async fn run_room_timeline_loop(
         }
     };
 
-    if let Err(error) = timeline.paginate_backwards(ROOM_TIMELINE_PAGE_SIZE).await {
-        tracing::debug!(
-            handle_id,
-            room_id,
-            %error,
-            "Initial matrix-sdk room timeline pagination failed"
-        );
-    }
-
     let own_user_id = client.user_id();
 
     let (items, stream) = timeline.subscribe().await;
@@ -967,6 +958,15 @@ async fn run_room_timeline_loop(
             .lock()
             .expect("poisoned matrix room timeline media lookup mutex") = media_lookup;
         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
+    }
+
+    if let Err(error) = timeline.paginate_backwards(ROOM_TIMELINE_PAGE_SIZE).await {
+        tracing::debug!(
+            handle_id,
+            room_id,
+            %error,
+            "Initial matrix-sdk room timeline pagination failed"
+        );
     }
 
     let mut stream = Box::pin(stream);
@@ -1035,7 +1035,7 @@ async fn run_room_timeline_loop(
                 }
             }
 
-            _ = tokio::time::sleep(Duration::from_millis(200)) => {
+            _ = tokio::time::sleep(Duration::from_millis(ROOM_TIMELINE_STOP_POLL_INTERVAL_MS)) => {
                 if stop_requested.load(Ordering::Relaxed) {
                     break;
                 }

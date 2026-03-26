@@ -588,6 +588,9 @@ TimelineViewManager::redactActiveMatrixTimelineEvent(const QString &eventId, con
         return false;
     }
 
+    if (matrixTimelineModel_)
+        matrixTimelineModel_->redactItemByEventId(trimmedEventId);
+
     return true;
 }
 

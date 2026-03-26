@@ -167,6 +167,38 @@ MatrixTimelineModel::itemByEventId(const QString &eventId) const
     return items_.at(row);
 }
 
+bool
+MatrixTimelineModel::redactItemByEventId(const QString &eventId)
+{
+    const auto row = rowForEventId(eventId);
+    if (row < 0 || row >= items_.size())
+        return false;
+
+    auto &item = items_[row];
+    item.body.clear();
+    item.replyEventId.clear();
+    item.replySenderId.clear();
+    item.replySenderDisplayName.clear();
+    item.replyBody.clear();
+    item.reactions.clear();
+    item.reactionsSummary.clear();
+    item.itemKind = QStringLiteral("redacted");
+    item.isEdited = false;
+    item.mediaUrl.clear();
+    item.thumbnailUrl.clear();
+    item.fileName.clear();
+    item.mimeType.clear();
+    item.mediaWidth           = 0;
+    item.mediaHeight          = 0;
+    item.mediaDurationMs      = 0;
+    item.mediaSizeBytes       = 0;
+    item.mediaIsEncrypted     = false;
+    item.thumbnailIsEncrypted = false;
+
+    emit dataChanged(index(row), index(row));
+    return true;
+}
+
 void
 MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
 {

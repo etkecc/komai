@@ -60,6 +60,7 @@ public:
     std::optional<MatrixTimelineItem> itemByEventId(const QString &eventId) const;
 
     int count() const { return items_.size(); }
+    bool redactItemByEventId(const QString &eventId);
     void replaceItems(QVector<MatrixTimelineItem> items);
     void clear();
 

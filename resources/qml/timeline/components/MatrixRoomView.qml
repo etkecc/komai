@@ -298,7 +298,7 @@ ColumnLayout {
     }
 
     function handleEscape() {
-        if (!walkModeActive && selectedEventIds.length === 0)
+        if (!walkModeActive && selectedEventIds.length === 0 && !hasFocusedEvent)
             return false;
 
         if (selectedEventIds.length > 0) {
@@ -1468,6 +1468,9 @@ ColumnLayout {
                     anchors.fill: parent
                     anchors.margins: Komai.paddingLarge
                     anchors.rightMargin: Komai.paddingLarge + (matrixTimelineScrollbar.interactive ? matrixTimelineScrollbar.width : 0)
+                    keyNavigationEnabled: false
+                    KeyNavigation.priority: KeyNavigation.BeforeItem
+                    Keys.priority: Keys.BeforeItem
                     clip: true
                     // The Rust-room delegate stack still wraps the shared timeline surface in an
                     // extra loader/item layer. Under reuseItems that can briefly recycle stale
@@ -1630,7 +1633,10 @@ ColumnLayout {
                             || usesSharedFileBubble
                             || usesSharedAudioBubble
                             || usesSharedStateBubble
-                        readonly property bool supportsSharedToolbarActions: eventId.length > 0 && itemKind !== "date_divider" && !isStateLikeItem
+                        readonly property bool supportsSharedToolbarActions: eventId.length > 0
+                            && itemKind !== "date_divider"
+                            && itemKind !== "redacted"
+                            && !isStateLikeItem
                         readonly property int matrixEventType: root.matrixEventTypeForItemKind(itemKind)
                         readonly property int dayKey: root.matrixTimelineDayKey(timestamp)
                         readonly property var previousItem: TimelineManager.matrixTimelineModel && modelIndex > 0
@@ -1899,6 +1905,7 @@ ColumnLayout {
                             readonly property bool supportsOptions: eventId.length > 0
                             readonly property bool supportsEdit: isEditable
                             readonly property bool supportsRemove: eventId.length > 0
+                                && timelineItemDelegate.itemKind !== "redacted"
                                 && (TimelineManager.matrixTimelineCanRedactOther
                                     || (timelineItemDelegate.isOwn
                                         && TimelineManager.matrixTimelineCanRedactOwn))

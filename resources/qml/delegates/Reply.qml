@@ -89,7 +89,15 @@ AbstractButton {
         mainInset: 4 + Komai.paddingMedium
         maxWidth: r.maxWidth
         limitAsReply: true
-        previewData: r.previewData
+        previewData: {
+            if (r.hasLegacyRoomModel)
+                return r.previewData;
+
+            const preview = Object.assign({}, r.previewData || {});
+            if (preview.type === undefined)
+                preview.type = MtxEvent.TextMessage;
+            return preview;
+        }
         roomModelOverride: r.hasLegacyRoomModel ? null : r.effectiveRoomContext
 
         data: Column {

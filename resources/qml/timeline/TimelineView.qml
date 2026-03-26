@@ -23,7 +23,7 @@ Item {
     readonly property bool perfDisableTimelineList: TimelineManager.perfUiFlagEnabled("disable_timeline_list")
     readonly property bool useMatrixRoomView: !room && roomPreview && roomPreview.isMatrixSummary
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
-    readonly property var notificationAreaItem: timelineView
+    readonly property var notificationAreaItem: matrixRoomView.visible ? matrixRoomView : msgView
     readonly property var notificationAvoidBottomItem: bottomInputShell.visible ? bottomInputShell
         : (matrixRoomView.visible ? matrixRoomView.composerShell : null)
 

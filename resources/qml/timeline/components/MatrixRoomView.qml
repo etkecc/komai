@@ -24,6 +24,12 @@ ColumnLayout {
     property var timelineRoot: null
     property var emojiPopup: null
     property var filteredTimeline: null
+    property bool walkModeActive: false
+    property string focusedEventId: ""
+    property var selectedEventIds: []
+    property string selectionAnchorEventId: ""
+    property var visibleTimelineDelegates: ({})
+    readonly property int selectedCount: selectedEventIds.length
 
     readonly property bool hasTimeline: TimelineManager.matrixTimelineItemCount > 0
     readonly property bool loading: TimelineManager.matrixTimelineLoading
@@ -39,6 +45,188 @@ ColumnLayout {
     property string activeRoomId: roomPreview ? String(roomPreview.roomid || "") : ""
     property bool initialBottomPinPending: false
     property bool initialTimelineBufferPending: false
+
+    function clearSearch() {
+        if (root.chatRoot && typeof root.chatRoot.clearSearch === "function")
+            root.chatRoot.clearSearch();
+    }
+
+    function registerVisibleDelegate(eventId, delegateItem) {
+        const key = String(eventId || "");
+        if (key.length === 0 || !delegateItem)
+            return;
+
+        visibleTimelineDelegates[key] = delegateItem;
+        visibleTimelineDelegatesChanged();
+    }
+
+    function unregisterVisibleDelegate(eventId, delegateItem) {
+        const key = String(eventId || "");
+        if (key.length === 0)
+            return;
+
+        if (!visibleTimelineDelegates[key])
+            return;
+        if (delegateItem && visibleTimelineDelegates[key] !== delegateItem)
+            return;
+
+        delete visibleTimelineDelegates[key];
+        visibleTimelineDelegatesChanged();
+    }
+
+    function replaceTrackedEventId(previousId, nextId) {
+        const oldKey = String(previousId || "");
+        const newKey = String(nextId || "");
+        if (oldKey.length === 0 || newKey.length === 0 || oldKey === newKey)
+            return;
+
+        const tracked = visibleTimelineDelegates[oldKey];
+        if (!tracked)
+            return;
+
+        delete visibleTimelineDelegates[oldKey];
+        visibleTimelineDelegates[newKey] = tracked;
+        visibleTimelineDelegatesChanged();
+
+        if (focusedEventId === oldKey)
+            focusedEventId = newKey;
+        if (selectionAnchorEventId === oldKey)
+            selectionAnchorEventId = newKey;
+        if (selectedEventIds.indexOf(oldKey) >= 0) {
+            selectedEventIds = selectedEventIds.map(function (eventId) {
+                return String(eventId || "") === oldKey ? newKey : eventId;
+            });
+        }
+    }
+
+    function bottomMostVisibleDelegate() {
+        const viewportTop = matrixTimelineList ? matrixTimelineList.contentY : 0;
+        const viewportBottom = viewportTop + (matrixTimelineList ? matrixTimelineList.height : 0);
+        let candidate = null;
+        let candidateBottom = -1;
+
+        for (const eventId in visibleTimelineDelegates) {
+            const delegateItem = visibleTimelineDelegates[eventId];
+            if (!delegateItem || !delegateItem.visible || delegateItem.height <= 0)
+                continue;
+
+            const top = Number(delegateItem.y || 0);
+            const bottom = top + Number(delegateItem.height || 0);
+            if (bottom <= viewportTop || top >= viewportBottom)
+                continue;
+
+            if (bottom > candidateBottom) {
+                candidate = delegateItem;
+                candidateBottom = bottom;
+            }
+        }
+
+        return candidate;
+    }
+
+    function focusWalkModeEventById(eventId, options) {
+        const normalizedEventId = String(eventId || "");
+        if (normalizedEventId.length === 0)
+            return false;
+
+        focusedEventId = normalizedEventId;
+        walkModeActive = true;
+
+        const skipScroll = !!(options && options.skipScroll);
+        if (!skipScroll)
+            jumpToLoadedMatrixEvent(normalizedEventId);
+
+        return true;
+    }
+
+    function clearSelectedEvents() {
+        const hadSelection = selectedEventIds.length > 0 || focusedEventId.length > 0 || walkModeActive;
+        selectedEventIds = [];
+        selectionAnchorEventId = "";
+        focusedEventId = "";
+        walkModeActive = false;
+        return hadSelection;
+    }
+
+    function handleMouseSelectionToggle(eventId) {
+        const normalizedEventId = String(eventId || "");
+        if (normalizedEventId.length === 0)
+            return false;
+
+        if (!walkModeActive)
+            selectedEventIds = [];
+
+        if (!focusWalkModeEventById(normalizedEventId, {
+                "skipScroll": true
+            })) {
+            return false;
+        }
+
+        const selectedIndex = selectedEventIds.indexOf(normalizedEventId);
+        if (selectedIndex >= 0) {
+            selectedEventIds = selectedEventIds.filter(function (selectedEventId) {
+                return String(selectedEventId || "") !== normalizedEventId;
+            });
+        } else {
+            selectedEventIds = selectedEventIds.concat([normalizedEventId]);
+            selectionAnchorEventId = normalizedEventId;
+        }
+
+        return true;
+    }
+
+    function enterWalkModeFromBottomMostVisible() {
+        if (!hasTimeline || loading || hasPendingAttachments || editing)
+            return false;
+        if (TimelineManager.matrixTimelineReplyEventId.length > 0)
+            return false;
+
+        const delegateItem = bottomMostVisibleDelegate();
+        if (!delegateItem || !delegateItem.eventId)
+            return false;
+
+        clearSelectedEvents();
+        return focusWalkModeEventById(String(delegateItem.eventId || ""), {
+                "skipScroll": true
+            });
+    }
+
+    function enterWalkModeAndMoveTowardOlderEventsByChunk() {
+        return enterWalkModeFromBottomMostVisible();
+    }
+
+    function lastRoomHeaderActionButtonTarget() {
+        return topBar && typeof topBar.lastVisibleActionButtonItem === "function"
+            ? topBar.lastVisibleActionButtonItem()
+            : null;
+    }
+
+    function handleEscape() {
+        if (!walkModeActive && selectedEventIds.length === 0)
+            return false;
+
+        return clearSelectedEvents();
+    }
+
+    function handleWalkModeKey(_event) {
+        return false;
+    }
+
+    function timelineSelectionFocusTarget() {
+        return matrixTimelineList;
+    }
+
+    function focusTimelineSelection() {
+        if (!matrixTimelineList)
+            return false;
+
+        matrixTimelineList.forceActiveFocus();
+        return true;
+    }
+
+    function canPerformWalkModeAction(_actionName) {
+        return false;
+    }
 
     function ensureInitialBottomPin() {
         const roomId = activeRoomId;
@@ -527,6 +715,15 @@ ColumnLayout {
         if (trimmedEventId.length === 0)
             return null;
 
+        if (root.chatRoot && root.chatRoot.dialogHost
+                && typeof root.chatRoot.dialogHost.showForwardMessageDialog === "function") {
+            return root.chatRoot.dialogHost.showForwardMessageDialog(matrixForwardRoomModel,
+                                                                    [trimmedEventId],
+                                                                    null,
+                                                                    null,
+                                                                    1);
+        }
+
         const dialogParent = root.chatRoot && root.chatRoot.dialogHost
             ? root.chatRoot.dialogHost
             : (root.chatRoot ? root.chatRoot : root);
@@ -953,7 +1150,7 @@ ColumnLayout {
                         id: timelineItemDelegate
 
                         property var chat: matrixTimelineList
-                        property var chatRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
+                        property var chatRoot: root
 
                         required property string itemKind
                         required property string itemId
@@ -1525,8 +1722,8 @@ ColumnLayout {
                         Layout.fillWidth: true
                         room: matrixComposerRoom
                         timelineRoot: root.timelineRoot ? root.timelineRoot : (root.chatRoot ? root.chatRoot : root)
-                        selectionModeRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
-                        walkModeActive: !!(root.chatRoot && root.chatRoot.walkModeActive)
+                        selectionModeRoot: root
+                        walkModeActive: root.walkModeActive
                         inputController: matrixComposerInputController
                         allowCalls: false
                         allowStickers: false

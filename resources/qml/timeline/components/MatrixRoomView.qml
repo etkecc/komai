@@ -52,6 +52,7 @@ ColumnLayout {
     property int lastPaginationTriggerCount: -1
     property int lastInitialBufferTriggerCount: -1
     property string activeRoomId: roomPreview ? String(roomPreview.roomid || "") : ""
+    property var measuredTimelineHeights: ({})
     property bool initialBottomPinPending: false
     property bool initialTimelineBufferPending: false
     property bool suppressNextWalkModeOlderStep: false
@@ -735,6 +736,31 @@ ColumnLayout {
         }
 
         lastInitialBufferTriggerCount = itemCount;
+    }
+
+    function matrixTimelineHeightCacheKey(eventId, itemId) {
+        const stableEventId = String(eventId || "").trim();
+        if (stableEventId.length > 0)
+            return stableEventId;
+        return String(itemId || "").trim();
+    }
+
+    function rememberedTimelineHeight(cacheKey) {
+        if (!cacheKey || measuredTimelineHeights[cacheKey] === undefined)
+            return 0;
+        return Number(measuredTimelineHeights[cacheKey] || 0);
+    }
+
+    function rememberTimelineHeight(cacheKey, height) {
+        const stableKey = String(cacheKey || "").trim();
+        const stableHeight = Math.round(Number(height || 0));
+        if (stableKey.length === 0 || stableHeight <= 0)
+            return;
+        if (Number(measuredTimelineHeights[stableKey] || 0) === stableHeight)
+            return;
+
+        measuredTimelineHeights[stableKey] = stableHeight;
+        measuredTimelineHeightsChanged();
     }
 
     function matrixEventTypeForItemKind(kind) {
@@ -1614,6 +1640,8 @@ ColumnLayout {
                             matrixTimelineList.returnToBounds();
                             matrixTimelineList.updateLastScroll();
                             matrixTimelineList.updateBottomPin();
+                            if (root.initialTimelineBufferPending && !matrixTimelineList.atYEnd)
+                                root.initialTimelineBufferPending = false;
                         }
                     }
 
@@ -1633,6 +1661,11 @@ ColumnLayout {
                     onContentYChanged: {
                         if (contentY > 0 && root.lastPaginationTriggerCount === TimelineManager.matrixTimelineItemCount)
                             root.lastPaginationTriggerCount = -1;
+                        if (root.initialTimelineBufferPending
+                                && (moving || flicking || dragging)
+                                && !atYEnd) {
+                            root.initialTimelineBufferPending = false;
+                        }
 
                         if (!moving && !flicking && !dragging)
                             updateBottomPin();
@@ -1748,6 +1781,8 @@ ColumnLayout {
                             || usesSharedAudioBubble
                             || usesSharedStateBubble
                         property bool sharedBubbleReloadArmed: false
+                        readonly property string heightCacheKey: root.matrixTimelineHeightCacheKey(eventId, itemId)
+                        readonly property real cachedMeasuredHeight: root.rememberedTimelineHeight(heightCacheKey)
                         readonly property bool supportsSharedToolbarActions: eventId.length > 0
                             && itemKind !== "date_divider"
                             && itemKind !== "redacted"
@@ -1832,6 +1867,30 @@ ColumnLayout {
                                 "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
                                 "previousUserId": previousItem.senderId !== undefined ? String(previousItem.senderId || "") : ""
                             })
+                        readonly property real heuristicTimelineHeightEstimate: {
+                            if (usesSharedImageBubble || usesSharedStickerBubble || usesSharedVideoBubble) {
+                                const viewportHeight = matrixTimelineList.height > 0 ? matrixTimelineList.height : root.height;
+                                const mediaAspect = safePreviewAspectRatio > 0 ? safePreviewAspectRatio : 0.75;
+                                const mediaWidthHint = mediaWidth > 0 ? mediaWidth : 400;
+                                const maxMediaHeight = Math.max(1, viewportHeight / 4);
+                                const mediaWidthEstimate = Math.max(1, Math.round(mediaWidthHint * Math.min(maxMediaHeight / (mediaWidthHint * mediaAspect), 1)));
+                                const captionEstimate = (body.length > 0 && !body.match(/\.\w{2,5}$/)) ? 44 : 0;
+                                return Math.max(80, Math.round(mediaWidthEstimate * mediaAspect) + captionEstimate + Komai.paddingMedium);
+                            }
+
+                            if (usesSharedFileBubble || usesSharedAudioBubble)
+                                return 96;
+                            if (usesSharedStateBubble)
+                                return 56;
+                            if (itemKind === "redacted")
+                                return 56;
+
+                            const baseLineHeight = Math.max(18, Math.round(Settings.uiFontSizePt * 1.8));
+                            const estimatedLines = Math.max(1, Math.min(12, Math.ceil(String(body || "").length / 42)));
+                            const replyEstimate = replyEventId.length > 0 ? 52 : 0;
+                            const threadEstimate = threadId.length > 0 ? 8 : 0;
+                            return Math.max(56, 28 + estimatedLines * baseLineHeight + replyEstimate + threadEstimate);
+                        }
                         readonly property real sharedTimelineHeightEstimate: {
                             if (itemKind === "date_divider")
                                 return dateDivider.implicitHeight;
@@ -1844,7 +1903,9 @@ ColumnLayout {
                                 if (resolvedHeight > 0)
                                     return resolvedHeight;
                             }
-                            return modelIndex === 0 ? 10 : 100;
+                            if (cachedMeasuredHeight > 0)
+                                return cachedMeasuredHeight;
+                            return heuristicTimelineHeightEstimate;
                         }
                         width: matrixTimelineList.width
                         height: sharedTimelineHeightEstimate
@@ -1859,7 +1920,19 @@ ColumnLayout {
                             });
                         }
 
+                        function rememberResolvedTimelineHeight() {
+                            if (!sharedTimelineBubble.item)
+                                return;
+
+                            const resolvedHeight = sharedTimelineBubble.item.implicitHeight > 0
+                                ? sharedTimelineBubble.item.implicitHeight
+                                : sharedTimelineBubble.item.height;
+                            if (resolvedHeight > 0)
+                                root.rememberTimelineHeight(heightCacheKey, resolvedHeight);
+                        }
+
                         onItemKindChanged: reloadSharedTimelineBubble()
+                        onHeightChanged: rememberResolvedTimelineHeight()
 
                         PreviewPermissions {
                             id: matrixToolbarPreviewPermissions
@@ -2376,6 +2449,7 @@ ColumnLayout {
     }
 
     onActiveRoomIdChanged: {
+        measuredTimelineHeights = ({});
         initialBottomPinPending = activeRoomId.length > 0;
         initialTimelineBufferPending = activeRoomId.length > 0;
         lastInitialBufferTriggerCount = -1;

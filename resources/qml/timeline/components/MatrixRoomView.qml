@@ -265,7 +265,7 @@ ColumnLayout {
     }
 
     function enterWalkModeFromBottomMostVisible() {
-        if (!hasTimeline || loading || hasPendingAttachments || editing)
+        if (!hasTimeline || hasPendingAttachments || editing)
             return false;
         if (TimelineManager.matrixTimelineReplyEventId.length > 0)
             return false;

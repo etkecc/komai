@@ -31,7 +31,7 @@ Item {
         }
     }
     Shortcut {
-        sequences: [StandardKey.Cancel]
+        sequences: [StandardKey.Cancel, "Escape"]
 
         onActivated: chatRoot.handleEscape()
     }

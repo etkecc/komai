@@ -960,7 +960,10 @@ async fn run_room_timeline_loop(
         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
     }
 
-    if let Err(error) = timeline.paginate_backwards(ROOM_TIMELINE_PAGE_SIZE).await {
+    if let Err(error) = timeline
+           .paginate_backwards(ROOM_TIMELINE_INITIAL_PAGE_SIZE)
+           .await
+    {
         tracing::debug!(
             handle_id,
             room_id,

@@ -34,8 +34,10 @@ ColumnLayout {
     property string draftBeforeEdit: ""
     property bool restoringEditDraft: false
     property int lastPaginationTriggerCount: -1
+    property int lastInitialBufferTriggerCount: -1
     property string activeRoomId: roomPreview ? String(roomPreview.roomid || "") : ""
     property bool initialBottomPinPending: false
+    property bool initialTimelineBufferPending: false
 
     function ensureInitialBottomPin() {
         const roomId = activeRoomId;
@@ -63,6 +65,37 @@ ColumnLayout {
             if (matrixTimelineList.atYEnd)
                 root.initialBottomPinPending = false;
         });
+    }
+
+    function maybeRequestInitialTimelineBuffer() {
+        if (!matrixTimelineList
+                || !initialTimelineBufferPending
+                || loading
+                || !hasTimeline)
+            return;
+
+        const viewportHeight = matrixTimelineList.height;
+        if (viewportHeight <= 0)
+            return;
+
+        const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.75, 1200);
+        if (matrixTimelineList.contentHeight >= desiredBufferedHeight) {
+            initialTimelineBufferPending = false;
+            lastInitialBufferTriggerCount = -1;
+            return;
+        }
+
+        const itemCount = TimelineManager.matrixTimelineItemCount;
+        if (itemCount <= 0 || lastInitialBufferTriggerCount === itemCount)
+            return;
+
+        if (!TimelineManager.paginateActiveMatrixTimelineBackwards(12)) {
+            initialTimelineBufferPending = false;
+            lastInitialBufferTriggerCount = -1;
+            return;
+        }
+
+        lastInitialBufferTriggerCount = itemCount;
     }
 
     function matrixEventTypeForItemKind(kind) {
@@ -806,6 +839,7 @@ ColumnLayout {
                             maybeScrollToBottom(previousCount === 0);
                             updateLastScroll();
                         }
+                        root.maybeRequestInitialTimelineBuffer();
                     }
                     onHeightChanged: {
                         contentY = lastScrollPos - height;
@@ -813,11 +847,13 @@ ColumnLayout {
                             maybeScrollToBottom(previousCount === 0);
                             updateLastScroll();
                         }
+                        root.maybeRequestInitialTimelineBuffer();
                     }
                     onCountChanged: {
                         const forceScroll = previousCount === 0;
                         maybeScrollToBottom(forceScroll);
                         updateLastScroll();
+                        root.maybeRequestInitialTimelineBuffer();
                         previousCount = count;
                     }
                     onModelChanged: {
@@ -1411,6 +1447,7 @@ ColumnLayout {
     Connections {
         function onMatrixTimelineStateChanged() {
             root.ensureInitialBottomPin();
+            root.maybeRequestInitialTimelineBuffer();
 
             if (!root.restoringEditDraft || root.activeEditEventId.length > 0)
                 return;
@@ -1430,6 +1467,8 @@ ColumnLayout {
 
     onActiveRoomIdChanged: {
         initialBottomPinPending = activeRoomId.length > 0;
+        initialTimelineBufferPending = activeRoomId.length > 0;
+        lastInitialBufferTriggerCount = -1;
         if (!matrixTimelineList)
             return;
 
@@ -1438,7 +1477,9 @@ ColumnLayout {
     }
 
     onLoadingChanged: {
-        if (!loading)
+        if (!loading) {
             ensureInitialBottomPin();
+            maybeRequestInitialTimelineBuffer();
+        }
     }
 }

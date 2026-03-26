@@ -20,6 +20,7 @@
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "models/ReadReceiptsModel.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/CommunitiesModel.h"
 #include "timeline/RoomlistModel.h"
@@ -579,6 +580,49 @@ TimelineViewManager::rawMessageDialogForActiveMatrixTimelineEvent(const QString 
     }
 
     return dialogData;
+}
+
+QObject *
+TimelineViewManager::readReceiptsModelForActiveMatrixTimelineEvent(const QString &eventId) const
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty())
+        return nullptr;
+
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty())
+        return nullptr;
+
+    QString error;
+    const auto receipts = komai::MatrixBackendRuntimeService::fetchRoomReadReceipts(
+      handleId, activeMatrixTimelineRoomId_, trimmedEventId, &error);
+    if (!receipts) {
+        nhlog::ui()->warn(
+          "Failed to fetch matrix-sdk room read receipts for event '{}' in '{}' on handle {}: {}",
+          trimmedEventId.toStdString(),
+          activeMatrixTimelineRoomId_.toStdString(),
+          handleId,
+          error.toStdString());
+        return nullptr;
+    }
+
+    QVector<ReadReceiptEntry> entries;
+    entries.reserve(receipts->size());
+    for (const auto &entry : *receipts) {
+        entries.push_back(ReadReceiptEntry{
+          .mxid         = entry.userId,
+          .displayName  = entry.displayName,
+          .avatarUrl    = entry.avatarUrl,
+          .rawTimestamp = entry.timestamp == 0
+                            ? QDateTime{}
+                            : QDateTime::fromMSecsSinceEpoch(static_cast<qint64>(entry.timestamp)),
+        });
+    }
+
+    auto *model = new ReadReceiptsProxy{std::move(entries), activeMatrixTimelineRoomId_};
+    QQmlEngine::setObjectOwnership(model, QQmlEngine::JavaScriptOwnership);
+    return model;
 }
 
 bool

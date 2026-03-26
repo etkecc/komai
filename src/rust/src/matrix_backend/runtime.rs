@@ -78,7 +78,7 @@ pub use room_settings::{
     upload_room_avatar,
 };
 pub use timeline::{
-    fetch_active_room_raw_event_json, fetch_active_room_timeline,
+    fetch_active_room_raw_event_json, fetch_active_room_timeline, fetch_room_read_receipts,
     fetch_active_room_timeline_media_content,
     fetch_room_redaction_permissions, mark_room_event_as_read,
     paginate_active_room_timeline_backwards, redact_room_event, select_active_room_timeline,
@@ -150,6 +150,14 @@ pub struct MatrixRoomSettings {
 pub struct MatrixRoomRedactionPermissions {
     pub can_redact_own: bool,
     pub can_redact_other: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixReadReceiptEntry {
+    pub user_id: String,
+    pub display_name: String,
+    pub avatar_url: String,
+    pub timestamp: u64,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

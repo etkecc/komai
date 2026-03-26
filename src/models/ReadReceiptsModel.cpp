@@ -29,6 +29,15 @@ ReadReceiptsModel::ReadReceiptsModel(QString event_id, QString room_id, QObject 
     cache::onReadReceiptsChanged(this, [this] { update(); });
 }
 
+ReadReceiptsModel::ReadReceiptsModel(QVector<ReadReceiptEntry> entries,
+                                     QString room_id,
+                                     QObject *parent)
+  : QAbstractListModel{parent}
+  , room_id_{std::move(room_id)}
+{
+    setEntries(std::move(entries));
+}
+
 void
 ReadReceiptsModel::update()
 {
@@ -63,15 +72,19 @@ ReadReceiptsModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case Mxid:
-        return readReceipts_[index.row()].first;
+        return readReceipts_[index.row()].mxid;
     case DisplayName:
-        return cache::displayName(room_id_, readReceipts_[index.row()].first);
+        if (!readReceipts_[index.row()].displayName.isEmpty())
+            return readReceipts_[index.row()].displayName;
+        return cache::displayName(room_id_, readReceipts_[index.row()].mxid);
     case AvatarUrl:
-        return cache::avatarUrl(room_id_, readReceipts_[index.row()].first);
+        if (!readReceipts_[index.row()].avatarUrl.isEmpty())
+            return readReceipts_[index.row()].avatarUrl;
+        return cache::avatarUrl(room_id_, readReceipts_[index.row()].mxid);
     case Timestamp:
-        return dateFormat(readReceipts_[index.row()].second);
+        return dateFormat(readReceipts_[index.row()].rawTimestamp);
     case RawTimestamp:
-        return readReceipts_[index.row()].second;
+        return readReceipts_[index.row()].rawTimestamp;
     default:
         return {};
     }
@@ -81,24 +94,37 @@ void
 ReadReceiptsModel::setUsers(
   const std::multimap<uint64_t, std::string, std::greater<uint64_t>> &users)
 {
-    QVector<QPair<QString, QDateTime>> updatedReceipts;
+    QVector<ReadReceiptEntry> updatedReceipts;
     updatedReceipts.reserve(static_cast<qsizetype>(users.size()));
 
     for (const auto &user : users)
-        updatedReceipts.push_back(
-          {QString::fromStdString(user.second), QDateTime::fromMSecsSinceEpoch(user.first)});
+        updatedReceipts.push_back(ReadReceiptEntry{
+          .mxid         = QString::fromStdString(user.second),
+          .displayName  = {},
+          .avatarUrl    = {},
+          .rawTimestamp = QDateTime::fromMSecsSinceEpoch(user.first),
+        });
 
-    if (updatedReceipts == readReceipts_)
+    setEntries(std::move(updatedReceipts));
+}
+
+void
+ReadReceiptsModel::setEntries(QVector<ReadReceiptEntry> entries)
+{
+    if (entries == readReceipts_)
         return;
 
     beginResetModel();
-    readReceipts_ = std::move(updatedReceipts);
+    readReceipts_ = std::move(entries);
     endResetModel();
 }
 
 QString
 ReadReceiptsModel::dateFormat(const QDateTime &then) const
 {
+    if (!then.isValid())
+        return {};
+
     auto now  = QDateTime::currentDateTime();
     auto days = then.daysTo(now);
 
@@ -120,6 +146,19 @@ ReadReceiptsModel::dateFormat(const QDateTime &then) const
 ReadReceiptsProxy::ReadReceiptsProxy(QString event_id, QString room_id, QObject *parent)
   : QSortFilterProxyModel{parent}
   , model_{event_id, room_id, this}
+{
+    setSourceModel(&model_);
+    setSortRole(ReadReceiptsModel::RawTimestamp);
+    sort(0, Qt::DescendingOrder);
+    setDynamicSortFilter(true);
+}
+
+ReadReceiptsProxy::ReadReceiptsProxy(QVector<ReadReceiptEntry> entries,
+                                     QString room_id,
+                                     QObject *parent)
+  : QSortFilterProxyModel{parent}
+  , room_id_{room_id}
+  , model_{std::move(entries), room_id, this}
 {
     setSourceModel(&model_);
     setSortRole(ReadReceiptsModel::RawTimestamp);

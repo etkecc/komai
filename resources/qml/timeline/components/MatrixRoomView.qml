@@ -159,6 +159,21 @@ ColumnLayout {
         return showDialogFromComponent(rawMessageDialogComponent, payload);
     }
 
+    function openReadReceiptsDialog(eventId) {
+        const trimmedEventId = String(eventId || "").trim();
+        if (trimmedEventId.length === 0)
+            return null;
+
+        const readReceipts = TimelineManager.readReceiptsModelForActiveMatrixTimelineEvent(trimmedEventId);
+        if (!readReceipts)
+            return null;
+
+        return showDialogFromComponent(readReceiptsDialogComponent, {
+                "readReceipts": readReceipts,
+                "room": matrixDialogRoomModel
+            });
+    }
+
     function appendText(text) {
         return composerInput ? composerInput.appendText(text) : false;
     }
@@ -373,6 +388,27 @@ ColumnLayout {
         id: rawMessageDialogComponent
 
         TimelineDialogs.RawMessageDialog {
+        }
+    }
+
+    Component {
+        id: readReceiptsDialogComponent
+
+        TimelineDialogs.ReadReceipts {
+        }
+    }
+
+    QtObject {
+        id: matrixDialogRoomModel
+
+        property string roomId: root.roomPreview ? root.roomPreview.roomid : ""
+
+        function openUserProfile(userId) {
+            const trimmedUserId = String(userId || "").trim();
+            if (trimmedUserId.length === 0)
+                return;
+
+            TimelineManager.openGlobalUserProfile(trimmedUserId);
         }
     }
 
@@ -615,7 +651,8 @@ ColumnLayout {
                                 return Qt.formatTime(currentTimestamp, "hh:mm");
                             }
 
-                            function openUserProfile(_userId) {
+                            function openUserProfile(userId) {
+                                matrixDialogRoomModel.openUserProfile(userId);
                             }
 
                             function eventShown() {
@@ -688,6 +725,11 @@ ColumnLayout {
                                 root.openRawMessageDialog(
                                     String(eventId || timelineItemDelegate.eventId || ""));
                             }
+
+                            function showReadReceipts(eventId) {
+                                root.openReadReceiptsDialog(
+                                    String(eventId || timelineItemDelegate.eventId || ""));
+                            }
                         }
 
                         QtObject {
@@ -716,7 +758,8 @@ ColumnLayout {
                                     || (timelineItemDelegate.isOwn
                                         && TimelineManager.matrixTimelineCanRedactOwn))
                             readonly property bool supportsViewRaw: eventId.length > 0
-                            readonly property bool supportsReadReceipts: false
+                            readonly property bool supportsReadReceipts: timelineItemDelegate.isOwn
+                                && timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsMarkAsRead: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsPin: false
                             readonly property bool supportsReport: false

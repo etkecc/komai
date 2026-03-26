@@ -14,7 +14,7 @@ OverlayDialog {
     id: readReceiptsRoot
 
     property ReadReceiptsProxy readReceipts
-    property Room room
+    property var room
 
     title: qsTr("Read receipts")
     titleIcon: ":/icons/icons/ui/eye-show.svg"
@@ -35,7 +35,10 @@ OverlayDialog {
             delegate: ItemDelegate {
                 id: del
 
-                onClicked: room.openUserProfile(model.mxid)
+                onClicked: {
+                    if (room && room.openUserProfile)
+                        room.openUserProfile(model.mxid);
+                }
                 padding: Komai.paddingMedium
                 width: ListView.view.width
                 height: receiptLayout.implicitHeight + Komai.paddingSmall * 2

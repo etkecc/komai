@@ -269,6 +269,8 @@ public:
     Q_INVOKABLE bool markActiveMatrixTimelineEventAsRead(const QString &eventId);
     Q_INVOKABLE QVariantMap
     rawMessageDialogForActiveMatrixTimelineEvent(const QString &eventId) const;
+    Q_INVOKABLE QObject *
+    readReceiptsModelForActiveMatrixTimelineEvent(const QString &eventId) const;
     Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
     Q_INVOKABLE bool sendActiveMatrixAttachments();
     Q_INVOKABLE void clearActiveMatrixAttachments();

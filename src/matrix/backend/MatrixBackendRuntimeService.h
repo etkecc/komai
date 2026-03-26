@@ -84,6 +84,14 @@ struct MatrixRoomRedactionPermissions
     bool canRedactOther = false;
 };
 
+struct MatrixReadReceiptEntry
+{
+    QString userId;
+    QString displayName;
+    QString avatarUrl;
+    uint64_t timestamp = 0;
+};
+
 struct MatrixTimelineItem
 {
     QString itemId;
@@ -322,6 +330,12 @@ public:
                                                               const QString &roomId,
                                                               const QString &eventId,
                                                               QString *errorOut = nullptr);
+
+    static std::optional<QVector<MatrixReadReceiptEntry>>
+    fetchRoomReadReceipts(uint64_t handleId,
+                          const QString &roomId,
+                          const QString &eventId,
+                          QString *errorOut = nullptr);
 
     static bool sendRoomAttachment(uint64_t handleId,
                                    const QString &roomId,

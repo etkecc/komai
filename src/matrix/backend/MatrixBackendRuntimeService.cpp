@@ -118,6 +118,17 @@ fromRustRoomRedactionPermissions(const ::komai::rust::MatrixRoomRedactionPermiss
     };
 }
 
+MatrixReadReceiptEntry
+fromRustReadReceiptEntry(const ::komai::rust::MatrixReadReceiptEntry &entry)
+{
+    return MatrixReadReceiptEntry{
+      .userId      = QString::fromStdString(std::string(entry.user_id)),
+      .displayName = QString::fromStdString(std::string(entry.display_name)),
+      .avatarUrl   = matrix::normalizeMxcUri(QString::fromStdString(std::string(entry.avatar_url))),
+      .timestamp   = entry.timestamp,
+    };
+}
+
 MatrixTimelineItem
 fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
 {
@@ -850,6 +861,27 @@ MatrixBackendRuntimeService::fetchActiveRoomRawEventJson(uint64_t handleId,
         return QString::fromStdString(
           std::string(::komai::rust::matrix_fetch_active_room_raw_event_json(
             handleId, roomId.toStdString(), eventId.toStdString())));
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<QVector<MatrixReadReceiptEntry>>
+MatrixBackendRuntimeService::fetchRoomReadReceipts(uint64_t handleId,
+                                                   const QString &roomId,
+                                                   const QString &eventId,
+                                                   QString *errorOut)
+{
+    try {
+        const auto result = ::komai::rust::matrix_fetch_room_read_receipts(
+          handleId, roomId.toStdString(), eventId.toStdString());
+        QVector<MatrixReadReceiptEntry> receipts;
+        receipts.reserve(static_cast<int>(result.size()));
+        for (const auto &entry : result)
+            receipts.push_back(fromRustReadReceiptEntry(entry));
+        return receipts;
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());

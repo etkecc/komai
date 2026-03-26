@@ -102,6 +102,13 @@ mod ffi {
         can_redact_other: bool,
     }
 
+    struct MatrixReadReceiptEntry {
+        user_id: String,
+        display_name: String,
+        avatar_url: String,
+        timestamp: u64,
+    }
+
     struct MatrixTimelineItem {
         item_id: String,
         event_id: String,
@@ -378,6 +385,11 @@ mod ffi {
             room_id: &str,
             event_id: &str,
         ) -> Result<String>;
+        fn matrix_fetch_room_read_receipts(
+            handle_id: u64,
+            room_id: &str,
+            event_id: &str,
+        ) -> Result<Vec<MatrixReadReceiptEntry>>;
         fn matrix_fetch_room_redaction_permissions(
             handle_id: u64,
             room_id: &str,
@@ -969,6 +981,25 @@ fn matrix_fetch_active_room_raw_event_json(
     runtime().block_on(matrix_backend::runtime::fetch_active_room_raw_event_json(
         handle_id, room_id, event_id,
     ))
+}
+
+fn matrix_fetch_room_read_receipts(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+) -> Result<Vec<ffi::MatrixReadReceiptEntry>, String> {
+    Ok(runtime()
+        .block_on(matrix_backend::runtime::fetch_room_read_receipts(
+            handle_id, room_id, event_id,
+        ))?
+        .into_iter()
+        .map(|entry| ffi::MatrixReadReceiptEntry {
+            user_id: entry.user_id,
+            display_name: entry.display_name,
+            avatar_url: entry.avatar_url,
+            timestamp: entry.timestamp,
+        })
+        .collect())
 }
 
 fn matrix_fetch_room_redaction_permissions(

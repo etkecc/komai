@@ -11,6 +11,7 @@ use matrix_sdk::{
     room::reply::{EnforceThread, Reply},
     ruma::{
         EventId,
+        events::receipt::{ReceiptThread, ReceiptType},
         events::room::message::{
             RoomMessageEventContentWithoutRelation, TextMessageEventContent,
         },
@@ -713,6 +714,61 @@ pub async fn fetch_active_room_raw_event_json(
         room_id.trim(),
         event_id
     ))
+}
+
+pub async fn fetch_room_read_receipts(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+) -> Result<Vec<MatrixReadReceiptEntry>, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let event_id = event_id.trim();
+    if event_id.is_empty() {
+        return Err(
+            "cannot inspect matrix-sdk room read receipts without an event id".to_owned(),
+        );
+    }
+
+    let parsed_event_id =
+        EventId::parse(event_id).map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
+
+    let mut receipts = room
+        .load_event_receipts(ReceiptType::Read, ReceiptThread::Unthreaded, &parsed_event_id)
+        .await
+        .map_err(|e| format!("failed to load matrix-sdk room read receipts: {e}"))?;
+
+    receipts.sort_by(|a, b| {
+        let a_ts = a.1.ts.map(|ts| u64::from(ts.0)).unwrap_or(0);
+        let b_ts = b.1.ts.map(|ts| u64::from(ts.0)).unwrap_or(0);
+        b_ts.cmp(&a_ts).then_with(|| a.0.as_str().cmp(b.0.as_str()))
+    });
+
+    let mut entries = Vec::with_capacity(receipts.len());
+    for (user_id, receipt) in receipts {
+        let member = room
+            .get_member(&user_id)
+            .await
+            .map_err(|e| format!("failed to fetch matrix-sdk room member for receipt: {e}"))?;
+        let display_name = member
+            .as_ref()
+            .and_then(|member| member.display_name().map(ToOwned::to_owned))
+            .unwrap_or_else(|| user_id.to_string());
+        let avatar_url = member
+            .as_ref()
+            .and_then(|member| member.avatar_url().map(ToString::to_string))
+            .map(normalize_mxc_uri)
+            .unwrap_or_default();
+        let timestamp = receipt.ts.map(|ts| u64::from(ts.0)).unwrap_or(0);
+
+        entries.push(MatrixReadReceiptEntry {
+            user_id: user_id.to_string(),
+            display_name,
+            avatar_url,
+            timestamp,
+        });
+    }
+
+    Ok(entries)
 }
 
 async fn run_room_timeline_loop(

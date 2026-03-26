@@ -12,6 +12,16 @@
 #include <QSortFilterProxyModel>
 #include <QString>
 
+struct ReadReceiptEntry
+{
+    QString mxid;
+    QString displayName;
+    QString avatarUrl;
+    QDateTime rawTimestamp;
+
+    bool operator==(const ReadReceiptEntry &) const = default;
+};
+
 class ReadReceiptsModel final : public QAbstractListModel
 {
     Q_OBJECT
@@ -27,6 +37,9 @@ public:
     };
 
     explicit ReadReceiptsModel(QString event_id, QString room_id, QObject *parent = nullptr);
+    explicit ReadReceiptsModel(QVector<ReadReceiptEntry> entries,
+                               QString room_id,
+                               QObject *parent = nullptr);
 
     QString eventId() const { return event_id_; }
     QString roomId() const { return room_id_; }
@@ -45,10 +58,11 @@ public slots:
 
 private:
     QString dateFormat(const QDateTime &then) const;
+    void setEntries(QVector<ReadReceiptEntry> entries);
 
     QString event_id_;
     QString room_id_;
-    QVector<QPair<QString, QDateTime>> readReceipts_;
+    QVector<ReadReceiptEntry> readReceipts_;
 };
 
 class ReadReceiptsProxy final : public QSortFilterProxyModel
@@ -63,6 +77,9 @@ class ReadReceiptsProxy final : public QSortFilterProxyModel
 
 public:
     explicit ReadReceiptsProxy(QString event_id, QString room_id, QObject *parent = nullptr);
+    explicit ReadReceiptsProxy(QVector<ReadReceiptEntry> entries,
+                               QString room_id,
+                               QObject *parent = nullptr);
 
     QString eventId() const { return event_id_; }
     QString roomId() const { return room_id_; }

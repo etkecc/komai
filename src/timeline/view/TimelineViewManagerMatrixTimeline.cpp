@@ -498,6 +498,38 @@ TimelineViewManager::redactActiveMatrixTimelineEvent(const QString &eventId, con
 }
 
 bool
+TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to mark a matrix-sdk room event as read without an active "
+                          "runtime handle or selected matrix room");
+        return false;
+    }
+
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty())
+        return false;
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::markRoomEventAsRead(
+          handleId, activeMatrixTimelineRoomId_, trimmedEventId, &error)) {
+        nhlog::ui()->warn(
+          "Failed to mark matrix-sdk room event '{}' as read in '{}' on handle {}: {}",
+          trimmedEventId.toStdString(),
+          activeMatrixTimelineRoomId_.toStdString(),
+          handleId,
+          error.toStdString());
+        if (mainWindow)
+            mainWindow->showNotification(tr("Failed to mark message as read: %1").arg(error));
+        return false;
+    }
+
+    return true;
+}
+
+bool
 TimelineViewManager::openActiveMatrixAttachmentSelection()
 {
     auto *mainWindow    = MainWindow::instance();

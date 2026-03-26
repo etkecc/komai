@@ -658,6 +658,11 @@ ColumnLayout {
                                     roomId,
                                     String(eventId || timelineItemDelegate.eventId || ""));
                             }
+
+                            function markEventAsRead(eventId) {
+                                TimelineManager.markActiveMatrixTimelineEventAsRead(
+                                    String(eventId || timelineItemDelegate.eventId || ""));
+                            }
                         }
 
                         QtObject {
@@ -687,7 +692,7 @@ ColumnLayout {
                                         && TimelineManager.matrixTimelineCanRedactOwn))
                             readonly property bool supportsViewRaw: false
                             readonly property bool supportsReadReceipts: false
-                            readonly property bool supportsMarkAsRead: false
+                            readonly property bool supportsMarkAsRead: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsPin: false
                             readonly property bool supportsReport: false
                             readonly property bool supportsOpenMedia: timelineItemDelegate.isMediaItem

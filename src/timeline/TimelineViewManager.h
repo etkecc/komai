@@ -266,6 +266,7 @@ public:
     toggleActiveMatrixTimelineReaction(const QString &eventId, const QString &reactionKey);
     Q_INVOKABLE bool
     redactActiveMatrixTimelineEvent(const QString &eventId, const QString &reason = QString());
+    Q_INVOKABLE bool markActiveMatrixTimelineEventAsRead(const QString &eventId);
     Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
     Q_INVOKABLE bool sendActiveMatrixAttachments();
     Q_INVOKABLE void clearActiveMatrixAttachments();

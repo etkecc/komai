@@ -824,6 +824,23 @@ MatrixBackendRuntimeService::redactRoomEvent(uint64_t handleId,
 }
 
 bool
+MatrixBackendRuntimeService::markRoomEventAsRead(uint64_t handleId,
+                                                 const QString &roomId,
+                                                 const QString &eventId,
+                                                 QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_mark_room_event_as_read(
+          handleId, roomId.toStdString(), eventId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
 MatrixBackendRuntimeService::sendRoomAttachment(uint64_t handleId,
                                                 const QString &roomId,
                                                 const QString &filePath,

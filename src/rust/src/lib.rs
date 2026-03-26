@@ -368,6 +368,11 @@ mod ffi {
             event_id: &str,
             reason: &str,
         ) -> Result<()>;
+        fn matrix_mark_room_event_as_read(
+            handle_id: u64,
+            room_id: &str,
+            event_id: &str,
+        ) -> Result<()>;
         fn matrix_fetch_room_redaction_permissions(
             handle_id: u64,
             room_id: &str,
@@ -942,6 +947,12 @@ fn matrix_redact_room_event(
 ) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::redact_room_event(
         handle_id, room_id, event_id, reason,
+    ))
+}
+
+fn matrix_mark_room_event_as_read(handle_id: u64, room_id: &str, event_id: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::mark_room_event_as_read(
+        handle_id, room_id, event_id,
     ))
 }
 

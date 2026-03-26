@@ -280,6 +280,9 @@ Rectangle {
                     return positionAt(width, cursorRectangle.y + cursorRectangle.height / 2);
                 }
                 function isCursorAtSelectionModeBoundary() {
+                    if (text.length === 0 && cursorPosition === 0)
+                        return true;
+
                     if (!messageInput.isCursorOnTopLine())
                         return false;
 

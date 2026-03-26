@@ -30,6 +30,12 @@ ColumnLayout {
     property string selectionAnchorEventId: ""
     property var visibleTimelineDelegates: ({})
     readonly property int selectedCount: selectedEventIds.length
+    readonly property bool hasSelectedEvents: selectedCount > 0
+    readonly property bool hasSingleSelection: selectedCount === 1
+    readonly property string singleSelectedEventId: hasSingleSelection ? String(selectedEventIds[0] || "") : ""
+    readonly property string primaryActionEventId: hasSingleSelection
+        ? singleSelectedEventId
+        : (!hasSelectedEvents ? focusedEventId : "")
     readonly property bool hasFocusedEvent: focusedEventId.length > 0
 
     readonly property bool hasTimeline: TimelineManager.matrixTimelineItemCount > 0
@@ -48,9 +54,55 @@ ColumnLayout {
     property bool initialBottomPinPending: false
     property bool initialTimelineBufferPending: false
 
+    MessageActionSupport {
+        id: messageActionSupport
+    }
+
     function clearSearch() {
         if (root.chatRoot && typeof root.chatRoot.clearSearch === "function")
             root.chatRoot.clearSearch();
+    }
+
+    function selectedEventIdsContains(eventId) {
+        const normalizedEventId = String(eventId || "");
+        return normalizedEventId.length > 0 && selectedEventIds.indexOf(normalizedEventId) >= 0;
+    }
+
+    function canExplicitlySelectEventId(eventId) {
+        const normalizedEventId = String(eventId || "");
+        return normalizedEventId.length > 0
+            && TimelineManager.matrixTimelineModel
+            && TimelineManager.matrixTimelineModel.rowForEventId(normalizedEventId) >= 0;
+    }
+
+    function updateSelectionAnchor(preferredEventId) {
+        const normalizedEventId = String(preferredEventId || "");
+        if (selectedEventIdsContains(normalizedEventId)) {
+            selectionAnchorEventId = normalizedEventId;
+            return;
+        }
+
+        selectionAnchorEventId = selectedEventIds.length > 0
+            ? String(selectedEventIds[selectedEventIds.length - 1] || "")
+            : "";
+    }
+
+    function toggleSelectionForEventId(eventId) {
+        const normalizedEventId = String(eventId || "");
+        if (!canExplicitlySelectEventId(normalizedEventId))
+            return false;
+
+        const wasSelected = selectedEventIdsContains(normalizedEventId);
+        if (wasSelected) {
+            selectedEventIds = selectedEventIds.filter(function (selectedEventId) {
+                return String(selectedEventId || "") !== normalizedEventId;
+            });
+        } else {
+            selectedEventIds = selectedEventIds.concat([normalizedEventId]);
+        }
+
+        updateSelectionAnchor(wasSelected ? "" : normalizedEventId);
+        return true;
     }
 
     function registerVisibleDelegate(eventId, delegateItem) {
@@ -126,6 +178,22 @@ ColumnLayout {
         return candidate;
     }
 
+    function focusedDelegate() {
+        return focusedEventId.length > 0 ? (visibleTimelineDelegates[focusedEventId] || null) : null;
+    }
+
+    function primaryActionDelegate() {
+        if (primaryActionEventId.length === 0)
+            return null;
+
+        return visibleTimelineDelegates[primaryActionEventId] || null;
+    }
+
+    function primaryActionRoomModel() {
+        const delegateItem = primaryActionDelegate();
+        return delegateItem && delegateItem.roomModelOverride ? delegateItem.roomModelOverride : null;
+    }
+
     function focusWalkModeEventById(eventId, options) {
         const normalizedEventId = String(eventId || "");
         if (normalizedEventId.length === 0)
@@ -133,6 +201,7 @@ ColumnLayout {
 
         focusedEventId = normalizedEventId;
         walkModeActive = true;
+        focusTimelineSelection();
 
         const skipScroll = !!(options && options.skipScroll);
         if (!skipScroll)
@@ -142,12 +211,30 @@ ColumnLayout {
     }
 
     function clearSelectedEvents() {
-        const hadSelection = selectedEventIds.length > 0 || focusedEventId.length > 0 || walkModeActive;
+        if (selectedEventIds.length === 0)
+            return false;
+
         selectedEventIds = [];
         selectionAnchorEventId = "";
+        return true;
+    }
+
+    function clearFocusedEvent() {
         focusedEventId = "";
+    }
+
+    function clearWalkState(options) {
+        const shouldFocusComposer = !!(options && options.focusComposer);
+
+        clearSelectedEvents();
+        clearFocusedEvent();
         walkModeActive = false;
-        return hadSelection;
+
+        if (shouldFocusComposer) {
+            Qt.callLater(function () {
+                root.focusTextInput();
+            });
+        }
     }
 
     function handleMouseSelectionToggle(eventId) {
@@ -156,7 +243,9 @@ ColumnLayout {
             return false;
 
         if (!walkModeActive)
-            selectedEventIds = [];
+            clearWalkState({
+                "focusComposer": false
+            });
 
         if (!focusWalkModeEventById(normalizedEventId, {
                 "skipScroll": true
@@ -164,22 +253,15 @@ ColumnLayout {
             return false;
         }
 
-        const selectedIndex = selectedEventIds.indexOf(normalizedEventId);
-        if (selectedIndex >= 0) {
-            selectedEventIds = selectedEventIds.filter(function (selectedEventId) {
-                return String(selectedEventId || "") !== normalizedEventId;
-            });
-            if (selectedEventIds.length === 0) {
-                selectionAnchorEventId = "";
-                focusedEventId = "";
-                walkModeActive = false;
-            }
-        } else {
-            selectedEventIds = selectedEventIds.concat([normalizedEventId]);
-            selectionAnchorEventId = normalizedEventId;
+        const handled = toggleSelectionForEventId(normalizedEventId);
+        if (!handled)
+            return false;
+
+        if (selectedEventIds.length === 0) {
+            selectionAnchorEventId = "";
         }
 
-        return true;
+        return handled;
     }
 
     function enterWalkModeFromBottomMostVisible() {
@@ -192,14 +274,21 @@ ColumnLayout {
         if (!delegateItem || !delegateItem.eventId)
             return false;
 
-        clearSelectedEvents();
+        clearWalkState({
+            "focusComposer": false
+        });
         return focusWalkModeEventById(String(delegateItem.eventId || ""), {
                 "skipScroll": true
             });
     }
 
     function enterWalkModeAndMoveTowardOlderEventsByChunk() {
-        return enterWalkModeFromBottomMostVisible();
+        if (!walkModeActive) {
+            if (!enterWalkModeFromBottomMostVisible())
+                return false;
+        }
+
+        return moveFocusTowardOlderEventsByChunk() || walkModeActive;
     }
 
     function lastRoomHeaderActionButtonTarget() {
@@ -212,24 +301,330 @@ ColumnLayout {
         if (!walkModeActive && selectedEventIds.length === 0)
             return false;
 
-        return clearSelectedEvents();
+        if (selectedEventIds.length > 0) {
+            clearSelectedEvents();
+            focusTimelineSelection();
+            return true;
+        }
+
+        return exitWalkMode({
+                "focusComposer": true
+            });
     }
 
-    function handleWalkModeKey(_event) {
+    function matrixTimelineRowForEventId(eventId) {
+        const normalizedEventId = String(eventId || "");
+        if (normalizedEventId.length === 0 || !TimelineManager.matrixTimelineModel)
+            return -1;
+
+        return TimelineManager.matrixTimelineModel.rowForEventId(normalizedEventId);
+    }
+
+    function isSelectableMatrixTimelineRow(row) {
+        if (!TimelineManager.matrixTimelineModel || row < 0 || row >= TimelineManager.matrixTimelineItemCount)
+            return false;
+
+        const item = TimelineManager.matrixTimelineModel.itemAt(row);
+        return !!item && String(item.eventId || "").length > 0 && String(item.itemKind || "") !== "date_divider";
+    }
+
+    function focusMatrixTimelineRow(row, options) {
+        if (!isSelectableMatrixTimelineRow(row))
+            return false;
+
+        const item = TimelineManager.matrixTimelineModel.itemAt(row);
+        return focusWalkModeEventById(String(item.eventId || ""), options || {});
+    }
+
+    function moveFocusByStep(step) {
+        const currentRow = matrixTimelineRowForEventId(focusedEventId);
+        if (currentRow < 0)
+            return false;
+
+        for (let row = currentRow + step; row >= 0 && row < TimelineManager.matrixTimelineItemCount; row += step) {
+            if (focusMatrixTimelineRow(row))
+                return true;
+        }
+
+        return false;
+    }
+
+    function walkModeChunkSize() {
+        if (!matrixTimelineList)
+            return 4;
+
+        return Math.max(4, Math.floor(Math.max(matrixTimelineList.height, 1) / 240));
+    }
+
+    function moveFocusByChunk(step) {
+        const currentRow = matrixTimelineRowForEventId(focusedEventId);
+        if (currentRow < 0)
+            return false;
+
+        let remaining = walkModeChunkSize();
+        for (let row = currentRow + step; row >= 0 && row < TimelineManager.matrixTimelineItemCount; row += step) {
+            if (!isSelectableMatrixTimelineRow(row))
+                continue;
+
+            remaining -= 1;
+            if (remaining <= 0)
+                return focusMatrixTimelineRow(row);
+        }
+
+        return false;
+    }
+
+    function moveFocusTowardOlderEvents() {
+        return moveFocusByStep(-1);
+    }
+
+    function moveFocusTowardNewerEvents() {
+        return moveFocusByStep(1);
+    }
+
+    function moveFocusTowardOlderEventsByChunk() {
+        return moveFocusByChunk(-1);
+    }
+
+    function moveFocusTowardNewerEventsByChunk() {
+        return moveFocusByChunk(1);
+    }
+
+    function focusOldestLoadedWalkModeEvent() {
+        for (let row = 0; row < TimelineManager.matrixTimelineItemCount; row++) {
+            if (focusMatrixTimelineRow(row))
+                return true;
+        }
+
+        return false;
+    }
+
+    function focusLatestWalkModeEvent() {
+        for (let row = TimelineManager.matrixTimelineItemCount - 1; row >= 0; row--) {
+            if (focusMatrixTimelineRow(row))
+                return true;
+        }
+
+        return false;
+    }
+
+    function eventUsesWalkModeModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function eventUsesCtrlWalkModeModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & Qt.ControlModifier) !== 0
+            && (modifiers & (Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
+    }
+
+    function eventMatchesWalkModeLatinKey(event, latinKey) {
+        if (!event)
+            return false;
+
+        return LayoutAgnosticKeys.matchesLatinKey(latinKey,
+                                                  event.key,
+                                                  event.nativeScanCode);
+    }
+
+    function isWalkModeEnterKey(event) {
+        return event.key === Qt.Key_Return || event.key === Qt.Key_Enter;
+    }
+
+    function isWalkModeOptionsKey(event) {
+        return (event.key === Qt.Key_Menu && eventUsesWalkModeModifiers(event))
+            || (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.O)
+                && eventUsesWalkModeModifiers(event));
+    }
+
+    function isWalkModeHelpKey(event) {
+        if (!event)
+            return false;
+
+        const text = String(event.text || "");
+        const modifiers = Number(event.modifiers);
+        return text === "?" && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function openPrimaryMessageActionsDialog() {
+        const delegateItem = primaryActionDelegate();
+        const roomModel = primaryActionRoomModel();
+        if (!delegateItem || !roomModel)
+            return false;
+
+        return messageActionSupport.openOptionsDialog(root, delegateItem, roomModel);
+    }
+
+    function canPerformWalkModeAction(actionName) {
+        const delegateItem = primaryActionDelegate();
+        const roomModel = primaryActionRoomModel();
+        if (!delegateItem || !roomModel)
+            return false;
+
+        switch (actionName) {
+        case "reply":
+            return messageActionSupport.canReply(delegateItem, roomModel);
+        case "thread":
+            return messageActionSupport.canThread(delegateItem, roomModel);
+        case "edit":
+            return messageActionSupport.canEdit(delegateItem, roomModel);
+        case "forward":
+            return messageActionSupport.canForward(delegateItem);
+        case "remove":
+            return messageActionSupport.canRemove(delegateItem, roomModel);
+        case "options":
+            return messageActionSupport.canOpenOptions(delegateItem);
+        case "raw":
+            return messageActionSupport.canViewRaw(delegateItem);
+        default:
+            return false;
+        }
+    }
+
+    function performWalkModeAction(actionName) {
+        const delegateItem = primaryActionDelegate();
+        const roomModel = primaryActionRoomModel();
+        if (!delegateItem || !roomModel)
+            return false;
+
+        const exitsToComposer = actionName === "reply" || actionName === "thread" || actionName === "edit";
+        if (exitsToComposer)
+            exitWalkMode({
+                "focusComposer": false
+            });
+
+        switch (actionName) {
+        case "reply":
+            return messageActionSupport.applyReply(roomModel, delegateItem);
+        case "thread":
+            return messageActionSupport.applyThread(roomModel, delegateItem);
+        case "edit":
+            return messageActionSupport.applyEdit(roomModel, delegateItem);
+        case "forward":
+            return messageActionSupport.applyForward(root, roomModel, delegateItem);
+        case "remove":
+            return messageActionSupport.applyRemove(root, roomModel, delegateItem);
+        case "raw":
+            return messageActionSupport.applyViewRaw(roomModel, delegateItem);
+        case "options":
+            return messageActionSupport.openOptionsDialog(root, delegateItem, roomModel);
+        default:
+            return false;
+        }
+    }
+
+    function handleWalkModeKey(event) {
+        if (!event || !walkModeActive)
+            return false;
+
+        if (event.key === Qt.Key_Escape) {
+            handleEscape();
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_Up
+                && (event.modifiers === Qt.NoModifier || event.modifiers === Qt.KeypadModifier)) {
+            moveFocusTowardOlderEvents();
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_Down
+                && (event.modifiers === Qt.NoModifier || event.modifiers === Qt.KeypadModifier)) {
+            moveFocusTowardNewerEvents();
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.key === Qt.Key_Space && event.modifiers === Qt.NoModifier) {
+            if (focusedEventId.length > 0)
+                toggleSelectionForEventId(focusedEventId);
+            event.accepted = true;
+            return true;
+        }
+
+        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.R) && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("reply");
+            event.accepted = true;
+            return true;
+        }
+
+        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.T) && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("thread");
+            event.accepted = true;
+            return true;
+        }
+
+        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.E) && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("edit");
+            event.accepted = true;
+            return true;
+        }
+
+        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.F) && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("forward");
+            event.accepted = true;
+            return true;
+        }
+
+        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.D) && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("remove");
+            event.accepted = true;
+            return true;
+        }
+
+        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.U) && eventUsesWalkModeModifiers(event)) {
+            performWalkModeAction("raw");
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.modifiers === Qt.ControlModifier
+                && LayoutAgnosticKeys.matchesLatinKey(LayoutAgnosticKeys.LatinKey.U,
+                                                      event.key,
+                                                      event.nativeScanCode)) {
+            moveFocusTowardOlderEventsByChunk();
+            event.accepted = true;
+            return true;
+        }
+
+        if (event.modifiers === Qt.ControlModifier
+                && LayoutAgnosticKeys.matchesLatinKey(LayoutAgnosticKeys.LatinKey.D,
+                                                      event.key,
+                                                      event.nativeScanCode)) {
+            moveFocusTowardNewerEventsByChunk();
+            event.accepted = true;
+            return true;
+        }
+
+        if (isWalkModeHelpKey(event)) {
+            openWalkModeHelpDialog();
+            event.accepted = true;
+            return true;
+        }
+
+        if (isWalkModeOptionsKey(event)) {
+            openPrimaryMessageActionsDialog();
+            event.accepted = true;
+            return true;
+        }
+
+        if (isWalkModeEnterKey(event) && event.modifiers === Qt.NoModifier) {
+            openPrimaryMessageActionsDialog();
+            event.accepted = true;
+            return true;
+        }
+
         return false;
     }
 
     function exitWalkMode(options) {
-        const handled = clearSelectedEvents();
-        if (!handled)
+        if (!walkModeActive && !hasFocusedEvent && !hasSelectedEvents)
             return false;
 
-        if (options && options.focusComposer) {
-            Qt.callLater(function () {
-                root.focusTextInput();
-            });
-        }
-
+        clearWalkState(options);
         return true;
     }
 
@@ -243,10 +638,6 @@ ColumnLayout {
 
         matrixTimelineList.forceActiveFocus();
         return true;
-    }
-
-    function canPerformWalkModeAction(_actionName) {
-        return false;
     }
 
     function openWalkModeHelpDialog() {
@@ -1107,6 +1498,10 @@ ColumnLayout {
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline
 
+                    Keys.onPressed: event => {
+                        root.handleWalkModeKey(event);
+                    }
+
                     WheelHandler {
                         orientation: Qt.Vertical
                         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
@@ -1799,6 +2194,12 @@ ColumnLayout {
         }
 
         target: TimelineManager
+    }
+
+    TimelineKeyboardShortcuts {
+        chatList: matrixTimelineList
+        chatRoot: root
+        roomModel: null
     }
 
     onActiveRoomIdChanged: {

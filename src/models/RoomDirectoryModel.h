@@ -10,33 +10,8 @@
 #include <QSet>
 #include <QString>
 #include <QStringList>
-#include <string>
-#include <vector>
-
-#include <mtx/responses/public_rooms.hpp>
-
-class FetchRoomsChunkFromDirectoryJob final : public QObject
-{
-    Q_OBJECT
-
-public:
-    explicit FetchRoomsChunkFromDirectoryJob(QObject *p = nullptr)
-      : QObject(p)
-    {
-    }
-
-signals:
-    void fetchedRoomsBatch(std::vector<mtx::responses::PublicRoomsChunk> rooms,
-                           const std::string &next_batch,
-                           const std::string &search_term,
-                           const std::string &server,
-                           const std::string &since,
-                           int totalRoomCountEstimate);
-    void fetchError(const QString &errorMessage,
-                    const std::string &search_term,
-                    const std::string &server,
-                    const std::string &since);
-};
+#include <QVector>
+#include <cstdint>
 
 class RoomDirectoryModel : public QAbstractListModel
 {
@@ -58,7 +33,7 @@ class RoomDirectoryModel : public QAbstractListModel
                  maxMemberFilterChanged)
 
 public:
-    explicit RoomDirectoryModel(QObject *parent = nullptr, const std::string &server = "");
+    explicit RoomDirectoryModel(QObject *parent = nullptr, const QString &server = {});
 
     enum Roles
     {
@@ -90,7 +65,7 @@ public:
 
     QString errorString() const { return errorString_; }
 
-    QString server() const { return QString::fromStdString(server_); }
+    QString server() const { return server_; }
 
     bool hasResults() const { return !publicRoomsData_.empty(); }
 
@@ -128,36 +103,51 @@ public slots:
     void setMatrixServer(const QString &s = QLatin1String(""));
     void setSearchTerm(const QString &f);
 
-private slots:
+private:
+    struct RoomDirectoryEntry
+    {
+        QString displayName;
+        QString roomId;
+        QString roomServerName;
+        QString avatarUrl;
+        QString topic;
+        QString canonicalAlias;
+        uint64_t memberCount = 0;
+        bool canPreview      = false;
+        bool isSpace         = false;
+    };
 
-    void displayRooms(std::vector<mtx::responses::PublicRoomsChunk> rooms,
-                      const std::string &next_batch,
-                      const std::string &search_term,
-                      const std::string &server,
-                      const std::string &since,
+private slots:
+    void displayRooms(uint64_t generation,
+                      QVector<RoomDirectoryEntry> rooms,
+                      const QString &next_batch,
+                      const QString &search_term,
+                      const QString &server,
+                      const QString &since,
                       int totalRoomCountEstimate);
 
-    void handleFetchError(const QString &errorMessage,
-                          const std::string &search_term,
-                          const std::string &server,
-                          const std::string &since);
+    void handleFetchError(uint64_t generation,
+                          const QString &errorMessage,
+                          const QString &search_term,
+                          const QString &server,
+                          const QString &since);
 
 private:
     bool canJoinRoom(const QString &room) const;
 
-    static constexpr size_t limit_ = 50;
+    static constexpr uint64_t limit_ = 50;
 
-    std::string server_;
-    std::string userSearchString_;
-    std::string prevBatch_;
-    std::string nextBatch_;
+    QString server_;
+    QString userSearchString_;
+    QString prevBatch_;
+    QString nextBatch_;
     bool canFetchMore_{false};
     bool loadingMoreRooms_{false};
     uint64_t fetchGeneration_{0};
     int filterSkipCount_{0};
     static constexpr int maxFilterSkips_ = 10;
     bool reachedEndOfPagination_{false};
-    std::vector<mtx::responses::PublicRoomsChunk> publicRoomsData_;
+    QVector<RoomDirectoryEntry> publicRoomsData_;
     QString errorString_;
     int totalRoomCountEstimate_{-1};
     int mrsRoomCount_{-1};
@@ -167,7 +157,7 @@ private:
     mutable QStringList cachedKnownServers_;
     mutable bool knownServersCached_{false};
 
-    std::vector<std::string> getViasForRoom(const std::vector<std::string> &room);
+    QStringList getViasForRoom(const RoomDirectoryEntry &room) const;
     void resetDisplayedData();
     void fetchMrsStats(const QString &statsUrl);
 };

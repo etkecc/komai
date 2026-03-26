@@ -63,6 +63,24 @@ mod ffi {
         avatar_url: String,
     }
 
+    struct MatrixPublicRoomDirectoryEntry {
+        room_id: String,
+        room_server_name: String,
+        display_name: String,
+        avatar_url: String,
+        topic: String,
+        canonical_alias: String,
+        member_count: u64,
+        is_world_readable: bool,
+        is_space: bool,
+    }
+
+    struct MatrixPublicRoomDirectoryPage {
+        rooms: Vec<MatrixPublicRoomDirectoryEntry>,
+        next_batch: String,
+        total_room_count_estimate: i32,
+    }
+
     struct MatrixRoomSummary {
         room_id: String,
         display_name: String,
@@ -292,6 +310,13 @@ mod ffi {
             search_term: &str,
             limit: u64,
         ) -> Result<Vec<MatrixDirectoryUser>>;
+        fn matrix_fetch_public_room_directory_page(
+            handle_id: u64,
+            search_term: &str,
+            limit: u64,
+            since: &str,
+            server: &str,
+        ) -> Result<MatrixPublicRoomDirectoryPage>;
         fn matrix_set_own_display_name(handle_id: u64, display_name: &str) -> Result<()>;
         fn matrix_upload_own_avatar(
             handle_id: u64,
@@ -702,6 +727,42 @@ fn matrix_search_users(
                     avatar_url: user.avatar_url,
                 })
                 .collect()
+        })
+}
+
+fn matrix_fetch_public_room_directory_page(
+    handle_id: u64,
+    search_term: &str,
+    limit: u64,
+    since: &str,
+    server: &str,
+) -> Result<ffi::MatrixPublicRoomDirectoryPage, String> {
+    runtime()
+        .block_on(matrix_backend::runtime::fetch_public_room_directory_page(
+            handle_id,
+            search_term,
+            limit,
+            since,
+            server,
+        ))
+        .map(|page| ffi::MatrixPublicRoomDirectoryPage {
+            rooms: page
+                .rooms
+                .into_iter()
+                .map(|room| ffi::MatrixPublicRoomDirectoryEntry {
+                    room_id: room.room_id,
+                    room_server_name: room.room_server_name,
+                    display_name: room.display_name,
+                    avatar_url: room.avatar_url,
+                    topic: room.topic,
+                    canonical_alias: room.canonical_alias,
+                    member_count: room.member_count,
+                    is_world_readable: room.is_world_readable,
+                    is_space: room.is_space,
+                })
+                .collect(),
+            next_batch: page.next_batch,
+            total_room_count_estimate: page.total_room_count_estimate,
         })
 }
 

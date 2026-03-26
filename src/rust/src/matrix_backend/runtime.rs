@@ -64,6 +64,8 @@ mod room_settings;
 mod timeline;
 #[path = "runtime_user_directory.rs"]
 mod user_directory;
+#[path = "runtime_room_directory.rs"]
+mod room_directory;
 
 pub use profile_media::{
     fetch_media_content, fetch_own_profile, fetch_user_profile, ignore_user, remove_own_avatar,
@@ -89,6 +91,7 @@ pub use timeline::{
     toggle_room_reaction, unpin_room_event,
 };
 pub use user_directory::search_users;
+pub use room_directory::fetch_public_room_directory_page;
 
 pub struct MatrixBackendHandleInfo {
     pub handle_id: u64,
@@ -113,6 +116,26 @@ pub struct MatrixDirectoryUser {
     pub display_name: String,
     pub user_id: String,
     pub avatar_url: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixPublicRoomDirectoryEntry {
+    pub room_id: String,
+    pub room_server_name: String,
+    pub display_name: String,
+    pub avatar_url: String,
+    pub topic: String,
+    pub canonical_alias: String,
+    pub member_count: u64,
+    pub is_world_readable: bool,
+    pub is_space: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixPublicRoomDirectoryPage {
+    pub rooms: Vec<MatrixPublicRoomDirectoryEntry>,
+    pub next_batch: String,
+    pub total_room_count_estimate: i32,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

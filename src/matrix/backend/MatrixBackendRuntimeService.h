@@ -44,6 +44,26 @@ struct MatrixDirectoryUser
     QString avatarUrl;
 };
 
+struct MatrixPublicRoomDirectoryEntry
+{
+    QString roomId;
+    QString roomServerName;
+    QString displayName;
+    QString avatarUrl;
+    QString topic;
+    QString canonicalAlias;
+    uint64_t memberCount = 0;
+    bool isWorldReadable = false;
+    bool isSpace         = false;
+};
+
+struct MatrixPublicRoomDirectoryPage
+{
+    QVector<MatrixPublicRoomDirectoryEntry> rooms;
+    QString nextBatch;
+    int totalRoomCountEstimate = -1;
+};
+
 struct MatrixRoomSummary
 {
     QString roomId;
@@ -223,6 +243,14 @@ public:
                                                                    const QString &searchTerm,
                                                                    uint64_t limit,
                                                                    QString *errorOut = nullptr);
+
+    static std::optional<MatrixPublicRoomDirectoryPage>
+    fetchPublicRoomDirectoryPage(uint64_t handleId,
+                                 const QString &searchTerm,
+                                 uint64_t limit,
+                                 const QString &since,
+                                 const QString &server,
+                                 QString *errorOut = nullptr);
 
     static bool
     setOwnDisplayName(uint64_t handleId, const QString &displayName, QString *errorOut = nullptr);

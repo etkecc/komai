@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <thread>
+#include <vector>
 
 #include <QCoreApplication>
 #include <QJsonDocument>
@@ -16,7 +17,6 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QPointer>
-#include <mtx/requests.hpp>
 
 #include "utils/Utils.h"
 
@@ -24,17 +24,41 @@
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixServerResolver.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "ui/MainWindow.h"
 
-RoomDirectoryModel::RoomDirectoryModel(QObject *parent, const std::string &server)
+namespace {
+
+uint64_t
+matrixBackendHandleId()
+{
+    const auto *mainWindow = MainWindow::instance();
+    return mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+}
+
+QString
+applyRoomDirectoryLanguageFilter(const QString &searchTerm, const QString &languageFilter)
+{
+    if (languageFilter.isEmpty())
+        return searchTerm.trimmed();
+
+    const auto languageCode = languageFilter.toUpper().trimmed();
+    if (searchTerm.trimmed().isEmpty())
+        return QStringLiteral("language:%1").arg(languageCode);
+
+    return QStringLiteral("language:%1 %2").arg(languageCode, searchTerm.trimmed());
+}
+
+} // namespace
+
+RoomDirectoryModel::RoomDirectoryModel(QObject *parent, const QString &server)
   : QAbstractListModel(parent)
   , server_(server)
 {
     connect(ChatPage::instance(), &ChatPage::newRoom, this, [this](const QString &roomid) {
-        auto roomid_ = roomid.toStdString();
-
         int i = 0;
         for (const auto &room : publicRoomsData_) {
-            if (room.room_id == roomid_) {
+            if (room.roomId == roomid) {
                 emit dataChanged(index(i), index(i), {Roles::CanJoin});
                 break;
             }
@@ -81,8 +105,8 @@ RoomDirectoryModel::resetDisplayedData()
 {
     beginResetModel();
 
-    prevBatch_    = "";
-    nextBatch_    = "";
+    prevBatch_.clear();
+    nextBatch_.clear();
     canFetchMore_ = true;
     fetchGeneration_++;
     filterSkipCount_ = 0;
@@ -108,10 +132,10 @@ RoomDirectoryModel::resetDisplayedData()
 void
 RoomDirectoryModel::setMatrixServer(const QString &s)
 {
-    server_ = s.toStdString();
+    server_ = s.trimmed();
 
     nhlog::ui()->info("Switching room directory to server: {}",
-                      server_.empty() ? "(homeserver)" : server_);
+                      server_.isEmpty() ? "(homeserver)" : server_.toStdString());
 
     errorString_.clear();
     emit errorStringChanged();
@@ -123,13 +147,13 @@ RoomDirectoryModel::setMatrixServer(const QString &s)
 void
 RoomDirectoryModel::setSearchTerm(const QString &f)
 {
-    auto newTerm = f.toStdString();
+    const auto newTerm = f.trimmed();
     if (newTerm == userSearchString_)
         return;
 
     userSearchString_ = newTerm;
 
-    nhlog::ui()->info("Search term changed: '{}'", userSearchString_);
+    nhlog::ui()->info("Search term changed: '{}'", userSearchString_.toStdString());
 
     errorString_.clear();
     emit errorStringChanged();
@@ -143,36 +167,40 @@ RoomDirectoryModel::canJoinRoom(const QString &room) const
     return !room.isEmpty() && cache::getRoomInfo({room.toStdString()}).empty();
 }
 
-std::vector<std::string>
-RoomDirectoryModel::getViasForRoom(const std::vector<std::string> &aliases)
+QStringList
+RoomDirectoryModel::getViasForRoom(const RoomDirectoryEntry &room) const
 {
-    std::vector<std::string> vias;
+    QStringList vias;
+    auto addVia = [&vias](const QString &serverName) {
+        const auto trimmed = serverName.trimmed();
+        if (!trimmed.isEmpty() && !vias.contains(trimmed))
+            vias.push_back(trimmed);
+    };
 
-    vias.reserve(aliases.size());
+    addVia(room.roomServerName);
 
-    std::transform(aliases.begin(), aliases.end(), std::back_inserter(vias), [](const auto &alias) {
-        return alias.substr(alias.find(":") + 1);
-    });
-
-    // When joining a room hosted on a homeserver other than the one the
-    // account has been registered on, the room's server has to be explicitly
-    // specified in the "server_name=..." URL parameter of the Matrix Join Room
-    // request. For more details consult the specs:
-    // https://matrix.org/docs/spec/client_server/r0.6.1#post-matrix-client-r0-join-roomidoralias
-    if (!server_.empty()) {
-        vias.push_back(server_);
+    if (!room.canonicalAlias.isEmpty()) {
+        const auto colon = room.canonicalAlias.indexOf(QLatin1Char(':'));
+        if (colon >= 0 && colon + 1 < room.canonicalAlias.size())
+            addVia(room.canonicalAlias.mid(colon + 1));
     }
 
+    addVia(server_);
     return vias;
 }
 
 void
 RoomDirectoryModel::joinRoom(const int &index)
 {
-    if (index >= 0 && static_cast<size_t>(index) < publicRoomsData_.size()) {
-        const auto &chunk = publicRoomsData_[index];
-        nhlog::ui()->info("Joining room {}", chunk.room_id);
-        ChatPage::instance()->joinRoomVia(chunk.room_id, getViasForRoom(chunk.aliases));
+    if (index >= 0 && index < publicRoomsData_.size()) {
+        const auto &room = publicRoomsData_.at(index);
+        nhlog::ui()->info("Joining room {}", room.roomId.toStdString());
+
+        std::vector<std::string> vias;
+        for (const auto &via : getViasForRoom(room))
+            vias.push_back(via.toStdString());
+
+        ChatPage::instance()->joinRoomVia(room.roomId.toStdString(), vias);
     }
 }
 
@@ -180,32 +208,31 @@ QVariant
 RoomDirectoryModel::data(const QModelIndex &index, int role) const
 {
     if (hasIndex(index.row(), index.column(), index.parent())) {
-        const auto &room_chunk = publicRoomsData_[index.row()];
+        const auto &room = publicRoomsData_[index.row()];
         switch (role) {
         case Roles::Name:
-            if (room_chunk.name.empty())
-                nhlog::net()->warn("Room {} has no name", room_chunk.room_id);
-            return QString::fromStdString(room_chunk.name);
+            if (room.displayName.isEmpty())
+                nhlog::net()->warn("Room {} has no name", room.roomId.toStdString());
+            return room.displayName;
         case Roles::Id:
-            return QString::fromStdString(room_chunk.room_id);
+            return room.roomId;
         case Roles::AvatarUrl:
-            return QString::fromStdString(room_chunk.avatar_url);
+            return room.avatarUrl;
         case Roles::Topic: {
-            auto topic = QString::fromStdString(room_chunk.topic)
-                           .toHtmlEscaped()
-                           .replace(QLatin1String("\n"), QLatin1String(" "));
+            auto topic =
+              room.topic.toHtmlEscaped().replace(QLatin1String("\n"), QLatin1String(" "));
             return utils::linkifyMessage(topic);
         }
         case Roles::MemberCount:
-            return QVariant::fromValue(room_chunk.num_joined_members);
+            return QVariant::fromValue(room.memberCount);
         case Roles::Previewable:
-            return QVariant::fromValue(room_chunk.world_readable);
+            return QVariant::fromValue(room.canPreview);
         case Roles::CanJoin:
-            return canJoinRoom(QString::fromStdString(room_chunk.room_id));
+            return canJoinRoom(room.roomId);
         case Roles::IsSpace:
-            return room_chunk.room_type == "m.space";
+            return room.isSpace;
         case Roles::Alias:
-            return QString::fromStdString(room_chunk.canonical_alias);
+            return room.canonicalAlias;
         }
     }
     return {};
@@ -217,27 +244,29 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
     if (!canFetchMore_ || loadingMoreRooms_)
         return;
 
-    mtx::requests::PublicRooms req;
-    req.limit = limit_;
-    req.since = prevBatch_;
-    // Prepend MRS language filter to search term when set
-    if (!mrsLanguageFilter_.isEmpty()) {
-        auto langCode = mrsLanguageFilter_.toUpper().toStdString();
-        if (userSearchString_.empty())
-            req.filter.generic_search_term = "language:" + langCode;
-        else
-            req.filter.generic_search_term = "language:" + langCode + " " + userSearchString_;
-    } else {
-        req.filter.generic_search_term = userSearchString_;
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
+        nhlog::ui()->warn("Room directory search requires an active matrix-sdk backend runtime "
+                          "handle");
+        canFetchMore_           = false;
+        reachedEndOfPagination_ = true;
+        errorString_            = tr("Room directory requires an active Matrix session.");
+        emit reachedEndOfPaginationChanged();
+        emit errorStringChanged();
+        return;
     }
-    auto requested_server    = server_;
-    auto requested_user_term = userSearchString_;
+
+    const auto generation      = fetchGeneration_;
+    const auto requestedServer = server_;
+    const auto requestedSince  = prevBatch_;
+    const auto requestedSearchTerm =
+      applyRoomDirectoryLanguageFilter(userSearchString_, mrsLanguageFilter_);
 
     nhlog::net()->info("Fetching public rooms: server='{}', query='{}', limit={}, since='{}'",
-                       requested_server.empty() ? "(homeserver)" : requested_server,
-                       req.filter.generic_search_term,
+                       requestedServer.isEmpty() ? "(homeserver)" : requestedServer.toStdString(),
+                       requestedSearchTerm.toStdString(),
                        limit_,
-                       prevBatch_);
+                       requestedSince.toStdString());
 
     reachedEndOfPagination_ = false;
     emit reachedEndOfPaginationChanged();
@@ -245,29 +274,79 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
     loadingMoreRooms_ = true;
     emit loadingMoreRoomsChanged();
 
-    Q_UNUSED(req);
-    Q_UNUSED(requested_server);
-    Q_UNUSED(requested_user_term);
+    QPointer<RoomDirectoryModel> guard(this);
+    std::thread(
+      [guard, handleId, generation, requestedSearchTerm, requestedServer, requestedSince]() {
+          QString error;
+          const auto page = komai::MatrixBackendRuntimeService::fetchPublicRoomDirectoryPage(
+            handleId, requestedSearchTerm, limit_, requestedSince, requestedServer, &error);
 
-    loadingMoreRooms_ = false;
-    emit loadingMoreRoomsChanged();
-    canFetchMore_           = false;
-    reachedEndOfPagination_ = true;
-    emit reachedEndOfPaginationChanged();
-    errorString_ = tr("Room directory is not migrated to matrix-sdk yet.");
-    emit errorStringChanged();
+          QVector<RoomDirectoryEntry> rooms;
+          QString nextBatch;
+          int totalRoomCountEstimate = -1;
+          if (page.has_value()) {
+              nextBatch              = page->nextBatch;
+              totalRoomCountEstimate = page->totalRoomCountEstimate;
+              rooms.reserve(page->rooms.size());
+              for (const auto &room : page->rooms) {
+                  rooms.push_back(RoomDirectoryEntry{
+                    .displayName    = room.displayName,
+                    .roomId         = room.roomId,
+                    .roomServerName = room.roomServerName,
+                    .avatarUrl      = room.avatarUrl,
+                    .topic          = room.topic,
+                    .canonicalAlias = room.canonicalAlias,
+                    .memberCount    = room.memberCount,
+                    .canPreview     = room.isWorldReadable,
+                    .isSpace        = room.isSpace,
+                  });
+              }
+          }
+
+          QMetaObject::invokeMethod(
+            QCoreApplication::instance(),
+            [guard,
+             generation,
+             rooms = std::move(rooms),
+             nextBatch,
+             requestedSearchTerm,
+             requestedServer,
+             requestedSince,
+             totalRoomCountEstimate,
+             error,
+             ok = page.has_value()]() mutable {
+                if (!guard)
+                    return;
+
+                if (ok) {
+                    guard->displayRooms(generation,
+                                        std::move(rooms),
+                                        nextBatch,
+                                        requestedSearchTerm,
+                                        requestedServer,
+                                        requestedSince,
+                                        totalRoomCountEstimate);
+                } else {
+                    guard->handleFetchError(
+                      generation, error, requestedSearchTerm, requestedServer, requestedSince);
+                }
+            });
+      })
+      .detach();
 }
 
 void
-RoomDirectoryModel::displayRooms(std::vector<mtx::responses::PublicRoomsChunk> fetched_rooms,
-                                 const std::string &next_batch,
-                                 const std::string &search_term,
-                                 const std::string &server,
-                                 const std::string &since,
+RoomDirectoryModel::displayRooms(uint64_t generation,
+                                 QVector<RoomDirectoryEntry> fetched_rooms,
+                                 const QString &next_batch,
+                                 const QString &search_term,
+                                 const QString &server,
+                                 const QString &since,
                                  int totalRoomCountEstimate)
 {
-    if (search_term != this->userSearchString_ || since != this->prevBatch_ ||
-        server != this->server_) {
+    if (generation != fetchGeneration_ ||
+        search_term != applyRoomDirectoryLanguageFilter(userSearchString_, mrsLanguageFilter_) ||
+        since != prevBatch_ || server != server_) {
         return;
     }
 
@@ -282,20 +361,24 @@ RoomDirectoryModel::displayRooms(std::vector<mtx::responses::PublicRoomsChunk> f
     nhlog::net()->info("Received {} rooms (requested {}), prev batch: '{}', next batch: '{}'",
                        fetched_rooms.size(),
                        limit_,
-                       prevBatch_,
-                       next_batch);
+                       prevBatch_.toStdString(),
+                       next_batch.toStdString());
 
     // Apply client-side member count filter
     if (maxMemberFilter_ > 0) {
         auto beforeCount  = fetched_rooms.size();
         size_t minMembers = SIZE_MAX, maxMembers = 0;
         for (const auto &room : fetched_rooms) {
-            minMembers = std::min(minMembers, room.num_joined_members);
-            maxMembers = std::max(maxMembers, room.num_joined_members);
+            minMembers = std::min(minMembers, static_cast<size_t>(room.memberCount));
+            maxMembers = std::max(maxMembers, static_cast<size_t>(room.memberCount));
         }
-        std::erase_if(fetched_rooms, [this](const auto &room) {
-            return room.num_joined_members > static_cast<size_t>(maxMemberFilter_);
-        });
+        fetched_rooms.erase(std::remove_if(fetched_rooms.begin(),
+                                           fetched_rooms.end(),
+                                           [this](const auto &room) {
+                                               return room.memberCount >
+                                                      static_cast<uint64_t>(maxMemberFilter_);
+                                           }),
+                            fetched_rooms.end());
         nhlog::net()->info(
           "Room size filter: {} -> {} rooms (filter: ≤{}, page range: {}-{} members)",
           beforeCount,
@@ -306,7 +389,7 @@ RoomDirectoryModel::displayRooms(std::vector<mtx::responses::PublicRoomsChunk> f
     }
 
     if (fetched_rooms.empty()) {
-        if (next_batch.empty() || filterSkipCount_ >= maxFilterSkips_) {
+        if (next_batch.isEmpty() || filterSkipCount_ >= maxFilterSkips_) {
             if (filterSkipCount_ >= maxFilterSkips_)
                 nhlog::net()->info("Reached filter skip limit ({} pages), stopping",
                                    maxFilterSkips_);
@@ -332,32 +415,34 @@ RoomDirectoryModel::displayRooms(std::vector<mtx::responses::PublicRoomsChunk> f
 
     beginInsertRows(QModelIndex(),
                     static_cast<int>(publicRoomsData_.size()),
-                    static_cast<int>(publicRoomsData_.size() + fetched_rooms.size()) - 1);
-    this->publicRoomsData_.insert(
-      this->publicRoomsData_.end(), fetched_rooms.begin(), fetched_rooms.end());
+                    static_cast<int>(publicRoomsData_.size() + fetched_rooms.size() - 1));
+    publicRoomsData_.append(fetched_rooms);
     endInsertRows();
 
     emit hasResultsChanged();
 
-    if (next_batch.empty()) {
+    if (next_batch.isEmpty()) {
         canFetchMore_           = false;
         reachedEndOfPagination_ = true;
         emit reachedEndOfPaginationChanged();
     }
 
     prevBatch_ = next_batch;
+    nextBatch_ = next_batch;
 
     nhlog::ui()->info("Finished loading rooms");
 }
 
 void
-RoomDirectoryModel::handleFetchError(const QString &errorMessage,
-                                     const std::string &search_term,
-                                     const std::string &server,
-                                     const std::string &since)
+RoomDirectoryModel::handleFetchError(uint64_t generation,
+                                     const QString &errorMessage,
+                                     const QString &search_term,
+                                     const QString &server,
+                                     const QString &since)
 {
-    if (search_term != this->userSearchString_ || since != this->prevBatch_ ||
-        server != this->server_) {
+    if (generation != fetchGeneration_ ||
+        search_term != applyRoomDirectoryLanguageFilter(userSearchString_, mrsLanguageFilter_) ||
+        since != prevBatch_ || server != server_) {
         return;
     }
 

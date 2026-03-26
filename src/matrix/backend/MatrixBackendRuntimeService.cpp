@@ -60,6 +60,22 @@ fromRustDirectoryUser(const ::komai::rust::MatrixDirectoryUser &user)
     };
 }
 
+MatrixPublicRoomDirectoryEntry
+fromRustPublicRoomDirectoryEntry(const ::komai::rust::MatrixPublicRoomDirectoryEntry &room)
+{
+    return MatrixPublicRoomDirectoryEntry{
+      .roomId         = QString::fromStdString(std::string(room.room_id)),
+      .roomServerName = QString::fromStdString(std::string(room.room_server_name)),
+      .displayName    = QString::fromStdString(std::string(room.display_name)),
+      .avatarUrl = matrix::normalizeMxcUri(QString::fromStdString(std::string(room.avatar_url))),
+      .topic     = QString::fromStdString(std::string(room.topic)),
+      .canonicalAlias  = QString::fromStdString(std::string(room.canonical_alias)),
+      .memberCount     = room.member_count,
+      .isWorldReadable = room.is_world_readable,
+      .isSpace         = room.is_space,
+    };
+}
+
 MatrixRoomSummary
 fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
 {
@@ -444,6 +460,31 @@ MatrixBackendRuntimeService::searchUsers(uint64_t handleId,
         for (const auto &user : result)
             users.push_back(fromRustDirectoryUser(user));
         return users;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<MatrixPublicRoomDirectoryPage>
+MatrixBackendRuntimeService::fetchPublicRoomDirectoryPage(uint64_t handleId,
+                                                          const QString &searchTerm,
+                                                          uint64_t limit,
+                                                          const QString &since,
+                                                          const QString &server,
+                                                          QString *errorOut)
+{
+    try {
+        const auto result = ::komai::rust::matrix_fetch_public_room_directory_page(
+          handleId, searchTerm.toStdString(), limit, since.toStdString(), server.toStdString());
+        MatrixPublicRoomDirectoryPage page;
+        page.nextBatch              = QString::fromStdString(std::string(result.next_batch));
+        page.totalRoomCountEstimate = result.total_room_count_estimate;
+        page.rooms.reserve(static_cast<int>(result.rooms.size()));
+        for (const auto &room : result.rooms)
+            page.rooms.push_back(fromRustPublicRoomDirectoryEntry(room));
+        return page;
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());

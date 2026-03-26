@@ -681,10 +681,13 @@ Rectangle {
                 }
                 Connections {
                     function onTextChanged(newText) {
-                        if (messageInput.text === newText)
+                        const updatedText = newText !== undefined
+                            ? String(newText)
+                            : String((inputBar.inputController && inputBar.inputController.text) || "");
+                        if (messageInput.text === updatedText)
                             return;
-                        messageInput.text = newText;
-                        messageInput.cursorPosition = newText.length;
+                        messageInput.text = updatedText;
+                        messageInput.cursorPosition = updatedText.length;
                     }
 
                     ignoreUnknownSignals: true

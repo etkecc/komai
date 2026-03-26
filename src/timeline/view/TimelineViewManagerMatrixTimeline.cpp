@@ -63,6 +63,25 @@ matrixMessageRenderableHtml(const QString &body)
 }
 
 QString
+matrixPendingAttachmentThumbnail(const QString &filePath, const QString &mimeType)
+{
+    if (!mimeType.startsWith(QStringLiteral("image/"), Qt::CaseInsensitive))
+        return {};
+
+    const QFileInfo fileInfo(filePath);
+    if (!fileInfo.exists() || !fileInfo.isFile())
+        return {};
+
+    if (mimeType.compare(QStringLiteral("image/svg+xml"), Qt::CaseInsensitive) == 0)
+        return QUrl::fromLocalFile(fileInfo.absoluteFilePath()).toString();
+
+    if (utils::readImageFromFile(fileInfo.absoluteFilePath()).isNull())
+        return {};
+
+    return QUrl::fromLocalFile(fileInfo.absoluteFilePath()).toString();
+}
+
+QString
 matrixTimelineAttachmentFileName(const QString &suggestedFileName, const QString &itemId)
 {
     const auto fileName = QFileInfo(suggestedFileName).fileName().trimmed();
@@ -980,12 +999,13 @@ TimelineViewManager::openActiveMatrixAttachmentSelection()
           .replyEventId = {},
           .mimeType     = effectiveMimeType,
         });
-        matrixPendingAttachmentItems_.push_back(
-          new MatrixPendingAttachmentUpload(filePath,
-                                            fileName,
-                                            effectiveMimeType,
-                                            utils::fileTypeIconSource(effectiveMimeType),
-                                            this));
+        matrixPendingAttachmentItems_.push_back(new MatrixPendingAttachmentUpload(
+          filePath,
+          fileName,
+          effectiveMimeType,
+          utils::fileTypeIconSource(effectiveMimeType),
+          matrixPendingAttachmentThumbnail(filePath, effectiveMimeType),
+          this));
     }
 
     emit matrixTimelineStateChanged();

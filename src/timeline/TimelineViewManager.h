@@ -73,16 +73,18 @@ public:
                                   QString filename,
                                   QString mimeType,
                                   QString fileTypeIconSource,
+                                  QString thumbnail,
                                   QObject *parent = nullptr)
       : QObject(parent)
       , filePath_(std::move(filePath))
       , filename_(std::move(filename))
       , mimeType_(std::move(mimeType))
       , fileTypeIconSource_(std::move(fileTypeIconSource))
+      , thumbnail_(std::move(thumbnail))
     {
     }
 
-    QString thumbnail() const { return {}; }
+    QString thumbnail() const { return thumbnail_; }
     QString body() const { return body_; }
     QString filename() const { return filename_; }
     QString mimetype() const { return mimeType_; }
@@ -115,6 +117,7 @@ private:
     QString filename_;
     QString mimeType_;
     QString fileTypeIconSource_;
+    QString thumbnail_;
 };
 
 class TimelineViewManager final : public QObject

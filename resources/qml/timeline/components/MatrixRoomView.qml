@@ -640,12 +640,40 @@ ColumnLayout {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
+                ScrollBar {
+                    id: matrixTimelineScrollbar
+
+                    readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
+                    readonly property bool scrollbarVisible: {
+                        switch (scrollbarPolicy) {
+                        case Settings.ScrollbarPolicy.Always:
+                            return true;
+                        case Settings.ScrollbarPolicy.Never:
+                            return false;
+                        case Settings.ScrollbarPolicy.WhenNeeded:
+                        default:
+                            return matrixTimelineList.contentHeight > matrixTimelineList.height;
+                        }
+                    }
+
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    parent: matrixTimelineList.parent
+                    policy: scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                }
+
                 ListView {
                     id: matrixTimelineList
 
-                    property int delegateMaxWidth: width
+                    property int delegateMaxWidth: width - (matrixTimelineScrollbar.interactive ? matrixTimelineScrollbar.width : 0)
                     property bool keepPinnedToBottom: true
                     property int previousCount: 0
+                    property real lastScrollPos: 0
+
+                    function updateLastScroll() {
+                        lastScrollPos = contentY + height;
+                    }
 
                     function updateBottomPin() {
                         keepPinnedToBottom = atYEnd;
@@ -669,12 +697,17 @@ ColumnLayout {
 
                     anchors.fill: parent
                     anchors.margins: Komai.paddingLarge
+                    anchors.rightMargin: Komai.paddingLarge + (matrixTimelineScrollbar.interactive ? matrixTimelineScrollbar.width : 0)
                     clip: true
                     model: TimelineManager.matrixTimelineModel
+                    ScrollBar.vertical: matrixTimelineScrollbar
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline
 
-                    onMovementEnded: updateBottomPin()
+                    onMovementEnded: {
+                        updateLastScroll();
+                        updateBottomPin();
+                    }
                     onAtYBeginningChanged: {
                         if (atYBeginning
                                 && root.hasTimeline
@@ -692,24 +725,32 @@ ColumnLayout {
                             updateBottomPin();
                     }
                     onContentHeightChanged: {
-                        if (!moving && !flicking && !dragging)
+                        if (!moving && !flicking && !dragging) {
                             maybeScrollToBottom(previousCount === 0);
+                            updateLastScroll();
+                        }
                     }
                     onHeightChanged: {
-                        if (!moving && !flicking && !dragging)
+                        contentY = lastScrollPos - height;
+                        if (!moving && !flicking && !dragging) {
                             maybeScrollToBottom(previousCount === 0);
+                            updateLastScroll();
+                        }
                     }
                     onCountChanged: {
                         const forceScroll = previousCount === 0;
                         maybeScrollToBottom(forceScroll);
+                        updateLastScroll();
                         previousCount = count;
                     }
                     onModelChanged: {
+                        updateLastScroll();
                         keepPinnedToBottom = true;
                         previousCount = count;
                     }
                     Component.onCompleted: {
                         previousCount = count;
+                        updateLastScroll();
                         maybeScrollToBottom(true);
                     }
 

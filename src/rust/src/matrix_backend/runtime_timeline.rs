@@ -692,16 +692,7 @@ pub async fn fetch_room_pinned_event_ids(
 ) -> Result<Vec<String>, String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
 
-    room.load_pinned_events()
-        .await
-        .map(|events| {
-            events
-                .unwrap_or_default()
-                .into_iter()
-                .map(|event_id| event_id.to_string())
-                .collect()
-        })
-        .map_err(|e| format!("failed to load matrix-sdk room pinned events: {e}"))
+    load_cached_pinned_event_ids(&room).await
 }
 
 pub async fn pin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<(), String> {
@@ -854,11 +845,14 @@ async fn update_room_pinned_event_ids(
 
     let parsed_event_id =
         EventId::parse(event_id).map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
-    let mut pinned_event_ids = room
-        .load_pinned_events()
-        .await
-        .map_err(|e| format!("failed to load matrix-sdk room pinned events: {e}"))?
-        .unwrap_or_default();
+    let mut pinned_event_ids = load_cached_pinned_event_ids(&room)
+        .await?
+        .into_iter()
+        .map(|event_id| {
+            EventId::parse(&event_id)
+                .map_err(|e| format!("invalid pinned event id '{event_id}' from state store: {e}"))
+        })
+        .collect::<Result<Vec<_>, _>>()?;
 
     let mut changed = false;
     if should_pin {
@@ -889,6 +883,34 @@ async fn update_room_pinned_event_ids(
         .await
         .map(|_| ())
         .map_err(|e| format!("failed to update matrix-sdk room pinned events: {e}"))
+}
+
+async fn load_cached_pinned_event_ids(room: &Room) -> Result<Vec<String>, String> {
+    let Some(raw_event) = room
+        .get_state_event_static::<RoomPinnedEventsEventContent>()
+        .await
+        .map_err(|e| format!("failed to load matrix-sdk room pinned events from state store: {e}"))?
+    else {
+        return Ok(Vec::new());
+    };
+
+    let event = raw_event.deserialize().map_err(|e| {
+        format!("failed to deserialize matrix-sdk room pinned events from state store: {e}")
+    })?;
+
+    Ok(match event {
+        matrix_sdk::deserialized_responses::SyncOrStrippedState::Sync(ev) => ev
+            .as_original()
+            .map(|ev| {
+                ev.content
+                    .pinned
+                    .iter()
+                    .map(|event_id| event_id.to_string())
+                    .collect()
+            })
+            .unwrap_or_default(),
+        matrix_sdk::deserialized_responses::SyncOrStrippedState::Stripped(_) => Vec::new(),
+    })
 }
 
 async fn run_room_timeline_loop(

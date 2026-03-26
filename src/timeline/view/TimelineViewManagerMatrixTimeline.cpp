@@ -630,8 +630,10 @@ TimelineViewManager::pinActiveMatrixTimelineEvent(const QString &eventId)
         return false;
     }
 
-    if (refreshActiveMatrixTimelinePinnedEventIds())
+    if (!matrixTimelinePinnedEventIds_.contains(trimmedEventId)) {
+        matrixTimelinePinnedEventIds_.push_back(trimmedEventId);
         emit matrixTimelineStateChanged();
+    }
 
     return true;
 }
@@ -664,7 +666,7 @@ TimelineViewManager::unpinActiveMatrixTimelineEvent(const QString &eventId)
         return false;
     }
 
-    if (refreshActiveMatrixTimelinePinnedEventIds())
+    if (matrixTimelinePinnedEventIds_.removeAll(trimmedEventId) > 0)
         emit matrixTimelineStateChanged();
 
     return true;
@@ -907,6 +909,8 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
     }
 
     refreshCurrentMatrixTimeline();
+    if (refreshActiveMatrixTimelinePinnedEventIds())
+        emit matrixTimelineStateChanged();
 }
 
 bool

@@ -1868,28 +1868,33 @@ ColumnLayout {
                                 "previousUserId": previousItem.senderId !== undefined ? String(previousItem.senderId || "") : ""
                             })
                         readonly property real heuristicTimelineHeightEstimate: {
+                            const baseLineHeight = Math.max(18, Math.round(Settings.uiFontSizePt * 1.8));
+                            const compactRowHeight = Math.max(root.composerBaselineHeight, baseLineHeight + Komai.paddingMedium * 2);
+                            const detailRowHeight = Math.max(compactRowHeight, baseLineHeight * 3);
+
                             if (usesSharedImageBubble || usesSharedStickerBubble || usesSharedVideoBubble) {
                                 const viewportHeight = matrixTimelineList.height > 0 ? matrixTimelineList.height : root.height;
                                 const mediaAspect = safePreviewAspectRatio > 0 ? safePreviewAspectRatio : 0.75;
-                                const mediaWidthHint = mediaWidth > 0 ? mediaWidth : 400;
+                                const mediaWidthHint = mediaWidth > 0 ? mediaWidth : Math.max(baseLineHeight * 18, root.composerBaselineHeight * 5);
                                 const maxMediaHeight = Math.max(1, viewportHeight / 4);
                                 const mediaWidthEstimate = Math.max(1, Math.round(mediaWidthHint * Math.min(maxMediaHeight / (mediaWidthHint * mediaAspect), 1)));
-                                const captionEstimate = (body.length > 0 && !body.match(/\.\w{2,5}$/)) ? 44 : 0;
-                                return Math.max(80, Math.round(mediaWidthEstimate * mediaAspect) + captionEstimate + Komai.paddingMedium);
+                                const captionEstimate = (body.length > 0 && !body.match(/\.\w{2,5}$/))
+                                    ? (baseLineHeight * 2 + Komai.paddingSmall * 2)
+                                    : 0;
+                                return Math.max(detailRowHeight, Math.round(mediaWidthEstimate * mediaAspect) + captionEstimate + Komai.paddingMedium);
                             }
 
                             if (usesSharedFileBubble || usesSharedAudioBubble)
-                                return 96;
+                                return detailRowHeight + Komai.paddingMedium;
                             if (usesSharedStateBubble)
-                                return 56;
+                                return compactRowHeight;
                             if (itemKind === "redacted")
-                                return 56;
+                                return compactRowHeight;
 
-                            const baseLineHeight = Math.max(18, Math.round(Settings.uiFontSizePt * 1.8));
                             const estimatedLines = Math.max(1, Math.min(12, Math.ceil(String(body || "").length / 42)));
-                            const replyEstimate = replyEventId.length > 0 ? 52 : 0;
-                            const threadEstimate = threadId.length > 0 ? 8 : 0;
-                            return Math.max(56, 28 + estimatedLines * baseLineHeight + replyEstimate + threadEstimate);
+                            const replyEstimate = replyEventId.length > 0 ? detailRowHeight : 0;
+                            const threadEstimate = threadId.length > 0 ? Komai.paddingSmall * 2 : 0;
+                            return Math.max(compactRowHeight, Komai.paddingMedium * 3 + estimatedLines * baseLineHeight + replyEstimate + threadEstimate);
                         }
                         readonly property real sharedTimelineHeightEstimate: {
                             if (itemKind === "date_divider")

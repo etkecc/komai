@@ -949,10 +949,17 @@ ColumnLayout {
                                 "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
                                 "previousUserId": previousItem.senderId !== undefined ? String(previousItem.senderId || "") : ""
                             })
+                        readonly property real sharedTimelineHeightEstimate: {
+                            if (itemKind === "date_divider")
+                                return dateDivider.implicitHeight;
+                            if (!usesSharedTimelineBubble)
+                                return 0;
+                            if (sharedTimelineBubble.item && sharedTimelineBubble.item.height > 0)
+                                return sharedTimelineBubble.item.height;
+                            return modelIndex === 0 ? 10 : 100;
+                        }
                         width: matrixTimelineList.width
-                        height: itemKind === "date_divider"
-                            ? dateDivider.implicitHeight
-                            : (sharedTimelineBubble.item ? sharedTimelineBubble.item.height : 0)
+                        height: sharedTimelineHeightEstimate
 
                         PreviewPermissions {
                             id: matrixToolbarPreviewPermissions

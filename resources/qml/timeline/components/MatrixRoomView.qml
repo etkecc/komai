@@ -1636,30 +1636,48 @@ ColumnLayout {
                     }
                     onContentHeightChanged: {
                         if (!moving && !flicking && !dragging) {
-                            maybeScrollToBottom(previousCount === 0);
+                            if (keepPinnedToBottom || root.initialBottomPinPending) {
+                                positionViewAtEnd();
+                                updateBottomPin();
+                            } else {
+                                maybeScrollToBottom(previousCount === 0);
+                            }
                             updateLastScroll();
                         }
                         root.maybeRequestInitialTimelineBuffer();
                     }
                     onHeightChanged: {
-                        contentY = lastScrollPos - height;
                         if (!moving && !flicking && !dragging) {
-                            maybeScrollToBottom(previousCount === 0);
+                            if (keepPinnedToBottom || root.initialBottomPinPending) {
+                                positionViewAtEnd();
+                                updateBottomPin();
+                            } else {
+                                contentY = lastScrollPos - height;
+                                maybeScrollToBottom(previousCount === 0);
+                            }
                             updateLastScroll();
                         }
                         root.maybeRequestInitialTimelineBuffer();
                     }
                     onCountChanged: {
                         const forceScroll = previousCount === 0;
-                        maybeScrollToBottom(forceScroll);
+                        if (forceScroll || keepPinnedToBottom || root.initialBottomPinPending) {
+                            positionViewAtEnd();
+                            updateBottomPin();
+                        } else {
+                            maybeScrollToBottom(forceScroll);
+                        }
                         updateLastScroll();
                         root.maybeRequestInitialTimelineBuffer();
                         previousCount = count;
                     }
                     onModelChanged: {
-                        updateLastScroll();
                         keepPinnedToBottom = true;
                         previousCount = count;
+                        if (count > 0)
+                            positionViewAtEnd();
+                        updateBottomPin();
+                        updateLastScroll();
                     }
                     Component.onCompleted: {
                         previousCount = count;

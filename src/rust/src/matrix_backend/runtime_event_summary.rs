@@ -111,7 +111,7 @@ fn summarize_msg_like_kind(kind: &MsgLikeKind) -> MatrixEventSummary {
         MsgLikeKind::Message(message) => summary_from_message_type(message.msgtype()),
         MsgLikeKind::Sticker(sticker) => summarize_sticker(sticker.content()),
         MsgLikeKind::Poll(_) => summary("poll", "[Poll]"),
-        MsgLikeKind::Redacted => summary("redacted", "[Redacted message]"),
+        MsgLikeKind::Redacted => summary("redacted", "Deleted message"),
         MsgLikeKind::UnableToDecrypt(_) => summary("unable_to_decrypt", "[Unable to decrypt message]"),
         MsgLikeKind::Other(_) => summary("other_message", "[Unsupported message event]"),
     }
@@ -160,7 +160,7 @@ fn summarize_room_message_event(message: &SyncRoomMessageEvent) -> MatrixEventSu
 
             summary_from_message_type(&event.content.msgtype)
         }
-        SyncRoomMessageEvent::Redacted(_) => summary("redacted", "[Redacted message]"),
+        SyncRoomMessageEvent::Redacted(_) => summary("redacted", "Deleted message"),
     }
 }
 

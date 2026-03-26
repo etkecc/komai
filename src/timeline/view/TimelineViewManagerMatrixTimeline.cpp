@@ -4,6 +4,7 @@
 
 #include "timeline/TimelineViewManager.h"
 
+#include <QCoreApplication>
 #include <QDesktopServices>
 #include <QDir>
 #include <QFile>
@@ -741,8 +742,7 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
     const auto outputPath = matrixTimelineMediaCachePath(tempFileName);
     const auto caption    = item->body;
 
-    std::thread([this,
-                 handleId,
+    std::thread([handleId,
                  sourceItemId,
                  sourceRoomId = activeMatrixTimelineRoomId_,
                  targetRoomId = trimmedTargetRoomId,
@@ -776,8 +776,12 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
 
         QFile::remove(outputPath);
 
+        auto *callbackContext = QCoreApplication::instance();
+        if (!callbackContext)
+            return;
+
         QMetaObject::invokeMethod(
-          this,
+          callbackContext,
           [handleId, ok, sourceItemId, sourceRoomId, targetRoomId, suggestedFileName, error]() {
               if (ok)
                   return;

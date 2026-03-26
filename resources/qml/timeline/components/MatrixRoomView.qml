@@ -53,6 +53,7 @@ ColumnLayout {
     property string activeRoomId: roomPreview ? String(roomPreview.roomid || "") : ""
     property bool initialBottomPinPending: false
     property bool initialTimelineBufferPending: false
+    property bool suppressNextWalkModeOlderStep: false
 
     MessageActionSupport {
         id: messageActionSupport
@@ -237,6 +238,7 @@ ColumnLayout {
         clearSelectedEvents();
         clearFocusedEvent();
         walkModeActive = false;
+        suppressNextWalkModeOlderStep = false;
 
         if (shouldFocusComposer) {
             Qt.callLater(function () {
@@ -282,6 +284,7 @@ ColumnLayout {
         clearWalkState({
             "focusComposer": false
         });
+        suppressNextWalkModeOlderStep = true;
         if (!delegateItem || !delegateItem.eventId)
             return focusLatestWalkModeEvent({
                     "deferFocus": true
@@ -537,6 +540,12 @@ ColumnLayout {
 
         if (event.key === Qt.Key_Up
                 && (event.modifiers === Qt.NoModifier || event.modifiers === Qt.KeypadModifier)) {
+            if (suppressNextWalkModeOlderStep) {
+                suppressNextWalkModeOlderStep = false;
+                event.accepted = true;
+                return true;
+            }
+
             moveFocusTowardOlderEvents();
             event.accepted = true;
             return true;
@@ -2296,7 +2305,7 @@ ColumnLayout {
 
     Shortcut {
         sequences: [StandardKey.Cancel, "Escape"]
-        context: Qt.WindowShortcut
+        context: Qt.ApplicationShortcut
         enabled: root.visible && (root.walkModeActive || root.hasSelectedEvents || root.hasFocusedEvent)
 
         onActivated: root.handleEscape()

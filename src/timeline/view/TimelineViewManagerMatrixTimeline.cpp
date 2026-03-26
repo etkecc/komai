@@ -130,9 +130,45 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
 
     activeMatrixTimelineRoomId_ = roomId;
     matrixTimelineLoading_      = true;
+    refreshActiveMatrixTimelineRedactionPermissions();
     if (matrixTimelineModel_)
         matrixTimelineModel_->clear();
     emit matrixTimelineStateChanged();
+}
+
+bool
+TimelineViewManager::refreshActiveMatrixTimelineRedactionPermissions()
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+
+    bool canRedactOwn   = false;
+    bool canRedactOther = false;
+
+    if (handleId != 0 && !activeMatrixTimelineRoomId_.isEmpty()) {
+        QString error;
+        const auto permissions = komai::MatrixBackendRuntimeService::fetchRoomRedactionPermissions(
+          handleId, activeMatrixTimelineRoomId_, &error);
+        if (!permissions) {
+            nhlog::ui()->warn("Failed to fetch matrix-sdk room redaction permissions for '{}' on "
+                              "handle {}: {}",
+                              activeMatrixTimelineRoomId_.toStdString(),
+                              handleId,
+                              error.toStdString());
+        } else {
+            canRedactOwn   = permissions->canRedactOwn;
+            canRedactOther = permissions->canRedactOther;
+        }
+    }
+
+    if (matrixTimelineCanRedactOwn_ == canRedactOwn &&
+        matrixTimelineCanRedactOther_ == canRedactOther) {
+        return false;
+    }
+
+    matrixTimelineCanRedactOwn_   = canRedactOwn;
+    matrixTimelineCanRedactOther_ = canRedactOther;
+    return true;
 }
 
 void
@@ -186,6 +222,12 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
     if (matrixTimelineLoading_) {
         matrixTimelineLoading_ = false;
         stateChanged           = true;
+    }
+
+    if (matrixTimelineCanRedactOwn_ || matrixTimelineCanRedactOther_) {
+        matrixTimelineCanRedactOwn_   = false;
+        matrixTimelineCanRedactOther_ = false;
+        stateChanged                  = true;
     }
 
     if (!activeMatrixTimelineRoomId_.isEmpty()) {
@@ -418,6 +460,37 @@ TimelineViewManager::toggleActiveMatrixTimelineReaction(const QString &eventId,
                           error.toStdString());
         if (mainWindow)
             mainWindow->showNotification(tr("Failed to react: %1").arg(error));
+        return false;
+    }
+
+    return true;
+}
+
+bool
+TimelineViewManager::redactActiveMatrixTimelineEvent(const QString &eventId, const QString &reason)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to redact a matrix-sdk room event without an active runtime "
+                          "handle or selected matrix room");
+        return false;
+    }
+
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty())
+        return false;
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::redactRoomEvent(
+          handleId, activeMatrixTimelineRoomId_, trimmedEventId, reason.trimmed(), &error)) {
+        nhlog::ui()->warn("Failed to redact matrix-sdk room event '{}' in '{}' on handle {}: {}",
+                          trimmedEventId.toStdString(),
+                          activeMatrixTimelineRoomId_.toStdString(),
+                          handleId,
+                          error.toStdString());
+        if (mainWindow)
+            mainWindow->showNotification(tr("Failed to delete message: %1").arg(error));
         return false;
     }
 

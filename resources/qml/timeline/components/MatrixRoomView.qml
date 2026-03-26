@@ -109,6 +109,43 @@ ColumnLayout {
         return composerInput ? composerInput.focusTextInput() : false;
     }
 
+    function destroyOnClose(dialog) {
+        if (!dialog)
+            return;
+
+        if (root.chatRoot && root.chatRoot.dialogHost && root.chatRoot.dialogHost.destroyOnClose != undefined) {
+            root.chatRoot.dialogHost.destroyOnClose(dialog);
+            return;
+        }
+
+        if (dialog.closing != undefined)
+            dialog.closing.connect(() => dialog.destroy(1000));
+        else if (dialog.aboutToHide != undefined)
+            dialog.aboutToHide.connect(() => dialog.destroy(1000));
+    }
+
+    function showDialogFromComponent(componentRef, properties) {
+        const dialogParent = root.chatRoot && root.chatRoot.dialogHost
+            ? root.chatRoot.dialogHost
+            : (root.chatRoot ? root.chatRoot : root);
+        const dialog = componentRef.createObject(dialogParent, properties || {});
+        if (!dialog)
+            return null;
+        dialog.open();
+        root.destroyOnClose(dialog);
+        return dialog;
+    }
+
+    function openRemoveMessageDialog(eventId) {
+        const trimmedEventId = String(eventId || "").trim();
+        if (trimmedEventId.length === 0)
+            return null;
+
+        return showDialogFromComponent(removeReasonDialogComponent, {
+                "eventId": trimmedEventId
+            });
+    }
+
     function appendText(text) {
         return composerInput ? composerInput.appendText(text) : false;
     }
@@ -281,7 +318,7 @@ ColumnLayout {
     MessageContextMenu {
         id: matrixMessageContextMenu
 
-        chatRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
+        chatRoot: root
         emojiPopup: root.emojiPopup
         filteredTimelineModel: root.filteredTimeline
     }
@@ -296,10 +333,27 @@ ColumnLayout {
         id: matrixMessageActionsHost
 
         chatList: matrixTimelineList
-        chatRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
+        chatRoot: root
         emojiPopup: root.emojiPopup
         filteredTimeline: root.filteredTimeline
         roomModel: matrixMessageActionsDefaultRoomModel
+    }
+
+    Component {
+        id: removeReasonDialogComponent
+
+        InputDialog {
+            required property string eventId
+
+            placeholderText: qsTr("Optional reason")
+            title: qsTr("Delete this message?")
+            titleIcon: ":/icons/icons/ui/delete.svg"
+            acceptText: qsTr("Delete")
+
+            onInputAccepted: function (text) {
+                TimelineManager.redactActiveMatrixTimelineEvent(eventId, text);
+            }
+        }
     }
 
     anchors.fill: parent
@@ -627,7 +681,10 @@ ColumnLayout {
                             readonly property bool supportsGoToMessage: false
                             readonly property bool supportsOptions: false
                             readonly property bool supportsEdit: isEditable
-                            readonly property bool supportsRemove: false
+                            readonly property bool supportsRemove: eventId.length > 0
+                                && (TimelineManager.matrixTimelineCanRedactOther
+                                    || (timelineItemDelegate.isOwn
+                                        && TimelineManager.matrixTimelineCanRedactOwn))
                             readonly property bool supportsViewRaw: false
                             readonly property bool supportsReadReceipts: false
                             readonly property bool supportsMarkAsRead: false

@@ -97,6 +97,11 @@ mod ffi {
         can_change_history_visibility: bool,
     }
 
+    struct MatrixRoomRedactionPermissions {
+        can_redact_own: bool,
+        can_redact_other: bool,
+    }
+
     struct MatrixTimelineItem {
         item_id: String,
         event_id: String,
@@ -357,6 +362,16 @@ mod ffi {
             event_id: &str,
             reaction_key: &str,
         ) -> Result<()>;
+        fn matrix_redact_room_event(
+            handle_id: u64,
+            room_id: &str,
+            event_id: &str,
+            reason: &str,
+        ) -> Result<()>;
+        fn matrix_fetch_room_redaction_permissions(
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<MatrixRoomRedactionPermissions>;
         fn matrix_send_room_attachment(
             handle_id: u64,
             room_id: &str,
@@ -917,6 +932,31 @@ fn matrix_toggle_room_reaction(
         event_id,
         reaction_key,
     ))
+}
+
+fn matrix_redact_room_event(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+    reason: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::redact_room_event(
+        handle_id, room_id, event_id, reason,
+    ))
+}
+
+fn matrix_fetch_room_redaction_permissions(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<ffi::MatrixRoomRedactionPermissions, String> {
+    let result = runtime().block_on(matrix_backend::runtime::fetch_room_redaction_permissions(
+        handle_id, room_id,
+    ))?;
+
+    Ok(ffi::MatrixRoomRedactionPermissions {
+        can_redact_own: result.can_redact_own,
+        can_redact_other: result.can_redact_other,
+    })
 }
 
 fn matrix_send_room_attachment(

@@ -109,6 +109,15 @@ fromRustRoomSettings(const ::komai::rust::MatrixRoomSettings &room)
     };
 }
 
+MatrixRoomRedactionPermissions
+fromRustRoomRedactionPermissions(const ::komai::rust::MatrixRoomRedactionPermissions &permissions)
+{
+    return MatrixRoomRedactionPermissions{
+      .canRedactOwn   = permissions.can_redact_own,
+      .canRedactOther = permissions.can_redact_other,
+    };
+}
+
 MatrixTimelineItem
 fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
 {
@@ -504,6 +513,22 @@ MatrixBackendRuntimeService::fetchRoomSettings(uint64_t handleId,
     }
 }
 
+std::optional<MatrixRoomRedactionPermissions>
+MatrixBackendRuntimeService::fetchRoomRedactionPermissions(uint64_t handleId,
+                                                           const QString &roomId,
+                                                           QString *errorOut)
+{
+    try {
+        auto result =
+          ::komai::rust::matrix_fetch_room_redaction_permissions(handleId, roomId.toStdString());
+        return fromRustRoomRedactionPermissions(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 bool
 MatrixBackendRuntimeService::setRoomNotificationMode(uint64_t handleId,
                                                      const QString &roomId,
@@ -772,6 +797,24 @@ MatrixBackendRuntimeService::toggleRoomReaction(uint64_t handleId,
     try {
         ::komai::rust::matrix_toggle_room_reaction(
           handleId, roomId.toStdString(), eventId.toStdString(), reactionKey.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::redactRoomEvent(uint64_t handleId,
+                                             const QString &roomId,
+                                             const QString &eventId,
+                                             const QString &reason,
+                                             QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_redact_room_event(
+          handleId, roomId.toStdString(), eventId.toStdString(), reason.toStdString());
         return true;
     } catch (const std::exception &e) {
         if (errorOut)

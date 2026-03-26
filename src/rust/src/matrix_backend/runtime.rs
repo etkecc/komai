@@ -79,8 +79,9 @@ pub use room_settings::{
 };
 pub use timeline::{
     fetch_active_room_timeline, fetch_active_room_timeline_media_content,
-    paginate_active_room_timeline_backwards, select_active_room_timeline, send_room_attachment,
-    send_room_edit_message, send_room_message, send_room_reply_message, toggle_room_reaction,
+    fetch_room_redaction_permissions, paginate_active_room_timeline_backwards, redact_room_event,
+    select_active_room_timeline, send_room_attachment, send_room_edit_message,
+    send_room_message, send_room_reply_message, toggle_room_reaction,
 };
 
 pub struct MatrixBackendHandleInfo {
@@ -141,6 +142,12 @@ pub struct MatrixRoomSettings {
     pub can_change_avatar: bool,
     pub can_change_join_rules: bool,
     pub can_change_history_visibility: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixRoomRedactionPermissions {
+    pub can_redact_own: bool,
+    pub can_redact_other: bool,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

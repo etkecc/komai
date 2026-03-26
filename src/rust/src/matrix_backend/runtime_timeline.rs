@@ -585,6 +585,59 @@ pub async fn toggle_room_reaction(
         .map_err(|e| format!("failed to toggle matrix-sdk room reaction: {e}"))
 }
 
+pub async fn redact_room_event(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+    reason: &str,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let event_id = event_id.trim();
+    if event_id.is_empty() {
+        return Err("cannot redact a matrix-sdk room event without an event id".to_owned());
+    }
+
+    let parsed_event_id =
+        EventId::parse(event_id).map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
+    let trimmed_reason = trim_reason(reason);
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        event_id,
+        has_reason = trimmed_reason.is_some(),
+        "Redacting matrix-sdk room event"
+    );
+
+    room.redact(&parsed_event_id, trimmed_reason.as_deref(), None)
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to redact matrix-sdk room event: {e}"))
+}
+
+pub async fn fetch_room_redaction_permissions(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<MatrixRoomRedactionPermissions, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let own_user_id = room.own_user_id().to_owned();
+    let member = room
+        .get_member(&own_user_id)
+        .await
+        .map_err(|e| format!("failed to fetch matrix-sdk room member permissions: {e}"))?
+        .ok_or_else(|| {
+            format!(
+                "matrix-sdk backend runtime handle {handle_id} cannot resolve own member state in room {}",
+                room_id.trim()
+            )
+        })?;
+
+    Ok(MatrixRoomRedactionPermissions {
+        can_redact_own: member.can_redact_own(),
+        can_redact_other: member.can_redact_other(),
+    })
+}
+
 async fn run_room_timeline_loop(
     handle_id: u64,
     client: Client,

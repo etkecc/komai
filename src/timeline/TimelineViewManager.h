@@ -149,6 +149,10 @@ class TimelineViewManager final : public QObject
                  matrixTimelineStateChanged)
     Q_PROPERTY(QString matrixTimelineEditEventId READ matrixTimelineEditEventId NOTIFY
                  matrixTimelineStateChanged)
+    Q_PROPERTY(bool matrixTimelineCanRedactOwn READ matrixTimelineCanRedactOwn NOTIFY
+                 matrixTimelineStateChanged)
+    Q_PROPERTY(bool matrixTimelineCanRedactOther READ matrixTimelineCanRedactOther NOTIFY
+                 matrixTimelineStateChanged)
 
 public:
     TimelineViewManager(CallManager *callManager, ChatPage *parent = nullptr);
@@ -181,6 +185,8 @@ public:
     }
     QString matrixTimelineReplyBody() const { return matrixTimelineReplyBody_; }
     QString matrixTimelineEditEventId() const { return matrixTimelineEditEventId_; }
+    bool matrixTimelineCanRedactOwn() const { return matrixTimelineCanRedactOwn_; }
+    bool matrixTimelineCanRedactOther() const { return matrixTimelineCanRedactOther_; }
     Q_INVOKABLE void openMediaOverlay(TimelineModel *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
@@ -258,6 +264,8 @@ public:
     Q_INVOKABLE void clearActiveMatrixReply();
     Q_INVOKABLE bool
     toggleActiveMatrixTimelineReaction(const QString &eventId, const QString &reactionKey);
+    Q_INVOKABLE bool
+    redactActiveMatrixTimelineEvent(const QString &eventId, const QString &reason = QString());
     Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
     Q_INVOKABLE bool sendActiveMatrixAttachments();
     Q_INVOKABLE void clearActiveMatrixAttachments();
@@ -378,7 +386,9 @@ private:
     bool navigating_                                 = false;
     komai::MatrixTimelineModel *matrixTimelineModel_ = nullptr;
     QString activeMatrixTimelineRoomId_;
-    bool matrixTimelineLoading_ = false;
+    bool matrixTimelineLoading_        = false;
+    bool matrixTimelineCanRedactOwn_   = false;
+    bool matrixTimelineCanRedactOther_ = false;
     struct PendingMatrixAttachment
     {
         uint64_t handleId = 0;
@@ -401,6 +411,7 @@ private:
     void processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers);
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
     void updateCurrentMatrixTimelineSelection();
+    bool refreshActiveMatrixTimelineRedactionPermissions();
     void refreshCurrentMatrixTimeline();
     void clearCurrentMatrixTimeline(bool stopBackendTask = true);
     void startNextPendingMatrixAttachment();

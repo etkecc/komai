@@ -78,6 +78,12 @@ struct MatrixRoomSettings
     bool canChangeHistoryVisibility = false;
 };
 
+struct MatrixRoomRedactionPermissions
+{
+    bool canRedactOwn   = false;
+    bool canRedactOther = false;
+};
+
 struct MatrixTimelineItem
 {
     QString itemId;
@@ -216,6 +222,11 @@ public:
     static std::optional<MatrixRoomSettings>
     fetchRoomSettings(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
 
+    static std::optional<MatrixRoomRedactionPermissions>
+    fetchRoomRedactionPermissions(uint64_t handleId,
+                                  const QString &roomId,
+                                  QString *errorOut = nullptr);
+
     static bool setRoomNotificationMode(uint64_t handleId,
                                         const QString &roomId,
                                         int mode,
@@ -295,6 +306,12 @@ public:
                                    const QString &eventId,
                                    const QString &reactionKey,
                                    QString *errorOut = nullptr);
+
+    static bool redactRoomEvent(uint64_t handleId,
+                                const QString &roomId,
+                                const QString &eventId,
+                                const QString &reason,
+                                QString *errorOut = nullptr);
 
     static bool sendRoomAttachment(uint64_t handleId,
                                    const QString &roomId,

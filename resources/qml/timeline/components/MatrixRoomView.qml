@@ -1580,12 +1580,8 @@ ColumnLayout {
                             ? root.chatRoot.listViewCacheBuffer
                             : 320;
                         if (root.chatRoot && root.chatRoot.roomSwitchInProgress)
-                            return baseBuffer;
-
-                        const viewportBuffer = Math.max(baseBuffer, matrixTimelineList.height * 2);
-                        // Keep some extra resolved content above/below the viewport so delegate
-                        // height estimation stays stable, but do not cache the whole room.
-                        return Math.min(viewportBuffer, 4096);
+                            return 0;
+                        return baseBuffer;
                     }
                     model: TimelineManager.matrixTimelineModel
                     ScrollBar.vertical: matrixTimelineScrollbar

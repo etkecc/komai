@@ -2103,7 +2103,9 @@ ColumnLayout {
                 Layout.preferredHeight: implicitHeight
                 Layout.maximumHeight: implicitHeight
                 color: palette.window
-                implicitHeight: composerLayout.implicitHeight + Komai.paddingMedium * 2
+                implicitHeight: root.walkModeActive
+                    ? walkModeBar.implicitHeight
+                    : composerLayout.implicitHeight + Komai.paddingMedium * 2
 
                 Rectangle {
                     anchors.left: parent.left
@@ -2117,8 +2119,8 @@ ColumnLayout {
                     id: composerLayout
 
                     anchors.fill: parent
-                    anchors.margins: Komai.paddingMedium
-                    spacing: Komai.paddingSmall
+                    anchors.margins: root.walkModeActive ? 0 : Komai.paddingMedium
+                    spacing: root.walkModeActive ? 0 : Komai.paddingSmall
 
                     Composer.UploadBox {
                         Layout.minimumHeight: 0

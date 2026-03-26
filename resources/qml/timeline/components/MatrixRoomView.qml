@@ -422,6 +422,10 @@ ColumnLayout {
         function showEvent(eventId) {
             return root.jumpToLoadedMatrixEvent(eventId);
         }
+
+        function openForwardDialog(eventId) {
+            return root.openMatrixForwardDialog(eventId);
+        }
     }
 
     MessageContextMenu {
@@ -534,6 +538,10 @@ ColumnLayout {
 
         dialog.setMessageEventIds([trimmedEventId], 1);
         return dialog;
+    }
+
+    function openForwardDialog(eventId) {
+        return openMatrixForwardDialog(eventId);
     }
 
     function openReportMessageDialog(eventId) {

@@ -343,20 +343,19 @@ EventDelegateChooser::DelegateIncubator::reset(QString id)
                  .toInt();
     } else {
         QVariant roleValue;
-
-        if (forReply) {
-            auto replyPreviewData = chooser.property("replyPreviewData");
-            if (replyPreviewData.isValid()) {
-                QVariantMap previewMap;
-                if (replyPreviewData.canConvert<QVariantMap>()) {
-                    previewMap = replyPreviewData.toMap();
-                } else if (replyPreviewData.userType() == qMetaTypeId<QJSValue>()) {
-                    previewMap = replyPreviewData.value<QJSValue>().toVariant().toMap();
-                }
-
-                if (auto it = previewMap.find(QStringLiteral("type")); it != previewMap.end())
-                    roleValue = it.value();
+        auto previewData = chooser.property(forReply ? "replyPreviewData" : "previewData");
+        if (!previewData.isValid() && forReply)
+            previewData = chooser.property("previewData");
+        if (previewData.isValid()) {
+            QVariantMap previewMap;
+            if (previewData.canConvert<QVariantMap>()) {
+                previewMap = previewData.toMap();
+            } else if (previewData.userType() == qMetaTypeId<QJSValue>()) {
+                previewMap = previewData.value<QJSValue>().toVariant().toMap();
             }
+
+            if (auto it = previewMap.find(QStringLiteral("type")); it != previewMap.end())
+                roleValue = it.value();
         }
 
         if (!roleValue.isValid())

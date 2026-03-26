@@ -892,6 +892,10 @@ ColumnLayout {
                                     String(eventId || timelineItemDelegate.eventId || ""));
                             }
 
+                            function viewDecryptedRawMessage(eventId) {
+                                viewRawMessage(eventId);
+                            }
+
                             function showReadReceipts(eventId) {
                                 root.openReadReceiptsDialog(
                                     String(eventId || timelineItemDelegate.eventId || ""));

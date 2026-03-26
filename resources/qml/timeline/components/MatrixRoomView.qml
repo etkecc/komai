@@ -35,17 +35,17 @@ ColumnLayout {
     property bool restoringEditDraft: false
     property int lastPaginationTriggerCount: -1
     property string activeRoomId: roomPreview ? String(roomPreview.roomid || "") : ""
-    property string lastInitialBottomPinRoomId: ""
+    property bool initialBottomPinPending: false
 
     function ensureInitialBottomPin() {
         const roomId = activeRoomId;
         if (!matrixTimelineList
                 || roomId.length === 0
                 || loading
-                || !hasTimeline
-                || lastInitialBottomPinRoomId === roomId)
+                || !hasTimeline)
             return;
 
+        initialBottomPinPending = true;
         matrixTimelineList.keepPinnedToBottom = true;
         matrixTimelineList.maybeScrollToBottom(true);
 
@@ -60,7 +60,8 @@ ColumnLayout {
             matrixTimelineList.keepPinnedToBottom = true;
             matrixTimelineList.maybeScrollToBottom(true);
             matrixTimelineList.updateLastScroll();
-            root.lastInitialBottomPinRoomId = roomId;
+            if (matrixTimelineList.atYEnd)
+                root.initialBottomPinPending = false;
         });
     }
 
@@ -705,6 +706,13 @@ ColumnLayout {
                     }
 
                     function updateBottomPin() {
+                        if (root.initialBottomPinPending) {
+                            keepPinnedToBottom = true;
+                            if (atYEnd)
+                                root.initialBottomPinPending = false;
+                            return;
+                        }
+
                         keepPinnedToBottom = atYEnd;
                     }
 
@@ -712,11 +720,11 @@ ColumnLayout {
                         if (count <= 0)
                             return;
 
-                        if (!(force || keepPinnedToBottom))
+                        if (!(force || keepPinnedToBottom || root.initialBottomPinPending))
                             return;
 
                         Qt.callLater(function () {
-                            if (count <= 0 || !(force || keepPinnedToBottom))
+                            if (count <= 0 || !(force || keepPinnedToBottom || root.initialBottomPinPending))
                                 return;
 
                             positionViewAtEnd();
@@ -728,6 +736,16 @@ ColumnLayout {
                     anchors.margins: Komai.paddingLarge
                     anchors.rightMargin: Komai.paddingLarge + (matrixTimelineScrollbar.interactive ? matrixTimelineScrollbar.width : 0)
                     clip: true
+                    reuseItems: true
+                    displayMarginBeginning: root.chatRoot && root.chatRoot.listViewDisplayMargin !== undefined
+                        ? root.chatRoot.listViewDisplayMargin
+                        : 0
+                    displayMarginEnd: root.chatRoot && root.chatRoot.listViewDisplayMargin !== undefined
+                        ? root.chatRoot.listViewDisplayMargin
+                        : 0
+                    cacheBuffer: root.chatRoot && root.chatRoot.listViewCacheBuffer !== undefined
+                        ? root.chatRoot.listViewCacheBuffer
+                        : 320
                     model: TimelineManager.matrixTimelineModel
                     ScrollBar.vertical: matrixTimelineScrollbar
                     spacing: Komai.paddingMedium
@@ -1366,7 +1384,7 @@ ColumnLayout {
     }
 
     onActiveRoomIdChanged: {
-        lastInitialBottomPinRoomId = "";
+        initialBottomPinPending = activeRoomId.length > 0;
         if (!matrixTimelineList)
             return;
 

@@ -34,6 +34,35 @@ ColumnLayout {
     property string draftBeforeEdit: ""
     property bool restoringEditDraft: false
     property int lastPaginationTriggerCount: -1
+    property string activeRoomId: roomPreview ? String(roomPreview.roomid || "") : ""
+    property string lastInitialBottomPinRoomId: ""
+
+    function ensureInitialBottomPin() {
+        const roomId = activeRoomId;
+        if (!matrixTimelineList
+                || roomId.length === 0
+                || loading
+                || !hasTimeline
+                || lastInitialBottomPinRoomId === roomId)
+            return;
+
+        matrixTimelineList.keepPinnedToBottom = true;
+        matrixTimelineList.maybeScrollToBottom(true);
+
+        Qt.callLater(function () {
+            if (!matrixTimelineList
+                    || root.activeRoomId !== roomId
+                    || root.loading
+                    || !root.hasTimeline)
+                return;
+
+            matrixTimelineList.forceLayout();
+            matrixTimelineList.keepPinnedToBottom = true;
+            matrixTimelineList.maybeScrollToBottom(true);
+            matrixTimelineList.updateLastScroll();
+            root.lastInitialBottomPinRoomId = roomId;
+        });
+    }
 
     function matrixEventTypeForItemKind(kind) {
         switch (kind) {
@@ -704,6 +733,22 @@ ColumnLayout {
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline
 
+                    WheelHandler {
+                        orientation: Qt.Vertical
+                        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+
+                        property real previousRotation: 0
+
+                        onRotationChanged: {
+                            const delta = rotation - previousRotation;
+                            previousRotation = rotation;
+                            matrixTimelineList.contentY -= delta * 5;
+                            matrixTimelineList.returnToBounds();
+                            matrixTimelineList.updateLastScroll();
+                            matrixTimelineList.updateBottomPin();
+                        }
+                    }
+
                     onMovementEnded: {
                         updateLastScroll();
                         updateBottomPin();
@@ -1302,6 +1347,8 @@ ColumnLayout {
 
     Connections {
         function onMatrixTimelineStateChanged() {
+            root.ensureInitialBottomPin();
+
             if (!root.restoringEditDraft || root.activeEditEventId.length > 0)
                 return;
 
@@ -1316,5 +1363,19 @@ ColumnLayout {
         }
 
         target: TimelineManager
+    }
+
+    onActiveRoomIdChanged: {
+        lastInitialBottomPinRoomId = "";
+        if (!matrixTimelineList)
+            return;
+
+        matrixTimelineList.keepPinnedToBottom = true;
+        matrixTimelineList.previousCount = 0;
+    }
+
+    onLoadingChanged: {
+        if (!loading)
+            ensureInitialBottomPin();
     }
 }

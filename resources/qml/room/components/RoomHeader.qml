@@ -36,6 +36,12 @@ Pane {
     readonly property string membersActionLabel: qsTr("%n member(s)", "", roomModel ? roomModel.roomMemberCount : 0)
     readonly property string encryptionActionLabel: shortEncryptionLabel()
     readonly property string visibilityActionLabel: isPublic ? qsTr("Public") : qsTr("Private")
+    readonly property bool roomModelSupportsSearch: !!roomModel
+        && (roomModel.supportsSearch === undefined || !!roomModel.supportsSearch)
+    readonly property bool roomModelSupportsPinnedMessagesUi: !!roomModel
+        && (roomModel.supportsPinnedMessagesUi === undefined || !!roomModel.supportsPinnedMessagesUi)
+    readonly property bool roomModelSupportsVisibilityInfo: !!roomModel
+        && (roomModel.supportsVisibilityInfo === undefined || !!roomModel.supportsVisibilityInfo)
     readonly property real actionButtonWidth: topBarAvatarSize
     readonly property real actionButtonLabelGap: Komai.paddingSmall
     readonly property int visibleActionButtonCount:
@@ -221,8 +227,8 @@ Pane {
                     id: roomNameLabel
 
                     roomName: topBar.roomName
-                    room: topBar.roomModel
-                    showVisibilityLabel: topBar.showActionLabels
+                    room: topBar.roomModelSupportsVisibilityInfo ? topBar.roomModel : null
+                    showVisibilityLabel: topBar.showActionLabels && topBar.roomModelSupportsVisibilityInfo
                 }
                 // BROKEN: "Show only notifications" filter doesn't work properly.
                 // It only filters messages already loaded in QML, not the full timeline.
@@ -252,7 +258,7 @@ Pane {
                     topBarRef: topBar
                     column: 4
                     KeyNavigation.backtab: roomSettingsButton
-                    room: topBar.roomModel
+                    room: topBar.roomModelSupportsPinnedMessagesUi ? topBar.roomModel : null
                     roomId: topBar.roomId
                     showTextLabel: topBar.showActionLabels
                 }
@@ -262,7 +268,7 @@ Pane {
                     topBarRef: topBar
                     column: 5
                     KeyNavigation.backtab: pinButton.visible ? pinButton : roomSettingsButton
-                    room: topBar.roomModel
+                    room: topBar.roomModelSupportsSearch ? topBar.roomModel : null
                     showTextLabel: topBar.showActionLabels
 
                     onSearchActiveChanged: {
@@ -313,7 +319,7 @@ Pane {
             }
             RoomPinnedMessagesSection {
                 Layout.fillWidth: true
-                room: topBar.roomModel
+                room: topBar.roomModelSupportsPinnedMessagesUi ? topBar.roomModel : null
                 roomId: topBar.roomId
             }
             RoomWidgetsSection {
@@ -325,7 +331,7 @@ Pane {
                 id: roomSearchRow
 
                 Layout.fillWidth: true
-                room: topBar.roomModel
+                room: topBar.roomModelSupportsSearch ? topBar.roomModel : null
                 filteringInProgress: topBar.filteringInProgress
                 topBarAvatarSize: topBar.topBarAvatarSize
                 searchActive: searchButton.searchActive
@@ -349,6 +355,7 @@ Pane {
 
     Shortcut {
         sequences: [StandardKey.Find]
+        enabled: searchButton.visible
 
         onActivated: searchButton.searchActive = !searchButton.searchActive
     }

@@ -413,6 +413,23 @@ ColumnLayout {
         }
     }
 
+    QtObject {
+        id: matrixHeaderRoomModel
+
+        property string roomId: root.roomPreview ? root.roomPreview.roomid : ""
+        property int roomMemberCount: root.roomPreview && root.roomPreview.memberCount !== undefined
+            ? Number(root.roomPreview.memberCount)
+            : (root.roomPreview && root.roomPreview.roomMemberCount !== undefined
+                ? Number(root.roomPreview.roomMemberCount)
+                : 0)
+        property var pinnedMessages: TimelineManager.matrixTimelinePinnedEventIds
+        property var widgetLinks: []
+        property bool isEncrypted: !!root.roomPreview && root.roomPreview.isEncrypted
+        property bool supportsSearch: false
+        property bool supportsPinnedMessagesUi: false
+        property bool supportsVisibilityInfo: false
+    }
+
     anchors.fill: parent
     enabled: visible
     spacing: 0
@@ -421,7 +438,7 @@ ColumnLayout {
     RoomHeader {
         Layout.fillWidth: true
         room: null
-        roomModel: null
+        roomModel: matrixHeaderRoomModel
         roomId: root.roomPreview ? root.roomPreview.roomid : ""
         roomName: root.roomPreview ? root.roomPreview.roomName : qsTr("No room selected")
         avatarDisplayName: root.roomPreview ? root.roomPreview.roomName : qsTr("No room selected")

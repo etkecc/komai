@@ -867,6 +867,7 @@ ColumnLayout {
                         readonly property bool usesSharedTextBubble: itemKind !== "date_divider"
                             && !isStateLikeItem
                             && !isMediaItem
+                        readonly property string stableMediaEventId: eventId.length > 0 ? eventId : itemId
                         readonly property bool usesSharedTimelineBubble: usesSharedTextBubble
                             || usesSharedImageBubble
                             || usesSharedStickerBubble
@@ -896,7 +897,7 @@ ColumnLayout {
                         readonly property var sharedAttachmentPreviewData: ({
                                 "room": matrixToolbarRoomModel,
                                 "avatarUrl": senderAvatarUrl,
-                                "eventId": itemId,
+                                "eventId": stableMediaEventId,
                                 "body": body,
                                 "filename": effectiveFileName,
                                 "filesize": sharedHumanReadableMediaSize,
@@ -913,7 +914,7 @@ ColumnLayout {
                                 "avatarUrl": senderAvatarUrl,
                                 "url": mediaUrl,
                                 "blurhash": "",
-                                "eventId": itemId,
+                                "eventId": stableMediaEventId,
                                 "body": body,
                                 "filename": effectiveFileName,
                                 "filesize": sharedHumanReadableMediaSize,
@@ -1197,6 +1198,9 @@ ColumnLayout {
                                 isEditable: timelineItemDelegate.usesSharedTextBubble
                                     && matrixToolbarMessageModel.isEditable
                                 isHiddenEvent: false
+                                formattedBody: timelineItemDelegate.sharedPreviewData.formattedBody
+                                formattedStateEvent: timelineItemDelegate.sharedStatePreviewData.formattedStateEvent
+                                stateEventIconSource: timelineItemDelegate.sharedStatePreviewData.stateEventIconSource
                                 messageContextMenu: matrixMessageContextMenu
                                 replyContextMenu: matrixReplyContextMenu
                                 messageActions: matrixMessageActionsHost.control
@@ -1250,6 +1254,9 @@ ColumnLayout {
                                 isEditable: timelineItemDelegate.usesSharedTextBubble
                                     && matrixToolbarMessageModel.isEditable
                                 isHiddenEvent: false
+                                formattedBody: timelineItemDelegate.sharedPreviewData.formattedBody
+                                formattedStateEvent: timelineItemDelegate.sharedStatePreviewData.formattedStateEvent
+                                stateEventIconSource: timelineItemDelegate.sharedStatePreviewData.stateEventIconSource
                                 messageContextMenu: matrixMessageContextMenu
                                 replyContextMenu: matrixReplyContextMenu
                                 messageActions: matrixMessageActionsHost.control

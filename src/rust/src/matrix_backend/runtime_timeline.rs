@@ -1058,7 +1058,10 @@ fn build_room_timeline_snapshot(
             timeline_item_to_summary(item.as_ref(), own_user_id)
         {
             if let Some(media_request) = media_request {
-                media_lookup.insert(summary.item_id.clone(), media_request);
+                media_lookup.insert(summary.item_id.clone(), media_request.clone());
+                if !summary.event_id.is_empty() {
+                    media_lookup.insert(summary.event_id.clone(), media_request);
+                }
             }
             items.push(summary);
         }

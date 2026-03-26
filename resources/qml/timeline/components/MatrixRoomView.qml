@@ -40,6 +40,7 @@ ColumnLayout {
 
     readonly property bool hasTimeline: TimelineManager.matrixTimelineItemCount > 0
     readonly property bool loading: TimelineManager.matrixTimelineLoading
+    readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property var composerShell: composerContainer
     readonly property var notificationAreaItem: timelineViewport
     readonly property int pendingAttachmentCount: TimelineManager.matrixTimelineAttachmentCount
@@ -2226,61 +2227,61 @@ ColumnLayout {
                 }
             }
 
+            Composer.UploadBox {
+                Layout.minimumHeight: 0
+                Layout.preferredHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
+                Layout.maximumHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
+                uploadsController: matrixUploadsController
+                uploadsSending: TimelineManager.matrixTimelineAttachmentSending
+            }
+
+            Composer.ReplyPopup {
+                Layout.minimumHeight: 0
+                Layout.preferredHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
+                Layout.maximumHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
+                matrixReplyEventId: TimelineManager.matrixTimelineReplyEventId
+                matrixReplySenderId: TimelineManager.matrixTimelineReplySenderId
+                matrixReplyDisplayName: TimelineManager.matrixTimelineReplySenderDisplayName
+                matrixReplyBody: TimelineManager.matrixTimelineReplyBody
+                matrixEditEventId: TimelineManager.matrixTimelineEditEventId
+                roomModel: matrixComposerRoom
+                roundTopCorners: true
+            }
+
             Rectangle {
                 id: composerContainer
 
+                readonly property int contentHeight: root.walkModeActive
+                    ? root.composerBaselineHeight
+                    : Math.max(root.composerBaselineHeight, composerInput.implicitHeight)
                 Layout.fillWidth: true
                 Layout.minimumHeight: implicitHeight
                 Layout.preferredHeight: implicitHeight
                 Layout.maximumHeight: implicitHeight
                 color: palette.window
-                implicitHeight: root.walkModeActive
-                    ? walkModeBar.implicitHeight
-                    : composerLayout.implicitHeight + Komai.paddingMedium * 2
-
-                Rectangle {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.top: parent.top
-                    color: palette.mid
-                    height: 1
-                }
+                implicitHeight: inputShellSeparator.implicitHeight + contentHeight
 
                 ColumnLayout {
                     id: composerLayout
 
                     anchors.fill: parent
-                    anchors.margins: root.walkModeActive ? 0 : Komai.paddingMedium
-                    spacing: root.walkModeActive ? 0 : Komai.paddingSmall
+                    spacing: 0
 
-                    Composer.UploadBox {
-                        Layout.minimumHeight: 0
-                        Layout.preferredHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
-                        Layout.maximumHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
-                        uploadsController: matrixUploadsController
-                        uploadsSending: TimelineManager.matrixTimelineAttachmentSending
-                    }
+                    TimelineSeparator {
+                        id: inputShellSeparator
 
-                    Composer.ReplyPopup {
-                        Layout.minimumHeight: 0
-                        Layout.preferredHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
-                        Layout.maximumHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
-                        matrixReplyEventId: TimelineManager.matrixTimelineReplyEventId
-                        matrixReplySenderId: TimelineManager.matrixTimelineReplySenderId
-                        matrixReplyDisplayName: TimelineManager.matrixTimelineReplySenderDisplayName
-                        matrixReplyBody: TimelineManager.matrixTimelineReplyBody
-                        matrixEditEventId: TimelineManager.matrixTimelineEditEventId
-                        roomModel: matrixComposerRoom
-                        roundTopCorners: true
+                        Layout.minimumHeight: implicitHeight
+                        Layout.preferredHeight: implicitHeight
+                        Layout.maximumHeight: implicitHeight
                     }
 
                     Composer.MessageInput {
                         id: composerInput
 
                         Layout.fillWidth: true
-                        Layout.minimumHeight: visible ? Math.max(48, Komai.navigationRowHeight) : 0
-                        Layout.preferredHeight: visible ? Math.max(Math.max(48, Komai.navigationRowHeight), implicitHeight) : 0
-                        Layout.maximumHeight: visible ? Math.max(Math.max(48, Komai.navigationRowHeight), implicitHeight) : 0
+                        Layout.minimumHeight: visible ? root.composerBaselineHeight : 0
+                        Layout.preferredHeight: visible ? Math.max(root.composerBaselineHeight, implicitHeight) : 0
+                        Layout.maximumHeight: visible ? Math.max(root.composerBaselineHeight, implicitHeight) : 0
                         room: matrixComposerRoom
                         timelineRoot: root.timelineRoot ? root.timelineRoot : (root.chatRoot ? root.chatRoot : root)
                         selectionModeRoot: root
@@ -2296,10 +2297,10 @@ ColumnLayout {
 
                     TimelineWalkModeBar {
                         Layout.fillWidth: true
-                        Layout.minimumHeight: visible ? Math.max(48, Komai.navigationRowHeight) : 0
-                        Layout.preferredHeight: visible ? Math.max(48, Komai.navigationRowHeight) : 0
-                        Layout.maximumHeight: visible ? Math.max(48, Komai.navigationRowHeight) : 0
-                        minimumHeight: Math.max(48, Komai.navigationRowHeight)
+                        Layout.minimumHeight: visible ? root.composerBaselineHeight : 0
+                        Layout.preferredHeight: visible ? root.composerBaselineHeight : 0
+                        Layout.maximumHeight: visible ? root.composerBaselineHeight : 0
+                        minimumHeight: root.composerBaselineHeight
                         chatRoot: root
                         visible: root.walkModeActive
                     }

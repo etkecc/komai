@@ -708,6 +708,7 @@ ColumnLayout {
     function maybeRequestInitialTimelineBuffer() {
         if (!matrixTimelineList
                 || !initialTimelineBufferPending
+                || initialBottomPinPending
                 || loading
                 || !hasTimeline)
             return;
@@ -1532,8 +1533,10 @@ ColumnLayout {
                     function updateBottomPin() {
                         if (root.initialBottomPinPending) {
                             keepPinnedToBottom = true;
-                            if (atYEnd)
+                            if (atYEnd) {
                                 root.initialBottomPinPending = false;
+                                root.maybeRequestInitialTimelineBuffer();
+                            }
                             return;
                         }
 
@@ -1744,6 +1747,7 @@ ColumnLayout {
                             || usesSharedFileBubble
                             || usesSharedAudioBubble
                             || usesSharedStateBubble
+                        property bool sharedBubbleReloadArmed: false
                         readonly property bool supportsSharedToolbarActions: eventId.length > 0
                             && itemKind !== "date_divider"
                             && itemKind !== "redacted"
@@ -1844,6 +1848,18 @@ ColumnLayout {
                         }
                         width: matrixTimelineList.width
                         height: sharedTimelineHeightEstimate
+
+                        function reloadSharedTimelineBubble() {
+                            if (!usesSharedTimelineBubble || sharedBubbleReloadArmed)
+                                return;
+
+                            sharedBubbleReloadArmed = true;
+                            Qt.callLater(function () {
+                                timelineItemDelegate.sharedBubbleReloadArmed = false;
+                            });
+                        }
+
+                        onItemKindChanged: reloadSharedTimelineBubble()
 
                         PreviewPermissions {
                             id: matrixToolbarPreviewPermissions
@@ -2208,6 +2224,7 @@ ColumnLayout {
                             id: sharedTimelineBubble
 
                             active: timelineItemDelegate.usesSharedTimelineBubble
+                                && !timelineItemDelegate.sharedBubbleReloadArmed
                             sourceComponent: Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Plain
                                 ? matrixPlainMessageStyle
                                 : matrixBubbleMessageStyle

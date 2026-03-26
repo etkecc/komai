@@ -201,7 +201,15 @@ ColumnLayout {
 
         focusedEventId = normalizedEventId;
         walkModeActive = true;
-        focusTimelineSelection();
+        const shouldDeferFocus = !!(options && options.deferFocus);
+        if (shouldDeferFocus) {
+            Qt.callLater(function () {
+                if (root.walkModeActive && root.focusedEventId === normalizedEventId)
+                    root.focusTimelineSelection();
+            });
+        } else {
+            focusTimelineSelection();
+        }
 
         const skipScroll = !!(options && options.skipScroll);
         if (!skipScroll)
@@ -275,10 +283,13 @@ ColumnLayout {
             "focusComposer": false
         });
         if (!delegateItem || !delegateItem.eventId)
-            return focusLatestWalkModeEvent();
+            return focusLatestWalkModeEvent({
+                    "deferFocus": true
+                });
 
         return focusWalkModeEventById(String(delegateItem.eventId || ""), {
-                "skipScroll": true
+                "skipScroll": true,
+                "deferFocus": true
             });
     }
 
@@ -390,18 +401,18 @@ ColumnLayout {
         return moveFocusByChunk(1);
     }
 
-    function focusOldestLoadedWalkModeEvent() {
+    function focusOldestLoadedWalkModeEvent(options) {
         for (let row = 0; row < TimelineManager.matrixTimelineItemCount; row++) {
-            if (focusMatrixTimelineRow(row))
+            if (focusMatrixTimelineRow(row, options || {}))
                 return true;
         }
 
         return false;
     }
 
-    function focusLatestWalkModeEvent() {
+    function focusLatestWalkModeEvent(options) {
         for (let row = TimelineManager.matrixTimelineItemCount - 1; row >= 0; row--) {
-            if (focusMatrixTimelineRow(row))
+            if (focusMatrixTimelineRow(row, options || {}))
                 return true;
         }
 
@@ -1148,6 +1159,12 @@ ColumnLayout {
             : (root.chatRoot ? root.chatRoot : root);
         const dialog = forwardDialogComponent.createObject(dialogParent, {
                 "roomSource": matrixForwardRoomModel,
+                "dialogViewportWidth": dialogParent && dialogParent.width !== undefined
+                    ? Number(dialogParent.width)
+                    : width,
+                "modalOverlayColor": root.timelineRoot && root.timelineRoot.overlayBackdropColor !== undefined
+                    ? root.timelineRoot.overlayBackdropColor
+                    : Qt.rgba(0, 0, 0, palette.window.hslLightness < 0.5 ? 0.76 : 0.68),
                 "timelineSource": null,
                 "timelineViewSource": null,
                 "showReplyPreview": false
@@ -1503,6 +1520,12 @@ ColumnLayout {
 
                     Keys.onPressed: event => {
                         root.handleWalkModeKey(event);
+                    }
+                    Keys.onShortcutOverride: event => {
+                        if (event.key === Qt.Key_Escape
+                                && (root.walkModeActive || root.hasSelectedEvents || root.hasFocusedEvent)) {
+                            event.accepted = true;
+                        }
                     }
 
                     WheelHandler {
@@ -2207,7 +2230,7 @@ ColumnLayout {
 
     Shortcut {
         sequences: [StandardKey.Cancel, "Escape"]
-        context: Qt.ApplicationShortcut
+        context: Qt.WindowShortcut
         enabled: root.visible && (root.walkModeActive || root.hasSelectedEvents || root.hasFocusedEvent)
 
         onActivated: root.handleEscape()

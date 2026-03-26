@@ -1522,6 +1522,12 @@ Item {
 
         var forwardDialog = createCatalogDialog(componentCatalog.navigationForwardCompleterDialog, {
                 "roomSource": room,
+                "dialogViewportWidth": dialogHost && dialogHost.width !== undefined
+                    ? Number(dialogHost.width)
+                    : width,
+                "modalOverlayColor": dialogHost && dialogHost.overlayBackdropColor !== undefined
+                    ? dialogHost.overlayBackdropColor
+                    : Qt.rgba(0, 0, 0, palette.window.hslLightness < 0.5 ? 0.76 : 0.68),
                 "timelineSource": timeline ?? null,
                 "timelineViewSource": timelineView ?? null,
                 "showReplyPreview": !!timeline && !!timelineView

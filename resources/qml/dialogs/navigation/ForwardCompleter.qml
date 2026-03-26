@@ -17,12 +17,14 @@ Popup {
     property var messageEventIds: []
     property int selectionCount: 0
     property var roomSource: null
+    property real dialogViewportWidth: 0
     readonly property var activeRoom: roomSource
     property var timelineSource: null
     property var timelineViewSource: null
     readonly property var timeline: timelineSource
     readonly property var timelineView: timelineViewSource
     property bool showReplyPreview: true
+    property color modalOverlayColor: Qt.rgba(0, 0, 0, palette.window.hslLightness < 0.5 ? 0.76 : 0.68)
     property int textHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int textMargin: Komai.paddingSmall
     property string pendingRoomId: ""
@@ -112,15 +114,15 @@ Popup {
     modal: true
     focus: true
 
-    // Workaround palettes not inheriting for popups
-    palette: timelineRoot.palette
     parent: Overlay.overlay
-    width: timelineRoot.width * 0.8
+    width: ((dialogViewportWidth > 0)
+                ? dialogViewportWidth
+                : (Window.window ? Window.window.width : 900)) * 0.8
     x: Math.round(parent.width / 2 - width / 2)
     y: Math.max(Komai.paddingLarge, Math.round((parent.height - height) / 2))
 
     Overlay.modal: Rectangle {
-        color: timelineRoot.overlayBackdropColor
+        color: forwardMessagePopup.modalOverlayColor
     }
     background: Rectangle {
         color: palette.alternateBase

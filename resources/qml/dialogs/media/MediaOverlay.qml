@@ -206,6 +206,8 @@ Window {
         const host = mediaOverlay;
         const dialog = component.createObject(host, {
                 "roomSource": resolvedRoom,
+                "dialogViewportWidth": host.width,
+                "modalOverlayColor": mediaOverlay.modalOverlayColor,
                 "timelineSource": resolvedTimeline,
                 "timelineViewSource": resolvedTimelineView,
                 "showReplyPreview": !!resolvedTimeline && !!resolvedTimelineView

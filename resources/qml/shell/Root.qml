@@ -66,6 +66,8 @@ function openCatalogDialog(componentUrl, properties) {
 
         var dialog = createDialog(componentCatalog.navigationForwardCompleterDialog, {
                 "roomSource": room,
+                "dialogViewportWidth": timelineRoot.width,
+                "modalOverlayColor": timelineRoot.overlayBackdropColor,
                 "timelineSource": timeline ?? null,
                 "timelineViewSource": timelineView ?? null,
                 "showReplyPreview": !!timeline && !!timelineView

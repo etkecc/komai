@@ -953,6 +953,7 @@ ColumnLayout {
                         required property string itemKind
                         required property string itemId
                         required property string eventId
+                        required property string threadId
                         required property string senderDisplayName
                         required property string senderAvatarUrl
                         required property string senderId
@@ -1124,6 +1125,7 @@ ColumnLayout {
                             property string reply: ""
                             property string edit: ""
                             property string thread: ""
+                            property bool supportsThreadNavigation: false
 
                             function formatDateSeparator(timestamp) {
                                 return Qt.formatDate(timestamp, "ddd, MMM d");
@@ -1245,7 +1247,7 @@ ColumnLayout {
                             id: matrixToolbarMessageModel
 
                             readonly property string eventId: timelineItemDelegate.eventId
-                            readonly property string threadId: ""
+                            readonly property string threadId: timelineItemDelegate.threadId
                             readonly property int type: timelineItemDelegate.matrixEventType
                             readonly property bool isSender: timelineItemDelegate.isOwn
                             readonly property bool isEncrypted: timelineItemDelegate.mediaIsEncrypted || timelineItemDelegate.thumbnailIsEncrypted || timelineItemDelegate.itemKind === "unable_to_decrypt"
@@ -1262,7 +1264,7 @@ ColumnLayout {
                                 : timelineItemDelegate.sharedPreviewData.formattedBody
                             readonly property bool supportsReaction: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsReply: timelineItemDelegate.supportsSharedToolbarActions
-                            readonly property bool supportsThread: false
+                            readonly property bool supportsThread: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsForward: ["message", "notice", "emote", "image", "video", "audio", "file"].indexOf(timelineItemDelegate.itemKind) >= 0
                             readonly property bool supportsGoToMessage: false
                             readonly property bool supportsOptions: eventId.length > 0
@@ -1319,7 +1321,7 @@ ColumnLayout {
                                 timestamp: new Date(Number(timelineItemDelegate.timestamp))
                                 userId: timelineItemDelegate.senderId
                                 userName: timelineItemDelegate.senderDisplayName
-                                threadId: ""
+                                threadId: timelineItemDelegate.threadId
                                 userPowerlevel: 0
                                 isEdited: timelineItemDelegate.isEdited
                                 isEncrypted: timelineItemDelegate.mediaIsEncrypted
@@ -1381,7 +1383,7 @@ ColumnLayout {
                                 timestamp: new Date(Number(timelineItemDelegate.timestamp))
                                 userId: timelineItemDelegate.senderId
                                 userName: timelineItemDelegate.senderDisplayName
-                                threadId: ""
+                                threadId: timelineItemDelegate.threadId
                                 userPowerlevel: 0
                                 isEdited: timelineItemDelegate.isEdited
                                 isEncrypted: timelineItemDelegate.mediaIsEncrypted

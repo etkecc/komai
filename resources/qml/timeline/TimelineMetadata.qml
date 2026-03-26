@@ -90,6 +90,10 @@ RowLayout {
     required property var room
     readonly property string roomEditEventId: room ? room.edit : ""
     readonly property bool roomIsEncrypted: room ? room.isEncrypted : false
+    readonly property bool canOpenThreadNavigation: !!room
+        && threadId !== ""
+        && room.supportsThreadNavigation !== false
+        && room.thread !== undefined
 
     spacing: 2
 
@@ -231,7 +235,7 @@ RowLayout {
             return TimelineManager.userColor(metadata.threadId, effectiveBaseColor);
         }
         image: ":/icons/icons/ui/thread.svg"
-        visible: !metadata.forceTrailingTimestampLayout && metadata.threadId
+        visible: !metadata.forceTrailingTimestampLayout && metadata.canOpenThreadNavigation
 
         onClicked: {
             if (metadata.room)
@@ -292,7 +296,7 @@ RowLayout {
             return TimelineManager.userColor(metadata.threadId, effectiveBaseColor);
         }
         image: ":/icons/icons/ui/thread.svg"
-        visible: metadata.forceTrailingTimestampLayout && metadata.threadId
+        visible: metadata.forceTrailingTimestampLayout && metadata.canOpenThreadNavigation
 
         onClicked: {
             if (metadata.room)

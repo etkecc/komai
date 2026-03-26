@@ -1097,6 +1097,7 @@ fn timeline_item_to_summary(
         };
         let summary = summarize_timeline_content(event.content(), own_user_id);
         let body = summary.body;
+        let thread_id = summary.thread_root_id;
         let reply_event_id = summary.reply_event_id;
         let reply_sender_id = summary.reply_sender_id;
         let reply_sender_display_name = summary.reply_sender_display_name;
@@ -1117,6 +1118,7 @@ fn timeline_item_to_summary(
             MatrixTimelineItem {
                 item_id,
                 event_id: event.event_id().map(ToString::to_string).unwrap_or_default(),
+                thread_id,
                 sender_id,
                 sender_display_name,
                 sender_avatar_url,
@@ -1178,6 +1180,7 @@ fn timeline_item_to_summary(
             MatrixTimelineItem {
                 item_id,
                 event_id: String::new(),
+                thread_id: String::new(),
                 sender_id: String::new(),
                 sender_display_name: String::new(),
                 sender_avatar_url: String::new(),

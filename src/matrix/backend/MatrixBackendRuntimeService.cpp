@@ -173,6 +173,7 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
     return MatrixTimelineItem{
       .itemId            = QString::fromStdString(std::string(item.item_id)),
       .eventId           = QString::fromStdString(std::string(item.event_id)),
+      .threadId          = QString::fromStdString(std::string(item.thread_id)),
       .senderId          = QString::fromStdString(std::string(item.sender_id)),
       .senderDisplayName = QString::fromStdString(std::string(item.sender_display_name)),
       .senderAvatarUrl =

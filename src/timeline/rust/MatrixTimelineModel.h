@@ -23,6 +23,7 @@ public:
     {
         ItemId = Qt::UserRole,
         EventId,
+        ThreadId,
         SenderId,
         SenderDisplayName,
         SenderAvatarUrl,

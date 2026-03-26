@@ -29,6 +29,7 @@ use super::MatrixReactionSummary;
 pub struct MatrixEventSummary {
     pub kind: String,
     pub body: String,
+    pub thread_root_id: String,
     pub reply_event_id: String,
     pub reply_sender_id: String,
     pub reply_sender_display_name: String,
@@ -82,6 +83,12 @@ fn summarize_msg_like_content(
     own_user_id: Option<&UserId>,
 ) -> MatrixEventSummary {
     let mut summary = summarize_msg_like_kind(&content.kind);
+
+    summary.thread_root_id = content
+        .thread_root
+        .as_ref()
+        .map(ToString::to_string)
+        .unwrap_or_default();
 
     if let Some((reply_event_id, reply_sender_id, reply_sender_display_name, reply_body)) =
         summarize_reply_preview(content.in_reply_to.as_ref())
@@ -309,6 +316,7 @@ fn summary(kind: &str, body: &str) -> MatrixEventSummary {
     MatrixEventSummary {
         kind: kind.to_owned(),
         body: body.to_owned(),
+        thread_root_id: String::new(),
         reply_event_id: String::new(),
         reply_sender_id: String::new(),
         reply_sender_display_name: String::new(),
@@ -328,6 +336,7 @@ fn summary_with_media(
     MatrixEventSummary {
         kind: kind.to_owned(),
         body: body.to_owned(),
+        thread_root_id: String::new(),
         reply_event_id: String::new(),
         reply_sender_id: String::new(),
         reply_sender_display_name: String::new(),

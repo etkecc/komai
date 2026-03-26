@@ -137,6 +137,7 @@ mod ffi {
     struct MatrixTimelineItem {
         item_id: String,
         event_id: String,
+        thread_id: String,
         sender_id: String,
         sender_display_name: String,
         sender_avatar_url: String,
@@ -944,6 +945,7 @@ fn matrix_fetch_active_room_timeline(
                 .map(|item| ffi::MatrixTimelineItem {
                     item_id: item.item_id,
                     event_id: item.event_id,
+                    thread_id: item.thread_id,
                     sender_id: item.sender_id,
                     sender_display_name: item.sender_display_name,
                     sender_avatar_url: item.sender_avatar_url,

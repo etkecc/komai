@@ -125,6 +125,7 @@ struct MatrixTimelineItem
 {
     QString itemId;
     QString eventId;
+    QString threadId;
     QString senderId;
     QString senderDisplayName;
     QString senderAvatarUrl;

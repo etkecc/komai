@@ -6,13 +6,10 @@ script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd -- "${script_dir}/../.." && pwd)"
 build_dir="${repo_root}/var/build/native"
 lock_dir="${repo_root}/var/lock"
-lock_state_dir="${lock_dir}/native-build.lock.d"
-info_file="${lock_state_dir}/info"
-heartbeat_file="${lock_state_dir}/heartbeat"
+lock_file="${lock_dir}/native-build.lock"
+info_file="${lock_dir}/native-build.lock.info"
 jobs="${KOMAI_BUILD_JOBS:-$(nproc)}"
-lock_heartbeat_interval="${KOMAI_BUILD_LOCK_HEARTBEAT_SECONDS:-5}"
-lock_stale_after="${KOMAI_BUILD_LOCK_STALE_SECONDS:-45}"
-heartbeat_pid=""
+lock_fd=""
 
 usage() {
 	cat >&2 <<'EOF'
@@ -38,8 +35,73 @@ shift || true
 
 lock_command=("${command_name}" "$@")
 
+print_recorded_lock_holder() {
+	if [[ ! -f "${info_file}" ]]; then
+		return
+	fi
+
+	echo "Recorded lock holder:" >&2
+	sed 's/^/  /' "${info_file}" >&2
+
+	local recorded_pid=""
+	recorded_pid="$(sed -n 's/^pid=//p' "${info_file}" | head -n1)"
+	if [[ -z "${recorded_pid}" ]]; then
+		return
+	fi
+
+	if ! kill -0 "${recorded_pid}" 2>/dev/null; then
+		echo "  note=recorded lock metadata may be stale (pid ${recorded_pid} is not running)" >&2
+		return
+	fi
+
+	local recorded_args=""
+	recorded_args="$(ps -p "${recorded_pid}" -o args= 2>/dev/null || true)"
+	if [[ "${recorded_args}" != *"bin/build/native.sh"* ]]; then
+		echo "  note=recorded lock metadata may be stale (pid ${recorded_pid} is not a native.sh wrapper)" >&2
+	fi
+}
+
 acquire_lock() {
 	mkdir -p "${lock_dir}"
+
+	exec {lock_fd}>"${lock_file}"
+
+	if command -v flock >/dev/null 2>&1; then
+		if ! flock -n "${lock_fd}"; then
+			echo "Another native build/configure/test command is already running." >&2
+			print_recorded_lock_holder
+			echo "Refusing to run concurrently against ${build_dir}." >&2
+			exit 73
+		fi
+	elif command -v python3 >/dev/null 2>&1; then
+		if ! python3 -c 'import fcntl, sys; fcntl.flock(int(sys.argv[1]), fcntl.LOCK_EX | fcntl.LOCK_NB)' "${lock_fd}"; then
+			echo "Another native build/configure/test command is already running." >&2
+			print_recorded_lock_holder
+			echo "Refusing to run concurrently against ${build_dir}." >&2
+			exit 73
+		fi
+	else
+		echo "Unable to acquire native build lock: neither 'flock' nor 'python3' is available." >&2
+		exit 73
+	fi
+
+	{
+		printf 'pid=%s\n' "$$"
+		printf 'started_at=%s\n' "$(date --iso-8601=seconds)"
+		printf 'command='
+		printf '%q ' "${lock_command[@]}"
+		printf '\n'
+	} >"${info_file}"
+
+	trap 'status=$?; rm -f "${info_file}"; if [[ -n "${lock_fd}" ]]; then eval "exec ${lock_fd}>&-"; fi; exit "${status}"' EXIT INT TERM HUP
+}
+
+acquire_legacy_lock() {
+	local lock_state_dir="${lock_dir}/native-build.lock.d"
+	local heartbeat_file="${lock_state_dir}/heartbeat"
+	local heartbeat_pid=""
+	local lock_heartbeat_interval="${KOMAI_BUILD_LOCK_HEARTBEAT_SECONDS:-5}"
+	local lock_stale_after="${KOMAI_BUILD_LOCK_STALE_SECONDS:-45}"
 
 	if [[ -d "${lock_state_dir}" ]]; then
 		local heartbeat_age=""
@@ -80,10 +142,7 @@ acquire_lock() {
 
 	if ! mkdir "${lock_state_dir}" 2>/dev/null; then
 		echo "Another native build/configure/test command is already running." >&2
-		if [[ -f "${info_file}" ]]; then
-			echo "Current lock holder:" >&2
-			sed 's/^/  /' "${info_file}" >&2
-		fi
+		print_recorded_lock_holder
 		if [[ -f "${heartbeat_file}" ]]; then
 			local now
 			now="$(date +%s)"
@@ -112,7 +171,7 @@ acquire_lock() {
 	) &
 	heartbeat_pid="$!"
 
-	trap 'status=$?; if [[ -n "${heartbeat_pid}" ]]; then kill "${heartbeat_pid}" 2>/dev/null || true; wait "${heartbeat_pid}" 2>/dev/null || true; fi; rm -rf "${lock_state_dir}"; exit "${status}"' EXIT INT TERM HUP
+	trap "status=\$?; if [[ -n \"${heartbeat_pid}\" ]]; then kill \"${heartbeat_pid}\" 2>/dev/null || true; wait \"${heartbeat_pid}\" 2>/dev/null || true; fi; rm -rf \"${lock_state_dir}\"; rm -f \"${info_file}\"; exit \"\${status}\"" EXIT INT TERM HUP
 }
 
 needs_release_configure() {
@@ -165,7 +224,11 @@ run_test_label() {
 	ctest --test-dir "${build_dir}" --output-on-failure -L "${label}" "$@"
 }
 
-acquire_lock
+if command -v flock >/dev/null 2>&1 || command -v python3 >/dev/null 2>&1; then
+	acquire_lock
+else
+	acquire_legacy_lock
+fi
 
 case "${command_name}" in
 configure)

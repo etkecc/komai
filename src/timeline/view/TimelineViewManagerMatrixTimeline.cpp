@@ -13,6 +13,8 @@
 #include <QStandardPaths>
 #include <QUrl>
 
+#include <nlohmann/json.hpp>
+
 #include <thread>
 
 #include "chat/ChatPage.h"
@@ -21,8 +23,10 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/CommunitiesModel.h"
 #include "timeline/RoomlistModel.h"
+#include "timeline/rawmessage/RawMessageDialogPayload.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
+#include "ui/Theme.h"
 #include "utils/MediaIcons.h"
 #include "utils/Utils.h"
 
@@ -527,6 +531,54 @@ TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
     }
 
     return true;
+}
+
+QVariantMap
+TimelineViewManager::rawMessageDialogForActiveMatrixTimelineEvent(const QString &eventId) const
+{
+    QVariantMap dialogData;
+
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty())
+        return dialogData;
+
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty())
+        return dialogData;
+
+    QString error;
+    const auto rawEventJson = komai::MatrixBackendRuntimeService::fetchActiveRoomRawEventJson(
+      handleId, activeMatrixTimelineRoomId_, trimmedEventId, &error);
+    if (!rawEventJson) {
+        nhlog::ui()->warn(
+          "Failed to fetch raw JSON for matrix-sdk room event '{}' in '{}' on handle {}: {}",
+          trimmedEventId.toStdString(),
+          activeMatrixTimelineRoomId_.toStdString(),
+          handleId,
+          error.toStdString());
+        return dialogData;
+    }
+
+    try {
+        const auto eventJson = nlohmann::json::parse(rawEventJson->toStdString());
+        const auto timelinePalette =
+          Theme::paletteFromTheme(UserSettings::instance()->uiThemeSlug());
+        const auto dialogPayload =
+          timeline::rawmessage::buildRawMessageDialogPayload(eventJson, timelinePalette);
+        dialogData.insert(QStringLiteral("renderedRawMessage"), dialogPayload.renderedRawMessage);
+        dialogData.insert(QStringLiteral("rawMessageJson"), dialogPayload.rawMessageJson);
+        dialogData.insert(QStringLiteral("rawMessageBody"), dialogPayload.rawMessageBody);
+        dialogData.insert(QStringLiteral("rawMessageFormattedBody"),
+                          dialogPayload.rawMessageFormattedBody);
+    } catch (const std::exception &e) {
+        nhlog::ui()->warn("Failed to parse raw JSON for matrix-sdk room event '{}' in '{}': {}",
+                          trimmedEventId.toStdString(),
+                          activeMatrixTimelineRoomId_.toStdString(),
+                          e.what());
+    }
+
+    return dialogData;
 }
 
 bool

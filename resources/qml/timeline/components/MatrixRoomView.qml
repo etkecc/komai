@@ -4,6 +4,7 @@
 
 import "../../room/components"
 import "../../composer" as Composer
+import "../../dialogs/timeline" as TimelineDialogs
 import "../styles/bubble"
 import QtQuick
 import QtQuick.Controls
@@ -144,6 +145,18 @@ ColumnLayout {
         return showDialogFromComponent(removeReasonDialogComponent, {
                 "eventId": trimmedEventId
             });
+    }
+
+    function openRawMessageDialog(eventId) {
+        const trimmedEventId = String(eventId || "").trim();
+        if (trimmedEventId.length === 0)
+            return null;
+
+        const payload = TimelineManager.rawMessageDialogForActiveMatrixTimelineEvent(trimmedEventId);
+        if (!payload || !payload.rawMessageJson)
+            return null;
+
+        return showDialogFromComponent(rawMessageDialogComponent, payload);
     }
 
     function appendText(text) {
@@ -353,6 +366,13 @@ ColumnLayout {
             onInputAccepted: function (text) {
                 TimelineManager.redactActiveMatrixTimelineEvent(eventId, text);
             }
+        }
+    }
+
+    Component {
+        id: rawMessageDialogComponent
+
+        TimelineDialogs.RawMessageDialog {
         }
     }
 
@@ -663,6 +683,11 @@ ColumnLayout {
                                 TimelineManager.markActiveMatrixTimelineEventAsRead(
                                     String(eventId || timelineItemDelegate.eventId || ""));
                             }
+
+                            function viewRawMessage(eventId) {
+                                root.openRawMessageDialog(
+                                    String(eventId || timelineItemDelegate.eventId || ""));
+                            }
                         }
 
                         QtObject {
@@ -690,7 +715,7 @@ ColumnLayout {
                                 && (TimelineManager.matrixTimelineCanRedactOther
                                     || (timelineItemDelegate.isOwn
                                         && TimelineManager.matrixTimelineCanRedactOwn))
-                            readonly property bool supportsViewRaw: false
+                            readonly property bool supportsViewRaw: eventId.length > 0
                             readonly property bool supportsReadReceipts: false
                             readonly property bool supportsMarkAsRead: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsPin: false

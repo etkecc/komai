@@ -318,6 +318,11 @@ public:
                                     const QString &eventId,
                                     QString *errorOut = nullptr);
 
+    static std::optional<QString> fetchActiveRoomRawEventJson(uint64_t handleId,
+                                                              const QString &roomId,
+                                                              const QString &eventId,
+                                                              QString *errorOut = nullptr);
+
     static bool sendRoomAttachment(uint64_t handleId,
                                    const QString &roomId,
                                    const QString &filePath,

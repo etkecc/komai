@@ -669,6 +669,52 @@ pub async fn fetch_room_redaction_permissions(
     })
 }
 
+pub async fn fetch_active_room_raw_event_json(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+) -> Result<String, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let event_id = event_id.trim();
+    if event_id.is_empty() {
+        return Err(
+            "cannot inspect a matrix-sdk room event without an event id".to_owned(),
+        );
+    }
+
+    let timeline = room
+        .timeline()
+        .await
+        .map_err(|e| format!("failed to build matrix-sdk room timeline for raw inspection: {e}"))?;
+    let items = timeline.items().await;
+
+    for item in items.iter() {
+        let Some(event) = item.as_event() else {
+            continue;
+        };
+        let Some(current_event_id) = event.event_id() else {
+            continue;
+        };
+        if current_event_id.as_str() != event_id {
+            continue;
+        }
+
+        let raw_event = event.latest_json().ok_or_else(|| {
+            format!(
+                "matrix-sdk room event '{event_id}' does not currently have raw JSON available"
+            )
+        })?;
+
+        return Ok(raw_event.json().get().to_owned());
+    }
+
+    Err(format!(
+        "matrix-sdk room timeline for '{}' does not currently include event '{}'",
+        room_id.trim(),
+        event_id
+    ))
+}
+
 async fn run_room_timeline_loop(
     handle_id: u64,
     client: Client,

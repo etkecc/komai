@@ -247,6 +247,7 @@ public:
                                                          int colorCodingPolicy = -1);
     Q_INVOKABLE QString escapeEmoji(QString str) const;
     Q_INVOKABLE QString htmlEscape(QString str) const { return str.toHtmlEscaped(); }
+    Q_INVOKABLE QString formatMatrixMessageHtml(const QString &body) const;
 
     Q_INVOKABLE void openRoomMembers(TimelineModel *room);
     Q_INVOKABLE void openRoomSettings(QString room_id);

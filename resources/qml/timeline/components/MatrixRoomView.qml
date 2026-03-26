@@ -63,7 +63,7 @@ ColumnLayout {
     }
 
     function formattedMatrixTextHtml(text) {
-        return TimelineManager.escapeEmoji(TimelineManager.htmlEscape(String(text || "")).replace(/\n/g, "<br>"));
+        return TimelineManager.formatMatrixMessageHtml(String(text || ""));
     }
 
     function matrixStateEventIconForKind(kind) {
@@ -191,8 +191,10 @@ ColumnLayout {
         if (!ok)
             return false;
 
-        if (!root.editing)
+        if (!root.editing) {
+            composerInput.replaceText("");
             matrixComposerInputController.setText("");
+        }
         root.focusTextInput();
         return true;
     }
@@ -677,6 +679,7 @@ ColumnLayout {
                         required property string senderId
                         required property string body
                         required property string replyEventId
+                        required property string replySenderId
                         required property string replySenderDisplayName
                         required property string replyBody
                         required property var reactions
@@ -780,7 +783,7 @@ ColumnLayout {
                                 "body": replyBody,
                                 "formattedBody": root.formattedMatrixTextHtml(replyBody),
                                 "isOnlyEmoji": 0,
-                                "userId": "",
+                                "userId": replySenderId,
                                 "userName": replySenderDisplayName.length > 0 ? replySenderDisplayName : qsTr("Reply")
                             })
                             : ({})

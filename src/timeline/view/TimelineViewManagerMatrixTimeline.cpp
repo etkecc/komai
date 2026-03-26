@@ -51,6 +51,18 @@ matrixMessageFormattedHtml(const QString &body)
 }
 
 QString
+matrixMessageRenderableHtml(const QString &body)
+{
+    auto html = matrixMessageFormattedHtml(body);
+    if (html.isEmpty())
+        html = body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));
+
+    html = utils::escapeBlacklistedHtml(html);
+    html = utils::linkifyMessage(html);
+    return utils::replaceEmoji(html);
+}
+
+QString
 matrixTimelineAttachmentFileName(const QString &suggestedFileName, const QString &itemId)
 {
     const auto fileName = QFileInfo(suggestedFileName).fileName().trimmed();
@@ -105,6 +117,12 @@ TimelineViewManager::matrixTimelineAttachments() const
     }
 
     return attachments;
+}
+
+QString
+TimelineViewManager::formatMatrixMessageHtml(const QString &body) const
+{
+    return matrixMessageRenderableHtml(body);
 }
 
 int

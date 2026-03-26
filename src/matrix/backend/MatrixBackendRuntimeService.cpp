@@ -179,6 +179,7 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
         matrix::normalizeMxcUri(QString::fromStdString(std::string(item.sender_avatar_url))),
       .body                   = QString::fromStdString(std::string(item.body)),
       .replyEventId           = QString::fromStdString(std::string(item.reply_event_id)),
+      .replySenderId          = QString::fromStdString(std::string(item.reply_sender_id)),
       .replySenderDisplayName = QString::fromStdString(std::string(item.reply_sender_display_name)),
       .replyBody              = QString::fromStdString(std::string(item.reply_body)),
       .reactions              = reactions,

@@ -1092,6 +1092,7 @@ fn timeline_item_to_summary(
         let summary = summarize_timeline_content(event.content(), own_user_id);
         let body = summary.body;
         let reply_event_id = summary.reply_event_id;
+        let reply_sender_id = summary.reply_sender_id;
         let reply_sender_display_name = summary.reply_sender_display_name;
         let reply_body = summary.reply_body;
         let reactions = summary.reactions;
@@ -1115,6 +1116,7 @@ fn timeline_item_to_summary(
                 sender_avatar_url,
                 body,
                 reply_event_id,
+                reply_sender_id,
                 reply_sender_display_name,
                 reply_body,
                 reactions,
@@ -1175,6 +1177,7 @@ fn timeline_item_to_summary(
                 sender_avatar_url: String::new(),
                 body: String::new(),
                 reply_event_id: String::new(),
+                reply_sender_id: String::new(),
                 reply_sender_display_name: String::new(),
                 reply_body: String::new(),
                 reactions: Vec::new(),

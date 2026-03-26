@@ -4,6 +4,8 @@
 
 #include "timeline/rust/MatrixTimelineModel.h"
 
+#include <algorithm>
+
 namespace komai {
 
 MatrixTimelineModel::MatrixTimelineModel(QObject *parent)
@@ -43,6 +45,8 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
         return item.body;
     case ReplyEventId:
         return item.replyEventId;
+    case ReplySenderId:
+        return item.replySenderId;
     case ReplySenderDisplayName:
         return item.replySenderDisplayName;
     case ReplyBody:
@@ -95,6 +99,7 @@ MatrixTimelineModel::roleNames() const
       {SenderAvatarUrl, "senderAvatarUrl"},
       {Body, "body"},
       {ReplyEventId, "replyEventId"},
+      {ReplySenderId, "replySenderId"},
       {ReplySenderDisplayName, "replySenderDisplayName"},
       {ReplyBody, "replyBody"},
       {Reactions, "reactions"},
@@ -165,11 +170,43 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
     if (items_ == items)
         return;
 
-    const bool countDidChange = items_.size() != items.size();
+    const auto oldCount       = items_.size();
+    const auto newCount       = items.size();
+    const bool countDidChange = oldCount != newCount;
 
-    beginResetModel();
-    items_ = std::move(items);
-    endResetModel();
+    auto prefix                = 0;
+    const auto comparableCount = std::min(oldCount, newCount);
+    while (prefix < comparableCount && items_.at(prefix) == items.at(prefix))
+        ++prefix;
+
+    auto oldSuffix = oldCount - 1;
+    auto newSuffix = newCount - 1;
+    while (oldSuffix >= prefix && newSuffix >= prefix &&
+           items_.at(oldSuffix) == items.at(newSuffix)) {
+        --oldSuffix;
+        --newSuffix;
+    }
+
+    const auto oldChanged = oldSuffix - prefix + 1;
+    const auto newChanged = newSuffix - prefix + 1;
+
+    if (oldChanged == 0 && newChanged > 0) {
+        beginInsertRows({}, prefix, prefix + newChanged - 1);
+        items_ = std::move(items);
+        endInsertRows();
+    } else if (newChanged == 0 && oldChanged > 0) {
+        beginRemoveRows({}, prefix, prefix + oldChanged - 1);
+        items_ = std::move(items);
+        endRemoveRows();
+    } else if (oldChanged == newChanged) {
+        items_ = std::move(items);
+        if (oldChanged > 0)
+            emit dataChanged(index(prefix), index(prefix + oldChanged - 1));
+    } else {
+        beginResetModel();
+        items_ = std::move(items);
+        endResetModel();
+    }
 
     if (countDidChange)
         emit countChanged();

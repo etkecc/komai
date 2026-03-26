@@ -28,6 +28,7 @@ public:
         SenderAvatarUrl,
         Body,
         ReplyEventId,
+        ReplySenderId,
         ReplySenderDisplayName,
         ReplyBody,
         Reactions,

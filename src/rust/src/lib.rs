@@ -142,6 +142,7 @@ mod ffi {
         sender_avatar_url: String,
         body: String,
         reply_event_id: String,
+        reply_sender_id: String,
         reply_sender_display_name: String,
         reply_body: String,
         reactions: Vec<MatrixReactionSummary>,
@@ -948,6 +949,7 @@ fn matrix_fetch_active_room_timeline(
                     sender_avatar_url: item.sender_avatar_url,
                     body: item.body,
                     reply_event_id: item.reply_event_id,
+                    reply_sender_id: item.reply_sender_id,
                     reply_sender_display_name: item.reply_sender_display_name,
                     reply_body: item.reply_body,
                     reactions: item

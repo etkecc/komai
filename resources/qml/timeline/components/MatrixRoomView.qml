@@ -736,16 +736,30 @@ ColumnLayout {
                     anchors.margins: Komai.paddingLarge
                     anchors.rightMargin: Komai.paddingLarge + (matrixTimelineScrollbar.interactive ? matrixTimelineScrollbar.width : 0)
                     clip: true
-                    reuseItems: true
+                    // The Rust-room delegate stack still wraps the shared timeline surface in an
+                    // extra loader/item layer. Under reuseItems that can briefly recycle stale
+                    // state/message visuals while new delegate content settles, and it also makes
+                    // total-height estimation wobblier than the legacy path. Keep this disabled
+                    // until the shared matrix-room delegate stack is flatter.
+                    reuseItems: false
                     displayMarginBeginning: root.chatRoot && root.chatRoot.listViewDisplayMargin !== undefined
                         ? root.chatRoot.listViewDisplayMargin
                         : 0
                     displayMarginEnd: root.chatRoot && root.chatRoot.listViewDisplayMargin !== undefined
                         ? root.chatRoot.listViewDisplayMargin
                         : 0
-                    cacheBuffer: root.chatRoot && root.chatRoot.listViewCacheBuffer !== undefined
-                        ? root.chatRoot.listViewCacheBuffer
-                        : 320
+                    cacheBuffer: {
+                        const baseBuffer = root.chatRoot && root.chatRoot.listViewCacheBuffer !== undefined
+                            ? root.chatRoot.listViewCacheBuffer
+                            : 320;
+                        const estimatedTimelineHeight = TimelineManager.matrixTimelineItemCount <= 0
+                            ? 0
+                            : TimelineManager.matrixTimelineItemCount * (Komai.uiLayoutCompactMode ? 140 : 180);
+                        // Shared Rust-room delegates still resolve their final height after the
+                        // outer row is created. Keep a much deeper cache for small/medium rooms so
+                        // ListView does not keep re-estimating total content height mid-scroll.
+                        return Math.max(baseBuffer, Math.min(estimatedTimelineHeight, 180000));
+                    }
                     model: TimelineManager.matrixTimelineModel
                     ScrollBar.vertical: matrixTimelineScrollbar
                     spacing: Komai.paddingMedium
@@ -955,8 +969,13 @@ ColumnLayout {
                                 return dateDivider.implicitHeight;
                             if (!usesSharedTimelineBubble)
                                 return 0;
-                            if (sharedTimelineBubble.item && sharedTimelineBubble.item.height > 0)
-                                return sharedTimelineBubble.item.height;
+                            if (sharedTimelineBubble.item) {
+                                const resolvedHeight = sharedTimelineBubble.item.implicitHeight > 0
+                                    ? sharedTimelineBubble.item.implicitHeight
+                                    : sharedTimelineBubble.item.height;
+                                if (resolvedHeight > 0)
+                                    return resolvedHeight;
+                            }
                             return modelIndex === 0 ? 10 : 100;
                         }
                         width: matrixTimelineList.width
@@ -1198,9 +1217,15 @@ ColumnLayout {
                                 isEditable: timelineItemDelegate.usesSharedTextBubble
                                     && matrixToolbarMessageModel.isEditable
                                 isHiddenEvent: false
-                                formattedBody: timelineItemDelegate.sharedPreviewData.formattedBody
-                                formattedStateEvent: timelineItemDelegate.sharedStatePreviewData.formattedStateEvent
-                                stateEventIconSource: timelineItemDelegate.sharedStatePreviewData.stateEventIconSource
+                                formattedBody: !timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.sharedPreviewData.formattedBody
+                                    : ""
+                                formattedStateEvent: timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.sharedStatePreviewData.formattedStateEvent
+                                    : ""
+                                stateEventIconSource: timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.sharedStatePreviewData.stateEventIconSource
+                                    : ""
                                 messageContextMenu: matrixMessageContextMenu
                                 replyContextMenu: matrixReplyContextMenu
                                 messageActions: matrixMessageActionsHost.control
@@ -1254,9 +1279,15 @@ ColumnLayout {
                                 isEditable: timelineItemDelegate.usesSharedTextBubble
                                     && matrixToolbarMessageModel.isEditable
                                 isHiddenEvent: false
-                                formattedBody: timelineItemDelegate.sharedPreviewData.formattedBody
-                                formattedStateEvent: timelineItemDelegate.sharedStatePreviewData.formattedStateEvent
-                                stateEventIconSource: timelineItemDelegate.sharedStatePreviewData.stateEventIconSource
+                                formattedBody: !timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.sharedPreviewData.formattedBody
+                                    : ""
+                                formattedStateEvent: timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.sharedStatePreviewData.formattedStateEvent
+                                    : ""
+                                stateEventIconSource: timelineItemDelegate.usesSharedStateBubble
+                                    ? timelineItemDelegate.sharedStatePreviewData.stateEventIconSource
+                                    : ""
                                 messageContextMenu: matrixMessageContextMenu
                                 replyContextMenu: matrixReplyContextMenu
                                 messageActions: matrixMessageActionsHost.control

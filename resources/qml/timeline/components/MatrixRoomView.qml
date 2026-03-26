@@ -413,6 +413,10 @@ ColumnLayout {
         }
     }
 
+    PreviewPermissions {
+        id: matrixHeaderPreviewPermissions
+    }
+
     QtObject {
         id: matrixHeaderRoomModel
 
@@ -425,9 +429,135 @@ ColumnLayout {
         property var pinnedMessages: TimelineManager.matrixTimelinePinnedEventIds
         property var widgetLinks: []
         property bool isEncrypted: !!root.roomPreview && root.roomPreview.isEncrypted
+        property AbstractPermissions permissions: matrixHeaderPreviewPermissions
         property bool supportsSearch: false
-        property bool supportsPinnedMessagesUi: false
+        property bool supportsPinnedMessagesUi: true
         property bool supportsVisibilityInfo: false
+
+        function previewDataForEvent(eventId) {
+            const model = TimelineManager.matrixTimelineModel;
+            if (!model)
+                return ({});
+
+            const row = model.rowForEventId(String(eventId || ""));
+            if (row < 0)
+                return ({});
+
+            const item = model.itemAt(row);
+            if (!item || item.itemKind === undefined)
+                return ({});
+
+            const previousItem = model.itemAt(row + 1);
+            const timestamp = Number(item.timestamp || 0);
+            const dayKey = root.matrixTimelineDayKey(timestamp);
+            const previousTimestamp = previousItem.timestamp !== undefined
+                ? new Date(Number(previousItem.timestamp))
+                : new Date(timestamp);
+            const previousDay = previousItem.timestamp !== undefined
+                ? root.matrixTimelineDayKey(previousItem.timestamp)
+                : dayKey;
+            const previousIsStateEvent = previousItem.eventId === undefined
+                ? true
+                : root.isMatrixStateLikeKind(previousItem.itemKind);
+            const previousUserId = previousItem.senderId !== undefined
+                ? String(previousItem.senderId || "")
+                : "";
+            const itemKind = String(item.itemKind || "");
+            const body = String(item.body || "");
+            const effectiveFileName = item.fileName && String(item.fileName).length > 0
+                ? String(item.fileName)
+                : (body.length > 0 ? body : qsTr("Attachment"));
+            const humanReadableMediaSize = Number(item.mediaSizeBytes || 0) > 0
+                ? Komai.humanReadableFileSize(Number(item.mediaSizeBytes))
+                : "";
+            const basePreview = {
+                "room": matrixHeaderRoomModel,
+                "eventId": String(item.eventId || ""),
+                "userId": String(item.senderId || ""),
+                "userName": String(item.senderDisplayName || ""),
+                "avatarUrl": String(item.senderAvatarUrl || ""),
+                "previousDay": previousDay,
+                "previousTimestamp": previousTimestamp,
+                "previousIsStateEvent": previousIsStateEvent,
+                "previousUserId": previousUserId
+            };
+
+            if (root.isMatrixStateLikeKind(itemKind)) {
+                return Object.assign({}, basePreview, {
+                    "type": MtxEvent.Name,
+                    "formattedStateEvent": root.formattedMatrixTextHtml(body),
+                    "stateEventIconSource": root.matrixStateEventIconForKind(itemKind)
+                });
+            }
+
+            if (itemKind === "image" || itemKind === "sticker" || itemKind === "video") {
+                const mediaWidth = Math.round(Number(item.mediaWidth || 0));
+                const mediaHeight = Math.round(Number(item.mediaHeight || 0));
+                const safePreviewAspectRatio = mediaWidth > 0 && mediaHeight > 0
+                    ? (mediaHeight / mediaWidth)
+                    : 0.75;
+                return Object.assign({}, basePreview, {
+                    "type": root.matrixEventTypeForItemKind(itemKind),
+                    "body": body,
+                    "url": String(item.mediaUrl || ""),
+                    "blurhash": "",
+                    "filename": effectiveFileName,
+                    "filesize": humanReadableMediaSize,
+                    "filesizeBytes": Math.round(Number(item.mediaSizeBytes || 0)),
+                    "mimetype": String(item.mimeType || ""),
+                    "thumbnailUrl": String(item.thumbnailUrl || ""),
+                    "originalWidth": mediaWidth,
+                    "originalHeight": mediaHeight,
+                    "proportionalHeight": safePreviewAspectRatio,
+                    "containerHeight": root.height > 0 ? root.height : Screen.height,
+                    "duration": Math.round(Number(item.mediaDurationMs || 0))
+                });
+            }
+
+            if (itemKind === "file" || itemKind === "audio") {
+                return Object.assign({}, basePreview, {
+                    "type": root.matrixEventTypeForItemKind(itemKind),
+                    "body": body,
+                    "filename": effectiveFileName,
+                    "filesize": humanReadableMediaSize,
+                    "fileTypeIconSource": Komai.fileTypeIconSource(String(item.mimeType || "")),
+                    "mimetype": String(item.mimeType || ""),
+                    "duration": Math.round(Number(item.mediaDurationMs || 0))
+                });
+            }
+
+            return Object.assign({}, basePreview, {
+                "type": root.matrixEventTypeForItemKind(itemKind),
+                "body": body,
+                "formattedBody": root.formattedMatrixTextHtml(body),
+                "formattedStateEvent": root.formattedMatrixTextHtml(body),
+                "stateEventIconSource": root.matrixStateEventIconForKind(itemKind),
+                "typeString": itemKind,
+                "callType": "",
+                "isOnlyEmoji": 0
+            });
+        }
+
+        function getDump(eventId, _scope) {
+            const preview = previewDataForEvent(eventId);
+            return {
+                "eventId": String(eventId || ""),
+                "userId": String((preview && preview.userId) || ""),
+                "userName": String((preview && preview.userName) || "")
+            };
+        }
+
+        function showEvent(eventId) {
+            return root.jumpToLoadedMatrixEvent(String(eventId || ""));
+        }
+
+        function openUserProfile(userId) {
+            matrixDialogRoomModel.openUserProfile(userId);
+        }
+
+        function unpin(eventId) {
+            TimelineManager.unpinActiveMatrixTimelineEvent(String(eventId || ""));
+        }
     }
 
     anchors.fill: parent

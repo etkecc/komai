@@ -15,14 +15,22 @@ AbstractButton {
     property color roomColor: userColor
     required property var bubblePalette
     property bool keepFullText: false
+    property var previewData: ({})
+    property var roomModelOverride: null
 
     required property string eventId
 
     property var room_: (typeof room !== "undefined") ? room : null
     property var timelineView_: (typeof timelineView !== "undefined") ? timelineView : null
+    readonly property bool hasLegacyRoomModel: !!room_ && typeof room_.dataById === "function"
+    readonly property var effectiveRoomContext: hasLegacyRoomModel ? room_ : (roomModelOverride || room_)
 
-    property string userId: (eventId && room_) ? room_.dataById(eventId, Room.UserId, "") : ""
-    property string userName: (eventId && room_) ? room_.dataById(eventId, Room.UserName, "") : ""
+    property string userId: hasLegacyRoomModel
+        ? (eventId ? room_.dataById(eventId, Room.UserId, "") : "")
+        : String((previewData && previewData.userId) || "")
+    property string userName: hasLegacyRoomModel
+        ? (eventId ? room_.dataById(eventId, Room.UserName, "") : "")
+        : String((previewData && previewData.userName) || "")
     implicitHeight: replyContainer.height + topPadding + bottomPadding
     implicitWidth: replyContainer.implicitWidth + leftPadding + rightPadding
 
@@ -64,8 +72,8 @@ AbstractButton {
         if (link) {
             Komai.openLink(link)
         } else {
-            if (room_)
-                room_.showEvent(r.eventId)
+            if (effectiveRoomContext && typeof effectiveRoomContext.showEvent === "function")
+                effectiveRoomContext.showEvent(r.eventId)
         }
     }
     onPressAndHold: replyContextMenu.show(timelineEvent.main.copyText, timelineEvent.main.linkAt(pressX-colorline.width, pressY - userName_.implicitHeight), r.eventId)
@@ -75,12 +83,14 @@ AbstractButton {
         id: timelineEvent
 
         isStateEvent: false
-        room: r.room_
+        room: r.hasLegacyRoomModel ? r.room_ : null
         eventId: r.eventId
         replyTo: ""
         mainInset: 4 + Komai.paddingMedium
         maxWidth: r.maxWidth
         limitAsReply: true
+        previewData: r.previewData
+        roomModelOverride: r.hasLegacyRoomModel ? null : r.effectiveRoomContext
 
         data: Column {
             id: replyContainer
@@ -111,8 +121,8 @@ AbstractButton {
                     width: timelineEvent.main?.width
                 }
                 onClicked: {
-                    if (room_)
-                        room_.openUserProfile(r.userId);
+                    if (effectiveRoomContext && typeof effectiveRoomContext.openUserProfile === "function")
+                        effectiveRoomContext.openUserProfile(r.userId);
                 }
             }
 

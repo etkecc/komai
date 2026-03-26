@@ -37,7 +37,13 @@ ScrollView {
             Reply {
                 id: reply
 
-                property var e: room ? room.getDump(modelData, "pins") : {}
+                property var e: room
+                    ? (typeof room.getDump === "function"
+                        ? room.getDump(modelData, "pins")
+                        : ({
+                            "eventId": String(modelData || "")
+                        }))
+                    : {}
                 property string replyUserId: (e && e.userId) ? String(e.userId) : ""
                 property bool isReplyFromCurrentUser: {
                     const currentUser = Komai.currentUser;
@@ -55,6 +61,10 @@ ScrollView {
 
                 maxWidth: pinnedMessages.width - 16
                 eventId: e.eventId ?? ""
+                previewData: room && typeof room.previewDataForEvent === "function"
+                    ? room.previewDataForEvent(modelData)
+                    : ({})
+                roomModelOverride: room && typeof room.dataById !== "function" ? room : null
                 bubblePalette: room ? TimelineManager.roomUserBubblePalette(room.roomId, replyUserId, roomColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userBubblePalette(replyUserId, roomColor)
                 userColor: isReplyFromCurrentUser
                     ? Komai.theme.userColorSelf
@@ -65,7 +75,11 @@ ScrollView {
 
                 Connections {
                     function onPinnedMessagesChanged() {
-                        reply.e = room.getDump(modelData, "pins");
+                        reply.e = typeof room.getDump === "function"
+                            ? room.getDump(modelData, "pins")
+                            : ({
+                                "eventId": String(modelData || "")
+                            });
                     }
 
                     target: room

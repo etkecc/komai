@@ -13,6 +13,10 @@ EventDelegateChooser {
     id: wrapper
 
     required property bool isStateEvent
+    property var previewData: ({})
+    property var replyPreviewData: ({})
+    property var roomModelOverride: null
+    readonly property var effectiveRoomContext: room ? room : roomModelOverride
     readonly property int colorRevision: TimelineManager.colorRevision
     property bool scrolledToThis: false
     property QtObject styleProfile: TimelineStyleProfile {}

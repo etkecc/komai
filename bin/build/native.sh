@@ -10,6 +10,10 @@ lock_file="${lock_dir}/native-build.lock"
 info_file="${lock_dir}/native-build.lock.info"
 jobs="${KOMAI_BUILD_JOBS:-$(nproc)}"
 lock_fd=""
+heartbeat_pid=""
+lock_started_at="$(date --iso-8601=seconds)"
+lock_state_dir=""
+lock_heartbeat_file=""
 
 usage() {
 	cat >&2 <<'EOF'
@@ -34,6 +38,67 @@ fi
 shift || true
 
 lock_command=("${command_name}" "$@")
+
+write_lock_info() {
+	local heartbeat_at="${1:-}"
+
+	{
+		printf 'pid=%s\n' "$$"
+		printf 'started_at=%s\n' "${lock_started_at}"
+		printf 'command='
+		printf '%q ' "${lock_command[@]}"
+		printf '\n'
+		if [[ -n "${heartbeat_at}" ]]; then
+			printf 'last_heartbeat_at=%s\n' "${heartbeat_at}"
+		fi
+	} >"${info_file}"
+}
+
+start_lock_heartbeat() {
+	local interval="${1:-${KOMAI_BUILD_HEARTBEAT_SECONDS:-20}}"
+	if ! [[ "${interval}" =~ ^[0-9]+$ ]] || [[ "${interval}" -le 0 ]]; then
+		return
+	fi
+
+	(
+		while :; do
+			sleep "${interval}" || exit 0
+
+			local heartbeat_at=""
+			heartbeat_at="$(date --iso-8601=seconds)"
+
+			if [[ -n "${lock_heartbeat_file}" ]]; then
+				touch "${lock_heartbeat_file}" 2>/dev/null || exit 0
+			fi
+
+			write_lock_info "${heartbeat_at}" 2>/dev/null || exit 0
+			echo "[native-build] still running: command=${command_name} pid=$$ started_at=${lock_started_at} heartbeat_at=${heartbeat_at}" >&2
+		done
+	) &
+	heartbeat_pid="$!"
+}
+
+cleanup_lock() {
+	local status="${1:-0}"
+	trap - EXIT INT TERM HUP
+
+	if [[ -n "${heartbeat_pid}" ]]; then
+		kill "${heartbeat_pid}" 2>/dev/null || true
+		wait "${heartbeat_pid}" 2>/dev/null || true
+	fi
+
+	if [[ -n "${lock_state_dir}" ]]; then
+		rm -rf "${lock_state_dir}"
+	fi
+
+	rm -f "${info_file}"
+
+	if [[ -n "${lock_fd}" ]]; then
+		eval "exec ${lock_fd}>&-"
+	fi
+
+	exit "${status}"
+}
 
 print_recorded_lock_holder() {
 	if [[ ! -f "${info_file}" ]]; then
@@ -85,21 +150,14 @@ acquire_lock() {
 		exit 73
 	fi
 
-	{
-		printf 'pid=%s\n' "$$"
-		printf 'started_at=%s\n' "$(date --iso-8601=seconds)"
-		printf 'command='
-		printf '%q ' "${lock_command[@]}"
-		printf '\n'
-	} >"${info_file}"
-
-	trap 'status=$?; rm -f "${info_file}"; if [[ -n "${lock_fd}" ]]; then eval "exec ${lock_fd}>&-"; fi; exit "${status}"' EXIT INT TERM HUP
+	write_lock_info
+	start_lock_heartbeat
+	trap 'cleanup_lock $?' EXIT INT TERM HUP
 }
 
 acquire_legacy_lock() {
-	local lock_state_dir="${lock_dir}/native-build.lock.d"
-	local heartbeat_file="${lock_state_dir}/heartbeat"
-	local heartbeat_pid=""
+	lock_state_dir="${lock_dir}/native-build.lock.d"
+	lock_heartbeat_file="${lock_state_dir}/heartbeat"
 	local lock_heartbeat_interval="${KOMAI_BUILD_LOCK_HEARTBEAT_SECONDS:-5}"
 	local lock_stale_after="${KOMAI_BUILD_LOCK_STALE_SECONDS:-45}"
 
@@ -123,11 +181,11 @@ acquire_legacy_lock() {
 			fi
 		fi
 
-		if [[ -f "${heartbeat_file}" ]]; then
+		if [[ -f "${lock_heartbeat_file}" ]]; then
 			local now
 			now="$(date +%s)"
 			local beat
-			beat="$(stat -c %Y "${heartbeat_file}")"
+			beat="$(stat -c %Y "${lock_heartbeat_file}")"
 			heartbeat_age="$((now - beat))"
 		fi
 
@@ -143,35 +201,21 @@ acquire_legacy_lock() {
 	if ! mkdir "${lock_state_dir}" 2>/dev/null; then
 		echo "Another native build/configure/test command is already running." >&2
 		print_recorded_lock_holder
-		if [[ -f "${heartbeat_file}" ]]; then
+		if [[ -f "${lock_heartbeat_file}" ]]; then
 			local now
 			now="$(date +%s)"
 			local beat
-			beat="$(stat -c %Y "${heartbeat_file}")"
+			beat="$(stat -c %Y "${lock_heartbeat_file}")"
 			echo "  heartbeat_age_seconds=$((now - beat))" >&2
 		fi
 		echo "Refusing to run concurrently against ${build_dir}." >&2
 		exit 73
 	fi
 
-	{
-		printf 'pid=%s\n' "$$"
-		printf 'started_at=%s\n' "$(date --iso-8601=seconds)"
-		printf 'command='
-		printf '%q ' "${lock_command[@]}"
-		printf '\n'
-	} >"${info_file}"
-	touch "${heartbeat_file}"
-
-	(
-		while :; do
-			touch "${heartbeat_file}" 2>/dev/null || exit 0
-			sleep "${lock_heartbeat_interval}" || exit 0
-		done
-	) &
-	heartbeat_pid="$!"
-
-	trap "status=\$?; if [[ -n \"${heartbeat_pid}\" ]]; then kill \"${heartbeat_pid}\" 2>/dev/null || true; wait \"${heartbeat_pid}\" 2>/dev/null || true; fi; rm -rf \"${lock_state_dir}\"; rm -f \"${info_file}\"; exit \"\${status}\"" EXIT INT TERM HUP
+	write_lock_info
+	touch "${lock_heartbeat_file}"
+	start_lock_heartbeat "${lock_heartbeat_interval}"
+	trap 'cleanup_lock $?' EXIT INT TERM HUP
 }
 
 needs_release_configure() {

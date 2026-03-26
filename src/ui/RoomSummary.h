@@ -10,8 +10,6 @@
 #include <QObject>
 #include <QQmlEngine>
 
-#include <mtx/responses/public_rooms.hpp>
-
 class RoomSummary final : public QObject
 {
     Q_OBJECT
@@ -44,24 +42,14 @@ public:
     }
     QString reason() const { return reason_; }
 
-    QString roomid() const
-    {
-        return room ? QString::fromStdString(room->room_id) : QString::fromStdString(roomIdOrAlias);
-    }
+    QString roomid() const { return room ? room->roomId : QString::fromStdString(roomIdOrAlias); }
     QString roomName() const;
     QString roomTopic() const;
-    QString roomAvatarUrl() const { return room ? QString::fromStdString(room->avatar_url) : ""; }
-    bool isInvite() const
-    {
-        return room && room->membership == mtx::events::state::Membership::Invite;
-    }
-    bool isSpace() const { return room && room->room_type == mtx::events::state::room_type::space; }
-    int memberCount() const { return room ? (int)room->num_joined_members : 0; }
-    bool isKnockOnly() const
-    {
-        return room && (room->join_rule == mtx::events::state::JoinRule::Knock ||
-                        room->join_rule == mtx::events::state::JoinRule::KnockRestricted);
-    }
+    QString roomAvatarUrl() const { return room ? room->avatarUrl : ""; }
+    bool isInvite() const { return room && room->isInvite; }
+    bool isSpace() const { return room && room->isSpace; }
+    int memberCount() const { return room ? room->memberCount : 0; }
+    bool isKnockOnly() const { return room && room->isKnockOnly; }
 
     bool isLoaded() const { return room.has_value() || loaded_; }
 
@@ -73,9 +61,21 @@ signals:
     void reasonChanged();
 
 private:
+    struct LoadedRoomSummary
+    {
+        QString roomId;
+        QString name;
+        QString topic;
+        QString avatarUrl;
+        int memberCount  = 0;
+        bool isInvite    = false;
+        bool isSpace     = false;
+        bool isKnockOnly = false;
+    };
+
     std::string roomIdOrAlias;
     std::vector<std::string> vias;
-    std::optional<mtx::responses::PublicRoom> room;
+    std::optional<LoadedRoomSummary> room;
     QString reason_;
     bool loaded_ = false;
 };

@@ -142,6 +142,14 @@ class EventDelegateChooser : public QQuickItem
 
 public:
     QQmlListProperty<EventDelegateChoice> choices();
+    Q_INVOKABLE void refreshDelegates()
+    {
+        if (!isComponentComplete())
+            return;
+
+        eventIncubator.reset(eventId_);
+        replyIncubator.reset(replyId);
+    }
 
     [[nodiscard]] QQuickItem *main() const
     {

@@ -33,6 +33,16 @@ EventDelegateChooser {
     property color replyMessageLinkColor: palette.link
     property color replyMessageSurfaceColor: palette.alternateBase
 
+    onPreviewDataChanged: {
+        if (!room)
+            refreshDelegates();
+    }
+
+    onReplyPreviewDataChanged: {
+        if (!room)
+            refreshDelegates();
+    }
+
     // qmllint disable required
     EventDelegateChoice {
         roleValues: [MtxEvent.TextMessage, MtxEvent.NoticeMessage, MtxEvent.ElementEffectMessage, MtxEvent.UnknownMessage,]

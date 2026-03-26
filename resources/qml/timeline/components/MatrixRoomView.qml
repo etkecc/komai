@@ -271,12 +271,12 @@ ColumnLayout {
             return false;
 
         const delegateItem = bottomMostVisibleDelegate();
-        if (!delegateItem || !delegateItem.eventId)
-            return false;
-
         clearWalkState({
             "focusComposer": false
         });
+        if (!delegateItem || !delegateItem.eventId)
+            return focusLatestWalkModeEvent();
+
         return focusWalkModeEventById(String(delegateItem.eventId || ""), {
                 "skipScroll": true
             });
@@ -2196,6 +2196,14 @@ ColumnLayout {
         }
 
         target: TimelineManager
+    }
+
+    Shortcut {
+        sequences: [StandardKey.Cancel, "Escape"]
+        context: Qt.ApplicationShortcut
+        enabled: root.visible && (root.walkModeActive || root.hasSelectedEvents || root.hasFocusedEvent)
+
+        onActivated: root.handleEscape()
     }
 
     TimelineKeyboardShortcuts {

@@ -14,7 +14,7 @@ Rectangle {
     id: chatPage
 
     required property var timelineRoot
-    readonly property var notificationAreaItem: timeline
+    readonly property var notificationAreaItem: timeline.notificationAreaItem
     readonly property var notificationAvoidBottomItem: timeline.notificationAvoidBottomItem
     color: palette.window
 

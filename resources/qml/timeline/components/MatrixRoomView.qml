@@ -30,6 +30,7 @@ ColumnLayout {
     property string selectionAnchorEventId: ""
     property var visibleTimelineDelegates: ({})
     readonly property int selectedCount: selectedEventIds.length
+    readonly property bool hasFocusedEvent: focusedEventId.length > 0
 
     readonly property bool hasTimeline: TimelineManager.matrixTimelineItemCount > 0
     readonly property bool loading: TimelineManager.matrixTimelineLoading
@@ -167,6 +168,11 @@ ColumnLayout {
             selectedEventIds = selectedEventIds.filter(function (selectedEventId) {
                 return String(selectedEventId || "") !== normalizedEventId;
             });
+            if (selectedEventIds.length === 0) {
+                selectionAnchorEventId = "";
+                focusedEventId = "";
+                walkModeActive = false;
+            }
         } else {
             selectedEventIds = selectedEventIds.concat([normalizedEventId]);
             selectionAnchorEventId = normalizedEventId;
@@ -212,6 +218,20 @@ ColumnLayout {
         return false;
     }
 
+    function exitWalkMode(options) {
+        const handled = clearSelectedEvents();
+        if (!handled)
+            return false;
+
+        if (options && options.focusComposer) {
+            Qt.callLater(function () {
+                root.focusTextInput();
+            });
+        }
+
+        return true;
+    }
+
     function timelineSelectionFocusTarget() {
         return matrixTimelineList;
     }
@@ -225,6 +245,13 @@ ColumnLayout {
     }
 
     function canPerformWalkModeAction(_actionName) {
+        return false;
+    }
+
+    function openWalkModeHelpDialog() {
+        if (root.chatRoot && typeof root.chatRoot.openWalkModeHelpDialog === "function")
+            return root.chatRoot.openWalkModeHelpDialog();
+
         return false;
     }
 
@@ -1697,16 +1724,16 @@ ColumnLayout {
 
                     Composer.UploadBox {
                         Layout.minimumHeight: 0
-                        Layout.preferredHeight: layoutVisible ? implicitHeight : 0
-                        Layout.maximumHeight: layoutVisible ? implicitHeight : 0
+                        Layout.preferredHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
+                        Layout.maximumHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
                         uploadsController: matrixUploadsController
                         uploadsSending: TimelineManager.matrixTimelineAttachmentSending
                     }
 
                     Composer.ReplyPopup {
                         Layout.minimumHeight: 0
-                        Layout.preferredHeight: layoutVisible ? implicitHeight : 0
-                        Layout.maximumHeight: layoutVisible ? implicitHeight : 0
+                        Layout.preferredHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
+                        Layout.maximumHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
                         matrixReplyEventId: TimelineManager.matrixTimelineReplyEventId
                         matrixReplySenderId: TimelineManager.matrixTimelineReplySenderId
                         matrixReplyDisplayName: TimelineManager.matrixTimelineReplySenderDisplayName
@@ -1720,6 +1747,9 @@ ColumnLayout {
                         id: composerInput
 
                         Layout.fillWidth: true
+                        Layout.minimumHeight: visible ? Math.max(48, Komai.navigationRowHeight) : 0
+                        Layout.preferredHeight: visible ? Math.max(Math.max(48, Komai.navigationRowHeight), implicitHeight) : 0
+                        Layout.maximumHeight: visible ? Math.max(Math.max(48, Komai.navigationRowHeight), implicitHeight) : 0
                         room: matrixComposerRoom
                         timelineRoot: root.timelineRoot ? root.timelineRoot : (root.chatRoot ? root.chatRoot : root)
                         selectionModeRoot: root
@@ -1730,6 +1760,17 @@ ColumnLayout {
                         allowCommandCompleter: false
                         attachmentsEnabled: !root.editing
                         showAllButtons: true
+                        visible: !root.walkModeActive
+                    }
+
+                    TimelineWalkModeBar {
+                        Layout.fillWidth: true
+                        Layout.minimumHeight: visible ? Math.max(48, Komai.navigationRowHeight) : 0
+                        Layout.preferredHeight: visible ? Math.max(48, Komai.navigationRowHeight) : 0
+                        Layout.maximumHeight: visible ? Math.max(48, Komai.navigationRowHeight) : 0
+                        minimumHeight: Math.max(48, Komai.navigationRowHeight)
+                        chatRoot: root
+                        visible: root.walkModeActive
                     }
                 }
             }

@@ -186,6 +186,9 @@ secret(std::string_view name)
 std::vector<ImagePackInfo>
 getImagePacks(const std::string &room_id, std::optional<bool> stickers)
 {
+    if (!cacheInstance())
+        return {};
+
     return cacheInstance()->getImagePacks(room_id, stickers);
 }
 

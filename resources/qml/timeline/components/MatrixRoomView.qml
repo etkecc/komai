@@ -35,6 +35,7 @@ ColumnLayout {
     readonly property bool hasTimeline: TimelineManager.matrixTimelineItemCount > 0
     readonly property bool loading: TimelineManager.matrixTimelineLoading
     readonly property var composerShell: composerContainer
+    readonly property var notificationAreaItem: timelineViewport
     readonly property int pendingAttachmentCount: TimelineManager.matrixTimelineAttachmentCount
     readonly property bool hasPendingAttachments: pendingAttachmentCount > 0
     readonly property string activeEditEventId: TimelineManager.matrixTimelineEditEventId
@@ -294,7 +295,7 @@ ColumnLayout {
         if (viewportHeight <= 0)
             return;
 
-        const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.75, 1200);
+        const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.25, 320);
         if (matrixTimelineList.contentHeight >= desiredBufferedHeight) {
             initialTimelineBufferPending = false;
             lastInitialBufferTriggerCount = -1;
@@ -305,7 +306,7 @@ ColumnLayout {
         if (itemCount <= 0 || lastInitialBufferTriggerCount === itemCount)
             return;
 
-        if (!TimelineManager.paginateActiveMatrixTimelineBackwards(12)) {
+        if (!TimelineManager.paginateActiveMatrixTimelineBackwards(6)) {
             initialTimelineBufferPending = false;
             lastInitialBufferTriggerCount = -1;
             return;
@@ -1006,6 +1007,8 @@ ColumnLayout {
             spacing: 0
 
             Item {
+                id: timelineViewport
+
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 

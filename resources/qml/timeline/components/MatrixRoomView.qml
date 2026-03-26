@@ -867,13 +867,13 @@ ColumnLayout {
                         const baseBuffer = root.chatRoot && root.chatRoot.listViewCacheBuffer !== undefined
                             ? root.chatRoot.listViewCacheBuffer
                             : 320;
-                        const estimatedTimelineHeight = TimelineManager.matrixTimelineItemCount <= 0
-                            ? 0
-                            : TimelineManager.matrixTimelineItemCount * (Komai.uiLayoutCompactMode ? 140 : 180);
-                        // Shared Rust-room delegates still resolve their final height after the
-                        // outer row is created. Keep a much deeper cache for small/medium rooms so
-                        // ListView does not keep re-estimating total content height mid-scroll.
-                        return Math.max(baseBuffer, Math.min(estimatedTimelineHeight, 180000));
+                        if (root.chatRoot && root.chatRoot.roomSwitchInProgress)
+                            return baseBuffer;
+
+                        const viewportBuffer = Math.max(baseBuffer, matrixTimelineList.height * 2);
+                        // Keep some extra resolved content above/below the viewport so delegate
+                        // height estimation stays stable, but do not cache the whole room.
+                        return Math.min(viewportBuffer, 4096);
                     }
                     model: TimelineManager.matrixTimelineModel
                     ScrollBar.vertical: matrixTimelineScrollbar
@@ -1526,6 +1526,7 @@ ColumnLayout {
                         room: matrixComposerRoom
                         timelineRoot: root.timelineRoot ? root.timelineRoot : (root.chatRoot ? root.chatRoot : root)
                         selectionModeRoot: root.chatRoot ? root.chatRoot : matrixTimelineList
+                        walkModeActive: !!(root.chatRoot && root.chatRoot.walkModeActive)
                         inputController: matrixComposerInputController
                         allowCalls: false
                         allowStickers: false

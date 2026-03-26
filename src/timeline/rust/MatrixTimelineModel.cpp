@@ -175,7 +175,7 @@ MatrixTimelineModel::redactItemByEventId(const QString &eventId)
         return false;
 
     auto &item = items_[row];
-    item.body  = tr("[Redacted message]");
+    item.body.clear();
     item.replyEventId.clear();
     item.replySenderId.clear();
     item.replySenderDisplayName.clear();

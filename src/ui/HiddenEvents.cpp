@@ -63,10 +63,12 @@ HiddenEvents::load()
     HiddenEventsContent hiddenEvents;
     hiddenEvents.hidden_event_types = qml_mtx_events::defaultHiddenEventTypes();
 
-    loadHiddenEventsForRoom("", hiddenEvents);
+    if (cache::isAvailable() && cache::isDatabaseReady()) {
+        loadHiddenEventsForRoom("", hiddenEvents);
 
-    if (!roomid_.isEmpty())
-        loadHiddenEventsForRoom(roomid_.toStdString(), hiddenEvents);
+        if (!roomid_.isEmpty())
+            loadHiddenEventsForRoom(roomid_.toStdString(), hiddenEvents);
+    }
 
     hiddenEvents_.clear();
     hiddenEvents_ = std::move(hiddenEvents.hidden_event_types.value());

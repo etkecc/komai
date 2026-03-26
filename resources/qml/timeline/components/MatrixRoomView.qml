@@ -721,6 +721,8 @@ ColumnLayout {
         switch (kind) {
         case "notice":
             return MtxEvent.NoticeMessage;
+        case "redacted":
+            return MtxEvent.Redacted;
         case "image":
             return MtxEvent.ImageMessage;
         case "video":
@@ -758,6 +760,21 @@ ColumnLayout {
         default:
             return ":/icons/icons/ui/state-event.svg";
         }
+    }
+
+    function matrixRedactedEventPair(senderDisplayName, senderId) {
+        const senderLabel = String(senderDisplayName || senderId || "").trim();
+        if (senderLabel.length === 0) {
+            return {
+                "first": qsTr("Deleted message"),
+                "second": ""
+            };
+        }
+
+        return {
+            "first": qsTr("Deleted message"),
+            "second": qsTr("Originally sent by %1").arg(senderLabel)
+        };
     }
 
     function openMatrixMessageContextMenu(messageModel, roomModel, copyText) {
@@ -1044,6 +1061,10 @@ ColumnLayout {
         function openForwardDialog(eventId) {
             return root.openMatrixForwardDialog(eventId);
         }
+
+        function formatRedactedEvent(_eventId) {
+            return root.matrixRedactedEventPair("", "");
+        }
     }
 
     MessageContextMenu {
@@ -1300,6 +1321,16 @@ ColumnLayout {
                 "previousIsStateEvent": previousIsStateEvent,
                 "previousUserId": previousUserId
             };
+            const redactedPair = root.matrixRedactedEventPair(item.senderDisplayName,
+                                                              item.senderId);
+
+            if (itemKind === "redacted") {
+                return Object.assign({}, basePreview, {
+                    "type": MtxEvent.Redacted,
+                    "redactedFirst": redactedPair.first,
+                    "redactedSecond": redactedPair.second
+                });
+            }
 
             if (root.isMatrixStateLikeKind(itemKind)) {
                 return Object.assign({}, basePreview, {
@@ -1372,6 +1403,20 @@ ColumnLayout {
 
         function openUserProfile(userId) {
             matrixDialogRoomModel.openUserProfile(userId);
+        }
+
+        function formatRedactedEvent(eventId) {
+            const preview = previewDataForEvent(eventId);
+            const first = String((preview && preview.redactedFirst) || "");
+            const second = String((preview && preview.redactedSecond) || "");
+            if (first.length > 0 || second.length > 0) {
+                return {
+                    "first": first,
+                    "second": second
+                };
+            }
+
+            return root.matrixRedactedEventPair("", "");
         }
 
         function unpin(eventId) {
@@ -1669,12 +1714,16 @@ ColumnLayout {
                             ? Komai.humanReadableFileSize(Number(mediaSizeBytes))
                             : ""
                         readonly property string sharedFileTypeIconSource: Komai.fileTypeIconSource(mimeType)
+                        readonly property var sharedRedactedPair: root.matrixRedactedEventPair(senderDisplayName,
+                                                                                               senderId)
                         readonly property var sharedPreviewData: ({
                                 "room": matrixToolbarRoomModel,
                                 "avatarUrl": senderAvatarUrl,
                                 "body": body,
                                 "formattedBody": root.formattedMatrixTextHtml(body),
                                 "isOnlyEmoji": 0,
+                                "redactedFirst": sharedRedactedPair.first,
+                                "redactedSecond": sharedRedactedPair.second,
                                 "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
                                 "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
                                 "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
@@ -1851,6 +1900,23 @@ ColumnLayout {
 
                             function showEvent(eventId) {
                                 return root.jumpToLoadedMatrixEvent(eventId);
+                            }
+
+                            function formatRedactedEvent(eventId) {
+                                const targetEventId = String(eventId || timelineItemDelegate.eventId || "");
+                                const targetRow = TimelineManager.matrixTimelineModel
+                                    ? TimelineManager.matrixTimelineModel.rowForEventId(targetEventId)
+                                    : -1;
+                                if (targetRow >= 0) {
+                                    const item = TimelineManager.matrixTimelineModel.itemAt(targetRow);
+                                    if (item && item !== undefined) {
+                                        return root.matrixRedactedEventPair(String(item.senderDisplayName || ""),
+                                                                            String(item.senderId || ""));
+                                    }
+                                }
+
+                                return root.matrixRedactedEventPair(timelineItemDelegate.senderDisplayName,
+                                                                    timelineItemDelegate.senderId);
                             }
 
                             function copyLinkToEvent(eventId) {

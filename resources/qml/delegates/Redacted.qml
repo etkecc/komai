@@ -13,9 +13,32 @@ Control {
 
     property int metadataWidth: 0
     property bool fitsMetadata: false //parent.width - redactedLayout.width > metadataWidth + 4
+    property var previewData: ({})
+    property var roomModelOverride: null
 
     required property string eventId
-    required property Room room
+    property var room: null
+    readonly property var effectiveRoomContext: room
+        ? room
+        : (roomModelOverride || ((previewData && previewData.room) ? previewData.room : null))
+    readonly property string previewFirstLine: String((previewData && previewData.redactedFirst) || "")
+    readonly property string previewSecondLine: String((previewData && previewData.redactedSecond) || "")
+    readonly property var redactedPair: {
+        if (previewFirstLine.length > 0 || previewSecondLine.length > 0) {
+            return {
+                "first": previewFirstLine,
+                "second": previewSecondLine
+            };
+        }
+
+        if (effectiveRoomContext && typeof effectiveRoomContext.formatRedactedEvent === "function")
+            return effectiveRoomContext.formatRedactedEvent(msgRoot.eventId);
+
+        return {
+            "first": qsTr("Deleted message"),
+            "second": ""
+        };
+    }
 
     contentItem: RowLayout {
         id: redactedLayout
@@ -34,8 +57,7 @@ Control {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
             Layout.maximumWidth: implicitWidth + 1
             Layout.fillWidth: true
-            property var redactedPair: msgRoot.room.formatRedactedEvent(msgRoot.eventId)
-            text: redactedPair["first"]
+            text: msgRoot.redactedPair["first"]
             color: palette.text
             wrapMode: Label.WordWrap
 
@@ -47,8 +69,8 @@ Control {
                 anchorItem: redactedLabel
                 anchorX: redactedLabel.width / 2
                 anchorY: 0
-                text: redactedLabel.redactedPair["second"]
-                requestedVisible: hh.hovered && redactedLabel.redactedPair["second"].length > 0
+                text: msgRoot.redactedPair["second"]
+                requestedVisible: hh.hovered && msgRoot.redactedPair["second"].length > 0
             }
         }
     }

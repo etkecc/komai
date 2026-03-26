@@ -461,6 +461,7 @@ Item {
         id: metadataOuter
 
         scaling: 0.9
+        readonly property real visualAnchorHeight: Math.max(buttonSize, indicatorSize)
 
         visible: !root.wrapper.isStateEvent
             || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
@@ -468,7 +469,8 @@ Item {
         anchors.bottom: root.wrapper.isStateEvent ? undefined : messageBubble.bottom
         anchors.bottomMargin: root.wrapper.isStateEvent
             ? 0
-            : Math.round(Math.max(1, messageBubble.bottomPadding - (metadataOuter.implicitHeight - fontMetrics.height) / 2))
+            // Avoid a self-referential vertical-anchor loop through implicitHeight.
+            : Math.round(Math.max(1, messageBubble.bottomPadding - Math.max(0, (visualAnchorHeight - buttonSize) / 2)))
         anchors.verticalCenter: root.wrapper.isStateEvent ? root.verticalCenter : undefined
 
         anchors.left: undefined

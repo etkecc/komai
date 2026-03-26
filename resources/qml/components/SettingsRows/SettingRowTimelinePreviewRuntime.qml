@@ -26,6 +26,9 @@ Item {
 
         function reaction(_eventId, _key) {
         }
+
+        function removeMention(_mention) {
+        }
     }
 
     QtObject {
@@ -79,6 +82,42 @@ Item {
         }
 
         function eventShown() {
+        }
+
+        function showReadReceipts(_eventId) {
+        }
+
+        function viewRawMessage(_eventId) {
+        }
+
+        function copyLinkToEvent(_eventId) {
+        }
+
+        function openForwardDialog(_eventId) {
+        }
+
+        function requestKeyForEvent(_eventId) {
+        }
+
+        function showAcceptKnockButton(_eventId) {
+            return false;
+        }
+
+        function acceptKnock(_eventId) {
+        }
+
+        function joinReplacementRoom(_eventId) {
+        }
+
+        function formatRedactedEvent(_eventId) {
+            return {
+                "first": "",
+                "second": ""
+            };
+        }
+
+        function dataById(_eventId, _role, fallbackValue) {
+            return fallbackValue !== undefined ? fallbackValue : "";
         }
     }
 

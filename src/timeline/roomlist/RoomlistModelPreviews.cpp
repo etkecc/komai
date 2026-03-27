@@ -134,6 +134,7 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
         preview.roomTopic_             = room.topic;
         preview.roomAvatarUrl_         = komai::matrix::normalizeMxcUri(room.avatarUrl);
         preview.directChatOtherUserId_ = room.directChatOtherUserId;
+        preview.memberCount_           = static_cast<int>(room.memberCount);
         preview.isDirect_              = room.isDirect;
         preview.isEncrypted_           = room.isEncrypted;
         preview.isPublic_              = room.isPublic;
@@ -171,6 +172,7 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
             preview.roomTopic_ = QString::fromStdString(i->topic);
             preview.roomAvatarUrl_ =
               komai::matrix::normalizeMxcUri(QString::fromStdString(i->avatar_url));
+            preview.memberCount_ = static_cast<int>(i->member_count);
         } else {
             preview.roomid_ = roomid;
         }

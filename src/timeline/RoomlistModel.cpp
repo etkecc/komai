@@ -31,7 +31,8 @@ matrixRoomSummaryEquals(const komai::MatrixRoomSummary &left, const komai::Matri
            left.directChatOtherUserId == right.directChatOtherUserId &&
            left.isInvite == right.isInvite && left.isSpace == right.isSpace &&
            left.isDirect == right.isDirect && left.isBotRoom == right.isBotRoom &&
-           left.isEncrypted == right.isEncrypted && left.unreadMessages == right.unreadMessages &&
+           left.isEncrypted == right.isEncrypted && left.isPublic == right.isPublic &&
+           left.memberCount == right.memberCount && left.unreadMessages == right.unreadMessages &&
            left.notificationCount == right.notificationCount &&
            left.highlightCount == right.highlightCount && left.timestamp == right.timestamp;
 }

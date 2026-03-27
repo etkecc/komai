@@ -396,6 +396,7 @@ fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         is_bot_room: classification.is_bot_room,
         is_encrypted: room.encryption_state().is_encrypted(),
         is_public: matches!(room.join_rule(), Some(JoinRule::Public)),
+        member_count: room.active_members_count(),
         unread_message_count: room.num_unread_messages(),
         notification_count: room.num_unread_notifications(),
         highlight_count: room.num_unread_mentions(),

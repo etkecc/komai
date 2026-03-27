@@ -53,6 +53,8 @@ class RoomPreview
     Q_PROPERTY(bool isFetched READ isFetched CONSTANT)
     Q_PROPERTY(bool canJoin READ canJoin CONSTANT)
     Q_PROPERTY(bool isMatrixSummary READ isMatrixSummary CONSTANT)
+    Q_PROPERTY(int memberCount READ memberCount CONSTANT)
+    Q_PROPERTY(int roomMemberCount READ roomMemberCount CONSTANT)
 
 public:
     RoomPreview() {}
@@ -73,8 +75,11 @@ public:
     bool isFetched() const { return isFetched_; }
     bool canJoin() const { return canJoin_; }
     bool isMatrixSummary() const { return isMatrixSummary_; }
+    int memberCount() const { return memberCount_; }
+    int roomMemberCount() const { return memberCount_; }
 
     QString roomid_, roomName_, roomAvatarUrl_, roomTopic_, directChatOtherUserId_, reason_;
+    int memberCount_ = 0;
     bool isDirect_ = false, isEncrypted_ = false, isPublic_ = true;
     bool isInvite_ = false, isFetched_ = true, canJoin_ = false, isMatrixSummary_ = false;
 };

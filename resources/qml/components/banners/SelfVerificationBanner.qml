@@ -108,6 +108,8 @@ ColumnLayout {
                     SelfVerificationStatus.verifyUnverifiedDevices();
                 else if (SelfVerificationStatus.status === SelfVerificationStatus.NoMasterKey)
                     SelfVerificationStatus.setupEncryptionBackup();
+                else if (SelfVerificationStatus.hasSSSS)
+                    SelfVerificationStatus.verifyMasterKeyWithPassphrase();
                 else
                     SelfVerificationStatus.promptCurrentVerificationAction();
             }

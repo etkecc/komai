@@ -388,6 +388,15 @@ SelfVerificationStatus::refreshStateFromMatrixRuntime()
     const auto hasSSSS = recoveryStatus->state == QLatin1String("enabled") ||
                          recoveryStatus->state == QLatin1String("incomplete");
 
+    nhlog::crypto()->debug("Matrix recovery status state='{}' has_ssss={} "
+                           "own_device_is_verified={} has_unverified_own_devices={} "
+                           "has_devices_to_verify_against={}",
+                           recoveryStatus->state.toStdString(),
+                           hasSSSS,
+                           recoveryStatus->ownDeviceIsVerified,
+                           recoveryStatus->hasUnverifiedOwnDevices,
+                           recoveryStatus->hasDevicesToVerifyAgainst);
+
     Status nextStatus = AllVerified;
     if (recoveryStatus->state == QLatin1String("disabled")) {
         nextStatus = NoMasterKey;

@@ -70,8 +70,9 @@ Components.OverlayDialog {
             icon.source: "qrc:/icons/icons/ui/key.svg"
             text: qsTr("Unlock key backup")
             highlighted: true
-            // Hide completely when backup unlock is fundamentally unavailable in this state.
-            visible: root.hasSSSS
+            enabled: root.hasSSSS
+            toolTipText: qsTr("This account does not currently expose an unlockable key backup.")
+            toolTipVisible: hovered && !enabled
 
             onClicked: {
                 unlockKeyBackup();

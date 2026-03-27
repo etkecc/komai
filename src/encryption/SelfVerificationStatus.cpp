@@ -191,15 +191,47 @@ SelfVerificationStatus::cancelUnlockKeyBackup()
 void
 SelfVerificationStatus::verifyUnverifiedDevices()
 {
-    QString error;
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        emit setupFailed(missingRuntimeMessage());
+        return;
+    }
+
     auto *verificationManager = VerificationManager::instance();
     if (!verificationManager) {
         emit setupFailed(tr("The verification manager is not available."));
         return;
     }
 
-    if (!verificationManager->verifySelf(&error)) {
-        emit setupFailed(error.isEmpty() ? notMigratedMessage() : error);
+    QString error;
+    const auto ownVerificationState =
+      komai::MatrixBackendRuntimeService::fetchUserVerificationState(
+        handleId, utils::localUser(), &error);
+    if (!ownVerificationState) {
+        emit setupFailed(error.isEmpty() ? tr("Failed to inspect your signed-in devices.") : error);
+        return;
+    }
+
+    std::vector<QString> candidateDeviceIds;
+    candidateDeviceIds.reserve(static_cast<size_t>(ownVerificationState->devices.size()));
+    for (const auto &device : ownVerificationState->devices) {
+        if (device.verificationState == QLatin1String("unverified")) {
+            candidateDeviceIds.push_back(device.deviceId);
+        }
+    }
+
+    if (candidateDeviceIds.empty()) {
+        refreshStateFromMatrixRuntime();
+        emit setupFailed(tr("No unverified signed-in devices are currently available."));
+        return;
+    }
+
+    if (!verificationManager->verifyOneOfDevices(
+          utils::localUser(), std::move(candidateDeviceIds), &error)) {
+        emit setupFailed(error.isEmpty()
+                           ? tr("Failed to start verification for your other signed-in devices.")
+                           : error);
     }
 }
 

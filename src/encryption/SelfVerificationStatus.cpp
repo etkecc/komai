@@ -17,8 +17,7 @@ namespace {
 QString
 notMigratedMessage()
 {
-    return SelfVerificationStatus::tr(
-      "Encryption setup and self-verification are not migrated to the matrix-sdk backend yet.");
+    return SelfVerificationStatus::tr("Failed to start the matrix-sdk self-verification flow.");
 }
 
 QString

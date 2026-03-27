@@ -114,8 +114,29 @@ UserProfile::verify(QString device)
 void
 UserProfile::unverify(const QString &device)
 {
-    Q_UNUSED(device);
-    emit displayError(tr("Device verification is not migrated to the matrix-sdk backend yet."));
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
+        emit displayError(tr("Matrix backend runtime is not available."));
+        return;
+    }
+
+    const auto trimmedDeviceId = device.trimmed();
+    if (trimmedDeviceId.isEmpty()) {
+        emit displayError(tr("Device id cannot be empty."));
+        return;
+    }
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::unverifyDevice(
+          handleId, userid_, trimmedDeviceId, &error)) {
+        emit displayError(
+          error.isEmpty()
+            ? tr("Failed to clear verification for device \"%1\".").arg(trimmedDeviceId)
+            : tr("Failed to clear verification for device \"%1\": %2").arg(trimmedDeviceId, error));
+        return;
+    }
+
+    refreshDevices();
 }
 
 void

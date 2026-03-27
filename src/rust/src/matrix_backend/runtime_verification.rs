@@ -5,6 +5,7 @@
 use std::sync::{Arc, Mutex};
 
 use matrix_sdk::{
+    encryption::LocalTrust,
     encryption::verification::{CancelInfo, SasState, VerificationRequestState},
     event_handler::EventHandlerDropGuard,
     ruma::events::key::verification::{VerificationMethod, cancel::CancelCode},
@@ -493,6 +494,31 @@ pub async fn start_device_verification(
         .map_err(|e| format!("failed to request verification for device '{device_id}': {e}"))?;
 
     store_started_verification_session(handle_id, request)
+}
+
+pub async fn unverify_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    client.encryption().wait_for_e2ee_initialization_tasks().await;
+
+    let parsed_user_id = parse_user_id(user_id)?;
+    if device_id.trim().is_empty() {
+        return Err("device id cannot be empty".to_owned());
+    }
+
+    let parsed_device_id: OwnedDeviceId = device_id.trim().into();
+    let device = client
+        .encryption()
+        .get_device(&parsed_user_id, &parsed_device_id)
+        .await
+        .map_err(|e| format!("failed to fetch device '{device_id}' for '{user_id}': {e}"))?
+        .ok_or_else(|| format!("Device '{device_id}' is not available for '{user_id}'."))?;
+
+    device
+        .set_local_trust(LocalTrust::Unset)
+        .await
+        .map_err(|e| format!("failed to clear local trust for device '{device_id}': {e}"))?;
+
+    Ok(())
 }
 
 pub async fn fetch_verification_session(

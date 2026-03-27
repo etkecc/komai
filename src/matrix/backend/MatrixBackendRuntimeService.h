@@ -346,6 +346,11 @@ public:
                             const QString &deviceId,
                             QString *errorOut = nullptr);
 
+    static bool unverifyDevice(uint64_t handleId,
+                               const QString &userId,
+                               const QString &deviceId,
+                               QString *errorOut = nullptr);
+
     static std::optional<MatrixUserVerificationState>
     fetchUserVerificationState(uint64_t handleId,
                                const QString &userId,

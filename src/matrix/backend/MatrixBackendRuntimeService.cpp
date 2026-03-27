@@ -730,6 +730,23 @@ MatrixBackendRuntimeService::startDeviceVerification(uint64_t handleId,
     }
 }
 
+bool
+MatrixBackendRuntimeService::unverifyDevice(uint64_t handleId,
+                                            const QString &userId,
+                                            const QString &deviceId,
+                                            QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_unverify_device(
+          handleId, userId.toStdString(), deviceId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<MatrixUserVerificationState>
 MatrixBackendRuntimeService::fetchUserVerificationState(uint64_t handleId,
                                                         const QString &userId,

@@ -403,6 +403,7 @@ mod ffi {
             user_id: &str,
             device_id: &str,
         ) -> Result<MatrixVerificationSession>;
+        fn matrix_unverify_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<()>;
         fn matrix_fetch_user_verification_state(
             handle_id: u64,
             user_id: &str,
@@ -984,6 +985,14 @@ fn matrix_start_device_verification(
         is_multi_device_verification: result.is_multi_device_verification,
         sas_numbers: result.sas_numbers,
     })
+}
+
+fn matrix_unverify_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::unverify_device(
+        handle_id,
+        user_id,
+        device_id,
+    ))
 }
 
 fn matrix_fetch_user_verification_state(

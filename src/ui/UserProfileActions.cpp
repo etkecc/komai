@@ -14,6 +14,16 @@
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/TimelineViewManager.h"
 
+namespace {
+void
+notifyVerificationStateRefresh(const QString &userId)
+{
+    if (auto *verificationManager = VerificationManager::instance()) {
+        emit verificationManager->verificationStateChanged(userId);
+    }
+}
+}
+
 void
 UserProfile::banUser(const QString &reason)
 {
@@ -137,6 +147,7 @@ UserProfile::unverify(const QString &device)
     }
 
     refreshDevices();
+    notifyVerificationStateRefresh(userid_);
 }
 
 void
@@ -164,6 +175,7 @@ UserProfile::blockDevice(const QString &device)
     }
 
     refreshDevices();
+    notifyVerificationStateRefresh(userid_);
 }
 
 void

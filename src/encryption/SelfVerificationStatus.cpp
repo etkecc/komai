@@ -45,6 +45,14 @@ formattedRecoveryKey(QString recoveryKey)
 
     return formatted;
 }
+
+void
+notifyLocalVerificationStateRefresh()
+{
+    if (auto *verificationManager = VerificationManager::instance()) {
+        emit verificationManager->verificationStateChanged(utils::localUser());
+    }
+}
 }
 
 SelfVerificationStatus::SelfVerificationStatus(QObject *o)
@@ -104,6 +112,7 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
                           encryptionBackupOnlineEnabled);
 
     refreshStateFromMatrixRuntime();
+    notifyLocalVerificationStateRefresh();
 
     if (!result->recoveryKey.trimmed().isEmpty()) {
         emit showRecoveryKey(formattedRecoveryKey(result->recoveryKey));
@@ -169,6 +178,7 @@ SelfVerificationStatus::submitUnlockKeyBackup(const QString &keyOrPassphrase)
 
     nhlog::crypto()->info("Recovered encryption secrets through matrix-sdk recovery");
     refreshStateFromMatrixRuntime();
+    notifyLocalVerificationStateRefresh();
     emit unlockKeyBackupCompleted();
 }
 
@@ -220,6 +230,7 @@ SelfVerificationStatus::resetEncryptionIdentity()
     if (result->completed) {
         nhlog::crypto()->info("Reset encryption identity through matrix-sdk without extra auth");
         refreshStateFromMatrixRuntime();
+        notifyLocalVerificationStateRefresh();
         emit resetEncryptionIdentityCompleted();
         return;
     }
@@ -258,6 +269,7 @@ SelfVerificationStatus::submitResetEncryptionIdentityPassword(const QString &pas
     nhlog::crypto()->info(
       "Completed matrix-sdk encryption identity reset using password authentication");
     refreshStateFromMatrixRuntime();
+    notifyLocalVerificationStateRefresh();
     emit resetEncryptionIdentityCompleted();
 }
 
@@ -280,6 +292,7 @@ SelfVerificationStatus::continueResetEncryptionIdentityAfterApproval()
 
     nhlog::crypto()->info("Completed matrix-sdk encryption identity reset after browser approval");
     refreshStateFromMatrixRuntime();
+    notifyLocalVerificationStateRefresh();
     emit resetEncryptionIdentityCompleted();
 }
 

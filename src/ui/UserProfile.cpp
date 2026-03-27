@@ -46,6 +46,14 @@ deviceVerificationStatusFromRuntime(const QString &state)
         return verification::BLOCKED;
     return verification::UNVERIFIED;
 }
+
+void
+notifyVerificationStateRefresh(const QString &userId)
+{
+    if (auto *verificationManager = VerificationManager::instance()) {
+        emit verificationManager->verificationStateChanged(userId);
+    }
+}
 }
 
 UserProfile::UserProfile(const QString &roomid,
@@ -229,6 +237,7 @@ UserProfile::signOutDevice(const QString &deviceID)
         MainWindow::instance()->showNotification(
           tr("Signed out device \"%1\".").arg(trimmedDeviceId));
         refreshDevices();
+        notifyVerificationStateRefresh(userid_);
         return;
     }
 
@@ -263,6 +272,7 @@ UserProfile::signOutDevice(const QString &deviceID)
         MainWindow::instance()->showNotification(
           tr("Signed out device \"%1\".").arg(trimmedDeviceId));
         refreshDevices();
+        notifyVerificationStateRefresh(userid_);
         return;
     }
 

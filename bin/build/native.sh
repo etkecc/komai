@@ -14,6 +14,7 @@ heartbeat_pid=""
 lock_started_at="$(date --iso-8601=seconds)"
 lock_state_dir=""
 lock_heartbeat_file=""
+lock_owner_pid="${BASHPID}"
 
 usage() {
 	cat >&2 <<'EOF'
@@ -43,7 +44,7 @@ write_lock_info() {
 	local heartbeat_at="${1:-}"
 
 	{
-		printf 'pid=%s\n' "$$"
+		printf 'pid=%s\n' "${lock_owner_pid}"
 		printf 'started_at=%s\n' "${lock_started_at}"
 		printf 'command='
 		printf '%q ' "${lock_command[@]}"
@@ -61,8 +62,16 @@ start_lock_heartbeat() {
 	fi
 
 	(
+		if [[ -n "${lock_fd}" ]]; then
+			eval "exec ${lock_fd}>&-"
+		fi
+
 		while :; do
 			sleep "${interval}" || exit 0
+
+			if ! kill -0 "${lock_owner_pid}" 2>/dev/null; then
+				exit 0
+			fi
 
 			local heartbeat_at=""
 			heartbeat_at="$(date --iso-8601=seconds)"
@@ -72,7 +81,7 @@ start_lock_heartbeat() {
 			fi
 
 			write_lock_info "${heartbeat_at}" 2>/dev/null || exit 0
-			echo "[native-build] still running: command=${command_name} pid=$$ started_at=${lock_started_at} heartbeat_at=${heartbeat_at}" >&2
+			echo "[native-build] still running: command=${command_name} pid=${lock_owner_pid} heartbeat_pid=${BASHPID} started_at=${lock_started_at} heartbeat_at=${heartbeat_at}" >&2
 		done
 	) &
 	heartbeat_pid="$!"

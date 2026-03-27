@@ -57,6 +57,7 @@ pub async fn build_client(
 ) -> Result<Client, ClientBuildError> {
     Client::builder()
         .homeserver_url(config.homeserver_url)
+        .handle_refresh_tokens()
         .with_encryption_settings(EncryptionSettings {
             auto_enable_cross_signing: true,
             auto_enable_backups: true,

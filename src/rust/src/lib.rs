@@ -358,6 +358,15 @@ mod ffi {
         ) -> Result<()>;
         fn matrix_cancel_reset_encryption_identity(handle_id: u64) -> Result<()>;
         fn matrix_start_self_verification(handle_id: u64) -> Result<MatrixVerificationSession>;
+        fn matrix_start_user_verification(
+            handle_id: u64,
+            user_id: &str,
+        ) -> Result<MatrixVerificationSession>;
+        fn matrix_start_device_verification(
+            handle_id: u64,
+            user_id: &str,
+            device_id: &str,
+        ) -> Result<MatrixVerificationSession>;
         fn matrix_take_pending_verification_flow_ids(handle_id: u64) -> Result<Vec<String>>;
         fn matrix_fetch_verification_session(
             handle_id: u64,
@@ -843,6 +852,48 @@ fn matrix_start_self_verification(
     handle_id: u64,
 ) -> Result<ffi::MatrixVerificationSession, String> {
     let result = runtime().block_on(matrix_backend::runtime::start_self_verification(handle_id))?;
+
+    Ok(ffi::MatrixVerificationSession {
+        flow_id: result.flow_id,
+        user_id: result.user_id,
+        device_id: result.device_id,
+        state: result.state,
+        error: result.error,
+        sender: result.sender,
+        is_self_verification: result.is_self_verification,
+        is_multi_device_verification: result.is_multi_device_verification,
+        sas_numbers: result.sas_numbers,
+    })
+}
+
+fn matrix_start_user_verification(
+    handle_id: u64,
+    user_id: &str,
+) -> Result<ffi::MatrixVerificationSession, String> {
+    let result =
+        runtime().block_on(matrix_backend::runtime::start_user_verification(handle_id, user_id))?;
+
+    Ok(ffi::MatrixVerificationSession {
+        flow_id: result.flow_id,
+        user_id: result.user_id,
+        device_id: result.device_id,
+        state: result.state,
+        error: result.error,
+        sender: result.sender,
+        is_self_verification: result.is_self_verification,
+        is_multi_device_verification: result.is_multi_device_verification,
+        sas_numbers: result.sas_numbers,
+    })
+}
+
+fn matrix_start_device_verification(
+    handle_id: u64,
+    user_id: &str,
+    device_id: &str,
+) -> Result<ffi::MatrixVerificationSession, String> {
+    let result = runtime().block_on(matrix_backend::runtime::start_device_verification(
+        handle_id, user_id, device_id,
+    ))?;
 
     Ok(ffi::MatrixVerificationSession {
         flow_id: result.flow_id,

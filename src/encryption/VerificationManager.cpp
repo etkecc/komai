@@ -5,26 +5,10 @@
 
 #include "VerificationManager.h"
 
-#include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
-
-namespace {
-void
-notifyNotMigrated()
-{
-    if (auto *chatPage = ChatPage::instance()) {
-        emit chatPage->showNotification(
-          VerificationManager::tr("Device verification is not migrated to the matrix-sdk "
-                                  "backend yet."));
-        return;
-    }
-
-    nhlog::crypto()->warn("Device verification is not migrated to matrix-sdk yet");
-}
-}
 
 VerificationManager::VerificationManager(TimelineViewManager *o)
   : QObject(o)
@@ -84,23 +68,40 @@ VerificationManager::verifySelf(QString *errorOut)
     }
 
     QString error;
-    auto *flow = DeviceVerificationFlow::InitiateMatrixSelfVerification(nullptr, handleId, &error);
-    if (!flow) {
+    const auto session =
+      komai::MatrixBackendRuntimeService::startSelfVerification(handleId, &error);
+    if (!session) {
         if (errorOut)
             *errorOut =
               error.isEmpty() ? tr("Failed to start verification with another device.") : error;
         return false;
     }
 
-    emit newDeviceVerificationRequest(flow);
-    return true;
+    return openMatrixVerificationFlow(handleId, session->flowId, errorOut);
 }
 
-void
-VerificationManager::verifyUser(QString userid)
+bool
+VerificationManager::verifyUser(QString userid, QString *errorOut)
 {
-    Q_UNUSED(userid);
-    notifyNotMigrated();
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        if (errorOut)
+            *errorOut = tr("Matrix backend runtime is not available.");
+        return false;
+    }
+
+    QString error;
+    const auto session =
+      komai::MatrixBackendRuntimeService::startUserVerification(handleId, userid, &error);
+    if (!session) {
+        if (errorOut)
+            *errorOut =
+              error.isEmpty() ? tr("Failed to start verification for \"%1\".").arg(userid) : error;
+        return false;
+    }
+
+    return openMatrixVerificationFlow(handleId, session->flowId, errorOut);
 }
 
 void
@@ -113,20 +114,68 @@ VerificationManager::removeVerificationFlow(DeviceVerificationFlow *flow)
     flow->deleteLater();
 }
 
-void
-VerificationManager::verifyDevice(QString userid, QString deviceid)
+bool
+VerificationManager::verifyDevice(QString userid, QString deviceid, QString *errorOut)
 {
-    Q_UNUSED(userid);
-    Q_UNUSED(deviceid);
-    notifyNotMigrated();
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        if (errorOut)
+            *errorOut = tr("Matrix backend runtime is not available.");
+        return false;
+    }
+
+    QString error;
+    const auto session = komai::MatrixBackendRuntimeService::startDeviceVerification(
+      handleId, userid, deviceid, &error);
+    if (!session) {
+        if (errorOut)
+            *errorOut = error.isEmpty()
+                          ? tr("Failed to start verification for device \"%1\".").arg(deviceid)
+                          : error;
+        return false;
+    }
+
+    return openMatrixVerificationFlow(handleId, session->flowId, errorOut);
 }
 
-void
-VerificationManager::verifyOneOfDevices(QString userid, std::vector<QString> deviceids)
+bool
+VerificationManager::verifyOneOfDevices(QString userid,
+                                        std::vector<QString> deviceids,
+                                        QString *errorOut)
 {
-    Q_UNUSED(userid);
-    Q_UNUSED(deviceids);
-    notifyNotMigrated();
+    QString error;
+    for (const auto &deviceId : deviceids) {
+        if (verifyDevice(userid, deviceId, &error))
+            return true;
+    }
+
+    if (errorOut) {
+        *errorOut =
+          error.isEmpty() ? tr("Failed to start verification for the available devices.") : error;
+    }
+    return false;
+}
+
+bool
+VerificationManager::openMatrixVerificationFlow(uint64_t handleId,
+                                                const QString &flowId,
+                                                QString *errorOut)
+{
+    QString error;
+    auto *flow =
+      DeviceVerificationFlow::InitiateMatrixVerificationSession(nullptr, handleId, flowId, &error);
+    if (!flow) {
+        if (errorOut)
+            *errorOut = error.isEmpty() ? tr("Failed to open the verification flow.") : error;
+        return false;
+    }
+
+    activeMatrixFlowIds_.insert(flowId);
+    connect(
+      flow, &QObject::destroyed, this, [this, flowId]() { activeMatrixFlowIds_.remove(flowId); });
+    emit newDeviceVerificationRequest(flow);
+    return true;
 }
 
 void

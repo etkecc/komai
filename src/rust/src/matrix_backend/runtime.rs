@@ -88,7 +88,8 @@ pub use recovery::{
 pub use registry::{start_restored_backend, stop_backend};
 pub use verification::{
     advance_verification_session, cancel_verification_session, fetch_verification_session,
-    start_self_verification, take_pending_verification_flow_ids,
+    start_device_verification, start_self_verification, start_user_verification,
+    take_pending_verification_flow_ids,
 };
 pub use room_actions::{
     ban_user, create_room, invite_user, join_room, kick_user, knock_room, leave_room, unban_user,

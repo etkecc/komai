@@ -51,9 +51,10 @@ public:
 
     Q_INVOKABLE void removeVerificationFlow(DeviceVerificationFlow *flow);
     bool verifySelf(QString *errorOut = nullptr);
-    void verifyUser(QString userid);
-    void verifyDevice(QString userid, QString deviceid);
-    void verifyOneOfDevices(QString userid, std::vector<QString> deviceids);
+    bool verifyUser(QString userid, QString *errorOut = nullptr);
+    bool verifyDevice(QString userid, QString deviceid, QString *errorOut = nullptr);
+    bool
+    verifyOneOfDevices(QString userid, std::vector<QString> deviceids, QString *errorOut = nullptr);
 
 signals:
     void newDeviceVerificationRequest(DeviceVerificationFlow *flow);
@@ -69,6 +70,10 @@ public slots:
     void pollPendingMatrixVerifications();
 
 private:
+    bool openMatrixVerificationFlow(uint64_t handleId,
+                                    const QString &flowId,
+                                    QString *errorOut = nullptr);
+
     inline static VerificationManager *instance_ = nullptr;
     QTimer *matrixVerificationPollTimer_         = nullptr;
     QSet<QString> activeMatrixFlowIds_;

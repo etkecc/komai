@@ -8,7 +8,7 @@ use matrix_sdk::{
     encryption::verification::{CancelInfo, SasState, VerificationRequestState},
     event_handler::EventHandlerDropGuard,
     ruma::events::key::verification::{VerificationMethod, cancel::CancelCode},
-    ruma::{UserId, events::AnyToDeviceEvent, serde::Raw},
+    ruma::{OwnedDeviceId, UserId, events::AnyToDeviceEvent, serde::Raw},
 };
 use serde_json::Value;
 
@@ -272,6 +272,22 @@ pub fn take_pending_verification_flow_ids(handle_id: u64) -> Result<Vec<String>,
     Ok(std::mem::take(&mut *pending_flow_ids))
 }
 
+fn store_started_verification_session(
+    handle_id: u64,
+    request: matrix_sdk::encryption::verification::VerificationRequest,
+) -> Result<MatrixVerificationSession, String> {
+    let flow_id = request.flow_id().to_owned();
+    let mut entry = MatrixVerificationSessionEntry { request, sas: None };
+    let snapshot = snapshot_from_entry(&flow_id, &mut entry);
+
+    verification_sessions_for_handle(handle_id)?
+        .lock()
+        .expect("poisoned matrix backend verification sessions mutex")
+        .insert(flow_id, entry);
+
+    Ok(snapshot)
+}
+
 pub async fn start_self_verification(handle_id: u64) -> Result<MatrixVerificationSession, String> {
     let client = client_for_handle(handle_id)?;
     client.encryption().wait_for_e2ee_initialization_tasks().await;
@@ -302,16 +318,58 @@ pub async fn start_self_verification(handle_id: u64) -> Result<MatrixVerificatio
         .await
         .map_err(|e| format!("failed to request self-verification: {e}"))?;
 
-    let flow_id = request.flow_id().to_owned();
-    let mut entry = MatrixVerificationSessionEntry { request, sas: None };
-    let snapshot = snapshot_from_entry(&flow_id, &mut entry);
+    store_started_verification_session(handle_id, request)
+}
 
-    verification_sessions_for_handle(handle_id)?
-        .lock()
-        .expect("poisoned matrix backend verification sessions mutex")
-        .insert(flow_id, entry);
+pub async fn start_user_verification(
+    handle_id: u64,
+    user_id: &str,
+) -> Result<MatrixVerificationSession, String> {
+    let client = client_for_handle(handle_id)?;
+    client.encryption().wait_for_e2ee_initialization_tasks().await;
 
-    Ok(snapshot)
+    let parsed_user_id = parse_user_id(user_id)?;
+    let identity = client
+        .encryption()
+        .get_user_identity(&parsed_user_id)
+        .await
+        .map_err(|e| format!("failed to fetch encryption identity for '{user_id}': {e}"))?
+        .ok_or_else(|| format!("No encryption identity is available for '{user_id}'."))?;
+
+    let request = identity
+        .request_verification_with_methods(vec![VerificationMethod::SasV1])
+        .await
+        .map_err(|e| format!("failed to request verification for '{user_id}': {e}"))?;
+
+    store_started_verification_session(handle_id, request)
+}
+
+pub async fn start_device_verification(
+    handle_id: u64,
+    user_id: &str,
+    device_id: &str,
+) -> Result<MatrixVerificationSession, String> {
+    let client = client_for_handle(handle_id)?;
+    client.encryption().wait_for_e2ee_initialization_tasks().await;
+
+    let parsed_user_id = parse_user_id(user_id)?;
+    if device_id.trim().is_empty() {
+        return Err("device id cannot be empty".to_owned());
+    }
+    let parsed_device_id: OwnedDeviceId = device_id.trim().into();
+    let device = client
+        .encryption()
+        .get_device(&parsed_user_id, &parsed_device_id)
+        .await
+        .map_err(|e| format!("failed to fetch device '{device_id}' for '{user_id}': {e}"))?
+        .ok_or_else(|| format!("Device '{device_id}' is not available for '{user_id}'."))?;
+
+    let request = device
+        .request_verification_with_methods(vec![VerificationMethod::SasV1])
+        .await
+        .map_err(|e| format!("failed to request verification for device '{device_id}': {e}"))?;
+
+    store_started_verification_session(handle_id, request)
 }
 
 pub async fn fetch_verification_session(

@@ -599,6 +599,38 @@ MatrixBackendRuntimeService::startSelfVerification(uint64_t handleId, QString *e
     }
 }
 
+std::optional<MatrixVerificationSession>
+MatrixBackendRuntimeService::startUserVerification(uint64_t handleId,
+                                                   const QString &userId,
+                                                   QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_start_user_verification(handleId, userId.toStdString());
+        return fromRustVerificationSession(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<MatrixVerificationSession>
+MatrixBackendRuntimeService::startDeviceVerification(uint64_t handleId,
+                                                     const QString &userId,
+                                                     const QString &deviceId,
+                                                     QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_start_device_verification(
+          handleId, userId.toStdString(), deviceId.toStdString());
+        return fromRustVerificationSession(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 std::optional<QVector<QString>>
 MatrixBackendRuntimeService::takePendingVerificationFlowIds(uint64_t handleId, QString *errorOut)
 {

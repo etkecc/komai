@@ -10,6 +10,7 @@
 
 #include "UserProfile.h"
 #include "chat/ChatPage.h"
+#include "encryption/VerificationManager.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/TimelineViewManager.h"
 
@@ -71,8 +72,19 @@ UserProfile::changeDeviceName(const QString &deviceID, const QString &deviceName
 void
 UserProfile::verify(QString device)
 {
-    Q_UNUSED(device);
-    emit displayError(tr("Device verification is not migrated to the matrix-sdk backend yet."));
+    auto *verificationManager = VerificationManager::instance();
+    if (!verificationManager) {
+        emit displayError(tr("The verification manager is not available."));
+        return;
+    }
+
+    QString error;
+    const bool started = device.trimmed().isEmpty()
+                           ? verificationManager->verifyUser(userid_, &error)
+                           : verificationManager->verifyDevice(userid_, device, &error);
+    if (!started) {
+        emit displayError(error.isEmpty() ? tr("Failed to start device verification.") : error);
+    }
 }
 
 void

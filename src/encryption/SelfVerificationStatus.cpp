@@ -83,6 +83,14 @@ SelfVerificationStatus::SelfVerificationStatus(QObject *o)
                 });
     }
 
+    if (auto *app = qGuiApp) {
+        connect(
+          app, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
+              if (state == Qt::ApplicationActive)
+                  refreshStateFromMatrixRuntime();
+          });
+    }
+
     QTimer::singleShot(0, this, &SelfVerificationStatus::refreshStateFromMatrixRuntime);
 }
 

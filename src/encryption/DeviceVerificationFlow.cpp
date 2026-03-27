@@ -81,7 +81,7 @@ void
 DeviceVerificationFlow::next()
 {
     if (backendHandleId_ == 0 || transaction_id.empty()) {
-        failNotMigrated();
+        failUnavailable();
         return;
     }
 
@@ -191,9 +191,10 @@ DeviceVerificationFlow::cancelVerification(DeviceVerificationFlow::Error error_c
 }
 
 void
-DeviceVerificationFlow::failNotMigrated()
+DeviceVerificationFlow::failUnavailable()
 {
-    nhlog::crypto()->warn("Device verification is not migrated to matrix-sdk yet");
+    nhlog::crypto()->warn("Device verification flow is unavailable because the matrix-sdk runtime "
+                          "or flow id is missing");
     cancelVerification(UnknownMethod);
     emit refreshProfile();
 }

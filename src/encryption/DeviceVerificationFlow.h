@@ -185,7 +185,7 @@ private:
 
     //! cancels a verification flow
     void cancelVerification(DeviceVerificationFlow::Error error_code);
-    void failNotMigrated();
+    void failUnavailable();
     void refreshFromMatrixRuntime();
     void startMatrixRefreshTimer();
     void applyMatrixSession(const QString &flowId,

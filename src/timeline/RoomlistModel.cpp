@@ -37,6 +37,19 @@ matrixRoomSummaryEquals(const komai::MatrixRoomSummary &left, const komai::Matri
            left.notificationCount == right.notificationCount &&
            left.highlightCount == right.highlightCount && left.timestamp == right.timestamp;
 }
+
+bool
+roomPreviewEquals(const RoomPreview &left, const RoomPreview &right)
+{
+    return left.roomid_ == right.roomid_ && left.roomName_ == right.roomName_ &&
+           left.roomTopic_ == right.roomTopic_ && left.roomAvatarUrl_ == right.roomAvatarUrl_ &&
+           left.directChatOtherUserId_ == right.directChatOtherUserId_ &&
+           left.reason_ == right.reason_ && left.memberCount_ == right.memberCount_ &&
+           left.isDirect_ == right.isDirect_ && left.isEncrypted_ == right.isEncrypted_ &&
+           left.isPublic_ == right.isPublic_ && left.isInvite_ == right.isInvite_ &&
+           left.isFetched_ == right.isFetched_ && left.canJoin_ == right.canJoin_ &&
+           left.isMatrixSummary_ == right.isMatrixSummary_;
+}
 } // namespace
 
 bool
@@ -291,6 +304,11 @@ RoomlistModel::refreshMatrixBackendRooms()
                                           : (!pendingCurrentRoomId_.isEmpty()
                                                ? pendingCurrentRoomId_
                                                : UserSettings::instance()->currentRoomId()));
+    const bool hadCurrentMatrixSummarySelection =
+      !selectedRoomId.isEmpty() && !currentRoom_ && currentRoomPreview_ &&
+      currentRoomPreview_->isMatrixSummary() && currentRoomPreview_->roomid() == selectedRoomId;
+    const auto previousCurrentRoomPreview =
+      hadCurrentMatrixSummarySelection ? *currentRoomPreview_ : RoomPreview{};
     const bool restoringStartupSelection =
       !selectedRoomId.isEmpty() && !currentRoom_ && !currentRoomPreview_ &&
       pendingCurrentRoomId_.isEmpty() &&
@@ -334,9 +352,21 @@ RoomlistModel::refreshMatrixBackendRooms()
     if (!selectedRoomId.isEmpty() && matrixJoinedRooms_.contains(selectedRoomId)) {
         if (restoringStartupSelection) {
             deferStartupCurrentRoomRestore(selectedRoomId);
+        } else if (hadCurrentMatrixSummarySelection) {
+            allowDeferredStartupCurrentRoomRestore_ = false;
+            deferredStartupCurrentRoomId_.clear();
+            pendingCurrentRoomId_.clear();
+            currentRoom_        = nullptr;
+            currentRoomPreview_ = getRoomPreviewById(selectedRoomId);
+            UserSettings::instance()->setCurrentRoomId(selectedRoomId);
+
+            if (!roomPreviewEquals(previousCurrentRoomPreview, *currentRoomPreview_))
+                emit currentRoomChanged(selectedRoomId);
         } else {
             setCurrentRoom(selectedRoomId);
         }
+    } else if (hadCurrentMatrixSummarySelection) {
+        clearCurrentRoomSelection();
     }
 
     emit totalUnreadMessageCountUpdated(totalUnreadMessages);

@@ -152,6 +152,39 @@ TimelineViewManager::matrixTimelineAttachmentCount() const
 }
 
 void
+TimelineViewManager::scheduleCurrentMatrixTimelineSelectionUpdate()
+{
+    const auto preview = rooms_->currentRoomPreview();
+    const auto roomId =
+      (!rooms_->currentRoom() && preview.isMatrixSummary()) ? preview.roomid() : QString();
+
+    if (!matrixTimelineSelectionUpdateQueued_ && roomId == activeMatrixTimelineRoomId_)
+        return;
+
+    if (!roomId.isEmpty())
+        markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_selection_queued");
+
+    if (matrixTimelineSelectionUpdateQueued_)
+        return;
+
+    matrixTimelineSelectionUpdateQueued_ = true;
+    QMetaObject::invokeMethod(
+      this,
+      [this]() {
+          matrixTimelineSelectionUpdateQueued_ = false;
+
+          const auto preview = rooms_->currentRoomPreview();
+          const auto roomId =
+            (!rooms_->currentRoom() && preview.isMatrixSummary()) ? preview.roomid() : QString();
+          if (!roomId.isEmpty())
+              markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_selection_dequeued");
+
+          updateCurrentMatrixTimelineSelection();
+      },
+      Qt::QueuedConnection);
+}
+
+void
 TimelineViewManager::updateCurrentMatrixTimelineSelection()
 {
     auto *mainWindow    = MainWindow::instance();

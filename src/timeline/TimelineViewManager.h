@@ -411,8 +411,9 @@ private:
     bool navigating_                                 = false;
     komai::MatrixTimelineModel *matrixTimelineModel_ = nullptr;
     QString activeMatrixTimelineRoomId_;
-    bool matrixTimelineLoading_      = false;
-    bool matrixSidebarRefreshQueued_ = false;
+    bool matrixTimelineLoading_               = false;
+    bool matrixSidebarRefreshQueued_          = false;
+    bool matrixTimelineSelectionUpdateQueued_ = false;
     QStringList matrixTimelinePinnedEventIds_;
     bool matrixTimelineCanRedactOwn_   = false;
     bool matrixTimelineCanRedactOther_ = false;
@@ -438,6 +439,7 @@ private:
 
     void processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers);
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
+    void scheduleCurrentMatrixTimelineSelectionUpdate();
     void updateCurrentMatrixTimelineSelection();
     bool refreshActiveMatrixTimelinePinnedEventIds();
     bool refreshActiveMatrixTimelineRedactionPermissions();

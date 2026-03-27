@@ -69,7 +69,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
     };
 
     if let Some(previous_task) = previous_task {
-        stop_room_timeline_task(handle_id, previous_task);
+        std::thread::spawn(move || stop_room_timeline_task(handle_id, previous_task));
     }
 
     if room_id.is_empty() {

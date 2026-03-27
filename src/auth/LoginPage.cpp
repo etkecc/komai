@@ -46,7 +46,12 @@ LoginPage::LoginPage(QObject *parent)
             res.deviceId.toStdString(),
             res.homeserverUrl.toStdString());
 
-          MainWindow::instance()->showChatPage(hadSessionIdentity);
+          auto *mainWindow = MainWindow::instance();
+          mainWindow->showStartupRestorePage();
+          QMetaObject::invokeMethod(
+            mainWindow,
+            [mainWindow, hadSessionIdentity] { mainWindow->showChatPage(hadSessionIdentity); },
+            Qt::QueuedConnection);
       },
       Qt::QueuedConnection);
 }

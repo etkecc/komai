@@ -282,6 +282,9 @@ function openCatalogDialog(componentUrl, properties) {
             snackbar.showNotification(msg);
             console.log("New snack: " + msg);
         }
+        function onSwitchToStartupRestorePage() {
+            mainWindow.replace(null, startupRestorePage);
+        }
         function onSwitchToChatPage() {
             mainWindow.replace(null, chatPage);
         }

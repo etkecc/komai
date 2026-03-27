@@ -95,6 +95,8 @@ public:
 
     //! Show the chat page using the currently persisted session snapshot.
     void showChatPage(bool hadSessionIdentity);
+    //! Show the startup restore page while a session is being restored.
+    void showStartupRestorePage();
     //! Request showing the user settings page from any app page/state.
     Q_INVOKABLE void showUserSettingsPage();
     Q_INVOKABLE void showUserSettingsPage(int initialTab);
@@ -134,6 +136,7 @@ signals:
     void altPressedChanged();
     void startupStatusChanged();
 
+    void switchToStartupRestorePage();
     void switchToChatPage();
     void switchToWelcomePage();
     void switchToLoginPage(QString error);

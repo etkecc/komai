@@ -400,6 +400,13 @@ MainWindow::showChatPage(bool hadSessionIdentity)
 }
 
 void
+MainWindow::showStartupRestorePage()
+{
+    setStartupStatus(tr("Plugging you into the Matrix..."), tr("Restoring your Matrix session..."));
+    emit switchToStartupRestorePage();
+}
+
+void
 MainWindow::startMatrixBackendHandleForActiveSession()
 {
     if (!userSettings_->hasActiveSession())

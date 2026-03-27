@@ -1181,6 +1181,13 @@ Components.OverlayDialog {
                             }
 
                             Components.KomaiButton {
+                                visible: deviceCard.verificationStatus === VerificationStatus.VERIFIED
+                                text: qsTr("Unverify")
+                                icon.source: ":/icons/icons/ui/shield-regular-exclamation-mark.svg"
+                                onClicked: profile.unverify(deviceCard.deviceId)
+                            }
+
+                            Components.KomaiButton {
                                 visible: deviceCard.verificationStatus !== VerificationStatus.SELF
                                 text: deviceCard.verificationStatus === VerificationStatus.BLOCKED
                                     ? qsTr("Unblock")

@@ -1032,6 +1032,18 @@ Item {
                                             Item { Layout.fillWidth: true }
 
                                             Components.KomaiButton {
+                                                visible: deviceDelegate.verificationStatus === VerificationStatus.VERIFIED
+                                                text: qsTr("Unverify")
+                                                icon.source: "qrc:/icons/icons/ui/shield-regular-exclamation-mark.svg"
+                                                Layout.topMargin: Komai.paddingMedium + 2
+                                                Layout.bottomMargin: Komai.paddingMedium + 2
+                                                onClicked: {
+                                                    if (accountView.profile)
+                                                        accountView.profile.unverify(deviceDelegate.deviceId);
+                                                }
+                                            }
+
+                                            Components.KomaiButton {
                                                 text: deviceDelegate.verificationStatus === VerificationStatus.BLOCKED
                                                     ? qsTr("Unblock")
                                                     : qsTr("Block")

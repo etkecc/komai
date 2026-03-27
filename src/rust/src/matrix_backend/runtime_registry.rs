@@ -19,6 +19,14 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
     };
 
     let handle_id = NEXT_BACKEND_HANDLE_ID.fetch_add(1, Ordering::Relaxed);
+    let verification_sessions = Arc::new(Mutex::new(HashMap::new()));
+    let pending_verification_flow_ids = Arc::new(Mutex::new(Vec::new()));
+    let verification_event_handlers = verification::install_incoming_verification_event_handlers(
+        handle_id,
+        restored.client.clone(),
+        Arc::clone(&verification_sessions),
+        Arc::clone(&pending_verification_flow_ids),
+    );
     backend_handles()
         .lock()
         .expect("poisoned matrix backend handle registry mutex")
@@ -32,7 +40,9 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
                 room_timeline_snapshot: Arc::new(Mutex::new(Vec::new())),
                 room_timeline_media_lookup: Arc::new(Mutex::new(HashMap::new())),
                 pending_identity_reset: Arc::new(Mutex::new(None)),
-                verification_sessions: Arc::new(Mutex::new(HashMap::new())),
+                verification_sessions,
+                pending_verification_flow_ids,
+                _verification_event_handlers: verification_event_handlers,
             },
         );
 

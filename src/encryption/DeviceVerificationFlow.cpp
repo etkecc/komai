@@ -220,6 +220,16 @@ DeviceVerificationFlow::refreshFromMatrixRuntime()
 }
 
 void
+DeviceVerificationFlow::startMatrixRefreshTimer()
+{
+    auto *timer = new QTimer(this);
+    timer->setInterval(250);
+    QObject::connect(
+      timer, &QTimer::timeout, this, &DeviceVerificationFlow::refreshFromMatrixRuntime);
+    timer->start();
+}
+
+void
 DeviceVerificationFlow::applyMatrixSession(const QString &flowId,
                                            const QString &newDeviceId,
                                            const QString &state,
@@ -356,12 +366,41 @@ DeviceVerificationFlow::InitiateMatrixSelfVerification(QObject *parent,
                              session->isSelfVerification,
                              session->isMultiDeviceVerification,
                              numbers);
+    flow->startMatrixRefreshTimer();
 
-    auto *timer = new QTimer(flow);
-    timer->setInterval(250);
-    QObject::connect(
-      timer, &QTimer::timeout, flow, &DeviceVerificationFlow::refreshFromMatrixRuntime);
-    timer->start();
+    return flow;
+}
+
+DeviceVerificationFlow *
+DeviceVerificationFlow::InitiateMatrixVerificationSession(QObject *parent,
+                                                          uint64_t handleId,
+                                                          const QString &flowId,
+                                                          QString *errorOut)
+{
+    QString error;
+    const auto session =
+      komai::MatrixBackendRuntimeService::fetchVerificationSession(handleId, flowId, &error);
+    if (!session) {
+        if (errorOut)
+            *errorOut = error;
+        return nullptr;
+    }
+
+    auto *flow = new DeviceVerificationFlow(parent, Type::ToDevice, session->userId, {});
+    flow->backendHandleId_ = handleId;
+    std::vector<int> numbers;
+    numbers.reserve(session->sasNumbers.size());
+    for (const auto number : session->sasNumbers)
+        numbers.push_back(number);
+    flow->applyMatrixSession(session->flowId,
+                             session->deviceId,
+                             session->state,
+                             session->error,
+                             session->sender,
+                             session->isSelfVerification,
+                             session->isMultiDeviceVerification,
+                             numbers);
+    flow->startMatrixRefreshTimer();
 
     return flow;
 }

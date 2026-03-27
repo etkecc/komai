@@ -7,6 +7,7 @@
 
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 
@@ -28,7 +29,14 @@ notifyNotMigrated()
 VerificationManager::VerificationManager(TimelineViewManager *o)
   : QObject(o)
 {
-    instance_ = this;
+    instance_                    = this;
+    matrixVerificationPollTimer_ = new QTimer(this);
+    matrixVerificationPollTimer_->setInterval(500);
+    connect(matrixVerificationPollTimer_,
+            &QTimer::timeout,
+            this,
+            &VerificationManager::pollPendingMatrixVerifications);
+    matrixVerificationPollTimer_->start();
 }
 
 void
@@ -101,6 +109,7 @@ VerificationManager::removeVerificationFlow(DeviceVerificationFlow *flow)
     if (!flow)
         return;
 
+    activeMatrixFlowIds_.remove(flow->transactionId());
     flow->deleteLater();
 }
 
@@ -118,6 +127,47 @@ VerificationManager::verifyOneOfDevices(QString userid, std::vector<QString> dev
     Q_UNUSED(userid);
     Q_UNUSED(deviceids);
     notifyNotMigrated();
+}
+
+void
+VerificationManager::pollPendingMatrixVerifications()
+{
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0)
+        return;
+
+    QString error;
+    const auto pendingFlowIds =
+      komai::MatrixBackendRuntimeService::takePendingVerificationFlowIds(handleId, &error);
+    if (!pendingFlowIds) {
+        if (!error.isEmpty()) {
+            nhlog::crypto()->warn("Failed to poll pending matrix-sdk verification requests: {}",
+                                  error.toStdString());
+        }
+        return;
+    }
+
+    for (const auto &flowId : *pendingFlowIds) {
+        if (flowId.trimmed().isEmpty() || activeMatrixFlowIds_.contains(flowId))
+            continue;
+
+        QString flowError;
+        auto *flow = DeviceVerificationFlow::InitiateMatrixVerificationSession(
+          nullptr, handleId, flowId, &flowError);
+        if (!flow) {
+            nhlog::crypto()->warn("Failed to adopt pending matrix-sdk verification flow {}: {}",
+                                  flowId.toStdString(),
+                                  flowError.toStdString());
+            continue;
+        }
+
+        activeMatrixFlowIds_.insert(flowId);
+        connect(flow, &QObject::destroyed, this, [this, flowId]() {
+            activeMatrixFlowIds_.remove(flowId);
+        });
+        emit newDeviceVerificationRequest(flow);
+    }
 }
 
 #include "moc_VerificationManager.cpp"

@@ -300,6 +300,9 @@ public:
     static std::optional<MatrixVerificationSession>
     startSelfVerification(uint64_t handleId, QString *errorOut = nullptr);
 
+    static std::optional<QVector<QString>>
+    takePendingVerificationFlowIds(uint64_t handleId, QString *errorOut = nullptr);
+
     static std::optional<MatrixVerificationSession>
     fetchVerificationSession(uint64_t handleId, const QString &flowId, QString *errorOut = nullptr);
 

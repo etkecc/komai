@@ -20,6 +20,7 @@ use matrix_sdk::{
         verification::{SasVerification, VerificationRequest},
         recovery::IdentityResetHandle,
     },
+    event_handler::EventHandlerDropGuard,
     media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings},
     ruma::{
         MxcUri, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
@@ -87,7 +88,7 @@ pub use recovery::{
 pub use registry::{start_restored_backend, stop_backend};
 pub use verification::{
     advance_verification_session, cancel_verification_session, fetch_verification_session,
-    start_self_verification,
+    start_self_verification, take_pending_verification_flow_ids,
 };
 pub use room_actions::{
     ban_user, create_room, invite_user, join_room, kick_user, knock_room, leave_room, unban_user,
@@ -295,6 +296,8 @@ struct MatrixBackendHandle {
     room_timeline_media_lookup: Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
     pending_identity_reset: Arc<Mutex<Option<IdentityResetHandle>>>,
     verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,
+    pending_verification_flow_ids: Arc<Mutex<Vec<String>>>,
+    _verification_event_handlers: Vec<EventHandlerDropGuard>,
 }
 
 #[derive(Clone)]
@@ -364,6 +367,17 @@ fn verification_sessions_for_handle(
         .expect("poisoned matrix backend handle registry mutex")
         .get(&handle_id)
         .map(|handle| Arc::clone(&handle.verification_sessions))
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
+}
+
+fn pending_verification_flow_ids_for_handle(
+    handle_id: u64,
+) -> Result<Arc<Mutex<Vec<String>>>, String> {
+    backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .get(&handle_id)
+        .map(|handle| Arc::clone(&handle.pending_verification_flow_ids))
         .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
 }
 

@@ -133,6 +133,10 @@ public:
                                                               const std::vector<QString> &devices);
     static DeviceVerificationFlow *
     InitiateMatrixSelfVerification(QObject *parent, uint64_t handleId, QString *errorOut = nullptr);
+    static DeviceVerificationFlow *InitiateMatrixVerificationSession(QObject *parent,
+                                                                     uint64_t handleId,
+                                                                     const QString &flowId,
+                                                                     QString *errorOut = nullptr);
 
     // getters
     QString state();
@@ -183,6 +187,7 @@ private:
     void cancelVerification(DeviceVerificationFlow::Error error_code);
     void failNotMigrated();
     void refreshFromMatrixRuntime();
+    void startMatrixRefreshTimer();
     void applyMatrixSession(const QString &flowId,
                             const QString &deviceId,
                             const QString &state,

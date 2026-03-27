@@ -7,7 +7,9 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include <QSet>
 #include <QString>
+#include <QTimer>
 
 #include <mtx/events.hpp>
 #include <mtx/events/encrypted.hpp>
@@ -64,7 +66,10 @@ public slots:
                                            std::string sender);
     void receivedDeviceVerificationStart(const mtx::events::msg::KeyVerificationStart &msg,
                                          std::string sender);
+    void pollPendingMatrixVerifications();
 
 private:
     inline static VerificationManager *instance_ = nullptr;
+    QTimer *matrixVerificationPollTimer_         = nullptr;
+    QSet<QString> activeMatrixFlowIds_;
 };

@@ -599,6 +599,23 @@ MatrixBackendRuntimeService::startSelfVerification(uint64_t handleId, QString *e
     }
 }
 
+std::optional<QVector<QString>>
+MatrixBackendRuntimeService::takePendingVerificationFlowIds(uint64_t handleId, QString *errorOut)
+{
+    try {
+        const auto result = ::komai::rust::matrix_take_pending_verification_flow_ids(handleId);
+        QVector<QString> flowIds;
+        flowIds.reserve(static_cast<int>(result.size()));
+        for (const auto &flowId : result)
+            flowIds.push_back(QString::fromStdString(std::string(flowId)));
+        return flowIds;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 std::optional<MatrixVerificationSession>
 MatrixBackendRuntimeService::fetchVerificationSession(uint64_t handleId,
                                                       const QString &flowId,

@@ -2,10 +2,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::sync::{Arc, Mutex};
+
 use matrix_sdk::{
     encryption::verification::{CancelInfo, SasState, VerificationRequestState},
+    event_handler::EventHandlerDropGuard,
     ruma::events::key::verification::{VerificationMethod, cancel::CancelCode},
+    ruma::{UserId, events::AnyToDeviceEvent, serde::Raw},
 };
+use serde_json::Value;
 
 use super::*;
 
@@ -143,6 +148,128 @@ fn snapshot_from_entry(
         };
         request_snapshot(flow_id, &entry.request, error)
     }
+}
+
+fn extract_verification_ids_from_raw_to_device(
+    raw: &Raw<AnyToDeviceEvent>,
+) -> Option<(String, String)> {
+    let value = serde_json::from_str::<Value>(raw.json().get()).ok()?;
+    let event_type = value.get("type")?.as_str()?;
+    if !matches!(
+        event_type,
+        "m.key.verification.request" | "m.key.verification.ready" | "m.key.verification.start"
+    ) {
+        return None;
+    }
+
+    let sender = value.get("sender")?.as_str()?.trim();
+    let flow_id = value
+        .get("content")?
+        .get("transaction_id")?
+        .as_str()?
+        .trim();
+    if sender.is_empty() || flow_id.is_empty() {
+        return None;
+    }
+
+    Some((sender.to_owned(), flow_id.to_owned()))
+}
+
+async fn register_incoming_verification_session(
+    client: matrix_sdk::Client,
+    verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,
+    pending_flow_ids: Arc<Mutex<Vec<String>>>,
+    sender: &str,
+    flow_id: &str,
+) -> Result<(), String> {
+    let user_id = UserId::parse(sender)
+        .map_err(|e| format!("invalid verification sender '{sender}': {e}"))?;
+
+    let Some(request) = client
+        .encryption()
+        .get_verification_request(&user_id, flow_id)
+        .await
+    else {
+        return Ok(());
+    };
+
+    if request.we_started() {
+        return Ok(());
+    }
+
+    let mut entry = MatrixVerificationSessionEntry { request, sas: None };
+    let snapshot = snapshot_from_entry(flow_id, &mut entry);
+    if matches!(snapshot.state.as_str(), "Success" | "Failed") {
+        return Ok(());
+    }
+
+    {
+        let mut sessions = verification_sessions
+            .lock()
+            .expect("poisoned matrix backend verification sessions mutex");
+        if sessions.contains_key(flow_id) {
+            return Ok(());
+        }
+        sessions.insert(flow_id.to_owned(), entry);
+    }
+
+    let mut pending = pending_flow_ids
+        .lock()
+        .expect("poisoned matrix backend pending verification flows mutex");
+    if !pending.iter().any(|pending_flow_id| pending_flow_id == flow_id) {
+        pending.push(flow_id.to_owned());
+    }
+
+    Ok(())
+}
+
+pub(crate) fn install_incoming_verification_event_handlers(
+    handle_id: u64,
+    client: matrix_sdk::Client,
+    verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,
+    pending_flow_ids: Arc<Mutex<Vec<String>>>,
+) -> Vec<EventHandlerDropGuard> {
+    let handle = client.add_event_handler({
+        let verification_sessions = Arc::clone(&verification_sessions);
+        let pending_flow_ids = Arc::clone(&pending_flow_ids);
+        move |raw: Raw<AnyToDeviceEvent>, client: matrix_sdk::Client| {
+            let verification_sessions = Arc::clone(&verification_sessions);
+            let pending_flow_ids = Arc::clone(&pending_flow_ids);
+            async move {
+                let Some((sender, flow_id)) = extract_verification_ids_from_raw_to_device(&raw)
+                else {
+                    return;
+                };
+
+                if let Err(error) = register_incoming_verification_session(
+                    client,
+                    verification_sessions,
+                    pending_flow_ids,
+                    &sender,
+                    &flow_id,
+                )
+                .await
+                {
+                    tracing::warn!(
+                        handle_id,
+                        sender,
+                        flow_id,
+                        "Failed to register incoming matrix-sdk verification flow: {error}"
+                    );
+                }
+            }
+        }
+    });
+
+    vec![client.event_handler_drop_guard(handle)]
+}
+
+pub fn take_pending_verification_flow_ids(handle_id: u64) -> Result<Vec<String>, String> {
+    let pending_flow_ids = pending_verification_flow_ids_for_handle(handle_id)?;
+    let mut pending_flow_ids = pending_flow_ids
+        .lock()
+        .expect("poisoned matrix backend pending verification flows mutex");
+    Ok(std::mem::take(&mut *pending_flow_ids))
 }
 
 pub async fn start_self_verification(handle_id: u64) -> Result<MatrixVerificationSession, String> {

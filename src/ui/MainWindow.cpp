@@ -18,6 +18,7 @@
 #include "encryption/DeviceVerificationFlow.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "profile/ProfileId.h"
 #include "providers/BlurhashProvider.h"
 #include "providers/ColorImageProvider.h"
 #include "providers/MxcImageProvider.h"
@@ -406,13 +407,14 @@ MainWindow::startMatrixBackendHandleForActiveSession()
 
     stopMatrixBackendHandle();
     setStartupStatus(tr("Plugging you into the Matrix..."), tr("Restoring your Matrix session..."));
+    const auto normalizedProfileId = profile_id::normalized(userSettings_->profile());
 
     QString error;
     const auto handleInfo =
-      komai::MatrixBackendRuntimeService::startRestoredBackend(userSettings_->profile(), &error);
+      komai::MatrixBackendRuntimeService::startRestoredBackend(normalizedProfileId, &error);
     if (!handleInfo) {
         nhlog::ui()->warn("Failed to start matrix-sdk backend handle for profile '{}': {}",
-                          userSettings_->profile().toStdString(),
+                          normalizedProfileId.toStdString(),
                           error.toStdString());
         return;
     }
@@ -420,7 +422,7 @@ MainWindow::startMatrixBackendHandleForActiveSession()
     if (!handleInfo->hasSession || handleInfo->handleId == 0) {
         nhlog::ui()->info("No persisted matrix-sdk session is available yet for profile '{}'; "
                           "continuing with mtxclient bootstrap only",
-                          userSettings_->profile().toStdString());
+                          normalizedProfileId.toStdString());
         return;
     }
 
@@ -429,7 +431,7 @@ MainWindow::startMatrixBackendHandleForActiveSession()
     nhlog::ui()->info("Started matrix-sdk backend handle {} for profile '{}' "
                       "(auth_type='{}', user_id='{}', device_id='{}', homeserver='{}')",
                       matrixBackendHandleId_,
-                      userSettings_->profile().toStdString(),
+                      normalizedProfileId.toStdString(),
                       handleInfo->authType.toStdString(),
                       handleInfo->userId.toStdString(),
                       handleInfo->deviceId.toStdString(),

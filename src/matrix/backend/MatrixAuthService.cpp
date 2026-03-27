@@ -5,6 +5,7 @@
 #include "matrix/backend/MatrixAuthService.h"
 
 #include "komai-rust-cxxbridge/lib.h"
+#include "profile/ProfileId.h"
 
 #include <QUrl>
 
@@ -13,6 +14,12 @@
 namespace komai {
 
 namespace {
+
+QString
+normalizeProfileId(QStringView profileId)
+{
+    return profile_id::normalized(profileId);
+}
 
 QString
 normalizeHomeserverUrl(QString homeserver)
@@ -205,8 +212,9 @@ MatrixAuthService::startOauthLogin(const QString &profileId,
                                    QString *errorOut)
 {
     try {
+        const auto normalizedProfileId = normalizeProfileId(profileId);
         auto result =
-          ::komai::rust::matrix_start_oauth_login(profileId.toStdString(),
+          ::komai::rust::matrix_start_oauth_login(normalizedProfileId.toStdString(),
                                                   homeserverUrl.toStdString(),
                                                   redirectUrl.toStdString(),
                                                   userIdHint.toStdString(),
@@ -261,7 +269,8 @@ MatrixAuthService::loginWithPassword(const QString &profileId,
                                      QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_login_password(profileId.toStdString(),
+        const auto normalizedProfileId = normalizeProfileId(profileId);
+        auto result = ::komai::rust::matrix_login_password(normalizedProfileId.toStdString(),
                                                            homeserverUrl.toStdString(),
                                                            userId.toStdString(),
                                                            password.toStdString(),
@@ -286,7 +295,8 @@ MatrixAuthService::loginWithToken(const QString &profileId,
                                   QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_login_token(profileId.toStdString(),
+        const auto normalizedProfileId = normalizeProfileId(profileId);
+        auto result = ::komai::rust::matrix_login_token(normalizedProfileId.toStdString(),
                                                         homeserverUrl.toStdString(),
                                                         loginToken.toStdString(),
                                                         deviceId.toStdString(),

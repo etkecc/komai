@@ -7,10 +7,17 @@
 #include "komai-rust-cxxbridge/lib.h"
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendBridge.h"
+#include "profile/ProfileId.h"
 
 namespace komai {
 
 namespace {
+QString
+normalizeProfileId(QStringView profileId)
+{
+    return profile_id::normalized(profileId);
+}
+
 ::rust::Vec<::rust::String>
 toRustStringVec(const QVector<QString> &values)
 {
@@ -323,7 +330,9 @@ std::optional<MatrixBackendHandleInfo>
 MatrixBackendRuntimeService::startRestoredBackend(const QString &profileId, QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_start_restored_backend(profileId.toStdString());
+        const auto normalizedProfileId = normalizeProfileId(profileId);
+        auto result =
+          ::komai::rust::matrix_start_restored_backend(normalizedProfileId.toStdString());
         return fromRustHandleInfo(result);
     } catch (const std::exception &e) {
         if (errorOut)

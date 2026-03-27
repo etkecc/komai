@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "matrix/backend/MatrixBackendBridge.h"
+#include "komai-rust-cxxbridge/lib.h"
 
 #include <QCoreApplication>
 #include <QMetaObject>
@@ -15,6 +16,8 @@
 #include <utility>
 
 #include "logging/Logging.h"
+#include "matrix/MatrixMediaUri.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "profile/Paths.h"
 #include "timeline/TimelineViewManager.h"
@@ -23,9 +26,47 @@
 namespace {
 
 QString
-toQString(rust::Str value)
+toQString(::rust::Str value)
 {
     return QString::fromUtf8(value.data(), static_cast<qsizetype>(value.size()));
+}
+
+komai::MatrixRoomSummary
+fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
+{
+    QVector<QString> tags;
+    tags.reserve(static_cast<int>(room.tags.size()));
+    for (const auto &value : room.tags)
+        tags.push_back(QString::fromStdString(std::string(value)));
+
+    QVector<QString> parentSpaceRoomIds;
+    parentSpaceRoomIds.reserve(static_cast<int>(room.parent_space_room_ids.size()));
+    for (const auto &value : room.parent_space_room_ids)
+        parentSpaceRoomIds.push_back(QString::fromStdString(std::string(value)));
+
+    return komai::MatrixRoomSummary{
+      .roomId      = QString::fromStdString(std::string(room.room_id)),
+      .displayName = QString::fromStdString(std::string(room.display_name)),
+      .avatarUrl =
+        komai::matrix::normalizeMxcUri(QString::fromStdString(std::string(room.avatar_url))),
+      .topic                 = QString::fromStdString(std::string(room.topic)),
+      .lastMessage           = QString::fromStdString(std::string(room.last_message)),
+      .lastMessageKind       = QString::fromStdString(std::string(room.last_message_kind)),
+      .tags                  = std::move(tags),
+      .parentSpaceRoomIds    = std::move(parentSpaceRoomIds),
+      .directChatOtherUserId = QString::fromStdString(std::string(room.direct_chat_other_user_id)),
+      .isInvite              = room.is_invite,
+      .isSpace               = room.is_space,
+      .isDirect              = room.is_direct,
+      .isBotRoom             = room.is_bot_room,
+      .isEncrypted           = room.is_encrypted,
+      .isPublic              = room.is_public,
+      .memberCount           = room.member_count,
+      .unreadMessages        = room.unread_message_count,
+      .notificationCount     = room.notification_count,
+      .highlightCount        = room.highlight_count,
+      .timestamp             = room.timestamp,
+    };
 }
 
 template<typename Func>
@@ -94,50 +135,50 @@ postToAppThread(Func &&func)
 
 namespace komai::rust_bridge {
 
-rust::String
-matrix_profile_data_root(rust::Str profile_id)
+::rust::String
+matrix_profile_data_root(::rust::Str profile_id)
 {
-    return rust::String(app_paths::data::profileDirectory(toQString(profile_id)).toStdString());
+    return ::rust::String(app_paths::data::profileDirectory(toQString(profile_id)).toStdString());
 }
 
-rust::String
-matrix_profile_cache_root(rust::Str profile_id)
+::rust::String
+matrix_profile_cache_root(::rust::Str profile_id)
 {
-    return rust::String(app_paths::cache::profileDirectory(toQString(profile_id)).toStdString());
+    return ::rust::String(app_paths::cache::profileDirectory(toQString(profile_id)).toStdString());
 }
 
-rust::String
-matrix_store_passphrase(rust::Str profile_id)
+::rust::String
+matrix_store_passphrase(::rust::Str profile_id)
 {
     const auto secrets = invokeOnAppThread([&profile_id]() {
         return matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
     });
-    return rust::String(secrets.storePassphrase.toStdString());
+    return ::rust::String(secrets.storePassphrase.toStdString());
 }
 
-rust::String
-matrix_homeserver_url(rust::Str profile_id)
+::rust::String
+matrix_homeserver_url(::rust::Str profile_id)
 {
     const auto secrets = invokeOnAppThread([&profile_id]() {
         return matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
     });
-    return rust::String(secrets.homeserverUrl.toStdString());
+    return ::rust::String(secrets.homeserverUrl.toStdString());
 }
 
-rust::String
-matrix_serialized_session(rust::Str profile_id)
+::rust::String
+matrix_serialized_session(::rust::Str profile_id)
 {
     const auto secrets = invokeOnAppThread([&profile_id]() {
         return matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
     });
-    return rust::String(secrets.serializedSession.toStdString());
+    return ::rust::String(secrets.serializedSession.toStdString());
 }
 
 void
-matrix_save_session_secrets(rust::Str profile_id,
-                            rust::Str store_passphrase,
-                            rust::Str homeserver_url,
-                            rust::Str serialized_session)
+matrix_save_session_secrets(::rust::Str profile_id,
+                            ::rust::Str store_passphrase,
+                            ::rust::Str homeserver_url,
+                            ::rust::Str serialized_session)
 {
     invokeOnAppThread([&profile_id, &store_passphrase, &homeserver_url, &serialized_session]() {
         matrix_backend::savePersistedMatrixSessionSecrets(
@@ -151,7 +192,7 @@ matrix_save_session_secrets(rust::Str profile_id,
 }
 
 void
-matrix_clear_session_secrets(rust::Str profile_id)
+matrix_clear_session_secrets(::rust::Str profile_id)
 {
     invokeOnAppThread([&profile_id]() {
         matrix_backend::clearPersistedMatrixSessionSecrets(toQString(profile_id));
@@ -159,12 +200,12 @@ matrix_clear_session_secrets(rust::Str profile_id)
 }
 
 void
-matrix_log_event(rust::Str level,
-                 rust::Str target,
-                 rust::Str module_path,
-                 rust::Str file,
+matrix_log_event(::rust::Str level,
+                 ::rust::Str target,
+                 ::rust::Str module_path,
+                 ::rust::Str file,
                  std::uint32_t line,
-                 rust::Str message)
+                 ::rust::Str message)
 {
     auto logger = nhlog::rust();
     if (!logger)
@@ -206,11 +247,18 @@ matrix_log_event(rust::Str level,
 }
 
 void
-matrix_notify_room_list_snapshot_updated(std::uint64_t handle_id)
+matrix_notify_room_list_snapshot_updated(std::uint64_t handle_id,
+                                         ::rust::Vec<::komai::rust::MatrixRoomSummary> room_list)
 {
-    postToAppThread([handle_id]() {
+    QVector<komai::MatrixRoomSummary> snapshot;
+    snapshot.reserve(static_cast<int>(room_list.size()));
+    for (const auto &room : room_list)
+        snapshot.push_back(fromRustRoomSummary(room));
+
+    postToAppThread([handle_id, snapshot = std::move(snapshot)]() {
         auto *mainWindow = MainWindow::instance();
         auto *manager    = TimelineViewManager::instance();
+        komai::MatrixBackendRuntimeService::cacheRoomListSnapshot(handle_id, snapshot);
         if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
             return;
 
@@ -232,7 +280,7 @@ matrix_notify_initial_sync_ready(std::uint64_t handle_id)
 }
 
 void
-matrix_notify_room_timeline_snapshot_updated(std::uint64_t handle_id, rust::Str room_id)
+matrix_notify_room_timeline_snapshot_updated(std::uint64_t handle_id, ::rust::Str room_id)
 {
     const auto roomId = toQString(room_id);
     postToAppThread([handle_id, roomId]() {

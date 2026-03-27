@@ -12,6 +12,8 @@
 namespace komai {
 
 namespace {
+QHash<uint64_t, QVector<MatrixRoomSummary>> cachedRoomListSnapshots;
+
 QString
 normalizeProfileId(QStringView profileId)
 {
@@ -372,6 +374,7 @@ MatrixBackendRuntimeService::stopBackend(uint64_t handleId, QString *errorOut)
 {
     try {
         ::komai::rust::matrix_stop_backend(handleId);
+        clearCachedRoomListSnapshot(handleId);
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1052,18 +1055,35 @@ MatrixBackendRuntimeService::unignoreUser(uint64_t handleId,
 std::optional<QVector<MatrixRoomSummary>>
 MatrixBackendRuntimeService::fetchRoomList(uint64_t handleId, QString *errorOut)
 {
+    if (cachedRoomListSnapshots.contains(handleId))
+        return cachedRoomListSnapshots.value(handleId);
+
     try {
         const auto result = ::komai::rust::matrix_fetch_room_list(handleId);
         QVector<MatrixRoomSummary> rooms;
         rooms.reserve(static_cast<int>(result.size()));
         for (const auto &room : result)
             rooms.push_back(fromRustRoomSummary(room));
+        cachedRoomListSnapshots.insert(handleId, rooms);
         return rooms;
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return std::nullopt;
     }
+}
+
+void
+MatrixBackendRuntimeService::cacheRoomListSnapshot(uint64_t handleId,
+                                                   QVector<MatrixRoomSummary> rooms)
+{
+    cachedRoomListSnapshots.insert(handleId, std::move(rooms));
+}
+
+void
+MatrixBackendRuntimeService::clearCachedRoomListSnapshot(uint64_t handleId)
+{
+    cachedRoomListSnapshots.remove(handleId);
 }
 
 std::optional<MatrixRoomSettings>

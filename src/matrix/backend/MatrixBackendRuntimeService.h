@@ -425,6 +425,8 @@ public:
 
     static std::optional<QVector<MatrixRoomSummary>>
     fetchRoomList(uint64_t handleId, QString *errorOut = nullptr);
+    static void cacheRoomListSnapshot(uint64_t handleId, QVector<MatrixRoomSummary> rooms);
+    static void clearCachedRoomListSnapshot(uint64_t handleId);
 
     static std::optional<MatrixRoomSettings>
     fetchRoomSettings(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);

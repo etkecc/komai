@@ -303,7 +303,10 @@ mod ffi {
             message: &str,
         );
         #[namespace = "komai::rust_bridge"]
-        fn matrix_notify_room_list_snapshot_updated(handle_id: u64);
+        fn matrix_notify_room_list_snapshot_updated(
+            handle_id: u64,
+            room_list: Vec<MatrixRoomSummary>,
+        );
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_initial_sync_ready(handle_id: u64);
         #[namespace = "komai::rust_bridge"]
@@ -1213,35 +1216,37 @@ fn matrix_unignore_user(handle_id: u64, user_id: &str) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::unignore_user(handle_id, user_id))
 }
 
+pub(crate) fn into_ffi_matrix_room_summary(
+    room: matrix_backend::runtime::MatrixRoomSummary,
+) -> ffi::MatrixRoomSummary {
+    ffi::MatrixRoomSummary {
+        room_id: room.room_id,
+        display_name: room.display_name,
+        avatar_url: room.avatar_url,
+        topic: room.topic,
+        last_message: room.last_message,
+        last_message_kind: room.last_message_kind,
+        tags: room.tags,
+        parent_space_room_ids: room.parent_space_room_ids,
+        direct_chat_other_user_id: room.direct_chat_other_user_id,
+        is_invite: room.is_invite,
+        is_space: room.is_space,
+        is_direct: room.is_direct,
+        is_bot_room: room.is_bot_room,
+        is_encrypted: room.is_encrypted,
+        is_public: room.is_public,
+        member_count: room.member_count,
+        unread_message_count: room.unread_message_count,
+        notification_count: room.notification_count,
+        highlight_count: room.highlight_count,
+        timestamp: room.timestamp,
+    }
+}
+
 fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<ffi::MatrixRoomSummary>, String> {
     runtime()
         .block_on(matrix_backend::runtime::fetch_room_list(handle_id))
-        .map(|rooms| {
-            rooms.into_iter()
-                .map(|room| ffi::MatrixRoomSummary {
-                    room_id: room.room_id,
-                    display_name: room.display_name,
-                    avatar_url: room.avatar_url,
-                    topic: room.topic,
-                    last_message: room.last_message,
-                    last_message_kind: room.last_message_kind,
-                    tags: room.tags,
-                    parent_space_room_ids: room.parent_space_room_ids,
-                    direct_chat_other_user_id: room.direct_chat_other_user_id,
-                    is_invite: room.is_invite,
-                    is_space: room.is_space,
-                    is_direct: room.is_direct,
-                    is_bot_room: room.is_bot_room,
-                    is_encrypted: room.is_encrypted,
-                    is_public: room.is_public,
-                    member_count: room.member_count,
-                    unread_message_count: room.unread_message_count,
-                    notification_count: room.notification_count,
-                    highlight_count: room.highlight_count,
-                    timestamp: room.timestamp,
-                })
-                .collect()
-        })
+        .map(|rooms| rooms.into_iter().map(into_ffi_matrix_room_summary).collect())
 }
 
 fn matrix_fetch_room_settings(

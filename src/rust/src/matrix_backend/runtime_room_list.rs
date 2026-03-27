@@ -122,10 +122,18 @@ async fn run_sync_loop(
 
                         let snapshot = build_room_list_snapshot(&current_values).await;
                         let room_count = snapshot.len();
+                        let ffi_snapshot = snapshot
+                            .iter()
+                            .cloned()
+                            .map(crate::into_ffi_matrix_room_summary)
+                            .collect();
                         *room_list_snapshot
                             .lock()
                             .expect("poisoned matrix room-list snapshot mutex") = snapshot;
-                        crate::ffi::matrix_notify_room_list_snapshot_updated(handle_id);
+                        crate::ffi::matrix_notify_room_list_snapshot_updated(
+                            handle_id,
+                            ffi_snapshot,
+                        );
 
                         tracing::debug!(
                             handle_id,

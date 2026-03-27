@@ -5,6 +5,8 @@
 
 #include "RoomlistModel.h"
 
+#include <QTimer>
+
 #include <algorithm>
 
 #include "TimelineModel.h"
@@ -289,6 +291,10 @@ RoomlistModel::refreshMatrixBackendRooms()
                                           : (!pendingCurrentRoomId_.isEmpty()
                                                ? pendingCurrentRoomId_
                                                : UserSettings::instance()->currentRoomId()));
+    const bool restoringStartupSelection =
+      !selectedRoomId.isEmpty() && !currentRoom_ && !currentRoomPreview_ &&
+      pendingCurrentRoomId_.isEmpty() &&
+      UserSettings::instance()->currentRoomId() == selectedRoomId;
 
     for (const auto &room : *roomList) {
         newRoomIds.push_back(room.roomId);
@@ -325,8 +331,25 @@ RoomlistModel::refreshMatrixBackendRooms()
     roomids            = std::move(newRoomIds);
     endResetModel();
 
-    if (!selectedRoomId.isEmpty() && matrixJoinedRooms_.contains(selectedRoomId))
-        setCurrentRoom(selectedRoomId);
+    if (!selectedRoomId.isEmpty() && matrixJoinedRooms_.contains(selectedRoomId)) {
+        if (restoringStartupSelection) {
+            pendingCurrentRoomId_ = selectedRoomId;
+            nhlog::ui()->debug(
+              "Deferring startup room restore until after the room list paints: {}",
+              selectedRoomId.toStdString());
+            QTimer::singleShot(0, this, [this, selectedRoomId]() {
+                if (pendingCurrentRoomId_ != selectedRoomId)
+                    return;
+                if (currentRoom_ || currentRoomPreview_ ||
+                    !matrixJoinedRooms_.contains(selectedRoomId))
+                    return;
+
+                setCurrentRoom(selectedRoomId);
+            });
+        } else {
+            setCurrentRoom(selectedRoomId);
+        }
+    }
 
     emit totalUnreadMessageCountUpdated(totalUnreadMessages);
 }

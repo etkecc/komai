@@ -252,23 +252,38 @@ fn is_likely_bot_user(user_id: &str, display_name: &str) -> bool {
     false
 }
 
-fn room_hero_candidates(room: &RoomListItem) -> Vec<(String, String)> {
+#[derive(Clone, Debug)]
+struct RoomHeroCandidate {
+    user_id: String,
+    display_name: String,
+    avatar_url: String,
+}
+
+fn room_hero_candidates(room: &RoomListItem) -> Vec<RoomHeroCandidate> {
     let own_user_id = room.own_user_id();
-    let mut candidates: Vec<(String, String)> = room
+    let mut candidates: Vec<RoomHeroCandidate> = room
         .heroes()
         .into_iter()
         .filter(|hero| hero.user_id != own_user_id)
-        .map(|hero| (hero.user_id.to_string(), hero.display_name.unwrap_or_default()))
+        .map(|hero| RoomHeroCandidate {
+            user_id: hero.user_id.to_string(),
+            display_name: hero.display_name.unwrap_or_default(),
+            avatar_url: hero
+                .avatar_url
+                .map(|url| normalize_mxc_uri(url.to_string()))
+                .unwrap_or_default(),
+        })
         .collect();
 
-    candidates.sort_by(|left, right| left.0.cmp(&right.0));
-    candidates.dedup_by(|left, right| left.0 == right.0);
+    candidates.sort_by(|left, right| left.user_id.cmp(&right.user_id));
+    candidates.dedup_by(|left, right| left.user_id == right.user_id);
     candidates
 }
 
-fn classify_room(room: &RoomListItem) -> MatrixRoomClassification {
-    let hero_candidates = room_hero_candidates(room);
-
+fn classify_room(
+    room: &RoomListItem,
+    hero_candidates: &[RoomHeroCandidate],
+) -> MatrixRoomClassification {
     let mut direct_targets: Vec<String> = room
         .direct_targets()
         .into_iter()
@@ -281,8 +296,8 @@ fn classify_room(room: &RoomListItem) -> MatrixRoomClassification {
     if let Some(partner_user_id) = direct_targets.first().cloned() {
         let partner_display_name = hero_candidates
             .iter()
-            .find(|(user_id, _)| user_id == &partner_user_id)
-            .map(|(_, display_name)| display_name.as_str())
+            .find(|candidate| candidate.user_id == partner_user_id)
+            .map(|candidate| candidate.display_name.as_str())
             .unwrap_or_default();
 
         return MatrixRoomClassification {
@@ -294,11 +309,11 @@ fn classify_room(room: &RoomListItem) -> MatrixRoomClassification {
 
     match room.active_members_count() {
         2 => {
-            if let Some((partner_user_id, display_name)) = hero_candidates.first() {
+            if let Some(partner) = hero_candidates.first() {
                 MatrixRoomClassification {
                     is_direct: true,
-                    is_bot_room: is_likely_bot_user(partner_user_id, display_name),
-                    direct_chat_other_user_id: partner_user_id.clone(),
+                    is_bot_room: is_likely_bot_user(&partner.user_id, &partner.display_name),
+                    direct_chat_other_user_id: partner.user_id.clone(),
                 }
             } else {
                 MatrixRoomClassification {
@@ -317,28 +332,28 @@ fn classify_room(room: &RoomListItem) -> MatrixRoomClassification {
                 };
             }
 
-            let (first_user_id, first_display_name) = &hero_candidates[0];
-            let (second_user_id, second_display_name) = &hero_candidates[1];
-            let first_is_bot = is_likely_bot_user(first_user_id, first_display_name);
-            let second_is_bot = is_likely_bot_user(second_user_id, second_display_name);
+            let first = &hero_candidates[0];
+            let second = &hero_candidates[1];
+            let first_is_bot = is_likely_bot_user(&first.user_id, &first.display_name);
+            let second_is_bot = is_likely_bot_user(&second.user_id, &second.display_name);
 
             if first_is_bot && !second_is_bot {
                 MatrixRoomClassification {
                     is_direct: true,
                     is_bot_room: false,
-                    direct_chat_other_user_id: second_user_id.clone(),
+                    direct_chat_other_user_id: second.user_id.clone(),
                 }
             } else if second_is_bot && !first_is_bot {
                 MatrixRoomClassification {
                     is_direct: true,
                     is_bot_room: false,
-                    direct_chat_other_user_id: first_user_id.clone(),
+                    direct_chat_other_user_id: first.user_id.clone(),
                 }
             } else if first_is_bot && second_is_bot {
                 MatrixRoomClassification {
                     is_direct: true,
                     is_bot_room: true,
-                    direct_chat_other_user_id: first_user_id.clone(),
+                    direct_chat_other_user_id: first.user_id.clone(),
                 }
             } else {
                 MatrixRoomClassification {
@@ -356,9 +371,20 @@ fn classify_room(room: &RoomListItem) -> MatrixRoomClassification {
     }
 }
 
+fn direct_chat_avatar_url(
+    hero_candidates: &[RoomHeroCandidate],
+    partner_user_id: &str,
+) -> Option<String> {
+    hero_candidates
+        .iter()
+        .find(|candidate| candidate.user_id == partner_user_id)
+        .and_then(|candidate| (!candidate.avatar_url.is_empty()).then(|| candidate.avatar_url.clone()))
+}
+
 fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
     let room_state = room.state();
-    let classification = classify_room(room);
+    let hero_candidates = room_hero_candidates(room);
+    let classification = classify_room(room, &hero_candidates);
     let latest_preview = room.latest_event().and_then(|event| {
         let raw_event: Raw<AnySyncTimelineEvent> = event.event().raw().clone();
         let event = raw_event.deserialize().ok()?;
@@ -380,6 +406,17 @@ fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         avatar_url: room
             .avatar_url()
             .map(|url| normalize_mxc_uri(url.to_string()))
+            .or_else(|| {
+                classification
+                    .is_direct
+                    .then(|| {
+                        direct_chat_avatar_url(
+                            &hero_candidates,
+                            &classification.direct_chat_other_user_id,
+                        )
+                    })
+                    .flatten()
+            })
             .unwrap_or_default(),
         topic: room.topic().unwrap_or_default(),
         last_message: latest_preview

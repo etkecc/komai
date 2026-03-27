@@ -45,6 +45,9 @@ write_lock_info() {
 
 	{
 		printf 'pid=%s\n' "${lock_owner_pid}"
+		if [[ -n "${heartbeat_pid}" ]]; then
+			printf 'heartbeat_pid=%s\n' "${heartbeat_pid}"
+		fi
 		printf 'started_at=%s\n' "${lock_started_at}"
 		printf 'command='
 		printf '%q ' "${lock_command[@]}"
@@ -69,6 +72,10 @@ start_lock_heartbeat() {
 		while :; do
 			sleep "${interval}" || exit 0
 
+			if [[ "${PPID}" -ne "${lock_owner_pid}" ]]; then
+				exit 0
+			fi
+
 			if ! kill -0 "${lock_owner_pid}" 2>/dev/null; then
 				exit 0
 			fi
@@ -85,6 +92,7 @@ start_lock_heartbeat() {
 		done
 	) &
 	heartbeat_pid="$!"
+	write_lock_info
 }
 
 cleanup_lock() {

@@ -71,6 +71,12 @@ mod ffi {
         approval_url: String,
     }
 
+    struct MatrixDeviceSignOutResult {
+        completed: bool,
+        auth_type: String,
+        approval_url: String,
+    }
+
     struct MatrixVerificationSession {
         flow_id: String,
         user_id: String,
@@ -374,6 +380,14 @@ mod ffi {
             handle_id: u64,
         ) -> Result<()>;
         fn matrix_cancel_reset_encryption_identity(handle_id: u64) -> Result<()>;
+        fn matrix_start_sign_out_device(
+            handle_id: u64,
+            device_id: &str,
+        ) -> Result<MatrixDeviceSignOutResult>;
+        fn matrix_continue_sign_out_device_with_password(
+            handle_id: u64,
+            password: &str,
+        ) -> Result<()>;
         fn matrix_start_self_verification(handle_id: u64) -> Result<MatrixVerificationSession>;
         fn matrix_start_user_verification(
             handle_id: u64,
@@ -874,6 +888,29 @@ fn matrix_continue_reset_encryption_identity_after_approval(
 
 fn matrix_cancel_reset_encryption_identity(handle_id: u64) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::cancel_reset_encryption_identity(handle_id))
+}
+
+fn matrix_start_sign_out_device(
+    handle_id: u64,
+    device_id: &str,
+) -> Result<ffi::MatrixDeviceSignOutResult, String> {
+    let result =
+        runtime().block_on(matrix_backend::runtime::start_sign_out_device(handle_id, device_id))?;
+
+    Ok(ffi::MatrixDeviceSignOutResult {
+        completed: result.completed,
+        auth_type: result.auth_type,
+        approval_url: result.approval_url,
+    })
+}
+
+fn matrix_continue_sign_out_device_with_password(
+    handle_id: u64,
+    password: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::continue_sign_out_device_with_password(
+        handle_id, password,
+    ))
 }
 
 fn matrix_start_self_verification(

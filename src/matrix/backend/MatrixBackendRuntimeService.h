@@ -52,6 +52,13 @@ struct MatrixResetEncryptionIdentityResult
     QString approvalUrl;
 };
 
+struct MatrixDeviceSignOutResult
+{
+    bool completed = false;
+    QString authType;
+    QString approvalUrl;
+};
+
 struct MatrixVerificationSession
 {
     QString flowId;
@@ -314,6 +321,13 @@ public:
     continueResetEncryptionIdentityAfterApproval(uint64_t handleId, QString *errorOut = nullptr);
 
     static bool cancelResetEncryptionIdentity(uint64_t handleId, QString *errorOut = nullptr);
+
+    static std::optional<MatrixDeviceSignOutResult>
+    startSignOutDevice(uint64_t handleId, const QString &deviceId, QString *errorOut = nullptr);
+
+    static bool continueSignOutDeviceWithPassword(uint64_t handleId,
+                                                  const QString &password,
+                                                  QString *errorOut = nullptr);
 
     static std::optional<MatrixVerificationSession>
     startSelfVerification(uint64_t handleId, QString *errorOut = nullptr);

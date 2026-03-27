@@ -3,7 +3,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include <QDesktopServices>
+#include <QInputDialog>
+#include <QLineEdit>
 #include <QMetaObject>
+#include <QUrl>
 
 #include <thread>
 
@@ -174,9 +178,87 @@ UserProfile::matrixBackendHandleId() const
 void
 UserProfile::signOutDevice(const QString &deviceID)
 {
-    Q_UNUSED(deviceID);
+    const auto trimmedDeviceId = deviceID.trimmed();
+    if (trimmedDeviceId.isEmpty()) {
+        MainWindow::instance()->showNotification(tr("Device id cannot be empty."));
+        return;
+    }
+
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
+        MainWindow::instance()->showNotification(
+          tr("Device sign-out requires an active matrix-sdk backend runtime."));
+        return;
+    }
+
+    QString error;
+    const auto result =
+      komai::MatrixBackendRuntimeService::startSignOutDevice(handleId, trimmedDeviceId, &error);
+    if (!result) {
+        MainWindow::instance()->showNotification(
+          error.isEmpty() ? tr("Failed to sign out device \"%1\".").arg(trimmedDeviceId)
+                          : tr("Failed to sign out device \"%1\": %2").arg(trimmedDeviceId, error));
+        return;
+    }
+
+    if (result->completed) {
+        MainWindow::instance()->showNotification(
+          tr("Signed out device \"%1\".").arg(trimmedDeviceId));
+        refreshDevices();
+        return;
+    }
+
+    if (result->authType == QLatin1String("password")) {
+        bool ok             = false;
+        const auto password = QInputDialog::getText(nullptr,
+                                                    tr("Sign Out Device"),
+                                                    tr("Enter your account password to sign out "
+                                                       "device \"%1\".")
+                                                      .arg(trimmedDeviceId),
+                                                    QLineEdit::Password,
+                                                    QString(),
+                                                    &ok);
+        if (!ok)
+            return;
+
+        if (password.isEmpty()) {
+            MainWindow::instance()->showNotification(
+              tr("Password is required to sign out device \"%1\".").arg(trimmedDeviceId));
+            return;
+        }
+
+        if (!komai::MatrixBackendRuntimeService::continueSignOutDeviceWithPassword(
+              handleId, password, &error)) {
+            MainWindow::instance()->showNotification(
+              error.isEmpty()
+                ? tr("Failed to sign out device \"%1\".").arg(trimmedDeviceId)
+                : tr("Failed to sign out device \"%1\": %2").arg(trimmedDeviceId, error));
+            return;
+        }
+
+        MainWindow::instance()->showNotification(
+          tr("Signed out device \"%1\".").arg(trimmedDeviceId));
+        refreshDevices();
+        return;
+    }
+
+    if (result->authType == QLatin1String("oauth")) {
+        const auto url = QUrl::fromUserInput(result->approvalUrl);
+        if (!url.isValid() || !QDesktopServices::openUrl(url)) {
+            MainWindow::instance()->showNotification(
+              tr("Failed to open the browser for device sign-out."));
+            return;
+        }
+
+        MainWindow::instance()->showNotification(
+          tr("Finish signing out device \"%1\" in your browser, then refresh the device list.")
+            .arg(trimmedDeviceId));
+        return;
+    }
+
     MainWindow::instance()->showNotification(
-      tr("Device sign-out is not migrated to the matrix-sdk backend yet."));
+      tr("Device sign-out for \"%1\" requires an unsupported authentication flow.")
+        .arg(trimmedDeviceId));
 }
 
 void

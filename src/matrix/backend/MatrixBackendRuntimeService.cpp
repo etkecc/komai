@@ -72,6 +72,16 @@ fromRustResetEncryptionIdentityResult(
     };
 }
 
+MatrixDeviceSignOutResult
+fromRustDeviceSignOutResult(const ::komai::rust::MatrixDeviceSignOutResult &result)
+{
+    return MatrixDeviceSignOutResult{
+      .completed   = result.completed,
+      .authType    = QString::fromStdString(std::string(result.auth_type)),
+      .approvalUrl = QString::fromStdString(std::string(result.approval_url)),
+    };
+}
+
 MatrixVerificationSession
 fromRustVerificationSession(const ::komai::rust::MatrixVerificationSession &session)
 {
@@ -619,6 +629,37 @@ MatrixBackendRuntimeService::cancelResetEncryptionIdentity(uint64_t handleId, QS
 {
     try {
         ::komai::rust::matrix_cancel_reset_encryption_identity(handleId);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+std::optional<MatrixDeviceSignOutResult>
+MatrixBackendRuntimeService::startSignOutDevice(uint64_t handleId,
+                                                const QString &deviceId,
+                                                QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_start_sign_out_device(handleId, deviceId.toStdString());
+        return fromRustDeviceSignOutResult(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::continueSignOutDeviceWithPassword(uint64_t handleId,
+                                                               const QString &password,
+                                                               QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_continue_sign_out_device_with_password(handleId,
+                                                                     password.toStdString());
         return true;
     } catch (const std::exception &e) {
         if (errorOut)

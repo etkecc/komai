@@ -1,0 +1,164 @@
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+use matrix_sdk::{
+    AuthSession,
+    authentication::oauth::AccountManagementActionFull,
+    ruma::{
+        OwnedDeviceId,
+        api::client::{
+            discovery::get_authorization_server_metadata::v1::AccountManagementAction,
+            uiaa::{self, AuthData},
+        },
+    },
+};
+
+use super::*;
+
+fn supports_password_auth(uiaa_info: &uiaa::UiaaInfo) -> bool {
+    uiaa_info
+        .flows
+        .iter()
+        .any(|flow| flow.stages.iter().any(|stage| *stage == uiaa::AuthType::Password))
+}
+
+pub async fn start_sign_out_device(
+    handle_id: u64,
+    device_id: &str,
+) -> Result<MatrixDeviceSignOutResult, String> {
+    let client = client_for_handle(handle_id)?;
+    if device_id.trim().is_empty() {
+        return Err("device id cannot be empty".to_owned());
+    }
+
+    let parsed_device_id: OwnedDeviceId = device_id.trim().into();
+    let pending = pending_device_sign_out_for_handle(handle_id)?;
+    {
+        let mut pending = pending
+            .lock()
+            .expect("poisoned matrix backend pending device sign-out mutex");
+        *pending = None;
+    }
+
+    match client
+        .session()
+        .ok_or_else(|| "matrix-sdk client has no authenticated session".to_owned())?
+    {
+        AuthSession::OAuth(_) => {
+            let oauth = client.oauth();
+            let Some(url_builder) = oauth
+                .account_management_url()
+                .await
+                .map_err(|e| format!("failed to fetch OAuth account-management URL: {e}"))?
+            else {
+                return Err(
+                    "This homeserver does not advertise an OAuth account-management URL for session management."
+                        .to_owned(),
+                );
+            };
+
+            let approval_url = match oauth.account_management_actions_supported().await.ok() {
+                Some(actions) if actions.contains(&AccountManagementAction::SessionEnd) => {
+                    url_builder
+                        .clone()
+                        .action(AccountManagementActionFull::SessionEnd {
+                            device_id: parsed_device_id,
+                        })
+                        .build()
+                        .to_string()
+                }
+                Some(actions) if actions.contains(&AccountManagementAction::SessionsList) => {
+                    url_builder
+                        .clone()
+                        .action(AccountManagementActionFull::SessionsList)
+                        .build()
+                        .to_string()
+                }
+                _ => url_builder.build().to_string(),
+            };
+
+            Ok(MatrixDeviceSignOutResult {
+                completed: false,
+                auth_type: "oauth".to_owned(),
+                approval_url,
+            })
+        }
+        AuthSession::Matrix(_) => match client.delete_devices(&[parsed_device_id.clone()], None).await {
+            Ok(_) => Ok(MatrixDeviceSignOutResult {
+                completed: true,
+                auth_type: String::new(),
+                approval_url: String::new(),
+            }),
+            Err(error) => {
+                if let Some(uiaa_info) = error.as_uiaa_response() {
+                    if !supports_password_auth(uiaa_info) {
+                        return Err(
+                            "Signing out this device requires unsupported interactive authentication stages."
+                                .to_owned(),
+                        );
+                    }
+
+                    let mut pending = pending
+                        .lock()
+                        .expect("poisoned matrix backend pending device sign-out mutex");
+                    *pending = Some(PendingDeviceSignOut {
+                        device_id: parsed_device_id,
+                        uiaa_info: uiaa_info.clone(),
+                    });
+
+                    return Ok(MatrixDeviceSignOutResult {
+                        completed: false,
+                        auth_type: "password".to_owned(),
+                        approval_url: String::new(),
+                    });
+                }
+
+                Err(format!("failed to sign out device '{device_id}': {error}"))
+            }
+        },
+        _ => Err("unsupported matrix-sdk authenticated session type for device sign-out"
+            .to_owned()),
+    }
+}
+
+pub async fn continue_sign_out_device_with_password(
+    handle_id: u64,
+    password: &str,
+) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    let pending = pending_device_sign_out_for_handle(handle_id)?;
+    let pending_sign_out = {
+        let mut pending = pending
+            .lock()
+            .expect("poisoned matrix backend pending device sign-out mutex");
+        pending.take().ok_or_else(|| {
+            format!(
+                "matrix-sdk backend runtime handle {handle_id} has no pending device sign-out"
+            )
+        })?
+    };
+
+    let user_id = client
+        .user_id()
+        .ok_or_else(|| "matrix-sdk client has no authenticated user id".to_owned())?;
+    let mut password_auth = uiaa::Password::new(user_id.to_owned().into(), password.to_owned());
+    password_auth.session = pending_sign_out.uiaa_info.session.clone();
+
+    match client
+        .delete_devices(
+            &[pending_sign_out.device_id.clone()],
+            Some(AuthData::Password(password_auth)),
+        )
+        .await
+    {
+        Ok(_) => Ok(()),
+        Err(error) => {
+            let mut pending = pending
+                .lock()
+                .expect("poisoned matrix backend pending device sign-out mutex");
+            *pending = Some(pending_sign_out);
+            Err(format!("failed to complete device sign-out: {error}"))
+        }
+    }
+}

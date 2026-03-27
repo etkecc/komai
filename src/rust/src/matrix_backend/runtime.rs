@@ -23,7 +23,7 @@ use matrix_sdk::{
     event_handler::EventHandlerDropGuard,
     media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings},
     ruma::{
-        MxcUri, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
+        MxcUri, OwnedDeviceId, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
         RoomOrAliasId, ServerName, UInt, UserId,
         api::client::{
             error::ErrorKind,
@@ -59,6 +59,8 @@ mod profile_media;
 mod event_summary;
 #[path = "runtime_recovery.rs"]
 mod recovery;
+#[path = "runtime_device_management.rs"]
+mod device_management;
 #[path = "runtime_registry.rs"]
 mod registry;
 #[path = "runtime_verification.rs"]
@@ -85,6 +87,7 @@ pub use recovery::{
     continue_reset_encryption_identity_with_password, fetch_recovery_status,
     recover_encryption_secrets, setup_recovery, start_reset_encryption_identity,
 };
+pub use device_management::{continue_sign_out_device_with_password, start_sign_out_device};
 pub use registry::{logout_backend, start_restored_backend, stop_backend};
 pub use verification::{
     advance_verification_session, cancel_verification_session, fetch_user_verification_state,
@@ -138,6 +141,12 @@ pub struct MatrixSetupRecoveryResult {
 }
 
 pub struct MatrixResetEncryptionIdentityResult {
+    pub completed: bool,
+    pub auth_type: String,
+    pub approval_url: String,
+}
+
+pub struct MatrixDeviceSignOutResult {
     pub completed: bool,
     pub auth_type: String,
     pub approval_url: String,
@@ -311,9 +320,16 @@ struct MatrixBackendHandle {
     room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
     room_timeline_media_lookup: Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
     pending_identity_reset: Arc<Mutex<Option<IdentityResetHandle>>>,
+    pending_device_sign_out: Arc<Mutex<Option<PendingDeviceSignOut>>>,
     verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,
     pending_verification_flow_ids: Arc<Mutex<Vec<String>>>,
     _verification_event_handlers: Vec<EventHandlerDropGuard>,
+}
+
+#[derive(Clone)]
+struct PendingDeviceSignOut {
+    device_id: OwnedDeviceId,
+    uiaa_info: matrix_sdk::ruma::api::client::uiaa::UiaaInfo,
 }
 
 #[derive(Clone)]
@@ -372,6 +388,17 @@ fn pending_identity_reset_for_handle(
         .expect("poisoned matrix backend handle registry mutex")
         .get(&handle_id)
         .map(|handle| Arc::clone(&handle.pending_identity_reset))
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
+}
+
+fn pending_device_sign_out_for_handle(
+    handle_id: u64,
+) -> Result<Arc<Mutex<Option<PendingDeviceSignOut>>>, String> {
+    backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .get(&handle_id)
+        .map(|handle| Arc::clone(&handle.pending_device_sign_out))
         .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
 }
 

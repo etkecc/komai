@@ -20,6 +20,7 @@ struct MatrixBackendHandleInfo
 {
     uint64_t handleId = 0;
     bool hasSession   = false;
+    QString authType;
     QString homeserverUrl;
     QString userId;
     QString deviceId;
@@ -237,6 +238,7 @@ public:
     static std::optional<MatrixBackendHandleInfo>
     startRestoredBackend(const QString &profileId, QString *errorOut = nullptr);
 
+    static bool logoutBackend(uint64_t handleId, QString *errorOut = nullptr);
     static bool stopBackend(uint64_t handleId, QString *errorOut = nullptr);
     static bool startSync(uint64_t handleId, QString *errorOut = nullptr);
 

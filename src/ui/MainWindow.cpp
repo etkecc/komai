@@ -425,10 +425,12 @@ MainWindow::startMatrixBackendHandleForActiveSession()
     }
 
     matrixBackendHandleId_ = handleInfo->handleId;
+    matrixBackendAuthType_ = handleInfo->authType;
     nhlog::ui()->info("Started matrix-sdk backend handle {} for profile '{}' "
-                      "(user_id='{}', device_id='{}', homeserver='{}')",
+                      "(auth_type='{}', user_id='{}', device_id='{}', homeserver='{}')",
                       matrixBackendHandleId_,
                       userSettings_->profile().toStdString(),
+                      handleInfo->authType.toStdString(),
                       handleInfo->userId.toStdString(),
                       handleInfo->deviceId.toStdString(),
                       handleInfo->homeserverUrl.toStdString());
@@ -452,6 +454,7 @@ MainWindow::stopMatrixBackendHandle()
 
     const auto handleId    = matrixBackendHandleId_;
     matrixBackendHandleId_ = 0;
+    matrixBackendAuthType_.clear();
 
     QString error;
     if (!komai::MatrixBackendRuntimeService::stopBackend(handleId, &error)) {

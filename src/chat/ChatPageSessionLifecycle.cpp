@@ -6,6 +6,8 @@
 #include "chat/ChatPage.h"
 
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "ui/MainWindow.h"
 
 void
 ChatPage::getBackupVersion()
@@ -34,8 +36,24 @@ ChatPage::performLogout(LogoutPolicy policy, LogoutRoute route, const QString &l
     shuttingDown_ = true;
 
     if (policy == LogoutPolicy::BestEffortServerFirst) {
-        nhlog::net()->info(
-          "Skipping legacy server-side logout attempt on the matrix-sdk migration branch");
+        const auto *mainWindow = MainWindow::instance();
+        const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+
+        if (handleId == 0) {
+            nhlog::net()->info("Skipping server-side logout because no matrix-sdk backend handle "
+                               "is active for the current session");
+        } else {
+            QString error;
+            if (komai::MatrixBackendRuntimeService::logoutBackend(handleId, &error)) {
+                nhlog::net()->info("Completed server-side matrix-sdk logout using auth_type='{}'",
+                                   mainWindow->matrixBackendAuthType().toStdString());
+            } else {
+                nhlog::net()->warn(
+                  "Best-effort server-side matrix-sdk logout failed for auth_type='{}': {}",
+                  mainWindow->matrixBackendAuthType().toStdString(),
+                  error.toStdString());
+            }
+        }
     }
 
     finalizeLogout(route, loginMessage);

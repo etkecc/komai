@@ -32,6 +32,7 @@ mod ffi {
     struct MatrixRestorePreview {
         has_session: bool,
         session_source: String,
+        auth_type: String,
         homeserver_url: String,
         user_id: String,
         device_id: String,
@@ -42,6 +43,7 @@ mod ffi {
     struct MatrixBackendHandleInfo {
         handle_id: u64,
         has_session: bool,
+        auth_type: String,
         homeserver_url: String,
         user_id: String,
         device_id: String,
@@ -297,6 +299,7 @@ mod ffi {
         fn matrix_sdk_paths(profile_id: &str) -> MatrixSdkPaths;
         fn matrix_restore_session_preview(profile_id: &str) -> Result<MatrixRestorePreview>;
         fn matrix_start_restored_backend(profile_id: &str) -> Result<MatrixBackendHandleInfo>;
+        fn matrix_logout_backend(handle_id: u64) -> Result<()>;
         fn matrix_stop_backend(handle_id: u64) -> Result<()>;
         fn matrix_start_backend_sync(handle_id: u64) -> Result<()>;
         fn matrix_join_room(
@@ -634,6 +637,7 @@ fn matrix_restore_session_preview(profile_id: &str) -> Result<ffi::MatrixRestore
     Ok(ffi::MatrixRestorePreview {
         has_session: preview.has_session,
         session_source: preview.session_source,
+        auth_type: preview.auth_type,
         homeserver_url: preview.homeserver_url,
         user_id: preview.user_id,
         device_id: preview.device_id,
@@ -648,10 +652,16 @@ fn matrix_start_restored_backend(profile_id: &str) -> Result<ffi::MatrixBackendH
     Ok(ffi::MatrixBackendHandleInfo {
         handle_id: result.handle_id,
         has_session: result.has_session,
+        auth_type: result.auth_type,
         homeserver_url: result.homeserver_url,
         user_id: result.user_id,
         device_id: result.device_id,
     })
+}
+
+fn matrix_logout_backend(handle_id: u64) -> Result<(), String> {
+    logging::ensure_initialized();
+    runtime().block_on(matrix_backend::runtime::logout_backend(handle_id))
 }
 
 fn matrix_stop_backend(handle_id: u64) -> Result<(), String> {

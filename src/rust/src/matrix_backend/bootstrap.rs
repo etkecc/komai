@@ -4,7 +4,7 @@
 
 use std::path::Path;
 
-use matrix_sdk::authentication::matrix::MatrixSession;
+use matrix_sdk::AuthSession;
 use matrix_sdk::store::RoomLoadSettings;
 use matrix_sdk::{Client, ClientBuildError, encryption::EncryptionSettings};
 use rand::RngExt;
@@ -13,7 +13,8 @@ use crate::ffi;
 
 use super::{
     session_persistence::{
-        load_persisted_session_secrets, save_persisted_session_secrets,
+        auth_type_from_auth_session, deserialize_auth_session, load_persisted_session_secrets,
+        save_persisted_session_secrets, serialize_auth_session, session_tokens_from_auth_session,
         PersistedMatrixSessionSecrets,
     },
     DerivedMatrixSdkPaths,
@@ -27,6 +28,7 @@ pub struct MatrixSdkBuildConfig<'a> {
 pub struct MatrixRestorePreview {
     pub has_session: bool,
     pub session_source: String,
+    pub auth_type: String,
     pub homeserver_url: String,
     pub user_id: String,
     pub device_id: String,
@@ -36,6 +38,7 @@ pub struct MatrixRestorePreview {
 
 pub struct RestoredMatrixBackend {
     pub client: Client,
+    pub auth_type: String,
     pub homeserver_url: String,
     pub user_id: String,
     pub device_id: String,
@@ -45,7 +48,7 @@ pub struct RestoredMatrixBackend {
 
 struct StoredSession {
     homeserver_url: String,
-    session: MatrixSession,
+    session: AuthSession,
 }
 
 pub async fn build_client(
@@ -73,6 +76,7 @@ pub async fn restore_session_preview(profile_id: &str) -> Result<MatrixRestorePr
         return Ok(MatrixRestorePreview {
             has_session: false,
             session_source: String::new(),
+            auth_type: String::new(),
             homeserver_url: String::new(),
             user_id: String::new(),
             device_id: String::new(),
@@ -84,6 +88,7 @@ pub async fn restore_session_preview(profile_id: &str) -> Result<MatrixRestorePr
     Ok(MatrixRestorePreview {
         has_session: true,
         session_source: "serialized".to_owned(),
+        auth_type: restored.auth_type,
         homeserver_url: restored.homeserver_url,
         user_id: restored.user_id,
         device_id: restored.device_id,
@@ -137,16 +142,17 @@ pub async fn restore_client(profile_id: &str) -> Result<Option<RestoredMatrixBac
     tracing::info!(
         profile_id,
         homeserver_url = %stored_session.homeserver_url,
-        user_id = %stored_session.session.meta.user_id,
-        device_id = %stored_session.session.meta.device_id,
+        user_id = %stored_session.session.meta().user_id,
+        device_id = %stored_session.session.meta().device_id,
         "Restored persisted matrix-sdk session"
     );
 
     Ok(Some(RestoredMatrixBackend {
         client,
+        auth_type: auth_type_from_auth_session(&stored_session.session).to_owned(),
         homeserver_url: stored_session.homeserver_url,
-        user_id: stored_session.session.meta.user_id.to_string(),
-        device_id: stored_session.session.meta.device_id.to_string(),
+        user_id: stored_session.session.meta().user_id.to_string(),
+        device_id: stored_session.session.meta().device_id.to_string(),
         state_store_root: paths.state_store_root,
         cache_root: paths.cache_root,
     }))
@@ -161,7 +167,7 @@ fn load_stored_session(profile_id: &str) -> Result<Option<StoredSession>, String
         return Ok(None);
     }
 
-    let session = deserialize_matrix_session(&persisted_secrets.serialized_session)?;
+    let session = deserialize_auth_session(&persisted_secrets.serialized_session)?;
     Ok(Some(StoredSession {
         homeserver_url: persisted_secrets.homeserver_url,
         session,
@@ -193,28 +199,15 @@ pub(crate) fn ensure_store_passphrase(profile_id: &str) -> String {
     store_passphrase
 }
 
-pub(crate) fn deserialize_matrix_session(
-    serialized_session: &str,
-) -> Result<MatrixSession, String> {
-    serde_json::from_str(serialized_session)
-        .map_err(|e| format!("failed to deserialize persisted MatrixSession: {e}"))
-}
-
-pub(crate) fn serialize_matrix_session(session: &MatrixSession) -> Result<String, String> {
-    serde_json::to_string(session).map_err(|e| format!("failed to serialize MatrixSession: {e}"))
-}
-
 pub(crate) fn persist_current_session(
     profile_id: &str,
     store_passphrase: &str,
     homeserver_url: &str,
     client: &Client,
 ) -> Result<(), String> {
-    let session = client
-        .matrix_auth()
-        .session()
-        .ok_or_else(|| "matrix-sdk client has no matrix-auth session to persist".to_owned())?;
-    let serialized_session = serialize_matrix_session(&session)?;
+    let session =
+        client.session().ok_or_else(|| "matrix-sdk client has no authenticated session to persist".to_owned())?;
+    let serialized_session = serialize_auth_session(&session)?;
 
     save_persisted_session_secrets(
         profile_id,
@@ -245,13 +238,13 @@ pub(crate) fn configure_session_callbacks(
                 let persisted = load_persisted_session_secrets(&reload_profile_id);
                 if persisted.serialized_session.trim().is_empty() {
                     return Err(Box::new(std::io::Error::other(
-                        "no serialized matrix session available for reload",
+                        "no serialized auth session available for reload",
                     )));
                 }
 
-                let session = deserialize_matrix_session(&persisted.serialized_session)
+                let session = deserialize_auth_session(&persisted.serialized_session)
                     .map_err(std::io::Error::other)?;
-                Ok(session.tokens)
+                Ok(session_tokens_from_auth_session(&session))
             }),
             Box::new(move |client| {
                 persist_current_session(

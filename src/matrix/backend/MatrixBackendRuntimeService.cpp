@@ -26,6 +26,7 @@ fromRustHandleInfo(const ::komai::rust::MatrixBackendHandleInfo &info)
     return MatrixBackendHandleInfo{
       .handleId      = info.handle_id,
       .hasSession    = info.has_session,
+      .authType      = QString::fromStdString(std::string(info.auth_type)),
       .homeserverUrl = QString::fromStdString(std::string(info.homeserver_url)),
       .userId        = QString::fromStdString(std::string(info.user_id)),
       .deviceId      = QString::fromStdString(std::string(info.device_id)),
@@ -318,6 +319,19 @@ MatrixBackendRuntimeService::startRestoredBackend(const QString &profileId, QStr
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::logoutBackend(uint64_t handleId, QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_logout_backend(handleId);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
     }
 }
 

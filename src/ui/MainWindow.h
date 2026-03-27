@@ -89,6 +89,7 @@ public:
     MxcImageProvider *imageProvider() { return imgProvider; }
     bool altPressed() const { return altPressed_; }
     uint64_t matrixBackendHandleId() const { return matrixBackendHandleId_; }
+    QString matrixBackendAuthType() const { return matrixBackendAuthType_; }
     QString startupHeadline() const { return startupHeadline_; }
     QString startupDetail() const { return startupDetail_; }
 
@@ -181,6 +182,7 @@ private:
     bool dbusAvailable_{false};
 #endif
     uint64_t matrixBackendHandleId_{0};
+    QString matrixBackendAuthType_;
     bool altPressed_{false};
     bool backButtonPressSeen_{false};
     bool forwardButtonPressSeen_{false};

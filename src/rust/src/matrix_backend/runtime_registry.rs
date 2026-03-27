@@ -12,6 +12,7 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
         return Ok(MatrixBackendHandleInfo {
             handle_id: 0,
             has_session: false,
+            auth_type: String::new(),
             homeserver_url: String::new(),
             user_id: String::new(),
             device_id: String::new(),
@@ -58,10 +59,23 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
     Ok(MatrixBackendHandleInfo {
         handle_id,
         has_session: true,
+        auth_type: restored.auth_type,
         homeserver_url: restored.homeserver_url,
         user_id: restored.user_id,
         device_id: restored.device_id,
     })
+}
+
+pub async fn logout_backend(handle_id: u64) -> Result<(), String> {
+    if handle_id == 0 {
+        return Ok(());
+    }
+
+    let client = client_for_handle(handle_id)?;
+    client
+        .logout()
+        .await
+        .map_err(|e| format!("failed to log out matrix-sdk session: {e}"))
 }
 
 pub fn stop_backend(handle_id: u64) -> Result<(), String> {

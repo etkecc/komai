@@ -85,7 +85,7 @@ pub use recovery::{
     continue_reset_encryption_identity_with_password, fetch_recovery_status,
     recover_encryption_secrets, setup_recovery, start_reset_encryption_identity,
 };
-pub use registry::{start_restored_backend, stop_backend};
+pub use registry::{logout_backend, start_restored_backend, stop_backend};
 pub use verification::{
     advance_verification_session, cancel_verification_session, fetch_user_verification_state,
     fetch_verification_session, start_device_verification, start_self_verification,
@@ -115,6 +115,7 @@ pub use room_directory::fetch_public_room_directory_page;
 pub struct MatrixBackendHandleInfo {
     pub handle_id: u64,
     pub has_session: bool,
+    pub auth_type: String,
     pub homeserver_url: String,
     pub user_id: String,
     pub device_id: String,

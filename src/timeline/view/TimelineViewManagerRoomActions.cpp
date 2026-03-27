@@ -6,6 +6,7 @@
 #include "TimelineViewManager.h"
 
 #include <QQuickItem>
+#include <QTimer>
 
 #include "RoomlistModel.h"
 #include "TimelineModel.h"
@@ -17,6 +18,22 @@
 #include "ui/RoomSettings.h"
 #include "ui/UserProfile.h"
 #include "voip/WebRTCSession.h"
+
+void
+TimelineViewManager::scheduleMatrixSidebarRefresh()
+{
+    if (!communities_ || matrixSidebarRefreshQueued_)
+        return;
+
+    matrixSidebarRefreshQueued_ = true;
+    QTimer::singleShot(0, this, [this] {
+        matrixSidebarRefreshQueued_ = false;
+        if (!communities_)
+            return;
+
+        communities_->initializeSidebar();
+    });
+}
 
 void
 TimelineViewManager::openRoomMembers(TimelineModel *room)
@@ -158,7 +175,7 @@ void
 TimelineViewManager::initializeRoomlist()
 {
     rooms_->initializeRooms();
-    communities_->initializeSidebar();
+    scheduleMatrixSidebarRefresh();
 }
 
 void

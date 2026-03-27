@@ -160,7 +160,8 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
     connect(this,
             &ChatPage::initializeEmptyViews,
             view_manager_,
-            &TimelineViewManager::initializeRoomlist);
+            &TimelineViewManager::initializeRoomlist,
+            Qt::QueuedConnection);
 
     connect(
       this, &ChatPage::tryInitialSyncCb, this, &ChatPage::tryInitialSync, Qt::QueuedConnection);

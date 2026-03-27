@@ -1081,7 +1081,7 @@ TimelineViewManager::handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t ha
         return;
 
     rooms_->refreshMatrixBackendRooms();
-    communities_->initializeSidebar();
+    scheduleMatrixSidebarRefresh();
 
     if (waitingForFirstSync_) {
         nhlog::ui()->info("Clearing waitingForFirstSync from first matrix-sdk room-list snapshot "

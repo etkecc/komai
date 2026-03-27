@@ -373,6 +373,8 @@ public slots:
     void markRoomSwitchPhaseCpp(const QString &roomId, const QString &phase);
 
 private:
+    void scheduleMatrixSidebarRefresh();
+
     bool waitingForFirstSync_ = true;
     bool isConnected_         = true;
 
@@ -409,7 +411,8 @@ private:
     bool navigating_                                 = false;
     komai::MatrixTimelineModel *matrixTimelineModel_ = nullptr;
     QString activeMatrixTimelineRoomId_;
-    bool matrixTimelineLoading_ = false;
+    bool matrixTimelineLoading_      = false;
+    bool matrixSidebarRefreshQueued_ = false;
     QStringList matrixTimelinePinnedEventIds_;
     bool matrixTimelineCanRedactOwn_   = false;
     bool matrixTimelineCanRedactOther_ = false;

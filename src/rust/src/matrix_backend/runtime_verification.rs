@@ -9,7 +9,11 @@ use matrix_sdk::{
     encryption::verification::{CancelInfo, SasState, VerificationRequestState},
     event_handler::EventHandlerDropGuard,
     ruma::events::key::verification::{VerificationMethod, cancel::CancelCode},
-    ruma::{OwnedDeviceId, UserId, events::AnyToDeviceEvent, serde::Raw},
+    ruma::{
+        OwnedDeviceId, UserId,
+        events::{AnySyncMessageLikeEvent, AnyToDeviceEvent},
+        serde::Raw,
+    },
 };
 use serde_json::Value;
 
@@ -221,6 +225,47 @@ fn extract_verification_ids_from_raw_to_device(
     Some((sender.to_owned(), flow_id.to_owned()))
 }
 
+fn extract_verification_ids_from_raw_room_event(
+    raw: &Raw<AnySyncMessageLikeEvent>,
+) -> Option<(String, String)> {
+    let value = serde_json::from_str::<Value>(raw.json().get()).ok()?;
+    let event_type = value.get("type")?.as_str()?;
+    let sender = value.get("sender")?.as_str()?.trim();
+    if sender.is_empty() {
+        return None;
+    }
+
+    let flow_id = match event_type {
+        "m.room.message" => {
+            let msgtype = value.get("content")?.get("msgtype")?.as_str()?;
+            if msgtype != "m.key.verification.request" {
+                return None;
+            }
+
+            value.get("event_id")?.as_str()?.trim()
+        }
+        "m.key.verification.ready"
+        | "m.key.verification.start"
+        | "m.key.verification.cancel"
+        | "m.key.verification.accept"
+        | "m.key.verification.key"
+        | "m.key.verification.mac"
+        | "m.key.verification.done" => value
+            .get("content")?
+            .get("m.relates_to")?
+            .get("event_id")?
+            .as_str()?
+            .trim(),
+        _ => return None,
+    };
+
+    if flow_id.is_empty() {
+        return None;
+    }
+
+    Some((sender.to_owned(), flow_id.to_owned()))
+}
+
 async fn register_incoming_verification_session(
     client: matrix_sdk::Client,
     verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,
@@ -275,7 +320,7 @@ pub(crate) fn install_incoming_verification_event_handlers(
     verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,
     pending_flow_ids: Arc<Mutex<Vec<String>>>,
 ) -> Vec<EventHandlerDropGuard> {
-    let handle = client.add_event_handler({
+    let to_device_handle = client.add_event_handler({
         let verification_sessions = Arc::clone(&verification_sessions);
         let pending_flow_ids = Arc::clone(&pending_flow_ids);
         move |raw: Raw<AnyToDeviceEvent>, client: matrix_sdk::Client| {
@@ -307,7 +352,42 @@ pub(crate) fn install_incoming_verification_event_handlers(
         }
     });
 
-    vec![client.event_handler_drop_guard(handle)]
+    let room_handle = client.add_event_handler({
+        let verification_sessions = Arc::clone(&verification_sessions);
+        let pending_flow_ids = Arc::clone(&pending_flow_ids);
+        move |raw: Raw<AnySyncMessageLikeEvent>, client: matrix_sdk::Client| {
+            let verification_sessions = Arc::clone(&verification_sessions);
+            let pending_flow_ids = Arc::clone(&pending_flow_ids);
+            async move {
+                let Some((sender, flow_id)) = extract_verification_ids_from_raw_room_event(&raw)
+                else {
+                    return;
+                };
+
+                if let Err(error) = register_incoming_verification_session(
+                    client,
+                    verification_sessions,
+                    pending_flow_ids,
+                    &sender,
+                    &flow_id,
+                )
+                .await
+                {
+                    tracing::warn!(
+                        handle_id,
+                        sender,
+                        flow_id,
+                        "Failed to register incoming in-room matrix-sdk verification flow: {error}"
+                    );
+                }
+            }
+        }
+    });
+
+    vec![
+        client.event_handler_drop_guard(to_device_handle),
+        client.event_handler_drop_guard(room_handle),
+    ]
 }
 
 pub fn take_pending_verification_flow_ids(handle_id: u64) -> Result<Vec<String>, String> {

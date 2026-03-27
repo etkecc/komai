@@ -453,7 +453,7 @@ pub async fn start_oauth_login(
         "Starting OAuth login"
     );
 
-    let client = build_oauth_login_client(homeserver_url, verify_certificates)
+    let client = build_oauth_login_client(profile_id, homeserver_url, verify_certificates)
         .await
         .map_err(|e| format!("failed to build matrix-sdk OAuth client: {e}"))?;
     let redirect_uri =
@@ -528,6 +528,8 @@ pub async fn finish_oauth_login(
         );
     }
 
+    pending.client.encryption().wait_for_e2ee_initialization_tasks().await;
+
     let user_id = pending
         .client
         .user_id()
@@ -574,14 +576,25 @@ async fn build_login_client(
 }
 
 async fn build_oauth_login_client(
+    profile_id: &str,
     homeserver_url: &str,
     verify_certificates: bool,
 ) -> Result<Client, ClientBuildError> {
-    let mut builder = Client::builder().homeserver_url(homeserver_url).handle_refresh_tokens();
-    if !verify_certificates {
-        builder = builder.disable_ssl_verification();
-    }
-    builder.build().await
+    let store_passphrase = bootstrap::ensure_store_passphrase(profile_id);
+    let paths = super::derive_matrix_sdk_paths(
+        &crate::ffi::matrix_profile_data_root(profile_id),
+        &crate::ffi::matrix_profile_cache_root(profile_id),
+    );
+
+    bootstrap::build_client(
+        &bootstrap::MatrixSdkBuildConfig {
+            homeserver_url,
+            store_passphrase: Some(&store_passphrase),
+            verify_certificates,
+        },
+        &paths,
+    )
+    .await
 }
 
 async fn build_discovery_client(

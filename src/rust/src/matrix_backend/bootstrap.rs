@@ -23,6 +23,7 @@ use super::{
 pub struct MatrixSdkBuildConfig<'a> {
     pub homeserver_url: &'a str,
     pub store_passphrase: Option<&'a str>,
+    pub verify_certificates: bool,
 }
 
 pub struct MatrixRestorePreview {
@@ -55,7 +56,7 @@ pub async fn build_client(
     config: &MatrixSdkBuildConfig<'_>,
     paths: &DerivedMatrixSdkPaths,
 ) -> Result<Client, ClientBuildError> {
-    Client::builder()
+    let mut builder = Client::builder()
         .homeserver_url(config.homeserver_url)
         .handle_refresh_tokens()
         .with_encryption_settings(EncryptionSettings {
@@ -67,9 +68,13 @@ pub async fn build_client(
             Path::new(&paths.state_store_root),
             Path::new(&paths.cache_root),
             config.store_passphrase,
-        )
-        .build()
-        .await
+        );
+
+    if !config.verify_certificates {
+        builder = builder.disable_ssl_verification();
+    }
+
+    builder.build().await
 }
 
 pub async fn restore_session_preview(profile_id: &str) -> Result<MatrixRestorePreview, String> {
@@ -115,6 +120,7 @@ pub async fn restore_client(profile_id: &str) -> Result<Option<RestoredMatrixBac
         &MatrixSdkBuildConfig {
             homeserver_url: &stored_session.homeserver_url,
             store_passphrase: Some(&store_passphrase),
+            verify_certificates: true,
         },
         &paths,
     )

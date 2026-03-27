@@ -78,9 +78,9 @@ ChatPage::decryptDownloadedSecrets(mtx::secret_storage::AesHmacSha2KeyDescriptio
                                    const SecretsToDecrypt &secrets)
 {
     pendingSecretsUnlockRequest_ = PendingSecretsUnlockRequest{std::move(keyDesc), secrets};
-    nhlog::crypto()->warn(
-      "Ignoring legacy secret-download unlock flow on the matrix-sdk migration branch");
-    emit showNotification(tr("Key backup recovery has not been migrated to the Rust backend yet."));
+    nhlog::crypto()->info("Redirecting legacy downloaded-secret unlock prompt to matrix-sdk "
+                          "recovery");
+    emit promptUnlockKeyBackup();
 }
 
 void
@@ -110,10 +110,33 @@ ChatPage::cancelSecretUnlockInput()
 void
 ChatPage::processDownloadedSecretsUnlockInput(mtx::secret_storage::AesHmacSha2KeyDescription,
                                               const SecretsToDecrypt &,
-                                              const QString &)
+                                              const QString &text)
 {
     pendingSecretsUnlockRequest_.reset();
-    nhlog::crypto()->warn(
-      "Ignoring legacy secret unlock processing on the matrix-sdk migration branch");
-    emit showNotification(tr("Key backup recovery has not been migrated to the Rust backend yet."));
+
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        emit showNotification(
+          tr("Key backup recovery requires an active matrix-sdk backend runtime."));
+        return;
+    }
+
+    const auto trimmedSecret = text.trimmed();
+    if (trimmedSecret.isEmpty()) {
+        emit showNotification(tr("A recovery key or passphrase is required to unlock key backup."));
+        return;
+    }
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::recoverEncryptionSecrets(
+          handleId, trimmedSecret, &error)) {
+        emit showNotification(error.isEmpty() ? tr("Failed to unlock key backup.")
+                                              : tr("Failed to unlock key backup: %1").arg(error));
+        return;
+    }
+
+    nhlog::crypto()->info("Recovered encryption secrets through the legacy ChatPage unlock entry "
+                          "using matrix-sdk recovery");
+    emit showNotification(tr("Encryption secrets unlocked."));
 }

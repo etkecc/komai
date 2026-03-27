@@ -243,26 +243,34 @@ ColumnLayout {
     }
 
     function bottomMostVisibleEventId() {
-        const delegateItem = bottomMostVisibleDelegate();
-        if (delegateItem && delegateItem.eventId)
-            return String(delegateItem.eventId || "");
+        if (matrixTimelineList && matrixTimelineList.atYEnd) {
+            const latestEventId = latestLoadedEventId();
+            if (latestEventId.length > 0)
+                return latestEventId;
+        }
 
         if (!matrixTimelineList || !TimelineManager.matrixTimelineModel || matrixTimelineList.width <= 0
                 || matrixTimelineList.height <= 0) {
-            return "";
+            const delegateItem = bottomMostVisibleDelegate();
+            return delegateItem && delegateItem.eventId
+                ? String(delegateItem.eventId || "")
+                : "";
         }
 
         const probeX = Math.max(1, Math.round(matrixTimelineList.width / 2));
         const probeY = Math.max(1, Math.round(matrixTimelineList.height - 2));
         const row = matrixTimelineList.indexAt(probeX, probeY);
-        if (row < 0)
-            return "";
+        if (row >= 0) {
+            const item = TimelineManager.matrixTimelineModel.itemAt(row);
+            if (item && item !== undefined)
+                return String(item.eventId || "");
+        }
 
-        const item = TimelineManager.matrixTimelineModel.itemAt(row);
-        if (!item || item === undefined)
-            return "";
+        const delegateItem = bottomMostVisibleDelegate();
+        if (delegateItem && delegateItem.eventId)
+            return String(delegateItem.eventId || "");
 
-        return String(item.eventId || "");
+        return "";
     }
 
     function scheduleReadMarkerUpdate(preferLatestEvent) {
@@ -396,18 +404,18 @@ ColumnLayout {
         if (TimelineManager.matrixTimelineReplyEventId.length > 0)
             return false;
 
-        const delegateItem = bottomMostVisibleDelegate();
+        const targetEventId = bottomMostVisibleEventId();
         clearWalkState({
             "focusComposer": false
         });
         suppressNextWalkModeOlderStep = true;
         walkModeEntrySuppressTimer.restart();
-        if (!delegateItem || !delegateItem.eventId)
+        if (targetEventId.length === 0)
             return focusLatestWalkModeEvent({
                     "deferFocus": true
                 });
 
-        return focusWalkModeEventById(String(delegateItem.eventId || ""), {
+        return focusWalkModeEventById(targetEventId, {
                 "skipScroll": true,
                 "deferFocus": true
             });

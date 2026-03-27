@@ -148,6 +148,7 @@ class UserProfile final : public QObject
     Q_PROPERTY(int userVerified READ getUserStatus NOTIFY userStatusChanged)
     Q_PROPERTY(bool isLoading READ isLoading NOTIFY loadingChanged)
     Q_PROPERTY(bool userVerificationEnabled READ userVerificationEnabled NOTIFY userStatusChanged)
+    Q_PROPERTY(bool canStartVerification READ canStartVerification NOTIFY devicesChanged)
     Q_PROPERTY(bool ignored READ ignored WRITE setIgnored NOTIFY ignoredChanged)
     Q_PROPERTY(bool isSelf READ isSelf CONSTANT)
     Q_PROPERTY(TimelineModel *room READ room CONSTANT)
@@ -166,6 +167,7 @@ public:
     bool isGlobalUserProfile() const;
     crypto::Trust getUserStatus();
     bool userVerificationEnabled() const;
+    bool canStartVerification() const;
     bool isSelf() const;
     bool isLoading() const;
     TimelineModel *room() const { return model; }

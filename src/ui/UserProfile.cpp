@@ -194,6 +194,21 @@ UserProfile::userVerificationEnabled() const
 {
     return hasMasterKey;
 }
+
+bool
+UserProfile::canStartVerification() const
+{
+    if (hasMasterKey)
+        return true;
+
+    for (const auto &device : deviceList_.deviceList_) {
+        if (device.verification_status == verification::UNVERIFIED)
+            return true;
+    }
+
+    return false;
+}
+
 bool
 UserProfile::isSelf() const
 {

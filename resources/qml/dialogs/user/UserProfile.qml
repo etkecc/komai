@@ -829,8 +829,8 @@ Components.OverlayDialog {
                 }
 
                 Components.KomaiActionRowButton {
-                    visible: profile.userVerificationEnabled && profile.userVerified !== Crypto.Verified
-                    labelText: qsTr("Verify user")
+                    visible: profile.canStartVerification && profile.userVerified !== Crypto.Verified
+                    labelText: profile.userVerificationEnabled ? qsTr("Verify user") : qsTr("Verify device")
                     iconSource: ":/icons/icons/ui/shield-regular-checkmark.svg"
                     onClicked: profile.verify()
                 }

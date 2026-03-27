@@ -34,6 +34,7 @@ struct MatrixOwnProfile
 struct MatrixRecoveryStatus
 {
     QString state;
+    bool hasDevicesToVerifyAgainst = false;
 };
 
 struct MatrixResetEncryptionIdentityResult
@@ -41,6 +42,19 @@ struct MatrixResetEncryptionIdentityResult
     bool completed = false;
     QString authType;
     QString approvalUrl;
+};
+
+struct MatrixVerificationSession
+{
+    QString flowId;
+    QString userId;
+    QString deviceId;
+    QString state;
+    QString error;
+    bool sender                    = false;
+    bool isSelfVerification        = false;
+    bool isMultiDeviceVerification = false;
+    QVector<int> sasNumbers;
 };
 
 struct MatrixUserProfile
@@ -268,6 +282,21 @@ public:
     continueResetEncryptionIdentityAfterApproval(uint64_t handleId, QString *errorOut = nullptr);
 
     static bool cancelResetEncryptionIdentity(uint64_t handleId, QString *errorOut = nullptr);
+
+    static std::optional<MatrixVerificationSession>
+    startSelfVerification(uint64_t handleId, QString *errorOut = nullptr);
+
+    static std::optional<MatrixVerificationSession>
+    fetchVerificationSession(uint64_t handleId, const QString &flowId, QString *errorOut = nullptr);
+
+    static bool advanceVerificationSession(uint64_t handleId,
+                                           const QString &flowId,
+                                           QString *errorOut = nullptr);
+
+    static bool cancelVerificationSession(uint64_t handleId,
+                                          const QString &flowId,
+                                          bool mismatch,
+                                          QString *errorOut = nullptr);
 
     static std::optional<MatrixUserProfile>
     fetchUserProfile(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);

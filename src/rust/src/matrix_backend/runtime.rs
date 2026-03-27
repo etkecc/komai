@@ -16,6 +16,10 @@ use matrix_sdk::{
     Client,
     Room,
     RoomState,
+    encryption::{
+        verification::{SasVerification, VerificationRequest},
+        recovery::IdentityResetHandle,
+    },
     media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings},
     ruma::{
         MxcUri, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
@@ -56,6 +60,8 @@ mod event_summary;
 mod recovery;
 #[path = "runtime_registry.rs"]
 mod registry;
+#[path = "runtime_verification.rs"]
+mod verification;
 #[path = "runtime_room_actions.rs"]
 mod room_actions;
 #[path = "runtime_room_list.rs"]
@@ -79,6 +85,10 @@ pub use recovery::{
     recover_encryption_secrets, start_reset_encryption_identity,
 };
 pub use registry::{start_restored_backend, stop_backend};
+pub use verification::{
+    advance_verification_session, cancel_verification_session, fetch_verification_session,
+    start_self_verification,
+};
 pub use room_actions::{
     ban_user, create_room, invite_user, join_room, kick_user, knock_room, leave_room, unban_user,
 };
@@ -115,12 +125,25 @@ pub struct MatrixOwnProfile {
 
 pub struct MatrixRecoveryStatus {
     pub state: String,
+    pub has_devices_to_verify_against: bool,
 }
 
 pub struct MatrixResetEncryptionIdentityResult {
     pub completed: bool,
     pub auth_type: String,
     pub approval_url: String,
+}
+
+pub struct MatrixVerificationSession {
+    pub flow_id: String,
+    pub user_id: String,
+    pub device_id: String,
+    pub state: String,
+    pub error: String,
+    pub sender: bool,
+    pub is_self_verification: bool,
+    pub is_multi_device_verification: bool,
+    pub sas_numbers: Vec<u16>,
 }
 
 pub struct MatrixUserProfile {
@@ -264,8 +287,14 @@ struct MatrixBackendHandle {
     room_timeline_task: Option<MatrixBackendRoomTimelineTask>,
     room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
     room_timeline_media_lookup: Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
-    pending_identity_reset:
-        Arc<Mutex<Option<matrix_sdk::encryption::recovery::IdentityResetHandle>>>,
+    pending_identity_reset: Arc<Mutex<Option<IdentityResetHandle>>>,
+    verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,
+}
+
+#[derive(Clone)]
+struct MatrixVerificationSessionEntry {
+    request: VerificationRequest,
+    sas: Option<SasVerification>,
 }
 
 struct MatrixBackendSyncTask {
@@ -312,12 +341,23 @@ fn client_for_handle(handle_id: u64) -> Result<Client, String> {
 
 fn pending_identity_reset_for_handle(
     handle_id: u64,
-) -> Result<Arc<Mutex<Option<matrix_sdk::encryption::recovery::IdentityResetHandle>>>, String> {
+) -> Result<Arc<Mutex<Option<IdentityResetHandle>>>, String> {
     backend_handles()
         .lock()
         .expect("poisoned matrix backend handle registry mutex")
         .get(&handle_id)
         .map(|handle| Arc::clone(&handle.pending_identity_reset))
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
+}
+
+fn verification_sessions_for_handle(
+    handle_id: u64,
+) -> Result<Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>, String> {
+    backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .get(&handle_id)
+        .map(|handle| Arc::clone(&handle.verification_sessions))
         .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
 }
 

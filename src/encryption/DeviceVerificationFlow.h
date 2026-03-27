@@ -7,9 +7,9 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include <QSharedPointer>
 #include <QString>
 
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -68,13 +68,13 @@ class DeviceVerificationFlow final : public QObject
 
     Q_PROPERTY(QString state READ state NOTIFY stateChanged)
     Q_PROPERTY(Error error READ error NOTIFY errorChanged)
-    Q_PROPERTY(QString userId READ getUserId CONSTANT)
-    Q_PROPERTY(QString deviceId READ getDeviceId CONSTANT)
-    Q_PROPERTY(bool sender READ getSender CONSTANT)
-    Q_PROPERTY(std::vector<int> sasList READ getSasList CONSTANT)
+    Q_PROPERTY(QString userId READ getUserId NOTIFY detailsChanged)
+    Q_PROPERTY(QString deviceId READ getDeviceId NOTIFY detailsChanged)
+    Q_PROPERTY(bool sender READ getSender NOTIFY detailsChanged)
+    Q_PROPERTY(std::vector<int> sasList READ getSasList NOTIFY detailsChanged)
     Q_PROPERTY(bool isDeviceVerification READ isDeviceVerification CONSTANT)
-    Q_PROPERTY(bool isSelfVerification READ isSelfVerification CONSTANT)
-    Q_PROPERTY(bool isMultiDeviceVerification READ isMultiDeviceVerification CONSTANT)
+    Q_PROPERTY(bool isSelfVerification READ isSelfVerification NOTIFY detailsChanged)
+    Q_PROPERTY(bool isMultiDeviceVerification READ isMultiDeviceVerification NOTIFY detailsChanged)
 
 public:
     enum State
@@ -109,30 +109,30 @@ public:
     };
     Q_ENUM(Error)
 
-    static QSharedPointer<DeviceVerificationFlow>
+    static DeviceVerificationFlow *
     NewInRoomVerification(QObject *parent_,
                           TimelineModel *timelineModel_,
                           const mtx::events::msg::KeyVerificationRequest &msg,
                           const QString &other_user_,
                           const QString &event_id_);
-    static QSharedPointer<DeviceVerificationFlow>
+    static DeviceVerificationFlow *
     NewToDeviceVerification(QObject *parent_,
                             const mtx::events::msg::KeyVerificationRequest &msg,
                             const QString &other_user_,
                             const QString &txn_id_);
-    static QSharedPointer<DeviceVerificationFlow>
+    static DeviceVerificationFlow *
     NewToDeviceVerification(QObject *parent_,
                             const mtx::events::msg::KeyVerificationStart &msg,
                             const QString &other_user_,
                             const QString &txn_id_);
-    static QSharedPointer<DeviceVerificationFlow>
-    InitiateUserVerification(QObject *parent_,
-                             TimelineModel *timelineModel_,
-                             const QString &userid);
-    static QSharedPointer<DeviceVerificationFlow>
-    InitiateDeviceVerification(QObject *parent,
-                               const QString &userid,
-                               const std::vector<QString> &devices);
+    static DeviceVerificationFlow *InitiateUserVerification(QObject *parent_,
+                                                            TimelineModel *timelineModel_,
+                                                            const QString &userid);
+    static DeviceVerificationFlow *InitiateDeviceVerification(QObject *parent,
+                                                              const QString &userid,
+                                                              const std::vector<QString> &devices);
+    static DeviceVerificationFlow *
+    InitiateMatrixSelfVerification(QObject *parent, uint64_t handleId, QString *errorOut = nullptr);
 
     // getters
     QString state();
@@ -150,7 +150,7 @@ public:
         return this->type == DeviceVerificationFlow::Type::ToDevice;
     }
     bool isSelfVerification() const;
-    bool isMultiDeviceVerification() const { return deviceIds.size() > 1; }
+    bool isMultiDeviceVerification() const { return isMultiDeviceVerification_; }
 
 public slots:
     //! unverifies a device
@@ -158,12 +158,13 @@ public slots:
     //! Continues the flow
     void next();
     //! Cancel the flow
-    void cancel() { cancelVerification(User); }
+    void cancel();
 
 signals:
     void refreshProfile();
     void stateChanged();
     void errorChanged();
+    void detailsChanged();
 
 private:
     DeviceVerificationFlow(QObject *,
@@ -181,14 +182,28 @@ private:
     //! cancels a verification flow
     void cancelVerification(DeviceVerificationFlow::Error error_code);
     void failNotMigrated();
+    void refreshFromMatrixRuntime();
+    void applyMatrixSession(const QString &flowId,
+                            const QString &deviceId,
+                            const QString &state,
+                            const QString &error,
+                            bool sender,
+                            bool isSelfVerification,
+                            bool isMultiDeviceVerification,
+                            const std::vector<int> &sasList);
+    Error mapMatrixError(const QString &error) const;
 
     std::string transaction_id;
+    uint64_t backendHandleId_ = 0;
+    bool pendingAutoStart_    = false;
 
     bool sender;
     Type type;
     QString userId_;
     QString deviceId;
     std::vector<QString> deviceIds;
+    bool isSelfVerification_        = false;
+    bool isMultiDeviceVerification_ = false;
 
     std::vector<int> sasList;
 

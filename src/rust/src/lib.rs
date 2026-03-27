@@ -54,12 +54,25 @@ mod ffi {
 
     struct MatrixRecoveryStatus {
         state: String,
+        has_devices_to_verify_against: bool,
     }
 
     struct MatrixResetEncryptionIdentityResult {
         completed: bool,
         auth_type: String,
         approval_url: String,
+    }
+
+    struct MatrixVerificationSession {
+        flow_id: String,
+        user_id: String,
+        device_id: String,
+        state: String,
+        error: String,
+        sender: bool,
+        is_self_verification: bool,
+        is_multi_device_verification: bool,
+        sas_numbers: Vec<u16>,
     }
 
     struct MatrixUserProfile {
@@ -332,6 +345,17 @@ mod ffi {
             handle_id: u64,
         ) -> Result<()>;
         fn matrix_cancel_reset_encryption_identity(handle_id: u64) -> Result<()>;
+        fn matrix_start_self_verification(handle_id: u64) -> Result<MatrixVerificationSession>;
+        fn matrix_fetch_verification_session(
+            handle_id: u64,
+            flow_id: &str,
+        ) -> Result<MatrixVerificationSession>;
+        fn matrix_advance_verification_session(handle_id: u64, flow_id: &str) -> Result<()>;
+        fn matrix_cancel_verification_session(
+            handle_id: u64,
+            flow_id: &str,
+            mismatch: bool,
+        ) -> Result<()>;
         fn matrix_fetch_user_profile(handle_id: u64, user_id: &str) -> Result<MatrixUserProfile>;
         fn matrix_search_users(
             handle_id: u64,
@@ -729,7 +753,10 @@ fn matrix_fetch_own_profile(handle_id: u64) -> Result<ffi::MatrixOwnProfile, Str
 fn matrix_fetch_recovery_status(handle_id: u64) -> Result<ffi::MatrixRecoveryStatus, String> {
     let result = runtime().block_on(matrix_backend::runtime::fetch_recovery_status(handle_id))?;
 
-    Ok(ffi::MatrixRecoveryStatus { state: result.state })
+    Ok(ffi::MatrixRecoveryStatus {
+        state: result.state,
+        has_devices_to_verify_against: result.has_devices_to_verify_against,
+    })
 }
 
 fn matrix_recover_encryption_secrets(
@@ -777,6 +804,58 @@ fn matrix_continue_reset_encryption_identity_after_approval(
 
 fn matrix_cancel_reset_encryption_identity(handle_id: u64) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::cancel_reset_encryption_identity(handle_id))
+}
+
+fn matrix_start_self_verification(
+    handle_id: u64,
+) -> Result<ffi::MatrixVerificationSession, String> {
+    let result = runtime().block_on(matrix_backend::runtime::start_self_verification(handle_id))?;
+
+    Ok(ffi::MatrixVerificationSession {
+        flow_id: result.flow_id,
+        user_id: result.user_id,
+        device_id: result.device_id,
+        state: result.state,
+        error: result.error,
+        sender: result.sender,
+        is_self_verification: result.is_self_verification,
+        is_multi_device_verification: result.is_multi_device_verification,
+        sas_numbers: result.sas_numbers,
+    })
+}
+
+fn matrix_fetch_verification_session(
+    handle_id: u64,
+    flow_id: &str,
+) -> Result<ffi::MatrixVerificationSession, String> {
+    let result =
+        runtime().block_on(matrix_backend::runtime::fetch_verification_session(handle_id, flow_id))?;
+
+    Ok(ffi::MatrixVerificationSession {
+        flow_id: result.flow_id,
+        user_id: result.user_id,
+        device_id: result.device_id,
+        state: result.state,
+        error: result.error,
+        sender: result.sender,
+        is_self_verification: result.is_self_verification,
+        is_multi_device_verification: result.is_multi_device_verification,
+        sas_numbers: result.sas_numbers,
+    })
+}
+
+fn matrix_advance_verification_session(handle_id: u64, flow_id: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::advance_verification_session(handle_id, flow_id))
+}
+
+fn matrix_cancel_verification_session(
+    handle_id: u64,
+    flow_id: &str,
+    mismatch: bool,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::cancel_verification_session(
+        handle_id, flow_id, mismatch,
+    ))
 }
 
 fn matrix_fetch_user_profile(handle_id: u64, user_id: &str) -> Result<ffi::MatrixUserProfile, String> {

@@ -25,6 +25,11 @@ pub async fn fetch_recovery_status(handle_id: u64) -> Result<MatrixRecoveryStatu
 
     Ok(MatrixRecoveryStatus {
         state: recovery_state_name(client.encryption().recovery().state()),
+        has_devices_to_verify_against: client
+            .encryption()
+            .has_devices_to_verify_against()
+            .await
+            .map_err(|e| format!("failed to inspect available verification devices: {e}"))?,
     })
 }
 

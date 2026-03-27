@@ -45,7 +45,8 @@ MatrixRecoveryStatus
 fromRustRecoveryStatus(const ::komai::rust::MatrixRecoveryStatus &status)
 {
     return MatrixRecoveryStatus{
-      .state = QString::fromStdString(std::string(status.state)),
+      .state                     = QString::fromStdString(std::string(status.state)),
+      .hasDevicesToVerifyAgainst = status.has_devices_to_verify_against,
     };
 }
 
@@ -57,6 +58,27 @@ fromRustResetEncryptionIdentityResult(
       .completed   = result.completed,
       .authType    = QString::fromStdString(std::string(result.auth_type)),
       .approvalUrl = QString::fromStdString(std::string(result.approval_url)),
+    };
+}
+
+MatrixVerificationSession
+fromRustVerificationSession(const ::komai::rust::MatrixVerificationSession &session)
+{
+    QVector<int> sasNumbers;
+    sasNumbers.reserve(static_cast<int>(session.sas_numbers.size()));
+    for (const auto number : session.sas_numbers)
+        sasNumbers.push_back(static_cast<int>(number));
+
+    return MatrixVerificationSession{
+      .flowId                    = QString::fromStdString(std::string(session.flow_id)),
+      .userId                    = QString::fromStdString(std::string(session.user_id)),
+      .deviceId                  = QString::fromStdString(std::string(session.device_id)),
+      .state                     = QString::fromStdString(std::string(session.state)),
+      .error                     = QString::fromStdString(std::string(session.error)),
+      .sender                    = session.sender,
+      .isSelfVerification        = session.is_self_verification,
+      .isMultiDeviceVerification = session.is_multi_device_verification,
+      .sasNumbers                = sasNumbers,
     };
 }
 
@@ -528,6 +550,66 @@ MatrixBackendRuntimeService::cancelResetEncryptionIdentity(uint64_t handleId, QS
 {
     try {
         ::komai::rust::matrix_cancel_reset_encryption_identity(handleId);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+std::optional<MatrixVerificationSession>
+MatrixBackendRuntimeService::startSelfVerification(uint64_t handleId, QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_start_self_verification(handleId);
+        return fromRustVerificationSession(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<MatrixVerificationSession>
+MatrixBackendRuntimeService::fetchVerificationSession(uint64_t handleId,
+                                                      const QString &flowId,
+                                                      QString *errorOut)
+{
+    try {
+        auto result =
+          ::komai::rust::matrix_fetch_verification_session(handleId, flowId.toStdString());
+        return fromRustVerificationSession(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::advanceVerificationSession(uint64_t handleId,
+                                                        const QString &flowId,
+                                                        QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_advance_verification_session(handleId, flowId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::cancelVerificationSession(uint64_t handleId,
+                                                       const QString &flowId,
+                                                       bool mismatch,
+                                                       QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_cancel_verification_session(handleId, flowId.toStdString(), mismatch);
         return true;
     } catch (const std::exception &e) {
         if (errorOut)

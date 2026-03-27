@@ -8,6 +8,7 @@
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "timeline/TimelineViewManager.h"
+#include "ui/MainWindow.h"
 
 namespace {
 void
@@ -63,6 +64,30 @@ VerificationManager::receivedDeviceVerificationStart(
                           "implemented");
 }
 
+bool
+VerificationManager::verifySelf(QString *errorOut)
+{
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        if (errorOut)
+            *errorOut = tr("Matrix backend runtime is not available.");
+        return false;
+    }
+
+    QString error;
+    auto *flow = DeviceVerificationFlow::InitiateMatrixSelfVerification(nullptr, handleId, &error);
+    if (!flow) {
+        if (errorOut)
+            *errorOut =
+              error.isEmpty() ? tr("Failed to start verification with another device.") : error;
+        return false;
+    }
+
+    emit newDeviceVerificationRequest(flow);
+    return true;
+}
+
 void
 VerificationManager::verifyUser(QString userid)
 {
@@ -73,7 +98,10 @@ VerificationManager::verifyUser(QString userid)
 void
 VerificationManager::removeVerificationFlow(DeviceVerificationFlow *flow)
 {
-    Q_UNUSED(flow);
+    if (!flow)
+        return;
+
+    flow->deleteLater();
 }
 
 void

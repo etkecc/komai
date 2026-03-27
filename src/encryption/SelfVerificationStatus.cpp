@@ -7,6 +7,7 @@
 
 #include <QTimer>
 
+#include "VerificationManager.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
@@ -61,10 +62,26 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
 bool
 SelfVerificationStatus::verifyMasterKey()
 {
-    nhlog::crypto()->warn("Self-verification with another device is not migrated to matrix-sdk "
-                          "yet");
-    emit setupFailed(notMigratedMessage());
-    return false;
+    refreshStateFromMatrixRuntime();
+
+    if (!canVerifyWithAnotherDevice_) {
+        emit setupFailed(tr("No other signed-in device is currently available for verification."));
+        return false;
+    }
+
+    auto *verificationManager = VerificationManager::instance();
+    if (!verificationManager) {
+        emit setupFailed(tr("The verification manager is not available."));
+        return false;
+    }
+
+    QString error;
+    if (!verificationManager->verifySelf(&error)) {
+        emit setupFailed(error.isEmpty() ? notMigratedMessage() : error);
+        return false;
+    }
+
+    return true;
 }
 
 void
@@ -256,13 +273,13 @@ SelfVerificationStatus::refreshStateFromMatrixRuntime()
     }
 
     if (recoveryStatus->state == QLatin1String("enabled")) {
-        applyRuntimeStatus(AllVerified, true, false);
+        applyRuntimeStatus(AllVerified, true, recoveryStatus->hasDevicesToVerifyAgainst);
     } else if (recoveryStatus->state == QLatin1String("incomplete")) {
-        applyRuntimeStatus(UnverifiedMasterKey, true, false);
+        applyRuntimeStatus(UnverifiedMasterKey, true, recoveryStatus->hasDevicesToVerifyAgainst);
     } else if (recoveryStatus->state == QLatin1String("disabled")) {
-        applyRuntimeStatus(NoMasterKey, false, false);
+        applyRuntimeStatus(NoMasterKey, false, recoveryStatus->hasDevicesToVerifyAgainst);
     } else {
-        applyRuntimeStatus(AllVerified, false, false);
+        applyRuntimeStatus(AllVerified, false, recoveryStatus->hasDevicesToVerifyAgainst);
     }
 }
 

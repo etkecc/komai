@@ -7,6 +7,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include <QString>
 
 #include <mtx/events.hpp>
 #include <mtx/events/encrypted.hpp>
@@ -25,6 +26,7 @@ class VerificationManager final : public QObject
 
 public:
     VerificationManager(TimelineViewManager *o);
+    static VerificationManager *instance() { return instance_; }
 
     static VerificationManager *create(QQmlEngine *qmlEngine, QJSEngine *)
     {
@@ -46,6 +48,7 @@ public:
     }
 
     Q_INVOKABLE void removeVerificationFlow(DeviceVerificationFlow *flow);
+    bool verifySelf(QString *errorOut = nullptr);
     void verifyUser(QString userid);
     void verifyDevice(QString userid, QString deviceid);
     void verifyOneOfDevices(QString userid, std::vector<QString> deviceids);

@@ -118,27 +118,40 @@ fn summarize_msg_like_kind(kind: &MsgLikeKind) -> MatrixEventSummary {
 }
 
 pub fn summarize_sync_timeline_event(event: &AnySyncTimelineEvent) -> Option<MatrixEventSummary> {
-    match event {
+    let summary = match event {
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::RoomMessage(message)) => {
-            Some(summarize_room_message_event(message))
+            summarize_room_message_event(message)
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::Sticker(_)) => {
-            Some(summary("sticker", "[Sticker]"))
+            summary("sticker", "[Sticker]")
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::UnstablePollStart(_)) => {
-            Some(summary("poll", "[Poll]"))
+            summary("poll", "[Poll]")
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::CallInvite(_)) => {
-            Some(summary("call_invite", "[Call invite]"))
+            summary("call_invite", "[Call invite]")
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::RtcNotification(_)) => {
-            Some(summary("rtc_notification", "[RTC notification]"))
+            summary("rtc_notification", "[RTC notification]")
+        }
+        AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::Reaction(_)) => {
+            summary("reaction", "Reactions updated")
+        }
+        AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::RoomRedaction(_)) => {
+            summary("redacted", "Deleted message")
         }
         AnySyncTimelineEvent::State(AnySyncStateEvent::RoomMember(_)) => {
-            Some(summary("membership_change", "[Membership change]"))
+            summary("membership_change", "[Membership change]")
         }
-        _ => None,
-    }
+        AnySyncTimelineEvent::State(state) => {
+            summary("other_state", &format!("State event: {}", state.event_type()))
+        }
+        AnySyncTimelineEvent::MessageLike(message) => {
+            summary("other_message", &format!("[{}]", message.event_type()))
+        }
+    };
+
+    Some(summary)
 }
 
 fn summarize_room_message_event(message: &SyncRoomMessageEvent) -> MatrixEventSummary {

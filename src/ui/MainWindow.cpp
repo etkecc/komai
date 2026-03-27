@@ -388,9 +388,9 @@ MainWindow::showChatPage(bool hadSessionIdentity)
     }
 
     const auto snapshot = userSettings_->sessionSnapshot();
-    emit switchToChatPage();
-    nhlog::ui()->info("Queued switch to chat page; deferring chat bootstrap to the next event "
-                      "turn");
+    emit switchToStartupRestorePage();
+    nhlog::ui()->info("Keeping startup-restore page visible; deferring chat bootstrap to the "
+                      "next event turn");
 
     QTimer::singleShot(0, this, [this, snapshot, hadSessionIdentity] {
         if (matrixBackendHandleId_ == 0 || !chat_page_) {
@@ -406,6 +406,8 @@ MainWindow::showChatPage(bool hadSessionIdentity)
                               snapshot.homeserver,
                               snapshot.accessToken,
                               hadSessionIdentity);
+        emit switchToChatPage();
+        nhlog::ui()->info("Queued switch to chat page after deferred bootstrap");
         nhlog::ui()->info("Finished deferred chat bootstrap");
     });
 }

@@ -203,6 +203,7 @@ UserProfile::unblockDevice(const QString &device)
     }
 
     refreshDevices();
+    notifyVerificationStateRefresh(userid_);
 }
 
 void

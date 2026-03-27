@@ -10,6 +10,21 @@
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 
+namespace {
+std::vector<QString>
+unverifiedDeviceIdsFromRuntimeState(const komai::MatrixUserVerificationState &state)
+{
+    std::vector<QString> deviceIds;
+    deviceIds.reserve(static_cast<size_t>(state.devices.size()));
+    for (const auto &device : state.devices) {
+        if (device.verificationState == QLatin1String("unverified"))
+            deviceIds.push_back(device.deviceId);
+    }
+
+    return deviceIds;
+}
+}
+
 VerificationManager::VerificationManager(TimelineViewManager *o)
   : QObject(o)
 {
@@ -97,14 +112,38 @@ VerificationManager::verifyUser(QString userid, QString *errorOut)
     QString error;
     const auto session =
       komai::MatrixBackendRuntimeService::startUserVerification(handleId, userid, &error);
-    if (!session) {
-        if (errorOut)
-            *errorOut =
-              error.isEmpty() ? tr("Failed to start verification for \"%1\".").arg(userid) : error;
-        return false;
+    if (session) {
+        return openMatrixVerificationFlow(handleId, session->flowId, errorOut);
     }
 
-    return openMatrixVerificationFlow(handleId, session->flowId, errorOut);
+    QString stateError;
+    const auto verificationState =
+      komai::MatrixBackendRuntimeService::fetchUserVerificationState(handleId, userid, &stateError);
+    if (verificationState) {
+        const auto candidateDeviceIds = unverifiedDeviceIdsFromRuntimeState(*verificationState);
+        if (!candidateDeviceIds.empty()) {
+            QString fallbackError;
+            if (verifyOneOfDevices(userid, candidateDeviceIds, &fallbackError))
+                return true;
+
+            if (errorOut) {
+                *errorOut =
+                  fallbackError.isEmpty()
+                    ? (error.isEmpty() ? tr("Failed to start verification for \"%1\".").arg(userid)
+                                       : error)
+                    : tr("%1 Device verification fallback also failed: %2")
+                        .arg(error.isEmpty() ? tr("Failed to start user verification.") : error,
+                             fallbackError);
+            }
+            return false;
+        }
+    }
+
+    if (errorOut) {
+        *errorOut =
+          error.isEmpty() ? tr("Failed to start verification for \"%1\".").arg(userid) : error;
+    }
+    return false;
 }
 
 void

@@ -37,6 +37,11 @@ struct MatrixRecoveryStatus
     bool hasDevicesToVerifyAgainst = false;
 };
 
+struct MatrixSetupRecoveryResult
+{
+    QString recoveryKey;
+};
+
 struct MatrixResetEncryptionIdentityResult
 {
     bool completed = false;
@@ -266,6 +271,13 @@ public:
 
     static std::optional<MatrixRecoveryStatus>
     fetchRecoveryStatus(uint64_t handleId, QString *errorOut = nullptr);
+
+    static std::optional<MatrixSetupRecoveryResult>
+    setupRecovery(uint64_t handleId,
+                  bool useSSSS,
+                  const QString &passphrase,
+                  bool encryptionBackupOnlineEnabled,
+                  QString *errorOut = nullptr);
 
     static bool recoverEncryptionSecrets(uint64_t handleId,
                                          const QString &keyOrPassphrase,

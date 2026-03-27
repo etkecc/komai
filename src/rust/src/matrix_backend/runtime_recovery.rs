@@ -48,6 +48,67 @@ pub async fn recover_encryption_secrets(
         .map_err(|e| format!("failed to recover encryption secrets: {e}"))
 }
 
+pub async fn setup_recovery(
+    handle_id: u64,
+    use_ssss: bool,
+    passphrase: &str,
+    encryption_backup_online_enabled: bool,
+) -> Result<MatrixSetupRecoveryResult, String> {
+    let client = client_for_handle(handle_id)?;
+    client.encryption().wait_for_e2ee_initialization_tasks().await;
+
+    let trimmed_passphrase = passphrase.trim();
+    let encryption = client.encryption();
+
+    if let Some(status) = encryption.cross_signing_status().await
+        && !status.is_complete()
+    {
+        encryption
+            .bootstrap_cross_signing_if_needed(None)
+            .await
+            .map_err(|e| format!("failed to bootstrap cross-signing identity: {e}"))?;
+    }
+
+    let recovery_key = if use_ssss {
+        if encryption_backup_online_enabled {
+            let recovery = encryption.recovery();
+            let enable = if trimmed_passphrase.is_empty() {
+                recovery.enable()
+            } else {
+                recovery.enable().with_passphrase(trimmed_passphrase)
+            };
+
+            enable
+                .await
+                .map_err(|e| format!("failed to enable encrypted recovery: {e}"))?
+        } else {
+            let secret_storage = encryption.secret_storage();
+            let create_store = if trimmed_passphrase.is_empty() {
+                secret_storage.create_secret_store()
+            } else {
+                secret_storage.create_secret_store().with_passphrase(trimmed_passphrase)
+            };
+
+            create_store
+                .await
+                .map_err(|e| format!("failed to create secure secret storage: {e}"))?
+                .secret_storage_key()
+        }
+    } else {
+        if encryption_backup_online_enabled && !encryption.backups().are_enabled().await {
+            encryption
+                .backups()
+                .create()
+                .await
+                .map_err(|e| format!("failed to create encryption key backup: {e}"))?;
+        }
+
+        String::new()
+    };
+
+    Ok(MatrixSetupRecoveryResult { recovery_key })
+}
+
 pub async fn start_reset_encryption_identity(
     handle_id: u64,
 ) -> Result<MatrixResetEncryptionIdentityResult, String> {

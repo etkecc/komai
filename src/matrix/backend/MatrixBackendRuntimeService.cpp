@@ -50,6 +50,14 @@ fromRustRecoveryStatus(const ::komai::rust::MatrixRecoveryStatus &status)
     };
 }
 
+MatrixSetupRecoveryResult
+fromRustSetupRecoveryResult(const ::komai::rust::MatrixSetupRecoveryResult &result)
+{
+    return MatrixSetupRecoveryResult{
+      .recoveryKey = QString::fromStdString(std::string(result.recovery_key)),
+    };
+}
+
 MatrixResetEncryptionIdentityResult
 fromRustResetEncryptionIdentityResult(
   const ::komai::rust::MatrixResetEncryptionIdentityResult &result)
@@ -480,6 +488,24 @@ MatrixBackendRuntimeService::fetchRecoveryStatus(uint64_t handleId, QString *err
     try {
         auto result = ::komai::rust::matrix_fetch_recovery_status(handleId);
         return fromRustRecoveryStatus(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<MatrixSetupRecoveryResult>
+MatrixBackendRuntimeService::setupRecovery(uint64_t handleId,
+                                           bool useSSSS,
+                                           const QString &passphrase,
+                                           bool encryptionBackupOnlineEnabled,
+                                           QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_setup_recovery(
+          handleId, useSSSS, passphrase.toStdString(), encryptionBackupOnlineEnabled);
+        return fromRustSetupRecoveryResult(result);
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());

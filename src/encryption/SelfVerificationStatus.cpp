@@ -27,6 +27,24 @@ missingRuntimeMessage()
     return SelfVerificationStatus::tr(
       "The Rust Matrix backend is not active, so encryption recovery is unavailable.");
 }
+
+QString
+formattedRecoveryKey(QString recoveryKey)
+{
+    recoveryKey = recoveryKey.trimmed();
+    if (recoveryKey.contains(u' '))
+        return recoveryKey;
+
+    QString formatted;
+    formatted.reserve(recoveryKey.size() + recoveryKey.size() / 4);
+    for (qsizetype i = 0; i < recoveryKey.size(); i += 4) {
+        if (!formatted.isEmpty())
+            formatted += u' ';
+        formatted += recoveryKey.mid(i, 4);
+    }
+
+    return formatted;
+}
 }
 
 SelfVerificationStatus::SelfVerificationStatus(QObject *o)
@@ -52,11 +70,33 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
                                           const QString &password,
                                           bool encryptionBackupOnlineEnabled)
 {
-    Q_UNUSED(useSSSS);
-    Q_UNUSED(password);
-    Q_UNUSED(encryptionBackupOnlineEnabled);
-    nhlog::crypto()->warn("Self-verification setup is not migrated to matrix-sdk yet");
-    emit setupFailed(notMigratedMessage());
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        emit setupFailed(missingRuntimeMessage());
+        return;
+    }
+
+    QString error;
+    const auto result = komai::MatrixBackendRuntimeService::setupRecovery(
+      handleId, useSSSS, password, encryptionBackupOnlineEnabled, &error);
+    if (!result) {
+        emit setupFailed(tr("Failed to set up encryption recovery: %1").arg(error));
+        return;
+    }
+
+    nhlog::crypto()->info("Configured matrix-sdk encryption recovery "
+                          "(store_secrets_online={}, online_backup_enabled={})",
+                          useSSSS,
+                          encryptionBackupOnlineEnabled);
+
+    refreshStateFromMatrixRuntime();
+
+    if (!result->recoveryKey.trimmed().isEmpty()) {
+        emit showRecoveryKey(formattedRecoveryKey(result->recoveryKey));
+    } else {
+        emit setupCompleted();
+    }
 }
 
 bool
@@ -135,8 +175,7 @@ SelfVerificationStatus::verifyUnverifiedDevices()
 void
 SelfVerificationStatus::setupEncryptionBackup()
 {
-    nhlog::crypto()->warn("Encryption backup setup is not migrated to matrix-sdk yet");
-    emit setupFailed(notMigratedMessage());
+    setupCrosssigning(true, QString(), true);
 }
 
 void

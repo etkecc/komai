@@ -82,7 +82,7 @@ pub use profile_media::{
 pub use recovery::{
     cancel_reset_encryption_identity, continue_reset_encryption_identity_after_approval,
     continue_reset_encryption_identity_with_password, fetch_recovery_status,
-    recover_encryption_secrets, start_reset_encryption_identity,
+    recover_encryption_secrets, setup_recovery, start_reset_encryption_identity,
 };
 pub use registry::{start_restored_backend, stop_backend};
 pub use verification::{
@@ -126,6 +126,10 @@ pub struct MatrixOwnProfile {
 pub struct MatrixRecoveryStatus {
     pub state: String,
     pub has_devices_to_verify_against: bool,
+}
+
+pub struct MatrixSetupRecoveryResult {
+    pub recovery_key: String,
 }
 
 pub struct MatrixResetEncryptionIdentityResult {

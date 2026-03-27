@@ -57,6 +57,10 @@ mod ffi {
         has_devices_to_verify_against: bool,
     }
 
+    struct MatrixSetupRecoveryResult {
+        recovery_key: String,
+    }
+
     struct MatrixResetEncryptionIdentityResult {
         completed: bool,
         auth_type: String,
@@ -330,6 +334,12 @@ mod ffi {
         ) -> Result<()>;
         fn matrix_fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile>;
         fn matrix_fetch_recovery_status(handle_id: u64) -> Result<MatrixRecoveryStatus>;
+        fn matrix_setup_recovery(
+            handle_id: u64,
+            use_ssss: bool,
+            passphrase: &str,
+            encryption_backup_online_enabled: bool,
+        ) -> Result<MatrixSetupRecoveryResult>;
         fn matrix_recover_encryption_secrets(
             handle_id: u64,
             key_or_passphrase: &str,
@@ -756,6 +766,24 @@ fn matrix_fetch_recovery_status(handle_id: u64) -> Result<ffi::MatrixRecoverySta
     Ok(ffi::MatrixRecoveryStatus {
         state: result.state,
         has_devices_to_verify_against: result.has_devices_to_verify_against,
+    })
+}
+
+fn matrix_setup_recovery(
+    handle_id: u64,
+    use_ssss: bool,
+    passphrase: &str,
+    encryption_backup_online_enabled: bool,
+) -> Result<ffi::MatrixSetupRecoveryResult, String> {
+    let result = runtime().block_on(matrix_backend::runtime::setup_recovery(
+        handle_id,
+        use_ssss,
+        passphrase,
+        encryption_backup_online_enabled,
+    ))?;
+
+    Ok(ffi::MatrixSetupRecoveryResult {
+        recovery_key: result.recovery_key,
     })
 }
 

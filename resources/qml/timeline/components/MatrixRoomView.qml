@@ -235,16 +235,78 @@ ColumnLayout {
         if (!model || TimelineManager.matrixTimelineItemCount <= 0)
             return "";
 
-        const latestItem = model.itemAt(0);
-        if (!latestItem || latestItem === undefined)
+        for (let row = 0; row < TimelineManager.matrixTimelineItemCount; row++) {
+            const latestItem = model.itemAt(row);
+            if (!latestItem || latestItem === undefined)
+                continue;
+
+            const eventId = String(latestItem.eventId || "");
+            if (eventId.length > 0)
+                return eventId;
+        }
+
+        return "";
+    }
+
+    function latestLoadedSelectableEventId() {
+        for (let row = 0; row < TimelineManager.matrixTimelineItemCount; row++) {
+            if (!isSelectableMatrixTimelineRow(row))
+                continue;
+
+            const item = TimelineManager.matrixTimelineModel.itemAt(row);
+            const eventId = String(item.eventId || "");
+            if (eventId.length > 0)
+                return eventId;
+        }
+
+        return "";
+    }
+
+    function isEffectivelyAtLiveEdge() {
+        if (!matrixTimelineList)
+            return false;
+
+        if (matrixTimelineList.keepPinnedToBottom || root.initialBottomPinPending || matrixTimelineList.atYEnd)
+            return true;
+
+        if (matrixTimelineList.userUnpinned)
+            return false;
+
+        const viewportHeight = Number(matrixTimelineList.height || 0);
+        const contentHeight = Number(matrixTimelineList.contentHeight || 0);
+        return viewportHeight > 0 && contentHeight > 0 && contentHeight <= viewportHeight + 2;
+    }
+
+    function selectableEventIdNearMatrixRow(row) {
+        const model = TimelineManager.matrixTimelineModel;
+        const rowCount = TimelineManager.matrixTimelineItemCount;
+        if (!model || row < 0 || row >= rowCount)
             return "";
 
-        return String(latestItem.eventId || "");
+        const offsets = [0, -1, 1, -2, 2];
+        for (let i = 0; i < offsets.length; i++) {
+            const candidateRow = row + offsets[i];
+            if (candidateRow < 0 || candidateRow >= rowCount)
+                continue;
+
+            const item = model.itemAt(candidateRow);
+            if (!item || item === undefined)
+                continue;
+
+            const eventId = String(item.eventId || "");
+            const itemKind = String(item.itemKind || "");
+            if (eventId.length === 0 || itemKind === "date_divider")
+                continue;
+
+            return eventId;
+        }
+
+        return "";
     }
 
     function bottomMostVisibleEventId() {
-        if (matrixTimelineList && matrixTimelineList.atYEnd) {
-            const latestEventId = latestLoadedEventId();
+        if (isEffectivelyAtLiveEdge()) {
+            const latestEventId = latestLoadedSelectableEventId();
             if (latestEventId.length > 0)
                 return latestEventId;
         }
@@ -261,9 +323,9 @@ ColumnLayout {
         const probeY = Math.max(1, Math.round(matrixTimelineList.height - 2));
         const row = matrixTimelineList.indexAt(probeX, probeY);
         if (row >= 0) {
-            const item = TimelineManager.matrixTimelineModel.itemAt(row);
-            if (item && item !== undefined)
-                return String(item.eventId || "");
+            const eventId = selectableEventIdNearMatrixRow(row);
+            if (eventId.length > 0)
+                return eventId;
         }
 
         const delegateItem = bottomMostVisibleDelegate();
@@ -288,8 +350,8 @@ ColumnLayout {
         }
 
         let targetEventId = "";
-        if (preferLatestReadMarkerEvent || (matrixTimelineList && matrixTimelineList.atYEnd))
-            targetEventId = latestLoadedEventId();
+        if (preferLatestReadMarkerEvent || isEffectivelyAtLiveEdge())
+            targetEventId = latestLoadedSelectableEventId();
         if (targetEventId.length === 0)
             targetEventId = bottomMostVisibleEventId();
 
@@ -404,12 +466,17 @@ ColumnLayout {
         if (TimelineManager.matrixTimelineReplyEventId.length > 0)
             return false;
 
-        const targetEventId = bottomMostVisibleEventId();
         clearWalkState({
             "focusComposer": false
         });
         suppressNextWalkModeOlderStep = true;
         walkModeEntrySuppressTimer.restart();
+        if (isEffectivelyAtLiveEdge())
+            return focusLatestWalkModeEvent({
+                    "deferFocus": true
+                });
+
+        const targetEventId = bottomMostVisibleEventId();
         if (targetEventId.length === 0)
             return focusLatestWalkModeEvent({
                     "deferFocus": true

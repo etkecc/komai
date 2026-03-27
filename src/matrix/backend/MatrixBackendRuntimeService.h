@@ -329,6 +329,11 @@ public:
                                                   const QString &password,
                                                   QString *errorOut = nullptr);
 
+    static bool renameDevice(uint64_t handleId,
+                             const QString &deviceId,
+                             const QString &displayName,
+                             QString *errorOut = nullptr);
+
     static std::optional<MatrixVerificationSession>
     startSelfVerification(uint64_t handleId, QString *errorOut = nullptr);
 

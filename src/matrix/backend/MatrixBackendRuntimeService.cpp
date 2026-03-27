@@ -668,6 +668,23 @@ MatrixBackendRuntimeService::continueSignOutDeviceWithPassword(uint64_t handleId
     }
 }
 
+bool
+MatrixBackendRuntimeService::renameDevice(uint64_t handleId,
+                                          const QString &deviceId,
+                                          const QString &displayName,
+                                          QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_rename_device(
+          handleId, deviceId.toStdString(), displayName.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<MatrixVerificationSession>
 MatrixBackendRuntimeService::startSelfVerification(uint64_t handleId, QString *errorOut)
 {

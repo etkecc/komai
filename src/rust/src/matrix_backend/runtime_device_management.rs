@@ -122,6 +122,30 @@ pub async fn start_sign_out_device(
     }
 }
 
+pub async fn rename_device(
+    handle_id: u64,
+    device_id: &str,
+    display_name: &str,
+) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    if device_id.trim().is_empty() {
+        return Err("device id cannot be empty".to_owned());
+    }
+
+    let trimmed_display_name = display_name.trim();
+    if trimmed_display_name.is_empty() {
+        return Err("device display name cannot be empty".to_owned());
+    }
+
+    let parsed_device_id: OwnedDeviceId = device_id.trim().into();
+    client
+        .rename_device(&parsed_device_id, trimmed_display_name)
+        .await
+        .map_err(|error| format!("failed to rename device '{device_id}': {error}"))?;
+
+    Ok(())
+}
+
 pub async fn continue_sign_out_device_with_password(
     handle_id: u64,
     password: &str,

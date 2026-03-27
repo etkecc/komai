@@ -87,7 +87,9 @@ pub use recovery::{
     continue_reset_encryption_identity_with_password, fetch_recovery_status,
     recover_encryption_secrets, setup_recovery, start_reset_encryption_identity,
 };
-pub use device_management::{continue_sign_out_device_with_password, start_sign_out_device};
+pub use device_management::{
+    continue_sign_out_device_with_password, rename_device, start_sign_out_device,
+};
 pub use registry::{logout_backend, start_restored_backend, stop_backend};
 pub use verification::{
     advance_verification_session, cancel_verification_session, fetch_user_verification_state,

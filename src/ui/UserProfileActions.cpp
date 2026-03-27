@@ -64,9 +64,33 @@ UserProfile::changeUsername(const QString &username)
 void
 UserProfile::changeDeviceName(const QString &deviceID, const QString &deviceName)
 {
-    Q_UNUSED(deviceID);
-    Q_UNUSED(deviceName);
-    emit displayError(tr("Device management is not migrated to the matrix-sdk backend yet."));
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
+        emit displayError(tr("Matrix backend runtime is not available."));
+        return;
+    }
+
+    const auto trimmedDeviceId   = deviceID.trimmed();
+    const auto trimmedDeviceName = deviceName.trimmed();
+    if (trimmedDeviceId.isEmpty()) {
+        emit displayError(tr("Device id cannot be empty."));
+        return;
+    }
+    if (trimmedDeviceName.isEmpty()) {
+        emit displayError(tr("Device name cannot be empty."));
+        return;
+    }
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::renameDevice(
+          handleId, trimmedDeviceId, trimmedDeviceName, &error)) {
+        emit displayError(error.isEmpty()
+                            ? tr("Failed to rename device \"%1\".").arg(trimmedDeviceId)
+                            : tr("Failed to rename device \"%1\": %2").arg(trimmedDeviceId, error));
+        return;
+    }
+
+    refreshDevices();
 }
 
 void

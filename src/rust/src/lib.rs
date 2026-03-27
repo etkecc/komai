@@ -388,6 +388,11 @@ mod ffi {
             handle_id: u64,
             password: &str,
         ) -> Result<()>;
+        fn matrix_rename_device(
+            handle_id: u64,
+            device_id: &str,
+            display_name: &str,
+        ) -> Result<()>;
         fn matrix_start_self_verification(handle_id: u64) -> Result<MatrixVerificationSession>;
         fn matrix_start_user_verification(
             handle_id: u64,
@@ -910,6 +915,14 @@ fn matrix_continue_sign_out_device_with_password(
 ) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::continue_sign_out_device_with_password(
         handle_id, password,
+    ))
+}
+
+fn matrix_rename_device(handle_id: u64, device_id: &str, display_name: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::rename_device(
+        handle_id,
+        device_id,
+        display_name,
     ))
 }
 

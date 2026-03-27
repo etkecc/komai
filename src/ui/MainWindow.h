@@ -97,6 +97,8 @@ public:
     void showChatPage(bool hadSessionIdentity);
     //! Show the startup restore page while a session is being restored.
     void showStartupRestorePage();
+    //! Stop the active matrix-sdk runtime handle, if any.
+    void stopMatrixBackendHandle();
     //! Request showing the user settings page from any app page/state.
     Q_INVOKABLE void showUserSettingsPage();
     Q_INVOKABLE void showUserSettingsPage(int initialTab);
@@ -151,7 +153,6 @@ private:
     bool hasActiveUser();
     void restoreWindowSize();
     void startMatrixBackendHandleForActiveSession();
-    void stopMatrixBackendHandle();
     void transitionToLoginPage(const QString &error = QString());
     void setStartupStatus(const QString &headline, const QString &detail);
     //! Check if the current page supports the "minimize to tray" functionality.

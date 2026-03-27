@@ -92,6 +92,33 @@ fromRustVerificationSession(const ::komai::rust::MatrixVerificationSession &sess
     };
 }
 
+MatrixUserDevice
+fromRustUserDevice(const ::komai::rust::MatrixUserDevice &device)
+{
+    return MatrixUserDevice{
+      .deviceId          = QString::fromStdString(std::string(device.device_id)),
+      .displayName       = QString::fromStdString(std::string(device.display_name)),
+      .verificationState = QString::fromStdString(std::string(device.verification_state)),
+      .lastIp            = QString::fromStdString(std::string(device.last_seen_ip)),
+      .lastTs            = device.last_seen_ts,
+    };
+}
+
+MatrixUserVerificationState
+fromRustUserVerificationState(const ::komai::rust::MatrixUserVerificationState &state)
+{
+    QVector<MatrixUserDevice> devices;
+    devices.reserve(static_cast<int>(state.devices.size()));
+    for (const auto &device : state.devices)
+        devices.push_back(fromRustUserDevice(device));
+
+    return MatrixUserVerificationState{
+      .hasMasterKey = state.has_master_key,
+      .userTrust    = QString::fromStdString(std::string(state.user_trust)),
+      .devices      = devices,
+    };
+}
+
 MatrixUserProfile
 fromRustUserProfile(const ::komai::rust::MatrixUserProfile &profile)
 {
@@ -624,6 +651,22 @@ MatrixBackendRuntimeService::startDeviceVerification(uint64_t handleId,
         auto result = ::komai::rust::matrix_start_device_verification(
           handleId, userId.toStdString(), deviceId.toStdString());
         return fromRustVerificationSession(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<MatrixUserVerificationState>
+MatrixBackendRuntimeService::fetchUserVerificationState(uint64_t handleId,
+                                                        const QString &userId,
+                                                        QString *errorOut)
+{
+    try {
+        auto result =
+          ::komai::rust::matrix_fetch_user_verification_state(handleId, userId.toStdString());
+        return fromRustUserVerificationState(result);
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());

@@ -64,6 +64,22 @@ struct MatrixVerificationSession
     QVector<int> sasNumbers;
 };
 
+struct MatrixUserDevice
+{
+    QString deviceId;
+    QString displayName;
+    QString verificationState;
+    QString lastIp;
+    uint64_t lastTs = 0;
+};
+
+struct MatrixUserVerificationState
+{
+    bool hasMasterKey = false;
+    QString userTrust;
+    QVector<MatrixUserDevice> devices;
+};
+
 struct MatrixUserProfile
 {
     QString displayName;
@@ -308,6 +324,11 @@ public:
                             const QString &userId,
                             const QString &deviceId,
                             QString *errorOut = nullptr);
+
+    static std::optional<MatrixUserVerificationState>
+    fetchUserVerificationState(uint64_t handleId,
+                               const QString &userId,
+                               QString *errorOut = nullptr);
 
     static std::optional<QVector<QString>>
     takePendingVerificationFlowIds(uint64_t handleId, QString *errorOut = nullptr);

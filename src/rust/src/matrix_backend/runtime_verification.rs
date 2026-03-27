@@ -29,6 +29,51 @@ fn cancel_code_name(cancel_info: &CancelInfo) -> String {
     .to_owned()
 }
 
+fn user_trust_name(
+    identity: Option<&matrix_sdk::encryption::identities::UserIdentity>,
+    is_self: bool,
+) -> String {
+    if is_self {
+        return if identity.is_some_and(|identity| identity.is_verified()) {
+            "Verified"
+        } else {
+            "Unverified"
+        }
+        .to_owned();
+    }
+
+    match identity {
+        Some(identity) if identity.is_verified() => "Verified".to_owned(),
+        Some(identity)
+            if identity.was_previously_verified() || identity.has_verification_violation() =>
+        {
+            "Unverified".to_owned()
+        }
+        Some(_) => "TOFU".to_owned(),
+        None => "Unverified".to_owned(),
+    }
+}
+
+fn device_verification_state_name(
+    device: &matrix_sdk::encryption::identities::Device,
+    current_device_id: Option<&OwnedDeviceId>,
+    is_self: bool,
+) -> String {
+    if is_self && current_device_id.is_some_and(|current| device.device_id() == current) {
+        return "self".to_owned();
+    }
+
+    if device.is_blacklisted() {
+        return "blocked".to_owned();
+    }
+
+    if device.is_verified() {
+        return "verified".to_owned();
+    }
+
+    "unverified".to_owned()
+}
+
 fn request_snapshot(
     flow_id: &str,
     request: &matrix_sdk::encryption::verification::VerificationRequest,
@@ -270,6 +315,84 @@ pub fn take_pending_verification_flow_ids(handle_id: u64) -> Result<Vec<String>,
         .lock()
         .expect("poisoned matrix backend pending verification flows mutex");
     Ok(std::mem::take(&mut *pending_flow_ids))
+}
+
+pub async fn fetch_user_verification_state(
+    handle_id: u64,
+    user_id: &str,
+) -> Result<MatrixUserVerificationState, String> {
+    let client = client_for_handle(handle_id)?;
+    client.encryption().wait_for_e2ee_initialization_tasks().await;
+
+    let parsed_user_id = parse_user_id(user_id)?;
+    let current_user_id = client.user_id().map(ToOwned::to_owned);
+    let current_device_id = client.device_id().map(ToOwned::to_owned);
+    let is_self = current_user_id
+        .as_ref()
+        .is_some_and(|current_user_id| current_user_id == &parsed_user_id);
+
+    let identity = client
+        .encryption()
+        .get_user_identity(&parsed_user_id)
+        .await
+        .map_err(|e| format!("failed to fetch encryption identity for '{user_id}': {e}"))?;
+
+    let own_device_metadata = if is_self {
+        match client.devices().await {
+            Ok(response) => response
+                .devices
+                .into_iter()
+                .map(|device| (device.device_id.to_string(), device))
+                .collect::<HashMap<_, _>>(),
+            Err(error) => {
+                tracing::warn!("Failed to fetch own device metadata for '{}': {}", user_id, error);
+                HashMap::new()
+            }
+        }
+    } else {
+        HashMap::new()
+    };
+
+    let devices = client
+        .encryption()
+        .get_user_devices(&parsed_user_id)
+        .await
+        .map_err(|e| format!("failed to fetch user devices for '{user_id}': {e}"))?;
+
+    let devices = devices
+        .devices()
+        .filter(|device| !device.is_dehydrated())
+        .map(|device| {
+            let device_id = device.device_id().to_string();
+            let own_metadata = own_device_metadata.get(&device_id);
+
+            MatrixUserDevice {
+                device_id,
+                display_name: own_metadata
+                    .and_then(|device| device.display_name.clone())
+                    .or_else(|| device.display_name().map(ToOwned::to_owned))
+                    .unwrap_or_default(),
+                verification_state: device_verification_state_name(
+                    &device,
+                    current_device_id.as_ref(),
+                    is_self,
+                ),
+                last_seen_ip: own_metadata
+                    .and_then(|device| device.last_seen_ip.clone())
+                    .unwrap_or_default(),
+                last_seen_ts: own_metadata
+                    .and_then(|device| device.last_seen_ts)
+                    .map(|timestamp| u64::from(timestamp.get()))
+                    .unwrap_or_default(),
+            }
+        })
+        .collect();
+
+    Ok(MatrixUserVerificationState {
+        has_master_key: identity.is_some(),
+        user_trust: user_trust_name(identity.as_ref(), is_self),
+        devices,
+    })
 }
 
 fn store_started_verification_session(

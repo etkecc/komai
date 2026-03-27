@@ -81,6 +81,20 @@ mod ffi {
         sas_numbers: Vec<u16>,
     }
 
+    struct MatrixUserDevice {
+        device_id: String,
+        display_name: String,
+        verification_state: String,
+        last_seen_ip: String,
+        last_seen_ts: u64,
+    }
+
+    struct MatrixUserVerificationState {
+        has_master_key: bool,
+        user_trust: String,
+        devices: Vec<MatrixUserDevice>,
+    }
+
     struct MatrixUserProfile {
         display_name: String,
         avatar_url: String,
@@ -367,6 +381,10 @@ mod ffi {
             user_id: &str,
             device_id: &str,
         ) -> Result<MatrixVerificationSession>;
+        fn matrix_fetch_user_verification_state(
+            handle_id: u64,
+            user_id: &str,
+        ) -> Result<MatrixUserVerificationState>;
         fn matrix_take_pending_verification_flow_ids(handle_id: u64) -> Result<Vec<String>>;
         fn matrix_fetch_verification_session(
             handle_id: u64,
@@ -905,6 +923,30 @@ fn matrix_start_device_verification(
         is_self_verification: result.is_self_verification,
         is_multi_device_verification: result.is_multi_device_verification,
         sas_numbers: result.sas_numbers,
+    })
+}
+
+fn matrix_fetch_user_verification_state(
+    handle_id: u64,
+    user_id: &str,
+) -> Result<ffi::MatrixUserVerificationState, String> {
+    let result =
+        runtime().block_on(matrix_backend::runtime::fetch_user_verification_state(handle_id, user_id))?;
+
+    Ok(ffi::MatrixUserVerificationState {
+        has_master_key: result.has_master_key,
+        user_trust: result.user_trust,
+        devices: result
+            .devices
+            .into_iter()
+            .map(|device| ffi::MatrixUserDevice {
+                device_id: device.device_id,
+                display_name: device.display_name,
+                verification_state: device.verification_state,
+                last_seen_ip: device.last_seen_ip,
+                last_seen_ts: device.last_seen_ts,
+            })
+            .collect(),
     })
 }
 

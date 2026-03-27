@@ -19,6 +19,30 @@
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
+namespace {
+crypto::Trust
+userTrustFromRuntime(const QString &trust, bool isSelf)
+{
+    if (trust == QLatin1String("Verified"))
+        return crypto::Trust::Verified;
+    if (!isSelf && trust == QLatin1String("TOFU"))
+        return crypto::Trust::TOFU;
+    return crypto::Trust::Unverified;
+}
+
+verification::Status
+deviceVerificationStatusFromRuntime(const QString &state)
+{
+    if (state == QLatin1String("self"))
+        return verification::SELF;
+    if (state == QLatin1String("verified"))
+        return verification::VERIFIED;
+    if (state == QLatin1String("blocked"))
+        return verification::BLOCKED;
+    return verification::UNVERIFIED;
+}
+}
+
 UserProfile::UserProfile(const QString &roomid,
                          const QString &userid,
                          TimelineViewManager *manager_,
@@ -209,11 +233,64 @@ UserProfile::fetchDeviceList(const QString &userID)
 void
 UserProfile::updateVerificationStatus()
 {
-    this->hasMasterKey   = false;
-    this->isUserVerified = crypto::Trust::Unverified;
-    this->deviceList_.reset({});
-    emit userStatusChanged();
-    emit devicesChanged();
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
+        this->hasMasterKey   = false;
+        this->isUserVerified = crypto::Trust::Unverified;
+        this->deviceList_.reset({});
+        emit userStatusChanged();
+        emit devicesChanged();
+        return;
+    }
+
+    QPointer<UserProfile> guard(this);
+    const auto userId     = userid_;
+    const bool ownProfile = isSelf();
+
+    std::thread([guard, handleId, userId, ownProfile]() {
+        QString error;
+        const auto result =
+          komai::MatrixBackendRuntimeService::fetchUserVerificationState(handleId, userId, &error);
+
+        if (!guard)
+            return;
+
+        if (!result) {
+            nhlog::crypto()->warn("Failed to fetch matrix-sdk verification status for '{}': {}",
+                                  userId.toStdString(),
+                                  error.toStdString());
+        }
+
+        std::vector<DeviceInfo> devices;
+        devices.reserve(result ? static_cast<size_t>(result->devices.size()) : 0);
+        if (result) {
+            for (const auto &device : result->devices) {
+                devices.emplace_back(device.deviceId,
+                                     device.displayName,
+                                     deviceVerificationStatusFromRuntime(device.verificationState),
+                                     device.lastIp,
+                                     device.lastTs);
+            }
+        }
+
+        const auto nextTrust =
+          result ? userTrustFromRuntime(result->userTrust, ownProfile) : crypto::Trust::Unverified;
+        const bool nextHasMasterKey = result && result->hasMasterKey;
+
+        QMetaObject::invokeMethod(
+          guard,
+          [guard, devices = std::move(devices), nextTrust, nextHasMasterKey]() mutable {
+              if (!guard)
+                  return;
+
+              guard->hasMasterKey   = nextHasMasterKey;
+              guard->isUserVerified = nextTrust;
+              guard->deviceList_.reset(devices);
+              emit guard->userStatusChanged();
+              emit guard->devicesChanged();
+          },
+          Qt::QueuedConnection);
+    }).detach();
 }
 
 void

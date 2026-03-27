@@ -24,6 +24,7 @@ public:
     {
         ItemId = Qt::UserRole,
         EventId,
+        DeliveryState,
         ThreadId,
         SenderId,
         SenderDisplayName,

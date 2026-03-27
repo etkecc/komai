@@ -1165,6 +1165,7 @@ fn timeline_item_to_summary(
             MatrixTimelineItem {
                 item_id,
                 event_id: event.event_id().map(ToString::to_string).unwrap_or_default(),
+                delivery_state: matrix_timeline_delivery_state(event),
                 thread_id,
                 sender_id,
                 sender_display_name,
@@ -1227,6 +1228,7 @@ fn timeline_item_to_summary(
             MatrixTimelineItem {
                 item_id,
                 event_id: String::new(),
+                delivery_state: String::new(),
                 thread_id: String::new(),
                 sender_id: String::new(),
                 sender_display_name: String::new(),
@@ -1258,6 +1260,18 @@ fn timeline_item_to_summary(
         Some(VirtualTimelineItem::ReadMarker) | Some(VirtualTimelineItem::TimelineStart) | None => {
             None
         }
+    }
+}
+
+fn matrix_timeline_delivery_state(event: &matrix_sdk_ui::timeline::EventTimelineItem) -> String {
+    use matrix_sdk_ui::timeline::EventSendState;
+
+    match event.send_state() {
+        Some(EventSendState::NotSentYet { .. }) | Some(EventSendState::Sent { .. }) => {
+            "sent".to_owned()
+        }
+        Some(EventSendState::SendingFailed { .. }) => "failed".to_owned(),
+        None => String::new(),
     }
 }
 

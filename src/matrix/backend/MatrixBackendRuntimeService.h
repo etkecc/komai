@@ -185,6 +185,7 @@ struct MatrixTimelineItem
 {
     QString itemId;
     QString eventId;
+    QString deliveryState;
     QString threadId;
     QString senderId;
     QString senderDisplayName;

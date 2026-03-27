@@ -35,6 +35,8 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
         return item.itemId;
     case EventId:
         return item.eventId;
+    case DeliveryState:
+        return item.deliveryState;
     case ThreadId:
         return item.threadId;
     case SenderId:
@@ -96,6 +98,7 @@ MatrixTimelineModel::roleNames() const
     return {
       {ItemId, "itemId"},
       {EventId, "eventId"},
+      {DeliveryState, "deliveryState"},
       {ThreadId, "threadId"},
       {SenderId, "senderId"},
       {SenderDisplayName, "senderDisplayName"},

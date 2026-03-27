@@ -288,6 +288,7 @@ pub struct MatrixReactionSummary {
 pub struct MatrixTimelineItem {
     pub item_id: String,
     pub event_id: String,
+    pub delivery_state: String,
     pub thread_id: String,
     pub sender_id: String,
     pub sender_display_name: String,

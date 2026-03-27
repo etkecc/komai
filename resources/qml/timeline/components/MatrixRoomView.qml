@@ -1560,6 +1560,7 @@ ColumnLayout {
                         required property string itemKind
                         required property string itemId
                         required property string eventId
+                        required property string deliveryState
                         required property string threadId
                         required property string senderDisplayName
                         required property string senderAvatarUrl
@@ -1617,6 +1618,15 @@ ColumnLayout {
                             && itemKind !== "date_divider"
                             && itemKind !== "redacted"
                             && !isStateLikeItem
+                        readonly property int sharedDeliveryStatus: deliveryState === "sent"
+                            ? MtxEvent.Sent
+                            : deliveryState === "failed"
+                            ? MtxEvent.Failed
+                            : deliveryState === "read"
+                            ? MtxEvent.Read
+                            : deliveryState === "received"
+                            ? MtxEvent.Received
+                            : MtxEvent.Empty
                         readonly property int matrixEventType: root.matrixEventTypeForItemKind(itemKind)
                         readonly property int dayKey: root.matrixTimelineDayKey(timestamp)
                         readonly property var previousItem: TimelineManager.matrixTimelineModel && modelIndex > 0
@@ -2072,7 +2082,7 @@ ColumnLayout {
                                 reactions: timelineItemDelegate.usesSharedStateBubble
                                     ? []
                                     : timelineItemDelegate.reactions
-                                status: MtxEvent.Empty
+                                status: timelineItemDelegate.sharedDeliveryStatus
                                 trustlevel: 0
                                 notificationlevel: MtxEvent.Empty
                                 type: timelineItemDelegate.usesSharedStateBubble
@@ -2134,7 +2144,7 @@ ColumnLayout {
                                 reactions: timelineItemDelegate.usesSharedStateBubble
                                     ? []
                                     : timelineItemDelegate.reactions
-                                status: MtxEvent.Empty
+                                status: timelineItemDelegate.sharedDeliveryStatus
                                 trustlevel: 0
                                 notificationlevel: MtxEvent.Empty
                                 type: timelineItemDelegate.usesSharedStateBubble

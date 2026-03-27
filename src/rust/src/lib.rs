@@ -55,6 +55,8 @@ mod ffi {
     struct MatrixRecoveryStatus {
         state: String,
         has_devices_to_verify_against: bool,
+        own_device_is_verified: bool,
+        has_unverified_own_devices: bool,
     }
 
     struct MatrixSetupRecoveryResult {
@@ -766,6 +768,8 @@ fn matrix_fetch_recovery_status(handle_id: u64) -> Result<ffi::MatrixRecoverySta
     Ok(ffi::MatrixRecoveryStatus {
         state: result.state,
         has_devices_to_verify_against: result.has_devices_to_verify_against,
+        own_device_is_verified: result.own_device_is_verified,
+        has_unverified_own_devices: result.has_unverified_own_devices,
     })
 }
 

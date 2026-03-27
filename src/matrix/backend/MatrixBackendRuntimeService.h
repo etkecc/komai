@@ -35,6 +35,8 @@ struct MatrixRecoveryStatus
 {
     QString state;
     bool hasDevicesToVerifyAgainst = false;
+    bool ownDeviceIsVerified       = false;
+    bool hasUnverifiedOwnDevices   = false;
 };
 
 struct MatrixSetupRecoveryResult

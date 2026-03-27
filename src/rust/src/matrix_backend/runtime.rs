@@ -126,6 +126,8 @@ pub struct MatrixOwnProfile {
 pub struct MatrixRecoveryStatus {
     pub state: String,
     pub has_devices_to_verify_against: bool,
+    pub own_device_is_verified: bool,
+    pub has_unverified_own_devices: bool,
 }
 
 pub struct MatrixSetupRecoveryResult {

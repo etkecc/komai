@@ -22,14 +22,43 @@ fn recovery_state_name(state: RecoveryState) -> String {
 pub async fn fetch_recovery_status(handle_id: u64) -> Result<MatrixRecoveryStatus, String> {
     let client = client_for_handle(handle_id)?;
     client.encryption().wait_for_e2ee_initialization_tasks().await;
+    let encryption = client.encryption();
+
+    let own_device_is_verified = encryption
+        .get_own_device()
+        .await
+        .map_err(|e| format!("failed to inspect current device verification state: {e}"))?
+        .is_some_and(|device| device.is_cross_signed_by_owner());
+
+    let has_unverified_own_devices = if let Some(user_id) = client.user_id() {
+        let current_device_id = client.device_id().map(|device_id| device_id.to_owned());
+        let devices = encryption
+            .get_user_devices(user_id)
+            .await
+            .map_err(|e| format!("failed to inspect own device list: {e}"))?;
+
+        devices.devices().any(|device| {
+            let is_current_device = current_device_id
+                .as_ref()
+                .is_some_and(|current_device_id| device.device_id() == current_device_id);
+
+            !is_current_device
+                && !device.is_dehydrated()
+                && device.curve25519_key().is_some()
+                && !device.is_cross_signed_by_owner()
+        })
+    } else {
+        false
+    };
 
     Ok(MatrixRecoveryStatus {
-        state: recovery_state_name(client.encryption().recovery().state()),
-        has_devices_to_verify_against: client
-            .encryption()
+        state: recovery_state_name(encryption.recovery().state()),
+        has_devices_to_verify_against: encryption
             .has_devices_to_verify_against()
             .await
             .map_err(|e| format!("failed to inspect available verification devices: {e}"))?,
+        own_device_is_verified,
+        has_unverified_own_devices,
     })
 }
 

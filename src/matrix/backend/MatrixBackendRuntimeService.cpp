@@ -47,6 +47,8 @@ fromRustRecoveryStatus(const ::komai::rust::MatrixRecoveryStatus &status)
     return MatrixRecoveryStatus{
       .state                     = QString::fromStdString(std::string(status.state)),
       .hasDevicesToVerifyAgainst = status.has_devices_to_verify_against,
+      .ownDeviceIsVerified       = status.own_device_is_verified,
+      .hasUnverifiedOwnDevices   = status.has_unverified_own_devices,
     };
 }
 

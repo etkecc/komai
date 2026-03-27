@@ -168,8 +168,16 @@ SelfVerificationStatus::cancelUnlockKeyBackup()
 void
 SelfVerificationStatus::verifyUnverifiedDevices()
 {
-    nhlog::crypto()->warn("Device verification is not migrated to matrix-sdk yet");
-    emit setupFailed(notMigratedMessage());
+    QString error;
+    auto *verificationManager = VerificationManager::instance();
+    if (!verificationManager) {
+        emit setupFailed(tr("The verification manager is not available."));
+        return;
+    }
+
+    if (!verificationManager->verifySelf(&error)) {
+        emit setupFailed(error.isEmpty() ? notMigratedMessage() : error);
+    }
 }
 
 void
@@ -311,15 +319,19 @@ SelfVerificationStatus::refreshStateFromMatrixRuntime()
         return;
     }
 
-    if (recoveryStatus->state == QLatin1String("enabled")) {
-        applyRuntimeStatus(AllVerified, true, recoveryStatus->hasDevicesToVerifyAgainst);
-    } else if (recoveryStatus->state == QLatin1String("incomplete")) {
-        applyRuntimeStatus(UnverifiedMasterKey, true, recoveryStatus->hasDevicesToVerifyAgainst);
-    } else if (recoveryStatus->state == QLatin1String("disabled")) {
-        applyRuntimeStatus(NoMasterKey, false, recoveryStatus->hasDevicesToVerifyAgainst);
-    } else {
-        applyRuntimeStatus(AllVerified, false, recoveryStatus->hasDevicesToVerifyAgainst);
+    const auto hasSSSS = recoveryStatus->state == QLatin1String("enabled") ||
+                         recoveryStatus->state == QLatin1String("incomplete");
+
+    Status nextStatus = AllVerified;
+    if (recoveryStatus->state == QLatin1String("disabled")) {
+        nextStatus = NoMasterKey;
+    } else if (!recoveryStatus->ownDeviceIsVerified) {
+        nextStatus = UnverifiedMasterKey;
+    } else if (recoveryStatus->hasUnverifiedOwnDevices) {
+        nextStatus = UnverifiedDevices;
     }
+
+    applyRuntimeStatus(nextStatus, hasSSSS, recoveryStatus->hasDevicesToVerifyAgainst);
 }
 
 void

@@ -14,6 +14,7 @@
 #include "Permissions.h"
 #include "TimelineModel.h"
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 
@@ -491,11 +492,47 @@ FilteredRoomlistModel::computeFilterBadges(const QStringList &communityIds) cons
 void
 FilteredRoomlistModel::toggleTag(const QString &roomid, const QString &tag, bool on)
 {
-    Q_UNUSED(roomid)
-    nhlog::ui()->warn("Room tag '{}' toggle is not migrated to matrix-sdk yet", tag.toStdString());
-    MainWindow::instance()->showNotification(
-      on ? tr("Adding room tags is not available yet during the matrix-sdk migration.")
-         : tr("Removing room tags is not available yet during the matrix-sdk migration."));
+    const auto roomId = roomid.trimmed();
+    const auto tagId  = tag.trimmed();
+    if (roomId.isEmpty() || tagId.isEmpty())
+        return;
+
+    const auto preview = roomlistmodel->getRoomPreviewById(roomId);
+    if (!preview.isMatrixSummary()) {
+        nhlog::ui()->warn("Room tag '{}' toggle is not migrated for legacy room '{}'",
+                          tagId.toStdString(),
+                          roomId.toStdString());
+        MainWindow::instance()->showNotification(
+          on ? tr("Adding room tags is not available yet during the matrix-sdk migration.")
+             : tr("Removing room tags is not available yet during the matrix-sdk migration."));
+        return;
+    }
+
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        nhlog::ui()->warn("Refusing to toggle matrix-sdk room tag '{}' for '{}' without an "
+                          "active backend handle",
+                          tagId.toStdString(),
+                          roomId.toStdString());
+        if (mainWindow) {
+            mainWindow->showNotification(tr(
+              "Room tags are temporarily unavailable because the Matrix session is not active."));
+        }
+        return;
+    }
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::toggleRoomTag(handleId, roomId, tagId, on, &error)) {
+        nhlog::ui()->warn("Failed to toggle matrix-sdk room tag '{}' for '{}': {}",
+                          tagId.toStdString(),
+                          roomId.toStdString(),
+                          error.toStdString());
+        if (mainWindow) {
+            mainWindow->showNotification(on ? tr("Failed to add room tag: %1").arg(error)
+                                            : tr("Failed to remove room tag: %1").arg(error));
+        }
+    }
 }
 
 void

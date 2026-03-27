@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use super::*;
+use std::str::FromStr;
 
 pub async fn join_room(
     handle_id: u64,
@@ -161,6 +162,74 @@ pub async fn leave_room(handle_id: u64, room_id: &str, reason: &str) -> Result<(
         .await
         .map(|_| ())
         .map_err(|e| format!("failed to leave room via matrix-sdk: {e}"))
+}
+
+pub async fn toggle_room_tag(
+    handle_id: u64,
+    room_id: &str,
+    tag: &str,
+    enabled: bool,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let tag = tag.trim();
+    if tag.is_empty() {
+        return Err("cannot toggle a matrix-sdk room tag without a tag id".to_owned());
+    }
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        tag,
+        enabled,
+        "Toggling matrix-sdk room tag"
+    );
+
+    match tag {
+        "m.favourite" => room
+            .set_is_favourite(enabled, None)
+            .await
+            .map_err(|e| format!("failed to toggle matrix-sdk favourite room tag: {e}"))?,
+        "m.lowpriority" => room
+            .set_is_low_priority(enabled, None)
+            .await
+            .map_err(|e| format!("failed to toggle matrix-sdk low-priority room tag: {e}"))?,
+        "m.server_notice" => {
+            if enabled {
+                room.set_tag(TagName::ServerNotice, TagInfo::new())
+                    .await
+                    .map_err(|e| {
+                        format!("failed to add matrix-sdk server-notice room tag: {e}")
+                    })?;
+            } else {
+                room.remove_tag(TagName::ServerNotice).await.map_err(|e| {
+                    format!("failed to remove matrix-sdk server-notice room tag: {e}")
+                })?;
+            }
+        }
+        custom if custom.starts_with("u.") => {
+            let tag_name = TagName::User(
+                UserTagName::from_str(custom)
+                    .map_err(|e| format!("invalid custom matrix room tag '{custom}': {e}"))?,
+            );
+            if enabled {
+                room.set_tag(tag_name, TagInfo::new())
+                    .await
+                    .map_err(|e| format!("failed to add custom matrix room tag '{custom}': {e}"))?;
+            } else {
+                room.remove_tag(tag_name).await.map_err(|e| {
+                    format!("failed to remove custom matrix room tag '{custom}': {e}")
+                })?;
+            }
+        }
+        other => {
+            return Err(format!(
+                "unsupported matrix-sdk room tag '{other}' for room '{}'",
+                room_id.trim()
+            ));
+        }
+    }
+
+    Ok(())
 }
 
 pub async fn invite_user(

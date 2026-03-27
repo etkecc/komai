@@ -473,6 +473,24 @@ MatrixBackendRuntimeService::leaveRoom(uint64_t handleId,
 }
 
 bool
+MatrixBackendRuntimeService::toggleRoomTag(uint64_t handleId,
+                                           const QString &roomId,
+                                           const QString &tag,
+                                           bool enabled,
+                                           QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_toggle_room_tag(
+          handleId, roomId.toStdString(), tag.toStdString(), enabled);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
 MatrixBackendRuntimeService::inviteUser(uint64_t handleId,
                                         const QString &roomId,
                                         const QString &userId,

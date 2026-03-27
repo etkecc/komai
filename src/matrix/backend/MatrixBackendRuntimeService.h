@@ -272,6 +272,12 @@ public:
                           const QString &reason = {},
                           QString *errorOut     = nullptr);
 
+    static bool toggleRoomTag(uint64_t handleId,
+                              const QString &roomId,
+                              const QString &tag,
+                              bool enabled,
+                              QString *errorOut = nullptr);
+
     static bool inviteUser(uint64_t handleId,
                            const QString &roomId,
                            const QString &userId,

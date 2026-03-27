@@ -36,6 +36,7 @@ use matrix_sdk::{
         events::{
             AnyMessageLikeEventContent, InitialStateEvent,
             room::{MediaSource, encryption::RoomEncryptionEventContent, message::RoomMessageEventContent},
+            tag::{TagInfo, TagName, UserTagName},
         },
         room::RoomType,
         serde::Raw,
@@ -99,7 +100,8 @@ pub use verification::{
     take_pending_verification_flow_ids, unblock_device, unverify_device,
 };
 pub use room_actions::{
-    ban_user, create_room, invite_user, join_room, kick_user, knock_room, leave_room, unban_user,
+    ban_user, create_room, invite_user, join_room, kick_user, knock_room, leave_room,
+    toggle_room_tag, unban_user,
 };
 pub use room_list::{fetch_room_list, start_sync};
 pub use room_settings::{

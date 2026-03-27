@@ -343,6 +343,12 @@ mod ffi {
             is_public: bool,
         ) -> Result<String>;
         fn matrix_leave_room(handle_id: u64, room_id: &str, reason: &str) -> Result<()>;
+        fn matrix_toggle_room_tag(
+            handle_id: u64,
+            room_id: &str,
+            tag: &str,
+            enabled: bool,
+        ) -> Result<()>;
         fn matrix_invite_user(
             handle_id: u64,
             room_id: &str,
@@ -792,6 +798,17 @@ fn matrix_create_room(
 
 fn matrix_leave_room(handle_id: u64, room_id: &str, reason: &str) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::leave_room(handle_id, room_id, reason))
+}
+
+fn matrix_toggle_room_tag(
+    handle_id: u64,
+    room_id: &str,
+    tag: &str,
+    enabled: bool,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::toggle_room_tag(
+        handle_id, room_id, tag, enabled,
+    ))
 }
 
 fn matrix_invite_user(

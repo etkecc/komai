@@ -949,8 +949,17 @@ async fn run_room_timeline_loop(
 
     let (items, stream) = timeline.subscribe().await;
     let mut current_values = items;
+    let subscribe_count = current_values.len();
     {
         let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values, own_user_id);
+        let snapshot_count = snapshot.len();
+        tracing::info!(
+            handle_id,
+            room_id,
+            subscribe_count,
+            snapshot_count,
+            "Initial matrix-sdk timeline subscribe"
+        );
         *room_timeline_snapshot
             .lock()
             .expect("poisoned matrix room timeline snapshot mutex") = snapshot;
@@ -960,11 +969,18 @@ async fn run_room_timeline_loop(
         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
     }
 
+    let initial_page_size = ROOM_TIMELINE_INITIAL_PAGE_SIZE;
+    tracing::info!(
+        handle_id,
+        room_id,
+        initial_page_size,
+        "Requesting initial backwards pagination"
+    );
     if let Err(error) = timeline
            .paginate_backwards(ROOM_TIMELINE_INITIAL_PAGE_SIZE)
            .await
     {
-        tracing::debug!(
+        tracing::warn!(
             handle_id,
             room_id,
             %error,
@@ -994,10 +1010,12 @@ async fn run_room_timeline_loop(
                             .expect("poisoned matrix room timeline media lookup mutex") = media_lookup;
                         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
 
-                        tracing::debug!(
+                        let diff_count = diffs.len();
+                        tracing::info!(
                             handle_id,
                             room_id,
                             item_count,
+                            diff_count,
                             "Updated matrix-sdk room timeline snapshot"
                         );
                     }
@@ -1011,7 +1029,7 @@ async fn run_room_timeline_loop(
             maybe_command = commands.recv() => {
                 match maybe_command {
                     Some(MatrixBackendRoomTimelineCommand::PaginateBackwards(page_size)) => {
-                        tracing::debug!(
+                        tracing::info!(
                             handle_id,
                             room_id,
                             page_size,
@@ -1069,6 +1087,10 @@ fn build_room_timeline_snapshot(
             items.push(summary);
         }
     }
+
+    // Reverse so index 0 = newest, matching the BottomToTop ListView
+    // layout in QML where index 0 sits at the visual bottom.
+    items.reverse();
 
     (items, media_lookup)
 }

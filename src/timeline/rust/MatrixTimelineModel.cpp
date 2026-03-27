@@ -279,9 +279,21 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
         if (oldChanged > 0)
             emit dataChanged(index(prefix), index(prefix + oldChanged - 1));
     } else {
-        beginResetModel();
-        items_ = std::move(items);
-        endResetModel();
+        // Avoid beginResetModel — it resets the ListView's contentY
+        // in BottomToTop mode, causing unwanted scroll-to-bottom.
+        // Decompose into remove + insert instead.
+        if (oldChanged > 0) {
+            beginRemoveRows({}, prefix, prefix + oldChanged - 1);
+            items_.erase(items_.begin() + prefix, items_.begin() + prefix + oldChanged);
+            endRemoveRows();
+        }
+        if (newChanged > 0) {
+            beginInsertRows({}, prefix, prefix + newChanged - 1);
+            items_ = std::move(items);
+            endInsertRows();
+        } else {
+            items_ = std::move(items);
+        }
     }
 
     if (countDidChange)

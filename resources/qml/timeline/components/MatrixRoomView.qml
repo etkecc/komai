@@ -55,10 +55,21 @@ ColumnLayout {
     property var measuredTimelineHeights: ({})
     property bool initialBottomPinPending: false
     property bool initialTimelineBufferPending: false
+    property bool bufferPaginationInFlight: false
     property bool suppressNextWalkModeOlderStep: false
 
     MessageActionSupport {
         id: messageActionSupport
+    }
+
+    // Debounce buffer-fill checks so the layout has time to settle
+    // before we decide whether more items are needed.  Without this,
+    // transient contentHeight values (e.g. 536 while 18 items are
+    // still rendering) cause premature paginate requests.
+    Timer {
+        id: bufferCheckTimer
+        interval: 35
+        onTriggered: root.maybeRequestInitialTimelineBuffer()
     }
 
     Timer {
@@ -686,6 +697,13 @@ ColumnLayout {
                 || !hasTimeline)
             return;
 
+        // Only run during the very first load of this room.
+        // Once the user has seen the timeline (visibleIndicesValid),
+        // never re-pin — subsequent timeline-state changes (pagination,
+        // live sync) must not override the user's scroll position.
+        if (matrixTimelineList.visibleIndicesValid)
+            return;
+
         initialBottomPinPending = true;
         matrixTimelineList.keepPinnedToBottom = true;
         matrixTimelineList.maybeScrollToBottom(true);
@@ -698,8 +716,8 @@ ColumnLayout {
                 return;
 
             matrixTimelineList.forceLayout();
-            matrixTimelineList.keepPinnedToBottom = true;
-            matrixTimelineList.maybeScrollToBottom(true);
+            if (matrixTimelineList.keepPinnedToBottom)
+                matrixTimelineList.maybeScrollToBottom(true);
             matrixTimelineList.updateLastScroll();
             if (matrixTimelineList.atYEnd)
                 root.initialBottomPinPending = false;
@@ -710,6 +728,7 @@ ColumnLayout {
         if (!matrixTimelineList
                 || !initialTimelineBufferPending
                 || initialBottomPinPending
+                || bufferPaginationInFlight
                 || loading
                 || !hasTimeline)
             return;
@@ -718,23 +737,47 @@ ColumnLayout {
         if (viewportHeight <= 0)
             return;
 
+        // Wait until delegates have actually rendered — contentHeight
+        // is 0 before the first layout pass, and checking then would
+        // trigger a premature top-up request.
+        if (matrixTimelineList.contentHeight <= 0)
+            return;
+
         const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.25, 320);
         if (matrixTimelineList.contentHeight >= desiredBufferedHeight) {
+            console.info("[timeline-load] Buffer filled: contentH="
+                + Math.round(matrixTimelineList.contentHeight)
+                + " desired=" + Math.round(desiredBufferedHeight)
+                + " count=" + TimelineManager.matrixTimelineItemCount);
             initialTimelineBufferPending = false;
+            bufferPaginationInFlight = false;
             lastInitialBufferTriggerCount = -1;
             return;
         }
+
+        // Previous pagination delivered items but the buffer is still
+        // not full — clear the in-flight flag so we can request more.
+        // Only clear when contentHeight is valid (> 0) to avoid
+        // clearing during transient layout states.
+        bufferPaginationInFlight = false;
 
         const itemCount = TimelineManager.matrixTimelineItemCount;
         if (itemCount <= 0 || lastInitialBufferTriggerCount === itemCount)
             return;
 
+        console.info("[timeline-load] Requesting buffer top-up: contentH="
+            + Math.round(matrixTimelineList.contentHeight)
+            + " desired=" + Math.round(desiredBufferedHeight)
+            + " count=" + itemCount
+            + " requesting=6");
         if (!TimelineManager.paginateActiveMatrixTimelineBackwards(6)) {
             initialTimelineBufferPending = false;
+            bufferPaginationInFlight = false;
             lastInitialBufferTriggerCount = -1;
             return;
         }
 
+        bufferPaginationInFlight = true;
         lastInitialBufferTriggerCount = itemCount;
     }
 
@@ -1542,6 +1585,56 @@ ColumnLayout {
                     anchors.top: parent.top
                     parent: matrixTimelineList.parent
                     policy: scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                    orientation: Qt.Vertical
+                    // Thumb size from stabilized virtual height.
+                    // Index-based thumb: size and position derived from
+                    // model count and visible indices, not contentHeight.
+                    // This makes the thumb completely immune to Qt's
+                    // internal contentHeight fluctuations.
+                    // Show full thumb until the index-based visible count
+                    // has been reliably established.  After that, size =
+                    // visible / total and only ever shrinks as pagination
+                    // adds items.
+                    size: matrixTimelineList.stableThumbSize
+                }
+
+                // Position: driven by real contentY (always accurate).
+                Binding {
+                    target: matrixTimelineScrollbar
+                    property: "position"
+                    value: {
+                        const ch = matrixTimelineList.contentHeight;
+                        const h = matrixTimelineList.height;
+                        const range = ch - h;
+                        if (range <= 0)
+                            return 0;
+                        const oy = matrixTimelineList.originY;
+                        const normalized = (matrixTimelineList.contentY - oy) / range;
+                        const maxPos = 1.0 - matrixTimelineScrollbar.size;
+                        return Math.max(0, Math.min(maxPos, normalized * maxPos));
+                    }
+                    when: !matrixTimelineScrollbar.pressed
+                }
+
+                // Drag: map scrollbar position back to contentY.
+                Connections {
+                    target: matrixTimelineScrollbar
+                    function onPositionChanged() {
+                        if (!matrixTimelineScrollbar.pressed)
+                            return;
+                        const ch = matrixTimelineList.contentHeight;
+                        const h = matrixTimelineList.height;
+                        const range = ch - h;
+                        if (range <= 0)
+                            return;
+                        const maxPos = 1.0 - matrixTimelineScrollbar.size;
+                        if (maxPos <= 0)
+                            return;
+                        const normalized = matrixTimelineScrollbar.position / maxPos;
+                        matrixTimelineList.contentY = matrixTimelineList.originY + normalized * range;
+                        matrixTimelineList.returnToBounds();
+                        matrixTimelineList.updateLastScroll();
+                    }
                 }
 
                 ListView {
@@ -1549,19 +1642,58 @@ ColumnLayout {
 
                     property int delegateMaxWidth: width - (matrixTimelineScrollbar.interactive ? matrixTimelineScrollbar.width : 0)
                     property bool keepPinnedToBottom: true
+                    // True after the user explicitly scrolls away from the
+                    // bottom.  Prevents layout-driven contentY adjustments
+                    // (BottomToTop can shift contentY toward 0 when
+                    // contentHeight shrinks) from re-enabling bottom pin.
+                    // Cleared only by onMovementEnded at atYEnd (deliberate
+                    // return to bottom).
+                    property bool userUnpinned: false
+                    // Last known top-visible index, saved during wheel
+                    // scroll when indexAt returns valid values.  Used to
+                    // restore position after Qt-internal model resets.
+                    property int savedTopIndex: -1
                     property int previousCount: 0
                     property real lastScrollPos: 0
+
+                    // Index-based scrollbar state.  Updated via
+                    // Stable thumb size — updated only at rest points and
+                    // constrained to never grow within a room session.
+                    // This makes the thumb immune to mid-scroll
+                    // contentHeight fluctuations.
+                    property real stableThumbSize: 1.0
+                    property bool visibleIndicesValid: false
+
+                    function updateStableThumbSize() {
+                        if (count <= 0 || height <= 0 || contentHeight <= height)
+                            return;
+                        const newSize = Math.max(0.02, height / contentHeight);
+                        // Only allow the thumb to shrink, never grow.
+                        // contentHeight can fluctuate upward transiently
+                        // (bad estimates), but it settles downward to the
+                        // correct total.  "Only shrink" ensures transient
+                        // over-estimates don't cause visible thumb growth.
+                        if (!visibleIndicesValid || newSize < stableThumbSize) {
+                            stableThumbSize = newSize;
+                            visibleIndicesValid = true;
+                        }
+                    }
 
                     function updateLastScroll() {
                         lastScrollPos = contentY + height;
                     }
+
+
+
+
 
                     function updateBottomPin() {
                         if (root.initialBottomPinPending) {
                             keepPinnedToBottom = true;
                             if (atYEnd) {
                                 root.initialBottomPinPending = false;
-                                root.maybeRequestInitialTimelineBuffer();
+                                bufferCheckTimer.restart();
+
                             }
                             return;
                         }
@@ -1570,17 +1702,18 @@ ColumnLayout {
                     }
 
                     function maybeScrollToBottom(force) {
-                        if (count <= 0)
+                        if (count <= 0 || userUnpinned)
                             return;
 
                         if (!(force || keepPinnedToBottom || root.initialBottomPinPending))
                             return;
 
                         Qt.callLater(function () {
-                            if (count <= 0 || !(force || keepPinnedToBottom || root.initialBottomPinPending))
+                            if (count <= 0 || userUnpinned
+                                    || !(force || keepPinnedToBottom || root.initialBottomPinPending))
                                 return;
 
-                            positionViewAtEnd();
+                            positionViewAtBeginning();
                             updateBottomPin();
                         });
                     }
@@ -1592,12 +1725,14 @@ ColumnLayout {
                     KeyNavigation.priority: KeyNavigation.BeforeItem
                     Keys.priority: Keys.BeforeItem
                     clip: true
-                    // The Rust-room delegate stack still wraps the shared timeline surface in an
-                    // extra loader/item layer. Under reuseItems that can briefly recycle stale
-                    // state/message visuals while new delegate content settles, and it also makes
-                    // total-height estimation wobblier than the legacy path. Keep this disabled
-                    // until the shared matrix-room delegate stack is flatter.
-                    reuseItems: false
+                    reuseItems: true
+                    // Index 0 = newest (model is reversed in Rust).
+                    // BottomToTop places index 0 at the visual bottom, matching
+                    // chat convention (newest at bottom). This also makes
+                    // contentHeight changes extend upward, away from the anchored
+                    // viewport, which keeps the scrollbar thumb stable.
+                    verticalLayoutDirection: ListView.BottomToTop
+                    boundsBehavior: Flickable.StopAtBounds
                     displayMarginBeginning: root.chatRoot && root.chatRoot.listViewDisplayMargin !== undefined
                         ? root.chatRoot.listViewDisplayMargin
                         : 0
@@ -1613,7 +1748,6 @@ ColumnLayout {
                         return baseBuffer;
                     }
                     model: TimelineManager.matrixTimelineModel
-                    ScrollBar.vertical: matrixTimelineScrollbar
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline
 
@@ -1624,6 +1758,25 @@ ColumnLayout {
                         if (event.key === Qt.Key_Escape
                                 && (root.walkModeActive || root.hasSelectedEvents || root.hasFocusedEvent)) {
                             event.accepted = true;
+                        }
+                    }
+
+                    // Settle timer: re-evaluate keepPinnedToBottom after
+                    // the user stops wheel-scrolling for 250 ms.  During
+                    // active scrolling, keepPinnedToBottom is only ever
+                    // CLEARED (never set true) to avoid transient atYEnd
+                    // states from contentHeight fluctuations.
+                    Timer {
+                        id: wheelSettleTimer
+                        interval: 250
+                        onTriggered: {
+                            // Only re-pin if the user hasn't explicitly
+                            // scrolled away.  Layout adjustments can move
+                            // contentY toward the bottom, but that's not
+                            // the user's intent.
+                            if (!matrixTimelineList.userUnpinned)
+                                matrixTimelineList.keepPinnedToBottom = matrixTimelineList.atYEnd;
+                            matrixTimelineList.updateStableThumbSize();
                         }
                     }
 
@@ -1639,53 +1792,85 @@ ColumnLayout {
                             matrixTimelineList.contentY -= delta * 5;
                             matrixTimelineList.returnToBounds();
                             matrixTimelineList.updateLastScroll();
-                            matrixTimelineList.updateBottomPin();
-                            if (root.initialTimelineBufferPending && !matrixTimelineList.atYEnd)
-                                root.initialTimelineBufferPending = false;
+                            // Save top visible index for model-reset recovery
+                            const halfW = Math.max(1, Math.round(matrixTimelineList.width / 2));
+                            const idx = matrixTimelineList.indexAt(halfW, matrixTimelineList.contentY + 2);
+                            if (idx >= 0)
+                                matrixTimelineList.savedTopIndex = idx;
+                            if (!matrixTimelineList.atYEnd) {
+                                matrixTimelineList.keepPinnedToBottom = false;
+                                matrixTimelineList.userUnpinned = true;
+                                if (root.initialBottomPinPending)
+                                    root.initialBottomPinPending = false;
+                                if (root.initialTimelineBufferPending)
+                                    root.initialTimelineBufferPending = false;
+                            }
+                            wheelSettleTimer.restart();
                         }
                     }
 
                     onMovementEnded: {
                         updateLastScroll();
-                        updateBottomPin();
+                        keepPinnedToBottom = atYEnd;
+                        if (atYEnd)
+                            userUnpinned = false;
+                        updateStableThumbSize();
                     }
                     onAtYBeginningChanged: {
+                        // Don't trigger scroll-based pagination while the
+                        // initial buffer is still filling — atYBeginning
+                        // is transiently true during initial load because
+                        // content is shorter than the viewport.
                         if (atYBeginning
                                 && root.hasTimeline
                                 && !root.loading
+                                && !root.initialTimelineBufferPending
                                 && root.lastPaginationTriggerCount !== TimelineManager.matrixTimelineItemCount) {
+                            console.info("[timeline-load] Scroll-triggered pagination at top, count="
+                                + TimelineManager.matrixTimelineItemCount);
                             if (TimelineManager.paginateActiveMatrixTimelineBackwards(0))
                                 root.lastPaginationTriggerCount = TimelineManager.matrixTimelineItemCount;
                         }
                     }
                     onContentYChanged: {
-                        if (contentY > 0 && root.lastPaginationTriggerCount === TimelineManager.matrixTimelineItemCount)
+                        // Reset the pagination latch once the user scrolls away
+                        // from the top edge.  In BottomToTop contentY is usually
+                        // negative; use !atYBeginning as the reliable check.
+                        if (!atYBeginning && root.lastPaginationTriggerCount === TimelineManager.matrixTimelineItemCount)
                             root.lastPaginationTriggerCount = -1;
-                        if (root.initialTimelineBufferPending
-                                && (moving || flicking || dragging)
-                                && !atYEnd) {
-                            root.initialTimelineBufferPending = false;
+
+                        // Cancel initial-pin/buffer if user actively scrolled
+                        // away from the bottom during touch/drag/flick.
+                        if ((moving || flicking || dragging) && !atYEnd) {
+                            if (root.initialBottomPinPending)
+                                root.initialBottomPinPending = false;
+                            if (root.initialTimelineBufferPending)
+                                root.initialTimelineBufferPending = false;
                         }
 
-                        if (!moving && !flicking && !dragging)
-                            updateBottomPin();
+                        // Do NOT call updateBottomPin() here.  Transient
+                        // contentHeight fluctuations can briefly make atYEnd
+                        // true, which would set keepPinnedToBottom = true and
+                        // cause auto-scroll on the next content update.
+                        // keepPinnedToBottom is updated only from explicit
+                        // user actions (onMovementEnded, WheelHandler).
                     }
                     onContentHeightChanged: {
-                        if (!moving && !flicking && !dragging) {
+                        if (!moving && !flicking && !dragging && !userUnpinned) {
                             if (keepPinnedToBottom || root.initialBottomPinPending) {
-                                positionViewAtEnd();
+                                positionViewAtBeginning();
                                 updateBottomPin();
                             } else {
                                 maybeScrollToBottom(previousCount === 0);
                             }
                             updateLastScroll();
                         }
-                        root.maybeRequestInitialTimelineBuffer();
+                        bufferCheckTimer.restart();
                     }
                     onHeightChanged: {
-                        if (!moving && !flicking && !dragging) {
+                        if (!moving && !flicking && !dragging && !userUnpinned) {
                             if (keepPinnedToBottom || root.initialBottomPinPending) {
-                                positionViewAtEnd();
+                                positionViewAtBeginning();
                                 updateBottomPin();
                             } else {
                                 contentY = lastScrollPos - height;
@@ -1693,26 +1878,29 @@ ColumnLayout {
                             }
                             updateLastScroll();
                         }
-                        root.maybeRequestInitialTimelineBuffer();
+                        bufferCheckTimer.restart();
                     }
                     onCountChanged: {
-                        const forceScroll = previousCount === 0;
-                        if (forceScroll || keepPinnedToBottom || root.initialBottomPinPending) {
-                            positionViewAtEnd();
+                        // Pagination delivered new items — allow buffer
+                        // check to re-evaluate on the next trigger.
+                        if (count !== previousCount)
+                            root.bufferPaginationInFlight = false;
+                        const forceScroll = previousCount === 0 && !visibleIndicesValid;
+                        if (!userUnpinned && (forceScroll || keepPinnedToBottom || root.initialBottomPinPending)) {
+                            positionViewAtBeginning();
                             updateBottomPin();
                         } else {
                             maybeScrollToBottom(forceScroll);
                         }
                         updateLastScroll();
-                        root.maybeRequestInitialTimelineBuffer();
+                        Qt.callLater(updateStableThumbSize);
+                        bufferCheckTimer.restart();
                         previousCount = count;
                     }
                     onModelChanged: {
-                        keepPinnedToBottom = true;
                         previousCount = count;
-                        if (count > 0)
-                            positionViewAtEnd();
-                        updateBottomPin();
+                        if (!userUnpinned && keepPinnedToBottom && count > 0)
+                            positionViewAtBeginning();
                         updateLastScroll();
                     }
                     Component.onCompleted: {
@@ -1720,6 +1908,12 @@ ColumnLayout {
                         updateLastScroll();
                         maybeScrollToBottom(true);
                     }
+
+
+
+
+
+
 
                     delegate: Item {
                         id: timelineItemDelegate
@@ -1872,6 +2066,40 @@ ColumnLayout {
                             const compactRowHeight = Math.max(root.composerBaselineHeight, baseLineHeight + Komai.paddingMedium * 2);
                             const detailRowHeight = Math.max(compactRowHeight, baseLineHeight * 3);
 
+                            // Bubble vertical padding that the style adds around content.
+                            const bubblePad = Komai.uiLayoutCompactMode
+                                ? Komai.paddingSmall * 2
+                                : Komai.paddingMedium * 2;
+
+                            // Estimate section header height (avatar + username row)
+                            // when the sender changes, a timestamp gap occurs, or the
+                            // previous item was a different event category.
+                            const prevUserId = previousItem.senderId !== undefined
+                                ? String(previousItem.senderId || "") : "";
+                            const prevTimestamp = previousItem.timestamp !== undefined
+                                ? Number(previousItem.timestamp) : 0;
+                            const prevDay = previousItem.timestamp !== undefined
+                                ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey;
+                            const prevIsState = previousItem.eventId === undefined
+                                ? true : root.isMatrixStateLikeKind(previousItem.itemKind);
+                            const dayChanged = prevDay !== dayKey;
+                            const showSection = dayChanged
+                                || (timestamp - prevTimestamp > 3600000);
+                            const startsGroup = prevUserId !== senderId
+                                || showSection
+                                || prevIsState !== isStateLikeItem;
+                            const sectionEstimate = startsGroup
+                                ? (baseLineHeight + Komai.paddingMedium
+                                   + (dayChanged ? baseLineHeight + Komai.paddingSmall * 2 : 0))
+                                : 0;
+
+                            // Reaction row estimate.
+                            const hasReactions = reactions && (Array.isArray(reactions)
+                                ? reactions.length > 0
+                                : (typeof reactions === "string" && reactions.length > 0));
+                            const reactionEstimate = hasReactions
+                                ? baseLineHeight + Komai.paddingSmall : 0;
+
                             if (usesSharedImageBubble || usesSharedStickerBubble || usesSharedVideoBubble) {
                                 const viewportHeight = matrixTimelineList.height > 0 ? matrixTimelineList.height : root.height;
                                 const mediaAspect = safePreviewAspectRatio > 0 ? safePreviewAspectRatio : 0.75;
@@ -1881,20 +2109,20 @@ ColumnLayout {
                                 const captionEstimate = (body.length > 0 && !body.match(/\.\w{2,5}$/))
                                     ? (baseLineHeight * 2 + Komai.paddingSmall * 2)
                                     : 0;
-                                return Math.max(detailRowHeight, Math.round(mediaWidthEstimate * mediaAspect) + captionEstimate + Komai.paddingMedium);
+                                return Math.max(detailRowHeight, sectionEstimate + Math.round(mediaWidthEstimate * mediaAspect) + captionEstimate + bubblePad + reactionEstimate);
                             }
 
                             if (usesSharedFileBubble || usesSharedAudioBubble)
-                                return detailRowHeight + Komai.paddingMedium;
+                                return sectionEstimate + detailRowHeight + bubblePad + reactionEstimate;
                             if (usesSharedStateBubble)
                                 return compactRowHeight;
                             if (itemKind === "redacted")
-                                return compactRowHeight;
+                                return sectionEstimate + compactRowHeight + reactionEstimate;
 
                             const estimatedLines = Math.max(1, Math.min(12, Math.ceil(String(body || "").length / 42)));
                             const replyEstimate = replyEventId.length > 0 ? detailRowHeight : 0;
                             const threadEstimate = threadId.length > 0 ? Komai.paddingSmall * 2 : 0;
-                            return Math.max(compactRowHeight, Komai.paddingMedium * 3 + estimatedLines * baseLineHeight + replyEstimate + threadEstimate);
+                            return Math.max(compactRowHeight, sectionEstimate + bubblePad + estimatedLines * baseLineHeight + replyEstimate + threadEstimate + reactionEstimate);
                         }
                         readonly property real sharedTimelineHeightEstimate: {
                             if (itemKind === "date_divider")
@@ -1902,11 +2130,21 @@ ColumnLayout {
                             if (!usesSharedTimelineBubble)
                                 return 0;
                             if (sharedTimelineBubble.item) {
-                                const resolvedHeight = sharedTimelineBubble.item.implicitHeight > 0
-                                    ? sharedTimelineBubble.item.implicitHeight
-                                    : sharedTimelineBubble.item.height;
-                                if (resolvedHeight > 0)
-                                    return resolvedHeight;
+                                // Skip the loaded style's height while it is still using
+                                // the 100 px placeholder (contentReady === false).  The
+                                // cache or heuristic below will be much closer to the
+                                // true height, avoiding a visible snap when the body
+                                // resolves one frame later.
+                                const itemReady = sharedTimelineBubble.item.contentReady !== undefined
+                                    ? sharedTimelineBubble.item.contentReady
+                                    : true;
+                                if (itemReady) {
+                                    const resolvedHeight = sharedTimelineBubble.item.implicitHeight > 0
+                                        ? sharedTimelineBubble.item.implicitHeight
+                                        : sharedTimelineBubble.item.height;
+                                    if (resolvedHeight > 0)
+                                        return resolvedHeight;
+                                }
                             }
                             if (cachedMeasuredHeight > 0)
                                 return cachedMeasuredHeight;
@@ -2421,7 +2659,7 @@ ColumnLayout {
     Connections {
         function onMatrixTimelineStateChanged() {
             root.ensureInitialBottomPin();
-            root.maybeRequestInitialTimelineBuffer();
+            bufferCheckTimer.restart();
 
             if (!root.restoringEditDraft || root.activeEditEventId.length > 0)
                 return;
@@ -2457,18 +2695,23 @@ ColumnLayout {
         measuredTimelineHeights = ({});
         initialBottomPinPending = activeRoomId.length > 0;
         initialTimelineBufferPending = activeRoomId.length > 0;
+        bufferPaginationInFlight = false;
         lastInitialBufferTriggerCount = -1;
         if (!matrixTimelineList)
             return;
 
         matrixTimelineList.keepPinnedToBottom = true;
+        matrixTimelineList.userUnpinned = false;
+        matrixTimelineList.savedTopIndex = -1;
         matrixTimelineList.previousCount = 0;
+        matrixTimelineList.visibleIndicesValid = false;
+        matrixTimelineList.stableThumbSize = 1.0;
     }
 
     onLoadingChanged: {
         if (!loading) {
             ensureInitialBottomPin();
-            maybeRequestInitialTimelineBuffer();
+            bufferCheckTimer.restart();
         }
     }
 }

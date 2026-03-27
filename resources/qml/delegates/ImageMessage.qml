@@ -21,10 +21,13 @@ Item {
     required property int containerHeight
 
     property double divisor: EventDelegateChooser.isReply ? 10 : 4
-    property int tempWidth: originalWidth < 1 ? 400 : originalWidth
+    // When the server omits image dimensions use a modest fallback so
+    // the bubble stays compact until the actual image loads and the
+    // cache picks up the true height.
+    property int tempWidth: originalWidth < 1 ? 240 : originalWidth
     readonly property double safeProportionalHeight: proportionalHeight > 0
                                                    ? proportionalHeight
-                                                   : ((originalWidth > 0 && originalHeight > 0) ? (originalHeight / originalWidth) : 1.0)
+                                                   : ((originalWidth > 0 && originalHeight > 0) ? (originalHeight / originalWidth) : 0.75)
     // Bubble layout resolves width from delegates' implicitWidth. Provide explicit media sizing here
     // so image messages don't collapse to near-zero width in bubble style.
     implicitWidth: Math.max(1, Math.round(tempWidth * Math.min((containerHeight / divisor) / (tempWidth * safeProportionalHeight), 1)))

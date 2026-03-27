@@ -15,6 +15,11 @@ TimelineMessageStyleBase {
     // Events that slipped into the message index (e.g. encrypted events whose keys
     // arrived late and turned out to be reactions, edits, etc.) must be collapsed.
     visible: !isHiddenEvent
+    // True once the bubble body has computed its real height (implicitHeight >= 1)
+    // or for index 0 where the fallback is never used. External height estimators
+    // (e.g. MatrixRoomView.sharedTimelineHeightEstimate) use this to avoid adopting
+    // the 100 px placeholder while the delegate is still loading.
+    readonly property bool contentReady: !isHiddenEvent && (bubbleBody.implicitHeight >= 1 || index === 0)
     height: isHiddenEvent ? 0 : Math.max((section.item?.height ?? 0) + Math.max(((bubbleBody.implicitHeight < 1 && index != 0) ? 100 : bubbleBody.implicitHeight), (reserveAvatarRowHeight && messageUserAvatar.visible ? messageUserAvatar.height : 0)) + reactionRow.implicitHeight + unreadRow.height, 10)
     //room: chatRoot.roommodel
     styleProfile: TimelineStyleProfile {

@@ -57,6 +57,8 @@ ColumnLayout {
     property bool initialTimelineBufferPending: false
     property bool bufferPaginationInFlight: false
     property bool suppressNextWalkModeOlderStep: false
+    property string lastMarkedReadEventId: ""
+    property bool preferLatestReadMarkerEvent: false
     readonly property var matrixUploadsController: roomSupport.uploadsController
     readonly property var matrixComposerInputController: roomSupport.composerInputController
     readonly property var matrixComposerRoom: roomSupport.composerRoom
@@ -99,6 +101,13 @@ ColumnLayout {
 
         interval: 0
         onTriggered: root.suppressNextWalkModeOlderStep = false
+    }
+
+    Timer {
+        id: readMarkerUpdateTimer
+
+        interval: 0
+        onTriggered: root.updateReadMarkerForVisibleContent()
     }
 
     function clearSearch() {
@@ -219,6 +228,70 @@ ColumnLayout {
         }
 
         return candidate;
+    }
+
+    function latestLoadedEventId() {
+        const model = TimelineManager.matrixTimelineModel;
+        if (!model || TimelineManager.matrixTimelineItemCount <= 0)
+            return "";
+
+        const latestItem = model.itemAt(0);
+        if (!latestItem || latestItem === undefined)
+            return "";
+
+        return String(latestItem.eventId || "");
+    }
+
+    function bottomMostVisibleEventId() {
+        const delegateItem = bottomMostVisibleDelegate();
+        if (delegateItem && delegateItem.eventId)
+            return String(delegateItem.eventId || "");
+
+        if (!matrixTimelineList || !TimelineManager.matrixTimelineModel || matrixTimelineList.width <= 0
+                || matrixTimelineList.height <= 0) {
+            return "";
+        }
+
+        const probeX = Math.max(1, Math.round(matrixTimelineList.width / 2));
+        const probeY = Math.max(1, Math.round(matrixTimelineList.height - 2));
+        const row = matrixTimelineList.indexAt(probeX, probeY);
+        if (row < 0)
+            return "";
+
+        const item = TimelineManager.matrixTimelineModel.itemAt(row);
+        if (!item || item === undefined)
+            return "";
+
+        return String(item.eventId || "");
+    }
+
+    function scheduleReadMarkerUpdate(preferLatestEvent) {
+        if (!root.visible || activeRoomId.length === 0 || !hasTimeline)
+            return;
+
+        preferLatestReadMarkerEvent = preferLatestReadMarkerEvent || !!preferLatestEvent;
+        readMarkerUpdateTimer.restart();
+    }
+
+    function updateReadMarkerForVisibleContent() {
+        if (!root.visible || activeRoomId.length === 0 || !hasTimeline) {
+            preferLatestReadMarkerEvent = false;
+            return;
+        }
+
+        let targetEventId = "";
+        if (preferLatestReadMarkerEvent || (matrixTimelineList && matrixTimelineList.atYEnd))
+            targetEventId = latestLoadedEventId();
+        if (targetEventId.length === 0)
+            targetEventId = bottomMostVisibleEventId();
+
+        preferLatestReadMarkerEvent = false;
+
+        if (targetEventId.length === 0 || targetEventId === lastMarkedReadEventId)
+            return;
+
+        TimelineManager.markActiveMatrixTimelineEventAsRead(targetEventId);
+        lastMarkedReadEventId = targetEventId;
     }
 
     function focusedDelegate() {
@@ -1360,6 +1433,7 @@ ColumnLayout {
                         keepPinnedToBottom = atYEnd;
                         if (atYEnd)
                             userUnpinned = false;
+                        root.scheduleReadMarkerUpdate(atYEnd);
                         updateStableThumbSize();
                     }
                     onAtYBeginningChanged: {
@@ -1455,6 +1529,8 @@ ColumnLayout {
                         updateLastScroll();
                         Qt.callLater(updateStableThumbSize);
                         bufferCheckTimer.restart();
+                        root.scheduleReadMarkerUpdate(!userUnpinned
+                            && (forceScroll || keepPinnedToBottom || root.initialBottomPinPending || atYEnd));
                         previousCount = count;
                     }
                     onModelChanged: {
@@ -2256,7 +2332,10 @@ ColumnLayout {
         initialBottomPinPending = activeRoomId.length > 0;
         initialTimelineBufferPending = activeRoomId.length > 0;
         bufferPaginationInFlight = false;
+        preferLatestReadMarkerEvent = false;
+        lastMarkedReadEventId = "";
         lastInitialBufferTriggerCount = -1;
+        visibleTimelineDelegates = ({});
         if (!matrixTimelineList)
             return;
 

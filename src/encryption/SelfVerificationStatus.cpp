@@ -12,6 +12,7 @@
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "ui/MainWindow.h"
+#include "utils/Utils.h"
 
 namespace {
 QString
@@ -59,6 +60,19 @@ SelfVerificationStatus::SelfVerificationStatus(QObject *o)
                 this,
                 &SelfVerificationStatus::refreshStateFromMatrixRuntime);
         connect(chatPage, &ChatPage::loggedOut, this, &SelfVerificationStatus::invalidate);
+    }
+
+    if (auto *verificationManager = VerificationManager::instance()) {
+        connect(verificationManager,
+                &VerificationManager::verificationStateChanged,
+                this,
+                [this](const QString &userId) {
+                    if (userId.trimmed() != utils::localUser())
+                        return;
+
+                    QTimer::singleShot(
+                      0, this, &SelfVerificationStatus::refreshStateFromMatrixRuntime);
+                });
     }
 
     QTimer::singleShot(0, this, &SelfVerificationStatus::refreshStateFromMatrixRuntime);

@@ -19,6 +19,7 @@ Components.OverlayDialog {
     readonly property string normalizedInitialTab: normalizeTab(initialTab)
     property string currentTab: "settings"
     property bool deferInitialTabSwitch: normalizedInitialTab !== "settings"
+    readonly property bool membersTabAvailable: !!members
     overlayViewport: appRoot
     readonly property int dialogViewportWidth: overlayDialogViewport ? overlayDialogViewport.width : 760
     readonly property int dialogViewportHeight: overlayDialogViewport ? overlayDialogViewport.height : 600
@@ -39,12 +40,21 @@ Components.OverlayDialog {
             maxWidth = Math.max(maxWidth, sidebarNavFontMetrics.advanceWidth(navModel[i].text));
         return Math.max(180, Math.ceil(Komai.paddingSmall + 24 + Komai.paddingMedium + maxWidth + Komai.paddingSmall));
     }
-    property var navModel: [
-        { text: qsTr("Settings"), icon: ":/icons/icons/ui/toggles.svg", tab: "settings" },
-        { text: qsTr("Members"), icon: ":/icons/icons/ui/people.svg", tab: "members" },
-        { text: qsTr("Notifications"), icon: ":/icons/icons/ui/alert.svg", tab: "notifications" },
-        { text: qsTr("About"), icon: ":/icons/icons/ui/options-circle.svg", tab: "about" }
-    ]
+    property var navModel: {
+        const tabs = [
+            { text: qsTr("Settings"), icon: ":/icons/icons/ui/toggles.svg", tab: "settings" },
+            { text: qsTr("Notifications"), icon: ":/icons/icons/ui/alert.svg", tab: "notifications" },
+            { text: qsTr("About"), icon: ":/icons/icons/ui/options-circle.svg", tab: "about" }
+        ];
+        if (membersTabAvailable) {
+            tabs.splice(1, 0, {
+                "text": qsTr("Members"),
+                "icon": ":/icons/icons/ui/people.svg",
+                "tab": "members"
+            });
+        }
+        return tabs;
+    }
 
     function normalizeTab(tab) {
         switch (tab) {

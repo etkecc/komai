@@ -38,12 +38,19 @@ TimelineViewManager::openRoomInfo(const QString &roomId, const QString &initialT
     if (!room) {
         const auto preview = rooms_->getRoomPreviewById(roomId);
         if (preview.isMatrixSummary()) {
-            nhlog::ui()->warn("Room info dialog for matrix-sdk room '{}' is not migrated yet",
-                              roomId.toStdString());
-            if (auto *mainWindow = MainWindow::instance()) {
-                mainWindow->showNotification(
-                  tr("Room settings and member list for matrix-sdk rooms are not migrated yet."));
+            if (initialTab == QLatin1String("members")) {
+                nhlog::ui()->warn("Member list for matrix-sdk room '{}' is not migrated yet",
+                                  roomId.toStdString());
+                if (auto *mainWindow = MainWindow::instance()) {
+                    mainWindow->showNotification(
+                      tr("Member list for matrix-sdk rooms is not migrated yet."));
+                }
+                return;
             }
+
+            auto *settings = new RoomSettings(roomId);
+            QQmlEngine::setObjectOwnership(settings, QQmlEngine::JavaScriptOwnership);
+            emit openRoomInfoDialog(settings, nullptr, nullptr, initialTab);
         }
         return;
     }

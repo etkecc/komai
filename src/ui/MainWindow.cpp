@@ -415,6 +415,24 @@ MainWindow::showChatPage(bool hadSessionIdentity)
 
         emit switchToChatPage();
         nhlog::ui()->info("Switched to chat page after deferred bootstrap");
+
+        auto *timelineManager = chat_page_->timelineManager();
+        auto *rooms           = timelineManager ? timelineManager->rooms() : nullptr;
+        if (rooms) {
+            nhlog::ui()->info("Deferring saved-room restore until after the first chat frame");
+            connect(
+              this,
+              &QQuickWindow::frameSwapped,
+              rooms,
+              [rooms]() {
+                  nhlog::ui()->info(
+                    "Queueing saved-room restore on the event loop after the first chat "
+                    "frame");
+                  QTimer::singleShot(
+                    0, rooms, [rooms]() { rooms->resumeDeferredStartupCurrentRoomRestore(); });
+              },
+              Qt::SingleShotConnection);
+        }
     });
 }
 

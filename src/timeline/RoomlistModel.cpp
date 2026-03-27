@@ -5,8 +5,6 @@
 
 #include "RoomlistModel.h"
 
-#include <QTimer>
-
 #include <algorithm>
 
 #include "TimelineModel.h"
@@ -226,7 +224,9 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
     invites.clear();
     roomids.clear();
     roomReadStatus.clear();
+    allowDeferredStartupCurrentRoomRestore_ = false;
     pendingCurrentRoomId_.clear();
+    deferredStartupCurrentRoomId_.clear();
     currentRoom_ = nullptr;
     currentRoomPreview_.reset();
 
@@ -333,19 +333,7 @@ RoomlistModel::refreshMatrixBackendRooms()
 
     if (!selectedRoomId.isEmpty() && matrixJoinedRooms_.contains(selectedRoomId)) {
         if (restoringStartupSelection) {
-            pendingCurrentRoomId_ = selectedRoomId;
-            nhlog::ui()->debug(
-              "Deferring startup room restore until after the room list paints: {}",
-              selectedRoomId.toStdString());
-            QTimer::singleShot(0, this, [this, selectedRoomId]() {
-                if (pendingCurrentRoomId_ != selectedRoomId)
-                    return;
-                if (currentRoom_ || currentRoomPreview_ ||
-                    !matrixJoinedRooms_.contains(selectedRoomId))
-                    return;
-
-                setCurrentRoom(selectedRoomId);
-            });
+            deferStartupCurrentRoomRestore(selectedRoomId);
         } else {
             setCurrentRoom(selectedRoomId);
         }

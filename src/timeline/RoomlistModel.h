@@ -163,8 +163,11 @@ public slots:
     TimelineModel *currentRoom() const { return currentRoom_.get(); }
     RoomPreview currentRoomPreview() const { return currentRoomPreview_.value_or(RoomPreview{}); }
     void setCurrentRoom(const QString &roomid);
+    void resumeDeferredStartupCurrentRoomRestore();
     void resetCurrentRoom()
     {
+        allowDeferredStartupCurrentRoomRestore_ = false;
+        deferredStartupCurrentRoomId_.clear();
         pendingCurrentRoomId_.clear();
         currentRoom_ = nullptr;
         currentRoomPreview_.reset();
@@ -232,6 +235,7 @@ private:
     bool trySelectCurrentMaterializedRoom(const QString &roomid);
     bool trySelectCurrentMatrixSummaryRoom(const QString &roomid);
     bool trySelectCurrentPreviewRoom(const QString &roomid);
+    void deferStartupCurrentRoomRestore(const QString &roomid);
     void deferCurrentRoomSelection(const QString &roomid);
     QString draftPreviewText(const QString &room_id) const;
     bool hasDraft(const QString &room_id) const;
@@ -270,6 +274,8 @@ private:
 
     QSharedPointer<TimelineModel> currentRoom_;
     std::optional<RoomPreview> currentRoomPreview_;
+    QString deferredStartupCurrentRoomId_;
+    bool allowDeferredStartupCurrentRoomRestore_ = false;
     // When UI requests opening a room before sync inserts it into `models`,
     // remember the target and switch once addRoom() sees it.
     QString pendingCurrentRoomId_;

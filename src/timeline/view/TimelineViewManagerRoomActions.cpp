@@ -175,7 +175,10 @@ void
 TimelineViewManager::initializeRoomlist()
 {
     rooms_->initializeRooms();
-    scheduleMatrixSidebarRefresh();
+
+    const auto *mainWindow = MainWindow::instance();
+    if (!(mainWindow && mainWindow->matrixBackendHandleId() != 0))
+        scheduleMatrixSidebarRefresh();
 }
 
 void

@@ -36,6 +36,8 @@ RoomlistModel::isCurrentRoomSelection(const QString &roomid) const
 void
 RoomlistModel::clearCurrentRoomSelection()
 {
+    allowDeferredStartupCurrentRoomRestore_ = false;
+    deferredStartupCurrentRoomId_.clear();
     pendingCurrentRoomId_.clear();
     currentRoom_ = nullptr;
     currentRoomPreview_.reset();
@@ -62,6 +64,7 @@ RoomlistModel::trySelectCurrentMaterializedRoom(const QString &roomid)
     if (!models.contains(roomid))
         return false;
 
+    deferredStartupCurrentRoomId_.clear();
     pendingCurrentRoomId_.clear();
     activateMaterializedCurrentRoom(roomid, true);
     UserSettings::instance()->setCurrentRoomId(roomid);
@@ -81,6 +84,7 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
     if (!matrixJoinedRooms_.contains(roomid))
         return false;
 
+    deferredStartupCurrentRoomId_.clear();
     pendingCurrentRoomId_.clear();
     currentRoom_        = nullptr;
     currentRoomPreview_ = getRoomPreviewById(roomid);
@@ -103,6 +107,7 @@ RoomlistModel::trySelectCurrentPreviewRoom(const QString &roomid)
     if (!(invites.contains(roomid) || previewedRooms.contains(roomid)))
         return false;
 
+    deferredStartupCurrentRoomId_.clear();
     pendingCurrentRoomId_.clear();
     currentRoom_        = nullptr;
     currentRoomPreview_ = getRoomPreviewById(roomid);
@@ -125,6 +130,16 @@ RoomlistModel::trySelectCurrentPreviewRoom(const QString &roomid)
 }
 
 void
+RoomlistModel::deferStartupCurrentRoomRestore(const QString &roomid)
+{
+    allowDeferredStartupCurrentRoomRestore_ = false;
+    deferredStartupCurrentRoomId_           = roomid;
+    pendingCurrentRoomId_.clear();
+    nhlog::ui()->info("Queued saved-room restore for after the first chat frame: {}",
+                      roomid.toStdString());
+}
+
+void
 RoomlistModel::deferCurrentRoomSelection(const QString &roomid)
 {
     pendingCurrentRoomId_ = roomid;
@@ -143,6 +158,16 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
         clearCurrentRoomSelection();
         return;
     }
+
+    if (!deferredStartupCurrentRoomId_.isEmpty() && roomid == deferredStartupCurrentRoomId_ &&
+        !allowDeferredStartupCurrentRoomRestore_ && !currentRoom_ && !currentRoomPreview_) {
+        nhlog::ui()->info("Ignoring premature saved-room restore before startup release: {}",
+                          roomid.toStdString());
+        return;
+    }
+
+    allowDeferredStartupCurrentRoomRestore_ = false;
+    deferredStartupCurrentRoomId_.clear();
 
     // After the first explicit room selection, startup eager-materialization tracking
     // is no longer meaningful.
@@ -170,6 +195,26 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
         return;
 
     deferCurrentRoomSelection(roomid);
+}
+
+void
+RoomlistModel::resumeDeferredStartupCurrentRoomRestore()
+{
+    if (deferredStartupCurrentRoomId_.isEmpty())
+        return;
+
+    const auto roomid = deferredStartupCurrentRoomId_;
+
+    if (currentRoom_ || currentRoomPreview_)
+        return;
+
+    if (!matrixJoinedRooms_.contains(roomid) && !cachedJoinedRooms_.contains(roomid))
+        return;
+
+    allowDeferredStartupCurrentRoomRestore_ = true;
+    nhlog::ui()->info("Resuming saved-room restore after the first chat frame: {}",
+                      roomid.toStdString());
+    setCurrentRoom(roomid);
 }
 
 void

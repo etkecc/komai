@@ -94,6 +94,8 @@ Control {
             toolTipText: qsTr("Scroll to bottom")
 
             onClicked: function () {
+                if (chatList && chatList.userUnpinned !== undefined)
+                    chatList.userUnpinned = false;
                 chatList.keepPinnedToBottom = true;
                 chatList.positionViewAtBeginning();
                 TimelineManager.focusMessageInput();

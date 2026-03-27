@@ -1659,6 +1659,11 @@ ColumnLayout {
                     }
                 }
 
+                TimelineToEndButton {
+                    chatList: matrixTimelineList
+                    scrollbarItem: matrixTimelineScrollbar
+                }
+
                 ListView {
                     id: matrixTimelineList
 

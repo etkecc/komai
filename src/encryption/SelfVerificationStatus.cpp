@@ -5,6 +5,8 @@
 
 #include "SelfVerificationStatus.h"
 
+#include <array>
+
 #include <QTimer>
 
 #include "VerificationManager.h"
@@ -66,7 +68,7 @@ SelfVerificationStatus::SelfVerificationStatus(QObject *o)
         connect(chatPage,
                 &ChatPage::contentLoaded,
                 this,
-                &SelfVerificationStatus::refreshStateFromMatrixRuntime);
+                &SelfVerificationStatus::scheduleRuntimeStateRefresh);
         connect(chatPage, &ChatPage::loggedOut, this, &SelfVerificationStatus::invalidate);
     }
 
@@ -78,8 +80,7 @@ SelfVerificationStatus::SelfVerificationStatus(QObject *o)
                     if (userId.trimmed() != utils::localUser())
                         return;
 
-                    QTimer::singleShot(
-                      0, this, &SelfVerificationStatus::refreshStateFromMatrixRuntime);
+                    scheduleRuntimeStateRefresh();
                 });
     }
 
@@ -87,11 +88,11 @@ SelfVerificationStatus::SelfVerificationStatus(QObject *o)
         connect(
           app, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
               if (state == Qt::ApplicationActive)
-                  refreshStateFromMatrixRuntime();
+                  scheduleRuntimeStateRefresh();
           });
     }
 
-    QTimer::singleShot(0, this, &SelfVerificationStatus::refreshStateFromMatrixRuntime);
+    scheduleRuntimeStateRefresh();
 }
 
 void
@@ -119,7 +120,7 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
                           useSSSS,
                           encryptionBackupOnlineEnabled);
 
-    refreshStateFromMatrixRuntime();
+    scheduleRuntimeStateRefresh();
     notifyLocalVerificationStateRefresh();
 
     if (!result->recoveryKey.trimmed().isEmpty()) {
@@ -132,7 +133,7 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
 bool
 SelfVerificationStatus::verifyMasterKey()
 {
-    refreshStateFromMatrixRuntime();
+    scheduleRuntimeStateRefresh();
 
     if (!canVerifyWithAnotherDevice_) {
         emit setupFailed(tr("No other signed-in device is currently available for verification."));
@@ -157,7 +158,7 @@ SelfVerificationStatus::verifyMasterKey()
 void
 SelfVerificationStatus::verifyMasterKeyWithPassphrase()
 {
-    refreshStateFromMatrixRuntime();
+    scheduleRuntimeStateRefresh();
 
     if (!hasSSSS_) {
         emit setupFailed(tr("This account does not currently expose an unlockable key backup."));
@@ -185,7 +186,7 @@ SelfVerificationStatus::submitUnlockKeyBackup(const QString &keyOrPassphrase)
     }
 
     nhlog::crypto()->info("Recovered encryption secrets through matrix-sdk recovery");
-    refreshStateFromMatrixRuntime();
+    scheduleRuntimeStateRefresh();
     notifyLocalVerificationStateRefresh();
     emit unlockKeyBackupCompleted();
 }
@@ -230,7 +231,7 @@ SelfVerificationStatus::verifyUnverifiedDevices()
     }
 
     if (candidateDeviceIds.empty()) {
-        refreshStateFromMatrixRuntime();
+        scheduleRuntimeStateRefresh();
         emit setupFailed(tr("No unverified signed-in devices are currently available."));
         return;
     }
@@ -269,7 +270,7 @@ SelfVerificationStatus::resetEncryptionIdentity()
 
     if (result->completed) {
         nhlog::crypto()->info("Reset encryption identity through matrix-sdk without extra auth");
-        refreshStateFromMatrixRuntime();
+        scheduleRuntimeStateRefresh();
         notifyLocalVerificationStateRefresh();
         emit resetEncryptionIdentityCompleted();
         return;
@@ -308,7 +309,7 @@ SelfVerificationStatus::submitResetEncryptionIdentityPassword(const QString &pas
 
     nhlog::crypto()->info(
       "Completed matrix-sdk encryption identity reset using password authentication");
-    refreshStateFromMatrixRuntime();
+    scheduleRuntimeStateRefresh();
     notifyLocalVerificationStateRefresh();
     emit resetEncryptionIdentityCompleted();
 }
@@ -331,7 +332,7 @@ SelfVerificationStatus::continueResetEncryptionIdentityAfterApproval()
     }
 
     nhlog::crypto()->info("Completed matrix-sdk encryption identity reset after browser approval");
-    refreshStateFromMatrixRuntime();
+    scheduleRuntimeStateRefresh();
     notifyLocalVerificationStateRefresh();
     emit resetEncryptionIdentityCompleted();
 }
@@ -363,6 +364,16 @@ void
 SelfVerificationStatus::invalidate()
 {
     applyRuntimeStatus(AllVerified, false, false);
+}
+
+void
+SelfVerificationStatus::scheduleRuntimeStateRefresh()
+{
+    static constexpr std::array<int, 4> refreshDelaysMs = {0, 250, 1000, 3000};
+
+    for (const auto delayMs : refreshDelaysMs) {
+        QTimer::singleShot(delayMs, this, &SelfVerificationStatus::refreshStateFromMatrixRuntime);
+    }
 }
 
 void

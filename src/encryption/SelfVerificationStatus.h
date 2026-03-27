@@ -68,6 +68,7 @@ public slots:
     void invalidate();
 
 private:
+    void scheduleRuntimeStateRefresh();
     void refreshStateFromMatrixRuntime();
     void applyRuntimeStatus(Status status, bool hasSSSS, bool canVerifyWithAnotherDevice);
 

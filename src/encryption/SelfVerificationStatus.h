@@ -36,9 +36,14 @@ public:
     setupCrosssigning(bool useSSSS, const QString &password, bool encryptionBackupOnlineEnabled);
     Q_INVOKABLE bool verifyMasterKey();
     Q_INVOKABLE void verifyMasterKeyWithPassphrase();
+    Q_INVOKABLE void submitUnlockKeyBackup(const QString &keyOrPassphrase);
+    Q_INVOKABLE void cancelUnlockKeyBackup();
     Q_INVOKABLE void verifyUnverifiedDevices();
     Q_INVOKABLE void setupEncryptionBackup();
     Q_INVOKABLE void resetEncryptionIdentity();
+    Q_INVOKABLE void submitResetEncryptionIdentityPassword(const QString &password);
+    Q_INVOKABLE void continueResetEncryptionIdentityAfterApproval();
+    Q_INVOKABLE void cancelResetEncryptionIdentity();
     Q_INVOKABLE void promptCurrentVerificationAction();
 
     Status status() const { return status_; }
@@ -53,11 +58,19 @@ signals:
     void showRecoveryKey(QString key);
     void setupFailed(QString message);
     void promptForStatus(int status);
+    void promptUnlockKeyBackup();
+    void promptResetEncryptionIdentityPassword();
+    void promptResetEncryptionIdentityApproval(QString approvalUrl);
+    void unlockKeyBackupCompleted();
+    void resetEncryptionIdentityCompleted();
 
 public slots:
     void invalidate();
 
 private:
+    void refreshStateFromMatrixRuntime();
+    void applyRuntimeStatus(Status status, bool hasSSSS, bool canVerifyWithAnotherDevice);
+
     Status status_                   = AllVerified;
     bool hasSSSS_                    = false;
     bool canVerifyWithAnotherDevice_ = false;

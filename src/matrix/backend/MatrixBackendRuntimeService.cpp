@@ -41,6 +41,25 @@ fromRustOwnProfile(const ::komai::rust::MatrixOwnProfile &profile)
     };
 }
 
+MatrixRecoveryStatus
+fromRustRecoveryStatus(const ::komai::rust::MatrixRecoveryStatus &status)
+{
+    return MatrixRecoveryStatus{
+      .state = QString::fromStdString(std::string(status.state)),
+    };
+}
+
+MatrixResetEncryptionIdentityResult
+fromRustResetEncryptionIdentityResult(
+  const ::komai::rust::MatrixResetEncryptionIdentityResult &result)
+{
+    return MatrixResetEncryptionIdentityResult{
+      .completed   = result.completed,
+      .authType    = QString::fromStdString(std::string(result.auth_type)),
+      .approvalUrl = QString::fromStdString(std::string(result.approval_url)),
+    };
+}
+
 MatrixUserProfile
 fromRustUserProfile(const ::komai::rust::MatrixUserProfile &profile)
 {
@@ -430,6 +449,90 @@ MatrixBackendRuntimeService::fetchOwnProfile(uint64_t handleId, QString *errorOu
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return std::nullopt;
+    }
+}
+
+std::optional<MatrixRecoveryStatus>
+MatrixBackendRuntimeService::fetchRecoveryStatus(uint64_t handleId, QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_fetch_recovery_status(handleId);
+        return fromRustRecoveryStatus(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::recoverEncryptionSecrets(uint64_t handleId,
+                                                      const QString &keyOrPassphrase,
+                                                      QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_recover_encryption_secrets(handleId, keyOrPassphrase.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+std::optional<MatrixResetEncryptionIdentityResult>
+MatrixBackendRuntimeService::startResetEncryptionIdentity(uint64_t handleId, QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_start_reset_encryption_identity(handleId);
+        return fromRustResetEncryptionIdentityResult(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::continueResetEncryptionIdentityWithPassword(uint64_t handleId,
+                                                                         const QString &password,
+                                                                         QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_continue_reset_encryption_identity_with_password(
+          handleId, password.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::continueResetEncryptionIdentityAfterApproval(uint64_t handleId,
+                                                                          QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_continue_reset_encryption_identity_after_approval(handleId);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::cancelResetEncryptionIdentity(uint64_t handleId, QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_cancel_reset_encryption_identity(handleId);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
     }
 }
 

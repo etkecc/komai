@@ -52,6 +52,8 @@ use super::bootstrap;
 mod profile_media;
 #[path = "runtime_event_summary.rs"]
 mod event_summary;
+#[path = "runtime_recovery.rs"]
+mod recovery;
 #[path = "runtime_registry.rs"]
 mod registry;
 #[path = "runtime_room_actions.rs"]
@@ -70,6 +72,11 @@ mod room_directory;
 pub use profile_media::{
     fetch_media_content, fetch_own_profile, fetch_user_profile, ignore_user, remove_own_avatar,
     set_own_display_name, unignore_user, upload_own_avatar,
+};
+pub use recovery::{
+    cancel_reset_encryption_identity, continue_reset_encryption_identity_after_approval,
+    continue_reset_encryption_identity_with_password, fetch_recovery_status,
+    recover_encryption_secrets, start_reset_encryption_identity,
 };
 pub use registry::{start_restored_backend, stop_backend};
 pub use room_actions::{
@@ -104,6 +111,16 @@ pub struct MatrixBackendHandleInfo {
 pub struct MatrixOwnProfile {
     pub display_name: String,
     pub avatar_url: String,
+}
+
+pub struct MatrixRecoveryStatus {
+    pub state: String,
+}
+
+pub struct MatrixResetEncryptionIdentityResult {
+    pub completed: bool,
+    pub auth_type: String,
+    pub approval_url: String,
 }
 
 pub struct MatrixUserProfile {
@@ -247,6 +264,8 @@ struct MatrixBackendHandle {
     room_timeline_task: Option<MatrixBackendRoomTimelineTask>,
     room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
     room_timeline_media_lookup: Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
+    pending_identity_reset:
+        Arc<Mutex<Option<matrix_sdk::encryption::recovery::IdentityResetHandle>>>,
 }
 
 struct MatrixBackendSyncTask {
@@ -288,6 +307,17 @@ fn client_for_handle(handle_id: u64) -> Result<Client, String> {
         .expect("poisoned matrix backend handle registry mutex")
         .get(&handle_id)
         .map(|handle| handle.client.clone())
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
+}
+
+fn pending_identity_reset_for_handle(
+    handle_id: u64,
+) -> Result<Arc<Mutex<Option<matrix_sdk::encryption::recovery::IdentityResetHandle>>>, String> {
+    backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .get(&handle_id)
+        .map(|handle| Arc::clone(&handle.pending_identity_reset))
         .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
 }
 

@@ -31,6 +31,18 @@ struct MatrixOwnProfile
     QString avatarUrl;
 };
 
+struct MatrixRecoveryStatus
+{
+    QString state;
+};
+
+struct MatrixResetEncryptionIdentityResult
+{
+    bool completed = false;
+    QString authType;
+    QString approvalUrl;
+};
+
 struct MatrixUserProfile
 {
     QString displayName;
@@ -237,6 +249,25 @@ public:
 
     static std::optional<MatrixOwnProfile>
     fetchOwnProfile(uint64_t handleId, QString *errorOut = nullptr);
+
+    static std::optional<MatrixRecoveryStatus>
+    fetchRecoveryStatus(uint64_t handleId, QString *errorOut = nullptr);
+
+    static bool recoverEncryptionSecrets(uint64_t handleId,
+                                         const QString &keyOrPassphrase,
+                                         QString *errorOut = nullptr);
+
+    static std::optional<MatrixResetEncryptionIdentityResult>
+    startResetEncryptionIdentity(uint64_t handleId, QString *errorOut = nullptr);
+
+    static bool continueResetEncryptionIdentityWithPassword(uint64_t handleId,
+                                                            const QString &password,
+                                                            QString *errorOut = nullptr);
+
+    static bool
+    continueResetEncryptionIdentityAfterApproval(uint64_t handleId, QString *errorOut = nullptr);
+
+    static bool cancelResetEncryptionIdentity(uint64_t handleId, QString *errorOut = nullptr);
 
     static std::optional<MatrixUserProfile>
     fetchUserProfile(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);

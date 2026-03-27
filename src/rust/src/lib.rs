@@ -52,6 +52,16 @@ mod ffi {
         avatar_url: String,
     }
 
+    struct MatrixRecoveryStatus {
+        state: String,
+    }
+
+    struct MatrixResetEncryptionIdentityResult {
+        completed: bool,
+        auth_type: String,
+        approval_url: String,
+    }
+
     struct MatrixUserProfile {
         display_name: String,
         avatar_url: String,
@@ -306,6 +316,22 @@ mod ffi {
             reason: &str,
         ) -> Result<()>;
         fn matrix_fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile>;
+        fn matrix_fetch_recovery_status(handle_id: u64) -> Result<MatrixRecoveryStatus>;
+        fn matrix_recover_encryption_secrets(
+            handle_id: u64,
+            key_or_passphrase: &str,
+        ) -> Result<()>;
+        fn matrix_start_reset_encryption_identity(
+            handle_id: u64,
+        ) -> Result<MatrixResetEncryptionIdentityResult>;
+        fn matrix_continue_reset_encryption_identity_with_password(
+            handle_id: u64,
+            password: &str,
+        ) -> Result<()>;
+        fn matrix_continue_reset_encryption_identity_after_approval(
+            handle_id: u64,
+        ) -> Result<()>;
+        fn matrix_cancel_reset_encryption_identity(handle_id: u64) -> Result<()>;
         fn matrix_fetch_user_profile(handle_id: u64, user_id: &str) -> Result<MatrixUserProfile>;
         fn matrix_search_users(
             handle_id: u64,
@@ -698,6 +724,59 @@ fn matrix_fetch_own_profile(handle_id: u64) -> Result<ffi::MatrixOwnProfile, Str
         display_name: result.display_name,
         avatar_url: result.avatar_url,
     })
+}
+
+fn matrix_fetch_recovery_status(handle_id: u64) -> Result<ffi::MatrixRecoveryStatus, String> {
+    let result = runtime().block_on(matrix_backend::runtime::fetch_recovery_status(handle_id))?;
+
+    Ok(ffi::MatrixRecoveryStatus { state: result.state })
+}
+
+fn matrix_recover_encryption_secrets(
+    handle_id: u64,
+    key_or_passphrase: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::recover_encryption_secrets(
+        handle_id,
+        key_or_passphrase,
+    ))
+}
+
+fn matrix_start_reset_encryption_identity(
+    handle_id: u64,
+) -> Result<ffi::MatrixResetEncryptionIdentityResult, String> {
+    let result = runtime().block_on(matrix_backend::runtime::start_reset_encryption_identity(
+        handle_id,
+    ))?;
+
+    Ok(ffi::MatrixResetEncryptionIdentityResult {
+        completed: result.completed,
+        auth_type: result.auth_type,
+        approval_url: result.approval_url,
+    })
+}
+
+fn matrix_continue_reset_encryption_identity_with_password(
+    handle_id: u64,
+    password: &str,
+) -> Result<(), String> {
+    runtime().block_on(
+        matrix_backend::runtime::continue_reset_encryption_identity_with_password(
+            handle_id, password,
+        ),
+    )
+}
+
+fn matrix_continue_reset_encryption_identity_after_approval(
+    handle_id: u64,
+) -> Result<(), String> {
+    runtime().block_on(
+        matrix_backend::runtime::continue_reset_encryption_identity_after_approval(handle_id),
+    )
+}
+
+fn matrix_cancel_reset_encryption_identity(handle_id: u64) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::cancel_reset_encryption_identity(handle_id))
 }
 
 fn matrix_fetch_user_profile(handle_id: u64, user_id: &str) -> Result<ffi::MatrixUserProfile, String> {

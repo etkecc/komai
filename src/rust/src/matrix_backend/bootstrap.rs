@@ -6,7 +6,7 @@ use std::path::Path;
 
 use matrix_sdk::authentication::matrix::MatrixSession;
 use matrix_sdk::store::RoomLoadSettings;
-use matrix_sdk::{Client, ClientBuildError};
+use matrix_sdk::{Client, ClientBuildError, encryption::EncryptionSettings};
 use rand::RngExt;
 
 use crate::ffi;
@@ -54,6 +54,11 @@ pub async fn build_client(
 ) -> Result<Client, ClientBuildError> {
     Client::builder()
         .homeserver_url(config.homeserver_url)
+        .with_encryption_settings(EncryptionSettings {
+            auto_enable_cross_signing: true,
+            auto_enable_backups: true,
+            ..Default::default()
+        })
         .sqlite_store_with_cache_path(
             Path::new(&paths.state_store_root),
             Path::new(&paths.cache_root),

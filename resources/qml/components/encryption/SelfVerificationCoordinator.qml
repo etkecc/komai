@@ -20,8 +20,22 @@ Item {
     UnlockKeyBackupDialog {
         id: unlockKeyBackupDialog
 
-        onUnlockRequested: value => Komai.submitUnlockKeyBackup(value)
-        onCancelled: Komai.cancelUnlockKeyBackup()
+        onUnlockRequested: value => SelfVerificationStatus.submitUnlockKeyBackup(value)
+        onCancelled: SelfVerificationStatus.cancelUnlockKeyBackup()
+    }
+
+    ResetEncryptionIdentityPasswordDialog {
+        id: resetEncryptionIdentityPasswordDialog
+
+        onResetRequested: value => SelfVerificationStatus.submitResetEncryptionIdentityPassword(value)
+        onCancelled: SelfVerificationStatus.cancelResetEncryptionIdentity()
+    }
+
+    ResetEncryptionIdentityApprovalDialog {
+        id: resetEncryptionIdentityApprovalDialog
+
+        onContinueRequested: SelfVerificationStatus.continueResetEncryptionIdentityAfterApproval()
+        onCancelled: SelfVerificationStatus.cancelResetEncryptionIdentity()
     }
 
     Components.OverlayDialog {
@@ -36,6 +50,36 @@ Item {
             color: palette.text
             wrapMode: Text.WordWrap
             text: qsTr("Encryption setup successfully")
+        }
+    }
+
+    Components.OverlayDialog {
+        id: unlockSuccessDialog
+
+        title: qsTr("Encryption secrets unlocked")
+        titleIcon: ":/icons/icons/ui/key.svg"
+        titleIconColor: Komai.theme.success
+
+        Label {
+            Layout.fillWidth: true
+            color: palette.text
+            wrapMode: Text.WordWrap
+            text: qsTr("This device can now use the recovered encryption secrets.")
+        }
+    }
+
+    Components.OverlayDialog {
+        id: resetSuccessDialog
+
+        title: qsTr("Encryption identity reset")
+        titleIcon: ":/icons/icons/ui/refresh.svg"
+        titleIconColor: Komai.theme.success
+
+        Label {
+            Layout.fillWidth: true
+            color: palette.text
+            wrapMode: Text.WordWrap
+            text: qsTr("A new encryption identity was created for this device. You may still want to set up backups again.")
         }
     }
 
@@ -209,15 +253,25 @@ Item {
             unlockKeyBackupDialog.open();
         }
 
-        target: Komai
-    }
-    Connections {
         function onSetupCompleted() {
             successDialog.open();
         }
         function onSetupFailed(m) {
             failureDialog.errorMessage = m;
             failureDialog.open();
+        }
+        function onUnlockKeyBackupCompleted() {
+            unlockSuccessDialog.open();
+        }
+        function onResetEncryptionIdentityCompleted() {
+            resetSuccessDialog.open();
+        }
+        function onPromptResetEncryptionIdentityPassword() {
+            resetEncryptionIdentityPasswordDialog.open();
+        }
+        function onPromptResetEncryptionIdentityApproval(approvalUrl) {
+            resetEncryptionIdentityApprovalDialog.approvalUrl = approvalUrl;
+            resetEncryptionIdentityApprovalDialog.open();
         }
         function onShowRecoveryKey(key) {
             showRecoverKeyDialog.recoveryKey = key;
@@ -240,5 +294,12 @@ Item {
         }
 
         target: SelfVerificationStatus
+    }
+    Connections {
+        function onPromptUnlockKeyBackup() {
+            unlockKeyBackupDialog.open();
+        }
+
+        target: Komai
     }
 }

@@ -22,7 +22,8 @@ LoginPage::LoginPage(QObject *parent)
       &LoginPage::loginOk,
       this,
       [this](const komai::MatrixLoginResult &res) {
-          loggingIn_ = false;
+          startupRestoreHandoffActive_ = false;
+          loggingIn_                   = false;
           emit loggingInChanged();
 
           auto *settings                = UserSettings::instance().get();
@@ -57,13 +58,32 @@ LoginPage::LoginPage(QObject *parent)
 }
 
 void
+LoginPage::beginStartupRestoreHandoff()
+{
+    if (startupRestoreHandoffActive_)
+        return;
+
+    startupRestoreHandoffActive_ = true;
+
+    if (auto *mainWindow = MainWindow::instance())
+        mainWindow->showStartupRestorePage();
+}
+
+void
 LoginPage::showError(const QString &msg)
 {
-    loggingIn_ = false;
+    const bool returnToLoginPage = startupRestoreHandoffActive_;
+    startupRestoreHandoffActive_ = false;
+    loggingIn_                   = false;
     emit loggingInChanged();
 
     error_ = msg;
     emit errorOccurred();
+
+    if (returnToLoginPage) {
+        if (auto *mainWindow = MainWindow::instance())
+            emit mainWindow->switchToLoginPage(msg);
+    }
 }
 
 #include "moc_LoginPage.cpp"

@@ -144,6 +144,7 @@ public slots:
                    QVariantList identityProviders);
 
 private:
+    void beginStartupRestoreHandoff();
     void startLoginFlowDiscovery(const QString &serverNameOrUrl, const QString &expectedHomeserver);
     QVariantList buildIdentityProviders(
       const std::vector<komai::MatrixLoginIdentityProvider> &identityProviders) const;
@@ -171,8 +172,9 @@ private:
     bool ssoSupported_      = false;
     bool oauthSupported_    = false;
 
-    bool lookingUpHs_      = false;
-    bool loggingIn_        = false;
-    bool homeserverNeeded_ = false;
-    bool homeserverValid_  = false;
+    bool lookingUpHs_                 = false;
+    bool loggingIn_                   = false;
+    bool homeserverNeeded_            = false;
+    bool homeserverValid_             = false;
+    bool startupRestoreHandoffActive_ = false;
 };

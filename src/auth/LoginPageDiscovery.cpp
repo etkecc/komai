@@ -335,6 +335,7 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
                  initialDeviceDisplayName,
                  verifyCertificates,
                  useOauthForGenericSso](const QString &callbackQuery, const QString &loginToken) {
+                    beginStartupRestoreHandoff();
                     QPointer<LoginPage> guard(this);
                     QPointer<SSOHandler> ssoGuard(sso);
                     const auto oauthFlowId = oauthLoginId->load(std::memory_order_relaxed);

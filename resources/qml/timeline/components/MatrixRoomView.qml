@@ -506,23 +506,23 @@ ColumnLayout {
     }
 
     function moveFocusTowardOlderEvents() {
-        return moveFocusByStep(-1);
-    }
-
-    function moveFocusTowardNewerEvents() {
         return moveFocusByStep(1);
     }
 
-    function moveFocusTowardOlderEventsByChunk() {
-        return moveFocusByChunk(-1);
+    function moveFocusTowardNewerEvents() {
+        return moveFocusByStep(-1);
     }
 
-    function moveFocusTowardNewerEventsByChunk() {
+    function moveFocusTowardOlderEventsByChunk() {
         return moveFocusByChunk(1);
     }
 
+    function moveFocusTowardNewerEventsByChunk() {
+        return moveFocusByChunk(-1);
+    }
+
     function focusOldestLoadedWalkModeEvent(options) {
-        for (let row = 0; row < TimelineManager.matrixTimelineItemCount; row++) {
+        for (let row = TimelineManager.matrixTimelineItemCount - 1; row >= 0; row--) {
             if (focusMatrixTimelineRow(row, options || {}))
                 return true;
         }
@@ -531,7 +531,7 @@ ColumnLayout {
     }
 
     function focusLatestWalkModeEvent(options) {
-        for (let row = TimelineManager.matrixTimelineItemCount - 1; row >= 0; row--) {
+        for (let row = 0; row < TimelineManager.matrixTimelineItemCount; row++) {
             if (focusMatrixTimelineRow(row, options || {}))
                 return true;
         }

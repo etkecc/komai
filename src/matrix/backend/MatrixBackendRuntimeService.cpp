@@ -747,6 +747,39 @@ MatrixBackendRuntimeService::unverifyDevice(uint64_t handleId,
     }
 }
 
+bool
+MatrixBackendRuntimeService::blockDevice(uint64_t handleId,
+                                         const QString &userId,
+                                         const QString &deviceId,
+                                         QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_block_device(handleId, userId.toStdString(), deviceId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::unblockDevice(uint64_t handleId,
+                                           const QString &userId,
+                                           const QString &deviceId,
+                                           QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_unblock_device(
+          handleId, userId.toStdString(), deviceId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<MatrixUserVerificationState>
 MatrixBackendRuntimeService::fetchUserVerificationState(uint64_t handleId,
                                                         const QString &userId,

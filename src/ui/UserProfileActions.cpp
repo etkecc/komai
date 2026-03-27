@@ -140,6 +140,60 @@ UserProfile::unverify(const QString &device)
 }
 
 void
+UserProfile::blockDevice(const QString &device)
+{
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
+        emit displayError(tr("Matrix backend runtime is not available."));
+        return;
+    }
+
+    const auto trimmedDeviceId = device.trimmed();
+    if (trimmedDeviceId.isEmpty()) {
+        emit displayError(tr("Device id cannot be empty."));
+        return;
+    }
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::blockDevice(
+          handleId, userid_, trimmedDeviceId, &error)) {
+        emit displayError(error.isEmpty()
+                            ? tr("Failed to block device \"%1\".").arg(trimmedDeviceId)
+                            : tr("Failed to block device \"%1\": %2").arg(trimmedDeviceId, error));
+        return;
+    }
+
+    refreshDevices();
+}
+
+void
+UserProfile::unblockDevice(const QString &device)
+{
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
+        emit displayError(tr("Matrix backend runtime is not available."));
+        return;
+    }
+
+    const auto trimmedDeviceId = device.trimmed();
+    if (trimmedDeviceId.isEmpty()) {
+        emit displayError(tr("Device id cannot be empty."));
+        return;
+    }
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::unblockDevice(
+          handleId, userid_, trimmedDeviceId, &error)) {
+        emit displayError(
+          error.isEmpty() ? tr("Failed to unblock device \"%1\".").arg(trimmedDeviceId)
+                          : tr("Failed to unblock device \"%1\": %2").arg(trimmedDeviceId, error));
+        return;
+    }
+
+    refreshDevices();
+}
+
+void
 UserProfile::changeAvatar()
 {
     const QString picturesFolder =

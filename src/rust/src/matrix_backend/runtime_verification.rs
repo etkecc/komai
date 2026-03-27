@@ -521,6 +521,60 @@ pub async fn unverify_device(handle_id: u64, user_id: &str, device_id: &str) -> 
     Ok(())
 }
 
+pub async fn block_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    client.encryption().wait_for_e2ee_initialization_tasks().await;
+
+    let parsed_user_id = parse_user_id(user_id)?;
+    if device_id.trim().is_empty() {
+        return Err("device id cannot be empty".to_owned());
+    }
+
+    let parsed_device_id: OwnedDeviceId = device_id.trim().into();
+    let device = client
+        .encryption()
+        .get_device(&parsed_user_id, &parsed_device_id)
+        .await
+        .map_err(|e| format!("failed to fetch device '{device_id}' for '{user_id}': {e}"))?
+        .ok_or_else(|| format!("Device '{device_id}' is not available for '{user_id}'."))?;
+
+    device
+        .set_local_trust(LocalTrust::BlackListed)
+        .await
+        .map_err(|e| format!("failed to block device '{device_id}': {e}"))?;
+
+    Ok(())
+}
+
+pub async fn unblock_device(
+    handle_id: u64,
+    user_id: &str,
+    device_id: &str,
+) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    client.encryption().wait_for_e2ee_initialization_tasks().await;
+
+    let parsed_user_id = parse_user_id(user_id)?;
+    if device_id.trim().is_empty() {
+        return Err("device id cannot be empty".to_owned());
+    }
+
+    let parsed_device_id: OwnedDeviceId = device_id.trim().into();
+    let device = client
+        .encryption()
+        .get_device(&parsed_user_id, &parsed_device_id)
+        .await
+        .map_err(|e| format!("failed to fetch device '{device_id}' for '{user_id}': {e}"))?
+        .ok_or_else(|| format!("Device '{device_id}' is not available for '{user_id}'."))?;
+
+    device
+        .set_local_trust(LocalTrust::Unset)
+        .await
+        .map_err(|e| format!("failed to unblock device '{device_id}': {e}"))?;
+
+    Ok(())
+}
+
 pub async fn fetch_verification_session(
     handle_id: u64,
     flow_id: &str,

@@ -1032,6 +1032,26 @@ Item {
                                             Item { Layout.fillWidth: true }
 
                                             Components.KomaiButton {
+                                                text: deviceDelegate.verificationStatus === VerificationStatus.BLOCKED
+                                                    ? qsTr("Unblock")
+                                                    : qsTr("Block")
+                                                icon.source: deviceDelegate.verificationStatus === VerificationStatus.BLOCKED
+                                                    ? "qrc:/icons/icons/ui/shield-regular-exclamation-mark.svg"
+                                                    : "qrc:/icons/icons/ui/shield-regular-cross.svg"
+                                                Layout.topMargin: Komai.paddingMedium + 2
+                                                Layout.bottomMargin: Komai.paddingMedium + 2
+                                                onClicked: {
+                                                    if (!accountView.profile)
+                                                        return;
+
+                                                    if (deviceDelegate.verificationStatus === VerificationStatus.BLOCKED)
+                                                        accountView.profile.unblockDevice(deviceDelegate.deviceId);
+                                                    else
+                                                        accountView.profile.blockDevice(deviceDelegate.deviceId);
+                                                }
+                                            }
+
+                                            Components.KomaiButton {
                                                 text: qsTr("Logout")
                                                 icon.source: "qrc:/icons/icons/ui/power-off.svg"
                                                 Layout.topMargin: Komai.paddingMedium + 2

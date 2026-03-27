@@ -404,6 +404,8 @@ mod ffi {
             device_id: &str,
         ) -> Result<MatrixVerificationSession>;
         fn matrix_unverify_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<()>;
+        fn matrix_block_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<()>;
+        fn matrix_unblock_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<()>;
         fn matrix_fetch_user_verification_state(
             handle_id: u64,
             user_id: &str,
@@ -989,6 +991,22 @@ fn matrix_start_device_verification(
 
 fn matrix_unverify_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::unverify_device(
+        handle_id,
+        user_id,
+        device_id,
+    ))
+}
+
+fn matrix_block_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::block_device(
+        handle_id,
+        user_id,
+        device_id,
+    ))
+}
+
+fn matrix_unblock_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::unblock_device(
         handle_id,
         user_id,
         device_id,

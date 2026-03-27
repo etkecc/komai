@@ -1179,6 +1179,22 @@ Components.OverlayDialog {
                                 icon.source: ":/icons/icons/ui/shield-regular-checkmark.svg"
                                 onClicked: profile.verify(deviceCard.deviceId)
                             }
+
+                            Components.KomaiButton {
+                                visible: deviceCard.verificationStatus !== VerificationStatus.SELF
+                                text: deviceCard.verificationStatus === VerificationStatus.BLOCKED
+                                    ? qsTr("Unblock")
+                                    : qsTr("Block")
+                                icon.source: deviceCard.verificationStatus === VerificationStatus.BLOCKED
+                                    ? ":/icons/icons/ui/shield-regular-exclamation-mark.svg"
+                                    : ":/icons/icons/ui/shield-regular-cross.svg"
+                                onClicked: {
+                                    if (deviceCard.verificationStatus === VerificationStatus.BLOCKED)
+                                        profile.unblockDevice(deviceCard.deviceId);
+                                    else
+                                        profile.blockDevice(deviceCard.deviceId);
+                                }
+                            }
                         }
 
                         // Device name (second row)

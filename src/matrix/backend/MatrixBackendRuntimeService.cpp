@@ -175,6 +175,11 @@ fromRustPublicRoomDirectoryEntry(const ::komai::rust::MatrixPublicRoomDirectoryE
 MatrixRoomSummary
 fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
 {
+    QVector<QString> parentSpaceRoomIds;
+    parentSpaceRoomIds.reserve(static_cast<int>(room.parent_space_room_ids.size()));
+    for (const auto &value : room.parent_space_room_ids)
+        parentSpaceRoomIds.push_back(QString::fromStdString(std::string(value)));
+
     return MatrixRoomSummary{
       .roomId      = QString::fromStdString(std::string(room.room_id)),
       .displayName = QString::fromStdString(std::string(room.display_name)),
@@ -182,6 +187,7 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
       .topic       = QString::fromStdString(std::string(room.topic)),
       .lastMessage = QString::fromStdString(std::string(room.last_message)),
       .lastMessageKind       = QString::fromStdString(std::string(room.last_message_kind)),
+      .parentSpaceRoomIds    = std::move(parentSpaceRoomIds),
       .directChatOtherUserId = QString::fromStdString(std::string(room.direct_chat_other_user_id)),
       .isInvite              = room.is_invite,
       .isSpace               = room.is_space,

@@ -16,6 +16,7 @@ use matrix_sdk::{
     Client,
     Room,
     RoomState,
+    room::ParentSpace,
     encryption::{
         verification::{SasVerification, VerificationRequest},
         recovery::IdentityResetHandle,
@@ -221,6 +222,7 @@ pub struct MatrixRoomSummary {
     pub topic: String,
     pub last_message: String,
     pub last_message_kind: String,
+    pub parent_space_room_ids: Vec<String>,
     pub direct_chat_other_user_id: String,
     pub is_invite: bool,
     pub is_space: bool,

@@ -120,7 +120,7 @@ async fn run_sync_loop(
                             diff.apply(&mut current_values);
                         }
 
-                        let snapshot = build_room_list_snapshot(&current_values);
+                        let snapshot = build_room_list_snapshot(&current_values).await;
                         let room_count = snapshot.len();
                         *room_list_snapshot
                             .lock()
@@ -179,8 +179,13 @@ async fn run_sync_loop(
     tracing::info!(handle_id, "Matrix-sdk room-list sync loop stopped");
 }
 
-fn build_room_list_snapshot(values: &Vector<RoomListItem>) -> Vec<MatrixRoomSummary> {
-    values.iter().map(room_list_item_to_summary).collect()
+async fn build_room_list_snapshot(values: &Vector<RoomListItem>) -> Vec<MatrixRoomSummary> {
+    let mut snapshot = Vec::with_capacity(values.len());
+    for room in values.iter() {
+        snapshot.push(room_list_item_to_summary(room).await);
+    }
+
+    snapshot
 }
 
 fn ci_contains(haystack: &str, needle: &str) -> bool {
@@ -381,7 +386,41 @@ fn direct_chat_avatar_url(
         .and_then(|candidate| (!candidate.avatar_url.is_empty()).then(|| candidate.avatar_url.clone()))
 }
 
-fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
+async fn fetch_parent_space_room_ids(room: &RoomListItem) -> Vec<String> {
+    let Ok(parent_spaces) = room.parent_spaces().await else {
+        tracing::debug!(
+            room_id = %room.room_id(),
+            "Failed to fetch matrix room parent spaces for room-list summary"
+        );
+        return Vec::new();
+    };
+
+    let mut parent_space_room_ids = parent_spaces
+        .filter_map(|result| async move {
+            match result {
+                Ok(ParentSpace::Reciprocal(parent))
+                | Ok(ParentSpace::WithPowerlevel(parent))
+                | Ok(ParentSpace::Illegitimate(parent)) => Some(parent.room_id().to_string()),
+                Ok(ParentSpace::Unverifiable(parent_room_id)) => Some(parent_room_id.to_string()),
+                Err(error) => {
+                    tracing::debug!(
+                        room_id = %room.room_id(),
+                        %error,
+                        "Failed to inspect matrix room parent-space relationship"
+                    );
+                    None
+                }
+            }
+        })
+        .collect::<Vec<_>>()
+        .await;
+
+    parent_space_room_ids.sort();
+    parent_space_room_ids.dedup();
+    parent_space_room_ids
+}
+
+async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
     let room_state = room.state();
     let hero_candidates = room_hero_candidates(room);
     let classification = classify_room(room, &hero_candidates);
@@ -395,6 +434,7 @@ fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         .map(|ts| u64::from(ts.get()))
         .or_else(|| room.recency_stamp().map(u64::from))
         .unwrap_or_default();
+    let parent_space_room_ids = fetch_parent_space_room_ids(room).await;
 
     MatrixRoomSummary {
         room_id: room.room_id().to_string(),
@@ -426,6 +466,7 @@ fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         last_message_kind: latest_preview
             .map(|preview| preview.kind)
             .unwrap_or_default(),
+        parent_space_room_ids,
         direct_chat_other_user_id: classification.direct_chat_other_user_id,
         is_invite: matches!(room_state, RoomState::Invited),
         is_space: room.is_space(),

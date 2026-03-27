@@ -129,6 +129,7 @@ struct MatrixRoomSummary
     QString topic;
     QString lastMessage;
     QString lastMessageKind;
+    QVector<QString> parentSpaceRoomIds;
     QString directChatOtherUserId;
     bool isInvite              = false;
     bool isSpace               = false;

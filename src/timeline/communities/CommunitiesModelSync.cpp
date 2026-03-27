@@ -9,6 +9,7 @@
 #include <set>
 
 #include "DirectChatResolver.h"
+#include "RoomlistModel.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
@@ -100,6 +101,82 @@ CommunitiesModel::initializeSidebar()
 
     const auto *window = MainWindow::instance();
     if (window && window->matrixBackendHandleId() != 0) {
+        auto *filteredRooms = FilteredRoomlistModel::instance();
+        auto *roomlistModel =
+          filteredRooms ? qobject_cast<RoomlistModel *>(filteredRooms->sourceModel()) : nullptr;
+
+        std::set<std::string> isSpace;
+        std::map<std::string, std::set<std::string>> spaceChilds;
+        std::map<std::string, std::set<std::string>> spaceParents;
+
+        if (roomlistModel) {
+            const int rows = roomlistModel->rowCount();
+            for (int row = 0; row < rows; ++row) {
+                const auto idx    = roomlistModel->index(row, 0, QModelIndex());
+                const auto roomId = roomlistModel->data(idx, RoomlistModel::RoomId).toString();
+                if (roomId.isEmpty())
+                    continue;
+
+                const bool isBotRoom = roomlistModel->data(idx, RoomlistModel::IsBotRoom).toBool();
+                const bool isDirect  = roomlistModel->data(idx, RoomlistModel::IsDirect).toBool();
+                const bool isSpaceRoom = roomlistModel->data(idx, RoomlistModel::IsSpace).toBool();
+
+                if (isBotRoom)
+                    hasBotRooms_ = true;
+                else if (isDirect)
+                    hasPeopleRooms_ = true;
+                else if (!isSpaceRoom)
+                    hasGroupRooms_ = true;
+
+                if (!isSpaceRoom)
+                    continue;
+
+                RoomInfo info{};
+                info.name =
+                  roomlistModel->data(idx, RoomlistModel::RoomName).toString().toStdString();
+                info.avatar_url =
+                  roomlistModel->data(idx, RoomlistModel::AvatarUrl).toString().toStdString();
+                info.is_space   = true;
+                spaces_[roomId] = info;
+                isSpace.insert(roomId.toStdString());
+            }
+
+            for (int row = 0; row < rows; ++row) {
+                const auto idx    = roomlistModel->index(row, 0, QModelIndex());
+                const auto roomId = roomlistModel->data(idx, RoomlistModel::RoomId).toString();
+                if (roomId.isEmpty() ||
+                    !roomlistModel->data(idx, RoomlistModel::IsSpace).toBool()) {
+                    continue;
+                }
+
+                const auto childId = roomId.toStdString();
+                spaceParents[childId];
+                const auto parents =
+                  roomlistModel->data(idx, RoomlistModel::ParentSpaces).toStringList();
+                for (const auto &parentId : parents) {
+                    const auto parentIdStd = parentId.toStdString();
+                    if (!isSpace.count(parentIdStd))
+                        continue;
+
+                    spaceParents[childId].insert(parentIdStd);
+                    spaceChilds[parentIdStd].insert(childId);
+                }
+            }
+        }
+
+        temptree spacetree;
+        std::vector<std::string> path;
+        for (const auto &space : isSpace) {
+            if (!spaceParents[space].empty())
+                continue;
+
+            spacetree.children[space] = {};
+        }
+        for (const auto &space : spacetree.children)
+            addChildren(spacetree, path, space.first, spaceChilds);
+
+        spacetree.flatten(spaceOrder_, spaces_);
+        spaceOrder_.restoreCollapsed();
         computeFilterBadges();
         endResetModel();
 

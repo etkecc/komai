@@ -25,8 +25,14 @@ RoomlistModel::commonRoomData(const QString &room_id, int role) const
 {
     switch (role) {
     case Roles::ParentSpaces: {
-        if (matrixJoinedRooms_.contains(room_id))
-            return QVariant{QStringList{}};
+        if (matrixJoinedRooms_.contains(room_id)) {
+            QStringList list;
+            const auto &parentSpaceRoomIds = matrixJoinedRooms_.value(room_id).parentSpaceRoomIds;
+            list.reserve(parentSpaceRoomIds.size());
+            for (const auto &parentSpaceRoomId : parentSpaceRoomIds)
+                list.push_back(parentSpaceRoomId);
+            return QVariant{list};
+        }
 
         auto parents = cache::getParentRoomIds(room_id.toStdString());
         QStringList list;

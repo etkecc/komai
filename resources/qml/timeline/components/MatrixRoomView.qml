@@ -1596,6 +1596,17 @@ ColumnLayout {
                     // visible / total and only ever shrinks as pagination
                     // adds items.
                     size: matrixTimelineList.stableThumbSize
+                    // Saved position at press time.  When pressed becomes
+                    // true the Binding deactivates and Qt resets position
+                    // to 0.  The drag handler uses this to reject that
+                    // bogus first change.
+                    property real positionOnPress: -1
+                    onPressedChanged: {
+                        if (pressed)
+                            positionOnPress = position;
+                        else
+                            positionOnPress = -1;
+                    }
                 }
 
                 // Position: driven by real contentY (always accurate).
@@ -1622,6 +1633,17 @@ ColumnLayout {
                     function onPositionChanged() {
                         if (!matrixTimelineScrollbar.pressed)
                             return;
+                        // When the Binding deactivates on press, Qt resets
+                        // position to 0.  Detect this bogus jump and restore
+                        // the saved position instead of scrolling to the top.
+                        if (matrixTimelineScrollbar.positionOnPress >= 0) {
+                            const saved = matrixTimelineScrollbar.positionOnPress;
+                            matrixTimelineScrollbar.positionOnPress = -1;
+                            if (Math.abs(matrixTimelineScrollbar.position - saved) > 0.01) {
+                                matrixTimelineScrollbar.position = saved;
+                                return;
+                            }
+                        }
                         const ch = matrixTimelineList.contentHeight;
                         const h = matrixTimelineList.height;
                         const range = ch - h;
@@ -1856,6 +1878,20 @@ ColumnLayout {
                         // user actions (onMovementEnded, WheelHandler).
                     }
                     onContentHeightChanged: {
+                        // While the user is holding the scrollbar thumb,
+                        // the position Binding is inactive.  Recompute
+                        // position from contentY so the thumb reflects
+                        // the new proportions after pagination adds items.
+                        if (matrixTimelineScrollbar.pressed) {
+                            const range = contentHeight - height;
+                            if (range > 0) {
+                                const normalized = (contentY - originY) / range;
+                                const maxPos = 1.0 - matrixTimelineScrollbar.size;
+                                matrixTimelineScrollbar.position = Math.max(0,
+                                    Math.min(maxPos, normalized * maxPos));
+                            }
+                        }
+
                         if (!moving && !flicking && !dragging && !userUnpinned) {
                             if (keepPinnedToBottom || root.initialBottomPinPending) {
                                 positionViewAtBeginning();

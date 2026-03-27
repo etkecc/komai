@@ -39,7 +39,7 @@ ItemDelegate {
     required property var tags
     required property string time
     required property bool isEncrypted
-    readonly property bool isSelected: (Rooms.currentRoom && roomId == Rooms.currentRoom.roomId) || Rooms.currentRoomPreview.roomid == roomId
+    readonly property bool isSelected: roomId === Rooms.currentRoomId
     readonly property bool isLowPriorityRoom: !!tags && tags.indexOf && tags.indexOf("m.lowpriority") !== -1
     readonly property bool emphasizeUnreadState: hasUnreadMessages && (!isLowPriorityRoom || hasLoudNotification || Communities.currentFilterId === "tag:m.lowpriority")
     readonly property bool emphasizeDraftState: hasDraft && !emphasizeUnreadState

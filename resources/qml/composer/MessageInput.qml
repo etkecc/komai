@@ -226,6 +226,37 @@ Rectangle {
 
                     return messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText;
                 }
+                function hasNestedCompleterTrigger(searchString) {
+                    const suffix = String(searchString || "").slice(1);
+                    if (suffix.length === 0)
+                        return false;
+
+                    switch (completer.completerType) {
+                    case "user":
+                        return suffix.indexOf('@') >= 0 || suffix.indexOf('＠') >= 0;
+                    case "emoji":
+                        return suffix.indexOf(':') >= 0 || suffix.indexOf('：') >= 0;
+                    case "roomAliases":
+                        return suffix.indexOf('#') >= 0 || suffix.indexOf('＃') >= 0;
+                    case "customEmoji":
+                        return suffix.indexOf('~') >= 0 || suffix.indexOf('～') >= 0;
+                    default:
+                        return false;
+                    }
+                }
+                function refreshCompleterSearchString() {
+                    if (!popup.opened || !completer.completer)
+                        return;
+
+                    const searchString = messageInput.currentCompleterSearchString();
+                    if (messageInput.hasNestedCompleterTrigger(searchString)) {
+                        completer.completerType = "";
+                        popup.close();
+                        return;
+                    }
+
+                    completer.completer.setSearchString(searchString);
+                }
                 function insertCompletion(completion) {
                     if (completer.completerType === "command" && inputBar.inputController) {
                         const updatedText = inputBar.inputController.applyCommandCompletion(messageInput.text,
@@ -252,8 +283,7 @@ Rectangle {
                     completer.completerType = type;
                     if (!popup.opened)
                         popup.open();
-                    if (completer.completer)
-                        completer.completer.setSearchString(messageInput.currentCompleterSearchString());
+                    messageInput.refreshCompleterSearchString();
                 }
                 function completerTypeForTrigger(trigger, tokenStart) {
                     if ((trigger === '@' || trigger === '＠') && Settings.composerInputInlineUserPickerEnabled)
@@ -485,14 +515,10 @@ Rectangle {
                     inputBar.inputController.updateState(selectionStart, selectionEnd, cursorPosition, text);
                     if (popup.opened && cursorPosition <= completerTriggeredAt)
                         popup.close();
-                    if (popup.opened)
-                        if (completer.completer)
-                        completer.completer.setSearchString(messageInput.currentCompleterSearchString());
+                    messageInput.refreshCompleterSearchString();
                 }
                 onPreeditTextChanged: {
-                    if (popup.opened)
-                        if (completer.completer)
-                        completer.completer.setSearchString(messageInput.currentCompleterSearchString());
+                    messageInput.refreshCompleterSearchString();
                 }
                 onSelectionEndChanged: {
                     if (inputBar.inputController)

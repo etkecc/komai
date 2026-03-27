@@ -36,8 +36,10 @@ Components.OverlayDialog {
 
     Shortcut {
         enabled: root.visible
-        sequences: [StandardKey.Cancel]
+        sequences: [StandardKey.Cancel, "Escape"]
+        context: Qt.ApplicationShortcut
         onActivated: root.close()
+        onActivatedAmbiguously: root.close()
     }
 
     ScrollView {

@@ -211,9 +211,7 @@ Page {
                     return;
                 }
 
-                const currentRoomId = Rooms.currentRoom
-                    ? Rooms.currentRoom.roomId
-                    : Rooms.currentRoomPreview.roomid;
+                const currentRoomId = Rooms.currentRoomId;
                 const selectedIndex = currentRoomId ? Rooms.roomidToIndex(currentRoomId) : -1;
 
                 currentIndex = selectedIndex >= 0 ? selectedIndex : 0;
@@ -393,16 +391,12 @@ Page {
 
             Connections {
                 function onCurrentRoomChanged() {
-                    const roomId = Rooms.currentRoom
-                        ? Rooms.currentRoom.roomId
-                        : Rooms.currentRoomPreview.roomid;
+                    const roomId = Rooms.currentRoomId;
                     if (!roomId)
                         return;
 
                     Qt.callLater(function () {
-                        const activeRoomId = Rooms.currentRoom
-                            ? Rooms.currentRoom.roomId
-                            : Rooms.currentRoomPreview.roomid;
+                        const activeRoomId = Rooms.currentRoomId;
                         if (!activeRoomId || activeRoomId !== roomId)
                             return;
 

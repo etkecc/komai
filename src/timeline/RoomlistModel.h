@@ -88,6 +88,8 @@ class RoomlistModel final : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(
+      QString currentRoomId READ currentRoomId NOTIFY currentRoomChanged RESET resetCurrentRoom)
+    Q_PROPERTY(
       TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomChanged RESET resetCurrentRoom)
     Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY currentRoomChanged
                  RESET resetCurrentRoom)
@@ -297,6 +299,8 @@ class FilteredRoomlistModel final : public QSortFilterProxyModel
     QML_NAMED_ELEMENT(Rooms)
     QML_SINGLETON
 
+    Q_PROPERTY(
+      QString currentRoomId READ currentRoomId NOTIFY currentRoomChanged RESET resetCurrentRoom)
     Q_PROPERTY(
       TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomChanged RESET resetCurrentRoom)
     Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY currentRoomChanged

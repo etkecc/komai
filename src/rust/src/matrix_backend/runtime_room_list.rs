@@ -420,6 +420,25 @@ async fn fetch_parent_space_room_ids(room: &RoomListItem) -> Vec<String> {
     parent_space_room_ids
 }
 
+async fn fetch_room_tags(room: &RoomListItem) -> Vec<String> {
+    let Ok(tags) = room.tags().await else {
+        tracing::debug!(
+            room_id = %room.room_id(),
+            "Failed to fetch matrix room tags for room-list summary"
+        );
+        return Vec::new();
+    };
+
+    let Some(tags) = tags else {
+        return Vec::new();
+    };
+
+    let mut tag_ids = tags.keys().map(ToString::to_string).collect::<Vec<_>>();
+    tag_ids.sort();
+    tag_ids.dedup();
+    tag_ids
+}
+
 async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
     let room_state = room.state();
     let hero_candidates = room_hero_candidates(room);
@@ -434,6 +453,7 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         .map(|ts| u64::from(ts.get()))
         .or_else(|| room.recency_stamp().map(u64::from))
         .unwrap_or_default();
+    let tags = fetch_room_tags(room).await;
     let parent_space_room_ids = fetch_parent_space_room_ids(room).await;
 
     MatrixRoomSummary {
@@ -466,6 +486,7 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         last_message_kind: latest_preview
             .map(|preview| preview.kind)
             .unwrap_or_default(),
+        tags,
         parent_space_room_ids,
         direct_chat_other_user_id: classification.direct_chat_other_user_id,
         is_invite: matches!(room_state, RoomState::Invited),

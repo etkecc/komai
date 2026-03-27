@@ -102,7 +102,7 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
     case Roles::IsPreview:
         return false;
     case Roles::Tags:
-        return QStringList{};
+        return QStringList(room.tags.begin(), room.tags.end());
     case Roles::IsEncrypted:
         return room.isEncrypted;
     default:

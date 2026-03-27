@@ -105,6 +105,7 @@ CommunitiesModel::initializeSidebar()
         auto *roomlistModel =
           filteredRooms ? qobject_cast<RoomlistModel *>(filteredRooms->sourceModel()) : nullptr;
 
+        std::set<std::string> ts;
         std::set<std::string> isSpace;
         std::map<std::string, std::set<std::string>> spaceChilds;
         std::map<std::string, std::set<std::string>> spaceParents;
@@ -127,6 +128,14 @@ CommunitiesModel::initializeSidebar()
                     hasPeopleRooms_ = true;
                 else if (!isSpaceRoom)
                     hasGroupRooms_ = true;
+
+                if (!isSpaceRoom) {
+                    const auto tags = roomlistModel->data(idx, RoomlistModel::Tags).toStringList();
+                    for (const auto &tag : tags) {
+                        if (tag.startsWith(u"u.") || tag.startsWith(u"m."))
+                            ts.insert(tag.toStdString());
+                    }
+                }
 
                 if (!isSpaceRoom)
                     continue;
@@ -176,6 +185,10 @@ CommunitiesModel::initializeSidebar()
             addChildren(spacetree, path, space.first, spaceChilds);
 
         spacetree.flatten(spaceOrder_, spaces_);
+
+        for (const auto &tag : ts)
+            tags_.push_back(QString::fromStdString(tag));
+
         spaceOrder_.restoreCollapsed();
         computeFilterBadges();
         endResetModel();

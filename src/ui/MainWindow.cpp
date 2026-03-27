@@ -406,9 +406,18 @@ MainWindow::showChatPage(bool hadSessionIdentity)
                               snapshot.homeserver,
                               snapshot.accessToken,
                               hadSessionIdentity);
-        emit switchToChatPage();
-        nhlog::ui()->info("Queued switch to chat page after deferred bootstrap");
         nhlog::ui()->info("Finished deferred chat bootstrap");
+
+        QTimer::singleShot(0, this, [this] {
+            if (!chat_page_ || matrixBackendHandleId_ == 0) {
+                nhlog::ui()->warn("Skipping deferred chat-page switch because the matrix-sdk "
+                                  "backend handle is no longer active");
+                return;
+            }
+
+            emit switchToChatPage();
+            nhlog::ui()->info("Queued switch to chat page after deferred bootstrap");
+        });
     });
 }
 

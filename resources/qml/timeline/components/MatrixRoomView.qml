@@ -1895,6 +1895,8 @@ ColumnLayout {
                                 root.rememberTimelineHeight(heightCacheKey, resolvedHeight);
                         }
 
+                        onEventIdChanged: reloadSharedTimelineBubble()
+                        onItemIdChanged: reloadSharedTimelineBubble()
                         onItemKindChanged: reloadSharedTimelineBubble()
                         onHeightChanged: rememberResolvedTimelineHeight()
 

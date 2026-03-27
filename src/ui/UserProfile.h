@@ -6,6 +6,7 @@
 #pragma once
 
 #include <QAbstractListModel>
+#include <QGuiApplication>
 #include <QObject>
 #include <QQmlEngine>
 #include <QString>
@@ -229,5 +230,6 @@ private:
     std::optional<bool> ignoredOverride_;
     TimelineViewManager *manager;
     TimelineModel *model;
-    RoomInfoModel *sharedRooms_ = nullptr;
+    RoomInfoModel *sharedRooms_          = nullptr;
+    bool refreshDevicesOnNextActivation_ = false;
 };

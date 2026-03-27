@@ -95,6 +95,17 @@ UserProfile::UserProfile(const QString &roomid,
                 });
     }
 
+    if (auto *app = qGuiApp) {
+        connect(
+          app, &QGuiApplication::applicationStateChanged, this, [this](Qt::ApplicationState state) {
+              if (state != Qt::ApplicationActive || !refreshDevicesOnNextActivation_)
+                  return;
+
+              refreshDevicesOnNextActivation_ = false;
+              refreshDevices();
+          });
+    }
+
     getGlobalProfileData();
 
     if (ChatPage::instance() && ChatPage::instance()->timelineManager()) {
@@ -263,8 +274,10 @@ UserProfile::signOutDevice(const QString &deviceID)
             return;
         }
 
+        refreshDevicesOnNextActivation_ = true;
         MainWindow::instance()->showNotification(
-          tr("Finish signing out device \"%1\" in your browser, then refresh the device list.")
+          tr("Finish signing out device \"%1\" in your browser. The device list will refresh when "
+             "you return.")
             .arg(trimmedDeviceId));
         return;
     }

@@ -176,9 +176,11 @@ LoginPage::startLoginFlowDiscovery(const QString &serverNameOrUrl,
               }
 
               auto idps = guard->buildIdentityProviders(result->identityProviders);
-              if (result->ssoSupported && result->identityProviders.empty()) {
+              if (result->ssoSupported &&
+                  (result->identityProviders.empty() || result->oauthSupported)) {
                   SSOProvider provider;
-                  provider.name_ = tr("SSO LOGIN");
+                  provider.name_ =
+                    result->oauthSupported ? tr("Continue in Browser") : tr("SSO LOGIN");
                   idps.push_back(QVariant::fromValue(provider));
               }
 

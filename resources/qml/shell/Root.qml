@@ -13,6 +13,10 @@ Pane {
     property color overlayBackdropColor: Qt.rgba(0, 0, 0, palette.window.hslLightness < 0.5 ? 0.76 : 0.68)
     readonly property var rootTimeline: timelineRoot
 
+    Login {
+        id: sharedLoginController
+    }
+
     ComponentCatalog {
         id: componentCatalog
     }
@@ -247,6 +251,7 @@ function openCatalogDialog(componentUrl, properties) {
         id: loginPage
 
         LoginPage {
+            loginController: sharedLoginController
         }
     }
     Component {

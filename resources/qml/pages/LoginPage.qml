@@ -15,14 +15,12 @@ import "../ui/"
 Item {
     id: loginPage
     property int maxExpansion: 800
+    required property var loginController
 
+    readonly property var login: loginController
     property string error: login.error
     property bool hasPendingLoginInput: matrixIdLabel.text !== login.mxid || (login.homeserverNeeded && hsLabel.text !== login.homeserver)
     property bool loginEnabled: login.homeserverValid && !hasPendingLoginInput
-
-    Login {
-        id: login
-    }
 
     Onboarding.OnboardingScrollPage {
         id: scroll

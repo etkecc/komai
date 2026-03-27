@@ -88,9 +88,14 @@ Item {
                     if (!root.roomContext)
                         return;
 
-                    if (Settings.timelineMediaOpenImagesExternal
-                            || root.roomContext.isActiveMatrixTimelineRoom === true) {
+                    if (Settings.timelineMediaOpenImagesExternal) {
                         root.roomContext.openMedia(root.eventId);
+                    } else if (root.roomContext.isActiveMatrixTimelineRoom === true) {
+                        TimelineManager.openMediaOverlay(null,
+                                                         root.url,
+                                                         root.eventId,
+                                                         root.originalWidth,
+                                                         root.proportionalHeight);
                     } else {
                         TimelineManager.openMediaOverlayWithContext(root.roomContext,
                                                                     root.url,

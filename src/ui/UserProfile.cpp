@@ -14,6 +14,7 @@
 #include "UserProfile.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
+#include "encryption/VerificationManager.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
@@ -80,6 +81,18 @@ UserProfile::UserProfile(const QString &roomid,
               emit avatarUrlChanged();
               emit globalAvatarUrlChanged();
           });
+    }
+
+    if (auto *verificationManager = VerificationManager::instance()) {
+        connect(verificationManager,
+                &VerificationManager::verificationStateChanged,
+                this,
+                [this](const QString &userId) {
+                    if (userId.trimmed() != userid_.trimmed())
+                        return;
+
+                    refreshDevices();
+                });
     }
 
     getGlobalProfileData();

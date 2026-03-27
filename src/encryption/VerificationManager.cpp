@@ -30,8 +30,9 @@ VerificationManager::receivedRoomDeviceVerificationRequest(
 {
     Q_UNUSED(message);
     Q_UNUSED(model);
-    nhlog::crypto()->warn("Ignoring room verification request until matrix-sdk verification is "
-                          "implemented");
+    nhlog::crypto()->debug(
+      "Ignoring legacy room verification request because matrix-sdk handles live verification "
+      "sessions directly");
 }
 
 void
@@ -41,8 +42,9 @@ VerificationManager::receivedDeviceVerificationRequest(
 {
     Q_UNUSED(msg);
     Q_UNUSED(sender);
-    nhlog::crypto()->warn("Ignoring to-device verification request until matrix-sdk "
-                          "verification is implemented");
+    nhlog::crypto()->debug(
+      "Ignoring legacy to-device verification request because matrix-sdk handles live "
+      "verification sessions directly");
 }
 
 void
@@ -52,8 +54,9 @@ VerificationManager::receivedDeviceVerificationStart(
 {
     Q_UNUSED(msg);
     Q_UNUSED(sender);
-    nhlog::crypto()->warn("Ignoring verification start until matrix-sdk verification is "
-                          "implemented");
+    nhlog::crypto()->debug(
+      "Ignoring legacy verification start because matrix-sdk handles live verification sessions "
+      "directly");
 }
 
 bool
@@ -174,6 +177,9 @@ VerificationManager::openMatrixVerificationFlow(uint64_t handleId,
     activeMatrixFlowIds_.insert(flowId);
     connect(
       flow, &QObject::destroyed, this, [this, flowId]() { activeMatrixFlowIds_.remove(flowId); });
+    connect(flow, &DeviceVerificationFlow::refreshProfile, this, [this, flow]() {
+        emit verificationStateChanged(flow->getUserId());
+    });
     emit newDeviceVerificationRequest(flow);
     return true;
 }
@@ -214,6 +220,9 @@ VerificationManager::pollPendingMatrixVerifications()
         activeMatrixFlowIds_.insert(flowId);
         connect(flow, &QObject::destroyed, this, [this, flowId]() {
             activeMatrixFlowIds_.remove(flowId);
+        });
+        connect(flow, &DeviceVerificationFlow::refreshProfile, this, [this, flow]() {
+            emit verificationStateChanged(flow->getUserId());
         });
         emit newDeviceVerificationRequest(flow);
     }

@@ -9,6 +9,7 @@
 
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "ui/MainWindow.h"
 
 namespace {
 DeviceVerificationFlow::State
@@ -160,7 +161,25 @@ DeviceVerificationFlow::cancel()
 void
 DeviceVerificationFlow::unverify()
 {
-    failNotMigrated();
+    if (backendHandleId_ == 0 || userId_.trimmed().isEmpty() || deviceId.trimmed().isEmpty()) {
+        nhlog::crypto()->warn("Cannot clear verification without an active matrix-sdk device "
+                              "verification target");
+        emit refreshProfile();
+        return;
+    }
+
+    QString error;
+    if (!komai::MatrixBackendRuntimeService::unverifyDevice(
+          backendHandleId_, userId_, deviceId, &error)) {
+        nhlog::crypto()->warn("Failed to clear matrix-sdk local trust for {}:{}: {}",
+                              userId_.toStdString(),
+                              deviceId.toStdString(),
+                              error.toStdString());
+        emit refreshProfile();
+        return;
+    }
+
+    emit refreshProfile();
 }
 
 void
@@ -291,8 +310,9 @@ DeviceVerificationFlow::NewInRoomVerification(QObject *,
                                               const QString &,
                                               const QString &)
 {
-    nhlog::crypto()->warn("Ignoring in-room verification request until matrix-sdk verification "
-                          "is implemented");
+    nhlog::crypto()->debug(
+      "Ignoring legacy in-room verification request because matrix-sdk handles live "
+      "verification sessions directly");
     return nullptr;
 }
 
@@ -302,8 +322,9 @@ DeviceVerificationFlow::NewToDeviceVerification(QObject *,
                                                 const QString &,
                                                 const QString &)
 {
-    nhlog::crypto()->warn("Ignoring to-device verification request until matrix-sdk verification "
-                          "is implemented");
+    nhlog::crypto()->debug(
+      "Ignoring legacy to-device verification request because matrix-sdk handles live "
+      "verification sessions directly");
     return nullptr;
 }
 
@@ -313,8 +334,9 @@ DeviceVerificationFlow::NewToDeviceVerification(QObject *,
                                                 const QString &,
                                                 const QString &)
 {
-    nhlog::crypto()->warn("Ignoring verification start until matrix-sdk verification is "
-                          "implemented");
+    nhlog::crypto()->debug(
+      "Ignoring legacy verification start because matrix-sdk handles live verification "
+      "sessions directly");
     return nullptr;
 }
 
@@ -323,9 +345,26 @@ DeviceVerificationFlow::InitiateUserVerification(QObject *parent,
                                                  TimelineModel *,
                                                  const QString &userid)
 {
-    auto *flow = new DeviceVerificationFlow(parent, Type::RoomMsg, userid, {});
-    flow->failNotMigrated();
-    return flow;
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        nhlog::crypto()->warn("Cannot start matrix-sdk user verification for '{}' without an "
+                              "active runtime",
+                              userid.toStdString());
+        return nullptr;
+    }
+
+    QString error;
+    const auto session =
+      komai::MatrixBackendRuntimeService::startUserVerification(handleId, userid, &error);
+    if (!session) {
+        nhlog::crypto()->warn("Failed to start matrix-sdk user verification for '{}': {}",
+                              userid.toStdString(),
+                              error.toStdString());
+        return nullptr;
+    }
+
+    return InitiateMatrixVerificationSession(parent, handleId, session->flowId, &error);
 }
 
 DeviceVerificationFlow *
@@ -333,9 +372,32 @@ DeviceVerificationFlow::InitiateDeviceVerification(QObject *parent,
                                                    const QString &userid,
                                                    const std::vector<QString> &devices)
 {
-    auto *flow = new DeviceVerificationFlow(parent, Type::ToDevice, userid, devices);
-    flow->failNotMigrated();
-    return flow;
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        nhlog::crypto()->warn("Cannot start matrix-sdk device verification for '{}' without an "
+                              "active runtime",
+                              userid.toStdString());
+        return nullptr;
+    }
+
+    QString error;
+    for (const auto &device : devices) {
+        const auto session = komai::MatrixBackendRuntimeService::startDeviceVerification(
+          handleId, userid, device, &error);
+        if (!session)
+            continue;
+
+        if (auto *flow =
+              InitiateMatrixVerificationSession(parent, handleId, session->flowId, &error)) {
+            return flow;
+        }
+    }
+
+    nhlog::crypto()->warn("Failed to start matrix-sdk device verification for '{}': {}",
+                          userid.toStdString(),
+                          error.toStdString());
+    return nullptr;
 }
 
 DeviceVerificationFlow *

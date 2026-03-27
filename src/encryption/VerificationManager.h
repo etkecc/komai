@@ -58,6 +58,7 @@ public:
 
 signals:
     void newDeviceVerificationRequest(DeviceVerificationFlow *flow);
+    void verificationStateChanged(const QString &userId);
 
 public slots:
     void receivedRoomDeviceVerificationRequest(

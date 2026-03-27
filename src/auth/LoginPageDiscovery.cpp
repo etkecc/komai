@@ -8,6 +8,9 @@
 #include <QPointer>
 #include <QUrl>
 
+#include <atomic>
+#include <memory>
+#include <optional>
 #include <thread>
 
 #include <mtx/identifiers.hpp>
@@ -179,7 +182,8 @@ LoginPage::startLoginFlowDiscovery(const QString &serverNameOrUrl,
                   idps.push_back(QVariant::fromValue(provider));
               }
 
-              guard->versionOk(result->passwordSupported, result->ssoSupported, idps);
+              guard->versionOk(
+                result->passwordSupported, result->ssoSupported, result->oauthSupported, idps);
           });
     }).detach();
 }
@@ -215,10 +219,14 @@ LoginPage::versionError(const QString &error)
 }
 
 void
-LoginPage::versionOk(bool passwordSupported, bool ssoSupported, QVariantList idps)
+LoginPage::versionOk(bool passwordSupported,
+                     bool ssoSupported,
+                     bool oauthSupported,
+                     QVariantList idps)
 {
     passwordSupported_ = passwordSupported;
     ssoSupported_      = ssoSupported;
+    oauthSupported_    = oauthSupported;
     identityProviders_ = idps;
 
     lookingUpHs_     = false;
@@ -293,97 +301,179 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
             });
         }).detach();
     } else {
-        auto sso = new SSOHandler();
+        auto sso          = new SSOHandler();
+        auto oauthLoginId = std::make_shared<std::atomic<uint64_t>>(0);
         QPointer<LoginPage> guard(this);
-        connect(
-          sso, &SSOHandler::ssoSuccess, this, [this, sso, deviceName](const std::string &token) {
-              const auto initialDeviceDisplayName = deviceName.trimmed().isEmpty()
-                                                      ? QString::fromStdString(initialDeviceName_())
-                                                      : deviceName;
-              const auto existingDeviceId         = UserSettings::instance()->deviceId().trimmed();
-              if (!existingDeviceId.isEmpty())
-                  nhlog::net()->info("SSO login reusing existing device ID: {}",
-                                     existingDeviceId.toStdString());
+        const auto profileId                = UserSettings::instance()->profile();
+        const auto homeserver               = homeserver_;
+        const auto matrixId                 = userid;
+        const auto identityProviderId       = password;
+        const auto callbackUrl              = sso->url();
+        const auto initialDeviceDisplayName = deviceName.trimmed().isEmpty()
+                                                ? QString::fromStdString(initialDeviceName_())
+                                                : deviceName;
+        const auto existingDeviceId         = UserSettings::instance()->deviceId().trimmed();
+        if (!existingDeviceId.isEmpty())
+            nhlog::net()->info("SSO login reusing existing device ID: {}",
+                               existingDeviceId.toStdString());
+        const bool verifyCertificates =
+          UserSettings::instance()->networkTlsEnableCertificateValidation();
+        const bool useOauthForGenericSso =
+          oauthSupported_ && identityProviderId.trimmed().isEmpty();
 
-              QPointer<LoginPage> guard(this);
-              QPointer<SSOHandler> ssoGuard(sso);
-              const auto profileId  = UserSettings::instance()->profile();
-              const auto homeserver = homeserver_;
-              const auto loginToken = QString::fromStdString(token);
-              const bool verifyCertificates =
-                UserSettings::instance()->networkTlsEnableCertificateValidation();
+        connect(sso,
+                &SSOHandler::callbackSuccess,
+                this,
+                [this,
+                 sso,
+                 oauthLoginId,
+                 profileId,
+                 homeserver,
+                 existingDeviceId,
+                 initialDeviceDisplayName,
+                 verifyCertificates,
+                 useOauthForGenericSso](const QString &callbackQuery, const QString &loginToken) {
+                    QPointer<LoginPage> guard(this);
+                    QPointer<SSOHandler> ssoGuard(sso);
+                    const auto oauthFlowId = oauthLoginId->load(std::memory_order_relaxed);
 
-              std::thread([guard,
-                           ssoGuard,
-                           profileId,
-                           homeserver,
-                           loginToken,
-                           existingDeviceId,
-                           initialDeviceDisplayName,
-                           verifyCertificates]() {
-                  QString error;
-                  auto result = komai::MatrixAuthService::loginWithToken(profileId,
-                                                                         homeserver,
-                                                                         loginToken,
-                                                                         existingDeviceId,
-                                                                         initialDeviceDisplayName,
-                                                                         verifyCertificates,
-                                                                         &error);
+                    std::thread([guard,
+                                 ssoGuard,
+                                 oauthFlowId,
+                                 profileId,
+                                 homeserver,
+                                 callbackQuery,
+                                 loginToken,
+                                 existingDeviceId,
+                                 initialDeviceDisplayName,
+                                 verifyCertificates,
+                                 useOauthForGenericSso]() {
+                        QString error;
+                        std::optional<komai::MatrixLoginResult> result;
 
-                  QMetaObject::invokeMethod(QCoreApplication::instance(),
-                                            [guard, ssoGuard, result, error]() {
-                                                if (ssoGuard)
-                                                    ssoGuard->deleteLater();
-                                                if (!guard)
-                                                    return;
+                        if (useOauthForGenericSso) {
+                            result = komai::MatrixAuthService::finishOauthLogin(
+                              oauthFlowId, callbackQuery, &error);
+                        } else {
+                            result =
+                              komai::MatrixAuthService::loginWithToken(profileId,
+                                                                       homeserver,
+                                                                       loginToken,
+                                                                       existingDeviceId,
+                                                                       initialDeviceDisplayName,
+                                                                       verifyCertificates,
+                                                                       &error);
+                        }
 
-                                                if (!result) {
-                                                    guard->showError(error);
-                                                    return;
-                                                }
+                        QMetaObject::invokeMethod(QCoreApplication::instance(),
+                                                  [guard, ssoGuard, result, error]() {
+                                                      if (ssoGuard)
+                                                          ssoGuard->deleteLater();
+                                                      if (!guard)
+                                                          return;
 
-                                                emit guard->loginOk(*result);
-                                            });
-              }).detach();
-          });
-        connect(sso, &SSOHandler::ssoFailed, this, [this, sso]() {
+                                                      if (!result) {
+                                                          guard->showError(error);
+                                                          return;
+                                                      }
+
+                                                      emit guard->loginOk(*result);
+                                                  });
+                    }).detach();
+                });
+        connect(sso, &SSOHandler::ssoFailed, this, [this, sso, oauthLoginId]() {
+            const auto pendingOauthLoginId = oauthLoginId->exchange(0, std::memory_order_relaxed);
+            if (pendingOauthLoginId != 0) {
+                QString error;
+                if (!komai::MatrixAuthService::cancelOauthLogin(pendingOauthLoginId, &error) &&
+                    !error.isEmpty()) {
+                    nhlog::net()->warn("Failed to cancel pending OAuth login {}: {}",
+                                       pendingOauthLoginId,
+                                       error.toStdString());
+                }
+            }
+
             showError(tr("SSO login failed"));
             sso->deleteLater();
         });
 
-        // password doubles as the idp id for SSO login
         QPointer<SSOHandler> ssoGuard(sso);
-        const auto homeserver         = homeserver_;
-        const auto identityProviderId = password;
-        const auto callbackUrl        = QString::fromStdString(sso->url());
-        const bool verifyCertificates =
-          UserSettings::instance()->networkTlsEnableCertificateValidation();
-        std::thread(
-          [guard, ssoGuard, homeserver, identityProviderId, callbackUrl, verifyCertificates]() {
-              QString error;
-              auto ssoUrl = komai::MatrixAuthService::getSsoLoginUrl(
-                homeserver, callbackUrl, identityProviderId, verifyCertificates, &error);
+        std::thread([guard,
+                     ssoGuard,
+                     oauthLoginId,
+                     profileId,
+                     homeserver,
+                     matrixId,
+                     identityProviderId,
+                     callbackUrl,
+                     existingDeviceId,
+                     initialDeviceDisplayName,
+                     verifyCertificates,
+                     useOauthForGenericSso]() {
+            QString error;
 
-              QMetaObject::invokeMethod(
-                QCoreApplication::instance(), [guard, ssoGuard, ssoUrl, error]() {
-                    if (!guard)
-                        return;
+            if (useOauthForGenericSso) {
+                auto oauthLogin =
+                  komai::MatrixAuthService::startOauthLogin(profileId,
+                                                            homeserver,
+                                                            callbackUrl,
+                                                            matrixId,
+                                                            existingDeviceId,
+                                                            initialDeviceDisplayName,
+                                                            verifyCertificates,
+                                                            &error);
 
-                    if (!ssoUrl) {
-                        if (ssoGuard)
-                            ssoGuard->deleteLater();
-                        guard->showError(error);
-                        return;
-                    }
+                QMetaObject::invokeMethod(
+                  QCoreApplication::instance(),
+                  [guard, ssoGuard, oauthLoginId, oauthLogin, error]() {
+                      if (!guard)
+                          return;
 
-                    if (!QDesktopServices::openUrl(QUrl(*ssoUrl))) {
-                        if (ssoGuard)
-                            ssoGuard->deleteLater();
-                        guard->showError(tr("Failed to open the SSO login page."));
-                    }
-                });
-          })
-          .detach();
+                      if (!oauthLogin) {
+                          if (ssoGuard)
+                              ssoGuard->deleteLater();
+                          guard->showError(error);
+                          return;
+                      }
+
+                      oauthLoginId->store(oauthLogin->loginId, std::memory_order_relaxed);
+
+                      if (!QDesktopServices::openUrl(QUrl(oauthLogin->loginUrl))) {
+                          QString cancelError;
+                          komai::MatrixAuthService::cancelOauthLogin(oauthLogin->loginId,
+                                                                     &cancelError);
+                          oauthLoginId->store(0, std::memory_order_relaxed);
+                          if (ssoGuard)
+                              ssoGuard->deleteLater();
+                          guard->showError(tr("Failed to open the browser sign-in page."));
+                      }
+                  });
+
+                return;
+            }
+
+            auto ssoUrl = komai::MatrixAuthService::getSsoLoginUrl(
+              homeserver, callbackUrl, identityProviderId, verifyCertificates, &error);
+
+            QMetaObject::invokeMethod(
+              QCoreApplication::instance(), [guard, ssoGuard, ssoUrl, error]() {
+                  if (!guard)
+                      return;
+
+                  if (!ssoUrl) {
+                      if (ssoGuard)
+                          ssoGuard->deleteLater();
+                      guard->showError(error);
+                      return;
+                  }
+
+                  if (!QDesktopServices::openUrl(QUrl(*ssoUrl))) {
+                      if (ssoGuard)
+                          ssoGuard->deleteLater();
+                      guard->showError(tr("Failed to open the SSO login page."));
+                  }
+              });
+        }).detach();
     }
 
     loggingIn_ = true;

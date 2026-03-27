@@ -15,13 +15,20 @@ use std::{
 };
 
 use matrix_sdk::{
+    authentication::oauth::{
+        ClientRegistrationData, UrlOrQuery,
+        registration::{ApplicationType, ClientMetadata, Localized, OAuthGrantType},
+    },
     Client, ClientBuildError, Error as MatrixSdkError, HttpError, RumaApiError,
-    ruma::api::{
-        client::{
-            error::ErrorBody,
-            session::get_login_types::v3::LoginType,
+    ruma::{
+        api::{
+            client::{
+                error::ErrorBody,
+                session::get_login_types::v3::LoginType,
+            },
+            error::FromHttpResponseError,
         },
-        error::FromHttpResponseError,
+        serde::Raw,
     },
 };
 use reqwest::Url;
@@ -39,6 +46,7 @@ pub struct MatrixLoginFlows {
     pub homeserver_url: String,
     pub password_supported: bool,
     pub sso_supported: bool,
+    pub oauth_supported: bool,
     pub identity_providers: Vec<MatrixLoginIdentityProvider>,
 }
 
@@ -58,12 +66,19 @@ pub struct MatrixSsoCallbackStatus {
     pub ready: bool,
     pub success: bool,
     pub login_token: String,
+    pub callback_query: String,
+}
+
+pub struct MatrixOauthLoginStartResult {
+    pub login_id: u64,
+    pub login_url: String,
 }
 
 #[derive(Clone)]
 struct SsoCallbackResult {
     success: bool,
     login_token: String,
+    callback_query: String,
 }
 
 struct SsoListenerEntry {
@@ -72,11 +87,39 @@ struct SsoListenerEntry {
     join_handle: Mutex<Option<thread::JoinHandle<()>>>,
 }
 
+struct PendingOAuthLogin {
+    profile_id: String,
+    client: Client,
+    initial_device_display_name: String,
+}
+
 static NEXT_SSO_LISTENER_ID: AtomicU64 = AtomicU64::new(1);
+static NEXT_OAUTH_LOGIN_ID: AtomicU64 = AtomicU64::new(1);
 
 fn sso_listeners() -> &'static Mutex<HashMap<u64, Arc<SsoListenerEntry>>> {
     static LISTENERS: OnceLock<Mutex<HashMap<u64, Arc<SsoListenerEntry>>>> = OnceLock::new();
     LISTENERS.get_or_init(|| Mutex::new(HashMap::new()))
+}
+
+fn pending_oauth_logins() -> &'static Mutex<HashMap<u64, PendingOAuthLogin>> {
+    static PENDING: OnceLock<Mutex<HashMap<u64, PendingOAuthLogin>>> = OnceLock::new();
+    PENDING.get_or_init(|| Mutex::new(HashMap::new()))
+}
+
+fn oauth_client_registration_data(redirect_uri: &Url) -> Result<ClientRegistrationData, String> {
+    let client_uri =
+        Url::parse("https://github.com/etkecc/komai").map_err(|e| format!("invalid OAuth client URI: {e}"))?;
+
+    let mut metadata = ClientMetadata::new(
+        ApplicationType::Native,
+        vec![OAuthGrantType::AuthorizationCode { redirect_uris: vec![redirect_uri.clone()] }],
+        Localized::new(client_uri, None),
+    );
+    metadata.client_name = Some(Localized::new("Komai".to_owned(), None));
+
+    let raw =
+        Raw::new(&metadata).map_err(|e| format!("failed to serialize OAuth client metadata: {e}"))?;
+    Ok(ClientRegistrationData::new(raw))
 }
 
 pub async fn discover_login_flows(
@@ -126,10 +169,27 @@ pub async fn discover_login_flows(
         password_supported = true;
     }
 
+    let oauth_supported = match client.oauth().server_metadata().await {
+        Ok(_) => true,
+        Err(error) => {
+            tracing::debug!(
+                homeserver_url = %client.homeserver(),
+                error = %error,
+                "OAuth login is unavailable for this homeserver"
+            );
+            false
+        }
+    };
+
+    if oauth_supported {
+        sso_supported = true;
+    }
+
     tracing::info!(
         homeserver_url = %client.homeserver(),
         password_supported,
         sso_supported,
+        oauth_supported,
         identity_provider_count = identity_providers.len(),
         "Discovered Matrix login flows"
     );
@@ -138,6 +198,7 @@ pub async fn discover_login_flows(
         homeserver_url: client.homeserver().to_string(),
         password_supported,
         sso_supported,
+        oauth_supported,
         identity_providers,
     })
 }
@@ -244,6 +305,7 @@ pub fn poll_sso_callback_server(listener_id: u64) -> Result<MatrixSsoCallbackSta
                 ready: false,
                 success: false,
                 login_token: String::new(),
+                callback_query: String::new(),
             });
         };
 
@@ -267,6 +329,7 @@ pub fn poll_sso_callback_server(listener_id: u64) -> Result<MatrixSsoCallbackSta
         ready: true,
         success: result.success,
         login_token: result.login_token,
+        callback_query: result.callback_query,
     })
 }
 
@@ -373,11 +436,148 @@ pub async fn login_token(
     )
 }
 
+pub async fn start_oauth_login(
+    profile_id: &str,
+    homeserver_url: &str,
+    redirect_url: &str,
+    user_id_hint: &str,
+    device_id: &str,
+    initial_device_display_name: &str,
+    verify_certificates: bool,
+) -> Result<MatrixOauthLoginStartResult, String> {
+    tracing::info!(
+        profile_id,
+        homeserver_url,
+        reusing_device_id = !device_id.trim().is_empty(),
+        verify_certificates,
+        "Starting OAuth login"
+    );
+
+    let client = build_oauth_login_client(homeserver_url, verify_certificates)
+        .await
+        .map_err(|e| format!("failed to build matrix-sdk OAuth client: {e}"))?;
+    let redirect_uri =
+        Url::parse(redirect_url).map_err(|e| format!("invalid OAuth redirect URL: {e}"))?;
+    let registration_data = oauth_client_registration_data(&redirect_uri)?;
+    let device_id = (!device_id.trim().is_empty()).then(|| device_id.trim().into());
+
+    let mut builder = client
+        .oauth()
+        .login(redirect_uri, device_id, Some(registration_data), None);
+    if !user_id_hint.trim().is_empty() {
+        builder = builder.login_hint(user_id_hint.trim().to_owned());
+    }
+
+    let authorization = builder
+        .build()
+        .await
+        .map_err(|e| format!("failed to start OAuth login: {e}"))?;
+
+    let login_id = NEXT_OAUTH_LOGIN_ID.fetch_add(1, Ordering::Relaxed);
+    pending_oauth_logins()
+        .lock()
+        .expect("poisoned OAuth login registry mutex")
+        .insert(
+            login_id,
+            PendingOAuthLogin {
+                profile_id: profile_id.to_owned(),
+                client,
+                initial_device_display_name: initial_device_display_name.to_owned(),
+            },
+        );
+
+    Ok(MatrixOauthLoginStartResult {
+        login_id,
+        login_url: authorization.url.to_string(),
+    })
+}
+
+pub async fn finish_oauth_login(
+    login_id: u64,
+    callback_query: &str,
+) -> Result<MatrixLoginResult, String> {
+    let pending = pending_oauth_logins()
+        .lock()
+        .expect("poisoned OAuth login registry mutex")
+        .remove(&login_id)
+        .ok_or_else(|| format!("unknown pending OAuth login: {login_id}"))?;
+
+    let callback_query = callback_query.trim().trim_start_matches('?').to_owned();
+    if callback_query.is_empty() {
+        return Err("OAuth callback query cannot be empty".to_owned());
+    }
+
+    pending
+        .client
+        .oauth()
+        .finish_login(UrlOrQuery::Query(callback_query))
+        .await
+        .map_err(|e| format!("failed to finish OAuth login: {e}"))?;
+
+    if !pending.initial_device_display_name.trim().is_empty()
+        && let Some(current_device_id) = pending.client.device_id()
+        && let Err(error) = pending
+            .client
+            .rename_device(current_device_id, pending.initial_device_display_name.trim())
+            .await
+    {
+        tracing::warn!(
+            login_id,
+            error = %error,
+            "Failed to set OAuth device display name after login"
+        );
+    }
+
+    let user_id = pending
+        .client
+        .user_id()
+        .ok_or_else(|| "matrix-sdk OAuth login finished without a user id".to_owned())?
+        .to_string();
+    let device_id = pending
+        .client
+        .device_id()
+        .ok_or_else(|| "matrix-sdk OAuth login finished without a device id".to_owned())?
+        .to_string();
+    let access_token = pending
+        .client
+        .session_tokens()
+        .ok_or_else(|| "matrix-sdk OAuth login finished without session tokens".to_owned())?
+        .access_token;
+
+    persist_login(
+        &pending.profile_id,
+        &pending.client,
+        user_id,
+        access_token,
+        device_id,
+    )
+}
+
+pub fn cancel_oauth_login(login_id: u64) -> Result<(), String> {
+    pending_oauth_logins()
+        .lock()
+        .expect("poisoned OAuth login registry mutex")
+        .remove(&login_id)
+        .map(|_| ())
+        .ok_or_else(|| format!("unknown pending OAuth login: {login_id}"))
+}
+
 async fn build_login_client(
     homeserver_url: &str,
     verify_certificates: bool,
 ) -> Result<Client, ClientBuildError> {
     let mut builder = Client::builder().homeserver_url(homeserver_url);
+    if !verify_certificates {
+        builder = builder.disable_ssl_verification();
+    }
+    builder.build().await
+}
+
+async fn build_oauth_login_client(
+    homeserver_url: &str,
+    verify_certificates: bool,
+) -> Result<Client, ClientBuildError> {
+    let mut builder = Client::builder().homeserver_url(homeserver_url).handle_refresh_tokens();
     if !verify_certificates {
         builder = builder.disable_ssl_verification();
     }
@@ -433,26 +633,31 @@ fn run_sso_callback_server(
 
     loop {
         if entry.stop_requested.load(Ordering::Relaxed) {
-            set_sso_callback_result(&entry, false, String::new());
+            set_sso_callback_result(&entry, false, String::new(), String::new());
             return;
         }
 
         if Instant::now() >= deadline {
-            set_sso_callback_result(&entry, false, String::new());
+            set_sso_callback_result(&entry, false, String::new(), String::new());
             return;
         }
 
         match listener.accept() {
             Ok((stream, _)) => {
                 let result = handle_sso_callback_request(stream, &success_html, &failure_html);
-                set_sso_callback_result(&entry, result.success, result.login_token);
+                set_sso_callback_result(
+                    &entry,
+                    result.success,
+                    result.login_token,
+                    result.callback_query,
+                );
                 return;
             }
             Err(error) if error.kind() == ErrorKind::WouldBlock => {
                 thread::sleep(Duration::from_millis(25));
             }
             Err(_) => {
-                set_sso_callback_result(&entry, false, String::new());
+                set_sso_callback_result(&entry, false, String::new(), String::new());
                 return;
             }
         }
@@ -466,8 +671,9 @@ fn handle_sso_callback_request(
 ) -> SsoCallbackResult {
     let _ = stream.set_read_timeout(Some(Duration::from_secs(5)));
     let request_target = read_request_target(&mut stream).unwrap_or_default();
+    let callback_query = extract_callback_query(&request_target).unwrap_or_default();
     let login_token = extract_login_token(&request_target).unwrap_or_default();
-    let success = !login_token.is_empty();
+    let success = !callback_query.is_empty();
 
     let status = if success { "200 OK" } else { "400 Bad Request" };
     let body = if success { success_html } else { failure_html };
@@ -476,6 +682,7 @@ fn handle_sso_callback_request(
     SsoCallbackResult {
         success,
         login_token,
+        callback_query,
     }
 }
 
@@ -517,6 +724,16 @@ fn extract_login_token(request_target: &str) -> Option<String> {
     })
 }
 
+fn extract_callback_query(request_target: &str) -> Option<String> {
+    let url = Url::parse(&format!("http://localhost{request_target}")).ok()?;
+    if url.path() != "/sso" {
+        return None;
+    }
+
+    let query = url.query()?.trim();
+    (!query.is_empty()).then(|| query.to_owned())
+}
+
 fn write_html_response(stream: &mut TcpStream, status: &str, body: &str) -> Result<(), std::io::Error> {
     let response = format!(
         "HTTP/1.1 {status}\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: {}\r\nCache-Control: no-store\r\nConnection: close\r\n\r\n{}",
@@ -527,7 +744,12 @@ fn write_html_response(stream: &mut TcpStream, status: &str, body: &str) -> Resu
     stream.flush()
 }
 
-fn set_sso_callback_result(entry: &Arc<SsoListenerEntry>, success: bool, login_token: String) {
+fn set_sso_callback_result(
+    entry: &Arc<SsoListenerEntry>,
+    success: bool,
+    login_token: String,
+    callback_query: String,
+) {
     let mut result = entry
         .result
         .lock()
@@ -536,6 +758,7 @@ fn set_sso_callback_result(entry: &Arc<SsoListenerEntry>, success: bool, login_t
         *result = Some(SsoCallbackResult {
             success,
             login_token,
+            callback_query,
         });
     }
 }

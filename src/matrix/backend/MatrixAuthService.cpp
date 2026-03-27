@@ -56,9 +56,19 @@ MatrixSsoCallbackStatus
 fromRustSsoCallbackStatus(const ::komai::rust::MatrixSsoCallbackStatus &status)
 {
     return MatrixSsoCallbackStatus{
-      .ready      = status.ready,
-      .success    = status.success,
-      .loginToken = QString::fromStdString(std::string(status.login_token)),
+      .ready         = status.ready,
+      .success       = status.success,
+      .loginToken    = QString::fromStdString(std::string(status.login_token)),
+      .callbackQuery = QString::fromStdString(std::string(status.callback_query)),
+    };
+}
+
+MatrixOauthLoginStartResult
+fromRustOauthLoginStartResult(const ::komai::rust::MatrixOauthLoginStartResult &result)
+{
+    return MatrixOauthLoginStartResult{
+      .loginId  = result.login_id,
+      .loginUrl = QString::fromStdString(std::string(result.login_url)),
     };
 }
 
@@ -81,6 +91,7 @@ fromRustFlows(const ::komai::rust::MatrixLoginFlows &flows)
       normalizeHomeserverUrl(QString::fromStdString(std::string(flows.homeserver_url)));
     result.passwordSupported = flows.password_supported;
     result.ssoSupported      = flows.sso_supported;
+    result.oauthSupported    = flows.oauth_supported;
 
     result.identityProviders.reserve(flows.identity_providers.size());
     for (const auto &provider : flows.identity_providers) {
@@ -180,6 +191,62 @@ MatrixAuthService::getSsoLoginUrl(const QString &homeserverUrl,
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return std::nullopt;
+    }
+}
+
+std::optional<MatrixOauthLoginStartResult>
+MatrixAuthService::startOauthLogin(const QString &profileId,
+                                   const QString &homeserverUrl,
+                                   const QString &redirectUrl,
+                                   const QString &userIdHint,
+                                   const QString &deviceId,
+                                   const QString &initialDeviceDisplayName,
+                                   bool verifyCertificates,
+                                   QString *errorOut)
+{
+    try {
+        auto result =
+          ::komai::rust::matrix_start_oauth_login(profileId.toStdString(),
+                                                  homeserverUrl.toStdString(),
+                                                  redirectUrl.toStdString(),
+                                                  userIdHint.toStdString(),
+                                                  deviceId.toStdString(),
+                                                  initialDeviceDisplayName.toStdString(),
+                                                  verifyCertificates);
+        return fromRustOauthLoginStartResult(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<MatrixLoginResult>
+MatrixAuthService::finishOauthLogin(uint64_t loginId,
+                                    const QString &callbackQuery,
+                                    QString *errorOut)
+{
+    try {
+        auto result =
+          ::komai::rust::matrix_finish_oauth_login(loginId, callbackQuery.toStdString());
+        return fromRustResult(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixAuthService::cancelOauthLogin(uint64_t loginId, QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_cancel_oauth_login(loginId);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
     }
 }
 

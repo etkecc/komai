@@ -25,6 +25,7 @@ struct MatrixLoginFlows
     QString homeserverUrl;
     bool passwordSupported = true;
     bool ssoSupported      = false;
+    bool oauthSupported    = false;
     std::vector<MatrixLoginIdentityProvider> identityProviders;
 };
 
@@ -47,6 +48,13 @@ struct MatrixSsoCallbackStatus
     bool ready   = false;
     bool success = false;
     QString loginToken;
+    QString callbackQuery;
+};
+
+struct MatrixOauthLoginStartResult
+{
+    uint64_t loginId = 0;
+    QString loginUrl;
 };
 
 class MatrixAuthService
@@ -72,6 +80,20 @@ public:
                                                  const QString &identityProviderId,
                                                  bool verifyCertificates,
                                                  QString *errorOut = nullptr);
+    static std::optional<MatrixOauthLoginStartResult>
+    startOauthLogin(const QString &profileId,
+                    const QString &homeserverUrl,
+                    const QString &redirectUrl,
+                    const QString &userIdHint,
+                    const QString &deviceId,
+                    const QString &initialDeviceDisplayName,
+                    bool verifyCertificates,
+                    QString *errorOut = nullptr);
+
+    static std::optional<MatrixLoginResult>
+    finishOauthLogin(uint64_t loginId, const QString &callbackQuery, QString *errorOut = nullptr);
+
+    static bool cancelOauthLogin(uint64_t loginId, QString *errorOut = nullptr);
 
     static std::optional<MatrixLoginResult>
     loginWithPassword(const QString &profileId,

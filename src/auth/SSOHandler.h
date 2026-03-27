@@ -6,9 +6,9 @@
 #pragma once
 
 #include <QObject>
+#include <QString>
 #include <QTimer>
 #include <cstdint>
-#include <string>
 
 class SSOHandler final : public QObject
 {
@@ -19,10 +19,10 @@ public:
 
     ~SSOHandler();
 
-    std::string url() const;
+    QString url() const;
 
 signals:
-    void ssoSuccess(std::string token);
+    void callbackSuccess(const QString &callbackQuery, const QString &loginToken);
     void ssoFailed();
 
 private:
@@ -33,5 +33,5 @@ private:
 
     QTimer pollTimer;
     uint64_t listenerId = 0;
-    std::string callbackUrl;
+    QString callbackUrl;
 };

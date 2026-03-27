@@ -30,7 +30,7 @@ SSOHandler::SSOHandler(QObject *parent)
     }
 
     listenerId  = server->listenerId;
-    callbackUrl = server->callbackUrl.toStdString();
+    callbackUrl = server->callbackUrl;
 
     connect(&pollTimer, &QTimer::timeout, this, &SSOHandler::pollStatus);
     pollTimer.setInterval(50);
@@ -50,7 +50,7 @@ SSOHandler::~SSOHandler()
     }
 }
 
-std::string
+QString
 SSOHandler::url() const
 {
     return callbackUrl;
@@ -79,7 +79,7 @@ SSOHandler::pollStatus()
     listenerId = 0;
 
     if (status->success) {
-        emit ssoSuccess(status->loginToken.toStdString());
+        emit callbackSuccess(status->callbackQuery, status->loginToken);
     } else {
         emit ssoFailed();
     }

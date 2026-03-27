@@ -108,7 +108,10 @@ signals:
 
     //! Used to trigger the corresponding slot outside of the main thread.
     void versionErrorCb(const QString &err);
-    void versionOkCb(bool passwordSupported, bool ssoSupported, QVariantList identityProviders);
+    void versionOkCb(bool passwordSupported,
+                     bool ssoSupported,
+                     bool oauthSupported,
+                     QVariantList identityProviders);
 
     void loginOk(const komai::MatrixLoginResult &res);
 
@@ -135,7 +138,10 @@ public slots:
     // Callback for errors produced during server probing
     void versionError(const QString &error_message);
     // Callback for successful server probing
-    void versionOk(bool passwordSupported, bool ssoSupported, QVariantList identityProviders);
+    void versionOk(bool passwordSupported,
+                   bool ssoSupported,
+                   bool oauthSupported,
+                   QVariantList identityProviders);
 
 private:
     void startLoginFlowDiscovery(const QString &serverNameOrUrl, const QString &expectedHomeserver);
@@ -163,6 +169,7 @@ private:
 
     bool passwordSupported_ = true;
     bool ssoSupported_      = false;
+    bool oauthSupported_    = false;
 
     bool lookingUpHs_      = false;
     bool loggingIn_        = false;

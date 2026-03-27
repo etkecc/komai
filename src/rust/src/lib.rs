@@ -247,6 +247,7 @@ mod ffi {
         homeserver_url: String,
         password_supported: bool,
         sso_supported: bool,
+        oauth_supported: bool,
         identity_providers: Vec<MatrixLoginIdentityProvider>,
     }
 
@@ -259,6 +260,12 @@ mod ffi {
         ready: bool,
         success: bool,
         login_token: String,
+        callback_query: String,
+    }
+
+    struct MatrixOauthLoginStartResult {
+        login_id: u64,
+        login_url: String,
     }
 
     unsafe extern "C++" {
@@ -587,6 +594,20 @@ mod ffi {
         ) -> Result<MatrixSsoCallbackServer>;
         fn matrix_poll_sso_callback_server(listener_id: u64) -> Result<MatrixSsoCallbackStatus>;
         fn matrix_stop_sso_callback_server(listener_id: u64) -> Result<()>;
+        fn matrix_start_oauth_login(
+            profile_id: &str,
+            homeserver_url: &str,
+            redirect_url: &str,
+            user_id_hint: &str,
+            device_id: &str,
+            initial_device_display_name: &str,
+            verify_certificates: bool,
+        ) -> Result<MatrixOauthLoginStartResult>;
+        fn matrix_finish_oauth_login(
+            login_id: u64,
+            callback_query: &str,
+        ) -> Result<MatrixLoginResult>;
+        fn matrix_cancel_oauth_login(login_id: u64) -> Result<()>;
         fn matrix_login_password(
             profile_id: &str,
             homeserver_url: &str,
@@ -1573,6 +1594,7 @@ fn matrix_discover_login_flows(
         homeserver_url: result.homeserver_url,
         password_supported: result.password_supported,
         sso_supported: result.sso_supported,
+        oauth_supported: result.oauth_supported,
         identity_providers: result
             .identity_providers
             .into_iter()
@@ -1625,12 +1647,59 @@ fn matrix_poll_sso_callback_server(
         ready: result.ready,
         success: result.success,
         login_token: result.login_token,
+        callback_query: result.callback_query,
     })
 }
 
 fn matrix_stop_sso_callback_server(listener_id: u64) -> Result<(), String> {
     logging::ensure_initialized();
     matrix_backend::auth::stop_sso_callback_server(listener_id)
+}
+
+fn matrix_start_oauth_login(
+    profile_id: &str,
+    homeserver_url: &str,
+    redirect_url: &str,
+    user_id_hint: &str,
+    device_id: &str,
+    initial_device_display_name: &str,
+    verify_certificates: bool,
+) -> Result<ffi::MatrixOauthLoginStartResult, String> {
+    let result = runtime().block_on(matrix_backend::auth::start_oauth_login(
+        profile_id,
+        homeserver_url,
+        redirect_url,
+        user_id_hint,
+        device_id,
+        initial_device_display_name,
+        verify_certificates,
+    ))?;
+
+    Ok(ffi::MatrixOauthLoginStartResult {
+        login_id: result.login_id,
+        login_url: result.login_url,
+    })
+}
+
+fn matrix_finish_oauth_login(
+    login_id: u64,
+    callback_query: &str,
+) -> Result<ffi::MatrixLoginResult, String> {
+    let result = runtime().block_on(matrix_backend::auth::finish_oauth_login(
+        login_id,
+        callback_query,
+    ))?;
+
+    Ok(ffi::MatrixLoginResult {
+        user_id: result.user_id,
+        access_token: result.access_token,
+        device_id: result.device_id,
+        homeserver_url: result.homeserver_url,
+    })
+}
+
+fn matrix_cancel_oauth_login(login_id: u64) -> Result<(), String> {
+    matrix_backend::auth::cancel_oauth_login(login_id)
 }
 
 fn matrix_login_password(

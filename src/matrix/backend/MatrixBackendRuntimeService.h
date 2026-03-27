@@ -372,6 +372,9 @@ public:
     static std::optional<MatrixVerificationSession>
     fetchVerificationSession(uint64_t handleId, const QString &flowId, QString *errorOut = nullptr);
 
+    static bool
+    clearVerificationSession(uint64_t handleId, const QString &flowId, QString *errorOut = nullptr);
+
     static bool advanceVerificationSession(uint64_t handleId,
                                            const QString &flowId,
                                            QString *errorOut = nullptr);

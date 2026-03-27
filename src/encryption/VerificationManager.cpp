@@ -152,6 +152,21 @@ VerificationManager::removeVerificationFlow(DeviceVerificationFlow *flow)
     if (!flow)
         return;
 
+    const auto flowId = flow->transactionId().trimmed();
+    if (!flowId.isEmpty()) {
+        const auto *mainWindow = MainWindow::instance();
+        const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+        if (handleId != 0) {
+            QString error;
+            if (!komai::MatrixBackendRuntimeService::clearVerificationSession(
+                  handleId, flowId, &error)) {
+                nhlog::crypto()->warn("Failed to clear matrix-sdk verification flow {}: {}",
+                                      flowId.toStdString(),
+                                      error.toStdString());
+            }
+        }
+    }
+
     activeMatrixFlowIds_.remove(flow->transactionId());
     flow->deleteLater();
 }

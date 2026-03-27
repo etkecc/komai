@@ -830,6 +830,21 @@ MatrixBackendRuntimeService::fetchVerificationSession(uint64_t handleId,
 }
 
 bool
+MatrixBackendRuntimeService::clearVerificationSession(uint64_t handleId,
+                                                      const QString &flowId,
+                                                      QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_clear_verification_session(handleId, flowId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
 MatrixBackendRuntimeService::advanceVerificationSession(uint64_t handleId,
                                                         const QString &flowId,
                                                         QString *errorOut)

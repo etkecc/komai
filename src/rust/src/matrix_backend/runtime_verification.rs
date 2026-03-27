@@ -669,6 +669,15 @@ pub async fn fetch_verification_session(
     Ok(snapshot_from_entry(flow_id, entry))
 }
 
+pub async fn clear_verification_session(handle_id: u64, flow_id: &str) -> Result<(), String> {
+    let sessions = verification_sessions_for_handle(handle_id)?;
+    let mut sessions = sessions
+        .lock()
+        .expect("poisoned matrix backend verification sessions mutex");
+    sessions.remove(flow_id);
+    Ok(())
+}
+
 pub async fn advance_verification_session(handle_id: u64, flow_id: &str) -> Result<(), String> {
     let sessions = verification_sessions_for_handle(handle_id)?;
     let mut entry = {

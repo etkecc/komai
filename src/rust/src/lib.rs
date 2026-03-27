@@ -422,6 +422,7 @@ mod ffi {
             handle_id: u64,
             flow_id: &str,
         ) -> Result<MatrixVerificationSession>;
+        fn matrix_clear_verification_session(handle_id: u64, flow_id: &str) -> Result<()>;
         fn matrix_advance_verification_session(handle_id: u64, flow_id: &str) -> Result<()>;
         fn matrix_cancel_verification_session(
             handle_id: u64,
@@ -1082,6 +1083,10 @@ fn matrix_fetch_verification_session(
         is_multi_device_verification: result.is_multi_device_verification,
         sas_numbers: result.sas_numbers,
     })
+}
+
+fn matrix_clear_verification_session(handle_id: u64, flow_id: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::clear_verification_session(handle_id, flow_id))
 }
 
 fn matrix_advance_verification_session(handle_id: u64, flow_id: &str) -> Result<(), String> {

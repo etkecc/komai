@@ -93,9 +93,9 @@ pub use device_management::{
 pub use registry::{logout_backend, start_restored_backend, stop_backend};
 pub use verification::{
     advance_verification_session, block_device, cancel_verification_session,
-    fetch_user_verification_state, fetch_verification_session, start_device_verification,
-    start_self_verification, start_user_verification, take_pending_verification_flow_ids,
-    unblock_device, unverify_device,
+    clear_verification_session, fetch_user_verification_state, fetch_verification_session,
+    start_device_verification, start_self_verification, start_user_verification,
+    take_pending_verification_flow_ids, unblock_device, unverify_device,
 };
 pub use room_actions::{
     ban_user, create_room, invite_user, join_room, kick_user, knock_room, leave_room, unban_user,

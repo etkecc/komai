@@ -120,7 +120,7 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
     connect(this, &MxcMediaProxy::metaDataChanged, [this]() { emit orientationChanged(); });
 
     connect(ChatPage::instance()->timelineManager()->rooms(),
-            &RoomlistModel::currentRoomChanged,
+            &RoomlistModel::currentRoomIdChanged,
             this,
             &MxcMediaProxy::pause);
 }

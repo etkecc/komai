@@ -390,7 +390,7 @@ Page {
             }
 
             Connections {
-                function onCurrentRoomChanged() {
+                function onCurrentRoomIdChanged() {
                     const roomId = Rooms.currentRoomId;
                     if (!roomId)
                         return;

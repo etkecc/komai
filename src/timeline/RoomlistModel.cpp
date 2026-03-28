@@ -6,6 +6,7 @@
 #include "RoomlistModel.h"
 
 #include <algorithm>
+#include <QTimer>
 
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
@@ -130,6 +131,53 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
     initLruEviction();
 }
 
+void
+RoomlistModel::emitCurrentRoomVisualStateChanged()
+{
+    emit currentRoomModelChanged();
+    emit currentRoomPreviewChanged();
+}
+
+void
+RoomlistModel::notifyCurrentRoomIdChanged()
+{
+    emit currentRoomIdChanged(currentRoomId());
+}
+
+void
+RoomlistModel::scheduleCurrentRoomVisualStateChanged()
+{
+    currentRoomVisualStateDeferred_ = false;
+    currentRoomVisualStateDeferredRoomId_.clear();
+    const auto generation = ++currentRoomVisualStateGeneration_;
+    QTimer::singleShot(0, this, [this, generation]() {
+        if (generation != currentRoomVisualStateGeneration_)
+            return;
+
+        emitCurrentRoomVisualStateChanged();
+    });
+}
+
+void
+RoomlistModel::deferCurrentRoomVisualState(const QString &roomId)
+{
+    currentRoomVisualStateGeneration_++;
+    currentRoomVisualStateDeferred_ = !roomId.isEmpty();
+    currentRoomVisualStateDeferredRoomId_ =
+      currentRoomVisualStateDeferred_ ? roomId : QString{};
+}
+
+void
+RoomlistModel::flushDeferredCurrentRoomVisualState(const QString &roomId)
+{
+    if (!currentRoomVisualStateDeferred_ || currentRoomVisualStateDeferredRoomId_ != roomId)
+        return;
+
+    currentRoomVisualStateDeferred_ = false;
+    currentRoomVisualStateDeferredRoomId_.clear();
+    emitCurrentRoomVisualStateChanged();
+}
+
 QHash<int, QByteArray>
 RoomlistModel::roleNames() const
 {
@@ -242,6 +290,9 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
     deferredStartupCurrentRoomId_.clear();
     currentRoom_ = nullptr;
     currentRoomPreview_.reset();
+    currentRoomVisualStateDeferred_ = false;
+    currentRoomVisualStateDeferredRoomId_.clear();
+    currentRoomVisualStateGeneration_++;
 
     if (clearAllDrafts) {
         if (const auto settings = UserSettings::instance())
@@ -275,6 +326,11 @@ RoomlistModel::removeRoomState(const QString &room_id, bool clearDraftForRoom)
 
     if (pendingCurrentRoomId_ == room_id)
         pendingCurrentRoomId_.clear();
+    if (currentRoomVisualStateDeferredRoomId_ == room_id) {
+        currentRoomVisualStateDeferred_ = false;
+        currentRoomVisualStateDeferredRoomId_.clear();
+        currentRoomVisualStateGeneration_++;
+    }
 }
 
 void
@@ -360,8 +416,15 @@ RoomlistModel::refreshMatrixBackendRooms()
             currentRoomPreview_ = getRoomPreviewById(selectedRoomId);
             UserSettings::instance()->setCurrentRoomId(selectedRoomId);
 
-            if (!roomPreviewEquals(previousCurrentRoomPreview, *currentRoomPreview_))
-                emit currentRoomChanged(selectedRoomId);
+            if (!roomPreviewEquals(previousCurrentRoomPreview, *currentRoomPreview_)) {
+                if (currentRoomVisualStateDeferred_ &&
+                    currentRoomVisualStateDeferredRoomId_ == selectedRoomId) {
+                    // Keep the newer preview cached, but avoid waking QML
+                    // until the active matrix timeline has its first model.
+                } else {
+                    scheduleCurrentRoomVisualStateChanged();
+                }
+            }
         } else {
             setCurrentRoom(selectedRoomId);
         }
@@ -481,7 +544,8 @@ RoomlistModel::clear()
 {
     beginResetModel();
     resetRoomCollections(true);
-    emit currentRoomChanged("");
+    notifyCurrentRoomIdChanged();
+    scheduleCurrentRoomVisualStateChanged();
     endResetModel();
 }
 

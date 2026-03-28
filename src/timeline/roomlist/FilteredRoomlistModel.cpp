@@ -131,9 +131,17 @@ FilteredRoomlistModel::FilteredRoomlistModel(RoomlistModel *model, QObject *pare
                      });
 
     connect(roomlistmodel,
-            &RoomlistModel::currentRoomChanged,
+            &RoomlistModel::currentRoomIdChanged,
             this,
-            &FilteredRoomlistModel::currentRoomChanged);
+            &FilteredRoomlistModel::currentRoomIdChanged);
+    connect(roomlistmodel,
+            &RoomlistModel::currentRoomModelChanged,
+            this,
+            &FilteredRoomlistModel::currentRoomModelChanged);
+    connect(roomlistmodel,
+            &RoomlistModel::currentRoomPreviewChanged,
+            this,
+            &FilteredRoomlistModel::currentRoomPreviewChanged);
 
     // Eagerly populate hidden tags/spaces from settings so that badge
     // computation during the first initializeSidebar() already sees them.

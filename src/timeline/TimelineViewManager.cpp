@@ -106,7 +106,7 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
     connect(rooms_, &RoomlistModel::spaceSelected, communities_, [this](QString roomId) {
         communities_->setCurrentFilterId("space:" + roomId);
     });
-    connect(rooms_, &RoomlistModel::currentRoomChanged, this, [this](const QString &) {
+    connect(rooms_, &RoomlistModel::currentRoomIdChanged, this, [this](const QString &) {
         scheduleCurrentMatrixTimelineSelectionUpdate();
     });
     connect(matrixTimelineModel_,
@@ -127,7 +127,7 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
               return;
           navHistory_.push(filterId, rooms_->currentRoomId(), true);
       });
-    connect(rooms_, &RoomlistModel::currentRoomChanged, this, [this](QString roomId) {
+    connect(rooms_, &RoomlistModel::currentRoomIdChanged, this, [this](QString roomId) {
         if (navigating_)
             return;
         navHistory_.push(communities_->currentFilterId(), roomId);

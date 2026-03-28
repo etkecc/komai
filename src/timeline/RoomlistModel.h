@@ -88,10 +88,10 @@ class RoomlistModel final : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(
-      QString currentRoomId READ currentRoomId NOTIFY currentRoomChanged RESET resetCurrentRoom)
-    Q_PROPERTY(
-      TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomChanged RESET resetCurrentRoom)
-    Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY currentRoomChanged
+      QString currentRoomId READ currentRoomId NOTIFY currentRoomIdChanged RESET resetCurrentRoom)
+    Q_PROPERTY(TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomModelChanged
+                 RESET resetCurrentRoom)
+    Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY currentRoomPreviewChanged
                  RESET resetCurrentRoom)
 public:
     enum Roles
@@ -174,7 +174,8 @@ public slots:
         currentRoom_ = nullptr;
         currentRoomPreview_.reset();
         UserSettings::instance()->setCurrentRoomId(QString());
-        emit currentRoomChanged("");
+        notifyCurrentRoomIdChanged();
+        scheduleCurrentRoomVisualStateChanged();
         scheduleLruEviction();
     }
 
@@ -183,7 +184,9 @@ private slots:
 
 signals:
     void totalUnreadMessageCountUpdated(int unreadMessages);
-    void currentRoomChanged(QString currentRoomId);
+    void currentRoomIdChanged(QString currentRoomId);
+    void currentRoomModelChanged();
+    void currentRoomPreviewChanged();
     void fetchedPreview(QString roomid, RoomInfo info);
     void spaceSelected(QString roomId);
 
@@ -218,6 +221,11 @@ private:
                                    const std::string &fromToken,
                                    int requestsDone);
     void finalizeCachedLastMessageBackfill(const QString &room_id);
+    void emitCurrentRoomVisualStateChanged();
+    void notifyCurrentRoomIdChanged();
+    void scheduleCurrentRoomVisualStateChanged();
+    void deferCurrentRoomVisualState(const QString &roomId);
+    void flushDeferredCurrentRoomVisualState(const QString &roomId);
     void invalidateCachedLastMessage(const QString &room_id);
     void addRoom(const QString &room_id,
                  bool suppressInsertNotification = false,
@@ -276,6 +284,9 @@ private:
 
     QSharedPointer<TimelineModel> currentRoom_;
     std::optional<RoomPreview> currentRoomPreview_;
+    quint64 currentRoomVisualStateGeneration_ = 0;
+    bool currentRoomVisualStateDeferred_      = false;
+    QString currentRoomVisualStateDeferredRoomId_;
     QString deferredStartupCurrentRoomId_;
     bool allowDeferredStartupCurrentRoomRestore_ = false;
     // When UI requests opening a room before sync inserts it into `models`,
@@ -300,10 +311,10 @@ class FilteredRoomlistModel final : public QSortFilterProxyModel
     QML_SINGLETON
 
     Q_PROPERTY(
-      QString currentRoomId READ currentRoomId NOTIFY currentRoomChanged RESET resetCurrentRoom)
-    Q_PROPERTY(
-      TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomChanged RESET resetCurrentRoom)
-    Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY currentRoomChanged
+      QString currentRoomId READ currentRoomId NOTIFY currentRoomIdChanged RESET resetCurrentRoom)
+    Q_PROPERTY(TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomModelChanged
+                 RESET resetCurrentRoom)
+    Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY currentRoomPreviewChanged
                  RESET resetCurrentRoom)
 public:
     FilteredRoomlistModel(RoomlistModel *model, QObject *parent = nullptr);
@@ -407,7 +418,9 @@ public slots:
     void updateGlobalExcludes();
 
 signals:
-    void currentRoomChanged(QString currentRoomId);
+    void currentRoomIdChanged(QString currentRoomId);
+    void currentRoomModelChanged();
+    void currentRoomPreviewChanged();
 
 private:
     QModelIndex sourceRowIndex(int sourceRow) const;

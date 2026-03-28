@@ -42,7 +42,8 @@ RoomlistModel::clearCurrentRoomSelection()
     currentRoom_ = nullptr;
     currentRoomPreview_.reset();
     UserSettings::instance()->setCurrentRoomId(QString());
-    emit currentRoomChanged("");
+    notifyCurrentRoomIdChanged();
+    scheduleCurrentRoomVisualStateChanged();
     scheduleLruEviction();
 }
 
@@ -54,7 +55,8 @@ RoomlistModel::activateMaterializedCurrentRoom(const QString &room_id, bool upda
     if (updateLastMessage)
         currentRoom_->updateLastMessage();
     scheduleLastReadUpdate(currentRoom_, room_id);
-    emit currentRoomChanged(room_id);
+    notifyCurrentRoomIdChanged();
+    scheduleCurrentRoomVisualStateChanged();
     scheduleCurrentRoomTimelineWarmup(room_id);
 }
 
@@ -97,7 +99,8 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
     if (manager)
         manager->primeCurrentMatrixTimelineSelection();
 
-    emit currentRoomChanged(roomid);
+    notifyCurrentRoomIdChanged();
+    deferCurrentRoomVisualState(roomid);
     if (manager)
         manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_summary_changed_emitted");
 
@@ -125,7 +128,8 @@ RoomlistModel::trySelectCurrentPreviewRoom(const QString &roomid)
         nhlog::ui()->debug("Switched to (empty): {}", currentRoomPreview_->roomid_.toStdString());
     }
 
-    emit currentRoomChanged("");
+    notifyCurrentRoomIdChanged();
+    scheduleCurrentRoomVisualStateChanged();
     if (manager)
         manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_preview_changed_emitted");
 

@@ -552,6 +552,7 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
               if (stateChanged)
                   emit guard->matrixTimelineStateChanged();
 
+              guard->rooms_->flushDeferredCurrentRoomVisualState(roomId);
               guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_refreshed");
 
               if (guard->matrixTimelineRefreshPending_ &&

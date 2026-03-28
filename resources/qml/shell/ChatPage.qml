@@ -42,7 +42,7 @@ Rectangle {
             onSinglePageModeChanged: initializePageIndex()
 
             Connections {
-                function onCurrentRoomChanged() {
+                function onCurrentRoomIdChanged() {
                     adaptiveView.initializePageIndex();
                 }
 

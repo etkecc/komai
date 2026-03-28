@@ -1797,6 +1797,7 @@ ColumnLayout {
                         property var chat: matrixTimelineList
                         property var chatRoot: root
 
+                        required property int index
                         required property string itemKind
                         required property string itemId
                         required property string eventId
@@ -1829,7 +1830,7 @@ ColumnLayout {
                         required property bool isEdited
                         required property bool isOwn
 
-                        readonly property int modelIndex: typeof index === "number" ? Number(index) : -1
+                        readonly property int modelIndex: index
                         readonly property bool isMediaItem: ["image", "video", "audio", "file", "sticker"].indexOf(itemKind) >= 0
                         readonly property string effectiveFileName: fileName.length > 0 ? fileName : (body.length > 0 ? body : qsTr("Attachment"))
                         readonly property string replySourceBody: body.length > 0 ? body : effectiveFileName

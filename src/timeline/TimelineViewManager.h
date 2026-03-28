@@ -417,6 +417,8 @@ private:
     QString activeMatrixTimelineRoomId_;
     bool matrixTimelineLoading_               = false;
     bool matrixSidebarRefreshQueued_          = false;
+    bool matrixRoomListRefreshQueued_         = false;
+    bool matrixRoomListRefreshPending_        = false;
     bool matrixTimelineSelectionUpdateQueued_ = false;
     bool matrixTimelineRefreshQueued_         = false;
     bool matrixTimelineRefreshPending_        = false;

@@ -1413,15 +1413,31 @@ TimelineViewManager::handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t ha
     if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
         return;
 
-    rooms_->refreshMatrixBackendRooms();
-    scheduleMatrixSidebarRefresh();
-
     if (waitingForFirstSync_) {
+        // First snapshot: process immediately so the room list appears without delay.
         nhlog::ui()->info("Clearing waitingForFirstSync from first matrix-sdk room-list snapshot "
                           "for handle {}",
                           handleId);
         waitingForFirstSync_ = false;
         emit waitingForFirstSyncChanged(false);
+        rooms_->refreshMatrixBackendRooms();
+        scheduleMatrixSidebarRefresh();
+        return;
+    }
+
+    // Subsequent snapshots: coalesce rapid updates so the UI thread is not
+    // blocked by repeated full model resets during the initial sync burst.
+    matrixRoomListRefreshPending_ = true;
+    if (!matrixRoomListRefreshQueued_) {
+        matrixRoomListRefreshQueued_ = true;
+        QTimer::singleShot(200, this, [this]() {
+            matrixRoomListRefreshQueued_ = false;
+            if (!matrixRoomListRefreshPending_)
+                return;
+            matrixRoomListRefreshPending_ = false;
+            rooms_->refreshMatrixBackendRooms();
+            scheduleMatrixSidebarRefresh();
+        });
     }
 }
 

@@ -179,8 +179,7 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
     // load cache on event loop
     QTimer::singleShot(0, this, [this] {
         if (showProfileSwitcherOnStartup_) {
-            setStartupStatus(tr("Starting Komai"),
-                             tr("Opening the profile chooser..."));
+            setStartupStatus(tr("Starting Komai"), tr("Opening the profile chooser..."));
             nhlog::ui()->info("Startup selector mode active, showing profile switcher page");
             emit showProfileSwitcherPageRequested();
             return;

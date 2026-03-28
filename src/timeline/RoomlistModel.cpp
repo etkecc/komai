@@ -5,8 +5,8 @@
 
 #include "RoomlistModel.h"
 
-#include <algorithm>
 #include <QTimer>
+#include <algorithm>
 
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
@@ -162,9 +162,8 @@ void
 RoomlistModel::deferCurrentRoomVisualState(const QString &roomId)
 {
     currentRoomVisualStateGeneration_++;
-    currentRoomVisualStateDeferred_ = !roomId.isEmpty();
-    currentRoomVisualStateDeferredRoomId_ =
-      currentRoomVisualStateDeferred_ ? roomId : QString{};
+    currentRoomVisualStateDeferred_       = !roomId.isEmpty();
+    currentRoomVisualStateDeferredRoomId_ = currentRoomVisualStateDeferred_ ? roomId : QString{};
 }
 
 void

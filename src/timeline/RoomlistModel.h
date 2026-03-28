@@ -89,10 +89,10 @@ class RoomlistModel final : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(
       QString currentRoomId READ currentRoomId NOTIFY currentRoomIdChanged RESET resetCurrentRoom)
-    Q_PROPERTY(TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomModelChanged
-                 RESET resetCurrentRoom)
-    Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY currentRoomPreviewChanged
-                 RESET resetCurrentRoom)
+    Q_PROPERTY(TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomModelChanged RESET
+                 resetCurrentRoom)
+    Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY
+                 currentRoomPreviewChanged RESET resetCurrentRoom)
 public:
     enum Roles
     {
@@ -312,10 +312,10 @@ class FilteredRoomlistModel final : public QSortFilterProxyModel
 
     Q_PROPERTY(
       QString currentRoomId READ currentRoomId NOTIFY currentRoomIdChanged RESET resetCurrentRoom)
-    Q_PROPERTY(TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomModelChanged
-                 RESET resetCurrentRoom)
-    Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY currentRoomPreviewChanged
-                 RESET resetCurrentRoom)
+    Q_PROPERTY(TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomModelChanged RESET
+                 resetCurrentRoom)
+    Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY
+                 currentRoomPreviewChanged RESET resetCurrentRoom)
 public:
     FilteredRoomlistModel(RoomlistModel *model, QObject *parent = nullptr);
 

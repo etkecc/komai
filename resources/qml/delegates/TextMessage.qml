@@ -24,6 +24,7 @@ LitehtmlItem {
     readonly property int maxCollapsedHeight: timelineViewportHeight > 0 ? Math.max(150, Math.round(timelineViewportHeight * 0.5)) : 300
     readonly property bool collapsible: !isReply && implicitHeight > maxCollapsedHeight
     property bool collapsed: true
+    readonly property real collapseControlsHeight: collapseControlsLoader.item ? collapseControlsLoader.item.implicitHeight : 0
     // Overflow to extend "Show more" bar to bubble container edges.
     // Parent chain: TextMessage → Column → contentItem → messageBubble.
     readonly property real collapseOverflowH: {
@@ -35,7 +36,7 @@ LitehtmlItem {
         return (bubble && typeof bubble.bottomPadding === "number") ? bubble.bottomPadding : 0;
     }
 
-    height: collapsible ? (collapsed ? maxCollapsedHeight : implicitHeight + showMoreBar.implicitHeight) : implicitHeight
+    height: collapsible ? (collapsed ? maxCollapsedHeight : implicitHeight + collapseControlsHeight) : implicitHeight
     // No QML clip — QQuickPaintedItem naturally clips paint output to its
     // bounds; omitting clip lets child overlays (gradient, "Show more" bar)
     // extend beyond with negative margins.
@@ -71,21 +72,28 @@ LitehtmlItem {
         Komai.openLink(link);
     }
 
-    TextMetrics {
-        id: linkMetrics
-        text: Komai.punyLink(hoveredLink)
-    }
+    Loader {
+        active: hoveredLink.length > 0
+        sourceComponent: Component {
+            Item {
+                TextMetrics {
+                    id: linkMetrics
+                    text: Komai.punyLink(litehtmlRoot.hoveredLink)
+                }
 
-    KomaiToolTip {
-        anchorItem: litehtmlRoot
-        anchorX: hoverPoint.x
-        anchorY: hoverPoint.y
-        gapX: Komai.paddingMedium
-        gapY: Komai.paddingMedium
-        text: linkMetrics.text
-        requestedVisible: hoveredLink.length > 0
-        width: Math.min(linkMetrics.advanceWidth + leftPadding + rightPadding,
-                        (litehtmlRoot.Window.window ? litehtmlRoot.Window.window.width : 500) * 0.5)
+                KomaiToolTip {
+                    anchorItem: litehtmlRoot
+                    anchorX: litehtmlRoot.hoverPoint.x
+                    anchorY: litehtmlRoot.hoverPoint.y
+                    gapX: Komai.paddingMedium
+                    gapY: Komai.paddingMedium
+                    text: linkMetrics.text
+                    requestedVisible: litehtmlRoot.hoveredLink.length > 0
+                    width: Math.min(linkMetrics.advanceWidth + leftPadding + rightPadding,
+                                    (litehtmlRoot.Window.window ? litehtmlRoot.Window.window.width : 500) * 0.5)
+                }
+            }
+        }
     }
 
     HoverHandler {
@@ -99,80 +107,88 @@ LitehtmlItem {
     }
 
     // Gradient fade overlay when collapsed
-    Rectangle {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.leftMargin: -litehtmlRoot.collapseOverflowH
-        anchors.rightMargin: -litehtmlRoot.collapseOverflowH
-        anchors.bottomMargin: -litehtmlRoot.collapseOverflowV
-        height: 60
-        visible: litehtmlRoot.collapsible && litehtmlRoot.collapsed
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "transparent" }
-            GradientStop { position: 1.0; color: palette.base }
+    Loader {
+        active: litehtmlRoot.collapsible && litehtmlRoot.collapsed
+        sourceComponent: Component {
+            Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.leftMargin: -litehtmlRoot.collapseOverflowH
+                anchors.rightMargin: -litehtmlRoot.collapseOverflowH
+                anchors.bottomMargin: -litehtmlRoot.collapseOverflowV
+                height: 60
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: "transparent" }
+                    GradientStop { position: 1.0; color: palette.base }
+                }
+            }
         }
     }
 
     // "Show more" action bar (styled like room header toolbar buttons)
-    AbstractButton {
-        id: showMoreBar
+    Loader {
+        id: collapseControlsLoader
+        active: litehtmlRoot.collapsible
+        sourceComponent: Component {
+            AbstractButton {
+                id: showMoreBar
+                readonly property bool active: hovered || pressed
+                readonly property color foreground: active ? palette.brightText : palette.buttonText
+                readonly property int iconSize: 12
 
-        readonly property bool active: hovered || pressed
-        readonly property color foreground: active ? palette.brightText : palette.buttonText
-        readonly property int iconSize: 12
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.leftMargin: -litehtmlRoot.collapseOverflowH
+                anchors.rightMargin: -litehtmlRoot.collapseOverflowH
+                anchors.bottomMargin: -litehtmlRoot.collapseOverflowV
+                hoverEnabled: true
+                leftPadding: Komai.paddingSmall
+                rightPadding: Komai.paddingSmall
+                topPadding: Komai.paddingMedium
+                bottomPadding: Komai.paddingMedium
+                z: 1
 
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.leftMargin: -litehtmlRoot.collapseOverflowH
-        anchors.rightMargin: -litehtmlRoot.collapseOverflowH
-        anchors.bottomMargin: -litehtmlRoot.collapseOverflowV
-        visible: litehtmlRoot.collapsible
-        hoverEnabled: true
-        leftPadding: Komai.paddingSmall
-        rightPadding: Komai.paddingSmall
-        topPadding: Komai.paddingMedium
-        bottomPadding: Komai.paddingMedium
-        z: 1
-
-        background: Rectangle {
-            radius: Komai.paddingSmall
-            color: showMoreBar.active ? palette.dark : palette.alternateBase
-            border.color: Komai.theme.separator
-            border.width: 1
-        }
-
-        contentItem: Item {
-            implicitHeight: showMoreRow.implicitHeight
-
-            Row {
-                id: showMoreRow
-
-                anchors.centerIn: parent
-                spacing: Komai.paddingSmall
-
-                Image {
-                    source: "image://colorimage/:/icons/icons/ui/" + (litehtmlRoot.collapsed ? "chevron-circle-down.svg" : "chevron-circle-up.svg") + "?" + showMoreBar.foreground
-                    sourceSize.height: showMoreBar.iconSize
-                    sourceSize.width: showMoreBar.iconSize
-                    anchors.verticalCenter: parent.verticalCenter
+                background: Rectangle {
+                    radius: Komai.paddingSmall
+                    color: parent.active ? palette.dark : palette.alternateBase
+                    border.color: Komai.theme.separator
+                    border.width: 1
                 }
 
-                Label {
-                    text: litehtmlRoot.collapsed ? qsTr("Show more") : qsTr("Show less")
-                    color: showMoreBar.foreground
-                    font.bold: true
-                    anchors.verticalCenter: parent.verticalCenter
+                contentItem: Item {
+                    implicitHeight: showMoreRow.implicitHeight
+
+                    Row {
+                        id: showMoreRow
+
+                        anchors.centerIn: parent
+                        spacing: Komai.paddingSmall
+
+                        Image {
+                            source: "image://colorimage/:/icons/icons/ui/" + (litehtmlRoot.collapsed ? "chevron-circle-down.svg" : "chevron-circle-up.svg") + "?" + showMoreBar.foreground
+                            sourceSize.height: showMoreBar.iconSize
+                            sourceSize.width: showMoreBar.iconSize
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        Label {
+                            text: litehtmlRoot.collapsed ? qsTr("Show more") : qsTr("Show less")
+                            color: showMoreBar.foreground
+                            font.bold: true
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                    }
+                }
+
+                onClicked: litehtmlRoot.collapsed = !litehtmlRoot.collapsed
+
+                KomaiCursorShape {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
                 }
             }
-        }
-
-        onClicked: litehtmlRoot.collapsed = !litehtmlRoot.collapsed
-
-        KomaiCursorShape {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
         }
     }
 

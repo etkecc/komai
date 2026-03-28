@@ -66,6 +66,10 @@ ColumnLayout {
     property bool initialTimelineBufferPending: false
     property bool deferredInitialBufferTopUpPending: false
     property bool bufferPaginationInFlight: false
+    property bool initialBufferCheckQueued: false
+    property bool deferredBufferCheckQueued: false
+    property int initialBufferCheckGeneration: 0
+    property int deferredBufferCheckGeneration: 0
     property bool perfLoggedCountNonZero: false
     property bool perfLoggedContentHeightReady: false
     property bool perfLoggedUsefulHeightReady: false
@@ -100,20 +104,42 @@ ColumnLayout {
         timelineList: matrixTimelineList
     }
 
-    // Debounce buffer-fill checks so the layout has time to settle
-    // before we decide whether more items are needed.  Without this,
-    // transient contentHeight values (e.g. 536 while 18 items are
-    // still rendering) cause premature paginate requests.
-    Timer {
-        id: bufferCheckTimer
-        interval: 35
-        onTriggered: root.maybeRequestInitialTimelineBuffer()
+    function scheduleInitialTimelineBufferCheck() {
+        initialBufferCheckGeneration += 1;
+        if (initialBufferCheckQueued)
+            return;
+
+        initialBufferCheckQueued = true;
+        const scheduledGeneration = initialBufferCheckGeneration;
+        Qt.callLater(function() {
+            initialBufferCheckQueued = false;
+            if (scheduledGeneration !== initialBufferCheckGeneration) {
+                if (initialTimelineBufferPending)
+                    scheduleInitialTimelineBufferCheck();
+                return;
+            }
+
+            maybeRequestInitialTimelineBuffer();
+        });
     }
 
-    Timer {
-        id: deferredBufferCheckTimer
-        interval: 140
-        onTriggered: root.maybeRequestDeferredInitialTimelineBuffer()
+    function scheduleDeferredInitialTimelineBufferCheck() {
+        deferredBufferCheckGeneration += 1;
+        if (deferredBufferCheckQueued)
+            return;
+
+        deferredBufferCheckQueued = true;
+        const scheduledGeneration = deferredBufferCheckGeneration;
+        Qt.callLater(function() {
+            deferredBufferCheckQueued = false;
+            if (scheduledGeneration !== deferredBufferCheckGeneration) {
+                if (deferredInitialBufferTopUpPending)
+                    scheduleDeferredInitialTimelineBufferCheck();
+                return;
+            }
+
+            maybeRequestDeferredInitialTimelineBuffer();
+        });
     }
 
     Timer {
@@ -966,7 +992,11 @@ ColumnLayout {
             }
             root.roomSwitchInProgress = false;
 
-            if (matrixTimelineList.contentHeight >= desiredBufferedHeight) {
+            if (matrixTimelineList.contentHeight >= desiredBufferedHeight
+                    || isInitialBufferCloseEnough(
+                        viewportHeight,
+                        matrixTimelineList.contentHeight,
+                        averageRowHeight)) {
                 if (!perfLoggedBufferFilled) {
                     perfLoggedBufferFilled = true;
                     root.markRoomSwitchPerfPhase("qml.matrix_room.buffer_filled");
@@ -979,7 +1009,8 @@ ColumnLayout {
                 deferredInitialBufferTopUpPending = false;
                 bufferPaginationInFlight = false;
                 lastInitialBufferTriggerCount = -1;
-                deferredBufferCheckTimer.stop();
+                deferredBufferCheckGeneration += 1;
+                deferredBufferCheckQueued = false;
                 return;
             }
 
@@ -987,7 +1018,7 @@ ColumnLayout {
             // interactive and continue the final backfill one beat later.
             initialTimelineBufferPending = false;
             deferredInitialBufferTopUpPending = true;
-            deferredBufferCheckTimer.restart();
+            scheduleDeferredInitialTimelineBufferCheck();
             return;
         }
 
@@ -1033,6 +1064,12 @@ ColumnLayout {
         return Math.max(15, Math.min(50, Math.ceil(desiredBufferedHeight / averageRowHeight)));
     }
 
+    function isInitialBufferCloseEnough(viewportHeight, contentHeight, averageRowHeight) {
+        const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.25, 320);
+        const toleratedShortfall = Math.max(96, Math.min(averageRowHeight * 3, 240));
+        return contentHeight >= desiredBufferedHeight - toleratedShortfall;
+    }
+
     function updatePreferredInitialTimelinePageSize() {
         const pageSize = estimatedInitialTimelinePageSize();
         if (pageSize > 0)
@@ -1055,7 +1092,11 @@ ColumnLayout {
 
         const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.25, 320);
         const averageRowHeight = Math.max(56, Math.round(Settings.uiFontSizePt * 4.5));
-        if (matrixTimelineList.contentHeight >= desiredBufferedHeight) {
+        if (matrixTimelineList.contentHeight >= desiredBufferedHeight
+                || isInitialBufferCloseEnough(
+                    viewportHeight,
+                    matrixTimelineList.contentHeight,
+                    averageRowHeight)) {
             if (!perfLoggedBufferFilled) {
                 perfLoggedBufferFilled = true;
                 root.markRoomSwitchPerfPhase("qml.matrix_room.buffer_filled");
@@ -1540,7 +1581,7 @@ ColumnLayout {
                             keepPinnedToBottom = true;
                             if (atYEnd) {
                                 root.initialBottomPinPending = false;
-                                bufferCheckTimer.restart();
+                                root.scheduleInitialTimelineBufferCheck();
 
                             }
                             return;
@@ -1643,7 +1684,8 @@ ColumnLayout {
                                     root.initialTimelineBufferPending = false;
                                 if (root.deferredInitialBufferTopUpPending)
                                     root.deferredInitialBufferTopUpPending = false;
-                                deferredBufferCheckTimer.stop();
+                                deferredBufferCheckGeneration += 1;
+                                deferredBufferCheckQueued = false;
                             }
                             wheelSettleTimer.restart();
                         }
@@ -1690,7 +1732,8 @@ ColumnLayout {
                                 root.initialTimelineBufferPending = false;
                             if (root.deferredInitialBufferTopUpPending)
                                 root.deferredInitialBufferTopUpPending = false;
-                            deferredBufferCheckTimer.stop();
+                            deferredBufferCheckGeneration += 1;
+                            deferredBufferCheckQueued = false;
                         }
 
                         // Do NOT call updateBottomPin() here.  Transient
@@ -1725,9 +1768,9 @@ ColumnLayout {
                             updateLastScroll();
                         }
                         if (root.deferredInitialBufferTopUpPending)
-                            deferredBufferCheckTimer.restart();
+                            scheduleDeferredInitialTimelineBufferCheck();
                         else
-                            bufferCheckTimer.restart();
+                            scheduleInitialTimelineBufferCheck();
                     }
                     onHeightChanged: {
                         root.updatePreferredInitialTimelinePageSize();
@@ -1742,9 +1785,9 @@ ColumnLayout {
                             updateLastScroll();
                         }
                         if (root.deferredInitialBufferTopUpPending)
-                            deferredBufferCheckTimer.restart();
+                            scheduleDeferredInitialTimelineBufferCheck();
                         else
-                            bufferCheckTimer.restart();
+                            scheduleInitialTimelineBufferCheck();
                     }
                     onCountChanged: {
                         // Pagination delivered new items — allow buffer
@@ -1765,9 +1808,9 @@ ColumnLayout {
                         updateLastScroll();
                         Qt.callLater(updateStableThumbSize);
                         if (root.deferredInitialBufferTopUpPending)
-                            deferredBufferCheckTimer.restart();
+                            scheduleDeferredInitialTimelineBufferCheck();
                         else
-                            bufferCheckTimer.restart();
+                            scheduleInitialTimelineBufferCheck();
                         root.scheduleReadMarkerUpdate(!userUnpinned
                             && (forceScroll || keepPinnedToBottom || root.initialBottomPinPending || atYEnd));
                         previousCount = count;
@@ -2562,9 +2605,9 @@ ColumnLayout {
         function onMatrixTimelineStateChanged() {
             root.ensureInitialBottomPin();
             if (root.deferredInitialBufferTopUpPending)
-                deferredBufferCheckTimer.restart();
+                root.scheduleDeferredInitialTimelineBufferCheck();
             else
-                bufferCheckTimer.restart();
+                root.scheduleInitialTimelineBufferCheck();
 
             if (!root.restoringEditDraft || root.activeEditEventId.length > 0)
                 return;
@@ -2612,7 +2655,8 @@ ColumnLayout {
         lastMarkedReadEventId = "";
         lastInitialBufferTriggerCount = -1;
         visibleTimelineDelegates = ({});
-        deferredBufferCheckTimer.stop();
+        deferredBufferCheckGeneration += 1;
+        deferredBufferCheckQueued = false;
         if (activeRoomId.length > 0)
             root.markRoomSwitchPerfPhase("qml.matrix_room.active_room_changed");
         if (!matrixTimelineList)
@@ -2633,9 +2677,9 @@ ColumnLayout {
             root.markRoomSwitchPerfPhase("qml.matrix_room.loading_false");
             ensureInitialBottomPin();
             if (root.deferredInitialBufferTopUpPending)
-                deferredBufferCheckTimer.restart();
+                root.scheduleDeferredInitialTimelineBufferCheck();
             else
-                bufferCheckTimer.restart();
+                root.scheduleInitialTimelineBufferCheck();
         }
     }
 }

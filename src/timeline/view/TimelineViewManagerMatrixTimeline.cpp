@@ -135,13 +135,14 @@ estimatedInitialMatrixTimelinePageSize(double viewportHeight)
     if (viewportHeight <= 0)
         return 0;
 
-    const auto *settings             = UserSettings::instance().get();
-    const auto fontSizePt            = settings ? settings->uiFontSizePt() : 13.0;
-    const auto desiredBufferedHeight = viewportHeight + std::min(viewportHeight * 0.25, 320.0);
-    const auto averageRowHeight      = std::max(56.0, std::round(fontSizePt * 4.5));
+    const auto *settings        = UserSettings::instance().get();
+    const auto fontSizePt       = settings ? settings->uiFontSizePt() : 13.0;
+    const auto bufferedHeadroom = std::min(viewportHeight * 0.15, fontSizePt * 16.0);
+    const auto desiredBufferedHeight = viewportHeight + bufferedHeadroom;
+    const auto averageRowHeight      = std::max(56.0, std::round(fontSizePt * 5.25));
 
     return std::clamp(
-      static_cast<int>(std::ceil(desiredBufferedHeight / averageRowHeight)), 15, 50);
+      static_cast<int>(std::ceil(desiredBufferedHeight / averageRowHeight)), 15, 40);
 }
 
 int
@@ -158,6 +159,17 @@ fallbackInitialMatrixTimelinePageSize()
       std::max(0.0, static_cast<double>(mainWindow->height()) - chromeAllowance);
 
     return estimatedInitialMatrixTimelinePageSize(approximateViewportHeight);
+}
+
+bool
+shouldIgnoreMatrixTimelineWarmupShrink(int currentCount, int nextCount)
+{
+    if (currentCount <= 0 || nextCount >= currentCount)
+        return false;
+
+    const auto minimumAcceptedCount =
+      std::max(1, static_cast<int>(std::floor(static_cast<double>(currentCount) * 0.8)));
+    return nextCount < minimumAcceptedCount;
 }
 }
 
@@ -250,6 +262,16 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     setPreferredInitialMatrixTimelinePageSize(preferredInitialMatrixTimelinePageSize_ > 0
                                                 ? preferredInitialMatrixTimelinePageSize_
                                                 : fallbackInitialMatrixTimelinePageSize());
+
+    const auto warmupGeneration = ++matrixTimelineWarmupGuardGeneration_;
+    matrixTimelineWarmupGuardActive_ = true;
+    QTimer::singleShot(1500, this, [this, roomId, warmupGeneration]() {
+        if (matrixTimelineWarmupGuardGeneration_ != warmupGeneration)
+            return;
+        if (activeMatrixTimelineRoomId_ != roomId)
+            return;
+        matrixTimelineWarmupGuardActive_ = false;
+    });
 
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_select_begin");
     QString error;
@@ -459,6 +481,26 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
                                               guard->matrixTimelineModel_->count() == 0 &&
                                               !guard->matrixTimelineInitialPrefetchAttempted_;
               const auto itemCount = items->size();
+              const auto currentModelCount =
+                guard->matrixTimelineModel_ ? guard->matrixTimelineModel_->count() : 0;
+              if (guard->matrixTimelineWarmupGuardActive_ &&
+                  shouldIgnoreMatrixTimelineWarmupShrink(currentModelCount, itemCount)) {
+                  if (guard->roomSwitchPerfEnabled()) {
+                      nhlog::ui()->info(
+                        "[room-switch-perf] phase=cpp.matrix_timeline_warmup_shrink_ignored "
+                        "room='{}' current_count={} next_count={}",
+                        roomId.toStdString(),
+                        currentModelCount,
+                        itemCount);
+                  }
+
+                  if (guard->matrixTimelineRefreshPending_ &&
+                      guard->matrixTimelineRefreshPendingRoomId_ == roomId) {
+                      guard->scheduleCurrentMatrixTimelineRefresh();
+                  }
+                  return;
+              }
+
               if (canDelayFirstPaint && itemCount > 0 && itemCount < preferredInitialPageSize) {
                   const auto shortfall =
                     std::clamp(static_cast<int>(preferredInitialPageSize - itemCount), 1, 24);
@@ -550,6 +592,9 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
         matrixTimelineLoading_ = false;
         stateChanged           = true;
     }
+
+    matrixTimelineWarmupGuardActive_ = false;
+    ++matrixTimelineWarmupGuardGeneration_;
 
     if (!matrixTimelinePinnedEventIds_.isEmpty()) {
         matrixTimelinePinnedEventIds_.clear();

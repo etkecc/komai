@@ -502,6 +502,10 @@ mod ffi {
             guest_access: bool,
             allowed_room_ids: &Vec<String>,
         ) -> Result<()>;
+        fn matrix_set_active_room_timeline_initial_page_size(
+            handle_id: u64,
+            page_size: u16,
+        ) -> Result<()>;
         fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<()>;
         fn matrix_fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTimelineItem>>;
         fn matrix_paginate_active_room_timeline_backwards(
@@ -1365,6 +1369,14 @@ fn matrix_set_room_access_rules(
 fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
     logging::ensure_initialized();
     matrix_backend::runtime::select_active_room_timeline(handle_id, room_id)
+}
+
+fn matrix_set_active_room_timeline_initial_page_size(
+    handle_id: u64,
+    page_size: u16,
+) -> Result<(), String> {
+    logging::ensure_initialized();
+    matrix_backend::runtime::set_active_room_timeline_initial_page_size(handle_id, page_size)
 }
 
 fn matrix_fetch_active_room_timeline(

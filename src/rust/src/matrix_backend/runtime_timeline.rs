@@ -24,7 +24,14 @@ use std::{fs, path::Path};
 pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
     let room_id = room_id.trim();
 
-    let (client, room_timeline_snapshot, room_timeline_media_lookup, previous_task, generation) = {
+    let (
+        client,
+        room_timeline_snapshot,
+        room_timeline_media_lookup,
+        previous_task,
+        generation,
+        initial_page_size,
+    ) = {
         let mut handles = backend_handles()
             .lock()
             .expect("poisoned matrix backend handle registry mutex");
@@ -65,6 +72,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             Arc::clone(&handle.room_timeline_media_lookup),
             previous_task,
             generation,
+            handle.preferred_room_timeline_initial_page_size,
         )
     };
 
@@ -88,6 +96,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             generation,
             client,
             room_id_for_thread,
+            initial_page_size,
             room_timeline_snapshot,
             room_timeline_media_lookup,
             command_receiver,
@@ -113,6 +122,22 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
         room_id = %room_id_owned,
         "Started matrix-sdk room timeline task"
     );
+    Ok(())
+}
+
+pub fn set_active_room_timeline_initial_page_size(
+    handle_id: u64,
+    page_size: u16,
+) -> Result<(), String> {
+    let mut handles = backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex");
+    let Some(handle) = handles.get_mut(&handle_id) else {
+        return Err(format!("matrix-sdk backend runtime handle {handle_id} is not active"));
+    };
+
+    let clamped_page_size = page_size.clamp(ROOM_TIMELINE_INITIAL_PAGE_SIZE, ROOM_TIMELINE_PAGE_SIZE);
+    handle.preferred_room_timeline_initial_page_size = clamped_page_size;
     Ok(())
 }
 
@@ -924,6 +949,7 @@ async fn run_room_timeline_loop(
     generation: u64,
     client: Client,
     room_id: String,
+    initial_page_size: u16,
     room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
     room_timeline_media_lookup: Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
     mut commands: mpsc::UnboundedReceiver<MatrixBackendRoomTimelineCommand>,
@@ -985,17 +1011,13 @@ async fn run_room_timeline_loop(
         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
     }
 
-    let initial_page_size = ROOM_TIMELINE_INITIAL_PAGE_SIZE;
     tracing::info!(
         handle_id,
         room_id,
         initial_page_size,
         "Requesting initial backwards pagination"
     );
-    if let Err(error) = timeline
-           .paginate_backwards(ROOM_TIMELINE_INITIAL_PAGE_SIZE)
-           .await
-    {
+    if let Err(error) = timeline.paginate_backwards(initial_page_size).await {
         tracing::warn!(
             handle_id,
             room_id,

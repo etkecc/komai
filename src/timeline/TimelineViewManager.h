@@ -420,6 +420,8 @@ private:
     QString matrixTimelineRefreshPendingRoomId_;
     quint64 matrixTimelineRefreshRequestId_         = 0;
     quint64 matrixTimelineRefreshInFlightRequestId_ = 0;
+    quint64 matrixTimelineWarmupGuardGeneration_    = 0;
+    bool matrixTimelineWarmupGuardActive_           = false;
     QString matrixTimelineRefreshInFlightRoomId_;
     int preferredInitialMatrixTimelinePageSize_  = 0;
     bool matrixTimelineInitialPrefetchAttempted_ = false;

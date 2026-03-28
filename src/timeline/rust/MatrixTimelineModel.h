@@ -62,7 +62,9 @@ public:
     std::optional<MatrixTimelineItem> itemByEventId(const QString &eventId) const;
 
     int count() const { return items_.size(); }
+    int hiddenCount() const;
     bool redactItemByEventId(const QString &eventId);
+    bool revealOlderItems(int additionalCount);
     void replaceItems(QVector<MatrixTimelineItem> items);
     void clear();
 
@@ -70,9 +72,11 @@ signals:
     void countChanged();
 
 private:
+    void replaceVisibleItems(QVector<MatrixTimelineItem> items);
     void applyRedactedPresentation(MatrixTimelineItem &item) const;
     void applyOptimisticRedactions(QVector<MatrixTimelineItem> &items);
 
+    QVector<MatrixTimelineItem> allItems_;
     QVector<MatrixTimelineItem> items_;
     QSet<QString> optimisticRedactedEventIds_;
 };

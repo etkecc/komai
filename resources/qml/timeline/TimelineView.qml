@@ -23,14 +23,55 @@ Item {
     readonly property bool perfDisableTimelineList: TimelineManager.perfUiFlagEnabled("disable_timeline_list")
     readonly property bool useMatrixRoomView: !room && roomPreview && roomPreview.isMatrixSummary
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
-    readonly property var notificationAreaItem: matrixRoomView.visible
-        ? (matrixRoomView.notificationAreaItem ? matrixRoomView.notificationAreaItem : matrixRoomView)
-        : msgView
-    readonly property var notificationAvoidBottomItem: bottomInputShell.visible ? bottomInputShell
-        : (matrixRoomView.visible ? matrixRoomView.composerShell : null)
+    readonly property var legacyTimeline: legacyTimelineLoader.item
+    readonly property var legacyRoomHeader: legacyTimeline ? legacyTimeline.roomHeader : null
+    readonly property var legacyMessageView: legacyTimeline ? legacyTimeline.messageViewItem : null
+    readonly property var legacyMessageInput: legacyTimeline ? legacyTimeline.messageInputItem : null
+    readonly property var matrixTimeline: matrixRoomLoader.item
+    readonly property bool activeSearchHasFocus: useMatrixRoomView
+        ? (!!matrixTimeline && !!matrixTimeline.headerSearchHasFocus)
+        : (!!legacyRoomHeader && !!legacyRoomHeader.searchHasFocus)
+    readonly property bool activeWalkModeActive: useMatrixRoomView
+        ? (!!matrixTimeline && !!matrixTimeline.walkModeActive)
+        : (!!legacyMessageView && !!legacyMessageView.walkModeActive)
+    readonly property var notificationAreaItem: matrixRoomLoader.active && matrixTimeline
+        ? (matrixTimeline.notificationAreaItem ? matrixTimeline.notificationAreaItem : matrixTimeline)
+        : (legacyTimeline ? legacyTimeline.notificationAreaItem : null)
+    readonly property var notificationAvoidBottomItem: matrixRoomLoader.active && matrixTimeline
+        ? matrixTimeline.composerShell
+        : (legacyTimeline ? legacyTimeline.notificationAvoidBottomItem : null)
 
     ComponentCatalog {
         id: componentCatalog
+    }
+
+    QtObject {
+        id: matrixTimelineHost
+
+        readonly property var dialogHost: timelineView.dialogHost
+        readonly property real listViewDisplayMargin: timelineView.matrixTimeline
+            && timelineView.matrixTimeline.listViewDisplayMargin !== undefined
+            ? Number(timelineView.matrixTimeline.listViewDisplayMargin)
+            : 0
+        readonly property real listViewCacheBuffer: timelineView.matrixTimeline
+            && timelineView.matrixTimeline.listViewCacheBuffer !== undefined
+            ? Number(timelineView.matrixTimeline.listViewCacheBuffer)
+            : 320
+        readonly property bool roomSwitchInProgress: timelineView.matrixTimeline
+            ? !!timelineView.matrixTimeline.roomSwitchInProgress
+            : false
+
+        function clearSearch() {
+            if (timelineView.matrixTimeline && typeof timelineView.matrixTimeline.clearSearch === "function")
+                timelineView.matrixTimeline.clearSearch();
+        }
+
+        function openWalkModeHelpDialog() {
+            return timelineView.matrixTimeline
+                && typeof timelineView.matrixTimeline.openWalkModeHelpDialog === "function"
+                ? timelineView.matrixTimeline.openWalkModeHelpDialog()
+                : false;
+        }
     }
 
     clip: true
@@ -41,8 +82,8 @@ Item {
                 && event.text
                 && event.key !== Qt.Key_Enter
                 && event.key !== Qt.Key_Return
-                && !topBar.searchHasFocus
-                && !messageView.walkModeActive) {
+                && !activeSearchHasFocus
+                && !activeWalkModeActive) {
             TimelineManager.focusMessageInput();
             if (event.modifiers != Qt.ControlModifier) {
                 room.input.setText(room.input.text + event.text);
@@ -51,12 +92,11 @@ Item {
                 && event.text
                 && event.key !== Qt.Key_Enter
                 && event.key !== Qt.Key_Return
-                && !topBar.searchHasFocus
-                && !messageView.walkModeActive) {
+                && !activeSearchHasFocus
+                && !activeWalkModeActive) {
             TimelineManager.focusMessageInput();
-            if (event.modifiers !== Qt.ControlModifier) {
-                matrixRoomView.appendText(event.text);
-            }
+            if (event.modifiers !== Qt.ControlModifier && matrixTimeline)
+                matrixTimeline.appendText(event.text);
         }
     }
     onRoomChanged: {
@@ -88,204 +128,237 @@ Item {
     TimelineFirstSyncSpinner {
         waitingForFirstSync: TimelineManager.waitingForFirstSync
     }
-    ColumnLayout {
-        id: timelineLayout
+    Component {
+        id: legacyTimelineComponent
 
-        anchors.fill: parent
-        enabled: visible
-        spacing: 0
-        visible: room != null && !room.isSpace
+        ColumnLayout {
+            property alias roomHeader: topBar
+            property alias messageViewItem: messageView
+            property alias messageInputItem: messageInput
+            readonly property var notificationAreaItem: msgView
+            readonly property var notificationAvoidBottomItem: bottomInputShell.visible ? bottomInputShell : null
 
-        RoomHeader {
-            id: topBar
+            anchors.fill: parent
+            enabled: visible
+            spacing: 0
+            visible: true
 
-            Layout.minimumHeight: visible ? implicitHeight : 0
-            Layout.preferredHeight: visible ? implicitHeight : 0
-            Layout.maximumHeight: visible ? implicitHeight : 0
-            showBackButton: timelineView.showBackButton
-            filteringInProgress: messageView.filteringInProgress
-            visible: !timelineView.perfDisableRoomHeader
-        }
-        TimelineSeparator {
-            Layout.minimumHeight: visible ? implicitHeight : 0
-            Layout.preferredHeight: visible ? implicitHeight : 0
-            Layout.maximumHeight: visible ? implicitHeight : 0
-            visible: !timelineView.perfDisableRoomHeader
-        }
-        Rectangle {
-            id: msgView
+            RoomHeader {
+                id: topBar
 
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            color: palette.base
+                Layout.minimumHeight: visible ? implicitHeight : 0
+                Layout.preferredHeight: visible ? implicitHeight : 0
+                Layout.maximumHeight: visible ? implicitHeight : 0
+                showBackButton: timelineView.showBackButton
+                filteringInProgress: messageView.filteringInProgress
+                visible: !timelineView.perfDisableRoomHeader
+            }
+            TimelineSeparator {
+                Layout.minimumHeight: visible ? implicitHeight : 0
+                Layout.preferredHeight: visible ? implicitHeight : 0
+                Layout.maximumHeight: visible ? implicitHeight : 0
+                visible: !timelineView.perfDisableRoomHeader
+            }
+            Rectangle {
+                id: msgView
 
-            ColumnLayout {
-                anchors.fill: parent
-                spacing: 0
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                color: palette.base
 
-                StackLayout {
-                    id: stackLayout
+                ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 0
 
-                    currentIndex: 0
+                    StackLayout {
+                        id: stackLayout
 
-                    Connections {
-                        function onRoomChanged() {
-                            stackLayout.currentIndex = 0;
+                        currentIndex: 0
+
+                        Connections {
+                            function onRoomChanged() {
+                                stackLayout.currentIndex = 0;
+                            }
+
+                            target: timelineView
                         }
-
-                        target: timelineView
+                        MessageView {
+                            id: messageView
+                            Layout.fillWidth: true
+                            implicitHeight: msgView.height - typingIndicator.height
+                            emojiPopup: timelineEmojiPopup
+                            suppressRoomSwitchSpinner: TimelineManager.waitingForFirstSync
+                            disableTimelineList: timelineView.perfDisableTimelineList
+                            dialogHost: timelineView.dialogHost
+                            componentCatalog: componentCatalog
+                            composerAvailable: !timelineView.perfDisableComposer
+                            selectionModeBar: walkModeBar
+                            roomHeader: topBar
+                            roomSearchHasFocus: topBar.searchHasFocus
+                            searchString: topBar.searchString
+                            filterByNotifications: topBar.filterNotifications
+                        }
+                        TimelineVideoCallLoader {
+                            componentCatalog: componentCatalog
+                        }
                     }
-                    MessageView {
-                        id: messageView
-                        Layout.fillWidth: true
-                        implicitHeight: msgView.height - typingIndicator.height
-                        emojiPopup: timelineEmojiPopup
-                        suppressRoomSwitchSpinner: TimelineManager.waitingForFirstSync
-                        disableTimelineList: timelineView.perfDisableTimelineList
-                        dialogHost: timelineView.dialogHost
-                        componentCatalog: componentCatalog
-                        composerAvailable: !timelineView.perfDisableComposer
-                        selectionModeBar: walkModeBar
-                        roomHeader: topBar
-                        roomSearchHasFocus: topBar.searchHasFocus
-                        searchString: topBar.searchString
-                        filterByNotifications: topBar.filterNotifications
+                    Composer.TypingIndicator {
+                        id: typingIndicator
+                        Layout.minimumHeight: visible ? implicitHeight : 0
+                        Layout.preferredHeight: visible ? implicitHeight : 0
+                        Layout.maximumHeight: visible ? implicitHeight : 0
+                        room: timelineView.room
+                        visible: !timelineView.perfDisableComposer
                     }
-                    TimelineVideoCallLoader {
-                        componentCatalog: componentCatalog
-                    }
-                }
-                Composer.TypingIndicator {
-                    id: typingIndicator
-                    Layout.minimumHeight: visible ? implicitHeight : 0
-                    Layout.preferredHeight: visible ? implicitHeight : 0
-                    Layout.maximumHeight: visible ? implicitHeight : 0
-                    room: timelineView.room
-                    visible: !timelineView.perfDisableComposer
                 }
             }
-        }
-        // Keep collapsible sections collapsed at the integration boundary too,
-        // so nested component regressions do not steal timeline height.
-        TimelineCallStatusBars {
-            id: callStatusBars
+            TimelineCallStatusBars {
+                id: callStatusBars
 
-            Layout.minimumHeight: 0
-            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
-            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
-        }
-        Composer.UploadBox {
-            id: uploadBox
+                Layout.minimumHeight: 0
+                Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
+                Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
+            }
+            Composer.UploadBox {
+                id: uploadBox
 
-            Layout.minimumHeight: 0
-            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
-            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
-        }
-        Composer.ReplyPopup {
-            id: replyPopup
+                Layout.minimumHeight: 0
+                Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
+                Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
+            }
+            Composer.ReplyPopup {
+                id: replyPopup
 
-            Layout.minimumHeight: 0
-            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
-            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
-            roundTopCorners: true
-        }
-        TimelineComposerWarnings {
-            id: composerWarnings
+                Layout.minimumHeight: 0
+                Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
+                Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
+                roundTopCorners: true
+            }
+            TimelineComposerWarnings {
+                id: composerWarnings
 
-            Layout.minimumHeight: 0
-            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible && !messageView.walkModeActive ? implicitHeight : 0
-            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible && !messageView.walkModeActive ? implicitHeight : 0
-            commandPickerVisible: messageInput.commandPickerVisible
-            roomModel: timelineView.room
-            replyPopupVisible: replyPopup.visible
-        }
-        Item {
-            id: bottomInputShell
+                Layout.minimumHeight: 0
+                Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible && !messageView.walkModeActive ? implicitHeight : 0
+                Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible && !messageView.walkModeActive ? implicitHeight : 0
+                commandPickerVisible: messageInput.commandPickerVisible
+                roomModel: timelineView.room
+                replyPopupVisible: replyPopup.visible
+            }
+            Item {
+                id: bottomInputShell
 
-            readonly property int contentHeight: messageView.walkModeActive
-                ? timelineView.composerBaselineHeight
-                : Math.max(timelineView.composerBaselineHeight, messageInput.implicitHeight)
-            Layout.fillWidth: true
-            Layout.minimumHeight: visible ? implicitHeight : 0
-            Layout.preferredHeight: visible ? implicitHeight : 0
-            Layout.maximumHeight: visible ? implicitHeight : 0
-            implicitHeight: inputShellSeparator.implicitHeight + contentHeight
-            visible: !timelineView.perfDisableComposer
+                readonly property int contentHeight: messageView.walkModeActive
+                    ? timelineView.composerBaselineHeight
+                    : Math.max(timelineView.composerBaselineHeight, messageInput.implicitHeight)
+                Layout.fillWidth: true
+                Layout.minimumHeight: visible ? implicitHeight : 0
+                Layout.preferredHeight: visible ? implicitHeight : 0
+                Layout.maximumHeight: visible ? implicitHeight : 0
+                implicitHeight: inputShellSeparator.implicitHeight + contentHeight
+                visible: !timelineView.perfDisableComposer
 
-            ColumnLayout {
-                anchors.fill: parent
-                spacing: 0
+                ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 0
 
-                TimelineSeparator {
-                    id: inputShellSeparator
+                    TimelineSeparator {
+                        id: inputShellSeparator
 
-                    Layout.minimumHeight: implicitHeight
-                    Layout.preferredHeight: implicitHeight
-                    Layout.maximumHeight: implicitHeight
-                }
-                Composer.MessageInput {
-                    id: messageInput
+                        Layout.minimumHeight: implicitHeight
+                        Layout.preferredHeight: implicitHeight
+                        Layout.maximumHeight: implicitHeight
+                    }
+                    Composer.MessageInput {
+                        id: messageInput
 
-                    Layout.fillWidth: true
-                    Layout.minimumHeight: visible ? timelineView.composerBaselineHeight : 0
-                    Layout.preferredHeight: visible ? Math.max(timelineView.composerBaselineHeight, implicitHeight) : 0
-                    Layout.maximumHeight: visible ? Math.max(timelineView.composerBaselineHeight, implicitHeight) : 0
-                    room: timelineView.room
-                    timelineRoot: timelineView.dialogHost
-                    selectionModeRoot: messageView
-                    visible: !messageView.walkModeActive
-                    walkModeActive: messageView.walkModeActive
-                }
-                TimelineWalkModeBar {
-                    id: walkModeBar
+                        Layout.fillWidth: true
+                        Layout.minimumHeight: visible ? timelineView.composerBaselineHeight : 0
+                        Layout.preferredHeight: visible ? Math.max(timelineView.composerBaselineHeight, implicitHeight) : 0
+                        Layout.maximumHeight: visible ? Math.max(timelineView.composerBaselineHeight, implicitHeight) : 0
+                        room: timelineView.room
+                        timelineRoot: timelineView.dialogHost
+                        selectionModeRoot: messageView
+                        visible: !messageView.walkModeActive
+                        walkModeActive: messageView.walkModeActive
+                    }
+                    TimelineWalkModeBar {
+                        id: walkModeBar
 
-                    Layout.fillWidth: true
-                    Layout.minimumHeight: visible ? timelineView.composerBaselineHeight : 0
-                    Layout.preferredHeight: visible ? timelineView.composerBaselineHeight : 0
-                    Layout.maximumHeight: visible ? timelineView.composerBaselineHeight : 0
-                    minimumHeight: timelineView.composerBaselineHeight
-                    chatRoot: messageView
-                    visible: messageView.walkModeActive
+                        Layout.fillWidth: true
+                        Layout.minimumHeight: visible ? timelineView.composerBaselineHeight : 0
+                        Layout.preferredHeight: visible ? timelineView.composerBaselineHeight : 0
+                        Layout.maximumHeight: visible ? timelineView.composerBaselineHeight : 0
+                        minimumHeight: timelineView.composerBaselineHeight
+                        chatRoot: messageView
+                        visible: messageView.walkModeActive
+                    }
                 }
             }
         }
     }
-    MatrixRoomView {
-        id: matrixRoomView
+    Component {
+        id: matrixTimelineComponent
 
-        roomPreview: timelineView.useMatrixRoomView ? timelineView.roomPreview : null
-        showBackButton: timelineView.showBackButton
-        chatRoot: messageView
-        timelineRoot: timelineView.dialogHost
-        emojiPopup: timelineEmojiPopup
-        filteredTimeline: null
+        MatrixRoomView {
+            roomPreview: timelineView.roomPreview
+            showBackButton: timelineView.showBackButton
+            chatRoot: matrixTimelineHost
+            timelineRoot: timelineView.dialogHost
+            emojiPopup: timelineEmojiPopup
+            filteredTimeline: null
+        }
+    }
+    Loader {
+        id: legacyTimelineLoader
+
+        anchors.fill: parent
+        active: timelineView.room != null && !timelineView.room.isSpace
+        sourceComponent: legacyTimelineComponent
+        visible: active
+    }
+    Loader {
+        id: matrixRoomLoader
+
+        anchors.fill: parent
+        active: timelineView.useMatrixRoomView
+        sourceComponent: matrixTimelineComponent
+        visible: active
     }
     Connections {
         function onComposerInteractionRequested() {
-            if (messageView.walkModeActive) {
-                messageView.exitWalkMode({
+            if (legacyMessageView && legacyMessageView.walkModeActive) {
+                legacyMessageView.exitWalkMode({
                     "focusComposer": false
                 });
                 Qt.callLater(function () {
-                    messageInput.focusTextInput();
+                    if (legacyMessageInput)
+                        legacyMessageInput.focusTextInput();
                 });
             }
         }
 
         function onTextInputActiveFocusChanged() {
-            if (messageInput.textInputActiveFocus && messageView.buttonActionsOpen)
-                messageView.dismissButtonActions();
+            if (legacyMessageInput
+                    && legacyMessageView
+                    && legacyMessageInput.textInputActiveFocus
+                    && legacyMessageView.buttonActionsOpen) {
+                legacyMessageView.dismissButtonActions();
+            }
         }
 
-        target: messageInput
+        target: legacyMessageInput
     }
     Connections {
         function onButtonActionsOpenChanged() {
-            if (messageView.buttonActionsOpen && messageInput.textInputActiveFocus)
-                messageView.forceActiveFocus();
+            if (legacyMessageView
+                    && legacyMessageInput
+                    && legacyMessageView.buttonActionsOpen
+                    && legacyMessageInput.textInputActiveFocus) {
+                legacyMessageView.forceActiveFocus();
+            }
         }
 
-        target: messageView
+        target: legacyMessageView
     }
     TimelinePreviewPane {
         room: timelineView.room

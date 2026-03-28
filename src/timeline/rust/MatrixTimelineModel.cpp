@@ -5,8 +5,26 @@
 #include "timeline/rust/MatrixTimelineModel.h"
 
 #include <algorithm>
+#include <QByteArray>
 
 namespace komai {
+
+namespace {
+std::optional<int>
+configuredInitialVisibleWindow()
+{
+    const auto value = qgetenv("KOMAI_PERF_MATRIX_TIMELINE_INITIAL_WINDOW").trimmed();
+    if (value.isEmpty())
+        return std::nullopt;
+
+    bool ok             = false;
+    const auto count    = value.toInt(&ok);
+    if (!ok || count <= 0)
+        return std::nullopt;
+
+    return count;
+}
+}
 
 MatrixTimelineModel::MatrixTimelineModel(QObject *parent)
   : QAbstractListModel(parent)
@@ -170,6 +188,12 @@ MatrixTimelineModel::itemByEventId(const QString &eventId) const
     return items_.at(row);
 }
 
+int
+MatrixTimelineModel::hiddenCount() const
+{
+    return std::max(0, static_cast<int>(allItems_.size() - items_.size()));
+}
+
 void
 MatrixTimelineModel::applyRedactedPresentation(MatrixTimelineItem &item) const
 {
@@ -211,6 +235,24 @@ MatrixTimelineModel::redactItemByEventId(const QString &eventId)
     return true;
 }
 
+bool
+MatrixTimelineModel::revealOlderItems(int additionalCount)
+{
+    const auto availableHiddenCount = hiddenCount();
+    if (availableHiddenCount <= 0)
+        return false;
+
+    const auto revealCount =
+      std::clamp(additionalCount > 0 ? additionalCount : availableHiddenCount, 1, availableHiddenCount);
+    const auto nextVisibleCount = items_.size() + revealCount;
+
+    beginInsertRows({}, items_.size(), nextVisibleCount - 1);
+    items_ = allItems_.mid(0, nextVisibleCount);
+    endInsertRows();
+    emit countChanged();
+    return true;
+}
+
 void
 MatrixTimelineModel::applyOptimisticRedactions(QVector<MatrixTimelineItem> &items)
 {
@@ -242,10 +284,8 @@ MatrixTimelineModel::applyOptimisticRedactions(QVector<MatrixTimelineItem> &item
 }
 
 void
-MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
+MatrixTimelineModel::replaceVisibleItems(QVector<MatrixTimelineItem> items)
 {
-    applyOptimisticRedactions(items);
-
     if (items_ == items)
         return;
 
@@ -304,10 +344,30 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
 }
 
 void
+MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
+{
+    applyOptimisticRedactions(items);
+    allItems_ = items;
+
+    const auto initialVisibleWindow = configuredInitialVisibleWindow();
+    const auto uncappedVisibleCount = static_cast<int>(allItems_.size());
+    const auto cappedInitialVisibleCount = initialVisibleWindow
+      ? std::min(uncappedVisibleCount, *initialVisibleWindow)
+      : uncappedVisibleCount;
+
+    auto targetVisibleCount = cappedInitialVisibleCount;
+    if (initialVisibleWindow && !items_.isEmpty())
+        targetVisibleCount = std::max(static_cast<int>(items_.size()), cappedInitialVisibleCount);
+
+    replaceVisibleItems(allItems_.mid(0, targetVisibleCount));
+}
+
+void
 MatrixTimelineModel::clear()
 {
     optimisticRedactedEventIds_.clear();
-    replaceItems({});
+    allItems_.clear();
+    replaceVisibleItems({});
 }
 
 } // namespace komai

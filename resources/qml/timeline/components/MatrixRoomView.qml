@@ -2445,16 +2445,8 @@ ColumnLayout {
                         Layout.fillWidth: true
                         horizontalAlignment: TextEdit.AlignHCenter
                         text: root.loading
-                            ? qsTr("Loading room timeline…")
-                            : qsTr("No timeline items are loaded for this room yet.")
-                        wrapMode: Text.WordWrap
-                    }
-
-                    MatrixText {
-                        Layout.fillWidth: true
-                        color: palette.buttonText
-                        horizontalAlignment: TextEdit.AlignHCenter
-                        text: qsTr("This room is now backed by the Rust matrix-sdk timeline and shared Komai composer surface while the remaining gaps are migrated.")
+                            ? qsTr("Loading this room…")
+                            : qsTr("Nothing has loaded for this room yet.")
                         wrapMode: Text.WordWrap
                     }
                 }

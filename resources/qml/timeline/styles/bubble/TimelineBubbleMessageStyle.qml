@@ -20,7 +20,12 @@ TimelineMessageStyleBase {
     // (e.g. MatrixRoomView.sharedTimelineHeightEstimate) use this to avoid adopting
     // the 100 px placeholder while the delegate is still loading.
     readonly property bool contentReady: !isHiddenEvent && (bubbleBody.implicitHeight >= 1 || index === 0)
-    height: isHiddenEvent ? 0 : Math.max((section.item?.height ?? 0) + Math.max(((bubbleBody.implicitHeight < 1 && index != 0) ? 100 : bubbleBody.implicitHeight), (reserveAvatarRowHeight && messageUserAvatar.visible ? messageUserAvatar.height : 0)) + reactionRow.implicitHeight + unreadRow.height, 10)
+    height: isHiddenEvent ? 0 : Math.max((section.item?.height ?? 0)
+        + Math.max(((bubbleBody.implicitHeight < 1 && index != 0) ? 100 : bubbleBody.implicitHeight),
+                   (reserveAvatarRowHeight && messageUserAvatar.visible ? messageUserAvatar.height : 0))
+        + (reactionRowLoader.item?.implicitHeight ?? 0)
+        + unreadRow.height,
+        10)
     //room: chatRoot.roommodel
     styleProfile: TimelineStyleProfile {
         fileMessagePadding: wrapper.styleFileMessagePadding
@@ -38,11 +43,16 @@ TimelineMessageStyleBase {
     property int messageBubbleRadius: 8
     property bool messageBubbleBackgroundEnabled: true
     property bool alignMessageTextToSide: false
-    property bool reserveAvatarRowHeight: startsNewMessageGroup
+    readonly property bool perfDisableTimelineSectionHeaders: TimelineManager.perfUiFlagEnabled("disable_timeline_section_headers")
+    readonly property bool perfDisableTimelineAvatars: TimelineManager.perfUiFlagEnabled("disable_timeline_avatars")
+    readonly property bool perfDisableTimelineReactions: TimelineManager.perfUiFlagEnabled("disable_timeline_reactions")
+    property bool reserveAvatarRowHeight: !perfDisableTimelineAvatars && startsNewMessageGroup
     property bool pushMetadataToEdge: false
     property bool alignBubbleToTop: true
 
-    property bool shouldShowMessageAvatar: !wrapper.isStateEvent && (!wrapper.isSender || Settings.timelineMessagesLayoutShowOwnAvatar)
+    property bool shouldShowMessageAvatar: !perfDisableTimelineAvatars
+        && !wrapper.isStateEvent
+        && (!wrapper.isSender || Settings.timelineMessagesLayoutShowOwnAvatar)
     property int avatarMargin: (shouldShowMessageAvatar ? (Komai.listIconSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
     property bool avatarIsOnRight: wrapper.messageIsRightAligned
 
@@ -102,7 +112,7 @@ TimelineMessageStyleBase {
         Loader {
             id: section
 
-            active: wrapper.startsNewMessageGroup
+            active: !wrapper.perfDisableTimelineSectionHeaders && wrapper.startsNewMessageGroup
             //asynchronous: true
             sourceComponent: TimelineBubbleSectionHeader {
                 day: wrapper.day
@@ -163,20 +173,20 @@ TimelineMessageStyleBase {
             wrapper: wrapper
             topOffset: section.visible && section.active ? section.y + section.height : 0
         },
-        Reactions {
-            id: reactionRow
+        Loader {
+            id: reactionRowLoader
 
-            eventId: wrapper.eventId
-            layoutDirection: (!wrapper.isStateEvent && wrapper.messageIsRightAligned) ? Qt.RightToLeft : Qt.LeftToRight
-            reactions: wrapper.reactions
+            active: !wrapper.perfDisableTimelineReactions
+            anchors.top: bubbleBody.bottom
+            anchors.topMargin: 1
             width: bubbleBody.width
             x: bubbleBody.x
 
-            anchors {
-                //left: row.bubbleOnRight ? undefined : row.left
-                //right: row.bubbleOnRight ? row.right : undefined
-                top: bubbleBody.bottom
-                topMargin: 1
+            sourceComponent: Reactions {
+                eventId: wrapper.eventId
+                layoutDirection: (!wrapper.isStateEvent && wrapper.messageIsRightAligned) ? Qt.RightToLeft : Qt.LeftToRight
+                reactions: wrapper.reactions
+                width: bubbleBody.width
             }
         },
         Item {
@@ -188,7 +198,7 @@ TimelineMessageStyleBase {
             anchors {
                 left: parent.left
                 right: parent.right
-                top: reactionRow.bottom
+                top: reactionRowLoader.bottom
                 topMargin: 5
             }
 

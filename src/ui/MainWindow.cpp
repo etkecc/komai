@@ -126,8 +126,8 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
   , showProfileSwitcherOnStartup_{showProfileSwitcherOnStartup}
 {
     instance_        = this;
-    startupHeadline_ = tr("Plugging you into the Matrix...");
-    startupDetail_   = tr("Checking for a saved session...");
+    startupHeadline_ = tr("Starting Komai");
+    startupDetail_   = tr("Checking your profile...");
 
     MainWindow::setWindowTitle(0);
     setObjectName(QStringLiteral("MainWindow"));
@@ -179,7 +179,7 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
     // load cache on event loop
     QTimer::singleShot(0, this, [this] {
         if (showProfileSwitcherOnStartup_) {
-            setStartupStatus(tr("Plugging you into the Matrix..."),
+            setStartupStatus(tr("Starting Komai"),
                              tr("Opening the profile chooser..."));
             nhlog::ui()->info("Startup selector mode active, showing profile switcher page");
             emit showProfileSwitcherPageRequested();
@@ -199,8 +199,7 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
                           snapshot.homeserver.toStdString());
 
         if (hasActiveUser()) {
-            setStartupStatus(tr("Plugging you into the Matrix..."),
-                             tr("Restoring your Matrix session..."));
+            setStartupStatus(tr("Starting Komai"), tr("Restoring your session..."));
             nhlog::ui()->info("User already signed in, showing chat page");
             showChatPage(userSettings_->hasPersistedSessionIdentity());
             return;
@@ -377,7 +376,7 @@ MainWindow::showChatPage(bool hadSessionIdentity)
         return;
     }
 
-    setStartupStatus(tr("Plugging you into the Matrix..."), tr("Restoring your Matrix session..."));
+    setStartupStatus(tr("Starting Komai"), tr("Restoring your session..."));
     startMatrixBackendHandleForActiveSession();
     if (matrixBackendHandleId_ == 0) {
         nhlog::ui()->warn("Refusing to show chat page without an active matrix-sdk backend "
@@ -439,7 +438,7 @@ MainWindow::showChatPage(bool hadSessionIdentity)
 void
 MainWindow::showStartupRestorePage()
 {
-    setStartupStatus(tr("Plugging you into the Matrix..."), tr("Restoring your Matrix session..."));
+    setStartupStatus(tr("Starting Komai"), tr("Restoring your session..."));
     emit switchToStartupRestorePage();
 }
 
@@ -450,7 +449,7 @@ MainWindow::startMatrixBackendHandleForActiveSession()
         return;
 
     stopMatrixBackendHandle();
-    setStartupStatus(tr("Plugging you into the Matrix..."), tr("Restoring your Matrix session..."));
+    setStartupStatus(tr("Starting Komai"), tr("Restoring your session..."));
     const auto normalizedProfileId = profile_id::normalized(userSettings_->profile());
 
     QString error;
@@ -481,7 +480,7 @@ MainWindow::startMatrixBackendHandleForActiveSession()
                       handleInfo->deviceId.toStdString(),
                       handleInfo->homeserverUrl.toStdString());
 
-    setStartupStatus(tr("Plugging you into the Matrix..."), tr("Opening your rooms..."));
+    setStartupStatus(tr("Starting Komai"), tr("Opening your rooms..."));
     if (!komai::MatrixBackendRuntimeService::startSync(matrixBackendHandleId_, &error)) {
         nhlog::ui()->warn("Failed to start matrix-sdk sync for backend handle {}: {}",
                           matrixBackendHandleId_,

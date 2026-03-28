@@ -17,6 +17,7 @@ Item {
     property alias bubbleItem: messageBubble
     property alias replyItem: replyRow
     property alias metadataItem: metadataOuter
+    readonly property bool perfDisableTimelineHover: TimelineManager.perfUiFlagEnabled("disable_timeline_hover")
 
     width: wrapper.width - wrapper.avatarMargin
     height: implicitHeight
@@ -33,7 +34,9 @@ Item {
             return TimelineManager.userColor(root.wrapper.threadId, palette.base);
         }
         property color threadBackgroundColor: root.wrapper.threadId ? Qt.tint(palette.base, Qt.hsla(threadColor.hslHue, 0.7, threadColor.hslLightness, 0.1)) : "transparent"
-        color: (Settings.timelineMessagesHoverHighlight && messageHover.hovered) ? palette.alternateBase : threadBackgroundColor
+        color: (!root.perfDisableTimelineHover && Settings.timelineMessagesHoverHighlight && messageHover.hovered)
+            ? palette.alternateBase
+            : threadBackgroundColor
 
         TapHandler {
             acceptedButtons: Qt.RightButton
@@ -98,6 +101,7 @@ Item {
 
     HoverHandler {
         id: messageHover
+        enabled: !root.perfDisableTimelineHover
         blocking: false
         onHoveredChanged: root.wrapper.handleMessageHoverChanged(hovered, messageBubble)
     }

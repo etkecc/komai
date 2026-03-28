@@ -1292,6 +1292,21 @@ MatrixBackendRuntimeService::selectActiveRoomTimeline(uint64_t handleId,
     }
 }
 
+bool
+MatrixBackendRuntimeService::setActiveRoomTimelineInitialPageSize(uint64_t handleId,
+                                                                  uint16_t pageSize,
+                                                                  QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_set_active_room_timeline_initial_page_size(handleId, pageSize);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<QVector<MatrixTimelineItem>>
 MatrixBackendRuntimeService::fetchActiveRoomTimeline(uint64_t handleId, QString *errorOut)
 {

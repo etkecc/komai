@@ -15,6 +15,7 @@ lock_started_at="$(date --iso-8601=seconds)"
 lock_state_dir=""
 lock_heartbeat_file=""
 lock_owner_pid="${BASHPID}"
+cmake_target_help_cache=""
 
 usage() {
 	cat >&2 <<'EOF'
@@ -270,11 +271,26 @@ build_target() {
 	cmake --build "${build_dir}" --parallel "${parallelism}" --target "${target}" "$@"
 }
 
+cmake_target_exists() {
+	local target="$1"
+
+	if [[ -z "${cmake_target_help_cache}" ]]; then
+		cmake_target_help_cache="$(cmake --build "${build_dir}" --target help 2>/dev/null || true)"
+	fi
+
+	grep -Fq "... ${target}" <<<"${cmake_target_help_cache}"
+}
+
 build_runtime_bundle() {
 	local extra_args=("$@")
 
 	build_target komai "${jobs}" "${extra_args[@]}"
-	build_target komai-mcp 1 "${extra_args[@]}"
+
+	if cmake_target_exists komai-mcp; then
+		build_target komai-mcp 1 "${extra_args[@]}"
+	elif cmake_target_exists cargo-build_komai-mcp; then
+		build_target cargo-build_komai-mcp 1 "${extra_args[@]}"
+	fi
 }
 
 run_test_label() {

@@ -290,6 +290,9 @@ TimelineViewManager::perfUiFlagEnabled(const QString &flag) const
     if (flag == QLatin1String("disable_timeline_bubbles"))
         return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_BUBBLES"));
 
+    if (flag == QLatin1String("minimal_text_bubbles"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_MINIMAL_TEXT_BUBBLES"));
+
     return false;
 }
 

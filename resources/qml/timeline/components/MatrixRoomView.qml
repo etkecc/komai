@@ -44,6 +44,7 @@ ColumnLayout {
     readonly property bool perfDisableComposer: TimelineManager.perfUiFlagEnabled("disable_composer")
     readonly property bool perfDisableRoomHeader: TimelineManager.perfUiFlagEnabled("disable_room_header")
     readonly property bool perfDisableTimelineBubbles: TimelineManager.perfUiFlagEnabled("disable_timeline_bubbles")
+    readonly property bool perfMinimalTextBubbles: TimelineManager.perfUiFlagEnabled("minimal_text_bubbles")
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property var composerShell: composerContainer
     readonly property var notificationAreaItem: timelineViewport
@@ -2557,6 +2558,32 @@ ColumnLayout {
                             }
                         }
 
+                        Component {
+                            id: matrixPerfMinimalTextBubble
+
+                            Item {
+                                implicitWidth: timelineItemDelegate.width
+                                implicitHeight: minimalBubbleText.implicitHeight + Komai.paddingMedium * 2
+
+                                Rectangle {
+                                    anchors.fill: parent
+                                    anchors.leftMargin: 52
+                                    radius: 8
+                                    color: palette.base
+
+                                    Text {
+                                        id: minimalBubbleText
+                                        anchors.fill: parent
+                                        anchors.margins: Komai.paddingMedium
+                                        text: timelineItemDelegate.body
+                                        wrapMode: Text.Wrap
+                                        color: palette.text
+                                        font.pointSize: Settings.uiFontSizePt
+                                    }
+                                }
+                            }
+                        }
+
                         Loader {
                             id: sharedTimelineBubble
 
@@ -2565,9 +2592,11 @@ ColumnLayout {
                             asynchronous: !root.roomSwitchInProgress
                             sourceComponent: root.perfDisableTimelineBubbles
                                 ? matrixPerfPlaceholderBubble
-                                : (Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Plain
+                                : (root.perfMinimalTextBubbles
+                                    ? matrixPerfMinimalTextBubble
+                                    : (Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Plain
                                     ? matrixPlainMessageStyle
-                                    : matrixBubbleMessageStyle)
+                                    : matrixBubbleMessageStyle))
                             visible: active
                         }
                     }

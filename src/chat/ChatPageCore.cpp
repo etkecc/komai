@@ -270,8 +270,6 @@ ChatPage::deleteConfigs()
         QDir(matrixPaths.matrixDataRoot).removeRecursively();
     if (!matrixPaths.matrixCacheRoot.isEmpty())
         QDir(matrixPaths.matrixCacheRoot).removeRecursively();
-
-    cache::deleteData();
 }
 
 template<typename T>

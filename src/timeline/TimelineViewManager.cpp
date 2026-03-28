@@ -281,6 +281,9 @@ TimelineViewManager::perfUiFlagEnabled(const QString &flag) const
     if (flag == QLatin1String("disable_timeline_rich_text"))
         return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_RICH_TEXT"));
 
+    if (flag == QLatin1String("disable_timeline_bubbles"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_BUBBLES"));
+
     return false;
 }
 

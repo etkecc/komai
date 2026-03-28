@@ -4,8 +4,8 @@
 
 #include "timeline/rust/MatrixTimelineModel.h"
 
-#include <algorithm>
 #include <QByteArray>
+#include <algorithm>
 
 namespace komai {
 
@@ -17,8 +17,8 @@ configuredInitialVisibleWindow()
     if (value.isEmpty())
         return std::nullopt;
 
-    bool ok             = false;
-    const auto count    = value.toInt(&ok);
+    bool ok          = false;
+    const auto count = value.toInt(&ok);
     if (!ok || count <= 0)
         return std::nullopt;
 
@@ -105,6 +105,12 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
         return item.mediaIsEncrypted;
     case ThumbnailIsEncrypted:
         return item.thumbnailIsEncrypted;
+    case PreviousTimestamp:
+        return static_cast<qulonglong>(item.previousTimestamp);
+    case PreviousSenderId:
+        return item.previousSenderId;
+    case PreviousItemKind:
+        return item.previousItemKind;
     default:
         return {};
     }
@@ -142,6 +148,9 @@ MatrixTimelineModel::roleNames() const
       {MediaSizeBytes, "mediaSizeBytes"},
       {MediaIsEncrypted, "mediaIsEncrypted"},
       {ThumbnailIsEncrypted, "thumbnailIsEncrypted"},
+      {PreviousTimestamp, "previousTimestamp"},
+      {PreviousSenderId, "previousSenderId"},
+      {PreviousItemKind, "previousItemKind"},
     };
 }
 
@@ -242,8 +251,8 @@ MatrixTimelineModel::revealOlderItems(int additionalCount)
     if (availableHiddenCount <= 0)
         return false;
 
-    const auto revealCount =
-      std::clamp(additionalCount > 0 ? additionalCount : availableHiddenCount, 1, availableHiddenCount);
+    const auto revealCount = std::clamp(
+      additionalCount > 0 ? additionalCount : availableHiddenCount, 1, availableHiddenCount);
     const auto nextVisibleCount = items_.size() + revealCount;
 
     beginInsertRows({}, items_.size(), nextVisibleCount - 1);
@@ -349,11 +358,11 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
     applyOptimisticRedactions(items);
     allItems_ = items;
 
-    const auto initialVisibleWindow = configuredInitialVisibleWindow();
-    const auto uncappedVisibleCount = static_cast<int>(allItems_.size());
+    const auto initialVisibleWindow      = configuredInitialVisibleWindow();
+    const auto uncappedVisibleCount      = static_cast<int>(allItems_.size());
     const auto cappedInitialVisibleCount = initialVisibleWindow
-      ? std::min(uncappedVisibleCount, *initialVisibleWindow)
-      : uncappedVisibleCount;
+                                             ? std::min(uncappedVisibleCount, *initialVisibleWindow)
+                                             : uncappedVisibleCount;
 
     auto targetVisibleCount = cappedInitialVisibleCount;
     if (initialVisibleWindow && !items_.isEmpty())

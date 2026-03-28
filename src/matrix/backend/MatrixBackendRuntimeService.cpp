@@ -6,6 +6,7 @@
 
 #include <QByteArray>
 #include <QElapsedTimer>
+#include <QStringList>
 
 #include "komai-rust-cxxbridge/lib.h"
 #include "logging/Logging.h"
@@ -330,6 +331,9 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .thumbnailIsEncrypted = item.thumbnail_is_encrypted,
       .timestamp            = item.timestamp,
       .isOwn                = item.is_own,
+      .previousTimestamp    = 0,
+      .previousSenderId     = {},
+      .previousItemKind     = {},
     };
 }
 
@@ -1322,17 +1326,41 @@ MatrixBackendRuntimeService::fetchActiveRoomTimeline(uint64_t handleId, QString 
         items.reserve(static_cast<int>(result.size()));
         for (const auto &item : result)
             items.push_back(fromRustTimelineItem(item));
+
+        for (int row = 0; row < items.size(); ++row) {
+            if (row <= 0)
+                continue;
+
+            const auto &previous      = items.at(row - 1);
+            auto &current             = items[row];
+            current.previousTimestamp = previous.timestamp;
+            current.previousSenderId  = previous.senderId;
+            current.previousItemKind  = previous.itemKind;
+        }
+
         const auto convertElapsedUs = convertTimer.nsecsElapsed() / 1000;
 
         if (roomSwitchPerfEnabled()) {
+            QHash<QString, int> itemKindCounts;
+            itemKindCounts.reserve(items.size());
+            for (const auto &item : items)
+                itemKindCounts[item.itemKind] += 1;
+
+            QStringList itemKindSummary;
+            itemKindSummary.reserve(itemKindCounts.size());
+            for (auto it = itemKindCounts.cbegin(); it != itemKindCounts.cend(); ++it)
+                itemKindSummary.push_back(QStringLiteral("%1:%2").arg(it.key()).arg(it.value()));
+            itemKindSummary.sort();
+
             nhlog::ui()->info(
               "[room-switch-perf] phase=cpp.matrix_backend.fetch_active_room_timeline "
-              "handle_id={} item_count={} rust_us={} convert_us={} total_us={}",
+              "handle_id={} item_count={} rust_us={} convert_us={} total_us={} item_kinds={}",
               handleId,
               items.size(),
               rustFetchElapsedUs,
               convertElapsedUs,
-              totalTimer.nsecsElapsed() / 1000);
+              totalTimer.nsecsElapsed() / 1000,
+              itemKindSummary.join(QStringLiteral(",")).toStdString());
         }
 
         return items;

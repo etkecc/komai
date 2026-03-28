@@ -203,14 +203,17 @@ struct MatrixTimelineItem
     QString thumbnailUrl;
     QString fileName;
     QString mimeType;
-    uint64_t mediaWidth       = 0;
-    uint64_t mediaHeight      = 0;
-    uint64_t mediaDurationMs  = 0;
-    uint64_t mediaSizeBytes   = 0;
-    bool mediaIsEncrypted     = false;
-    bool thumbnailIsEncrypted = false;
-    uint64_t timestamp        = 0;
-    bool isOwn                = false;
+    uint64_t mediaWidth        = 0;
+    uint64_t mediaHeight       = 0;
+    uint64_t mediaDurationMs   = 0;
+    uint64_t mediaSizeBytes    = 0;
+    bool mediaIsEncrypted      = false;
+    bool thumbnailIsEncrypted  = false;
+    uint64_t timestamp         = 0;
+    bool isOwn                 = false;
+    uint64_t previousTimestamp = 0;
+    QString previousSenderId;
+    QString previousItemKind;
 
     bool operator==(const MatrixTimelineItem &) const = default;
 };

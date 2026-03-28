@@ -50,6 +50,9 @@ public:
         MediaSizeBytes,
         MediaIsEncrypted,
         ThumbnailIsEncrypted,
+        PreviousTimestamp,
+        PreviousSenderId,
+        PreviousItemKind,
     };
 
     explicit MatrixTimelineModel(QObject *parent = nullptr);

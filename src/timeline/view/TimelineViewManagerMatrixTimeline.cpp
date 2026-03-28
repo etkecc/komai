@@ -316,11 +316,7 @@ TimelineViewManager::scheduleCurrentMatrixTimelineRefresh()
 
     matrixTimelineRefreshQueued_ = true;
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_queued");
-    const auto delayMs =
-      (matrixTimelineLoading_ && matrixTimelineModel_ && matrixTimelineModel_->count() == 0) ? 8
-                                                                                             : 0;
-
-    QTimer::singleShot(delayMs, this, [this, roomId]() {
+    QTimer::singleShot(0, this, [this, roomId]() {
         matrixTimelineRefreshQueued_ = false;
 
         if (!matrixTimelineRefreshPending_ || matrixTimelineRefreshPendingRoomId_ != roomId ||

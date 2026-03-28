@@ -41,6 +41,9 @@ ColumnLayout {
 
     readonly property bool hasTimeline: TimelineManager.matrixTimelineItemCount > 0
     readonly property bool loading: TimelineManager.matrixTimelineLoading
+    readonly property bool perfDisableComposer: TimelineManager.perfUiFlagEnabled("disable_composer")
+    readonly property bool perfDisableRoomHeader: TimelineManager.perfUiFlagEnabled("disable_room_header")
+    readonly property bool perfDisableTimelineBubbles: TimelineManager.perfUiFlagEnabled("disable_timeline_bubbles")
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property var composerShell: composerContainer
     readonly property var notificationAreaItem: timelineViewport
@@ -1340,6 +1343,9 @@ ColumnLayout {
         id: topBar
 
         Layout.fillWidth: true
+        Layout.minimumHeight: visible ? implicitHeight : 0
+        Layout.preferredHeight: visible ? implicitHeight : 0
+        Layout.maximumHeight: visible ? implicitHeight : 0
         room: null
         roomModel: matrixHeaderRoomModel
         roomId: root.roomPreview ? root.roomPreview.roomid : ""
@@ -1351,12 +1357,16 @@ ColumnLayout {
         isEncrypted: !!root.roomPreview && root.roomPreview.isEncrypted
         roomTopic: root.roomPreview ? root.roomPreview.roomTopic : ""
         showBackButton: root.showBackButton
+        visible: !root.perfDisableRoomHeader
     }
 
     Rectangle {
         Layout.fillWidth: true
-        Layout.preferredHeight: 1
+        Layout.minimumHeight: visible ? 1 : 0
+        Layout.preferredHeight: visible ? 1 : 0
+        Layout.maximumHeight: visible ? 1 : 0
         color: palette.mid
+        visible: !root.perfDisableRoomHeader
     }
 
     Rectangle {
@@ -1813,12 +1823,13 @@ ColumnLayout {
                         required property bool mediaIsEncrypted
                         required property bool thumbnailIsEncrypted
                         required property double timestamp
+                        required property double previousTimestamp
+                        required property string previousSenderId
+                        required property string previousItemKind
                         required property bool isEdited
                         required property bool isOwn
 
-                        readonly property int modelIndex: TimelineManager.matrixTimelineModel
-                            ? TimelineManager.matrixTimelineModel.rowForEventId(eventId)
-                            : -1
+                        readonly property int modelIndex: typeof index === "number" ? Number(index) : -1
                         readonly property bool isMediaItem: ["image", "video", "audio", "file", "sticker"].indexOf(itemKind) >= 0
                         readonly property string effectiveFileName: fileName.length > 0 ? fileName : (body.length > 0 ? body : qsTr("Attachment"))
                         readonly property string replySourceBody: body.length > 0 ? body : effectiveFileName
@@ -1860,27 +1871,21 @@ ColumnLayout {
                             : MtxEvent.Empty
                         readonly property int matrixEventType: root.matrixEventTypeForItemKind(itemKind)
                         readonly property int dayKey: root.matrixTimelineDayKey(timestamp)
-                        readonly property var previousItem: TimelineManager.matrixTimelineModel && modelIndex > 0
-                            ? TimelineManager.matrixTimelineModel.itemAt(modelIndex - 1)
-                            : ({})
                         readonly property string sharedHumanReadableMediaSize: mediaSizeBytes > 0
                             ? Komai.humanReadableFileSize(Number(mediaSizeBytes))
                             : ""
                         readonly property string sharedFileTypeIconSource: Komai.fileTypeIconSource(mimeType)
                         readonly property var sharedRedactedPair: root.matrixRedactedEventPair(senderDisplayName,
                                                                                                senderId)
-                        readonly property int previousDayKey: previousItem.timestamp !== undefined
-                            ? root.matrixTimelineDayKey(previousItem.timestamp)
+                        readonly property int previousDayKey: previousTimestamp > 0
+                            ? root.matrixTimelineDayKey(previousTimestamp)
                             : dayKey
-                        readonly property var previousDisplayTimestamp: previousItem.timestamp !== undefined
-                            ? new Date(Number(previousItem.timestamp))
+                        readonly property var previousDisplayTimestamp: previousTimestamp > 0
+                            ? new Date(Number(previousTimestamp))
                             : new Date(Number(timestamp))
-                        readonly property bool previousIsStateLikeItem: previousItem.eventId === undefined
+                        readonly property bool previousIsStateLikeItem: previousItemKind.length === 0
                             ? true
-                            : root.isMatrixStateLikeKind(previousItem.itemKind)
-                        readonly property string previousSenderId: previousItem.senderId !== undefined
-                            ? String(previousItem.senderId || "")
-                            : ""
+                            : root.isMatrixStateLikeKind(previousItemKind)
                         readonly property string resolvedFormattedBodyHtml: !usesSharedStateBubble
                             ? root.formattedMatrixTextHtml(body)
                             : ""
@@ -1978,17 +1983,15 @@ ColumnLayout {
                             // Estimate section header height (avatar + username row)
                             // when the sender changes, a timestamp gap occurs, or the
                             // previous item was a different event category.
-                            const prevUserId = previousItem.senderId !== undefined
-                                ? String(previousItem.senderId || "") : "";
-                            const prevTimestamp = previousItem.timestamp !== undefined
-                                ? Number(previousItem.timestamp) : 0;
-                            const prevDay = previousItem.timestamp !== undefined
-                                ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey;
-                            const prevIsState = previousItem.eventId === undefined
-                                ? true : root.isMatrixStateLikeKind(previousItem.itemKind);
+                            const prevUserId = String(previousSenderId || "");
+                            const prevTimestampValue = Number(previousTimestamp || 0);
+                            const prevDay = prevTimestampValue > 0
+                                ? root.matrixTimelineDayKey(prevTimestampValue) : dayKey;
+                            const prevIsState = previousItemKind.length === 0
+                                ? true : root.isMatrixStateLikeKind(previousItemKind);
                             const dayChanged = prevDay !== dayKey;
                             const showSection = dayChanged
-                                || (timestamp - prevTimestamp > 3600000);
+                                || (timestamp - prevTimestampValue > 3600000);
                             const startsGroup = prevUserId !== senderId
                                 || showSection
                                 || prevIsState !== isStateLikeItem;
@@ -2429,15 +2432,26 @@ ColumnLayout {
                             }
                         }
 
+                        Component {
+                            id: matrixPerfPlaceholderBubble
+
+                            Item {
+                                implicitWidth: timelineItemDelegate.width
+                                implicitHeight: timelineItemDelegate.heuristicTimelineHeightEstimate
+                            }
+                        }
+
                         Loader {
                             id: sharedTimelineBubble
 
                             active: timelineItemDelegate.usesSharedTimelineBubble
                                 && !timelineItemDelegate.sharedBubbleReloadArmed
                             asynchronous: !root.roomSwitchInProgress
-                            sourceComponent: Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Plain
-                                ? matrixPlainMessageStyle
-                                : matrixBubbleMessageStyle
+                            sourceComponent: root.perfDisableTimelineBubbles
+                                ? matrixPerfPlaceholderBubble
+                                : (Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Plain
+                                    ? matrixPlainMessageStyle
+                                    : matrixBubbleMessageStyle)
                             visible: active
                         }
                     }
@@ -2462,16 +2476,16 @@ ColumnLayout {
 
             Composer.UploadBox {
                 Layout.minimumHeight: 0
-                Layout.preferredHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
-                Layout.maximumHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
+                Layout.preferredHeight: !root.perfDisableComposer && layoutVisible && !root.walkModeActive ? implicitHeight : 0
+                Layout.maximumHeight: !root.perfDisableComposer && layoutVisible && !root.walkModeActive ? implicitHeight : 0
                 uploadsController: matrixUploadsController
                 uploadsSending: TimelineManager.matrixTimelineAttachmentSending
             }
 
             Composer.ReplyPopup {
                 Layout.minimumHeight: 0
-                Layout.preferredHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
-                Layout.maximumHeight: layoutVisible && !root.walkModeActive ? implicitHeight : 0
+                Layout.preferredHeight: !root.perfDisableComposer && layoutVisible && !root.walkModeActive ? implicitHeight : 0
+                Layout.maximumHeight: !root.perfDisableComposer && layoutVisible && !root.walkModeActive ? implicitHeight : 0
                 matrixReplyEventId: TimelineManager.matrixTimelineReplyEventId
                 matrixReplySenderId: TimelineManager.matrixTimelineReplySenderId
                 matrixReplyDisplayName: TimelineManager.matrixTimelineReplySenderDisplayName
@@ -2488,11 +2502,12 @@ ColumnLayout {
                     ? root.composerBaselineHeight
                     : Math.max(root.composerBaselineHeight, composerInput.implicitHeight)
                 Layout.fillWidth: true
-                Layout.minimumHeight: implicitHeight
-                Layout.preferredHeight: implicitHeight
-                Layout.maximumHeight: implicitHeight
+                Layout.minimumHeight: visible ? implicitHeight : 0
+                Layout.preferredHeight: visible ? implicitHeight : 0
+                Layout.maximumHeight: visible ? implicitHeight : 0
                 color: palette.window
                 implicitHeight: inputShellSeparator.implicitHeight + contentHeight
+                visible: !root.perfDisableComposer
 
                 ColumnLayout {
                     id: composerLayout

@@ -162,7 +162,19 @@ async fn run_sync_loop(
                         tracing::debug!(handle_id, "Completed matrix-sdk-ui room-list sync iteration");
                     }
                     Some(Err(error)) => {
-                        tracing::warn!(handle_id, %error, "Matrix-sdk-ui room-list sync failed");
+                        let error_str = format!("{error}");
+                        let is_auth_error = is_auth_failure(&error_str);
+                        tracing::warn!(
+                            handle_id,
+                            %error,
+                            is_auth_error,
+                            "Matrix-sdk-ui room-list sync failed"
+                        );
+                        crate::ffi::matrix_notify_sync_stopped(
+                            handle_id,
+                            &error_str,
+                            is_auth_error,
+                        );
                         break;
                     }
                     None => {
@@ -185,6 +197,15 @@ async fn run_sync_loop(
     }
 
     tracing::info!(handle_id, "Matrix-sdk room-list sync loop stopped");
+}
+
+fn is_auth_failure(error_message: &str) -> bool {
+    let lower = error_message.to_lowercase();
+    lower.contains("invalid_grant")
+        || lower.contains("invalid grant")
+        || lower.contains("refresh_token")
+        || lower.contains("m_unknown_token")
+        || lower.contains("unknown token")
 }
 
 async fn build_room_list_snapshot(values: &Vector<RoomListItem>) -> Vec<MatrixRoomSummary> {

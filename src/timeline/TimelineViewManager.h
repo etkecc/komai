@@ -350,6 +350,8 @@ public slots:
     void handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t handleId);
     void
     handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_t handleId, const QString &roomId);
+    void
+    handleMatrixBackendSyncStopped(std::uint64_t handleId, const QString &reason, bool isAuthError);
 
     void showEvent(const QString &room_id, const QString &event_id);
 

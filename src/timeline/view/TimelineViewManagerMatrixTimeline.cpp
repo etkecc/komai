@@ -1453,6 +1453,31 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
     scheduleCurrentMatrixTimelineRefresh();
 }
 
+void
+TimelineViewManager::handleMatrixBackendSyncStopped(std::uint64_t handleId,
+                                                    const QString &reason,
+                                                    bool isAuthError)
+{
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
+        return;
+
+    nhlog::ui()->warn("Matrix-sdk sync stopped for handle {} (auth_error={}): {}",
+                      handleId,
+                      isAuthError,
+                      reason.toStdString());
+
+    if (isAuthError) {
+        auto *chatPage = qobject_cast<ChatPage *>(parent());
+        if (chatPage)
+            emit chatPage->dropToLoginPageCb(
+              tr("Your session has expired. Please sign in again.\n\n(%1)").arg(reason));
+    } else {
+        isConnected_ = false;
+        emit isConnectedChanged(false);
+    }
+}
+
 bool
 TimelineViewManager::paginateActiveMatrixTimelineBackwards(int pageSize)
 {

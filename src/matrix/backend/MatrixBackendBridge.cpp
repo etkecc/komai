@@ -293,4 +293,19 @@ matrix_notify_room_timeline_snapshot_updated(std::uint64_t handle_id, ::rust::St
     });
 }
 
+void
+matrix_notify_sync_stopped(std::uint64_t handle_id, ::rust::Str reason, bool is_auth_error)
+{
+    const auto reasonStr = toQString(reason);
+    postToAppThread([handle_id, reasonStr, is_auth_error]() {
+        auto *mainWindow = MainWindow::instance();
+        if (!mainWindow || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+
+        auto *manager = TimelineViewManager::instance();
+        if (manager)
+            manager->handleMatrixBackendSyncStopped(handle_id, reasonStr, is_auth_error);
+    });
+}
+
 } // namespace komai::rust_bridge

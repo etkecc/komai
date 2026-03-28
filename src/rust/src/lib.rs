@@ -310,6 +310,8 @@ mod ffi {
         fn matrix_notify_initial_sync_ready(handle_id: u64);
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_room_timeline_snapshot_updated(handle_id: u64, room_id: &str);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_sync_stopped(handle_id: u64, reason: &str, is_auth_error: bool);
     }
 
     extern "Rust" {

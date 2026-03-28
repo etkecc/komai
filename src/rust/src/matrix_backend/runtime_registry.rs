@@ -98,6 +98,11 @@ pub fn stop_backend(handle_id: u64) -> Result<(), String> {
         if let Some(room_timeline_task) = handle.room_timeline_task.take() {
             stop_room_timeline_task(handle_id, room_timeline_task);
         }
+        // Drop the handle (and the Client it owns) inside the tokio runtime
+        // so that async destructors like the SQLite connection pool can run.
+        crate::runtime().block_on(async move {
+            drop(handle);
+        });
         tracing::info!(handle_id, "Stopped matrix-sdk backend runtime");
     } else {
         tracing::debug!(handle_id, "Matrix-sdk backend runtime handle was already absent");

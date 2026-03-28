@@ -208,6 +208,7 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
 
     clearActiveMatrixReplyState();
 
+    markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_select_begin");
     QString error;
     if (!komai::MatrixBackendRuntimeService::selectActiveRoomTimeline(handleId, roomId, &error)) {
         nhlog::ui()->warn(
@@ -218,6 +219,7 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
         clearCurrentMatrixTimeline(false);
         return;
     }
+    markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_select_done");
 
     activeMatrixTimelineRoomId_ = roomId;
     matrixTimelineLoading_      = true;
@@ -225,6 +227,7 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     refreshActiveMatrixTimelineRedactionPermissions();
     if (matrixTimelineModel_)
         matrixTimelineModel_->clear();
+    markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_loading_started");
     emit matrixTimelineStateChanged();
 }
 
@@ -303,6 +306,7 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
         return;
     }
 
+    markRoomSwitchPhaseCpp(activeMatrixTimelineRoomId_, "cpp.matrix_timeline_fetch_begin");
     QString error;
     const auto items =
       komai::MatrixBackendRuntimeService::fetchActiveRoomTimeline(handleId, &error);
@@ -315,11 +319,14 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
         clearCurrentMatrixTimeline(false);
         return;
     }
+    markRoomSwitchPhaseCpp(activeMatrixTimelineRoomId_, "cpp.matrix_timeline_fetch_done");
 
     matrixTimelineModel_->replaceItems(*items);
+    markRoomSwitchPhaseCpp(activeMatrixTimelineRoomId_, "cpp.matrix_timeline_model_replaced");
 
     if (matrixTimelineLoading_) {
         matrixTimelineLoading_ = false;
+        markRoomSwitchPhaseCpp(activeMatrixTimelineRoomId_, "cpp.matrix_timeline_loading_finished");
         emit matrixTimelineStateChanged();
     }
 }
@@ -1136,6 +1143,8 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
     if (activeMatrixTimelineRoomId_ != roomId)
         return;
 
+    markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_signal");
+
     if (waitingForFirstSync_) {
         nhlog::ui()->info("Clearing waitingForFirstSync from first active matrix-sdk room "
                           "timeline snapshot for handle {} room '{}'",
@@ -1146,6 +1155,7 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
     }
 
     refreshCurrentMatrixTimeline();
+    markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_refreshed");
     if (refreshActiveMatrixTimelinePinnedEventIds())
         emit matrixTimelineStateChanged();
 }

@@ -56,6 +56,9 @@ ColumnLayout {
     property bool initialBottomPinPending: false
     property bool initialTimelineBufferPending: false
     property bool bufferPaginationInFlight: false
+    property bool perfLoggedCountNonZero: false
+    property bool perfLoggedContentHeightReady: false
+    property bool perfLoggedBufferFilled: false
     property bool suppressNextWalkModeOlderStep: false
     property string lastMarkedReadEventId: ""
     property bool preferLatestReadMarkerEvent: false
@@ -113,6 +116,13 @@ ColumnLayout {
     function clearSearch() {
         if (root.chatRoot && typeof root.chatRoot.clearSearch === "function")
             root.chatRoot.clearSearch();
+    }
+
+    function markRoomSwitchPerfPhase(phase) {
+        if (!TimelineManager.roomSwitchPerfEnabled() || activeRoomId.length === 0 || phase.length === 0)
+            return;
+
+        TimelineManager.markRoomSwitchPhase(activeRoomId, phase);
     }
 
     function selectedEventIdsContains(eventId) {
@@ -913,8 +923,17 @@ ColumnLayout {
         if (matrixTimelineList.contentHeight <= 0)
             return;
 
+        if (!perfLoggedContentHeightReady) {
+            perfLoggedContentHeightReady = true;
+            root.markRoomSwitchPerfPhase("qml.matrix_room.content_height_ready");
+        }
+
         const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.25, 320);
         if (matrixTimelineList.contentHeight >= desiredBufferedHeight) {
+            if (!perfLoggedBufferFilled) {
+                perfLoggedBufferFilled = true;
+                root.markRoomSwitchPerfPhase("qml.matrix_room.buffer_filled");
+            }
             console.info("[timeline-load] Buffer filled: contentH="
                 + Math.round(matrixTimelineList.contentHeight)
                 + " desired=" + Math.round(desiredBufferedHeight)
@@ -1594,6 +1613,10 @@ ColumnLayout {
                         // check to re-evaluate on the next trigger.
                         if (count !== previousCount)
                             root.bufferPaginationInFlight = false;
+                        if (count > 0 && !root.perfLoggedCountNonZero) {
+                            root.perfLoggedCountNonZero = true;
+                            root.markRoomSwitchPerfPhase("qml.matrix_room.count_nonzero");
+                        }
                         const forceScroll = previousCount === 0 && !visibleIndicesValid;
                         if (!userUnpinned && (forceScroll || keepPinnedToBottom || root.initialBottomPinPending)) {
                             positionViewAtBeginning();
@@ -2419,10 +2442,15 @@ ColumnLayout {
         initialBottomPinPending = activeRoomId.length > 0;
         initialTimelineBufferPending = activeRoomId.length > 0;
         bufferPaginationInFlight = false;
+        perfLoggedCountNonZero = false;
+        perfLoggedContentHeightReady = false;
+        perfLoggedBufferFilled = false;
         preferLatestReadMarkerEvent = false;
         lastMarkedReadEventId = "";
         lastInitialBufferTriggerCount = -1;
         visibleTimelineDelegates = ({});
+        if (activeRoomId.length > 0)
+            root.markRoomSwitchPerfPhase("qml.matrix_room.active_room_changed");
         if (!matrixTimelineList)
             return;
 
@@ -2436,6 +2464,7 @@ ColumnLayout {
 
     onLoadingChanged: {
         if (!loading) {
+            root.markRoomSwitchPerfPhase("qml.matrix_room.loading_false");
             ensureInitialBottomPin();
             bufferCheckTimer.restart();
         }

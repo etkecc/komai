@@ -7,10 +7,8 @@ use std::sync::OnceLock;
 use resolvematrix::server::MatrixResolver;
 use tokio::runtime::Runtime;
 
-pub mod ipc;
 pub mod logging;
 pub mod matrix_backend;
-pub mod mcp;
 
 #[cxx::bridge(namespace = "komai::rust")]
 mod ffi {

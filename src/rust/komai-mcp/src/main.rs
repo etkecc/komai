@@ -5,8 +5,8 @@
 use std::env;
 use std::process;
 
-use komai_rust::mcp::server::{serve_stdio, ServerConfig};
-use komai_rust::mcp::tools::AccessMode;
+use komai_mcp::mcp::server::{serve_stdio, ServerConfig};
+use komai_mcp::mcp::tools::AccessMode;
 
 fn main() {
     if let Err(error) = run() {
@@ -151,7 +151,7 @@ fn print_help() {
 #[cfg(test)]
 mod tests {
     use super::{parse_args, Command};
-    use komai_rust::mcp::tools::AccessMode;
+    use komai_mcp::mcp::tools::AccessMode;
 
     #[test]
     fn parse_serve_defaults_to_default_profile_and_read_only() {

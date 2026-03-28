@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+[workspace]
+members = [".", "komai-mcp"]
+
 [package]
 name = "komai-rust"
 version = "0.1.0"
@@ -42,6 +45,6 @@ windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_System_
 cxx-build = "1"
 
 [profile.release]
-lto = true
+lto = "thin"
 codegen-units = 1
 strip = true

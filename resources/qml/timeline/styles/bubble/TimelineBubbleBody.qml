@@ -16,12 +16,13 @@ Item {
     property alias hoverDismissTimer: hoverDismissTimer
     property alias bubbleItem: messageBubble
     property alias replyItem: replyRow
-    property alias metadataItem: metadataOuter
     readonly property bool perfDisableTimelineHover: TimelineManager.perfUiFlagEnabled("disable_timeline_hover")
+    readonly property bool perfDisableTimelineMetadata: TimelineManager.perfUiFlagEnabled("disable_timeline_metadata")
+    readonly property var metadataItem: metadataLoader.item ? metadataLoader.item : metadataFallback
 
     width: wrapper.width - wrapper.avatarMargin
     height: implicitHeight
-    implicitHeight: Math.max(messageBubble.implicitHeight, metadataOuter.visible ? metadataOuter.height : 0)
+    implicitHeight: Math.max(messageBubble.implicitHeight, metadataItem.visible ? metadataItem.height : 0)
     x: wrapper.avatarIsOnRight ? 0 : wrapper.avatarMargin
     y: topOffset
 
@@ -461,53 +462,66 @@ Item {
         }
     }
 
-    TimelineMetadata {
-        id: metadataOuter
+    Item {
+        id: metadataFallback
+        visible: false
+        width: 0
+        height: 0
+    }
 
-        scaling: 0.9
-        readonly property real visualAnchorHeight: Math.max(buttonSize, indicatorSize)
+    Component {
+        id: metadataComponent
 
-        visible: !root.wrapper.isStateEvent
-            || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
+        TimelineMetadata {
+            scaling: 0.9
+            readonly property real visualAnchorHeight: Math.max(buttonSize, indicatorSize)
+            readonly property real bubbleBottomMargin: root.wrapper.isStateEvent
+                ? 0
+                // Avoid a self-referential vertical-anchor loop through implicitHeight.
+                : Math.round(Math.max(1, messageBubble.bottomPadding - Math.max(0, (visualAnchorHeight - buttonSize) / 2)))
 
-        anchors.bottom: root.wrapper.isStateEvent ? undefined : messageBubble.bottom
-        anchors.bottomMargin: root.wrapper.isStateEvent
-            ? 0
-            // Avoid a self-referential vertical-anchor loop through implicitHeight.
-            : Math.round(Math.max(1, messageBubble.bottomPadding - Math.max(0, (visualAnchorHeight - buttonSize) / 2)))
-        anchors.verticalCenter: root.wrapper.isStateEvent ? root.verticalCenter : undefined
+            visible: !root.wrapper.isStateEvent
+                || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
 
-        anchors.left: undefined
-        anchors.right: undefined
-        x: {
-            if (root.wrapper.isStateEvent)
-                return Math.round(messageBubble.x + messageBubble.width + Komai.paddingSmall);
-            if (root.wrapper.pushMetadataToEdge) {
-                var threadInset = root.wrapper.threadId ? Komai.paddingSmall : 0;
-                return Math.round(root.wrapper.messageIsRightAligned
-                    ? threadInset
-                    : (root.width - width - threadInset));
+            x: {
+                if (root.wrapper.isStateEvent)
+                    return Math.round(messageBubble.x + messageBubble.width + Komai.paddingSmall);
+                if (root.wrapper.pushMetadataToEdge) {
+                    var threadInset = root.wrapper.threadId ? Komai.paddingSmall : 0;
+                    return Math.round(root.wrapper.messageIsRightAligned
+                        ? threadInset
+                        : (root.width - width - threadInset));
+                }
+                const sideX = root.wrapper.messageIsRightAligned
+                    ? (messageBubble.x - width - Komai.paddingSmall)
+                    : (messageBubble.x + messageBubble.width + Komai.paddingSmall);
+                return Math.round(sideX);
             }
-            const sideX = root.wrapper.messageIsRightAligned
-                ? (messageBubble.x - width - Komai.paddingSmall)
-                : (messageBubble.x + messageBubble.width + Komai.paddingSmall);
-            return Math.round(sideX);
-        }
+            y: root.wrapper.isStateEvent
+                ? Math.round((root.height - height) / 2)
+                : Math.round(messageBubble.y + messageBubble.height - height - bubbleBottomMargin)
 
-        eventId: root.wrapper.eventId
-        status: root.wrapper.status
-        trustlevel: root.wrapper.trustlevel
-        isEdited: root.wrapper.isEdited
-        isEncrypted: root.wrapper.isEncrypted
-        isStateEvent: root.wrapper.isStateEvent
-        threadId: root.wrapper.threadId
-        timestamp: root.wrapper.timestamp
-        room: root.wrapper.room
-        isSender: root.wrapper.isStateEvent ? false : root.wrapper.messageIsRightAligned
-        actionBarActive: root.wrapper.messageActions.pinned && root.wrapper.messageActions.attached === root.wrapper
-        onActionToggled: {
-            root.wrapper.togglePinnedMessageActions(metadataOuter.actionToggleButton);
+            eventId: root.wrapper.eventId
+            status: root.wrapper.status
+            trustlevel: root.wrapper.trustlevel
+            isEdited: root.wrapper.isEdited
+            isEncrypted: root.wrapper.isEncrypted
+            isStateEvent: root.wrapper.isStateEvent
+            threadId: root.wrapper.threadId
+            timestamp: root.wrapper.timestamp
+            room: root.wrapper.room
+            isSender: root.wrapper.isStateEvent ? false : root.wrapper.messageIsRightAligned
+            actionBarActive: root.wrapper.messageActions.pinned && root.wrapper.messageActions.attached === root.wrapper
+            onActionToggled: {
+                root.wrapper.togglePinnedMessageActions(actionToggleButton);
+            }
         }
+    }
+
+    Loader {
+        id: metadataLoader
+        active: !root.perfDisableTimelineMetadata
+        sourceComponent: metadataComponent
     }
 
     DragHandler {

@@ -63,21 +63,12 @@ RowLayout {
     required property double scaling
     property double buttonScale: 2
     required property bool isSender
-    // Plain style uses fixed metadata order:
-    // [icons/buttons ...][timestamp][message actions button].
-    property bool forceTrailingTimestampLayout: false
-    // In trailing layout, allow placing the actions toggle before timestamp/icons.
-    property bool leadingActionInTrailingLayout: false
     property bool actionBarActive: false
-    readonly property Item actionToggleButton: forceTrailingTimestampLayout
-        ? (leadingActionInTrailingLayout ? actionToggleBtnTrailingLeading : actionToggleBtnTrailing)
-        : actionToggleBtn
+    readonly property var actionToggleButton: actionToggleBtn
 
     signal actionToggled()
 
-    layoutDirection: metadata.forceTrailingTimestampLayout
-        ? Qt.LeftToRight
-        : (metadata.isSender ? Qt.RightToLeft : Qt.LeftToRight)
+    layoutDirection: metadata.isSender ? Qt.RightToLeft : Qt.LeftToRight
 
     required property string eventId
     required property int status
@@ -105,7 +96,6 @@ RowLayout {
         color: effectiveInactiveTextColor
         font.pointSize: Settings.uiFontSizePt * parent.scaling
         text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
-        visible: !metadata.forceTrailingTimestampLayout
 
         HoverHandler {
             id: ma
@@ -121,54 +111,12 @@ RowLayout {
             requestedVisible: ma.hovered
         }
     }
-    ImageButton {
-        id: actionToggleBtnTrailingLeading
-
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.buttonSize
-        Layout.preferredWidth: parent.buttonSize
-        toolTipDelay: 0
-        toolTipText: qsTr("Message actions")
-        toolTipVisible: hovered && !metadata.actionBarActive
-        buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
-        highlightColor: effectiveHighlightColor
-        changeColorOnHover: true
-        image: ":/icons/icons/ui/textbox-more.svg"
-        visible: metadata.forceTrailingTimestampLayout
-            && metadata.leadingActionInTrailingLayout
-            && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
-
-        onClicked: metadata.actionToggled()
-    }
-    Label {
-        id: tsTrailingLeading
-
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredWidth: implicitWidth
-        color: effectiveInactiveTextColor
-        font.pointSize: Settings.uiFontSizePt * parent.scaling
-        text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
-        visible: metadata.forceTrailingTimestampLayout && metadata.leadingActionInTrailingLayout
-
-        HoverHandler {
-            id: maTrailingLeading
-        }
-
-        KomaiToolTip {
-            anchorItem: tsTrailingLeading
-            anchorX: tsTrailingLeading.width / 2
-            anchorY: 0
-            text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
-            delay: Komai.tooltipDelay
-            requestedVisible: maTrailingLeading.hovered
-        }
-    }
 
     StatusIndicator {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.indicatorSize
         Layout.preferredWidth: parent.indicatorSize
-        visible: !metadata.forceTrailingTimestampLayout && !metadata.isStateEvent && metadata.status != MtxEvent.Empty
+        visible: !metadata.isStateEvent && metadata.status != MtxEvent.Empty
         eventId: metadata.eventId
         status: metadata.status
     }
@@ -181,7 +129,7 @@ RowLayout {
         source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? effectiveHighlightColor : effectiveSecondaryTextColor)
         sourceSize.height: parent.indicatorSize
         sourceSize.width: parent.indicatorSize
-        visible: !metadata.forceTrailingTimestampLayout && (metadata.isEdited || metadata.eventId == metadata.roomEditEventId)
+        visible: metadata.isEdited || metadata.eventId == metadata.roomEditEventId
         HoverHandler {
             id: editHovered
 
@@ -204,7 +152,7 @@ RowLayout {
         sourceSize.height: parent.buttonSize
         sourceSize.width: parent.buttonSize
         trust: metadata.trustlevel
-        visible: !metadata.forceTrailingTimestampLayout && metadata.roomIsEncrypted
+        visible: metadata.roomIsEncrypted
     }
     ImageButton {
         id: actionToggleBtn
@@ -219,8 +167,7 @@ RowLayout {
         highlightColor: effectiveHighlightColor
         changeColorOnHover: true
         image: ":/icons/icons/ui/textbox-more.svg"
-        visible: !metadata.forceTrailingTimestampLayout
-            && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
+        visible: Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
 
         onClicked: metadata.actionToggled()
     }
@@ -235,115 +182,11 @@ RowLayout {
             return TimelineManager.userColor(metadata.threadId, effectiveBaseColor);
         }
         image: ":/icons/icons/ui/thread.svg"
-        visible: !metadata.forceTrailingTimestampLayout && metadata.canOpenThreadNavigation
+        visible: metadata.canOpenThreadNavigation
 
         onClicked: {
             if (metadata.room)
                 metadata.room.thread = threadId
         }
-    }
-
-    StatusIndicator {
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.indicatorSize
-        Layout.preferredWidth: parent.indicatorSize
-        visible: metadata.forceTrailingTimestampLayout && !metadata.isStateEvent && metadata.status != MtxEvent.Empty
-        eventId: metadata.eventId
-        status: metadata.status
-    }
-    Image {
-        id: editedMarkerTrailing
-
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.indicatorSize
-        Layout.preferredWidth: parent.indicatorSize
-        source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? effectiveHighlightColor : effectiveSecondaryTextColor)
-        sourceSize.height: parent.indicatorSize
-        sourceSize.width: parent.indicatorSize
-        visible: metadata.forceTrailingTimestampLayout && (metadata.isEdited || metadata.eventId == metadata.roomEditEventId)
-        HoverHandler {
-            id: editHoveredTrailing
-
-        }
-
-        KomaiToolTip {
-            anchorItem: editedMarkerTrailing
-            anchorX: editedMarkerTrailing.width / 2
-            anchorY: 0
-            text: qsTr("Edited")
-            delay: Komai.tooltipDelay
-            requestedVisible: editHoveredTrailing.hovered
-        }
-    }
-    EncryptionIndicator {
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.buttonSize
-        Layout.preferredWidth: parent.buttonSize
-        encrypted: metadata.isEncrypted
-        sourceSize.height: parent.buttonSize
-        sourceSize.width: parent.buttonSize
-        trust: metadata.trustlevel
-        visible: metadata.forceTrailingTimestampLayout && metadata.roomIsEncrypted
-    }
-    ImageButton {
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.buttonSize
-        Layout.preferredWidth: parent.buttonSize
-        toolTipText: qsTr("Reply in this thread")
-        toolTipVisible: hovered
-        buttonTextColor: {
-            const _revision = colorRevision;
-            return TimelineManager.userColor(metadata.threadId, effectiveBaseColor);
-        }
-        image: ":/icons/icons/ui/thread.svg"
-        visible: metadata.forceTrailingTimestampLayout && metadata.canOpenThreadNavigation
-
-        onClicked: {
-            if (metadata.room)
-                metadata.room.thread = threadId
-        }
-    }
-    Label {
-        id: tsTrailing
-
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredWidth: implicitWidth
-        color: effectiveInactiveTextColor
-        font.pointSize: Settings.uiFontSizePt * parent.scaling
-        text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
-        visible: metadata.forceTrailingTimestampLayout && !metadata.leadingActionInTrailingLayout
-
-        HoverHandler {
-            id: maTrailing
-
-        }
-
-        KomaiToolTip {
-            anchorItem: tsTrailing
-            anchorX: tsTrailing.width / 2
-            anchorY: 0
-            text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
-            delay: Komai.tooltipDelay
-            requestedVisible: maTrailing.hovered
-        }
-    }
-    ImageButton {
-        id: actionToggleBtnTrailing
-
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.buttonSize
-        Layout.preferredWidth: parent.buttonSize
-        toolTipDelay: 0
-        toolTipText: qsTr("Message actions")
-        toolTipVisible: hovered && !metadata.actionBarActive
-        buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
-        highlightColor: effectiveHighlightColor
-        changeColorOnHover: true
-        image: ":/icons/icons/ui/textbox-more.svg"
-        visible: metadata.forceTrailingTimestampLayout
-            && !metadata.leadingActionInTrailingLayout
-            && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
-
-        onClicked: metadata.actionToggled()
     }
 }

@@ -1234,6 +1234,12 @@ async fn run_room_timeline_loop(
                                 %error,
                                 "Failed to paginate active matrix-sdk room timeline backwards"
                             );
+                            // Re-notify so the C++ side processes the current snapshot
+                            // instead of waiting for a larger one that will never arrive.
+                            crate::ffi::matrix_notify_room_timeline_snapshot_updated(
+                                handle_id,
+                                &room_id,
+                            );
                         }
                     }
                     None => {

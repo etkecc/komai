@@ -520,6 +520,29 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
                             preferredInitialPageSize,
                             shortfall);
                       }
+
+                      // Schedule a fallback refresh in case the pagination never
+                      // produces a new snapshot (e.g. server-side auth failure).
+                      // If a real snapshot arrives first, the pending flag will
+                      // already be set and this becomes a no-op.
+                      QTimer::singleShot(500, guard, [guard, roomId]() {
+                          if (!guard)
+                              return;
+                          if (guard->activeMatrixTimelineRoomId_ != roomId)
+                              return;
+                          if (guard->matrixTimelineModel_ &&
+                              guard->matrixTimelineModel_->count() > 0)
+                              return;
+
+                          nhlog::ui()->warn(
+                            "Initial prefetch fallback: forcing refresh for room '{}' "
+                            "because the model is still empty",
+                            roomId.toStdString());
+
+                          guard->matrixTimelineRefreshPending_       = true;
+                          guard->matrixTimelineRefreshPendingRoomId_ = roomId;
+                          guard->scheduleCurrentMatrixTimelineRefresh();
+                      });
                       return;
                   }
 

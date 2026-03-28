@@ -414,6 +414,9 @@ private:
     bool matrixTimelineLoading_               = false;
     bool matrixSidebarRefreshQueued_          = false;
     bool matrixTimelineSelectionUpdateQueued_ = false;
+    bool matrixTimelineRefreshQueued_         = false;
+    bool matrixTimelineRefreshPending_        = false;
+    QString matrixTimelineRefreshPendingRoomId_;
     QStringList matrixTimelinePinnedEventIds_;
     bool matrixTimelineCanRedactOwn_   = false;
     bool matrixTimelineCanRedactOther_ = false;
@@ -440,6 +443,7 @@ private:
     void processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers);
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
     void scheduleCurrentMatrixTimelineSelectionUpdate();
+    void scheduleCurrentMatrixTimelineRefresh();
     void updateCurrentMatrixTimelineSelection();
     bool refreshActiveMatrixTimelinePinnedEventIds();
     bool refreshActiveMatrixTimelineRedactionPermissions();

@@ -55,9 +55,11 @@ ColumnLayout {
     property var measuredTimelineHeights: ({})
     property bool initialBottomPinPending: false
     property bool initialTimelineBufferPending: false
+    property bool deferredInitialBufferTopUpPending: false
     property bool bufferPaginationInFlight: false
     property bool perfLoggedCountNonZero: false
     property bool perfLoggedContentHeightReady: false
+    property bool perfLoggedUsefulHeightReady: false
     property bool perfLoggedBufferFilled: false
     property bool suppressNextWalkModeOlderStep: false
     property string lastMarkedReadEventId: ""
@@ -97,6 +99,12 @@ ColumnLayout {
         id: bufferCheckTimer
         interval: 35
         onTriggered: root.maybeRequestInitialTimelineBuffer()
+    }
+
+    Timer {
+        id: deferredBufferCheckTimer
+        interval: 140
+        onTriggered: root.maybeRequestDeferredInitialTimelineBuffer()
     }
 
     Timer {
@@ -928,19 +936,36 @@ ColumnLayout {
             root.markRoomSwitchPerfPhase("qml.matrix_room.content_height_ready");
         }
 
+        const usefulBufferedHeight = viewportHeight * 0.8;
         const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.25, 320);
-        if (matrixTimelineList.contentHeight >= desiredBufferedHeight) {
-            if (!perfLoggedBufferFilled) {
-                perfLoggedBufferFilled = true;
-                root.markRoomSwitchPerfPhase("qml.matrix_room.buffer_filled");
+        if (matrixTimelineList.contentHeight >= usefulBufferedHeight) {
+            if (!perfLoggedUsefulHeightReady) {
+                perfLoggedUsefulHeightReady = true;
+                root.markRoomSwitchPerfPhase("qml.matrix_room.useful_height_ready");
             }
-            console.info("[timeline-load] Buffer filled: contentH="
-                + Math.round(matrixTimelineList.contentHeight)
-                + " desired=" + Math.round(desiredBufferedHeight)
-                + " count=" + TimelineManager.matrixTimelineItemCount);
+
+            if (matrixTimelineList.contentHeight >= desiredBufferedHeight) {
+                if (!perfLoggedBufferFilled) {
+                    perfLoggedBufferFilled = true;
+                    root.markRoomSwitchPerfPhase("qml.matrix_room.buffer_filled");
+                }
+                console.info("[timeline-load] Buffer filled: contentH="
+                    + Math.round(matrixTimelineList.contentHeight)
+                    + " desired=" + Math.round(desiredBufferedHeight)
+                    + " count=" + TimelineManager.matrixTimelineItemCount);
+                initialTimelineBufferPending = false;
+                deferredInitialBufferTopUpPending = false;
+                bufferPaginationInFlight = false;
+                lastInitialBufferTriggerCount = -1;
+                deferredBufferCheckTimer.stop();
+                return;
+            }
+
+            // Once most of the viewport is covered, let the room become
+            // interactive and continue the final backfill one beat later.
             initialTimelineBufferPending = false;
-            bufferPaginationInFlight = false;
-            lastInitialBufferTriggerCount = -1;
+            deferredInitialBufferTopUpPending = true;
+            deferredBufferCheckTimer.restart();
             return;
         }
 
@@ -961,6 +986,58 @@ ColumnLayout {
             + " requesting=6");
         if (!TimelineManager.paginateActiveMatrixTimelineBackwards(6)) {
             initialTimelineBufferPending = false;
+            bufferPaginationInFlight = false;
+            lastInitialBufferTriggerCount = -1;
+            return;
+        }
+
+        bufferPaginationInFlight = true;
+        lastInitialBufferTriggerCount = itemCount;
+    }
+
+    function maybeRequestDeferredInitialTimelineBuffer() {
+        if (!matrixTimelineList
+                || !deferredInitialBufferTopUpPending
+                || initialBottomPinPending
+                || bufferPaginationInFlight
+                || loading
+                || !hasTimeline) {
+            return;
+        }
+
+        const viewportHeight = matrixTimelineList.height;
+        if (viewportHeight <= 0 || matrixTimelineList.contentHeight <= 0)
+            return;
+
+        const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.25, 320);
+        if (matrixTimelineList.contentHeight >= desiredBufferedHeight) {
+            if (!perfLoggedBufferFilled) {
+                perfLoggedBufferFilled = true;
+                root.markRoomSwitchPerfPhase("qml.matrix_room.buffer_filled");
+            }
+            console.info("[timeline-load] Buffer filled: contentH="
+                + Math.round(matrixTimelineList.contentHeight)
+                + " desired=" + Math.round(desiredBufferedHeight)
+                + " count=" + TimelineManager.matrixTimelineItemCount);
+            deferredInitialBufferTopUpPending = false;
+            bufferPaginationInFlight = false;
+            lastInitialBufferTriggerCount = -1;
+            return;
+        }
+
+        bufferPaginationInFlight = false;
+
+        const itemCount = TimelineManager.matrixTimelineItemCount;
+        if (itemCount <= 0 || lastInitialBufferTriggerCount === itemCount)
+            return;
+
+        console.info("[timeline-load] Requesting deferred buffer top-up: contentH="
+            + Math.round(matrixTimelineList.contentHeight)
+            + " desired=" + Math.round(desiredBufferedHeight)
+            + " count=" + itemCount
+            + " requesting=6");
+        if (!TimelineManager.paginateActiveMatrixTimelineBackwards(6)) {
+            deferredInitialBufferTopUpPending = false;
             bufferPaginationInFlight = false;
             lastInitialBufferTriggerCount = -1;
             return;
@@ -1517,6 +1594,9 @@ ColumnLayout {
                                     root.initialBottomPinPending = false;
                                 if (root.initialTimelineBufferPending)
                                     root.initialTimelineBufferPending = false;
+                                if (root.deferredInitialBufferTopUpPending)
+                                    root.deferredInitialBufferTopUpPending = false;
+                                deferredBufferCheckTimer.stop();
                             }
                             wheelSettleTimer.restart();
                         }
@@ -1560,6 +1640,9 @@ ColumnLayout {
                                 root.initialBottomPinPending = false;
                             if (root.initialTimelineBufferPending)
                                 root.initialTimelineBufferPending = false;
+                            if (root.deferredInitialBufferTopUpPending)
+                                root.deferredInitialBufferTopUpPending = false;
+                            deferredBufferCheckTimer.stop();
                         }
 
                         // Do NOT call updateBottomPin() here.  Transient
@@ -1593,7 +1676,10 @@ ColumnLayout {
                             }
                             updateLastScroll();
                         }
-                        bufferCheckTimer.restart();
+                        if (root.deferredInitialBufferTopUpPending)
+                            deferredBufferCheckTimer.restart();
+                        else
+                            bufferCheckTimer.restart();
                     }
                     onHeightChanged: {
                         if (!moving && !flicking && !dragging && !userUnpinned) {
@@ -1606,7 +1692,10 @@ ColumnLayout {
                             }
                             updateLastScroll();
                         }
-                        bufferCheckTimer.restart();
+                        if (root.deferredInitialBufferTopUpPending)
+                            deferredBufferCheckTimer.restart();
+                        else
+                            bufferCheckTimer.restart();
                     }
                     onCountChanged: {
                         // Pagination delivered new items — allow buffer
@@ -1626,7 +1715,10 @@ ColumnLayout {
                         }
                         updateLastScroll();
                         Qt.callLater(updateStableThumbSize);
-                        bufferCheckTimer.restart();
+                        if (root.deferredInitialBufferTopUpPending)
+                            deferredBufferCheckTimer.restart();
+                        else
+                            bufferCheckTimer.restart();
                         root.scheduleReadMarkerUpdate(!userUnpinned
                             && (forceScroll || keepPinnedToBottom || root.initialBottomPinPending || atYEnd));
                         previousCount = count;
@@ -2287,6 +2379,7 @@ ColumnLayout {
 
                             active: timelineItemDelegate.usesSharedTimelineBubble
                                 && !timelineItemDelegate.sharedBubbleReloadArmed
+                            asynchronous: true
                             sourceComponent: Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Plain
                                 ? matrixPlainMessageStyle
                                 : matrixBubbleMessageStyle
@@ -2405,7 +2498,10 @@ ColumnLayout {
     Connections {
         function onMatrixTimelineStateChanged() {
             root.ensureInitialBottomPin();
-            bufferCheckTimer.restart();
+            if (root.deferredInitialBufferTopUpPending)
+                deferredBufferCheckTimer.restart();
+            else
+                bufferCheckTimer.restart();
 
             if (!root.restoringEditDraft || root.activeEditEventId.length > 0)
                 return;
@@ -2441,14 +2537,17 @@ ColumnLayout {
         measuredTimelineHeights = ({});
         initialBottomPinPending = activeRoomId.length > 0;
         initialTimelineBufferPending = activeRoomId.length > 0;
+        deferredInitialBufferTopUpPending = false;
         bufferPaginationInFlight = false;
         perfLoggedCountNonZero = false;
         perfLoggedContentHeightReady = false;
+        perfLoggedUsefulHeightReady = false;
         perfLoggedBufferFilled = false;
         preferLatestReadMarkerEvent = false;
         lastMarkedReadEventId = "";
         lastInitialBufferTriggerCount = -1;
         visibleTimelineDelegates = ({});
+        deferredBufferCheckTimer.stop();
         if (activeRoomId.length > 0)
             root.markRoomSwitchPerfPhase("qml.matrix_room.active_room_changed");
         if (!matrixTimelineList)
@@ -2466,7 +2565,10 @@ ColumnLayout {
         if (!loading) {
             root.markRoomSwitchPerfPhase("qml.matrix_room.loading_false");
             ensureInitialBottomPin();
-            bufferCheckTimer.restart();
+            if (root.deferredInitialBufferTopUpPending)
+                deferredBufferCheckTimer.restart();
+            else
+                bufferCheckTimer.restart();
         }
     }
 }

@@ -231,6 +231,41 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     emit matrixTimelineStateChanged();
 }
 
+void
+TimelineViewManager::scheduleCurrentMatrixTimelineRefresh()
+{
+    const auto roomId = activeMatrixTimelineRoomId_;
+    if (roomId.isEmpty())
+        return;
+
+    if (matrixTimelineRefreshQueued_)
+        return;
+
+    matrixTimelineRefreshQueued_ = true;
+    markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_queued");
+    QMetaObject::invokeMethod(
+      this,
+      [this, roomId]() {
+          matrixTimelineRefreshQueued_ = false;
+
+          if (!matrixTimelineRefreshPending_ || matrixTimelineRefreshPendingRoomId_ != roomId ||
+              activeMatrixTimelineRoomId_ != roomId) {
+              return;
+          }
+
+          matrixTimelineRefreshPending_ = false;
+          markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_dequeued");
+          refreshCurrentMatrixTimeline();
+          markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_refreshed");
+          if (refreshActiveMatrixTimelinePinnedEventIds())
+              emit matrixTimelineStateChanged();
+
+          if (matrixTimelineRefreshPending_ && matrixTimelineRefreshPendingRoomId_ == roomId)
+              scheduleCurrentMatrixTimelineRefresh();
+      },
+      Qt::QueuedConnection);
+}
+
 bool
 TimelineViewManager::refreshActiveMatrixTimelinePinnedEventIds()
 {
@@ -382,6 +417,10 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
         activeMatrixTimelineRoomId_.clear();
         stateChanged = true;
     }
+
+    matrixTimelineRefreshQueued_  = false;
+    matrixTimelineRefreshPending_ = false;
+    matrixTimelineRefreshPendingRoomId_.clear();
 
     if (matrixTimelineModel_)
         matrixTimelineModel_->clear();
@@ -1154,10 +1193,9 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
         emit waitingForFirstSyncChanged(false);
     }
 
-    refreshCurrentMatrixTimeline();
-    markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_refreshed");
-    if (refreshActiveMatrixTimelinePinnedEventIds())
-        emit matrixTimelineStateChanged();
+    matrixTimelineRefreshPending_       = true;
+    matrixTimelineRefreshPendingRoomId_ = roomId;
+    scheduleCurrentMatrixTimelineRefresh();
 }
 
 bool

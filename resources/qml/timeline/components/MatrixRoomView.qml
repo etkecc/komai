@@ -1841,6 +1841,7 @@ ColumnLayout {
                             || usesSharedFileBubble
                             || usesSharedAudioBubble
                             || usesSharedStateBubble
+                        property bool sharedBubbleReloadInitialized: false
                         property bool sharedBubbleReloadArmed: false
                         readonly property string heightCacheKey: root.matrixTimelineHeightCacheKey(eventId, itemId)
                         readonly property real cachedMeasuredHeight: root.rememberedTimelineHeight(heightCacheKey)
@@ -2033,7 +2034,9 @@ ColumnLayout {
                         height: sharedTimelineHeightEstimate
 
                         function reloadSharedTimelineBubble() {
-                            if (!usesSharedTimelineBubble || sharedBubbleReloadArmed)
+                            if (!usesSharedTimelineBubble
+                                    || !sharedBubbleReloadInitialized
+                                    || sharedBubbleReloadArmed)
                                 return;
 
                             sharedBubbleReloadArmed = true;
@@ -2057,6 +2060,7 @@ ColumnLayout {
                         onItemIdChanged: reloadSharedTimelineBubble()
                         onItemKindChanged: reloadSharedTimelineBubble()
                         onHeightChanged: rememberResolvedTimelineHeight()
+                        Component.onCompleted: sharedBubbleReloadInitialized = true
 
                         PreviewPermissions {
                             id: matrixToolbarPreviewPermissions

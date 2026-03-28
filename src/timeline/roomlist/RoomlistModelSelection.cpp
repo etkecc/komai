@@ -94,6 +94,9 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
         manager->markRoomSwitchPhaseCpp(roomid, "cpp.matrix_summary_selected");
     nhlog::ui()->debug("Switched to matrix room summary: {}", roomid.toStdString());
 
+    if (manager)
+        manager->primeCurrentMatrixTimelineSelection();
+
     emit currentRoomChanged(roomid);
     if (manager)
         manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_summary_changed_emitted");

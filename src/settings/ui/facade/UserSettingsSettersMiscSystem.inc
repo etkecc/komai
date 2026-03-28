@@ -4,7 +4,7 @@ UserSettings::setCurrentFilterId(const QString currentFilterId)
     if (currentFilterId == currentFilterId_)
         return;
     currentFilterId_ = currentFilterId;
-    save();
+    scheduleDeferredStateSave();
 }
 
 void
@@ -13,7 +13,7 @@ UserSettings::setCurrentRoomId(const QString currentRoomId)
     if (currentRoomId == currentRoomId_)
         return;
     currentRoomId_ = currentRoomId;
-    save();
+    scheduleDeferredStateSave();
 }
 
 void

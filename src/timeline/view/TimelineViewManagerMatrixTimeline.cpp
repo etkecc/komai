@@ -135,9 +135,9 @@ estimatedInitialMatrixTimelinePageSize(double viewportHeight)
     if (viewportHeight <= 0)
         return 0;
 
-    const auto *settings        = UserSettings::instance().get();
-    const auto fontSizePt       = settings ? settings->uiFontSizePt() : 13.0;
-    const auto bufferedHeadroom = std::min(viewportHeight * 0.15, fontSizePt * 16.0);
+    const auto *settings             = UserSettings::instance().get();
+    const auto fontSizePt            = settings ? settings->uiFontSizePt() : 13.0;
+    const auto bufferedHeadroom      = std::min(viewportHeight * 0.15, fontSizePt * 16.0);
     const auto desiredBufferedHeight = viewportHeight + bufferedHeadroom;
     const auto averageRowHeight      = std::max(56.0, std::round(fontSizePt * 5.25));
 
@@ -187,6 +187,15 @@ TimelineViewManager::matrixTimelineAttachments() const
     return attachments;
 }
 
+void
+TimelineViewManager::primeCurrentMatrixTimelineSelection()
+{
+    // Run the room-to-timeline handoff immediately when the room summary is
+    // selected, instead of waiting for currentRoomChanged fanout through QML
+    // and other listeners before we even start the active Rust timeline.
+    scheduleCurrentMatrixTimelineSelectionUpdate();
+}
+
 QString
 TimelineViewManager::formatMatrixMessageHtml(const QString &body) const
 {
@@ -219,20 +228,18 @@ TimelineViewManager::scheduleCurrentMatrixTimelineSelectionUpdate()
         return;
 
     matrixTimelineSelectionUpdateQueued_ = true;
-    QMetaObject::invokeMethod(
-      this,
-      [this]() {
-          matrixTimelineSelectionUpdateQueued_ = false;
+    const auto currentPreview            = rooms_->currentRoomPreview();
+    const auto currentRoomId = (!rooms_->currentRoom() && currentPreview.isMatrixSummary())
+                                 ? currentPreview.roomid()
+                                 : QString();
+    if (!currentRoomId.isEmpty())
+        markRoomSwitchPhaseCpp(currentRoomId, "cpp.matrix_timeline_selection_dequeued");
 
-          const auto preview = rooms_->currentRoomPreview();
-          const auto roomId =
-            (!rooms_->currentRoom() && preview.isMatrixSummary()) ? preview.roomid() : QString();
-          if (!roomId.isEmpty())
-              markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_selection_dequeued");
-
-          updateCurrentMatrixTimelineSelection();
-      },
-      Qt::QueuedConnection);
+    // Selecting the active Rust timeline now just kicks off a background task,
+    // so delaying it behind later event-loop work only adds avoidable room-open
+    // latency. Run it immediately while the room-selection state is already hot.
+    updateCurrentMatrixTimelineSelection();
+    matrixTimelineSelectionUpdateQueued_ = false;
 }
 
 void
@@ -263,7 +270,7 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
                                                 ? preferredInitialMatrixTimelinePageSize_
                                                 : fallbackInitialMatrixTimelinePageSize());
 
-    const auto warmupGeneration = ++matrixTimelineWarmupGuardGeneration_;
+    const auto warmupGeneration      = ++matrixTimelineWarmupGuardGeneration_;
     matrixTimelineWarmupGuardActive_ = true;
     QTimer::singleShot(1500, this, [this, roomId, warmupGeneration]() {
         if (matrixTimelineWarmupGuardGeneration_ != warmupGeneration)
@@ -310,7 +317,7 @@ TimelineViewManager::scheduleCurrentMatrixTimelineRefresh()
     matrixTimelineRefreshQueued_ = true;
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_queued");
     const auto delayMs =
-      (matrixTimelineLoading_ && matrixTimelineModel_ && matrixTimelineModel_->count() == 0) ? 25
+      (matrixTimelineLoading_ && matrixTimelineModel_ && matrixTimelineModel_->count() == 0) ? 8
                                                                                              : 0;
 
     QTimer::singleShot(delayMs, this, [this, roomId]() {

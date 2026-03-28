@@ -124,6 +124,8 @@ bool networkHttp3Enabled_ = settings::core::definitions::kDefaultNetworkHttp3Ena
 QMap<QString, QString> secrets_;
 settings::core::SettingsStore coreStore_;
 bool suppressSettingsSave_ = false;
+QTimer deferredStateSaveTimer_;
+bool deferredStateSavePending_ = false;
 
 enum class StartupPersistenceScope
 {

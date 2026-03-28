@@ -9,6 +9,7 @@
 #include <QProcessEnvironment>
 #include <QQmlEngine>
 #include <QSharedPointer>
+#include <QTimer>
 
 #include <optional>
 #include <string>
@@ -608,6 +609,8 @@ public:
     void setSecret(const QString &name, const QString &value);
     void removeSecret(const QString &name);
     void setPersistenceSuspended(bool suspended);
+    void scheduleDeferredStateSave();
+    void flushDeferredStateSave();
     // Internal settings lifecycle hooks used by SettingsController.
     void applyProfilePathState(const QString &profile);
     void setPersistenceScopeReadyForAuth(bool ready);

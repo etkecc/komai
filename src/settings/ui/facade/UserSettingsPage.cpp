@@ -53,8 +53,15 @@ QSharedPointer<UserSettings> UserSettings::instance_;
 
 UserSettings::UserSettings()
 {
+    deferredStateSaveTimer_.setSingleShot(true);
+    deferredStateSaveTimer_.setInterval(150);
     connect(
-      QCoreApplication::instance(), &QCoreApplication::aboutToQuit, []() { instance_.clear(); });
+      &deferredStateSaveTimer_, &QTimer::timeout, this, [this]() { flushDeferredStateSave(); });
+
+    connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, this, [this]() {
+        flushDeferredStateSave();
+        instance_.clear();
+    });
 }
 
 QSharedPointer<UserSettings>
@@ -119,6 +126,12 @@ void
 UserSettings::setPersistenceSuspended(bool suspended)
 {
     suppressSettingsSave_ = suspended;
+
+    if (suspended) {
+        deferredStateSaveTimer_.stop();
+    } else if (deferredStateSavePending_) {
+        deferredStateSaveTimer_.start();
+    }
 }
 
 void
@@ -126,6 +139,31 @@ UserSettings::setPersistenceScopeReadyForAuth(bool ready)
 {
     startupPersistenceScope_ =
       ready ? StartupPersistenceScope::Full : StartupPersistenceScope::ConfigOnly;
+}
+
+void
+UserSettings::scheduleDeferredStateSave()
+{
+    deferredStateSavePending_ = true;
+
+    if (suppressSettingsSave_)
+        return;
+
+    deferredStateSaveTimer_.start();
+}
+
+void
+UserSettings::flushDeferredStateSave()
+{
+    if (!deferredStateSavePending_)
+        return;
+
+    if (suppressSettingsSave_)
+        return;
+
+    deferredStateSavePending_ = false;
+    settings::SettingsController controller;
+    controller.save(*this, settings::SettingsController::SavePolicy::StateOnly);
 }
 
 QString

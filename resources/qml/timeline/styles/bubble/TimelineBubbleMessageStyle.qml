@@ -20,6 +20,7 @@ TimelineMessageStyleBase {
     // (e.g. MatrixRoomView.sharedTimelineHeightEstimate) use this to avoid adopting
     // the 100 px placeholder while the delegate is still loading.
     readonly property bool contentReady: !isHiddenEvent && (bubbleBody.implicitHeight >= 1 || index === 0)
+    property bool perfLoggedContentReady: false
     height: isHiddenEvent ? 0 : Math.max((section.item?.height ?? 0)
         + Math.max(((bubbleBody.implicitHeight < 1 && index != 0) ? 100 : bubbleBody.implicitHeight),
                    (reserveAvatarRowHeight && messageUserAvatar.visible ? messageUserAvatar.height : 0))
@@ -107,6 +108,57 @@ TimelineMessageStyleBase {
 
     maxWidth: chat.delegateMaxWidth - avatarMargin - bubbleMargin
     hoverDismissTimerRef: bubbleBody.hoverDismissTimer
+
+    function perfTimelineTypeLabel() {
+        switch (wrapper.type) {
+        case MtxEvent.TextMessage:
+            return "text";
+        case MtxEvent.NoticeMessage:
+            return "notice";
+        case MtxEvent.EmoteMessage:
+            return "emote";
+        case MtxEvent.ImageMessage:
+            return "image";
+        case MtxEvent.VideoMessage:
+            return "video";
+        case MtxEvent.AudioMessage:
+            return "audio";
+        case MtxEvent.FileMessage:
+            return "file";
+        case MtxEvent.Sticker:
+            return "sticker";
+        case MtxEvent.Encrypted:
+            return "encrypted";
+        case MtxEvent.Redacted:
+            return "redacted";
+        case MtxEvent.Encryption:
+            return "encryption";
+        case MtxEvent.Member:
+            return "member";
+        default:
+            return wrapper.isStateEvent ? "state" : "other";
+        }
+    }
+
+    onContentReadyChanged: {
+        if (!contentReady || perfLoggedContentReady || !TimelineManager.roomSwitchPerfEnabled())
+            return;
+
+        perfLoggedContentReady = true;
+        const roomId = wrapper.room ? String(wrapper.room.roomId || "") : String(wrapper.roomIdForColorCoding || "");
+        if (roomId.length === 0)
+            return;
+
+        const typeLabel = perfTimelineTypeLabel();
+        TimelineManager.markRoomSwitchPhase(roomId, "qml.matrix_row_ready." + typeLabel + "." + index);
+        console.info("[room-switch-perf] phase=qml.matrix_row_ready"
+            + " room='" + roomId + "'"
+            + " type=" + typeLabel
+            + " index=" + index
+            + " height=" + Math.round(height)
+            + " bubbleHeight=" + Math.round(bubbleBody.implicitHeight)
+            + " event='" + String(wrapper.eventId || "") + "'");
+    }
 
     data: [
         Loader {

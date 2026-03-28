@@ -278,6 +278,9 @@ TimelineViewManager::perfUiFlagEnabled(const QString &flag) const
     if (flag == QLatin1String("disable_timeline_hover"))
         return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_HOVER"));
 
+    if (flag == QLatin1String("disable_timeline_interaction"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_INTERACTION"));
+
     if (flag == QLatin1String("disable_timeline_metadata"))
         return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_METADATA"));
 

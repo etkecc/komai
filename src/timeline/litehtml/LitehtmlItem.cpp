@@ -5,6 +5,7 @@
 #include "timeline/litehtml/LitehtmlItem.h"
 
 #include <QClipboard>
+#include <QElapsedTimer>
 #include <QGuiApplication>
 #include <QPalette>
 #include <QQuickWindow>
@@ -32,8 +33,8 @@ LitehtmlItem::LitehtmlItem(QQuickItem *parent)
         }
     });
     connect(UserSettings::instance().get(), &UserSettings::uiThemeSlugChanged, this, [this]() {
-        m_masterCss = generateMasterCss();
-        rebuildDocument();
+        m_masterCssDirty = true;
+        requestDocumentRebuild();
     });
     connect(this, &QQuickItem::activeFocusChanged, this, [this](bool hasFocus) {
         if (!hasFocus) {
@@ -41,7 +42,6 @@ LitehtmlItem::LitehtmlItem(QQuickItem *parent)
             update();
         }
     });
-    m_masterCss = generateMasterCss();
 }
 
 QString
@@ -70,7 +70,7 @@ LitehtmlItem::setHtml(const QString &html)
         return;
     m_html = html;
     emit htmlChanged();
-    rebuildDocument();
+    requestDocumentRebuild();
 }
 
 void
@@ -81,8 +81,8 @@ LitehtmlItem::setColor(const QColor &color)
     m_color = color;
     m_container->setDefaultColor(color);
     emit colorChanged();
-    m_masterCss = generateMasterCss();
-    rebuildDocument();
+    m_masterCssDirty = true;
+    requestDocumentRebuild();
 }
 
 void
@@ -92,8 +92,8 @@ LitehtmlItem::setLinkColor(const QColor &color)
         return;
     m_linkColor = color;
     emit linkColorChanged();
-    m_masterCss = generateMasterCss();
-    rebuildDocument();
+    m_masterCssDirty = true;
+    requestDocumentRebuild();
 }
 
 void
@@ -103,8 +103,8 @@ LitehtmlItem::setSurfaceColor(const QColor &color)
         return;
     m_surfaceColor = color;
     emit surfaceColorChanged();
-    m_masterCss = generateMasterCss();
-    rebuildDocument();
+    m_masterCssDirty = true;
+    requestDocumentRebuild();
 }
 
 void
@@ -119,8 +119,8 @@ LitehtmlItem::setFont(const QFont &font)
         m_font.setFamily(QGuiApplication::font().family());
     m_container->setDefaultFont(m_font);
     emit fontChanged();
-    m_masterCss = generateMasterCss();
-    rebuildDocument();
+    m_masterCssDirty = true;
+    requestDocumentRebuild();
 }
 
 void
@@ -143,7 +143,27 @@ LitehtmlItem::setCompact(bool compact)
         return;
     m_compact = compact;
     emit compactChanged();
-    m_masterCss = generateMasterCss();
+    m_masterCssDirty = true;
+    requestDocumentRebuild();
+}
+
+void
+LitehtmlItem::componentComplete()
+{
+    QQuickPaintedItem::componentComplete();
+
+    if (m_rebuildPending)
+        rebuildDocument();
+}
+
+void
+LitehtmlItem::requestDocumentRebuild()
+{
+    m_rebuildPending = true;
+
+    if (!isComponentComplete())
+        return;
+
     rebuildDocument();
 }
 
@@ -162,16 +182,33 @@ LitehtmlItem::rebuildDocument()
         return;
     }
 
+    if (m_masterCssDirty) {
+        m_masterCss      = generateMasterCss();
+        m_masterCssDirty = false;
+    }
+
     m_container->setDefaultFont(m_font);
     m_container->setDefaultColor(m_color);
     m_container->setEmojiFontFamily(utils::effectiveEmojiFontFamily());
 
-    m_document = litehtml::document::createFromString(m_html.toUtf8().constData(),
+    QElapsedTimer timer;
+    timer.start();
+    m_document            = litehtml::document::createFromString(m_html.toUtf8().constData(),
                                                       m_container,
                                                       litehtml::master_css,
                                                       m_masterCss.toUtf8().constData());
+    const qint64 createUs = timer.nsecsElapsed() / 1000;
 
+    ++m_rebuildCount;
     relayout();
+    if (roomSwitchPerfEnabled() && m_rebuildCount <= 2) {
+        logPerfPhase("litehtml.rebuild",
+                     createUs,
+                     QString(" rebuild_count=%1 html_len=%2 width=%3")
+                       .arg(m_rebuildCount)
+                       .arg(m_html.size())
+                       .arg(qRound(width())));
+    }
     update();
 }
 
@@ -190,11 +227,23 @@ LitehtmlItem::relayout()
 
     int w = qMax(1, itemWidth - static_cast<int>(m_leftPadding));
     m_container->setViewportSize(w, static_cast<int>(height()));
+    QElapsedTimer timer;
+    timer.start();
     m_document->render(w);
-    int cw = m_document->content_width() + static_cast<int>(m_leftPadding);
+    const qint64 renderUs = timer.nsecsElapsed() / 1000;
+    int cw                = m_document->content_width() + static_cast<int>(m_leftPadding);
     setImplicitWidth(cw);
     setImplicitHeight(m_document->height());
     updateTextureSize();
+    ++m_relayoutCount;
+    if (roomSwitchPerfEnabled() && m_relayoutCount <= 3) {
+        logPerfPhase("litehtml.relayout",
+                     renderUs,
+                     QString(" relayout_count=%1 width=%2 implicit_height=%3")
+                       .arg(m_relayoutCount)
+                       .arg(w)
+                       .arg(qRound(implicitHeight())));
+    }
 }
 
 void
@@ -227,6 +276,8 @@ LitehtmlItem::paint(QPainter *painter)
     // Only collect text runs when selection is active or in progress — this avoids
     // rebuilding the text run vectors on every paint frame during normal scrolling.
     bool collectRuns = needsTextRunCollection();
+    QElapsedTimer timer;
+    timer.start();
     if (collectRuns)
         m_container->beginTextRunCollection();
     m_document->draw(reinterpret_cast<litehtml::uint_ptr>(painter), padLeft, 0, &clip);
@@ -237,6 +288,15 @@ LitehtmlItem::paint(QPainter *painter)
         drawSelection(painter);
 
     m_container->setPainter(nullptr);
+    ++m_paintCount;
+    if (roomSwitchPerfEnabled() && m_paintCount <= 2) {
+        logPerfPhase("litehtml.paint",
+                     timer.nsecsElapsed() / 1000,
+                     QString(" paint_count=%1 width=%2 height=%3")
+                       .arg(m_paintCount)
+                       .arg(qRound(width()))
+                       .arg(qRound(height())));
+    }
 }
 
 void
@@ -256,6 +316,32 @@ bool
 LitehtmlItem::needsTextRunCollection() const
 {
     return m_selecting || m_selStart.isValid();
+}
+
+bool
+LitehtmlItem::roomSwitchPerfEnabled() const
+{
+    return qEnvironmentVariableIsSet("KOMAI_ROOM_SWITCH_PERF") ||
+           qEnvironmentVariableIsSet("KOMAI_PERF_ROOM_SWITCH");
+}
+
+void
+LitehtmlItem::logPerfPhase(const char *phase, qint64 elapsedUs, const QString &extra) const
+{
+    if (!roomSwitchPerfEnabled())
+        return;
+
+    QString message =
+      QStringLiteral("[room-switch-perf] phase=%1 room='%2' event='%3' elapsed_us=%4 "
+                     "elapsed_ms=%5")
+        .arg(QString::fromUtf8(phase),
+             m_perfRoomId,
+             m_perfEventId,
+             QString::number(elapsedUs),
+             QString::number(double(elapsedUs) / 1000.0, 'f', 3));
+    if (!extra.isEmpty())
+        message += extra;
+    qInfo().noquote() << message;
 }
 
 void

@@ -18,6 +18,7 @@ LitehtmlItem {
     property point hoverPoint: Qt.point(0, 0)
     readonly property bool emojiOnlyMessage: isOnlyEmoji > 0 && isOnlyEmoji < 4
     readonly property bool enlargedEmojiOnly: Settings.timelineMessagesEmojiOnlyEnlarge && emojiOnlyMessage
+    readonly property bool perfDisableTimelineInteraction: TimelineManager.perfUiFlagEnabled("disable_timeline_interaction")
 
     // Collapsible large messages
     property real timelineViewportHeight: 0
@@ -52,6 +53,8 @@ LitehtmlItem {
     property string copyText: selectedText.length > 0 ? selectedText : body
 
     html: formatted
+    perfRoomId: EventDelegateChooser.room ? String(EventDelegateChooser.room.roomId || "") : ""
+    perfEventId: String(EventDelegateChooser.eventId || "")
     color: palette.text
     linkColor: palette.link
     surfaceColor: palette.alternateBase
@@ -73,7 +76,7 @@ LitehtmlItem {
     }
 
     Loader {
-        active: hoveredLink.length > 0
+        active: !perfDisableTimelineInteraction && hoveredLink.length > 0
         sourceComponent: Component {
             Item {
                 TextMetrics {
@@ -97,6 +100,7 @@ LitehtmlItem {
     }
 
     HoverHandler {
+        enabled: !perfDisableTimelineInteraction
         cursorShape: hoveredLink.length > 0 ? Qt.PointingHandCursor
                    : (isReply ? Qt.PointingHandCursor : Qt.IBeamCursor)
         onPointChanged: if (hovered) {

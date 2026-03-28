@@ -41,6 +41,8 @@ class LitehtmlItem : public QQuickPaintedItem
     Q_PROPERTY(
       QColor surfaceColor READ surfaceColor WRITE setSurfaceColor NOTIFY surfaceColorChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
+    Q_PROPERTY(QString perfRoomId READ perfRoomId WRITE setPerfRoomId)
+    Q_PROPERTY(QString perfEventId READ perfEventId WRITE setPerfEventId)
     Q_PROPERTY(QString selectedText READ selectedText NOTIFY selectedTextChanged)
     Q_PROPERTY(qreal leftPadding READ leftPadding WRITE setLeftPadding NOTIFY leftPaddingChanged)
     Q_PROPERTY(bool compact READ compact WRITE setCompact NOTIFY compactChanged)
@@ -64,6 +66,12 @@ public:
 
     QFont font() const { return m_font; }
     void setFont(const QFont &font);
+
+    QString perfRoomId() const { return m_perfRoomId; }
+    void setPerfRoomId(const QString &roomId) { m_perfRoomId = roomId; }
+
+    QString perfEventId() const { return m_perfEventId; }
+    void setPerfEventId(const QString &eventId) { m_perfEventId = eventId; }
 
     QString selectedText() const { return m_selectedText; }
 
@@ -91,6 +99,7 @@ signals:
     void linkActivated(const QString &link);
 
 protected:
+    void componentComplete() override;
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -99,6 +108,7 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private:
+    void requestDocumentRebuild();
     void rebuildDocument();
     void relayout();
     void updateTextureSize();
@@ -111,6 +121,8 @@ private:
     void clearSelection();
 
     bool needsTextRunCollection() const;
+    bool roomSwitchPerfEnabled() const;
+    void logPerfPhase(const char *phase, qint64 elapsedUs, const QString &extra = {}) const;
 
     QString m_html;
     QString m_hoveredLink;
@@ -122,6 +134,13 @@ private:
     qreal m_leftPadding = 0;
     bool m_compact      = false;
     QString m_masterCss;
+    bool m_masterCssDirty = true;
+    bool m_rebuildPending = false;
+    QString m_perfRoomId;
+    QString m_perfEventId;
+    int m_rebuildCount  = 0;
+    int m_relayoutCount = 0;
+    int m_paintCount    = 0;
 
     LitehtmlContainer *m_container = nullptr;
     litehtml::document::ptr m_document;

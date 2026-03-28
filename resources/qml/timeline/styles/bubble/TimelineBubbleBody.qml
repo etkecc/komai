@@ -17,6 +17,7 @@ Item {
     property alias bubbleItem: messageBubble
     property alias replyItem: replyRow
     readonly property bool perfDisableTimelineHover: TimelineManager.perfUiFlagEnabled("disable_timeline_hover")
+    readonly property bool perfDisableTimelineInteraction: TimelineManager.perfUiFlagEnabled("disable_timeline_interaction")
     readonly property bool perfDisableTimelineMetadata: TimelineManager.perfUiFlagEnabled("disable_timeline_metadata")
     readonly property var metadataItem: metadataLoader.item ? metadataLoader.item : metadataFallback
 
@@ -102,7 +103,7 @@ Item {
 
     HoverHandler {
         id: messageHover
-        enabled: !root.perfDisableTimelineHover
+        enabled: !root.perfDisableTimelineHover && !root.perfDisableTimelineInteraction
         blocking: false
         onHoveredChanged: root.wrapper.handleMessageHoverChanged(hovered, messageBubble)
     }
@@ -229,7 +230,7 @@ Item {
 
                     KomaiCursorShape {
                         anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
+                        cursorShape: root.perfDisableTimelineInteraction ? Qt.ArrowCursor : Qt.PointingHandCursor
                     }
 
                     contentItem: Column {
@@ -285,6 +286,9 @@ Item {
                     }
 
                     onClicked: {
+                        if (root.perfDisableTimelineInteraction)
+                            return;
+
                         let link = root.wrapper.reply.hoveredLink;
                         if (link) {
                             Komai.openLink(link)
@@ -297,8 +301,14 @@ Item {
                                 root.wrapper.roomForColorCoding.showEvent(root.wrapper.replyTo)
                         }
                     }
-                    onPressAndHold: root.wrapper.openReplyContextMenu(root.wrapper.reply, root.wrapper.replyTo, pressX, pressY, replyLine.width, replyUserButton.implicitHeight)
+                    onPressAndHold: {
+                        if (root.perfDisableTimelineInteraction)
+                            return;
+
+                        root.wrapper.openReplyContextMenu(root.wrapper.reply, root.wrapper.replyTo, pressX, pressY, replyLine.width, replyUserButton.implicitHeight)
+                    }
                     TapHandler {
+                        enabled: !root.perfDisableTimelineInteraction
                         acceptedButtons: Qt.RightButton
                         acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
                         gesturePolicy: TapHandler.ReleaseWithinBounds
@@ -526,7 +536,7 @@ Item {
 
     DragHandler {
         id: replyDragHandler
-        enabled: Settings.uiInputTouchSwipeGesturesEnabled
+        enabled: Settings.uiInputTouchSwipeGesturesEnabled && !root.perfDisableTimelineInteraction
         yAxis.enabled: false
         xAxis.enabled: true
         xAxis.minimum: (root.wrapper.messageIsRightAligned ? 0 : root.wrapper.avatarMargin) - 100
@@ -545,6 +555,7 @@ Item {
     }
 
     TapHandler {
+        enabled: !root.perfDisableTimelineInteraction
         onDoubleTapped: {
             if (root.wrapper.room)
                 root.wrapper.room.reply = root.wrapper.eventId
@@ -566,6 +577,7 @@ Item {
             acceptedButtons: Qt.LeftButton
             propagateComposedEvents: false
             preventStealing: true
+            enabled: !root.perfDisableTimelineInteraction
             cursorShape: undefined
 
             function isSelectionToggleClick(modifiers) {
@@ -592,6 +604,7 @@ Item {
         anchors.topMargin: replyRow.height
 
         TapHandler {
+            enabled: !root.perfDisableTimelineInteraction
             acceptedButtons: Qt.RightButton
             acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
             gesturePolicy: TapHandler.ReleaseWithinBounds

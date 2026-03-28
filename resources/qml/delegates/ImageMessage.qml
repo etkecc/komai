@@ -53,6 +53,7 @@ Item {
 
     property int metadataWidth
     property bool fitsMetadata: parent != null ? (parent.width - width) > metadataWidth + 4 : false
+    readonly property bool perfDisableTimelineInteraction: TimelineManager.perfUiFlagEnabled("disable_timeline_interaction")
 
     implicitHeight: contentColumn.implicitHeight
 
@@ -70,6 +71,7 @@ Item {
 
             HoverHandler {
                 id: mediaHover
+                enabled: !root.perfDisableTimelineInteraction
             }
 
             MediaImageSurface {
@@ -82,8 +84,8 @@ Item {
                 mimeType: root.mimetype
                 roomContext: root.roomContext
                 hovered: mediaHover.hovered
-                interactive: !EventDelegateChooser.isReply
-                revealEnabled: !EventDelegateChooser.isReply
+                interactive: !EventDelegateChooser.isReply && !root.perfDisableTimelineInteraction
+                revealEnabled: !EventDelegateChooser.isReply && !root.perfDisableTimelineInteraction
                 onActivated: {
                     if (!root.roomContext)
                         return;

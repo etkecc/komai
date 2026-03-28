@@ -4,14 +4,19 @@
 
 #include "timeline/TimelineViewManager.h"
 
+#include <cmath>
+
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QDir>
+#include <QElapsedTimer>
 #include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QMimeDatabase>
+#include <QPointer>
 #include <QStandardPaths>
+#include <QTimer>
 #include <QUrl>
 #include <QUuid>
 
@@ -123,6 +128,37 @@ isForwardableActiveMatrixTimelineMediaKind(const QString &itemKind)
     return itemKind == QStringLiteral("image") || itemKind == QStringLiteral("video") ||
            itemKind == QStringLiteral("audio") || itemKind == QStringLiteral("file");
 }
+
+int
+estimatedInitialMatrixTimelinePageSize(double viewportHeight)
+{
+    if (viewportHeight <= 0)
+        return 0;
+
+    const auto *settings             = UserSettings::instance().get();
+    const auto fontSizePt            = settings ? settings->uiFontSizePt() : 13.0;
+    const auto desiredBufferedHeight = viewportHeight + std::min(viewportHeight * 0.25, 320.0);
+    const auto averageRowHeight      = std::max(56.0, std::round(fontSizePt * 4.5));
+
+    return std::clamp(
+      static_cast<int>(std::ceil(desiredBufferedHeight / averageRowHeight)), 15, 50);
+}
+
+int
+fallbackInitialMatrixTimelinePageSize()
+{
+    const auto *mainWindow = MainWindow::instance();
+    if (!mainWindow)
+        return 24;
+
+    const auto *settings       = UserSettings::instance().get();
+    const auto fontSizePt      = settings ? settings->uiFontSizePt() : 13.0;
+    const auto chromeAllowance = std::max(180.0, std::round(fontSizePt * 14.0));
+    const auto approximateViewportHeight =
+      std::max(0.0, static_cast<double>(mainWindow->height()) - chromeAllowance);
+
+    return estimatedInitialMatrixTimelinePageSize(approximateViewportHeight);
+}
 }
 
 QVariantList
@@ -142,6 +178,9 @@ TimelineViewManager::matrixTimelineAttachments() const
 QString
 TimelineViewManager::formatMatrixMessageHtml(const QString &body) const
 {
+    if (perfUiFlagEnabled(QStringLiteral("disable_timeline_rich_text")))
+        return body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));
+
     return matrixMessageRenderableHtml(body);
 }
 
@@ -208,6 +247,10 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
 
     clearActiveMatrixReplyState();
 
+    setPreferredInitialMatrixTimelinePageSize(preferredInitialMatrixTimelinePageSize_ > 0
+                                                ? preferredInitialMatrixTimelinePageSize_
+                                                : fallbackInitialMatrixTimelinePageSize());
+
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_select_begin");
     QString error;
     if (!komai::MatrixBackendRuntimeService::selectActiveRoomTimeline(handleId, roomId, &error)) {
@@ -221,8 +264,9 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     }
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_select_done");
 
-    activeMatrixTimelineRoomId_ = roomId;
-    matrixTimelineLoading_      = true;
+    activeMatrixTimelineRoomId_             = roomId;
+    matrixTimelineLoading_                  = true;
+    matrixTimelineInitialPrefetchAttempted_ = false;
     refreshActiveMatrixTimelinePinnedEventIds();
     refreshActiveMatrixTimelineRedactionPermissions();
     if (matrixTimelineModel_)
@@ -243,27 +287,22 @@ TimelineViewManager::scheduleCurrentMatrixTimelineRefresh()
 
     matrixTimelineRefreshQueued_ = true;
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_queued");
-    QMetaObject::invokeMethod(
-      this,
-      [this, roomId]() {
-          matrixTimelineRefreshQueued_ = false;
+    const auto delayMs =
+      (matrixTimelineLoading_ && matrixTimelineModel_ && matrixTimelineModel_->count() == 0) ? 25
+                                                                                             : 0;
 
-          if (!matrixTimelineRefreshPending_ || matrixTimelineRefreshPendingRoomId_ != roomId ||
-              activeMatrixTimelineRoomId_ != roomId) {
-              return;
-          }
+    QTimer::singleShot(delayMs, this, [this, roomId]() {
+        matrixTimelineRefreshQueued_ = false;
 
-          matrixTimelineRefreshPending_ = false;
-          markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_dequeued");
-          refreshCurrentMatrixTimeline();
-          markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_refreshed");
-          if (refreshActiveMatrixTimelinePinnedEventIds())
-              emit matrixTimelineStateChanged();
+        if (!matrixTimelineRefreshPending_ || matrixTimelineRefreshPendingRoomId_ != roomId ||
+            activeMatrixTimelineRoomId_ != roomId) {
+            return;
+        }
 
-          if (matrixTimelineRefreshPending_ && matrixTimelineRefreshPendingRoomId_ == roomId)
-              scheduleCurrentMatrixTimelineRefresh();
-      },
-      Qt::QueuedConnection);
+        matrixTimelineRefreshPending_ = false;
+        markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_dequeued");
+        refreshCurrentMatrixTimeline();
+    });
 }
 
 bool
@@ -341,28 +380,153 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
         return;
     }
 
-    markRoomSwitchPhaseCpp(activeMatrixTimelineRoomId_, "cpp.matrix_timeline_fetch_begin");
-    QString error;
-    const auto items =
-      komai::MatrixBackendRuntimeService::fetchActiveRoomTimeline(handleId, &error);
-    if (!items) {
-        nhlog::ui()->warn("Failed to fetch active matrix-sdk room timeline for '{}' on handle {}: "
-                          "{}",
-                          activeMatrixTimelineRoomId_.toStdString(),
-                          handleId,
-                          error.toStdString());
-        clearCurrentMatrixTimeline(false);
+    if (matrixTimelineRefreshInFlightRequestId_ != 0 &&
+        matrixTimelineRefreshInFlightRoomId_ == activeMatrixTimelineRoomId_) {
         return;
     }
-    markRoomSwitchPhaseCpp(activeMatrixTimelineRoomId_, "cpp.matrix_timeline_fetch_done");
 
-    matrixTimelineModel_->replaceItems(*items);
-    markRoomSwitchPhaseCpp(activeMatrixTimelineRoomId_, "cpp.matrix_timeline_model_replaced");
+    const auto roomId                       = activeMatrixTimelineRoomId_;
+    const auto requestId                    = ++matrixTimelineRefreshRequestId_;
+    matrixTimelineRefreshInFlightRequestId_ = requestId;
+    matrixTimelineRefreshInFlightRoomId_    = roomId;
 
-    if (matrixTimelineLoading_) {
-        matrixTimelineLoading_ = false;
-        markRoomSwitchPhaseCpp(activeMatrixTimelineRoomId_, "cpp.matrix_timeline_loading_finished");
-        emit matrixTimelineStateChanged();
+    markRoomSwitchPhaseCpp(activeMatrixTimelineRoomId_, "cpp.matrix_timeline_fetch_begin");
+
+    QPointer<TimelineViewManager> guard(this);
+    std::thread([guard, handleId, roomId, requestId]() {
+        QString error;
+        QElapsedTimer fetchTimer;
+        fetchTimer.start();
+        const auto items =
+          komai::MatrixBackendRuntimeService::fetchActiveRoomTimeline(handleId, &error);
+        const auto fetchElapsedUs = fetchTimer.nsecsElapsed() / 1000;
+
+        if (!guard)
+            return;
+
+        QMetaObject::invokeMethod(
+          guard,
+          [guard, handleId, roomId, requestId, items, error, fetchElapsedUs]() mutable {
+              if (!guard)
+                  return;
+
+              const bool isInFlightRequest =
+                guard->matrixTimelineRefreshInFlightRequestId_ == requestId &&
+                guard->matrixTimelineRefreshInFlightRoomId_ == roomId;
+              if (isInFlightRequest) {
+                  guard->matrixTimelineRefreshInFlightRequestId_ = 0;
+                  guard->matrixTimelineRefreshInFlightRoomId_.clear();
+              }
+
+              auto *mainWindow = MainWindow::instance();
+              if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
+                  return;
+
+              if (guard->activeMatrixTimelineRoomId_ != roomId) {
+                  if (guard->matrixTimelineRefreshPending_ &&
+                      guard->matrixTimelineRefreshPendingRoomId_ ==
+                        guard->activeMatrixTimelineRoomId_) {
+                      guard->scheduleCurrentMatrixTimelineRefresh();
+                  }
+                  return;
+              }
+
+              guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_fetch_done");
+
+              if (guard->roomSwitchPerfEnabled()) {
+                  nhlog::ui()->info("[room-switch-perf] "
+                                    "phase=cpp.matrix_timeline_fetch_thread_done room='{}' us={}",
+                                    roomId.toStdString(),
+                                    fetchElapsedUs);
+              }
+
+              if (!items) {
+                  nhlog::ui()->warn(
+                    "Failed to fetch active matrix-sdk room timeline for '{}' on handle {}: {}",
+                    roomId.toStdString(),
+                    handleId,
+                    error.toStdString());
+                  guard->clearCurrentMatrixTimeline(false);
+                  return;
+              }
+
+              const auto preferredInitialPageSize =
+                guard->preferredInitialMatrixTimelinePageSize_ > 0
+                  ? guard->preferredInitialMatrixTimelinePageSize_
+                  : fallbackInitialMatrixTimelinePageSize();
+              const auto canDelayFirstPaint = guard->matrixTimelineLoading_ &&
+                                              guard->matrixTimelineModel_ &&
+                                              guard->matrixTimelineModel_->count() == 0 &&
+                                              !guard->matrixTimelineInitialPrefetchAttempted_;
+              const auto itemCount = items->size();
+              if (canDelayFirstPaint && itemCount > 0 && itemCount < preferredInitialPageSize) {
+                  const auto shortfall =
+                    std::clamp(static_cast<int>(preferredInitialPageSize - itemCount), 1, 24);
+                  QString paginateError;
+                  if (komai::MatrixBackendRuntimeService::paginateActiveRoomTimelineBackwards(
+                        handleId, static_cast<uint16_t>(shortfall), &paginateError)) {
+                      guard->matrixTimelineInitialPrefetchAttempted_ = true;
+                      if (guard->roomSwitchPerfEnabled()) {
+                          nhlog::ui()->info(
+                            "[room-switch-perf] phase=cpp.matrix_timeline_initial_prefetch "
+                            "room='{}' item_count={} target_count={} request_count={}",
+                            roomId.toStdString(),
+                            itemCount,
+                            preferredInitialPageSize,
+                            shortfall);
+                      }
+                      return;
+                  }
+
+                  nhlog::ui()->warn("Failed to prefetch additional matrix-sdk room timeline items "
+                                    "for '{}' on handle {}: {}",
+                                    roomId.toStdString(),
+                                    handleId,
+                                    paginateError.toStdString());
+                  guard->matrixTimelineInitialPrefetchAttempted_ = true;
+              }
+
+              guard->matrixTimelineModel_->replaceItems(*items);
+              guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_model_replaced");
+
+              auto stateChanged = false;
+              stateChanged = guard->refreshActiveMatrixTimelinePinnedEventIds() || stateChanged;
+              stateChanged =
+                guard->refreshActiveMatrixTimelineRedactionPermissions() || stateChanged;
+
+              if (guard->matrixTimelineLoading_) {
+                  guard->matrixTimelineLoading_ = false;
+                  guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_loading_finished");
+                  stateChanged = true;
+              }
+
+              if (stateChanged)
+                  emit guard->matrixTimelineStateChanged();
+
+              guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_refreshed");
+
+              if (guard->matrixTimelineRefreshPending_ &&
+                  guard->matrixTimelineRefreshPendingRoomId_ == roomId) {
+                  guard->scheduleCurrentMatrixTimelineRefresh();
+              }
+          },
+          Qt::QueuedConnection);
+    }).detach();
+}
+
+void
+TimelineViewManager::setPreferredInitialMatrixTimelinePageSize(int pageSize)
+{
+    const auto clampedPageSize = std::clamp(pageSize, 0, 50);
+    if (preferredInitialMatrixTimelinePageSize_ == clampedPageSize)
+        return;
+
+    preferredInitialMatrixTimelinePageSize_ = clampedPageSize;
+
+    if (roomSwitchPerfEnabled_) {
+        nhlog::ui()->info(
+          "[room-switch-perf] phase=cpp.matrix_timeline_initial_page_size_hint page_size={}",
+          preferredInitialMatrixTimelinePageSize_);
     }
 }
 
@@ -421,6 +585,9 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
     matrixTimelineRefreshQueued_  = false;
     matrixTimelineRefreshPending_ = false;
     matrixTimelineRefreshPendingRoomId_.clear();
+    matrixTimelineRefreshInFlightRequestId_ = 0;
+    matrixTimelineRefreshInFlightRoomId_.clear();
+    matrixTimelineInitialPrefetchAttempted_ = false;
 
     if (matrixTimelineModel_)
         matrixTimelineModel_->clear();
@@ -1195,12 +1362,18 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
 
     matrixTimelineRefreshPending_       = true;
     matrixTimelineRefreshPendingRoomId_ = roomId;
+
     scheduleCurrentMatrixTimelineRefresh();
 }
 
 bool
 TimelineViewManager::paginateActiveMatrixTimelineBackwards(int pageSize)
 {
+    if (matrixTimelineModel_ &&
+        matrixTimelineModel_->revealOlderItems(pageSize > 0 ? pageSize : 50)) {
+        return true;
+    }
+
     const auto *mainWindow = MainWindow::instance();
     const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {

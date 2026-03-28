@@ -266,6 +266,21 @@ TimelineViewManager::perfUiFlagEnabled(const QString &flag) const
     if (flag == QLatin1String("disable_timeline_list"))
         return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_LIST"));
 
+    if (flag == QLatin1String("disable_timeline_section_headers"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_SECTION_HEADERS"));
+
+    if (flag == QLatin1String("disable_timeline_avatars"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_AVATARS"));
+
+    if (flag == QLatin1String("disable_timeline_reactions"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_REACTIONS"));
+
+    if (flag == QLatin1String("disable_timeline_hover"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_HOVER"));
+
+    if (flag == QLatin1String("disable_timeline_rich_text"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_RICH_TEXT"));
+
     return false;
 }
 

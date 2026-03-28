@@ -4,7 +4,11 @@
 
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 
+#include <QByteArray>
+#include <QElapsedTimer>
+
 #include "komai-rust-cxxbridge/lib.h"
+#include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendBridge.h"
 #include "profile/ProfileId.h"
@@ -13,6 +17,20 @@ namespace komai {
 
 namespace {
 QHash<uint64_t, QVector<MatrixRoomSummary>> cachedRoomListSnapshots;
+
+bool
+isTruthyEnvValue(const QByteArray &value)
+{
+    const auto normalized = value.trimmed().toLower();
+    return normalized == "1" || normalized == "true" || normalized == "yes" || normalized == "on";
+}
+
+bool
+roomSwitchPerfEnabled()
+{
+    return isTruthyEnvValue(qgetenv("KOMAI_ROOM_SWITCH_PERF")) ||
+           isTruthyEnvValue(qgetenv("KOMAI_PERF_ROOM_SWITCH"));
+}
 
 QString
 normalizeProfileId(QStringView profileId)
@@ -1278,11 +1296,30 @@ std::optional<QVector<MatrixTimelineItem>>
 MatrixBackendRuntimeService::fetchActiveRoomTimeline(uint64_t handleId, QString *errorOut)
 {
     try {
-        const auto result = ::komai::rust::matrix_fetch_active_room_timeline(handleId);
+        QElapsedTimer totalTimer;
+        totalTimer.start();
+        const auto result             = ::komai::rust::matrix_fetch_active_room_timeline(handleId);
+        const auto rustFetchElapsedUs = totalTimer.nsecsElapsed() / 1000;
+
+        QElapsedTimer convertTimer;
+        convertTimer.start();
         QVector<MatrixTimelineItem> items;
         items.reserve(static_cast<int>(result.size()));
         for (const auto &item : result)
             items.push_back(fromRustTimelineItem(item));
+        const auto convertElapsedUs = convertTimer.nsecsElapsed() / 1000;
+
+        if (roomSwitchPerfEnabled()) {
+            nhlog::ui()->info(
+              "[room-switch-perf] phase=cpp.matrix_backend.fetch_active_room_timeline "
+              "handle_id={} item_count={} rust_us={} convert_us={} total_us={}",
+              handleId,
+              items.size(),
+              rustFetchElapsedUs,
+              convertElapsedUs,
+              totalTimer.nsecsElapsed() / 1000);
+        }
+
         return items;
     } catch (const std::exception &e) {
         if (errorOut)

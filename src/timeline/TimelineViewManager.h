@@ -298,6 +298,7 @@ public:
     Q_INVOKABLE void clearActiveMatrixEdit();
     Q_INVOKABLE bool sendActiveMatrixEditMessage(const QString &body);
     Q_INVOKABLE bool paginateActiveMatrixTimelineBackwards(int pageSize = 0);
+    Q_INVOKABLE void setPreferredInitialMatrixTimelinePageSize(int pageSize);
     Q_INVOKABLE bool
     openActiveMatrixTimelineMedia(const QString &itemId, const QString &suggestedFileName = {});
     Q_INVOKABLE bool
@@ -417,6 +418,11 @@ private:
     bool matrixTimelineRefreshQueued_         = false;
     bool matrixTimelineRefreshPending_        = false;
     QString matrixTimelineRefreshPendingRoomId_;
+    quint64 matrixTimelineRefreshRequestId_         = 0;
+    quint64 matrixTimelineRefreshInFlightRequestId_ = 0;
+    QString matrixTimelineRefreshInFlightRoomId_;
+    int preferredInitialMatrixTimelinePageSize_  = 0;
+    bool matrixTimelineInitialPrefetchAttempted_ = false;
     QStringList matrixTimelinePinnedEventIds_;
     bool matrixTimelineCanRedactOwn_   = false;
     bool matrixTimelineCanRedactOther_ = false;

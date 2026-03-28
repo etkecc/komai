@@ -25,6 +25,7 @@ ColumnLayout {
     property var emojiPopup: null
     property var filteredTimeline: null
     property bool walkModeActive: false
+    property bool roomSwitchInProgress: false
     property string focusedEventId: ""
     property var selectedEventIds: []
     property string selectionAnchorEventId: ""
@@ -43,6 +44,11 @@ ColumnLayout {
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property var composerShell: composerContainer
     readonly property var notificationAreaItem: timelineViewport
+    readonly property bool headerSearchHasFocus: topBar.searchHasFocus
+    readonly property real listViewDisplayMargin: roomSwitchInProgress
+        ? 0
+        : (matrixTimelineList ? matrixTimelineList.height / 8 : 0)
+    readonly property real listViewCacheBuffer: roomSwitchInProgress ? 0 : 320
     readonly property int pendingAttachmentCount: TimelineManager.matrixTimelineAttachmentCount
     readonly property bool hasPendingAttachments: pendingAttachmentCount > 0
     readonly property string activeEditEventId: TimelineManager.matrixTimelineEditEventId
@@ -122,8 +128,7 @@ ColumnLayout {
     }
 
     function clearSearch() {
-        if (root.chatRoot && typeof root.chatRoot.clearSearch === "function")
-            root.chatRoot.clearSearch();
+        topBar.searchString = "";
     }
 
     function markRoomSwitchPerfPhase(phase) {
@@ -871,10 +876,22 @@ ColumnLayout {
     }
 
     function openWalkModeHelpDialog() {
-        if (root.chatRoot && typeof root.chatRoot.openWalkModeHelpDialog === "function")
-            return root.chatRoot.openWalkModeHelpDialog();
+        const component = Qt.createComponent("qrc:/resources/qml/dialogs/timeline/SelectionModeHelpDialog.qml");
+        if (component.status !== Component.Ready) {
+            console.error("SelectionModeHelpDialog: " + component.errorString());
+            return false;
+        }
 
-        return false;
+        const dialogParent = root.timelineRoot ? root.timelineRoot : root;
+        const dialog = component.createObject(dialogParent, {
+                "appRoot": dialogParent
+            });
+        if (!dialog)
+            return false;
+
+        dialog.open();
+        root.destroyOnClose(dialog);
+        return true;
     }
 
     function ensureInitialBottomPin() {
@@ -938,11 +955,13 @@ ColumnLayout {
 
         const usefulBufferedHeight = viewportHeight * 0.8;
         const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.25, 320);
+        const averageRowHeight = Math.max(56, Math.round(Settings.uiFontSizePt * 4.5));
         if (matrixTimelineList.contentHeight >= usefulBufferedHeight) {
             if (!perfLoggedUsefulHeightReady) {
                 perfLoggedUsefulHeightReady = true;
                 root.markRoomSwitchPerfPhase("qml.matrix_room.useful_height_ready");
             }
+            root.roomSwitchInProgress = false;
 
             if (matrixTimelineList.contentHeight >= desiredBufferedHeight) {
                 if (!perfLoggedBufferFilled) {
@@ -979,12 +998,15 @@ ColumnLayout {
         if (itemCount <= 0 || lastInitialBufferTriggerCount === itemCount)
             return;
 
+        const requestCount = Math.max(
+            1,
+            Math.min(12, Math.ceil((desiredBufferedHeight - matrixTimelineList.contentHeight) / averageRowHeight)));
         console.info("[timeline-load] Requesting buffer top-up: contentH="
             + Math.round(matrixTimelineList.contentHeight)
             + " desired=" + Math.round(desiredBufferedHeight)
             + " count=" + itemCount
-            + " requesting=6");
-        if (!TimelineManager.paginateActiveMatrixTimelineBackwards(6)) {
+            + " requesting=" + requestCount);
+        if (!TimelineManager.paginateActiveMatrixTimelineBackwards(requestCount)) {
             initialTimelineBufferPending = false;
             bufferPaginationInFlight = false;
             lastInitialBufferTriggerCount = -1;
@@ -993,6 +1015,25 @@ ColumnLayout {
 
         bufferPaginationInFlight = true;
         lastInitialBufferTriggerCount = itemCount;
+    }
+
+    function estimatedInitialTimelinePageSize() {
+        if (!matrixTimelineList)
+            return 0;
+
+        const viewportHeight = Number(matrixTimelineList.height || 0);
+        if (viewportHeight <= 0)
+            return 0;
+
+        const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.25, 320);
+        const averageRowHeight = Math.max(56, Math.round(Settings.uiFontSizePt * 4.5));
+        return Math.max(15, Math.min(50, Math.ceil(desiredBufferedHeight / averageRowHeight)));
+    }
+
+    function updatePreferredInitialTimelinePageSize() {
+        const pageSize = estimatedInitialTimelinePageSize();
+        if (pageSize > 0)
+            TimelineManager.setPreferredInitialMatrixTimelinePageSize(pageSize);
     }
 
     function maybeRequestDeferredInitialTimelineBuffer() {
@@ -1010,11 +1051,13 @@ ColumnLayout {
             return;
 
         const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.25, 320);
+        const averageRowHeight = Math.max(56, Math.round(Settings.uiFontSizePt * 4.5));
         if (matrixTimelineList.contentHeight >= desiredBufferedHeight) {
             if (!perfLoggedBufferFilled) {
                 perfLoggedBufferFilled = true;
                 root.markRoomSwitchPerfPhase("qml.matrix_room.buffer_filled");
             }
+            root.roomSwitchInProgress = false;
             console.info("[timeline-load] Buffer filled: contentH="
                 + Math.round(matrixTimelineList.contentHeight)
                 + " desired=" + Math.round(desiredBufferedHeight)
@@ -1031,12 +1074,15 @@ ColumnLayout {
         if (itemCount <= 0 || lastInitialBufferTriggerCount === itemCount)
             return;
 
+        const requestCount = Math.max(
+            1,
+            Math.min(12, Math.ceil((desiredBufferedHeight - matrixTimelineList.contentHeight) / averageRowHeight)));
         console.info("[timeline-load] Requesting deferred buffer top-up: contentH="
             + Math.round(matrixTimelineList.contentHeight)
             + " desired=" + Math.round(desiredBufferedHeight)
             + " count=" + itemCount
-            + " requesting=6");
-        if (!TimelineManager.paginateActiveMatrixTimelineBackwards(6)) {
+            + " requesting=" + requestCount);
+        if (!TimelineManager.paginateActiveMatrixTimelineBackwards(requestCount)) {
             deferredInitialBufferTopUpPending = false;
             bufferPaginationInFlight = false;
             lastInitialBufferTriggerCount = -1;
@@ -1291,6 +1337,8 @@ ColumnLayout {
     visible: !!roomPreview && roomPreview.isMatrixSummary
 
     RoomHeader {
+        id: topBar
+
         Layout.fillWidth: true
         room: null
         roomModel: matrixHeaderRoomModel
@@ -1523,20 +1571,9 @@ ColumnLayout {
                     // viewport, which keeps the scrollbar thumb stable.
                     verticalLayoutDirection: ListView.BottomToTop
                     boundsBehavior: Flickable.StopAtBounds
-                    displayMarginBeginning: root.chatRoot && root.chatRoot.listViewDisplayMargin !== undefined
-                        ? root.chatRoot.listViewDisplayMargin
-                        : 0
-                    displayMarginEnd: root.chatRoot && root.chatRoot.listViewDisplayMargin !== undefined
-                        ? root.chatRoot.listViewDisplayMargin
-                        : 0
-                    cacheBuffer: {
-                        const baseBuffer = root.chatRoot && root.chatRoot.listViewCacheBuffer !== undefined
-                            ? root.chatRoot.listViewCacheBuffer
-                            : 320;
-                        if (root.chatRoot && root.chatRoot.roomSwitchInProgress)
-                            return 0;
-                        return baseBuffer;
-                    }
+                    displayMarginBeginning: root.listViewDisplayMargin
+                    displayMarginEnd: root.listViewDisplayMargin
+                    cacheBuffer: root.listViewCacheBuffer
                     model: TimelineManager.matrixTimelineModel
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline
@@ -1618,6 +1655,7 @@ ColumnLayout {
                         if (atYBeginning
                                 && root.hasTimeline
                                 && !root.loading
+                                && userUnpinned
                                 && !root.initialTimelineBufferPending
                                 && root.lastPaginationTriggerCount !== TimelineManager.matrixTimelineItemCount) {
                             console.info("[timeline-load] Scroll-triggered pagination at top, count="
@@ -1682,6 +1720,7 @@ ColumnLayout {
                             bufferCheckTimer.restart();
                     }
                     onHeightChanged: {
+                        root.updatePreferredInitialTimelinePageSize();
                         if (!moving && !flicking && !dragging && !userUnpinned) {
                             if (keepPinnedToBottom || root.initialBottomPinPending) {
                                 positionViewAtBeginning();
@@ -1732,6 +1771,7 @@ ColumnLayout {
                     Component.onCompleted: {
                         previousCount = count;
                         updateLastScroll();
+                        root.updatePreferredInitialTimelinePageSize();
                         maybeScrollToBottom(true);
                     }
 
@@ -1828,11 +1868,14 @@ ColumnLayout {
                         readonly property string sharedFileTypeIconSource: Komai.fileTypeIconSource(mimeType)
                         readonly property var sharedRedactedPair: root.matrixRedactedEventPair(senderDisplayName,
                                                                                                senderId)
+                        readonly property string sharedFormattedBodyHtml: root.formattedMatrixTextHtml(body)
+                        readonly property string sharedFormattedReplyBodyHtml: root.formattedMatrixTextHtml(replyBody)
+                        readonly property string sharedFormattedStateBodyHtml: root.formattedMatrixTextHtml(body)
                         readonly property var sharedPreviewData: ({
                                 "room": matrixToolbarRoomModel,
                                 "avatarUrl": senderAvatarUrl,
                                 "body": body,
-                                "formattedBody": root.formattedMatrixTextHtml(body),
+                                "formattedBody": sharedFormattedBodyHtml,
                                 "isOnlyEmoji": 0,
                                 "redactedFirst": sharedRedactedPair.first,
                                 "redactedSecond": sharedRedactedPair.second,
@@ -1881,7 +1924,7 @@ ColumnLayout {
                             ? ({
                                 "type": MtxEvent.TextMessage,
                                 "body": replyBody,
-                                "formattedBody": root.formattedMatrixTextHtml(replyBody),
+                                "formattedBody": sharedFormattedReplyBodyHtml,
                                 "isOnlyEmoji": 0,
                                 "userId": replySenderId,
                                 "userName": replySenderDisplayName.length > 0 ? replySenderDisplayName : qsTr("Reply")
@@ -1890,7 +1933,7 @@ ColumnLayout {
                         readonly property var sharedStatePreviewData: ({
                                 "room": matrixToolbarRoomModel,
                                 "avatarUrl": senderAvatarUrl,
-                                "formattedStateEvent": root.formattedMatrixTextHtml(body),
+                                "formattedStateEvent": sharedFormattedStateBodyHtml,
                                 "stateEventIconSource": root.matrixStateEventIconForKind(itemKind),
                                 "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
                                 "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
@@ -2379,7 +2422,7 @@ ColumnLayout {
 
                             active: timelineItemDelegate.usesSharedTimelineBubble
                                 && !timelineItemDelegate.sharedBubbleReloadArmed
-                            asynchronous: true
+                            asynchronous: !root.roomSwitchInProgress
                             sourceComponent: Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Plain
                                 ? matrixPlainMessageStyle
                                 : matrixBubbleMessageStyle
@@ -2534,7 +2577,9 @@ ColumnLayout {
     }
 
     onActiveRoomIdChanged: {
+        root.updatePreferredInitialTimelinePageSize();
         measuredTimelineHeights = ({});
+        roomSwitchInProgress = activeRoomId.length > 0;
         initialBottomPinPending = activeRoomId.length > 0;
         initialTimelineBufferPending = activeRoomId.length > 0;
         deferredInitialBufferTopUpPending = false;
@@ -2563,6 +2608,8 @@ ColumnLayout {
 
     onLoadingChanged: {
         if (!loading) {
+            if (!hasTimeline)
+                roomSwitchInProgress = false;
             root.markRoomSwitchPerfPhase("qml.matrix_room.loading_false");
             ensureInitialBottomPin();
             if (root.deferredInitialBufferTopUpPending)

@@ -1898,6 +1898,7 @@ ColumnLayout {
                             || usesSharedStateBubble
                         property bool sharedBubbleReloadInitialized: false
                         property bool sharedBubbleReloadArmed: false
+                        property string sharedBubbleLoadedIdentity: ""
                         readonly property string heightCacheKey: root.matrixTimelineHeightCacheKey(eventId, itemId)
                         readonly property real cachedMeasuredHeight: root.rememberedTimelineHeight(heightCacheKey)
                         readonly property bool supportsSharedToolbarActions: eventId.length > 0
@@ -1942,78 +1943,134 @@ ColumnLayout {
                         readonly property string resolvedStateEventIconSource: usesSharedStateBubble
                             ? root.matrixStateEventIconForKind(itemKind)
                             : ""
-                        readonly property var resolvedPreviewData: usesSharedStateBubble
-                            ? ({
-                                "room": matrixToolbarRoomModel,
-                                "avatarUrl": senderAvatarUrl,
-                                "formattedStateEvent": resolvedFormattedStateBodyHtml,
-                                "stateEventIconSource": resolvedStateEventIconSource,
-                                "previousDay": previousDayKey,
-                                "previousTimestamp": previousDisplayTimestamp,
-                                "previousIsStateEvent": previousIsStateLikeItem,
-                                "previousUserId": previousSenderId
-                            })
-                            : ((usesSharedImageBubble || usesSharedStickerBubble || usesSharedVideoBubble)
-                                ? ({
-                                    "room": matrixToolbarRoomModel,
-                                    "avatarUrl": senderAvatarUrl,
-                                    "url": mediaUrl,
-                                    "blurhash": "",
-                                    "eventId": stableMediaEventId,
-                                    "body": body,
-                                    "filename": effectiveFileName,
-                                    "filesize": sharedHumanReadableMediaSize,
-                                    "filesizeBytes": Math.round(Number(mediaSizeBytes)),
-                                    "mimetype": mimeType,
-                                    "thumbnailUrl": thumbnailUrl,
-                                    "originalWidth": Math.round(Number(mediaWidth)),
-                                    "originalHeight": Math.round(Number(mediaHeight)),
-                                    "proportionalHeight": safePreviewAspectRatio,
-                                    "containerHeight": matrixTimelineList.height > 0 ? matrixTimelineList.height : root.height,
-                                    "previousDay": previousDayKey,
-                                    "previousTimestamp": previousDisplayTimestamp,
-                                    "previousIsStateEvent": previousIsStateLikeItem,
-                                    "previousUserId": previousSenderId
-                                })
-                                : ((usesSharedFileBubble || usesSharedAudioBubble)
-                                    ? ({
-                                        "room": matrixToolbarRoomModel,
-                                        "avatarUrl": senderAvatarUrl,
-                                        "eventId": stableMediaEventId,
-                                        "body": body,
-                                        "filename": effectiveFileName,
-                                        "filesize": sharedHumanReadableMediaSize,
-                                        "fileTypeIconSource": sharedFileTypeIconSource,
-                                        "mimetype": mimeType,
-                                        "duration": Math.round(Number(mediaDurationMs)),
-                                        "previousDay": previousDayKey,
-                                        "previousTimestamp": previousDisplayTimestamp,
-                                        "previousIsStateEvent": previousIsStateLikeItem,
-                                        "previousUserId": previousSenderId
-                                    })
-                                    : ({
-                                        "room": matrixToolbarRoomModel,
-                                        "avatarUrl": senderAvatarUrl,
-                                        "body": body,
-                                        "formattedBody": resolvedFormattedBodyHtml,
-                                        "isOnlyEmoji": 0,
-                                        "redactedFirst": sharedRedactedPair.first,
-                                        "redactedSecond": sharedRedactedPair.second,
-                                        "previousDay": previousDayKey,
-                                        "previousTimestamp": previousDisplayTimestamp,
-                                        "previousIsStateEvent": previousIsStateLikeItem,
-                                        "previousUserId": previousSenderId
-                                    })))
-                        readonly property var resolvedReplyPreviewData: replyEventId.length > 0
-                            ? ({
-                                "type": MtxEvent.TextMessage,
-                                "body": replyBody,
-                                "formattedBody": resolvedFormattedReplyBodyHtml,
-                                "isOnlyEmoji": 0,
-                                "userId": replySenderId,
-                                "userName": replySenderDisplayName.length > 0 ? replySenderDisplayName : qsTr("Reply")
-                            })
-                            : ({})
+                        readonly property var resolvedPreviewData: matrixStablePreviewData
+                        readonly property var resolvedReplyPreviewData: matrixStableReplyPreviewData
+
+                        QtObject {
+                            id: matrixStablePreviewData
+
+                            readonly property var room: matrixToolbarRoomModel
+                            readonly property string avatarUrl: senderAvatarUrl
+                            readonly property string formattedStateEvent: usesSharedStateBubble
+                                ? resolvedFormattedStateBodyHtml
+                                : ""
+                            readonly property string stateEventIconSource: usesSharedStateBubble
+                                ? resolvedStateEventIconSource
+                                : ""
+                            readonly property int previousDay: previousDayKey
+                            readonly property date previousTimestamp: previousDisplayTimestamp
+                            readonly property bool previousIsStateEvent: previousIsStateLikeItem
+                            readonly property string previousUserId: previousSenderId
+                            readonly property string url: (usesSharedImageBubble || usesSharedStickerBubble || usesSharedVideoBubble)
+                                ? mediaUrl
+                                : ""
+                            readonly property string blurhash: ""
+                            readonly property string eventId: (usesSharedImageBubble
+                                    || usesSharedStickerBubble
+                                    || usesSharedVideoBubble
+                                    || usesSharedFileBubble
+                                    || usesSharedAudioBubble)
+                                ? stableMediaEventId
+                                : ""
+                            readonly property string body: timelineItemDelegate.body
+                            readonly property string filename: (usesSharedImageBubble
+                                    || usesSharedStickerBubble
+                                    || usesSharedVideoBubble
+                                    || usesSharedFileBubble
+                                    || usesSharedAudioBubble)
+                                ? effectiveFileName
+                                : ""
+                            readonly property string filesize: (usesSharedImageBubble
+                                    || usesSharedStickerBubble
+                                    || usesSharedVideoBubble
+                                    || usesSharedFileBubble
+                                    || usesSharedAudioBubble)
+                                ? sharedHumanReadableMediaSize
+                                : ""
+                            readonly property int filesizeBytes: (usesSharedImageBubble
+                                    || usesSharedStickerBubble
+                                    || usesSharedVideoBubble)
+                                ? Math.round(Number(mediaSizeBytes))
+                                : 0
+                            readonly property string mimetype: (usesSharedImageBubble
+                                    || usesSharedStickerBubble
+                                    || usesSharedVideoBubble
+                                    || usesSharedFileBubble
+                                    || usesSharedAudioBubble)
+                                ? mimeType
+                                : ""
+                            readonly property string thumbnailUrl: (usesSharedImageBubble
+                                    || usesSharedStickerBubble
+                                    || usesSharedVideoBubble)
+                                ? timelineItemDelegate.thumbnailUrl
+                                : ""
+                            readonly property int originalWidth: (usesSharedImageBubble
+                                    || usesSharedStickerBubble
+                                    || usesSharedVideoBubble)
+                                ? Math.round(Number(mediaWidth))
+                                : 0
+                            readonly property int originalHeight: (usesSharedImageBubble
+                                    || usesSharedStickerBubble
+                                    || usesSharedVideoBubble)
+                                ? Math.round(Number(mediaHeight))
+                                : 0
+                            readonly property real proportionalHeight: (usesSharedImageBubble
+                                    || usesSharedStickerBubble
+                                    || usesSharedVideoBubble)
+                                ? safePreviewAspectRatio
+                                : 0
+                            readonly property real containerHeight: matrixTimelineList.height > 0
+                                ? matrixTimelineList.height
+                                : root.height
+                            readonly property string fileTypeIconSource: (usesSharedFileBubble || usesSharedAudioBubble)
+                                ? sharedFileTypeIconSource
+                                : ""
+                            readonly property int duration: usesSharedAudioBubble
+                                ? Math.round(Number(mediaDurationMs))
+                                : 0
+                            readonly property string formattedBody: (!usesSharedStateBubble
+                                    && !usesSharedImageBubble
+                                    && !usesSharedStickerBubble
+                                    && !usesSharedVideoBubble
+                                    && !usesSharedFileBubble
+                                    && !usesSharedAudioBubble)
+                                ? resolvedFormattedBodyHtml
+                                : ""
+                            readonly property int isOnlyEmoji: 0
+                            readonly property string redactedFirst: (!usesSharedStateBubble
+                                    && !usesSharedImageBubble
+                                    && !usesSharedStickerBubble
+                                    && !usesSharedVideoBubble
+                                    && !usesSharedFileBubble
+                                    && !usesSharedAudioBubble)
+                                ? sharedRedactedPair.first
+                                : ""
+                            readonly property string redactedSecond: (!usesSharedStateBubble
+                                    && !usesSharedImageBubble
+                                    && !usesSharedStickerBubble
+                                    && !usesSharedVideoBubble
+                                    && !usesSharedFileBubble
+                                    && !usesSharedAudioBubble)
+                                ? sharedRedactedPair.second
+                                : ""
+                        }
+
+                        QtObject {
+                            id: matrixStableReplyPreviewData
+
+                            readonly property int type: MtxEvent.TextMessage
+                            readonly property string body: replyEventId.length > 0
+                                ? timelineItemDelegate.replyBody
+                                : ""
+                            readonly property string formattedBody: replyEventId.length > 0
+                                ? resolvedFormattedReplyBodyHtml
+                                : ""
+                            readonly property int isOnlyEmoji: 0
+                            readonly property string userId: replyEventId.length > 0 ? replySenderId : ""
+                            readonly property string userName: replyEventId.length > 0
+                                ? (replySenderDisplayName.length > 0 ? replySenderDisplayName : qsTr("Reply"))
+                                : ""
+                        }
                         readonly property real heuristicTimelineHeightEstimate: {
                             const baseLineHeight = Math.max(18, Math.round(Settings.uiFontSizePt * 1.8));
                             const compactRowHeight = Math.max(root.composerBaselineHeight, baseLineHeight + Komai.paddingMedium * 2);
@@ -2110,6 +2167,19 @@ ColumnLayout {
                                     || sharedBubbleReloadArmed)
                                 return;
 
+                            const nextIdentity = String(heightCacheKey || "") + "|" + String(itemKind || "");
+                            if (nextIdentity.length === 0)
+                                return;
+
+                            if (sharedBubbleLoadedIdentity.length === 0) {
+                                sharedBubbleLoadedIdentity = nextIdentity;
+                                return;
+                            }
+
+                            if (sharedBubbleLoadedIdentity === nextIdentity)
+                                return;
+
+                            sharedBubbleLoadedIdentity = nextIdentity;
                             sharedBubbleReloadArmed = true;
                             Qt.callLater(function () {
                                 timelineItemDelegate.sharedBubbleReloadArmed = false;
@@ -2127,11 +2197,13 @@ ColumnLayout {
                                 root.rememberTimelineHeight(heightCacheKey, resolvedHeight);
                         }
 
-                        onEventIdChanged: reloadSharedTimelineBubble()
                         onItemIdChanged: reloadSharedTimelineBubble()
                         onItemKindChanged: reloadSharedTimelineBubble()
                         onHeightChanged: rememberResolvedTimelineHeight()
-                        Component.onCompleted: sharedBubbleReloadInitialized = true
+                        Component.onCompleted: {
+                            sharedBubbleReloadInitialized = true;
+                            sharedBubbleLoadedIdentity = String(heightCacheKey || "") + "|" + String(itemKind || "");
+                        }
 
                         PreviewPermissions {
                             id: matrixToolbarPreviewPermissions

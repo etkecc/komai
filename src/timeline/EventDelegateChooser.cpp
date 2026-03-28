@@ -20,6 +20,33 @@
 #include <QtQml/private/qqmlincubator_p.h>
 #include <QtQml/private/qqmlobjectcreator_p.h>
 
+namespace {
+
+QVariant
+readPreviewProperty(const QVariant &previewData, const QString &propertyName)
+{
+    if (!previewData.isValid())
+        return {};
+
+    if (previewData.canConvert<QVariantMap>()) {
+        const auto previewMap = previewData.toMap();
+        if (const auto it = previewMap.find(propertyName); it != previewMap.end())
+            return it.value();
+    } else if (previewData.userType() == qMetaTypeId<QJSValue>()) {
+        const auto previewMap = previewData.value<QJSValue>().toVariant().toMap();
+        if (const auto it = previewMap.find(propertyName); it != previewMap.end())
+            return it.value();
+    } else if (auto *previewObject = qvariant_cast<QObject *>(previewData); previewObject) {
+        const auto propertyNameUtf8 = propertyName.toUtf8();
+        if (previewObject->metaObject()->indexOfProperty(propertyNameUtf8.constData()) >= 0)
+            return previewObject->property(propertyNameUtf8.constData());
+    }
+
+    return {};
+}
+
+} // namespace
+
 QQmlComponent *
 EventDelegateChoice::delegate() const
 {
@@ -140,17 +167,8 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
         if (!previewData.isValid() && forReply)
             previewData = chooser.property("previewData");
 
-        if (previewData.isValid()) {
-            QVariantMap previewMap;
-            if (previewData.canConvert<QVariantMap>()) {
-                previewMap = previewData.toMap();
-            } else if (previewData.userType() == qMetaTypeId<QJSValue>()) {
-                previewMap = previewData.value<QJSValue>().toVariant().toMap();
-            }
-
-            if (auto it = previewMap.find(key); it != previewMap.end())
-                return it.value();
-        }
+        if (const auto previewValue = readPreviewProperty(previewData, key); previewValue.isValid())
+            return previewValue;
 
         auto chooserMeta = chooser.metaObject();
         if (chooserMeta->indexOfProperty(propertyName) >= 0) {
@@ -346,17 +364,7 @@ EventDelegateChooser::DelegateIncubator::reset(QString id)
         auto previewData = chooser.property(forReply ? "replyPreviewData" : "previewData");
         if (!previewData.isValid() && forReply)
             previewData = chooser.property("previewData");
-        if (previewData.isValid()) {
-            QVariantMap previewMap;
-            if (previewData.canConvert<QVariantMap>()) {
-                previewMap = previewData.toMap();
-            } else if (previewData.userType() == qMetaTypeId<QJSValue>()) {
-                previewMap = previewData.value<QJSValue>().toVariant().toMap();
-            }
-
-            if (auto it = previewMap.find(QStringLiteral("type")); it != previewMap.end())
-                roleValue = it.value();
-        }
+        roleValue = readPreviewProperty(previewData, QStringLiteral("type"));
 
         if (!roleValue.isValid())
             roleValue = chooser.property("type");

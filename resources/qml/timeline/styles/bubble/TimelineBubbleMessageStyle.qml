@@ -24,7 +24,7 @@ TimelineMessageStyleBase {
         + Math.max(((bubbleBody.implicitHeight < 1 && index != 0) ? 100 : bubbleBody.implicitHeight),
                    (reserveAvatarRowHeight && messageUserAvatar.visible ? messageUserAvatar.height : 0))
         + (reactionRowLoader.item?.implicitHeight ?? 0)
-        + unreadRow.height,
+        + (unreadRowLoader.item?.height ?? 0),
         10)
     //room: chatRoot.roommodel
     styleProfile: TimelineStyleProfile {
@@ -148,8 +148,7 @@ TimelineMessageStyleBase {
             width: avatarSide
             height: avatarSide
 
-            visible: wrapper.shouldShowMessageAvatar
-            opacity: wrapper.startsNewMessageGroup ? 1.0 : 0.0
+            visible: wrapper.shouldShowMessageAvatar && wrapper.startsNewMessageGroup
 
             x: wrapper.avatarIsOnRight ? (wrapper.width - width) : 0
             y: (section.visible && section.active ? section.y + section.height : 0)
@@ -177,6 +176,8 @@ TimelineMessageStyleBase {
             id: reactionRowLoader
 
             active: !wrapper.perfDisableTimelineReactions
+                && wrapper.reactions
+                && wrapper.reactions.length > 0
             anchors.top: bubbleBody.bottom
             anchors.topMargin: 1
             width: bubbleBody.width
@@ -189,12 +190,12 @@ TimelineMessageStyleBase {
                 width: bubbleBody.width
             }
         },
-        Item {
-            id: unreadRow
+        Loader {
+            id: unreadRowLoader
 
-            height: visible ? (3 + Komai.paddingSmall) : 0
-            visible: wrapper.hasRoom && (wrapper.index > 0 && (wrapper.room.fullyReadEventId == wrapper.eventId))
-
+            active: wrapper.hasRoom
+                && wrapper.index > 0
+                && wrapper.room.fullyReadEventId == wrapper.eventId
             anchors {
                 left: parent.left
                 right: parent.right
@@ -202,12 +203,18 @@ TimelineMessageStyleBase {
                 topMargin: 5
             }
 
-            Rectangle {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                color: palette.highlight
-                height: 3
+            sourceComponent: Component {
+                Item {
+                    height: 3 + Komai.paddingSmall
+
+                    Rectangle {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        color: palette.highlight
+                        height: 3
+                    }
+                }
             }
         }
     ]

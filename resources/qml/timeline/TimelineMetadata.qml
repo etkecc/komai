@@ -64,7 +64,7 @@ RowLayout {
     property double buttonScale: 2
     required property bool isSender
     property bool actionBarActive: false
-    readonly property var actionToggleButton: actionToggleBtn
+    readonly property var actionToggleButton: actionToggleLoader.item ? actionToggleLoader.item : null
 
     signal actionToggled()
 
@@ -120,28 +120,32 @@ RowLayout {
         eventId: metadata.eventId
         status: metadata.status
     }
-    Image {
-        id: editedMarker
+    Loader {
+        active: metadata.isEdited || metadata.eventId == metadata.roomEditEventId
+        sourceComponent: Component {
+            Image {
+                id: editedMarker
 
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.indicatorSize
-        Layout.preferredWidth: parent.indicatorSize
-        source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? effectiveHighlightColor : effectiveSecondaryTextColor)
-        sourceSize.height: parent.indicatorSize
-        sourceSize.width: parent.indicatorSize
-        visible: metadata.isEdited || metadata.eventId == metadata.roomEditEventId
-        HoverHandler {
-            id: editHovered
+                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                Layout.preferredHeight: metadata.indicatorSize
+                Layout.preferredWidth: metadata.indicatorSize
+                source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? effectiveHighlightColor : effectiveSecondaryTextColor)
+                sourceSize.height: metadata.indicatorSize
+                sourceSize.width: metadata.indicatorSize
+                HoverHandler {
+                    id: editHovered
 
-        }
+                }
 
-        KomaiToolTip {
-            anchorItem: editedMarker
-            anchorX: editedMarker.width / 2
-            anchorY: 0
-            text: qsTr("Edited")
-            delay: Komai.tooltipDelay
-            requestedVisible: editHovered.hovered
+                KomaiToolTip {
+                    anchorItem: editedMarker
+                    anchorX: editedMarker.width / 2
+                    anchorY: 0
+                    text: qsTr("Edited")
+                    delay: Komai.tooltipDelay
+                    requestedVisible: editHovered.hovered
+                }
+            }
         }
     }
     EncryptionIndicator {
@@ -154,39 +158,46 @@ RowLayout {
         trust: metadata.trustlevel
         visible: metadata.roomIsEncrypted
     }
-    ImageButton {
-        id: actionToggleBtn
+    Loader {
+        id: actionToggleLoader
+        active: Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
+        sourceComponent: Component {
+            ImageButton {
+                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                Layout.preferredHeight: metadata.buttonSize
+                Layout.preferredWidth: metadata.buttonSize
+                toolTipDelay: 0
+                toolTipText: qsTr("Message actions")
+                toolTipVisible: hovered && !metadata.actionBarActive
+                buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
+                highlightColor: effectiveHighlightColor
+                changeColorOnHover: true
+                image: ":/icons/icons/ui/textbox-more.svg"
 
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.buttonSize
-        Layout.preferredWidth: parent.buttonSize
-        toolTipDelay: 0
-        toolTipText: qsTr("Message actions")
-        toolTipVisible: hovered && !metadata.actionBarActive
-        buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
-        highlightColor: effectiveHighlightColor
-        changeColorOnHover: true
-        image: ":/icons/icons/ui/textbox-more.svg"
-        visible: Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
-
-        onClicked: metadata.actionToggled()
-    }
-    ImageButton {
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.buttonSize
-        Layout.preferredWidth: parent.buttonSize
-        toolTipText: qsTr("Reply in this thread")
-        toolTipVisible: hovered
-        buttonTextColor: {
-            const _revision = colorRevision;
-            return TimelineManager.userColor(metadata.threadId, effectiveBaseColor);
+                onClicked: metadata.actionToggled()
+            }
         }
-        image: ":/icons/icons/ui/thread.svg"
-        visible: metadata.canOpenThreadNavigation
+    }
+    Loader {
+        active: metadata.canOpenThreadNavigation
+        sourceComponent: Component {
+            ImageButton {
+                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                Layout.preferredHeight: metadata.buttonSize
+                Layout.preferredWidth: metadata.buttonSize
+                toolTipText: qsTr("Reply in this thread")
+                toolTipVisible: hovered
+                buttonTextColor: {
+                    const _revision = colorRevision;
+                    return TimelineManager.userColor(metadata.threadId, effectiveBaseColor);
+                }
+                image: ":/icons/icons/ui/thread.svg"
 
-        onClicked: {
-            if (metadata.room)
-                metadata.room.thread = threadId
+                onClicked: {
+                    if (metadata.room)
+                        metadata.room.thread = threadId
+                }
+            }
         }
     }
 }

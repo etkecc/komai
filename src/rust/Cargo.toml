@@ -45,6 +45,5 @@ windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_System_
 cxx-build = "1"
 
 [profile.release]
-lto = "thin"
-codegen-units = 1
+incremental = true
 strip = true

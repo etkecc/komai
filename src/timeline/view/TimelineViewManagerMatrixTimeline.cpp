@@ -564,10 +564,25 @@ void
 TimelineViewManager::setPreferredInitialMatrixTimelinePageSize(int pageSize)
 {
     const auto clampedPageSize = std::clamp(pageSize, 0, 50);
-    if (preferredInitialMatrixTimelinePageSize_ == clampedPageSize)
-        return;
+    const bool changed         = preferredInitialMatrixTimelinePageSize_ != clampedPageSize;
 
     preferredInitialMatrixTimelinePageSize_ = clampedPageSize;
+
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId != 0 && clampedPageSize > 0) {
+        QString error;
+        if (!komai::MatrixBackendRuntimeService::setActiveRoomTimelineInitialPageSize(
+              handleId, static_cast<uint16_t>(clampedPageSize), &error)) {
+            nhlog::ui()->warn("Failed to update active matrix-sdk room timeline initial page size "
+                              "on handle {}: {}",
+                              handleId,
+                              error.toStdString());
+        }
+    }
+
+    if (!changed)
+        return;
 
     if (roomSwitchPerfEnabled_) {
         nhlog::ui()->info(

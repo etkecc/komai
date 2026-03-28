@@ -1869,78 +1869,102 @@ ColumnLayout {
                         readonly property string sharedFileTypeIconSource: Komai.fileTypeIconSource(mimeType)
                         readonly property var sharedRedactedPair: root.matrixRedactedEventPair(senderDisplayName,
                                                                                                senderId)
-                        readonly property string sharedFormattedBodyHtml: root.formattedMatrixTextHtml(body)
-                        readonly property string sharedFormattedReplyBodyHtml: root.formattedMatrixTextHtml(replyBody)
-                        readonly property string sharedFormattedStateBodyHtml: root.formattedMatrixTextHtml(body)
-                        readonly property var sharedPreviewData: ({
+                        readonly property int previousDayKey: previousItem.timestamp !== undefined
+                            ? root.matrixTimelineDayKey(previousItem.timestamp)
+                            : dayKey
+                        readonly property var previousDisplayTimestamp: previousItem.timestamp !== undefined
+                            ? new Date(Number(previousItem.timestamp))
+                            : new Date(Number(timestamp))
+                        readonly property bool previousIsStateLikeItem: previousItem.eventId === undefined
+                            ? true
+                            : root.isMatrixStateLikeKind(previousItem.itemKind)
+                        readonly property string previousSenderId: previousItem.senderId !== undefined
+                            ? String(previousItem.senderId || "")
+                            : ""
+                        readonly property string resolvedFormattedBodyHtml: !usesSharedStateBubble
+                            ? root.formattedMatrixTextHtml(body)
+                            : ""
+                        readonly property string resolvedFormattedReplyBodyHtml: replyEventId.length > 0
+                            ? root.formattedMatrixTextHtml(replyBody)
+                            : ""
+                        readonly property string resolvedFormattedStateBodyHtml: usesSharedStateBubble
+                            ? root.formattedMatrixTextHtml(body)
+                            : ""
+                        readonly property string resolvedStateEventIconSource: usesSharedStateBubble
+                            ? root.matrixStateEventIconForKind(itemKind)
+                            : ""
+                        readonly property var resolvedPreviewData: usesSharedStateBubble
+                            ? ({
                                 "room": matrixToolbarRoomModel,
                                 "avatarUrl": senderAvatarUrl,
-                                "body": body,
-                                "formattedBody": sharedFormattedBodyHtml,
-                                "isOnlyEmoji": 0,
-                                "redactedFirst": sharedRedactedPair.first,
-                                "redactedSecond": sharedRedactedPair.second,
-                                "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
-                                "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
-                                "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
-                                "previousUserId": previousItem.senderId !== undefined ? String(previousItem.senderId || "") : ""
+                                "formattedStateEvent": resolvedFormattedStateBodyHtml,
+                                "stateEventIconSource": resolvedStateEventIconSource,
+                                "previousDay": previousDayKey,
+                                "previousTimestamp": previousDisplayTimestamp,
+                                "previousIsStateEvent": previousIsStateLikeItem,
+                                "previousUserId": previousSenderId
                             })
-                        readonly property var sharedAttachmentPreviewData: ({
-                                "room": matrixToolbarRoomModel,
-                                "avatarUrl": senderAvatarUrl,
-                                "eventId": stableMediaEventId,
-                                "body": body,
-                                "filename": effectiveFileName,
-                                "filesize": sharedHumanReadableMediaSize,
-                                "fileTypeIconSource": sharedFileTypeIconSource,
-                                "mimetype": mimeType,
-                                "duration": Math.round(Number(mediaDurationMs)),
-                                "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
-                                "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
-                                "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
-                                "previousUserId": previousItem.senderId !== undefined ? String(previousItem.senderId || "") : ""
-                            })
-                        readonly property var sharedVisualPreviewData: ({
-                                "room": matrixToolbarRoomModel,
-                                "avatarUrl": senderAvatarUrl,
-                                "url": mediaUrl,
-                                "blurhash": "",
-                                "eventId": stableMediaEventId,
-                                "body": body,
-                                "filename": effectiveFileName,
-                                "filesize": sharedHumanReadableMediaSize,
-                                "filesizeBytes": Math.round(Number(mediaSizeBytes)),
-                                "mimetype": mimeType,
-                                "thumbnailUrl": thumbnailUrl,
-                                "originalWidth": Math.round(Number(mediaWidth)),
-                                "originalHeight": Math.round(Number(mediaHeight)),
-                                "proportionalHeight": safePreviewAspectRatio,
-                                "containerHeight": matrixTimelineList.height > 0 ? matrixTimelineList.height : root.height,
-                                "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
-                                "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
-                                "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
-                                "previousUserId": previousItem.senderId !== undefined ? String(previousItem.senderId || "") : ""
-                            })
-                        readonly property var sharedReplyPreviewData: replyEventId.length > 0
+                            : ((usesSharedImageBubble || usesSharedStickerBubble || usesSharedVideoBubble)
+                                ? ({
+                                    "room": matrixToolbarRoomModel,
+                                    "avatarUrl": senderAvatarUrl,
+                                    "url": mediaUrl,
+                                    "blurhash": "",
+                                    "eventId": stableMediaEventId,
+                                    "body": body,
+                                    "filename": effectiveFileName,
+                                    "filesize": sharedHumanReadableMediaSize,
+                                    "filesizeBytes": Math.round(Number(mediaSizeBytes)),
+                                    "mimetype": mimeType,
+                                    "thumbnailUrl": thumbnailUrl,
+                                    "originalWidth": Math.round(Number(mediaWidth)),
+                                    "originalHeight": Math.round(Number(mediaHeight)),
+                                    "proportionalHeight": safePreviewAspectRatio,
+                                    "containerHeight": matrixTimelineList.height > 0 ? matrixTimelineList.height : root.height,
+                                    "previousDay": previousDayKey,
+                                    "previousTimestamp": previousDisplayTimestamp,
+                                    "previousIsStateEvent": previousIsStateLikeItem,
+                                    "previousUserId": previousSenderId
+                                })
+                                : ((usesSharedFileBubble || usesSharedAudioBubble)
+                                    ? ({
+                                        "room": matrixToolbarRoomModel,
+                                        "avatarUrl": senderAvatarUrl,
+                                        "eventId": stableMediaEventId,
+                                        "body": body,
+                                        "filename": effectiveFileName,
+                                        "filesize": sharedHumanReadableMediaSize,
+                                        "fileTypeIconSource": sharedFileTypeIconSource,
+                                        "mimetype": mimeType,
+                                        "duration": Math.round(Number(mediaDurationMs)),
+                                        "previousDay": previousDayKey,
+                                        "previousTimestamp": previousDisplayTimestamp,
+                                        "previousIsStateEvent": previousIsStateLikeItem,
+                                        "previousUserId": previousSenderId
+                                    })
+                                    : ({
+                                        "room": matrixToolbarRoomModel,
+                                        "avatarUrl": senderAvatarUrl,
+                                        "body": body,
+                                        "formattedBody": resolvedFormattedBodyHtml,
+                                        "isOnlyEmoji": 0,
+                                        "redactedFirst": sharedRedactedPair.first,
+                                        "redactedSecond": sharedRedactedPair.second,
+                                        "previousDay": previousDayKey,
+                                        "previousTimestamp": previousDisplayTimestamp,
+                                        "previousIsStateEvent": previousIsStateLikeItem,
+                                        "previousUserId": previousSenderId
+                                    })))
+                        readonly property var resolvedReplyPreviewData: replyEventId.length > 0
                             ? ({
                                 "type": MtxEvent.TextMessage,
                                 "body": replyBody,
-                                "formattedBody": sharedFormattedReplyBodyHtml,
+                                "formattedBody": resolvedFormattedReplyBodyHtml,
                                 "isOnlyEmoji": 0,
                                 "userId": replySenderId,
                                 "userName": replySenderDisplayName.length > 0 ? replySenderDisplayName : qsTr("Reply")
                             })
                             : ({})
-                        readonly property var sharedStatePreviewData: ({
-                                "room": matrixToolbarRoomModel,
-                                "avatarUrl": senderAvatarUrl,
-                                "formattedStateEvent": sharedFormattedStateBodyHtml,
-                                "stateEventIconSource": root.matrixStateEventIconForKind(itemKind),
-                                "previousDay": previousItem.timestamp !== undefined ? root.matrixTimelineDayKey(previousItem.timestamp) : dayKey,
-                                "previousTimestamp": previousItem.timestamp !== undefined ? new Date(Number(previousItem.timestamp)) : new Date(Number(timestamp)),
-                                "previousIsStateEvent": previousItem.eventId === undefined ? true : root.isMatrixStateLikeKind(previousItem.itemKind),
-                                "previousUserId": previousItem.senderId !== undefined ? String(previousItem.senderId || "") : ""
-                            })
                         readonly property real heuristicTimelineHeightEstimate: {
                             const baseLineHeight = Math.max(18, Math.round(Settings.uiFontSizePt * 1.8));
                             const compactRowHeight = Math.max(root.composerBaselineHeight, baseLineHeight + Komai.paddingMedium * 2);
@@ -2251,8 +2275,8 @@ ColumnLayout {
                             readonly property bool isStateEvent: timelineItemDelegate.isStateLikeItem
                             readonly property string body: timelineItemDelegate.body
                             readonly property string formattedBody: timelineItemDelegate.usesSharedStateBubble
-                                ? timelineItemDelegate.sharedStatePreviewData.formattedStateEvent
-                                : timelineItemDelegate.sharedPreviewData.formattedBody
+                                ? timelineItemDelegate.resolvedFormattedStateBodyHtml
+                                : timelineItemDelegate.resolvedFormattedBodyHtml
                             readonly property bool supportsReaction: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsReply: timelineItemDelegate.supportsSharedToolbarActions
                             readonly property bool supportsThread: timelineItemDelegate.supportsSharedToolbarActions
@@ -2331,28 +2355,20 @@ ColumnLayout {
                                     && matrixToolbarMessageModel.isEditable
                                 isHiddenEvent: false
                                 formattedBody: !timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.sharedPreviewData.formattedBody
+                                    ? timelineItemDelegate.resolvedFormattedBodyHtml
                                     : ""
                                 formattedStateEvent: timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.sharedStatePreviewData.formattedStateEvent
+                                    ? timelineItemDelegate.resolvedFormattedStateBodyHtml
                                     : ""
                                 stateEventIconSource: timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.sharedStatePreviewData.stateEventIconSource
+                                    ? timelineItemDelegate.resolvedStateEventIconSource
                                     : ""
                                 messageContextMenu: matrixMessageContextMenu
                                 replyContextMenu: matrixReplyContextMenu
                                 messageActions: matrixMessageActionsHost.control
-                                previewData: timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.sharedStatePreviewData
-                                    : (timelineItemDelegate.usesSharedImageBubble
-                                        || timelineItemDelegate.usesSharedStickerBubble
-                                        || timelineItemDelegate.usesSharedVideoBubble)
-                                        ? timelineItemDelegate.sharedVisualPreviewData
-                                        : (timelineItemDelegate.usesSharedFileBubble || timelineItemDelegate.usesSharedAudioBubble)
-                                        ? timelineItemDelegate.sharedAttachmentPreviewData
-                                        : timelineItemDelegate.sharedPreviewData
+                                previewData: timelineItemDelegate.resolvedPreviewData
                                 replyPreviewData: !timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.sharedReplyPreviewData
+                                    ? timelineItemDelegate.resolvedReplyPreviewData
                                     : ({})
                                 roomModelOverride: matrixToolbarRoomModel
                                 scrolledToThis: false
@@ -2393,28 +2409,20 @@ ColumnLayout {
                                     && matrixToolbarMessageModel.isEditable
                                 isHiddenEvent: false
                                 formattedBody: !timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.sharedPreviewData.formattedBody
+                                    ? timelineItemDelegate.resolvedFormattedBodyHtml
                                     : ""
                                 formattedStateEvent: timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.sharedStatePreviewData.formattedStateEvent
+                                    ? timelineItemDelegate.resolvedFormattedStateBodyHtml
                                     : ""
                                 stateEventIconSource: timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.sharedStatePreviewData.stateEventIconSource
+                                    ? timelineItemDelegate.resolvedStateEventIconSource
                                     : ""
                                 messageContextMenu: matrixMessageContextMenu
                                 replyContextMenu: matrixReplyContextMenu
                                 messageActions: matrixMessageActionsHost.control
-                                previewData: timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.sharedStatePreviewData
-                                    : (timelineItemDelegate.usesSharedImageBubble
-                                        || timelineItemDelegate.usesSharedStickerBubble
-                                        || timelineItemDelegate.usesSharedVideoBubble)
-                                        ? timelineItemDelegate.sharedVisualPreviewData
-                                        : (timelineItemDelegate.usesSharedFileBubble || timelineItemDelegate.usesSharedAudioBubble)
-                                        ? timelineItemDelegate.sharedAttachmentPreviewData
-                                        : timelineItemDelegate.sharedPreviewData
+                                previewData: timelineItemDelegate.resolvedPreviewData
                                 replyPreviewData: !timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.sharedReplyPreviewData
+                                    ? timelineItemDelegate.resolvedReplyPreviewData
                                     : ({})
                                 roomModelOverride: matrixToolbarRoomModel
                                 scrolledToThis: false

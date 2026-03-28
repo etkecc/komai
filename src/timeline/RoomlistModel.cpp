@@ -175,7 +175,7 @@ RoomlistModel::flushDeferredCurrentRoomVisualState(const QString &roomId)
 
     currentRoomVisualStateDeferred_ = false;
     currentRoomVisualStateDeferredRoomId_.clear();
-    emitCurrentRoomVisualStateChanged();
+    emit currentRoomPreviewChanged();
 }
 
 QHash<int, QByteArray>

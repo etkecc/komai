@@ -19,7 +19,53 @@ use matrix_sdk::{
     },
 };
 use mime::Mime;
-use std::{fs, path::Path};
+use std::{
+    fs,
+    path::Path,
+    sync::OnceLock,
+    time::{Duration as StdDuration, Instant},
+};
+
+fn is_truthy_env_value(name: &str) -> bool {
+    std::env::var_os(name).is_some_and(|value| {
+        let value = value.to_string_lossy();
+        !matches!(
+            value.as_ref(),
+            "" | "0" | "false" | "False" | "FALSE" | "no" | "No" | "NO" | "off" | "Off"
+                | "OFF"
+        )
+    })
+}
+
+fn room_switch_perf_enabled() -> bool {
+    static ENABLED: OnceLock<bool> = OnceLock::new();
+    *ENABLED.get_or_init(|| {
+        is_truthy_env_value("KOMAI_ROOM_SWITCH_PERF")
+            || is_truthy_env_value("KOMAI_PERF_ROOM_SWITCH")
+    })
+}
+
+fn log_room_timeline_perf(
+    handle_id: u64,
+    room_id: &str,
+    phase: &str,
+    elapsed: StdDuration,
+    extra: &str,
+) {
+    if !room_switch_perf_enabled() {
+        return;
+    }
+
+    tracing::info!(
+        "[room-switch-perf] phase={} handle_id={} room_id={} elapsed_us={} elapsed_ms={:.3}{}",
+        phase,
+        handle_id,
+        room_id,
+        elapsed.as_micros(),
+        elapsed.as_secs_f64() * 1000.0,
+        extra
+    );
+}
 
 pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
     let room_id = room_id.trim();
@@ -956,6 +1002,7 @@ async fn run_room_timeline_loop(
     stop_requested: Arc<AtomicBool>,
 ) {
     tracing::info!(handle_id, room_id, "Running matrix-sdk room timeline loop");
+    let loop_started_at = Instant::now();
 
     let parsed_room_id = match RoomId::parse(&room_id) {
         Ok(room_id) => room_id,
@@ -965,11 +1012,20 @@ async fn run_room_timeline_loop(
         }
     };
 
+    let get_room_started_at = Instant::now();
     let Some(room) = client.get_room(&parsed_room_id) else {
         tracing::warn!(handle_id, room_id, "Matrix-sdk client does not know the requested room");
         return;
     };
+    log_room_timeline_perf(
+        handle_id,
+        &room_id,
+        "rust.matrix_timeline.get_room",
+        get_room_started_at.elapsed(),
+        "",
+    );
 
+    let build_started_at = Instant::now();
     let timeline = match room.timeline().await {
         Ok(timeline) => timeline,
         Err(error) => {
@@ -977,14 +1033,31 @@ async fn run_room_timeline_loop(
             return;
         }
     };
+    log_room_timeline_perf(
+        handle_id,
+        &room_id,
+        "rust.matrix_timeline.timeline_build",
+        build_started_at.elapsed(),
+        "",
+    );
 
     let own_user_id = client.user_id();
 
+    let subscribe_started_at = Instant::now();
     let (items, stream) = timeline.subscribe().await;
+    log_room_timeline_perf(
+        handle_id,
+        &room_id,
+        "rust.matrix_timeline.subscribe",
+        subscribe_started_at.elapsed(),
+        &format!(" subscribe_count={}", items.len()),
+    );
     let mut current_values = items;
     let subscribe_count = current_values.len();
     {
+        let snapshot_build_started_at = Instant::now();
         let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values, own_user_id);
+        let snapshot_build_elapsed = snapshot_build_started_at.elapsed();
         let snapshot_count = snapshot.len();
         if !is_current_room_timeline_generation(handle_id, generation) {
             tracing::debug!(
@@ -1002,6 +1075,16 @@ async fn run_room_timeline_loop(
             snapshot_count,
             "Initial matrix-sdk timeline subscribe"
         );
+        log_room_timeline_perf(
+            handle_id,
+            &room_id,
+            "rust.matrix_timeline.initial_snapshot_build",
+            snapshot_build_elapsed,
+            &format!(
+                " subscribe_count={} snapshot_count={}",
+                subscribe_count, snapshot_count
+            ),
+        );
         *room_timeline_snapshot
             .lock()
             .expect("poisoned matrix room timeline snapshot mutex") = snapshot;
@@ -1009,6 +1092,16 @@ async fn run_room_timeline_loop(
             .lock()
             .expect("poisoned matrix room timeline media lookup mutex") = media_lookup;
         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
+        log_room_timeline_perf(
+            handle_id,
+            &room_id,
+            "rust.matrix_timeline.initial_snapshot_notified",
+            loop_started_at.elapsed(),
+            &format!(
+                " subscribe_count={} snapshot_count={}",
+                subscribe_count, snapshot_count
+            ),
+        );
     }
 
     tracing::info!(
@@ -1017,6 +1110,7 @@ async fn run_room_timeline_loop(
         initial_page_size,
         "Requesting initial backwards pagination"
     );
+    let paginate_started_at = Instant::now();
     if let Err(error) = timeline.paginate_backwards(initial_page_size).await {
         tracing::warn!(
             handle_id,
@@ -1025,20 +1119,31 @@ async fn run_room_timeline_loop(
             "Initial matrix-sdk room timeline pagination failed"
         );
     }
+    log_room_timeline_perf(
+        handle_id,
+        &room_id,
+        "rust.matrix_timeline.initial_paginate",
+        paginate_started_at.elapsed(),
+        &format!(" page_size={}", initial_page_size),
+    );
 
     let mut stream = Box::pin(stream);
+    let mut first_diff_logged = false;
     while !stop_requested.load(Ordering::Relaxed) {
         tokio::select! {
             maybe_diffs = stream.next() => {
                 match maybe_diffs {
                     Some(diffs) => {
                         let diffs: Vec<VectorDiff<Arc<TimelineItem>>> = diffs;
+                        let first_diff_started_at = Instant::now();
                         for diff in diffs.iter().cloned() {
                             diff.apply(&mut current_values);
                         }
 
+                        let snapshot_build_started_at = Instant::now();
                         let (snapshot, media_lookup) =
                             build_room_timeline_snapshot(&current_values, own_user_id);
+                        let snapshot_build_elapsed = snapshot_build_started_at.elapsed();
                         let item_count = snapshot.len();
                         if !is_current_room_timeline_generation(handle_id, generation) {
                             tracing::debug!(
@@ -1065,6 +1170,45 @@ async fn run_room_timeline_loop(
                             diff_count,
                             "Updated matrix-sdk room timeline snapshot"
                         );
+                        if !first_diff_logged {
+                            first_diff_logged = true;
+                            log_room_timeline_perf(
+                                handle_id,
+                                &room_id,
+                                "rust.matrix_timeline.first_diff_applied",
+                                first_diff_started_at.elapsed(),
+                                &format!(
+                                    " diff_count={} current_value_count={} snapshot_count={}",
+                                    diff_count,
+                                    current_values.len(),
+                                    item_count
+                                ),
+                            );
+                            log_room_timeline_perf(
+                                handle_id,
+                                &room_id,
+                                "rust.matrix_timeline.first_stream_snapshot_build",
+                                snapshot_build_elapsed,
+                                &format!(
+                                    " diff_count={} current_value_count={} snapshot_count={}",
+                                    diff_count,
+                                    current_values.len(),
+                                    item_count
+                                ),
+                            );
+                            log_room_timeline_perf(
+                                handle_id,
+                                &room_id,
+                                "rust.matrix_timeline.first_stream_snapshot_notified",
+                                loop_started_at.elapsed(),
+                                &format!(
+                                    " diff_count={} current_value_count={} snapshot_count={}",
+                                    diff_count,
+                                    current_values.len(),
+                                    item_count
+                                ),
+                            );
+                        }
                     }
                     None => {
                         tracing::info!(handle_id, room_id, "Matrix-sdk room timeline stream ended");

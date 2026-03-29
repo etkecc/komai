@@ -99,7 +99,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
         let previous_task = handle.room_timeline_task.take();
         let generation = handle
             .room_timeline_generation
-            .fetch_add(1, Ordering::Relaxed)
+            .fetch_add(1, Ordering::Release)
             + 1;
         handle
             .room_timeline_snapshot
@@ -136,10 +136,20 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
     let (command_sender, command_receiver) = mpsc::unbounded_channel();
     let room_id_owned = room_id.to_owned();
     let room_id_for_thread = room_id_owned.clone();
+    let generation_counter = {
+        let handles = backend_handles()
+            .lock()
+            .expect("poisoned matrix backend handle registry mutex");
+        handles
+            .get(&handle_id)
+            .map(|h| Arc::clone(&h.room_timeline_generation))
+            .expect("handle must exist after select_active_room_timeline setup")
+    };
     let room_timeline_task = std::thread::spawn(move || {
         crate::runtime().block_on(run_room_timeline_loop(
             handle_id,
             generation,
+            generation_counter,
             client,
             room_id_for_thread,
             initial_page_size,
@@ -993,6 +1003,7 @@ async fn load_cached_pinned_event_ids(room: &Room) -> Result<Vec<String>, String
 async fn run_room_timeline_loop(
     handle_id: u64,
     generation: u64,
+    generation_counter: Arc<AtomicU64>,
     client: Client,
     room_id: String,
     initial_page_size: u16,
@@ -1059,14 +1070,34 @@ async fn run_room_timeline_loop(
         let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values, own_user_id);
         let snapshot_build_elapsed = snapshot_build_started_at.elapsed();
         let snapshot_count = snapshot.len();
-        if !is_current_room_timeline_generation(handle_id, generation) {
-            tracing::debug!(
-                handle_id,
-                room_id,
-                generation,
-                "Discarding stale initial matrix-sdk timeline snapshot for an inactive room generation"
-            );
-            return;
+        // Lock the snapshot BEFORE checking the generation so that a
+        // concurrent select_active_room_timeline (which bumps the generation
+        // and then clears the snapshot under the same lock) cannot interleave
+        // between our check and our write.  This eliminates the TOCTOU race
+        // where a stale room's task could overwrite a newer room's snapshot.
+        {
+            let mut snapshot_guard = room_timeline_snapshot
+                .lock()
+                .expect("poisoned matrix room timeline snapshot mutex");
+            if generation_counter.load(Ordering::Acquire) != generation {
+                tracing::debug!(
+                    handle_id,
+                    room_id,
+                    generation,
+                    "Discarding stale initial matrix-sdk timeline snapshot for an inactive room generation"
+                );
+                return;
+            }
+            *snapshot_guard = snapshot;
+        }
+        {
+            let mut media_guard = room_timeline_media_lookup
+                .lock()
+                .expect("poisoned matrix room timeline media lookup mutex");
+            if generation_counter.load(Ordering::Acquire) != generation {
+                return;
+            }
+            *media_guard = media_lookup;
         }
         tracing::info!(
             handle_id,
@@ -1085,12 +1116,6 @@ async fn run_room_timeline_loop(
                 subscribe_count, snapshot_count
             ),
         );
-        *room_timeline_snapshot
-            .lock()
-            .expect("poisoned matrix room timeline snapshot mutex") = snapshot;
-        *room_timeline_media_lookup
-            .lock()
-            .expect("poisoned matrix room timeline media lookup mutex") = media_lookup;
         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
         log_room_timeline_perf(
             handle_id,
@@ -1145,21 +1170,33 @@ async fn run_room_timeline_loop(
                             build_room_timeline_snapshot(&current_values, own_user_id);
                         let snapshot_build_elapsed = snapshot_build_started_at.elapsed();
                         let item_count = snapshot.len();
-                        if !is_current_room_timeline_generation(handle_id, generation) {
-                            tracing::debug!(
-                                handle_id,
-                                room_id,
-                                generation,
-                                "Stopping stale matrix-sdk room timeline loop after room switch"
-                            );
-                            break;
+                        // Lock-then-check: hold the snapshot lock while
+                        // verifying the generation to prevent a stale task
+                        // from overwriting a newer room's data (TOCTOU fix).
+                        {
+                            let mut snapshot_guard = room_timeline_snapshot
+                                .lock()
+                                .expect("poisoned matrix room timeline snapshot mutex");
+                            if generation_counter.load(Ordering::Acquire) != generation {
+                                tracing::debug!(
+                                    handle_id,
+                                    room_id,
+                                    generation,
+                                    "Stopping stale matrix-sdk room timeline loop after room switch"
+                                );
+                                break;
+                            }
+                            *snapshot_guard = snapshot;
                         }
-                        *room_timeline_snapshot
-                            .lock()
-                            .expect("poisoned matrix room timeline snapshot mutex") = snapshot;
-                        *room_timeline_media_lookup
-                            .lock()
-                            .expect("poisoned matrix room timeline media lookup mutex") = media_lookup;
+                        {
+                            let mut media_guard = room_timeline_media_lookup
+                                .lock()
+                                .expect("poisoned matrix room timeline media lookup mutex");
+                            if generation_counter.load(Ordering::Acquire) != generation {
+                                break;
+                            }
+                            *media_guard = media_lookup;
+                        }
                         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
 
                         let diff_count = diffs.len();

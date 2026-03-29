@@ -524,12 +524,3 @@ fn stop_room_timeline_task(handle_id: u64, room_timeline_task: MatrixBackendRoom
         .store(true, Ordering::Relaxed);
     let _ = room_timeline_task.thread.join();
 }
-
-fn is_current_room_timeline_generation(handle_id: u64, generation: u64) -> bool {
-    backend_handles()
-        .lock()
-        .expect("poisoned matrix backend handle registry mutex")
-        .get(&handle_id)
-        .map(|handle| handle.room_timeline_generation.load(Ordering::Relaxed) == generation)
-        .unwrap_or(false)
-}

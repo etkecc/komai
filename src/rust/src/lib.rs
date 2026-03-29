@@ -195,10 +195,12 @@ mod ffi {
         sender_display_name: String,
         sender_avatar_url: String,
         body: String,
+        formatted_body: String,
         reply_event_id: String,
         reply_sender_id: String,
         reply_sender_display_name: String,
         reply_body: String,
+        reply_formatted_body: String,
         reactions: Vec<MatrixReactionSummary>,
         reactions_summary: String,
         item_kind: String,
@@ -1395,10 +1397,12 @@ fn matrix_fetch_active_room_timeline(
                     sender_display_name: item.sender_display_name,
                     sender_avatar_url: item.sender_avatar_url,
                     body: item.body,
+                    formatted_body: item.formatted_body,
                     reply_event_id: item.reply_event_id,
                     reply_sender_id: item.reply_sender_id,
                     reply_sender_display_name: item.reply_sender_display_name,
                     reply_body: item.reply_body,
+                    reply_formatted_body: item.reply_formatted_body,
                     reactions: item
                         .reactions
                         .into_iter()

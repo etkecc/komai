@@ -310,10 +310,12 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .senderAvatarUrl =
         matrix::normalizeMxcUri(QString::fromStdString(std::string(item.sender_avatar_url))),
       .body                   = QString::fromStdString(std::string(item.body)),
+      .formattedBody          = QString::fromStdString(std::string(item.formatted_body)),
       .replyEventId           = QString::fromStdString(std::string(item.reply_event_id)),
       .replySenderId          = QString::fromStdString(std::string(item.reply_sender_id)),
       .replySenderDisplayName = QString::fromStdString(std::string(item.reply_sender_display_name)),
       .replyBody              = QString::fromStdString(std::string(item.reply_body)),
+      .replyFormattedBody     = QString::fromStdString(std::string(item.reply_formatted_body)),
       .reactions              = reactions,
       .reactionsSummary       = QString::fromStdString(std::string(item.reactions_summary)),
       .itemKind               = QString::fromStdString(std::string(item.item_kind)),

@@ -103,15 +103,25 @@ stateEventIconForKind(const QString &kind)
 }
 
 QString
-formatBodyHtml(const QString &body)
+formatBodyHtml(const QString &body, const QString &formattedBody = {})
 {
-    if (body.isEmpty())
+    if (body.isEmpty() && formattedBody.isEmpty())
         return {};
-    auto html = utils::markdownToHtml(body, false);
-    if (!html.contains(u'<') && !body.trimmed().contains(u'\n') && !body.trimmed().contains(u'\\'))
-        html = body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));
-    html = utils::escapeBlacklistedHtml(html);
-    html = utils::linkifyMessage(html);
+
+    QString html;
+    if (!formattedBody.isEmpty()) {
+        // The formatted body is already HTML from the server; sanitize and linkify it directly
+        // without running it through the markdown converter.
+        html = utils::escapeBlacklistedHtml(formattedBody);
+        html = utils::linkifyMessage(html);
+    } else {
+        html = utils::markdownToHtml(body, false);
+        if (!html.contains(u'<') && !body.trimmed().contains(u'\n') &&
+            !body.trimmed().contains(u'\\'))
+            html = body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));
+        html = utils::escapeBlacklistedHtml(html);
+        html = utils::linkifyMessage(html);
+    }
     return utils::replaceEmoji(html);
 }
 
@@ -125,15 +135,16 @@ computeDerivedFields(MatrixTimelineItem &item)
     item.cachedIsStateEvent = isState;
     item.cachedIsEncrypted  = item.mediaIsEncrypted || item.thumbnailIsEncrypted ||
                              item.itemKind == QStringLiteral("unable_to_decrypt");
-    item.cachedIsEditable          = item.isOwn && (item.itemKind == QStringLiteral("message") ||
+    item.cachedIsEditable    = item.isOwn && (item.itemKind == QStringLiteral("message") ||
                                            item.itemKind == QStringLiteral("notice") ||
                                            item.itemKind == QStringLiteral("emote"));
-    item.cachedProportionalH       = (item.mediaWidth > 0 && item.mediaHeight > 0)
-                                       ? static_cast<double>(item.mediaHeight) / item.mediaWidth
-                                       : 0.0;
-    item.cachedFormattedBody       = isState ? QString() : formatBodyHtml(item.body);
-    item.cachedFormattedStateEvent = isState ? formatBodyHtml(item.body) : QString();
-    item.cachedStateEventIcon      = isState ? stateEventIconForKind(item.itemKind) : QString();
+    item.cachedProportionalH = (item.mediaWidth > 0 && item.mediaHeight > 0)
+                                 ? static_cast<double>(item.mediaHeight) / item.mediaWidth
+                                 : 0.0;
+    item.cachedFormattedBody = isState ? QString() : formatBodyHtml(item.body, item.formattedBody);
+    item.cachedFormattedStateEvent =
+      isState ? formatBodyHtml(item.body, item.formattedBody) : QString();
+    item.cachedStateEventIcon = isState ? stateEventIconForKind(item.itemKind) : QString();
     item.cachedFilesize =
       item.mediaSizeBytes > 0 ? utils::humanReadableFileSize(item.mediaSizeBytes) : QString();
     item.cachedFilename =
@@ -236,7 +247,7 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case TypeString:         return QStringLiteral("message");
     case IsOnlyEmoji:        return 0;
     case Body:               return parentItem.replyBody;
-    case FormattedBody:      return formatBodyHtml(parentItem.replyBody);
+    case FormattedBody:      return formatBodyHtml(parentItem.replyBody, parentItem.replyFormattedBody);
     case HasFormattedBody:   return !parentItem.replyBody.isEmpty();
     case FormattedStateEvent:return QString();
     case StateEventIconSource:return QString();

@@ -29,11 +29,13 @@ use super::MatrixReactionSummary;
 pub struct MatrixEventSummary {
     pub kind: String,
     pub body: String,
+    pub formatted_body: String,
     pub thread_root_id: String,
     pub reply_event_id: String,
     pub reply_sender_id: String,
     pub reply_sender_display_name: String,
     pub reply_body: String,
+    pub reply_formatted_body: String,
     pub reactions: Vec<MatrixReactionSummary>,
     pub reactions_summary: String,
     pub is_edited: bool,
@@ -90,13 +92,14 @@ fn summarize_msg_like_content(
         .map(ToString::to_string)
         .unwrap_or_default();
 
-    if let Some((reply_event_id, reply_sender_id, reply_sender_display_name, reply_body)) =
+    if let Some((reply_event_id, reply_sender_id, reply_sender_display_name, reply_body, reply_formatted_body)) =
         summarize_reply_preview(content.in_reply_to.as_ref())
     {
         summary.reply_event_id = reply_event_id;
         summary.reply_sender_id = reply_sender_id;
         summary.reply_sender_display_name = reply_sender_display_name;
         summary.reply_body = reply_body;
+        summary.reply_formatted_body = reply_formatted_body;
     }
 
     summary.reactions = summarize_reaction_items(&content.reactions, own_user_id);
@@ -295,11 +298,40 @@ fn summarize_other_state(state: &OtherState) -> MatrixEventSummary {
     }
 }
 
+fn formatted_html(message_type: &MessageType) -> &str {
+    match message_type {
+        MessageType::Text(content) => content
+            .formatted
+            .as_ref()
+            .map(|f| f.body.as_str())
+            .unwrap_or(""),
+        MessageType::Notice(content) => content
+            .formatted
+            .as_ref()
+            .map(|f| f.body.as_str())
+            .unwrap_or(""),
+        MessageType::Emote(content) => content
+            .formatted
+            .as_ref()
+            .map(|f| f.body.as_str())
+            .unwrap_or(""),
+        _ => "",
+    }
+}
+
 fn summary_from_message_type(message_type: &MessageType) -> MatrixEventSummary {
     match message_type {
-        MessageType::Text(_) => summary("message", message_type.body()),
-        MessageType::Notice(_) => summary("notice", message_type.body()),
-        MessageType::Emote(_) => summary("emote", message_type.body()),
+        MessageType::Text(_) | MessageType::Notice(_) | MessageType::Emote(_) => {
+            let kind = match message_type {
+                MessageType::Text(_) => "message",
+                MessageType::Notice(_) => "notice",
+                MessageType::Emote(_) => "emote",
+                _ => unreachable!(),
+            };
+            let mut s = summary(kind, message_type.body());
+            s.formatted_body = formatted_html(message_type).to_owned();
+            s
+        }
         MessageType::Image(content) => {
             summary_with_media("image", caption_or_filename(content), media_for_image(content))
         }
@@ -329,11 +361,13 @@ fn summary(kind: &str, body: &str) -> MatrixEventSummary {
     MatrixEventSummary {
         kind: kind.to_owned(),
         body: body.to_owned(),
+        formatted_body: String::new(),
         thread_root_id: String::new(),
         reply_event_id: String::new(),
         reply_sender_id: String::new(),
         reply_sender_display_name: String::new(),
         reply_body: String::new(),
+        reply_formatted_body: String::new(),
         reactions: Vec::new(),
         reactions_summary: String::new(),
         is_edited: false,
@@ -349,11 +383,13 @@ fn summary_with_media(
     MatrixEventSummary {
         kind: kind.to_owned(),
         body: body.to_owned(),
+        formatted_body: String::new(),
         thread_root_id: String::new(),
         reply_event_id: String::new(),
         reply_sender_id: String::new(),
         reply_sender_display_name: String::new(),
         reply_body: String::new(),
+        reply_formatted_body: String::new(),
         reactions: Vec::new(),
         reactions_summary: String::new(),
         is_edited: false,
@@ -363,7 +399,7 @@ fn summary_with_media(
 
 fn summarize_reply_preview(
     details: Option<&InReplyToDetails>,
-) -> Option<(String, String, String, String)> {
+) -> Option<(String, String, String, String, String)> {
     let details = details?;
 
     match &details.event {
@@ -385,6 +421,7 @@ fn summarize_reply_preview(
                 sender_id,
                 sender_display_name,
                 reply_summary.body,
+                reply_summary.formatted_body,
             ))
         }
         TimelineDetails::Unavailable | TimelineDetails::Pending | TimelineDetails::Error(_) => {
@@ -393,6 +430,7 @@ fn summarize_reply_preview(
                 String::new(),
                 String::new(),
                 "[Original message unavailable]".to_owned(),
+                String::new(),
             ))
         }
     }

@@ -367,9 +367,10 @@ sanitizeAttributeValue(const QString &tagName, const ParsedAttribute &attr)
     const auto value = attr.value;
 
     if (tagName == QLatin1String("span")) {
-        if (attr.name == QLatin1String("data-mx-bg-color") ||
-            attr.name == QLatin1String("data-mx-color"))
+        if (attr.name == QLatin1String("data-mx-bg-color"))
             return sanitizeHexColor(value);
+        if (attr.name == QLatin1String("data-mx-color"))
+            return sanitizeFontColor(value);
         if (attr.name == QLatin1String("data-mx-spoiler"))
             return value.size() <= kMaxSpoilerChars ? value : QString{};
         if (attr.name == QLatin1String("data-mx-maths"))

@@ -81,6 +81,8 @@ dayKeyFromTimestamp(uint64_t timestampMs)
 int
 deliveryStateToEventState(const QString &state)
 {
+    if (state == QStringLiteral("pending"))
+        return qml_mtx_events::Pending;
     if (state == QStringLiteral("sent"))
         return qml_mtx_events::Sent;
     if (state == QStringLiteral("failed"))

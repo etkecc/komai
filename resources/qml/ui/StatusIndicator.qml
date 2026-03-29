@@ -16,6 +16,8 @@ ImageButton {
         switch (status) {
         case MtxEvent.Failed:
             return qsTr("Failed");
+        case MtxEvent.Pending:
+            return qsTr("Sending");
         case MtxEvent.Sent:
             return qsTr("Sent");
         case MtxEvent.Received:
@@ -35,6 +37,8 @@ ImageButton {
         switch (status) {
         case MtxEvent.Failed:
             return ":/icons/icons/ui/dismiss.svg";
+        case MtxEvent.Pending:
+            return ":/icons/icons/ui/clock.svg";
         case MtxEvent.Sent:
             return ":/icons/icons/ui/clock.svg";
         case MtxEvent.Received:

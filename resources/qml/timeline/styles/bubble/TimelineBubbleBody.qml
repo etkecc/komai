@@ -461,8 +461,8 @@ Item {
 
             TimelineRoundedOutline {
                 anchors.fill: parent
-                visible: !root.wrapper.isStateEvent && root.wrapper.messageBubbleBackgroundEnabled && root.wrapper.status === MtxEvent.Sent
-                borderColor: messageBubble.roomColor
+                visible: !root.wrapper.isStateEvent && root.wrapper.messageBubbleBackgroundEnabled && (root.wrapper.status === MtxEvent.Pending || root.wrapper.status === MtxEvent.Sent)
+                borderColor: Qt.rgba(messageBubble.palette.windowText.r, messageBubble.palette.windowText.g, messageBubble.palette.windowText.b, 0.4)
                 strokeWidth: 1.5
                 dashPattern: [6, 10]
                 cornerRadius: root.wrapper.messageBubbleRadius

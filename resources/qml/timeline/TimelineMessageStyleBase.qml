@@ -66,8 +66,8 @@ TimelineEvent {
         return null;
     }
     readonly property string roomIdForColorCoding: (roomForColorCoding && roomForColorCoding.roomId) ? String(roomForColorCoding.roomId) : ""
-    readonly property bool focusedInView: !!chatRoot && chatRoot.focusedEventId === wrapper.eventId
-    readonly property bool selectedInView: !!chatRoot
+    readonly property bool focusedInView: !!chatRoot && !!wrapper.eventId && chatRoot.focusedEventId === wrapper.eventId
+    readonly property bool selectedInView: !!chatRoot && !!wrapper.eventId
         && chatRoot.selectedEventIds
         && chatRoot.selectedEventIds.indexOf(wrapper.eventId) >= 0
 

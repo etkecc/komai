@@ -1482,9 +1482,8 @@ fn matrix_timeline_delivery_state(event: &matrix_sdk_ui::timeline::EventTimeline
     use matrix_sdk_ui::timeline::EventSendState;
 
     match event.send_state() {
-        Some(EventSendState::NotSentYet { .. }) | Some(EventSendState::Sent { .. }) => {
-            "sent".to_owned()
-        }
+        Some(EventSendState::NotSentYet { .. }) => "pending".to_owned(),
+        Some(EventSendState::Sent { .. }) => "sent".to_owned(),
         Some(EventSendState::SendingFailed { .. }) => "failed".to_owned(),
         None => String::new(),
     }

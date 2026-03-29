@@ -122,6 +122,8 @@ enum EventState
     Received,
     //! At least one of the participants has read the message.
     Read,
+    //! The client is still sending the message (local echo, not yet confirmed).
+    Pending,
     //! The client sent the message. Not yet received.
     Sent,
     //! The client sent the message, but it failed.

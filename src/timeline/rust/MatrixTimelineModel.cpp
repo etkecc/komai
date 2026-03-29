@@ -245,7 +245,7 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case UserName:           return parentItem.replySenderDisplayName;
     case UserPowerlevel:     return 0;
     case Day:                return 0;
-    case Timestamp:          return static_cast<qulonglong>(0);
+    case Timestamp:          return QDateTime::fromMSecsSinceEpoch(0);
     case Url:                return QString();
     case ThumbnailUrl:       return QString();
     case Duration:           return 0;

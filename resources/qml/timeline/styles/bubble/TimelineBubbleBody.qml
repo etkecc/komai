@@ -259,7 +259,7 @@ Item {
                     }
 
                     background: Rectangle {
-                        color: replyRow.roomColor
+                        color: replyRow.replyBubblePalette.base
                         radius: Komai.paddingMedium
                         clip: true
 

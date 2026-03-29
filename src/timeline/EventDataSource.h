@@ -23,7 +23,8 @@ public:
 
     /// Return the value of a single role for a given event/item ID.
     /// @p relatedTo is the parent event ID when resolving reply context.
-    virtual QVariant dataById(const QString &id, int role, const QString &relatedTo) = 0;
+    Q_INVOKABLE virtual QVariant
+    dataById(const QString &id, int role, const QString &relatedTo) = 0;
 
     /// Fetch multiple roles for a given event/item ID in one call.
     virtual void multiData(const QString &id,

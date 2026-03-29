@@ -8,6 +8,8 @@
 #include <array>
 #include <variant>
 
+#include <mtx/events/collections.hpp>
+
 #include <QCoreApplication>
 #include <QFont>
 #include <QFontInfo>
@@ -15,7 +17,6 @@
 #include <QStringBuilder>
 
 #include "events/EventAccessors.h"
-#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {

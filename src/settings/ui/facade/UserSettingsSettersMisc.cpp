@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <cmath>
 
-#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 #include "UserSettingsSettersMisc.inc"

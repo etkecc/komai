@@ -334,25 +334,12 @@ set(SRC_FILES
     src/timeline/communities/CommunitiesModelSync.cpp
     src/timeline/DelegateChooser.cpp
     src/timeline/DelegateChooser.h
-    src/timeline/EventStore.cpp
-    src/timeline/EventStore.h
-    src/timeline/eventstore/EventStoreRelations.cpp
-    src/timeline/eventstore/EventStoreAccess.cpp
-    src/timeline/eventstore/EventStoreWindowing.cpp
-    src/timeline/eventstore/EventStorePending.cpp
-    src/timeline/eventstore/EventStoreKeyRequests.cpp
     src/timeline/EventDataSource.cpp
     src/timeline/EventDataSource.h
     src/timeline/EventDelegateChooser.cpp
     src/timeline/EventDelegateChooser.h
-    src/timeline/InputBar.cpp
-    src/timeline/InputBar.h
     src/timeline/SlashCommands.cpp
     src/timeline/SlashCommands.h
-    src/timeline/inputbar/InputBarCommands.cpp
-    src/timeline/inputbar/InputBarMessaging.cpp
-    src/timeline/inputbar/InputBarMediaMessages.cpp
-    src/timeline/inputbar/InputBarUploads.cpp
     src/timeline/FormattedCodeBlockHighlighter.cpp
     src/timeline/FormattedCodeBlockHighlighter.h
     src/timeline/formattedcode/HtmlRenderer.cpp
@@ -369,32 +356,12 @@ set(SRC_FILES
     src/timeline/litehtml/LitehtmlItem.h
     src/timeline/litehtml/LitehtmlStylesheet.cpp
     src/timeline/litehtml/LitehtmlStylesheet.h
-    src/timeline/composer/TimelineModelComposer.cpp
-    src/timeline/actions/TimelineModelActions.cpp
     src/timeline/data/RoomlistModelData.cpp
-    src/timeline/data/TimelineModelDataFormatting.cpp
-    src/timeline/data/TimelineModelDataRoleHelpers.cpp
-    src/timeline/data/TimelineModelDataRoles.cpp
-    src/timeline/format/TimelineImagePackFormatter.cpp
-    src/timeline/format/TimelineImagePackFormatter.h
-    src/timeline/format/TimelineMemberEventFormatter.cpp
-    src/timeline/format/TimelineMemberEventFormatter.h
-    src/timeline/format/TimelinePolicyRuleFormatter.cpp
-    src/timeline/format/TimelinePolicyRuleFormatter.h
-    src/timeline/format/TimelinePowerLevelFormatter.cpp
-    src/timeline/format/TimelinePowerLevelFormatter.h
-    src/timeline/format/TimelineRedactedEventFormatter.cpp
-    src/timeline/format/TimelineRedactedEventFormatter.h
     src/timeline/media/TimelineMediaController.cpp
     src/timeline/media/TimelineMediaController.h
-    src/timeline/navigation/TimelineModelNavigation.cpp
-    src/timeline/presentation/TimelineModelPresentation.cpp
-    src/timeline/sync/TimelineModelSync.cpp
     src/timeline/rawmessage/RawMessageDialogPayload.cpp
     src/timeline/rawmessage/RawMessageDialogPayload.h
     src/timeline/roomlist/FilteredRoomlistModel.cpp
-    src/timeline/roomlist/RoomlistModelCachedMessages.cpp
-    src/timeline/roomlist/RoomlistModelMaterialization.cpp
     src/timeline/roomlist/RoomlistModelPreviews.cpp
     src/timeline/roomlist/RoomlistPreviewSelection.cpp
     src/timeline/roomlist/RoomlistModelPrewarm.cpp
@@ -405,8 +372,6 @@ set(SRC_FILES
     src/timeline/rust/MatrixTimelineModel.h
     src/timeline/DirectChatResolver.cpp
     src/timeline/DirectChatResolver.h
-    src/timeline/state/TimelineModelRoomState.cpp
-    src/timeline/state/TimelineModelStateEventActions.cpp
     src/timeline/send/TimelineMessageSendPipeline.cpp
     src/timeline/send/TimelineMessageSendPipeline.h
     src/timeline/Permissions.cpp
@@ -421,8 +386,6 @@ set(SRC_FILES
     src/timeline/TimelineFilter.h
     src/timeline/TimelineEventTypes.cpp
     src/timeline/TimelineEventTypes.h
-    src/timeline/TimelineModel.cpp
-    src/timeline/TimelineModel.h
     src/timeline/TimelineSpecialEffects.cpp
     src/timeline/TimelineSpecialEffects.h
     src/timeline/NavigationHistory.cpp
@@ -488,14 +451,6 @@ set(SRC_FILES
     src/encryption/DeviceVerificationFlowHandlers.cpp
     src/encryption/DeviceVerificationFlowProtocol.cpp
     src/encryption/DeviceVerificationFlow.h
-    src/encryption/Olm.cpp
-    src/encryption/OlmSupport.cpp
-    src/encryption/OlmToDeviceSend.cpp
-    src/encryption/OlmMegolmBackup.cpp
-    src/encryption/OlmKeyBackupSync.cpp
-    src/encryption/OlmCrossSigningDownload.cpp
-    src/encryption/OlmSessionDecrypt.cpp
-    src/encryption/Olm.h
     src/encryption/SelfVerificationStatus.cpp
     src/encryption/SelfVerificationStatus.h
     src/encryption/VerificationManager.cpp
@@ -514,78 +469,6 @@ set(SRC_FILES
     src/providers/AvatarProvider.h
     src/providers/BlurhashProvider.cpp
     src/providers/BlurhashProvider.h
-    src/cache/core/Cache.cpp
-    src/cache/core/CacheCoreStorage.cpp
-    src/cache/lifecycle/CacheLifecycleRooms.cpp
-    src/cache/lifecycle/CacheLifecycleState.cpp
-    src/cache/lifecycle/CacheLifecycleMigrations.cpp
-    src/cache/lifecycle/CacheLifecycleStateWrite.cpp
-    src/cache/lifecycle/CacheLifecycleStateRead.cpp
-    src/cache/lifecycle/CacheLifecycleSyncSaveState.cpp
-    src/cache/lifecycle/CacheLifecycleSyncPersist.cpp
-    src/cache/lifecycle/CacheLifecycleSyncAux.cpp
-    src/cache/lifecycle/CacheLifecycle.cpp
-    src/cache/setup/CacheSetup.cpp
-    src/cache/membership/CacheMembership.cpp
-    src/cache/membership/CacheMembershipInvites.cpp
-    src/cache/rooms/CacheRoomInfo.cpp
-    src/cache/rooms/CacheRoomInfoState.cpp
-    src/cache/rooms/CacheRoomInfoInvites.cpp
-    src/cache/spaces/CacheSpaces.cpp
-    src/cache/spaces/CacheSpacesImagePacks.cpp
-    src/cache/timeline/CacheTimeline.cpp
-    src/cache/timeline/CacheTimelineWrite.cpp
-    src/cache/timeline/CacheTimelinePending.cpp
-    src/cache/timeline/CacheTimelineRead.cpp
-    src/cache/api/CacheApiStateTemplates.cpp
-    src/cache/crypto/CacheCryptoMegolm.cpp
-    src/cache/crypto/CacheCryptoMegolmMetadata.cpp
-    src/cache/crypto/CacheCryptoOlm.cpp
-    src/cache/crypto/CacheCryptoSecrets.cpp
-    src/cache/crypto/CacheCryptoSecretsStore.cpp
-    src/cache/core/CacheCoreRuntime.cpp
-    src/cache/users/CacheUserProfile.cpp
-    src/cache/users/CacheUserKeys.cpp
-    src/cache/users/CacheUserKeysNetwork.cpp
-    src/cache/users/CacheUserKeysVerification.cpp
-    src/cache/users/CacheUserTrust.cpp
-    src/cache/api/CacheApiLoggers.cpp
-    src/cache/api/CacheApiInstance.cpp
-    src/cache/api/CacheApiLifecycleOps.cpp
-    src/cache/api/CacheApiUsers.cpp
-    src/cache/api/CacheApiRoomsInfo.cpp
-    src/cache/api/CacheApiSignals.cpp
-    src/cache/api/CacheApiTimeline.cpp
-    src/cache/api/CacheApiRooms.cpp
-    src/cache/api/CacheApiCrypto.cpp
-    src/cache/Cache.h
-    src/cache/api/CacheApi.h
-    src/cache/api/CacheApiTypes.h
-    src/cache/api/CacheApiLifecycle.h
-    src/cache/api/CacheApiUsers.h
-    src/cache/api/CacheApiSignals.h
-    src/cache/api/CacheApiRooms.h
-    src/cache/api/CacheApiTimeline.h
-    src/cache/api/CacheApiCrypto.h
-    src/cache/crypto/CacheCryptoStructs.cpp
-    src/cache/crypto/CacheCryptoStructsQml.cpp
-    src/cache/crypto/CacheCryptoStructs.h
-    src/cache/core/CacheVersion.h
-    src/cache/core/CacheStorageContext.h
-    src/cache/core/CacheTxn.h
-    src/cache/core/Cache_p.h
-    src/db/InMemoryBackend.h
-    src/db/LmdbBackend.h
-    src/db/Backend.h
-    src/db/Catalog.h
-    src/db/DbTypes.h
-    src/db/DupIndex.h
-    src/db/Internal.h
-    src/db/LmdbHeaders.h
-    src/db/NamePolicy.h
-    src/db/OrderEntry.h
-    src/db/Scan.h
-    src/db/StateIndex.h
     src/chat/ChatPageRoomActions.cpp
     src/chat/ChatPageSessionLifecycle.cpp
     src/chat/ChatPageSync.cpp
@@ -646,8 +529,7 @@ set(SRC_FILES
     src/matrix/backend/MatrixSessionSecrets.h
     src/matrix/backend/MatrixSdkPaths.cpp
     src/matrix/backend/MatrixSdkPaths.h
-    src/matrix/MatrixClient.cpp
-    src/matrix/MatrixClient.h
+    src/matrix/MatrixEventCompat.cpp
     src/matrix/MatrixServerResolver.cpp
     src/matrix/MatrixServerResolver.h
     src/models/MemberList.cpp
@@ -811,17 +693,6 @@ set(SRC_FILES
 include(FeatureSummary)
 
 find_package(OpenSSL 1.1.0 REQUIRED)
-
-set(OLM_TESTS OFF CACHE INTERNAL "")
-CPMAddPackage(
-    NAME Olm
-    GIT_REPOSITORY https://gitlab.matrix.org/matrix-org/olm.git
-    GIT_TAG 3.2.16
-    PATCH_COMMAND git apply --whitespace=nowarn
-        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/olm/0001-fix-list-const-ptr.patch
-        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/olm/0002-fix-cmake-cmp0148.patch
-    UPDATE_DISCONNECTED 1
-)
 
 CPMAddPackage(
     NAME cmark
@@ -1210,44 +1081,6 @@ endif()
 
 set(YAMLCPP_TARGET_NAME yaml-cpp::yaml-cpp)
 
-add_library(komai_db STATIC
-    src/db/Catalog.cpp
-    src/db/DbTypes.cpp
-    src/db/DupIndex.cpp
-    src/db/Factory.cpp
-    src/db/InMemoryBackend.cpp
-    src/db/inmemory/InMemoryBackendInternal.h
-    src/db/inmemory/InMemoryCursor.cpp
-    src/db/inmemory/InMemoryTxn.cpp
-    src/db/MegolmIndex.cpp
-    src/db/MemberInfo.cpp
-    src/db/NamePolicy.cpp
-    src/db/OlmSessionIndex.cpp
-    src/db/OrderEntry.cpp
-    src/db/ReadReceiptIndex.cpp
-    src/db/RoomInfo.cpp
-    src/db/Scan.cpp
-    src/db/Maintenance.cpp
-    src/db/StateIndex.cpp
-    src/db/SyncState.cpp
-)
-target_include_directories(komai_db PUBLIC src)
-target_link_libraries(komai_db PUBLIC
-    Qt::Core
-    nlohmann_json::nlohmann_json
-    MatrixClient::MatrixClient
-)
-if(KOMAI_DB_ENABLE_LMDB_BACKEND)
-    target_sources(komai_db PRIVATE src/db/LmdbBackend.cpp)
-    target_link_libraries(komai_db PUBLIC
-        lmdbxx::lmdbxx
-        liblmdb::lmdb
-    )
-    target_compile_definitions(komai_db PRIVATE KOMAI_DB_WITH_LMDB=1)
-else()
-    target_compile_definitions(komai_db PRIVATE KOMAI_DB_WITH_LMDB=0)
-endif()
-
 if(BUILD_TESTING)
     # Intentionally point HOME/XDG_* to non-writable /proc paths for all tests.
     # This makes accidental writes to user/home-derived locations fail fast.
@@ -1284,7 +1117,6 @@ if(BUILD_TESTING)
         tests/ProfileSecretsStartupStub.cpp
         tests/UserSettingsModelStartupStub.cpp
         src/settings/ui/UserSettingsModel.h
-        tests/OlmStartupStub.cpp
         src/profile/KeyringEnvironment.cpp
         tests/LoggingStub.cpp
         src/profile/Paths.cpp
@@ -1331,7 +1163,6 @@ if(BUILD_TESTING)
         src/settings/core/SettingsSerializer.cpp
         src/settings/core/SettingsStore.cpp
         src/emoji/Provider.cpp
-        src/matrix/MatrixClient.cpp
         ${THEME_DEFINITIONS_H}
     )
     target_include_directories(komai_startup_settings_test PRIVATE
@@ -1347,7 +1178,6 @@ if(BUILD_TESTING)
         ${YAMLCPP_TARGET_NAME}
     )
     target_link_libraries(komai_startup_settings_test PRIVATE
-        MatrixClient::MatrixClient
         qt6keychain
         spdlog::spdlog
         fmt::fmt
@@ -1384,7 +1214,6 @@ if(BUILD_TESTING)
         qt6keychain
         spdlog::spdlog
         fmt::fmt
-        MatrixClient::MatrixClient
     )
     add_test(NAME komai_settings_storage_test COMMAND komai_settings_storage_test)
     komai_configure_test(komai_settings_storage_test "unit;settings")
@@ -1416,117 +1245,6 @@ if(BUILD_TESTING)
     target_link_libraries(komai_settings_serializer_core_test PRIVATE ${YAMLCPP_TARGET_NAME})
     add_test(NAME komai_settings_serializer_core_test COMMAND komai_settings_serializer_core_test)
     komai_configure_test(komai_settings_serializer_core_test "unit;settings")
-
-    add_executable(komai_db_backend_test
-        tests/DbBackendTest.cpp
-        src/cache/crypto/CacheCryptoStructs.cpp
-    )
-    target_include_directories(komai_db_backend_test PRIVATE src)
-    target_link_libraries(komai_db_backend_test PRIVATE
-        komai_db
-        MatrixClient::MatrixClient
-    )
-    add_test(NAME komai_db_backend_test COMMAND komai_db_backend_test)
-    komai_configure_test(komai_db_backend_test "integration;db")
-
-    add_executable(komai_matrix_store_test
-        tests/MatrixStoreIntegrationTest.cpp
-        tests/MatrixStoreHarnessStubs.cpp
-        tests/OlmCacheStub.cpp
-        tests/ProfileSecretsCacheStub.cpp
-        tests/UtilsLocalUserStub.cpp
-        tests/UserSettingsModelStartupStub.cpp
-        src/settings/ui/UserSettingsModel.h
-        tests/LoggingStub.cpp
-        src/profile/KeyringEnvironment.cpp
-        src/profile/Paths.cpp
-        src/events/EventAccessors.cpp
-        src/timeline/TimelineEventTypes.cpp
-        src/settings/ui/facade/UserSettingsPage.cpp
-        src/settings/ui/facade/UserSettingsGettersUi.cpp
-        src/settings/ui/facade/UserSettingsGettersTimelineComposer.cpp
-        src/settings/ui/facade/UserSettingsGettersLayout.cpp
-        src/settings/ui/facade/UserSettingsGettersCalls.cpp
-        src/settings/ui/facade/UserSettingsGettersEncryption.cpp
-        src/settings/ui/facade/UserSettingsGettersMisc.cpp
-        src/settings/ui/facade/UserSettingsSessionSettings.cpp
-        src/settings/ui/facade/UserSettingsSettersCore.cpp
-        src/settings/ui/facade/UserSettingsSettersLayout.cpp
-        src/settings/ui/facade/UserSettingsSettersUi.cpp
-        src/settings/ui/facade/UserSettingsSettersMisc.cpp
-        src/settings/ui/facade/UserSettingsCoreStoreBridge.cpp
-        src/settings/ui/facade/UserSettingsTheme.cpp
-        src/ui/Theme.cpp
-        src/ui/ThemeRegistry.cpp
-        src/settings/StartupSettings.cpp
-        src/settings/SettingsController.cpp
-        src/settings/SettingsControllerLoad.cpp
-        src/settings/SettingsControllerSave.cpp
-        src/settings/SettingsMigrations.cpp
-        src/settings/SettingsPersistence.cpp
-        src/settings/SettingsPersistenceLoad.cpp
-        src/settings/SettingsPersistenceSave.cpp
-        src/settings/SettingsSerializerConfig.cpp
-        src/settings/SettingsSerializerConfigLoad.cpp
-        src/settings/SettingsSerializerConfigSave.cpp
-        src/settings/SettingsSerializerConfigConverters.cpp
-        src/settings/SettingsSerializerConfigEnumTokenAdapters.cpp
-        src/settings/SettingsSerializerConfigSchema.cpp
-        src/settings/SettingsSerializerConfigSchemaValidation.cpp
-        src/settings/SettingsSerializerSession.cpp
-        src/settings/SettingsSerializerState.cpp
-        src/settings/SettingsStorage.cpp
-        src/settings/SettingsStoragePathApi.cpp
-        src/settings/SettingsStorageReaderWriterFilesystem.cpp
-        src/settings/SettingsStorageReaderWriterInMemory.cpp
-        src/settings/SettingsStorageSecureBackend.cpp
-        src/settings/SettingsStorageSecretsCodec.cpp
-        src/settings/core/StartupConfig.cpp
-        src/settings/core/SettingsSerializer.cpp
-        src/settings/core/SettingsStore.cpp
-        src/emoji/Provider.cpp
-        src/emoji/EmojiNormalize.cpp
-        src/matrix/MatrixClient.cpp
-        src/cache/core/Cache.cpp
-        src/cache/core/CacheCoreStorage.cpp
-        src/cache/core/CacheCoreRuntime.cpp
-        src/cache/setup/CacheSetup.cpp
-        src/cache/lifecycle/CacheLifecycleRooms.cpp
-        src/cache/lifecycle/CacheLifecycleMigrations.cpp
-        src/cache/lifecycle/CacheLifecycleSyncAux.cpp
-        src/cache/lifecycle/CacheLifecycleSyncPersist.cpp
-        src/cache/lifecycle/CacheLifecycleStateWrite.cpp
-        src/cache/lifecycle/CacheLifecycleStateRead.cpp
-        src/cache/rooms/CacheRoomInfoInvites.cpp
-        src/cache/spaces/CacheSpaces.cpp
-        src/cache/timeline/CacheTimelineWrite.cpp
-        src/cache/timeline/CacheTimelineRead.cpp
-        src/cache/crypto/CacheCryptoSecretsStore.cpp
-        src/cache/api/CacheApiLoggers.cpp
-        ${THEME_DEFINITIONS_H}
-    )
-    target_include_directories(komai_matrix_store_test PRIVATE
-        src
-        ${CMAKE_CURRENT_BINARY_DIR}
-    )
-    target_link_libraries(komai_matrix_store_test PRIVATE
-        komai_db
-        Qt::Core
-        Qt::Qml
-        Qt::Gui
-        Qt::Widgets
-        Qt::Quick
-        ${YAMLCPP_TARGET_NAME}
-    )
-    target_link_libraries(komai_matrix_store_test PRIVATE
-        MatrixClient::MatrixClient
-        qt6keychain
-        spdlog::spdlog
-        fmt::fmt
-    )
-    set_target_properties(komai_matrix_store_test PROPERTIES AUTOMOC ON)
-    add_test(NAME komai_matrix_store_test COMMAND komai_matrix_store_test)
-    komai_configure_test(komai_matrix_store_test "integration;cache")
 
     add_executable(komai_formatted_code_block_highlighter_test
         tests/FormattedCodeBlockHighlighterTest.cpp
@@ -1593,7 +1311,6 @@ if(BUILD_TESTING)
     target_include_directories(komai_timeline_special_effects_test PRIVATE src)
     target_link_libraries(komai_timeline_special_effects_test PRIVATE
         Qt::Core
-        MatrixClient::MatrixClient
     )
     add_test(NAME komai_timeline_special_effects_test COMMAND komai_timeline_special_effects_test)
     komai_configure_test(komai_timeline_special_effects_test "unit;timeline")
@@ -1605,7 +1322,6 @@ if(BUILD_TESTING)
     target_include_directories(komai_roomlist_preview_selection_test PRIVATE src)
     target_link_libraries(komai_roomlist_preview_selection_test PRIVATE
         Qt::Core
-        MatrixClient::MatrixClient
     )
     add_test(NAME komai_roomlist_preview_selection_test COMMAND komai_roomlist_preview_selection_test)
     komai_configure_test(komai_roomlist_preview_selection_test "unit;timeline")
@@ -1702,7 +1418,6 @@ if(BUILD_TESTING)
     target_link_libraries(komai_slash_commands_test PRIVATE
         Qt::Core
         Qt::Gui
-        MatrixClient::MatrixClient
         spdlog::spdlog
     )
     add_test(NAME komai_slash_commands_test COMMAND komai_slash_commands_test)
@@ -1731,8 +1446,6 @@ if(BUILD_TESTING)
         komai_settings_store_test
         komai_setting_input_validation_test
         komai_settings_serializer_core_test
-        komai_db_backend_test
-        komai_matrix_store_test
         komai_formatted_code_block_highlighter_test
         komai_formatted_message_html_processor_test
         komai_raw_json_formatter_test
@@ -1752,7 +1465,6 @@ endif()
 
 target_link_libraries(komai PRIVATE
     ${COEURL_TARGET_NAME}
-    MatrixClient::MatrixClient
     KF6::SyntaxHighlighting
     cmark::cmark
     fmt::fmt
@@ -1769,7 +1481,6 @@ target_link_libraries(komai PRIVATE
     KDAB::kdsingleapplication
     nlohmann_json::nlohmann_json
     ${YAMLCPP_TARGET_NAME}
-    komai_db
     litehtml
     komai_rust
     komai-rust-cxxbridge)

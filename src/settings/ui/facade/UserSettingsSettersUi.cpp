@@ -7,6 +7,5 @@
 
 #include "emoji/Provider.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 
 #include "UserSettingsSettersUi.inc"

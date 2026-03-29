@@ -29,11 +29,8 @@
 #include "CallManager.h"
 #include "app/MainApplication.h"
 #include "app/MainApplicationSupport.h"
-#include "cache/Cache.h"
-#include "cache/api/CacheApiContext.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #ifdef KOMAI_DBUS_SYS
 #include "dbus/Backend.h"
 #endif
@@ -172,7 +169,8 @@ app::runMainApplication(int argc, char *argv[])
     parser.process(app);
 
     if (parser.isSet(compactDb))
-        cache::setNeedsCompactFlag();
+        std::cerr << "--compact is not supported on the matrix-sdk storage path and is ignored."
+                  << std::endl;
 
     // Initialize logging early so that UserSettings can log during init (e.g. emoji font
     // resolution on Qt < 6.9). The cache directory must exist before the file logger opens.
@@ -209,7 +207,6 @@ app::runMainApplication(int argc, char *argv[])
     }
 
     settings::storage::setLoggers({.ui = nhlog::ui(), .db = nhlog::db()});
-    cache::setLoggers({.db = nhlog::db(), .crypto = nhlog::crypto(), .net = nhlog::net()});
     settings::persistence::setLoggers({.ui = nhlog::ui()});
     settings::setLoggers({.ui = nhlog::ui()});
     settings::serializer::setLoggers({.ui = nhlog::ui()});
@@ -343,10 +340,6 @@ app::runMainApplication(int argc, char *argv[])
       QIcon::fromTheme(QString::fromLatin1(komai::desktop_icon_name), QIcon{":/logos/komai.svg"}));
 #endif
     app.setDesktopFileName(QString::fromLatin1(komai::desktop_id));
-
-    http::init();
-
-    support::createDirectory(app_paths::data::dbRoot(selectedProfile));
 
     support::registerSignalHandlers();
     support::initializeGstreamerEventLoopIfNeeded(app);

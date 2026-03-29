@@ -25,12 +25,22 @@ LitehtmlItem {
     readonly property int maxCollapsedHeight: timelineViewportHeight > 0 ? Math.max(150, Math.round(timelineViewportHeight * 0.5)) : 300
     readonly property bool collapsible: !isReply && implicitHeight > maxCollapsedHeight
     property bool collapsed: true
-    readonly property real collapseControlsHeight: collapseControlsLoader.item ? collapseControlsLoader.item.implicitHeight : 0
+    readonly property real collapseControlsHeight: showMoreBar.visible ? showMoreBar.implicitHeight : 0
     // Overflow to extend "Show more" bar to bubble container edges.
     // Parent chain: TextMessage → Column → contentItem → messageBubble.
-    readonly property real collapseOverflowH: {
+    // Column children are left-aligned by default and don't stretch to
+    // fill the Column width, so the right overflow must also cover the
+    // gap between litehtmlRoot's right edge and the Column's right edge.
+    readonly property real collapseOverflowLeft: {
         let bubble = parent?.parent?.parent;
         return (bubble && typeof bubble.leftPadding === "number") ? bubble.leftPadding : 0;
+    }
+    readonly property real collapseOverflowRight: {
+        let col = parent;
+        let bubble = col?.parent?.parent;
+        if (!bubble || typeof bubble.rightPadding !== "number") return 0;
+        let columnGap = col ? Math.max(0, col.width - width) : 0;
+        return bubble.rightPadding + columnGap;
     }
     readonly property real collapseOverflowV: {
         let bubble = parent?.parent?.parent;
@@ -111,88 +121,79 @@ LitehtmlItem {
     }
 
     // Gradient fade overlay when collapsed
-    Loader {
-        active: litehtmlRoot.collapsible && litehtmlRoot.collapsed
-        sourceComponent: Component {
-            Rectangle {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                anchors.leftMargin: -litehtmlRoot.collapseOverflowH
-                anchors.rightMargin: -litehtmlRoot.collapseOverflowH
-                anchors.bottomMargin: -litehtmlRoot.collapseOverflowV
-                height: 60
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: "transparent" }
-                    GradientStop { position: 1.0; color: palette.base }
-                }
-            }
+    Rectangle {
+        visible: litehtmlRoot.collapsible && litehtmlRoot.collapsed
+        anchors.left: litehtmlRoot.left
+        anchors.right: litehtmlRoot.right
+        anchors.bottom: litehtmlRoot.bottom
+        anchors.leftMargin: -litehtmlRoot.collapseOverflowLeft
+        anchors.rightMargin: -litehtmlRoot.collapseOverflowRight
+        anchors.bottomMargin: -litehtmlRoot.collapseOverflowV
+        height: 60
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "transparent" }
+            GradientStop { position: 1.0; color: palette.base }
         }
     }
 
     // "Show more" action bar (styled like room header toolbar buttons)
-    Loader {
-        id: collapseControlsLoader
-        active: litehtmlRoot.collapsible
-        sourceComponent: Component {
-            AbstractButton {
-                id: showMoreBar
-                readonly property bool active: hovered || pressed
-                readonly property color foreground: active ? palette.brightText : palette.buttonText
-                readonly property int iconSize: 12
+    AbstractButton {
+        id: showMoreBar
+        visible: litehtmlRoot.collapsible
+        readonly property bool active: hovered || pressed
+        readonly property color foreground: active ? palette.brightText : palette.buttonText
+        readonly property int iconSize: 12
 
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                anchors.leftMargin: -litehtmlRoot.collapseOverflowH
-                anchors.rightMargin: -litehtmlRoot.collapseOverflowH
-                anchors.bottomMargin: -litehtmlRoot.collapseOverflowV
-                hoverEnabled: true
-                leftPadding: Komai.paddingSmall
-                rightPadding: Komai.paddingSmall
-                topPadding: Komai.paddingMedium
-                bottomPadding: Komai.paddingMedium
-                z: 1
+        anchors.left: litehtmlRoot.left
+        anchors.right: litehtmlRoot.right
+        anchors.bottom: litehtmlRoot.bottom
+        anchors.leftMargin: -litehtmlRoot.collapseOverflowLeft
+        anchors.rightMargin: -litehtmlRoot.collapseOverflowRight
+        anchors.bottomMargin: -litehtmlRoot.collapseOverflowV
+        hoverEnabled: true
+        leftPadding: Komai.paddingSmall
+        rightPadding: Komai.paddingSmall
+        topPadding: Komai.paddingMedium
+        bottomPadding: Komai.paddingMedium
+        z: 1
 
-                background: Rectangle {
-                    radius: Komai.paddingSmall
-                    color: parent.active ? palette.dark : palette.alternateBase
-                    border.color: Komai.theme.separator
-                    border.width: 1
+        background: Rectangle {
+            radius: Komai.paddingSmall
+            color: parent.active ? palette.dark : palette.alternateBase
+            border.color: Komai.theme.separator
+            border.width: 1
+        }
+
+        contentItem: Item {
+            implicitHeight: showMoreRow.implicitHeight
+
+            Row {
+                id: showMoreRow
+
+                anchors.centerIn: parent
+                spacing: Komai.paddingSmall
+
+                Image {
+                    source: "image://colorimage/:/icons/icons/ui/" + (litehtmlRoot.collapsed ? "chevron-circle-down.svg" : "chevron-circle-up.svg") + "?" + showMoreBar.foreground
+                    sourceSize.height: showMoreBar.iconSize
+                    sourceSize.width: showMoreBar.iconSize
+                    anchors.verticalCenter: parent.verticalCenter
                 }
 
-                contentItem: Item {
-                    implicitHeight: showMoreRow.implicitHeight
-
-                    Row {
-                        id: showMoreRow
-
-                        anchors.centerIn: parent
-                        spacing: Komai.paddingSmall
-
-                        Image {
-                            source: "image://colorimage/:/icons/icons/ui/" + (litehtmlRoot.collapsed ? "chevron-circle-down.svg" : "chevron-circle-up.svg") + "?" + showMoreBar.foreground
-                            sourceSize.height: showMoreBar.iconSize
-                            sourceSize.width: showMoreBar.iconSize
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-
-                        Label {
-                            text: litehtmlRoot.collapsed ? qsTr("Show more") : qsTr("Show less")
-                            color: showMoreBar.foreground
-                            font.bold: true
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-                    }
-                }
-
-                onClicked: litehtmlRoot.collapsed = !litehtmlRoot.collapsed
-
-                KomaiCursorShape {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
+                Label {
+                    text: litehtmlRoot.collapsed ? qsTr("Show more") : qsTr("Show less")
+                    color: showMoreBar.foreground
+                    font.bold: true
+                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
+        }
+
+        onClicked: litehtmlRoot.collapsed = !litehtmlRoot.collapsed
+
+        KomaiCursorShape {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
         }
     }
 

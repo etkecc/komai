@@ -136,6 +136,11 @@ public:
     void refetchOnlineKeyBackupKeys();
     void clearDecryptionErrors();
 
+    const QHash<QString, komai::MatrixRoomSummary> &matrixJoinedRooms() const
+    {
+        return matrixJoinedRooms_;
+    }
+
 public slots:
     void initializeRooms();
     void sync(const komai::SyncUpdate &sync);

@@ -17,6 +17,7 @@
 #include "models/CompletionProxyModel.h"
 #include "models/RoomsModel.h"
 #include "models/UsersModel.h"
+#include "timeline/RoomlistModel.h"
 
 using IgnoredUsers = mtx::events::EphemeralEvent<mtx::events::account_data::IgnoredUsers>;
 
@@ -52,19 +53,11 @@ TimelineViewManager::completerFor(const QString &completerName, const QString &r
         auto proxy      = new CompletionProxyModel(emojiModel);
         emojiModel->setParent(proxy);
         return proxy;
-    } else if (completerName == QLatin1String("room")) {
-        auto roomModel = new RoomsModel(false);
+    } else if (completerName == QLatin1String("room") ||
+               completerName == QLatin1String("forwardRoom") ||
+               completerName == QLatin1String("roomAliases")) {
+        auto roomModel = new RoomsModel(rooms_->matrixJoinedRooms());
         auto proxy     = new CompletionProxyModel(roomModel, 4);
-        roomModel->setParent(proxy);
-        return proxy;
-    } else if (completerName == QLatin1String("forwardRoom")) {
-        auto roomModel = new RoomsModel(false, true);
-        auto proxy     = new CompletionProxyModel(roomModel, 4);
-        roomModel->setParent(proxy);
-        return proxy;
-    } else if (completerName == QLatin1String("roomAliases")) {
-        auto roomModel = new RoomsModel(true);
-        auto proxy     = new CompletionProxyModel(roomModel);
         roomModel->setParent(proxy);
         return proxy;
     } else if (completerName == QLatin1String("emojigrid")) {

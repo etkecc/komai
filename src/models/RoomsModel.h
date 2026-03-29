@@ -5,9 +5,10 @@
 
 #pragma once
 
-#include "matrix/MatrixStateTypes.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 
 #include <QAbstractListModel>
+#include <QHash>
 #include <QString>
 
 class RoomsModel final : public QAbstractListModel
@@ -24,18 +25,25 @@ public:
         IsSpace,
     };
 
-    RoomsModel(bool showOnlyRoomWithAliases = false,
-               bool forwardMode             = false,
-               QObject *parent              = nullptr);
+    explicit RoomsModel(const QHash<QString, komai::MatrixRoomSummary> &matrixRooms,
+                        QObject *parent = nullptr);
+
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override
     {
         (void)parent;
-        return (int)rooms.size();
+        return static_cast<int>(rooms_.size());
     }
     QVariant data(const QModelIndex &index, int role) const override;
 
 private:
-    std::vector<RoomNameAlias> rooms;
-    bool showOnlyRoomWithAliases_;
+    struct RoomEntry
+    {
+        QString roomId;
+        QString displayName;
+        QString avatarUrl;
+        bool isSpace = false;
+    };
+
+    QVector<RoomEntry> rooms_;
 };

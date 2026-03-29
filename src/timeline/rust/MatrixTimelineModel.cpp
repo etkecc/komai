@@ -228,9 +228,20 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     case ItemId:             return item.itemId;
     case SenderAvatarUrl:    return item.senderAvatarUrl;
     case ReactionsSummary:   return item.reactionsSummary;
-    case PreviousTimestamp:  return static_cast<qulonglong>(item.previousTimestamp);
-    case PreviousSenderId:   return item.previousSenderId;
-    case PreviousItemKind:   return item.previousItemKind;
+    case PreviousTimestamp: {
+        const auto prev = index.row() - 1;
+        return prev >= 0
+            ? static_cast<qulonglong>(items_.at(prev).timestamp)
+            : static_cast<qulonglong>(0);
+    }
+    case PreviousSenderId: {
+        const auto prev = index.row() - 1;
+        return prev >= 0 ? items_.at(prev).senderId : QString();
+    }
+    case PreviousItemKind: {
+        const auto prev = index.row() - 1;
+        return prev >= 0 ? items_.at(prev).itemKind : QString();
+    }
     case DeliveryState:      return item.deliveryState;
 
     default:                 return {};

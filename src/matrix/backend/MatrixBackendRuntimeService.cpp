@@ -333,9 +333,6 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .thumbnailIsEncrypted = item.thumbnail_is_encrypted,
       .timestamp            = item.timestamp,
       .isOwn                = item.is_own,
-      .previousTimestamp    = 0,
-      .previousSenderId     = {},
-      .previousItemKind     = {},
     };
 }
 
@@ -1328,17 +1325,6 @@ MatrixBackendRuntimeService::fetchActiveRoomTimeline(uint64_t handleId, QString 
         items.reserve(static_cast<int>(result.size()));
         for (const auto &item : result)
             items.push_back(fromRustTimelineItem(item));
-
-        for (int row = 0; row < items.size(); ++row) {
-            if (row <= 0)
-                continue;
-
-            const auto &previous      = items.at(row - 1);
-            auto &current             = items[row];
-            current.previousTimestamp = previous.timestamp;
-            current.previousSenderId  = previous.senderId;
-            current.previousItemKind  = previous.itemKind;
-        }
 
         const auto convertElapsedUs = convertTimer.nsecsElapsed() / 1000;
 

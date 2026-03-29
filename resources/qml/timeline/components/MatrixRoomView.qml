@@ -58,6 +58,8 @@ ColumnLayout {
     readonly property string activeEditEventId: TimelineManager.matrixTimelineEditEventId
     readonly property bool editing: activeEditEventId.length > 0
     property string draftBeforeEdit: ""
+    property int openOverlayDialogCount: 0
+    readonly property bool hasOpenOverlayDialog: openOverlayDialogCount > 0
     property bool restoringEditDraft: false
     property int lastPaginationTriggerCount: -1
     property int lastInitialBufferTriggerCount: -1
@@ -2046,7 +2048,8 @@ ColumnLayout {
     Shortcut {
         sequences: [StandardKey.Cancel, "Escape"]
         context: Qt.ApplicationShortcut
-        enabled: root.visible && (root.walkModeActive || root.hasSelectedEvents || root.hasFocusedEvent)
+        enabled: root.visible && !root.hasOpenOverlayDialog
+            && (root.walkModeActive || root.hasSelectedEvents || root.hasFocusedEvent)
 
         onActivated: root.handleEscape()
     }

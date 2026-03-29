@@ -403,6 +403,20 @@ Item {
         if (!dialog)
             return null;
         dialog.open();
+        rootItem.openOverlayDialogCount += 1;
+        const decrementOnce = (function() {
+            let done = false;
+            return function() {
+                if (!done) {
+                    done = true;
+                    rootItem.openOverlayDialogCount = Math.max(0, rootItem.openOverlayDialogCount - 1);
+                }
+            };
+        })();
+        if (dialog.closing !== undefined)
+            dialog.closing.connect(decrementOnce);
+        else if (dialog.aboutToHide !== undefined)
+            dialog.aboutToHide.connect(decrementOnce);
         support.destroyOnClose(dialog);
         return dialog;
     }

@@ -36,6 +36,7 @@ Dialog {
             root.forceActiveFocus();
     }
 
+
     function overlayDialogWidth(dialogParent, contentImplicitWidth, dialogPadding)
     {
         const parentWidth = dialogParent ? dialogParent.width : 760;

@@ -34,14 +34,6 @@ Components.OverlayDialog {
     titleIcon: ":/icons/icons/ui/raw-message.svg"
     titleIconColor: palette.text
 
-    Shortcut {
-        enabled: root.visible
-        sequences: [StandardKey.Cancel, "Escape"]
-        context: Qt.ApplicationShortcut
-        onActivated: root.close()
-        onActivatedAmbiguously: root.close()
-    }
-
     ScrollView {
         id: rawMessageScrollView
 

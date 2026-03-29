@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "EventDelegateChooser.h"
-#include "TimelineModel.h"
+#include "EventDataSource.h"
 
 #include "logging/Logging.h"
 
@@ -21,6 +21,21 @@
 #include <QtQml/private/qqmlobjectcreator_p.h>
 
 namespace {
+
+int
+lookupTypeRole(const QAbstractItemModel *model)
+{
+    if (!model)
+        return -1;
+
+    const auto names = model->roleNames();
+    for (auto it = names.cbegin(); it != names.cend(); ++it) {
+        if (it.value() == "type")
+            return it.key();
+    }
+
+    return -1;
+}
 
 QVariant
 readPreviewProperty(const QVariant &previewData, const QString &propertyName)
@@ -269,17 +284,17 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
 
     // setInitialProperties(rolesToSet);
 
-    auto update = [this, obj, roleToPropIdx = std::move(roleToPropIdx)](
-                    const QList<int> &changedRoles, TimelineModel *room) {
+    const int typeRoleId = lookupTypeRole(chooser.room_);
+
+    auto update = [this, obj, roleToPropIdx = std::move(roleToPropIdx), typeRoleId](
+                    const QList<int> &changedRoles, EventDataSource *room) {
         if (!room)
             return;
 
-        if (changedRoles.empty() || changedRoles.contains(TimelineModel::Roles::Type)) {
-            int type = room
-                         ->dataById(currentId,
-                                    TimelineModel::Roles::Type,
-                                    forReply ? chooser.eventId_ : QString())
-                         .toInt();
+        if (typeRoleId >= 0 && (changedRoles.empty() || changedRoles.contains(typeRoleId))) {
+            int type =
+              room->dataById(currentId, typeRoleId, forReply ? chooser.eventId_ : QString())
+                .toInt();
             if (type != oldType) {
                 // nhlog::ui()->debug("Type changed!");
                 reset(currentId);
@@ -356,9 +371,10 @@ EventDelegateChooser::DelegateIncubator::reset(QString id)
 
     int role = -1;
     if (chooser.room_) {
-        role = chooser.room_
-                 ->dataById(id, TimelineModel::Roles::Type, forReply ? chooser.eventId_ : QString())
-                 .toInt();
+        const int typeRoleId = lookupTypeRole(chooser.room_);
+        if (typeRoleId >= 0)
+            role = chooser.room_->dataById(id, typeRoleId, forReply ? chooser.eventId_ : QString())
+                     .toInt();
     } else {
         QVariant roleValue;
         auto previewData = chooser.property(forReply ? "replyPreviewData" : "previewData");

@@ -36,7 +36,7 @@ TimelineModel::~TimelineModel()
 }
 
 TimelineModel::TimelineModel(TimelineViewManager *manager, QString room_id, QObject *parent)
-  : QAbstractListModel(parent)
+  : EventDataSource(parent)
   , room_id_(std::move(room_id))
   , events(room_id_.toStdString(), this)
   , mediaController_(room_id_,

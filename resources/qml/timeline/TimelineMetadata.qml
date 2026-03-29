@@ -79,8 +79,8 @@ RowLayout {
     required property string threadId
     required property date timestamp
     required property var room
-    readonly property string roomEditEventId: room ? room.edit : ""
-    readonly property bool roomIsEncrypted: room ? room.isEncrypted : false
+    readonly property string roomEditEventId: (room && room.edit !== undefined) ? room.edit : ""
+    readonly property bool roomIsEncrypted: (room && room.isEncrypted !== undefined) ? room.isEncrypted : false
     readonly property bool canOpenThreadNavigation: !!room
         && threadId !== ""
         && room.supportsThreadNavigation !== false

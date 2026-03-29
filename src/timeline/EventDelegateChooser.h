@@ -13,7 +13,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 
-class TimelineModel;
+class EventDataSource;
 
 class EventDelegateChooserAttachedType : public QObject
 {
@@ -133,7 +133,7 @@ class EventDelegateChooser : public QQuickItem
     Q_PROPERTY(QQuickItem *reply READ reply NOTIFY replyChanged FINAL)
     Q_PROPERTY(QString eventId READ eventId WRITE setEventId NOTIFY eventIdChanged REQUIRED FINAL)
     Q_PROPERTY(QString replyTo READ replyTo WRITE setReplyTo NOTIFY replyToChanged REQUIRED FINAL)
-    Q_PROPERTY(TimelineModel *room READ room WRITE setRoom NOTIFY roomChanged REQUIRED FINAL)
+    Q_PROPERTY(EventDataSource *room READ room WRITE setRoom NOTIFY roomChanged REQUIRED FINAL)
     Q_PROPERTY(bool sameWidth READ sameWidth WRITE setSameWidth NOTIFY sameWidthChanged)
     Q_PROPERTY(int maxWidth READ maxWidth WRITE setMaxWidth NOTIFY maxWidthChanged)
     Q_PROPERTY(int replyInset READ replyInset WRITE setReplyInset NOTIFY replyInsetChanged)
@@ -196,7 +196,7 @@ public:
         polish();
     }
 
-    void setRoom(TimelineModel *m)
+    void setRoom(EventDataSource *m)
     {
         if (m != room_) {
             room_ = m;
@@ -208,7 +208,7 @@ public:
             }
         }
     }
-    [[nodiscard]] TimelineModel *room() { return room_; }
+    [[nodiscard]] EventDataSource *room() { return room_; }
 
     void setEventId(QString idx)
     {
@@ -278,7 +278,7 @@ private:
     QList<EventDelegateChoice *> choices_;
     DelegateIncubator eventIncubator{*this, false};
     DelegateIncubator replyIncubator{*this, true};
-    TimelineModel *room_{nullptr};
+    EventDataSource *room_{nullptr};
     QString eventId_;
     QString replyId;
     bool sameWidth_    = false;

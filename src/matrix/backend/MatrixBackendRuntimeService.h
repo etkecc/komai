@@ -215,6 +215,21 @@ struct MatrixTimelineItem
     QString previousSenderId;
     QString previousItemKind;
 
+    // Pre-computed derived fields (populated by MatrixTimelineModel, not the Rust bridge).
+    int cachedType             = 0;
+    int cachedDay              = 0;
+    int cachedStatus           = 0;
+    bool cachedIsStateEvent    = false;
+    bool cachedIsEncrypted     = false;
+    bool cachedIsEditable      = false;
+    double cachedProportionalH = 0.0;
+    QString cachedFormattedBody;
+    QString cachedFormattedStateEvent;
+    QString cachedStateEventIcon;
+    QString cachedFilesize;
+    QString cachedFilename;
+    QString cachedFileTypeIcon;
+
     bool operator==(const MatrixTimelineItem &) const = default;
 };
 

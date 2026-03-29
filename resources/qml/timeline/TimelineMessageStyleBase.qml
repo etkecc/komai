@@ -56,7 +56,15 @@ TimelineEvent {
     readonly property int delegateContainerHeight: (typeof timelineView !== "undefined" && timelineView && timelineView.height > 0)
         ? timelineView.height
         : Screen.height
-    readonly property var roomForColorCoding: room ? room : ((previewData && previewData.room) ? previewData.room : null)
+    readonly property var roomForColorCoding: {
+        if (room && room.roomId !== undefined)
+            return room;
+        if (roomModelOverride && roomModelOverride.roomId !== undefined)
+            return roomModelOverride;
+        if (previewData && previewData.room)
+            return previewData.room;
+        return null;
+    }
     readonly property string roomIdForColorCoding: (roomForColorCoding && roomForColorCoding.roomId) ? String(roomForColorCoding.roomId) : ""
     readonly property bool focusedInView: !!chatRoot && chatRoot.focusedEventId === wrapper.eventId
     readonly property bool selectedInView: !!chatRoot

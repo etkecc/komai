@@ -347,7 +347,7 @@ ColumnLayout {
                 continue;
 
             const eventId = String(item.eventId || "");
-            const itemKind = String(item.itemKind || "");
+            const itemKind = String(item.typeString || "");
             if (eventId.length === 0 || itemKind === "date_divider")
                 continue;
 
@@ -584,7 +584,7 @@ ColumnLayout {
             return false;
 
         const item = TimelineManager.matrixTimelineModel.itemAt(row);
-        return !!item && String(item.eventId || "").length > 0 && String(item.itemKind || "") !== "date_divider";
+        return !!item && String(item.eventId || "").length > 0 && String(item.typeString || "") !== "date_divider";
     }
 
     function focusMatrixTimelineRow(row, options) {
@@ -1838,769 +1838,86 @@ ColumnLayout {
                     delegate: Item {
                         id: timelineItemDelegate
 
+                        ListView.delayRemove: true
                         property var chat: matrixTimelineList
                         property var chatRoot: root
 
+                        // Model roles (canonical names from MatrixTimelineModel)
                         required property int index
-                        required property string itemKind
-                        required property string itemId
+                        required property string typeString
                         required property string eventId
-                        required property string deliveryState
                         required property string threadId
-                        required property string senderDisplayName
-                        required property string senderAvatarUrl
-                        required property string senderId
                         required property string body
-                        required property string replyEventId
-                        required property string replySenderId
-                        required property string replySenderDisplayName
-                        required property string replyBody
                         required property var reactions
-                        required property string reactionsSummary
-                        required property string fileName
-                        required property string mimeType
-                        required property string mediaUrl
-                        required property string thumbnailUrl
-                        required property double mediaWidth
-                        required property double mediaHeight
-                        required property double mediaDurationMs
-                        required property double mediaSizeBytes
-                        required property bool mediaIsEncrypted
-                        required property bool thumbnailIsEncrypted
-                        required property double timestamp
-                        required property double previousTimestamp
-                        required property string previousSenderId
-                        required property string previousItemKind
+                        required property date timestamp
                         required property bool isEdited
-                        required property bool isOwn
+                        required property int type
+                        required property int day
+                        required property bool isSender
+                        required property string userId
+                        required property string userName
+                        required property bool isStateEvent
+                        required property int status
+                        required property bool isEncrypted
+                        required property bool isEditable
+                        required property string replyTo
+                        required property int originalWidth
+                        required property int originalHeight
 
-                        readonly property int modelIndex: index
-                        readonly property bool isMediaItem: ["image", "video", "audio", "file", "sticker"].indexOf(itemKind) >= 0
-                        readonly property string effectiveFileName: fileName.length > 0 ? fileName : (body.length > 0 ? body : qsTr("Attachment"))
-                        readonly property string replySourceBody: body.length > 0 ? body : effectiveFileName
-                        readonly property double safePreviewAspectRatio: mediaWidth > 0 && mediaHeight > 0 ? (mediaHeight / mediaWidth) : 0.75
-                        readonly property bool isStateLikeItem: ["membership_change", "profile_change", "other_state", "failed_to_parse_state"].indexOf(itemKind) >= 0
-                        readonly property bool usesSharedImageBubble: itemKind === "image"
-                        readonly property bool usesSharedStickerBubble: itemKind === "sticker"
-                        readonly property bool usesSharedVideoBubble: itemKind === "video"
-                        readonly property bool usesSharedFileBubble: itemKind === "file"
-                        readonly property bool usesSharedAudioBubble: itemKind === "audio"
-                        readonly property bool usesSharedStateBubble: isStateLikeItem
-                        readonly property bool usesSharedTextBubble: itemKind !== "date_divider"
-                            && !isStateLikeItem
-                            && !isMediaItem
-                        readonly property string stableMediaEventId: eventId.length > 0 ? eventId : itemId
-                        readonly property bool usesSharedTimelineBubble: usesSharedTextBubble
-                            || usesSharedImageBubble
-                            || usesSharedStickerBubble
-                            || usesSharedVideoBubble
-                            || usesSharedFileBubble
-                            || usesSharedAudioBubble
-                            || usesSharedStateBubble
-                        property bool sharedBubbleReloadInitialized: false
-                        property bool sharedBubbleReloadArmed: false
-                        property string sharedBubbleLoadedIdentity: ""
-                        readonly property string heightCacheKey: root.matrixTimelineHeightCacheKey(eventId, itemId)
-                        readonly property real cachedMeasuredHeight: root.rememberedTimelineHeight(heightCacheKey)
-                        readonly property bool supportsSharedToolbarActions: eventId.length > 0
-                            && itemKind !== "date_divider"
-                            && itemKind !== "redacted"
-                            && !isStateLikeItem
-                        readonly property int sharedDeliveryStatus: deliveryState === "sent"
-                            ? MtxEvent.Sent
-                            : deliveryState === "failed"
-                            ? MtxEvent.Failed
-                            : deliveryState === "read"
-                            ? MtxEvent.Read
-                            : deliveryState === "received"
-                            ? MtxEvent.Received
-                            : MtxEvent.Empty
-                        readonly property int matrixEventType: root.matrixEventTypeForItemKind(itemKind)
-                        readonly property int dayKey: root.matrixTimelineDayKey(timestamp)
-                        readonly property string sharedHumanReadableMediaSize: mediaSizeBytes > 0
-                            ? Komai.humanReadableFileSize(Number(mediaSizeBytes))
-                            : ""
-                        readonly property string sharedFileTypeIconSource: Komai.fileTypeIconSource(mimeType)
-                        readonly property var sharedRedactedPair: root.matrixRedactedEventPair(senderDisplayName,
-                                                                                               senderId)
-                        readonly property int previousDayKey: previousTimestamp > 0
-                            ? root.matrixTimelineDayKey(previousTimestamp)
-                            : dayKey
-                        readonly property var previousDisplayTimestamp: previousTimestamp > 0
-                            ? new Date(Number(previousTimestamp))
-                            : new Date(Number(timestamp))
-                        readonly property bool previousIsStateLikeItem: previousItemKind.length === 0
-                            ? true
-                            : root.isMatrixStateLikeKind(previousItemKind)
-                        readonly property string resolvedFormattedBodyHtml: !usesSharedStateBubble
-                            ? root.formattedMatrixTextHtml(body)
-                            : ""
-                        readonly property string resolvedFormattedReplyBodyHtml: replyEventId.length > 0
-                            ? root.formattedMatrixTextHtml(replyBody)
-                            : ""
-                        readonly property string resolvedFormattedStateBodyHtml: usesSharedStateBubble
-                            ? root.formattedMatrixTextHtml(body)
-                            : ""
-                        readonly property string resolvedStateEventIconSource: usesSharedStateBubble
-                            ? root.matrixStateEventIconForKind(itemKind)
-                            : ""
-                        readonly property var resolvedPreviewData: matrixStablePreviewData
-                        readonly property var resolvedReplyPreviewData: matrixStableReplyPreviewData
-
-                        QtObject {
-                            id: matrixStablePreviewData
-
-                            readonly property var room: matrixToolbarRoomModel
-                            readonly property string avatarUrl: senderAvatarUrl
-                            readonly property string formattedStateEvent: usesSharedStateBubble
-                                ? resolvedFormattedStateBodyHtml
-                                : ""
-                            readonly property string stateEventIconSource: usesSharedStateBubble
-                                ? resolvedStateEventIconSource
-                                : ""
-                            readonly property int previousDay: previousDayKey
-                            readonly property date previousTimestamp: previousDisplayTimestamp
-                            readonly property bool previousIsStateEvent: previousIsStateLikeItem
-                            readonly property string previousUserId: previousSenderId
-                            readonly property string url: (usesSharedImageBubble || usesSharedStickerBubble || usesSharedVideoBubble)
-                                ? mediaUrl
-                                : ""
-                            readonly property string blurhash: ""
-                            readonly property string eventId: (usesSharedImageBubble
-                                    || usesSharedStickerBubble
-                                    || usesSharedVideoBubble
-                                    || usesSharedFileBubble
-                                    || usesSharedAudioBubble)
-                                ? stableMediaEventId
-                                : ""
-                            readonly property string body: timelineItemDelegate.body
-                            readonly property string filename: (usesSharedImageBubble
-                                    || usesSharedStickerBubble
-                                    || usesSharedVideoBubble
-                                    || usesSharedFileBubble
-                                    || usesSharedAudioBubble)
-                                ? effectiveFileName
-                                : ""
-                            readonly property string filesize: (usesSharedImageBubble
-                                    || usesSharedStickerBubble
-                                    || usesSharedVideoBubble
-                                    || usesSharedFileBubble
-                                    || usesSharedAudioBubble)
-                                ? sharedHumanReadableMediaSize
-                                : ""
-                            readonly property int filesizeBytes: (usesSharedImageBubble
-                                    || usesSharedStickerBubble
-                                    || usesSharedVideoBubble)
-                                ? Math.round(Number(mediaSizeBytes))
-                                : 0
-                            readonly property string mimetype: (usesSharedImageBubble
-                                    || usesSharedStickerBubble
-                                    || usesSharedVideoBubble
-                                    || usesSharedFileBubble
-                                    || usesSharedAudioBubble)
-                                ? mimeType
-                                : ""
-                            readonly property string thumbnailUrl: (usesSharedImageBubble
-                                    || usesSharedStickerBubble
-                                    || usesSharedVideoBubble)
-                                ? timelineItemDelegate.thumbnailUrl
-                                : ""
-                            readonly property int originalWidth: (usesSharedImageBubble
-                                    || usesSharedStickerBubble
-                                    || usesSharedVideoBubble)
-                                ? Math.round(Number(mediaWidth))
-                                : 0
-                            readonly property int originalHeight: (usesSharedImageBubble
-                                    || usesSharedStickerBubble
-                                    || usesSharedVideoBubble)
-                                ? Math.round(Number(mediaHeight))
-                                : 0
-                            readonly property real proportionalHeight: (usesSharedImageBubble
-                                    || usesSharedStickerBubble
-                                    || usesSharedVideoBubble)
-                                ? safePreviewAspectRatio
-                                : 0
-                            readonly property real containerHeight: matrixTimelineList.height > 0
-                                ? matrixTimelineList.height
-                                : root.height
-                            readonly property string fileTypeIconSource: (usesSharedFileBubble || usesSharedAudioBubble)
-                                ? sharedFileTypeIconSource
-                                : ""
-                            readonly property int duration: usesSharedAudioBubble
-                                ? Math.round(Number(mediaDurationMs))
-                                : 0
-                            readonly property string formattedBody: (!usesSharedStateBubble
-                                    && !usesSharedImageBubble
-                                    && !usesSharedStickerBubble
-                                    && !usesSharedVideoBubble
-                                    && !usesSharedFileBubble
-                                    && !usesSharedAudioBubble)
-                                ? resolvedFormattedBodyHtml
-                                : ""
-                            readonly property int isOnlyEmoji: 0
-                            readonly property string redactedFirst: (!usesSharedStateBubble
-                                    && !usesSharedImageBubble
-                                    && !usesSharedStickerBubble
-                                    && !usesSharedVideoBubble
-                                    && !usesSharedFileBubble
-                                    && !usesSharedAudioBubble)
-                                ? sharedRedactedPair.first
-                                : ""
-                            readonly property string redactedSecond: (!usesSharedStateBubble
-                                    && !usesSharedImageBubble
-                                    && !usesSharedStickerBubble
-                                    && !usesSharedVideoBubble
-                                    && !usesSharedFileBubble
-                                    && !usesSharedAudioBubble)
-                                ? sharedRedactedPair.second
-                                : ""
-                        }
-
-                        QtObject {
-                            id: matrixStableReplyPreviewData
-
-                            readonly property int type: MtxEvent.TextMessage
-                            readonly property string body: replyEventId.length > 0
-                                ? timelineItemDelegate.replyBody
-                                : ""
-                            readonly property string formattedBody: replyEventId.length > 0
-                                ? resolvedFormattedReplyBodyHtml
-                                : ""
-                            readonly property int isOnlyEmoji: 0
-                            readonly property string userId: replyEventId.length > 0 ? replySenderId : ""
-                            readonly property string userName: replyEventId.length > 0
-                                ? (replySenderDisplayName.length > 0 ? replySenderDisplayName : qsTr("Reply"))
-                                : ""
-                        }
-                        readonly property real heuristicTimelineHeightEstimate: {
-                            const baseLineHeight = Math.max(18, Math.round(Settings.uiFontSizePt * 1.8));
-                            const compactRowHeight = Math.max(root.composerBaselineHeight, baseLineHeight + Komai.paddingMedium * 2);
-                            const detailRowHeight = Math.max(compactRowHeight, baseLineHeight * 3);
-
-                            // Bubble vertical padding that the style adds around content.
-                            const bubblePad = Komai.uiLayoutCompactMode
-                                ? Komai.paddingSmall * 2
-                                : Komai.paddingMedium * 2;
-
-                            // Estimate section header height (avatar + username row)
-                            // when the sender changes, a timestamp gap occurs, or the
-                            // previous item was a different event category.
-                            const prevUserId = String(previousSenderId || "");
-                            const prevTimestampValue = Number(previousTimestamp || 0);
-                            const prevDay = prevTimestampValue > 0
-                                ? root.matrixTimelineDayKey(prevTimestampValue) : dayKey;
-                            const prevIsState = previousItemKind.length === 0
-                                ? true : root.isMatrixStateLikeKind(previousItemKind);
-                            const dayChanged = prevDay !== dayKey;
-                            const showSection = dayChanged
-                                || (timestamp - prevTimestampValue > 3600000);
-                            const startsGroup = prevUserId !== senderId
-                                || showSection
-                                || prevIsState !== isStateLikeItem;
-                            const sectionEstimate = startsGroup
-                                ? (baseLineHeight + Komai.paddingMedium
-                                   + (dayChanged ? baseLineHeight + Komai.paddingSmall * 2 : 0))
-                                : 0;
-
-                            // Reaction row estimate.
-                            const hasReactions = reactions && (Array.isArray(reactions)
-                                ? reactions.length > 0
-                                : (typeof reactions === "string" && reactions.length > 0));
-                            const reactionEstimate = hasReactions
-                                ? baseLineHeight + Komai.paddingSmall : 0;
-
-                            if (usesSharedImageBubble || usesSharedStickerBubble || usesSharedVideoBubble) {
-                                const viewportHeight = matrixTimelineList.height > 0 ? matrixTimelineList.height : root.height;
-                                const mediaAspect = safePreviewAspectRatio > 0 ? safePreviewAspectRatio : 0.75;
-                                const mediaWidthHint = mediaWidth > 0 ? mediaWidth : Math.max(baseLineHeight * 18, root.composerBaselineHeight * 5);
-                                const maxMediaHeight = Math.max(1, viewportHeight / 4);
-                                const mediaWidthEstimate = Math.max(1, Math.round(mediaWidthHint * Math.min(maxMediaHeight / (mediaWidthHint * mediaAspect), 1)));
-                                const captionEstimate = (body.length > 0 && !body.match(/\.\w{2,5}$/))
-                                    ? (baseLineHeight * 2 + Komai.paddingSmall * 2)
-                                    : 0;
-                                return Math.max(detailRowHeight, sectionEstimate + Math.round(mediaWidthEstimate * mediaAspect) + captionEstimate + bubblePad + reactionEstimate);
-                            }
-
-                            if (usesSharedFileBubble || usesSharedAudioBubble)
-                                return sectionEstimate + detailRowHeight + bubblePad + reactionEstimate;
-                            if (usesSharedStateBubble)
-                                return compactRowHeight;
-                            if (itemKind === "redacted")
-                                return sectionEstimate + compactRowHeight + reactionEstimate;
-
-                            const estimatedLines = Math.max(1, Math.min(12, Math.ceil(String(body || "").length / 42)));
-                            const replyEstimate = replyEventId.length > 0 ? detailRowHeight : 0;
-                            const threadEstimate = threadId.length > 0 ? Komai.paddingSmall * 2 : 0;
-                            return Math.max(compactRowHeight, sectionEstimate + bubblePad + estimatedLines * baseLineHeight + replyEstimate + threadEstimate + reactionEstimate);
-                        }
-                        readonly property real sharedTimelineHeightEstimate: {
-                            if (itemKind === "date_divider")
-                                return dateDivider.implicitHeight;
-                            if (!usesSharedTimelineBubble)
-                                return 0;
-                            if (sharedTimelineBubble.item) {
-                                // Skip the loaded style's height while it is still using
-                                // the 100 px placeholder (contentReady === false).  The
-                                // cache or heuristic below will be much closer to the
-                                // true height, avoiding a visible snap when the body
-                                // resolves one frame later.
-                                const itemReady = sharedTimelineBubble.item.contentReady !== undefined
-                                    ? sharedTimelineBubble.item.contentReady
-                                    : true;
-                                if (itemReady) {
-                                    const resolvedHeight = sharedTimelineBubble.item.implicitHeight > 0
-                                        ? sharedTimelineBubble.item.implicitHeight
-                                        : sharedTimelineBubble.item.height;
-                                    if (resolvedHeight > 0)
-                                        return resolvedHeight;
-                                }
-                            }
-                            if (cachedMeasuredHeight > 0)
-                                return cachedMeasuredHeight;
-                            return heuristicTimelineHeightEstimate;
-                        }
                         width: matrixTimelineList.width
-                        height: sharedTimelineHeightEstimate
-
-                        function reloadSharedTimelineBubble() {
-                            if (!usesSharedTimelineBubble
-                                    || !sharedBubbleReloadInitialized
-                                    || sharedBubbleReloadArmed)
-                                return;
-
-                            const nextIdentity = String(heightCacheKey || "") + "|" + String(itemKind || "");
-                            if (nextIdentity.length === 0)
-                                return;
-
-                            if (sharedBubbleLoadedIdentity.length === 0) {
-                                sharedBubbleLoadedIdentity = nextIdentity;
-                                return;
+                        readonly property real heuristicHeight: {
+                            const lineH = Math.max(18, Math.round(Settings.uiFontSizePt * 1.8));
+                            const pad = Komai.paddingMedium * 2;
+                            if (isStateEvent)
+                                return lineH + pad;
+                            if (["image", "video", "sticker"].indexOf(typeString) >= 0) {
+                                const aspect = originalWidth > 0 && originalHeight > 0
+                                    ? originalHeight / originalWidth : 0.75;
+                                return Math.min(300, Math.max(80, 200 * aspect)) + pad;
                             }
-
-                            if (sharedBubbleLoadedIdentity === nextIdentity)
-                                return;
-
-                            sharedBubbleLoadedIdentity = nextIdentity;
-                            sharedBubbleReloadArmed = true;
-                            Qt.callLater(function () {
-                                timelineItemDelegate.sharedBubbleReloadArmed = false;
-                            });
+                            if (["file", "audio"].indexOf(typeString) >= 0)
+                                return lineH * 3 + pad;
+                            const lines = Math.max(1, Math.min(12, Math.ceil(String(body || "").length / 42)));
+                            const replyH = replyTo.length > 0 ? lineH * 2 : 0;
+                            return lines * lineH + replyH + pad + lineH;
                         }
+                        height: bubbleStyle.height > 0
+                            ? bubbleStyle.height
+                            : heuristicHeight
 
-                        function rememberResolvedTimelineHeight() {
-                            if (!sharedTimelineBubble.item)
-                                return;
+                        TimelineBubbleMessageStyle {
+                            id: bubbleStyle
 
-                            const resolvedHeight = sharedTimelineBubble.item.implicitHeight > 0
-                                ? sharedTimelineBubble.item.implicitHeight
-                                : sharedTimelineBubble.item.height;
-                            if (resolvedHeight > 0)
-                                root.rememberTimelineHeight(heightCacheKey, resolvedHeight);
-                        }
-
-                        onItemIdChanged: reloadSharedTimelineBubble()
-                        onItemKindChanged: reloadSharedTimelineBubble()
-                        onHeightChanged: rememberResolvedTimelineHeight()
-                        Component.onCompleted: {
-                            sharedBubbleReloadInitialized = true;
-                            sharedBubbleLoadedIdentity = String(heightCacheKey || "") + "|" + String(itemKind || "");
-                        }
-
-                        PreviewPermissions {
-                            id: matrixToolbarPreviewPermissions
-                        }
-
-                        QtObject {
-                            id: matrixToolbarInput
-
-                            function reaction(targetEventId, reactionKey) {
-                                TimelineManager.toggleActiveMatrixTimelineReaction(
-                                    String(targetEventId || timelineItemDelegate.eventId || ""),
-                                    String(reactionKey || ""));
-                            }
-                        }
-
-                        QtObject {
-                            id: matrixToolbarRoomModel
-
-                            property string roomId: root.roomPreview ? root.roomPreview.roomid : ""
-                            property bool isActiveMatrixTimelineRoom: true
-                            property int roomMemberCount: root.roomPreview && root.roomPreview.roomMemberCount !== undefined
-                                ? Number(root.roomPreview.roomMemberCount)
-                                : 0
-                            property bool isEncrypted: root.roomPreview ? !!root.roomPreview.isEncrypted : false
-                            property AbstractPermissions permissions: matrixToolbarPreviewPermissions
-                            property var input: matrixToolbarInput
-                            property var frequentReactions: []
-                            property var pinnedMessages: TimelineManager.matrixTimelinePinnedEventIds
-                            property string reply: ""
-                            property string edit: ""
-                            property string thread: ""
-                            property bool supportsThreadNavigation: false
-
-                            function formatDateSeparator(timestamp) {
-                                return Qt.formatDate(timestamp, "ddd, MMM d");
-                            }
-
-                            function formatLaterSeparator(_previous, currentTimestamp) {
-                                return Qt.formatTime(currentTimestamp, "hh:mm");
-                            }
-
-                            function openUserProfile(userId) {
-                                matrixDialogRoomModel.openUserProfile(userId);
-                            }
-
-                            function previewDataForEvent(eventId) {
-                                const preview = matrixHeaderRoomModel.previewDataForEvent(eventId);
-                                return Object.assign({}, preview || {}, {
-                                    "room": matrixToolbarRoomModel
-                                });
-                            }
-
-                            function eventShown() {
-                            }
-
-                            function openMedia(targetEventId) {
-                                const targetItemId = String(targetEventId || timelineItemDelegate.itemId || "");
-                                if (targetItemId.length === 0)
-                                    return;
-
-                                TimelineManager.openActiveMatrixTimelineMedia(
-                                    targetItemId,
-                                    timelineItemDelegate.effectiveFileName);
-                            }
-
-                            function saveMedia(targetEventId) {
-                                const targetItemId = String(targetEventId || timelineItemDelegate.itemId || "");
-                                if (targetItemId.length === 0)
-                                    return;
-
-                                TimelineManager.saveActiveMatrixTimelineMedia(
-                                    targetItemId,
-                                    timelineItemDelegate.effectiveFileName);
-                            }
-
-                            function showImage() {
-                                return true;
-                            }
-
-                            onReplyChanged: {
-                                if (!reply)
-                                    return;
-
-                                TimelineManager.queueActiveMatrixReply(
-                                    reply,
-                                    timelineItemDelegate.senderId,
-                                    timelineItemDelegate.senderDisplayName,
-                                    timelineItemDelegate.replySourceBody);
-                                reply = "";
-                            }
-                            onEditChanged: {
-                                if (!edit)
-                                    return;
-
-                                root.beginEdit(edit,
-                                               timelineItemDelegate.body,
-                                               timelineItemDelegate.itemKind);
-                                edit = "";
-                            }
-                            onThreadChanged: {
-                                if (thread)
-                                    thread = "";
-                            }
-
-                            function showEvent(eventId) {
-                                return root.jumpToLoadedMatrixEvent(eventId);
-                            }
-
-                            function formatRedactedEvent(eventId) {
-                                const targetEventId = String(eventId || timelineItemDelegate.eventId || "");
-                                const targetRow = TimelineManager.matrixTimelineModel
-                                    ? TimelineManager.matrixTimelineModel.rowForEventId(targetEventId)
-                                    : -1;
-                                if (targetRow >= 0) {
-                                    const item = TimelineManager.matrixTimelineModel.itemAt(targetRow);
-                                    if (item && item !== undefined) {
-                                        return root.matrixRedactedEventPair(String(item.senderDisplayName || ""),
-                                                                            String(item.senderId || ""));
-                                    }
-                                }
-
-                                return root.matrixRedactedEventPair(timelineItemDelegate.senderDisplayName,
-                                                                    timelineItemDelegate.senderId);
-                            }
-
-                            function copyLinkToEvent(eventId) {
-                                TimelineManager.copyMatrixEventLink(
-                                    roomId,
-                                    String(eventId || timelineItemDelegate.eventId || ""));
-                            }
-
-                            function openForwardDialog(eventId) {
-                                root.openMatrixForwardDialog(
-                                    String(eventId || timelineItemDelegate.eventId || ""));
-                            }
-
-                            function markEventAsRead(eventId) {
-                                TimelineManager.markActiveMatrixTimelineEventAsRead(
-                                    String(eventId || timelineItemDelegate.eventId || ""));
-                            }
-
-                            function pin(eventId) {
-                                TimelineManager.pinActiveMatrixTimelineEvent(
-                                    String(eventId || timelineItemDelegate.eventId || ""));
-                            }
-
-                            function unpin(eventId) {
-                                TimelineManager.unpinActiveMatrixTimelineEvent(
-                                    String(eventId || timelineItemDelegate.eventId || ""));
-                            }
-
-                            function reportEvent(eventId, reason, score) {
-                                TimelineManager.reportActiveMatrixTimelineEvent(
-                                    String(eventId || timelineItemDelegate.eventId || ""),
-                                    String(reason || ""),
-                                    Number(score || -50));
-                            }
-
-                            function viewRawMessage(eventId) {
-                                root.openRawMessageDialog(
-                                    String(eventId || timelineItemDelegate.eventId || ""));
-                            }
-
-                            function viewDecryptedRawMessage(eventId) {
-                                viewRawMessage(eventId);
-                            }
-
-                            function showReadReceipts(eventId) {
-                                root.openReadReceiptsDialog(
-                                    String(eventId || timelineItemDelegate.eventId || ""));
-                            }
-                        }
-
-                        QtObject {
-                            id: matrixToolbarMessageModel
-
-                            readonly property string eventId: timelineItemDelegate.eventId
-                            readonly property string threadId: timelineItemDelegate.threadId
-                            readonly property int type: timelineItemDelegate.matrixEventType
-                            readonly property bool isSender: timelineItemDelegate.isOwn
-                            readonly property bool isEncrypted: timelineItemDelegate.mediaIsEncrypted || timelineItemDelegate.thumbnailIsEncrypted || timelineItemDelegate.itemKind === "unable_to_decrypt"
-                            readonly property string userId: timelineItemDelegate.senderId
-                            readonly property string userName: timelineItemDelegate.senderDisplayName
-                            readonly property bool isEditable: !root.hasPendingAttachments
-                                && !TimelineManager.matrixTimelineAttachmentSending
-                                && timelineItemDelegate.isOwn
-                                && ["message", "notice", "emote"].indexOf(timelineItemDelegate.itemKind) >= 0
-                            readonly property bool isStateEvent: timelineItemDelegate.isStateLikeItem
-                            readonly property string body: timelineItemDelegate.body
-                            readonly property string formattedBody: timelineItemDelegate.usesSharedStateBubble
-                                ? timelineItemDelegate.resolvedFormattedStateBodyHtml
-                                : timelineItemDelegate.resolvedFormattedBodyHtml
-                            readonly property bool supportsReaction: timelineItemDelegate.supportsSharedToolbarActions
-                            readonly property bool supportsReply: timelineItemDelegate.supportsSharedToolbarActions
-                            readonly property bool supportsThread: timelineItemDelegate.supportsSharedToolbarActions
-                            readonly property bool supportsForward: ["message", "notice", "emote", "image", "video", "audio", "file"].indexOf(timelineItemDelegate.itemKind) >= 0
-                            readonly property bool supportsGoToMessage: false
-                            readonly property bool supportsOptions: eventId.length > 0
-                            readonly property bool supportsEdit: isEditable
-                            readonly property bool supportsRemove: eventId.length > 0
-                                && timelineItemDelegate.itemKind !== "redacted"
-                                && (TimelineManager.matrixTimelineCanRedactOther
-                                    || (timelineItemDelegate.isOwn
-                                        && TimelineManager.matrixTimelineCanRedactOwn))
-                            readonly property bool supportsViewRaw: eventId.length > 0
-                            readonly property bool supportsReadReceipts: timelineItemDelegate.isOwn
-                                && timelineItemDelegate.supportsSharedToolbarActions
-                            readonly property bool supportsMarkAsRead: timelineItemDelegate.supportsSharedToolbarActions
-                            readonly property bool supportsPin: timelineItemDelegate.supportsSharedToolbarActions
-                            readonly property bool supportsReport: timelineItemDelegate.supportsSharedToolbarActions
-                            readonly property bool supportsOpenMedia: timelineItemDelegate.isMediaItem
-                            readonly property bool supportsSaveMedia: timelineItemDelegate.isMediaItem
-                            readonly property bool supportsCopyEventLink: eventId.length > 0
-                        }
-
-                        Rectangle {
-                            id: dateDivider
-
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            color: palette.mid
-                            implicitHeight: dividerLabel.implicitHeight + Komai.paddingSmall * 2
-                            height: implicitHeight
-                            radius: height / 2
-                            visible: itemKind === "date_divider"
-                            width: dividerLabel.implicitWidth + Komai.paddingLarge * 2
-
-                            MatrixText {
-                                id: dividerLabel
-
-                                anchors.centerIn: parent
-                                color: palette.base
-                                text: Qt.formatDateTime(new Date(timestamp), "dddd, d MMMM")
-                                textFormat: TextEdit.PlainText
-                            }
-                        }
-
-                        Component {
-                            id: matrixPlainMessageStyle
-
-                            TimelinePlainMessageStyle {
-                                eventId: timelineItemDelegate.eventId
-                                replyTo: !timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.replyEventId
-                                    : ""
-                                room: null
-                                index: timelineItemDelegate.modelIndex
-                                day: timelineItemDelegate.dayKey
-                                isSender: timelineItemDelegate.isOwn
-                                isStateEvent: timelineItemDelegate.usesSharedStateBubble
-                                timestamp: new Date(Number(timelineItemDelegate.timestamp))
-                                userId: timelineItemDelegate.senderId
-                                userName: timelineItemDelegate.senderDisplayName
-                                threadId: timelineItemDelegate.threadId
-                                userPowerlevel: 0
-                                isEdited: timelineItemDelegate.isEdited
-                                isEncrypted: timelineItemDelegate.mediaIsEncrypted
-                                    || timelineItemDelegate.thumbnailIsEncrypted
-                                reactions: timelineItemDelegate.usesSharedStateBubble
-                                    ? []
-                                    : timelineItemDelegate.reactions
-                                status: timelineItemDelegate.sharedDeliveryStatus
-                                trustlevel: 0
-                                notificationlevel: MtxEvent.Empty
-                                type: timelineItemDelegate.usesSharedStateBubble
-                                    ? MtxEvent.Name
-                                    : timelineItemDelegate.matrixEventType
-                                isEditable: timelineItemDelegate.usesSharedTextBubble
-                                    && matrixToolbarMessageModel.isEditable
-                                isHiddenEvent: false
-                                formattedBody: !timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.resolvedFormattedBodyHtml
-                                    : ""
-                                formattedStateEvent: timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.resolvedFormattedStateBodyHtml
-                                    : ""
-                                stateEventIconSource: timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.resolvedStateEventIconSource
-                                    : ""
-                                messageContextMenu: matrixMessageContextMenu
-                                replyContextMenu: matrixReplyContextMenu
-                                messageActions: matrixMessageActionsHost.control
-                                previewData: timelineItemDelegate.resolvedPreviewData
-                                replyPreviewData: !timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.resolvedReplyPreviewData
-                                    : ({})
-                                roomModelOverride: matrixToolbarRoomModel
-                                scrolledToThis: false
-                            }
-                        }
-
-                        Component {
-                            id: matrixBubbleMessageStyle
-
-                            TimelineBubbleMessageStyle {
-                                eventId: timelineItemDelegate.eventId
-                                replyTo: !timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.replyEventId
-                                    : ""
-                                room: null
-                                index: timelineItemDelegate.modelIndex
-                                day: timelineItemDelegate.dayKey
-                                isSender: timelineItemDelegate.isOwn
-                                isStateEvent: timelineItemDelegate.usesSharedStateBubble
-                                timestamp: new Date(Number(timelineItemDelegate.timestamp))
-                                userId: timelineItemDelegate.senderId
-                                userName: timelineItemDelegate.senderDisplayName
-                                threadId: timelineItemDelegate.threadId
-                                userPowerlevel: 0
-                                isEdited: timelineItemDelegate.isEdited
-                                isEncrypted: timelineItemDelegate.mediaIsEncrypted
-                                    || timelineItemDelegate.thumbnailIsEncrypted
-                                reactions: timelineItemDelegate.usesSharedStateBubble
-                                    ? []
-                                    : timelineItemDelegate.reactions
-                                status: timelineItemDelegate.sharedDeliveryStatus
-                                trustlevel: 0
-                                notificationlevel: MtxEvent.Empty
-                                type: timelineItemDelegate.usesSharedStateBubble
-                                    ? MtxEvent.Name
-                                    : timelineItemDelegate.matrixEventType
-                                isEditable: timelineItemDelegate.usesSharedTextBubble
-                                    && matrixToolbarMessageModel.isEditable
-                                isHiddenEvent: false
-                                formattedBody: !timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.resolvedFormattedBodyHtml
-                                    : ""
-                                formattedStateEvent: timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.resolvedFormattedStateBodyHtml
-                                    : ""
-                                stateEventIconSource: timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.resolvedStateEventIconSource
-                                    : ""
-                                messageContextMenu: matrixMessageContextMenu
-                                replyContextMenu: matrixReplyContextMenu
-                                messageActions: matrixMessageActionsHost.control
-                                previewData: timelineItemDelegate.resolvedPreviewData
-                                replyPreviewData: !timelineItemDelegate.usesSharedStateBubble
-                                    ? timelineItemDelegate.resolvedReplyPreviewData
-                                    : ({})
-                                roomModelOverride: matrixToolbarRoomModel
-                                scrolledToThis: false
-                            }
-                        }
-
-                        Component {
-                            id: matrixPerfPlaceholderBubble
-
-                            Item {
-                                implicitWidth: timelineItemDelegate.width
-                                implicitHeight: timelineItemDelegate.heuristicTimelineHeightEstimate
-                            }
-                        }
-
-                        Component {
-                            id: matrixPerfMinimalTextBubble
-
-                            Item {
-                                implicitWidth: timelineItemDelegate.width
-                                implicitHeight: minimalBubbleText.implicitHeight + Komai.paddingMedium * 2
-
-                                Rectangle {
-                                    anchors.fill: parent
-                                    anchors.leftMargin: 52
-                                    radius: 8
-                                    color: palette.base
-
-                                    Text {
-                                        id: minimalBubbleText
-                                        anchors.fill: parent
-                                        anchors.margins: Komai.paddingMedium
-                                        text: timelineItemDelegate.body
-                                        wrapMode: Text.Wrap
-                                        color: palette.text
-                                        font.pointSize: Settings.uiFontSizePt
-                                    }
-                                }
-                            }
-                        }
-
-                        Loader {
-                            id: sharedTimelineBubble
-
-                            active: timelineItemDelegate.usesSharedTimelineBubble
-                                && !timelineItemDelegate.sharedBubbleReloadArmed
-                            asynchronous: !root.roomSwitchInProgress
-                            sourceComponent: root.perfDisableTimelineBubbles
-                                ? matrixPerfPlaceholderBubble
-                                : (root.perfMinimalTextBubbles
-                                    ? matrixPerfMinimalTextBubble
-                                    : (Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Plain
-                                    ? matrixPlainMessageStyle
-                                    : matrixBubbleMessageStyle))
-                            visible: active
+                            eventId: timelineItemDelegate.eventId
+                            replyTo: timelineItemDelegate.replyTo
+                            room: TimelineManager.matrixTimelineModel
+                            index: timelineItemDelegate.index
+                            day: timelineItemDelegate.day
+                            isSender: timelineItemDelegate.isSender
+                            isStateEvent: timelineItemDelegate.isStateEvent
+                            timestamp: timelineItemDelegate.timestamp
+                            userId: timelineItemDelegate.userId
+                            userName: timelineItemDelegate.userName
+                            threadId: timelineItemDelegate.threadId
+                            userPowerlevel: 0
+                            isEdited: timelineItemDelegate.isEdited
+                            isEncrypted: timelineItemDelegate.isEncrypted
+                            reactions: timelineItemDelegate.reactions
+                            status: timelineItemDelegate.status
+                            trustlevel: 0
+                            notificationlevel: MtxEvent.Empty
+                            type: timelineItemDelegate.type
+                            isEditable: timelineItemDelegate.isEditable
+                            isHiddenEvent: false
+                            messageContextMenu: matrixMessageContextMenu
+                            replyContextMenu: matrixReplyContextMenu
+                            messageActions: matrixMessageActionsHost.control
+                            roomModelOverride: matrixMessageActionsDefaultRoomModel
+                            scrolledToThis: false
                         }
                     }
                 }
+
 
                 ColumnLayout {
                     anchors.centerIn: parent

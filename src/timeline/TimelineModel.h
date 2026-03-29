@@ -16,6 +16,7 @@
 #include <mtx/responses/common.hpp>
 #include <mtxclient/http/errors.hpp>
 
+#include "EventDataSource.h"
 #include "EventStore.h"
 #include "InputBar.h"
 #include "Permissions.h"
@@ -64,7 +65,7 @@ struct DecryptionResult
 
 class TimelineViewManager;
 
-class TimelineModel final : public QAbstractListModel
+class TimelineModel final : public EventDataSource
 {
     Q_OBJECT
     QML_NAMED_ELEMENT(Room)
@@ -161,12 +162,13 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     void multiData(const QModelIndex &index, QModelRoleDataSpan roleDataSpan) const override;
-    void
-    multiData(const QString &id, const QString &relatedTo, QModelRoleDataSpan roleDataSpan) const;
+    void multiData(const QString &id,
+                   const QString &relatedTo,
+                   QModelRoleDataSpan roleDataSpan) const override;
     QVariant data(const mtx::events::collections::TimelineEvents &event, int role) const;
     QStringList frequentReactions() const;
     void invalidateFrequentReactionsCache();
-    Q_INVOKABLE QVariant dataById(const QString &id, int role, const QString &relatedTo);
+    Q_INVOKABLE QVariant dataById(const QString &id, int role, const QString &relatedTo) override;
     Q_INVOKABLE QVariant dataByIndex(int i, int role = Qt::DisplayRole) const
     {
         return data(index(i), role);
@@ -222,7 +224,7 @@ public:
     Q_INVOKABLE void redactAllFromUser(const QString &userid, const QString &reason = "");
     Q_INVOKABLE void
     reportEvent(const QString &eventId, const QString &reason = {}, const int score = -50);
-    Q_INVOKABLE int idToIndex(const QString &id) const;
+    Q_INVOKABLE int idToIndex(const QString &id) const override;
     Q_INVOKABLE QString indexToId(int index) const;
     Q_INVOKABLE void openMedia(const QString &eventId);
     Q_INVOKABLE void cacheMedia(const QString &eventId);

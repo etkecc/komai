@@ -341,6 +341,8 @@ set(SRC_FILES
     src/timeline/eventstore/EventStoreWindowing.cpp
     src/timeline/eventstore/EventStorePending.cpp
     src/timeline/eventstore/EventStoreKeyRequests.cpp
+    src/timeline/EventDataSource.cpp
+    src/timeline/EventDataSource.h
     src/timeline/EventDelegateChooser.cpp
     src/timeline/EventDelegateChooser.h
     src/timeline/InputBar.cpp

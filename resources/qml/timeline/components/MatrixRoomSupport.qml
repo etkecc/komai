@@ -143,30 +143,26 @@ Item {
         }
     }
 
-    QtObject {
+    PreviewPermissions {
         id: matrixMessageActionsDefaultPermissions
-
-        function canSend(eventType) {
-            return false;
-        }
-
-        function canRedact() {
-            return false;
-        }
-
-        function canChange(eventType) {
-            return false;
-        }
     }
 
     QtObject {
         id: matrixMessageActionsDefaultRoomModel
 
         property string roomId: roomPreview ? roomPreview.roomid : ""
+        property bool isActiveMatrixTimelineRoom: true
+        property int roomMemberCount: roomPreview && roomPreview.roomMemberCount !== undefined
+            ? Number(roomPreview.roomMemberCount) : 0
+        property bool isEncrypted: roomPreview ? !!roomPreview.isEncrypted : false
         property var permissions: matrixMessageActionsDefaultPermissions
-        property var input: null
+        property var input: matrixTimelineToolbarInput
         property var frequentReactions: []
         property var pinnedMessages: TimelineManager.matrixTimelinePinnedEventIds
+        property string reply: ""
+        property string edit: ""
+        property string thread: ""
+        property bool supportsThreadNavigation: false
 
         function showEvent(eventId) {
             return rootItem.jumpToLoadedMatrixEvent(eventId);
@@ -176,8 +172,12 @@ Item {
             return support.openMatrixForwardDialog(eventId);
         }
 
-        function formatRedactedEvent(_eventId) {
-            return rootItem.matrixRedactedEventPair("", "");
+        function formatRedactedEvent(eventId) {
+            const model = TimelineManager.matrixTimelineModel;
+            if (!model) return rootItem.matrixRedactedEventPair("", "");
+            const eid = String(eventId || "");
+            return rootItem.matrixRedactedEventPair(
+                model.userNameForEvent(eid), model.userIdForEvent(eid));
         }
 
         function previewDataForEvent(eventId) {
@@ -185,6 +185,101 @@ Item {
             return Object.assign({}, preview || {}, {
                 "room": matrixMessageActionsDefaultRoomModel
             });
+        }
+
+        function formatDateSeparator(timestamp) {
+            return Qt.formatDate(timestamp, "ddd, MMM d");
+        }
+
+        function formatLaterSeparator(_previous, currentTimestamp) {
+            return Qt.formatTime(currentTimestamp, "hh:mm");
+        }
+
+        function openUserProfile(userId) {
+            matrixDialogRoomModel.openUserProfile(userId);
+        }
+
+        function eventShown() {}
+        function showImage() { return true; }
+
+        function openMedia(targetEventId) {
+            const model = TimelineManager.matrixTimelineModel;
+            const eid = String(targetEventId || "");
+            const fileName = model ? (model.filenameForEvent(eid) || qsTr("Attachment")) : qsTr("Attachment");
+            TimelineManager.openActiveMatrixTimelineMedia(eid, fileName);
+        }
+
+        function saveMedia(targetEventId) {
+            const model = TimelineManager.matrixTimelineModel;
+            const eid = String(targetEventId || "");
+            const fileName = model ? (model.filenameForEvent(eid) || qsTr("Attachment")) : qsTr("Attachment");
+            TimelineManager.saveActiveMatrixTimelineMedia(eid, fileName);
+        }
+
+        function copyLinkToEvent(eventId) {
+            TimelineManager.copyMatrixEventLink(roomId, String(eventId || ""));
+        }
+
+        function markEventAsRead(eventId) {
+            TimelineManager.markActiveMatrixTimelineEventAsRead(String(eventId || ""));
+        }
+
+        function pin(eventId) {
+            TimelineManager.pinActiveMatrixTimelineEvent(String(eventId || ""));
+        }
+
+        function unpin(eventId) {
+            TimelineManager.unpinActiveMatrixTimelineEvent(String(eventId || ""));
+        }
+
+        function reportEvent(eventId, reason, score) {
+            TimelineManager.reportActiveMatrixTimelineEvent(
+                String(eventId || ""), String(reason || ""), Number(score || -50));
+        }
+
+        function viewRawMessage(eventId) {
+            rootItem.openRawMessageDialog(String(eventId || ""));
+        }
+
+        function viewDecryptedRawMessage(eventId) {
+            viewRawMessage(eventId);
+        }
+
+        function showReadReceipts(eventId) {
+            rootItem.openReadReceiptsDialog(String(eventId || ""));
+        }
+
+        onReplyChanged: {
+            if (!reply) return;
+            const model = TimelineManager.matrixTimelineModel;
+            TimelineManager.queueActiveMatrixReply(
+                reply,
+                model ? model.userIdForEvent(reply) : "",
+                model ? model.userNameForEvent(reply) : "",
+                model ? model.bodyForEvent(reply) : "");
+            reply = "";
+        }
+
+        onEditChanged: {
+            if (!edit) return;
+            const model = TimelineManager.matrixTimelineModel;
+            rootItem.beginEdit(edit,
+                model ? model.bodyForEvent(edit) : "",
+                model ? model.typeStringForEvent(edit) : "");
+            edit = "";
+        }
+
+        onThreadChanged: {
+            if (thread) thread = "";
+        }
+    }
+
+    QtObject {
+        id: matrixTimelineToolbarInput
+
+        function reaction(targetEventId, reactionKey) {
+            TimelineManager.toggleActiveMatrixTimelineReaction(
+                String(targetEventId || ""), String(reactionKey || ""));
         }
     }
 
@@ -468,7 +563,7 @@ Item {
                 return ({});
 
             const item = model.itemAt(row);
-            if (!item || item.itemKind === undefined)
+            if (!item || item.typeString === undefined)
                 return ({});
 
             const previousItem = row > 0 ? model.itemAt(row - 1) : ({});
@@ -482,31 +577,31 @@ Item {
                 : dayKey;
             const previousIsStateEvent = previousItem.eventId === undefined
                 ? true
-                : rootItem.isMatrixStateLikeKind(previousItem.itemKind);
-            const previousUserId = previousItem.senderId !== undefined
-                ? String(previousItem.senderId || "")
+                : rootItem.isMatrixStateLikeKind(previousItem.typeString);
+            const previousUserId = previousItem.userId !== undefined
+                ? String(previousItem.userId || "")
                 : "";
-            const itemKind = String(item.itemKind || "");
+            const itemKind = String(item.typeString || "");
             const body = String(item.body || "");
-            const effectiveFileName = item.fileName && String(item.fileName).length > 0
-                ? String(item.fileName)
+            const effectiveFileName = item.filename && String(item.filename).length > 0
+                ? String(item.filename)
                 : (body.length > 0 ? body : qsTr("Attachment"));
-            const humanReadableMediaSize = Number(item.mediaSizeBytes || 0) > 0
-                ? Komai.humanReadableFileSize(Number(item.mediaSizeBytes))
+            const humanReadableMediaSize = Number(item.filesizeBytes || 0) > 0
+                ? Komai.humanReadableFileSize(Number(item.filesizeBytes))
                 : "";
             const basePreview = {
                 "room": matrixHeaderRoomModel,
                 "eventId": String(item.eventId || ""),
-                "userId": String(item.senderId || ""),
-                "userName": String(item.senderDisplayName || ""),
+                "userId": String(item.userId || ""),
+                "userName": String(item.userName || ""),
                 "avatarUrl": String(item.senderAvatarUrl || ""),
                 "previousDay": previousDay,
                 "previousTimestamp": previousTimestamp,
                 "previousIsStateEvent": previousIsStateEvent,
                 "previousUserId": previousUserId
             };
-            const redactedPair = rootItem.matrixRedactedEventPair(item.senderDisplayName,
-                                                                  item.senderId);
+            const redactedPair = rootItem.matrixRedactedEventPair(item.userName,
+                                                                  item.userId);
 
             if (itemKind === "redacted") {
                 return Object.assign({}, basePreview, {
@@ -525,26 +620,26 @@ Item {
             }
 
             if (itemKind === "image" || itemKind === "sticker" || itemKind === "video") {
-                const mediaWidth = Math.round(Number(item.mediaWidth || 0));
-                const mediaHeight = Math.round(Number(item.mediaHeight || 0));
+                const mediaWidth = Math.round(Number(item.originalWidth || 0));
+                const mediaHeight = Math.round(Number(item.originalHeight || 0));
                 const safePreviewAspectRatio = mediaWidth > 0 && mediaHeight > 0
                     ? (mediaHeight / mediaWidth)
                     : 0.75;
                 return Object.assign({}, basePreview, {
                     "type": rootItem.matrixEventTypeForItemKind(itemKind),
                     "body": body,
-                    "url": String(item.mediaUrl || ""),
+                    "url": String(item.url || ""),
                     "blurhash": "",
                     "filename": effectiveFileName,
                     "filesize": humanReadableMediaSize,
-                    "filesizeBytes": Math.round(Number(item.mediaSizeBytes || 0)),
-                    "mimetype": String(item.mimeType || ""),
+                    "filesizeBytes": Math.round(Number(item.filesizeBytes || 0)),
+                    "mimetype": String(item.mimetype || ""),
                     "thumbnailUrl": String(item.thumbnailUrl || ""),
                     "originalWidth": mediaWidth,
                     "originalHeight": mediaHeight,
                     "proportionalHeight": safePreviewAspectRatio,
                     "containerHeight": rootItem.height > 0 ? rootItem.height : Screen.height,
-                    "duration": Math.round(Number(item.mediaDurationMs || 0))
+                    "duration": Math.round(Number(item.duration || 0))
                 });
             }
 
@@ -554,9 +649,9 @@ Item {
                     "body": body,
                     "filename": effectiveFileName,
                     "filesize": humanReadableMediaSize,
-                    "fileTypeIconSource": Komai.fileTypeIconSource(String(item.mimeType || "")),
-                    "mimetype": String(item.mimeType || ""),
-                    "duration": Math.round(Number(item.mediaDurationMs || 0))
+                    "fileTypeIconSource": Komai.fileTypeIconSource(String(item.mimetype || "")),
+                    "mimetype": String(item.mimetype || ""),
+                    "duration": Math.round(Number(item.duration || 0))
                 });
             }
 

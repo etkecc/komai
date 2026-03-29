@@ -216,7 +216,8 @@ TimelineMessageStyleBase {
                 function onRoomAvatarUrlChanged() {
                     messageUserAvatar.avatarUrl = wrapper.avatarImageUrl(wrapper.userId);
                 }
-                target: wrapper.room
+                target: wrapper.room && typeof wrapper.room.roomAvatarUrlChanged === "function"
+                    ? wrapper.room : null
             }
         },
         TimelineBubbleBody {

@@ -117,10 +117,11 @@ TimelineViewManager::openMediaOverlayWithContext(QObject *room,
 void
 TimelineViewManager::openImagePackSettings(QString roomid)
 {
-    auto room  = rooms_->getRoomById(roomid).get();
     auto model = new ImagePackListModel(roomid.toStdString());
     QQmlEngine::setObjectOwnership(model, QQmlEngine::JavaScriptOwnership);
-    emit showImagePackSettings(room, model);
+    // Keep room-pack creation conservatively disabled until matrix room-permission
+    // fetch is migrated to a dedicated room-settings/image-pack surface.
+    emit showImagePackSettings(model, false);
 }
 
 void

@@ -324,7 +324,7 @@ signals:
                             const QString &initialTab);
     void openInviteUsersDialog(InviteesModel *invitees);
     void openProfile(UserProfile *profile);
-    void showImagePackSettings(QObject *room, ImagePackListModel *packlist);
+    void showImagePackSettings(ImagePackListModel *packlist, bool canCreateRoomPack);
     void openLeaveRoomDialog(QString roomid, QString reason = "");
     void showMediaOverlay(QObject *room,
                           QString eventId,

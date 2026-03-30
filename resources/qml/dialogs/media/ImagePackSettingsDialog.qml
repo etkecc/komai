@@ -13,8 +13,8 @@ import cc.etke.komai 1.0
 OverlayDialog {
     id: win
 
-    property var room
     property ImagePackListModel packlist
+    property bool canCreateRoomPack: false
     property int avatarSize: Math.ceil(fontMetrics.lineSpacing * 2.3)
     property SingleImagePackModel currentPack: packlist.packAt(currentPackIndex)
     property int currentPackIndex: 0
@@ -87,7 +87,7 @@ OverlayDialog {
                             timelineRoot.destroyOnClose(dialog);
                         }
                         Layout.preferredWidth: packlistC.width
-                        visible: room.permissions.canChange(MtxEvent.ImagePackInRoom)
+                        visible: win.canCreateRoomPack
                         text: qsTr("New room pack")
                     }
 

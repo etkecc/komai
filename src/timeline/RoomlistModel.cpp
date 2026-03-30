@@ -187,27 +187,6 @@ RoomlistModel::roleNames() const
     };
 }
 
-QSharedPointer<TimelineModel>
-RoomlistModel::getRoomById(QString id) const
-{
-    return getRoomByIdWithReason(std::move(id), "cpp.getRoomById");
-}
-
-QSharedPointer<TimelineModel>
-RoomlistModel::getRoomByIdWithReason(QString id, const char *reason) const
-{
-    Q_UNUSED(id);
-    Q_UNUSED(reason);
-    return {};
-}
-
-QSharedPointer<TimelineModel>
-RoomlistModel::getMaterializedRoomById(QString id) const
-{
-    Q_UNUSED(id);
-    return {};
-}
-
 QString
 RoomlistModel::currentRoomId() const
 {

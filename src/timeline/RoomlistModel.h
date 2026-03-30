@@ -129,9 +129,6 @@ public:
         return (int)roomids.size();
     }
     QVariant data(const QModelIndex &index, int role) const override;
-    QSharedPointer<TimelineModel> getRoomById(QString id) const;
-    QSharedPointer<TimelineModel> getRoomByIdWithReason(QString id, const char *reason) const;
-    QSharedPointer<TimelineModel> getMaterializedRoomById(QString id) const;
     RoomPreview getRoomPreviewById(QString roomid) const;
     QString currentRoomId() const;
 
@@ -372,7 +369,6 @@ public slots:
     }
     void setCurrentRoom(QString roomid) { roomlistmodel->setCurrentRoom(std::move(roomid)); }
     void resetCurrentRoom() { roomlistmodel->resetCurrentRoom(); }
-    QAbstractItemModel *getRoomById(const QString &id) const;
     RoomPreview getRoomPreviewById(QString roomid) const
     {
         return roomlistmodel->getRoomPreviewById(roomid);

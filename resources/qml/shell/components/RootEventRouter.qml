@@ -97,10 +97,10 @@ Item {
             dialog.requestActivate();
             timelineRoot.destroyOnClose(dialog);
         }
-        function onShowImagePackSettings(room, packlist) {
+        function onShowImagePackSettings(packlist, canCreateRoomPack) {
             timelineRoot.openCatalogDialog(componentCatalog.mediaImagePackSettingsDialog, {
-                    "room": room,
-                    "packlist": packlist
+                    "packlist": packlist,
+                    "canCreateRoomPack": !!canCreateRoomPack
                 });
         }
 

@@ -1362,6 +1362,7 @@ fn timeline_item_to_summary(
         let reply_formatted_body = summary.reply_formatted_body;
         let reactions = summary.reactions;
         let reactions_summary = summary.reactions_summary;
+        let special_effect_names = summary.special_effect_names;
         let item_kind = summary.kind;
         let is_edited = summary.is_edited;
         let media = summary.media;
@@ -1390,6 +1391,7 @@ fn timeline_item_to_summary(
                 reply_formatted_body,
                 reactions,
                 reactions_summary,
+                special_effect_names,
                 item_kind,
                 is_edited,
                 media_url: media
@@ -1455,6 +1457,7 @@ fn timeline_item_to_summary(
                 reply_formatted_body: String::new(),
                 reactions: Vec::new(),
                 reactions_summary: String::new(),
+                special_effect_names: Vec::new(),
                 item_kind: "date_divider".to_owned(),
                 is_edited: false,
                 media_url: String::new(),

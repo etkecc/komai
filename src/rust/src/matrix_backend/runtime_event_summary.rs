@@ -38,6 +38,7 @@ pub struct MatrixEventSummary {
     pub reply_formatted_body: String,
     pub reactions: Vec<MatrixReactionSummary>,
     pub reactions_summary: String,
+    pub special_effect_names: Vec<String>,
     pub is_edited: bool,
     pub media: Option<MatrixEventMediaSummary>,
 }
@@ -330,6 +331,14 @@ fn summary_from_message_type(message_type: &MessageType) -> MatrixEventSummary {
             };
             let mut s = summary(kind, message_type.body());
             s.formatted_body = formatted_html(message_type).to_owned();
+            s.special_effect_names =
+                detect_special_effect_names(message_type.body(), Some(message_type.msgtype()));
+            s
+        }
+        MessageType::_Custom(_) => {
+            let mut s = summary("message", message_type.body());
+            s.special_effect_names =
+                detect_special_effect_names(message_type.body(), Some(message_type.msgtype()));
             s
         }
         MessageType::Image(content) => {
@@ -347,6 +356,65 @@ fn summary_from_message_type(message_type: &MessageType) -> MatrixEventSummary {
         MessageType::Location(_) => summary("location", message_type.body()),
         _ => summary("message", message_type.body()),
     }
+}
+
+fn append_unique_effect(target: &mut Vec<String>, effect_name: &str) {
+    if !target.iter().any(|existing| existing == effect_name) {
+        target.push(effect_name.to_owned());
+    }
+}
+
+fn body_contains_any(body: &str, triggers: &[&str]) -> bool {
+    triggers.iter().any(|trigger| body.contains(trigger))
+}
+
+fn detect_special_effect_names(body: &str, msgtype: Option<&str>) -> Vec<String> {
+    const CONFETTI_TRIGGERS: &[&str] = &["🎉", "🎊"];
+    const SUNLIGHT_TRIGGERS: &[&str] = &["☀", "🌞"];
+    const LOVE_TRIGGERS: &[&str] = &[
+        "❤", "🫶", "💕", "💓", "💘", "💖", "💗", "💞", "💝", "💟", "❣", "😻", "😘", "🥰",
+    ];
+    const LOVE_FACE_TRIGGERS: &[&str] = &["😍"];
+    const RAINFALL_TRIGGERS: &[&str] = &["🌧", "🌦", "☔"];
+    const LIGHTNING_TRIGGERS: &[&str] = &["⚡"];
+    const STORM_TRIGGERS: &[&str] = &["⛈"];
+    const KOMAI_LOGO_TRIGGERS: &[&str] = &["🦁", "⛩️"];
+
+    let mut effects = Vec::new();
+
+    if body_contains_any(body, CONFETTI_TRIGGERS) {
+        append_unique_effect(&mut effects, "confetti");
+    }
+    if body_contains_any(body, SUNLIGHT_TRIGGERS) {
+        append_unique_effect(&mut effects, "sunlight");
+    }
+    if body_contains_any(body, LOVE_TRIGGERS) || body_contains_any(body, LOVE_FACE_TRIGGERS) {
+        append_unique_effect(&mut effects, "love");
+    }
+    if body_contains_any(body, RAINFALL_TRIGGERS) || body_contains_any(body, STORM_TRIGGERS) {
+        append_unique_effect(&mut effects, "rainfall");
+    }
+    if body_contains_any(body, LIGHTNING_TRIGGERS) || body_contains_any(body, STORM_TRIGGERS) {
+        append_unique_effect(&mut effects, "lightning");
+    }
+    if body_contains_any(body, KOMAI_LOGO_TRIGGERS) {
+        append_unique_effect(&mut effects, "komaiLogo");
+    }
+
+    match msgtype.unwrap_or_default() {
+        "nic.custom.confetti" | "nic.custom.fireworks" => {
+            append_unique_effect(&mut effects, "confetti");
+        }
+        "io.element.effect.rainfall" => {
+            append_unique_effect(&mut effects, "rainfall");
+        }
+        "io.element.effect.hearts" => {
+            append_unique_effect(&mut effects, "love");
+        }
+        _ => {}
+    }
+
+    effects
 }
 
 fn human_name(display_name: Option<&str>, user_id: &str) -> String {
@@ -370,6 +438,7 @@ fn summary(kind: &str, body: &str) -> MatrixEventSummary {
         reply_formatted_body: String::new(),
         reactions: Vec::new(),
         reactions_summary: String::new(),
+        special_effect_names: Vec::new(),
         is_edited: false,
         media: None,
     }
@@ -392,6 +461,7 @@ fn summary_with_media(
         reply_formatted_body: String::new(),
         reactions: Vec::new(),
         reactions_summary: String::new(),
+        special_effect_names: Vec::new(),
         is_edited: false,
         media: Some(media),
     }

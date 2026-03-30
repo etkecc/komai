@@ -246,6 +246,9 @@ TimelineViewManager::perfUiFlagEnabled(const QString &flag) const
     if (flag == QLatin1String("disable_room_header"))
         return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_ROOM_HEADER"));
 
+    if (flag == QLatin1String("disable_timeline_effects"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_EFFECTS"));
+
     if (flag == QLatin1String("disable_timeline_list"))
         return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_LIST"));
 

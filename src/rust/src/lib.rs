@@ -204,6 +204,7 @@ mod ffi {
         reply_formatted_body: String,
         reactions: Vec<MatrixReactionSummary>,
         reactions_summary: String,
+        special_effect_names: Vec<String>,
         item_kind: String,
         is_edited: bool,
         media_url: String,
@@ -1416,6 +1417,7 @@ fn matrix_fetch_active_room_timeline(
                         })
                         .collect(),
                     reactions_summary: item.reactions_summary,
+                    special_effect_names: item.special_effect_names,
                     item_kind: item.item_kind,
                     is_edited: item.is_edited,
                     media_url: item.media_url,

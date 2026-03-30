@@ -200,6 +200,7 @@ struct MatrixTimelineItem
     QString replyFormattedBody;
     QVariantList reactions;
     QString reactionsSummary;
+    QStringList specialEffectNames;
     QString itemKind;
     bool isEdited = false;
     QString mediaUrl;

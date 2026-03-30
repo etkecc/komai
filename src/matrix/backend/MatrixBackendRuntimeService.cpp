@@ -301,6 +301,11 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
         reactions.push_back(QVariant::fromValue(value));
     }
 
+    QStringList specialEffectNames;
+    specialEffectNames.reserve(static_cast<qsizetype>(item.special_effect_names.size()));
+    for (const auto &effectName : item.special_effect_names)
+        specialEffectNames.push_back(QString::fromStdString(std::string(effectName)));
+
     return MatrixTimelineItem{
       .itemId            = QString::fromStdString(std::string(item.item_id)),
       .eventId           = QString::fromStdString(std::string(item.event_id)),
@@ -319,6 +324,7 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .replyFormattedBody     = QString::fromStdString(std::string(item.reply_formatted_body)),
       .reactions              = reactions,
       .reactionsSummary       = QString::fromStdString(std::string(item.reactions_summary)),
+      .specialEffectNames     = specialEffectNames,
       .itemKind               = QString::fromStdString(std::string(item.item_kind)),
       .isEdited               = item.is_edited,
       .mediaUrl = matrix::normalizeMxcUri(QString::fromStdString(std::string(item.media_url))),

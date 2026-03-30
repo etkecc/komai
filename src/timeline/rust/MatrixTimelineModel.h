@@ -5,6 +5,7 @@
 #pragma once
 
 #include <QSet>
+#include <QStringList>
 #include <QVariantMap>
 #include <QVector>
 #include <optional>
@@ -119,6 +120,7 @@ public:
 
 signals:
     void countChanged();
+    void specialEffectsTriggered(const QStringList &effectNames);
 
 private:
     QVariant replyData(const MatrixTimelineItem &parentItem, int role) const;
@@ -126,6 +128,7 @@ private:
     void replaceVisibleItems(QVector<MatrixTimelineItem> items);
     void applyRedactedPresentation(MatrixTimelineItem &item) const;
     void applyOptimisticRedactions(QVector<MatrixTimelineItem> &items);
+    void emitEffectsForPrependedItems(const QVector<MatrixTimelineItem> &nextItems);
 
     QVector<MatrixTimelineItem> allItems_;
     QVector<MatrixTimelineItem> items_;

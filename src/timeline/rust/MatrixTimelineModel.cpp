@@ -129,6 +129,15 @@ formatBodyHtml(const QString &body, const QString &formattedBody = {})
     return utils::replaceEmoji(html);
 }
 
+QString
+stableTimelineItemKey(const MatrixTimelineItem &item)
+{
+    const auto eventId = item.eventId.trimmed();
+    if (!eventId.isEmpty())
+        return eventId;
+    return item.itemId.trimmed();
+}
+
 void
 computeDerivedFields(MatrixTimelineItem &item)
 {
@@ -703,6 +712,8 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
 
     for (auto &item : items)
         computeDerivedFields(item);
+
+    emitEffectsForPrependedItems(items);
     allItems_ = items;
 
     const auto initialVisibleWindow      = configuredInitialVisibleWindow();
@@ -716,6 +727,45 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
         targetVisibleCount = std::max(static_cast<int>(items_.size()), cappedInitialVisibleCount);
 
     replaceVisibleItems(allItems_.mid(0, targetVisibleCount));
+}
+
+void
+MatrixTimelineModel::emitEffectsForPrependedItems(const QVector<MatrixTimelineItem> &nextItems)
+{
+    if (allItems_.isEmpty() || nextItems.isEmpty())
+        return;
+
+    const auto oldHeadKey = stableTimelineItemKey(allItems_.front());
+    if (oldHeadKey.isEmpty())
+        return;
+
+    int prependCount = -1;
+    for (int i = 0; i < nextItems.size(); ++i) {
+        if (stableTimelineItemKey(nextItems.at(i)) == oldHeadKey) {
+            prependCount = i;
+            break;
+        }
+    }
+
+    if (prependCount <= 0)
+        return;
+
+    QStringList effectNames;
+    effectNames.reserve(prependCount);
+    QSet<QString> seenEffects;
+    for (int i = prependCount - 1; i >= 0; --i) {
+        const auto &item = nextItems.at(i);
+        for (const auto &effectName : item.specialEffectNames) {
+            const auto trimmed = effectName.trimmed();
+            if (trimmed.isEmpty() || seenEffects.contains(trimmed))
+                continue;
+            seenEffects.insert(trimmed);
+            effectNames.push_back(trimmed);
+        }
+    }
+
+    if (!effectNames.isEmpty())
+        emit specialEffectsTriggered(effectNames);
 }
 
 void

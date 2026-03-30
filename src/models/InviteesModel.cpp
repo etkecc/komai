@@ -5,11 +5,19 @@
 
 #include "models/InviteesModel.h"
 
-#include "logging/Logging.h"
+#include <QCoreApplication>
+#include <QMetaObject>
+#include <QPointer>
 
-InviteesModel::InviteesModel(QObject *room, QObject *parent)
+#include <thread>
+
+#include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "ui/MainWindow.h"
+
+InviteesModel::InviteesModel(QString roomName, QObject *parent)
   : QAbstractListModel{parent}
-  , room_{room}
+  , roomName_{std::move(roomName)}
 {
 }
 
@@ -22,10 +30,11 @@ InviteesModel::addUser(QString mxid, QString displayName, QString avatarUrl)
 
     beginInsertRows(QModelIndex(), invitees_.count(), invitees_.count());
 
-    auto invitee        = new Invitee{mxid, displayName, avatarUrl, this};
-    auto indexOfInvitee = invitees_.count();
-    connect(invitee, &Invitee::userInfoLoaded, this, [this, indexOfInvitee]() {
-        emit dataChanged(index(indexOfInvitee), index(indexOfInvitee));
+    auto *invitee = new Invitee{mxid, displayName, avatarUrl, this};
+    connect(invitee, &Invitee::userInfoLoaded, this, [this, invitee]() {
+        const auto row = invitees_.indexOf(invitee);
+        if (row >= 0)
+            emit dataChanged(index(row), index(row));
     });
 
     invitees_.push_back(invitee);
@@ -96,18 +105,51 @@ Invitee::Invitee(QString mxid, QString displayName, QString avatarUrl, QObject *
   : QObject{parent}
   , mxid_{std::move(mxid)}
 {
-    // checking for empty avatarUrl will cause profiles that don't have an avatar
-    // to needlessly be loaded. Can we make sure we either provide both or none?
-    if (displayName == "" && avatarUrl == "") {
-        nhlog::ui()->debug("Invitee profile lookup for '{}' is not migrated to matrix-sdk yet",
-                           mxid_.toStdString());
-        displayName_ = mxid_;
-        emit userInfoLoaded();
-    } else {
+    if (!displayName.isEmpty() || !avatarUrl.isEmpty()) {
         displayName_ = displayName;
         avatarUrl_   = avatarUrl;
         emit userInfoLoaded();
+        return;
     }
+
+    displayName_ = mxid_;
+    emit userInfoLoaded();
+
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() == 0)
+        return;
+
+    const auto handleId = mainWindow->matrixBackendHandleId();
+    QPointer<Invitee> guard(this);
+    std::thread([guard, handleId, mxid = mxid_]() mutable {
+        const auto profile = komai::MatrixBackendRuntimeService::fetchUserProfile(handleId, mxid);
+        if (!guard || !profile.has_value())
+            return;
+
+        const auto displayName =
+          profile->displayName.trimmed().isEmpty() ? mxid : profile->displayName.trimmed();
+        const auto avatarUrl = profile->avatarUrl;
+
+        auto *app = QCoreApplication::instance();
+        if (!app) {
+            guard->displayName_ = displayName;
+            guard->avatarUrl_   = avatarUrl;
+            emit guard->userInfoLoaded();
+            return;
+        }
+
+        QMetaObject::invokeMethod(
+          app,
+          [guard, displayName, avatarUrl]() {
+              if (!guard)
+                  return;
+
+              guard->displayName_ = displayName;
+              guard->avatarUrl_   = avatarUrl;
+              emit guard->userInfoLoaded();
+          },
+          Qt::QueuedConnection);
+    }).detach();
 }
 
 #include "moc_InviteesModel.cpp"

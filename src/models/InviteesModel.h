@@ -37,7 +37,7 @@ class InviteesModel final : public QAbstractListModel
     QML_UNCREATABLE("")
 
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(QObject *room READ room CONSTANT)
+    Q_PROPERTY(QString roomName READ roomName CONSTANT)
 
 public:
     enum Roles
@@ -47,9 +47,9 @@ public:
         AvatarUrl,
     };
 
-    InviteesModel(QObject *room, QObject *parent = nullptr);
+    InviteesModel(QString roomName, QObject *parent = nullptr);
 
-    QObject *room() const { return room_; }
+    QString roomName() const { return roomName_; }
 
     Q_INVOKABLE void addUser(QString mxid, QString displayName = "", QString avatarUrl = "");
     Q_INVOKABLE bool containsUser(const QString &mxid) const;
@@ -70,5 +70,5 @@ signals:
 
 private:
     QVector<Invitee *> invitees_;
-    QObject *room_;
+    QString roomName_;
 };

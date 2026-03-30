@@ -16,7 +16,9 @@ OverlayDialog {
     property InviteesModel invitees
     readonly property int selectedCount: invitees ? invitees.count : 0
 
-    title: qsTr("Invite users to %1").arg(invitees.room.plainRoomName)
+    title: invitees && invitees.roomName.length > 0
+        ? qsTr("Invite users to %1").arg(invitees.roomName)
+        : qsTr("Invite users")
     titleIcon: ":/icons/icons/ui/plus-circle.svg"
     initialFocusItem: inviteeEntry
     overlayDialogMinWidth: 760

@@ -62,7 +62,9 @@ TimelineViewManager::openInviteUsers(QString roomId)
     if (!roomId.startsWith('!'))
         return;
 
-    auto *model = new InviteesModel{nullptr};
+    const auto preview = rooms_ ? rooms_->getRoomPreviewById(roomId) : RoomPreview{};
+    const auto roomName = preview.roomName().trimmed().isEmpty() ? roomId : preview.roomName();
+    auto *model = new InviteesModel{roomName};
     connect(model, &InviteesModel::accept, this, [this, model, roomId]() {
         emit inviteUsers(roomId, model->mxids());
     });

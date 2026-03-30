@@ -124,10 +124,6 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
     allowDeferredStartupCurrentRoomRestore_ = false;
     deferredStartupCurrentRoomId_.clear();
 
-    // After the first explicit room selection, startup eager-materialization tracking
-    // is no longer meaningful.
-    startupMaterializationTrackingActive_ = false;
-
     nhlog::ui()->debug("Trying to switch to: {}", roomid.toStdString());
     if (manager)
         manager->markRoomSwitchRequested(roomid, "setCurrentRoom");

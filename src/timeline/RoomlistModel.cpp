@@ -205,38 +205,16 @@ RoomlistModel::ensureRoomModel(const QString &room_id,
 }
 
 void
-RoomlistModel::refreshCachedRoomMetadata(const QString &room_id)
-{
-    Q_UNUSED(room_id);
-}
-
-void
-RoomlistModel::invalidateCachedLastMessage(const QString &room_id)
-{
-    Q_UNUSED(room_id);
-}
-
-void
 RoomlistModel::resetRoomCollections(bool clearAllDrafts)
 {
     models.clear();
     matrixJoinedRooms_.clear();
-    cachedJoinedRooms_.clear();
-    cachedEncryptedRooms_.clear();
-    cachedLastMessages_.clear();
-    cachedLastMessagesComputed_.clear();
-    cachedLastMessageBackfillAttempted_.clear();
-    cachedLastMessageBackfillQueued_.clear();
-    cachedLastMessageBackfillInProgress_.clear();
     scheduledPrewarms_.clear();
     activePrewarms_.clear();
     prewarmLastAttemptMs_.clear();
     roomLruAccessMs_.clear();
     if (lruEvictionTimer_)
         lruEvictionTimer_->stop();
-    startupMaterializationTrackingActive_ = false;
-    startupMaterializationCount_          = 0;
-    startupMaterializationWarningEmitted_ = false;
     previewedRooms.clear();
     invites.clear();
     roomids.clear();
@@ -263,17 +241,11 @@ RoomlistModel::removeRoomState(const QString &room_id, bool clearDraftForRoom)
     matrixJoinedRooms_.remove(room_id);
     invites.remove(room_id);
     previewedRooms.remove(room_id);
-    cachedJoinedRooms_.remove(room_id);
-    cachedEncryptedRooms_.remove(room_id);
     scheduledPrewarms_.remove(room_id);
     activePrewarms_.remove(room_id);
     prewarmLastAttemptMs_.remove(room_id);
     roomLruAccessMs_.remove(room_id);
-    cachedLastMessageBackfillAttempted_.remove(room_id);
-    cachedLastMessageBackfillQueued_.remove(room_id);
-    cachedLastMessageBackfillInProgress_.remove(room_id);
     roomReadStatus.erase(room_id);
-    invalidateCachedLastMessage(room_id);
 
     if (clearDraftForRoom) {
         if (const auto settings = UserSettings::instance())

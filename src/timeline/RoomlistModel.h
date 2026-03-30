@@ -216,23 +216,11 @@ private:
     QSharedPointer<TimelineModel> ensureRoomModel(const QString &room_id,
                                                   bool suppressInsertNotification = true,
                                                   const char *reason              = "unknown");
-    void refreshCachedRoomMetadata(const QString &room_id);
-    DescInfo computeCachedLastMessage(const QString &room_id) const;
-    void ensureCachedLastMessage(const QString &room_id);
-    void scheduleCurrentRoomTimelineWarmup(const QString &roomid);
-    void warmupCurrentRoomTimeline(const QString &roomid, int requestsDone = 0);
-    void maybeBackfillCachedLastMessage(const QString &room_id);
-    void startQueuedCachedLastMessageBackfills();
-    void backfillCachedLastMessage(const QString &room_id,
-                                   const std::string &fromToken,
-                                   int requestsDone);
-    void finalizeCachedLastMessageBackfill(const QString &room_id);
     void emitCurrentRoomVisualStateChanged();
     void notifyCurrentRoomIdChanged();
     void scheduleCurrentRoomVisualStateChanged();
     void deferCurrentRoomVisualState(const QString &roomId);
     void flushDeferredCurrentRoomVisualState(const QString &roomId);
-    void invalidateCachedLastMessage(const QString &room_id);
     void syncJoinedRoom(const komai::JoinedRoomSyncUpdate &roomUpdate);
     void syncLeftRoom(const QString &roomId);
     void syncInvitedRoom(const QString &roomId);
@@ -259,23 +247,13 @@ private:
     QHash<QString, RoomInfo> invites;
     QHash<QString, QSharedPointer<TimelineModel>> models;
     QHash<QString, komai::MatrixRoomSummary> matrixJoinedRooms_;
-    QHash<QString, RoomInfo> cachedJoinedRooms_;
-    QHash<QString, bool> cachedEncryptedRooms_;
-    QHash<QString, DescInfo> cachedLastMessages_;
-    QSet<QString> cachedLastMessagesComputed_;
-    QSet<QString> cachedLastMessageBackfillAttempted_;
-    QSet<QString> cachedLastMessageBackfillQueued_;
-    QSet<QString> cachedLastMessageBackfillInProgress_;
     QSet<QString> scheduledPrewarms_;
     QSet<QString> activePrewarms_;
     QHash<QString, qint64> prewarmLastAttemptMs_;
     QHash<QString, qint64> roomLruAccessMs_;
-    QTimer *lruEvictionTimer_                  = nullptr;
-    int lruCapacity_                           = 0;
-    int lruGracePeriodMs_                      = 0;
-    bool startupMaterializationTrackingActive_ = false;
-    int startupMaterializationCount_           = 0;
-    bool startupMaterializationWarningEmitted_ = false;
+    QTimer *lruEvictionTimer_ = nullptr;
+    int lruCapacity_          = 0;
+    int lruGracePeriodMs_     = 0;
     std::map<QString, bool> roomReadStatus;
     QHash<QString, std::optional<RoomInfo>> previewedRooms;
 

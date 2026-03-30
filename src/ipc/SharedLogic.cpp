@@ -226,9 +226,8 @@ sliceTimelineFromActiveMatrixTimeline(const QString &roomId,
 
         if (startIndex < 0) {
             if (error)
-                *error =
-                  QStringLiteral("beforeEventId not found in active matrix timeline: ") +
-                  beforeEventId;
+                *error = QStringLiteral("beforeEventId not found in active matrix timeline: ") +
+                         beforeEventId;
             return std::nullopt;
         }
     }
@@ -410,27 +409,25 @@ roomList()
         if (roomId.isEmpty())
             continue;
 
+        const auto joinedRoomIt = rl->matrixJoinedRooms().constFind(roomId);
         const auto memberCount =
-          rl->cachedJoinedRooms_.contains(roomId)
-            ? static_cast<int>(rl->cachedJoinedRooms_.value(roomId).member_count)
-            : 0;
+          joinedRoomIt != rl->matrixJoinedRooms().cend() ? joinedRoomIt->memberCount : 0;
 
-        result.push_back({
-          .roomId                     = roomId,
-          .alias                      = {},
-          .name                       = rl->data(index, RoomlistModel::RoomName).toString(),
-          .avatarUrl                  = rl->data(index, RoomlistModel::AvatarUrl).toString(),
-          .read                       = !rl->data(index, RoomlistModel::HasUnreadMessages).toBool(),
-          .serverNotificationCount    = rl->data(index, RoomlistModel::NotificationCount).toInt(),
-          .memberCount                = memberCount,
-          .mostRecentEventTimestampMs = rl->data(index, RoomlistModel::Timestamp).toULongLong(),
-          .highlighted  = rl->data(index, RoomlistModel::HasLoudNotification).toBool(),
-          .categories   = roomCategories(rl, index),
-          .tags         = rl->data(index, RoomlistModel::Tags).toStringList(),
-          .parentSpaces = rl->data(index, RoomlistModel::ParentSpaces).toStringList(),
-          .directUserId = rl->data(index, RoomlistModel::DirectChatOtherUserId).toString(),
-          .encrypted    = rl->data(index, RoomlistModel::IsEncrypted).toBool(),
-        });
+        RoomInfo info;
+        info.roomId                  = roomId;
+        info.name                    = rl->data(index, RoomlistModel::RoomName).toString();
+        info.avatarUrl               = rl->data(index, RoomlistModel::AvatarUrl).toString();
+        info.read                    = !rl->data(index, RoomlistModel::HasUnreadMessages).toBool();
+        info.serverNotificationCount = rl->data(index, RoomlistModel::NotificationCount).toInt();
+        info.memberCount             = memberCount;
+        info.mostRecentEventTimestampMs = rl->data(index, RoomlistModel::Timestamp).toULongLong();
+        info.highlighted  = rl->data(index, RoomlistModel::HasLoudNotification).toBool();
+        info.categories   = roomCategories(rl, index);
+        info.tags         = rl->data(index, RoomlistModel::Tags).toStringList();
+        info.parentSpaces = rl->data(index, RoomlistModel::ParentSpaces).toStringList();
+        info.directUserId = rl->data(index, RoomlistModel::DirectChatOtherUserId).toString();
+        info.encrypted    = rl->data(index, RoomlistModel::IsEncrypted).toBool();
+        result.push_back(std::move(info));
     }
 
     return result;
@@ -531,7 +528,8 @@ resolveRoomId(const QString &roomIdOrAlias)
         return {};
 
     for (int row = 0; row < roomlist->rowCount(); ++row) {
-        const auto roomId = roomlist->data(roomlist->index(row, 0), RoomlistModel::RoomId).toString();
+        const auto roomId =
+          roomlist->data(roomlist->index(row, 0), RoomlistModel::RoomId).toString();
         if (roomId == roomIdOrAlias)
             return roomId;
     }

@@ -46,6 +46,8 @@ matrixEventTypeForItemKind(const QString &kind)
         return qml_mtx_events::NoticeMessage;
     if (kind == QStringLiteral("redacted"))
         return qml_mtx_events::Redacted;
+    if (kind == QStringLiteral("unable_to_decrypt"))
+        return qml_mtx_events::Encrypted;
     if (kind == QStringLiteral("image"))
         return qml_mtx_events::ImageMessage;
     if (kind == QStringLiteral("video"))

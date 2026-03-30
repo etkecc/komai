@@ -15,6 +15,7 @@ Control {
     required property int encryptionError
     required property string eventId
     required property QtObject styleProfile
+    readonly property bool canRequestKey: !!room && typeof room.requestKeyForEvent === "function"
 
     padding: Komai.paddingMedium
     implicitHeight: contents.implicitHeight + Komai.paddingMedium * 2
@@ -39,24 +40,9 @@ Control {
 
             Label {
                 id: encryptedText
-                text: {
-                    switch (r.encryptionError) {
-                    case Olm.MissingSession:
-                        return qsTr("There is no key to unlock this message. We requested the key automatically, but you can try requesting it again if you are impatient.");
-                    case Olm.MissingSessionIndex:
-                        return qsTr("This message couldn't be decrypted, because we only have a key for newer messages. You can try requesting access to this message.");
-                    case Olm.DbError:
-                        return qsTr("There was an internal error reading the decryption key from the database.");
-                    case Olm.DecryptionFailed:
-                        return qsTr("There was an error decrypting this message.");
-                    case Olm.ParsingFailed:
-                        return qsTr("The message couldn't be parsed.");
-                    case Olm.ReplayAttack:
-                        return qsTr("The encryption key was reused! Someone is possibly trying to insert false messages into this chat!");
-                    default:
-                        return qsTr("Unknown decryption error");
-                    }
-                }
+                text: r.canRequestKey
+                    ? qsTr("This message couldn't be decrypted. The app requested the key automatically, but you can try requesting it again.")
+                    : qsTr("This message couldn't be decrypted.")
                 textFormat: Text.PlainText
                 wrapMode: Label.WordWrap
                 color: palette.text
@@ -65,7 +51,7 @@ Control {
             }
 
             Components.KomaiButton {
-                visible: r.encryptionError == Olm.MissingSession || encryptionError == Olm.MissingSessionIndex
+                visible: r.canRequestKey
                 text: qsTr("Request key")
                 onClicked: room.requestKeyForEvent(eventId)
             }

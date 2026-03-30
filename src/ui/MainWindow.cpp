@@ -3,15 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include <QApplication>
-#include <QEvent>
-#include <QGuiApplication>
-#include <QKeyEvent>
-#include <QMessageBox>
-#include <mtx/events/collections.hpp>
-#include <mtx/requests.hpp>
-#include <mtx/responses/login.hpp>
-
+#include "ui/MainWindow.h"
 #include "avatars/default/DefaultAvatarProvider.h"
 #include "chat/ChatPage.h"
 #include "dock/Dock.h"
@@ -26,12 +18,16 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineViewManager.h"
-#include "ui/MainWindow.h"
 #include "ui/Theme.h"
 #include "ui/TrayIcon.h"
 #include "utils/Utils.h"
 #include "voip/CallManager.h"
 #include "voip/WebRTCSession.h"
+#include <QApplication>
+#include <QEvent>
+#include <QGuiApplication>
+#include <QKeyEvent>
+#include <QMessageBox>
 
 #ifdef KOMAI_DBUS_SYS
 #include "dbus/Api.h"

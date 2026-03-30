@@ -29,8 +29,6 @@
 #include <fmt/ranges.h>
 #include <nlohmann/json.hpp>
 
-#include <mtx/responses/messages.hpp>
-
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"

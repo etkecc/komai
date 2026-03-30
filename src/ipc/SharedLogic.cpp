@@ -15,8 +15,6 @@
 
 #include <optional>
 
-#include <mtx/responses/media.hpp>
-
 #include "blurhash.hpp"
 
 #include "chat/ChatPage.h"

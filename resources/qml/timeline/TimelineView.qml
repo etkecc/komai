@@ -138,7 +138,8 @@ Item {
         roomPreview: timelineView.roomPreview
         showBackButton: timelineView.showBackButton
         perfDisableRoomHeader: timelineView.perfDisableRoomHeader
-        headerRoomModel: matrixTimeline ? matrixTimeline.matrixHeaderRoomModel : null
+        headerRoomModel: matrixTimeline && matrixTimeline.roomSupport
+            ? matrixTimeline.roomSupport.headerRoomModel : null
         visible: timelineView.useMatrixRoomView
     }
     Component {
@@ -318,12 +319,25 @@ Item {
             anchors.fill: parent
             spacing: 0
 
+            MatrixRoomSupport {
+                id: matrixRoomSupport
+
+                rootItem: matrixRoomView
+                roomPreview: timelineView.roomPreview
+                chatRoot: matrixTimelineHost
+                timelineRoot: timelineView.dialogHost
+                emojiPopup: timelineEmojiPopup
+                filteredTimeline: null
+                timelineList: matrixRoomView.timelineListItem
+            }
+
             MatrixRoomView {
                 id: matrixRoomView
 
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 roomPreview: timelineView.roomPreview
+                roomSupport: matrixRoomSupport
                 externalHeaderPane: matrixHeaderPane
                 externalComposerPane: matrixComposerPane
                 chatRoot: matrixTimelineHost
@@ -337,9 +351,9 @@ Item {
 
                 Layout.fillWidth: true
                 rootItem: matrixRoomView
-                uploadsController: matrixTimeline ? matrixTimeline.matrixUploadsController : null
-                composerRoom: matrixTimeline ? matrixTimeline.matrixComposerRoom : null
-                composerInputController: matrixTimeline ? matrixTimeline.matrixComposerInputController : null
+                uploadsController: matrixRoomSupport.uploadsController
+                composerRoom: matrixRoomSupport.composerRoom
+                composerInputController: matrixRoomSupport.composerInputController
             }
         }
     }

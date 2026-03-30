@@ -41,7 +41,7 @@ Item {
 
         rootItem: support.rootItem
         roomPreview: support.roomPreview
-        dialogRoomModel: matrixDialogRoomModel
+        dialogRoomModel: routeModels.dialogRoomModel
     }
 
     MatrixRoomMessageActionsModel {
@@ -49,8 +49,8 @@ Item {
 
         rootItem: support.rootItem
         roomPreview: support.roomPreview
-        dialogRoomModel: matrixDialogRoomModel
-        headerRoomModel: matrixHeaderRoomModel
+        dialogRoomModel: routeModels.dialogRoomModel
+        headerRoomModel: support.headerRoomModel
     }
 
     MatrixRoomDialogSupport {
@@ -63,7 +63,7 @@ Item {
         emojiPopup: support.emojiPopup
         filteredTimeline: support.filteredTimeline
         timelineList: support.timelineList
-        messageActionsDefaultRoomModel: matrixMessageActionsDefaultRoomModel
+        messageActionsDefaultRoomModel: support.messageActionsDefaultRoomModel
         dialogRoomModel: routeModels.dialogRoomModel
         forwardRoomModel: routeModels.forwardRoomModel
     }

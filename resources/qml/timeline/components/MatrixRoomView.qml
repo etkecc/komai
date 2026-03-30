@@ -13,6 +13,7 @@ ColumnLayout {
     id: root
 
     required property var roomPreview
+    required property var roomSupport
     required property var externalHeaderPane
     required property var externalComposerPane
     property var chatRoot: null
@@ -42,6 +43,7 @@ ColumnLayout {
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property var composerShell: externalComposerPane.composerShell
     readonly property var notificationAreaItem: timelineViewport
+    readonly property var timelineListItem: matrixTimelineList
     readonly property bool headerSearchHasFocus: !!externalHeaderPane.searchHasFocus
     readonly property real listViewDisplayMargin: roomSwitchInProgress
         ? 0
@@ -75,31 +77,9 @@ ColumnLayout {
     property string lastMarkedReadEventId: ""
     property bool preferLatestReadMarkerEvent: false
     property bool pendingComposerAutoFocus: false
-    readonly property var matrixUploadsController: roomSupport.uploadsController
-    readonly property var matrixComposerInputController: roomSupport.composerInputController
-    readonly property var matrixComposerRoom: roomSupport.composerRoom
-    readonly property var matrixMessageActionsDefaultRoomModel: roomSupport.messageActionsDefaultRoomModel
-    readonly property var matrixMessageContextMenu: roomSupport.messageContextMenu
-    readonly property var matrixReplyContextMenu: roomSupport.replyContextMenu
-    readonly property var matrixMessageActionsHost: roomSupport.messageActionsHost
-    readonly property var matrixDialogRoomModel: roomSupport.dialogRoomModel
-    readonly property var matrixForwardRoomModel: roomSupport.forwardRoomModel
-    readonly property var matrixHeaderRoomModel: roomSupport.headerRoomModel
 
     MessageActionSupport {
         id: messageActionSupport
-    }
-
-    MatrixRoomSupport {
-        id: roomSupport
-
-        rootItem: root
-        roomPreview: root.roomPreview
-        chatRoot: root.chatRoot
-        timelineRoot: root.timelineRoot
-        emojiPopup: root.emojiPopup
-        filteredTimeline: root.filteredTimeline
-        timelineList: matrixTimelineList
     }
 
     MatrixRoomWalkModeSupport {
@@ -495,10 +475,10 @@ ColumnLayout {
                             type: timelineItemDelegate.type
                             isEditable: timelineItemDelegate.isEditable
                             isHiddenEvent: false
-                            messageContextMenu: matrixMessageContextMenu
-                            replyContextMenu: matrixReplyContextMenu
-                            messageActions: matrixMessageActionsHost.control
-                            roomAdapter: matrixMessageActionsDefaultRoomModel
+                            messageContextMenu: roomSupport.messageContextMenu
+                            replyContextMenu: roomSupport.replyContextMenu
+                            messageActions: roomSupport.messageActionsHost.control
+                            roomAdapter: roomSupport.messageActionsDefaultRoomModel
                             scrolledToThis: false
                         }
                     }

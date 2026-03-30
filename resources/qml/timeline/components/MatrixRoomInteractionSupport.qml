@@ -17,18 +17,18 @@ QtObject {
         if (!messageModel || !roomModel || !messageModel.eventId)
             return;
 
-        rootItem.matrixMessageContextMenu.show(messageModel.eventId,
-                                               messageModel.threadId || "",
-                                               messageModel.type,
-                                               !!messageModel.isSender,
-                                               !!messageModel.isEncrypted,
-                                               !!messageModel.isEditable,
-                                               !!messageModel.isStateEvent,
-                                               "",
-                                               copyText || "",
-                                               null,
-                                               messageModel,
-                                               roomModel);
+        roomSupport.messageContextMenu.show(messageModel.eventId,
+                                            messageModel.threadId || "",
+                                            messageModel.type,
+                                            !!messageModel.isSender,
+                                            !!messageModel.isEncrypted,
+                                            !!messageModel.isEditable,
+                                            !!messageModel.isStateEvent,
+                                            "",
+                                            copyText || "",
+                                            null,
+                                            messageModel,
+                                            roomModel);
     }
 
     function jumpToLoadedMatrixEvent(eventId) {
@@ -124,7 +124,7 @@ QtObject {
 
         if (!rootItem.editing) {
             composerPane.composerInput.replaceText("");
-            rootItem.matrixComposerInputController.setText("");
+            roomSupport.composerInputController.setText("");
         }
 
         support.focusTextInput();
@@ -150,7 +150,7 @@ QtObject {
             return false;
         }
 
-        rootItem.matrixComposerInputController.setText(String(body));
+        roomSupport.composerInputController.setText(String(body));
         support.focusTextInput();
         return true;
     }
@@ -217,7 +217,7 @@ QtObject {
             if (!rootItem.restoringEditDraft || rootItem.activeEditEventId.length > 0)
                 return;
 
-            rootItem.matrixComposerInputController.setText(rootItem.draftBeforeEdit);
+            roomSupport.composerInputController.setText(rootItem.draftBeforeEdit);
             rootItem.draftBeforeEdit = "";
             rootItem.restoringEditDraft = false;
             support.focusTextInput();

@@ -75,6 +75,7 @@ ColumnLayout {
     property bool suppressNextWalkModeOlderStep: false
     property string lastMarkedReadEventId: ""
     property bool preferLatestReadMarkerEvent: false
+    property int readMarkerGeneration: 0
     property bool pendingComposerAutoFocus: false
 
     MessageActionSupport {
@@ -128,6 +129,7 @@ ColumnLayout {
         rootItem: root
         topBar: externalHeaderPane.headerItem
         listShellSupport: listShellSupport
+        viewportSupport: viewportSupport
     }
 
     function clearSearch() { return lifecycleSupport.clearSearch(); }

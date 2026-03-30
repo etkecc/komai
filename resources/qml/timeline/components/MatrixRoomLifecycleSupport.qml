@@ -11,6 +11,7 @@ QtObject {
     required property var rootItem
     required property var topBar
     required property var listShellSupport
+    required property var viewportSupport
 
     function clearSearch() {
         topBar.searchString = "";
@@ -38,6 +39,7 @@ QtObject {
         rootItem.perfLoggedContentHeightReady = false;
         rootItem.perfLoggedUsefulHeightReady = false;
         rootItem.perfLoggedBufferFilled = false;
+        rootItem.readMarkerGeneration += 1;
         rootItem.preferLatestReadMarkerEvent = false;
         rootItem.lastMarkedReadEventId = "";
         rootItem.lastInitialBufferTriggerCount = -1;
@@ -52,6 +54,7 @@ QtObject {
             rootItem.scheduleComposerAutoFocus();
 
         listShellSupport.resetForRoomSwitch();
+        viewportSupport.resetReadMarkerState();
     }
 
     function handleLoadingChanged() {

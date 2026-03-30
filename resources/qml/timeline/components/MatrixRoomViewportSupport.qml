@@ -15,6 +15,14 @@ QtObject {
         interval: 0
         onTriggered: support.updateReadMarkerForVisibleContent()
     }
+    property int scheduledReadMarkerGeneration: -1
+    property string scheduledReadMarkerRoomId: ""
+
+    function resetReadMarkerState() {
+        readMarkerUpdateTimer.stop();
+        scheduledReadMarkerGeneration = -1;
+        scheduledReadMarkerRoomId = "";
+    }
 
     function scheduleInitialTimelineBufferCheck() {
         rootItem.initialBufferCheckGeneration += 1;
@@ -167,15 +175,30 @@ QtObject {
     }
 
     function scheduleReadMarkerUpdate(preferLatestEvent) {
-        if (!rootItem.visible || rootItem.activeRoomId.length === 0 || !rootItem.hasTimeline)
+        if (!rootItem.visible
+                || rootItem.activeRoomId.length === 0
+                || !rootItem.hasTimeline
+                || rootItem.loading
+                || rootItem.roomSwitchInProgress
+                || rootItem.initialBottomPinPending) {
             return;
+        }
 
         rootItem.preferLatestReadMarkerEvent = rootItem.preferLatestReadMarkerEvent || !!preferLatestEvent;
+        scheduledReadMarkerGeneration = Number(rootItem.readMarkerGeneration || 0);
+        scheduledReadMarkerRoomId = rootItem.activeRoomId;
         readMarkerUpdateTimer.restart();
     }
 
     function updateReadMarkerForVisibleContent() {
-        if (!rootItem.visible || rootItem.activeRoomId.length === 0 || !rootItem.hasTimeline) {
+        if (!rootItem.visible
+                || rootItem.activeRoomId.length === 0
+                || !rootItem.hasTimeline
+                || rootItem.loading
+                || rootItem.roomSwitchInProgress
+                || rootItem.initialBottomPinPending
+                || scheduledReadMarkerRoomId !== rootItem.activeRoomId
+                || scheduledReadMarkerGeneration !== Number(rootItem.readMarkerGeneration || 0)) {
             rootItem.preferLatestReadMarkerEvent = false;
             return;
         }
@@ -251,11 +274,14 @@ QtObject {
         const desiredBufferedHeight = viewportHeight + Math.min(viewportHeight * 0.25, 320);
         const averageRowHeight = Math.max(56, Math.round(Settings.uiFontSizePt * 4.5));
         if (timelineList.contentHeight >= usefulBufferedHeight) {
+            const wasRoomSwitchInProgress = rootItem.roomSwitchInProgress;
             if (!rootItem.perfLoggedUsefulHeightReady) {
                 rootItem.perfLoggedUsefulHeightReady = true;
                 rootItem.markRoomSwitchPerfPhase("qml.matrix_room.useful_height_ready");
             }
             rootItem.roomSwitchInProgress = false;
+            if (wasRoomSwitchInProgress)
+                support.scheduleReadMarkerUpdate(true);
 
             if (timelineList.contentHeight >= desiredBufferedHeight
                     || support.isInitialBufferCloseEnough(

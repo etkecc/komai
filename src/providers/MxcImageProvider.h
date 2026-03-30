@@ -12,10 +12,6 @@
 
 #include <functional>
 
-namespace mtx::crypto {
-struct EncryptedFile;
-}
-
 class MxcImageRunnable final : public QObject
 {
     Q_OBJECT
@@ -94,7 +90,6 @@ public slots:
     QQuickImageResponse *
     requestImageResponse(const QString &id, const QSize &requestedSize) override;
 
-    static void addEncryptionInfo(const mtx::crypto::EncryptedFile &info);
     static void download(const QString &id,
                          const QSize &requestedSize,
                          std::function<void(QString, QSize, QImage, QString)> then,

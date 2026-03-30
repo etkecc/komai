@@ -5,9 +5,6 @@
 
 #include "providers/MxcImageProvider.h"
 
-#include <optional>
-
-#include <mtx/common.hpp>
 #include <QByteArray>
 #include <QCache>
 #include <QDir>
@@ -26,8 +23,6 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
-
-QHash<QString, mtx::crypto::EncryptedFile> infos;
 
 static QImage
 clipRadius(QImage img, double radius);
@@ -205,11 +200,6 @@ MxcImageProvider::requestImageResponse(const QString &id, const QSize &requested
 }
 
 void
-MxcImageProvider::addEncryptionInfo(const mtx::crypto::EncryptedFile &info)
-{
-    infos.insert(QString::fromStdString(info.url), info);
-}
-void
 MxcImageRunnable::run()
 {
     MxcImageProvider::download(
@@ -328,16 +318,10 @@ MxcImageProvider::download(const QString &id,
         cropLocally = true;
     }
 
-    std::optional<mtx::crypto::EncryptedFile> encryptionInfo;
-    auto temp = infos.find("mxc://" + id);
-    if (temp != infos.end())
-        encryptionInfo = *temp;
-
     if (requestedSize.isValid() &&
-        !encryptionInfo
         // Protect against synapse not following the spec:
         // https://github.com/matrix-org/synapse/issues/5302
-        && requestedSize.height() <= 600 && requestedSize.width() <= 800) {
+        requestedSize.height() <= 600 && requestedSize.width() <= 800) {
         QFileInfo fileInfo(app_paths::cache::mediaThumbnailFileForMxc(
           currentProfileId(), id, requestedSize, crop, radius, roomId));
         QDir().mkpath(fileInfo.absolutePath());
@@ -373,53 +357,50 @@ MxcImageProvider::download(const QString &id,
             }
         }
 
-        if (!encryptionInfo) {
-            if (const auto handleId = activeMatrixBackendHandleId()) {
-                const auto requestedWidth = requestedSize.width() > 0 ? requestedSize.width() : 0;
-                const auto requestedHeight =
-                  requestedSize.height() > 0 ? requestedSize.height() : 0;
+        if (const auto handleId = activeMatrixBackendHandleId()) {
+            const auto requestedWidth = requestedSize.width() > 0 ? requestedSize.width() : 0;
+            const auto requestedHeight =
+              requestedSize.height() > 0 ? requestedSize.height() : 0;
 
-                QThreadPool::globalInstance()->start([fileInfo,
-                                                      requestedSize,
-                                                      radius,
-                                                      then,
-                                                      id,
-                                                      cropLocally,
-                                                      handleId,
-                                                      requestedWidth,
-                                                      requestedHeight] {
-                    QString error;
-                    const auto data =
-                      komai::MatrixBackendRuntimeService::fetchMediaContent(*handleId,
-                                                                            providerIdToMxcUri(id),
-                                                                            requestedWidth,
-                                                                            requestedHeight,
-                                                                            !cropLocally,
-                                                                            &error);
-                    if (!data || data->isEmpty()) {
-                        nhlog::net()->warn(
-                          "Failed to fetch matrix-sdk thumbnail {} via backend handle {}: {}",
-                          id.toStdString(),
-                          *handleId,
-                          error.toStdString());
-                        then(id, QSize(), {}, QLatin1String(""));
-                        return;
-                    }
+            QThreadPool::globalInstance()->start([fileInfo,
+                                                  requestedSize,
+                                                  radius,
+                                                  then,
+                                                  id,
+                                                  cropLocally,
+                                                  handleId,
+                                                  requestedWidth,
+                                                  requestedHeight] {
+                QString error;
+                const auto data =
+                  komai::MatrixBackendRuntimeService::fetchMediaContent(*handleId,
+                                                                        providerIdToMxcUri(id),
+                                                                        requestedWidth,
+                                                                        requestedHeight,
+                                                                        !cropLocally,
+                                                                        &error);
+                if (!data || data->isEmpty()) {
+                    nhlog::net()->warn(
+                      "Failed to fetch matrix-sdk thumbnail {} via backend handle {}: {}",
+                      id.toStdString(),
+                      *handleId,
+                      error.toStdString());
+                    then(id, QSize(), {}, QLatin1String(""));
+                    return;
+                }
 
-                    auto image =
-                      prepareThumbnailImage(*data, requestedSize, cropLocally, radius, id);
-                    if (image.save(fileInfo.absoluteFilePath(), "png")) {
-                        utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
-                        nhlog::ui()->debug("Wrote: {}", fileInfo.absoluteFilePath().toStdString());
-                    } else {
-                        nhlog::ui()->debug("Failed to write: {}",
-                                           fileInfo.absoluteFilePath().toStdString());
-                    }
+                auto image = prepareThumbnailImage(*data, requestedSize, cropLocally, radius, id);
+                if (image.save(fileInfo.absoluteFilePath(), "png")) {
+                    utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
+                    nhlog::ui()->debug("Wrote: {}", fileInfo.absoluteFilePath().toStdString());
+                } else {
+                    nhlog::ui()->debug("Failed to write: {}",
+                                       fileInfo.absoluteFilePath().toStdString());
+                }
 
-                    then(id, requestedSize, image, fileInfo.absoluteFilePath());
-                });
-                return;
-            }
+                then(id, requestedSize, image, fileInfo.absoluteFilePath());
+            });
+            return;
         }
 
         nhlog::net()->warn("Refusing legacy thumbnail fetch for '{}' without an active matrix-sdk "
@@ -434,28 +415,21 @@ MxcImageProvider::download(const QString &id,
             QFile f(fileInfo.absoluteFilePath());
 
             if (fileInfo.exists() && f.open(QIODevice::ReadOnly)) {
-                if (encryptionInfo) {
-                    nhlog::net()->warn(
-                      "Encrypted media decryption is not migrated to the matrix-sdk media path "
-                      "yet for '{}'",
-                      id.toStdString());
-                } else {
-                    QImage image = utils::readImageFromFile(fileInfo.absoluteFilePath());
-                    if (!image.isNull()) {
-                        possiblyUpdateAccessTime(fileInfo);
-                        if (radius != 0) {
-                            image = clipRadius(std::move(image), radius);
-                        }
-
-                        then(id, requestedSize, image, fileInfo.absoluteFilePath());
-                        return;
+                QImage image = utils::readImageFromFile(fileInfo.absoluteFilePath());
+                if (!image.isNull()) {
+                    possiblyUpdateAccessTime(fileInfo);
+                    if (radius != 0) {
+                        image = clipRadius(std::move(image), radius);
                     }
+
+                    then(id, requestedSize, image, fileInfo.absoluteFilePath());
+                    return;
                 }
             }
 
             if (const auto handleId = activeMatrixBackendHandleId()) {
                 QThreadPool::globalInstance()->start(
-                  [fileInfo, requestedSize, then, id, radius, handleId, encryptionInfo] {
+                  [fileInfo, requestedSize, then, id, radius, handleId] {
                       QString error;
                       const auto data = komai::MatrixBackendRuntimeService::fetchMediaContent(
                         *handleId, providerIdToMxcUri(id), 0, 0, false, &error);
@@ -480,15 +454,6 @@ MxcImageProvider::download(const QString &id,
                       f.write(*data);
                       f.close();
                       utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
-
-                      if (encryptionInfo) {
-                          nhlog::net()->warn(
-                            "Encrypted media decryption is not migrated to the matrix-sdk media "
-                            "path yet for '{}'",
-                            id.toStdString());
-                          then(id, QSize(), {}, QLatin1String(""));
-                          return;
-                      }
 
                       QImage image = utils::readImageFromFile(fileInfo.absoluteFilePath());
                       if (radius != 0)

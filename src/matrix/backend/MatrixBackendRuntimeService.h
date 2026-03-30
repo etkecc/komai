@@ -217,6 +217,7 @@ struct MatrixTimelineItem
     bool isOwn                = false;
     // Pre-computed derived fields (populated by MatrixTimelineModel, not the Rust bridge).
     int cachedType             = 0;
+    int cachedEmojiOnlyCount   = 0;
     int cachedDay              = 0;
     int cachedStatus           = 0;
     bool cachedIsStateEvent    = false;

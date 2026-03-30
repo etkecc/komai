@@ -63,6 +63,24 @@ matrixEventTypeForItemKind(const QString &kind)
     return qml_mtx_events::TextMessage;
 }
 
+int
+emojiOnlyCodepointCount(const QString &body)
+{
+    if (body.isEmpty())
+        return 0;
+
+    const auto utf32 = body.toUcs4();
+    int emojiCount   = 0;
+
+    for (const auto code : utf32) {
+        if (!utils::codepointIsEmoji(code))
+            return 0;
+        ++emojiCount;
+    }
+
+    return emojiCount;
+}
+
 bool
 isStateLikeKind(const QString &kind)
 {
@@ -141,8 +159,10 @@ stableTimelineItemKey(const MatrixTimelineItem &item)
 void
 computeDerivedFields(MatrixTimelineItem &item)
 {
-    const bool isState      = isStateLikeKind(item.itemKind);
-    item.cachedType         = matrixEventTypeForItemKind(item.itemKind);
+    const bool isState = isStateLikeKind(item.itemKind);
+    item.cachedType    = matrixEventTypeForItemKind(item.itemKind);
+    item.cachedEmojiOnlyCount =
+      item.cachedType == qml_mtx_events::TextMessage ? emojiOnlyCodepointCount(item.body) : 0;
     item.cachedDay          = dayKeyFromTimestamp(item.timestamp);
     item.cachedStatus       = deliveryStateToEventState(item.deliveryState);
     item.cachedIsStateEvent = isState;
@@ -194,7 +214,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     // --- TimelineModel-compatible roles (most use pre-computed cached fields) ---
     case Type:               return item.cachedType;
     case TypeString:         return item.itemKind;
-    case IsOnlyEmoji:        return 0;
+    case IsOnlyEmoji:        return item.cachedEmojiOnlyCount;
     case Body:               return item.body;
     case FormattedBody:      return item.cachedFormattedBody;
     case HasFormattedBody:   return !item.cachedIsStateEvent && !item.body.isEmpty();
@@ -269,7 +289,7 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     switch (role) {
     case Type:               return static_cast<int>(qml_mtx_events::TextMessage);
     case TypeString:         return QStringLiteral("message");
-    case IsOnlyEmoji:        return 0;
+    case IsOnlyEmoji:        return emojiOnlyCodepointCount(parentItem.replyBody);
     case Body:               return parentItem.replyBody;
     case FormattedBody:      return formatBodyHtml(parentItem.replyBody, parentItem.replyFormattedBody);
     case HasFormattedBody:   return !parentItem.replyBody.isEmpty();

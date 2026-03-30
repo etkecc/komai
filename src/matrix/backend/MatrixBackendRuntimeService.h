@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <optional>
 
+#include "matrix/MatrixRoomPowerLevels.h"
 #include "timeline/Reaction.h"
 
 namespace komai {
@@ -461,6 +462,14 @@ public:
 
     static std::optional<QVector<MatrixRoomMember>>
     fetchRoomMembers(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static std::optional<MatrixRoomPowerLevels>
+    fetchRoomPowerLevels(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static bool applyRoomPowerLevels(uint64_t handleId,
+                                     const QString &roomId,
+                                     const MatrixRoomPowerLevels &powerLevels,
+                                     QString *errorOut = nullptr);
 
     static std::optional<MatrixRoomRedactionPermissions>
     fetchRoomRedactionPermissions(uint64_t handleId,

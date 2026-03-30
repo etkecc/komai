@@ -5,57 +5,43 @@
 
 #include "powerlevels/PowerlevelsEditModels.h"
 
-#include <functional>
 #include <tuple>
-#include <unordered_set>
-#include <utility>
-#include <vector>
 
 #include "chat/ChatPage.h"
-#include "logging/Logging.h"
 #include "utils/Utils.h"
 
 static bool
-samePl(const mtx::events::state::PowerLevels &a, const mtx::events::state::PowerLevels &b)
+samePl(const komai::MatrixRoomPowerLevels &a, const komai::MatrixRoomPowerLevels &b)
 {
     return std::tie(a.events,
-                    a.users_default,
+                    a.usersDefault,
                     a.users,
-                    a.state_default,
-                    a.users_default,
-                    a.events_default,
+                    a.stateDefault,
+                    a.eventsDefault,
                     a.ban,
                     a.kick,
                     a.invite,
-                    a.notifications,
                     a.redact) == std::tie(b.events,
-                                          b.users_default,
+                                          b.usersDefault,
                                           b.users,
-                                          b.state_default,
-                                          b.users_default,
-                                          b.events_default,
+                                          b.stateDefault,
+                                          b.eventsDefault,
                                           b.ban,
                                           b.kick,
                                           b.invite,
-                                          b.notifications,
                                           b.redact);
 }
 
-PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(
-  const std::string &room_id_,
-  const mtx::events::state::PowerLevels &pl,
-  const mtx::events::StateEvent<mtx::events::state::Create> &create,
-  QObject *parent)
+PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(const QString &roomId,
+                                                       const komai::MatrixRoomPowerLevels &powerLevels,
+                                                       QObject *parent)
   : QAbstractListModel(parent)
-  , room_id(std::move(room_id_))
-  , oldPowerLevels_(std::move(pl))
+  , room_id(roomId)
+  , oldPowerLevels_(powerLevels)
 {
     beginResetModel();
-
-    spaces.push_back(Entry{room_id, oldPowerLevels_, create, true});
-
+    spaces.push_back(Entry{room_id, oldPowerLevels_, true});
     endResetModel();
-
     updateToDefaults();
 }
 
@@ -68,10 +54,7 @@ PowerlevelsSpacesListModel::commit()
             ++selectedSpaceCount;
     }
 
-    nhlog::ui()->warn("Ignoring power level propagation for '{}' to {} child rooms; this flow "
-                      "is not migrated to matrix-sdk yet",
-                      room_id,
-                      selectedSpaceCount);
+    Q_UNUSED(selectedSpaceCount)
     ChatPage::instance()->showNotification(
       tr("Applying power levels to child spaces has not been migrated to the matrix-sdk "
          "backend yet."));
@@ -104,34 +87,32 @@ PowerlevelsSpacesListModel::setData(const QModelIndex &index, const QVariant &va
 QVariant
 PowerlevelsSpacesListModel::data(QModelIndex const &index, int role) const
 {
-    auto row = index.row();
-    if (row >= spaces.size() && row < 0)
+    const auto row = index.row();
+    if (row >= spaces.size() || row < 0)
         return {};
 
     if (role == Roles::DisplayName || role == Roles::AvatarUrl || role == Roles::IsSpace) {
         if (role == Roles::DisplayName)
-            return QString::fromStdString(spaces.at(row).roomid);
-        else if (role == Roles::AvatarUrl)
+            return spaces.at(row).roomid;
+        if (role == Roles::AvatarUrl)
             return {};
-        else
-            return row == 0;
+        return row == 0;
     }
 
-    auto entry = spaces.at(row);
+    const auto entry = spaces.at(row);
     switch (role) {
     case Roles::IsEditable:
-        return komai::matrix::effectiveUserPowerLevel(entry.pl,
-                                                      entry.create,
-                                                      utils::localUser().toStdString()) >=
-               entry.pl.state_level("m.room.power_levels");
+        return komai::matrix::effectiveUserPowerLevel(entry.pl, utils::localUser()) >=
+               entry.pl.stateDefault;
     case Roles::IsDifferentFromBase:
         return !samePl(entry.pl, oldPowerLevels_);
     case Roles::IsAlreadyUpToDate:
         return samePl(entry.pl, newPowerlevels_);
     case Roles::ApplyPermissions:
         return entry.apply;
+    default:
+        return {};
     }
-    return {};
 }
 
 QHash<int, QByteArray>

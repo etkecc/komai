@@ -19,6 +19,7 @@ use matrix_sdk::{
                 guest_access::{GuestAccess, RoomGuestAccessEventContent},
                 history_visibility::{HistoryVisibility, RoomHistoryVisibilityEventContent},
                 join_rules::{AllowRule, JoinRule, RoomJoinRulesEventContent},
+                power_levels::RoomPowerLevelsEventContent,
                 power_levels::UserPowerLevel,
             },
         },
@@ -188,6 +189,117 @@ async fn fetch_parent_space_room_ids(room: &Room) -> Vec<String> {
     room_ids.sort();
     room_ids.dedup();
     room_ids
+}
+
+pub async fn fetch_room_power_levels(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<MatrixRoomPowerLevels, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let power_levels = room.power_levels_or_default().await;
+    let room_info = room.clone_info();
+    let creators = room
+        .creators()
+        .unwrap_or_default()
+        .into_iter()
+        .map(|creator| creator.to_string())
+        .collect();
+
+    Ok(MatrixRoomPowerLevels {
+        room_version: room_info
+            .room_version()
+            .map(ToString::to_string)
+            .unwrap_or_default(),
+        creators,
+        events: power_levels
+            .events
+            .iter()
+            .map(|(key, level)| MatrixPowerLevelEntry {
+                key: key.to_string(),
+                level: (*level).into(),
+            })
+            .collect(),
+        users: power_levels
+            .users
+            .iter()
+            .map(|(key, level)| MatrixPowerLevelEntry {
+                key: key.to_string(),
+                level: (*level).into(),
+            })
+            .collect(),
+        ban: power_levels.ban.into(),
+        events_default: power_levels.events_default.into(),
+        invite: power_levels.invite.into(),
+        kick: power_levels.kick.into(),
+        redact: power_levels.redact.into(),
+        state_default: power_levels.state_default.into(),
+        users_default: power_levels.users_default.into(),
+    })
+}
+
+pub async fn apply_room_power_levels(
+    handle_id: u64,
+    room_id: &str,
+    power_levels: MatrixRoomPowerLevels,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let mut current = room.power_levels_or_default().await;
+
+    current.ban = power_levels
+        .ban
+        .try_into()
+        .map_err(|e| format!("invalid ban power level: {e}"))?;
+    current.events_default = power_levels
+        .events_default
+        .try_into()
+        .map_err(|e| format!("invalid events_default power level: {e}"))?;
+    current.invite = power_levels
+        .invite
+        .try_into()
+        .map_err(|e| format!("invalid invite power level: {e}"))?;
+    current.kick = power_levels
+        .kick
+        .try_into()
+        .map_err(|e| format!("invalid kick power level: {e}"))?;
+    current.redact = power_levels
+        .redact
+        .try_into()
+        .map_err(|e| format!("invalid redact power level: {e}"))?;
+    current.state_default = power_levels
+        .state_default
+        .try_into()
+        .map_err(|e| format!("invalid state_default power level: {e}"))?;
+    current.users_default = power_levels
+        .users_default
+        .try_into()
+        .map_err(|e| format!("invalid users_default power level: {e}"))?;
+
+    current.events.clear();
+    for entry in power_levels.events {
+        let level = entry
+            .level
+            .try_into()
+            .map_err(|e| format!("invalid event power level for '{}': {e}", entry.key))?;
+        current.events.insert(entry.key.as_str().into(), level);
+    }
+
+    current.users.clear();
+    for entry in power_levels.users {
+        let level = entry
+            .level
+            .try_into()
+            .map_err(|e| format!("invalid user power level for '{}': {e}", entry.key))?;
+        let user_id = parse_user_id(&entry.key)?;
+        current.users.insert(user_id.to_owned(), level);
+    }
+
+    let content = RoomPowerLevelsEventContent::try_from(current)
+        .map_err(|e| format!("failed to serialize room power levels: {e}"))?;
+    room.send_state_event(content)
+        .await
+        .map_err(|e| format!("failed to apply room power levels via matrix-sdk: {e}"))?;
+
+    Ok(())
 }
 
 pub async fn fetch_room_settings(

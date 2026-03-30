@@ -105,7 +105,8 @@ pub use room_actions::{
 };
 pub use room_list::{fetch_room_list, start_sync};
 pub use room_settings::{
-    enable_room_encryption, fetch_room_members, fetch_room_settings, remove_room_avatar,
+    apply_room_power_levels, enable_room_encryption, fetch_room_members,
+    fetch_room_power_levels, fetch_room_settings, remove_room_avatar,
     set_room_access_rules,
     set_room_history_visibility, set_room_name, set_room_notification_mode, set_room_topic,
     upload_room_avatar,
@@ -271,6 +272,27 @@ pub struct MatrixRoomMember {
     pub display_name: String,
     pub avatar_url: String,
     pub power_level: i64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixPowerLevelEntry {
+    pub key: String,
+    pub level: i64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixRoomPowerLevels {
+    pub room_version: String,
+    pub creators: Vec<String>,
+    pub events: Vec<MatrixPowerLevelEntry>,
+    pub users: Vec<MatrixPowerLevelEntry>,
+    pub ban: i64,
+    pub events_default: i64,
+    pub invite: i64,
+    pub kick: i64,
+    pub redact: i64,
+    pub state_default: i64,
+    pub users_default: i64,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

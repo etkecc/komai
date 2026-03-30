@@ -9,12 +9,10 @@
 #include <QQmlEngine>
 #include <QSortFilterProxyModel>
 
-#include <mtx/events/event_type.hpp>
-
-#include "matrix/MatrixPowerLevelCompat.h"
+#include "matrix/MatrixRoomPowerLevels.h"
 
 namespace komai::powerlevels {
-inline constexpr auto CreatorPowerLevel = komai::matrix::CreatorPowerLevel;
+inline constexpr auto CreatorPowerLevel = komai::matrix::RuntimeCreatorPowerLevel;
 }
 
 class PowerlevelsTypeListModel final : public QAbstractListModel
@@ -36,9 +34,7 @@ public:
     };
 
     explicit PowerlevelsTypeListModel(
-      const std::string &room_id_,
-      const mtx::events::state::PowerLevels &pl,
-      const mtx::events::StateEvent<mtx::events::state::Create> &create,
+      const komai::MatrixRoomPowerLevels &powerLevels,
       QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;
@@ -56,26 +52,26 @@ public:
                   const QModelIndex &destinationParent,
                   int destinationChild) override;
 
-    std::map<std::string, mtx::events::state::power_level_t, std::less<>> toEvents() const;
-    mtx::events::state::power_level_t kick() const;
-    mtx::events::state::power_level_t invite() const;
-    mtx::events::state::power_level_t ban() const;
-    mtx::events::state::power_level_t redact() const;
-    mtx::events::state::power_level_t eventsDefault() const;
-    mtx::events::state::power_level_t stateDefault() const;
+    void setPowerLevels(const komai::MatrixRoomPowerLevels &powerLevels);
+
+    QVector<komai::MatrixPowerLevelEntry> toEvents() const;
+    qlonglong kick() const;
+    qlonglong invite() const;
+    qlonglong ban() const;
+    qlonglong redact() const;
+    qlonglong eventsDefault() const;
+    qlonglong stateDefault() const;
 
     struct Entry
     {
         ~Entry() = default;
 
-        std::string type;
-        mtx::events::state::power_level_t pl;
+        QString type;
+        qlonglong pl = 0;
     };
 
-    std::string room_id;
     QVector<Entry> types;
-    mtx::events::state::PowerLevels powerLevels_;
-    mtx::events::StateEvent<mtx::events::state::Create> create_;
+    komai::MatrixRoomPowerLevels powerLevels_;
 };
 
 class PowerlevelsUserListModel final : public QAbstractListModel
@@ -98,9 +94,7 @@ public:
     };
 
     explicit PowerlevelsUserListModel(
-      const std::string &room_id_,
-      const mtx::events::state::PowerLevels &pl,
-      const mtx::events::StateEvent<mtx::events::state::Create> &create,
+      const komai::MatrixRoomPowerLevels &powerLevels,
       QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;
@@ -118,21 +112,21 @@ public:
                   const QModelIndex &destinationParent,
                   int destinationChild) override;
 
-    std::map<std::string, mtx::events::state::power_level_t, std::less<>> toUsers() const;
-    mtx::events::state::power_level_t usersDefault() const;
+    void setPowerLevels(const komai::MatrixRoomPowerLevels &powerLevels);
+
+    QVector<komai::MatrixPowerLevelEntry> toUsers() const;
+    qlonglong usersDefault() const;
 
     struct Entry
     {
         ~Entry() = default;
 
-        std::string mxid;
-        mtx::events::state::power_level_t pl;
+        QString mxid;
+        qlonglong pl = 0;
     };
 
-    std::string room_id;
     QVector<Entry> users;
-    mtx::events::state::PowerLevels powerLevels_;
-    mtx::events::StateEvent<mtx::events::state::Create> create_;
+    komai::MatrixRoomPowerLevels powerLevels_;
 };
 
 class PowerlevelsSpacesListModel final : public QAbstractListModel
@@ -160,9 +154,8 @@ public:
     };
 
     explicit PowerlevelsSpacesListModel(
-      const std::string &room_id_,
-      const mtx::events::state::PowerLevels &pl,
-      const mtx::events::StateEvent<mtx::events::state::Create> &create,
+      const QString &roomId,
+      const komai::MatrixRoomPowerLevels &powerLevels,
       QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;
@@ -195,15 +188,14 @@ public:
     {
         ~Entry() = default;
 
-        std::string roomid;
-        mtx::events::state::PowerLevels pl;
-        mtx::events::StateEvent<mtx::events::state::Create> create;
+        QString roomid;
+        komai::MatrixRoomPowerLevels pl;
         bool apply = false;
     };
 
-    std::string room_id;
+    QString room_id;
     QVector<Entry> spaces;
-    mtx::events::state::PowerLevels oldPowerLevels_, newPowerlevels_;
+    komai::MatrixRoomPowerLevels oldPowerLevels_, newPowerlevels_;
 
     bool applyToChildren_ = true, overwriteDiverged_ = false;
 };
@@ -223,14 +215,19 @@ class PowerlevelEditingModels final : public QObject
     Q_PROPERTY(qlonglong moderatorLevel READ moderatorLevel NOTIFY moderatorLevelChanged)
     Q_PROPERTY(qlonglong defaultUserLevel READ defaultUserLevel NOTIFY defaultUserLevelChanged)
     Q_PROPERTY(bool isSpace READ isSpace CONSTANT)
+    Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
+    Q_PROPERTY(bool committing READ committing NOTIFY committingChanged)
 
 signals:
     void adminLevelChanged();
     void moderatorLevelChanged();
     void defaultUserLevelChanged();
+    void loadedChanged();
+    void committingChanged();
 
 private:
-    mtx::events::state::PowerLevels calculateNewPowerlevel() const;
+    komai::MatrixRoomPowerLevels calculateNewPowerlevel() const;
+    void setPowerLevels(komai::MatrixRoomPowerLevels powerLevels);
 
 public:
     explicit PowerlevelEditingModels(QString room_id, QObject *parent = nullptr);
@@ -241,20 +238,27 @@ public:
     qlonglong creatorLevel() const { return komai::powerlevels::CreatorPowerLevel; }
     qlonglong adminLevel() const
     {
-        return powerLevels_.state_level("m.room.power_levels");
+        for (const auto &entry : powerLevels_.events) {
+            if (entry.key == "m.room.power_levels")
+                return entry.level;
+        }
+        return powerLevels_.stateDefault;
     }
     qlonglong moderatorLevel() const { return powerLevels_.redact; }
-    qlonglong defaultUserLevel() const { return powerLevels_.users_default; }
+    qlonglong defaultUserLevel() const { return powerLevels_.usersDefault; }
     bool isSpace() const;
+    bool loaded() const { return loaded_; }
+    bool committing() const { return committing_; }
 
     Q_INVOKABLE void commit();
     Q_INVOKABLE void updateSpacesModel();
     Q_INVOKABLE void addRole(int pl);
 
-    mtx::events::state::PowerLevels powerLevels_;
-    mtx::events::StateEvent<mtx::events::state::Create> create_;
+    komai::MatrixRoomPowerLevels powerLevels_;
     PowerlevelsTypeListModel types_;
     PowerlevelsUserListModel users_;
     PowerlevelsSpacesListModel spaces_;
-    std::string room_id_;
+    QString roomId_;
+    bool loaded_     = false;
+    bool committing_ = false;
 };

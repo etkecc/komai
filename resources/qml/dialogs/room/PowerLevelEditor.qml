@@ -375,7 +375,8 @@ OverlayDialog {
 
             KomaiButton {
                 Layout.alignment: Qt.AlignRight
-                text: qsTr("Save")
+                text: plEditorW.editingModel && plEditorW.editingModel.committing ? qsTr("Saving…") : qsTr("Save")
+                enabled: plEditorW.editingModel && plEditorW.editingModel.loaded && !plEditorW.editingModel.committing
                 highlighted: true
                 onClicked: {
                     if (plEditorW.editingModel.isSpace) {

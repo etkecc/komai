@@ -287,6 +287,87 @@ fromRustRoomMember(const ::komai::rust::MatrixRoomMember &member)
     };
 }
 
+MatrixPowerLevelEntry
+fromRustPowerLevelEntry(const ::komai::rust::MatrixPowerLevelEntry &entry)
+{
+    return MatrixPowerLevelEntry{
+      .key   = QString::fromStdString(std::string(entry.key)),
+      .level = entry.level,
+    };
+}
+
+MatrixRoomPowerLevels
+fromRustRoomPowerLevels(const ::komai::rust::MatrixRoomPowerLevels &powerLevels)
+{
+    QVector<QString> creators;
+    creators.reserve(static_cast<int>(powerLevels.creators.size()));
+    for (const auto &creator : powerLevels.creators)
+        creators.push_back(QString::fromStdString(std::string(creator)));
+
+    QVector<MatrixPowerLevelEntry> events;
+    events.reserve(static_cast<int>(powerLevels.events.size()));
+    for (const auto &entry : powerLevels.events)
+        events.push_back(fromRustPowerLevelEntry(entry));
+
+    QVector<MatrixPowerLevelEntry> users;
+    users.reserve(static_cast<int>(powerLevels.users.size()));
+    for (const auto &entry : powerLevels.users)
+        users.push_back(fromRustPowerLevelEntry(entry));
+
+    return MatrixRoomPowerLevels{
+      .roomVersion   = QString::fromStdString(std::string(powerLevels.room_version)),
+      .creators      = creators,
+      .events        = events,
+      .users         = users,
+      .ban           = powerLevels.ban,
+      .eventsDefault = powerLevels.events_default,
+      .invite        = powerLevels.invite,
+      .kick          = powerLevels.kick,
+      .redact        = powerLevels.redact,
+      .stateDefault  = powerLevels.state_default,
+      .usersDefault  = powerLevels.users_default,
+    };
+}
+
+::komai::rust::MatrixPowerLevelEntry
+toRustPowerLevelEntry(const MatrixPowerLevelEntry &entry)
+{
+    return ::komai::rust::MatrixPowerLevelEntry{
+      .key   = entry.key.toStdString(),
+      .level = entry.level,
+    };
+}
+
+::komai::rust::MatrixRoomPowerLevels
+toRustRoomPowerLevels(const MatrixRoomPowerLevels &powerLevels)
+{
+    ::rust::Vec<::rust::String> creators;
+    for (const auto &creator : powerLevels.creators)
+        creators.push_back(creator.toStdString());
+
+    ::rust::Vec<::komai::rust::MatrixPowerLevelEntry> events;
+    for (const auto &entry : powerLevels.events)
+        events.push_back(toRustPowerLevelEntry(entry));
+
+    ::rust::Vec<::komai::rust::MatrixPowerLevelEntry> users;
+    for (const auto &entry : powerLevels.users)
+        users.push_back(toRustPowerLevelEntry(entry));
+
+    return ::komai::rust::MatrixRoomPowerLevels{
+      .room_version   = powerLevels.roomVersion.toStdString(),
+      .creators       = std::move(creators),
+      .events         = std::move(events),
+      .users          = std::move(users),
+      .ban            = powerLevels.ban,
+      .events_default = powerLevels.eventsDefault,
+      .invite         = powerLevels.invite,
+      .kick           = powerLevels.kick,
+      .redact         = powerLevels.redact,
+      .state_default  = powerLevels.stateDefault,
+      .users_default  = powerLevels.usersDefault,
+    };
+}
+
 MatrixReadReceiptEntry
 fromRustReadReceiptEntry(const ::komai::rust::MatrixReadReceiptEntry &entry)
 {
@@ -1188,6 +1269,39 @@ MatrixBackendRuntimeService::fetchRoomMembers(uint64_t handleId,
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return std::nullopt;
+    }
+}
+
+std::optional<MatrixRoomPowerLevels>
+MatrixBackendRuntimeService::fetchRoomPowerLevels(uint64_t handleId,
+                                                  const QString &roomId,
+                                                  QString *errorOut)
+{
+    try {
+        const auto result =
+          ::komai::rust::matrix_fetch_room_power_levels(handleId, roomId.toStdString());
+        return fromRustRoomPowerLevels(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::applyRoomPowerLevels(uint64_t handleId,
+                                                  const QString &roomId,
+                                                  const MatrixRoomPowerLevels &powerLevels,
+                                                  QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_apply_room_power_levels(
+          handleId, roomId.toStdString(), toRustRoomPowerLevels(powerLevels));
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
     }
 }
 

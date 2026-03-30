@@ -182,6 +182,25 @@ mod ffi {
         power_level: i64,
     }
 
+    struct MatrixPowerLevelEntry {
+        key: String,
+        level: i64,
+    }
+
+    struct MatrixRoomPowerLevels {
+        room_version: String,
+        creators: Vec<String>,
+        events: Vec<MatrixPowerLevelEntry>,
+        users: Vec<MatrixPowerLevelEntry>,
+        ban: i64,
+        events_default: i64,
+        invite: i64,
+        kick: i64,
+        redact: i64,
+        state_default: i64,
+        users_default: i64,
+    }
+
     struct MatrixRoomRedactionPermissions {
         can_redact_own: bool,
         can_redact_other: bool,
@@ -478,6 +497,15 @@ mod ffi {
         fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>>;
         fn matrix_fetch_room_settings(handle_id: u64, room_id: &str) -> Result<MatrixRoomSettings>;
         fn matrix_fetch_room_members(handle_id: u64, room_id: &str) -> Result<Vec<MatrixRoomMember>>;
+        fn matrix_fetch_room_power_levels(
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<MatrixRoomPowerLevels>;
+        fn matrix_apply_room_power_levels(
+            handle_id: u64,
+            room_id: &str,
+            power_levels: MatrixRoomPowerLevels,
+        ) -> Result<()>;
         fn matrix_fetch_media_content(
             handle_id: u64,
             mxc_uri: &str,
@@ -1309,6 +1337,74 @@ fn matrix_fetch_room_members(
             power_level: member.power_level,
         })
         .collect())
+}
+
+fn matrix_fetch_room_power_levels(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<ffi::MatrixRoomPowerLevels, String> {
+    let result =
+        runtime().block_on(matrix_backend::runtime::fetch_room_power_levels(handle_id, room_id))?;
+
+    Ok(ffi::MatrixRoomPowerLevels {
+        room_version: result.room_version,
+        creators: result.creators,
+        events: result
+            .events
+            .into_iter()
+            .map(|entry| ffi::MatrixPowerLevelEntry { key: entry.key, level: entry.level })
+            .collect(),
+        users: result
+            .users
+            .into_iter()
+            .map(|entry| ffi::MatrixPowerLevelEntry { key: entry.key, level: entry.level })
+            .collect(),
+        ban: result.ban,
+        events_default: result.events_default,
+        invite: result.invite,
+        kick: result.kick,
+        redact: result.redact,
+        state_default: result.state_default,
+        users_default: result.users_default,
+    })
+}
+
+fn matrix_apply_room_power_levels(
+    handle_id: u64,
+    room_id: &str,
+    power_levels: ffi::MatrixRoomPowerLevels,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::apply_room_power_levels(
+        handle_id,
+        room_id,
+        matrix_backend::runtime::MatrixRoomPowerLevels {
+            room_version: power_levels.room_version,
+            creators: power_levels.creators,
+            events: power_levels
+                .events
+                .into_iter()
+                .map(|entry| matrix_backend::runtime::MatrixPowerLevelEntry {
+                    key: entry.key,
+                    level: entry.level,
+                })
+                .collect(),
+            users: power_levels
+                .users
+                .into_iter()
+                .map(|entry| matrix_backend::runtime::MatrixPowerLevelEntry {
+                    key: entry.key,
+                    level: entry.level,
+                })
+                .collect(),
+            ban: power_levels.ban,
+            events_default: power_levels.events_default,
+            invite: power_levels.invite,
+            kick: power_levels.kick,
+            redact: power_levels.redact,
+            state_default: power_levels.state_default,
+            users_default: power_levels.users_default,
+        },
+    ))
 }
 
 fn matrix_fetch_media_content(

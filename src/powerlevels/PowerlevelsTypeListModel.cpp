@@ -8,136 +8,144 @@
 #include <algorithm>
 #include <set>
 
-PowerlevelsTypeListModel::PowerlevelsTypeListModel(
-  const std::string &rid,
-  const mtx::events::state::PowerLevels &pl,
-  const mtx::events::StateEvent<mtx::events::state::Create> &create,
-  QObject *parent)
+PowerlevelsTypeListModel::PowerlevelsTypeListModel(const komai::MatrixRoomPowerLevels &powerLevels,
+                                                   QObject *parent)
   : QAbstractListModel(parent)
-  , room_id(rid)
-  , powerLevels_(pl)
-  , create_(create)
 {
-    std::set<mtx::events::state::power_level_t> seen_levels;
-    for (const auto &[type, level] : powerLevels_.events) {
-        if (!seen_levels.count(level)) {
-            types.push_back(Entry{"", level});
-            seen_levels.insert(level);
+    setPowerLevels(powerLevels);
+}
+
+void
+PowerlevelsTypeListModel::setPowerLevels(const komai::MatrixRoomPowerLevels &powerLevels)
+{
+    beginResetModel();
+
+    powerLevels_ = powerLevels;
+    types.clear();
+
+    std::set<qlonglong> seenLevels;
+    for (const auto &entry : powerLevels_.events) {
+        if (!seenLevels.count(entry.level)) {
+            types.push_back(Entry{QString{}, entry.level});
+            seenLevels.insert(entry.level);
         }
-        types.push_back(Entry{type, level});
+        types.push_back(Entry{entry.key, entry.level});
     }
 
-    for (const auto &[user, level] : powerLevels_.users) {
-        (void)user;
-        if (!seen_levels.count(level)) {
-            types.push_back(Entry{"", level});
-            seen_levels.insert(level);
+    for (const auto &entry : powerLevels_.users) {
+        if (!seenLevels.count(entry.level)) {
+            types.push_back(Entry{QString{}, entry.level});
+            seenLevels.insert(entry.level);
         }
     }
 
-    for (const auto &level : {
-           powerLevels_.events_default,
-           powerLevels_.state_default,
-           powerLevels_.users_default,
-           powerLevels_.ban,
-           powerLevels_.kick,
-           powerLevels_.invite,
-           powerLevels_.redact,
-         }) {
-        if (!seen_levels.count(level)) {
-            types.push_back(Entry{"", level});
-            seen_levels.insert(level);
+    for (const auto level : {powerLevels_.eventsDefault,
+                             powerLevels_.stateDefault,
+                             powerLevels_.usersDefault,
+                             powerLevels_.ban,
+                             powerLevels_.kick,
+                             powerLevels_.invite,
+                             powerLevels_.redact}) {
+        if (!seenLevels.count(level)) {
+            types.push_back(Entry{QString{}, level});
+            seenLevels.insert(level);
         }
     }
-    if (komai::matrix::createEventCreatorsHaveInfinitePower(create_)) {
-        seen_levels.insert(komai::powerlevels::CreatorPowerLevel);
-    }
+    if (komai::matrix::powerLevelsCreatorsHaveInfinitePower(powerLevels_))
+        seenLevels.insert(komai::powerlevels::CreatorPowerLevel);
 
-    types.push_back(Entry{"zdefault_states", powerLevels_.state_default});
-    types.push_back(Entry{"zdefault_events", powerLevels_.events_default});
-    types.push_back(Entry{"ban", powerLevels_.ban});
-    types.push_back(Entry{"kick", powerLevels_.kick});
-    types.push_back(Entry{"invite", powerLevels_.invite});
-    types.push_back(Entry{"redact", powerLevels_.redact});
+    types.push_back(Entry{QStringLiteral("zdefault_states"), powerLevels_.stateDefault});
+    types.push_back(Entry{QStringLiteral("zdefault_events"), powerLevels_.eventsDefault});
+    types.push_back(Entry{QStringLiteral("ban"), powerLevels_.ban});
+    types.push_back(Entry{QStringLiteral("kick"), powerLevels_.kick});
+    types.push_back(Entry{QStringLiteral("invite"), powerLevels_.invite});
+    types.push_back(Entry{QStringLiteral("redact"), powerLevels_.redact});
 
     std::sort(types.begin(), types.end(), [](const Entry &a, const Entry &b) {
-        if (a.pl != b.pl) // sort by PL
+        if (a.pl != b.pl)
             return a.pl > b.pl;
-        else if (a.type.empty() != b.type.empty()) // empty types are headers
-            return a.type.empty() > b.type.empty();
-        else {
-            bool a_contains_dot = a.type.find('.') != std::string::npos;
-            bool b_contains_dot = b.type.find('.') != std::string::npos;
-            if (a_contains_dot != b_contains_dot) // sort stuff like "invite" or "default" last
-                return a_contains_dot > b_contains_dot;
-            else // rest is sorted alphabetical
-                return a.type < b.type;
-        }
+        if (a.type.isEmpty() != b.type.isEmpty())
+            return a.type.isEmpty() > b.type.isEmpty();
+
+        const bool aContainsDot = a.type.contains('.');
+        const bool bContainsDot = b.type.contains('.');
+        if (aContainsDot != bContainsDot)
+            return aContainsDot > bContainsDot;
+        return a.type < b.type;
     });
+
+    endResetModel();
 }
 
-std::map<std::string, mtx::events::state::power_level_t, std::less<>>
+QVector<komai::MatrixPowerLevelEntry>
 PowerlevelsTypeListModel::toEvents() const
 {
-    std::map<std::string, mtx::events::state::power_level_t, std::less<>> m;
-    for (const auto &[key, pl] : std::as_const(types))
-        if (key.find('.') != std::string::npos)
-            m[key] = pl;
-    return m;
+    QVector<komai::MatrixPowerLevelEntry> result;
+    for (const auto &entry : std::as_const(types)) {
+        if (entry.type.contains('.'))
+            result.push_back({.key = entry.type, .level = entry.pl});
+    }
+    return result;
 }
 
-mtx::events::state::power_level_t
+qlonglong
 PowerlevelsTypeListModel::kick() const
 {
-    for (const auto &[key, pl] : std::as_const(types))
-        if (key == "kick")
-            return pl;
-    return powerLevels_.users_default;
+    for (const auto &entry : std::as_const(types)) {
+        if (entry.type == "kick")
+            return entry.pl;
+    }
+    return powerLevels_.usersDefault;
 }
 
-mtx::events::state::power_level_t
+qlonglong
 PowerlevelsTypeListModel::invite() const
 {
-    for (const auto &[key, pl] : std::as_const(types))
-        if (key == "invite")
-            return pl;
-    return powerLevels_.users_default;
+    for (const auto &entry : std::as_const(types)) {
+        if (entry.type == "invite")
+            return entry.pl;
+    }
+    return powerLevels_.usersDefault;
 }
 
-mtx::events::state::power_level_t
+qlonglong
 PowerlevelsTypeListModel::ban() const
 {
-    for (const auto &[key, pl] : std::as_const(types))
-        if (key == "ban")
-            return pl;
-    return powerLevels_.users_default;
+    for (const auto &entry : std::as_const(types)) {
+        if (entry.type == "ban")
+            return entry.pl;
+    }
+    return powerLevels_.usersDefault;
 }
 
-mtx::events::state::power_level_t
+qlonglong
 PowerlevelsTypeListModel::redact() const
 {
-    for (const auto &[key, pl] : std::as_const(types))
-        if (key == "redact")
-            return pl;
-    return powerLevels_.users_default;
+    for (const auto &entry : std::as_const(types)) {
+        if (entry.type == "redact")
+            return entry.pl;
+    }
+    return powerLevels_.usersDefault;
 }
 
-mtx::events::state::power_level_t
+qlonglong
 PowerlevelsTypeListModel::eventsDefault() const
 {
-    for (const auto &[key, pl] : std::as_const(types))
-        if (key == "zdefault_events")
-            return pl;
-    return powerLevels_.users_default;
+    for (const auto &entry : std::as_const(types)) {
+        if (entry.type == "zdefault_events")
+            return entry.pl;
+    }
+    return powerLevels_.usersDefault;
 }
 
-mtx::events::state::power_level_t
+qlonglong
 PowerlevelsTypeListModel::stateDefault() const
 {
-    for (const auto &[key, pl] : std::as_const(types))
-        if (key == "zdefault_states")
-            return pl;
-    return powerLevels_.users_default;
+    for (const auto &entry : std::as_const(types)) {
+        if (entry.type == "zdefault_states")
+            return entry.pl;
+    }
+    return powerLevels_.usersDefault;
 }
 
 QHash<int, QByteArray>
@@ -212,19 +220,16 @@ PowerlevelsTypeListModel::data(const QModelIndex &index, int role) const
             return tr("Upgrade the room");
         else if (type.type == "m.sticker")
             return tr("Send stickers");
-
         else if (type.type == "m.policy.rule.user")
             return tr("Ban users using policy rules");
         else if (type.type == "m.policy.rule.room")
             return tr("Ban rooms using policy rules");
         else if (type.type == "m.policy.rule.server")
             return tr("Ban servers using policy rules");
-
         else if (type.type == "m.space.child")
             return tr("Edit child communities and rooms");
         else if (type.type == "m.space.parent")
             return tr("Change parent communities");
-
         else if (type.type == "m.call.invite")
             return tr("Start a call");
         else if (type.type == "m.call.candidates")
@@ -237,15 +242,15 @@ PowerlevelsTypeListModel::data(const QModelIndex &index, int role) const
             return tr("Reject a call");
         else if (type.type == "im.ponies.room_emotes")
             return tr("Change the room emotes");
-        return QString::fromStdString(type.type);
+        return type.type;
     case Powerlevel:
-        return static_cast<qlonglong>(type.pl);
+        return type.pl;
     case IsType:
-        return !type.type.empty();
+        return !type.type.isEmpty();
     case Moveable:
-        return !type.type.empty();
+        return !type.type.isEmpty();
     case Removeable:
-        return !type.type.empty() && type.type.find('.') != std::string::npos;
+        return !type.type.isEmpty() && type.type.contains('.');
     }
 
     return {};
@@ -254,7 +259,7 @@ PowerlevelsTypeListModel::data(const QModelIndex &index, int role) const
 bool
 PowerlevelsTypeListModel::remove(int row)
 {
-    if (row < 0 || row >= types.size() || types.at(row).type.empty())
+    if (row < 0 || row >= types.size() || types.at(row).type.isEmpty())
         return false;
 
     beginRemoveRows(QModelIndex(), row, row);
@@ -270,9 +275,8 @@ PowerlevelsTypeListModel::add(int row, QString type)
     if (row < 0 || row > types.size())
         return;
 
-    const auto typeStr = type.toStdString();
     for (int i = 0; i < types.size(); i++) {
-        if (types[i].type == typeStr) {
+        if (types[i].type == type) {
             if (i > row)
                 move(i, row + 1);
             else
@@ -282,7 +286,7 @@ PowerlevelsTypeListModel::add(int row, QString type)
     }
 
     beginInsertRows(QModelIndex(), row + 1, row + 1);
-    types.insert(row + 1, Entry{type.toStdString(), types.at(row).pl});
+    types.insert(row + 1, Entry{type, types.at(row).pl});
     endInsertRows();
 }
 
@@ -292,14 +296,14 @@ PowerlevelsTypeListModel::addRole(int64_t role)
     for (int i = 0; i < types.size(); i++) {
         if (types[i].pl < role) {
             beginInsertRows(QModelIndex(), i, i);
-            types.insert(i, Entry{"", role});
+            types.insert(i, Entry{QString{}, role});
             endInsertRows();
             return;
         }
     }
 
     beginInsertRows(QModelIndex(), types.size(), types.size());
-    types.push_back(Entry{"", role});
+    types.push_back(Entry{QString{}, role});
     endInsertRows();
 }
 
@@ -312,7 +316,7 @@ PowerlevelsTypeListModel::move(int from, int to)
         to += 1;
 
     beginMoveRows(QModelIndex(), from, from, QModelIndex(), to);
-    auto ret = moveRow(QModelIndex(), from, QModelIndex(), to);
+    const auto ret = moveRow(QModelIndex(), from, QModelIndex(), to);
     endMoveRows();
     return ret;
 }
@@ -326,23 +330,20 @@ PowerlevelsTypeListModel::moveRows(const QModelIndex &,
 {
     if (sourceRow == destinationChild)
         return true;
-
     if (count != 1)
         return false;
-
     if (sourceRow < 0 || sourceRow >= types.size())
         return false;
     if (destinationChild < 0 || destinationChild > types.size())
         return false;
-
-    if (types.at(sourceRow).type.empty())
+    if (types.at(sourceRow).type.isEmpty())
         return false;
 
-    auto pl         = types.at(destinationChild > 0 ? destinationChild - 1 : 0).pl;
+    const auto pl = types.at(destinationChild > 0 ? destinationChild - 1 : 0).pl;
     auto sourceItem = types.takeAt(sourceRow);
     sourceItem.pl   = pl;
 
-    auto movedType = sourceItem.type;
+    const auto movedType = sourceItem.type;
 
     if (destinationChild < sourceRow)
         types.insert(destinationChild, std::move(sourceItem));

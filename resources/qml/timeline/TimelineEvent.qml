@@ -16,7 +16,7 @@ EventDelegateChooser {
     property var previewData: ({})
     property var replyPreviewData: ({})
     property var roomModelOverride: null
-    readonly property var effectiveRoomContext: room ? room : roomModelOverride
+    readonly property var effectiveRoomContext: roomModelOverride ? roomModelOverride : room
     property string formattedBody: ""
     property string formattedStateEvent: ""
     property string stateEventIconSource: ""

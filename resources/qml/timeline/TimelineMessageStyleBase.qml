@@ -52,7 +52,7 @@ TimelineEvent {
     property var previewData: ({})
     property var replyPreviewData: ({})
     property var roomModelOverride: null
-    readonly property var effectiveRoomContext: room ? room : roomModelOverride
+    readonly property var effectiveRoomContext: roomModelOverride ? roomModelOverride : room
     readonly property int delegateContainerHeight: (typeof timelineView !== "undefined" && timelineView && timelineView.height > 0)
         ? timelineView.height
         : Screen.height

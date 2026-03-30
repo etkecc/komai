@@ -48,7 +48,6 @@ ItemDelegate {
     readonly property color draftActivityBase: Qt.rgba((Komai.theme.attention.r + palette.highlight.r) / 2, (Komai.theme.attention.g + palette.highlight.g) / 2, (Komai.theme.attention.b + palette.highlight.b) / 2, 1)
     readonly property color draftHoverBackground: Qt.rgba((palette.dark.r * 0.7) + (draftActivityBase.r * 0.3), (palette.dark.g * 0.7) + (draftActivityBase.g * 0.3), (palette.dark.b * 0.7) + (draftActivityBase.b * 0.3), 1)
     readonly property color draftSelectedBackground: Qt.rgba((palette.highlight.r * 0.75) + (draftActivityBase.r * 0.25), (palette.highlight.g * 0.75) + (draftActivityBase.g * 0.25), (palette.highlight.b * 0.75) + (draftActivityBase.b * 0.25), 1)
-    property int hoverPrewarmDelayMs: 100
     property color unimportantText: palette.buttonText
 
     KomaiToolTip {
@@ -123,28 +122,7 @@ ItemDelegate {
         }
     ]
 
-    Timer {
-        id: hoverPrewarmTimer
-
-        interval: roomItem.hoverPrewarmDelayMs
-        repeat: false
-        onTriggered: Rooms.prewarmRoom(roomId, "hover")
-    }
-
-    onHoveredChanged: {
-        if (hovered && !isInvite && !isSelected) {
-            Rooms.scheduleRoomPrewarm(roomId, "hover");
-            hoverPrewarmTimer.restart();
-        } else if (hoverPrewarmTimer.running) {
-            hoverPrewarmTimer.stop();
-            Rooms.cancelRoomPrewarm(roomId, "hover", "hover_lost");
-        }
-    }
     onClicked: {
-        if (hoverPrewarmTimer.running) {
-            hoverPrewarmTimer.stop();
-            Rooms.cancelRoomPrewarm(roomId, "hover", "clicked");
-        }
         console.log("tapped " + roomId);
         if (Rooms.currentRoomId !== roomId)
             Rooms.setCurrentRoom(roomId);
@@ -152,18 +130,8 @@ ItemDelegate {
             Rooms.resetCurrentRoom();
     }
     onPressAndHold: {
-        if (hoverPrewarmTimer.running) {
-            hoverPrewarmTimer.stop();
-            Rooms.cancelRoomPrewarm(roomId, "hover", "press_and_hold");
-        }
         if (!isInvite)
             roomContextMenu.show(roomItem, roomId, tags);
-    }
-    Component.onDestruction: {
-        if (hoverPrewarmTimer.running) {
-            hoverPrewarmTimer.stop();
-            Rooms.cancelRoomPrewarm(roomId, "hover", "delegate_destroyed");
-        }
     }
 
     Ripple {

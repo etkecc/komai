@@ -150,12 +150,6 @@ public slots:
         return -1;
     }
     void joinPreview(const QString &roomid);
-    void
-    scheduleRoomPrewarm(const QString &roomid, const QString &trigger = QStringLiteral("manual"));
-    void cancelRoomPrewarm(const QString &roomid,
-                           const QString &trigger = QStringLiteral("manual"),
-                           const QString &reason  = QStringLiteral("unspecified"));
-    void prewarmRoom(const QString &roomid, const QString &trigger = QStringLiteral("manual"));
     void acceptInvite(QString roomid);
     void declineInvite(QString roomid);
     void leave(QString roomid, QString reason = "");
@@ -194,10 +188,6 @@ private:
     QVariant dataForUnavailablePreview(int role) const;
     void resetRoomCollections(bool clearAllDrafts);
     void removeRoomState(const QString &room_id, bool clearDraftForRoom = true);
-    void logRoomPrewarm(const QString &trigger,
-                        const QString &roomid,
-                        const QString &action,
-                        const QString &reason = QString()) const;
     void emitCurrentRoomVisualStateChanged();
     void notifyCurrentRoomIdChanged();
     void scheduleCurrentRoomVisualStateChanged();
@@ -294,20 +284,6 @@ public slots:
     void leave(QString roomid, QString reason = "") { roomlistmodel->leave(roomid, reason); }
     void toggleTag(const QString &roomid, const QString &tag, bool on);
     void copyLink(QString roomid);
-    void scheduleRoomPrewarm(QString roomid, QString trigger = QStringLiteral("manual"))
-    {
-        roomlistmodel->scheduleRoomPrewarm(std::move(roomid), std::move(trigger));
-    }
-    void cancelRoomPrewarm(QString roomid,
-                           QString trigger = QStringLiteral("manual"),
-                           QString reason  = QStringLiteral("unspecified"))
-    {
-        roomlistmodel->cancelRoomPrewarm(std::move(roomid), std::move(trigger), std::move(reason));
-    }
-    void prewarmRoom(QString roomid, QString trigger = QStringLiteral("manual"))
-    {
-        roomlistmodel->prewarmRoom(std::move(roomid), std::move(trigger));
-    }
     void setCurrentRoom(QString roomid) { roomlistmodel->setCurrentRoom(std::move(roomid)); }
     void resetCurrentRoom() { roomlistmodel->resetCurrentRoom(); }
     RoomPreview getRoomPreviewById(QString roomid) const

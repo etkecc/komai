@@ -3,10 +3,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../../room/components"
-import "../../composer" as Composer
-import "../../dialogs/moderation" as ModerationDialogs
-import "../../dialogs/navigation" as NavigationDialogs
-import "../../dialogs/timeline" as TimelineDialogs
 import "../styles/bubble"
 import "../styles/plain"
 import QtQuick
@@ -46,7 +42,7 @@ ColumnLayout {
     readonly property bool perfDisableTimelineBubbles: TimelineManager.perfUiFlagEnabled("disable_timeline_bubbles")
     readonly property bool perfMinimalTextBubbles: TimelineManager.perfUiFlagEnabled("minimal_text_bubbles")
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
-    readonly property var composerShell: composerContainer
+    readonly property var composerShell: composerPane.composerShell
     readonly property var notificationAreaItem: timelineViewport
     readonly property bool headerSearchHasFocus: topBar.searchHasFocus
     readonly property real listViewDisplayMargin: roomSwitchInProgress
@@ -1258,7 +1254,13 @@ ColumnLayout {
     }
 
     function focusTextInput() {
-        return composerInput ? composerInput.focusTextInput() : false;
+        return composerPane && composerPane.composerInput
+            ? composerPane.composerInput.focusTextInput()
+            : false;
+    }
+
+    function destroyOnClose(dialog) {
+        return roomSupport.destroyOnClose(dialog);
     }
 
     function scheduleComposerAutoFocus() {
@@ -1313,42 +1315,15 @@ ColumnLayout {
         return true;
     }
 
-    function destroyOnClose(dialog) {
-        if (!dialog)
-            return;
-
-        if (root.chatRoot && root.chatRoot.dialogHost && root.chatRoot.dialogHost.destroyOnClose != undefined) {
-            root.chatRoot.dialogHost.destroyOnClose(dialog);
-            return;
-        }
-
-        if (dialog.closing != undefined)
-            dialog.closing.connect(() => dialog.destroy(1000));
-        else if (dialog.aboutToHide != undefined)
-            dialog.aboutToHide.connect(() => dialog.destroy(1000));
-    }
-
-    function showDialogFromComponent(componentRef, properties) {
-        const dialogParent = root.chatRoot && root.chatRoot.dialogHost
-            ? root.chatRoot.dialogHost
-            : (root.chatRoot ? root.chatRoot : root);
-        const dialog = componentRef.createObject(dialogParent, properties || {});
-        if (!dialog)
-            return null;
-        dialog.open();
-        root.destroyOnClose(dialog);
-        return dialog;
-    }
-
     function appendText(text) {
-        return composerInput ? composerInput.appendText(text) : false;
+        return composerPane.composerInput ? composerPane.composerInput.appendText(text) : false;
     }
 
     function trySendMessage() {
         if (root.hasPendingAttachments)
             return TimelineManager.sendActiveMatrixAttachments();
 
-        const body = composerInput.text;
+        const body = composerPane.composerInput.text;
         const ok = root.editing
             ? TimelineManager.sendActiveMatrixEditMessage(body)
             : TimelineManager.sendActiveMatrixTextMessage(body);
@@ -1356,7 +1331,7 @@ ColumnLayout {
             return false;
 
         if (!root.editing) {
-            composerInput.replaceText("");
+            composerPane.composerInput.replaceText("");
             matrixComposerInputController.setText("");
         }
         root.focusTextInput();
@@ -1368,7 +1343,7 @@ ColumnLayout {
             return false;
 
         if (!root.editing) {
-            draftBeforeEdit = composerInput.text;
+            draftBeforeEdit = composerPane.composerInput.text;
             restoringEditDraft = true;
         }
 
@@ -1994,85 +1969,13 @@ ColumnLayout {
                 }
             }
 
-            Composer.UploadBox {
-                Layout.minimumHeight: 0
-                Layout.preferredHeight: !root.perfDisableComposer && layoutVisible && !root.walkModeActive ? implicitHeight : 0
-                Layout.maximumHeight: !root.perfDisableComposer && layoutVisible && !root.walkModeActive ? implicitHeight : 0
+            MatrixRoomComposerPane {
+                id: composerPane
+
+                rootItem: root
                 uploadsController: matrixUploadsController
-                uploadsSending: TimelineManager.matrixTimelineAttachmentSending
-            }
-
-            Composer.ReplyPopup {
-                Layout.minimumHeight: 0
-                Layout.preferredHeight: !root.perfDisableComposer && layoutVisible && !root.walkModeActive ? implicitHeight : 0
-                Layout.maximumHeight: !root.perfDisableComposer && layoutVisible && !root.walkModeActive ? implicitHeight : 0
-                matrixReplyEventId: TimelineManager.matrixTimelineReplyEventId
-                matrixReplySenderId: TimelineManager.matrixTimelineReplySenderId
-                matrixReplyDisplayName: TimelineManager.matrixTimelineReplySenderDisplayName
-                matrixReplyBody: TimelineManager.matrixTimelineReplyBody
-                matrixEditEventId: TimelineManager.matrixTimelineEditEventId
-                roomModel: matrixComposerRoom
-                roundTopCorners: true
-            }
-
-            Rectangle {
-                id: composerContainer
-
-                readonly property int contentHeight: root.walkModeActive
-                    ? root.composerBaselineHeight
-                    : Math.max(root.composerBaselineHeight, composerInput.implicitHeight)
-                Layout.fillWidth: true
-                Layout.minimumHeight: visible ? implicitHeight : 0
-                Layout.preferredHeight: visible ? implicitHeight : 0
-                Layout.maximumHeight: visible ? implicitHeight : 0
-                color: palette.window
-                implicitHeight: inputShellSeparator.implicitHeight + contentHeight
-                visible: !root.perfDisableComposer
-
-                ColumnLayout {
-                    id: composerLayout
-
-                    anchors.fill: parent
-                    spacing: 0
-
-                    TimelineSeparator {
-                        id: inputShellSeparator
-
-                        Layout.minimumHeight: implicitHeight
-                        Layout.preferredHeight: implicitHeight
-                        Layout.maximumHeight: implicitHeight
-                    }
-
-                    Composer.MessageInput {
-                        id: composerInput
-
-                        Layout.fillWidth: true
-                        Layout.minimumHeight: visible ? root.composerBaselineHeight : 0
-                        Layout.preferredHeight: visible ? Math.max(root.composerBaselineHeight, implicitHeight) : 0
-                        Layout.maximumHeight: visible ? Math.max(root.composerBaselineHeight, implicitHeight) : 0
-                        room: matrixComposerRoom
-                        timelineRoot: root.timelineRoot ? root.timelineRoot : (root.chatRoot ? root.chatRoot : root)
-                        selectionModeRoot: root
-                        walkModeActive: root.walkModeActive
-                        inputController: matrixComposerInputController
-                        allowCalls: false
-                        allowStickers: false
-                        allowCommandCompleter: false
-                        attachmentsEnabled: !root.editing
-                        showAllButtons: true
-                        visible: !root.walkModeActive
-                    }
-
-                    TimelineWalkModeBar {
-                        Layout.fillWidth: true
-                        Layout.minimumHeight: visible ? root.composerBaselineHeight : 0
-                        Layout.preferredHeight: visible ? root.composerBaselineHeight : 0
-                        Layout.maximumHeight: visible ? root.composerBaselineHeight : 0
-                        minimumHeight: root.composerBaselineHeight
-                        chatRoot: root
-                        visible: root.walkModeActive
-                    }
-                }
+                composerRoom: matrixComposerRoom
+                composerInputController: matrixComposerInputController
             }
         }
     }

@@ -2,11 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../dialogs/moderation" as ModerationDialogs
-import "../../dialogs/navigation" as NavigationDialogs
-import "../../dialogs/timeline" as TimelineDialogs
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Window
 import cc.etke.komai
 
@@ -28,9 +24,9 @@ Item {
     readonly property var composerInputController: matrixComposerInputController
     readonly property var composerRoom: matrixComposerRoom
     readonly property var messageActionsDefaultRoomModel: matrixMessageActionsDefaultRoomModel
-    readonly property var messageContextMenu: matrixMessageContextMenu
-    readonly property var replyContextMenu: matrixReplyContextMenu
-    readonly property var messageActionsHost: matrixMessageActionsHost
+    readonly property var messageContextMenu: dialogSupport.messageContextMenu
+    readonly property var replyContextMenu: dialogSupport.replyContextMenu
+    readonly property var messageActionsHost: dialogSupport.messageActionsHost
     readonly property var dialogRoomModel: matrixDialogRoomModel
     readonly property var forwardRoomModel: matrixForwardRoomModel
     readonly property var headerRoomModel: matrixHeaderRoomModel
@@ -283,76 +279,19 @@ Item {
         }
     }
 
-    MessageContextMenu {
-        id: matrixMessageContextMenu
+    MatrixRoomDialogSupport {
+        id: dialogSupport
 
-        chatRoot: rootItem
-        emojiPopup: support.emojiPopup
-        filteredTimelineModel: support.filteredTimeline
-    }
-
-    ReplyContextMenu {
-        id: matrixReplyContextMenu
-
-        roomModel: matrixMessageActionsDefaultRoomModel
-    }
-
-    MessageActionsHost {
-        id: matrixMessageActionsHost
-
-        chatList: support.timelineList
-        chatRoot: rootItem
+        rootItem: support.rootItem
+        roomPreview: support.roomPreview
+        chatRoot: support.chatRoot
+        timelineRoot: support.timelineRoot
         emojiPopup: support.emojiPopup
         filteredTimeline: support.filteredTimeline
-        roomModel: matrixMessageActionsDefaultRoomModel
-    }
-
-    Component {
-        id: removeReasonDialogComponent
-
-        InputDialog {
-            required property string eventId
-
-            placeholderText: qsTr("Optional reason")
-            title: qsTr("Delete this message?")
-            titleIcon: ":/icons/icons/ui/delete.svg"
-            acceptText: qsTr("Delete")
-
-            onInputAccepted: function (text) {
-                TimelineManager.redactActiveMatrixTimelineEvent(eventId, text);
-                rootItem.exitWalkMode({
-                        "focusComposer": true
-                    });
-            }
-        }
-    }
-
-    Component {
-        id: rawMessageDialogComponent
-
-        TimelineDialogs.RawMessageDialog {
-        }
-    }
-
-    Component {
-        id: readReceiptsDialogComponent
-
-        TimelineDialogs.ReadReceipts {
-        }
-    }
-
-    Component {
-        id: reportMessageDialogComponent
-
-        ModerationDialogs.ReportMessage {
-        }
-    }
-
-    Component {
-        id: forwardDialogComponent
-
-        NavigationDialogs.ForwardCompleter {
-        }
+        timelineList: support.timelineList
+        messageActionsDefaultRoomModel: matrixMessageActionsDefaultRoomModel
+        dialogRoomModel: matrixDialogRoomModel
+        forwardRoomModel: matrixForwardRoomModel
     }
 
     QtObject {
@@ -380,131 +319,28 @@ Item {
         }
     }
 
-    function destroyOnClose(dialog) {
-        if (!dialog)
-            return;
-
-        if (rootItem.chatRoot && rootItem.chatRoot.dialogHost && rootItem.chatRoot.dialogHost.destroyOnClose != undefined) {
-            rootItem.chatRoot.dialogHost.destroyOnClose(dialog);
-            return;
-        }
-
-        if (dialog.closing != undefined)
-            dialog.closing.connect(() => dialog.destroy(1000));
-        else if (dialog.aboutToHide != undefined)
-            dialog.aboutToHide.connect(() => dialog.destroy(1000));
-    }
-
-    function showDialogFromComponent(componentRef, properties) {
-        const dialogParent = rootItem.chatRoot && rootItem.chatRoot.dialogHost
-            ? rootItem.chatRoot.dialogHost
-            : (rootItem.chatRoot ? rootItem.chatRoot : rootItem);
-        const dialog = componentRef.createObject(dialogParent, properties || {});
-        if (!dialog)
-            return null;
-        dialog.open();
-        rootItem.openOverlayDialogCount += 1;
-        const decrementOnce = (function() {
-            let done = false;
-            return function() {
-                if (!done) {
-                    done = true;
-                    rootItem.openOverlayDialogCount = Math.max(0, rootItem.openOverlayDialogCount - 1);
-                }
-            };
-        })();
-        if (dialog.closing !== undefined)
-            dialog.closing.connect(decrementOnce);
-        else if (dialog.aboutToHide !== undefined)
-            dialog.aboutToHide.connect(decrementOnce);
-        support.destroyOnClose(dialog);
-        return dialog;
-    }
-
     function openRemoveMessageDialog(eventId) {
-        const trimmedEventId = String(eventId || "").trim();
-        if (trimmedEventId.length === 0)
-            return null;
+        return dialogSupport.openRemoveMessageDialog(eventId);
+    }
 
-        return showDialogFromComponent(removeReasonDialogComponent, {
-                "eventId": trimmedEventId
-            });
+    function destroyOnClose(dialog) {
+        return dialogSupport.destroyOnClose(dialog);
     }
 
     function openRawMessageDialog(eventId) {
-        const trimmedEventId = String(eventId || "").trim();
-        if (trimmedEventId.length === 0)
-            return null;
-
-        const payload = TimelineManager.rawMessageDialogForActiveMatrixTimelineEvent(trimmedEventId);
-        if (!payload || !payload.rawMessageJson)
-            return null;
-
-        return showDialogFromComponent(rawMessageDialogComponent, payload);
+        return dialogSupport.openRawMessageDialog(eventId);
     }
 
     function openReadReceiptsDialog(eventId) {
-        const trimmedEventId = String(eventId || "").trim();
-        if (trimmedEventId.length === 0)
-            return null;
-
-        const readReceipts = TimelineManager.readReceiptsModelForActiveMatrixTimelineEvent(trimmedEventId);
-        if (!readReceipts)
-            return null;
-
-        return showDialogFromComponent(readReceiptsDialogComponent, {
-                "readReceipts": readReceipts,
-                "room": matrixDialogRoomModel
-            });
+        return dialogSupport.openReadReceiptsDialog(eventId);
     }
 
     function openMatrixForwardDialog(eventId) {
-        const trimmedEventId = String(eventId || "").trim();
-        if (trimmedEventId.length === 0)
-            return null;
-
-        if (rootItem.chatRoot && rootItem.chatRoot.dialogHost
-                && typeof rootItem.chatRoot.dialogHost.showForwardMessageDialog === "function") {
-            return rootItem.chatRoot.dialogHost.showForwardMessageDialog(matrixForwardRoomModel,
-                                                                        [trimmedEventId],
-                                                                        null,
-                                                                        null,
-                                                                        1);
-        }
-
-        const dialogParent = rootItem.chatRoot && rootItem.chatRoot.dialogHost
-            ? rootItem.chatRoot.dialogHost
-            : (rootItem.chatRoot ? rootItem.chatRoot : rootItem);
-        const dialog = forwardDialogComponent.createObject(dialogParent, {
-                "roomSource": matrixForwardRoomModel,
-                "dialogViewportWidth": dialogParent && dialogParent.width !== undefined
-                    ? Number(dialogParent.width)
-                    : rootItem.width,
-                "modalOverlayColor": rootItem.timelineRoot && rootItem.timelineRoot.overlayBackdropColor !== undefined
-                    ? rootItem.timelineRoot.overlayBackdropColor
-                    : Qt.rgba(0, 0, 0, rootItem.palette.window.hslLightness < 0.5 ? 0.76 : 0.68),
-                "timelineSource": null,
-                "timelineViewSource": null,
-                "showReplyPreview": false
-            });
-        if (!dialog)
-            return null;
-
-        dialog.setMessageEventIds([trimmedEventId], 1);
-        dialog.open();
-        support.destroyOnClose(dialog);
-        return dialog;
+        return dialogSupport.openMatrixForwardDialog(eventId);
     }
 
     function openReportMessageDialog(eventId) {
-        const trimmedEventId = String(eventId || "").trim();
-        if (trimmedEventId.length === 0)
-            return null;
-
-        return showDialogFromComponent(reportMessageDialogComponent, {
-                "eventId": trimmedEventId,
-                "room": matrixMessageActionsDefaultRoomModel
-            });
+        return dialogSupport.openReportMessageDialog(eventId);
     }
 
     function openMessageActionsDialog(eventId,
@@ -517,32 +353,16 @@ Item {
                                       text,
                                       messageModelOverride,
                                       roomModelOverride) {
-        const component = Qt.createComponent("qrc:/resources/qml/dialogs/timeline/MessageActionsDialog.qml");
-        if (component.status !== Component.Ready) {
-            console.error("MessageActionsDialog: " + component.errorString());
-            return;
-        }
-
-        const dialogParent = rootItem.chatRoot && rootItem.chatRoot.dialogHost
-            ? rootItem.chatRoot.dialogHost
-            : (rootItem.chatRoot ? rootItem.chatRoot : rootItem);
-        const dialog = component.createObject(dialogParent, {
-                "eventId": eventId,
-                "eventType": eventType,
-                "isSender": isSender,
-                "isEncrypted": isEncrypted,
-                "link": link || "",
-                "roomModel": roomModelOverride || matrixMessageActionsDefaultRoomModel,
-                "roomModelOverride": roomModelOverride || null,
-                "messageModelOverride": messageModelOverride || null,
-                "chatRoot": rootItem,
-                "appRoot": dialogParent
-            });
-        if (!dialog)
-            return;
-
-        dialog.open();
-        support.destroyOnClose(dialog);
+        return dialogSupport.openMessageActionsDialog(eventId,
+                                                      threadId,
+                                                      eventType,
+                                                      isSender,
+                                                      isEncrypted,
+                                                      isEditable,
+                                                      link,
+                                                      text,
+                                                      messageModelOverride,
+                                                      roomModelOverride);
     }
 
     PreviewPermissions {

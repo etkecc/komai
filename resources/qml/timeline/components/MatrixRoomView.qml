@@ -104,6 +104,15 @@ ColumnLayout {
         timelineList: matrixTimelineList
     }
 
+    MatrixRoomWalkModeSupport {
+        id: walkModeSupport
+
+        rootItem: root
+        timelineList: matrixTimelineList
+        topBar: topBar
+        messageActionSupport: messageActionSupport
+    }
+
     function scheduleInitialTimelineBufferCheck() {
         initialBufferCheckGeneration += 1;
         if (initialBufferCheckQueued)
@@ -140,13 +149,6 @@ ColumnLayout {
 
             maybeRequestDeferredInitialTimelineBuffer();
         });
-    }
-
-    Timer {
-        id: walkModeEntrySuppressTimer
-
-        interval: 0
-        onTriggered: root.suppressNextWalkModeOlderStep = false
     }
 
     Timer {
@@ -416,512 +418,19 @@ ColumnLayout {
         lastMarkedReadEventId = targetEventId;
     }
 
-    function focusedDelegate() {
-        return focusedEventId.length > 0 ? (visibleTimelineDelegates[focusedEventId] || null) : null;
-    }
-
-    function primaryActionDelegate() {
-        if (primaryActionEventId.length === 0)
-            return null;
-
-        return visibleTimelineDelegates[primaryActionEventId] || null;
-    }
-
-    function primaryActionRoomModel() {
-        const delegateItem = primaryActionDelegate();
-        return delegateItem && delegateItem.roomModelOverride ? delegateItem.roomModelOverride : null;
-    }
-
-    function focusWalkModeEventById(eventId, options) {
-        const normalizedEventId = String(eventId || "");
-        if (normalizedEventId.length === 0)
-            return false;
-
-        focusedEventId = normalizedEventId;
-        walkModeActive = true;
-        const shouldDeferFocus = !!(options && options.deferFocus);
-        if (shouldDeferFocus) {
-            Qt.callLater(function () {
-                if (root.walkModeActive && root.focusedEventId === normalizedEventId)
-                    root.focusTimelineSelection();
-            });
-        } else {
-            focusTimelineSelection();
-        }
-
-        const skipScroll = !!(options && options.skipScroll);
-        if (!skipScroll)
-            jumpToLoadedMatrixEvent(normalizedEventId);
-
-        return true;
-    }
-
-    function clearSelectedEvents() {
-        if (selectedEventIds.length === 0)
-            return false;
-
-        selectedEventIds = [];
-        selectionAnchorEventId = "";
-        return true;
-    }
-
-    function clearFocusedEvent() {
-        focusedEventId = "";
-    }
-
-    function clearWalkState(options) {
-        const shouldFocusComposer = !!(options && options.focusComposer);
-
-        clearSelectedEvents();
-        clearFocusedEvent();
-        walkModeActive = false;
-        suppressNextWalkModeOlderStep = false;
-        walkModeEntrySuppressTimer.stop();
-
-        if (shouldFocusComposer) {
-            Qt.callLater(function () {
-                root.focusTextInput();
-            });
-        }
-    }
-
-    function handleMouseSelectionToggle(eventId) {
-        const normalizedEventId = String(eventId || "");
-        if (normalizedEventId.length === 0)
-            return false;
-
-        if (!walkModeActive)
-            clearWalkState({
-                "focusComposer": false
-            });
-
-        if (!focusWalkModeEventById(normalizedEventId, {
-                "skipScroll": true
-            })) {
-            return false;
-        }
-
-        const handled = toggleSelectionForEventId(normalizedEventId);
-        if (!handled)
-            return false;
-
-        if (selectedEventIds.length === 0) {
-            selectionAnchorEventId = "";
-        }
-
-        return handled;
-    }
-
-    function enterWalkModeFromBottomMostVisible() {
-        if (!hasTimeline || hasPendingAttachments || editing)
-            return false;
-        if (TimelineManager.matrixTimelineReplyEventId.length > 0)
-            return false;
-
-        clearWalkState({
-            "focusComposer": false
-        });
-        suppressNextWalkModeOlderStep = true;
-        walkModeEntrySuppressTimer.restart();
-        if (isEffectivelyAtLiveEdge())
-            return focusLatestWalkModeEvent({
-                    "deferFocus": true
-                });
-
-        const targetEventId = bottomMostVisibleEventId();
-        if (targetEventId.length === 0)
-            return focusLatestWalkModeEvent({
-                    "deferFocus": true
-                });
-
-        return focusWalkModeEventById(targetEventId, {
-                "skipScroll": true,
-                "deferFocus": true
-            });
-    }
-
-    function enterWalkModeAndMoveTowardOlderEventsByChunk() {
-        if (!walkModeActive) {
-            if (!enterWalkModeFromBottomMostVisible())
-                return false;
-        }
-
-        return moveFocusTowardOlderEventsByChunk() || walkModeActive;
-    }
-
-    function lastRoomHeaderActionButtonTarget() {
-        return topBar && typeof topBar.lastVisibleActionButtonItem === "function"
-            ? topBar.lastVisibleActionButtonItem()
-            : null;
-    }
-
-    function handleEscape() {
-        if (!walkModeActive && selectedEventIds.length === 0 && !hasFocusedEvent)
-            return false;
-
-        if (selectedEventIds.length > 0) {
-            clearSelectedEvents();
-            focusTimelineSelection();
-            return true;
-        }
-
-        return exitWalkMode({
-                "focusComposer": true
-            });
-    }
-
-    function matrixTimelineRowForEventId(eventId) {
-        const normalizedEventId = String(eventId || "");
-        if (normalizedEventId.length === 0 || !TimelineManager.matrixTimelineModel)
-            return -1;
-
-        return TimelineManager.matrixTimelineModel.rowForEventId(normalizedEventId);
-    }
-
-    function isSelectableMatrixTimelineRow(row) {
-        if (!TimelineManager.matrixTimelineModel || row < 0 || row >= TimelineManager.matrixTimelineItemCount)
-            return false;
-
-        const item = TimelineManager.matrixTimelineModel.itemAt(row);
-        return !!item && String(item.eventId || "").length > 0 && String(item.typeString || "") !== "date_divider";
-    }
-
-    function focusMatrixTimelineRow(row, options) {
-        if (!isSelectableMatrixTimelineRow(row))
-            return false;
-
-        const item = TimelineManager.matrixTimelineModel.itemAt(row);
-        return focusWalkModeEventById(String(item.eventId || ""), options || {});
-    }
-
-    function moveFocusByStep(step) {
-        const currentRow = matrixTimelineRowForEventId(focusedEventId);
-        if (currentRow < 0)
-            return false;
-
-        for (let row = currentRow + step; row >= 0 && row < TimelineManager.matrixTimelineItemCount; row += step) {
-            if (focusMatrixTimelineRow(row))
-                return true;
-        }
-
-        return false;
-    }
-
-    function walkModeChunkSize() {
-        if (!matrixTimelineList)
-            return 4;
-
-        return Math.max(4, Math.floor(Math.max(matrixTimelineList.height, 1) / 240));
-    }
-
-    function moveFocusByChunk(step) {
-        const currentRow = matrixTimelineRowForEventId(focusedEventId);
-        if (currentRow < 0)
-            return false;
-
-        let remaining = walkModeChunkSize();
-        for (let row = currentRow + step; row >= 0 && row < TimelineManager.matrixTimelineItemCount; row += step) {
-            if (!isSelectableMatrixTimelineRow(row))
-                continue;
-
-            remaining -= 1;
-            if (remaining <= 0)
-                return focusMatrixTimelineRow(row);
-        }
-
-        return false;
-    }
-
-    function moveFocusTowardOlderEvents() {
-        return moveFocusByStep(1);
-    }
-
-    function moveFocusTowardNewerEvents() {
-        return moveFocusByStep(-1);
-    }
-
-    function moveFocusTowardOlderEventsByChunk() {
-        return moveFocusByChunk(1);
-    }
-
-    function moveFocusTowardNewerEventsByChunk() {
-        return moveFocusByChunk(-1);
-    }
-
-    function focusOldestLoadedWalkModeEvent(options) {
-        for (let row = TimelineManager.matrixTimelineItemCount - 1; row >= 0; row--) {
-            if (focusMatrixTimelineRow(row, options || {}))
-                return true;
-        }
-
-        return false;
-    }
-
-    function focusLatestWalkModeEvent(options) {
-        for (let row = 0; row < TimelineManager.matrixTimelineItemCount; row++) {
-            if (focusMatrixTimelineRow(row, options || {}))
-                return true;
-        }
-
-        return false;
-    }
-
-    function eventUsesWalkModeModifiers(event) {
-        const modifiers = Number(event.modifiers);
-        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
-    }
-
-    function eventUsesCtrlWalkModeModifiers(event) {
-        const modifiers = Number(event.modifiers);
-        return (modifiers & Qt.ControlModifier) !== 0
-            && (modifiers & (Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
-    }
-
-    function eventMatchesWalkModeLatinKey(event, latinKey) {
-        if (!event)
-            return false;
-
-        return LayoutAgnosticKeys.matchesLatinKey(latinKey,
-                                                  event.key,
-                                                  event.nativeScanCode);
-    }
-
-    function isWalkModeEnterKey(event) {
-        return event.key === Qt.Key_Return || event.key === Qt.Key_Enter;
-    }
-
-    function isWalkModeOptionsKey(event) {
-        return (event.key === Qt.Key_Menu && eventUsesWalkModeModifiers(event))
-            || (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.O)
-                && eventUsesWalkModeModifiers(event));
-    }
-
-    function isWalkModeHelpKey(event) {
-        if (!event)
-            return false;
-
-        const text = String(event.text || "");
-        const modifiers = Number(event.modifiers);
-        return text === "?" && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
-    }
-
-    function openPrimaryMessageActionsDialog() {
-        const delegateItem = primaryActionDelegate();
-        const roomModel = primaryActionRoomModel();
-        if (!delegateItem || !roomModel)
-            return false;
-
-        return messageActionSupport.openOptionsDialog(root, delegateItem, roomModel);
-    }
-
-    function canPerformWalkModeAction(actionName) {
-        const delegateItem = primaryActionDelegate();
-        const roomModel = primaryActionRoomModel();
-        if (!delegateItem || !roomModel)
-            return false;
-
-        switch (actionName) {
-        case "reply":
-            return messageActionSupport.canReply(delegateItem, roomModel);
-        case "thread":
-            return messageActionSupport.canThread(delegateItem, roomModel);
-        case "edit":
-            return messageActionSupport.canEdit(delegateItem, roomModel);
-        case "forward":
-            return messageActionSupport.canForward(delegateItem);
-        case "remove":
-            return messageActionSupport.canRemove(delegateItem, roomModel);
-        case "options":
-            return messageActionSupport.canOpenOptions(delegateItem);
-        case "raw":
-            return messageActionSupport.canViewRaw(delegateItem);
-        default:
-            return false;
-        }
-    }
-
-    function performWalkModeAction(actionName) {
-        const delegateItem = primaryActionDelegate();
-        const roomModel = primaryActionRoomModel();
-        if (!delegateItem || !roomModel)
-            return false;
-
-        const exitsToComposer = actionName === "reply" || actionName === "thread" || actionName === "edit";
-        if (exitsToComposer)
-            exitWalkMode({
-                "focusComposer": false
-            });
-
-        switch (actionName) {
-        case "reply":
-            return messageActionSupport.applyReply(roomModel, delegateItem);
-        case "thread":
-            return messageActionSupport.applyThread(roomModel, delegateItem);
-        case "edit":
-            return messageActionSupport.applyEdit(roomModel, delegateItem);
-        case "forward":
-            return messageActionSupport.applyForward(root, roomModel, delegateItem);
-        case "remove":
-            return messageActionSupport.applyRemove(root, roomModel, delegateItem);
-        case "raw":
-            return messageActionSupport.applyViewRaw(roomModel, delegateItem);
-        case "options":
-            return messageActionSupport.openOptionsDialog(root, delegateItem, roomModel);
-        default:
-            return false;
-        }
-    }
-
-    function handleWalkModeKey(event) {
-        if (!event || !walkModeActive)
-            return false;
-
-        if (event.key === Qt.Key_Escape) {
-            handleEscape();
-            event.accepted = true;
-            return true;
-        }
-
-        if (event.key === Qt.Key_Up
-                && (event.modifiers === Qt.NoModifier || event.modifiers === Qt.KeypadModifier)) {
-            if (suppressNextWalkModeOlderStep) {
-                suppressNextWalkModeOlderStep = false;
-                event.accepted = true;
-                return true;
-            }
-
-            moveFocusTowardOlderEvents();
-            event.accepted = true;
-            return true;
-        }
-
-        if (event.key === Qt.Key_Down
-                && (event.modifiers === Qt.NoModifier || event.modifiers === Qt.KeypadModifier)) {
-            moveFocusTowardNewerEvents();
-            event.accepted = true;
-            return true;
-        }
-
-        if (event.key === Qt.Key_Space && event.modifiers === Qt.NoModifier) {
-            if (focusedEventId.length > 0)
-                toggleSelectionForEventId(focusedEventId);
-            event.accepted = true;
-            return true;
-        }
-
-        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.R) && eventUsesWalkModeModifiers(event)) {
-            performWalkModeAction("reply");
-            event.accepted = true;
-            return true;
-        }
-
-        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.T) && eventUsesWalkModeModifiers(event)) {
-            performWalkModeAction("thread");
-            event.accepted = true;
-            return true;
-        }
-
-        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.E) && eventUsesWalkModeModifiers(event)) {
-            performWalkModeAction("edit");
-            event.accepted = true;
-            return true;
-        }
-
-        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.F) && eventUsesWalkModeModifiers(event)) {
-            performWalkModeAction("forward");
-            event.accepted = true;
-            return true;
-        }
-
-        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.D) && eventUsesWalkModeModifiers(event)) {
-            performWalkModeAction("remove");
-            event.accepted = true;
-            return true;
-        }
-
-        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.U) && eventUsesWalkModeModifiers(event)) {
-            performWalkModeAction("raw");
-            event.accepted = true;
-            return true;
-        }
-
-        if (event.modifiers === Qt.ControlModifier
-                && LayoutAgnosticKeys.matchesLatinKey(LayoutAgnosticKeys.LatinKey.U,
-                                                      event.key,
-                                                      event.nativeScanCode)) {
-            moveFocusTowardOlderEventsByChunk();
-            event.accepted = true;
-            return true;
-        }
-
-        if (event.modifiers === Qt.ControlModifier
-                && LayoutAgnosticKeys.matchesLatinKey(LayoutAgnosticKeys.LatinKey.D,
-                                                      event.key,
-                                                      event.nativeScanCode)) {
-            moveFocusTowardNewerEventsByChunk();
-            event.accepted = true;
-            return true;
-        }
-
-        if (isWalkModeHelpKey(event)) {
-            openWalkModeHelpDialog();
-            event.accepted = true;
-            return true;
-        }
-
-        if (isWalkModeOptionsKey(event)) {
-            openPrimaryMessageActionsDialog();
-            event.accepted = true;
-            return true;
-        }
-
-        if (isWalkModeEnterKey(event) && event.modifiers === Qt.NoModifier) {
-            openPrimaryMessageActionsDialog();
-            event.accepted = true;
-            return true;
-        }
-
-        return false;
-    }
-
-    function exitWalkMode(options) {
-        if (!walkModeActive && !hasFocusedEvent && !hasSelectedEvents)
-            return false;
-
-        clearWalkState(options);
-        return true;
-    }
-
-    function timelineSelectionFocusTarget() {
-        return matrixTimelineList;
-    }
-
-    function focusTimelineSelection() {
-        if (!matrixTimelineList)
-            return false;
-
-        matrixTimelineList.forceActiveFocus();
-        return true;
-    }
-
-    function openWalkModeHelpDialog() {
-        const component = Qt.createComponent("qrc:/resources/qml/dialogs/timeline/SelectionModeHelpDialog.qml");
-        if (component.status !== Component.Ready) {
-            console.error("SelectionModeHelpDialog: " + component.errorString());
-            return false;
-        }
-
-        const dialogParent = root.timelineRoot ? root.timelineRoot : root;
-        const dialog = component.createObject(dialogParent, {
-                "appRoot": dialogParent
-            });
-        if (!dialog)
-            return false;
-
-        dialog.open();
-        root.destroyOnClose(dialog);
-        return true;
-    }
+    function clearSelectedEvents() { return walkModeSupport.clearSelectedEvents(); }
+    function handleMouseSelectionToggle(eventId) { return walkModeSupport.handleMouseSelectionToggle(eventId); }
+    function enterWalkModeFromBottomMostVisible() { return walkModeSupport.enterWalkModeFromBottomMostVisible(); }
+    function enterWalkModeAndMoveTowardOlderEventsByChunk() { return walkModeSupport.enterWalkModeAndMoveTowardOlderEventsByChunk(); }
+    function handleEscape() { return walkModeSupport.handleEscape(); }
+    function isSelectableMatrixTimelineRow(row) { return walkModeSupport.isSelectableMatrixTimelineRow(row); }
+    function canPerformWalkModeAction(actionName) { return walkModeSupport.canPerformWalkModeAction(actionName); }
+    function performWalkModeAction(actionName) { return walkModeSupport.performWalkModeAction(actionName); }
+    function exitWalkMode(options) { return walkModeSupport.exitWalkMode(options); }
+    function timelineSelectionFocusTarget() { return walkModeSupport.timelineSelectionFocusTarget(); }
+    function focusTimelineSelection() { return walkModeSupport.focusTimelineSelection(); }
+    function openWalkModeHelpDialog() { return walkModeSupport.openWalkModeHelpDialog(); }
+    function openPrimaryMessageActionsDialog() { return walkModeSupport.openPrimaryMessageActionsDialog(); }
 
     function ensureInitialBottomPin() {
         const roomId = activeRoomId;
@@ -1661,7 +1170,7 @@ ColumnLayout {
                     visible: root.hasTimeline
 
                     Keys.onPressed: event => {
-                        if (root.handleWalkModeKey(event))
+                        if (walkModeSupport.handleWalkModeKey(event))
                             return;
 
                         root.handleComposerTextKey(event);
@@ -2013,7 +1522,7 @@ ColumnLayout {
         enabled: root.visible && !root.hasOpenOverlayDialog
             && (root.walkModeActive || root.hasSelectedEvents || root.hasFocusedEvent)
 
-        onActivated: root.handleEscape()
+        onActivated: walkModeSupport.handleEscape()
     }
 
     TimelineKeyboardShortcuts {

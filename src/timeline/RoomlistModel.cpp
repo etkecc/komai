@@ -13,6 +13,7 @@
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
 #ifdef KOMAI_DBUS_SYS
@@ -20,6 +21,12 @@
 #endif
 
 namespace {
+struct MatrixRoomListRefreshResult
+{
+    std::optional<QVector<komai::MatrixRoomSummary>> roomList;
+    QString error;
+};
+
 bool
 matrixRoomSummaryEquals(const komai::MatrixRoomSummary &left, const komai::MatrixRoomSummary &right)
 {
@@ -235,17 +242,56 @@ RoomlistModel::refreshMatrixBackendRooms()
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto roomList = komai::MatrixBackendRuntimeService::fetchRoomList(
-      context, mainWindow->matrixBackendHandleId(), &error);
-    if (!roomList.has_value()) {
-        nhlog::ui()->warn("Failed to fetch matrix-sdk room list snapshot: {}", error.toStdString());
+    if (matrixRoomRefreshInFlight_) {
+        matrixRoomRefreshPending_ = true;
         return;
     }
 
+    startMatrixBackendRoomsRefresh(mainWindow->matrixBackendHandleId());
+}
+
+void
+RoomlistModel::startMatrixBackendRoomsRefresh(uint64_t handleId)
+{
+    matrixRoomRefreshInFlight_ = true;
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId]() {
+          MatrixRoomListRefreshResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.roomList =
+            komai::MatrixBackendRuntimeService::fetchRoomList(context, handleId, &result.error);
+          return result;
+      },
+      [handleId](RoomlistModel *model, const MatrixRoomListRefreshResult &result) {
+          model->matrixRoomRefreshInFlight_ = false;
+
+          const auto *mainWindow   = MainWindow::instance();
+          const auto currentHandle = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+          if (currentHandle != handleId) {
+              model->matrixRoomRefreshPending_ = false;
+              return;
+          }
+
+          if (!result.roomList.has_value()) {
+              nhlog::ui()->warn("Failed to fetch matrix-sdk room list snapshot: {}",
+                                result.error.toStdString());
+          } else {
+              model->applyMatrixBackendRoomsSnapshot(*result.roomList);
+          }
+
+          if (model->matrixRoomRefreshPending_) {
+              model->matrixRoomRefreshPending_ = false;
+              model->startMatrixBackendRoomsRefresh(currentHandle);
+          }
+      });
+}
+
+void
+RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSummary> &roomList)
+{
     std::vector<QString> newRoomIds;
-    newRoomIds.reserve(static_cast<size_t>(roomList->size()));
+    newRoomIds.reserve(static_cast<size_t>(roomList.size()));
 
     QHash<QString, komai::MatrixRoomSummary> newMatrixRooms;
     int totalUnreadMessages = 0;
@@ -263,7 +309,7 @@ RoomlistModel::refreshMatrixBackendRooms()
       !selectedRoomId.isEmpty() && !currentRoomPreview_ && pendingCurrentRoomId_.isEmpty() &&
       UserSettings::instance()->currentRoomId() == selectedRoomId;
 
-    for (const auto &room : *roomList) {
+    for (const auto &room : roomList) {
         newRoomIds.push_back(room.roomId);
         newMatrixRooms.insert(room.roomId, room);
         totalUnreadMessages += static_cast<int>(room.unreadMessages);

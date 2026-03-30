@@ -31,6 +31,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineViewManager.h"
+#include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
@@ -80,6 +81,15 @@ currentRoomlistModel()
     if (!chatPage || !chatPage->timelineManager())
         return nullptr;
     return chatPage->timelineManager()->rooms();
+}
+
+komai::MatrixTimelineModel *
+currentMatrixTimelineModel()
+{
+    auto *chatPage = ChatPage::instance();
+    auto *manager  = chatPage ? chatPage->timelineManager() : nullptr;
+    return manager ? qobject_cast<komai::MatrixTimelineModel *>(manager->matrixTimelineModel())
+                   : nullptr;
 }
 
 std::optional<uint64_t>
@@ -263,29 +273,20 @@ sliceTimelineFromActiveMatrixTimeline(const QString &roomId,
         return std::nullopt;
     }
 
-    const auto handleId = currentMatrixRuntimeHandleId();
-    if (!handleId.has_value()) {
+    const auto *timelineModel = currentMatrixTimelineModel();
+    if (!timelineModel) {
         if (error)
-            *error = QStringLiteral("matrix-sdk runtime is not active");
+            *error = QStringLiteral("matrix timeline model is not available");
         return std::nullopt;
     }
 
-    QString backendError;
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    const auto items   = komai::MatrixBackendRuntimeService::fetchActiveRoomTimeline(
-      context, *handleId, &backendError);
-    if (!items.has_value()) {
-        if (error)
-            *error = backendError.isEmpty() ? QStringLiteral("failed to fetch active room timeline")
-                                            : backendError;
-        return std::nullopt;
-    }
+    const auto items = timelineModel->visibleItemsSnapshot();
 
     int startIndex = 0;
     if (!beforeEventId.isEmpty()) {
         startIndex = -1;
-        for (int idx = 0; idx < items->size(); ++idx) {
-            if (matrixTimelineEventId(items->at(idx)) == beforeEventId) {
+        for (int idx = 0; idx < items.size(); ++idx) {
+            if (matrixTimelineEventId(items.at(idx)) == beforeEventId) {
                 startIndex = idx + 1;
                 break;
             }
@@ -300,8 +301,8 @@ sliceTimelineFromActiveMatrixTimeline(const QString &roomId,
     }
 
     int nextIndex = startIndex;
-    for (int idx = startIndex; idx < items->size(); ++idx) {
-        const auto &item = items->at(idx);
+    for (int idx = startIndex; idx < items.size(); ++idx) {
+        const auto &item = items.at(idx);
         if (!shouldExposeMatrixTimelineItemOverIpc(item))
             continue;
 
@@ -311,8 +312,8 @@ sliceTimelineFromActiveMatrixTimeline(const QString &roomId,
             break;
     }
 
-    for (int idx = nextIndex; idx < items->size(); ++idx) {
-        if (shouldExposeMatrixTimelineItemOverIpc(items->at(idx))) {
+    for (int idx = nextIndex; idx < items.size(); ++idx) {
+        if (shouldExposeMatrixTimelineItemOverIpc(items.at(idx))) {
             slice.hasMoreLocal = true;
             break;
         }

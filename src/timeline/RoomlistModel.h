@@ -205,6 +205,8 @@ private:
     bool hasDraft(const QString &room_id) const;
     void persistDraftForRoom(const QString &room_id, const QString &draftText);
     void fetchPreviews(QString roomid, const std::string &from = "");
+    void startMatrixBackendRoomsRefresh(uint64_t handleId);
+    void applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSummary> &roomList);
     void refreshMatrixBackendRooms();
     TimelineViewManager *manager = nullptr;
     std::vector<QString> roomids;
@@ -222,6 +224,8 @@ private:
     // When UI requests opening a room before sync inserts it into the room summary list,
     // remember the target and switch once the room becomes available.
     QString pendingCurrentRoomId_;
+    bool matrixRoomRefreshInFlight_ = false;
+    bool matrixRoomRefreshPending_  = false;
 
 #ifdef KOMAI_DBUS_SYS
     DbusHost *dbusHost_ = nullptr;

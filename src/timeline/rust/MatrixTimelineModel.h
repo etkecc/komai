@@ -111,6 +111,7 @@ public:
     Q_INVOKABLE QString filenameForEvent(const QString &eventId) const;
 
     std::optional<MatrixTimelineItem> itemByEventId(const QString &eventId) const;
+    QVector<MatrixTimelineItem> visibleItemsSnapshot() const { return items_; }
 
     int count() const { return items_.size(); }
     int hiddenCount() const;

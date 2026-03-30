@@ -10,8 +10,6 @@
 
 #include "matrix/MatrixPowerLevelCompat.h"
 
-class TimelineModel;
-
 namespace komai::timeline {
 inline constexpr qint64 CreatorPowerLevel = komai::matrix::CreatorPowerLevel;
 }

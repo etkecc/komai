@@ -220,7 +220,7 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
         return {};
     };
 
-    // Preview delegates may be instantiated without a TimelineModel room.
+    // Preview delegates may be instantiated without a room-backed event data source.
     // In that case, populate required properties from the delegate context.
     if (!chooser.room_) {
         Qt::beginPropertyUpdateGroup();

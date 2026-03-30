@@ -74,7 +74,7 @@ struct RoomInfo
     std::vector<std::string> tags;
 
     //! An approximate timestamp of when the last message was sent in the room.
-    //! Use the TimelineModel::lastMessage for an accurate timestamp.
+    //! Use the active timeline model for an accurate timestamp.
     uint64_t approximate_last_modification_ts = 0;
 
     uint64_t highlight_count    = 0;

@@ -11,9 +11,8 @@
 
 /// Minimal interface for models that can feed EventDelegateChooser.
 ///
-/// Both the legacy TimelineModel and the new MatrixTimelineModel implement
-/// this so that the delegate chooser can read event data by ID without
-/// caring which backend produced the model.
+/// MatrixTimelineModel implements this today so that the delegate chooser can
+/// read event data by ID without caring about the concrete room model.
 class EventDataSource : public QAbstractListModel
 {
     Q_OBJECT

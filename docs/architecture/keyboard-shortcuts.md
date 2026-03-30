@@ -66,9 +66,9 @@ Important examples:
 - [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml)
   The composer distinguishes paste, send/newline logic, completer navigation, and Selection mode
   entry from the start-of-top-line `Up` boundary.
-- [resources/qml/timeline/MessageView.qml](../../resources/qml/timeline/MessageView.qml)
+- [resources/qml/timeline/components/MatrixRoomWalkModeSupport.qml](../../resources/qml/timeline/components/MatrixRoomWalkModeSupport.qml)
   Selection mode movement, action keys, inline-actions navigation, `gg`, and `Escape` precedence
-  all live here.
+  live in the matrix room walk-mode controller.
 
 Use raw key handling when:
 
@@ -110,7 +110,10 @@ This keeps sidebar browsing predictable: arrows and Vim-like keys inspect items 
 
 ## Selection Mode Implementation
 
-Selection mode is implemented in [resources/qml/timeline/MessageView.qml](../../resources/qml/timeline/MessageView.qml).
+Selection mode is implemented by
+[resources/qml/timeline/components/MatrixRoomView.qml](../../resources/qml/timeline/components/MatrixRoomView.qml)
+and
+[resources/qml/timeline/components/MatrixRoomWalkModeSupport.qml](../../resources/qml/timeline/components/MatrixRoomWalkModeSupport.qml).
 
 Its view-local state is:
 
@@ -127,7 +130,7 @@ The main entry paths are:
 
 - plain `Up` from [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml) when the composer caret is already at the start of the top line; it enters at the bottom-most visible message
 - `Ctrl+U` from the composer, routed from [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml) into the timeline
-- `Ctrl+Click` on a timeline message, routed from [resources/qml/timeline/TimelineMessageStyleBase.qml](../../resources/qml/timeline/TimelineMessageStyleBase.qml) into [resources/qml/timeline/MessageView.qml](../../resources/qml/timeline/MessageView.qml)
+- `Ctrl+Click` on a timeline message, routed from [resources/qml/timeline/TimelineMessageStyleBase.qml](../../resources/qml/timeline/TimelineMessageStyleBase.qml) into [resources/qml/timeline/components/MatrixRoomView.qml](../../resources/qml/timeline/components/MatrixRoomView.qml)
 
 `TimelineView.qml` also blocks its usual "type to focus composer" behavior while Selection mode is
 active.
@@ -149,11 +152,9 @@ focuses the composer instead of entering Selection mode.
 This is intentionally one ordered handler because `Escape`, `Enter`, and focus movement depend on
 current sub-state.
 
-`Ctrl+C` and `Ctrl+Shift+C` are handled by dedicated `Shortcut` objects in
-[resources/qml/timeline/MessageView.qml](../../resources/qml/timeline/MessageView.qml), not by
-`handleWalkModeKey()`. That keeps standard copy sequences out of the layout-agnostic Latin-key
-path and lets Selection mode defer to delegate-local text selection when focus is inside a message
-text item.
+`Ctrl+C` and `Ctrl+Shift+C` are handled outside `handleWalkModeKey()`. That keeps standard copy
+sequences out of the layout-agnostic Latin-key path and lets Selection mode defer to
+delegate-local text selection when focus is inside a message text item.
 
 ### Selection mode focus routing
 
@@ -223,7 +224,7 @@ Current call sites:
 
 - [resources/qml/shell/CommunitiesList.qml](../../resources/qml/shell/CommunitiesList.qml)
 - [resources/qml/shell/RoomList.qml](../../resources/qml/shell/RoomList.qml)
-- [resources/qml/timeline/MessageView.qml](../../resources/qml/timeline/MessageView.qml)
+- [resources/qml/timeline/components/MatrixRoomWalkModeSupport.qml](../../resources/qml/timeline/components/MatrixRoomWalkModeSupport.qml)
 - [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml) for composer `Ctrl+U`
 
 Qt's own `Shortcut` handling is still used elsewhere for many custom shortcuts such as `Alt+J` or

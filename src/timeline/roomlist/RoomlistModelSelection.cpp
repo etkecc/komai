@@ -127,8 +127,8 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
     if (manager)
         manager->markRoomSwitchRequested(roomid, "setCurrentRoom");
 
-    // On the migration branch, Rust-owned room summaries should win selection as soon as the
-    // room is present in the matrix-sdk room list, even if a legacy TimelineModel still exists.
+    // Rust-owned room summaries should win selection as soon as the room is present in the
+    // matrix-sdk room list.
     if (trySelectCurrentMatrixSummaryRoom(roomid))
         return;
 

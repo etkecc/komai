@@ -26,9 +26,15 @@ Item {
     readonly property var messageContextMenu: dialogSupport.messageContextMenu
     readonly property var replyContextMenu: dialogSupport.replyContextMenu
     readonly property var messageActionsHost: dialogSupport.messageActionsHost
-    readonly property var dialogRoomModel: matrixDialogRoomModel
-    readonly property var forwardRoomModel: matrixForwardRoomModel
+    readonly property var dialogRoomModel: routeModels.dialogRoomModel
+    readonly property var forwardRoomModel: routeModels.forwardRoomModel
     readonly property var headerRoomModel: matrixHeaderRoomModel
+
+    MatrixRoomRouteModels {
+        id: routeModels
+
+        roomPreview: support.roomPreview
+    }
 
     MatrixRoomComposerSupport {
         id: composerSupport
@@ -59,33 +65,8 @@ Item {
         filteredTimeline: support.filteredTimeline
         timelineList: support.timelineList
         messageActionsDefaultRoomModel: matrixMessageActionsDefaultRoomModel
-        dialogRoomModel: matrixDialogRoomModel
-        forwardRoomModel: matrixForwardRoomModel
-    }
-
-    QtObject {
-        id: matrixDialogRoomModel
-
-        property string roomId: roomPreview ? roomPreview.roomid : ""
-
-        function openUserProfile(userId) {
-            const trimmedUserId = String(userId || "").trim();
-            if (trimmedUserId.length === 0)
-                return;
-
-            TimelineManager.openGlobalUserProfile(trimmedUserId);
-        }
-    }
-
-    QtObject {
-        id: matrixForwardRoomModel
-
-        property string roomId: roomPreview ? roomPreview.roomid : ""
-
-        function forwardMessage(eventId, targetRoomId) {
-            TimelineManager.forwardActiveMatrixTimelineEvent(String(eventId || ""),
-                                                            String(targetRoomId || ""));
-        }
+        dialogRoomModel: routeModels.dialogRoomModel
+        forwardRoomModel: routeModels.forwardRoomModel
     }
 
     function openRemoveMessageDialog(eventId) {
@@ -139,6 +120,6 @@ Item {
 
         rootItem: support.rootItem
         roomPreview: support.roomPreview
-        dialogRoomModel: matrixDialogRoomModel
+        dialogRoomModel: routeModels.dialogRoomModel
     }
 }

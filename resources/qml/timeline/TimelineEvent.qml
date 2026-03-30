@@ -280,7 +280,7 @@ EventDelegateChooser {
             required property string userName
 
             Layout.fillWidth: true
-            styleProfile: resolvedStyleProfile
+            styleProfile: wrapper.resolvedStyleProfile
         }
     }
     EventDelegateChoice {
@@ -311,7 +311,7 @@ EventDelegateChooser {
             required property string userName
 
             Layout.fillWidth: true
-            styleProfile: resolvedStyleProfile
+            styleProfile: wrapper.resolvedStyleProfile
         }
     }
     EventDelegateChoice {

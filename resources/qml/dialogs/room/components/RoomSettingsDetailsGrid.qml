@@ -516,8 +516,8 @@ ColumnLayout {
 
             HiddenEventsDialog {
                 id: hiddenEventsDialog
-                roomid: detailsGrid.roomSettings.roomId
-                roomName: detailsGrid.roomSettings.roomName
+                roomid: detailsGrid.roomSettings ? detailsGrid.roomSettings.roomId : ""
+                roomName: detailsGrid.roomSettings ? detailsGrid.roomSettings.roomName : ""
             }
 
             Components.KomaiButton {
@@ -557,8 +557,8 @@ ColumnLayout {
 
             EventExpirationDialog {
                 id: eventExpirationDialog
-                roomid: detailsGrid.roomSettings.roomId
-                roomName: detailsGrid.roomSettings.roomName
+                roomid: detailsGrid.roomSettings ? detailsGrid.roomSettings.roomId : ""
+                roomName: detailsGrid.roomSettings ? detailsGrid.roomSettings.roomName : ""
             }
 
             Components.KomaiButton {

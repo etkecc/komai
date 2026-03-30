@@ -71,6 +71,8 @@ namespace detail {
 using yaml_settings::readScalar;
 using yaml_settings::readString;
 using yaml_settings::setNode;
+using yaml_settings::writeStringList;
+using yaml_settings::writeStringListMap;
 
 namespace {
 
@@ -170,6 +172,11 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
 
     if (settings::core::isScaleFactorInRange(settings.uiScaleFactor()))
         setNode(root, SettingKey::UiScaleFactor, settings.uiScaleFactor());
+
+    writeStringList(
+      root, SettingKey::TimelineHiddenEventsGlobal, settings.hiddenTimelineEventTypes());
+    writeStringListMap(
+      root, SettingKey::TimelineHiddenEventsByRoom, settings.hiddenTimelineEventTypesByRoom());
 }
 
 } // namespace detail

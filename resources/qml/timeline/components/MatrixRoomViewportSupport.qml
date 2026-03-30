@@ -134,7 +134,7 @@ QtObject {
 
             const eventId = String(item.eventId || "");
             const itemKind = String(item.typeString || "");
-            if (eventId.length === 0 || itemKind === "date_divider")
+            if (eventId.length === 0 || itemKind === "date_divider" || Boolean(item.isHiddenEvent))
                 continue;
 
             return eventId;

@@ -5,6 +5,8 @@
 
 #include "settings/ui/facade/UserSettingsPage.h"
 
+#include "timeline/TimelineEventTypes.h"
+
 #include "UserSettingsGettersMiscCoreStore.inc"
 #include "UserSettingsGettersMiscIntegrations.inc"
 #include "UserSettingsGettersMiscNetwork.inc"

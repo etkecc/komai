@@ -6,8 +6,10 @@
 #pragma once
 
 #include <QString>
+#include <QStringList>
 #include <QtQmlIntegration/qqmlintegration.h>
 
+#include <optional>
 #include <vector>
 
 namespace qml_mtx_events {
@@ -141,11 +143,21 @@ enum NotificationLevel
 };
 Q_ENUM_NS(NotificationLevel)
 
-/// Event types that should never appear as standalone timeline items.
-/// These have their own rendering paths (e.g. reactions as emoji pills,
-/// edits merged into the original message) or carry no user-visible content.
-/// Used by both the cache layer (to keep them out of the message index)
-/// and the UI layer (as the default hidden-events list).
+/// Event types that Komai hides by default as a local timeline preference.
+/// These either have their own rendering paths (e.g. reactions as emoji pills)
+/// or tend to be low-level protocol noise unless explicitly enabled.
 std::vector<EventType>
 defaultHiddenEventTypes();
+
+QStringList
+defaultHiddenTimelineEventTypeKeys();
+
+QString
+localTimelineEventTypeKey(EventType type);
+
+std::optional<EventType>
+localTimelineEventTypeFromKey(const QString &key);
+
+EventType
+matrixTimelineEventType(const QString &itemKind, const QString &matrixEventType);
 }

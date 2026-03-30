@@ -308,8 +308,8 @@ TimelineViewManager::roomUserColor(QString roomId,
     if (roomId.isEmpty() || userId.isEmpty())
         return QColor();
 
-    const auto selfId = utils::localUser();
-    const auto policy = resolveColorCodingPolicy(colorCodingPolicy);
+    const auto selfId  = utils::localUser();
+    const auto policy  = resolveColorCodingPolicy(colorCodingPolicy);
     const auto preview = rooms_ ? rooms_->getRoomPreviewById(roomId) : RoomPreview{};
     const auto slot    = previewThemeSlot(currentThemeDef(),
                                        roomId,
@@ -329,10 +329,10 @@ TimelineViewManager::roomUserBubblePalette(QString roomId,
                                            QColor background,
                                            int colorCodingPolicy)
 {
-    const auto themePalette  = currentThemePalette();
-    const auto *def          = currentThemeDef();
-    const auto policy        = resolveColorCodingPolicy(colorCodingPolicy);
-    const auto selfId        = utils::localUser();
+    const auto themePalette = currentThemePalette();
+    const auto *def         = currentThemeDef();
+    const auto policy       = resolveColorCodingPolicy(colorCodingPolicy);
+    const auto selfId       = utils::localUser();
 
     if (!def)
         return userBubblePalette(userId, background);

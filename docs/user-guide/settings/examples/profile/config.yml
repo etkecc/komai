@@ -56,6 +56,15 @@ timeline:
       # Supported values: on_message_hover | on_button_click | never
       activation_policy: on_button_click
       pinned_reactions: "👍️,👎️,😀,❤️"
+  hidden_events:
+    # Local-only timeline visibility preferences.
+    global:
+      - m.reaction
+      - m.call.candidates
+      - m.call.negotiate
+      - m.call.select_answer
+    # Room-specific lists fully override the global list for that room.
+    by_room: {}
   media:
     effects:
       enabled: true

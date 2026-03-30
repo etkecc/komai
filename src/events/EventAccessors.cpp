@@ -216,12 +216,12 @@ mtx::accessors::transaction_id(const mtx::events::collections::TimelineEvents &e
 nlohmann::json
 mtx::accessors::serialize_event(const mtx::events::collections::TimelineEvents &event)
 {
-    nlohmann::json serialized = nlohmann::json::object();
-    serialized["event_id"]   = event_id(event);
-    serialized["room_id"]    = room_id(event);
-    serialized["sender"]     = sender(event);
-    serialized["timestamp"]  = origin_server_ts_ms(event);
-    serialized["body"]       = body(event);
+    nlohmann::json serialized    = nlohmann::json::object();
+    serialized["event_id"]       = event_id(event);
+    serialized["room_id"]        = room_id(event);
+    serialized["sender"]         = sender(event);
+    serialized["timestamp"]      = origin_server_ts_ms(event);
+    serialized["body"]           = body(event);
     serialized["formatted_body"] = formatted_body(event);
     serialized["url"]            = url(event);
     serialized["thumbnail_url"]  = thumbnail_url(event);

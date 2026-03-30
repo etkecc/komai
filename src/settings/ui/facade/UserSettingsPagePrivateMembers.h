@@ -98,6 +98,8 @@ QStringList globalExcludes_;
 QStringList badgesHiddenFilters_;
 QStringList hiddenPins_;
 QStringList hiddenWidgets_;
+QStringList hiddenTimelineEventTypes_;
+QMap<QString, QStringList> hiddenTimelineEventTypesByRoom_;
 QMap<QString, QString> composerDraftsByRoom_;
 QStringList collapsedSpaces_;
 DefaultAvatarStyle uiAvatarsDefaultAvatarStyle_ = DefaultAvatarStyle::BoringAvatarsBauhaus;

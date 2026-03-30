@@ -1,3 +1,45 @@
+namespace {
+
+QStringList
+normalizeHiddenTimelineEventTypes(const QStringList &eventTypes)
+{
+    QStringList normalized;
+
+    for (const auto &eventType : eventTypes) {
+        const auto trimmed = eventType.trimmed();
+        if (trimmed.isEmpty() || normalized.contains(trimmed))
+            continue;
+
+        normalized.push_back(trimmed);
+    }
+
+    normalized.sort();
+    return normalized;
+}
+
+QMap<QString, QStringList>
+normalizeHiddenTimelineEventTypesByRoom(const QMap<QString, QStringList> &eventTypesByRoom,
+                                        const QStringList &globalEventTypes)
+{
+    QMap<QString, QStringList> normalized;
+
+    for (auto it = eventTypesByRoom.constBegin(); it != eventTypesByRoom.constEnd(); ++it) {
+        const auto roomId = it.key().trimmed();
+        if (roomId.isEmpty())
+            continue;
+
+        const auto roomEventTypes = normalizeHiddenTimelineEventTypes(it.value());
+        if (roomEventTypes.isEmpty() || roomEventTypes == globalEventTypes)
+            continue;
+
+        normalized.insert(roomId, roomEventTypes);
+    }
+
+    return normalized;
+}
+
+} // namespace
+
 void
 UserSettings::setGlobalExcludes(const QStringList &globalExcludes)
 {
@@ -26,6 +68,63 @@ UserSettings::setHiddenWidgets(const QStringList &hiddenTags)
     hiddenWidgets_ = hiddenTags;
     save();
     emit hiddenWidgetsChanged();
+}
+
+void
+UserSettings::setHiddenTimelineEventTypes(const QStringList &eventTypes)
+{
+    const auto normalizedGlobal = normalizeHiddenTimelineEventTypes(eventTypes);
+    const auto normalizedByRoom =
+      normalizeHiddenTimelineEventTypesByRoom(hiddenTimelineEventTypesByRoom_, normalizedGlobal);
+
+    if (hiddenTimelineEventTypes_ == normalizedGlobal &&
+        hiddenTimelineEventTypesByRoom_ == normalizedByRoom) {
+        return;
+    }
+
+    hiddenTimelineEventTypes_       = normalizedGlobal;
+    hiddenTimelineEventTypesByRoom_ = normalizedByRoom;
+    save();
+    emit hiddenTimelineEventTypesChanged();
+}
+
+void
+UserSettings::setHiddenTimelineEventTypesByRoom(const QMap<QString, QStringList> &eventTypesByRoom)
+{
+    const auto normalized =
+      normalizeHiddenTimelineEventTypesByRoom(eventTypesByRoom, hiddenTimelineEventTypes_);
+    if (hiddenTimelineEventTypesByRoom_ == normalized)
+        return;
+
+    hiddenTimelineEventTypesByRoom_ = normalized;
+    save();
+    emit hiddenTimelineEventTypesChanged();
+}
+
+void
+UserSettings::setHiddenTimelineEventTypesForRoom(const QString &roomId,
+                                                 const QStringList &eventTypes)
+{
+    const auto trimmedRoomId = roomId.trimmed();
+    if (trimmedRoomId.isEmpty()) {
+        setHiddenTimelineEventTypes(eventTypes);
+        return;
+    }
+
+    const auto normalizedEventTypes = normalizeHiddenTimelineEventTypes(eventTypes);
+    auto nextByRoom                 = hiddenTimelineEventTypesByRoom_;
+
+    if (normalizedEventTypes.isEmpty() || normalizedEventTypes == hiddenTimelineEventTypes_)
+        nextByRoom.remove(trimmedRoomId);
+    else
+        nextByRoom.insert(trimmedRoomId, normalizedEventTypes);
+
+    if (nextByRoom == hiddenTimelineEventTypesByRoom_)
+        return;
+
+    hiddenTimelineEventTypesByRoom_ = nextByRoom;
+    save();
+    emit hiddenTimelineEventTypesChanged();
 }
 
 void

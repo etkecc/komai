@@ -230,7 +230,10 @@ MxcAnimatedImage::startDownload()
         return;
     }
 
-    std::thread([handleId, eventId = eventId_, self, processData = std::move(processData)]() mutable {
+    std::thread([handleId,
+                 eventId = eventId_,
+                 self,
+                 processData = std::move(processData)]() mutable {
         QString error;
         auto bytes = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
           handleId, eventId, 0, 0, false, &error);

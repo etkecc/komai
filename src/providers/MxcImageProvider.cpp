@@ -358,9 +358,8 @@ MxcImageProvider::download(const QString &id,
         }
 
         if (const auto handleId = activeMatrixBackendHandleId()) {
-            const auto requestedWidth = requestedSize.width() > 0 ? requestedSize.width() : 0;
-            const auto requestedHeight =
-              requestedSize.height() > 0 ? requestedSize.height() : 0;
+            const auto requestedWidth  = requestedSize.width() > 0 ? requestedSize.width() : 0;
+            const auto requestedHeight = requestedSize.height() > 0 ? requestedSize.height() : 0;
 
             QThreadPool::globalInstance()->start([fileInfo,
                                                   requestedSize,

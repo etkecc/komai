@@ -89,6 +89,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
+    void setRoomId(const QString &roomId);
 
     // EventDataSource interface
     QVariant dataById(const QString &id, int role, const QString &relatedTo) override;
@@ -125,11 +126,14 @@ signals:
 private:
     QVariant replyData(const MatrixTimelineItem &parentItem, int role) const;
 
+    void refreshDerivedFields();
+    int previousVisibleRowFrom(int row) const;
     void replaceVisibleItems(QVector<MatrixTimelineItem> items);
     void applyRedactedPresentation(MatrixTimelineItem &item) const;
     void applyOptimisticRedactions(QVector<MatrixTimelineItem> &items);
     void emitEffectsForPrependedItems(const QVector<MatrixTimelineItem> &nextItems);
 
+    QString roomId_;
     QVector<MatrixTimelineItem> allItems_;
     QVector<MatrixTimelineItem> items_;
     QSet<QString> optimisticRedactedEventIds_;

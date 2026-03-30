@@ -33,9 +33,8 @@ public:
         Removeable,
     };
 
-    explicit PowerlevelsTypeListModel(
-      const komai::MatrixRoomPowerLevels &powerLevels,
-      QObject *parent = nullptr);
+    explicit PowerlevelsTypeListModel(const komai::MatrixRoomPowerLevels &powerLevels,
+                                      QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &) const override { return static_cast<int>(types.size()); }
@@ -93,9 +92,8 @@ public:
         Removeable,
     };
 
-    explicit PowerlevelsUserListModel(
-      const komai::MatrixRoomPowerLevels &powerLevels,
-      QObject *parent = nullptr);
+    explicit PowerlevelsUserListModel(const komai::MatrixRoomPowerLevels &powerLevels,
+                                      QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &) const override { return static_cast<int>(users.size()); }
@@ -153,10 +151,9 @@ public:
         ApplyPermissions,
     };
 
-    explicit PowerlevelsSpacesListModel(
-      const QString &roomId,
-      const komai::MatrixRoomPowerLevels &powerLevels,
-      QObject *parent = nullptr);
+    explicit PowerlevelsSpacesListModel(const QString &roomId,
+                                        const komai::MatrixRoomPowerLevels &powerLevels,
+                                        QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &) const override { return static_cast<int>(spaces.size()); }

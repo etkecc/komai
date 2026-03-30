@@ -4,6 +4,7 @@
 
 #include "timeline/rust/MatrixTimelineModel.h"
 
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineEventTypes.h"
 #include "utils/MediaIcons.h"
 #include "utils/Utils.h"
@@ -28,39 +29,6 @@ configuredInitialVisibleWindow()
         return std::nullopt;
 
     return count;
-}
-
-int
-matrixEventTypeForItemKind(const QString &kind)
-{
-    static const QStringList stateKinds = {
-      QStringLiteral("membership_change"),
-      QStringLiteral("profile_change"),
-      QStringLiteral("other_state"),
-      QStringLiteral("failed_to_parse_state"),
-    };
-    if (stateKinds.contains(kind))
-        return qml_mtx_events::Name;
-
-    if (kind == QStringLiteral("notice"))
-        return qml_mtx_events::NoticeMessage;
-    if (kind == QStringLiteral("redacted"))
-        return qml_mtx_events::Redacted;
-    if (kind == QStringLiteral("unable_to_decrypt"))
-        return qml_mtx_events::Encrypted;
-    if (kind == QStringLiteral("image"))
-        return qml_mtx_events::ImageMessage;
-    if (kind == QStringLiteral("video"))
-        return qml_mtx_events::VideoMessage;
-    if (kind == QStringLiteral("audio"))
-        return qml_mtx_events::AudioMessage;
-    if (kind == QStringLiteral("file"))
-        return qml_mtx_events::FileMessage;
-    if (kind == QStringLiteral("sticker"))
-        return qml_mtx_events::Sticker;
-    if (kind == QStringLiteral("emote"))
-        return qml_mtx_events::EmoteMessage;
-    return qml_mtx_events::TextMessage;
 }
 
 int
@@ -157,10 +125,13 @@ stableTimelineItemKey(const MatrixTimelineItem &item)
 }
 
 void
-computeDerivedFields(MatrixTimelineItem &item)
+computeDerivedFields(MatrixTimelineItem &item, const QString &roomId)
 {
     const bool isState = isStateLikeKind(item.itemKind);
-    item.cachedType    = matrixEventTypeForItemKind(item.itemKind);
+    item.cachedType = qml_mtx_events::matrixTimelineEventType(item.itemKind, item.matrixEventType);
+    item.cachedIsHiddenEvent =
+      UserSettings::instance() &&
+      UserSettings::instance()->isTimelineEventHiddenInRoom(item.cachedType, roomId);
     item.cachedEmojiOnlyCount =
       item.cachedType == qml_mtx_events::TextMessage ? emojiOnlyCodepointCount(item.body) : 0;
     item.cachedDay          = dayKeyFromTimestamp(item.timestamp);
@@ -190,6 +161,23 @@ computeDerivedFields(MatrixTimelineItem &item)
 MatrixTimelineModel::MatrixTimelineModel(QObject *parent)
   : EventDataSource(parent)
 {
+    if (const auto settings = UserSettings::instance()) {
+        connect(settings.get(),
+                &UserSettings::hiddenTimelineEventTypesChanged,
+                this,
+                &MatrixTimelineModel::refreshDerivedFields);
+    }
+}
+
+void
+MatrixTimelineModel::setRoomId(const QString &roomId)
+{
+    const auto normalizedRoomId = roomId.trimmed();
+    if (roomId_ == normalizedRoomId)
+        return;
+
+    roomId_ = normalizedRoomId;
+    refreshDerivedFields();
 }
 
 int
@@ -254,7 +242,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     case CallType:           return QString();
     case Dump:               return QVariant();
     case RelatedEventCacheBuster: return 0;
-    case IsHiddenEvent:      return false;
+    case IsHiddenEvent:      return item.cachedIsHiddenEvent;
     case FileTypeIconSource: return item.cachedFileTypeIcon;
 
     // --- Extra roles ---
@@ -262,17 +250,17 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     case SenderAvatarUrl:    return item.senderAvatarUrl;
     case ReactionsSummary:   return item.reactionsSummary;
     case PreviousTimestamp: {
-        const auto prev = index.row() - 1;
+        const auto prev = previousVisibleRowFrom(index.row());
         return prev >= 0
             ? static_cast<qulonglong>(items_.at(prev).timestamp)
             : static_cast<qulonglong>(0);
     }
     case PreviousSenderId: {
-        const auto prev = index.row() - 1;
+        const auto prev = previousVisibleRowFrom(index.row());
         return prev >= 0 ? items_.at(prev).senderId : QString();
     }
     case PreviousItemKind: {
-        const auto prev = index.row() - 1;
+        const auto prev = previousVisibleRowFrom(index.row());
         return prev >= 0 ? items_.at(prev).itemKind : QString();
     }
     case DeliveryState:      return item.deliveryState;
@@ -587,7 +575,7 @@ MatrixTimelineModel::applyRedactedPresentation(MatrixTimelineItem &item) const
     item.mediaSizeBytes       = 0;
     item.mediaIsEncrypted     = false;
     item.thumbnailIsEncrypted = false;
-    computeDerivedFields(item);
+    computeDerivedFields(item, roomId_);
 }
 
 bool
@@ -653,6 +641,31 @@ MatrixTimelineModel::applyOptimisticRedactions(QVector<MatrixTimelineItem> &item
 
     for (const auto &resolvedEventId : resolvedEventIds)
         optimisticRedactedEventIds_.remove(resolvedEventId);
+}
+
+void
+MatrixTimelineModel::refreshDerivedFields()
+{
+    if (allItems_.isEmpty()) {
+        replaceVisibleItems({});
+        return;
+    }
+
+    for (auto &item : allItems_)
+        computeDerivedFields(item, roomId_);
+
+    replaceVisibleItems(allItems_.mid(0, items_.size()));
+}
+
+int
+MatrixTimelineModel::previousVisibleRowFrom(int row) const
+{
+    for (int candidate = row + 1; candidate < items_.size(); ++candidate) {
+        if (!items_.at(candidate).cachedIsHiddenEvent)
+            return candidate;
+    }
+
+    return -1;
 }
 
 void
@@ -731,7 +744,7 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
                 items.end());
 
     for (auto &item : items)
-        computeDerivedFields(item);
+        computeDerivedFields(item, roomId_);
 
     emitEffectsForPrependedItems(items);
     allItems_ = items;

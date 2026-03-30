@@ -32,9 +32,10 @@ samePl(const komai::MatrixRoomPowerLevels &a, const komai::MatrixRoomPowerLevels
                                           b.redact);
 }
 
-PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(const QString &roomId,
-                                                       const komai::MatrixRoomPowerLevels &powerLevels,
-                                                       QObject *parent)
+PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(
+  const QString &roomId,
+  const komai::MatrixRoomPowerLevels &powerLevels,
+  QObject *parent)
   : QAbstractListModel(parent)
   , room_id(roomId)
   , oldPowerLevels_(powerLevels)

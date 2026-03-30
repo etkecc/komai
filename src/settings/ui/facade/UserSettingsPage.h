@@ -560,6 +560,9 @@ public:
     void setBadgesHiddenFilters(const QStringList &badgesHiddenFilters);
     void setHiddenPins(const QStringList &hiddenTags);
     void setHiddenWidgets(const QStringList &hiddenTags);
+    void setHiddenTimelineEventTypes(const QStringList &eventTypes);
+    void setHiddenTimelineEventTypesByRoom(const QMap<QString, QStringList> &eventTypesByRoom);
+    void setHiddenTimelineEventTypesForRoom(const QString &roomId, const QStringList &eventTypes);
     void setComposerDraftsByRoom(const QMap<QString, QString> &draftsByRoom);
     void setComposerDraftForRoom(const QString &roomId, const QString &draftText);
     void clearComposerDraftForRoom(const QString &roomId);
@@ -715,6 +718,7 @@ signals:
     void timelineMediaDefaultAudioPlaybackSpeedChanged(double speed);
     void hiddenPinsChanged();
     void hiddenWidgetsChanged();
+    void hiddenTimelineEventTypesChanged();
     void integrationsDbusApiAccessChanged(int state);
     void integrationsBrowserCommandChanged(QString command);
     void privacyMaintenanceExpireEventsChanged(bool state);

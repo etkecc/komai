@@ -1154,6 +1154,7 @@ if(BUILD_TESTING)
         src/settings/core/StartupConfig.cpp
         src/settings/core/SettingsSerializer.cpp
         src/settings/core/SettingsStore.cpp
+        src/timeline/TimelineEventTypes.cpp
         src/emoji/Provider.cpp
         ${THEME_DEFINITIONS_H}
     )

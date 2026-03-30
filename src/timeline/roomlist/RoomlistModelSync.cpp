@@ -58,8 +58,7 @@ void
 RoomlistModel::syncInvitedRoom(const QString &qroomid)
 {
     Q_UNUSED(qroomid);
-    nhlog::ui()->warn(
-      "Ignoring legacy invite-side cache sync on the matrix-sdk migration branch");
+    nhlog::ui()->warn("Ignoring legacy invite-side cache sync on the matrix-sdk migration branch");
 }
 
 void

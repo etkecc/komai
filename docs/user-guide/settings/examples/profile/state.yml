@@ -27,6 +27,7 @@ timeline:
     hidden: []
   widgets:
     hidden: []
+  # Hidden-events preferences live in config.yml under timeline.hidden_events.
 
 composer:
   drafts:

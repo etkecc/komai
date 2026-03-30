@@ -29,8 +29,7 @@ NotificationsManager::allowShowingImages(const mtx::responses::Notification &not
 QString
 NotificationsManager::getMessageTemplate(const mtx::responses::Notification &notification)
 {
-    const auto sender =
-      QString::fromStdString(mtx::accessors::sender(notification.event));
+    const auto sender = QString::fromStdString(mtx::accessors::sender(notification.event));
     const auto messageContentPolicy = UserSettings::instance()->notificationsMessageContentPolicy();
 
     if (messageContentPolicy == UserSettings::NotificationMessageContentPolicy::Never)

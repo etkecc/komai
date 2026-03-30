@@ -5,27 +5,50 @@
 
 #include "HiddenEvents.h"
 
-#include "logging/Logging.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineEventTypes.h"
-#include "ui/MainWindow.h"
 
 namespace {
-void
-notifyHiddenEventsSaveUnavailable()
+std::vector<int>
+hiddenEventTypesFromKeys(const QStringList &keys)
 {
-    nhlog::ui()->warn("Hidden event persistence is not migrated to matrix-sdk yet");
-    MainWindow::instance()->showNotification(HiddenEvents::tr(
-      "Saving hidden events is not available yet during the matrix-sdk migration."));
+    std::vector<int> hiddenEventTypes;
+    hiddenEventTypes.reserve(static_cast<size_t>(keys.size()));
+
+    for (const auto &key : keys) {
+        const auto eventType = qml_mtx_events::localTimelineEventTypeFromKey(key);
+        if (!eventType)
+            continue;
+        hiddenEventTypes.push_back(int(*eventType));
+    }
+
+    return hiddenEventTypes;
+}
+
+QStringList
+hiddenEventKeysFromTypes(const std::vector<int> &hiddenEventTypes)
+{
+    QStringList keys;
+    keys.reserve(static_cast<qsizetype>(hiddenEventTypes.size()));
+
+    for (const auto eventType : hiddenEventTypes) {
+        const auto key =
+          qml_mtx_events::localTimelineEventTypeKey(qml_mtx_events::EventType(eventType));
+        if (!key.isEmpty())
+            keys.push_back(key);
+    }
+
+    return keys;
 }
 } // namespace
 
 void
 HiddenEvents::load()
 {
-    hiddenEvents_.clear();
-    for (const auto &eventType : qml_mtx_events::defaultHiddenEventTypes()) {
-        hiddenEvents_.push_back(int(eventType));
-    }
+    const auto settings = UserSettings::instance();
+    hiddenEvents_ =
+      settings ? hiddenEventTypesFromKeys(settings->hiddenTimelineEventTypesForRoom(roomid_))
+               : hiddenEventTypesFromKeys(qml_mtx_events::defaultHiddenTimelineEventTypeKeys());
     emit hiddenEventsChanged();
 }
 
@@ -54,7 +77,10 @@ HiddenEvents::hiddenEvents() const
 void
 HiddenEvents::save()
 {
-    notifyHiddenEventsSaveUnavailable();
+    if (const auto settings = UserSettings::instance()) {
+        settings->setHiddenTimelineEventTypesForRoom(roomid_,
+                                                     hiddenEventKeysFromTypes(hiddenEvents_));
+    }
 }
 
 #include "moc_HiddenEvents.cpp"

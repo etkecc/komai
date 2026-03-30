@@ -117,6 +117,8 @@ TimelineEvent {
             return Room.Timestamp;
         case "isStateEvent":
             return Room.IsStateEvent;
+        case "isHiddenEvent":
+            return Room.IsHiddenEvent;
         case "userId":
             return Room.UserId;
         default:
@@ -180,8 +182,49 @@ TimelineEvent {
         return TimelineManager.userBubblePalette(targetUserId, resolvedBackgroundColor);
     }
 
+    function modelRowHidden(row) {
+        if (row < 0 || row >= chat.count || !chat.model)
+            return false;
+
+        if (typeof chat.model.dataByIndex === "function") {
+            const value = chat.model.dataByIndex(row, Room.IsHiddenEvent);
+            return Boolean(value);
+        }
+
+        if (typeof chat.model.get === "function") {
+            const entry = chat.model.get(row);
+            const source = (entry && entry.modelData !== undefined) ? entry.modelData
+                            : (entry && entry.model !== undefined) ? entry.model
+                            : entry;
+            return source && source.isHiddenEvent !== undefined ? Boolean(source.isHiddenEvent) : false;
+        }
+
+        if (Array.isArray(chat.model)) {
+            const entry = chat.model[row];
+            const source = (entry && entry.modelData !== undefined) ? entry.modelData
+                            : (entry && entry.model !== undefined) ? entry.model
+                            : entry;
+            return source && source.isHiddenEvent !== undefined ? Boolean(source.isHiddenEvent) : false;
+        }
+
+        return false;
+    }
+
+    function previousVisibleModelRow(row) {
+        for (let candidateRow = row; candidateRow >= 0 && candidateRow < chat.count; candidateRow += 1) {
+            if (!modelRowHidden(candidateRow))
+                return candidateRow;
+        }
+
+        return -1;
+    }
+
     function previousModelData(row, roleOrName, fallback) {
         if (row < 0 || row >= chat.count || !chat.model)
+            return fallback;
+
+        const visibleRow = previousVisibleModelRow(row);
+        if (visibleRow < 0)
             return fallback;
 
         const roleName = typeof roleOrName === "string" ? roleOrName : roleNameForPreview(roleOrName);
@@ -191,7 +234,7 @@ TimelineEvent {
         if (typeof chat.model.dataByIndex === "function") {
             const role = typeof roleOrName === "number" ? roleOrName : roleValueForName(roleName);
             if (role >= 0) {
-                const value = chat.model.dataByIndex(row, role);
+                const value = chat.model.dataByIndex(visibleRow, role);
                 if (value !== undefined && value !== null)
                     return value;
             }
@@ -199,7 +242,7 @@ TimelineEvent {
         }
 
         if (typeof chat.model.get === "function") {
-            const entry = chat.model.get(row);
+            const entry = chat.model.get(visibleRow);
             const source = (entry && entry.modelData !== undefined) ? entry.modelData
                             : (entry && entry.model !== undefined) ? entry.model
                             : entry;
@@ -208,7 +251,7 @@ TimelineEvent {
         }
 
         if (Array.isArray(chat.model)) {
-            const entry = chat.model[row];
+            const entry = chat.model[visibleRow];
             const source = (entry && entry.modelData !== undefined) ? entry.modelData
                             : (entry && entry.model !== undefined) ? entry.model
                             : entry;

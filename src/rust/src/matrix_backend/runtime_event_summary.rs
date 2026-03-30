@@ -28,6 +28,7 @@ use super::MatrixReactionSummary;
 
 pub struct MatrixEventSummary {
     pub kind: String,
+    pub matrix_event_type: String,
     pub body: String,
     pub formatted_body: String,
     pub thread_root_id: String,
@@ -68,16 +69,24 @@ pub fn summarize_timeline_content(
         TimelineItemContent::MembershipChange(change) => summarize_membership_change(change),
         TimelineItemContent::ProfileChange(change) => summarize_profile_change(change),
         TimelineItemContent::OtherState(state) => summarize_other_state(state),
-        TimelineItemContent::FailedToParseMessageLike { .. } => {
-            summary("failed_to_parse_message_like", "[Unreadable message event]")
+        TimelineItemContent::FailedToParseMessageLike { event_type, .. } => {
+            let event_type = event_type.to_string();
+            summary(
+                "failed_to_parse_message_like",
+                &event_type,
+                "[Unreadable message event]",
+            )
         }
-        TimelineItemContent::FailedToParseState { .. } => {
-            summary("failed_to_parse_state", "[Unreadable state event]")
+        TimelineItemContent::FailedToParseState { event_type, .. } => {
+            let event_type = event_type.to_string();
+            summary("failed_to_parse_state", &event_type, "[Unreadable state event]")
         }
-        TimelineItemContent::CallInvite => summary("call_invite", "[Call invite]"),
-        TimelineItemContent::RtcNotification => {
-            summary("rtc_notification", "[RTC notification]")
-        }
+        TimelineItemContent::CallInvite => summary("call_invite", "m.call.invite", "[Call invite]"),
+        TimelineItemContent::RtcNotification => summary(
+            "rtc_notification",
+            "m.rtc.notification",
+            "[RTC notification]",
+        ),
     }
 }
 
@@ -114,10 +123,15 @@ fn summarize_msg_like_kind(kind: &MsgLikeKind) -> MatrixEventSummary {
     match kind {
         MsgLikeKind::Message(message) => summary_from_message_type(message.msgtype()),
         MsgLikeKind::Sticker(sticker) => summarize_sticker(sticker.content()),
-        MsgLikeKind::Poll(_) => summary("poll", "[Poll]"),
-        MsgLikeKind::Redacted => summary("redacted", "Deleted message"),
-        MsgLikeKind::UnableToDecrypt(_) => summary("unable_to_decrypt", "[Unable to decrypt message]"),
-        MsgLikeKind::Other(_) => summary("other_message", "[Unsupported message event]"),
+        MsgLikeKind::Poll(_) => summary("poll", "", "[Poll]"),
+        MsgLikeKind::Redacted => summary("redacted", "m.room.message", "Deleted message"),
+        MsgLikeKind::UnableToDecrypt(_) => {
+            summary("unable_to_decrypt", "m.room.encrypted", "[Unable to decrypt message]")
+        }
+        MsgLikeKind::Other(other) => {
+            let event_type = other.event_type().to_string();
+            summary("other_message", &event_type, "[Unsupported message event]")
+        }
     }
 }
 
@@ -127,31 +141,33 @@ pub fn summarize_sync_timeline_event(event: &AnySyncTimelineEvent) -> Option<Mat
             summarize_room_message_event(message)
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::Sticker(_)) => {
-            summary("sticker", "[Sticker]")
+            summary("sticker", "m.sticker", "[Sticker]")
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::UnstablePollStart(_)) => {
-            summary("poll", "[Poll]")
+            summary("poll", "", "[Poll]")
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::CallInvite(_)) => {
-            summary("call_invite", "[Call invite]")
+            summary("call_invite", "m.call.invite", "[Call invite]")
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::RtcNotification(_)) => {
-            summary("rtc_notification", "[RTC notification]")
+            summary("rtc_notification", "m.rtc.notification", "[RTC notification]")
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::Reaction(_)) => {
-            summary("reaction", "Reactions updated")
+            summary("reaction", "m.reaction", "Reactions updated")
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::RoomRedaction(_)) => {
-            summary("redacted", "Deleted message")
+            summary("redacted", "m.room.redaction", "Deleted message")
         }
         AnySyncTimelineEvent::State(AnySyncStateEvent::RoomMember(_)) => {
-            summary("membership_change", "[Membership change]")
+            summary("membership_change", "m.room.member", "[Membership change]")
         }
         AnySyncTimelineEvent::State(state) => {
-            summary("other_state", &format!("State event: {}", state.event_type()))
+            let event_type = state.event_type().to_string();
+            summary("other_state", &event_type, &format!("State event: {}", event_type))
         }
         AnySyncTimelineEvent::MessageLike(message) => {
-            summary("other_message", &format!("[{}]", message.event_type()))
+            let event_type = message.event_type().to_string();
+            summary("other_message", &event_type, &format!("[{}]", event_type))
         }
     };
 
@@ -177,7 +193,9 @@ fn summarize_room_message_event(message: &SyncRoomMessageEvent) -> MatrixEventSu
 
             summary_from_message_type(&event.content.msgtype)
         }
-        SyncRoomMessageEvent::Redacted(_) => summary("redacted", "Deleted message"),
+        SyncRoomMessageEvent::Redacted(_) => {
+            summary("redacted", "m.room.message", "Deleted message")
+        }
     }
 }
 
@@ -186,51 +204,87 @@ fn summarize_membership_change(change: &RoomMembershipChange) -> MatrixEventSumm
 
     match change.change() {
         Some(MembershipChange::Joined) => {
-            summary("membership_change", &format!("{user} joined the room"))
+            summary("membership_change", "m.room.member", &format!("{user} joined the room"))
         }
         Some(MembershipChange::Left) => {
-            summary("membership_change", &format!("{user} left the room"))
+            summary("membership_change", "m.room.member", &format!("{user} left the room"))
         }
         Some(MembershipChange::Banned) => {
-            summary("membership_change", &format!("{user} was banned"))
+            summary("membership_change", "m.room.member", &format!("{user} was banned"))
         }
         Some(MembershipChange::Unbanned) => {
-            summary("membership_change", &format!("{user} was unbanned"))
+            summary("membership_change", "m.room.member", &format!("{user} was unbanned"))
         }
         Some(MembershipChange::Kicked) => {
-            summary("membership_change", &format!("{user} was kicked"))
+            summary("membership_change", "m.room.member", &format!("{user} was kicked"))
         }
         Some(MembershipChange::Invited) => {
-            summary("membership_change", &format!("{user} was invited"))
+            summary("membership_change", "m.room.member", &format!("{user} was invited"))
         }
         Some(MembershipChange::KickedAndBanned) => {
-            summary("membership_change", &format!("{user} was kicked and banned"))
+            summary(
+                "membership_change",
+                "m.room.member",
+                &format!("{user} was kicked and banned"),
+            )
         }
         Some(MembershipChange::InvitationAccepted) => {
-            summary("membership_change", &format!("{user} accepted the invite"))
+            summary(
+                "membership_change",
+                "m.room.member",
+                &format!("{user} accepted the invite"),
+            )
         }
         Some(MembershipChange::InvitationRejected) => {
-            summary("membership_change", &format!("{user} rejected the invite"))
+            summary(
+                "membership_change",
+                "m.room.member",
+                &format!("{user} rejected the invite"),
+            )
         }
         Some(MembershipChange::InvitationRevoked) => {
-            summary("membership_change", &format!("{user}'s invite was revoked"))
+            summary(
+                "membership_change",
+                "m.room.member",
+                &format!("{user}'s invite was revoked"),
+            )
         }
         Some(MembershipChange::Knocked) => {
-            summary("membership_change", &format!("{user} requested to join"))
+            summary(
+                "membership_change",
+                "m.room.member",
+                &format!("{user} requested to join"),
+            )
         }
         Some(MembershipChange::KnockAccepted) => {
-            summary("membership_change", &format!("{user}'s knock was accepted"))
+            summary(
+                "membership_change",
+                "m.room.member",
+                &format!("{user}'s knock was accepted"),
+            )
         }
         Some(MembershipChange::KnockRetracted) => {
-            summary("membership_change", &format!("{user} withdrew the join request"))
+            summary(
+                "membership_change",
+                "m.room.member",
+                &format!("{user} withdrew the join request"),
+            )
         }
         Some(MembershipChange::KnockDenied) => {
-            summary("membership_change", &format!("{user}'s join request was denied"))
+            summary(
+                "membership_change",
+                "m.room.member",
+                &format!("{user}'s join request was denied"),
+            )
         }
         Some(MembershipChange::None)
         | Some(MembershipChange::Error)
         | Some(MembershipChange::NotImplemented)
-        | None => summary("membership_change", &format!("Membership updated for {user}")),
+        | None => summary(
+            "membership_change",
+            "m.room.member",
+            &format!("Membership updated for {user}"),
+        ),
     }
 }
 
@@ -239,63 +293,89 @@ fn summarize_profile_change(change: &MemberProfileChange) -> MatrixEventSummary 
 
     if let Some(displayname_change) = change.displayname_change() {
         if let Some(new_name) = displayname_change.new.as_deref().filter(|name| !name.is_empty()) {
-            return summary("profile_change", &format!("{user} is now known as {new_name}"));
+            return summary(
+                "profile_change",
+                "m.room.member",
+                &format!("{user} is now known as {new_name}"),
+            );
         }
     }
 
     if change.avatar_url_change().is_some() {
-        return summary("profile_change", &format!("{user} changed their avatar"));
+        return summary(
+            "profile_change",
+            "m.room.member",
+            &format!("{user} changed their avatar"),
+        );
     }
 
-    summary("profile_change", &format!("{user} updated their profile"))
+    summary(
+        "profile_change",
+        "m.room.member",
+        &format!("{user} updated their profile"),
+    )
 }
 
 fn summarize_other_state(state: &OtherState) -> MatrixEventSummary {
+    let event_type = state.content().event_type().to_string();
+
     match state.content() {
         AnyOtherFullStateEventContent::RoomName(content) => match content {
             matrix_sdk::ruma::events::FullStateEventContent::Original { content, .. }
                 if !content.name.is_empty() =>
             {
-                summary("other_state", &format!("Room name changed to {}", content.name))
+                summary(
+                    "other_state",
+                    &event_type,
+                    &format!("Room name changed to {}", content.name),
+                )
             }
-            _ => summary("other_state", "Room name changed"),
+            _ => summary("other_state", &event_type, "Room name changed"),
         },
         AnyOtherFullStateEventContent::RoomTopic(content) => match content {
             matrix_sdk::ruma::events::FullStateEventContent::Original { content, .. }
                 if !content.topic.is_empty() =>
             {
-                summary("other_state", &format!("Room topic changed to {}", content.topic))
+                summary(
+                    "other_state",
+                    &event_type,
+                    &format!("Room topic changed to {}", content.topic),
+                )
             }
-            _ => summary("other_state", "Room topic changed"),
+            _ => summary("other_state", &event_type, "Room topic changed"),
         },
         AnyOtherFullStateEventContent::RoomAvatar(_) => {
-            summary("other_state", "Room avatar changed")
+            summary("other_state", &event_type, "Room avatar changed")
         }
         AnyOtherFullStateEventContent::RoomEncryption(_) => {
-            summary("other_state", "Enabled end-to-end encryption")
+            summary("other_state", &event_type, "Enabled end-to-end encryption")
         }
         AnyOtherFullStateEventContent::RoomPinnedEvents(_) => {
-            summary("other_state", "Pinned messages changed")
+            summary("other_state", &event_type, "Pinned messages changed")
         }
         AnyOtherFullStateEventContent::RoomPowerLevels(_) => {
-            summary("other_state", "Room permissions changed")
+            summary("other_state", &event_type, "Room permissions changed")
         }
         AnyOtherFullStateEventContent::RoomJoinRules(_) => {
-            summary("other_state", "Room access rules changed")
+            summary("other_state", &event_type, "Room access rules changed")
         }
         AnyOtherFullStateEventContent::RoomHistoryVisibility(_) => {
-            summary("other_state", "Room history visibility changed")
+            summary("other_state", &event_type, "Room history visibility changed")
         }
         AnyOtherFullStateEventContent::RoomGuestAccess(_) => {
-            summary("other_state", "Room guest access changed")
+            summary("other_state", &event_type, "Room guest access changed")
         }
         AnyOtherFullStateEventContent::RoomCanonicalAlias(_) => {
-            summary("other_state", "Room alias changed")
+            summary("other_state", &event_type, "Room alias changed")
         }
         AnyOtherFullStateEventContent::RoomTombstone(_) => {
-            summary("other_state", "Room was replaced")
+            summary("other_state", &event_type, "Room was replaced")
         }
-        other => summary("other_state", &format!("State event: {}", other.event_type())),
+        other => summary(
+            "other_state",
+            &event_type,
+            &format!("State event: {}", other.event_type()),
+        ),
     }
 }
 
@@ -329,32 +409,52 @@ fn summary_from_message_type(message_type: &MessageType) -> MatrixEventSummary {
                 MessageType::Emote(_) => "emote",
                 _ => unreachable!(),
             };
-            let mut s = summary(kind, message_type.body());
+            let mut s = summary(kind, "m.room.message", message_type.body());
             s.formatted_body = formatted_html(message_type).to_owned();
             s.special_effect_names =
                 detect_special_effect_names(message_type.body(), Some(message_type.msgtype()));
             s
         }
         MessageType::_Custom(_) => {
-            let mut s = summary("message", message_type.body());
+            let mut s = summary("unknown_message", "m.room.message", message_type.body());
             s.special_effect_names =
                 detect_special_effect_names(message_type.body(), Some(message_type.msgtype()));
             s
         }
         MessageType::Image(content) => {
-            summary_with_media("image", caption_or_filename(content), media_for_image(content))
+            summary_with_media(
+                "image",
+                "m.room.message",
+                caption_or_filename(content),
+                media_for_image(content),
+            )
         }
         MessageType::Video(content) => {
-            summary_with_media("video", caption_or_filename(content), media_for_video(content))
+            summary_with_media(
+                "video",
+                "m.room.message",
+                caption_or_filename(content),
+                media_for_video(content),
+            )
         }
         MessageType::Audio(content) => {
-            summary_with_media("audio", caption_or_filename(content), media_for_audio(content))
+            summary_with_media(
+                "audio",
+                "m.room.message",
+                caption_or_filename(content),
+                media_for_audio(content),
+            )
         }
         MessageType::File(content) => {
-            summary_with_media("file", caption_or_filename(content), media_for_file(content))
+            summary_with_media(
+                "file",
+                "m.room.message",
+                caption_or_filename(content),
+                media_for_file(content),
+            )
         }
-        MessageType::Location(_) => summary("location", message_type.body()),
-        _ => summary("message", message_type.body()),
+        MessageType::Location(_) => summary("location", "m.room.message", message_type.body()),
+        _ => summary("unknown_message", "m.room.message", message_type.body()),
     }
 }
 
@@ -425,9 +525,10 @@ fn human_name(display_name: Option<&str>, user_id: &str) -> String {
         .to_owned()
 }
 
-fn summary(kind: &str, body: &str) -> MatrixEventSummary {
+fn summary(kind: &str, matrix_event_type: &str, body: &str) -> MatrixEventSummary {
     MatrixEventSummary {
         kind: kind.to_owned(),
+        matrix_event_type: matrix_event_type.to_owned(),
         body: body.to_owned(),
         formatted_body: String::new(),
         thread_root_id: String::new(),
@@ -446,11 +547,13 @@ fn summary(kind: &str, body: &str) -> MatrixEventSummary {
 
 fn summary_with_media(
     kind: &str,
+    matrix_event_type: &str,
     body: &str,
     media: MatrixEventMediaSummary,
 ) -> MatrixEventSummary {
     MatrixEventSummary {
         kind: kind.to_owned(),
+        matrix_event_type: matrix_event_type.to_owned(),
         body: body.to_owned(),
         formatted_body: String::new(),
         thread_root_id: String::new(),
@@ -507,20 +610,7 @@ fn summarize_reply_preview(
 }
 
 fn summarize_embedded_content(content: &TimelineItemContent) -> MatrixEventSummary {
-    match content {
-        TimelineItemContent::MsgLike(content) => summarize_msg_like_kind(&content.kind),
-        TimelineItemContent::MembershipChange(change) => summarize_membership_change(change),
-        TimelineItemContent::ProfileChange(change) => summarize_profile_change(change),
-        TimelineItemContent::OtherState(state) => summarize_other_state(state),
-        TimelineItemContent::FailedToParseMessageLike { .. } => {
-            summary("failed_to_parse_message_like", "[Unreadable message event]")
-        }
-        TimelineItemContent::FailedToParseState { .. } => {
-            summary("failed_to_parse_state", "[Unreadable state event]")
-        }
-        TimelineItemContent::CallInvite => summary("call_invite", "[Call invite]"),
-        TimelineItemContent::RtcNotification => summary("rtc_notification", "[RTC notification]"),
-    }
+    summarize_timeline_content(content, None)
 }
 
 fn summarize_reaction_items(
@@ -594,6 +684,7 @@ fn summarize_sticker(
 
     summary_with_media(
         "sticker",
+        "m.sticker",
         content.body.as_str(),
         MatrixEventMediaSummary {
             media_url,

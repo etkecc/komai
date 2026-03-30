@@ -17,9 +17,11 @@ QtObject {
 
     function canExplicitlySelectEventId(eventId) {
         const normalizedEventId = String(eventId || "");
-        return normalizedEventId.length > 0
-            && TimelineManager.matrixTimelineModel
-            && TimelineManager.matrixTimelineModel.rowForEventId(normalizedEventId) >= 0;
+        if (normalizedEventId.length === 0 || !TimelineManager.matrixTimelineModel)
+            return false;
+
+        const row = TimelineManager.matrixTimelineModel.rowForEventId(normalizedEventId);
+        return row >= 0 && rootItem.isSelectableMatrixTimelineRow(row);
     }
 
     function updateSelectionAnchor(preferredEventId) {
@@ -127,10 +129,16 @@ QtObject {
 
     function matrixEventTypeForItemKind(kind) {
         switch (kind) {
+        case "message":
+            return MtxEvent.TextMessage;
         case "notice":
             return MtxEvent.NoticeMessage;
+        case "emote":
+            return MtxEvent.EmoteMessage;
         case "redacted":
             return MtxEvent.Redacted;
+        case "unable_to_decrypt":
+            return MtxEvent.Encrypted;
         case "image":
             return MtxEvent.ImageMessage;
         case "video":
@@ -139,10 +147,18 @@ QtObject {
             return MtxEvent.AudioMessage;
         case "file":
             return MtxEvent.FileMessage;
+        case "location":
+            return MtxEvent.LocationMessage;
         case "sticker":
             return MtxEvent.Sticker;
+        case "membership_change":
+        case "profile_change":
+            return MtxEvent.Member;
+        case "unknown_message":
+        case "failed_to_parse_message_like":
+            return MtxEvent.UnknownMessage;
         default:
-            return MtxEvent.TextMessage;
+            return MtxEvent.UnknownEvent;
         }
     }
 

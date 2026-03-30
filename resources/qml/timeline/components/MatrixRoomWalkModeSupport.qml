@@ -43,9 +43,19 @@ Item {
     }
 
     function focusWalkModeEventById(eventId, options) {
-        const normalizedEventId = String(eventId || "");
+        let normalizedEventId = String(eventId || "");
         if (normalizedEventId.length === 0)
             return false;
+
+        if (!rootItem.canExplicitlySelectEventId(normalizedEventId)) {
+            const row = matrixTimelineRowForEventId(normalizedEventId);
+            if (row < 0)
+                return false;
+
+            normalizedEventId = String(rootItem.selectableEventIdNearMatrixRow(row) || "");
+            if (normalizedEventId.length === 0)
+                return false;
+        }
 
         rootItem.focusedEventId = normalizedEventId;
         rootItem.walkModeActive = true;
@@ -194,7 +204,10 @@ Item {
             return false;
 
         const item = TimelineManager.matrixTimelineModel.itemAt(row);
-        return !!item && String(item.eventId || "").length > 0 && String(item.typeString || "") !== "date_divider";
+        return !!item
+            && String(item.eventId || "").length > 0
+            && String(item.typeString || "") !== "date_divider"
+            && !Boolean(item.isHiddenEvent);
     }
 
     function focusMatrixTimelineRow(row, options) {

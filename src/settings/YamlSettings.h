@@ -155,6 +155,37 @@ readStringMap(const YAML::Node &root, const char *dottedKey)
     return result;
 }
 
+inline QMap<QString, QStringList>
+readStringListMap(const YAML::Node &root, const char *dottedKey)
+{
+    const auto node = getNode(root, dottedKey);
+    if (!node || !node.IsMap())
+        return {};
+
+    QMap<QString, QStringList> result;
+    for (const auto &item : node) {
+        if (!item.first.IsScalar() || !item.second.IsSequence())
+            continue;
+
+        QStringList values;
+        for (const auto &entry : item.second) {
+            if (!entry.IsScalar())
+                continue;
+            try {
+                values.push_back(QString::fromStdString(entry.as<std::string>()));
+            } catch (const YAML::Exception &) {
+            }
+        }
+
+        try {
+            result.insert(QString::fromStdString(item.first.as<std::string>()), values);
+        } catch (const YAML::Exception &) {
+        }
+    }
+
+    return result;
+}
+
 inline void
 writeStringList(YAML::Node &root, const char *dottedKey, const QStringList &value)
 {
@@ -183,6 +214,19 @@ writeStringMap(YAML::Node &root, const char *dottedKey, const QMap<QString, QStr
     YAML::Node map(YAML::NodeType::Map);
     for (auto it = value.constBegin(); it != value.constEnd(); ++it)
         map[it.key().toStdString()] = it.value().toStdString();
+    setNode(root, dottedKey, map);
+}
+
+inline void
+writeStringListMap(YAML::Node &root, const char *dottedKey, const QMap<QString, QStringList> &value)
+{
+    YAML::Node map(YAML::NodeType::Map);
+    for (auto it = value.constBegin(); it != value.constEnd(); ++it) {
+        YAML::Node list(YAML::NodeType::Sequence);
+        for (const auto &entry : it.value())
+            list.push_back(entry.toStdString());
+        map[it.key().toStdString()] = list;
+    }
     setNode(root, dottedKey, map);
 }
 

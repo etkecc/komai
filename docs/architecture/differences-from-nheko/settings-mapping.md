@@ -97,7 +97,7 @@ Note:
 | Privacy | WINDOW BLUR | Blur on focus loss | `settings::core::SettingId::PrivacyWindowFocusBlurEnabled` | `privacy_screen` | `privacy.window_focus_blur.enabled` | config.yml | yes |
 | Privacy | WINDOW BLUR | Blur delay (seconds) | `settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds` | `privacy_screen_timeout_seconds` | `privacy.window_focus_blur.delay_seconds` | config.yml | yes |
 | Privacy | DATA & MAINTENANCE | Delete expired events periodically | `settings::core::SettingId::PrivacyMaintenanceExpireEvents` | `expire_events` | `privacy.maintenance.expire_events` | config.yml | yes |
-| Privacy | DATA & MAINTENANCE | Hidden events | `UserSettingsModel::HiddenTimelineEvents` | `-` | `privacy.timeline.hidden_events` | runtime/UI-specific | no |
+| Privacy | DATA & MAINTENANCE | Hidden events | `UserSettingsModel::HiddenTimelineEvents` | `-` | `timeline.hidden_events.global`, `timeline.hidden_events.by_room` | config.yml | no |
 | Privacy | USERS | Ignored users | `UserSettingsModel::IgnoredUsers` | `-` | `privacy.users.ignored` | runtime/UI-specific | no |
 | Network | SPACES | Maintain space join metadata | `settings::core::SettingId::NetworkSpacesMaintainJoinMetadata` | `update_space_vias` | `network.spaces.maintain_join_metadata` | config.yml | yes |
 | Encryption | KEY SHARING | Send encrypted messages to verified users only | `settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers` | `only_share_keys_with_verified_users` | `encryption.key_sharing.only_verified_users` | config.yml | yes |

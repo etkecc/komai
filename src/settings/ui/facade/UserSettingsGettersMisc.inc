@@ -11,6 +11,10 @@
     QStringList badgesHiddenFilters() const;
     QStringList hiddenPins() const;
     QStringList hiddenWidgets() const;
+    QStringList hiddenTimelineEventTypes() const;
+    const QMap<QString, QStringList> &hiddenTimelineEventTypesByRoom() const;
+    QStringList hiddenTimelineEventTypesForRoom(const QString &roomId) const;
+    bool isTimelineEventHiddenInRoom(int eventType, const QString &roomId) const;
     const QMap<QString, QString> &composerDraftsByRoom() const;
     QString composerDraftForRoom(const QString &roomId) const;
     bool hasComposerDraftForRoom(const QString &roomId) const;

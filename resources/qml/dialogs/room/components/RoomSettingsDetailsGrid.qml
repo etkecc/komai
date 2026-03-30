@@ -508,16 +508,11 @@ ColumnLayout {
                 Layout.leftMargin: Komai.paddingMedium
             }
 
-            Components.SyncedToMatrixBadge {
-                Layout.alignment: Qt.AlignVCenter
-            }
-
             Item { Layout.fillWidth: true }
 
             HiddenEventsDialog {
                 id: hiddenEventsDialog
                 roomid: detailsGrid.roomSettings ? detailsGrid.roomSettings.roomId : ""
-                roomName: detailsGrid.roomSettings ? detailsGrid.roomSettings.roomName : ""
             }
 
             Components.KomaiButton {

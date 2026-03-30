@@ -218,6 +218,7 @@ struct MatrixTimelineItem
     QString reactionsSummary;
     QStringList specialEffectNames;
     QString itemKind;
+    QString matrixEventType;
     bool isEdited = false;
     QString mediaUrl;
     QString thumbnailUrl;
@@ -239,6 +240,7 @@ struct MatrixTimelineItem
     bool cachedIsStateEvent    = false;
     bool cachedIsEncrypted     = false;
     bool cachedIsEditable      = false;
+    bool cachedIsHiddenEvent   = false;
     double cachedProportionalH = 0.0;
     QString cachedFormattedBody;
     QString cachedFormattedStateEvent;

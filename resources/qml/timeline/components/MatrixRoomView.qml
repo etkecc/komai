@@ -148,6 +148,7 @@ ColumnLayout {
     function scheduleReadMarkerUpdate(preferLatestEvent) { return viewportSupport.scheduleReadMarkerUpdate(preferLatestEvent); }
     function ensureInitialBottomPin() { return viewportSupport.ensureInitialBottomPin(); }
     function updatePreferredInitialTimelinePageSize() { return viewportSupport.updatePreferredInitialTimelinePageSize(); }
+    function selectableEventIdNearMatrixRow(row) { return viewportSupport.selectableEventIdNearMatrixRow(row); }
 
     function clearSelectedEvents() { return walkModeSupport.clearSelectedEvents(); }
     function handleMouseSelectionToggle(eventId) { return walkModeSupport.handleMouseSelectionToggle(eventId); }
@@ -420,6 +421,7 @@ ColumnLayout {
                         required property int status
                         required property bool isEncrypted
                         required property bool isEditable
+                        required property bool isHiddenEvent
                         required property string replyTo
                         required property string url
                         required property string thumbnailUrl
@@ -452,9 +454,9 @@ ColumnLayout {
                             const replyH = replyTo.length > 0 ? lineH * 2 : 0;
                             return lines * lineH + replyH + pad + lineH;
                         }
-                        height: bubbleStyle.height > 0
+                        height: isHiddenEvent ? 0 : (bubbleStyle.height > 0
                             ? bubbleStyle.height
-                            : heuristicHeight
+                            : heuristicHeight)
 
                         TimelineBubbleMessageStyle {
                             id: bubbleStyle
@@ -479,7 +481,7 @@ ColumnLayout {
                             notificationlevel: MtxEvent.Empty
                             type: timelineItemDelegate.type
                             isEditable: timelineItemDelegate.isEditable
-                            isHiddenEvent: false
+                            isHiddenEvent: timelineItemDelegate.isHiddenEvent
                             messageContextMenu: dialogSupport.messageContextMenu
                             replyContextMenu: dialogSupport.replyContextMenu
                             messageActions: dialogSupport.messageActionsHost.control

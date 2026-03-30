@@ -62,10 +62,10 @@ signals:
 private:
     struct EventExpiryDraft
     {
-        std::uint64_t expire_after_ms    = 0;
-        std::uint64_t keep_only_latest   = 0;
-        std::uint64_t protect_latest     = 0;
-        bool exclude_state_events        = false;
+        std::uint64_t expire_after_ms  = 0;
+        std::uint64_t keep_only_latest = 0;
+        std::uint64_t protect_latest   = 0;
+        bool exclude_state_events      = false;
     };
 
     QString roomid_;

@@ -278,9 +278,13 @@ EventDelegateChooser {
         FileMessage {
             required property string userId
             required property string userName
+            property QtObject fallbackStyleProfile: TimelineStyleProfile {}
+            readonly property QtObject chooserStyleProfile: (parent && parent.resolvedStyleProfile !== undefined && parent.resolvedStyleProfile !== null)
+                ? parent.resolvedStyleProfile
+                : fallbackStyleProfile
 
             Layout.fillWidth: true
-            styleProfile: wrapper.resolvedStyleProfile
+            styleProfile: chooserStyleProfile
         }
     }
     EventDelegateChoice {
@@ -309,9 +313,13 @@ EventDelegateChooser {
         Encrypted {
             required property string userId
             required property string userName
+            property QtObject fallbackStyleProfile: TimelineStyleProfile {}
+            readonly property QtObject chooserStyleProfile: (parent && parent.resolvedStyleProfile !== undefined && parent.resolvedStyleProfile !== null)
+                ? parent.resolvedStyleProfile
+                : fallbackStyleProfile
 
             Layout.fillWidth: true
-            styleProfile: wrapper.resolvedStyleProfile
+            styleProfile: chooserStyleProfile
         }
     }
     EventDelegateChoice {

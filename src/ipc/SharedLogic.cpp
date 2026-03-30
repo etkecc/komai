@@ -710,14 +710,12 @@ sendMessage(const QString &roomIdOrAlias,
        formattedBody = QString::fromStdString(formattedBody),
        messageKind]() {
           AsyncSendResult result;
-          if (QString error;
-              komai::MatrixBackendRuntimeService::sendRoomMessage(
+          if (QString error; komai::MatrixBackendRuntimeService::sendRoomMessage(
                 handleId, roomId, trimmedBody, formattedBody, messageKind, &error)) {
               result.eventId = QStringLiteral("queued");
           } else {
-              result.error = error.isEmpty()
-                               ? QStringLiteral("failed to send matrix-sdk room message")
-                               : error;
+              result.error =
+                error.isEmpty() ? QStringLiteral("failed to send matrix-sdk room message") : error;
           }
 
           return result;
@@ -781,28 +779,32 @@ mediaUpload(const QString &filePath,
         return;
     }
 
-    const auto effectiveContentType = effectiveMimeTypeForFile(fileInfo.absoluteFilePath(), contentType);
-    const auto effectiveFilePath    = fileInfo.absoluteFilePath();
-    const auto fileSize             = static_cast<uint64_t>(fileInfo.size());
+    const auto effectiveContentType =
+      effectiveMimeTypeForFile(fileInfo.absoluteFilePath(), contentType);
+    const auto effectiveFilePath = fileInfo.absoluteFilePath();
+    const auto fileSize          = static_cast<uint64_t>(fileInfo.size());
 
     runIpcTask(
-      [handleId = *handleId, effectiveFilePath, effectiveFilename, effectiveContentType, fileSize]() {
+      [handleId = *handleId,
+       effectiveFilePath,
+       effectiveFilename,
+       effectiveContentType,
+       fileSize]() {
           AsyncUploadResult result;
           QString error;
           const auto mxcUri = komai::MatrixBackendRuntimeService::uploadMedia(
             handleId, effectiveFilePath, effectiveContentType, &error);
           if (!mxcUri.has_value()) {
-              result.error = error.isEmpty()
-                               ? QStringLiteral("failed to upload matrix media")
-                               : error;
+              result.error =
+                error.isEmpty() ? QStringLiteral("failed to upload matrix media") : error;
               return result;
           }
 
           result.result = komai::ipc::UploadResult{
-            .mxcUri       = *mxcUri,
-            .contentType  = effectiveContentType,
-            .filename     = effectiveFilename,
-            .size         = fileSize,
+            .mxcUri      = *mxcUri,
+            .contentType = effectiveContentType,
+            .filename    = effectiveFilename,
+            .size        = fileSize,
           };
           return result;
       },
@@ -840,8 +842,10 @@ sendImageFromFile(const QString &roomIdOrAlias,
     }
 
     const auto effectiveFilePath = fileInfo.absoluteFilePath();
-    const auto mimeType =
-      QMimeDatabase().mimeTypeForFile(effectiveFilePath, QMimeDatabase::MatchContent).name().trimmed();
+    const auto mimeType          = QMimeDatabase()
+                            .mimeTypeForFile(effectiveFilePath, QMimeDatabase::MatchContent)
+                            .name()
+                            .trimmed();
     if (!mimeType.startsWith(QStringLiteral("image/"), Qt::CaseInsensitive)) {
         if (callback)
             callback({}, QStringLiteral("file is not an image: ") + effectiveFilePath);
@@ -857,7 +861,12 @@ sendImageFromFile(const QString &roomIdOrAlias,
 
     const auto trimmedBody = body.trimmed();
     runIpcTask(
-      [handleId = *handleId, roomId, effectiveFilePath, effectiveFilename, trimmedBody, mimeType]() {
+      [handleId = *handleId,
+       roomId,
+       effectiveFilePath,
+       effectiveFilename,
+       trimmedBody,
+       mimeType]() {
           AsyncSendResult result;
           QString error;
           const bool ok = komai::MatrixBackendRuntimeService::sendRoomAttachment(handleId,
@@ -912,22 +921,18 @@ sendImage(const QString &roomIdOrAlias,
         return;
     }
 
-    const auto trimmedBody = body.trimmed();
+    const auto trimmedBody     = body.trimmed();
     const auto trimmedFilename = filename.trimmed();
-    const auto infoJson =
-      info.isEmpty() ? QString{} : QString::fromUtf8(QJsonDocument(info).toJson(QJsonDocument::Compact));
+    const auto infoJson        = info.isEmpty()
+                                   ? QString{}
+                                   : QString::fromUtf8(QJsonDocument(info).toJson(QJsonDocument::Compact));
 
     runIpcTask(
       [handleId = *handleId, roomId, normalizedMxcUri, trimmedBody, trimmedFilename, infoJson]() {
           AsyncSendResult result;
           QString error;
-          const bool ok = komai::MatrixBackendRuntimeService::sendRoomImage(handleId,
-                                                                            roomId,
-                                                                            normalizedMxcUri,
-                                                                            trimmedBody,
-                                                                            trimmedFilename,
-                                                                            infoJson,
-                                                                            &error);
+          const bool ok = komai::MatrixBackendRuntimeService::sendRoomImage(
+            handleId, roomId, normalizedMxcUri, trimmedBody, trimmedFilename, infoJson, &error);
           if (ok) {
               result.eventId = QStringLiteral("queued");
           } else {

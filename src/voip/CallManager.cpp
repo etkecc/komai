@@ -360,7 +360,7 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
     roomid_   = roomid;
     generateCallID();
 
-    const auto handleId = activeMatrixHandleId();
+    const auto handleId    = activeMatrixHandleId();
     const auto roomContext = fetchMatrixCallRoomContext(roomid);
     if (!handleId || !roomContext || roomContext->directChatOtherUserId.trimmed().isEmpty()) {
         emit ChatPage::instance()->showNotification(
@@ -417,11 +417,11 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
       callType_ == CallType::VOICE ? "voice" : (callType_ == CallType::VIDEO ? "video" : "screen");
 
     nhlog::ui()->debug("WebRTC: call id: {} - creating {} invite", callid_, strCallType);
-    callParty_            = calleeId;
+    callParty_ = calleeId;
     callPartyDisplayName_ =
       calleeProfile.displayName.trimmed().isEmpty() ? calleeId : calleeProfile.displayName;
     callPartyAvatarUrl_ = calleeProfile.avatarUrl;
-    invitee_              = callParty_.toStdString();
+    invitee_            = callParty_.toStdString();
     emit newInviteState();
     playRingtone(QUrl(QStringLiteral("qrc:/media/media/ringback.ogg")), true);
 
@@ -533,9 +533,9 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
         }
     }
 
-    const auto roomId = QString::fromStdString(callInviteEvent.room_id);
+    const auto roomId      = QString::fromStdString(callInviteEvent.room_id);
     const auto roomContext = fetchMatrixCallRoomContext(roomId);
-    callPartyVersion_ = callInviteEvent.content.version;
+    callPartyVersion_      = callInviteEvent.content.version;
 
     const QString &ringtone = UserSettings::instance()->callsAudioRingtone();
     bool sharesRoom         = true;
@@ -552,11 +552,11 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
             if (session_.state() == webrtc::State::OFFERSENT) {
                 if (callid_ > callInviteEvent.content.call_id) {
                     endCall();
-                    callParty_ = callerUserId;
-                    callPartyDisplayName_ =
-                      callerProfile.displayName.trimmed().isEmpty() ? callerUserId
-                                                                    : callerProfile.displayName;
-                    callPartyAvatarUrl_ = callerProfile.avatarUrl;
+                    callParty_            = callerUserId;
+                    callPartyDisplayName_ = callerProfile.displayName.trimmed().isEmpty()
+                                              ? callerUserId
+                                              : callerProfile.displayName;
+                    callPartyAvatarUrl_   = callerProfile.avatarUrl;
 
                     roomid_ = QString::fromStdString(callInviteEvent.room_id);
                     callid_ = callInviteEvent.content.call_id;
@@ -621,7 +621,7 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
                        : QUrl::fromLocalFile(ringtone),
                      true);
 
-    callParty_            = callerUserId;
+    callParty_ = callerUserId;
     callPartyDisplayName_ =
       callerProfile.displayName.trimmed().isEmpty() ? callerUserId : callerProfile.displayName;
     callPartyAvatarUrl_ = callerProfile.avatarUrl;

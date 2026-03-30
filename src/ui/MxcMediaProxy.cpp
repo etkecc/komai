@@ -218,48 +218,46 @@ MxcMediaProxy::startDownload(bool onlyCached)
         return;
     }
 
-    std::thread(
-      [filename, eventId = eventId_, processBuffer, self, handleId]() mutable {
-          QString error;
-          auto bytes = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-            handleId, eventId, 0, 0, false, &error);
+    std::thread([filename, eventId = eventId_, processBuffer, self, handleId]() mutable {
+        QString error;
+        auto bytes = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
+          handleId, eventId, 0, 0, false, &error);
 
-          QTimer::singleShot(
-            0,
-            ChatPage::instance(),
-            [filename,
-             eventId,
-             processBuffer = std::move(processBuffer),
-             self,
-             bytes = std::move(bytes),
-             error = std::move(error)]() mutable {
-                if (!bytes || bytes->isEmpty()) {
-                    if (self)
-                        self->setRecoveringFromStreamingFallback(false);
-                    nhlog::net()->warn(
-                      "failed to retrieve active timeline media {} via matrix-sdk runtime: {}",
-                      eventId.toStdString(),
-                      error.toStdString());
-                    return;
-                }
+        QTimer::singleShot(
+          0,
+          ChatPage::instance(),
+          [filename,
+           eventId,
+           processBuffer = std::move(processBuffer),
+           self,
+           bytes = std::move(bytes),
+           error = std::move(error)]() mutable {
+              if (!bytes || bytes->isEmpty()) {
+                  if (self)
+                      self->setRecoveringFromStreamingFallback(false);
+                  nhlog::net()->warn(
+                    "failed to retrieve active timeline media {} via matrix-sdk runtime: {}",
+                    eventId.toStdString(),
+                    error.toStdString());
+                  return;
+              }
 
-                try {
-                    QFile file(filename.filePath());
-                    if (!file.open(QIODevice::WriteOnly))
-                        return;
+              try {
+                  QFile file(filename.filePath());
+                  if (!file.open(QIODevice::WriteOnly))
+                      return;
 
-                    file.write(*bytes);
-                    file.close();
+                  file.write(*bytes);
+                  file.close();
 
-                    QBuffer buf(&*bytes);
-                    buf.open(QBuffer::ReadOnly);
-                    processBuffer(buf);
-                } catch (const std::exception &e) {
-                    nhlog::ui()->warn("Error while saving file to: {}", e.what());
-                }
-            });
-      })
-      .detach();
+                  QBuffer buf(&*bytes);
+                  buf.open(QBuffer::ReadOnly);
+                  processBuffer(buf);
+              } catch (const std::exception &e) {
+                  nhlog::ui()->warn("Error while saving file to: {}", e.what());
+              }
+          });
+    }).detach();
 }
 
 void

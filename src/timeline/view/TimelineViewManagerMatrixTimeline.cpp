@@ -296,8 +296,10 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     matrixTimelineInitialPrefetchAttempted_ = false;
     refreshActiveMatrixTimelinePinnedEventIds();
     refreshActiveMatrixTimelineRedactionPermissions();
-    if (matrixTimelineModel_)
+    if (matrixTimelineModel_) {
         matrixTimelineModel_->clear();
+        matrixTimelineModel_->setRoomId(roomId);
+    }
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_loading_started");
     emit matrixTimelineStateChanged();
 }
@@ -686,8 +688,10 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
     clearMatrixReadMarkerQueue();
     matrixTimelineInitialPrefetchAttempted_ = false;
 
-    if (matrixTimelineModel_)
+    if (matrixTimelineModel_) {
         matrixTimelineModel_->clear();
+        matrixTimelineModel_->setRoomId(QString());
+    }
 
     if (stateChanged)
         emit matrixTimelineStateChanged();

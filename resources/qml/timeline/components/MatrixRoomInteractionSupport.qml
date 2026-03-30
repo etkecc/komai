@@ -37,9 +37,20 @@ QtObject {
         if (trimmedEventId.length === 0 || !TimelineManager.matrixTimelineModel || !timelineList)
             return false;
 
-        const row = TimelineManager.matrixTimelineModel.rowForEventId(trimmedEventId);
+        let targetEventId = trimmedEventId;
+        let row = TimelineManager.matrixTimelineModel.rowForEventId(targetEventId);
         if (row < 0)
             return false;
+
+        if (!rootItem.isSelectableMatrixTimelineRow(row)) {
+            targetEventId = String(rootItem.selectableEventIdNearMatrixRow(row) || "");
+            if (targetEventId.length === 0)
+                return false;
+
+            row = TimelineManager.matrixTimelineModel.rowForEventId(targetEventId);
+            if (row < 0)
+                return false;
+        }
 
         timelineList.positionViewAtIndex(row, ListView.Center);
         return true;

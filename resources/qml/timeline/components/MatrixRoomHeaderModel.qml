@@ -28,6 +28,19 @@ QtObject {
     property bool supportsPinnedMessagesUi: true
     property bool supportsVisibilityInfo: true
 
+    function previousVisibleItem(model, row) {
+        if (!model)
+            return ({});
+
+        for (let candidateRow = row + 1; candidateRow < TimelineManager.matrixTimelineItemCount; candidateRow++) {
+            const candidate = model.itemAt(candidateRow);
+            if (candidate && !Boolean(candidate.isHiddenEvent))
+                return candidate;
+        }
+
+        return ({});
+    }
+
     function previewDataForEvent(eventId) {
         const model = TimelineManager.matrixTimelineModel;
         if (!model)
@@ -41,7 +54,7 @@ QtObject {
         if (!item || item.typeString === undefined)
             return ({});
 
-        const previousItem = row > 0 ? model.itemAt(row - 1) : ({});
+        const previousItem = root.previousVisibleItem(model, row);
         const timestamp = Number(item.timestamp || 0);
         const dayKey = root.rootItem.matrixTimelineDayKey(timestamp);
         const previousTimestamp = previousItem.timestamp !== undefined
@@ -57,6 +70,9 @@ QtObject {
             ? String(previousItem.userId || "")
             : "";
         const itemKind = String(item.typeString || "");
+        const itemType = item.type !== undefined
+            ? Number(item.type)
+            : root.rootItem.matrixEventTypeForItemKind(itemKind);
         const body = String(item.body || "");
         const effectiveFileName = item.filename && String(item.filename).length > 0
             ? String(item.filename)
@@ -79,7 +95,7 @@ QtObject {
 
         if (itemKind === "redacted") {
             return Object.assign({}, basePreview, {
-                "type": MtxEvent.Redacted,
+                "type": itemType,
                 "redactedFirst": redactedPair.first,
                 "redactedSecond": redactedPair.second
             });
@@ -87,7 +103,7 @@ QtObject {
 
         if (root.rootItem.isMatrixStateLikeKind(itemKind)) {
             return Object.assign({}, basePreview, {
-                "type": MtxEvent.Name,
+                "type": itemType,
                 "formattedStateEvent": root.rootItem.formattedMatrixTextHtml(body),
                 "stateEventIconSource": root.rootItem.matrixStateEventIconForKind(itemKind)
             });
@@ -100,7 +116,7 @@ QtObject {
                 ? (mediaHeight / mediaWidth)
                 : 0.75;
             return Object.assign({}, basePreview, {
-                "type": root.rootItem.matrixEventTypeForItemKind(itemKind),
+                "type": itemType,
                 "body": body,
                 "url": String(item.url || ""),
                 "blurhash": "",
@@ -119,7 +135,7 @@ QtObject {
 
         if (itemKind === "file" || itemKind === "audio") {
             return Object.assign({}, basePreview, {
-                "type": root.rootItem.matrixEventTypeForItemKind(itemKind),
+                "type": itemType,
                 "body": body,
                 "filename": effectiveFileName,
                 "filesize": humanReadableMediaSize,
@@ -130,7 +146,7 @@ QtObject {
         }
 
         return Object.assign({}, basePreview, {
-            "type": root.rootItem.matrixEventTypeForItemKind(itemKind),
+            "type": itemType,
             "body": body,
             "formattedBody": root.rootItem.formattedMatrixTextHtml(body),
             "formattedStateEvent": root.rootItem.formattedMatrixTextHtml(body),

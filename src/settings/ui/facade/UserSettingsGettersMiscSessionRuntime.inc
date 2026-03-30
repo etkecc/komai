@@ -53,6 +53,42 @@ UserSettings::hiddenWidgets() const
 {
     return hiddenWidgets_;
 }
+
+QStringList
+UserSettings::hiddenTimelineEventTypes() const
+{
+    return hiddenTimelineEventTypes_;
+}
+
+const QMap<QString, QStringList> &
+UserSettings::hiddenTimelineEventTypesByRoom() const
+{
+    return hiddenTimelineEventTypesByRoom_;
+}
+
+QStringList
+UserSettings::hiddenTimelineEventTypesForRoom(const QString &roomId) const
+{
+    const auto trimmedRoomId = roomId.trimmed();
+    if (trimmedRoomId.isEmpty())
+        return hiddenTimelineEventTypes_;
+
+    const auto it = hiddenTimelineEventTypesByRoom_.constFind(trimmedRoomId);
+    return it != hiddenTimelineEventTypesByRoom_.constEnd() ? it.value()
+                                                            : hiddenTimelineEventTypes_;
+}
+
+bool
+UserSettings::isTimelineEventHiddenInRoom(int eventType, const QString &roomId) const
+{
+    const auto key =
+      qml_mtx_events::localTimelineEventTypeKey(static_cast<qml_mtx_events::EventType>(eventType));
+    if (key.isEmpty())
+        return false;
+
+    return hiddenTimelineEventTypesForRoom(roomId).contains(key);
+}
+
 const QMap<QString, QString> &
 UserSettings::composerDraftsByRoom() const
 {

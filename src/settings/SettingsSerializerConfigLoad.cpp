@@ -16,12 +16,15 @@
 #include "settings/YamlSettings.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/core/StartupConfig.h"
+#include "timeline/TimelineEventTypes.h"
 
 namespace cfg = settings::serializer::config;
 
 using yaml_settings::getNode;
 using yaml_settings::readScalar;
 using yaml_settings::readString;
+using yaml_settings::readStringList;
+using yaml_settings::readStringListMap;
 
 namespace settings::serializer {
 
@@ -82,6 +85,13 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
         }
         settings.setUiScaleFactor(settings::core::definitions::kDefaultScaleFactor);
     }
+
+    settings.setHiddenTimelineEventTypes(
+      readStringList(root,
+                     SettingKey::TimelineHiddenEventsGlobal,
+                     qml_mtx_events::defaultHiddenTimelineEventTypeKeys()));
+    settings.setHiddenTimelineEventTypesByRoom(
+      readStringListMap(root, SettingKey::TimelineHiddenEventsByRoom));
 }
 
 } // namespace settings::serializer

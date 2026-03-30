@@ -57,14 +57,12 @@ PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *paren
 
               if (!powerLevels) {
                   if (!error.isEmpty()) {
-                      nhlog::ui()->warn(
-                        "Failed to load matrix-sdk room power levels for '{}': {}",
-                        roomId.toStdString(),
-                        error.toStdString());
+                      nhlog::ui()->warn("Failed to load matrix-sdk room power levels for '{}': {}",
+                                        roomId.toStdString(),
+                                        error.toStdString());
                       if (ChatPage::instance()) {
-                          ChatPage::instance()->showNotification(
-                            PowerlevelEditingModels::tr(
-                              "Failed to load room permissions from the matrix-sdk backend."));
+                          ChatPage::instance()->showNotification(PowerlevelEditingModels::tr(
+                            "Failed to load room permissions from the matrix-sdk backend."));
                       }
                   }
                   return;
@@ -85,16 +83,16 @@ PowerlevelEditingModels::isSpace() const
 komai::MatrixRoomPowerLevels
 PowerlevelEditingModels::calculateNewPowerlevel() const
 {
-    auto newPl         = powerLevels_;
-    newPl.events       = types_.toEvents();
-    newPl.kick         = types_.kick();
-    newPl.invite       = types_.invite();
-    newPl.ban          = types_.ban();
-    newPl.redact       = types_.redact();
+    auto newPl          = powerLevels_;
+    newPl.events        = types_.toEvents();
+    newPl.kick          = types_.kick();
+    newPl.invite        = types_.invite();
+    newPl.ban           = types_.ban();
+    newPl.redact        = types_.redact();
     newPl.eventsDefault = types_.eventsDefault();
-    newPl.stateDefault = types_.stateDefault();
-    newPl.users        = users_.toUsers();
-    newPl.usersDefault = users_.usersDefault();
+    newPl.stateDefault  = types_.stateDefault();
+    newPl.users         = users_.toUsers();
+    newPl.usersDefault  = users_.usersDefault();
     return newPl;
 }
 
@@ -159,9 +157,8 @@ PowerlevelEditingModels::commit()
                                     roomId.toStdString(),
                                     error.toStdString());
                   if (ChatPage::instance()) {
-                      ChatPage::instance()->showNotification(
-                        PowerlevelEditingModels::tr(
-                          "Failed to save room permissions to the matrix-sdk backend."));
+                      ChatPage::instance()->showNotification(PowerlevelEditingModels::tr(
+                        "Failed to save room permissions to the matrix-sdk backend."));
                   }
                   return;
               }

@@ -339,7 +339,7 @@ PowerlevelsTypeListModel::moveRows(const QModelIndex &,
     if (types.at(sourceRow).type.isEmpty())
         return false;
 
-    const auto pl = types.at(destinationChild > 0 ? destinationChild - 1 : 0).pl;
+    const auto pl   = types.at(destinationChild > 0 ? destinationChild - 1 : 0).pl;
     auto sourceItem = types.takeAt(sourceRow);
     sourceItem.pl   = pl;
 

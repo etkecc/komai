@@ -6,11 +6,18 @@ import QtQuick
 import cc.etke.komai
 
 QtObject {
+    function permissionsRevision(roomModel) {
+        return roomModel && roomModel.permissions && roomModel.permissions.revision !== undefined
+            ? roomModel.permissions.revision
+            : 0;
+    }
+
     function roomHasMethod(roomModel, methodName) {
         return !!roomModel && typeof roomModel[methodName] === "function";
     }
 
     function roomCanSend(roomModel, eventType) {
+        const _ = permissionsRevision(roomModel);
         return !!roomModel
             && !!roomModel.permissions
             && typeof roomModel.permissions.canSend === "function"
@@ -18,6 +25,7 @@ QtObject {
     }
 
     function roomCanChange(roomModel, eventType) {
+        const _ = permissionsRevision(roomModel);
         return !!roomModel
             && !!roomModel.permissions
             && typeof roomModel.permissions.canChange === "function"
@@ -104,6 +112,7 @@ QtObject {
     }
 
     function canRemove(messageModel, roomModel) {
+        const _ = permissionsRevision(roomModel);
         return !!messageModel
             && actionCapability(messageModel, "supportsRemove", true)
             && !!roomModel

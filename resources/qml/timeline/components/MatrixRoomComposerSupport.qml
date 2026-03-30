@@ -11,6 +11,7 @@ Item {
     required property var rootItem
     required property var roomPreview
     required property var dialogRoomModel
+    required property AbstractPermissions permissions
 
     width: 0
     height: 0
@@ -120,14 +121,6 @@ Item {
     }
 
     QtObject {
-        id: matrixComposerPermissions
-
-        function canSend(_eventType) {
-            return true;
-        }
-    }
-
-    QtObject {
         id: matrixComposerRoom
 
         property string roomId: roomPreview ? roomPreview.roomid : ""
@@ -135,7 +128,7 @@ Item {
         property int roomMemberCount: roomPreview && roomPreview.roomMemberCount !== undefined
             ? Number(roomPreview.roomMemberCount)
             : 0
-        property var permissions: matrixComposerPermissions
+        property var permissions: support.permissions
         property var input: matrixComposerInputController
 
         function showEvent(eventId) {

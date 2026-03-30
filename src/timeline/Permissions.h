@@ -9,6 +9,7 @@
 #include <QQmlEngine>
 
 #include "matrix/MatrixPowerLevelCompat.h"
+#include "matrix/MatrixRoomPowerLevels.h"
 
 namespace komai::timeline {
 inline constexpr qint64 CreatorPowerLevel = komai::matrix::CreatorPowerLevel;
@@ -19,6 +20,7 @@ class AbstractPermissions : public QObject
     Q_OBJECT
     QML_ELEMENT
     QML_UNCREATABLE("Only to be used to refer to C++ values")
+    Q_PROPERTY(int revision READ revision NOTIFY revisionChanged)
 
 public:
     explicit AbstractPermissions(QObject *parent = nullptr)
@@ -27,6 +29,7 @@ public:
     }
 
     virtual ~AbstractPermissions() = default;
+    virtual int revision() const { return 0; }
 
     Q_INVOKABLE virtual bool canInvite()               = 0;
     Q_INVOKABLE virtual bool canBan()                  = 0;
@@ -40,6 +43,9 @@ public:
     Q_INVOKABLE virtual int sendLevel(int eventType)   = 0;
     Q_INVOKABLE virtual qint64 creatorLevel() const    = 0;
     Q_INVOKABLE virtual bool canPingRoom()             = 0;
+
+signals:
+    void revisionChanged();
 };
 
 class Permissions final : public AbstractPermissions
@@ -78,6 +84,49 @@ private:
     QString roomId_;
     mtx::events::state::PowerLevels pl;
     mtx::events::StateEvent<mtx::events::state::Create> create;
+};
+
+class MatrixRoomPermissions : public AbstractPermissions
+{
+    Q_OBJECT
+    QML_ELEMENT
+    Q_PROPERTY(QString roomId READ roomId WRITE setRoomId NOTIFY roomIdChanged)
+
+public:
+    explicit MatrixRoomPermissions(QObject *parent = nullptr);
+
+    QString roomId() const { return roomId_; }
+    void setRoomId(QString roomId);
+
+    int revision() const override { return revision_; }
+
+    bool canInvite() override;
+    bool canBan() override;
+    bool canKick() override;
+    bool canRedact() override;
+    bool canChange(int eventType) override;
+    bool canSend(int eventType) override;
+    int defaultLevel() override;
+    int redactLevel() override;
+    int changeLevel(int eventType) override;
+    int sendLevel(int eventType) override;
+    qint64 creatorLevel() const override { return komai::matrix::RuntimeCreatorPowerLevel; }
+    bool canPingRoom() override { return true; }
+
+signals:
+    void roomIdChanged();
+
+private:
+    void clearLoadedState();
+    void refreshAsync();
+    qlonglong currentUserPowerLevel() const;
+    qlonglong requiredEventLevel(int eventType) const;
+
+    QString roomId_;
+    komai::MatrixRoomPowerLevels powerLevels_;
+    int revision_         = 0;
+    quint64 requestToken_ = 0;
+    bool loaded_          = false;
 };
 
 class PreviewPermissions : public AbstractPermissions

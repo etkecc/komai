@@ -32,8 +32,15 @@ Rectangle {
     readonly property int minimumBarHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property bool composerExpanded: textInput.targetTextAreaHeight > textInput.singleLineHeight
     readonly property bool commandPickerVisible: popup.opened && completer.completerType === "command"
-    readonly property bool canSendCurrentRoom: room ? room.permissions.canSend(room.isEncrypted ? MtxEvent.Encrypted : MtxEvent.TextMessage) : false
-    readonly property bool canSendTextMessages: room ? room.permissions.canSend(MtxEvent.TextMessage) : false
+    readonly property int permissionsRevision: room && room.permissions ? room.permissions.revision : 0
+    readonly property bool canSendCurrentRoom: {
+        const _ = permissionsRevision;
+        return room ? room.permissions.canSend(room.isEncrypted ? MtxEvent.Encrypted : MtxEvent.TextMessage) : false;
+    }
+    readonly property bool canSendTextMessages: {
+        const _ = permissionsRevision;
+        return room ? room.permissions.canSend(MtxEvent.TextMessage) : false;
+    }
     signal composerInteractionRequested()
 
     function focusTextInput() {

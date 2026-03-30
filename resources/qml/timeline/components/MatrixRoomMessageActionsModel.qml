@@ -12,15 +12,12 @@ Item {
     required property var roomPreview
     required property var dialogRoomModel
     required property var headerRoomModel
+    required property AbstractPermissions permissions
 
     width: 0
     height: 0
 
     signal fetchedMore()
-
-    PreviewPermissions {
-        id: messageActionsPermissions
-    }
 
     readonly property var toolbarInput: matrixTimelineToolbarInput
 
@@ -29,7 +26,6 @@ Item {
     property int roomMemberCount: roomPreview && roomPreview.roomMemberCount !== undefined
         ? Number(roomPreview.roomMemberCount) : 0
     property bool isEncrypted: roomPreview ? !!roomPreview.isEncrypted : false
-    property var permissions: messageActionsPermissions
     property var input: matrixTimelineToolbarInput
     property var frequentReactions: []
     property var pinnedMessages: TimelineManager.matrixTimelinePinnedEventIds

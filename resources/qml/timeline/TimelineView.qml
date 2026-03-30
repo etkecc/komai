@@ -121,6 +121,14 @@ Item {
         rootItem: matrixTimeline
         roomPreview: timelineView.roomPreview
         dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
+        permissions: matrixRoomPermissions
+    }
+    MatrixRoomPermissions {
+        id: matrixRoomPermissions
+
+        roomId: timelineView.useMatrixRoomView && timelineView.roomPreview
+            ? String(timelineView.roomPreview.roomid || "")
+            : ""
     }
     MatrixRoomComposerSupport {
         id: matrixRoomComposerSupport
@@ -128,6 +136,7 @@ Item {
         rootItem: matrixTimeline
         roomPreview: timelineView.roomPreview
         dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
+        permissions: matrixRoomPermissions
     }
     MatrixRoomMessageActionsModel {
         id: matrixRoomMessageActionsModel
@@ -136,6 +145,7 @@ Item {
         roomPreview: timelineView.roomPreview
         dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
         headerRoomModel: matrixHeaderRoomModel
+        permissions: matrixRoomPermissions
     }
     MatrixRoomDialogSupport {
         id: matrixRoomDialogSupport

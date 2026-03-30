@@ -848,14 +848,22 @@ Components.OverlayDialog {
                 }
 
                 Components.KomaiActionRowButton {
-                    visible: root.isRoomProfile && profile.room && profile.room.permissions.canKick()
+                    visible: {
+                        const permissions = profile.room ? profile.room.permissions : null;
+                        const _ = permissions ? permissions.revision : 0;
+                        return root.isRoomProfile && profile.room && profile.room.permissions.canKick();
+                    }
                     labelText: qsTr("Kick from room")
                     iconSource: ":/icons/icons/ui/round-remove-button.svg"
                     onClicked: root.openModerationPrompt("kick")
                 }
 
                 Components.KomaiActionRowButton {
-                    visible: root.isRoomProfile && profile.room && profile.room.permissions.canBan()
+                    visible: {
+                        const permissions = profile.room ? profile.room.permissions : null;
+                        const _ = permissions ? permissions.revision : 0;
+                        return root.isRoomProfile && profile.room && profile.room.permissions.canBan();
+                    }
                     labelText: qsTr("Ban from room")
                     iconSource: ":/icons/icons/ui/ban.svg"
                     onClicked: root.openModerationPrompt("ban")

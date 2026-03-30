@@ -95,7 +95,11 @@ ScrollView {
                 toolTipVisible: hovered
                 hoverEnabled: true
                 image: ":/icons/icons/ui/dismiss.svg"
-                visible: room.permissions.canChange(MtxEvent.PinnedEvents)
+                visible: {
+                    const permissions = room ? room.permissions : null;
+                    const _ = permissions ? permissions.revision : 0;
+                    return !!permissions && permissions.canChange(MtxEvent.PinnedEvents);
+                }
 
                 onClicked: room.unpin(modelData)
             }

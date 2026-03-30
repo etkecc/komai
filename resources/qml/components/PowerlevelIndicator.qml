@@ -12,11 +12,24 @@ Image {
     required property var powerlevel
     required property AbstractPermissions permissions
     property color iconColor: palette.buttonText
+    readonly property int permissionsRevision: permissions ? permissions.revision : 0
 
-    readonly property bool isV12Creator: permissions ? permissions.creatorLevel() == powerlevel : false
-    readonly property bool isAdmin: permissions ? permissions.changeLevel(MtxEvent.PowerLevels) <= powerlevel : false
-    readonly property bool isModerator: permissions ? permissions.redactLevel() <= powerlevel : false
-    readonly property bool isDefault: permissions ? permissions.defaultLevel() <= powerlevel : false
+    readonly property bool isV12Creator: {
+        const _ = permissionsRevision;
+        return permissions ? permissions.creatorLevel() == powerlevel : false;
+    }
+    readonly property bool isAdmin: {
+        const _ = permissionsRevision;
+        return permissions ? permissions.changeLevel(MtxEvent.PowerLevels) <= powerlevel : false;
+    }
+    readonly property bool isModerator: {
+        const _ = permissionsRevision;
+        return permissions ? permissions.redactLevel() <= powerlevel : false;
+    }
+    readonly property bool isDefault: {
+        const _ = permissionsRevision;
+        return permissions ? permissions.defaultLevel() <= powerlevel : false;
+    }
 
     readonly property string roleName: {
         let pl = powerlevel.toLocaleString(Qt.locale(), "f", 0);

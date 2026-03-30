@@ -63,8 +63,17 @@ Components.OverlayDialog {
         };
     }
 
-    readonly property bool canRedact: effectiveRoomModel ? effectiveRoomModel.permissions.canRedact() : false
-    readonly property bool canChangePinned: effectiveRoomModel ? effectiveRoomModel.permissions.canChange(MtxEvent.PinnedEvents) : false
+    readonly property int permissionsRevision: effectiveRoomModel && effectiveRoomModel.permissions
+        ? effectiveRoomModel.permissions.revision
+        : 0
+    readonly property bool canRedact: {
+        const _ = permissionsRevision;
+        return effectiveRoomModel ? effectiveRoomModel.permissions.canRedact() : false;
+    }
+    readonly property bool canChangePinned: {
+        const _ = permissionsRevision;
+        return effectiveRoomModel ? effectiveRoomModel.permissions.canChange(MtxEvent.PinnedEvents) : false;
+    }
     readonly property bool isMediaType: eventType == MtxEvent.ImageMessage
         || eventType == MtxEvent.VideoMessage
         || eventType == MtxEvent.AudioMessage

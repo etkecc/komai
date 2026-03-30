@@ -17,7 +17,6 @@
 #include <QUrl>
 
 #include "RoomlistModel.h"
-#include "TimelineModel.h"
 #include "imagepacks/ImagePackListModel.h"
 #include "logging/Logging.h"
 #include "providers/MxcImageProvider.h"

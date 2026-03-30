@@ -5,7 +5,8 @@
 
 #include "TimelineFilter.h"
 
-#include "TimelineModel.h"
+#include "RoomRoles.h"
+#include "TimelineEventTypes.h"
 
 TimelineFilter::TimelineFilter(QObject *parent)
   : QSortFilterProxyModel(parent)
@@ -81,8 +82,8 @@ TimelineFilter::sourceDataChanged(const QModelIndex &topLeft,
     Q_UNUSED(topLeft);
     Q_UNUSED(bottomRight);
 
-    if (!roles.contains(TimelineModel::Roles::Body) && !roles.contains(TimelineModel::ThreadId) &&
-        !roles.contains(TimelineModel::Notificationlevel)) {
+    if (!roles.contains(komai::timeline::Body) && !roles.contains(komai::timeline::ThreadId) &&
+        !roles.contains(komai::timeline::Notificationlevel)) {
         return;
     }
 
@@ -143,24 +144,24 @@ TimelineFilter::filterAcceptsRow(int source_row, const QModelIndex &) const
     const auto idx = sourceModel()->index(source_row, 0);
 
     if (!contentFilter.isEmpty() && !sourceModel()
-                                       ->data(idx, TimelineModel::Body)
+                                       ->data(idx, komai::timeline::Body)
                                        .toString()
                                        .contains(contentFilter, Qt::CaseInsensitive)) {
         return false;
     }
 
-    if (filterByNotifications_ &&
-        sourceModel()->data(idx, TimelineModel::Notificationlevel)
-            .value<qml_mtx_events::NotificationLevel>() !=
-          qml_mtx_events::NotificationLevel::Highlight) {
+    if (filterByNotifications_ && sourceModel()
+                                      ->data(idx, komai::timeline::Notificationlevel)
+                                      .value<qml_mtx_events::NotificationLevel>() !=
+                                    qml_mtx_events::NotificationLevel::Highlight) {
         return false;
     }
 
     if (threadId.isEmpty())
         return true;
 
-    return sourceModel()->data(idx, TimelineModel::EventId) == threadId ||
-           sourceModel()->data(idx, TimelineModel::ThreadId) == threadId;
+    return sourceModel()->data(idx, komai::timeline::EventId) == threadId ||
+           sourceModel()->data(idx, komai::timeline::ThreadId) == threadId;
 }
 
 #include "moc_TimelineFilter.cpp"

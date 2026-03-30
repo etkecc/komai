@@ -112,6 +112,16 @@ QtObject {
         return composerPane.composerInput ? composerPane.composerInput.appendText(text) : false;
     }
 
+    function setComposerText(text) {
+        const normalized = String(text || "");
+
+        if (composerPane.composerInput)
+            composerPane.composerInput.replaceText(normalized);
+
+        if (composerInputController && typeof composerInputController.setText === "function")
+            composerInputController.setText(normalized);
+    }
+
     function trySendMessage() {
         if (rootItem.hasPendingAttachments)
             return TimelineManager.sendActiveMatrixAttachments();
@@ -129,8 +139,7 @@ QtObject {
                 if (!commandOk)
                     return false;
 
-                composerPane.composerInput.replaceText("");
-                composerInputController.setText("");
+                support.setComposerText("");
                 support.focusTextInput();
                 return true;
             }
@@ -142,10 +151,8 @@ QtObject {
         if (!ok)
             return false;
 
-        if (!rootItem.editing) {
-            composerPane.composerInput.replaceText("");
-            composerInputController.setText("");
-        }
+        if (!rootItem.editing)
+            support.setComposerText("");
 
         support.focusTextInput();
         return true;
@@ -170,7 +177,7 @@ QtObject {
             return false;
         }
 
-        composerInputController.setText(String(body));
+        support.setComposerText(body);
         support.focusTextInput();
         return true;
     }
@@ -237,7 +244,7 @@ QtObject {
             if (!rootItem.restoringEditDraft || rootItem.activeEditEventId.length > 0)
                 return;
 
-            composerInputController.setText(rootItem.draftBeforeEdit);
+            support.setComposerText(rootItem.draftBeforeEdit);
             rootItem.draftBeforeEdit = "";
             rootItem.restoringEditDraft = false;
             support.focusTextInput();

@@ -16,8 +16,6 @@
 #include <mtx/events.hpp>
 #include <mtx/events/encrypted.hpp>
 
-class TimelineModel;
-
 // clang-format off
 /*
  * Stolen from fluffy chat :D
@@ -111,7 +109,7 @@ public:
 
     static DeviceVerificationFlow *
     NewInRoomVerification(QObject *parent_,
-                          TimelineModel *timelineModel_,
+                          QObject *timelineContext_,
                           const mtx::events::msg::KeyVerificationRequest &msg,
                           const QString &other_user_,
                           const QString &event_id_);
@@ -126,7 +124,7 @@ public:
                             const QString &other_user_,
                             const QString &txn_id_);
     static DeviceVerificationFlow *InitiateUserVerification(QObject *parent_,
-                                                            TimelineModel *timelineModel_,
+                                                            QObject *timelineContext_,
                                                             const QString &userid);
     static DeviceVerificationFlow *InitiateDeviceVerification(QObject *parent,
                                                               const QString &userid,

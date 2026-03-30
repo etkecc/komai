@@ -22,7 +22,6 @@
 class TimelineViewManager;
 class UserSettings;
 class NotificationsManager;
-class TimelineModel;
 class CallManager;
 
 namespace mtx::requests {

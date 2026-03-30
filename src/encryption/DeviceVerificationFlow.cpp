@@ -306,7 +306,7 @@ DeviceVerificationFlow::mapMatrixError(const QString &error) const
 
 DeviceVerificationFlow *
 DeviceVerificationFlow::NewInRoomVerification(QObject *,
-                                              TimelineModel *,
+                                              QObject *,
                                               const mtx::events::msg::KeyVerificationRequest &,
                                               const QString &,
                                               const QString &)
@@ -343,7 +343,7 @@ DeviceVerificationFlow::NewToDeviceVerification(QObject *,
 
 DeviceVerificationFlow *
 DeviceVerificationFlow::InitiateUserVerification(QObject *parent,
-                                                 TimelineModel *,
+                                                 QObject *,
                                                  const QString &userid)
 {
     const auto *mainWindow = MainWindow::instance();

@@ -16,8 +16,6 @@
 #include <QUrl>
 #include <QVideoSink>
 
-class TimelineModel;
-
 // I failed to get my own buffer into the MediaPlayer in qml, so just make our own. For that we just
 // need the videoSurface property, so that part is really easy!
 class MxcMediaProxy : public QMediaPlayer

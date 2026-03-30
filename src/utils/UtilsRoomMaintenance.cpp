@@ -20,13 +20,11 @@
 #include <vector>
 
 #include <fmt/ranges.h>
-#include <mtx/identifiers.hpp>
 #include <nlohmann/json.hpp>
-
-#include <mtx/responses/messages.hpp>
 
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
+#include "matrix/MatrixIdentifiers.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 void
@@ -59,11 +57,11 @@ utils::roomVias(const std::string &roomid)
             vias.push_back(server);
     };
 
-    try {
-        addVia(
-          mtx::identifiers::parse<mtx::identifiers::User>(localUser().toStdString()).hostname());
-    } catch (const std::exception &e) {
-        nhlog::ui()->warn("Failed to derive local homeserver for room vias: {}", e.what());
+    const auto localUserParts = komai::parseMatrixUserId(localUser());
+    if (localUserParts.has_value()) {
+        addVia(localUserParts->hostname.toStdString());
+    } else {
+        nhlog::ui()->warn("Failed to derive local homeserver for room vias: invalid local user id");
     }
 
     if (const auto colonPos = roomid.find(':');

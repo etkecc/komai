@@ -13,15 +13,12 @@
 #include <optional>
 #include <thread>
 
-#include <mtx/identifiers.hpp>
-
 #include "LoginPage.h"
 #include "SSOHandler.h"
 #include "logging/Logging.h"
+#include "matrix/MatrixIdentifiers.h"
 #include "matrix/backend/MatrixAuthService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
-
-using namespace mtx::identifiers;
 
 namespace {
 QString
@@ -94,30 +91,22 @@ LoginPage::onMatrixIdEntered()
     homeserverValid_ = false;
     emit homeserverChanged();
 
-    User user;
-    try {
-        user = parse<User>(mxid_.toStdString());
-    } catch (const std::exception &) {
+    const auto user = komai::parseMatrixUserId(mxid_);
+    if (!user.has_value()) {
         mxidError_ = tr("You have entered an invalid Matrix ID e.g. @user:yourserver.example.com");
         emit mxidErrorChanged();
         return;
     }
 
-    if (user.hostname().empty() || user.localpart().empty()) {
-        mxidError_ = tr("You have entered an invalid Matrix ID e.g. @user:yourserver.example.com");
-        emit mxidErrorChanged();
-        return;
-    }
-
-    nhlog::net()->debug("hostname: {}", user.hostname());
+    nhlog::net()->debug("hostname: {}", user->hostname.toStdString());
 
     homeserverNeeded_ = false;
     lookingUpHs_      = true;
-    homeserver_       = normalizeHomeserverUrl(QString::fromStdString(user.hostname()));
+    homeserver_       = normalizeHomeserverUrl(user->hostname);
     emit homeserverChanged();
     emit lookingUpHsChanged();
 
-    startLoginFlowDiscovery(QString::fromStdString(user.hostname()), homeserver_);
+    startLoginFlowDiscovery(user->hostname, homeserver_);
 }
 
 QVariantList
@@ -195,9 +184,7 @@ LoginPage::checkHomeserverVersion()
 {
     clearErrors();
 
-    try {
-        [[maybe_unused]] auto user = parse<User>(mxid_.toStdString());
-    } catch (const std::exception &) {
+    if (!komai::parseMatrixUserId(mxid_).has_value()) {
         mxidError_ = tr("You have entered an invalid Matrix ID e.g. @user:yourserver.example.com");
         emit mxidErrorChanged();
         return;
@@ -245,11 +232,8 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
 {
     clearErrors();
 
-    User user;
-
-    try {
-        user = parse<User>(userid.toStdString());
-    } catch (const std::exception &) {
+    const auto user = komai::parseMatrixUserId(userid);
+    if (!user.has_value()) {
         mxidError_ = tr("You have entered an invalid Matrix ID e.g. @user:yourserver.example.com");
         emit mxidErrorChanged();
         return;

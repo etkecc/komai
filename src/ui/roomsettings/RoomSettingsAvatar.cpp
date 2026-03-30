@@ -105,7 +105,6 @@ RoomSettings::updateAvatar()
 
           if (result.refreshedSettings.has_value()) {
               settings->applyMatrixRoomSettings(*result.refreshedSettings);
-              emit settings->avatarUrlChanged();
               return;
           }
 
@@ -150,7 +149,6 @@ RoomSettings::removeAvatar()
 
           if (result.refreshedSettings.has_value()) {
               settings->applyMatrixRoomSettings(*result.refreshedSettings);
-              emit settings->avatarUrlChanged();
               return;
           }
 

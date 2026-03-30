@@ -13,17 +13,7 @@ RoomSettingsAllowedRoomsModel::RoomSettingsAllowedRoomsModel(RoomSettings *paren
   : QAbstractListModel(parent)
   , settings(parent)
 {
-    this->allowedRoomIds = settings->allowedRooms();
-
-    for (const auto &parentRoomId : settings->parentSpaceRoomIds())
-        this->parentSpaces.insert(parentRoomId);
-
-    this->listedRoomIds = QStringList(parentSpaces.begin(), parentSpaces.end());
-
-    for (const auto &e : std::as_const(this->allowedRoomIds)) {
-        if (!this->parentSpaces.count(e))
-            this->listedRoomIds.push_back(e);
-    }
+    refreshFromSettings();
 }
 
 QHash<int, QByteArray>
@@ -95,4 +85,26 @@ RoomSettingsAllowedRoomsModel::addRoom(QString room)
     listedRoomIds.push_back(room);
     allowedRoomIds.push_back(room);
     endInsertRows();
+}
+
+void
+RoomSettingsAllowedRoomsModel::refreshFromSettings()
+{
+    const auto nextAllowedRoomIds = settings->allowedRooms();
+
+    std::unordered_set<QString> nextParentSpaces;
+    for (const auto &parentRoomId : settings->parentSpaceRoomIds())
+        nextParentSpaces.insert(parentRoomId);
+
+    QStringList nextListedRoomIds(nextParentSpaces.begin(), nextParentSpaces.end());
+    for (const auto &roomId : std::as_const(nextAllowedRoomIds)) {
+        if (!nextParentSpaces.count(roomId))
+            nextListedRoomIds.push_back(roomId);
+    }
+
+    beginResetModel();
+    allowedRoomIds = nextAllowedRoomIds;
+    parentSpaces   = std::move(nextParentSpaces);
+    listedRoomIds  = std::move(nextListedRoomIds);
+    endResetModel();
 }

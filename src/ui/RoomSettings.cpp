@@ -12,6 +12,12 @@
 #include "utils/Utils.h"
 
 namespace {
+struct RoomSettingsLoadResult
+{
+    std::optional<komai::MatrixRoomSettings> settings;
+    QString error;
+};
+
 QString
 normalizedHistoryVisibilityKey(const QString &historyVisibility)
 {
@@ -30,15 +36,8 @@ RoomSettings::RoomSettings(QString roomid, QObject *parent)
   , roomid_{std::move(roomid)}
 {
     connect(this, &RoomSettings::accessJoinRulesChanged, &RoomSettings::allowedRoomsChanged);
-
-    QString error;
-    if (!loadMatrixRuntimeRoomSettings(&error) && !error.isEmpty()) {
-        nhlog::ui()->warn("Failed to load room settings via matrix-sdk runtime for '{}': {}",
-                          roomid_.toStdString(),
-                          error.toStdString());
-    }
-
     this->allowedRoomsModel = new RoomSettingsAllowedRoomsModel(this);
+    retrieveRoomInfo();
 }
 
 bool
@@ -111,38 +110,73 @@ RoomSettings::memberCount() const
 void
 RoomSettings::retrieveRoomInfo()
 {
-    QString error;
-    if (!loadMatrixRuntimeRoomSettings(&error) && !error.isEmpty()) {
-        nhlog::ui()->warn("Failed to refresh room settings via matrix-sdk runtime for '{}': {}",
-                          roomid_.toStdString(),
-                          error.toStdString());
-    }
-}
-
-bool
-RoomSettings::loadMatrixRuntimeRoomSettings(QString *errorOut)
-{
     const auto handleId = matrixBackendHandleId();
     if (handleId == 0) {
-        if (errorOut)
-            *errorOut = tr("Matrix backend runtime is not available.");
-        return false;
+        nhlog::ui()->warn("Failed to refresh room settings via matrix-sdk runtime for '{}': {}",
+                          roomid_.toStdString(),
+                          tr("Matrix backend runtime is not available.").toStdString());
+        return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    auto result =
-      komai::MatrixBackendRuntimeService::fetchRoomSettings(context, handleId, roomid_, errorOut);
-    if (!result.has_value())
-        return false;
+    const auto requestId = ++roomSettingsLoadRequestId_;
+    if (!isLoading_) {
+        isLoading_ = true;
+        emit loadingChanged();
+    }
 
-    applyMatrixRoomSettings(*result);
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId = roomid_]() {
+          RoomSettingsLoadResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.settings    = komai::MatrixBackendRuntimeService::fetchRoomSettings(
+            context, handleId, roomId, &result.error);
+          return result;
+      },
+      [requestId](RoomSettings *settings, const RoomSettingsLoadResult &result) {
+          if (requestId != settings->roomSettingsLoadRequestId_)
+              return;
 
-    return true;
+          settings->isLoading_ = false;
+          emit settings->loadingChanged();
+
+          if (!result.settings.has_value()) {
+              if (!result.error.isEmpty()) {
+                  nhlog::ui()->warn("Failed to refresh room settings via matrix-sdk runtime for "
+                                    "'{}': {}",
+                                    settings->roomid_.toStdString(),
+                                    result.error.toStdString());
+              }
+              return;
+          }
+
+          settings->applyMatrixRoomSettings(*result.settings);
+      });
 }
 
 void
 RoomSettings::applyMatrixRoomSettings(const komai::MatrixRoomSettings &settings)
 {
+    const auto previousName                       = info_.name;
+    const auto previousTopic                      = info_.topic;
+    const auto previousAvatarUrl                  = info_.avatar_url;
+    const auto previousVersion                    = info_.version;
+    const auto previousMemberCount                = info_.member_count;
+    const auto previousNotifications              = notifications_;
+    const auto previousUsesEncryption             = usesEncryption_;
+    const auto previousGuestAccess                = guestAccess_;
+    const auto previousHistoryVisibilityKey       = historyVisibilityKey_;
+    const auto previousJoinRule                   = joinRule_;
+    const auto previousAllowedRoomIds             = allowedRoomIds_;
+    const auto previousCanChangeAvatar            = canChangeAvatar();
+    const auto previousCanChangeJoinRules         = canChangeJoinRules();
+    const auto previousCanChangeName              = canChangeName();
+    const auto previousCanChangeTopic             = canChangeTopic();
+    const auto previousCanChangeHistoryVisibility = canChangeHistoryVisibility();
+    const auto previousSupportsKnocking           = supportsKnocking();
+    const auto previousSupportsRestricted         = supportsRestricted();
+    const auto previousSupportsKnockRestricted    = supportsKnockRestricted();
+
     matrixRoomSettings_ = settings;
     info_.name          = settings.roomName.toStdString();
     info_.topic         = settings.roomTopic.toStdString();
@@ -157,6 +191,37 @@ RoomSettings::applyMatrixRoomSettings(const komai::MatrixRoomSettings &settings)
     joinRule_             = settings.joinRule.trimmed();
     allowedRoomIds_       = settings.allowedRoomIds;
     parentSpaceRoomIds_   = settings.parentSpaceRoomIds;
+
+    if (allowedRoomsModel)
+        allowedRoomsModel->refreshFromSettings();
+
+    if (previousName != info_.name)
+        emit roomNameChanged();
+    if (previousTopic != info_.topic)
+        emit roomTopicChanged();
+    if (previousAvatarUrl != info_.avatar_url)
+        emit avatarUrlChanged();
+    if (previousVersion != info_.version || previousMemberCount != info_.member_count)
+        emit roomDetailsChanged();
+    if (previousNotifications != notifications_)
+        emit notificationsChanged();
+    if (previousUsesEncryption != usesEncryption_)
+        emit encryptionChanged();
+    if (previousHistoryVisibilityKey != historyVisibilityKey_)
+        emit historyVisibilityChanged();
+    if (previousGuestAccess != guestAccess_ || previousJoinRule != joinRule_ ||
+        previousAllowedRoomIds != allowedRoomIds_) {
+        emit accessJoinRulesChanged();
+    }
+    if (previousCanChangeAvatar != canChangeAvatar() ||
+        previousCanChangeJoinRules != canChangeJoinRules() ||
+        previousCanChangeName != canChangeName() || previousCanChangeTopic != canChangeTopic() ||
+        previousCanChangeHistoryVisibility != canChangeHistoryVisibility() ||
+        previousSupportsKnocking != supportsKnocking() ||
+        previousSupportsRestricted != supportsRestricted() ||
+        previousSupportsKnockRestricted != supportsKnockRestricted()) {
+        emit permissionsChanged();
+    }
 }
 
 uint64_t

@@ -54,6 +54,7 @@ public:
     bool
     setData(const QModelIndex &index, const QVariant &value, int role = Qt::DisplayRole) override;
     Q_INVOKABLE void addRoom(QString room);
+    void refreshFromSettings();
 
     Qt::ItemFlags flags(const QModelIndex &) const override
     {
@@ -76,13 +77,13 @@ class RoomSettings final : public QObject
     QML_UNCREATABLE("")
 
     Q_PROPERTY(QString roomId READ roomId CONSTANT)
-    Q_PROPERTY(QString roomVersion READ roomVersion CONSTANT)
+    Q_PROPERTY(QString roomVersion READ roomVersion NOTIFY roomDetailsChanged)
     Q_PROPERTY(QString roomName READ roomName NOTIFY roomNameChanged)
     Q_PROPERTY(QString roomTopic READ roomTopic NOTIFY roomTopicChanged)
     Q_PROPERTY(QString plainRoomName READ plainRoomName NOTIFY roomNameChanged)
     Q_PROPERTY(QString plainRoomTopic READ plainRoomTopic NOTIFY roomTopicChanged)
     Q_PROPERTY(QString roomAvatarUrl READ roomAvatarUrl NOTIFY avatarUrlChanged)
-    Q_PROPERTY(int memberCount READ memberCount CONSTANT)
+    Q_PROPERTY(int memberCount READ memberCount NOTIFY roomDetailsChanged)
     Q_PROPERTY(int notifications READ notifications NOTIFY notificationsChanged)
     Q_PROPERTY(Visibility historyVisibility READ historyVisibility WRITE changeHistoryVisibility
                  NOTIFY historyVisibilityChanged)
@@ -91,15 +92,16 @@ class RoomSettings final : public QObject
     Q_PROPERTY(bool knockingEnabled READ knockingEnabled NOTIFY accessJoinRulesChanged)
     Q_PROPERTY(bool restrictedEnabled READ restrictedEnabled NOTIFY accessJoinRulesChanged)
     Q_PROPERTY(bool isLoading READ isLoading NOTIFY loadingChanged)
-    Q_PROPERTY(bool canChangeAvatar READ canChangeAvatar CONSTANT)
-    Q_PROPERTY(bool canChangeJoinRules READ canChangeJoinRules CONSTANT)
-    Q_PROPERTY(bool canChangeName READ canChangeName CONSTANT)
-    Q_PROPERTY(bool canChangeTopic READ canChangeTopic CONSTANT)
-    Q_PROPERTY(bool canChangeHistoryVisibility READ canChangeHistoryVisibility CONSTANT)
+    Q_PROPERTY(bool canChangeAvatar READ canChangeAvatar NOTIFY permissionsChanged)
+    Q_PROPERTY(bool canChangeJoinRules READ canChangeJoinRules NOTIFY permissionsChanged)
+    Q_PROPERTY(bool canChangeName READ canChangeName NOTIFY permissionsChanged)
+    Q_PROPERTY(bool canChangeTopic READ canChangeTopic NOTIFY permissionsChanged)
+    Q_PROPERTY(
+      bool canChangeHistoryVisibility READ canChangeHistoryVisibility NOTIFY permissionsChanged)
     Q_PROPERTY(bool isEncryptionEnabled READ isEncryptionEnabled NOTIFY encryptionChanged)
-    Q_PROPERTY(bool supportsKnocking READ supportsKnocking CONSTANT)
-    Q_PROPERTY(bool supportsRestricted READ supportsRestricted CONSTANT)
-    Q_PROPERTY(bool supportsKnockRestricted READ supportsKnockRestricted CONSTANT)
+    Q_PROPERTY(bool supportsKnocking READ supportsKnocking NOTIFY permissionsChanged)
+    Q_PROPERTY(bool supportsRestricted READ supportsRestricted NOTIFY permissionsChanged)
+    Q_PROPERTY(bool supportsKnockRestricted READ supportsKnockRestricted NOTIFY permissionsChanged)
     Q_PROPERTY(bool isRoomNameSet READ isRoomNameSet NOTIFY roomNameChanged)
     Q_PROPERTY(
       QStringList allowedRooms READ allowedRooms WRITE setAllowedRooms NOTIFY allowedRoomsChanged)
@@ -180,6 +182,8 @@ signals:
     void displayError(const QString &errorMessage);
     void allowedRoomsModifiedChanged();
     void historyVisibilityChanged();
+    void roomDetailsChanged();
+    void permissionsChanged();
 
 public slots:
     void stopLoading();
@@ -188,7 +192,6 @@ public slots:
 private:
     void applyMatrixRoomSettings(const komai::MatrixRoomSettings &settings);
     void retrieveRoomInfo();
-    bool loadMatrixRuntimeRoomSettings(QString *errorOut = nullptr);
     uint64_t matrixBackendHandleId() const;
     void updateAccessRules(const QString &joinRule,
                            bool guestAccess,
@@ -208,9 +211,10 @@ private:
     QVector<QString> allowedRoomIds_;
     QVector<QString> parentSpaceRoomIds_;
     std::optional<komai::MatrixRoomSettings> matrixRoomSettings_;
-    uint64_t notificationsRequestId_ = 0;
-    uint64_t roomNameRequestId_      = 0;
-    uint64_t roomTopicRequestId_     = 0;
+    uint64_t roomSettingsLoadRequestId_ = 0;
+    uint64_t notificationsRequestId_    = 0;
+    uint64_t roomNameRequestId_         = 0;
+    uint64_t roomTopicRequestId_        = 0;
 
     RoomSettingsAllowedRoomsModel *allowedRoomsModel;
 };

@@ -146,7 +146,7 @@ ItemDelegate {
             Rooms.cancelRoomPrewarm(roomId, "hover", "clicked");
         }
         console.log("tapped " + roomId);
-        if (!Rooms.currentRoom || Rooms.currentRoom.roomId !== roomId)
+        if (Rooms.currentRoomId !== roomId)
             Rooms.setCurrentRoom(roomId);
         else
             Rooms.resetCurrentRoom();

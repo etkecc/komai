@@ -129,6 +129,14 @@ ColumnLayout {
         timelineList: matrixTimelineList
     }
 
+    MatrixRoomListShellSupport {
+        id: listShellSupport
+
+        rootItem: root
+        timelineList: matrixTimelineList
+        scrollbar: matrixTimelineScrollbar
+    }
+
     MatrixRoomEventSupport {
         id: eventSupport
 
@@ -332,31 +340,7 @@ ColumnLayout {
                 Connections {
                     target: matrixTimelineScrollbar
                     function onPositionChanged() {
-                        if (!matrixTimelineScrollbar.pressed)
-                            return;
-                        // When the Binding deactivates on press, Qt resets
-                        // position to 0.  Detect this bogus jump and restore
-                        // the saved position instead of scrolling to the top.
-                        if (matrixTimelineScrollbar.positionOnPress >= 0) {
-                            const saved = matrixTimelineScrollbar.positionOnPress;
-                            matrixTimelineScrollbar.positionOnPress = -1;
-                            if (Math.abs(matrixTimelineScrollbar.position - saved) > 0.01) {
-                                matrixTimelineScrollbar.position = saved;
-                                return;
-                            }
-                        }
-                        const ch = matrixTimelineList.contentHeight;
-                        const h = matrixTimelineList.height;
-                        const range = ch - h;
-                        if (range <= 0)
-                            return;
-                        const maxPos = 1.0 - matrixTimelineScrollbar.size;
-                        if (maxPos <= 0)
-                            return;
-                        const normalized = matrixTimelineScrollbar.position / maxPos;
-                        matrixTimelineList.contentY = matrixTimelineList.originY + normalized * range;
-                        matrixTimelineList.returnToBounds();
-                        matrixTimelineList.updateLastScroll();
+                        listShellSupport.handleScrollbarPositionChanged();
                     }
                 }
 
@@ -393,59 +377,10 @@ ColumnLayout {
                     property real stableThumbSize: 1.0
                     property bool visibleIndicesValid: false
 
-                    function updateStableThumbSize() {
-                        if (count <= 0 || height <= 0 || contentHeight <= height)
-                            return;
-                        const newSize = Math.max(0.02, height / contentHeight);
-                        // Only allow the thumb to shrink, never grow.
-                        // contentHeight can fluctuate upward transiently
-                        // (bad estimates), but it settles downward to the
-                        // correct total.  "Only shrink" ensures transient
-                        // over-estimates don't cause visible thumb growth.
-                        if (!visibleIndicesValid || newSize < stableThumbSize) {
-                            stableThumbSize = newSize;
-                            visibleIndicesValid = true;
-                        }
-                    }
-
-                    function updateLastScroll() {
-                        lastScrollPos = contentY + height;
-                    }
-
-
-
-
-
-                    function updateBottomPin() {
-                        if (root.initialBottomPinPending) {
-                            keepPinnedToBottom = true;
-                            if (atYEnd) {
-                                root.initialBottomPinPending = false;
-                                root.scheduleInitialTimelineBufferCheck();
-
-                            }
-                            return;
-                        }
-
-                        keepPinnedToBottom = atYEnd;
-                    }
-
-                    function maybeScrollToBottom(force) {
-                        if (count <= 0 || userUnpinned)
-                            return;
-
-                        if (!(force || keepPinnedToBottom || root.initialBottomPinPending))
-                            return;
-
-                        Qt.callLater(function () {
-                            if (count <= 0 || userUnpinned
-                                    || !(force || keepPinnedToBottom || root.initialBottomPinPending))
-                                return;
-
-                            positionViewAtBeginning();
-                            updateBottomPin();
-                        });
-                    }
+                    function updateStableThumbSize() { return listShellSupport.updateStableThumbSize(); }
+                    function updateLastScroll() { return listShellSupport.updateLastScroll(); }
+                    function updateBottomPin() { return listShellSupport.updateBottomPin(); }
+                    function maybeScrollToBottom(force) { return listShellSupport.maybeScrollToBottom(force); }
 
                     anchors.fill: parent
                     anchors.margins: Komai.paddingLarge
@@ -482,194 +417,23 @@ ColumnLayout {
                         }
                     }
 
-                    // Settle timer: re-evaluate keepPinnedToBottom after
-                    // the user stops wheel-scrolling for 250 ms.  During
-                    // active scrolling, keepPinnedToBottom is only ever
-                    // CLEARED (never set true) to avoid transient atYEnd
-                    // states from contentHeight fluctuations.
-                    Timer {
-                        id: wheelSettleTimer
-                        interval: 250
-                        onTriggered: {
-                            // Only re-pin if the user hasn't explicitly
-                            // scrolled away.  Layout adjustments can move
-                            // contentY toward the bottom, but that's not
-                            // the user's intent.
-                            if (!matrixTimelineList.userUnpinned)
-                                matrixTimelineList.keepPinnedToBottom = matrixTimelineList.atYEnd;
-                            matrixTimelineList.updateStableThumbSize();
-                        }
-                    }
-
                     WheelHandler {
                         orientation: Qt.Vertical
                         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
 
-                        property real previousRotation: 0
-
                         onRotationChanged: {
-                            const delta = rotation - previousRotation;
-                            previousRotation = rotation;
-                            matrixTimelineList.contentY -= delta * 5;
-                            matrixTimelineList.returnToBounds();
-                            matrixTimelineList.updateLastScroll();
-                            // Save top visible index for model-reset recovery
-                            const halfW = Math.max(1, Math.round(matrixTimelineList.width / 2));
-                            const idx = matrixTimelineList.indexAt(halfW, matrixTimelineList.contentY + 2);
-                            if (idx >= 0)
-                                matrixTimelineList.savedTopIndex = idx;
-                            if (!matrixTimelineList.atYEnd) {
-                                matrixTimelineList.keepPinnedToBottom = false;
-                                matrixTimelineList.userUnpinned = true;
-                                if (root.initialBottomPinPending)
-                                    root.initialBottomPinPending = false;
-                                if (root.initialTimelineBufferPending)
-                                    root.initialTimelineBufferPending = false;
-                                if (root.deferredInitialBufferTopUpPending)
-                                    root.deferredInitialBufferTopUpPending = false;
-                                deferredBufferCheckGeneration += 1;
-                                deferredBufferCheckQueued = false;
-                            }
-                            wheelSettleTimer.restart();
+                            listShellSupport.handleWheelRotation(rotation);
                         }
                     }
 
-                    onMovementEnded: {
-                        updateLastScroll();
-                        keepPinnedToBottom = atYEnd;
-                        if (atYEnd)
-                            userUnpinned = false;
-                        root.scheduleReadMarkerUpdate(atYEnd);
-                        updateStableThumbSize();
-                    }
-                    onAtYBeginningChanged: {
-                        // Don't trigger scroll-based pagination while the
-                        // initial buffer is still filling — atYBeginning
-                        // is transiently true during initial load because
-                        // content is shorter than the viewport.
-                        if (atYBeginning
-                                && root.hasTimeline
-                                && !root.loading
-                                && userUnpinned
-                                && !root.initialTimelineBufferPending
-                                && root.lastPaginationTriggerCount !== TimelineManager.matrixTimelineItemCount) {
-                            console.info("[timeline-load] Scroll-triggered pagination at top, count="
-                                + TimelineManager.matrixTimelineItemCount);
-                            if (TimelineManager.paginateActiveMatrixTimelineBackwards(0))
-                                root.lastPaginationTriggerCount = TimelineManager.matrixTimelineItemCount;
-                        }
-                    }
-                    onContentYChanged: {
-                        // Reset the pagination latch once the user scrolls away
-                        // from the top edge.  In BottomToTop contentY is usually
-                        // negative; use !atYBeginning as the reliable check.
-                        if (!atYBeginning && root.lastPaginationTriggerCount === TimelineManager.matrixTimelineItemCount)
-                            root.lastPaginationTriggerCount = -1;
-
-                        // Cancel initial-pin/buffer if user actively scrolled
-                        // away from the bottom during touch/drag/flick.
-                        if ((moving || flicking || dragging) && !atYEnd) {
-                            if (root.initialBottomPinPending)
-                                root.initialBottomPinPending = false;
-                            if (root.initialTimelineBufferPending)
-                                root.initialTimelineBufferPending = false;
-                            if (root.deferredInitialBufferTopUpPending)
-                                root.deferredInitialBufferTopUpPending = false;
-                            deferredBufferCheckGeneration += 1;
-                            deferredBufferCheckQueued = false;
-                        }
-
-                        // Do NOT call updateBottomPin() here.  Transient
-                        // contentHeight fluctuations can briefly make atYEnd
-                        // true, which would set keepPinnedToBottom = true and
-                        // cause auto-scroll on the next content update.
-                        // keepPinnedToBottom is updated only from explicit
-                        // user actions (onMovementEnded, WheelHandler).
-                    }
-                    onContentHeightChanged: {
-                        // While the user is holding the scrollbar thumb,
-                        // the position Binding is inactive.  Recompute
-                        // position from contentY so the thumb reflects
-                        // the new proportions after pagination adds items.
-                        if (matrixTimelineScrollbar.pressed) {
-                            const range = contentHeight - height;
-                            if (range > 0) {
-                                const normalized = (contentY - originY) / range;
-                                const maxPos = 1.0 - matrixTimelineScrollbar.size;
-                                matrixTimelineScrollbar.position = Math.max(0,
-                                    Math.min(maxPos, normalized * maxPos));
-                            }
-                        }
-
-                        if (!moving && !flicking && !dragging && !userUnpinned) {
-                            if (keepPinnedToBottom || root.initialBottomPinPending) {
-                                positionViewAtBeginning();
-                                updateBottomPin();
-                            } else {
-                                maybeScrollToBottom(previousCount === 0);
-                            }
-                            updateLastScroll();
-                        }
-                        if (root.deferredInitialBufferTopUpPending)
-                            scheduleDeferredInitialTimelineBufferCheck();
-                        else
-                            scheduleInitialTimelineBufferCheck();
-                    }
-                    onHeightChanged: {
-                        root.updatePreferredInitialTimelinePageSize();
-                        if (!moving && !flicking && !dragging && !userUnpinned) {
-                            if (keepPinnedToBottom || root.initialBottomPinPending) {
-                                positionViewAtBeginning();
-                                updateBottomPin();
-                            } else {
-                                contentY = lastScrollPos - height;
-                                maybeScrollToBottom(previousCount === 0);
-                            }
-                            updateLastScroll();
-                        }
-                        if (root.deferredInitialBufferTopUpPending)
-                            scheduleDeferredInitialTimelineBufferCheck();
-                        else
-                            scheduleInitialTimelineBufferCheck();
-                    }
-                    onCountChanged: {
-                        // Pagination delivered new items — allow buffer
-                        // check to re-evaluate on the next trigger.
-                        if (count !== previousCount)
-                            root.bufferPaginationInFlight = false;
-                        if (count > 0 && !root.perfLoggedCountNonZero) {
-                            root.perfLoggedCountNonZero = true;
-                            root.markRoomSwitchPerfPhase("qml.matrix_room.count_nonzero");
-                        }
-                        const forceScroll = previousCount === 0 && !visibleIndicesValid;
-                        if (!userUnpinned && (forceScroll || keepPinnedToBottom || root.initialBottomPinPending)) {
-                            positionViewAtBeginning();
-                            updateBottomPin();
-                        } else {
-                            maybeScrollToBottom(forceScroll);
-                        }
-                        updateLastScroll();
-                        Qt.callLater(updateStableThumbSize);
-                        if (root.deferredInitialBufferTopUpPending)
-                            scheduleDeferredInitialTimelineBufferCheck();
-                        else
-                            scheduleInitialTimelineBufferCheck();
-                        root.scheduleReadMarkerUpdate(!userUnpinned
-                            && (forceScroll || keepPinnedToBottom || root.initialBottomPinPending || atYEnd));
-                        previousCount = count;
-                    }
-                    onModelChanged: {
-                        previousCount = count;
-                        if (!userUnpinned && keepPinnedToBottom && count > 0)
-                            positionViewAtBeginning();
-                        updateLastScroll();
-                    }
-                    Component.onCompleted: {
-                        previousCount = count;
-                        updateLastScroll();
-                        root.updatePreferredInitialTimelinePageSize();
-                        maybeScrollToBottom(true);
-                    }
+                    onMovementEnded: listShellSupport.handleMovementEnded()
+                    onAtYBeginningChanged: listShellSupport.handleAtYBeginningChanged()
+                    onContentYChanged: listShellSupport.handleContentYChanged()
+                    onContentHeightChanged: listShellSupport.handleContentHeightChanged()
+                    onHeightChanged: listShellSupport.handleHeightChanged()
+                    onCountChanged: listShellSupport.handleCountChanged()
+                    onModelChanged: listShellSupport.handleModelChanged()
+                    Component.onCompleted: listShellSupport.handleCompleted()
 
 
 
@@ -830,12 +594,7 @@ ColumnLayout {
         if (!matrixTimelineList)
             return;
 
-        matrixTimelineList.keepPinnedToBottom = true;
-        matrixTimelineList.userUnpinned = false;
-        matrixTimelineList.savedTopIndex = -1;
-        matrixTimelineList.previousCount = 0;
-        matrixTimelineList.visibleIndicesValid = false;
-        matrixTimelineList.stableThumbSize = 1.0;
+        listShellSupport.resetForRoomSwitch();
     }
 
     onLoadingChanged: {

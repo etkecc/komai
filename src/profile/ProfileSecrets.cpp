@@ -16,8 +16,6 @@
 #include <qt6keychain/keychain.h>
 #endif
 
-#include <mtx/secret_storage.hpp>
-
 #include "logging/Logging.h"
 #include "profile/KeyringEnvironment.h"
 #include "profile/ProfileId.h"
@@ -25,15 +23,22 @@
 
 namespace profile_secrets {
 
+namespace {
+constexpr std::string_view kCrossSigningMasterSecret      = "m.cross_signing.master";
+constexpr std::string_view kCrossSigningSelfSigningSecret = "m.cross_signing.self_signing";
+constexpr std::string_view kCrossSigningUserSigningSecret = "m.cross_signing.user_signing";
+constexpr std::string_view kMegolmBackupV1Secret          = "m.megolm_backup.v1";
+}
+
 const std::array<CacheSecretDescriptor, 5> &
 cacheSecretDescriptors() noexcept
 {
     static const std::array<CacheSecretDescriptor, 5> descriptors{
       CacheSecretDescriptor{"pickle_secret", true},
-      CacheSecretDescriptor{mtx::secret_storage::secrets::cross_signing_master, false},
-      CacheSecretDescriptor{mtx::secret_storage::secrets::cross_signing_self_signing, false},
-      CacheSecretDescriptor{mtx::secret_storage::secrets::cross_signing_user_signing, false},
-      CacheSecretDescriptor{mtx::secret_storage::secrets::megolm_backup_v1, false}};
+      CacheSecretDescriptor{kCrossSigningMasterSecret, false},
+      CacheSecretDescriptor{kCrossSigningSelfSigningSecret, false},
+      CacheSecretDescriptor{kCrossSigningUserSigningSecret, false},
+      CacheSecretDescriptor{kMegolmBackupV1Secret, false}};
 
     return descriptors;
 }

@@ -13,8 +13,6 @@
 #include <QStringList>
 #include <array>
 
-#include <mtx/secret_storage.hpp>
-
 #include "config/komai.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/ui/SettingDescriptorValueAccessors.h"

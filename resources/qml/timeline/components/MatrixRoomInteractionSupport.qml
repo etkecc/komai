@@ -228,6 +228,21 @@ QtObject {
                                                       roomModelOverride);
     }
 
+    function resolvePendingMatrixEventJump() {
+        const pendingEventId = String(TimelineManager.matrixTimelinePendingJumpEventId || "").trim();
+        if (pendingEventId.length === 0)
+            return false;
+
+        if (!TimelineManager.resolveActiveMatrixPendingJump())
+            return false;
+
+        if (!support.jumpToLoadedMatrixEvent(pendingEventId))
+            return false;
+
+        TimelineManager.clearActiveMatrixPendingJump(pendingEventId);
+        return true;
+    }
+
     property var timelineConnections: Connections {
         target: TimelineManager
 
@@ -242,12 +257,13 @@ QtObject {
                 rootItem.scheduleInitialTimelineBufferCheck();
 
             if (!rootItem.restoringEditDraft || rootItem.activeEditEventId.length > 0)
-                return;
+                return support.resolvePendingMatrixEventJump();
 
             support.setComposerText(rootItem.draftBeforeEdit);
             rootItem.draftBeforeEdit = "";
             rootItem.restoringEditDraft = false;
             support.focusTextInput();
+            support.resolvePendingMatrixEventJump();
         }
 
         function onFocusInput() {

@@ -617,6 +617,17 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
 {
     bool stateChanged = clearActiveMatrixReplyState();
     stateChanged      = clearActiveMatrixEditState() || stateChanged;
+    if (!matrixTimelinePendingJumpRoomId_.isEmpty() ||
+        !matrixTimelinePendingJumpEventId_.isEmpty() ||
+        matrixTimelinePendingJumpPaginationAttempts_ != 0 ||
+        matrixTimelinePendingJumpAwaitingSnapshot_ || matrixTimelinePendingJumpExhaustedLogged_) {
+        matrixTimelinePendingJumpRoomId_.clear();
+        matrixTimelinePendingJumpEventId_.clear();
+        matrixTimelinePendingJumpPaginationAttempts_ = 0;
+        matrixTimelinePendingJumpAwaitingSnapshot_   = false;
+        matrixTimelinePendingJumpExhaustedLogged_    = false;
+        stateChanged                                 = true;
+    }
 
     if (!pendingMatrixAttachments_.empty() || !matrixPendingAttachmentItems_.empty()) {
         pendingMatrixAttachments_.clear();
@@ -1566,6 +1577,9 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
 
     if (activeMatrixTimelineRoomId_ != roomId)
         return;
+
+    if (matrixTimelinePendingJumpRoomId_ == roomId)
+        matrixTimelinePendingJumpAwaitingSnapshot_ = false;
 
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_signal");
 

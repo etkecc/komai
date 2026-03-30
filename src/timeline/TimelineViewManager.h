@@ -159,6 +159,8 @@ class TimelineViewManager final : public QObject
                  matrixTimelineStateChanged)
     Q_PROPERTY(bool matrixTimelineCanRedactOther READ matrixTimelineCanRedactOther NOTIFY
                  matrixTimelineStateChanged)
+    Q_PROPERTY(QString matrixTimelinePendingJumpEventId READ matrixTimelinePendingJumpEventId NOTIFY
+                 matrixTimelineStateChanged)
 
 public:
     TimelineViewManager(CallManager *callManager, ChatPage *parent = nullptr);
@@ -195,6 +197,7 @@ public:
     QStringList matrixTimelinePinnedEventIds() const { return matrixTimelinePinnedEventIds_; }
     bool matrixTimelineCanRedactOwn() const { return matrixTimelineCanRedactOwn_; }
     bool matrixTimelineCanRedactOther() const { return matrixTimelineCanRedactOther_; }
+    QString matrixTimelinePendingJumpEventId() const { return matrixTimelinePendingJumpEventId_; }
     Q_INVOKABLE void openMediaOverlay(QObject *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
@@ -313,6 +316,8 @@ public:
     openActiveMatrixTimelineMedia(const QString &itemId, const QString &suggestedFileName = {});
     Q_INVOKABLE bool
     saveActiveMatrixTimelineMedia(const QString &itemId, const QString &suggestedFileName = {});
+    Q_INVOKABLE bool resolveActiveMatrixPendingJump();
+    Q_INVOKABLE void clearActiveMatrixPendingJump(const QString &eventId = QString());
 
     Q_INVOKABLE void fixImageRendering(QQuickTextDocument *t, QQuickItem *i);
 
@@ -388,6 +393,7 @@ private:
     queueMatrixRoomReadMarker(uint64_t handleId, const QString &roomId, const QString &eventId);
     void dispatchPendingMatrixReadMarker(const QString &roomId);
     void clearMatrixReadMarkerQueue();
+    void queueActiveMatrixPendingJump(const QString &roomId, const QString &eventId);
 
     bool waitingForFirstSync_ = true;
     bool isConnected_         = true;
@@ -446,6 +452,11 @@ private:
     QStringList matrixTimelinePinnedEventIds_;
     bool matrixTimelineCanRedactOwn_   = false;
     bool matrixTimelineCanRedactOther_ = false;
+    QString matrixTimelinePendingJumpRoomId_;
+    QString matrixTimelinePendingJumpEventId_;
+    int matrixTimelinePendingJumpPaginationAttempts_ = 0;
+    bool matrixTimelinePendingJumpAwaitingSnapshot_  = false;
+    bool matrixTimelinePendingJumpExhaustedLogged_   = false;
     struct PendingMatrixAttachment
     {
         uint64_t handleId = 0;

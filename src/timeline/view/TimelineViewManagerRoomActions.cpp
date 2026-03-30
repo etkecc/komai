@@ -19,6 +19,11 @@
 #include "ui/UserProfile.h"
 #include "voip/WebRTCSession.h"
 
+namespace {
+constexpr auto kMatrixPendingJumpPageSize        = 50;
+constexpr auto kMatrixPendingJumpMaxPageRequests = 8;
+}
+
 void
 TimelineViewManager::scheduleMatrixSidebarRefresh()
 {
@@ -107,24 +112,131 @@ TimelineViewManager::showEvent(const QString &room_id, const QString &event_id)
     if (!mainWindow)
         return;
 
-    if (auto *existingWindow = mainWindow->windowForRoom(room_id)) {
+    const auto trimmedRoomId  = room_id.trimmed();
+    const auto trimmedEventId = event_id.trimmed();
+
+    if (auto *existingWindow = mainWindow->windowForRoom(trimmedRoomId)) {
         existingWindow->setVisible(true);
         existingWindow->raise();
         existingWindow->requestActivate();
     } else {
-        rooms_->setCurrentRoom(room_id);
+        rooms_->setCurrentRoom(trimmedRoomId);
         mainWindow->setVisible(true);
         mainWindow->raise();
         mainWindow->requestActivate();
-        nhlog::ui()->info("Activated room {}", room_id.toStdString());
+        nhlog::ui()->info("Activated room {}", trimmedRoomId.toStdString());
     }
 
-    if (room_id == activeMatrixTimelineRoomId_ && !event_id.trimmed().isEmpty()) {
-        nhlog::ui()->warn("Jump-to-event for matrix-sdk rooms is not migrated yet (room='{}', "
-                          "event='{}')",
-                          room_id.toStdString(),
-                          event_id.toStdString());
+    queueActiveMatrixPendingJump(trimmedRoomId, trimmedEventId);
+}
+
+void
+TimelineViewManager::queueActiveMatrixPendingJump(const QString &roomId, const QString &eventId)
+{
+    const auto trimmedRoomId  = roomId.trimmed();
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedRoomId.isEmpty() || trimmedEventId.isEmpty())
+        return;
+
+    const auto changed = matrixTimelinePendingJumpRoomId_ != trimmedRoomId ||
+                         matrixTimelinePendingJumpEventId_ != trimmedEventId ||
+                         matrixTimelinePendingJumpPaginationAttempts_ != 0 ||
+                         matrixTimelinePendingJumpAwaitingSnapshot_ ||
+                         matrixTimelinePendingJumpExhaustedLogged_;
+
+    matrixTimelinePendingJumpRoomId_             = trimmedRoomId;
+    matrixTimelinePendingJumpEventId_            = trimmedEventId;
+    matrixTimelinePendingJumpPaginationAttempts_ = 0;
+    matrixTimelinePendingJumpAwaitingSnapshot_   = false;
+    matrixTimelinePendingJumpExhaustedLogged_    = false;
+
+    nhlog::ui()->info("Queued matrix-sdk pending event jump room='{}' event='{}'",
+                      trimmedRoomId.toStdString(),
+                      trimmedEventId.toStdString());
+
+    if (changed)
+        emit matrixTimelineStateChanged();
+}
+
+bool
+TimelineViewManager::resolveActiveMatrixPendingJump()
+{
+    const auto pendingRoomId  = matrixTimelinePendingJumpRoomId_.trimmed();
+    const auto pendingEventId = matrixTimelinePendingJumpEventId_.trimmed();
+    if (pendingRoomId.isEmpty() || pendingEventId.isEmpty() || !matrixTimelineModel_ ||
+        activeMatrixTimelineRoomId_ != pendingRoomId) {
+        return false;
     }
+
+    if (matrixTimelineModel_->rowForEventId(pendingEventId) >= 0)
+        return true;
+
+    if (matrixTimelineLoading_ || matrixTimelinePendingJumpAwaitingSnapshot_)
+        return false;
+
+    const auto hiddenCount = matrixTimelineModel_->hiddenCount();
+    if (hiddenCount > 0) {
+        const auto revealCount = std::min(hiddenCount, kMatrixPendingJumpPageSize);
+        nhlog::ui()->info(
+          "Revealing {} locally-hidden matrix-sdk timeline items while resolving event jump "
+          "room='{}' event='{}'",
+          revealCount,
+          pendingRoomId.toStdString(),
+          pendingEventId.toStdString());
+        matrixTimelineModel_->revealOlderItems(revealCount);
+        return false;
+    }
+
+    if (matrixTimelinePendingJumpPaginationAttempts_ >= kMatrixPendingJumpMaxPageRequests) {
+        if (!matrixTimelinePendingJumpExhaustedLogged_) {
+            matrixTimelinePendingJumpExhaustedLogged_ = true;
+            nhlog::ui()->warn(
+              "Stopped auto-paginating matrix-sdk timeline while resolving event jump after {} "
+              "requests (room='{}', event='{}')",
+              matrixTimelinePendingJumpPaginationAttempts_,
+              pendingRoomId.toStdString(),
+              pendingEventId.toStdString());
+        }
+        return false;
+    }
+
+    matrixTimelinePendingJumpAwaitingSnapshot_ = true;
+    matrixTimelinePendingJumpPaginationAttempts_++;
+
+    nhlog::ui()->info(
+      "Paginating matrix-sdk timeline to resolve pending event jump room='{}' event='{}' "
+      "attempt={}/{}",
+      pendingRoomId.toStdString(),
+      pendingEventId.toStdString(),
+      matrixTimelinePendingJumpPaginationAttempts_,
+      kMatrixPendingJumpMaxPageRequests);
+
+    if (paginateActiveMatrixTimelineBackwards(kMatrixPendingJumpPageSize))
+        return false;
+
+    matrixTimelinePendingJumpAwaitingSnapshot_ = false;
+    return false;
+}
+
+void
+TimelineViewManager::clearActiveMatrixPendingJump(const QString &eventId)
+{
+    const auto trimmedEventId = eventId.trimmed();
+    if (!trimmedEventId.isEmpty() && trimmedEventId != matrixTimelinePendingJumpEventId_)
+        return;
+
+    if (matrixTimelinePendingJumpRoomId_.isEmpty() && matrixTimelinePendingJumpEventId_.isEmpty() &&
+        matrixTimelinePendingJumpPaginationAttempts_ == 0 &&
+        !matrixTimelinePendingJumpAwaitingSnapshot_ && !matrixTimelinePendingJumpExhaustedLogged_) {
+        return;
+    }
+
+    matrixTimelinePendingJumpRoomId_.clear();
+    matrixTimelinePendingJumpEventId_.clear();
+    matrixTimelinePendingJumpPaginationAttempts_ = 0;
+    matrixTimelinePendingJumpAwaitingSnapshot_   = false;
+    matrixTimelinePendingJumpExhaustedLogged_    = false;
+    emit matrixTimelineStateChanged();
 }
 
 void

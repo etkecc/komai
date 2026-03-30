@@ -19,6 +19,7 @@ use matrix_sdk::{
     },
 };
 use mime::Mime;
+use serde_json::{Map as JsonMap, Value as JsonValue};
 use std::{
     fs,
     path::Path,
@@ -65,6 +66,39 @@ fn log_room_timeline_perf(
         elapsed.as_secs_f64() * 1000.0,
         extra
     );
+}
+
+fn normalized_message_kind(message_kind: &str) -> &str {
+    match message_kind.trim() {
+        "message" | "text" => "m.text",
+        "notice" => "m.notice",
+        "emote" => "m.emote",
+        other => other,
+    }
+}
+
+fn message_type_from_kind(
+    message_kind: &str,
+    body: &str,
+    formatted_html: &str,
+) -> Result<MessageType, String> {
+    let normalized_kind = normalized_message_kind(message_kind);
+    let mut data = JsonMap::new();
+
+    if !formatted_html.is_empty() {
+        data.insert(
+            "format".to_owned(),
+            JsonValue::String("org.matrix.custom.html".to_owned()),
+        );
+        data.insert(
+            "formatted_body".to_owned(),
+            JsonValue::String(formatted_html.to_owned()),
+        );
+    }
+
+    MessageType::new(normalized_kind, body.to_owned(), data).map_err(|e| {
+        format!("failed to build matrix-sdk room message kind '{normalized_kind}': {e}")
+    })
 }
 
 pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
@@ -336,9 +370,6 @@ pub async fn send_room_message(
     }
 
     let body = body.trim();
-    if body.is_empty() {
-        return Err("cannot send an empty matrix-sdk room message".to_owned());
-    }
 
     let parsed_room_id =
         RoomId::parse(room_id).map_err(|e| format!("invalid room id '{room_id}': {e}"))?;
@@ -353,34 +384,9 @@ pub async fn send_room_message(
     }
 
     let formatted_html = formatted_html.trim();
-    let content: AnyMessageLikeEventContent = match message_kind {
-        "text" => {
-            if formatted_html.is_empty() {
-                RoomMessageEventContent::text_plain(body).into()
-            } else {
-                RoomMessageEventContent::text_html(body, formatted_html).into()
-            }
-        }
-        "notice" => {
-            if formatted_html.is_empty() {
-                RoomMessageEventContent::notice_plain(body).into()
-            } else {
-                RoomMessageEventContent::notice_html(body, formatted_html).into()
-            }
-        }
-        "emote" => {
-            if formatted_html.is_empty() {
-                RoomMessageEventContent::emote_plain(body).into()
-            } else {
-                RoomMessageEventContent::emote_html(body, formatted_html).into()
-            }
-        }
-        other => {
-            return Err(format!(
-                "unsupported matrix-sdk room message kind '{other}' for room '{room_id}'"
-            ));
-        }
-    };
+    let content: AnyMessageLikeEventContent =
+        RoomMessageEventContent::new(message_type_from_kind(message_kind, body, formatted_html)?)
+            .into();
 
     tracing::info!(
         handle_id,
@@ -420,43 +426,16 @@ pub async fn send_room_reply_message(
     }
 
     let body = body.trim();
-    if body.is_empty() {
-        return Err("cannot send an empty matrix-sdk room reply".to_owned());
-    }
 
     let parsed_event_id = EventId::parse(replied_to_event_id)
         .map_err(|e| format!("invalid event id '{replied_to_event_id}': {e}"))?;
 
     let formatted_html = formatted_html.trim();
-    let content = match message_kind {
-        "text" => {
-            if formatted_html.is_empty() {
-                RoomMessageEventContentWithoutRelation::text_plain(body)
-            } else {
-                RoomMessageEventContentWithoutRelation::text_html(body, formatted_html)
-            }
-        }
-        "notice" => {
-            if formatted_html.is_empty() {
-                RoomMessageEventContentWithoutRelation::notice_plain(body)
-            } else {
-                RoomMessageEventContentWithoutRelation::notice_html(body, formatted_html)
-            }
-        }
-        "emote" => {
-            if formatted_html.is_empty() {
-                RoomMessageEventContentWithoutRelation::emote_plain(body)
-            } else {
-                RoomMessageEventContentWithoutRelation::emote_html(body, formatted_html)
-            }
-        }
-        other => {
-            return Err(format!(
-                "unsupported matrix-sdk room reply kind '{other}' for room '{}'",
-                room_id.trim()
-            ));
-        }
-    };
+    let content = RoomMessageEventContentWithoutRelation::new(message_type_from_kind(
+        message_kind,
+        body,
+        formatted_html,
+    )?);
 
     tracing::info!(
         handle_id,

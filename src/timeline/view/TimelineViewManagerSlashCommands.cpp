@@ -16,6 +16,7 @@
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/SlashCommands.h"
+#include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
@@ -99,6 +100,20 @@ formattedHtmlForMatrixSend(const QString &body, SlashFormatMode formatMode)
         return html;
 
     return {};
+}
+
+bool
+isAllDigits(const QString &text)
+{
+    if (text.isEmpty())
+        return false;
+
+    for (const auto ch : text) {
+        if (!ch.isDigit())
+            return false;
+    }
+
+    return true;
 }
 
 template<typename WorkFnT, typename UiFnT>
@@ -215,8 +230,11 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
                                                 const QString &messageKind,
                                                 SlashFormatMode formatMode) {
         const auto plainBody = body.trimmed();
-        if (plainBody.isEmpty())
+        if (plainBody.isEmpty() &&
+            (messageKind == QStringLiteral("text") || messageKind == QStringLiteral("notice") ||
+             messageKind == QStringLiteral("emote"))) {
             return false;
+        }
 
         const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
         if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
@@ -386,15 +404,69 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         ok = sendMessage(arguments, QStringLiteral("notice"), SlashFormatMode::Auto);
         break;
     case CommandId::Msgtype:
-        return notifyUnsupported(parsed.definition->name);
-    case CommandId::Goto:
-        return notifyUnsupported(parsed.definition->name);
+        if (argSplit.first.isEmpty())
+            return false;
+        ok = sendMessage(argSplit.rest, argSplit.first, SlashFormatMode::Auto);
+        break;
+    case CommandId::Goto: {
+        if (!requireActiveRoom())
+            return false;
+
+        const auto target = arguments.trimmed();
+        if (target.isEmpty())
+            return false;
+
+        if (target.startsWith(u'$')) {
+            showEvent(activeMatrixTimelineRoomId_, target);
+            ok = true;
+            break;
+        }
+
+        if (isAllDigits(target)) {
+            if (!matrixTimelineModel_) {
+                showNotification(tr("The room timeline is not ready yet."));
+                return false;
+            }
+
+            bool rowOk     = false;
+            const auto row = target.toInt(&rowOk);
+            if (!rowOk || row < 0) {
+                showNotification(tr("That message index could not be resolved in this room."));
+                return false;
+            }
+
+            const auto item = matrixTimelineModel_->itemAt(row);
+            const auto targetId =
+              item.value(QStringLiteral("eventId")).toString().trimmed().isEmpty()
+                ? item.value(QStringLiteral("itemId")).toString().trimmed()
+                : item.value(QStringLiteral("eventId")).toString().trimmed();
+            if (targetId.isEmpty()) {
+                showNotification(tr("That message index could not be resolved in this room."));
+                return false;
+            }
+
+            showEvent(activeMatrixTimelineRoomId_, targetId);
+            ok = true;
+            break;
+        }
+
+        if (!requireChatPage())
+            return false;
+
+        ok = chatPage->tryHandleMatrixUri(target);
+        if (!ok) {
+            showNotification(
+              tr("Could not resolve that /goto target. Use an event ID, numeric message index, "
+                 "or Matrix link."));
+        }
+        break;
+    }
     case CommandId::ConvertToDm:
     case CommandId::ConvertToRoom: {
         if (!requireHandle() || !requireActiveRoom())
             return false;
 
-        const bool isDirect  = parsed.definition->id == CommandId::ConvertToDm;
+        const bool isDirect   = parsed.definition->id == CommandId::ConvertToDm;
         const auto handleId   = activeHandleId();
         const auto roomId     = activeMatrixTimelineRoomId_;
         const auto roomIdText = roomId;
@@ -425,8 +497,7 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
 
               if (mainWindow) {
                   mainWindow->showNotification(
-                    isDirect ? TimelineViewManager::tr(
-                                 "Marked this room as a direct message.")
+                    isDirect ? TimelineViewManager::tr("Marked this room as a direct message.")
                              : TimelineViewManager::tr("Marked this room as a regular room."));
               }
           });

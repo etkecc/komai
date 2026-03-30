@@ -381,8 +381,6 @@ set(SRC_FILES
     src/timeline/Reaction.h
     src/timeline/RoomlistModel.cpp
     src/timeline/RoomlistModel.h
-    src/timeline/TimelineFilter.cpp
-    src/timeline/TimelineFilter.h
     src/timeline/TimelineEventTypes.cpp
     src/timeline/TimelineEventTypes.h
     src/timeline/TimelineSpecialEffects.cpp

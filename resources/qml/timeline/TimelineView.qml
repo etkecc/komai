@@ -324,7 +324,6 @@ Item {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 roomPreview: timelineView.roomPreview
-                showBackButton: timelineView.showBackButton
                 externalHeaderPane: matrixHeaderPane
                 externalComposerPane: matrixComposerPane
                 chatRoot: matrixTimelineHost

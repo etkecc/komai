@@ -13,9 +13,8 @@ ColumnLayout {
     id: root
 
     required property var roomPreview
-    required property bool showBackButton
-    property var externalHeaderPane: null
-    property var externalComposerPane: null
+    required property var externalHeaderPane
+    required property var externalComposerPane
     property var chatRoot: null
     property var timelineRoot: null
     property var emojiPopup: null
@@ -38,17 +37,12 @@ ColumnLayout {
     readonly property bool hasTimeline: TimelineManager.matrixTimelineItemCount > 0
     readonly property bool loading: TimelineManager.matrixTimelineLoading
     readonly property bool perfDisableComposer: TimelineManager.perfUiFlagEnabled("disable_composer")
-    readonly property bool perfDisableRoomHeader: TimelineManager.perfUiFlagEnabled("disable_room_header")
     readonly property bool perfDisableTimelineBubbles: TimelineManager.perfUiFlagEnabled("disable_timeline_bubbles")
     readonly property bool perfMinimalTextBubbles: TimelineManager.perfUiFlagEnabled("minimal_text_bubbles")
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
-    readonly property var composerShell: externalComposerPane && externalComposerPane.composerShell !== undefined
-        ? externalComposerPane.composerShell
-        : composerPane.composerShell
+    readonly property var composerShell: externalComposerPane.composerShell
     readonly property var notificationAreaItem: timelineViewport
-    readonly property bool headerSearchHasFocus: externalHeaderPane && externalHeaderPane.searchHasFocus !== undefined
-        ? !!externalHeaderPane.searchHasFocus
-        : headerPane.searchHasFocus
+    readonly property bool headerSearchHasFocus: !!externalHeaderPane.searchHasFocus
     readonly property real listViewDisplayMargin: roomSwitchInProgress
         ? 0
         : (matrixTimelineList ? matrixTimelineList.height / 8 : 0)
@@ -113,7 +107,7 @@ ColumnLayout {
 
         rootItem: root
         timelineList: matrixTimelineList
-        topBar: externalHeaderPane && externalHeaderPane.headerItem ? externalHeaderPane.headerItem : headerPane.headerItem
+        topBar: externalHeaderPane.headerItem
         messageActionSupport: messageActionSupport
     }
 
@@ -121,7 +115,7 @@ ColumnLayout {
         id: interactionSupport
 
         rootItem: root
-        composerPane: root.externalComposerPane ? root.externalComposerPane : composerPane
+        composerPane: externalComposerPane
         roomSupport: roomSupport
         timelineList: matrixTimelineList
     }
@@ -151,7 +145,7 @@ ColumnLayout {
         id: lifecycleSupport
 
         rootItem: root
-        topBar: externalHeaderPane && externalHeaderPane.headerItem ? externalHeaderPane.headerItem : headerPane.headerItem
+        topBar: externalHeaderPane.headerItem
         listShellSupport: listShellSupport
     }
 
@@ -230,16 +224,6 @@ ColumnLayout {
     enabled: visible
     spacing: 0
     visible: !!roomPreview && roomPreview.isMatrixSummary
-
-    MatrixRoomHeaderPane {
-        id: headerPane
-
-        roomPreview: root.roomPreview
-        showBackButton: root.showBackButton
-        perfDisableRoomHeader: root.perfDisableRoomHeader
-        headerRoomModel: matrixHeaderRoomModel
-        visible: !root.externalHeaderPane
-    }
 
     Rectangle {
         Layout.fillHeight: true
@@ -519,21 +503,9 @@ ColumnLayout {
                         }
                     }
                 }
-
-
                 MatrixRoomEmptyState {
                     rootItem: root
                 }
-            }
-
-            MatrixRoomComposerPane {
-                id: composerPane
-
-                rootItem: root
-                uploadsController: matrixUploadsController
-                composerRoom: matrixComposerRoom
-                composerInputController: matrixComposerInputController
-                visible: !root.externalComposerPane
             }
         }
     }

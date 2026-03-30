@@ -13,9 +13,6 @@
 #include <string>
 #include <vector>
 
-#include <mtx/events.hpp>
-#include <mtx/events/encrypted.hpp>
-
 // clang-format off
 /*
  * Stolen from fluffy chat :D
@@ -108,24 +105,7 @@ public:
     Q_ENUM(Error)
 
     static DeviceVerificationFlow *
-    NewInRoomVerification(QObject *parent_,
-                          QObject *timelineContext_,
-                          const mtx::events::msg::KeyVerificationRequest &msg,
-                          const QString &other_user_,
-                          const QString &event_id_);
-    static DeviceVerificationFlow *
-    NewToDeviceVerification(QObject *parent_,
-                            const mtx::events::msg::KeyVerificationRequest &msg,
-                            const QString &other_user_,
-                            const QString &txn_id_);
-    static DeviceVerificationFlow *
-    NewToDeviceVerification(QObject *parent_,
-                            const mtx::events::msg::KeyVerificationStart &msg,
-                            const QString &other_user_,
-                            const QString &txn_id_);
-    static DeviceVerificationFlow *InitiateUserVerification(QObject *parent_,
-                                                            QObject *timelineContext_,
-                                                            const QString &userid);
+    InitiateUserVerification(QObject *parent_, QObject *timelineContext_, const QString &userid);
     static DeviceVerificationFlow *InitiateDeviceVerification(QObject *parent,
                                                               const QString &userid,
                                                               const std::vector<QString> &devices);

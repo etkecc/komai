@@ -305,46 +305,7 @@ DeviceVerificationFlow::mapMatrixError(const QString &error) const
 }
 
 DeviceVerificationFlow *
-DeviceVerificationFlow::NewInRoomVerification(QObject *,
-                                              QObject *,
-                                              const mtx::events::msg::KeyVerificationRequest &,
-                                              const QString &,
-                                              const QString &)
-{
-    nhlog::crypto()->debug(
-      "Ignoring legacy in-room verification request because matrix-sdk handles live "
-      "verification sessions directly");
-    return nullptr;
-}
-
-DeviceVerificationFlow *
-DeviceVerificationFlow::NewToDeviceVerification(QObject *,
-                                                const mtx::events::msg::KeyVerificationRequest &,
-                                                const QString &,
-                                                const QString &)
-{
-    nhlog::crypto()->debug(
-      "Ignoring legacy to-device verification request because matrix-sdk handles live "
-      "verification sessions directly");
-    return nullptr;
-}
-
-DeviceVerificationFlow *
-DeviceVerificationFlow::NewToDeviceVerification(QObject *,
-                                                const mtx::events::msg::KeyVerificationStart &,
-                                                const QString &,
-                                                const QString &)
-{
-    nhlog::crypto()->debug(
-      "Ignoring legacy verification start because matrix-sdk handles live verification "
-      "sessions directly");
-    return nullptr;
-}
-
-DeviceVerificationFlow *
-DeviceVerificationFlow::InitiateUserVerification(QObject *parent,
-                                                 QObject *,
-                                                 const QString &userid)
+DeviceVerificationFlow::InitiateUserVerification(QObject *parent, QObject *, const QString &userid)
 {
     const auto *mainWindow = MainWindow::instance();
     const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;

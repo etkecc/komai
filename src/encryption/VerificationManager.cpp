@@ -38,42 +38,6 @@ VerificationManager::VerificationManager(TimelineViewManager *o)
     matrixVerificationPollTimer_->start();
 }
 
-void
-VerificationManager::receivedRoomDeviceVerificationRequest(
-  const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationRequest> &message,
-  QObject *model)
-{
-    Q_UNUSED(message);
-    Q_UNUSED(model);
-    nhlog::crypto()->debug(
-      "Ignoring legacy room verification request because matrix-sdk handles live verification "
-      "sessions directly");
-}
-
-void
-VerificationManager::receivedDeviceVerificationRequest(
-  const mtx::events::msg::KeyVerificationRequest &msg,
-  std::string sender)
-{
-    Q_UNUSED(msg);
-    Q_UNUSED(sender);
-    nhlog::crypto()->debug(
-      "Ignoring legacy to-device verification request because matrix-sdk handles live "
-      "verification sessions directly");
-}
-
-void
-VerificationManager::receivedDeviceVerificationStart(
-  const mtx::events::msg::KeyVerificationStart &msg,
-  std::string sender)
-{
-    Q_UNUSED(msg);
-    Q_UNUSED(sender);
-    nhlog::crypto()->debug(
-      "Ignoring legacy verification start because matrix-sdk handles live verification sessions "
-      "directly");
-}
-
 bool
 VerificationManager::verifySelf(QString *errorOut)
 {

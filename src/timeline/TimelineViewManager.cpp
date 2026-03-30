@@ -77,18 +77,6 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
             &UserSettings::timelineUserColorCodingPolicyChanged,
             this,
             &TimelineViewManager::updateColorPalette);
-    connect(parent,
-            &ChatPage::receivedRoomDeviceVerificationRequest,
-            verificationManager_,
-            &VerificationManager::receivedRoomDeviceVerificationRequest);
-    connect(parent,
-            &ChatPage::receivedDeviceVerificationRequest,
-            verificationManager_,
-            &VerificationManager::receivedDeviceVerificationRequest);
-    connect(parent,
-            &ChatPage::receivedDeviceVerificationStart,
-            verificationManager_,
-            &VerificationManager::receivedDeviceVerificationStart);
     connect(parent, &ChatPage::loggedOut, this, [this]() {
         clearCurrentMatrixTimeline();
         waitingForFirstSync_ = true;

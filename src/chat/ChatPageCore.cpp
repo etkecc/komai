@@ -57,12 +57,6 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
 
     view_manager_ = new TimelineViewManager(callManager_, this);
 
-    connect(this,
-            &ChatPage::downloadedSecrets,
-            this,
-            &ChatPage::decryptDownloadedSecrets,
-            Qt::QueuedConnection);
-
     connect(this, &ChatPage::connectionLost, this, [this]() {
         nhlog::net()->info("connectivity lost");
         isConnected_ = false;

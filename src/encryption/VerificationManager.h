@@ -11,9 +11,6 @@
 #include <QString>
 #include <QTimer>
 
-#include <mtx/events.hpp>
-#include <mtx/events/encrypted.hpp>
-
 #include "DeviceVerificationFlow.h"
 
 class TimelineViewManager;
@@ -60,13 +57,6 @@ signals:
     void verificationStateChanged(const QString &userId);
 
 public slots:
-    void receivedRoomDeviceVerificationRequest(
-      const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationRequest> &message,
-      QObject *model);
-    void receivedDeviceVerificationRequest(const mtx::events::msg::KeyVerificationRequest &msg,
-                                           std::string sender);
-    void receivedDeviceVerificationStart(const mtx::events::msg::KeyVerificationStart &msg,
-                                         std::string sender);
     void pollPendingMatrixVerifications();
 
 private:

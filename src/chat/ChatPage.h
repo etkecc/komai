@@ -8,7 +8,6 @@
 #include <atomic>
 #include <optional>
 
-#include <mtx/events.hpp>
 #include <mtx/secret_storage.hpp>
 
 #include <QSharedPointer>
@@ -123,23 +122,6 @@ signals:
 
     void themeChanged();
 
-    //! Signals for device verificaiton
-    void receivedDeviceVerificationAccept(const mtx::events::msg::KeyVerificationAccept &message);
-    void receivedDeviceVerificationRequest(const mtx::events::msg::KeyVerificationRequest &message,
-                                           std::string sender);
-    void receivedRoomDeviceVerificationRequest(
-      const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationRequest> &message,
-      QObject *model);
-    void receivedDeviceVerificationCancel(const mtx::events::msg::KeyVerificationCancel &message);
-    void receivedDeviceVerificationKey(const mtx::events::msg::KeyVerificationKey &message);
-    void receivedDeviceVerificationMac(const mtx::events::msg::KeyVerificationMac &message);
-    void receivedDeviceVerificationStart(const mtx::events::msg::KeyVerificationStart &message,
-                                         std::string sender);
-    void receivedDeviceVerificationReady(const mtx::events::msg::KeyVerificationReady &message);
-    void receivedDeviceVerificationDone(const mtx::events::msg::KeyVerificationDone &message);
-
-    void downloadedSecrets(mtx::secret_storage::AesHmacSha2KeyDescription keyDesc,
-                           const SecretsToDecrypt &secrets);
     void promptUnlockKeyBackup();
 
     void showRoomJoinPrompt(RoomSummary *);

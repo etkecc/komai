@@ -19,6 +19,9 @@ ColumnLayout {
     readonly property alias composerShell: composerContainer
 
     Layout.fillWidth: true
+    Layout.minimumHeight: visible ? implicitHeight : 0
+    Layout.preferredHeight: visible ? implicitHeight : 0
+    Layout.maximumHeight: visible ? implicitHeight : 0
     spacing: 0
 
     Composer.UploadBox {

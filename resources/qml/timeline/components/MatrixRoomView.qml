@@ -17,6 +17,7 @@ ColumnLayout {
     required property var roomPreview
     required property bool showBackButton
     property var externalHeaderPane: null
+    property var externalComposerPane: null
     property var chatRoot: null
     property var timelineRoot: null
     property var emojiPopup: null
@@ -43,7 +44,9 @@ ColumnLayout {
     readonly property bool perfDisableTimelineBubbles: TimelineManager.perfUiFlagEnabled("disable_timeline_bubbles")
     readonly property bool perfMinimalTextBubbles: TimelineManager.perfUiFlagEnabled("minimal_text_bubbles")
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
-    readonly property var composerShell: composerPane.composerShell
+    readonly property var composerShell: externalComposerPane && externalComposerPane.composerShell !== undefined
+        ? externalComposerPane.composerShell
+        : composerPane.composerShell
     readonly property var notificationAreaItem: timelineViewport
     readonly property bool headerSearchHasFocus: externalHeaderPane && externalHeaderPane.searchHasFocus !== undefined
         ? !!externalHeaderPane.searchHasFocus
@@ -120,7 +123,7 @@ ColumnLayout {
         id: interactionSupport
 
         rootItem: root
-        composerPane: composerPane
+        composerPane: root.externalComposerPane ? root.externalComposerPane : composerPane
         roomSupport: roomSupport
         timelineList: matrixTimelineList
     }
@@ -226,7 +229,6 @@ ColumnLayout {
                                                            roomModelOverride);
     }
 
-    anchors.fill: parent
     enabled: visible
     spacing: 0
     visible: !!roomPreview && roomPreview.isMatrixSummary
@@ -520,6 +522,7 @@ ColumnLayout {
                 uploadsController: matrixUploadsController
                 composerRoom: matrixComposerRoom
                 composerInputController: matrixComposerInputController
+                visible: !root.externalComposerPane
             }
         }
     }

@@ -27,7 +27,8 @@ Item {
     readonly property var legacyRoomHeader: legacyTimeline ? legacyTimeline.roomHeader : null
     readonly property var legacyMessageView: legacyTimeline ? legacyTimeline.messageViewItem : null
     readonly property var legacyMessageInput: legacyTimeline ? legacyTimeline.messageInputItem : null
-    readonly property var matrixTimeline: matrixRoomLoader.item
+    readonly property var matrixTimelineShell: matrixRoomLoader.item
+    readonly property var matrixTimeline: matrixTimelineShell ? matrixTimelineShell.roomView : null
     readonly property bool activeSearchHasFocus: useMatrixRoomView
         ? (!!matrixHeaderPane && !!matrixHeaderPane.searchHasFocus)
         : (!!legacyRoomHeader && !!legacyRoomHeader.searchHasFocus)
@@ -311,14 +312,36 @@ Item {
     Component {
         id: matrixTimelineComponent
 
-        MatrixRoomView {
-            roomPreview: timelineView.roomPreview
-            showBackButton: timelineView.showBackButton
-            externalHeaderPane: matrixHeaderPane
-            chatRoot: matrixTimelineHost
-            timelineRoot: timelineView.dialogHost
-            emojiPopup: timelineEmojiPopup
-            filteredTimeline: null
+        ColumnLayout {
+            property alias roomView: matrixRoomView
+
+            anchors.fill: parent
+            spacing: 0
+
+            MatrixRoomView {
+                id: matrixRoomView
+
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                roomPreview: timelineView.roomPreview
+                showBackButton: timelineView.showBackButton
+                externalHeaderPane: matrixHeaderPane
+                externalComposerPane: matrixComposerPane
+                chatRoot: matrixTimelineHost
+                timelineRoot: timelineView.dialogHost
+                emojiPopup: timelineEmojiPopup
+                filteredTimeline: null
+            }
+
+            MatrixRoomComposerPane {
+                id: matrixComposerPane
+
+                Layout.fillWidth: true
+                rootItem: matrixRoomView
+                uploadsController: matrixTimeline ? matrixTimeline.matrixUploadsController : null
+                composerRoom: matrixTimeline ? matrixTimeline.matrixComposerRoom : null
+                composerInputController: matrixTimeline ? matrixTimeline.matrixComposerInputController : null
+            }
         }
     }
     Loader {

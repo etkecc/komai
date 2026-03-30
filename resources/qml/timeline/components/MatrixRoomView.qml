@@ -80,6 +80,7 @@ ColumnLayout {
     property bool suppressNextWalkModeOlderStep: false
     property string lastMarkedReadEventId: ""
     property bool preferLatestReadMarkerEvent: false
+    property bool pendingComposerAutoFocus: false
     readonly property var matrixUploadsController: roomSupport.uploadsController
     readonly property var matrixComposerInputController: roomSupport.composerInputController
     readonly property var matrixComposerRoom: roomSupport.composerRoom
@@ -1260,6 +1261,58 @@ ColumnLayout {
         return composerInput ? composerInput.focusTextInput() : false;
     }
 
+    function scheduleComposerAutoFocus() {
+        if (!pendingComposerAutoFocus)
+            return;
+
+        Qt.callLater(function () {
+            if (!pendingComposerAutoFocus
+                    || !visible
+                    || perfDisableComposer
+                    || walkModeActive
+                    || hasOpenOverlayDialog)
+                return;
+
+            if (root.focusTextInput())
+                pendingComposerAutoFocus = false;
+        });
+    }
+
+    function shouldRouteTextKeyToComposer(event) {
+        if (!event
+                || walkModeActive
+                || headerSearchHasFocus
+                || hasOpenOverlayDialog) {
+            return false;
+        }
+
+        const text = String(event.text || "");
+        if (text.length === 0)
+            return false;
+
+        if (event.key === Qt.Key_Return
+                || event.key === Qt.Key_Enter
+                || event.key === Qt.Key_Tab
+                || event.key === Qt.Key_Backtab) {
+            return false;
+        }
+
+        const modifiers = Number(event.modifiers);
+        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function handleComposerTextKey(event) {
+        if (!shouldRouteTextKeyToComposer(event))
+            return false;
+
+        if (!root.appendText(event.text))
+            return false;
+
+        pendingComposerAutoFocus = false;
+        event.accepted = true;
+        return true;
+    }
+
     function destroyOnClose(dialog) {
         if (!dialog)
             return;
@@ -1633,7 +1686,10 @@ ColumnLayout {
                     visible: root.hasTimeline
 
                     Keys.onPressed: event => {
-                        root.handleWalkModeKey(event);
+                        if (root.handleWalkModeKey(event))
+                            return;
+
+                        root.handleComposerTextKey(event);
                     }
                     Keys.onShortcutOverride: event => {
                         if (event.key === Qt.Key_Escape
@@ -2023,6 +2079,9 @@ ColumnLayout {
 
     Connections {
         function onMatrixTimelineStateChanged() {
+            if (root.pendingComposerAutoFocus)
+                root.scheduleComposerAutoFocus();
+
             root.ensureInitialBottomPin();
             if (root.deferredInitialBufferTopUpPending)
                 root.scheduleDeferredInitialTimelineBufferCheck();
@@ -2075,11 +2134,14 @@ ColumnLayout {
         preferLatestReadMarkerEvent = false;
         lastMarkedReadEventId = "";
         lastInitialBufferTriggerCount = -1;
+        pendingComposerAutoFocus = activeRoomId.length > 0;
         visibleTimelineDelegates = ({});
         deferredBufferCheckGeneration += 1;
         deferredBufferCheckQueued = false;
         if (activeRoomId.length > 0)
             root.markRoomSwitchPerfPhase("qml.matrix_room.active_room_changed");
+        if (pendingComposerAutoFocus)
+            root.scheduleComposerAutoFocus();
         if (!matrixTimelineList)
             return;
 
@@ -2093,6 +2155,9 @@ ColumnLayout {
 
     onLoadingChanged: {
         if (!loading) {
+            if (root.pendingComposerAutoFocus)
+                root.scheduleComposerAutoFocus();
+
             if (!hasTimeline)
                 roomSwitchInProgress = false;
             root.markRoomSwitchPerfPhase("qml.matrix_room.loading_false");

@@ -143,16 +143,16 @@ ColumnLayout {
         rootItem: root
     }
 
-    function clearSearch() {
-        topBar.searchString = "";
+    MatrixRoomLifecycleSupport {
+        id: lifecycleSupport
+
+        rootItem: root
+        topBar: topBar
+        listShellSupport: listShellSupport
     }
 
-    function markRoomSwitchPerfPhase(phase) {
-        if (!TimelineManager.roomSwitchPerfEnabled() || activeRoomId.length === 0 || phase.length === 0)
-            return;
-
-        TimelineManager.markRoomSwitchPhase(activeRoomId, phase);
-    }
+    function clearSearch() { return lifecycleSupport.clearSearch(); }
+    function markRoomSwitchPerfPhase(phase) { return lifecycleSupport.markRoomSwitchPerfPhase(phase); }
 
     function selectedEventIdsContains(eventId) { return eventSupport.selectedEventIdsContains(eventId); }
     function canExplicitlySelectEventId(eventId) { return eventSupport.canExplicitlySelectEventId(eventId); }
@@ -566,50 +566,5 @@ ColumnLayout {
         chatList: matrixTimelineList
         chatRoot: root
         roomModel: null
-    }
-
-    onActiveRoomIdChanged: {
-        root.updatePreferredInitialTimelinePageSize();
-        measuredTimelineHeights = ({});
-        roomSwitchInProgress = activeRoomId.length > 0;
-        initialBottomPinPending = activeRoomId.length > 0;
-        initialTimelineBufferPending = activeRoomId.length > 0;
-        deferredInitialBufferTopUpPending = false;
-        bufferPaginationInFlight = false;
-        perfLoggedCountNonZero = false;
-        perfLoggedContentHeightReady = false;
-        perfLoggedUsefulHeightReady = false;
-        perfLoggedBufferFilled = false;
-        preferLatestReadMarkerEvent = false;
-        lastMarkedReadEventId = "";
-        lastInitialBufferTriggerCount = -1;
-        pendingComposerAutoFocus = activeRoomId.length > 0;
-        visibleTimelineDelegates = ({});
-        deferredBufferCheckGeneration += 1;
-        deferredBufferCheckQueued = false;
-        if (activeRoomId.length > 0)
-            root.markRoomSwitchPerfPhase("qml.matrix_room.active_room_changed");
-        if (pendingComposerAutoFocus)
-            root.scheduleComposerAutoFocus();
-        if (!matrixTimelineList)
-            return;
-
-        listShellSupport.resetForRoomSwitch();
-    }
-
-    onLoadingChanged: {
-        if (!loading) {
-            if (root.pendingComposerAutoFocus)
-                root.scheduleComposerAutoFocus();
-
-            if (!hasTimeline)
-                roomSwitchInProgress = false;
-            root.markRoomSwitchPerfPhase("qml.matrix_room.loading_false");
-            ensureInitialBottomPin();
-            if (root.deferredInitialBufferTopUpPending)
-                root.scheduleDeferredInitialTimelineBufferCheck();
-            else
-                root.scheduleInitialTimelineBufferCheck();
-        }
     }
 }

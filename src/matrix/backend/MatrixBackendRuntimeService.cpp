@@ -267,6 +267,36 @@ fromRustRoomSettings(const ::komai::rust::MatrixRoomSettings &room)
     };
 }
 
+MatrixRoomAliases
+fromRustRoomAliases(const ::komai::rust::MatrixRoomAliases &aliases)
+{
+    QVector<QString> altAliases;
+    altAliases.reserve(static_cast<int>(aliases.alt_aliases.size()));
+    for (const auto &value : aliases.alt_aliases)
+        altAliases.push_back(QString::fromStdString(std::string(value)));
+
+    QVector<QString> publishedAliases;
+    publishedAliases.reserve(static_cast<int>(aliases.published_aliases.size()));
+    for (const auto &value : aliases.published_aliases)
+        publishedAliases.push_back(QString::fromStdString(std::string(value)));
+
+    return MatrixRoomAliases{
+      .canonicalAlias   = QString::fromStdString(std::string(aliases.canonical_alias)),
+      .altAliases       = altAliases,
+      .publishedAliases = publishedAliases,
+    };
+}
+
+::komai::rust::MatrixRoomAliases
+toRustRoomAliases(const MatrixRoomAliases &aliases)
+{
+    return ::komai::rust::MatrixRoomAliases{
+      .canonical_alias   = aliases.canonicalAlias.toStdString(),
+      .alt_aliases       = toRustStringVec(aliases.altAliases),
+      .published_aliases = toRustStringVec(aliases.publishedAliases),
+    };
+}
+
 MatrixRoomRedactionPermissions
 fromRustRoomRedactionPermissions(const ::komai::rust::MatrixRoomRedactionPermissions &permissions)
 {
@@ -1233,6 +1263,39 @@ MatrixBackendRuntimeService::fetchRoomSettings(uint64_t handleId,
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return std::nullopt;
+    }
+}
+
+std::optional<MatrixRoomAliases>
+MatrixBackendRuntimeService::fetchRoomAliases(uint64_t handleId,
+                                              const QString &roomId,
+                                              QString *errorOut)
+{
+    try {
+        const auto result =
+          ::komai::rust::matrix_fetch_room_aliases(handleId, roomId.toStdString());
+        return fromRustRoomAliases(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::applyRoomAliases(uint64_t handleId,
+                                              const QString &roomId,
+                                              const MatrixRoomAliases &aliases,
+                                              QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_apply_room_aliases(
+          handleId, roomId.toStdString(), toRustRoomAliases(aliases));
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
     }
 }
 

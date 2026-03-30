@@ -175,6 +175,12 @@ mod ffi {
         can_change_history_visibility: bool,
     }
 
+    struct MatrixRoomAliases {
+        canonical_alias: String,
+        alt_aliases: Vec<String>,
+        published_aliases: Vec<String>,
+    }
+
     struct MatrixRoomMember {
         user_id: String,
         display_name: String,
@@ -496,6 +502,12 @@ mod ffi {
         fn matrix_unignore_user(handle_id: u64, user_id: &str) -> Result<()>;
         fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>>;
         fn matrix_fetch_room_settings(handle_id: u64, room_id: &str) -> Result<MatrixRoomSettings>;
+        fn matrix_fetch_room_aliases(handle_id: u64, room_id: &str) -> Result<MatrixRoomAliases>;
+        fn matrix_apply_room_aliases(
+            handle_id: u64,
+            room_id: &str,
+            aliases: MatrixRoomAliases,
+        ) -> Result<()>;
         fn matrix_fetch_room_members(handle_id: u64, room_id: &str) -> Result<Vec<MatrixRoomMember>>;
         fn matrix_fetch_room_power_levels(
             handle_id: u64,
@@ -1321,6 +1333,35 @@ fn matrix_fetch_room_settings(
         can_change_join_rules: result.can_change_join_rules,
         can_change_history_visibility: result.can_change_history_visibility,
     })
+}
+
+fn matrix_fetch_room_aliases(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<ffi::MatrixRoomAliases, String> {
+    let result = runtime().block_on(matrix_backend::runtime::fetch_room_aliases(handle_id, room_id))?;
+
+    Ok(ffi::MatrixRoomAliases {
+        canonical_alias: result.canonical_alias,
+        alt_aliases: result.alt_aliases,
+        published_aliases: result.published_aliases,
+    })
+}
+
+fn matrix_apply_room_aliases(
+    handle_id: u64,
+    room_id: &str,
+    aliases: ffi::MatrixRoomAliases,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::apply_room_aliases(
+        handle_id,
+        room_id,
+        matrix_backend::runtime::MatrixRoomAliases {
+            canonical_alias: aliases.canonical_alias,
+            alt_aliases: aliases.alt_aliases,
+            published_aliases: aliases.published_aliases,
+        },
+    ))
 }
 
 fn matrix_fetch_room_members(

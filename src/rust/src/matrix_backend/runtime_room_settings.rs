@@ -10,7 +10,9 @@ use matrix_sdk::{
     RoomMemberships,
     room::ParentSpace,
     ruma::{
+        OwnedRoomAliasId, RoomAliasId,
         UInt,
+        api::client::room::aliases as room_aliases,
         events::{
             StateEventType,
             room::{
@@ -191,6 +193,21 @@ async fn fetch_parent_space_room_ids(room: &Room) -> Vec<String> {
     room_ids
 }
 
+fn parse_room_alias(alias: &str) -> Result<OwnedRoomAliasId, String> {
+    RoomAliasId::parse(alias.trim()).map_err(|e| format!("invalid room alias '{alias}': {e}"))
+}
+
+async fn fetch_published_room_aliases(room: &Room) -> Result<Vec<OwnedRoomAliasId>, String> {
+    let request = room_aliases::v3::Request::new(room.room_id().to_owned());
+    let response = room
+        .client()
+        .send(request)
+        .await
+        .map_err(|e| format!("failed to fetch published room aliases via matrix-sdk: {e}"))?;
+
+    Ok(response.aliases)
+}
+
 pub async fn fetch_room_power_levels(
     handle_id: u64,
     room_id: &str,
@@ -361,6 +378,94 @@ pub async fn fetch_room_settings(
             levels.user_can_send_state(&own_user_id, StateEventType::RoomHistoryVisibility)
         }),
     })
+}
+
+pub async fn fetch_room_aliases(handle_id: u64, room_id: &str) -> Result<MatrixRoomAliases, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let published_aliases = fetch_published_room_aliases(&room).await?;
+
+    Ok(MatrixRoomAliases {
+        canonical_alias: room
+            .canonical_alias()
+            .map(|alias| alias.to_string())
+            .unwrap_or_default(),
+        alt_aliases: room.alt_aliases().into_iter().map(|alias| alias.to_string()).collect(),
+        published_aliases: published_aliases
+            .into_iter()
+            .map(|alias| alias.to_string())
+            .collect(),
+    })
+}
+
+pub async fn apply_room_aliases(
+    handle_id: u64,
+    room_id: &str,
+    aliases: MatrixRoomAliases,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let client = client_for_handle(handle_id)?;
+
+    let current_canonical_alias = room
+        .canonical_alias()
+        .map(|alias| alias.to_string())
+        .unwrap_or_default();
+    let mut current_alt_aliases: Vec<String> =
+        room.alt_aliases().into_iter().map(|alias| alias.to_string()).collect();
+    current_alt_aliases.sort();
+    current_alt_aliases.dedup();
+    let current_published_aliases = fetch_published_room_aliases(&room).await?;
+
+    let mut desired_published_aliases = aliases
+        .published_aliases
+        .iter()
+        .map(|alias| parse_room_alias(alias))
+        .collect::<Result<Vec<_>, _>>()?;
+    desired_published_aliases.sort();
+    desired_published_aliases.dedup();
+
+    for alias in &current_published_aliases {
+        if !desired_published_aliases.contains(alias) {
+            client
+                .remove_room_alias(alias.as_ref())
+                .await
+                .map_err(|e| format!("failed to remove room alias '{}' via matrix-sdk: {e}", alias))?;
+        }
+    }
+
+    for alias in &desired_published_aliases {
+        if !current_published_aliases.contains(alias) {
+            client
+                .create_room_alias(alias.as_ref(), room.room_id())
+                .await
+                .map_err(|e| format!("failed to create room alias '{}' via matrix-sdk: {e}", alias))?;
+        }
+    }
+
+    let mut desired_alt_alias_strings = aliases.alt_aliases.clone();
+    desired_alt_alias_strings.sort();
+    desired_alt_alias_strings.dedup();
+
+    let desired_alt_aliases = desired_alt_alias_strings
+        .iter()
+        .map(|alias| parse_room_alias(alias))
+        .collect::<Result<Vec<_>, _>>()?;
+
+    let desired_canonical_alias = if aliases.canonical_alias.trim().is_empty() {
+        None
+    } else {
+        Some(parse_room_alias(&aliases.canonical_alias)?)
+    };
+
+    let canonical_changed = current_canonical_alias != aliases.canonical_alias;
+    let alt_aliases_changed = current_alt_aliases != desired_alt_alias_strings;
+    if canonical_changed || alt_aliases_changed {
+        room.privacy_settings()
+            .update_canonical_alias(desired_canonical_alias, desired_alt_aliases)
+            .await
+            .map_err(|e| format!("failed to update room canonical aliases via matrix-sdk: {e}"))?;
+    }
+
+    Ok(())
 }
 
 pub async fn fetch_room_members(

@@ -11,20 +11,9 @@
 
 #include <vector>
 
-class FetchPublishedAliasesJob final : public QObject
-{
-    Q_OBJECT
-
-public:
-    explicit FetchPublishedAliasesJob(QObject *p = nullptr)
-      : QObject(p)
-    {
-    }
-
-signals:
-    void aliasFetched(std::string alias, std::string target);
-    void advertizedAliasesFetched(std::vector<std::string> aliases);
-};
+namespace komai {
+struct MatrixRoomAliases;
+}
 
 class AliasEditingModel final : public QAbstractListModel
 {
@@ -32,7 +21,9 @@ class AliasEditingModel final : public QAbstractListModel
     QML_ELEMENT
     QML_UNCREATABLE("Please use editAliases to create the models")
 
-    Q_PROPERTY(bool canAdvertize READ canAdvertize CONSTANT)
+    Q_PROPERTY(bool canAdvertize READ canAdvertize NOTIFY canAdvertizeChanged)
+    Q_PROPERTY(bool loading READ loading NOTIFY loadingChanged)
+    Q_PROPERTY(bool committing READ committing NOTIFY committingChanged)
 
 public:
     enum Roles
@@ -50,6 +41,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     bool canAdvertize() const { return canSendStateEvent; }
+    bool loading() const { return loading_; }
+    bool committing() const { return committing_; }
 
     Q_INVOKABLE bool deleteAlias(int row);
     Q_INVOKABLE void addAlias(QString newAlias);
@@ -58,13 +51,15 @@ public:
     Q_INVOKABLE void toggleAdvertize(int row);
     Q_INVOKABLE void commit();
 
-private slots:
-    void updateAlias(std::string alias, std::string target);
-    void updatePublishedAliases(std::vector<std::string> aliases);
+signals:
+    void canAdvertizeChanged();
+    void loadingChanged();
+    void committingChanged();
 
 private:
-    void fetchAliasesStatus(const std::string &alias);
-    void fetchPublishedAliases();
+    void loadAsync();
+    void applyLoadedState(const komai::MatrixRoomAliases &aliases, bool canSendStateEvent);
+    [[nodiscard]] komai::MatrixRoomAliases desiredAliases() const;
 
     struct CanonicalAliasDraft
     {
@@ -86,4 +81,6 @@ private:
     QVector<Entry> aliases;
     CanonicalAliasDraft aliasEvent;
     bool canSendStateEvent = false;
+    bool loading_          = false;
+    bool committing_       = false;
 };

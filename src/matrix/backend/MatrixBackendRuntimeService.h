@@ -169,6 +169,13 @@ struct MatrixRoomSettings
     bool canChangeHistoryVisibility = false;
 };
 
+struct MatrixRoomAliases
+{
+    QString canonicalAlias;
+    QVector<QString> altAliases;
+    QVector<QString> publishedAliases;
+};
+
 struct MatrixRoomMember
 {
     QString userId;
@@ -459,6 +466,14 @@ public:
 
     static std::optional<MatrixRoomSettings>
     fetchRoomSettings(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static std::optional<MatrixRoomAliases>
+    fetchRoomAliases(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static bool applyRoomAliases(uint64_t handleId,
+                                 const QString &roomId,
+                                 const MatrixRoomAliases &aliases,
+                                 QString *errorOut = nullptr);
 
     static std::optional<QVector<MatrixRoomMember>>
     fetchRoomMembers(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);

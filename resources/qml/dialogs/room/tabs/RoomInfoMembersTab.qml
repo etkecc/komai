@@ -286,23 +286,11 @@ Item {
                             sourceSize.height: height
                             Layout.alignment: Qt.AlignRight
                             hovered: delHover.hovered
-                            encryptedHoverEnabled: true
+                            encryptedHoverEnabled: false
                             visible: membersTab.room ? membersTab.room.isEncrypted : false
                             encrypted: membersTab.room ? membersTab.room.isEncrypted : false
                             trust: encrypted ? model.trustlevel : Crypto.Unverified
-                            toolTipText: {
-                                if (!encrypted)
-                                    return qsTr("This room is not encrypted!");
-
-                                switch (trust) {
-                                case Crypto.Verified:
-                                    return qsTr("This user is verified.");
-                                case Crypto.TOFU:
-                                    return qsTr("This user isn't verified, but is still using the same master key from the first time you met.");
-                                default:
-                                    return qsTr("This user has unverified devices!");
-                                }
-                            }
+                            toolTipText: ""
                         }
                     }
 

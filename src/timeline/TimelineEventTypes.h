@@ -7,7 +7,8 @@
 
 #include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
-#include <mtx/events.hpp>
+
+#include <vector>
 
 namespace qml_mtx_events {
 Q_NAMESPACE
@@ -140,14 +141,11 @@ enum NotificationLevel
 };
 Q_ENUM_NS(NotificationLevel)
 
-EventType
-toRoomEventType(mtx::events::EventType e);
-
 /// Event types that should never appear as standalone timeline items.
 /// These have their own rendering paths (e.g. reactions as emoji pills,
 /// edits merged into the original message) or carry no user-visible content.
 /// Used by both the cache layer (to keep them out of the message index)
 /// and the UI layer (as the default hidden-events list).
-std::vector<mtx::events::EventType>
+std::vector<EventType>
 defaultHiddenEventTypes();
 }

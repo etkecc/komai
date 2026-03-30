@@ -24,7 +24,7 @@ HiddenEvents::load()
 {
     hiddenEvents_.clear();
     for (const auto &eventType : qml_mtx_events::defaultHiddenEventTypes()) {
-        hiddenEvents_.push_back(int(qml_mtx_events::toRoomEventType(eventType)));
+        hiddenEvents_.push_back(int(eventType));
     }
     emit hiddenEventsChanged();
 }

@@ -38,6 +38,19 @@ parseHiddenEventsFromRawAccountData(const std::string &eventJson)
 
     return std::nullopt;
 }
+
+std::vector<mtx::events::EventType>
+defaultLegacyHiddenEventTypes()
+{
+    using mtx::events::EventType;
+    return {
+      EventType::Reaction,
+      EventType::CallCandidates,
+      EventType::Unsupported,
+      EventType::CallSelectAnswer,
+      EventType::CallNegotiate,
+    };
+}
 } // namespace
 
 bool
@@ -59,7 +72,7 @@ MatrixStore::isHiddenEvent(db::Transaction &txn,
     // layer already has a later IsHiddenEvent guard once an event is actually materialized.
 
     HiddenEventsContent hiddenEvents;
-    hiddenEvents.hidden_event_types = qml_mtx_events::defaultHiddenEventTypes();
+    hiddenEvents.hidden_event_types = defaultLegacyHiddenEventTypes();
 
     auto loadHiddenEventsForRoom = [this, &txn, &hiddenEvents](const std::string &roomId) {
         if (auto raw = getAccountDataByType(txn, std::string(KOMAI_HIDDEN_EVENTS_TYPE), roomId)) {

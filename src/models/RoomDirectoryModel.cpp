@@ -20,11 +20,12 @@
 
 #include "utils/Utils.h"
 
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixServerResolver.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "timeline/RoomlistModel.h"
+#include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 
 namespace {
@@ -164,7 +165,13 @@ RoomDirectoryModel::setSearchTerm(const QString &f)
 bool
 RoomDirectoryModel::canJoinRoom(const QString &room) const
 {
-    return !room.isEmpty() && cache::getRoomInfo({room.toStdString()}).empty();
+    if (room.isEmpty())
+        return false;
+
+    auto *chatPage = ChatPage::instance();
+    auto *manager  = chatPage ? chatPage->timelineManager() : nullptr;
+    auto *rooms    = manager ? manager->rooms() : nullptr;
+    return !rooms || rooms->roomidToIndex(room) < 0;
 }
 
 QStringList
@@ -592,13 +599,23 @@ RoomDirectoryModel::knownServers(const QString &prefix) const
 {
     if (!knownServersCached_) {
         QSet<QString> serverSet;
-        auto rooms = cache::roomNamesAndAliases();
-        for (const auto &room : rooms) {
-            auto colonPos = room.id.find(':');
-            if (colonPos != std::string::npos && colonPos + 1 < room.id.size()) {
-                serverSet.insert(QString::fromStdString(room.id.substr(colonPos + 1)));
+
+        auto *chatPage = ChatPage::instance();
+        auto *manager  = chatPage ? chatPage->timelineManager() : nullptr;
+        auto *rooms    = manager ? manager->rooms() : nullptr;
+        if (rooms) {
+            for (int row = 0; row < rooms->rowCount(); ++row) {
+                const auto roomId =
+                  rooms->data(rooms->index(row, 0), RoomlistModel::RoomId).toString();
+                const auto colonPos = roomId.indexOf(QLatin1Char(':'));
+                if (colonPos >= 0 && colonPos + 1 < roomId.size())
+                    serverSet.insert(roomId.mid(colonPos + 1));
             }
         }
+
+        if (!server_.trimmed().isEmpty())
+            serverSet.insert(server_.trimmed());
+
         cachedKnownServers_ = serverSet.values();
         cachedKnownServers_.sort(Qt::CaseInsensitive);
         knownServersCached_ = true;

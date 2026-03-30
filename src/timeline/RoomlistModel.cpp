@@ -8,11 +8,8 @@
 #include <QTimer>
 #include <algorithm>
 
-#include "TimelineModel.h"
 #include "TimelineViewManager.h"
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
-#include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
@@ -56,45 +53,24 @@ roomPreviewEquals(const RoomPreview &left, const RoomPreview &right)
 bool
 RoomlistModel::isCachedEncryptedPreview(const QString &room_id, const DescInfo &description)
 {
-    if (room_id.isEmpty() || description.event_id.isEmpty())
-        return false;
-
-    const auto event = cache::getEvent(room_id.toStdString(), description.event_id.toStdString());
-    return event.has_value() &&
-           mtx::accessors::event_type(*event) == mtx::events::EventType::RoomEncrypted;
+    Q_UNUSED(room_id);
+    Q_UNUSED(description);
+    return false;
 }
 
 RoomlistModel::RoomlistModel(TimelineViewManager *parent)
   : QAbstractListModel(parent)
   , manager(parent)
 {
-    cache::onRoomReadStatusChanged(
-      this, [this](const std::map<QString, bool> &status) { updateReadStatus(status); });
-
     connect(UserSettings::instance().get(),
             &UserSettings::sidebarsRoomListUnreadDetectionPolicyChanged,
             this,
-            [](auto) { cache::calculateRoomReadStatus(); });
+            [this](auto) { refreshMatrixBackendRooms(); });
 
     connect(UserSettings::instance().get(),
             &UserSettings::sidebarsRoomListLastMessagePreviewChanged,
             this,
             [this]() {
-                auto style   = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
-                bool decrypt = (style == UserSettings::LastMessagePreview::Always);
-
-                cachedLastMessages_.clear();
-                cachedLastMessagesComputed_.clear();
-                QHash<QString, QSharedPointer<TimelineModel>>::iterator i;
-                for (i = models.begin(); i != models.end(); ++i) {
-                    auto ptr = i.value();
-
-                    if (!ptr.isNull()) {
-                        ptr->setDecryptDescription(decrypt);
-                        ptr->updateLastMessage();
-                    }
-                }
-
                 if (!roomids.empty()) {
                     emit dataChanged(index(0),
                                      index((int)roomids.size() - 1),
@@ -212,32 +188,22 @@ RoomlistModel::getRoomById(QString id) const
 QSharedPointer<TimelineModel>
 RoomlistModel::getRoomByIdWithReason(QString id, const char *reason) const
 {
-    if (models.contains(id))
-        return models.value(id);
-
-    if (matrixJoinedRooms_.contains(id))
-        return {};
-
-    if (!cachedJoinedRooms_.contains(id))
-        return {};
-
-    return const_cast<RoomlistModel *>(this)->ensureRoomModel(id, true, reason);
+    Q_UNUSED(id);
+    Q_UNUSED(reason);
+    return {};
 }
 
 QSharedPointer<TimelineModel>
 RoomlistModel::getMaterializedRoomById(QString id) const
 {
-    if (models.contains(id))
-        return models.value(id);
-
+    Q_UNUSED(id);
     return {};
 }
 
 QString
 RoomlistModel::currentRoomId() const
 {
-    return currentRoom_ ? currentRoom_->roomId()
-                        : (currentRoomPreview_ ? currentRoomPreview_->roomid() : QString());
+    return currentRoomPreview_ ? currentRoomPreview_->roomid() : QString();
 }
 
 QSharedPointer<TimelineModel>
@@ -245,18 +211,22 @@ RoomlistModel::ensureRoomModel(const QString &room_id,
                                bool suppressInsertNotification,
                                const char *reason)
 {
-    if (!models.contains(room_id) && cachedJoinedRooms_.contains(room_id))
-        addRoom(room_id, suppressInsertNotification, reason);
-
-    return models.value(room_id);
+    Q_UNUSED(room_id);
+    Q_UNUSED(suppressInsertNotification);
+    Q_UNUSED(reason);
+    return {};
 }
 
 void
 RoomlistModel::refreshCachedRoomMetadata(const QString &room_id)
 {
-    cachedJoinedRooms_.insert(room_id, cache::singleRoomInfo(room_id.toStdString()));
-    cachedEncryptedRooms_.insert(room_id, cache::isRoomEncrypted(room_id.toStdString()));
-    invalidateCachedLastMessage(room_id);
+    Q_UNUSED(room_id);
+}
+
+void
+RoomlistModel::invalidateCachedLastMessage(const QString &room_id)
+{
+    Q_UNUSED(room_id);
 }
 
 void
@@ -354,19 +324,17 @@ RoomlistModel::refreshMatrixBackendRooms()
     QHash<QString, komai::MatrixRoomSummary> newMatrixRooms;
     int totalUnreadMessages = 0;
     const QString selectedRoomId =
-      currentRoom_ ? currentRoom_->roomId()
-                   : (currentRoomPreview_ ? currentRoomPreview_->roomid()
-                                          : (!pendingCurrentRoomId_.isEmpty()
-                                               ? pendingCurrentRoomId_
-                                               : UserSettings::instance()->currentRoomId()));
+      currentRoomPreview_ ? currentRoomPreview_->roomid()
+                          : (!pendingCurrentRoomId_.isEmpty()
+                               ? pendingCurrentRoomId_
+                               : UserSettings::instance()->currentRoomId());
     const bool hadCurrentMatrixSummarySelection =
-      !selectedRoomId.isEmpty() && !currentRoom_ && currentRoomPreview_ &&
-      currentRoomPreview_->isMatrixSummary() && currentRoomPreview_->roomid() == selectedRoomId;
+      !selectedRoomId.isEmpty() && currentRoomPreview_ && currentRoomPreview_->isMatrixSummary() &&
+      currentRoomPreview_->roomid() == selectedRoomId;
     const auto previousCurrentRoomPreview =
       hadCurrentMatrixSummarySelection ? *currentRoomPreview_ : RoomPreview{};
     const bool restoringStartupSelection =
-      !selectedRoomId.isEmpty() && !currentRoom_ && !currentRoomPreview_ &&
-      pendingCurrentRoomId_.isEmpty() &&
+      !selectedRoomId.isEmpty() && !currentRoomPreview_ && pendingCurrentRoomId_.isEmpty() &&
       UserSettings::instance()->currentRoomId() == selectedRoomId;
 
     for (const auto &room : *roomList) {
@@ -411,7 +379,6 @@ RoomlistModel::refreshMatrixBackendRooms()
             allowDeferredStartupCurrentRoomRestore_ = false;
             deferredStartupCurrentRoomId_.clear();
             pendingCurrentRoomId_.clear();
-            currentRoom_        = nullptr;
             currentRoomPreview_ = getRoomPreviewById(selectedRoomId);
             UserSettings::instance()->setCurrentRoomId(selectedRoomId);
 

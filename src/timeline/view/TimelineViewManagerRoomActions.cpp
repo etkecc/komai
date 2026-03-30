@@ -9,11 +9,10 @@
 #include <QTimer>
 
 #include "RoomlistModel.h"
-#include "TimelineModel.h"
 #include "logging/Logging.h"
 #include "models/InviteesModel.h"
-#include "models/MemberList.h"
 #include "timeline/CommunitiesModel.h"
+#include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
 #include "ui/RoomSettings.h"
 #include "ui/UserProfile.h"
@@ -36,10 +35,11 @@ TimelineViewManager::scheduleMatrixSidebarRefresh()
 }
 
 void
-TimelineViewManager::openRoomMembers(TimelineModel *room)
+TimelineViewManager::openRoomMembers(QObject *room)
 {
-    if (room)
-        openRoomInfo(room->roomId(), QStringLiteral("members"));
+    Q_UNUSED(room);
+    if (auto *mainWindow = MainWindow::instance())
+        mainWindow->showNotification(tr("Legacy room-member opening is not migrated yet."));
 }
 
 void
@@ -51,36 +51,18 @@ TimelineViewManager::openRoomSettings(QString room_id)
 void
 TimelineViewManager::openRoomInfo(const QString &roomId, const QString &initialTab)
 {
-    auto room = rooms_->getRoomById(roomId);
-    if (!room) {
-        const auto preview = rooms_->getRoomPreviewById(roomId);
-        if (preview.isMatrixSummary()) {
-            if (initialTab == QLatin1String("members")) {
-                nhlog::ui()->warn("Member list for matrix-sdk room '{}' is not migrated yet",
-                                  roomId.toStdString());
-                if (auto *mainWindow = MainWindow::instance()) {
-                    mainWindow->showNotification(
-                      tr("Member list for matrix-sdk rooms is not migrated yet."));
-                }
-                return;
-            }
-
-            auto *settings = new RoomSettings(roomId);
-            QQmlEngine::setObjectOwnership(settings, QQmlEngine::JavaScriptOwnership);
-            emit openRoomInfoDialog(settings, nullptr, nullptr, initialTab);
-        }
-        return;
+    QString effectiveInitialTab = initialTab;
+    if (effectiveInitialTab == QLatin1String("members")) {
+        nhlog::ui()->warn("Member list for room '{}' is not migrated on the matrix-sdk branch",
+                          roomId.toStdString());
+        if (auto *mainWindow = MainWindow::instance())
+            mainWindow->showNotification(tr("Member list is not migrated yet."));
+        effectiveInitialTab = QStringLiteral("settings");
     }
 
     auto *settings = new RoomSettings(roomId);
-    connect(
-      room.data(), &TimelineModel::roomAvatarUrlChanged, settings, &RoomSettings::avatarChanged);
     QQmlEngine::setObjectOwnership(settings, QQmlEngine::JavaScriptOwnership);
-
-    auto *memberList = new MemberList(roomId);
-    QQmlEngine::setObjectOwnership(memberList, QQmlEngine::JavaScriptOwnership);
-
-    emit openRoomInfoDialog(settings, memberList, room.data(), initialTab);
+    emit openRoomInfoDialog(settings, nullptr, nullptr, effectiveInitialTab);
 }
 
 void
@@ -89,7 +71,7 @@ TimelineViewManager::openInviteUsers(QString roomId)
     if (!roomId.startsWith('!'))
         return;
 
-    InviteesModel *model = new InviteesModel{rooms_->getRoomById(roomId).data()};
+    auto *model = new InviteesModel{nullptr};
     connect(model, &InviteesModel::accept, this, [this, model, roomId]() {
         emit inviteUsers(roomId, model->mxids());
     });
@@ -103,7 +85,7 @@ TimelineViewManager::openGlobalUserProfile(QString userId)
     if (!userId.startsWith('@'))
         return;
 
-    UserProfile *profile = new UserProfile{QString{}, userId, this};
+    auto *profile = new UserProfile{QString{}, userId, this};
     QQmlEngine::setObjectOwnership(profile, QQmlEngine::JavaScriptOwnership);
     emit openProfile(profile);
 }
@@ -111,9 +93,9 @@ TimelineViewManager::openGlobalUserProfile(QString userId)
 UserProfile *
 TimelineViewManager::getGlobalUserProfile(QString userId)
 {
-    UserProfile *profile = new UserProfile{QString{}, userId, this};
+    auto *profile = new UserProfile{QString{}, userId, this};
     QQmlEngine::setObjectOwnership(profile, QQmlEngine::JavaScriptOwnership);
-    return (profile);
+    return profile;
 }
 
 void
@@ -127,21 +109,27 @@ TimelineViewManager::setVideoCallItem()
 void
 TimelineViewManager::showEvent(const QString &room_id, const QString &event_id)
 {
-    if (auto room = rooms_->getRoomById(room_id)) {
-        auto exWin = MainWindow::instance()->windowForRoom(room_id);
-        if (exWin) {
-            exWin->setVisible(true);
-            exWin->raise();
-            exWin->requestActivate();
-        } else {
-            rooms_->setCurrentRoom(room_id);
-            MainWindow::instance()->setVisible(true);
-            MainWindow::instance()->raise();
-            MainWindow::instance()->requestActivate();
-            nhlog::ui()->info("Activated room {}", room_id.toStdString());
-        }
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow)
+        return;
 
-        room->showEvent(event_id);
+    if (auto *existingWindow = mainWindow->windowForRoom(room_id)) {
+        existingWindow->setVisible(true);
+        existingWindow->raise();
+        existingWindow->requestActivate();
+    } else {
+        rooms_->setCurrentRoom(room_id);
+        mainWindow->setVisible(true);
+        mainWindow->raise();
+        mainWindow->requestActivate();
+        nhlog::ui()->info("Activated room {}", room_id.toStdString());
+    }
+
+    if (room_id == activeMatrixTimelineRoomId_ && !event_id.trimmed().isEmpty()) {
+        nhlog::ui()->warn("Jump-to-event for matrix-sdk rooms is not migrated yet (room='{}', "
+                          "event='{}')",
+                          room_id.toStdString(),
+                          event_id.toStdString());
     }
 }
 
@@ -149,9 +137,10 @@ void
 TimelineViewManager::updateReadReceipts(const QString &room_id,
                                         const std::vector<QString> &event_ids)
 {
-    if (auto room = rooms_->getMaterializedRoomById(room_id)) {
-        room->markEventsAsRead(event_ids);
-    }
+    if (room_id != activeMatrixTimelineRoomId_ || event_ids.empty())
+        return;
+
+    markActiveMatrixTimelineEventAsRead(event_ids.back());
 }
 
 void
@@ -186,66 +175,88 @@ TimelineViewManager::queueReply(const QString &roomid,
                                 const QString &repliedToEvent,
                                 const QString &replyBody)
 {
-    if (auto room = rooms_->getRoomById(roomid)) {
-        room->setReply(repliedToEvent);
-        room->input()->message(replyBody);
+    rooms_->setCurrentRoom(roomid);
+
+    QString senderId;
+    QString senderDisplayName;
+    QString body = replyBody.trimmed();
+
+    if (roomid == activeMatrixTimelineRoomId_ && matrixTimelineModel_) {
+        if (const auto item = matrixTimelineModel_->itemByEventId(repliedToEvent.trimmed())) {
+            senderId          = item->senderId;
+            senderDisplayName = item->senderDisplayName;
+            if (body.isEmpty())
+                body = item->body;
+        }
     }
+
+    if (setActiveMatrixReplyState(repliedToEvent, senderId, senderDisplayName, body))
+        emit matrixTimelineStateChanged();
+
+    focusMessageInput();
 }
 
 void
 TimelineViewManager::queueCallMessage(const QString &roomid,
                                       const mtx::events::voip::CallInvite &callInvite)
 {
-    if (auto room = rooms_->getRoomById(roomid))
-        room->sendMessageEvent(callInvite, mtx::events::EventType::CallInvite);
+    Q_UNUSED(roomid);
+    Q_UNUSED(callInvite);
+    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
 }
 
 void
 TimelineViewManager::queueCallMessage(const QString &roomid,
                                       const mtx::events::voip::CallCandidates &callCandidates)
 {
-    if (auto room = rooms_->getRoomById(roomid))
-        room->sendMessageEvent(callCandidates, mtx::events::EventType::CallCandidates);
+    Q_UNUSED(roomid);
+    Q_UNUSED(callCandidates);
+    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
 }
 
 void
 TimelineViewManager::queueCallMessage(const QString &roomid,
                                       const mtx::events::voip::CallAnswer &callAnswer)
 {
-    if (auto room = rooms_->getRoomById(roomid))
-        room->sendMessageEvent(callAnswer, mtx::events::EventType::CallAnswer);
+    Q_UNUSED(roomid);
+    Q_UNUSED(callAnswer);
+    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
 }
 
 void
 TimelineViewManager::queueCallMessage(const QString &roomid,
                                       const mtx::events::voip::CallHangUp &callHangUp)
 {
-    if (auto room = rooms_->getRoomById(roomid))
-        room->sendMessageEvent(callHangUp, mtx::events::EventType::CallHangUp);
+    Q_UNUSED(roomid);
+    Q_UNUSED(callHangUp);
+    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
 }
 
 void
 TimelineViewManager::queueCallMessage(const QString &roomid,
                                       const mtx::events::voip::CallSelectAnswer &callSelectAnswer)
 {
-    if (auto room = rooms_->getRoomById(roomid))
-        room->sendMessageEvent(callSelectAnswer, mtx::events::EventType::CallSelectAnswer);
+    Q_UNUSED(roomid);
+    Q_UNUSED(callSelectAnswer);
+    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
 }
 
 void
 TimelineViewManager::queueCallMessage(const QString &roomid,
                                       const mtx::events::voip::CallReject &callReject)
 {
-    if (auto room = rooms_->getRoomById(roomid))
-        room->sendMessageEvent(callReject, mtx::events::EventType::CallReject);
+    Q_UNUSED(roomid);
+    Q_UNUSED(callReject);
+    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
 }
 
 void
 TimelineViewManager::queueCallMessage(const QString &roomid,
                                       const mtx::events::voip::CallNegotiate &callNegotiate)
 {
-    if (auto room = rooms_->getRoomById(roomid))
-        room->sendMessageEvent(callNegotiate, mtx::events::EventType::CallNegotiate);
+    Q_UNUSED(roomid);
+    Q_UNUSED(callNegotiate);
+    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
 }
 
 void

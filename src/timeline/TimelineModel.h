@@ -14,7 +14,6 @@
 #include <QVariant>
 
 #include <mtx/responses/common.hpp>
-#include <mtxclient/http/errors.hpp>
 
 #include "EventDataSource.h"
 #include "EventStore.h"
@@ -23,15 +22,12 @@
 #include "Reaction.h"
 #include "TimelineEventTypes.h"
 #include "TimelineSpecialEffects.h"
-#include "cache/crypto/CacheCryptoStructs.h"
+#include "encryption/CryptoTrust.h"
 #include "matrix/MatrixStateTypes.h"
 #include "matrix/MatrixSyncUpdate.h"
 #include "timeline/media/TimelineMediaController.h"
 #include "ui/RoomSummary.h"
 
-namespace mtx::http {
-using RequestErr = const std::optional<mtx::http::ClientError> &;
-}
 namespace mtx::responses {
 struct Timeline;
 struct Messages;
@@ -275,8 +271,6 @@ public:
     int roomMemberCount() const;
     bool isDirect() const;
     QString directChatOtherUserId() const;
-
-    mtx::pushrules::PushRuleEvaluator::RoomContext pushrulesRoomContext() const;
 
     std::optional<mtx::events::collections::TimelineEvents> eventById(const QString &id)
     {

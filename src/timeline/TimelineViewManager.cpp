@@ -12,7 +12,6 @@
 #include <QQuickTextDocument>
 #include <QUrl>
 
-#include "TimelineModel.h"
 #include "chat/ChatPage.h"
 #include "encryption/VerificationManager.h"
 #include "imagepacks/ImagePackListModel.h"
@@ -244,10 +243,9 @@ TimelineViewManager::copyMatrixEventLink(const QString &roomId, const QString &e
     if (trimmedRoomId.isEmpty() || trimmedEventId.isEmpty())
         return;
 
-    const auto link = QStringLiteral("https://matrix.to/#/%1/%2?%3")
-                        .arg(QUrl::toPercentEncoding(trimmedRoomId),
-                             QString(QUrl::toPercentEncoding(trimmedEventId)),
-                             TimelineModel::getRoomVias(trimmedRoomId));
+    const auto link = QStringLiteral("https://matrix.to/#/%1/%2")
+                        .arg(QString(QUrl::toPercentEncoding(trimmedRoomId)),
+                             QString(QUrl::toPercentEncoding(trimmedEventId)));
     QGuiApplication::clipboard()->setText(link);
 }
 

@@ -8,13 +8,17 @@
 #include <algorithm>
 #include <set>
 
-#include "DirectChatResolver.h"
 #include "RoomlistModel.h"
-#include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
-#include "ui/MainWindow.h"
 
 namespace {
+RoomlistModel *
+activeRoomlistModel()
+{
+    auto *filteredRooms = FilteredRoomlistModel::instance();
+    return filteredRooms ? qobject_cast<RoomlistModel *>(filteredRooms->sourceModel()) : nullptr;
+}
+
 struct temptree
 {
     std::map<std::string, temptree> children;
@@ -89,7 +93,6 @@ CommunitiesModel::initializeSidebar()
     tags_.clear();
     spaceOrder_.tree.clear();
     spaces_.clear();
-    directMessages_.clear();
     tagBadgeCache.clear();
     for (auto &f : fixedFilters_) {
         f.unreadRoomCount = 0;
@@ -99,163 +102,104 @@ CommunitiesModel::initializeSidebar()
     hasBotRooms_    = false;
     hasGroupRooms_  = false;
 
-    const auto *window = MainWindow::instance();
-    if (window && window->matrixBackendHandleId() != 0) {
-        auto *filteredRooms = FilteredRoomlistModel::instance();
-        auto *roomlistModel =
-          filteredRooms ? qobject_cast<RoomlistModel *>(filteredRooms->sourceModel()) : nullptr;
-
-        std::set<std::string> ts;
-        std::set<std::string> isSpace;
-        std::map<std::string, std::set<std::string>> spaceChilds;
-        std::map<std::string, std::set<std::string>> spaceParents;
-
-        if (roomlistModel) {
-            const int rows = roomlistModel->rowCount();
-            for (int row = 0; row < rows; ++row) {
-                const auto idx    = roomlistModel->index(row, 0, QModelIndex());
-                const auto roomId = roomlistModel->data(idx, RoomlistModel::RoomId).toString();
-                if (roomId.isEmpty())
-                    continue;
-
-                const bool isBotRoom = roomlistModel->data(idx, RoomlistModel::IsBotRoom).toBool();
-                const bool isDirect  = roomlistModel->data(idx, RoomlistModel::IsDirect).toBool();
-                const bool isSpaceRoom = roomlistModel->data(idx, RoomlistModel::IsSpace).toBool();
-
-                if (isBotRoom)
-                    hasBotRooms_ = true;
-                else if (isDirect)
-                    hasPeopleRooms_ = true;
-                else if (!isSpaceRoom)
-                    hasGroupRooms_ = true;
-
-                if (!isSpaceRoom) {
-                    const auto tags = roomlistModel->data(idx, RoomlistModel::Tags).toStringList();
-                    for (const auto &tag : tags) {
-                        if (tag.startsWith(u"u.") || tag.startsWith(u"m."))
-                            ts.insert(tag.toStdString());
-                    }
-                }
-
-                if (!isSpaceRoom)
-                    continue;
-
-                RoomInfo info{};
-                info.name =
-                  roomlistModel->data(idx, RoomlistModel::RoomName).toString().toStdString();
-                info.avatar_url =
-                  roomlistModel->data(idx, RoomlistModel::AvatarUrl).toString().toStdString();
-                info.is_space   = true;
-                spaces_[roomId] = info;
-                isSpace.insert(roomId.toStdString());
-            }
-
-            for (int row = 0; row < rows; ++row) {
-                const auto idx    = roomlistModel->index(row, 0, QModelIndex());
-                const auto roomId = roomlistModel->data(idx, RoomlistModel::RoomId).toString();
-                if (roomId.isEmpty() ||
-                    !roomlistModel->data(idx, RoomlistModel::IsSpace).toBool()) {
-                    continue;
-                }
-
-                const auto childId = roomId.toStdString();
-                spaceParents[childId];
-                const auto parents =
-                  roomlistModel->data(idx, RoomlistModel::ParentSpaces).toStringList();
-                for (const auto &parentId : parents) {
-                    const auto parentIdStd = parentId.toStdString();
-                    if (!isSpace.count(parentIdStd))
-                        continue;
-
-                    spaceParents[childId].insert(parentIdStd);
-                    spaceChilds[parentIdStd].insert(childId);
-                }
-            }
-        }
-
-        temptree spacetree;
-        std::vector<std::string> path;
-        for (const auto &space : isSpace) {
-            if (!spaceParents[space].empty())
-                continue;
-
-            spacetree.children[space] = {};
-        }
-        for (const auto &space : spacetree.children)
-            addChildren(spacetree, path, space.first, spaceChilds);
-
-        spacetree.flatten(spaceOrder_, spaces_);
-
-        for (const auto &tag : ts)
-            tags_.push_back(QString::fromStdString(tag));
-
-        spaceOrder_.restoreCollapsed();
-        computeFilterBadges();
-        endResetModel();
-
-        emit tagsChanged();
-        emit globalExcludesChanged();
-        emit containsSubspacesChanged();
-
-        setCurrentFilterId(UserSettings::instance()->currentFilterId());
-        return;
-    }
-
-    {
-        auto e = cache::getAccountData(mtx::events::EventType::Direct);
-        if (e) {
-            if (auto event =
-                  std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(
-                    &e.value())) {
-                directMessages_.clear();
-                for (const auto &[userId, roomIds] : event->content.user_to_rooms)
-                    for (const auto &roomId : roomIds)
-                        directMessages_.push_back(roomId);
-            }
-        }
-    }
-
     std::set<std::string> ts;
-
     std::set<std::string> isSpace;
     std::map<std::string, std::set<std::string>> spaceChilds;
     std::map<std::string, std::set<std::string>> spaceParents;
+    auto *roomlistModel = activeRoomlistModel();
+    if (roomlistModel) {
+        const int rows = roomlistModel->rowCount();
+        for (int row = 0; row < rows; ++row) {
+            const auto idx    = roomlistModel->index(row, 0, QModelIndex());
+            const auto roomId = roomlistModel->data(idx, RoomlistModel::RoomId).toString();
+            if (roomId.isEmpty())
+                continue;
 
-    auto infos = cache::roomInfo();
-    for (auto it = infos.begin(); it != infos.end(); ++it) {
-        if (it.value().is_space) {
-            spaces_[it.key()] = it.value();
-            isSpace.insert(it.key().toStdString());
-        } else {
-            for (const auto &t : it.value().tags) {
-                if (t.find("u.") == 0 || t.find("m." == 0)) {
-                    ts.insert(t);
+            const bool isInvite    = roomlistModel->data(idx, RoomlistModel::IsInvite).toBool();
+            const bool isBotRoom   = roomlistModel->data(idx, RoomlistModel::IsBotRoom).toBool();
+            const bool isDirect    = roomlistModel->data(idx, RoomlistModel::IsDirect).toBool();
+            const bool isSpaceRoom = roomlistModel->data(idx, RoomlistModel::IsSpace).toBool();
+
+            if (isInvite)
+                continue;
+
+            if (isBotRoom)
+                hasBotRooms_ = true;
+            else if (isDirect)
+                hasPeopleRooms_ = true;
+            else if (!isSpaceRoom)
+                hasGroupRooms_ = true;
+
+            if (!isSpaceRoom) {
+                const auto tags = roomlistModel->data(idx, RoomlistModel::Tags).toStringList();
+                for (const auto &tag : tags) {
+                    if (tag.startsWith(u"u.") || tag.startsWith(u"m."))
+                        ts.insert(tag.toStdString());
                 }
+                continue;
+            }
+
+            RoomInfo info{};
+            info.name =
+              roomlistModel->data(idx, RoomlistModel::RoomName).toString().toStdString();
+            info.avatar_url =
+              roomlistModel->data(idx, RoomlistModel::AvatarUrl).toString().toStdString();
+            info.is_space   = true;
+            spaces_[roomId] = info;
+            isSpace.insert(roomId.toStdString());
+        }
+
+        for (int row = 0; row < rows; ++row) {
+            const auto idx    = roomlistModel->index(row, 0, QModelIndex());
+            const auto roomId = roomlistModel->data(idx, RoomlistModel::RoomId).toString();
+            if (roomId.isEmpty() || !roomlistModel->data(idx, RoomlistModel::IsSpace).toBool())
+                continue;
+
+            const auto childId = roomId.toStdString();
+            spaceParents[childId];
+            const auto parents =
+              roomlistModel->data(idx, RoomlistModel::ParentSpaces).toStringList();
+            for (const auto &parentId : parents) {
+                const auto parentIdStd = parentId.toStdString();
+                if (!isSpace.count(parentIdStd))
+                    continue;
+
+                spaceParents[childId].insert(parentIdStd);
+                spaceChilds[parentIdStd].insert(childId);
             }
         }
 
-        bool isBot    = DirectChatResolver::instance().isBotRoom(it.key());
-        bool isDirect = DirectChatResolver::instance().isDirectChat(it.key());
-
-        if (isBot)
-            hasBotRooms_ = true;
-        else if (isDirect)
-            hasPeopleRooms_ = true;
-        else if (!it.value().is_space)
-            hasGroupRooms_ = true;
-    }
-
-    // NOTE(Nico): We build a forrest from the Directed Cyclic(!) Graph of spaces. To do that we
-    // start with orphan spaces at the top. This leaves out some space circles, but there is no good
-    // way to break that cycle imo anyway. Then we carefully walk a tree down from each root in our
-    // forrest, carefully checking not to run in a circle and get lost forever.
-    // TODO(Nico): Optimize this. We can do this with a lot fewer allocations and checks.
-    for (const auto &space : isSpace) {
-        spaceParents[space];
-        for (const auto &p : cache::getParentRoomIds(space)) {
-            spaceParents[space].insert(p);
-            spaceChilds[p].insert(space);
-        }
+        connect(roomlistModel,
+                &QAbstractItemModel::dataChanged,
+                this,
+                [this](const QModelIndex &, const QModelIndex &, const QList<int> &roles) {
+                    if (roles.isEmpty() || roles.contains(RoomlistModel::HasUnreadMessages) ||
+                        roles.contains(RoomlistModel::HasLoudNotification) ||
+                        roles.contains(RoomlistModel::NotificationCount) ||
+                        roles.contains(RoomlistModel::Tags) ||
+                        roles.contains(RoomlistModel::ParentSpaces) ||
+                        roles.contains(RoomlistModel::IsDirect) ||
+                        roles.contains(RoomlistModel::IsBotRoom) ||
+                        roles.contains(RoomlistModel::IsSpace)) {
+                        recomputeFilterBadges();
+                    }
+                },
+                Qt::UniqueConnection);
+        connect(roomlistModel,
+                &QAbstractItemModel::modelReset,
+                this,
+                [this]() { initializeSidebar(); },
+                Qt::UniqueConnection);
+        connect(roomlistModel,
+                &QAbstractItemModel::rowsInserted,
+                this,
+                [this](const QModelIndex &, int, int) { initializeSidebar(); },
+                Qt::UniqueConnection);
+        connect(roomlistModel,
+                &QAbstractItemModel::rowsRemoved,
+                this,
+                [this](const QModelIndex &, int, int) { initializeSidebar(); },
+                Qt::UniqueConnection);
     }
 
     temptree spacetree;
@@ -299,33 +243,18 @@ CommunitiesModel::sync(const komai::SyncUpdate &sync)
             roomUpdate.ownMembershipChanged)
             tagsUpdated = true;
     }
-    for (const auto &roomId : sync.leftRoomIds) {
-        if (spaces_.count(roomId))
-            tagsUpdated = true;
-        const auto filterId = QStringLiteral("space:%1").arg(roomId);
-        if (globalExcludedFilterIds_.contains(filterId)) {
-            globalExcludedFilterIds_.removeAll(filterId);
-            UserSettings::instance()->setGlobalExcludes(globalExcludedFilterIds_);
-            tagsUpdated = true;
-        }
-    }
-    if (sync.directChatsChanged) {
-        directMessages_.clear();
-        const auto *window = MainWindow::instance();
-        if (!(window && window->matrixBackendHandleId() != 0)) {
-            auto event = cache::getAccountData(mtx::events::EventType::Direct);
-            if (event) {
-                if (auto direct =
-                      std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(
-                        &event.value())) {
-                    for (const auto &[userId, roomIds] : direct->content.user_to_rooms)
-                        for (const auto &roomId : roomIds)
-                            directMessages_.push_back(roomId);
-                }
+    if (!sync.leftRoomIds.empty()) {
+        for (const auto &roomId : sync.leftRoomIds) {
+            const auto filterId = QStringLiteral("space:%1").arg(roomId);
+            if (globalExcludedFilterIds_.contains(filterId)) {
+                globalExcludedFilterIds_.removeAll(filterId);
+                UserSettings::instance()->setGlobalExcludes(globalExcludedFilterIds_);
             }
         }
         tagsUpdated = true;
     }
+    if (sync.directChatsChanged)
+        tagsUpdated = true;
 
     if (tagsUpdated)
         initializeSidebar();

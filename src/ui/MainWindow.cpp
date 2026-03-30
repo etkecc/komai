@@ -25,7 +25,6 @@
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
-#include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "ui/Theme.h"
@@ -630,9 +629,7 @@ MainWindow::removePerRoomWindow(const QString &room, QWindow *window)
 QWindow *
 MainWindow::windowForRoom(const QString &room)
 {
-    auto currMainWindowRoom = ChatPage::instance()->timelineManager()->rooms()->currentRoom();
-    if ((currMainWindowRoom && currMainWindowRoom->roomId() == room) ||
-        ChatPage::instance()->timelineManager()->rooms()->currentRoomPreview().roomid_ == room)
+    if (ChatPage::instance()->timelineManager()->rooms()->currentRoomPreview().roomid_ == room)
         return this;
     else if (auto res = roomWindows_.find(room); res != roomWindows_.end())
         return res.value();
@@ -646,13 +643,8 @@ MainWindow::focusedRoom() const
     if (!focus)
         return {};
 
-    if (focus == this) {
-        auto currMainWindowRoom = ChatPage::instance()->timelineManager()->rooms()->currentRoom();
-        if (currMainWindowRoom)
-            return currMainWindowRoom->roomId();
-        else
-            return ChatPage::instance()->timelineManager()->rooms()->currentRoomPreview().roomid_;
-    }
+    if (focus == this)
+        return ChatPage::instance()->timelineManager()->rooms()->currentRoomPreview().roomid_;
 
     auto i = roomWindows_.constBegin();
     while (i != roomWindows_.constEnd()) {

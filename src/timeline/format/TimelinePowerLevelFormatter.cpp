@@ -62,7 +62,8 @@ timeline::format::formatPowerLevelEvent(
         // affected either way and this is cheaper to iterate over.
         for (auto const &[mxid, currentPowerlevel] : event.content.users) {
             if (currentPowerlevel == newPowerlevelSetting &&
-                prevEvent->content.user_level(mxid, create) < newPowerlevelSetting) {
+                komai::matrix::effectiveUserPowerLevel(prevEvent->content, create, mxid) <
+                  newPowerlevelSetting) {
                 numberOfAffected++;
                 if (numberOfAffected <= 2) {
                     affected.push_back(QString::fromStdString(mxid));
@@ -234,16 +235,18 @@ timeline::format::formatPowerLevelEvent(
     // Compare if a Powerlevel of a user changed
     for (auto const &[mxid, powerlevel] : event.content.users) {
         auto nameOfChangedUser = renderName(QString::fromStdString(mxid));
-        if (prevEvent->content.user_level(mxid, create) != powerlevel) {
+        const auto previousPowerLevel =
+          komai::matrix::effectiveUserPowerLevel(prevEvent->content, create, mxid);
+        if (previousPowerLevel != powerlevel) {
             if (powerlevel >= administrator_power_level) {
                 resultingMessage.append(tr("%1 has made %2 an administrator of this room.")
                                           .arg(sender_name, nameOfChangedUser));
             } else if (powerlevel >= moderator_power_level &&
-                       powerlevel > prevEvent->content.user_level(mxid, create)) {
+                       powerlevel > previousPowerLevel) {
                 resultingMessage.append(tr("%1 has made %2 a moderator of this room.")
                                           .arg(sender_name, nameOfChangedUser));
             } else if (powerlevel >= moderator_power_level &&
-                       powerlevel < prevEvent->content.user_level(mxid, create)) {
+                       powerlevel < previousPowerLevel) {
                 resultingMessage.append(tr("%1 has downgraded %2 to moderator of this room.")
                                           .arg(sender_name, nameOfChangedUser));
             } else {
@@ -251,7 +254,7 @@ timeline::format::formatPowerLevelEvent(
                   tr("%1 has changed the powerlevel of %2 from %3 to %4.")
                     .arg(sender_name,
                          nameOfChangedUser,
-                         QString::number(prevEvent->content.user_level(mxid, create)),
+                         QString::number(previousPowerLevel),
                          QString::number(powerlevel)));
             }
         }

@@ -15,7 +15,6 @@
 #include <mtx/events/encrypted.hpp>
 
 #include "DeviceVerificationFlow.h"
-#include "timeline/TimelineModel.h"
 
 class TimelineViewManager;
 
@@ -63,7 +62,7 @@ signals:
 public slots:
     void receivedRoomDeviceVerificationRequest(
       const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationRequest> &message,
-      TimelineModel *model);
+      QObject *model);
     void receivedDeviceVerificationRequest(const mtx::events::msg::KeyVerificationRequest &msg,
                                            std::string sender);
     void receivedDeviceVerificationStart(const mtx::events::msg::KeyVerificationStart &msg,

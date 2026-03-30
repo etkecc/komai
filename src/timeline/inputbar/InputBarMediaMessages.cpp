@@ -27,8 +27,6 @@ InputBar::image(const QString &filename,
     image.info.size     = dsize;
     image.info.blurhash = blurhash.toStdString();
     image.body          = body.isEmpty() ? filename.toStdString() : body.toStdString();
-    if (!filename.isEmpty())
-        image.filename = filename.toStdString();
     image.info.h = dimensions.height();
     image.info.w = dimensions.width();
 
@@ -94,8 +92,6 @@ InputBar::audio(const QString &filename,
     audio.info.mimetype = mime.toStdString();
     audio.info.size     = dsize;
     audio.body          = body.isEmpty() ? filename.toStdString() : body.toStdString();
-    if (!filename.isEmpty())
-        audio.filename = filename.toStdString();
     audio.url = url.toStdString();
 
     if (duration > 0)
@@ -132,8 +128,6 @@ InputBar::video(const QString &filename,
     video.info.size     = dsize;
     video.info.blurhash = blurhash.toStdString();
     video.body          = body.isEmpty() ? filename.toStdString() : body.toStdString();
-    if (!filename.isEmpty())
-        video.filename = filename.toStdString();
 
     if (duration > 0)
         video.info.duration = duration;

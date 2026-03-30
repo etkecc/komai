@@ -12,8 +12,8 @@
 #include "utils/MediaIcons.h"
 
 #include "cache/Cache.h"
-#include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
+#include "matrix/MatrixPowerLevelCompat.h"
 #include "utils/Utils.h"
 
 QVariant
@@ -71,8 +71,8 @@ TimelineModel::senderRoleDataForEvent(const mtx::events::collections::TimelineEv
     case UserName:
         return QVariant(displayName(QString::fromStdString(mtx::accessors::sender(event))));
     case UserPowerlevel:
-        return static_cast<qlonglong>(permissions_.powerlevelEvent().user_level(
-          mtx::accessors::sender(event), permissions_.createEvent()));
+        return static_cast<qlonglong>(komai::matrix::effectiveUserPowerLevel(
+          permissions_.powerlevelEvent(), permissions_.createEvent(), mtx::accessors::sender(event)));
     default:
         return {};
     }
@@ -202,37 +202,8 @@ QVariant
 TimelineModel::notificationLevelForEvent(const mtx::events::collections::TimelineEvents &event,
                                          const std::string &localUserStd) const
 {
-    const auto &push = ChatPage::instance()->pushruleEvaluator();
-    if (push) {
-        // skip our messages
-        auto sender = mtx::accessors::sender(event);
-        if (sender == localUserStd)
-            return qml_mtx_events::NotificationLevel::Nothing;
-
-        const auto &id = mtx::accessors::event_id(event);
-        std::vector<std::pair<mtx::common::Relation, mtx::events::collections::TimelineEvents>>
-          relatedEvents;
-        for (const auto &r : mtx::accessors::relations(event).relations) {
-            auto related = events.get(r.event_id, id);
-            if (related) {
-                relatedEvents.emplace_back(r, *related);
-            }
-        }
-
-        auto actions = push->evaluate({event}, pushrulesRoomContext(), relatedEvents);
-        if (std::find(actions.begin(),
-                      actions.end(),
-                      mtx::pushrules::actions::Action{
-                        mtx::pushrules::actions::set_tweak_highlight{}}) != actions.end()) {
-            return qml_mtx_events::NotificationLevel::Highlight;
-        }
-        if (std::find(actions.begin(),
-                      actions.end(),
-                      mtx::pushrules::actions::Action{mtx::pushrules::actions::notify{}}) !=
-            actions.end()) {
-            return qml_mtx_events::NotificationLevel::Notify;
-        }
-    }
+    (void)event;
+    (void)localUserStd;
     return qml_mtx_events::NotificationLevel::Nothing;
 }
 

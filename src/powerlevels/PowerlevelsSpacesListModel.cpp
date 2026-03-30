@@ -11,7 +11,6 @@
 #include <utility>
 #include <vector>
 
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "utils/Utils.h"
@@ -54,35 +53,6 @@ PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(
     beginResetModel();
 
     spaces.push_back(Entry{room_id, oldPowerLevels_, create, true});
-
-    std::unordered_set<std::string> visited;
-
-    std::function<void(const std::string &)> addChildren;
-    addChildren = [this, &addChildren, &visited](const std::string &space) {
-        if (visited.count(space))
-            return;
-        else
-            visited.insert(space);
-
-        for (const auto &s : cache::getChildRoomIds(space)) {
-            auto parent = cache::getStateEvent<mtx::events::state::space::Parent>(s, space);
-            if (parent && parent->content.via && !parent->content.via->empty() &&
-                parent->content.canonical) {
-                auto childPl     = cache::getStateEvent<mtx::events::state::PowerLevels>(s);
-                auto childCreate = cache::getStateEvent<mtx::events::state::Create>(s).value_or(
-                  mtx::events::StateEvent<mtx::events::state::Create>{});
-
-                spaces.push_back(
-                  Entry{s,
-                        childPl ? childPl->content : mtx::events::state::PowerLevels{},
-                        childCreate,
-                        false});
-                addChildren(s);
-            }
-        }
-    };
-
-    addChildren(room_id);
 
     endResetModel();
 
@@ -139,20 +109,21 @@ PowerlevelsSpacesListModel::data(QModelIndex const &index, int role) const
         return {};
 
     if (role == Roles::DisplayName || role == Roles::AvatarUrl || role == Roles::IsSpace) {
-        auto info = cache::singleRoomInfo(spaces.at(row).roomid);
         if (role == Roles::DisplayName)
-            return QString::fromStdString(info.name);
+            return QString::fromStdString(spaces.at(row).roomid);
         else if (role == Roles::AvatarUrl)
-            return QString::fromStdString(info.avatar_url);
+            return {};
         else
-            return info.is_space;
+            return row == 0;
     }
 
     auto entry = spaces.at(row);
     switch (role) {
     case Roles::IsEditable:
-        return entry.pl.user_level(utils::localUser().toStdString(), entry.create) >=
-               entry.pl.state_level(to_string(mtx::events::EventType::RoomPowerLevels));
+        return komai::matrix::effectiveUserPowerLevel(entry.pl,
+                                                      entry.create,
+                                                      utils::localUser().toStdString()) >=
+               entry.pl.state_level("m.room.power_levels");
     case Roles::IsDifferentFromBase:
         return !samePl(entry.pl, oldPowerLevels_);
     case Roles::IsAlreadyUpToDate:

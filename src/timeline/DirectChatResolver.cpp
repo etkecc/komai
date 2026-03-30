@@ -4,12 +4,27 @@
 
 #include "DirectChatResolver.h"
 
-#include <mtx/events/collections.hpp>
-
-#include "cache/Cache.h"
-#include "matrix/MatrixStateTypes.h"
+#include "chat/ChatPage.h"
+#include "timeline/RoomlistModel.h"
+#include "timeline/TimelineViewManager.h"
 #include "utils/BotDetection.h"
-#include "utils/Utils.h"
+
+namespace {
+const komai::MatrixRoomSummary *
+lookupMatrixRoomSummary(const QString &roomId)
+{
+    auto *chatPage = ChatPage::instance();
+    if (!chatPage || !chatPage->timelineManager() || !chatPage->timelineManager()->rooms())
+        return nullptr;
+
+    const auto &rooms = chatPage->timelineManager()->rooms()->matrixJoinedRooms();
+    const auto it     = rooms.find(roomId);
+    if (it == rooms.end())
+        return nullptr;
+
+    return &it.value();
+}
+}
 
 DirectChatResolver &
 DirectChatResolver::instance()
@@ -21,72 +36,18 @@ DirectChatResolver::instance()
 void
 DirectChatResolver::ensureMDirectLoaded()
 {
-    if (mdirectLoaded_)
-        return;
-
     mdirectLoaded_ = true;
     mdirectMap_.clear();
-
-    auto e = cache::getAccountData(mtx::events::EventType::Direct);
-    if (!e)
-        return;
-
-    auto *event =
-      std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(&e.value());
-    if (!event)
-        return;
-
-    for (const auto &[user, rooms] : event->content.user_to_rooms) {
-        QString u = QString::fromStdString(user);
-        for (const auto &r : rooms)
-            mdirectMap_[QString::fromStdString(r)] = u;
-    }
 }
 
 QString
 DirectChatResolver::computePartner(const QString &roomId)
 {
-    // 1. Authoritative: check m.direct account data.
-    ensureMDirectLoaded();
-    if (auto it = mdirectMap_.find(roomId); it != mdirectMap_.end())
-        return it->second;
-
-    // 2. Quick filter: more than 3 members is never a direct chat.
-    if (cache::memberCount(roomId.toStdString()) > 3)
+    const auto *summary = lookupMatrixRoomSummary(roomId);
+    if (!summary || !summary->isDirect)
         return {};
 
-    // 3. Collect non-local members.
-    const auto localUser = utils::localUser();
-    std::vector<RoomMember> others;
-    for (const auto &member : cache::getMembers(roomId.toStdString(), 0, 4)) {
-        if (member.user_id != localUser)
-            others.push_back(member);
-    }
-
-    // 4. Single other member — that's the partner.
-    if (others.size() == 1)
-        return others[0].user_id;
-
-    // 5. Two other members — try bot elimination.
-    //    Common bridge pattern: you + bridge bot + puppet of a real person.
-    //    If exactly one is a bot, the other is the DM partner.
-    //    If both are bots (e.g. @hookshot:example.com + @_webhooks_watchdog:example.com),
-    //    treat the room as a bot room — pick either as the nominal partner so that
-    //    isDirectChat() returns true and isBotRoom() classifies it under Bots.
-    //    If neither looks like a bot, it's ambiguous — not a clear DM.
-    if (others.size() == 2) {
-        bool bot0 = isLikelyBotUser(others[0].user_id, others[0].display_name);
-        bool bot1 = isLikelyBotUser(others[1].user_id, others[1].display_name);
-        if (bot0 && !bot1)
-            return others[1].user_id;
-        if (bot1 && !bot0)
-            return others[0].user_id;
-        if (bot0 && bot1)
-            return others[0].user_id;
-        return {};
-    }
-
-    return {};
+    return summary->directChatOtherUserId;
 }
 
 bool
@@ -110,28 +71,10 @@ DirectChatResolver::directChatPartner(const QString &roomId)
 std::set<QString>
 DirectChatResolver::reload()
 {
-    // Save old m.direct map.
-    auto oldMap = std::move(mdirectMap_);
     mdirectMap_.clear();
-    mdirectLoaded_ = false;
-    ensureMDirectLoaded();
-
-    // Clear all per-room cached results (m.direct changed, so heuristic results may differ).
+    mdirectLoaded_ = true;
     cache_.clear();
-
-    // Compute rooms whose m.direct status changed (symmetric difference).
-    std::set<QString> changed;
-    for (const auto &[room, user] : oldMap) {
-        auto it = mdirectMap_.find(room);
-        if (it == mdirectMap_.end() || it->second != user)
-            changed.insert(room);
-    }
-    for (const auto &[room, user] : mdirectMap_) {
-        if (oldMap.find(room) == oldMap.end())
-            changed.insert(room);
-    }
-
-    return changed;
+    return {};
 }
 
 void
@@ -143,26 +86,24 @@ DirectChatResolver::invalidateForRoomId(const QString &roomId)
 QString
 DirectChatResolver::dmRoomDisplayName(const QString &roomId)
 {
-    auto partner = directChatPartner(roomId);
-    if (partner.isEmpty())
+    const auto *summary = lookupMatrixRoomSummary(roomId);
+    if (!summary || !summary->isDirect)
         return {};
 
-    // Don't override if the room has an explicit m.room.name.
-    auto nameEvent = cache::getStateEvent<mtx::events::state::Name>(roomId.toStdString());
-    if (nameEvent && !nameEvent->content.name.empty())
-        return {};
-
-    return cache::displayName(roomId, partner);
+    return summary->displayName;
 }
 
 bool
 DirectChatResolver::isBotRoom(const QString &roomId)
 {
-    auto partner = directChatPartner(roomId);
-    if (partner.isEmpty())
+    const auto *summary = lookupMatrixRoomSummary(roomId);
+    if (!summary || !summary->isDirect)
         return false;
-    auto dn = cache::displayName(roomId, partner);
-    return isLikelyBotUser(partner, dn);
+
+    if (summary->isBotRoom)
+        return true;
+
+    return isLikelyBotUser(summary->directChatOtherUserId, summary->displayName);
 }
 
 bool

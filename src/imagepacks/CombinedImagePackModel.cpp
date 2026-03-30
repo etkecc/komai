@@ -5,7 +5,6 @@
 
 #include "imagepacks/CombinedImagePackModel.h"
 
-#include "cache/Cache.h"
 #include "emoji/Provider.h"
 #include "models/CompletionModelRoles.h"
 
@@ -16,20 +15,6 @@ CombinedImagePackModel::CombinedImagePackModel(const std::string &roomId,
   , room_id(roomId)
   , includeUnicode_(includeUnicode)
 {
-    auto packs = cache::getImagePacks(room_id, false);
-
-    for (const auto &pack : packs) {
-        QString packname =
-          pack.pack.pack ? QString::fromStdString(pack.pack.pack->display_name) : QString();
-
-        for (const auto &img : pack.pack.images) {
-            ImageDesc i{};
-            i.shortcode = QString::fromStdString(img.first);
-            i.packname  = packname;
-            i.image     = img.second;
-            images.push_back(std::move(i));
-        }
-    }
 }
 
 int

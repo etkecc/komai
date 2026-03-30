@@ -5,12 +5,6 @@
 
 #pragma once
 
-#include <QObject>
-
-#ifdef KOMAI_WITH_QML
-#include <QQmlEngine>
-#endif
-
 #include <map>
 #include <mutex>
 #include <set>
@@ -22,27 +16,10 @@
 #include <mtx/responses/crypto.hpp>
 #include <mtxclient/crypto/objects.hpp>
 
+#include "encryption/CryptoTrust.h"
+
 namespace mtx::events::msg {
 struct Encrypted;
-}
-
-namespace crypto {
-Q_NAMESPACE
-#ifdef KOMAI_WITH_QML
-QML_NAMED_ELEMENT(Crypto)
-#endif
-
-//! How much a participant is trusted.
-enum Trust
-{
-    Unverified,        //! Device unverified or master key changed.
-    MessageUnverified, //! Only for messages. The sender might be trusted, but we don't know, who
-                       //! was the sender for the message.
-    TOFU,     //! Device is signed by the sender, but the user is not verified, but they never
-              //! changed the master key.
-    Verified, //! User was verified and has crosssigned this device or device is verified.
-};
-Q_ENUM_NS(Trust)
 }
 
 struct DeviceKeysToMsgIndex

@@ -71,11 +71,6 @@ public:
     //! Check if the given room is currently open.
     bool isRoomActive(const QString &room_id);
 
-    const std::unique_ptr<mtx::pushrules::PushRuleEvaluator> &pushruleEvaluator() const
-    {
-        return pushrules;
-    }
-
     void removeAllNotifications();
 
 public slots:
@@ -152,7 +147,7 @@ signals:
                                            std::string sender);
     void receivedRoomDeviceVerificationRequest(
       const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationRequest> &message,
-      TimelineModel *model);
+      QObject *model);
     void receivedDeviceVerificationCancel(const mtx::events::msg::KeyVerificationCancel &message);
     void receivedDeviceVerificationKey(const mtx::events::msg::KeyVerificationKey &message);
     void receivedDeviceVerificationMac(const mtx::events::msg::KeyVerificationMac &message);
@@ -239,8 +234,6 @@ private:
 
     NotificationsManager *notificationsManager;
     CallManager *callManager_;
-
-    std::unique_ptr<mtx::pushrules::PushRuleEvaluator> pushrules;
 
     QDateTime lastSpacesUpdate                 = QDateTime::currentDateTime();
     bool scheduleFallbackKeyRemovalOnNextSync_ = false;

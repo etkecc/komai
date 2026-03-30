@@ -6,7 +6,6 @@
 #include "CommunitiesModel.h"
 
 #include "RoomlistModel.h"
-#include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 CommunitiesModel::CommunitiesModel(QObject *parent)
@@ -15,9 +14,6 @@ CommunitiesModel::CommunitiesModel(QObject *parent)
   , badgesHiddenFilterIds_{UserSettings::instance()->badgesHiddenFilters()}
 {
     instance_ = this;
-
-    cache::onRoomReadStatusChanged(
-      this, [this](const std::map<QString, bool> &) { recomputeFilterBadges(); });
 
     connect(
       this, &CommunitiesModel::globalExcludesChanged, this, [this]() { recomputeFilterBadges(); });

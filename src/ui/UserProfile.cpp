@@ -12,14 +12,11 @@
 #include <thread>
 
 #include "UserProfile.h"
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "encryption/VerificationManager.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
-#include "timeline/RoomlistModel.h"
-#include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
@@ -59,7 +56,7 @@ notifyVerificationStateRefresh(const QString &userId)
 UserProfile::UserProfile(const QString &roomid,
                          const QString &userid,
                          TimelineViewManager *manager_,
-                         TimelineModel *parent)
+                         QObject *parent)
   : QObject(parent)
   , roomid_(roomid)
   , userid_(userid)
@@ -126,25 +123,15 @@ UserProfile::UserProfile(const QString &roomid,
                 });
     }
 
-    if (matrixBackendHandleId() != 0 || !cache::isDatabaseReady() ||
+    if (matrixBackendHandleId() != 0 || !ChatPage::instance() ||
         !ChatPage::instance()->timelineManager()) {
         sharedRooms_ = new RoomInfoModel({}, this);
         updateVerificationStatus();
         return;
     }
 
-    cache::onVerificationStatusChanged(this, [this](const std::string &user_id) {
-        if (user_id != this->userid_.toStdString())
-            return;
-
-        emit verificationStatiChanged();
-    });
-    fetchDeviceList(this->userid_);
-
-    if (userid != utils::localUser())
-        sharedRooms_ = new RoomInfoModel(cache::getCommonRooms(userid.toStdString()), this);
-    else
-        sharedRooms_ = new RoomInfoModel({}, this);
+    sharedRooms_ = new RoomInfoModel({}, this);
+    updateVerificationStatus();
 }
 
 DeviceInfoModel *
@@ -168,13 +155,16 @@ UserProfile::userid()
 QString
 UserProfile::displayName()
 {
-    return isGlobalUserProfile() ? globalUsername : cache::displayName(roomid_, userid_);
+    if (!globalUsername.trimmed().isEmpty())
+        return globalUsername;
+
+    return userid_;
 }
 
 QString
 UserProfile::avatarUrl()
 {
-    return isGlobalUserProfile() ? globalAvatarUrl : cache::avatarUrl(roomid_, userid_);
+    return globalAvatarUrl;
 }
 
 bool
@@ -430,8 +420,7 @@ void
 UserProfile::setGlobalUsername(const QString &globalUser)
 {
     globalUsername = globalUser;
-    if (isGlobalUserProfile())
-        emit displayNameChanged();
+    emit displayNameChanged();
     emit globalDisplayNameChanged();
 }
 
@@ -500,8 +489,7 @@ UserProfile::getGlobalProfileData()
               }
 
               guard->globalAvatarUrl = komai::matrix::normalizeMxcUri(avatarUrl);
-              if (guard->isGlobalUserProfile())
-                  emit guard->avatarUrlChanged();
+              emit guard->avatarUrlChanged();
               emit guard->globalAvatarUrlChanged();
           },
           Qt::QueuedConnection);

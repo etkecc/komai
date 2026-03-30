@@ -27,9 +27,9 @@
 
 #include <mtx/requests.hpp>
 
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixSdkPaths.h"
 #include "profile/Paths.h"
 #include "profile/ProfileManager.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -122,32 +122,6 @@ directorySizeBytes(const QString &path)
     return total;
 }
 
-QString
-backendDisplayName(std::string_view backendId)
-{
-    if (backendId == "lmdb")
-        return QStringLiteral("LMDB");
-    if (backendId == "memory" || backendId == "in-memory")
-        return QObject::tr("In-memory");
-
-    return QString::fromStdString(std::string(backendId));
-}
-
-QString
-cacheFormatDisplay(cache::CacheVersion version)
-{
-    switch (version) {
-    case cache::CacheVersion::Current:
-        return QObject::tr("Current");
-    case cache::CacheVersion::Older:
-        return QObject::tr("Older / incompatible");
-    case cache::CacheVersion::Newer:
-        return QObject::tr("Newer / incompatible");
-    }
-
-    return QObject::tr("Unknown");
-}
-
 }
 
 Komai::Komai()
@@ -198,7 +172,6 @@ Komai::Komai()
     connect(
       ChatPage::instance(), &ChatPage::promptUnlockKeyBackup, this, &Komai::promptUnlockKeyBackup);
     connect(this, &Komai::joinRoom, ChatPage::instance(), &ChatPage::joinRoom);
-    cache::onDatabaseReady(this, [this] { emit localCacheInfoChanged(); });
 
     refreshApplicationProfiles();
 }
@@ -208,14 +181,13 @@ Komai::updateUserProfile()
 {
     const auto *mainWindow      = MainWindow::instance();
     const bool hasMatrixRuntime = mainWindow && mainWindow->matrixBackendHandleId() != 0;
-    const bool hasLegacyCache   = cache::isAvailable() && cache::isInitialized();
     const auto localUserId      = utils::localUser().trimmed();
 
-    if ((hasLegacyCache || hasMatrixRuntime) && !localUserId.isEmpty()) {
+    if (hasMatrixRuntime && !localUserId.isEmpty()) {
         nhlog::ui()->info("Refreshing Komai.currentUser (user_id='{}', legacy_cache={}, "
                           "matrix_runtime={})",
                           localUserId.toStdString(),
-                          hasLegacyCache,
+                          false,
                           hasMatrixRuntime);
         currentUser_.reset(
           new UserProfile(QLatin1String(""), localUserId, ChatPage::instance()->timelineManager()));
@@ -223,7 +195,7 @@ Komai::updateUserProfile()
         nhlog::ui()->info("Clearing Komai.currentUser (user_id='{}', legacy_cache={}, "
                           "matrix_runtime={})",
                           localUserId.toStdString(),
-                          hasLegacyCache,
+                          false,
                           hasMatrixRuntime);
         currentUser_.reset();
     }
@@ -520,12 +492,11 @@ Komai::localCacheInfo() const
     const auto profileId   = settings->profile();
     const auto userId      = settings->userId().trimmed();
     const bool hasUserId   = !userId.isEmpty();
-    const bool cacheReady  = cache::isAvailable() && cache::isDatabaseReady();
-    const bool initialized = cacheReady && cache::isInitialized();
+    const auto matrixPaths = komai::MatrixSdkPathsProvider::forProfile(profileId);
 
     const QString databasePath =
-      hasUserId ? app_paths::data::databaseDirectory(userId, profileId) : QString{};
-    const QString mediaCachePath = app_paths::cache::mediaRoot(profileId);
+      hasUserId ? matrixPaths.stateStoreRoot : matrixPaths.profileDataRoot;
+    const QString mediaCachePath = matrixPaths.mediaCacheRoot;
 
     const QFileInfo databaseInfo(databasePath);
     const QFileInfo mediaInfo(mediaCachePath);
@@ -547,71 +518,34 @@ Komai::localCacheInfo() const
     info.insert(QStringLiteral("mediaCacheSizeHuman"),
                 utils::humanReadableFileSize(mediaSizeBytes));
 
-    if (!cache::isAvailable()) {
+    info.insert(QStringLiteral("backend"), QStringLiteral("Matrix SDK"));
+    info.insert(QStringLiteral("compactionSupported"), false);
+    info.insert(QStringLiteral("mapSizeKnown"), false);
+    info.insert(QStringLiteral("mapSizeBytes"), qulonglong{0});
+    info.insert(QStringLiteral("mapSizeHuman"), tr("Unavailable"));
+    info.insert(QStringLiteral("joinedRoomsKnown"), false);
+    info.insert(QStringLiteral("invitesKnown"), false);
+    info.insert(QStringLiteral("namedStoresKnown"), false);
+    info.insert(QStringLiteral("cacheFormat"), QStringLiteral("Current"));
+
+    if (!hasUserId) {
         info.insert(QStringLiteral("statusKind"), QStringLiteral("unavailable"));
         info.insert(QStringLiteral("statusLabel"), tr("Unavailable"));
         info.insert(QStringLiteral("statusDetails"), tr("Sign in to inspect this profile."));
         return info;
     }
 
-    info.insert(QStringLiteral("backend"), backendDisplayName(cache::storageBackendId()));
-    info.insert(QStringLiteral("compactionSupported"), cache::storageSupportsCompaction());
-
-    if (const auto mapSizeBytes = cache::storageMapSizeBytes(); mapSizeBytes.has_value()) {
-        info.insert(QStringLiteral("mapSizeKnown"), true);
-        info.insert(QStringLiteral("mapSizeBytes"), static_cast<qulonglong>(*mapSizeBytes));
-        info.insert(QStringLiteral("mapSizeHuman"), utils::humanReadableFileSize(*mapSizeBytes));
-    } else {
-        info.insert(QStringLiteral("mapSizeKnown"), false);
-        info.insert(QStringLiteral("mapSizeBytes"), qulonglong{0});
-        info.insert(QStringLiteral("mapSizeHuman"), tr("Unavailable"));
-    }
-
-    if (!cache::isDatabaseReady()) {
-        info.insert(QStringLiteral("statusKind"), QStringLiteral("loading"));
-        info.insert(QStringLiteral("statusLabel"), tr("Loading"));
-        info.insert(QStringLiteral("statusDetails"), tr("Opening local cache."));
-        return info;
-    }
-
-    if (!initialized) {
+    if (!databaseInfo.exists()) {
         info.insert(QStringLiteral("statusKind"), QStringLiteral("empty"));
         info.insert(QStringLiteral("statusLabel"), tr("Not synced"));
-        info.insert(QStringLiteral("statusDetails"), tr("No synced local data yet."));
-        info.insert(QStringLiteral("cacheFormat"), tr("Not synced"));
-        info.insert(QStringLiteral("joinedRoomsKnown"), false);
-        info.insert(QStringLiteral("invitesKnown"), false);
-        info.insert(QStringLiteral("namedStoresKnown"), false);
+        info.insert(QStringLiteral("statusDetails"), tr("No matrix-sdk state store yet."));
         return info;
     }
 
-    try {
-        const auto formatVersion = cache::formatVersion();
-        info.insert(QStringLiteral("cacheFormat"), cacheFormatDisplay(formatVersion));
-        info.insert(QStringLiteral("joinedRoomsKnown"), true);
-        info.insert(QStringLiteral("joinedRooms"), static_cast<int>(cache::joinedRooms().size()));
-        info.insert(QStringLiteral("invitesKnown"), true);
-        info.insert(QStringLiteral("invites"), static_cast<int>(cache::invites().size()));
-        info.insert(QStringLiteral("namedStoresKnown"), true);
-        info.insert(QStringLiteral("namedStores"), static_cast<int>(cache::namedStoreCount()));
-        if (formatVersion == cache::CacheVersion::Current) {
-            info.insert(QStringLiteral("statusKind"), QStringLiteral("ready"));
-            info.insert(QStringLiteral("statusLabel"), tr("Ready"));
-            info.insert(QStringLiteral("statusDetails"), QString{});
-        } else {
-            info.insert(QStringLiteral("statusKind"), QStringLiteral("reset_required"));
-            info.insert(QStringLiteral("statusLabel"), tr("Reset needed"));
-            info.insert(QStringLiteral("statusDetails"), tr("Rebuilt on next start."));
-        }
-    } catch (const std::exception &e) {
-        nhlog::ui()->warn("Failed to gather local cache info: {}", e.what());
-        info.insert(QStringLiteral("statusKind"), QStringLiteral("error"));
-        info.insert(QStringLiteral("statusLabel"), tr("Error"));
-        info.insert(QStringLiteral("statusDetails"), tr("Could not inspect local cache."));
-        info.insert(QStringLiteral("joinedRoomsKnown"), false);
-        info.insert(QStringLiteral("invitesKnown"), false);
-        info.insert(QStringLiteral("namedStoresKnown"), false);
-    }
+    info.insert(QStringLiteral("statusKind"), QStringLiteral("ready"));
+    info.insert(QStringLiteral("statusLabel"), tr("Ready"));
+    info.insert(QStringLiteral("statusDetails"),
+                tr("Using the resident matrix-sdk state store for this profile."));
 
     return info;
 }
@@ -742,7 +676,7 @@ Komai::createRoom(bool space,
     if (isEncrypted) {
         mtx::events::StrippedEvent<mtx::events::state::Encryption> enc;
         enc.type              = mtx::events::EventType::RoomEncryption;
-        enc.content.algorithm = mtx::crypto::MEGOLM_ALGO;
+        enc.content.algorithm = "m.megolm.v1.aes-sha2";
         req.initial_state.emplace_back(std::move(enc));
     }
 

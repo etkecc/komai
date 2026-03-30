@@ -7,11 +7,9 @@
 
 #include <QString>
 
-#include <mtx/events/collections.hpp>
-#include <mtx/events/create.hpp>
-#include <mtx/events/power_levels.hpp>
-
 #include <functional>
+
+#include "matrix/MatrixPowerLevelCompat.h"
 
 class EventStore;
 

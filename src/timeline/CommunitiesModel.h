@@ -267,7 +267,6 @@ private:
     QStringList badgesHiddenFilterIds_;
     FlatTree spaceOrder_;
     std::map<QString, RoomInfo> spaces_;
-    std::vector<std::string> directMessages_;
 
     struct BadgeCounts
     {

@@ -13,7 +13,6 @@
 
 #include <variant>
 
-#include "cache/Cache.h"
 #include "events/EventAccessors.h"
 #include "profile/Paths.h"
 #include "providers/MxcImageProvider.h"
@@ -66,7 +65,7 @@ void
 NotificationsManager::postNotification(const mtx::responses::Notification &notification,
                                        const QImage &icon)
 {
-    const auto room_name = QString::fromStdString(cache::singleRoomInfo(notification.room_id).name);
+    const auto room_name = QString::fromStdString(notification.room_id);
     auto roomid          = QString::fromStdString(notification.room_id);
     auto eventid         = QString::fromStdString(mtx::accessors::event_id(notification.event));
 

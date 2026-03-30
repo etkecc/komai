@@ -5,13 +5,12 @@
 
 #pragma once
 
+#include <QAbstractItemModel>
 #include <QQmlEngine>
 #include <QSortFilterProxyModel>
 #include <QString>
 
 #include <mtx/events/power_levels.hpp>
-
-class TimelineModel;
 
 class TimelineFilter : public QSortFilterProxyModel
 {
@@ -23,7 +22,7 @@ class TimelineFilter : public QSortFilterProxyModel
                  NOTIFY filterNotificationsChanged)
     Q_PROPERTY(QString filterByContent READ filterByContent WRITE setContentFilter NOTIFY
                  contentFilterChanged)
-    Q_PROPERTY(TimelineModel *source READ source WRITE setSource NOTIFY sourceChanged)
+    Q_PROPERTY(QAbstractItemModel *source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
     Q_PROPERTY(bool filteringInProgress READ isFiltering NOTIFY isFilteringChanged)
 
@@ -33,14 +32,14 @@ public:
     QString filterByThread() const { return threadId; }
     bool filterByNotifications() const { return filterByNotifications_; }
     QString filterByContent() const { return contentFilter; }
-    TimelineModel *source() const;
+    QAbstractItemModel *source() const;
     int currentIndex() const;
     bool isFiltering() const;
 
     void setThreadId(const QString &t);
     void setFilterNotifications(bool v);
     void setContentFilter(const QString &t);
-    void setSource(TimelineModel *t);
+    void setSource(QAbstractItemModel *t);
     void setCurrentIndex(int idx);
 
     Q_INVOKABLE QVariant dataByIndex(int i, int role = Qt::DisplayRole) const
@@ -72,6 +71,7 @@ private:
     void continueFiltering();
 
     QString threadId, contentFilter;
-    int cachedCount = 0, incrementalSearchIndex = 0;
+    int cachedCount = 0, incrementalSearchIndex = 0, currentIndex_ = -1;
     bool filterByNotifications_ = false;
+    bool filteringInProgress_   = false;
 };

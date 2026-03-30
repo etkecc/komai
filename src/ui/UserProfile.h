@@ -13,10 +13,8 @@
 #include <QVector>
 #include <optional>
 
-#include "cache/crypto/CacheCryptoStructs.h"
+#include "encryption/CryptoTrust.h"
 #include "matrix/MatrixStateTypes.h"
-
-class TimelineModel;
 
 namespace verification {
 Q_NAMESPACE
@@ -151,12 +149,12 @@ class UserProfile final : public QObject
     Q_PROPERTY(bool canStartVerification READ canStartVerification NOTIFY devicesChanged)
     Q_PROPERTY(bool ignored READ ignored WRITE setIgnored NOTIFY ignoredChanged)
     Q_PROPERTY(bool isSelf READ isSelf CONSTANT)
-    Q_PROPERTY(TimelineModel *room READ room CONSTANT)
+    Q_PROPERTY(QObject *room READ room CONSTANT)
 public:
     UserProfile(const QString &roomid,
                 const QString &userid,
                 TimelineViewManager *manager_,
-                TimelineModel *parent = nullptr);
+                QObject *parent = nullptr);
 
     DeviceInfoModel *deviceList();
     RoomInfoModel *sharedRooms();
@@ -170,7 +168,7 @@ public:
     bool canStartVerification() const;
     bool isSelf() const;
     bool isLoading() const;
-    TimelineModel *room() const { return model; }
+    QObject *room() const { return model; }
     QString globalDisplayNameProp() const { return globalUsername; }
     QString globalAvatarUrlProp() const { return globalAvatarUrl; }
 
@@ -231,7 +229,7 @@ private:
     bool isLoading_              = false;
     std::optional<bool> ignoredOverride_;
     TimelineViewManager *manager;
-    TimelineModel *model;
+    QObject *model;
     RoomInfoModel *sharedRooms_          = nullptr;
     bool refreshDevicesOnNextActivation_ = false;
 };

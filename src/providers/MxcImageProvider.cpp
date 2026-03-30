@@ -8,8 +8,6 @@
 #include <optional>
 
 #include <mtx/common.hpp>
-#include <mtxclient/crypto/client.hpp>
-
 #include <QByteArray>
 #include <QCache>
 #include <QDir>
@@ -437,21 +435,10 @@ MxcImageProvider::download(const QString &id,
 
             if (fileInfo.exists() && f.open(QIODevice::ReadOnly)) {
                 if (encryptionInfo) {
-                    QByteArray fileData = f.readAll();
-                    auto tempData       = mtx::crypto::to_string(
-                      mtx::crypto::decrypt_file(fileData.toStdString(), encryptionInfo.value()));
-                    auto data    = QByteArray(tempData.data(), (int)tempData.size());
-                    QImage image = utils::readImage(data);
-                    image.setText(QStringLiteral("mxc url"), "mxc://" + id);
-                    if (!image.isNull()) {
-                        possiblyUpdateAccessTime(fileInfo);
-                        if (radius != 0) {
-                            image = clipRadius(std::move(image), radius);
-                        }
-
-                        then(id, requestedSize, image, fileInfo.absoluteFilePath());
-                        return;
-                    }
+                    nhlog::net()->warn(
+                      "Encrypted media decryption is not migrated to the matrix-sdk media path "
+                      "yet for '{}'",
+                      id.toStdString());
                 } else {
                     QImage image = utils::readImageFromFile(fileInfo.absoluteFilePath());
                     if (!image.isNull()) {
@@ -495,16 +482,11 @@ MxcImageProvider::download(const QString &id,
                       utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
 
                       if (encryptionInfo) {
-                          auto tempData = data->toStdString();
-                          tempData      = mtx::crypto::to_string(
-                            mtx::crypto::decrypt_file(tempData, encryptionInfo.value()));
-                          auto decryptedData = QByteArray(tempData.data(), (int)tempData.size());
-                          QImage image       = utils::readImage(decryptedData);
-                          if (radius != 0)
-                              image = clipRadius(std::move(image), radius);
-
-                          image.setText(QStringLiteral("mxc url"), "mxc://" + id);
-                          then(id, requestedSize, image, fileInfo.absoluteFilePath());
+                          nhlog::net()->warn(
+                            "Encrypted media decryption is not migrated to the matrix-sdk media "
+                            "path yet for '{}'",
+                            id.toStdString());
+                          then(id, QSize(), {}, QLatin1String(""));
                           return;
                       }
 

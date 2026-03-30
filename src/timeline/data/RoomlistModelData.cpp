@@ -11,10 +11,6 @@
 #include <QDateTime>
 #include <QTimer>
 
-#include "DirectChatResolver.h"
-#include "TimelineModel.h"
-#include "cache/Cache.h"
-#include "events/EventAccessors.h"
 #include "matrix/MatrixMediaUri.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/roomlist/RoomlistPreviewSelection.h"
@@ -33,28 +29,22 @@ RoomlistModel::commonRoomData(const QString &room_id, int role) const
                 list.push_back(parentSpaceRoomId);
             return QVariant{list};
         }
-
-        auto parents = cache::getParentRoomIds(room_id.toStdString());
-        QStringList list;
-        list.reserve(static_cast<int>(parents.size()));
-        for (const auto &t : parents)
-            list.push_back(QString::fromStdString(t));
-        return QVariant{list};
+        return QVariant{QStringList{}};
     }
     case Roles::RoomId:
         return QVariant{room_id};
     case Roles::IsDirect:
         if (matrixJoinedRooms_.contains(room_id))
             return QVariant{matrixJoinedRooms_.value(room_id).isDirect};
-        return QVariant{DirectChatResolver::instance().isDirectChat(room_id)};
+        return QVariant{false};
     case Roles::DirectChatOtherUserId:
         if (matrixJoinedRooms_.contains(room_id))
             return QVariant{matrixJoinedRooms_.value(room_id).directChatOtherUserId};
-        return QVariant{DirectChatResolver::instance().directChatPartner(room_id)};
+        return QVariant{QString{}};
     case Roles::IsBotRoom:
         if (matrixJoinedRooms_.contains(room_id))
             return QVariant{matrixJoinedRooms_.value(room_id).isBotRoom};
-        return QVariant{DirectChatResolver::instance().isBotRoom(room_id)};
+        return QVariant{false};
     case Roles::HasDraft:
         return QVariant{hasDraft(room_id)};
     case Roles::DraftPreview:
@@ -115,199 +105,19 @@ RoomlistModel::dataForMaterializedRoom(const QString &room_id,
                                        const QSharedPointer<TimelineModel> &room,
                                        int role) const
 {
-    struct ResolvedPreviewFields
-    {
-        QString lastMessage;
-        QString descriptiveTime;
-        quint64 timestamp = 0;
-    };
-
-    bool previewResolved = false;
-    ResolvedPreviewFields previewFields;
-    auto resolvePreview =
-      [this, &room_id, &room, &previewResolved, &previewFields]() -> const ResolvedPreviewFields & {
-        if (previewResolved)
-            return previewFields;
-
-        previewResolved = true;
-
-        const auto liveDescription = room->lastMessage();
-        bool hasLiveMessagePreview = false;
-        if (!liveDescription.body.isEmpty() && !liveDescription.event_id.isEmpty()) {
-            if (const auto event =
-                  cache::getEvent(room_id.toStdString(), liveDescription.event_id.toStdString());
-                event.has_value() && mtx::accessors::is_message(*event)) {
-                hasLiveMessagePreview = true;
-            }
-        }
-
-        std::optional<DescInfo> cachedDescription;
-        if (!hasLiveMessagePreview) {
-            auto *self = const_cast<RoomlistModel *>(this);
-            self->ensureCachedLastMessage(room_id);
-            cachedDescription = self->cachedLastMessages_.value(room_id);
-        }
-
-        const auto roomInfo = cachedJoinedRooms_.value(room_id);
-        const auto selected = timeline::roomlist::selectMaterializedPreviewFields(
-          liveDescription,
-          static_cast<quint64>(room->lastMessageTimestamp()),
-          hasLiveMessagePreview,
-          cachedDescription,
-          static_cast<quint64>(roomInfo.approximate_last_modification_ts));
-        previewFields.lastMessage     = selected.lastMessage;
-        previewFields.descriptiveTime = selected.descriptiveTime;
-        previewFields.timestamp       = selected.timestamp;
-
-        if (previewFields.descriptiveTime.isEmpty() &&
-            roomInfo.approximate_last_modification_ts > 0) {
-            previewFields.descriptiveTime = utils::descriptiveTime(QDateTime::fromMSecsSinceEpoch(
-              static_cast<qint64>(roomInfo.approximate_last_modification_ts)));
-        }
-
-        return previewFields;
-    };
-
-    switch (role) {
-    case Roles::AvatarUrl: {
-        const auto roomModelAvatar = room->roomAvatarUrl();
-        if (!roomModelAvatar.isEmpty())
-            return komai::matrix::normalizeMxcUri(roomModelAvatar);
-
-        const auto avatarUrl = cache::roomAvatarUrl(room_id.toStdString());
-        if (!avatarUrl.isEmpty())
-            return komai::matrix::normalizeMxcUri(avatarUrl);
-
-        return roomModelAvatar;
-    }
-    case Roles::RoomName:
-        return room->plainRoomName();
-    case Roles::LastMessage:
-        return resolvePreview().lastMessage;
-    case Roles::Time:
-        return resolvePreview().descriptiveTime;
-    case Roles::Timestamp:
-        return QVariant{resolvePreview().timestamp};
-    case Roles::HasUnreadMessages:
-        return this->roomReadStatus.count(room_id) && this->roomReadStatus.at(room_id);
-    case Roles::HasLoudNotification:
-        return room->hasMentions();
-    case Roles::NotificationCount: {
-        const bool hasUnread =
-          this->roomReadStatus.count(room_id) && this->roomReadStatus.at(room_id);
-        const int notificationCount = room->notificationCount();
-        return (hasUnread || room->hasMentions()) ? notificationCount : 0;
-    }
-    case Roles::IsInvite:
-        return false;
-    case Roles::IsSpace:
-        return room->isSpace();
-    case Roles::IsPreview:
-        return false;
-    case Roles::Tags: {
-        auto info = cache::singleRoomInfo(room_id.toStdString());
-        QStringList list;
-        list.reserve(static_cast<int>(info.tags.size()));
-        for (const auto &t : info.tags)
-            list.push_back(QString::fromStdString(t));
-        return list;
-    }
-    case Roles::IsEncrypted:
-        return room->isEncrypted();
-    default:
-        return {};
-    }
+    Q_UNUSED(room_id);
+    Q_UNUSED(room);
+    Q_UNUSED(role);
+    return {};
 }
 
 QVariant
 RoomlistModel::dataForCachedRoom(const QString &room_id, const RoomInfo &room, int role) const
 {
-    switch (role) {
-    case Roles::AvatarUrl: {
-        if (!room.avatar_url.empty())
-            return komai::matrix::normalizeMxcUri(QString::fromStdString(room.avatar_url));
-        return komai::matrix::normalizeMxcUri(cache::roomAvatarUrl(room_id.toStdString()));
-    }
-    case Roles::RoomName: {
-        // Use the DM-aware display name so the room list shows the partner's
-        // name instead of computed fallbacks like "Someone and Bridge bot".
-        auto dmName = DirectChatResolver::instance().dmRoomDisplayName(room_id);
-        return dmName.isEmpty() ? QString::fromStdString(room.name) : dmName;
-    }
-    case Roles::LastMessage: {
-        const auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
-        const bool encrypted =
-          cachedEncryptedRooms_.value(room_id, cache::isRoomEncrypted(room_id.toStdString()));
-        const bool previewsEnabled =
-          style == UserSettings::LastMessagePreview::Always ||
-          (style == UserSettings::LastMessagePreview::OnlyUnencrypted && !encrypted);
-        if (!previewsEnabled)
-            return QString();
-
-        auto *self = const_cast<RoomlistModel *>(this);
-        self->ensureCachedLastMessage(room_id);
-        const auto cachedDescription = cachedLastMessages_.value(room_id);
-        if (cachedDescription.body.isEmpty())
-            self->maybeBackfillCachedLastMessage(room_id);
-        else if (style == UserSettings::LastMessagePreview::Always && encrypted &&
-                 RoomlistModel::isCachedEncryptedPreview(room_id, cachedDescription)) {
-            self->scheduleRoomPrewarm(room_id, QStringLiteral("auto_preview_decrypt"));
-            QTimer::singleShot(0, self, [self, room_id]() {
-                if (self->scheduledPrewarms_.contains(room_id))
-                    self->prewarmRoom(room_id, QStringLiteral("auto_preview_decrypt"));
-            });
-        }
-        return cachedDescription.body;
-    }
-    case Roles::Time: {
-        auto *self = const_cast<RoomlistModel *>(this);
-        self->ensureCachedLastMessage(room_id);
-        const auto cachedDescription = cachedLastMessages_.value(room_id);
-        if (!cachedDescription.descriptiveTime.isEmpty())
-            return cachedDescription.descriptiveTime;
-
-        if (room.approximate_last_modification_ts > 0) {
-            return utils::descriptiveTime(QDateTime::fromMSecsSinceEpoch(
-              static_cast<qint64>(room.approximate_last_modification_ts)));
-        }
-        return QString();
-    }
-    case Roles::Timestamp: {
-        auto *self = const_cast<RoomlistModel *>(this);
-        self->ensureCachedLastMessage(room_id);
-        const auto cachedDescription = cachedLastMessages_.value(room_id);
-        const auto ts = std::max(static_cast<quint64>(room.approximate_last_modification_ts),
-                                 static_cast<quint64>(cachedDescription.timestamp));
-        return QVariant{ts};
-    }
-    case Roles::HasUnreadMessages:
-        return this->roomReadStatus.count(room_id) && this->roomReadStatus.at(room_id);
-    case Roles::HasLoudNotification:
-        return room.highlight_count > 0;
-    case Roles::NotificationCount: {
-        const bool hasUnread =
-          this->roomReadStatus.count(room_id) && this->roomReadStatus.at(room_id);
-        const int notificationCount = static_cast<int>(room.notification_count);
-        return (hasUnread || room.highlight_count > 0) ? notificationCount : 0;
-    }
-    case Roles::IsInvite:
-        return false;
-    case Roles::IsSpace:
-        return room.is_space;
-    case Roles::IsPreview:
-        return false;
-    case Roles::Tags: {
-        QStringList list;
-        list.reserve(static_cast<int>(room.tags.size()));
-        for (const auto &t : room.tags)
-            list.push_back(QString::fromStdString(t));
-        return list;
-    }
-    case Roles::IsEncrypted:
-        return cachedEncryptedRooms_.value(room_id, cache::isRoomEncrypted(room_id.toStdString()));
-    default:
-        return {};
-    }
+    Q_UNUSED(room_id);
+    Q_UNUSED(room);
+    Q_UNUSED(role);
+    return {};
 }
 
 QVariant
@@ -428,14 +238,8 @@ RoomlistModel::data(const QModelIndex &index, int role) const
     if (const auto value = commonRoomData(room_id, role); value.has_value())
         return *value;
 
-    if (models.contains(room_id))
-        return dataForMaterializedRoom(room_id, models.value(room_id), role);
-
     if (matrixJoinedRooms_.contains(room_id))
         return dataForMatrixRoom(room_id, matrixJoinedRooms_.value(room_id), role);
-
-    if (cachedJoinedRooms_.contains(room_id))
-        return dataForCachedRoom(room_id, cachedJoinedRooms_.value(room_id), role);
 
     if (invites.contains(room_id))
         return dataForInviteRoom(invites.value(room_id), role);

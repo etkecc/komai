@@ -5,49 +5,24 @@
 
 #include "PresenceEmitter.h"
 
-#include "utils/Utils.h"
 #include <QCache>
-
-#include "cache/Cache.h"
 
 namespace {
 struct CacheEntry
 {
     QString status;
-    mtx::presence::PresenceState state;
+    QString state;
 };
 }
 
 static QCache<QString, CacheEntry> presences;
 
-static QString
-presenceToStr(mtx::presence::PresenceState state)
-{
-    switch (state) {
-    case mtx::presence::PresenceState::offline:
-        return QStringLiteral("offline");
-    case mtx::presence::PresenceState::unavailable:
-        return QStringLiteral("unavailable");
-    case mtx::presence::PresenceState::online:
-    default:
-        return QStringLiteral("online");
-    }
-}
-
 static CacheEntry *
 pullPresence(const QString &id)
 {
-    auto p = cache::presence(id.toStdString());
-
-    auto statusMsg = QString::fromStdString(p.status_msg);
-    if (statusMsg.size() > 255) {
-        statusMsg.truncate(255);
-        statusMsg.append(u'…');
-    }
-
-    auto c = new CacheEntry{utils::replaceEmoji(std::move(statusMsg).toHtmlEscaped()), p.presence};
-    presences.insert(id, c);
-    return c;
+    auto *entry = new CacheEntry{QString{}, QStringLiteral("offline")};
+    presences.insert(id, entry);
+    return entry;
 }
 
 void
@@ -64,10 +39,9 @@ PresenceEmitter::userPresence(QString id) const
 {
     if (id.isEmpty())
         return {};
-    else if (auto p = presences[id])
-        return presenceToStr(p->state);
-    else
-        return presenceToStr(pullPresence(id)->state);
+    if (auto *presence = presences[id])
+        return presence->state;
+    return pullPresence(id)->state;
 }
 
 QString
@@ -75,10 +49,9 @@ PresenceEmitter::userStatus(QString id) const
 {
     if (id.isEmpty())
         return {};
-    else if (auto p = presences[id])
-        return p->status;
-    else
-        return pullPresence(id)->status;
+    if (auto *presence = presences[id])
+        return presence->status;
+    return pullPresence(id)->status;
 }
 
 #include "moc_PresenceEmitter.cpp"

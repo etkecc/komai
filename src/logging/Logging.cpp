@@ -14,8 +14,6 @@
 #include <QString>
 #include <QtGlobal>
 
-#include <mtx/log.hpp>
-
 namespace {
 static std::shared_ptr<spdlog::logger> db_logger     = nullptr;
 static std::shared_ptr<spdlog::logger> net_logger    = nullptr;
@@ -78,7 +76,6 @@ init(const QString &level, const QString &path, bool to_stderr)
         sinks.push_back(console_sink);
     }
 
-    mtx::utils::log::log()->sinks() = sinks;
     net_logger    = std::make_shared<spdlog::logger>("net", std::begin(sinks), std::end(sinks));
     ui_logger     = std::make_shared<spdlog::logger>("ui", std::begin(sinks), std::end(sinks));
     db_logger     = std::make_shared<spdlog::logger>("db", std::begin(sinks), std::end(sinks));
@@ -93,7 +90,6 @@ init(const QString &level, const QString &path, bool to_stderr)
         net_logger->set_level(spdlog::level::trace);
         qml_logger->set_level(spdlog::level::trace);
         rust_logger->set_level(spdlog::level::trace);
-        mtx::utils::log::log()->set_level(spdlog::level::trace);
     }
 
     spdlog::register_logger(net_logger);
@@ -102,8 +98,6 @@ init(const QString &level, const QString &path, bool to_stderr)
     spdlog::register_logger(crypto_logger);
     spdlog::register_logger(qml_logger);
     spdlog::register_logger(rust_logger);
-    // We assume the mtxclient library will register its own logger.
-
     if (!level.isEmpty()) {
         spdlog::cfg::helpers::load_levels(level.toStdString());
     }

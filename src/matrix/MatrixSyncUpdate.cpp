@@ -11,7 +11,6 @@ namespace {
 using IgnoredUsersEvent = mtx::events::AccountDataEvent<mtx::events::account_data::IgnoredUsers>;
 using DirectChatsEvent  = mtx::events::AccountDataEvent<mtx::events::account_data::Direct>;
 using TagsEvent         = mtx::events::AccountDataEvent<mtx::events::account_data::Tags>;
-using PushRulesEvent    = mtx::events::AccountDataEvent<mtx::pushrules::GlobalRuleset>;
 
 QVector<QString>
 convertIgnoredUsers(const IgnoredUsersEvent &event)
@@ -132,22 +131,11 @@ NotificationSyncUpdate
 buildNotificationSyncUpdate(const mtx::responses::Sync &sync)
 {
     NotificationSyncUpdate update;
-    update.joinedRooms.reserve(sync.rooms.join.size());
-
-    for (const auto &event : sync.account_data.events) {
-        if (auto pushRules = std::get_if<PushRulesEvent>(&event)) {
-            update.pushRulesUpdate = pushRules;
-            break;
-        }
-    }
 
     for (const auto &[roomId, room] : sync.rooms.join) {
+        (void)roomId;
         update.notificationCount +=
           static_cast<unsigned int>(room.unread_notifications.notification_count);
-        update.joinedRooms.push_back(JoinedRoomNotificationUpdate{
-          .roomId = QString::fromStdString(roomId),
-          .room   = &room,
-        });
     }
 
     return update;

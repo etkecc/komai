@@ -31,11 +31,9 @@
 
 #include <mtx/responses/messages.hpp>
 
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/formattedmessage/HtmlProcessor.h"
 
@@ -136,12 +134,23 @@ utils::scaleDown(uint64_t maxWidth, uint64_t maxHeight, const QPixmap &source)
 QString
 utils::mxcToHttp(const QUrl &url, const QString &server, int port)
 {
-    auto mxcParts = mtx::client::utils::parse_mxc_url(url.toString().toStdString());
+    const QString urlString = url.toString();
+    const QString prefix    = QStringLiteral("mxc://");
+    if (!urlString.startsWith(prefix))
+        return {};
+
+    const QString path = urlString.mid(prefix.size());
+    const int slashIdx = path.indexOf(u'/');
+    if (slashIdx <= 0 || slashIdx + 1 >= path.size())
+        return {};
+
+    const QString originServer = path.left(slashIdx);
+    const QString mediaId      = path.mid(slashIdx + 1);
 
     return QStringLiteral("https://%1:%2/_matrix/media/r0/download/%3/%4")
       .arg(server)
       .arg(port)
-      .arg(QString::fromStdString(mxcParts.server), QString::fromStdString(mxcParts.media_id));
+      .arg(originServer, mediaId);
 }
 
 QString

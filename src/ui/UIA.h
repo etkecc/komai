@@ -8,8 +8,6 @@
 #include <QObject>
 #include <QQmlEngine>
 
-#include <mtxclient/http/client.hpp>
-
 #include "auth/FallbackAuth.h"
 #include "auth/ReCaptcha.h"
 
@@ -48,8 +46,6 @@ public:
     {
     }
 
-    mtx::http::UIAHandler genericHandler(QString context);
-
     QString title() const { return title_; }
 
 public slots:
@@ -74,13 +70,5 @@ signals:
     void error(QString msg);
 
 private:
-    std::optional<mtx::http::UIAHandler> currentHandler;
-    mtx::user_interactive::Unauthorized currentStatus;
     QString title_;
-
-    // for 3pids like email and phone number
-    std::string client_secret;
-    std::string sid;
-    std::string submit_url;
-    bool email_ = true;
 };

@@ -14,11 +14,10 @@
 
 #include <unordered_set>
 
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "timeline/Permissions.h"
-#include "timeline/TimelineModel.h"
+#include "timeline/TimelineEventTypes.h"
 #include "utils/Utils.h"
 
 namespace {
@@ -157,15 +156,6 @@ SingleImagePackModel::setData(const QModelIndex &index, const QVariant &value, i
 bool
 SingleImagePackModel::isGloballyEnabled() const
 {
-    if (auto roomPacks = cache::getAccountData(mtx::events::EventType::ImagePackRooms)) {
-        if (auto tmp =
-              std::get_if<mtx::events::EphemeralEvent<mtx::events::msc2545::ImagePackRooms>>(
-                &*roomPacks)) {
-            if (tmp->content.rooms.count(roomid_) &&
-                tmp->content.rooms.at(roomid_).count(statekey_))
-                return true;
-        }
-    }
     return false;
 }
 void
@@ -324,31 +314,7 @@ SingleImagePackModel::unconflictingShortcode(const std::string &shortcode)
 std::string
 SingleImagePackModel::unconflictingStatekey(const std::string &roomid, const std::string &key)
 {
-    if (roomid.empty())
-        return key;
-
-    std::unordered_set<std::string> statekeys;
-    auto currentPacks = cache::getStateEventsWithType<mtx::events::msc2545::ImagePack>(roomid);
-    for (const auto &pack : currentPacks) {
-        if (!pack.content.images.empty())
-            statekeys.insert(pack.state_key);
-    }
-    auto defaultPack = cache::getStateEvent<mtx::events::msc2545::ImagePack>(roomid);
-    if (defaultPack && defaultPack->content.images.size()) {
-        statekeys.insert(defaultPack->state_key);
-    }
-
-    if (statekeys.count(key)) {
-        // arbitrary count. More than 64k image packs in a room are unlikely and if you have that,
-        // you probably know what you are doing :)
-        for (int i = 0; i < 64'000; i++) {
-            auto tempCode = key + std::to_string(i);
-            if (!statekeys.count(tempCode)) {
-                return tempCode;
-            }
-        }
-    }
-
+    (void)roomid;
     return key;
 }
 

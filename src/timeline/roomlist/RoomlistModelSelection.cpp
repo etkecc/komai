@@ -7,30 +7,14 @@
 
 #include <QTimer>
 
-#include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
-namespace {
-void
-scheduleLastReadUpdate(const QSharedPointer<TimelineModel> &roomModel, const QString &roomId)
-{
-    if (roomModel.isNull() || roomId.isEmpty())
-        return;
-
-    QTimer::singleShot(0, roomModel.data(), [roomModel, roomId]() {
-        if (!roomModel.isNull())
-            roomModel->updateLastReadId(roomId);
-    });
-}
-}
-
 bool
 RoomlistModel::isCurrentRoomSelection(const QString &roomid) const
 {
-    return (currentRoom_ && currentRoom_->roomId() == roomid) ||
-           (currentRoomPreview_ && currentRoomPreview_->roomid() == roomid);
+    return currentRoomPreview_ && currentRoomPreview_->roomid() == roomid;
 }
 
 void
@@ -39,7 +23,6 @@ RoomlistModel::clearCurrentRoomSelection()
     allowDeferredStartupCurrentRoomRestore_ = false;
     deferredStartupCurrentRoomId_.clear();
     pendingCurrentRoomId_.clear();
-    currentRoom_ = nullptr;
     currentRoomPreview_.reset();
     UserSettings::instance()->setCurrentRoomId(QString());
     notifyCurrentRoomIdChanged();
@@ -50,34 +33,17 @@ RoomlistModel::clearCurrentRoomSelection()
 void
 RoomlistModel::activateMaterializedCurrentRoom(const QString &room_id, bool updateLastMessage)
 {
-    currentRoom_ = models.value(room_id);
-    currentRoomPreview_.reset();
-    if (updateLastMessage)
-        currentRoom_->updateLastMessage();
-    scheduleLastReadUpdate(currentRoom_, room_id);
+    Q_UNUSED(updateLastMessage);
+    currentRoomPreview_ = getRoomPreviewById(room_id);
     notifyCurrentRoomIdChanged();
     scheduleCurrentRoomVisualStateChanged();
-    scheduleCurrentRoomTimelineWarmup(room_id);
 }
 
 bool
 RoomlistModel::trySelectCurrentMaterializedRoom(const QString &roomid)
 {
-    if (!models.contains(roomid))
-        return false;
-
-    deferredStartupCurrentRoomId_.clear();
-    pendingCurrentRoomId_.clear();
-    activateMaterializedCurrentRoom(roomid, true);
-    UserSettings::instance()->setCurrentRoomId(roomid);
-    if (manager)
-        manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_changed_emitted");
-    nhlog::ui()->debug("Switched to: {}", roomid.toStdString());
-
-    if (currentRoom_->isSpace())
-        emit spaceSelected(roomid);
-
-    return true;
+    Q_UNUSED(roomid);
+    return false;
 }
 
 bool
@@ -88,7 +54,6 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
 
     deferredStartupCurrentRoomId_.clear();
     pendingCurrentRoomId_.clear();
-    currentRoom_        = nullptr;
     currentRoomPreview_ = getRoomPreviewById(roomid);
     UserSettings::instance()->setCurrentRoomId(roomid);
 
@@ -115,7 +80,6 @@ RoomlistModel::trySelectCurrentPreviewRoom(const QString &roomid)
 
     deferredStartupCurrentRoomId_.clear();
     pendingCurrentRoomId_.clear();
-    currentRoom_        = nullptr;
     currentRoomPreview_ = getRoomPreviewById(roomid);
 
     if (currentRoomPreview_->isFetched()) {
@@ -192,12 +156,6 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
     if (trySelectCurrentMatrixSummaryRoom(roomid))
         return;
 
-    if (!models.contains(roomid) && cachedJoinedRooms_.contains(roomid))
-        ensureRoomModel(roomid, false, "setCurrentRoom");
-
-    if (trySelectCurrentMaterializedRoom(roomid))
-        return;
-
     if (trySelectCurrentPreviewRoom(roomid))
         return;
 
@@ -212,10 +170,10 @@ RoomlistModel::resumeDeferredStartupCurrentRoomRestore()
 
     const auto roomid = deferredStartupCurrentRoomId_;
 
-    if (currentRoom_ || currentRoomPreview_)
+    if (currentRoomPreview_)
         return;
 
-    if (!matrixJoinedRooms_.contains(roomid) && !cachedJoinedRooms_.contains(roomid))
+    if (!matrixJoinedRooms_.contains(roomid))
         return;
 
     allowDeferredStartupCurrentRoomRestore_ = true;

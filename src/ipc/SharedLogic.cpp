@@ -13,25 +13,19 @@
 #include <QMimeDatabase>
 #include <QPointer>
 
-#include <nlohmann/json.hpp>
-
 #include <optional>
 
-#include <mtx/events/collections.hpp>
 #include <mtx/responses/media.hpp>
 
 #include "blurhash.hpp"
 
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "config/komai.h"
-#include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
-#include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
@@ -55,22 +49,6 @@ currentMatrixRuntimeHandleId()
         return std::nullopt;
 
     return mainWindow->matrixBackendHandleId();
-}
-
-QString
-primaryAliasForRoom(const QString &roomId)
-{
-    const auto aliases =
-      cache::getStateEvent<mtx::events::state::CanonicalAlias>(roomId.toStdString());
-    if (!aliases.has_value())
-        return {};
-
-    const auto &value = aliases.value().content;
-    if (!value.alias.empty())
-        return QString::fromStdString(value.alias);
-    if (!value.alt_aliases.empty())
-        return QString::fromStdString(value.alt_aliases.front());
-    return {};
 }
 
 QStringList
@@ -119,33 +97,6 @@ parseTimelineFetchMode(const QString &value)
     return std::nullopt;
 }
 
-QJsonObject
-jsonObjectFromNlohmann(const nlohmann::json &value)
-{
-    const auto encoded = QByteArray::fromStdString(value.dump());
-    return QJsonDocument::fromJson(encoded).object();
-}
-
-mtx::events::collections::TimelineEvents
-materializedTimelineEvent(const std::string &roomId,
-                          const mtx::events::collections::TimelineEvents &event)
-{
-    (void)roomId;
-    return event;
-}
-
-QJsonObject
-serializedTimelineEvent(const std::string &roomId,
-                        const mtx::events::collections::TimelineEvents &event,
-                        const bool includeUnsignedFields)
-{
-    auto serialized = mtx::accessors::serialize_event(materializedTimelineEvent(roomId, event));
-    serialized.erase("room_id");
-    if (!includeUnsignedFields)
-        serialized.erase("unsigned");
-    return jsonObjectFromNlohmann(serialized);
-}
-
 struct TimelineSlice
 {
     QJsonArray events;
@@ -153,84 +104,160 @@ struct TimelineSlice
     QString nextBeforeEventId = {};
 };
 
-bool
-hasOlderCachedTimelineEvents(const std::string &roomId,
-                             const std::uint64_t nextIndex,
-                             const std::uint64_t rangeFirst)
+QString
+matrixTimelineEventId(const komai::MatrixTimelineItem &item)
 {
-    if (nextIndex < rangeFirst)
-        return false;
+    return item.eventId.isEmpty() ? item.itemId : item.eventId;
+}
 
-    for (std::uint64_t idx = nextIndex;; --idx) {
-        if (cache::getTimelineEventId(roomId, idx).has_value())
-            return true;
+bool
+shouldExposeMatrixTimelineItemOverIpc(const komai::MatrixTimelineItem &item)
+{
+    return item.itemKind != QStringLiteral("date_divider");
+}
 
-        if (idx == rangeFirst)
-            break;
+QString
+matrixTimelineItemMsgType(const QString &itemKind)
+{
+    if (itemKind == QStringLiteral("notice"))
+        return QStringLiteral("m.notice");
+    if (itemKind == QStringLiteral("emote"))
+        return QStringLiteral("m.emote");
+    if (itemKind == QStringLiteral("image"))
+        return QStringLiteral("m.image");
+    if (itemKind == QStringLiteral("video"))
+        return QStringLiteral("m.video");
+    if (itemKind == QStringLiteral("audio"))
+        return QStringLiteral("m.audio");
+    if (itemKind == QStringLiteral("file"))
+        return QStringLiteral("m.file");
+    return QStringLiteral("m.text");
+}
+
+QJsonObject
+serializedMatrixTimelineItem(const QString &roomId,
+                             const komai::MatrixTimelineItem &item,
+                             bool includeUnsignedFields)
+{
+    QJsonObject content{
+      {QStringLiteral("body"), item.body},
+      {QStringLiteral("msgtype"), matrixTimelineItemMsgType(item.itemKind)},
+      {QStringLiteral("komai_item_kind"), item.itemKind},
+    };
+
+    if (!item.formattedBody.isEmpty())
+        content.insert(QStringLiteral("formatted_body"), item.formattedBody);
+    if (!item.mediaUrl.isEmpty())
+        content.insert(QStringLiteral("url"), item.mediaUrl);
+    if (!item.thumbnailUrl.isEmpty())
+        content.insert(QStringLiteral("thumbnail_url"), item.thumbnailUrl);
+    if (!item.fileName.isEmpty())
+        content.insert(QStringLiteral("filename"), item.fileName);
+    if (!item.mimeType.isEmpty())
+        content.insert(QStringLiteral("mimetype"), item.mimeType);
+
+    QJsonObject event{
+      {QStringLiteral("event_id"), matrixTimelineEventId(item)},
+      {QStringLiteral("room_id"), roomId},
+      {QStringLiteral("sender"), item.senderId},
+      {QStringLiteral("origin_server_ts"), static_cast<qint64>(item.timestamp)},
+      {QStringLiteral("type"), QStringLiteral("m.room.message")},
+      {QStringLiteral("content"), content},
+    };
+
+    if (includeUnsignedFields) {
+        event.insert(QStringLiteral("unsigned"),
+                     QJsonObject{
+                       {QStringLiteral("komai_item_id"), item.itemId},
+                       {QStringLiteral("delivery_state"), item.deliveryState},
+                     });
     }
 
-    return false;
+    return event;
 }
 
 std::optional<TimelineSlice>
-sliceTimelineFromCache(const std::string &roomId,
-                       const QString &beforeEventId,
-                       const int limit,
-                       const bool includeUnsignedFields,
-                       QString *error)
+sliceTimelineFromActiveMatrixTimeline(const QString &roomId,
+                                      const QString &beforeEventId,
+                                      const int limit,
+                                      const bool includeUnsignedFields,
+                                      QString *error)
 {
     TimelineSlice slice;
-
-    const auto range = cache::getTimelineRange(roomId);
-    if (!range.has_value())
-        return slice;
-
-    std::uint64_t startIndex = range->last;
-    if (!beforeEventId.isEmpty()) {
-        const auto anchorIndex = cache::getTimelineIndex(roomId, beforeEventId.toStdString());
-        if (!anchorIndex.has_value()) {
-            if (error)
-                *error =
-                  QStringLiteral("beforeEventId not found in local timeline: ") + beforeEventId;
-            return std::nullopt;
-        }
-
-        if (*anchorIndex == range->first)
-            return slice;
-
-        startIndex = *anchorIndex - 1;
+    auto *roomlist = currentRoomlistModel();
+    if (!roomlist) {
+        if (error)
+            *error = QStringLiteral("room list is not available");
+        return std::nullopt;
     }
 
-    if (startIndex < range->first)
-        return slice;
+    if (roomlist->currentRoomId() != roomId) {
+        if (error)
+            *error = QStringLiteral("timeline IPC currently supports only the active room");
+        return std::nullopt;
+    }
 
-    std::optional<std::uint64_t> nextIndexToProbe;
-    for (std::uint64_t idx = startIndex;; --idx) {
-        const auto eventId = cache::getTimelineEventId(roomId, idx);
-        if (eventId.has_value()) {
-            const auto event = cache::getEvent(roomId, *eventId);
-            if (event.has_value()) {
-                slice.events.append(serializedTimelineEvent(roomId, *event, includeUnsignedFields));
-                if (slice.events.size() >= limit) {
-                    nextIndexToProbe =
-                      (idx > range->first) ? std::optional<std::uint64_t>(idx - 1) : std::nullopt;
-                    break;
-                }
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (error)
+            *error = QStringLiteral("matrix-sdk runtime is not active");
+        return std::nullopt;
+    }
+
+    QString backendError;
+    const auto items =
+      komai::MatrixBackendRuntimeService::fetchActiveRoomTimeline(*handleId, &backendError);
+    if (!items.has_value()) {
+        if (error)
+            *error = backendError.isEmpty() ? QStringLiteral("failed to fetch active room timeline")
+                                            : backendError;
+        return std::nullopt;
+    }
+
+    int startIndex = 0;
+    if (!beforeEventId.isEmpty()) {
+        startIndex = -1;
+        for (int idx = 0; idx < items->size(); ++idx) {
+            if (matrixTimelineEventId(items->at(idx)) == beforeEventId) {
+                startIndex = idx + 1;
+                break;
             }
         }
 
-        if (idx == range->first)
+        if (startIndex < 0) {
+            if (error)
+                *error =
+                  QStringLiteral("beforeEventId not found in active matrix timeline: ") +
+                  beforeEventId;
+            return std::nullopt;
+        }
+    }
+
+    int nextIndex = startIndex;
+    for (int idx = startIndex; idx < items->size(); ++idx) {
+        const auto &item = items->at(idx);
+        if (!shouldExposeMatrixTimelineItemOverIpc(item))
+            continue;
+
+        slice.events.append(serializedMatrixTimelineItem(roomId, item, includeUnsignedFields));
+        nextIndex = idx + 1;
+        if (slice.events.size() >= limit)
             break;
     }
 
-    if (nextIndexToProbe.has_value())
-        slice.hasMoreLocal = hasOlderCachedTimelineEvents(roomId, *nextIndexToProbe, range->first);
+    for (int idx = nextIndex; idx < items->size(); ++idx) {
+        if (shouldExposeMatrixTimelineItemOverIpc(items->at(idx))) {
+            slice.hasMoreLocal = true;
+            break;
+        }
+    }
 
-    if (!slice.events.isEmpty())
+    if (!slice.events.isEmpty()) {
         slice.nextBeforeEventId = slice.events.at(slice.events.size() - 1)
                                     .toObject()
                                     .value(QStringLiteral("event_id"))
                                     .toString();
+    }
 
     return slice;
 }
@@ -259,7 +286,6 @@ public:
                           komai::ipc::ReadTimelineCallback callback)
       : QObject(ChatPage::instance())
       , roomId_{roomId}
-      , roomIdStd_{roomId.toStdString()}
       , limit_{limit}
       , beforeEventId_{beforeEventId}
       , includeUnsignedFields_{includeUnsignedFields}
@@ -286,8 +312,8 @@ private:
     bool refreshSlice()
     {
         QString error;
-        const auto slice = sliceTimelineFromCache(
-          roomIdStd_, beforeEventId_, limit_, includeUnsignedFields_, &error);
+        const auto slice = sliceTimelineFromActiveMatrixTimeline(
+          roomId_, beforeEventId_, limit_, includeUnsignedFields_, &error);
         if (!slice.has_value()) {
             fail(error);
             return false;
@@ -313,7 +339,6 @@ private:
     }
 
     QString roomId_;
-    std::string roomIdStd_;
     int limit_;
     QString beforeEventId_;
     bool includeUnsignedFields_;
@@ -392,7 +417,7 @@ roomList()
 
         result.push_back({
           .roomId                     = roomId,
-          .alias                      = primaryAliasForRoom(roomId),
+          .alias                      = {},
           .name                       = rl->data(index, RoomlistModel::RoomName).toString(),
           .avatarUrl                  = rl->data(index, RoomlistModel::AvatarUrl).toString(),
           .read                       = !rl->data(index, RoomlistModel::HasUnreadMessages).toBool(),
@@ -501,14 +526,16 @@ resolveRoomId(const QString &roomIdOrAlias)
     if (roomIdOrAlias.startsWith(QLatin1Char('!')))
         return roomIdOrAlias;
 
-    if (roomIdOrAlias.startsWith(QLatin1Char('#'))) {
-        const auto rooms  = cache::roomNamesAndAliases();
-        const auto needle = roomIdOrAlias.toStdString();
-        for (const auto &room : rooms) {
-            if (room.alias == needle)
-                return QString::fromStdString(room.id);
-        }
+    auto *roomlist = currentRoomlistModel();
+    if (!roomlist)
+        return {};
+
+    for (int row = 0; row < roomlist->rowCount(); ++row) {
+        const auto roomId = roomlist->data(roomlist->index(row, 0), RoomlistModel::RoomId).toString();
+        if (roomId == roomIdOrAlias)
+            return roomId;
     }
+
     return {};
 }
 

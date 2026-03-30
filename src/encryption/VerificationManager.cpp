@@ -41,7 +41,7 @@ VerificationManager::VerificationManager(TimelineViewManager *o)
 void
 VerificationManager::receivedRoomDeviceVerificationRequest(
   const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationRequest> &message,
-  TimelineModel *model)
+  QObject *model)
 {
     Q_UNUSED(message);
     Q_UNUSED(model);

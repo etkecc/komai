@@ -8,8 +8,6 @@
 #include <algorithm>
 #include <set>
 
-#include "cache/Cache.h"
-
 PowerlevelsUserListModel::PowerlevelsUserListModel(
   const std::string &rid,
   const mtx::events::state::PowerLevels &pl,
@@ -51,13 +49,12 @@ PowerlevelsUserListModel::PowerlevelsUserListModel(
             seen_levels.insert(level);
         }
     }
-    if (create_.content.room_version_creators_with_infinite_power()) {
-        users.push_back(Entry{"", mtx::events::state::Creator});
-        seen_levels.insert(mtx::events::state::Creator);
+    if (komai::matrix::createEventCreatorsHaveInfinitePower(create_)) {
+        users.push_back(Entry{"", komai::powerlevels::CreatorPowerLevel});
+        seen_levels.insert(komai::powerlevels::CreatorPowerLevel);
 
-        users.push_back(Entry{create_.sender, mtx::events::state::Creator});
-        for (const auto &user : create_.content.additional_creators)
-            users.push_back(Entry{user, mtx::events::state::Creator});
+        for (const auto &user : komai::matrix::createEventCreators(create_))
+            users.push_back(Entry{user, komai::powerlevels::CreatorPowerLevel});
     }
 
     users.push_back(Entry{"default", powerLevels_.users_default});
@@ -75,7 +72,7 @@ PowerlevelsUserListModel::toUsers() const
 {
     std::map<std::string, mtx::events::state::power_level_t, std::less<>> m;
     for (const auto &[key, pl] : std::as_const(users))
-        if (key.size() > 0 && key.at(0) == '@' && pl != mtx::events::state::Creator)
+        if (key.size() > 0 && key.at(0) == '@' && pl != komai::powerlevels::CreatorPowerLevel)
             m[key] = pl;
     return m;
 }
@@ -119,15 +116,15 @@ PowerlevelsUserListModel::data(const QModelIndex &index, int role) const
     case DisplayName:
         if (user.mxid == "default")
             return tr("Other users");
-        return QString::fromStdString(cache::displayName(room_id, user.mxid));
+        return QString::fromStdString(user.mxid);
     case AvatarUrl:
-        return cache::avatarUrl(QString::fromStdString(room_id), QString::fromStdString(user.mxid));
+        return {};
     case Powerlevel:
         return static_cast<qlonglong>(user.pl);
     case IsUser:
         return !user.mxid.empty();
     case Moveable:
-        return !user.mxid.empty() && user.pl != mtx::events::state::Creator;
+        return !user.mxid.empty() && user.pl != komai::powerlevels::CreatorPowerLevel;
     case Removeable:
         return !user.mxid.empty() && user.mxid.find('.') != std::string::npos;
     }
@@ -221,14 +218,14 @@ PowerlevelsUserListModel::moveRows(const QModelIndex &,
 
     if (users.at(sourceRow).mxid.empty())
         return false;
-    if (users.at(sourceRow).pl == mtx::events::state::Creator)
+    if (users.at(sourceRow).pl == komai::powerlevels::CreatorPowerLevel)
         return false;
     if (destinationChild < users.size() &&
-        users.at(destinationChild).pl == mtx::events::state::Creator)
+        users.at(destinationChild).pl == komai::powerlevels::CreatorPowerLevel)
         return false;
 
     auto pl = users.at(destinationChild > 0 ? destinationChild - 1 : 0).pl;
-    if (pl == mtx::events::state::Creator)
+    if (pl == komai::powerlevels::CreatorPowerLevel)
         return false;
 
     auto sourceItem = users.takeAt(sourceRow);

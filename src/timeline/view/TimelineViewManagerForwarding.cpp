@@ -7,111 +7,69 @@
 
 #include <optional>
 
-#include <mtx/responses/media.hpp>
-
-#include "RoomlistModel.h"
-#include "TimelineModel.h"
-#include "cache/Cache.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "ui/MainWindow.h"
-#include "utils/Utils.h"
-
-namespace {
-struct nonesuch
-{
-    ~nonesuch()                      = delete;
-    nonesuch(nonesuch const &)       = delete;
-    void operator=(nonesuch const &) = delete;
-};
-
-namespace detail {
-template<class Default, class AlwaysVoid, template<class...> class Op, class... Args>
-struct detector
-{
-    using value_t = std::false_type;
-    using type    = Default;
-};
-
-template<class Default, template<class...> class Op, class... Args>
-struct detector<Default, std::void_t<Op<Args...>>, Op, Args...>
-{
-    using value_t = std::true_type;
-    using type    = Op<Args...>;
-};
-
-} // namespace detail
-
-template<template<class...> class Op, class... Args>
-using is_detected = typename detail::detector<nonesuch, void, Op, Args...>::value_t;
-
-template<class Content>
-using file_t = decltype(Content::file);
-
-template<class Content>
-using url_t = decltype(Content::url);
-
-template<class Content>
-using body_t = decltype(Content::body);
-
-template<class Content>
-using formatted_body_t = decltype(Content::formatted_body);
-
-template<typename T>
-static constexpr bool
-messageWithFileAndUrl(const mtx::events::Event<T> &)
-{
-    return is_detected<file_t, T>::value && is_detected<url_t, T>::value;
-}
-
-template<typename T>
-static constexpr void
-removeReplyFallback(mtx::events::Event<T> &e)
-{
-    if constexpr (is_detected<body_t, T>::value) {
-        if constexpr (std::is_same_v<std::optional<std::string>,
-                                     std::remove_cv_t<decltype(e.content.body)>>) {
-            if (e.content.body) {
-                e.content.body = utils::stripReplyFromBody(e.content.body);
-            }
-        } else if constexpr (std::is_same_v<std::string,
-                                            std::remove_cv_t<decltype(e.content.body)>>) {
-            e.content.body = utils::stripReplyFromBody(e.content.body);
-        }
-    }
-
-    if constexpr (is_detected<formatted_body_t, T>::value) {
-        if (e.content.format == "org.matrix.custom.html") {
-            e.content.formatted_body = utils::stripReplyFromFormattedBody(e.content.formatted_body);
-        }
-    }
-}
-} // namespace
 
 void
-TimelineViewManager::forwardMessageToRoom(mtx::events::collections::TimelineEvents const *e,
+TimelineViewManager::forwardMessageToRoom(mtx::events::collections::TimelineEvents const *event,
                                           QString roomId)
 {
-    auto room                                                = rooms_->getRoomById(roomId);
-    std::optional<mtx::crypto::EncryptedFile> encryptionInfo = mtx::accessors::file(*e);
+    if (!event)
+        return;
 
-    if (encryptionInfo && !cache::isRoomEncrypted(roomId.toStdString())) {
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    const auto targetId = roomId.trimmed();
+    if (handleId == 0 || targetId.isEmpty()) {
         nhlog::ui()->warn(
-          "Forwarding encrypted media into unencrypted rooms is not migrated to matrix-sdk yet");
-        MainWindow::instance()->showNotification(
-          tr("Forwarding encrypted media into unencrypted rooms is not available yet."));
+          "Refusing to forward a legacy timeline event without an active matrix-sdk runtime or "
+          "target room");
         return;
     }
 
-    std::visit(
-      [room](auto e) {
-          constexpr auto type = mtx::events::message_content_to_type<decltype(e.content)>;
-          if constexpr (type == mtx::events::EventType::RoomMessage ||
-                        type == mtx::events::EventType::Sticker) {
-              e.content.relations.relations.clear();
-              removeReplyFallback(e);
-              room->sendMessageEvent(e.content, type);
-          }
-      },
-      *e);
+    const auto messageType = mtx::accessors::msg_type(*event);
+    const auto body        = QString::fromStdString(mtx::accessors::body(*event)).trimmed();
+
+    if (messageType == mtx::events::MessageType::Text ||
+        messageType == mtx::events::MessageType::Notice ||
+        messageType == mtx::events::MessageType::Emote) {
+        QString messageKind;
+        switch (messageType) {
+        case mtx::events::MessageType::Text:
+            messageKind = QStringLiteral("m.text");
+            break;
+        case mtx::events::MessageType::Notice:
+            messageKind = QStringLiteral("m.notice");
+            break;
+        case mtx::events::MessageType::Emote:
+            messageKind = QStringLiteral("m.emote");
+            break;
+        default:
+            break;
+        }
+        QString error;
+        if (!komai::MatrixBackendRuntimeService::sendRoomMessage(
+              handleId,
+              targetId,
+              body,
+              QString::fromStdString(mtx::accessors::formatted_body(*event)),
+              messageKind,
+              &error)) {
+            nhlog::ui()->warn("Failed to forward matrix message to '{}': {}",
+                              targetId.toStdString(),
+                              error.toStdString());
+            if (mainWindow)
+                mainWindow->showNotification(tr("Failed to forward message: %1").arg(error));
+        }
+        return;
+    }
+
+    nhlog::ui()->warn("Forwarding non-text legacy timeline events is not migrated to matrix-sdk "
+                      "yet (target='{}', msgtype='{}')",
+                      targetId.toStdString(),
+                      static_cast<int>(messageType));
+    if (mainWindow)
+        mainWindow->showNotification(tr("Forwarding this message type is not migrated yet."));
 }

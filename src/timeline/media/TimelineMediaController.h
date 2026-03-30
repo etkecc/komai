@@ -9,15 +9,13 @@
 
 #include <functional>
 
-#include "timeline/EventStore.h"
-
 namespace timeline::media {
 class TimelineMediaController final
 {
 public:
     using MediaCachedCallback = std::function<void(const QString &, const QString &)>;
 
-    TimelineMediaController(QString roomId, EventStore &events, MediaCachedCallback mediaCached);
+    TimelineMediaController(QString roomId, MediaCachedCallback mediaCached);
 
     void openMedia(const QString &eventId) const;
     bool saveMedia(const QString &eventId) const;
@@ -27,7 +25,6 @@ public:
 
 private:
     QString roomId_;
-    EventStore &events_;
     MediaCachedCallback mediaCached_;
 };
 }

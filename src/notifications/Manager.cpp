@@ -5,7 +5,6 @@
 
 #include "notifications/Manager.h"
 
-#include "cache/Cache.h"
 #include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
@@ -13,18 +12,14 @@
 bool
 NotificationsManager::allowShowingImages(const mtx::responses::Notification &notification)
 {
+    (void)notification;
     auto show = UserSettings::instance()->timelineMediaImageDisplay();
 
     switch (show) {
     case UserSettings::ShowImage::Always:
         return true;
-    case UserSettings::ShowImage::OnlyPrivate: {
-        auto accessRules = cache::getStateEvent<mtx::events::state::JoinRules>(notification.room_id)
-                             .value_or(mtx::events::StateEvent<mtx::events::state::JoinRules>{})
-                             .content;
-
-        return accessRules.join_rule != mtx::events::state::JoinRule::Public;
-    }
+    case UserSettings::ShowImage::OnlyPrivate:
+        return false;
     case UserSettings::ShowImage::Never:
     default:
         return false;
@@ -35,8 +30,7 @@ QString
 NotificationsManager::getMessageTemplate(const mtx::responses::Notification &notification)
 {
     const auto sender =
-      cache::displayName(QString::fromStdString(notification.room_id),
-                         QString::fromStdString(mtx::accessors::sender(notification.event)));
+      QString::fromStdString(mtx::accessors::sender(notification.event));
     const auto messageContentPolicy = UserSettings::instance()->notificationsMessageContentPolicy();
 
     if (messageContentPolicy == UserSettings::NotificationMessageContentPolicy::Never)
@@ -81,18 +75,10 @@ void
 NotificationsManager::removeNotifications(const QString &roomId_,
                                           const std::vector<QString> &eventIds)
 {
-    std::string room_id = roomId_.toStdString();
-
-    std::uint64_t markerPos = 0;
-    for (const auto &e : eventIds) {
-        markerPos = std::max(markerPos, cache::getEventIndex(room_id, e.toStdString()).value_or(0));
-    }
-
     for (const auto &[roomId, eventId] : std::as_const(this->notificationIds)) {
         if (roomId != roomId_)
             continue;
-        auto idx = cache::getEventIndex(room_id, eventId.toStdString());
-        if (!idx || markerPos >= idx) {
+        if (std::find(eventIds.begin(), eventIds.end(), eventId) != eventIds.end()) {
             removeNotification(roomId, eventId);
         }
     }

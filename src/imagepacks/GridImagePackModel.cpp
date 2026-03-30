@@ -10,7 +10,6 @@
 
 #include <algorithm>
 
-#include "cache/Cache.h"
 #include "emoji/Provider.h"
 
 static QString
@@ -86,30 +85,6 @@ GridImagePackModel::GridImagePackModel(const std::string &roomId, bool stickers,
                 rowToPack.push_back(packs.size());
             packs.push_back(std::move(newPack));
         }
-    }
-
-    auto originalPacks = cache::getImagePacks(room_id, stickers);
-
-    for (auto &pack : originalPacks) {
-        PackDesc newPack{};
-        newPack.packname =
-          pack.pack.pack ? QString::fromStdString(pack.pack.pack->display_name) : QString();
-        newPack.packavatar =
-          pack.pack.pack ? QString::fromStdString(pack.pack.pack->avatar_url) : QString();
-        newPack.room_id   = pack.source_room;
-        newPack.state_key = pack.state_key;
-
-        newPack.images.resize(pack.pack.images.size());
-        std::ranges::transform(std::move(pack.pack.images), newPack.images.begin(), [](auto &&img) {
-            return std::pair(std::move(img.second), QString::fromStdString(img.first));
-        });
-
-        size_t packRowCount =
-          (newPack.images.size() / columns) + (newPack.images.size() % columns ? 1 : 0);
-        newPack.firstRow = rowToPack.size();
-        for (size_t i = 0; i < packRowCount; i++)
-            rowToPack.push_back(packs.size());
-        packs.push_back(std::move(newPack));
     }
 
     // prepare search index
@@ -308,8 +283,7 @@ GridImagePackModel::nameFromPack(const PackDesc &pack) const
     }
 
     if (!pack.room_id.empty()) {
-        auto info = cache::singleRoomInfo(pack.room_id);
-        return QString::fromStdString(info.name);
+        return QString::fromStdString(pack.room_id);
     }
 
     return tr("Account Pack");

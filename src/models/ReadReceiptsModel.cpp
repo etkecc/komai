@@ -7,8 +7,6 @@
 
 #include <QLocale>
 
-#include "cache/Cache.h"
-#include "logging/Logging.h"
 #include "utils/Utils.h"
 
 ReadReceiptsModel::ReadReceiptsModel(QString event_id, QString room_id, QObject *parent)
@@ -16,17 +14,6 @@ ReadReceiptsModel::ReadReceiptsModel(QString event_id, QString room_id, QObject 
   , event_id_{event_id}
   , room_id_{room_id}
 {
-    try {
-        setUsers(cache::readReceipts(event_id_, room_id_));
-    } catch (const std::exception &) {
-        nhlog::db()->warn("failed to retrieve read receipts for {} {}",
-                          event_id_.toStdString(),
-                          room_id_.toStdString());
-
-        return;
-    }
-
-    cache::onReadReceiptsChanged(this, [this] { update(); });
 }
 
 ReadReceiptsModel::ReadReceiptsModel(QVector<ReadReceiptEntry> entries,
@@ -41,15 +28,7 @@ ReadReceiptsModel::ReadReceiptsModel(QVector<ReadReceiptEntry> entries,
 void
 ReadReceiptsModel::update()
 {
-    try {
-        setUsers(cache::readReceipts(event_id_, room_id_));
-    } catch (const std::exception &) {
-        nhlog::db()->warn("failed to retrieve read receipts for {} {}",
-                          event_id_.toStdString(),
-                          room_id_.toStdString());
-
-        return;
-    }
+    // The cache-backed receipt lookup path is intentionally removed.
 }
 
 QHash<int, QByteArray>
@@ -76,11 +55,11 @@ ReadReceiptsModel::data(const QModelIndex &index, int role) const
     case DisplayName:
         if (!readReceipts_[index.row()].displayName.isEmpty())
             return readReceipts_[index.row()].displayName;
-        return cache::displayName(room_id_, readReceipts_[index.row()].mxid);
+        return readReceipts_[index.row()].mxid;
     case AvatarUrl:
         if (!readReceipts_[index.row()].avatarUrl.isEmpty())
             return readReceipts_[index.row()].avatarUrl;
-        return cache::avatarUrl(room_id_, readReceipts_[index.row()].mxid);
+        return {};
     case Timestamp:
         return dateFormat(readReceipts_[index.row()].rawTimestamp);
     case RawTimestamp:

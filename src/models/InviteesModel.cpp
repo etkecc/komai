@@ -6,9 +6,8 @@
 #include "models/InviteesModel.h"
 
 #include "logging/Logging.h"
-#include "timeline/TimelineModel.h"
 
-InviteesModel::InviteesModel(TimelineModel *room, QObject *parent)
+InviteesModel::InviteesModel(QObject *room, QObject *parent)
   : QAbstractListModel{parent}
   , room_{room}
 {

@@ -15,13 +15,24 @@
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
 #include <QDBusUnixFileDescriptor>
-#include <mtxclient/utils.hpp>
+#include <QRandomGenerator>
 #include <random>
 
 static QString
 make_token()
 {
-    return QString::fromStdString("komai" + mtx::client::utils::random_token(64, false));
+    static constexpr char Alphabet[] =
+      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    QString token = QStringLiteral("komai");
+    token.reserve(token.size() + 64);
+    auto *rng = QRandomGenerator::global();
+    for (int i = 0; i < 64; ++i) {
+        token.append(
+          QLatin1Char(Alphabet[rng->bounded(static_cast<int>(std::size(Alphabet) - 1))]));
+    }
+
+    return token;
 }
 
 static QString

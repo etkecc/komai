@@ -25,7 +25,7 @@
 #include "utils/Utils.h"
 
 void
-TimelineViewManager::openMediaOverlay(TimelineModel *room,
+TimelineViewManager::openMediaOverlay(QObject *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
                                       double originalWidth,
@@ -40,7 +40,7 @@ TimelineViewManager::openMediaOverlay(TimelineModel *room,
 }
 
 void
-TimelineViewManager::openMediaOverlayWithContext(TimelineModel *room,
+TimelineViewManager::openMediaOverlayWithContext(QObject *room,
                                                  const QString &mxcUrl,
                                                  const QString &eventId,
                                                  double originalWidth,
@@ -65,7 +65,7 @@ TimelineViewManager::openMediaOverlayWithContext(TimelineModel *room,
 }
 
 void
-TimelineViewManager::openMediaOverlay(TimelineModel *room,
+TimelineViewManager::openMediaOverlay(QObject *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
                                       double originalWidth,
@@ -89,7 +89,7 @@ TimelineViewManager::openMediaOverlay(TimelineModel *room,
 }
 
 void
-TimelineViewManager::openMediaOverlayWithContext(TimelineModel *room,
+TimelineViewManager::openMediaOverlayWithContext(QObject *room,
                                                  const QString &mxcUrl,
                                                  const QString &eventId,
                                                  double originalWidth,

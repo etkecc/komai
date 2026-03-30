@@ -5,43 +5,10 @@
 
 #include "EventExpiry.h"
 
-#include <optional>
-#include <string_view>
-
-#include <nlohmann/json.hpp>
-
-#include "cache/Cache.h"
 #include "logging/Logging.h"
-#include "timeline/TimelineModel.h"
 #include "ui/MainWindow.h"
 
 namespace {
-using EventExpiryContent = mtx::events::account_data::nheko_extensions::EventExpiry;
-constexpr std::string_view KOMAI_EVENT_EXPIRY_TYPE = "cc.etke.komai.event_expiry";
-
-std::optional<EventExpiryContent>
-parseEventExpiryFromRawAccountData(const std::string &eventJson)
-{
-    try {
-        const auto parsedEvent = nlohmann::json::parse(eventJson);
-        if (!parsedEvent.is_object() || !parsedEvent.contains("content"))
-            return std::nullopt;
-
-        return parsedEvent.at("content").get<EventExpiryContent>();
-    } catch (const std::exception &) {
-        return std::nullopt;
-    }
-}
-
-void
-loadEventExpiryForRoom(const std::string &roomId, EventExpiryContent &event)
-{
-    if (auto raw = cache::getAccountDataByType(std::string(KOMAI_EVENT_EXPIRY_TYPE), roomId)) {
-        if (auto content = parseEventExpiryFromRawAccountData(*raw))
-            event = std::move(*content);
-    }
-}
-
 void
 notifyEventExpirySaveUnavailable()
 {
@@ -55,11 +22,6 @@ void
 EventExpiry::load()
 {
     this->event = {};
-    loadEventExpiryForRoom("", this->event);
-
-    if (!roomid_.isEmpty())
-        loadEventExpiryForRoom(roomid_.toStdString(), this->event);
-
     emit expireEventsAfterDaysChanged();
     emit expireEventsAfterCountChanged();
     emit protectLatestEventsChanged();

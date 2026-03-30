@@ -546,8 +546,7 @@ FilteredRoomlistModel::toggleTag(const QString &roomid, const QString &tag, bool
 void
 FilteredRoomlistModel::copyLink(QString roomid)
 {
-    auto link = QStringLiteral("%1?%2").arg(TimelineModel::getBareRoomLink(roomid),
-                                            TimelineModel::getRoomVias(roomid));
+    const auto link = QStringLiteral("https://matrix.to/#/%1").arg(roomid);
     QGuiApplication::clipboard()->setText(link);
 }
 

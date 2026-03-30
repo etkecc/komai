@@ -9,9 +9,13 @@
 #include <QQmlEngine>
 #include <QSortFilterProxyModel>
 
-#include <mtx/events/create.hpp>
 #include <mtx/events/event_type.hpp>
-#include <mtx/events/power_levels.hpp>
+
+#include "matrix/MatrixPowerLevelCompat.h"
+
+namespace komai::powerlevels {
+inline constexpr auto CreatorPowerLevel = komai::matrix::CreatorPowerLevel;
+}
 
 class PowerlevelsTypeListModel final : public QAbstractListModel
 {
@@ -234,10 +238,10 @@ public:
     PowerlevelsUserListModel *users() { return &users_; }
     PowerlevelsTypeListModel *types() { return &types_; }
     PowerlevelsSpacesListModel *spaces() { return &spaces_; }
-    qlonglong creatorLevel() const { return mtx::events::state::Creator; }
+    qlonglong creatorLevel() const { return komai::powerlevels::CreatorPowerLevel; }
     qlonglong adminLevel() const
     {
-        return powerLevels_.state_level(to_string(mtx::events::EventType::RoomPowerLevels));
+        return powerLevels_.state_level("m.room.power_levels");
     }
     qlonglong moderatorLevel() const { return powerLevels_.redact; }
     qlonglong defaultUserLevel() const { return powerLevels_.users_default; }

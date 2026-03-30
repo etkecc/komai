@@ -9,11 +9,10 @@
 
 #include <set>
 
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "timeline/Permissions.h"
-#include "timeline/TimelineModel.h"
+#include "timeline/TimelineEventTypes.h"
 
 namespace {
 void
@@ -30,9 +29,7 @@ notifyAliasEditingUnavailable()
 AliasEditingModel::AliasEditingModel(const std::string &rid, QObject *parent)
   : QAbstractListModel(parent)
   , room_id(rid)
-  , aliasEvent(cache::getStateEvent<mtx::events::state::CanonicalAlias>(room_id)
-                 .value_or(mtx::events::StateEvent<mtx::events::state::CanonicalAlias>{})
-                 .content)
+  , aliasEvent()
   , canSendStateEvent(
       Permissions(QString::fromStdString(rid)).canChange(qml_mtx_events::CanonicalAlias))
 {

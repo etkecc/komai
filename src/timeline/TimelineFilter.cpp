@@ -5,186 +5,72 @@
 
 #include "TimelineFilter.h"
 
-#include <QCoreApplication>
-#include <QEvent>
-
 #include "TimelineModel.h"
-#include "logging/Logging.h"
-
-/// Searching currently can be done incrementally. For that we define a specific role to filter on
-/// and then process that role in chunk. This is the `FilterRole`. Of course we need to then also
-/// send proper update signals. Filtering then works as follows:
-///
-/// - At first no range is filtered (incrementalSearchIndex == 0).
-/// - Then, when filtering is requested, we start posting events to the
-/// event loop with lower than low priority (low prio - 1). The only thing those events do is
-/// increment the incrementalSearchIndex and emit a dataChanged for that range of events.
-/// - This then causes those events to be reevaluated if they should be visible.
-
-static int FilterRole = Qt::UserRole * 3;
-
-static QEvent::Type
-getFilterEventType()
-{
-    static QEvent::Type t = static_cast<QEvent::Type>(QEvent::registerEventType());
-    return t;
-}
 
 TimelineFilter::TimelineFilter(QObject *parent)
   : QSortFilterProxyModel(parent)
 {
-    setDynamicSortFilter(true);
-    setFilterRole(FilterRole);
+    setDynamicSortFilter(false);
 }
 
 void
 TimelineFilter::startFiltering()
 {
-    incrementalSearchIndex = 0;
+    filteringInProgress_ = false;
+    cachedCount          = rowCount();
     emit isFilteringChanged();
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-    endFilterChange();
-#else
     invalidateFilter();
-#endif
-
-    beginResetModel();
-    endResetModel();
-
-    continueFiltering();
 }
 
 void
 TimelineFilter::continueFiltering()
 {
-    if (auto s = source(); s) {
-        if (s->rowCount() > incrementalSearchIndex) {
-            auto ev = new QEvent(getFilterEventType());
-            // request filtering a new chunk with lower than low priority.
-            QCoreApplication::postEvent(this, ev, Qt::LowEventPriority - 1);
-        } else {
-            // We reached the currently available end. Mark this chunk-pass as done
-            // before trying to fetch more, so fetchAgain() can progress.
-            if (incrementalSearchIndex != std::numeric_limits<int>::max()) {
-                incrementalSearchIndex = std::numeric_limits<int>::max();
-                emit isFilteringChanged();
-            }
-            // We reached the end, so fetch more!
-            fetchAgain();
-        }
-    }
+    startFiltering();
 }
 
 bool
 TimelineFilter::event(QEvent *ev)
 {
-    if (ev->type() == getFilterEventType()) {
-        if (incrementalSearchIndex < std::numeric_limits<int>::max()) {
-            int orgIndex = incrementalSearchIndex;
-            // process the next 100 events by claiming their "filterrole" data has changed.
-            incrementalSearchIndex += 100;
-
-            if (auto s = source(); s) {
-                auto count = s->rowCount();
-                if (incrementalSearchIndex >= count) {
-                    incrementalSearchIndex = std::numeric_limits<int>::max();
-                }
-                nhlog::ui()->debug("Filter progress {}/{}", incrementalSearchIndex, count);
-                s->dataChanged(s->index(orgIndex),
-                               s->index(std::min(incrementalSearchIndex, count - 1)),
-                               {FilterRole});
-
-                continueFiltering();
-            }
-            emit isFilteringChanged();
-        }
-        return true;
-    }
     return QSortFilterProxyModel::event(ev);
 }
 
 void
 TimelineFilter::setThreadId(const QString &t)
 {
-    nhlog::ui()->debug("Filtering by thread '{}'", t.toStdString());
-    if (this->threadId != t) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
-        beginFilterChange();
-#endif
+    if (threadId == t)
+        return;
 
-        this->threadId = t;
-
-        emit threadIdChanged();
-        startFiltering();
-        fetchMore({});
-    }
+    threadId = t;
+    emit threadIdChanged();
+    startFiltering();
 }
 
 void
 TimelineFilter::setFilterNotifications(bool filter)
 {
-    nhlog::ui()->debug("Filtering by notifications '{}'", filter);
-    if (this->filterByNotifications_ != filter) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
-        beginFilterChange();
-#endif
-        this->filterByNotifications_ = filter;
+    if (filterByNotifications_ == filter)
+        return;
 
-        emit filterNotificationsChanged();
-        startFiltering();
-        fetchMore({});
-    }
+    filterByNotifications_ = filter;
+    emit filterNotificationsChanged();
+    startFiltering();
 }
 
 void
 TimelineFilter::setContentFilter(const QString &c)
 {
-    nhlog::ui()->debug("Filtering by content '{}'", c.toStdString());
-    if (this->contentFilter != c) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
-        beginFilterChange();
-#endif
-        this->contentFilter = c;
+    if (contentFilter == c)
+        return;
 
-        emit contentFilterChanged();
-        startFiltering();
-        fetchMore({});
-    }
+    contentFilter = c;
+    emit contentFilterChanged();
+    startFiltering();
 }
 
 void
 TimelineFilter::fetchAgain()
 {
-    if (threadId.isEmpty() && contentFilter.isEmpty())
-        return;
-
-    if (auto s = source(); s && incrementalSearchIndex == std::numeric_limits<int>::max()) {
-        // If we already have the event id of the thread in the timeline and we are filtering by
-        // thread, we can stop fetching more messages In theory an event could have been edited
-        // earlier in the timeline into the thread. So in theory this check is insufficient and
-        // we should instead verify that all events referring to this thread are in the timeline
-        // instead of just the thread root, but only Komai supports that atm and the check would
-        // be expensive.
-        // TODO(Nico): check that all thread referrencing events are in the timeline by also
-        // checking all edits inside the thread.
-        if (!threadId.isEmpty() && s->idToIndex(threadId) != -1) {
-            cachedCount = this->rowCount();
-            return;
-        }
-
-        // Keep fetching as long as more messages are available — from the
-        // virtual window (instant) or the server (HTTP). In original upstream
-        // the data() hack in TimelineModel::data() drove continuous HTTP
-        // pagination during filtering; with the virtual window that hack no
-        // longer fires reliably, so fetchAgain drives the full loop.
-        if (s->canExpandWindow() || s->canFetchMore(QModelIndex())) {
-            cachedCount = this->rowCount();
-            s->fetchMore(QModelIndex());
-        } else {
-            cachedCount = this->rowCount();
-        }
-    }
+    cachedCount = rowCount();
 }
 
 void
@@ -192,136 +78,89 @@ TimelineFilter::sourceDataChanged(const QModelIndex &topLeft,
                                   const QModelIndex &bottomRight,
                                   const QVector<int> &roles)
 {
-    if (!roles.contains(TimelineModel::Roles::Body) && !roles.contains(TimelineModel::ThreadId) &&
-        !roles.contains(TimelineModel::Notificationlevel))
-        return;
+    Q_UNUSED(topLeft);
+    Q_UNUSED(bottomRight);
 
-    if (auto s = source()) {
-        s->dataChanged(topLeft, bottomRight, {FilterRole});
+    if (!roles.contains(TimelineModel::Roles::Body) && !roles.contains(TimelineModel::ThreadId) &&
+        !roles.contains(TimelineModel::Notificationlevel)) {
+        return;
     }
+
+    invalidateFilter();
 }
 
 void
-TimelineFilter::setSource(TimelineModel *s)
+TimelineFilter::setSource(QAbstractItemModel *s)
 {
-    if (auto orig = this->source(); orig != s) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        beginFilterChange();
-#endif
+    if (sourceModel() == s)
+        return;
 
-        cachedCount            = 0;
-        incrementalSearchIndex = 0;
-
-        if (orig) {
-            disconnect(orig,
-                       &TimelineModel::currentIndexChanged,
-                       this,
-                       &TimelineFilter::currentIndexChanged);
-            disconnect(orig, &TimelineModel::fetchedMore, this, &TimelineFilter::fetchAgain);
-            disconnect(orig, &TimelineModel::dataChanged, this, &TimelineFilter::sourceDataChanged);
-        }
-
-        this->setSourceModel(s);
-
-        if (s) {
-            connect(
-              s, &TimelineModel::currentIndexChanged, this, &TimelineFilter::currentIndexChanged);
-            connect(s,
-                    &TimelineModel::fetchedMore,
-                    this,
-                    &TimelineFilter::fetchAgain,
-                    Qt::QueuedConnection);
-            connect(s,
-                    &TimelineModel::dataChanged,
-                    this,
-                    &TimelineFilter::sourceDataChanged,
-                    Qt::QueuedConnection);
-        }
-
-        // reset the search index a second time just to be safe.
-        incrementalSearchIndex = 0;
-
-        emit sourceChanged();
-        emit isFilteringChanged();
-
-        // If filtering is already requested (search/notifications/thread), re-kick
-        // the incremental loop when attaching a new source model.
-        if (s && (!threadId.isEmpty() || !contentFilter.isEmpty() || filterByNotifications_))
-            continueFiltering();
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        endFilterChange();
-#else
-        invalidateFilter();
-#endif
-    }
+    setSourceModel(s);
+    cachedCount            = rowCount();
+    incrementalSearchIndex = 0;
+    emit sourceChanged();
+    emit isFilteringChanged();
+    invalidateFilter();
 }
 
-TimelineModel *
+QAbstractItemModel *
 TimelineFilter::source() const
 {
-    return qobject_cast<TimelineModel *>(sourceModel());
+    return sourceModel();
 }
 
 void
 TimelineFilter::setCurrentIndex(int idx)
 {
-    // TODO: maybe send read receipt in thread timeline? Or not at all?
-    if (auto s = source()) {
-        s->setCurrentIndex(this->mapToSource(index(idx, 0)).row());
-    }
+    if (currentIndex_ == idx)
+        return;
+
+    currentIndex_ = idx;
+    emit currentIndexChanged();
 }
 
 int
 TimelineFilter::currentIndex() const
 {
-    if (auto s = source())
-        return this->mapFromSource(s->index(s->currentIndex())).row();
-    else
-        return -1;
+    return currentIndex_;
 }
 
 bool
 TimelineFilter::isFiltering() const
 {
-    return incrementalSearchIndex != std::numeric_limits<int>::max() &&
-           !(threadId.isEmpty() && contentFilter.isEmpty());
+    return filteringInProgress_;
 }
 
 bool
 TimelineFilter::filterAcceptsRow(int source_row, const QModelIndex &) const
 {
-    // this chunk is still unfiltered.
-    if (source_row > incrementalSearchIndex)
+    if (!sourceModel())
         return false;
 
     if (threadId.isEmpty() && contentFilter.isEmpty() && !filterByNotifications_)
         return true;
 
-    if (auto s = sourceModel()) {
-        auto idx = s->index(source_row, 0);
+    const auto idx = sourceModel()->index(source_row, 0);
 
-        if (!contentFilter.isEmpty() && !s->data(idx, TimelineModel::Body)
-                                           .toString()
-                                           .contains(contentFilter, Qt::CaseInsensitive)) {
-            return false;
-        }
-
-        if (filterByNotifications_ && s->data(idx, TimelineModel::Notificationlevel)
-                                          .value<qml_mtx_events::NotificationLevel>() !=
-                                        qml_mtx_events::NotificationLevel::Highlight) {
-            return false;
-        }
-
-        if (threadId.isEmpty()) {
-            return true;
-        }
-
-        return s->data(idx, TimelineModel::EventId) == threadId ||
-               s->data(idx, TimelineModel::ThreadId) == threadId;
-    } else {
-        return true;
+    if (!contentFilter.isEmpty() && !sourceModel()
+                                       ->data(idx, TimelineModel::Body)
+                                       .toString()
+                                       .contains(contentFilter, Qt::CaseInsensitive)) {
+        return false;
     }
+
+    if (filterByNotifications_ &&
+        sourceModel()->data(idx, TimelineModel::Notificationlevel)
+            .value<qml_mtx_events::NotificationLevel>() !=
+          qml_mtx_events::NotificationLevel::Highlight) {
+        return false;
+    }
+
+    if (threadId.isEmpty())
+        return true;
+
+    return sourceModel()->data(idx, TimelineModel::EventId) == threadId ||
+           sourceModel()->data(idx, TimelineModel::ThreadId) == threadId;
 }
 
 #include "moc_TimelineFilter.cpp"

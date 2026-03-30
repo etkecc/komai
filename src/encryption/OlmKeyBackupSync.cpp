@@ -5,7 +5,6 @@
 
 #include "Olm.h"
 
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"

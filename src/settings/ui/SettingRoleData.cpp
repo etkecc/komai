@@ -7,9 +7,6 @@
 
 #include <QCoreApplication>
 
-#include <mtx/secret_storage.hpp>
-
-#include "cache/Cache.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/UserSettingsModel.h"
@@ -142,18 +139,13 @@ roleDataForSetting(settings::core::SettingId id, int role)
     case settings::core::SettingId::TimelineMediaAutoplayGifVideos:
         return autoplayGifVideosDescriptionRoleData(role);
     case settings::core::SettingId::EncryptionOnlineBackupKeyStatus:
-        return keyStatusRoleData(
-          role, cache::secret(mtx::secret_storage::secrets::megolm_backup_v1).has_value());
+        return keyStatusRoleData(role, false);
     case settings::core::SettingId::EncryptionSelfSigningKeyStatus:
-        return keyStatusRoleData(
-          role,
-          cache::secret(mtx::secret_storage::secrets::cross_signing_self_signing).has_value());
+        return keyStatusRoleData(role, false);
     case settings::core::SettingId::EncryptionUserSigningKeyStatus:
-        return keyStatusRoleData(
-          role,
-          cache::secret(mtx::secret_storage::secrets::cross_signing_user_signing).has_value());
+        return keyStatusRoleData(role, false);
     case settings::core::SettingId::EncryptionMasterSigningKeyStatus:
-        return keyStatusRoleData(role, true);
+        return keyStatusRoleData(role, false);
     default:
         return {};
     }

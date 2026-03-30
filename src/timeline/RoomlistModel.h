@@ -27,6 +27,7 @@
 
 class TimelineModel;
 class TimelineViewManager;
+Q_DECLARE_OPAQUE_POINTER(TimelineModel *)
 
 namespace komai::ipc {
 struct RoomInfo;

@@ -9,8 +9,6 @@
 #include <QQmlEngine>
 #include <QVector>
 
-class TimelineModel;
-
 class Invitee final : public QObject
 {
     Q_OBJECT
@@ -39,7 +37,7 @@ class InviteesModel final : public QAbstractListModel
     QML_UNCREATABLE("")
 
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(TimelineModel *room READ room CONSTANT)
+    Q_PROPERTY(QObject *room READ room CONSTANT)
 
 public:
     enum Roles
@@ -49,9 +47,9 @@ public:
         AvatarUrl,
     };
 
-    InviteesModel(TimelineModel *room, QObject *parent = nullptr);
+    InviteesModel(QObject *room, QObject *parent = nullptr);
 
-    TimelineModel *room() const { return room_; }
+    QObject *room() const { return room_; }
 
     Q_INVOKABLE void addUser(QString mxid, QString displayName = "", QString avatarUrl = "");
     Q_INVOKABLE bool containsUser(const QString &mxid) const;
@@ -72,5 +70,5 @@ signals:
 
 private:
     QVector<Invitee *> invitees_;
-    TimelineModel *room_;
+    QObject *room_;
 };

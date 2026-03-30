@@ -21,7 +21,6 @@
 
 #include <nlohmann/json.hpp>
 
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
@@ -41,7 +40,6 @@
 
 #include "timeline/Permissions.h"
 #include "timeline/RoomlistModel.h"
-#include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 
 ChatPage *ChatPage::instance_      = nullptr;
@@ -259,8 +257,6 @@ ChatPage::resetUI()
 void
 ChatPage::deleteConfigs()
 {
-    cache::disconnectFromCache(this);
-
     const auto profileId = UserSettings::instance()->profile();
     UserSettings::instance()->clearAuth();
     komai::matrix_backend::clearPersistedMatrixSessionSecrets(profileId);

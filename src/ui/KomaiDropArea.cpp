@@ -7,11 +7,7 @@
 
 #include <QMimeData>
 
-#include "chat/ChatPage.h"
-#include "timeline/InputBar.h"
-#include "timeline/RoomlistModel.h"
-#include "timeline/TimelineModel.h"
-#include "timeline/TimelineViewManager.h"
+#include "ui/MainWindow.h"
 
 KomaiDropArea::KomaiDropArea(QQuickItem *parent)
   : QQuickItem(parent)
@@ -34,12 +30,12 @@ KomaiDropArea::dragMoveEvent(QDragMoveEvent *event)
 void
 KomaiDropArea::dropEvent(QDropEvent *event)
 {
-    if (event) {
-        auto model = ChatPage::instance()->timelineManager()->rooms()->getRoomById(roomid_);
-        if (model) {
-            model->input()->insertMimeData(event->mimeData());
-            ChatPage::instance()->timelineManager()->focusMessageInput();
-        }
+    if (event)
+        event->acceptProposedAction();
+
+    if (auto *mainWindow = MainWindow::instance()) {
+        mainWindow->showNotification(
+          tr("Drag and drop attachments are not migrated yet on the matrix-sdk branch."));
     }
 }
 

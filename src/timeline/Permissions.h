@@ -8,10 +8,13 @@
 #include <QObject>
 #include <QQmlEngine>
 
-#include <mtx/events/create.hpp>
-#include <mtx/events/power_levels.hpp>
+#include "matrix/MatrixPowerLevelCompat.h"
 
 class TimelineModel;
+
+namespace komai::timeline {
+inline constexpr qint64 CreatorPowerLevel = komai::matrix::CreatorPowerLevel;
+}
 
 class AbstractPermissions : public QObject
 {
@@ -61,7 +64,7 @@ public:
     int redactLevel() override;
     int changeLevel(int eventType) override;
     int sendLevel(int eventType) override;
-    qint64 creatorLevel() const override { return mtx::events::state::Creator; }
+    qint64 creatorLevel() const override { return komai::timeline::CreatorPowerLevel; }
 
     bool canPingRoom() override;
 
@@ -101,7 +104,7 @@ public:
     int redactLevel() override { return 50; }
     int changeLevel(int) override { return 100; }
     int sendLevel(int) override { return 0; }
-    qint64 creatorLevel() const override { return mtx::events::state::Creator; }
+    qint64 creatorLevel() const override { return komai::timeline::CreatorPowerLevel; }
 
     bool canPingRoom() override { return true; }
 };

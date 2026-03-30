@@ -5,10 +5,7 @@
 
 #include "Permissions.h"
 
-#include "TimelineModel.h"
-#include "cache/Cache.h"
-#include "matrix/MatrixClient.h"
-#include "utils/Utils.h"
+#include "logging/Logging.h"
 
 Permissions::Permissions(QString roomId, QObject *parent)
   : AbstractPermissions(parent)
@@ -20,49 +17,49 @@ Permissions::Permissions(QString roomId, QObject *parent)
 void
 Permissions::invalidate()
 {
-    pl = cache::getStateEvent<mtx::events::state::PowerLevels>(roomId_.toStdString())
-           .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
-           .content;
-    create = cache::getStateEvent<mtx::events::state::Create>(roomId_.toStdString())
-               .value_or(mtx::events::StateEvent<mtx::events::state::Create>{});
+    nhlog::ui()->warn("Using conservative default room permissions for '{}' until matrix-sdk "
+                      "power-level fetch is migrated",
+                      roomId_.toStdString());
+    pl     = {};
+    create = {};
 }
 
 bool
 Permissions::canInvite()
 {
-    return pl.user_level(utils::localUser().toStdString(), create) >= pl.invite;
+    return false;
 }
 
 bool
 Permissions::canBan()
 {
-    return pl.user_level(utils::localUser().toStdString(), create) >= pl.ban;
+    return false;
 }
 
 bool
 Permissions::canKick()
 {
-    return pl.user_level(utils::localUser().toStdString(), create) >= pl.kick;
+    return false;
 }
 
 bool
 Permissions::canRedact()
 {
-    return pl.user_level(utils::localUser().toStdString(), create) >= pl.redact;
+    return false;
 }
+
 bool
 Permissions::canChange(int eventType)
 {
-    return pl.user_level(utils::localUser().toStdString(), create) >=
-           pl.state_level(to_string(
-             qml_mtx_events::fromRoomEventType(static_cast<qml_mtx_events::EventType>(eventType))));
+    Q_UNUSED(eventType);
+    return false;
 }
+
 bool
 Permissions::canSend(int eventType)
 {
-    return pl.user_level(utils::localUser().toStdString(), create) >=
-           pl.event_level(to_string(
-             qml_mtx_events::fromRoomEventType(static_cast<qml_mtx_events::EventType>(eventType))));
+    Q_UNUSED(eventType);
+    return true;
 }
 
 int
@@ -70,29 +67,31 @@ Permissions::defaultLevel()
 {
     return static_cast<int>(pl.users_default);
 }
+
 int
 Permissions::redactLevel()
 {
     return static_cast<int>(pl.redact);
 }
+
 int
 Permissions::changeLevel(int eventType)
 {
-    return static_cast<int>(pl.state_level(to_string(
-      qml_mtx_events::fromRoomEventType(static_cast<qml_mtx_events::EventType>(eventType)))));
+    Q_UNUSED(eventType);
+    return static_cast<int>(pl.state_default);
 }
+
 int
 Permissions::sendLevel(int eventType)
 {
-    return static_cast<int>(pl.event_level(to_string(
-      qml_mtx_events::fromRoomEventType(static_cast<qml_mtx_events::EventType>(eventType)))));
+    Q_UNUSED(eventType);
+    return static_cast<int>(pl.events_default);
 }
 
 bool
 Permissions::canPingRoom()
 {
-    return pl.user_level(utils::localUser().toStdString(), create) >=
-           pl.notification_level(mtx::events::state::notification_keys::room);
+    return true;
 }
 
 #include "moc_Permissions.cpp"

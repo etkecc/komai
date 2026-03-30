@@ -8,7 +8,6 @@
 #include <QPointer>
 #include <memory>
 
-#include "cache/Cache.h"
 #include "providers/AvatarProvider.h"
 #include "providers/MxcImageProvider.h"
 
@@ -65,9 +64,9 @@ resolve(const QString &room_id,
         QObject *receiver,
         AvatarCallback callback)
 {
-    auto avatarUrl = cache::avatarUrl(room_id, user_id);
-
-    resolve(std::move(avatarUrl), size, receiver, callback);
+    (void)room_id;
+    (void)user_id;
+    resolve(QString{}, size, receiver, std::move(callback));
 }
 }
 

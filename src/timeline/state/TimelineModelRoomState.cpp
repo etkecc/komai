@@ -177,18 +177,6 @@ TimelineModel::directChatOtherUserId() const
     return DirectChatResolver::instance().directChatPartner(room_id_);
 }
 
-mtx::pushrules::PushRuleEvaluator::RoomContext
-TimelineModel::pushrulesRoomContext() const
-{
-    return mtx::pushrules::PushRuleEvaluator::RoomContext{
-      .user_display_name =
-        cache::displayName(room_id_.toStdString(), utils::localUser().toStdString()),
-      .member_count = cache::memberCount(room_id_.toStdString()),
-      .power_levels = permissions_.powerlevelEvent(),
-      .create       = permissions_.createEvent(),
-    };
-}
-
 RoomSummary *
 TimelineModel::parentSpace()
 {

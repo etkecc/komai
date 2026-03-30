@@ -7,9 +7,6 @@
 
 #include <QAbstractItemModel>
 
-#include <variant>
-
-#include "cache/Cache.h"
 #include "events/EventAccessors.h"
 #include "imagepacks/CombinedImagePackModel.h"
 #include "imagepacks/GridImagePackModel.h"
@@ -18,22 +15,6 @@
 #include "models/RoomsModel.h"
 #include "models/UsersModel.h"
 #include "timeline/RoomlistModel.h"
-
-using IgnoredUsers = mtx::events::EphemeralEvent<mtx::events::account_data::IgnoredUsers>;
-
-namespace {
-QVector<QString>
-convertIgnoredToQt(const IgnoredUsers &ev)
-{
-    QVector<QString> users;
-    for (const mtx::events::account_data::IgnoredUser &user : ev.content.users) {
-        users.push_back(QString::fromStdString(user.id));
-    }
-
-    return users;
-}
-
-} // namespace
 
 QAbstractItemModel *
 TimelineViewManager::completerFor(const QString &completerName, const QString &roomId)
@@ -78,12 +59,7 @@ TimelineViewManager::completerFor(const QString &completerName, const QString &r
 QVector<QString>
 TimelineViewManager::getIgnoredUsers()
 {
-    const auto cache = cache::getAccountData(mtx::events::EventType::IgnoredUsers);
-    if (!cache) {
-        return {};
-    }
-
-    return convertIgnoredToQt(std::get<IgnoredUsers>(*cache));
+    return {};
 }
 
 void

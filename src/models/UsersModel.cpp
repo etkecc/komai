@@ -7,62 +7,15 @@
 
 #include <QUrl>
 
-#include "cache/Cache.h"
-#include "logging/Logging.h"
 #include "models/CompletionModelRoles.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
-
-#include <mtx/events/power_levels.hpp>
 
 UsersModel::UsersModel(const std::string &roomId, QObject *parent)
   : QAbstractListModel(parent)
   , room_id(roomId)
 {
-    // obviously, "friends" isn't a room, but I felt this was the least invasive way
-    if (roomId == "friends") {
-        auto e = cache::getAccountData(mtx::events::EventType::Direct);
-        if (e) {
-            if (auto event =
-                  std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(
-                    &e.value())) {
-                for (const auto &[userId, roomIds] : event->content.user_to_rooms) {
-                    if (roomIds.empty())
-                        continue;
-
-                    displayNames.push_back(
-                      QString::fromStdString(cache::displayName(roomIds.at(0), userId)));
-                    userids.push_back(QString::fromStdString(userId));
-                    avatarUrls.push_back(cache::avatarUrl(QString::fromStdString(roomIds.at(0)),
-                                                          QString::fromStdString(userId)));
-                }
-            }
-        }
-    } else {
-        const auto start_at = std::chrono::steady_clock::now();
-
-        // Prepend @room entry if the user has permission to ping the room
-        auto pl = cache::getStateEvent<mtx::events::state::PowerLevels>(roomId)
-                    .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
-                    .content;
-        auto create = cache::getStateEvent<mtx::events::state::Create>(roomId).value_or(
-          mtx::events::StateEvent<mtx::events::state::Create>{});
-        if (pl.user_level(utils::localUser().toStdString(), create) >=
-            pl.notification_level(mtx::events::state::notification_keys::room)) {
-            displayNames.push_back(QStringLiteral("@room"));
-            userids.push_back(QStringLiteral("@room"));
-            avatarUrls.push_back(QStringLiteral(":/icons/icons/ui/mention.svg"));
-        }
-
-        for (const auto &m : cache::getMembers(roomId, 0, -1)) {
-            displayNames.push_back(m.display_name);
-            userids.push_back(m.user_id);
-            avatarUrls.push_back(m.avatar_url);
-        }
-        const auto end_at     = std::chrono::steady_clock::now();
-        const auto build_time = std::chrono::duration<double, std::milli>(end_at - start_at);
-        nhlog::ui()->debug("UsersModel: build data: {} ms", build_time.count());
-    }
+    Q_UNUSED(room_id)
 }
 
 QHash<int, QByteArray>

@@ -49,8 +49,8 @@ PowerlevelsTypeListModel::PowerlevelsTypeListModel(
             seen_levels.insert(level);
         }
     }
-    if (create_.content.room_version_creators_with_infinite_power()) {
-        seen_levels.insert(mtx::events::state::Creator);
+    if (komai::matrix::createEventCreatorsHaveInfinitePower(create_)) {
+        seen_levels.insert(komai::powerlevels::CreatorPowerLevel);
     }
 
     types.push_back(Entry{"zdefault_states", powerLevels_.state_default});

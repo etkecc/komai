@@ -28,7 +28,6 @@ class QQuickTextDocument;
 class UserSettings;
 class ChatPage;
 class ImagePackListModel;
-class TimelineModel;
 class CallManager;
 class VerificationManager;
 class InviteesModel;
@@ -196,19 +195,19 @@ public:
     QStringList matrixTimelinePinnedEventIds() const { return matrixTimelinePinnedEventIds_; }
     bool matrixTimelineCanRedactOwn() const { return matrixTimelineCanRedactOwn_; }
     bool matrixTimelineCanRedactOther() const { return matrixTimelineCanRedactOther_; }
-    Q_INVOKABLE void openMediaOverlay(TimelineModel *room,
+    Q_INVOKABLE void openMediaOverlay(QObject *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
                                       double originalWidth,
                                       double proportionalHeight);
-    Q_INVOKABLE void openMediaOverlayWithContext(TimelineModel *room,
+    Q_INVOKABLE void openMediaOverlayWithContext(QObject *room,
                                                  const QString &mxcUrl,
                                                  const QString &eventId,
                                                  double originalWidth,
                                                  double proportionalHeight,
                                                  QObject *timeline,
                                                  QObject *timelineView);
-    Q_INVOKABLE void openMediaOverlay(TimelineModel *room,
+    Q_INVOKABLE void openMediaOverlay(QObject *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
                                       double originalWidth,
@@ -216,7 +215,7 @@ public:
                                       int mediaType,
                                       int duration,
                                       const QString &thumbnailUrl);
-    Q_INVOKABLE void openMediaOverlayWithContext(TimelineModel *room,
+    Q_INVOKABLE void openMediaOverlayWithContext(QObject *room,
                                                  const QString &mxcUrl,
                                                  const QString &eventId,
                                                  double originalWidth,
@@ -255,7 +254,7 @@ public:
     Q_INVOKABLE QString htmlEscape(QString str) const { return str.toHtmlEscaped(); }
     Q_INVOKABLE QString formatMatrixMessageHtml(const QString &body) const;
 
-    Q_INVOKABLE void openRoomMembers(TimelineModel *room);
+    Q_INVOKABLE void openRoomMembers(QObject *room);
     Q_INVOKABLE void openRoomSettings(QString room_id);
     Q_INVOKABLE void
     openRoomInfo(const QString &roomId, const QString &initialTab = QStringLiteral("settings"));
@@ -310,7 +309,7 @@ public:
     Q_INVOKABLE void navigateForward();
 
 signals:
-    void activeTimelineChanged(TimelineModel *timeline);
+    void activeTimelineChanged(QObject *timeline);
     void waitingForFirstSyncChanged(bool waitingForFirstSync);
     void isConnectedChanged(bool state);
     void replyingEventChanged(QString replyingEvent);
@@ -321,13 +320,13 @@ signals:
     void focusInput();
     void openRoomInfoDialog(RoomSettings *settings,
                             MemberList *members,
-                            TimelineModel *room,
+                            QObject *room,
                             const QString &initialTab);
     void openInviteUsersDialog(InviteesModel *invitees);
     void openProfile(UserProfile *profile);
-    void showImagePackSettings(TimelineModel *room, ImagePackListModel *packlist);
+    void showImagePackSettings(QObject *room, ImagePackListModel *packlist);
     void openLeaveRoomDialog(QString roomid, QString reason = "");
-    void showMediaOverlay(TimelineModel *room,
+    void showMediaOverlay(QObject *room,
                           QString eventId,
                           QString url,
                           double originalWidth,

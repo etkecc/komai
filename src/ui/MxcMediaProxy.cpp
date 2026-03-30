@@ -16,18 +16,14 @@
 #include <QPointer>
 #include <QUrl>
 
-#include <mtxclient/crypto/utils.hpp>
-
 #include <thread>
 
 #include "chat/ChatPage.h"
-#include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
-#include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 
@@ -39,18 +35,9 @@ currentMatrixRuntimeHandleId()
     return mainWindow ? mainWindow->matrixBackendHandleId() : 0;
 }
 
-TimelineModel *
-legacyRoomContext(QObject *roomContext)
-{
-    return qobject_cast<TimelineModel *>(roomContext);
-}
-
 QString
 roomContextRoomId(QObject *roomContext)
 {
-    if (auto *room = legacyRoomContext(roomContext))
-        return room->roomId();
-
     return roomContext ? roomContext->property("roomId").toString().trimmed() : QString{};
 }
 
@@ -167,42 +154,19 @@ MxcMediaProxy::startDownload(bool onlyCached)
     if (eventId_.isEmpty())
         return;
 
-    auto *legacyRoom  = legacyRoomContext(room_);
     const auto roomId = roomContextRoomId(room_);
 
-    QString mxcUrl;
     QString mimeType = mimeTypeHint_.trimmed();
-    std::optional<mtx::crypto::EncryptedFile> encryptionInfo;
-
-    if (legacyRoom) {
-        auto event = legacyRoom->eventById(eventId_);
-        if (!event) {
-            nhlog::ui()->error("Failed to load media for event {}, event not found.",
-                               eventId_.toStdString());
-            return;
-        }
-
-        mxcUrl          = QString::fromStdString(mtx::accessors::url(*event));
-        const auto mime = QString::fromStdString(mtx::accessors::mimetype(*event));
-        if (!mime.isEmpty())
-            mimeType = mime;
-        encryptionInfo = mtx::accessors::file(*event);
-
-        // If the message is a link to a non mxcUrl, don't download it
-        if (!mxcUrl.startsWith(QLatin1String("mxc://")))
-            return;
-    } else {
-        if (roomId.isEmpty()) {
-            nhlog::ui()->warn("Cannot load matrix-runtime media '{}' without a room id hint",
-                              eventId_.toStdString());
-            return;
-        }
-
-        if (mimeType.isEmpty())
-            mimeType = QStringLiteral("application/octet-stream");
+    if (roomId.isEmpty()) {
+        nhlog::ui()->warn("Cannot load matrix-runtime media '{}' without a room id hint",
+                          eventId_.toStdString());
+        return;
     }
 
-    const bool isEnc = encryptionInfo.has_value();
+    if (mimeType.isEmpty())
+        mimeType = QStringLiteral("application/octet-stream");
+
+    const bool isEnc = false;
     if (isEnc != encrypted_) {
         encrypted_ = isEnc;
         emit encryptedChanged();
@@ -210,16 +174,10 @@ MxcMediaProxy::startDownload(bool onlyCached)
 
     QString suffix = QMimeDatabase().mimeTypeForName(mimeType).preferredSuffix();
     QFileInfo filename(
-      legacyRoom
-        ? QFileInfo(
-            app_paths::cache::mediaFileForMxc(UserSettings::instance()->profile(),
-                                              QString(mxcUrl).remove(QStringLiteral("mxc://")),
-                                              suffix,
-                                              roomId))
-        : QFileInfo(app_paths::cache::mediaFileForMxc(UserSettings::instance()->profile(),
-                                                      matrixRuntimeMediaCacheKey(roomId, eventId_),
-                                                      suffix,
-                                                      roomId)));
+      QFileInfo(app_paths::cache::mediaFileForMxc(UserSettings::instance()->profile(),
+                                                  matrixRuntimeMediaCacheKey(roomId, eventId_),
+                                                  suffix,
+                                                  roomId)));
     if (QDir::cleanPath(filename.filePath()) != filename.filePath()) {
         nhlog::net()->warn("Media cache path '{}' is not safe, not downloading file",
                            filename.filePath().toStdString());
@@ -230,18 +188,11 @@ MxcMediaProxy::startDownload(bool onlyCached)
 
     QPointer<MxcMediaProxy> self = this;
 
-    auto processBuffer = [this, encryptionInfo, filename, self, suffix](QIODevice &device) {
+    auto processBuffer = [this, filename, self, suffix](QIODevice &device) {
         if (!self)
             return;
 
-        if (encryptionInfo) {
-            QByteArray ba = device.readAll();
-            std::string temp(ba.constData(), ba.size());
-            temp = mtx::crypto::to_string(mtx::crypto::decrypt_file(temp, encryptionInfo.value()));
-            buffer.setData(temp.data(), static_cast<int>(temp.size()));
-        } else {
-            buffer.setData(device.readAll());
-        }
+        buffer.setData(device.readAll());
         buffer.open(QIODevice::ReadOnly);
         buffer.reset();
 
@@ -274,21 +225,16 @@ MxcMediaProxy::startDownload(bool onlyCached)
     }
 
     std::thread(
-      [filename, mxcUrl, eventId = eventId_, processBuffer, self, handleId, legacyRoom]() mutable {
+      [filename, eventId = eventId_, processBuffer, self, handleId]() mutable {
           QString error;
-          auto bytes = legacyRoom
-                         ? komai::MatrixBackendRuntimeService::fetchMediaContent(
-                             handleId, mxcUrl, 0, 0, false, &error)
-                         : komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-                             handleId, eventId, 0, 0, false, &error);
+          auto bytes = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
+            handleId, eventId, 0, 0, false, &error);
 
           QTimer::singleShot(
             0,
             ChatPage::instance(),
             [filename,
-             mxcUrl,
              eventId,
-             legacyRoom,
              processBuffer = std::move(processBuffer),
              self,
              bytes = std::move(bytes),
@@ -296,16 +242,10 @@ MxcMediaProxy::startDownload(bool onlyCached)
                 if (!bytes || bytes->isEmpty()) {
                     if (self)
                         self->setRecoveringFromStreamingFallback(false);
-                    if (legacyRoom) {
-                        nhlog::net()->warn("failed to retrieve media {} via matrix-sdk runtime: {}",
-                                           mxcUrl.toStdString(),
-                                           error.toStdString());
-                    } else {
-                        nhlog::net()->warn(
-                          "failed to retrieve active timeline media {} via matrix-sdk runtime: {}",
-                          eventId.toStdString(),
-                          error.toStdString());
-                    }
+                    nhlog::net()->warn(
+                      "failed to retrieve active timeline media {} via matrix-sdk runtime: {}",
+                      eventId.toStdString(),
+                      error.toStdString());
                     return;
                 }
 

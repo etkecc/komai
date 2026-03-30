@@ -7,19 +7,12 @@
 
 #include <QQmlEngine>
 
-#include "cache/Cache.h"
 #include "imagepacks/SingleImagePackModel.h"
 
 ImagePackListModel::ImagePackListModel(const std::string &roomId, QObject *parent)
   : QAbstractListModel(parent)
   , room_id(roomId)
 {
-    auto packs_ = cache::getImagePacks(room_id, std::nullopt);
-
-    packs.reserve(packs_.size());
-    for (const auto &pack : packs_) {
-        packs.push_back(QSharedPointer<SingleImagePackModel>(new SingleImagePackModel(pack)));
-    }
 }
 
 int

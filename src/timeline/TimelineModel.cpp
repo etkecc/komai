@@ -39,11 +39,9 @@ TimelineModel::TimelineModel(TimelineViewManager *manager, QString room_id, QObj
   : EventDataSource(parent)
   , room_id_(std::move(room_id))
   , events(room_id_.toStdString(), this)
-  , mediaController_(room_id_,
-                     events,
-                     [this](const QString &mxcUrl, const QString &cacheUrl) {
-                         emit mediaCached(mxcUrl, cacheUrl);
-                     })
+  , mediaController_(room_id_, [this](const QString &mxcUrl, const QString &cacheUrl) {
+      emit mediaCached(mxcUrl, cacheUrl);
+  })
   , manager_(manager)
   , permissions_{room_id_}
 {

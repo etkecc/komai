@@ -7,7 +7,6 @@
 
 #include <QMetaType>
 
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
@@ -28,24 +27,6 @@ RoomSummary::RoomSummary(std::string roomIdOrAlias_,
         return;
 
     if (roomIdOrAlias[0] == '!') {
-        auto temp = cache::singleRoomInfo(roomIdOrAlias);
-
-        if (temp.member_count) {
-            this->room = LoadedRoomSummary{
-              .roomId    = QString::fromStdString(roomIdOrAlias),
-              .name      = QString::fromStdString(temp.name),
-              .topic     = QString::fromStdString(temp.topic),
-              .avatarUrl = komai::matrix::normalizeMxcUri(QString::fromStdString(temp.avatar_url)),
-              .memberCount = static_cast<int>(temp.member_count),
-              .isInvite    = temp.is_invite,
-              .isSpace     = temp.is_space,
-              .isKnockOnly = temp.join_rule == mtx::events::state::JoinRule::Knock ||
-                             temp.join_rule == mtx::events::state::JoinRule::KnockRestricted,
-            };
-            loaded_ = true;
-            return;
-        }
-
         if (const auto *window = MainWindow::instance();
             window && window->matrixBackendHandleId()) {
             QString error;

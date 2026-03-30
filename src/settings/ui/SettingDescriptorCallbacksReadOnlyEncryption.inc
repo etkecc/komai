@@ -6,23 +6,23 @@
 static QVariant
 encryptionOnlineBackupKeyStatusValue()
 {
-    return cache::secret(mtx::secret_storage::secrets::megolm_backup_v1).has_value();
+    return false;
 }
 
 static QVariant
 encryptionSelfSigningKeyStatusValue()
 {
-    return cache::secret(mtx::secret_storage::secrets::cross_signing_self_signing).has_value();
+    return false;
 }
 
 static QVariant
 encryptionUserSigningKeyStatusValue()
 {
-    return cache::secret(mtx::secret_storage::secrets::cross_signing_user_signing).has_value();
+    return false;
 }
 
 static QVariant
 encryptionMasterSigningKeyStatusValue()
 {
-    return cache::secret(mtx::secret_storage::secrets::cross_signing_master).has_value();
+    return false;
 }

@@ -7,7 +7,6 @@
 
 #include <limits>
 
-#include "cache/Cache.h"
 #include "logging/Logging.h"
 
 namespace {

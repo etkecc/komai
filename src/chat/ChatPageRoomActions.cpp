@@ -19,11 +19,9 @@
 #include <thread>
 #include <vector>
 
-#include "cache/Cache.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/RoomlistModel.h"
-#include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "ui/RoomSummary.h"
@@ -56,11 +54,8 @@ toQStringVector(const std::vector<std::string> &values)
 QString
 displayNameOrUserId(const QString &roomId, const QString &userId)
 {
-    if (!cache::isInitialized())
-        return userId;
-
-    const auto displayName = cache::displayName(roomId, userId).trimmed();
-    return displayName.isEmpty() ? userId : displayName;
+    (void)roomId;
+    return userId;
 }
 
 template<typename WorkFnT, typename UiFnT>
@@ -456,19 +451,13 @@ ChatPage::startChat(QString userid, std::optional<bool> encryptionEnabled)
     req.preset     = mtx::requests::Preset::TrustedPrivateChat;
     req.visibility = mtx::common::RoomVisibility::Private;
 
-    if (!encryptionEnabled.has_value()) {
-        if (cache::isInitialized()) {
-            if (auto keys = cache::userKeys(userid.toStdString()))
-                encryptionEnabled = !keys->device_keys.empty();
-        } else {
-            encryptionEnabled = true;
-        }
-    }
+    if (!encryptionEnabled.has_value())
+        encryptionEnabled = true;
 
     if (encryptionEnabled.value_or(false)) {
         mtx::events::StrippedEvent<mtx::events::state::Encryption> enc;
         enc.type              = mtx::events::EventType::RoomEncryption;
-        enc.content.algorithm = mtx::crypto::MEGOLM_ALGO;
+        enc.content.algorithm = "m.megolm.v1.aes-sha2";
         req.initial_state.emplace_back(std::move(enc));
     }
 
@@ -505,14 +494,6 @@ ChatPage::tryHandleMatrixUri(QString uri)
 
     if (sigil1 == u"u") {
         if (action.isEmpty()) {
-            auto t = MainWindow::instance()->focusedRoom();
-            if (!t.isEmpty() && cache::isInitialized() &&
-                cache::isRoomMember(mxid1.toStdString(), t.toStdString())) {
-                auto rm = view_manager_->rooms()->getRoomById(t);
-                if (rm)
-                    rm->openUserProfile(mxid1);
-                return true;
-            }
             emit view_manager_->openGlobalUserProfile(mxid1);
         } else if (action == u"chat") {
             this->startChat(mxid1);
@@ -546,20 +527,6 @@ ChatPage::tryHandleMatrixUri(QString uri)
             return false;
         }
 
-        if (cache::isInitialized()) {
-            auto joined_rooms = cache::joinedRooms();
-            auto targetRoomId = mxid1.toStdString();
-
-            for (const auto &roomid : joined_rooms) {
-                if (roomid == targetRoomId) {
-                    view_manager_->rooms()->setCurrentRoom(mxid1);
-                    if (!mxid2.isEmpty())
-                        view_manager_->showEvent(mxid1, mxid2);
-                    return true;
-                }
-            }
-        }
-
         if (action == u"join" || action.isEmpty()) {
             joinRoomVia(mxid1.toStdString(), vias);
             return true;
@@ -570,23 +537,6 @@ ChatPage::tryHandleMatrixUri(QString uri)
         }
         return false;
     } else if (sigil1 == u"r") {
-        if (matrixBackendHandleId == 0 && cache::isInitialized()) {
-            auto joined_rooms    = cache::joinedRooms();
-            auto targetRoomAlias = mxid1.toStdString();
-
-            for (const auto &roomid : joined_rooms) {
-                auto aliases = cache::getStateEvent<mtx::events::state::CanonicalAlias>(roomid);
-                if (aliases) {
-                    if (aliases->content.alias == targetRoomAlias) {
-                        view_manager_->rooms()->setCurrentRoom(QString::fromStdString(roomid));
-                        if (!mxid2.isEmpty())
-                            view_manager_->showEvent(QString::fromStdString(roomid), mxid2);
-                        return true;
-                    }
-                }
-            }
-        }
-
         if (action == u"join" || action.isEmpty()) {
             joinRoomVia(mxid1.toStdString(), vias);
             return true;

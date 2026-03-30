@@ -22,7 +22,6 @@
 #include "mtx/events/collections.hpp"
 #include "mtx/events/voip.hpp"
 #include "voip/ScreenCastPortal.h"
-#include <mtxclient/utils.hpp>
 
 namespace mtx::responses {
 struct TurnServer;
@@ -121,7 +120,7 @@ private:
     QString callPartyAvatarUrl_;
     std::string callPartyVersion_ = "1";
     std::string callid_;
-    std::string partyid_                     = mtx::client::utils::random_token(8, false);
+    std::string partyid_;
     std::string selectedpartyid_             = "";
     std::string invitee_                     = "";
     const uint32_t timeoutms_                = 120000;

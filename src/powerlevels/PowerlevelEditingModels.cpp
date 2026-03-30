@@ -5,17 +5,11 @@
 
 #include "powerlevels/PowerlevelsEditModels.h"
 
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 
 PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *parent)
   : QObject(parent)
-  , powerLevels_(cache::getStateEvent<mtx::events::state::PowerLevels>(room_id.toStdString())
-                   .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
-                   .content)
-  , create_(cache::getStateEvent<mtx::events::state::Create>(room_id.toStdString())
-              .value_or(mtx::events::StateEvent<mtx::events::state::Create>{}))
   , types_(room_id.toStdString(), powerLevels_, create_, this)
   , users_(room_id.toStdString(), powerLevels_, create_, this)
   , spaces_(room_id.toStdString(), powerLevels_, create_, this)
@@ -38,7 +32,7 @@ PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *paren
 bool
 PowerlevelEditingModels::isSpace() const
 {
-    return cache::singleRoomInfo(room_id_).is_space;
+    return false;
 }
 
 mtx::events::state::PowerLevels

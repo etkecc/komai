@@ -8,19 +8,22 @@
 #include <chrono>
 #include <cstdint>
 #include <cstdlib>
+#include <optional>
 
 #include <QAudioOutput>
 #include <QGuiApplication>
 #include <QMetaObject>
+#include <QRandomGenerator>
 #include <QThread>
 #include <QUrl>
 
 #include "CallDevices.h"
 #include "CallManager.h"
-#include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
 #include "mtx/responses/turn_server.hpp"
@@ -42,6 +45,102 @@ typedef RTCSessionDescriptionInit SDO;
 namespace {
 std::vector<std::string>
 getTurnURIs(const mtx::responses::TurnServer &turnServer);
+
+struct MatrixCallRoomContext
+{
+    QString roomId;
+    QString displayName;
+    QString avatarUrl;
+    QString directChatOtherUserId;
+    uint64_t memberCount = 0;
+};
+
+QString
+randomAlphaNumericToken(int length)
+{
+    static constexpr char Alphabet[] =
+      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    QString token;
+    token.reserve(length);
+    auto *rng = QRandomGenerator::global();
+    for (int i = 0; i < length; ++i) {
+        token.append(
+          QLatin1Char(Alphabet[rng->bounded(static_cast<int>(std::size(Alphabet) - 1))]));
+    }
+
+    return token;
+}
+
+std::optional<uint64_t>
+activeMatrixHandleId()
+{
+    const auto *mainWindow = MainWindow::instance();
+    if (mainWindow && mainWindow->matrixBackendHandleId() != 0)
+        return mainWindow->matrixBackendHandleId();
+
+    return std::nullopt;
+}
+
+std::optional<MatrixCallRoomContext>
+fetchMatrixCallRoomContext(const QString &roomId)
+{
+    const auto handleId = activeMatrixHandleId();
+    if (!handleId)
+        return std::nullopt;
+
+    QString error;
+    const auto rooms = komai::MatrixBackendRuntimeService::fetchRoomList(*handleId, &error);
+    if (!rooms) {
+        nhlog::ui()->warn("Failed to fetch matrix room list for '{}': {}",
+                          roomId.toStdString(),
+                          error.toStdString());
+        return std::nullopt;
+    }
+
+    for (const auto &room : *rooms) {
+        if (room.roomId != roomId)
+            continue;
+
+        return MatrixCallRoomContext{
+          .roomId                = room.roomId,
+          .displayName           = room.displayName,
+          .avatarUrl             = room.avatarUrl,
+          .directChatOtherUserId = room.directChatOtherUserId,
+          .memberCount           = room.memberCount,
+        };
+    }
+
+    return std::nullopt;
+}
+
+komai::MatrixUserProfile
+fetchMatrixCallUserProfile(uint64_t handleId, const QString &userId)
+{
+    QString error;
+    if (userId == utils::localUser()) {
+        if (const auto ownProfile =
+              komai::MatrixBackendRuntimeService::fetchOwnProfile(handleId, &error)) {
+            return komai::MatrixUserProfile{
+              .displayName = ownProfile->displayName,
+              .avatarUrl   = ownProfile->avatarUrl,
+            };
+        }
+    }
+
+    if (const auto profile =
+          komai::MatrixBackendRuntimeService::fetchUserProfile(handleId, userId, &error)) {
+        return *profile;
+    }
+
+    if (!error.isEmpty()) {
+        nhlog::ui()->warn("Failed to fetch matrix user profile for '{}': {}",
+                          userId.toStdString(),
+                          error.toStdString());
+    }
+
+    return komai::MatrixUserProfile{.displayName = userId, .avatarUrl = QString{}};
+}
 }
 
 CallManager *
@@ -68,6 +167,7 @@ CallManager::create(QQmlEngine *qmlEngine, QJSEngine *)
 CallManager::CallManager(QObject *parent)
   : QObject(parent)
   , session_(WebRTCSession::instance())
+  , partyid_(randomAlphaNumericToken(8).toStdString())
   , turnServerTimer_(this)
 {
 #ifdef GSTREAMER_AVAILABLE
@@ -256,24 +356,20 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
         return;
     }
 
-    auto roomInfo = cache::singleRoomInfo(roomid.toStdString());
-
-    std::string errorMessage;
-
     callType_ = callType;
     roomid_   = roomid;
     generateCallID();
-    std::vector<RoomMember> members(cache::getMembers(roomid.toStdString()));
-    const RoomMember *callee;
-    if (roomInfo.member_count == 1)
-        callee = &members.front();
-    else if (roomInfo.member_count == 2)
-        callee = members.front().user_id == utils::localUser() ? &members.back() : &members.front();
-    else {
+
+    const auto handleId = activeMatrixHandleId();
+    const auto roomContext = fetchMatrixCallRoomContext(roomid);
+    if (!handleId || !roomContext || roomContext->directChatOtherUserId.trimmed().isEmpty()) {
         emit ChatPage::instance()->showNotification(
-          QStringLiteral("Calls are limited to rooms with less than two members"));
+          QStringLiteral("Calls are only migrated for direct rooms on the matrix-sdk branch"));
         return;
     }
+
+    const auto calleeId      = roomContext->directChatOtherUserId;
+    const auto calleeProfile = fetchMatrixCallUserProfile(*handleId, calleeId);
 
 #ifdef GSTREAMER_AVAILABLE
     if (callType == CallType::SCREEN) {
@@ -296,7 +392,7 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
     if (haveCallInvite_) {
         nhlog::ui()->debug("WebRTC: Discarding outbound call for inbound call. "
                            "localUser is polite party");
-        if (callParty_ == callee->user_id) {
+        if (callParty_ == calleeId) {
             if (callType == callType_)
                 acceptInvite();
             else {
@@ -321,9 +417,10 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
       callType_ == CallType::VOICE ? "voice" : (callType_ == CallType::VIDEO ? "video" : "screen");
 
     nhlog::ui()->debug("WebRTC: call id: {} - creating {} invite", callid_, strCallType);
-    callParty_            = callee->user_id;
-    callPartyDisplayName_ = callee->display_name.isEmpty() ? callee->user_id : callee->display_name;
-    callPartyAvatarUrl_   = QString::fromStdString(roomInfo.avatar_url);
+    callParty_            = calleeId;
+    callPartyDisplayName_ =
+      calleeProfile.displayName.trimmed().isEmpty() ? calleeId : calleeProfile.displayName;
+    callPartyAvatarUrl_ = calleeProfile.avatarUrl;
     invitee_              = callParty_.toStdString();
     emit newInviteState();
     playRingtone(QUrl(QStringLiteral("qrc:/media/media/ringback.ogg")), true);
@@ -436,17 +533,18 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
         }
     }
 
-    auto roomInfo     = cache::singleRoomInfo(callInviteEvent.room_id);
+    const auto roomId = QString::fromStdString(callInviteEvent.room_id);
+    const auto roomContext = fetchMatrixCallRoomContext(roomId);
     callPartyVersion_ = callInviteEvent.content.version;
 
     const QString &ringtone = UserSettings::instance()->callsAudioRingtone();
     bool sharesRoom         = true;
 
-    std::vector<RoomMember> members(cache::getMembers(callInviteEvent.room_id));
-    const RoomMember &caller =
-      *std::find_if(members.begin(), members.end(), [&](RoomMember member) {
-          return member.user_id.toStdString() == callInviteEvent.sender;
-      });
+    const auto callerUserId = QString::fromStdString(callInviteEvent.sender);
+    const auto handleId     = activeMatrixHandleId().value_or(0);
+    const auto callerProfile =
+      handleId != 0 ? fetchMatrixCallUserProfile(handleId, callerUserId)
+                    : komai::MatrixUserProfile{.displayName = callerUserId, .avatarUrl = QString{}};
     if (isOnCall() || isOnCallOnOtherDevice()) {
         if (isOnCallOnOtherDevice_ != "")
             return;
@@ -454,10 +552,11 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
             if (session_.state() == webrtc::State::OFFERSENT) {
                 if (callid_ > callInviteEvent.content.call_id) {
                     endCall();
-                    callParty_ = caller.user_id;
+                    callParty_ = callerUserId;
                     callPartyDisplayName_ =
-                      caller.display_name.isEmpty() ? caller.user_id : caller.display_name;
-                    callPartyAvatarUrl_ = QString::fromStdString(roomInfo.avatar_url);
+                      callerProfile.displayName.trimmed().isEmpty() ? callerUserId
+                                                                    : callerProfile.displayName;
+                    callPartyAvatarUrl_ = callerProfile.avatarUrl;
 
                     roomid_ = QString::fromStdString(callInviteEvent.room_id);
                     callid_ = callInviteEvent.content.call_id;
@@ -477,8 +576,9 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
             return;
     }
 
+    const auto memberCount = roomContext ? roomContext->memberCount : 0;
     if (callPartyVersion_ == "0") {
-        if (roomInfo.member_count != 2) {
+        if (memberCount != 2) {
             emit newMessage(QString::fromStdString(callInviteEvent.room_id),
                             CallHangUp{callInviteEvent.content.call_id,
                                        partyid_,
@@ -487,19 +587,19 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
             return;
         }
     } else {
-        if (caller.user_id == utils::localUser() &&
+        if (callerUserId == utils::localUser() &&
             callInviteEvent.content.party_id == partyid_) // remote echo
             return;
 
-        if (roomInfo.member_count == 2 || // general call in room with two members
-            (roomInfo.member_count == 1 &&
+        if (memberCount == 2 || // general call in room with two members
+            (memberCount == 1 &&
              partyid_ !=
                callInviteEvent.content.party_id) ||  // self call, ring if not the same party_id
             callInviteEvent.content.invitee == "" || // empty, meant for everyone
             callInviteEvent.content.invitee ==
               utils::localUser().toStdString()) // meant specifically for local user
         {
-            if (roomInfo.member_count > 2) {
+            if (memberCount > 2) {
                 // check if shares room
                 sharesRoom = checkSharesRoom(QString::fromStdString(callInviteEvent.room_id),
                                              callInviteEvent.content.invitee);
@@ -521,9 +621,10 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
                        : QUrl::fromLocalFile(ringtone),
                      true);
 
-    callParty_            = caller.user_id;
-    callPartyDisplayName_ = caller.display_name.isEmpty() ? caller.user_id : caller.display_name;
-    callPartyAvatarUrl_   = QString::fromStdString(roomInfo.avatar_url);
+    callParty_            = callerUserId;
+    callPartyDisplayName_ =
+      callerProfile.displayName.trimmed().isEmpty() ? callerUserId : callerProfile.displayName;
+    callPartyAvatarUrl_ = callerProfile.avatarUrl;
 
     roomid_ = QString::fromStdString(callInviteEvent.room_id);
     callid_ = callInviteEvent.content.call_id;

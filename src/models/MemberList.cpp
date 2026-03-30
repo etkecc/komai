@@ -5,37 +5,13 @@
 
 #include "models/MemberList.h"
 
-#include "cache/Cache.h"
-#include "chat/ChatPage.h"
-#include "logging/Logging.h"
 #include "timeline/DirectChatResolver.h"
-#include "timeline/RoomlistModel.h"
-#include "timeline/TimelineModel.h"
-#include "timeline/TimelineViewManager.h"
 
 MemberListBackend::MemberListBackend(const QString &room_id, QObject *parent)
   : QAbstractListModel{parent}
   , room_id_{room_id}
-  , powerLevels_{cache::getStateEvent<mtx::events::state::PowerLevels>(room_id_.toStdString())
-                   .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
-                   .content}
-  , create_{cache::getStateEvent<mtx::events::state::Create>(room_id_.toStdString())
-              .value_or(mtx::events::StateEvent<mtx::events::state::Create>{})}
 {
-    try {
-        info_ = cache::singleRoomInfo(room_id_.toStdString());
-    } catch (const std::exception &) {
-        nhlog::db()->warn("failed to retrieve room info from cache: {}", room_id_.toStdString());
-    }
-
-    try {
-        // HACK: due to QTBUG-1020169, we'll load a big chunk to speed things up
-        auto members = cache::getMembers(room_id_.toStdString(), 0, -1);
-        addUsers(members);
-        numUsersLoaded_ = (int)members.size();
-    } catch (const std::exception &e) {
-        nhlog::db()->critical("Failed to retrieve members from cache: {}", e.what());
-    }
+    info_.name = room_id_.toStdString();
 }
 
 // Use the DM-aware display name so the Members tab header matches the room
@@ -45,25 +21,30 @@ QString
 MemberListBackend::roomName() const
 {
     auto dmName = DirectChatResolver::instance().dmRoomDisplayName(room_id_);
-    return dmName.isEmpty() ? QString::fromStdString(info_.name) : dmName;
+    if (!dmName.isEmpty())
+        return dmName;
+    if (!info_.name.empty())
+        return QString::fromStdString(info_.name);
+    return room_id_;
 }
 
 void
 MemberListBackend::addUsers(const std::vector<RoomMember> &members)
 {
-    auto thisRoom = ChatPage::instance()->timelineManager()->rooms()->getRoomById(room_id_);
-    if (thisRoom.isNull()) {
-        nhlog::ui()->error("Could not load the current room");
+    if (members.empty())
         return;
-    }
 
     beginInsertRows(
       QModelIndex{}, m_memberList.count(), m_memberList.count() + (int)members.size() - 1);
 
     for (const auto &member : members)
-        m_memberList.push_back({member, thisRoom->avatarUrl(member.user_id)});
+        m_memberList.push_back({member, member.avatar_url});
 
     endInsertRows();
+    info_.member_count = static_cast<size_t>(m_memberList.size());
+    numUsersLoaded_    = m_memberList.size();
+    emit memberCountChanged();
+    emit numUsersLoadedChanged();
 }
 
 QHash<int, QByteArray>
@@ -91,20 +72,11 @@ MemberListBackend::data(const QModelIndex &index, int role) const
         return m_memberList[index.row()].first.display_name;
     case AvatarUrl:
         return m_memberList[index.row()].second;
-    case Trustlevel: {
-        auto stat =
-          cache::verificationStatus(m_memberList[index.row()].first.user_id.toStdString());
-
-        if (!stat)
-            return crypto::Unverified;
-        if (stat->unverified_device_count)
-            return crypto::Unverified;
-        else
-            return stat->user_verified;
-    }
+    case Trustlevel:
+        return 0;
     case Powerlevel:
-        return static_cast<qlonglong>(
-          powerLevels_.user_level(m_memberList[index.row()].first.user_id.toStdString(), create_));
+        return static_cast<qlonglong>(komai::matrix::effectiveUserPowerLevel(
+          powerLevels_, create_, m_memberList[index.row()].first.user_id.toStdString()));
     default:
         return {};
     }
@@ -113,26 +85,13 @@ MemberListBackend::data(const QModelIndex &index, int role) const
 bool
 MemberListBackend::canFetchMore(const QModelIndex &) const
 {
-    const size_t numMembers = rowCount();
-    if (numMembers > 1 && numMembers < info_.member_count)
-        return true;
-    else
-        return false;
+    return false;
 }
 
 void
 MemberListBackend::fetchMore(const QModelIndex &)
 {
-    loadingMoreMembers_ = true;
-    emit loadingMoreMembersChanged();
-
-    auto members = cache::getMembers(room_id_.toStdString(), rowCount());
-    addUsers(members);
-    numUsersLoaded_ += (int)members.size();
-    emit numUsersLoadedChanged();
-
-    loadingMoreMembers_ = false;
-    emit loadingMoreMembersChanged();
+    // Member paging still depends on the removed cache layer.
 }
 
 MemberList::MemberList(const QString &room_id, QObject *parent)

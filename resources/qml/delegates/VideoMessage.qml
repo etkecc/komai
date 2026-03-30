@@ -9,6 +9,7 @@ import cc.etke.komai
 Item {
     id: content
 
+    property var roomAdapter: null
     required property double proportionalHeight
     required property int originalWidth
     required property int duration
@@ -44,6 +45,7 @@ Item {
         width: content.width
         sourceComponent: Component {
             RegularVideoMessage {
+                roomAdapter: content.roomAdapter
                 proportionalHeight: content.proportionalHeight
                 originalWidth: content.originalWidth
                 duration: content.duration
@@ -65,6 +67,7 @@ Item {
         width: content.width
         sourceComponent: Component {
             GifVideoMessage {
+                roomAdapter: content.roomAdapter
                 proportionalHeight: content.proportionalHeight
                 originalWidth: content.originalWidth
                 duration: content.duration

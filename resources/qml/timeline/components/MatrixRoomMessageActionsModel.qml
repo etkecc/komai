@@ -12,10 +12,11 @@ Item {
     required property var roomPreview
     required property var dialogRoomModel
     required property var headerRoomModel
-    required property var openForwardDialogFn
 
     width: 0
     height: 0
+
+    signal fetchedMore()
 
     PreviewPermissions {
         id: messageActionsPermissions
@@ -36,13 +37,96 @@ Item {
     property string edit: ""
     property string thread: ""
     property bool supportsThreadNavigation: false
+    property bool paginationInProgress: false
+    property bool canLoadMoreMedia: true
+    property int pendingPaginationCount: -1
+
+    function isGalleryMediaType(type) {
+        return type === MtxEvent.ImageMessage
+            || type === MtxEvent.Sticker
+            || type === MtxEvent.VideoMessage;
+    }
+
+    function adjacentMediaEvent(currentEventId, direction) {
+        const model = TimelineManager.matrixTimelineModel;
+        const eid = String(currentEventId || "");
+        if (!model || eid.length === 0)
+            return ({});
+
+        const currentRow = model.rowForEventId(eid);
+        if (currentRow < 0)
+            return ({});
+
+        const step = direction >= 0 ? -1 : 1;
+        for (let row = currentRow + step; row >= 0 && row < model.count; row += step) {
+            const item = model.itemAt(row);
+            const type = Number((item && item.type) || -1);
+            if (!root.isGalleryMediaType(type))
+                continue;
+
+            return {
+                "eventId": String((item && item.eventId) || ""),
+                "url": String((item && item.url) || ""),
+                "originalWidth": Number((item && item.originalWidth) || 0),
+                "proportionalHeight": Number((item && item.proportionalHeight) || 0),
+                "type": type,
+                "duration": Number((item && item.duration) || 0),
+                "thumbnailUrl": String((item && item.thumbnailUrl) || "")
+            };
+        }
+
+        return ({});
+    }
+
+    function countNearbyMedia(currentEventId, direction, limit) {
+        const model = TimelineManager.matrixTimelineModel;
+        const eid = String(currentEventId || "");
+        const safeLimit = Math.max(0, Number(limit || 0));
+        if (!model || eid.length === 0 || safeLimit === 0)
+            return 0;
+
+        const currentRow = model.rowForEventId(eid);
+        if (currentRow < 0)
+            return 0;
+
+        const step = direction >= 0 ? -1 : 1;
+        let count = 0;
+        for (let row = currentRow + step; row >= 0 && row < model.count && count < safeLimit; row += step) {
+            const item = model.itemAt(row);
+            if (root.isGalleryMediaType(Number((item && item.type) || -1)))
+                count += 1;
+        }
+
+        return count;
+    }
+
+    function canPaginateBack() {
+        return root.canLoadMoreMedia;
+    }
+
+    function requestMore() {
+        if (root.paginationInProgress || !root.canLoadMoreMedia)
+            return;
+
+        root.pendingPaginationCount = TimelineManager.matrixTimelineItemCount;
+        root.paginationInProgress = true;
+
+        if (!TimelineManager.paginateActiveMatrixTimelineBackwards(0)) {
+            root.paginationInProgress = false;
+            root.canLoadMoreMedia = false;
+            root.pendingPaginationCount = -1;
+            return;
+        }
+
+        paginationFinishTimer.restart();
+    }
 
     function showEvent(eventId) {
         return root.rootItem.jumpToLoadedMatrixEvent(eventId);
     }
 
     function openForwardDialog(eventId) {
-        return root.openForwardDialogFn(eventId);
+        return root.rootItem.openMatrixForwardDialog(eventId);
     }
 
     function formatRedactedEvent(eventId) {
@@ -101,7 +185,7 @@ Item {
         if (url.length === 0)
             return false;
 
-        TimelineManager.openMediaOverlay(null,
+        TimelineManager.openMediaOverlay(root,
                                          url,
                                          eid,
                                          Number((item && item.originalWidth) || 0),
@@ -187,6 +271,34 @@ Item {
         function reaction(targetEventId, reactionKey) {
             TimelineManager.toggleActiveMatrixTimelineReaction(String(targetEventId || ""),
                                                               String(reactionKey || ""));
+        }
+    }
+
+    Timer {
+        id: paginationFinishTimer
+
+        interval: 1200
+        repeat: false
+        onTriggered: {
+            if (!root.paginationInProgress)
+                return;
+
+            root.paginationInProgress = false;
+            if (root.pendingPaginationCount === TimelineManager.matrixTimelineItemCount)
+                root.canLoadMoreMedia = false;
+            root.pendingPaginationCount = -1;
+        }
+    }
+
+    Connections {
+        target: TimelineManager.matrixTimelineModel
+        ignoreUnknownSignals: true
+
+        function onCountChanged() {
+            root.paginationInProgress = false;
+            root.pendingPaginationCount = TimelineManager.matrixTimelineItemCount;
+            root.canLoadMoreMedia = true;
+            root.fetchedMore();
         }
     }
 }

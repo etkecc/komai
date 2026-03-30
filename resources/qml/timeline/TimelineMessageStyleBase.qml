@@ -48,19 +48,14 @@ TimelineEvent {
     required property QtObject replyContextMenu
     required property Item messageActions
     property Item keyboardActionAnchorItem: null
-    // Optional preview payload used when no TimelineModel room is available.
-    property var previewData: ({})
-    property var replyPreviewData: ({})
-    property var roomModelOverride: null
-    readonly property var effectiveRoomContext: roomModelOverride ? roomModelOverride : room
     readonly property int delegateContainerHeight: (typeof timelineView !== "undefined" && timelineView && timelineView.height > 0)
         ? timelineView.height
         : Screen.height
     readonly property var roomForColorCoding: {
         if (room && room.roomId !== undefined)
             return room;
-        if (roomModelOverride && roomModelOverride.roomId !== undefined)
-            return roomModelOverride;
+        if (roomAdapter && roomAdapter.roomId !== undefined)
+            return roomAdapter;
         if (previewData && previewData.room)
             return previewData.room;
         return null;

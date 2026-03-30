@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../room/components"
 import "../styles/bubble"
-import "../styles/plain"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -516,7 +514,7 @@ ColumnLayout {
                             messageContextMenu: matrixMessageContextMenu
                             replyContextMenu: matrixReplyContextMenu
                             messageActions: matrixMessageActionsHost.control
-                            roomModelOverride: matrixMessageActionsDefaultRoomModel
+                            roomAdapter: matrixMessageActionsDefaultRoomModel
                             scrolledToThis: false
                         }
                     }

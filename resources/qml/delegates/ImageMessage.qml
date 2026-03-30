@@ -9,6 +9,7 @@ import cc.etke.komai
 Item {
     id: root
 
+    property var roomAdapter: null
     required property int originalWidth
     required property int originalHeight
     required property double proportionalHeight
@@ -34,7 +35,9 @@ Item {
     width: Math.min(parent?.width ?? implicitWidth, implicitWidth)
     height: implicitHeight
 
-    readonly property var roomContext: (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
+    readonly property var roomContext: roomAdapter
+        ? roomAdapter
+        : (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
         ? effectiveRoomContext
         : ((typeof room !== "undefined" && room) ? room : null)
     readonly property string hoverOverlayText: hasCaption ? body : (filename.length > 0 ? filename : body)
@@ -93,8 +96,10 @@ Item {
                     if (Settings.timelineMediaOpenImagesExternal) {
                         root.roomContext.openMedia(root.eventId);
                     } else if (typeof root.roomContext.openMediaOverlay === "function"
-                            && root.roomContext.openMediaOverlay(root.eventId)) {
-                        return;
+                            ) {
+                        const handled = root.roomContext.openMediaOverlay(root.eventId);
+                        if (handled)
+                            return;
                     } else if (root.roomContext.isActiveMatrixTimelineRoom === true) {
                         TimelineManager.openMediaOverlay(null,
                                                          root.url,

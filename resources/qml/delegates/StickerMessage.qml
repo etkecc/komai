@@ -7,6 +7,7 @@ import QtQuick
 Item {
     id: root
 
+    property var roomAdapter: null
     required property int originalWidth
     required property int originalHeight
     required property double proportionalHeight
@@ -21,7 +22,9 @@ Item {
     readonly property double safeProportionalHeight: proportionalHeight > 0
                                                    ? proportionalHeight
                                                    : ((originalWidth > 0 && originalHeight > 0) ? (originalHeight / originalWidth) : 1.0)
-    readonly property var roomContext: (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
+    readonly property var roomContext: roomAdapter
+        ? roomAdapter
+        : (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
         ? effectiveRoomContext
         : ((typeof room !== "undefined" && room) ? room : null)
 

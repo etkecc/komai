@@ -8,13 +8,16 @@ import QtQuick
 Item {
     id: content
 
+    property var roomAdapter: null
     required property int duration
     required property string eventId
     required property string body
     required property string filename
     required property string filesize
     required property string mimetype
-    readonly property var roomContext: (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
+    readonly property var roomContext: roomAdapter
+        ? roomAdapter
+        : (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
         ? effectiveRoomContext
         : ((typeof room !== "undefined" && room) ? room : null)
 

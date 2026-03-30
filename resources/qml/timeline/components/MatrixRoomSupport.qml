@@ -51,7 +51,6 @@ Item {
         roomPreview: support.roomPreview
         dialogRoomModel: matrixDialogRoomModel
         headerRoomModel: matrixHeaderRoomModel
-        openForwardDialogFn: support.openMatrixForwardDialog
     }
 
     MatrixRoomDialogSupport {

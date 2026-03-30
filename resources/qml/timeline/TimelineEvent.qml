@@ -15,8 +15,9 @@ EventDelegateChooser {
     required property bool isStateEvent
     property var previewData: ({})
     property var replyPreviewData: ({})
-    property var roomModelOverride: null
-    readonly property var effectiveRoomContext: roomModelOverride ? roomModelOverride : room
+    property var roomAdapter: null
+    property alias roomModelOverride: wrapper.roomAdapter
+    readonly property var effectiveRoomContext: roomAdapter ? roomAdapter : room
     property string formattedBody: ""
     property string formattedStateEvent: ""
     property string stateEventIconSource: ""

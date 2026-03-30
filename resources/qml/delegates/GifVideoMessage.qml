@@ -10,6 +10,7 @@ import Qt5Compat.GraphicalEffects
 Item {
     id: content
 
+    property var roomAdapter: null
     required property double proportionalHeight
     required property int originalWidth
     required property int duration
@@ -20,7 +21,9 @@ Item {
 
     property double divisor: EventDelegateChooser.isReply ? 10 : 4
     property int tempWidth: originalWidth < 1 ? 400 : originalWidth
-    readonly property var roomContext: (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
+    readonly property var roomContext: roomAdapter
+        ? roomAdapter
+        : (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
         ? effectiveRoomContext
         : ((typeof room !== "undefined" && room) ? room : null)
 

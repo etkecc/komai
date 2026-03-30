@@ -334,6 +334,13 @@ Item {
 
         Binding {
             target: root.wrapper.main
+            property: "roomAdapter"
+            when: !!root.wrapper.main && typeof root.wrapper.main.roomAdapter !== "undefined"
+            value: root.wrapper.effectiveRoomContext
+        }
+
+        Binding {
+            target: root.wrapper.main
             property: "palette.window"
             when: !!root.wrapper.main
             value: messageBubble.palette.window

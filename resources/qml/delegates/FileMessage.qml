@@ -11,6 +11,7 @@ import cc.etke.komai
 Control {
     id: evRoot
 
+    property var roomAdapter: null
     required property QtObject styleProfile
     required property string eventId
     required property string filename
@@ -20,7 +21,9 @@ Control {
     padding: styleProfile.fileMessagePadding
     property int metadataWidth: 0
     property bool fitsMetadata: false
-    readonly property var effectiveDelegateRoom: (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
+    readonly property var effectiveDelegateRoom: roomAdapter
+        ? roomAdapter
+        : (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
         ? effectiveRoomContext
         : ((typeof room !== "undefined" && room) ? room : null)
 

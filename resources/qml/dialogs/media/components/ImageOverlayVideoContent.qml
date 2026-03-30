@@ -16,7 +16,7 @@ import cc.etke.komai 1.0
 Item {
     id: videoContent
 
-    property Room room
+    property var room
     required property string eventId
     required property string thumbnailUrl
     required property int mediaDuration

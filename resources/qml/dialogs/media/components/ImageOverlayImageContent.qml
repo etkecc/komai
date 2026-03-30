@@ -17,7 +17,7 @@ Item {
 
     required property string url
     required property string eventId
-    property Room room
+    property var room
     required property int cornerRadius
     property bool animateOnHover: false
     property bool hovered: false

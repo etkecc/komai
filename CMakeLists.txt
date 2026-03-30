@@ -342,6 +342,7 @@ set(SRC_FILES
     src/timeline/SlashCommands.h
     src/timeline/FormattedCodeBlockHighlighter.cpp
     src/timeline/FormattedCodeBlockHighlighter.h
+    src/timeline/RoomRoles.h
     src/timeline/formattedcode/HtmlRenderer.cpp
     src/timeline/formattedcode/HtmlRenderer.h
     src/timeline/formattedcode/LanguageResolver.cpp
@@ -450,6 +451,7 @@ set(SRC_FILES
     src/encryption/DeviceVerificationFlow.cpp
     src/encryption/DeviceVerificationFlowHandlers.cpp
     src/encryption/DeviceVerificationFlowProtocol.cpp
+    src/encryption/CryptoTrust.h
     src/encryption/DeviceVerificationFlow.h
     src/encryption/SelfVerificationStatus.cpp
     src/encryption/SelfVerificationStatus.h

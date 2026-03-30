@@ -13,7 +13,7 @@ import cc.etke.komai 1.0
 OverlayDialog {
     id: win
 
-    property Room room
+    property var room
     property ImagePackListModel packlist
     property int avatarSize: Math.ceil(fontMetrics.lineSpacing * 2.3)
     property SingleImagePackModel currentPack: packlist.packAt(currentPackIndex)

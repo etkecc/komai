@@ -26,7 +26,7 @@ Item {
     readonly property bool filteringInProgress: filteredTimeline.filteringInProgress
     readonly property bool filteringRequested: searchString.length > 0 || filterByNotifications || (activeRoomModel && activeRoomModel.thread !== "")
     property bool perfFirstVisibleItemLogged: false
-    property Room roommodel: room
+    property var roommodel: room
     property var activeRoomModel: null
     property var pendingRoomModel: null
     property bool roomSwitchInProgress: false

@@ -340,7 +340,7 @@ EventDelegateChooser {
 
             required property string formattedStateEvent
             required property string stateEventIconSource
-            required property Room room
+            required property var room
             required property string userId
             required property string userName
             readonly property bool hasKnockAction: room && room.showAcceptKnockButton(eventId)
@@ -375,7 +375,7 @@ EventDelegateChooser {
 
             required property string body
             required property string eventId
-            required property Room room
+            required property var room
             required property string userId
             required property string userName
 

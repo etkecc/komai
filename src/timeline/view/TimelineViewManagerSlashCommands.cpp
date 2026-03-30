@@ -386,8 +386,42 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         ok = !targetEventId.isEmpty() && redactActiveMatrixTimelineEvent(targetEventId, reason);
         break;
     }
-    case CommandId::Roomnick:
-        return notifyUnsupported(parsed.definition->name);
+    case CommandId::Roomnick: {
+        if (!requireHandle() || !requireActiveRoom())
+            return false;
+
+        const auto handleId     = activeHandleId();
+        const auto roomId       = activeMatrixTimelineRoomId_;
+        const auto displayName  = arguments;
+
+        runTimelineManagerRuntimeTask(
+          this,
+          [handleId, roomId, displayName]() {
+              QString error;
+              const bool ok = komai::MatrixBackendRuntimeService::setOwnRoomDisplayName(
+                handleId, roomId, displayName, &error);
+              return std::make_pair(ok, error);
+          },
+          [roomId](TimelineViewManager *manager, const std::pair<bool, QString> &result) {
+              const auto &[ok, error] = result;
+              auto *mainWindow        = MainWindow::instance();
+
+              if (!ok) {
+                  if (mainWindow) {
+                      mainWindow->showNotification(
+                        TimelineViewManager::tr(
+                          "Failed to update your room-specific display name for %1: %2")
+                          .arg(roomId, error));
+                  }
+                  return;
+              }
+
+              manager->scheduleMatrixSidebarRefresh();
+          });
+
+        ok = true;
+        break;
+    }
     case CommandId::Shrug: {
         const auto body = arguments.isEmpty() ? QStringLiteral("¯\\_(ツ)_/¯")
                                               : arguments + QStringLiteral(" ¯\\_(ツ)_/¯");

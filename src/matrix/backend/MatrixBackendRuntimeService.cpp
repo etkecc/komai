@@ -1176,6 +1176,23 @@ MatrixBackendRuntimeService::setOwnDisplayName(uint64_t handleId,
 }
 
 bool
+MatrixBackendRuntimeService::setOwnRoomDisplayName(uint64_t handleId,
+                                                   const QString &roomId,
+                                                   const QString &displayName,
+                                                   QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_set_own_room_display_name(
+          handleId, roomId.toStdString(), displayName.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
 MatrixBackendRuntimeService::uploadOwnAvatar(uint64_t handleId,
                                              const QString &filePath,
                                              const QString &mimeType,

@@ -37,6 +37,7 @@ use matrix_sdk::{
             AnyMessageLikeEventContent, InitialStateEvent,
             room::{
                 ImageInfo, MediaSource, encryption::RoomEncryptionEventContent,
+                member::{MembershipState, RoomMemberEventContent},
                 message::{ImageMessageEventContent, MessageType, RoomMessageEventContent},
             },
             tag::{TagInfo, TagName, UserTagName},
@@ -106,7 +107,7 @@ pub use verification::{
 };
 pub use room_actions::{
     ban_user, create_room, invite_user, join_room, kick_user, knock_room, leave_room,
-    set_room_is_direct, toggle_room_tag, unban_user,
+    set_own_room_display_name, set_room_is_direct, toggle_room_tag, unban_user,
 };
 pub use room_list::{fetch_room_list, start_sync};
 pub use room_settings::{

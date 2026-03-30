@@ -493,6 +493,11 @@ mod ffi {
             server: &str,
         ) -> Result<MatrixPublicRoomDirectoryPage>;
         fn matrix_set_own_display_name(handle_id: u64, display_name: &str) -> Result<()>;
+        fn matrix_set_own_room_display_name(
+            handle_id: u64,
+            room_id: &str,
+            display_name: &str,
+        ) -> Result<()>;
         fn matrix_upload_own_avatar(
             handle_id: u64,
             file_path: &str,
@@ -1269,6 +1274,18 @@ fn matrix_fetch_public_room_directory_page(
 
 fn matrix_set_own_display_name(handle_id: u64, display_name: &str) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::set_own_display_name(handle_id, display_name))
+}
+
+fn matrix_set_own_room_display_name(
+    handle_id: u64,
+    room_id: &str,
+    display_name: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::set_own_room_display_name(
+        handle_id,
+        room_id,
+        display_name,
+    ))
 }
 
 fn matrix_upload_own_avatar(handle_id: u64, file_path: &str, mime_type: &str) -> Result<(), String> {

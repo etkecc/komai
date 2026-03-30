@@ -256,6 +256,54 @@ pub async fn set_room_is_direct(
     Ok(())
 }
 
+pub async fn set_own_room_display_name(
+    handle_id: u64,
+    room_id: &str,
+    display_name: &str,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let own_user_id = room.own_user_id().to_owned();
+    let member = room
+        .get_member(&own_user_id)
+        .await
+        .map_err(|e| {
+            format!(
+                "failed to fetch own matrix-sdk room member for '{}': {e}",
+                room_id.trim()
+            )
+        })?
+        .ok_or_else(|| {
+            format!(
+                "matrix-sdk room '{}' does not have a joined member event for '{}'",
+                room_id.trim(),
+                own_user_id
+            )
+        })?;
+
+    let trimmed_display_name = display_name.trim();
+    let mut content = RoomMemberEventContent::new(MembershipState::Join);
+    content.avatar_url = member.avatar_url().map(ToOwned::to_owned);
+    content.displayname = (!trimmed_display_name.is_empty()).then(|| trimmed_display_name.to_owned());
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        own_user_id = own_user_id.as_str(),
+        has_display_name = content.displayname.is_some(),
+        "Updating matrix-sdk room-specific display name"
+    );
+
+    room.send_state_event_for_key(&own_user_id, content)
+        .await
+        .map(|_| ())
+        .map_err(|e| {
+            format!(
+                "failed to update matrix-sdk room-specific display name for '{}': {e}",
+                room_id.trim()
+            )
+        })
+}
+
 pub async fn invite_user(
     handle_id: u64,
     room_id: &str,

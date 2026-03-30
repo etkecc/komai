@@ -453,6 +453,11 @@ public:
     static bool
     setOwnDisplayName(uint64_t handleId, const QString &displayName, QString *errorOut = nullptr);
 
+    static bool setOwnRoomDisplayName(uint64_t handleId,
+                                      const QString &roomId,
+                                      const QString &displayName,
+                                      QString *errorOut = nullptr);
+
     static bool uploadOwnAvatar(uint64_t handleId,
                                 const QString &filePath,
                                 const QString &mimeType,

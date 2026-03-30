@@ -157,18 +157,3 @@ RoomlistModel::resumeDeferredStartupCurrentRoomRestore()
                       roomid.toStdString());
     setCurrentRoom(roomid);
 }
-
-void
-RoomlistModel::refetchOnlineKeyBackupKeys()
-{
-    nhlog::crypto()->warn(
-      "Ignoring legacy room-list key-backup refetch on the matrix-sdk migration branch");
-}
-
-void
-RoomlistModel::clearDecryptionErrors()
-{
-    nhlog::crypto()->warn(
-      "Ignoring legacy room-list clear-decryption-errors request on the matrix-sdk migration "
-      "branch");
-}

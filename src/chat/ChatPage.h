@@ -96,7 +96,6 @@ public slots:
     void banUser(const QString &room, QString userid, QString reason);
     void unbanUser(const QString &room, QString userid, QString reason);
 
-    void receivedSessionKey(const std::string &room_id, const std::string &session_id);
     void decryptDownloadedSecrets(mtx::secret_storage::AesHmacSha2KeyDescription keyDesc,
                                   const SecretsToDecrypt &secrets);
     void submitSecretUnlockInput(const QString &text);
@@ -122,7 +121,6 @@ signals:
     void trySyncCb();
     void tryDelayedSyncCb();
     void tryInitialSyncCb();
-    void leftRoom(const QString &room_id);
     void newRoom(const QString &room_id);
     void changeToRoom(const QString &room_id);
     void startRemoveFallbackKeyTimer();
@@ -170,7 +168,6 @@ signals:
     void callFunctionOnGuiThread(std::function<void()>);
 
 private slots:
-    void removeRoom(const QString &room_id);
     void changeRoom(const QString &room_id);
     void dropToLoginPage(const QString &msg);
 
@@ -204,7 +201,6 @@ private:
     void getProfileInfo();
     void getBackupVersion();
 
-    void loadStateFromCache();
     void resetUI();
     void deleteConfigs();
     void processSyncUi(const komai::NotificationSyncUpdate &sync);

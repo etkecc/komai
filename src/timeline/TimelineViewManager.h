@@ -352,8 +352,6 @@ signals:
 
 public slots:
     void updateReadReceipts(const QString &room_id, const std::vector<QString> &event_ids);
-    void receivedSessionKey(const std::string &room_id, const std::string &session_id);
-    void clearDecryptionErrors();
     void initializeRoomlist();
     void handleMatrixBackendInitialSyncReady(std::uint64_t handleId);
     void handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t handleId);

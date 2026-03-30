@@ -203,7 +203,6 @@ MatrixStore::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
                                           index.session_id,
                                           nlohmann::json(data).dump());
 
-            ChatPage::instance()->receivedSessionKey(index.room_id, index.session_id);
             importCount++;
         } catch (const mtx::crypto::olm_exception &e) {
             cache::activeLoggers().crypto->critical(

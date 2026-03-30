@@ -39,27 +39,3 @@ ChatPage::bootstrap(QString userid,
     emit contentLoaded();
     emit MainWindow::instance()->reload();
 }
-
-void
-ChatPage::loadStateFromCache()
-{
-    nhlog::db()->warn("Ignoring legacy cache restore on the matrix-sdk migration branch");
-}
-
-void
-ChatPage::removeRoom(const QString &room_id)
-{
-    nhlog::ui()->warn("Ignoring legacy removeRoom callback for '{}' on the matrix-sdk migration "
-                      "branch",
-                      room_id.toStdString());
-}
-
-void
-ChatPage::receivedSessionKey(const std::string &room_id, const std::string &session_id)
-{
-    nhlog::crypto()->warn(
-      "Ignoring legacy room-session-key callback for room '{}' session '{}'; this flow is not "
-      "migrated to the matrix-sdk backend yet",
-      room_id,
-      session_id);
-}

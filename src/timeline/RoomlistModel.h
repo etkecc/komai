@@ -126,9 +126,6 @@ public:
     RoomPreview getRoomPreviewById(QString roomid) const;
     QString currentRoomId() const;
 
-    void refetchOnlineKeyBackupKeys();
-    void clearDecryptionErrors();
-
     const QHash<QString, komai::MatrixRoomSummary> &matrixJoinedRooms() const
     {
         return matrixJoinedRooms_;

@@ -285,7 +285,7 @@ ChatPage::leaveRoom(const QString &room_id, const QString &reason)
               return;
           }
 
-          Q_EMIT page->leftRoom(room_id);
+          Q_UNUSED(room_id)
       });
 }
 

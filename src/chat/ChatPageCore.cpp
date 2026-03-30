@@ -131,7 +131,6 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
             qOverload<const QString &, const std::vector<std::string> &, QString, bool, bool>(
               &ChatPage::knockRoom),
             Qt::QueuedConnection);
-    connect(this, &ChatPage::leftRoom, this, &ChatPage::removeRoom);
     connect(this, &ChatPage::changeToRoom, this, &ChatPage::changeRoom, Qt::QueuedConnection);
     connect(notificationsManager,
             &NotificationsManager::notificationClicked,

@@ -11,12 +11,9 @@ import cc.etke.komai
 ApplicationWindow {
     id: roomWindowW
 
-    property var room: null
     property var roomPreview: null
-    readonly property string effectiveRoomId: room && room.roomId ? room.roomId : (roomPreview && roomPreview.roomid ? roomPreview.roomid : "")
-    readonly property string effectiveRoomName: room && room.plainRoomName
-        ? room.plainRoomName
-        : (roomPreview && roomPreview.roomName ? roomPreview.roomName : "")
+    readonly property string effectiveRoomId: roomPreview && roomPreview.roomid ? roomPreview.roomid : ""
+    readonly property string effectiveRoomName: roomPreview && roomPreview.roomName ? roomPreview.roomName : ""
 
     color: palette.window
     height: 650
@@ -30,10 +27,6 @@ ApplicationWindow {
         Komai.setTransientParent(roomWindowW, null);
     }
     Component.onDestruction: MainWindow.removePerRoomWindow(effectiveRoomId, roomWindowW)
-    onActiveChanged: {
-        if (room && typeof room.lastReadIdOnWindowFocus === "function")
-            room.lastReadIdOnWindowFocus();
-    }
 
     Shortcut {
         sequence: StandardKey.Cancel
@@ -46,7 +39,7 @@ ApplicationWindow {
         anchors.fill: parent
         dialogHost: roomWindowW
         windowFocusBlurOverlay: windowFocusBlurOverlay
-        room: roomWindowW.room
+        room: null
         roomPreview: roomWindowW.roomPreview && roomWindowW.roomPreview.roomid ? roomWindowW.roomPreview : null
     }
     PrivacyScreen {

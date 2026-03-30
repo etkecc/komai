@@ -113,6 +113,15 @@ ColumnLayout {
         messageActionSupport: messageActionSupport
     }
 
+    MatrixRoomInteractionSupport {
+        id: interactionSupport
+
+        rootItem: root
+        composerPane: composerPane
+        roomSupport: roomSupport
+        timelineList: matrixTimelineList
+    }
+
     function scheduleInitialTimelineBufferCheck() {
         initialBufferCheckGeneration += 1;
         if (initialBufferCheckQueued)
@@ -732,187 +741,34 @@ ColumnLayout {
     }
 
     function openMatrixMessageContextMenu(messageModel, roomModel, copyText) {
-        if (!messageModel || !roomModel || !messageModel.eventId)
-            return;
-
-        matrixMessageContextMenu.show(messageModel.eventId,
-                                      messageModel.threadId || "",
-                                      messageModel.type,
-                                      !!messageModel.isSender,
-                                      !!messageModel.isEncrypted,
-                                      !!messageModel.isEditable,
-                                      !!messageModel.isStateEvent,
-                                      "",
-                                      copyText || "",
-                                      null,
-                                      messageModel,
-                                      roomModel);
+        return interactionSupport.openMatrixMessageContextMenu(messageModel, roomModel, copyText);
     }
-
-    function jumpToLoadedMatrixEvent(eventId) {
-        const trimmedEventId = String(eventId || "").trim();
-        if (trimmedEventId.length === 0 || !TimelineManager.matrixTimelineModel || !matrixTimelineList)
-            return false;
-
-        const row = TimelineManager.matrixTimelineModel.rowForEventId(trimmedEventId);
-        if (row < 0)
-            return false;
-
-        matrixTimelineList.positionViewAtIndex(row, ListView.Center);
-        return true;
-    }
-
-    function focusTextInput() {
-        return composerPane && composerPane.composerInput
-            ? composerPane.composerInput.focusTextInput()
-            : false;
-    }
-
-    function destroyOnClose(dialog) {
-        return roomSupport.destroyOnClose(dialog);
-    }
-
-    function scheduleComposerAutoFocus() {
-        if (!pendingComposerAutoFocus)
-            return;
-
-        Qt.callLater(function () {
-            if (!pendingComposerAutoFocus
-                    || !visible
-                    || perfDisableComposer
-                    || walkModeActive
-                    || hasOpenOverlayDialog)
-                return;
-
-            if (root.focusTextInput())
-                pendingComposerAutoFocus = false;
-        });
-    }
-
-    function shouldRouteTextKeyToComposer(event) {
-        if (!event
-                || walkModeActive
-                || headerSearchHasFocus
-                || hasOpenOverlayDialog) {
-            return false;
-        }
-
-        const text = String(event.text || "");
-        if (text.length === 0)
-            return false;
-
-        if (event.key === Qt.Key_Return
-                || event.key === Qt.Key_Enter
-                || event.key === Qt.Key_Tab
-                || event.key === Qt.Key_Backtab) {
-            return false;
-        }
-
-        const modifiers = Number(event.modifiers);
-        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
-    }
-
-    function handleComposerTextKey(event) {
-        if (!shouldRouteTextKeyToComposer(event))
-            return false;
-
-        if (!root.appendText(event.text))
-            return false;
-
-        pendingComposerAutoFocus = false;
-        event.accepted = true;
-        return true;
-    }
-
-    function appendText(text) {
-        return composerPane.composerInput ? composerPane.composerInput.appendText(text) : false;
-    }
-
-    function trySendMessage() {
-        if (root.hasPendingAttachments)
-            return TimelineManager.sendActiveMatrixAttachments();
-
-        const body = composerPane.composerInput.text;
-        const ok = root.editing
-            ? TimelineManager.sendActiveMatrixEditMessage(body)
-            : TimelineManager.sendActiveMatrixTextMessage(body);
-        if (!ok)
-            return false;
-
-        if (!root.editing) {
-            composerPane.composerInput.replaceText("");
-            matrixComposerInputController.setText("");
-        }
-        root.focusTextInput();
-        return true;
-    }
-
-    function beginEdit(eventId, body, messageKind) {
-        if (!eventId || !body)
-            return false;
-
-        if (!root.editing) {
-            draftBeforeEdit = composerPane.composerInput.text;
-            restoringEditDraft = true;
-        }
-
-        if (!TimelineManager.queueActiveMatrixEdit(String(eventId), String(body), String(messageKind || "message"))) {
-            if (restoringEditDraft) {
-                draftBeforeEdit = "";
-                restoringEditDraft = false;
-            }
-            return false;
-        }
-
-        matrixComposerInputController.setText(String(body));
-        root.focusTextInput();
-        return true;
-    }
-
-    function openRemoveMessageDialog(eventId) {
-        return roomSupport.openRemoveMessageDialog(eventId);
-    }
-
-    function openRawMessageDialog(eventId) {
-        return roomSupport.openRawMessageDialog(eventId);
-    }
-
-    function openReadReceiptsDialog(eventId) {
-        return roomSupport.openReadReceiptsDialog(eventId);
-    }
-
-    function openMatrixForwardDialog(eventId) {
-        return roomSupport.openMatrixForwardDialog(eventId);
-    }
-
-    function openForwardDialog(eventId) {
-        return roomSupport.openMatrixForwardDialog(eventId);
-    }
-
-    function openReportMessageDialog(eventId) {
-        return roomSupport.openReportMessageDialog(eventId);
-    }
-
-    function openMessageActionsDialog(eventId,
-                                      threadId,
-                                      eventType,
-                                      isSender,
-                                      isEncrypted,
-                                      isEditable,
-                                      link,
-                                      text,
-                                      messageModelOverride,
-                                      roomModelOverride) {
-        return roomSupport.openMessageActionsDialog(eventId,
-                                                    threadId,
-                                                    eventType,
-                                                    isSender,
-                                                    isEncrypted,
-                                                    isEditable,
-                                                    link,
-                                                    text,
-                                                    messageModelOverride,
-                                                    roomModelOverride);
+    function jumpToLoadedMatrixEvent(eventId) { return interactionSupport.jumpToLoadedMatrixEvent(eventId); }
+    function focusTextInput() { return interactionSupport.focusTextInput(); }
+    function destroyOnClose(dialog) { return interactionSupport.destroyOnClose(dialog); }
+    function scheduleComposerAutoFocus() { return interactionSupport.scheduleComposerAutoFocus(); }
+    function shouldRouteTextKeyToComposer(event) { return interactionSupport.shouldRouteTextKeyToComposer(event); }
+    function handleComposerTextKey(event) { return interactionSupport.handleComposerTextKey(event); }
+    function appendText(text) { return interactionSupport.appendText(text); }
+    function trySendMessage() { return interactionSupport.trySendMessage(); }
+    function beginEdit(eventId, body, messageKind) { return interactionSupport.beginEdit(eventId, body, messageKind); }
+    function openRemoveMessageDialog(eventId) { return interactionSupport.openRemoveMessageDialog(eventId); }
+    function openRawMessageDialog(eventId) { return interactionSupport.openRawMessageDialog(eventId); }
+    function openReadReceiptsDialog(eventId) { return interactionSupport.openReadReceiptsDialog(eventId); }
+    function openMatrixForwardDialog(eventId) { return interactionSupport.openMatrixForwardDialog(eventId); }
+    function openForwardDialog(eventId) { return interactionSupport.openForwardDialog(eventId); }
+    function openReportMessageDialog(eventId) { return interactionSupport.openReportMessageDialog(eventId); }
+    function openMessageActionsDialog(eventId, threadId, eventType, isSender, isEncrypted, isEditable, link, text, messageModelOverride, roomModelOverride) {
+        return interactionSupport.openMessageActionsDialog(eventId,
+                                                           threadId,
+                                                           eventType,
+                                                           isSender,
+                                                           isEncrypted,
+                                                           isEditable,
+                                                           link,
+                                                           text,
+                                                           messageModelOverride,
+                                                           roomModelOverride);
     }
 
     anchors.fill: parent
@@ -1487,33 +1343,6 @@ ColumnLayout {
                 composerInputController: matrixComposerInputController
             }
         }
-    }
-
-    Connections {
-        function onMatrixTimelineStateChanged() {
-            if (root.pendingComposerAutoFocus)
-                root.scheduleComposerAutoFocus();
-
-            root.ensureInitialBottomPin();
-            if (root.deferredInitialBufferTopUpPending)
-                root.scheduleDeferredInitialTimelineBufferCheck();
-            else
-                root.scheduleInitialTimelineBufferCheck();
-
-            if (!root.restoringEditDraft || root.activeEditEventId.length > 0)
-                return;
-
-            matrixComposerInputController.setText(root.draftBeforeEdit);
-            root.draftBeforeEdit = "";
-            root.restoringEditDraft = false;
-            root.focusTextInput();
-        }
-
-        function onFocusInput() {
-            root.focusTextInput();
-        }
-
-        target: TimelineManager
     }
 
     Shortcut {

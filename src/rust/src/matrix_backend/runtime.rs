@@ -105,7 +105,8 @@ pub use room_actions::{
 };
 pub use room_list::{fetch_room_list, start_sync};
 pub use room_settings::{
-    enable_room_encryption, fetch_room_settings, remove_room_avatar, set_room_access_rules,
+    enable_room_encryption, fetch_room_members, fetch_room_settings, remove_room_avatar,
+    set_room_access_rules,
     set_room_history_visibility, set_room_name, set_room_notification_mode, set_room_topic,
     upload_room_avatar,
 };
@@ -262,6 +263,14 @@ pub struct MatrixRoomSettings {
     pub can_change_avatar: bool,
     pub can_change_join_rules: bool,
     pub can_change_history_visibility: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixRoomMember {
+    pub user_id: String,
+    pub display_name: String,
+    pub avatar_url: String,
+    pub power_level: i64,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

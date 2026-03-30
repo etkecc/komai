@@ -168,6 +168,14 @@ struct MatrixRoomSettings
     bool canChangeHistoryVisibility = false;
 };
 
+struct MatrixRoomMember
+{
+    QString userId;
+    QString displayName;
+    QString avatarUrl;
+    qlonglong powerLevel = 0;
+};
+
 struct MatrixRoomRedactionPermissions
 {
     bool canRedactOwn   = false;
@@ -450,6 +458,9 @@ public:
 
     static std::optional<MatrixRoomSettings>
     fetchRoomSettings(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static std::optional<QVector<MatrixRoomMember>>
+    fetchRoomMembers(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
 
     static std::optional<MatrixRoomRedactionPermissions>
     fetchRoomRedactionPermissions(uint64_t handleId,

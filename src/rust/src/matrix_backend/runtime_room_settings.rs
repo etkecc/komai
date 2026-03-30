@@ -7,6 +7,7 @@ use std::fs;
 use super::*;
 use matrix_sdk::{
     notification_settings::RoomNotificationMode,
+    RoomMemberships,
     room::ParentSpace,
     ruma::{
         UInt,
@@ -18,6 +19,7 @@ use matrix_sdk::{
                 guest_access::{GuestAccess, RoomGuestAccessEventContent},
                 history_visibility::{HistoryVisibility, RoomHistoryVisibilityEventContent},
                 join_rules::{AllowRule, JoinRule, RoomJoinRulesEventContent},
+                power_levels::UserPowerLevel,
             },
         },
     },
@@ -247,6 +249,48 @@ pub async fn fetch_room_settings(
             levels.user_can_send_state(&own_user_id, StateEventType::RoomHistoryVisibility)
         }),
     })
+}
+
+pub async fn fetch_room_members(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<Vec<MatrixRoomMember>, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let mut members = room
+        .members(RoomMemberships::ACTIVE)
+        .await
+        .map_err(|e| format!("failed to fetch matrix-sdk room members: {e}"))?;
+
+    members.sort_by(|a, b| {
+        b.power_level()
+            .cmp(&a.power_level())
+            .then_with(|| {
+                a.display_name()
+                    .unwrap_or(a.user_id().as_str())
+                    .cmp(b.display_name().unwrap_or(b.user_id().as_str()))
+            })
+            .then_with(|| a.user_id().cmp(b.user_id()))
+    });
+
+    Ok(members
+        .into_iter()
+        .map(|member| MatrixRoomMember {
+            user_id: member.user_id().to_string(),
+            display_name: member
+                .display_name()
+                .map(ToOwned::to_owned)
+                .unwrap_or_else(|| member.user_id().to_string()),
+            avatar_url: member
+                .avatar_url()
+                .map(|uri| normalize_mxc_uri(uri.to_string()))
+                .unwrap_or_default(),
+            power_level: match member.power_level() {
+                UserPowerLevel::Int(value) => i64::from(value),
+                UserPowerLevel::Infinite => i64::MAX,
+                _ => 0,
+            },
+        })
+        .collect())
 }
 
 pub async fn set_room_notification_mode(

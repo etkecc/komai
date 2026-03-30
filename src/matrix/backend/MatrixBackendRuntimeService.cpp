@@ -276,6 +276,17 @@ fromRustRoomRedactionPermissions(const ::komai::rust::MatrixRoomRedactionPermiss
     };
 }
 
+MatrixRoomMember
+fromRustRoomMember(const ::komai::rust::MatrixRoomMember &member)
+{
+    return MatrixRoomMember{
+      .userId      = QString::fromStdString(std::string(member.user_id)),
+      .displayName = QString::fromStdString(std::string(member.display_name)),
+      .avatarUrl  = matrix::normalizeMxcUri(QString::fromStdString(std::string(member.avatar_url))),
+      .powerLevel = member.power_level,
+    };
+}
+
 MatrixReadReceiptEntry
 fromRustReadReceiptEntry(const ::komai::rust::MatrixReadReceiptEntry &entry)
 {
@@ -1153,6 +1164,26 @@ MatrixBackendRuntimeService::fetchRoomRedactionPermissions(uint64_t handleId,
         auto result =
           ::komai::rust::matrix_fetch_room_redaction_permissions(handleId, roomId.toStdString());
         return fromRustRoomRedactionPermissions(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<QVector<MatrixRoomMember>>
+MatrixBackendRuntimeService::fetchRoomMembers(uint64_t handleId,
+                                              const QString &roomId,
+                                              QString *errorOut)
+{
+    try {
+        const auto result =
+          ::komai::rust::matrix_fetch_room_members(handleId, roomId.toStdString());
+        QVector<MatrixRoomMember> members;
+        members.reserve(static_cast<int>(result.size()));
+        for (const auto &member : result)
+            members.push_back(fromRustRoomMember(member));
+        return members;
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());

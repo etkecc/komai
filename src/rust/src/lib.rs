@@ -175,6 +175,13 @@ mod ffi {
         can_change_history_visibility: bool,
     }
 
+    struct MatrixRoomMember {
+        user_id: String,
+        display_name: String,
+        avatar_url: String,
+        power_level: i64,
+    }
+
     struct MatrixRoomRedactionPermissions {
         can_redact_own: bool,
         can_redact_other: bool,
@@ -470,6 +477,7 @@ mod ffi {
         fn matrix_unignore_user(handle_id: u64, user_id: &str) -> Result<()>;
         fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>>;
         fn matrix_fetch_room_settings(handle_id: u64, room_id: &str) -> Result<MatrixRoomSettings>;
+        fn matrix_fetch_room_members(handle_id: u64, room_id: &str) -> Result<Vec<MatrixRoomMember>>;
         fn matrix_fetch_media_content(
             handle_id: u64,
             mxc_uri: &str,
@@ -1285,6 +1293,22 @@ fn matrix_fetch_room_settings(
         can_change_join_rules: result.can_change_join_rules,
         can_change_history_visibility: result.can_change_history_visibility,
     })
+}
+
+fn matrix_fetch_room_members(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<Vec<ffi::MatrixRoomMember>, String> {
+    let result = runtime().block_on(matrix_backend::runtime::fetch_room_members(handle_id, room_id))?;
+    Ok(result
+        .into_iter()
+        .map(|member| ffi::MatrixRoomMember {
+            user_id: member.user_id,
+            display_name: member.display_name,
+            avatar_url: member.avatar_url,
+            power_level: member.power_level,
+        })
+        .collect())
 }
 
 fn matrix_fetch_media_content(

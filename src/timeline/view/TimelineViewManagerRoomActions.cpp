@@ -11,6 +11,7 @@
 #include "RoomlistModel.h"
 #include "logging/Logging.h"
 #include "models/InviteesModel.h"
+#include "models/MemberList.h"
 #include "timeline/CommunitiesModel.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
@@ -51,18 +52,11 @@ TimelineViewManager::openRoomSettings(QString room_id)
 void
 TimelineViewManager::openRoomInfo(const QString &roomId, const QString &initialTab)
 {
-    QString effectiveInitialTab = initialTab;
-    if (effectiveInitialTab == QLatin1String("members")) {
-        nhlog::ui()->warn("Member list for room '{}' is not migrated on the matrix-sdk branch",
-                          roomId.toStdString());
-        if (auto *mainWindow = MainWindow::instance())
-            mainWindow->showNotification(tr("Member list is not migrated yet."));
-        effectiveInitialTab = QStringLiteral("settings");
-    }
-
     auto *settings = new RoomSettings(roomId);
+    auto *members  = new MemberList(roomId);
     QQmlEngine::setObjectOwnership(settings, QQmlEngine::JavaScriptOwnership);
-    emit openRoomInfoDialog(settings, nullptr, nullptr, effectiveInitialTab);
+    QQmlEngine::setObjectOwnership(members, QQmlEngine::JavaScriptOwnership);
+    emit openRoomInfoDialog(settings, members, nullptr, initialTab);
 }
 
 void

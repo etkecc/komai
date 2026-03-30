@@ -9,9 +9,6 @@
 #include <QQmlEngine>
 #include <QSortFilterProxyModel>
 
-#include "matrix/MatrixPowerLevelCompat.h"
-#include "matrix/MatrixStateTypes.h"
-
 class MemberListBackend final : public QAbstractListModel
 {
     Q_OBJECT
@@ -44,8 +41,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     QString roomName() const;
-    int memberCount() const { return (int)info_.member_count; }
-    QString avatarUrl() const { return QString::fromStdString(info_.avatar_url); }
+    int memberCount() const { return memberCount_; }
+    QString avatarUrl() const { return avatarUrl_; }
     QString roomId() const { return room_id_; }
     int numUsersLoaded() const { return numUsersLoaded_; }
     bool loadingMoreMembers() const { return loadingMoreMembers_; }
@@ -58,22 +55,29 @@ signals:
     void numUsersLoadedChanged();
     void loadingMoreMembersChanged();
 
-public slots:
-    void addUsers(const std::vector<RoomMember> &users);
-
 protected:
     bool canFetchMore(const QModelIndex &) const override;
     void fetchMore(const QModelIndex &) override;
 
 private:
-    QVector<QPair<RoomMember, QString>> m_memberList;
+    struct MemberEntry
+    {
+        QString userId;
+        QString displayName;
+        QString avatarUrl;
+        qlonglong powerLevel = 0;
+    };
+
+    void setRoomInfo(const QString &roomName, const QString &avatarUrl, int memberCount);
+    void setMembers(QVector<MemberEntry> members, int memberCount);
+
+    QVector<MemberEntry> m_memberList;
     QString room_id_;
-    RoomInfo info_;
+    QString roomName_;
+    QString avatarUrl_;
+    int memberCount_ = 0;
     int numUsersLoaded_{0};
     bool loadingMoreMembers_{false};
-
-    mtx::events::state::PowerLevels powerLevels_;
-    mtx::events::StateEvent<mtx::events::state::Create> create_;
 
     friend class MemberList;
 };

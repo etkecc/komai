@@ -8,7 +8,6 @@
 #include <QString>
 #include <QtQmlIntegration/qqmlintegration.h>
 #include <mtx/events.hpp>
-#include <mtx/events/collections.hpp>
 
 namespace qml_mtx_events {
 Q_NAMESPACE
@@ -143,12 +142,6 @@ Q_ENUM_NS(NotificationLevel)
 
 EventType
 toRoomEventType(mtx::events::EventType e);
-EventType
-toRoomEventType(const mtx::events::collections::TimelineEvents &event);
-QString
-toRoomEventTypeString(const mtx::events::collections::TimelineEvents &event);
-mtx::events::EventType
-fromRoomEventType(EventType t);
 
 /// Event types that should never appear as standalone timeline items.
 /// These have their own rendering paths (e.g. reactions as emoji pills,

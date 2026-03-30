@@ -97,12 +97,12 @@ UserProfile::changeUsername(const QString &username)
     runUserProfileRuntimeTask(
       this,
       [handleId, roomId, nextName, globalProfile]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
-          const bool ok =
-            globalProfile
-              ? komai::MatrixBackendRuntimeService::setOwnDisplayName(handleId, nextName, &error)
-              : komai::MatrixBackendRuntimeService::setOwnRoomDisplayName(
-                  handleId, roomId, nextName, &error);
+          const bool ok = globalProfile ? komai::MatrixBackendRuntimeService::setOwnDisplayName(
+                                            context, handleId, nextName, &error)
+                                        : komai::MatrixBackendRuntimeService::setOwnRoomDisplayName(
+                                            context, handleId, roomId, nextName, &error);
           return std::make_pair(ok, error);
       },
       [globalProfile](UserProfile *profile, const std::pair<bool, QString> &result) {
@@ -139,9 +139,10 @@ UserProfile::changeDeviceName(const QString &deviceID, const QString &deviceName
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     if (!komai::MatrixBackendRuntimeService::renameDevice(
-          handleId, trimmedDeviceId, trimmedDeviceName, &error)) {
+          context, handleId, trimmedDeviceId, trimmedDeviceName, &error)) {
         emit displayError(error.isEmpty()
                             ? tr("Failed to rename device \"%1\".").arg(trimmedDeviceId)
                             : tr("Failed to rename device \"%1\": %2").arg(trimmedDeviceId, error));
@@ -184,9 +185,10 @@ UserProfile::unverify(const QString &device)
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     if (!komai::MatrixBackendRuntimeService::unverifyDevice(
-          handleId, userid_, trimmedDeviceId, &error)) {
+          context, handleId, userid_, trimmedDeviceId, &error)) {
         emit displayError(
           error.isEmpty()
             ? tr("Failed to clear verification for device \"%1\".").arg(trimmedDeviceId)
@@ -213,9 +215,10 @@ UserProfile::blockDevice(const QString &device)
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     if (!komai::MatrixBackendRuntimeService::blockDevice(
-          handleId, userid_, trimmedDeviceId, &error)) {
+          context, handleId, userid_, trimmedDeviceId, &error)) {
         emit displayError(error.isEmpty()
                             ? tr("Failed to block device \"%1\".").arg(trimmedDeviceId)
                             : tr("Failed to block device \"%1\": %2").arg(trimmedDeviceId, error));
@@ -241,9 +244,10 @@ UserProfile::unblockDevice(const QString &device)
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     if (!komai::MatrixBackendRuntimeService::unblockDevice(
-          handleId, userid_, trimmedDeviceId, &error)) {
+          context, handleId, userid_, trimmedDeviceId, &error)) {
         emit displayError(
           error.isEmpty() ? tr("Failed to unblock device \"%1\".").arg(trimmedDeviceId)
                           : tr("Failed to unblock device \"%1\": %2").arg(trimmedDeviceId, error));
@@ -305,11 +309,12 @@ UserProfile::changeAvatar()
     runUserProfileRuntimeTask(
       this,
       [handleId, roomId, fileName, mimeName = mime.name(), globalProfile]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok = globalProfile ? komai::MatrixBackendRuntimeService::uploadOwnAvatar(
-                                            handleId, fileName, mimeName, &error)
+                                            context, handleId, fileName, mimeName, &error)
                                         : komai::MatrixBackendRuntimeService::uploadOwnRoomAvatar(
-                                            handleId, roomId, fileName, mimeName, &error);
+                                            context, handleId, roomId, fileName, mimeName, &error);
           return std::make_pair(ok, error);
       },
       [globalProfile](UserProfile *profile, const std::pair<bool, QString> &result) {
@@ -354,11 +359,13 @@ UserProfile::removeAvatar()
     runUserProfileRuntimeTask(
       this,
       [handleId, roomId, globalProfile]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok =
             globalProfile
-              ? komai::MatrixBackendRuntimeService::removeOwnAvatar(handleId, &error)
-              : komai::MatrixBackendRuntimeService::removeOwnRoomAvatar(handleId, roomId, &error);
+              ? komai::MatrixBackendRuntimeService::removeOwnAvatar(context, handleId, &error)
+              : komai::MatrixBackendRuntimeService::removeOwnRoomAvatar(
+                  context, handleId, roomId, &error);
           return std::make_pair(ok, error);
       },
       [globalProfile](UserProfile *profile, const std::pair<bool, QString> &result) {

@@ -427,9 +427,10 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         komai::qt_worker_task::runQueued(
           this,
           [handleId, roomId, displayName]() {
+              const auto context = komai::matrix_backend::blockingCallContext();
               QString error;
               const bool ok = komai::MatrixBackendRuntimeService::setOwnRoomDisplayName(
-                handleId, roomId, displayName, &error);
+                context, handleId, roomId, displayName, &error);
               return std::make_pair(ok, error);
           },
           [roomId](TimelineViewManager *manager, const std::pair<bool, QString> &result) {
@@ -538,9 +539,10 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         komai::qt_worker_task::runQueued(
           this,
           [handleId, roomId, isDirect]() {
+              const auto context = komai::matrix_backend::blockingCallContext();
               QString error;
               const bool ok = komai::MatrixBackendRuntimeService::setRoomIsDirect(
-                handleId, roomId, isDirect, &error);
+                context, handleId, roomId, isDirect, &error);
               return std::make_pair(ok, error);
           },
           [isDirect, roomIdText](TimelineViewManager *manager,
@@ -574,11 +576,13 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         if (!requireHandle())
             return false;
 
+        const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
         QString error;
-        ok =
-          parsed.definition->id == CommandId::Ignore
-            ? komai::MatrixBackendRuntimeService::ignoreUser(activeHandleId(), arguments, &error)
-            : komai::MatrixBackendRuntimeService::unignoreUser(activeHandleId(), arguments, &error);
+        ok = parsed.definition->id == CommandId::Ignore
+               ? komai::MatrixBackendRuntimeService::ignoreUser(
+                   context, activeHandleId(), arguments, &error)
+               : komai::MatrixBackendRuntimeService::unignoreUser(
+                   context, activeHandleId(), arguments, &error);
         if (!ok) {
             showNotification(tr("Failed to update ignored-user state: %1").arg(error));
             return false;
@@ -605,9 +609,10 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         komai::qt_worker_task::runQueued(
           this,
           [handleId, target, block]() {
+              const auto context = komai::matrix_backend::blockingCallContext();
               QString error;
               const bool ok = komai::MatrixBackendRuntimeService::setInvitePermission(
-                handleId, target, block, &error);
+                context, handleId, target, block, &error);
               return std::make_pair(ok, error);
           },
           [block, targetUi](TimelineViewManager *manager, const std::pair<bool, QString> &result) {

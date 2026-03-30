@@ -284,10 +284,11 @@ MxcImageProvider::download(const QString &id,
                                                   requestedHeight,
                                                   crop,
                                                   itemId] {
+                const auto context = komai::matrix_backend::blockingCallContext();
                 QString error;
                 const auto data =
                   komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-                    *handleId, itemId, requestedWidth, requestedHeight, crop, &error);
+                    context, *handleId, itemId, requestedWidth, requestedHeight, crop, &error);
                 if (!data || data->isEmpty()) {
                     nhlog::net()->warn(
                       "Failed to fetch matrix-sdk active timeline media {} via backend handle {}: "
@@ -370,9 +371,11 @@ MxcImageProvider::download(const QString &id,
                                                   handleId,
                                                   requestedWidth,
                                                   requestedHeight] {
+                const auto context = komai::matrix_backend::blockingCallContext();
                 QString error;
                 const auto data =
-                  komai::MatrixBackendRuntimeService::fetchMediaContent(*handleId,
+                  komai::MatrixBackendRuntimeService::fetchMediaContent(context,
+                                                                        *handleId,
                                                                         providerIdToMxcUri(id),
                                                                         requestedWidth,
                                                                         requestedHeight,
@@ -429,9 +432,10 @@ MxcImageProvider::download(const QString &id,
             if (const auto handleId = activeMatrixBackendHandleId()) {
                 QThreadPool::globalInstance()->start(
                   [fileInfo, requestedSize, then, id, radius, handleId] {
+                      const auto context = komai::matrix_backend::blockingCallContext();
                       QString error;
                       const auto data = komai::MatrixBackendRuntimeService::fetchMediaContent(
-                        *handleId, providerIdToMxcUri(id), 0, 0, false, &error);
+                        context, *handleId, providerIdToMxcUri(id), 0, 0, false, &error);
                       if (!data || data->isEmpty()) {
                           nhlog::net()->warn(
                             "Failed to fetch matrix-sdk media {} via backend handle {}: {}",

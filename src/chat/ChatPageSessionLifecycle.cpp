@@ -43,8 +43,9 @@ ChatPage::performLogout(LogoutPolicy policy, LogoutRoute route, const QString &l
             nhlog::net()->info("Skipping server-side logout because no matrix-sdk backend handle "
                                "is active for the current session");
         } else {
+            const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
             QString error;
-            if (komai::MatrixBackendRuntimeService::logoutBackend(handleId, &error)) {
+            if (komai::MatrixBackendRuntimeService::logoutBackend(context, handleId, &error)) {
                 nhlog::net()->info("Completed server-side matrix-sdk logout using auth_type='{}'",
                                    mainWindow->matrixBackendAuthType().toStdString());
             } else {
@@ -127,9 +128,10 @@ ChatPage::processDownloadedSecretsUnlockInput(const QString &text)
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     if (!komai::MatrixBackendRuntimeService::recoverEncryptionSecrets(
-          handleId, trimmedSecret, &error)) {
+          context, handleId, trimmedSecret, &error)) {
         emit showNotification(error.isEmpty() ? tr("Failed to unlock key backup.")
                                               : tr("Failed to unlock key backup: %1").arg(error));
         return;

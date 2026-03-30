@@ -76,7 +76,74 @@ existing IPC transport.
 
 ## Async Strategy
 
-The Rust crate uses a `tokio::Runtime` (created once via `OnceLock`) with `block_on()` to run async resolver calls synchronously. C++ callers are expected to invoke the resolver from worker threads (matching the existing `FetchRoomsChunkFromDirectoryJob` pattern) to avoid blocking the UI thread.
+The Rust crate uses a shared `tokio::Runtime` (created once via `OnceLock`).
+
+There are two distinct patterns:
+
+- Non-blocking runtime work:
+  - long-lived room-list / timeline loops and similar internal Rust tasks use the runtime directly
+  - these are internal Rust concerns and do not carry a C++ thread policy
+- Blocking FFI entrypoints:
+  - some exported Rust functions still need to synchronously wait on async runtime work for the
+    current C++ call
+  - those must not call `runtime().block_on(...)` directly anymore
+
+### Blocking FFI rule
+
+Exported blocking Rust entrypoints take an explicit `MatrixFfiBlockingContext` and must go through
+`ffi_block_on(context, operation, future)`.
+
+That context carries two pieces of information from C++:
+
+- thread policy:
+  - `AllowUiThread`
+  - `RequireWorkerThread`
+- caller thread kind:
+  - `AppUiThread`
+  - `WorkerThread`
+
+`ffi_block_on(...)` is the Rust-side choke point that:
+
+- initializes logging
+- validates the context
+- panics immediately if a worker-only blocking call claims to come from the app/UI thread
+- only then enters `runtime().block_on(future)`
+
+This is deliberate. The goal is to make the blocking policy explicit at the C++ -> Rust seam,
+instead of letting future bridge functions silently introduce raw `block_on()` calls.
+
+### C++ side contract
+
+Blocking C++ wrapper/service methods use `BlockingCallContext` from
+`src/matrix/backend/MatrixBlockingCall.h`.
+
+The two normal constructors are:
+
+- `blockingCallContext()`
+  - worker-thread only
+  - logs and aborts immediately if created on the app/UI thread
+- `allowUiThreadBlockingCallContext()`
+  - explicit escape hatch for existing synchronous UI-thread callers that have not been moved to a
+    worker path yet
+
+`src/matrix/backend/MatrixFfiBlockingContext.h` converts that C++ context into the generated Rust
+bridge struct.
+
+### Why this exists
+
+This hardening came from real failures:
+
+- UI-thread `runtime().block_on(...)` paths can deadlock when Rust callbacks need the app thread
+- mixed “sometimes blocking inline, sometimes worker-thread” patterns make those deadlocks easy to
+  reintroduce accidentally
+- qtkeychain/session-persistence fallout made it clear that “just fix one caller” was not enough;
+  the seam needed one explicit policy
+
+The design is intentionally scoped to exported blocking FFI entrypoints.
+
+- Internal/background Rust runtime users still use the runtime directly.
+- The C++ side still decides whether a given blocking call is temporarily UI-allowed or must be on
+  a worker thread.
 
 ## Packaging
 

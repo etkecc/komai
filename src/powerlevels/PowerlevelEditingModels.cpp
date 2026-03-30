@@ -41,9 +41,10 @@ PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *paren
 
     QPointer<PowerlevelEditingModels> self(this);
     std::thread([self, handleId, roomId = roomId_]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
-        const auto powerLevels =
-          komai::MatrixBackendRuntimeService::fetchRoomPowerLevels(handleId, roomId, &error);
+        const auto powerLevels = komai::MatrixBackendRuntimeService::fetchRoomPowerLevels(
+          context, handleId, roomId, &error);
 
         auto *app = QCoreApplication::instance();
         if (!app)
@@ -135,9 +136,10 @@ PowerlevelEditingModels::commit()
 
     QPointer<PowerlevelEditingModels> self(this);
     std::thread([self, handleId, roomId = roomId_, updated]() mutable {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
         const bool ok = komai::MatrixBackendRuntimeService::applyRoomPowerLevels(
-          handleId, roomId, updated, &error);
+          context, handleId, roomId, updated, &error);
 
         auto *app = QCoreApplication::instance();
         if (!app)

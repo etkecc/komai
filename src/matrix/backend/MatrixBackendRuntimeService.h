@@ -285,235 +285,327 @@ class MatrixBackendRuntimeService
 {
 public:
     static std::optional<MatrixBackendHandleInfo>
-    startRestoredBackend(const QString &profileId, QString *errorOut = nullptr);
+    startRestoredBackend(matrix_backend::BlockingCallContext context,
+                         const QString &profileId,
+                         QString *errorOut = nullptr);
 
-    static bool logoutBackend(uint64_t handleId, QString *errorOut = nullptr);
+    static bool logoutBackend(matrix_backend::BlockingCallContext context,
+                              uint64_t handleId,
+                              QString *errorOut = nullptr);
     static bool stopBackend(uint64_t handleId, QString *errorOut = nullptr);
     static bool startSync(uint64_t handleId, QString *errorOut = nullptr);
 
-    static MatrixJoinRoomResult joinRoom(uint64_t handleId,
+    static MatrixJoinRoomResult joinRoom(matrix_backend::BlockingCallContext context,
+                                         uint64_t handleId,
                                          const QString &roomIdOrAlias,
                                          const QVector<QString> &via,
                                          const QString &reason = {});
 
-    static std::optional<QString> knockRoom(uint64_t handleId,
+    static std::optional<QString> knockRoom(matrix_backend::BlockingCallContext context,
+                                            uint64_t handleId,
                                             const QString &roomIdOrAlias,
                                             const QVector<QString> &via,
                                             const QString &reason,
                                             QString *errorOut = nullptr);
 
-    static std::optional<QString> createRoom(uint64_t handleId,
+    static std::optional<QString> createRoom(matrix_backend::BlockingCallContext context,
+                                             uint64_t handleId,
                                              const MatrixCreateRoomRequest &request,
                                              QString *errorOut = nullptr);
 
-    static bool leaveRoom(uint64_t handleId,
+    static bool leaveRoom(matrix_backend::BlockingCallContext context,
+                          uint64_t handleId,
                           const QString &roomId,
                           const QString &reason = {},
                           QString *errorOut     = nullptr);
 
-    static bool toggleRoomTag(uint64_t handleId,
+    static bool toggleRoomTag(matrix_backend::BlockingCallContext context,
+                              uint64_t handleId,
                               const QString &roomId,
                               const QString &tag,
                               bool enabled,
                               QString *errorOut = nullptr);
 
-    static bool setRoomIsDirect(uint64_t handleId,
+    static bool setRoomIsDirect(matrix_backend::BlockingCallContext context,
+                                uint64_t handleId,
                                 const QString &roomId,
                                 bool isDirect,
                                 QString *errorOut = nullptr);
 
-    static bool inviteUser(uint64_t handleId,
+    static bool inviteUser(matrix_backend::BlockingCallContext context,
+                           uint64_t handleId,
                            const QString &roomId,
                            const QString &userId,
                            const QString &reason = {},
                            QString *errorOut     = nullptr);
 
-    static bool kickUser(uint64_t handleId,
+    static bool kickUser(matrix_backend::BlockingCallContext context,
+                         uint64_t handleId,
                          const QString &roomId,
                          const QString &userId,
                          const QString &reason = {},
                          QString *errorOut     = nullptr);
 
-    static bool banUser(uint64_t handleId,
+    static bool banUser(matrix_backend::BlockingCallContext context,
+                        uint64_t handleId,
                         const QString &roomId,
                         const QString &userId,
                         const QString &reason = {},
                         QString *errorOut     = nullptr);
 
-    static bool unbanUser(uint64_t handleId,
+    static bool unbanUser(matrix_backend::BlockingCallContext context,
+                          uint64_t handleId,
                           const QString &roomId,
                           const QString &userId,
                           const QString &reason = {},
                           QString *errorOut     = nullptr);
 
     static std::optional<MatrixOwnProfile>
-    fetchOwnProfile(uint64_t handleId, QString *errorOut = nullptr);
+    fetchOwnProfile(matrix_backend::BlockingCallContext context,
+                    uint64_t handleId,
+                    QString *errorOut = nullptr);
 
     static std::optional<MatrixRecoveryStatus>
-    fetchRecoveryStatus(uint64_t handleId, QString *errorOut = nullptr);
+    fetchRecoveryStatus(matrix_backend::BlockingCallContext context,
+                        uint64_t handleId,
+                        QString *errorOut = nullptr);
 
     static std::optional<MatrixSetupRecoveryResult>
-    setupRecovery(uint64_t handleId,
+    setupRecovery(matrix_backend::BlockingCallContext context,
+                  uint64_t handleId,
                   bool useSSSS,
                   const QString &passphrase,
                   bool encryptionBackupOnlineEnabled,
                   QString *errorOut = nullptr);
 
-    static bool recoverEncryptionSecrets(uint64_t handleId,
+    static bool recoverEncryptionSecrets(matrix_backend::BlockingCallContext context,
+                                         uint64_t handleId,
                                          const QString &keyOrPassphrase,
                                          QString *errorOut = nullptr);
 
     static std::optional<MatrixResetEncryptionIdentityResult>
-    startResetEncryptionIdentity(uint64_t handleId, QString *errorOut = nullptr);
-
-    static bool continueResetEncryptionIdentityWithPassword(uint64_t handleId,
-                                                            const QString &password,
-                                                            QString *errorOut = nullptr);
+    startResetEncryptionIdentity(matrix_backend::BlockingCallContext context,
+                                 uint64_t handleId,
+                                 QString *errorOut = nullptr);
 
     static bool
-    continueResetEncryptionIdentityAfterApproval(uint64_t handleId, QString *errorOut = nullptr);
+    continueResetEncryptionIdentityWithPassword(matrix_backend::BlockingCallContext context,
+                                                uint64_t handleId,
+                                                const QString &password,
+                                                QString *errorOut = nullptr);
 
-    static bool cancelResetEncryptionIdentity(uint64_t handleId, QString *errorOut = nullptr);
+    static bool
+    continueResetEncryptionIdentityAfterApproval(matrix_backend::BlockingCallContext context,
+                                                 uint64_t handleId,
+                                                 QString *errorOut = nullptr);
+
+    static bool cancelResetEncryptionIdentity(matrix_backend::BlockingCallContext context,
+                                              uint64_t handleId,
+                                              QString *errorOut = nullptr);
 
     static std::optional<MatrixDeviceSignOutResult>
-    startSignOutDevice(uint64_t handleId, const QString &deviceId, QString *errorOut = nullptr);
+    startSignOutDevice(matrix_backend::BlockingCallContext context,
+                       uint64_t handleId,
+                       const QString &deviceId,
+                       QString *errorOut = nullptr);
 
-    static bool continueSignOutDeviceWithPassword(uint64_t handleId,
+    static bool continueSignOutDeviceWithPassword(matrix_backend::BlockingCallContext context,
+                                                  uint64_t handleId,
                                                   const QString &password,
                                                   QString *errorOut = nullptr);
 
-    static bool renameDevice(uint64_t handleId,
+    static bool renameDevice(matrix_backend::BlockingCallContext context,
+                             uint64_t handleId,
                              const QString &deviceId,
                              const QString &displayName,
                              QString *errorOut = nullptr);
 
     static std::optional<MatrixVerificationSession>
-    startSelfVerification(uint64_t handleId, QString *errorOut = nullptr);
+    startSelfVerification(matrix_backend::BlockingCallContext context,
+                          uint64_t handleId,
+                          QString *errorOut = nullptr);
 
     static std::optional<MatrixVerificationSession>
-    startUserVerification(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);
+    startUserVerification(matrix_backend::BlockingCallContext context,
+                          uint64_t handleId,
+                          const QString &userId,
+                          QString *errorOut = nullptr);
 
     static std::optional<MatrixVerificationSession>
-    startDeviceVerification(uint64_t handleId,
+    startDeviceVerification(matrix_backend::BlockingCallContext context,
+                            uint64_t handleId,
                             const QString &userId,
                             const QString &deviceId,
                             QString *errorOut = nullptr);
 
-    static bool unverifyDevice(uint64_t handleId,
+    static bool unverifyDevice(matrix_backend::BlockingCallContext context,
+                               uint64_t handleId,
                                const QString &userId,
                                const QString &deviceId,
                                QString *errorOut = nullptr);
 
-    static bool blockDevice(uint64_t handleId,
+    static bool blockDevice(matrix_backend::BlockingCallContext context,
+                            uint64_t handleId,
                             const QString &userId,
                             const QString &deviceId,
                             QString *errorOut = nullptr);
 
-    static bool unblockDevice(uint64_t handleId,
+    static bool unblockDevice(matrix_backend::BlockingCallContext context,
+                              uint64_t handleId,
                               const QString &userId,
                               const QString &deviceId,
                               QString *errorOut = nullptr);
 
     static std::optional<MatrixUserVerificationState>
-    fetchUserVerificationState(uint64_t handleId,
+    fetchUserVerificationState(matrix_backend::BlockingCallContext context,
+                               uint64_t handleId,
                                const QString &userId,
                                QString *errorOut = nullptr);
 
     static std::optional<QVector<QString>>
-    takePendingVerificationFlowIds(uint64_t handleId, QString *errorOut = nullptr);
+    takePendingVerificationFlowIds(matrix_backend::BlockingCallContext context,
+                                   uint64_t handleId,
+                                   QString *errorOut = nullptr);
 
     static std::optional<MatrixVerificationSession>
-    fetchVerificationSession(uint64_t handleId, const QString &flowId, QString *errorOut = nullptr);
+    fetchVerificationSession(matrix_backend::BlockingCallContext context,
+                             uint64_t handleId,
+                             const QString &flowId,
+                             QString *errorOut = nullptr);
 
-    static bool
-    clearVerificationSession(uint64_t handleId, const QString &flowId, QString *errorOut = nullptr);
+    static bool clearVerificationSession(matrix_backend::BlockingCallContext context,
+                                         uint64_t handleId,
+                                         const QString &flowId,
+                                         QString *errorOut = nullptr);
 
-    static bool advanceVerificationSession(uint64_t handleId,
+    static bool advanceVerificationSession(matrix_backend::BlockingCallContext context,
+                                           uint64_t handleId,
                                            const QString &flowId,
                                            QString *errorOut = nullptr);
 
-    static bool cancelVerificationSession(uint64_t handleId,
+    static bool cancelVerificationSession(matrix_backend::BlockingCallContext context,
+                                          uint64_t handleId,
                                           const QString &flowId,
                                           bool mismatch,
                                           QString *errorOut = nullptr);
 
     static std::optional<MatrixUserProfile>
-    fetchUserProfile(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);
+    fetchUserProfile(matrix_backend::BlockingCallContext context,
+                     uint64_t handleId,
+                     const QString &userId,
+                     QString *errorOut = nullptr);
 
-    static std::optional<MatrixUserProfile> fetchRoomMemberProfile(uint64_t handleId,
-                                                                   const QString &roomId,
-                                                                   const QString &userId,
-                                                                   QString *errorOut = nullptr);
+    static std::optional<MatrixUserProfile>
+    fetchRoomMemberProfile(matrix_backend::BlockingCallContext context,
+                           uint64_t handleId,
+                           const QString &roomId,
+                           const QString &userId,
+                           QString *errorOut = nullptr);
 
-    static std::optional<QVector<MatrixDirectoryUser>> searchUsers(uint64_t handleId,
-                                                                   const QString &searchTerm,
-                                                                   uint64_t limit,
-                                                                   QString *errorOut = nullptr);
+    static std::optional<QVector<MatrixDirectoryUser>>
+    searchUsers(matrix_backend::BlockingCallContext context,
+                uint64_t handleId,
+                const QString &searchTerm,
+                uint64_t limit,
+                QString *errorOut = nullptr);
 
     static std::optional<MatrixPublicRoomDirectoryPage>
-    fetchPublicRoomDirectoryPage(uint64_t handleId,
+    fetchPublicRoomDirectoryPage(matrix_backend::BlockingCallContext context,
+                                 uint64_t handleId,
                                  const QString &searchTerm,
                                  uint64_t limit,
                                  const QString &since,
                                  const QString &server,
                                  QString *errorOut = nullptr);
 
-    static bool
-    setOwnDisplayName(uint64_t handleId, const QString &displayName, QString *errorOut = nullptr);
+    static bool setOwnDisplayName(matrix_backend::BlockingCallContext context,
+                                  uint64_t handleId,
+                                  const QString &displayName,
+                                  QString *errorOut = nullptr);
 
-    static bool setOwnRoomDisplayName(uint64_t handleId,
+    static bool setOwnRoomDisplayName(matrix_backend::BlockingCallContext context,
+                                      uint64_t handleId,
                                       const QString &roomId,
                                       const QString &displayName,
                                       QString *errorOut = nullptr);
 
-    static bool uploadOwnAvatar(uint64_t handleId,
+    static bool uploadOwnAvatar(matrix_backend::BlockingCallContext context,
+                                uint64_t handleId,
                                 const QString &filePath,
                                 const QString &mimeType,
                                 QString *errorOut = nullptr);
 
-    static bool removeOwnAvatar(uint64_t handleId, QString *errorOut = nullptr);
+    static bool removeOwnAvatar(matrix_backend::BlockingCallContext context,
+                                uint64_t handleId,
+                                QString *errorOut = nullptr);
 
-    static bool uploadOwnRoomAvatar(uint64_t handleId,
+    static bool uploadOwnRoomAvatar(matrix_backend::BlockingCallContext context,
+                                    uint64_t handleId,
                                     const QString &roomId,
                                     const QString &filePath,
                                     const QString &mimeType,
                                     QString *errorOut = nullptr);
 
-    static bool
-    removeOwnRoomAvatar(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+    static bool removeOwnRoomAvatar(matrix_backend::BlockingCallContext context,
+                                    uint64_t handleId,
+                                    const QString &roomId,
+                                    QString *errorOut = nullptr);
 
-    static bool ignoreUser(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);
+    static bool ignoreUser(matrix_backend::BlockingCallContext context,
+                           uint64_t handleId,
+                           const QString &userId,
+                           QString *errorOut = nullptr);
 
-    static bool unignoreUser(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);
+    static bool unignoreUser(matrix_backend::BlockingCallContext context,
+                             uint64_t handleId,
+                             const QString &userId,
+                             QString *errorOut = nullptr);
 
-    static bool setInvitePermission(uint64_t handleId,
+    static bool setInvitePermission(matrix_backend::BlockingCallContext context,
+                                    uint64_t handleId,
                                     const QString &target,
                                     bool block,
                                     QString *errorOut = nullptr);
 
     static std::optional<QVector<MatrixRoomSummary>>
-    fetchRoomList(uint64_t handleId, QString *errorOut = nullptr);
+    fetchRoomList(matrix_backend::BlockingCallContext context,
+                  uint64_t handleId,
+                  QString *errorOut = nullptr);
     static void cacheRoomListSnapshot(uint64_t handleId, QVector<MatrixRoomSummary> rooms);
     static void clearCachedRoomListSnapshot(uint64_t handleId);
 
     static std::optional<MatrixRoomSettings>
-    fetchRoomSettings(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+    fetchRoomSettings(matrix_backend::BlockingCallContext context,
+                      uint64_t handleId,
+                      const QString &roomId,
+                      QString *errorOut = nullptr);
 
     static std::optional<MatrixRoomAliases>
-    fetchRoomAliases(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+    fetchRoomAliases(matrix_backend::BlockingCallContext context,
+                     uint64_t handleId,
+                     const QString &roomId,
+                     QString *errorOut = nullptr);
 
-    static bool applyRoomAliases(uint64_t handleId,
+    static bool applyRoomAliases(matrix_backend::BlockingCallContext context,
+                                 uint64_t handleId,
                                  const QString &roomId,
                                  const MatrixRoomAliases &aliases,
                                  QString *errorOut = nullptr);
 
     static std::optional<QVector<MatrixRoomMember>>
-    fetchRoomMembers(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+    fetchRoomMembers(matrix_backend::BlockingCallContext context,
+                     uint64_t handleId,
+                     const QString &roomId,
+                     QString *errorOut = nullptr);
 
     static std::optional<MatrixRoomPowerLevels>
-    fetchRoomPowerLevels(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+    fetchRoomPowerLevels(matrix_backend::BlockingCallContext context,
+                         uint64_t handleId,
+                         const QString &roomId,
+                         QString *errorOut = nullptr);
 
-    static bool applyRoomPowerLevels(uint64_t handleId,
+    static bool applyRoomPowerLevels(matrix_backend::BlockingCallContext context,
+                                     uint64_t handleId,
                                      const QString &roomId,
                                      const MatrixRoomPowerLevels &powerLevels,
                                      QString *errorOut = nullptr);
@@ -524,22 +616,26 @@ public:
                                   const QString &roomId,
                                   QString *errorOut = nullptr);
 
-    static bool setRoomNotificationMode(uint64_t handleId,
+    static bool setRoomNotificationMode(matrix_backend::BlockingCallContext context,
+                                        uint64_t handleId,
                                         const QString &roomId,
                                         int mode,
                                         QString *errorOut = nullptr);
 
-    static bool setRoomName(uint64_t handleId,
+    static bool setRoomName(matrix_backend::BlockingCallContext context,
+                            uint64_t handleId,
                             const QString &roomId,
                             const QString &name,
                             QString *errorOut = nullptr);
 
-    static bool setRoomTopic(uint64_t handleId,
+    static bool setRoomTopic(matrix_backend::BlockingCallContext context,
+                             uint64_t handleId,
                              const QString &roomId,
                              const QString &topic,
                              QString *errorOut = nullptr);
 
-    static bool uploadRoomAvatar(uint64_t handleId,
+    static bool uploadRoomAvatar(matrix_backend::BlockingCallContext context,
+                                 uint64_t handleId,
                                  const QString &roomId,
                                  const QString &filePath,
                                  const QString &mimeType,
@@ -547,18 +643,24 @@ public:
                                  int height,
                                  QString *errorOut = nullptr);
 
-    static bool
-    removeRoomAvatar(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+    static bool removeRoomAvatar(matrix_backend::BlockingCallContext context,
+                                 uint64_t handleId,
+                                 const QString &roomId,
+                                 QString *errorOut = nullptr);
 
-    static bool
-    enableRoomEncryption(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+    static bool enableRoomEncryption(matrix_backend::BlockingCallContext context,
+                                     uint64_t handleId,
+                                     const QString &roomId,
+                                     QString *errorOut = nullptr);
 
-    static bool setRoomHistoryVisibility(uint64_t handleId,
+    static bool setRoomHistoryVisibility(matrix_backend::BlockingCallContext context,
+                                         uint64_t handleId,
                                          const QString &roomId,
                                          const QString &historyVisibility,
                                          QString *errorOut = nullptr);
 
-    static bool setRoomAccessRules(uint64_t handleId,
+    static bool setRoomAccessRules(matrix_backend::BlockingCallContext context,
+                                   uint64_t handleId,
                                    const QString &roomId,
                                    const QString &joinRule,
                                    bool guestAccess,
@@ -573,7 +675,9 @@ public:
                                                      QString *errorOut = nullptr);
 
     static std::optional<QVector<MatrixTimelineItem>>
-    fetchActiveRoomTimeline(uint64_t handleId, QString *errorOut = nullptr);
+    fetchActiveRoomTimeline(matrix_backend::BlockingCallContext context,
+                            uint64_t handleId,
+                            QString *errorOut = nullptr);
 
     static bool paginateActiveRoomTimelineBackwards(uint64_t handleId,
                                                     uint16_t pageSize,
@@ -675,12 +779,14 @@ public:
                                    const QString &mimeType,
                                    QString *errorOut = nullptr);
 
-    static std::optional<QString> uploadMedia(uint64_t handleId,
+    static std::optional<QString> uploadMedia(matrix_backend::BlockingCallContext context,
+                                              uint64_t handleId,
                                               const QString &filePath,
                                               const QString &mimeType,
                                               QString *errorOut = nullptr);
 
-    static bool sendRoomImage(uint64_t handleId,
+    static bool sendRoomImage(matrix_backend::BlockingCallContext context,
+                              uint64_t handleId,
                               const QString &roomId,
                               const QString &mxcUri,
                               const QString &body,
@@ -689,14 +795,16 @@ public:
                               QString *errorOut = nullptr);
 
     static std::optional<QByteArray>
-    fetchActiveRoomTimelineMediaContent(uint64_t handleId,
+    fetchActiveRoomTimelineMediaContent(matrix_backend::BlockingCallContext context,
+                                        uint64_t handleId,
                                         const QString &itemId,
                                         int width,
                                         int height,
                                         bool crop,
                                         QString *errorOut = nullptr);
 
-    static std::optional<QByteArray> fetchMediaContent(uint64_t handleId,
+    static std::optional<QByteArray> fetchMediaContent(matrix_backend::BlockingCallContext context,
+                                                       uint64_t handleId,
                                                        const QString &mxcUri,
                                                        int width,
                                                        int height,

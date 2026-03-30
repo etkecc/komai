@@ -145,9 +145,10 @@ LoginPage::startLoginFlowDiscovery(const QString &serverNameOrUrl,
       UserSettings::instance()->networkTlsEnableCertificateValidation();
 
     std::thread([guard, serverNameOrUrl, expectedHomeserver, verifyCertificates]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
-        auto result =
-          komai::MatrixAuthService::discoverLoginFlows(serverNameOrUrl, verifyCertificates, &error);
+        auto result = komai::MatrixAuthService::discoverLoginFlows(
+          context, serverNameOrUrl, verifyCertificates, &error);
 
         QMetaObject::invokeMethod(
           QCoreApplication::instance(), [guard, expectedHomeserver, result, error]() {
@@ -264,8 +265,10 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
                      existingDeviceId,
                      initialDeviceDisplayName,
                      verifyCertificates]() {
+            const auto context = komai::matrix_backend::blockingCallContext();
             QString error;
-            auto result = komai::MatrixAuthService::loginWithPassword(profileId,
+            auto result = komai::MatrixAuthService::loginWithPassword(context,
+                                                                      profileId,
                                                                       homeserver,
                                                                       userid,
                                                                       password,
@@ -335,15 +338,17 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
                                  initialDeviceDisplayName,
                                  verifyCertificates,
                                  useOauthForGenericSso]() {
+                        const auto context = komai::matrix_backend::blockingCallContext();
                         QString error;
                         std::optional<komai::MatrixLoginResult> result;
 
                         if (useOauthForGenericSso) {
                             result = komai::MatrixAuthService::finishOauthLogin(
-                              oauthFlowId, callbackQuery, &error);
+                              context, oauthFlowId, callbackQuery, &error);
                         } else {
                             result =
-                              komai::MatrixAuthService::loginWithToken(profileId,
+                              komai::MatrixAuthService::loginWithToken(context,
+                                                                       profileId,
                                                                        homeserver,
                                                                        loginToken,
                                                                        existingDeviceId,
@@ -397,11 +402,13 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
                      initialDeviceDisplayName,
                      verifyCertificates,
                      useOauthForGenericSso]() {
+            const auto context = komai::matrix_backend::blockingCallContext();
             QString error;
 
             if (useOauthForGenericSso) {
                 auto oauthLogin =
-                  komai::MatrixAuthService::startOauthLogin(profileId,
+                  komai::MatrixAuthService::startOauthLogin(context,
+                                                            profileId,
                                                             homeserver,
                                                             callbackUrl,
                                                             matrixId,
@@ -440,7 +447,7 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
             }
 
             auto ssoUrl = komai::MatrixAuthService::getSsoLoginUrl(
-              homeserver, callbackUrl, identityProviderId, verifyCertificates, &error);
+              context, homeserver, callbackUrl, identityProviderId, verifyCertificates, &error);
 
             QMetaObject::invokeMethod(
               QCoreApplication::instance(), [guard, ssoGuard, ssoUrl, error]() {

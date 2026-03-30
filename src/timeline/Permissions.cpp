@@ -315,9 +315,10 @@ MatrixRoomPermissions::refreshAsync()
     QPointer<MatrixRoomPermissions> self(this);
 
     std::thread([self, handleId, roomId, requestToken]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
-        const auto powerLevels =
-          komai::MatrixBackendRuntimeService::fetchRoomPowerLevels(handleId, roomId, &error);
+        const auto powerLevels = komai::MatrixBackendRuntimeService::fetchRoomPowerLevels(
+          context, handleId, roomId, &error);
 
         auto *app = QCoreApplication::instance();
         if (!app)

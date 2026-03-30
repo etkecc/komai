@@ -518,8 +518,10 @@ FilteredRoomlistModel::toggleTag(const QString &roomid, const QString &tag, bool
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
-    if (!komai::MatrixBackendRuntimeService::toggleRoomTag(handleId, roomId, tagId, on, &error)) {
+    if (!komai::MatrixBackendRuntimeService::toggleRoomTag(
+          context, handleId, roomId, tagId, on, &error)) {
         nhlog::ui()->warn("Failed to toggle matrix-sdk room tag '{}' for '{}': {}",
                           tagId.toStdString(),
                           roomId.toStdString(),

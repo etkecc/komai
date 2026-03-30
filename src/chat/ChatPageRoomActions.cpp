@@ -80,8 +80,10 @@ runMatrixRuntimeTask(ChatPage *page, WorkFnT work, UiFnT ui)
 std::optional<QVector<komai::MatrixRoomSummary>>
 fetchMatrixRoomList(uint64_t handleId)
 {
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
-    const auto roomList = komai::MatrixBackendRuntimeService::fetchRoomList(handleId, &error);
+    const auto roomList =
+      komai::MatrixBackendRuntimeService::fetchRoomList(context, handleId, &error);
     if (roomList.has_value())
         return roomList;
 
@@ -124,10 +126,11 @@ ChatPage::knockRoom(const QString &room,
     runMatrixRuntimeTask(
       this,
       [handleId = *handleId, room, via = toQStringVector(via), reason]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
-          return std::make_pair(
-            komai::MatrixBackendRuntimeService::knockRoom(handleId, room, via, reason, &error),
-            error);
+          return std::make_pair(komai::MatrixBackendRuntimeService::knockRoom(
+                                  context, handleId, room, via, reason, &error),
+                                error);
       },
       [room](ChatPage *page, const auto &result) {
           const auto &[roomId, error] = result;
@@ -168,8 +171,9 @@ ChatPage::joinRoomVia(const std::string &room_id,
     runMatrixRuntimeTask(
       this,
       [handleId = *handleId, requestedRoomId, via = toQStringVector(via), reason]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           return komai::MatrixBackendRuntimeService::joinRoom(
-            handleId, requestedRoomId, via, reason);
+            context, handleId, requestedRoomId, via, reason);
       },
       [requestedRoomId, reason, via](ChatPage *page, const komai::MatrixJoinRoomResult &result) {
           if (!result.ok) {
@@ -202,9 +206,11 @@ ChatPage::createRoom(const komai::MatrixCreateRoomRequest &request)
     runMatrixRuntimeTask(
       this,
       [handleId = *handleId, request]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           return std::make_pair(
-            komai::MatrixBackendRuntimeService::createRoom(handleId, request, &error), error);
+            komai::MatrixBackendRuntimeService::createRoom(context, handleId, request, &error),
+            error);
       },
       [](ChatPage *page, const auto &result) {
           const auto &[roomId, error] = result;
@@ -228,9 +234,10 @@ ChatPage::leaveRoom(const QString &room_id, const QString &reason)
     runMatrixRuntimeTask(
       this,
       [handleId = *handleId, room_id, reason]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
-          const bool ok =
-            komai::MatrixBackendRuntimeService::leaveRoom(handleId, room_id, reason, &error);
+          const bool ok = komai::MatrixBackendRuntimeService::leaveRoom(
+            context, handleId, room_id, reason, &error);
           return std::make_pair(ok, error);
       },
       [room_id](ChatPage *page, const auto &result) {
@@ -270,9 +277,10 @@ ChatPage::inviteUser(const QString &room, QString userid, QString reason)
     runMatrixRuntimeTask(
       this,
       [handleId = *handleId, room, userid, reason]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok = komai::MatrixBackendRuntimeService::inviteUser(
-            handleId, room, userid, reason.trimmed(), &error);
+            context, handleId, room, userid, reason.trimmed(), &error);
           return std::make_pair(ok, error);
       },
       [userid, room](ChatPage *page, const auto &result) {
@@ -301,9 +309,10 @@ ChatPage::kickUser(const QString &room, QString userid, QString reason)
     runMatrixRuntimeTask(
       this,
       [handleId = *handleId, room, userid, reason]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok = komai::MatrixBackendRuntimeService::kickUser(
-            handleId, room, userid, reason.trimmed(), &error);
+            context, handleId, room, userid, reason.trimmed(), &error);
           return std::make_pair(ok, error);
       },
       [userid, room](ChatPage *page, const auto &result) {
@@ -328,9 +337,10 @@ ChatPage::banUser(const QString &room, QString userid, QString reason)
     runMatrixRuntimeTask(
       this,
       [handleId = *handleId, room, userid, reason]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok = komai::MatrixBackendRuntimeService::banUser(
-            handleId, room, userid, reason.trimmed(), &error);
+            context, handleId, room, userid, reason.trimmed(), &error);
           return std::make_pair(ok, error);
       },
       [userid, room](ChatPage *page, const auto &result) {
@@ -362,9 +372,10 @@ ChatPage::unbanUser(const QString &room, QString userid, QString reason)
     runMatrixRuntimeTask(
       this,
       [handleId = *handleId, room, userid, reason]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok = komai::MatrixBackendRuntimeService::unbanUser(
-            handleId, room, userid, reason.trimmed(), &error);
+            context, handleId, room, userid, reason.trimmed(), &error);
           return std::make_pair(ok, error);
       },
       [userid, room](ChatPage *page, const auto &result) {

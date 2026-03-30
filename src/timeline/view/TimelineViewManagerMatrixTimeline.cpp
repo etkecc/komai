@@ -533,11 +533,12 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
 
     QPointer<TimelineViewManager> guard(this);
     std::thread([guard, handleId, roomId, requestId]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
         QElapsedTimer fetchTimer;
         fetchTimer.start();
         const auto items =
-          komai::MatrixBackendRuntimeService::fetchActiveRoomTimeline(handleId, &error);
+          komai::MatrixBackendRuntimeService::fetchActiveRoomTimeline(context, handleId, &error);
         const auto fetchElapsedUs = fetchTimer.nsecsElapsed() / 1000;
 
         if (!guard)
@@ -1443,7 +1444,7 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
         const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
         const auto data = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-          handleId, sourceItemId, 0, 0, false, &error);
+          context, handleId, sourceItemId, 0, 0, false, &error);
         bool ok = data.has_value() && !data->isEmpty();
 
         if (ok) {
@@ -2222,9 +2223,10 @@ TimelineViewManager::fetchActiveMatrixTimelineMediaToFile(const QString &itemId,
     }
 
     std::thread([this, handleId, itemId, outputPath, userVisibleName, openAfterSave]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
         const auto data = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-          handleId, itemId, 0, 0, false, &error);
+          context, handleId, itemId, 0, 0, false, &error);
         bool ok = data.has_value() && !data->isEmpty();
 
         if (ok) {

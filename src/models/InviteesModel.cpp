@@ -122,7 +122,9 @@ Invitee::Invitee(QString mxid, QString displayName, QString avatarUrl, QObject *
     const auto handleId = mainWindow->matrixBackendHandleId();
     QPointer<Invitee> guard(this);
     std::thread([guard, handleId, mxid = mxid_]() mutable {
-        const auto profile = komai::MatrixBackendRuntimeService::fetchUserProfile(handleId, mxid);
+        const auto context = komai::matrix_backend::blockingCallContext();
+        const auto profile =
+          komai::MatrixBackendRuntimeService::fetchUserProfile(context, handleId, mxid);
         if (!guard || !profile.has_value())
             return;
 

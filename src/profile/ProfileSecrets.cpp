@@ -5,20 +5,10 @@
 
 #include "profile/ProfileSecrets.h"
 
-#include <QCoreApplication>
-#include <QEventLoop>
-
-#include <optional>
-
-#if __has_include(<qtkeychain/keychain.h>)
-#include <qtkeychain/keychain.h>
-#else
-#include <qt6keychain/keychain.h>
-#endif
-
 #include "logging/Logging.h"
 #include "profile/KeyringEnvironment.h"
 #include "profile/ProfileId.h"
+#include "settings/SettingsStorage.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace profile_secrets {
@@ -66,69 +56,24 @@ deleteProfileSecretValueBlocking(const QString &key)
 
     constexpr int kDeleteAttempts = 3;
 
-    auto deleteJobStatus = [&](const QString &target) -> std::optional<QKeychain::Error> {
-        std::optional<QKeychain::Error> status;
-        QEventLoop loop;
-        auto *job = new QKeychain::DeletePasswordJob(QCoreApplication::applicationName());
-        job->setAutoDelete(true);
-        job->setInsecureFallback(false);
-        job->setKey(target);
-
-        QObject::connect(job, &QKeychain::Job::finished, &loop, &QEventLoop::quit);
-        QObject::connect(job, &QKeychain::Job::finished, job, [&status](QKeychain::Job *j) {
-            status = j->error();
-        });
-        job->start();
-        loop.exec();
-        return status;
-    };
-
-    auto readJobStatus = [&](const QString &target) -> std::optional<bool> {
-        std::optional<bool> status;
-        QEventLoop loop;
-        auto *job = new QKeychain::ReadPasswordJob(QCoreApplication::applicationName());
-        job->setAutoDelete(true);
-        job->setInsecureFallback(false);
-        job->setKey(target);
-
-        QObject::connect(job, &QKeychain::Job::finished, &loop, &QEventLoop::quit);
-        QObject::connect(job, &QKeychain::Job::finished, job, [&status](QKeychain::Job *j) {
-            if (j->error() == QKeychain::Error::NoError)
-                status = true;
-            else if (j->error() == QKeychain::Error::EntryNotFound)
-                status = false;
-            else
-                status.reset();
-        });
-        job->start();
-        loop.exec();
-        return status;
-    };
-
     for (int attempt = 1; attempt <= kDeleteAttempts; ++attempt) {
-        const auto error = deleteJobStatus(key);
-        if (!error) {
-            nhlog::ui()->warn("Timed out while deleting secret '{}' from secure backend",
-                              key.toStdString());
-            return false;
-        }
-
-        if (*error != QKeychain::Error::NoError && *error != QKeychain::Error::EntryNotFound) {
+        const auto deleteResult = settings::storage::deleteSecureValueResultBlocking(key);
+        if (!deleteResult.ok() && !deleteResult.missing()) {
             nhlog::ui()->warn("Failed to delete secret '{}' from secure backend on attempt {}: {}",
                               key.toStdString(),
                               attempt,
-                              static_cast<int>(*error));
+                              deleteResult.errorCode);
             return false;
         }
 
-        const auto exists = readJobStatus(key);
-        if (!exists) {
+        const auto readResult = settings::storage::readSecureValueResult(key);
+        if (readResult.failed()) {
             nhlog::ui()->warn(
               "Deleted secret '{}' from secure backend but could not verify removal",
               key.toStdString());
             return true;
         }
-        if (!*exists) {
+        if (readResult.missing()) {
             nhlog::ui()->info("Deleted secret '{}' from secure backend", key.toStdString());
             return true;
         }
@@ -161,50 +106,28 @@ deleteEmptyProfileSecretValueBlocking(const QString &key)
         return true;
     }
 
-    auto readJobStatus = [&](const QString &target) -> std::optional<bool> {
-        std::optional<bool> status;
-        QEventLoop loop;
-        auto *job = new QKeychain::ReadPasswordJob(QCoreApplication::applicationName());
-        job->setAutoDelete(true);
-        job->setInsecureFallback(false);
-        job->setKey(target);
-
-        QObject::connect(job, &QKeychain::Job::finished, &loop, &QEventLoop::quit);
-        QObject::connect(job, &QKeychain::Job::finished, job, [&status](QKeychain::Job *j) {
-            if (j->error() == QKeychain::Error::NoError)
-                status = static_cast<QKeychain::ReadPasswordJob *>(j)->textData().isEmpty();
-            else if (j->error() == QKeychain::Error::EntryNotFound)
-                status = true;
-            else
-                status.reset();
-        });
-        job->start();
-        loop.exec();
-        return status;
-    };
-
-    const auto isEmpty = readJobStatus(key);
-    if (!isEmpty) {
+    const auto firstRead = settings::storage::readSecureValueResult(key);
+    if (firstRead.failed()) {
         nhlog::ui()->warn("Failed to verify cache secret '{}' for stale-empty cleanup",
                           key.toStdString());
         return false;
     }
 
-    if (!*isEmpty) {
+    if (!firstRead.missing() && !firstRead.value.isEmpty()) {
         nhlog::ui()->debug(
           "Skipping deletion of cache secret '{}' because it now has non-empty value",
           key.toStdString());
         return true;
     }
 
-    const auto isEmptyAfterRead = readJobStatus(key);
-    if (!isEmptyAfterRead) {
+    const auto secondRead = settings::storage::readSecureValueResult(key);
+    if (secondRead.failed()) {
         nhlog::ui()->warn("Failed to re-verify cache secret '{}' for stale-empty cleanup",
                           key.toStdString());
         return false;
     }
 
-    if (!*isEmptyAfterRead) {
+    if (!secondRead.missing() && !secondRead.value.isEmpty()) {
         nhlog::ui()->debug(
           "Skipping deletion of cache secret '{}' because it was rewritten before cleanup",
           key.toStdString());

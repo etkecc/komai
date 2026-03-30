@@ -86,9 +86,10 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                     const auto user = users.at(index);
                     QPointer<ChatPage> guard(this);
                     std::thread([guard, roomId, user, handleId, index, inviteNext]() {
+                        const auto context = komai::matrix_backend::blockingCallContext();
                         QString error;
                         const bool ok = komai::MatrixBackendRuntimeService::inviteUser(
-                          handleId, roomId, user, QString(), &error);
+                          context, handleId, roomId, user, QString(), &error);
 
                         if (!guard)
                             return;

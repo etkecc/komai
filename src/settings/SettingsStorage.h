@@ -6,8 +6,10 @@
 #pragma once
 
 #include <QMap>
+#include <QObject>
 #include <QString>
 #include <QStringView>
+#include <functional>
 
 #include <memory>
 
@@ -27,6 +29,25 @@ struct StorageLoggers
 {
     std::shared_ptr<spdlog::logger> ui;
     std::shared_ptr<spdlog::logger> db;
+};
+
+enum class SecureBackendJobStatus
+{
+    Success,
+    EntryNotFound,
+    Error,
+};
+
+struct SecureBackendJobResult
+{
+    SecureBackendJobStatus status = SecureBackendJobStatus::Error;
+    QString value;
+    int errorCode = 0;
+    QString errorString;
+
+    [[nodiscard]] bool ok() const { return status == SecureBackendJobStatus::Success; }
+    [[nodiscard]] bool missing() const { return status == SecureBackendJobStatus::EntryNotFound; }
+    [[nodiscard]] bool failed() const { return status == SecureBackendJobStatus::Error; }
 };
 
 /**
@@ -108,14 +129,33 @@ activeLoggers();
  */
 QString
 secureStoreKey(const QString &profile, const char *keyName);
+SecureBackendJobResult
+readSecureValueResult(const QString &key);
 std::optional<QString>
 readSecureValue(const QString &key);
 void
+readSecureValueAsync(const QString &key,
+                     QObject *receiver,
+                     std::function<void(const SecureBackendJobResult &)> callback);
+void
 writeSecureValue(const QString &key, const QString &value);
+SecureBackendJobResult
+writeSecureValueResultBlocking(const QString &key, const QString &value);
+void
+writeSecureValueAsync(const QString &key,
+                      const QString &value,
+                      QObject *receiver,
+                      std::function<void(const SecureBackendJobResult &)> callback);
 bool
 writeSecureValueBlocking(const QString &key, const QString &value);
 void
 deleteSecureValue(const QString &key);
+SecureBackendJobResult
+deleteSecureValueResultBlocking(const QString &key);
+void
+deleteSecureValueAsync(const QString &key,
+                       QObject *receiver,
+                       std::function<void(const SecureBackendJobResult &)> callback);
 bool
 deleteSecureValueBlocking(const QString &key);
 /**

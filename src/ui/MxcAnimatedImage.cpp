@@ -234,9 +234,10 @@ MxcAnimatedImage::startDownload()
                  eventId = eventId_,
                  self,
                  processData = std::move(processData)]() mutable {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
         auto bytes = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-          handleId, eventId, 0, 0, false, &error);
+          context, handleId, eventId, 0, 0, false, &error);
 
         if (!self)
             return;

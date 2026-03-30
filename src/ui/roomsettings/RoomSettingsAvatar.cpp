@@ -59,8 +59,10 @@ RoomSettings::updateAvatar()
     isLoading_ = true;
     emit loadingChanged();
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
-    if (!komai::MatrixBackendRuntimeService::uploadRoomAvatar(matrixBackendHandleId(),
+    if (!komai::MatrixBackendRuntimeService::uploadRoomAvatar(context,
+                                                              matrixBackendHandleId(),
                                                               roomid_,
                                                               fileName,
                                                               mime.name(),
@@ -90,9 +92,10 @@ RoomSettings::removeAvatar()
     isLoading_ = true;
     emit loadingChanged();
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     if (!komai::MatrixBackendRuntimeService::removeRoomAvatar(
-          matrixBackendHandleId(), roomid_, &error)) {
+          context, matrixBackendHandleId(), roomid_, &error)) {
         isLoading_ = false;
         emit loadingChanged();
         emit displayError(error.isEmpty() ? tr("Failed to remove avatar.") : error);

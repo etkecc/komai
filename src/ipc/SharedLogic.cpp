@@ -271,8 +271,9 @@ sliceTimelineFromActiveMatrixTimeline(const QString &roomId,
     }
 
     QString backendError;
-    const auto items =
-      komai::MatrixBackendRuntimeService::fetchActiveRoomTimeline(*handleId, &backendError);
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
+    const auto items   = komai::MatrixBackendRuntimeService::fetchActiveRoomTimeline(
+      context, *handleId, &backendError);
     if (!items.has_value()) {
         if (error)
             *error = backendError.isEmpty() ? QStringLiteral("failed to fetch active room timeline")
@@ -791,10 +792,11 @@ mediaUpload(const QString &filePath,
        effectiveFilename,
        effectiveContentType,
        fileSize]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           AsyncUploadResult result;
           QString error;
           const auto mxcUri = komai::MatrixBackendRuntimeService::uploadMedia(
-            handleId, effectiveFilePath, effectiveContentType, &error);
+            context, handleId, effectiveFilePath, effectiveContentType, &error);
           if (!mxcUri.has_value()) {
               result.error =
                 error.isEmpty() ? QStringLiteral("failed to upload matrix media") : error;
@@ -932,10 +934,17 @@ sendImage(const QString &roomIdOrAlias,
 
     runIpcTask(
       [handleId = *handleId, roomId, normalizedMxcUri, trimmedBody, trimmedFilename, infoJson]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           AsyncSendResult result;
           QString error;
-          const bool ok = komai::MatrixBackendRuntimeService::sendRoomImage(
-            handleId, roomId, normalizedMxcUri, trimmedBody, trimmedFilename, infoJson, &error);
+          const bool ok = komai::MatrixBackendRuntimeService::sendRoomImage(context,
+                                                                            handleId,
+                                                                            roomId,
+                                                                            normalizedMxcUri,
+                                                                            trimmedBody,
+                                                                            trimmedFilename,
+                                                                            infoJson,
+                                                                            &error);
           if (ok) {
               result.eventId = QStringLiteral("queued");
           } else {

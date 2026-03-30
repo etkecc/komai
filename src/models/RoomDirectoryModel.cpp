@@ -282,64 +282,68 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
     emit loadingMoreRoomsChanged();
 
     QPointer<RoomDirectoryModel> guard(this);
-    std::thread(
-      [guard, handleId, generation, requestedSearchTerm, requestedServer, requestedSince]() {
-          QString error;
-          const auto page = komai::MatrixBackendRuntimeService::fetchPublicRoomDirectoryPage(
-            handleId, requestedSearchTerm, limit_, requestedSince, requestedServer, &error);
+    std::thread([guard,
+                 handleId,
+                 generation,
+                 requestedSearchTerm,
+                 requestedServer,
+                 requestedSince]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
+        QString error;
+        const auto page = komai::MatrixBackendRuntimeService::fetchPublicRoomDirectoryPage(
+          context, handleId, requestedSearchTerm, limit_, requestedSince, requestedServer, &error);
 
-          QVector<RoomDirectoryEntry> rooms;
-          QString nextBatch;
-          int totalRoomCountEstimate = -1;
-          if (page.has_value()) {
-              nextBatch              = page->nextBatch;
-              totalRoomCountEstimate = page->totalRoomCountEstimate;
-              rooms.reserve(page->rooms.size());
-              for (const auto &room : page->rooms) {
-                  rooms.push_back(RoomDirectoryEntry{
-                    .displayName    = room.displayName,
-                    .roomId         = room.roomId,
-                    .roomServerName = room.roomServerName,
-                    .avatarUrl      = room.avatarUrl,
-                    .topic          = room.topic,
-                    .canonicalAlias = room.canonicalAlias,
-                    .memberCount    = room.memberCount,
-                    .canPreview     = room.isWorldReadable,
-                    .isSpace        = room.isSpace,
-                  });
+        QVector<RoomDirectoryEntry> rooms;
+        QString nextBatch;
+        int totalRoomCountEstimate = -1;
+        if (page.has_value()) {
+            nextBatch              = page->nextBatch;
+            totalRoomCountEstimate = page->totalRoomCountEstimate;
+            rooms.reserve(page->rooms.size());
+            for (const auto &room : page->rooms) {
+                rooms.push_back(RoomDirectoryEntry{
+                  .displayName    = room.displayName,
+                  .roomId         = room.roomId,
+                  .roomServerName = room.roomServerName,
+                  .avatarUrl      = room.avatarUrl,
+                  .topic          = room.topic,
+                  .canonicalAlias = room.canonicalAlias,
+                  .memberCount    = room.memberCount,
+                  .canPreview     = room.isWorldReadable,
+                  .isSpace        = room.isSpace,
+                });
+            }
+        }
+
+        QMetaObject::invokeMethod(
+          QCoreApplication::instance(),
+          [guard,
+           generation,
+           rooms = std::move(rooms),
+           nextBatch,
+           requestedSearchTerm,
+           requestedServer,
+           requestedSince,
+           totalRoomCountEstimate,
+           error,
+           ok = page.has_value()]() mutable {
+              if (!guard)
+                  return;
+
+              if (ok) {
+                  guard->displayRooms(generation,
+                                      std::move(rooms),
+                                      nextBatch,
+                                      requestedSearchTerm,
+                                      requestedServer,
+                                      requestedSince,
+                                      totalRoomCountEstimate);
+              } else {
+                  guard->handleFetchError(
+                    generation, error, requestedSearchTerm, requestedServer, requestedSince);
               }
-          }
-
-          QMetaObject::invokeMethod(
-            QCoreApplication::instance(),
-            [guard,
-             generation,
-             rooms = std::move(rooms),
-             nextBatch,
-             requestedSearchTerm,
-             requestedServer,
-             requestedSince,
-             totalRoomCountEstimate,
-             error,
-             ok = page.has_value()]() mutable {
-                if (!guard)
-                    return;
-
-                if (ok) {
-                    guard->displayRooms(generation,
-                                        std::move(rooms),
-                                        nextBatch,
-                                        requestedSearchTerm,
-                                        requestedServer,
-                                        requestedSince,
-                                        totalRoomCountEstimate);
-                } else {
-                    guard->handleFetchError(
-                      generation, error, requestedSearchTerm, requestedServer, requestedSince);
-                }
-            });
-      })
-      .detach();
+          });
+    }).detach();
 }
 
 void
@@ -481,8 +485,9 @@ RoomDirectoryModel::fetchMrsRoomCount(const QString &serverName)
     QPointer<RoomDirectoryModel> guard(this);
 
     std::thread([guard, serverName]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
-        auto resolution = komai::MatrixServerResolver::resolve(serverName, &error);
+        auto resolution = komai::MatrixServerResolver::resolve(context, serverName, &error);
         if (!resolution) {
             nhlog::net()->warn(
               "MRS stats: failed to resolve {}: {}", serverName.toStdString(), error.toStdString());

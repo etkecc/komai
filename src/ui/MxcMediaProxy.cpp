@@ -219,9 +219,10 @@ MxcMediaProxy::startDownload(bool onlyCached)
     }
 
     std::thread([filename, eventId = eventId_, processBuffer, self, handleId]() mutable {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
         auto bytes = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-          handleId, eventId, 0, 0, false, &error);
+          context, handleId, eventId, 0, 0, false, &error);
 
         QTimer::singleShot(
           0,

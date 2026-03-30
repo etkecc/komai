@@ -89,8 +89,10 @@ fetchMatrixCallRoomContext(const QString &roomId)
     if (!handleId)
         return std::nullopt;
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
-    const auto rooms = komai::MatrixBackendRuntimeService::fetchRoomList(*handleId, &error);
+    const auto rooms =
+      komai::MatrixBackendRuntimeService::fetchRoomList(context, *handleId, &error);
     if (!rooms) {
         nhlog::ui()->warn("Failed to fetch matrix room list for '{}': {}",
                           roomId.toStdString(),
@@ -117,10 +119,11 @@ fetchMatrixCallRoomContext(const QString &roomId)
 komai::MatrixUserProfile
 fetchMatrixCallUserProfile(uint64_t handleId, const QString &userId)
 {
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     if (userId == utils::localUser()) {
         if (const auto ownProfile =
-              komai::MatrixBackendRuntimeService::fetchOwnProfile(handleId, &error)) {
+              komai::MatrixBackendRuntimeService::fetchOwnProfile(context, handleId, &error)) {
             return komai::MatrixUserProfile{
               .displayName = ownProfile->displayName,
               .avatarUrl   = ownProfile->avatarUrl,
@@ -129,7 +132,7 @@ fetchMatrixCallUserProfile(uint64_t handleId, const QString &userId)
     }
 
     if (const auto profile =
-          komai::MatrixBackendRuntimeService::fetchUserProfile(handleId, userId, &error)) {
+          komai::MatrixBackendRuntimeService::fetchUserProfile(context, handleId, userId, &error)) {
         return *profile;
     }
 

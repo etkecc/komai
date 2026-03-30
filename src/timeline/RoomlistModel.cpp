@@ -235,9 +235,10 @@ RoomlistModel::refreshMatrixBackendRooms()
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     const auto roomList = komai::MatrixBackendRuntimeService::fetchRoomList(
-      mainWindow->matrixBackendHandleId(), &error);
+      context, mainWindow->matrixBackendHandleId(), &error);
     if (!roomList.has_value()) {
         nhlog::ui()->warn("Failed to fetch matrix-sdk room list snapshot: {}", error.toStdString());
         return;

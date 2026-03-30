@@ -174,9 +174,10 @@ RoomSettings::changeHistoryVisibility(Visibility value)
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     if (!komai::MatrixBackendRuntimeService::setRoomHistoryVisibility(
-          matrixBackendHandleId(), roomid_, historyVisibility, &error)) {
+          context, matrixBackendHandleId(), roomid_, historyVisibility, &error)) {
         emit displayError(error.isEmpty() ? tr("Failed to update history visibility.") : error);
         return;
     }
@@ -197,9 +198,15 @@ RoomSettings::updateAccessRules(const QString &joinRule,
     emit loadingChanged();
     emit allowedRoomsModifiedChanged();
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
-    if (!komai::MatrixBackendRuntimeService::setRoomAccessRules(
-          matrixBackendHandleId(), roomid_, joinRule, guestAccess, allowedRoomIds, &error)) {
+    if (!komai::MatrixBackendRuntimeService::setRoomAccessRules(context,
+                                                                matrixBackendHandleId(),
+                                                                roomid_,
+                                                                joinRule,
+                                                                guestAccess,
+                                                                allowedRoomIds,
+                                                                &error)) {
         isLoading_ = false;
         emit loadingChanged();
         emit displayError(error.isEmpty() ? tr("Failed to update room access rules.") : error);

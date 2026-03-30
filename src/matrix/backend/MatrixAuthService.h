@@ -10,6 +10,8 @@
 #include <optional>
 #include <vector>
 
+#include "matrix/backend/MatrixBlockingCall.h"
+
 namespace komai {
 
 struct MatrixLoginIdentityProvider
@@ -71,17 +73,21 @@ public:
 
     static bool stopSsoCallbackServer(uint64_t listenerId, QString *errorOut = nullptr);
 
-    static std::optional<MatrixLoginFlows> discoverLoginFlows(const QString &serverNameOrUrl,
-                                                              bool verifyCertificates,
-                                                              QString *errorOut = nullptr);
+    static std::optional<MatrixLoginFlows>
+    discoverLoginFlows(matrix_backend::BlockingCallContext context,
+                       const QString &serverNameOrUrl,
+                       bool verifyCertificates,
+                       QString *errorOut = nullptr);
 
-    static std::optional<QString> getSsoLoginUrl(const QString &homeserverUrl,
+    static std::optional<QString> getSsoLoginUrl(matrix_backend::BlockingCallContext context,
+                                                 const QString &homeserverUrl,
                                                  const QString &redirectUrl,
                                                  const QString &identityProviderId,
                                                  bool verifyCertificates,
                                                  QString *errorOut = nullptr);
     static std::optional<MatrixOauthLoginStartResult>
-    startOauthLogin(const QString &profileId,
+    startOauthLogin(matrix_backend::BlockingCallContext context,
+                    const QString &profileId,
                     const QString &homeserverUrl,
                     const QString &redirectUrl,
                     const QString &userIdHint,
@@ -91,12 +97,16 @@ public:
                     QString *errorOut = nullptr);
 
     static std::optional<MatrixLoginResult>
-    finishOauthLogin(uint64_t loginId, const QString &callbackQuery, QString *errorOut = nullptr);
+    finishOauthLogin(matrix_backend::BlockingCallContext context,
+                     uint64_t loginId,
+                     const QString &callbackQuery,
+                     QString *errorOut = nullptr);
 
     static bool cancelOauthLogin(uint64_t loginId, QString *errorOut = nullptr);
 
     static std::optional<MatrixLoginResult>
-    loginWithPassword(const QString &profileId,
+    loginWithPassword(matrix_backend::BlockingCallContext context,
+                      const QString &profileId,
                       const QString &homeserverUrl,
                       const QString &userId,
                       const QString &password,
@@ -105,13 +115,15 @@ public:
                       bool verifyCertificates,
                       QString *errorOut = nullptr);
 
-    static std::optional<MatrixLoginResult> loginWithToken(const QString &profileId,
-                                                           const QString &homeserverUrl,
-                                                           const QString &loginToken,
-                                                           const QString &deviceId,
-                                                           const QString &initialDeviceDisplayName,
-                                                           bool verifyCertificates,
-                                                           QString *errorOut = nullptr);
+    static std::optional<MatrixLoginResult>
+    loginWithToken(matrix_backend::BlockingCallContext context,
+                   const QString &profileId,
+                   const QString &homeserverUrl,
+                   const QString &loginToken,
+                   const QString &deviceId,
+                   const QString &initialDeviceDisplayName,
+                   bool verifyCertificates,
+                   QString *errorOut = nullptr);
 };
 
 } // namespace komai

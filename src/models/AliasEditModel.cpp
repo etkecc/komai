@@ -71,13 +71,14 @@ AliasEditingModel::loadAsync()
     const auto roomId = QString::fromStdString(room_id);
 
     std::thread([self, handleId, roomId]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString aliasError;
-        const auto runtimeAliases =
-          komai::MatrixBackendRuntimeService::fetchRoomAliases(handleId, roomId, &aliasError);
+        const auto runtimeAliases = komai::MatrixBackendRuntimeService::fetchRoomAliases(
+          context, handleId, roomId, &aliasError);
 
         QString powerLevelsError;
         const auto powerLevels = komai::MatrixBackendRuntimeService::fetchRoomPowerLevels(
-          handleId, roomId, &powerLevelsError);
+          context, handleId, roomId, &powerLevelsError);
 
         const bool canSendStateEvent =
           powerLevels.has_value() && canChangeCanonicalAlias(*powerLevels);
@@ -380,18 +381,19 @@ AliasEditingModel::commit()
 
     QPointer<AliasEditingModel> self(this);
     std::thread([self, handleId, roomId, desired]() mutable {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
-        const bool ok =
-          komai::MatrixBackendRuntimeService::applyRoomAliases(handleId, roomId, desired, &error);
+        const bool ok = komai::MatrixBackendRuntimeService::applyRoomAliases(
+          context, handleId, roomId, desired, &error);
 
         QString refreshAliasesError;
         const auto refreshedAliases = ok ? komai::MatrixBackendRuntimeService::fetchRoomAliases(
-                                             handleId, roomId, &refreshAliasesError)
+                                             context, handleId, roomId, &refreshAliasesError)
                                          : std::optional<komai::MatrixRoomAliases>{};
 
         QString powerLevelsError;
         const auto powerLevels = ok ? komai::MatrixBackendRuntimeService::fetchRoomPowerLevels(
-                                        handleId, roomId, &powerLevelsError)
+                                        context, handleId, roomId, &powerLevelsError)
                                     : std::optional<komai::MatrixRoomPowerLevels>{};
         const bool canSendStateEvent =
           powerLevels.has_value() && canChangeCanonicalAlias(*powerLevels);

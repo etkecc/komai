@@ -238,9 +238,10 @@ UserProfile::signOutDevice(const QString &deviceID)
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
-    const auto result =
-      komai::MatrixBackendRuntimeService::startSignOutDevice(handleId, trimmedDeviceId, &error);
+    const auto result = komai::MatrixBackendRuntimeService::startSignOutDevice(
+      context, handleId, trimmedDeviceId, &error);
     if (!result) {
         MainWindow::instance()->showNotification(
           error.isEmpty() ? tr("Failed to sign out device \"%1\".").arg(trimmedDeviceId)
@@ -276,7 +277,7 @@ UserProfile::signOutDevice(const QString &deviceID)
         }
 
         if (!komai::MatrixBackendRuntimeService::continueSignOutDeviceWithPassword(
-              handleId, password, &error)) {
+              context, handleId, password, &error)) {
             MainWindow::instance()->showNotification(
               error.isEmpty()
                 ? tr("Failed to sign out device \"%1\".").arg(trimmedDeviceId)
@@ -333,10 +334,12 @@ UserProfile::setIgnored(bool ignore)
 {
     const auto handleId = matrixBackendHandleId();
     if (handleId != 0) {
+        const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
         QString error;
         const bool ok =
-          ignore ? komai::MatrixBackendRuntimeService::ignoreUser(handleId, userid_, &error)
-                 : komai::MatrixBackendRuntimeService::unignoreUser(handleId, userid_, &error);
+          ignore
+            ? komai::MatrixBackendRuntimeService::ignoreUser(context, handleId, userid_, &error)
+            : komai::MatrixBackendRuntimeService::unignoreUser(context, handleId, userid_, &error);
         if (!ok) {
             MainWindow::instance()->showNotification(
               error.isEmpty()
@@ -381,9 +384,10 @@ UserProfile::updateVerificationStatus()
     const bool ownProfile = isSelf();
 
     std::thread([guard, handleId, userId, ownProfile]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
-        const auto result =
-          komai::MatrixBackendRuntimeService::fetchUserVerificationState(handleId, userId, &error);
+        const auto result = komai::MatrixBackendRuntimeService::fetchUserVerificationState(
+          context, handleId, userId, &error);
 
         if (!guard)
             return;
@@ -467,18 +471,19 @@ UserProfile::getGlobalProfileData()
     const bool roomProfile = !isGlobalUserProfile();
 
     std::thread([guard, handleId, userId, ownProfile, roomId, roomProfile]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString globalError;
         const auto ownResult =
-          ownProfile ? komai::MatrixBackendRuntimeService::fetchOwnProfile(handleId, &globalError)
-                     : std::optional<komai::MatrixOwnProfile>{};
-        const auto userResult =
           ownProfile
-            ? std::optional<komai::MatrixUserProfile>{}
-            : komai::MatrixBackendRuntimeService::fetchUserProfile(handleId, userId, &globalError);
+            ? komai::MatrixBackendRuntimeService::fetchOwnProfile(context, handleId, &globalError)
+            : std::optional<komai::MatrixOwnProfile>{};
+        const auto userResult = ownProfile ? std::optional<komai::MatrixUserProfile>{}
+                                           : komai::MatrixBackendRuntimeService::fetchUserProfile(
+                                               context, handleId, userId, &globalError);
         QString roomError;
         const auto roomResult = roomProfile
                                   ? komai::MatrixBackendRuntimeService::fetchRoomMemberProfile(
-                                      handleId, roomId, userId, &roomError)
+                                      context, handleId, roomId, userId, &roomError)
                                   : std::optional<komai::MatrixUserProfile>{};
 
         if (!guard)

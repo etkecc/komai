@@ -22,16 +22,36 @@ enum class BlockingCallThreadPolicy
     RequireWorkerThread,
 };
 
+enum class BlockingCallCallerThread
+{
+    AppUiThread,
+    WorkerThread,
+};
+
 class BlockingCallContext
 {
 public:
     BlockingCallContext(const BlockingCallContext &)            = default;
     BlockingCallContext &operator=(const BlockingCallContext &) = default;
 
+    [[nodiscard]] BlockingCallThreadPolicy threadPolicy() const { return policy_; }
+    [[nodiscard]] BlockingCallCallerThread callerThread() const { return callerThread_; }
+
 private:
-    explicit BlockingCallContext(int) {}
+    // This context is carried from the C++ caller to the Rust FFI seam so the blocking policy is
+    // explicit instead of being inferred ad hoc at each bridge call.
+    explicit BlockingCallContext(BlockingCallThreadPolicy policy,
+                                 BlockingCallCallerThread callerThread)
+      : policy_(policy)
+      , callerThread_(callerThread)
+    {
+    }
+
+    BlockingCallThreadPolicy policy_;
+    BlockingCallCallerThread callerThread_;
 
     friend BlockingCallContext blockingCallContext();
+    friend BlockingCallContext allowUiThreadBlockingCallContext();
 };
 
 inline bool
@@ -63,12 +83,29 @@ failUiThreadBlockingCall(const char *operation)
 [[nodiscard]] inline BlockingCallContext
 blockingCallContext()
 {
+    // Worker-only blocking callers must opt in explicitly and fail loudly if they are still on the
+    // app/UI thread. This turns stale direct callers into obvious breakage instead of later hangs.
     if (isAppUiThread()) {
         logUiThreadBlockingCall("blockingCallContext", "was created on the app/UI thread");
         qFatal("Blocking matrix-sdk call context was created on the app/UI thread");
     }
 
-    return BlockingCallContext{0};
+    return BlockingCallContext{
+      BlockingCallThreadPolicy::RequireWorkerThread,
+      BlockingCallCallerThread::WorkerThread,
+    };
+}
+
+[[nodiscard]] inline BlockingCallContext
+allowUiThreadBlockingCallContext()
+{
+    // This is a temporary escape hatch for synchronous UI-thread callers that have not moved to a
+    // worker path yet. Keeping it explicit makes those remaining debt sites easy to audit later.
+    return BlockingCallContext{
+      BlockingCallThreadPolicy::AllowUiThread,
+      isAppUiThread() ? BlockingCallCallerThread::AppUiThread
+                      : BlockingCallCallerThread::WorkerThread,
+    };
 }
 
 template<typename Func>

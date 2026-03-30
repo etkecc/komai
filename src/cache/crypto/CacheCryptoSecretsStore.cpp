@@ -14,12 +14,6 @@
 #include <QMessageBox>
 #include <QTimer>
 
-#if __has_include(<qtkeychain/keychain.h>)
-#include <qtkeychain/keychain.h>
-#else
-#include <qt6keychain/keychain.h>
-#endif
-
 #include <nlohmann/json.hpp>
 
 #include <mtx/secret_storage.hpp>
@@ -30,6 +24,7 @@
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/CacheSchema.h"
 #include "profile/ProfileSecrets.h"
+#include "settings/SettingsStorage.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 static QString
@@ -101,31 +96,19 @@ MatrixStore::loadSecretsFromStore(
 
     auto [name_, internal] = toLoad.front();
 
-    auto job = new QKeychain::ReadPasswordJob(QCoreApplication::applicationName());
-    job->setAutoDelete(true);
-    job->setInsecureFallback(false);
     auto name = secretName(name_, internal);
-    job->setKey(name);
-
-    connect(
-      job,
-      &QKeychain::ReadPasswordJob::finished,
+    settings::storage::readSecureValueAsync(
+      name,
       this,
-      [this,
-       name,
-       toLoad,
-       job,
-       name__    = name_,
-       internal_ = internal,
-       callback,
-       databaseReadyOnFinished](QKeychain::Job *) mutable {
+      [this, name, toLoad, name__ = name_, internal_ = internal, callback, databaseReadyOnFinished](
+        const settings::storage::SecureBackendJobResult &result) mutable {
           cache::activeLoggers().db->debug("Finished reading '{}'", name.toStdString());
-          const QString secret = job->textData();
-          if (job->error() && job->error() != QKeychain::Error::EntryNotFound) {
+          const QString secret = result.value;
+          if (result.failed()) {
               cache::activeLoggers().db->error("Restoring secret '{}' failed ({}): {}",
                                                name.toStdString(),
-                                               static_cast<int>(job->error()),
-                                               job->errorString().toStdString());
+                                               result.errorCode,
+                                               result.errorString.toStdString());
 
               fatalSecretError();
           }
@@ -158,7 +141,6 @@ MatrixStore::loadSecretsFromStore(
           });
       });
     cache::activeLoggers().db->debug("Reading '{}'", name_);
-    job->start();
 }
 
 std::optional<std::string>
@@ -227,22 +209,14 @@ MatrixStore::storeSecretInStore(const std::string name_, const std::string secre
         return;
     }
 
-    auto job = new QKeychain::WritePasswordJob(QCoreApplication::applicationName());
-    job->setAutoDelete(true);
-    job->setInsecureFallback(false);
-
-    job->setKey(name);
-
-    job->setTextData(QString::fromStdString(secret));
-
-    QObject::connect(
-      job,
-      &QKeychain::WritePasswordJob::finished,
+    settings::storage::writeSecureValueAsync(
+      name,
+      QString::fromStdString(secret),
       this,
-      [name_, this](QKeychain::Job *job) {
-          if (job->error()) {
+      [name_, this](const settings::storage::SecureBackendJobResult &result) {
+          if (!result.ok()) {
               cache::activeLoggers().db->warn(
-                "Storing secret '{}' failed: {}", name_, job->errorString().toStdString());
+                "Storing secret '{}' failed: {}", name_, result.errorString.toStdString());
               fatalSecretError();
           } else {
               // if we emit the signal directly, qtkeychain breaks and won't execute new
@@ -250,9 +224,7 @@ MatrixStore::storeSecretInStore(const std::string name_, const std::string secre
               QTimer::singleShot(0, this, [this, name_] { emit secretChanged(name_); });
               cache::activeLoggers().db->info("Storing secret '{}' successful", name_);
           }
-      },
-      Qt::ConnectionType::DirectConnection);
-    job->start();
+      });
 }
 
 void
@@ -268,13 +240,12 @@ MatrixStore::deleteSecretFromStore(const std::string name, bool internal)
         return;
     }
 
-    auto job = new QKeychain::DeletePasswordJob(QCoreApplication::applicationName());
-    job->setAutoDelete(true);
-    job->setInsecureFallback(false);
-
-    job->setKey(name_);
-
-    QObject::connect(
-      job, &QKeychain::Job::finished, this, [this, name] { emit secretChanged(name); });
-    job->start();
+    settings::storage::deleteSecureValueAsync(
+      name_, this, [this, name](const settings::storage::SecureBackendJobResult &result) {
+          if (result.failed()) {
+              cache::activeLoggers().db->warn(
+                "Deleting secret '{}' failed: {}", name, result.errorString.toStdString());
+          }
+          emit secretChanged(name);
+      });
 }

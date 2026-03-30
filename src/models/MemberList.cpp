@@ -30,14 +30,15 @@ MemberListBackend::MemberListBackend(const QString &room_id, QObject *parent)
 
     QPointer<MemberListBackend> self(this);
     std::thread([self, handleId, roomId = room_id_]() {
-        QString roomName = roomId;
+        const auto context = komai::matrix_backend::blockingCallContext();
+        QString roomName   = roomId;
         QString avatarUrl;
         int memberCount = 0;
         QVector<MemberListBackend::MemberEntry> members;
 
         QString error;
-        if (const auto settings =
-              komai::MatrixBackendRuntimeService::fetchRoomSettings(handleId, roomId, &error)) {
+        if (const auto settings = komai::MatrixBackendRuntimeService::fetchRoomSettings(
+              context, handleId, roomId, &error)) {
             if (!settings->roomName.trimmed().isEmpty())
                 roomName = settings->roomName;
             avatarUrl   = settings->roomAvatarUrl;
@@ -49,8 +50,8 @@ MemberListBackend::MemberListBackend(const QString &room_id, QObject *parent)
         }
 
         error.clear();
-        if (const auto runtimeMembers =
-              komai::MatrixBackendRuntimeService::fetchRoomMembers(handleId, roomId, &error)) {
+        if (const auto runtimeMembers = komai::MatrixBackendRuntimeService::fetchRoomMembers(
+              context, handleId, roomId, &error)) {
             members.reserve(runtimeMembers->size());
             for (const auto &member : *runtimeMembers) {
                 members.push_back({

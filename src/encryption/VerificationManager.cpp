@@ -49,9 +49,10 @@ VerificationManager::verifySelf(QString *errorOut)
         return false;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     const auto session =
-      komai::MatrixBackendRuntimeService::startSelfVerification(handleId, &error);
+      komai::MatrixBackendRuntimeService::startSelfVerification(context, handleId, &error);
     if (!session) {
         if (errorOut)
             *errorOut =
@@ -73,16 +74,17 @@ VerificationManager::verifyUser(QString userid, QString *errorOut)
         return false;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     const auto session =
-      komai::MatrixBackendRuntimeService::startUserVerification(handleId, userid, &error);
+      komai::MatrixBackendRuntimeService::startUserVerification(context, handleId, userid, &error);
     if (session) {
         return openMatrixVerificationFlow(handleId, session->flowId, errorOut);
     }
 
     QString stateError;
-    const auto verificationState =
-      komai::MatrixBackendRuntimeService::fetchUserVerificationState(handleId, userid, &stateError);
+    const auto verificationState = komai::MatrixBackendRuntimeService::fetchUserVerificationState(
+      context, handleId, userid, &stateError);
     if (verificationState) {
         const auto candidateDeviceIds = unverifiedDeviceIdsFromRuntimeState(*verificationState);
         if (!candidateDeviceIds.empty()) {
@@ -121,9 +123,10 @@ VerificationManager::removeVerificationFlow(DeviceVerificationFlow *flow)
         const auto *mainWindow = MainWindow::instance();
         const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
         if (handleId != 0) {
+            const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
             QString error;
             if (!komai::MatrixBackendRuntimeService::clearVerificationSession(
-                  handleId, flowId, &error)) {
+                  context, handleId, flowId, &error)) {
                 nhlog::crypto()->warn("Failed to clear matrix-sdk verification flow {}: {}",
                                       flowId.toStdString(),
                                       error.toStdString());
@@ -146,9 +149,10 @@ VerificationManager::verifyDevice(QString userid, QString deviceid, QString *err
         return false;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     const auto session = komai::MatrixBackendRuntimeService::startDeviceVerification(
-      handleId, userid, deviceid, &error);
+      context, handleId, userid, deviceid, &error);
     if (!session) {
         if (errorOut)
             *errorOut = error.isEmpty()
@@ -210,9 +214,10 @@ VerificationManager::pollPendingMatrixVerifications()
     if (handleId == 0)
         return;
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     const auto pendingFlowIds =
-      komai::MatrixBackendRuntimeService::takePendingVerificationFlowIds(handleId, &error);
+      komai::MatrixBackendRuntimeService::takePendingVerificationFlowIds(context, handleId, &error);
     if (!pendingFlowIds) {
         if (!error.isEmpty()) {
             nhlog::crypto()->warn("Failed to poll pending matrix-sdk verification requests: {}",

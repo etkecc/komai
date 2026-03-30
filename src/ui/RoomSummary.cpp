@@ -29,10 +29,11 @@ RoomSummary::RoomSummary(std::string roomIdOrAlias_,
     if (roomIdOrAlias[0] == '!') {
         if (const auto *window = MainWindow::instance();
             window && window->matrixBackendHandleId()) {
+            const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
             QString error;
             const auto roomId   = QString::fromStdString(roomIdOrAlias);
             const auto settings = komai::MatrixBackendRuntimeService::fetchRoomSettings(
-              window->matrixBackendHandleId(), roomId, &error);
+              context, window->matrixBackendHandleId(), roomId, &error);
 
             if (settings.has_value()) {
                 this->room = LoadedRoomSummary{

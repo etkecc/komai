@@ -12,6 +12,21 @@ pub mod matrix_backend;
 
 #[cxx::bridge(namespace = "komai::rust")]
 mod ffi {
+    enum MatrixFfiBlockingThreadPolicy {
+        AllowUiThread,
+        RequireWorkerThread,
+    }
+
+    enum MatrixFfiCallerThread {
+        AppUiThread,
+        WorkerThread,
+    }
+
+    struct MatrixFfiBlockingContext {
+        thread_policy: MatrixFfiBlockingThreadPolicy,
+        caller_thread: MatrixFfiCallerThread,
+    }
+
     struct ResolveResult {
         base_url: String,
     }
@@ -352,26 +367,38 @@ mod ffi {
     }
 
     extern "Rust" {
-        fn resolve_server(server_name: &str) -> Result<ResolveResult>;
+        fn resolve_server(
+            context: MatrixFfiBlockingContext,
+            server_name: &str,
+        ) -> Result<ResolveResult>;
         fn matrix_sdk_paths(profile_id: &str) -> MatrixSdkPaths;
-        fn matrix_restore_session_preview(profile_id: &str) -> Result<MatrixRestorePreview>;
-        fn matrix_start_restored_backend(profile_id: &str) -> Result<MatrixBackendHandleInfo>;
-        fn matrix_logout_backend(handle_id: u64) -> Result<()>;
+        fn matrix_restore_session_preview(
+            context: MatrixFfiBlockingContext,
+            profile_id: &str,
+        ) -> Result<MatrixRestorePreview>;
+        fn matrix_start_restored_backend(
+            context: MatrixFfiBlockingContext,
+            profile_id: &str,
+        ) -> Result<MatrixBackendHandleInfo>;
+        fn matrix_logout_backend(context: MatrixFfiBlockingContext, handle_id: u64) -> Result<()>;
         fn matrix_stop_backend(handle_id: u64) -> Result<()>;
         fn matrix_start_backend_sync(handle_id: u64) -> Result<()>;
         fn matrix_join_room(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id_or_alias: &str,
             via: &Vec<String>,
             reason: &str,
         ) -> MatrixJoinRoomResult;
         fn matrix_knock_room(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id_or_alias: &str,
             via: &Vec<String>,
             reason: &str,
         ) -> Result<String>;
         fn matrix_create_room(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             name: &str,
             topic: &str,
@@ -383,162 +410,281 @@ mod ffi {
             is_space: bool,
             is_public: bool,
         ) -> Result<String>;
-        fn matrix_leave_room(handle_id: u64, room_id: &str, reason: &str) -> Result<()>;
+        fn matrix_leave_room(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            reason: &str,
+        ) -> Result<()>;
         fn matrix_toggle_room_tag(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             tag: &str,
             enabled: bool,
         ) -> Result<()>;
-        fn matrix_set_room_is_direct(handle_id: u64, room_id: &str, is_direct: bool) -> Result<()>;
+        fn matrix_set_room_is_direct(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            is_direct: bool,
+        ) -> Result<()>;
         fn matrix_invite_user(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             user_id: &str,
             reason: &str,
         ) -> Result<()>;
         fn matrix_kick_user(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             user_id: &str,
             reason: &str,
         ) -> Result<()>;
         fn matrix_ban_user(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             user_id: &str,
             reason: &str,
         ) -> Result<()>;
         fn matrix_unban_user(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             user_id: &str,
             reason: &str,
         ) -> Result<()>;
-        fn matrix_fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile>;
-        fn matrix_fetch_recovery_status(handle_id: u64) -> Result<MatrixRecoveryStatus>;
+        fn matrix_fetch_own_profile(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<MatrixOwnProfile>;
+        fn matrix_fetch_recovery_status(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<MatrixRecoveryStatus>;
         fn matrix_setup_recovery(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             use_ssss: bool,
             passphrase: &str,
             encryption_backup_online_enabled: bool,
         ) -> Result<MatrixSetupRecoveryResult>;
         fn matrix_recover_encryption_secrets(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             key_or_passphrase: &str,
         ) -> Result<()>;
         fn matrix_start_reset_encryption_identity(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
         ) -> Result<MatrixResetEncryptionIdentityResult>;
         fn matrix_continue_reset_encryption_identity_with_password(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             password: &str,
         ) -> Result<()>;
         fn matrix_continue_reset_encryption_identity_after_approval(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
         ) -> Result<()>;
-        fn matrix_cancel_reset_encryption_identity(handle_id: u64) -> Result<()>;
+        fn matrix_cancel_reset_encryption_identity(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<()>;
         fn matrix_start_sign_out_device(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             device_id: &str,
         ) -> Result<MatrixDeviceSignOutResult>;
         fn matrix_continue_sign_out_device_with_password(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             password: &str,
         ) -> Result<()>;
         fn matrix_rename_device(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             device_id: &str,
             display_name: &str,
         ) -> Result<()>;
-        fn matrix_start_self_verification(handle_id: u64) -> Result<MatrixVerificationSession>;
+        fn matrix_start_self_verification(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<MatrixVerificationSession>;
         fn matrix_start_user_verification(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             user_id: &str,
         ) -> Result<MatrixVerificationSession>;
         fn matrix_start_device_verification(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             user_id: &str,
             device_id: &str,
         ) -> Result<MatrixVerificationSession>;
-        fn matrix_unverify_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<()>;
-        fn matrix_block_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<()>;
-        fn matrix_unblock_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<()>;
+        fn matrix_unverify_device(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            user_id: &str,
+            device_id: &str,
+        ) -> Result<()>;
+        fn matrix_block_device(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            user_id: &str,
+            device_id: &str,
+        ) -> Result<()>;
+        fn matrix_unblock_device(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            user_id: &str,
+            device_id: &str,
+        ) -> Result<()>;
         fn matrix_fetch_user_verification_state(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             user_id: &str,
         ) -> Result<MatrixUserVerificationState>;
-        fn matrix_take_pending_verification_flow_ids(handle_id: u64) -> Result<Vec<String>>;
+        fn matrix_take_pending_verification_flow_ids(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<Vec<String>>;
         fn matrix_fetch_verification_session(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             flow_id: &str,
         ) -> Result<MatrixVerificationSession>;
-        fn matrix_clear_verification_session(handle_id: u64, flow_id: &str) -> Result<()>;
-        fn matrix_advance_verification_session(handle_id: u64, flow_id: &str) -> Result<()>;
+        fn matrix_clear_verification_session(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            flow_id: &str,
+        ) -> Result<()>;
+        fn matrix_advance_verification_session(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            flow_id: &str,
+        ) -> Result<()>;
         fn matrix_cancel_verification_session(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             flow_id: &str,
             mismatch: bool,
         ) -> Result<()>;
-        fn matrix_fetch_user_profile(handle_id: u64, user_id: &str) -> Result<MatrixUserProfile>;
+        fn matrix_fetch_user_profile(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            user_id: &str,
+        ) -> Result<MatrixUserProfile>;
         fn matrix_fetch_room_member_profile(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             user_id: &str,
         ) -> Result<MatrixUserProfile>;
         fn matrix_search_users(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             search_term: &str,
             limit: u64,
         ) -> Result<Vec<MatrixDirectoryUser>>;
         fn matrix_fetch_public_room_directory_page(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             search_term: &str,
             limit: u64,
             since: &str,
             server: &str,
         ) -> Result<MatrixPublicRoomDirectoryPage>;
-        fn matrix_set_own_display_name(handle_id: u64, display_name: &str) -> Result<()>;
+        fn matrix_set_own_display_name(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            display_name: &str,
+        ) -> Result<()>;
         fn matrix_set_own_room_display_name(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             display_name: &str,
         ) -> Result<()>;
         fn matrix_upload_own_avatar(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             file_path: &str,
             mime_type: &str,
         ) -> Result<()>;
-        fn matrix_remove_own_avatar(handle_id: u64) -> Result<()>;
+        fn matrix_remove_own_avatar(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<()>;
         fn matrix_upload_own_room_avatar(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             file_path: &str,
             mime_type: &str,
         ) -> Result<()>;
-        fn matrix_remove_own_room_avatar(handle_id: u64, room_id: &str) -> Result<()>;
-        fn matrix_ignore_user(handle_id: u64, user_id: &str) -> Result<()>;
-        fn matrix_unignore_user(handle_id: u64, user_id: &str) -> Result<()>;
-        fn matrix_set_invite_permission(handle_id: u64, target: &str, block: bool) -> Result<()>;
-        fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>>;
-        fn matrix_fetch_room_settings(handle_id: u64, room_id: &str) -> Result<MatrixRoomSettings>;
-        fn matrix_fetch_room_aliases(handle_id: u64, room_id: &str) -> Result<MatrixRoomAliases>;
+        fn matrix_remove_own_room_avatar(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<()>;
+        fn matrix_ignore_user(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            user_id: &str,
+        ) -> Result<()>;
+        fn matrix_unignore_user(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            user_id: &str,
+        ) -> Result<()>;
+        fn matrix_set_invite_permission(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            target: &str,
+            block: bool,
+        ) -> Result<()>;
+        fn matrix_fetch_room_list(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<Vec<MatrixRoomSummary>>;
+        fn matrix_fetch_room_settings(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<MatrixRoomSettings>;
+        fn matrix_fetch_room_aliases(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<MatrixRoomAliases>;
         fn matrix_apply_room_aliases(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             aliases: MatrixRoomAliases,
         ) -> Result<()>;
-        fn matrix_fetch_room_members(handle_id: u64, room_id: &str) -> Result<Vec<MatrixRoomMember>>;
+        fn matrix_fetch_room_members(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<Vec<MatrixRoomMember>>;
         fn matrix_fetch_room_power_levels(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
         ) -> Result<MatrixRoomPowerLevels>;
         fn matrix_apply_room_power_levels(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             power_levels: MatrixRoomPowerLevels,
         ) -> Result<()>;
         fn matrix_fetch_media_content(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             mxc_uri: &str,
             width: i32,
@@ -546,13 +692,25 @@ mod ffi {
             crop: bool,
         ) -> Result<Vec<u8>>;
         fn matrix_set_room_notification_mode(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             mode: i32,
         ) -> Result<()>;
-        fn matrix_set_room_name(handle_id: u64, room_id: &str, name: &str) -> Result<()>;
-        fn matrix_set_room_topic(handle_id: u64, room_id: &str, topic: &str) -> Result<()>;
+        fn matrix_set_room_name(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            name: &str,
+        ) -> Result<()>;
+        fn matrix_set_room_topic(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            topic: &str,
+        ) -> Result<()>;
         fn matrix_upload_room_avatar(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             file_path: &str,
@@ -560,14 +718,24 @@ mod ffi {
             width: i32,
             height: i32,
         ) -> Result<()>;
-        fn matrix_remove_room_avatar(handle_id: u64, room_id: &str) -> Result<()>;
-        fn matrix_enable_room_encryption(handle_id: u64, room_id: &str) -> Result<()>;
+        fn matrix_remove_room_avatar(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<()>;
+        fn matrix_enable_room_encryption(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<()>;
         fn matrix_set_room_history_visibility(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             history_visibility: &str,
         ) -> Result<()>;
         fn matrix_set_room_access_rules(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             join_rule_kind: &str,
@@ -579,12 +747,16 @@ mod ffi {
             page_size: u16,
         ) -> Result<()>;
         fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<()>;
-        fn matrix_fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTimelineItem>>;
+        fn matrix_fetch_active_room_timeline(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<Vec<MatrixTimelineItem>>;
         fn matrix_paginate_active_room_timeline_backwards(
             handle_id: u64,
             page_size: u16,
         ) -> Result<()>;
         fn matrix_fetch_active_room_timeline_media_content(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             item_id: &str,
             width: i32,
@@ -592,6 +764,7 @@ mod ffi {
             crop: bool,
         ) -> Result<Vec<u8>>;
         fn matrix_send_room_message(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             body: &str,
@@ -599,6 +772,7 @@ mod ffi {
             message_kind: &str,
         ) -> Result<()>;
         fn matrix_send_room_reply_message(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             replied_to_event_id: &str,
@@ -607,6 +781,7 @@ mod ffi {
             message_kind: &str,
         ) -> Result<()>;
         fn matrix_send_room_edit_message(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             target_event_id: &str,
@@ -615,23 +790,27 @@ mod ffi {
             message_kind: &str,
         ) -> Result<()>;
         fn matrix_toggle_room_reaction(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             event_id: &str,
             reaction_key: &str,
         ) -> Result<()>;
         fn matrix_redact_room_event(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             event_id: &str,
             reason: &str,
         ) -> Result<()>;
         fn matrix_mark_room_event_as_read(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             event_id: &str,
         ) -> Result<()>;
         fn matrix_report_room_event(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             event_id: &str,
@@ -639,26 +818,41 @@ mod ffi {
             score: i32,
         ) -> Result<()>;
         fn matrix_fetch_room_pinned_event_ids(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
         ) -> Result<Vec<String>>;
-        fn matrix_pin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<()>;
-        fn matrix_unpin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<()>;
+        fn matrix_pin_room_event(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            event_id: &str,
+        ) -> Result<()>;
+        fn matrix_unpin_room_event(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            event_id: &str,
+        ) -> Result<()>;
         fn matrix_fetch_active_room_raw_event_json(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             event_id: &str,
         ) -> Result<String>;
         fn matrix_fetch_room_read_receipts(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             event_id: &str,
         ) -> Result<Vec<MatrixReadReceiptEntry>>;
         fn matrix_fetch_room_redaction_permissions(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
         ) -> Result<MatrixRoomRedactionPermissions>;
         fn matrix_send_room_attachment(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             file_path: &str,
@@ -667,8 +861,14 @@ mod ffi {
             reply_event_id: &str,
             mime_type: &str,
         ) -> Result<()>;
-        fn matrix_upload_media(handle_id: u64, file_path: &str, mime_type: &str) -> Result<String>;
+        fn matrix_upload_media(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            file_path: &str,
+            mime_type: &str,
+        ) -> Result<String>;
         fn matrix_send_room_image(
+            context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             mxc_uri: &str,
@@ -677,10 +877,12 @@ mod ffi {
             info_json: &str,
         ) -> Result<()>;
         fn matrix_discover_login_flows(
+            context: MatrixFfiBlockingContext,
             server_name_or_url: &str,
             verify_certificates: bool,
         ) -> Result<MatrixLoginFlows>;
         fn matrix_get_sso_login_url(
+            context: MatrixFfiBlockingContext,
             homeserver_url: &str,
             redirect_url: &str,
             identity_provider_id: &str,
@@ -694,6 +896,7 @@ mod ffi {
         fn matrix_poll_sso_callback_server(listener_id: u64) -> Result<MatrixSsoCallbackStatus>;
         fn matrix_stop_sso_callback_server(listener_id: u64) -> Result<()>;
         fn matrix_start_oauth_login(
+            context: MatrixFfiBlockingContext,
             profile_id: &str,
             homeserver_url: &str,
             redirect_url: &str,
@@ -703,11 +906,13 @@ mod ffi {
             verify_certificates: bool,
         ) -> Result<MatrixOauthLoginStartResult>;
         fn matrix_finish_oauth_login(
+            context: MatrixFfiBlockingContext,
             login_id: u64,
             callback_query: &str,
         ) -> Result<MatrixLoginResult>;
         fn matrix_cancel_oauth_login(login_id: u64) -> Result<()>;
         fn matrix_login_password(
+            context: MatrixFfiBlockingContext,
             profile_id: &str,
             homeserver_url: &str,
             user_id: &str,
@@ -717,6 +922,7 @@ mod ffi {
             verify_certificates: bool,
         ) -> Result<MatrixLoginResult>;
         fn matrix_login_token(
+            context: MatrixFfiBlockingContext,
             profile_id: &str,
             homeserver_url: &str,
             login_token: &str,
@@ -742,9 +948,37 @@ fn resolver() -> &'static MatrixResolver {
     })
 }
 
-fn resolve_server(server_name: &str) -> Result<ffi::ResolveResult, String> {
-    let resolution = runtime()
-        .block_on(resolver().resolve_server(server_name))
+fn ffi_block_on<F, T>(
+    context: ffi::MatrixFfiBlockingContext,
+    operation: &'static str,
+    future: F,
+) -> T
+where
+    F: std::future::Future<Output = T>,
+{
+    // Exported blocking FFI entrypoints must come through here so the C++-chosen thread policy is
+    // enforced at one Rust choke point instead of letting raw runtime().block_on(...) calls spread.
+    logging::ensure_initialized();
+
+    if matches!(
+        context.thread_policy,
+        ffi::MatrixFfiBlockingThreadPolicy::RequireWorkerThread
+    ) && matches!(context.caller_thread, ffi::MatrixFfiCallerThread::AppUiThread)
+    {
+        panic!(
+            "Blocking matrix-sdk FFI call '{}' was invoked from the app/UI thread",
+            operation
+        );
+    }
+
+    runtime().block_on(future)
+}
+
+fn resolve_server(
+    context: ffi::MatrixFfiBlockingContext,
+    server_name: &str,
+) -> Result<ffi::ResolveResult, String> {
+    let resolution = ffi_block_on(context, "resolve_server", resolver().resolve_server(server_name))
         .map_err(|e| format!("failed to resolve server '{}': {}", server_name, e))?;
 
     Ok(ffi::ResolveResult {
@@ -771,10 +1005,15 @@ fn matrix_sdk_paths(profile_id: &str) -> ffi::MatrixSdkPaths {
     }
 }
 
-fn matrix_restore_session_preview(profile_id: &str) -> Result<ffi::MatrixRestorePreview, String> {
-    let preview = runtime().block_on(matrix_backend::bootstrap::restore_session_preview(
-        profile_id,
-    ))?;
+fn matrix_restore_session_preview(
+    context: ffi::MatrixFfiBlockingContext,
+    profile_id: &str,
+) -> Result<ffi::MatrixRestorePreview, String> {
+    let preview = ffi_block_on(
+        context,
+        "matrix_restore_session_preview",
+        matrix_backend::bootstrap::restore_session_preview(profile_id),
+    )?;
 
     Ok(ffi::MatrixRestorePreview {
         has_session: preview.has_session,
@@ -788,8 +1027,15 @@ fn matrix_restore_session_preview(profile_id: &str) -> Result<ffi::MatrixRestore
     })
 }
 
-fn matrix_start_restored_backend(profile_id: &str) -> Result<ffi::MatrixBackendHandleInfo, String> {
-    let result = runtime().block_on(matrix_backend::runtime::start_restored_backend(profile_id))?;
+fn matrix_start_restored_backend(
+    context: ffi::MatrixFfiBlockingContext,
+    profile_id: &str,
+) -> Result<ffi::MatrixBackendHandleInfo, String> {
+    let result = ffi_block_on(
+        context,
+        "matrix_start_restored_backend",
+        matrix_backend::runtime::start_restored_backend(profile_id),
+    )?;
 
     Ok(ffi::MatrixBackendHandleInfo {
         handle_id: result.handle_id,
@@ -801,9 +1047,16 @@ fn matrix_start_restored_backend(profile_id: &str) -> Result<ffi::MatrixBackendH
     })
 }
 
-fn matrix_logout_backend(handle_id: u64) -> Result<(), String> {
+fn matrix_logout_backend(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<(), String> {
     logging::ensure_initialized();
-    runtime().block_on(matrix_backend::runtime::logout_backend(handle_id))
+    ffi_block_on(
+        context,
+        "matrix_logout_backend",
+        matrix_backend::runtime::logout_backend(handle_id),
+    )
 }
 
 fn matrix_stop_backend(handle_id: u64) -> Result<(), String> {
@@ -817,18 +1070,18 @@ fn matrix_start_backend_sync(handle_id: u64) -> Result<(), String> {
 }
 
 fn matrix_join_room(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id_or_alias: &str,
     via: &Vec<String>,
     reason: &str,
 ) -> ffi::MatrixJoinRoomResult {
     logging::ensure_initialized();
-    match runtime().block_on(matrix_backend::runtime::join_room(
-        handle_id,
-        room_id_or_alias,
-        via.as_slice(),
-        reason,
-    )) {
+    match ffi_block_on(
+        context,
+        "matrix_join_room",
+        matrix_backend::runtime::join_room(handle_id, room_id_or_alias, via.as_slice(), reason),
+    ) {
         Ok(room_id) => ffi::MatrixJoinRoomResult {
             ok: true,
             room_id,
@@ -845,21 +1098,27 @@ fn matrix_join_room(
 }
 
 fn matrix_knock_room(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id_or_alias: &str,
     via: &Vec<String>,
     reason: &str,
 ) -> Result<String, String> {
-    runtime().block_on(matrix_backend::runtime::knock_room(
+    ffi_block_on(
+        context,
+        "matrix_knock_room",
+        matrix_backend::runtime::knock_room(
         handle_id,
         room_id_or_alias,
         via.as_slice(),
         reason,
-    ))
+        ),
+    )
 }
 
 #[allow(clippy::too_many_arguments)]
 fn matrix_create_room(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     name: &str,
     topic: &str,
@@ -871,7 +1130,10 @@ fn matrix_create_room(
     is_space: bool,
     is_public: bool,
 ) -> Result<String, String> {
-    runtime().block_on(matrix_backend::runtime::create_room(
+    ffi_block_on(
+        context,
+        "matrix_create_room",
+        matrix_backend::runtime::create_room(
         handle_id,
         name,
         topic,
@@ -882,76 +1144,115 @@ fn matrix_create_room(
         is_encrypted,
         is_space,
         is_public,
-    ))
+        ),
+    )
 }
 
-fn matrix_leave_room(handle_id: u64, room_id: &str, reason: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::leave_room(handle_id, room_id, reason))
+fn matrix_leave_room(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    reason: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_leave_room",
+        matrix_backend::runtime::leave_room(handle_id, room_id, reason),
+    )
 }
 
 fn matrix_toggle_room_tag(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     tag: &str,
     enabled: bool,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::toggle_room_tag(
-        handle_id, room_id, tag, enabled,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_toggle_room_tag",
+        matrix_backend::runtime::toggle_room_tag(handle_id, room_id, tag, enabled),
+    )
 }
 
-fn matrix_set_room_is_direct(handle_id: u64, room_id: &str, is_direct: bool) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::set_room_is_direct(
-        handle_id, room_id, is_direct,
-    ))
+fn matrix_set_room_is_direct(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    is_direct: bool,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_set_room_is_direct",
+        matrix_backend::runtime::set_room_is_direct(handle_id, room_id, is_direct),
+    )
 }
 
 fn matrix_invite_user(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     user_id: &str,
     reason: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::invite_user(
-        handle_id, room_id, user_id, reason,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_invite_user",
+        matrix_backend::runtime::invite_user(handle_id, room_id, user_id, reason),
+    )
 }
 
 fn matrix_kick_user(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     user_id: &str,
     reason: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::kick_user(
-        handle_id, room_id, user_id, reason,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_kick_user",
+        matrix_backend::runtime::kick_user(handle_id, room_id, user_id, reason),
+    )
 }
 
 fn matrix_ban_user(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     user_id: &str,
     reason: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::ban_user(
-        handle_id, room_id, user_id, reason,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_ban_user",
+        matrix_backend::runtime::ban_user(handle_id, room_id, user_id, reason),
+    )
 }
 
 fn matrix_unban_user(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     user_id: &str,
     reason: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::unban_user(
-        handle_id, room_id, user_id, reason,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_unban_user",
+        matrix_backend::runtime::unban_user(handle_id, room_id, user_id, reason),
+    )
 }
 
-fn matrix_fetch_own_profile(handle_id: u64) -> Result<ffi::MatrixOwnProfile, String> {
-    let result = runtime().block_on(matrix_backend::runtime::fetch_own_profile(handle_id))?;
+fn matrix_fetch_own_profile(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<ffi::MatrixOwnProfile, String> {
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_own_profile",
+        matrix_backend::runtime::fetch_own_profile(handle_id),
+    )?;
 
     Ok(ffi::MatrixOwnProfile {
         display_name: result.display_name,
@@ -959,8 +1260,15 @@ fn matrix_fetch_own_profile(handle_id: u64) -> Result<ffi::MatrixOwnProfile, Str
     })
 }
 
-fn matrix_fetch_recovery_status(handle_id: u64) -> Result<ffi::MatrixRecoveryStatus, String> {
-    let result = runtime().block_on(matrix_backend::runtime::fetch_recovery_status(handle_id))?;
+fn matrix_fetch_recovery_status(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<ffi::MatrixRecoveryStatus, String> {
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_recovery_status",
+        matrix_backend::runtime::fetch_recovery_status(handle_id),
+    )?;
 
     Ok(ffi::MatrixRecoveryStatus {
         state: result.state,
@@ -971,17 +1279,22 @@ fn matrix_fetch_recovery_status(handle_id: u64) -> Result<ffi::MatrixRecoverySta
 }
 
 fn matrix_setup_recovery(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     use_ssss: bool,
     passphrase: &str,
     encryption_backup_online_enabled: bool,
 ) -> Result<ffi::MatrixSetupRecoveryResult, String> {
-    let result = runtime().block_on(matrix_backend::runtime::setup_recovery(
-        handle_id,
-        use_ssss,
-        passphrase,
-        encryption_backup_online_enabled,
-    ))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_setup_recovery",
+        matrix_backend::runtime::setup_recovery(
+            handle_id,
+            use_ssss,
+            passphrase,
+            encryption_backup_online_enabled,
+        ),
+    )?;
 
     Ok(ffi::MatrixSetupRecoveryResult {
         recovery_key: result.recovery_key,
@@ -989,21 +1302,26 @@ fn matrix_setup_recovery(
 }
 
 fn matrix_recover_encryption_secrets(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     key_or_passphrase: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::recover_encryption_secrets(
-        handle_id,
-        key_or_passphrase,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_recover_encryption_secrets",
+        matrix_backend::runtime::recover_encryption_secrets(handle_id, key_or_passphrase),
+    )
 }
 
 fn matrix_start_reset_encryption_identity(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
 ) -> Result<ffi::MatrixResetEncryptionIdentityResult, String> {
-    let result = runtime().block_on(matrix_backend::runtime::start_reset_encryption_identity(
-        handle_id,
-    ))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_start_reset_encryption_identity",
+        matrix_backend::runtime::start_reset_encryption_identity(handle_id),
+    )?;
 
     Ok(ffi::MatrixResetEncryptionIdentityResult {
         completed: result.completed,
@@ -1013,10 +1331,13 @@ fn matrix_start_reset_encryption_identity(
 }
 
 fn matrix_continue_reset_encryption_identity_with_password(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     password: &str,
 ) -> Result<(), String> {
-    runtime().block_on(
+    ffi_block_on(
+        context,
+        "matrix_continue_reset_encryption_identity_with_password",
         matrix_backend::runtime::continue_reset_encryption_identity_with_password(
             handle_id, password,
         ),
@@ -1024,23 +1345,37 @@ fn matrix_continue_reset_encryption_identity_with_password(
 }
 
 fn matrix_continue_reset_encryption_identity_after_approval(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
 ) -> Result<(), String> {
-    runtime().block_on(
+    ffi_block_on(
+        context,
+        "matrix_continue_reset_encryption_identity_after_approval",
         matrix_backend::runtime::continue_reset_encryption_identity_after_approval(handle_id),
     )
 }
 
-fn matrix_cancel_reset_encryption_identity(handle_id: u64) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::cancel_reset_encryption_identity(handle_id))
+fn matrix_cancel_reset_encryption_identity(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_cancel_reset_encryption_identity",
+        matrix_backend::runtime::cancel_reset_encryption_identity(handle_id),
+    )
 }
 
 fn matrix_start_sign_out_device(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     device_id: &str,
 ) -> Result<ffi::MatrixDeviceSignOutResult, String> {
-    let result =
-        runtime().block_on(matrix_backend::runtime::start_sign_out_device(handle_id, device_id))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_start_sign_out_device",
+        matrix_backend::runtime::start_sign_out_device(handle_id, device_id),
+    )?;
 
     Ok(ffi::MatrixDeviceSignOutResult {
         completed: result.completed,
@@ -1050,26 +1385,39 @@ fn matrix_start_sign_out_device(
 }
 
 fn matrix_continue_sign_out_device_with_password(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     password: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::continue_sign_out_device_with_password(
-        handle_id, password,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_continue_sign_out_device_with_password",
+        matrix_backend::runtime::continue_sign_out_device_with_password(handle_id, password),
+    )
 }
 
-fn matrix_rename_device(handle_id: u64, device_id: &str, display_name: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::rename_device(
-        handle_id,
-        device_id,
-        display_name,
-    ))
+fn matrix_rename_device(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    device_id: &str,
+    display_name: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_rename_device",
+        matrix_backend::runtime::rename_device(handle_id, device_id, display_name),
+    )
 }
 
 fn matrix_start_self_verification(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
 ) -> Result<ffi::MatrixVerificationSession, String> {
-    let result = runtime().block_on(matrix_backend::runtime::start_self_verification(handle_id))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_start_self_verification",
+        matrix_backend::runtime::start_self_verification(handle_id),
+    )?;
 
     Ok(ffi::MatrixVerificationSession {
         flow_id: result.flow_id,
@@ -1085,11 +1433,15 @@ fn matrix_start_self_verification(
 }
 
 fn matrix_start_user_verification(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     user_id: &str,
 ) -> Result<ffi::MatrixVerificationSession, String> {
-    let result =
-        runtime().block_on(matrix_backend::runtime::start_user_verification(handle_id, user_id))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_start_user_verification",
+        matrix_backend::runtime::start_user_verification(handle_id, user_id),
+    )?;
 
     Ok(ffi::MatrixVerificationSession {
         flow_id: result.flow_id,
@@ -1105,13 +1457,16 @@ fn matrix_start_user_verification(
 }
 
 fn matrix_start_device_verification(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     user_id: &str,
     device_id: &str,
 ) -> Result<ffi::MatrixVerificationSession, String> {
-    let result = runtime().block_on(matrix_backend::runtime::start_device_verification(
-        handle_id, user_id, device_id,
-    ))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_start_device_verification",
+        matrix_backend::runtime::start_device_verification(handle_id, user_id, device_id),
+    )?;
 
     Ok(ffi::MatrixVerificationSession {
         flow_id: result.flow_id,
@@ -1126,36 +1481,55 @@ fn matrix_start_device_verification(
     })
 }
 
-fn matrix_unverify_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::unverify_device(
-        handle_id,
-        user_id,
-        device_id,
-    ))
+fn matrix_unverify_device(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    user_id: &str,
+    device_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_unverify_device",
+        matrix_backend::runtime::unverify_device(handle_id, user_id, device_id),
+    )
 }
 
-fn matrix_block_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::block_device(
-        handle_id,
-        user_id,
-        device_id,
-    ))
+fn matrix_block_device(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    user_id: &str,
+    device_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_block_device",
+        matrix_backend::runtime::block_device(handle_id, user_id, device_id),
+    )
 }
 
-fn matrix_unblock_device(handle_id: u64, user_id: &str, device_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::unblock_device(
-        handle_id,
-        user_id,
-        device_id,
-    ))
+fn matrix_unblock_device(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    user_id: &str,
+    device_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_unblock_device",
+        matrix_backend::runtime::unblock_device(handle_id, user_id, device_id),
+    )
 }
 
 fn matrix_fetch_user_verification_state(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     user_id: &str,
 ) -> Result<ffi::MatrixUserVerificationState, String> {
-    let result =
-        runtime().block_on(matrix_backend::runtime::fetch_user_verification_state(handle_id, user_id))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_user_verification_state",
+        matrix_backend::runtime::fetch_user_verification_state(handle_id, user_id),
+    )?;
 
     Ok(ffi::MatrixUserVerificationState {
         has_master_key: result.has_master_key,
@@ -1174,18 +1548,27 @@ fn matrix_fetch_user_verification_state(
     })
 }
 
-fn matrix_take_pending_verification_flow_ids(handle_id: u64) -> Result<Vec<String>, String> {
-    Ok(runtime().block_on(async move {
-        matrix_backend::runtime::take_pending_verification_flow_ids(handle_id)
-    })?)
+fn matrix_take_pending_verification_flow_ids(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<Vec<String>, String> {
+    Ok(ffi_block_on(
+        context,
+        "matrix_take_pending_verification_flow_ids",
+        async move { matrix_backend::runtime::take_pending_verification_flow_ids(handle_id) },
+    )?)
 }
 
 fn matrix_fetch_verification_session(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     flow_id: &str,
 ) -> Result<ffi::MatrixVerificationSession, String> {
-    let result =
-        runtime().block_on(matrix_backend::runtime::fetch_verification_session(handle_id, flow_id))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_verification_session",
+        matrix_backend::runtime::fetch_verification_session(handle_id, flow_id),
+    )?;
 
     Ok(ffi::MatrixVerificationSession {
         flow_id: result.flow_id,
@@ -1200,26 +1583,53 @@ fn matrix_fetch_verification_session(
     })
 }
 
-fn matrix_clear_verification_session(handle_id: u64, flow_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::clear_verification_session(handle_id, flow_id))
+fn matrix_clear_verification_session(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    flow_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_clear_verification_session",
+        matrix_backend::runtime::clear_verification_session(handle_id, flow_id),
+    )
 }
 
-fn matrix_advance_verification_session(handle_id: u64, flow_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::advance_verification_session(handle_id, flow_id))
+fn matrix_advance_verification_session(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    flow_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_advance_verification_session",
+        matrix_backend::runtime::advance_verification_session(handle_id, flow_id),
+    )
 }
 
 fn matrix_cancel_verification_session(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     flow_id: &str,
     mismatch: bool,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::cancel_verification_session(
-        handle_id, flow_id, mismatch,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_cancel_verification_session",
+        matrix_backend::runtime::cancel_verification_session(handle_id, flow_id, mismatch),
+    )
 }
 
-fn matrix_fetch_user_profile(handle_id: u64, user_id: &str) -> Result<ffi::MatrixUserProfile, String> {
-    let result = runtime().block_on(matrix_backend::runtime::fetch_user_profile(handle_id, user_id))?;
+fn matrix_fetch_user_profile(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    user_id: &str,
+) -> Result<ffi::MatrixUserProfile, String> {
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_user_profile",
+        matrix_backend::runtime::fetch_user_profile(handle_id, user_id),
+    )?;
 
     Ok(ffi::MatrixUserProfile {
         display_name: result.display_name,
@@ -1228,14 +1638,16 @@ fn matrix_fetch_user_profile(handle_id: u64, user_id: &str) -> Result<ffi::Matri
 }
 
 fn matrix_fetch_room_member_profile(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     user_id: &str,
 ) -> Result<ffi::MatrixUserProfile, String> {
-    let result =
-        runtime().block_on(matrix_backend::runtime::fetch_room_member_profile(
-            handle_id, room_id, user_id,
-        ))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_room_member_profile",
+        matrix_backend::runtime::fetch_room_member_profile(handle_id, room_id, user_id),
+    )?;
 
     Ok(ffi::MatrixUserProfile {
         display_name: result.display_name,
@@ -1244,16 +1656,16 @@ fn matrix_fetch_room_member_profile(
 }
 
 fn matrix_search_users(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     search_term: &str,
     limit: u64,
 ) -> Result<Vec<ffi::MatrixDirectoryUser>, String> {
-    runtime()
-        .block_on(matrix_backend::runtime::search_users(
-            handle_id,
-            search_term,
-            limit,
-        ))
+    ffi_block_on(
+        context,
+        "matrix_search_users",
+        matrix_backend::runtime::search_users(handle_id, search_term, limit),
+    )
         .map(|users| {
             users
                 .into_iter()
@@ -1267,20 +1679,24 @@ fn matrix_search_users(
 }
 
 fn matrix_fetch_public_room_directory_page(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     search_term: &str,
     limit: u64,
     since: &str,
     server: &str,
 ) -> Result<ffi::MatrixPublicRoomDirectoryPage, String> {
-    runtime()
-        .block_on(matrix_backend::runtime::fetch_public_room_directory_page(
+    ffi_block_on(
+        context,
+        "matrix_fetch_public_room_directory_page",
+        matrix_backend::runtime::fetch_public_room_directory_page(
             handle_id,
             search_term,
             limit,
             since,
             server,
-        ))
+        ),
+    )
         .map(|page| ffi::MatrixPublicRoomDirectoryPage {
             rooms: page
                 .rooms
@@ -1302,59 +1718,116 @@ fn matrix_fetch_public_room_directory_page(
         })
 }
 
-fn matrix_set_own_display_name(handle_id: u64, display_name: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::set_own_display_name(handle_id, display_name))
+fn matrix_set_own_display_name(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    display_name: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_set_own_display_name",
+        matrix_backend::runtime::set_own_display_name(handle_id, display_name),
+    )
 }
 
 fn matrix_set_own_room_display_name(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     display_name: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::set_own_room_display_name(
-        handle_id,
-        room_id,
-        display_name,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_set_own_room_display_name",
+        matrix_backend::runtime::set_own_room_display_name(handle_id, room_id, display_name),
+    )
 }
 
-fn matrix_upload_own_avatar(handle_id: u64, file_path: &str, mime_type: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::upload_own_avatar(
-        handle_id, file_path, mime_type,
-    ))
+fn matrix_upload_own_avatar(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    file_path: &str,
+    mime_type: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_upload_own_avatar",
+        matrix_backend::runtime::upload_own_avatar(handle_id, file_path, mime_type),
+    )
 }
 
-fn matrix_remove_own_avatar(handle_id: u64) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::remove_own_avatar(handle_id))
+fn matrix_remove_own_avatar(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_remove_own_avatar",
+        matrix_backend::runtime::remove_own_avatar(handle_id),
+    )
 }
 
 fn matrix_upload_own_room_avatar(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     file_path: &str,
     mime_type: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::upload_own_room_avatar(
-        handle_id, room_id, file_path, mime_type,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_upload_own_room_avatar",
+        matrix_backend::runtime::upload_own_room_avatar(handle_id, room_id, file_path, mime_type),
+    )
 }
 
-fn matrix_remove_own_room_avatar(handle_id: u64, room_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::remove_own_room_avatar(handle_id, room_id))
+fn matrix_remove_own_room_avatar(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_remove_own_room_avatar",
+        matrix_backend::runtime::remove_own_room_avatar(handle_id, room_id),
+    )
 }
 
-fn matrix_ignore_user(handle_id: u64, user_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::ignore_user(handle_id, user_id))
+fn matrix_ignore_user(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    user_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_ignore_user",
+        matrix_backend::runtime::ignore_user(handle_id, user_id),
+    )
 }
 
-fn matrix_unignore_user(handle_id: u64, user_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::unignore_user(handle_id, user_id))
+fn matrix_unignore_user(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    user_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_unignore_user",
+        matrix_backend::runtime::unignore_user(handle_id, user_id),
+    )
 }
 
-fn matrix_set_invite_permission(handle_id: u64, target: &str, block: bool) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::set_invite_permission(
-        handle_id, target, block,
-    ))
+fn matrix_set_invite_permission(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    target: &str,
+    block: bool,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_set_invite_permission",
+        matrix_backend::runtime::set_invite_permission(handle_id, target, block),
+    )
 }
 
 pub(crate) fn into_ffi_matrix_room_summary(
@@ -1385,17 +1858,28 @@ pub(crate) fn into_ffi_matrix_room_summary(
     }
 }
 
-fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<ffi::MatrixRoomSummary>, String> {
-    runtime()
-        .block_on(matrix_backend::runtime::fetch_room_list(handle_id))
+fn matrix_fetch_room_list(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<Vec<ffi::MatrixRoomSummary>, String> {
+    ffi_block_on(
+        context,
+        "matrix_fetch_room_list",
+        matrix_backend::runtime::fetch_room_list(handle_id),
+    )
         .map(|rooms| rooms.into_iter().map(into_ffi_matrix_room_summary).collect())
 }
 
 fn matrix_fetch_room_settings(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
 ) -> Result<ffi::MatrixRoomSettings, String> {
-    let result = runtime().block_on(matrix_backend::runtime::fetch_room_settings(handle_id, room_id))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_room_settings",
+        matrix_backend::runtime::fetch_room_settings(handle_id, room_id),
+    )?;
 
     Ok(ffi::MatrixRoomSettings {
         room_id: result.room_id,
@@ -1420,10 +1904,15 @@ fn matrix_fetch_room_settings(
 }
 
 fn matrix_fetch_room_aliases(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
 ) -> Result<ffi::MatrixRoomAliases, String> {
-    let result = runtime().block_on(matrix_backend::runtime::fetch_room_aliases(handle_id, room_id))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_room_aliases",
+        matrix_backend::runtime::fetch_room_aliases(handle_id, room_id),
+    )?;
 
     Ok(ffi::MatrixRoomAliases {
         canonical_alias: result.canonical_alias,
@@ -1433,26 +1922,36 @@ fn matrix_fetch_room_aliases(
 }
 
 fn matrix_apply_room_aliases(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     aliases: ffi::MatrixRoomAliases,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::apply_room_aliases(
-        handle_id,
-        room_id,
-        matrix_backend::runtime::MatrixRoomAliases {
-            canonical_alias: aliases.canonical_alias,
-            alt_aliases: aliases.alt_aliases,
-            published_aliases: aliases.published_aliases,
-        },
-    ))
+    ffi_block_on(
+        context,
+        "matrix_apply_room_aliases",
+        matrix_backend::runtime::apply_room_aliases(
+            handle_id,
+            room_id,
+            matrix_backend::runtime::MatrixRoomAliases {
+                canonical_alias: aliases.canonical_alias,
+                alt_aliases: aliases.alt_aliases,
+                published_aliases: aliases.published_aliases,
+            },
+        ),
+    )
 }
 
 fn matrix_fetch_room_members(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
 ) -> Result<Vec<ffi::MatrixRoomMember>, String> {
-    let result = runtime().block_on(matrix_backend::runtime::fetch_room_members(handle_id, room_id))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_room_members",
+        matrix_backend::runtime::fetch_room_members(handle_id, room_id),
+    )?;
     Ok(result
         .into_iter()
         .map(|member| ffi::MatrixRoomMember {
@@ -1465,11 +1964,15 @@ fn matrix_fetch_room_members(
 }
 
 fn matrix_fetch_room_power_levels(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
 ) -> Result<ffi::MatrixRoomPowerLevels, String> {
-    let result =
-        runtime().block_on(matrix_backend::runtime::fetch_room_power_levels(handle_id, room_id))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_room_power_levels",
+        matrix_backend::runtime::fetch_room_power_levels(handle_id, room_id),
+    )?;
 
     Ok(ffi::MatrixRoomPowerLevels {
         room_version: result.room_version,
@@ -1495,74 +1998,104 @@ fn matrix_fetch_room_power_levels(
 }
 
 fn matrix_apply_room_power_levels(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     power_levels: ffi::MatrixRoomPowerLevels,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::apply_room_power_levels(
-        handle_id,
-        room_id,
-        matrix_backend::runtime::MatrixRoomPowerLevels {
-            room_version: power_levels.room_version,
-            creators: power_levels.creators,
-            events: power_levels
-                .events
-                .into_iter()
-                .map(|entry| matrix_backend::runtime::MatrixPowerLevelEntry {
-                    key: entry.key,
-                    level: entry.level,
-                })
-                .collect(),
-            users: power_levels
-                .users
-                .into_iter()
-                .map(|entry| matrix_backend::runtime::MatrixPowerLevelEntry {
-                    key: entry.key,
-                    level: entry.level,
-                })
-                .collect(),
-            ban: power_levels.ban,
-            events_default: power_levels.events_default,
-            invite: power_levels.invite,
-            kick: power_levels.kick,
-            redact: power_levels.redact,
-            state_default: power_levels.state_default,
-            users_default: power_levels.users_default,
-        },
-    ))
+    ffi_block_on(
+        context,
+        "matrix_apply_room_power_levels",
+        matrix_backend::runtime::apply_room_power_levels(
+            handle_id,
+            room_id,
+            matrix_backend::runtime::MatrixRoomPowerLevels {
+                room_version: power_levels.room_version,
+                creators: power_levels.creators,
+                events: power_levels
+                    .events
+                    .into_iter()
+                    .map(|entry| matrix_backend::runtime::MatrixPowerLevelEntry {
+                        key: entry.key,
+                        level: entry.level,
+                    })
+                    .collect(),
+                users: power_levels
+                    .users
+                    .into_iter()
+                    .map(|entry| matrix_backend::runtime::MatrixPowerLevelEntry {
+                        key: entry.key,
+                        level: entry.level,
+                    })
+                    .collect(),
+                ban: power_levels.ban,
+                events_default: power_levels.events_default,
+                invite: power_levels.invite,
+                kick: power_levels.kick,
+                redact: power_levels.redact,
+                state_default: power_levels.state_default,
+                users_default: power_levels.users_default,
+            },
+        ),
+    )
 }
 
 fn matrix_fetch_media_content(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     mxc_uri: &str,
     width: i32,
     height: i32,
     crop: bool,
 ) -> Result<Vec<u8>, String> {
-    runtime().block_on(matrix_backend::runtime::fetch_media_content(
-        handle_id, mxc_uri, width, height, crop,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_fetch_media_content",
+        matrix_backend::runtime::fetch_media_content(handle_id, mxc_uri, width, height, crop),
+    )
 }
 
 fn matrix_set_room_notification_mode(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     mode: i32,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::set_room_notification_mode(
-        handle_id, room_id, mode,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_set_room_notification_mode",
+        matrix_backend::runtime::set_room_notification_mode(handle_id, room_id, mode),
+    )
 }
 
-fn matrix_set_room_name(handle_id: u64, room_id: &str, name: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::set_room_name(handle_id, room_id, name))
+fn matrix_set_room_name(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    name: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_set_room_name",
+        matrix_backend::runtime::set_room_name(handle_id, room_id, name),
+    )
 }
 
-fn matrix_set_room_topic(handle_id: u64, room_id: &str, topic: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::set_room_topic(handle_id, room_id, topic))
+fn matrix_set_room_topic(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    topic: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_set_room_topic",
+        matrix_backend::runtime::set_room_topic(handle_id, room_id, topic),
+    )
 }
 
 fn matrix_upload_room_avatar(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     file_path: &str,
@@ -1570,50 +2103,76 @@ fn matrix_upload_room_avatar(
     width: i32,
     height: i32,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::upload_room_avatar(
-        handle_id,
-        room_id,
-        file_path,
-        mime_type,
-        width,
-        height,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_upload_room_avatar",
+        matrix_backend::runtime::upload_room_avatar(
+            handle_id,
+            room_id,
+            file_path,
+            mime_type,
+            width,
+            height,
+        ),
+    )
 }
 
-fn matrix_remove_room_avatar(handle_id: u64, room_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::remove_room_avatar(handle_id, room_id))
+fn matrix_remove_room_avatar(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_remove_room_avatar",
+        matrix_backend::runtime::remove_room_avatar(handle_id, room_id),
+    )
 }
 
-fn matrix_enable_room_encryption(handle_id: u64, room_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::enable_room_encryption(handle_id, room_id))
+fn matrix_enable_room_encryption(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_enable_room_encryption",
+        matrix_backend::runtime::enable_room_encryption(handle_id, room_id),
+    )
 }
 
 fn matrix_set_room_history_visibility(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     history_visibility: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::set_room_history_visibility(
-        handle_id,
-        room_id,
-        history_visibility,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_set_room_history_visibility",
+        matrix_backend::runtime::set_room_history_visibility(handle_id, room_id, history_visibility),
+    )
 }
 
 fn matrix_set_room_access_rules(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     join_rule_kind: &str,
     guest_access: bool,
     allowed_room_ids: &Vec<String>,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::set_room_access_rules(
-        handle_id,
-        room_id,
-        join_rule_kind,
-        guest_access,
-        allowed_room_ids,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_set_room_access_rules",
+        matrix_backend::runtime::set_room_access_rules(
+            handle_id,
+            room_id,
+            join_rule_kind,
+            guest_access,
+            allowed_room_ids,
+        ),
+    )
 }
 
 fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
@@ -1630,10 +2189,14 @@ fn matrix_set_active_room_timeline_initial_page_size(
 }
 
 fn matrix_fetch_active_room_timeline(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
 ) -> Result<Vec<ffi::MatrixTimelineItem>, String> {
-    runtime()
-        .block_on(matrix_backend::runtime::fetch_active_room_timeline(handle_id))
+    ffi_block_on(
+        context,
+        "matrix_fetch_active_room_timeline",
+        matrix_backend::runtime::fetch_active_room_timeline(handle_id),
+    )
         .map(|items| {
             items.into_iter()
                 .map(|item| ffi::MatrixTimelineItem {
@@ -1692,34 +2255,45 @@ fn matrix_paginate_active_room_timeline_backwards(
 }
 
 fn matrix_fetch_active_room_timeline_media_content(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     item_id: &str,
     width: i32,
     height: i32,
     crop: bool,
 ) -> Result<Vec<u8>, String> {
-    runtime().block_on(matrix_backend::runtime::fetch_active_room_timeline_media_content(
-        handle_id, item_id, width, height, crop,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_fetch_active_room_timeline_media_content",
+        matrix_backend::runtime::fetch_active_room_timeline_media_content(
+            handle_id, item_id, width, height, crop,
+        ),
+    )
 }
 
 fn matrix_send_room_message(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     body: &str,
     formatted_html: &str,
     message_kind: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::send_room_message(
-        handle_id,
-        room_id,
-        body,
-        formatted_html,
-        message_kind,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_send_room_message",
+        matrix_backend::runtime::send_room_message(
+            handle_id,
+            room_id,
+            body,
+            formatted_html,
+            message_kind,
+        ),
+    )
 }
 
 fn matrix_send_room_reply_message(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     replied_to_event_id: &str,
@@ -1727,17 +2301,22 @@ fn matrix_send_room_reply_message(
     formatted_html: &str,
     message_kind: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::send_room_reply_message(
-        handle_id,
-        room_id,
-        replied_to_event_id,
-        body,
-        formatted_html,
-        message_kind,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_send_room_reply_message",
+        matrix_backend::runtime::send_room_reply_message(
+            handle_id,
+            room_id,
+            replied_to_event_id,
+            body,
+            formatted_html,
+            message_kind,
+        ),
+    )
 }
 
 fn matrix_send_room_edit_message(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     target_event_id: &str,
@@ -1745,99 +2324,143 @@ fn matrix_send_room_edit_message(
     formatted_html: &str,
     message_kind: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::send_room_edit_message(
-        handle_id,
-        room_id,
-        target_event_id,
-        body,
-        formatted_html,
-        message_kind,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_send_room_edit_message",
+        matrix_backend::runtime::send_room_edit_message(
+            handle_id,
+            room_id,
+            target_event_id,
+            body,
+            formatted_html,
+            message_kind,
+        ),
+    )
 }
 
 fn matrix_toggle_room_reaction(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     event_id: &str,
     reaction_key: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::toggle_room_reaction(
-        handle_id,
-        room_id,
-        event_id,
-        reaction_key,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_toggle_room_reaction",
+        matrix_backend::runtime::toggle_room_reaction(
+            handle_id,
+            room_id,
+            event_id,
+            reaction_key,
+        ),
+    )
 }
 
 fn matrix_redact_room_event(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     event_id: &str,
     reason: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::redact_room_event(
-        handle_id, room_id, event_id, reason,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_redact_room_event",
+        matrix_backend::runtime::redact_room_event(handle_id, room_id, event_id, reason),
+    )
 }
 
-fn matrix_mark_room_event_as_read(handle_id: u64, room_id: &str, event_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::mark_room_event_as_read(
-        handle_id, room_id, event_id,
-    ))
+fn matrix_mark_room_event_as_read(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_mark_room_event_as_read",
+        matrix_backend::runtime::mark_room_event_as_read(handle_id, room_id, event_id),
+    )
 }
 
 fn matrix_report_room_event(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     event_id: &str,
     reason: &str,
     score: i32,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::report_room_event(
-        handle_id, room_id, event_id, reason, score,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_report_room_event",
+        matrix_backend::runtime::report_room_event(handle_id, room_id, event_id, reason, score),
+    )
 }
 
 fn matrix_fetch_room_pinned_event_ids(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
 ) -> Result<Vec<String>, String> {
-    runtime().block_on(matrix_backend::runtime::fetch_room_pinned_event_ids(
-        handle_id, room_id,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_fetch_room_pinned_event_ids",
+        matrix_backend::runtime::fetch_room_pinned_event_ids(handle_id, room_id),
+    )
 }
 
-fn matrix_pin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::pin_room_event(
-        handle_id, room_id, event_id,
-    ))
+fn matrix_pin_room_event(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_pin_room_event",
+        matrix_backend::runtime::pin_room_event(handle_id, room_id, event_id),
+    )
 }
 
-fn matrix_unpin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::unpin_room_event(
-        handle_id, room_id, event_id,
-    ))
+fn matrix_unpin_room_event(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_unpin_room_event",
+        matrix_backend::runtime::unpin_room_event(handle_id, room_id, event_id),
+    )
 }
 
 fn matrix_fetch_active_room_raw_event_json(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     event_id: &str,
 ) -> Result<String, String> {
-    runtime().block_on(matrix_backend::runtime::fetch_active_room_raw_event_json(
-        handle_id, room_id, event_id,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_fetch_active_room_raw_event_json",
+        matrix_backend::runtime::fetch_active_room_raw_event_json(handle_id, room_id, event_id),
+    )
 }
 
 fn matrix_fetch_room_read_receipts(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     event_id: &str,
 ) -> Result<Vec<ffi::MatrixReadReceiptEntry>, String> {
-    Ok(runtime()
-        .block_on(matrix_backend::runtime::fetch_room_read_receipts(
-            handle_id, room_id, event_id,
-        ))?
+    Ok(ffi_block_on(
+        context,
+        "matrix_fetch_room_read_receipts",
+        matrix_backend::runtime::fetch_room_read_receipts(handle_id, room_id, event_id),
+    )?
         .into_iter()
         .map(|entry| ffi::MatrixReadReceiptEntry {
             user_id: entry.user_id,
@@ -1849,12 +2472,15 @@ fn matrix_fetch_room_read_receipts(
 }
 
 fn matrix_fetch_room_redaction_permissions(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
 ) -> Result<ffi::MatrixRoomRedactionPermissions, String> {
-    let result = runtime().block_on(matrix_backend::runtime::fetch_room_redaction_permissions(
-        handle_id, room_id,
-    ))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_room_redaction_permissions",
+        matrix_backend::runtime::fetch_room_redaction_permissions(handle_id, room_id),
+    )?;
 
     Ok(ffi::MatrixRoomRedactionPermissions {
         can_redact_own: result.can_redact_own,
@@ -1863,6 +2489,7 @@ fn matrix_fetch_room_redaction_permissions(
 }
 
 fn matrix_send_room_attachment(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     file_path: &str,
@@ -1871,24 +2498,36 @@ fn matrix_send_room_attachment(
     reply_event_id: &str,
     mime_type: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::send_room_attachment(
-        handle_id,
-        room_id,
-        file_path,
-        filename,
-        caption,
-        reply_event_id,
-        mime_type,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_send_room_attachment",
+        matrix_backend::runtime::send_room_attachment(
+            handle_id,
+            room_id,
+            file_path,
+            filename,
+            caption,
+            reply_event_id,
+            mime_type,
+        ),
+    )
 }
 
-fn matrix_upload_media(handle_id: u64, file_path: &str, mime_type: &str) -> Result<String, String> {
-    runtime().block_on(matrix_backend::runtime::upload_media(
-        handle_id, file_path, mime_type,
-    ))
+fn matrix_upload_media(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    file_path: &str,
+    mime_type: &str,
+) -> Result<String, String> {
+    ffi_block_on(
+        context,
+        "matrix_upload_media",
+        matrix_backend::runtime::upload_media(handle_id, file_path, mime_type),
+    )
 }
 
 fn matrix_send_room_image(
+    context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     mxc_uri: &str,
@@ -1896,19 +2535,23 @@ fn matrix_send_room_image(
     filename: &str,
     info_json: &str,
 ) -> Result<(), String> {
-    runtime().block_on(matrix_backend::runtime::send_room_image(
-        handle_id, room_id, mxc_uri, body, filename, info_json,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_send_room_image",
+        matrix_backend::runtime::send_room_image(handle_id, room_id, mxc_uri, body, filename, info_json),
+    )
 }
 
 fn matrix_discover_login_flows(
+    context: ffi::MatrixFfiBlockingContext,
     server_name_or_url: &str,
     verify_certificates: bool,
 ) -> Result<ffi::MatrixLoginFlows, String> {
-    let result = runtime().block_on(matrix_backend::auth::discover_login_flows(
-        server_name_or_url,
-        verify_certificates,
-    ))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_discover_login_flows",
+        matrix_backend::auth::discover_login_flows(server_name_or_url, verify_certificates),
+    )?;
 
     Ok(ffi::MatrixLoginFlows {
         homeserver_url: result.homeserver_url,
@@ -1929,17 +2572,22 @@ fn matrix_discover_login_flows(
 }
 
 fn matrix_get_sso_login_url(
+    context: ffi::MatrixFfiBlockingContext,
     homeserver_url: &str,
     redirect_url: &str,
     identity_provider_id: &str,
     verify_certificates: bool,
 ) -> Result<String, String> {
-    runtime().block_on(matrix_backend::auth::get_sso_login_url(
-        homeserver_url,
-        redirect_url,
-        identity_provider_id,
-        verify_certificates,
-    ))
+    ffi_block_on(
+        context,
+        "matrix_get_sso_login_url",
+        matrix_backend::auth::get_sso_login_url(
+            homeserver_url,
+            redirect_url,
+            identity_provider_id,
+            verify_certificates,
+        ),
+    )
 }
 
 fn matrix_start_sso_callback_server(
@@ -1977,6 +2625,7 @@ fn matrix_stop_sso_callback_server(listener_id: u64) -> Result<(), String> {
 }
 
 fn matrix_start_oauth_login(
+    context: ffi::MatrixFfiBlockingContext,
     profile_id: &str,
     homeserver_url: &str,
     redirect_url: &str,
@@ -1985,15 +2634,19 @@ fn matrix_start_oauth_login(
     initial_device_display_name: &str,
     verify_certificates: bool,
 ) -> Result<ffi::MatrixOauthLoginStartResult, String> {
-    let result = runtime().block_on(matrix_backend::auth::start_oauth_login(
-        profile_id,
-        homeserver_url,
-        redirect_url,
-        user_id_hint,
-        device_id,
-        initial_device_display_name,
-        verify_certificates,
-    ))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_start_oauth_login",
+        matrix_backend::auth::start_oauth_login(
+            profile_id,
+            homeserver_url,
+            redirect_url,
+            user_id_hint,
+            device_id,
+            initial_device_display_name,
+            verify_certificates,
+        ),
+    )?;
 
     Ok(ffi::MatrixOauthLoginStartResult {
         login_id: result.login_id,
@@ -2002,13 +2655,15 @@ fn matrix_start_oauth_login(
 }
 
 fn matrix_finish_oauth_login(
+    context: ffi::MatrixFfiBlockingContext,
     login_id: u64,
     callback_query: &str,
 ) -> Result<ffi::MatrixLoginResult, String> {
-    let result = runtime().block_on(matrix_backend::auth::finish_oauth_login(
-        login_id,
-        callback_query,
-    ))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_finish_oauth_login",
+        matrix_backend::auth::finish_oauth_login(login_id, callback_query),
+    )?;
 
     Ok(ffi::MatrixLoginResult {
         user_id: result.user_id,
@@ -2023,6 +2678,7 @@ fn matrix_cancel_oauth_login(login_id: u64) -> Result<(), String> {
 }
 
 fn matrix_login_password(
+    context: ffi::MatrixFfiBlockingContext,
     profile_id: &str,
     homeserver_url: &str,
     user_id: &str,
@@ -2031,15 +2687,19 @@ fn matrix_login_password(
     initial_device_display_name: &str,
     verify_certificates: bool,
 ) -> Result<ffi::MatrixLoginResult, String> {
-    let result = runtime().block_on(matrix_backend::auth::login_password(
-        profile_id,
-        homeserver_url,
-        user_id,
-        password,
-        device_id,
-        initial_device_display_name,
-        verify_certificates,
-    ))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_login_password",
+        matrix_backend::auth::login_password(
+            profile_id,
+            homeserver_url,
+            user_id,
+            password,
+            device_id,
+            initial_device_display_name,
+            verify_certificates,
+        ),
+    )?;
 
     Ok(ffi::MatrixLoginResult {
         user_id: result.user_id,
@@ -2050,6 +2710,7 @@ fn matrix_login_password(
 }
 
 fn matrix_login_token(
+    context: ffi::MatrixFfiBlockingContext,
     profile_id: &str,
     homeserver_url: &str,
     login_token: &str,
@@ -2057,14 +2718,18 @@ fn matrix_login_token(
     initial_device_display_name: &str,
     verify_certificates: bool,
 ) -> Result<ffi::MatrixLoginResult, String> {
-    let result = runtime().block_on(matrix_backend::auth::login_token(
-        profile_id,
-        homeserver_url,
-        login_token,
-        device_id,
-        initial_device_display_name,
-        verify_certificates,
-    ))?;
+    let result = ffi_block_on(
+        context,
+        "matrix_login_token",
+        matrix_backend::auth::login_token(
+            profile_id,
+            homeserver_url,
+            login_token,
+            device_id,
+            initial_device_display_name,
+            verify_certificates,
+        ),
+    )?;
 
     Ok(ffi::MatrixLoginResult {
         user_id: result.user_id,

@@ -107,9 +107,10 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     const auto result = komai::MatrixBackendRuntimeService::setupRecovery(
-      handleId, useSSSS, password, encryptionBackupOnlineEnabled, &error);
+      context, handleId, useSSSS, password, encryptionBackupOnlineEnabled, &error);
     if (!result) {
         emit setupFailed(tr("Failed to set up encryption recovery: %1").arg(error));
         return;
@@ -178,9 +179,10 @@ SelfVerificationStatus::submitUnlockKeyBackup(const QString &keyOrPassphrase)
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     if (!komai::MatrixBackendRuntimeService::recoverEncryptionSecrets(
-          handleId, keyOrPassphrase, &error)) {
+          context, handleId, keyOrPassphrase, &error)) {
         emit setupFailed(tr("Failed to unlock key backup: %1").arg(error));
         return;
     }
@@ -213,10 +215,11 @@ SelfVerificationStatus::verifyUnverifiedDevices()
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     const auto ownVerificationState =
       komai::MatrixBackendRuntimeService::fetchUserVerificationState(
-        handleId, utils::localUser(), &error);
+        context, handleId, utils::localUser(), &error);
     if (!ownVerificationState) {
         emit setupFailed(error.isEmpty() ? tr("Failed to inspect your signed-in devices.") : error);
         return;
@@ -260,9 +263,10 @@ SelfVerificationStatus::resetEncryptionIdentity()
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     const auto result =
-      komai::MatrixBackendRuntimeService::startResetEncryptionIdentity(handleId, &error);
+      komai::MatrixBackendRuntimeService::startResetEncryptionIdentity(context, handleId, &error);
     if (!result) {
         emit setupFailed(tr("Failed to reset encryption identity: %1").arg(error));
         return;
@@ -300,9 +304,10 @@ SelfVerificationStatus::submitResetEncryptionIdentityPassword(const QString &pas
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     if (!komai::MatrixBackendRuntimeService::continueResetEncryptionIdentityWithPassword(
-          handleId, password, &error)) {
+          context, handleId, password, &error)) {
         emit setupFailed(tr("Failed to complete encryption identity reset: %1").arg(error));
         return;
     }
@@ -324,9 +329,10 @@ SelfVerificationStatus::continueResetEncryptionIdentityAfterApproval()
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
-    if (!komai::MatrixBackendRuntimeService::continueResetEncryptionIdentityAfterApproval(handleId,
-                                                                                          &error)) {
+    if (!komai::MatrixBackendRuntimeService::continueResetEncryptionIdentityAfterApproval(
+          context, handleId, &error)) {
         emit setupFailed(tr("Failed to complete encryption identity reset: %1").arg(error));
         return;
     }
@@ -345,8 +351,10 @@ SelfVerificationStatus::cancelResetEncryptionIdentity()
     if (handleId == 0)
         return;
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
-    if (!komai::MatrixBackendRuntimeService::cancelResetEncryptionIdentity(handleId, &error)) {
+    if (!komai::MatrixBackendRuntimeService::cancelResetEncryptionIdentity(
+          context, handleId, &error)) {
         nhlog::crypto()->warn("Failed to cancel pending matrix-sdk encryption identity reset: {}",
                               error.toStdString());
     }
@@ -386,9 +394,10 @@ SelfVerificationStatus::refreshStateFromMatrixRuntime()
         return;
     }
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
     const auto recoveryStatus =
-      komai::MatrixBackendRuntimeService::fetchRecoveryStatus(handleId, &error);
+      komai::MatrixBackendRuntimeService::fetchRecoveryStatus(context, handleId, &error);
     if (!recoveryStatus) {
         nhlog::crypto()->warn("Failed to fetch matrix-sdk recovery status: {}",
                               error.toStdString());

@@ -88,9 +88,10 @@ UserDirectoryModel::fetchMore(const QModelIndex &)
 
     QPointer<UserDirectoryModel> guard(this);
     std::thread([guard, handleId, generation, searchTerm]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
         const auto users = komai::MatrixBackendRuntimeService::searchUsers(
-          handleId, searchTerm, searchLimit_, &error);
+          context, handleId, searchTerm, searchLimit_, &error);
 
         QVector<UserDirectoryEntry> entries;
         if (users.has_value()) {

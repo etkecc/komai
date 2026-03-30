@@ -66,8 +66,10 @@ ChatPage::getProfileInfo()
     QPointer<ChatPage> guard(this);
 
     std::thread([guard, handleId = *handleId]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
-        auto result = komai::MatrixBackendRuntimeService::fetchOwnProfile(handleId, &error);
+        auto result =
+          komai::MatrixBackendRuntimeService::fetchOwnProfile(context, handleId, &error);
 
         if (!guard)
             return;

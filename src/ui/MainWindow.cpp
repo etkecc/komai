@@ -446,9 +446,10 @@ MainWindow::startMatrixBackendHandleForActiveSession()
     setStartupStatus(tr("Starting Komai"), tr("Restoring your session..."));
     const auto normalizedProfileId = profile_id::normalized(userSettings_->profile());
 
+    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
     QString error;
-    const auto handleInfo =
-      komai::MatrixBackendRuntimeService::startRestoredBackend(normalizedProfileId, &error);
+    const auto handleInfo = komai::MatrixBackendRuntimeService::startRestoredBackend(
+      context, normalizedProfileId, &error);
     if (!handleInfo) {
         nhlog::ui()->warn("Failed to start matrix-sdk backend handle for profile '{}': {}",
                           normalizedProfileId.toStdString(),

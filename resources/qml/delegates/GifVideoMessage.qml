@@ -71,9 +71,20 @@ Item {
                 if (!roomContext)
                     return;
 
-                if (Settings.timelineMediaOpenVideosExternal
-                        || roomContext.isActiveMatrixTimelineRoom === true) {
+                if (Settings.timelineMediaOpenVideosExternal) {
                     roomContext.openMedia(content.eventId);
+                } else if (typeof roomContext.openMediaOverlay === "function"
+                        && roomContext.openMediaOverlay(content.eventId)) {
+                    return;
+                } else if (roomContext.isActiveMatrixTimelineRoom === true) {
+                    TimelineManager.openMediaOverlay(null,
+                                                     content.url,
+                                                     content.eventId,
+                                                     content.originalWidth,
+                                                     content.proportionalHeight,
+                                                     MtxEvent.VideoMessage,
+                                                     content.duration,
+                                                     content.thumbnailUrl);
                 } else {
                     TimelineManager.openMediaOverlayWithContext(
                         roomContext, content.url, content.eventId,

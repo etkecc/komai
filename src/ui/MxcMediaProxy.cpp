@@ -157,12 +157,6 @@ MxcMediaProxy::startDownload(bool onlyCached)
     const auto roomId = roomContextRoomId(room_);
 
     QString mimeType = mimeTypeHint_.trimmed();
-    if (roomId.isEmpty()) {
-        nhlog::ui()->warn("Cannot load matrix-runtime media '{}' without a room id hint",
-                          eventId_.toStdString());
-        return;
-    }
-
     if (mimeType.isEmpty())
         mimeType = QStringLiteral("application/octet-stream");
 

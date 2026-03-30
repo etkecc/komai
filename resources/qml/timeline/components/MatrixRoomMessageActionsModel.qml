@@ -86,6 +86,32 @@ Item {
         TimelineManager.openActiveMatrixTimelineMedia(eid, fileName);
     }
 
+    function openMediaOverlay(targetEventId) {
+        const model = TimelineManager.matrixTimelineModel;
+        const eid = String(targetEventId || "");
+        if (!model || eid.length === 0)
+            return false;
+
+        const row = model.rowForEventId(eid);
+        if (row < 0)
+            return false;
+
+        const item = model.itemAt(row);
+        const url = String((item && item.url) || "");
+        if (url.length === 0)
+            return false;
+
+        TimelineManager.openMediaOverlay(null,
+                                         url,
+                                         eid,
+                                         Number((item && item.originalWidth) || 0),
+                                         Number((item && item.proportionalHeight) || 0),
+                                         Number((item && item.type) || -1),
+                                         Number((item && item.duration) || 0),
+                                         String((item && item.thumbnailUrl) || ""));
+        return true;
+    }
+
     function saveMedia(targetEventId) {
         const model = TimelineManager.matrixTimelineModel;
         const eid = String(targetEventId || "");

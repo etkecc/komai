@@ -70,12 +70,6 @@ MxcAnimatedImage::startDownload()
 
     QByteArray mimeType = mimeTypeHint_.trimmed().toUtf8();
 
-    if (roomId.isEmpty()) {
-        nhlog::ui()->warn("Cannot load matrix-runtime animated media '{}' without a room id hint",
-                          eventId_.toStdString());
-        return;
-    }
-
     if (mimeType.isEmpty())
         return;
 

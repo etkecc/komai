@@ -92,6 +92,9 @@ Item {
 
                     if (Settings.timelineMediaOpenImagesExternal) {
                         root.roomContext.openMedia(root.eventId);
+                    } else if (typeof root.roomContext.openMediaOverlay === "function"
+                            && root.roomContext.openMediaOverlay(root.eventId)) {
+                        return;
                     } else if (root.roomContext.isActiveMatrixTimelineRoom === true) {
                         TimelineManager.openMediaOverlay(null,
                                                          root.url,

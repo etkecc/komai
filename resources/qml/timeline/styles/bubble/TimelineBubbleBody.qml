@@ -572,28 +572,26 @@ Item {
         z: 30
         visible: width > 0 && height > 0
 
-        MouseArea {
-            anchors.fill: parent
+        TapHandler {
             acceptedButtons: Qt.LeftButton
-            propagateComposedEvents: false
-            preventStealing: true
+            acceptedModifiers: Qt.ControlModifier
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
             enabled: !root.perfDisableTimelineInteraction
-            cursorShape: undefined
+            gesturePolicy: TapHandler.ReleaseWithinBounds
 
-            function isSelectionToggleClick(modifiers) {
-                return (Number(modifiers) & (Qt.ControlModifier | Qt.MetaModifier)) !== 0;
+            onSingleTapped: {
+                root.wrapper.handleMouseSelectionToggle();
             }
+        }
 
-            onPressed: mouse => {
-                if (!isSelectionToggleClick(mouse.modifiers))
-                    mouse.accepted = false;
-            }
-            onClicked: mouse => {
-                if (!isSelectionToggleClick(mouse.modifiers)) {
-                    mouse.accepted = false;
-                    return;
-                }
+        TapHandler {
+            acceptedButtons: Qt.LeftButton
+            acceptedModifiers: Qt.MetaModifier
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+            enabled: !root.perfDisableTimelineInteraction
+            gesturePolicy: TapHandler.ReleaseWithinBounds
 
+            onSingleTapped: {
                 root.wrapper.handleMouseSelectionToggle();
             }
         }

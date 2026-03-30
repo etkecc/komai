@@ -138,9 +138,19 @@ Item {
         roomPreview: timelineView.roomPreview
         showBackButton: timelineView.showBackButton
         perfDisableRoomHeader: timelineView.perfDisableRoomHeader
-        headerRoomModel: matrixTimeline && matrixTimeline.roomSupport
-            ? matrixTimeline.roomSupport.headerRoomModel : null
+        headerRoomModel: matrixTimeline ? matrixRoomSupport.headerRoomModel : null
         visible: timelineView.useMatrixRoomView
+    }
+    MatrixRoomSupport {
+        id: matrixRoomSupport
+
+        rootItem: matrixTimeline
+        roomPreview: timelineView.roomPreview
+        chatRoot: matrixTimelineHost
+        timelineRoot: timelineView.dialogHost
+        emojiPopup: timelineEmojiPopup
+        filteredTimeline: null
+        timelineList: matrixTimeline ? matrixTimeline.timelineListItem : null
     }
     Component {
         id: legacyTimelineComponent
@@ -318,18 +328,6 @@ Item {
 
             anchors.fill: parent
             spacing: 0
-
-            MatrixRoomSupport {
-                id: matrixRoomSupport
-
-                rootItem: matrixRoomView
-                roomPreview: timelineView.roomPreview
-                chatRoot: matrixTimelineHost
-                timelineRoot: timelineView.dialogHost
-                emojiPopup: timelineEmojiPopup
-                filteredTimeline: null
-                timelineList: matrixRoomView.timelineListItem
-            }
 
             MatrixRoomView {
                 id: matrixRoomView

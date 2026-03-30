@@ -15,6 +15,7 @@ Item {
     required property var filteredTimeline
     property var roomModel: null
     property alias control: messageActionsC
+    readonly property var chatContentItem: root.chatList ? root.chatList.contentItem : null
 
     // Click-outside overlay: dismisses the action bar when clicking
     // anywhere outside it. Parented to chatList.contentItem (same as
@@ -23,12 +24,12 @@ Item {
     // to reach the bar normally. The overlay tracks the visible
     // viewport via chatList.contentY / chatList.width / chatList.height.
     MouseArea {
-        parent: root.chatList.contentItem
+        parent: root.chatContentItem
         x: 0
-        y: root.chatList.contentY
-        width: root.chatList.width
-        height: root.chatList.height
-        visible: messageActionsC.pinned && messageActionsC.positioned
+        y: root.chatList ? root.chatList.contentY : 0
+        width: root.chatList ? root.chatList.width : 0
+        height: root.chatList ? root.chatList.height : 0
+        visible: !!root.chatContentItem && messageActionsC.pinned && messageActionsC.positioned
         z: 9
         onClicked: messageActionsC.dismiss()
     }
@@ -112,7 +113,7 @@ Item {
         opacity: positioned ? 1 : 0
         enabled: positioned
         z: 10
-        parent: root.chatList.contentItem
+        parent: root.chatContentItem
         // No anchors — x/y set imperatively by the message styles
         onWidthChanged: scheduleReposition()
         onHeightChanged: scheduleReposition()

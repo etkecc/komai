@@ -13,7 +13,6 @@
 #include <QUrl>
 
 #include <algorithm>
-#include <mtx/requests.hpp>
 #include <optional>
 #include <string>
 #include <thread>
@@ -76,45 +75,6 @@ runMatrixRuntimeTask(ChatPage *page, WorkFnT work, UiFnT ui)
             ui(guard.data(), result);
         });
     }).detach();
-}
-
-komai::MatrixCreateRoomRequest
-toMatrixCreateRoomRequest(const mtx::requests::CreateRoom &request)
-{
-    komai::MatrixCreateRoomRequest result;
-    result.name               = QString::fromStdString(request.name);
-    result.topic              = QString::fromStdString(request.topic);
-    result.roomAliasLocalpart = QString::fromStdString(request.room_alias_name);
-    result.preset             = komai::MatrixCreateRoomPreset::PrivateChat;
-    result.isDirect           = request.is_direct;
-    result.isSpace            = request.creation_content.has_value() &&
-                     request.creation_content->type == mtx::events::state::room_type::space;
-    result.isPublic = request.visibility == mtx::common::RoomVisibility::Public;
-
-    result.inviteUserIds.reserve(static_cast<qsizetype>(request.invite.size()));
-    for (const auto &userId : request.invite)
-        result.inviteUserIds.push_back(QString::fromStdString(userId));
-
-    switch (request.preset) {
-    case mtx::requests::Preset::PublicChat:
-        result.preset = komai::MatrixCreateRoomPreset::PublicChat;
-        break;
-    case mtx::requests::Preset::TrustedPrivateChat:
-        result.preset = komai::MatrixCreateRoomPreset::TrustedPrivateChat;
-        break;
-    case mtx::requests::Preset::PrivateChat:
-    default:
-        result.preset = komai::MatrixCreateRoomPreset::PrivateChat;
-        break;
-    }
-
-    result.isEncrypted = std::any_of(
-      request.initial_state.cbegin(), request.initial_state.cend(), [](const auto &event) {
-          return std::holds_alternative<mtx::events::StrippedEvent<mtx::events::state::Encryption>>(
-            event);
-      });
-
-    return result;
 }
 
 std::optional<QVector<komai::MatrixRoomSummary>>
@@ -227,10 +187,9 @@ ChatPage::joinRoomVia(const std::string &room_id,
 }
 
 void
-ChatPage::createRoom(const mtx::requests::CreateRoom &req)
+ChatPage::createRoom(const komai::MatrixCreateRoomRequest &request)
 {
-    if (req.room_alias_name.find(":") != std::string::npos ||
-        req.room_alias_name.find("#") != std::string::npos) {
+    if (request.roomAliasLocalpart.contains(u':') || request.roomAliasLocalpart.contains(u'#')) {
         nhlog::net()->warn("Failed to create room: Some characters are not allowed in alias");
         emit this->showNotification(tr("Room creation failed: Bad Alias"));
         return;
@@ -240,7 +199,6 @@ ChatPage::createRoom(const mtx::requests::CreateRoom &req)
     if (!handleId)
         return;
 
-    const auto request = toMatrixCreateRoomRequest(req);
     runMatrixRuntimeTask(
       this,
       [handleId = *handleId, request]() {
@@ -447,25 +405,20 @@ ChatPage::startChat(QString userid, std::optional<bool> encryptionEnabled)
           tr("Do you really want to start a private chat with %1?").arg(userid)))
         return;
 
-    mtx::requests::CreateRoom req;
-    req.preset     = mtx::requests::Preset::TrustedPrivateChat;
-    req.visibility = mtx::common::RoomVisibility::Private;
+    komai::MatrixCreateRoomRequest request;
+    request.preset   = komai::MatrixCreateRoomPreset::TrustedPrivateChat;
+    request.isPublic = false;
 
     if (!encryptionEnabled.has_value())
         encryptionEnabled = true;
 
-    if (encryptionEnabled.value_or(false)) {
-        mtx::events::StrippedEvent<mtx::events::state::Encryption> enc;
-        enc.type              = mtx::events::EventType::RoomEncryption;
-        enc.content.algorithm = "m.megolm.v1.aes-sha2";
-        req.initial_state.emplace_back(std::move(enc));
-    }
+    request.isEncrypted = encryptionEnabled.value_or(false);
 
     if (utils::localUser() != userid) {
-        req.invite    = {userid.toStdString()};
-        req.is_direct = true;
+        request.inviteUserIds = {userid};
+        request.isDirect      = true;
     }
-    emit ChatPage::instance()->createRoom(req);
+    emit ChatPage::instance()->createRoom(request);
 }
 
 bool

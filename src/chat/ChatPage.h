@@ -22,8 +22,8 @@ class UserSettings;
 class NotificationsManager;
 class CallManager;
 
-namespace mtx::requests {
-struct CreateRoom;
+namespace komai {
+struct MatrixCreateRoomRequest;
 }
 
 using SecretsToDecrypt = std::map<std::string, mtx::secret_storage::AesHmacSha2EncryptedData>;
@@ -68,7 +68,7 @@ public slots:
 
     void startChat(QString userid) { startChat(userid, std::nullopt); }
     void leaveRoom(const QString &room_id, const QString &reason);
-    void createRoom(const mtx::requests::CreateRoom &req);
+    void createRoom(const komai::MatrixCreateRoomRequest &request);
     void joinRoom(const QString &room, const QString &reason = "");
     void knockRoom(const QString &room, QString reason = "") { knockRoom(room, {}, reason, false); }
     void knockRoom(const QString &room,

@@ -25,10 +25,9 @@
 #include <QWindow>
 #include <QtMath>
 
-#include <mtx/requests.hpp>
-
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "matrix/backend/MatrixSdkPaths.h"
 #include "profile/Paths.h"
 #include "profile/ProfileManager.h"
@@ -649,38 +648,28 @@ Komai::createRoom(bool space,
                   bool isEncrypted,
                   int preset)
 {
-    mtx::requests::CreateRoom req;
-
-    if (space) {
-        req.creation_content       = mtx::events::state::Create{};
-        req.creation_content->type = mtx::events::state::room_type::space;
-        req.creation_content->room_version.clear();
-    }
+    komai::MatrixCreateRoomRequest request;
+    request.isSpace = space;
 
     switch (preset) {
     case 1:
-        req.preset = mtx::requests::Preset::PublicChat;
+        request.preset = komai::MatrixCreateRoomPreset::PublicChat;
         break;
     case 2:
-        req.preset = mtx::requests::Preset::TrustedPrivateChat;
+        request.preset = komai::MatrixCreateRoomPreset::TrustedPrivateChat;
         break;
     case 0:
     default:
-        req.preset = mtx::requests::Preset::PrivateChat;
+        request.preset = komai::MatrixCreateRoomPreset::PrivateChat;
     }
 
-    req.name            = name.toStdString();
-    req.topic           = topic.toStdString();
-    req.room_alias_name = aliasLocalpart.toStdString();
+    request.name               = name;
+    request.topic              = topic;
+    request.roomAliasLocalpart = aliasLocalpart;
+    request.isEncrypted        = isEncrypted;
+    request.isPublic           = request.preset == komai::MatrixCreateRoomPreset::PublicChat;
 
-    if (isEncrypted) {
-        mtx::events::StrippedEvent<mtx::events::state::Encryption> enc;
-        enc.type              = mtx::events::EventType::RoomEncryption;
-        enc.content.algorithm = "m.megolm.v1.aes-sha2";
-        req.initial_state.emplace_back(std::move(enc));
-    }
-
-    emit ChatPage::instance()->createRoom(req);
+    emit ChatPage::instance()->createRoom(request);
 }
 
 void

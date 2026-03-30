@@ -101,26 +101,6 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
 }
 
 QVariant
-RoomlistModel::dataForMaterializedRoom(const QString &room_id,
-                                       const QSharedPointer<TimelineModel> &room,
-                                       int role) const
-{
-    Q_UNUSED(room_id);
-    Q_UNUSED(room);
-    Q_UNUSED(role);
-    return {};
-}
-
-QVariant
-RoomlistModel::dataForCachedRoom(const QString &room_id, const RoomInfo &room, int role) const
-{
-    Q_UNUSED(room_id);
-    Q_UNUSED(room);
-    Q_UNUSED(role);
-    return {};
-}
-
-QVariant
 RoomlistModel::dataForInviteRoom(const RoomInfo &room, int role) const
 {
     switch (role) {

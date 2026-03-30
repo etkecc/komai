@@ -27,7 +27,6 @@ RoomlistModel::clearCurrentRoomSelection()
     UserSettings::instance()->setCurrentRoomId(QString());
     notifyCurrentRoomIdChanged();
     scheduleCurrentRoomVisualStateChanged();
-    scheduleLruEviction();
 }
 
 bool
@@ -115,7 +114,7 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
     }
 
     if (!deferredStartupCurrentRoomId_.isEmpty() && roomid == deferredStartupCurrentRoomId_ &&
-        !allowDeferredStartupCurrentRoomRestore_ && !currentRoom_ && !currentRoomPreview_) {
+        !allowDeferredStartupCurrentRoomRestore_ && !currentRoomPreview_) {
         nhlog::ui()->info("Ignoring premature saved-room restore before startup release: {}",
                           roomid.toStdString());
         return;
@@ -127,9 +126,6 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
     nhlog::ui()->debug("Trying to switch to: {}", roomid.toStdString());
     if (manager)
         manager->markRoomSwitchRequested(roomid, "setCurrentRoom");
-
-    touchRoomLru(roomid);
-    scheduleLruEviction();
 
     // On the migration branch, Rust-owned room summaries should win selection as soon as the
     // room is present in the matrix-sdk room list, even if a legacy TimelineModel still exists.

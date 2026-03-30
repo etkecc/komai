@@ -8,7 +8,6 @@
 #include <QTimer>
 #include <algorithm>
 
-#include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
@@ -105,8 +104,6 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
           }
       },
       Qt::QueuedConnection);
-
-    initLruEviction();
 }
 
 void
@@ -125,7 +122,7 @@ RoomlistModel::notifyCurrentRoomIdChanged()
 QAbstractItemModel *
 RoomlistModel::currentRoomForQml() const
 {
-    return currentRoom_.get();
+    return nullptr;
 }
 
 void
@@ -193,28 +190,10 @@ RoomlistModel::currentRoomId() const
     return currentRoomPreview_ ? currentRoomPreview_->roomid() : QString();
 }
 
-QSharedPointer<TimelineModel>
-RoomlistModel::ensureRoomModel(const QString &room_id,
-                               bool suppressInsertNotification,
-                               const char *reason)
-{
-    Q_UNUSED(room_id);
-    Q_UNUSED(suppressInsertNotification);
-    Q_UNUSED(reason);
-    return {};
-}
-
 void
 RoomlistModel::resetRoomCollections(bool clearAllDrafts)
 {
-    models.clear();
     matrixJoinedRooms_.clear();
-    scheduledPrewarms_.clear();
-    activePrewarms_.clear();
-    prewarmLastAttemptMs_.clear();
-    roomLruAccessMs_.clear();
-    if (lruEvictionTimer_)
-        lruEvictionTimer_->stop();
     previewedRooms.clear();
     invites.clear();
     roomids.clear();
@@ -222,7 +201,6 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
     allowDeferredStartupCurrentRoomRestore_ = false;
     pendingCurrentRoomId_.clear();
     deferredStartupCurrentRoomId_.clear();
-    currentRoom_ = nullptr;
     currentRoomPreview_.reset();
     currentRoomVisualStateDeferred_ = false;
     currentRoomVisualStateDeferredRoomId_.clear();
@@ -237,14 +215,9 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
 void
 RoomlistModel::removeRoomState(const QString &room_id, bool clearDraftForRoom)
 {
-    models.remove(room_id);
     matrixJoinedRooms_.remove(room_id);
     invites.remove(room_id);
     previewedRooms.remove(room_id);
-    scheduledPrewarms_.remove(room_id);
-    activePrewarms_.remove(room_id);
-    prewarmLastAttemptMs_.remove(room_id);
-    roomLruAccessMs_.remove(room_id);
     roomReadStatus.erase(room_id);
 
     if (clearDraftForRoom) {

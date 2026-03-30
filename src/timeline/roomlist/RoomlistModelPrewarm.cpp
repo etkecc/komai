@@ -5,8 +5,6 @@
 
 #include "RoomlistModel.h"
 
-#include <QDateTime>
-
 #include "TimelineViewManager.h"
 #include "logging/Logging.h"
 
@@ -53,7 +51,10 @@ RoomlistModel::scheduleRoomPrewarm(const QString &roomid, const QString &trigger
         return;
 
     Q_UNUSED(trigger);
-    scheduledPrewarms_.insert(roomid);
+    logRoomPrewarm(QStringLiteral("disabled"),
+                   roomid,
+                   QStringLiteral("schedule_skip"),
+                   QStringLiteral("timeline materialization removed on migration branch"));
 }
 
 void
@@ -64,7 +65,6 @@ RoomlistModel::cancelRoomPrewarm(const QString &roomid,
     if (roomid.isEmpty())
         return;
 
-    scheduledPrewarms_.remove(roomid);
     Q_UNUSED(trigger);
     Q_UNUSED(reason);
 }
@@ -75,8 +75,9 @@ RoomlistModel::prewarmRoom(const QString &roomid, const QString &trigger)
     if (roomid.isEmpty())
         return;
 
-    scheduledPrewarms_.remove(roomid);
     Q_UNUSED(trigger);
-    logRoomPrewarm(QStringLiteral("disabled"), roomid, QStringLiteral("skip"), QStringLiteral(
-                     "timeline materialization removed on migration branch"));
+    logRoomPrewarm(QStringLiteral("disabled"),
+                   roomid,
+                   QStringLiteral("skip"),
+                   QStringLiteral("timeline materialization removed on migration branch"));
 }

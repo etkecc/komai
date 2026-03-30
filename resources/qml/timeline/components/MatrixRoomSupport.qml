@@ -22,7 +22,7 @@ Item {
     readonly property var uploadsController: composerSupport.uploadsController
     readonly property var composerInputController: composerSupport.composerInputController
     readonly property var composerRoom: composerSupport.composerRoom
-    readonly property var messageActionsDefaultRoomModel: matrixMessageActionsDefaultRoomModel
+    readonly property var messageActionsDefaultRoomModel: messageActionsModel
     readonly property var messageContextMenu: dialogSupport.messageContextMenu
     readonly property var replyContextMenu: dialogSupport.replyContextMenu
     readonly property var messageActionsHost: dialogSupport.messageActionsHost
@@ -38,144 +38,14 @@ Item {
         dialogRoomModel: matrixDialogRoomModel
     }
 
-    PreviewPermissions {
-        id: matrixMessageActionsDefaultPermissions
-    }
+    MatrixRoomMessageActionsModel {
+        id: messageActionsModel
 
-    QtObject {
-        id: matrixMessageActionsDefaultRoomModel
-
-        property string roomId: roomPreview ? roomPreview.roomid : ""
-        property bool isActiveMatrixTimelineRoom: true
-        property int roomMemberCount: roomPreview && roomPreview.roomMemberCount !== undefined
-            ? Number(roomPreview.roomMemberCount) : 0
-        property bool isEncrypted: roomPreview ? !!roomPreview.isEncrypted : false
-        property var permissions: matrixMessageActionsDefaultPermissions
-        property var input: matrixTimelineToolbarInput
-        property var frequentReactions: []
-        property var pinnedMessages: TimelineManager.matrixTimelinePinnedEventIds
-        property string reply: ""
-        property string edit: ""
-        property string thread: ""
-        property bool supportsThreadNavigation: false
-
-        function showEvent(eventId) {
-            return rootItem.jumpToLoadedMatrixEvent(eventId);
-        }
-
-        function openForwardDialog(eventId) {
-            return support.openMatrixForwardDialog(eventId);
-        }
-
-        function formatRedactedEvent(eventId) {
-            const model = TimelineManager.matrixTimelineModel;
-            if (!model) return rootItem.matrixRedactedEventPair("", "");
-            const eid = String(eventId || "");
-            return rootItem.matrixRedactedEventPair(
-                model.userNameForEvent(eid), model.userIdForEvent(eid));
-        }
-
-        function previewDataForEvent(eventId) {
-            const preview = matrixHeaderRoomModel.previewDataForEvent(eventId);
-            return Object.assign({}, preview || {}, {
-                "room": matrixMessageActionsDefaultRoomModel
-            });
-        }
-
-        function formatDateSeparator(timestamp) {
-            return Qt.formatDate(timestamp, "ddd, MMM d");
-        }
-
-        function formatLaterSeparator(_previous, currentTimestamp) {
-            return Qt.formatTime(currentTimestamp, "hh:mm");
-        }
-
-        function openUserProfile(userId) {
-            matrixDialogRoomModel.openUserProfile(userId);
-        }
-
-        function eventShown() {}
-        function showImage() { return true; }
-
-        function openMedia(targetEventId) {
-            const model = TimelineManager.matrixTimelineModel;
-            const eid = String(targetEventId || "");
-            const fileName = model ? (model.filenameForEvent(eid) || qsTr("Attachment")) : qsTr("Attachment");
-            TimelineManager.openActiveMatrixTimelineMedia(eid, fileName);
-        }
-
-        function saveMedia(targetEventId) {
-            const model = TimelineManager.matrixTimelineModel;
-            const eid = String(targetEventId || "");
-            const fileName = model ? (model.filenameForEvent(eid) || qsTr("Attachment")) : qsTr("Attachment");
-            TimelineManager.saveActiveMatrixTimelineMedia(eid, fileName);
-        }
-
-        function copyLinkToEvent(eventId) {
-            TimelineManager.copyMatrixEventLink(roomId, String(eventId || ""));
-        }
-
-        function markEventAsRead(eventId) {
-            TimelineManager.markActiveMatrixTimelineEventAsRead(String(eventId || ""));
-        }
-
-        function pin(eventId) {
-            TimelineManager.pinActiveMatrixTimelineEvent(String(eventId || ""));
-        }
-
-        function unpin(eventId) {
-            TimelineManager.unpinActiveMatrixTimelineEvent(String(eventId || ""));
-        }
-
-        function reportEvent(eventId, reason, score) {
-            TimelineManager.reportActiveMatrixTimelineEvent(
-                String(eventId || ""), String(reason || ""), Number(score || -50));
-        }
-
-        function viewRawMessage(eventId) {
-            rootItem.openRawMessageDialog(String(eventId || ""));
-        }
-
-        function viewDecryptedRawMessage(eventId) {
-            viewRawMessage(eventId);
-        }
-
-        function showReadReceipts(eventId) {
-            rootItem.openReadReceiptsDialog(String(eventId || ""));
-        }
-
-        onReplyChanged: {
-            if (!reply) return;
-            const model = TimelineManager.matrixTimelineModel;
-            TimelineManager.queueActiveMatrixReply(
-                reply,
-                model ? model.userIdForEvent(reply) : "",
-                model ? model.userNameForEvent(reply) : "",
-                model ? model.bodyForEvent(reply) : "");
-            reply = "";
-        }
-
-        onEditChanged: {
-            if (!edit) return;
-            const model = TimelineManager.matrixTimelineModel;
-            rootItem.beginEdit(edit,
-                model ? model.bodyForEvent(edit) : "",
-                model ? model.typeStringForEvent(edit) : "");
-            edit = "";
-        }
-
-        onThreadChanged: {
-            if (thread) thread = "";
-        }
-    }
-
-    QtObject {
-        id: matrixTimelineToolbarInput
-
-        function reaction(targetEventId, reactionKey) {
-            TimelineManager.toggleActiveMatrixTimelineReaction(
-                String(targetEventId || ""), String(reactionKey || ""));
-        }
+        rootItem: support.rootItem
+        roomPreview: support.roomPreview
+        dialogRoomModel: matrixDialogRoomModel
+        headerRoomModel: matrixHeaderRoomModel
+        openForwardDialogFn: support.openMatrixForwardDialog
     }
 
     MatrixRoomDialogSupport {

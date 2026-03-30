@@ -192,12 +192,6 @@ readImage(const QByteArray &data);
 bool
 isReply(const mtx::events::collections::TimelineEvents &e);
 
-void
-removeDirectFromRoom(QString roomid);
-
-void
-markRoomAsDirect(QString roomid, std::vector<RoomMember> members);
-
 std::vector<std::string>
 roomVias(const std::string &roomid);
 

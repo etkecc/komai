@@ -41,14 +41,6 @@ TimelineViewManager::scheduleMatrixSidebarRefresh()
 }
 
 void
-TimelineViewManager::openRoomMembers(QObject *room)
-{
-    Q_UNUSED(room);
-    if (auto *mainWindow = MainWindow::instance())
-        mainWindow->showNotification(tr("Legacy room-member opening is not migrated yet."));
-}
-
-void
 TimelineViewManager::openRoomSettings(QString room_id)
 {
     openRoomInfo(room_id, QStringLiteral("settings"));

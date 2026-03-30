@@ -27,25 +27,6 @@
 #include "matrix/MatrixIdentifiers.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
-void
-utils::removeDirectFromRoom(QString roomid)
-{
-    nhlog::ui()->warn(
-      "Refusing legacy m.direct removal for room '{}'; this flow is not migrated to the "
-      "matrix-sdk backend yet",
-      roomid.toStdString());
-}
-
-void
-utils::markRoomAsDirect(QString roomid, std::vector<RoomMember> members)
-{
-    (void)members;
-    nhlog::ui()->warn(
-      "Refusing legacy m.direct update for room '{}'; this flow is not migrated to the "
-      "matrix-sdk backend yet",
-      roomid.toStdString());
-}
-
 std::vector<std::string>
 utils::roomVias(const std::string &roomid)
 {

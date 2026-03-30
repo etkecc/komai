@@ -267,7 +267,6 @@ public:
                                                                 const QString &completion) const;
     Q_INVOKABLE bool executeActiveMatrixSlashCommand(const QString &text);
 
-    Q_INVOKABLE void openRoomMembers(QObject *room);
     Q_INVOKABLE void openRoomSettings(QString room_id);
     Q_INVOKABLE void
     openRoomInfo(const QString &roomId, const QString &initialTab = QStringLiteral("settings"));

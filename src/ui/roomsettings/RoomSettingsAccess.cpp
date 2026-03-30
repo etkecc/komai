@@ -10,6 +10,8 @@
 #include <set>
 #include <string_view>
 
+#include "utils/QtWorkerTask.h"
+
 namespace {
 constexpr auto WorldReadableKey = "world_readable";
 constexpr auto SharedKey        = "shared";
@@ -155,6 +157,9 @@ RoomSettings::changeAccessRules(bool private_,
 void
 RoomSettings::changeHistoryVisibility(Visibility value)
 {
+    if (isLoading_)
+        return;
+
     QString historyVisibility = QLatin1String(SharedKey);
 
     switch (value) {
@@ -174,18 +179,35 @@ RoomSettings::changeHistoryVisibility(Visibility value)
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::setRoomHistoryVisibility(
-          context, matrixBackendHandleId(), roomid_, historyVisibility, &error)) {
-        emit displayError(error.isEmpty() ? tr("Failed to update history visibility.") : error);
-        return;
-    }
+    const auto handleId = matrixBackendHandleId();
+    isLoading_          = true;
+    emit loadingChanged();
 
-    historyVisibilityKey_ = historyVisibility;
-    if (matrixRoomSettings_)
-        matrixRoomSettings_->historyVisibility = historyVisibility;
-    emit historyVisibilityChanged();
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId = roomid_, historyVisibility]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::setRoomHistoryVisibility(
+            context, handleId, roomId, historyVisibility, &error);
+          return std::make_pair(ok, error);
+      },
+      [historyVisibility](RoomSettings *settings, const std::pair<bool, QString> &result) {
+          settings->isLoading_ = false;
+          emit settings->loadingChanged();
+
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit settings->displayError(
+                error.isEmpty() ? tr("Failed to update history visibility.") : error);
+              return;
+          }
+
+          settings->historyVisibilityKey_ = historyVisibility;
+          if (settings->matrixRoomSettings_)
+              settings->matrixRoomSettings_->historyVisibility = historyVisibility;
+          emit settings->historyVisibilityChanged();
+      });
 }
 
 void
@@ -193,38 +215,47 @@ RoomSettings::updateAccessRules(const QString &joinRule,
                                 bool guestAccess,
                                 const QVector<QString> &allowedRoomIds)
 {
+    if (isLoading_)
+        return;
+
     isLoading_            = true;
     allowedRoomsModified_ = false;
     emit loadingChanged();
     emit allowedRoomsModifiedChanged();
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::setRoomAccessRules(context,
-                                                                matrixBackendHandleId(),
-                                                                roomid_,
-                                                                joinRule,
-                                                                guestAccess,
-                                                                allowedRoomIds,
-                                                                &error)) {
-        isLoading_ = false;
-        emit loadingChanged();
-        emit displayError(error.isEmpty() ? tr("Failed to update room access rules.") : error);
-        return;
-    }
+    const auto handleId = matrixBackendHandleId();
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId = roomid_, joinRule, guestAccess, allowedRoomIds]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::setRoomAccessRules(
+            context, handleId, roomId, joinRule, guestAccess, allowedRoomIds, &error);
+          return std::make_pair(ok, error);
+      },
+      [joinRule, guestAccess, allowedRoomIds](RoomSettings *settings,
+                                              const std::pair<bool, QString> &result) {
+          settings->isLoading_ = false;
+          emit settings->loadingChanged();
 
-    joinRule_       = joinRule;
-    guestAccess_    = guestAccess;
-    allowedRoomIds_ = allowedRoomIds;
-    if (matrixRoomSettings_) {
-        matrixRoomSettings_->joinRule       = joinRule;
-        matrixRoomSettings_->guestAccess    = guestAccess;
-        matrixRoomSettings_->allowedRoomIds = allowedRoomIds;
-    }
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit settings->displayError(
+                error.isEmpty() ? tr("Failed to update room access rules.") : error);
+              return;
+          }
 
-    isLoading_ = false;
-    emit loadingChanged();
-    emit accessJoinRulesChanged();
+          settings->joinRule_       = joinRule;
+          settings->guestAccess_    = guestAccess;
+          settings->allowedRoomIds_ = allowedRoomIds;
+          if (settings->matrixRoomSettings_) {
+              settings->matrixRoomSettings_->joinRule       = joinRule;
+              settings->matrixRoomSettings_->guestAccess    = guestAccess;
+              settings->matrixRoomSettings_->allowedRoomIds = allowedRoomIds;
+          }
+
+          emit settings->accessJoinRulesChanged();
+      });
 }
 
 void

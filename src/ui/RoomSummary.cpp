@@ -12,6 +12,7 @@
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
 RoomSummary::RoomSummary(std::string roomIdOrAlias_,
@@ -29,33 +30,42 @@ RoomSummary::RoomSummary(std::string roomIdOrAlias_,
     if (roomIdOrAlias[0] == '!') {
         if (const auto *window = MainWindow::instance();
             window && window->matrixBackendHandleId()) {
-            const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-            QString error;
             const auto roomId   = QString::fromStdString(roomIdOrAlias);
-            const auto settings = komai::MatrixBackendRuntimeService::fetchRoomSettings(
-              context, window->matrixBackendHandleId(), roomId, &error);
+            const auto handleId = window->matrixBackendHandleId();
+            komai::qt_worker_task::runQueued(
+              this,
+              [handleId, roomId]() {
+                  QString error;
+                  const auto context  = komai::matrix_backend::blockingCallContext();
+                  const auto settings = komai::MatrixBackendRuntimeService::fetchRoomSettings(
+                    context, handleId, roomId, &error);
+                  return std::make_pair(settings, error);
+              },
+              [roomId](RoomSummary *summary,
+                       const std::pair<std::optional<komai::MatrixRoomSettings>, QString> &result) {
+                  const auto &[settings, error] = result;
+                  if (settings.has_value()) {
+                      summary->room = LoadedRoomSummary{
+                        .roomId      = roomId,
+                        .name        = settings->roomName,
+                        .topic       = settings->roomTopic,
+                        .avatarUrl   = komai::matrix::normalizeMxcUri(settings->roomAvatarUrl),
+                        .memberCount = static_cast<int>(settings->memberCount),
+                        .isInvite    = false,
+                        .isSpace     = false,
+                        .isKnockOnly = settings->joinRule == QLatin1String("knock") ||
+                                       settings->joinRule == QLatin1String("knock_restricted"),
+                      };
+                  } else if (!error.isEmpty()) {
+                      nhlog::ui()->warn("Failed to fetch runtime room summary for '{}': {}",
+                                        summary->roomIdOrAlias,
+                                        error.toStdString());
+                  }
 
-            if (settings.has_value()) {
-                this->room = LoadedRoomSummary{
-                  .roomId      = roomId,
-                  .name        = settings->roomName,
-                  .topic       = settings->roomTopic,
-                  .avatarUrl   = komai::matrix::normalizeMxcUri(settings->roomAvatarUrl),
-                  .memberCount = static_cast<int>(settings->memberCount),
-                  .isInvite    = false,
-                  .isSpace     = false,
-                  .isKnockOnly = settings->joinRule == QLatin1String("knock") ||
-                                 settings->joinRule == QLatin1String("knock_restricted"),
-                };
-                loaded_ = true;
-                return;
-            }
-
-            if (!error.isEmpty()) {
-                nhlog::ui()->warn("Failed to fetch runtime room summary for '{}': {}",
-                                  roomIdOrAlias,
-                                  error.toStdString());
-            }
+                  summary->loaded_ = true;
+                  emit summary->loaded();
+              });
+            return;
         }
     }
 

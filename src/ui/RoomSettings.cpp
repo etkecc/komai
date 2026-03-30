@@ -8,6 +8,7 @@
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
 #include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
 namespace {
@@ -134,22 +135,28 @@ RoomSettings::loadMatrixRuntimeRoomSettings(QString *errorOut)
     if (!result.has_value())
         return false;
 
-    matrixRoomSettings_ = *result;
-    info_.name          = result->roomName.toStdString();
-    info_.topic         = result->roomTopic.toStdString();
-    info_.avatar_url    = result->roomAvatarUrl.toStdString();
-    info_.version       = result->roomVersion.toStdString();
-    info_.member_count  = static_cast<size_t>(result->memberCount);
-
-    notifications_        = result->notifications;
-    usesEncryption_       = result->isEncrypted;
-    guestAccess_          = result->guestAccess;
-    historyVisibilityKey_ = normalizedHistoryVisibilityKey(result->historyVisibility);
-    joinRule_             = result->joinRule.trimmed();
-    allowedRoomIds_       = result->allowedRoomIds;
-    parentSpaceRoomIds_   = result->parentSpaceRoomIds;
+    applyMatrixRoomSettings(*result);
 
     return true;
+}
+
+void
+RoomSettings::applyMatrixRoomSettings(const komai::MatrixRoomSettings &settings)
+{
+    matrixRoomSettings_ = settings;
+    info_.name          = settings.roomName.toStdString();
+    info_.topic         = settings.roomTopic.toStdString();
+    info_.avatar_url    = settings.roomAvatarUrl.toStdString();
+    info_.version       = settings.roomVersion.toStdString();
+    info_.member_count  = static_cast<size_t>(settings.memberCount);
+
+    notifications_        = settings.notifications;
+    usesEncryption_       = settings.isEncrypted;
+    guestAccess_          = settings.guestAccess;
+    historyVisibilityKey_ = normalizedHistoryVisibilityKey(settings.historyVisibility);
+    joinRule_             = settings.joinRule.trimmed();
+    allowedRoomIds_       = settings.allowedRoomIds;
+    parentSpaceRoomIds_   = settings.parentSpaceRoomIds;
 }
 
 uint64_t
@@ -168,23 +175,41 @@ RoomSettings::notifications()
 void
 RoomSettings::enableEncryption()
 {
-    if (usesEncryption_)
+    if (usesEncryption_ || isLoading_)
         return;
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::enableRoomEncryption(
-          context, matrixBackendHandleId(), roomid_, &error)) {
-        emit displayError(error.isEmpty() ? tr("Failed to enable encryption.") : error);
-        usesEncryption_ = false;
-        emit encryptionChanged();
-        return;
-    }
+    const auto handleId = matrixBackendHandleId();
 
-    usesEncryption_ = true;
-    if (matrixRoomSettings_)
-        matrixRoomSettings_->isEncrypted = true;
-    emit encryptionChanged();
+    isLoading_ = true;
+    emit loadingChanged();
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId = roomid_]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::enableRoomEncryption(
+            context, handleId, roomId, &error);
+          return std::make_pair(ok, error);
+      },
+      [](RoomSettings *settings, const std::pair<bool, QString> &result) {
+          settings->isLoading_ = false;
+          emit settings->loadingChanged();
+
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit settings->displayError(error.isEmpty() ? tr("Failed to enable encryption.")
+                                                          : error);
+              settings->usesEncryption_ = false;
+              emit settings->encryptionChanged();
+              return;
+          }
+
+          settings->usesEncryption_ = true;
+          if (settings->matrixRoomSettings_)
+              settings->matrixRoomSettings_->isEncrypted = true;
+          emit settings->encryptionChanged();
+      });
 }
 
 bool
@@ -214,19 +239,40 @@ RoomSettings::isEncryptionEnabled() const
 void
 RoomSettings::changeNotifications(int currentIndex)
 {
-    notifications_ = currentIndex;
-
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::setRoomNotificationMode(
-          context, matrixBackendHandleId(), roomid_, currentIndex, &error)) {
-        emit displayError(error.isEmpty() ? tr("Failed to update notifications.") : error);
-        return;
-    }
-
-    if (matrixRoomSettings_)
-        matrixRoomSettings_->notifications = currentIndex;
+    const auto previousNotifications = notifications_;
+    const auto requestId             = ++notificationsRequestId_;
+    notifications_                   = currentIndex;
     emit notificationsChanged();
+
+    const auto handleId = matrixBackendHandleId();
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId = roomid_, currentIndex]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::setRoomNotificationMode(
+            context, handleId, roomId, currentIndex, &error);
+          return std::make_pair(ok, error);
+      },
+      [requestId, previousNotifications, currentIndex](RoomSettings *settings,
+                                                       const std::pair<bool, QString> &result) {
+          if (requestId != settings->notificationsRequestId_)
+              return;
+
+          const auto &[ok, error] = result;
+          if (!ok) {
+              settings->notifications_ = previousNotifications;
+              emit settings->notificationsChanged();
+              emit settings->displayError(error.isEmpty() ? tr("Failed to update notifications.")
+                                                          : error);
+              return;
+          }
+
+          settings->notifications_ = currentIndex;
+          if (settings->matrixRoomSettings_)
+              settings->matrixRoomSettings_->notifications = currentIndex;
+          emit settings->notificationsChanged();
+      });
 }
 
 void
@@ -239,18 +285,35 @@ RoomSettings::changeName(const QString &name)
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::setRoomName(
-          context, matrixBackendHandleId(), roomid_, QString::fromStdString(newName), &error)) {
-        emit displayError(error.isEmpty() ? tr("Failed to update room name.") : error);
-        return;
-    }
+    const auto newNameValue = QString::fromStdString(newName);
+    const auto requestId    = ++roomNameRequestId_;
+    const auto handleId     = matrixBackendHandleId();
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId = roomid_, newNameValue]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::setRoomName(
+            context, handleId, roomId, newNameValue, &error);
+          return std::make_pair(ok, error);
+      },
+      [requestId, newName, newNameValue](RoomSettings *settings,
+                                         const std::pair<bool, QString> &result) {
+          if (requestId != settings->roomNameRequestId_)
+              return;
 
-    this->info_.name = newName;
-    if (matrixRoomSettings_)
-        matrixRoomSettings_->roomName = QString::fromStdString(newName);
-    emit roomNameChanged();
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit settings->displayError(error.isEmpty() ? tr("Failed to update room name.")
+                                                          : error);
+              return;
+          }
+
+          settings->info_.name = newName;
+          if (settings->matrixRoomSettings_)
+              settings->matrixRoomSettings_->roomName = newNameValue;
+          emit settings->roomNameChanged();
+      });
 }
 
 void
@@ -263,18 +326,35 @@ RoomSettings::changeTopic(const QString &topic)
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::setRoomTopic(
-          context, matrixBackendHandleId(), roomid_, QString::fromStdString(newTopic), &error)) {
-        emit displayError(error.isEmpty() ? tr("Failed to update room topic.") : error);
-        return;
-    }
+    const auto newTopicValue = QString::fromStdString(newTopic);
+    const auto requestId     = ++roomTopicRequestId_;
+    const auto handleId      = matrixBackendHandleId();
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId = roomid_, newTopicValue]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::setRoomTopic(
+            context, handleId, roomId, newTopicValue, &error);
+          return std::make_pair(ok, error);
+      },
+      [requestId, newTopic, newTopicValue](RoomSettings *settings,
+                                           const std::pair<bool, QString> &result) {
+          if (requestId != settings->roomTopicRequestId_)
+              return;
 
-    this->info_.topic = newTopic;
-    if (matrixRoomSettings_)
-        matrixRoomSettings_->roomTopic = QString::fromStdString(newTopic);
-    emit roomTopicChanged();
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit settings->displayError(error.isEmpty() ? tr("Failed to update room topic.")
+                                                          : error);
+              return;
+          }
+
+          settings->info_.topic = newTopic;
+          if (settings->matrixRoomSettings_)
+              settings->matrixRoomSettings_->roomTopic = newTopicValue;
+          emit settings->roomTopicChanged();
+      });
 }
 
 QStringList

@@ -10,6 +10,7 @@
 #include <QQmlEngine>
 #include <QSet>
 #include <QString>
+#include <cstdint>
 #include <optional>
 
 #include <unordered_set>
@@ -185,6 +186,7 @@ public slots:
     void avatarChanged();
 
 private:
+    void applyMatrixRoomSettings(const komai::MatrixRoomSettings &settings);
     void retrieveRoomInfo();
     bool loadMatrixRuntimeRoomSettings(QString *errorOut = nullptr);
     uint64_t matrixBackendHandleId() const;
@@ -206,6 +208,9 @@ private:
     QVector<QString> allowedRoomIds_;
     QVector<QString> parentSpaceRoomIds_;
     std::optional<komai::MatrixRoomSettings> matrixRoomSettings_;
+    uint64_t notificationsRequestId_ = 0;
+    uint64_t roomNameRequestId_      = 0;
+    uint64_t roomTopicRequestId_     = 0;
 
     RoomSettingsAllowedRoomsModel *allowedRoomsModel;
 };

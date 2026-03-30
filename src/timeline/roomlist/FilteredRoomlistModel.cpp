@@ -17,6 +17,7 @@
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
 
 namespace {
 enum NotificationImportance : short
@@ -518,19 +519,29 @@ FilteredRoomlistModel::toggleTag(const QString &roomid, const QString &tag, bool
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::toggleRoomTag(
-          context, handleId, roomId, tagId, on, &error)) {
-        nhlog::ui()->warn("Failed to toggle matrix-sdk room tag '{}' for '{}': {}",
-                          tagId.toStdString(),
-                          roomId.toStdString(),
-                          error.toStdString());
-        if (mainWindow) {
-            mainWindow->showNotification(on ? tr("Failed to add room tag: %1").arg(error)
-                                            : tr("Failed to remove room tag: %1").arg(error));
-        }
-    }
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId, tagId, on]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::toggleRoomTag(
+            context, handleId, roomId, tagId, on, &error);
+          return std::make_pair(ok, error);
+      },
+      [roomId, tagId, on](FilteredRoomlistModel *, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (ok)
+              return;
+
+          nhlog::ui()->warn("Failed to toggle matrix-sdk room tag '{}' for '{}': {}",
+                            tagId.toStdString(),
+                            roomId.toStdString(),
+                            error.toStdString());
+          if (auto *mainWindow = MainWindow::instance()) {
+              mainWindow->showNotification(on ? tr("Failed to add room tag: %1").arg(error)
+                                              : tr("Failed to remove room tag: %1").arg(error));
+          }
+      });
 }
 
 void

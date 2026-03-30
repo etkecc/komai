@@ -8,6 +8,7 @@
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
 
 void
 ChatPage::getBackupVersion()
@@ -35,29 +36,45 @@ ChatPage::performLogout(LogoutPolicy policy, LogoutRoute route, const QString &l
 {
     shuttingDown_ = true;
 
-    if (policy == LogoutPolicy::BestEffortServerFirst) {
-        const auto *mainWindow = MainWindow::instance();
-        const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
-
-        if (handleId == 0) {
-            nhlog::net()->info("Skipping server-side logout because no matrix-sdk backend handle "
-                               "is active for the current session");
-        } else {
-            const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-            QString error;
-            if (komai::MatrixBackendRuntimeService::logoutBackend(context, handleId, &error)) {
-                nhlog::net()->info("Completed server-side matrix-sdk logout using auth_type='{}'",
-                                   mainWindow->matrixBackendAuthType().toStdString());
-            } else {
-                nhlog::net()->warn(
-                  "Best-effort server-side matrix-sdk logout failed for auth_type='{}': {}",
-                  mainWindow->matrixBackendAuthType().toStdString(),
-                  error.toStdString());
-            }
-        }
+    if (policy != LogoutPolicy::BestEffortServerFirst) {
+        finalizeLogout(route, loginMessage);
+        return;
     }
 
-    finalizeLogout(route, loginMessage);
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    const auto authType    = mainWindow ? mainWindow->matrixBackendAuthType() : QString{};
+
+    if (handleId == 0) {
+        nhlog::net()->info("Skipping server-side logout because no matrix-sdk backend handle is "
+                           "active for the current session");
+        finalizeLogout(route, loginMessage);
+        return;
+    }
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok =
+            komai::MatrixBackendRuntimeService::logoutBackend(context, handleId, &error);
+          return std::make_pair(ok, error);
+      },
+      [route, loginMessage, authType](ChatPage *page, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (ok) {
+              nhlog::net()->info("Completed server-side matrix-sdk logout using auth_type='{}'",
+                                 authType.toStdString());
+          } else {
+              nhlog::net()->warn("Best-effort server-side matrix-sdk logout failed for "
+                                 "auth_type='{}': {}",
+                                 authType.toStdString(),
+                                 error.toStdString());
+          }
+
+          page->finalizeLogout(route, loginMessage);
+      });
 }
 
 void
@@ -128,16 +145,27 @@ ChatPage::processDownloadedSecretsUnlockInput(const QString &text)
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::recoverEncryptionSecrets(
-          context, handleId, trimmedSecret, &error)) {
-        emit showNotification(error.isEmpty() ? tr("Failed to unlock key backup.")
-                                              : tr("Failed to unlock key backup: %1").arg(error));
-        return;
-    }
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, trimmedSecret]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::recoverEncryptionSecrets(
+            context, handleId, trimmedSecret, &error);
+          return std::make_pair(ok, error);
+      },
+      [](ChatPage *page, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit page->showNotification(error.isEmpty()
+                                            ? tr("Failed to unlock key backup.")
+                                            : tr("Failed to unlock key backup: %1").arg(error));
+              return;
+          }
 
-    nhlog::crypto()->info("Recovered encryption secrets through the legacy ChatPage unlock entry "
-                          "using matrix-sdk recovery");
-    emit showNotification(tr("Encryption secrets unlocked."));
+          nhlog::crypto()->info(
+            "Recovered encryption secrets through the legacy ChatPage unlock entry "
+            "using matrix-sdk recovery");
+          emit page->showNotification(tr("Encryption secrets unlocked."));
+      });
 }

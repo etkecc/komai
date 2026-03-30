@@ -576,17 +576,32 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         if (!requireHandle())
             return false;
 
-        const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-        QString error;
-        ok = parsed.definition->id == CommandId::Ignore
-               ? komai::MatrixBackendRuntimeService::ignoreUser(
-                   context, activeHandleId(), arguments, &error)
-               : komai::MatrixBackendRuntimeService::unignoreUser(
-                   context, activeHandleId(), arguments, &error);
-        if (!ok) {
-            showNotification(tr("Failed to update ignored-user state: %1").arg(error));
-            return false;
-        }
+        const auto handleId  = activeHandleId();
+        const auto target    = arguments;
+        const auto shouldAdd = parsed.definition->id == CommandId::Ignore;
+
+        komai::qt_worker_task::runQueued(
+          this,
+          [handleId, target, shouldAdd]() {
+              const auto context = komai::matrix_backend::blockingCallContext();
+              QString error;
+              const bool ok = shouldAdd ? komai::MatrixBackendRuntimeService::ignoreUser(
+                                            context, handleId, target, &error)
+                                        : komai::MatrixBackendRuntimeService::unignoreUser(
+                                            context, handleId, target, &error);
+              return std::make_pair(ok, error);
+          },
+          [](TimelineViewManager *, const std::pair<bool, QString> &result) {
+              const auto &[ok, error] = result;
+              if (ok)
+                  return;
+
+              if (auto *mainWindow = MainWindow::instance()) {
+                  mainWindow->showNotification(
+                    TimelineViewManager::tr("Failed to update ignored-user state: %1").arg(error));
+              }
+          });
+        ok = true;
         break;
     }
     case CommandId::BlockInvites:

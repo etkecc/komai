@@ -12,6 +12,17 @@
 #include <QStandardPaths>
 
 #include "logging/Logging.h"
+#include "utils/QtWorkerTask.h"
+
+namespace {
+struct RoomAvatarMutationResult
+{
+    bool ok = false;
+    QString actionError;
+    std::optional<komai::MatrixRoomSettings> refreshedSettings;
+    QString refreshError;
+};
+} // namespace
 
 void
 RoomSettings::stopLoading()
@@ -30,6 +41,9 @@ RoomSettings::avatarChanged()
 void
 RoomSettings::updateAvatar()
 {
+    if (isLoading_)
+        return;
+
     const QString picturesFolder =
       QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     const QString fileName = QFileDialog::getOpenFileName(
@@ -59,56 +73,88 @@ RoomSettings::updateAvatar()
     isLoading_ = true;
     emit loadingChanged();
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::uploadRoomAvatar(context,
-                                                              matrixBackendHandleId(),
-                                                              roomid_,
-                                                              fileName,
-                                                              mime.name(),
-                                                              dimensions.width(),
-                                                              dimensions.height(),
-                                                              &error)) {
-        isLoading_ = false;
-        emit loadingChanged();
-        emit displayError(error.isEmpty() ? tr("Failed to upload image.") : error);
-        return;
-    }
+    const auto handleId = matrixBackendHandleId();
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId,
+       roomId = roomid_,
+       fileName,
+       mimeName = mime.name(),
+       width    = dimensions.width(),
+       height   = dimensions.height()]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          RoomAvatarMutationResult result;
+          result.ok = komai::MatrixBackendRuntimeService::uploadRoomAvatar(
+            context, handleId, roomId, fileName, mimeName, width, height, &result.actionError);
+          if (!result.ok)
+              return result;
 
-    if (loadMatrixRuntimeRoomSettings(&error)) {
-        emit avatarUrlChanged();
-    } else {
-        nhlog::ui()->warn("Failed to refresh room settings after avatar upload: {}",
-                          error.toStdString());
-    }
+          result.refreshedSettings = komai::MatrixBackendRuntimeService::fetchRoomSettings(
+            context, handleId, roomId, &result.refreshError);
+          return result;
+      },
+      [](RoomSettings *settings, const RoomAvatarMutationResult &result) {
+          settings->isLoading_ = false;
+          emit settings->loadingChanged();
 
-    isLoading_ = false;
-    emit loadingChanged();
+          if (!result.ok) {
+              emit settings->displayError(
+                result.actionError.isEmpty() ? tr("Failed to upload image.") : result.actionError);
+              return;
+          }
+
+          if (result.refreshedSettings.has_value()) {
+              settings->applyMatrixRoomSettings(*result.refreshedSettings);
+              emit settings->avatarUrlChanged();
+              return;
+          }
+
+          nhlog::ui()->warn("Failed to refresh room settings after avatar upload: {}",
+                            result.refreshError.toStdString());
+      });
 }
 
 void
 RoomSettings::removeAvatar()
 {
+    if (isLoading_)
+        return;
+
     isLoading_ = true;
     emit loadingChanged();
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::removeRoomAvatar(
-          context, matrixBackendHandleId(), roomid_, &error)) {
-        isLoading_ = false;
-        emit loadingChanged();
-        emit displayError(error.isEmpty() ? tr("Failed to remove avatar.") : error);
-        return;
-    }
+    const auto handleId = matrixBackendHandleId();
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId = roomid_]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          RoomAvatarMutationResult result;
+          result.ok = komai::MatrixBackendRuntimeService::removeRoomAvatar(
+            context, handleId, roomId, &result.actionError);
+          if (!result.ok)
+              return result;
 
-    if (loadMatrixRuntimeRoomSettings(&error)) {
-        emit avatarUrlChanged();
-    } else {
-        nhlog::ui()->warn("Failed to refresh room settings after avatar removal: {}",
-                          error.toStdString());
-    }
+          result.refreshedSettings = komai::MatrixBackendRuntimeService::fetchRoomSettings(
+            context, handleId, roomId, &result.refreshError);
+          return result;
+      },
+      [](RoomSettings *settings, const RoomAvatarMutationResult &result) {
+          settings->isLoading_ = false;
+          emit settings->loadingChanged();
 
-    isLoading_ = false;
-    emit loadingChanged();
+          if (!result.ok) {
+              emit settings->displayError(
+                result.actionError.isEmpty() ? tr("Failed to remove avatar.") : result.actionError);
+              return;
+          }
+
+          if (result.refreshedSettings.has_value()) {
+              settings->applyMatrixRoomSettings(*result.refreshedSettings);
+              emit settings->avatarUrlChanged();
+              return;
+          }
+
+          nhlog::ui()->warn("Failed to refresh room settings after avatar removal: {}",
+                            result.refreshError.toStdString());
+      });
 }

@@ -19,9 +19,22 @@
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
 namespace {
+struct DeviceSignOutStartTaskResult
+{
+    std::optional<komai::MatrixDeviceSignOutResult> result;
+    QString error;
+};
+
+struct DeviceSignOutPasswordTaskResult
+{
+    bool ok = false;
+    QString error;
+};
+
 crypto::Trust
 userTrustFromRuntime(const QString &trust, bool isSelf)
 {
@@ -238,79 +251,119 @@ UserProfile::signOutDevice(const QString &deviceID)
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto result = komai::MatrixBackendRuntimeService::startSignOutDevice(
-      context, handleId, trimmedDeviceId, &error);
-    if (!result) {
-        MainWindow::instance()->showNotification(
-          error.isEmpty() ? tr("Failed to sign out device \"%1\".").arg(trimmedDeviceId)
-                          : tr("Failed to sign out device \"%1\": %2").arg(trimmedDeviceId, error));
-        return;
-    }
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, trimmedDeviceId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          DeviceSignOutStartTaskResult taskResult;
+          taskResult.result = komai::MatrixBackendRuntimeService::startSignOutDevice(
+            context, handleId, trimmedDeviceId, &taskResult.error);
+          return taskResult;
+      },
+      [handleId, trimmedDeviceId](UserProfile *profile,
+                                  const DeviceSignOutStartTaskResult &taskResult) {
+          if (!taskResult.result) {
+              if (auto *mainWindow = MainWindow::instance()) {
+                  mainWindow->showNotification(
+                    taskResult.error.isEmpty()
+                      ? tr("Failed to sign out device \"%1\".").arg(trimmedDeviceId)
+                      : tr("Failed to sign out device \"%1\": %2")
+                          .arg(trimmedDeviceId, taskResult.error));
+              }
+              return;
+          }
 
-    if (result->completed) {
-        MainWindow::instance()->showNotification(
-          tr("Signed out device \"%1\".").arg(trimmedDeviceId));
-        refreshDevices();
-        notifyVerificationStateRefresh(userid_);
-        return;
-    }
+          const auto &result = *taskResult.result;
+          if (result.completed) {
+              if (auto *mainWindow = MainWindow::instance()) {
+                  mainWindow->showNotification(
+                    tr("Signed out device \"%1\".").arg(trimmedDeviceId));
+              }
+              profile->refreshDevices();
+              notifyVerificationStateRefresh(profile->userid_);
+              return;
+          }
 
-    if (result->authType == QLatin1String("password")) {
-        bool ok             = false;
-        const auto password = QInputDialog::getText(nullptr,
-                                                    tr("Sign Out Device"),
-                                                    tr("Enter your account password to sign out "
-                                                       "device \"%1\".")
-                                                      .arg(trimmedDeviceId),
-                                                    QLineEdit::Password,
-                                                    QString(),
-                                                    &ok);
-        if (!ok)
-            return;
+          if (result.authType == QLatin1String("password")) {
+              bool ok             = false;
+              const auto password = QInputDialog::getText(nullptr,
+                                                          tr("Sign Out Device"),
+                                                          tr("Enter your account password to sign "
+                                                             "out device \"%1\".")
+                                                            .arg(trimmedDeviceId),
+                                                          QLineEdit::Password,
+                                                          QString(),
+                                                          &ok);
+              if (!ok)
+                  return;
 
-        if (password.isEmpty()) {
-            MainWindow::instance()->showNotification(
-              tr("Password is required to sign out device \"%1\".").arg(trimmedDeviceId));
-            return;
-        }
+              if (password.isEmpty()) {
+                  if (auto *mainWindow = MainWindow::instance()) {
+                      mainWindow->showNotification(
+                        tr("Password is required to sign out device \"%1\".").arg(trimmedDeviceId));
+                  }
+                  return;
+              }
 
-        if (!komai::MatrixBackendRuntimeService::continueSignOutDeviceWithPassword(
-              context, handleId, password, &error)) {
-            MainWindow::instance()->showNotification(
-              error.isEmpty()
-                ? tr("Failed to sign out device \"%1\".").arg(trimmedDeviceId)
-                : tr("Failed to sign out device \"%1\": %2").arg(trimmedDeviceId, error));
-            return;
-        }
+              komai::qt_worker_task::runQueued(
+                profile,
+                [handleId, password]() {
+                    const auto context = komai::matrix_backend::blockingCallContext();
+                    DeviceSignOutPasswordTaskResult passwordTaskResult;
+                    passwordTaskResult.ok =
+                      komai::MatrixBackendRuntimeService::continueSignOutDeviceWithPassword(
+                        context, handleId, password, &passwordTaskResult.error);
+                    return passwordTaskResult;
+                },
+                [trimmedDeviceId](UserProfile *passwordProfile,
+                                  const DeviceSignOutPasswordTaskResult &passwordTaskResult) {
+                    if (!passwordTaskResult.ok) {
+                        if (auto *mainWindow = MainWindow::instance()) {
+                            mainWindow->showNotification(
+                              passwordTaskResult.error.isEmpty()
+                                ? tr("Failed to sign out device \"%1\".").arg(trimmedDeviceId)
+                                : tr("Failed to sign out device \"%1\": %2")
+                                    .arg(trimmedDeviceId, passwordTaskResult.error));
+                        }
+                        return;
+                    }
 
-        MainWindow::instance()->showNotification(
-          tr("Signed out device \"%1\".").arg(trimmedDeviceId));
-        refreshDevices();
-        notifyVerificationStateRefresh(userid_);
-        return;
-    }
+                    if (auto *mainWindow = MainWindow::instance()) {
+                        mainWindow->showNotification(
+                          tr("Signed out device \"%1\".").arg(trimmedDeviceId));
+                    }
+                    passwordProfile->refreshDevices();
+                    notifyVerificationStateRefresh(passwordProfile->userid_);
+                });
+              return;
+          }
 
-    if (result->authType == QLatin1String("oauth")) {
-        const auto url = QUrl::fromUserInput(result->approvalUrl);
-        if (!url.isValid() || !QDesktopServices::openUrl(url)) {
-            MainWindow::instance()->showNotification(
-              tr("Failed to open the browser for device sign-out."));
-            return;
-        }
+          if (result.authType == QLatin1String("oauth")) {
+              const auto url = QUrl::fromUserInput(result.approvalUrl);
+              if (!url.isValid() || !QDesktopServices::openUrl(url)) {
+                  if (auto *mainWindow = MainWindow::instance()) {
+                      mainWindow->showNotification(
+                        tr("Failed to open the browser for device sign-out."));
+                  }
+                  return;
+              }
 
-        refreshDevicesOnNextActivation_ = true;
-        MainWindow::instance()->showNotification(
-          tr("Finish signing out device \"%1\" in your browser. The device list will refresh when "
-             "you return.")
-            .arg(trimmedDeviceId));
-        return;
-    }
+              profile->refreshDevicesOnNextActivation_ = true;
+              if (auto *mainWindow = MainWindow::instance()) {
+                  mainWindow->showNotification(
+                    tr("Finish signing out device \"%1\" in your browser. The device list will "
+                       "refresh when you return.")
+                      .arg(trimmedDeviceId));
+              }
+              return;
+          }
 
-    MainWindow::instance()->showNotification(
-      tr("Device sign-out for \"%1\" requires an unsupported authentication flow.")
-        .arg(trimmedDeviceId));
+          if (auto *mainWindow = MainWindow::instance()) {
+              mainWindow->showNotification(
+                tr("Device sign-out for \"%1\" requires an unsupported authentication flow.")
+                  .arg(trimmedDeviceId));
+          }
+      });
 }
 
 void
@@ -334,23 +387,35 @@ UserProfile::setIgnored(bool ignore)
 {
     const auto handleId = matrixBackendHandleId();
     if (handleId != 0) {
-        const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-        QString error;
-        const bool ok =
-          ignore
-            ? komai::MatrixBackendRuntimeService::ignoreUser(context, handleId, userid_, &error)
-            : komai::MatrixBackendRuntimeService::unignoreUser(context, handleId, userid_, &error);
-        if (!ok) {
-            MainWindow::instance()->showNotification(
-              error.isEmpty()
-                ? tr("Failed to update ignored-user state for \"%1\".").arg(userid_)
-                : tr("Failed to update ignored-user state for \"%1\": %2").arg(userid_, error));
-            emit ignoredChanged();
-            return;
-        }
+        const auto userId = userid_;
+        komai::qt_worker_task::runQueued(
+          this,
+          [handleId, userId, ignore]() {
+              const auto context = komai::matrix_backend::blockingCallContext();
+              QString error;
+              const bool ok = ignore ? komai::MatrixBackendRuntimeService::ignoreUser(
+                                         context, handleId, userId, &error)
+                                     : komai::MatrixBackendRuntimeService::unignoreUser(
+                                         context, handleId, userId, &error);
+              return std::make_pair(ok, error);
+          },
+          [ignore](UserProfile *profile, const std::pair<bool, QString> &result) {
+              const auto &[ok, error] = result;
+              if (!ok) {
+                  if (auto *mainWindow = MainWindow::instance()) {
+                      mainWindow->showNotification(
+                        error.isEmpty() ? tr("Failed to update ignored-user state for \"%1\".")
+                                            .arg(profile->userid_)
+                                        : tr("Failed to update ignored-user state for \"%1\": %2")
+                                            .arg(profile->userid_, error));
+                  }
+                  emit profile->ignoredChanged();
+                  return;
+              }
 
-        ignoredOverride_ = ignore;
-        emit ignoredChanged();
+              profile->ignoredOverride_ = ignore;
+              emit profile->ignoredChanged();
+          });
         return;
     }
 

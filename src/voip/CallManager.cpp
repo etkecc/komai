@@ -21,8 +21,9 @@
 #include "CallManager.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
-#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/RoomlistModel.h"
+#include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
@@ -72,79 +73,40 @@ randomAlphaNumericToken(int length)
     return token;
 }
 
-std::optional<uint64_t>
-activeMatrixHandleId()
-{
-    const auto *mainWindow = MainWindow::instance();
-    if (mainWindow && mainWindow->matrixBackendHandleId() != 0)
-        return mainWindow->matrixBackendHandleId();
-
-    return std::nullopt;
-}
-
 std::optional<MatrixCallRoomContext>
 fetchMatrixCallRoomContext(const QString &roomId)
 {
-    const auto handleId = activeMatrixHandleId();
-    if (!handleId)
+    auto *chatPage        = ChatPage::instance();
+    auto *timelineManager = chatPage ? chatPage->timelineManager() : nullptr;
+    auto *roomsModel      = timelineManager ? timelineManager->rooms() : nullptr;
+    if (!roomsModel)
         return std::nullopt;
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto rooms =
-      komai::MatrixBackendRuntimeService::fetchRoomList(context, *handleId, &error);
-    if (!rooms) {
-        nhlog::ui()->warn("Failed to fetch matrix room list for '{}': {}",
-                          roomId.toStdString(),
-                          error.toStdString());
+    const auto &rooms = roomsModel->matrixJoinedRooms();
+    const auto roomIt = rooms.find(roomId);
+    if (roomIt == rooms.end())
         return std::nullopt;
-    }
 
-    for (const auto &room : *rooms) {
-        if (room.roomId != roomId)
-            continue;
-
-        return MatrixCallRoomContext{
-          .roomId                = room.roomId,
-          .displayName           = room.displayName,
-          .avatarUrl             = room.avatarUrl,
-          .directChatOtherUserId = room.directChatOtherUserId,
-          .memberCount           = room.memberCount,
-        };
-    }
-
-    return std::nullopt;
+    const auto &room = roomIt.value();
+    return MatrixCallRoomContext{
+      .roomId                = room.roomId,
+      .displayName           = room.displayName,
+      .avatarUrl             = room.avatarUrl,
+      .directChatOtherUserId = room.directChatOtherUserId,
+      .memberCount           = room.memberCount,
+    };
 }
 
-komai::MatrixUserProfile
-fetchMatrixCallUserProfile(uint64_t handleId, const QString &userId)
+QString
+displayNameFromCallRoomContext(const std::optional<MatrixCallRoomContext> &roomContext,
+                               const QString &fallbackUserId)
 {
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (userId == utils::localUser()) {
-        if (const auto ownProfile =
-              komai::MatrixBackendRuntimeService::fetchOwnProfile(context, handleId, &error)) {
-            return komai::MatrixUserProfile{
-              .displayName = ownProfile->displayName,
-              .avatarUrl   = ownProfile->avatarUrl,
-            };
-        }
-    }
+    if (!roomContext || roomContext->displayName.trimmed().isEmpty())
+        return fallbackUserId;
 
-    if (const auto profile =
-          komai::MatrixBackendRuntimeService::fetchUserProfile(context, handleId, userId, &error)) {
-        return *profile;
-    }
-
-    if (!error.isEmpty()) {
-        nhlog::ui()->warn("Failed to fetch matrix user profile for '{}': {}",
-                          userId.toStdString(),
-                          error.toStdString());
-    }
-
-    return komai::MatrixUserProfile{.displayName = userId, .avatarUrl = QString{}};
+    return roomContext->displayName;
 }
-}
+} // namespace
 
 CallManager *
 CallManager::create(QQmlEngine *qmlEngine, QJSEngine *)
@@ -363,16 +325,14 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
     roomid_   = roomid;
     generateCallID();
 
-    const auto handleId    = activeMatrixHandleId();
     const auto roomContext = fetchMatrixCallRoomContext(roomid);
-    if (!handleId || !roomContext || roomContext->directChatOtherUserId.trimmed().isEmpty()) {
+    if (!roomContext || roomContext->directChatOtherUserId.trimmed().isEmpty()) {
         emit ChatPage::instance()->showNotification(
           QStringLiteral("Calls are only migrated for direct rooms on the matrix-sdk branch"));
         return;
     }
 
-    const auto calleeId      = roomContext->directChatOtherUserId;
-    const auto calleeProfile = fetchMatrixCallUserProfile(*handleId, calleeId);
+    const auto calleeId = roomContext->directChatOtherUserId;
 
 #ifdef GSTREAMER_AVAILABLE
     if (callType == CallType::SCREEN) {
@@ -420,11 +380,10 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
       callType_ == CallType::VOICE ? "voice" : (callType_ == CallType::VIDEO ? "video" : "screen");
 
     nhlog::ui()->debug("WebRTC: call id: {} - creating {} invite", callid_, strCallType);
-    callParty_ = calleeId;
-    callPartyDisplayName_ =
-      calleeProfile.displayName.trimmed().isEmpty() ? calleeId : calleeProfile.displayName;
-    callPartyAvatarUrl_ = calleeProfile.avatarUrl;
-    invitee_            = callParty_.toStdString();
+    callParty_            = calleeId;
+    callPartyDisplayName_ = displayNameFromCallRoomContext(roomContext, calleeId);
+    callPartyAvatarUrl_   = roomContext->avatarUrl;
+    invitee_              = callParty_.toStdString();
     emit newInviteState();
     playRingtone(QUrl(QStringLiteral("qrc:/media/media/ringback.ogg")), true);
 
@@ -543,11 +502,9 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
     const QString &ringtone = UserSettings::instance()->callsAudioRingtone();
     bool sharesRoom         = true;
 
-    const auto callerUserId = QString::fromStdString(callInviteEvent.sender);
-    const auto handleId     = activeMatrixHandleId().value_or(0);
-    const auto callerProfile =
-      handleId != 0 ? fetchMatrixCallUserProfile(handleId, callerUserId)
-                    : komai::MatrixUserProfile{.displayName = callerUserId, .avatarUrl = QString{}};
+    const auto callerUserId      = QString::fromStdString(callInviteEvent.sender);
+    const auto callerDisplayName = displayNameFromCallRoomContext(roomContext, callerUserId);
+    const auto callerAvatarUrl   = roomContext ? roomContext->avatarUrl : QString{};
     if (isOnCall() || isOnCallOnOtherDevice()) {
         if (isOnCallOnOtherDevice_ != "")
             return;
@@ -556,10 +513,8 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
                 if (callid_ > callInviteEvent.content.call_id) {
                     endCall();
                     callParty_            = callerUserId;
-                    callPartyDisplayName_ = callerProfile.displayName.trimmed().isEmpty()
-                                              ? callerUserId
-                                              : callerProfile.displayName;
-                    callPartyAvatarUrl_   = callerProfile.avatarUrl;
+                    callPartyDisplayName_ = callerDisplayName;
+                    callPartyAvatarUrl_   = callerAvatarUrl;
 
                     roomid_ = QString::fromStdString(callInviteEvent.room_id);
                     callid_ = callInviteEvent.content.call_id;
@@ -624,10 +579,9 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
                        : QUrl::fromLocalFile(ringtone),
                      true);
 
-    callParty_ = callerUserId;
-    callPartyDisplayName_ =
-      callerProfile.displayName.trimmed().isEmpty() ? callerUserId : callerProfile.displayName;
-    callPartyAvatarUrl_ = callerProfile.avatarUrl;
+    callParty_            = callerUserId;
+    callPartyDisplayName_ = callerDisplayName;
+    callPartyAvatarUrl_   = callerAvatarUrl;
 
     roomid_ = QString::fromStdString(callInviteEvent.room_id);
     callid_ = callInviteEvent.content.call_id;

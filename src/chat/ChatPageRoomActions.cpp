@@ -77,21 +77,6 @@ runMatrixRuntimeTask(ChatPage *page, WorkFnT work, UiFnT ui)
     }).detach();
 }
 
-std::optional<QVector<komai::MatrixRoomSummary>>
-fetchMatrixRoomList(uint64_t handleId)
-{
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto roomList =
-      komai::MatrixBackendRuntimeService::fetchRoomList(context, handleId, &error);
-    if (roomList.has_value())
-        return roomList;
-
-    nhlog::ui()->warn("Failed to fetch matrix-sdk room list snapshot for handle {}: {}",
-                      handleId,
-                      error.toStdString());
-    return std::nullopt;
-}
 } // namespace
 
 void
@@ -397,15 +382,14 @@ ChatPage::startChat(QString userid, std::optional<bool> encryptionEnabled)
     if (!handleId)
         return;
 
-    if (const auto rooms = fetchMatrixRoomList(*handleId); rooms.has_value()) {
-        const auto existingRoom =
-          std::find_if(rooms->cbegin(), rooms->cend(), [&userid](const auto &room) {
-              return room.isDirect && !room.isInvite && !room.isSpace &&
-                     room.directChatOtherUserId == userid;
-          });
-        if (existingRoom != rooms->cend()) {
-            view_manager_->rooms()->setCurrentRoom(existingRoom->roomId);
-            return;
+    if (auto *roomsModel = view_manager_ ? view_manager_->rooms() : nullptr) {
+        const auto &rooms = roomsModel->matrixJoinedRooms();
+        for (auto it = rooms.cbegin(); it != rooms.cend(); ++it) {
+            const auto &room = it.value();
+            if (room.isDirect && !room.isSpace && room.directChatOtherUserId == userid) {
+                roomsModel->setCurrentRoom(it.key());
+                return;
+            }
         }
     }
 
@@ -465,17 +449,12 @@ ChatPage::tryHandleMatrixUri(QString uri)
         return true;
     } else if (sigil1 == u"roomid") {
         if (matrixBackendHandleId != 0) {
-            if (const auto rooms = fetchMatrixRoomList(matrixBackendHandleId); rooms.has_value()) {
-                const auto existingRoom =
-                  std::find_if(rooms->cbegin(), rooms->cend(), [&mxid1](const auto &room) {
-                      return room.roomId == mxid1 && !room.isInvite;
-                  });
-                if (existingRoom != rooms->cend()) {
-                    view_manager_->rooms()->setCurrentRoom(existingRoom->roomId);
-                    if (!mxid2.isEmpty())
-                        view_manager_->showEvent(existingRoom->roomId, mxid2);
-                    return true;
-                }
+            if (auto *roomsModel = view_manager_ ? view_manager_->rooms() : nullptr;
+                roomsModel && roomsModel->matrixJoinedRooms().contains(mxid1)) {
+                roomsModel->setCurrentRoom(mxid1);
+                if (!mxid2.isEmpty())
+                    view_manager_->showEvent(mxid1, mxid2);
+                return true;
             }
 
             if (action == u"join" || action.isEmpty()) {

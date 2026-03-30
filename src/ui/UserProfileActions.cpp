@@ -5,12 +5,9 @@
 
 #include <QFileDialog>
 #include <QFileInfo>
-#include <QMetaObject>
 #include <QMimeDatabase>
-#include <QPointer>
 #include <QStandardPaths>
 
-#include <thread>
 #include <utility>
 
 #include "UserProfile.h"
@@ -18,6 +15,7 @@
 #include "encryption/VerificationManager.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/TimelineViewManager.h"
+#include "utils/QtWorkerTask.h"
 
 namespace {
 void
@@ -32,23 +30,7 @@ template<typename WorkFnT, typename UiFnT>
 void
 runUserProfileRuntimeTask(UserProfile *profile, WorkFnT work, UiFnT ui)
 {
-    QPointer<UserProfile> guard(profile);
-    std::thread([guard, work = std::move(work), ui = std::move(ui)]() mutable {
-        const auto result = work();
-
-        if (!guard)
-            return;
-
-        QMetaObject::invokeMethod(
-          guard,
-          [guard, result = std::move(result), ui = std::move(ui)]() mutable {
-              if (!guard)
-                  return;
-
-              ui(guard.data(), result);
-          },
-          Qt::QueuedConnection);
-    }).detach();
+    komai::qt_worker_task::runQueued(profile, std::move(work), std::move(ui));
 }
 }
 
@@ -139,17 +121,27 @@ UserProfile::changeDeviceName(const QString &deviceID, const QString &deviceName
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::renameDevice(
-          context, handleId, trimmedDeviceId, trimmedDeviceName, &error)) {
-        emit displayError(error.isEmpty()
-                            ? tr("Failed to rename device \"%1\".").arg(trimmedDeviceId)
-                            : tr("Failed to rename device \"%1\": %2").arg(trimmedDeviceId, error));
-        return;
-    }
+    runUserProfileRuntimeTask(
+      this,
+      [handleId, trimmedDeviceId, trimmedDeviceName]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::renameDevice(
+            context, handleId, trimmedDeviceId, trimmedDeviceName, &error);
+          return std::make_pair(ok, error);
+      },
+      [trimmedDeviceId](UserProfile *profile, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit profile->displayError(
+                error.isEmpty()
+                  ? tr("Failed to rename device \"%1\".").arg(trimmedDeviceId)
+                  : tr("Failed to rename device \"%1\": %2").arg(trimmedDeviceId, error));
+              return;
+          }
 
-    refreshDevices();
+          profile->refreshDevices();
+      });
 }
 
 void
@@ -185,19 +177,30 @@ UserProfile::unverify(const QString &device)
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::unverifyDevice(
-          context, handleId, userid_, trimmedDeviceId, &error)) {
-        emit displayError(
-          error.isEmpty()
-            ? tr("Failed to clear verification for device \"%1\".").arg(trimmedDeviceId)
-            : tr("Failed to clear verification for device \"%1\": %2").arg(trimmedDeviceId, error));
-        return;
-    }
+    const auto userId = userid_;
+    runUserProfileRuntimeTask(
+      this,
+      [handleId, userId, trimmedDeviceId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::unverifyDevice(
+            context, handleId, userId, trimmedDeviceId, &error);
+          return std::make_pair(ok, error);
+      },
+      [trimmedDeviceId](UserProfile *profile, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit profile->displayError(
+                error.isEmpty()
+                  ? tr("Failed to clear verification for device \"%1\".").arg(trimmedDeviceId)
+                  : tr("Failed to clear verification for device \"%1\": %2")
+                      .arg(trimmedDeviceId, error));
+              return;
+          }
 
-    refreshDevices();
-    notifyVerificationStateRefresh(userid_);
+          profile->refreshDevices();
+          notifyVerificationStateRefresh(profile->userid_);
+      });
 }
 
 void
@@ -215,18 +218,29 @@ UserProfile::blockDevice(const QString &device)
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::blockDevice(
-          context, handleId, userid_, trimmedDeviceId, &error)) {
-        emit displayError(error.isEmpty()
-                            ? tr("Failed to block device \"%1\".").arg(trimmedDeviceId)
-                            : tr("Failed to block device \"%1\": %2").arg(trimmedDeviceId, error));
-        return;
-    }
+    const auto userId = userid_;
+    runUserProfileRuntimeTask(
+      this,
+      [handleId, userId, trimmedDeviceId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::blockDevice(
+            context, handleId, userId, trimmedDeviceId, &error);
+          return std::make_pair(ok, error);
+      },
+      [trimmedDeviceId](UserProfile *profile, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit profile->displayError(
+                error.isEmpty()
+                  ? tr("Failed to block device \"%1\".").arg(trimmedDeviceId)
+                  : tr("Failed to block device \"%1\": %2").arg(trimmedDeviceId, error));
+              return;
+          }
 
-    refreshDevices();
-    notifyVerificationStateRefresh(userid_);
+          profile->refreshDevices();
+          notifyVerificationStateRefresh(profile->userid_);
+      });
 }
 
 void
@@ -244,18 +258,29 @@ UserProfile::unblockDevice(const QString &device)
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::unblockDevice(
-          context, handleId, userid_, trimmedDeviceId, &error)) {
-        emit displayError(
-          error.isEmpty() ? tr("Failed to unblock device \"%1\".").arg(trimmedDeviceId)
-                          : tr("Failed to unblock device \"%1\": %2").arg(trimmedDeviceId, error));
-        return;
-    }
+    const auto userId = userid_;
+    runUserProfileRuntimeTask(
+      this,
+      [handleId, userId, trimmedDeviceId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::unblockDevice(
+            context, handleId, userId, trimmedDeviceId, &error);
+          return std::make_pair(ok, error);
+      },
+      [trimmedDeviceId](UserProfile *profile, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit profile->displayError(
+                error.isEmpty()
+                  ? tr("Failed to unblock device \"%1\".").arg(trimmedDeviceId)
+                  : tr("Failed to unblock device \"%1\": %2").arg(trimmedDeviceId, error));
+              return;
+          }
 
-    refreshDevices();
-    notifyVerificationStateRefresh(userid_);
+          profile->refreshDevices();
+          notifyVerificationStateRefresh(profile->userid_);
+      });
 }
 
 void

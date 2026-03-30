@@ -74,6 +74,28 @@ readSecureValue(const QString &key)
     return std::nullopt;
 }
 
+bool
+writeSecureValueBlocking(const QString &key, const QString &value)
+{
+    QEventLoop loop;
+    auto job = std::make_unique<QKeychain::WritePasswordJob>(keychainServiceName());
+    job->setAutoDelete(false);
+    job->setInsecureFallback(false);
+    job->setKey(key);
+    job->setTextData(value);
+    QObject::connect(job.get(), &QKeychain::Job::finished, &loop, &QEventLoop::quit);
+    job->start();
+    loop.exec();
+
+    if (job->error() == QKeychain::Error::NoError)
+        return true;
+
+    activeLoggers().db->warn("Failed to write secret '{}' to secure backend: {}",
+                             key.toStdString(),
+                             static_cast<int>(job->error()));
+    return false;
+}
+
 void
 writeSecureValue(const QString &key, const QString &value)
 {
@@ -93,6 +115,29 @@ writeSecureValue(const QString &key, const QString &value)
           });
         job->start();
     });
+}
+
+bool
+deleteSecureValueBlocking(const QString &key)
+{
+    QEventLoop loop;
+    auto job = std::make_unique<QKeychain::DeletePasswordJob>(keychainServiceName());
+    job->setAutoDelete(false);
+    job->setInsecureFallback(false);
+    job->setKey(key);
+    QObject::connect(job.get(), &QKeychain::Job::finished, &loop, &QEventLoop::quit);
+    job->start();
+    loop.exec();
+
+    if (job->error() == QKeychain::Error::NoError ||
+        job->error() == QKeychain::Error::EntryNotFound) {
+        return true;
+    }
+
+    activeLoggers().db->warn("Failed to delete secret '{}' from secure backend: {}",
+                             key.toStdString(),
+                             static_cast<int>(job->error()));
+    return false;
 }
 
 void

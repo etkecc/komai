@@ -709,9 +709,10 @@ sendMessage(const QString &roomIdOrAlias,
        trimmedBody,
        formattedBody = QString::fromStdString(formattedBody),
        messageKind]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           AsyncSendResult result;
           if (QString error; komai::MatrixBackendRuntimeService::sendRoomMessage(
-                handleId, roomId, trimmedBody, formattedBody, messageKind, &error)) {
+                context, handleId, roomId, trimmedBody, formattedBody, messageKind, &error)) {
               result.eventId = QStringLiteral("queued");
           } else {
               result.error =
@@ -867,9 +868,11 @@ sendImageFromFile(const QString &roomIdOrAlias,
        effectiveFilename,
        trimmedBody,
        mimeType]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
           AsyncSendResult result;
           QString error;
-          const bool ok = komai::MatrixBackendRuntimeService::sendRoomAttachment(handleId,
+          const bool ok = komai::MatrixBackendRuntimeService::sendRoomAttachment(context,
+                                                                                 handleId,
                                                                                  roomId,
                                                                                  effectiveFilePath,
                                                                                  effectiveFilename,

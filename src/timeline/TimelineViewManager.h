@@ -297,10 +297,8 @@ public:
     forwardActiveMatrixTimelineEvent(const QString &eventId, const QString &targetRoomId);
     Q_INVOKABLE bool pinActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE bool unpinActiveMatrixTimelineEvent(const QString &eventId);
-    Q_INVOKABLE QVariantMap
-    rawMessageDialogForActiveMatrixTimelineEvent(const QString &eventId) const;
-    Q_INVOKABLE QObject *
-    readReceiptsModelForActiveMatrixTimelineEvent(const QString &eventId) const;
+    Q_INVOKABLE bool requestRawMessageDialogForActiveMatrixTimelineEvent(const QString &eventId);
+    Q_INVOKABLE bool requestReadReceiptsModelForActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
     bool stageMatrixAttachmentsForRoom(const QString &roomId, const QStringList &filePaths);
     Q_INVOKABLE bool sendActiveMatrixAttachments();
@@ -330,6 +328,8 @@ signals:
     void isConnectedChanged(bool state);
     void replyingEventChanged(QString replyingEvent);
     void replyClosed();
+    void activeMatrixTimelineRawMessageDialogReady(QString eventId, QVariantMap payload);
+    void activeMatrixTimelineReadReceiptsReady(QString eventId, QObject *readReceipts);
     void inviteUsers(QString roomId, QStringList users);
     void showRoomList();
     void narrowViewChanged();
@@ -441,9 +441,14 @@ private:
     QString matrixTimelineRefreshPendingRoomId_;
     quint64 matrixTimelineRefreshRequestId_         = 0;
     quint64 matrixTimelineRefreshInFlightRequestId_ = 0;
-    quint64 matrixTimelineWarmupGuardGeneration_    = 0;
-    bool matrixTimelineWarmupGuardActive_           = false;
+    bool matrixTimelineRoomStateRefreshPending_     = false;
+    QString matrixTimelineRoomStateRefreshPendingRoomId_;
+    quint64 matrixTimelineRoomStateRequestId_         = 0;
+    quint64 matrixTimelineRoomStateInFlightRequestId_ = 0;
+    quint64 matrixTimelineWarmupGuardGeneration_      = 0;
+    bool matrixTimelineWarmupGuardActive_             = false;
     QString matrixTimelineRefreshInFlightRoomId_;
+    QString matrixTimelineRoomStateInFlightRoomId_;
     QHash<QString, uint64_t> matrixReadMarkerPendingHandlesByRoom_;
     QHash<QString, QString> matrixReadMarkerPendingEventIdsByRoom_;
     QHash<QString, QString> matrixReadMarkerInFlightEventIdsByRoom_;
@@ -482,8 +487,10 @@ private:
     void scheduleCurrentMatrixTimelineSelectionUpdate();
     void scheduleCurrentMatrixTimelineRefresh();
     void updateCurrentMatrixTimelineSelection();
-    bool refreshActiveMatrixTimelinePinnedEventIds();
-    bool refreshActiveMatrixTimelineRedactionPermissions();
+    void refreshActiveMatrixTimelineRoomStateAsync();
+    bool applyActiveMatrixTimelineRoomState(QStringList pinnedEventIds,
+                                            bool canRedactOwn,
+                                            bool canRedactOther);
     void refreshCurrentMatrixTimeline();
     void clearCurrentMatrixTimeline(bool stopBackendTask = true);
     void startNextPendingMatrixAttachment();

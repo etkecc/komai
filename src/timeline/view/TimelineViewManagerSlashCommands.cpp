@@ -19,6 +19,7 @@
 #include "timeline/SlashCommands.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
 namespace {
@@ -61,6 +62,15 @@ struct FirstArgumentSplit
 {
     QString first;
     QString rest;
+};
+
+struct SlashCommandSendResult
+{
+    uint64_t handleId = 0;
+    QString roomId;
+    QString messageKind;
+    QString error;
+    bool ok = false;
 };
 
 FirstArgumentSplit
@@ -142,29 +152,6 @@ normalizeInvitePermissionTarget(const QString &text)
         return std::nullopt;
 
     return trimmed;
-}
-
-template<typename WorkFnT, typename UiFnT>
-void
-runTimelineManagerRuntimeTask(TimelineViewManager *manager, WorkFnT work, UiFnT ui)
-{
-    QPointer<TimelineViewManager> guard(manager);
-    std::thread([guard, work = std::move(work), ui = std::move(ui)]() mutable {
-        const auto result = work();
-
-        if (!guard)
-            return;
-
-        QMetaObject::invokeMethod(
-          guard,
-          [guard, result = std::move(result), ui = std::move(ui)]() mutable {
-              if (!guard)
-                  return;
-
-              ui(guard.data(), result);
-          },
-          Qt::QueuedConnection);
-    }).detach();
 }
 
 } // namespace
@@ -274,36 +261,51 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         const auto formattedHtml = formattedHtmlForMatrixSend(body, formatMode);
         const auto replyEventId  = matrixTimelineReplyEventId_.trimmed();
 
-        QString error;
-        const bool ok =
-          replyEventId.isEmpty()
-            ? komai::MatrixBackendRuntimeService::sendRoomMessage(handleId,
-                                                                  activeMatrixTimelineRoomId_,
-                                                                  plainBody,
-                                                                  formattedHtml,
-                                                                  messageKind,
-                                                                  &error)
-            : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(handleId,
-                                                                       activeMatrixTimelineRoomId_,
-                                                                       replyEventId,
-                                                                       plainBody,
-                                                                       formattedHtml,
-                                                                       messageKind,
-                                                                       &error);
+        const auto roomId = activeMatrixTimelineRoomId_;
+        komai::qt_worker_task::runQueued(
+          this,
+          [handleId, roomId, replyEventId, plainBody, formattedHtml, messageKind]() {
+              const auto context = komai::matrix_backend::blockingCallContext();
+              QString error;
+              const bool ok =
+                replyEventId.isEmpty()
+                  ? komai::MatrixBackendRuntimeService::sendRoomMessage(
+                      context, handleId, roomId, plainBody, formattedHtml, messageKind, &error)
+                  : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(context,
+                                                                             handleId,
+                                                                             roomId,
+                                                                             replyEventId,
+                                                                             plainBody,
+                                                                             formattedHtml,
+                                                                             messageKind,
+                                                                             &error);
 
-        if (!ok) {
-            nhlog::ui()->warn("Failed to queue matrix-sdk slash-command room message kind='{}' "
-                              "room='{}' handle={} error='{}'",
-                              messageKind.toStdString(),
-                              activeMatrixTimelineRoomId_.toStdString(),
-                              handleId,
-                              error.toStdString());
-            if (mainWindow)
-                mainWindow->showNotification(
-                  QCoreApplication::translate("TimelineViewManager", "Failed to send message: %1")
-                    .arg(error));
-            return false;
-        }
+              return SlashCommandSendResult{
+                .handleId    = handleId,
+                .roomId      = roomId,
+                .messageKind = messageKind,
+                .error       = error,
+                .ok          = ok,
+              };
+          },
+          [](TimelineViewManager *, SlashCommandSendResult result) {
+              auto *mainWindow = MainWindow::instance();
+              if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+                  return;
+
+              if (result.ok)
+                  return;
+
+              nhlog::ui()->warn("Failed to queue matrix-sdk slash-command room message kind='{}' "
+                                "room='{}' handle={} error='{}'",
+                                result.messageKind.toStdString(),
+                                result.roomId.toStdString(),
+                                result.handleId,
+                                result.error.toStdString());
+              mainWindow->showNotification(
+                QCoreApplication::translate("TimelineViewManager", "Failed to send message: %1")
+                  .arg(result.error));
+          });
 
         return true;
     };
@@ -422,7 +424,7 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         const auto roomId      = activeMatrixTimelineRoomId_;
         const auto displayName = arguments;
 
-        runTimelineManagerRuntimeTask(
+        komai::qt_worker_task::runQueued(
           this,
           [handleId, roomId, displayName]() {
               QString error;
@@ -533,7 +535,7 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         const auto roomId     = activeMatrixTimelineRoomId_;
         const auto roomIdText = roomId;
 
-        runTimelineManagerRuntimeTask(
+        komai::qt_worker_task::runQueued(
           this,
           [handleId, roomId, isDirect]() {
               QString error;
@@ -600,7 +602,7 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         const auto target   = *maybeTarget;
         const auto targetUi = arguments.trimmed().isEmpty() ? target : arguments.trimmed();
 
-        runTimelineManagerRuntimeTask(
+        komai::qt_worker_task::runQueued(
           this,
           [handleId, target, block]() {
               QString error;

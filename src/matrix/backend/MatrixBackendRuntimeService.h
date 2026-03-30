@@ -13,6 +13,7 @@
 #include <optional>
 
 #include "matrix/MatrixRoomPowerLevels.h"
+#include "matrix/backend/MatrixBlockingCall.h"
 #include "timeline/Reaction.h"
 
 namespace komai {
@@ -518,7 +519,8 @@ public:
                                      QString *errorOut = nullptr);
 
     static std::optional<MatrixRoomRedactionPermissions>
-    fetchRoomRedactionPermissions(uint64_t handleId,
+    fetchRoomRedactionPermissions(matrix_backend::BlockingCallContext context,
+                                  uint64_t handleId,
                                   const QString &roomId,
                                   QString *errorOut = nullptr);
 
@@ -577,14 +579,16 @@ public:
                                                     uint16_t pageSize,
                                                     QString *errorOut = nullptr);
 
-    static bool sendRoomMessage(uint64_t handleId,
+    static bool sendRoomMessage(matrix_backend::BlockingCallContext context,
+                                uint64_t handleId,
                                 const QString &roomId,
                                 const QString &body,
                                 const QString &formattedHtml,
                                 const QString &messageKind,
                                 QString *errorOut = nullptr);
 
-    static bool sendRoomReplyMessage(uint64_t handleId,
+    static bool sendRoomReplyMessage(matrix_backend::BlockingCallContext context,
+                                     uint64_t handleId,
                                      const QString &roomId,
                                      const QString &repliedToEventId,
                                      const QString &body,
@@ -592,7 +596,8 @@ public:
                                      const QString &messageKind,
                                      QString *errorOut = nullptr);
 
-    static bool sendRoomEditMessage(uint64_t handleId,
+    static bool sendRoomEditMessage(matrix_backend::BlockingCallContext context,
+                                    uint64_t handleId,
                                     const QString &roomId,
                                     const QString &targetEventId,
                                     const QString &body,
@@ -600,24 +605,28 @@ public:
                                     const QString &messageKind,
                                     QString *errorOut = nullptr);
 
-    static bool toggleRoomReaction(uint64_t handleId,
+    static bool toggleRoomReaction(matrix_backend::BlockingCallContext context,
+                                   uint64_t handleId,
                                    const QString &roomId,
                                    const QString &eventId,
                                    const QString &reactionKey,
                                    QString *errorOut = nullptr);
 
-    static bool redactRoomEvent(uint64_t handleId,
+    static bool redactRoomEvent(matrix_backend::BlockingCallContext context,
+                                uint64_t handleId,
                                 const QString &roomId,
                                 const QString &eventId,
                                 const QString &reason,
                                 QString *errorOut = nullptr);
 
-    static bool markRoomEventAsRead(uint64_t handleId,
+    static bool markRoomEventAsRead(matrix_backend::BlockingCallContext context,
+                                    uint64_t handleId,
                                     const QString &roomId,
                                     const QString &eventId,
                                     QString *errorOut = nullptr);
 
-    static bool reportRoomEvent(uint64_t handleId,
+    static bool reportRoomEvent(matrix_backend::BlockingCallContext context,
+                                uint64_t handleId,
                                 const QString &roomId,
                                 const QString &eventId,
                                 const QString &reason,
@@ -625,30 +634,39 @@ public:
                                 QString *errorOut = nullptr);
 
     static std::optional<QStringList>
-    fetchRoomPinnedEventIds(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+    fetchRoomPinnedEventIds(matrix_backend::BlockingCallContext context,
+                            uint64_t handleId,
+                            const QString &roomId,
+                            QString *errorOut = nullptr);
 
-    static bool pinRoomEvent(uint64_t handleId,
+    static bool pinRoomEvent(matrix_backend::BlockingCallContext context,
+                             uint64_t handleId,
                              const QString &roomId,
                              const QString &eventId,
                              QString *errorOut = nullptr);
 
-    static bool unpinRoomEvent(uint64_t handleId,
+    static bool unpinRoomEvent(matrix_backend::BlockingCallContext context,
+                               uint64_t handleId,
                                const QString &roomId,
                                const QString &eventId,
                                QString *errorOut = nullptr);
 
-    static std::optional<QString> fetchActiveRoomRawEventJson(uint64_t handleId,
-                                                              const QString &roomId,
-                                                              const QString &eventId,
-                                                              QString *errorOut = nullptr);
+    static std::optional<QString>
+    fetchActiveRoomRawEventJson(matrix_backend::BlockingCallContext context,
+                                uint64_t handleId,
+                                const QString &roomId,
+                                const QString &eventId,
+                                QString *errorOut = nullptr);
 
     static std::optional<QVector<MatrixReadReceiptEntry>>
-    fetchRoomReadReceipts(uint64_t handleId,
+    fetchRoomReadReceipts(matrix_backend::BlockingCallContext context,
+                          uint64_t handleId,
                           const QString &roomId,
                           const QString &eventId,
                           QString *errorOut = nullptr);
 
-    static bool sendRoomAttachment(uint64_t handleId,
+    static bool sendRoomAttachment(matrix_backend::BlockingCallContext context,
+                                   uint64_t handleId,
                                    const QString &roomId,
                                    const QString &filePath,
                                    const QString &filename,

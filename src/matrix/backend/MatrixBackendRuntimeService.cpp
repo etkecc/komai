@@ -12,6 +12,7 @@
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendBridge.h"
+#include "matrix/backend/MatrixBlockingCall.h"
 #include "profile/ProfileId.h"
 
 namespace komai {
@@ -1400,13 +1401,19 @@ MatrixBackendRuntimeService::applyRoomAliases(uint64_t handleId,
 }
 
 std::optional<MatrixRoomRedactionPermissions>
-MatrixBackendRuntimeService::fetchRoomRedactionPermissions(uint64_t handleId,
+MatrixBackendRuntimeService::fetchRoomRedactionPermissions(matrix_backend::BlockingCallContext,
+                                                           uint64_t handleId,
                                                            const QString &roomId,
                                                            QString *errorOut)
 {
     try {
-        auto result =
-          ::komai::rust::matrix_fetch_room_redaction_permissions(handleId, roomId.toStdString());
+        auto result = matrix_backend::invokeBlockingCall(
+          "matrix_fetch_room_redaction_permissions",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId]() {
+              return ::komai::rust::matrix_fetch_room_redaction_permissions(handleId,
+                                                                            roomId.toStdString());
+          });
         return fromRustRoomRedactionPermissions(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1704,7 +1711,8 @@ MatrixBackendRuntimeService::paginateActiveRoomTimelineBackwards(uint64_t handle
 }
 
 bool
-MatrixBackendRuntimeService::sendRoomMessage(uint64_t handleId,
+MatrixBackendRuntimeService::sendRoomMessage(matrix_backend::BlockingCallContext,
+                                             uint64_t handleId,
                                              const QString &roomId,
                                              const QString &body,
                                              const QString &formattedHtml,
@@ -1712,11 +1720,16 @@ MatrixBackendRuntimeService::sendRoomMessage(uint64_t handleId,
                                              QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_send_room_message(handleId,
-                                                roomId.toStdString(),
-                                                body.toStdString(),
-                                                formattedHtml.toStdString(),
-                                                messageKind.toStdString());
+        matrix_backend::invokeBlockingCall(
+          "matrix_send_room_message",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, body, formattedHtml, messageKind]() {
+              ::komai::rust::matrix_send_room_message(handleId,
+                                                      roomId.toStdString(),
+                                                      body.toStdString(),
+                                                      formattedHtml.toStdString(),
+                                                      messageKind.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1726,7 +1739,8 @@ MatrixBackendRuntimeService::sendRoomMessage(uint64_t handleId,
 }
 
 bool
-MatrixBackendRuntimeService::sendRoomReplyMessage(uint64_t handleId,
+MatrixBackendRuntimeService::sendRoomReplyMessage(matrix_backend::BlockingCallContext,
+                                                  uint64_t handleId,
                                                   const QString &roomId,
                                                   const QString &repliedToEventId,
                                                   const QString &body,
@@ -1735,12 +1749,17 @@ MatrixBackendRuntimeService::sendRoomReplyMessage(uint64_t handleId,
                                                   QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_send_room_reply_message(handleId,
-                                                      roomId.toStdString(),
-                                                      repliedToEventId.toStdString(),
-                                                      body.toStdString(),
-                                                      formattedHtml.toStdString(),
-                                                      messageKind.toStdString());
+        matrix_backend::invokeBlockingCall(
+          "matrix_send_room_reply_message",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, repliedToEventId, body, formattedHtml, messageKind]() {
+              ::komai::rust::matrix_send_room_reply_message(handleId,
+                                                            roomId.toStdString(),
+                                                            repliedToEventId.toStdString(),
+                                                            body.toStdString(),
+                                                            formattedHtml.toStdString(),
+                                                            messageKind.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1750,7 +1769,8 @@ MatrixBackendRuntimeService::sendRoomReplyMessage(uint64_t handleId,
 }
 
 bool
-MatrixBackendRuntimeService::sendRoomEditMessage(uint64_t handleId,
+MatrixBackendRuntimeService::sendRoomEditMessage(matrix_backend::BlockingCallContext,
+                                                 uint64_t handleId,
                                                  const QString &roomId,
                                                  const QString &targetEventId,
                                                  const QString &body,
@@ -1759,12 +1779,17 @@ MatrixBackendRuntimeService::sendRoomEditMessage(uint64_t handleId,
                                                  QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_send_room_edit_message(handleId,
-                                                     roomId.toStdString(),
-                                                     targetEventId.toStdString(),
-                                                     body.toStdString(),
-                                                     formattedHtml.toStdString(),
-                                                     messageKind.toStdString());
+        matrix_backend::invokeBlockingCall(
+          "matrix_send_room_edit_message",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, targetEventId, body, formattedHtml, messageKind]() {
+              ::komai::rust::matrix_send_room_edit_message(handleId,
+                                                           roomId.toStdString(),
+                                                           targetEventId.toStdString(),
+                                                           body.toStdString(),
+                                                           formattedHtml.toStdString(),
+                                                           messageKind.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1774,15 +1799,21 @@ MatrixBackendRuntimeService::sendRoomEditMessage(uint64_t handleId,
 }
 
 bool
-MatrixBackendRuntimeService::toggleRoomReaction(uint64_t handleId,
+MatrixBackendRuntimeService::toggleRoomReaction(matrix_backend::BlockingCallContext,
+                                                uint64_t handleId,
                                                 const QString &roomId,
                                                 const QString &eventId,
                                                 const QString &reactionKey,
                                                 QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_toggle_room_reaction(
-          handleId, roomId.toStdString(), eventId.toStdString(), reactionKey.toStdString());
+        matrix_backend::invokeBlockingCall(
+          "matrix_toggle_room_reaction",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, eventId, reactionKey]() {
+              ::komai::rust::matrix_toggle_room_reaction(
+                handleId, roomId.toStdString(), eventId.toStdString(), reactionKey.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1792,15 +1823,21 @@ MatrixBackendRuntimeService::toggleRoomReaction(uint64_t handleId,
 }
 
 bool
-MatrixBackendRuntimeService::redactRoomEvent(uint64_t handleId,
+MatrixBackendRuntimeService::redactRoomEvent(matrix_backend::BlockingCallContext,
+                                             uint64_t handleId,
                                              const QString &roomId,
                                              const QString &eventId,
                                              const QString &reason,
                                              QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_redact_room_event(
-          handleId, roomId.toStdString(), eventId.toStdString(), reason.toStdString());
+        matrix_backend::invokeBlockingCall(
+          "matrix_redact_room_event",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, eventId, reason]() {
+              ::komai::rust::matrix_redact_room_event(
+                handleId, roomId.toStdString(), eventId.toStdString(), reason.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1810,14 +1847,20 @@ MatrixBackendRuntimeService::redactRoomEvent(uint64_t handleId,
 }
 
 bool
-MatrixBackendRuntimeService::markRoomEventAsRead(uint64_t handleId,
+MatrixBackendRuntimeService::markRoomEventAsRead(matrix_backend::BlockingCallContext,
+                                                 uint64_t handleId,
                                                  const QString &roomId,
                                                  const QString &eventId,
                                                  QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_mark_room_event_as_read(
-          handleId, roomId.toStdString(), eventId.toStdString());
+        matrix_backend::invokeBlockingCall(
+          "matrix_mark_room_event_as_read",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, eventId]() {
+              ::komai::rust::matrix_mark_room_event_as_read(
+                handleId, roomId.toStdString(), eventId.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1827,7 +1870,8 @@ MatrixBackendRuntimeService::markRoomEventAsRead(uint64_t handleId,
 }
 
 bool
-MatrixBackendRuntimeService::reportRoomEvent(uint64_t handleId,
+MatrixBackendRuntimeService::reportRoomEvent(matrix_backend::BlockingCallContext,
+                                             uint64_t handleId,
                                              const QString &roomId,
                                              const QString &eventId,
                                              const QString &reason,
@@ -1835,8 +1879,13 @@ MatrixBackendRuntimeService::reportRoomEvent(uint64_t handleId,
                                              QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_report_room_event(
-          handleId, roomId.toStdString(), eventId.toStdString(), reason.toStdString(), score);
+        matrix_backend::invokeBlockingCall(
+          "matrix_report_room_event",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, eventId, reason, score]() {
+              ::komai::rust::matrix_report_room_event(
+                handleId, roomId.toStdString(), eventId.toStdString(), reason.toStdString(), score);
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1846,13 +1895,19 @@ MatrixBackendRuntimeService::reportRoomEvent(uint64_t handleId,
 }
 
 std::optional<QStringList>
-MatrixBackendRuntimeService::fetchRoomPinnedEventIds(uint64_t handleId,
+MatrixBackendRuntimeService::fetchRoomPinnedEventIds(matrix_backend::BlockingCallContext,
+                                                     uint64_t handleId,
                                                      const QString &roomId,
                                                      QString *errorOut)
 {
     try {
-        const auto result =
-          ::komai::rust::matrix_fetch_room_pinned_event_ids(handleId, roomId.toStdString());
+        const auto result = matrix_backend::invokeBlockingCall(
+          "matrix_fetch_room_pinned_event_ids",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId]() {
+              return ::komai::rust::matrix_fetch_room_pinned_event_ids(handleId,
+                                                                       roomId.toStdString());
+          });
         QStringList pinnedEventIds;
         pinnedEventIds.reserve(static_cast<qsizetype>(result.size()));
         for (const auto &eventId : result)
@@ -1866,13 +1921,20 @@ MatrixBackendRuntimeService::fetchRoomPinnedEventIds(uint64_t handleId,
 }
 
 bool
-MatrixBackendRuntimeService::pinRoomEvent(uint64_t handleId,
+MatrixBackendRuntimeService::pinRoomEvent(matrix_backend::BlockingCallContext,
+                                          uint64_t handleId,
                                           const QString &roomId,
                                           const QString &eventId,
                                           QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_pin_room_event(handleId, roomId.toStdString(), eventId.toStdString());
+        matrix_backend::invokeBlockingCall(
+          "matrix_pin_room_event",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, eventId]() {
+              ::komai::rust::matrix_pin_room_event(
+                handleId, roomId.toStdString(), eventId.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1882,14 +1944,20 @@ MatrixBackendRuntimeService::pinRoomEvent(uint64_t handleId,
 }
 
 bool
-MatrixBackendRuntimeService::unpinRoomEvent(uint64_t handleId,
+MatrixBackendRuntimeService::unpinRoomEvent(matrix_backend::BlockingCallContext,
+                                            uint64_t handleId,
                                             const QString &roomId,
                                             const QString &eventId,
                                             QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_unpin_room_event(
-          handleId, roomId.toStdString(), eventId.toStdString());
+        matrix_backend::invokeBlockingCall(
+          "matrix_unpin_room_event",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, eventId]() {
+              ::komai::rust::matrix_unpin_room_event(
+                handleId, roomId.toStdString(), eventId.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1899,15 +1967,21 @@ MatrixBackendRuntimeService::unpinRoomEvent(uint64_t handleId,
 }
 
 std::optional<QString>
-MatrixBackendRuntimeService::fetchActiveRoomRawEventJson(uint64_t handleId,
+MatrixBackendRuntimeService::fetchActiveRoomRawEventJson(matrix_backend::BlockingCallContext,
+                                                         uint64_t handleId,
                                                          const QString &roomId,
                                                          const QString &eventId,
                                                          QString *errorOut)
 {
     try {
-        return QString::fromStdString(
-          std::string(::komai::rust::matrix_fetch_active_room_raw_event_json(
-            handleId, roomId.toStdString(), eventId.toStdString())));
+        const auto result = matrix_backend::invokeBlockingCall(
+          "matrix_fetch_active_room_raw_event_json",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, eventId]() {
+              return ::komai::rust::matrix_fetch_active_room_raw_event_json(
+                handleId, roomId.toStdString(), eventId.toStdString());
+          });
+        return QString::fromStdString(std::string(result));
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
@@ -1916,14 +1990,20 @@ MatrixBackendRuntimeService::fetchActiveRoomRawEventJson(uint64_t handleId,
 }
 
 std::optional<QVector<MatrixReadReceiptEntry>>
-MatrixBackendRuntimeService::fetchRoomReadReceipts(uint64_t handleId,
+MatrixBackendRuntimeService::fetchRoomReadReceipts(matrix_backend::BlockingCallContext,
+                                                   uint64_t handleId,
                                                    const QString &roomId,
                                                    const QString &eventId,
                                                    QString *errorOut)
 {
     try {
-        const auto result = ::komai::rust::matrix_fetch_room_read_receipts(
-          handleId, roomId.toStdString(), eventId.toStdString());
+        const auto result = matrix_backend::invokeBlockingCall(
+          "matrix_fetch_room_read_receipts",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, eventId]() {
+              return ::komai::rust::matrix_fetch_room_read_receipts(
+                handleId, roomId.toStdString(), eventId.toStdString());
+          });
         QVector<MatrixReadReceiptEntry> receipts;
         receipts.reserve(static_cast<int>(result.size()));
         for (const auto &entry : result)
@@ -1937,7 +2017,8 @@ MatrixBackendRuntimeService::fetchRoomReadReceipts(uint64_t handleId,
 }
 
 bool
-MatrixBackendRuntimeService::sendRoomAttachment(uint64_t handleId,
+MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallContext,
+                                                uint64_t handleId,
                                                 const QString &roomId,
                                                 const QString &filePath,
                                                 const QString &filename,
@@ -1947,13 +2028,18 @@ MatrixBackendRuntimeService::sendRoomAttachment(uint64_t handleId,
                                                 QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_send_room_attachment(handleId,
-                                                   roomId.toStdString(),
-                                                   filePath.toStdString(),
-                                                   filename.toStdString(),
-                                                   caption.toStdString(),
-                                                   replyEventId.toStdString(),
-                                                   mimeType.toStdString());
+        matrix_backend::invokeBlockingCall(
+          "matrix_send_room_attachment",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, filePath, filename, caption, replyEventId, mimeType]() {
+              ::komai::rust::matrix_send_room_attachment(handleId,
+                                                         roomId.toStdString(),
+                                                         filePath.toStdString(),
+                                                         filename.toStdString(),
+                                                         caption.toStdString(),
+                                                         replyEventId.toStdString(),
+                                                         mimeType.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)

@@ -25,6 +25,8 @@ Item {
 
     width: 0
     height: 0
+    property string pendingRawMessageEventId: ""
+    property string pendingReadReceiptsEventId: ""
 
     readonly property var messageContextMenu: matrixMessageContextMenu
     readonly property var replyContextMenu: matrixReplyContextMenu
@@ -102,6 +104,42 @@ Item {
         }
     }
 
+    Connections {
+        target: TimelineManager
+
+        function onActiveMatrixTimelineRawMessageDialogReady(eventId, payload) {
+            const trimmedEventId = String(eventId || "").trim();
+            if (trimmedEventId !== support.pendingRawMessageEventId)
+                return;
+
+            support.pendingRawMessageEventId = "";
+            if (!payload || !payload.rawMessageJson)
+                return;
+
+            support.showDialogFromComponent(rawMessageDialogComponent, payload);
+        }
+
+        function onActiveMatrixTimelineReadReceiptsReady(eventId, readReceipts) {
+            const trimmedEventId = String(eventId || "").trim();
+            if (trimmedEventId !== support.pendingReadReceiptsEventId) {
+                if (readReceipts && readReceipts.destroy)
+                    readReceipts.destroy();
+                return;
+            }
+
+            support.pendingReadReceiptsEventId = "";
+            if (!readReceipts)
+                return;
+
+            const dialog = support.showDialogFromComponent(readReceiptsDialogComponent, {
+                    "readReceipts": readReceipts,
+                    "room": support.dialogRoomModel
+                });
+            if (!dialog && readReceipts.destroy)
+                readReceipts.destroy();
+        }
+    }
+
     function destroyOnClose(dialog) {
         if (!dialog)
             return;
@@ -161,11 +199,12 @@ Item {
         if (trimmedEventId.length === 0)
             return null;
 
-        const payload = TimelineManager.rawMessageDialogForActiveMatrixTimelineEvent(trimmedEventId);
-        if (!payload || !payload.rawMessageJson)
+        support.pendingRawMessageEventId = "";
+        if (!TimelineManager.requestRawMessageDialogForActiveMatrixTimelineEvent(trimmedEventId))
             return null;
 
-        return showDialogFromComponent(rawMessageDialogComponent, payload);
+        support.pendingRawMessageEventId = trimmedEventId;
+        return null;
     }
 
     function openReadReceiptsDialog(eventId) {
@@ -173,14 +212,12 @@ Item {
         if (trimmedEventId.length === 0)
             return null;
 
-        const readReceipts = TimelineManager.readReceiptsModelForActiveMatrixTimelineEvent(trimmedEventId);
-        if (!readReceipts)
+        support.pendingReadReceiptsEventId = "";
+        if (!TimelineManager.requestReadReceiptsModelForActiveMatrixTimelineEvent(trimmedEventId))
             return null;
 
-        return showDialogFromComponent(readReceiptsDialogComponent, {
-                "readReceipts": readReceipts,
-                "room": support.dialogRoomModel
-            });
+        support.pendingReadReceiptsEventId = trimmedEventId;
+        return null;
     }
 
     function openMatrixForwardDialog(eventId) {

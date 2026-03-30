@@ -112,8 +112,12 @@ std::optional<QString>
 readSecureValue(const QString &key);
 void
 writeSecureValue(const QString &key, const QString &value);
+bool
+writeSecureValueBlocking(const QString &key, const QString &value);
 void
 deleteSecureValue(const QString &key);
+bool
+deleteSecureValueBlocking(const QString &key);
 /**
  * Probe whether the secure backend is currently usable in this environment.
  *

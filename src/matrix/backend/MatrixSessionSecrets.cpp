@@ -75,12 +75,12 @@ saveStoredMatrixSdkSecrets(const SecretsPersistenceContext &context,
     }
 
     if (secrets.isEmpty()) {
-        settings::storage::deleteSecureValue(context.secureStoreKey);
+        settings::storage::deleteSecureValueBlocking(context.secureStoreKey);
         return;
     }
 
-    settings::storage::writeSecureValue(context.secureStoreKey,
-                                        settings::storage::encodeSecretsMap(secrets));
+    settings::storage::writeSecureValueBlocking(context.secureStoreKey,
+                                                settings::storage::encodeSecretsMap(secrets));
 }
 
 } // namespace

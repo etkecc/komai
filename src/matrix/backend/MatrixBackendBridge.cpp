@@ -11,8 +11,6 @@
 #include <QStringList>
 #include <QThread>
 
-#include <optional>
-#include <type_traits>
 #include <utility>
 
 #include "logging/Logging.h"
@@ -71,47 +69,6 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
 }
 
 template<typename Func>
-auto
-invokeOnAppThread(Func &&func)
-{
-    using Result = std::invoke_result_t<Func>;
-
-    auto *app = QCoreApplication::instance();
-    if (!app || QThread::currentThread() == app->thread()) {
-        if constexpr (std::is_void_v<Result>) {
-            func();
-            return;
-        } else {
-            return func();
-        }
-    }
-
-    if constexpr (std::is_void_v<Result>) {
-        const bool invoked =
-          QMetaObject::invokeMethod(app, [&func]() { func(); }, Qt::BlockingQueuedConnection);
-        if (!invoked) {
-            if (auto logger = nhlog::rust(); logger) {
-                logger->warn("Failed to dispatch matrix backend bridge task to app thread; "
-                             "running inline on current thread");
-            }
-            func();
-        }
-    } else {
-        std::optional<Result> result;
-        const bool invoked = QMetaObject::invokeMethod(
-          app, [&func, &result]() { result.emplace(func()); }, Qt::BlockingQueuedConnection);
-        if (!invoked) {
-            if (auto logger = nhlog::rust(); logger) {
-                logger->warn("Failed to dispatch matrix backend bridge task to app thread; "
-                             "running inline on current thread");
-            }
-            result.emplace(func());
-        }
-        return std::move(*result);
-    }
-}
-
-template<typename Func>
 void
 postToAppThread(Func &&func)
 {
@@ -151,27 +108,21 @@ matrix_profile_cache_root(::rust::Str profile_id)
 ::rust::String
 matrix_store_passphrase(::rust::Str profile_id)
 {
-    const auto secrets = invokeOnAppThread([&profile_id]() {
-        return matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
-    });
+    const auto secrets = matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
     return ::rust::String(secrets.storePassphrase.toStdString());
 }
 
 ::rust::String
 matrix_homeserver_url(::rust::Str profile_id)
 {
-    const auto secrets = invokeOnAppThread([&profile_id]() {
-        return matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
-    });
+    const auto secrets = matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
     return ::rust::String(secrets.homeserverUrl.toStdString());
 }
 
 ::rust::String
 matrix_serialized_session(::rust::Str profile_id)
 {
-    const auto secrets = invokeOnAppThread([&profile_id]() {
-        return matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
-    });
+    const auto secrets = matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
     return ::rust::String(secrets.serializedSession.toStdString());
 }
 
@@ -181,23 +132,22 @@ matrix_save_session_secrets(::rust::Str profile_id,
                             ::rust::Str homeserver_url,
                             ::rust::Str serialized_session)
 {
-    invokeOnAppThread([&profile_id, &store_passphrase, &homeserver_url, &serialized_session]() {
-        matrix_backend::savePersistedMatrixSessionSecrets(
-          toQString(profile_id),
-          {
-            .storePassphrase   = toQString(store_passphrase),
-            .homeserverUrl     = toQString(homeserver_url),
-            .serializedSession = toQString(serialized_session),
-          });
-    });
+    // Session refresh callbacks may run while the UI thread is already inside a
+    // synchronous runtime().block_on(...) call. Do not bounce persistence back
+    // to the app thread here or we can deadlock the refresh path.
+    matrix_backend::savePersistedMatrixSessionSecrets(
+      toQString(profile_id),
+      {
+        .storePassphrase   = toQString(store_passphrase),
+        .homeserverUrl     = toQString(homeserver_url),
+        .serializedSession = toQString(serialized_session),
+      });
 }
 
 void
 matrix_clear_session_secrets(::rust::Str profile_id)
 {
-    invokeOnAppThread([&profile_id]() {
-        matrix_backend::clearPersistedMatrixSessionSecrets(toQString(profile_id));
-    });
+    matrix_backend::clearPersistedMatrixSessionSecrets(toQString(profile_id));
 }
 
 void

@@ -13,11 +13,9 @@ Item {
     required property var windowFocusBlurOverlay
     property var dialogHost: null
     property var roomPreview: null
-    property bool shouldEffectsRun: false
     property bool showBackButton: false
     readonly property bool perfDisableComposer: TimelineManager.perfUiFlagEnabled("disable_composer")
     readonly property bool perfDisableRoomHeader: TimelineManager.perfUiFlagEnabled("disable_room_header")
-    readonly property bool perfDisableTimelineEffects: TimelineManager.perfUiFlagEnabled("disable_timeline_effects")
     readonly property bool perfDisableTimelineList: TimelineManager.perfUiFlagEnabled("disable_timeline_list")
     readonly property bool useMatrixRoomView: roomPreview && roomPreview.isMatrixSummary
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
@@ -217,28 +215,8 @@ Item {
                 || matrixTimeline.hasSelectedEvents
                 || matrixTimeline.hasFocusedEvent)
     }
-    TimelineEffects {
-        id: timelineEffects
-
-        anchors.fill: parent
-        shouldEffectsRun: timelineView.shouldEffectsRun
-        animationsEnabled: Settings.uiMotionAnimationsEnabled
-        visible: !timelineView.perfDisableTimelineEffects
-    }
     KomaiDropArea {
         anchors.fill: parent
         roomid: roomPreview && roomPreview.roomid ? roomPreview.roomid : ""
-    }
-    Timer {
-        id: effectsTimer
-
-        interval: timelineEffects.maxEffectDuration
-        repeat: false
-        running: false
-
-        onTriggered: {
-            shouldEffectsRun = false
-            timelineEffects.removeParticles()
-        }
     }
 }

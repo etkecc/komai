@@ -10,25 +10,26 @@ QtObject {
 
     required property var rootItem
     required property var composerPane
-    required property var roomSupport
+    required property var dialogSupport
+    required property var composerInputController
     required property var timelineList
 
     function openMatrixMessageContextMenu(messageModel, roomModel, copyText) {
         if (!messageModel || !roomModel || !messageModel.eventId)
             return;
 
-        roomSupport.messageContextMenu.show(messageModel.eventId,
-                                            messageModel.threadId || "",
-                                            messageModel.type,
-                                            !!messageModel.isSender,
-                                            !!messageModel.isEncrypted,
-                                            !!messageModel.isEditable,
-                                            !!messageModel.isStateEvent,
-                                            "",
-                                            copyText || "",
-                                            null,
-                                            messageModel,
-                                            roomModel);
+        dialogSupport.messageContextMenu.show(messageModel.eventId,
+                                              messageModel.threadId || "",
+                                              messageModel.type,
+                                              !!messageModel.isSender,
+                                              !!messageModel.isEncrypted,
+                                              !!messageModel.isEditable,
+                                              !!messageModel.isStateEvent,
+                                              "",
+                                              copyText || "",
+                                              null,
+                                              messageModel,
+                                              roomModel);
     }
 
     function jumpToLoadedMatrixEvent(eventId) {
@@ -51,7 +52,7 @@ QtObject {
     }
 
     function destroyOnClose(dialog) {
-        return roomSupport.destroyOnClose(dialog);
+        return dialogSupport.destroyOnClose(dialog);
     }
 
     function scheduleComposerAutoFocus() {
@@ -124,7 +125,7 @@ QtObject {
 
         if (!rootItem.editing) {
             composerPane.composerInput.replaceText("");
-            roomSupport.composerInputController.setText("");
+            composerInputController.setText("");
         }
 
         support.focusTextInput();
@@ -150,33 +151,33 @@ QtObject {
             return false;
         }
 
-        roomSupport.composerInputController.setText(String(body));
+        composerInputController.setText(String(body));
         support.focusTextInput();
         return true;
     }
 
     function openRemoveMessageDialog(eventId) {
-        return roomSupport.openRemoveMessageDialog(eventId);
+        return dialogSupport.openRemoveMessageDialog(eventId);
     }
 
     function openRawMessageDialog(eventId) {
-        return roomSupport.openRawMessageDialog(eventId);
+        return dialogSupport.openRawMessageDialog(eventId);
     }
 
     function openReadReceiptsDialog(eventId) {
-        return roomSupport.openReadReceiptsDialog(eventId);
+        return dialogSupport.openReadReceiptsDialog(eventId);
     }
 
     function openMatrixForwardDialog(eventId) {
-        return roomSupport.openMatrixForwardDialog(eventId);
+        return dialogSupport.openMatrixForwardDialog(eventId);
     }
 
     function openForwardDialog(eventId) {
-        return roomSupport.openMatrixForwardDialog(eventId);
+        return dialogSupport.openMatrixForwardDialog(eventId);
     }
 
     function openReportMessageDialog(eventId) {
-        return roomSupport.openReportMessageDialog(eventId);
+        return dialogSupport.openReportMessageDialog(eventId);
     }
 
     function openMessageActionsDialog(eventId,
@@ -189,16 +190,16 @@ QtObject {
                                       text,
                                       messageModelOverride,
                                       roomModelOverride) {
-        return roomSupport.openMessageActionsDialog(eventId,
-                                                    threadId,
-                                                    eventType,
-                                                    isSender,
-                                                    isEncrypted,
-                                                    isEditable,
-                                                    link,
-                                                    text,
-                                                    messageModelOverride,
-                                                    roomModelOverride);
+        return dialogSupport.openMessageActionsDialog(eventId,
+                                                      threadId,
+                                                      eventType,
+                                                      isSender,
+                                                      isEncrypted,
+                                                      isEditable,
+                                                      link,
+                                                      text,
+                                                      messageModelOverride,
+                                                      roomModelOverride);
     }
 
     property var timelineConnections: Connections {
@@ -217,7 +218,7 @@ QtObject {
             if (!rootItem.restoringEditDraft || rootItem.activeEditEventId.length > 0)
                 return;
 
-            roomSupport.composerInputController.setText(rootItem.draftBeforeEdit);
+            composerInputController.setText(rootItem.draftBeforeEdit);
             rootItem.draftBeforeEdit = "";
             rootItem.restoringEditDraft = false;
             support.focusTextInput();

@@ -153,8 +153,23 @@ Item {
         roomPreview: timelineView.roomPreview
         dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
     }
-    MatrixRoomSupport {
-        id: matrixRoomSupport
+    MatrixRoomComposerSupport {
+        id: matrixRoomComposerSupport
+
+        rootItem: matrixTimeline
+        roomPreview: timelineView.roomPreview
+        dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
+    }
+    MatrixRoomMessageActionsModel {
+        id: matrixRoomMessageActionsModel
+
+        rootItem: matrixTimeline
+        roomPreview: timelineView.roomPreview
+        dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
+        headerRoomModel: matrixHeaderRoomModel
+    }
+    MatrixRoomDialogSupport {
+        id: matrixRoomDialogSupport
 
         rootItem: matrixTimeline
         roomPreview: timelineView.roomPreview
@@ -163,9 +178,9 @@ Item {
         emojiPopup: timelineEmojiPopup
         filteredTimeline: null
         timelineList: matrixTimeline ? matrixTimeline.timelineListItem : null
+        messageActionsDefaultRoomModel: matrixRoomMessageActionsModel
         dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
         forwardRoomModel: matrixRoomRouteModels.forwardRoomModel
-        headerRoomModel: matrixHeaderRoomModel
     }
     Component {
         id: legacyTimelineComponent
@@ -350,7 +365,10 @@ Item {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 roomPreview: timelineView.roomPreview
-                roomSupport: matrixRoomSupport
+                dialogSupport: matrixRoomDialogSupport
+                messageActionsRoomModel: matrixRoomMessageActionsModel
+                composerInputController: matrixRoomComposerSupport.composerInputController
+                externalDialogHost: timelineView.dialogHost
                 externalHeaderPane: matrixHeaderPane
                 externalComposerPane: matrixComposerPane
             }
@@ -360,9 +378,9 @@ Item {
 
                 Layout.fillWidth: true
                 rootItem: matrixRoomView
-                uploadsController: matrixRoomSupport.uploadsController
-                composerRoom: matrixRoomSupport.composerRoom
-                composerInputController: matrixRoomSupport.composerInputController
+                uploadsController: matrixRoomComposerSupport.uploadsController
+                composerRoom: matrixRoomComposerSupport.composerRoom
+                composerInputController: matrixRoomComposerSupport.composerInputController
                 timelineRoot: timelineView.dialogHost
             }
         }

@@ -13,7 +13,10 @@ ColumnLayout {
     id: root
 
     required property var roomPreview
-    required property var roomSupport
+    required property var dialogSupport
+    required property var messageActionsRoomModel
+    required property var composerInputController
+    required property var externalDialogHost
     required property var externalHeaderPane
     required property var externalComposerPane
     property bool walkModeActive: false
@@ -84,7 +87,7 @@ ColumnLayout {
         rootItem: root
         timelineList: matrixTimelineList
         topBar: externalHeaderPane.headerItem
-        dialogHost: roomSupport.timelineRoot
+        dialogHost: externalDialogHost
         messageActionSupport: messageActionSupport
     }
 
@@ -93,7 +96,8 @@ ColumnLayout {
 
         rootItem: root
         composerPane: externalComposerPane
-        roomSupport: roomSupport
+        dialogSupport: dialogSupport
+        composerInputController: composerInputController
         timelineList: matrixTimelineList
     }
 
@@ -472,10 +476,10 @@ ColumnLayout {
                             type: timelineItemDelegate.type
                             isEditable: timelineItemDelegate.isEditable
                             isHiddenEvent: false
-                            messageContextMenu: roomSupport.messageContextMenu
-                            replyContextMenu: roomSupport.replyContextMenu
-                            messageActions: roomSupport.messageActionsHost.control
-                            roomAdapter: roomSupport.messageActionsDefaultRoomModel
+                            messageContextMenu: dialogSupport.messageContextMenu
+                            replyContextMenu: dialogSupport.replyContextMenu
+                            messageActions: dialogSupport.messageActionsHost.control
+                            roomAdapter: messageActionsRoomModel
                             scrolledToThis: false
                         }
                     }

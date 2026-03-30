@@ -439,6 +439,9 @@ ColumnLayout {
                         required property string eventId
                         required property string threadId
                         required property string body
+                        required property string formattedBody
+                        required property string formattedStateEvent
+                        required property string stateEventIconSource
                         required property var reactions
                         required property date timestamp
                         required property bool isEdited
@@ -452,6 +455,16 @@ ColumnLayout {
                         required property bool isEncrypted
                         required property bool isEditable
                         required property string replyTo
+                        required property string url
+                        required property string thumbnailUrl
+                        required property int duration
+                        required property string blurhash
+                        required property string filename
+                        required property string filesize
+                        required property string mimetype
+                        required property double proportionalHeight
+                        required property string callType
+                        required property string fileTypeIconSource
                         required property int originalWidth
                         required property int originalHeight
 

@@ -9,7 +9,7 @@
 #include <QQmlEngine>
 #include <QVector>
 
-#include <mtx/events/canonical_alias.hpp>
+#include <vector>
 
 class FetchPublishedAliasesJob final : public QObject
 {
@@ -66,6 +66,12 @@ private:
     void fetchAliasesStatus(const std::string &alias);
     void fetchPublishedAliases();
 
+    struct CanonicalAliasDraft
+    {
+        std::string alias;
+        std::vector<std::string> alt_aliases;
+    };
+
     struct Entry
     {
         ~Entry() = default;
@@ -78,6 +84,6 @@ private:
 
     std::string room_id;
     QVector<Entry> aliases;
-    mtx::events::state::CanonicalAlias aliasEvent;
+    CanonicalAliasDraft aliasEvent;
     bool canSendStateEvent = false;
 };

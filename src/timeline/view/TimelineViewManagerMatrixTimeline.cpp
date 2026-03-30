@@ -672,6 +672,13 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
     matrixTimelineRefreshPendingRoomId_.clear();
     matrixTimelineRefreshInFlightRequestId_ = 0;
     matrixTimelineRefreshInFlightRoomId_.clear();
+    matrixReadMarkerPending_         = false;
+    matrixReadMarkerPendingHandleId_ = 0;
+    matrixReadMarkerPendingRoomId_.clear();
+    matrixReadMarkerPendingEventId_.clear();
+    matrixReadMarkerInFlight_ = false;
+    matrixReadMarkerInFlightRoomId_.clear();
+    matrixReadMarkerInFlightEventId_.clear();
     matrixTimelineInitialPrefetchAttempted_ = false;
 
     if (matrixTimelineModel_)
@@ -941,21 +948,91 @@ TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
     if (trimmedEventId.isEmpty())
         return false;
 
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::markRoomEventAsRead(
-          handleId, activeMatrixTimelineRoomId_, trimmedEventId, &error)) {
-        nhlog::ui()->warn(
-          "Failed to mark matrix-sdk room event '{}' as read in '{}' on handle {}: {}",
-          trimmedEventId.toStdString(),
-          activeMatrixTimelineRoomId_.toStdString(),
-          handleId,
-          error.toStdString());
-        if (mainWindow)
-            mainWindow->showNotification(tr("Failed to mark message as read: %1").arg(error));
-        return false;
+    if ((matrixReadMarkerInFlight_ &&
+         matrixReadMarkerInFlightRoomId_ == activeMatrixTimelineRoomId_ &&
+         matrixReadMarkerInFlightEventId_ == trimmedEventId) ||
+        (matrixReadMarkerPending_ &&
+         matrixReadMarkerPendingRoomId_ == activeMatrixTimelineRoomId_ &&
+         matrixReadMarkerPendingEventId_ == trimmedEventId)) {
+        return true;
     }
 
+    matrixReadMarkerPending_         = true;
+    matrixReadMarkerPendingHandleId_ = handleId;
+    matrixReadMarkerPendingRoomId_   = activeMatrixTimelineRoomId_;
+    matrixReadMarkerPendingEventId_  = trimmedEventId;
+    dispatchPendingMatrixReadMarker();
+
     return true;
+}
+
+void
+TimelineViewManager::dispatchPendingMatrixReadMarker()
+{
+    if (matrixReadMarkerInFlight_ || !matrixReadMarkerPending_ ||
+        matrixReadMarkerPendingHandleId_ == 0 || matrixReadMarkerPendingRoomId_.isEmpty() ||
+        matrixReadMarkerPendingEventId_.isEmpty()) {
+        return;
+    }
+
+    const auto handleId = matrixReadMarkerPendingHandleId_;
+    const auto roomId   = matrixReadMarkerPendingRoomId_;
+    const auto eventId  = matrixReadMarkerPendingEventId_;
+
+    matrixReadMarkerPending_         = false;
+    matrixReadMarkerPendingHandleId_ = 0;
+    matrixReadMarkerPendingRoomId_.clear();
+    matrixReadMarkerPendingEventId_.clear();
+
+    matrixReadMarkerInFlight_        = true;
+    matrixReadMarkerInFlightRoomId_  = roomId;
+    matrixReadMarkerInFlightEventId_ = eventId;
+
+    QPointer<TimelineViewManager> guard(this);
+    std::thread([guard, handleId, roomId, eventId]() {
+        QString error;
+        const bool ok = komai::MatrixBackendRuntimeService::markRoomEventAsRead(
+          handleId, roomId, eventId, &error);
+
+        if (!guard)
+            return;
+
+        QMetaObject::invokeMethod(
+          guard,
+          [guard, handleId, roomId, eventId, ok, error]() {
+              if (!guard)
+                  return;
+
+              const bool isCurrentInflight = guard->matrixReadMarkerInFlight_ &&
+                                             guard->matrixReadMarkerInFlightRoomId_ == roomId &&
+                                             guard->matrixReadMarkerInFlightEventId_ == eventId;
+              if (isCurrentInflight) {
+                  guard->matrixReadMarkerInFlight_ = false;
+                  guard->matrixReadMarkerInFlightRoomId_.clear();
+                  guard->matrixReadMarkerInFlightEventId_.clear();
+              }
+
+              if (!ok) {
+                  nhlog::ui()->warn(
+                    "Failed to mark matrix-sdk room event '{}' as read in '{}' on handle {}: {}",
+                    eventId.toStdString(),
+                    roomId.toStdString(),
+                    handleId,
+                    error.toStdString());
+
+                  if (guard->activeMatrixTimelineRoomId_ == roomId) {
+                      if (auto *mainWindow = MainWindow::instance()) {
+                          mainWindow->showNotification(
+                            TimelineViewManager::tr("Failed to mark message as read: %1")
+                              .arg(error));
+                      }
+                  }
+              }
+
+              guard->dispatchPendingMatrixReadMarker();
+          },
+          Qt::QueuedConnection);
+    }).detach();
 }
 
 bool

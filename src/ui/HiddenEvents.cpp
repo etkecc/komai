@@ -23,18 +23,20 @@ void
 HiddenEvents::load()
 {
     hiddenEvents_.clear();
-    hiddenEvents_ = qml_mtx_events::defaultHiddenEventTypes();
+    for (const auto &eventType : qml_mtx_events::defaultHiddenEventTypes()) {
+        hiddenEvents_.push_back(int(qml_mtx_events::toRoomEventType(eventType)));
+    }
     emit hiddenEventsChanged();
 }
 
 Q_INVOKABLE void
 HiddenEvents::toggle(int type)
 {
-    auto t = qml_mtx_events::fromRoomEventType(static_cast<qml_mtx_events::EventType>(type));
-    if (auto it = std::find(begin(hiddenEvents_), end(hiddenEvents_), t); it != end(hiddenEvents_))
+    if (auto it = std::find(begin(hiddenEvents_), end(hiddenEvents_), type);
+        it != end(hiddenEvents_))
         hiddenEvents_.erase(it);
     else
-        hiddenEvents_.push_back(t);
+        hiddenEvents_.push_back(type);
     emit hiddenEventsChanged();
 }
 
@@ -43,7 +45,7 @@ HiddenEvents::hiddenEvents() const
 {
     QVariantList l;
     for (const auto &e : hiddenEvents_) {
-        l.push_back(qml_mtx_events::toRoomEventType(e));
+        l.push_back(e);
     }
 
     return l;

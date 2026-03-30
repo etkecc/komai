@@ -10,7 +10,7 @@
 #include <QString>
 #include <QVariantList>
 
-#include <mtx/events/event_type.hpp>
+#include <vector>
 
 class HiddenEvents : public QObject
 {
@@ -44,7 +44,7 @@ signals:
 
 private:
     QString roomid_;
-    std::vector<mtx::events::EventType> hiddenEvents_;
+    std::vector<int> hiddenEvents_;
 
     void load();
 };

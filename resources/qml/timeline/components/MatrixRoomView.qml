@@ -400,6 +400,7 @@ ColumnLayout {
                         required property int index
                         required property string typeString
                         required property string eventId
+                        required property string itemId
                         required property string threadId
                         required property string body
                         required property string formattedBody
@@ -430,6 +431,7 @@ ColumnLayout {
                         required property string fileTypeIconSource
                         required property int originalWidth
                         required property int originalHeight
+                        readonly property string stableEventId: eventId.length > 0 ? eventId : itemId
 
                         width: matrixTimelineList.width
                         readonly property real heuristicHeight: {
@@ -455,7 +457,7 @@ ColumnLayout {
                         TimelineBubbleMessageStyle {
                             id: bubbleStyle
 
-                            eventId: timelineItemDelegate.eventId
+                            eventId: timelineItemDelegate.stableEventId
                             replyTo: timelineItemDelegate.replyTo
                             room: TimelineManager.matrixTimelineModel
                             index: timelineItemDelegate.index

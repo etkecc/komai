@@ -15,6 +15,9 @@ Item {
     required property var emojiPopup
     required property var filteredTimeline
     required property var timelineList
+    required property var dialogRoomModel
+    required property var forwardRoomModel
+    required property var headerRoomModel
 
     width: 0
     height: 0
@@ -26,22 +29,13 @@ Item {
     readonly property var messageContextMenu: dialogSupport.messageContextMenu
     readonly property var replyContextMenu: dialogSupport.replyContextMenu
     readonly property var messageActionsHost: dialogSupport.messageActionsHost
-    readonly property var dialogRoomModel: routeModels.dialogRoomModel
-    readonly property var forwardRoomModel: routeModels.forwardRoomModel
-    readonly property var headerRoomModel: matrixHeaderRoomModel
-
-    MatrixRoomRouteModels {
-        id: routeModels
-
-        roomPreview: support.roomPreview
-    }
 
     MatrixRoomComposerSupport {
         id: composerSupport
 
         rootItem: support.rootItem
         roomPreview: support.roomPreview
-        dialogRoomModel: routeModels.dialogRoomModel
+        dialogRoomModel: support.dialogRoomModel
     }
 
     MatrixRoomMessageActionsModel {
@@ -49,7 +43,7 @@ Item {
 
         rootItem: support.rootItem
         roomPreview: support.roomPreview
-        dialogRoomModel: routeModels.dialogRoomModel
+        dialogRoomModel: support.dialogRoomModel
         headerRoomModel: support.headerRoomModel
     }
 
@@ -64,8 +58,8 @@ Item {
         filteredTimeline: support.filteredTimeline
         timelineList: support.timelineList
         messageActionsDefaultRoomModel: support.messageActionsDefaultRoomModel
-        dialogRoomModel: routeModels.dialogRoomModel
-        forwardRoomModel: routeModels.forwardRoomModel
+        dialogRoomModel: support.dialogRoomModel
+        forwardRoomModel: support.forwardRoomModel
     }
 
     function openRemoveMessageDialog(eventId) {
@@ -114,11 +108,4 @@ Item {
                                                       roomModelOverride);
     }
 
-    MatrixRoomHeaderModel {
-        id: matrixHeaderRoomModel
-
-        rootItem: support.rootItem
-        roomPreview: support.roomPreview
-        dialogRoomModel: routeModels.dialogRoomModel
-    }
 }

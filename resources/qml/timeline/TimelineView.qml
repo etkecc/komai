@@ -138,8 +138,20 @@ Item {
         roomPreview: timelineView.roomPreview
         showBackButton: timelineView.showBackButton
         perfDisableRoomHeader: timelineView.perfDisableRoomHeader
-        headerRoomModel: matrixTimeline ? matrixRoomSupport.headerRoomModel : null
+        headerRoomModel: matrixTimeline ? matrixHeaderRoomModel : null
         visible: timelineView.useMatrixRoomView
+    }
+    MatrixRoomRouteModels {
+        id: matrixRoomRouteModels
+
+        roomPreview: timelineView.roomPreview
+    }
+    MatrixRoomHeaderModel {
+        id: matrixHeaderRoomModel
+
+        rootItem: matrixTimeline
+        roomPreview: timelineView.roomPreview
+        dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
     }
     MatrixRoomSupport {
         id: matrixRoomSupport
@@ -151,6 +163,9 @@ Item {
         emojiPopup: timelineEmojiPopup
         filteredTimeline: null
         timelineList: matrixTimeline ? matrixTimeline.timelineListItem : null
+        dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
+        forwardRoomModel: matrixRoomRouteModels.forwardRoomModel
+        headerRoomModel: matrixHeaderRoomModel
     }
     Component {
         id: legacyTimelineComponent

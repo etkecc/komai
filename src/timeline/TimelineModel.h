@@ -64,8 +64,6 @@ class TimelineViewManager;
 class TimelineModel final : public EventDataSource
 {
     Q_OBJECT
-    QML_NAMED_ELEMENT(Room)
-    QML_UNCREATABLE("")
 
     Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
     Q_PROPERTY(

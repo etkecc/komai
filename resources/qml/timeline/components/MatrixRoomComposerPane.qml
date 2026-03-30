@@ -98,7 +98,7 @@ ColumnLayout {
                 inputController: root.composerInputController
                 allowCalls: false
                 allowStickers: false
-                allowCommandCompleter: false
+                allowCommandCompleter: !root.rootItem.editing
                 attachmentsEnabled: !root.rootItem.editing
                 showAllButtons: true
                 visible: !root.rootItem.walkModeActive

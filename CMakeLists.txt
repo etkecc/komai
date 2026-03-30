@@ -395,6 +395,7 @@ set(SRC_FILES
     src/timeline/view/TimelineViewManagerRoomActions.cpp
     src/timeline/view/TimelineViewManagerColors.cpp
     src/timeline/view/TimelineViewManagerCompletions.cpp
+    src/timeline/view/TimelineViewManagerSlashCommands.cpp
 
     # UI components
     src/ui/HiddenEvents.cpp

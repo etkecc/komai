@@ -9,8 +9,6 @@
 
 #include <span>
 
-class InputBar;
-
 namespace timeline::slash_commands {
 
 enum class CommandId
@@ -161,8 +159,5 @@ QString
 applyCompletion(const QString &text, int cursorPosition, QStringView completion);
 int
 completionCursorPosition(const QString &text, int cursorPosition, QStringView completion);
-
-CommandResult
-execute(InputBar &inputBar, const ParsedCommand &parsed);
 
 } // namespace timeline::slash_commands

@@ -117,6 +117,25 @@ QtObject {
             return TimelineManager.sendActiveMatrixAttachments();
 
         const body = composerPane.composerInput.text;
+        if (!rootItem.editing) {
+            const inspection = TimelineManager.inspectActiveMatrixSlashCommand(body);
+            const submitAction = String((inspection && inspection.submitAction) || "none");
+
+            if (submitAction === "preserveComposer")
+                return false;
+
+            if (submitAction === "executeCommand") {
+                const commandOk = TimelineManager.executeActiveMatrixSlashCommand(body);
+                if (!commandOk)
+                    return false;
+
+                composerPane.composerInput.replaceText("");
+                composerInputController.setText("");
+                support.focusTextInput();
+                return true;
+            }
+        }
+
         const ok = rootItem.editing
             ? TimelineManager.sendActiveMatrixEditMessage(body)
             : TimelineManager.sendActiveMatrixTextMessage(body);

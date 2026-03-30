@@ -46,8 +46,21 @@ Item {
         property string commandValidationMessage: ""
         property string commandValidationState: "none"
 
+        function refreshCommandInspection(value) {
+            if (TimelineManager.matrixTimelineEditEventId.length > 0) {
+                commandValidationMessage = "";
+                commandValidationState = "none";
+                return;
+            }
+
+            const inspection = TimelineManager.inspectActiveMatrixSlashCommand(String(value || ""));
+            commandValidationMessage = String((inspection && inspection.validationMessage) || "");
+            commandValidationState = String((inspection && inspection.validationState) || "none");
+        }
+
         function setText(value) {
             text = String(value || "");
+            refreshCommandInspection(text);
         }
 
         function openFileSelection() {
@@ -70,6 +83,7 @@ Item {
             const normalized = String(value || "");
             if (text !== normalized)
                 text = normalized;
+            refreshCommandInspection(normalized);
         }
 
         function clipboardText() {
@@ -80,16 +94,22 @@ Item {
             return false;
         }
 
-        function commandCompletionSearchString(prefix, _cursorPosition) {
-            return String(prefix || "");
+        function commandCompletionSearchString(prefix, cursorPosition) {
+            return TimelineManager.activeMatrixCommandCompletionSearchString(String(prefix || ""),
+                                                                            Number(cursorPosition) || 0);
         }
 
-        function applyCommandCompletion(currentText, _cursorPosition, _completion) {
-            return String(currentText || "");
+        function applyCommandCompletion(currentText, cursorPosition, completion) {
+            return TimelineManager.activeMatrixApplyCommandCompletion(String(currentText || ""),
+                                                                      Number(cursorPosition) || 0,
+                                                                      String(completion || ""));
         }
 
-        function commandCompletionCursorPosition(_currentText, cursorPosition, _completion) {
-            return cursorPosition;
+        function commandCompletionCursorPosition(currentText, cursorPosition, completion) {
+            return TimelineManager.activeMatrixCommandCompletionCursorPosition(
+                        String(currentText || ""),
+                        Number(cursorPosition) || 0,
+                        String(completion || ""));
         }
 
         function addMention(_userId, _completion) {

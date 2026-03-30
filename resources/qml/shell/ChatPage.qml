@@ -27,7 +27,7 @@ Rectangle {
             function initializePageIndex() {
                 if (!singlePageMode)
                     adaptiveView.pageIndex = 0;
-                else if (Rooms.currentRoom || Rooms.currentRoomPreview.roomid)
+                else if (Rooms.currentRoomPreview.roomid)
                     adaptiveView.pageIndex = 2;
                 else
                     adaptiveView.pageIndex = 1;
@@ -121,7 +121,7 @@ Rectangle {
                         Layout.fillWidth: true
                         dialogHost: chatPage.timelineRoot
                         windowFocusBlurOverlay: windowFocusBlurOverlay
-                        room: Rooms.currentRoom
+                        room: null
                         roomPreview: Rooms.currentRoomPreview.roomid ? Rooms.currentRoomPreview : null
                         showBackButton: adaptiveView.singlePageMode
                     }

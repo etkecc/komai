@@ -215,8 +215,7 @@ void
 TimelineViewManager::scheduleCurrentMatrixTimelineSelectionUpdate()
 {
     const auto preview = rooms_->currentRoomPreview();
-    const auto roomId =
-      (!rooms_->currentRoom() && preview.isMatrixSummary()) ? preview.roomid() : QString();
+    const auto roomId  = preview.isMatrixSummary() ? preview.roomid() : QString();
 
     if (!matrixTimelineSelectionUpdateQueued_ && roomId == activeMatrixTimelineRoomId_)
         return;
@@ -229,9 +228,8 @@ TimelineViewManager::scheduleCurrentMatrixTimelineSelectionUpdate()
 
     matrixTimelineSelectionUpdateQueued_ = true;
     const auto currentPreview            = rooms_->currentRoomPreview();
-    const auto currentRoomId = (!rooms_->currentRoom() && currentPreview.isMatrixSummary())
-                                 ? currentPreview.roomid()
-                                 : QString();
+    const auto currentRoomId =
+      currentPreview.isMatrixSummary() ? currentPreview.roomid() : QString();
     if (!currentRoomId.isEmpty())
         markRoomSwitchPhaseCpp(currentRoomId, "cpp.matrix_timeline_selection_dequeued");
 
@@ -249,7 +247,7 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
 
     const auto preview = rooms_->currentRoomPreview();
-    if (!preview.isMatrixSummary() || rooms_->currentRoom() != nullptr || handleId == 0) {
+    if (!preview.isMatrixSummary() || handleId == 0) {
         clearCurrentMatrixTimeline(handleId != 0);
         return;
     }

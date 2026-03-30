@@ -22,7 +22,6 @@
 #include "dbus/Backend.h"
 #endif
 
-class TimelineModel;
 class TimelineViewManager;
 
 namespace komai::ipc {
@@ -88,8 +87,6 @@ class RoomlistModel final : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(
       QString currentRoomId READ currentRoomId NOTIFY currentRoomIdChanged RESET resetCurrentRoom)
-    Q_PROPERTY(QAbstractItemModel *currentRoom READ currentRoomForQml NOTIFY currentRoomModelChanged
-                 RESET resetCurrentRoom)
     Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY
                  currentRoomPreviewChanged RESET resetCurrentRoom)
 public:
@@ -137,8 +134,6 @@ public:
         return matrixJoinedRooms_;
     }
 
-    TimelineModel *currentRoom() const { return nullptr; }
-    QAbstractItemModel *currentRoomForQml() const;
     RoomPreview currentRoomPreview() const { return currentRoomPreview_.value_or(RoomPreview{}); }
 
 public slots:
@@ -186,7 +181,6 @@ private slots:
 signals:
     void totalUnreadMessageCountUpdated(int unreadMessages);
     void currentRoomIdChanged(QString currentRoomId);
-    void currentRoomModelChanged();
     void currentRoomPreviewChanged();
     void fetchedPreview(QString roomid, RoomInfo info);
     void spaceSelected(QString roomId);
@@ -261,8 +255,6 @@ class FilteredRoomlistModel final : public QSortFilterProxyModel
 
     Q_PROPERTY(
       QString currentRoomId READ currentRoomId NOTIFY currentRoomIdChanged RESET resetCurrentRoom)
-    Q_PROPERTY(QAbstractItemModel *currentRoom READ currentRoomForQml NOTIFY currentRoomModelChanged
-                 RESET resetCurrentRoom)
     Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY
                  currentRoomPreviewChanged RESET resetCurrentRoom)
 public:
@@ -281,8 +273,6 @@ public:
         bool hasHighlight = false;
     };
     QHash<QString, FilterBadge> computeFilterBadges(const QStringList &communityIds) const;
-    TimelineModel *currentRoom() const { return roomlistmodel->currentRoom(); }
-    QAbstractItemModel *currentRoomForQml() const;
     QString currentRoomId() const { return roomlistmodel->currentRoomId(); }
     RoomPreview currentRoomPreview() const { return roomlistmodel->currentRoomPreview(); }
 
@@ -368,7 +358,6 @@ public slots:
 
 signals:
     void currentRoomIdChanged(QString currentRoomId);
-    void currentRoomModelChanged();
     void currentRoomPreviewChanged();
 
 private:

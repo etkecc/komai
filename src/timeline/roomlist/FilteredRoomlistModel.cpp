@@ -135,10 +135,6 @@ FilteredRoomlistModel::FilteredRoomlistModel(RoomlistModel *model, QObject *pare
             this,
             &FilteredRoomlistModel::currentRoomIdChanged);
     connect(roomlistmodel,
-            &RoomlistModel::currentRoomModelChanged,
-            this,
-            &FilteredRoomlistModel::currentRoomModelChanged);
-    connect(roomlistmodel,
             &RoomlistModel::currentRoomPreviewChanged,
             this,
             &FilteredRoomlistModel::currentRoomPreviewChanged);
@@ -168,12 +164,6 @@ FilteredRoomlistModel::create(QQmlEngine *qmlEngine, QJSEngine *)
 
     QJSEngine::setObjectOwnership(instance_, QJSEngine::CppOwnership);
     return instance_;
-}
-
-QAbstractItemModel *
-FilteredRoomlistModel::currentRoomForQml() const
-{
-    return roomlistmodel->currentRoom();
 }
 
 void

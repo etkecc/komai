@@ -109,7 +109,6 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
 void
 RoomlistModel::emitCurrentRoomVisualStateChanged()
 {
-    emit currentRoomModelChanged();
     emit currentRoomPreviewChanged();
 }
 
@@ -117,12 +116,6 @@ void
 RoomlistModel::notifyCurrentRoomIdChanged()
 {
     emit currentRoomIdChanged(currentRoomId());
-}
-
-QAbstractItemModel *
-RoomlistModel::currentRoomForQml() const
-{
-    return nullptr;
 }
 
 void

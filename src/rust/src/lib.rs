@@ -506,6 +506,7 @@ mod ffi {
         fn matrix_remove_own_avatar(handle_id: u64) -> Result<()>;
         fn matrix_ignore_user(handle_id: u64, user_id: &str) -> Result<()>;
         fn matrix_unignore_user(handle_id: u64, user_id: &str) -> Result<()>;
+        fn matrix_set_invite_permission(handle_id: u64, target: &str, block: bool) -> Result<()>;
         fn matrix_fetch_room_list(handle_id: u64) -> Result<Vec<MatrixRoomSummary>>;
         fn matrix_fetch_room_settings(handle_id: u64, room_id: &str) -> Result<MatrixRoomSettings>;
         fn matrix_fetch_room_aliases(handle_id: u64, room_id: &str) -> Result<MatrixRoomAliases>;
@@ -1304,6 +1305,12 @@ fn matrix_ignore_user(handle_id: u64, user_id: &str) -> Result<(), String> {
 
 fn matrix_unignore_user(handle_id: u64, user_id: &str) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::unignore_user(handle_id, user_id))
+}
+
+fn matrix_set_invite_permission(handle_id: u64, target: &str, block: bool) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::set_invite_permission(
+        handle_id, target, block,
+    ))
 }
 
 pub(crate) fn into_ffi_matrix_room_summary(

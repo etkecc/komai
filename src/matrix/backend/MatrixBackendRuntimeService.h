@@ -469,6 +469,11 @@ public:
 
     static bool unignoreUser(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);
 
+    static bool setInvitePermission(uint64_t handleId,
+                                    const QString &target,
+                                    bool block,
+                                    QString *errorOut = nullptr);
+
     static std::optional<QVector<MatrixRoomSummary>>
     fetchRoomList(uint64_t handleId, QString *errorOut = nullptr);
     static void cacheRoomListSnapshot(uint64_t handleId, QVector<MatrixRoomSummary> rooms);

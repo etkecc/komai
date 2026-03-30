@@ -1250,6 +1250,22 @@ MatrixBackendRuntimeService::unignoreUser(uint64_t handleId,
     }
 }
 
+bool
+MatrixBackendRuntimeService::setInvitePermission(uint64_t handleId,
+                                                 const QString &target,
+                                                 bool block,
+                                                 QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_set_invite_permission(handleId, target.toStdString(), block);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<QVector<MatrixRoomSummary>>
 MatrixBackendRuntimeService::fetchRoomList(uint64_t handleId, QString *errorOut)
 {
@@ -1902,8 +1918,8 @@ MatrixBackendRuntimeService::uploadMedia(uint64_t handleId,
                                          QString *errorOut)
 {
     try {
-        return matrix::normalizeMxcUri(QString::fromStdString(std::string(
-          ::komai::rust::matrix_upload_media(
+        return matrix::normalizeMxcUri(
+          QString::fromStdString(std::string(::komai::rust::matrix_upload_media(
             handleId, filePath.toStdString(), mimeType.toStdString()))));
     } catch (const std::exception &e) {
         if (errorOut)

@@ -358,8 +358,6 @@ set(SRC_FILES
     src/timeline/litehtml/LitehtmlStylesheet.cpp
     src/timeline/litehtml/LitehtmlStylesheet.h
     src/timeline/data/RoomlistModelData.cpp
-    src/timeline/media/TimelineMediaController.cpp
-    src/timeline/media/TimelineMediaController.h
     src/timeline/rawmessage/RawMessageDialogPayload.cpp
     src/timeline/rawmessage/RawMessageDialogPayload.h
     src/timeline/roomlist/FilteredRoomlistModel.cpp

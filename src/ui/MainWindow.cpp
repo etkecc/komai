@@ -20,6 +20,7 @@
 #include "timeline/TimelineViewManager.h"
 #include "ui/Theme.h"
 #include "ui/TrayIcon.h"
+#include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 #include "voip/CallManager.h"
 #include "voip/WebRTCSession.h"
@@ -38,6 +39,12 @@ MainWindow *MainWindow::instance_ = nullptr;
 namespace {
 constexpr int kWindowMinHeightPx = 420;
 constexpr int kWindowMinWidthPx  = 340;
+
+struct StartRestoredBackendResult
+{
+    std::optional<komai::MatrixBackendHandleInfo> handleInfo;
+    QString error;
+};
 
 void
 hideMenuOnWaylandMousePress()
@@ -371,17 +378,14 @@ MainWindow::showChatPage(bool hadSessionIdentity)
     }
 
     setStartupStatus(tr("Starting Komai"), tr("Restoring your session..."));
-    startMatrixBackendHandleForActiveSession();
-    if (matrixBackendHandleId_ == 0) {
-        nhlog::ui()->warn("Refusing to show chat page without an active matrix-sdk backend "
-                          "handle for the current session");
-        setStartupStatus(tr("Welcome to Komai"), tr("Preparing sign-in..."));
-        transitionToLoginPage(tr("Failed to initialize the Matrix session. Please sign in again."));
-        return;
-    }
-
-    const auto snapshot = userSettings_->sessionSnapshot();
     emit switchToStartupRestorePage();
+    startMatrixBackendHandleForActiveSession(hadSessionIdentity);
+}
+
+void
+MainWindow::continueShowChatPageAfterBackendStart(bool hadSessionIdentity)
+{
+    const auto snapshot = userSettings_->sessionSnapshot();
     nhlog::ui()->info("Keeping startup-restore page visible; deferring chat bootstrap to the "
                       "next event turn");
 
@@ -437,58 +441,96 @@ MainWindow::showStartupRestorePage()
 }
 
 void
-MainWindow::startMatrixBackendHandleForActiveSession()
+MainWindow::startMatrixBackendHandleForActiveSession(bool hadSessionIdentity)
 {
     if (!userSettings_->hasActiveSession())
         return;
 
     stopMatrixBackendHandle();
-    setStartupStatus(tr("Starting Komai"), tr("Restoring your session..."));
+    const auto requestId           = ++matrixBackendStartupRequestId_;
     const auto normalizedProfileId = profile_id::normalized(userSettings_->profile());
+    komai::qt_worker_task::runQueued(
+      this,
+      [normalizedProfileId]() {
+          StartRestoredBackendResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.handleInfo  = komai::MatrixBackendRuntimeService::startRestoredBackend(
+            context, normalizedProfileId, &result.error);
+          return result;
+      },
+      [requestId, hadSessionIdentity, normalizedProfileId](MainWindow *window,
+                                                           StartRestoredBackendResult result) {
+          if (window->matrixBackendStartupRequestId_ != requestId) {
+              if (result.handleInfo && result.handleInfo->handleId != 0) {
+                  QString stopError;
+                  if (!komai::MatrixBackendRuntimeService::stopBackend(result.handleInfo->handleId,
+                                                                       &stopError)) {
+                      nhlog::ui()->warn(
+                        "Failed to stop stale matrix-sdk backend handle {} after startup "
+                        "request replacement: {}",
+                        result.handleInfo->handleId,
+                        stopError.toStdString());
+                  }
+              }
+              return;
+          }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto handleInfo = komai::MatrixBackendRuntimeService::startRestoredBackend(
-      context, normalizedProfileId, &error);
-    if (!handleInfo) {
-        nhlog::ui()->warn("Failed to start matrix-sdk backend handle for profile '{}': {}",
-                          normalizedProfileId.toStdString(),
-                          error.toStdString());
-        return;
-    }
+          if (!result.handleInfo) {
+              nhlog::ui()->warn("Failed to start matrix-sdk backend handle for profile '{}': {}",
+                                normalizedProfileId.toStdString(),
+                                result.error.toStdString());
+              window->setStartupStatus(MainWindow::tr("Welcome to Komai"),
+                                       MainWindow::tr("Preparing sign-in..."));
+              window->transitionToLoginPage(
+                MainWindow::tr("Failed to initialize the Matrix session. Please sign in again."));
+              return;
+          }
 
-    if (!handleInfo->hasSession || handleInfo->handleId == 0) {
-        nhlog::ui()->info("No persisted matrix-sdk session is available yet for profile '{}'; "
-                          "continuing with mtxclient bootstrap only",
-                          normalizedProfileId.toStdString());
-        return;
-    }
+          if (!result.handleInfo->hasSession || result.handleInfo->handleId == 0) {
+              nhlog::ui()->info("No persisted matrix-sdk session is available yet for profile "
+                                "'{}'; refusing to continue startup without a restored backend "
+                                "handle",
+                                normalizedProfileId.toStdString());
+              window->setStartupStatus(MainWindow::tr("Welcome to Komai"),
+                                       MainWindow::tr("Preparing sign-in..."));
+              window->transitionToLoginPage(
+                MainWindow::tr("Failed to initialize the Matrix session. Please sign in again."));
+              return;
+          }
 
-    matrixBackendHandleId_ = handleInfo->handleId;
-    matrixBackendAuthType_ = handleInfo->authType;
-    nhlog::ui()->info("Started matrix-sdk backend handle {} for profile '{}' "
-                      "(auth_type='{}', user_id='{}', device_id='{}', homeserver='{}')",
-                      matrixBackendHandleId_,
-                      normalizedProfileId.toStdString(),
-                      handleInfo->authType.toStdString(),
-                      handleInfo->userId.toStdString(),
-                      handleInfo->deviceId.toStdString(),
-                      handleInfo->homeserverUrl.toStdString());
+          window->matrixBackendHandleId_ = result.handleInfo->handleId;
+          window->matrixBackendAuthType_ = result.handleInfo->authType;
+          nhlog::ui()->info("Started matrix-sdk backend handle {} for profile '{}' "
+                            "(auth_type='{}', user_id='{}', device_id='{}', homeserver='{}')",
+                            window->matrixBackendHandleId_,
+                            normalizedProfileId.toStdString(),
+                            result.handleInfo->authType.toStdString(),
+                            result.handleInfo->userId.toStdString(),
+                            result.handleInfo->deviceId.toStdString(),
+                            result.handleInfo->homeserverUrl.toStdString());
 
-    setStartupStatus(tr("Starting Komai"), tr("Opening your rooms..."));
-    if (!komai::MatrixBackendRuntimeService::startSync(matrixBackendHandleId_, &error)) {
-        nhlog::ui()->warn("Failed to start matrix-sdk sync for backend handle {}: {}",
-                          matrixBackendHandleId_,
-                          error.toStdString());
-        return;
-    }
+          QString error;
+          window->setStartupStatus(MainWindow::tr("Starting Komai"),
+                                   MainWindow::tr("Opening your rooms..."));
+          if (!komai::MatrixBackendRuntimeService::startSync(window->matrixBackendHandleId_,
+                                                             &error)) {
+              nhlog::ui()->warn("Failed to start matrix-sdk sync for backend handle {}: {}",
+                                window->matrixBackendHandleId_,
+                                error.toStdString());
+          } else {
+              nhlog::ui()->info("Started matrix-sdk sync for backend handle {}",
+                                window->matrixBackendHandleId_);
+          }
 
-    nhlog::ui()->info("Started matrix-sdk sync for backend handle {}", matrixBackendHandleId_);
+          window->continueShowChatPageAfterBackendStart(hadSessionIdentity);
+      });
 }
 
 void
 MainWindow::stopMatrixBackendHandle()
 {
+    ++matrixBackendStartupRequestId_;
+
     if (matrixBackendHandleId_ == 0)
         return;
 

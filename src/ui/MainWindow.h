@@ -152,7 +152,8 @@ private:
     void showDialog(QWidget *dialog);
     bool hasActiveUser();
     void restoreWindowSize();
-    void startMatrixBackendHandleForActiveSession();
+    void startMatrixBackendHandleForActiveSession(bool hadSessionIdentity);
+    void continueShowChatPageAfterBackendStart(bool hadSessionIdentity);
     void transitionToLoginPage(const QString &error = QString());
     void setStartupStatus(const QString &headline, const QString &detail);
     //! Check if the current page supports the "minimize to tray" functionality.
@@ -187,6 +188,7 @@ private:
 #endif
     uint64_t matrixBackendHandleId_{0};
     QString matrixBackendAuthType_;
+    quint64 matrixBackendStartupRequestId_{0};
     bool altPressed_{false};
     bool backButtonPressSeen_{false};
     bool forwardButtonPressSeen_{false};

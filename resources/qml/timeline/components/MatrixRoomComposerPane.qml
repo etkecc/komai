@@ -14,6 +14,7 @@ ColumnLayout {
     required property var uploadsController
     required property var composerRoom
     required property var composerInputController
+    required property var timelineRoot
 
     readonly property alias composerInput: composerInput
     readonly property alias composerShell: composerContainer
@@ -91,9 +92,7 @@ ColumnLayout {
                     ? Math.max(root.rootItem.composerBaselineHeight, implicitHeight)
                     : 0
                 room: root.composerRoom
-                timelineRoot: root.rootItem.timelineRoot
-                    ? root.rootItem.timelineRoot
-                    : (root.rootItem.chatRoot ? root.rootItem.chatRoot : root.rootItem)
+                timelineRoot: root.timelineRoot ? root.timelineRoot : root.rootItem
                 selectionModeRoot: root.rootItem
                 walkModeActive: root.rootItem.walkModeActive
                 inputController: root.composerInputController

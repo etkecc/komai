@@ -11,6 +11,7 @@ Item {
     required property var rootItem
     required property var timelineList
     required property var topBar
+    required property var dialogHost
     required property var messageActionSupport
 
     width: 0
@@ -522,7 +523,7 @@ Item {
             return false;
         }
 
-        const dialogParent = rootItem.timelineRoot ? rootItem.timelineRoot : rootItem;
+        const dialogParent = dialogHost ? dialogHost : rootItem;
         const dialog = component.createObject(dialogParent, {
             "appRoot": dialogParent
         });

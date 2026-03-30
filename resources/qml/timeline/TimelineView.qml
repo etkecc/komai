@@ -338,10 +338,6 @@ Item {
                 roomSupport: matrixRoomSupport
                 externalHeaderPane: matrixHeaderPane
                 externalComposerPane: matrixComposerPane
-                chatRoot: matrixTimelineHost
-                timelineRoot: timelineView.dialogHost
-                emojiPopup: timelineEmojiPopup
-                filteredTimeline: null
             }
 
             MatrixRoomComposerPane {
@@ -352,6 +348,7 @@ Item {
                 uploadsController: matrixRoomSupport.uploadsController
                 composerRoom: matrixRoomSupport.composerRoom
                 composerInputController: matrixRoomSupport.composerInputController
+                timelineRoot: timelineView.dialogHost
             }
         }
     }

@@ -16,10 +16,6 @@ ColumnLayout {
     required property var roomSupport
     required property var externalHeaderPane
     required property var externalComposerPane
-    property var chatRoot: null
-    property var timelineRoot: null
-    property var emojiPopup: null
-    property var filteredTimeline: null
     property bool walkModeActive: false
     property bool roomSwitchInProgress: false
     property string focusedEventId: ""
@@ -88,6 +84,7 @@ ColumnLayout {
         rootItem: root
         timelineList: matrixTimelineList
         topBar: externalHeaderPane.headerItem
+        dialogHost: roomSupport.timelineRoot
         messageActionSupport: messageActionSupport
     }
 

@@ -220,6 +220,7 @@ pub struct MatrixPublicRoomDirectoryPage {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MatrixRoomSummary {
     pub room_id: String,
+    pub latest_event_id: String,
     pub display_name: String,
     pub avatar_url: String,
     pub topic: String,

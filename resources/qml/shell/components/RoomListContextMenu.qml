@@ -53,7 +53,7 @@ Menu {
     MenuItem {
         text: qsTr("Mark as read")
 
-        onTriggered: Rooms.getRoomById(root.roomid).markRoomAsRead()
+        onTriggered: Rooms.markRoomAsRead(root.roomid)
     }
     MenuItem {
         text: qsTr("Room settings")

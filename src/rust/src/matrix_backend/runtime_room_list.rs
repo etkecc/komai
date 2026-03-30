@@ -487,6 +487,11 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
 
     MatrixRoomSummary {
         room_id: room.room_id().to_string(),
+        latest_event_id: room
+            .latest_event()
+            .and_then(|event| event.event_id())
+            .map(|event_id| event_id.to_string())
+            .unwrap_or_default(),
         display_name: room
             .cached_display_name()
             .map(|name| name.to_string())

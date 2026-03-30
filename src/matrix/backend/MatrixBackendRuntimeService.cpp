@@ -207,8 +207,9 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
         parentSpaceRoomIds.push_back(QString::fromStdString(std::string(value)));
 
     return MatrixRoomSummary{
-      .roomId      = QString::fromStdString(std::string(room.room_id)),
-      .displayName = QString::fromStdString(std::string(room.display_name)),
+      .roomId        = QString::fromStdString(std::string(room.room_id)),
+      .latestEventId = QString::fromStdString(std::string(room.latest_event_id)),
+      .displayName   = QString::fromStdString(std::string(room.display_name)),
       .avatarUrl   = matrix::normalizeMxcUri(QString::fromStdString(std::string(room.avatar_url))),
       .topic       = QString::fromStdString(std::string(room.topic)),
       .lastMessage = QString::fromStdString(std::string(room.last_message)),

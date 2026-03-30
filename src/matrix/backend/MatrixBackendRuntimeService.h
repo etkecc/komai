@@ -124,6 +124,7 @@ struct MatrixPublicRoomDirectoryPage
 struct MatrixRoomSummary
 {
     QString roomId;
+    QString latestEventId;
     QString displayName;
     QString avatarUrl;
     QString topic;

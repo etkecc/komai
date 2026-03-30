@@ -132,6 +132,7 @@ mod ffi {
 
     struct MatrixRoomSummary {
         room_id: String,
+        latest_event_id: String,
         display_name: String,
         avatar_url: String,
         topic: String,
@@ -1228,6 +1229,7 @@ pub(crate) fn into_ffi_matrix_room_summary(
 ) -> ffi::MatrixRoomSummary {
     ffi::MatrixRoomSummary {
         room_id: room.room_id,
+        latest_event_id: room.latest_event_id,
         display_name: room.display_name,
         avatar_url: room.avatar_url,
         topic: room.topic,

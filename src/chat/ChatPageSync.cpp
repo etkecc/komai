@@ -3,7 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include <QApplication>
 #include <QPointer>
 
 #include <thread>
@@ -11,7 +10,6 @@
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
-#include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 
 namespace {
@@ -53,34 +51,6 @@ ChatPage::setStatus(const QString &status)
 
     nhlog::net()->warn(
       "Ignoring presence/status update because no active matrix-sdk runtime exists");
-}
-
-bool
-ChatPage::shouldBeUnavailable() const
-{
-    return lastWindowActive.isValid() &&
-           lastWindowActive.addSecs(60 * 5) < QDateTime::currentDateTime();
-}
-
-mtx::presence::PresenceState
-ChatPage::currentPresence() const
-{
-    switch (userSettings_->networkPresenceStatusPolicy()) {
-    case UserSettings::Presence::Online:
-        return mtx::presence::online;
-    case UserSettings::Presence::Unavailable:
-        return mtx::presence::unavailable;
-    case UserSettings::Presence::Offline:
-        return mtx::presence::offline;
-    case UserSettings::Presence::AutomaticPresence:
-        if (shouldBeUnavailable())
-            return mtx::presence::unavailable;
-        else
-            return mtx::presence::online;
-
-    default:
-        return mtx::presence::online;
-    }
 }
 
 void

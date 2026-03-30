@@ -9,10 +9,8 @@
 #include <optional>
 
 #include <mtx/events.hpp>
-#include <mtx/events/presence.hpp>
 #include <mtx/secret_storage.hpp>
 
-#include <QDateTime>
 #include <QSharedPointer>
 #include <QTimer>
 
@@ -56,8 +54,6 @@ public:
 
     QString status() const;
     void setStatus(const QString &status);
-
-    mtx::presence::PresenceState currentPresence() const;
 
     void startChat(QString userid, std::optional<bool> encryptionEnabled);
 
@@ -125,7 +121,6 @@ signals:
                        const QString &message,
                        const QImage &icon);
 
-    void retrievedPresence(const QString &statusMsg, mtx::presence::PresenceState state);
     void themeChanged();
 
     //! Signals for device verificaiton
@@ -186,10 +181,6 @@ private:
     void deleteConfigs();
     void processSyncUi(const komai::NotificationSyncUpdate &sync);
 
-    // returns if the user had no interaction with Komai for quite a while, which means we set our
-    // presence to unavailable if automatic presence is enabled
-    bool shouldBeUnavailable() const;
-
     template<typename T>
     void connectCallMessage();
     void processDownloadedSecretsUnlockInput(mtx::secret_storage::AesHmacSha2KeyDescription keyDesc,
@@ -207,9 +198,6 @@ private:
 
     NotificationsManager *notificationsManager;
     CallManager *callManager_;
-
-    // Stores when our windows lost focus. Invalid when our windows have focus.
-    QDateTime lastWindowActive;
 
     // Last locally known status message (local submit and/or latest local-user presence from sync).
     // Used as a runtime shadow so UI can reflect updates immediately without waiting for cache

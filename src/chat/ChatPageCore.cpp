@@ -168,19 +168,6 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
       [](std::function<void()> f) { f(); },
       Qt::QueuedConnection);
 
-    connect(qobject_cast<QGuiApplication *>(QGuiApplication::instance()),
-            &QGuiApplication::focusWindowChanged,
-            this,
-            [this](QWindow *activeWindow) {
-                if (activeWindow) {
-                    nhlog::ui()->debug("Stopping inactive timer.");
-                    lastWindowActive = QDateTime();
-                } else {
-                    nhlog::ui()->debug("Starting inactive timer.");
-                    lastWindowActive = QDateTime::currentDateTime();
-                }
-            });
-
     connectCallMessage<mtx::events::voip::CallInvite>();
     connectCallMessage<mtx::events::voip::CallCandidates>();
     connectCallMessage<mtx::events::voip::CallAnswer>();

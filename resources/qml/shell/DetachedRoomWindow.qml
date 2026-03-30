@@ -39,7 +39,6 @@ ApplicationWindow {
         anchors.fill: parent
         dialogHost: roomWindowW
         windowFocusBlurOverlay: windowFocusBlurOverlay
-        room: null
         roomPreview: roomWindowW.roomPreview && roomWindowW.roomPreview.roomid ? roomWindowW.roomPreview : null
     }
     PrivacyScreen {

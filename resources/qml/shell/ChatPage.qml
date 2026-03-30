@@ -121,7 +121,6 @@ Rectangle {
                         Layout.fillWidth: true
                         dialogHost: chatPage.timelineRoot
                         windowFocusBlurOverlay: windowFocusBlurOverlay
-                        room: null
                         roomPreview: Rooms.currentRoomPreview.roomid ? Rooms.currentRoomPreview : null
                         showBackButton: adaptiveView.singlePageMode
                     }

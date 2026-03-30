@@ -12,8 +12,8 @@ import cc.etke.komai
 ColumnLayout {
     id: preview
 
-    required property var room
-    required property var roomPreview
+    property var room: null
+    property var roomPreview: null
 
     property string avatarUrl: room ? room.roomAvatarUrl : (roomPreview ? roomPreview.roomAvatarUrl : "")
     property string reason: roomPreview ? roomPreview.reason : ""

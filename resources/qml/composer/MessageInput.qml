@@ -556,7 +556,7 @@ Rectangle {
                 }
 
                 Connections {
-                    function onRoomChanged() {
+                    function onRoomPreviewChanged() {
                         if (TimelineManager.perfUiFlagEnabled("disable_composer"))
                             return;
 

@@ -8,7 +8,6 @@ import cc.etke.komai
 ImageButton {
     id: root
 
-    property var roomModel: null
     property bool showBackButton: false
 
     toolTipText: qsTr("Back to room list")
@@ -19,7 +18,7 @@ ImageButton {
     enabled: visible
     height: Komai.listIconSize
     image: ":/icons/icons/ui/angle-arrow-left.svg"
-    visible: (roomModel == null || !!roomModel.isSpace) && !!showBackButton
+    visible: !!showBackButton
     width: Komai.listIconSize
 
     onClicked: Rooms.resetCurrentRoom()

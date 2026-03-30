@@ -672,13 +672,7 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
     matrixTimelineRefreshPendingRoomId_.clear();
     matrixTimelineRefreshInFlightRequestId_ = 0;
     matrixTimelineRefreshInFlightRoomId_.clear();
-    matrixReadMarkerPending_         = false;
-    matrixReadMarkerPendingHandleId_ = 0;
-    matrixReadMarkerPendingRoomId_.clear();
-    matrixReadMarkerPendingEventId_.clear();
-    matrixReadMarkerInFlight_ = false;
-    matrixReadMarkerInFlightRoomId_.clear();
-    matrixReadMarkerInFlightEventId_.clear();
+    clearMatrixReadMarkerQueue();
     matrixTimelineInitialPrefetchAttempted_ = false;
 
     if (matrixTimelineModel_)
@@ -948,45 +942,49 @@ TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
     if (trimmedEventId.isEmpty())
         return false;
 
-    if ((matrixReadMarkerInFlight_ &&
-         matrixReadMarkerInFlightRoomId_ == activeMatrixTimelineRoomId_ &&
-         matrixReadMarkerInFlightEventId_ == trimmedEventId) ||
-        (matrixReadMarkerPending_ &&
-         matrixReadMarkerPendingRoomId_ == activeMatrixTimelineRoomId_ &&
-         matrixReadMarkerPendingEventId_ == trimmedEventId)) {
-        return true;
-    }
-
-    matrixReadMarkerPending_         = true;
-    matrixReadMarkerPendingHandleId_ = handleId;
-    matrixReadMarkerPendingRoomId_   = activeMatrixTimelineRoomId_;
-    matrixReadMarkerPendingEventId_  = trimmedEventId;
-    dispatchPendingMatrixReadMarker();
+    queueMatrixRoomReadMarker(handleId, activeMatrixTimelineRoomId_, trimmedEventId);
 
     return true;
 }
 
 void
-TimelineViewManager::dispatchPendingMatrixReadMarker()
+TimelineViewManager::queueMatrixRoomReadMarker(uint64_t handleId,
+                                               const QString &roomId,
+                                               const QString &eventId)
 {
-    if (matrixReadMarkerInFlight_ || !matrixReadMarkerPending_ ||
-        matrixReadMarkerPendingHandleId_ == 0 || matrixReadMarkerPendingRoomId_.isEmpty() ||
-        matrixReadMarkerPendingEventId_.isEmpty()) {
+    if (handleId == 0 || roomId.isEmpty() || eventId.isEmpty())
+        return;
+
+    const auto inflightIt = matrixReadMarkerInFlightEventIdsByRoom_.constFind(roomId);
+    if (inflightIt != matrixReadMarkerInFlightEventIdsByRoom_.cend() &&
+        inflightIt.value() == eventId) {
         return;
     }
 
-    const auto handleId = matrixReadMarkerPendingHandleId_;
-    const auto roomId   = matrixReadMarkerPendingRoomId_;
-    const auto eventId  = matrixReadMarkerPendingEventId_;
+    const auto pendingIt = matrixReadMarkerPendingEventIdsByRoom_.constFind(roomId);
+    if (pendingIt != matrixReadMarkerPendingEventIdsByRoom_.cend() && pendingIt.value() == eventId)
+        return;
 
-    matrixReadMarkerPending_         = false;
-    matrixReadMarkerPendingHandleId_ = 0;
-    matrixReadMarkerPendingRoomId_.clear();
-    matrixReadMarkerPendingEventId_.clear();
+    matrixReadMarkerPendingHandlesByRoom_.insert(roomId, handleId);
+    matrixReadMarkerPendingEventIdsByRoom_.insert(roomId, eventId);
+    dispatchPendingMatrixReadMarker(roomId);
+}
 
-    matrixReadMarkerInFlight_        = true;
-    matrixReadMarkerInFlightRoomId_  = roomId;
-    matrixReadMarkerInFlightEventId_ = eventId;
+void
+TimelineViewManager::dispatchPendingMatrixReadMarker(const QString &roomId)
+{
+    if (roomId.isEmpty() || matrixReadMarkerInFlightEventIdsByRoom_.contains(roomId) ||
+        !matrixReadMarkerPendingEventIdsByRoom_.contains(roomId) ||
+        !matrixReadMarkerPendingHandlesByRoom_.contains(roomId)) {
+        return;
+    }
+
+    const auto handleId = matrixReadMarkerPendingHandlesByRoom_.take(roomId);
+    const auto eventId  = matrixReadMarkerPendingEventIdsByRoom_.take(roomId);
+    if (handleId == 0 || eventId.isEmpty())
+        return;
+
+    matrixReadMarkerInFlightEventIdsByRoom_.insert(roomId, eventId);
 
     QPointer<TimelineViewManager> guard(this);
     std::thread([guard, handleId, roomId, eventId]() {
@@ -1003,14 +1001,13 @@ TimelineViewManager::dispatchPendingMatrixReadMarker()
               if (!guard)
                   return;
 
-              const bool isCurrentInflight = guard->matrixReadMarkerInFlight_ &&
-                                             guard->matrixReadMarkerInFlightRoomId_ == roomId &&
-                                             guard->matrixReadMarkerInFlightEventId_ == eventId;
-              if (isCurrentInflight) {
-                  guard->matrixReadMarkerInFlight_ = false;
-                  guard->matrixReadMarkerInFlightRoomId_.clear();
-                  guard->matrixReadMarkerInFlightEventId_.clear();
-              }
+              const auto inflightIt =
+                guard->matrixReadMarkerInFlightEventIdsByRoom_.constFind(roomId);
+              const bool isCurrentInflight =
+                inflightIt != guard->matrixReadMarkerInFlightEventIdsByRoom_.cend() &&
+                inflightIt.value() == eventId;
+              if (isCurrentInflight)
+                  guard->matrixReadMarkerInFlightEventIdsByRoom_.remove(roomId);
 
               if (!ok) {
                   nhlog::ui()->warn(
@@ -1029,10 +1026,18 @@ TimelineViewManager::dispatchPendingMatrixReadMarker()
                   }
               }
 
-              guard->dispatchPendingMatrixReadMarker();
+              guard->dispatchPendingMatrixReadMarker(roomId);
           },
           Qt::QueuedConnection);
     }).detach();
+}
+
+void
+TimelineViewManager::clearMatrixReadMarkerQueue()
+{
+    matrixReadMarkerPendingHandlesByRoom_.clear();
+    matrixReadMarkerPendingEventIdsByRoom_.clear();
+    matrixReadMarkerInFlightEventIdsByRoom_.clear();
 }
 
 bool

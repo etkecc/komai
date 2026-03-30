@@ -383,7 +383,10 @@ public slots:
 
 private:
     void scheduleMatrixSidebarRefresh();
-    void dispatchPendingMatrixReadMarker();
+    void
+    queueMatrixRoomReadMarker(uint64_t handleId, const QString &roomId, const QString &eventId);
+    void dispatchPendingMatrixReadMarker(const QString &roomId);
+    void clearMatrixReadMarkerQueue();
 
     bool waitingForFirstSync_ = true;
     bool isConnected_         = true;
@@ -434,13 +437,9 @@ private:
     quint64 matrixTimelineWarmupGuardGeneration_    = 0;
     bool matrixTimelineWarmupGuardActive_           = false;
     QString matrixTimelineRefreshInFlightRoomId_;
-    bool matrixReadMarkerInFlight_            = false;
-    bool matrixReadMarkerPending_             = false;
-    uint64_t matrixReadMarkerPendingHandleId_ = 0;
-    QString matrixReadMarkerPendingRoomId_;
-    QString matrixReadMarkerPendingEventId_;
-    QString matrixReadMarkerInFlightRoomId_;
-    QString matrixReadMarkerInFlightEventId_;
+    QHash<QString, uint64_t> matrixReadMarkerPendingHandlesByRoom_;
+    QHash<QString, QString> matrixReadMarkerPendingEventIdsByRoom_;
+    QHash<QString, QString> matrixReadMarkerInFlightEventIdsByRoom_;
     int preferredInitialMatrixTimelinePageSize_  = 0;
     bool matrixTimelineInitialPrefetchAttempted_ = false;
     QStringList matrixTimelinePinnedEventIds_;

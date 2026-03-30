@@ -1878,6 +1878,47 @@ MatrixBackendRuntimeService::sendRoomAttachment(uint64_t handleId,
     }
 }
 
+std::optional<QString>
+MatrixBackendRuntimeService::uploadMedia(uint64_t handleId,
+                                         const QString &filePath,
+                                         const QString &mimeType,
+                                         QString *errorOut)
+{
+    try {
+        return matrix::normalizeMxcUri(QString::fromStdString(std::string(
+          ::komai::rust::matrix_upload_media(
+            handleId, filePath.toStdString(), mimeType.toStdString()))));
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::sendRoomImage(uint64_t handleId,
+                                           const QString &roomId,
+                                           const QString &mxcUri,
+                                           const QString &body,
+                                           const QString &filename,
+                                           const QString &infoJson,
+                                           QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_send_room_image(handleId,
+                                              roomId.toStdString(),
+                                              mxcUri.toStdString(),
+                                              body.toStdString(),
+                                              filename.toStdString(),
+                                              infoJson.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<QByteArray>
 MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(uint64_t handleId,
                                                                  const QString &itemId,

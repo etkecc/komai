@@ -631,6 +631,19 @@ public:
                                    const QString &mimeType,
                                    QString *errorOut = nullptr);
 
+    static std::optional<QString> uploadMedia(uint64_t handleId,
+                                              const QString &filePath,
+                                              const QString &mimeType,
+                                              QString *errorOut = nullptr);
+
+    static bool sendRoomImage(uint64_t handleId,
+                              const QString &roomId,
+                              const QString &mxcUri,
+                              const QString &body,
+                              const QString &filename,
+                              const QString &infoJson,
+                              QString *errorOut = nullptr);
+
     static std::optional<QByteArray>
     fetchActiveRoomTimelineMediaContent(uint64_t handleId,
                                         const QString &itemId,

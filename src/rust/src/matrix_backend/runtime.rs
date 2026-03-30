@@ -35,7 +35,10 @@ use matrix_sdk::{
         api::client::profile::{AvatarUrl, DisplayName},
         events::{
             AnyMessageLikeEventContent, InitialStateEvent,
-            room::{MediaSource, encryption::RoomEncryptionEventContent, message::RoomMessageEventContent},
+            room::{
+                ImageInfo, MediaSource, encryption::RoomEncryptionEventContent,
+                message::{ImageMessageEventContent, MessageType, RoomMessageEventContent},
+            },
             tag::{TagInfo, TagName, UserTagName},
         },
         room::RoomType,
@@ -79,6 +82,8 @@ mod timeline;
 mod user_directory;
 #[path = "runtime_room_directory.rs"]
 mod room_directory;
+#[path = "runtime_media.rs"]
+mod runtime_media;
 
 pub use profile_media::{
     fetch_media_content, fetch_own_profile, fetch_user_profile, ignore_user, remove_own_avatar,
@@ -121,6 +126,7 @@ pub use timeline::{
     send_room_edit_message, send_room_message, send_room_reply_message,
     toggle_room_reaction, unpin_room_event,
 };
+pub use runtime_media::{send_room_image, upload_media};
 pub use user_directory::search_users;
 pub use room_directory::fetch_public_room_directory_page;
 

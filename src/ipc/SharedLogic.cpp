@@ -5,21 +5,27 @@
 #include "SharedLogic.h"
 
 #include <QBuffer>
+#include <QCoreApplication>
 #include <QDateTime>
 #include <QFile>
 #include <QFileInfo>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QMetaObject>
 #include <QMimeDatabase>
 #include <QPointer>
+#include <QThread>
 
 #include <optional>
+#include <thread>
+#include <utility>
 
 #include "blurhash.hpp"
 
 #include "chat/ChatPage.h"
 #include "config/komai.h"
 #include "logging/Logging.h"
+#include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -29,6 +35,43 @@
 #include "utils/Utils.h"
 
 namespace {
+
+struct AsyncSendResult
+{
+    QString eventId;
+    QString error;
+};
+
+struct AsyncUploadResult
+{
+    komai::ipc::UploadResult result;
+    QString error;
+};
+
+template<typename Callback>
+void
+postToAppThread(Callback callback)
+{
+    auto *app = QCoreApplication::instance();
+    if (!app || QThread::currentThread() == app->thread()) {
+        callback();
+        return;
+    }
+
+    if (!QMetaObject::invokeMethod(app, callback, Qt::QueuedConnection))
+        callback();
+}
+
+template<typename WorkFnT, typename UiFnT>
+void
+runIpcTask(WorkFnT work, UiFnT ui)
+{
+    std::thread([work = std::move(work), ui = std::move(ui)]() mutable {
+        auto result = work();
+        postToAppThread(
+          [result = std::move(result), ui = std::move(ui)]() mutable { ui(std::move(result)); });
+    }).detach();
+}
 
 RoomlistModel *
 currentRoomlistModel()
@@ -106,6 +149,31 @@ QString
 matrixTimelineEventId(const komai::MatrixTimelineItem &item)
 {
     return item.eventId.isEmpty() ? item.itemId : item.eventId;
+}
+
+QString
+effectiveUploadFileName(const QFileInfo &fileInfo, const QString &filenameOverride)
+{
+    const auto trimmedOverride = filenameOverride.trimmed();
+    if (!trimmedOverride.isEmpty())
+        return trimmedOverride;
+
+    return fileInfo.fileName().trimmed();
+}
+
+QString
+effectiveMimeTypeForFile(const QString &filePath, const QString &contentTypeOverride)
+{
+    const auto trimmedOverride = contentTypeOverride.trimmed();
+    if (!trimmedOverride.isEmpty())
+        return trimmedOverride;
+
+    const auto mime = QMimeDatabase().mimeTypeForFile(filePath, QMimeDatabase::MatchContent);
+    const auto name = mime.name().trimmed();
+    if (!name.isEmpty())
+        return name;
+
+    return QStringLiteral("application/octet-stream");
 }
 
 bool
@@ -635,18 +703,29 @@ sendMessage(const QString &roomIdOrAlias,
     QString error;
     const auto messageKind =
       msgtype == QLatin1String("m.notice") ? QStringLiteral("notice") : QStringLiteral("text");
-    const bool ok = komai::MatrixBackendRuntimeService::sendRoomMessage(
-      *handleId, roomId, trimmedBody, QString::fromStdString(formattedBody), messageKind, &error);
-    if (!ok) {
-        if (callback)
-            callback({},
-                     error.isEmpty() ? QStringLiteral("failed to send matrix-sdk room message")
-                                     : error);
-        return;
-    }
+    runIpcTask(
+      [handleId = *handleId,
+       roomId,
+       trimmedBody,
+       formattedBody = QString::fromStdString(formattedBody),
+       messageKind]() {
+          AsyncSendResult result;
+          if (QString error;
+              komai::MatrixBackendRuntimeService::sendRoomMessage(
+                handleId, roomId, trimmedBody, formattedBody, messageKind, &error)) {
+              result.eventId = QStringLiteral("queued");
+          } else {
+              result.error = error.isEmpty()
+                               ? QStringLiteral("failed to send matrix-sdk room message")
+                               : error;
+          }
 
-    if (callback)
-        callback(QStringLiteral("queued"), {});
+          return result;
+      },
+      [callback = std::move(callback)](AsyncSendResult result) mutable {
+          if (callback)
+              callback(result.eventId, result.error);
+      });
 }
 
 // -- media --
@@ -681,13 +760,56 @@ mediaUpload(const QString &filePath,
             const QString &contentType,
             MediaUploadCallback callback)
 {
-    Q_UNUSED(filePath);
-    Q_UNUSED(filename);
-    Q_UNUSED(contentType);
-    if (callback) {
-        callback({},
-                 QStringLiteral("IPC media upload is not migrated to the matrix-sdk backend yet"));
+    const QFileInfo fileInfo(filePath);
+    if (!fileInfo.exists() || !fileInfo.isFile()) {
+        if (callback)
+            callback({}, QStringLiteral("file not found: ") + filePath);
+        return;
     }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (callback)
+            callback({}, QStringLiteral("matrix-sdk runtime is not active"));
+        return;
+    }
+
+    const auto effectiveFilename = effectiveUploadFileName(fileInfo, filename);
+    if (effectiveFilename.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("file path does not include a file name: ") + filePath);
+        return;
+    }
+
+    const auto effectiveContentType = effectiveMimeTypeForFile(fileInfo.absoluteFilePath(), contentType);
+    const auto effectiveFilePath    = fileInfo.absoluteFilePath();
+    const auto fileSize             = static_cast<uint64_t>(fileInfo.size());
+
+    runIpcTask(
+      [handleId = *handleId, effectiveFilePath, effectiveFilename, effectiveContentType, fileSize]() {
+          AsyncUploadResult result;
+          QString error;
+          const auto mxcUri = komai::MatrixBackendRuntimeService::uploadMedia(
+            handleId, effectiveFilePath, effectiveContentType, &error);
+          if (!mxcUri.has_value()) {
+              result.error = error.isEmpty()
+                               ? QStringLiteral("failed to upload matrix media")
+                               : error;
+              return result;
+          }
+
+          result.result = komai::ipc::UploadResult{
+            .mxcUri       = *mxcUri,
+            .contentType  = effectiveContentType,
+            .filename     = effectiveFilename,
+            .size         = fileSize,
+          };
+          return result;
+      },
+      [callback = std::move(callback)](AsyncUploadResult result) mutable {
+          if (callback)
+              callback(result.result, result.error);
+      });
 }
 
 void
@@ -696,14 +818,69 @@ sendImageFromFile(const QString &roomIdOrAlias,
                   const QString &body,
                   SendMessageCallback callback)
 {
-    Q_UNUSED(roomIdOrAlias);
-    Q_UNUSED(filePath);
-    Q_UNUSED(body);
-    if (callback) {
-        callback(
-          {},
-          QStringLiteral("IPC image upload/send is not migrated to the matrix-sdk backend yet"));
+    const auto roomId = resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
     }
+
+    const QFileInfo fileInfo(filePath);
+    if (!fileInfo.exists() || !fileInfo.isFile()) {
+        if (callback)
+            callback({}, QStringLiteral("file not found: ") + filePath);
+        return;
+    }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (callback)
+            callback({}, QStringLiteral("matrix-sdk runtime is not active"));
+        return;
+    }
+
+    const auto effectiveFilePath = fileInfo.absoluteFilePath();
+    const auto mimeType =
+      QMimeDatabase().mimeTypeForFile(effectiveFilePath, QMimeDatabase::MatchContent).name().trimmed();
+    if (!mimeType.startsWith(QStringLiteral("image/"), Qt::CaseInsensitive)) {
+        if (callback)
+            callback({}, QStringLiteral("file is not an image: ") + effectiveFilePath);
+        return;
+    }
+
+    const auto effectiveFilename = effectiveUploadFileName(fileInfo, {});
+    if (effectiveFilename.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("file path does not include a file name: ") + filePath);
+        return;
+    }
+
+    const auto trimmedBody = body.trimmed();
+    runIpcTask(
+      [handleId = *handleId, roomId, effectiveFilePath, effectiveFilename, trimmedBody, mimeType]() {
+          AsyncSendResult result;
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::sendRoomAttachment(handleId,
+                                                                                 roomId,
+                                                                                 effectiveFilePath,
+                                                                                 effectiveFilename,
+                                                                                 trimmedBody,
+                                                                                 {},
+                                                                                 mimeType,
+                                                                                 &error);
+          if (ok) {
+              result.eventId = QStringLiteral("queued");
+          } else {
+              result.error = error.isEmpty()
+                               ? QStringLiteral("failed to send matrix-sdk room image attachment")
+                               : error;
+          }
+          return result;
+      },
+      [callback = std::move(callback)](AsyncSendResult result) mutable {
+          if (callback)
+              callback(result.eventId, result.error);
+      });
 }
 
 void
@@ -714,16 +891,55 @@ sendImage(const QString &roomIdOrAlias,
           const QJsonObject &info,
           SendMessageCallback callback)
 {
-    Q_UNUSED(roomIdOrAlias);
-    Q_UNUSED(mxcUri);
-    Q_UNUSED(body);
-    Q_UNUSED(filename);
-    Q_UNUSED(info);
-    if (callback) {
-        callback({},
-                 QStringLiteral("IPC MXC image send is not migrated to the matrix-sdk backend "
-                                "yet"));
+    const auto roomId = resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
     }
+
+    const auto normalizedMxcUri = komai::matrix::normalizeMxcUri(mxcUri);
+    if (!normalizedMxcUri.startsWith(QStringLiteral("mxc://"))) {
+        if (callback)
+            callback({}, QStringLiteral("invalid mxc uri: ") + mxcUri);
+        return;
+    }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (callback)
+            callback({}, QStringLiteral("matrix-sdk runtime is not active"));
+        return;
+    }
+
+    const auto trimmedBody = body.trimmed();
+    const auto trimmedFilename = filename.trimmed();
+    const auto infoJson =
+      info.isEmpty() ? QString{} : QString::fromUtf8(QJsonDocument(info).toJson(QJsonDocument::Compact));
+
+    runIpcTask(
+      [handleId = *handleId, roomId, normalizedMxcUri, trimmedBody, trimmedFilename, infoJson]() {
+          AsyncSendResult result;
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::sendRoomImage(handleId,
+                                                                            roomId,
+                                                                            normalizedMxcUri,
+                                                                            trimmedBody,
+                                                                            trimmedFilename,
+                                                                            infoJson,
+                                                                            &error);
+          if (ok) {
+              result.eventId = QStringLiteral("queued");
+          } else {
+              result.error =
+                error.isEmpty() ? QStringLiteral("failed to send matrix-sdk room image") : error;
+          }
+          return result;
+      },
+      [callback = std::move(callback)](AsyncSendResult result) mutable {
+          if (callback)
+              callback(result.eventId, result.error);
+      });
 }
 
 } // namespace komai::ipc

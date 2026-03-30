@@ -648,6 +648,15 @@ mod ffi {
             reply_event_id: &str,
             mime_type: &str,
         ) -> Result<()>;
+        fn matrix_upload_media(handle_id: u64, file_path: &str, mime_type: &str) -> Result<String>;
+        fn matrix_send_room_image(
+            handle_id: u64,
+            room_id: &str,
+            mxc_uri: &str,
+            body: &str,
+            filename: &str,
+            info_json: &str,
+        ) -> Result<()>;
         fn matrix_discover_login_flows(
             server_name_or_url: &str,
             verify_certificates: bool,
@@ -1801,6 +1810,25 @@ fn matrix_send_room_attachment(
         caption,
         reply_event_id,
         mime_type,
+    ))
+}
+
+fn matrix_upload_media(handle_id: u64, file_path: &str, mime_type: &str) -> Result<String, String> {
+    runtime().block_on(matrix_backend::runtime::upload_media(
+        handle_id, file_path, mime_type,
+    ))
+}
+
+fn matrix_send_room_image(
+    handle_id: u64,
+    room_id: &str,
+    mxc_uri: &str,
+    body: &str,
+    filename: &str,
+    info_json: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::send_room_image(
+        handle_id, room_id, mxc_uri, body, filename, info_json,
     ))
 }
 

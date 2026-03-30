@@ -376,8 +376,6 @@ public slots:
 
     QAbstractItemModel *completerFor(const QString &completerName,
                                      const QString &roomId = QLatin1String(QLatin1String("")));
-    void forwardMessageToRoom(mtx::events::collections::TimelineEvents const *e, QString roomId);
-
     RoomlistModel *rooms() { return rooms_; }
     void primeCurrentMatrixTimelineSelection();
     void markRoomSwitchRequested(const QString &roomId, const QString &reason);

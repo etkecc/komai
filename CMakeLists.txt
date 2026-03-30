@@ -371,8 +371,6 @@ set(SRC_FILES
     src/timeline/rust/MatrixTimelineModel.h
     src/timeline/DirectChatResolver.cpp
     src/timeline/DirectChatResolver.h
-    src/timeline/send/TimelineMessageSendPipeline.cpp
-    src/timeline/send/TimelineMessageSendPipeline.h
     src/timeline/Permissions.cpp
     src/timeline/Permissions.h
     src/timeline/PresenceEmitter.cpp
@@ -391,7 +389,6 @@ set(SRC_FILES
     src/timeline/TimelineViewManager.h
     src/timeline/view/TimelineViewManagerMedia.cpp
     src/timeline/view/TimelineViewManagerMatrixTimeline.cpp
-    src/timeline/view/TimelineViewManagerForwarding.cpp
     src/timeline/view/TimelineViewManagerRoomActions.cpp
     src/timeline/view/TimelineViewManagerColors.cpp
     src/timeline/view/TimelineViewManagerCompletions.cpp

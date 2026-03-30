@@ -42,8 +42,7 @@
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineViewManager.h"
 
-ChatPage *ChatPage::instance_      = nullptr;
-static constexpr int RETRY_TIMEOUT = 5'000;
+ChatPage *ChatPage::instance_ = nullptr;
 
 ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
   : QObject(parent)
@@ -160,26 +159,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
             &TimelineViewManager::initializeRoomlist,
             Qt::QueuedConnection);
 
-    connect(
-      this, &ChatPage::tryInitialSyncCb, this, &ChatPage::tryInitialSync, Qt::QueuedConnection);
-    connect(this, &ChatPage::trySyncCb, this, &ChatPage::trySync, Qt::QueuedConnection);
-    connect(
-      this,
-      &ChatPage::tryDelayedSyncCb,
-      this,
-      [this]() { QTimer::singleShot(RETRY_TIMEOUT, this, &ChatPage::trySync); },
-      Qt::QueuedConnection);
-
     connect(this, &ChatPage::dropToLoginPageCb, this, &ChatPage::dropToLoginPage);
-
-    connect(
-      this,
-      &ChatPage::startRemoveFallbackKeyTimer,
-      this,
-      [this]() {
-          QTimer::singleShot(std::chrono::minutes(5), this, &ChatPage::removeOldFallbackKey);
-      },
-      Qt::QueuedConnection);
 
     connect(
       this,

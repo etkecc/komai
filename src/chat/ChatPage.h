@@ -27,12 +27,6 @@ class CallManager;
 namespace mtx::requests {
 struct CreateRoom;
 }
-namespace mtx::responses {
-struct Notifications;
-struct Sync;
-struct Timeline;
-struct Rooms;
-}
 
 using SecretsToDecrypt = std::map<std::string, mtx::secret_storage::AesHmacSha2EncryptedData>;
 
@@ -118,12 +112,8 @@ signals:
     void setUserAvatar(const QString &avatar);
     void loggedOut();
 
-    void trySyncCb();
-    void tryDelayedSyncCb();
-    void tryInitialSyncCb();
     void newRoom(const QString &room_id);
     void changeToRoom(const QString &room_id);
-    void startRemoveFallbackKeyTimer();
 
     void initializeEmptyViews();
     void dropToLoginPageCb(const QString &msg);
@@ -171,8 +161,6 @@ private slots:
     void changeRoom(const QString &room_id);
     void dropToLoginPage(const QString &msg);
 
-    void handleSyncResponse(const mtx::responses::Sync &res, const std::string &prev_batch_token);
-
 private:
     enum class LogoutPolicy
     {
@@ -191,13 +179,6 @@ private:
     void finalizeLogout(LogoutRoute route, const QString &loginMessage = QString());
     static ChatPage *instance_;
 
-    void startInitialSync();
-    void tryInitialSync();
-    void trySync();
-    void verifyOneTimeKeyCountAfterStartup();
-    void ensureOneTimeKeyCount(const std::map<std::string_view, uint16_t> &counts,
-                               const std::optional<std::vector<std::string>> &fallback_keys);
-    void removeOldFallbackKey();
     void getProfileInfo();
     void getBackupVersion();
 
@@ -208,9 +189,6 @@ private:
     // returns if the user had no interaction with Komai for quite a while, which means we set our
     // presence to unavailable if automatic presence is enabled
     bool shouldBeUnavailable() const;
-    // If we should throttle sync processing to reduce CPU load, if people are spamming messages and
-    // we aren't looking
-    bool shouldThrottleSync() const;
 
     template<typename T>
     void connectCallMessage();
@@ -229,9 +207,6 @@ private:
 
     NotificationsManager *notificationsManager;
     CallManager *callManager_;
-
-    QDateTime lastSpacesUpdate                 = QDateTime::currentDateTime();
-    bool scheduleFallbackKeyRemovalOnNextSync_ = false;
 
     // Stores when our windows lost focus. Invalid when our windows have focus.
     QDateTime lastWindowActive;

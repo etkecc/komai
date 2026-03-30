@@ -33,43 +33,6 @@ matrixRuntimeHandleId()
 }
 } // namespace
 
-void
-ChatPage::tryInitialSync()
-{
-    if (!hasMatrixSdkRuntime()) {
-        nhlog::net()->error("Refusing to start chat without an active matrix-sdk runtime handle");
-        emit dropToLoginPageCb(
-          tr("Matrix backend runtime failed to start for this session. Please log in again."));
-        return;
-    }
-
-    nhlog::net()->debug("Ignoring legacy mtxclient initial sync trigger on matrix-sdk runtime");
-}
-
-void
-ChatPage::startInitialSync()
-{
-    nhlog::net()->debug("Ignoring legacy mtxclient startInitialSync on matrix-sdk runtime");
-}
-
-void
-ChatPage::handleSyncResponse(const mtx::responses::Sync &, const std::string &)
-{
-    nhlog::net()->debug("Ignoring legacy mtxclient sync response handling on matrix-sdk runtime");
-}
-
-void
-ChatPage::trySync()
-{
-    if (!hasMatrixSdkRuntime()) {
-        nhlog::net()->warn("Ignoring sync request because no active matrix-sdk runtime exists");
-        return;
-    }
-
-    nhlog::net()->debug(
-      "Ignoring legacy mtxclient sync trigger because matrix-sdk runtime owns sync");
-}
-
 QString
 ChatPage::status() const
 {
@@ -99,13 +62,6 @@ ChatPage::shouldBeUnavailable() const
            lastWindowActive.addSecs(60 * 5) < QDateTime::currentDateTime();
 }
 
-bool
-ChatPage::shouldThrottleSync() const
-{
-    return lastWindowActive.isValid() &&
-           lastWindowActive.addSecs(6 * 5) < QDateTime::currentDateTime();
-}
-
 mtx::presence::PresenceState
 ChatPage::currentPresence() const
 {
@@ -125,28 +81,6 @@ ChatPage::currentPresence() const
     default:
         return mtx::presence::online;
     }
-}
-
-void
-ChatPage::verifyOneTimeKeyCountAfterStartup()
-{
-    nhlog::crypto()->info(
-      "Skipping legacy one-time key verification because matrix-sdk runtime owns sync");
-}
-
-void
-ChatPage::ensureOneTimeKeyCount(const std::map<std::string_view, uint16_t> &,
-                                const std::optional<std::vector<std::string>> &)
-{
-    nhlog::crypto()->debug(
-      "Ignoring legacy one-time key maintenance because matrix-sdk runtime owns sync");
-}
-
-void
-ChatPage::removeOldFallbackKey()
-{
-    nhlog::crypto()->debug(
-      "Ignoring legacy fallback-key retirement because matrix-sdk runtime owns sync");
 }
 
 void

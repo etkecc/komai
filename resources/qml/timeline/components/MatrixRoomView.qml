@@ -129,6 +129,12 @@ ColumnLayout {
         timelineList: matrixTimelineList
     }
 
+    MatrixRoomEventSupport {
+        id: eventSupport
+
+        rootItem: root
+    }
+
     function clearSearch() {
         topBar.searchString = "";
     }
@@ -140,95 +146,13 @@ ColumnLayout {
         TimelineManager.markRoomSwitchPhase(activeRoomId, phase);
     }
 
-    function selectedEventIdsContains(eventId) {
-        const normalizedEventId = String(eventId || "");
-        return normalizedEventId.length > 0 && selectedEventIds.indexOf(normalizedEventId) >= 0;
-    }
-
-    function canExplicitlySelectEventId(eventId) {
-        const normalizedEventId = String(eventId || "");
-        return normalizedEventId.length > 0
-            && TimelineManager.matrixTimelineModel
-            && TimelineManager.matrixTimelineModel.rowForEventId(normalizedEventId) >= 0;
-    }
-
-    function updateSelectionAnchor(preferredEventId) {
-        const normalizedEventId = String(preferredEventId || "");
-        if (selectedEventIdsContains(normalizedEventId)) {
-            selectionAnchorEventId = normalizedEventId;
-            return;
-        }
-
-        selectionAnchorEventId = selectedEventIds.length > 0
-            ? String(selectedEventIds[selectedEventIds.length - 1] || "")
-            : "";
-    }
-
-    function toggleSelectionForEventId(eventId) {
-        const normalizedEventId = String(eventId || "");
-        if (!canExplicitlySelectEventId(normalizedEventId))
-            return false;
-
-        const wasSelected = selectedEventIdsContains(normalizedEventId);
-        if (wasSelected) {
-            selectedEventIds = selectedEventIds.filter(function (selectedEventId) {
-                return String(selectedEventId || "") !== normalizedEventId;
-            });
-        } else {
-            selectedEventIds = selectedEventIds.concat([normalizedEventId]);
-        }
-
-        updateSelectionAnchor(wasSelected ? "" : normalizedEventId);
-        return true;
-    }
-
-    function registerVisibleDelegate(eventId, delegateItem) {
-        const key = String(eventId || "");
-        if (key.length === 0 || !delegateItem)
-            return;
-
-        visibleTimelineDelegates[key] = delegateItem;
-        visibleTimelineDelegatesChanged();
-    }
-
-    function unregisterVisibleDelegate(eventId, delegateItem) {
-        const key = String(eventId || "");
-        if (key.length === 0)
-            return;
-
-        if (!visibleTimelineDelegates[key])
-            return;
-        if (delegateItem && visibleTimelineDelegates[key] !== delegateItem)
-            return;
-
-        delete visibleTimelineDelegates[key];
-        visibleTimelineDelegatesChanged();
-    }
-
-    function replaceTrackedEventId(previousId, nextId) {
-        const oldKey = String(previousId || "");
-        const newKey = String(nextId || "");
-        if (oldKey.length === 0 || newKey.length === 0 || oldKey === newKey)
-            return;
-
-        const tracked = visibleTimelineDelegates[oldKey];
-        if (!tracked)
-            return;
-
-        delete visibleTimelineDelegates[oldKey];
-        visibleTimelineDelegates[newKey] = tracked;
-        visibleTimelineDelegatesChanged();
-
-        if (focusedEventId === oldKey)
-            focusedEventId = newKey;
-        if (selectionAnchorEventId === oldKey)
-            selectionAnchorEventId = newKey;
-        if (selectedEventIds.indexOf(oldKey) >= 0) {
-            selectedEventIds = selectedEventIds.map(function (eventId) {
-                return String(eventId || "") === oldKey ? newKey : eventId;
-            });
-        }
-    }
+    function selectedEventIdsContains(eventId) { return eventSupport.selectedEventIdsContains(eventId); }
+    function canExplicitlySelectEventId(eventId) { return eventSupport.canExplicitlySelectEventId(eventId); }
+    function updateSelectionAnchor(preferredEventId) { return eventSupport.updateSelectionAnchor(preferredEventId); }
+    function toggleSelectionForEventId(eventId) { return eventSupport.toggleSelectionForEventId(eventId); }
+    function registerVisibleDelegate(eventId, delegateItem) { return eventSupport.registerVisibleDelegate(eventId, delegateItem); }
+    function unregisterVisibleDelegate(eventId, delegateItem) { return eventSupport.unregisterVisibleDelegate(eventId, delegateItem); }
+    function replaceTrackedEventId(previousId, nextId) { return eventSupport.replaceTrackedEventId(previousId, nextId); }
 
     function scheduleInitialTimelineBufferCheck() { return viewportSupport.scheduleInitialTimelineBufferCheck(); }
     function scheduleDeferredInitialTimelineBufferCheck() { return viewportSupport.scheduleDeferredInitialTimelineBufferCheck(); }
@@ -250,90 +174,15 @@ ColumnLayout {
     function openWalkModeHelpDialog() { return walkModeSupport.openWalkModeHelpDialog(); }
     function openPrimaryMessageActionsDialog() { return walkModeSupport.openPrimaryMessageActionsDialog(); }
 
-    function matrixTimelineHeightCacheKey(eventId, itemId) {
-        const stableEventId = String(eventId || "").trim();
-        if (stableEventId.length > 0)
-            return stableEventId;
-        return String(itemId || "").trim();
-    }
-
-    function rememberedTimelineHeight(cacheKey) {
-        if (!cacheKey || measuredTimelineHeights[cacheKey] === undefined)
-            return 0;
-        return Number(measuredTimelineHeights[cacheKey] || 0);
-    }
-
-    function rememberTimelineHeight(cacheKey, height) {
-        const stableKey = String(cacheKey || "").trim();
-        const stableHeight = Math.round(Number(height || 0));
-        if (stableKey.length === 0 || stableHeight <= 0)
-            return;
-        if (Number(measuredTimelineHeights[stableKey] || 0) === stableHeight)
-            return;
-
-        measuredTimelineHeights[stableKey] = stableHeight;
-        measuredTimelineHeightsChanged();
-    }
-
-    function matrixEventTypeForItemKind(kind) {
-        switch (kind) {
-        case "notice":
-            return MtxEvent.NoticeMessage;
-        case "redacted":
-            return MtxEvent.Redacted;
-        case "image":
-            return MtxEvent.ImageMessage;
-        case "video":
-            return MtxEvent.VideoMessage;
-        case "audio":
-            return MtxEvent.AudioMessage;
-        case "file":
-            return MtxEvent.FileMessage;
-        case "sticker":
-            return MtxEvent.Sticker;
-        default:
-            return MtxEvent.TextMessage;
-        }
-    }
-
-    function matrixTimelineDayKey(timestampMs) {
-        const day = new Date(Number(timestampMs || 0));
-        return day.getFullYear() * 10000 + (day.getMonth() + 1) * 100 + day.getDate();
-    }
-
-    function isMatrixStateLikeKind(kind) {
-        return ["membership_change", "profile_change", "other_state", "failed_to_parse_state", "date_divider"].indexOf(String(kind || "")) >= 0;
-    }
-
-    function formattedMatrixTextHtml(text) {
-        return TimelineManager.formatMatrixMessageHtml(String(text || ""));
-    }
-
-    function matrixStateEventIconForKind(kind) {
-        switch (String(kind || "")) {
-        case "membership_change":
-            return ":/icons/icons/ui/state-member-join.svg";
-        case "profile_change":
-            return ":/icons/icons/ui/state-member-display-name.svg";
-        default:
-            return ":/icons/icons/ui/state-event.svg";
-        }
-    }
-
-    function matrixRedactedEventPair(senderDisplayName, senderId) {
-        const senderLabel = String(senderDisplayName || senderId || "").trim();
-        if (senderLabel.length === 0) {
-            return {
-                "first": qsTr("Deleted message"),
-                "second": ""
-            };
-        }
-
-        return {
-            "first": qsTr("Deleted message"),
-            "second": qsTr("Originally sent by %1").arg(senderLabel)
-        };
-    }
+    function matrixTimelineHeightCacheKey(eventId, itemId) { return eventSupport.matrixTimelineHeightCacheKey(eventId, itemId); }
+    function rememberedTimelineHeight(cacheKey) { return eventSupport.rememberedTimelineHeight(cacheKey); }
+    function rememberTimelineHeight(cacheKey, height) { return eventSupport.rememberTimelineHeight(cacheKey, height); }
+    function matrixEventTypeForItemKind(kind) { return eventSupport.matrixEventTypeForItemKind(kind); }
+    function matrixTimelineDayKey(timestampMs) { return eventSupport.matrixTimelineDayKey(timestampMs); }
+    function isMatrixStateLikeKind(kind) { return eventSupport.isMatrixStateLikeKind(kind); }
+    function formattedMatrixTextHtml(text) { return eventSupport.formattedMatrixTextHtml(text); }
+    function matrixStateEventIconForKind(kind) { return eventSupport.matrixStateEventIconForKind(kind); }
+    function matrixRedactedEventPair(senderDisplayName, senderId) { return eventSupport.matrixRedactedEventPair(senderDisplayName, senderId); }
 
     function openMatrixMessageContextMenu(messageModel, roomModel, copyText) {
         return interactionSupport.openMatrixMessageContextMenu(messageModel, roomModel, copyText);

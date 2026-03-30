@@ -9,13 +9,17 @@ Item {
     required property var chatList
     required property var chatRoot
     required property var roomModel
+    property bool allowEscape: true
 
     Window.onActiveChanged: readTimer.running = Window.active
 
     Shortcut {
         sequences: [StandardKey.MoveToPreviousPage]
+        enabled: !!chatList
 
         onActivated: {
+            if (!chatList)
+                return;
             chatList.keepPinnedToBottom = false;
             chatList.contentY = chatList.contentY - chatList.height * 0.9;
             chatList.returnToBounds();
@@ -23,8 +27,11 @@ Item {
     }
     Shortcut {
         sequences: [StandardKey.MoveToNextPage]
+        enabled: !!chatList
 
         onActivated: {
+            if (!chatList)
+                return;
             chatList.keepPinnedToBottom = false;
             chatList.contentY = chatList.contentY + chatList.height * 0.9;
             chatList.returnToBounds();
@@ -32,8 +39,12 @@ Item {
     }
     Shortcut {
         sequences: [StandardKey.Cancel, "Escape"]
+        enabled: allowEscape && !!chatRoot
 
-        onActivated: chatRoot.handleEscape()
+        onActivated: {
+            if (chatRoot)
+                chatRoot.handleEscape();
+        }
     }
     Timer {
         id: readTimer

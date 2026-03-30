@@ -416,6 +416,19 @@ Item {
         roomModel: timelineView.useMatrixRoomView ? null : timelineView.room
         showBackButton: timelineView.showBackButton && !timelineView.useMatrixRoomView
     }
+    TimelineKeyboardShortcuts {
+        chatList: timelineView.useMatrixRoomView
+            ? (matrixTimeline ? matrixTimeline.timelineListItem : null)
+            : null
+        chatRoot: timelineView.useMatrixRoomView ? matrixTimeline : null
+        roomModel: null
+        allowEscape: timelineView.useMatrixRoomView
+            && matrixTimeline
+            && !matrixTimeline.hasOpenOverlayDialog
+            && (matrixTimeline.walkModeActive
+                || matrixTimeline.hasSelectedEvents
+                || matrixTimeline.hasFocusedEvent)
+    }
     TimelineEffects {
         id: timelineEffects
 

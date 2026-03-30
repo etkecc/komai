@@ -487,18 +487,4 @@ ColumnLayout {
         }
     }
 
-    Shortcut {
-        sequences: [StandardKey.Cancel, "Escape"]
-        context: Qt.ApplicationShortcut
-        enabled: root.visible && !root.hasOpenOverlayDialog
-            && (root.walkModeActive || root.hasSelectedEvents || root.hasFocusedEvent)
-
-        onActivated: walkModeSupport.handleEscape()
-    }
-
-    TimelineKeyboardShortcuts {
-        chatList: matrixTimelineList
-        chatRoot: root
-        roomModel: null
-    }
 }

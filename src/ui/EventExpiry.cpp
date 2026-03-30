@@ -74,7 +74,7 @@ EventExpiry::setProtectLatestEvents(int val)
     if (val > 0)
         this->event.protect_latest = std::uint64_t(val);
     else
-        this->event.expire_after_ms = 0;
+        this->event.protect_latest = 0;
     emit protectLatestEventsChanged();
 }
 
@@ -92,7 +92,7 @@ void
 EventExpiry::setExpireStateEvents(bool val)
 {
     this->event.exclude_state_events = !val;
-    emit expireEventsAfterCountChanged();
+    emit expireStateEventsChanged();
 }
 
 #include "moc_EventExpiry.cpp"

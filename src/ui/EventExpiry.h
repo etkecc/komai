@@ -10,7 +10,7 @@
 #include <QString>
 #include <QVariantList>
 
-#include <mtx/events/nheko_extensions/event_expiry.hpp>
+#include <cstdint>
 
 class EventExpiry : public QObject
 {
@@ -60,8 +60,16 @@ signals:
     void expireStateEventsChanged();
 
 private:
+    struct EventExpiryDraft
+    {
+        std::uint64_t expire_after_ms    = 0;
+        std::uint64_t keep_only_latest   = 0;
+        std::uint64_t protect_latest     = 0;
+        bool exclude_state_events        = false;
+    };
+
     QString roomid_;
-    mtx::events::account_data::nheko_extensions::EventExpiry event = {};
+    EventExpiryDraft event = {};
 
     void load();
 };

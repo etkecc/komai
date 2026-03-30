@@ -44,7 +44,7 @@ ColumnLayout {
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property var composerShell: composerPane.composerShell
     readonly property var notificationAreaItem: timelineViewport
-    readonly property bool headerSearchHasFocus: topBar.searchHasFocus
+    readonly property bool headerSearchHasFocus: headerPane.searchHasFocus
     readonly property real listViewDisplayMargin: roomSwitchInProgress
         ? 0
         : (matrixTimelineList ? matrixTimelineList.height / 8 : 0)
@@ -147,7 +147,7 @@ ColumnLayout {
         id: lifecycleSupport
 
         rootItem: root
-        topBar: topBar
+        topBar: headerPane.headerItem
         listShellSupport: listShellSupport
     }
 
@@ -228,34 +228,13 @@ ColumnLayout {
     spacing: 0
     visible: !!roomPreview && roomPreview.isMatrixSummary
 
-    RoomHeader {
-        id: topBar
+    MatrixRoomHeaderPane {
+        id: headerPane
 
-        Layout.fillWidth: true
-        Layout.minimumHeight: visible ? implicitHeight : 0
-        Layout.preferredHeight: visible ? implicitHeight : 0
-        Layout.maximumHeight: visible ? implicitHeight : 0
-        room: null
-        roomModel: matrixHeaderRoomModel
-        roomId: root.roomPreview ? root.roomPreview.roomid : ""
-        roomName: root.roomPreview ? root.roomPreview.roomName : qsTr("No room selected")
-        avatarDisplayName: root.roomPreview ? root.roomPreview.roomName : qsTr("No room selected")
-        avatarUrl: root.roomPreview ? root.roomPreview.roomAvatarUrl : ""
-        directChatOtherUserId: root.roomPreview ? root.roomPreview.directChatOtherUserId : ""
-        isDirect: !!root.roomPreview && root.roomPreview.isDirect
-        isEncrypted: !!root.roomPreview && root.roomPreview.isEncrypted
-        roomTopic: root.roomPreview ? root.roomPreview.roomTopic : ""
+        roomPreview: root.roomPreview
         showBackButton: root.showBackButton
-        visible: !root.perfDisableRoomHeader
-    }
-
-    Rectangle {
-        Layout.fillWidth: true
-        Layout.minimumHeight: visible ? 1 : 0
-        Layout.preferredHeight: visible ? 1 : 0
-        Layout.maximumHeight: visible ? 1 : 0
-        color: palette.mid
-        visible: !root.perfDisableRoomHeader
+        perfDisableRoomHeader: root.perfDisableRoomHeader
+        headerRoomModel: matrixHeaderRoomModel
     }
 
     Rectangle {
@@ -525,20 +504,8 @@ ColumnLayout {
                 }
 
 
-                ColumnLayout {
-                    anchors.centerIn: parent
-                    spacing: Komai.paddingMedium
-                    visible: !root.hasTimeline
-                    width: Math.min(parent.width - Komai.paddingLarge * 2, 560)
-
-                    MatrixText {
-                        Layout.fillWidth: true
-                        horizontalAlignment: TextEdit.AlignHCenter
-                        text: root.loading
-                            ? qsTr("Loading this room…")
-                            : qsTr("Nothing has loaded for this room yet.")
-                        wrapMode: Text.WordWrap
-                    }
+                MatrixRoomEmptyState {
+                    rootItem: root
                 }
             }
 

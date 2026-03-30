@@ -43,7 +43,7 @@ Rectangle {
         }
 
         messageInput.forceActiveFocus();
-        return true;
+        return !!messageInput.activeFocus;
     }
 
     function focusTextInputIfAllowed() {
@@ -51,7 +51,7 @@ Rectangle {
             return false;
 
         messageInput.forceActiveFocus();
-        return true;
+        return !!messageInput.activeFocus;
     }
 
     function appendText(text) {

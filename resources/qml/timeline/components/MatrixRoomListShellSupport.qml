@@ -249,6 +249,9 @@ QtObject {
             rootItem.markRoomSwitchPerfPhase("qml.matrix_room.count_nonzero");
         }
 
+        if (timelineList.count > 0 && rootItem.pendingComposerAutoFocus)
+            rootItem.scheduleComposerAutoFocus();
+
         const forceScroll = timelineList.previousCount === 0 && !timelineList.visibleIndicesValid;
         if (!timelineList.userUnpinned
                 && (forceScroll || timelineList.keepPinnedToBottom || rootItem.initialBottomPinPending)) {

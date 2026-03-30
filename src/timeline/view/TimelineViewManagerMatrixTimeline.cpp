@@ -1382,11 +1382,32 @@ TimelineViewManager::readReceiptsModelForActiveMatrixTimelineEvent(const QString
 bool
 TimelineViewManager::openActiveMatrixAttachmentSelection()
 {
-    auto *mainWindow    = MainWindow::instance();
-    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
-    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+    const auto targetRoomId = activeMatrixTimelineRoomId_.trimmed();
+    if (targetRoomId.isEmpty()) {
+        nhlog::ui()->warn("Refusing to queue matrix-sdk room attachment without a selected room");
+        return false;
+    }
+
+    const QString homeFolder = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+    const QStringList filePaths =
+      QFileDialog::getOpenFileNames(nullptr, tr("Select file(s)"), homeFolder, tr("All Files (*)"));
+    if (filePaths.isEmpty())
+        return false;
+
+    return stageMatrixAttachmentsForRoom(targetRoomId, filePaths);
+}
+
+bool
+TimelineViewManager::stageMatrixAttachmentsForRoom(const QString &roomId,
+                                                   const QStringList &filePaths)
+{
+    auto *mainWindow        = MainWindow::instance();
+    const auto handleId     = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    const auto targetRoomId = roomId.trimmed();
+    if (handleId == 0 || targetRoomId.isEmpty()) {
         nhlog::ui()->warn("Refusing to queue matrix-sdk room attachment without an active "
-                          "runtime handle or selected matrix room");
+                          "runtime handle or selected matrix room (room='{}')",
+                          targetRoomId.toStdString());
         return false;
     }
 
@@ -1400,34 +1421,48 @@ TimelineViewManager::openActiveMatrixAttachmentSelection()
         return false;
     }
 
-    const QString homeFolder = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-    const QStringList filePaths =
-      QFileDialog::getOpenFileNames(nullptr, tr("Select file(s)"), homeFolder, tr("All Files (*)"));
-    if (filePaths.isEmpty())
-        return false;
-
     QMimeDatabase mimeDatabase;
+    QStringList normalizedFilePaths;
+    normalizedFilePaths.reserve(filePaths.size());
+
     for (const auto &filePath : filePaths) {
-        const auto mimeType = mimeDatabase.mimeTypeForFile(filePath).name();
+        const QFileInfo info(filePath);
+        if (!info.exists() || !info.isFile())
+            continue;
+
+        const auto absoluteFilePath = info.absoluteFilePath();
+        if (normalizedFilePaths.contains(absoluteFilePath))
+            continue;
+
+        normalizedFilePaths.push_back(absoluteFilePath);
+        const auto mimeType = mimeDatabase.mimeTypeForFile(absoluteFilePath).name();
         const auto effectiveMimeType =
           mimeType.isEmpty() ? QStringLiteral("application/octet-stream") : mimeType;
-        const auto fileName = QFileInfo(filePath).fileName();
+        const auto fileName = info.fileName();
         pendingMatrixAttachments_.push_back(PendingMatrixAttachment{
           .handleId     = handleId,
-          .roomId       = activeMatrixTimelineRoomId_,
-          .filePath     = filePath,
+          .roomId       = targetRoomId,
+          .filePath     = absoluteFilePath,
           .filename     = fileName,
           .body         = {},
           .replyEventId = {},
           .mimeType     = effectiveMimeType,
         });
         matrixPendingAttachmentItems_.push_back(new MatrixPendingAttachmentUpload(
-          filePath,
+          absoluteFilePath,
           fileName,
           effectiveMimeType,
           utils::fileTypeIconSource(effectiveMimeType),
-          matrixPendingAttachmentThumbnail(filePath, effectiveMimeType),
+          matrixPendingAttachmentThumbnail(absoluteFilePath, effectiveMimeType),
           this));
+    }
+
+    if (normalizedFilePaths.isEmpty()) {
+        if (mainWindow) {
+            mainWindow->showNotification(
+              tr("Only existing local files can be attached by drag and drop."));
+        }
+        return false;
     }
 
     emit matrixTimelineStateChanged();

@@ -299,6 +299,7 @@ public:
     Q_INVOKABLE QObject *
     readReceiptsModelForActiveMatrixTimelineEvent(const QString &eventId) const;
     Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
+    bool stageMatrixAttachmentsForRoom(const QString &roomId, const QStringList &filePaths);
     Q_INVOKABLE bool sendActiveMatrixAttachments();
     Q_INVOKABLE void clearActiveMatrixAttachments();
     Q_INVOKABLE void removeActiveMatrixAttachment(int index);

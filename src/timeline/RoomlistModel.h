@@ -292,7 +292,6 @@ public slots:
     void acceptInvite(QString roomid) { roomlistmodel->acceptInvite(roomid); }
     void declineInvite(QString roomid) { roomlistmodel->declineInvite(roomid); }
     void leave(QString roomid, QString reason = "") { roomlistmodel->leave(roomid, reason); }
-    void markRoomAsRead(QString roomid);
     void toggleTag(const QString &roomid, const QString &tag, bool on);
     void copyLink(QString roomid);
     void scheduleRoomPrewarm(QString roomid, QString trigger = QStringLiteral("manual"))

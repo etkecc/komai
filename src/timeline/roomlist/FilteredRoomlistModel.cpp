@@ -486,54 +486,6 @@ FilteredRoomlistModel::computeFilterBadges(const QStringList &communityIds) cons
 }
 
 void
-FilteredRoomlistModel::markRoomAsRead(QString roomid)
-{
-    const auto roomId = roomid.trimmed();
-    if (roomId.isEmpty())
-        return;
-
-    const auto summaryIt = roomlistmodel->matrixJoinedRooms_.find(roomId);
-    if (summaryIt == roomlistmodel->matrixJoinedRooms_.end()) {
-        nhlog::ui()->warn("Room mark-as-read is not migrated for non-matrix room '{}'",
-                          roomId.toStdString());
-        MainWindow::instance()->showNotification(
-          tr("Mark as read is not available yet during the matrix-sdk migration."));
-        return;
-    }
-
-    const auto &summary = summaryIt.value();
-    if (summary.latestEventId.isEmpty()) {
-        nhlog::ui()->info("Skipping mark-as-read for '{}' because no latest event id is known",
-                          roomId.toStdString());
-        return;
-    }
-
-    auto *mainWindow    = MainWindow::instance();
-    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
-    if (handleId == 0) {
-        nhlog::ui()->warn("Refusing to mark matrix-sdk room '{}' as read without an active "
-                          "backend handle",
-                          roomId.toStdString());
-        if (mainWindow) {
-            mainWindow->showNotification(tr(
-              "Mark as read is temporarily unavailable because the Matrix session is not active."));
-        }
-        return;
-    }
-
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::markRoomEventAsRead(
-          handleId, roomId, summary.latestEventId, &error)) {
-        nhlog::ui()->warn("Failed to mark matrix-sdk room '{}' as read via latest event '{}': {}",
-                          roomId.toStdString(),
-                          summary.latestEventId.toStdString(),
-                          error.toStdString());
-        if (mainWindow)
-            mainWindow->showNotification(tr("Failed to mark room as read: %1").arg(error));
-    }
-}
-
-void
 FilteredRoomlistModel::toggleTag(const QString &roomid, const QString &tag, bool on)
 {
     const auto roomId = roomid.trimmed();

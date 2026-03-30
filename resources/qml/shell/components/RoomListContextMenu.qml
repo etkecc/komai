@@ -51,11 +51,6 @@ Menu {
         }
     }
     MenuItem {
-        text: qsTr("Mark as read")
-
-        onTriggered: Rooms.markRoomAsRead(root.roomid)
-    }
-    MenuItem {
         text: qsTr("Room settings")
 
         onTriggered: TimelineManager.openRoomInfo(root.roomid, "settings")

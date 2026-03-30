@@ -236,13 +236,6 @@ private:
     void deferCurrentRoomVisualState(const QString &roomId);
     void flushDeferredCurrentRoomVisualState(const QString &roomId);
     void invalidateCachedLastMessage(const QString &room_id);
-    void addRoom(const QString &room_id,
-                 bool suppressInsertNotification = false,
-                 const char *reason              = "unknown");
-    void
-    connectRoomModelSignals(const QString &room_id, const QSharedPointer<TimelineModel> &roomModel);
-    void restoreRoomDraft(const QString &room_id, const QSharedPointer<TimelineModel> &roomModel);
-    QSharedPointer<TimelineModel> createRoomModel(const QString &room_id);
     void syncJoinedRoom(const komai::JoinedRoomSyncUpdate &roomUpdate);
     void syncLeftRoom(const QString &roomId);
     void syncInvitedRoom(const QString &roomId);
@@ -250,8 +243,6 @@ private:
     static bool isCachedEncryptedPreview(const QString &room_id, const DescInfo &description);
     bool isCurrentRoomSelection(const QString &roomid) const;
     void clearCurrentRoomSelection();
-    void activateMaterializedCurrentRoom(const QString &room_id, bool updateLastMessage);
-    bool trySelectCurrentMaterializedRoom(const QString &roomid);
     bool trySelectCurrentMatrixSummaryRoom(const QString &roomid);
     bool trySelectCurrentPreviewRoom(const QString &roomid);
     void deferStartupCurrentRoomRestore(const QString &roomid);
@@ -298,8 +289,8 @@ private:
     QString currentRoomVisualStateDeferredRoomId_;
     QString deferredStartupCurrentRoomId_;
     bool allowDeferredStartupCurrentRoomRestore_ = false;
-    // When UI requests opening a room before sync inserts it into `models`,
-    // remember the target and switch once addRoom() sees it.
+    // When UI requests opening a room before sync inserts it into the room summary list,
+    // remember the target and switch once the room becomes available.
     QString pendingCurrentRoomId_;
 
 #ifdef KOMAI_DBUS_SYS

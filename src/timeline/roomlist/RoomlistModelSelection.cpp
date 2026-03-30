@@ -30,22 +30,6 @@ RoomlistModel::clearCurrentRoomSelection()
     scheduleLruEviction();
 }
 
-void
-RoomlistModel::activateMaterializedCurrentRoom(const QString &room_id, bool updateLastMessage)
-{
-    Q_UNUSED(updateLastMessage);
-    currentRoomPreview_ = getRoomPreviewById(room_id);
-    notifyCurrentRoomIdChanged();
-    scheduleCurrentRoomVisualStateChanged();
-}
-
-bool
-RoomlistModel::trySelectCurrentMaterializedRoom(const QString &roomid)
-{
-    Q_UNUSED(roomid);
-    return false;
-}
-
 bool
 RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
 {

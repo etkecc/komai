@@ -16,6 +16,7 @@ ColumnLayout {
 
     required property var roomPreview
     required property bool showBackButton
+    property var externalHeaderPane: null
     property var chatRoot: null
     property var timelineRoot: null
     property var emojiPopup: null
@@ -44,7 +45,9 @@ ColumnLayout {
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property var composerShell: composerPane.composerShell
     readonly property var notificationAreaItem: timelineViewport
-    readonly property bool headerSearchHasFocus: headerPane.searchHasFocus
+    readonly property bool headerSearchHasFocus: externalHeaderPane && externalHeaderPane.searchHasFocus !== undefined
+        ? !!externalHeaderPane.searchHasFocus
+        : headerPane.searchHasFocus
     readonly property real listViewDisplayMargin: roomSwitchInProgress
         ? 0
         : (matrixTimelineList ? matrixTimelineList.height / 8 : 0)
@@ -109,7 +112,7 @@ ColumnLayout {
 
         rootItem: root
         timelineList: matrixTimelineList
-        topBar: topBar
+        topBar: externalHeaderPane && externalHeaderPane.headerItem ? externalHeaderPane.headerItem : headerPane.headerItem
         messageActionSupport: messageActionSupport
     }
 
@@ -147,7 +150,7 @@ ColumnLayout {
         id: lifecycleSupport
 
         rootItem: root
-        topBar: headerPane.headerItem
+        topBar: externalHeaderPane && externalHeaderPane.headerItem ? externalHeaderPane.headerItem : headerPane.headerItem
         listShellSupport: listShellSupport
     }
 
@@ -235,6 +238,7 @@ ColumnLayout {
         showBackButton: root.showBackButton
         perfDisableRoomHeader: root.perfDisableRoomHeader
         headerRoomModel: matrixHeaderRoomModel
+        visible: !root.externalHeaderPane
     }
 
     Rectangle {

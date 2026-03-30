@@ -29,7 +29,7 @@ Item {
     readonly property var legacyMessageInput: legacyTimeline ? legacyTimeline.messageInputItem : null
     readonly property var matrixTimeline: matrixRoomLoader.item
     readonly property bool activeSearchHasFocus: useMatrixRoomView
-        ? (!!matrixTimeline && !!matrixTimeline.headerSearchHasFocus)
+        ? (!!matrixHeaderPane && !!matrixHeaderPane.searchHasFocus)
         : (!!legacyRoomHeader && !!legacyRoomHeader.searchHasFocus)
     readonly property bool activeWalkModeActive: useMatrixRoomView
         ? (!!matrixTimeline && !!matrixTimeline.walkModeActive)
@@ -127,6 +127,18 @@ Item {
     }
     TimelineFirstSyncSpinner {
         waitingForFirstSync: TimelineManager.waitingForFirstSync
+    }
+    MatrixRoomHeaderPane {
+        id: matrixHeaderPane
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        roomPreview: timelineView.roomPreview
+        showBackButton: timelineView.showBackButton
+        perfDisableRoomHeader: timelineView.perfDisableRoomHeader
+        headerRoomModel: matrixTimeline ? matrixTimeline.matrixHeaderRoomModel : null
+        visible: timelineView.useMatrixRoomView
     }
     Component {
         id: legacyTimelineComponent
@@ -302,6 +314,7 @@ Item {
         MatrixRoomView {
             roomPreview: timelineView.roomPreview
             showBackButton: timelineView.showBackButton
+            externalHeaderPane: matrixHeaderPane
             chatRoot: matrixTimelineHost
             timelineRoot: timelineView.dialogHost
             emojiPopup: timelineEmojiPopup
@@ -319,7 +332,10 @@ Item {
     Loader {
         id: matrixRoomLoader
 
-        anchors.fill: parent
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top
         active: timelineView.useMatrixRoomView
         sourceComponent: matrixTimelineComponent
         visible: active

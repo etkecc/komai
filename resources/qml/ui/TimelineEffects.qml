@@ -67,7 +67,7 @@ Item {
     {
         switch (effectName) {
         case "confetti":
-            return animationsEnabled ? 1500 : 800;
+            return animationsEnabled ? 2200 : 900;
         case "rainfall":
             return animationsEnabled ? 1800 : 800;
         case "sunlight":
@@ -169,7 +169,7 @@ Item {
             return;
         }
 
-        confettiEmitter.pulse(Math.min(Math.max(height * 2.0, 520), 1500));
+        confettiEmitter.pulse(Math.min(Math.max(height * 0.45, 260), 480));
     }
 
     function triggerRainfall()
@@ -312,8 +312,6 @@ Item {
         id: particleSystem
 
         anchors.fill: parent
-        paused: !effectRoot.shouldEffectsRun
-        running: effectRoot.shouldEffectsRun
     }
 
     Emitter {
@@ -325,7 +323,7 @@ Item {
         anchors.horizontalCenter: effectRoot.horizontalCenter
         y: effectRoot.height
         emitRate: Math.min(400 * Math.sqrt(effectRoot.width * effectRoot.height) / 870, 1000)
-        lifeSpan: 15000
+        lifeSpan: 2200
         system: particleSystem
         maximumEmitted: 500
         velocityFromMovement: 8

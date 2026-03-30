@@ -250,8 +250,8 @@ Item {
         running: false
 
         onTriggered: {
-            timelineView.shouldEffectsRun = false;
             timelineEffects.removeParticles();
+            timelineView.shouldEffectsRun = false;
         }
     }
 }

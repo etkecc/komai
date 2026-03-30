@@ -8,8 +8,6 @@
 #include <atomic>
 #include <optional>
 
-#include <mtx/secret_storage.hpp>
-
 #include <QSharedPointer>
 #include <QTimer>
 
@@ -24,8 +22,6 @@ class CallManager;
 namespace komai {
 struct MatrixCreateRoomRequest;
 }
-
-using SecretsToDecrypt = std::map<std::string, mtx::secret_storage::AesHmacSha2EncryptedData>;
 
 class ChatPage final : public QObject
 {
@@ -85,8 +81,7 @@ public slots:
     void banUser(const QString &room, QString userid, QString reason);
     void unbanUser(const QString &room, QString userid, QString reason);
 
-    void decryptDownloadedSecrets(mtx::secret_storage::AesHmacSha2KeyDescription keyDesc,
-                                  const SecretsToDecrypt &secrets);
+    void decryptDownloadedSecrets();
     void submitSecretUnlockInput(const QString &text);
     void cancelSecretUnlockInput();
     void sendNotificationReply(const QString &roomid, const QString &eventid, const QString &body);
@@ -165,9 +160,7 @@ private:
 
     template<typename T>
     void connectCallMessage();
-    void processDownloadedSecretsUnlockInput(mtx::secret_storage::AesHmacSha2KeyDescription keyDesc,
-                                             const SecretsToDecrypt &secrets,
-                                             const QString &text);
+    void processDownloadedSecretsUnlockInput(const QString &text);
 
     TimelineViewManager *view_manager_;
 
@@ -186,10 +179,5 @@ private:
     // echo.
     std::optional<QString> statusMessageShadow_;
 
-    struct PendingSecretsUnlockRequest
-    {
-        mtx::secret_storage::AesHmacSha2KeyDescription keyDesc;
-        SecretsToDecrypt secrets;
-    };
-    std::optional<PendingSecretsUnlockRequest> pendingSecretsUnlockRequest_;
+    bool pendingSecretsUnlockRequest_ = false;
 };

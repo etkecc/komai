@@ -77,10 +77,9 @@ ChatPage::finalizeLogout(LogoutRoute route, const QString &loginMessage)
 }
 
 void
-ChatPage::decryptDownloadedSecrets(mtx::secret_storage::AesHmacSha2KeyDescription keyDesc,
-                                   const SecretsToDecrypt &secrets)
+ChatPage::decryptDownloadedSecrets()
 {
-    pendingSecretsUnlockRequest_ = PendingSecretsUnlockRequest{std::move(keyDesc), secrets};
+    pendingSecretsUnlockRequest_ = true;
     nhlog::crypto()->info("Redirecting legacy downloaded-secret unlock prompt to matrix-sdk "
                           "recovery");
     emit promptUnlockKeyBackup();
@@ -95,9 +94,8 @@ ChatPage::submitSecretUnlockInput(const QString &text)
         return;
     }
 
-    auto request = std::move(*pendingSecretsUnlockRequest_);
-    pendingSecretsUnlockRequest_.reset();
-    processDownloadedSecretsUnlockInput(std::move(request.keyDesc), request.secrets, text);
+    pendingSecretsUnlockRequest_ = false;
+    processDownloadedSecretsUnlockInput(text);
 }
 
 void
@@ -107,15 +105,13 @@ ChatPage::cancelSecretUnlockInput()
         return;
 
     nhlog::crypto()->info("Secrets unlock prompt dismissed by user.");
-    pendingSecretsUnlockRequest_.reset();
+    pendingSecretsUnlockRequest_ = false;
 }
 
 void
-ChatPage::processDownloadedSecretsUnlockInput(mtx::secret_storage::AesHmacSha2KeyDescription,
-                                              const SecretsToDecrypt &,
-                                              const QString &text)
+ChatPage::processDownloadedSecretsUnlockInput(const QString &text)
 {
-    pendingSecretsUnlockRequest_.reset();
+    pendingSecretsUnlockRequest_ = false;
 
     const auto *mainWindow = MainWindow::instance();
     const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;

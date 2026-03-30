@@ -56,10 +56,14 @@ notifyVerificationStateRefresh(const QString &userId)
 UserProfile::UserProfile(const QString &roomid,
                          const QString &userid,
                          TimelineViewManager *manager_,
+                         QString roomName,
+                         QString roomAvatarUrl,
                          QObject *parent)
   : QObject(parent)
   , roomid_(roomid)
   , userid_(userid)
+  , roomName_(std::move(roomName))
+  , roomAvatarUrl_(komai::matrix::normalizeMxcUri(std::move(roomAvatarUrl)))
   , globalAvatarUrl{QLatin1String("")}
   , manager(manager_)
   , model(parent)
@@ -155,6 +159,9 @@ UserProfile::userid()
 QString
 UserProfile::displayName()
 {
+    if (!isGlobalUserProfile() && !roomDisplayName_.trimmed().isEmpty())
+        return roomDisplayName_;
+
     if (!globalUsername.trimmed().isEmpty())
         return globalUsername;
 
@@ -164,6 +171,9 @@ UserProfile::displayName()
 QString
 UserProfile::avatarUrl()
 {
+    if (!isGlobalUserProfile() && !roomAvatarOverrideUrl_.trimmed().isEmpty())
+        return roomAvatarOverrideUrl_;
+
     return globalAvatarUrl;
 }
 
@@ -451,44 +461,71 @@ UserProfile::getGlobalProfileData()
     }
 
     QPointer<UserProfile> guard(this);
-    const auto userId     = userid_;
-    const bool ownProfile = isSelf();
+    const auto userId      = userid_;
+    const bool ownProfile  = isSelf();
+    const auto roomId      = roomid_;
+    const bool roomProfile = !isGlobalUserProfile();
 
-    std::thread([guard, handleId, userId, ownProfile]() {
-        QString error;
+    std::thread([guard, handleId, userId, ownProfile, roomId, roomProfile]() {
+        QString globalError;
         const auto ownResult =
-          ownProfile ? komai::MatrixBackendRuntimeService::fetchOwnProfile(handleId, &error)
+          ownProfile ? komai::MatrixBackendRuntimeService::fetchOwnProfile(handleId, &globalError)
                      : std::optional<komai::MatrixOwnProfile>{};
         const auto userResult =
           ownProfile
             ? std::optional<komai::MatrixUserProfile>{}
-            : komai::MatrixBackendRuntimeService::fetchUserProfile(handleId, userId, &error);
+            : komai::MatrixBackendRuntimeService::fetchUserProfile(handleId, userId, &globalError);
+        QString roomError;
+        const auto roomResult = roomProfile
+                                  ? komai::MatrixBackendRuntimeService::fetchRoomMemberProfile(
+                                      handleId, roomId, userId, &roomError)
+                                  : std::optional<komai::MatrixUserProfile>{};
 
         if (!guard)
             return;
 
-        const bool ok             = ownProfile ? ownResult.has_value() : userResult.has_value();
+        const bool globalOk       = ownProfile ? ownResult.has_value() : userResult.has_value();
         const QString displayName = ownProfile ? (ownResult ? ownResult->displayName : QString{})
                                                : (userResult ? userResult->displayName : QString{});
         const QString avatarUrl   = ownProfile ? (ownResult ? ownResult->avatarUrl : QString{})
                                                : (userResult ? userResult->avatarUrl : QString{});
+        const QString roomDisplayName = roomResult ? roomResult->displayName : QString{};
+        const QString roomAvatarUrl   = roomResult ? roomResult->avatarUrl : QString{};
 
         emit guard->globalUsernameRetrieved(displayName);
         QMetaObject::invokeMethod(
           guard,
-          [guard, ok, avatarUrl, error]() {
+          [guard,
+           globalOk,
+           avatarUrl,
+           globalError,
+           roomProfile,
+           roomDisplayName,
+           roomAvatarUrl,
+           roomError]() {
               if (!guard)
                   return;
 
-              if (!ok) {
+              if (!globalOk && !roomProfile) {
                   nhlog::net()->warn("failed to retrieve user profile info via matrix-sdk "
                                      "runtime: {}",
-                                     error.toStdString());
+                                     globalError.toStdString());
                   emit guard->failedToFetchProfile();
                   return;
               }
 
               guard->globalAvatarUrl = komai::matrix::normalizeMxcUri(avatarUrl);
+              if (roomProfile) {
+                  if (!roomError.isEmpty()) {
+                      nhlog::net()->debug(
+                        "failed to retrieve room-member profile info via matrix-sdk runtime: {}",
+                        roomError.toStdString());
+                  }
+                  guard->roomDisplayName_       = roomDisplayName;
+                  guard->roomAvatarOverrideUrl_ = komai::matrix::normalizeMxcUri(roomAvatarUrl);
+              }
+
+              emit guard->displayNameChanged();
               emit guard->avatarUrlChanged();
               emit guard->globalAvatarUrlChanged();
           },

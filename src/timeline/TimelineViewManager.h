@@ -272,6 +272,7 @@ public:
     openRoomInfo(const QString &roomId, const QString &initialTab = QStringLiteral("settings"));
     Q_INVOKABLE void openInviteUsers(QString roomId);
     Q_INVOKABLE void openGlobalUserProfile(QString userId);
+    Q_INVOKABLE void openRoomUserProfile(QString roomId, QString userId);
     Q_INVOKABLE UserProfile *getGlobalUserProfile(QString userId);
 
     Q_INVOKABLE void focusMessageInput();

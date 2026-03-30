@@ -86,8 +86,9 @@ mod room_directory;
 mod runtime_media;
 
 pub use profile_media::{
-    fetch_media_content, fetch_own_profile, fetch_user_profile, ignore_user, remove_own_avatar,
-    set_own_display_name, unignore_user, upload_own_avatar,
+    fetch_media_content, fetch_own_profile, fetch_room_member_profile, fetch_user_profile,
+    ignore_user, remove_own_avatar, remove_own_room_avatar, set_own_display_name, unignore_user,
+    upload_own_avatar, upload_own_room_avatar,
 };
 pub use recovery::{
     cancel_reset_encryption_identity, continue_reset_encryption_identity_after_approval,

@@ -480,6 +480,11 @@ mod ffi {
             mismatch: bool,
         ) -> Result<()>;
         fn matrix_fetch_user_profile(handle_id: u64, user_id: &str) -> Result<MatrixUserProfile>;
+        fn matrix_fetch_room_member_profile(
+            handle_id: u64,
+            room_id: &str,
+            user_id: &str,
+        ) -> Result<MatrixUserProfile>;
         fn matrix_search_users(
             handle_id: u64,
             search_term: &str,
@@ -504,6 +509,13 @@ mod ffi {
             mime_type: &str,
         ) -> Result<()>;
         fn matrix_remove_own_avatar(handle_id: u64) -> Result<()>;
+        fn matrix_upload_own_room_avatar(
+            handle_id: u64,
+            room_id: &str,
+            file_path: &str,
+            mime_type: &str,
+        ) -> Result<()>;
+        fn matrix_remove_own_room_avatar(handle_id: u64, room_id: &str) -> Result<()>;
         fn matrix_ignore_user(handle_id: u64, user_id: &str) -> Result<()>;
         fn matrix_unignore_user(handle_id: u64, user_id: &str) -> Result<()>;
         fn matrix_set_invite_permission(handle_id: u64, target: &str, block: bool) -> Result<()>;
@@ -1214,6 +1226,22 @@ fn matrix_fetch_user_profile(handle_id: u64, user_id: &str) -> Result<ffi::Matri
     })
 }
 
+fn matrix_fetch_room_member_profile(
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+) -> Result<ffi::MatrixUserProfile, String> {
+    let result =
+        runtime().block_on(matrix_backend::runtime::fetch_room_member_profile(
+            handle_id, room_id, user_id,
+        ))?;
+
+    Ok(ffi::MatrixUserProfile {
+        display_name: result.display_name,
+        avatar_url: result.avatar_url,
+    })
+}
+
 fn matrix_search_users(
     handle_id: u64,
     search_term: &str,
@@ -1297,6 +1325,21 @@ fn matrix_upload_own_avatar(handle_id: u64, file_path: &str, mime_type: &str) ->
 
 fn matrix_remove_own_avatar(handle_id: u64) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::remove_own_avatar(handle_id))
+}
+
+fn matrix_upload_own_room_avatar(
+    handle_id: u64,
+    room_id: &str,
+    file_path: &str,
+    mime_type: &str,
+) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::upload_own_room_avatar(
+        handle_id, room_id, file_path, mime_type,
+    ))
+}
+
+fn matrix_remove_own_room_avatar(handle_id: u64, room_id: &str) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::remove_own_room_avatar(handle_id, room_id))
 }
 
 fn matrix_ignore_user(handle_id: u64, user_id: &str) -> Result<(), String> {

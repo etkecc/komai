@@ -62,9 +62,9 @@ TimelineViewManager::openInviteUsers(QString roomId)
     if (!roomId.startsWith('!'))
         return;
 
-    const auto preview = rooms_ ? rooms_->getRoomPreviewById(roomId) : RoomPreview{};
+    const auto preview  = rooms_ ? rooms_->getRoomPreviewById(roomId) : RoomPreview{};
     const auto roomName = preview.roomName().trimmed().isEmpty() ? roomId : preview.roomName();
-    auto *model = new InviteesModel{roomName};
+    auto *model         = new InviteesModel{roomName};
     connect(model, &InviteesModel::accept, this, [this, model, roomId]() {
         emit inviteUsers(roomId, model->mxids());
     });
@@ -79,6 +79,19 @@ TimelineViewManager::openGlobalUserProfile(QString userId)
         return;
 
     auto *profile = new UserProfile{QString{}, userId, this};
+    QQmlEngine::setObjectOwnership(profile, QQmlEngine::JavaScriptOwnership);
+    emit openProfile(profile);
+}
+
+void
+TimelineViewManager::openRoomUserProfile(QString roomId, QString userId)
+{
+    if (!roomId.startsWith('!') || !userId.startsWith('@'))
+        return;
+
+    const auto preview  = rooms_ ? rooms_->getRoomPreviewById(roomId) : RoomPreview{};
+    const auto roomName = preview.roomName().trimmed().isEmpty() ? roomId : preview.roomName();
+    auto *profile       = new UserProfile{roomId, userId, this, roomName, preview.roomAvatarUrl()};
     QQmlEngine::setObjectOwnership(profile, QQmlEngine::JavaScriptOwnership);
     emit openProfile(profile);
 }

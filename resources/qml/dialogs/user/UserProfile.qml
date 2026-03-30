@@ -24,11 +24,12 @@ Components.OverlayDialog {
 
     readonly property bool isRoomProfile: !profile.isGlobalUserProfile
     readonly property bool showingModerationPrompt: moderationAction !== ""
+    readonly property string defaultRoomDisplayName: profile.globalDisplayName !== ""
+        ? profile.globalDisplayName
+        : profile.userid
     readonly property bool hasCustomRoomName: isRoomProfile
-        && profile.globalDisplayName !== ""
-        && profile.displayName !== profile.globalDisplayName
+        && profile.displayName !== defaultRoomDisplayName
     readonly property bool hasCustomRoomAvatar: isRoomProfile
-        && profile.globalAvatarUrl !== ""
         && profile.avatarUrl !== profile.globalAvatarUrl
     readonly property int copyButtonSize: Math.max(20, Math.round(Settings.uiFontSizePt * 1.6))
 
@@ -126,13 +127,13 @@ Components.OverlayDialog {
 
             // ---- Room section (room profiles only) ----
             Components.SettingsSection {
-                visible: root.isRoomProfile && profile.room
+                visible: root.isRoomProfile && profile.roomId !== ""
                 label: qsTr("Room")
                 Layout.fillWidth: true
             }
 
             Item {
-                visible: root.isRoomProfile && profile.room
+                visible: root.isRoomProfile && profile.roomId !== ""
                 Layout.fillWidth: true
                 implicitHeight: roomRowDelegate.implicitHeight
 
@@ -142,8 +143,8 @@ Components.OverlayDialog {
                     padding: 0
                     hoverEnabled: true
                     onClicked: {
-                        if (profile.room)
-                            TimelineManager.openRoomInfo(profile.room.roomId);
+                        if (profile.roomId !== "")
+                            TimelineManager.openRoomInfo(profile.roomId);
                     }
                     background: Rectangle {
                         color: roomRowDelegate.hovered ? palette.dark : palette.window
@@ -160,14 +161,14 @@ Components.OverlayDialog {
                             Layout.leftMargin: Komai.paddingMedium
                             Layout.topMargin: Komai.paddingMedium
                             Layout.bottomMargin: Komai.paddingMedium
-                            roomid: profile.room ? profile.room.roomId : ""
-                            displayName: profile.room ? profile.room.plainRoomName : ""
-                            url: profile.room ? profile.room.roomAvatarUrl.replace("mxc://", "image://MxcImage/") : ""
+                            roomid: profile.roomId
+                            displayName: profile.roomName
+                            url: profile.roomAvatarUrl.replace("mxc://", "image://MxcImage/")
                             enabled: false
                         }
 
                         Components.ElidedLabel {
-                            fullText: profile.room ? profile.room.plainRoomName : ""
+                            fullText: profile.roomName
                             color: roomRowDelegate.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
                             Layout.fillWidth: true
@@ -319,9 +320,13 @@ Components.OverlayDialog {
                         Layout.alignment: Qt.AlignRight
                         Layout.rightMargin: Komai.paddingMedium
                         Layout.bottomMargin: Komai.paddingMedium
-                        text: profile.isSelf
-                            ? qsTr("You have a different global avatar.")
-                            : qsTr("This user has a different global avatar.")
+                        text: profile.globalAvatarUrl !== ""
+                            ? (profile.isSelf
+                                ? qsTr("You have a different global avatar.")
+                                : qsTr("This user has a different global avatar."))
+                            : (profile.isSelf
+                                ? qsTr("You have a room-specific avatar.")
+                                : qsTr("This user has a room-specific avatar."))
                         color: avatarRowItem.rowHovered ? palette.brightText : palette.buttonText
                         font.pointSize: Math.floor(Settings.uiFontSizePt * 0.85)
                         font.italic: true
@@ -467,13 +472,10 @@ Components.OverlayDialog {
 
                             function applyName() {
                                 var val = text.trim();
-                                // For room profiles, clearing means "reset to global name".
-                                if (root.isRoomProfile && val.length === 0)
-                                    val = profile.globalDisplayName;
                                 if (val === serverValue || val === lastSubmitted)
                                     return;
                                 // For global profiles, empty is not allowed.
-                                if (val.length === 0)
+                                if (!root.isRoomProfile && val.length === 0)
                                     return;
                                 lastSubmitted = val;
                                 hasPendingSubmit = true;
@@ -487,7 +489,9 @@ Components.OverlayDialog {
                         Label {
                             Layout.fillWidth: true
                             visible: root.isRoomProfile
-                            text: qsTr("Leave empty to use your global name: %1").arg(profile.globalDisplayName)
+                            text: profile.globalDisplayName !== ""
+                                ? qsTr("Leave empty to use your global name: %1").arg(profile.globalDisplayName)
+                                : qsTr("Leave empty to clear the room-specific name.")
                             color: displayNameRowItem.rowHovered ? palette.brightText : palette.buttonText
                             font.pointSize: Math.floor(Settings.uiFontSizePt * 0.85)
                             wrapMode: Text.Wrap

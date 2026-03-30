@@ -140,6 +140,9 @@ class UserProfile final : public QObject
     Q_PROPERTY(QString avatarUrl READ avatarUrl NOTIFY avatarUrlChanged)
     Q_PROPERTY(QString globalDisplayName READ globalDisplayNameProp NOTIFY globalDisplayNameChanged)
     Q_PROPERTY(QString globalAvatarUrl READ globalAvatarUrlProp NOTIFY globalAvatarUrlChanged)
+    Q_PROPERTY(QString roomId READ roomId CONSTANT)
+    Q_PROPERTY(QString roomName READ roomName CONSTANT)
+    Q_PROPERTY(QString roomAvatarUrl READ roomAvatarUrl CONSTANT)
     Q_PROPERTY(DeviceInfoModel *deviceList READ deviceList NOTIFY devicesChanged)
     Q_PROPERTY(RoomInfoModel *sharedRooms READ sharedRooms CONSTANT)
     Q_PROPERTY(bool isGlobalUserProfile READ isGlobalUserProfile CONSTANT)
@@ -154,11 +157,16 @@ public:
     UserProfile(const QString &roomid,
                 const QString &userid,
                 TimelineViewManager *manager_,
-                QObject *parent = nullptr);
+                QString roomName      = QString{},
+                QString roomAvatarUrl = QString{},
+                QObject *parent       = nullptr);
 
     DeviceInfoModel *deviceList();
     RoomInfoModel *sharedRooms();
 
+    QString roomId() const { return roomid_; }
+    QString roomName() const { return roomName_; }
+    QString roomAvatarUrl() const { return roomAvatarUrl_; }
     QString userid();
     QString displayName();
     QString avatarUrl();
@@ -221,6 +229,10 @@ private:
 
 private:
     QString roomid_, userid_;
+    QString roomName_;
+    QString roomAvatarUrl_;
+    QString roomDisplayName_;
+    QString roomAvatarOverrideUrl_;
     QString globalUsername;
     QString globalAvatarUrl;
     DeviceInfoModel deviceList_;

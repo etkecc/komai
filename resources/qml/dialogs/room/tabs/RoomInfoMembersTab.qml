@@ -56,7 +56,7 @@ Item {
             onClicked: {
                 const currentUser = Komai.currentUser;
                 if (currentUser && currentUser.userid)
-                    TimelineManager.openGlobalUserProfile(currentUser.userid);
+                    TimelineManager.openRoomUserProfile(membersTab.members.roomId, currentUser.userid);
             }
 
         }
@@ -187,7 +187,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.LeftButton
                         onClicked: {
-                            TimelineManager.openGlobalUserProfile(model.mxid);
+                            TimelineManager.openRoomUserProfile(membersTab.members.roomId, model.mxid);
                         }
                     }
 
@@ -209,7 +209,7 @@ Item {
                             avatarUserId: model.mxid
                             badgeIconSource: ":/icons/icons/ui/person.svg"
                             onLeftClicked: {
-                                TimelineManager.openGlobalUserProfile(model.mxid);
+                                TimelineManager.openRoomUserProfile(membersTab.members.roomId, model.mxid);
                             }
                         }
 

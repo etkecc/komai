@@ -26,6 +26,47 @@ fn profile_response_to_user_profile(
     })
 }
 
+fn room_member_to_user_profile(member: &matrix_sdk::room::RoomMember) -> MatrixUserProfile {
+    MatrixUserProfile {
+        display_name: member.display_name().unwrap_or_default().to_owned(),
+        avatar_url: member
+            .avatar_url()
+            .map(|url| normalize_mxc_uri(url.to_string()))
+            .unwrap_or_default(),
+    }
+}
+
+fn explicit_room_member_display_name(member: &matrix_sdk::room::RoomMember) -> Option<String> {
+    member
+        .event()
+        .original_content()
+        .and_then(|content| content.displayname.clone())
+}
+
+async fn fetch_own_room_member(
+    room: &Room,
+) -> Result<(OwnedUserId, matrix_sdk::room::RoomMember), String> {
+    let own_user_id = room.own_user_id().to_owned();
+    let member = room
+        .get_member(&own_user_id)
+        .await
+        .map_err(|e| {
+            format!(
+                "failed to fetch own matrix-sdk room member for '{}': {e}",
+                room.room_id().as_str()
+            )
+        })?
+        .ok_or_else(|| {
+            format!(
+                "matrix-sdk room '{}' does not have a joined member event for '{}'",
+                room.room_id().as_str(),
+                own_user_id
+            )
+        })?;
+
+    Ok((own_user_id, member))
+}
+
 pub async fn fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile, String> {
     let client = client_for_handle(handle_id)?;
     let user_id = client
@@ -74,6 +115,42 @@ pub async fn fetch_user_profile(handle_id: u64, user_id: &str) -> Result<MatrixU
         .map_err(|e| format!("failed to fetch profile for '{}': {e}", parsed_user_id.as_str()))?;
 
     profile_response_to_user_profile(profile)
+}
+
+pub async fn fetch_room_member_profile(
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+) -> Result<MatrixUserProfile, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let parsed_user_id = parse_user_id(user_id)?;
+
+    tracing::debug!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        user_id = parsed_user_id.as_str(),
+        "Fetching room member profile via matrix-sdk backend runtime"
+    );
+
+    let member = room
+        .get_member(&parsed_user_id)
+        .await
+        .map_err(|e| {
+            format!(
+                "failed to fetch room member '{}' in '{}': {e}",
+                parsed_user_id.as_str(),
+                room.room_id().as_str()
+            )
+        })?
+        .ok_or_else(|| {
+            format!(
+                "matrix-sdk room '{}' does not have a member event for '{}'",
+                room.room_id().as_str(),
+                parsed_user_id.as_str()
+            )
+        })?;
+
+    Ok(room_member_to_user_profile(&member))
 }
 
 pub async fn set_own_display_name(handle_id: u64, display_name: &str) -> Result<(), String> {
@@ -131,6 +208,76 @@ pub async fn remove_own_avatar(handle_id: u64) -> Result<(), String> {
         .set_avatar_url(None)
         .await
         .map_err(|e| format!("failed to remove own avatar via matrix-sdk: {e}"))
+}
+
+pub async fn upload_own_room_avatar(
+    handle_id: u64,
+    room_id: &str,
+    file_path: &str,
+    mime_type: &str,
+) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let (own_user_id, member) = fetch_own_room_member(&room).await?;
+    let mime = mime_type
+        .trim()
+        .parse::<Mime>()
+        .map_err(|e| format!("invalid avatar mime type '{mime_type}': {e}"))?;
+    let data = fs::read(file_path)
+        .map_err(|e| format!("failed to read avatar file '{file_path}': {e}"))?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        file_path,
+        mime_type,
+        "Uploading own room avatar via matrix-sdk backend runtime"
+    );
+
+    let response = client
+        .media()
+        .upload(&mime, data, None)
+        .await
+        .map_err(|e| format!("failed to upload own room avatar media via matrix-sdk: {e}"))?;
+
+    let mut content = RoomMemberEventContent::new(MembershipState::Join);
+    content.displayname = explicit_room_member_display_name(&member);
+    content.avatar_url = Some(response.content_uri);
+
+    room.send_state_event_for_key(&own_user_id, content)
+        .await
+        .map(|_| ())
+        .map_err(|e| {
+            format!(
+                "failed to update matrix-sdk room-specific avatar for '{}': {e}",
+                room.room_id().as_str()
+            )
+        })
+}
+
+pub async fn remove_own_room_avatar(handle_id: u64, room_id: &str) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let (own_user_id, member) = fetch_own_room_member(&room).await?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        "Removing own room avatar via matrix-sdk backend runtime"
+    );
+
+    let mut content = RoomMemberEventContent::new(MembershipState::Join);
+    content.displayname = explicit_room_member_display_name(&member);
+    content.avatar_url = None;
+
+    room.send_state_event_for_key(&own_user_id, content)
+        .await
+        .map(|_| ())
+        .map_err(|e| {
+            format!(
+                "failed to remove matrix-sdk room-specific avatar for '{}': {e}",
+                room.room_id().as_str()
+            )
+        })
 }
 
 pub async fn ignore_user(handle_id: u64, user_id: &str) -> Result<(), String> {

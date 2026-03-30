@@ -26,7 +26,7 @@ Item {
             if (trimmedUserId.length === 0)
                 return;
 
-            TimelineManager.openGlobalUserProfile(trimmedUserId);
+            TimelineManager.openRoomUserProfile(roomId, trimmedUserId);
         }
     }
 

@@ -5,8 +5,13 @@
 
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QMetaObject>
 #include <QMimeDatabase>
+#include <QPointer>
 #include <QStandardPaths>
+
+#include <thread>
+#include <utility>
 
 #include "UserProfile.h"
 #include "chat/ChatPage.h"
@@ -21,6 +26,29 @@ notifyVerificationStateRefresh(const QString &userId)
     if (auto *verificationManager = VerificationManager::instance()) {
         emit verificationManager->verificationStateChanged(userId);
     }
+}
+
+template<typename WorkFnT, typename UiFnT>
+void
+runUserProfileRuntimeTask(UserProfile *profile, WorkFnT work, UiFnT ui)
+{
+    QPointer<UserProfile> guard(profile);
+    std::thread([guard, work = std::move(work), ui = std::move(ui)]() mutable {
+        const auto result = work();
+
+        if (!guard)
+            return;
+
+        QMetaObject::invokeMethod(
+          guard,
+          [guard, result = std::move(result), ui = std::move(ui)]() mutable {
+              if (!guard)
+                  return;
+
+              ui(guard.data(), result);
+          },
+          Qt::QueuedConnection);
+    }).detach();
 }
 }
 
@@ -51,8 +79,8 @@ UserProfile::startChat()
 void
 UserProfile::changeUsername(const QString &username)
 {
-    if (!isGlobalUserProfile() || !isSelf()) {
-        emit displayError(tr("Room-specific profile overrides are not migrated yet."));
+    if (!isSelf()) {
+        emit displayError(tr("Only your own profile can be changed here."));
         return;
     }
 
@@ -62,13 +90,33 @@ UserProfile::changeUsername(const QString &username)
         return;
     }
 
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::setOwnDisplayName(handleId, username, &error)) {
-        emit displayError(error.isEmpty() ? tr("Failed to update display name.") : error);
-        return;
-    }
+    const auto nextName      = isGlobalUserProfile() ? username : username.trimmed();
+    const auto roomId        = roomid_;
+    const auto globalProfile = isGlobalUserProfile();
 
-    getGlobalProfileData();
+    runUserProfileRuntimeTask(
+      this,
+      [handleId, roomId, nextName, globalProfile]() {
+          QString error;
+          const bool ok =
+            globalProfile
+              ? komai::MatrixBackendRuntimeService::setOwnDisplayName(handleId, nextName, &error)
+              : komai::MatrixBackendRuntimeService::setOwnRoomDisplayName(
+                  handleId, roomId, nextName, &error);
+          return std::make_pair(ok, error);
+      },
+      [globalProfile](UserProfile *profile, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit profile->displayError(
+                error.isEmpty() ? (globalProfile ? tr("Failed to update display name.")
+                                                 : tr("Failed to update room display name."))
+                                : error);
+              return;
+          }
+
+          profile->getGlobalProfileData();
+      });
 }
 
 void
@@ -236,10 +284,10 @@ UserProfile::changeAvatar()
     isLoading_ = true;
     emit loadingChanged();
 
-    if (!isGlobalUserProfile() || !isSelf()) {
+    if (!isSelf()) {
         isLoading_ = false;
         emit loadingChanged();
-        emit displayError(tr("Room-specific profile overrides are not migrated yet."));
+        emit displayError(tr("Only your own avatar can be changed here."));
         return;
     }
 
@@ -251,25 +299,41 @@ UserProfile::changeAvatar()
         return;
     }
 
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::uploadOwnAvatar(
-          handleId, fileName, mime.name(), &error)) {
-        isLoading_ = false;
-        emit loadingChanged();
-        emit displayError(error.isEmpty() ? tr("Failed to upload avatar.") : error);
-        return;
-    }
+    const auto roomId        = roomid_;
+    const auto globalProfile = isGlobalUserProfile();
 
-    isLoading_ = false;
-    emit loadingChanged();
-    getGlobalProfileData();
+    runUserProfileRuntimeTask(
+      this,
+      [handleId, roomId, fileName, mimeName = mime.name(), globalProfile]() {
+          QString error;
+          const bool ok = globalProfile ? komai::MatrixBackendRuntimeService::uploadOwnAvatar(
+                                            handleId, fileName, mimeName, &error)
+                                        : komai::MatrixBackendRuntimeService::uploadOwnRoomAvatar(
+                                            handleId, roomId, fileName, mimeName, &error);
+          return std::make_pair(ok, error);
+      },
+      [globalProfile](UserProfile *profile, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          profile->isLoading_     = false;
+          emit profile->loadingChanged();
+
+          if (!ok) {
+              emit profile->displayError(error.isEmpty()
+                                           ? (globalProfile ? tr("Failed to upload avatar.")
+                                                            : tr("Failed to upload room avatar."))
+                                           : error);
+              return;
+          }
+
+          profile->getGlobalProfileData();
+      });
 }
 
 void
 UserProfile::removeAvatar()
 {
-    if (!isGlobalUserProfile() || !isSelf()) {
-        emit displayError(tr("Room-specific profile overrides are not migrated yet."));
+    if (!isSelf()) {
+        emit displayError(tr("Only your own avatar can be changed here."));
         return;
     }
 
@@ -284,17 +348,34 @@ UserProfile::removeAvatar()
         return;
     }
 
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::removeOwnAvatar(handleId, &error)) {
-        isLoading_ = false;
-        emit loadingChanged();
-        emit displayError(error.isEmpty() ? tr("Failed to remove avatar.") : error);
-        return;
-    }
+    const auto roomId        = roomid_;
+    const auto globalProfile = isGlobalUserProfile();
 
-    isLoading_ = false;
-    emit loadingChanged();
-    getGlobalProfileData();
+    runUserProfileRuntimeTask(
+      this,
+      [handleId, roomId, globalProfile]() {
+          QString error;
+          const bool ok =
+            globalProfile
+              ? komai::MatrixBackendRuntimeService::removeOwnAvatar(handleId, &error)
+              : komai::MatrixBackendRuntimeService::removeOwnRoomAvatar(handleId, roomId, &error);
+          return std::make_pair(ok, error);
+      },
+      [globalProfile](UserProfile *profile, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          profile->isLoading_     = false;
+          emit profile->loadingChanged();
+
+          if (!ok) {
+              emit profile->displayError(error.isEmpty()
+                                           ? (globalProfile ? tr("Failed to remove avatar.")
+                                                            : tr("Failed to remove room avatar."))
+                                           : error);
+              return;
+          }
+
+          profile->getGlobalProfileData();
+      });
 }
 
 void

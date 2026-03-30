@@ -531,7 +531,10 @@ pub async fn set_own_room_display_name(
 
     let trimmed_display_name = display_name.trim();
     let mut content = RoomMemberEventContent::new(MembershipState::Join);
-    content.avatar_url = member.avatar_url().map(ToOwned::to_owned);
+    content.avatar_url = member
+        .event()
+        .original_content()
+        .and_then(|original_content| original_content.avatar_url.clone());
     content.displayname = (!trimmed_display_name.is_empty()).then(|| trimmed_display_name.to_owned());
 
     tracing::info!(

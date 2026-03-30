@@ -1114,6 +1114,23 @@ MatrixBackendRuntimeService::fetchUserProfile(uint64_t handleId,
     }
 }
 
+std::optional<MatrixUserProfile>
+MatrixBackendRuntimeService::fetchRoomMemberProfile(uint64_t handleId,
+                                                    const QString &roomId,
+                                                    const QString &userId,
+                                                    QString *errorOut)
+{
+    try {
+        auto result = ::komai::rust::matrix_fetch_room_member_profile(
+          handleId, roomId.toStdString(), userId.toStdString());
+        return fromRustUserProfile(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 std::optional<QVector<MatrixDirectoryUser>>
 MatrixBackendRuntimeService::searchUsers(uint64_t handleId,
                                          const QString &searchTerm,
@@ -1214,6 +1231,39 @@ MatrixBackendRuntimeService::removeOwnAvatar(uint64_t handleId, QString *errorOu
 {
     try {
         ::komai::rust::matrix_remove_own_avatar(handleId);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::uploadOwnRoomAvatar(uint64_t handleId,
+                                                 const QString &roomId,
+                                                 const QString &filePath,
+                                                 const QString &mimeType,
+                                                 QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_upload_own_room_avatar(
+          handleId, roomId.toStdString(), filePath.toStdString(), mimeType.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::removeOwnRoomAvatar(uint64_t handleId,
+                                                 const QString &roomId,
+                                                 QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_remove_own_room_avatar(handleId, roomId.toStdString());
         return true;
     } catch (const std::exception &e) {
         if (errorOut)

@@ -437,6 +437,11 @@ public:
     static std::optional<MatrixUserProfile>
     fetchUserProfile(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);
 
+    static std::optional<MatrixUserProfile> fetchRoomMemberProfile(uint64_t handleId,
+                                                                   const QString &roomId,
+                                                                   const QString &userId,
+                                                                   QString *errorOut = nullptr);
+
     static std::optional<QVector<MatrixDirectoryUser>> searchUsers(uint64_t handleId,
                                                                    const QString &searchTerm,
                                                                    uint64_t limit,
@@ -464,6 +469,15 @@ public:
                                 QString *errorOut = nullptr);
 
     static bool removeOwnAvatar(uint64_t handleId, QString *errorOut = nullptr);
+
+    static bool uploadOwnRoomAvatar(uint64_t handleId,
+                                    const QString &roomId,
+                                    const QString &filePath,
+                                    const QString &mimeType,
+                                    QString *errorOut = nullptr);
+
+    static bool
+    removeOwnRoomAvatar(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
 
     static bool ignoreUser(uint64_t handleId, const QString &userId, QString *errorOut = nullptr);
 

@@ -389,6 +389,7 @@ mod ffi {
             tag: &str,
             enabled: bool,
         ) -> Result<()>;
+        fn matrix_set_room_is_direct(handle_id: u64, room_id: &str, is_direct: bool) -> Result<()>;
         fn matrix_invite_user(
             handle_id: u64,
             room_id: &str,
@@ -868,6 +869,12 @@ fn matrix_toggle_room_tag(
 ) -> Result<(), String> {
     runtime().block_on(matrix_backend::runtime::toggle_room_tag(
         handle_id, room_id, tag, enabled,
+    ))
+}
+
+fn matrix_set_room_is_direct(handle_id: u64, room_id: &str, is_direct: bool) -> Result<(), String> {
+    runtime().block_on(matrix_backend::runtime::set_room_is_direct(
+        handle_id, room_id, is_direct,
     ))
 }
 

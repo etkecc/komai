@@ -5,6 +5,11 @@
 #include "timeline/TimelineViewManager.h"
 
 #include <QCoreApplication>
+#include <QMetaObject>
+#include <QPointer>
+
+#include <thread>
+#include <utility>
 
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
@@ -94,6 +99,29 @@ formattedHtmlForMatrixSend(const QString &body, SlashFormatMode formatMode)
         return html;
 
     return {};
+}
+
+template<typename WorkFnT, typename UiFnT>
+void
+runTimelineManagerRuntimeTask(TimelineViewManager *manager, WorkFnT work, UiFnT ui)
+{
+    QPointer<TimelineViewManager> guard(manager);
+    std::thread([guard, work = std::move(work), ui = std::move(ui)]() mutable {
+        const auto result = work();
+
+        if (!guard)
+            return;
+
+        QMetaObject::invokeMethod(
+          guard,
+          [guard, result = std::move(result), ui = std::move(ui)]() mutable {
+              if (!guard)
+                  return;
+
+              ui(guard.data(), result);
+          },
+          Qt::QueuedConnection);
+    }).detach();
 }
 
 } // namespace
@@ -362,8 +390,50 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
     case CommandId::Goto:
         return notifyUnsupported(parsed.definition->name);
     case CommandId::ConvertToDm:
-    case CommandId::ConvertToRoom:
-        return notifyUnsupported(parsed.definition->name);
+    case CommandId::ConvertToRoom: {
+        if (!requireHandle() || !requireActiveRoom())
+            return false;
+
+        const bool isDirect  = parsed.definition->id == CommandId::ConvertToDm;
+        const auto handleId   = activeHandleId();
+        const auto roomId     = activeMatrixTimelineRoomId_;
+        const auto roomIdText = roomId;
+
+        runTimelineManagerRuntimeTask(
+          this,
+          [handleId, roomId, isDirect]() {
+              QString error;
+              const bool ok = komai::MatrixBackendRuntimeService::setRoomIsDirect(
+                handleId, roomId, isDirect, &error);
+              return std::make_pair(ok, error);
+          },
+          [isDirect, roomIdText](TimelineViewManager *manager,
+                                 const std::pair<bool, QString> &result) {
+              const auto &[ok, error] = result;
+              auto *mainWindow        = MainWindow::instance();
+
+              if (!ok) {
+                  if (mainWindow) {
+                      mainWindow->showNotification(
+                        TimelineViewManager::tr("Failed to update direct-message state for %1: %2")
+                          .arg(roomIdText, error));
+                  }
+                  return;
+              }
+
+              manager->scheduleMatrixSidebarRefresh();
+
+              if (mainWindow) {
+                  mainWindow->showNotification(
+                    isDirect ? TimelineViewManager::tr(
+                                 "Marked this room as a direct message.")
+                             : TimelineViewManager::tr("Marked this room as a regular room."));
+              }
+          });
+
+        ok = true;
+        break;
+    }
     case CommandId::Ignore:
     case CommandId::Unignore: {
         if (!requireHandle())

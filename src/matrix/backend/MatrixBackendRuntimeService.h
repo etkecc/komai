@@ -314,6 +314,11 @@ public:
                               bool enabled,
                               QString *errorOut = nullptr);
 
+    static bool setRoomIsDirect(uint64_t handleId,
+                                const QString &roomId,
+                                bool isDirect,
+                                QString *errorOut = nullptr);
+
     static bool inviteUser(uint64_t handleId,
                            const QString &roomId,
                            const QString &userId,

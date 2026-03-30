@@ -659,6 +659,22 @@ MatrixBackendRuntimeService::toggleRoomTag(uint64_t handleId,
 }
 
 bool
+MatrixBackendRuntimeService::setRoomIsDirect(uint64_t handleId,
+                                             const QString &roomId,
+                                             bool isDirect,
+                                             QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_set_room_is_direct(handleId, roomId.toStdString(), isDirect);
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
 MatrixBackendRuntimeService::inviteUser(uint64_t handleId,
                                         const QString &roomId,
                                         const QString &userId,

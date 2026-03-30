@@ -232,6 +232,30 @@ pub async fn toggle_room_tag(
     Ok(())
 }
 
+pub async fn set_room_is_direct(
+    handle_id: u64,
+    room_id: &str,
+    is_direct: bool,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        is_direct,
+        "Updating matrix-sdk direct-message room state"
+    );
+
+    room.set_is_direct(is_direct).await.map_err(|e| {
+        format!(
+            "failed to {} matrix-sdk direct-message room state: {e}",
+            if is_direct { "set" } else { "clear" }
+        )
+    })?;
+
+    Ok(())
+}
+
 pub async fn invite_user(
     handle_id: u64,
     room_id: &str,

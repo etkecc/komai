@@ -685,6 +685,18 @@ Item {
             }
         }
 
+        Image {
+            anchors.centerIn: parent
+            width: parent.width * 0.42
+            height: width
+            fillMode: Image.PreserveAspectFit
+            source: "qrc:/logos/komai.svg"
+            smooth: true
+            mipmap: true
+            opacity: Math.max(komaiGlowOpacity, komaiHaloOpacity * 0.92)
+            visible: opacity > 0
+        }
+
         Rectangle {
             anchors.centerIn: parent
             width: parent.width * 0.34

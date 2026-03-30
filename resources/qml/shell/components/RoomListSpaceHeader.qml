@@ -16,7 +16,7 @@ Rectangle {
 
     readonly property bool active: Communities.currentFilterId.startsWith("space:")
     readonly property string spaceId: active ? Communities.currentFilterId.substring(6) : ""
-    readonly property var spaceRoom: active ? Rooms.getRoomById(spaceId) : null
+    readonly property var spacePreview: active ? Rooms.getRoomPreviewById(spaceId) : null
 
     visible: active
     height: active ? Komai.navigationRowHeight : 0
@@ -34,9 +34,9 @@ Rectangle {
             Layout.preferredWidth: root.avatarSize
             Layout.preferredHeight: root.avatarSize
             avatarButtonSize: root.avatarSize
-            avatarDisplayName: root.spaceRoom ? root.spaceRoom.roomName : ""
+            avatarDisplayName: root.spacePreview ? root.spacePreview.roomName : ""
             avatarRoomId: root.spaceId
-            avatarUrl: root.spaceRoom ? root.spaceRoom.roomAvatarUrl.replace("mxc://", "image://MxcImage/") : ""
+            avatarUrl: root.spacePreview ? root.spacePreview.roomAvatarUrl.replace("mxc://", "image://MxcImage/") : ""
             toolTipText: qsTr("Space settings")
 
             onLeftClicked: TimelineManager.openRoomInfo(root.spaceId, "settings")
@@ -57,7 +57,7 @@ Rectangle {
                 Label {
                     width: Math.min(implicitWidth, nameRow.width - (spaceBadgeRect.visible ? spaceBadgeRect.width + nameRow.spacing : 0))
                     anchors.verticalCenter: parent.verticalCenter
-                    text: root.spaceRoom ? root.spaceRoom.roomName : ""
+                    text: root.spacePreview ? root.spacePreview.roomName : ""
                     font.bold: true
                     font.pixelSize: Komai.fontPixelSize
                     elide: Text.ElideRight

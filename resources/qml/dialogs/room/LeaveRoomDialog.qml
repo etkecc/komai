@@ -14,11 +14,11 @@ Components.OverlayDialog {
 
     required property string roomId
     property string reason: ""
-    readonly property var room: Rooms.getRoomById(roomId)
-    readonly property bool isSpace: room && room.isSpace
-    readonly property bool hasVisibilityInfo: !!room
-    readonly property bool isPublic: room ? room.isPublic : false
-    readonly property string roomName: room ? room.roomName : ""
+    readonly property var roomPreview: Rooms.getRoomPreviewById(roomId)
+    readonly property bool isSpace: !!roomPreview && roomPreview.isSpace
+    readonly property bool hasVisibilityInfo: !!roomPreview && roomPreview.roomid !== ""
+    readonly property bool isPublic: roomPreview ? roomPreview.isPublic : false
+    readonly property string roomName: roomPreview ? roomPreview.roomName : ""
     readonly property color leaveHintColor: isPublic ? Komai.theme.success : Komai.theme.attention
     readonly property string leaveHintText: {
         if (isPublic) {

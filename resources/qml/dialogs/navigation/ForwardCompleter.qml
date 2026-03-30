@@ -310,9 +310,9 @@ Popup {
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
 
             onCompletionSelected: (id) => {
-                var targetRoom = Rooms.getRoomById(id);
+                var targetRoom = Rooms.getRoomPreviewById(id);
                 forwardMessagePopup.pendingRoomId = id;
-                forwardMessagePopup.pendingRoomName = targetRoom ? targetRoom.plainRoomName : id;
+                forwardMessagePopup.pendingRoomName = targetRoom ? targetRoom.roomName : id;
                 forwardMessagePopup.pendingRoomAvatarUrl = targetRoom ? targetRoom.roomAvatarUrl : "";
                 forwardMessagePopup.confirming = true;
                 Qt.callLater(() => forwardButton.forceActiveFocus(Qt.TabFocusReason));

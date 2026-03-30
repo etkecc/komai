@@ -13,21 +13,26 @@ ApplicationWindow {
 
     property var room: null
     property var roomPreview: null
+    readonly property string effectiveRoomId: room && room.roomId ? room.roomId : (roomPreview && roomPreview.roomid ? roomPreview.roomid : "")
+    readonly property string effectiveRoomName: room && room.plainRoomName
+        ? room.plainRoomName
+        : (roomPreview && roomPreview.roomName ? roomPreview.roomName : "")
 
     color: palette.window
     height: 650
     minimumHeight: 150
     minimumWidth: 150
-    title: room.plainRoomName
+    title: effectiveRoomName
     width: 420
 
     Component.onCompleted: {
-        MainWindow.addPerRoomWindow(room.roomId || roomPreview.roomid, roomWindowW);
+        MainWindow.addPerRoomWindow(effectiveRoomId, roomWindowW);
         Komai.setTransientParent(roomWindowW, null);
     }
-    Component.onDestruction: MainWindow.removePerRoomWindow(room.roomId || roomPreview.roomid, roomWindowW)
+    Component.onDestruction: MainWindow.removePerRoomWindow(effectiveRoomId, roomWindowW)
     onActiveChanged: {
-        room.lastReadIdOnWindowFocus();
+        if (room && typeof room.lastReadIdOnWindowFocus === "function")
+            room.lastReadIdOnWindowFocus();
     }
 
     Shortcut {
@@ -42,7 +47,7 @@ ApplicationWindow {
         dialogHost: roomWindowW
         windowFocusBlurOverlay: windowFocusBlurOverlay
         room: roomWindowW.room
-        roomPreview: roomWindowW.roomPreview.roomid ? roomWindowW.roomPreview : null
+        roomPreview: roomWindowW.roomPreview && roomWindowW.roomPreview.roomid ? roomWindowW.roomPreview : null
     }
     PrivacyScreen {
         id: windowFocusBlurOverlay

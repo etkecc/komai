@@ -43,7 +43,7 @@ Menu {
 
         onTriggered: {
             var roomWindow = root.roomWindowComponent.createObject(null, {
-                    "room": Rooms.getRoomById(root.roomid),
+                    "room": null,
                     "roomPreview": Rooms.getRoomPreviewById(root.roomid)
                 });
             roomWindow.showNormal();

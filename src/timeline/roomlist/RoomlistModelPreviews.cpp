@@ -15,7 +15,7 @@ RoomlistModel::fetchPreviews(QString roomid_, const std::string &from)
     Q_UNUSED(from);
 
     const auto roomid = roomid_;
-    bool fetched  = false;
+    bool fetched      = false;
 
     for (auto it = matrixJoinedRooms_.cbegin(); it != matrixJoinedRooms_.cend(); ++it) {
         const auto &id   = it.key();
@@ -109,6 +109,7 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
         preview.isDirect_              = room.isDirect;
         preview.isEncrypted_           = room.isEncrypted;
         preview.isPublic_              = room.isPublic;
+        preview.isSpace_               = room.isSpace;
         preview.isFetched_             = true;
         preview.isInvite_              = false;
         preview.canJoin_               = false;

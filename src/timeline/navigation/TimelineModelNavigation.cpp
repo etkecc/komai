@@ -103,12 +103,6 @@ TimelineModel::markEventsAsRead(const std::vector<QString> &)
 }
 
 void
-TimelineModel::markRoomAsRead()
-{
-    setCurrentIndex(0, true);
-}
-
-void
 TimelineModel::updateLastReadId(const QString &currentRoomId)
 {
     if (currentRoomId == room_id_) {

@@ -12,7 +12,7 @@
 #include <QGuiApplication>
 
 #include "Permissions.h"
-#include "TimelineModel.h"
+#include "TimelineEventTypes.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"

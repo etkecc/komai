@@ -290,7 +290,6 @@ public slots:
     int currentIndex() const { return idToIndex(currentId); }
     void eventShown();
     void markEventsAsRead(const std::vector<QString> &event_ids);
-    void markRoomAsRead();
     void updateLastReadId(const QString &currentRoomId);
     void lastReadIdOnWindowFocus();
     void checkAfterFetch();

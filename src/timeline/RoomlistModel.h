@@ -27,7 +27,6 @@
 
 class TimelineModel;
 class TimelineViewManager;
-Q_DECLARE_OPAQUE_POINTER(TimelineModel *)
 
 namespace komai::ipc {
 struct RoomInfo;
@@ -90,8 +89,8 @@ class RoomlistModel final : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(
       QString currentRoomId READ currentRoomId NOTIFY currentRoomIdChanged RESET resetCurrentRoom)
-    Q_PROPERTY(TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomModelChanged RESET
-                 resetCurrentRoom)
+    Q_PROPERTY(QAbstractItemModel *currentRoom READ currentRoomForQml NOTIFY currentRoomModelChanged
+                 RESET resetCurrentRoom)
     Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY
                  currentRoomPreviewChanged RESET resetCurrentRoom)
 public:
@@ -142,6 +141,10 @@ public:
         return matrixJoinedRooms_;
     }
 
+    TimelineModel *currentRoom() const { return currentRoom_.get(); }
+    QAbstractItemModel *currentRoomForQml() const;
+    RoomPreview currentRoomPreview() const { return currentRoomPreview_.value_or(RoomPreview{}); }
+
 public slots:
     void initializeRooms();
     void sync(const komai::SyncUpdate &sync);
@@ -168,8 +171,6 @@ public slots:
 #ifdef KOMAI_DBUS_SYS
     void setDbusInterfaceEnabled(bool enabled);
 #endif
-    TimelineModel *currentRoom() const { return currentRoom_.get(); }
-    RoomPreview currentRoomPreview() const { return currentRoomPreview_.value_or(RoomPreview{}); }
     void setCurrentRoom(const QString &roomid);
     void resumeDeferredStartupCurrentRoomRestore();
     void resetCurrentRoom()
@@ -318,8 +319,8 @@ class FilteredRoomlistModel final : public QSortFilterProxyModel
 
     Q_PROPERTY(
       QString currentRoomId READ currentRoomId NOTIFY currentRoomIdChanged RESET resetCurrentRoom)
-    Q_PROPERTY(TimelineModel *currentRoom READ currentRoom NOTIFY currentRoomModelChanged RESET
-                 resetCurrentRoom)
+    Q_PROPERTY(QAbstractItemModel *currentRoom READ currentRoomForQml NOTIFY currentRoomModelChanged
+                 RESET resetCurrentRoom)
     Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY
                  currentRoomPreviewChanged RESET resetCurrentRoom)
 public:
@@ -338,6 +339,10 @@ public:
         bool hasHighlight = false;
     };
     QHash<QString, FilterBadge> computeFilterBadges(const QStringList &communityIds) const;
+    TimelineModel *currentRoom() const { return roomlistmodel->currentRoom(); }
+    QAbstractItemModel *currentRoomForQml() const;
+    QString currentRoomId() const { return roomlistmodel->currentRoomId(); }
+    RoomPreview currentRoomPreview() const { return roomlistmodel->currentRoomPreview(); }
 
 public slots:
     int roomidToIndex(QString roomid)
@@ -371,13 +376,9 @@ public slots:
     {
         roomlistmodel->prewarmRoom(std::move(roomid), std::move(trigger));
     }
-
-    TimelineModel *currentRoom() const { return roomlistmodel->currentRoom(); }
-    QString currentRoomId() const { return roomlistmodel->currentRoomId(); }
-    RoomPreview currentRoomPreview() const { return roomlistmodel->currentRoomPreview(); }
     void setCurrentRoom(QString roomid) { roomlistmodel->setCurrentRoom(std::move(roomid)); }
     void resetCurrentRoom() { roomlistmodel->resetCurrentRoom(); }
-    TimelineModel *getRoomById(const QString &id) const;
+    QAbstractItemModel *getRoomById(const QString &id) const;
     RoomPreview getRoomPreviewById(QString roomid) const
     {
         return roomlistmodel->getRoomPreviewById(roomid);

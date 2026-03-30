@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <algorithm>
 
+#include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
@@ -118,6 +119,12 @@ void
 RoomlistModel::notifyCurrentRoomIdChanged()
 {
     emit currentRoomIdChanged(currentRoomId());
+}
+
+QAbstractItemModel *
+RoomlistModel::currentRoomForQml() const
+{
+    return currentRoom_.get();
 }
 
 void
@@ -324,10 +331,10 @@ RoomlistModel::refreshMatrixBackendRooms()
     QHash<QString, komai::MatrixRoomSummary> newMatrixRooms;
     int totalUnreadMessages = 0;
     const QString selectedRoomId =
-      currentRoomPreview_ ? currentRoomPreview_->roomid()
-                          : (!pendingCurrentRoomId_.isEmpty()
-                               ? pendingCurrentRoomId_
-                               : UserSettings::instance()->currentRoomId());
+      currentRoomPreview_
+        ? currentRoomPreview_->roomid()
+        : (!pendingCurrentRoomId_.isEmpty() ? pendingCurrentRoomId_
+                                            : UserSettings::instance()->currentRoomId());
     const bool hadCurrentMatrixSummarySelection =
       !selectedRoomId.isEmpty() && currentRoomPreview_ && currentRoomPreview_->isMatrixSummary() &&
       currentRoomPreview_->roomid() == selectedRoomId;

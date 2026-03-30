@@ -140,8 +140,7 @@ CommunitiesModel::initializeSidebar()
             }
 
             RoomInfo info{};
-            info.name =
-              roomlistModel->data(idx, RoomlistModel::RoomName).toString().toStdString();
+            info.name = roomlistModel->data(idx, RoomlistModel::RoomName).toString().toStdString();
             info.avatar_url =
               roomlistModel->data(idx, RoomlistModel::AvatarUrl).toString().toStdString();
             info.is_space   = true;
@@ -172,33 +171,22 @@ CommunitiesModel::initializeSidebar()
         connect(roomlistModel,
                 &QAbstractItemModel::dataChanged,
                 this,
-                [this](const QModelIndex &, const QModelIndex &, const QList<int> &roles) {
-                    if (roles.isEmpty() || roles.contains(RoomlistModel::HasUnreadMessages) ||
-                        roles.contains(RoomlistModel::HasLoudNotification) ||
-                        roles.contains(RoomlistModel::NotificationCount) ||
-                        roles.contains(RoomlistModel::Tags) ||
-                        roles.contains(RoomlistModel::ParentSpaces) ||
-                        roles.contains(RoomlistModel::IsDirect) ||
-                        roles.contains(RoomlistModel::IsBotRoom) ||
-                        roles.contains(RoomlistModel::IsSpace)) {
-                        recomputeFilterBadges();
-                    }
-                },
+                &CommunitiesModel::handleRoomlistDataChanged,
                 Qt::UniqueConnection);
         connect(roomlistModel,
                 &QAbstractItemModel::modelReset,
                 this,
-                [this]() { initializeSidebar(); },
+                &CommunitiesModel::handleRoomlistModelReset,
                 Qt::UniqueConnection);
         connect(roomlistModel,
                 &QAbstractItemModel::rowsInserted,
                 this,
-                [this](const QModelIndex &, int, int) { initializeSidebar(); },
+                &CommunitiesModel::handleRoomlistRowsInserted,
                 Qt::UniqueConnection);
         connect(roomlistModel,
                 &QAbstractItemModel::rowsRemoved,
                 this,
-                [this](const QModelIndex &, int, int) { initializeSidebar(); },
+                &CommunitiesModel::handleRoomlistRowsRemoved,
                 Qt::UniqueConnection);
     }
 
@@ -258,4 +246,45 @@ CommunitiesModel::sync(const komai::SyncUpdate &sync)
 
     if (tagsUpdated)
         initializeSidebar();
+}
+
+void
+CommunitiesModel::handleRoomlistDataChanged(const QModelIndex &topLeft,
+                                            const QModelIndex &bottomRight,
+                                            const QList<int> &roles)
+{
+    Q_UNUSED(topLeft);
+    Q_UNUSED(bottomRight);
+
+    if (roles.isEmpty() || roles.contains(RoomlistModel::HasUnreadMessages) ||
+        roles.contains(RoomlistModel::HasLoudNotification) ||
+        roles.contains(RoomlistModel::NotificationCount) || roles.contains(RoomlistModel::Tags) ||
+        roles.contains(RoomlistModel::ParentSpaces) || roles.contains(RoomlistModel::IsDirect) ||
+        roles.contains(RoomlistModel::IsBotRoom) || roles.contains(RoomlistModel::IsSpace)) {
+        recomputeFilterBadges();
+    }
+}
+
+void
+CommunitiesModel::handleRoomlistModelReset()
+{
+    initializeSidebar();
+}
+
+void
+CommunitiesModel::handleRoomlistRowsInserted(const QModelIndex &parent, int first, int last)
+{
+    Q_UNUSED(parent);
+    Q_UNUSED(first);
+    Q_UNUSED(last);
+    initializeSidebar();
+}
+
+void
+CommunitiesModel::handleRoomlistRowsRemoved(const QModelIndex &parent, int first, int last)
+{
+    Q_UNUSED(parent);
+    Q_UNUSED(first);
+    Q_UNUSED(last);
+    initializeSidebar();
 }

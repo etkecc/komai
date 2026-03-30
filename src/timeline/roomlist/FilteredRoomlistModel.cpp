@@ -170,12 +170,18 @@ FilteredRoomlistModel::create(QQmlEngine *qmlEngine, QJSEngine *)
     return instance_;
 }
 
-TimelineModel *
+QAbstractItemModel *
 FilteredRoomlistModel::getRoomById(const QString &id) const
 {
     auto r = roomlistmodel->getRoomByIdWithReason(id, "qml.Rooms.getRoomById").data();
     QQmlEngine::setObjectOwnership(r, QQmlEngine::CppOwnership);
     return r;
+}
+
+QAbstractItemModel *
+FilteredRoomlistModel::currentRoomForQml() const
+{
+    return roomlistmodel->currentRoom();
 }
 
 void

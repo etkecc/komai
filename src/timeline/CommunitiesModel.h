@@ -260,6 +260,14 @@ signals:
     void tagsChanged();
     void containsSubspacesChanged();
 
+private slots:
+    void handleRoomlistDataChanged(const QModelIndex &topLeft,
+                                   const QModelIndex &bottomRight,
+                                   const QList<int> &roles);
+    void handleRoomlistModelReset();
+    void handleRoomlistRowsInserted(const QModelIndex &parent, int first, int last);
+    void handleRoomlistRowsRemoved(const QModelIndex &parent, int first, int last);
+
 private:
     QStringList tags_;
     QString currentFilterId_;

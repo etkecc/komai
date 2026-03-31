@@ -574,10 +574,11 @@ fn summarize_reply_preview(
     details: Option<&InReplyToDetails>,
 ) -> Option<(String, String, String, String, String)> {
     let details = details?;
+    let reply_event_id = details.event_id.to_string();
 
     match &details.event {
         TimelineDetails::Ready(event) => {
-            let reply_event_id = match &event.identifier {
+            let resolved_reply_event_id = match &event.identifier {
                 TimelineEventItemId::EventId(event_id) => event_id.to_string(),
                 TimelineEventItemId::TransactionId(transaction_id) => transaction_id.to_string(),
             };
@@ -590,7 +591,11 @@ fn summarize_reply_preview(
             };
             let reply_summary = summarize_embedded_content(&event.content);
             Some((
-                reply_event_id,
+                if resolved_reply_event_id.is_empty() {
+                    reply_event_id
+                } else {
+                    resolved_reply_event_id
+                },
                 sender_id,
                 sender_display_name,
                 reply_summary.body,
@@ -599,7 +604,7 @@ fn summarize_reply_preview(
         }
         TimelineDetails::Unavailable | TimelineDetails::Pending | TimelineDetails::Error(_) => {
             Some((
-                String::new(),
+                reply_event_id,
                 String::new(),
                 String::new(),
                 "[Original message unavailable]".to_owned(),

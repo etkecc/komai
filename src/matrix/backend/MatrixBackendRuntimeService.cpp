@@ -50,6 +50,16 @@ toRustStringVec(const QVector<QString> &values)
     return rustValues;
 }
 
+template<typename Func>
+auto
+invokeRuntimeWorkerCall(const char *operation, Func &&func)
+{
+    return matrix_backend::invokeBlockingCall(
+      operation,
+      matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+      std::forward<Func>(func));
+}
+
 MatrixBackendHandleInfo
 fromRustHandleInfo(const ::komai::rust::MatrixBackendHandleInfo &info)
 {
@@ -814,8 +824,11 @@ MatrixBackendRuntimeService::fetchRecoveryStatus(matrix_backend::BlockingCallCon
                                                  QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_fetch_recovery_status(
-          matrix_backend::toRustBlockingContext(context), handleId);
+        auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_recovery_status", [context, handleId]() {
+              return ::komai::rust::matrix_fetch_recovery_status(
+                matrix_backend::toRustBlockingContext(context), handleId);
+          });
         return fromRustRecoveryStatus(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -833,12 +846,16 @@ MatrixBackendRuntimeService::setupRecovery(matrix_backend::BlockingCallContext c
                                            QString *errorOut)
 {
     try {
-        auto result =
-          ::komai::rust::matrix_setup_recovery(matrix_backend::toRustBlockingContext(context),
-                                               handleId,
-                                               useSSSS,
-                                               passphrase.toStdString(),
-                                               encryptionBackupOnlineEnabled);
+        auto result = invokeRuntimeWorkerCall(
+          "matrix_setup_recovery",
+          [context, handleId, useSSSS, passphrase, encryptionBackupOnlineEnabled]() {
+              return ::komai::rust::matrix_setup_recovery(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                useSSSS,
+                passphrase.toStdString(),
+                encryptionBackupOnlineEnabled);
+          });
         return fromRustSetupRecoveryResult(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -854,8 +871,13 @@ MatrixBackendRuntimeService::recoverEncryptionSecrets(matrix_backend::BlockingCa
                                                       QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_recover_encryption_secrets(
-          matrix_backend::toRustBlockingContext(context), handleId, keyOrPassphrase.toStdString());
+        invokeRuntimeWorkerCall("matrix_recover_encryption_secrets",
+                                [context, handleId, keyOrPassphrase]() {
+                                    ::komai::rust::matrix_recover_encryption_secrets(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      keyOrPassphrase.toStdString());
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -871,8 +893,11 @@ MatrixBackendRuntimeService::startResetEncryptionIdentity(
   QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_start_reset_encryption_identity(
-          matrix_backend::toRustBlockingContext(context), handleId);
+        auto result =
+          invokeRuntimeWorkerCall("matrix_start_reset_encryption_identity", [context, handleId]() {
+              return ::komai::rust::matrix_start_reset_encryption_identity(
+                matrix_backend::toRustBlockingContext(context), handleId);
+          });
         return fromRustResetEncryptionIdentityResult(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -889,8 +914,12 @@ MatrixBackendRuntimeService::continueResetEncryptionIdentityWithPassword(
   QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_continue_reset_encryption_identity_with_password(
-          matrix_backend::toRustBlockingContext(context), handleId, password.toStdString());
+        invokeRuntimeWorkerCall(
+          "matrix_continue_reset_encryption_identity_with_password",
+          [context, handleId, password]() {
+              ::komai::rust::matrix_continue_reset_encryption_identity_with_password(
+                matrix_backend::toRustBlockingContext(context), handleId, password.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -906,8 +935,11 @@ MatrixBackendRuntimeService::continueResetEncryptionIdentityAfterApproval(
   QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_continue_reset_encryption_identity_after_approval(
-          matrix_backend::toRustBlockingContext(context), handleId);
+        invokeRuntimeWorkerCall(
+          "matrix_continue_reset_encryption_identity_after_approval", [context, handleId]() {
+              ::komai::rust::matrix_continue_reset_encryption_identity_after_approval(
+                matrix_backend::toRustBlockingContext(context), handleId);
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -923,8 +955,10 @@ MatrixBackendRuntimeService::cancelResetEncryptionIdentity(
   QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_cancel_reset_encryption_identity(
-          matrix_backend::toRustBlockingContext(context), handleId);
+        invokeRuntimeWorkerCall("matrix_cancel_reset_encryption_identity", [context, handleId]() {
+            ::komai::rust::matrix_cancel_reset_encryption_identity(
+              matrix_backend::toRustBlockingContext(context), handleId);
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -994,8 +1028,11 @@ MatrixBackendRuntimeService::startSelfVerification(matrix_backend::BlockingCallC
                                                    QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_start_self_verification(
-          matrix_backend::toRustBlockingContext(context), handleId);
+        auto result =
+          invokeRuntimeWorkerCall("matrix_start_self_verification", [context, handleId]() {
+              return ::komai::rust::matrix_start_self_verification(
+                matrix_backend::toRustBlockingContext(context), handleId);
+          });
         return fromRustVerificationSession(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1011,8 +1048,11 @@ MatrixBackendRuntimeService::startUserVerification(matrix_backend::BlockingCallC
                                                    QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_start_user_verification(
-          matrix_backend::toRustBlockingContext(context), handleId, userId.toStdString());
+        auto result =
+          invokeRuntimeWorkerCall("matrix_start_user_verification", [context, handleId, userId]() {
+              return ::komai::rust::matrix_start_user_verification(
+                matrix_backend::toRustBlockingContext(context), handleId, userId.toStdString());
+          });
         return fromRustVerificationSession(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1029,11 +1069,14 @@ MatrixBackendRuntimeService::startDeviceVerification(matrix_backend::BlockingCal
                                                      QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_start_device_verification(
-          matrix_backend::toRustBlockingContext(context),
-          handleId,
-          userId.toStdString(),
-          deviceId.toStdString());
+        auto result = invokeRuntimeWorkerCall(
+          "matrix_start_device_verification", [context, handleId, userId, deviceId]() {
+              return ::komai::rust::matrix_start_device_verification(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                userId.toStdString(),
+                deviceId.toStdString());
+          });
         return fromRustVerificationSession(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1050,10 +1093,12 @@ MatrixBackendRuntimeService::unverifyDevice(matrix_backend::BlockingCallContext 
                                             QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_unverify_device(matrix_backend::toRustBlockingContext(context),
-                                              handleId,
-                                              userId.toStdString(),
-                                              deviceId.toStdString());
+        invokeRuntimeWorkerCall("matrix_unverify_device", [context, handleId, userId, deviceId]() {
+            ::komai::rust::matrix_unverify_device(matrix_backend::toRustBlockingContext(context),
+                                                  handleId,
+                                                  userId.toStdString(),
+                                                  deviceId.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1109,8 +1154,11 @@ MatrixBackendRuntimeService::fetchUserVerificationState(matrix_backend::Blocking
                                                         QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_fetch_user_verification_state(
-          matrix_backend::toRustBlockingContext(context), handleId, userId.toStdString());
+        auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_user_verification_state", [context, handleId, userId]() {
+              return ::komai::rust::matrix_fetch_user_verification_state(
+                matrix_backend::toRustBlockingContext(context), handleId, userId.toStdString());
+          });
         return fromRustUserVerificationState(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1126,8 +1174,11 @@ MatrixBackendRuntimeService::takePendingVerificationFlowIds(
   QString *errorOut)
 {
     try {
-        const auto result = ::komai::rust::matrix_take_pending_verification_flow_ids(
-          matrix_backend::toRustBlockingContext(context), handleId);
+        const auto result = invokeRuntimeWorkerCall(
+          "matrix_take_pending_verification_flow_ids", [context, handleId]() {
+              return ::komai::rust::matrix_take_pending_verification_flow_ids(
+                matrix_backend::toRustBlockingContext(context), handleId);
+          });
         QVector<QString> flowIds;
         flowIds.reserve(static_cast<int>(result.size()));
         for (const auto &flowId : result)
@@ -1147,8 +1198,11 @@ MatrixBackendRuntimeService::fetchVerificationSession(matrix_backend::BlockingCa
                                                       QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_fetch_verification_session(
-          matrix_backend::toRustBlockingContext(context), handleId, flowId.toStdString());
+        auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_verification_session", [context, handleId, flowId]() {
+              return ::komai::rust::matrix_fetch_verification_session(
+                matrix_backend::toRustBlockingContext(context), handleId, flowId.toStdString());
+          });
         return fromRustVerificationSession(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1164,8 +1218,10 @@ MatrixBackendRuntimeService::clearVerificationSession(matrix_backend::BlockingCa
                                                       QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_clear_verification_session(
-          matrix_backend::toRustBlockingContext(context), handleId, flowId.toStdString());
+        invokeRuntimeWorkerCall("matrix_clear_verification_session", [context, handleId, flowId]() {
+            ::komai::rust::matrix_clear_verification_session(
+              matrix_backend::toRustBlockingContext(context), handleId, flowId.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1181,8 +1237,11 @@ MatrixBackendRuntimeService::advanceVerificationSession(matrix_backend::Blocking
                                                         QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_advance_verification_session(
-          matrix_backend::toRustBlockingContext(context), handleId, flowId.toStdString());
+        invokeRuntimeWorkerCall(
+          "matrix_advance_verification_session", [context, handleId, flowId]() {
+              ::komai::rust::matrix_advance_verification_session(
+                matrix_backend::toRustBlockingContext(context), handleId, flowId.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1199,8 +1258,14 @@ MatrixBackendRuntimeService::cancelVerificationSession(matrix_backend::BlockingC
                                                        QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_cancel_verification_session(
-          matrix_backend::toRustBlockingContext(context), handleId, flowId.toStdString(), mismatch);
+        invokeRuntimeWorkerCall("matrix_cancel_verification_session",
+                                [context, handleId, flowId, mismatch]() {
+                                    ::komai::rust::matrix_cancel_verification_session(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      flowId.toStdString(),
+                                      mismatch);
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)

@@ -9,6 +9,7 @@
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
 
 namespace {
 std::vector<QString>
@@ -22,6 +23,37 @@ unverifiedDeviceIdsFromRuntimeState(const komai::MatrixUserVerificationState &st
     }
 
     return deviceIds;
+}
+
+struct MatrixVerificationStartTaskResult
+{
+    std::optional<komai::MatrixVerificationSession> session;
+    QString error;
+};
+
+struct MatrixVerificationSessionTaskResult
+{
+    std::optional<komai::MatrixVerificationSession> session;
+    QString error;
+};
+
+struct MatrixVerificationActionTaskResult
+{
+    bool ok = false;
+    QString error;
+};
+
+struct MatrixPendingVerificationFlowIdsTaskResult
+{
+    std::optional<QVector<QString>> flowIds;
+    QString error;
+};
+
+template<typename WorkFnT, typename UiFnT>
+void
+runVerificationManagerTask(VerificationManager *manager, WorkFnT work, UiFnT ui)
+{
+    komai::qt_worker_task::runQueued(manager, std::move(work), std::move(ui));
 }
 }
 
@@ -38,78 +70,109 @@ VerificationManager::VerificationManager(TimelineViewManager *o)
     matrixVerificationPollTimer_->start();
 }
 
-bool
-VerificationManager::verifySelf(QString *errorOut)
+void
+VerificationManager::verifySelf(FailureCallback onFailure)
 {
     const auto *mainWindow = MainWindow::instance();
     const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0) {
-        if (errorOut)
-            *errorOut = tr("Matrix backend runtime is not available.");
-        return false;
+        if (onFailure)
+            onFailure(tr("Matrix backend runtime is not available."));
+        return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto session =
-      komai::MatrixBackendRuntimeService::startSelfVerification(context, handleId, &error);
-    if (!session) {
-        if (errorOut)
-            *errorOut =
-              error.isEmpty() ? tr("Failed to start verification with another device.") : error;
-        return false;
-    }
+    runVerificationManagerTask(
+      this,
+      [handleId]() {
+          MatrixVerificationStartTaskResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.session     = komai::MatrixBackendRuntimeService::startSelfVerification(
+            context, handleId, &result.error);
+          return result;
+      },
+      [this, handleId, onFailure = std::move(onFailure)](
+        VerificationManager *, MatrixVerificationStartTaskResult result) mutable {
+          if (!result.session) {
+              if (onFailure) {
+                  onFailure(result.error.isEmpty()
+                              ? tr("Failed to start verification with another device.")
+                              : result.error);
+              }
+              return;
+          }
 
-    return openMatrixVerificationFlow(handleId, session->flowId, errorOut);
+          adoptMatrixVerificationSession(handleId, *result.session);
+      });
 }
 
-bool
-VerificationManager::verifyUser(QString userid, QString *errorOut)
+void
+VerificationManager::verifyUser(QString userid, FailureCallback onFailure)
 {
     const auto *mainWindow = MainWindow::instance();
     const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0) {
-        if (errorOut)
-            *errorOut = tr("Matrix backend runtime is not available.");
-        return false;
+        if (onFailure)
+            onFailure(tr("Matrix backend runtime is not available."));
+        return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto session =
-      komai::MatrixBackendRuntimeService::startUserVerification(context, handleId, userid, &error);
-    if (session) {
-        return openMatrixVerificationFlow(handleId, session->flowId, errorOut);
-    }
+    runVerificationManagerTask(
+      this,
+      [handleId, userid]() {
+          MatrixVerificationStartTaskResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.session     = komai::MatrixBackendRuntimeService::startUserVerification(
+            context, handleId, userid, &result.error);
+          if (result.session)
+              return result;
 
-    QString stateError;
-    const auto verificationState = komai::MatrixBackendRuntimeService::fetchUserVerificationState(
-      context, handleId, userid, &stateError);
-    if (verificationState) {
-        const auto candidateDeviceIds = unverifiedDeviceIdsFromRuntimeState(*verificationState);
-        if (!candidateDeviceIds.empty()) {
-            QString fallbackError;
-            if (verifyOneOfDevices(userid, candidateDeviceIds, &fallbackError))
-                return true;
+          QString stateError;
+          const auto verificationState =
+            komai::MatrixBackendRuntimeService::fetchUserVerificationState(
+              context, handleId, userid, &stateError);
+          if (!verificationState) {
+              if (result.error.isEmpty() && !stateError.isEmpty())
+                  result.error = stateError;
+              return result;
+          }
 
-            if (errorOut) {
-                *errorOut =
-                  fallbackError.isEmpty()
-                    ? (error.isEmpty() ? tr("Failed to start verification for \"%1\".").arg(userid)
-                                       : error)
-                    : tr("%1 Device verification fallback also failed: %2")
-                        .arg(error.isEmpty() ? tr("Failed to start user verification.") : error,
-                             fallbackError);
-            }
-            return false;
-        }
-    }
+          const auto candidateDeviceIds = unverifiedDeviceIdsFromRuntimeState(*verificationState);
+          QString fallbackError;
+          for (const auto &deviceId : candidateDeviceIds) {
+              auto fallbackSession = komai::MatrixBackendRuntimeService::startDeviceVerification(
+                context, handleId, userid, deviceId, &fallbackError);
+              if (fallbackSession) {
+                  result.session = std::move(fallbackSession);
+                  result.error.clear();
+                  return result;
+              }
+          }
 
-    if (errorOut) {
-        *errorOut =
-          error.isEmpty() ? tr("Failed to start verification for \"%1\".").arg(userid) : error;
-    }
-    return false;
+          if (!candidateDeviceIds.empty() && !fallbackError.isEmpty()) {
+              result.error =
+                tr("%1 Device verification fallback also failed: %2")
+                  .arg(result.error.isEmpty() ? tr("Failed to start user verification.")
+                                              : result.error,
+                       fallbackError);
+          } else if (result.error.isEmpty()) {
+              result.error = tr("Failed to start verification for \"%1\".").arg(userid);
+          }
+
+          return result;
+      },
+      [this, handleId, userid, onFailure = std::move(onFailure)](
+        VerificationManager *, MatrixVerificationStartTaskResult result) mutable {
+          if (!result.session) {
+              if (onFailure) {
+                  onFailure(result.error.isEmpty()
+                              ? tr("Failed to start verification for \"%1\".").arg(userid)
+                              : result.error);
+              }
+              return;
+          }
+
+          adoptMatrixVerificationSession(handleId, *result.session);
+      });
 }
 
 void
@@ -118,83 +181,125 @@ VerificationManager::removeVerificationFlow(DeviceVerificationFlow *flow)
     if (!flow)
         return;
 
-    const auto flowId = flow->transactionId().trimmed();
+    const auto flowId   = flow->transactionId().trimmed();
+    const auto handleId = flow->backendHandleId();
+    activeMatrixFlowIds_.remove(flowId);
+    openingMatrixFlowIds_.remove(flowId);
+    flow->deleteLater();
+
     if (!flowId.isEmpty()) {
-        const auto *mainWindow = MainWindow::instance();
-        const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
         if (handleId != 0) {
-            const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-            QString error;
-            if (!komai::MatrixBackendRuntimeService::clearVerificationSession(
-                  context, handleId, flowId, &error)) {
-                nhlog::crypto()->warn("Failed to clear matrix-sdk verification flow {}: {}",
-                                      flowId.toStdString(),
-                                      error.toStdString());
-            }
+            runVerificationManagerTask(
+              this,
+              [handleId, flowId]() {
+                  MatrixVerificationActionTaskResult result;
+                  const auto context = komai::matrix_backend::blockingCallContext();
+                  result.ok          = komai::MatrixBackendRuntimeService::clearVerificationSession(
+                    context, handleId, flowId, &result.error);
+                  return result;
+              },
+              [flowId](VerificationManager *, const MatrixVerificationActionTaskResult &result) {
+                  if (!result.ok) {
+                      nhlog::crypto()->warn("Failed to clear matrix-sdk verification flow {}: {}",
+                                            flowId.toStdString(),
+                                            result.error.toStdString());
+                  }
+              });
         }
     }
-
-    activeMatrixFlowIds_.remove(flow->transactionId());
-    flow->deleteLater();
 }
 
-bool
-VerificationManager::verifyDevice(QString userid, QString deviceid, QString *errorOut)
+void
+VerificationManager::verifyDevice(QString userid, QString deviceid, FailureCallback onFailure)
 {
     const auto *mainWindow = MainWindow::instance();
     const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0) {
-        if (errorOut)
-            *errorOut = tr("Matrix backend runtime is not available.");
-        return false;
+        if (onFailure)
+            onFailure(tr("Matrix backend runtime is not available."));
+        return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto session = komai::MatrixBackendRuntimeService::startDeviceVerification(
-      context, handleId, userid, deviceid, &error);
-    if (!session) {
-        if (errorOut)
-            *errorOut = error.isEmpty()
-                          ? tr("Failed to start verification for device \"%1\".").arg(deviceid)
-                          : error;
-        return false;
-    }
+    runVerificationManagerTask(
+      this,
+      [handleId, userid, deviceid]() {
+          MatrixVerificationStartTaskResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.session     = komai::MatrixBackendRuntimeService::startDeviceVerification(
+            context, handleId, userid, deviceid, &result.error);
+          return result;
+      },
+      [this, handleId, deviceid, onFailure = std::move(onFailure)](
+        VerificationManager *, MatrixVerificationStartTaskResult result) mutable {
+          if (!result.session) {
+              if (onFailure) {
+                  onFailure(result.error.isEmpty()
+                              ? tr("Failed to start verification for device \"%1\".").arg(deviceid)
+                              : result.error);
+              }
+              return;
+          }
 
-    return openMatrixVerificationFlow(handleId, session->flowId, errorOut);
+          adoptMatrixVerificationSession(handleId, *result.session);
+      });
 }
 
-bool
+void
 VerificationManager::verifyOneOfDevices(QString userid,
                                         std::vector<QString> deviceids,
-                                        QString *errorOut)
+                                        FailureCallback onFailure)
 {
-    QString error;
-    for (const auto &deviceId : deviceids) {
-        if (verifyDevice(userid, deviceId, &error))
-            return true;
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        if (onFailure)
+            onFailure(tr("Matrix backend runtime is not available."));
+        return;
     }
 
-    if (errorOut) {
-        *errorOut =
-          error.isEmpty() ? tr("Failed to start verification for the available devices.") : error;
-    }
-    return false;
+    runVerificationManagerTask(
+      this,
+      [handleId, userid, deviceids = std::move(deviceids)]() {
+          MatrixVerificationStartTaskResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          for (const auto &deviceId : deviceids) {
+              result.session = komai::MatrixBackendRuntimeService::startDeviceVerification(
+                context, handleId, userid, deviceId, &result.error);
+              if (result.session)
+                  return result;
+          }
+
+          return result;
+      },
+      [this, handleId, onFailure = std::move(onFailure)](
+        VerificationManager *, MatrixVerificationStartTaskResult result) mutable {
+          if (!result.session) {
+              if (onFailure) {
+                  onFailure(result.error.isEmpty()
+                              ? tr("Failed to start verification for the available devices.")
+                              : result.error);
+              }
+              return;
+          }
+
+          adoptMatrixVerificationSession(handleId, *result.session);
+      });
 }
 
-bool
-VerificationManager::openMatrixVerificationFlow(uint64_t handleId,
-                                                const QString &flowId,
-                                                QString *errorOut)
+void
+VerificationManager::adoptMatrixVerificationSession(uint64_t handleId,
+                                                    const komai::MatrixVerificationSession &session)
 {
-    QString error;
-    auto *flow =
-      DeviceVerificationFlow::InitiateMatrixVerificationSession(nullptr, handleId, flowId, &error);
-    if (!flow) {
-        if (errorOut)
-            *errorOut = error.isEmpty() ? tr("Failed to open the verification flow.") : error;
-        return false;
+    const auto flowId = session.flowId.trimmed();
+    if (flowId.isEmpty())
+        return;
+    if (activeMatrixFlowIds_.contains(flowId)) {
+        openingMatrixFlowIds_.remove(flowId);
+        return;
     }
+
+    auto *flow = DeviceVerificationFlow::createFromMatrixSession(nullptr, handleId, session);
+    openingMatrixFlowIds_.remove(flowId);
 
     activeMatrixFlowIds_.insert(flowId);
     connect(
@@ -203,7 +308,39 @@ VerificationManager::openMatrixVerificationFlow(uint64_t handleId,
         emit verificationStateChanged(flow->getUserId());
     });
     emit newDeviceVerificationRequest(flow);
-    return true;
+}
+
+void
+VerificationManager::requestMatrixVerificationFlow(uint64_t handleId, const QString &flowId)
+{
+    const auto trimmedFlowId = flowId.trimmed();
+    if (handleId == 0 || trimmedFlowId.isEmpty() || activeMatrixFlowIds_.contains(trimmedFlowId) ||
+        openingMatrixFlowIds_.contains(trimmedFlowId)) {
+        return;
+    }
+
+    openingMatrixFlowIds_.insert(trimmedFlowId);
+    runVerificationManagerTask(
+      this,
+      [handleId, trimmedFlowId]() {
+          MatrixVerificationSessionTaskResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.session     = komai::MatrixBackendRuntimeService::fetchVerificationSession(
+            context, handleId, trimmedFlowId, &result.error);
+          return result;
+      },
+      [this, handleId, trimmedFlowId](VerificationManager *,
+                                      const MatrixVerificationSessionTaskResult &result) {
+          openingMatrixFlowIds_.remove(trimmedFlowId);
+          if (!result.session) {
+              nhlog::crypto()->warn("Failed to adopt pending matrix-sdk verification flow {}: {}",
+                                    trimmedFlowId.toStdString(),
+                                    result.error.toStdString());
+              return;
+          }
+
+          adoptMatrixVerificationSession(handleId, *result.session);
+      });
 }
 
 void
@@ -213,42 +350,52 @@ VerificationManager::pollPendingMatrixVerifications()
     const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0)
         return;
-
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto pendingFlowIds =
-      komai::MatrixBackendRuntimeService::takePendingVerificationFlowIds(context, handleId, &error);
-    if (!pendingFlowIds) {
-        if (!error.isEmpty()) {
-            nhlog::crypto()->warn("Failed to poll pending matrix-sdk verification requests: {}",
-                                  error.toStdString());
-        }
+    if (matrixVerificationPollInFlight_) {
+        matrixVerificationPollPending_ = true;
         return;
     }
 
-    for (const auto &flowId : *pendingFlowIds) {
-        if (flowId.trimmed().isEmpty() || activeMatrixFlowIds_.contains(flowId))
-            continue;
+    matrixVerificationPollInFlight_ = true;
+    runVerificationManagerTask(
+      this,
+      [handleId]() {
+          MatrixPendingVerificationFlowIdsTaskResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.flowIds     = komai::MatrixBackendRuntimeService::takePendingVerificationFlowIds(
+            context, handleId, &result.error);
+          return result;
+      },
+      [this, handleId](VerificationManager *,
+                       const MatrixPendingVerificationFlowIdsTaskResult &result) {
+          matrixVerificationPollInFlight_ = false;
+          const bool rerun                = std::exchange(matrixVerificationPollPending_, false);
 
-        QString flowError;
-        auto *flow = DeviceVerificationFlow::InitiateMatrixVerificationSession(
-          nullptr, handleId, flowId, &flowError);
-        if (!flow) {
-            nhlog::crypto()->warn("Failed to adopt pending matrix-sdk verification flow {}: {}",
-                                  flowId.toStdString(),
-                                  flowError.toStdString());
-            continue;
-        }
+          const auto *mainWindow    = MainWindow::instance();
+          const auto activeHandleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+          if (activeHandleId != handleId) {
+              if (rerun)
+                  QTimer::singleShot(0, this, &VerificationManager::pollPendingMatrixVerifications);
+              return;
+          }
 
-        activeMatrixFlowIds_.insert(flowId);
-        connect(flow, &QObject::destroyed, this, [this, flowId]() {
-            activeMatrixFlowIds_.remove(flowId);
-        });
-        connect(flow, &DeviceVerificationFlow::refreshProfile, this, [this, flow]() {
-            emit verificationStateChanged(flow->getUserId());
-        });
-        emit newDeviceVerificationRequest(flow);
-    }
+          if (!result.flowIds) {
+              if (!result.error.isEmpty()) {
+                  nhlog::crypto()->warn(
+                    "Failed to poll pending matrix-sdk verification requests: {}",
+                    result.error.toStdString());
+              }
+              if (rerun)
+                  QTimer::singleShot(0, this, &VerificationManager::pollPendingMatrixVerifications);
+              return;
+          }
+
+          for (const auto &flowId : *result.flowIds) {
+              requestMatrixVerificationFlow(handleId, flowId);
+          }
+
+          if (rerun)
+              QTimer::singleShot(0, this, &VerificationManager::pollPendingMatrixVerifications);
+      });
 }
 
 #include "moc_VerificationManager.cpp"

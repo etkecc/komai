@@ -72,7 +72,10 @@ private:
     void refreshStateFromMatrixRuntime();
     void applyRuntimeStatus(Status status, bool hasSSSS, bool canVerifyWithAnotherDevice);
 
-    Status status_                   = AllVerified;
-    bool hasSSSS_                    = false;
-    bool canVerifyWithAnotherDevice_ = false;
+    Status status_                        = AllVerified;
+    bool hasSSSS_                         = false;
+    bool canVerifyWithAnotherDevice_      = false;
+    bool runtimeStateRefreshInFlight_     = false;
+    bool runtimeStateRefreshPending_      = false;
+    bool promptCurrentActionAfterRefresh_ = false;
 };

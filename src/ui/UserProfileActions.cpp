@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QMimeDatabase>
+#include <QPointer>
 #include <QStandardPaths>
 
 #include <utility>
@@ -153,12 +154,19 @@ UserProfile::verify(QString device)
         return;
     }
 
-    QString error;
-    const bool started = device.trimmed().isEmpty()
-                           ? verificationManager->verifyUser(userid_, &error)
-                           : verificationManager->verifyDevice(userid_, device, &error);
-    if (!started) {
-        emit displayError(error.isEmpty() ? tr("Failed to start device verification.") : error);
+    const QPointer<UserProfile> guard(this);
+    const auto onFailure = [guard](const QString &error) {
+        if (!guard)
+            return;
+
+        emit guard->displayError(error.isEmpty() ? guard->tr("Failed to start device verification.")
+                                                 : error);
+    };
+
+    if (device.trimmed().isEmpty()) {
+        verificationManager->verifyUser(userid_, onFailure);
+    } else {
+        verificationManager->verifyDevice(userid_, device, onFailure);
     }
 }
 

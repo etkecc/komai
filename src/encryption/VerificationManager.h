@@ -11,6 +11,9 @@
 #include <QString>
 #include <QTimer>
 
+#include <functional>
+#include <vector>
+
 #include "DeviceVerificationFlow.h"
 
 class TimelineViewManager;
@@ -23,6 +26,8 @@ class VerificationManager final : public QObject
     QML_SINGLETON
 
 public:
+    using FailureCallback = std::function<void(const QString &)>;
+
     VerificationManager(TimelineViewManager *o);
     static VerificationManager *instance() { return instance_; }
 
@@ -46,11 +51,12 @@ public:
     }
 
     Q_INVOKABLE void removeVerificationFlow(DeviceVerificationFlow *flow);
-    bool verifySelf(QString *errorOut = nullptr);
-    bool verifyUser(QString userid, QString *errorOut = nullptr);
-    bool verifyDevice(QString userid, QString deviceid, QString *errorOut = nullptr);
-    bool
-    verifyOneOfDevices(QString userid, std::vector<QString> deviceids, QString *errorOut = nullptr);
+    void verifySelf(FailureCallback onFailure = {});
+    void verifyUser(QString userid, FailureCallback onFailure = {});
+    void verifyDevice(QString userid, QString deviceid, FailureCallback onFailure = {});
+    void verifyOneOfDevices(QString userid,
+                            std::vector<QString> deviceids,
+                            FailureCallback onFailure = {});
 
 signals:
     void newDeviceVerificationRequest(DeviceVerificationFlow *flow);
@@ -60,11 +66,14 @@ public slots:
     void pollPendingMatrixVerifications();
 
 private:
-    bool openMatrixVerificationFlow(uint64_t handleId,
-                                    const QString &flowId,
-                                    QString *errorOut = nullptr);
+    void adoptMatrixVerificationSession(uint64_t handleId,
+                                        const komai::MatrixVerificationSession &session);
+    void requestMatrixVerificationFlow(uint64_t handleId, const QString &flowId);
 
     inline static VerificationManager *instance_ = nullptr;
     QTimer *matrixVerificationPollTimer_         = nullptr;
     QSet<QString> activeMatrixFlowIds_;
+    QSet<QString> openingMatrixFlowIds_;
+    bool matrixVerificationPollInFlight_ = false;
+    bool matrixVerificationPollPending_  = false;
 };

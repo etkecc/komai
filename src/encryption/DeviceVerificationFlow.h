@@ -13,6 +13,10 @@
 #include <string>
 #include <vector>
 
+namespace komai {
+struct MatrixVerificationSession;
+}
+
 // clang-format off
 /*
  * Stolen from fluffy chat :D
@@ -105,16 +109,9 @@ public:
     Q_ENUM(Error)
 
     static DeviceVerificationFlow *
-    InitiateUserVerification(QObject *parent_, QObject *timelineContext_, const QString &userid);
-    static DeviceVerificationFlow *InitiateDeviceVerification(QObject *parent,
-                                                              const QString &userid,
-                                                              const std::vector<QString> &devices);
-    static DeviceVerificationFlow *
-    InitiateMatrixSelfVerification(QObject *parent, uint64_t handleId, QString *errorOut = nullptr);
-    static DeviceVerificationFlow *InitiateMatrixVerificationSession(QObject *parent,
-                                                                     uint64_t handleId,
-                                                                     const QString &flowId,
-                                                                     QString *errorOut = nullptr);
+    createFromMatrixSession(QObject *parent,
+                            uint64_t handleId,
+                            const komai::MatrixVerificationSession &session);
 
     // getters
     QString state();
@@ -124,6 +121,7 @@ public:
     bool getSender();
     std::vector<int> getSasList();
     QString transactionId() { return QString::fromStdString(this->transaction_id); }
+    uint64_t backendHandleId() const { return backendHandleId_; }
     // setters
     void setDeviceId(QString deviceID);
     void setEventId(const std::string &event_id);
@@ -166,19 +164,16 @@ private:
     void failUnavailable();
     void refreshFromMatrixRuntime();
     void startMatrixRefreshTimer();
-    void applyMatrixSession(const QString &flowId,
-                            const QString &deviceId,
-                            const QString &state,
-                            const QString &error,
-                            bool sender,
-                            bool isSelfVerification,
-                            bool isMultiDeviceVerification,
-                            const std::vector<int> &sasList);
+    void applyMatrixSession(const komai::MatrixVerificationSession &session);
     Error mapMatrixError(const QString &error) const;
 
     std::string transaction_id;
-    uint64_t backendHandleId_ = 0;
-    bool pendingAutoStart_    = false;
+    uint64_t backendHandleId_    = 0;
+    bool pendingAutoStart_       = false;
+    bool matrixRefreshInFlight_  = false;
+    bool matrixRefreshPending_   = false;
+    bool matrixAdvanceInFlight_  = false;
+    bool matrixUnverifyInFlight_ = false;
 
     bool sender;
     Type type;

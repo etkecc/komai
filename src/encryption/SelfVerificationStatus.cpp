@@ -7,6 +7,7 @@
 
 #include <array>
 
+#include <QPointer>
 #include <QTimer>
 
 #include "VerificationManager.h"
@@ -14,6 +15,7 @@
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
 namespace {
@@ -54,6 +56,44 @@ notifyLocalVerificationStateRefresh()
     if (auto *verificationManager = VerificationManager::instance()) {
         emit verificationManager->verificationStateChanged(utils::localUser());
     }
+}
+
+struct SetupRecoveryTaskResult
+{
+    std::optional<komai::MatrixSetupRecoveryResult> result;
+    QString error;
+};
+
+struct BoolTaskResult
+{
+    bool ok = false;
+    QString error;
+};
+
+struct ResetEncryptionIdentityTaskResult
+{
+    std::optional<komai::MatrixResetEncryptionIdentityResult> result;
+    QString error;
+};
+
+struct RecoveryStatusTaskResult
+{
+    std::optional<komai::MatrixRecoveryStatus> result;
+    QString error;
+};
+
+struct VerifyUnverifiedDevicesTaskResult
+{
+    bool fetched = false;
+    std::vector<QString> candidateDeviceIds;
+    QString error;
+};
+
+template<typename WorkFnT, typename UiFnT>
+void
+runSelfVerificationTask(SelfVerificationStatus *status, WorkFnT work, UiFnT ui)
+{
+    komai::qt_worker_task::runQueued(status, std::move(work), std::move(ui));
 }
 }
 
@@ -107,28 +147,37 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto result = komai::MatrixBackendRuntimeService::setupRecovery(
-      context, handleId, useSSSS, password, encryptionBackupOnlineEnabled, &error);
-    if (!result) {
-        emit setupFailed(tr("Failed to set up encryption recovery: %1").arg(error));
-        return;
-    }
+    runSelfVerificationTask(
+      this,
+      [handleId, useSSSS, password, encryptionBackupOnlineEnabled]() {
+          SetupRecoveryTaskResult taskResult;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          taskResult.result  = komai::MatrixBackendRuntimeService::setupRecovery(
+            context, handleId, useSSSS, password, encryptionBackupOnlineEnabled, &taskResult.error);
+          return taskResult;
+      },
+      [useSSSS, encryptionBackupOnlineEnabled](SelfVerificationStatus *status,
+                                               const SetupRecoveryTaskResult &taskResult) {
+          if (!taskResult.result) {
+              emit status->setupFailed(
+                status->tr("Failed to set up encryption recovery: %1").arg(taskResult.error));
+              return;
+          }
 
-    nhlog::crypto()->info("Configured matrix-sdk encryption recovery "
-                          "(store_secrets_online={}, online_backup_enabled={})",
-                          useSSSS,
-                          encryptionBackupOnlineEnabled);
+          nhlog::crypto()->info("Configured matrix-sdk encryption recovery "
+                                "(store_secrets_online={}, online_backup_enabled={})",
+                                useSSSS,
+                                encryptionBackupOnlineEnabled);
 
-    scheduleRuntimeStateRefresh();
-    notifyLocalVerificationStateRefresh();
+          status->scheduleRuntimeStateRefresh();
+          notifyLocalVerificationStateRefresh();
 
-    if (!result->recoveryKey.trimmed().isEmpty()) {
-        emit showRecoveryKey(formattedRecoveryKey(result->recoveryKey));
-    } else {
-        emit setupCompleted();
-    }
+          if (!taskResult.result->recoveryKey.trimmed().isEmpty()) {
+              emit status->showRecoveryKey(formattedRecoveryKey(taskResult.result->recoveryKey));
+          } else {
+              emit status->setupCompleted();
+          }
+      });
 }
 
 bool
@@ -147,12 +196,13 @@ SelfVerificationStatus::verifyMasterKey()
         return false;
     }
 
-    QString error;
-    if (!verificationManager->verifySelf(&error)) {
-        emit setupFailed(error.isEmpty() ? notMigratedMessage() : error);
-        return false;
-    }
+    const QPointer<SelfVerificationStatus> guard(this);
+    verificationManager->verifySelf([guard](const QString &error) {
+        if (!guard)
+            return;
 
+        emit guard->setupFailed(error.isEmpty() ? notMigratedMessage() : error);
+    });
     return true;
 }
 
@@ -179,18 +229,27 @@ SelfVerificationStatus::submitUnlockKeyBackup(const QString &keyOrPassphrase)
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::recoverEncryptionSecrets(
-          context, handleId, keyOrPassphrase, &error)) {
-        emit setupFailed(tr("Failed to unlock key backup: %1").arg(error));
-        return;
-    }
+    runSelfVerificationTask(
+      this,
+      [handleId, keyOrPassphrase]() {
+          BoolTaskResult taskResult;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          taskResult.ok      = komai::MatrixBackendRuntimeService::recoverEncryptionSecrets(
+            context, handleId, keyOrPassphrase, &taskResult.error);
+          return taskResult;
+      },
+      [](SelfVerificationStatus *status, const BoolTaskResult &taskResult) {
+          if (!taskResult.ok) {
+              emit status->setupFailed(
+                status->tr("Failed to unlock key backup: %1").arg(taskResult.error));
+              return;
+          }
 
-    nhlog::crypto()->info("Recovered encryption secrets through matrix-sdk recovery");
-    scheduleRuntimeStateRefresh();
-    notifyLocalVerificationStateRefresh();
-    emit unlockKeyBackupCompleted();
+          nhlog::crypto()->info("Recovered encryption secrets through matrix-sdk recovery");
+          status->scheduleRuntimeStateRefresh();
+          notifyLocalVerificationStateRefresh();
+          emit status->unlockKeyBackupCompleted();
+      });
 }
 
 void
@@ -215,36 +274,55 @@ SelfVerificationStatus::verifyUnverifiedDevices()
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto ownVerificationState =
-      komai::MatrixBackendRuntimeService::fetchUserVerificationState(
-        context, handleId, utils::localUser(), &error);
-    if (!ownVerificationState) {
-        emit setupFailed(error.isEmpty() ? tr("Failed to inspect your signed-in devices.") : error);
-        return;
-    }
+    runSelfVerificationTask(
+      this,
+      [handleId]() {
+          VerifyUnverifiedDevicesTaskResult taskResult;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          const auto ownVerificationState =
+            komai::MatrixBackendRuntimeService::fetchUserVerificationState(
+              context, handleId, utils::localUser(), &taskResult.error);
+          if (!ownVerificationState)
+              return taskResult;
 
-    std::vector<QString> candidateDeviceIds;
-    candidateDeviceIds.reserve(static_cast<size_t>(ownVerificationState->devices.size()));
-    for (const auto &device : ownVerificationState->devices) {
-        if (device.verificationState == QLatin1String("unverified")) {
-            candidateDeviceIds.push_back(device.deviceId);
-        }
-    }
+          taskResult.fetched = true;
+          taskResult.candidateDeviceIds.reserve(
+            static_cast<size_t>(ownVerificationState->devices.size()));
+          for (const auto &device : ownVerificationState->devices) {
+              if (device.verificationState == QLatin1String("unverified"))
+                  taskResult.candidateDeviceIds.push_back(device.deviceId);
+          }
 
-    if (candidateDeviceIds.empty()) {
-        scheduleRuntimeStateRefresh();
-        emit setupFailed(tr("No unverified signed-in devices are currently available."));
-        return;
-    }
+          return taskResult;
+      },
+      [verificationManager](SelfVerificationStatus *status,
+                            const VerifyUnverifiedDevicesTaskResult &taskResult) {
+          if (!taskResult.fetched) {
+              emit status->setupFailed(taskResult.error.isEmpty()
+                                         ? status->tr("Failed to inspect your signed-in devices.")
+                                         : taskResult.error);
+              return;
+          }
 
-    if (!verificationManager->verifyOneOfDevices(
-          utils::localUser(), std::move(candidateDeviceIds), &error)) {
-        emit setupFailed(error.isEmpty()
-                           ? tr("Failed to start verification for your other signed-in devices.")
-                           : error);
-    }
+          if (taskResult.candidateDeviceIds.empty()) {
+              status->scheduleRuntimeStateRefresh();
+              emit status->setupFailed(
+                status->tr("No unverified signed-in devices are currently available."));
+              return;
+          }
+
+          const QPointer<SelfVerificationStatus> guard(status);
+          verificationManager->verifyOneOfDevices(
+            utils::localUser(), taskResult.candidateDeviceIds, [guard](const QString &error) {
+                if (!guard)
+                    return;
+
+                emit guard->setupFailed(
+                  error.isEmpty()
+                    ? guard->tr("Failed to start verification for your other signed-in devices.")
+                    : error);
+            });
+      });
 }
 
 void
@@ -263,35 +341,44 @@ SelfVerificationStatus::resetEncryptionIdentity()
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto result =
-      komai::MatrixBackendRuntimeService::startResetEncryptionIdentity(context, handleId, &error);
-    if (!result) {
-        emit setupFailed(tr("Failed to reset encryption identity: %1").arg(error));
-        return;
-    }
+    runSelfVerificationTask(
+      this,
+      [handleId]() {
+          ResetEncryptionIdentityTaskResult taskResult;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          taskResult.result  = komai::MatrixBackendRuntimeService::startResetEncryptionIdentity(
+            context, handleId, &taskResult.error);
+          return taskResult;
+      },
+      [](SelfVerificationStatus *status, const ResetEncryptionIdentityTaskResult &taskResult) {
+          if (!taskResult.result) {
+              emit status->setupFailed(
+                status->tr("Failed to reset encryption identity: %1").arg(taskResult.error));
+              return;
+          }
 
-    if (result->completed) {
-        nhlog::crypto()->info("Reset encryption identity through matrix-sdk without extra auth");
-        scheduleRuntimeStateRefresh();
-        notifyLocalVerificationStateRefresh();
-        emit resetEncryptionIdentityCompleted();
-        return;
-    }
+          if (taskResult.result->completed) {
+              nhlog::crypto()->info(
+                "Reset encryption identity through matrix-sdk without extra auth");
+              status->scheduleRuntimeStateRefresh();
+              notifyLocalVerificationStateRefresh();
+              emit status->resetEncryptionIdentityCompleted();
+              return;
+          }
 
-    if (result->authType == QLatin1String("password")) {
-        emit promptResetEncryptionIdentityPassword();
-        return;
-    }
+          if (taskResult.result->authType == QLatin1String("password")) {
+              emit status->promptResetEncryptionIdentityPassword();
+              return;
+          }
 
-    if (result->authType == QLatin1String("oauth")) {
-        emit promptResetEncryptionIdentityApproval(result->approvalUrl);
-        return;
-    }
+          if (taskResult.result->authType == QLatin1String("oauth")) {
+              emit status->promptResetEncryptionIdentityApproval(taskResult.result->approvalUrl);
+              return;
+          }
 
-    emit setupFailed(tr("The encryption identity reset flow returned an unsupported "
-                        "authentication type."));
+          emit status->setupFailed(status->tr("The encryption identity reset flow returned an "
+                                              "unsupported authentication type."));
+      });
 }
 
 void
@@ -304,19 +391,30 @@ SelfVerificationStatus::submitResetEncryptionIdentityPassword(const QString &pas
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::continueResetEncryptionIdentityWithPassword(
-          context, handleId, password, &error)) {
-        emit setupFailed(tr("Failed to complete encryption identity reset: %1").arg(error));
-        return;
-    }
+    runSelfVerificationTask(
+      this,
+      [handleId, password]() {
+          BoolTaskResult taskResult;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          taskResult.ok =
+            komai::MatrixBackendRuntimeService::continueResetEncryptionIdentityWithPassword(
+              context, handleId, password, &taskResult.error);
+          return taskResult;
+      },
+      [](SelfVerificationStatus *status, const BoolTaskResult &taskResult) {
+          if (!taskResult.ok) {
+              emit status->setupFailed(
+                status->tr("Failed to complete encryption identity reset: %1")
+                  .arg(taskResult.error));
+              return;
+          }
 
-    nhlog::crypto()->info(
-      "Completed matrix-sdk encryption identity reset using password authentication");
-    scheduleRuntimeStateRefresh();
-    notifyLocalVerificationStateRefresh();
-    emit resetEncryptionIdentityCompleted();
+          nhlog::crypto()->info(
+            "Completed matrix-sdk encryption identity reset using password authentication");
+          status->scheduleRuntimeStateRefresh();
+          notifyLocalVerificationStateRefresh();
+          emit status->resetEncryptionIdentityCompleted();
+      });
 }
 
 void
@@ -329,18 +427,30 @@ SelfVerificationStatus::continueResetEncryptionIdentityAfterApproval()
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::continueResetEncryptionIdentityAfterApproval(
-          context, handleId, &error)) {
-        emit setupFailed(tr("Failed to complete encryption identity reset: %1").arg(error));
-        return;
-    }
+    runSelfVerificationTask(
+      this,
+      [handleId]() {
+          BoolTaskResult taskResult;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          taskResult.ok =
+            komai::MatrixBackendRuntimeService::continueResetEncryptionIdentityAfterApproval(
+              context, handleId, &taskResult.error);
+          return taskResult;
+      },
+      [](SelfVerificationStatus *status, const BoolTaskResult &taskResult) {
+          if (!taskResult.ok) {
+              emit status->setupFailed(
+                status->tr("Failed to complete encryption identity reset: %1")
+                  .arg(taskResult.error));
+              return;
+          }
 
-    nhlog::crypto()->info("Completed matrix-sdk encryption identity reset after browser approval");
-    scheduleRuntimeStateRefresh();
-    notifyLocalVerificationStateRefresh();
-    emit resetEncryptionIdentityCompleted();
+          nhlog::crypto()->info(
+            "Completed matrix-sdk encryption identity reset after browser approval");
+          status->scheduleRuntimeStateRefresh();
+          notifyLocalVerificationStateRefresh();
+          emit status->resetEncryptionIdentityCompleted();
+      });
 }
 
 void
@@ -351,26 +461,37 @@ SelfVerificationStatus::cancelResetEncryptionIdentity()
     if (handleId == 0)
         return;
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    if (!komai::MatrixBackendRuntimeService::cancelResetEncryptionIdentity(
-          context, handleId, &error)) {
-        nhlog::crypto()->warn("Failed to cancel pending matrix-sdk encryption identity reset: {}",
-                              error.toStdString());
-    }
+    runSelfVerificationTask(
+      this,
+      [handleId]() {
+          BoolTaskResult taskResult;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          taskResult.ok      = komai::MatrixBackendRuntimeService::cancelResetEncryptionIdentity(
+            context, handleId, &taskResult.error);
+          return taskResult;
+      },
+      [](SelfVerificationStatus *, const BoolTaskResult &taskResult) {
+          if (!taskResult.ok) {
+              nhlog::crypto()->warn(
+                "Failed to cancel pending matrix-sdk encryption identity reset: {}",
+                taskResult.error.toStdString());
+          }
+      });
 }
 
 void
 SelfVerificationStatus::promptCurrentVerificationAction()
 {
+    promptCurrentActionAfterRefresh_ = true;
     refreshStateFromMatrixRuntime();
-    if (status_ != AllVerified)
-        emit promptForStatus(status_);
 }
 
 void
 SelfVerificationStatus::invalidate()
 {
+    runtimeStateRefreshInFlight_     = false;
+    runtimeStateRefreshPending_      = false;
+    promptCurrentActionAfterRefresh_ = false;
     applyRuntimeStatus(AllVerified, false, false);
 }
 
@@ -394,39 +515,73 @@ SelfVerificationStatus::refreshStateFromMatrixRuntime()
         return;
     }
 
-    const auto context = komai::matrix_backend::allowUiThreadBlockingCallContext();
-    QString error;
-    const auto recoveryStatus =
-      komai::MatrixBackendRuntimeService::fetchRecoveryStatus(context, handleId, &error);
-    if (!recoveryStatus) {
-        nhlog::crypto()->warn("Failed to fetch matrix-sdk recovery status: {}",
-                              error.toStdString());
-        invalidate();
+    if (runtimeStateRefreshInFlight_) {
+        runtimeStateRefreshPending_ = true;
         return;
     }
 
-    const auto hasSSSS = recoveryStatus->state == QLatin1String("enabled") ||
-                         recoveryStatus->state == QLatin1String("incomplete");
+    runtimeStateRefreshInFlight_ = true;
+    runSelfVerificationTask(
+      this,
+      [handleId]() {
+          RecoveryStatusTaskResult taskResult;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          taskResult.result  = komai::MatrixBackendRuntimeService::fetchRecoveryStatus(
+            context, handleId, &taskResult.error);
+          return taskResult;
+      },
+      [handleId](SelfVerificationStatus *status, const RecoveryStatusTaskResult &taskResult) {
+          status->runtimeStateRefreshInFlight_ = false;
+          const bool rerun = std::exchange(status->runtimeStateRefreshPending_, false);
 
-    nhlog::crypto()->debug("Matrix recovery status state='{}' has_ssss={} "
-                           "own_device_is_verified={} has_unverified_own_devices={} "
-                           "has_devices_to_verify_against={}",
-                           recoveryStatus->state.toStdString(),
-                           hasSSSS,
-                           recoveryStatus->ownDeviceIsVerified,
-                           recoveryStatus->hasUnverifiedOwnDevices,
-                           recoveryStatus->hasDevicesToVerifyAgainst);
+          const auto *mainWindow    = MainWindow::instance();
+          const auto activeHandleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+          if (activeHandleId != handleId) {
+              if (rerun)
+                  QTimer::singleShot(
+                    0, status, &SelfVerificationStatus::refreshStateFromMatrixRuntime);
+              return;
+          }
 
-    Status nextStatus = AllVerified;
-    if (recoveryStatus->state == QLatin1String("disabled")) {
-        nextStatus = NoMasterKey;
-    } else if (!recoveryStatus->ownDeviceIsVerified) {
-        nextStatus = UnverifiedMasterKey;
-    } else if (recoveryStatus->hasUnverifiedOwnDevices) {
-        nextStatus = UnverifiedDevices;
-    }
+          if (!taskResult.result) {
+              nhlog::crypto()->warn("Failed to fetch matrix-sdk recovery status: {}",
+                                    taskResult.error.toStdString());
+              status->invalidate();
+          } else {
+              const auto hasSSSS = taskResult.result->state == QLatin1String("enabled") ||
+                                   taskResult.result->state == QLatin1String("incomplete");
 
-    applyRuntimeStatus(nextStatus, hasSSSS, recoveryStatus->hasDevicesToVerifyAgainst);
+              nhlog::crypto()->debug("Matrix recovery status state='{}' has_ssss={} "
+                                     "own_device_is_verified={} has_unverified_own_devices={} "
+                                     "has_devices_to_verify_against={}",
+                                     taskResult.result->state.toStdString(),
+                                     hasSSSS,
+                                     taskResult.result->ownDeviceIsVerified,
+                                     taskResult.result->hasUnverifiedOwnDevices,
+                                     taskResult.result->hasDevicesToVerifyAgainst);
+
+              Status nextStatus = AllVerified;
+              if (taskResult.result->state == QLatin1String("disabled")) {
+                  nextStatus = NoMasterKey;
+              } else if (!taskResult.result->ownDeviceIsVerified) {
+                  nextStatus = UnverifiedMasterKey;
+              } else if (taskResult.result->hasUnverifiedOwnDevices) {
+                  nextStatus = UnverifiedDevices;
+              }
+
+              status->applyRuntimeStatus(
+                nextStatus, hasSSSS, taskResult.result->hasDevicesToVerifyAgainst);
+          }
+
+          if (status->promptCurrentActionAfterRefresh_) {
+              status->promptCurrentActionAfterRefresh_ = false;
+              if (status->status_ != AllVerified)
+                  emit status->promptForStatus(status->status_);
+          }
+
+          if (rerun)
+              QTimer::singleShot(0, status, &SelfVerificationStatus::refreshStateFromMatrixRuntime);
+      });
 }
 
 void

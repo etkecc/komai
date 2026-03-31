@@ -101,8 +101,5 @@ inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds =
   settings::core::definitions::kDefaultPrivacyWindowFocusBlurDelaySeconds;
 inline constexpr int kDefaultUiLayoutContentMaxWidthPx =
   settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx;
-inline constexpr uint kDefaultMaxStores = settings::core::definitions::kDefaultMaxStores;
-inline constexpr qulonglong kDefaultMaxDbSizeBytes =
-  settings::core::definitions::kDefaultMaxDbSizeBytes;
 
 } // namespace settings::serializer::config

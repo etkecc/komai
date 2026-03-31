@@ -123,16 +123,6 @@ UserSettings::windowHeight() const
 {
     return windowHeight_;
 }
-qulonglong
-UserSettings::dbMaxSizeBytes() const
-{
-    return dbMaxSizeBytes_;
-}
-uint
-UserSettings::dbMaxStores() const
-{
-    return dbMaxStores_;
-}
 
 // Internal helper: secrets provider is configured via `secrets.provider` in config.yml.
 bool

@@ -30,8 +30,6 @@
     bool privacyMaintenanceExpireEvents() const;
     int windowWidth() const;
     int windowHeight() const;
-    qulonglong dbMaxSizeBytes() const;
-    uint dbMaxStores() const;
     bool usesFileSecretsProvider() const;
     bool secretsProviderFallbackWarningVisible() const;
     bool networkMrsEnabled() const;

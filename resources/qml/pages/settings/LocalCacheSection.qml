@@ -259,7 +259,7 @@ Item {
                             }
 
                             Label {
-                                text: qsTr("State store")
+                                text: qsTr("Matrix SDK state store")
                                 color: palette.text
                                 font.bold: true
                                 font.pointSize: Settings.uiFontSizePt

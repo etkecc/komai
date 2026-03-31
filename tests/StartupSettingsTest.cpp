@@ -1418,10 +1418,7 @@ bool
 testConfigSchemaCoverageAndKeyUniqueness()
 {
     bool ok = true;
-    const std::set<QString> schemaOnlyConfigKeys{
-      QString::fromLatin1(SettingKey::DbMaxStores),
-      QString::fromLatin1(SettingKey::DbMaxSizeBytes),
-    };
+    const std::set<QString> schemaOnlyConfigKeys{};
 
     auto hasPersistedConfigKey = [](const QString &key) {
         for (const auto &definition : settings::core::definitions::persistedDefinitions()) {

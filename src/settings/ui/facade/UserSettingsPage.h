@@ -268,11 +268,6 @@ class UserSettings final : public QObject
     Q_PROPERTY(int windowWidth READ windowWidth WRITE setWindowWidth NOTIFY windowWidthChanged)
     Q_PROPERTY(int windowHeight READ windowHeight WRITE setWindowHeight NOTIFY windowHeightChanged)
 
-    // Database settings (internal, auto-adjusted)
-    Q_PROPERTY(qulonglong dbMaxSizeBytes READ dbMaxSizeBytes WRITE setDbMaxSizeBytes NOTIFY
-                 dbMaxSizeBytesChanged)
-    Q_PROPERTY(uint dbMaxStores READ dbMaxStores WRITE setDbMaxStores NOTIFY dbMaxStoresChanged)
-
     // Matrix Rooms Search
     Q_PROPERTY(bool networkMrsEnabled READ networkMrsEnabled WRITE setNetworkMrsEnabled NOTIFY
                  networkMrsEnabledChanged)
@@ -579,8 +574,6 @@ public:
     void setPrivacyMaintenanceExpireEvents(bool state);
     void setWindowWidth(int width);
     void setWindowHeight(int height);
-    void setDbMaxSizeBytes(qulonglong size);
-    void setDbMaxStores(uint count);
     void setNetworkMrsEnabled(bool state);
     void setNetworkMrsServerName(QString serverName);
     void setNetworkHttp3Enabled(bool state);
@@ -724,8 +717,6 @@ signals:
     void privacyMaintenanceExpireEventsChanged(bool state);
     void windowWidthChanged(int width);
     void windowHeightChanged(int height);
-    void dbMaxSizeBytesChanged(qulonglong size);
-    void dbMaxStoresChanged(uint count);
     void networkMrsEnabledChanged(bool state);
     void networkMrsServerNameChanged(QString serverName);
     void networkHttp3EnabledChanged(bool state);

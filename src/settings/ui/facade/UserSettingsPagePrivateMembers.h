@@ -115,8 +115,6 @@ bool networkSpacesMaintainJoinMetadata_;
 bool privacyMaintenanceExpireEvents_;
 int windowWidth_                            = settings::core::definitions::kDefaultWindowWidthPx;
 int windowHeight_                           = settings::core::definitions::kDefaultWindowHeightPx;
-qulonglong dbMaxSizeBytes_                  = settings::core::definitions::kDefaultMaxDbSizeBytes;
-uint dbMaxStores_                           = settings::core::definitions::kDefaultMaxStores;
 bool usesFileSecretsProvider_               = false;
 bool secretsProviderFallbackWarningVisible_ = false;
 bool networkMrsEnabled_ = settings::core::definitions::kDefaultNetworkMrsEnabled;

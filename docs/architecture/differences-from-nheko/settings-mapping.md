@@ -145,7 +145,5 @@ Note:
 | `screen_share_hide_cursor` | `calls.screenshare.show_cursor` | config.yml | bool | key semantics flipped to positive naming in Komai |
 | `disable_certificate_validation` | `network.tls.enable_certificate_validation` | config.yml | bool | inverted from upstream key semantics; positive in Komai |
 | `enable_http3` | `network.http3.enabled` | config.yml | bool | network advanced pref |
-| `max_db_size` | `db.max_size_bytes` | config.yml | qulonglong | database tuning |
-| `max_dbs` | `db.max_stores` | config.yml | uint | database tuning |
 | `run_without_secure_secrets_service` | `secrets.provider` | config.yml | bool -> enum | mapped: false=secret_service, true=file; no direct runtime toggle in Komai |
 | `secrets` | `secrets` | secret backend (fallback: secrets.yml) | map(text->text) | secret map; do not keep in config.yml |

@@ -32,20 +32,6 @@ const IntSettingDescriptor IntSettings[] = {
 #include "SettingsSerializerConfigSchemaIntPrivacy.inc"
 };
 
-const UintSettingDescriptor UintSettings[] = {
-  UintSettingDescriptor{SettingKey::DbMaxStores,
-                        kDefaultMaxStores,
-                        &UserSettings::dbMaxStores,
-                        &UserSettings::setDbMaxStores},
-};
-
-const ULongLongSettingDescriptor ULongLongSettings[] = {
-  ULongLongSettingDescriptor{SettingKey::DbMaxSizeBytes,
-                             kDefaultMaxDbSizeBytes,
-                             &UserSettings::dbMaxSizeBytes,
-                             &UserSettings::setDbMaxSizeBytes},
-};
-
 const DoubleSettingDescriptor DoubleSettings[] = {
   DoubleSettingDescriptor{SettingKey::UiFontSizePt,
                           kDefaultFontSizePt,
@@ -82,13 +68,13 @@ intConfigSettings()
 std::span<const UintSettingDescriptor>
 uintConfigSettings()
 {
-    return UintSettings;
+    return {};
 }
 
 std::span<const ULongLongSettingDescriptor>
 ulonglongConfigSettings()
 {
-    return ULongLongSettings;
+    return {};
 }
 
 std::span<const DoubleSettingDescriptor>

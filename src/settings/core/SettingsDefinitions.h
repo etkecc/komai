@@ -42,12 +42,7 @@ inline constexpr int kMinEffectiveUiLayoutContentMaxWidthPx     = 500;
 inline constexpr int kDefaultScreenShareFrameRate               = 30;
 inline constexpr bool kDefaultScreenShareShowCursor             = true;
 inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds = 0;
-// Legacy storage-tuning settings still exist in the config schema, but the
-// current matrix-sdk storage path does not consume them. Keep inert defaults
-// until that legacy surface is removed entirely.
-inline constexpr unsigned int kDefaultMaxStores            = 8192;
-inline constexpr unsigned long long kDefaultMaxDbSizeBytes = 0;
-inline constexpr int kDefaultIntegrationsDbusApiAccess     = 0;
+inline constexpr int kDefaultIntegrationsDbusApiAccess          = 0;
 
 inline constexpr SettingId kEnumTokenConfigSettingIds[] = {
 #include "SettingsDefinitionsEnumTokenConfigSettingIds.inc"

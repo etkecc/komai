@@ -39,8 +39,8 @@ registerDescriptorKeys(std::string_view descriptorSetName,
 bool
 isSchemaOnlyConfigKey(std::string_view key)
 {
-    return key == std::string_view{SettingKey::DbMaxStores} ||
-           key == std::string_view{SettingKey::DbMaxSizeBytes};
+    Q_UNUSED(key);
+    return false;
 }
 
 bool

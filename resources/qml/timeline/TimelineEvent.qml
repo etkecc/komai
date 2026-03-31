@@ -106,6 +106,12 @@ EventDelegateChooser {
             Layout.fillWidth: true
             //Layout.maximumWidth: implicitWidth
             readonly property int chooserColorRevision: (parent && parent.colorRevision !== undefined && parent.colorRevision !== null) ? parent.colorRevision : 0
+            readonly property string chooserRoomIdForColorCoding: (parent && parent.roomIdForColorCoding !== undefined && parent.roomIdForColorCoding !== null)
+                ? String(parent.roomIdForColorCoding)
+                : ""
+            readonly property var chooserRoomForColorCoding: (parent && parent.roomForColorCoding !== undefined)
+                ? parent.roomForColorCoding
+                : null
             readonly property color chooserMainLinkColor: (parent && parent.mainMessageLinkColor !== undefined && parent.mainMessageLinkColor !== null) ? parent.mainMessageLinkColor : palette.link
             readonly property color chooserMainSurfaceColor: (parent && parent.mainMessageSurfaceColor !== undefined && parent.mainMessageSurfaceColor !== null) ? parent.mainMessageSurfaceColor : palette.alternateBase
             readonly property color chooserReplyLinkColor: (parent && parent.replyMessageLinkColor !== undefined && parent.replyMessageLinkColor !== null) ? parent.replyMessageLinkColor : palette.link
@@ -114,7 +120,25 @@ EventDelegateChooser {
             color: Komai.readableAccentTextColor(
                 (function() {
                     const _revision = chooserColorRevision;
-                    return wrapper.resolveUserColor(userId, palette.base);
+                    if (chooserRoomIdForColorCoding.length > 0) {
+                        if (chooserRoomIdForColorCoding.startsWith("!timeline-preview:")
+                                && chooserRoomForColorCoding
+                                && chooserRoomForColorCoding.roomMemberCount !== undefined) {
+                            return TimelineManager.previewRoomUserColor(
+                                        chooserRoomIdForColorCoding,
+                                        userId,
+                                        palette.base,
+                                        Number(chooserRoomForColorCoding.roomMemberCount),
+                                        Settings.timelineUserColorCodingPolicy);
+                        }
+                        return TimelineManager.roomUserColor(
+                                    chooserRoomIdForColorCoding,
+                                    userId,
+                                    palette.base,
+                                    Settings.timelineUserColorCodingPolicy);
+                    }
+
+                    return TimelineManager.userColor(userId, palette.base);
                 })(),
                 palette.base)
             linkColor: EventDelegateChooser.isReply

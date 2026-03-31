@@ -16,6 +16,16 @@ namespace komai {
 
 namespace {
 
+template<typename Func>
+auto
+invokeAuthWorkerCall(const char *operation, Func &&func)
+{
+    return matrix_backend::invokeBlockingCall(
+      operation,
+      matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+      std::forward<Func>(func));
+}
+
 QString
 normalizeProfileId(QStringView profileId)
 {
@@ -173,10 +183,13 @@ MatrixAuthService::discoverLoginFlows(matrix_backend::BlockingCallContext contex
                                       QString *errorOut)
 {
     try {
-        auto result =
-          ::komai::rust::matrix_discover_login_flows(matrix_backend::toRustBlockingContext(context),
-                                                     serverNameOrUrl.toStdString(),
-                                                     verifyCertificates);
+        auto result = invokeAuthWorkerCall("matrix_discover_login_flows",
+                                           [context, &serverNameOrUrl, verifyCertificates]() {
+                                               return ::komai::rust::matrix_discover_login_flows(
+                                                 matrix_backend::toRustBlockingContext(context),
+                                                 serverNameOrUrl.toStdString(),
+                                                 verifyCertificates);
+                                           });
         return fromRustFlows(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -194,12 +207,16 @@ MatrixAuthService::getSsoLoginUrl(matrix_backend::BlockingCallContext context,
                                   QString *errorOut)
 {
     try {
-        auto result =
-          ::komai::rust::matrix_get_sso_login_url(matrix_backend::toRustBlockingContext(context),
-                                                  homeserverUrl.toStdString(),
-                                                  redirectUrl.toStdString(),
-                                                  identityProviderId.toStdString(),
-                                                  verifyCertificates);
+        auto result = invokeAuthWorkerCall(
+          "matrix_get_sso_login_url",
+          [context, &homeserverUrl, &redirectUrl, &identityProviderId, verifyCertificates]() {
+              return ::komai::rust::matrix_get_sso_login_url(
+                matrix_backend::toRustBlockingContext(context),
+                homeserverUrl.toStdString(),
+                redirectUrl.toStdString(),
+                identityProviderId.toStdString(),
+                verifyCertificates);
+          });
         return QString::fromStdString(std::string(result));
     } catch (const std::exception &e) {
         if (errorOut)
@@ -221,15 +238,25 @@ MatrixAuthService::startOauthLogin(matrix_backend::BlockingCallContext context,
 {
     try {
         const auto normalizedProfileId = normalizeProfileId(profileId);
-        auto result =
-          ::komai::rust::matrix_start_oauth_login(matrix_backend::toRustBlockingContext(context),
-                                                  normalizedProfileId.toStdString(),
-                                                  homeserverUrl.toStdString(),
-                                                  redirectUrl.toStdString(),
-                                                  userIdHint.toStdString(),
-                                                  deviceId.toStdString(),
-                                                  initialDeviceDisplayName.toStdString(),
-                                                  verifyCertificates);
+        auto result                    = invokeAuthWorkerCall("matrix_start_oauth_login",
+                                           [context,
+                                            &normalizedProfileId,
+                                            &homeserverUrl,
+                                            &redirectUrl,
+                                            &userIdHint,
+                                            &deviceId,
+                                            &initialDeviceDisplayName,
+                                            verifyCertificates]() {
+                                               return ::komai::rust::matrix_start_oauth_login(
+                                                 matrix_backend::toRustBlockingContext(context),
+                                                 normalizedProfileId.toStdString(),
+                                                 homeserverUrl.toStdString(),
+                                                 redirectUrl.toStdString(),
+                                                 userIdHint.toStdString(),
+                                                 deviceId.toStdString(),
+                                                 initialDeviceDisplayName.toStdString(),
+                                                 verifyCertificates);
+                                           });
         return fromRustOauthLoginStartResult(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -245,8 +272,13 @@ MatrixAuthService::finishOauthLogin(matrix_backend::BlockingCallContext context,
                                     QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_finish_oauth_login(
-          matrix_backend::toRustBlockingContext(context), loginId, callbackQuery.toStdString());
+        auto result =
+          invokeAuthWorkerCall("matrix_finish_oauth_login", [context, loginId, &callbackQuery]() {
+              return ::komai::rust::matrix_finish_oauth_login(
+                matrix_backend::toRustBlockingContext(context),
+                loginId,
+                callbackQuery.toStdString());
+          });
         return fromRustResult(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -281,15 +313,25 @@ MatrixAuthService::loginWithPassword(matrix_backend::BlockingCallContext context
 {
     try {
         const auto normalizedProfileId = normalizeProfileId(profileId);
-        auto result =
-          ::komai::rust::matrix_login_password(matrix_backend::toRustBlockingContext(context),
-                                               normalizedProfileId.toStdString(),
-                                               homeserverUrl.toStdString(),
-                                               userId.toStdString(),
-                                               password.toStdString(),
-                                               deviceId.toStdString(),
-                                               initialDeviceDisplayName.toStdString(),
-                                               verifyCertificates);
+        auto result                    = invokeAuthWorkerCall("matrix_login_password",
+                                           [context,
+                                            &normalizedProfileId,
+                                            &homeserverUrl,
+                                            &userId,
+                                            &password,
+                                            &deviceId,
+                                            &initialDeviceDisplayName,
+                                            verifyCertificates]() {
+                                               return ::komai::rust::matrix_login_password(
+                                                 matrix_backend::toRustBlockingContext(context),
+                                                 normalizedProfileId.toStdString(),
+                                                 homeserverUrl.toStdString(),
+                                                 userId.toStdString(),
+                                                 password.toStdString(),
+                                                 deviceId.toStdString(),
+                                                 initialDeviceDisplayName.toStdString(),
+                                                 verifyCertificates);
+                                           });
         return fromRustResult(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -310,14 +352,23 @@ MatrixAuthService::loginWithToken(matrix_backend::BlockingCallContext context,
 {
     try {
         const auto normalizedProfileId = normalizeProfileId(profileId);
-        auto result =
-          ::komai::rust::matrix_login_token(matrix_backend::toRustBlockingContext(context),
-                                            normalizedProfileId.toStdString(),
-                                            homeserverUrl.toStdString(),
-                                            loginToken.toStdString(),
-                                            deviceId.toStdString(),
-                                            initialDeviceDisplayName.toStdString(),
-                                            verifyCertificates);
+        auto result                    = invokeAuthWorkerCall("matrix_login_token",
+                                           [context,
+                                            &normalizedProfileId,
+                                            &homeserverUrl,
+                                            &loginToken,
+                                            &deviceId,
+                                            &initialDeviceDisplayName,
+                                            verifyCertificates]() {
+                                               return ::komai::rust::matrix_login_token(
+                                                 matrix_backend::toRustBlockingContext(context),
+                                                 normalizedProfileId.toStdString(),
+                                                 homeserverUrl.toStdString(),
+                                                 loginToken.toStdString(),
+                                                 deviceId.toStdString(),
+                                                 initialDeviceDisplayName.toStdString(),
+                                                 verifyCertificates);
+                                           });
         return fromRustResult(result);
     } catch (const std::exception &e) {
         if (errorOut)

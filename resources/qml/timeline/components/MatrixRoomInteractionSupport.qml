@@ -18,18 +18,18 @@ QtObject {
         if (!messageModel || !roomModel || !messageModel.eventId)
             return;
 
-        dialogSupport.messageContextMenu.show(messageModel.eventId,
-                                              messageModel.threadId || "",
-                                              messageModel.type,
-                                              !!messageModel.isSender,
-                                              !!messageModel.isEncrypted,
-                                              !!messageModel.isEditable,
-                                              !!messageModel.isStateEvent,
-                                              "",
-                                              copyText || "",
-                                              null,
-                                              messageModel,
-                                              roomModel);
+        support.dialogSupport.messageContextMenu.show(messageModel.eventId,
+                                                      messageModel.threadId || "",
+                                                      messageModel.type,
+                                                      !!messageModel.isSender,
+                                                      !!messageModel.isEncrypted,
+                                                      !!messageModel.isEditable,
+                                                      !!messageModel.isStateEvent,
+                                                      "",
+                                                      copyText || "",
+                                                      null,
+                                                      messageModel,
+                                                      roomModel);
     }
 
     function jumpToLoadedMatrixEvent(eventId) {
@@ -63,7 +63,7 @@ QtObject {
     }
 
     function destroyOnClose(dialog) {
-        return dialogSupport.destroyOnClose(dialog);
+        return support.dialogSupport.destroyOnClose(dialog);
     }
 
     function scheduleComposerAutoFocus() {
@@ -194,27 +194,27 @@ QtObject {
     }
 
     function openRemoveMessageDialog(eventId) {
-        return dialogSupport.openRemoveMessageDialog(eventId);
+        return support.dialogSupport.openRemoveMessageDialog(eventId);
     }
 
     function openRawMessageDialog(eventId) {
-        return dialogSupport.openRawMessageDialog(eventId);
+        return support.dialogSupport.openRawMessageDialog(eventId);
     }
 
     function openReadReceiptsDialog(eventId) {
-        return dialogSupport.openReadReceiptsDialog(eventId);
+        return support.dialogSupport.openReadReceiptsDialog(eventId);
     }
 
     function openMatrixForwardDialog(eventId) {
-        return dialogSupport.openMatrixForwardDialog(eventId);
+        return support.dialogSupport.openMatrixForwardDialog(eventId);
     }
 
     function openForwardDialog(eventId) {
-        return dialogSupport.openMatrixForwardDialog(eventId);
+        return support.dialogSupport.openMatrixForwardDialog(eventId);
     }
 
     function openReportMessageDialog(eventId) {
-        return dialogSupport.openReportMessageDialog(eventId);
+        return support.dialogSupport.openReportMessageDialog(eventId);
     }
 
     function openMessageActionsDialog(eventId,
@@ -227,16 +227,16 @@ QtObject {
                                       text,
                                       messageModelOverride,
                                       roomModelOverride) {
-        return dialogSupport.openMessageActionsDialog(eventId,
-                                                      threadId,
-                                                      eventType,
-                                                      isSender,
-                                                      isEncrypted,
-                                                      isEditable,
-                                                      link,
-                                                      text,
-                                                      messageModelOverride,
-                                                      roomModelOverride);
+        return support.dialogSupport.openMessageActionsDialog(eventId,
+                                                              threadId,
+                                                              eventType,
+                                                              isSender,
+                                                              isEncrypted,
+                                                              isEditable,
+                                                              link,
+                                                              text,
+                                                              messageModelOverride,
+                                                              roomModelOverride);
     }
 
     function resolvePendingMatrixEventJump() {

@@ -148,6 +148,8 @@ ColumnLayout {
     function scheduleReadMarkerUpdate(preferLatestEvent) { return viewportSupport.scheduleReadMarkerUpdate(preferLatestEvent); }
     function ensureInitialBottomPin() { return viewportSupport.ensureInitialBottomPin(); }
     function updatePreferredInitialTimelinePageSize() { return viewportSupport.updatePreferredInitialTimelinePageSize(); }
+    function isEffectivelyAtLiveEdge() { return viewportSupport.isEffectivelyAtLiveEdge(); }
+    function bottomMostVisibleEventId() { return viewportSupport.bottomMostVisibleEventId(); }
     function selectableEventIdNearMatrixRow(row) { return viewportSupport.selectableEventIdNearMatrixRow(row); }
 
     function clearSelectedEvents() { return walkModeSupport.clearSelectedEvents(); }

@@ -755,6 +755,12 @@ MatrixTimelineModel::replaceVisibleItems(QVector<MatrixTimelineItem> items)
         }
     }
 
+    // Bubble grouping/section/avatar layout for row N depends on the next visible row (N + 1).
+    // When hidden-event filtering inserts/removes rows, the unchanged boundary row just before the
+    // diff can keep stale grouping state unless we nudge it explicitly.
+    if (prefix > 0 && prefix - 1 < items_.size())
+        emit dataChanged(index(prefix - 1), index(prefix - 1));
+
     if (countDidChange)
         emit countChanged();
 }

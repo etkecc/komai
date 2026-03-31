@@ -97,8 +97,8 @@ ColumnLayout {
 
         rootItem: root
         composerPane: externalComposerPane
-        dialogSupport: dialogSupport
-        composerInputController: composerInputController
+        dialogSupport: root.dialogSupport
+        composerInputController: root.composerInputController
         timelineList: matrixTimelineList
     }
 

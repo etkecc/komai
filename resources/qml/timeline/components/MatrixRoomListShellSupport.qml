@@ -208,6 +208,8 @@ QtObject {
             support.updateLastScroll();
         }
 
+        support.armDeferredBufferTopUpIfUnderfilled();
+
         if (rootItem.deferredInitialBufferTopUpPending)
             rootItem.scheduleDeferredInitialTimelineBufferCheck();
         else
@@ -230,6 +232,8 @@ QtObject {
             }
             support.updateLastScroll();
         }
+
+        support.armDeferredBufferTopUpIfUnderfilled();
 
         if (rootItem.deferredInitialBufferTopUpPending)
             rootItem.scheduleDeferredInitialTimelineBufferCheck();
@@ -265,6 +269,9 @@ QtObject {
         Qt.callLater(function () {
             support.updateStableThumbSize();
         });
+
+        support.armDeferredBufferTopUpIfUnderfilled();
+
         if (rootItem.deferredInitialBufferTopUpPending)
             rootItem.scheduleDeferredInitialTimelineBufferCheck();
         else
@@ -293,6 +300,25 @@ QtObject {
         support.updateLastScroll();
         rootItem.updatePreferredInitialTimelinePageSize();
         support.maybeScrollToBottom(true);
+    }
+
+    function armDeferredBufferTopUpIfUnderfilled() {
+        if (!timelineList
+                || timelineList.count <= 0
+                || rootItem.loading
+                || rootItem.initialBottomPinPending) {
+            return;
+        }
+
+        const viewportHeight = Number(timelineList.height || 0);
+        const contentHeight = Number(timelineList.contentHeight || 0);
+        if (viewportHeight <= 0 || contentHeight <= 0 || contentHeight > viewportHeight + 1)
+            return;
+
+        rootItem.initialTimelineBufferPending = false;
+        rootItem.deferredInitialBufferTopUpPending = true;
+        rootItem.bufferPaginationInFlight = false;
+        rootItem.lastInitialBufferTriggerCount = -1;
     }
 
     function resetForRoomSwitch() {

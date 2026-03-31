@@ -114,8 +114,7 @@ EventDelegateChooser {
             color: Komai.readableAccentTextColor(
                 (function() {
                     const _revision = chooserColorRevision;
-                    return room ? TimelineManager.roomUserColor(room.roomId, userId, palette.base, Settings.timelineUserColorCodingPolicy)
-                                : TimelineManager.userColor(userId, palette.base);
+                    return wrapper.resolveUserColor(userId, palette.base);
                 })(),
                 palette.base)
             linkColor: EventDelegateChooser.isReply

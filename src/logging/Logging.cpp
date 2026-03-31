@@ -39,7 +39,11 @@ qmlMessageHandler(QtMsgType type, const QMessageLogContext &context, const QStri
       // without that you get one warning for every Avatar displayed, which is stupid!
       msg.endsWith(QStringLiteral("Both point size and pixel size set. Using pixel size.")) ||
       // Qt SVG renderer strictness warnings from internal path parsing (Qt 6.11.0)
-      msg.contains(QStringLiteral("Invalid path data; path truncated")))
+      msg.contains(QStringLiteral("Invalid path data; path truncated")) ||
+      // Qt Particles module property shadowing warnings (Qt 6.11.0)
+      msg.startsWith(QStringLiteral("Member enabled of the object QQuickParticleEmitter")) ||
+      msg.startsWith(QStringLiteral("Member enabled of the object QQuickParticleAffector")) ||
+      msg.startsWith(QStringLiteral("Member rotation of the object QQuickImageParticle")))
         return;
 
     switch (type) {

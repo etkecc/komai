@@ -9,7 +9,6 @@ import cc.etke.komai
 TimelineEvent {
     id: wrapper
 
-    ListView.delayRemove: true
     width: chat ? chat.delegateMaxWidth : 0
     anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
 

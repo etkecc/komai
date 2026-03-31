@@ -395,7 +395,6 @@ ColumnLayout {
                     delegate: Item {
                         id: timelineItemDelegate
 
-                        ListView.delayRemove: true
                         property var chat: matrixTimelineList
                         property var chatRoot: root
 
@@ -454,9 +453,9 @@ ColumnLayout {
                             const replyH = replyTo.length > 0 ? lineH * 2 : 0;
                             return lines * lineH + replyH + pad + lineH;
                         }
-                        height: isHiddenEvent ? 0 : (bubbleStyle.height > 0
+                        height: bubbleStyle.height > 0
                             ? bubbleStyle.height
-                            : heuristicHeight)
+                            : heuristicHeight
 
                         TimelineBubbleMessageStyle {
                             id: bubbleStyle
@@ -481,7 +480,10 @@ ColumnLayout {
                             notificationlevel: MtxEvent.Empty
                             type: timelineItemDelegate.type
                             isEditable: timelineItemDelegate.isEditable
-                            isHiddenEvent: timelineItemDelegate.isHiddenEvent
+                            // Hidden rows are filtered out of MatrixTimelineModel
+                            // before they reach the ListView, so delegate-level
+                            // collapse is intentionally disabled here.
+                            isHiddenEvent: false
                             messageContextMenu: dialogSupport.messageContextMenu
                             replyContextMenu: dialogSupport.replyContextMenu
                             messageActions: dialogSupport.messageActionsHost.control

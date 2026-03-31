@@ -96,7 +96,6 @@ Exported blocking Rust entrypoints take an explicit `MatrixFfiBlockingContext` a
 That context carries two pieces of information from C++:
 
 - thread policy:
-  - `AllowUiThread`
   - `RequireWorkerThread`
 - caller thread kind:
   - `AppUiThread`
@@ -122,9 +121,11 @@ The two normal constructors are:
 - `blockingCallContext()`
   - worker-thread only
   - logs and aborts immediately if created on the app/UI thread
-- `allowUiThreadBlockingCallContext()`
-  - explicit escape hatch for existing synchronous UI-thread callers that have not been moved to a
-    worker path yet
+
+Current policy:
+
+- there is no longer a UI-thread blocking constructor on the C++ side
+- if a caller wants to block into Rust, it must first move to a worker-thread path
 
 `src/matrix/backend/MatrixFfiBlockingContext.h` converts that C++ context into the generated Rust
 bridge struct.
@@ -142,8 +143,7 @@ This hardening came from real failures:
 The design is intentionally scoped to exported blocking FFI entrypoints.
 
 - Internal/background Rust runtime users still use the runtime directly.
-- The C++ side still decides whether a given blocking call is temporarily UI-allowed or must be on
-  a worker thread.
+- The C++ side now only permits the worker-thread blocking shape for exported blocking entrypoints.
 
 ## Packaging
 

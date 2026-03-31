@@ -51,7 +51,6 @@ private:
     BlockingCallCallerThread callerThread_;
 
     friend BlockingCallContext blockingCallContext();
-    friend BlockingCallContext allowUiThreadBlockingCallContext();
 };
 
 inline bool
@@ -93,18 +92,6 @@ blockingCallContext()
     return BlockingCallContext{
       BlockingCallThreadPolicy::RequireWorkerThread,
       BlockingCallCallerThread::WorkerThread,
-    };
-}
-
-[[nodiscard]] inline BlockingCallContext
-allowUiThreadBlockingCallContext()
-{
-    // This is a temporary escape hatch for synchronous UI-thread callers that have not moved to a
-    // worker path yet. Keeping it explicit makes those remaining debt sites easy to audit later.
-    return BlockingCallContext{
-      BlockingCallThreadPolicy::AllowUiThread,
-      isAppUiThread() ? BlockingCallCallerThread::AppUiThread
-                      : BlockingCallCallerThread::WorkerThread,
     };
 }
 

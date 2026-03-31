@@ -124,6 +124,26 @@ stableTimelineItemKey(const MatrixTimelineItem &item)
     return item.itemId.trimmed();
 }
 
+QString
+effectiveReplyPreviewBody(const MatrixTimelineItem &item)
+{
+    if (!item.replyBody.isEmpty() || !item.replyFormattedBody.isEmpty())
+        return item.replyBody;
+
+    return QStringLiteral("[Original message unavailable]");
+}
+
+QString
+effectiveReplyPreviewDisplayName(const MatrixTimelineItem &item)
+{
+    if (!item.replySenderDisplayName.trimmed().isEmpty())
+        return item.replySenderDisplayName.trimmed();
+    if (!item.replySenderId.trimmed().isEmpty())
+        return item.replySenderId.trimmed();
+
+    return QStringLiteral("Unknown sender");
+}
+
 void
 computeDerivedFields(MatrixTimelineItem &item, const QString &roomId)
 {
@@ -273,19 +293,24 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
 QVariant
 MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) const
 {
+    const auto effectiveBody        = effectiveReplyPreviewBody(parentItem);
+    const auto effectiveDisplayName = effectiveReplyPreviewDisplayName(parentItem);
+    const auto effectiveFormattedBody =
+      formatBodyHtml(effectiveBody, parentItem.replyFormattedBody);
+
     // clang-format off
     switch (role) {
     case Type:               return static_cast<int>(qml_mtx_events::TextMessage);
     case TypeString:         return QStringLiteral("message");
-    case IsOnlyEmoji:        return emojiOnlyCodepointCount(parentItem.replyBody);
-    case Body:               return parentItem.replyBody;
-    case FormattedBody:      return formatBodyHtml(parentItem.replyBody, parentItem.replyFormattedBody);
-    case HasFormattedBody:   return !parentItem.replyBody.isEmpty();
+    case IsOnlyEmoji:        return emojiOnlyCodepointCount(effectiveBody);
+    case Body:               return effectiveBody;
+    case FormattedBody:      return effectiveFormattedBody;
+    case HasFormattedBody:   return !effectiveBody.isEmpty() || !parentItem.replyFormattedBody.isEmpty();
     case FormattedStateEvent:return QString();
     case StateEventIconSource:return QString();
     case IsSender:           return false;
     case UserId:             return parentItem.replySenderId;
-    case UserName:           return parentItem.replySenderDisplayName;
+    case UserName:           return effectiveDisplayName;
     case UserPowerlevel:     return 0;
     case Day:                return 0;
     case Timestamp:          return QDateTime::fromMSecsSinceEpoch(0);

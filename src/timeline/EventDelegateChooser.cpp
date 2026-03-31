@@ -329,34 +329,46 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
         Qt::endPropertyUpdateGroup();
     };
 
-    if (!forReply) {
-        auto row        = chooser.room_->idToIndex(currentId);
-        auto connection = connect(
-          chooser.room_,
-          &QAbstractItemModel::dataChanged,
-          obj,
-          [row, update, room = chooser.room_](const QModelIndex &topLeft,
-                                              const QModelIndex &bottomRight,
-                                              const QList<int> &changedRoles) {
-              if (row < topLeft.row() || row > bottomRight.row())
-                  return;
+    const auto trackedId      = currentId;
+    const auto trackedEventId = chooser.eventId_;
+    auto connection           = connect(
+      chooser.room_,
+      &QAbstractItemModel::dataChanged,
+      obj,
+      [trackedId, trackedEventId, update, room = chooser.room_, isReply = forReply](
+        const QModelIndex &topLeft,
+        const QModelIndex &bottomRight,
+        const QList<int> &changedRoles) {
+          if (!room)
+              return;
 
-              update(changedRoles, room);
-          },
-          Qt::QueuedConnection);
-        connect(
-          &this->chooser,
-          &EventDelegateChooser::destroyed,
-          obj,
-          [connection]() { QObject::disconnect(connection); },
-          Qt::SingleShotConnection);
-        connect(
-          &this->chooser,
-          &EventDelegateChooser::roomChanged,
-          obj,
-          [connection]() { QObject::disconnect(connection); },
-          Qt::SingleShotConnection);
-    }
+          auto rowInChangedRange = [&topLeft, &bottomRight, room](const QString &eventId) {
+              const auto row = room->idToIndex(eventId);
+              return row >= topLeft.row() && row <= bottomRight.row();
+          };
+
+          if (!isReply) {
+              if (!rowInChangedRange(trackedId))
+                  return;
+          } else if (!rowInChangedRange(trackedId) && !rowInChangedRange(trackedEventId)) {
+              return;
+          }
+
+          update(changedRoles, room);
+      },
+      Qt::QueuedConnection);
+    connect(
+      &this->chooser,
+      &EventDelegateChooser::destroyed,
+      obj,
+      [connection]() { QObject::disconnect(connection); },
+      Qt::SingleShotConnection);
+    connect(
+      &this->chooser,
+      &EventDelegateChooser::roomChanged,
+      obj,
+      [connection]() { QObject::disconnect(connection); },
+      Qt::SingleShotConnection);
 }
 
 void

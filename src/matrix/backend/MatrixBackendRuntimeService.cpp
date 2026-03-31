@@ -808,8 +808,10 @@ MatrixBackendRuntimeService::fetchOwnProfile(matrix_backend::BlockingCallContext
                                              QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_fetch_own_profile(
-          matrix_backend::toRustBlockingContext(context), handleId);
+        auto result = invokeRuntimeWorkerCall("matrix_fetch_own_profile", [context, handleId]() {
+            return ::komai::rust::matrix_fetch_own_profile(
+              matrix_backend::toRustBlockingContext(context), handleId);
+        });
         return fromRustOwnProfile(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -974,8 +976,11 @@ MatrixBackendRuntimeService::startSignOutDevice(matrix_backend::BlockingCallCont
                                                 QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_start_sign_out_device(
-          matrix_backend::toRustBlockingContext(context), handleId, deviceId.toStdString());
+        auto result =
+          invokeRuntimeWorkerCall("matrix_start_sign_out_device", [context, handleId, deviceId]() {
+              return ::komai::rust::matrix_start_sign_out_device(
+                matrix_backend::toRustBlockingContext(context), handleId, deviceId.toStdString());
+          });
         return fromRustDeviceSignOutResult(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -992,8 +997,11 @@ MatrixBackendRuntimeService::continueSignOutDeviceWithPassword(
   QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_continue_sign_out_device_with_password(
-          matrix_backend::toRustBlockingContext(context), handleId, password.toStdString());
+        invokeRuntimeWorkerCall(
+          "matrix_continue_sign_out_device_with_password", [context, handleId, password]() {
+              ::komai::rust::matrix_continue_sign_out_device_with_password(
+                matrix_backend::toRustBlockingContext(context), handleId, password.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1010,10 +1018,13 @@ MatrixBackendRuntimeService::renameDevice(matrix_backend::BlockingCallContext co
                                           QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_rename_device(matrix_backend::toRustBlockingContext(context),
-                                            handleId,
-                                            deviceId.toStdString(),
-                                            displayName.toStdString());
+        invokeRuntimeWorkerCall(
+          "matrix_rename_device", [context, handleId, deviceId, displayName]() {
+              ::komai::rust::matrix_rename_device(matrix_backend::toRustBlockingContext(context),
+                                                  handleId,
+                                                  deviceId.toStdString(),
+                                                  displayName.toStdString());
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1115,10 +1126,12 @@ MatrixBackendRuntimeService::blockDevice(matrix_backend::BlockingCallContext con
                                          QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_block_device(matrix_backend::toRustBlockingContext(context),
-                                           handleId,
-                                           userId.toStdString(),
-                                           deviceId.toStdString());
+        invokeRuntimeWorkerCall("matrix_block_device", [context, handleId, userId, deviceId]() {
+            ::komai::rust::matrix_block_device(matrix_backend::toRustBlockingContext(context),
+                                               handleId,
+                                               userId.toStdString(),
+                                               deviceId.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1135,10 +1148,12 @@ MatrixBackendRuntimeService::unblockDevice(matrix_backend::BlockingCallContext c
                                            QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_unblock_device(matrix_backend::toRustBlockingContext(context),
-                                             handleId,
-                                             userId.toStdString(),
-                                             deviceId.toStdString());
+        invokeRuntimeWorkerCall("matrix_unblock_device", [context, handleId, userId, deviceId]() {
+            ::komai::rust::matrix_unblock_device(matrix_backend::toRustBlockingContext(context),
+                                                 handleId,
+                                                 userId.toStdString(),
+                                                 deviceId.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1281,8 +1296,11 @@ MatrixBackendRuntimeService::fetchUserProfile(matrix_backend::BlockingCallContex
                                               QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_fetch_user_profile(
-          matrix_backend::toRustBlockingContext(context), handleId, userId.toStdString());
+        auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_user_profile", [context, handleId, userId]() {
+              return ::komai::rust::matrix_fetch_user_profile(
+                matrix_backend::toRustBlockingContext(context), handleId, userId.toStdString());
+          });
         return fromRustUserProfile(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1299,11 +1317,14 @@ MatrixBackendRuntimeService::fetchRoomMemberProfile(matrix_backend::BlockingCall
                                                     QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_fetch_room_member_profile(
-          matrix_backend::toRustBlockingContext(context),
-          handleId,
-          roomId.toStdString(),
-          userId.toStdString());
+        auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_room_member_profile", [context, handleId, roomId, userId]() {
+              return ::komai::rust::matrix_fetch_room_member_profile(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                userId.toStdString());
+          });
         return fromRustUserProfile(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1321,10 +1342,13 @@ MatrixBackendRuntimeService::searchUsers(matrix_backend::BlockingCallContext con
 {
     try {
         const auto result =
-          ::komai::rust::matrix_search_users(matrix_backend::toRustBlockingContext(context),
-                                             handleId,
-                                             searchTerm.toStdString(),
-                                             limit);
+          invokeRuntimeWorkerCall("matrix_search_users", [context, handleId, searchTerm, limit]() {
+              return ::komai::rust::matrix_search_users(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                searchTerm.toStdString(),
+                limit);
+          });
         QVector<MatrixDirectoryUser> users;
         users.reserve(static_cast<int>(result.size()));
         for (const auto &user : result)
@@ -1348,13 +1372,17 @@ MatrixBackendRuntimeService::fetchPublicRoomDirectoryPage(
   QString *errorOut)
 {
     try {
-        const auto result = ::komai::rust::matrix_fetch_public_room_directory_page(
-          matrix_backend::toRustBlockingContext(context),
-          handleId,
-          searchTerm.toStdString(),
-          limit,
-          since.toStdString(),
-          server.toStdString());
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_public_room_directory_page",
+                                  [context, handleId, searchTerm, limit, since, server]() {
+                                      return ::komai::rust::matrix_fetch_public_room_directory_page(
+                                        matrix_backend::toRustBlockingContext(context),
+                                        handleId,
+                                        searchTerm.toStdString(),
+                                        limit,
+                                        since.toStdString(),
+                                        server.toStdString());
+                                  });
         MatrixPublicRoomDirectoryPage page;
         page.nextBatch              = QString::fromStdString(std::string(result.next_batch));
         page.totalRoomCountEstimate = result.total_room_count_estimate;
@@ -1376,8 +1404,10 @@ MatrixBackendRuntimeService::setOwnDisplayName(matrix_backend::BlockingCallConte
                                                QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_set_own_display_name(
-          matrix_backend::toRustBlockingContext(context), handleId, displayName.toStdString());
+        invokeRuntimeWorkerCall("matrix_set_own_display_name", [context, handleId, displayName]() {
+            ::komai::rust::matrix_set_own_display_name(
+              matrix_backend::toRustBlockingContext(context), handleId, displayName.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1394,11 +1424,14 @@ MatrixBackendRuntimeService::setOwnRoomDisplayName(matrix_backend::BlockingCallC
                                                    QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_set_own_room_display_name(
-          matrix_backend::toRustBlockingContext(context),
-          handleId,
-          roomId.toStdString(),
-          displayName.toStdString());
+        invokeRuntimeWorkerCall("matrix_set_own_room_display_name",
+                                [context, handleId, roomId, displayName]() {
+                                    ::komai::rust::matrix_set_own_room_display_name(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      displayName.toStdString());
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1415,10 +1448,14 @@ MatrixBackendRuntimeService::uploadOwnAvatar(matrix_backend::BlockingCallContext
                                              QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_upload_own_avatar(matrix_backend::toRustBlockingContext(context),
-                                                handleId,
-                                                filePath.toStdString(),
-                                                mimeType.toStdString());
+        invokeRuntimeWorkerCall("matrix_upload_own_avatar",
+                                [context, handleId, filePath, mimeType]() {
+                                    ::komai::rust::matrix_upload_own_avatar(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      filePath.toStdString(),
+                                      mimeType.toStdString());
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1433,8 +1470,10 @@ MatrixBackendRuntimeService::removeOwnAvatar(matrix_backend::BlockingCallContext
                                              QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_remove_own_avatar(matrix_backend::toRustBlockingContext(context),
-                                                handleId);
+        invokeRuntimeWorkerCall("matrix_remove_own_avatar", [context, handleId]() {
+            ::komai::rust::matrix_remove_own_avatar(matrix_backend::toRustBlockingContext(context),
+                                                    handleId);
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1452,11 +1491,15 @@ MatrixBackendRuntimeService::uploadOwnRoomAvatar(matrix_backend::BlockingCallCon
                                                  QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_upload_own_room_avatar(matrix_backend::toRustBlockingContext(context),
-                                                     handleId,
-                                                     roomId.toStdString(),
-                                                     filePath.toStdString(),
-                                                     mimeType.toStdString());
+        invokeRuntimeWorkerCall("matrix_upload_own_room_avatar",
+                                [context, handleId, roomId, filePath, mimeType]() {
+                                    ::komai::rust::matrix_upload_own_room_avatar(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      filePath.toStdString(),
+                                      mimeType.toStdString());
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1472,8 +1515,10 @@ MatrixBackendRuntimeService::removeOwnRoomAvatar(matrix_backend::BlockingCallCon
                                                  QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_remove_own_room_avatar(
-          matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+        invokeRuntimeWorkerCall("matrix_remove_own_room_avatar", [context, handleId, roomId]() {
+            ::komai::rust::matrix_remove_own_room_avatar(
+              matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1489,8 +1534,10 @@ MatrixBackendRuntimeService::ignoreUser(matrix_backend::BlockingCallContext cont
                                         QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_ignore_user(
-          matrix_backend::toRustBlockingContext(context), handleId, userId.toStdString());
+        invokeRuntimeWorkerCall("matrix_ignore_user", [context, handleId, userId]() {
+            ::komai::rust::matrix_ignore_user(
+              matrix_backend::toRustBlockingContext(context), handleId, userId.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1506,8 +1553,10 @@ MatrixBackendRuntimeService::unignoreUser(matrix_backend::BlockingCallContext co
                                           QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_unignore_user(
-          matrix_backend::toRustBlockingContext(context), handleId, userId.toStdString());
+        invokeRuntimeWorkerCall("matrix_unignore_user", [context, handleId, userId]() {
+            ::komai::rust::matrix_unignore_user(
+              matrix_backend::toRustBlockingContext(context), handleId, userId.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1524,8 +1573,14 @@ MatrixBackendRuntimeService::setInvitePermission(matrix_backend::BlockingCallCon
                                                  QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_set_invite_permission(
-          matrix_backend::toRustBlockingContext(context), handleId, target.toStdString(), block);
+        invokeRuntimeWorkerCall("matrix_set_invite_permission",
+                                [context, handleId, target, block]() {
+                                    ::komai::rust::matrix_set_invite_permission(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      target.toStdString(),
+                                      block);
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1543,8 +1598,11 @@ MatrixBackendRuntimeService::fetchRoomList(matrix_backend::BlockingCallContext c
         return cachedRoomListSnapshots.value(handleId);
 
     try {
-        const auto result = ::komai::rust::matrix_fetch_room_list(
-          matrix_backend::toRustBlockingContext(context), handleId);
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_room_list", [context, handleId]() {
+              return ::komai::rust::matrix_fetch_room_list(
+                matrix_backend::toRustBlockingContext(context), handleId);
+          });
         QVector<MatrixRoomSummary> rooms;
         rooms.reserve(static_cast<int>(result.size()));
         for (const auto &room : result)
@@ -1578,8 +1636,11 @@ MatrixBackendRuntimeService::fetchRoomSettings(matrix_backend::BlockingCallConte
                                                QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::matrix_fetch_room_settings(
-          matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+        auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_room_settings", [context, handleId, roomId]() {
+              return ::komai::rust::matrix_fetch_room_settings(
+                matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+          });
         return fromRustRoomSettings(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1595,8 +1656,11 @@ MatrixBackendRuntimeService::fetchRoomAliases(matrix_backend::BlockingCallContex
                                               QString *errorOut)
 {
     try {
-        const auto result = ::komai::rust::matrix_fetch_room_aliases(
-          matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_room_aliases", [context, handleId, roomId]() {
+              return ::komai::rust::matrix_fetch_room_aliases(
+                matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+          });
         return fromRustRoomAliases(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1613,10 +1677,14 @@ MatrixBackendRuntimeService::applyRoomAliases(matrix_backend::BlockingCallContex
                                               QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_apply_room_aliases(matrix_backend::toRustBlockingContext(context),
-                                                 handleId,
-                                                 roomId.toStdString(),
-                                                 toRustRoomAliases(aliases));
+        invokeRuntimeWorkerCall("matrix_apply_room_aliases",
+                                [context, handleId, roomId, aliases]() {
+                                    ::komai::rust::matrix_apply_room_aliases(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      toRustRoomAliases(aliases));
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1655,8 +1723,11 @@ MatrixBackendRuntimeService::fetchRoomMembers(matrix_backend::BlockingCallContex
                                               QString *errorOut)
 {
     try {
-        const auto result = ::komai::rust::matrix_fetch_room_members(
-          matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_room_members", [context, handleId, roomId]() {
+              return ::komai::rust::matrix_fetch_room_members(
+                matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+          });
         QVector<MatrixRoomMember> members;
         members.reserve(static_cast<int>(result.size()));
         for (const auto &member : result)
@@ -1676,8 +1747,11 @@ MatrixBackendRuntimeService::fetchRoomPowerLevels(matrix_backend::BlockingCallCo
                                                   QString *errorOut)
 {
     try {
-        const auto result = ::komai::rust::matrix_fetch_room_power_levels(
-          matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_room_power_levels", [context, handleId, roomId]() {
+              return ::komai::rust::matrix_fetch_room_power_levels(
+                matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+          });
         return fromRustRoomPowerLevels(result);
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1694,11 +1768,14 @@ MatrixBackendRuntimeService::applyRoomPowerLevels(matrix_backend::BlockingCallCo
                                                   QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_apply_room_power_levels(
-          matrix_backend::toRustBlockingContext(context),
-          handleId,
-          roomId.toStdString(),
-          toRustRoomPowerLevels(powerLevels));
+        invokeRuntimeWorkerCall("matrix_apply_room_power_levels",
+                                [context, handleId, roomId, powerLevels]() {
+                                    ::komai::rust::matrix_apply_room_power_levels(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      toRustRoomPowerLevels(powerLevels));
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1715,8 +1792,14 @@ MatrixBackendRuntimeService::setRoomNotificationMode(matrix_backend::BlockingCal
                                                      QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_set_room_notification_mode(
-          matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString(), mode);
+        invokeRuntimeWorkerCall("matrix_set_room_notification_mode",
+                                [context, handleId, roomId, mode]() {
+                                    ::komai::rust::matrix_set_room_notification_mode(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      mode);
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1733,10 +1816,12 @@ MatrixBackendRuntimeService::setRoomName(matrix_backend::BlockingCallContext con
                                          QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_set_room_name(matrix_backend::toRustBlockingContext(context),
-                                            handleId,
-                                            roomId.toStdString(),
-                                            name.toStdString());
+        invokeRuntimeWorkerCall("matrix_set_room_name", [context, handleId, roomId, name]() {
+            ::komai::rust::matrix_set_room_name(matrix_backend::toRustBlockingContext(context),
+                                                handleId,
+                                                roomId.toStdString(),
+                                                name.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1753,10 +1838,12 @@ MatrixBackendRuntimeService::setRoomTopic(matrix_backend::BlockingCallContext co
                                           QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_set_room_topic(matrix_backend::toRustBlockingContext(context),
-                                             handleId,
-                                             roomId.toStdString(),
-                                             topic.toStdString());
+        invokeRuntimeWorkerCall("matrix_set_room_topic", [context, handleId, roomId, topic]() {
+            ::komai::rust::matrix_set_room_topic(matrix_backend::toRustBlockingContext(context),
+                                                 handleId,
+                                                 roomId.toStdString(),
+                                                 topic.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1776,13 +1863,17 @@ MatrixBackendRuntimeService::uploadRoomAvatar(matrix_backend::BlockingCallContex
                                               QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_upload_room_avatar(matrix_backend::toRustBlockingContext(context),
-                                                 handleId,
-                                                 roomId.toStdString(),
-                                                 filePath.toStdString(),
-                                                 mimeType.toStdString(),
-                                                 width,
-                                                 height);
+        invokeRuntimeWorkerCall("matrix_upload_room_avatar",
+                                [context, handleId, roomId, filePath, mimeType, width, height]() {
+                                    ::komai::rust::matrix_upload_room_avatar(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      filePath.toStdString(),
+                                      mimeType.toStdString(),
+                                      width,
+                                      height);
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1798,8 +1889,10 @@ MatrixBackendRuntimeService::removeRoomAvatar(matrix_backend::BlockingCallContex
                                               QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_remove_room_avatar(
-          matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+        invokeRuntimeWorkerCall("matrix_remove_room_avatar", [context, handleId, roomId]() {
+            ::komai::rust::matrix_remove_room_avatar(
+              matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1815,8 +1908,10 @@ MatrixBackendRuntimeService::enableRoomEncryption(matrix_backend::BlockingCallCo
                                                   QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_enable_room_encryption(
-          matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+        invokeRuntimeWorkerCall("matrix_enable_room_encryption", [context, handleId, roomId]() {
+            ::komai::rust::matrix_enable_room_encryption(
+              matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+        });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1833,11 +1928,14 @@ MatrixBackendRuntimeService::setRoomHistoryVisibility(matrix_backend::BlockingCa
                                                       QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_set_room_history_visibility(
-          matrix_backend::toRustBlockingContext(context),
-          handleId,
-          roomId.toStdString(),
-          historyVisibility.toStdString());
+        invokeRuntimeWorkerCall("matrix_set_room_history_visibility",
+                                [context, handleId, roomId, historyVisibility]() {
+                                    ::komai::rust::matrix_set_room_history_visibility(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      historyVisibility.toStdString());
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1856,12 +1954,17 @@ MatrixBackendRuntimeService::setRoomAccessRules(matrix_backend::BlockingCallCont
                                                 QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_set_room_access_rules(matrix_backend::toRustBlockingContext(context),
-                                                    handleId,
-                                                    roomId.toStdString(),
-                                                    joinRule.toStdString(),
-                                                    guestAccess,
-                                                    toRustStringVec(allowedRoomIds));
+        invokeRuntimeWorkerCall(
+          "matrix_set_room_access_rules",
+          [context, handleId, roomId, joinRule, guestAccess, allowedRoomIds]() {
+              ::komai::rust::matrix_set_room_access_rules(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                joinRule.toStdString(),
+                guestAccess,
+                toRustStringVec(allowedRoomIds));
+          });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)
@@ -1908,8 +2011,11 @@ MatrixBackendRuntimeService::fetchActiveRoomTimeline(matrix_backend::BlockingCal
     try {
         QElapsedTimer totalTimer;
         totalTimer.start();
-        const auto result = ::komai::rust::matrix_fetch_active_room_timeline(
-          matrix_backend::toRustBlockingContext(context), handleId);
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_active_room_timeline", [context, handleId]() {
+              return ::komai::rust::matrix_fetch_active_room_timeline(
+                matrix_backend::toRustBlockingContext(context), handleId);
+          });
         const auto rustFetchElapsedUs = totalTimer.nsecsElapsed() / 1000;
 
         QElapsedTimer convertTimer;
@@ -2349,10 +2455,13 @@ MatrixBackendRuntimeService::uploadMedia(matrix_backend::BlockingCallContext con
 {
     try {
         return matrix::normalizeMxcUri(QString::fromStdString(std::string(
-          ::komai::rust::matrix_upload_media(matrix_backend::toRustBlockingContext(context),
-                                             handleId,
-                                             filePath.toStdString(),
-                                             mimeType.toStdString()))));
+          invokeRuntimeWorkerCall("matrix_upload_media", [context, handleId, filePath, mimeType]() {
+              return ::komai::rust::matrix_upload_media(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                filePath.toStdString(),
+                mimeType.toStdString());
+          }))));
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
@@ -2371,13 +2480,17 @@ MatrixBackendRuntimeService::sendRoomImage(matrix_backend::BlockingCallContext c
                                            QString *errorOut)
 {
     try {
-        ::komai::rust::matrix_send_room_image(matrix_backend::toRustBlockingContext(context),
-                                              handleId,
-                                              roomId.toStdString(),
-                                              mxcUri.toStdString(),
-                                              body.toStdString(),
-                                              filename.toStdString(),
-                                              infoJson.toStdString());
+        invokeRuntimeWorkerCall("matrix_send_room_image",
+                                [context, handleId, roomId, mxcUri, body, filename, infoJson]() {
+                                    ::komai::rust::matrix_send_room_image(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      mxcUri.toStdString(),
+                                      body.toStdString(),
+                                      filename.toStdString(),
+                                      infoJson.toStdString());
+                                });
         return true;
     } catch (const std::exception &e) {
         if (errorOut)

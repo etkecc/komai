@@ -23,7 +23,6 @@ finish-args:
 cleanup:
   - /include
   - /lib/pkgconfig
-  - /bin/mdb*
   - '*.a'
   - /libexec
   - /lib/cmake
@@ -48,16 +47,6 @@ modules:
   # System dependencies (not managed by CPM — found via find_package/pkg-config)
   # fmt, OpenSSL, libcurl are provided by the KDE Platform runtime.
   #
-  - name: lmdb
-    sources:
-      - disable-lfs: true
-        tag: LMDB_0.9.35
-        type: git
-        url: https://git.openldap.org/openldap/openldap.git
-    make-install-args:
-      - prefix=/app
-    no-autogen: true
-    subdir: libraries/liblmdb
   - name: libevent
     buildsystem: cmake-ninja
     build-options:
@@ -158,7 +147,6 @@ modules:
       - -DFETCHCONTENT_SOURCE_DIR_CMARK=/run/build/komai/.deps/cmark
       - -DFETCHCONTENT_SOURCE_DIR_NLOHMANN_JSON=/run/build/komai/.deps/nlohmann_json
       - -DFETCHCONTENT_SOURCE_DIR_YAML-CPP=/run/build/komai/.deps/yaml-cpp
-      - -DLMDBXX_INCLUDE_DIR=/run/build/komai/.deps/lmdbxx
       - -DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=/run/build/komai/.deps/mtxclient
       - -DFETCHCONTENT_SOURCE_DIR_LITEHTML=/run/build/komai/.deps/litehtml
       - -DBLURHASH_SOURCE_DIR=/run/build/komai/.deps/blurhash
@@ -227,11 +215,6 @@ modules:
         type: git
         url: https://github.com/jbeder/yaml-cpp.git
         tag: yaml-cpp-0.9.0
-      - dest: .deps/lmdbxx
-        disable-lfs: true
-        tag: 1.0.0
-        type: git
-        url: https://github.com/hoytech/lmdbxx.git
       - dest: .deps/mtxclient
         commit: f5766cb53c244a808b7e512c7b83b3942fb67834
         disable-lfs: true

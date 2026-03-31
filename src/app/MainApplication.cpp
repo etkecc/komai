@@ -150,11 +150,6 @@ app::runMainApplication(int argc, char *argv[])
                   "The default is 'file,stderr'. types:{file,stderr,none}"),
       QObject::tr("type"));
     parser.addOption(logType);
-    QCommandLineOption compactDb(
-      QStringList() << QStringLiteral("C") << QStringLiteral("compact"),
-      QObject::tr("Recompacts the database which might improve performance."));
-    parser.addOption(compactDb);
-
     // Profile is parsed manually early for pre-QApplication scale-factor loading.
     // Keep this option in the parser for help output and validation.
     QCommandLineOption configName(
@@ -167,10 +162,6 @@ app::runMainApplication(int argc, char *argv[])
     parser.addOption(configName);
 
     parser.process(app);
-
-    if (parser.isSet(compactDb))
-        std::cerr << "--compact is not supported on the matrix-sdk storage path and is ignored."
-                  << std::endl;
 
     // Initialize logging early so that UserSettings can log during init (e.g. emoji font
     // resolution on Qt < 6.9). The cache directory must exist before the file logger opens.

@@ -78,14 +78,11 @@ The hook set includes formatting (`clang-format`), syntax checks (`yaml/json`), 
 
 Note: QML linting expects Qt6 `qmllint`. If unavailable, it is skipped with a message.
 
-Current C++ test executables:
+Representative C++ test executables:
 
 - `komai_yaml_settings_test`
-- `komai_db_backend_test`
-
-Notes:
-
-- `komai_db_backend_test` includes in-memory backend contract checks and, when LMDB backend support is enabled, LMDB adapter checks using temporary filesystem directories (integration-style coverage).
+- `komai_settings_storage_test`
+- `komai_startup_settings_test`
 
 ## 📁 Useful Paths
 

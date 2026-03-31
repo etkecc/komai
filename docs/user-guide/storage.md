@@ -14,33 +14,31 @@ Quick jumps:
 | Kind | Location |
 | --- | --- |
 | Profile settings files | `~/.config/komai/profiles/<profile-id>/` |
-| Chat database | `~/.local/share/komai/profiles/<profile-id>/db/<encoded-user-id>/` |
+| Matrix SDK state store | `~/.local/share/komai/profiles/<profile-id>/matrix-sdk/state-store/` |
+| Matrix SDK runtime cache | `~/.cache/komai/profiles/<profile-id>/matrix-sdk/cache/` |
+| App media cache | `~/.cache/komai/profiles/<profile-id>/media/` |
 | User themes | `~/.local/share/komai/themes/` (see [themes.md](themes.md#-user-themes)) |
-| Media cache | `~/.cache/komai/profiles/<profile-id>/media_cache/` |
-| Log file (if file logging enabled) | `~/.cache/komai/profiles/<profile-id>/komai.log` |
-| HTTP alt-svc cache (HTTP/3 enabled) | `~/.cache/komai/profiles/<profile-id>/curl_alt_svc_cache.txt` |
+| Log file (if file logging enabled) | `~/.cache/komai/profiles/<profile-id>/logs/komai.log` |
+| HTTP alt-svc cache (HTTP/3 enabled) | `~/.cache/komai/profiles/<profile-id>/http/alt_svc_cache.txt` |
 
 `<profile-id>` is the `-p` [Application Profile](application-profiles.md) name/identifier.
 
-Komai normally stores chat data in
-[LMDB](https://en.wikipedia.org/wiki/Lightning_Memory-Mapped_Database)
-(Lightning Memory-Mapped Database).
+Komai currently stores persistent Matrix state through the Rust
+`matrix-sdk` SQLite-backed store.
 
 💡 If a profile is not explicitly specified, Komai opens the profile switcher unless only `default` exists.
 See [Settings](settings/README.md#profile-location) for allowed profile-id characters.
-
-`<encoded-user-id>` is the Matrix user ID escaped to a cross-platform-safe ASCII component:
-bytes outside `[A-Za-z0-9._@+-]` are encoded as `%HH` (uppercase hex).
 
 ## File Patterns We Write
 
 Filesystem path patterns:
 
-- Database: `~/.local/share/komai/profiles/<profile-id>/db/<encoded-user-id>/`
-- Media cache entry: `~/.cache/komai/profiles/<profile-id>/media_cache/<base64url(mxc-id)>.<ext>`
-- Media cache (media subdir): `~/.cache/komai/profiles/<profile-id>/media_cache/media/<base64url(mxc-id)>.<ext>`
-- Media thumbnails: `~/.cache/komai/profiles/<profile-id>/media_cache/<base64url(mxc-id)>_<w>x<h>_<crop|scale>_radius<r>`
-- Windows room-avatar cache: `~/.cache/komai/profiles/<profile-id>/notifications/room-avatar-<base64url(room-id)>.png`
+- Matrix SDK state store root: `~/.local/share/komai/profiles/<profile-id>/matrix-sdk/state-store/`
+- Matrix SDK runtime cache root: `~/.cache/komai/profiles/<profile-id>/matrix-sdk/cache/`
+- Shared media cache entry: `~/.cache/komai/profiles/<profile-id>/media/shared/full/<base64url(mxc-id)>.<ext>`
+- Room media cache entry: `~/.cache/komai/profiles/<profile-id>/media/rooms/<base64url(room-id)>/full/<base64url(mxc-id)>.<ext>`
+- Media thumbnails: `~/.cache/komai/profiles/<profile-id>/media/{shared|rooms/<base64url(room-id)>}/thumbnails/<base64url(mxc-id)>_<w>x<h>_<crop|scale>_radius<r>`
+- Room-avatar cache: `~/.cache/komai/profiles/<profile-id>/notifications/room-avatar-<base64url(room-id)>.png`
 
 Secret-store key prefixes (for `secret_service` and `file` fallback map keys).
 `<env-tag>` isolates secrets across packaging formats depending on the filesystem
@@ -62,26 +60,16 @@ Inside `~/.config/komai/profiles/<profile-id>/`:
 
 See [Settings](settings/README.md#what-goes-where) for semantics and examples.
 
-## Database Compaction
+## Local Reset
 
-Komai can compact the local chat database from the CLI.
+Komai does not provide a database-compaction CLI on the matrix-sdk storage path.
 
-Use this when you want to rewrite the LMDB files into a denser layout after heavy cache churn.
-This is local maintenance only. It does not affect server-side Matrix data.
+If you need to reset local Matrix state for a profile:
 
-Before running it:
-- **Quit Komai for the target [Application Profile](application-profiles.md) first**.
-- Be explicit about the [Application Profile](application-profiles.md) name.
+- sign out of that profile and sign back in
+- or, with Komai fully closed for that profile, inspect/remove the matrix-sdk state-store and cache directories manually
 
-Example:
-
-```bash
-komai -p default --compact
-```
-
-Notes:
-
-- `-p default` is recommended even if `default` is your only profile.
+The media cache is separate and can be purged from the Settings UI while Komai is running.
 
 ## Secrets & Providers
 

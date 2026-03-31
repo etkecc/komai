@@ -22,10 +22,8 @@ Item {
     readonly property real controlWidth: Math.min(500, Math.max(240, width - Komai.paddingLarge * 2))
     readonly property real directoryControlWidth: Math.min(880, Math.max(360, width - 320))
     readonly property real noteWidth: Math.min(width, directoryControlWidth + 180)
-    readonly property bool showDatabaseStatusBadge: (cacheInfo.statusKind || "") !== ""
+    readonly property bool showStateStoreStatusBadge: (cacheInfo.statusKind || "") !== ""
         && (cacheInfo.statusKind || "") !== "ready"
-    readonly property bool showFormatRow: (cacheInfo.cacheFormat || "") !== ""
-        && (cacheInfo.cacheFormat || "") !== qsTr("Current")
 
     function refreshLocalCacheInfo() {
         cacheInfo = Komai.localCacheInfo();
@@ -140,46 +138,6 @@ Item {
         }
     }
 
-    component CardLinkValueRow: Item {
-        id: cardLinkValueRow
-
-        required property string label
-        required property string value
-        required property string link
-
-        Layout.fillWidth: true
-        implicitHeight: row.implicitHeight
-
-        RowLayout {
-            id: row
-
-            anchors.left: parent.left
-            anchors.right: parent.right
-            spacing: Komai.paddingSmall
-
-            Label {
-                text: cardLinkValueRow.label
-                color: palette.text
-                font.pointSize: 1.1 * Settings.uiFontSizePt
-                Layout.fillWidth: true
-            }
-
-            Text {
-                text: "<a href=\"" + cardLinkValueRow.link + "\">" + cardLinkValueRow.value + "</a>"
-                textFormat: Text.RichText
-                linkColor: palette.highlight
-                font.pointSize: Settings.uiFontSizePt
-                Layout.preferredWidth: localCacheSection.controlWidth
-                Layout.maximumWidth: localCacheSection.controlWidth
-                horizontalAlignment: Text.AlignRight
-                wrapMode: Text.Wrap
-                onLinkActivated: function(link) {
-                    Komai.openLink(link);
-                }
-            }
-        }
-    }
-
     component RightAlignedNote: Item {
         id: rightAlignedNote
 
@@ -259,13 +217,13 @@ Item {
 
         Item {
             Layout.fillWidth: true
-            implicitHeight: databaseCard.implicitHeight
+            implicitHeight: stateStoreCard.implicitHeight
 
             Rectangle {
-                id: databaseCard
+                id: stateStoreCard
 
                 width: parent.width
-                implicitHeight: databaseCardContent.implicitHeight
+                implicitHeight: stateStoreCardContent.implicitHeight
                 color: palette.window
                 radius: Komai.paddingMedium
                 border.width: 1
@@ -273,14 +231,14 @@ Item {
                 clip: true
 
                 ColumnLayout {
-                    id: databaseCardContent
+                    id: stateStoreCardContent
 
                     width: parent.width
                     spacing: 0
 
                     Item {
                         Layout.fillWidth: true
-                        implicitHeight: databaseHeaderRow.implicitHeight + 1
+                        implicitHeight: stateStoreHeaderRow.implicitHeight + 1
 
                         Rectangle {
                             anchors.left: parent.left
@@ -291,7 +249,7 @@ Item {
                         }
 
                         RowLayout {
-                            id: databaseHeaderRow
+                            id: stateStoreHeaderRow
 
                             width: parent.width
                             spacing: Komai.paddingSmall
@@ -301,7 +259,7 @@ Item {
                             }
 
                             Label {
-                                text: qsTr("Database")
+                                text: qsTr("State store")
                                 color: palette.text
                                 font.bold: true
                                 font.pointSize: Settings.uiFontSizePt
@@ -311,7 +269,7 @@ Item {
                             }
 
                             StatusBadge {
-                                visible: localCacheSection.showDatabaseStatusBadge
+                                visible: localCacheSection.showStateStoreStatusBadge
                                 text: localCacheSection.cacheInfo.statusLabel || qsTr("Unknown")
                                 tone: localCacheSection.statusTone(localCacheSection.cacheInfo.statusKind || "")
                                 Layout.alignment: Qt.AlignVCenter
@@ -337,23 +295,12 @@ Item {
                         wrapMode: Text.Wrap
                     }
 
-                    CardLinkValueRow {
-                        Layout.leftMargin: Komai.paddingMedium
-                        Layout.rightMargin: Komai.paddingMedium
-                        Layout.topMargin: localCacheSection.cacheInfo.statusDetails ? Komai.paddingSmall : Komai.paddingMedium
-                        label: qsTr("Backend")
-                        value: localCacheSection.cacheInfo.backend || qsTr("Unavailable")
-                        link: "https://en.wikipedia.org/wiki/Lightning_Memory-Mapped_Database"
-                        visible: (localCacheSection.cacheInfo.backend || "") === "LMDB"
-                    }
-
                     CardValueRow {
                         Layout.leftMargin: Komai.paddingMedium
                         Layout.rightMargin: Komai.paddingMedium
                         Layout.topMargin: localCacheSection.cacheInfo.statusDetails ? Komai.paddingSmall : Komai.paddingMedium
                         label: qsTr("Backend")
                         value: localCacheSection.cacheInfo.backend || qsTr("Unavailable")
-                        visible: (localCacheSection.cacheInfo.backend || "") !== "LMDB"
                     }
 
                     CardValueRow {
@@ -361,46 +308,7 @@ Item {
                         Layout.rightMargin: Komai.paddingMedium
                         Layout.topMargin: Komai.paddingSmall
                         label: qsTr("Size")
-                        value: localCacheSection.cacheInfo.databaseSizeHuman || qsTr("Unavailable")
-                    }
-
-                    CardValueRow {
-                        Layout.leftMargin: Komai.paddingMedium
-                        Layout.rightMargin: Komai.paddingMedium
-                        Layout.topMargin: Komai.paddingSmall
-                        visible: localCacheSection.showFormatRow
-                        label: qsTr("Format")
-                        value: localCacheSection.cacheInfo.cacheFormat || qsTr("Unavailable")
-                    }
-
-                    CardValueRow {
-                        Layout.leftMargin: Komai.paddingMedium
-                        Layout.rightMargin: Komai.paddingMedium
-                        Layout.topMargin: Komai.paddingSmall
-                        label: qsTr("Stores")
-                        value: localCacheSection.cacheInfo.namedStoresKnown
-                            ? String(localCacheSection.cacheInfo.namedStores)
-                            : qsTr("Unavailable")
-                    }
-
-                    CardValueRow {
-                        Layout.leftMargin: Komai.paddingMedium
-                        Layout.rightMargin: Komai.paddingMedium
-                        Layout.topMargin: Komai.paddingSmall
-                        label: qsTr("Joined rooms")
-                        value: localCacheSection.cacheInfo.joinedRoomsKnown
-                            ? String(localCacheSection.cacheInfo.joinedRooms)
-                            : qsTr("Unavailable")
-                    }
-
-                    CardValueRow {
-                        Layout.leftMargin: Komai.paddingMedium
-                        Layout.rightMargin: Komai.paddingMedium
-                        Layout.topMargin: Komai.paddingSmall
-                        label: qsTr("Invites")
-                        value: localCacheSection.cacheInfo.invitesKnown
-                            ? String(localCacheSection.cacheInfo.invites)
-                            : qsTr("Unavailable")
+                        value: localCacheSection.cacheInfo.stateStoreSizeHuman || qsTr("Unavailable")
                     }
 
                     RowLayout {
@@ -418,9 +326,9 @@ Item {
                         }
 
                         Components.KomaiTextField {
-                            id: databasePathField
+                            id: stateStorePathField
 
-                            text: localCacheSection.cacheInfo.databasePath || qsTr("Unavailable until login")
+                            text: localCacheSection.cacheInfo.stateStorePath || qsTr("Unavailable")
                             readOnly: true
                             font.pointSize: Settings.uiFontSizePt
                             Layout.preferredWidth: localCacheSection.directoryControlWidth
@@ -428,36 +336,36 @@ Item {
                         }
 
                         Components.ImageButton {
-                            id: copyDatabasePathButton
+                            id: copyStateStorePathButton
 
                             property bool copied: false
 
-                            enabled: !!localCacheSection.cacheInfo.databasePath
+                            enabled: !!localCacheSection.cacheInfo.stateStorePath
                             Layout.preferredWidth: 24
                             Layout.preferredHeight: 24
                             image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
                             toolTipVisible: hovered
                             toolTipText: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
                             onClicked: {
-                                Clipboard.text = localCacheSection.cacheInfo.databasePath;
+                                Clipboard.text = localCacheSection.cacheInfo.stateStorePath;
                                 copied = true;
-                                copyDatabasePathTimer.restart();
+                                copyStateStorePathTimer.restart();
                             }
 
                             Timer {
-                                id: copyDatabasePathTimer
+                                id: copyStateStorePathTimer
                                 interval: 2000
                                 repeat: false
-                                onTriggered: copyDatabasePathButton.copied = false
+                                onTriggered: copyStateStorePathButton.copied = false
                             }
                         }
 
                         Components.KomaiButton {
-                            id: browseDatabaseButton
+                            id: browseStateStoreButton
                             text: qsTr("Browse")
                             icon.source: "qrc:/icons/icons/ui/open-externally.svg"
-                            enabled: localCacheSection.cacheInfo.databasePathExists === true
-                            onClicked: Komai.openLocalPath(localCacheSection.cacheInfo.databasePath)
+                            enabled: localCacheSection.cacheInfo.stateStorePathExists === true
+                            onClicked: Komai.openLocalPath(localCacheSection.cacheInfo.stateStorePath)
                         }
                     }
 
@@ -466,8 +374,145 @@ Item {
                         Layout.rightMargin: Komai.paddingMedium
                         Layout.topMargin: 2
                         Layout.bottomMargin: Komai.paddingMedium
-                        text: qsTr("To purge: log out &amp; log back in. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/storage.md#database-compaction\">Compaction</a> can be done via CLI.")
+                        text: qsTr("Managed automatically. To reset local state, log out and sign back in.")
                         textColor: Komai.theme.attention
+                    }
+                }
+            }
+        }
+
+        Item {
+            Layout.fillWidth: true
+            implicitHeight: matrixSdkCacheCard.implicitHeight
+
+            Rectangle {
+                id: matrixSdkCacheCard
+
+                width: parent.width
+                implicitHeight: matrixSdkCacheCardContent.implicitHeight
+                color: palette.window
+                radius: Komai.paddingMedium
+                border.width: 1
+                border.color: Komai.theme.separator
+                clip: true
+
+                ColumnLayout {
+                    id: matrixSdkCacheCardContent
+
+                    width: parent.width
+                    spacing: 0
+
+                    Item {
+                        Layout.fillWidth: true
+                        implicitHeight: matrixSdkCacheHeaderRow.implicitHeight + 1
+
+                        Rectangle {
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.bottom: parent.bottom
+                            height: 1
+                            color: Komai.theme.separator
+                        }
+
+                        RowLayout {
+                            id: matrixSdkCacheHeaderRow
+
+                            width: parent.width
+                            spacing: Komai.paddingSmall
+
+                            Item {
+                                Layout.preferredWidth: Komai.paddingSmall
+                            }
+
+                            Label {
+                                text: qsTr("Matrix SDK cache")
+                                color: palette.text
+                                font.bold: true
+                                font.pointSize: Settings.uiFontSizePt
+                                Layout.alignment: Qt.AlignVCenter
+                                Layout.topMargin: Komai.paddingMedium + 2
+                                Layout.bottomMargin: Komai.paddingMedium + 2
+                            }
+
+                            Item {
+                                Layout.fillWidth: true
+                            }
+                        }
+                    }
+
+                    CardValueRow {
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.topMargin: Komai.paddingMedium
+                        label: qsTr("Size")
+                        value: localCacheSection.cacheInfo.matrixSdkCacheSizeHuman || qsTr("Unavailable")
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.topMargin: Komai.paddingSmall
+                        spacing: Komai.paddingSmall
+
+                        Label {
+                            text: qsTr("Directory")
+                            color: palette.text
+                            font.pointSize: 1.1 * Settings.uiFontSizePt
+                            Layout.fillWidth: true
+                        }
+
+                        Components.KomaiTextField {
+                            id: matrixSdkCachePathField
+
+                            text: localCacheSection.cacheInfo.matrixSdkCachePath || qsTr("Unavailable")
+                            readOnly: true
+                            font.pointSize: Settings.uiFontSizePt
+                            Layout.preferredWidth: localCacheSection.directoryControlWidth
+                            Layout.maximumWidth: localCacheSection.directoryControlWidth
+                        }
+
+                        Components.ImageButton {
+                            id: copyMatrixSdkCachePathButton
+
+                            property bool copied: false
+
+                            enabled: !!localCacheSection.cacheInfo.matrixSdkCachePath
+                            Layout.preferredWidth: 24
+                            Layout.preferredHeight: 24
+                            image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
+                            toolTipVisible: hovered
+                            toolTipText: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
+                            onClicked: {
+                                Clipboard.text = localCacheSection.cacheInfo.matrixSdkCachePath;
+                                copied = true;
+                                copyMatrixSdkCachePathTimer.restart();
+                            }
+
+                            Timer {
+                                id: copyMatrixSdkCachePathTimer
+                                interval: 2000
+                                repeat: false
+                                onTriggered: copyMatrixSdkCachePathButton.copied = false
+                            }
+                        }
+
+                        Components.KomaiButton {
+                            id: browseMatrixSdkCacheButton
+                            text: qsTr("Browse")
+                            icon.source: "qrc:/icons/icons/ui/open-externally.svg"
+                            enabled: localCacheSection.cacheInfo.matrixSdkCachePathExists === true
+                            onClicked: Komai.openLocalPath(localCacheSection.cacheInfo.matrixSdkCachePath)
+                        }
+                    }
+
+                    RightAlignedNote {
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.topMargin: 2
+                        Layout.bottomMargin: Komai.paddingMedium
+                        text: qsTr("Managed by matrix-sdk. Inspect or clean it only while this application profile is fully closed.")
+                        textColor: palette.buttonText
                     }
                 }
             }

@@ -313,7 +313,8 @@ This keeps fallback and secure-backend key identity consistent.
 
 ## Cache/Crypto Integration
 
-`src/cache/setup/CacheSetup.cpp` uses the same key-id helper as `UserSettings`.
+`src/matrix/backend/MatrixSessionSecrets.cpp` uses the same key-id helper as
+`UserSettings`.
 
 - Local pickle secret is stored under `local_crypto` scope.
 - Matrix secret names are stored under `matrix` scope.

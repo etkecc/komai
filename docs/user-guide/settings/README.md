@@ -137,10 +137,11 @@ Common secure-backend backup targets:
 | Data | Location |
 | --- | --- |
 | Profile settings/session/state | `~/.config/komai/profiles/` |
-| Local database data (default backend: LMDB in standard builds; memory if LMDB backend is disabled at build time) | `~/.local/share/komai/profiles/<profile-id>/db/<encoded-user-id>/` |
+| Matrix SDK state store | `~/.local/share/komai/profiles/<profile-id>/matrix-sdk/state-store/` |
+| Matrix SDK runtime cache | `~/.cache/komai/profiles/<profile-id>/matrix-sdk/cache/` |
+| Media cache | `~/.cache/komai/profiles/<profile-id>/media/` |
 | User themes | `~/.local/share/komai/themes/` |
-| Media cache | `~/.cache/komai/profiles/<profile-id>/media_cache/` |
-| Log file (file logging enabled) | `~/.cache/komai/profiles/<profile-id>/komai.log` |
+| Log file (file logging enabled) | `~/.cache/komai/profiles/<profile-id>/logs/komai.log` |
 
 For complete storage details, see [storage.md](../storage.md).
 For theme file locations and loading rules, see [themes.md](../themes.md#-user-themes).

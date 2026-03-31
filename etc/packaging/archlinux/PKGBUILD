@@ -15,7 +15,6 @@ depends=(
 	kdsingleapplication
 	litehtml
 	libolm
-	lmdb
 	'org.freedesktop.secrets'
 	qt6-base
 	qt6-declarative
@@ -32,7 +31,6 @@ makedepends=(
 	cmake
 	fontconfig
 	git
-	lmdbxx
 	nlohmann-json
 	python
 	qt6-tools

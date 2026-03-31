@@ -493,48 +493,48 @@ Komai::localCacheInfo() const
     const bool hasUserId   = !userId.isEmpty();
     const auto matrixPaths = komai::MatrixSdkPathsProvider::forProfile(profileId);
 
-    const QString databasePath =
-      hasUserId ? matrixPaths.stateStoreRoot : matrixPaths.profileDataRoot;
-    const QString mediaCachePath = matrixPaths.mediaCacheRoot;
+    const QString stateStorePath     = matrixPaths.stateStoreRoot;
+    const QString matrixSdkCachePath = matrixPaths.cacheRoot;
+    const QString mediaCachePath     = app_paths::cache::mediaRoot(profileId);
 
-    const QFileInfo databaseInfo(databasePath);
+    const QFileInfo stateStoreInfo(stateStorePath);
+    const QFileInfo matrixSdkCacheInfo(matrixSdkCachePath);
     const QFileInfo mediaInfo(mediaCachePath);
 
     info.insert(QStringLiteral("profileId"), profileId);
     info.insert(QStringLiteral("hasUserId"), hasUserId);
-    info.insert(QStringLiteral("databasePath"), databasePath);
-    info.insert(QStringLiteral("databasePathExists"), databaseInfo.exists());
+    info.insert(QStringLiteral("stateStorePath"), stateStorePath);
+    info.insert(QStringLiteral("stateStorePathExists"), stateStoreInfo.exists());
+    info.insert(QStringLiteral("matrixSdkCachePath"), matrixSdkCachePath);
+    info.insert(QStringLiteral("matrixSdkCachePathExists"), matrixSdkCacheInfo.exists());
     info.insert(QStringLiteral("mediaCachePath"), mediaCachePath);
     info.insert(QStringLiteral("mediaCachePathExists"), mediaInfo.exists());
 
-    const auto databaseSizeBytes = directorySizeBytes(databasePath);
-    const auto mediaSizeBytes    = directorySizeBytes(mediaCachePath);
-    info.insert(QStringLiteral("databaseSizeBytes"), static_cast<qulonglong>(databaseSizeBytes));
-    info.insert(QStringLiteral("databaseSizeHuman"),
-                databasePath.isEmpty() ? tr("Unavailable")
-                                       : utils::humanReadableFileSize(databaseSizeBytes));
+    const auto stateStoreSizeBytes     = directorySizeBytes(stateStorePath);
+    const auto matrixSdkCacheSizeBytes = directorySizeBytes(matrixSdkCachePath);
+    const auto mediaSizeBytes          = directorySizeBytes(mediaCachePath);
+    info.insert(QStringLiteral("stateStoreSizeBytes"),
+                static_cast<qulonglong>(stateStoreSizeBytes));
+    info.insert(QStringLiteral("stateStoreSizeHuman"),
+                utils::humanReadableFileSize(stateStoreSizeBytes));
+    info.insert(QStringLiteral("matrixSdkCacheSizeBytes"),
+                static_cast<qulonglong>(matrixSdkCacheSizeBytes));
+    info.insert(QStringLiteral("matrixSdkCacheSizeHuman"),
+                utils::humanReadableFileSize(matrixSdkCacheSizeBytes));
     info.insert(QStringLiteral("mediaCacheSizeBytes"), static_cast<qulonglong>(mediaSizeBytes));
     info.insert(QStringLiteral("mediaCacheSizeHuman"),
                 utils::humanReadableFileSize(mediaSizeBytes));
 
-    info.insert(QStringLiteral("backend"), QStringLiteral("Matrix SDK"));
-    info.insert(QStringLiteral("compactionSupported"), false);
-    info.insert(QStringLiteral("mapSizeKnown"), false);
-    info.insert(QStringLiteral("mapSizeBytes"), qulonglong{0});
-    info.insert(QStringLiteral("mapSizeHuman"), tr("Unavailable"));
-    info.insert(QStringLiteral("joinedRoomsKnown"), false);
-    info.insert(QStringLiteral("invitesKnown"), false);
-    info.insert(QStringLiteral("namedStoresKnown"), false);
-    info.insert(QStringLiteral("cacheFormat"), QStringLiteral("Current"));
+    info.insert(QStringLiteral("backend"), QStringLiteral("Matrix SDK (SQLite)"));
 
     if (!hasUserId) {
         info.insert(QStringLiteral("statusKind"), QStringLiteral("unavailable"));
-        info.insert(QStringLiteral("statusLabel"), tr("Unavailable"));
-        info.insert(QStringLiteral("statusDetails"), tr("Sign in to inspect this profile."));
+        info.insert(QStringLiteral("statusLabel"), tr("Not signed in"));
+        info.insert(QStringLiteral("statusDetails"), tr("Sign in to start syncing this profile."));
         return info;
     }
 
-    if (!databaseInfo.exists()) {
+    if (!stateStoreInfo.exists()) {
         info.insert(QStringLiteral("statusKind"), QStringLiteral("empty"));
         info.insert(QStringLiteral("statusLabel"), tr("Not synced"));
         info.insert(QStringLiteral("statusDetails"), tr("No matrix-sdk state store yet."));
@@ -543,8 +543,7 @@ Komai::localCacheInfo() const
 
     info.insert(QStringLiteral("statusKind"), QStringLiteral("ready"));
     info.insert(QStringLiteral("statusLabel"), tr("Ready"));
-    info.insert(QStringLiteral("statusDetails"),
-                tr("Using the resident matrix-sdk state store for this profile."));
+    info.insert(QStringLiteral("statusDetails"), QString{});
 
     return info;
 }

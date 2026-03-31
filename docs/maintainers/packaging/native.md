@@ -62,8 +62,6 @@ sudo cmake --install var/build/native
 | [Python 3](https://www.python.org/) | | Theme generation and emoji data generation at build time |
 | [mtxclient](https://github.com/Nheko-Reborn/mtxclient) | | Bundled by default via CPM (system packages are typically outdated) |
 | [coeurl](https://nheko.im/Nheko-Reborn/coeurl) | | HTTP library |
-| [LMDB](https://www.symas.com/lmdb) | | Database |
-| [lmdb++](https://github.com/hoytech/lmdbxx) | | C++ LMDB wrapper |
 | [cmark](https://github.com/commonmark/cmark) | 0.29 | Markdown rendering |
 | [KSyntaxHighlighting](https://api.kde.org/frameworks/syntax-highlighting/html/index.html) | 6.x | Timeline formatted-message code block syntax highlighting |
 | [libolm](https://gitlab.matrix.org/matrix-org/olm) | | E2EE |
@@ -106,7 +104,7 @@ See [CPM.cmake options](https://github.com/cpm-cmake/CPM.cmake#options) for deta
 ```sh
 sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
     cmake gcc fontconfig python rust \
-    coeurl libolm lmdb lmdbxx cmark syntax-highlighting spdlog fmt re2 openssl \
+    coeurl libolm cmark syntax-highlighting spdlog fmt re2 openssl \
     nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication litehtml
 ```
 
@@ -115,7 +113,7 @@ sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimed
 ```sh
 sudo apt install -y build-essential cmake pkg-config python3 cargo rustc \
     libevent-dev libspdlog-dev libfmt-dev libre2-dev \
-    liblmdb++-dev libcurl4-openssl-dev libssl-dev libolm-dev libcmark-dev \
+    libcurl4-openssl-dev libssl-dev libolm-dev libcmark-dev \
     libkf6syntaxhighlighting-dev \
     nlohmann-json3-dev libyaml-cpp-dev libkdsingleapplication-qt6-dev \
     qt6-base-dev qt6-tools-dev qt6-svg-dev qt6-multimedia-dev \

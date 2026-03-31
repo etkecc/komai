@@ -136,11 +136,9 @@ testPathHelpers()
     ok &= expect(secretsPath.endsWith(QStringLiteral("secrets.yml")), "secrets path ends with secrets.yml");
     ok &= expect(QFileInfo(configPath).dir().absolutePath() == profileDir, "config path dir is profile dir");
 
-    const auto dbPath =
-      app_paths::data::databaseDirectory(QStringLiteral("@username:example.com/path"), profile);
-    ok &= expect(dbPath.endsWith(
-                   QStringLiteral("/db/@username%3Aexample.com%2Fpath")),
-                 "database path escapes user id with %hh encoding");
+    const auto dataProfileDir = app_paths::data::profileDirectory(profile);
+    ok &= expect(dataProfileDir.endsWith(QStringLiteral("/profiles/profile-123")),
+                 "profile data directory uses the profile root directly");
 
     return ok;
 }

@@ -39,8 +39,6 @@ include(cmake/CPM.cmake)
 
 project(komai LANGUAGES CXX C)
 
-option(KOMAI_DB_ENABLE_LMDB_BACKEND "Build LMDB database backend support." ON)
-
 include(CMakeDependentOption)
 set(VOIP_DEFAULT ON)
 if(APPLE OR WIN32 OR HAIKU)
@@ -158,10 +156,6 @@ if(NOT re2_FOUND)
     pkg_check_modules(re2 REQUIRED IMPORTED_TARGET re2)
 endif()
 
-# LMDB
-if(KOMAI_DB_ENABLE_LMDB_BACKEND)
-    find_package(LMDB REQUIRED)
-endif()
 find_package(SQLite3 REQUIRED)
 
 #
@@ -713,21 +707,6 @@ CPMAddPackage(
         "YAML_CPP_BUILD_TOOLS OFF"
         "YAML_CPP_BUILD_CONTRIB OFF"
 )
-
-if(KOMAI_DB_ENABLE_LMDB_BACKEND)
-    if(NOT LMDBXX_INCLUDE_DIR)
-        CPMAddPackage(
-            NAME lmdbxx
-            GIT_REPOSITORY https://github.com/hoytech/lmdbxx.git
-            GIT_TAG 1.0.0
-            DOWNLOAD_ONLY YES
-        )
-        set(LMDBXX_INCLUDE_DIR ${lmdbxx_SOURCE_DIR})
-    endif()
-    add_library(lmdbxx INTERFACE)
-    target_include_directories(lmdbxx INTERFACE ${LMDBXX_INCLUDE_DIR})
-    add_library(lmdbxx::lmdbxx ALIAS lmdbxx)
-endif()
 
 set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
 set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")

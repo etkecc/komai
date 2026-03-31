@@ -401,9 +401,9 @@ MatrixTimelineModel::dataById(const QString &id, int role, const QString &relate
     // If not found as a standalone item but we have a parent event,
     // return inline reply data from the parent.
     if (!relatedTo.isEmpty()) {
-        const auto parentRow = rowForEventId(relatedTo);
-        if (parentRow >= 0 && parentRow < items_.size())
-            return replyData(items_.at(parentRow), role);
+        const auto parentRow = rowForEventIdInItems(allItems_, relatedTo);
+        if (parentRow >= 0 && parentRow < allItems_.size())
+            return replyData(allItems_.at(parentRow), role);
     }
 
     return {};
@@ -430,9 +430,9 @@ MatrixTimelineModel::multiData(const QString &id,
 
     // Reply fallback: return inline reply data from the parent event.
     if (!relatedTo.isEmpty()) {
-        const auto parentRow = rowForEventId(relatedTo);
-        if (parentRow >= 0 && parentRow < items_.size()) {
-            const auto &parentItem = items_.at(parentRow);
+        const auto parentRow = rowForEventIdInItems(allItems_, relatedTo);
+        if (parentRow >= 0 && parentRow < allItems_.size()) {
+            const auto &parentItem = allItems_.at(parentRow);
             for (QModelRoleData &roleData : roleDataSpan)
                 roleData.setData(replyData(parentItem, roleData.role()));
             return;
@@ -452,12 +452,19 @@ MatrixTimelineModel::idToIndex(const QString &id) const
 int
 MatrixTimelineModel::rowForEventId(const QString &eventId) const
 {
+    return rowForEventIdInItems(items_, eventId);
+}
+
+int
+MatrixTimelineModel::rowForEventIdInItems(const QVector<MatrixTimelineItem> &items,
+                                          const QString &eventId) const
+{
     const auto trimmedEventId = eventId.trimmed();
     if (trimmedEventId.isEmpty())
         return -1;
 
-    for (int row = 0; row < items_.size(); ++row) {
-        const auto &item = items_.at(row);
+    for (int row = 0; row < items.size(); ++row) {
+        const auto &item = items.at(row);
         if (item.eventId == trimmedEventId || item.itemId == trimmedEventId)
             return row;
     }
@@ -488,7 +495,7 @@ MatrixTimelineModel::avatarUrl(const QString &userId) const
     if (userId.isEmpty())
         return {};
 
-    for (const auto &item : items_) {
+    for (const auto &item : allItems_) {
         if (item.senderId == userId && !item.senderAvatarUrl.isEmpty())
             return item.senderAvatarUrl;
     }
@@ -540,17 +547,17 @@ MatrixTimelineModel::filenameForEvent(const QString &eventId) const
 std::optional<MatrixTimelineItem>
 MatrixTimelineModel::itemByEventId(const QString &eventId) const
 {
-    const auto row = rowForEventId(eventId);
-    if (row < 0 || row >= items_.size())
+    const auto row = rowForEventIdInItems(allItems_, eventId);
+    if (row < 0 || row >= allItems_.size())
         return std::nullopt;
 
-    return items_.at(row);
+    return allItems_.at(row);
 }
 
 int
 MatrixTimelineModel::hiddenCount() const
 {
-    return std::max(0, static_cast<int>(allItems_.size() - items_.size()));
+    return std::max(0, static_cast<int>(allItems_.size() - revealedItemCount_));
 }
 
 void
@@ -604,12 +611,17 @@ MatrixTimelineModel::revealOlderItems(int additionalCount)
 
     const auto revealCount = std::clamp(
       additionalCount > 0 ? additionalCount : availableHiddenCount, 1, availableHiddenCount);
-    const auto nextVisibleCount = items_.size() + revealCount;
+    const auto oldVisibleCount = items_.size();
+    revealedItemCount_ =
+      std::min(static_cast<int>(allItems_.size()), revealedItemCount_ + revealCount);
+    replaceVisibleItems(visibleItemsForRawCount(revealedItemCount_));
 
-    beginInsertRows({}, items_.size(), nextVisibleCount - 1);
-    items_ = allItems_.mid(0, nextVisibleCount);
-    endInsertRows();
-    emit countChanged();
+    // "countChanged" also acts as the TimelineManager state nudge used by
+    // pending-jump recovery and viewport bookkeeping. Emit it even when the
+    // visible row count stays flat because the newly revealed raw items are
+    // all hidden by local preferences.
+    if (items_.size() == oldVisibleCount)
+        emit countChanged();
     return true;
 }
 
@@ -647,6 +659,7 @@ void
 MatrixTimelineModel::refreshDerivedFields()
 {
     if (allItems_.isEmpty()) {
+        revealedItemCount_ = 0;
         replaceVisibleItems({});
         return;
     }
@@ -654,7 +667,8 @@ MatrixTimelineModel::refreshDerivedFields()
     for (auto &item : allItems_)
         computeDerivedFields(item, roomId_);
 
-    replaceVisibleItems(allItems_.mid(0, items_.size()));
+    revealedItemCount_ = std::clamp(revealedItemCount_, 0, static_cast<int>(allItems_.size()));
+    replaceVisibleItems(visibleItemsForRawCount(revealedItemCount_));
 }
 
 int
@@ -666,6 +680,23 @@ MatrixTimelineModel::previousVisibleRowFrom(int row) const
     }
 
     return -1;
+}
+
+QVector<MatrixTimelineItem>
+MatrixTimelineModel::visibleItemsForRawCount(int rawVisibleCount) const
+{
+    QVector<MatrixTimelineItem> visibleItems;
+    const auto clampedRawVisibleCount =
+      std::clamp(rawVisibleCount, 0, static_cast<int>(allItems_.size()));
+    visibleItems.reserve(clampedRawVisibleCount);
+
+    for (int i = 0; i < clampedRawVisibleCount; ++i) {
+        const auto &item = allItems_.at(i);
+        if (!item.cachedIsHiddenEvent)
+            visibleItems.push_back(item);
+    }
+
+    return visibleItems;
 }
 
 void
@@ -756,10 +787,11 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
                                              : uncappedVisibleCount;
 
     auto targetVisibleCount = cappedInitialVisibleCount;
-    if (initialVisibleWindow && !items_.isEmpty())
-        targetVisibleCount = std::max(static_cast<int>(items_.size()), cappedInitialVisibleCount);
+    if (initialVisibleWindow && revealedItemCount_ > 0)
+        targetVisibleCount = std::max(revealedItemCount_, cappedInitialVisibleCount);
 
-    replaceVisibleItems(allItems_.mid(0, targetVisibleCount));
+    revealedItemCount_ = std::clamp(targetVisibleCount, 0, static_cast<int>(allItems_.size()));
+    replaceVisibleItems(visibleItemsForRawCount(revealedItemCount_));
 }
 
 void
@@ -806,6 +838,7 @@ MatrixTimelineModel::clear()
 {
     optimisticRedactedEventIds_.clear();
     allItems_.clear();
+    revealedItemCount_ = 0;
     replaceVisibleItems({});
 }
 

@@ -126,6 +126,9 @@ signals:
 
 private:
     QVariant replyData(const MatrixTimelineItem &parentItem, int role) const;
+    int
+    rowForEventIdInItems(const QVector<MatrixTimelineItem> &items, const QString &eventId) const;
+    QVector<MatrixTimelineItem> visibleItemsForRawCount(int rawVisibleCount) const;
 
     void refreshDerivedFields();
     int previousVisibleRowFrom(int row) const;
@@ -137,6 +140,7 @@ private:
     QString roomId_;
     QVector<MatrixTimelineItem> allItems_;
     QVector<MatrixTimelineItem> items_;
+    int revealedItemCount_ = 0;
     QSet<QString> optimisticRedactedEventIds_;
 };
 

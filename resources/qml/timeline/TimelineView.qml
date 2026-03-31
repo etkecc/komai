@@ -136,6 +136,7 @@ Item {
         rootItem: matrixTimeline
         roomPreview: timelineView.roomPreview
         dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
+        headerRoomModel: matrixHeaderRoomModel
         permissions: matrixRoomPermissions
     }
     MatrixRoomMessageActionsModel {

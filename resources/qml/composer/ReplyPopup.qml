@@ -267,7 +267,15 @@ Rectangle {
             enabled: false
             width: parent.width
             eventId: replyPopup.matrixReplyEventId
-            previewData: ({
+            previewData: {
+                if (replyPopup.roomModel
+                        && typeof replyPopup.roomModel.previewDataForEvent === "function") {
+                    const richPreview = replyPopup.roomModel.previewDataForEvent(replyPopup.matrixReplyEventId);
+                    if (richPreview && Object.keys(richPreview).length > 0)
+                        return richPreview;
+                }
+
+                return {
                     "type": MtxEvent.TextMessage,
                     "userId": replyPopup.matrixReplyPreviewUserId,
                     "userName": replyPopup.matrixReplyDisplayName !== ""
@@ -276,7 +284,8 @@ Rectangle {
                     "body": replyPopup.matrixReplyBody,
                     "formattedBody": TimelineManager.formatMatrixMessageHtml(replyPopup.matrixReplyBody),
                     "isOnlyEmoji": 0
-                })
+                };
+            }
             roomModelOverride: replyPopup.roomModel
             bubblePalette: replyPopup.roomModel
                 ? TimelineManager.roomUserBubblePalette(replyPopup.roomModel.roomId,

@@ -1337,8 +1337,11 @@ fn timeline_item_to_summary(
         let reply_event_id = summary.reply_event_id;
         let reply_sender_id = summary.reply_sender_id;
         let reply_sender_display_name = summary.reply_sender_display_name;
+        let reply_item_kind = summary.reply_item_kind;
+        let reply_matrix_event_type = summary.reply_matrix_event_type;
         let reply_body = summary.reply_body;
         let reply_formatted_body = summary.reply_formatted_body;
+        let reply_media = summary.reply_media;
         let reactions = summary.reactions;
         let reactions_summary = summary.reactions_summary;
         let special_effect_names = summary.special_effect_names;
@@ -1367,8 +1370,42 @@ fn timeline_item_to_summary(
                 reply_event_id,
                 reply_sender_id,
                 reply_sender_display_name,
+                reply_item_kind,
+                reply_matrix_event_type,
                 reply_body,
                 reply_formatted_body,
+                reply_media_url: reply_media
+                    .as_ref()
+                    .map(|media| media.media_url.clone())
+                    .unwrap_or_default(),
+                reply_thumbnail_url: reply_media
+                    .as_ref()
+                    .map(|media| media.thumbnail_url.clone())
+                    .unwrap_or_default(),
+                reply_file_name: reply_media
+                    .as_ref()
+                    .map(|media| media.file_name.clone())
+                    .unwrap_or_default(),
+                reply_mime_type: reply_media
+                    .as_ref()
+                    .map(|media| media.mime_type.clone())
+                    .unwrap_or_default(),
+                reply_media_width: reply_media
+                    .as_ref()
+                    .map(|media| media.media_width)
+                    .unwrap_or(0),
+                reply_media_height: reply_media
+                    .as_ref()
+                    .map(|media| media.media_height)
+                    .unwrap_or(0),
+                reply_media_duration_ms: reply_media
+                    .as_ref()
+                    .map(|media| media.media_duration_ms)
+                    .unwrap_or(0),
+                reply_media_size_bytes: reply_media
+                    .as_ref()
+                    .map(|media| media.media_size_bytes)
+                    .unwrap_or(0),
                 reactions,
                 reactions_summary,
                 special_effect_names,
@@ -1434,8 +1471,18 @@ fn timeline_item_to_summary(
                 reply_event_id: String::new(),
                 reply_sender_id: String::new(),
                 reply_sender_display_name: String::new(),
+                reply_item_kind: String::new(),
+                reply_matrix_event_type: String::new(),
                 reply_body: String::new(),
                 reply_formatted_body: String::new(),
+                reply_media_url: String::new(),
+                reply_thumbnail_url: String::new(),
+                reply_file_name: String::new(),
+                reply_mime_type: String::new(),
+                reply_media_width: 0,
+                reply_media_height: 0,
+                reply_media_duration_ms: 0,
+                reply_media_size_bytes: 0,
                 reactions: Vec::new(),
                 reactions_summary: String::new(),
                 special_effect_names: Vec::new(),

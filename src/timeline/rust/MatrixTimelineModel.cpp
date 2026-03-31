@@ -297,11 +297,28 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     const auto effectiveDisplayName = effectiveReplyPreviewDisplayName(parentItem);
     const auto effectiveFormattedBody =
       formatBodyHtml(effectiveBody, parentItem.replyFormattedBody);
+    const auto replyType =
+      parentItem.replyItemKind.isEmpty() && parentItem.replyMatrixEventType.isEmpty()
+        ? static_cast<int>(qml_mtx_events::TextMessage)
+        : qml_mtx_events::matrixTimelineEventType(parentItem.replyItemKind,
+                                                  parentItem.replyMatrixEventType);
+    const auto replyProportionalHeight =
+      (parentItem.replyMediaWidth > 0 && parentItem.replyMediaHeight > 0)
+        ? static_cast<double>(parentItem.replyMediaHeight) / parentItem.replyMediaWidth
+        : 0.0;
+    const auto replyFilesize     = parentItem.replyMediaSizeBytes > 0
+                                     ? utils::humanReadableFileSize(parentItem.replyMediaSizeBytes)
+                                     : QString();
+    const auto replyFilename     = parentItem.replyFileName.isEmpty()
+                                     ? (effectiveBody.isEmpty() ? QString() : effectiveBody)
+                                     : parentItem.replyFileName;
+    const auto replyFileTypeIcon = utils::fileTypeIconSource(parentItem.replyMimeType);
 
     // clang-format off
     switch (role) {
-    case Type:               return static_cast<int>(qml_mtx_events::TextMessage);
-    case TypeString:         return QStringLiteral("message");
+    case Type:               return replyType;
+    case TypeString:         return parentItem.replyItemKind.isEmpty() ? QStringLiteral("message")
+                                                                       : parentItem.replyItemKind;
     case IsOnlyEmoji:        return emojiOnlyCodepointCount(effectiveBody);
     case Body:               return effectiveBody;
     case FormattedBody:      return effectiveFormattedBody;
@@ -314,17 +331,17 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case UserPowerlevel:     return 0;
     case Day:                return 0;
     case Timestamp:          return QDateTime::fromMSecsSinceEpoch(0);
-    case Url:                return QString();
-    case ThumbnailUrl:       return QString();
-    case Duration:           return 0;
+    case Url:                return parentItem.replyMediaUrl;
+    case ThumbnailUrl:       return parentItem.replyThumbnailUrl;
+    case Duration:           return static_cast<int>(parentItem.replyMediaDurationMs);
     case Blurhash:           return QString();
-    case Filename:           return QString();
-    case Filesize:           return QString();
-    case FilesizeBytes:      return 0;
-    case MimeType:           return QString();
-    case OriginalHeight:     return 0;
-    case OriginalWidth:      return 0;
-    case ProportionalHeight: return 0.0;
+    case Filename:           return replyFilename;
+    case Filesize:           return replyFilesize;
+    case FilesizeBytes:      return static_cast<int>(parentItem.replyMediaSizeBytes);
+    case MimeType:           return parentItem.replyMimeType;
+    case OriginalHeight:     return static_cast<int>(parentItem.replyMediaHeight);
+    case OriginalWidth:      return static_cast<int>(parentItem.replyMediaWidth);
+    case ProportionalHeight: return replyProportionalHeight;
     case EventId:            return parentItem.replyEventId;
     case Status:             return 0;
     case IsEdited:           return false;
@@ -343,7 +360,7 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case Dump:               return QVariant();
     case RelatedEventCacheBuster: return 0;
     case IsHiddenEvent:      return false;
-    case FileTypeIconSource: return QString();
+    case FileTypeIconSource: return replyFileTypeIcon;
     default:                 return {};
     }
     // clang-format on
@@ -512,6 +529,108 @@ MatrixTimelineModel::itemAt(int row) const
     }
 
     return itemData;
+}
+
+QVariantMap
+MatrixTimelineModel::previewDataForEvent(const QString &eventId, const QString &relatedTo) const
+{
+    QVariantMap previewData;
+    const auto normalizedEventId   = eventId.trimmed();
+    const auto normalizedRelatedTo = relatedTo.trimmed();
+
+    auto insertReplyRole = [&previewData](const QString &key, const QVariant &value) {
+        previewData.insert(key, value);
+    };
+
+    auto insertItemPreview = [&previewData](const MatrixTimelineItem &item) {
+        previewData.insert(QStringLiteral("eventId"), item.eventId);
+        previewData.insert(QStringLiteral("type"), item.cachedType);
+        previewData.insert(QStringLiteral("typeString"), item.itemKind);
+        previewData.insert(QStringLiteral("userId"), item.senderId);
+        previewData.insert(QStringLiteral("userName"), item.senderDisplayName);
+        previewData.insert(QStringLiteral("avatarUrl"), item.senderAvatarUrl);
+        previewData.insert(QStringLiteral("body"), item.body);
+        previewData.insert(QStringLiteral("formattedBody"), item.cachedFormattedBody);
+        previewData.insert(QStringLiteral("formattedStateEvent"), item.cachedFormattedStateEvent);
+        previewData.insert(QStringLiteral("stateEventIconSource"), item.cachedStateEventIcon);
+        previewData.insert(QStringLiteral("isOnlyEmoji"), item.cachedEmojiOnlyCount);
+        previewData.insert(QStringLiteral("url"), item.mediaUrl);
+        previewData.insert(QStringLiteral("thumbnailUrl"), item.thumbnailUrl);
+        previewData.insert(QStringLiteral("duration"),
+                           static_cast<qulonglong>(item.mediaDurationMs));
+        previewData.insert(QStringLiteral("blurhash"), QString());
+        previewData.insert(QStringLiteral("filename"), item.cachedFilename);
+        previewData.insert(QStringLiteral("filesize"), item.cachedFilesize);
+        previewData.insert(QStringLiteral("filesizeBytes"),
+                           static_cast<qulonglong>(item.mediaSizeBytes));
+        previewData.insert(QStringLiteral("mimetype"), item.mimeType);
+        previewData.insert(QStringLiteral("fileTypeIconSource"), item.cachedFileTypeIcon);
+        previewData.insert(QStringLiteral("originalHeight"),
+                           static_cast<qulonglong>(item.mediaHeight));
+        previewData.insert(QStringLiteral("originalWidth"),
+                           static_cast<qulonglong>(item.mediaWidth));
+        previewData.insert(QStringLiteral("proportionalHeight"), item.cachedProportionalH);
+        previewData.insert(QStringLiteral("callType"), QString());
+        previewData.insert(QStringLiteral("isEdited"), item.isEdited);
+        previewData.insert(QStringLiteral("isEditable"), item.cachedIsEditable);
+        previewData.insert(QStringLiteral("isEncrypted"), item.cachedIsEncrypted);
+        previewData.insert(QStringLiteral("isStateEvent"), item.cachedIsStateEvent);
+        previewData.insert(QStringLiteral("replyTo"),
+                           item.cachedIsStateEvent ? QString() : item.replyEventId);
+        previewData.insert(QStringLiteral("threadId"), item.threadId);
+    };
+
+    if (!normalizedEventId.isEmpty()) {
+        const auto directRow = rowForEventIdInItems(allItems_, normalizedEventId);
+        if (directRow >= 0 && directRow < allItems_.size()) {
+            insertItemPreview(allItems_.at(directRow));
+            return previewData;
+        }
+    }
+
+    if (normalizedEventId.isEmpty() || normalizedRelatedTo.isEmpty())
+        return previewData;
+
+    const auto parentRow = rowForEventIdInItems(allItems_, normalizedRelatedTo);
+    if (parentRow < 0 || parentRow >= allItems_.size())
+        return previewData;
+
+    const auto &parentItem = allItems_.at(parentRow);
+    insertReplyRole(QStringLiteral("eventId"), replyData(parentItem, EventId));
+    insertReplyRole(QStringLiteral("type"), replyData(parentItem, Type));
+    insertReplyRole(QStringLiteral("typeString"), replyData(parentItem, TypeString));
+    insertReplyRole(QStringLiteral("userId"), replyData(parentItem, UserId));
+    insertReplyRole(QStringLiteral("userName"), replyData(parentItem, UserName));
+    insertReplyRole(QStringLiteral("avatarUrl"), QString());
+    insertReplyRole(QStringLiteral("body"), replyData(parentItem, Body));
+    insertReplyRole(QStringLiteral("formattedBody"), replyData(parentItem, FormattedBody));
+    insertReplyRole(QStringLiteral("formattedStateEvent"),
+                    replyData(parentItem, FormattedStateEvent));
+    insertReplyRole(QStringLiteral("stateEventIconSource"),
+                    replyData(parentItem, StateEventIconSource));
+    insertReplyRole(QStringLiteral("isOnlyEmoji"), replyData(parentItem, IsOnlyEmoji));
+    insertReplyRole(QStringLiteral("url"), replyData(parentItem, Url));
+    insertReplyRole(QStringLiteral("thumbnailUrl"), replyData(parentItem, ThumbnailUrl));
+    insertReplyRole(QStringLiteral("duration"), replyData(parentItem, Duration));
+    insertReplyRole(QStringLiteral("blurhash"), replyData(parentItem, Blurhash));
+    insertReplyRole(QStringLiteral("filename"), replyData(parentItem, Filename));
+    insertReplyRole(QStringLiteral("filesize"), replyData(parentItem, Filesize));
+    insertReplyRole(QStringLiteral("filesizeBytes"), replyData(parentItem, FilesizeBytes));
+    insertReplyRole(QStringLiteral("mimetype"), replyData(parentItem, MimeType));
+    insertReplyRole(QStringLiteral("fileTypeIconSource"),
+                    replyData(parentItem, FileTypeIconSource));
+    insertReplyRole(QStringLiteral("originalHeight"), replyData(parentItem, OriginalHeight));
+    insertReplyRole(QStringLiteral("originalWidth"), replyData(parentItem, OriginalWidth));
+    insertReplyRole(QStringLiteral("proportionalHeight"),
+                    replyData(parentItem, ProportionalHeight));
+    insertReplyRole(QStringLiteral("callType"), replyData(parentItem, CallType));
+    insertReplyRole(QStringLiteral("isEdited"), replyData(parentItem, IsEdited));
+    insertReplyRole(QStringLiteral("isEditable"), replyData(parentItem, IsEditable));
+    insertReplyRole(QStringLiteral("isEncrypted"), replyData(parentItem, IsEncrypted));
+    insertReplyRole(QStringLiteral("isStateEvent"), replyData(parentItem, IsStateEvent));
+    insertReplyRole(QStringLiteral("replyTo"), replyData(parentItem, ReplyTo));
+    insertReplyRole(QStringLiteral("threadId"), replyData(parentItem, ThreadId));
+    return previewData;
 }
 
 QString

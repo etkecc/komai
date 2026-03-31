@@ -27,6 +27,7 @@ Item {
     property bool interactive: false
     property bool revealEnabled: true
     property int cornerRadius: 8
+    readonly property bool hasRenderableGeometry: width > 0 && height > 0
     readonly property bool useActiveMatrixTimelineSource: !!roomContext
         && roomContext.isActiveMatrixTimelineRoom === true
 
@@ -138,7 +139,7 @@ Item {
         id: imageClipper
 
         anchors.fill: parent
-        layer.enabled: true
+        layer.enabled: hasRenderableGeometry
         layer.effect: OpacityMask {
             maskSource: Rectangle {
                 width: imageClipper.width
@@ -165,6 +166,7 @@ Item {
 
             sourceSize.width: Math.min(Screen.desktopAvailableWidth, surface.originalWidth < 1 ? Screen.desktopAvailableWidth : surface.originalWidth) * Screen.devicePixelRatio
             sourceSize.height: Math.min(Screen.desktopAvailableHeight, (surface.originalWidth < 1 ? Screen.desktopAvailableHeight : surface.originalWidth * surface.safeProportionalHeight)) * Screen.devicePixelRatio
+
         }
 
         MxcAnimatedImage {

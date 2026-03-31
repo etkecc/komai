@@ -96,6 +96,7 @@ QtObject {
         if (itemKind === "redacted") {
             return Object.assign({}, basePreview, {
                 "type": itemType,
+                "isOnlyEmoji": 0,
                 "redactedFirst": redactedPair.first,
                 "redactedSecond": redactedPair.second
             });
@@ -104,6 +105,7 @@ QtObject {
         if (root.rootItem.isMatrixStateLikeKind(itemKind)) {
             return Object.assign({}, basePreview, {
                 "type": itemType,
+                "isOnlyEmoji": 0,
                 "formattedStateEvent": root.rootItem.formattedMatrixTextHtml(body),
                 "stateEventIconSource": root.rootItem.matrixStateEventIconForKind(itemKind)
             });
@@ -118,6 +120,7 @@ QtObject {
             return Object.assign({}, basePreview, {
                 "type": itemType,
                 "body": body,
+                "isOnlyEmoji": 0,
                 "url": String(item.url || ""),
                 "blurhash": "",
                 "filename": effectiveFileName,
@@ -137,6 +140,7 @@ QtObject {
             return Object.assign({}, basePreview, {
                 "type": itemType,
                 "body": body,
+                "isOnlyEmoji": 0,
                 "filename": effectiveFileName,
                 "filesize": humanReadableMediaSize,
                 "fileTypeIconSource": Komai.fileTypeIconSource(String(item.mimetype || "")),

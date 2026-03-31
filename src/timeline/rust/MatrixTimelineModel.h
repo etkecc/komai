@@ -100,6 +100,8 @@ public:
 
     Q_INVOKABLE int rowForEventId(const QString &eventId) const;
     Q_INVOKABLE QVariantMap itemAt(int row) const;
+    Q_INVOKABLE QVariantMap previewDataForEvent(const QString &eventId,
+                                                const QString &relatedTo = QString()) const;
     Q_INVOKABLE QString avatarUrl(const QString &userId) const;
     Q_INVOKABLE QVariant dataByIndex(int row, int role) const { return data(index(row), role); }
 

@@ -92,6 +92,9 @@ EventDelegateChooser {
                           : chooserMainSurfaceColor
             font.italic: type == MtxEvent.NoticeMessage
             formatted: formattedBody
+            isOnlyEmoji: (parent && parent.previewData && parent.previewData.isOnlyEmoji !== undefined)
+                ? Number(parent.previewData.isOnlyEmoji)
+                : 0
             keepFullText: true
         }
     }
@@ -149,6 +152,7 @@ EventDelegateChooser {
                           : chooserMainSurfaceColor
             font.italic: true
             formatted: TimelineManager.escapeEmoji(userName) + " " + formattedBody
+            isOnlyEmoji: 0
             keepFullText: true
         }
     }
@@ -279,6 +283,7 @@ EventDelegateChooser {
             required property string userName
 
             Layout.fillWidth: true
+            blurhash: ""
             //Layout.maximumWidth: tempWidth
             //Layout.maximumHeight: timelineView.height / 8
             containerHeight: timelineView ? timelineView.height : Screen.height
@@ -292,6 +297,7 @@ EventDelegateChooser {
             required property string userName
 
             Layout.fillWidth: true
+            blurhash: ""
             containerHeight: timelineView ? timelineView.height : Screen.height
         }
     }

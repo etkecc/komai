@@ -26,22 +26,22 @@ Components.OverlayDialog {
     required property var chatRoot
 
     readonly property var effectiveRoomModel: roomModelOverride ? roomModelOverride : roomModel
-    readonly property bool hasLegacyRoomModel: !!effectiveRoomModel
+    readonly property bool hasRoleDataSource: !!effectiveRoomModel
         && typeof effectiveRoomModel.dataById === "function"
-    readonly property string messageText: hasLegacyRoomModel
+    readonly property string messageText: hasRoleDataSource
         ? ((eventId && effectiveRoomModel) ? String(effectiveRoomModel.dataById(eventId, Room.Body, "") || "") : "")
         : (messageModelOverride && messageModelOverride.body !== undefined ? String(messageModelOverride.body || "") : "")
-    readonly property string formattedBodyText: hasLegacyRoomModel
+    readonly property string formattedBodyText: hasRoleDataSource
         ? ((eventId && effectiveRoomModel) ? String(effectiveRoomModel.dataById(eventId, Room.FormattedBody, "") || "") : "")
         : (messageModelOverride && messageModelOverride.formattedBody !== undefined ? String(messageModelOverride.formattedBody || "") : "")
-    readonly property bool hasFormattedBody: hasLegacyRoomModel
+    readonly property bool hasFormattedBody: hasRoleDataSource
         ? ((eventId && effectiveRoomModel) ? !!effectiveRoomModel.dataById(eventId, Room.HasFormattedBody, false) : false)
         : formattedBodyText !== ""
-    readonly property bool isStateEvent: hasLegacyRoomModel
+    readonly property bool isStateEvent: hasRoleDataSource
         ? ((eventId && effectiveRoomModel) ? !!effectiveRoomModel.dataById(eventId, Room.IsStateEvent, false) : false)
         : !!(messageModelOverride && messageModelOverride.isStateEvent)
     readonly property var previewMessageData: {
-        if (!hasLegacyRoomModel
+        if (!hasRoleDataSource
                 && effectiveRoomModel
                 && typeof effectiveRoomModel.previewDataForEvent === "function") {
             const preview = effectiveRoomModel.previewDataForEvent(root.eventId);
@@ -248,9 +248,9 @@ Components.OverlayDialog {
                     clip: true
                     enabled: false
                     eventId: root.eventId
-                    room_: root.hasLegacyRoomModel ? root.effectiveRoomModel : null
-                    previewData: root.hasLegacyRoomModel ? ({}) : root.previewMessageData
-                    roomModelOverride: root.hasLegacyRoomModel ? null : root.effectiveRoomModel
+                    room_: root.hasRoleDataSource ? root.effectiveRoomModel : null
+                    previewData: root.hasRoleDataSource ? ({}) : root.previewMessageData
+                    roomModelOverride: root.hasRoleDataSource ? null : root.effectiveRoomModel
                     maxWidth: actionsFlickable.width
 
                     property bool isReplyFromCurrentUser: {

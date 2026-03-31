@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
 import cc.etke.komai
+import "../../../delegates"
 
 Item {
     id: root
@@ -20,12 +21,133 @@ Item {
     readonly property bool perfDisableTimelineInteraction: TimelineManager.perfUiFlagEnabled("disable_timeline_interaction")
     readonly property bool perfDisableTimelineMetadata: TimelineManager.perfUiFlagEnabled("disable_timeline_metadata")
     readonly property var metadataItem: metadataLoader.item ? metadataLoader.item : metadataFallback
+    property int replyPreviewRevision: 0
 
     width: wrapper.width - wrapper.avatarMargin
     height: implicitHeight
     implicitHeight: Math.max(messageBubble.implicitHeight, metadataItem.visible ? metadataItem.height : 0)
     x: wrapper.avatarIsOnRight ? 0 : wrapper.avatarMargin
     y: topOffset
+
+    function readReplyRole(role, fallbackValue) {
+        const roomContext = (root.wrapper.room && typeof root.wrapper.room.dataById === "function")
+            ? root.wrapper.room
+            : root.wrapper.effectiveRoomContext;
+        if (!roomContext || typeof roomContext.dataById !== "function" || !root.wrapper.replyTo)
+            return fallbackValue;
+
+        const value = roomContext.dataById(root.wrapper.replyTo, role, root.wrapper.eventId);
+        return (value === undefined || value === null) ? fallbackValue : value;
+    }
+
+    function mergeReplyPreviewData(target, source) {
+        if (!source)
+            return;
+
+        for (const key of Object.keys(source)) {
+            const value = source[key];
+            if (value === undefined || value === null)
+                continue;
+            if ((target[key] === undefined || target[key] === null)
+                    || (typeof target[key] === "string" && String(target[key]).length === 0)) {
+                target[key] = value;
+            }
+        }
+    }
+
+    function replyPreviewFallbackData() {
+        return {
+            "type": readReplyRole(Room.Type, MtxEvent.TextMessage),
+            "userId": String(readReplyRole(Room.UserId, "")),
+            "userName": String(readReplyRole(Room.UserName, "")),
+            "body": String(readReplyRole(Room.Body, "")),
+            "formattedBody": String(readReplyRole(Room.FormattedBody, "")),
+            "isOnlyEmoji": Number(readReplyRole(Room.IsOnlyEmoji, 0)),
+            "url": String(readReplyRole(Room.Url, "")),
+            "thumbnailUrl": String(readReplyRole(Room.ThumbnailUrl, "")),
+            "duration": Number(readReplyRole(Room.Duration, 0)),
+            "blurhash": String(readReplyRole(Room.Blurhash, "")),
+            "filename": String(readReplyRole(Room.Filename, "")),
+            "filesize": String(readReplyRole(Room.Filesize, "")),
+            "filesizeBytes": Number(readReplyRole(Room.FilesizeBytes, 0)),
+            "mimetype": String(readReplyRole(Room.MimeType, "")),
+            "originalHeight": Number(readReplyRole(Room.OriginalHeight, 0)),
+            "originalWidth": Number(readReplyRole(Room.OriginalWidth, 0)),
+            "proportionalHeight": Number(readReplyRole(Room.ProportionalHeight, 0)),
+            "eventId": String(readReplyRole(Room.EventId, root.wrapper.replyTo)),
+            "fileTypeIconSource": String(readReplyRole(Room.FileTypeIconSource, "")),
+            "stateEventIconSource": String(readReplyRole(Room.StateEventIconSource, "")),
+            "formattedStateEvent": String(readReplyRole(Room.FormattedStateEvent, "")),
+            "callType": String(readReplyRole(Room.CallType, "")),
+            "isEdited": Boolean(readReplyRole(Room.IsEdited, false)),
+            "isEditable": Boolean(readReplyRole(Room.IsEditable, false)),
+            "isEncrypted": Boolean(readReplyRole(Room.IsEncrypted, false)),
+            "isStateEvent": Boolean(readReplyRole(Room.IsStateEvent, false)),
+            "replyTo": String(readReplyRole(Room.ReplyTo, "")),
+            "threadId": String(readReplyRole(Room.ThreadId, ""))
+        };
+    }
+
+    function replyPreviewData() {
+        const merged = {};
+        const timelineRoom = root.wrapper.room;
+        const roomContext = root.wrapper.effectiveRoomContext;
+
+        if (roomContext && typeof roomContext.previewDataForEvent === "function")
+            mergeReplyPreviewData(merged, roomContext.previewDataForEvent(root.wrapper.replyTo));
+
+        if (timelineRoom && typeof timelineRoom.previewDataForEvent === "function") {
+            // Prefer the shared room-context preview path first. It already
+            // powers message actions / composer previews and carries richer
+            // normalized media data. The raw timeline fallback is still useful
+            // for late-arriving inline summaries, but it must not downgrade a
+            // fully classified media preview into sparse text-like data.
+            mergeReplyPreviewData(merged,
+                                  timelineRoom.previewDataForEvent(root.wrapper.replyTo,
+                                                                   root.wrapper.eventId));
+        }
+
+        mergeReplyPreviewData(merged, replyPreviewFallbackData());
+        return merged;
+    }
+
+    function refreshReplyPreviewIfAffected(topLeft, bottomRight) {
+        if (!root.wrapper.replyTo || !root.wrapper.room
+                || typeof root.wrapper.room.idToIndex !== "function") {
+            return;
+        }
+
+        const parentRow = root.wrapper.room.idToIndex(root.wrapper.eventId);
+        const replyRow = root.wrapper.room.idToIndex(root.wrapper.replyTo);
+        const startRow = topLeft ? topLeft.row : -1;
+        const endRow = bottomRight ? bottomRight.row : -1;
+
+        if ((parentRow >= startRow && parentRow <= endRow)
+                || (replyRow >= startRow && replyRow <= endRow)) {
+            replyPreviewRevision += 1;
+        }
+    }
+
+    Connections {
+        target: root.wrapper.room
+        ignoreUnknownSignals: true
+
+        function onDataChanged(topLeft, bottomRight, _roles) {
+            root.refreshReplyPreviewIfAffected(topLeft, bottomRight);
+        }
+
+        function onRowsInserted() {
+            root.replyPreviewRevision += 1;
+        }
+
+        function onRowsRemoved() {
+            root.replyPreviewRevision += 1;
+        }
+
+        function onModelReset() {
+            root.replyPreviewRevision += 1;
+        }
+    }
 
     Rectangle {
         id: threadBackground
@@ -153,7 +275,7 @@ Item {
             id: contentPlacementContainer
 
             // Avoid a width->implicitWidth feedback path when delegates reflow.
-            property real replyContentWidth: root.wrapper.reply?.implicitWidth ?? 0
+            property real replyContentWidth: replyRow.visible ? replyRow.implicitWidth : 0
             property real mainContentWidth: root.wrapper.main?.implicitWidth ?? 0
 
             // Cap implicit width to maxWidth so the bubble never overflows
@@ -175,161 +297,44 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
 
-                AbstractButton {
+                Reply {
                     id: replyRow
                     visible: root.wrapper.replyTo
-
-                    readonly property int maxReplyHeight: Math.max(80, Math.round(chat.height * 0.25))
-                    readonly property real replyContentHeight: replyCol.implicitHeight + topPadding + bottomPadding
-                    readonly property bool replyTruncated: replyContentHeight > maxReplyHeight
-
-                    leftPadding: Komai.paddingMedium + 4
-                    rightPadding: Komai.paddingMedium
-                    topPadding: Komai.paddingMedium
-                    bottomPadding: Komai.paddingMedium
-
+                    enabled: !root.perfDisableTimelineInteraction
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    height: replyTruncated ? maxReplyHeight : undefined
-
-                    property string replyUserId: {
-                        if (root.wrapper.room && root.wrapper.replyTo) {
-                            const modelUserId = root.wrapper.room.dataById(root.wrapper.replyTo, Room.UserId, root.wrapper.eventId);
-                            if (typeof modelUserId === "string" && modelUserId.length > 0)
-                                return modelUserId;
-                        }
-
-                        const delegateUserId = root.wrapper.reply?.userId;
-                        return (typeof delegateUserId === "string") ? delegateUserId : "";
+                    eventId: root.wrapper.replyTo
+                    previewData: {
+                        const _ = root.replyPreviewRevision;
+                        return root.replyPreviewData();
                     }
-                    property color userColor: root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeWindowColor)
-                    property color roomColor: root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeBaseColor)
-                    property var replyBubblePalette: root.wrapper.resolveUserBubblePalette(replyUserId, roomColor)
+                    room_: null
+                    roomModelOverride: root.wrapper.effectiveRoomContext
+                    timelineViewOverride: (typeof timelineView !== "undefined") ? timelineView : null
+                    replyContextMenuOverride: root.wrapper.replyContextMenu
+                    keepFullText: true
+                    maxWidth: root.wrapper.maxWidth
 
-                    palette.window: replyBubblePalette.window
-                    palette.windowText: replyBubblePalette.windowText
-                    palette.base: replyBubblePalette.base
-                    palette.alternateBase: replyBubblePalette.alternateBase
-                    palette.text: replyBubblePalette.text
-                    palette.brightText: replyBubblePalette.brightText
-                    palette.button: replyBubblePalette.button
-                    palette.buttonText: replyBubblePalette.buttonText
-                    palette.light: replyBubblePalette.light
-                    palette.mid: replyBubblePalette.mid
-                    palette.dark: replyBubblePalette.dark
-                    palette.highlight: replyBubblePalette.highlight
-                    palette.highlightedText: replyBubblePalette.highlightedText
-                    palette.link: replyBubblePalette.link
-                    palette.toolTipBase: replyBubblePalette.toolTipBase
-                    palette.toolTipText: replyBubblePalette.toolTipText
-                    palette.inactive.text: replyBubblePalette.buttonText
-                    palette.inactive.windowText: replyBubblePalette.buttonText
-                    palette.inactive.buttonText: replyBubblePalette.buttonText
-
-                    clip: true
-
-                    KomaiCursorShape {
-                        anchors.fill: parent
-                        cursorShape: root.perfDisableTimelineInteraction ? Qt.ArrowCursor : Qt.PointingHandCursor
-                    }
-
-                    contentItem: Column {
-                        id: replyCol
-                        spacing: 0
-
-                        AbstractButton {
-                            id: replyUserButton
-
-                            contentItem: Label {
-                                id: userName_
-                                text: root.wrapper.reply?.userName ?? "missing name"
-                                color: Komai.readableAccentTextColor(replyRow.userColor, replyRow.roomColor)
-                                textFormat: Text.RichText
-                                width: root.wrapper.maxWidth
-                            }
-                            onClicked: {
-                                if (root.wrapper.room)
-                                    root.wrapper.room.openUserProfile(root.wrapper.reply?.userId)
-                            }
-                        }
-                        data: [
-                            replyUserButton,
-                            root.wrapper.reply,
-                        ]
-                    }
-
-                    background: Rectangle {
-                        color: replyRow.replyBubblePalette.base
-                        radius: Komai.paddingMedium
-                        clip: true
-
-                        Rectangle {
-                            id: replyLine
-
-                            anchors.top: parent.top
-                            anchors.bottom: parent.bottom
-                            anchors.left: parent.left
-                            color: replyRow.roomColor
-                            width: 4
-                        }
-                    }
-
-                    // Border overlay drawn on top of content so rounded
-                    // corners are not hidden by the content item.
-                    Rectangle {
-                        anchors.fill: parent
-                        z: 10
-                        color: "transparent"
-                        radius: Komai.paddingMedium
-                        border.width: 1
-                        border.color: Qt.darker(replyRow.roomColor, 1.3)
-                    }
-
-                    onClicked: {
-                        if (root.perfDisableTimelineInteraction)
-                            return;
-
-                        let link = root.wrapper.reply.hoveredLink;
-                        if (link) {
-                            Komai.openLink(link)
-                        } else {
-                            console.log("Scrolling to " + root.wrapper.replyTo);
-                            if (root.wrapper.room && typeof root.wrapper.room.showEvent === "function")
-                                root.wrapper.room.showEvent(root.wrapper.replyTo)
-                            else if (root.wrapper.roomForColorCoding
-                                     && typeof root.wrapper.roomForColorCoding.showEvent === "function")
-                                root.wrapper.roomForColorCoding.showEvent(root.wrapper.replyTo)
-                        }
-                    }
-                    onPressAndHold: {
-                        if (root.perfDisableTimelineInteraction)
-                            return;
-
-                        root.wrapper.openReplyContextMenu(root.wrapper.reply, root.wrapper.replyTo, pressX, pressY, replyLine.width, replyUserButton.implicitHeight)
-                    }
-                    TapHandler {
-                        enabled: !root.perfDisableTimelineInteraction
-                        acceptedButtons: Qt.RightButton
-                        acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
-                        gesturePolicy: TapHandler.ReleaseWithinBounds
-                        onSingleTapped: eventPoint => root.wrapper.openReplyContextMenu(root.wrapper.reply, root.wrapper.replyTo, eventPoint.position.x, eventPoint.position.y, replyLine.width, replyUserButton.implicitHeight)
-                    }
-
-                    Rectangle {
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.bottom: parent.bottom
-                        height: 40
-                        visible: replyRow.replyTruncated
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: "transparent" }
-                            GradientStop { position: 1.0; color: replyRow.palette.base }
-                        }
-                    }
+                    property string replyUserId: (previewData && previewData.userId !== undefined)
+                        ? String(previewData.userId)
+                        : ""
+                    readonly property color resolvedReplyUserColor: root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeWindowColor)
+                    readonly property color resolvedReplyRoomColor: root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeBaseColor)
+                    readonly property var resolvedReplyBubblePalette: root.wrapper.resolveUserBubblePalette(replyUserId, resolvedReplyRoomColor)
+                    userColor: resolvedReplyUserColor
+                    roomColor: resolvedReplyRoomColor
+                    bubblePalette: resolvedReplyBubblePalette
                 }
 
                 data: [replyRow, root.wrapper.main]
             }
+        }
+
+        Binding {
+            target: root.wrapper.reply
+            property: "visible"
+            when: !!root.wrapper.reply
+            value: false
         }
 
         Binding {

@@ -35,8 +35,11 @@ pub struct MatrixEventSummary {
     pub reply_event_id: String,
     pub reply_sender_id: String,
     pub reply_sender_display_name: String,
+    pub reply_item_kind: String,
+    pub reply_matrix_event_type: String,
     pub reply_body: String,
     pub reply_formatted_body: String,
+    pub reply_media: Option<MatrixEventMediaSummary>,
     pub reactions: Vec<MatrixReactionSummary>,
     pub reactions_summary: String,
     pub special_effect_names: Vec<String>,
@@ -58,6 +61,17 @@ pub struct MatrixEventMediaSummary {
     pub thumbnail_is_encrypted: bool,
     pub source: Option<MediaSource>,
     pub thumbnail_source: Option<MediaSource>,
+}
+
+struct ReplyPreviewSummary {
+    event_id: String,
+    sender_id: String,
+    sender_display_name: String,
+    item_kind: String,
+    matrix_event_type: String,
+    body: String,
+    formatted_body: String,
+    media: Option<MatrixEventMediaSummary>,
 }
 
 pub fn summarize_timeline_content(
@@ -102,14 +116,15 @@ fn summarize_msg_like_content(
         .map(ToString::to_string)
         .unwrap_or_default();
 
-    if let Some((reply_event_id, reply_sender_id, reply_sender_display_name, reply_body, reply_formatted_body)) =
-        summarize_reply_preview(content.in_reply_to.as_ref())
-    {
-        summary.reply_event_id = reply_event_id;
-        summary.reply_sender_id = reply_sender_id;
-        summary.reply_sender_display_name = reply_sender_display_name;
-        summary.reply_body = reply_body;
-        summary.reply_formatted_body = reply_formatted_body;
+    if let Some(reply_preview) = summarize_reply_preview(content.in_reply_to.as_ref()) {
+        summary.reply_event_id = reply_preview.event_id;
+        summary.reply_sender_id = reply_preview.sender_id;
+        summary.reply_sender_display_name = reply_preview.sender_display_name;
+        summary.reply_item_kind = reply_preview.item_kind;
+        summary.reply_matrix_event_type = reply_preview.matrix_event_type;
+        summary.reply_body = reply_preview.body;
+        summary.reply_formatted_body = reply_preview.formatted_body;
+        summary.reply_media = reply_preview.media;
     }
 
     summary.reactions = summarize_reaction_items(&content.reactions, own_user_id);
@@ -535,8 +550,11 @@ fn summary(kind: &str, matrix_event_type: &str, body: &str) -> MatrixEventSummar
         reply_event_id: String::new(),
         reply_sender_id: String::new(),
         reply_sender_display_name: String::new(),
+        reply_item_kind: String::new(),
+        reply_matrix_event_type: String::new(),
         reply_body: String::new(),
         reply_formatted_body: String::new(),
+        reply_media: None,
         reactions: Vec::new(),
         reactions_summary: String::new(),
         special_effect_names: Vec::new(),
@@ -560,8 +578,11 @@ fn summary_with_media(
         reply_event_id: String::new(),
         reply_sender_id: String::new(),
         reply_sender_display_name: String::new(),
+        reply_item_kind: String::new(),
+        reply_matrix_event_type: String::new(),
         reply_body: String::new(),
         reply_formatted_body: String::new(),
+        reply_media: None,
         reactions: Vec::new(),
         reactions_summary: String::new(),
         special_effect_names: Vec::new(),
@@ -572,7 +593,7 @@ fn summary_with_media(
 
 fn summarize_reply_preview(
     details: Option<&InReplyToDetails>,
-) -> Option<(String, String, String, String, String)> {
+) -> Option<ReplyPreviewSummary> {
     let details = details?;
     let reply_event_id = details.event_id.to_string();
 
@@ -590,26 +611,32 @@ fn summarize_reply_preview(
                 _ => human_name(None, event.sender.as_str()),
             };
             let reply_summary = summarize_embedded_content(&event.content);
-            Some((
-                if resolved_reply_event_id.is_empty() {
+            Some(ReplyPreviewSummary {
+                event_id: if resolved_reply_event_id.is_empty() {
                     reply_event_id
                 } else {
                     resolved_reply_event_id
                 },
                 sender_id,
                 sender_display_name,
-                reply_summary.body,
-                reply_summary.formatted_body,
-            ))
+                item_kind: reply_summary.kind,
+                matrix_event_type: reply_summary.matrix_event_type,
+                body: reply_summary.body,
+                formatted_body: reply_summary.formatted_body,
+                media: reply_summary.media,
+            })
         }
         TimelineDetails::Unavailable | TimelineDetails::Pending | TimelineDetails::Error(_) => {
-            Some((
-                reply_event_id,
-                String::new(),
-                String::new(),
-                "[Original message unavailable]".to_owned(),
-                String::new(),
-            ))
+            Some(ReplyPreviewSummary {
+                event_id: reply_event_id,
+                sender_id: String::new(),
+                sender_display_name: String::new(),
+                item_kind: String::new(),
+                matrix_event_type: String::new(),
+                body: "[Original message unavailable]".to_owned(),
+                formatted_body: String::new(),
+                media: None,
+            })
         }
     }
 }

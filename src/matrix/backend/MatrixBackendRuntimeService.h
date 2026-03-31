@@ -213,8 +213,18 @@ struct MatrixTimelineItem
     QString replyEventId;
     QString replySenderId;
     QString replySenderDisplayName;
+    QString replyItemKind;
+    QString replyMatrixEventType;
     QString replyBody;
     QString replyFormattedBody;
+    QString replyMediaUrl;
+    QString replyThumbnailUrl;
+    QString replyFileName;
+    QString replyMimeType;
+    uint64_t replyMediaWidth      = 0;
+    uint64_t replyMediaHeight     = 0;
+    uint64_t replyMediaDurationMs = 0;
+    uint64_t replyMediaSizeBytes  = 0;
     QVariantList reactions;
     QString reactionsSummary;
     QStringList specialEffectNames;

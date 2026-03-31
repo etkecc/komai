@@ -11,6 +11,7 @@ Item {
     required property var rootItem
     required property var roomPreview
     required property var dialogRoomModel
+    required property var headerRoomModel
     required property AbstractPermissions permissions
 
     width: 0
@@ -124,6 +125,7 @@ Item {
         id: matrixComposerRoom
 
         property string roomId: roomPreview ? roomPreview.roomid : ""
+        property bool isActiveMatrixTimelineRoom: true
         property bool isEncrypted: roomPreview ? !!roomPreview.isEncrypted : false
         property int roomMemberCount: roomPreview && roomPreview.roomMemberCount !== undefined
             ? Number(roomPreview.roomMemberCount)
@@ -137,6 +139,19 @@ Item {
 
         function openUserProfile(userId) {
             support.dialogRoomModel.openUserProfile(userId);
+        }
+
+        function previewDataForEvent(eventId) {
+            if (!support.headerRoomModel
+                    || typeof support.headerRoomModel.previewDataForEvent !== "function") {
+                return ({});
+            }
+
+            return support.headerRoomModel.previewDataForEvent(String(eventId || ""));
+        }
+
+        function showImage() {
+            return true;
         }
     }
 }

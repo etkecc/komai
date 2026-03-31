@@ -37,7 +37,9 @@ qmlMessageHandler(QtMsgType type, const QMessageLogContext &context, const QStri
       // that warning, which is useless, since sometimes you need the pixel size to match the
       // text to the size of the outer element for example. This is done in the avatar and
       // without that you get one warning for every Avatar displayed, which is stupid!
-      msg.endsWith(QStringLiteral("Both point size and pixel size set. Using pixel size.")))
+      msg.endsWith(QStringLiteral("Both point size and pixel size set. Using pixel size.")) ||
+      // Qt SVG renderer strictness warnings from internal path parsing (Qt 6.11.0)
+      msg.contains(QStringLiteral("Invalid path data; path truncated")))
         return;
 
     switch (type) {

@@ -17,8 +17,13 @@ MatrixServerResolver::resolve(matrix_backend::BlockingCallContext context,
                               QString *errorOut)
 {
     try {
-        auto result = ::komai::rust::resolve_server(matrix_backend::toRustBlockingContext(context),
-                                                    serverName.toStdString());
+        auto result = matrix_backend::invokeBlockingCall(
+          "resolve_server",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [context, &serverName]() {
+              return ::komai::rust::resolve_server(matrix_backend::toRustBlockingContext(context),
+                                                   serverName.toStdString());
+          });
         return ServerResolution{QString::fromStdString(std::string(result.base_url))};
     } catch (const std::exception &e) {
         if (errorOut)

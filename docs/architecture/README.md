@@ -11,8 +11,6 @@ Technical documentation for Komai internals.
 - 😀 [Emoji Architecture](emojis.md) -- upstream sources, localization pipeline, overrides, and runtime loading
 - 📦 [Binary Size Notes](binary-size.md) -- why local build-tree binaries are larger than packaged installs
 - 💾 [Storage Architecture](storage.md) -- path helpers, storage layout, and callsites
-- 🗃️ [Cache Architecture](cache/README.md) -- Matrix cache domain built on storage APIs
-- 🧾 [Cache Storage Invariants](cache/storage-invariants.md) -- cache reset rules, room cleanup, read-receipt semantics, and derived-edge invariants
 - 🧩 [QML/UI Structure](qml-ui.md) -- QML layering, placement rules, and loader decoupling
 - ⌨️ [Keyboard Shortcuts Architecture](keyboard-shortcuts.md) -- shortcut layers, Selection mode key flow, and layout-agnostic Latin-key handling
 - ✨ [Message Effects](message-effects.md) -- effect triggers, routing, rendering split, and how to add new effects

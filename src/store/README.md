@@ -1,11 +1,10 @@
 # Store Module (Scaffold)
 
-This directory is reserved for future non-Matrix persisted state modules.
+This directory is reserved for future app-owned persisted state modules.
 
 Design intent:
 
-- Keep `src/cache` (`MatrixStore`) focused on Matrix-domain persistence.
-- Build any app-generic or non-Matrix persisted state modules here.
+- Build app-owned or non-Matrix persisted state modules here.
 - Reuse `src/db` as the low-level storage abstraction.
 
 Boundary rules:

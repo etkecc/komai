@@ -25,7 +25,6 @@
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
 #include "settings/YamlSettings.h"
-#include "cache/api/CacheApiContext.h"
 #include "TestEnvironment.h"
 
 namespace {
@@ -248,27 +247,6 @@ testLoggerInjectionNullAndInjectedLoggers()
 
     ok &= expect(settings::storage::loadYamlFile(file, "settings-test").IsMap(),
                  "settings storage can read with injected logger");
-
-    return ok;
-}
-
-bool
-testCacheLoggerInjection()
-{
-    bool ok = true;
-
-    cache::setLoggers({});
-    auto cacheLoggers = cache::activeLoggers();
-    ok &= expect(cacheLoggers.db && cacheLoggers.crypto && cacheLoggers.net,
-                 "cache wrappers default missing loggers when none are injected");
-
-    auto logger = std::make_shared<spdlog::logger>(
-      QStringLiteral("cache-test").toStdString(), std::make_shared<spdlog::sinks::null_sink_mt>());
-    cache::setLoggers({.db = logger, .crypto = logger, .net = logger});
-    cacheLoggers = cache::activeLoggers();
-    ok &= expect(cacheLoggers.db == logger, "cache wrappers store injected db logger");
-    ok &= expect(cacheLoggers.crypto == logger, "cache wrappers store injected crypto logger");
-    ok &= expect(cacheLoggers.net == logger, "cache wrappers store injected net logger");
 
     return ok;
 }
@@ -508,7 +486,6 @@ main()
     ok &= testKeyringEnvironmentTagResolution();
     ok &= testProfileIdValidation();
     ok &= testLoggerInjectionNullAndInjectedLoggers();
-    ok &= testCacheLoggerInjection();
     ok &= testProviderSelectionHonorsConfigAndOverrides();
     ok &= testMatrixSessionSecretsRoundtripWithFileProvider();
     ok &= testInMemoryReaderWriterOverride();

@@ -1186,7 +1186,6 @@ if(BUILD_TESTING)
         src/matrix/backend/MatrixSessionSecrets.cpp
         src/profile/KeyringEnvironment.cpp
         src/profile/Paths.cpp
-        src/cache/api/CacheApiLoggers.cpp
         src/settings/SettingsPersistence.cpp
         src/settings/SettingsPersistenceLoad.cpp
         src/settings/SettingsPersistenceSave.cpp

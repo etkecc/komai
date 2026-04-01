@@ -85,6 +85,8 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
             continue;
         if (adapter.id == settings::core::SettingId::NetworkPresenceStatusPolicy)
             continue;
+        if (adapter.id == settings::core::SettingId::IntegrationsDbusApiAccess)
+            continue;
 
         const auto rawToken =
           rust_cfg::readStringValue(values, adapter.key, QString::fromLatin1(adapter.defaultToken));
@@ -285,6 +287,32 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
           networkPresenceStatusPolicyToken.toStdString(),
           SettingKey::NetworkPresenceStatusPolicy,
           cfg::toStorageValue(settings.networkPresenceStatusPolicy()).toStdString());
+    }
+
+    settings.setIntegrationsSystemTrayEnabled(snapshot.integrations.has_system_tray_enabled
+                                                ? snapshot.integrations.system_tray_enabled
+                                                : false);
+    settings.setIntegrationsSystemTrayAutostart(snapshot.integrations.has_system_tray_autostart
+                                                  ? snapshot.integrations.system_tray_autostart
+                                                  : false);
+    settings.setIntegrationsBrowserCommand(
+      QString::fromStdString(static_cast<std::string>(snapshot.integrations.browser_command)));
+
+    const auto loadedIntegrationsDbusApiAccess =
+      QString::fromStdString(static_cast<std::string>(snapshot.integrations.dbus_api_access))
+        .trimmed();
+    const auto integrationsDbusApiAccessToken = loadedIntegrationsDbusApiAccess.isEmpty()
+                                                  ? QStringLiteral("none")
+                                                  : loadedIntegrationsDbusApiAccess;
+    settings.setIntegrationsDbusApiAccess(
+      cfg::dbusAccessFromStorage(integrationsDbusApiAccessToken, IntegrationsDbusAccessNone));
+    if (integrationsDbusApiAccessToken !=
+        cfg::dbusAccessToStorage(settings.integrationsDbusApiAccess())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          integrationsDbusApiAccessToken.toStdString(),
+          SettingKey::IntegrationsDbusApiAccess,
+          cfg::dbusAccessToStorage(settings.integrationsDbusApiAccess()).toStdString());
     }
 }
 

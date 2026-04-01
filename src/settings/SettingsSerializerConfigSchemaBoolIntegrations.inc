@@ -1,8 +1,0 @@
-BoolSettingDescriptor{SettingKey::IntegrationsSystemTrayEnabled,
-                      false,
-                      &UserSettings::integrationsSystemTrayEnabled,
-                      &UserSettings::setIntegrationsSystemTrayEnabled},
-BoolSettingDescriptor{SettingKey::IntegrationsSystemTrayAutostart,
-                      false,
-                      &UserSettings::integrationsSystemTrayAutostart,
-                      &UserSettings::setIntegrationsSystemTrayAutostart},

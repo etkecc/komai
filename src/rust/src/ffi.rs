@@ -186,6 +186,15 @@ mod bridge {
         http3_enabled: bool,
     }
 
+    struct SettingsConfigIntegrationsSection {
+        has_system_tray_enabled: bool,
+        system_tray_enabled: bool,
+        has_system_tray_autostart: bool,
+        system_tray_autostart: bool,
+        dbus_api_access: String,
+        browser_command: String,
+    }
+
     enum SettingsConfigValueKind {
         Bool,
         Int,
@@ -214,6 +223,7 @@ mod bridge {
         calls: SettingsConfigCallsSection,
         notifications: SettingsConfigNotificationsSection,
         network: SettingsConfigNetworkSection,
+        integrations: SettingsConfigIntegrationsSection,
         values: Vec<SettingsConfigValue>,
     }
 
@@ -225,6 +235,7 @@ mod bridge {
         calls: SettingsConfigCallsSection,
         notifications: SettingsConfigNotificationsSection,
         network: SettingsConfigNetworkSection,
+        integrations: SettingsConfigIntegrationsSection,
         values: Vec<SettingsConfigValue>,
         source_version: i32,
         migrated_version: i32,

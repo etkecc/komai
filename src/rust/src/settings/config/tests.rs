@@ -4,7 +4,8 @@
 
 use super::{encode_config_yaml, load_config_snapshot, parse_config_text};
 use crate::ffi::{
-    SettingsConfigNetworkSection, SettingsConfigNotificationsSection,
+    SettingsConfigIntegrationsSection, SettingsConfigNetworkSection,
+    SettingsConfigNotificationsSection,
     SettingsConfigSecretsSection, SettingsConfigSnapshot,
     SettingsConfigTimelineHiddenEventsSection, SettingsConfigTimelineSection,
     SettingsConfigUiSection, SettingsConfigValue, SettingsConfigValueKind,
@@ -168,6 +169,27 @@ network:
 }
 
 #[test]
+fn parses_integrations_section() {
+    let config = parse_config_text(
+        r#"
+integrations:
+  system_tray:
+    enabled: true
+    autostart: false
+  dbus:
+    access: read_only
+  browser:
+    command: firefox %s
+"#,
+    );
+
+    assert_eq!(config.integrations.system_tray_enabled, Some(true));
+    assert_eq!(config.integrations.system_tray_autostart, Some(false));
+    assert_eq!(config.integrations.dbus_api_access, "read_only");
+    assert_eq!(config.integrations.browser_command, "firefox %s");
+}
+
+#[test]
 fn encodes_generic_config_values() {
     let yaml = encode_config_yaml(&SettingsConfigSnapshot {
         ui: SettingsConfigUiSection {
@@ -221,6 +243,14 @@ fn encodes_generic_config_values() {
             mrs_server_name: "example.org".to_owned(),
             has_http3_enabled: true,
             http3_enabled: true,
+        },
+        integrations: SettingsConfigIntegrationsSection {
+            has_system_tray_enabled: true,
+            system_tray_enabled: true,
+            has_system_tray_autostart: true,
+            system_tray_autostart: false,
+            dbus_api_access: "read_only".to_owned(),
+            browser_command: "firefox %s".to_owned(),
         },
         values: vec![
             SettingsConfigValue {
@@ -332,6 +362,22 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["network", "http3_enabled"]),
         Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["integrations", "system_tray", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["integrations", "system_tray", "autostart"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["integrations", "dbus", "access"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "read_only"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["integrations", "browser", "command"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "firefox %s"
     ));
 }
 

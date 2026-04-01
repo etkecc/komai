@@ -14,9 +14,10 @@ use super::storage;
 pub use model::{
     Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
     ConfigCallsRelay, ConfigCallsScreenshare, ConfigSecrets, ConfigTimeline,
-    ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars, ConfigNetwork, ConfigNotifications,
-    ConfigPrivacy, ConfigPrivacyMaintenance, ConfigPrivacyWindowFocusBlur, ConfigUiFont,
-    ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
+    ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars, ConfigIntegrations, ConfigNetwork,
+    ConfigNotifications, ConfigPrivacy, ConfigPrivacyMaintenance,
+    ConfigPrivacyWindowFocusBlur, ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion,
+    ConfigUiScale, ConfigUiTheme, LoadedConfig,
 };
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
@@ -70,6 +71,12 @@ const NETWORK_TLS_ENABLE_CERTIFICATE_VALIDATION_PATH: [&str; 3] =
 const NETWORK_MRS_ENABLED_PATH: [&str; 2] = ["network", "mrs_enabled"];
 const NETWORK_MRS_SERVER_NAME_PATH: [&str; 2] = ["network", "mrs_server_name"];
 const NETWORK_HTTP3_ENABLED_PATH: [&str; 2] = ["network", "http3_enabled"];
+const INTEGRATIONS_SYSTEM_TRAY_ENABLED_PATH: [&str; 3] =
+    ["integrations", "system_tray", "enabled"];
+const INTEGRATIONS_SYSTEM_TRAY_AUTOSTART_PATH: [&str; 3] =
+    ["integrations", "system_tray", "autostart"];
+const INTEGRATIONS_DBUS_API_ACCESS_PATH: [&str; 3] = ["integrations", "dbus", "access"];
+const INTEGRATIONS_BROWSER_COMMAND_PATH: [&str; 3] = ["integrations", "browser", "command"];
 
 pub fn parse_config_text(config_text: &str) -> Config {
     let root = yaml::parse_root(config_text);
@@ -210,6 +217,17 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             mrs_server_name: parse_string(yaml::value_at_path(root, &NETWORK_MRS_SERVER_NAME_PATH)),
             http3_enabled: yaml::value_at_path(root, &NETWORK_HTTP3_ENABLED_PATH)
                 .and_then(parse_scalar_bool),
+        },
+        integrations: ConfigIntegrations {
+            system_tray_enabled: yaml::value_at_path(root, &INTEGRATIONS_SYSTEM_TRAY_ENABLED_PATH)
+                .and_then(parse_scalar_bool),
+            system_tray_autostart: yaml::value_at_path(
+                root,
+                &INTEGRATIONS_SYSTEM_TRAY_AUTOSTART_PATH,
+            )
+            .and_then(parse_scalar_bool),
+            dbus_api_access: parse_string(yaml::value_at_path(root, &INTEGRATIONS_DBUS_API_ACCESS_PATH)),
+            browser_command: parse_string(yaml::value_at_path(root, &INTEGRATIONS_BROWSER_COMMAND_PATH)),
         },
     }
 }

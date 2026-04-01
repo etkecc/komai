@@ -272,6 +272,30 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
             Value::Bool(snapshot.network.http3_enabled),
         );
     }
+    if snapshot.integrations.has_system_tray_enabled {
+        yaml::set_value(
+            &mut root,
+            &["integrations", "system_tray", "enabled"],
+            Value::Bool(snapshot.integrations.system_tray_enabled),
+        );
+    }
+    if snapshot.integrations.has_system_tray_autostart {
+        yaml::set_value(
+            &mut root,
+            &["integrations", "system_tray", "autostart"],
+            Value::Bool(snapshot.integrations.system_tray_autostart),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["integrations", "dbus", "access"],
+        Value::String(snapshot.integrations.dbus_api_access.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["integrations", "browser", "command"],
+        Value::String(snapshot.integrations.browser_command.clone()),
+    );
 
     yaml::serialize_yaml(&root)
 }
@@ -343,6 +367,7 @@ fn flatten_config_values(prefix: &str, value: &Value, values: &mut Vec<SettingsC
                 || prefix == "calls"
                 || prefix == "notifications"
                 || prefix == "network"
+                || prefix == "integrations"
                 || prefix == "timeline.hidden_events"
             {
                 return;

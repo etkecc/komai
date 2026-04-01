@@ -16,6 +16,7 @@ pub struct Config {
     pub calls: ConfigCalls,
     pub notifications: ConfigNotifications,
     pub network: ConfigNetwork,
+    pub integrations: ConfigIntegrations,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -157,6 +158,14 @@ pub struct ConfigNetwork {
     pub mrs_enabled: Option<bool>,
     pub mrs_server_name: String,
     pub http3_enabled: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigIntegrations {
+    pub system_tray_enabled: Option<bool>,
+    pub system_tray_autostart: Option<bool>,
+    pub dbus_api_access: String,
+    pub browser_command: String,
 }
 
 pub struct LoadedConfig {

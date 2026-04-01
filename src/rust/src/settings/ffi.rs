@@ -227,6 +227,19 @@ pub(crate) fn ffi_config_network_section(
     }
 }
 
+pub(crate) fn ffi_config_integrations_section(
+    config: &settings::config::Config,
+) -> ffi::SettingsConfigIntegrationsSection {
+    ffi::SettingsConfigIntegrationsSection {
+        has_system_tray_enabled: config.integrations.system_tray_enabled.is_some(),
+        system_tray_enabled: config.integrations.system_tray_enabled.unwrap_or_default(),
+        has_system_tray_autostart: config.integrations.system_tray_autostart.is_some(),
+        system_tray_autostart: config.integrations.system_tray_autostart.unwrap_or_default(),
+        dbus_api_access: config.integrations.dbus_api_access.clone(),
+        browser_command: config.integrations.browser_command.clone(),
+    }
+}
+
 pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi::SettingsLoadedConfig {
     ffi::SettingsLoadedConfig {
         ui: ffi_config_ui_section(&snapshot.config),
@@ -236,6 +249,7 @@ pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi
         calls: ffi_config_calls_section(&snapshot.config),
         notifications: ffi_config_notifications_section(&snapshot.config),
         network: ffi_config_network_section(&snapshot.config),
+        integrations: ffi_config_integrations_section(&snapshot.config),
         values: snapshot.values,
         source_version: snapshot.source_version,
         migrated_version: snapshot.migrated_version,

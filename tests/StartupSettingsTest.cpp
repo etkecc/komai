@@ -174,6 +174,11 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
           QString::fromStdString(static_cast<std::string>(snapshot.network.presence_status_policy)) ==
             expected,
           message);
+    if (keyString == QLatin1String(SettingKey::IntegrationsDbusApiAccess))
+        return expect(
+          QString::fromStdString(static_cast<std::string>(snapshot.integrations.dbus_api_access)) ==
+            expected,
+          message);
 
     return expect(
       settings::rust_config_values::readStringValue(snapshot.values, key, {}) == expected,
@@ -1535,6 +1540,14 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NetworkMrsEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NetworkMrsServerName));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NetworkHttp3Enabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::IntegrationsSystemTrayEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::IntegrationsSystemTrayAutostart));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::IntegrationsDbusApiAccess));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::IntegrationsBrowserCommand));
 
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
         if (definition.scope != settings::core::SettingScope::Config)

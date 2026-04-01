@@ -137,7 +137,10 @@ appendCoreStoreConfigValues(const UserSettings &settings,
             definition.id == settings::core::SettingId::NetworkTlsEnableCertificateValidation ||
             definition.id == settings::core::SettingId::NetworkMrsEnabled ||
             definition.id == settings::core::SettingId::NetworkMrsServerName ||
-            definition.id == settings::core::SettingId::NetworkHttp3Enabled)
+            definition.id == settings::core::SettingId::NetworkHttp3Enabled ||
+            definition.id == settings::core::SettingId::IntegrationsSystemTrayEnabled ||
+            definition.id == settings::core::SettingId::IntegrationsSystemTrayAutostart ||
+            definition.id == settings::core::SettingId::IntegrationsBrowserCommand)
             continue;
 
         const auto stored = store.value(definition.id);
@@ -286,6 +289,16 @@ saveConfig(const UserSettings &settings,
           .has_http3_enabled                     = true,
           .http3_enabled                         = settings.networkHttp3Enabled(),
         },
+      .integrations =
+        {
+          .has_system_tray_enabled   = true,
+          .system_tray_enabled       = settings.integrationsSystemTrayEnabled(),
+          .has_system_tray_autostart = true,
+          .system_tray_autostart     = settings.integrationsSystemTrayAutostart(),
+          .dbus_api_access =
+            cfg::dbusAccessToStorage(settings.integrationsDbusApiAccess()).toStdString(),
+          .browser_command = settings.integrationsBrowserCommand().toStdString(),
+        },
       .values = {},
     };
 
@@ -295,7 +308,8 @@ saveConfig(const UserSettings &settings,
         if (adapter.id == settings::core::SettingId::UiScrollbarPolicy ||
             adapter.id == settings::core::SettingId::UiAvatarsDefaultAvatarStyle ||
             adapter.id == settings::core::SettingId::NotificationsMessageContentPolicy ||
-            adapter.id == settings::core::SettingId::NetworkPresenceStatusPolicy)
+            adapter.id == settings::core::SettingId::NetworkPresenceStatusPolicy ||
+            adapter.id == settings::core::SettingId::IntegrationsDbusApiAccess)
             continue;
         snapshot.values.push_back(
           configValue(adapter.key, adapter.toStorage(settings).toStdString()));

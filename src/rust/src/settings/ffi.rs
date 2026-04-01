@@ -206,6 +206,27 @@ pub(crate) fn ffi_config_notifications_section(
     }
 }
 
+pub(crate) fn ffi_config_network_section(
+    config: &settings::config::Config,
+) -> ffi::SettingsConfigNetworkSection {
+    ffi::SettingsConfigNetworkSection {
+        presence_status_policy: config.network.presence_status_policy.clone(),
+        has_tls_enable_certificate_validation: config
+            .network
+            .tls_enable_certificate_validation
+            .is_some(),
+        tls_enable_certificate_validation: config
+            .network
+            .tls_enable_certificate_validation
+            .unwrap_or_default(),
+        has_mrs_enabled: config.network.mrs_enabled.is_some(),
+        mrs_enabled: config.network.mrs_enabled.unwrap_or_default(),
+        mrs_server_name: config.network.mrs_server_name.clone(),
+        has_http3_enabled: config.network.http3_enabled.is_some(),
+        http3_enabled: config.network.http3_enabled.unwrap_or_default(),
+    }
+}
+
 pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi::SettingsLoadedConfig {
     ffi::SettingsLoadedConfig {
         ui: ffi_config_ui_section(&snapshot.config),
@@ -214,6 +235,7 @@ pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi
         privacy: ffi_config_privacy_section(&snapshot.config),
         calls: ffi_config_calls_section(&snapshot.config),
         notifications: ffi_config_notifications_section(&snapshot.config),
+        network: ffi_config_network_section(&snapshot.config),
         values: snapshot.values,
         source_version: snapshot.source_version,
         migrated_version: snapshot.migrated_version,

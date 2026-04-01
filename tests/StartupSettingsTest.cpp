@@ -169,6 +169,11 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
           QString::fromStdString(
             static_cast<std::string>(snapshot.notifications.message_content_policy)) == expected,
           message);
+    if (keyString == QLatin1String(SettingKey::NetworkPresenceStatusPolicy))
+        return expect(
+          QString::fromStdString(static_cast<std::string>(snapshot.network.presence_status_policy)) ==
+            expected,
+          message);
 
     return expect(
       settings::rust_config_values::readStringValue(snapshot.values, key, {}) == expected,
@@ -1523,6 +1528,13 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::NotificationsAttentionOnIncoming));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NotificationsMessageContentPolicy));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::NetworkPresenceStatusPolicy));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::NetworkTlsEnableCertificateValidation));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NetworkMrsEnabled));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NetworkMrsServerName));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NetworkHttp3Enabled));
 
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
         if (definition.scope != settings::core::SettingScope::Config)

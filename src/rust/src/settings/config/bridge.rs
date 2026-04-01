@@ -241,6 +241,37 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["notifications", "message_content_policy"],
         Value::String(snapshot.notifications.message_content_policy.clone()),
     );
+    yaml::set_value(
+        &mut root,
+        &["network", "presence", "status_policy"],
+        Value::String(snapshot.network.presence_status_policy.clone()),
+    );
+    if snapshot.network.has_tls_enable_certificate_validation {
+        yaml::set_value(
+            &mut root,
+            &["network", "tls", "enable_certificate_validation"],
+            Value::Bool(snapshot.network.tls_enable_certificate_validation),
+        );
+    }
+    if snapshot.network.has_mrs_enabled {
+        yaml::set_value(
+            &mut root,
+            &["network", "mrs_enabled"],
+            Value::Bool(snapshot.network.mrs_enabled),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["network", "mrs_server_name"],
+        Value::String(snapshot.network.mrs_server_name.clone()),
+    );
+    if snapshot.network.has_http3_enabled {
+        yaml::set_value(
+            &mut root,
+            &["network", "http3_enabled"],
+            Value::Bool(snapshot.network.http3_enabled),
+        );
+    }
 
     yaml::serialize_yaml(&root)
 }
@@ -311,6 +342,7 @@ fn flatten_config_values(prefix: &str, value: &Value, values: &mut Vec<SettingsC
                 || prefix == "privacy"
                 || prefix == "calls"
                 || prefix == "notifications"
+                || prefix == "network"
                 || prefix == "timeline.hidden_events"
             {
                 return;

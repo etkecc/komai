@@ -14,9 +14,9 @@ use super::storage;
 pub use model::{
     Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
     ConfigCallsRelay, ConfigCallsScreenshare, ConfigSecrets, ConfigTimeline,
-    ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars, ConfigNotifications, ConfigPrivacy,
-    ConfigPrivacyMaintenance, ConfigPrivacyWindowFocusBlur, ConfigUiFont, ConfigUiInput,
-    ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
+    ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars, ConfigNetwork, ConfigNotifications,
+    ConfigPrivacy, ConfigPrivacyMaintenance, ConfigPrivacyWindowFocusBlur, ConfigUiFont,
+    ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
 };
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
@@ -64,6 +64,12 @@ const NOTIFICATIONS_ATTENTION_ON_INCOMING_PATH: [&str; 2] =
     ["notifications", "attention_on_incoming"];
 const NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH: [&str; 2] =
     ["notifications", "message_content_policy"];
+const NETWORK_PRESENCE_STATUS_POLICY_PATH: [&str; 3] = ["network", "presence", "status_policy"];
+const NETWORK_TLS_ENABLE_CERTIFICATE_VALIDATION_PATH: [&str; 3] =
+    ["network", "tls", "enable_certificate_validation"];
+const NETWORK_MRS_ENABLED_PATH: [&str; 2] = ["network", "mrs_enabled"];
+const NETWORK_MRS_SERVER_NAME_PATH: [&str; 2] = ["network", "mrs_server_name"];
+const NETWORK_HTTP3_ENABLED_PATH: [&str; 2] = ["network", "http3_enabled"];
 
 pub fn parse_config_text(config_text: &str) -> Config {
     let root = yaml::parse_root(config_text);
@@ -188,6 +194,22 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 root,
                 &NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH,
             )),
+        },
+        network: ConfigNetwork {
+            presence_status_policy: parse_string(yaml::value_at_path(
+                root,
+                &NETWORK_PRESENCE_STATUS_POLICY_PATH,
+            )),
+            tls_enable_certificate_validation: yaml::value_at_path(
+                root,
+                &NETWORK_TLS_ENABLE_CERTIFICATE_VALIDATION_PATH,
+            )
+            .and_then(parse_scalar_bool),
+            mrs_enabled: yaml::value_at_path(root, &NETWORK_MRS_ENABLED_PATH)
+                .and_then(parse_scalar_bool),
+            mrs_server_name: parse_string(yaml::value_at_path(root, &NETWORK_MRS_SERVER_NAME_PATH)),
+            http3_enabled: yaml::value_at_path(root, &NETWORK_HTTP3_ENABLED_PATH)
+                .and_then(parse_scalar_bool),
         },
     }
 }

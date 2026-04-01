@@ -83,6 +83,8 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     for (const auto &adapter : cfg::enumTokenAdapters()) {
         if (adapter.id == settings::core::SettingId::NotificationsMessageContentPolicy)
             continue;
+        if (adapter.id == settings::core::SettingId::NetworkPresenceStatusPolicy)
+            continue;
 
         const auto rawToken =
           rust_cfg::readStringValue(values, adapter.key, QString::fromLatin1(adapter.defaultToken));
@@ -247,6 +249,42 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
           notificationsMessageContentPolicyToken.toStdString(),
           SettingKey::NotificationsMessageContentPolicy,
           cfg::toStorageValue(settings.notificationsMessageContentPolicy()).toStdString());
+    }
+
+    settings.setNetworkTlsEnableCertificateValidation(
+      snapshot.network.has_tls_enable_certificate_validation
+        ? snapshot.network.tls_enable_certificate_validation
+        : settings::core::definitions::kDefaultCertificateValidationEnabled);
+    settings.setNetworkMrsEnabled(snapshot.network.has_mrs_enabled
+                                    ? snapshot.network.mrs_enabled
+                                    : settings::core::definitions::kDefaultNetworkMrsEnabled);
+
+    const auto loadedNetworkMrsServerName =
+      QString::fromStdString(static_cast<std::string>(snapshot.network.mrs_server_name)).trimmed();
+    settings.setNetworkMrsServerName(
+      loadedNetworkMrsServerName.isEmpty()
+        ? QString::fromLatin1(settings::core::definitions::kDefaultNetworkMrsServerName)
+        : loadedNetworkMrsServerName);
+
+    settings.setNetworkHttp3Enabled(snapshot.network.has_http3_enabled
+                                      ? snapshot.network.http3_enabled
+                                      : settings::core::definitions::kDefaultNetworkHttp3Enabled);
+
+    const auto loadedNetworkPresenceStatusPolicy =
+      QString::fromStdString(static_cast<std::string>(snapshot.network.presence_status_policy))
+        .trimmed();
+    const auto networkPresenceStatusPolicyToken = loadedNetworkPresenceStatusPolicy.isEmpty()
+                                                    ? QStringLiteral("automatic_presence")
+                                                    : loadedNetworkPresenceStatusPolicy;
+    settings.setNetworkPresenceStatusPolicy(cfg::presenceFromStorage(
+      networkPresenceStatusPolicyToken, UserSettings::Presence::AutomaticPresence));
+    if (networkPresenceStatusPolicyToken !=
+        cfg::toStorageValue(settings.networkPresenceStatusPolicy())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          networkPresenceStatusPolicyToken.toStdString(),
+          SettingKey::NetworkPresenceStatusPolicy,
+          cfg::toStorageValue(settings.networkPresenceStatusPolicy()).toStdString());
     }
 }
 

@@ -4,7 +4,8 @@
 
 use super::{encode_config_yaml, load_config_snapshot, parse_config_text};
 use crate::ffi::{
-    SettingsConfigNotificationsSection, SettingsConfigSecretsSection, SettingsConfigSnapshot,
+    SettingsConfigNetworkSection, SettingsConfigNotificationsSection,
+    SettingsConfigSecretsSection, SettingsConfigSnapshot,
     SettingsConfigTimelineHiddenEventsSection, SettingsConfigTimelineSection,
     SettingsConfigUiSection, SettingsConfigValue, SettingsConfigValueKind,
     SettingsStringListMapEntry,
@@ -145,6 +146,28 @@ notifications:
 }
 
 #[test]
+fn parses_network_section() {
+    let config = parse_config_text(
+        r#"
+network:
+  presence:
+    status_policy: offline
+  tls:
+    enable_certificate_validation: false
+  mrs_enabled: false
+  mrs_server_name: example.org
+  http3_enabled: true
+"#,
+    );
+
+    assert_eq!(config.network.presence_status_policy, "offline");
+    assert_eq!(config.network.tls_enable_certificate_validation, Some(false));
+    assert_eq!(config.network.mrs_enabled, Some(false));
+    assert_eq!(config.network.mrs_server_name, "example.org");
+    assert_eq!(config.network.http3_enabled, Some(true));
+}
+
+#[test]
 fn encodes_generic_config_values() {
     let yaml = encode_config_yaml(&SettingsConfigSnapshot {
         ui: SettingsConfigUiSection {
@@ -188,6 +211,16 @@ fn encodes_generic_config_values() {
             has_attention_on_incoming: true,
             attention_on_incoming: true,
             message_content_policy: "unencrypted_only".to_owned(),
+        },
+        network: SettingsConfigNetworkSection {
+            presence_status_policy: "offline".to_owned(),
+            has_tls_enable_certificate_validation: true,
+            tls_enable_certificate_validation: false,
+            has_mrs_enabled: true,
+            mrs_enabled: false,
+            mrs_server_name: "example.org".to_owned(),
+            has_http3_enabled: true,
+            http3_enabled: true,
         },
         values: vec![
             SettingsConfigValue {
@@ -279,6 +312,26 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["notifications", "message_content_policy"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "unencrypted_only"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["network", "presence", "status_policy"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "offline"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["network", "tls", "enable_certificate_validation"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["network", "mrs_enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["network", "mrs_server_name"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "example.org"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["network", "http3_enabled"]),
+        Some(serde_yaml_ng::Value::Bool(true))
     ));
 }
 

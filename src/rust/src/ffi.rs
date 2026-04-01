@@ -175,6 +175,17 @@ mod bridge {
         message_content_policy: String,
     }
 
+    struct SettingsConfigNetworkSection {
+        presence_status_policy: String,
+        has_tls_enable_certificate_validation: bool,
+        tls_enable_certificate_validation: bool,
+        has_mrs_enabled: bool,
+        mrs_enabled: bool,
+        mrs_server_name: String,
+        has_http3_enabled: bool,
+        http3_enabled: bool,
+    }
+
     enum SettingsConfigValueKind {
         Bool,
         Int,
@@ -202,6 +213,7 @@ mod bridge {
         privacy: SettingsConfigPrivacySection,
         calls: SettingsConfigCallsSection,
         notifications: SettingsConfigNotificationsSection,
+        network: SettingsConfigNetworkSection,
         values: Vec<SettingsConfigValue>,
     }
 
@@ -212,6 +224,7 @@ mod bridge {
         privacy: SettingsConfigPrivacySection,
         calls: SettingsConfigCallsSection,
         notifications: SettingsConfigNotificationsSection,
+        network: SettingsConfigNetworkSection,
         values: Vec<SettingsConfigValue>,
         source_version: i32,
         migrated_version: i32,

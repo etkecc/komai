@@ -133,7 +133,11 @@ appendCoreStoreConfigValues(const UserSettings &settings,
             definition.id == settings::core::SettingId::CallsScreenshareIncludeRemoteVideo ||
             definition.id == settings::core::SettingId::CallsScreenshareShowCursor ||
             definition.id == settings::core::SettingId::NotificationsEnabled ||
-            definition.id == settings::core::SettingId::NotificationsAttentionOnIncoming)
+            definition.id == settings::core::SettingId::NotificationsAttentionOnIncoming ||
+            definition.id == settings::core::SettingId::NetworkTlsEnableCertificateValidation ||
+            definition.id == settings::core::SettingId::NetworkMrsEnabled ||
+            definition.id == settings::core::SettingId::NetworkMrsServerName ||
+            definition.id == settings::core::SettingId::NetworkHttp3Enabled)
             continue;
 
         const auto stored = store.value(definition.id);
@@ -270,6 +274,18 @@ saveConfig(const UserSettings &settings,
           .message_content_policy =
             cfg::toStorageValue(settings.notificationsMessageContentPolicy()).toStdString(),
         },
+      .network =
+        {
+          .presence_status_policy =
+            cfg::toStorageValue(settings.networkPresenceStatusPolicy()).toStdString(),
+          .has_tls_enable_certificate_validation = true,
+          .tls_enable_certificate_validation     = settings.networkTlsEnableCertificateValidation(),
+          .has_mrs_enabled                       = true,
+          .mrs_enabled                           = settings.networkMrsEnabled(),
+          .mrs_server_name                       = settings.networkMrsServerName().toStdString(),
+          .has_http3_enabled                     = true,
+          .http3_enabled                         = settings.networkHttp3Enabled(),
+        },
       .values = {},
     };
 
@@ -278,7 +294,8 @@ saveConfig(const UserSettings &settings,
     for (const auto &adapter : config::enumTokenAdapters()) {
         if (adapter.id == settings::core::SettingId::UiScrollbarPolicy ||
             adapter.id == settings::core::SettingId::UiAvatarsDefaultAvatarStyle ||
-            adapter.id == settings::core::SettingId::NotificationsMessageContentPolicy)
+            adapter.id == settings::core::SettingId::NotificationsMessageContentPolicy ||
+            adapter.id == settings::core::SettingId::NetworkPresenceStatusPolicy)
             continue;
         snapshot.values.push_back(
           configValue(adapter.key, adapter.toStorage(settings).toStdString()));

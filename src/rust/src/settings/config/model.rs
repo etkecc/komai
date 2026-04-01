@@ -15,6 +15,7 @@ pub struct Config {
     pub privacy: ConfigPrivacy,
     pub calls: ConfigCalls,
     pub notifications: ConfigNotifications,
+    pub network: ConfigNetwork,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -147,6 +148,15 @@ pub struct ConfigNotifications {
     pub enabled: Option<bool>,
     pub attention_on_incoming: Option<bool>,
     pub message_content_policy: String,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigNetwork {
+    pub presence_status_policy: String,
+    pub tls_enable_certificate_validation: Option<bool>,
+    pub mrs_enabled: Option<bool>,
+    pub mrs_server_name: String,
+    pub http3_enabled: Option<bool>,
 }
 
 pub struct LoadedConfig {

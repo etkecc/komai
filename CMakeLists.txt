@@ -124,14 +124,6 @@ endif()
 
 find_package(PkgConfig REQUIRED)
 
-# libevent (needed by coeurl)
-pkg_check_modules(libevent_core REQUIRED IMPORTED_TARGET libevent_core)
-if(WIN32)
-    pkg_check_modules(libevent_windows REQUIRED IMPORTED_TARGET libevent_windows)
-else()
-    pkg_check_modules(libevent_pthreads REQUIRED IMPORTED_TARGET libevent_pthreads)
-endif()
-
 # curl
 pkg_check_modules(libcurl REQUIRED IMPORTED_TARGET libcurl)
 
@@ -140,14 +132,6 @@ find_package(fmt 8.0.0 CONFIG REQUIRED)
 
 # spdlog
 find_package(spdlog 1.0.0 CONFIG REQUIRED)
-
-# coeurl
-CPMAddPackage(
-    NAME coeurl
-    GIT_REPOSITORY https://nheko.im/Nheko-Reborn/coeurl.git
-    GIT_TAG v0.3.2
-)
-set(COEURL_TARGET_NAME coeurl::coeurl)
 
 # re2
 find_package(re2 CONFIG QUIET)
@@ -1361,7 +1345,6 @@ if(BUILD_TESTING)
 endif()
 
 target_link_libraries(komai PRIVATE
-    ${COEURL_TARGET_NAME}
     KF6::SyntaxHighlighting
     cmark::cmark
     fmt::fmt

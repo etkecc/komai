@@ -419,7 +419,7 @@ app::runMainApplication(int argc, char *argv[])
         ChatPage::instance()->removeAllNotifications();
         w.saveCurrentWindowSize();
         ChatPage::instance()->prepareShutdown();
-        // Skip normal destruction to avoid SIGSEGV in coeurl/curl cleanup.
+        // Skip normal destruction to avoid shutdown-time crashes in curl cleanup.
         // All important state is already saved above.
         _exit(0);
     });

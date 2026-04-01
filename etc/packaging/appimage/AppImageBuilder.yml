@@ -75,8 +75,6 @@ AppDir:
     - libspdlog1.15
     - libqt6keychain1
     - libcurl4t64
-    - libevent-core-2.1-7t64
-    - libevent-pthreads-2.1-7t64
     - libyaml-cpp0.8
 
     # GStreamer (for VoIP/media)

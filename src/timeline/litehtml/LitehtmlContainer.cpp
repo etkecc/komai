@@ -346,7 +346,7 @@ LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool /*
       [guard, srcUrl](const QString &, const QSize &, const QImage &image, const QString &) {
           if (image.isNull())
               return;
-          // The callback fires on the coeurl network thread; marshal to the main
+          // The callback arrives off the main thread; marshal to the main
           // thread so the QPointer check and QObject access are thread-safe.
           QMetaObject::invokeMethod(
             QCoreApplication::instance(),

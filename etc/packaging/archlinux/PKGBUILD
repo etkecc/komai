@@ -8,7 +8,6 @@ url="https://github.com/etkecc/komai"
 license=('GPL-3.0-or-later')
 depends=(
 	cmark
-	coeurl
 	fmt
 	gst-plugins-bad-libs
 	hicolor-icon-theme

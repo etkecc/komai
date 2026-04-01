@@ -47,24 +47,6 @@ modules:
   # System dependencies (not managed by CPM — found via find_package/pkg-config)
   # fmt, OpenSSL, libcurl are provided by the KDE Platform runtime.
   #
-  - name: libevent
-    buildsystem: cmake-ninja
-    build-options:
-      cflags: -fPIC
-      cxxflags: -fPIC
-    config-opts:
-      - -DEVENT__DISABLE_OPENSSL=ON
-      - -DEVENT__DISABLE_BENCHMARK=ON
-      - -DEVENT__DISABLE_TESTS=ON
-      - -DEVENT__DISABLE_REGRESS=ON
-      - -DEVENT__DISABLE_SAMPLES=ON
-      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
-    sources:
-      - disable-lfs: true
-        tag: release-2.1.12-stable
-        type: git
-        url: https://github.com/libevent/libevent.git
-    no-autogen: true
   - name: spdlog
     buildsystem: cmake-ninja
     config-opts:
@@ -110,18 +92,6 @@ modules:
       -  -Dgst-plugins-base:gl_winsys=x11,wayland
       -  -Dgst-plugins-base:x11=enabled
       -  -Dgst-plugins-base:xshm=enabled
-  # coeurl stays a separate module (not just a pre-fetched source tree) because
-  # Komai finds it via pkg-config, which requires an installed .pc file.
-  - name: coeurl
-    buildsystem: meson
-    config-opts:
-      - -Ddefault_library=static
-    sources:
-      - disable-lfs: true
-        tag: v0.3.2
-        type: git
-        url: https://nheko.im/Nheko-Reborn/coeurl.git
-  #
   # Komai — CPM-managed deps are pre-fetched as .deps/ source trees below.
   # The Flatpak sandbox has no network access, so FETCHCONTENT_SOURCE_DIR_*
   # tells CPM to use these instead of downloading.
@@ -140,7 +110,6 @@ modules:
       # Pre-fetched CPM dependency sources — absolute paths required with builddir: true.
       # /run/build/komai is where flatpak-builder places the komai source tree.
       - -DFETCHCONTENT_SOURCE_DIR_CORROSION=/run/build/komai/.deps/corrosion
-      - -DFETCHCONTENT_SOURCE_DIR_COEURL=/run/build/komai/.deps/coeurl
       - -DFETCHCONTENT_SOURCE_DIR_QT6KEYCHAIN=/run/build/komai/.deps/qtkeychain
       - -DFETCHCONTENT_SOURCE_DIR_KDSINGLEAPPLICATION=/run/build/komai/.deps/kdsingleapplication
       - -DFETCHCONTENT_SOURCE_DIR_CMARK=/run/build/komai/.deps/cmark
@@ -170,11 +139,6 @@ modules:
         tag: v0.6.1
         type: git
         url: https://github.com/corrosion-rs/corrosion.git
-      - dest: .deps/coeurl
-        disable-lfs: true
-        tag: v0.3.2
-        type: git
-        url: https://nheko.im/Nheko-Reborn/coeurl.git
       - dest: .deps/qtkeychain
         disable-lfs: true
         tag: 0.15.0

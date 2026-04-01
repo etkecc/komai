@@ -30,7 +30,7 @@ matrix-sdk-ui = { version = "0.16.0", default-features = false, features = ["nat
 
 # resolvematrix defaults to reqwest's default-tls (rustls + aws-lc-rs). We override
 # to native-tls (OpenSSL) because:
-#   1. Komai already links OpenSSL via coeurl/native-tls — no point bundling a second
+#   1. Komai already links OpenSSL via native-tls/libcurl on the C++ side — no point bundling a second
 #      TLS implementation.
 #   2. aws-lc-sys includes C sources that require -O0, which conflicts with build
 #      environments that inject optimization flags (Flatpak).

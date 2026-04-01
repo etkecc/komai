@@ -12,7 +12,6 @@
 #include "profile/Paths.h"
 #include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
-#include "settings/SettingsRustConfigValues.h"
 #include "settings/SettingsSchemaVersions.h"
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsSerializerLoad.h"
@@ -170,11 +169,8 @@ loadImpl(UserSettings &settings,
         return *secureBackendAvailable;
     };
 
-    auto provider =
-      settings::persistence::providerFromConfigValue(settings::rust_config_values::readStringValue(
-        configSnapshot.values,
-        SettingKey::SecretsProvider,
-        QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
+    auto provider = settings::persistence::providerFromConfigValue(
+      QString::fromStdString(static_cast<std::string>(configSnapshot.secrets_provider)));
     if (!configFileExists) {
         const bool secureAvailable = secureBackendAvailableNow();
         provider                   = preferredProviderForAvailability(secureAvailable);

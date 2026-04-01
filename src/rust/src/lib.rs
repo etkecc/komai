@@ -102,6 +102,10 @@ mod ffi {
     }
 
     struct SettingsLoadedConfig {
+        has_ui_scale_factor: bool,
+        ui_scale_factor: f32,
+        theme_slug: String,
+        secrets_provider: String,
         values: Vec<SettingsConfigValue>,
         source_version: i32,
         migrated_version: i32,
@@ -1525,6 +1529,10 @@ fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsLoadedConfig
     let snapshot = settings::config::load_config_snapshot(config_text);
 
     ffi::SettingsLoadedConfig {
+        has_ui_scale_factor: snapshot.config.ui.scale.factor.is_some(),
+        ui_scale_factor: snapshot.config.ui.scale.factor.unwrap_or_default(),
+        theme_slug: snapshot.config.ui.theme.slug,
+        secrets_provider: snapshot.config.secrets.provider,
         values: snapshot.values,
         source_version: snapshot.source_version,
         migrated_version: snapshot.migrated_version,

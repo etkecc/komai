@@ -55,8 +55,10 @@ pub(super) fn load_config_snapshot(config_text: &str) -> LoadedConfig {
 
     let mut values = Vec::new();
     flatten_config_values("", &root, &mut values);
+    let config = super::parse_config_root(&root);
 
     LoadedConfig {
+        config,
         values,
         source_version,
         migrated_version,

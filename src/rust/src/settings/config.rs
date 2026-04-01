@@ -16,7 +16,10 @@ const SECRETS_PROVIDER_PATH: [&str; 2] = ["secrets", "provider"];
 
 pub fn parse_config_text(config_text: &str) -> Config {
     let root = yaml::parse_root(config_text);
+    parse_config_root(&root)
+}
 
+pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
     Config {
         ui: ConfigUi {
             scale: ConfigUiScale {
@@ -63,7 +66,7 @@ fn parse_string(value: Option<&serde_yaml_ng::Value>) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::{encode_config_yaml, parse_config_text};
+    use super::{encode_config_yaml, load_config_snapshot, parse_config_text};
     use crate::ffi::{
         SettingsConfigSnapshot, SettingsConfigValue, SettingsConfigValueKind, SettingsStringListMapEntry,
     };
@@ -190,5 +193,27 @@ secrets:
             super::yaml::value_at_path(&root, &["timeline", "hidden_events", "by_room"]),
             Some(serde_yaml_ng::Value::Mapping(_))
         ));
+    }
+
+    #[test]
+    fn loaded_snapshot_keeps_typed_overview_fields() {
+        let loaded = load_config_snapshot(
+            r#"
+meta:
+  settings_schema_version: 0
+ui:
+  scale:
+    factor: 1.5
+  theme:
+    slug: komai-dark
+secrets:
+  provider: file
+"#,
+        );
+
+        assert_eq!(loaded.config.ui.scale.factor, Some(1.5));
+        assert_eq!(loaded.config.ui.theme.slug, "komai-dark");
+        assert_eq!(loaded.config.secrets.provider, "file");
+        assert!(loaded.should_write_back);
     }
 }

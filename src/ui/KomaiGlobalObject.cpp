@@ -171,8 +171,6 @@ Komai::Komai()
     connect(
       ChatPage::instance(), &ChatPage::promptUnlockKeyBackup, this, &Komai::promptUnlockKeyBackup);
     connect(this, &Komai::joinRoom, ChatPage::instance(), &ChatPage::joinRoom);
-
-    refreshApplicationProfiles();
 }
 
 void

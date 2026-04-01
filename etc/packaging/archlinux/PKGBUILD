@@ -20,13 +20,11 @@ depends=(
 	qt6-svg
 	qtkeychain-qt6
 	syntax-highlighting
-	yaml-cpp
 )
 makedepends=(
 	cmake
 	fontconfig
 	git
-	nlohmann-json
 	python
 	qt6-tools
 	rust
@@ -50,6 +48,7 @@ build() {
 		-DCMAKE_BUILD_TYPE='None' \
 		-DCMAKE_INSTALL_PREFIX='/usr' \
 		-DCMAKE_INSTALL_LIBDIR='lib' \
+		-DBUILD_TESTING=OFF \
 		-DMAN=OFF \
 		-DCPM_USE_LOCAL_PACKAGES=ON \
 		-Wno-dev

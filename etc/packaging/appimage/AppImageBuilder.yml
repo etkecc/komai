@@ -72,7 +72,6 @@ AppDir:
     # Application runtime dependencies
     - libcmark0.30.2
     - libqt6keychain1
-    - libyaml-cpp0.8
 
     # GStreamer (for VoIP/media)
     - gstreamer1.0-plugins-good

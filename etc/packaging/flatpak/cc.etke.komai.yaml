@@ -80,6 +80,7 @@ modules:
         CARGO_HOME: /run/build/komai/cargo
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_TESTING=OFF
       - -DCOMPILE_QML=ON
       - -DMAN=OFF
       - -DFLATPAK=ON
@@ -89,8 +90,6 @@ modules:
       - -DFETCHCONTENT_SOURCE_DIR_QT6KEYCHAIN=/run/build/komai/.deps/qtkeychain
       - -DFETCHCONTENT_SOURCE_DIR_KDSINGLEAPPLICATION=/run/build/komai/.deps/kdsingleapplication
       - -DFETCHCONTENT_SOURCE_DIR_CMARK=/run/build/komai/.deps/cmark
-      - -DFETCHCONTENT_SOURCE_DIR_NLOHMANN_JSON=/run/build/komai/.deps/nlohmann_json
-      - -DFETCHCONTENT_SOURCE_DIR_YAML-CPP=/run/build/komai/.deps/yaml-cpp
       - -DFETCHCONTENT_SOURCE_DIR_LITEHTML=/run/build/komai/.deps/litehtml
       - -DBLURHASH_SOURCE_DIR=/run/build/komai/.deps/blurhash
       - -DCPP_HTTPLIB_INCLUDE_DIR=/run/build/komai/.deps/cpp-httplib
@@ -130,15 +129,6 @@ modules:
         tag: 0.31.2
         type: git
         url: https://github.com/commonmark/cmark.git
-      - dest: .deps/nlohmann_json
-        disable-lfs: true
-        tag: v3.12.0
-        type: git
-        url: https://github.com/nlohmann/json.git
-      - dest: .deps/yaml-cpp
-        type: git
-        url: https://github.com/jbeder/yaml-cpp.git
-        tag: yaml-cpp-0.9.0
       - dest: .deps/litehtml
         disable-lfs: true
         tag: v0.9

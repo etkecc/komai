@@ -623,13 +623,6 @@ if(NOT TARGET cmark::cmark)
     add_library(cmark::cmark ALIAS cmark)
 endif()
 
-CPMAddPackage(
-    NAME nlohmann_json
-    GIT_REPOSITORY https://github.com/nlohmann/json.git
-    GIT_TAG v3.12.0
-    OPTIONS "JSON_BuildTests OFF" "JSON_MultipleHeaders ON" "JSON_Install ON"
-)
-
 set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
 set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
 

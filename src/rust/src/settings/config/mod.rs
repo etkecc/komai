@@ -12,9 +12,11 @@ use crate::settings::yaml;
 use super::storage;
 
 pub use model::{
-    Config, ConfigSecrets, ConfigTimeline, ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars,
-    ConfigPrivacy, ConfigPrivacyMaintenance, ConfigPrivacyWindowFocusBlur, ConfigUiFont,
-    ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
+    Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
+    ConfigCallsRelay, ConfigCallsScreenshare, ConfigSecrets, ConfigTimeline,
+    ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars, ConfigPrivacy,
+    ConfigPrivacyMaintenance, ConfigPrivacyWindowFocusBlur, ConfigUiFont, ConfigUiInput,
+    ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
 };
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
@@ -40,6 +42,23 @@ const PRIVACY_WINDOW_FOCUS_BLUR_DELAY_SECONDS_PATH: [&str; 3] =
     ["privacy", "window_focus_blur", "delay_seconds"];
 const PRIVACY_MAINTENANCE_EXPIRE_EVENTS_PATH: [&str; 3] =
     ["privacy", "maintenance", "expire_events"];
+const CALLS_LEGACY_ENABLED_PATH: [&str; 3] = ["calls", "legacy", "enabled"];
+const CALLS_RELAY_USE_FALLBACK_SERVER_PATH: [&str; 3] =
+    ["calls", "relay", "use_fallback_server"];
+const CALLS_DEVICES_MICROPHONE_PATH: [&str; 3] = ["calls", "devices", "microphone"];
+const CALLS_DEVICES_CAMERA_PATH: [&str; 3] = ["calls", "devices", "camera"];
+const CALLS_DEVICES_CAMERA_RESOLUTION_PATH: [&str; 3] =
+    ["calls", "devices", "camera_resolution"];
+const CALLS_DEVICES_CAMERA_FRAME_RATE_PATH: [&str; 3] =
+    ["calls", "devices", "camera_frame_rate"];
+const CALLS_AUDIO_RINGTONE_PATH: [&str; 3] = ["calls", "audio", "ringtone"];
+const CALLS_SCREENSHARE_FRAME_RATE_PATH: [&str; 3] = ["calls", "screenshare", "frame_rate"];
+const CALLS_SCREENSHARE_PICTURE_IN_PICTURE_PATH: [&str; 3] =
+    ["calls", "screenshare", "picture_in_picture"];
+const CALLS_SCREENSHARE_INCLUDE_REMOTE_VIDEO_PATH: [&str; 3] =
+    ["calls", "screenshare", "include_remote_video"];
+const CALLS_SCREENSHARE_SHOW_CURSOR_PATH: [&str; 3] =
+    ["calls", "screenshare", "show_cursor"];
 
 pub fn parse_config_text(config_text: &str) -> Config {
     let root = yaml::parse_root(config_text);
@@ -111,6 +130,48 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             },
             maintenance: ConfigPrivacyMaintenance {
                 expire_events: yaml::value_at_path(root, &PRIVACY_MAINTENANCE_EXPIRE_EVENTS_PATH)
+                    .and_then(parse_scalar_bool),
+            },
+        },
+        calls: ConfigCalls {
+            legacy: ConfigCallsLegacy {
+                enabled: yaml::value_at_path(root, &CALLS_LEGACY_ENABLED_PATH)
+                    .and_then(parse_scalar_bool),
+            },
+            relay: ConfigCallsRelay {
+                use_fallback_server: yaml::value_at_path(
+                    root,
+                    &CALLS_RELAY_USE_FALLBACK_SERVER_PATH,
+                )
+                .and_then(parse_scalar_bool),
+            },
+            devices: ConfigCallsDevices {
+                microphone: parse_string(yaml::value_at_path(root, &CALLS_DEVICES_MICROPHONE_PATH)),
+                camera: parse_string(yaml::value_at_path(root, &CALLS_DEVICES_CAMERA_PATH)),
+                camera_resolution: parse_string(
+                    yaml::value_at_path(root, &CALLS_DEVICES_CAMERA_RESOLUTION_PATH),
+                ),
+                camera_frame_rate: parse_string(
+                    yaml::value_at_path(root, &CALLS_DEVICES_CAMERA_FRAME_RATE_PATH),
+                ),
+            },
+            audio: ConfigCallsAudio {
+                ringtone: parse_string(yaml::value_at_path(root, &CALLS_AUDIO_RINGTONE_PATH)),
+            },
+            screenshare: ConfigCallsScreenshare {
+                frame_rate: yaml::value_at_path(root, &CALLS_SCREENSHARE_FRAME_RATE_PATH)
+                    .and_then(parse_scalar_i32),
+                picture_in_picture: yaml::value_at_path(
+                    root,
+                    &CALLS_SCREENSHARE_PICTURE_IN_PICTURE_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                include_remote_video: yaml::value_at_path(
+                    root,
+                    &CALLS_SCREENSHARE_INCLUDE_REMOTE_VIDEO_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                show_cursor: yaml::value_at_path(root, &CALLS_SCREENSHARE_SHOW_CURSOR_PATH)
                     .and_then(parse_scalar_bool),
             },
         },

@@ -127,6 +127,46 @@ mod bridge {
         maintenance: SettingsConfigPrivacyMaintenanceSection,
     }
 
+    struct SettingsConfigCallsLegacySection {
+        has_enabled: bool,
+        enabled: bool,
+    }
+
+    struct SettingsConfigCallsRelaySection {
+        has_use_fallback_server: bool,
+        use_fallback_server: bool,
+    }
+
+    struct SettingsConfigCallsDevicesSection {
+        microphone: String,
+        camera: String,
+        camera_resolution: String,
+        camera_frame_rate: String,
+    }
+
+    struct SettingsConfigCallsAudioSection {
+        ringtone: String,
+    }
+
+    struct SettingsConfigCallsScreenshareSection {
+        has_frame_rate: bool,
+        frame_rate: i32,
+        has_picture_in_picture: bool,
+        picture_in_picture: bool,
+        has_include_remote_video: bool,
+        include_remote_video: bool,
+        has_show_cursor: bool,
+        show_cursor: bool,
+    }
+
+    struct SettingsConfigCallsSection {
+        legacy: SettingsConfigCallsLegacySection,
+        relay: SettingsConfigCallsRelaySection,
+        devices: SettingsConfigCallsDevicesSection,
+        audio: SettingsConfigCallsAudioSection,
+        screenshare: SettingsConfigCallsScreenshareSection,
+    }
+
     enum SettingsConfigValueKind {
         Bool,
         Int,
@@ -152,6 +192,7 @@ mod bridge {
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
         privacy: SettingsConfigPrivacySection,
+        calls: SettingsConfigCallsSection,
         values: Vec<SettingsConfigValue>,
     }
 
@@ -160,6 +201,7 @@ mod bridge {
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
         privacy: SettingsConfigPrivacySection,
+        calls: SettingsConfigCallsSection,
         values: Vec<SettingsConfigValue>,
         source_version: i32,
         migrated_version: i32,

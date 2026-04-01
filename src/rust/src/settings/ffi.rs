@@ -160,12 +160,47 @@ pub(crate) fn ffi_config_privacy_section(
     }
 }
 
+pub(crate) fn ffi_config_calls_section(
+    config: &settings::config::Config,
+) -> ffi::SettingsConfigCallsSection {
+    ffi::SettingsConfigCallsSection {
+        legacy: ffi::SettingsConfigCallsLegacySection {
+            has_enabled: config.calls.legacy.enabled.is_some(),
+            enabled: config.calls.legacy.enabled.unwrap_or_default(),
+        },
+        relay: ffi::SettingsConfigCallsRelaySection {
+            has_use_fallback_server: config.calls.relay.use_fallback_server.is_some(),
+            use_fallback_server: config.calls.relay.use_fallback_server.unwrap_or_default(),
+        },
+        devices: ffi::SettingsConfigCallsDevicesSection {
+            microphone: config.calls.devices.microphone.clone(),
+            camera: config.calls.devices.camera.clone(),
+            camera_resolution: config.calls.devices.camera_resolution.clone(),
+            camera_frame_rate: config.calls.devices.camera_frame_rate.clone(),
+        },
+        audio: ffi::SettingsConfigCallsAudioSection {
+            ringtone: config.calls.audio.ringtone.clone(),
+        },
+        screenshare: ffi::SettingsConfigCallsScreenshareSection {
+            has_frame_rate: config.calls.screenshare.frame_rate.is_some(),
+            frame_rate: config.calls.screenshare.frame_rate.unwrap_or_default(),
+            has_picture_in_picture: config.calls.screenshare.picture_in_picture.is_some(),
+            picture_in_picture: config.calls.screenshare.picture_in_picture.unwrap_or_default(),
+            has_include_remote_video: config.calls.screenshare.include_remote_video.is_some(),
+            include_remote_video: config.calls.screenshare.include_remote_video.unwrap_or_default(),
+            has_show_cursor: config.calls.screenshare.show_cursor.is_some(),
+            show_cursor: config.calls.screenshare.show_cursor.unwrap_or_default(),
+        },
+    }
+}
+
 pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi::SettingsLoadedConfig {
     ffi::SettingsLoadedConfig {
         ui: ffi_config_ui_section(&snapshot.config),
         timeline: ffi_config_timeline_section(&snapshot.config),
         secrets: ffi_config_secrets_section(&snapshot.config),
         privacy: ffi_config_privacy_section(&snapshot.config),
+        calls: ffi_config_calls_section(&snapshot.config),
         values: snapshot.values,
         source_version: snapshot.source_version,
         migrated_version: snapshot.migrated_version,

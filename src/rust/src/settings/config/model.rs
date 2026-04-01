@@ -13,6 +13,7 @@ pub struct Config {
     pub timeline: ConfigTimeline,
     pub secrets: ConfigSecrets,
     pub privacy: ConfigPrivacy,
+    pub calls: ConfigCalls,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -98,6 +99,46 @@ pub struct ConfigPrivacyWindowFocusBlur {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigPrivacyMaintenance {
     pub expire_events: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigCalls {
+    pub legacy: ConfigCallsLegacy,
+    pub relay: ConfigCallsRelay,
+    pub devices: ConfigCallsDevices,
+    pub audio: ConfigCallsAudio,
+    pub screenshare: ConfigCallsScreenshare,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigCallsLegacy {
+    pub enabled: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigCallsRelay {
+    pub use_fallback_server: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigCallsDevices {
+    pub microphone: String,
+    pub camera: String,
+    pub camera_resolution: String,
+    pub camera_frame_rate: String,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigCallsAudio {
+    pub ringtone: String,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigCallsScreenshare {
+    pub frame_rate: Option<i32>,
+    pub picture_in_picture: Option<bool>,
+    pub include_remote_video: Option<bool>,
+    pub show_cursor: Option<bool>,
 }
 
 pub struct LoadedConfig {

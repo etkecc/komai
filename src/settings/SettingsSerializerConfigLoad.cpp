@@ -183,6 +183,43 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setPrivacyMaintenanceExpireEvents(snapshot.privacy.maintenance.has_expire_events
                                                  ? snapshot.privacy.maintenance.expire_events
                                                  : false);
+
+    settings.setCallsLegacyEnabled(snapshot.calls.legacy.has_enabled ? snapshot.calls.legacy.enabled
+                                                                     : false);
+    settings.setCallsRelayUseFallbackServer(snapshot.calls.relay.has_use_fallback_server
+                                              ? snapshot.calls.relay.use_fallback_server
+                                              : false);
+    settings.setCallsDevicesMicrophone(
+      QString::fromStdString(static_cast<std::string>(snapshot.calls.devices.microphone)));
+    settings.setCallsDevicesCamera(
+      QString::fromStdString(static_cast<std::string>(snapshot.calls.devices.camera)));
+    settings.setCallsDevicesCameraResolution(
+      QString::fromStdString(static_cast<std::string>(snapshot.calls.devices.camera_resolution)));
+    settings.setCallsDevicesCameraFrameRate(
+      QString::fromStdString(static_cast<std::string>(snapshot.calls.devices.camera_frame_rate)));
+
+    const auto loadedCallsAudioRingtone =
+      QString::fromStdString(static_cast<std::string>(snapshot.calls.audio.ringtone)).trimmed();
+    settings.setCallsAudioRingtone(
+      loadedCallsAudioRingtone.isEmpty()
+        ? QString::fromLatin1(settings::core::definitions::kDefaultCallsAudioRingtone)
+        : loadedCallsAudioRingtone);
+
+    settings.setCallsScreenshareFrameRate(
+      snapshot.calls.screenshare.has_frame_rate
+        ? snapshot.calls.screenshare.frame_rate
+        : settings::core::definitions::kDefaultScreenShareFrameRate);
+    settings.setCallsScreensharePictureInPicture(snapshot.calls.screenshare.has_picture_in_picture
+                                                   ? snapshot.calls.screenshare.picture_in_picture
+                                                   : true);
+    settings.setCallsScreenshareIncludeRemoteVideo(
+      snapshot.calls.screenshare.has_include_remote_video
+        ? snapshot.calls.screenshare.include_remote_video
+        : false);
+    settings.setCallsScreenshareShowCursor(
+      snapshot.calls.screenshare.has_show_cursor
+        ? snapshot.calls.screenshare.show_cursor
+        : settings::core::definitions::kDefaultScreenShareShowCursor);
 }
 
 } // namespace settings::serializer

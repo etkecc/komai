@@ -155,6 +155,73 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
             Value::Bool(snapshot.privacy.maintenance.expire_events),
         );
     }
+    if snapshot.calls.legacy.has_enabled {
+        yaml::set_value(
+            &mut root,
+            &["calls", "legacy", "enabled"],
+            Value::Bool(snapshot.calls.legacy.enabled),
+        );
+    }
+    if snapshot.calls.relay.has_use_fallback_server {
+        yaml::set_value(
+            &mut root,
+            &["calls", "relay", "use_fallback_server"],
+            Value::Bool(snapshot.calls.relay.use_fallback_server),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["calls", "devices", "microphone"],
+        Value::String(snapshot.calls.devices.microphone.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["calls", "devices", "camera"],
+        Value::String(snapshot.calls.devices.camera.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["calls", "devices", "camera_resolution"],
+        Value::String(snapshot.calls.devices.camera_resolution.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["calls", "devices", "camera_frame_rate"],
+        Value::String(snapshot.calls.devices.camera_frame_rate.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["calls", "audio", "ringtone"],
+        Value::String(snapshot.calls.audio.ringtone.clone()),
+    );
+    if snapshot.calls.screenshare.has_frame_rate {
+        yaml::set_value(
+            &mut root,
+            &["calls", "screenshare", "frame_rate"],
+            Value::Number(Number::from(snapshot.calls.screenshare.frame_rate)),
+        );
+    }
+    if snapshot.calls.screenshare.has_picture_in_picture {
+        yaml::set_value(
+            &mut root,
+            &["calls", "screenshare", "picture_in_picture"],
+            Value::Bool(snapshot.calls.screenshare.picture_in_picture),
+        );
+    }
+    if snapshot.calls.screenshare.has_include_remote_video {
+        yaml::set_value(
+            &mut root,
+            &["calls", "screenshare", "include_remote_video"],
+            Value::Bool(snapshot.calls.screenshare.include_remote_video),
+        );
+    }
+    if snapshot.calls.screenshare.has_show_cursor {
+        yaml::set_value(
+            &mut root,
+            &["calls", "screenshare", "show_cursor"],
+            Value::Bool(snapshot.calls.screenshare.show_cursor),
+        );
+    }
 
     yaml::serialize_yaml(&root)
 }
@@ -223,6 +290,7 @@ fn flatten_config_values(prefix: &str, value: &Value, values: &mut Vec<SettingsC
             if prefix == "ui"
                 || prefix == "secrets"
                 || prefix == "privacy"
+                || prefix == "calls"
                 || prefix == "timeline.hidden_events"
             {
                 return;

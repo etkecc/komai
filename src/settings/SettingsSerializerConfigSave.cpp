@@ -120,7 +120,18 @@ appendCoreStoreConfigValues(const UserSettings &settings,
             definition.id == settings::core::SettingId::UiLayoutCompactMode ||
             definition.id == settings::core::SettingId::PrivacyWindowFocusBlurEnabled ||
             definition.id == settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds ||
-            definition.id == settings::core::SettingId::PrivacyMaintenanceExpireEvents)
+            definition.id == settings::core::SettingId::PrivacyMaintenanceExpireEvents ||
+            definition.id == settings::core::SettingId::CallsLegacyEnabled ||
+            definition.id == settings::core::SettingId::CallsRelayUseFallbackServer ||
+            definition.id == settings::core::SettingId::CallsDevicesMicrophone ||
+            definition.id == settings::core::SettingId::CallsDevicesCamera ||
+            definition.id == settings::core::SettingId::CallsDevicesCameraResolution ||
+            definition.id == settings::core::SettingId::CallsDevicesCameraFrameRate ||
+            definition.id == settings::core::SettingId::CallsAudioRingtone ||
+            definition.id == settings::core::SettingId::CallsScreenshareFrameRate ||
+            definition.id == settings::core::SettingId::CallsScreensharePictureInPicture ||
+            definition.id == settings::core::SettingId::CallsScreenshareIncludeRemoteVideo ||
+            definition.id == settings::core::SettingId::CallsScreenshareShowCursor)
             continue;
 
         const auto stored = store.value(definition.id);
@@ -211,6 +222,41 @@ saveConfig(const UserSettings &settings,
             {
               .has_expire_events = true,
               .expire_events     = settings.privacyMaintenanceExpireEvents(),
+            },
+        },
+      .calls =
+        {
+          .legacy =
+            {
+              .has_enabled = true,
+              .enabled     = settings.callsLegacyEnabled(),
+            },
+          .relay =
+            {
+              .has_use_fallback_server = true,
+              .use_fallback_server     = settings.callsRelayUseFallbackServer(),
+            },
+          .devices =
+            {
+              .microphone        = settings.callsDevicesMicrophone().toStdString(),
+              .camera            = settings.callsDevicesCamera().toStdString(),
+              .camera_resolution = settings.callsDevicesCameraResolution().toStdString(),
+              .camera_frame_rate = settings.callsDevicesCameraFrameRate().toStdString(),
+            },
+          .audio =
+            {
+              .ringtone = settings.callsAudioRingtone().toStdString(),
+            },
+          .screenshare =
+            {
+              .has_frame_rate           = true,
+              .frame_rate               = settings.callsScreenshareFrameRate(),
+              .has_picture_in_picture   = true,
+              .picture_in_picture       = settings.callsScreensharePictureInPicture(),
+              .has_include_remote_video = true,
+              .include_remote_video     = settings.callsScreenshareIncludeRemoteVideo(),
+              .has_show_cursor          = true,
+              .show_cursor              = settings.callsScreenshareShowCursor(),
             },
         },
       .values = {},

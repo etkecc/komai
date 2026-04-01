@@ -1494,6 +1494,25 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::PrivacyWindowFocusBlurDelaySeconds));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::PrivacyMaintenanceExpireEvents));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::CallsLegacyEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::CallsRelayUseFallbackServer));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::CallsDevicesMicrophone));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::CallsDevicesCamera));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::CallsDevicesCameraResolution));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::CallsDevicesCameraFrameRate));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::CallsAudioRingtone));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::CallsScreenshareFrameRate));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::CallsScreensharePictureInPicture));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::CallsScreenshareIncludeRemoteVideo));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::CallsScreenshareShowCursor));
 
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
         if (definition.scope != settings::core::SettingScope::Config)

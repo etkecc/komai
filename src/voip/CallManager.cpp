@@ -21,13 +21,15 @@
 #include "CallManager.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
-#include "mtx/responses/turn_server.hpp"
+#include "voip/CallEventJson.h"
 #include "voip/ScreenCastPortal.h"
 #include "voip/WebRTCSession.h"
 
@@ -45,7 +47,7 @@ typedef RTCSessionDescriptionInit SDO;
 
 namespace {
 std::vector<std::string>
-getTurnURIs(const mtx::responses::TurnServer &turnServer);
+getTurnURIs(const komai::MatrixTurnServerInfo &turnServer);
 
 struct MatrixCallRoomContext
 {
@@ -106,7 +108,28 @@ displayNameFromCallRoomContext(const std::optional<MatrixCallRoomContext> &roomC
 
     return roomContext->displayName;
 }
+
+struct MatrixTurnServerFetchResult
+{
+    uint64_t handleId = 0;
+    std::optional<komai::MatrixTurnServerInfo> turnServerInfo;
+    QString error;
+};
 } // namespace
+
+template<typename EventT>
+void
+CallManager::emitCallMessage(const QString &roomId, const EventT &event)
+{
+    try {
+        const auto payload = komai::voip::toMatrixCallEventPayload(event);
+        emit newMessage(roomId, payload.eventType, payload.contentJson);
+    } catch (const std::exception &e) {
+        nhlog::ui()->warn("Failed to serialize outbound call event for room '{}': {}",
+                          roomId.toStdString(),
+                          e.what());
+    }
+}
 
 CallManager *
 CallManager::create(QQmlEngine *qmlEngine, QJSEngine *)
@@ -177,14 +200,14 @@ CallManager::CallManager(QObject *parent)
       this,
       [this](const std::string &sdp, const std::vector<CallCandidates::Candidate> &candidates) {
           nhlog::ui()->debug("WebRTC: call id: {} - sending offer", callid_);
-          emit newMessage(roomid_,
+          emitCallMessage(roomid_,
                           CallInvite{callid_,
                                      partyid_,
                                      SDO{sdp, SDO::Type::Offer},
                                      callPartyVersion_,
                                      timeoutms_,
                                      invitee_});
-          emit newMessage(roomid_,
+          emitCallMessage(roomid_,
                           CallCandidates{callid_, partyid_, candidates, callPartyVersion_});
           std::string callid(callid_);
           QTimer::singleShot(timeoutms_, this, [this, callid]() {
@@ -202,9 +225,9 @@ CallManager::CallManager(QObject *parent)
       this,
       [this](const std::string &sdp, const std::vector<CallCandidates::Candidate> &candidates) {
           nhlog::ui()->debug("WebRTC: call id: {} - sending answer", callid_);
-          emit newMessage(
+          emitCallMessage(
             roomid_, CallAnswer{callid_, partyid_, callPartyVersion_, SDO{sdp, SDO::Type::Answer}});
-          emit newMessage(roomid_,
+          emitCallMessage(roomid_,
                           CallCandidates{callid_, partyid_, candidates, callPartyVersion_});
       });
 
@@ -213,28 +236,11 @@ CallManager::CallManager(QObject *parent)
             this,
             [this](const CallCandidates::Candidate &candidate) {
                 nhlog::ui()->debug("WebRTC: call id: {} - sending ice candidate", callid_);
-                emit newMessage(roomid_,
+                emitCallMessage(roomid_,
                                 CallCandidates{callid_, partyid_, {candidate}, callPartyVersion_});
             });
 
     connect(&turnServerTimer_, &QTimer::timeout, this, &CallManager::retrieveTurnServer);
-
-    connect(
-      this, &CallManager::turnServerRetrieved, this, [this](const mtx::responses::TurnServer &res) {
-          nhlog::net()->info("TURN server(s) retrieved from homeserver:");
-          nhlog::net()->info("username: {}", res.username);
-          nhlog::net()->info("ttl: {} seconds", res.ttl);
-          for (const auto &u : res.uris)
-              nhlog::net()->info("uri: {}", u);
-
-          // Request new credentials close to expiry
-          // See https://tools.ietf.org/html/draft-uberti-behave-turn-rest-00
-          turnURIs_    = getTurnURIs(res);
-          uint32_t ttl = std::max(res.ttl, std::uint32_t{3600});
-          if (res.ttl < 3600)
-              nhlog::net()->warn("Setting ttl to 1 hour");
-          turnServerTimer_.setInterval(std::chrono::seconds(ttl) * 10 / 9);
-      });
 
     connect(&session_, &WebRTCSession::stateChanged, this, [this](webrtc::State state) {
         switch (state) {
@@ -361,14 +367,14 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
             else {
                 emit ChatPage::instance()->showNotification(
                   QStringLiteral("Can't place call. Call types do not match"));
-                emit newMessage(
+                emitCallMessage(
                   roomid_,
                   CallHangUp{callid_, partyid_, callPartyVersion_, CallHangUp::Reason::UserBusy});
             }
         } else {
             emit ChatPage::instance()->showNotification(
               QStringLiteral("Already on a call with a different user"));
-            emit newMessage(
+            emitCallMessage(
               roomid_,
               CallHangUp{callid_, partyid_, callPartyVersion_, CallHangUp::Reason::UserBusy});
         }
@@ -429,7 +435,7 @@ CallManager::hangUp(CallHangUp::Reason reason)
     if (!callid_.empty()) {
         nhlog::ui()->debug(
           "WebRTC: call id: {} - hanging up ({})", callid_, callHangUpReasonString(reason));
-        emit newMessage(roomid_, CallHangUp{callid_, partyid_, callPartyVersion_, reason});
+        emitCallMessage(roomid_, CallHangUp{callid_, partyid_, callPartyVersion_, reason});
         endCall();
     }
 }
@@ -537,7 +543,7 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
     const auto memberCount = roomContext ? roomContext->memberCount : 0;
     if (callPartyVersion_ == "0") {
         if (memberCount != 2) {
-            emit newMessage(QString::fromStdString(callInviteEvent.room_id),
+            emitCallMessage(QString::fromStdString(callInviteEvent.room_id),
                             CallHangUp{callInviteEvent.content.call_id,
                                        partyid_,
                                        callPartyVersion_,
@@ -563,7 +569,7 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
                                              callInviteEvent.content.invitee);
             }
         } else {
-            emit newMessage(QString::fromStdString(callInviteEvent.room_id),
+            emitCallMessage(QString::fromStdString(callInviteEvent.room_id),
                             CallHangUp{callInviteEvent.content.call_id,
                                        partyid_,
                                        callPartyVersion_,
@@ -630,11 +636,11 @@ CallManager::rejectInvite()
     if (callPartyVersion_ == "0") {
         hangUp();
         // send m.call.reject after sending hangup as mentioned in MSC2746
-        emit newMessage(roomid_, CallReject{callid_, partyid_, callPartyVersion_});
+        emitCallMessage(roomid_, CallReject{callid_, partyid_, callPartyVersion_});
     }
     if (!callid_.empty()) {
         nhlog::ui()->debug("WebRTC: call id: {} - rejecting call", callid_);
-        emit newMessage(roomid_, CallReject{callid_, partyid_, callPartyVersion_});
+        emitCallMessage(roomid_, CallReject{callid_, partyid_, callPartyVersion_});
         endCall(false);
     }
 }
@@ -699,7 +705,7 @@ CallManager::handleEvent(const RoomEvent<CallAnswer> &callAnswerEvent)
             hangUp();
         }
     }
-    emit newMessage(
+    emitCallMessage(
       roomid_,
       CallSelectAnswer{callid_, partyid_, callPartyVersion_, callAnswerEvent.content.party_id});
     selectedpartyid_ = callAnswerEvent.content.party_id;
@@ -786,7 +792,7 @@ CallManager::handleEvent(const RoomEvent<CallReject> &callRejectEvent)
         if (session_.state() == webrtc::State::OFFERSENT) {
             // only accept reject if webrtc is in OFFERSENT state, else call has been
             // accepted
-            emit newMessage(
+            emitCallMessage(
               roomid_,
               CallSelectAnswer{
                 callid_, partyid_, callPartyVersion_, callRejectEvent.content.party_id});
@@ -919,9 +925,42 @@ void
 CallManager::retrieveTurnServer()
 {
     turnServerTimer_.stop();
-    nhlog::ui()->warn(
-      "Skipping legacy TURN server retrieval; VoIP TURN bootstrap is not migrated to "
-      "matrix-sdk yet");
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        nhlog::ui()->warn("Skipping TURN server retrieval because no matrix-sdk runtime handle "
+                          "is active");
+        return;
+    }
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          auto turnServerInfo =
+            komai::MatrixBackendRuntimeService::fetchTurnServerInfo(context, handleId, &error);
+
+          return MatrixTurnServerFetchResult{
+            .handleId       = handleId,
+            .turnServerInfo = std::move(turnServerInfo),
+            .error          = std::move(error),
+          };
+      },
+      [](CallManager *manager, MatrixTurnServerFetchResult result) {
+          auto *mainWindow = MainWindow::instance();
+          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+              return;
+
+          if (!result.turnServerInfo) {
+              nhlog::ui()->warn("Failed to fetch TURN server info on handle {}: {}",
+                                result.handleId,
+                                result.error.toStdString());
+              return;
+          }
+
+          manager->applyTurnServerInfo(*result.turnServerInfo);
+      });
 }
 
 void
@@ -957,32 +996,57 @@ CallManager::stopRingtone()
 
 namespace {
 std::vector<std::string>
-getTurnURIs(const mtx::responses::TurnServer &turnServer)
+getTurnURIs(const komai::MatrixTurnServerInfo &turnServer)
 {
     // gstreamer expects: turn(s)://username:password@host:port?transport=udp(tcp)
     // where username and password are percent-encoded
     std::vector<std::string> ret;
     for (const auto &uri : turnServer.uris) {
-        if (auto c = uri.find(':'); c == std::string::npos) {
-            nhlog::ui()->error("Invalid TURN server uri: {}", uri);
+        const auto uriString = uri.toStdString();
+        if (auto c = uriString.find(':'); c == std::string::npos) {
+            nhlog::ui()->error("Invalid TURN server uri: {}", uriString);
             continue;
         } else {
-            std::string scheme = std::string(uri, 0, c);
+            std::string scheme = std::string(uriString, 0, c);
             if (scheme != "turn" && scheme != "turns") {
-                nhlog::ui()->error("Invalid TURN server uri: {}", uri);
+                nhlog::ui()->error("Invalid TURN server uri: {}", uriString);
                 continue;
             }
 
-            QString encodedUri =
-              QString::fromStdString(scheme) + "://" +
-              QUrl::toPercentEncoding(QString::fromStdString(turnServer.username)) + ":" +
-              QUrl::toPercentEncoding(QString::fromStdString(turnServer.password)) + "@" +
-              QString::fromStdString(std::string(uri, ++c));
+            QString encodedUri = QString::fromStdString(scheme) + "://";
+            if (!turnServer.username.isEmpty() || !turnServer.password.isEmpty()) {
+                encodedUri += QUrl::toPercentEncoding(turnServer.username) + ":" +
+                              QUrl::toPercentEncoding(turnServer.password) + "@";
+            }
+
+            encodedUri += QString::fromStdString(std::string(uriString, ++c));
             ret.push_back(encodedUri.toStdString());
         }
     }
     return ret;
 }
 } // namespace
+
+void
+CallManager::applyTurnServerInfo(const komai::MatrixTurnServerInfo &info)
+{
+    if (info.uris.isEmpty()) {
+        nhlog::net()->info("Homeserver returned no TURN server URIs");
+    } else {
+        nhlog::net()->info("TURN server(s) retrieved from homeserver:");
+        nhlog::net()->info("username: {}", info.username.toStdString());
+        nhlog::net()->info("ttl: {} seconds", info.ttlSeconds);
+        for (const auto &uri : info.uris)
+            nhlog::net()->info("uri: {}", uri.toStdString());
+    }
+
+    // Request new credentials close to expiry.
+    turnURIs_ = getTurnURIs(info);
+
+    uint64_t ttl = std::max(info.ttlSeconds, uint64_t{3600});
+    if (!info.uris.isEmpty() && info.ttlSeconds < 3600)
+        nhlog::net()->warn("Setting ttl to 1 hour");
+    turnServerTimer_.setInterval(std::chrono::seconds(ttl) * 10 / 9);
+}
 
 #include "moc_CallManager.cpp"

@@ -23,8 +23,8 @@
 #include "mtx/events/voip.hpp"
 #include "voip/ScreenCastPortal.h"
 
-namespace mtx::responses {
-struct TurnServer;
+namespace komai {
+struct MatrixTurnServerInfo;
 }
 
 class QUrl;
@@ -94,25 +94,21 @@ public slots:
     void previewWindow(unsigned int windowIndex) const;
 
 signals:
-    void newMessage(const QString &roomid, const mtx::events::voip::CallInvite &);
-    void newMessage(const QString &roomid, const mtx::events::voip::CallCandidates &);
-    void newMessage(const QString &roomid, const mtx::events::voip::CallAnswer &);
-    void newMessage(const QString &roomid, const mtx::events::voip::CallHangUp &);
-    void newMessage(const QString &roomid, const mtx::events::voip::CallSelectAnswer &);
-    void newMessage(const QString &roomid, const mtx::events::voip::CallReject &);
-    void newMessage(const QString &roomid, const mtx::events::voip::CallNegotiate &);
+    void newMessage(const QString &roomid, const QString &eventType, const QString &contentJson);
     void newInviteState();
     void newCallState();
     void newCallDeviceState();
     void micMuteChanged();
     void devicesChanged();
-    void turnServerRetrieved(const mtx::responses::TurnServer &);
     void screenShareChanged();
 
 private slots:
     void retrieveTurnServer();
 
 private:
+    template<typename EventT>
+    void emitCallMessage(const QString &roomId, const EventT &event);
+
     WebRTCSession &session_;
     QString roomid_;
     QString callParty_;
@@ -160,4 +156,5 @@ private:
     QMediaPlayer *ensurePlayerInitialized();
     void playRingtone(const QUrl &ringtone, bool repeat);
     void stopRingtone();
+    void applyTurnServerInfo(const komai::MatrixTurnServerInfo &info);
 };

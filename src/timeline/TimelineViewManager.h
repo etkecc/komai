@@ -20,7 +20,6 @@
 #include <vector>
 
 #include "NavigationHistory.h"
-#include "mtx/events/voip.hpp"
 
 class QQuickItem;
 class QQuickTextDocument;
@@ -360,13 +359,8 @@ public slots:
 
     void updateColorPalette();
     void queueReply(const QString &roomid, const QString &repliedToEvent, const QString &replyBody);
-    void queueCallMessage(const QString &roomid, const mtx::events::voip::CallInvite &);
-    void queueCallMessage(const QString &roomid, const mtx::events::voip::CallCandidates &);
-    void queueCallMessage(const QString &roomid, const mtx::events::voip::CallAnswer &);
-    void queueCallMessage(const QString &roomid, const mtx::events::voip::CallHangUp &);
-    void queueCallMessage(const QString &roomid, const mtx::events::voip::CallSelectAnswer &);
-    void queueCallMessage(const QString &roomid, const mtx::events::voip::CallReject &);
-    void queueCallMessage(const QString &roomid, const mtx::events::voip::CallNegotiate &);
+    void
+    queueCallMessage(const QString &roomid, const QString &eventType, const QString &contentJson);
 
     void setVideoCallItem();
 

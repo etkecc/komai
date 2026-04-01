@@ -8,6 +8,7 @@
 #include "logging/Logging.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
+#include "voip/CallManager.h"
 
 void
 ChatPage::bootstrap(QString userid,
@@ -35,6 +36,7 @@ ChatPage::bootstrap(QString userid,
     nhlog::ui()->info("Bootstrapping chat page from resident matrix-sdk runtime only");
 
     emit initializeEmptyViews();
+    callManager_->refreshTurnServer();
     getProfileInfo();
     emit contentLoaded();
     emit MainWindow::instance()->reload();

@@ -88,6 +88,8 @@ mod notifications;
 mod image_packs;
 #[path = "runtime_media.rs"]
 mod runtime_media;
+#[path = "runtime_voip.rs"]
+mod runtime_voip;
 
 pub use profile_media::{
     fetch_media_content, fetch_own_presence, fetch_own_profile, fetch_room_member_profile,
@@ -129,7 +131,8 @@ pub use timeline::{
     paginate_active_room_timeline_backwards, pin_room_event, redact_room_event,
     report_room_event, select_active_room_timeline, send_room_attachment,
     set_active_room_timeline_initial_page_size,
-    send_room_edit_message, send_room_message, send_room_reply_message,
+    send_room_edit_message, send_room_message, send_room_message_like_event_json,
+    send_room_reply_message,
     toggle_room_reaction, unpin_room_event,
 };
 pub use runtime_media::{send_room_image, upload_media};
@@ -142,6 +145,7 @@ pub use notifications::{
 pub use image_packs::{
     fetch_image_packs, remove_image_pack, save_image_pack, set_image_pack_globally_enabled,
 };
+pub use runtime_voip::fetch_turn_server_info;
 
 pub struct MatrixBackendHandleInfo {
     pub handle_id: u64,
@@ -160,6 +164,13 @@ pub struct MatrixOwnProfile {
 pub struct MatrixOwnPresence {
     pub state: String,
     pub status_message: String,
+}
+
+pub struct MatrixTurnServerInfo {
+    pub username: String,
+    pub password: String,
+    pub uris: Vec<String>,
+    pub ttl_seconds: u64,
 }
 
 pub struct MatrixRecoveryStatus {

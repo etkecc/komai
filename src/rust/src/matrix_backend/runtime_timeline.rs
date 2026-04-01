@@ -11,6 +11,7 @@ use matrix_sdk::{
     room::reply::{EnforceThread, Reply},
     ruma::{
         EventId,
+        events::EventContentFromType,
         events::receipt::{ReceiptThread, ReceiptType},
         events::room::pinned_events::RoomPinnedEventsEventContent,
         events::room::message::{
@@ -460,6 +461,43 @@ pub async fn send_room_reply_message(
         message_kind,
         "Queued matrix-sdk room reply"
     );
+
+    Ok(())
+}
+
+pub async fn send_room_message_like_event_json(
+    handle_id: u64,
+    room_id: &str,
+    event_type: &str,
+    content_json: &str,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let event_type = event_type.trim();
+    if event_type.is_empty() {
+        return Err("cannot send a matrix-sdk room event without an event type".to_owned());
+    }
+
+    let content_json = content_json.trim();
+    if content_json.is_empty() {
+        return Err("cannot send a matrix-sdk room event without content json".to_owned());
+    }
+
+    let raw_content: Box<serde_json::value::RawValue> = serde_json::from_str(content_json)
+        .map_err(|e| format!("invalid matrix room event content json: {e}"))?;
+    let content = AnyMessageLikeEventContent::from_parts(event_type, raw_content.as_ref())
+        .map_err(|e| format!("failed to deserialize matrix room event '{event_type}': {e}"))?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        event_type,
+        "Queueing matrix-sdk room message-like event from raw json"
+    );
+
+    room.send_queue()
+        .send(content)
+        .await
+        .map_err(|e| format!("failed to queue matrix room event '{event_type}': {e}"))?;
 
     Ok(())
 }

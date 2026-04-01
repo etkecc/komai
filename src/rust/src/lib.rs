@@ -72,6 +72,13 @@ mod ffi {
         status_message: String,
     }
 
+    struct MatrixTurnServerInfo {
+        username: String,
+        password: String,
+        uris: Vec<String>,
+        ttl_seconds: u64,
+    }
+
     struct MatrixRecoveryStatus {
         state: String,
         has_devices_to_verify_against: bool,
@@ -731,6 +738,10 @@ mod ffi {
             context: MatrixFfiBlockingContext,
             handle_id: u64,
         ) -> Result<bool>;
+        fn matrix_fetch_turn_server_info(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<MatrixTurnServerInfo>;
         fn matrix_set_account_notifications_enabled(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
@@ -882,6 +893,13 @@ mod ffi {
             body: &str,
             formatted_html: &str,
             message_kind: &str,
+        ) -> Result<()>;
+        fn matrix_send_room_message_like_event_json(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            event_type: &str,
+            content_json: &str,
         ) -> Result<()>;
         fn matrix_send_room_reply_message(
             context: MatrixFfiBlockingContext,
@@ -2021,6 +2039,17 @@ fn into_ffi_matrix_notification_item(
     }
 }
 
+fn into_ffi_matrix_turn_server_info(
+    info: matrix_backend::runtime::MatrixTurnServerInfo,
+) -> ffi::MatrixTurnServerInfo {
+    ffi::MatrixTurnServerInfo {
+        username: info.username,
+        password: info.password,
+        uris: info.uris,
+        ttl_seconds: info.ttl_seconds,
+    }
+}
+
 fn into_ffi_matrix_image_pack_image(
     image: matrix_backend::runtime::MatrixImagePackImage,
 ) -> ffi::MatrixImagePackImage {
@@ -2127,6 +2156,18 @@ fn matrix_fetch_account_notifications_enabled(
         "matrix_fetch_account_notifications_enabled",
         matrix_backend::runtime::fetch_account_notifications_enabled(handle_id),
     )
+}
+
+fn matrix_fetch_turn_server_info(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<ffi::MatrixTurnServerInfo, String> {
+    ffi_block_on(
+        context,
+        "matrix_fetch_turn_server_info",
+        matrix_backend::runtime::fetch_turn_server_info(handle_id),
+    )
+    .map(into_ffi_matrix_turn_server_info)
 }
 
 fn matrix_set_account_notifications_enabled(
@@ -2634,6 +2675,25 @@ fn matrix_send_room_message(
             body,
             formatted_html,
             message_kind,
+        ),
+    )
+}
+
+fn matrix_send_room_message_like_event_json(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    event_type: &str,
+    content_json: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_send_room_message_like_event_json",
+        matrix_backend::runtime::send_room_message_like_event_json(
+            handle_id,
+            room_id,
+            event_type,
+            content_json,
         ),
     )
 }

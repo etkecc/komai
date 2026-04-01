@@ -40,6 +40,14 @@ struct MatrixOwnPresence
     QString statusMessage;
 };
 
+struct MatrixTurnServerInfo
+{
+    QString username;
+    QString password;
+    QVector<QString> uris;
+    uint64_t ttlSeconds = 0;
+};
+
 struct MatrixRecoveryStatus
 {
     QString state;
@@ -655,6 +663,10 @@ public:
     fetchAccountNotificationsEnabled(matrix_backend::BlockingCallContext context,
                                      uint64_t handleId,
                                      QString *errorOut = nullptr);
+    static std::optional<MatrixTurnServerInfo>
+    fetchTurnServerInfo(matrix_backend::BlockingCallContext context,
+                        uint64_t handleId,
+                        QString *errorOut = nullptr);
     static bool setAccountNotificationsEnabled(matrix_backend::BlockingCallContext context,
                                                uint64_t handleId,
                                                bool enabled,
@@ -802,6 +814,12 @@ public:
                                 const QString &formattedHtml,
                                 const QString &messageKind,
                                 QString *errorOut = nullptr);
+    static bool sendRoomMessageLikeEventJson(matrix_backend::BlockingCallContext context,
+                                             uint64_t handleId,
+                                             const QString &roomId,
+                                             const QString &eventType,
+                                             const QString &contentJson,
+                                             QString *errorOut = nullptr);
 
     static bool sendRoomReplyMessage(matrix_backend::BlockingCallContext context,
                                      uint64_t handleId,

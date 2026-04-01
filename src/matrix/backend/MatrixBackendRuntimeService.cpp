@@ -132,6 +132,22 @@ fromRustOwnPresence(const ::komai::rust::MatrixOwnPresence &presence)
     };
 }
 
+MatrixTurnServerInfo
+fromRustTurnServerInfo(const ::komai::rust::MatrixTurnServerInfo &info)
+{
+    QVector<QString> uris;
+    uris.reserve(static_cast<int>(info.uris.size()));
+    for (const auto &uri : info.uris)
+        uris.push_back(QString::fromStdString(std::string(uri)));
+
+    return MatrixTurnServerInfo{
+      .username   = QString::fromStdString(std::string(info.username)),
+      .password   = QString::fromStdString(std::string(info.password)),
+      .uris       = std::move(uris),
+      .ttlSeconds = info.ttl_seconds,
+    };
+}
+
 MatrixRecoveryStatus
 fromRustRecoveryStatus(const ::komai::rust::MatrixRecoveryStatus &status)
 {
@@ -1856,6 +1872,25 @@ MatrixBackendRuntimeService::fetchAccountNotificationsEnabled(
     }
 }
 
+std::optional<MatrixTurnServerInfo>
+MatrixBackendRuntimeService::fetchTurnServerInfo(matrix_backend::BlockingCallContext context,
+                                                 uint64_t handleId,
+                                                 QString *errorOut)
+{
+    try {
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_turn_server_info", [context, handleId]() {
+              return ::komai::rust::matrix_fetch_turn_server_info(
+                matrix_backend::toRustBlockingContext(context), handleId);
+          });
+        return fromRustTurnServerInfo(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 bool
 MatrixBackendRuntimeService::setAccountNotificationsEnabled(
   matrix_backend::BlockingCallContext context,
@@ -2466,6 +2501,35 @@ MatrixBackendRuntimeService::sendRoomMessage(matrix_backend::BlockingCallContext
                 body.toStdString(),
                 formattedHtml.toStdString(),
                 messageKind.toStdString());
+          });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::sendRoomMessageLikeEventJson(
+  matrix_backend::BlockingCallContext context,
+  uint64_t handleId,
+  const QString &roomId,
+  const QString &eventType,
+  const QString &contentJson,
+  QString *errorOut)
+{
+    try {
+        matrix_backend::invokeBlockingCall(
+          "matrix_send_room_message_like_event_json",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, eventType, contentJson, context]() {
+              ::komai::rust::matrix_send_room_message_like_event_json(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                eventType.toStdString(),
+                contentJson.toStdString());
           });
         return true;
     } catch (const std::exception &e) {

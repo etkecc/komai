@@ -10,6 +10,7 @@
 
 #include "RoomlistModel.h"
 #include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "models/InviteesModel.h"
 #include "models/MemberList.h"
 #include "timeline/CommunitiesModel.h"
@@ -17,11 +18,70 @@
 #include "ui/MainWindow.h"
 #include "ui/RoomSettings.h"
 #include "ui/UserProfile.h"
+#include "utils/QtWorkerTask.h"
 #include "voip/WebRTCSession.h"
 
 namespace {
 constexpr auto kMatrixPendingJumpPageSize        = 50;
 constexpr auto kMatrixPendingJumpMaxPageRequests = 8;
+
+struct MatrixCallEventSendResult
+{
+    uint64_t handleId = 0;
+    QString roomId;
+    QString eventType;
+    QString error;
+    bool ok = false;
+};
+
+void
+queueMatrixCallEventSend(TimelineViewManager *manager,
+                         const QString &roomId,
+                         const QString &eventType,
+                         const QString &contentJson)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || roomId.trimmed().isEmpty()) {
+        nhlog::ui()->warn("Refusing to send matrix call event '{}' without an active runtime "
+                          "handle or room id",
+                          eventType.toStdString());
+        return;
+    }
+
+    komai::qt_worker_task::runQueued(
+      manager,
+      [handleId, roomId, eventType, contentJson]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::sendRoomMessageLikeEventJson(
+            context, handleId, roomId, eventType, contentJson, &error);
+
+          return MatrixCallEventSendResult{
+            .handleId  = handleId,
+            .roomId    = roomId,
+            .eventType = eventType,
+            .error     = error,
+            .ok        = ok,
+          };
+      },
+      [](TimelineViewManager *, MatrixCallEventSendResult result) {
+          auto *mainWindow = MainWindow::instance();
+          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+              return;
+
+          if (result.ok)
+              return;
+
+          nhlog::ui()->warn("Failed to queue matrix call event '{}' for room '{}' on handle {}: {}",
+                            result.eventType.toStdString(),
+                            result.roomId.toStdString(),
+                            result.handleId,
+                            result.error.toStdString());
+          mainWindow->showNotification(
+            TimelineViewManager::tr("Failed to send call event: %1").arg(result.error));
+      });
+}
 }
 
 void
@@ -294,65 +354,10 @@ TimelineViewManager::queueReply(const QString &roomid,
 
 void
 TimelineViewManager::queueCallMessage(const QString &roomid,
-                                      const mtx::events::voip::CallInvite &callInvite)
+                                      const QString &eventType,
+                                      const QString &contentJson)
 {
-    Q_UNUSED(roomid);
-    Q_UNUSED(callInvite);
-    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
-}
-
-void
-TimelineViewManager::queueCallMessage(const QString &roomid,
-                                      const mtx::events::voip::CallCandidates &callCandidates)
-{
-    Q_UNUSED(roomid);
-    Q_UNUSED(callCandidates);
-    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
-}
-
-void
-TimelineViewManager::queueCallMessage(const QString &roomid,
-                                      const mtx::events::voip::CallAnswer &callAnswer)
-{
-    Q_UNUSED(roomid);
-    Q_UNUSED(callAnswer);
-    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
-}
-
-void
-TimelineViewManager::queueCallMessage(const QString &roomid,
-                                      const mtx::events::voip::CallHangUp &callHangUp)
-{
-    Q_UNUSED(roomid);
-    Q_UNUSED(callHangUp);
-    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
-}
-
-void
-TimelineViewManager::queueCallMessage(const QString &roomid,
-                                      const mtx::events::voip::CallSelectAnswer &callSelectAnswer)
-{
-    Q_UNUSED(roomid);
-    Q_UNUSED(callSelectAnswer);
-    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
-}
-
-void
-TimelineViewManager::queueCallMessage(const QString &roomid,
-                                      const mtx::events::voip::CallReject &callReject)
-{
-    Q_UNUSED(roomid);
-    Q_UNUSED(callReject);
-    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
-}
-
-void
-TimelineViewManager::queueCallMessage(const QString &roomid,
-                                      const mtx::events::voip::CallNegotiate &callNegotiate)
-{
-    Q_UNUSED(roomid);
-    Q_UNUSED(callNegotiate);
-    nhlog::ui()->warn("Legacy call-event send path is not migrated to matrix-sdk yet");
+    queueMatrixCallEventSend(this, roomid, eventType, contentJson);
 }
 
 void

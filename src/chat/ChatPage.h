@@ -148,8 +148,6 @@ private:
 
     void resetUI();
     void deleteConfigs();
-    template<typename T>
-    void connectCallMessage();
     void processDownloadedSecretsUnlockInput(const QString &text);
 
     TimelineViewManager *view_manager_;

@@ -208,13 +208,10 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
       [](std::function<void()> f) { f(); },
       Qt::QueuedConnection);
 
-    connectCallMessage<mtx::events::voip::CallInvite>();
-    connectCallMessage<mtx::events::voip::CallCandidates>();
-    connectCallMessage<mtx::events::voip::CallAnswer>();
-    connectCallMessage<mtx::events::voip::CallHangUp>();
-    connectCallMessage<mtx::events::voip::CallSelectAnswer>();
-    connectCallMessage<mtx::events::voip::CallReject>();
-    connectCallMessage<mtx::events::voip::CallNegotiate>();
+    connect(callManager_,
+            &CallManager::newMessage,
+            view_manager_,
+            &TimelineViewManager::queueCallMessage);
 }
 
 QString
@@ -430,16 +427,6 @@ ChatPage::deleteConfigs()
         QDir(matrixPaths.matrixDataRoot).removeRecursively();
     if (!matrixPaths.matrixCacheRoot.isEmpty())
         QDir(matrixPaths.matrixCacheRoot).removeRecursively();
-}
-
-template<typename T>
-void
-ChatPage::connectCallMessage()
-{
-    connect(callManager_,
-            qOverload<const QString &, const T &>(&CallManager::newMessage),
-            view_manager_,
-            qOverload<const QString &, const T &>(&TimelineViewManager::queueCallMessage));
 }
 
 void

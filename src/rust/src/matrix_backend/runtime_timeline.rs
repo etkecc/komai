@@ -181,7 +181,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             .expect("handle must exist after select_active_room_timeline setup")
     };
     let room_timeline_task = std::thread::spawn(move || {
-        crate::runtime().block_on(run_room_timeline_loop(
+        crate::matrix_backend::ffi::runtime().block_on(run_room_timeline_loop(
             handle_id,
             generation,
             generation_counter,

@@ -108,7 +108,7 @@ pub fn stop_backend(handle_id: u64) -> Result<(), String> {
         }
         // Drop the handle (and the Client it owns) inside the tokio runtime
         // so that async destructors like the SQLite connection pool can run.
-        crate::runtime().block_on(async move {
+        crate::matrix_backend::ffi::runtime().block_on(async move {
             drop(handle);
         });
         tracing::info!(handle_id, "Stopped matrix-sdk backend runtime");

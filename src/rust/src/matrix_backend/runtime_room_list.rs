@@ -34,7 +34,7 @@ pub fn start_sync(handle_id: u64) -> Result<(), String> {
     let stop_requested = Arc::new(AtomicBool::new(false));
     let stop_requested_for_thread = Arc::clone(&stop_requested);
     let sync_task = std::thread::spawn(move || {
-        crate::runtime().block_on(run_sync_loop(
+        crate::matrix_backend::ffi::runtime().block_on(run_sync_loop(
             handle_id,
             client,
             room_list_snapshot,
@@ -133,7 +133,7 @@ async fn run_sync_loop(
                         let ffi_snapshot = snapshot
                             .iter()
                             .cloned()
-                            .map(crate::into_ffi_matrix_room_summary)
+                            .map(crate::matrix_backend::ffi::into_ffi_matrix_room_summary)
                             .collect();
                         *room_list_snapshot
                             .lock()

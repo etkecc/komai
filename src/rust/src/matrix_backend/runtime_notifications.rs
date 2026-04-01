@@ -146,7 +146,7 @@ pub async fn install_live_notification_handler(handle_id: u64, client: Client) {
 
                     crate::ffi::matrix_notify_notification_item_received(
                         handle_id,
-                        crate::into_ffi_matrix_notification_item(item),
+                        crate::matrix_backend::ffi::into_ffi_matrix_notification_item(item),
                     );
                 }
             }

@@ -106,7 +106,7 @@ pub fn start_media_proxy(handle_id: u64) -> Result<u16, String> {
         handle.client.clone()
     };
 
-    let listener = crate::runtime()
+    let listener = crate::matrix_backend::ffi::runtime()
         .block_on(tokio::net::TcpListener::bind("127.0.0.1:0"))
         .map_err(|e| format!("failed to bind media proxy listener: {e}"))?;
 
@@ -123,7 +123,7 @@ pub fn start_media_proxy(handle_id: u64) -> Result<u16, String> {
     let registry_for_thread = Arc::clone(&registry);
 
     let thread = std::thread::spawn(move || {
-        crate::runtime().block_on(run_proxy_loop(
+        crate::matrix_backend::ffi::runtime().block_on(run_proxy_loop(
             handle_id,
             listener,
             client,

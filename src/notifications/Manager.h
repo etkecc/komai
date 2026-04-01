@@ -100,6 +100,8 @@ private:
                                 const QString &line2,
                                 const QString &iconPath,
                                 const QString &bodyImagePath);
+
+    QMap<QString, qint64> windowsNotificationIds;
 #endif
 
     // these slots are platform specific (D-Bus only)

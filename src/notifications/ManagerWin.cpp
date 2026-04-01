@@ -27,10 +27,24 @@ public:
     {
     }
 
-    void toastActivated() const { manager->notificationClicked(roomid, eventid); }
-    void toastActivated(int) const {}
-    void toastFailed() const { std::wcout << L"Error showing current toast" << std::endl; }
-    void toastDismissed(WinToastDismissalReason) const {}
+    void toastActivated() const
+    {
+        manager->notificationClicked(roomid, eventid);
+        manager->removeNotification(roomid, eventid);
+    }
+
+    void toastActivated(int) const { manager->removeNotification(roomid, eventid); }
+
+    void toastFailed() const
+    {
+        std::wcout << L"Error showing current toast" << std::endl;
+        manager->removeNotification(roomid, eventid);
+    }
+
+    void toastDismissed(WinToastDismissalReason) const
+    {
+        manager->removeNotification(roomid, eventid);
+    }
 
     NotificationsManager *manager;
     QString roomid;
@@ -112,6 +126,8 @@ NotificationsManager::systemPostNotification(const QString &roomid,
     if (!isInitialized)
         init();
 
+    removeNotification(roomid, eventid);
+
     auto templ = WinToastTemplate(WinToastTemplate::ImageAndText02);
     templ.setTextField(line1.toStdWString(), WinToastTemplate::FirstLine);
     templ.setTextField(line2.toStdWString(), WinToastTemplate::SecondLine);
@@ -123,7 +139,12 @@ NotificationsManager::systemPostNotification(const QString &roomid,
 
     templ.setAudioPath(WinToastTemplate::IM);
 
-    WinToast::instance()->showToast(templ, new CustomHandler(this, roomid, eventid));
+    const auto toastId =
+      WinToast::instance()->showToast(templ, new CustomHandler(this, roomid, eventid));
+    if (toastId >= 0) {
+        rememberTrackedNotification(roomid, eventid);
+        windowsNotificationIds.insert(trackedNotificationKey(roomid, eventid), toastId);
+    }
 }
 
 // clang-format off
@@ -145,5 +166,15 @@ NotificationsManager::notificationClosed(uint, uint)
 {}
 
     void
-NotificationsManager::removeNotification(const QString &, const QString &)
-{}
+NotificationsManager::removeNotification(const QString &roomId, const QString &eventId)
+{
+    const auto key = trackedNotificationKey(roomId, eventId);
+    const auto it = windowsNotificationIds.find(key);
+    if (it != windowsNotificationIds.end()) {
+        if (isInitialized)
+            WinToast::instance()->hideToast(it.value());
+        windowsNotificationIds.erase(it);
+    }
+
+    forgetTrackedNotification(roomId, eventId);
+}

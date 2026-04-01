@@ -27,9 +27,11 @@ NotificationsManager::NotificationsManager(QObject *parent)
              const QString &roomName,
              const QString &text,
              const QImage &) {
+          const auto notification_id = event_id.isEmpty() ? room_id : event_id;
           objCxxPostNotification(roomName,
                                  room_id,
                                  event_id,
+                                 notification_id,
                                  text,
                                  /*const QString &informativeText*/ "",
                                  "",
@@ -48,10 +50,13 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
       notification.roomName.isEmpty() ? notification.roomId : notification.roomName;
     const auto sender = notification.senderDisplayName;
 
-    const auto room_id  = notification.roomId;
-    const auto event_id = notification.eventId;
-    const auto bodyText = plainNotificationBody(notification);
-    QString mediaMxcUrl = notification.mediaMxcUrl;
+    const auto room_id         = notification.roomId;
+    const auto event_id        = notification.eventId;
+    const auto notification_id = !notification.replacementEventId.isEmpty()
+                                   ? notification.replacementEventId
+                                   : (!event_id.isEmpty() ? event_id : room_id);
+    const auto bodyText        = plainNotificationBody(notification);
+    QString mediaMxcUrl        = notification.mediaMxcUrl;
     mediaMxcUrl.remove(QStringLiteral("mxc://"));
 
     if (notification.isEncrypted) {
@@ -59,8 +64,14 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
           (notification.isReply ? tr("%1 replied with an encrypted message")
                                 : tr("%1 sent an encrypted message"))
             .arg(sender);
-        objCxxPostNotification(
-          room_name, room_id, event_id, messageInfo, "", "", notification.playSound);
+        objCxxPostNotification(room_name,
+                               room_id,
+                               event_id,
+                               notification_id,
+                               messageInfo,
+                               "",
+                               "",
+                               notification.playSound);
     } else {
         const QString messageInfo =
           (notification.isReply ? tr("%1 replied to a message") : tr("%1 sent a message"))
@@ -73,14 +84,27 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
                room_name,
                room_id,
                event_id,
+               notification_id,
                messageInfo,
                bodyText,
                playSound = notification.playSound](QString, QSize, QImage, QString imgPath) {
-                  objCxxPostNotification(
-                    room_name, room_id, event_id, messageInfo, bodyText, imgPath, playSound);
+                  objCxxPostNotification(room_name,
+                                         room_id,
+                                         event_id,
+                                         notification_id,
+                                         messageInfo,
+                                         bodyText,
+                                         imgPath,
+                                         playSound);
               });
         else
-            objCxxPostNotification(
-              room_name, room_id, event_id, messageInfo, bodyText, "", notification.playSound);
+            objCxxPostNotification(room_name,
+                                   room_id,
+                                   event_id,
+                                   notification_id,
+                                   messageInfo,
+                                   bodyText,
+                                   "",
+                                   notification.playSound);
     }
 }

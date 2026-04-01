@@ -28,8 +28,15 @@
         if ([response respondsToSelector:@selector(userText)]) {
             UNTextInputNotificationResponse* textResponse = (UNTextInputNotificationResponse*)response;
             NSString* textValue = [textResponse userText];
-            NSString* eventId = [[[textResponse notification] request] identifier];
-            NSString* roomId = [[[[textResponse notification] request] content] threadIdentifier];
+            NSDictionary* userInfo = [[[textResponse notification] request] content].userInfo;
+            NSString* eventId = userInfo[@"eventId"];
+            NSString* roomId = userInfo[@"roomId"];
+            if (eventId == nil) {
+                eventId = [[[textResponse notification] request] identifier];
+            }
+            if (roomId == nil) {
+                roomId = [[[[textResponse notification] request] content] threadIdentifier];
+            }
             mProxy->notificationReplied(QString::fromNSString(roomId), QString::fromNSString(eventId), QString::fromNSString(textValue));
         }
     }

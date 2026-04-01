@@ -78,6 +78,7 @@ private:
     void objCxxPostNotification(const QString room_name,
                                 const QString room_id,
                                 const QString event_id,
+                                const QString notification_id,
                                 const QString subtitle,
                                 const QString informativeText,
                                 const QString bodyImagePath,

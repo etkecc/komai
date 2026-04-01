@@ -64,6 +64,7 @@ void NotificationsManager::objCxxPostNotification(
     const QString room_name,
     const QString room_id,
     const QString event_id,
+    const QString notification_id,
     const QString subtitle,
     const QString informativeText,
     const QString bodyImagePath,
@@ -110,7 +111,8 @@ void NotificationsManager::objCxxPostNotification(
     NSString* sub = subtitle.toNSString();
     NSString* body = informativeText.toNSString();
     NSString* threadIdentifier = room_id.toNSString();
-    NSString* identifier = event_id.toNSString();
+    NSString* eventIdentifier = event_id.toNSString();
+    NSString* identifier = notification_id.toNSString();
     NSString* imgUrl = bodyImagePath.toNSString();
 
     NSSet* categories = [NSSet setWithArray:@[ summaryCategory, replyCategory ]];
@@ -127,9 +129,15 @@ void NotificationsManager::objCxxPostNotification(
             if (enableSound) {
                 content.sound = [UNNotificationSound defaultSound];
             }
+            content.userInfo = @{
+                @"roomId": threadIdentifier ?: @"",
+                @"eventId": eventIdentifier ?: @""
+            };
+
             if (!room_id.isEmpty()) {
                 content.threadIdentifier = threadIdentifier;
-                content.categoryIdentifier = @"ReplyCategory";
+                content.categoryIdentifier = event_id.isEmpty() ? @"SummaryCategory"
+                                                                : @"ReplyCategory";
             } else {
                 content.categoryIdentifier = @"SummaryCategory";
             }
@@ -188,4 +196,14 @@ void NotificationsManager::notificationReplied(uint, QString) { }
 
 void NotificationsManager::notificationClosed(uint, uint) { }
 
-void NotificationsManager::removeNotification(const QString&, const QString&) { }
+void NotificationsManager::removeNotification(const QString& roomId, const QString& eventId)
+{
+    const auto notificationId = eventId.isEmpty() ? roomId : eventId;
+    if (notificationId.isEmpty())
+        return;
+
+    UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+    NSArray* identifiers = @[notificationId.toNSString()];
+    [center removeDeliveredNotificationsWithIdentifiers:identifiers];
+    [center removePendingNotificationRequestsWithIdentifiers:identifiers];
+}

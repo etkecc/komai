@@ -187,6 +187,12 @@ mod ffi {
         serialized_yaml: String,
     }
 
+    struct SettingsLoadedProfile {
+        config: SettingsLoadedConfig,
+        session: SettingsLoadedSession,
+        state: SettingsLoadedState,
+    }
+
     struct SettingsStateSnapshot {
         window_width: i32,
         window_height: i32,
@@ -793,6 +799,11 @@ mod ffi {
         ) -> Vec<SettingsStringMapEntry>;
         fn settings_encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String;
         fn settings_load_config_snapshot(config_text: &str) -> SettingsLoadedConfig;
+        fn settings_load_profile_snapshot(
+            config_text: &str,
+            session_text: &str,
+            state_text: &str,
+        ) -> SettingsLoadedProfile;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str)
         -> String;
@@ -1624,9 +1635,7 @@ fn ffi_config_secrets_section(
     }
 }
 
-fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsLoadedConfig {
-    let snapshot = settings::config::load_config_snapshot(config_text);
-
+fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi::SettingsLoadedConfig {
     ffi::SettingsLoadedConfig {
         ui: ffi_config_ui_section(&snapshot.config),
         timeline: ffi_config_timeline_section(&snapshot.config),
@@ -1641,9 +1650,7 @@ fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsLoadedConfig
     }
 }
 
-fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {
-    let snapshot = settings::session::load_session_snapshot(session_text);
-
+fn ffi_loaded_session(snapshot: settings::session::LoadedSession) -> ffi::SettingsLoadedSession {
     ffi::SettingsLoadedSession {
         user_id: snapshot.user_id,
         device_id: snapshot.device_id,
@@ -1657,13 +1664,7 @@ fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSess
     }
 }
 
-fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str) -> String {
-    settings::session::encode_session_yaml(user_id, homeserver, device_id)
-}
-
-fn settings_load_state_snapshot(state_text: &str) -> ffi::SettingsLoadedState {
-    let snapshot = settings::state::load_state_snapshot(state_text);
-
+fn ffi_loaded_state(snapshot: settings::state::LoadedState) -> ffi::SettingsLoadedState {
     ffi::SettingsLoadedState {
         window_width: snapshot.window_width,
         window_height: snapshot.window_height,
@@ -1684,6 +1685,36 @@ fn settings_load_state_snapshot(state_text: &str) -> ffi::SettingsLoadedState {
         should_write_back: snapshot.should_write_back,
         serialized_yaml: snapshot.serialized_yaml,
     }
+}
+
+fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsLoadedConfig {
+    ffi_loaded_config(settings::config::load_config_snapshot(config_text))
+}
+
+fn settings_load_profile_snapshot(
+    config_text: &str,
+    session_text: &str,
+    state_text: &str,
+) -> ffi::SettingsLoadedProfile {
+    let snapshot = settings::profile::load_profile_snapshot(config_text, session_text, state_text);
+
+    ffi::SettingsLoadedProfile {
+        config: ffi_loaded_config(snapshot.config),
+        session: ffi_loaded_session(snapshot.session),
+        state: ffi_loaded_state(snapshot.state),
+    }
+}
+
+fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {
+    ffi_loaded_session(settings::session::load_session_snapshot(session_text))
+}
+
+fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str) -> String {
+    settings::session::encode_session_yaml(user_id, homeserver, device_id)
+}
+
+fn settings_load_state_snapshot(state_text: &str) -> ffi::SettingsLoadedState {
+    ffi_loaded_state(settings::state::load_state_snapshot(state_text))
 }
 
 fn settings_encode_state_yaml(snapshot: &ffi::SettingsStateSnapshot) -> String {

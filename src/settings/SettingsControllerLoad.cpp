@@ -156,12 +156,23 @@ loadImpl(UserSettings &settings,
         settings.applyProfilePathState(QLatin1String(""));
 
     createDir(settings.profileDirPath());
-    const bool configFileExists = pathExists(settings.configFilePath());
+    const bool configFileExists  = pathExists(settings.configFilePath());
+    const bool stateFileExists   = pathExists(settings.stateFilePath());
+    const bool sessionFileExists = loadPolicy == settings::SettingsController::LoadPolicy::Full &&
+                                   pathExists(settings.sessionFilePath());
     settings.setPersistenceSuspended(true);
 
     const auto loadedConfigText = readTextFile(settings.configFilePath(), "config");
-    auto configSnapshot =
-      ::komai::rust::settings_load_config_snapshot(loadedConfigText.toStdString());
+    const auto loadedStateText = settings::storage::readTextFile(settings.stateFilePath(), "state");
+    const auto loadedSessionText =
+      loadPolicy == settings::SettingsController::LoadPolicy::Full
+        ? settings::storage::readTextFile(settings.sessionFilePath(), "session")
+        : QString{};
+    auto profileSnapshot =
+      ::komai::rust::settings_load_profile_snapshot(loadedConfigText.toStdString(),
+                                                    loadedSessionText.toStdString(),
+                                                    loadedStateText.toStdString());
+    auto &configSnapshot = profileSnapshot.config;
     logConfigMigrationWarnings(configSnapshot);
     settings::serializer::loadConfig(settings, configSnapshot);
 
@@ -234,11 +245,7 @@ loadImpl(UserSettings &settings,
         case staged_load_plan::Stage::Config:
             break;
         case staged_load_plan::Stage::Session: {
-            const bool sessionFileExists = pathExists(settings.sessionFilePath());
-            const auto loadedSessionText =
-              settings::storage::readTextFile(settings.sessionFilePath(), "session");
-            const auto sessionSnapshot =
-              ::komai::rust::settings_load_session_snapshot(loadedSessionText.toStdString());
+            const auto &sessionSnapshot = profileSnapshot.session;
             logSessionMigrationWarnings(sessionSnapshot);
             settings.setSessionSnapshot(UserSettings::SessionSnapshot{
               .userId = QString::fromStdString(static_cast<std::string>(sessionSnapshot.user_id)),
@@ -276,11 +283,7 @@ loadImpl(UserSettings &settings,
             break;
         }
         case staged_load_plan::Stage::State: {
-            const bool stateFileExists = pathExists(settings.stateFilePath());
-            const auto loadedStateText =
-              settings::storage::readTextFile(settings.stateFilePath(), "state");
-            const auto stateSnapshot =
-              ::komai::rust::settings_load_state_snapshot(loadedStateText.toStdString());
+            const auto &stateSnapshot = profileSnapshot.state;
             logStateMigrationWarnings(stateSnapshot);
             settings.setWindowWidth(stateSnapshot.window_width);
             settings.setWindowHeight(stateSnapshot.window_height);

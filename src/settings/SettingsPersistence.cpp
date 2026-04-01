@@ -46,9 +46,9 @@ activeLoggers()
 }
 
 staged_load_plan::SecretsProvider
-providerFromConfig(const YAML::Node &configRoot)
+providerFromConfigValue(QStringView providerValue)
 {
-    return staged_load_plan::providerFromConfig(configRoot);
+    return staged_load_plan::providerFromConfigValue(providerValue);
 }
 
 namespace detail {

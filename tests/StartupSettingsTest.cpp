@@ -310,7 +310,11 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
         return expect(false, "startup-policy fixture config can be persisted");
     const auto persistedConfig =
       settings::storage::loadYamlFile(configFile, "startup-policy-fixture-config");
-    if (!expect(staged_load_plan::providerFromConfig(persistedConfig) ==
+    if (!expect(staged_load_plan::providerFromConfigValue(
+                  yaml_settings::readString(
+                    persistedConfig,
+                    SettingKey::SecretsProvider,
+                    QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))) ==
                   staged_load_plan::SecretsProvider::File,
                 "fixture config persists file secrets provider token"))
         return false;

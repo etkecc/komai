@@ -24,14 +24,10 @@ testStagedLoadPlan()
 {
     bool ok = true;
 
-    YAML::Node configFileProvider = YAML::Load(R"(
-secrets:
-  provider: file
-)");
-
-    const auto fileProvider = staged_load_plan::providerFromConfig(configFileProvider);
+    const auto fileProvider =
+      staged_load_plan::providerFromConfigValue(QStringLiteral("file"));
     ok &= expect(fileProvider == staged_load_plan::SecretsProvider::File,
-                 "providerFromConfig resolves file provider");
+                 "providerFromConfigValue resolves file provider");
 
     const auto fileStages = staged_load_plan::stagesForProvider(fileProvider);
     ok &= expect(fileStages.size() == 4, "file provider stages count");
@@ -41,15 +37,9 @@ secrets:
                  "file stages[2]=secrets_file");
     ok &= expect(fileStages.at(3) == staged_load_plan::Stage::State, "file stages[3]=state");
 
-    YAML::Node configDefault = YAML::Load(R"(
-ui:
-  theme:
-    slug: komai
-)");
-
-    const auto defaultProvider = staged_load_plan::providerFromConfig(configDefault);
+    const auto defaultProvider = staged_load_plan::providerFromConfigValue(QStringLiteral(""));
     ok &= expect(defaultProvider == staged_load_plan::SecretsProvider::SecretService,
-                 "providerFromConfig defaults to secret_service");
+                 "providerFromConfigValue defaults to secret_service");
 
     const auto secureStages = staged_load_plan::stagesForProvider(defaultProvider);
     ok &= expect(secureStages.size() == 4, "secure provider stages count");

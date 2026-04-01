@@ -172,8 +172,10 @@ listProfiles(QStringView currentProfile)
             summary.themeSlug =
               QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
 
-        summary.secretsProvider =
-          yaml_settings::readString(configRoot, SettingKey::SecretsProvider, QString());
+        summary.secretsProvider = yaml_settings::readString(
+          configRoot,
+          SettingKey::SecretsProvider,
+          QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue));
         if (summary.secretsProvider.isEmpty())
             summary.secretsProvider = QStringLiteral("unknown");
 
@@ -263,7 +265,10 @@ deleteProfile(QStringView profileId,
 
     const auto configPath      = app_paths::config::profileConfigFile(normalizedTargetProfile);
     const auto configRoot      = loadYamlMapIfExists(configPath);
-    const auto secretsProvider = settings::persistence::providerFromConfig(configRoot);
+    const auto secretsProvider = settings::persistence::providerFromConfigValue(
+      yaml_settings::readString(configRoot,
+                                SettingKey::SecretsProvider,
+                                QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
 
     const auto secretsFilePath = app_paths::config::profileSecretsFile(normalizedTargetProfile);
     const bool secretsRemoved  = settings::persistence::clearProfileSecrets(

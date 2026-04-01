@@ -39,7 +39,10 @@ loadSecretsPersistenceContext(const QString &profileId)
 
     const auto configFilePath = settings::storage::configFilePathForProfile(profileId);
     const auto configRoot     = settings::storage::loadYamlFile(configFilePath, "config");
-    const auto provider       = settings::persistence::providerFromConfig(configRoot);
+    const auto provider       = settings::persistence::providerFromConfigValue(
+      yaml_settings::readString(configRoot,
+                                SettingKey::SecretsProvider,
+                                QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
 
     SecretsPersistenceContext context{
       .usesFileSecretsProvider = provider == staged_load_plan::SecretsProvider::File,

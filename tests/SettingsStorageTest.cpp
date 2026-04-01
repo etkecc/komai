@@ -351,14 +351,17 @@ testProviderSelectionHonorsConfigAndOverrides()
 {
     YAML::Node root(YAML::NodeType::Map);
     root["secrets"]["provider"] = staged_load_plan::ProviderSecretServiceValue;
-    auto fromConfig = settings::persistence::providerFromConfig(root);
+    auto fromConfig = settings::persistence::providerFromConfigValue(
+      QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue));
     auto defaultSecretService =
       expect(fromConfig == staged_load_plan::SecretsProvider::SecretService,
              "secret provider defaults to secret_service");
 
     root["secrets"]["provider"] = staged_load_plan::ProviderFileValue;
     const bool explicitFileConfig = expect(
-      settings::persistence::providerFromConfig(root) == staged_load_plan::SecretsProvider::File,
+      settings::persistence::providerFromConfigValue(
+        QString::fromLatin1(staged_load_plan::ProviderFileValue)) ==
+        staged_load_plan::SecretsProvider::File,
       "file provider is honored from config");
 
     return defaultSecretService && explicitFileConfig;

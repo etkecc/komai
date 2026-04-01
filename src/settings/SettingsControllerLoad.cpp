@@ -126,7 +126,10 @@ loadImpl(UserSettings &settings,
         return *secureBackendAvailable;
     };
 
-    auto provider = settings::persistence::providerFromConfig(configOutcome.migratedRoot);
+    auto provider = settings::persistence::providerFromConfigValue(
+      yaml_settings::readString(configOutcome.migratedRoot,
+                                SettingKey::SecretsProvider,
+                                QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
     if (!configFileExists) {
         const bool secureAvailable = secureBackendAvailableNow();
         provider                   = preferredProviderForAvailability(secureAvailable);

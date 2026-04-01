@@ -7,9 +7,9 @@
 
 #include <QMap>
 #include <QString>
+#include <QStringView>
 
 #include <memory>
-#include <yaml-cpp/yaml.h>
 
 #include "settings/SettingKeys.h"
 #include "settings/StagedLoadPlan.h"
@@ -46,10 +46,10 @@ struct SecretsPayload
 };
 
 /**
- * Resolve the effective secret provider from `config.yml`.
+ * Resolve the effective secret provider from the normalized `config.yml` token value.
  */
 staged_load_plan::SecretsProvider
-providerFromConfig(const YAML::Node &configRoot);
+providerFromConfigValue(QStringView providerValue);
 
 /**
  * Load secrets/session auth payload for the given profile using the resolved

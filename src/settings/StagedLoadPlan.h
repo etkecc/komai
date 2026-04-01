@@ -7,10 +7,7 @@
 
 #include <QList>
 #include <QString>
-
-#include <yaml-cpp/yaml.h>
-
-#include "settings/YamlSettings.h"
+#include <QStringView>
 
 namespace staged_load_plan {
 
@@ -37,13 +34,11 @@ inline constexpr auto ProviderSecretServiceValue = "secret_service";
 inline constexpr auto ProviderFileValue          = "file";
 
 /**
- * Read effective secret provider from YAML config.
+ * Resolve the effective secret provider from a config token value.
  */
 inline SecretsProvider
-providerFromConfig(const YAML::Node &configRoot)
+providerFromConfigValue(QStringView provider)
 {
-    const auto provider = yaml_settings::readString(
-      configRoot, SecretsProviderKey, QString::fromLatin1(ProviderSecretServiceValue));
     return provider == QLatin1String(ProviderFileValue) ? SecretsProvider::File
                                                         : SecretsProvider::SecretService;
 }

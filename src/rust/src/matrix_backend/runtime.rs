@@ -82,13 +82,17 @@ mod timeline;
 mod user_directory;
 #[path = "runtime_room_directory.rs"]
 mod room_directory;
+#[path = "runtime_notifications.rs"]
+mod notifications;
+#[path = "runtime_image_packs.rs"]
+mod image_packs;
 #[path = "runtime_media.rs"]
 mod runtime_media;
 
 pub use profile_media::{
-    fetch_media_content, fetch_own_profile, fetch_room_member_profile, fetch_user_profile,
-    ignore_user, remove_own_avatar, remove_own_room_avatar, set_own_display_name, unignore_user,
-    upload_own_avatar, upload_own_room_avatar,
+    fetch_media_content, fetch_own_presence, fetch_own_profile, fetch_room_member_profile,
+    fetch_user_profile, ignore_user, remove_own_avatar, remove_own_room_avatar, set_own_display_name,
+    set_own_presence, unignore_user, upload_own_avatar, upload_own_room_avatar,
 };
 pub use recovery::{
     cancel_reset_encryption_identity, continue_reset_encryption_identity_after_approval,
@@ -131,6 +135,13 @@ pub use timeline::{
 pub use runtime_media::{send_room_image, upload_media};
 pub use user_directory::search_users;
 pub use room_directory::fetch_public_room_directory_page;
+pub use notifications::{
+    fetch_account_notifications_enabled, fetch_notification_items,
+    set_account_notifications_enabled,
+};
+pub use image_packs::{
+    fetch_image_packs, remove_image_pack, save_image_pack, set_image_pack_globally_enabled,
+};
 
 pub struct MatrixBackendHandleInfo {
     pub handle_id: u64,
@@ -144,6 +155,11 @@ pub struct MatrixBackendHandleInfo {
 pub struct MatrixOwnProfile {
     pub display_name: String,
     pub avatar_url: String,
+}
+
+pub struct MatrixOwnPresence {
+    pub state: String,
+    pub status_message: String,
 }
 
 pub struct MatrixRecoveryStatus {
@@ -250,6 +266,54 @@ pub struct MatrixRoomSummary {
     pub notification_count: u64,
     pub highlight_count: u64,
     pub timestamp: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixNotificationRequest {
+    pub room_id: String,
+    pub event_id: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixNotificationItem {
+    pub room_id: String,
+    pub event_id: String,
+    pub replacement_event_id: String,
+    pub room_name: String,
+    pub avatar_url: String,
+    pub sender_display_name: String,
+    pub plain_body: String,
+    pub formatted_body: String,
+    pub media_mxc_url: String,
+    pub is_reply: bool,
+    pub is_emote: bool,
+    pub is_encrypted: bool,
+    pub contains_spoiler: bool,
+    pub has_inline_image: bool,
+    pub play_sound: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixImagePackImage {
+    pub shortcode: String,
+    pub body: String,
+    pub url: String,
+    pub is_emote: bool,
+    pub is_sticker: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct MatrixImagePack {
+    pub source_room_id: String,
+    pub state_key: String,
+    pub display_name: String,
+    pub avatar_url: String,
+    pub attribution: String,
+    pub is_emote_pack: bool,
+    pub is_sticker_pack: bool,
+    pub from_space: bool,
+    pub is_globally_enabled: bool,
+    pub images: Vec<MatrixImagePackImage>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

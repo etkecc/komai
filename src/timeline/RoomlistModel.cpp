@@ -27,6 +27,13 @@ struct MatrixRoomListRefreshResult
     QString error;
 };
 
+struct MatrixNotificationFetchBatchResult
+{
+    uint64_t handleId = 0;
+    QVector<komai::MatrixNotificationItem> items;
+    QString error;
+};
+
 bool
 matrixRoomSummaryEquals(const komai::MatrixRoomSummary &left, const komai::MatrixRoomSummary &right)
 {
@@ -55,6 +62,15 @@ roomPreviewEquals(const RoomPreview &left, const RoomPreview &right)
            left.isPublic_ == right.isPublic_ && left.isInvite_ == right.isInvite_ &&
            left.isFetched_ == right.isFetched_ && left.canJoin_ == right.canJoin_ &&
            left.isMatrixSummary_ == right.isMatrixSummary_;
+}
+
+uint64_t
+totalNotificationCount(const QHash<QString, komai::MatrixRoomSummary> &rooms)
+{
+    uint64_t total = 0;
+    for (auto it = rooms.cbegin(); it != rooms.cend(); ++it)
+        total += it.value().notificationCount;
+    return total;
 }
 } // namespace
 
@@ -235,6 +251,27 @@ RoomlistModel::removeRoomState(const QString &room_id, bool clearDraftForRoom)
 }
 
 void
+RoomlistModel::initializeRooms()
+{
+    const auto *mainWindow = MainWindow::instance();
+    beginResetModel();
+    resetRoomCollections(false);
+    endResetModel();
+
+    if (mainWindow && mainWindow->matrixBackendHandleId() != 0) {
+        refreshMatrixBackendRooms();
+    } else {
+        nhlog::ui()->warn(
+          "RoomlistModel initialization without an active matrix-sdk runtime is not supported "
+          "on the migration branch");
+    }
+
+#ifdef KOMAI_DBUS_SYS
+    setDbusInterfaceEnabled(MainWindow::instance()->dbusAvailable());
+#endif
+}
+
+void
 RoomlistModel::refreshMatrixBackendRooms()
 {
     const auto *mainWindow = MainWindow::instance();
@@ -288,6 +325,47 @@ RoomlistModel::startMatrixBackendRoomsRefresh(uint64_t handleId)
 }
 
 void
+RoomlistModel::fetchMatrixNotificationBatch(uint64_t handleId,
+                                            QVector<komai::MatrixNotificationRequest> requests)
+{
+    if (handleId == 0 || requests.isEmpty())
+        return;
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, requests = std::move(requests)]() {
+          MatrixNotificationFetchBatchResult result;
+          result.handleId = handleId;
+
+          const auto context = komai::matrix_backend::blockingCallContext();
+          auto items         = komai::MatrixBackendRuntimeService::fetchNotificationItems(
+            context, handleId, requests, &result.error);
+          if (items.has_value())
+              result.items = std::move(*items);
+
+          return result;
+      },
+      [](RoomlistModel *, MatrixNotificationFetchBatchResult result) {
+          auto *mainWindow = MainWindow::instance();
+          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+              return;
+
+          if (!result.error.isEmpty()) {
+              nhlog::ui()->warn("Failed to fetch matrix-sdk notification batch: {}",
+                                result.error.toStdString());
+              return;
+          }
+
+          auto *chatPage = ChatPage::instance();
+          if (!chatPage)
+              return;
+
+          for (const auto &item : std::as_const(result.items))
+              chatPage->dispatchMatrixNotification(item);
+      });
+}
+
+void
 RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSummary> &roomList)
 {
     std::vector<QString> newRoomIds;
@@ -295,6 +373,7 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
 
     QHash<QString, komai::MatrixRoomSummary> newMatrixRooms;
     int totalUnreadMessages = 0;
+    QVector<komai::MatrixNotificationRequest> notificationRequests;
     const QString selectedRoomId =
       currentRoomPreview_
         ? currentRoomPreview_->roomid()
@@ -308,11 +387,38 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
     const bool restoringStartupSelection =
       !selectedRoomId.isEmpty() && !currentRoomPreview_ && pendingCurrentRoomId_.isEmpty() &&
       UserSettings::instance()->currentRoomId() == selectedRoomId;
+    const auto previousMatrixRooms         = matrixJoinedRooms_;
+    const bool hadPreviousMatrixSnapshot   = !previousMatrixRooms.isEmpty();
+    const auto previousTotalNotifications  = totalNotificationCount(previousMatrixRooms);
+    const auto settings                    = UserSettings::instance().get();
+    const bool accountNotificationsEnabled = settings && settings->notificationsAccountEnabled();
+    const bool systemNotificationsEnabled =
+      accountNotificationsEnabled && settings->notificationsEnabled();
+    const bool shouldAlertOnIncoming =
+      accountNotificationsEnabled && settings->notificationsAttentionOnIncoming();
 
     for (const auto &room : roomList) {
         newRoomIds.push_back(room.roomId);
         newMatrixRooms.insert(room.roomId, room);
         totalUnreadMessages += static_cast<int>(room.unreadMessages);
+
+        if (!hadPreviousMatrixSnapshot || !systemNotificationsEnabled ||
+            room.latestEventId.trimmed().isEmpty()) {
+            continue;
+        }
+
+        const auto previousRoom = previousMatrixRooms.constFind(room.roomId);
+        const auto previousNotificationCount =
+          previousRoom == previousMatrixRooms.cend() ? 0 : previousRoom->notificationCount;
+        const auto previousHighlightCount =
+          previousRoom == previousMatrixRooms.cend() ? 0 : previousRoom->highlightCount;
+        const bool notificationCountIncreased = room.notificationCount > previousNotificationCount;
+        const bool highlightCountIncreased    = room.highlightCount > previousHighlightCount;
+
+        if (!notificationCountIncreased && !highlightCountIncreased)
+            continue;
+
+        notificationRequests.push_back({.roomId = room.roomId, .eventId = room.latestEventId});
     }
 
     bool changed =
@@ -343,6 +449,19 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
     matrixJoinedRooms_ = std::move(newMatrixRooms);
     roomids            = std::move(newRoomIds);
     endResetModel();
+
+    const auto currentTotalNotifications = totalNotificationCount(matrixJoinedRooms_);
+    if (hadPreviousMatrixSnapshot && shouldAlertOnIncoming &&
+        currentTotalNotifications > previousTotalNotifications) {
+        if (auto *mainWindow = MainWindow::instance())
+            mainWindow->alert(0);
+    }
+
+    if (!notificationRequests.isEmpty()) {
+        const auto *mainWindow = MainWindow::instance();
+        const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+        fetchMatrixNotificationBatch(handleId, std::move(notificationRequests));
+    }
 
     if (!selectedRoomId.isEmpty() && matrixJoinedRooms_.contains(selectedRoomId)) {
         if (restoringStartupSelection) {

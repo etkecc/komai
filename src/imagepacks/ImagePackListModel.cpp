@@ -8,17 +8,29 @@
 #include <QQmlEngine>
 
 #include "imagepacks/SingleImagePackModel.h"
+#include "logging/Logging.h"
+#include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
+
+namespace {
+struct ImagePackListLoadResult
+{
+    std::optional<QVector<komai::MatrixImagePack>> packs;
+    QString error;
+};
+} // namespace
 
 ImagePackListModel::ImagePackListModel(const std::string &roomId, QObject *parent)
   : QAbstractListModel(parent)
   , room_id(roomId)
 {
+    loadFromRuntime();
 }
 
 int
 ImagePackListModel::rowCount(const QModelIndex &) const
 {
-    return (int)packs.size();
+    return static_cast<int>(packs.size());
 }
 
 QHash<int, QByteArray>
@@ -75,12 +87,15 @@ ImagePackListModel::packAt(int row)
 SingleImagePackModel *
 ImagePackListModel::newPack(bool inRoom)
 {
-    ImagePackInfo info{};
+    komai::MatrixImagePack info{};
+    info.isEmotePack   = true;
+    info.isStickerPack = true;
     if (inRoom) {
-        info.source_room = room_id;
-        info.state_key   = SingleImagePackModel::unconflictingStatekey(room_id, "");
+        info.sourceRoomId = QString::fromStdString(room_id);
+        info.stateKey =
+          QString::fromStdString(SingleImagePackModel::unconflictingStatekey(room_id, ""));
     }
-    return new SingleImagePackModel(info);
+    return new SingleImagePackModel(std::move(info), this, false);
 }
 
 bool
@@ -90,6 +105,58 @@ ImagePackListModel::containsAccountPack() const
         if (p->roomid().isEmpty())
             return true;
     return false;
+}
+
+void
+ImagePackListModel::refresh()
+{
+    loadFromRuntime();
+}
+
+void
+ImagePackListModel::loadFromRuntime()
+{
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || room_id.empty())
+        return;
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId = QString::fromStdString(room_id)]() {
+          ImagePackListLoadResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.packs       = komai::MatrixBackendRuntimeService::fetchImagePacks(
+            context, handleId, roomId, &result.error);
+          return result;
+      },
+      [](ImagePackListModel *model, ImagePackListLoadResult result) {
+          if (!result.error.isEmpty()) {
+              nhlog::ui()->warn("Failed to fetch matrix-sdk image packs for settings dialog: {}",
+                                result.error.toStdString());
+              return;
+          }
+
+          const bool previousContainsAccountPack = model->containsAccountPack();
+          const int previousPackCount            = model->packCount();
+          model->beginResetModel();
+          model->packs.clear();
+          if (result.packs.has_value()) {
+              model->packs.reserve(static_cast<size_t>(result.packs->size()));
+              for (auto &pack : *result.packs) {
+                  model->packs.push_back(
+                    QSharedPointer<SingleImagePackModel>::create(std::move(pack), model, true));
+              }
+          }
+          model->endResetModel();
+
+          if (previousContainsAccountPack != model->containsAccountPack())
+              emit model->containsAccountPackChanged();
+          if (previousPackCount != model->packCount())
+              emit model->packCountChanged();
+          model->revision_++;
+          emit model->revisionChanged();
+      });
 }
 
 #include "moc_ImagePackListModel.cpp"

@@ -22,7 +22,6 @@
 #include <fmt/ranges.h>
 #include <nlohmann/json.hpp>
 
-#include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixIdentifiers.h"
 #include "settings/ui/facade/UserSettingsPage.h"

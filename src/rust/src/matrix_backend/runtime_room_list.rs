@@ -5,7 +5,10 @@
 use super::*;
 use super::event_summary::summarize_sync_timeline_event;
 use matrix_sdk::ruma::{
-    events::{AnySyncTimelineEvent, room::join_rules::JoinRule},
+    events::{
+        AnySyncTimelineEvent, ignored_user_list::IgnoredUserListEventContent,
+        room::join_rules::JoinRule,
+    },
     serde::Raw,
 };
 
@@ -106,9 +109,14 @@ async fn run_sync_loop(
     let sync_stream = room_list_service.sync();
     let mut entries_stream = Box::pin(entries_stream);
     let mut sync_stream = Box::pin(sync_stream);
+    let mut ignored_user_list_changes = Some(Box::pin(client.subscribe_to_ignore_user_list_changes()));
 
     let mut current_values = Vector::<RoomListItem>::new();
     let mut initial_sync_ready_notified = false;
+    crate::ffi::matrix_notify_ignored_user_list_updated(
+        handle_id,
+        load_ignored_user_ids(&client).await,
+    );
 
     while !stop_requested.load(Ordering::Relaxed) {
         tokio::select! {
@@ -184,6 +192,30 @@ async fn run_sync_loop(
                 }
             }
 
+            maybe_ignored = async {
+                match ignored_user_list_changes.as_mut() {
+                    Some(changes) => changes.next().await,
+                    None => std::future::pending().await,
+                }
+            } => {
+                match maybe_ignored {
+                    Some(mut user_ids) => {
+                        user_ids.sort();
+                        user_ids.dedup();
+                        crate::ffi::matrix_notify_ignored_user_list_updated(handle_id, user_ids.clone());
+                        tracing::debug!(
+                            handle_id,
+                            ignored_user_count = user_ids.len(),
+                            "Updated matrix-sdk ignored-user list snapshot"
+                        );
+                    }
+                    None => {
+                        ignored_user_list_changes = None;
+                        tracing::info!(handle_id, "Matrix-sdk ignored-user list stream ended");
+                    }
+                }
+            }
+
             _ = tokio::time::sleep(Duration::from_millis(200)) => {
                 if stop_requested.load(Ordering::Relaxed) {
                     break;
@@ -215,6 +247,36 @@ async fn build_room_list_snapshot(values: &Vector<RoomListItem>) -> Vec<MatrixRo
     }
 
     snapshot
+}
+
+async fn load_ignored_user_ids(client: &Client) -> Vec<String> {
+    match client
+        .account()
+        .account_data::<IgnoredUserListEventContent>()
+        .await
+    {
+        Ok(Some(raw_content)) => match raw_content.deserialize() {
+            Ok(content) => {
+                let mut user_ids = content
+                    .ignored_users
+                    .into_keys()
+                    .map(|user_id| user_id.to_string())
+                    .collect::<Vec<_>>();
+                user_ids.sort();
+                user_ids.dedup();
+                user_ids
+            }
+            Err(error) => {
+                tracing::warn!(%error, "Failed to deserialize matrix-sdk ignored-user list");
+                Vec::new()
+            }
+        },
+        Ok(None) => Vec::new(),
+        Err(error) => {
+            tracing::warn!(%error, "Failed to load matrix-sdk ignored-user list");
+            Vec::new()
+        }
+    }
 }
 
 fn ci_contains(haystack: &str, needle: &str) -> bool {

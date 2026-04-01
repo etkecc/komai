@@ -216,7 +216,7 @@ Pane {
                         : null
                     room: topBar.roomModel
                     roomId: topBar.roomId
-                    avatarDisplayName: topBar.avatarDisplayName
+                    roomDisplayName: topBar.avatarDisplayName
                     roomAvatarUrl: topBar.avatarUrl
                     isDirect: topBar.isDirect
                     directChatOtherUserId: topBar.directChatOtherUserId

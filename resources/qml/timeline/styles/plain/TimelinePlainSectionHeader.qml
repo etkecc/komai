@@ -26,8 +26,8 @@ Column {
     required property string userPowerlevel
 
     property int oneHour: 60 * 60 * 1000
-    property bool dayChanged: previousMessageDay !== day
-    property bool showLabel: dayChanged || timestamp - previousMessageTimestamp > oneHour
+    property bool dayBoundaryChanged: previousMessageDay !== day
+    property bool showLabel: dayBoundaryChanged || timestamp - previousMessageTimestamp > oneHour
     property bool shouldShowSenderUsername: Settings.timelineMessagesSenderUsername === 0
         ? true
         : Settings.timelineMessagesSenderUsername === 2
@@ -47,7 +47,7 @@ Column {
         color: palette.text
         height: Math.round(fontMetrics.height * 1.4)
         horizontalAlignment: Text.AlignHCenter
-        text: room ? (dayChanged ? room.formatDateSeparator(timestamp) : room.formatLaterSeparator(previousMessageTimestamp, timestamp)) : ""
+        text: room ? (dayBoundaryChanged ? room.formatDateSeparator(timestamp) : room.formatLaterSeparator(previousMessageTimestamp, timestamp)) : ""
         verticalAlignment: Text.AlignVCenter
         visible: room && showLabel
         width: contentWidth * 1.2

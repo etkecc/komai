@@ -156,10 +156,6 @@ function openCatalogDialog(componentUrl, properties) {
     }
     SelfVerificationCoordinator {
     }
-    UiaCoordinator {
-        timelineRoot: rootTimeline
-        componentCatalog: componentCatalog
-    }
     StackView {
         id: mainWindow
 

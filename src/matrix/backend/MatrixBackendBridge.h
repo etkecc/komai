@@ -51,6 +51,10 @@ matrix_notify_room_list_snapshot_updated(std::uint64_t handle_id,
                                          ::rust::Vec<::komai::rust::MatrixRoomSummary> room_list);
 
 void
+matrix_notify_ignored_user_list_updated(std::uint64_t handle_id,
+                                        ::rust::Vec<::rust::String> user_ids);
+
+void
 matrix_notify_initial_sync_ready(std::uint64_t handle_id);
 
 void

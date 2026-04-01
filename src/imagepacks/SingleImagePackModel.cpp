@@ -5,55 +5,145 @@
 
 #include "imagepacks/SingleImagePackModel.h"
 
-#include <QFile>
 #include <QFileInfo>
 #include <QMimeDatabase>
 
-#include <mtx/events/mscs/image_packs.hpp>
-#include <nlohmann/json.hpp>
-
+#include <optional>
 #include <unordered_set>
 
 #include "chat/ChatPage.h"
+#include "imagepacks/ImagePackListModel.h"
 #include "logging/Logging.h"
 #include "timeline/Permissions.h"
 #include "timeline/TimelineEventTypes.h"
+#include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
 namespace {
+
+struct ImagePackMutationResult
+{
+    bool ok = false;
+    QString error;
+};
+
+struct ImagePackUpload
+{
+    QString mxcUri;
+    QString shortCodeSeed;
+};
+
+struct ImagePackBatchUploadResult
+{
+    QVector<ImagePackUpload> uploads;
+    QString error;
+};
+
+QString
+fallbackPackDisplayName(const komai::MatrixImagePack &pack,
+                        QStringView roomId,
+                        QStringView stateKey)
+{
+    if (!pack.displayName.trimmed().isEmpty())
+        return pack.displayName;
+    if (!stateKey.trimmed().isEmpty())
+        return stateKey.toString();
+    if (!roomId.trimmed().isEmpty())
+        return roomId.toString();
+    return SingleImagePackModel::tr("Account Pack");
+}
+
 void
-notifyImagePackEditingUnavailable()
+showImagePackNotification(const QString &message)
 {
-    nhlog::ui()->warn("Refusing legacy image-pack editing action; this flow is not migrated to the "
-                      "matrix-sdk backend yet");
-    ChatPage::instance()->showNotification(SingleImagePackModel::tr(
-      "Image-pack editing is not migrated to the matrix-sdk backend yet."));
-}
+    if (message.isEmpty())
+        return;
+
+    if (auto *chatPage = ChatPage::instance()) {
+        chatPage->showNotification(message);
+        return;
+    }
+
+    if (auto *mainWindow = MainWindow::instance())
+        mainWindow->showNotification(message);
 }
 
-SingleImagePackModel::SingleImagePackModel(ImagePackInfo pack_, QObject *parent)
+uint64_t
+currentRuntimeHandleId()
+{
+    const auto *mainWindow = MainWindow::instance();
+    return mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+}
+
+ImagePackListModel *
+owningPackList(SingleImagePackModel *model)
+{
+    return qobject_cast<ImagePackListModel *>(model ? model->parent() : nullptr);
+}
+
+QString
+localFilePath(const QUrl &url)
+{
+    return url.isLocalFile() ? url.toLocalFile() : QString{};
+}
+
+QString
+shortCodeSeedForFile(const QFileInfo &fileInfo)
+{
+    const auto baseName = fileInfo.completeBaseName().trimmed();
+    if (!baseName.isEmpty())
+        return baseName;
+
+    const auto fileName = fileInfo.fileName().trimmed();
+    if (!fileName.isEmpty())
+        return fileName;
+
+    return SingleImagePackModel::tr("image");
+}
+
+std::optional<QString>
+detectUploadMimeType(const QString &filePath, QString *errorOut)
+{
+    const QFileInfo fileInfo(filePath);
+    if (!fileInfo.exists() || !fileInfo.isFile()) {
+        if (errorOut)
+            *errorOut = SingleImagePackModel::tr("File not found: %1").arg(filePath);
+        return std::nullopt;
+    }
+
+    QMimeDatabase db;
+    const auto mime = db.mimeTypeForFile(fileInfo.absoluteFilePath(), QMimeDatabase::MatchContent);
+    if (!mime.isValid() || !mime.name().startsWith(QLatin1String("image/"))) {
+        if (errorOut) {
+            *errorOut = SingleImagePackModel::tr("The selected file is not an image: %1")
+                          .arg(fileInfo.fileName());
+        }
+        return std::nullopt;
+    }
+
+    return mime.name();
+}
+
+} // namespace
+
+SingleImagePackModel::SingleImagePackModel(komai::MatrixImagePack pack_,
+                                           QObject *parent,
+                                           bool persisted)
   : QAbstractListModel(parent)
-  , roomid_(std::move(pack_.source_room))
-  , statekey_(std::move(pack_.state_key))
+  , roomid_(pack_.sourceRoomId.toStdString())
+  , statekey_(pack_.stateKey.toStdString())
   , old_statekey_(statekey_)
-  , pack(std::move(pack_.pack))
-  , fromSpace_(pack_.from_space)
+  , pack(std::move(pack_))
+  , fromSpace_(pack.fromSpace)
+  , persisted_(persisted)
 {
-    if (!pack.pack)
-        pack.pack = mtx::events::msc2545::ImagePack::PackDescription{};
-
-    shortcodes.reserve(pack.images.size());
-    for (const auto &e : pack.images)
-        shortcodes.push_back(e.first);
-
-    connect(this, &SingleImagePackModel::addImage, this, &SingleImagePackModel::addImageCb);
-    connect(this, &SingleImagePackModel::avatarUploaded, this, &SingleImagePackModel::setAvatarUrl);
 }
 
 int
 SingleImagePackModel::rowCount(const QModelIndex &) const
 {
-    return (int)shortcodes.size();
+    return pack.images.size();
 }
 
 QHash<int, QByteArray>
@@ -72,18 +162,18 @@ QVariant
 SingleImagePackModel::data(const QModelIndex &index, int role) const
 {
     if (hasIndex(index.row(), index.column(), index.parent())) {
-        const auto &img = pack.images.at(shortcodes.at(index.row()));
+        const auto &img = pack.images.at(index.row());
         switch (role) {
         case Url:
-            return QString::fromStdString(img.url);
+            return img.url;
         case ShortCode:
-            return QString::fromStdString(shortcodes.at(index.row()));
+            return img.shortcode;
         case Body:
-            return QString::fromStdString(img.body);
+            return img.body;
         case IsEmote:
-            return img.overrides_usage() ? img.is_emoji() : pack.pack->is_emoji();
+            return img.isEmote;
         case IsSticker:
-            return img.overrides_usage() ? img.is_sticker() : pack.pack->is_sticker();
+            return img.isSticker;
         default:
             return {};
         }
@@ -94,58 +184,52 @@ SingleImagePackModel::data(const QModelIndex &index, int role) const
 bool
 SingleImagePackModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    using mtx::events::msc2545::PackUsage;
-
     if (hasIndex(index.row(), index.column(), index.parent())) {
-        auto &img = pack.images.at(shortcodes.at(index.row()));
+        auto &img = pack.images[index.row()];
         switch (role) {
         case ShortCode: {
-            auto newCode = value.toString().toStdString();
+            const auto newCode = QString::fromStdString(
+              unconflictingShortcode(value.toString().trimmed().toStdString()));
+            if (img.shortcode == newCode)
+                return true;
 
-            // otherwise we delete this by accident
-            newCode = unconflictingShortcode(newCode);
-
-            auto tmp     = img;
-            auto oldCode = shortcodes.at(index.row());
-            pack.images.erase(oldCode);
-            shortcodes[index.row()] = newCode;
-            pack.images.insert({newCode, tmp});
-
+            img.shortcode = newCode;
             emit dataChanged(
               this->index(index.row()), this->index(index.row()), {Roles::ShortCode});
             return true;
         }
-        case Body:
-            img.body = value.toString().toStdString();
+        case Body: {
+            const auto body = value.toString();
+            if (img.body == body)
+                return true;
+
+            img.body = body;
             emit dataChanged(this->index(index.row()), this->index(index.row()), {Roles::Body});
             return true;
+        }
         case IsEmote: {
-            bool isEmote   = value.toBool();
-            bool isSticker = img.overrides_usage() ? img.is_sticker() : pack.pack->is_sticker();
+            const bool isEmote = value.toBool();
+            if (img.isEmote == isEmote)
+                return true;
 
-            img.usage.set(PackUsage::Emoji, isEmote);
-            img.usage.set(PackUsage::Sticker, isSticker);
-
-            if (img.usage == pack.pack->usage)
-                img.usage.reset();
+            img.isEmote = isEmote;
+            if (!img.isEmote && !img.isSticker)
+                img.isSticker = true;
 
             emit dataChanged(this->index(index.row()), this->index(index.row()), {Roles::IsEmote});
-
             return true;
         }
         case IsSticker: {
-            bool isEmote   = img.overrides_usage() ? img.is_emoji() : pack.pack->is_emoji();
-            bool isSticker = value.toBool();
+            const bool isSticker = value.toBool();
+            if (img.isSticker == isSticker)
+                return true;
 
-            img.usage.set(PackUsage::Emoji, isEmote);
-            img.usage.set(PackUsage::Sticker, isSticker);
-
-            if (img.usage == pack.pack->usage)
-                img.usage.reset();
+            img.isSticker = isSticker;
+            if (!img.isEmote && !img.isSticker)
+                img.isEmote = true;
 
             emit dataChanged(
               this->index(index.row()), this->index(index.row()), {Roles::IsSticker});
-
             return true;
         }
         }
@@ -156,13 +240,53 @@ SingleImagePackModel::setData(const QModelIndex &index, const QVariant &value, i
 bool
 SingleImagePackModel::isGloballyEnabled() const
 {
-    return false;
+    return pack.isGloballyEnabled;
 }
+
 void
 SingleImagePackModel::setGloballyEnabled(bool enabled)
 {
-    (void)enabled;
-    notifyImagePackEditingUnavailable();
+    if (pack.isGloballyEnabled == enabled)
+        return;
+
+    if (roomid_.empty()) {
+        showImagePackNotification(tr("Only room image packs can be enabled globally."));
+        return;
+    }
+
+    const auto handleId = currentRuntimeHandleId();
+    if (handleId == 0) {
+        showImagePackNotification(tr("Matrix backend is not ready yet."));
+        return;
+    }
+
+    const auto previous    = pack.isGloballyEnabled;
+    pack.isGloballyEnabled = enabled;
+    emit globallyEnabledChanged();
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId,
+       roomId   = QString::fromStdString(roomid_),
+       stateKey = QString::fromStdString(statekey_),
+       enabled]() {
+          ImagePackMutationResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.ok          = komai::MatrixBackendRuntimeService::setImagePackGloballyEnabled(
+            context, handleId, roomId, stateKey, enabled, &result.error);
+          return result;
+      },
+      [previous](SingleImagePackModel *model, const ImagePackMutationResult &result) {
+          if (result.ok)
+              return;
+
+          model->pack.isGloballyEnabled = previous;
+          emit model->globallyEnabledChanged();
+          showImagePackNotification(
+            result.error.isEmpty()
+              ? SingleImagePackModel::tr("Failed to update image-pack global enablement.")
+              : result.error);
+      });
 }
 
 bool
@@ -175,12 +299,18 @@ SingleImagePackModel::canEdit() const
           .canChange(qml_mtx_events::ImagePackInRoom);
 }
 
+QString
+SingleImagePackModel::packname() const
+{
+    return fallbackPackDisplayName(
+      pack, QString::fromStdString(roomid_), QString::fromStdString(statekey_));
+}
+
 void
 SingleImagePackModel::setPackname(QString val)
 {
-    auto val_ = val.toStdString();
-    if (val_ != this->pack.pack->display_name) {
-        this->pack.pack->display_name = val_;
+    if (val != pack.displayName) {
+        pack.displayName = std::move(val);
         emit packnameChanged();
     }
 }
@@ -188,9 +318,8 @@ SingleImagePackModel::setPackname(QString val)
 void
 SingleImagePackModel::setAttribution(QString val)
 {
-    auto val_ = val.toStdString();
-    if (val_ != this->pack.pack->attribution) {
-        this->pack.pack->attribution = val_;
+    if (val != pack.attribution) {
+        pack.attribution = std::move(val);
         emit attributionChanged();
     }
 }
@@ -198,9 +327,8 @@ SingleImagePackModel::setAttribution(QString val)
 void
 SingleImagePackModel::setAvatarUrl(QString val)
 {
-    auto val_ = val.toStdString();
-    if (val_ != this->pack.pack->avatar_url) {
-        this->pack.pack->avatar_url = val_;
+    if (val != pack.avatarUrl) {
+        pack.avatarUrl = std::move(val);
         emit avatarUrlChanged();
     }
 }
@@ -208,12 +336,11 @@ SingleImagePackModel::setAvatarUrl(QString val)
 QString
 SingleImagePackModel::avatarUrl() const
 {
-    if (!pack.pack->avatar_url.empty())
-        return QString::fromStdString(pack.pack->avatar_url);
-    else if (!pack.images.empty())
-        return QString::fromStdString(pack.images.begin()->second.url);
-    else
-        return QString();
+    if (!pack.avatarUrl.isEmpty())
+        return pack.avatarUrl;
+    if (!pack.images.isEmpty())
+        return pack.images.constFirst().url;
+    return {};
 }
 
 void
@@ -223,10 +350,8 @@ SingleImagePackModel::setStatekey(QString val)
     if (val_ != statekey_) {
         statekey_ = val_;
 
-        // prevent deleting current pack
-        if (!roomid_.empty() && statekey_ != old_statekey_) {
+        if (!roomid_.empty() && statekey_ != old_statekey_)
             statekey_ = unconflictingStatekey(roomid_, statekey_);
-        }
 
         emit statekeyChanged();
     }
@@ -235,11 +360,10 @@ SingleImagePackModel::setStatekey(QString val)
 void
 SingleImagePackModel::setIsStickerPack(bool val)
 {
-    using mtx::events::msc2545::PackUsage;
-    if (val != pack.pack->is_sticker()) {
-        pack.pack->usage.set(PackUsage::Sticker, val);
-        if (!val)
-            pack.pack->usage.set(PackUsage::Emoji, true);
+    if (val != pack.isStickerPack) {
+        pack.isStickerPack = val;
+        if (!pack.isStickerPack)
+            pack.isEmotePack = true;
         emit isEmotePackChanged();
         emit isStickerPackChanged();
     }
@@ -248,11 +372,10 @@ SingleImagePackModel::setIsStickerPack(bool val)
 void
 SingleImagePackModel::setIsEmotePack(bool val)
 {
-    using mtx::events::msc2545::PackUsage;
-    if (val != pack.pack->is_emoji()) {
-        pack.pack->usage.set(PackUsage::Emoji, val);
-        if (!val)
-            pack.pack->usage.set(PackUsage::Sticker, true);
+    if (val != pack.isEmotePack) {
+        pack.isEmotePack = val;
+        if (!pack.isEmotePack)
+            pack.isStickerPack = true;
         emit isEmotePackChanged();
         emit isStickerPackChanged();
     }
@@ -261,51 +384,234 @@ SingleImagePackModel::setIsEmotePack(bool val)
 void
 SingleImagePackModel::save()
 {
-    notifyImagePackEditingUnavailable();
+    const auto handleId = currentRuntimeHandleId();
+    if (handleId == 0) {
+        showImagePackNotification(tr("Matrix backend is not ready yet."));
+        return;
+    }
+
+    auto packToSave         = pack;
+    packToSave.sourceRoomId = QString::fromStdString(roomid_);
+    packToSave.stateKey     = QString::fromStdString(statekey_);
+    const auto roomId       = QString::fromStdString(roomid_);
+    const auto stateKey     = QString::fromStdString(statekey_);
+    const auto oldStateKey  = QString::fromStdString(old_statekey_);
+    const auto hasPrevious  = persisted_;
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId, stateKey, oldStateKey, hasPrevious, packToSave = std::move(packToSave)]() {
+          ImagePackMutationResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.ok          = komai::MatrixBackendRuntimeService::saveImagePack(context,
+                                                                        handleId,
+                                                                        roomId,
+                                                                        stateKey,
+                                                                        oldStateKey,
+                                                                        hasPrevious,
+                                                                        packToSave,
+                                                                        &result.error);
+          return result;
+      },
+      [](SingleImagePackModel *model, const ImagePackMutationResult &result) {
+          if (!result.ok) {
+              showImagePackNotification(result.error.isEmpty()
+                                          ? SingleImagePackModel::tr("Failed to save image pack.")
+                                          : result.error);
+              return;
+          }
+
+          model->old_statekey_ = model->statekey_;
+          model->persisted_    = true;
+          if (auto *packList = owningPackList(model))
+              packList->refresh();
+      });
 }
 
 void
 SingleImagePackModel::remove()
 {
-    notifyImagePackEditingUnavailable();
+    if (!persisted_)
+        return;
+
+    const auto handleId = currentRuntimeHandleId();
+    if (handleId == 0) {
+        showImagePackNotification(tr("Matrix backend is not ready yet."));
+        return;
+    }
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId,
+       roomId   = QString::fromStdString(roomid_),
+       stateKey = QString::fromStdString(statekey_)]() {
+          ImagePackMutationResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.ok          = komai::MatrixBackendRuntimeService::removeImagePack(
+            context, handleId, roomId, stateKey, &result.error);
+          return result;
+      },
+      [](SingleImagePackModel *model, const ImagePackMutationResult &result) {
+          if (!result.ok) {
+              showImagePackNotification(result.error.isEmpty()
+                                          ? SingleImagePackModel::tr("Failed to remove image pack.")
+                                          : result.error);
+              return;
+          }
+
+          if (auto *packList = owningPackList(model))
+              packList->refresh();
+      });
 }
 
 void
 SingleImagePackModel::addStickers(QList<QUrl> files)
 {
-    (void)files;
-    notifyImagePackEditingUnavailable();
+    if (files.isEmpty())
+        return;
+
+    const auto handleId = currentRuntimeHandleId();
+    if (handleId == 0) {
+        showImagePackNotification(tr("Matrix backend is not ready yet."));
+        return;
+    }
+
+    QStringList paths;
+    paths.reserve(files.size());
+    for (const auto &file : files) {
+        const auto path = localFilePath(file);
+        if (path.isEmpty()) {
+            showImagePackNotification(tr("Only local image files are supported here."));
+            return;
+        }
+        paths.push_back(path);
+    }
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, paths]() {
+          ImagePackBatchUploadResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+
+          for (const auto &path : paths) {
+              QString mimeError;
+              const auto mimeType = detectUploadMimeType(path, &mimeError);
+              if (!mimeType.has_value()) {
+                  result.error = mimeError;
+                  return result;
+              }
+
+              QFileInfo fileInfo(path);
+              QString uploadError;
+              const auto mxcUri = komai::MatrixBackendRuntimeService::uploadMedia(
+                context, handleId, path, *mimeType, &uploadError);
+              if (!mxcUri.has_value()) {
+                  result.error =
+                    uploadError.isEmpty()
+                      ? SingleImagePackModel::tr("Failed to upload '%1'.").arg(fileInfo.fileName())
+                      : uploadError;
+                  return result;
+              }
+
+              result.uploads.push_back(ImagePackUpload{
+                .mxcUri        = *mxcUri,
+                .shortCodeSeed = shortCodeSeedForFile(fileInfo),
+              });
+          }
+
+          return result;
+      },
+      [](SingleImagePackModel *model, const ImagePackBatchUploadResult &result) {
+          if (!result.error.isEmpty()) {
+              showImagePackNotification(result.error);
+              return;
+          }
+
+          for (const auto &upload : result.uploads)
+              model->addUploadedImage(upload.mxcUri, upload.shortCodeSeed);
+      });
 }
 
 void
-SingleImagePackModel::setAvatar(QUrl f)
+SingleImagePackModel::setAvatar(QUrl file)
 {
-    (void)f;
-    notifyImagePackEditingUnavailable();
+    const auto handleId = currentRuntimeHandleId();
+    if (handleId == 0) {
+        showImagePackNotification(tr("Matrix backend is not ready yet."));
+        return;
+    }
+
+    const auto path = localFilePath(file);
+    if (path.isEmpty()) {
+        showImagePackNotification(tr("Only local image files are supported here."));
+        return;
+    }
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, path]() {
+          ImagePackMutationResult result;
+          QString mimeError;
+          const auto mimeType = detectUploadMimeType(path, &mimeError);
+          if (!mimeType.has_value()) {
+              result.error = mimeError;
+              return result;
+          }
+
+          const auto context = komai::matrix_backend::blockingCallContext();
+          auto mxcUri        = komai::MatrixBackendRuntimeService::uploadMedia(
+            context, handleId, path, *mimeType, &result.error);
+          if (!mxcUri.has_value())
+              return result;
+
+          result.ok    = true;
+          result.error = *mxcUri;
+          return result;
+      },
+      [](SingleImagePackModel *model, const ImagePackMutationResult &result) {
+          if (!result.ok) {
+              showImagePackNotification(
+                result.error.isEmpty()
+                  ? SingleImagePackModel::tr("Failed to upload the pack overview image.")
+                  : result.error);
+              return;
+          }
+
+          model->setAvatarUrl(result.error);
+      });
 }
 
 void
 SingleImagePackModel::remove(int idx)
 {
-    if (idx < (int)shortcodes.size() && idx >= 0) {
+    if (idx < pack.images.size() && idx >= 0) {
+        const auto previousAvatar = avatarUrl();
         beginRemoveRows(QModelIndex(), idx, idx);
-        auto s = shortcodes.at(idx);
-        shortcodes.erase(shortcodes.begin() + idx);
-        pack.images.erase(s);
+        pack.images.removeAt(idx);
         endRemoveRows();
+
+        if (avatarUrl() != previousAvatar)
+            emit avatarUrlChanged();
     }
 }
 
 std::string
 SingleImagePackModel::unconflictingShortcode(const std::string &shortcode)
 {
-    if (pack.images.count(shortcode)) {
-        // more images won't fit in an event anyway
+    const auto requestedCode = QString::fromStdString(shortcode);
+    auto containsCode        = [this](const QString &code) {
+        for (const auto &image : pack.images) {
+            if (image.shortcode == code)
+                return true;
+        }
+        return false;
+    };
+
+    if (containsCode(requestedCode)) {
         for (int i = 0; i < 64'000; i++) {
-            auto tempCode = shortcode + std::to_string(i);
-            if (!pack.images.count(tempCode)) {
-                return tempCode;
-            }
+            const auto tempCode = requestedCode + QString::number(i);
+            if (!containsCode(tempCode))
+                return tempCode.toStdString();
         }
     }
     return shortcode;
@@ -319,23 +625,20 @@ SingleImagePackModel::unconflictingStatekey(const std::string &roomid, const std
 }
 
 void
-SingleImagePackModel::addImageCb(std::string uri, std::string filename, mtx::common::ImageInfo info)
+SingleImagePackModel::addUploadedImage(const QString &uri, const QString &filename)
 {
-    mtx::events::msc2545::PackImage img{};
-    img.url  = uri;
-    img.info = info;
-    beginInsertRows(
-      QModelIndex(), static_cast<int>(shortcodes.size()), static_cast<int>(shortcodes.size()));
-
-    auto shortcode = unconflictingShortcode(filename);
-
-    pack.images[shortcode] = img;
-    shortcodes.push_back(shortcode);
-
+    beginInsertRows(QModelIndex(), pack.images.size(), pack.images.size());
+    pack.images.push_back(komai::MatrixImagePackImage{
+      .shortcode = QString::fromStdString(unconflictingShortcode(filename.toStdString())),
+      .body      = {},
+      .url       = uri,
+      .isEmote   = pack.isEmotePack,
+      .isSticker = pack.isStickerPack,
+    });
     endInsertRows();
 
-    if (this->pack.pack->avatar_url.empty())
-        this->setAvatarUrl(QString::fromStdString(uri));
+    if (pack.avatarUrl.isEmpty())
+        setAvatarUrl(uri);
 }
 
 #include "moc_SingleImagePackModel.cpp"

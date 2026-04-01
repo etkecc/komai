@@ -5,7 +5,6 @@
 
 import "../components" as Components
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Window
 import Qt5Compat.GraphicalEffects
 import cc.etke.komai

@@ -74,7 +74,7 @@ struct trie
         return ret;
     }
 
-    std::vector<Value> search(const std::span<Key> &keys,
+    std::vector<Value> search(const std::span<const Key> &keys,
                               size_t result_count_limit,
                               size_t max_edit_distance_ = 2) const
     {

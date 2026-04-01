@@ -96,11 +96,6 @@ OverlayDialog {
                 delegate: AvatarListTile {
                     id: packItem
 
-                    property color background: palette.window
-                    property color importantText: palette.text
-                    property color unimportantText: palette.buttonText
-                    property color bubbleBackground: palette.highlight
-                    property color bubbleText: palette.highlightedText
                     required property string shortCode
                     required property string url
                     required property string body

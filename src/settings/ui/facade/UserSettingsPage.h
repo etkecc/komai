@@ -11,6 +11,8 @@
 #include <QSharedPointer>
 #include <QTimer>
 
+#include <cstdint>
+#include <functional>
 #include <optional>
 #include <string>
 
@@ -233,9 +235,6 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool hasActiveSession READ hasActiveSession NOTIFY sessionAuthStateChanged)
     Q_PROPERTY(bool secretsProviderFallbackWarningVisible READ secretsProviderFallbackWarningVisible
                  NOTIFY secretsProviderFallbackWarningVisibleChanged)
-    Q_PROPERTY(
-      bool networkSpacesMaintainJoinMetadata READ networkSpacesMaintainJoinMetadata WRITE
-        setNetworkSpacesMaintainJoinMetadata NOTIFY networkSpacesMaintainJoinMetadataChanged)
     Q_PROPERTY(bool networkTlsEnableCertificateValidation READ networkTlsEnableCertificateValidation
                  WRITE setNetworkTlsEnableCertificateValidation NOTIFY
                    networkTlsEnableCertificateValidationChanged)
@@ -293,6 +292,16 @@ public:
     static void initialize(std::optional<QString> profile,
                            const YAML::Node &configRoot,
                            LoadPolicy loadPolicy = LoadPolicy::Full);
+
+    using NotificationsAccountHandleProvider = std::function<std::uint64_t()>;
+    using NotificationsAccountFetchFn =
+      std::function<std::optional<bool>(std::uint64_t, QString *)>;
+    using NotificationsAccountSetFn = std::function<bool(std::uint64_t, bool, QString *)>;
+
+    void setNotificationsAccountRuntimeHooks(NotificationsAccountHandleProvider handleProvider,
+                                             NotificationsAccountFetchFn fetchFn,
+                                             NotificationsAccountSetFn setFn);
+
     static UserSettings *create(QQmlEngine *qmlEngine, QJSEngine *)
     {
         // The instance has to exist before it is used. We cannot replace it.
@@ -549,7 +558,6 @@ public:
     void setCurrentFilterId(QString currentFilterId);
     void setCurrentRoomId(QString currentRoomId);
     void setHomeserver(QString homeserver);
-    void setNetworkSpacesMaintainJoinMetadata(bool state);
     void setNetworkTlsEnableCertificateValidation(bool enabled);
     void setGlobalExcludes(const QStringList &globalExcludes);
     void setBadgesHiddenFilters(const QStringList &badgesHiddenFilters);
@@ -701,7 +709,6 @@ signals:
     void accessTokenChanged(QString accessToken);
     void deviceIdChanged(QString deviceId);
     void homeserverChanged(QString homeserver);
-    void networkSpacesMaintainJoinMetadataChanged(bool state);
     void networkTlsEnableCertificateValidationChanged(bool enabled);
     void uiAvatarsDefaultAvatarStyleChanged(DefaultAvatarStyle style);
     void timelineMediaOpenImagesExternalChanged(bool state);

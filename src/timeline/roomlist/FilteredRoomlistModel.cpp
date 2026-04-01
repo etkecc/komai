@@ -496,12 +496,14 @@ FilteredRoomlistModel::toggleTag(const QString &roomid, const QString &tag, bool
 
     const auto preview = roomlistmodel->getRoomPreviewById(roomId);
     if (!preview.isMatrixSummary()) {
-        nhlog::ui()->warn("Room tag '{}' toggle is not migrated for legacy room '{}'",
-                          tagId.toStdString(),
-                          roomId.toStdString());
-        MainWindow::instance()->showNotification(
-          on ? tr("Adding room tags is not available yet during the matrix-sdk migration.")
-             : tr("Removing room tags is not available yet during the matrix-sdk migration."));
+        nhlog::ui()->warn(
+          "Refusing to toggle room tag '{}' for non-joined or unavailable room '{}'",
+          tagId.toStdString(),
+          roomId.toStdString());
+        if (auto *mainWindow = MainWindow::instance()) {
+            mainWindow->showNotification(
+              tr("Room tags can only be changed for joined rooms available in this session."));
+        }
         return;
     }
 

@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 86
+Rows: 85
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -50,7 +50,6 @@ Naming mismatch summary:
 | `NetworkMrsEnabled` | `settings.networkMrsEnabled()` | `NetworkMrsEnabled` | `network.mrs.enabled` |
 | `NetworkMrsServerName` | `settings.networkMrsServerName().toStdString()` | `NetworkMrsServerName` | `network.mrs.server_name` |
 | `NetworkPresenceStatusPolicy` | `static_cast<int>(settings.networkPresenceStatusPolicy())` | `NetworkPresenceStatusPolicy` | `network.presence.status_policy` |
-| `NetworkSpacesMaintainJoinMetadata` | `settings.networkSpacesMaintainJoinMetadata()` | `NetworkSpacesMaintainJoinMetadata` | `network.spaces.maintain_join_metadata` |
 | `NetworkTlsEnableCertificateValidation` | `settings.networkTlsEnableCertificateValidation()` | `NetworkTlsEnableCertificateValidation` | `network.tls.enable_certificate_validation` |
 | `NotificationsAttentionOnIncoming` | `settings.notificationsAttentionOnIncoming()` | `NotificationsAttentionOnIncoming` | `notifications.attention_on_incoming` |
 | `NotificationsEnabled` | `settings.notificationsEnabled()` | `NotificationsEnabled` | `notifications.enabled` |

@@ -218,6 +218,25 @@ matrix_notify_room_list_snapshot_updated(std::uint64_t handle_id,
 }
 
 void
+matrix_notify_ignored_user_list_updated(std::uint64_t handle_id,
+                                        ::rust::Vec<::rust::String> user_ids)
+{
+    QVector<QString> users;
+    users.reserve(static_cast<int>(user_ids.size()));
+    for (const auto &userId : user_ids)
+        users.push_back(QString::fromStdString(std::string(userId)));
+
+    postToAppThread([handle_id, users = std::move(users)]() {
+        auto *mainWindow = MainWindow::instance();
+        auto *manager    = TimelineViewManager::instance();
+        if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+
+        manager->handleMatrixBackendIgnoredUsersUpdated(handle_id, users);
+    });
+}
+
+void
 matrix_notify_initial_sync_ready(std::uint64_t handle_id)
 {
     postToAppThread([handle_id]() {

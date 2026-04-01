@@ -34,6 +34,12 @@ struct MatrixOwnProfile
     QString avatarUrl;
 };
 
+struct MatrixOwnPresence
+{
+    QString state;
+    QString statusMessage;
+};
+
 struct MatrixRecoveryStatus
 {
     QString state;
@@ -146,6 +152,54 @@ struct MatrixRoomSummary
     uint64_t notificationCount = 0;
     uint64_t highlightCount    = 0;
     uint64_t timestamp         = 0;
+};
+
+struct MatrixNotificationRequest
+{
+    QString roomId;
+    QString eventId;
+};
+
+struct MatrixNotificationItem
+{
+    QString roomId;
+    QString eventId;
+    QString replacementEventId;
+    QString roomName;
+    QString avatarUrl;
+    QString senderDisplayName;
+    QString plainBody;
+    QString formattedBody;
+    QString mediaMxcUrl;
+    bool isReply         = false;
+    bool isEmote         = false;
+    bool isEncrypted     = false;
+    bool containsSpoiler = false;
+    bool hasInlineImage  = false;
+    bool playSound       = false;
+};
+
+struct MatrixImagePackImage
+{
+    QString shortcode;
+    QString body;
+    QString url;
+    bool isEmote   = false;
+    bool isSticker = false;
+};
+
+struct MatrixImagePack
+{
+    QString sourceRoomId;
+    QString stateKey;
+    QString displayName;
+    QString avatarUrl;
+    QString attribution;
+    bool isEmotePack       = true;
+    bool isStickerPack     = true;
+    bool fromSpace         = false;
+    bool isGloballyEnabled = false;
+    QVector<MatrixImagePackImage> images;
 };
 
 struct MatrixRoomSettings
@@ -375,6 +429,11 @@ public:
                     uint64_t handleId,
                     QString *errorOut = nullptr);
 
+    static std::optional<MatrixOwnPresence>
+    fetchOwnPresence(matrix_backend::BlockingCallContext context,
+                     uint64_t handleId,
+                     QString *errorOut = nullptr);
+
     static std::optional<MatrixRecoveryStatus>
     fetchRecoveryStatus(matrix_backend::BlockingCallContext context,
                         uint64_t handleId,
@@ -533,6 +592,12 @@ public:
                                   const QString &displayName,
                                   QString *errorOut = nullptr);
 
+    static bool setOwnPresence(matrix_backend::BlockingCallContext context,
+                               uint64_t handleId,
+                               const QString &presenceState,
+                               const QString &statusMessage,
+                               QString *errorOut = nullptr);
+
     static bool setOwnRoomDisplayName(matrix_backend::BlockingCallContext context,
                                       uint64_t handleId,
                                       const QString &roomId,
@@ -581,6 +646,43 @@ public:
     fetchRoomList(matrix_backend::BlockingCallContext context,
                   uint64_t handleId,
                   QString *errorOut = nullptr);
+    static std::optional<QVector<MatrixNotificationItem>>
+    fetchNotificationItems(matrix_backend::BlockingCallContext context,
+                           uint64_t handleId,
+                           const QVector<MatrixNotificationRequest> &requests,
+                           QString *errorOut = nullptr);
+    static std::optional<bool>
+    fetchAccountNotificationsEnabled(matrix_backend::BlockingCallContext context,
+                                     uint64_t handleId,
+                                     QString *errorOut = nullptr);
+    static bool setAccountNotificationsEnabled(matrix_backend::BlockingCallContext context,
+                                               uint64_t handleId,
+                                               bool enabled,
+                                               QString *errorOut = nullptr);
+    static std::optional<QVector<MatrixImagePack>>
+    fetchImagePacks(matrix_backend::BlockingCallContext context,
+                    uint64_t handleId,
+                    const QString &roomId,
+                    QString *errorOut = nullptr);
+    static bool saveImagePack(matrix_backend::BlockingCallContext context,
+                              uint64_t handleId,
+                              const QString &roomId,
+                              const QString &stateKey,
+                              const QString &previousStateKey,
+                              bool hasPreviousStateKey,
+                              const MatrixImagePack &pack,
+                              QString *errorOut = nullptr);
+    static bool removeImagePack(matrix_backend::BlockingCallContext context,
+                                uint64_t handleId,
+                                const QString &roomId,
+                                const QString &stateKey,
+                                QString *errorOut = nullptr);
+    static bool setImagePackGloballyEnabled(matrix_backend::BlockingCallContext context,
+                                            uint64_t handleId,
+                                            const QString &roomId,
+                                            const QString &stateKey,
+                                            bool enabled,
+                                            QString *errorOut = nullptr);
     static void cacheRoomListSnapshot(uint64_t handleId, QVector<MatrixRoomSummary> rooms);
     static void clearCachedRoomListSnapshot(uint64_t handleId);
 

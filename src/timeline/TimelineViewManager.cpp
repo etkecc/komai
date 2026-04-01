@@ -79,6 +79,9 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
             &TimelineViewManager::updateColorPalette);
     connect(parent, &ChatPage::loggedOut, this, [this]() {
         clearCurrentMatrixTimeline();
+        setIgnoredUsers({});
+        if (presenceEmitter)
+            presenceEmitter->clear();
         waitingForFirstSync_ = true;
         emit waitingForFirstSyncChanged(true);
     });
@@ -149,20 +152,6 @@ TimelineViewManager::clearAll()
 }
 
 void
-TimelineViewManager::sync(const komai::SyncUpdate &sync)
-{
-    this->rooms_->sync(sync);
-    this->communities_->sync(sync);
-    this->presenceEmitter->sync(sync.presenceUserIds);
-    this->processIgnoredUsers(sync.ignoredUsers);
-
-    if (waitingForFirstSync_) {
-        this->waitingForFirstSync_ = false;
-        emit waitingForFirstSyncChanged(false);
-    }
-}
-
-void
 TimelineViewManager::handleMatrixBackendInitialSyncReady(std::uint64_t handleId)
 {
     auto *mainWindow = MainWindow::instance();
@@ -174,6 +163,31 @@ TimelineViewManager::handleMatrixBackendInitialSyncReady(std::uint64_t handleId)
 
     waitingForFirstSync_ = false;
     emit waitingForFirstSyncChanged(false);
+}
+
+void
+TimelineViewManager::handleMatrixBackendIgnoredUsersUpdated(std::uint64_t handleId,
+                                                            const QVector<QString> &ignoredUsers)
+{
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
+        return;
+
+    setIgnoredUsers(ignoredUsers);
+}
+
+bool
+TimelineViewManager::setIgnoredUsers(QVector<QString> ignoredUsers)
+{
+    std::sort(ignoredUsers.begin(), ignoredUsers.end());
+    ignoredUsers.erase(std::unique(ignoredUsers.begin(), ignoredUsers.end()), ignoredUsers.end());
+
+    if (ignoredUsers_ == ignoredUsers)
+        return false;
+
+    ignoredUsers_ = std::move(ignoredUsers);
+    emit ignoredUsersChanged(ignoredUsers_);
+    return true;
 }
 
 QString

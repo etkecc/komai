@@ -7,7 +7,6 @@
 
 #include <QAbstractItemModel>
 
-#include "events/EventAccessors.h"
 #include "imagepacks/CombinedImagePackModel.h"
 #include "imagepacks/GridImagePackModel.h"
 #include "models/CommandCompleter.h"
@@ -59,12 +58,5 @@ TimelineViewManager::completerFor(const QString &completerName, const QString &r
 QVector<QString>
 TimelineViewManager::getIgnoredUsers()
 {
-    return {};
-}
-
-void
-TimelineViewManager::processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers)
-{
-    if (ignoredUsers)
-        emit this->ignoredUsersChanged(*ignoredUsers);
+    return ignoredUsers_;
 }

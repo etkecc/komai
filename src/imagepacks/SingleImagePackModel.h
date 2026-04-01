@@ -10,9 +10,7 @@
 #include <QQmlEngine>
 #include <QUrl>
 
-#include <mtx/events/mscs/image_packs.hpp>
-
-#include "matrix/MatrixStateTypes.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 
 class SingleImagePackModel final : public QAbstractListModel
 {
@@ -44,7 +42,9 @@ public:
     };
     Q_ENUM(Roles);
 
-    SingleImagePackModel(ImagePackInfo pack_, QObject *parent = nullptr);
+    SingleImagePackModel(komai::MatrixImagePack pack_,
+                         QObject *parent = nullptr,
+                         bool persisted  = true);
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -53,11 +53,11 @@ public:
     QString roomid() const { return QString::fromStdString(roomid_); }
     bool fromSpace() const { return fromSpace_; }
     QString statekey() const { return QString::fromStdString(statekey_); }
-    QString packname() const { return QString::fromStdString(pack.pack->display_name); }
-    QString attribution() const { return QString::fromStdString(pack.pack->attribution); }
+    QString packname() const;
+    QString attribution() const { return pack.attribution; }
     QString avatarUrl() const;
-    bool isStickerPack() const { return pack.pack->is_sticker(); }
-    bool isEmotePack() const { return pack.pack->is_emoji(); }
+    bool isStickerPack() const { return pack.isStickerPack; }
+    bool isEmotePack() const { return pack.isEmotePack; }
 
     bool isGloballyEnabled() const;
     bool canEdit() const;
@@ -87,20 +87,15 @@ signals:
     void isEmotePackChanged();
     void isStickerPackChanged();
 
-    void addImage(std::string uri, std::string filename, mtx::common::ImageInfo info);
-    void avatarUploaded(QString uri);
-
-private slots:
-    void addImageCb(std::string uri, std::string filename, mtx::common::ImageInfo info);
-
 private:
     std::string unconflictingShortcode(const std::string &shortcode);
+    void addUploadedImage(const QString &uri, const QString &filename);
 
     std::string roomid_;
     std::string statekey_, old_statekey_;
 
-    mtx::events::msc2545::ImagePack pack;
-    std::vector<std::string> shortcodes;
+    komai::MatrixImagePack pack;
 
     bool fromSpace_ = false;
+    bool persisted_ = true;
 };

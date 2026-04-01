@@ -11,7 +11,6 @@
 #include <QSharedPointer>
 #include <QTimer>
 
-#include "matrix/MatrixSyncUpdate.h"
 #include "ui/RoomSummary.h"
 
 class TimelineViewManager;
@@ -21,6 +20,7 @@ class CallManager;
 
 namespace komai {
 struct MatrixCreateRoomRequest;
+struct MatrixNotificationItem;
 }
 
 class ChatPage final : public QObject
@@ -54,6 +54,7 @@ public:
 
     //! Check if the given room is currently open.
     bool isRoomActive(const QString &room_id);
+    void dispatchMatrixNotification(const komai::MatrixNotificationItem &notification);
 
     void removeAllNotifications();
 
@@ -108,13 +109,6 @@ signals:
     void initializeEmptyViews();
     void dropToLoginPageCb(const QString &msg);
 
-    void notifyMessage(const QString &roomid,
-                       const QString &eventid,
-                       const QString &roomname,
-                       const QString &sender,
-                       const QString &message,
-                       const QImage &icon);
-
     void themeChanged();
 
     void promptUnlockKeyBackup();
@@ -125,8 +119,6 @@ signals:
                        QString reason             = "",
                        bool failedJoin            = false,
                        bool promptForConfirmation = true);
-    void newOnlineKeyBackupAvailable();
-
     void callFunctionOnGuiThread(std::function<void()>);
 
 private slots:
@@ -152,12 +144,10 @@ private:
     static ChatPage *instance_;
 
     void getProfileInfo();
-    void getBackupVersion();
+    void syncOwnPresence();
 
     void resetUI();
     void deleteConfigs();
-    void processSyncUi(const komai::NotificationSyncUpdate &sync);
-
     template<typename T>
     void connectCallMessage();
     void processDownloadedSecretsUnlockInput(const QString &text);
@@ -174,9 +164,8 @@ private:
     NotificationsManager *notificationsManager;
     CallManager *callManager_;
 
-    // Last locally known status message (local submit and/or latest local-user presence from sync).
-    // Used as a runtime shadow so UI can reflect updates immediately without waiting for cache
-    // echo.
+    // Last locally known own status message. Populated from local submits and/or own-presence
+    // bootstrap fetches so UI can reflect changes immediately.
     std::optional<QString> statusMessageShadow_;
 
     bool pendingSecretsUnlockRequest_ = false;

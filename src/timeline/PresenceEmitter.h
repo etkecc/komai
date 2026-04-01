@@ -7,7 +7,6 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include <QVector>
 
 class PresenceEmitter final : public QObject
 {
@@ -22,6 +21,8 @@ public:
     {
         instance_ = this;
     }
+
+    static PresenceEmitter *instance() { return instance_; }
 
     static PresenceEmitter *create(QQmlEngine *qmlEngine, QJSEngine *)
     {
@@ -42,10 +43,12 @@ public:
         return instance_;
     }
 
-    void sync(const QVector<QString> &userIds);
-
     Q_INVOKABLE QString userPresence(QString id) const;
     Q_INVOKABLE QString userStatus(QString id) const;
+
+    void setLocalPresence(const QString &userId, const QString &state, const QString &status);
+    void setLocalStatus(const QString &userId, const QString &status);
+    void clear();
 
 signals:
     void presenceChanged(QString userid);

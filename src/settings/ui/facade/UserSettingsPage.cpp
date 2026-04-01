@@ -71,6 +71,16 @@ UserSettings::instance()
 }
 
 void
+UserSettings::setNotificationsAccountRuntimeHooks(NotificationsAccountHandleProvider handleProvider,
+                                                  NotificationsAccountFetchFn fetchFn,
+                                                  NotificationsAccountSetFn setFn)
+{
+    notificationsAccountHandleProvider_ = std::move(handleProvider);
+    notificationsAccountFetchFn_        = std::move(fetchFn);
+    notificationsAccountSetFn_          = std::move(setFn);
+}
+
+void
 UserSettings::initialize(std::optional<QString> profile, LoadPolicy loadPolicy)
 {
     instance_.reset(new UserSettings());

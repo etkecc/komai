@@ -16,9 +16,10 @@ Each fixed filter row is defined in `CommunitiesModel::fixedFilters_`, a `std::a
 
 ```cpp
 struct FixedFilterRow {
-    QString id;    // tag ID used by filtering ("", "people", "bot", "group")
-    QString icon;  // sidebar icon path
-    mtx::responses::UnreadNotifications unreads{};
+    QString id;            // tag ID used by filtering ("", "people", "bot", "group")
+    QString icon;          // sidebar icon path
+    int unreadRoomCount;   // rooms with unread activity in this bucket
+    bool hasHighlight;     // whether this bucket currently has a loud/highlighted room
 };
 ```
 
@@ -34,7 +35,7 @@ Global -> Favourites -> People -> Bots -> Groups -> Server -> LowPrio -> Space -
 
 ### Unread tracking
 
-Each fixed filter row tracks its own `unreads` counter. During `initializeSidebar()` and `sync()`, notification diffs are applied to `fixedFilters_[row].unreads`. Tag-based filters (Favourites, Server Notices, Low Priority) use `tagNotificationCache` instead.
+Each fixed filter row tracks its own `unreads` counter. During `initializeSidebar()` and later matrix room-list refreshes, badge diffs are applied to `fixedFilters_[row].unreads`. Tag-based filters (Favourites, Server Notices, Low Priority) use `tagNotificationCache` instead.
 
 ### Visibility ("has rooms" check)
 
@@ -169,7 +170,7 @@ Touch points for a new fixed-row filter:
 
 1. **`CommunitiesModel.h`** -- add `kRow` constant, bump `kFixedRowCount`, add entry to `fixedFilters_` initializer, add `has*Rooms_` flag
 2. **`CommunitiesModelData.cpp`** -- add cases in `fixedFilterDisplayName()` and `fixedFilterTooltip()`; add `Categories` enum value and `tagIdToCat()` entry; add `filterAcceptsRow()` check; add signal connection
-3. **`CommunitiesModelSync.cpp`** -- accumulate unreads during init and sync, set `has*Rooms_` flag
+3. **`CommunitiesModel.cpp`** -- update `has*Rooms_` flags and recompute fixed-filter badges during sidebar refresh
 4. **`RoomlistModel.h`** -- add `FilterBy` enum value and `updateFilterTag()` mapping
 5. **`FilteredRoomlistModel.cpp`** -- add `filterAcceptsRow()` branch for room-level filtering
 6. **Settings layer** -- add setting key, definition, schema descriptor, facade property, getter, setter, core store bridge entry, UI row (see `SettingKeys.h`, `.inc` files, `UserSettingsPage.h`)

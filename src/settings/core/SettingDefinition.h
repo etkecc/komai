@@ -45,7 +45,6 @@ enum class SettingId
     SidebarsCommunitiesFilterServerNotices,
     SidebarsCommunitiesFilterLowPriority,
     NetworkPresenceStatusPolicy,
-    NetworkSpacesMaintainJoinMetadata,
     PrivacyMaintenanceExpireEvents,
     PrivacyWindowFocusBlurEnabled,
     PrivacyWindowFocusBlurDelaySeconds,

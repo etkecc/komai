@@ -243,16 +243,6 @@ currentThemeDef()
     return settings ? ThemeRegistry::instance().findTheme(settings->uiThemeSlug()) : nullptr;
 }
 
-QColor
-formerMemberColor(const QColor &background)
-{
-    auto bgLightness = background.lightnessF();
-    if (bgLightness > 0.5)
-        return QColor::fromHsl(0, 0, 180); // light theme: medium-light gray
-    else
-        return QColor::fromHsl(0, 0, 100); // dark theme: medium-dark gray
-}
-
 } // namespace
 
 void

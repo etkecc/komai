@@ -16,7 +16,6 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 
 class ChatPage;
-class RegisterPage;
 class WelcomePage;
 class QFocusEvent;
 class QKeyEvent;
@@ -169,8 +168,6 @@ private:
 
     //! The initial welcome screen.
     WelcomePage *welcome_page_;
-    //! The register page.
-    RegisterPage *register_page_;
     //! The main chat area.
     ChatPage *chat_page_;
     QSharedPointer<UserSettings> userSettings_;

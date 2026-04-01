@@ -102,7 +102,4 @@ Menu {
             onTriggered: newTag.open()
         }
     }
-    SpaceMenu {
-        roomid: root.roomid
-    }
 }

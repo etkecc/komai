@@ -67,6 +67,11 @@ mod ffi {
         avatar_url: String,
     }
 
+    struct MatrixOwnPresence {
+        state: String,
+        status_message: String,
+    }
+
     struct MatrixRecoveryStatus {
         state: String,
         has_devices_to_verify_against: bool,
@@ -167,6 +172,50 @@ mod ffi {
         notification_count: u64,
         highlight_count: u64,
         timestamp: u64,
+    }
+
+    struct MatrixNotificationRequest {
+        room_id: String,
+        event_id: String,
+    }
+
+    struct MatrixNotificationItem {
+        room_id: String,
+        event_id: String,
+        replacement_event_id: String,
+        room_name: String,
+        avatar_url: String,
+        sender_display_name: String,
+        plain_body: String,
+        formatted_body: String,
+        media_mxc_url: String,
+        is_reply: bool,
+        is_emote: bool,
+        is_encrypted: bool,
+        contains_spoiler: bool,
+        has_inline_image: bool,
+        play_sound: bool,
+    }
+
+    struct MatrixImagePackImage {
+        shortcode: String,
+        body: String,
+        url: String,
+        is_emote: bool,
+        is_sticker: bool,
+    }
+
+    struct MatrixImagePack {
+        source_room_id: String,
+        state_key: String,
+        display_name: String,
+        avatar_url: String,
+        attribution: String,
+        is_emote_pack: bool,
+        is_sticker_pack: bool,
+        from_space: bool,
+        is_globally_enabled: bool,
+        images: Vec<MatrixImagePackImage>,
     }
 
     struct MatrixRoomSettings {
@@ -369,6 +418,8 @@ mod ffi {
             room_list: Vec<MatrixRoomSummary>,
         );
         #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_ignored_user_list_updated(handle_id: u64, user_ids: Vec<String>);
+        #[namespace = "komai::rust_bridge"]
         fn matrix_notify_initial_sync_ready(handle_id: u64);
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_room_timeline_snapshot_updated(handle_id: u64, room_id: &str);
@@ -471,6 +522,10 @@ mod ffi {
             context: MatrixFfiBlockingContext,
             handle_id: u64,
         ) -> Result<MatrixOwnProfile>;
+        fn matrix_fetch_own_presence(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<MatrixOwnPresence>;
         fn matrix_fetch_recovery_status(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
@@ -613,6 +668,12 @@ mod ffi {
             handle_id: u64,
             display_name: &str,
         ) -> Result<()>;
+        fn matrix_set_own_presence(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            presence_state: &str,
+            status_message: &str,
+        ) -> Result<()>;
         fn matrix_set_own_room_display_name(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
@@ -661,6 +722,47 @@ mod ffi {
             context: MatrixFfiBlockingContext,
             handle_id: u64,
         ) -> Result<Vec<MatrixRoomSummary>>;
+        fn matrix_fetch_notification_items(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            requests: &Vec<MatrixNotificationRequest>,
+        ) -> Result<Vec<MatrixNotificationItem>>;
+        fn matrix_fetch_account_notifications_enabled(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<bool>;
+        fn matrix_set_account_notifications_enabled(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            enabled: bool,
+        ) -> Result<()>;
+        fn matrix_fetch_image_packs(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<Vec<MatrixImagePack>>;
+        fn matrix_save_image_pack(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            state_key: &str,
+            previous_state_key: &str,
+            has_previous_state_key: bool,
+            pack: MatrixImagePack,
+        ) -> Result<()>;
+        fn matrix_remove_image_pack(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            state_key: &str,
+        ) -> Result<()>;
+        fn matrix_set_image_pack_globally_enabled(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            state_key: &str,
+            enabled: bool,
+        ) -> Result<()>;
         fn matrix_fetch_room_settings(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
@@ -1270,6 +1372,22 @@ fn matrix_fetch_own_profile(
     })
 }
 
+fn matrix_fetch_own_presence(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<ffi::MatrixOwnPresence, String> {
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_own_presence",
+        matrix_backend::runtime::fetch_own_presence(handle_id),
+    )?;
+
+    Ok(ffi::MatrixOwnPresence {
+        state: result.state,
+        status_message: result.status_message,
+    })
+}
+
 fn matrix_fetch_recovery_status(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
@@ -1740,6 +1858,19 @@ fn matrix_set_own_display_name(
     )
 }
 
+fn matrix_set_own_presence(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    presence_state: &str,
+    status_message: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_set_own_presence",
+        matrix_backend::runtime::set_own_presence(handle_id, presence_state, status_message),
+    )
+}
+
 fn matrix_set_own_room_display_name(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
@@ -1868,6 +1999,92 @@ pub(crate) fn into_ffi_matrix_room_summary(
     }
 }
 
+fn into_ffi_matrix_notification_item(
+    item: matrix_backend::runtime::MatrixNotificationItem,
+) -> ffi::MatrixNotificationItem {
+    ffi::MatrixNotificationItem {
+        room_id: item.room_id,
+        event_id: item.event_id,
+        replacement_event_id: item.replacement_event_id,
+        room_name: item.room_name,
+        avatar_url: item.avatar_url,
+        sender_display_name: item.sender_display_name,
+        plain_body: item.plain_body,
+        formatted_body: item.formatted_body,
+        media_mxc_url: item.media_mxc_url,
+        is_reply: item.is_reply,
+        is_emote: item.is_emote,
+        is_encrypted: item.is_encrypted,
+        contains_spoiler: item.contains_spoiler,
+        has_inline_image: item.has_inline_image,
+        play_sound: item.play_sound,
+    }
+}
+
+fn into_ffi_matrix_image_pack_image(
+    image: matrix_backend::runtime::MatrixImagePackImage,
+) -> ffi::MatrixImagePackImage {
+    ffi::MatrixImagePackImage {
+        shortcode: image.shortcode,
+        body: image.body,
+        url: image.url,
+        is_emote: image.is_emote,
+        is_sticker: image.is_sticker,
+    }
+}
+
+fn into_ffi_matrix_image_pack(
+    pack: matrix_backend::runtime::MatrixImagePack,
+) -> ffi::MatrixImagePack {
+    ffi::MatrixImagePack {
+        source_room_id: pack.source_room_id,
+        state_key: pack.state_key,
+        display_name: pack.display_name,
+        avatar_url: pack.avatar_url,
+        attribution: pack.attribution,
+        is_emote_pack: pack.is_emote_pack,
+        is_sticker_pack: pack.is_sticker_pack,
+        from_space: pack.from_space,
+        is_globally_enabled: pack.is_globally_enabled,
+        images: pack
+            .images
+            .into_iter()
+            .map(into_ffi_matrix_image_pack_image)
+            .collect(),
+    }
+}
+
+fn from_ffi_matrix_image_pack_image(
+    image: ffi::MatrixImagePackImage,
+) -> matrix_backend::runtime::MatrixImagePackImage {
+    matrix_backend::runtime::MatrixImagePackImage {
+        shortcode: image.shortcode,
+        body: image.body,
+        url: image.url,
+        is_emote: image.is_emote,
+        is_sticker: image.is_sticker,
+    }
+}
+
+fn from_ffi_matrix_image_pack(pack: ffi::MatrixImagePack) -> matrix_backend::runtime::MatrixImagePack {
+    matrix_backend::runtime::MatrixImagePack {
+        source_room_id: pack.source_room_id,
+        state_key: pack.state_key,
+        display_name: pack.display_name,
+        avatar_url: pack.avatar_url,
+        attribution: pack.attribution,
+        is_emote_pack: pack.is_emote_pack,
+        is_sticker_pack: pack.is_sticker_pack,
+        from_space: pack.from_space,
+        is_globally_enabled: pack.is_globally_enabled,
+        images: pack
+            .images
+            .into_iter()
+            .map(from_ffi_matrix_image_pack_image)
+            .collect(),
+    }
+}
+
 fn matrix_fetch_room_list(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
@@ -1878,6 +2095,115 @@ fn matrix_fetch_room_list(
         matrix_backend::runtime::fetch_room_list(handle_id),
     )
         .map(|rooms| rooms.into_iter().map(into_ffi_matrix_room_summary).collect())
+}
+
+fn matrix_fetch_notification_items(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    requests: &Vec<ffi::MatrixNotificationRequest>,
+) -> Result<Vec<ffi::MatrixNotificationItem>, String> {
+    let requests = requests
+        .iter()
+        .map(|request| matrix_backend::runtime::MatrixNotificationRequest {
+            room_id: request.room_id.clone(),
+            event_id: request.event_id.clone(),
+        })
+        .collect::<Vec<_>>();
+
+    ffi_block_on(
+        context,
+        "matrix_fetch_notification_items",
+        matrix_backend::runtime::fetch_notification_items(handle_id, &requests),
+    )
+    .map(|items| items.into_iter().map(into_ffi_matrix_notification_item).collect())
+}
+
+fn matrix_fetch_account_notifications_enabled(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<bool, String> {
+    ffi_block_on(
+        context,
+        "matrix_fetch_account_notifications_enabled",
+        matrix_backend::runtime::fetch_account_notifications_enabled(handle_id),
+    )
+}
+
+fn matrix_set_account_notifications_enabled(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    enabled: bool,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_set_account_notifications_enabled",
+        matrix_backend::runtime::set_account_notifications_enabled(handle_id, enabled),
+    )
+}
+
+fn matrix_fetch_image_packs(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+) -> Result<Vec<ffi::MatrixImagePack>, String> {
+    ffi_block_on(
+        context,
+        "matrix_fetch_image_packs",
+        matrix_backend::runtime::fetch_image_packs(handle_id, room_id),
+    )
+    .map(|packs| packs.into_iter().map(into_ffi_matrix_image_pack).collect())
+}
+
+fn matrix_save_image_pack(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    state_key: &str,
+    previous_state_key: &str,
+    has_previous_state_key: bool,
+    pack: ffi::MatrixImagePack,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_save_image_pack",
+        matrix_backend::runtime::save_image_pack(
+            handle_id,
+            room_id,
+            state_key,
+            previous_state_key,
+            has_previous_state_key,
+            from_ffi_matrix_image_pack(pack),
+        ),
+    )
+}
+
+fn matrix_remove_image_pack(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    state_key: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_remove_image_pack",
+        matrix_backend::runtime::remove_image_pack(handle_id, room_id, state_key),
+    )
+}
+
+fn matrix_set_image_pack_globally_enabled(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    state_key: &str,
+    enabled: bool,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_set_image_pack_globally_enabled",
+        matrix_backend::runtime::set_image_pack_globally_enabled(
+            handle_id, room_id, state_key, enabled,
+        ),
+    )
 }
 
 fn matrix_fetch_room_settings(

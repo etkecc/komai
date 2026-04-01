@@ -6,7 +6,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
-import "../../components"
 
 Rectangle {
     id: root

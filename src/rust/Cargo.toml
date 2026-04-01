@@ -24,6 +24,7 @@ tracing = "0.1"
 tracing-log = "0.2"
 tracing-subscriber = { version = "0.3", features = ["registry"] }
 mime = "0.3"
+ruma = { version = "0.14", features = ["unstable-msc2545"] }
 matrix-sdk = { version = "0.16.0", features = ["native-tls", "sqlite"] }
 matrix-sdk-ui = { version = "0.16.0", default-features = false, features = ["native-tls"] }
 

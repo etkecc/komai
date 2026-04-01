@@ -11,13 +11,9 @@
 #include <QRegularExpression>
 #include <QTextDocumentFragment>
 
-#include <variant>
-
-#include "events/EventAccessors.h"
 #include "profile/Paths.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
-#include "utils/Utils.h"
 
 using namespace WinToastLib;
 
@@ -62,22 +58,23 @@ NotificationsManager::NotificationsManager(QObject *parent)
 }
 
 void
-NotificationsManager::postNotification(const mtx::responses::Notification &notification,
+NotificationsManager::postNotification(const komai::NotificationPayload &notification,
                                        const QImage &icon)
 {
-    const auto room_name = QString::fromStdString(notification.room_id);
-    auto roomid          = QString::fromStdString(notification.room_id);
-    auto eventid         = QString::fromStdString(mtx::accessors::event_id(notification.event));
+    const auto room_name =
+      notification.roomName.isEmpty() ? notification.roomId : notification.roomName;
+    auto roomid         = notification.roomId;
+    auto eventid        = notification.eventId;
+    QString mediaMxcUrl = notification.mediaMxcUrl;
+    mediaMxcUrl.remove(QStringLiteral("mxc://"));
 
     auto formatNotification = [this, notification] {
         const auto template_ = getMessageTemplate(notification);
-        if (std::holds_alternative<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
-              notification.event) ||
-            !template_.contains("%2")) {
+        if (notification.isEncrypted || !template_.contains("%2")) {
             return template_;
         }
 
-        return template_.arg(utils::stripReplyFallbacks(notification.event, {}, {}).quoted_body);
+        return template_.arg(plainNotificationBody(notification));
     }();
 
     auto iconPath =
@@ -86,12 +83,9 @@ NotificationsManager::postNotification(const mtx::responses::Notification &notif
     if (!icon.save(iconPath))
         iconPath.clear();
 
-    if (allowShowingImages(notification) &&
-        (mtx::accessors::msg_type(notification.event) == mtx::events::MessageType::Image ||
-         mtx::accessors::msg_type(notification.event) == mtx::events::MessageType::Image)) {
+    if (allowShowingImages() && notification.hasInlineImage && !mediaMxcUrl.isEmpty()) {
         MxcImageProvider::download(
-          QString::fromStdString(mtx::accessors::url(notification.event))
-            .remove(QStringLiteral("mxc://")),
+          mediaMxcUrl,
           QSize(200, 80),
           [this, roomid, eventid, room_name, formatNotification, iconPath](
             QString, QSize, QImage, QString imgPath) {
@@ -150,6 +144,6 @@ void
 NotificationsManager::notificationClosed(uint, uint)
 {}
 
-void
+    void
 NotificationsManager::removeNotification(const QString &, const QString &)
 {}

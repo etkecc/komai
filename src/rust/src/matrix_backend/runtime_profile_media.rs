@@ -3,6 +3,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use super::*;
+use matrix_sdk::ruma::{
+    api::client::presence::{get_presence, set_presence},
+    presence::PresenceState,
+};
 use mime::Mime;
 use std::fs;
 
@@ -67,6 +71,15 @@ async fn fetch_own_room_member(
     Ok((own_user_id, member))
 }
 
+fn presence_state_from_token(presence_state: &str) -> Result<PresenceState, String> {
+    match presence_state.trim() {
+        "" | "automatic" | "online" => Ok(PresenceState::Online),
+        "unavailable" => Ok(PresenceState::Unavailable),
+        "offline" => Ok(PresenceState::Offline),
+        other => Err(format!("unsupported own presence state '{other}'")),
+    }
+}
+
 pub async fn fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile, String> {
     let client = client_for_handle(handle_id)?;
     let user_id = client
@@ -95,6 +108,30 @@ pub async fn fetch_own_profile(handle_id: u64) -> Result<MatrixOwnProfile, Strin
     Ok(MatrixOwnProfile {
         display_name: profile.display_name,
         avatar_url: profile.avatar_url,
+    })
+}
+
+pub async fn fetch_own_presence(handle_id: u64) -> Result<MatrixOwnPresence, String> {
+    let client = client_for_handle(handle_id)?;
+    let user_id = client
+        .user_id()
+        .map(|user_id| user_id.to_owned())
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} has no user id"))?;
+
+    tracing::debug!(
+        handle_id,
+        user_id = user_id.as_str(),
+        "Fetching own presence via matrix-sdk backend runtime"
+    );
+
+    let response = client
+        .send(get_presence::v3::Request::new(user_id))
+        .await
+        .map_err(|e| format!("failed to fetch own presence via matrix-sdk: {e}"))?;
+
+    Ok(MatrixOwnPresence {
+        state: response.presence.as_ref().to_owned(),
+        status_message: response.status_msg.unwrap_or_default(),
     })
 }
 
@@ -168,6 +205,35 @@ pub async fn set_own_display_name(handle_id: u64, display_name: &str) -> Result<
         .set_display_name((!display_name.is_empty()).then_some(display_name))
         .await
         .map_err(|e| format!("failed to set own display name via matrix-sdk: {e}"))
+}
+
+pub async fn set_own_presence(
+    handle_id: u64,
+    presence_state: &str,
+    status_message: &str,
+) -> Result<(), String> {
+    let client = client_for_handle(handle_id)?;
+    let user_id = client
+        .user_id()
+        .map(|user_id| user_id.to_owned())
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} has no user id"))?;
+    let presence = presence_state_from_token(presence_state)?;
+    let trimmed_status_message = status_message.trim();
+    let mut request = set_presence::v3::Request::new(user_id, presence.clone());
+    request.status_msg = (!trimmed_status_message.is_empty()).then_some(trimmed_status_message.to_owned());
+
+    tracing::info!(
+        handle_id,
+        presence_state = presence.as_ref(),
+        has_status_message = !trimmed_status_message.is_empty(),
+        "Setting own presence via matrix-sdk backend runtime"
+    );
+
+    client
+        .send(request)
+        .await
+        .map(|_: set_presence::v3::Response| ())
+        .map_err(|e| format!("failed to set own presence via matrix-sdk: {e}"))
 }
 
 pub async fn upload_own_avatar(

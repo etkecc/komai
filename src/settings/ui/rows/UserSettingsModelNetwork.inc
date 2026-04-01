@@ -23,15 +23,6 @@
       nullptr,  // tagId
       true },   // syncedToMatrix
 
-    // NetworkSpacesSection
-    { QT_TR_NOOP("Spaces"), nullptr, SM::SectionTitle, SM::TabNetwork,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // NetworkSpacesMaintainJoinMetadata
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Maintain space join metadata",
-      QT_TR_NOOP("Recomputes & updates `via` servers for rooms linked from spaces."),
-      SM::TabNetwork, networkSpacesMaintainJoinMetadata, setNetworkSpacesMaintainJoinMetadata, nullptr, NetworkSpacesMaintainJoinMetadata, SettingKey::NetworkSpacesMaintainJoinMetadata),
-
     // NetworkTransportSection
     { QT_TR_NOOP("Transport"), nullptr, SM::SectionTitle, SM::TabNetwork,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

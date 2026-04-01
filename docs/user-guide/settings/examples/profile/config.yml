@@ -141,8 +141,6 @@ encryption:
 network:
   presence:
     status_policy: automatic_presence
-  spaces:
-    maintain_join_metadata: true
   http3:
     enabled: false
   tls:

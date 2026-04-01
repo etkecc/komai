@@ -91,6 +91,10 @@ to_string(EventType type)
         return "m.key.verification.mac";
     case EventType::Reaction:
         return "m.reaction";
+    case EventType::Presence:
+        return "m.presence";
+    case EventType::PushRules:
+        return "m.push_rules";
     case EventType::RoomKey:
         return "m.room_key";
     case EventType::ForwardedRoomKey:
@@ -171,6 +175,8 @@ to_string(EventType type)
         return "m.call.negotiate";
     case EventType::Receipt:
         return "m.receipt";
+    case EventType::Typing:
+        return "m.typing";
     case EventType::FullyRead:
         return "m.fully_read";
     case EventType::IgnoredUsers:

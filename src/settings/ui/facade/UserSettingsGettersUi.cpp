@@ -6,6 +6,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 
 #include "logging/Logging.h"
+#include "utils/QtWorkerTask.h"
 
 #include "UserSettingsGettersUiIntegrations.inc"
 #include "UserSettingsGettersUiLookFeel.inc"

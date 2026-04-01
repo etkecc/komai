@@ -7,8 +7,6 @@
 
 #include <QAbstractListModel>
 
-#include <mtx/events/mscs/image_packs.hpp>
-
 class CombinedImagePackModel final : public QAbstractListModel
 {
     Q_OBJECT
@@ -30,6 +28,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
 
 private:
+    void loadFromRuntime();
+
     std::string room_id;
     bool includeUnicode_;
 
@@ -37,8 +37,8 @@ private:
     {
         QString shortcode;
         QString packname;
-
-        mtx::events::msc2545::PackImage image;
+        QString url;
+        QString body;
     };
 
     std::vector<ImageDesc> images;

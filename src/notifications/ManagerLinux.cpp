@@ -16,17 +16,11 @@
 #include <QStringBuilder>
 #include <QTextDocumentFragment>
 
-#include <functional>
-#include <variant>
-
-#include <mtx/responses/notifications.hpp>
-
 #include "dbus/Api.h"
-#include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
-#include "utils/Utils.h"
+#include <functional>
 
 NotificationsManager::NotificationsManager(QObject *parent)
   : QObject(parent)
@@ -87,15 +81,16 @@ NotificationsManager::NotificationsManager(QObject *parent)
 }
 
 void
-NotificationsManager::postNotification(const mtx::responses::Notification &notification,
+NotificationsManager::postNotification(const komai::NotificationPayload &notification,
                                        const QImage &icon)
 {
-    const auto room_id   = QString::fromStdString(notification.room_id);
-    const auto event_id  = QString::fromStdString(mtx::accessors::event_id(notification.event));
-    const auto room_name = room_id;
-
-    const auto replaces_event_id =
-      QString::fromStdString(mtx::accessors::relations(notification.event).replaces().value_or(""));
+    const auto room_id   = notification.roomId;
+    const auto event_id  = notification.eventId;
+    const auto room_name = notification.roomName.isEmpty() ? room_id : notification.roomName;
+    const auto replaces_event_id = notification.replacementEventId;
+    QString formattedBody        = formattedNotificationBody(notification);
+    QString mediaMxcUrl          = notification.mediaMxcUrl;
+    mediaMxcUrl.remove(QStringLiteral("mxc://"));
 
     auto postNotif = [this, room_id, event_id, room_name, icon, replaces_event_id](QString text) {
         if (replaces_event_id.isEmpty())
@@ -105,50 +100,40 @@ NotificationsManager::postNotification(const mtx::responses::Notification &notif
     };
 
     QString template_ = getMessageTemplate(notification);
-    // TODO: decrypt this message if the decryption setting is on in the UserSettings
-    if (std::holds_alternative<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
-          notification.event) ||
-        !template_.contains("%2")) {
+    if (notification.isEncrypted || !template_.contains("%2")) {
         postNotif(template_);
         return;
     }
 
     if (hasMarkup_) {
-        if (hasImages_ && allowShowingImages(notification) &&
-            (mtx::accessors::msg_type(notification.event) == mtx::events::MessageType::Image ||
-             mtx::accessors::event_type(notification.event) == mtx::events::EventType::Sticker)) {
+        if (hasImages_ && allowShowingImages() && notification.hasInlineImage &&
+            !mediaMxcUrl.isEmpty()) {
             MxcImageProvider::download(
-              QString::fromStdString(mtx::accessors::url(notification.event))
-                .remove(QStringLiteral("mxc://")),
+              mediaMxcUrl,
               QSize(200, 80),
-              [postNotif, notification, template_](QString, QSize, QImage, QString imgPath) {
+              [postNotif, formattedBody, template_](QString, QSize, QImage, QString imgPath) {
                   if (imgPath.isEmpty())
-                      postNotif(template_
-                                  .arg(utils::stripReplyFallbacks(notification.event, {}, {})
-                                         .quoted_formatted_body)
+                      postNotif(template_.arg(formattedBody)
                                   .replace(QLatin1String("<em>"), QLatin1String("<i>"))
                                   .replace(QLatin1String("</em>"), QLatin1String("</i>"))
                                   .replace(QLatin1String("<strong>"), QLatin1String("<b>"))
                                   .replace(QLatin1String("</strong>"), QLatin1String("</b>")));
                   else
-                      postNotif(template_.arg(
-                        QStringLiteral("<br><img src=\"file:///") % imgPath % "\" alt=\"" %
-                        mtx::accessors::formattedBodyWithFallback(notification.event) % "\">"));
+                      postNotif(template_.arg(QStringLiteral("<br><img src=\"file:///") % imgPath %
+                                              "\" alt=\"" % formattedBody % "\">"));
               });
             return;
         }
 
-        postNotif(
-          template_
-            .arg(utils::stripReplyFallbacks(notification.event, {}, {}).quoted_formatted_body)
-            .replace(QLatin1String("<em>"), QLatin1String("<i>"))
-            .replace(QLatin1String("</em>"), QLatin1String("</i>"))
-            .replace(QLatin1String("<strong>"), QLatin1String("<b>"))
-            .replace(QLatin1String("</strong>"), QLatin1String("</b>")));
+        postNotif(template_.arg(formattedNotificationBody(notification))
+                    .replace(QLatin1String("<em>"), QLatin1String("<i>"))
+                    .replace(QLatin1String("</em>"), QLatin1String("</i>"))
+                    .replace(QLatin1String("<strong>"), QLatin1String("<b>"))
+                    .replace(QLatin1String("</strong>"), QLatin1String("</b>")));
         return;
     }
 
-    postNotif(template_.arg(utils::stripReplyFallbacks(notification.event, {}, {}).quoted_body));
+    postNotif(template_.arg(plainNotificationBody(notification)));
 }
 
 /**
@@ -166,9 +151,9 @@ NotificationsManager::systemPostNotification(const QString &room_id,
 {
     QVariantMap hints;
     hints[QStringLiteral("image-data")]    = icon;
-    hints[QStringLiteral("sound-name")]    = "message-new-instant";
     hints[QStringLiteral("desktop-entry")] = "komai";
     hints[QStringLiteral("category")]      = "im.received";
+    hints[QStringLiteral("sound-name")]    = "message-new-instant";
 
     if (auto profile = UserSettings::instance()->profile(); !profile.isEmpty())
         hints[QStringLiteral("x-kde-origin-name")] = profile;

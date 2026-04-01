@@ -6,7 +6,31 @@
 #include "imagepacks/CombinedImagePackModel.h"
 
 #include "emoji/Provider.h"
+#include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "models/CompletionModelRoles.h"
+#include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
+
+namespace {
+struct CombinedImagePackLoadResult
+{
+    std::optional<QVector<komai::MatrixImagePack>> packs;
+    QString error;
+};
+
+QString
+displayNameForPack(const komai::MatrixImagePack &pack)
+{
+    if (!pack.displayName.trimmed().isEmpty())
+        return pack.displayName;
+    if (!pack.stateKey.trimmed().isEmpty())
+        return pack.stateKey;
+    if (!pack.sourceRoomId.trimmed().isEmpty())
+        return pack.sourceRoomId;
+    return CombinedImagePackModel::tr("Account Pack");
+}
+} // namespace
 
 CombinedImagePackModel::CombinedImagePackModel(const std::string &roomId,
                                                bool includeUnicode,
@@ -15,6 +39,7 @@ CombinedImagePackModel::CombinedImagePackModel(const std::string &roomId,
   , room_id(roomId)
   , includeUnicode_(includeUnicode)
 {
+    loadFromRuntime();
 }
 
 int
@@ -72,23 +97,21 @@ CombinedImagePackModel::data(const QModelIndex &index, int role) const
                 return {};
             }
         } else {
-            int row = index.row() - emojiCount;
+            const int row = index.row() - emojiCount;
             switch (role) {
             case CompletionModel::CompletionRole:
                 return QStringLiteral(
                          "<img data-mx-emoticon height=\"32\" src=\"%1\" alt=\"%2\" title=\"%2\">")
-                  .arg(QString::fromStdString(images[row].image.url).toHtmlEscaped(),
-                       !images[row].image.body.empty()
-                         ? QString::fromStdString(images[row].image.body)
-                         : images[row].shortcode);
+                  .arg(images[row].url.toHtmlEscaped(),
+                       !images[row].body.isEmpty() ? images[row].body : images[row].shortcode);
             case Roles::Url:
-                return QString::fromStdString(images[row].image.url);
+                return images[row].url;
             case CompletionModel::SearchRole:
             case Roles::ShortCode:
                 return images[row].shortcode;
             case CompletionModel::SearchRole2:
             case Roles::Body:
-                return QString::fromStdString(images[row].image.body);
+                return images[row].body;
             case Roles::PackName:
                 return images[row].packname;
             case Roles::Unicode:
@@ -101,6 +124,57 @@ CombinedImagePackModel::data(const QModelIndex &index, int role) const
         }
     }
     return {};
+}
+
+void
+CombinedImagePackModel::loadFromRuntime()
+{
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || room_id.empty())
+        return;
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId = QString::fromStdString(room_id)]() {
+          CombinedImagePackLoadResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.packs       = komai::MatrixBackendRuntimeService::fetchImagePacks(
+            context, handleId, roomId, &result.error);
+          return result;
+      },
+      [](CombinedImagePackModel *model, CombinedImagePackLoadResult result) {
+          if (!result.error.isEmpty()) {
+              nhlog::ui()->warn("Failed to fetch matrix-sdk image packs for completer: {}",
+                                result.error.toStdString());
+              return;
+          }
+
+          model->beginResetModel();
+          model->images.clear();
+
+          if (result.packs.has_value()) {
+              for (const auto &pack : *result.packs) {
+                  if (!pack.isEmotePack)
+                      continue;
+
+                  const auto packName = displayNameForPack(pack);
+                  for (const auto &image : pack.images) {
+                      if (!image.isEmote)
+                          continue;
+
+                      model->images.push_back(ImageDesc{
+                        .shortcode = image.shortcode,
+                        .packname  = packName,
+                        .url       = image.url,
+                        .body      = image.body,
+                      });
+                  }
+              }
+          }
+
+          model->endResetModel();
+      });
 }
 
 #include "moc_CombinedImagePackModel.cpp"

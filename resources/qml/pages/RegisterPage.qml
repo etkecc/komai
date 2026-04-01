@@ -15,12 +15,9 @@ import "../ui/"
 Item {
     id: registrationPage
     property int maxExpansion: 800
-
-    property string error: regis.error
-
-    Registration {
-        id: regis
-    }
+    readonly property string matrixUrl: "https://matrix.org/"
+    readonly property string matrixHostingProvidersUrl: "https://matrix.org/ecosystem/hosting/"
+    readonly property string etkeRegisterUrl: "https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=register"
 
     Onboarding.OnboardingScrollPage {
         id: scroll
@@ -210,295 +207,75 @@ Item {
                 }
             }
 
-            // ── Card 1: Homeserver ──
-            Item {
+            Rectangle {
                 Layout.fillWidth: true
-                implicitHeight: hsRow.implicitHeight
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.topMargin: Komai.paddingSmall
+                Layout.bottomMargin: Komai.paddingMedium
+                color: palette.window
+                radius: 8
+                implicitHeight: noteColumn.implicitHeight + Komai.paddingMedium * 2
 
-                HoverHandler { id: hsHover; blocking: false }
-                Rectangle { anchors.fill: hsRow; color: hsHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
-
-                RowLayout {
-                    id: hsRow
-                    width: parent.width
+                ColumnLayout {
+                    id: noteColumn
+                    anchors.fill: parent
+                    anchors.margins: Komai.paddingMedium
                     spacing: Komai.paddingSmall
 
                     Label {
                         Layout.fillWidth: true
-                        Layout.margins: Komai.paddingMedium
-                        text: qsTr("Homeserver")
-                        color: hsHover.hovered ? palette.brightText : palette.text
+                        text: qsTr("In-app registration is not available yet.")
+                        color: palette.text
+                        font.pointSize: Settings.uiFontSizePt * 1.05
+                        wrapMode: Text.Wrap
                     }
-
-                    Spinner {
-                        Layout.preferredHeight: hsLabel.height / 2
-                        Layout.alignment: Qt.AlignVCenter
-                        visible: running
-                        running: regis.lookingUpHs
-                        foreground: palette.mid
-                    }
-
-                    KomaiTextField {
-                        id: hsLabel
-                        Layout.fillWidth: true
-                        Layout.minimumWidth: 300
-                        Layout.topMargin: Komai.paddingSmall
-                        Layout.bottomMargin: Komai.paddingSmall
-                        Layout.rightMargin: Komai.paddingSmall
-                        placeholderText: qsTr("your.server")
-
-                        onTextChanged: hsDebounce.restart()
-
-                        Timer {
-                            id: hsDebounce
-
-                            interval: 350
-                            onTriggered: regis.setServer(hsLabel.text)
-                        }
-                    }
-                }
-            }
-
-            MatrixText {
-                Layout.fillWidth: true
-                textFormat: Text.PlainText
-                color: Komai.theme.error
-                text: regis.hsError
-                visible: text
-                wrapMode: TextEdit.Wrap
-            }
-
-            // ── Card 2: Username ──
-            Item {
-                Layout.fillWidth: true
-                implicitHeight: usernameRow.implicitHeight
-                visible: regis.supported
-
-                HoverHandler { id: usernameHover; blocking: false }
-                Rectangle { anchors.fill: usernameRow; color: usernameHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
-
-                RowLayout {
-                    id: usernameRow
-                    width: parent.width
-                    spacing: Komai.paddingSmall
 
                     Label {
                         Layout.fillWidth: true
-                        Layout.margins: Komai.paddingMedium
-                        text: qsTr("Username")
-                        color: usernameHover.hovered ? palette.brightText : palette.text
-                    }
-
-                    Spinner {
-                        Layout.preferredHeight: usernameLabel.height / 2
-                        Layout.alignment: Qt.AlignVCenter
-                        visible: running
-                        running: regis.lookingUpUsername
-                        foreground: palette.mid
-                    }
-
-                    Image {
-                        id: usernameAvailabilityIcon
-
-                        readonly property string statusToolTipText: regis.usernameAvailable
-                            ? qsTr("Username is available")
-                            : qsTr("Username is unavailable")
-
-                        Layout.preferredHeight: usernameLabel.height / 2
-                        Layout.preferredWidth: usernameLabel.height / 2
-                        Layout.alignment: Qt.AlignVCenter
-                        source: regis.usernameAvailable ? ("image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success) : ("image://colorimage/:/icons/icons/ui/dismiss.svg?" + Komai.theme.error)
-                        visible: regis.usernameAvailable || regis.usernameUnavailable
-                        sourceSize.height: height
-                        sourceSize.width: width
-                        HoverHandler {
-                            id: ma
-                        }
-
-                        KomaiToolTip {
-                            anchorItem: usernameAvailabilityIcon
-                            anchorX: usernameAvailabilityIcon.width / 2
-                            anchorY: 0
-                            text: usernameAvailabilityIcon.statusToolTipText
-                            requestedVisible: ma.hovered && usernameAvailabilityIcon.visible
-                        }
-                    }
-
-                    KomaiTextField {
-                        id: usernameLabel
-                        Layout.fillWidth: true
-                        Layout.minimumWidth: 300
-                        Layout.topMargin: Komai.paddingSmall
-                        Layout.bottomMargin: Komai.paddingSmall
-                        Layout.rightMargin: Komai.paddingSmall
-                        placeholderText: qsTr("Username")
-
-                        onTextChanged: usernameDebounce.restart()
-
-                        Timer {
-                            id: usernameDebounce
-
-                            interval: 350
-                            onTriggered: regis.checkUsername(usernameLabel.text)
-                        }
+                        text: qsTr("Choose a homeserver, create the account in your browser, then come back and sign in with Login.")
+                        color: palette.buttonText
+                        wrapMode: Text.Wrap
                     }
                 }
             }
 
-            MatrixText {
-                Layout.fillWidth: true
-                textFormat: Text.PlainText
-                color: Komai.theme.error
-                text: regis.usernameError
-                visible: text && regis.supported
-                wrapMode: TextEdit.Wrap
-            }
-
-            // ── Card 3: Password ──
-            Item {
-                Layout.fillWidth: true
-                implicitHeight: pwRow.implicitHeight
-                visible: regis.supported
-
-                HoverHandler { id: pwHover; blocking: false }
-                Rectangle { anchors.fill: pwRow; color: pwHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
-
-                RowLayout {
-                    id: pwRow
-                    width: parent.width
-                    spacing: Komai.paddingSmall
-
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.margins: Komai.paddingMedium
-                        text: qsTr("Password")
-                        color: pwHover.hovered ? palette.brightText : palette.text
-                    }
-
-                    KomaiTextField {
-                        id: passwordLabel
-                        Layout.fillWidth: true
-                        Layout.minimumWidth: 300
-                        Layout.topMargin: Komai.paddingSmall
-                        Layout.bottomMargin: Komai.paddingSmall
-                        Layout.rightMargin: Komai.paddingSmall
-                        echoMode: TextInput.Password
-                    }
-                }
-            }
-
-            // ── Card 4: Confirm password ──
-            Item {
-                Layout.fillWidth: true
-                implicitHeight: pwConfirmRow.implicitHeight
-                visible: regis.supported
-
-                HoverHandler { id: pwConfirmHover; blocking: false }
-                Rectangle { anchors.fill: pwConfirmRow; color: pwConfirmHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
-
-                RowLayout {
-                    id: pwConfirmRow
-                    width: parent.width
-                    spacing: Komai.paddingSmall
-
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.margins: Komai.paddingMedium
-                        text: qsTr("Confirm password")
-                        color: pwConfirmHover.hovered ? palette.brightText : palette.text
-                    }
-
-                    KomaiTextField {
-                        id: passwordConfirmationLabel
-                        Layout.fillWidth: true
-                        Layout.minimumWidth: 300
-                        Layout.topMargin: Komai.paddingSmall
-                        Layout.bottomMargin: Komai.paddingSmall
-                        Layout.rightMargin: Komai.paddingSmall
-                        echoMode: TextInput.Password
-                    }
-                }
-            }
-
-            MatrixText {
-                Layout.fillWidth: true
-                visible: regis.supported
-                textFormat: Text.PlainText
-                color: Komai.theme.error
-                text: passwordLabel.text != passwordConfirmationLabel.text ? qsTr("Your passwords do not match!") : ""
-                wrapMode: TextEdit.Wrap
-            }
-
-            // ── Card 5: Device name ──
-            Item {
-                Layout.fillWidth: true
-                implicitHeight: deviceRow.implicitHeight
-                visible: regis.supported
-
-                HoverHandler { id: deviceHover; blocking: false }
-                Rectangle { anchors.fill: deviceRow; color: deviceHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
-
-                RowLayout {
-                    id: deviceRow
-                    width: parent.width
-                    spacing: Komai.paddingSmall
-
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.margins: Komai.paddingMedium
-                        text: qsTr("Device name")
-                        color: deviceHover.hovered ? palette.brightText : palette.text
-                    }
-
-                    KomaiTextField {
-                        id: deviceNameLabel
-                        Layout.fillWidth: true
-                        Layout.minimumWidth: 300
-                        Layout.topMargin: Komai.paddingSmall
-                        Layout.bottomMargin: Komai.paddingSmall
-                        Layout.rightMargin: Komai.paddingSmall
-                    }
-                }
-            }
-
-            Item {
-                Layout.preferredHeight: Komai.listIconSize
-                Layout.fillWidth: true
-
-                Spinner {
-                    height: parent.height
-                    anchors.centerIn: parent
-
-                    visible: running
-                    running: regis.registering
-                    foreground: palette.mid
-                }
-            }
-
-            MatrixText {
-                Layout.fillWidth: true
-                textFormat: Text.PlainText
-                color: Komai.theme.error
-                text: registrationPage.error
-                visible: text
-                wrapMode: TextEdit.Wrap
-            }
-
-            KomaiButton {
-                id: regisBtn
-                visible: regis.supported
-                enabled: usernameLabel.text && passwordLabel.text && passwordLabel.text == passwordConfirmationLabel.text
+            RowLayout {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Register")
-                icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-                highlighted: true
-                function register() {
-                    regis.startRegistration(usernameLabel.text, passwordLabel.text, deviceNameLabel.text)
+                Layout.leftMargin: Komai.paddingLarge
+                Layout.rightMargin: Komai.paddingLarge
+                Layout.bottomMargin: Komai.paddingMedium
+                spacing: Komai.paddingMedium
+
+                KomaiButton {
+                    text: qsTr("Hosting providers")
+                    icon.source: "qrc:/icons/icons/ui/world.svg"
+                    highlighted: true
+                    onClicked: Qt.openUrlExternally(registrationPage.matrixHostingProvidersUrl)
                 }
-                onClicked: regisBtn.register()
-                Keys.onEnterPressed: regisBtn.register()
-                Keys.onReturnPressed: regisBtn.register()
-                Keys.enabled: regisBtn.enabled && regis.supported
+
+                KomaiButton {
+                    text: qsTr("etke.cc")
+                    icon.source: "qrc:/icons/icons/ui/building-shop.svg"
+                    onClicked: Qt.openUrlExternally(registrationPage.etkeRegisterUrl)
+                }
+
+                KomaiButton {
+                    text: qsTr("matrix.org")
+                    icon.source: "qrc:/icons/icons/ui/link.svg"
+                    onClicked: Qt.openUrlExternally(registrationPage.matrixUrl)
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingLarge
+                Layout.rightMargin: Komai.paddingLarge
+                Layout.bottomMargin: Komai.paddingLarge
+                text: qsTr("After creating the account, return to the welcome screen and use Login.")
+                color: palette.buttonText
+                wrapMode: Text.Wrap
+                horizontalAlignment: Text.AlignHCenter
             }
     }
 

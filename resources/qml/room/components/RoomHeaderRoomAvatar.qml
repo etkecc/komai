@@ -10,7 +10,7 @@ AvatarSettingsFlipButton {
 
     required property var room
     required property string roomId
-    required property string avatarDisplayName
+    required property string roomDisplayName
     required property string roomAvatarUrl
     required property bool isDirect
     required property string directChatOtherUserId
@@ -24,7 +24,7 @@ AvatarSettingsFlipButton {
     Layout.preferredWidth: topBarAvatarSize
     Layout.row: 1
     avatarButtonSize: topBarAvatarSize
-    avatarDisplayName: root.avatarDisplayName
+    avatarDisplayName: root.roomDisplayName
     avatarRoomId: roomId
     avatarUrl: roomAvatarUrl.replace("mxc://", "image://MxcImage/")
     avatarUserId: isDirect ? directChatOtherUserId : ""

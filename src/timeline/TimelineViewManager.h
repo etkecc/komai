@@ -20,7 +20,7 @@
 #include <vector>
 
 #include "NavigationHistory.h"
-#include "matrix/MatrixSyncUpdate.h"
+#include "mtx/events/voip.hpp"
 
 class QQuickItem;
 class QQuickTextDocument;
@@ -39,16 +39,6 @@ class UserProfile;
 class RoomSettings;
 class FilteredRoomlistModel;
 class QAbstractItemModel;
-
-namespace mtx::events::voip {
-struct CallInvite;
-struct CallCandidates;
-struct CallAnswer;
-struct CallHangUp;
-struct CallSelectAnswer;
-struct CallReject;
-struct CallNegotiate;
-}
 namespace mtx::events::collections {
 struct TimelineEvents;
 }
@@ -170,8 +160,6 @@ public:
     static TimelineViewManager *instance() { return TimelineViewManager::instance_; }
 
     QVector<QString> getIgnoredUsers();
-
-    void sync(const komai::SyncUpdate &sync);
 
     VerificationManager *verificationManager() { return verificationManager_; }
 
@@ -360,6 +348,8 @@ public slots:
     void updateReadReceipts(const QString &room_id, const std::vector<QString> &event_ids);
     void initializeRoomlist();
     void handleMatrixBackendInitialSyncReady(std::uint64_t handleId);
+    void handleMatrixBackendIgnoredUsersUpdated(std::uint64_t handleId,
+                                                const QVector<QString> &ignoredUsers);
     void handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t handleId);
     void
     handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_t handleId, const QString &roomId);
@@ -389,6 +379,7 @@ public slots:
 
 private:
     void scheduleMatrixSidebarRefresh();
+    bool setIgnoredUsers(QVector<QString> ignoredUsers);
     void
     queueMatrixRoomReadMarker(uint64_t handleId, const QString &roomId, const QString &eventId);
     void dispatchPendingMatrixReadMarker(const QString &roomId);
@@ -397,6 +388,7 @@ private:
 
     bool waitingForFirstSync_ = true;
     bool isConnected_         = true;
+    QVector<QString> ignoredUsers_;
 
     RoomlistModel *rooms_          = nullptr;
     FilteredRoomlistModel *frooms_ = nullptr;
@@ -482,7 +474,6 @@ private:
     QString matrixTimelineEditEventId_;
     QString matrixTimelineEditMessageKind_;
 
-    void processIgnoredUsers(const std::optional<QVector<QString>> &ignoredUsers);
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
     void scheduleCurrentMatrixTimelineSelectionUpdate();
     void scheduleCurrentMatrixTimelineRefresh();

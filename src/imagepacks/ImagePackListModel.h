@@ -17,7 +17,9 @@ class ImagePackListModel : public QAbstractListModel
     QML_ELEMENT
     QML_UNCREATABLE("")
 
-    Q_PROPERTY(bool containsAccountPack READ containsAccountPack CONSTANT)
+    Q_PROPERTY(bool containsAccountPack READ containsAccountPack NOTIFY containsAccountPackChanged)
+    Q_PROPERTY(int packCount READ packCount NOTIFY packCountChanged)
+    Q_PROPERTY(int revision READ revision NOTIFY revisionChanged)
 public:
     enum Roles
     {
@@ -37,11 +39,22 @@ public:
 
     Q_INVOKABLE SingleImagePackModel *packAt(int row);
     Q_INVOKABLE SingleImagePackModel *newPack(bool inRoom);
+    Q_INVOKABLE void refresh();
 
     bool containsAccountPack() const;
+    int packCount() const { return static_cast<int>(packs.size()); }
+    int revision() const { return revision_; }
+
+signals:
+    void containsAccountPackChanged();
+    void packCountChanged();
+    void revisionChanged();
 
 private:
+    void loadFromRuntime();
+
     std::string room_id;
+    int revision_ = 0;
 
     std::vector<QSharedPointer<SingleImagePackModel>> packs;
 };

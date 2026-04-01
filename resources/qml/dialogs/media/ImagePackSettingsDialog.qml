@@ -16,7 +16,11 @@ OverlayDialog {
     property ImagePackListModel packlist
     property bool canCreateRoomPack: false
     property int avatarSize: Math.ceil(fontMetrics.lineSpacing * 2.3)
-    property SingleImagePackModel currentPack: packlist.packAt(currentPackIndex)
+    readonly property int packlistRevision: packlist ? packlist.revision : 0
+    property SingleImagePackModel currentPack: {
+        void(packlistRevision);
+        return packlist ? packlist.packAt(currentPackIndex) : null;
+    }
     property int currentPackIndex: 0
     readonly property int stickerDim: 128
     readonly property int stickerDimPad: 128 + Komai.paddingSmall
@@ -36,6 +40,25 @@ OverlayDialog {
     Component {
         id: packDeleteDialog
         ImagePackDeleteDialog {}
+    }
+
+    Connections {
+        target: packlist
+
+        function onRevisionChanged() {
+            if (!packlist) {
+                currentPackIndex = 0;
+                return;
+            }
+
+            if (packlist.packCount <= 0) {
+                currentPackIndex = 0;
+                return;
+            }
+
+            if (currentPackIndex >= packlist.packCount)
+                currentPackIndex = packlist.packCount - 1;
+        }
     }
 
     AdaptiveLayout {
@@ -96,11 +119,6 @@ OverlayDialog {
                 delegate: AvatarListTile {
                     id: packItem
 
-                    property color background: palette.window
-                    property color importantText: palette.text
-                    property color unimportantText: palette.buttonText
-                    property color bubbleBackground: palette.highlight
-                    property color bubbleText: palette.highlightedText
                     required property string displayName
                     required property bool fromAccountData
                     required property bool fromCurrentRoom

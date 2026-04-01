@@ -10,7 +10,7 @@
 #include <QObject>
 #include <QString>
 
-#include <mtx/responses/notifications.hpp>
+#include "notifications/NotificationPayload.h"
 
 #if defined(KOMAI_DBUS_SYS)
 #include <QtDBus/QDBusArgument>
@@ -35,7 +35,7 @@ class NotificationsManager final : public QObject
 public:
     NotificationsManager(QObject *parent = nullptr);
 
-    void postNotification(const mtx::responses::Notification &notification, const QImage &icon);
+    void postNotification(const komai::NotificationPayload &notification, const QImage &icon);
 
     void removeNotification(const QString &roomId, const QString &eventId);
 
@@ -110,8 +110,10 @@ private slots:
     void notificationReplied(uint id, QString reply);
 
 private:
-    QString getMessageTemplate(const mtx::responses::Notification &notification);
-    bool allowShowingImages(const mtx::responses::Notification &notification);
+    QString getMessageTemplate(const komai::NotificationPayload &notification);
+    QString plainNotificationBody(const komai::NotificationPayload &notification);
+    QString formattedNotificationBody(const komai::NotificationPayload &notification);
+    bool allowShowingImages() const;
 
     // notification ID to (room ID, event ID)
     // Only populated on Linux atm

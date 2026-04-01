@@ -9,11 +9,11 @@
 #include <QMultiMap>
 #include <QObject>
 #include <QString>
+#include <QVector>
 
 #include <cstddef>
 
-#include <mtx/events/mscs/image_packs.hpp>
-
+#include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "models/CompletionProxyModel.h"
 
 struct StickerImage
@@ -106,7 +106,12 @@ signals:
     void newSearchString();
 
 private:
+    void loadFromRuntime();
+    void rebuildCustomPacks(const QVector<komai::MatrixImagePack> &runtimePacks);
+    void rebuildSearchResults();
+
     std::string room_id;
+    bool stickers_ = false;
 
     struct PackDesc
     {
@@ -114,7 +119,14 @@ private:
         QString packavatar;
         std::string room_id, state_key;
 
-        std::vector<std::pair<mtx::events::msc2545::PackImage, QString>> images;
+        struct CustomImage
+        {
+            QString url;
+            QString body;
+            QString shortcode;
+        };
+
+        std::vector<CustomImage> images;
         std::vector<TextEmoji> emojis;
         std::size_t firstRow;
     };

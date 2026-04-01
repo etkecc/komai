@@ -7,7 +7,6 @@
 
 #include "notifications/Manager.h"
 #include "notifications/NotificationManagerProxy.h"
-#include <mtx/responses/notifications.hpp>
 
 #import <Foundation/Foundation.h>
 #import <UserNotifications/UserNotifications.h>

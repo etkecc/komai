@@ -1,15 +1,4 @@
 void
-UserSettings::setNetworkSpacesMaintainJoinMetadata(bool s)
-{
-    if (networkSpacesMaintainJoinMetadata_ == s)
-        return;
-    networkSpacesMaintainJoinMetadata_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NetworkSpacesMaintainJoinMetadata, s);
-    emit networkSpacesMaintainJoinMetadataChanged(s);
-    save();
-}
-
-void
 UserSettings::setNetworkMrsEnabled(bool s)
 {
     if (networkMrsEnabled_ == s)

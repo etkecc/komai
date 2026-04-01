@@ -6,7 +6,6 @@ import "../../dialogs/moderation" as ModerationDialogs
 import "../../dialogs/navigation" as NavigationDialogs
 import "../../dialogs/timeline" as TimelineDialogs
 import QtQuick
-import QtQuick.Controls
 import cc.etke.komai
 
 Item {

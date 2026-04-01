@@ -103,7 +103,6 @@ constexpr auto NetworkHttp3Enabled                   = "network.http3.enabled";
 constexpr auto NetworkMrsEnabled                     = "network.mrs.enabled";
 constexpr auto NetworkMrsServerName                  = "network.mrs.server_name";
 constexpr auto NetworkPresenceStatusPolicy           = "network.presence.status_policy";
-constexpr auto NetworkSpacesMaintainJoinMetadata     = "network.spaces.maintain_join_metadata";
 constexpr auto IntegrationsDbusApiAccess             = "integrations.dbus.access";
 constexpr auto IntegrationsBrowserCommand            = "integrations.browser.command";
 constexpr auto SecretsProvider                       = "secrets.provider";

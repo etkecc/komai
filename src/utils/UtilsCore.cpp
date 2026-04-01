@@ -30,7 +30,6 @@
 #include <nlohmann/json.hpp>
 
 #include "chat/ChatPage.h"
-#include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/formattedmessage/HtmlProcessor.h"
@@ -247,10 +246,4 @@ utils::readImage(const QByteArray &data)
     QImageReader reader(&buf);
     reader.setAutoTransform(true);
     return reader.read();
-}
-
-bool
-utils::isReply(const mtx::events::collections::TimelineEvents &e)
-{
-    return mtx::accessors::relations(e).reply_to().has_value();
 }

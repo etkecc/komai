@@ -10,11 +10,6 @@
 #include <QPixmap>
 #include <mtx/events.hpp>
 
-namespace mtx::events::collections {
-struct TimelineEvents;
-struct StateEvents;
-}
-
 struct DescInfo;
 
 namespace cache {
@@ -25,32 +20,7 @@ displayName(const QString &room_id, const QString &user_id);
 
 class QComboBox;
 
-// Contains information about related events for
-// outgoing messages
-struct RelatedInfo
-{
-    using MsgType = mtx::events::MessageType;
-    MsgType type;
-    QString room;
-    QString quoted_body, quoted_formatted_body;
-    std::string related_event;
-    QString quoted_user;
-};
-
 namespace utils {
-//! Helper function to remove reply fallback from body
-std::string
-stripReplyFromBody(const std::string &body);
-
-//! Helper function to remove reply fallback from formatted body
-std::string
-stripReplyFromFormattedBody(const std::string &formatted_body);
-
-RelatedInfo
-stripReplyFallbacks(const mtx::events::collections::TimelineEvents &event,
-                    std::string id,
-                    QString room_id_);
-
 bool
 codepointIsEmoji(uint code);
 
@@ -68,13 +38,6 @@ localUser();
 //! Human friendly timestamp representation.
 QString
 descriptiveTime(const QDateTime &then);
-
-//! Generate a message description from the event to be displayed
-//! in the RoomList.
-DescInfo
-getMessageDescription(const mtx::events::collections::TimelineEvents &event,
-                      const QString &localUser,
-                      const QString &displayName);
 
 //! Get the first character of a string, taking into account that
 //! surrogate pairs might be in use.
@@ -189,14 +152,8 @@ readImageFromFile(const QString &filename);
 QImage
 readImage(const QByteArray &data);
 
-bool
-isReply(const mtx::events::collections::TimelineEvents &e);
-
 std::vector<std::string>
 roomVias(const std::string &roomid);
-
-void
-updateSpaceVias();
 
 void
 removeExpiredEvents();

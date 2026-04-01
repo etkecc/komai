@@ -7,5 +7,6 @@
 
 #include "emoji/Provider.h"
 #include "logging/Logging.h"
+#include "utils/QtWorkerTask.h"
 
 #include "UserSettingsSettersUi.inc"

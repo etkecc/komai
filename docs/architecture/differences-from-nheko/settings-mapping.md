@@ -99,7 +99,6 @@ Note:
 | Privacy | DATA & MAINTENANCE | Delete expired events periodically | `settings::core::SettingId::PrivacyMaintenanceExpireEvents` | `expire_events` | `privacy.maintenance.expire_events` | config.yml | yes |
 | Privacy | DATA & MAINTENANCE | Hidden events | `UserSettingsModel::HiddenTimelineEvents` | `-` | `timeline.hidden_events.global`, `timeline.hidden_events.by_room` | config.yml | no |
 | Privacy | USERS | Ignored users | `UserSettingsModel::IgnoredUsers` | `-` | `privacy.users.ignored` | runtime/UI-specific | no |
-| Network | SPACES | Maintain space join metadata | `settings::core::SettingId::NetworkSpacesMaintainJoinMetadata` | `update_space_vias` | `network.spaces.maintain_join_metadata` | config.yml | yes |
 | Encryption | KEY SHARING | Send encrypted messages to verified users only | `settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers` | `only_share_keys_with_verified_users` | `encryption.key_sharing.only_verified_users` | config.yml | yes |
 | Encryption | KEY SHARING | Share keys with verified users and devices | `settings::core::SettingId::EncryptionKeySharingShareWithTrusted` | `share_keys_with_trusted_users` | `encryption.key_sharing.share_with_trusted` | config.yml | yes |
 | Encryption | BACKUP | Enable online key backup | `settings::core::SettingId::EncryptionBackupOnlineEnabled` | `use_online_key_backup` | `encryption.backup.online.enabled` | config.yml | yes |

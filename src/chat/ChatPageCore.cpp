@@ -17,14 +17,13 @@
 #include <memory>
 #include <optional>
 #include <string_view>
+#include <thread>
 #include <unordered_set>
 
 #include <nlohmann/json.hpp>
 
 #include "chat/ChatPage.h"
-#include "events/EventAccessors.h"
 #include "logging/Logging.h"
-#include "matrix/MatrixSyncUpdate.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "matrix/backend/MatrixSdkPaths.h"
 #include "matrix/backend/MatrixSessionSecrets.h"
@@ -39,8 +38,39 @@
 #include "notifications/Manager.h"
 
 #include "timeline/Permissions.h"
+#include "timeline/PresenceEmitter.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineViewManager.h"
+
+namespace {
+
+struct OwnProfileBootstrapResult
+{
+    std::optional<komai::MatrixOwnProfile> profile;
+    std::optional<komai::MatrixOwnPresence> presence;
+    QString profileError;
+    QString presenceError;
+};
+
+QString
+presenceStateForPolicy(UserSettings::Presence policy)
+{
+    switch (policy) {
+    case UserSettings::Presence::Unavailable:
+        return QStringLiteral("unavailable");
+    case UserSettings::Presence::Offline:
+        return QStringLiteral("offline");
+    case UserSettings::Presence::AutomaticPresence:
+        // Until activity-driven automatic presence is ported, treat automatic
+        // as the default online state instead of leaving the setting inert.
+        [[fallthrough]];
+    case UserSettings::Presence::Online:
+    default:
+        return QStringLiteral("online");
+    }
+}
+
+} // namespace
 
 ChatPage *ChatPage::instance_ = nullptr;
 
@@ -142,11 +172,26 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                     MainWindow::instance()->raise();
                     MainWindow::instance()->requestActivate();
                 }
+
+                notificationsManager->removeNotifications(roomid, {});
             });
     connect(notificationsManager,
             &NotificationsManager::sendNotificationReply,
             this,
             &ChatPage::sendNotificationReply);
+    connect(view_manager_->rooms(),
+            &RoomlistModel::currentRoomIdChanged,
+            this,
+            [this](const QString &roomId) {
+                if (roomId.isEmpty() || !notificationsManager)
+                    return;
+
+                notificationsManager->removeNotifications(roomId, {});
+            });
+    connect(userSettings_.get(),
+            &UserSettings::networkPresenceStatusPolicyChanged,
+            this,
+            [this](UserSettings::Presence) { syncOwnPresence(); });
 
     connect(this,
             &ChatPage::initializeEmptyViews,
@@ -170,6 +215,164 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
     connectCallMessage<mtx::events::voip::CallSelectAnswer>();
     connectCallMessage<mtx::events::voip::CallReject>();
     connectCallMessage<mtx::events::voip::CallNegotiate>();
+}
+
+QString
+ChatPage::status() const
+{
+    return statusMessageShadow_.value_or(QString{});
+}
+
+void
+ChatPage::setStatus(const QString &status)
+{
+    statusMessageShadow_ = status;
+    syncOwnPresence();
+}
+
+void
+ChatPage::syncOwnPresence()
+{
+    const auto localUserId   = utils::localUser();
+    const auto policy        = userSettings_ ? userSettings_->networkPresenceStatusPolicy()
+                                             : UserSettings::Presence::AutomaticPresence;
+    const auto presenceState = presenceStateForPolicy(policy);
+    const auto statusMessage = status();
+
+    if (auto *presence = PresenceEmitter::instance())
+        presence->setLocalPresence(localUserId, presenceState, statusMessage);
+
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0) {
+        nhlog::net()->debug(
+          "Skipping matrix-sdk own-presence update because no runtime handle is active");
+        return;
+    }
+
+    std::thread([handleId, presenceState, statusMessage]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
+        QString error;
+        const bool ok = komai::MatrixBackendRuntimeService::setOwnPresence(
+          context, handleId, presenceState, statusMessage, &error);
+
+        if (!ok) {
+            nhlog::net()->warn("Failed to set own presence via matrix-sdk runtime handle {}: {}",
+                               handleId,
+                               error.toStdString());
+        }
+    }).detach();
+}
+
+void
+ChatPage::getProfileInfo()
+{
+    const auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() == 0) {
+        nhlog::net()->warn(
+          "Cannot retrieve own profile via matrix-sdk runtime because no runtime handle is active");
+        return;
+    }
+
+    const auto handleId = mainWindow->matrixBackendHandleId();
+    QPointer<ChatPage> guard(this);
+
+    std::thread([guard, handleId]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
+        OwnProfileBootstrapResult result;
+        result.profile = komai::MatrixBackendRuntimeService::fetchOwnProfile(
+          context, handleId, &result.profileError);
+        result.presence = komai::MatrixBackendRuntimeService::fetchOwnPresence(
+          context, handleId, &result.presenceError);
+
+        if (!guard)
+            return;
+
+        emit guard->callFunctionOnGuiThread([guard, result = std::move(result)]() mutable {
+            if (!guard || guard->shuttingDown_)
+                return;
+
+            if (!result.profile) {
+                nhlog::net()->warn("Failed to retrieve own profile info via matrix-sdk runtime "
+                                   "handle: {}",
+                                   result.profileError.toStdString());
+            } else {
+                emit guard->setUserDisplayName(result.profile->displayName);
+                emit guard->setUserAvatar(result.profile->avatarUrl);
+            }
+
+            if (!result.presenceError.isEmpty()) {
+                nhlog::net()->warn("Failed to retrieve own presence via matrix-sdk runtime "
+                                   "handle: {}",
+                                   result.presenceError.toStdString());
+            } else if (result.presence && !guard->statusMessageShadow_.has_value()) {
+                guard->statusMessageShadow_ = result.presence->statusMessage;
+            }
+
+            guard->syncOwnPresence();
+        });
+    }).detach();
+}
+
+bool
+ChatPage::isRoomActive(const QString &room_id)
+{
+    return QGuiApplication::focusWindow() && QGuiApplication::focusWindow()->isActive() &&
+           MainWindow::instance()->windowForRoom(room_id) == QGuiApplication::focusWindow();
+}
+
+void
+ChatPage::dispatchMatrixNotification(const komai::MatrixNotificationItem &notification)
+{
+    if (shuttingDown_ || !notificationsManager || !userSettings_)
+        return;
+
+    if (!userSettings_->notificationsAccountEnabled() || !userSettings_->notificationsEnabled())
+        return;
+
+    if (notification.roomId.trimmed().isEmpty() || notification.eventId.trimmed().isEmpty())
+        return;
+
+    if (isRoomActive(notification.roomId))
+        return;
+
+    komai::NotificationPayload payload{
+      .roomId             = notification.roomId,
+      .eventId            = notification.eventId,
+      .replacementEventId = notification.replacementEventId,
+      .roomName           = notification.roomName,
+      .senderDisplayName  = notification.senderDisplayName,
+      .plainBody          = notification.plainBody,
+      .formattedBody      = notification.formattedBody,
+      .mediaMxcUrl        = notification.mediaMxcUrl,
+      .isReply            = notification.isReply,
+      .isEmote            = notification.isEmote,
+      .isEncrypted        = notification.isEncrypted,
+      .containsSpoiler    = notification.containsSpoiler,
+      .hasInlineImage     = notification.hasInlineImage,
+      .playSound          = notification.playSound,
+    };
+
+    QPointer<ChatPage> guard(this);
+    QPointer<NotificationsManager> notificationManager(notificationsManager);
+    AvatarProvider::resolve(
+      notification.avatarUrl,
+      96,
+      this,
+      [guard, notificationManager, payload = std::move(payload)](QPixmap pixmap) mutable {
+          if (!guard || !notificationManager || guard->shuttingDown_ || !guard->userSettings_)
+              return;
+
+          if (!guard->userSettings_->notificationsAccountEnabled() ||
+              !guard->userSettings_->notificationsEnabled()) {
+              return;
+          }
+
+          if (guard->isRoomActive(payload.roomId))
+              return;
+
+          notificationManager->postNotification(payload, pixmap.toImage());
+      });
 }
 
 void

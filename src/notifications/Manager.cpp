@@ -5,14 +5,11 @@
 
 #include "notifications/Manager.h"
 
-#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
-#include "utils/Utils.h"
 
 bool
-NotificationsManager::allowShowingImages(const mtx::responses::Notification &notification)
+NotificationsManager::allowShowingImages() const
 {
-    (void)notification;
     auto show = UserSettings::instance()->timelineMediaImageDisplay();
 
     switch (show) {
@@ -27,30 +24,23 @@ NotificationsManager::allowShowingImages(const mtx::responses::Notification &not
 }
 
 QString
-NotificationsManager::getMessageTemplate(const mtx::responses::Notification &notification)
+NotificationsManager::getMessageTemplate(const komai::NotificationPayload &notification)
 {
-    const auto sender = QString::fromStdString(mtx::accessors::sender(notification.event));
+    const auto sender               = notification.senderDisplayName;
     const auto messageContentPolicy = UserSettings::instance()->notificationsMessageContentPolicy();
 
     if (messageContentPolicy == UserSettings::NotificationMessageContentPolicy::Never)
         return tr("%1 sent a message").arg(sender);
 
-    // TODO: decrypt this message if the decryption setting is on in the UserSettings
-    if (auto msg = std::get_if<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
-          &notification.event);
-        msg != nullptr) {
+    if (notification.isEncrypted) {
         return tr("%1 sent an encrypted message").arg(sender);
     }
 
-    bool containsSpoiler =
-      mtx::accessors::formatted_body(notification.event).find("<span data-mx-spoiler") !=
-      std::string::npos;
-
-    if (containsSpoiler) {
+    if (notification.containsSpoiler) {
         // Because we skip the %2 here, this might cause a warning in some cases.
-        if (mtx::accessors::msg_type(notification.event) == mtx::events::MessageType::Emote) {
+        if (notification.isEmote) {
             return QStringLiteral("* %1 spoils something.").arg(sender);
-        } else if (utils::isReply(notification.event)) {
+        } else if (notification.isReply) {
             return tr("%1 replied with a spoiler.",
                       "Format a reply in a notification. %1 is the sender.")
               .arg(sender);
@@ -58,9 +48,9 @@ NotificationsManager::getMessageTemplate(const mtx::responses::Notification &not
             return QStringLiteral("%1 sent a spoiler.").arg(sender);
         }
     } else {
-        if (mtx::accessors::msg_type(notification.event) == mtx::events::MessageType::Emote) {
+        if (notification.isEmote) {
             return QStringLiteral("* %1 %2").arg(sender);
-        } else if (utils::isReply(notification.event)) {
+        } else if (notification.isReply) {
             return tr("%1 replied: %2",
                       "Format a reply in a notification. %1 is the sender, %2 the message")
               .arg(sender);
@@ -70,6 +60,25 @@ NotificationsManager::getMessageTemplate(const mtx::responses::Notification &not
     }
 }
 
+QString
+NotificationsManager::plainNotificationBody(const komai::NotificationPayload &notification)
+{
+    if (notification.containsSpoiler)
+        return tr("Message contains spoiler.");
+
+    return notification.plainBody;
+}
+
+QString
+NotificationsManager::formattedNotificationBody(const komai::NotificationPayload &notification)
+{
+    if (notification.containsSpoiler)
+        return tr("Message contains spoiler.");
+
+    return notification.formattedBody.isEmpty() ? notification.plainBody
+                                                : notification.formattedBody;
+}
+
 void
 NotificationsManager::removeNotifications(const QString &roomId_,
                                           const std::vector<QString> &eventIds)
@@ -77,7 +86,8 @@ NotificationsManager::removeNotifications(const QString &roomId_,
     for (const auto &[roomId, eventId] : std::as_const(this->notificationIds)) {
         if (roomId != roomId_)
             continue;
-        if (std::find(eventIds.begin(), eventIds.end(), eventId) != eventIds.end()) {
+        if (eventIds.empty() ||
+            std::find(eventIds.begin(), eventIds.end(), eventId) != eventIds.end()) {
             removeNotification(roomId, eventId);
         }
     }

@@ -11,13 +11,6 @@
 #include "utils/QtWorkerTask.h"
 
 void
-ChatPage::getBackupVersion()
-{
-    nhlog::crypto()->info(
-      "Skipping legacy online key-backup lookup on the matrix-sdk migration branch");
-}
-
-void
 ChatPage::prepareShutdown()
 {
     shuttingDown_ = true;

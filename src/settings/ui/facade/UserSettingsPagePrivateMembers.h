@@ -44,9 +44,13 @@ UnreadDetectionPolicy sidebarsRoomListUnreadDetectionPolicy_ = UnreadDetectionPo
 TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy_ =
   TimelineMessageActionsActivationPolicy::ActionsButton;
 bool timelineReadReceiptsEnabled_;
-bool notificationsAccountEnabled_         = true;
-bool notificationsAccountEnabledLoaded_   = false;
-bool notificationsAccountEnabledInFlight_ = false;
+bool notificationsAccountEnabled_                   = true;
+bool notificationsAccountEnabledLoaded_             = false;
+bool notificationsAccountEnabledInFlight_           = false;
+std::uint64_t notificationsAccountEnabledRequestId_ = 0;
+NotificationsAccountHandleProvider notificationsAccountHandleProvider_;
+NotificationsAccountFetchFn notificationsAccountFetchFn_;
+NotificationsAccountSetFn notificationsAccountSetFn_;
 bool notificationsEnabled_;
 bool notificationsAttentionOnIncoming_;
 bool uiAvatarsCircular_;
@@ -111,7 +115,6 @@ double timelineMediaDefaultAudioPlaybackSpeed_ =
   settings::core::definitions::kDefaultTimelineMediaAudioPlaybackSpeed;
 int integrationsDbusApiAccess_ = settings::core::definitions::kDefaultIntegrationsDbusApiAccess;
 QString integrationsBrowserCommand_;
-bool networkSpacesMaintainJoinMetadata_;
 bool privacyMaintenanceExpireEvents_;
 int windowWidth_                            = settings::core::definitions::kDefaultWindowWidthPx;
 int windowHeight_                           = settings::core::definitions::kDefaultWindowHeightPx;

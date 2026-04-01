@@ -11,6 +11,39 @@
 #include <algorithm>
 
 #include "emoji/Provider.h"
+#include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "ui/MainWindow.h"
+#include "utils/QtWorkerTask.h"
+
+namespace {
+struct GridImagePackLoadResult
+{
+    std::optional<QVector<komai::MatrixImagePack>> packs;
+    QString error;
+};
+
+QString
+displayNameForPack(const komai::MatrixImagePack &pack)
+{
+    if (!pack.displayName.trimmed().isEmpty())
+        return pack.displayName;
+    if (!pack.stateKey.trimmed().isEmpty())
+        return pack.stateKey;
+    if (!pack.sourceRoomId.trimmed().isEmpty())
+        return pack.sourceRoomId;
+    return GridImagePackModel::tr("Account Pack");
+}
+
+QString
+avatarForPack(const komai::MatrixImagePack &pack)
+{
+    if (!pack.avatarUrl.trimmed().isEmpty())
+        return pack.avatarUrl;
+    if (!pack.images.isEmpty())
+        return pack.images.constFirst().url;
+    return {};
+}
 
 static QString
 categoryToIcon(emoji::Emoji::Category cat)
@@ -47,121 +80,16 @@ effectiveMaxEditDistance(const QVector<uint> &key, std::size_t configured)
         return std::min<std::size_t>(configured, 1);
     return configured;
 }
+} // namespace
 
 GridImagePackModel::GridImagePackModel(const std::string &roomId, bool stickers, QObject *parent)
   : QAbstractListModel(parent)
   , room_id(roomId)
+  , stickers_(stickers)
   , columns(stickers ? 3 : 7)
 {
-    if (!stickers) {
-        const auto &allEmoji = emoji::Provider::emoji();
-        for (const auto &category : {
-               emoji::Emoji::Category::People,
-               emoji::Emoji::Category::Nature,
-               emoji::Emoji::Category::Food,
-               emoji::Emoji::Category::Activity,
-               emoji::Emoji::Category::Travel,
-               emoji::Emoji::Category::Objects,
-               emoji::Emoji::Category::Symbols,
-               emoji::Emoji::Category::Flags,
-             }) {
-            PackDesc newPack{};
-            newPack.packname   = categoryToName(category);
-            newPack.packavatar = categoryToIcon(category);
-            for (std::size_t i = 0; i < allEmoji.size(); ++i) {
-                const auto &e = allEmoji[i];
-                if (e.category != category)
-                    continue;
-                newPack.emojis.push_back(TextEmoji{.unicode     = e.unicode(),
-                                                   .unicodeName = e.unicodeName(),
-                                                   .shortcode   = e.shortName(),
-                                                   .searchText  = emoji::Provider::searchText(i)});
-            }
-
-            size_t packRowCount =
-              (newPack.emojis.size() / columns) + (newPack.emojis.size() % columns ? 1 : 0);
-            newPack.firstRow = rowToPack.size();
-            for (size_t i = 0; i < packRowCount; i++)
-                rowToPack.push_back(packs.size());
-            packs.push_back(std::move(newPack));
-        }
-    }
-
-    // prepare search index
-
-    auto insertParts = [this](const QString &str, std::pair<std::uint32_t, std::uint32_t> id) {
-        QTextBoundaryFinder finder(QTextBoundaryFinder::BoundaryType::Word, str);
-        finder.toStart();
-        do {
-            auto start = finder.position();
-            finder.toNextBoundary();
-            auto end = finder.position();
-
-            auto ref = QStringView(str).mid(start, end - start).trimmed();
-            if (!ref.isEmpty())
-                trie_.insert<ElementRank::second>(ref.toUcs4(), id);
-        } while (finder.position() < str.size());
-
-        // Also index full whitespace-delimited tokens verbatim. This preserves multi-character
-        // CJK tokens (for example "玄米茶") that word-boundary splitting may fragment.
-        for (const auto &part : str.split(QLatin1Char(' '), Qt::SkipEmptyParts)) {
-            auto ref = part.trimmed();
-            if (!ref.isEmpty())
-                trie_.insert<ElementRank::second>(ref.toUcs4(), id);
-        }
-    };
-
-    std::uint32_t packIndex = 0;
-    for (const auto &pack : packs) {
-        std::uint32_t emojiIndex = 0;
-        for (const auto &emoji : pack.emojis) {
-            std::pair<std::uint32_t, std::uint32_t> key{packIndex, emojiIndex};
-
-            QString string1 =
-              emoji.shortcode.normalized(QString::NormalizationForm_KD).toCaseFolded();
-            QString string2 =
-              emoji.unicodeName.normalized(QString::NormalizationForm_KD).toCaseFolded();
-            QString string3 =
-              emoji.searchText.normalized(QString::NormalizationForm_KD).toCaseFolded();
-
-            if (!string1.isEmpty()) {
-                trie_.insert<ElementRank::first>(string1.toUcs4(), key);
-                insertParts(string1, key);
-            }
-            if (!string2.isEmpty()) {
-                trie_.insert<ElementRank::first>(string2.toUcs4(), key);
-                insertParts(string2, key);
-            }
-            if (!string3.isEmpty()) {
-                trie_.insert<ElementRank::first>(string3.toUcs4(), key);
-                insertParts(string3, key);
-            }
-
-            emojiIndex++;
-        }
-
-        std::uint32_t imgIndex = 0;
-        for (const auto &img : pack.images) {
-            std::pair<std::uint32_t, std::uint32_t> key{packIndex, imgIndex};
-
-            QString string1 = img.second.normalized(QString::NormalizationForm_KD).toCaseFolded();
-            QString string2 = QString::fromStdString(img.first.body)
-                                .normalized(QString::NormalizationForm_KD)
-                                .toCaseFolded();
-
-            if (!string1.isEmpty()) {
-                trie_.insert<ElementRank::first>(string1.toUcs4(), key);
-                insertParts(string1, key);
-            }
-            if (!string2.isEmpty()) {
-                trie_.insert<ElementRank::first>(string2.toUcs4(), key);
-                insertParts(string2, key);
-            }
-
-            imgIndex++;
-        }
-        packIndex++;
-    }
+    rebuildCustomPacks({});
+    loadFromRuntime();
 }
 
 int
@@ -196,16 +124,14 @@ GridImagePackModel::data(const QModelIndex &index, int role) const
                     auto endOffset = std::min((offset + 1) * columns, pack.images.size());
                     for (std::size_t img = offset * columns; img < endOffset; img++) {
                         const auto &data = pack.images.at(img);
-                        // See
-                        // https://developercommunity.visualstudio.com/t/Internal-compile-error-while-compiling-c/1227337
-                        imgs.push_back({/*.url        =*/QString::fromStdString(data.first.url),
-                                        /*.shortcode  =*/data.second,
-                                        /*.body       =*/QString::fromStdString(data.first.body),
+                        imgs.push_back({/*.url        =*/data.url,
+                                        /*.shortcode  =*/data.shortcode,
+                                        /*.body       =*/data.body,
                                         /*.descriptor_=*/
                                         std::vector{
                                           pack.room_id,
                                           pack.state_key,
-                                          data.second.toStdString(),
+                                          data.shortcode.toStdString(),
                                         }});
                     }
                     return QVariant::fromValue(imgs);
@@ -239,16 +165,14 @@ GridImagePackModel::data(const QModelIndex &index, int role) const
                          currentSearchResult[img].first == firstEntry.first;
                          img++) {
                         const auto &data = pack.images.at(currentSearchResult[img].second);
-                        // See
-                        // https://developercommunity.visualstudio.com/t/Internal-compile-error-while-compiling-c/1227337
-                        imgs.push_back({/*.url         = */ QString::fromStdString(data.first.url),
-                                        /*.shortcode   = */ data.second,
-                                        /*.body        = */ QString::fromStdString(data.first.body),
+                        imgs.push_back({/*.url         = */ data.url,
+                                        /*.shortcode   = */ data.shortcode,
+                                        /*.body        = */ data.body,
                                         /*.descriptor_ = */
                                         std::vector{
                                           pack.room_id,
                                           pack.state_key,
-                                          data.second.toStdString(),
+                                          data.shortcode.toStdString(),
                                         }});
                     }
                     return QVariant::fromValue(imgs);
@@ -297,7 +221,7 @@ GridImagePackModel::avatarFromPack(const PackDesc &pack) const
     }
 
     if (!pack.images.empty()) {
-        return QString::fromStdString(pack.images.begin()->first.url);
+        return pack.images.begin()->url;
     }
 
     return "";
@@ -345,43 +269,233 @@ void
 GridImagePackModel::setSearchString(QString key)
 {
     beginResetModel();
-    currentSearchResult.clear();
-    rowToFirstRowEntryFromSearch.clear();
-    searchString_ = key;
+    searchString_ = std::move(key);
+    rebuildSearchResults();
+    endResetModel();
+    emit newSearchString();
+}
 
-    if (!key.isEmpty()) {
-        auto searchParts      = key.toCaseFolded().toUcs4();
-        const auto maxResults = static_cast<std::size_t>(columns * columns * 4);
-        const auto mistakes   = effectiveMaxEditDistance(searchParts, 2);
-        // Prefer exact/prefix hits. Only fall back to fuzzy search when there are no exact hits.
-        auto tempResults = trie_.search(searchParts, maxResults, 0);
-        if (tempResults.empty() && mistakes > 0)
-            tempResults = trie_.search(searchParts, maxResults, mistakes);
+void
+GridImagePackModel::loadFromRuntime()
+{
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || room_id.empty())
+        return;
 
-        std::map<std::uint32_t, std::size_t> firstPositionOfPack;
-        for (const auto &e : tempResults)
-            firstPositionOfPack.emplace(e.first, firstPositionOfPack.size());
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId = QString::fromStdString(room_id)]() {
+          GridImagePackLoadResult result;
+          const auto context = komai::matrix_backend::blockingCallContext();
+          result.packs       = komai::MatrixBackendRuntimeService::fetchImagePacks(
+            context, handleId, roomId, &result.error);
+          return result;
+      },
+      [](GridImagePackModel *model, GridImagePackLoadResult result) {
+          if (!result.error.isEmpty()) {
+              nhlog::ui()->warn("Failed to fetch matrix-sdk image packs for grid picker: {}",
+                                result.error.toStdString());
+              return;
+          }
 
-        std::ranges::stable_sort(tempResults, [&firstPositionOfPack](auto a, auto b) {
-            return firstPositionOfPack[a.first] < firstPositionOfPack[b.first];
-        });
-        currentSearchResult = std::move(tempResults);
+          model->beginResetModel();
+          model->rebuildCustomPacks(result.packs.value_or(QVector<komai::MatrixImagePack>{}));
+          model->endResetModel();
+          emit model->newSearchString();
+      });
+}
 
-        std::size_t lastPack = -1;
-        int columnIndex      = 0;
-        for (std::size_t i = 0; i < currentSearchResult.size(); i++) {
-            auto elem = currentSearchResult[i];
-            if (elem.first != lastPack || columnIndex == columns) {
-                columnIndex = 0;
-                lastPack    = elem.first;
-                rowToFirstRowEntryFromSearch.push_back(i);
+void
+GridImagePackModel::rebuildCustomPacks(const QVector<komai::MatrixImagePack> &runtimePacks)
+{
+    packs.clear();
+    rowToPack.clear();
+
+    if (!stickers_) {
+        const auto &allEmoji = emoji::Provider::emoji();
+        for (const auto &category : {
+               emoji::Emoji::Category::People,
+               emoji::Emoji::Category::Nature,
+               emoji::Emoji::Category::Food,
+               emoji::Emoji::Category::Activity,
+               emoji::Emoji::Category::Travel,
+               emoji::Emoji::Category::Objects,
+               emoji::Emoji::Category::Symbols,
+               emoji::Emoji::Category::Flags,
+             }) {
+            PackDesc newPack{};
+            newPack.packname   = categoryToName(category);
+            newPack.packavatar = categoryToIcon(category);
+            for (std::size_t i = 0; i < allEmoji.size(); ++i) {
+                const auto &e = allEmoji[i];
+                if (e.category != category)
+                    continue;
+                newPack.emojis.push_back(TextEmoji{.unicode     = e.unicode(),
+                                                   .unicodeName = e.unicodeName(),
+                                                   .shortcode   = e.shortName(),
+                                                   .searchText  = emoji::Provider::searchText(i)});
             }
-            columnIndex++;
+
+            const size_t packRowCount =
+              (newPack.emojis.size() / columns) + (newPack.emojis.size() % columns ? 1 : 0);
+            newPack.firstRow = rowToPack.size();
+            for (size_t i = 0; i < packRowCount; i++)
+                rowToPack.push_back(packs.size());
+            packs.push_back(std::move(newPack));
         }
     }
 
-    endResetModel();
-    emit newSearchString();
+    for (const auto &pack : runtimePacks) {
+        if (stickers_ ? !pack.isStickerPack : !pack.isEmotePack)
+            continue;
+
+        PackDesc newPack{};
+        newPack.packname   = displayNameForPack(pack);
+        newPack.packavatar = avatarForPack(pack);
+        newPack.room_id    = pack.sourceRoomId.toStdString();
+        newPack.state_key  = pack.stateKey.toStdString();
+
+        for (const auto &image : pack.images) {
+            if (stickers_ ? !image.isSticker : !image.isEmote)
+                continue;
+
+            newPack.images.push_back(GridImagePackModel::PackDesc::CustomImage{
+              .url       = image.url,
+              .body      = image.body,
+              .shortcode = image.shortcode,
+            });
+        }
+
+        if (newPack.images.empty())
+            continue;
+
+        const size_t packRowCount =
+          (newPack.images.size() / columns) + (newPack.images.size() % columns ? 1 : 0);
+        newPack.firstRow = rowToPack.size();
+        for (size_t i = 0; i < packRowCount; i++)
+            rowToPack.push_back(packs.size());
+        packs.push_back(std::move(newPack));
+    }
+
+    rebuildSearchResults();
+}
+
+void
+GridImagePackModel::rebuildSearchResults()
+{
+    currentSearchResult.clear();
+    rowToFirstRowEntryFromSearch.clear();
+    trie_ = {};
+
+    auto insertParts = [this](const QString &str, std::pair<std::uint32_t, std::uint32_t> id) {
+        QTextBoundaryFinder finder(QTextBoundaryFinder::BoundaryType::Word, str);
+        finder.toStart();
+        do {
+            auto start = finder.position();
+            finder.toNextBoundary();
+            auto end = finder.position();
+
+            auto ref = QStringView(str).mid(start, end - start).trimmed();
+            if (!ref.isEmpty())
+                trie_.insert<ElementRank::second>(ref.toUcs4(), id);
+        } while (finder.position() < str.size());
+
+        for (const auto &part : str.split(QLatin1Char(' '), Qt::SkipEmptyParts)) {
+            auto ref = part.trimmed();
+            if (!ref.isEmpty())
+                trie_.insert<ElementRank::second>(ref.toUcs4(), id);
+        }
+    };
+
+    std::uint32_t packIndex = 0;
+    for (const auto &pack : packs) {
+        std::uint32_t emojiIndex = 0;
+        for (const auto &emoji : pack.emojis) {
+            std::pair<std::uint32_t, std::uint32_t> key{packIndex, emojiIndex};
+
+            const QString string1 =
+              emoji.shortcode.normalized(QString::NormalizationForm_KD).toCaseFolded();
+            const QString string2 =
+              emoji.unicodeName.normalized(QString::NormalizationForm_KD).toCaseFolded();
+            const QString string3 =
+              emoji.searchText.normalized(QString::NormalizationForm_KD).toCaseFolded();
+
+            if (!string1.isEmpty()) {
+                trie_.insert<ElementRank::first>(string1.toUcs4(), key);
+                insertParts(string1, key);
+            }
+            if (!string2.isEmpty()) {
+                trie_.insert<ElementRank::first>(string2.toUcs4(), key);
+                insertParts(string2, key);
+            }
+            if (!string3.isEmpty()) {
+                trie_.insert<ElementRank::first>(string3.toUcs4(), key);
+                insertParts(string3, key);
+            }
+
+            emojiIndex++;
+        }
+
+        std::uint32_t imgIndex = 0;
+        for (const auto &img : pack.images) {
+            std::pair<std::uint32_t, std::uint32_t> key{packIndex, imgIndex};
+
+            const QString string1 =
+              img.shortcode.normalized(QString::NormalizationForm_KD).toCaseFolded();
+            const QString string2 =
+              img.body.normalized(QString::NormalizationForm_KD).toCaseFolded();
+
+            if (!string1.isEmpty()) {
+                trie_.insert<ElementRank::first>(string1.toUcs4(), key);
+                insertParts(string1, key);
+            }
+            if (!string2.isEmpty()) {
+                trie_.insert<ElementRank::first>(string2.toUcs4(), key);
+                insertParts(string2, key);
+            }
+
+            imgIndex++;
+        }
+        packIndex++;
+    }
+
+    if (searchString_.isEmpty())
+        return;
+
+    const QVector<uint> searchParts = searchString_.toCaseFolded().toUcs4();
+    const auto maxResults           = static_cast<std::size_t>(columns * columns * 4);
+    const auto mistakes             = effectiveMaxEditDistance(searchParts, 2);
+    auto tempResults                = trie_.search(
+      std::span<const uint>(searchParts.data(), static_cast<std::size_t>(searchParts.size())),
+      maxResults,
+      0);
+    if (tempResults.empty() && mistakes > 0)
+        tempResults = trie_.search(
+          std::span<const uint>(searchParts.data(), static_cast<std::size_t>(searchParts.size())),
+          maxResults,
+          mistakes);
+
+    std::map<std::uint32_t, std::size_t> firstPositionOfPack;
+    for (const auto &e : tempResults)
+        firstPositionOfPack.emplace(e.first, firstPositionOfPack.size());
+
+    std::ranges::stable_sort(tempResults, [&firstPositionOfPack](auto a, auto b) {
+        return firstPositionOfPack[a.first] < firstPositionOfPack[b.first];
+    });
+    currentSearchResult = std::move(tempResults);
+
+    std::size_t lastPack = -1;
+    int columnIndex      = 0;
+    for (std::size_t i = 0; i < currentSearchResult.size(); i++) {
+        const auto elem = currentSearchResult[i];
+        if (elem.first != lastPack || columnIndex == columns) {
+            columnIndex = 0;
+            lastPack    = elem.first;
+            rowToFirstRowEntryFromSearch.push_back(i);
+        }
+        columnIndex++;
+    }
 }
 
 #include "moc_GridImagePackModel.cpp"

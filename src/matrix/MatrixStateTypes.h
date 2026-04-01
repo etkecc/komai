@@ -15,7 +15,6 @@
 #include <nlohmann/json_fwd.hpp>
 
 #include <mtx/events/join_rules.hpp>
-#include <mtx/events/mscs/image_packs.hpp>
 
 struct RoomMember
 {
@@ -115,12 +114,4 @@ struct RoomSearchResult
 {
     std::string room_id;
     RoomInfo info;
-};
-
-struct ImagePackInfo
-{
-    mtx::events::msc2545::ImagePack pack;
-    std::string source_room;
-    std::string state_key;
-    bool from_space = false;
 };

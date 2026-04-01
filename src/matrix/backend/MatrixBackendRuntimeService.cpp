@@ -50,6 +50,47 @@ toRustStringVec(const QVector<QString> &values)
     return rustValues;
 }
 
+::rust::Vec<::komai::rust::MatrixNotificationRequest>
+toRustNotificationRequests(const QVector<MatrixNotificationRequest> &requests)
+{
+    ::rust::Vec<::komai::rust::MatrixNotificationRequest> rustRequests;
+    for (const auto &request : requests) {
+        rustRequests.push_back(::komai::rust::MatrixNotificationRequest{
+          .room_id  = request.roomId.toStdString(),
+          .event_id = request.eventId.toStdString(),
+        });
+    }
+    return rustRequests;
+}
+
+::komai::rust::MatrixImagePack
+toRustImagePack(const MatrixImagePack &pack)
+{
+    ::rust::Vec<::komai::rust::MatrixImagePackImage> images;
+    for (const auto &image : pack.images) {
+        images.push_back(::komai::rust::MatrixImagePackImage{
+          .shortcode  = image.shortcode.toStdString(),
+          .body       = image.body.toStdString(),
+          .url        = image.url.toStdString(),
+          .is_emote   = image.isEmote,
+          .is_sticker = image.isSticker,
+        });
+    }
+
+    return ::komai::rust::MatrixImagePack{
+      .source_room_id      = pack.sourceRoomId.toStdString(),
+      .state_key           = pack.stateKey.toStdString(),
+      .display_name        = pack.displayName.toStdString(),
+      .avatar_url          = pack.avatarUrl.toStdString(),
+      .attribution         = pack.attribution.toStdString(),
+      .is_emote_pack       = pack.isEmotePack,
+      .is_sticker_pack     = pack.isStickerPack,
+      .from_space          = pack.fromSpace,
+      .is_globally_enabled = pack.isGloballyEnabled,
+      .images              = std::move(images),
+    };
+}
+
 template<typename Func>
 auto
 invokeRuntimeWorkerCall(const char *operation, Func &&func)
@@ -79,6 +120,15 @@ fromRustOwnProfile(const ::komai::rust::MatrixOwnProfile &profile)
     return MatrixOwnProfile{
       .displayName = QString::fromStdString(std::string(profile.display_name)),
       .avatarUrl = matrix::normalizeMxcUri(QString::fromStdString(std::string(profile.avatar_url))),
+    };
+}
+
+MatrixOwnPresence
+fromRustOwnPresence(const ::komai::rust::MatrixOwnPresence &presence)
+{
+    return MatrixOwnPresence{
+      .state         = QString::fromStdString(std::string(presence.state)),
+      .statusMessage = QString::fromStdString(std::string(presence.status_message)),
     };
 }
 
@@ -240,6 +290,58 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
       .notificationCount     = room.notification_count,
       .highlightCount        = room.highlight_count,
       .timestamp             = room.timestamp,
+    };
+}
+
+MatrixNotificationItem
+fromRustNotificationItem(const ::komai::rust::MatrixNotificationItem &item)
+{
+    return MatrixNotificationItem{
+      .roomId             = QString::fromStdString(std::string(item.room_id)),
+      .eventId            = QString::fromStdString(std::string(item.event_id)),
+      .replacementEventId = QString::fromStdString(std::string(item.replacement_event_id)),
+      .roomName           = QString::fromStdString(std::string(item.room_name)),
+      .avatarUrl = matrix::normalizeMxcUri(QString::fromStdString(std::string(item.avatar_url))),
+      .senderDisplayName = QString::fromStdString(std::string(item.sender_display_name)),
+      .plainBody         = QString::fromStdString(std::string(item.plain_body)),
+      .formattedBody     = QString::fromStdString(std::string(item.formatted_body)),
+      .mediaMxcUrl =
+        matrix::normalizeMxcUri(QString::fromStdString(std::string(item.media_mxc_url))),
+      .isReply         = item.is_reply,
+      .isEmote         = item.is_emote,
+      .isEncrypted     = item.is_encrypted,
+      .containsSpoiler = item.contains_spoiler,
+      .hasInlineImage  = item.has_inline_image,
+      .playSound       = item.play_sound,
+    };
+}
+
+MatrixImagePack
+fromRustImagePack(const ::komai::rust::MatrixImagePack &pack)
+{
+    QVector<MatrixImagePackImage> images;
+    images.reserve(static_cast<int>(pack.images.size()));
+    for (const auto &image : pack.images) {
+        images.push_back(MatrixImagePackImage{
+          .shortcode = QString::fromStdString(std::string(image.shortcode)),
+          .body      = QString::fromStdString(std::string(image.body)),
+          .url       = matrix::normalizeMxcUri(QString::fromStdString(std::string(image.url))),
+          .isEmote   = image.is_emote,
+          .isSticker = image.is_sticker,
+        });
+    }
+
+    return MatrixImagePack{
+      .sourceRoomId = QString::fromStdString(std::string(pack.source_room_id)),
+      .stateKey     = QString::fromStdString(std::string(pack.state_key)),
+      .displayName  = QString::fromStdString(std::string(pack.display_name)),
+      .avatarUrl    = matrix::normalizeMxcUri(QString::fromStdString(std::string(pack.avatar_url))),
+      .attribution  = QString::fromStdString(std::string(pack.attribution)),
+      .isEmotePack  = pack.is_emote_pack,
+      .isStickerPack     = pack.is_sticker_pack,
+      .fromSpace         = pack.from_space,
+      .isGloballyEnabled = pack.is_globally_enabled,
+      .images            = std::move(images),
     };
 }
 
@@ -868,6 +970,24 @@ MatrixBackendRuntimeService::fetchOwnProfile(matrix_backend::BlockingCallContext
     }
 }
 
+std::optional<MatrixOwnPresence>
+MatrixBackendRuntimeService::fetchOwnPresence(matrix_backend::BlockingCallContext context,
+                                              uint64_t handleId,
+                                              QString *errorOut)
+{
+    try {
+        auto result = invokeRuntimeWorkerCall("matrix_fetch_own_presence", [context, handleId]() {
+            return ::komai::rust::matrix_fetch_own_presence(
+              matrix_backend::toRustBlockingContext(context), handleId);
+        });
+        return fromRustOwnPresence(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 std::optional<MatrixRecoveryStatus>
 MatrixBackendRuntimeService::fetchRecoveryStatus(matrix_backend::BlockingCallContext context,
                                                  uint64_t handleId,
@@ -1465,6 +1585,29 @@ MatrixBackendRuntimeService::setOwnDisplayName(matrix_backend::BlockingCallConte
 }
 
 bool
+MatrixBackendRuntimeService::setOwnPresence(matrix_backend::BlockingCallContext context,
+                                            uint64_t handleId,
+                                            const QString &presenceState,
+                                            const QString &statusMessage,
+                                            QString *errorOut)
+{
+    try {
+        invokeRuntimeWorkerCall(
+          "matrix_set_own_presence", [context, handleId, presenceState, statusMessage]() {
+              ::komai::rust::matrix_set_own_presence(matrix_backend::toRustBlockingContext(context),
+                                                     handleId,
+                                                     presenceState.toStdString(),
+                                                     statusMessage.toStdString());
+          });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
 MatrixBackendRuntimeService::setOwnRoomDisplayName(matrix_backend::BlockingCallContext context,
                                                    uint64_t handleId,
                                                    const QString &roomId,
@@ -1661,6 +1804,187 @@ MatrixBackendRuntimeService::fetchRoomList(matrix_backend::BlockingCallContext c
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
         return std::nullopt;
+    }
+}
+
+std::optional<QVector<MatrixNotificationItem>>
+MatrixBackendRuntimeService::fetchNotificationItems(
+  matrix_backend::BlockingCallContext context,
+  uint64_t handleId,
+  const QVector<MatrixNotificationRequest> &requests,
+  QString *errorOut)
+{
+    if (requests.isEmpty())
+        return QVector<MatrixNotificationItem>{};
+
+    try {
+        auto rustRequests = toRustNotificationRequests(requests);
+        const auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_notification_items",
+          [context, handleId, rustRequests = std::move(rustRequests)]() {
+              return ::komai::rust::matrix_fetch_notification_items(
+                matrix_backend::toRustBlockingContext(context), handleId, rustRequests);
+          });
+        QVector<MatrixNotificationItem> items;
+        items.reserve(static_cast<int>(result.size()));
+        for (const auto &item : result)
+            items.push_back(fromRustNotificationItem(item));
+        return items;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<bool>
+MatrixBackendRuntimeService::fetchAccountNotificationsEnabled(
+  matrix_backend::BlockingCallContext context,
+  uint64_t handleId,
+  QString *errorOut)
+{
+    try {
+        return invokeRuntimeWorkerCall(
+          "matrix_fetch_account_notifications_enabled", [context, handleId]() {
+              return ::komai::rust::matrix_fetch_account_notifications_enabled(
+                matrix_backend::toRustBlockingContext(context), handleId);
+          });
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::setAccountNotificationsEnabled(
+  matrix_backend::BlockingCallContext context,
+  uint64_t handleId,
+  bool enabled,
+  QString *errorOut)
+{
+    try {
+        invokeRuntimeWorkerCall(
+          "matrix_set_account_notifications_enabled", [context, handleId, enabled]() {
+              ::komai::rust::matrix_set_account_notifications_enabled(
+                matrix_backend::toRustBlockingContext(context), handleId, enabled);
+          });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+std::optional<QVector<MatrixImagePack>>
+MatrixBackendRuntimeService::fetchImagePacks(matrix_backend::BlockingCallContext context,
+                                             uint64_t handleId,
+                                             const QString &roomId,
+                                             QString *errorOut)
+{
+    try {
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_image_packs", [context, handleId, roomId]() {
+              return ::komai::rust::matrix_fetch_image_packs(
+                matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+          });
+        QVector<MatrixImagePack> packs;
+        packs.reserve(static_cast<int>(result.size()));
+        for (const auto &pack : result)
+            packs.push_back(fromRustImagePack(pack));
+        return packs;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::saveImagePack(matrix_backend::BlockingCallContext context,
+                                           uint64_t handleId,
+                                           const QString &roomId,
+                                           const QString &stateKey,
+                                           const QString &previousStateKey,
+                                           bool hasPreviousStateKey,
+                                           const MatrixImagePack &pack,
+                                           QString *errorOut)
+{
+    try {
+        invokeRuntimeWorkerCall("matrix_save_image_pack",
+                                [context,
+                                 handleId,
+                                 roomId,
+                                 stateKey,
+                                 previousStateKey,
+                                 hasPreviousStateKey,
+                                 pack = toRustImagePack(pack)]() mutable {
+                                    ::komai::rust::matrix_save_image_pack(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      stateKey.toStdString(),
+                                      previousStateKey.toStdString(),
+                                      hasPreviousStateKey,
+                                      std::move(pack));
+                                });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::removeImagePack(matrix_backend::BlockingCallContext context,
+                                             uint64_t handleId,
+                                             const QString &roomId,
+                                             const QString &stateKey,
+                                             QString *errorOut)
+{
+    try {
+        invokeRuntimeWorkerCall("matrix_remove_image_pack",
+                                [context, handleId, roomId, stateKey]() {
+                                    ::komai::rust::matrix_remove_image_pack(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      stateKey.toStdString());
+                                });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::setImagePackGloballyEnabled(
+  matrix_backend::BlockingCallContext context,
+  uint64_t handleId,
+  const QString &roomId,
+  const QString &stateKey,
+  bool enabled,
+  QString *errorOut)
+{
+    try {
+        invokeRuntimeWorkerCall("matrix_set_image_pack_globally_enabled",
+                                [context, handleId, roomId, stateKey, enabled]() {
+                                    ::komai::rust::matrix_set_image_pack_globally_enabled(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      stateKey.toStdString(),
+                                      enabled);
+                                });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
     }
 }
 

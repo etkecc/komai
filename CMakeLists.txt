@@ -324,8 +324,6 @@ set(SRC_FILES
     src/timeline/CommunitiesModel.cpp
     src/timeline/CommunitiesModel.h
     src/timeline/communities/CommunitiesModelData.cpp
-    src/timeline/communities/CommunitiesModelSpaces.cpp
-    src/timeline/communities/CommunitiesModelSync.cpp
     src/timeline/DelegateChooser.cpp
     src/timeline/DelegateChooser.h
     src/timeline/EventDataSource.cpp
@@ -358,7 +356,6 @@ set(SRC_FILES
     src/timeline/roomlist/RoomlistModelPreviews.cpp
     src/timeline/roomlist/RoomlistPreviewSelection.cpp
     src/timeline/roomlist/RoomlistModelSelection.cpp
-    src/timeline/roomlist/RoomlistModelSync.cpp
     src/timeline/rust/MatrixTimelineModel.cpp
     src/timeline/rust/MatrixTimelineModel.h
     src/timeline/DirectChatResolver.cpp
@@ -414,8 +411,6 @@ set(SRC_FILES
     src/ui/Theme.h
     src/ui/ThemeRegistry.cpp
     src/ui/ThemeRegistry.h
-    src/ui/UIA.cpp
-    src/ui/UIA.h
     src/ui/UserProfile.cpp
     src/ui/UserProfileActions.cpp
     src/ui/UserProfileModels.cpp
@@ -457,8 +452,6 @@ set(SRC_FILES
     src/providers/BlurhashProvider.h
     src/chat/ChatPageRoomActions.cpp
     src/chat/ChatPageSessionLifecycle.cpp
-    src/chat/ChatPageSync.cpp
-    src/chat/ChatPageNotifications.cpp
     src/chat/ChatPageCore.cpp
     src/chat/ChatPageBootstrap.cpp
     src/chat/ChatPage.h
@@ -476,14 +469,7 @@ set(SRC_FILES
     src/models/CompletionProxyModel.cpp
     src/models/CompletionProxyModel.h
     src/timeline/formattedmessage/LinkPatterns.h
-    src/matrix/MatrixSyncUpdate.cpp
-    src/matrix/MatrixSyncUpdate.h
     src/matrix/MatrixStateTypes.h
-    src/events/EventAccessors.cpp
-    src/events/EventAccessorsMedia.cpp
-    src/events/EventAccessors.h
-    src/auth/FallbackAuth.cpp
-    src/auth/FallbackAuth.h
     src/imagepacks/ImagePackListModel.cpp
     src/imagepacks/ImagePackListModel.h
     src/models/InviteesModel.cpp
@@ -588,10 +574,6 @@ set(SRC_FILES
     src/profile/ProfileSecrets.h
     src/models/ReadReceiptsModel.cpp
     src/models/ReadReceiptsModel.h
-    src/auth/ReCaptcha.cpp
-    src/auth/ReCaptcha.h
-    src/auth/RegisterPage.cpp
-    src/auth/RegisterPage.h
     src/models/RoomDirectoryModel.cpp
     src/models/RoomDirectoryModel.h
     src/models/RoomsModel.cpp
@@ -631,7 +613,6 @@ set(SRC_FILES
     src/utils/UtilsColor.cpp
     src/utils/UtilsMessageDescription.cpp
     src/utils/UtilsRoomMaintenance.cpp
-    src/utils/UtilsSpaceVias.cpp
     src/utils/UtilsEventExpiry.cpp
     src/utils/UtilsMarkdown.cpp
     src/utils/UtilsTextAndUri.cpp

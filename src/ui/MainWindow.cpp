@@ -145,6 +145,19 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
     setSource(QUrl(QStringLiteral("qrc:///resources/qml/shell/Root.qml")));
 
     trayIcon_ = new TrayIcon(QStringLiteral(":/logos/komai.svg"), this);
+    userSettings_->setNotificationsAccountRuntimeHooks(
+      []() -> std::uint64_t {
+          const auto *window = MainWindow::instance();
+          return window ? window->matrixBackendHandleId() : 0;
+      },
+      [](std::uint64_t handleId, QString *errorOut) -> std::optional<bool> {
+          return komai::MatrixBackendRuntimeService::fetchAccountNotificationsEnabled(
+            komai::matrix_backend::blockingCallContext(), handleId, errorOut);
+      },
+      [](std::uint64_t handleId, bool enabled, QString *errorOut) -> bool {
+          return komai::MatrixBackendRuntimeService::setAccountNotificationsEnabled(
+            komai::matrix_backend::blockingCallContext(), handleId, enabled, errorOut);
+      });
 
     connect(chat_page_, &ChatPage::closing, this, [this] { transitionToLoginPage(QString()); });
     connect(chat_page_, &ChatPage::unreadMessages, this, &MainWindow::setWindowTitle);

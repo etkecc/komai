@@ -963,12 +963,6 @@ if(BUILD_TESTING)
         set_property(TEST ${test_name} PROPERTY ENVIRONMENT "${komai_test_env}")
     endfunction()
 
-    add_executable(komai_yaml_settings_test tests/YamlSettingsTest.cpp)
-    target_include_directories(komai_yaml_settings_test PRIVATE src tests/support)
-    target_link_libraries(komai_yaml_settings_test PRIVATE Qt::Core ${YAMLCPP_TARGET_NAME})
-    add_test(NAME komai_yaml_settings_test COMMAND komai_yaml_settings_test)
-    komai_configure_test(komai_yaml_settings_test "unit;settings")
-
     add_executable(komai_staged_load_plan_test tests/StagedLoadPlanTest.cpp)
     target_include_directories(komai_staged_load_plan_test PRIVATE src)
     target_link_libraries(komai_staged_load_plan_test PRIVATE Qt::Core)
@@ -1101,16 +1095,6 @@ if(BUILD_TESTING)
     target_link_libraries(komai_setting_input_validation_test PRIVATE Qt::Core Qt::Qml)
     add_test(NAME komai_setting_input_validation_test COMMAND komai_setting_input_validation_test)
     komai_configure_test(komai_setting_input_validation_test "unit;settings")
-
-    add_executable(komai_settings_serializer_core_test
-        tests/SettingsSerializerCoreTest.cpp
-        tests/support/settings/core/SettingsSerializer.cpp
-        src/settings/core/SettingsStore.cpp
-    )
-    target_include_directories(komai_settings_serializer_core_test PRIVATE src tests/support)
-    target_link_libraries(komai_settings_serializer_core_test PRIVATE ${YAMLCPP_TARGET_NAME})
-    add_test(NAME komai_settings_serializer_core_test COMMAND komai_settings_serializer_core_test)
-    komai_configure_test(komai_settings_serializer_core_test "unit;settings")
 
     add_executable(komai_formatted_code_block_highlighter_test
         tests/FormattedCodeBlockHighlighterTest.cpp

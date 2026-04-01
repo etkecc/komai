@@ -64,6 +64,18 @@ mod ffi {
         value: String,
     }
 
+    struct SettingsLoadedSession {
+        user_id: String,
+        device_id: String,
+        homeserver: String,
+        source_version: i32,
+        migrated_version: i32,
+        had_future_version: bool,
+        had_unsupported_path: bool,
+        should_write_back: bool,
+        serialized_yaml: String,
+    }
+
     struct MatrixBackendHandleInfo {
         handle_id: u64,
         has_session: bool,
@@ -581,6 +593,9 @@ mod ffi {
             serialized: &str,
             root_key: &str,
         ) -> Vec<SettingsStringMapEntry>;
+        fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
+        fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str)
+        -> String;
 
         fn resolve_server(
             context: MatrixFfiBlockingContext,
@@ -1328,6 +1343,26 @@ fn settings_decode_named_string_map_yaml(
     root_key: &str,
 ) -> Vec<ffi::SettingsStringMapEntry> {
     settings::secrets::decode_named_string_map_yaml(serialized, root_key)
+}
+
+fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {
+    let snapshot = settings::session::load_session_snapshot(session_text);
+
+    ffi::SettingsLoadedSession {
+        user_id: snapshot.user_id,
+        device_id: snapshot.device_id,
+        homeserver: snapshot.homeserver,
+        source_version: snapshot.source_version,
+        migrated_version: snapshot.migrated_version,
+        had_future_version: snapshot.had_future_version,
+        had_unsupported_path: snapshot.had_unsupported_path,
+        should_write_back: snapshot.should_write_back,
+        serialized_yaml: snapshot.serialized_yaml,
+    }
+}
+
+fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str) -> String {
+    settings::session::encode_session_yaml(user_id, homeserver, device_id)
 }
 
 fn runtime() -> &'static Runtime {

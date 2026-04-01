@@ -5,6 +5,7 @@
 
 #include "SettingsController.h"
 #include "SettingsControllerInternal.h"
+#include "komai-rust-cxxbridge/lib.h"
 
 #include "logging/Logging.h"
 #include <yaml-cpp/yaml.h>
@@ -70,6 +71,25 @@ logMigrationWarnings(const char *scopeName,
           scopeName,
           outcome.sourceVersion,
           currentVersion);
+    }
+}
+
+void
+logSessionMigrationWarnings(const ::komai::rust::SettingsLoadedSession &session)
+{
+    if (session.had_future_version) {
+        settings::activeLoggers().ui->warn(
+          "Session schema version {} is newer than supported version {}; "
+          "known keys will still be loaded but no migration will be applied",
+          session.source_version,
+          settings::migrations::kCurrentSessionSchemaVersion);
+    }
+    if (session.had_unsupported_path) {
+        settings::activeLoggers().ui->warn(
+          "Session migration path is unsupported from schema version {} to {}; "
+          "loaded values may be partially migrated",
+          session.source_version,
+          settings::migrations::kCurrentSessionSchemaVersion);
     }
 }
 
@@ -177,16 +197,37 @@ loadImpl(UserSettings &settings,
             break;
         case staged_load_plan::Stage::Session: {
             const bool sessionFileExists = pathExists(settings.sessionFilePath());
-            const auto loadedSession     = loadYamlFile(settings.sessionFilePath(), "session");
-            const auto sessionOutcome    = settings::migrations::migrateSessionRoot(loadedSession);
-            logMigrationWarnings(
-              "Session", sessionOutcome, settings::migrations::kCurrentSessionSchemaVersion);
-            settings::serializer::loadSession(settings, sessionOutcome.migratedRoot);
-            writeMigratedScopeIfNeeded(settings.sessionFilePath(),
-                                       "session",
-                                       persistMigrationWriteback,
-                                       sessionFileExists,
-                                       sessionOutcome);
+            const auto loadedSessionText =
+              settings::storage::readTextFile(settings.sessionFilePath(), "session");
+            const auto sessionSnapshot =
+              ::komai::rust::settings_load_session_snapshot(loadedSessionText.toStdString());
+            logSessionMigrationWarnings(sessionSnapshot);
+            settings.setSessionSnapshot(UserSettings::SessionSnapshot{
+              .userId = QString::fromStdString(static_cast<std::string>(sessionSnapshot.user_id)),
+              .accessToken = QString(),
+              .deviceId =
+                QString::fromStdString(static_cast<std::string>(sessionSnapshot.device_id)),
+              .homeserver =
+                QString::fromStdString(static_cast<std::string>(sessionSnapshot.homeserver))});
+            if (persistMigrationWriteback && sessionFileExists &&
+                !sessionSnapshot.had_future_version && !sessionSnapshot.had_unsupported_path &&
+                sessionSnapshot.should_write_back) {
+                if (!settings::storage::writeTextFile(
+                      settings.sessionFilePath(),
+                      QString::fromStdString(
+                        static_cast<std::string>(sessionSnapshot.serialized_yaml)),
+                      false)) {
+                    settings::activeLoggers().ui->warn(
+                      "Failed to persist migrated session settings at: {}",
+                      settings.sessionFilePath().toStdString());
+                } else {
+                    settings::activeLoggers().ui->info(
+                      "Persisted session settings schema migration {} -> {} at: {}",
+                      sessionSnapshot.source_version,
+                      sessionSnapshot.migrated_version,
+                      settings.sessionFilePath().toStdString());
+                }
+            }
             break;
         }
         case staged_load_plan::Stage::SecretsSecureBackend:

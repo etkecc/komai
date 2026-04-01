@@ -3,20 +3,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "SettingsSerializerLoad.h"
-
 #include "SettingsSerializer.h"
+
+#include "komai-rust-cxxbridge/lib.h"
 
 #include <QString>
 
-#include <yaml-cpp/yaml.h>
-
 #include "logging/Logging.h"
 
-#include "settings/SettingKeys.h"
-#include "settings/SettingsMigrations.h"
 #include "settings/SettingsStorage.h"
-#include "settings/YamlSettings.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {
@@ -27,35 +22,11 @@ hasSessionValue(const QString &value)
     return !value.trimmed().isEmpty();
 }
 
-QString
-readNormalizedSessionValue(const YAML::Node &root, const char *key)
-{
-    const auto rawValue        = yaml_settings::readString(root, key, QString());
-    const auto normalizedValue = rawValue.trimmed();
-    if (rawValue != normalizedValue) {
-        settings::serializer::activeLoggers().ui->warn(
-          "Normalized value for '{}' while loading session identity", key);
-    }
-    return normalizedValue;
-}
-
 } // namespace
 
-using settings::storage::writeYamlFile;
-using yaml_settings::readString;
-using yaml_settings::setNode;
+using settings::storage::writeTextFile;
 
 namespace settings::serializer {
-
-void
-loadSession(UserSettings &settings, const YAML::Node &root)
-{
-    settings.setSessionSnapshot(UserSettings::SessionSnapshot{
-      .userId      = readNormalizedSessionValue(root, SettingKey::SessionAccountUserId),
-      .accessToken = QString(),
-      .deviceId    = readNormalizedSessionValue(root, SettingKey::SessionDeviceId),
-      .homeserver  = readNormalizedSessionValue(root, SettingKey::SessionAccountHomeserver)});
-}
 
 void
 saveSession(const UserSettings &settings, const QString &sessionFilePath)
@@ -78,13 +49,13 @@ saveSession(const UserSettings &settings, const QString &sessionFilePath)
         return;
     }
 
-    YAML::Node root(YAML::NodeType::Map);
-    settings::migrations::stampCurrentSessionSchemaVersion(root);
-    setNode(root, SettingKey::SessionAccountUserId, settings.userId().toStdString());
-    setNode(root, SettingKey::SessionAccountHomeserver, settings.homeserver().toStdString());
-    setNode(root, SettingKey::SessionDeviceId, settings.deviceId().toStdString());
+    const auto serialized =
+      ::komai::rust::settings_encode_session_yaml(settings.userId().toStdString(),
+                                                  settings.homeserver().toStdString(),
+                                                  settings.deviceId().toStdString());
 
-    if (writeYamlFile(sessionFilePath, root, false)) {
+    if (writeTextFile(
+          sessionFilePath, QString::fromStdString(static_cast<std::string>(serialized)), false)) {
         activeLoggers().ui->debug("Saved session to: {}", sessionFilePath.toStdString());
     }
 }

@@ -75,7 +75,7 @@ The play button overlay starts download/playback on click.
 
 1. **Cached media**: loaded directly from disk into a `QBuffer`, then `setSourceDevice(&buffer)`.
 2. **Unencrypted remote media**: streamed via the local media proxy (see below). `QMediaPlayer::setSource()` receives a `http://localhost:PORT/m/{token}.ext` URL, enabling HTTP buffering and seeking without downloading the full file first.
-3. **Encrypted remote media**: full download, decrypted via `mtx::crypto::decrypt_file`, loaded into `QBuffer`, then `setSourceDevice(&buffer)`. Streaming is not possible because AES-256-CTR + HMAC-SHA256 requires the complete ciphertext for HMAC verification.
+3. **Runtime-backed full download**: fetched through `MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(...)`, loaded into `QBuffer`, then `setSourceDevice(&buffer)`. This is the path used when proxy streaming is not used or when playback falls back to buffered media. Encrypted media also belongs in this full-download class because it cannot be streamed incrementally.
 
 The `encrypted` Q_PROPERTY lets QML distinguish encrypted from unencrypted media (e.g. for progress indicators).
 

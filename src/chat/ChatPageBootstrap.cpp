@@ -33,7 +33,7 @@ ChatPage::bootstrap(QString userid,
         return;
     }
 
-    nhlog::ui()->info("Bootstrapping chat page from resident matrix-sdk runtime only");
+    nhlog::ui()->info("Bootstrapping chat page from resident matrix-sdk backend runtime");
 
     emit initializeEmptyViews();
     callManager_->refreshTurnServer();

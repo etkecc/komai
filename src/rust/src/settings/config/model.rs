@@ -18,7 +18,11 @@ pub struct Config {
 pub struct ConfigUi {
     pub scale: ConfigUiScale,
     pub theme: ConfigUiTheme,
+    pub font: ConfigUiFont,
+    pub motion: ConfigUiMotion,
     pub input: ConfigUiInput,
+    pub layout: ConfigUiLayout,
+    pub avatars: ConfigUiAvatars,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -32,8 +36,32 @@ pub struct ConfigUiTheme {
 }
 
 #[derive(Clone, Debug, Default)]
+pub struct ConfigUiFont {
+    pub family: String,
+    pub emoji_family: String,
+    pub size_pt: Option<f64>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigUiMotion {
+    pub animations_enabled: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
 pub struct ConfigUiInput {
     pub mode: String,
+    pub touch_swipe_gestures_enabled: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigUiLayout {
+    pub content_max_width_px: Option<i32>,
+    pub compact_mode: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigUiAvatars {
+    pub circular: Option<bool>,
 }
 
 #[derive(Clone, Debug, Default)]

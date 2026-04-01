@@ -41,11 +41,63 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["ui", "theme", "slug"],
         Value::String(snapshot.ui.theme_slug.clone()),
     );
+    if snapshot.ui.has_font_size_pt {
+        yaml::set_value(
+            &mut root,
+            &["ui", "font", "size_pt"],
+            serde_yaml_ng::to_value(snapshot.ui.font_size_pt).unwrap_or(Value::Null),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["ui", "font", "family"],
+        Value::String(snapshot.ui.font_family.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["ui", "font", "emoji_family"],
+        Value::String(snapshot.ui.font_emoji_family.clone()),
+    );
+    if snapshot.ui.has_motion_animations_enabled {
+        yaml::set_value(
+            &mut root,
+            &["ui", "motion", "enable_animations"],
+            Value::Bool(snapshot.ui.motion_animations_enabled),
+        );
+    }
     yaml::set_value(
         &mut root,
         &["ui", "input", "mode"],
         Value::String(snapshot.ui.input_mode.clone()),
     );
+    if snapshot.ui.has_input_touch_swipe_gestures_enabled {
+        yaml::set_value(
+            &mut root,
+            &["ui", "input", "touch", "swipe_gestures", "enabled"],
+            Value::Bool(snapshot.ui.input_touch_swipe_gestures_enabled),
+        );
+    }
+    if snapshot.ui.has_layout_content_max_width_px {
+        yaml::set_value(
+            &mut root,
+            &["ui", "layout", "content", "max_width_px"],
+            Value::Number(Number::from(snapshot.ui.layout_content_max_width_px)),
+        );
+    }
+    if snapshot.ui.has_layout_compact_mode {
+        yaml::set_value(
+            &mut root,
+            &["ui", "layout", "compact_mode"],
+            Value::Bool(snapshot.ui.layout_compact_mode),
+        );
+    }
+    if snapshot.ui.has_avatars_circular {
+        yaml::set_value(
+            &mut root,
+            &["ui", "avatars", "circular"],
+            Value::Bool(snapshot.ui.avatars_circular),
+        );
+    }
 
     if snapshot.timeline.hidden_events.has_global {
         yaml::set_value(

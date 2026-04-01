@@ -10,13 +10,23 @@ use crate::ffi::SettingsConfigSnapshot;
 use crate::settings::yaml;
 
 pub use model::{
-    Config, ConfigSecrets, ConfigTimeline, ConfigTimelineHiddenEvents, ConfigUi, ConfigUiInput,
-    ConfigUiScale, ConfigUiTheme, LoadedConfig,
+    Config, ConfigSecrets, ConfigTimeline, ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars,
+    ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme,
+    LoadedConfig,
 };
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
 const UI_THEME_SLUG_PATH: [&str; 3] = ["ui", "theme", "slug"];
+const UI_FONT_FAMILY_PATH: [&str; 3] = ["ui", "font", "family"];
+const UI_FONT_EMOJI_FAMILY_PATH: [&str; 3] = ["ui", "font", "emoji_family"];
+const UI_FONT_SIZE_PT_PATH: [&str; 3] = ["ui", "font", "size_pt"];
+const UI_MOTION_ANIMATIONS_ENABLED_PATH: [&str; 3] = ["ui", "motion", "enable_animations"];
 const UI_INPUT_MODE_PATH: [&str; 3] = ["ui", "input", "mode"];
+const UI_INPUT_TOUCH_SWIPE_GESTURES_ENABLED_PATH: [&str; 5] =
+    ["ui", "input", "touch", "swipe_gestures", "enabled"];
+const UI_LAYOUT_CONTENT_MAX_WIDTH_PX_PATH: [&str; 4] = ["ui", "layout", "content", "max_width_px"];
+const UI_LAYOUT_COMPACT_MODE_PATH: [&str; 3] = ["ui", "layout", "compact_mode"];
+const UI_AVATARS_CIRCULAR_PATH: [&str; 3] = ["ui", "avatars", "circular"];
 const HIDDEN_EVENTS_GLOBAL_PATH: [&str; 3] = ["timeline", "hidden_events", "global"];
 const HIDDEN_EVENTS_BY_ROOM_PATH: [&str; 3] = ["timeline", "hidden_events", "by_room"];
 const SECRETS_PROVIDER_PATH: [&str; 2] = ["secrets", "provider"];
@@ -37,8 +47,33 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             theme: ConfigUiTheme {
                 slug: parse_string(yaml::value_at_path(root, &UI_THEME_SLUG_PATH)),
             },
+            font: ConfigUiFont {
+                family: parse_string(yaml::value_at_path(root, &UI_FONT_FAMILY_PATH)),
+                emoji_family: parse_string(yaml::value_at_path(root, &UI_FONT_EMOJI_FAMILY_PATH)),
+                size_pt: yaml::value_at_path(root, &UI_FONT_SIZE_PT_PATH)
+                    .and_then(parse_scalar_f64),
+            },
+            motion: ConfigUiMotion {
+                animations_enabled: yaml::value_at_path(root, &UI_MOTION_ANIMATIONS_ENABLED_PATH)
+                    .and_then(parse_scalar_bool),
+            },
             input: ConfigUiInput {
                 mode: parse_string(yaml::value_at_path(root, &UI_INPUT_MODE_PATH)),
+                touch_swipe_gestures_enabled: yaml::value_at_path(
+                    root,
+                    &UI_INPUT_TOUCH_SWIPE_GESTURES_ENABLED_PATH,
+                )
+                .and_then(parse_scalar_bool),
+            },
+            layout: ConfigUiLayout {
+                content_max_width_px: yaml::value_at_path(root, &UI_LAYOUT_CONTENT_MAX_WIDTH_PX_PATH)
+                    .and_then(parse_scalar_i32),
+                compact_mode: yaml::value_at_path(root, &UI_LAYOUT_COMPACT_MODE_PATH)
+                    .and_then(parse_scalar_bool),
+            },
+            avatars: ConfigUiAvatars {
+                circular: yaml::value_at_path(root, &UI_AVATARS_CIRCULAR_PATH)
+                    .and_then(parse_scalar_bool),
             },
         },
         timeline: ConfigTimeline {
@@ -65,6 +100,39 @@ fn parse_scalar_f32(value: &serde_yaml_ng::Value) -> Option<f32> {
     match value {
         serde_yaml_ng::Value::Number(number) => number.as_f64().map(|value| value as f32),
         serde_yaml_ng::Value::String(value) => value.trim().parse::<f32>().ok(),
+        _ => None,
+    }
+}
+
+fn parse_scalar_f64(value: &serde_yaml_ng::Value) -> Option<f64> {
+    match value {
+        serde_yaml_ng::Value::Number(number) => number.as_f64(),
+        serde_yaml_ng::Value::String(value) => value.trim().parse::<f64>().ok(),
+        _ => None,
+    }
+}
+
+fn parse_scalar_i32(value: &serde_yaml_ng::Value) -> Option<i32> {
+    match value {
+        serde_yaml_ng::Value::Number(number) => number.as_i64().and_then(|value| i32::try_from(value).ok()),
+        serde_yaml_ng::Value::String(value) => value.trim().parse::<i32>().ok(),
+        _ => None,
+    }
+}
+
+fn parse_scalar_bool(value: &serde_yaml_ng::Value) -> Option<bool> {
+    match value {
+        serde_yaml_ng::Value::Bool(value) => Some(*value),
+        serde_yaml_ng::Value::Number(number) => match number.as_i64() {
+            Some(0) => Some(false),
+            Some(1) => Some(true),
+            _ => None,
+        },
+        serde_yaml_ng::Value::String(value) => match value.trim().to_ascii_lowercase().as_str() {
+            "true" | "yes" | "on" | "1" => Some(true),
+            "false" | "no" | "off" | "0" => Some(false),
+            _ => None,
+        },
         _ => None,
     }
 }
@@ -220,13 +288,61 @@ timeline:
     }
 
     #[test]
+    fn parses_extended_ui_section() {
+        let config = parse_config_text(
+            r#"
+ui:
+  font:
+    family: Iosevka
+    emoji_family: Noto Color Emoji
+    size_pt: 14
+  motion:
+    enable_animations: true
+  input:
+    touch:
+      swipe_gestures:
+        enabled: true
+  layout:
+    content:
+      max_width_px: 1024
+    compact_mode: false
+  avatars:
+    circular: true
+"#,
+        );
+
+        assert_eq!(config.ui.font.family, "Iosevka");
+        assert_eq!(config.ui.font.emoji_family, "Noto Color Emoji");
+        assert_eq!(config.ui.font.size_pt, Some(14.0));
+        assert_eq!(config.ui.motion.animations_enabled, Some(true));
+        assert_eq!(config.ui.input.touch_swipe_gestures_enabled, Some(true));
+        assert_eq!(config.ui.layout.content_max_width_px, Some(1024));
+        assert_eq!(config.ui.layout.compact_mode, Some(false));
+        assert_eq!(config.ui.avatars.circular, Some(true));
+    }
+
+    #[test]
     fn encodes_generic_config_values() {
         let yaml = encode_config_yaml(&SettingsConfigSnapshot {
             ui: SettingsConfigUiSection {
                 has_scale_factor: false,
                 scale_factor: 0.0,
                 theme_slug: "komai-dark".to_owned(),
+                has_font_size_pt: true,
+                font_size_pt: 14.0,
+                font_family: "Iosevka".to_owned(),
+                font_emoji_family: "Noto Color Emoji".to_owned(),
+                has_motion_animations_enabled: true,
+                motion_animations_enabled: true,
                 input_mode: "desktop".to_owned(),
+                has_input_touch_swipe_gestures_enabled: true,
+                input_touch_swipe_gestures_enabled: true,
+                has_layout_content_max_width_px: true,
+                layout_content_max_width_px: 1024,
+                has_layout_compact_mode: true,
+                layout_compact_mode: false,
+                has_avatars_circular: true,
+                avatars_circular: true,
             },
             timeline: SettingsConfigTimelineSection {
                 hidden_events: SettingsConfigTimelineHiddenEventsSection {
@@ -277,6 +393,38 @@ timeline:
             Some(serde_yaml_ng::Value::String(value)) if value == "desktop"
         ));
         assert!(matches!(
+            yaml::value_at_path(&root, &["ui", "font", "family"]),
+            Some(serde_yaml_ng::Value::String(value)) if value == "Iosevka"
+        ));
+        assert!(matches!(
+            yaml::value_at_path(&root, &["ui", "font", "emoji_family"]),
+            Some(serde_yaml_ng::Value::String(value)) if value == "Noto Color Emoji"
+        ));
+        assert!(matches!(
+            yaml::value_at_path(&root, &["ui", "font", "size_pt"]),
+            Some(serde_yaml_ng::Value::Number(number)) if number.as_f64() == Some(14.0)
+        ));
+        assert!(matches!(
+            yaml::value_at_path(&root, &["ui", "motion", "enable_animations"]),
+            Some(serde_yaml_ng::Value::Bool(true))
+        ));
+        assert!(matches!(
+            yaml::value_at_path(&root, &["ui", "input", "touch", "swipe_gestures", "enabled"]),
+            Some(serde_yaml_ng::Value::Bool(true))
+        ));
+        assert!(matches!(
+            yaml::value_at_path(&root, &["ui", "layout", "content", "max_width_px"]),
+            Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(1024)
+        ));
+        assert!(matches!(
+            yaml::value_at_path(&root, &["ui", "layout", "compact_mode"]),
+            Some(serde_yaml_ng::Value::Bool(false))
+        ));
+        assert!(matches!(
+            yaml::value_at_path(&root, &["ui", "avatars", "circular"]),
+            Some(serde_yaml_ng::Value::Bool(true))
+        ));
+        assert!(matches!(
             yaml::value_at_path(&root, &["secrets", "provider"]),
             Some(serde_yaml_ng::Value::String(value)) if value == "file"
         ));
@@ -301,6 +449,7 @@ secrets:
         assert_eq!(loaded.config.ui.scale.factor, Some(1.5));
         assert_eq!(loaded.config.ui.theme.slug, "komai-dark");
         assert_eq!(loaded.config.ui.input.mode, "");
+        assert_eq!(loaded.config.ui.motion.animations_enabled, None);
         assert_eq!(loaded.config.secrets.provider, "file");
         assert!(loaded.should_write_back);
     }

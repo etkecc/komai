@@ -81,7 +81,21 @@ mod ffi {
         has_scale_factor: bool,
         scale_factor: f32,
         theme_slug: String,
+        has_font_size_pt: bool,
+        font_size_pt: f64,
+        font_family: String,
+        font_emoji_family: String,
+        has_motion_animations_enabled: bool,
+        motion_animations_enabled: bool,
         input_mode: String,
+        has_input_touch_swipe_gestures_enabled: bool,
+        input_touch_swipe_gestures_enabled: bool,
+        has_layout_content_max_width_px: bool,
+        layout_content_max_width_px: i32,
+        has_layout_compact_mode: bool,
+        layout_compact_mode: bool,
+        has_avatars_circular: bool,
+        avatars_circular: bool,
     }
 
     struct SettingsConfigTimelineHiddenEventsSection {
@@ -1553,7 +1567,25 @@ fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::SettingsConf
         has_scale_factor: config.ui.scale.factor.is_some(),
         scale_factor: config.ui.scale.factor.unwrap_or_default(),
         theme_slug: config.ui.theme.slug.clone(),
+        has_font_size_pt: config.ui.font.size_pt.is_some(),
+        font_size_pt: config.ui.font.size_pt.unwrap_or_default(),
+        font_family: config.ui.font.family.clone(),
+        font_emoji_family: config.ui.font.emoji_family.clone(),
+        has_motion_animations_enabled: config.ui.motion.animations_enabled.is_some(),
+        motion_animations_enabled: config.ui.motion.animations_enabled.unwrap_or_default(),
         input_mode: config.ui.input.mode.clone(),
+        has_input_touch_swipe_gestures_enabled: config.ui.input.touch_swipe_gestures_enabled.is_some(),
+        input_touch_swipe_gestures_enabled: config
+            .ui
+            .input
+            .touch_swipe_gestures_enabled
+            .unwrap_or_default(),
+        has_layout_content_max_width_px: config.ui.layout.content_max_width_px.is_some(),
+        layout_content_max_width_px: config.ui.layout.content_max_width_px.unwrap_or_default(),
+        has_layout_compact_mode: config.ui.layout.compact_mode.is_some(),
+        layout_compact_mode: config.ui.layout.compact_mode.unwrap_or_default(),
+        has_avatars_circular: config.ui.avatars.circular.is_some(),
+        avatars_circular: config.ui.avatars.circular.unwrap_or_default(),
     }
 }
 

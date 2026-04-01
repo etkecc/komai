@@ -109,8 +109,16 @@ appendCoreStoreConfigValues(const UserSettings &settings,
         if (settings::core::definitions::isEnumTokenConfigSettingId(definition.id))
             continue;
         if (definition.id == settings::core::SettingId::UiThemeSlug ||
+            definition.id == settings::core::SettingId::UiFontFamily ||
+            definition.id == settings::core::SettingId::UiFontSizePt ||
+            definition.id == settings::core::SettingId::UiFontEmojiFamily ||
+            definition.id == settings::core::SettingId::UiMotionAnimationsEnabled ||
             definition.id == settings::core::SettingId::UiInputMode ||
-            definition.id == settings::core::SettingId::UiScaleFactor)
+            definition.id == settings::core::SettingId::UiInputTouchSwipeGesturesEnabled ||
+            definition.id == settings::core::SettingId::UiScaleFactor ||
+            definition.id == settings::core::SettingId::UiLayoutContentMaxWidthPx ||
+            definition.id == settings::core::SettingId::UiAvatarsCircular ||
+            definition.id == settings::core::SettingId::UiLayoutCompactMode)
             continue;
 
         const auto stored = store.value(definition.id);
@@ -151,10 +159,24 @@ saveConfig(const UserSettings &settings,
     ::komai::rust::SettingsConfigSnapshot snapshot{
       .ui =
         {
-          .has_scale_factor = settings::core::isScaleFactorInRange(settings.uiScaleFactor()),
-          .scale_factor     = static_cast<float>(settings.uiScaleFactor()),
-          .theme_slug       = settings.uiThemeSlug().toStdString(),
-          .input_mode       = detail::toStorageUiInputMode(settings.uiInputMode()).toStdString(),
+          .has_scale_factor  = settings::core::isScaleFactorInRange(settings.uiScaleFactor()),
+          .scale_factor      = static_cast<float>(settings.uiScaleFactor()),
+          .theme_slug        = settings.uiThemeSlug().toStdString(),
+          .has_font_size_pt  = true,
+          .font_size_pt      = settings.uiFontSizePt(),
+          .font_family       = settings.uiFontFamily().toStdString(),
+          .font_emoji_family = settings.uiFontEmojiFamilyStorageValue().toStdString(),
+          .has_motion_animations_enabled = true,
+          .motion_animations_enabled     = settings.uiMotionAnimationsEnabled(),
+          .input_mode = detail::toStorageUiInputMode(settings.uiInputMode()).toStdString(),
+          .has_input_touch_swipe_gestures_enabled = true,
+          .input_touch_swipe_gestures_enabled     = settings.uiInputTouchSwipeGesturesEnabled(),
+          .has_layout_content_max_width_px        = true,
+          .layout_content_max_width_px            = settings.uiLayoutContentMaxWidthPx(),
+          .has_layout_compact_mode                = true,
+          .layout_compact_mode                    = settings.uiLayoutCompactMode(),
+          .has_avatars_circular                   = true,
+          .avatars_circular                       = settings.uiAvatarsCircular(),
         },
       .timeline =
         {

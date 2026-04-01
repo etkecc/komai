@@ -68,6 +68,18 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                  settings.uiThemeSlug().toStdString());
     }
 
+    settings.setUiFontSizePt(snapshot.ui.has_font_size_pt
+                               ? snapshot.ui.font_size_pt
+                               : settings::core::definitions::kDefaultFontSizePt);
+    settings.setUiFontFamily(
+      QString::fromStdString(static_cast<std::string>(snapshot.ui.font_family)));
+    settings.setUiFontEmojiFamily(
+      QString::fromStdString(static_cast<std::string>(snapshot.ui.font_emoji_family)));
+    settings.setUiMotionAnimationsEnabled(
+      snapshot.ui.has_motion_animations_enabled
+        ? snapshot.ui.motion_animations_enabled
+        : settings::core::definitions::kDefaultUiMotionAnimationsEnabled);
+
     for (const auto &adapter : cfg::enumTokenAdapters()) {
         const auto rawToken =
           rust_cfg::readStringValue(values, adapter.key, QString::fromLatin1(adapter.defaultToken));
@@ -81,10 +93,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         }
     }
 
-    settings.setUiMotionAnimationsEnabled(
-      rust_cfg::readBoolValue(values,
-                              SettingKey::UiMotionAnimationsEnabled,
-                              settings::core::definitions::kDefaultUiMotionAnimationsEnabled));
     const auto loadedInputModeToken =
       QString::fromStdString(static_cast<std::string>(snapshot.ui.input_mode)).trimmed();
     const auto inputModeToken =
@@ -102,6 +110,17 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setUiScaleFactor(snapshot.ui.has_scale_factor
                                 ? snapshot.ui.scale_factor
                                 : settings::core::definitions::kDefaultScaleFactor);
+    settings.setUiInputTouchSwipeGesturesEnabled(snapshot.ui.has_input_touch_swipe_gestures_enabled
+                                                   ? snapshot.ui.input_touch_swipe_gestures_enabled
+                                                   : false);
+    settings.setUiLayoutContentMaxWidthPx(
+      snapshot.ui.has_layout_content_max_width_px
+        ? snapshot.ui.layout_content_max_width_px
+        : settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx);
+    settings.setUiAvatarsCircular(snapshot.ui.has_avatars_circular ? snapshot.ui.avatars_circular
+                                                                   : false);
+    settings.setUiLayoutCompactMode(
+      snapshot.ui.has_layout_compact_mode ? snapshot.ui.layout_compact_mode : false);
 
     settings.setHiddenTimelineEventTypes(
       snapshot.timeline.hidden_events.has_global

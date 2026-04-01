@@ -29,6 +29,50 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         yaml::set_value(&mut root, &path, config_value_to_yaml(value));
     }
 
+    if snapshot.ui.has_scale_factor {
+        yaml::set_value(
+            &mut root,
+            &["ui", "scale", "factor"],
+            serde_yaml_ng::to_value(snapshot.ui.scale_factor).unwrap_or(Value::Null),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["ui", "theme", "slug"],
+        Value::String(snapshot.ui.theme_slug.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["ui", "input", "mode"],
+        Value::String(snapshot.ui.input_mode.clone()),
+    );
+
+    if snapshot.timeline.hidden_events.has_global {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "hidden_events", "global"],
+            Value::Sequence(
+                snapshot
+                    .timeline
+                    .hidden_events
+                    .global
+                    .iter()
+                    .map(|entry| Value::String(entry.clone()))
+                    .collect(),
+            ),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["timeline", "hidden_events", "by_room"],
+        tree::string_list_map(&snapshot.timeline.hidden_events.by_room),
+    );
+    yaml::set_value(
+        &mut root,
+        &["secrets", "provider"],
+        Value::String(snapshot.secrets.provider.clone()),
+    );
+
     yaml::serialize_yaml(&root)
 }
 

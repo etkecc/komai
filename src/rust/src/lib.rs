@@ -77,6 +77,27 @@ mod ffi {
         values: Vec<String>,
     }
 
+    struct SettingsConfigUiSection {
+        has_scale_factor: bool,
+        scale_factor: f32,
+        theme_slug: String,
+        input_mode: String,
+    }
+
+    struct SettingsConfigTimelineHiddenEventsSection {
+        has_global: bool,
+        global: Vec<String>,
+        by_room: Vec<SettingsStringListMapEntry>,
+    }
+
+    struct SettingsConfigTimelineSection {
+        hidden_events: SettingsConfigTimelineHiddenEventsSection,
+    }
+
+    struct SettingsConfigSecretsSection {
+        provider: String,
+    }
+
     enum SettingsConfigValueKind {
         Bool,
         Int,
@@ -98,18 +119,16 @@ mod ffi {
     }
 
     struct SettingsConfigSnapshot {
+        ui: SettingsConfigUiSection,
+        timeline: SettingsConfigTimelineSection,
+        secrets: SettingsConfigSecretsSection,
         values: Vec<SettingsConfigValue>,
     }
 
     struct SettingsLoadedConfig {
-        has_ui_scale_factor: bool,
-        ui_scale_factor: f32,
-        theme_slug: String,
-        ui_input_mode: String,
-        has_hidden_timeline_event_types: bool,
-        hidden_timeline_event_types: Vec<String>,
-        hidden_timeline_event_types_by_room: Vec<SettingsStringListMapEntry>,
-        secrets_provider: String,
+        ui: SettingsConfigUiSection,
+        timeline: SettingsConfigTimelineSection,
+        secrets: SettingsConfigSecretsSection,
         values: Vec<SettingsConfigValue>,
         source_version: i32,
         migrated_version: i32,
@@ -1529,10 +1548,19 @@ fn settings_encode_config_yaml(snapshot: &ffi::SettingsConfigSnapshot) -> String
     settings::config::encode_config_yaml(snapshot)
 }
 
-fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsLoadedConfig {
-    let snapshot = settings::config::load_config_snapshot(config_text);
-    let hidden_timeline_event_types_by_room = snapshot
-        .config
+fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::SettingsConfigUiSection {
+    ffi::SettingsConfigUiSection {
+        has_scale_factor: config.ui.scale.factor.is_some(),
+        scale_factor: config.ui.scale.factor.unwrap_or_default(),
+        theme_slug: config.ui.theme.slug.clone(),
+        input_mode: config.ui.input.mode.clone(),
+    }
+}
+
+fn ffi_config_timeline_section(
+    config: &settings::config::Config,
+) -> ffi::SettingsConfigTimelineSection {
+    let by_room = config
         .timeline
         .hidden_events
         .by_room
@@ -1543,25 +1571,30 @@ fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsLoadedConfig
         })
         .collect();
 
+    ffi::SettingsConfigTimelineSection {
+        hidden_events: ffi::SettingsConfigTimelineHiddenEventsSection {
+            has_global: config.timeline.hidden_events.global.is_some(),
+            global: config.timeline.hidden_events.global.clone().unwrap_or_default(),
+            by_room,
+        },
+    }
+}
+
+fn ffi_config_secrets_section(
+    config: &settings::config::Config,
+) -> ffi::SettingsConfigSecretsSection {
+    ffi::SettingsConfigSecretsSection {
+        provider: config.secrets.provider.clone(),
+    }
+}
+
+fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsLoadedConfig {
+    let snapshot = settings::config::load_config_snapshot(config_text);
+
     ffi::SettingsLoadedConfig {
-        has_ui_scale_factor: snapshot.config.ui.scale.factor.is_some(),
-        ui_scale_factor: snapshot.config.ui.scale.factor.unwrap_or_default(),
-        theme_slug: snapshot.config.ui.theme.slug,
-        ui_input_mode: snapshot.config.ui.input.mode,
-        has_hidden_timeline_event_types: snapshot
-            .config
-            .timeline
-            .hidden_events
-            .global
-            .is_some(),
-        hidden_timeline_event_types: snapshot
-            .config
-            .timeline
-            .hidden_events
-            .global
-            .unwrap_or_default(),
-        hidden_timeline_event_types_by_room,
-        secrets_provider: snapshot.config.secrets.provider,
+        ui: ffi_config_ui_section(&snapshot.config),
+        timeline: ffi_config_timeline_section(&snapshot.config),
+        secrets: ffi_config_secrets_section(&snapshot.config),
         values: snapshot.values,
         source_version: snapshot.source_version,
         migrated_version: snapshot.migrated_version,

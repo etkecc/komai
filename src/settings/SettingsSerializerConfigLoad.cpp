@@ -57,9 +57,9 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     }
 
     const auto requestedTheme =
-      QString::fromStdString(static_cast<std::string>(snapshot.theme_slug)).trimmed().isEmpty()
+      QString::fromStdString(static_cast<std::string>(snapshot.ui.theme_slug)).trimmed().isEmpty()
         ? settings.uiThemeSlug()
-        : QString::fromStdString(static_cast<std::string>(snapshot.theme_slug)).trimmed();
+        : QString::fromStdString(static_cast<std::string>(snapshot.ui.theme_slug)).trimmed();
     settings.setUiThemeSlug(requestedTheme);
     if (settings.uiThemeSlug() != requestedTheme) {
         activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
@@ -86,7 +86,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                               SettingKey::UiMotionAnimationsEnabled,
                               settings::core::definitions::kDefaultUiMotionAnimationsEnabled));
     const auto loadedInputModeToken =
-      QString::fromStdString(static_cast<std::string>(snapshot.ui_input_mode)).trimmed();
+      QString::fromStdString(static_cast<std::string>(snapshot.ui.input_mode)).trimmed();
     const auto inputModeToken =
       loadedInputModeToken.isEmpty()
         ? detail::toStorageUiInputMode(settings::core::definitions::kDefaultUiInputMode)
@@ -99,22 +99,22 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     }
     settings.setUiInputMode(detail::fromStorageUiInputMode(inputModeToken));
 
-    settings.setUiScaleFactor(snapshot.has_ui_scale_factor
-                                ? snapshot.ui_scale_factor
+    settings.setUiScaleFactor(snapshot.ui.has_scale_factor
+                                ? snapshot.ui.scale_factor
                                 : settings::core::definitions::kDefaultScaleFactor);
 
     settings.setHiddenTimelineEventTypes(
-      snapshot.has_hidden_timeline_event_types
+      snapshot.timeline.hidden_events.has_global
         ? [&snapshot]() {
               QStringList values;
-              for (const auto &value : snapshot.hidden_timeline_event_types)
+              for (const auto &value : snapshot.timeline.hidden_events.global)
                   values.push_back(QString::fromStdString(static_cast<std::string>(value)));
               return values;
           }()
         : qml_mtx_events::defaultHiddenTimelineEventTypeKeys());
     {
         QMap<QString, QStringList> byRoom;
-        for (const auto &entry : snapshot.hidden_timeline_event_types_by_room) {
+        for (const auto &entry : snapshot.timeline.hidden_events.by_room) {
             QStringList roomValues;
             for (const auto &value : entry.values)
                 roomValues.push_back(QString::fromStdString(static_cast<std::string>(value)));

@@ -97,27 +97,6 @@ configValue(const char *key, const QStringList &values)
             .string_list_map_value = {}};
 }
 
-::komai::rust::SettingsConfigValue
-configStringListMapValue(const char *key, const QMap<QString, QStringList> &values)
-{
-    ::rust::Vec<::komai::rust::SettingsStringListMapEntry> rustEntries;
-    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
-        ::rust::Vec<::rust::String> rustValues;
-        for (const auto &value : it.value())
-            rustValues.push_back(value.toStdString());
-        rustEntries.push_back({.key = it.key().toStdString(), .values = std::move(rustValues)});
-    }
-
-    return {.key                   = std::string(key),
-            .kind                  = ::komai::rust::SettingsConfigValueKind::StringListMap,
-            .bool_value            = false,
-            .int_value             = 0,
-            .double_value          = 0.0,
-            .string_value          = {},
-            .string_list_value     = {},
-            .string_list_map_value = std::move(rustEntries)};
-}
-
 void
 appendCoreStoreConfigValues(const UserSettings &settings,
                             ::rust::Vec<::komai::rust::SettingsConfigValue> &values)
@@ -129,7 +108,8 @@ appendCoreStoreConfigValues(const UserSettings &settings,
             continue;
         if (settings::core::definitions::isEnumTokenConfigSettingId(definition.id))
             continue;
-        if (definition.id == settings::core::SettingId::UiInputMode ||
+        if (definition.id == settings::core::SettingId::UiThemeSlug ||
+            definition.id == settings::core::SettingId::UiInputMode ||
             definition.id == settings::core::SettingId::UiScaleFactor)
             continue;
 
@@ -168,7 +148,32 @@ saveConfig(const UserSettings &settings,
            const QString &configFilePath,
            bool usesFileSecretsProvider)
 {
-    ::komai::rust::SettingsConfigSnapshot snapshot{.values = {}};
+    ::komai::rust::SettingsConfigSnapshot snapshot{
+      .ui =
+        {
+          .has_scale_factor = settings::core::isScaleFactorInRange(settings.uiScaleFactor()),
+          .scale_factor     = static_cast<float>(settings.uiScaleFactor()),
+          .theme_slug       = settings.uiThemeSlug().toStdString(),
+          .input_mode       = detail::toStorageUiInputMode(settings.uiInputMode()).toStdString(),
+        },
+      .timeline =
+        {
+          .hidden_events =
+            {
+              .has_global = true,
+              .global     = {},
+              .by_room    = {},
+            },
+        },
+      .secrets =
+        {
+          .provider = (usesFileSecretsProvider
+                         ? QString::fromLatin1(staged_load_plan::ProviderFileValue)
+                         : QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))
+                        .toStdString(),
+        },
+      .values = {},
+    };
 
     appendCoreStoreConfigValues(settings, snapshot.values);
 
@@ -177,21 +182,17 @@ saveConfig(const UserSettings &settings,
           configValue(adapter.key, adapter.toStorage(settings).toStdString()));
     }
 
-    snapshot.values.push_back(configValue(
-      SettingKey::UiInputMode, detail::toStorageUiInputMode(settings.uiInputMode()).toStdString()));
-
-    if (settings::core::isScaleFactorInRange(settings.uiScaleFactor()))
-        snapshot.values.push_back(configValue(SettingKey::UiScaleFactor, settings.uiScaleFactor()));
-
-    snapshot.values.push_back(
-      configValue(SettingKey::TimelineHiddenEventsGlobal, settings.hiddenTimelineEventTypes()));
-    snapshot.values.push_back(configStringListMapValue(SettingKey::TimelineHiddenEventsByRoom,
-                                                       settings.hiddenTimelineEventTypesByRoom()));
-    snapshot.values.push_back(configValue(
-      SettingKey::SecretsProvider,
-      (usesFileSecretsProvider ? QString::fromLatin1(staged_load_plan::ProviderFileValue)
-                               : QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))
-        .toStdString()));
+    for (const auto &value : settings.hiddenTimelineEventTypes())
+        snapshot.timeline.hidden_events.global.push_back(value.toStdString());
+    for (auto it = settings.hiddenTimelineEventTypesByRoom().constBegin();
+         it != settings.hiddenTimelineEventTypesByRoom().constEnd();
+         ++it) {
+        ::rust::Vec<::rust::String> rustValues;
+        for (const auto &value : it.value())
+            rustValues.push_back(value.toStdString());
+        snapshot.timeline.hidden_events.by_room.push_back(
+          {.key = it.key().toStdString(), .values = std::move(rustValues)});
+    }
 
     const auto serialized = ::komai::rust::settings_encode_config_yaml(snapshot);
     if (writeTextFile(

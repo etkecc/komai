@@ -132,7 +132,9 @@ fn parse_string_list_map(
 mod tests {
     use super::{encode_config_yaml, load_config_snapshot, parse_config_text};
     use crate::ffi::{
-        SettingsConfigSnapshot, SettingsConfigValue, SettingsConfigValueKind, SettingsStringListMapEntry,
+        SettingsConfigSecretsSection, SettingsConfigSnapshot, SettingsConfigTimelineHiddenEventsSection,
+        SettingsConfigTimelineSection, SettingsConfigUiSection, SettingsConfigValue,
+        SettingsConfigValueKind, SettingsStringListMapEntry,
     };
     use crate::settings::yaml;
 
@@ -220,6 +222,25 @@ timeline:
     #[test]
     fn encodes_generic_config_values() {
         let yaml = encode_config_yaml(&SettingsConfigSnapshot {
+            ui: SettingsConfigUiSection {
+                has_scale_factor: false,
+                scale_factor: 0.0,
+                theme_slug: "komai-dark".to_owned(),
+                input_mode: "desktop".to_owned(),
+            },
+            timeline: SettingsConfigTimelineSection {
+                hidden_events: SettingsConfigTimelineHiddenEventsSection {
+                    has_global: true,
+                    global: vec!["m.reaction".to_owned()],
+                    by_room: vec![SettingsStringListMapEntry {
+                        key: "!room:example.org".to_owned(),
+                        values: vec!["m.call.candidates".to_owned()],
+                    }],
+                },
+            },
+            secrets: SettingsConfigSecretsSection {
+                provider: "file".to_owned(),
+            },
             values: vec![
                 SettingsConfigValue {
                     key: "meta.ignored".to_owned(),
@@ -230,39 +251,6 @@ timeline:
                     string_value: "x".to_owned(),
                     string_list_value: vec![],
                     string_list_map_value: vec![],
-                },
-                SettingsConfigValue {
-                    key: "ui.theme.slug".to_owned(),
-                    kind: SettingsConfigValueKind::String,
-                    bool_value: false,
-                    int_value: 0,
-                    double_value: 0.0,
-                    string_value: "komai-dark".to_owned(),
-                    string_list_value: vec![],
-                    string_list_map_value: vec![],
-                },
-                SettingsConfigValue {
-                    key: "timeline.hidden_events.global".to_owned(),
-                    kind: SettingsConfigValueKind::StringList,
-                    bool_value: false,
-                    int_value: 0,
-                    double_value: 0.0,
-                    string_value: String::new(),
-                    string_list_value: vec!["m.reaction".to_owned()],
-                    string_list_map_value: vec![],
-                },
-                SettingsConfigValue {
-                    key: "timeline.hidden_events.by_room".to_owned(),
-                    kind: SettingsConfigValueKind::StringListMap,
-                    bool_value: false,
-                    int_value: 0,
-                    double_value: 0.0,
-                    string_value: String::new(),
-                    string_list_value: vec![],
-                    string_list_map_value: vec![SettingsStringListMapEntry {
-                        key: "!room:example.org".to_owned(),
-                        values: vec!["m.call.candidates".to_owned()],
-                    }],
                 },
             ],
         });
@@ -283,6 +271,14 @@ timeline:
         assert!(matches!(
             yaml::value_at_path(&root, &["timeline", "hidden_events", "by_room"]),
             Some(serde_yaml_ng::Value::Mapping(_))
+        ));
+        assert!(matches!(
+            yaml::value_at_path(&root, &["ui", "input", "mode"]),
+            Some(serde_yaml_ng::Value::String(value)) if value == "desktop"
+        ));
+        assert!(matches!(
+            yaml::value_at_path(&root, &["secrets", "provider"]),
+            Some(serde_yaml_ng::Value::String(value)) if value == "file"
         ));
     }
 

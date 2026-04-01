@@ -130,10 +130,13 @@ setConfigStringValue(::rust::Vec<::komai::rust::SettingsConfigValue> &values,
 }
 
 bool
-writeConfigSnapshot(const QString &path,
-                    const ::rust::Vec<::komai::rust::SettingsConfigValue> &values)
+writeConfigSnapshot(const QString &path, const ::komai::rust::SettingsLoadedConfig &loaded)
 {
-    const ::komai::rust::SettingsConfigSnapshot snapshot{.values = values};
+    ::komai::rust::SettingsConfigSnapshot snapshot;
+    snapshot.ui       = loaded.ui;
+    snapshot.timeline = loaded.timeline;
+    snapshot.secrets  = loaded.secrets;
+    snapshot.values   = loaded.values;
     return writeTextFile(path,
                          QString::fromStdString(static_cast<std::string>(
                            ::komai::rust::settings_encode_config_yaml(snapshot))),
@@ -170,10 +173,12 @@ loadImpl(UserSettings &settings,
     };
 
     auto provider = settings::persistence::providerFromConfigValue(
-      QString::fromStdString(static_cast<std::string>(configSnapshot.secrets_provider)));
+      QString::fromStdString(static_cast<std::string>(configSnapshot.secrets.provider)));
     if (!configFileExists) {
         const bool secureAvailable = secureBackendAvailableNow();
         provider                   = preferredProviderForAvailability(secureAvailable);
+        configSnapshot.secrets.provider =
+          QString::fromLatin1(providerToken(provider)).toStdString();
         setConfigStringValue(configSnapshot.values,
                              SettingKey::SecretsProvider,
                              QString::fromLatin1(providerToken(provider)));
@@ -191,7 +196,7 @@ loadImpl(UserSettings &settings,
 
     if (persistMigrationWriteback && !configFileExists && !configSnapshot.had_future_version &&
         !configSnapshot.had_unsupported_path) {
-        if (!writeConfigSnapshot(settings.configFilePath(), configSnapshot.values)) {
+        if (!writeConfigSnapshot(settings.configFilePath(), configSnapshot)) {
             settings::activeLoggers().ui->warn(
               "Failed to initialize new profile config with schema version: {}",
               settings.configFilePath().toStdString());
@@ -363,13 +368,15 @@ loadImpl(UserSettings &settings,
                 provider = preferredProvider;
                 settings.setUsesFileSecretsProvider(provider ==
                                                     staged_load_plan::SecretsProvider::File);
+                configSnapshot.secrets.provider =
+                  QString::fromLatin1(providerToken(provider)).toStdString();
                 setConfigStringValue(configSnapshot.values,
                                      SettingKey::SecretsProvider,
                                      QString::fromLatin1(providerToken(provider)));
 
                 if (persistMigrationWriteback && !configSnapshot.had_future_version &&
                     !configSnapshot.had_unsupported_path) {
-                    if (!writeConfigSnapshot(settings.configFilePath(), configSnapshot.values)) {
+                    if (!writeConfigSnapshot(settings.configFilePath(), configSnapshot)) {
                         settings::activeLoggers().ui->warn(
                           "Failed to persist startup secrets provider update at: {}",
                           settings.configFilePath().toStdString());

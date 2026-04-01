@@ -660,7 +660,7 @@ CPMAddPackage(
 corrosion_import_crate(MANIFEST_PATH src/rust/Cargo.toml)
 corrosion_add_cxxbridge(komai-rust-cxxbridge
     CRATE komai_rust
-    FILES lib.rs
+    FILES ffi.rs
 )
 target_include_directories(komai-rust-cxxbridge PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 # The Rust crate uses native-tls (OpenSSL). Declare the dependency on the static

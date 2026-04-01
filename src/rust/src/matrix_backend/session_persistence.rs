@@ -26,7 +26,7 @@ struct PersistedOAuthSession {
     user: UserSession,
 }
 
-pub use crate::ffi::MatrixPersistedSessionSecrets;
+pub(crate) use crate::ffi::MatrixPersistedSessionSecrets;
 
 pub fn load_persisted_session_secrets(profile_id: &str) -> MatrixPersistedSessionSecrets {
     ffi::matrix_load_session_secrets(profile_id)

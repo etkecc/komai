@@ -43,6 +43,26 @@ namespace {
 std::vector<std::string>
 getTurnURIs(const komai::MatrixTurnServerInfo &turnServer);
 
+bool
+preMatrixRtcCallsEnabled()
+{
+    return UserSettings::instance()->callsLegacyEnabled();
+}
+
+uint64_t
+activeMatrixRuntimeHandleId()
+{
+    auto *mainWindow = MainWindow::instance();
+    return mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+}
+
+bool
+isCurrentMatrixRuntimeHandle(uint64_t handleId)
+{
+    auto *mainWindow = MainWindow::instance();
+    return mainWindow && mainWindow->matrixBackendHandleId() == handleId;
+}
+
 struct MatrixCallRoomContext
 {
     QString roomId;
@@ -125,8 +145,7 @@ queueCallEventSend(CallManager *manager,
                    const char *eventTypeName,
                    WorkFn &&workFn)
 {
-    auto *mainWindow    = MainWindow::instance();
-    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    const auto handleId = activeMatrixRuntimeHandleId();
     if (handleId == 0 || roomId.trimmed().isEmpty()) {
         nhlog::ui()->warn("Refusing to send matrix call event '{}' without an active runtime "
                           "handle or room id",
@@ -156,8 +175,7 @@ queueCallEventSend(CallManager *manager,
           };
       },
       [](CallManager *, MatrixCallEventSendResult result) {
-          auto *mainWindow = MainWindow::instance();
-          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+          if (!isCurrentMatrixRuntimeHandle(result.handleId))
               return;
           if (result.ok)
               return;
@@ -560,7 +578,7 @@ CallManager::ensurePlayerInitialized()
 void
 CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int windowIndex)
 {
-    if (!UserSettings::instance()->callsLegacyEnabled())
+    if (!preMatrixRtcCallsEnabled())
         return;
     if (isOnCall() || isOnCallOnOtherDevice()) {
         if (isOnCallOnOtherDevice_ != "")
@@ -698,7 +716,7 @@ CallManager::handleCallInvite(const QString &roomId,
                               const std::string &offerSdp,
                               const std::string &offerType)
 {
-    if (!UserSettings::instance()->callsLegacyEnabled())
+    if (!preMatrixRtcCallsEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(eventId)
@@ -849,7 +867,7 @@ CallManager::handleCallCandidates(const QString &roomId,
                                   const std::string &version,
                                   const komai::voip::CallIceCandidateList &candidates)
 {
-    if (!UserSettings::instance()->callsLegacyEnabled())
+    if (!preMatrixRtcCallsEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -892,7 +910,7 @@ CallManager::handleCallAnswer(const QString &roomId,
                               const std::string &answerSdp,
                               const std::string &answerType)
 {
-    if (!UserSettings::instance()->callsLegacyEnabled())
+    if (!preMatrixRtcCallsEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -957,7 +975,7 @@ CallManager::handleCallHangUp(const QString &roomId,
                               const std::string &version,
                               const std::string &reason)
 {
-    if (!UserSettings::instance()->callsLegacyEnabled())
+    if (!preMatrixRtcCallsEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -993,7 +1011,7 @@ CallManager::handleCallSelectAnswer(const QString &roomId,
                                     const std::string &version,
                                     const std::string &selectedPartyId)
 {
-    if (!UserSettings::instance()->callsLegacyEnabled())
+    if (!preMatrixRtcCallsEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -1054,7 +1072,7 @@ CallManager::handleCallReject(const QString &roomId,
                               const std::string &partyId,
                               const std::string &version)
 {
-    if (!UserSettings::instance()->callsLegacyEnabled())
+    if (!preMatrixRtcCallsEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -1101,7 +1119,7 @@ CallManager::handleCallNegotiate(const QString &roomId,
                                  const std::string &descSdp,
                                  const std::string &descType)
 {
-    if (!UserSettings::instance()->callsLegacyEnabled())
+    if (!preMatrixRtcCallsEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -1286,8 +1304,7 @@ void
 CallManager::retrieveTurnServer()
 {
     turnServerTimer_.stop();
-    auto *mainWindow    = MainWindow::instance();
-    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    const auto handleId = activeMatrixRuntimeHandleId();
     if (handleId == 0) {
         nhlog::ui()->warn("Skipping TURN server retrieval because no matrix-sdk runtime handle "
                           "is active");
@@ -1309,8 +1326,7 @@ CallManager::retrieveTurnServer()
           };
       },
       [](CallManager *manager, MatrixTurnServerFetchResult result) {
-          auto *mainWindow = MainWindow::instance();
-          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+          if (!isCurrentMatrixRuntimeHandle(result.handleId))
               return;
 
           if (!result.turnServerInfo) {

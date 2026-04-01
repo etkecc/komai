@@ -11,7 +11,6 @@
 #include "profile/Paths.h"
 #include "profile/ProfileSecrets.h"
 #include "settings/SettingsStorage.h"
-#include "settings/YamlSettings.h"
 
 namespace settings::persistence {
 
@@ -34,10 +33,10 @@ saveProfileSecrets(const QString &profile,
     }
 
     if (usesFileSecretsProvider) {
-        YAML::Node root(YAML::NodeType::Map);
-        yaml_settings::writeStringMap(root, SettingKey::SecretsFileMap, nonEmptySecrets);
-
-        if (settings::storage::writeYamlFile(secretsFilePath, root, true)) {
+        if (settings::storage::writeTextFile(
+              secretsFilePath,
+              settings::storage::encodeSecretsFilePayload(nonEmptySecrets),
+              true)) {
             activeLoggers().ui->debug("Saved secrets to: {}", secretsFilePath.toStdString());
         }
         return;

@@ -12,7 +12,6 @@
 
 #include "profile/Paths.h"
 #include "settings/SettingsStorage.h"
-#include "settings/YamlSettings.h"
 
 namespace settings::persistence {
 
@@ -26,8 +25,8 @@ loadProfileSecrets(const QString &profile,
     const auto normalizedProfile = app_paths::normalizedProfileId(profile);
 
     if (usesFileSecretsProvider) {
-        const auto secretsRoot = settings::storage::loadYamlFile(secretsFilePath, "secrets");
-        payload.secrets = yaml_settings::readStringMap(secretsRoot, SettingKey::SecretsFileMap);
+        const auto serializedSecrets = settings::storage::readTextFile(secretsFilePath, "secrets");
+        payload.secrets = settings::storage::decodeSecretsFilePayload(serializedSecrets);
         const bool hadUnexpectedInternalSessionKeys =
           detail::extractInternalSessionMetadata(payload);
         if (hadUnexpectedInternalSessionKeys) {

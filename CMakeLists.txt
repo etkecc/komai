@@ -1066,6 +1066,7 @@ if(BUILD_TESTING)
     add_executable(komai_settings_storage_test
         tests/SettingsStorageTest.cpp
         tests/LoggingStub.cpp
+        tests/MatrixBackendBridgeStartupStub.cpp
         tests/ProfileSecretsStub.cpp
         src/matrix/backend/MatrixSessionSecrets.cpp
         src/profile/KeyringEnvironment.cpp
@@ -1085,6 +1086,8 @@ if(BUILD_TESTING)
         Qt::Core
         Qt::Qml
         ${YAMLCPP_TARGET_NAME}
+        komai_rust
+        komai-rust-cxxbridge
     )
     target_link_libraries(komai_settings_storage_test PRIVATE
         qt6keychain

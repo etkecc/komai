@@ -62,6 +62,12 @@ readTextFile(const QString &path, const char *label)
     return detail::defaultReaderWriter().readTextFile(path, label);
 }
 
+bool
+writeTextFile(const QString &path, const QString &content, bool ownerReadWriteOnly)
+{
+    return detail::defaultReaderWriter().writeTextFile(path, content, ownerReadWriteOnly);
+}
+
 YAML::Node
 loadYamlFile(const QString &path, const char *label)
 {

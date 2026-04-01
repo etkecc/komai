@@ -5,44 +5,67 @@
 
 #include "SettingsStorage.h"
 
-#include <string>
+#include "komai-rust-cxxbridge/lib.h"
+#include "settings/SettingKeys.h"
 
 namespace settings::storage {
+
+namespace {
+
+::rust::Vec<::komai::rust::SettingsStringMapEntry>
+toRustStringMapEntries(const QMap<QString, QString> &secrets)
+{
+    ::rust::Vec<::komai::rust::SettingsStringMapEntry> entries;
+    for (auto it = secrets.constBegin(); it != secrets.constEnd(); ++it) {
+        entries.push_back({
+          .key   = it.key().toStdString(),
+          .value = it.value().toStdString(),
+        });
+    }
+    return entries;
+}
+
+QMap<QString, QString>
+fromRustStringMapEntries(const ::rust::Vec<::komai::rust::SettingsStringMapEntry> &entries)
+{
+    QMap<QString, QString> secrets;
+    for (const auto &entry : entries) {
+        secrets[QString::fromStdString(static_cast<std::string>(entry.key))] =
+          QString::fromStdString(static_cast<std::string>(entry.value));
+    }
+    return secrets;
+}
+
+} // namespace
 
 QString
 encodeSecretsMap(const QMap<QString, QString> &secrets)
 {
-    YAML::Node root(YAML::NodeType::Map);
-    for (auto it = secrets.constBegin(); it != secrets.constEnd(); ++it)
-        root[it.key().toStdString()] = it.value().toStdString();
-
-    YAML::Emitter out;
-    out << root;
-    return QString::fromStdString(out.c_str());
+    const auto encoded =
+      ::komai::rust::settings_encode_string_map_yaml(toRustStringMapEntries(secrets));
+    return QString::fromStdString(static_cast<std::string>(encoded));
 }
 
 QMap<QString, QString>
 decodeSecretsMap(const QString &serialized)
 {
-    if (serialized.trimmed().isEmpty())
-        return {};
+    return fromRustStringMapEntries(
+      ::komai::rust::settings_decode_string_map_yaml(serialized.toStdString()));
+}
 
-    try {
-        YAML::Node root = YAML::Load(serialized.toStdString());
-        if (!root.IsMap())
-            return {};
+QString
+encodeSecretsFilePayload(const QMap<QString, QString> &secrets)
+{
+    const auto encoded = ::komai::rust::settings_encode_named_string_map_yaml(
+      SettingKey::SecretsFileMap, toRustStringMapEntries(secrets));
+    return QString::fromStdString(static_cast<std::string>(encoded));
+}
 
-        QMap<QString, QString> result;
-        for (const auto &item : root) {
-            if (!item.first.IsScalar() || !item.second.IsScalar())
-                continue;
-            result[QString::fromStdString(item.first.as<std::string>())] =
-              QString::fromStdString(item.second.as<std::string>());
-        }
-        return result;
-    } catch (const YAML::Exception &) {
-        return {};
-    }
+QMap<QString, QString>
+decodeSecretsFilePayload(const QString &serialized)
+{
+    return fromRustStringMapEntries(::komai::rust::settings_decode_named_string_map_yaml(
+      serialized.toStdString(), SettingKey::SecretsFileMap));
 }
 
 } // namespace settings::storage

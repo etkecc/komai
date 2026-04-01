@@ -58,13 +58,15 @@ class ReaderWriter
 public:
     virtual ~ReaderWriter() = default;
 
-    virtual QString profileDirPath(const QString &profile) const                  = 0;
-    virtual QString configFilePathForProfile(const QString &profile) const        = 0;
-    virtual QString stateFilePathForProfile(const QString &profile) const         = 0;
-    virtual QString sessionFilePathForProfile(const QString &profile) const       = 0;
-    virtual QString secretsFilePathForProfile(const QString &profile) const       = 0;
-    virtual QString readTextFile(const QString &path, const char *label) const    = 0;
-    virtual YAML::Node loadYamlFile(const QString &path, const char *label) const = 0;
+    virtual QString profileDirPath(const QString &profile) const               = 0;
+    virtual QString configFilePathForProfile(const QString &profile) const     = 0;
+    virtual QString stateFilePathForProfile(const QString &profile) const      = 0;
+    virtual QString sessionFilePathForProfile(const QString &profile) const    = 0;
+    virtual QString secretsFilePathForProfile(const QString &profile) const    = 0;
+    virtual QString readTextFile(const QString &path, const char *label) const = 0;
+    virtual bool
+    writeTextFile(const QString &path, const QString &content, bool ownerReadWriteOnly) const = 0;
+    virtual YAML::Node loadYamlFile(const QString &path, const char *label) const             = 0;
     virtual bool
     writeYamlFile(const QString &path, const YAML::Node &root, bool ownerReadWriteOnly) const = 0;
     virtual bool pathExists(const QString &path) const                                        = 0;
@@ -115,6 +117,8 @@ removePath(const QString &path);
  */
 QString
 readTextFile(const QString &path, const char *label);
+bool
+writeTextFile(const QString &path, const QString &content, bool ownerReadWriteOnly);
 
 /**
  * Load/serialize YAML settings files.
@@ -179,5 +183,9 @@ QString
 encodeSecretsMap(const QMap<QString, QString> &secrets);
 QMap<QString, QString>
 decodeSecretsMap(const QString &serialized);
+QString
+encodeSecretsFilePayload(const QMap<QString, QString> &secrets);
+QMap<QString, QString>
+decodeSecretsFilePayload(const QString &serialized);
 
 } // namespace settings::storage

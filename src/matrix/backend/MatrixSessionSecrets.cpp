@@ -59,9 +59,9 @@ QMap<QString, QString>
 loadStoredMatrixSdkSecrets(const SecretsPersistenceContext &context)
 {
     if (context.usesFileSecretsProvider) {
-        const auto root =
-          settings::storage::loadYamlFile(context.secretsFilePath, "matrix-sdk secrets");
-        return yaml_settings::readStringMap(root, SettingKey::SecretsFileMap);
+        const auto serialized =
+          settings::storage::readTextFile(context.secretsFilePath, "matrix-sdk secrets");
+        return settings::storage::decodeSecretsFilePayload(serialized);
     }
 
     const auto serializedSecrets = settings::storage::readSecureValue(context.secureStoreKey);
@@ -81,9 +81,8 @@ saveStoredMatrixSdkSecrets(const SecretsPersistenceContext &context,
             return;
         }
 
-        YAML::Node root(YAML::NodeType::Map);
-        yaml_settings::writeStringMap(root, SettingKey::SecretsFileMap, secrets);
-        settings::storage::writeYamlFile(context.secretsFilePath, root, true);
+        settings::storage::writeTextFile(
+          context.secretsFilePath, settings::storage::encodeSecretsFilePayload(secrets), true);
         return;
     }
 

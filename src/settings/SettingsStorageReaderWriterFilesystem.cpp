@@ -68,6 +68,38 @@ public:
         return contents;
     }
 
+    bool writeTextFile(const QString &path,
+                       const QString &content,
+                       bool ownerReadWriteOnly) const override
+    {
+        const auto dir = QFileInfo(path).absolutePath();
+        if (!QDir().mkpath(dir)) {
+            activeLoggers().ui->error("Failed to create settings directory: {}", dir.toStdString());
+            return false;
+        }
+
+        QFile file(path);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+            activeLoggers().ui->error("Failed to write settings file: {}", path.toStdString());
+            return false;
+        }
+
+        if (file.write(content.toUtf8()) < 0) {
+            activeLoggers().ui->error("Failed to write settings file: {}", path.toStdString());
+            return false;
+        }
+        file.close();
+
+        if (ownerReadWriteOnly) {
+            if (!QFile::setPermissions(path, QFileDevice::ReadOwner | QFileDevice::WriteOwner)) {
+                activeLoggers().ui->warn("Failed to restrict permissions for {}",
+                                         path.toStdString());
+            }
+        }
+
+        return true;
+    }
+
     YAML::Node loadYamlFile(const QString &path, const char *label) const override
     {
         QFileInfo info(path);

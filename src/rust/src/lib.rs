@@ -59,6 +59,11 @@ mod ffi {
         ui_scale_factor: f32,
     }
 
+    struct SettingsStringMapEntry {
+        key: String,
+        value: String,
+    }
+
     struct MatrixBackendHandleInfo {
         handle_id: u64,
         has_session: bool,
@@ -566,6 +571,16 @@ mod ffi {
         );
         fn log_from_cpp(component: &str, level: &str, message: &str);
         fn settings_load_startup_snapshot(config_text: &str) -> SettingsStartupSnapshot;
+        fn settings_encode_string_map_yaml(entries: &Vec<SettingsStringMapEntry>) -> String;
+        fn settings_decode_string_map_yaml(serialized: &str) -> Vec<SettingsStringMapEntry>;
+        fn settings_encode_named_string_map_yaml(
+            root_key: &str,
+            entries: &Vec<SettingsStringMapEntry>,
+        ) -> String;
+        fn settings_decode_named_string_map_yaml(
+            serialized: &str,
+            root_key: &str,
+        ) -> Vec<SettingsStringMapEntry>;
 
         fn resolve_server(
             context: MatrixFfiBlockingContext,
@@ -1291,6 +1306,28 @@ fn settings_load_startup_snapshot(config_text: &str) -> ffi::SettingsStartupSnap
         has_ui_scale_factor: snapshot.ui_scale_factor.is_some(),
         ui_scale_factor: snapshot.ui_scale_factor.unwrap_or_default(),
     }
+}
+
+fn settings_encode_string_map_yaml(entries: &Vec<ffi::SettingsStringMapEntry>) -> String {
+    settings::secrets::encode_string_map_yaml(entries.as_slice())
+}
+
+fn settings_decode_string_map_yaml(serialized: &str) -> Vec<ffi::SettingsStringMapEntry> {
+    settings::secrets::decode_string_map_yaml(serialized)
+}
+
+fn settings_encode_named_string_map_yaml(
+    root_key: &str,
+    entries: &Vec<ffi::SettingsStringMapEntry>,
+) -> String {
+    settings::secrets::encode_named_string_map_yaml(root_key, entries.as_slice())
+}
+
+fn settings_decode_named_string_map_yaml(
+    serialized: &str,
+    root_key: &str,
+) -> Vec<ffi::SettingsStringMapEntry> {
+    settings::secrets::decode_named_string_map_yaml(serialized, root_key)
 }
 
 fn runtime() -> &'static Runtime {

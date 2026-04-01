@@ -2,5 +2,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+pub mod base16;
 pub mod external;
 mod model;

@@ -17,7 +17,7 @@
 #include <QTextStream>
 #include <QTimer>
 
-#include <yaml-cpp/yaml.h>
+#include "komai-rust-cxxbridge/lib.h"
 
 namespace theme_command {
 
@@ -143,35 +143,30 @@ parseBase16Yaml(const QByteArray &content,
                 std::string &outAuthor,
                 theme_color::Palette &outPalette)
 {
-    try {
-        auto root = YAML::Load(content.toStdString());
-        if (root["name"] && root["name"].IsScalar())
-            outName = root["name"].as<std::string>();
-        if (root["author"] && root["author"].IsScalar())
-            outAuthor = root["author"].as<std::string>();
-
-        YAML::Node pal;
-        if (root["palette"] && root["palette"].IsMap()) {
-            pal = root["palette"];
-        } else {
-            // Older format: base00-base0F at top level
-            pal = root;
-        }
-
-        for (int i = 0; i < 16; ++i) {
-            char slot[8];
-            std::snprintf(slot, sizeof(slot), "base%02X", i);
-            if (pal[slot] && pal[slot].IsScalar()) {
-                auto val = pal[slot].as<std::string>();
-                // Ensure #-prefixed hex
-                if (!val.empty() && val[0] != '#')
-                    val = "#" + val;
-                outPalette[slot] = val;
-            }
-        }
-    } catch (const YAML::Exception &) {
+    const auto parsed = ::komai::rust::theme_parse_base16_yaml(content.toStdString());
+    if (!parsed.has_document)
         return false;
-    }
+
+    outName   = static_cast<std::string>(parsed.name);
+    outAuthor = static_cast<std::string>(parsed.author);
+
+    outPalette["base00"] = static_cast<std::string>(parsed.palette.base00);
+    outPalette["base01"] = static_cast<std::string>(parsed.palette.base01);
+    outPalette["base02"] = static_cast<std::string>(parsed.palette.base02);
+    outPalette["base03"] = static_cast<std::string>(parsed.palette.base03);
+    outPalette["base04"] = static_cast<std::string>(parsed.palette.base04);
+    outPalette["base05"] = static_cast<std::string>(parsed.palette.base05);
+    outPalette["base06"] = static_cast<std::string>(parsed.palette.base06);
+    outPalette["base07"] = static_cast<std::string>(parsed.palette.base07);
+    outPalette["base08"] = static_cast<std::string>(parsed.palette.base08);
+    outPalette["base09"] = static_cast<std::string>(parsed.palette.base09);
+    outPalette["base0A"] = static_cast<std::string>(parsed.palette.base0a);
+    outPalette["base0B"] = static_cast<std::string>(parsed.palette.base0b);
+    outPalette["base0C"] = static_cast<std::string>(parsed.palette.base0c);
+    outPalette["base0D"] = static_cast<std::string>(parsed.palette.base0d);
+    outPalette["base0E"] = static_cast<std::string>(parsed.palette.base0e);
+    outPalette["base0F"] = static_cast<std::string>(parsed.palette.base0f);
+
     return true;
 }
 

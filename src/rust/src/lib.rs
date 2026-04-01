@@ -203,6 +203,33 @@ mod ffi {
         theme: ThemeExternalDefinition,
     }
 
+    struct ThemeBase16PaletteData {
+        base00: String,
+        base01: String,
+        base02: String,
+        base03: String,
+        base04: String,
+        base05: String,
+        base06: String,
+        base07: String,
+        base08: String,
+        base09: String,
+        base0a: String,
+        base0b: String,
+        base0c: String,
+        base0d: String,
+        base0e: String,
+        base0f: String,
+    }
+
+    struct ThemeBase16ParseResult {
+        has_document: bool,
+        error_message: String,
+        name: String,
+        author: String,
+        palette: ThemeBase16PaletteData,
+    }
+
     struct MatrixBackendHandleInfo {
         handle_id: u64,
         has_session: bool,
@@ -729,6 +756,7 @@ mod ffi {
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
         fn settings_encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String;
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;
+        fn theme_parse_base16_yaml(theme_text: &str) -> ThemeBase16ParseResult;
 
         fn resolve_server(
             context: MatrixFfiBlockingContext,
@@ -1558,6 +1586,10 @@ fn settings_encode_state_yaml(snapshot: &ffi::SettingsStateSnapshot) -> String {
 
 fn theme_parse_external_theme(theme_text: &str) -> ffi::ThemeExternalParseResult {
     theme::external::parse_external_theme(theme_text)
+}
+
+fn theme_parse_base16_yaml(theme_text: &str) -> ffi::ThemeBase16ParseResult {
+    theme::base16::parse_base16_yaml(theme_text)
 }
 
 fn runtime() -> &'static Runtime {

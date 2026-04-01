@@ -977,6 +977,19 @@ public:
                                       const QString &eventId,
                                       QString *errorOut = nullptr);
 
+    struct EventContentForForwarding
+    {
+        QString eventType;
+        QString contentJson;
+    };
+
+    static std::optional<EventContentForForwarding>
+    fetchActiveRoomEventContentForForwarding(matrix_backend::BlockingCallContext context,
+                                             uint64_t handleId,
+                                             const QString &roomId,
+                                             const QString &eventId,
+                                             QString *errorOut = nullptr);
+
     static std::optional<QVector<MatrixReadReceiptEntry>>
     fetchRoomReadReceipts(matrix_backend::BlockingCallContext context,
                           uint64_t handleId,

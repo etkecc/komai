@@ -3040,6 +3040,36 @@ MatrixBackendRuntimeService::fetchActiveRoomRawEventDialogData(
     }
 }
 
+std::optional<MatrixBackendRuntimeService::EventContentForForwarding>
+MatrixBackendRuntimeService::fetchActiveRoomEventContentForForwarding(
+  matrix_backend::BlockingCallContext context,
+  uint64_t handleId,
+  const QString &roomId,
+  const QString &eventId,
+  QString *errorOut)
+{
+    try {
+        const auto result = matrix_backend::invokeBlockingCall(
+          "matrix_fetch_active_room_event_content_for_forwarding",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, eventId, context]() {
+              return ::komai::rust::matrix_fetch_active_room_event_content_for_forwarding(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                eventId.toStdString());
+          });
+        return EventContentForForwarding{
+          .eventType   = QString::fromStdString(std::string(result.event_type)),
+          .contentJson = QString::fromStdString(std::string(result.content_json)),
+        };
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 std::optional<QVector<MatrixReadReceiptEntry>>
 MatrixBackendRuntimeService::fetchRoomReadReceipts(matrix_backend::BlockingCallContext context,
                                                    uint64_t handleId,

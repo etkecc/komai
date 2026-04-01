@@ -289,6 +289,11 @@ mod ffi {
         formatted_body: String,
     }
 
+    struct MatrixEventContentForForwarding {
+        event_type: String,
+        content_json: String,
+    }
+
     struct MatrixCallSessionDescription {
         sdp: String,
         /// "offer" or "answer"
@@ -1165,6 +1170,12 @@ mod ffi {
             room_id: &str,
             event_id: &str,
         ) -> Result<MatrixRawEventDialogData>;
+        fn matrix_fetch_active_room_event_content_for_forwarding(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            event_id: &str,
+        ) -> Result<MatrixEventContentForForwarding>;
         fn matrix_fetch_room_read_receipts(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
@@ -3252,6 +3263,26 @@ fn matrix_fetch_active_room_raw_event_dialog_data(
         pretty_json: result.pretty_json,
         body: result.body,
         formatted_body: result.formatted_body,
+    })
+}
+
+fn matrix_fetch_active_room_event_content_for_forwarding(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+) -> Result<ffi::MatrixEventContentForForwarding, String> {
+    let (event_type, content_json) = ffi_block_on(
+        context,
+        "matrix_fetch_active_room_event_content_for_forwarding",
+        matrix_backend::runtime::fetch_active_room_event_content_for_forwarding(
+            handle_id, room_id, event_id,
+        ),
+    )?;
+
+    Ok(ffi::MatrixEventContentForForwarding {
+        event_type,
+        content_json,
     })
 }
 

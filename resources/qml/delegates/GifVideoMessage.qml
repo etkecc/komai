@@ -21,15 +21,16 @@ Item {
 
     property double divisor: EventDelegateChooser.isReply ? 10 : 4
     property int tempWidth: originalWidth < 1 ? 400 : originalWidth
+    readonly property double safeProportionalHeight: proportionalHeight > 0 ? proportionalHeight : 0.75
     readonly property var roomContext: roomAdapter
         ? roomAdapter
         : (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
         ? effectiveRoomContext
         : ((typeof room !== "undefined" && room) ? room : null)
 
-    implicitWidth: Math.round(tempWidth * Math.min((timelineView.height / divisor) / (tempWidth * proportionalHeight), 1))
+    implicitWidth: Math.round(tempWidth * Math.min((timelineView.height / divisor) / (tempWidth * safeProportionalHeight), 1))
     width: Math.min(parent?.width ?? implicitWidth, implicitWidth)
-    height: width * proportionalHeight
+    height: width * safeProportionalHeight
 
     MxcMedia {
         id: gifMedia

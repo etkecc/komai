@@ -840,6 +840,73 @@ pub struct RawEventDialogData {
     pub formatted_body: String,
 }
 
+/// Extracts the `type` and `content` JSON from a timeline event for forwarding.
+///
+/// Returns `(event_type, content_json)` — e.g. `("m.room.message", "{\"body\":...}")`.
+/// The content JSON is the raw, unmodified event content from the server, preserving
+/// all metadata fields (width, height, duration, thumbnail, blurhash, etc.).
+pub async fn fetch_active_room_event_content_for_forwarding(
+    handle_id: u64,
+    room_id: &str,
+    event_id: &str,
+) -> Result<(String, String), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let event_id = event_id.trim();
+    if event_id.is_empty() {
+        return Err("cannot extract event content without an event id".to_owned());
+    }
+
+    let timeline = room
+        .timeline()
+        .await
+        .map_err(|e| format!("failed to build matrix-sdk room timeline for forwarding: {e}"))?;
+    let items = timeline.items().await;
+
+    for item in items.iter() {
+        let Some(event) = item.as_event() else {
+            continue;
+        };
+        let Some(current_event_id) = event.event_id() else {
+            continue;
+        };
+        if current_event_id.as_str() != event_id {
+            continue;
+        }
+
+        let raw_event = event.latest_json().ok_or_else(|| {
+            format!("matrix-sdk room event '{event_id}' has no raw JSON available for forwarding")
+        })?;
+
+        let parsed: serde_json::Value =
+            serde_json::from_str(raw_event.json().get()).map_err(|e| {
+                format!("failed to parse raw JSON for matrix-sdk room event '{event_id}': {e}")
+            })?;
+
+        let event_type = parsed
+            .get("type")
+            .and_then(|v| v.as_str())
+            .unwrap_or("m.room.message")
+            .to_owned();
+
+        let content = parsed
+            .get("content")
+            .ok_or_else(|| {
+                format!("matrix-sdk room event '{event_id}' has no content field")
+            })?;
+
+        let content_json = serde_json::to_string(content).map_err(|e| {
+            format!("failed to serialize content of matrix-sdk room event '{event_id}': {e}")
+        })?;
+
+        return Ok((event_type, content_json));
+    }
+
+    Err(format!(
+        "matrix-sdk room timeline for '{}' does not currently include event '{event_id}'",
+        room_id.trim(),
+    ))
+}
+
 pub async fn fetch_active_room_raw_event_dialog_data(
     handle_id: u64,
     room_id: &str,

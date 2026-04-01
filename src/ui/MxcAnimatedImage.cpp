@@ -224,8 +224,8 @@ MxcAnimatedImage::startDownload()
 
     const auto handleId = currentMatrixRuntimeHandleId();
     if (handleId == 0) {
-        nhlog::ui()->warn("Refusing legacy animated media fetch for event '{}' without an active "
-                          "matrix-sdk runtime handle",
+        nhlog::ui()->warn("Cannot fetch matrix-sdk animated media for event '{}' without an "
+                          "active runtime handle",
                           eventId_.toStdString());
         return;
     }

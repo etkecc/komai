@@ -405,8 +405,8 @@ MxcImageProvider::download(const QString &id,
             return;
         }
 
-        nhlog::net()->warn("Refusing legacy thumbnail fetch for '{}' without an active matrix-sdk "
-                           "runtime handle",
+        nhlog::net()->warn("Cannot fetch matrix-sdk thumbnail '{}' without an active runtime "
+                           "handle",
                            id.toStdString());
         then(id, QSize(), {}, QLatin1String(""));
     } else {
@@ -468,10 +468,9 @@ MxcImageProvider::download(const QString &id,
                 return;
             }
 
-            nhlog::net()->warn(
-              "Refusing legacy full-media fetch for '{}' without an active matrix-sdk runtime "
-              "handle",
-              id.toStdString());
+            nhlog::net()->warn("Cannot fetch matrix-sdk full media '{}' without an active runtime "
+                               "handle",
+                               id.toStdString());
             then(id, QSize(), {}, QLatin1String(""));
         } catch (std::exception &e) {
             nhlog::net()->error("Exception while downloading media: {}", e.what());

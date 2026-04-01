@@ -212,8 +212,8 @@ MxcMediaProxy::startDownload(bool onlyCached)
 
     const auto handleId = currentMatrixRuntimeHandleId();
     if (handleId == 0) {
-        nhlog::ui()->warn("Refusing legacy media fetch for event '{}' without an active "
-                          "matrix-sdk runtime handle",
+        nhlog::ui()->warn("Cannot fetch matrix-sdk timeline media for event '{}' without an "
+                          "active runtime handle",
                           eventId_.toStdString());
         return;
     }

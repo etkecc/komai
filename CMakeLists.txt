@@ -23,7 +23,6 @@ else()
     option(MAN "Build man page" OFF)
 endif()
 option(FLATPAK "Set this only if Komai is built as a flatpak" OFF)
-option(JSON_ImplicitConversions "Disable implicit conversions in nlohmann/json" ON)
 
 set(
     CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_LIST_DIR}/cmake/toolchain.cmake"
@@ -1022,13 +1021,6 @@ target_sources(komai PRIVATE
 # Fixup bundled kdsingleapplication include dirs
 target_include_directories(komai PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})
 
-if(NOT JSON_ImplicitConversions)
-    set_target_properties(nlohmann_json::nlohmann_json PROPERTIES
-        INTERFACE_COMPILE_DEFINITIONS "JSON_USE_IMPLICIT_CONVERSIONS=\$<BOOL:OFF>;JSON_DIAGNOSTICS=\$<BOOL:OFF>"
-    )
-    target_compile_definitions(komai PUBLIC JSON_USE_IMPLICIT_CONVERSIONS=0)
-endif()
-
 set(YAMLCPP_TARGET_NAME yaml-cpp::yaml-cpp)
 
 if(BUILD_TESTING)
@@ -1400,7 +1392,6 @@ target_link_libraries(komai PRIVATE
     Qt::QuickControls2
     qt6keychain
     KDAB::kdsingleapplication
-    nlohmann_json::nlohmann_json
     ${YAMLCPP_TARGET_NAME}
     litehtml
     komai_rust

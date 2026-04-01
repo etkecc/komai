@@ -10,8 +10,8 @@
 #include <QFile>
 #include <QFileInfo>
 
+#include "logging/Logging.h"
 #include <fstream>
-#include <spdlog/logger.h>
 
 #include "profile/Paths.h"
 

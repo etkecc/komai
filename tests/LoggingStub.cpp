@@ -4,40 +4,60 @@
 
 #include <memory>
 
-#include <spdlog/common.h>
-#include <spdlog/spdlog.h>
 #include <QString>
+
+#include "logging/Logging.h"
+
+// Stub implementation for test targets that do not link the Rust library.
+// Logger::send() is a no-op so log calls silently discard their output.
 
 namespace nhlog {
 
-std::shared_ptr<spdlog::logger>
+void
+Logger::send(std::string_view /*level*/, std::string /*message*/)
+{}
+
+static auto stub_ui     = std::make_shared<Logger>("ui");
+static auto stub_net    = std::make_shared<Logger>("net");
+static auto stub_db     = std::make_shared<Logger>("db");
+static auto stub_crypto = std::make_shared<Logger>("crypto");
+static auto stub_qml    = std::make_shared<Logger>("qml");
+static auto stub_rust   = std::make_shared<Logger>("rust");
+
+std::shared_ptr<Logger>
 ui()
 {
-    return spdlog::default_logger();
+    return stub_ui;
 }
 
-std::shared_ptr<spdlog::logger>
+std::shared_ptr<Logger>
 net()
 {
-    return spdlog::default_logger();
+    return stub_net;
 }
 
-std::shared_ptr<spdlog::logger>
+std::shared_ptr<Logger>
 db()
 {
-    return spdlog::default_logger();
+    return stub_db;
 }
 
-std::shared_ptr<spdlog::logger>
+std::shared_ptr<Logger>
 crypto()
 {
-    return spdlog::default_logger();
+    return stub_crypto;
 }
 
-std::shared_ptr<spdlog::logger>
+std::shared_ptr<Logger>
 qml()
 {
-    return spdlog::default_logger();
+    return stub_qml;
+}
+
+std::shared_ptr<Logger>
+rust()
+{
+    return stub_rust;
 }
 
 void

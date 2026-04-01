@@ -2,98 +2,122 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::{
-    fmt,
-    sync::OnceLock,
-};
+use std::sync::OnceLock;
 
-use tracing::{Event, Subscriber, field::Field};
 use tracing_log::LogTracer;
 use tracing_subscriber::{
-    layer::{Context, Layer},
-    prelude::*,
+    fmt,
+    layer::SubscriberExt,
+    util::SubscriberInitExt,
+    EnvFilter,
 };
 
-use crate::ffi;
+static INIT: OnceLock<()> = OnceLock::new();
 
-pub fn ensure_initialized() {
-    static INIT: OnceLock<()> = OnceLock::new();
+/// Initialize the global tracing subscriber with file and/or stderr sinks.
+///
+/// `level` is a comma-separated filter string compatible with `EnvFilter`,
+/// e.g. `"warn,ui=info,net=debug"`.
+///
+/// `log_file_path` is the path for the log file. Pass an empty string
+/// to disable file logging.
+///
+/// `to_stderr` enables colored stderr output.
+///
+/// `enable_debug` overrides all filters to `trace`.
+pub fn init_logging(level: &str, log_file_path: &str, to_stderr: bool, enable_debug: bool) {
     INIT.get_or_init(|| {
         let _ = LogTracer::init();
-        let subscriber = tracing_subscriber::registry().with(CxxBridgeLayer);
-        let _ = tracing::subscriber::set_global_default(subscriber);
+
+        let filter_str = if enable_debug {
+            "trace".to_owned()
+        } else if level.is_empty() {
+            "info".to_owned()
+        } else {
+            level.to_owned()
+        };
+
+        let filter = EnvFilter::builder()
+            .parse_lossy(&filter_str);
+
+        if !log_file_path.is_empty() && to_stderr {
+            let file_appender = make_file_appender(log_file_path);
+            let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);
+            std::mem::forget(guard);
+
+            let file_layer = fmt::layer()
+                .with_ansi(false)
+                .with_writer(non_blocking);
+
+            let stderr_layer = fmt::layer()
+                .with_ansi(true)
+                .with_writer(std::io::stderr);
+
+            tracing_subscriber::registry()
+                .with(filter)
+                .with(file_layer)
+                .with(stderr_layer)
+                .init();
+        } else if !log_file_path.is_empty() {
+            let file_appender = make_file_appender(log_file_path);
+            let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);
+            std::mem::forget(guard);
+
+            let file_layer = fmt::layer()
+                .with_ansi(false)
+                .with_writer(non_blocking);
+
+            tracing_subscriber::registry()
+                .with(filter)
+                .with(file_layer)
+                .init();
+        } else if to_stderr {
+            let stderr_layer = fmt::layer()
+                .with_ansi(true)
+                .with_writer(std::io::stderr);
+
+            tracing_subscriber::registry()
+                .with(filter)
+                .with(stderr_layer)
+                .init();
+        } else {
+            // No sinks — discard everything, but still install the subscriber
+            // so that log events from Rust crates don't panic.
+            tracing_subscriber::registry()
+                .with(filter)
+                .init();
+        }
     });
 }
 
-struct CxxBridgeLayer;
-
-impl<S> Layer<S> for CxxBridgeLayer
-where
-    S: Subscriber,
-{
-    fn on_event(&self, event: &Event<'_>, _ctx: Context<'_, S>) {
-        let metadata = event.metadata();
-        let mut visitor = EventFieldVisitor::default();
-        event.record(&mut visitor);
-
-        let message = visitor.finish();
-        if message.is_empty() {
-            return;
+/// Emit a tracing event from C++ at the given level with the given component as
+/// the target.
+pub fn log_from_cpp(component: &str, level: &str, message: &str) {
+    match level {
+        "trace" => tracing::trace!(target: "cpp", component = component, "{}", message),
+        "debug" => tracing::debug!(target: "cpp", component = component, "{}", message),
+        "warn" => tracing::warn!(target: "cpp", component = component, "{}", message),
+        "error" | "critical" => {
+            tracing::error!(target: "cpp", component = component, "{}", message)
         }
-
-        let level = match *metadata.level() {
-            tracing::Level::TRACE => "trace",
-            tracing::Level::DEBUG => "debug",
-            tracing::Level::INFO => "info",
-            tracing::Level::WARN => "warn",
-            tracing::Level::ERROR => "error",
-        };
-
-        ffi::matrix_log_event(
-            level,
-            metadata.target(),
-            metadata.module_path().unwrap_or_default(),
-            metadata.file().unwrap_or_default(),
-            metadata.line().unwrap_or_default(),
-            &message,
-        );
+        _ => tracing::info!(target: "cpp", component = component, "{}", message),
     }
 }
 
-#[derive(Default)]
-struct EventFieldVisitor {
-    message: Option<String>,
-    fields: Vec<String>,
-}
+fn make_file_appender(log_file_path: &str) -> tracing_appender::rolling::RollingFileAppender {
+    use std::path::Path;
 
-impl EventFieldVisitor {
-    fn record_value(&mut self, field: &Field, value: String) {
-        if field.name() == "message" {
-            if !value.is_empty() {
-                self.message = Some(value);
-            }
-            return;
-        }
+    let path = Path::new(log_file_path);
+    let dir = path.parent().unwrap_or(Path::new("."));
+    let filename = path
+        .file_name()
+        .map(|f| f.to_string_lossy().into_owned())
+        .unwrap_or_else(|| "komai.log".to_owned());
 
-        self.fields.push(format!("{}={value}", field.name()));
-    }
-
-    fn finish(self) -> String {
-        match (self.message, self.fields.is_empty()) {
-            (Some(message), true) => message,
-            (Some(message), false) => format!("{message} {}", self.fields.join(" ")),
-            (None, false) => self.fields.join(" "),
-            (None, true) => String::new(),
-        }
-    }
-}
-
-impl tracing::field::Visit for EventFieldVisitor {
-    fn record_str(&mut self, field: &Field, value: &str) {
-        self.record_value(field, value.to_owned());
-    }
-
-    fn record_debug(&mut self, field: &Field, value: &dyn fmt::Debug) {
-        self.record_value(field, format!("{value:?}"));
-    }
+    tracing_appender::rolling::Builder::new()
+        .rotation(tracing_appender::rolling::Rotation::NEVER)
+        .filename_prefix(filename)
+        .filename_suffix("")
+        .build(dir)
+        .expect("failed to create rolling file appender")
 }

@@ -8,12 +8,12 @@
 #include <QString>
 
 #include <array>
-#include <spdlog/logger.h>
-#include <spdlog/sinks/null_sink.h>
 #include <string>
 #include <string_view>
 #include <utility>
 #include <yaml-cpp/yaml.h>
+
+#include "logging/Logging.h"
 
 #include "SettingsSerializerConfigConverters.h"
 #include "SettingsSerializerConfigInternal.h"
@@ -28,18 +28,10 @@ namespace settings::serializer {
 
 namespace {
 
-std::shared_ptr<spdlog::logger>
-nullLogger(std::string_view name)
-{
-    static auto sink   = std::make_shared<spdlog::sinks::null_sink_mt>();
-    static auto logger = std::make_shared<spdlog::logger>(std::string(name), sink);
-    return logger;
-}
-
 SerializerLoggers
 defaultLoggers()
 {
-    return {.ui = nullLogger("settings-serializer-ui")};
+    return {.ui = std::make_shared<nhlog::Logger>("settings-serializer-ui")};
 }
 
 SerializerLoggers &

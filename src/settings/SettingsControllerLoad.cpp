@@ -6,7 +6,7 @@
 #include "SettingsController.h"
 #include "SettingsControllerInternal.h"
 
-#include <spdlog/logger.h>
+#include "logging/Logging.h"
 #include <yaml-cpp/yaml.h>
 
 #include "profile/Paths.h"

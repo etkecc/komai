@@ -14,8 +14,7 @@
 #include <memory>
 #include <yaml-cpp/yaml.h>
 
-#include <spdlog/logger.h>
-#include <spdlog/sinks/null_sink.h>
+#include "logging/Logging.h"
 
 #include "profile/KeyringEnvironment.h"
 #include "profile/Paths.h"
@@ -233,11 +232,8 @@ testLoggerInjectionNullAndInjectedLoggers()
     ok &= expect(settings::storage::loadYamlFile(file, "settings-test").IsMap(),
                  "settings storage can read with null logger");
 
-    auto sharedSink = std::make_shared<spdlog::sinks::null_sink_mt>();
-    auto uiLogger   = std::make_shared<spdlog::logger>(QStringLiteral("test-ui").toStdString(),
-                                                       std::move(sharedSink));
-    auto dbLogger   = std::make_shared<spdlog::logger>(QStringLiteral("test-db").toStdString(),
-                                                       std::move(std::make_shared<spdlog::sinks::null_sink_mt>()));
+    auto uiLogger = std::make_shared<nhlog::Logger>("test-ui");
+    auto dbLogger = std::make_shared<nhlog::Logger>("test-db");
     settings::storage::setLoggers({.ui = uiLogger, .db = dbLogger});
     current = settings::storage::activeLoggers();
     ok &= expect(current.ui == uiLogger, "settings storage stores injected ui logger");

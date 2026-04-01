@@ -13,13 +13,13 @@
 
 #include <memory>
 
-namespace spdlog {
-class logger;
+namespace nhlog {
+class Logger;
 }
 
 struct DbusBackendLoggers
 {
-    std::shared_ptr<spdlog::logger> ui;
+    std::shared_ptr<nhlog::Logger> ui;
 };
 
 void

@@ -6,8 +6,7 @@
 #include "SettingsController.h"
 #include "SettingsControllerInternal.h"
 
-#include <spdlog/logger.h>
-#include <spdlog/sinks/null_sink.h>
+#include "logging/Logging.h"
 #include <utility>
 
 #include "settings/core/SettingsConstraints.h"
@@ -19,18 +18,10 @@
 
 namespace {
 
-std::shared_ptr<spdlog::logger>
-nullLogger(std::string_view name)
-{
-    static auto sink   = std::make_shared<spdlog::sinks::null_sink_mt>();
-    static auto logger = std::make_shared<spdlog::logger>(std::string(name), sink);
-    return logger;
-}
-
 settings::ControllerLoggers
 defaultLoggers()
 {
-    return {.ui = nullLogger("settings-controller-ui")};
+    return {.ui = std::make_shared<nhlog::Logger>("settings-controller-ui")};
 }
 
 settings::ControllerLoggers &

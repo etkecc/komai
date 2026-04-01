@@ -8,7 +8,7 @@
 
 #include <QString>
 
-#include <spdlog/logger.h>
+#include "logging/Logging.h"
 
 #include "profile/Paths.h"
 #include "settings/SettingsStorage.h"

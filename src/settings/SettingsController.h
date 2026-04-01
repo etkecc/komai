@@ -15,15 +15,15 @@ class Node;
 class UserSettings;
 class QString;
 
-namespace spdlog {
-class logger;
+namespace nhlog {
+class Logger;
 }
 
 namespace settings {
 
 struct ControllerLoggers
 {
-    std::shared_ptr<spdlog::logger> ui;
+    std::shared_ptr<nhlog::Logger> ui;
 };
 
 void

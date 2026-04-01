@@ -11,7 +11,7 @@
 #include <QPointer>
 #include <QThread>
 
-#include <spdlog/logger.h>
+#include "logging/Logging.h"
 
 #if __has_include(<qtkeychain/keychain.h>)
 #include <qtkeychain/keychain.h>

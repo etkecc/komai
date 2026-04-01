@@ -7,7 +7,7 @@
 
 #include <QString>
 
-#include <spdlog/logger.h>
+#include "logging/Logging.h"
 #include <yaml-cpp/yaml.h>
 
 #include "SettingsSerializerConfigInternal.h"

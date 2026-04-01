@@ -9,7 +9,7 @@
 
 #include <yaml-cpp/yaml.h>
 
-#include <spdlog/logger.h>
+#include "logging/Logging.h"
 
 #include "settings/SettingKeys.h"
 #include "settings/SettingsMigrations.h"

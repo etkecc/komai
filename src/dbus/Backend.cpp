@@ -11,14 +11,13 @@
 #include <utility>
 
 #include "ipc/SharedLogic.h"
+#include "logging/Logging.h"
 #include "settings/SettingKeys.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
-#include <spdlog/logger.h>
 
 #include <QDBusConnection>
 #include <QJsonDocument>
-#include <spdlog/sinks/null_sink.h>
 
 // ---------------------------------------------------------------------------
 // Shared helpers
@@ -55,22 +54,11 @@ dbusWriteAccessEnabled()
     return settings && settings->integrationsDbusApiAccess() >= IntegrationsDbusAccessReadWrite;
 }
 
-std::shared_ptr<spdlog::logger>
-nullLogger(std::string_view name)
-{
-    static auto sink         = std::make_shared<spdlog::sinks::null_sink_mt>();
-    static auto dbusUiLogger = std::make_shared<spdlog::logger>(std::string("dbus-ui"), sink);
-
-    if (name == "dbus-ui")
-        return dbusUiLogger;
-    return dbusUiLogger;
-}
-
 DbusBackendLoggers
 defaultLoggers()
 {
     return {
-      .ui = nullLogger("dbus-ui"),
+      .ui = std::make_shared<nhlog::Logger>("dbus-ui"),
     };
 }
 

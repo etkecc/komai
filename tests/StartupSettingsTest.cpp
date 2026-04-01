@@ -14,8 +14,7 @@
 #include <QTemporaryDir>
 
 #include <yaml-cpp/yaml.h>
-#include <spdlog/logger.h>
-#include <spdlog/sinks/null_sink.h>
+#include "logging/Logging.h"
 
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "settings/ui/SettingDescriptor.h"
@@ -1211,8 +1210,7 @@ testSerializerLoggerInjection()
     const bool nullLoggerWrite = expect(
       settings::storage::pathExists(stateFile), "state write succeeds with null-injected serializer logger");
 
-    auto injectedLogger = std::make_shared<spdlog::logger>(
-      QStringLiteral("serializer-ui").toStdString(), std::make_shared<spdlog::sinks::null_sink_mt>());
+    auto injectedLogger = std::make_shared<nhlog::Logger>("serializer-ui");
     settings::serializer::setLoggers({.ui = injectedLogger});
     loggerState = settings::serializer::activeLoggers();
     if (!expect(loggerState.ui == injectedLogger, "serializer stores injected ui logger"))

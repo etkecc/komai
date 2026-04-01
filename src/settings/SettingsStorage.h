@@ -17,8 +17,8 @@
 
 #include <yaml-cpp/yaml.h>
 
-namespace spdlog {
-class logger;
+namespace nhlog {
+class Logger;
 }
 
 namespace settings::storage {
@@ -27,8 +27,8 @@ class ReaderWriter;
 using ReaderWriterPtr = std::shared_ptr<ReaderWriter>;
 struct StorageLoggers
 {
-    std::shared_ptr<spdlog::logger> ui;
-    std::shared_ptr<spdlog::logger> db;
+    std::shared_ptr<nhlog::Logger> ui;
+    std::shared_ptr<nhlog::Logger> db;
 };
 
 enum class SecureBackendJobStatus

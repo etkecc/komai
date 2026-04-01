@@ -6,7 +6,7 @@
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsPersistenceInternal.h"
 
-#include <spdlog/logger.h>
+#include "logging/Logging.h"
 
 #include "profile/Paths.h"
 #include "profile/ProfileSecrets.h"

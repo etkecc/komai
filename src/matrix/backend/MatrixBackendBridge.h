@@ -46,14 +46,6 @@ void
 matrix_clear_session_secrets(::rust::Str profile_id);
 
 void
-matrix_log_event(::rust::Str level,
-                 ::rust::Str target,
-                 ::rust::Str module_path,
-                 ::rust::Str file,
-                 std::uint32_t line,
-                 ::rust::Str message);
-
-void
 matrix_notify_room_list_snapshot_updated(std::uint64_t handle_id,
                                          ::rust::Vec<::komai::rust::MatrixRoomSummary> room_list);
 

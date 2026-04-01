@@ -6,8 +6,7 @@
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsPersistenceInternal.h"
 
-#include <spdlog/logger.h>
-#include <spdlog/sinks/null_sink.h>
+#include "logging/Logging.h"
 
 #include <string>
 #include <string_view>
@@ -16,18 +15,10 @@ namespace settings::persistence {
 
 namespace {
 
-std::shared_ptr<spdlog::logger>
-nullLogger(std::string_view name)
-{
-    static auto sink   = std::make_shared<spdlog::sinks::null_sink_mt>();
-    static auto logger = std::make_shared<spdlog::logger>(std::string(name), sink);
-    return logger;
-}
-
 PersistenceLoggers
 defaultLoggers()
 {
-    return {.ui = nullLogger("settings-persistence-ui")};
+    return {.ui = std::make_shared<nhlog::Logger>("settings-persistence-ui")};
 }
 
 PersistenceLoggers &

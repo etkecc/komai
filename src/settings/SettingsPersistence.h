@@ -14,15 +14,15 @@
 #include "settings/SettingKeys.h"
 #include "settings/StagedLoadPlan.h"
 
-namespace spdlog {
-class logger;
+namespace nhlog {
+class Logger;
 }
 
 namespace settings::persistence {
 
 struct PersistenceLoggers
 {
-    std::shared_ptr<spdlog::logger> ui;
+    std::shared_ptr<nhlog::Logger> ui;
 };
 
 void

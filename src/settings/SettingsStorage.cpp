@@ -6,8 +6,7 @@
 #include "SettingsStorage.h"
 #include "SettingsStorageInternal.h"
 
-#include <spdlog/logger.h>
-#include <spdlog/sinks/null_sink.h>
+#include "logging/Logging.h"
 
 #include <string>
 #include <string_view>
@@ -19,28 +18,12 @@ namespace settings::storage {
 
 namespace {
 
-std::shared_ptr<spdlog::logger>
-nullLogger(std::string_view name)
-{
-    static auto sink = std::make_shared<spdlog::sinks::null_sink_mt>();
-    static auto settingsUiLogger =
-      std::make_shared<spdlog::logger>(std::string("settings-ui"), sink);
-    static auto settingsDbLogger =
-      std::make_shared<spdlog::logger>(std::string("settings-db"), sink);
-
-    if (name == "settings-ui")
-        return settingsUiLogger;
-    if (name == "settings-db")
-        return settingsDbLogger;
-    return settingsUiLogger;
-}
-
 StorageLoggers
 defaultLoggers()
 {
     return {
-      .ui = nullLogger("settings-ui"),
-      .db = nullLogger("settings-db"),
+      .ui = std::make_shared<nhlog::Logger>("settings-ui"),
+      .db = std::make_shared<nhlog::Logger>("settings-db"),
     };
 }
 

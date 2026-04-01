@@ -13,15 +13,15 @@ class Node;
 
 class QString;
 class UserSettings;
-namespace spdlog {
-class logger;
+namespace nhlog {
+class Logger;
 }
 
 namespace settings::serializer {
 
 struct SerializerLoggers
 {
-    std::shared_ptr<spdlog::logger> ui;
+    std::shared_ptr<nhlog::Logger> ui;
 };
 
 void

@@ -5,25 +5,18 @@
 
 #include "logging/Logging.h"
 #include "config/komai.h"
-
-#include "spdlog/cfg/helpers.h"
-#include "spdlog/sinks/rotating_file_sink.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
-#include "spdlog/spdlog.h"
+#include "komai-rust-cxxbridge/lib.h"
 
 #include <QString>
 #include <QtGlobal>
 
 namespace {
-static std::shared_ptr<spdlog::logger> db_logger     = nullptr;
-static std::shared_ptr<spdlog::logger> net_logger    = nullptr;
-static std::shared_ptr<spdlog::logger> crypto_logger = nullptr;
-static std::shared_ptr<spdlog::logger> ui_logger     = nullptr;
-static std::shared_ptr<spdlog::logger> qml_logger    = nullptr;
-static std::shared_ptr<spdlog::logger> rust_logger   = nullptr;
-
-static constexpr auto MAX_FILE_SIZE = 1024 * 1024 * 6;
-static constexpr auto MAX_LOG_FILES = 3;
+static std::shared_ptr<nhlog::Logger> db_logger     = nullptr;
+static std::shared_ptr<nhlog::Logger> net_logger    = nullptr;
+static std::shared_ptr<nhlog::Logger> crypto_logger = nullptr;
+static std::shared_ptr<nhlog::Logger> ui_logger     = nullptr;
+static std::shared_ptr<nhlog::Logger> qml_logger    = nullptr;
+static std::shared_ptr<nhlog::Logger> rust_logger   = nullptr;
 
 void
 qmlMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
@@ -69,79 +62,65 @@ qmlMessageHandler(QtMsgType type, const QMessageLogContext &context, const QStri
 namespace nhlog {
 
 void
+Logger::send(std::string_view level, std::string message)
+{
+    ::komai::rust::log_from_cpp(::rust::Str(component_.data(), component_.size()),
+                                ::rust::Str(level.data(), level.size()),
+                                ::rust::Str(message.data(), message.size()));
+}
+
+void
 init(const QString &level, const QString &path, bool to_stderr)
 {
-    std::vector<spdlog::sink_ptr> sinks;
-    if (!path.isEmpty()) {
-        auto file_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
-          path.toStdString(), MAX_FILE_SIZE, MAX_LOG_FILES);
-        sinks.push_back(file_sink);
-    }
-    if (to_stderr) {
-        auto console_sink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
-        sinks.push_back(console_sink);
-    }
+    auto levelStd = level.toStdString();
+    auto pathStd  = path.toStdString();
 
-    net_logger    = std::make_shared<spdlog::logger>("net", std::begin(sinks), std::end(sinks));
-    ui_logger     = std::make_shared<spdlog::logger>("ui", std::begin(sinks), std::end(sinks));
-    db_logger     = std::make_shared<spdlog::logger>("db", std::begin(sinks), std::end(sinks));
-    crypto_logger = std::make_shared<spdlog::logger>("crypto", std::begin(sinks), std::end(sinks));
-    qml_logger    = std::make_shared<spdlog::logger>("qml", std::begin(sinks), std::end(sinks));
-    rust_logger   = std::make_shared<spdlog::logger>("rust", std::begin(sinks), std::end(sinks));
+    ::komai::rust::init_logging(::rust::Str(levelStd.data(), levelStd.size()),
+                                ::rust::Str(pathStd.data(), pathStd.size()),
+                                to_stderr,
+                                komai::enable_debug_log);
 
-    if (komai::enable_debug_log) {
-        db_logger->set_level(spdlog::level::trace);
-        ui_logger->set_level(spdlog::level::trace);
-        crypto_logger->set_level(spdlog::level::trace);
-        net_logger->set_level(spdlog::level::trace);
-        qml_logger->set_level(spdlog::level::trace);
-        rust_logger->set_level(spdlog::level::trace);
-    }
-
-    spdlog::register_logger(net_logger);
-    spdlog::register_logger(ui_logger);
-    spdlog::register_logger(db_logger);
-    spdlog::register_logger(crypto_logger);
-    spdlog::register_logger(qml_logger);
-    spdlog::register_logger(rust_logger);
-    if (!level.isEmpty()) {
-        spdlog::cfg::helpers::load_levels(level.toStdString());
-    }
+    net_logger    = std::make_shared<Logger>("net");
+    ui_logger     = std::make_shared<Logger>("ui");
+    db_logger     = std::make_shared<Logger>("db");
+    crypto_logger = std::make_shared<Logger>("crypto");
+    qml_logger    = std::make_shared<Logger>("qml");
+    rust_logger   = std::make_shared<Logger>("rust");
 
     qInstallMessageHandler(qmlMessageHandler);
 }
 
-std::shared_ptr<spdlog::logger>
+std::shared_ptr<Logger>
 ui()
 {
     return ui_logger;
 }
 
-std::shared_ptr<spdlog::logger>
+std::shared_ptr<Logger>
 net()
 {
     return net_logger;
 }
 
-std::shared_ptr<spdlog::logger>
+std::shared_ptr<Logger>
 db()
 {
     return db_logger;
 }
 
-std::shared_ptr<spdlog::logger>
+std::shared_ptr<Logger>
 crypto()
 {
     return crypto_logger;
 }
 
-std::shared_ptr<spdlog::logger>
+std::shared_ptr<Logger>
 qml()
 {
     return qml_logger;
 }
 
-std::shared_ptr<spdlog::logger>
+std::shared_ptr<Logger>
 rust()
 {
     return rust_logger;

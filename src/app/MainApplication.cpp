@@ -192,7 +192,7 @@ app::runMainApplication(int argc, char *argv[])
 
         nhlog::init(level, path, to_stderr);
 
-    } catch (const spdlog::spdlog_ex &ex) {
+    } catch (const std::exception &ex) {
         std::cerr << "Log initialization failed: " << ex.what() << std::endl;
         std::exit(1);
     }

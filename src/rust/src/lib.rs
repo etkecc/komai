@@ -503,15 +503,6 @@ mod ffi {
         #[namespace = "komai::rust_bridge"]
         fn matrix_clear_session_secrets(profile_id: &str);
         #[namespace = "komai::rust_bridge"]
-        fn matrix_log_event(
-            level: &str,
-            target: &str,
-            module_path: &str,
-            file: &str,
-            line: u32,
-            message: &str,
-        );
-        #[namespace = "komai::rust_bridge"]
         fn matrix_notify_room_list_snapshot_updated(
             handle_id: u64,
             room_list: Vec<MatrixRoomSummary>,
@@ -552,6 +543,14 @@ mod ffi {
     }
 
     extern "Rust" {
+        fn init_logging(
+            level: &str,
+            log_file_path: &str,
+            to_stderr: bool,
+            enable_debug: bool,
+        );
+        fn log_from_cpp(component: &str, level: &str, message: &str);
+
         fn resolve_server(
             context: MatrixFfiBlockingContext,
             server_name: &str,
@@ -1247,9 +1246,16 @@ mod ffi {
     }
 }
 
+fn init_logging(level: &str, log_file_path: &str, to_stderr: bool, enable_debug: bool) {
+    logging::init_logging(level, log_file_path, to_stderr, enable_debug);
+}
+
+fn log_from_cpp(component: &str, level: &str, message: &str) {
+    logging::log_from_cpp(component, level, message);
+}
+
 fn runtime() -> &'static Runtime {
     static RT: OnceLock<Runtime> = OnceLock::new();
-    logging::ensure_initialized();
     RT.get_or_init(|| Runtime::new().expect("failed to create tokio runtime"))
 }
 
@@ -1272,7 +1278,7 @@ where
 {
     // Exported blocking FFI entrypoints must come through here so the C++-chosen thread policy is
     // enforced at one Rust choke point instead of letting raw runtime().block_on(...) calls spread.
-    logging::ensure_initialized();
+
 
     if matches!(
         context.thread_policy,
@@ -1301,7 +1307,7 @@ fn resolve_server(
 }
 
 fn matrix_sdk_paths(profile_id: &str) -> ffi::MatrixSdkPaths {
-    logging::ensure_initialized();
+
     let paths = matrix_backend::derive_matrix_sdk_paths(
         &ffi::matrix_profile_data_root(profile_id),
         &ffi::matrix_profile_cache_root(profile_id),
@@ -1365,7 +1371,7 @@ fn matrix_logout_backend(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
 ) -> Result<(), String> {
-    logging::ensure_initialized();
+
     ffi_block_on(
         context,
         "matrix_logout_backend",
@@ -1374,12 +1380,12 @@ fn matrix_logout_backend(
 }
 
 fn matrix_stop_backend(handle_id: u64) -> Result<(), String> {
-    logging::ensure_initialized();
+
     matrix_backend::runtime::stop_backend(handle_id)
 }
 
 fn matrix_start_backend_sync(handle_id: u64) -> Result<(), String> {
-    logging::ensure_initialized();
+
     matrix_backend::runtime::start_sync(handle_id)
 }
 
@@ -1390,7 +1396,7 @@ fn matrix_join_room(
     via: &Vec<String>,
     reason: &str,
 ) -> ffi::MatrixJoinRoomResult {
-    logging::ensure_initialized();
+
     match ffi_block_on(
         context,
         "matrix_join_room",
@@ -2737,7 +2743,7 @@ fn matrix_set_room_access_rules(
 }
 
 fn matrix_select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
-    logging::ensure_initialized();
+
     matrix_backend::runtime::select_active_room_timeline(handle_id, room_id)
 }
 
@@ -2745,7 +2751,7 @@ fn matrix_set_active_room_timeline_initial_page_size(
     handle_id: u64,
     page_size: u16,
 ) -> Result<(), String> {
-    logging::ensure_initialized();
+
     matrix_backend::runtime::set_active_room_timeline_initial_page_size(handle_id, page_size)
 }
 
@@ -2821,7 +2827,7 @@ fn matrix_paginate_active_room_timeline_backwards(
     handle_id: u64,
     page_size: u16,
 ) -> Result<(), String> {
-    logging::ensure_initialized();
+
     matrix_backend::runtime::paginate_active_room_timeline_backwards(handle_id, page_size)
 }
 
@@ -3362,7 +3368,7 @@ fn matrix_start_sso_callback_server(
     failure_html: &str,
     timeout_ms: u32,
 ) -> Result<ffi::MatrixSsoCallbackServer, String> {
-    logging::ensure_initialized();
+
     let result =
         matrix_backend::auth::start_sso_callback_server(success_html, failure_html, timeout_ms)?;
 
@@ -3375,7 +3381,7 @@ fn matrix_start_sso_callback_server(
 fn matrix_poll_sso_callback_server(
     listener_id: u64,
 ) -> Result<ffi::MatrixSsoCallbackStatus, String> {
-    logging::ensure_initialized();
+
     let result = matrix_backend::auth::poll_sso_callback_server(listener_id)?;
 
     Ok(ffi::MatrixSsoCallbackStatus {
@@ -3387,7 +3393,7 @@ fn matrix_poll_sso_callback_server(
 }
 
 fn matrix_stop_sso_callback_server(listener_id: u64) -> Result<(), String> {
-    logging::ensure_initialized();
+
     matrix_backend::auth::stop_sso_callback_server(listener_id)
 }
 

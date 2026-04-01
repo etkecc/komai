@@ -8,7 +8,7 @@
 
 #include <QHash>
 
-#include <spdlog/logger.h>
+#include "logging/Logging.h"
 
 #include "profile/Paths.h"
 

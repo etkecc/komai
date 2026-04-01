@@ -630,17 +630,6 @@ CPMAddPackage(
     OPTIONS "JSON_BuildTests OFF" "JSON_MultipleHeaders ON" "JSON_Install ON"
 )
 
-# yaml-cpp
-CPMAddPackage(
-    NAME yaml-cpp
-    GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
-    GIT_TAG yaml-cpp-0.9.0
-    OPTIONS
-        "YAML_CPP_BUILD_TESTS OFF"
-        "YAML_CPP_BUILD_TOOLS OFF"
-        "YAML_CPP_BUILD_CONTRIB OFF"
-)
-
 set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
 set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
 
@@ -949,9 +938,20 @@ target_sources(komai PRIVATE
 # Fixup bundled kdsingleapplication include dirs
 target_include_directories(komai PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})
 
-set(YAMLCPP_TARGET_NAME yaml-cpp::yaml-cpp)
-
 if(BUILD_TESTING)
+    # yaml-cpp is now only needed by settings test/support targets.
+    CPMAddPackage(
+        NAME yaml-cpp
+        GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+        GIT_TAG yaml-cpp-0.9.0
+        OPTIONS
+            "YAML_CPP_BUILD_TESTS OFF"
+            "YAML_CPP_BUILD_TOOLS OFF"
+            "YAML_CPP_BUILD_CONTRIB OFF"
+    )
+
+    set(YAMLCPP_TARGET_NAME yaml-cpp::yaml-cpp)
+
     # Intentionally point HOME/XDG_* to non-writable /proc paths for all tests.
     # This makes accidental writes to user/home-derived locations fail fast.
     # Tests that need filesystem access must explicitly use ScopedTestHome.
@@ -1326,7 +1326,6 @@ target_link_libraries(komai PRIVATE
     Qt::QuickControls2
     qt6keychain
     KDAB::kdsingleapplication
-    ${YAMLCPP_TARGET_NAME}
     litehtml
     komai_rust
     komai-rust-cxxbridge)

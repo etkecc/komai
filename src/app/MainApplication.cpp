@@ -137,11 +137,12 @@ app::runMainApplication(int argc, char *argv[])
     parser.addOption(debugOption);
     QCommandLineOption logLevel(
       QStringList() << QStringLiteral("l") << QStringLiteral("log-level"),
-      QObject::tr("Set the global log level, or a comma-separated list of <component>=<level> "
+      QObject::tr("Set the global log level, or a comma-separated list of <target>=<level> "
                   "pairs, or both. For example, to set the default log level to 'warn' but "
-                  "disable logging for the 'ui' component, pass 'warn,ui=off'. "
-                  "levels:{trace,debug,info,warning,error,critical,off} "
-                  "components:{crypto,db,mtx,net,qml,ui}"),
+                  "disable logging for the 'ui' target, pass 'warn,ui=off'. "
+                  "levels:{trace,debug,info,warn,error,off} "
+                  "The RUST_LOG environment variable is used as a fallback when this flag "
+                  "is not set."),
       QObject::tr("level"));
     parser.addOption(logLevel);
     QCommandLineOption logType(
@@ -154,8 +155,9 @@ app::runMainApplication(int argc, char *argv[])
     // Keep this option in the parser for help output and validation.
     QCommandLineOption configName(
       QStringList() << QStringLiteral("p") << QStringLiteral("profile"),
-      QCoreApplication::tr("Create a unique profile which allows you to log into several "
-                           "accounts at the same time and start multiple instances of Komai. "
+      QCoreApplication::tr("Run with the given profile. A new profile is created automatically "
+                           "if it does not exist yet. Multiple profiles allow separate accounts "
+                           "and concurrent instances. "
                            "Allowed profile id characters: A-Z, a-z, 0-9, '.', '_', '-'."),
       QCoreApplication::tr("profile"),
       QCoreApplication::tr("profile name"));
@@ -172,13 +174,10 @@ app::runMainApplication(int argc, char *argv[])
             level = parser.value(logLevel);
         } else if (parser.isSet(debugOption)) {
             level = "trace";
-        } else {
-            level = qEnvironmentVariable("KOMAI_LOG_LEVEL");
         }
 
         QStringList targets =
-          (parser.isSet(logType) ? parser.value(logType)
-                                 : qEnvironmentVariable("KOMAI_LOG_TYPE", "file,stderr"))
+          (parser.isSet(logType) ? parser.value(logType) : QStringLiteral("file,stderr"))
             .split(',', Qt::SkipEmptyParts);
         targets.removeAll("none");
         bool to_stderr = bool(targets.removeAll("stderr"));

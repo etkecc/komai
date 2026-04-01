@@ -62,8 +62,6 @@ sudo cmake --install var/build/native
 | [Python 3](https://www.python.org/) | | Theme generation and emoji data generation at build time |
 | [cmark](https://github.com/commonmark/cmark) | 0.29 | Markdown rendering |
 | [KSyntaxHighlighting](https://api.kde.org/frameworks/syntax-highlighting/html/index.html) | 6.x | Timeline formatted-message code block syntax highlighting |
-| [spdlog](https://github.com/gabime/spdlog) | | Logging |
-| [fmt](https://github.com/fmtlib/fmt) | | String formatting |
 | [yaml-cpp](https://github.com/jbeder/yaml-cpp) | 0.6 | Settings storage |
 | [OpenSSL](https://www.openssl.org/) | 1.1.0 | TLS/cryptography |
 | [nlohmann-json](https://github.com/nlohmann/json) | 3.2.0 | JSON parsing |
@@ -100,7 +98,7 @@ See [CPM.cmake options](https://github.com/cpm-cmake/CPM.cmake#options) for deta
 ```sh
 sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
     cmake gcc fontconfig python rust \
-    cmark syntax-highlighting spdlog fmt openssl \
+    cmark syntax-highlighting openssl \
     nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication litehtml
 ```
 
@@ -108,7 +106,6 @@ sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimed
 
 ```sh
 sudo apt install -y build-essential cmake pkg-config python3 cargo rustc \
-    libspdlog-dev libfmt-dev \
     libcurl4-openssl-dev libssl-dev libcmark-dev \
     libkf6syntaxhighlighting-dev \
     nlohmann-json3-dev libyaml-cpp-dev libkdsingleapplication-qt6-dev \

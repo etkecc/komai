@@ -29,16 +29,16 @@ pub fn init_logging(level: &str, log_file_path: &str, to_stderr: bool, enable_de
     INIT.get_or_init(|| {
         let _ = LogTracer::init();
 
-        let filter_str = if enable_debug {
-            "trace".to_owned()
+        let filter = if enable_debug {
+            EnvFilter::builder().parse_lossy("trace")
         } else if level.is_empty() {
-            "info".to_owned()
+            // No CLI flag: honour RUST_LOG env var, defaulting to info.
+            EnvFilter::builder()
+                .with_default_directive(tracing_subscriber::filter::LevelFilter::INFO.into())
+                .from_env_lossy()
         } else {
-            level.to_owned()
+            EnvFilter::builder().parse_lossy(level)
         };
-
-        let filter = EnvFilter::builder()
-            .parse_lossy(&filter_str);
 
         if !log_file_path.is_empty() && to_stderr {
             let file_appender = make_file_appender(log_file_path);
@@ -88,17 +88,31 @@ pub fn init_logging(level: &str, log_file_path: &str, to_stderr: bool, enable_de
     });
 }
 
-/// Emit a tracing event from C++ at the given level with the given component as
-/// the target.
+/// Emit a tracing event from C++ using the component name as the tracing target
+/// so that `EnvFilter` directives like `ui=off` or `db=debug` work correctly.
 pub fn log_from_cpp(component: &str, level: &str, message: &str) {
+    // tracing macros require `target:` to be a string literal, so we dispatch
+    // on the known component names.  Unknown components fall back to "cpp".
+    macro_rules! emit {
+        ($lvl:ident, $msg:expr) => {
+            match component {
+                "ui"     => tracing::$lvl!(target: "ui",     "{}", $msg),
+                "db"     => tracing::$lvl!(target: "db",     "{}", $msg),
+                "net"    => tracing::$lvl!(target: "net",    "{}", $msg),
+                "crypto" => tracing::$lvl!(target: "crypto", "{}", $msg),
+                "qml"    => tracing::$lvl!(target: "qml",    "{}", $msg),
+                "rust"   => tracing::$lvl!(target: "rust",   "{}", $msg),
+                _        => tracing::$lvl!(target: "cpp",    "{}", $msg),
+            }
+        };
+    }
+
     match level {
-        "trace" => tracing::trace!(target: "cpp", component = component, "{}", message),
-        "debug" => tracing::debug!(target: "cpp", component = component, "{}", message),
-        "warn" => tracing::warn!(target: "cpp", component = component, "{}", message),
-        "error" | "critical" => {
-            tracing::error!(target: "cpp", component = component, "{}", message)
-        }
-        _ => tracing::info!(target: "cpp", component = component, "{}", message),
+        "trace" => emit!(trace, message),
+        "debug" => emit!(debug, message),
+        "warn" => emit!(warn, message),
+        "error" | "critical" => emit!(error, message),
+        _ => emit!(info, message),
     }
 }
 

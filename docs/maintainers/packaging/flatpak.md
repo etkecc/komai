@@ -29,7 +29,7 @@ just flatpak-run       # Run Komai
 The Flatpak manifest at [`etc/packaging/flatpak/cc.etke.komai.yaml`](../../../etc/packaging/flatpak/cc.etke.komai.yaml) works similarly to a Dockerfile:
 
 1. Starts from the KDE Platform runtime (provides Qt6, KDE Frameworks, GStreamer, etc.)
-2. Builds dependency modules from source (spdlog, GStreamer, etc.)
+2. Builds dependency modules from source (GStreamer, etc.)
 3. Builds Komai itself from the local source tree
 4. Packages everything into a Flatpak bundle
 

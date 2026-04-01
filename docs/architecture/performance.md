@@ -37,9 +37,9 @@ These affect initial timeline materialization and incremental expansion size in 
 
 Komai supports runtime log-level control via CLI/environment:
 
-- `--log-level <level-or-component-list>`
+- `--log-level <level-or-target-list>`
 - `--debug` (alias for `--log-level trace`)
-- `KOMAI_LOG_LEVEL` (fallback when CLI flag is not used)
+- `RUST_LOG` environment variable (used as fallback when `--log-level` is not set)
 
 Example:
 

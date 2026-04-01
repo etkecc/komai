@@ -8,7 +8,6 @@ url="https://github.com/etkecc/komai"
 license=('GPL-3.0-or-later')
 depends=(
 	cmark
-	fmt
 	gst-plugins-bad-libs
 	hicolor-icon-theme
 	kdsingleapplication
@@ -21,7 +20,6 @@ depends=(
 	qt6-svg
 	qtkeychain-qt6
 	syntax-highlighting
-	spdlog
 	yaml-cpp
 )
 makedepends=(
@@ -59,8 +57,5 @@ build() {
 }
 
 package() {
-	depends+=(
-		spdlog libspdlog.so
-	)
 	DESTDIR="$pkgdir" cmake --install build
 }

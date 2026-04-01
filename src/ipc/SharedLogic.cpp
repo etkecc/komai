@@ -683,10 +683,10 @@ sendMessage(const QString &roomIdOrAlias,
 
     std::string formattedBody;
     if (format == QLatin1String("html")) {
-        formattedBody = utils::markdownToHtml(trimmedBody, false).toStdString();
+        formattedBody = utils::markdownToHtml(trimmedBody).toStdString();
     } else if (format == QLatin1String("auto")) {
         if (UserSettings::instance()->composerInputMarkdownToHtmlEnabled())
-            formattedBody = utils::markdownToHtml(trimmedBody, false).toStdString();
+            formattedBody = utils::markdownToHtml(trimmedBody).toStdString();
     }
 
     if (!formattedBody.empty() && formattedBody.find('<') == std::string::npos &&

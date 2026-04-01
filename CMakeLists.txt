@@ -220,15 +220,11 @@ else(NOT (CMAKE_BUILD_TYPE OR CMAKE_CONFIGURATION_TYPES))
     message("Build type set to '${CMAKE_BUILD_TYPE}'")
 endif(NOT (CMAKE_BUILD_TYPE OR CMAKE_CONFIGURATION_TYPES))
 
-set(SPDLOG_DEBUG_ON false)
+set(KOMAI_ENABLE_DEBUG_LOG false)
 
 # Windows doesn't handle CMAKE_BUILD_TYPE.
-if(NOT WIN32)
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(SPDLOG_DEBUG_ON true)
-    else()
-        set(SPDLOG_DEBUG_ON false)
-    endif()
+if(NOT WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(KOMAI_ENABLE_DEBUG_LOG true)
 endif()
 
 # [komai] Git hash suffix removed — version is set statically above.

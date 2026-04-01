@@ -45,22 +45,8 @@ cleanup:
 modules:
   #
   # System dependencies (not managed by CPM — found via find_package/pkg-config)
-  # fmt and OpenSSL are provided by the KDE Platform runtime.
+  # OpenSSL is provided by the KDE Platform runtime.
   #
-  - name: spdlog
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-      - -DSPDLOG_BUILD_BENCH=OFF
-      - -DSPDLOG_BUILD_TESTS=OFF
-      - -DSPDLOG_BUILD_EXAMPLE=OFF
-      - -DSPDLOG_FMT_EXTERNAL=ON
-    sources:
-      - disable-lfs: true
-        tag: v1.17.0
-        type: git
-        url: https://github.com/gabime/spdlog.git
   - name: gstreamer
     buildsystem: meson
     sources:

@@ -43,7 +43,6 @@ docker run --rm \
             qml6-module-qt5compat-graphicaleffects \
             qtkeychain-qt6-dev \
             libkf6syntaxhighlighting-dev \
-            libspdlog-dev libfmt-dev \
             libcmark-dev nlohmann-json3-dev libgtest-dev libyaml-cpp-dev \
             libsecret-1-dev \
             libgl1-mesa-dev libxkbcommon-dev \

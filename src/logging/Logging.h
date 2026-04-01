@@ -15,9 +15,8 @@
 namespace nhlog {
 
 /// Lightweight logger proxy that forwards formatted messages to the Rust tracing
-/// subscriber via CXX FFI.  The public API matches the former spdlog::logger so
-/// that existing call sites (`nhlog::ui()->info(...)` etc.) continue to compile
-/// without changes.
+/// subscriber via CXX FFI while preserving the existing `nhlog::ui()->info(...)`
+/// call shape.
 class Logger
 {
 public:

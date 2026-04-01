@@ -10,90 +10,9 @@
 #include <utility>
 #include <vector>
 
-#include <QColor>
-#include <QTextBoundaryFinder>
-
 #include <cmark.h>
 
 namespace {
-void
-rainbowify(cmark_node *node)
-{
-    // create iterator over node
-    cmark_iter *iter = cmark_iter_new(node);
-
-    // First loop to get total text length
-    int textLen = 0;
-    while (cmark_iter_next(iter) != CMARK_EVENT_DONE) {
-        cmark_node *cur = cmark_iter_get_node(iter);
-        // only text nodes (no code or semilar)
-        if (cmark_node_get_type(cur) != CMARK_NODE_TEXT)
-            continue;
-        // count up by length of current node's text
-        QTextBoundaryFinder tbf(QTextBoundaryFinder::BoundaryType::Grapheme,
-                                QString(cmark_node_get_literal(cur)));
-        while (tbf.toNextBoundary() != -1)
-            textLen++;
-    }
-
-    // create new iter to start over
-    cmark_iter_free(iter);
-    iter = cmark_iter_new(node);
-
-    // Second loop to rainbowify
-    int charIdx = 0;
-    while (cmark_iter_next(iter) != CMARK_EVENT_DONE) {
-        cmark_node *cur = cmark_iter_get_node(iter);
-        // only text nodes (no code or similar)
-        if (cmark_node_get_type(cur) != CMARK_NODE_TEXT)
-            continue;
-
-        // get text in current node
-        QString nodeText(cmark_node_get_literal(cur));
-        // create buffer to append rainbow text to
-        QString buf;
-        int boundaryStart = 0;
-        int boundaryEnd   = 0;
-        // use QTextBoundaryFinder to iterate over graphemes
-        QTextBoundaryFinder tbf(QTextBoundaryFinder::BoundaryType::Grapheme, nodeText);
-        while ((boundaryEnd = tbf.toNextBoundary()) != -1) {
-            charIdx++;
-            // Split text to get current char
-            auto curChar  = QStringView(nodeText).mid(boundaryStart, boundaryEnd - boundaryStart);
-            boundaryStart = boundaryEnd;
-            // Don't rainbowify whitespaces
-            if (curChar.trimmed().isEmpty() || utils::codepointIsEmoji(curChar.toUcs4().at(0))) {
-                buf.append(curChar);
-                continue;
-            }
-
-            // get correct color for char index
-            // Use colors as described here:
-            // https://shark.comfsm.fm/~dleeling/cis/hsl_rainbow.html
-            auto color = QColor::fromHslF(
-              static_cast<float>((charIdx - 1.0) / textLen * (5. / 6.)), 0.9f, 0.5f);
-            // format color for HTML
-            auto colorString = color.name(QColor::NameFormat::HexRgb);
-            // create HTML element for current char
-            auto curCharColored =
-              QStringLiteral("<font color=\"%0\">%1</font>").arg(colorString).arg(curChar);
-            // append colored HTML element to buffer
-            buf.append(curCharColored);
-        }
-
-        // create HTML_INLINE node to prevent HTML from being escaped
-        auto htmlNode = cmark_node_new(CMARK_NODE_HTML_INLINE);
-        // set content of HTML node to buffer contents
-        cmark_node_set_literal(htmlNode, buf.toUtf8().data());
-        // replace current node with HTML node
-        cmark_node_replace(cur, htmlNode);
-        // free memory of old node
-        cmark_node_free(cur);
-    }
-
-    cmark_iter_free(iter);
-}
-
 std::string
 extractSpoilerWarning(std::string &insideSpoiler)
 {
@@ -352,17 +271,13 @@ processStrikethrough(cmark_node *node)
 } // namespace
 
 QString
-utils::markdownToHtml(const QString &text, bool rainbowify_)
+utils::markdownToHtml(const QString &text)
 {
     const auto str         = text.toUtf8();
     cmark_node *const node = cmark_parse_document(str.constData(), str.size(), CMARK_OPT_UNSAFE);
 
     processStrikethrough(node);
     processSpoilers(node);
-
-    if (rainbowify_) {
-        rainbowify(node);
-    }
 
     const char *tmp_buf = cmark_render_html(node, CMARK_OPT_UNSAFE | CMARK_OPT_HARDBREAKS);
     // Copy the null terminated output buffer.

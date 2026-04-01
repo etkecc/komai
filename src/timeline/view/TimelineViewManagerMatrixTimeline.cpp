@@ -46,7 +46,7 @@ matrixMessageFormattedHtml(const QString &body)
     if (!settings || !settings->composerInputMarkdownToHtmlEnabled())
         return {};
 
-    const auto html        = utils::markdownToHtml(body, false);
+    const auto html        = utils::markdownToHtml(body);
     const auto trimmedBody = body.trimmed();
 
     if (html.contains(u'<') || trimmedBody.contains(u'\n') || trimmedBody.contains(u'\\'))
@@ -119,13 +119,6 @@ isForwardableActiveMatrixTimelineTextKind(const QString &itemKind)
 {
     return itemKind == QStringLiteral("message") || itemKind == QStringLiteral("notice") ||
            itemKind == QStringLiteral("emote");
-}
-
-bool
-isForwardableActiveMatrixTimelineMediaKind(const QString &itemKind)
-{
-    return itemKind == QStringLiteral("image") || itemKind == QStringLiteral("video") ||
-           itemKind == QStringLiteral("audio") || itemKind == QStringLiteral("file");
 }
 
 int
@@ -1411,96 +1404,66 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
         return true;
     }
 
-    if (!isForwardableActiveMatrixTimelineMediaKind(itemKind)) {
-        nhlog::ui()->warn("Forwarding matrix-sdk room event kind '{}' is not implemented yet",
-                          itemKind.toStdString());
-        if (mainWindow) {
-            mainWindow->showNotification(tr("Forwarding this message type is not available yet."));
-        }
-        return false;
-    }
+    // For all other event types (media, stickers, etc.), forward by extracting the
+    // raw event content JSON and resending it as-is.  This preserves all metadata
+    // (dimensions, duration, thumbnail, blurhash, etc.) and avoids re-uploading
+    // since the mxc:// URLs are already server-hosted.
+    const auto sourceRoomId = activeMatrixTimelineRoomId_;
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, sourceRoomId, trimmedTargetRoomId, trimmedEventId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
 
-    const auto sourceItemId      = item->itemId.trimmed().isEmpty() ? trimmedEventId : item->itemId;
-    const auto suggestedFileName = matrixTimelineAttachmentFileName(item->fileName, sourceItemId);
-    const auto mimeType          = item->mimeType.trimmed().isEmpty()
-                                     ? QStringLiteral("application/octet-stream")
-                                     : item->mimeType.trimmed();
-    const auto suffix            = QFileInfo(suggestedFileName).suffix().trimmed();
-    auto tempFileName =
-      QStringLiteral("forward-%1").arg(QUuid::createUuid().toString(QUuid::Id128));
-    if (!suffix.isEmpty())
-        tempFileName += QStringLiteral(".") + suffix;
-    const auto outputPath = matrixTimelineMediaCachePath(tempFileName);
-    const auto caption    = item->body;
+          auto content =
+            komai::MatrixBackendRuntimeService::fetchActiveRoomEventContentForForwarding(
+              context, handleId, sourceRoomId, trimmedEventId, &error);
+          if (!content) {
+              return MatrixTimelineEventActionResult{
+                .handleId = handleId,
+                .roomId   = sourceRoomId,
+                .eventId  = trimmedEventId,
+                .detail   = trimmedTargetRoomId,
+                .error    = error,
+                .ok       = false,
+              };
+          }
 
-    std::thread([handleId,
-                 sourceItemId,
-                 sourceRoomId = activeMatrixTimelineRoomId_,
-                 targetRoomId = trimmedTargetRoomId,
-                 outputPath,
-                 suggestedFileName,
-                 mimeType,
-                 caption]() {
-        const auto context = komai::matrix_backend::blockingCallContext();
-        QString error;
-        const auto data = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-          context, handleId, sourceItemId, 0, 0, false, &error);
-        bool ok = data.has_value() && !data->isEmpty();
+          const bool ok =
+            komai::MatrixBackendRuntimeService::sendRoomMessageLikeEventJson(context,
+                                                                             handleId,
+                                                                             trimmedTargetRoomId,
+                                                                             content->eventType,
+                                                                             content->contentJson,
+                                                                             &error);
 
-        if (ok) {
-            QFileInfo outputInfo(outputPath);
-            QDir().mkpath(outputInfo.absolutePath());
+          return MatrixTimelineEventActionResult{
+            .handleId = handleId,
+            .roomId   = sourceRoomId,
+            .eventId  = trimmedEventId,
+            .detail   = trimmedTargetRoomId,
+            .error    = error,
+            .ok       = ok,
+          };
+      },
+      [](TimelineViewManager *, MatrixTimelineEventActionResult result) {
+          auto *mainWindow = MainWindow::instance();
+          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+              return;
 
-            QFile outputFile(outputPath);
-            if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-                ok    = false;
-                error = outputFile.errorString();
-            } else if (outputFile.write(*data) != data->size()) {
-                ok    = false;
-                error = outputFile.errorString();
-            }
-        }
+          if (result.ok)
+              return;
 
-        if (ok) {
-            ok = komai::MatrixBackendRuntimeService::sendRoomAttachment(context,
-                                                                        handleId,
-                                                                        targetRoomId,
-                                                                        outputPath,
-                                                                        suggestedFileName,
-                                                                        caption,
-                                                                        {},
-                                                                        mimeType,
-                                                                        &error);
-        }
-
-        QFile::remove(outputPath);
-
-        auto *callbackContext = QCoreApplication::instance();
-        if (!callbackContext)
-            return;
-
-        QMetaObject::invokeMethod(
-          callbackContext,
-          [handleId, ok, sourceItemId, sourceRoomId, targetRoomId, suggestedFileName, error]() {
-              if (ok)
-                  return;
-
-              nhlog::ui()->warn("Failed to forward matrix-sdk room media '{}' from '{}' to '{}' "
-                                "on handle {}: {}",
-                                sourceItemId.toStdString(),
-                                sourceRoomId.toStdString(),
-                                targetRoomId.toStdString(),
-                                handleId,
-                                error.toStdString());
-              if (auto *mainWindow = MainWindow::instance()) {
-                  mainWindow->showNotification(
-                    TimelineViewManager::tr("Failed to forward attachment '%1': %2")
-                      .arg(suggestedFileName, error));
-              }
-          },
-          Qt::QueuedConnection);
-    }).detach();
-
+          nhlog::ui()->warn("Failed to forward matrix-sdk room event '{}' from '{}' to '{}' "
+                            "on handle {}: {}",
+                            result.eventId.toStdString(),
+                            result.roomId.toStdString(),
+                            result.detail.toStdString(),
+                            result.handleId,
+                            result.error.toStdString());
+          mainWindow->showNotification(
+            TimelineViewManager::tr("Failed to forward message: %1").arg(result.error));
+      });
     return true;
 }
 

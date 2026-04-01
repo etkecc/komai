@@ -104,7 +104,7 @@ formattedHtmlForMatrixSend(const QString &body, SlashFormatMode formatMode)
         return {};
     }
 
-    const auto html        = utils::markdownToHtml(body, false);
+    const auto html        = utils::markdownToHtml(body);
     const auto trimmedBody = body.trimmed();
 
     if (html.contains(u'<') || trimmedBody.contains(u'\n') || trimmedBody.contains(u'\\'))

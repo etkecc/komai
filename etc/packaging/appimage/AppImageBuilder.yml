@@ -71,8 +71,6 @@ AppDir:
 
     # Application runtime dependencies
     - libcmark0.30.2
-    - libfmt10
-    - libspdlog1.15
     - libqt6keychain1
     - libyaml-cpp0.8
 

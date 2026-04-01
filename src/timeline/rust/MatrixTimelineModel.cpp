@@ -105,7 +105,7 @@ formatBodyHtml(const QString &body, const QString &formattedBody = {})
         html = utils::escapeBlacklistedHtml(formattedBody);
         html = utils::linkifyMessage(html);
     } else {
-        html = utils::markdownToHtml(body, false);
+        html = utils::markdownToHtml(body);
         if (!html.contains(u'<') && !body.trimmed().contains(u'\n') &&
             !body.trimmed().contains(u'\\'))
             html = body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));

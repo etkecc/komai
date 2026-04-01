@@ -6,8 +6,11 @@ This page defines how Komai should evolve settings formats when we introduce bac
 
 Migration plumbing exists in:
 
-- `src/settings/SettingsMigrations.h`
-- `src/settings/SettingsMigrations.cpp`
+- `src/rust/src/settings/config/bridge.rs`
+- `src/rust/src/settings/session.rs`
+- `src/rust/src/settings/state.rs`
+- `tests/support/settings/SettingsMigrations.h` / `tests/support/settings/SettingsMigrations.cpp`
+  - legacy C++ test-support helpers only, not the live app path
 
 Current behavior:
 
@@ -34,8 +37,8 @@ The schema version key is:
 
 When introducing a breaking settings change:
 
-1. increase `settings::migrations::kCurrentSettingsSchemaVersion`
-2. add deterministic `vN -> vN+1` migration logic in `SettingsMigrations.cpp`
+1. increase the current schema-version constant in the corresponding Rust settings loader
+2. add deterministic `vN -> vN+1` migration logic in that Rust loader
 3. keep migration steps small and composable
 4. run migrations in order until current version is reached
 5. keep existing keys readable for at least one compatibility cycle when practical
@@ -49,7 +52,9 @@ When introducing a breaking settings change:
 
 ## Testing Expectations
 
-For each new migration step, add or update tests in `tests/StartupSettingsTest.cpp` to cover:
+For each new migration step, add or update tests in the corresponding Rust settings module, and
+extend `tests/StartupSettingsTest.cpp` only when the C++ startup/settings seam still needs direct
+coverage, to cover:
 
 - old format -> migrated runtime values
 - invalid/malformed legacy values

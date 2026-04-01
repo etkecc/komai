@@ -12,8 +12,9 @@ Responsibility split:
 - `settings::SettingsController` owns profile orchestration: path setup, staged loading, save orchestration, and auth/session clearing.
 - `settings::staged_load_plan` defines the load stages and how secrets-provider selection affects them.
 - `settings::persistence` handles secret-provider plumbing and serializing secret payloads.
-- `settings::storage` owns low-level file/keyring/YAML operations and profile path resolution.
-- `settings::migrations` owns schema-versioned migration logic for `config.yml`, `state.yml`, and `session.yml`.
+- `settings::storage` owns low-level file/keyring/text operations and profile path resolution.
+- live schema-versioned migration logic for `config.yml`, `state.yml`, and `session.yml` now lives in
+  the Rust settings loaders; the remaining C++ migration helpers are test-support only.
 - `settings::startup` owns startup-only reads that must happen before `Q(Core)Application` is created.
 
 Current ownership map:
@@ -55,8 +56,10 @@ Current ownership map:
   - Secret provider strategy plus secret payload load/save/cleanup behavior.
 - `src/settings/SettingsStorage.*`
   - Profile pathing and direct file/secure-store I/O primitives.
-- `src/settings/SettingsMigrations.*`
-  - Settings schema-version migration entry points and migration step chain.
+- `src/rust/src/settings/config/bridge.rs`, `src/rust/src/settings/session.rs`, `src/rust/src/settings/state.rs`
+  - Live settings schema-version load/migration entry points.
+- `tests/support/settings/SettingsMigrations.*`
+  - Legacy C++ migration helpers kept only for startup/storage test support.
 - `src/settings/StartupSettings.*`, `src/settings/core/StartupConfig.*`
   - Bootstrap profile config preloading for startup-time scale-factor handling.
 - `src/settings/core/SettingDefinition.h`, `src/settings/core/SettingsDefinitions.h`, `src/settings/core/SettingsConstraints.h`
@@ -100,7 +103,7 @@ Settings flow:
   - Payload load/save/cleanup for auth and per-profile secret maps.
 - `src/settings/SettingsStorage.h/.cpp`
   - Profile path helpers (`configFilePathForProfile`, etc.).
-  - YAML file IO (`loadYamlFile`, `writeYamlFile`).
+  - Text file IO (`readTextFile`, `writeTextFile`).
   - Keychain wrappers (`readSecureValue`, `writeSecureValue`, `deleteSecureValue`).
 - `src/settings/SettingKeys.h`
   - Canonical settings keys for all persisted scopes (config/state/session/secrets/runtime).
@@ -208,13 +211,12 @@ Primary implementation files:
 
 Persistence entry points:
 
-- `UserSettings::load(...)` delegates to `settings::SettingsController`.
-- `UserSettings::loadConfigYaml(...)` / `saveConfigYaml()`
-- `UserSettings::loadSessionYaml(...)` / `saveSessionYaml()`
-- `UserSettings::saveSecretsYaml()`
-- `UserSettings::loadStateYaml(...)` / `saveStateYaml()`
+- `settings::startup::readStartupConfig(...)`
+- `settings::SettingsController::load(...)`
+- `settings::SettingsController::loadAndMigrate(...)`
 - `settings::SettingsController::save(...)`
 - `settings::SettingsController::clearAuth(...)`
+- `settings::persistence::loadProfileSecrets(...)` / `saveProfileSecrets(...)`
 
 YAML key hierarchy is nested/dotted (for example `timeline.messages.style`).
 
@@ -233,7 +235,8 @@ This prevents secret-source ambiguity and allows provider selection before secre
 
 Settings migration note:
 
-- after loading `config.yml`, `state.yml`, and `session.yml`, matching migration entry points run before values are applied.
+- after loading `config.yml`, `state.yml`, and `session.yml`, the matching Rust snapshot loaders run
+  migration stamping/normalization before values are applied.
 - future schema versions are loaded best-effort with a warning.
 - unsupported migration paths are also warned and treated as partial migrations.
 

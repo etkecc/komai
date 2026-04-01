@@ -36,18 +36,17 @@ jobs:
             cmake just python python-yaml mise reuse rust \
             qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-multimedia-ffmpeg qt6-svg \
             syntax-highlighting \
-            coeurl libolm lmdb lmdbxx cmark spdlog fmt re2 openssl \
+            cmark spdlog fmt openssl \
             nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication litehtml \
-            curl libevent libsecret kwallet pipewire-jack
+            curl libsecret kwallet pipewire-jack
 
       - name: Configure
         run: |
           # Use system packages where available (same approach as PKGBUILD).
-          # Only mtxclient, cpp-httplib, and blurhash are downloaded by CPM.
+          # Only cpp-httplib and blurhash are downloaded by CPM.
           # VoIP is disabled to avoid installing GStreamer dependencies.
           just configure \
             -DCPM_USE_LOCAL_PACKAGES=ON \
-            -DCPM_MatrixClient_USE_LOCAL=OFF \
             -DVOIP=OFF
 
       # Build explicitly so it gets its own step with visible output.

@@ -133,12 +133,6 @@ find_package(fmt 8.0.0 CONFIG REQUIRED)
 # spdlog
 find_package(spdlog 1.0.0 CONFIG REQUIRED)
 
-# re2
-find_package(re2 CONFIG QUIET)
-if(NOT re2_FOUND)
-    pkg_check_modules(re2 REQUIRED IMPORTED_TARGET re2)
-endif()
-
 find_package(SQLite3 REQUIRED)
 
 #

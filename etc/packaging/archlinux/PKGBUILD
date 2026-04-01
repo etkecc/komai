@@ -21,7 +21,6 @@ depends=(
 	qt6-svg
 	qtkeychain-qt6
 	syntax-highlighting
-	re2
 	spdlog
 	yaml-cpp
 )

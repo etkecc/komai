@@ -61,16 +61,6 @@ modules:
         tag: v1.17.0
         type: git
         url: https://github.com/gabime/spdlog.git
-  - name: re2
-    buildsystem: simple
-    build-commands:
-      - make CXXFLAGS="${CXXFLAGS} -fPIC" static
-      - make prefix=/app static-install
-    sources:
-      - disable-lfs: true
-        tag: 2025-11-05
-        type: git
-        url: https://github.com/google/re2.git
   - name: gstreamer
     buildsystem: meson
     sources:

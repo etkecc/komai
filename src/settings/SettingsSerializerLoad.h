@@ -21,7 +21,4 @@ namespace settings::serializer {
  */
 void
 loadConfig(UserSettings &settings, const YAML::Node &root);
-void
-loadState(UserSettings &settings, const YAML::Node &root);
-
 } // namespace settings::serializer

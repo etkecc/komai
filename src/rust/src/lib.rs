@@ -76,6 +76,42 @@ mod ffi {
         serialized_yaml: String,
     }
 
+    struct SettingsLoadedState {
+        window_width: i32,
+        window_height: i32,
+        sidebars_room_list_width_px: i32,
+        sidebars_communities_width_px: i32,
+        current_filter_id: String,
+        current_room_id: String,
+        global_excludes: Vec<String>,
+        badges_hidden_filters: Vec<String>,
+        hidden_pins: Vec<String>,
+        hidden_widgets: Vec<String>,
+        collapsed_spaces: Vec<String>,
+        composer_drafts_by_room: Vec<SettingsStringMapEntry>,
+        source_version: i32,
+        migrated_version: i32,
+        had_future_version: bool,
+        had_unsupported_path: bool,
+        should_write_back: bool,
+        serialized_yaml: String,
+    }
+
+    struct SettingsStateSnapshot {
+        window_width: i32,
+        window_height: i32,
+        sidebars_room_list_width_px: i32,
+        sidebars_communities_width_px: i32,
+        current_filter_id: String,
+        current_room_id: String,
+        global_excludes: Vec<String>,
+        badges_hidden_filters: Vec<String>,
+        hidden_pins: Vec<String>,
+        hidden_widgets: Vec<String>,
+        collapsed_spaces: Vec<String>,
+        composer_drafts_by_room: Vec<SettingsStringMapEntry>,
+    }
+
     struct MatrixBackendHandleInfo {
         handle_id: u64,
         has_session: bool,
@@ -596,6 +632,8 @@ mod ffi {
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str)
         -> String;
+        fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
+        fn settings_encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String;
 
         fn resolve_server(
             context: MatrixFfiBlockingContext,
@@ -1363,6 +1401,35 @@ fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSess
 
 fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str) -> String {
     settings::session::encode_session_yaml(user_id, homeserver, device_id)
+}
+
+fn settings_load_state_snapshot(state_text: &str) -> ffi::SettingsLoadedState {
+    let snapshot = settings::state::load_state_snapshot(state_text);
+
+    ffi::SettingsLoadedState {
+        window_width: snapshot.window_width,
+        window_height: snapshot.window_height,
+        sidebars_room_list_width_px: snapshot.sidebars_room_list_width_px,
+        sidebars_communities_width_px: snapshot.sidebars_communities_width_px,
+        current_filter_id: snapshot.current_filter_id,
+        current_room_id: snapshot.current_room_id,
+        global_excludes: snapshot.global_excludes,
+        badges_hidden_filters: snapshot.badges_hidden_filters,
+        hidden_pins: snapshot.hidden_pins,
+        hidden_widgets: snapshot.hidden_widgets,
+        collapsed_spaces: snapshot.collapsed_spaces,
+        composer_drafts_by_room: snapshot.composer_drafts_by_room,
+        source_version: snapshot.source_version,
+        migrated_version: snapshot.migrated_version,
+        had_future_version: snapshot.had_future_version,
+        had_unsupported_path: snapshot.had_unsupported_path,
+        should_write_back: snapshot.should_write_back,
+        serialized_yaml: snapshot.serialized_yaml,
+    }
+}
+
+fn settings_encode_state_yaml(snapshot: &ffi::SettingsStateSnapshot) -> String {
+    settings::state::encode_state_yaml(snapshot)
 }
 
 fn runtime() -> &'static Runtime {

@@ -94,6 +94,25 @@ logSessionMigrationWarnings(const ::komai::rust::SettingsLoadedSession &session)
 }
 
 void
+logStateMigrationWarnings(const ::komai::rust::SettingsLoadedState &state)
+{
+    if (state.had_future_version) {
+        settings::activeLoggers().ui->warn(
+          "State schema version {} is newer than supported version {}; "
+          "known keys will still be loaded but no migration will be applied",
+          state.source_version,
+          settings::migrations::kCurrentStateSchemaVersion);
+    }
+    if (state.had_unsupported_path) {
+        settings::activeLoggers().ui->warn(
+          "State migration path is unsupported from schema version {} to {}; "
+          "loaded values may be partially migrated",
+          state.source_version,
+          settings::migrations::kCurrentStateSchemaVersion);
+    }
+}
+
+void
 writeMigratedScopeIfNeeded(const QString &path,
                            const char *scopeName,
                            bool persistMigrationWriteback,
@@ -239,16 +258,75 @@ loadImpl(UserSettings &settings,
         }
         case staged_load_plan::Stage::State: {
             const bool stateFileExists = pathExists(settings.stateFilePath());
-            const auto loadedState     = loadYamlFile(settings.stateFilePath(), "state");
-            const auto stateOutcome    = settings::migrations::migrateStateRoot(loadedState);
-            logMigrationWarnings(
-              "State", stateOutcome, settings::migrations::kCurrentStateSchemaVersion);
-            settings::serializer::loadState(settings, stateOutcome.migratedRoot);
-            writeMigratedScopeIfNeeded(settings.stateFilePath(),
-                                       "state",
-                                       persistMigrationWriteback,
-                                       stateFileExists,
-                                       stateOutcome);
+            const auto loadedStateText =
+              settings::storage::readTextFile(settings.stateFilePath(), "state");
+            const auto stateSnapshot =
+              ::komai::rust::settings_load_state_snapshot(loadedStateText.toStdString());
+            logStateMigrationWarnings(stateSnapshot);
+            settings.setWindowWidth(stateSnapshot.window_width);
+            settings.setWindowHeight(stateSnapshot.window_height);
+            settings.setSidebarsRoomListWidthPx(stateSnapshot.sidebars_room_list_width_px);
+            settings.setSidebarsCommunitiesWidthPx(stateSnapshot.sidebars_communities_width_px);
+            settings.setCurrentFilterId(
+              QString::fromStdString(static_cast<std::string>(stateSnapshot.current_filter_id)));
+            settings.setCurrentRoomId(
+              QString::fromStdString(static_cast<std::string>(stateSnapshot.current_room_id)));
+            {
+                QStringList values;
+                for (const auto &value : stateSnapshot.global_excludes)
+                    values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+                settings.setGlobalExcludes(values);
+            }
+            {
+                QStringList values;
+                for (const auto &value : stateSnapshot.badges_hidden_filters)
+                    values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+                settings.setBadgesHiddenFilters(values);
+            }
+            {
+                QStringList values;
+                for (const auto &value : stateSnapshot.hidden_pins)
+                    values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+                settings.setHiddenPins(values);
+            }
+            {
+                QStringList values;
+                for (const auto &value : stateSnapshot.hidden_widgets)
+                    values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+                settings.setHiddenWidgets(values);
+            }
+            {
+                QStringList values;
+                for (const auto &value : stateSnapshot.collapsed_spaces)
+                    values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+                settings.setCollapsedSpaces(values);
+            }
+            {
+                QMap<QString, QString> drafts;
+                for (const auto &entry : stateSnapshot.composer_drafts_by_room) {
+                    drafts.insert(QString::fromStdString(static_cast<std::string>(entry.key)),
+                                  QString::fromStdString(static_cast<std::string>(entry.value)));
+                }
+                settings.setComposerDraftsByRoom(drafts);
+            }
+            if (persistMigrationWriteback && stateFileExists && !stateSnapshot.had_future_version &&
+                !stateSnapshot.had_unsupported_path && stateSnapshot.should_write_back) {
+                if (!settings::storage::writeTextFile(
+                      settings.stateFilePath(),
+                      QString::fromStdString(
+                        static_cast<std::string>(stateSnapshot.serialized_yaml)),
+                      false)) {
+                    settings::activeLoggers().ui->warn(
+                      "Failed to persist migrated state settings at: {}",
+                      settings.stateFilePath().toStdString());
+                } else {
+                    settings::activeLoggers().ui->info(
+                      "Persisted state settings schema migration {} -> {} at: {}",
+                      stateSnapshot.source_version,
+                      stateSnapshot.migrated_version,
+                      settings.stateFilePath().toStdString());
+                }
+            }
             break;
         }
         }

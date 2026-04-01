@@ -14,6 +14,7 @@ pub struct Config {
     pub secrets: ConfigSecrets,
     pub privacy: ConfigPrivacy,
     pub calls: ConfigCalls,
+    pub notifications: ConfigNotifications,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -139,6 +140,13 @@ pub struct ConfigCallsScreenshare {
     pub picture_in_picture: Option<bool>,
     pub include_remote_video: Option<bool>,
     pub show_cursor: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigNotifications {
+    pub enabled: Option<bool>,
+    pub attention_on_incoming: Option<bool>,
+    pub message_content_policy: String,
 }
 
 pub struct LoadedConfig {

@@ -131,7 +131,9 @@ appendCoreStoreConfigValues(const UserSettings &settings,
             definition.id == settings::core::SettingId::CallsScreenshareFrameRate ||
             definition.id == settings::core::SettingId::CallsScreensharePictureInPicture ||
             definition.id == settings::core::SettingId::CallsScreenshareIncludeRemoteVideo ||
-            definition.id == settings::core::SettingId::CallsScreenshareShowCursor)
+            definition.id == settings::core::SettingId::CallsScreenshareShowCursor ||
+            definition.id == settings::core::SettingId::NotificationsEnabled ||
+            definition.id == settings::core::SettingId::NotificationsAttentionOnIncoming)
             continue;
 
         const auto stored = store.value(definition.id);
@@ -259,6 +261,15 @@ saveConfig(const UserSettings &settings,
               .show_cursor              = settings.callsScreenshareShowCursor(),
             },
         },
+      .notifications =
+        {
+          .has_enabled               = true,
+          .enabled                   = settings.notificationsEnabled(),
+          .has_attention_on_incoming = true,
+          .attention_on_incoming     = settings.notificationsAttentionOnIncoming(),
+          .message_content_policy =
+            cfg::toStorageValue(settings.notificationsMessageContentPolicy()).toStdString(),
+        },
       .values = {},
     };
 
@@ -266,7 +277,8 @@ saveConfig(const UserSettings &settings,
 
     for (const auto &adapter : config::enumTokenAdapters()) {
         if (adapter.id == settings::core::SettingId::UiScrollbarPolicy ||
-            adapter.id == settings::core::SettingId::UiAvatarsDefaultAvatarStyle)
+            adapter.id == settings::core::SettingId::UiAvatarsDefaultAvatarStyle ||
+            adapter.id == settings::core::SettingId::NotificationsMessageContentPolicy)
             continue;
         snapshot.values.push_back(
           configValue(adapter.key, adapter.toStorage(settings).toStdString()));

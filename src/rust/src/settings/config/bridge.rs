@@ -222,6 +222,25 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
             Value::Bool(snapshot.calls.screenshare.show_cursor),
         );
     }
+    if snapshot.notifications.has_enabled {
+        yaml::set_value(
+            &mut root,
+            &["notifications", "enabled"],
+            Value::Bool(snapshot.notifications.enabled),
+        );
+    }
+    if snapshot.notifications.has_attention_on_incoming {
+        yaml::set_value(
+            &mut root,
+            &["notifications", "attention_on_incoming"],
+            Value::Bool(snapshot.notifications.attention_on_incoming),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["notifications", "message_content_policy"],
+        Value::String(snapshot.notifications.message_content_policy.clone()),
+    );
 
     yaml::serialize_yaml(&root)
 }
@@ -291,6 +310,7 @@ fn flatten_config_values(prefix: &str, value: &Value, values: &mut Vec<SettingsC
                 || prefix == "secrets"
                 || prefix == "privacy"
                 || prefix == "calls"
+                || prefix == "notifications"
                 || prefix == "timeline.hidden_events"
             {
                 return;

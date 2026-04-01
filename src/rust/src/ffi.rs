@@ -167,6 +167,14 @@ mod bridge {
         screenshare: SettingsConfigCallsScreenshareSection,
     }
 
+    struct SettingsConfigNotificationsSection {
+        has_enabled: bool,
+        enabled: bool,
+        has_attention_on_incoming: bool,
+        attention_on_incoming: bool,
+        message_content_policy: String,
+    }
+
     enum SettingsConfigValueKind {
         Bool,
         Int,
@@ -193,6 +201,7 @@ mod bridge {
         secrets: SettingsConfigSecretsSection,
         privacy: SettingsConfigPrivacySection,
         calls: SettingsConfigCallsSection,
+        notifications: SettingsConfigNotificationsSection,
         values: Vec<SettingsConfigValue>,
     }
 
@@ -202,6 +211,7 @@ mod bridge {
         secrets: SettingsConfigSecretsSection,
         privacy: SettingsConfigPrivacySection,
         calls: SettingsConfigCallsSection,
+        notifications: SettingsConfigNotificationsSection,
         values: Vec<SettingsConfigValue>,
         source_version: i32,
         migrated_version: i32,

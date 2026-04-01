@@ -194,6 +194,18 @@ pub(crate) fn ffi_config_calls_section(
     }
 }
 
+pub(crate) fn ffi_config_notifications_section(
+    config: &settings::config::Config,
+) -> ffi::SettingsConfigNotificationsSection {
+    ffi::SettingsConfigNotificationsSection {
+        has_enabled: config.notifications.enabled.is_some(),
+        enabled: config.notifications.enabled.unwrap_or_default(),
+        has_attention_on_incoming: config.notifications.attention_on_incoming.is_some(),
+        attention_on_incoming: config.notifications.attention_on_incoming.unwrap_or_default(),
+        message_content_policy: config.notifications.message_content_policy.clone(),
+    }
+}
+
 pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi::SettingsLoadedConfig {
     ffi::SettingsLoadedConfig {
         ui: ffi_config_ui_section(&snapshot.config),
@@ -201,6 +213,7 @@ pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi
         secrets: ffi_config_secrets_section(&snapshot.config),
         privacy: ffi_config_privacy_section(&snapshot.config),
         calls: ffi_config_calls_section(&snapshot.config),
+        notifications: ffi_config_notifications_section(&snapshot.config),
         values: snapshot.values,
         source_version: snapshot.source_version,
         migrated_version: snapshot.migrated_version,

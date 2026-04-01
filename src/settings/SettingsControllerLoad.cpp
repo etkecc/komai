@@ -131,12 +131,13 @@ bool
 writeConfigSnapshot(const QString &path, const ::komai::rust::SettingsLoadedConfig &loaded)
 {
     ::komai::rust::SettingsConfigSnapshot snapshot;
-    snapshot.ui       = loaded.ui;
-    snapshot.timeline = loaded.timeline;
-    snapshot.secrets  = loaded.secrets;
-    snapshot.privacy  = loaded.privacy;
-    snapshot.calls    = loaded.calls;
-    snapshot.values   = loaded.values;
+    snapshot.ui            = loaded.ui;
+    snapshot.timeline      = loaded.timeline;
+    snapshot.secrets       = loaded.secrets;
+    snapshot.privacy       = loaded.privacy;
+    snapshot.calls         = loaded.calls;
+    snapshot.notifications = loaded.notifications;
+    snapshot.values        = loaded.values;
     return ::komai::rust::settings_write_config_snapshot_to_path(path.toStdString(), snapshot);
 }
 

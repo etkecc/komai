@@ -14,7 +14,7 @@ use super::storage;
 pub use model::{
     Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
     ConfigCallsRelay, ConfigCallsScreenshare, ConfigSecrets, ConfigTimeline,
-    ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars, ConfigPrivacy,
+    ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars, ConfigNotifications, ConfigPrivacy,
     ConfigPrivacyMaintenance, ConfigPrivacyWindowFocusBlur, ConfigUiFont, ConfigUiInput,
     ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
 };
@@ -59,6 +59,11 @@ const CALLS_SCREENSHARE_INCLUDE_REMOTE_VIDEO_PATH: [&str; 3] =
     ["calls", "screenshare", "include_remote_video"];
 const CALLS_SCREENSHARE_SHOW_CURSOR_PATH: [&str; 3] =
     ["calls", "screenshare", "show_cursor"];
+const NOTIFICATIONS_ENABLED_PATH: [&str; 2] = ["notifications", "enabled"];
+const NOTIFICATIONS_ATTENTION_ON_INCOMING_PATH: [&str; 2] =
+    ["notifications", "attention_on_incoming"];
+const NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH: [&str; 2] =
+    ["notifications", "message_content_policy"];
 
 pub fn parse_config_text(config_text: &str) -> Config {
     let root = yaml::parse_root(config_text);
@@ -174,6 +179,15 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 show_cursor: yaml::value_at_path(root, &CALLS_SCREENSHARE_SHOW_CURSOR_PATH)
                     .and_then(parse_scalar_bool),
             },
+        },
+        notifications: ConfigNotifications {
+            enabled: yaml::value_at_path(root, &NOTIFICATIONS_ENABLED_PATH).and_then(parse_scalar_bool),
+            attention_on_incoming: yaml::value_at_path(root, &NOTIFICATIONS_ATTENTION_ON_INCOMING_PATH)
+                .and_then(parse_scalar_bool),
+            message_content_policy: parse_string(yaml::value_at_path(
+                root,
+                &NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH,
+            )),
         },
     }
 }

@@ -4,9 +4,10 @@
 
 use super::{encode_config_yaml, load_config_snapshot, parse_config_text};
 use crate::ffi::{
-    SettingsConfigSecretsSection, SettingsConfigSnapshot, SettingsConfigTimelineHiddenEventsSection,
-    SettingsConfigTimelineSection, SettingsConfigUiSection, SettingsConfigValue,
-    SettingsConfigValueKind, SettingsStringListMapEntry,
+    SettingsConfigNotificationsSection, SettingsConfigSecretsSection, SettingsConfigSnapshot,
+    SettingsConfigTimelineHiddenEventsSection, SettingsConfigTimelineSection,
+    SettingsConfigUiSection, SettingsConfigValue, SettingsConfigValueKind,
+    SettingsStringListMapEntry,
 };
 use crate::settings::yaml;
 
@@ -128,6 +129,22 @@ ui:
 }
 
 #[test]
+fn parses_notifications_section() {
+    let config = parse_config_text(
+        r#"
+notifications:
+  enabled: false
+  attention_on_incoming: true
+  message_content_policy: unencrypted_only
+"#,
+    );
+
+    assert_eq!(config.notifications.enabled, Some(false));
+    assert_eq!(config.notifications.attention_on_incoming, Some(true));
+    assert_eq!(config.notifications.message_content_policy, "unencrypted_only");
+}
+
+#[test]
 fn encodes_generic_config_values() {
     let yaml = encode_config_yaml(&SettingsConfigSnapshot {
         ui: SettingsConfigUiSection {
@@ -164,6 +181,13 @@ fn encodes_generic_config_values() {
         },
         secrets: SettingsConfigSecretsSection {
             provider: "file".to_owned(),
+        },
+        notifications: SettingsConfigNotificationsSection {
+            has_enabled: true,
+            enabled: false,
+            has_attention_on_incoming: true,
+            attention_on_incoming: true,
+            message_content_policy: "unencrypted_only".to_owned(),
         },
         values: vec![
             SettingsConfigValue {
@@ -243,6 +267,18 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["secrets", "provider"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "file"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["notifications", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["notifications", "attention_on_incoming"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["notifications", "message_content_policy"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "unencrypted_only"
     ));
 }
 

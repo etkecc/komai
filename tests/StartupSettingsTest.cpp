@@ -164,6 +164,11 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
         return expect(QString::fromStdString(static_cast<std::string>(snapshot.secrets.provider)) ==
                         expected,
                       message);
+    if (keyString == QLatin1String(SettingKey::NotificationsMessageContentPolicy))
+        return expect(
+          QString::fromStdString(
+            static_cast<std::string>(snapshot.notifications.message_content_policy)) == expected,
+          message);
 
     return expect(
       settings::rust_config_values::readStringValue(snapshot.values, key, {}) == expected,
@@ -1513,6 +1518,11 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::CallsScreenshareIncludeRemoteVideo));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::CallsScreenshareShowCursor));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NotificationsEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::NotificationsAttentionOnIncoming));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::NotificationsMessageContentPolicy));
 
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
         if (definition.scope != settings::core::SettingScope::Config)

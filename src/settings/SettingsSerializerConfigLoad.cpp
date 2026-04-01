@@ -81,6 +81,9 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         : settings::core::definitions::kDefaultUiMotionAnimationsEnabled);
 
     for (const auto &adapter : cfg::enumTokenAdapters()) {
+        if (adapter.id == settings::core::SettingId::NotificationsMessageContentPolicy)
+            continue;
+
         const auto rawToken =
           rust_cfg::readStringValue(values, adapter.key, QString::fromLatin1(adapter.defaultToken));
         adapter.applyFromStorage(settings, rawToken);
@@ -220,6 +223,31 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       snapshot.calls.screenshare.has_show_cursor
         ? snapshot.calls.screenshare.show_cursor
         : settings::core::definitions::kDefaultScreenShareShowCursor);
+
+    settings.setNotificationsEnabled(
+      snapshot.notifications.has_enabled ? snapshot.notifications.enabled : true);
+    settings.setNotificationsAttentionOnIncoming(snapshot.notifications.has_attention_on_incoming
+                                                   ? snapshot.notifications.attention_on_incoming
+                                                   : false);
+
+    const auto loadedNotificationsMessageContentPolicy =
+      QString::fromStdString(
+        static_cast<std::string>(snapshot.notifications.message_content_policy))
+        .trimmed();
+    const auto notificationsMessageContentPolicyToken =
+      loadedNotificationsMessageContentPolicy.isEmpty() ? QStringLiteral("whenever_available")
+                                                        : loadedNotificationsMessageContentPolicy;
+    settings.setNotificationsMessageContentPolicy(cfg::notificationsMessageContentPolicyFromStorage(
+      notificationsMessageContentPolicyToken,
+      UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
+    if (notificationsMessageContentPolicyToken !=
+        cfg::toStorageValue(settings.notificationsMessageContentPolicy())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          notificationsMessageContentPolicyToken.toStdString(),
+          SettingKey::NotificationsMessageContentPolicy,
+          cfg::toStorageValue(settings.notificationsMessageContentPolicy()).toStdString());
+    }
 }
 
 } // namespace settings::serializer

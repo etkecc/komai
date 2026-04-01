@@ -59,6 +59,13 @@ mod ffi {
         ui_scale_factor: f32,
     }
 
+    struct SettingsConfigOverview {
+        has_ui_scale_factor: bool,
+        ui_scale_factor: f32,
+        theme_slug: String,
+        secrets_provider: String,
+    }
+
     struct SettingsStringMapEntry {
         key: String,
         value: String,
@@ -658,6 +665,7 @@ mod ffi {
         );
         fn log_from_cpp(component: &str, level: &str, message: &str);
         fn settings_load_startup_snapshot(config_text: &str) -> SettingsStartupSnapshot;
+        fn settings_load_config_overview(config_text: &str) -> SettingsConfigOverview;
         fn settings_encode_string_map_yaml(entries: &Vec<SettingsStringMapEntry>) -> String;
         fn settings_decode_string_map_yaml(serialized: &str) -> Vec<SettingsStringMapEntry>;
         fn settings_encode_named_string_map_yaml(
@@ -1399,6 +1407,17 @@ fn settings_load_startup_snapshot(config_text: &str) -> ffi::SettingsStartupSnap
     ffi::SettingsStartupSnapshot {
         has_ui_scale_factor: snapshot.ui_scale_factor.is_some(),
         ui_scale_factor: snapshot.ui_scale_factor.unwrap_or_default(),
+    }
+}
+
+fn settings_load_config_overview(config_text: &str) -> ffi::SettingsConfigOverview {
+    let config = settings::config::parse_config_text(config_text);
+
+    ffi::SettingsConfigOverview {
+        has_ui_scale_factor: config.ui.scale.factor.is_some(),
+        ui_scale_factor: config.ui.scale.factor.unwrap_or_default(),
+        theme_slug: config.ui.theme.slug,
+        secrets_provider: config.secrets.provider,
     }
 }
 

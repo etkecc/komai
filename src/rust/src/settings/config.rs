@@ -8,9 +8,11 @@ mod yaml;
 
 use crate::ffi::SettingsConfigSnapshot;
 
-pub use model::{Config, ConfigUi, ConfigUiScale, LoadedConfig};
+pub use model::{Config, ConfigSecrets, ConfigUi, ConfigUiScale, ConfigUiTheme, LoadedConfig};
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
+const UI_THEME_SLUG_PATH: [&str; 3] = ["ui", "theme", "slug"];
+const SECRETS_PROVIDER_PATH: [&str; 2] = ["secrets", "provider"];
 
 pub fn parse_config_text(config_text: &str) -> Config {
     let root = yaml::parse_root(config_text);
@@ -22,6 +24,12 @@ pub fn parse_config_text(config_text: &str) -> Config {
                     .and_then(parse_scalar_f32)
                     .and_then(normalize_scale_factor),
             },
+            theme: ConfigUiTheme {
+                slug: parse_string(yaml::value_at_path(&root, &UI_THEME_SLUG_PATH)),
+            },
+        },
+        secrets: ConfigSecrets {
+            provider: parse_string(yaml::value_at_path(&root, &SECRETS_PROVIDER_PATH)),
         },
     }
 }
@@ -44,6 +52,13 @@ fn parse_scalar_f32(value: &serde_yaml_ng::Value) -> Option<f32> {
 
 fn normalize_scale_factor(factor: f32) -> Option<f32> {
     (1.0..=3.0).contains(&factor).then_some(factor)
+}
+
+fn parse_string(value: Option<&serde_yaml_ng::Value>) -> String {
+    match value {
+        Some(serde_yaml_ng::Value::String(value)) => value.trim().to_owned(),
+        _ => String::new(),
+    }
 }
 
 #[cfg(test)]
@@ -90,6 +105,22 @@ ui:
         );
 
         assert_eq!(config.ui.scale.factor, None);
+    }
+
+    #[test]
+    fn parses_theme_and_secrets_provider() {
+        let config = parse_config_text(
+            r#"
+ui:
+  theme:
+    slug: komai-dark
+secrets:
+  provider: file
+"#,
+        );
+
+        assert_eq!(config.ui.theme.slug, "komai-dark");
+        assert_eq!(config.secrets.provider, "file");
     }
 
     #[test]

@@ -8,16 +8,28 @@ pub(crate) const CONFIG_SCHEMA_VERSION_PATH: [&str; 2] = ["meta", "settings_sche
 #[derive(Clone, Debug, Default)]
 pub struct Config {
     pub ui: ConfigUi,
+    pub secrets: ConfigSecrets,
 }
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigUi {
     pub scale: ConfigUiScale,
+    pub theme: ConfigUiTheme,
 }
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigUiScale {
     pub factor: Option<f32>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigUiTheme {
+    pub slug: String,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigSecrets {
+    pub provider: String,
 }
 
 pub struct LoadedConfig {

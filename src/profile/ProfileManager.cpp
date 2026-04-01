@@ -17,9 +17,7 @@
 #include "logging/Logging.h"
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
-#include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
-#include "settings/SettingsRustConfigValues.h"
 #include "settings/SettingsStorage.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "ui/Theme.h"
@@ -141,7 +139,7 @@ listProfiles(QStringView currentProfile)
         summary.isDefault = (profileId == QLatin1String("default"));
         summary.isCurrent = (profileId == currentProfile_);
 
-        const auto config = ::komai::rust::settings_load_config_snapshot(
+        const auto config = ::komai::rust::settings_load_config_overview(
           settings::storage::readTextFile(app_paths::config::profileConfigFile(profileId), "config")
             .toStdString());
         const auto session = ::komai::rust::settings_load_session_snapshot(
@@ -149,18 +147,17 @@ listProfiles(QStringView currentProfile)
                                           "session")
             .toStdString());
 
-        summary.themeSlug = settings::rust_config_values::readStringValue(
-          config.values,
-          SettingKey::UiThemeSlug,
-          QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug));
+        summary.themeSlug =
+          QString::fromStdString(static_cast<std::string>(config.theme_slug)).trimmed();
+        if (summary.themeSlug.isEmpty())
+            summary.themeSlug =
+              QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
         if (summary.themeSlug.trimmed().isEmpty())
             summary.themeSlug =
               QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
 
-        summary.secretsProvider = settings::rust_config_values::readStringValue(
-          config.values,
-          SettingKey::SecretsProvider,
-          QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue));
+        summary.secretsProvider =
+          QString::fromStdString(static_cast<std::string>(config.secrets_provider));
         if (summary.secretsProvider.isEmpty())
             summary.secretsProvider = QStringLiteral("unknown");
 
@@ -247,13 +244,10 @@ deleteProfile(QStringView profileId,
     }
 
     const auto configPath = app_paths::config::profileConfigFile(normalizedTargetProfile);
-    const auto config     = ::komai::rust::settings_load_config_snapshot(
+    const auto config     = ::komai::rust::settings_load_config_overview(
       settings::storage::readTextFile(configPath, "config").toStdString());
-    const auto secretsProvider =
-      settings::persistence::providerFromConfigValue(settings::rust_config_values::readStringValue(
-        config.values,
-        SettingKey::SecretsProvider,
-        QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
+    const auto secretsProvider = settings::persistence::providerFromConfigValue(
+      QString::fromStdString(static_cast<std::string>(config.secrets_provider)));
 
     const auto secretsFilePath = app_paths::config::profileSecretsFile(normalizedTargetProfile);
     const bool secretsRemoved  = settings::persistence::clearProfileSecrets(

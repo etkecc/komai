@@ -9,9 +9,7 @@
 #include <QHash>
 #include <QMap>
 
-#include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
-#include "settings/SettingsRustConfigValues.h"
 #include "settings/SettingsStorage.h"
 
 namespace {
@@ -39,13 +37,10 @@ loadSecretsPersistenceContext(const QString &profileId)
         return *it;
 
     const auto configFilePath = settings::storage::configFilePathForProfile(profileId);
-    const auto config         = ::komai::rust::settings_load_config_snapshot(
+    const auto config         = ::komai::rust::settings_load_config_overview(
       settings::storage::readTextFile(configFilePath, "config").toStdString());
-    const auto provider =
-      settings::persistence::providerFromConfigValue(settings::rust_config_values::readStringValue(
-        config.values,
-        SettingKey::SecretsProvider,
-        QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
+    const auto provider = settings::persistence::providerFromConfigValue(
+      QString::fromStdString(static_cast<std::string>(config.secrets_provider)));
 
     SecretsPersistenceContext context{
       .usesFileSecretsProvider = provider == staged_load_plan::SecretsProvider::File,

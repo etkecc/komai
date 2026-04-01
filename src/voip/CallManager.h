@@ -50,6 +50,8 @@ class CallManager : public QObject
     Q_PROPERTY(QStringList mics READ mics NOTIFY devicesChanged)
     Q_PROPERTY(QStringList cameras READ cameras NOTIFY devicesChanged)
     Q_PROPERTY(bool callsSupported READ callsSupported CONSTANT)
+    Q_PROPERTY(bool preMatrixRtcCallsEnabled READ preMatrixRtcCallsEnabled NOTIFY
+                 preMatrixRtcCallsEnabledChanged)
     Q_PROPERTY(bool screenShareReady READ screenShareReady NOTIFY screenShareChanged)
 
 public:
@@ -71,6 +73,7 @@ public:
     bool haveLocalPiP() const { return session_.haveLocalPiP(); }
     QStringList mics() const { return devices(false); }
     QStringList cameras() const { return devices(true); }
+    bool preMatrixRtcCallsEnabled() const;
     void refreshTurnServer();
     bool screenShareReady() const;
 
@@ -156,6 +159,7 @@ signals:
     void newCallDeviceState();
     void micMuteChanged();
     void devicesChanged();
+    void preMatrixRtcCallsEnabledChanged();
     void screenShareChanged();
 
 private slots:

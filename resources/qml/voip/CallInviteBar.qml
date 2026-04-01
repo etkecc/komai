@@ -10,7 +10,8 @@ import QtQuick.Layouts
 import cc.etke.komai
 
 Rectangle {
-    visible: CallManager.haveCallInvite && Settings.uiInputMode && Settings.callsLegacyEnabled
+    visible: CallManager.haveCallInvite && Settings.uiInputMode
+        && CallManager.preMatrixRtcCallsEnabled
     color: "#2ECC71"
     implicitHeight: visible ? rowLayout.height + 8 : 0
 

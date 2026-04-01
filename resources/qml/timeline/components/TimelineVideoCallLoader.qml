@@ -10,7 +10,7 @@ Loader {
 
     readonly property bool showCallVideo: CallManager.isOnCall
         && CallManager.callType != Voip.VOICE
-        && Settings.callsLegacyEnabled
+        && CallManager.preMatrixRtcCallsEnabled
 
     source: showCallVideo
         ? (Qt.platform.os != "windows"

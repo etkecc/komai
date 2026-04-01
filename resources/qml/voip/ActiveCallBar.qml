@@ -10,7 +10,7 @@ import QtQuick.Layouts 1.2
 import cc.etke.komai 1.0
 
 Rectangle {
-    visible: CallManager.isOnCall && Settings.callsLegacyEnabled
+    visible: CallManager.isOnCall && CallManager.preMatrixRtcCallsEnabled
     color: callInviteBar.color
     implicitHeight: visible ? rowLayout.height + 8 : 0
 

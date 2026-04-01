@@ -44,7 +44,7 @@ std::vector<std::string>
 getTurnURIs(const komai::MatrixTurnServerInfo &turnServer);
 
 bool
-preMatrixRtcCallsEnabled()
+preMatrixRtcCallsSettingEnabled()
 {
     return UserSettings::instance()->callsLegacyEnabled();
 }
@@ -524,6 +524,10 @@ CallManager::CallManager(QObject *parent)
 
     connect(
       &CallDevices::instance(), &CallDevices::devicesChanged, this, &CallManager::devicesChanged);
+    connect(UserSettings::instance().data(),
+            &UserSettings::callsLegacyEnabledChanged,
+            this,
+            &CallManager::preMatrixRtcCallsEnabledChanged);
 
 #ifdef GSTREAMER_AVAILABLE
     connect(&ScreenCastPortal::instance(),
@@ -578,7 +582,7 @@ CallManager::ensurePlayerInitialized()
 void
 CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int windowIndex)
 {
-    if (!preMatrixRtcCallsEnabled())
+    if (!preMatrixRtcCallsSettingEnabled())
         return;
     if (isOnCall() || isOnCallOnOtherDevice()) {
         if (isOnCallOnOtherDevice_ != "")
@@ -716,7 +720,7 @@ CallManager::handleCallInvite(const QString &roomId,
                               const std::string &offerSdp,
                               const std::string &offerType)
 {
-    if (!preMatrixRtcCallsEnabled())
+    if (!preMatrixRtcCallsSettingEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(eventId)
@@ -867,7 +871,7 @@ CallManager::handleCallCandidates(const QString &roomId,
                                   const std::string &version,
                                   const komai::voip::CallIceCandidateList &candidates)
 {
-    if (!preMatrixRtcCallsEnabled())
+    if (!preMatrixRtcCallsSettingEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -910,7 +914,7 @@ CallManager::handleCallAnswer(const QString &roomId,
                               const std::string &answerSdp,
                               const std::string &answerType)
 {
-    if (!preMatrixRtcCallsEnabled())
+    if (!preMatrixRtcCallsSettingEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -975,7 +979,7 @@ CallManager::handleCallHangUp(const QString &roomId,
                               const std::string &version,
                               const std::string &reason)
 {
-    if (!preMatrixRtcCallsEnabled())
+    if (!preMatrixRtcCallsSettingEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -1011,7 +1015,7 @@ CallManager::handleCallSelectAnswer(const QString &roomId,
                                     const std::string &version,
                                     const std::string &selectedPartyId)
 {
-    if (!preMatrixRtcCallsEnabled())
+    if (!preMatrixRtcCallsSettingEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -1072,7 +1076,7 @@ CallManager::handleCallReject(const QString &roomId,
                               const std::string &partyId,
                               const std::string &version)
 {
-    if (!preMatrixRtcCallsEnabled())
+    if (!preMatrixRtcCallsSettingEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -1119,7 +1123,7 @@ CallManager::handleCallNegotiate(const QString &roomId,
                                  const std::string &descSdp,
                                  const std::string &descType)
 {
-    if (!preMatrixRtcCallsEnabled())
+    if (!preMatrixRtcCallsSettingEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     Q_UNUSED(roomId)
@@ -1225,6 +1229,12 @@ CallManager::toggleMicMute()
 {
     session_.toggleMicMute();
     emit micMuteChanged();
+}
+
+bool
+CallManager::preMatrixRtcCallsEnabled() const
+{
+    return preMatrixRtcCallsSettingEnabled();
 }
 
 bool

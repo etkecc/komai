@@ -7,8 +7,10 @@ import QtQuick.Layouts
 import cc.etke.komai
 
 ColumnLayout {
-    readonly property bool showCallInviteBar: CallManager.haveCallInvite && Settings.uiInputMode && Settings.callsLegacyEnabled
-    readonly property bool showActiveCallBar: CallManager.isOnCall && Settings.callsLegacyEnabled
+    readonly property bool showCallInviteBar: CallManager.haveCallInvite && Settings.uiInputMode
+        && CallManager.preMatrixRtcCallsEnabled
+    readonly property bool showActiveCallBar: CallManager.isOnCall
+        && CallManager.preMatrixRtcCallsEnabled
     readonly property bool layoutVisible: showCallInviteBar || showActiveCallBar
 
     Layout.fillWidth: true

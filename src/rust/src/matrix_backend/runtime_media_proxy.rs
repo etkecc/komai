@@ -373,6 +373,12 @@ async fn handle_request(
     let content_length = upstream_resp.content_length();
     let mut builder = Response::builder().status(status.as_u16());
 
+    // Close the connection after each response.  FFmpeg/QMediaPlayer may seek
+    // by issuing a new Range request on the same keep-alive connection before
+    // fully consuming the previous response body.  This causes hyper's leftover
+    // body bytes to be misinterpreted as the next response, corrupting the stream.
+    builder = builder.header(header::CONNECTION, "close");
+
     // Forward relevant headers.
     for name in [
         reqwest::header::CONTENT_TYPE,
@@ -387,21 +393,37 @@ async fn handle_request(
         }
     }
 
-    // Stream the body back chunk by chunk.
-    // Wrap with SizedStreamBody so hyper uses identity encoding (Content-Length)
-    // instead of chunked.  FFmpeg needs Content-Length to seek for the moov atom
-    // in MP4 files.
-    let body_stream = upstream_resp.bytes_stream().map(|result| {
-        result
-            .map(|bytes| Frame::data(bytes))
-            .map_err(|e| std::io::Error::other(e))
-    });
-    let stream_body = SizedStreamBody {
-        inner: StreamBody::new(body_stream),
-        content_length,
-    };
-
-    Ok(builder.body(BodyExt::boxed(stream_body)).expect("valid response"))
+    // Serve the body back to the client.
+    //
+    // When the upstream provides Content-Length, stream chunk by chunk with a
+    // SizedStreamBody so hyper uses identity encoding (preserving Content-Length).
+    //
+    // When the upstream uses chunked encoding (no Content-Length), buffer the
+    // full response and serve with an explicit Content-Length.  FFmpeg/QMediaPlayer
+    // needs Content-Length to seek for the moov atom in MP4 files; without it,
+    // video playback silently fails.  The memory cost matches the existing
+    // buffer-download fallback path.
+    if let Some(len) = content_length {
+        let body_stream = upstream_resp.bytes_stream().map(|result| {
+            result
+                .map(|bytes| Frame::data(bytes))
+                .map_err(|e| std::io::Error::other(e))
+        });
+        let stream_body = SizedStreamBody {
+            inner: StreamBody::new(body_stream),
+            content_length: Some(len),
+        };
+        Ok(builder.body(BodyExt::boxed(stream_body)).expect("valid response"))
+    } else {
+        let full_body = upstream_resp.bytes().await.map_err(|e| {
+            tracing::warn!("Media proxy failed to buffer upstream body: {e}");
+            e
+        }).unwrap_or_default();
+        builder = builder.header(header::CONTENT_LENGTH, full_body.len());
+        let body = http_body_util::Full::new(full_body)
+            .map_err(|never| match never {});
+        Ok(builder.body(body.boxed()).expect("valid response"))
+    }
 }
 
 // ---------------------------------------------------------------------------

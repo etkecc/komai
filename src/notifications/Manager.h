@@ -21,6 +21,7 @@ struct roomEventId
 {
     QString roomId;
     QString eventId;
+    quint64 sequence = 0;
 };
 
 inline bool
@@ -38,6 +39,7 @@ public:
     void postNotification(const komai::NotificationPayload &notification, const QImage &icon);
 
     void removeNotification(const QString &roomId, const QString &eventId);
+    void reconcileRoomNotifications(const QString &roomId, int keepNewestCount);
 
 signals:
     void notificationClicked(const QString roomId, const QString eventId);
@@ -114,6 +116,7 @@ private slots:
 
 private:
     static QString trackedNotificationKey(const QString &roomId, const QString &eventId);
+    QVector<roomEventId> trackedNotificationsForRoom(const QString &roomId) const;
     void rememberTrackedNotification(const QString &roomId, const QString &eventId);
     void forgetTrackedNotification(const QString &roomId, const QString &eventId);
 
@@ -124,6 +127,7 @@ private:
 
     // Cross-platform tracking for "remove all notifications in this room" semantics.
     QMap<QString, roomEventId> trackedNotifications;
+    quint64 nextTrackedNotificationSequence_ = 1;
 
     // Linux D-Bus notification id to (room ID, event ID).
     QMap<uint, roomEventId> notificationIds;

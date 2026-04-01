@@ -55,6 +55,7 @@ public:
     //! Check if the given room is currently open.
     bool isRoomActive(const QString &room_id);
     void dispatchMatrixNotification(const komai::MatrixNotificationItem &notification);
+    void reconcileRoomNotifications(const QString &roomId, int keepNewestCount);
 
     void removeAllNotifications();
 

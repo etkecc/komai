@@ -72,6 +72,26 @@ totalNotificationCount(const QHash<QString, komai::MatrixRoomSummary> &rooms)
         total += it.value().notificationCount;
     return total;
 }
+
+void
+reconcileRoomNotificationCounts(const QHash<QString, komai::MatrixRoomSummary> &previousRooms,
+                                const QHash<QString, komai::MatrixRoomSummary> &currentRooms)
+{
+    auto *chatPage = ChatPage::instance();
+    if (!chatPage)
+        return;
+
+    for (auto it = previousRooms.cbegin(); it != previousRooms.cend(); ++it) {
+        const auto currentIt     = currentRooms.constFind(it.key());
+        const auto previousCount = static_cast<int>(it.value().notificationCount);
+        const auto currentCount  = currentIt == currentRooms.cend()
+                                     ? 0
+                                     : static_cast<int>(currentIt.value().notificationCount);
+
+        if (currentCount < previousCount)
+            chatPage->reconcileRoomNotifications(it.key(), currentCount);
+    }
+}
 } // namespace
 
 bool
@@ -501,6 +521,9 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
         if (auto *mainWindow = MainWindow::instance())
             mainWindow->alert(0);
     }
+
+    if (hadPreviousMatrixSnapshot)
+        reconcileRoomNotificationCounts(previousMatrixRooms, matrixJoinedRooms_);
 
     if (!selectedRoomId.isEmpty() && matrixJoinedRooms_.contains(selectedRoomId)) {
         if (restoringStartupSelection) {

@@ -18,14 +18,37 @@ NotificationsManager::trackedNotificationKey(const QString &roomId, const QStrin
 void
 NotificationsManager::rememberTrackedNotification(const QString &roomId, const QString &eventId)
 {
-    trackedNotifications.insert(trackedNotificationKey(roomId, eventId),
-                                roomEventId{roomId, eventId});
+    const auto key = trackedNotificationKey(roomId, eventId);
+    if (trackedNotifications.contains(key))
+        return;
+
+    trackedNotifications.insert(key,
+                                roomEventId{roomId, eventId, nextTrackedNotificationSequence_++});
 }
 
 void
 NotificationsManager::forgetTrackedNotification(const QString &roomId, const QString &eventId)
 {
     trackedNotifications.remove(trackedNotificationKey(roomId, eventId));
+}
+
+QVector<roomEventId>
+NotificationsManager::trackedNotificationsForRoom(const QString &roomId) const
+{
+    QVector<roomEventId> matches;
+    matches.reserve(trackedNotifications.size());
+
+    for (const auto &entry : std::as_const(trackedNotifications)) {
+        if (entry.roomId == roomId)
+            matches.push_back(entry);
+    }
+
+    std::sort(
+      matches.begin(), matches.end(), [](const roomEventId &left, const roomEventId &right) {
+          return left.sequence < right.sequence;
+      });
+
+    return matches;
 }
 
 bool
@@ -105,19 +128,36 @@ NotificationsManager::removeNotifications(const QString &roomId_,
                                           const std::vector<QString> &eventIds)
 {
     std::vector<roomEventId> matches;
-    matches.reserve(trackedNotifications.size());
+    const auto tracked = trackedNotificationsForRoom(roomId_);
+    matches.reserve(static_cast<size_t>(tracked.size()));
 
-    for (const auto &[roomId, eventId] : std::as_const(trackedNotifications)) {
-        if (roomId != roomId_)
-            continue;
+    for (const auto &entry : tracked) {
         if (eventIds.empty() ||
-            std::find(eventIds.begin(), eventIds.end(), eventId) != eventIds.end()) {
-            matches.push_back(roomEventId{roomId, eventId});
+            std::find(eventIds.begin(), eventIds.end(), entry.eventId) != eventIds.end()) {
+            matches.push_back(entry);
         }
     }
 
     for (const auto &entry : matches)
         removeNotification(entry.roomId, entry.eventId);
+}
+
+void
+NotificationsManager::reconcileRoomNotifications(const QString &roomId, int keepNewestCount)
+{
+    if (roomId.isEmpty())
+        return;
+
+    const auto tracked          = trackedNotificationsForRoom(roomId);
+    const auto clampedKeepCount = std::max(keepNewestCount, 0);
+    if (tracked.size() <= clampedKeepCount)
+        return;
+
+    const auto removeCount = tracked.size() - clampedKeepCount;
+    for (int index = 0; index < removeCount; ++index) {
+        const auto &entry = tracked.at(index);
+        removeNotification(entry.roomId, entry.eventId);
+    }
 }
 
 #include "moc_Manager.cpp"

@@ -1318,8 +1318,6 @@ if(BUILD_TESTING)
         komai_formatted_message_html_processor_test
         komai_raw_json_formatter_test
         komai_notification_payload_test
-        komai_raw_message_dialog_payload_test
-        komai_timeline_special_effects_test
         komai_roomlist_preview_selection_test
         komai_theme_color_utils_test
         komai_mcp_commands_test

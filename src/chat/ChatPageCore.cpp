@@ -416,6 +416,15 @@ ChatPage::removeAllNotifications()
 }
 
 void
+ChatPage::reconcileRoomNotifications(const QString &roomId, int keepNewestCount)
+{
+    if (roomId.isEmpty() || !notificationsManager)
+        return;
+
+    notificationsManager->reconcileRoomNotifications(roomId, keepNewestCount);
+}
+
+void
 ChatPage::clearRoomNotifications(const QString &roomId)
 {
     if (roomId.isEmpty() || !notificationsManager)

@@ -7,9 +7,10 @@ use serde_yaml_ng::{Number, Value};
 use crate::ffi::{
     SettingsConfigSnapshot, SettingsConfigValue, SettingsConfigValueKind,
 };
+use crate::settings::yaml;
 
 use super::model::{CONFIG_SCHEMA_VERSION_PATH, CURRENT_CONFIG_SCHEMA_VERSION, LoadedConfig};
-use super::yaml;
+use super::tree;
 
 pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     let mut root = yaml::empty_mapping();
@@ -20,7 +21,7 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
 
     for value in &snapshot.values {
-        let path = yaml::dotted_path(&value.key);
+        let path = tree::dotted_path(&value.key);
         if path.is_empty() {
             continue;
         }
@@ -84,7 +85,7 @@ fn config_value_to_yaml(value: &SettingsConfigValue) -> Value {
                 .map(|entry| Value::String(entry.clone()))
                 .collect(),
         ),
-        SettingsConfigValueKind::StringListMap => yaml::string_list_map(&value.string_list_map_value),
+        SettingsConfigValueKind::StringListMap => tree::string_list_map(&value.string_list_map_value),
         _ => Value::Null,
     }
 }
@@ -93,7 +94,7 @@ fn flatten_config_values(prefix: &str, value: &Value, values: &mut Vec<SettingsC
     match value {
         Value::Mapping(mapping) => {
             if !prefix.is_empty() {
-                if let Some(entries) = yaml::mapping_as_string_list_map(mapping) {
+                if let Some(entries) = tree::mapping_as_string_list_map(mapping) {
                     values.push(SettingsConfigValue {
                         key: prefix.to_owned(),
                         kind: SettingsConfigValueKind::StringListMap,

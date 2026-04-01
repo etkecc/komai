@@ -2,7 +2,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use serde_yaml_ng::{Mapping, Number, Value};
+use serde_yaml_ng::Value;
+
+use super::yaml;
 
 const CURRENT_SESSION_SCHEMA_VERSION: i32 = 1;
 
@@ -23,114 +25,32 @@ pub struct LoadedSession {
     pub serialized_yaml: String,
 }
 
-fn empty_mapping() -> Value {
-    Value::Mapping(Mapping::new())
-}
-
-fn parse_root(serialized: &str) -> Value {
-    if serialized.trim().is_empty() {
-        return empty_mapping();
-    }
-
-    match serde_yaml_ng::from_str::<Value>(serialized) {
-        Ok(Value::Mapping(mapping)) => Value::Mapping(mapping),
-        Ok(_) | Err(_) => empty_mapping(),
-    }
-}
-
 fn read_string(root: &Value, path: &[&str]) -> String {
-    let mut current = root;
-    for segment in path {
-        let Value::Mapping(mapping) = current else {
-            return String::new();
-        };
-        let Some(next) = mapping.get(Value::String((*segment).to_owned())) else {
-            return String::new();
-        };
-        current = next;
-    }
-
-    match current {
-        Value::String(value) => value.trim().to_owned(),
+    match yaml::value_at_path(root, path) {
+        Some(Value::String(value)) => value.trim().to_owned(),
         _ => String::new(),
     }
 }
 
-fn read_schema_version(root: &Value) -> i32 {
-    let mut current = root;
-    for segment in SESSION_SCHEMA_VERSION_PATH {
-        let Value::Mapping(mapping) = current else {
-            return 0;
-        };
-        let Some(next) = mapping.get(Value::String(segment.to_owned())) else {
-            return 0;
-        };
-        current = next;
-    }
-
-    match current {
-        Value::Number(number) => number.as_i64().unwrap_or_default().max(0) as i32,
-        Value::String(value) => value.parse::<i32>().ok().unwrap_or_default().max(0),
-        _ => 0,
-    }
-}
-
-fn ensure_mapping<'a>(mapping: &'a mut Mapping, key: &str) -> &'a mut Mapping {
-    let key = Value::String(key.to_owned());
-    let needs_init = !matches!(mapping.get(&key), Some(Value::Mapping(_)));
-    if needs_init {
-        mapping.insert(key.clone(), Value::Mapping(Mapping::new()));
-    }
-
-    let Some(Value::Mapping(next)) = mapping.get_mut(&key) else {
-        unreachable!();
-    };
-    next
-}
-
 fn set_string(root: &mut Value, path: &[&str], value: &str) {
-    let Value::Mapping(mapping) = root else {
-        *root = Value::Mapping(Mapping::new());
-        set_string(root, path, value);
-        return;
-    };
-
-    let mut current = mapping;
-    for segment in &path[..path.len() - 1] {
-        current = ensure_mapping(current, segment);
-    }
-
-    current.insert(
-        Value::String(path[path.len() - 1].to_owned()),
+    yaml::set_value(
+        root,
+        path,
         Value::String(value.to_owned()),
     );
 }
 
 fn stamp_schema_version(root: &mut Value, version: i32) {
-    let Value::Mapping(mapping) = root else {
-        *root = Value::Mapping(Mapping::new());
-        stamp_schema_version(root, version);
-        return;
-    };
-
-    let meta = ensure_mapping(mapping, SESSION_SCHEMA_VERSION_PATH[0]);
-    meta.insert(
-        Value::String(SESSION_SCHEMA_VERSION_PATH[1].to_owned()),
-        Value::Number(Number::from(version)),
+    yaml::set_value(
+        root,
+        &SESSION_SCHEMA_VERSION_PATH,
+        yaml::number_value(version),
     );
 }
 
-fn serialize_yaml(value: &Value) -> String {
-    let mut serialized = serde_yaml_ng::to_string(value).unwrap_or_default();
-    if let Some(rest) = serialized.strip_prefix("---\n") {
-        serialized = rest.to_owned();
-    }
-    serialized
-}
-
 pub fn load_session_snapshot(session_text: &str) -> LoadedSession {
-    let mut root = parse_root(session_text);
-    let source_version = read_schema_version(&root);
+    let mut root = yaml::parse_root(session_text);
+    let source_version = yaml::read_schema_version(&root, &SESSION_SCHEMA_VERSION_PATH);
     let mut had_future_version = false;
     let had_unsupported_path = false;
     let migrated_version;
@@ -155,17 +75,17 @@ pub fn load_session_snapshot(session_text: &str) -> LoadedSession {
         had_future_version,
         had_unsupported_path,
         should_write_back,
-        serialized_yaml: serialize_yaml(&root),
+        serialized_yaml: yaml::serialize_yaml(&root),
     }
 }
 
 pub fn encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str) -> String {
-    let mut root = empty_mapping();
+    let mut root = yaml::empty_mapping();
     stamp_schema_version(&mut root, CURRENT_SESSION_SCHEMA_VERSION);
     set_string(&mut root, &SESSION_USER_ID_PATH, user_id);
     set_string(&mut root, &SESSION_HOMESERVER_PATH, homeserver);
     set_string(&mut root, &SESSION_DEVICE_ID_PATH, device_id);
-    serialize_yaml(&root)
+    yaml::serialize_yaml(&root)
 }
 
 #[cfg(test)]

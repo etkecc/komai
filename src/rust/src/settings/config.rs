@@ -4,9 +4,10 @@
 
 mod bridge;
 mod model;
-mod yaml;
+mod tree;
 
 use crate::ffi::SettingsConfigSnapshot;
+use crate::settings::yaml;
 
 pub use model::{Config, ConfigSecrets, ConfigUi, ConfigUiScale, ConfigUiTheme, LoadedConfig};
 
@@ -23,16 +24,16 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
     Config {
         ui: ConfigUi {
             scale: ConfigUiScale {
-                factor: yaml::value_at_path(&root, &UI_SCALE_FACTOR_PATH)
+                factor: yaml::value_at_path(root, &UI_SCALE_FACTOR_PATH)
                     .and_then(parse_scalar_f32)
                     .and_then(normalize_scale_factor),
             },
             theme: ConfigUiTheme {
-                slug: parse_string(yaml::value_at_path(&root, &UI_THEME_SLUG_PATH)),
+                slug: parse_string(yaml::value_at_path(root, &UI_THEME_SLUG_PATH)),
             },
         },
         secrets: ConfigSecrets {
-            provider: parse_string(yaml::value_at_path(&root, &SECRETS_PROVIDER_PATH)),
+            provider: parse_string(yaml::value_at_path(root, &SECRETS_PROVIDER_PATH)),
         },
     }
 }
@@ -70,6 +71,7 @@ mod tests {
     use crate::ffi::{
         SettingsConfigSnapshot, SettingsConfigValue, SettingsConfigValueKind, SettingsStringListMapEntry,
     };
+    use crate::settings::yaml;
 
     #[test]
     fn parses_valid_scale_factor() {
@@ -178,19 +180,19 @@ secrets:
 
         let root: serde_yaml_ng::Value = serde_yaml_ng::from_str(&yaml).expect("valid yaml");
         assert!(matches!(
-            super::yaml::value_at_path(&root, &["meta", "settings_schema_version"]),
+            yaml::value_at_path(&root, &["meta", "settings_schema_version"]),
             Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(1)
         ));
         assert!(matches!(
-            super::yaml::value_at_path(&root, &["ui", "theme", "slug"]),
+            yaml::value_at_path(&root, &["ui", "theme", "slug"]),
             Some(serde_yaml_ng::Value::String(value)) if value == "komai-dark"
         ));
         assert!(matches!(
-            super::yaml::value_at_path(&root, &["timeline", "hidden_events", "global"]),
+            yaml::value_at_path(&root, &["timeline", "hidden_events", "global"]),
             Some(serde_yaml_ng::Value::Sequence(_))
         ));
         assert!(matches!(
-            super::yaml::value_at_path(&root, &["timeline", "hidden_events", "by_room"]),
+            yaml::value_at_path(&root, &["timeline", "hidden_events", "by_room"]),
             Some(serde_yaml_ng::Value::Mapping(_))
         ));
     }
@@ -215,5 +217,54 @@ secrets:
         assert_eq!(loaded.config.ui.theme.slug, "komai-dark");
         assert_eq!(loaded.config.secrets.provider, "file");
         assert!(loaded.should_write_back);
+    }
+
+    #[test]
+    fn loaded_snapshot_keeps_future_version_untouched() {
+        let loaded = load_config_snapshot(
+            r#"
+meta:
+  settings_schema_version: 8
+ui:
+  theme:
+    slug: komai-dark
+"#,
+        );
+
+        assert!(loaded.had_future_version);
+        assert!(!loaded.should_write_back);
+        assert_eq!(loaded.source_version, 8);
+        assert_eq!(loaded.migrated_version, 8);
+        assert_eq!(loaded.config.ui.theme.slug, "komai-dark");
+    }
+
+    #[test]
+    fn loaded_snapshot_clamps_negative_schema_version() {
+        let loaded = load_config_snapshot(
+            r#"
+meta:
+  settings_schema_version: -5
+ui:
+  theme:
+    slug: komai-dark
+"#,
+        );
+
+        assert!(!loaded.had_future_version);
+        assert_eq!(loaded.source_version, 0);
+        assert_eq!(loaded.migrated_version, 1);
+        assert!(loaded.should_write_back);
+        assert_eq!(loaded.config.ui.theme.slug, "komai-dark");
+    }
+
+    #[test]
+    fn loaded_snapshot_normalizes_non_map_root() {
+        let loaded = load_config_snapshot("\"not-a-map\"");
+
+        assert_eq!(loaded.source_version, 0);
+        assert_eq!(loaded.migrated_version, 1);
+        assert!(loaded.should_write_back);
+        assert!(loaded.values.is_empty());
+        assert_eq!(loaded.config.ui.theme.slug, "");
     }
 }

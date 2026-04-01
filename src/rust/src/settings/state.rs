@@ -2,9 +2,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use serde_yaml_ng::{Mapping, Number, Value};
+use serde_yaml_ng::{Mapping, Value};
 
 use crate::ffi::{SettingsStateSnapshot, SettingsStringMapEntry};
+
+use super::yaml;
 
 const CURRENT_STATE_SCHEMA_VERSION: i32 = 1;
 
@@ -50,53 +52,8 @@ pub struct LoadedState {
     pub serialized_yaml: String,
 }
 
-fn empty_mapping() -> Value {
-    Value::Mapping(Mapping::new())
-}
-
-fn parse_root(serialized: &str) -> Value {
-    if serialized.trim().is_empty() {
-        return empty_mapping();
-    }
-
-    match serde_yaml_ng::from_str::<Value>(serialized) {
-        Ok(Value::Mapping(mapping)) => Value::Mapping(mapping),
-        Ok(_) | Err(_) => empty_mapping(),
-    }
-}
-
-fn read_schema_version(root: &Value) -> i32 {
-    let mut current = root;
-    for segment in STATE_SCHEMA_VERSION_PATH {
-        let Value::Mapping(mapping) = current else {
-            return 0;
-        };
-        let Some(next) = mapping.get(Value::String(segment.to_owned())) else {
-            return 0;
-        };
-        current = next;
-    }
-
-    match current {
-        Value::Number(number) => number.as_i64().unwrap_or_default().max(0) as i32,
-        Value::String(value) => value.parse::<i32>().ok().unwrap_or_default().max(0),
-        _ => 0,
-    }
-}
-
-fn read_path<'a>(root: &'a Value, path: &[&str]) -> Option<&'a Value> {
-    let mut current = root;
-    for segment in path {
-        let Value::Mapping(mapping) = current else {
-            return None;
-        };
-        current = mapping.get(Value::String((*segment).to_owned()))?;
-    }
-    Some(current)
-}
-
 fn read_int(root: &Value, path: &[&str], default: i32) -> i32 {
-    match read_path(root, path) {
+    match yaml::value_at_path(root, path) {
         Some(Value::Number(number)) => number.as_i64().unwrap_or(default as i64) as i32,
         Some(Value::String(value)) => value.parse::<i32>().ok().unwrap_or(default),
         _ => default,
@@ -104,14 +61,14 @@ fn read_int(root: &Value, path: &[&str], default: i32) -> i32 {
 }
 
 fn read_string(root: &Value, path: &[&str]) -> String {
-    match read_path(root, path) {
+    match yaml::value_at_path(root, path) {
         Some(Value::String(value)) => value.clone(),
         _ => String::new(),
     }
 }
 
 fn read_string_list(root: &Value, path: &[&str], default: &[&str]) -> Vec<String> {
-    match read_path(root, path) {
+    match yaml::value_at_path(root, path) {
         Some(Value::Sequence(values)) => values
             .iter()
             .filter_map(|value| match value {
@@ -124,7 +81,7 @@ fn read_string_list(root: &Value, path: &[&str], default: &[&str]) -> Vec<String
 }
 
 fn read_string_map(root: &Value, path: &[&str]) -> Vec<SettingsStringMapEntry> {
-    let Some(Value::Mapping(mapping)) = read_path(root, path) else {
+    let Some(Value::Mapping(mapping)) = yaml::value_at_path(root, path) else {
         return Vec::new();
     };
 
@@ -142,52 +99,17 @@ fn read_string_map(root: &Value, path: &[&str]) -> Vec<SettingsStringMapEntry> {
     result
 }
 
-fn ensure_mapping<'a>(mapping: &'a mut Mapping, key: &str) -> &'a mut Mapping {
-    let key_value = Value::String(key.to_owned());
-    let needs_init = !matches!(mapping.get(&key_value), Some(Value::Mapping(_)));
-    if needs_init {
-        mapping.insert(key_value.clone(), Value::Mapping(Mapping::new()));
-    }
-
-    let Some(Value::Mapping(next)) = mapping.get_mut(&key_value) else {
-        unreachable!();
-    };
-    next
-}
-
-fn set_value(root: &mut Value, path: &[&str], value: Value) {
-    let Value::Mapping(mapping) = root else {
-        *root = Value::Mapping(Mapping::new());
-        set_value(root, path, value);
-        return;
-    };
-
-    let mut current = mapping;
-    for segment in &path[..path.len() - 1] {
-        current = ensure_mapping(current, segment);
-    }
-    current.insert(Value::String(path[path.len() - 1].to_owned()), value);
-}
-
 fn stamp_schema_version(root: &mut Value, version: i32) {
-    set_value(
+    yaml::set_value(
         root,
         &STATE_SCHEMA_VERSION_PATH,
-        Value::Number(Number::from(version)),
+        yaml::number_value(version),
     );
 }
 
-fn serialize_yaml(root: &Value) -> String {
-    let mut serialized = serde_yaml_ng::to_string(root).unwrap_or_default();
-    if let Some(rest) = serialized.strip_prefix("---\n") {
-        serialized = rest.to_owned();
-    }
-    serialized
-}
-
 pub fn load_state_snapshot(state_text: &str) -> LoadedState {
-    let mut root = parse_root(state_text);
-    let source_version = read_schema_version(&root);
+    let mut root = yaml::parse_root(state_text);
+    let source_version = yaml::read_schema_version(&root, &STATE_SCHEMA_VERSION_PATH);
     let mut had_future_version = false;
     let had_unsupported_path = false;
     let migrated_version;
@@ -229,7 +151,7 @@ pub fn load_state_snapshot(state_text: &str) -> LoadedState {
         had_future_version,
         had_unsupported_path,
         should_write_back,
-        serialized_yaml: serialize_yaml(&root),
+        serialized_yaml: yaml::serialize_yaml(&root),
     }
 }
 
@@ -249,69 +171,69 @@ fn string_map(entries: &[SettingsStringMapEntry]) -> Value {
 }
 
 pub fn encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String {
-    let mut root = empty_mapping();
+    let mut root = yaml::empty_mapping();
     stamp_schema_version(&mut root, CURRENT_STATE_SCHEMA_VERSION);
-    set_value(
+    yaml::set_value(
         &mut root,
         &WINDOW_WIDTH_PATH,
-        Value::Number(Number::from(snapshot.window_width)),
+        yaml::number_value(snapshot.window_width),
     );
-    set_value(
+    yaml::set_value(
         &mut root,
         &WINDOW_HEIGHT_PATH,
-        Value::Number(Number::from(snapshot.window_height)),
+        yaml::number_value(snapshot.window_height),
     );
-    set_value(
+    yaml::set_value(
         &mut root,
         &ROOM_LIST_WIDTH_PATH,
-        Value::Number(Number::from(snapshot.sidebars_room_list_width_px)),
+        yaml::number_value(snapshot.sidebars_room_list_width_px),
     );
-    set_value(
+    yaml::set_value(
         &mut root,
         &COMMUNITIES_WIDTH_PATH,
-        Value::Number(Number::from(snapshot.sidebars_communities_width_px)),
+        yaml::number_value(snapshot.sidebars_communities_width_px),
     );
-    set_value(
+    yaml::set_value(
         &mut root,
         &CURRENT_FILTER_PATH,
         Value::String(snapshot.current_filter_id.clone()),
     );
-    set_value(
+    yaml::set_value(
         &mut root,
         &CURRENT_ROOM_ID_PATH,
         Value::String(snapshot.current_room_id.clone()),
     );
-    set_value(
+    yaml::set_value(
         &mut root,
         &GLOBAL_EXCLUDES_PATH,
         string_sequence(&snapshot.global_excludes),
     );
-    set_value(
+    yaml::set_value(
         &mut root,
         &BADGES_HIDDEN_PATH,
         string_sequence(&snapshot.badges_hidden_filters),
     );
-    set_value(
+    yaml::set_value(
         &mut root,
         &HIDDEN_PINS_PATH,
         string_sequence(&snapshot.hidden_pins),
     );
-    set_value(
+    yaml::set_value(
         &mut root,
         &HIDDEN_WIDGETS_PATH,
         string_sequence(&snapshot.hidden_widgets),
     );
-    set_value(
+    yaml::set_value(
         &mut root,
         &COLLAPSED_SPACES_PATH,
         string_sequence(&snapshot.collapsed_spaces),
     );
-    set_value(
+    yaml::set_value(
         &mut root,
         &COMPOSER_DRAFTS_PATH,
         string_map(&snapshot.composer_drafts_by_room),
     );
-    serialize_yaml(&root)
+    yaml::serialize_yaml(&root)
 }
 
 #[cfg(test)]

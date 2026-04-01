@@ -48,13 +48,10 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
 
     const auto room_name =
       notification.roomName.isEmpty() ? notification.roomId : notification.roomName;
-    const auto sender = notification.senderDisplayName;
-
+    const auto sender          = notification.senderDisplayName;
     const auto room_id         = notification.roomId;
-    const auto event_id        = notification.eventId;
-    const auto notification_id = !notification.replacementEventId.isEmpty()
-                                   ? notification.replacementEventId
-                                   : (!event_id.isEmpty() ? event_id : room_id);
+    const auto target_event_id = komai::notificationTargetEventId(notification);
+    const auto notification_id = komai::notificationStableId(notification);
     const auto bodyText        = plainNotificationBody(notification);
     QString mediaMxcUrl        = notification.mediaMxcUrl;
     mediaMxcUrl.remove(QStringLiteral("mxc://"));
@@ -66,7 +63,7 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
             .arg(sender);
         objCxxPostNotification(room_name,
                                room_id,
-                               event_id,
+                               target_event_id,
                                notification_id,
                                messageInfo,
                                "",
@@ -83,14 +80,14 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
               [this,
                room_name,
                room_id,
-               event_id,
+               target_event_id,
                notification_id,
                messageInfo,
                bodyText,
                playSound = notification.playSound](QString, QSize, QImage, QString imgPath) {
                   objCxxPostNotification(room_name,
                                          room_id,
-                                         event_id,
+                                         target_event_id,
                                          notification_id,
                                          messageInfo,
                                          bodyText,
@@ -100,7 +97,7 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
         else
             objCxxPostNotification(room_name,
                                    room_id,
-                                   event_id,
+                                   target_event_id,
                                    notification_id,
                                    messageInfo,
                                    bodyText,

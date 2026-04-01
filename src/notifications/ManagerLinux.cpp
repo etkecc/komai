@@ -84,19 +84,15 @@ void
 NotificationsManager::postNotification(const komai::NotificationPayload &notification,
                                        const QImage &icon)
 {
-    const auto room_id   = notification.roomId;
-    const auto event_id  = notification.eventId;
-    const auto room_name = notification.roomName.isEmpty() ? room_id : notification.roomName;
-    const auto replaces_event_id = notification.replacementEventId;
-    QString formattedBody        = formattedNotificationBody(notification);
-    QString mediaMxcUrl          = notification.mediaMxcUrl;
+    const auto room_id         = notification.roomId;
+    const auto target_event_id = komai::notificationTargetEventId(notification);
+    const auto room_name       = notification.roomName.isEmpty() ? room_id : notification.roomName;
+    QString formattedBody      = formattedNotificationBody(notification);
+    QString mediaMxcUrl        = notification.mediaMxcUrl;
     mediaMxcUrl.remove(QStringLiteral("mxc://"));
 
-    auto postNotif = [this, room_id, event_id, room_name, icon, replaces_event_id](QString text) {
-        if (replaces_event_id.isEmpty())
-            emit systemPostNotificationCb(room_id, event_id, room_name, text, icon);
-        else
-            emit systemPostNotificationCb(room_id, replaces_event_id, room_name, text, icon);
+    auto postNotif = [this, room_id, target_event_id, room_name, icon](QString text) {
+        emit systemPostNotificationCb(room_id, target_event_id, room_name, text, icon);
     };
 
     QString template_ = getMessageTemplate(notification);

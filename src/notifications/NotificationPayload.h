@@ -29,4 +29,22 @@ struct NotificationPayload
     bool playSound       = false;
 };
 
+// Interaction should target the visible timeline event. For edits that means
+// the replaced/original event, not the edit event wrapper itself.
+inline QString
+notificationTargetEventId(const NotificationPayload &notification)
+{
+    return notification.replacementEventId.isEmpty() ? notification.eventId
+                                                     : notification.replacementEventId;
+}
+
+// Platform notification backends need a stable identifier even when there is
+// no event id yet (for example stripped invites), so fall back to the room id.
+inline QString
+notificationStableId(const NotificationPayload &notification)
+{
+    const auto targetEventId = notificationTargetEventId(notification);
+    return targetEventId.isEmpty() ? notification.roomId : targetEventId;
+}
+
 } // namespace komai

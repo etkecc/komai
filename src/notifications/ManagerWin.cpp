@@ -64,7 +64,7 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
     const auto room_name =
       notification.roomName.isEmpty() ? notification.roomId : notification.roomName;
     auto roomid         = notification.roomId;
-    auto eventid        = notification.eventId;
+    auto eventid        = komai::notificationTargetEventId(notification);
     QString mediaMxcUrl = notification.mediaMxcUrl;
     mediaMxcUrl.remove(QStringLiteral("mxc://"));
 

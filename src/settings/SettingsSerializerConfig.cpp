@@ -8,13 +8,10 @@
 #include <QString>
 
 #include <utility>
-#include <yaml-cpp/yaml.h>
 
 #include "logging/Logging.h"
 
 #include "SettingsSerializerConfigInternal.h"
-#include "SettingsSerializerConfigSchema.h"
-#include "settings/YamlSettings.h"
 
 namespace settings::serializer {
 
@@ -52,11 +49,6 @@ activeLoggers()
 
 namespace detail {
 
-namespace cfg = settings::serializer::config;
-
-using yaml_settings::readScalar;
-using yaml_settings::readString;
-
 namespace {
 
 constexpr auto kUiInputModeDesktop = "desktop";
@@ -84,36 +76,6 @@ isKnownUiInputModeToken(const QString &value)
     const auto trimmed = value.trimmed();
     return trimmed.compare(QLatin1String(kUiInputModeDesktop), Qt::CaseInsensitive) == 0 ||
            trimmed.compare(QLatin1String(kUiInputModeTouch), Qt::CaseInsensitive) == 0;
-}
-
-void
-loadConfigByType(UserSettings &settings, const YAML::Node &root)
-{
-    cfg::validateConfigSchemaDescriptors();
-
-    for (const auto &descriptor : cfg::boolConfigSettings()) {
-        (settings.*
-         descriptor.setter)(readScalar<bool>(root, descriptor.key, descriptor.defaultValue));
-    }
-    for (const auto &descriptor : cfg::intConfigSettings()) {
-        (settings.*
-         descriptor.setter)(readScalar<int>(root, descriptor.key, descriptor.defaultValue));
-    }
-    for (const auto &descriptor : cfg::uintConfigSettings()) {
-        (settings.*
-         descriptor.setter)(readScalar<uint>(root, descriptor.key, descriptor.defaultValue));
-    }
-    for (const auto &descriptor : cfg::ulonglongConfigSettings()) {
-        (settings.*
-         descriptor.setter)(readScalar<qulonglong>(root, descriptor.key, descriptor.defaultValue));
-    }
-    for (const auto &descriptor : cfg::doubleConfigSettings()) {
-        (settings.*
-         descriptor.setter)(readScalar<double>(root, descriptor.key, descriptor.defaultValue));
-    }
-    for (const auto &descriptor : cfg::stringConfigSettings()) {
-        (settings.*descriptor.setter)(readString(root, descriptor.key, descriptor.defaultValue));
-    }
 }
 
 } // namespace detail

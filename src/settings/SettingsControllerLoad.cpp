@@ -11,9 +11,9 @@
 
 #include "profile/Paths.h"
 #include "settings/SettingKeys.h"
-#include "settings/SettingsMigrations.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsRustConfigValues.h"
+#include "settings/SettingsSchemaVersions.h"
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsSerializerLoad.h"
 #include "settings/SettingsStorage.h"
@@ -51,7 +51,7 @@ logConfigMigrationWarnings(const ::komai::rust::SettingsLoadedConfig &config)
           "known keys will still be loaded but no migration will be applied",
           "Config",
           config.source_version,
-          settings::migrations::kCurrentConfigSchemaVersion);
+          settings::schema_versions::kCurrentConfigSchemaVersion);
     }
     if (config.had_unsupported_path) {
         settings::activeLoggers().ui->warn(
@@ -59,7 +59,7 @@ logConfigMigrationWarnings(const ::komai::rust::SettingsLoadedConfig &config)
           "loaded values may be partially migrated",
           "Config",
           config.source_version,
-          settings::migrations::kCurrentConfigSchemaVersion);
+          settings::schema_versions::kCurrentConfigSchemaVersion);
     }
 }
 
@@ -71,14 +71,14 @@ logSessionMigrationWarnings(const ::komai::rust::SettingsLoadedSession &session)
           "Session schema version {} is newer than supported version {}; "
           "known keys will still be loaded but no migration will be applied",
           session.source_version,
-          settings::migrations::kCurrentSessionSchemaVersion);
+          settings::schema_versions::kCurrentSessionSchemaVersion);
     }
     if (session.had_unsupported_path) {
         settings::activeLoggers().ui->warn(
           "Session migration path is unsupported from schema version {} to {}; "
           "loaded values may be partially migrated",
           session.source_version,
-          settings::migrations::kCurrentSessionSchemaVersion);
+          settings::schema_versions::kCurrentSessionSchemaVersion);
     }
 }
 
@@ -90,14 +90,14 @@ logStateMigrationWarnings(const ::komai::rust::SettingsLoadedState &state)
           "State schema version {} is newer than supported version {}; "
           "known keys will still be loaded but no migration will be applied",
           state.source_version,
-          settings::migrations::kCurrentStateSchemaVersion);
+          settings::schema_versions::kCurrentStateSchemaVersion);
     }
     if (state.had_unsupported_path) {
         settings::activeLoggers().ui->warn(
           "State migration path is unsupported from schema version {} to {}; "
           "loaded values may be partially migrated",
           state.source_version,
-          settings::migrations::kCurrentStateSchemaVersion);
+          settings::schema_versions::kCurrentStateSchemaVersion);
     }
 }
 

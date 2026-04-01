@@ -10,6 +10,8 @@
 #include <QFile>
 #include <QFileInfo>
 
+#include <yaml-cpp/yaml.h>
+
 #include "logging/Logging.h"
 #include <fstream>
 

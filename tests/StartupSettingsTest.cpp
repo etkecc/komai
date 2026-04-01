@@ -373,11 +373,11 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
       settings::storage::loadYamlFile(secretsFile, "secrets-structure-check");
     ok &= expectScalarInt(persistedState,
                           SettingKey::StateSchemaVersion,
-                          settings::migrations::kCurrentStateSchemaVersion,
+                          settings::schema_versions::kCurrentStateSchemaVersion,
                           "first state.yml creation stamps current schema version");
     ok &= expectScalarInt(persistedSession,
                           SettingKey::SessionSchemaVersion,
-                          settings::migrations::kCurrentSessionSchemaVersion,
+                          settings::schema_versions::kCurrentSessionSchemaVersion,
                           "first session.yml creation stamps current schema version");
     const auto legacyAccessTokenNode =
       yaml_settings::getNode(persistedSecrets, "auth.access_token");
@@ -953,7 +953,7 @@ testConfigSchemaVersionIsStampedOnSave()
     const auto persisted = settings::storage::loadYamlFile(ctx.configFile(), "schema-version");
     return expectScalarInt(persisted,
                            SettingKey::ConfigSchemaVersion,
-                           settings::migrations::kCurrentConfigSchemaVersion,
+                           settings::schema_versions::kCurrentConfigSchemaVersion,
                            "config save stamps current settings schema version");
 }
 
@@ -987,7 +987,7 @@ testNewProfileConfigIsStampedOnInitialLoad()
     ok &= expectScalarInt(
       persisted,
       SettingKey::ConfigSchemaVersion,
-      settings::migrations::kCurrentConfigSchemaVersion,
+      settings::schema_versions::kCurrentConfigSchemaVersion,
       "new profile config is stamped with current schema version");
     ok &= expect(!settings::storage::pathExists(stateFile) &&
                    !settings::storage::pathExists(sessionFile) &&
@@ -1009,11 +1009,11 @@ testConfigMigrationStampsVersionWhenMissing()
     ok &= expect(!outcome.hadUnsupportedPath,
                  "missing schema version has a supported migration path");
     ok &= expect(outcome.sourceVersion == 0, "missing schema version is treated as v0");
-    ok &= expect(outcome.migratedVersion == settings::migrations::kCurrentConfigSchemaVersion,
+    ok &= expect(outcome.migratedVersion == settings::schema_versions::kCurrentConfigSchemaVersion,
                  "missing schema version migrates to current version");
     ok &= expectScalarInt(outcome.migratedRoot,
                           SettingKey::ConfigSchemaVersion,
-                          settings::migrations::kCurrentConfigSchemaVersion,
+                          settings::schema_versions::kCurrentConfigSchemaVersion,
                           "migration stamps current schema version on migrated root");
     ok &= expectScalarString(outcome.migratedRoot,
                              SettingKey::UiThemeSlug,
@@ -1026,7 +1026,7 @@ bool
 testConfigMigrationKeepsFutureVersionUntouched()
 {
     YAML::Node configRoot(YAML::NodeType::Map);
-    constexpr int futureVersion = settings::migrations::kCurrentConfigSchemaVersion + 7;
+    constexpr int futureVersion = settings::schema_versions::kCurrentConfigSchemaVersion + 7;
     configRoot["meta"]["settings_schema_version"] = futureVersion;
     configRoot["ui"]["theme"]["slug"]             = "komai-dark";
 
@@ -1062,7 +1062,7 @@ testConfigMigrationNormalizesNonMapConfigRoot()
                  "non-map config normalization follows a supported migration path");
     ok &= expectScalarInt(outcome.migratedRoot,
                           SettingKey::ConfigSchemaVersion,
-                          settings::migrations::kCurrentConfigSchemaVersion,
+                          settings::schema_versions::kCurrentConfigSchemaVersion,
                           "normalized map still gets current schema version stamp");
     return ok;
 }
@@ -1080,11 +1080,11 @@ testConfigMigrationClampsNegativeSchemaVersion()
     ok &= expect(!outcome.hadUnsupportedPath,
                  "negative schema version clamp keeps migration path supported");
     ok &= expect(outcome.sourceVersion == 0, "negative schema version is clamped to v0");
-    ok &= expect(outcome.migratedVersion == settings::migrations::kCurrentConfigSchemaVersion,
+    ok &= expect(outcome.migratedVersion == settings::schema_versions::kCurrentConfigSchemaVersion,
                  "clamped schema version migrates to current schema version");
     ok &= expectScalarInt(outcome.migratedRoot,
                           SettingKey::ConfigSchemaVersion,
-                          settings::migrations::kCurrentConfigSchemaVersion,
+                          settings::schema_versions::kCurrentConfigSchemaVersion,
                           "clamped schema version stores current version in migrated root");
     ok &= expectScalarString(outcome.migratedRoot,
                              SettingKey::UiThemeSlug,
@@ -1137,11 +1137,11 @@ testStateAndSessionMigrationWritebackOnLoad()
       settings::storage::loadYamlFile(ctx.stateFile(), "state-session-migration-writeback-state");
     ok &= expectScalarInt(persistedSession,
                           SettingKey::SessionSchemaVersion,
-                          settings::migrations::kCurrentSessionSchemaVersion,
+                          settings::schema_versions::kCurrentSessionSchemaVersion,
                           "session migration writeback stamps current schema version");
     ok &= expectScalarInt(persistedState,
                           SettingKey::StateSchemaVersion,
-                          settings::migrations::kCurrentStateSchemaVersion,
+                          settings::schema_versions::kCurrentStateSchemaVersion,
                           "state migration writeback stamps current schema version");
     return ok;
 }

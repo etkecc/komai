@@ -9,6 +9,8 @@
 #include <QHash>
 #include <QString>
 
+#include <yaml-cpp/yaml.h>
+
 #include "logging/Logging.h"
 
 #include "profile/Paths.h"

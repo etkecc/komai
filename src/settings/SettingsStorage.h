@@ -15,7 +15,9 @@
 
 #include <optional>
 
-#include <yaml-cpp/yaml.h>
+namespace YAML {
+class Node;
+}
 
 namespace nhlog {
 class Logger;

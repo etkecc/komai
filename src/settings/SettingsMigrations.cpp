@@ -82,37 +82,49 @@ migrateRoot(const YAML::Node &root, const char *schemaVersionKey, int currentVer
 void
 stampCurrentConfigSchemaVersion(YAML::Node &configRoot)
 {
-    stampSchemaVersion(configRoot, SettingKey::ConfigSchemaVersion, kCurrentConfigSchemaVersion);
+    stampSchemaVersion(configRoot,
+                       SettingKey::ConfigSchemaVersion,
+                       settings::schema_versions::kCurrentConfigSchemaVersion);
 }
 
 void
 stampCurrentStateSchemaVersion(YAML::Node &stateRoot)
 {
-    stampSchemaVersion(stateRoot, SettingKey::StateSchemaVersion, kCurrentStateSchemaVersion);
+    stampSchemaVersion(stateRoot,
+                       SettingKey::StateSchemaVersion,
+                       settings::schema_versions::kCurrentStateSchemaVersion);
 }
 
 void
 stampCurrentSessionSchemaVersion(YAML::Node &sessionRoot)
 {
-    stampSchemaVersion(sessionRoot, SettingKey::SessionSchemaVersion, kCurrentSessionSchemaVersion);
+    stampSchemaVersion(sessionRoot,
+                       SettingKey::SessionSchemaVersion,
+                       settings::schema_versions::kCurrentSessionSchemaVersion);
 }
 
 ConfigMigrationOutcome
 migrateConfigRoot(const YAML::Node &configRoot)
 {
-    return migrateRoot(configRoot, SettingKey::ConfigSchemaVersion, kCurrentConfigSchemaVersion);
+    return migrateRoot(configRoot,
+                       SettingKey::ConfigSchemaVersion,
+                       settings::schema_versions::kCurrentConfigSchemaVersion);
 }
 
 StateMigrationOutcome
 migrateStateRoot(const YAML::Node &stateRoot)
 {
-    return migrateRoot(stateRoot, SettingKey::StateSchemaVersion, kCurrentStateSchemaVersion);
+    return migrateRoot(stateRoot,
+                       SettingKey::StateSchemaVersion,
+                       settings::schema_versions::kCurrentStateSchemaVersion);
 }
 
 SessionMigrationOutcome
 migrateSessionRoot(const YAML::Node &sessionRoot)
 {
-    return migrateRoot(sessionRoot, SettingKey::SessionSchemaVersion, kCurrentSessionSchemaVersion);
+    return migrateRoot(sessionRoot,
+                       SettingKey::SessionSchemaVersion,
+                       settings::schema_versions::kCurrentSessionSchemaVersion);
 }
 
 } // namespace settings::migrations

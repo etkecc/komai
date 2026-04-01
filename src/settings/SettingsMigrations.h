@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "settings/SettingsSchemaVersions.h"
+
 #include <yaml-cpp/yaml.h>
 
 namespace settings::migrations {
@@ -21,11 +23,6 @@ struct ScopeMigrationOutcome
 using ConfigMigrationOutcome  = ScopeMigrationOutcome;
 using StateMigrationOutcome   = ScopeMigrationOutcome;
 using SessionMigrationOutcome = ScopeMigrationOutcome;
-
-inline constexpr int kCurrentSettingsSchemaVersion = 1;
-inline constexpr int kCurrentConfigSchemaVersion   = kCurrentSettingsSchemaVersion;
-inline constexpr int kCurrentStateSchemaVersion    = kCurrentSettingsSchemaVersion;
-inline constexpr int kCurrentSessionSchemaVersion  = kCurrentSettingsSchemaVersion;
 
 ConfigMigrationOutcome
 migrateConfigRoot(const YAML::Node &configRoot);

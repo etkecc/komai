@@ -6,6 +6,8 @@
 #include "SettingsStorage.h"
 #include "SettingsStorageInternal.h"
 
+#include <yaml-cpp/yaml.h>
+
 namespace settings::storage {
 
 QString

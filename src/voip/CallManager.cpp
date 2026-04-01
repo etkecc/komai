@@ -579,6 +579,12 @@ CallManager::ensurePlayerInitialized()
     return player_.get();
 }
 
+bool
+CallManager::screenShareUsesWindowPicker(ScreenShareType type)
+{
+    return type == ScreenShareType::X11 || type == ScreenShareType::D3D11;
+}
+
 void
 CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int windowIndex)
 {
@@ -606,8 +612,7 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
 
 #ifdef GSTREAMER_AVAILABLE
     if (callType == CallType::SCREEN) {
-        if (screenShareType_ == ScreenShareType::X11 ||
-            screenShareType_ == ScreenShareType::D3D11) {
+        if (screenShareUsesWindowPicker(screenShareType_)) {
             if (windows_.empty() || windowIndex >= windows_.size()) {
                 nhlog::ui()->error("WebRTC: window index out of range");
                 return;
@@ -662,8 +667,7 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
     playRingtone(QUrl(QStringLiteral("qrc:/media/media/ringback.ogg")), true);
 
     uint32_t shareWindowId =
-      callType == CallType::SCREEN &&
-          (screenShareType_ == ScreenShareType::X11 || screenShareType_ == ScreenShareType::D3D11)
+      callType == CallType::SCREEN && screenShareUsesWindowPicker(screenShareType_)
         ? windows_[windowIndex].second
         : 0;
     if (!session_.createOffer(callType, screenShareType_, shareWindowId)) {

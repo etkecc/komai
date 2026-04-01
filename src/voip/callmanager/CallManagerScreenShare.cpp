@@ -98,7 +98,7 @@ bool
 CallManager::screenShareReady() const
 {
 #ifdef GSTREAMER_AVAILABLE
-    if (screenShareType_ == ScreenShareType::X11 || screenShareType_ == ScreenShareType::D3D11) {
+    if (screenShareUsesWindowPicker(screenShareType_)) {
         return true;
     } else {
         return ScreenCastPortal::instance().ready();
@@ -133,10 +133,9 @@ CallManager::screenShareTypeList()
 QStringList
 CallManager::windowList()
 {
-    if (std::find(screenShareTypes_.begin(), screenShareTypes_.end(), ScreenShareType::X11) ==
-          screenShareTypes_.end() &&
-        std::find(screenShareTypes_.begin(), screenShareTypes_.end(), ScreenShareType::D3D11) ==
-          screenShareTypes_.end()) {
+    if (std::none_of(screenShareTypes_.begin(), screenShareTypes_.end(), [](ScreenShareType type) {
+            return screenShareUsesWindowPicker(type);
+        })) {
         return {};
     }
 

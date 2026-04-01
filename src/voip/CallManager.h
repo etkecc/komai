@@ -166,6 +166,8 @@ private slots:
     void retrieveTurnServer();
 
 private:
+    static bool screenShareUsesWindowPicker(webrtc::ScreenShareType type);
+
     void sendCallInvite(const QString &roomId,
                         const std::string &callId,
                         const std::string &partyId,

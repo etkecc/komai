@@ -23,7 +23,5 @@ isKnownUiInputModeToken(const QString &value);
 
 void
 loadConfigByType(UserSettings &settings, const YAML::Node &root);
-void
-makeConfigNode(const UserSettings &settings, YAML::Node &root);
 
 } // namespace settings::serializer::detail

@@ -64,6 +64,35 @@ mod ffi {
         value: String,
     }
 
+    struct SettingsStringListMapEntry {
+        key: String,
+        values: Vec<String>,
+    }
+
+    enum SettingsConfigValueKind {
+        Bool,
+        Int,
+        Double,
+        String,
+        StringList,
+        StringListMap,
+    }
+
+    struct SettingsConfigValue {
+        key: String,
+        kind: SettingsConfigValueKind,
+        bool_value: bool,
+        int_value: i32,
+        double_value: f64,
+        string_value: String,
+        string_list_value: Vec<String>,
+        string_list_map_value: Vec<SettingsStringListMapEntry>,
+    }
+
+    struct SettingsConfigSnapshot {
+        values: Vec<SettingsConfigValue>,
+    }
+
     struct SettingsLoadedSession {
         user_id: String,
         device_id: String,
@@ -629,6 +658,7 @@ mod ffi {
             serialized: &str,
             root_key: &str,
         ) -> Vec<SettingsStringMapEntry>;
+        fn settings_encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str)
         -> String;
@@ -1381,6 +1411,10 @@ fn settings_decode_named_string_map_yaml(
     root_key: &str,
 ) -> Vec<ffi::SettingsStringMapEntry> {
     settings::secrets::decode_named_string_map_yaml(serialized, root_key)
+}
+
+fn settings_encode_config_yaml(snapshot: &ffi::SettingsConfigSnapshot) -> String {
+    settings::config::encode_config_yaml(snapshot)
 }
 
 fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {

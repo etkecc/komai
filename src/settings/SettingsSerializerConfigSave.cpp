@@ -5,40 +5,197 @@
 
 #include "SettingsSerializer.h"
 
+#include "komai-rust-cxxbridge/lib.h"
+
 #include <QString>
+#include <string>
+#include <utility>
+#include <variant>
 
 #include "logging/Logging.h"
-#include <yaml-cpp/yaml.h>
 
+#include "SettingsSerializerConfigConverters.h"
 #include "SettingsSerializerConfigInternal.h"
 #include "settings/SettingKeys.h"
-#include "settings/SettingsMigrations.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"
-#include "settings/YamlSettings.h"
+#include "settings/core/SettingsDefinitions.h"
+#include "settings/core/StartupConfig.h"
 
-using settings::storage::writeYamlFile;
-using yaml_settings::setNode;
+using settings::storage::writeTextFile;
 
 namespace settings::serializer {
+
+namespace {
+
+::komai::rust::SettingsConfigValue
+configValue(const char *key, bool value)
+{
+    return {.key                   = std::string(key),
+            .kind                  = ::komai::rust::SettingsConfigValueKind::Bool,
+            .bool_value            = value,
+            .int_value             = 0,
+            .double_value          = 0.0,
+            .string_value          = {},
+            .string_list_value     = {},
+            .string_list_map_value = {}};
+}
+
+::komai::rust::SettingsConfigValue
+configValue(const char *key, int value)
+{
+    return {.key                   = std::string(key),
+            .kind                  = ::komai::rust::SettingsConfigValueKind::Int,
+            .bool_value            = false,
+            .int_value             = value,
+            .double_value          = 0.0,
+            .string_value          = {},
+            .string_list_value     = {},
+            .string_list_map_value = {}};
+}
+
+::komai::rust::SettingsConfigValue
+configValue(const char *key, double value)
+{
+    return {.key                   = std::string(key),
+            .kind                  = ::komai::rust::SettingsConfigValueKind::Double,
+            .bool_value            = false,
+            .int_value             = 0,
+            .double_value          = value,
+            .string_value          = {},
+            .string_list_value     = {},
+            .string_list_map_value = {}};
+}
+
+::komai::rust::SettingsConfigValue
+configValue(const char *key, std::string value)
+{
+    return {.key                   = std::string(key),
+            .kind                  = ::komai::rust::SettingsConfigValueKind::String,
+            .bool_value            = false,
+            .int_value             = 0,
+            .double_value          = 0.0,
+            .string_value          = std::move(value),
+            .string_list_value     = {},
+            .string_list_map_value = {}};
+}
+
+::komai::rust::SettingsConfigValue
+configValue(const char *key, const QStringList &values)
+{
+    ::rust::Vec<::rust::String> rustValues;
+    for (const auto &value : values)
+        rustValues.push_back(value.toStdString());
+
+    return {.key                   = std::string(key),
+            .kind                  = ::komai::rust::SettingsConfigValueKind::StringList,
+            .bool_value            = false,
+            .int_value             = 0,
+            .double_value          = 0.0,
+            .string_value          = {},
+            .string_list_value     = std::move(rustValues),
+            .string_list_map_value = {}};
+}
+
+::komai::rust::SettingsConfigValue
+configStringListMapValue(const char *key, const QMap<QString, QStringList> &values)
+{
+    ::rust::Vec<::komai::rust::SettingsStringListMapEntry> rustEntries;
+    for (auto it = values.constBegin(); it != values.constEnd(); ++it) {
+        ::rust::Vec<::rust::String> rustValues;
+        for (const auto &value : it.value())
+            rustValues.push_back(value.toStdString());
+        rustEntries.push_back({.key = it.key().toStdString(), .values = std::move(rustValues)});
+    }
+
+    return {.key                   = std::string(key),
+            .kind                  = ::komai::rust::SettingsConfigValueKind::StringListMap,
+            .bool_value            = false,
+            .int_value             = 0,
+            .double_value          = 0.0,
+            .string_value          = {},
+            .string_list_value     = {},
+            .string_list_map_value = std::move(rustEntries)};
+}
+
+void
+appendCoreStoreConfigValues(const UserSettings &settings,
+                            ::rust::Vec<::komai::rust::SettingsConfigValue> &values)
+{
+    const auto &store = settings.coreStore();
+
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (definition.scope != settings::core::SettingScope::Config)
+            continue;
+        if (settings::core::definitions::isEnumTokenConfigSettingId(definition.id))
+            continue;
+        if (definition.id == settings::core::SettingId::UiInputMode ||
+            definition.id == settings::core::SettingId::UiScaleFactor)
+            continue;
+
+        const auto stored = store.value(definition.id);
+        if (!stored.has_value()) {
+            activeLoggers().ui->warn("Missing core-store value for config key '{}'",
+                                     definition.persistedKey);
+            continue;
+        }
+
+        if (const auto *value = std::get_if<bool>(&*stored)) {
+            values.push_back(configValue(definition.persistedKey, *value));
+        } else if (const auto *value = std::get_if<int>(&*stored)) {
+            values.push_back(configValue(definition.persistedKey, *value));
+        } else if (const auto *value = std::get_if<double>(&*stored)) {
+            values.push_back(configValue(definition.persistedKey, *value));
+        } else if (const auto *value = std::get_if<std::string>(&*stored)) {
+            values.push_back(configValue(definition.persistedKey, *value));
+        } else if (const auto *value =
+                     std::get_if<settings::core::SettingsStore::StringList>(&*stored)) {
+            QStringList stringList;
+            for (const auto &entry : *value)
+                stringList.push_back(QString::fromStdString(entry));
+            values.push_back(configValue(definition.persistedKey, stringList));
+        } else {
+            activeLoggers().ui->warn("Unsupported core-store variant for config key '{}'",
+                                     definition.persistedKey);
+        }
+    }
+}
+
+} // namespace
 
 void
 saveConfig(const UserSettings &settings,
            const QString &configFilePath,
            bool usesFileSecretsProvider)
 {
-    YAML::Node root(YAML::NodeType::Map);
-    detail::makeConfigNode(settings, root);
-    settings::migrations::stampCurrentConfigSchemaVersion(root);
+    ::komai::rust::SettingsConfigSnapshot snapshot{.values = {}};
 
-    setNode(root,
-            SettingKey::SecretsProvider,
-            (usesFileSecretsProvider
-               ? QString::fromLatin1(staged_load_plan::ProviderFileValue)
-               : QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))
-              .toStdString());
+    appendCoreStoreConfigValues(settings, snapshot.values);
 
-    if (writeYamlFile(configFilePath, root, false)) {
+    for (const auto &adapter : config::enumTokenAdapters()) {
+        snapshot.values.push_back(
+          configValue(adapter.key, adapter.toStorage(settings).toStdString()));
+    }
+
+    snapshot.values.push_back(configValue(
+      SettingKey::UiInputMode, detail::toStorageUiInputMode(settings.uiInputMode()).toStdString()));
+
+    if (settings::core::isScaleFactorInRange(settings.uiScaleFactor()))
+        snapshot.values.push_back(configValue(SettingKey::UiScaleFactor, settings.uiScaleFactor()));
+
+    snapshot.values.push_back(
+      configValue(SettingKey::TimelineHiddenEventsGlobal, settings.hiddenTimelineEventTypes()));
+    snapshot.values.push_back(configStringListMapValue(SettingKey::TimelineHiddenEventsByRoom,
+                                                       settings.hiddenTimelineEventTypesByRoom()));
+    snapshot.values.push_back(configValue(
+      SettingKey::SecretsProvider,
+      (usesFileSecretsProvider ? QString::fromLatin1(staged_load_plan::ProviderFileValue)
+                               : QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))
+        .toStdString()));
+
+    const auto serialized = ::komai::rust::settings_encode_config_yaml(snapshot);
+    if (writeTextFile(
+          configFilePath, QString::fromStdString(static_cast<std::string>(serialized)), false)) {
         activeLoggers().ui->debug("Saved config to: {}", configFilePath.toStdString());
     }
 }

@@ -7,22 +7,14 @@
 
 #include <QString>
 
-#include <array>
-#include <string>
-#include <string_view>
 #include <utility>
 #include <yaml-cpp/yaml.h>
 
 #include "logging/Logging.h"
 
-#include "SettingsSerializerConfigConverters.h"
 #include "SettingsSerializerConfigInternal.h"
 #include "SettingsSerializerConfigSchema.h"
-#include "settings/SettingKeys.h"
 #include "settings/YamlSettings.h"
-#include "settings/core/StartupConfig.h"
-
-namespace cfg = settings::serializer::config;
 
 namespace settings::serializer {
 
@@ -60,11 +52,10 @@ activeLoggers()
 
 namespace detail {
 
+namespace cfg = settings::serializer::config;
+
 using yaml_settings::readScalar;
 using yaml_settings::readString;
-using yaml_settings::setNode;
-using yaml_settings::writeStringList;
-using yaml_settings::writeStringListMap;
 
 namespace {
 
@@ -123,52 +114,6 @@ loadConfigByType(UserSettings &settings, const YAML::Node &root)
     for (const auto &descriptor : cfg::stringConfigSettings()) {
         (settings.*descriptor.setter)(readString(root, descriptor.key, descriptor.defaultValue));
     }
-}
-
-void
-saveConfigByType(const UserSettings &settings, YAML::Node &root)
-{
-    cfg::validateConfigSchemaDescriptors();
-
-    for (const auto &descriptor : cfg::boolConfigSettings()) {
-        setNode(root, descriptor.key, (settings.*descriptor.getter)());
-    }
-    for (const auto &descriptor : cfg::intConfigSettings()) {
-        setNode(root, descriptor.key, (settings.*descriptor.getter)());
-    }
-    for (const auto &descriptor : cfg::uintConfigSettings()) {
-        setNode(root, descriptor.key, (settings.*descriptor.getter)());
-    }
-    for (const auto &descriptor : cfg::ulonglongConfigSettings()) {
-        setNode(root, descriptor.key, (settings.*descriptor.getter)());
-    }
-    for (const auto &descriptor : cfg::doubleConfigSettings()) {
-        setNode(root, descriptor.key, (settings.*descriptor.getter)());
-    }
-    for (const auto &descriptor : cfg::stringConfigSettings()) {
-        setNode(root, descriptor.key, (settings.*descriptor.getter)().toStdString());
-    }
-}
-
-void
-makeConfigNode(const UserSettings &settings, YAML::Node &root)
-{
-    saveConfigByType(settings, root);
-
-    setNode(root, SettingKey::UiThemeSlug, settings.uiThemeSlug().toStdString());
-    for (const auto &adapter : cfg::enumTokenAdapters())
-        setNode(root, adapter.key, adapter.toStorage(settings).toStdString());
-    setNode(root, SettingKey::UiMotionAnimationsEnabled, settings.uiMotionAnimationsEnabled());
-    setNode(
-      root, SettingKey::UiInputMode, toStorageUiInputMode(settings.uiInputMode()).toStdString());
-
-    if (settings::core::isScaleFactorInRange(settings.uiScaleFactor()))
-        setNode(root, SettingKey::UiScaleFactor, settings.uiScaleFactor());
-
-    writeStringList(
-      root, SettingKey::TimelineHiddenEventsGlobal, settings.hiddenTimelineEventTypes());
-    writeStringListMap(
-      root, SettingKey::TimelineHiddenEventsByRoom, settings.hiddenTimelineEventTypesByRoom());
 }
 
 } // namespace detail

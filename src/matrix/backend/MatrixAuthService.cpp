@@ -4,7 +4,7 @@
 
 #include "matrix/backend/MatrixAuthService.h"
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 #include "matrix/backend/MatrixFfiBlockingContext.h"
 #include "profile/ProfileId.h"
 

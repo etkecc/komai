@@ -8,7 +8,7 @@
 #include <QElapsedTimer>
 #include <QStringList>
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendBridge.h"

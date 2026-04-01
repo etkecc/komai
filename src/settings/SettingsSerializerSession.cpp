@@ -5,13 +5,12 @@
 
 #include "SettingsSerializer.h"
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 #include <QString>
 
 #include "logging/Logging.h"
 
-#include "settings/SettingsStorage.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {
@@ -23,8 +22,6 @@ hasSessionValue(const QString &value)
 }
 
 } // namespace
-
-using settings::storage::writeTextFile;
 
 namespace settings::serializer {
 
@@ -49,13 +46,10 @@ saveSession(const UserSettings &settings, const QString &sessionFilePath)
         return;
     }
 
-    const auto serialized =
-      ::komai::rust::settings_encode_session_yaml(settings.userId().toStdString(),
-                                                  settings.homeserver().toStdString(),
-                                                  settings.deviceId().toStdString());
-
-    if (writeTextFile(
-          sessionFilePath, QString::fromStdString(static_cast<std::string>(serialized)), false)) {
+    if (::komai::rust::settings_write_session_snapshot_to_path(sessionFilePath.toStdString(),
+                                                               settings.userId().toStdString(),
+                                                               settings.homeserver().toStdString(),
+                                                               settings.deviceId().toStdString())) {
         activeLoggers().ui->debug("Saved session to: {}", sessionFilePath.toStdString());
     }
 }

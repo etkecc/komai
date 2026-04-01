@@ -6,7 +6,7 @@ use serde_yaml_ng::{Mapping, Value};
 
 use crate::ffi::{SettingsStateSnapshot, SettingsStringMapEntry};
 
-use super::yaml;
+use super::{storage, yaml};
 
 const CURRENT_STATE_SCHEMA_VERSION: i32 = 1;
 
@@ -234,6 +234,10 @@ pub fn encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String {
         string_map(&snapshot.composer_drafts_by_room),
     );
     yaml::serialize_yaml(&root)
+}
+
+pub fn write_state_snapshot_to_path(state_path: &str, snapshot: &SettingsStateSnapshot) -> bool {
+    storage::write_text_file(state_path, &encode_state_yaml(snapshot), false)
 }
 
 #[cfg(test)]

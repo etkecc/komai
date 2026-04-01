@@ -9,6 +9,8 @@ mod tree;
 use crate::ffi::SettingsConfigSnapshot;
 use crate::settings::yaml;
 
+use super::storage;
+
 pub use model::{
     Config, ConfigSecrets, ConfigTimeline, ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars,
     ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme,
@@ -96,6 +98,10 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
 
 pub fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     bridge::encode_config_yaml(snapshot)
+}
+
+pub fn write_config_snapshot_to_path(config_path: &str, snapshot: &SettingsConfigSnapshot) -> bool {
+    storage::write_text_file(config_path, &encode_config_yaml(snapshot), false)
 }
 
 pub fn load_config_snapshot(config_text: &str) -> LoadedConfig {

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 #include "matrix/backend/MatrixBlockingCall.h"
 
 namespace komai::matrix_backend {

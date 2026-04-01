@@ -17,7 +17,7 @@
 #include <QTextStream>
 #include <QTimer>
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 namespace theme_command {
 

@@ -5,7 +5,7 @@
 
 #include "SettingsController.h"
 #include "SettingsControllerInternal.h"
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 #include "logging/Logging.h"
 
@@ -23,7 +23,6 @@ namespace {
 
 using settings::storage::createDir;
 using settings::storage::pathExists;
-using settings::storage::writeTextFile;
 
 const char *
 providerToken(staged_load_plan::SecretsProvider provider)
@@ -136,10 +135,7 @@ writeConfigSnapshot(const QString &path, const ::komai::rust::SettingsLoadedConf
     snapshot.timeline = loaded.timeline;
     snapshot.secrets  = loaded.secrets;
     snapshot.values   = loaded.values;
-    return writeTextFile(path,
-                         QString::fromStdString(static_cast<std::string>(
-                           ::komai::rust::settings_encode_config_yaml(snapshot))),
-                         false);
+    return ::komai::rust::settings_write_config_snapshot_to_path(path.toStdString(), snapshot);
 }
 
 void
@@ -213,10 +209,8 @@ loadImpl(UserSettings &settings,
     } else if (persistMigrationWriteback && configFileExists &&
                !configSnapshot.had_future_version && !configSnapshot.had_unsupported_path &&
                configSnapshot.should_write_back) {
-        if (!writeTextFile(
-              settings.configFilePath(),
-              QString::fromStdString(static_cast<std::string>(configSnapshot.serialized_yaml)),
-              false)) {
+        if (!::komai::rust::settings_write_loaded_config_to_path(
+              settings.configFilePath().toStdString(), configSnapshot)) {
             settings::activeLoggers().ui->warn("Failed to persist migrated config settings at: {}",
                                                settings.configFilePath().toStdString());
         } else {
@@ -251,11 +245,8 @@ loadImpl(UserSettings &settings,
             if (persistMigrationWriteback && sessionFileExists &&
                 !sessionSnapshot.had_future_version && !sessionSnapshot.had_unsupported_path &&
                 sessionSnapshot.should_write_back) {
-                if (!settings::storage::writeTextFile(
-                      settings.sessionFilePath(),
-                      QString::fromStdString(
-                        static_cast<std::string>(sessionSnapshot.serialized_yaml)),
-                      false)) {
+                if (!::komai::rust::settings_write_loaded_session_to_path(
+                      settings.sessionFilePath().toStdString(), sessionSnapshot)) {
                     settings::activeLoggers().ui->warn(
                       "Failed to persist migrated session settings at: {}",
                       settings.sessionFilePath().toStdString());
@@ -327,11 +318,8 @@ loadImpl(UserSettings &settings,
             }
             if (persistMigrationWriteback && stateFileExists && !stateSnapshot.had_future_version &&
                 !stateSnapshot.had_unsupported_path && stateSnapshot.should_write_back) {
-                if (!settings::storage::writeTextFile(
-                      settings.stateFilePath(),
-                      QString::fromStdString(
-                        static_cast<std::string>(stateSnapshot.serialized_yaml)),
-                      false)) {
+                if (!::komai::rust::settings_write_loaded_state_to_path(
+                      settings.stateFilePath().toStdString(), stateSnapshot)) {
                     settings::activeLoggers().ui->warn(
                       "Failed to persist migrated state settings at: {}",
                       settings.stateFilePath().toStdString());

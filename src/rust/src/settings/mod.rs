@@ -7,6 +7,7 @@ pub(crate) mod ffi;
 pub(crate) mod profile;
 pub mod session;
 pub mod secrets;
+pub(crate) mod storage;
 pub mod state;
 pub mod startup;
 pub(crate) mod yaml;

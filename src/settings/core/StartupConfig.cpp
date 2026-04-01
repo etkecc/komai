@@ -5,7 +5,7 @@
 
 #include "StartupConfig.h"
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 namespace settings::core {
 

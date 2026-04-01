@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 #include <QMap>
 #include <QString>

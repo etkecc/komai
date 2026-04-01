@@ -5,7 +5,7 @@
 
 #include "SettingsSerializer.h"
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 #include <QString>
 #include <string>
@@ -17,12 +17,9 @@
 #include "SettingsSerializerConfigConverters.h"
 #include "SettingsSerializerConfigInternal.h"
 #include "settings/SettingKeys.h"
-#include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/core/StartupConfig.h"
-
-using settings::storage::writeTextFile;
 
 namespace settings::serializer {
 
@@ -227,9 +224,8 @@ saveConfig(const UserSettings &settings,
           {.key = it.key().toStdString(), .values = std::move(rustValues)});
     }
 
-    const auto serialized = ::komai::rust::settings_encode_config_yaml(snapshot);
-    if (writeTextFile(
-          configFilePath, QString::fromStdString(static_cast<std::string>(serialized)), false)) {
+    if (::komai::rust::settings_write_config_snapshot_to_path(configFilePath.toStdString(),
+                                                              snapshot)) {
         activeLoggers().ui->debug("Saved config to: {}", configFilePath.toStdString());
     }
 }

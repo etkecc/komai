@@ -4,9 +4,7 @@
 
 use serde_yaml_ng::Value;
 
-use crate::ffi;
-
-use super::yaml;
+use super::{storage, yaml};
 
 const CURRENT_SESSION_SCHEMA_VERSION: i32 = 1;
 
@@ -82,7 +80,7 @@ pub fn load_session_snapshot(session_text: &str) -> LoadedSession {
 }
 
 pub fn load_session_snapshot_from_path(session_path: &str) -> LoadedSession {
-    load_session_snapshot(&ffi::settings_read_text_file(session_path, "session"))
+    load_session_snapshot(&storage::read_text_file(session_path, "session"))
 }
 
 pub fn encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str) -> String {
@@ -92,6 +90,19 @@ pub fn encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str) -> 
     set_string(&mut root, &SESSION_HOMESERVER_PATH, homeserver);
     set_string(&mut root, &SESSION_DEVICE_ID_PATH, device_id);
     yaml::serialize_yaml(&root)
+}
+
+pub fn write_session_snapshot_to_path(
+    session_path: &str,
+    user_id: &str,
+    homeserver: &str,
+    device_id: &str,
+) -> bool {
+    storage::write_text_file(
+        session_path,
+        &encode_session_yaml(user_id, homeserver, device_id),
+        false,
+    )
 }
 
 #[cfg(test)]

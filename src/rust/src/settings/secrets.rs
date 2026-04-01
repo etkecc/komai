@@ -8,6 +8,8 @@ use serde_yaml_ng::{Mapping, Value};
 
 use crate::ffi::SettingsStringMapEntry;
 
+use super::storage;
+
 fn ordered_map(entries: &[SettingsStringMapEntry]) -> BTreeMap<String, String> {
     entries
         .iter()
@@ -79,6 +81,27 @@ pub fn decode_named_string_map_yaml(
     };
 
     decode_string_map_value(mapping.get(Value::String(root_key.to_owned())))
+}
+
+pub fn load_named_string_map_from_path(
+    path: &str,
+    label: &str,
+    root_key: &str,
+) -> Vec<SettingsStringMapEntry> {
+    decode_named_string_map_yaml(&storage::read_text_file(path, label), root_key)
+}
+
+pub fn write_named_string_map_to_path(
+    path: &str,
+    root_key: &str,
+    entries: &[SettingsStringMapEntry],
+    owner_read_write_only: bool,
+) -> bool {
+    storage::write_text_file(
+        path,
+        &encode_named_string_map_yaml(root_key, entries),
+        owner_read_write_only,
+    )
 }
 
 #[cfg(test)]

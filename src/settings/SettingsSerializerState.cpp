@@ -5,16 +5,13 @@
 
 #include "SettingsSerializer.h"
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 #include <QString>
 
 #include "logging/Logging.h"
 
-#include "settings/SettingsStorage.h"
 #include "settings/ui/facade/UserSettingsPage.h"
-
-using settings::storage::writeTextFile;
 
 namespace settings::serializer {
 
@@ -52,9 +49,8 @@ saveState(const UserSettings &settings, const QString &stateFilePath)
           {.key = it.key().toStdString(), .value = it.value().toStdString()});
     }
 
-    const auto serialized = ::komai::rust::settings_encode_state_yaml(snapshot);
-    if (writeTextFile(
-          stateFilePath, QString::fromStdString(static_cast<std::string>(serialized)), false)) {
+    if (::komai::rust::settings_write_state_snapshot_to_path(stateFilePath.toStdString(),
+                                                             snapshot)) {
         activeLoggers().ui->debug("Saved state to: {}", stateFilePath.toStdString());
     }
 }

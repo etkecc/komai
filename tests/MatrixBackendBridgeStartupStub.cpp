@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 #include "matrix/backend/MatrixBackendBridge.h"
 #include "settings/SettingsStorage.h"
 
@@ -28,6 +28,14 @@ settings_read_text_file(::rust::Str path, ::rust::Str label)
       settings::storage::readTextFile(QString::fromStdString(std::string(path)),
                                       labelString.c_str())
         .toStdString());
+}
+
+bool
+settings_write_text_file(::rust::Str path, ::rust::Str content, bool owner_read_write_only)
+{
+    return settings::storage::writeTextFile(QString::fromStdString(std::string(path)),
+                                            QString::fromStdString(std::string(content)),
+                                            owner_read_write_only);
 }
 
 ::komai::rust::MatrixPersistedSessionSecrets

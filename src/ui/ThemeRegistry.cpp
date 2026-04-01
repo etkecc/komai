@@ -13,7 +13,7 @@
 #include <QMap>
 #include <QSet>
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 #include "logging/Logging.h"
 #include "profile/Paths.h"

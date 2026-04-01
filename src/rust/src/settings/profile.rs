@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use super::{config, session, state};
-use crate::ffi;
+use super::{config, session, state, storage};
 
 pub struct LoadedProfile {
     pub config: config::LoadedConfig,
@@ -29,10 +28,10 @@ pub fn load_profile_snapshot_from_paths(
     state_path: &str,
     include_session: bool,
 ) -> LoadedProfile {
-    let config_text = ffi::settings_read_text_file(config_path, "config");
-    let state_text = ffi::settings_read_text_file(state_path, "state");
+    let config_text = storage::read_text_file(config_path, "config");
+    let state_text = storage::read_text_file(state_path, "state");
     let session_text = if include_session {
-        ffi::settings_read_text_file(session_path, "session")
+        storage::read_text_file(session_path, "session")
     } else {
         String::new()
     };

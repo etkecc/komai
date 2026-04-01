@@ -4,7 +4,7 @@
 
 #include "matrix/MatrixServerResolver.h"
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 #include "matrix/backend/MatrixFfiBlockingContext.h"
 
 #include <stdexcept>

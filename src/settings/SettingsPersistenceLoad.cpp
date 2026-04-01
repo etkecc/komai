@@ -25,8 +25,8 @@ loadProfileSecrets(const QString &profile,
     const auto normalizedProfile = app_paths::normalizedProfileId(profile);
 
     if (usesFileSecretsProvider) {
-        const auto serializedSecrets = settings::storage::readTextFile(secretsFilePath, "secrets");
-        payload.secrets = settings::storage::decodeSecretsFilePayload(serializedSecrets);
+        payload.secrets =
+          settings::storage::loadSecretsFilePayloadFromPath(secretsFilePath, "secrets");
         const bool hadUnexpectedInternalSessionKeys =
           detail::extractInternalSessionMetadata(payload);
         if (hadUnexpectedInternalSessionKeys) {

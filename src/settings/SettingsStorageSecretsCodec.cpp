@@ -5,7 +5,7 @@
 
 #include "SettingsStorage.h"
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 #include "settings/SettingKeys.h"
 
 namespace settings::storage {
@@ -66,6 +66,24 @@ decodeSecretsFilePayload(const QString &serialized)
 {
     return fromRustStringMapEntries(::komai::rust::settings_decode_named_string_map_yaml(
       serialized.toStdString(), SettingKey::SecretsFileMap));
+}
+
+QMap<QString, QString>
+loadSecretsFilePayloadFromPath(const QString &path, const char *label)
+{
+    return fromRustStringMapEntries(::komai::rust::settings_load_named_string_map_from_path(
+      path.toStdString(), label, SettingKey::SecretsFileMap));
+}
+
+bool
+writeSecretsFilePayloadToPath(const QString &path,
+                              const QMap<QString, QString> &secrets,
+                              bool ownerReadWriteOnly)
+{
+    return ::komai::rust::settings_write_named_string_map_to_path(path.toStdString(),
+                                                                  SettingKey::SecretsFileMap,
+                                                                  toRustStringMapEntries(secrets),
+                                                                  ownerReadWriteOnly);
 }
 
 } // namespace settings::storage

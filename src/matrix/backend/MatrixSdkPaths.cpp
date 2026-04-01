@@ -4,7 +4,7 @@
 
 #include "matrix/backend/MatrixSdkPaths.h"
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 namespace komai {
 

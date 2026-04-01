@@ -723,6 +723,12 @@ mod bridge {
         #[namespace = "komai::rust_bridge"]
         fn settings_read_text_file(path: &str, label: &str) -> String;
         #[namespace = "komai::rust_bridge"]
+        fn settings_write_text_file(
+            path: &str,
+            content: &str,
+            owner_read_write_only: bool,
+        ) -> bool;
+        #[namespace = "komai::rust_bridge"]
         fn matrix_load_session_secrets(profile_id: &str) -> MatrixPersistedSessionSecrets;
         #[namespace = "komai::rust_bridge"]
         fn matrix_save_session_secrets(
@@ -796,7 +802,22 @@ mod bridge {
             serialized: &str,
             root_key: &str,
         ) -> Vec<SettingsStringMapEntry>;
+        fn settings_load_named_string_map_from_path(
+            path: &str,
+            label: &str,
+            root_key: &str,
+        ) -> Vec<SettingsStringMapEntry>;
+        fn settings_write_named_string_map_to_path(
+            path: &str,
+            root_key: &str,
+            entries: &Vec<SettingsStringMapEntry>,
+            owner_read_write_only: bool,
+        ) -> bool;
         fn settings_encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String;
+        fn settings_write_config_snapshot_to_path(
+            config_path: &str,
+            snapshot: &SettingsConfigSnapshot,
+        ) -> bool;
         fn settings_load_config_snapshot(config_text: &str) -> SettingsLoadedConfig;
         fn settings_load_profile_snapshot_from_paths(
             config_path: &str,
@@ -808,8 +829,30 @@ mod bridge {
         fn settings_load_session_snapshot_from_path(session_path: &str) -> SettingsLoadedSession;
         fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str)
         -> String;
+        fn settings_write_session_snapshot_to_path(
+            session_path: &str,
+            user_id: &str,
+            homeserver: &str,
+            device_id: &str,
+        ) -> bool;
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
         fn settings_encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String;
+        fn settings_write_state_snapshot_to_path(
+            state_path: &str,
+            snapshot: &SettingsStateSnapshot,
+        ) -> bool;
+        fn settings_write_loaded_config_to_path(
+            config_path: &str,
+            loaded: &SettingsLoadedConfig,
+        ) -> bool;
+        fn settings_write_loaded_session_to_path(
+            session_path: &str,
+            loaded: &SettingsLoadedSession,
+        ) -> bool;
+        fn settings_write_loaded_state_to_path(
+            state_path: &str,
+            loaded: &SettingsLoadedState,
+        ) -> bool;
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;
         fn theme_parse_base16_yaml(theme_text: &str) -> ThemeBase16ParseResult;
 

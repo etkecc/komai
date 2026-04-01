@@ -12,7 +12,7 @@
 #include <QApplication>
 #include <QTemporaryDir>
 
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 #include "logging/Logging.h"
 
 #include "settings/ui/facade/UserSettingsPage.h"

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "matrix/backend/MatrixSessionSecrets.h"
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 #include <QDir>
 #include <QHash>
@@ -57,9 +57,8 @@ QMap<QString, QString>
 loadStoredMatrixSdkSecrets(const SecretsPersistenceContext &context)
 {
     if (context.usesFileSecretsProvider) {
-        const auto serialized =
-          settings::storage::readTextFile(context.secretsFilePath, "matrix-sdk secrets");
-        return settings::storage::decodeSecretsFilePayload(serialized);
+        return settings::storage::loadSecretsFilePayloadFromPath(context.secretsFilePath,
+                                                                 "matrix-sdk secrets");
     }
 
     const auto serializedSecrets = settings::storage::readSecureValue(context.secureStoreKey);
@@ -79,8 +78,7 @@ saveStoredMatrixSdkSecrets(const SecretsPersistenceContext &context,
             return;
         }
 
-        settings::storage::writeTextFile(
-          context.secretsFilePath, settings::storage::encodeSecretsFilePayload(secrets), true);
+        settings::storage::writeSecretsFilePayloadToPath(context.secretsFilePath, secrets, true);
         return;
     }
 

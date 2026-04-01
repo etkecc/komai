@@ -5,7 +5,7 @@
 
 #include "logging/Logging.h"
 #include "config/komai.h"
-#include "komai-rust-cxxbridge/lib.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 #include <QString>
 #include <QtGlobal>

@@ -33,10 +33,8 @@ saveProfileSecrets(const QString &profile,
     }
 
     if (usesFileSecretsProvider) {
-        if (settings::storage::writeTextFile(
-              secretsFilePath,
-              settings::storage::encodeSecretsFilePayload(nonEmptySecrets),
-              true)) {
+        if (settings::storage::writeSecretsFilePayloadToPath(
+              secretsFilePath, nonEmptySecrets, true)) {
             activeLoggers().ui->debug("Saved secrets to: {}", secretsFilePath.toStdString());
         }
         return;

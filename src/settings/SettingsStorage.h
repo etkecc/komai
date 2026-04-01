@@ -174,5 +174,11 @@ QString
 encodeSecretsFilePayload(const QMap<QString, QString> &secrets);
 QMap<QString, QString>
 decodeSecretsFilePayload(const QString &serialized);
+QMap<QString, QString>
+loadSecretsFilePayloadFromPath(const QString &path, const char *label);
+bool
+writeSecretsFilePayloadToPath(const QString &path,
+                              const QMap<QString, QString> &secrets,
+                              bool ownerReadWriteOnly);
 
 } // namespace settings::storage

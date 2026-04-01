@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use super::config;
-use crate::ffi;
+use super::{config, storage};
 
 #[derive(Clone, Debug, Default)]
 pub struct StartupSnapshot {
@@ -19,5 +18,5 @@ pub fn snapshot_from_config_text(config_text: &str) -> StartupSnapshot {
 }
 
 pub fn snapshot_from_config_path(config_path: &str) -> StartupSnapshot {
-    snapshot_from_config_text(&ffi::settings_read_text_file(config_path, "startup config"))
+    snapshot_from_config_text(&storage::read_text_file(config_path, "startup config"))
 }

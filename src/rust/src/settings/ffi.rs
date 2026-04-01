@@ -25,7 +25,7 @@ pub(crate) fn settings_load_config_overview(config_text: &str) -> ffi::SettingsC
 }
 
 pub(crate) fn settings_load_config_overview_from_path(config_path: &str) -> ffi::SettingsConfigOverview {
-    settings_load_config_overview(&ffi::settings_read_text_file(config_path, "config"))
+    settings_load_config_overview(&settings::storage::read_text_file(config_path, "config"))
 }
 
 pub(crate) fn settings_encode_string_map_yaml(entries: &Vec<ffi::SettingsStringMapEntry>) -> String {
@@ -50,8 +50,37 @@ pub(crate) fn settings_decode_named_string_map_yaml(
     settings::secrets::decode_named_string_map_yaml(serialized, root_key)
 }
 
+pub(crate) fn settings_load_named_string_map_from_path(
+    path: &str,
+    label: &str,
+    root_key: &str,
+) -> Vec<ffi::SettingsStringMapEntry> {
+    settings::secrets::load_named_string_map_from_path(path, label, root_key)
+}
+
+pub(crate) fn settings_write_named_string_map_to_path(
+    path: &str,
+    root_key: &str,
+    entries: &Vec<ffi::SettingsStringMapEntry>,
+    owner_read_write_only: bool,
+) -> bool {
+    settings::secrets::write_named_string_map_to_path(
+        path,
+        root_key,
+        entries.as_slice(),
+        owner_read_write_only,
+    )
+}
+
 pub(crate) fn settings_encode_config_yaml(snapshot: &ffi::SettingsConfigSnapshot) -> String {
     settings::config::encode_config_yaml(snapshot)
+}
+
+pub(crate) fn settings_write_config_snapshot_to_path(
+    config_path: &str,
+    snapshot: &ffi::SettingsConfigSnapshot,
+) -> bool {
+    settings::config::write_config_snapshot_to_path(config_path, snapshot)
 }
 
 pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::SettingsConfigUiSection {
@@ -202,10 +231,47 @@ pub(crate) fn settings_encode_session_yaml(user_id: &str, homeserver: &str, devi
     settings::session::encode_session_yaml(user_id, homeserver, device_id)
 }
 
+pub(crate) fn settings_write_session_snapshot_to_path(
+    session_path: &str,
+    user_id: &str,
+    homeserver: &str,
+    device_id: &str,
+) -> bool {
+    settings::session::write_session_snapshot_to_path(session_path, user_id, homeserver, device_id)
+}
+
 pub(crate) fn settings_load_state_snapshot(state_text: &str) -> ffi::SettingsLoadedState {
     ffi_loaded_state(settings::state::load_state_snapshot(state_text))
 }
 
 pub(crate) fn settings_encode_state_yaml(snapshot: &ffi::SettingsStateSnapshot) -> String {
     settings::state::encode_state_yaml(snapshot)
+}
+
+pub(crate) fn settings_write_state_snapshot_to_path(
+    state_path: &str,
+    snapshot: &ffi::SettingsStateSnapshot,
+) -> bool {
+    settings::state::write_state_snapshot_to_path(state_path, snapshot)
+}
+
+pub(crate) fn settings_write_loaded_config_to_path(
+    config_path: &str,
+    loaded: &ffi::SettingsLoadedConfig,
+) -> bool {
+    settings::storage::write_text_file(config_path, &loaded.serialized_yaml, false)
+}
+
+pub(crate) fn settings_write_loaded_session_to_path(
+    session_path: &str,
+    loaded: &ffi::SettingsLoadedSession,
+) -> bool {
+    settings::storage::write_text_file(session_path, &loaded.serialized_yaml, false)
+}
+
+pub(crate) fn settings_write_loaded_state_to_path(
+    state_path: &str,
+    loaded: &ffi::SettingsLoadedState,
+) -> bool {
+    settings::storage::write_text_file(state_path, &loaded.serialized_yaml, false)
 }

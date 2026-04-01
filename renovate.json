@@ -78,21 +78,6 @@
       "extractVersion": "^yaml-cpp-(?<version>.*)$"
     },
     {
-      "description": "libevent uses 'release-X.Y.Z-stable' tag format",
-      "matchPackageNames": ["libevent/libevent"],
-      "extractVersion": "^release-(?<version>[\\d.]+)-stable$"
-    },
-    {
-      "description": "re2 uses YYYY-MM-DD date-based tags",
-      "matchPackageNames": ["google/re2"],
-      "versioning": "regex:^(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})$"
-    },
-    {
-      "description": "lmdb uses 'LMDB_X.Y.Z' tag format (OpenLDAP repo)",
-      "matchPackageNames": ["https://git.openldap.org/openldap/openldap.git"],
-      "extractVersion": "^LMDB_(?<version>.*)$"
-    },
-    {
       "description": "Ubuntu Docker image — managed manually, not by Renovate",
       "matchPackageNames": ["ubuntu"],
       "enabled": false

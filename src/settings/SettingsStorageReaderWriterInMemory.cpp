@@ -9,8 +9,6 @@
 #include <QHash>
 #include <QString>
 
-#include <yaml-cpp/yaml.h>
-
 #include "logging/Logging.h"
 
 #include "profile/Paths.h"
@@ -58,67 +56,19 @@ public:
         if (textIt != texts_.end())
             return textIt.value();
 
-        const auto it = nodes_.find(path);
-        if (it == nodes_.end()) {
-            const char *safeLabel = label ? label : "settings";
-            activeLoggers().ui->info(
-              "{} file does not exist, using defaults: {}", safeLabel, path.toStdString());
-            return {};
-        }
-
-        YAML::Emitter out;
-        out.SetIndent(2);
-        out << it.value();
-        return QString::fromUtf8(out.c_str());
+        const char *safeLabel = label ? label : "settings";
+        activeLoggers().ui->info(
+          "{} file does not exist, using defaults: {}", safeLabel, path.toStdString());
+        return {};
     }
 
     bool writeTextFile(const QString &path, const QString &content, bool) const override
     {
         texts_[path] = content;
-        try {
-            nodes_[path] = YAML::Load(content.toStdString());
-        } catch (const YAML::Exception &) {
-            nodes_[path] = YAML::Node(YAML::NodeType::Map);
-        }
         return true;
     }
 
-    YAML::Node loadYamlFile(const QString &path, const char *label) const override
-    {
-        const auto textIt = texts_.find(path);
-        if (textIt != texts_.end()) {
-            try {
-                const auto root = YAML::Load(textIt.value().toStdString());
-                return root.IsMap() ? root : YAML::Node(YAML::NodeType::Map);
-            } catch (const YAML::Exception &) {
-                return YAML::Node(YAML::NodeType::Map);
-            }
-        }
-
-        const auto it = nodes_.find(path);
-        if (it == nodes_.end()) {
-            const char *safeLabel = label ? label : "settings";
-            activeLoggers().ui->info(
-              "{} file does not exist, using defaults: {}", safeLabel, path.toStdString());
-            return YAML::Node(YAML::NodeType::Map);
-        }
-        return it.value();
-    }
-
-    bool writeYamlFile(const QString &path, const YAML::Node &root, bool) const override
-    {
-        nodes_[path] = root;
-        YAML::Emitter out;
-        out.SetIndent(2);
-        out << root;
-        texts_[path] = QString::fromUtf8(out.c_str());
-        return true;
-    }
-
-    bool pathExists(const QString &path) const override
-    {
-        return nodes_.contains(path) || texts_.contains(path);
-    }
+    bool pathExists(const QString &path) const override { return texts_.contains(path); }
 
     bool createDir(const QString &path) const override
     {
@@ -128,9 +78,8 @@ public:
 
     bool removePath(const QString &path) const override
     {
-        const bool removedNode = nodes_.remove(path) > 0;
         const bool removedText = texts_.remove(path) > 0;
-        return removedNode || removedText;
+        return removedText;
     }
 
 private:
@@ -140,7 +89,6 @@ private:
     }
 
     QString baseDir_;
-    mutable QHash<QString, YAML::Node> nodes_;
     mutable QHash<QString, QString> texts_;
 };
 

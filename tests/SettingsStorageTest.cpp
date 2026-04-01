@@ -23,6 +23,7 @@
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
+#include "settings/SettingsStorageYaml.h"
 #include "settings/YamlSettings.h"
 #include "TestEnvironment.h"
 

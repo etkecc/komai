@@ -15,10 +15,6 @@
 
 #include <optional>
 
-namespace YAML {
-class Node;
-}
-
 namespace nhlog {
 class Logger;
 }
@@ -68,9 +64,6 @@ public:
     virtual QString readTextFile(const QString &path, const char *label) const = 0;
     virtual bool
     writeTextFile(const QString &path, const QString &content, bool ownerReadWriteOnly) const = 0;
-    virtual YAML::Node loadYamlFile(const QString &path, const char *label) const             = 0;
-    virtual bool
-    writeYamlFile(const QString &path, const YAML::Node &root, bool ownerReadWriteOnly) const = 0;
     virtual bool pathExists(const QString &path) const                                        = 0;
     virtual bool createDir(const QString &path) const                                         = 0;
     virtual bool removePath(const QString &path) const                                        = 0;
@@ -121,14 +114,6 @@ QString
 readTextFile(const QString &path, const char *label);
 bool
 writeTextFile(const QString &path, const QString &content, bool ownerReadWriteOnly);
-
-/**
- * Load/serialize YAML settings files.
- */
-YAML::Node
-loadYamlFile(const QString &path, const char *label);
-bool
-writeYamlFile(const QString &path, const YAML::Node &root, bool ownerReadWriteOnly);
 
 void
 setReaderWriter(ReaderWriterPtr writer);

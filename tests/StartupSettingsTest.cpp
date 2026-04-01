@@ -24,6 +24,7 @@
 #include "settings/SettingsSerializerConfigSchema.h"
 #include "settings/SettingsMigrations.h"
 #include "settings/SettingsStorage.h"
+#include "settings/SettingsStorageYaml.h"
 #include "settings/StartupSettings.h"
 #include "settings/StagedLoadPlan.h"
 #include "settings/YamlSettings.h"

@@ -10,10 +10,7 @@
 #include <QFile>
 #include <QFileInfo>
 
-#include <yaml-cpp/yaml.h>
-
 #include "logging/Logging.h"
-#include <fstream>
 
 #include "profile/Paths.h"
 
@@ -90,59 +87,6 @@ public:
             activeLoggers().ui->error("Failed to write settings file: {}", path.toStdString());
             return false;
         }
-        file.close();
-
-        if (ownerReadWriteOnly) {
-            if (!QFile::setPermissions(path, QFileDevice::ReadOwner | QFileDevice::WriteOwner)) {
-                activeLoggers().ui->warn("Failed to restrict permissions for {}",
-                                         path.toStdString());
-            }
-        }
-
-        return true;
-    }
-
-    YAML::Node loadYamlFile(const QString &path, const char *label) const override
-    {
-        QFileInfo info(path);
-        const char *safeLabel = label ? label : "settings";
-        if (!info.exists()) {
-            activeLoggers().ui->info(
-              "{} file does not exist, using defaults: {}", safeLabel, path.toStdString());
-            return YAML::Node(YAML::NodeType::Map);
-        }
-
-        try {
-            auto root = YAML::LoadFile(path.toStdString());
-            activeLoggers().ui->info("Loaded {} from: {}", safeLabel, path.toStdString());
-            return root.IsMap() ? root : YAML::Node(YAML::NodeType::Map);
-        } catch (const YAML::Exception &e) {
-            activeLoggers().ui->error(
-              "Failed to parse {} file {}: {}", safeLabel, path.toStdString(), e.what());
-            return YAML::Node(YAML::NodeType::Map);
-        }
-    }
-
-    bool writeYamlFile(const QString &path,
-                       const YAML::Node &root,
-                       bool ownerReadWriteOnly) const override
-    {
-        const auto dir = QFileInfo(path).absolutePath();
-        if (!QDir().mkpath(dir)) {
-            activeLoggers().ui->error("Failed to create settings directory: {}", dir.toStdString());
-            return false;
-        }
-
-        YAML::Emitter out;
-        out.SetIndent(2);
-        out << (root && root.IsMap() ? root : YAML::Node(YAML::NodeType::Map));
-
-        std::ofstream file(path.toStdString());
-        if (!file.is_open()) {
-            activeLoggers().ui->error("Failed to write settings file: {}", path.toStdString());
-            return false;
-        }
-        file << out.c_str();
         file.close();
 
         if (ownerReadWriteOnly) {

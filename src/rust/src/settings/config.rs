@@ -27,6 +27,8 @@ const UI_INPUT_TOUCH_SWIPE_GESTURES_ENABLED_PATH: [&str; 5] =
 const UI_LAYOUT_CONTENT_MAX_WIDTH_PX_PATH: [&str; 4] = ["ui", "layout", "content", "max_width_px"];
 const UI_LAYOUT_COMPACT_MODE_PATH: [&str; 3] = ["ui", "layout", "compact_mode"];
 const UI_AVATARS_CIRCULAR_PATH: [&str; 3] = ["ui", "avatars", "circular"];
+const UI_AVATARS_DEFAULT_AVATAR_STYLE_PATH: [&str; 3] = ["ui", "avatars", "default_avatar_style"];
+const UI_SCROLLBAR_POLICY_PATH: [&str; 2] = ["ui", "scrollbar_policy"];
 const HIDDEN_EVENTS_GLOBAL_PATH: [&str; 3] = ["timeline", "hidden_events", "global"];
 const HIDDEN_EVENTS_BY_ROOM_PATH: [&str; 3] = ["timeline", "hidden_events", "by_room"];
 const SECRETS_PROVIDER_PATH: [&str; 2] = ["secrets", "provider"];
@@ -74,7 +76,11 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             avatars: ConfigUiAvatars {
                 circular: yaml::value_at_path(root, &UI_AVATARS_CIRCULAR_PATH)
                     .and_then(parse_scalar_bool),
+                default_avatar_style: parse_string(
+                    yaml::value_at_path(root, &UI_AVATARS_DEFAULT_AVATAR_STYLE_PATH),
+                ),
             },
+            scrollbar_policy: parse_string(yaml::value_at_path(root, &UI_SCROLLBAR_POLICY_PATH)),
         },
         timeline: ConfigTimeline {
             hidden_events: ConfigTimelineHiddenEvents {
@@ -319,6 +325,8 @@ ui:
         assert_eq!(config.ui.layout.content_max_width_px, Some(1024));
         assert_eq!(config.ui.layout.compact_mode, Some(false));
         assert_eq!(config.ui.avatars.circular, Some(true));
+        assert_eq!(config.ui.avatars.default_avatar_style, "");
+        assert_eq!(config.ui.scrollbar_policy, "");
     }
 
     #[test]
@@ -343,6 +351,8 @@ ui:
                 layout_compact_mode: false,
                 has_avatars_circular: true,
                 avatars_circular: true,
+                scrollbar_policy: "when_needed".to_owned(),
+                default_avatar_style: "boring_avatars_bauhaus".to_owned(),
             },
             timeline: SettingsConfigTimelineSection {
                 hidden_events: SettingsConfigTimelineHiddenEventsSection {
@@ -423,6 +433,14 @@ ui:
         assert!(matches!(
             yaml::value_at_path(&root, &["ui", "avatars", "circular"]),
             Some(serde_yaml_ng::Value::Bool(true))
+        ));
+        assert!(matches!(
+            yaml::value_at_path(&root, &["ui", "avatars", "default_avatar_style"]),
+            Some(serde_yaml_ng::Value::String(value)) if value == "boring_avatars_bauhaus"
+        ));
+        assert!(matches!(
+            yaml::value_at_path(&root, &["ui", "scrollbar_policy"]),
+            Some(serde_yaml_ng::Value::String(value)) if value == "when_needed"
         ));
         assert!(matches!(
             yaml::value_at_path(&root, &["secrets", "provider"]),

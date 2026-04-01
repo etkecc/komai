@@ -93,6 +93,37 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         }
     }
 
+    const auto loadedScrollbarPolicy =
+      QString::fromStdString(static_cast<std::string>(snapshot.ui.scrollbar_policy)).trimmed();
+    const auto scrollbarPolicyToken =
+      loadedScrollbarPolicy.isEmpty()
+        ? cfg::toStorageValue(UserSettings::ScrollbarPolicy::WhenNeeded)
+        : loadedScrollbarPolicy;
+    settings.setUiScrollbarPolicy(cfg::scrollbarPolicyFromStorage(
+      scrollbarPolicyToken, UserSettings::ScrollbarPolicy::WhenNeeded));
+    if (scrollbarPolicyToken != cfg::toStorageValue(settings.uiScrollbarPolicy())) {
+        activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
+                                 scrollbarPolicyToken.toStdString(),
+                                 SettingKey::UiScrollbarPolicy,
+                                 cfg::toStorageValue(settings.uiScrollbarPolicy()).toStdString());
+    }
+
+    const auto loadedDefaultAvatarStyle =
+      QString::fromStdString(static_cast<std::string>(snapshot.ui.default_avatar_style)).trimmed();
+    const auto defaultAvatarStyleToken =
+      loadedDefaultAvatarStyle.isEmpty()
+        ? cfg::toStorageValue(UserSettings::DefaultAvatarStyle::BoringAvatarsBauhaus)
+        : loadedDefaultAvatarStyle;
+    settings.setUiAvatarsDefaultAvatarStyle(cfg::defaultAvatarStyleFromStorage(
+      defaultAvatarStyleToken, UserSettings::DefaultAvatarStyle::BoringAvatarsBauhaus));
+    if (defaultAvatarStyleToken != cfg::toStorageValue(settings.uiAvatarsDefaultAvatarStyle())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          defaultAvatarStyleToken.toStdString(),
+          SettingKey::UiAvatarsDefaultAvatarStyle,
+          cfg::toStorageValue(settings.uiAvatarsDefaultAvatarStyle()).toStdString());
+    }
+
     const auto loadedInputModeToken =
       QString::fromStdString(static_cast<std::string>(snapshot.ui.input_mode)).trimmed();
     const auto inputModeToken =

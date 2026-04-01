@@ -98,6 +98,16 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
             Value::Bool(snapshot.ui.avatars_circular),
         );
     }
+    yaml::set_value(
+        &mut root,
+        &["ui", "avatars", "default_avatar_style"],
+        Value::String(snapshot.ui.default_avatar_style.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["ui", "scrollbar_policy"],
+        Value::String(snapshot.ui.scrollbar_policy.clone()),
+    );
 
     if snapshot.timeline.hidden_events.has_global {
         yaml::set_value(

@@ -96,6 +96,8 @@ mod ffi {
         layout_compact_mode: bool,
         has_avatars_circular: bool,
         avatars_circular: bool,
+        scrollbar_policy: String,
+        default_avatar_style: String,
     }
 
     struct SettingsConfigTimelineHiddenEventsSection {
@@ -1586,6 +1588,8 @@ fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::SettingsConf
         layout_compact_mode: config.ui.layout.compact_mode.unwrap_or_default(),
         has_avatars_circular: config.ui.avatars.circular.is_some(),
         avatars_circular: config.ui.avatars.circular.unwrap_or_default(),
+        scrollbar_policy: config.ui.scrollbar_policy.clone(),
+        default_avatar_style: config.ui.avatars.default_avatar_style.clone(),
     }
 }
 

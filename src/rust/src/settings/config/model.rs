@@ -23,6 +23,7 @@ pub struct ConfigUi {
     pub input: ConfigUiInput,
     pub layout: ConfigUiLayout,
     pub avatars: ConfigUiAvatars,
+    pub scrollbar_policy: String,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -62,6 +63,7 @@ pub struct ConfigUiLayout {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigUiAvatars {
     pub circular: Option<bool>,
+    pub default_avatar_style: String,
 }
 
 #[derive(Clone, Debug, Default)]

@@ -26,6 +26,8 @@ using settings::storage::writeTextFile;
 
 namespace settings::serializer {
 
+namespace cfg = settings::serializer::config;
+
 namespace {
 
 ::komai::rust::SettingsConfigValue
@@ -177,6 +179,8 @@ saveConfig(const UserSettings &settings,
           .layout_compact_mode                    = settings.uiLayoutCompactMode(),
           .has_avatars_circular                   = true,
           .avatars_circular                       = settings.uiAvatarsCircular(),
+          .scrollbar_policy                       = {},
+          .default_avatar_style                   = {},
         },
       .timeline =
         {
@@ -200,9 +204,16 @@ saveConfig(const UserSettings &settings,
     appendCoreStoreConfigValues(settings, snapshot.values);
 
     for (const auto &adapter : config::enumTokenAdapters()) {
+        if (adapter.id == settings::core::SettingId::UiScrollbarPolicy ||
+            adapter.id == settings::core::SettingId::UiAvatarsDefaultAvatarStyle)
+            continue;
         snapshot.values.push_back(
           configValue(adapter.key, adapter.toStorage(settings).toStdString()));
     }
+
+    snapshot.ui.scrollbar_policy = cfg::toStorageValue(settings.uiScrollbarPolicy()).toStdString();
+    snapshot.ui.default_avatar_style =
+      cfg::toStorageValue(settings.uiAvatarsDefaultAvatarStyle()).toStdString();
 
     for (const auto &value : settings.hiddenTimelineEventTypes())
         snapshot.timeline.hidden_events.global.push_back(value.toStdString());

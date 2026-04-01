@@ -91,8 +91,7 @@ void
 ChatPage::decryptDownloadedSecrets()
 {
     pendingSecretsUnlockRequest_ = true;
-    nhlog::crypto()->info("Redirecting legacy downloaded-secret unlock prompt to matrix-sdk "
-                          "recovery");
+    nhlog::crypto()->info("Redirecting downloaded-secret unlock prompt to matrix-sdk recovery");
     emit promptUnlockKeyBackup();
 }
 
@@ -157,8 +156,8 @@ ChatPage::processDownloadedSecretsUnlockInput(const QString &text)
           }
 
           nhlog::crypto()->info(
-            "Recovered encryption secrets through the legacy ChatPage unlock entry "
-            "using matrix-sdk recovery");
+            "Recovered encryption secrets through the ChatPage unlock entry using matrix-sdk "
+            "recovery");
           emit page->showNotification(tr("Encryption secrets unlocked."));
       });
 }

@@ -183,18 +183,14 @@ Komai::updateUserProfile()
     const auto localUserId      = utils::localUser().trimmed();
 
     if (hasMatrixRuntime && !localUserId.isEmpty()) {
-        nhlog::ui()->info("Refreshing Komai.currentUser (user_id='{}', legacy_cache={}, "
-                          "matrix_runtime={})",
+        nhlog::ui()->info("Refreshing Komai.currentUser (user_id='{}', matrix_runtime={})",
                           localUserId.toStdString(),
-                          false,
                           hasMatrixRuntime);
         currentUser_.reset(
           new UserProfile(QLatin1String(""), localUserId, ChatPage::instance()->timelineManager()));
     } else {
-        nhlog::ui()->info("Clearing Komai.currentUser (user_id='{}', legacy_cache={}, "
-                          "matrix_runtime={})",
+        nhlog::ui()->info("Clearing Komai.currentUser (user_id='{}', matrix_runtime={})",
                           localUserId.toStdString(),
-                          false,
                           hasMatrixRuntime);
         currentUser_.reset();
     }

@@ -932,19 +932,6 @@ target_sources(komai PRIVATE
 target_include_directories(komai PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})
 
 if(BUILD_TESTING)
-    # yaml-cpp is now only needed by settings test/support targets.
-    CPMAddPackage(
-        NAME yaml-cpp
-        GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
-        GIT_TAG yaml-cpp-0.9.0
-        OPTIONS
-            "YAML_CPP_BUILD_TESTS OFF"
-            "YAML_CPP_BUILD_TOOLS OFF"
-            "YAML_CPP_BUILD_CONTRIB OFF"
-    )
-
-    set(YAMLCPP_TARGET_NAME yaml-cpp::yaml-cpp)
-
     # Intentionally point HOME/XDG_* to non-writable /proc paths for all tests.
     # This makes accidental writes to user/home-derived locations fail fast.
     # Tests that need filesystem access must explicitly use ScopedTestHome.
@@ -998,7 +985,6 @@ if(BUILD_TESTING)
         src/settings/SettingsController.cpp
         src/settings/SettingsControllerLoad.cpp
         src/settings/SettingsControllerSave.cpp
-        tests/support/settings/SettingsMigrations.cpp
         src/settings/SettingsPersistence.cpp
         src/settings/SettingsPersistenceLoad.cpp
         src/settings/SettingsPersistenceSave.cpp
@@ -1013,13 +999,11 @@ if(BUILD_TESTING)
         src/settings/SettingsSerializerState.cpp
         src/settings/SettingsStorage.cpp
         src/settings/SettingsStoragePathApi.cpp
-        tests/support/settings/SettingsStorageYaml.cpp
         src/settings/SettingsStorageReaderWriterFilesystem.cpp
         src/settings/SettingsStorageReaderWriterInMemory.cpp
         src/settings/SettingsStorageSecureBackend.cpp
         src/settings/SettingsStorageSecretsCodec.cpp
         src/settings/core/StartupConfig.cpp
-        tests/support/settings/core/SettingsSerializer.cpp
         src/settings/core/SettingsStore.cpp
         src/timeline/TimelineEventTypes.cpp
         src/emoji/Provider.cpp
@@ -1027,7 +1011,6 @@ if(BUILD_TESTING)
     )
     target_include_directories(komai_startup_settings_test PRIVATE
         src
-        tests/support
         ${CMAKE_CURRENT_BINARY_DIR}
     )
     target_link_libraries(komai_startup_settings_test PRIVATE
@@ -1036,7 +1019,6 @@ if(BUILD_TESTING)
         Qt::Gui
         Qt::Widgets
         Qt::Quick
-        ${YAMLCPP_TARGET_NAME}
         komai_rust
         komai-rust-cxxbridge
     )

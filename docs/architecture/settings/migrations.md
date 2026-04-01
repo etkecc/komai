@@ -9,8 +9,6 @@ Migration plumbing exists in:
 - `src/rust/src/settings/config/bridge.rs`
 - `src/rust/src/settings/session.rs`
 - `src/rust/src/settings/state.rs`
-- `tests/support/settings/SettingsMigrations.h` / `tests/support/settings/SettingsMigrations.cpp`
-  - legacy C++ test-support helpers only, not the live app path
 
 Current behavior:
 

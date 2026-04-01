@@ -58,8 +58,6 @@ Current ownership map:
   - Profile pathing and direct file/secure-store I/O primitives.
 - `src/rust/src/settings/config/bridge.rs`, `src/rust/src/settings/session.rs`, `src/rust/src/settings/state.rs`
   - Live settings schema-version load/migration entry points.
-- `tests/support/settings/SettingsMigrations.*`
-  - Legacy C++ migration helpers kept only for startup/storage test support.
 - `src/settings/StartupSettings.*`, `src/settings/core/StartupConfig.*`
   - Bootstrap profile config preloading for startup-time scale-factor handling.
 - `src/settings/core/SettingDefinition.h`, `src/settings/core/SettingsDefinitions.h`, `src/settings/core/SettingsConstraints.h`

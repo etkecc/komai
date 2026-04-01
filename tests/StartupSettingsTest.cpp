@@ -10,24 +10,22 @@
 #include <string_view>
 
 #include <QApplication>
-#include <QFile>
 #include <QTemporaryDir>
 
-#include <yaml-cpp/yaml.h>
+#include "komai-rust-cxxbridge/lib.h"
 #include "logging/Logging.h"
 
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/SettingKeys.h"
+#include "settings/SettingsRustConfigValues.h"
+#include "settings/SettingsSchemaVersions.h"
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsSerializerConfigConverters.h"
 #include "settings/SettingsSerializerConfigSchema.h"
-#include "settings/SettingsMigrations.h"
 #include "settings/SettingsStorage.h"
-#include "settings/SettingsStorageYaml.h"
 #include "settings/StartupSettings.h"
 #include "settings/StagedLoadPlan.h"
-#include "settings/YamlSettings.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsCoreStoreBridge.h"
@@ -47,22 +45,28 @@ struct StartupSettingsTestContext
 
     bool isValid() const { return true; }
 
-    bool writeConfig(const YAML::Node &configRoot)
+    bool writeConfig(QStringView configText)
     {
         const auto configFile = settings::storage::configFilePathForProfile(profile_);
-        return settings::storage::writeYamlFile(configFile, configRoot, false);
+        return settings::storage::writeTextFile(configFile, configText.toString(), false);
     }
 
-    bool writeState(const YAML::Node &stateRoot)
+    bool writeState(QStringView stateText)
     {
         const auto stateFile = settings::storage::stateFilePathForProfile(profile_);
-        return settings::storage::writeYamlFile(stateFile, stateRoot, false);
+        return settings::storage::writeTextFile(stateFile, stateText.toString(), false);
     }
 
-    bool writeSession(const YAML::Node &sessionRoot)
+    bool writeSession(QStringView sessionText)
     {
         const auto sessionFile = settings::storage::sessionFilePathForProfile(profile_);
-        return settings::storage::writeYamlFile(sessionFile, sessionRoot, false);
+        return settings::storage::writeTextFile(sessionFile, sessionText.toString(), false);
+    }
+
+    bool writeSecrets(QStringView secretsText)
+    {
+        const auto secretsFile = settings::storage::secretsFilePathForProfile(profile_);
+        return settings::storage::writeTextFile(secretsFile, secretsText.toString(), false);
     }
 
     QString configFile() const { return settings::storage::configFilePathForProfile(profile_); }
@@ -123,45 +127,62 @@ expect(bool condition, std::string_view message)
 }
 
 bool
-expectScalarString(const YAML::Node &root,
-                   const char *dottedKey,
+expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
+                   const char *key,
                    const QString &expected,
                    std::string_view message)
 {
-    const auto node = yaml_settings::getNode(root, dottedKey);
-    if (!node || !node.IsScalar()) {
-        std::cerr << "FAILED: " << message << " (missing scalar at '" << dottedKey << "')\n";
-        return false;
-    }
-
-    try {
-        return expect(QString::fromStdString(node.as<std::string>()) == expected, message);
-    } catch (...) {
-        std::cerr << "FAILED: " << message << " (unable to parse scalar at '" << dottedKey
-                  << "' as string)\n";
-        return false;
-    }
+    return expect(settings::rust_config_values::readStringValue(snapshot.values, key, {}) ==
+                    expected,
+                  message);
 }
 
 bool
-expectScalarInt(const YAML::Node &root,
-                const char *dottedKey,
+expectConfigInt(const ::komai::rust::SettingsLoadedConfig &snapshot,
+                const char *key,
                 int expected,
                 std::string_view message)
 {
-    const auto node = yaml_settings::getNode(root, dottedKey);
-    if (!node || !node.IsScalar()) {
-        std::cerr << "FAILED: " << message << " (missing scalar at '" << dottedKey << "')\n";
-        return false;
-    }
+    return expect(settings::rust_config_values::readIntValue(snapshot.values, key, 0) == expected,
+                  message);
+}
 
-    try {
-        return expect(node.as<int>() == expected, message);
-    } catch (...) {
-        std::cerr << "FAILED: " << message << " (unable to parse scalar at '" << dottedKey
-                  << "' as int)\n";
-        return false;
+::komai::rust::SettingsLoadedConfig
+loadConfigSnapshot(const QString &path, const char *label)
+{
+    return ::komai::rust::settings_load_config_snapshot(
+      settings::storage::readTextFile(path, label).toStdString());
+}
+
+::komai::rust::SettingsLoadedState
+loadStateSnapshot(const QString &path, const char *label)
+{
+    return ::komai::rust::settings_load_state_snapshot(
+      settings::storage::readTextFile(path, label).toStdString());
+}
+
+::komai::rust::SettingsLoadedSession
+loadSessionSnapshot(const QString &path, const char *label)
+{
+    return ::komai::rust::settings_load_session_snapshot(
+      settings::storage::readTextFile(path, label).toStdString());
+}
+
+QMap<QString, QString>
+stringMapFromEntries(const ::rust::Vec<::komai::rust::SettingsStringMapEntry> &entries)
+{
+    QMap<QString, QString> result;
+    for (const auto &entry : entries) {
+        result.insert(QString::fromStdString(static_cast<std::string>(entry.key)),
+                      QString::fromStdString(static_cast<std::string>(entry.value)));
     }
+    return result;
+}
+
+QMap<QString, QString>
+loadSecretsMap(const QString &path, const char *label)
+{
+    return settings::storage::decodeSecretsFilePayload(settings::storage::readTextFile(path, label));
 }
 
 bool
@@ -172,10 +193,11 @@ testStartupConfigSnapshotLoads()
     if (!ctx.isValid())
         return expect(false, "temporary config root can be created");
 
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["ui"]["scale"]["factor"] = 1.75;
-    configRoot["ui"]["font"]["size_pt"] = 15;
-    if (!ctx.writeConfig(configRoot))
+    if (!ctx.writeConfig(QStringLiteral("ui:\n"
+                                        "  scale:\n"
+                                        "    factor: 1.75\n"
+                                        "  font:\n"
+                                        "    size_pt: 15\n")))
         return expect(false, "test profile config can be persisted");
 
     const auto startup = settings::startup::readStartupConfig(profile);
@@ -205,14 +227,12 @@ testCoreSnapshotExtraction()
         return expect(false, "temporary directory can be created");
 
     const auto path = tmpDir.path() + QStringLiteral("/config.yml");
-    QFile file{path};
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    if (!settings::storage::writeTextFile(path,
+                                          QStringLiteral("ui:\n"
+                                                         "  scale:\n"
+                                                         "    factor: 2.0\n"),
+                                          false))
         return expect(false, "temporary snapshot file can be created");
-
-    YAML::Node root(YAML::NodeType::Map);
-    root["ui"]["scale"]["factor"] = 2.0;
-    file.write(QString::fromUtf8(YAML::Dump(root)).toUtf8());
-    file.close();
 
     auto snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
     if (!expect(snapshot.uiScaleFactor.has_value() &&
@@ -221,11 +241,12 @@ testCoreSnapshotExtraction()
         return false;
     }
 
-    root["ui"]["scale"]["factor"] = "invalid";
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+    if (!settings::storage::writeTextFile(path,
+                                          QStringLiteral("ui:\n"
+                                                         "  scale:\n"
+                                                         "    factor: invalid\n"),
+                                          false))
         return expect(false, "temporary snapshot file can be rewritten");
-    file.write(QString::fromUtf8(YAML::Dump(root)).toUtf8());
-    file.close();
 
     snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
     if (!expect(!snapshot.uiScaleFactor.has_value(),
@@ -233,11 +254,12 @@ testCoreSnapshotExtraction()
         return false;
     }
 
-    root["ui"]["scale"]["factor"] = 5.0;
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+    if (!settings::storage::writeTextFile(path,
+                                          QStringLiteral("ui:\n"
+                                                         "  scale:\n"
+                                                         "    factor: 5.0\n"),
+                                          false))
         return expect(false, "temporary snapshot file can be rewritten again");
-    file.write(QString::fromUtf8(YAML::Dump(root)).toUtf8());
-    file.close();
 
     snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
     return expect(!snapshot.uiScaleFactor.has_value(), "core snapshot ignores out-of-range scale factors");
@@ -271,14 +293,12 @@ testCoreSnapshotFromFile()
         return expect(false, "temporary directory can be created");
 
     const auto path = tmpDir.path() + QStringLiteral("/config.yml");
-    QFile file{path};
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    if (!settings::storage::writeTextFile(path,
+                                          QStringLiteral("ui:\n"
+                                                         "  scale:\n"
+                                                         "    factor: 2.25\n"),
+                                          false))
         return expect(false, "temporary snapshot file can be created");
-
-    YAML::Node root(YAML::NodeType::Map);
-    root["ui"]["scale"]["factor"] = 2.25;
-    file.write(QString::fromUtf8(YAML::Dump(root)).toUtf8());
-    file.close();
 
     const auto snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
     return expect(snapshot.uiScaleFactor.has_value() &&
@@ -303,22 +323,12 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
     const QString sessionFile = ctx.sessionFile();
     const QString secretsFile = ctx.secretsFile();
 
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["secrets"]["provider"] = "file";
-    configRoot["ui"]["theme"]["slug"] = "komai-light";
-
-    if (!ctx.writeConfig(configRoot))
+    if (!ctx.writeConfig(QStringLiteral("secrets:\n"
+                                        "  provider: file\n"
+                                        "ui:\n"
+                                        "  theme:\n"
+                                        "    slug: komai-light\n")))
         return expect(false, "startup-policy fixture config can be persisted");
-    const auto persistedConfig =
-      settings::storage::loadYamlFile(configFile, "startup-policy-fixture-config");
-    if (!expect(staged_load_plan::providerFromConfigValue(
-                  yaml_settings::readString(
-                    persistedConfig,
-                    SettingKey::SecretsProvider,
-                    QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))) ==
-                  staged_load_plan::SecretsProvider::File,
-                "fixture config persists file secrets provider token"))
-        return false;
 
     UserSettings::initialize(profile);
     const auto settings = UserSettings::instance();
@@ -367,25 +377,17 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
     if (!ok)
         return false;
 
-    const auto persistedState = settings::storage::loadYamlFile(stateFile, "state-stamp-check");
-    const auto persistedSession =
-      settings::storage::loadYamlFile(sessionFile, "session-stamp-check");
-    const auto persistedSecrets =
-      settings::storage::loadYamlFile(secretsFile, "secrets-structure-check");
-    ok &= expectScalarInt(persistedState,
-                          SettingKey::StateSchemaVersion,
-                          settings::schema_versions::kCurrentStateSchemaVersion,
-                          "first state.yml creation stamps current schema version");
-    ok &= expectScalarInt(persistedSession,
-                          SettingKey::SessionSchemaVersion,
-                          settings::schema_versions::kCurrentSessionSchemaVersion,
-                          "first session.yml creation stamps current schema version");
-    const auto legacyAccessTokenNode =
-      yaml_settings::getNode(persistedSecrets, "auth.access_token");
-    ok &= expect(!legacyAccessTokenNode || legacyAccessTokenNode.IsNull(),
+    const auto persistedState = loadStateSnapshot(stateFile, "state-stamp-check");
+    const auto persistedSession = loadSessionSnapshot(sessionFile, "session-stamp-check");
+    const auto persistedSecretsMap = loadSecretsMap(secretsFile, "secrets-structure-check");
+    ok &= expect(persistedState.source_version ==
+                   settings::schema_versions::kCurrentStateSchemaVersion,
+                 "first state.yml creation stamps current schema version");
+    ok &= expect(persistedSession.source_version ==
+                   settings::schema_versions::kCurrentSessionSchemaVersion,
+                 "first session.yml creation stamps current schema version");
+    ok &= expect(!persistedSecretsMap.contains(QStringLiteral("auth.access_token")),
                  "secrets.yml no longer stores legacy auth.access_token field");
-    const auto persistedSecretsMap =
-      yaml_settings::readStringMap(persistedSecrets, SettingKey::SecretsFileMap);
     ok &= expect(persistedSecretsMap.value(QStringLiteral("__session.access_token")) ==
                    QStringLiteral("token"),
                  "secrets.yml stores access token in internal secrets map key");
@@ -419,10 +421,11 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
     const QString sessionFile = ctx.sessionFile();
     const QString secretsFile = ctx.secretsFile();
 
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["secrets"]["provider"] = "file";
-    configRoot["ui"]["theme"]["slug"] = "komai-light";
-    if (!ctx.writeConfig(configRoot))
+    if (!ctx.writeConfig(QStringLiteral("secrets:\n"
+                                        "  provider: file\n"
+                                        "ui:\n"
+                                        "  theme:\n"
+                                        "    slug: komai-light\n")))
         return expect(false, "startup-policy-config-only fixture config can be persisted");
 
     UserSettings::initialize(profile);
@@ -437,13 +440,12 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
                 "theme change creates config.yml in config-only mode"))
         return false;
 
-    auto configAfter = settings::storage::loadYamlFile(configFile, "config-after-theme-change");
-    const auto themeNode = configAfter["ui"]["theme"]["slug"];
-    if (!themeNode || !themeNode.IsScalar())
-        return expect(false, "theme is persisted as scalar in config file");
-    const auto storedTheme = QString::fromStdString(themeNode.as<std::string>());
-    const bool persistedTheme = expect(
-      storedTheme == QStringLiteral("komai-dark"), "theme change is persisted to config.yml");
+    const auto configAfter = loadConfigSnapshot(configFile, "config-after-theme-change");
+    const bool persistedTheme =
+      expectConfigString(configAfter,
+                         SettingKey::UiThemeSlug,
+                         QStringLiteral("komai-dark"),
+                         "theme change is persisted to config.yml");
 
     return persistedTheme &&
            expect(!settings::storage::pathExists(stateFile) &&
@@ -479,8 +481,8 @@ testStartupSecretsProviderAutoSelectAndWelcomeUpgrade()
     if (!ok)
         return false;
 
-    auto configRoot = settings::storage::loadYamlFile(ctx.configFile(), "startup-auto-select-config");
-    ok &= expectScalarString(configRoot,
+    auto configRoot = loadConfigSnapshot(ctx.configFile(), "startup-auto-select-config");
+    ok &= expectConfigString(configRoot,
                              SettingKey::SecretsProvider,
                              QString::fromLatin1(staged_load_plan::ProviderFileValue),
                              "new profile persists file provider when secure backend is unavailable");
@@ -497,8 +499,8 @@ testStartupSecretsProviderAutoSelectAndWelcomeUpgrade()
                  "pre-auth relaunch upgrades provider to secret_service when backend returns");
     ok &= expect(!settings->secretsProviderFallbackWarningVisible(),
                  "welcome warning is hidden after pre-auth provider upgrade");
-    configRoot = settings::storage::loadYamlFile(ctx.configFile(), "startup-auto-upgrade-config");
-    ok &= expectScalarString(configRoot,
+    configRoot = loadConfigSnapshot(ctx.configFile(), "startup-auto-upgrade-config");
+    ok &= expectConfigString(configRoot,
                              SettingKey::SecretsProvider,
                              QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue),
                              "pre-auth relaunch persists upgraded secret_service provider");
@@ -548,8 +550,8 @@ testStartupSecretsProviderDoesNotSwitchAfterActiveSession()
     ok &= expect(!settings->secretsProviderFallbackWarningVisible(),
                  "welcome fallback warning is hidden for active sessions");
 
-    const auto configRoot = settings::storage::loadYamlFile(ctx.configFile(), "active-session-config");
-    ok &= expectScalarString(configRoot,
+    const auto configRoot = loadConfigSnapshot(ctx.configFile(), "active-session-config");
+    ok &= expectConfigString(configRoot,
                              SettingKey::SecretsProvider,
                              QString::fromLatin1(staged_load_plan::ProviderFileValue),
                              "active-session relaunch does not rewrite configured provider");
@@ -564,16 +566,16 @@ testStartupSecretsProviderDoesNotSwitchWhenSessionIdentityExists()
     if (!ctx.isValid())
         return expect(false, "startup secrets session-identity fixture root can be created");
 
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["secrets"]["provider"] = staged_load_plan::ProviderSecretServiceValue;
-    if (!ctx.writeConfig(configRoot))
+    if (!ctx.writeConfig(QStringLiteral("secrets:\n"
+                                        "  provider: secret_service\n")))
         return expect(false, "session-identity fixture config can be persisted");
 
-    YAML::Node sessionRoot(YAML::NodeType::Map);
-    sessionRoot["session"]["account"]["user_id"]    = "@alice:example.org";
-    sessionRoot["session"]["account"]["homeserver"] = "https://example.org";
-    sessionRoot["session"]["device"]["id"]          = "DEVICE1";
-    if (!ctx.writeSession(sessionRoot))
+    if (!ctx.writeSession(QStringLiteral("session:\n"
+                                         "  account:\n"
+                                         "    user_id: \"@alice:example.org\"\n"
+                                         "    homeserver: https://example.org\n"
+                                         "  device:\n"
+                                         "    id: DEVICE1\n")))
         return expect(false, "session-identity fixture session can be persisted");
 
     // Even if secure backend is unavailable, persisted session identity should
@@ -596,9 +598,8 @@ testStartupSecretsProviderDoesNotSwitchWhenSessionIdentityExists()
     ok &= expect(!settings->secretsProviderFallbackWarningVisible(),
                  "welcome fallback warning is hidden when provider auto-switch is blocked");
 
-    const auto persistedConfig =
-      settings::storage::loadYamlFile(ctx.configFile(), "session-identity-config");
-    ok &= expectScalarString(
+    const auto persistedConfig = loadConfigSnapshot(ctx.configFile(), "session-identity-config");
+    ok &= expectConfigString(
       persistedConfig,
       SettingKey::SecretsProvider,
       QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue),
@@ -640,61 +641,61 @@ testEnumSettingsPersistAsStrings()
     settings->setUiInputMode(true);
     settings->save();
 
-    const auto configRoot = settings::storage::loadYamlFile(ctx.configFile(), "config");
+    const auto configRoot = loadConfigSnapshot(ctx.configFile(), "config");
     bool ok               = true;
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::NetworkPresenceStatusPolicy,
                              QStringLiteral("offline"),
                              "presence policy is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::TimelineMediaImageDisplay,
                              QStringLiteral("never"),
                              "image display policy is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::TimelineMessagesSenderUsername,
                              QStringLiteral("always"),
                              "sender username policy is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::ComposerInputAutoReplaceEmoji,
                              QStringLiteral("never"),
                              "auto-replace emoji policy is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::ComposerInputEmojiPreferredGender,
                              QStringLiteral("woman"),
                              "emoji preferred gender is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::ComposerInputEmojiPreferredSkinTone,
                              QStringLiteral("medium_dark"),
                              "emoji preferred skin tone is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::ComposerInputSendKey,
                              QStringLiteral("ctrl_enter"),
                              "send key policy is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::SidebarsRoomListSort,
                              QStringLiteral("alphabetical"),
                              "room sort policy is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::SidebarsRoomListLastMessagePreview,
                              QStringLiteral("never"),
                              "last message preview policy is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::TimelineMessageActionsActivationPolicy,
                              QStringLiteral("on_message_hover"),
                              "message actions activation policy is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::TimelineMessagesStyle,
                              QStringLiteral("plain"),
                              "timeline layout style is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::NotificationsMessageContentPolicy,
                              QStringLiteral("never"),
                              "notification message content policy is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::IntegrationsDbusApiAccess,
                              QStringLiteral("read_only"),
                              "D-Bus access policy is persisted as string token");
-    ok &= expectScalarString(configRoot,
+    ok &= expectConfigString(configRoot,
                              SettingKey::UiInputMode,
                              QStringLiteral("touch"),
                              "input mode is persisted as string token");
@@ -710,11 +711,14 @@ testInvalidConfigTokensFallbackToSafeValues()
     if (!ctx.isValid())
         return expect(false, "invalid token fixture config root can be created");
 
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["ui"]["theme"]["slug"]                  = "not-a-real-theme";
-    configRoot["ui"]["input"]["mode"]                  = "spaceship";
-    configRoot["network"]["presence"]["status_policy"] = "not_a_real_presence";
-    if (!ctx.writeConfig(configRoot))
+    if (!ctx.writeConfig(QStringLiteral("ui:\n"
+                                        "  theme:\n"
+                                        "    slug: not-a-real-theme\n"
+                                        "  input:\n"
+                                        "    mode: spaceship\n"
+                                        "network:\n"
+                                        "  presence:\n"
+                                        "    status_policy: not_a_real_presence\n")))
         return expect(false, "invalid token fixture config can be persisted");
 
     UserSettings::initialize(profile);
@@ -753,12 +757,16 @@ testInvalidStateDimensionsFallbackToSafeValues()
     if (!ctx.isValid())
         return expect(false, "invalid state fixture root can be created");
 
-    YAML::Node stateRoot(YAML::NodeType::Map);
-    stateRoot["app"]["window"]["size"]["width"]            = -10;
-    stateRoot["app"]["window"]["size"]["height"]           = 0;
-    stateRoot["sidebars"]["room_list"]["width_px"]         = -20;
-    stateRoot["sidebars"]["communities"]["width_px"]       = 0;
-    if (!ctx.writeState(stateRoot))
+    if (!ctx.writeState(QStringLiteral("app:\n"
+                                       "  window:\n"
+                                       "    size:\n"
+                                       "      width: -10\n"
+                                       "      height: 0\n"
+                                       "sidebars:\n"
+                                       "  room_list:\n"
+                                       "    width_px: -20\n"
+                                       "  communities:\n"
+                                       "    width_px: 0\n")))
         return expect(false, "invalid state fixture can be persisted");
 
     UserSettings::initialize(profile);
@@ -789,10 +797,11 @@ testComposerDraftsPersistInState()
     if (!ctx.isValid())
         return expect(false, "composer drafts fixture root can be created");
 
-    YAML::Node stateRoot(YAML::NodeType::Map);
-    stateRoot["composer"]["drafts"]["by_room"]["!roomA:example.org"] = "hello from draft A";
-    stateRoot["composer"]["drafts"]["by_room"]["!roomB:example.org"] = "   ";
-    if (!ctx.writeState(stateRoot))
+    if (!ctx.writeState(QStringLiteral("composer:\n"
+                                       "  drafts:\n"
+                                       "    by_room:\n"
+                                       "      \"!roomA:example.org\": hello from draft A\n"
+                                       "      \"!roomB:example.org\": \"   \"\n")))
         return expect(false, "composer drafts fixture can be persisted");
 
     UserSettings::initialize(profile);
@@ -816,8 +825,8 @@ testComposerDraftsPersistInState()
                                       QStringLiteral("new draft C"));
     settings->setComposerDraftForRoom(QStringLiteral("!roomC:example.org"), QStringLiteral("   "));
 
-    const auto persisted = settings::storage::loadYamlFile(ctx.stateFile(), "composer-drafts-state");
-    const auto drafts    = yaml_settings::readStringMap(persisted, SettingKey::ComposerDraftsByRoom);
+    const auto persisted = loadStateSnapshot(ctx.stateFile(), "composer-drafts-state");
+    const auto drafts = stringMapFromEntries(persisted.composer_drafts_by_room);
 
     ok &= expect(drafts.value(QStringLiteral("!roomA:example.org")) == QStringLiteral("updated draft A"),
                  "state save updates existing room draft");
@@ -837,11 +846,12 @@ testSessionIdentityValuesAreTrimmedOnLoad()
     if (!ctx.isValid())
         return expect(false, "session trim fixture root can be created");
 
-    YAML::Node sessionRoot(YAML::NodeType::Map);
-    sessionRoot["session"]["account"]["user_id"]   = "  @alice:example.org  ";
-    sessionRoot["session"]["account"]["homeserver"] = "  https://example.org  ";
-    sessionRoot["session"]["device"]["id"]         = "   ";
-    if (!ctx.writeSession(sessionRoot))
+    if (!ctx.writeSession(QStringLiteral("session:\n"
+                                         "  account:\n"
+                                         "    user_id: \"  @alice:example.org  \"\n"
+                                         "    homeserver: \"  https://example.org  \"\n"
+                                         "  device:\n"
+                                         "    id: \"   \"\n")))
         return expect(false, "session trim fixture can be persisted");
 
     UserSettings::initialize(profile);
@@ -867,11 +877,12 @@ testMalformedSessionIdentityValuesFallbackToEmpty()
     if (!ctx.isValid())
         return expect(false, "malformed session fixture root can be created");
 
-    YAML::Node sessionRoot(YAML::NodeType::Map);
-    sessionRoot["session"]["account"]["user_id"]    = YAML::Node(YAML::NodeType::Map);
-    sessionRoot["session"]["account"]["homeserver"] = YAML::Node(YAML::NodeType::Sequence);
-    sessionRoot["session"]["device"]["id"]          = YAML::Node(YAML::NodeType::Map);
-    if (!ctx.writeSession(sessionRoot))
+    if (!ctx.writeSession(QStringLiteral("session:\n"
+                                         "  account:\n"
+                                         "    user_id: {}\n"
+                                         "    homeserver: []\n"
+                                         "  device:\n"
+                                         "    id: {}\n")))
         return expect(false, "malformed session fixture can be persisted");
 
     UserSettings::initialize(profile);
@@ -938,9 +949,9 @@ testConfigSchemaVersionIsStampedOnSave()
     if (!ctx.isValid())
         return expect(false, "config schema version fixture root can be created");
 
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["ui"]["theme"]["slug"] = "komai-light";
-    if (!ctx.writeConfig(configRoot))
+    if (!ctx.writeConfig(QStringLiteral("ui:\n"
+                                        "  theme:\n"
+                                        "    slug: komai-light\n")))
         return expect(false, "config schema version fixture can be persisted");
 
     UserSettings::initialize(profile);
@@ -951,11 +962,10 @@ testConfigSchemaVersionIsStampedOnSave()
     settings->setPersistenceSuspended(false);
     settings->setUiThemeSlug(QStringLiteral("komai-dark"));
 
-    const auto persisted = settings::storage::loadYamlFile(ctx.configFile(), "schema-version");
-    return expectScalarInt(persisted,
-                           SettingKey::ConfigSchemaVersion,
-                           settings::schema_versions::kCurrentConfigSchemaVersion,
-                           "config save stamps current settings schema version");
+    const auto persisted = loadConfigSnapshot(ctx.configFile(), "schema-version");
+    return expect(persisted.source_version ==
+                    settings::schema_versions::kCurrentConfigSchemaVersion,
+                  "config save stamps current settings schema version");
 }
 
 bool
@@ -984,113 +994,14 @@ testNewProfileConfigIsStampedOnInitialLoad()
     bool ok = true;
     ok &= expect(settings::storage::pathExists(configFile),
                  "new profile initializes config.yml during initial load");
-    const auto persisted = settings::storage::loadYamlFile(configFile, "new-profile-config");
-    ok &= expectScalarInt(
-      persisted,
-      SettingKey::ConfigSchemaVersion,
-      settings::schema_versions::kCurrentConfigSchemaVersion,
-      "new profile config is stamped with current schema version");
+    const auto persisted = loadConfigSnapshot(configFile, "new-profile-config");
+    ok &= expect(persisted.source_version ==
+                   settings::schema_versions::kCurrentConfigSchemaVersion,
+                 "new profile config is stamped with current schema version");
     ok &= expect(!settings::storage::pathExists(stateFile) &&
                    !settings::storage::pathExists(sessionFile) &&
                    !settings::storage::pathExists(secretsFile),
                  "initial profile load stamps config only (no state/session/secrets writes)");
-    return ok;
-}
-
-bool
-testConfigMigrationStampsVersionWhenMissing()
-{
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["ui"]["theme"]["slug"] = "komai-light";
-
-    const auto outcome = settings::migrations::migrateConfigRoot(configRoot);
-    bool ok            = true;
-    ok &= expect(!outcome.hadFutureVersion,
-                 "missing schema version is treated as migratable current-or-older config");
-    ok &= expect(!outcome.hadUnsupportedPath,
-                 "missing schema version has a supported migration path");
-    ok &= expect(outcome.sourceVersion == 0, "missing schema version is treated as v0");
-    ok &= expect(outcome.migratedVersion == settings::schema_versions::kCurrentConfigSchemaVersion,
-                 "missing schema version migrates to current version");
-    ok &= expectScalarInt(outcome.migratedRoot,
-                          SettingKey::ConfigSchemaVersion,
-                          settings::schema_versions::kCurrentConfigSchemaVersion,
-                          "migration stamps current schema version on migrated root");
-    ok &= expectScalarString(outcome.migratedRoot,
-                             SettingKey::UiThemeSlug,
-                             QStringLiteral("komai-light"),
-                             "migration preserves existing config values");
-    return ok;
-}
-
-bool
-testConfigMigrationKeepsFutureVersionUntouched()
-{
-    YAML::Node configRoot(YAML::NodeType::Map);
-    constexpr int futureVersion = settings::schema_versions::kCurrentConfigSchemaVersion + 7;
-    configRoot["meta"]["settings_schema_version"] = futureVersion;
-    configRoot["ui"]["theme"]["slug"]             = "komai-dark";
-
-    const auto outcome = settings::migrations::migrateConfigRoot(configRoot);
-    bool ok            = true;
-    ok &= expect(outcome.hadFutureVersion, "future schema version is surfaced as future-version");
-    ok &= expect(!outcome.hadUnsupportedPath,
-                 "future schema version bypass does not report unsupported migration path");
-    ok &= expect(outcome.sourceVersion == futureVersion,
-                 "future schema version is reported in migration outcome");
-    ok &= expect(outcome.migratedVersion == futureVersion,
-                 "future schema version keeps migration target untouched");
-    ok &= expectScalarInt(outcome.migratedRoot,
-                          SettingKey::ConfigSchemaVersion,
-                          futureVersion,
-                          "future schema version remains untouched");
-    ok &= expectScalarString(outcome.migratedRoot,
-                             SettingKey::UiThemeSlug,
-                             QStringLiteral("komai-dark"),
-                             "future-version migration keeps existing values unchanged");
-    return ok;
-}
-
-bool
-testConfigMigrationNormalizesNonMapConfigRoot()
-{
-    YAML::Node nonMapRoot("not-a-map");
-    const auto outcome = settings::migrations::migrateConfigRoot(nonMapRoot);
-    bool ok            = true;
-    ok &= expect(outcome.migratedRoot.IsMap(),
-                 "migration normalizes non-map config root to an empty map");
-    ok &= expect(!outcome.hadUnsupportedPath,
-                 "non-map config normalization follows a supported migration path");
-    ok &= expectScalarInt(outcome.migratedRoot,
-                          SettingKey::ConfigSchemaVersion,
-                          settings::schema_versions::kCurrentConfigSchemaVersion,
-                          "normalized map still gets current schema version stamp");
-    return ok;
-}
-
-bool
-testConfigMigrationClampsNegativeSchemaVersion()
-{
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["meta"]["settings_schema_version"] = -5;
-    configRoot["ui"]["theme"]["slug"]             = "komai-dark";
-
-    const auto outcome = settings::migrations::migrateConfigRoot(configRoot);
-    bool ok            = true;
-    ok &= expect(!outcome.hadFutureVersion, "negative schema version is not treated as future");
-    ok &= expect(!outcome.hadUnsupportedPath,
-                 "negative schema version clamp keeps migration path supported");
-    ok &= expect(outcome.sourceVersion == 0, "negative schema version is clamped to v0");
-    ok &= expect(outcome.migratedVersion == settings::schema_versions::kCurrentConfigSchemaVersion,
-                 "clamped schema version migrates to current schema version");
-    ok &= expectScalarInt(outcome.migratedRoot,
-                          SettingKey::ConfigSchemaVersion,
-                          settings::schema_versions::kCurrentConfigSchemaVersion,
-                          "clamped schema version stores current version in migrated root");
-    ok &= expectScalarString(outcome.migratedRoot,
-                             SettingKey::UiThemeSlug,
-                             QStringLiteral("komai-dark"),
-                             "clamped schema version migration preserves config values");
     return ok;
 }
 
@@ -1102,22 +1013,23 @@ testStateAndSessionMigrationWritebackOnLoad()
     if (!ctx.isValid())
         return expect(false, "state/session migration fixture root can be created");
 
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["ui"]["theme"]["slug"] = "komai-light";
-    if (!ctx.writeConfig(configRoot))
+    if (!ctx.writeConfig(QStringLiteral("ui:\n"
+                                        "  theme:\n"
+                                        "    slug: komai-light\n")))
         return expect(false, "state/session migration fixture config can be persisted");
 
-    YAML::Node sessionRoot(YAML::NodeType::Map);
-    sessionRoot["session"]["account"]["user_id"]    = "@alice:example.org";
-    sessionRoot["session"]["account"]["homeserver"] = "https://example.org";
-    sessionRoot["session"]["device"]["id"]          = "DEVICE1";
-    if (!ctx.writeSession(sessionRoot))
+    if (!ctx.writeSession(QStringLiteral("session:\n"
+                                         "  account:\n"
+                                         "    user_id: \"@alice:example.org\"\n"
+                                         "    homeserver: https://example.org\n"
+                                         "  device:\n"
+                                         "    id: DEVICE1\n")))
         return expect(false, "state/session migration fixture session can be persisted");
 
-    YAML::Node stateRoot(YAML::NodeType::Map);
-    stateRoot["ui"]["window"]["width_px"]  = 1440;
-    stateRoot["ui"]["window"]["height_px"] = 900;
-    if (!ctx.writeState(stateRoot))
+    if (!ctx.writeState(QStringLiteral("ui:\n"
+                                       "  window:\n"
+                                       "    width_px: 1440\n"
+                                       "    height_px: 900\n")))
         return expect(false, "state/session migration fixture state can be persisted");
 
     UserSettings::initialize(profile);
@@ -1132,18 +1044,16 @@ testStateAndSessionMigrationWritebackOnLoad()
     if (!ok)
         return false;
 
-    const auto persistedSession = settings::storage::loadYamlFile(
-      ctx.sessionFile(), "state-session-migration-writeback-session");
+    const auto persistedSession =
+      loadSessionSnapshot(ctx.sessionFile(), "state-session-migration-writeback-session");
     const auto persistedState =
-      settings::storage::loadYamlFile(ctx.stateFile(), "state-session-migration-writeback-state");
-    ok &= expectScalarInt(persistedSession,
-                          SettingKey::SessionSchemaVersion,
-                          settings::schema_versions::kCurrentSessionSchemaVersion,
-                          "session migration writeback stamps current schema version");
-    ok &= expectScalarInt(persistedState,
-                          SettingKey::StateSchemaVersion,
-                          settings::schema_versions::kCurrentStateSchemaVersion,
-                          "state migration writeback stamps current schema version");
+      loadStateSnapshot(ctx.stateFile(), "state-session-migration-writeback-state");
+    ok &= expect(persistedSession.source_version ==
+                   settings::schema_versions::kCurrentSessionSchemaVersion,
+                 "session migration writeback stamps current schema version");
+    ok &= expect(persistedState.source_version ==
+                   settings::schema_versions::kCurrentStateSchemaVersion,
+                 "state migration writeback stamps current schema version");
     return ok;
 }
 
@@ -1155,21 +1065,19 @@ testMalformedFileSecretsPayloadFallsBackSafely()
     if (!ctx.isValid())
         return expect(false, "malformed file secrets fixture root can be created");
 
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["secrets"]["provider"] = staged_load_plan::ProviderFileValue;
-    if (!ctx.writeConfig(configRoot))
+    if (!ctx.writeConfig(QStringLiteral("secrets:\n"
+                                        "  provider: file\n")))
         return expect(false, "malformed file secrets fixture config can be persisted");
 
-    YAML::Node sessionRoot(YAML::NodeType::Map);
-    sessionRoot["session"]["account"]["user_id"]    = "@alice:example.org";
-    sessionRoot["session"]["account"]["homeserver"] = "https://example.org";
-    sessionRoot["session"]["device"]["id"]          = "DEVICE1";
-    if (!ctx.writeSession(sessionRoot))
+    if (!ctx.writeSession(QStringLiteral("session:\n"
+                                         "  account:\n"
+                                         "    user_id: \"@alice:example.org\"\n"
+                                         "    homeserver: https://example.org\n"
+                                         "  device:\n"
+                                         "    id: DEVICE1\n")))
         return expect(false, "malformed file secrets fixture session can be persisted");
 
-    YAML::Node secretsRoot(YAML::NodeType::Map);
-    secretsRoot["secrets"] = "not-a-map";
-    if (!settings::storage::writeYamlFile(ctx.secretsFile(), secretsRoot, false))
+    if (!ctx.writeSecrets(QStringLiteral("secrets: not-a-map\n")))
         return expect(false, "malformed file secrets fixture payload can be persisted");
 
     UserSettings::initialize(profile);
@@ -1203,9 +1111,9 @@ testSerializerLoggerInjection()
     if (!expect(!!loggerState.ui, "serializer defaults null-injected logger values"))
         return false;
 
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["ui"]["theme"]["slug"] = "komai-light";
-    if (!ctx.writeConfig(configRoot))
+    if (!ctx.writeConfig(QStringLiteral("ui:\n"
+                                        "  theme:\n"
+                                        "    slug: komai-light\n")))
         return expect(false, "serializer logger fixture config can be persisted");
 
     UserSettings::initialize(profile);
@@ -1274,12 +1182,18 @@ testControllerSyncsCoreStore()
     if (!ctx.isValid())
         return expect(false, "core store sync fixture config root can be created");
 
-    YAML::Node configRoot(YAML::NodeType::Map);
-    configRoot["ui"]["theme"]["slug"]                   = "komai-dark";
-    configRoot["ui"]["font"]["size_pt"]                 = 15.5;
-    configRoot["network"]["presence"]["status_policy"]  = "offline";
-    configRoot["composer"]["input"]["markdown_to_html"]["enabled"] = true;
-    if (!ctx.writeConfig(configRoot))
+    if (!ctx.writeConfig(QStringLiteral("ui:\n"
+                                        "  theme:\n"
+                                        "    slug: komai-dark\n"
+                                        "  font:\n"
+                                        "    size_pt: 15.5\n"
+                                        "network:\n"
+                                        "  presence:\n"
+                                        "    status_policy: offline\n"
+                                        "composer:\n"
+                                        "  input:\n"
+                                        "    markdown_to_html:\n"
+                                        "      enabled: true\n")))
         return expect(false, "core store sync fixture config can be persisted");
 
     UserSettings::initialize(profile);
@@ -1413,12 +1327,12 @@ testConstrainedIntSettersRejectInvalidUpdates()
     ok &= expect(blurDelayValue.has_value() && *blurDelayValue == baselineBlurDelay,
                  "core store keeps previous window blur delay on invalid update");
 
-    const auto configRoot = settings::storage::loadYamlFile(ctx.configFile(), "config");
-    ok &= expectScalarInt(configRoot,
+    const auto configRoot = loadConfigSnapshot(ctx.configFile(), "config");
+    ok &= expectConfigInt(configRoot,
                           SettingKey::UiLayoutContentMaxWidthPx,
                           baselineContentWidth,
                           "config keeps previous max content width on invalid update");
-    ok &= expectScalarInt(configRoot,
+    ok &= expectConfigInt(configRoot,
                           SettingKey::PrivacyWindowFocusBlurDelaySeconds,
                           baselineBlurDelay,
                           "config keeps previous window blur delay on invalid update");
@@ -1594,10 +1508,6 @@ main()
     ok &= testSessionAuthStateHelpersForIncompleteLogin();
     ok &= testConfigSchemaVersionIsStampedOnSave();
     ok &= testNewProfileConfigIsStampedOnInitialLoad();
-    ok &= testConfigMigrationStampsVersionWhenMissing();
-    ok &= testConfigMigrationKeepsFutureVersionUntouched();
-    ok &= testConfigMigrationNormalizesNonMapConfigRoot();
-    ok &= testConfigMigrationClampsNegativeSchemaVersion();
     ok &= testStateAndSessionMigrationWritebackOnLoad();
     ok &= testMalformedFileSecretsPayloadFallsBackSafely();
     ok &= testSerializerLoggerInjection();

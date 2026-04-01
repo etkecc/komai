@@ -73,11 +73,6 @@
   ],
   "packageRules": [
     {
-      "description": "yaml-cpp uses 'yaml-cpp-X.Y.Z' tag format",
-      "matchPackageNames": ["jbeder/yaml-cpp"],
-      "extractVersion": "^yaml-cpp-(?<version>.*)$"
-    },
-    {
       "description": "Ubuntu Docker image — managed manually, not by Renovate",
       "matchPackageNames": ["ubuntu"],
       "enabled": false

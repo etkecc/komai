@@ -9,7 +9,6 @@
 #include <QGuiApplication>
 
 #include <stdexcept>
-#include <yaml-cpp/yaml.h>
 
 #include "logging/Logging.h"
 #include "profile/ProfileId.h"

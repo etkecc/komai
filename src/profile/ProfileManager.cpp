@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "profile/ProfileManager.h"
+#include "komai-rust-cxxbridge/lib.h"
 
 #include <QCollator>
 #include <QCoreApplication>
@@ -13,14 +14,13 @@
 
 #include <algorithm>
 
-#include <yaml-cpp/yaml.h>
-
 #include "logging/Logging.h"
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
 #include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
-#include "settings/YamlSettings.h"
+#include "settings/SettingsRustConfigValues.h"
+#include "settings/SettingsStorage.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "ui/Theme.h"
 
@@ -47,24 +47,6 @@ profileIdsFromRoot(QStandardPaths::StandardLocation location)
         return {};
 
     return dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-}
-
-YAML::Node
-loadYamlMapIfExists(const QString &path)
-{
-    if (!QFileInfo::exists(path))
-        return YAML::Node(YAML::NodeType::Map);
-
-    try {
-        const auto root = YAML::LoadFile(path.toStdString());
-        if (root && root.IsMap())
-            return root;
-    } catch (const YAML::Exception &e) {
-        nhlog::ui()->warn(
-          "Failed to parse profile metadata file '{}': {}", path.toStdString(), e.what());
-    }
-
-    return YAML::Node(YAML::NodeType::Map);
 }
 
 void
@@ -159,30 +141,31 @@ listProfiles(QStringView currentProfile)
         summary.isDefault = (profileId == QLatin1String("default"));
         summary.isCurrent = (profileId == currentProfile_);
 
-        const auto configRoot =
-          loadYamlMapIfExists(app_paths::config::profileConfigFile(profileId));
-        const auto sessionRoot =
-          loadYamlMapIfExists(app_paths::config::profileSessionFile(profileId));
+        const auto config = ::komai::rust::settings_load_config_snapshot(
+          settings::storage::readTextFile(app_paths::config::profileConfigFile(profileId), "config")
+            .toStdString());
+        const auto session = ::komai::rust::settings_load_session_snapshot(
+          settings::storage::readTextFile(app_paths::config::profileSessionFile(profileId),
+                                          "session")
+            .toStdString());
 
-        summary.themeSlug = yaml_settings::readString(
-          configRoot,
+        summary.themeSlug = settings::rust_config_values::readStringValue(
+          config.values,
           SettingKey::UiThemeSlug,
           QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug));
         if (summary.themeSlug.trimmed().isEmpty())
             summary.themeSlug =
               QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
 
-        summary.secretsProvider = yaml_settings::readString(
-          configRoot,
+        summary.secretsProvider = settings::rust_config_values::readStringValue(
+          config.values,
           SettingKey::SecretsProvider,
           QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue));
         if (summary.secretsProvider.isEmpty())
             summary.secretsProvider = QStringLiteral("unknown");
 
-        summary.userId =
-          yaml_settings::readString(sessionRoot, SettingKey::SessionAccountUserId, {});
-        summary.homeserver =
-          yaml_settings::readString(sessionRoot, SettingKey::SessionAccountHomeserver, {});
+        summary.userId     = QString::fromStdString(static_cast<std::string>(session.user_id));
+        summary.homeserver = QString::fromStdString(static_cast<std::string>(session.homeserver));
 
         const auto palette      = Theme::paletteFromTheme(summary.themeSlug);
         summary.accentColor     = palette.color(QPalette::Highlight);
@@ -263,12 +246,14 @@ deleteProfile(QStringView profileId,
         return false;
     }
 
-    const auto configPath      = app_paths::config::profileConfigFile(normalizedTargetProfile);
-    const auto configRoot      = loadYamlMapIfExists(configPath);
-    const auto secretsProvider = settings::persistence::providerFromConfigValue(
-      yaml_settings::readString(configRoot,
-                                SettingKey::SecretsProvider,
-                                QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
+    const auto configPath = app_paths::config::profileConfigFile(normalizedTargetProfile);
+    const auto config     = ::komai::rust::settings_load_config_snapshot(
+      settings::storage::readTextFile(configPath, "config").toStdString());
+    const auto secretsProvider =
+      settings::persistence::providerFromConfigValue(settings::rust_config_values::readStringValue(
+        config.values,
+        SettingKey::SecretsProvider,
+        QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
 
     const auto secretsFilePath = app_paths::config::profileSecretsFile(normalizedTargetProfile);
     const bool secretsRemoved  = settings::persistence::clearProfileSecrets(

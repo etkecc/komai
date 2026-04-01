@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "matrix/backend/MatrixSessionSecrets.h"
+#include "komai-rust-cxxbridge/lib.h"
 
 #include <QDir>
 #include <QHash>
@@ -10,8 +11,8 @@
 
 #include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
+#include "settings/SettingsRustConfigValues.h"
 #include "settings/SettingsStorage.h"
-#include "settings/YamlSettings.h"
 
 namespace {
 
@@ -38,11 +39,13 @@ loadSecretsPersistenceContext(const QString &profileId)
         return *it;
 
     const auto configFilePath = settings::storage::configFilePathForProfile(profileId);
-    const auto configRoot     = settings::storage::loadYamlFile(configFilePath, "config");
-    const auto provider       = settings::persistence::providerFromConfigValue(
-      yaml_settings::readString(configRoot,
-                                SettingKey::SecretsProvider,
-                                QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
+    const auto config         = ::komai::rust::settings_load_config_snapshot(
+      settings::storage::readTextFile(configFilePath, "config").toStdString());
+    const auto provider =
+      settings::persistence::providerFromConfigValue(settings::rust_config_values::readStringValue(
+        config.values,
+        SettingKey::SecretsProvider,
+        QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
 
     SecretsPersistenceContext context{
       .usesFileSecretsProvider = provider == staged_load_plan::SecretsProvider::File,

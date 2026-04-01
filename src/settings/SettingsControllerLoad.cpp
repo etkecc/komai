@@ -13,6 +13,7 @@
 #include "settings/SettingKeys.h"
 #include "settings/SettingsMigrations.h"
 #include "settings/SettingsPersistence.h"
+#include "settings/SettingsRustConfigValues.h"
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsSerializerLoad.h"
 #include "settings/SettingsStorage.h"
@@ -129,32 +130,6 @@ setConfigStringValue(::rust::Vec<::komai::rust::SettingsConfigValue> &values,
                       .string_list_map_value = {}});
 }
 
-QString
-readConfigStringValue(const ::rust::Vec<::komai::rust::SettingsConfigValue> &values,
-                      const char *key,
-                      const QString &defaultValue)
-{
-    for (const auto &entry : values) {
-        if (static_cast<std::string>(entry.key) != key)
-            continue;
-
-        switch (entry.kind) {
-        case ::komai::rust::SettingsConfigValueKind::String:
-            return QString::fromStdString(static_cast<std::string>(entry.string_value));
-        case ::komai::rust::SettingsConfigValueKind::Bool:
-            return entry.bool_value ? QStringLiteral("true") : QStringLiteral("false");
-        case ::komai::rust::SettingsConfigValueKind::Int:
-            return QString::number(entry.int_value);
-        case ::komai::rust::SettingsConfigValueKind::Double:
-            return QString::number(entry.double_value, 'g', 16);
-        default:
-            return defaultValue;
-        }
-    }
-
-    return defaultValue;
-}
-
 bool
 writeConfigSnapshot(const QString &path,
                     const ::rust::Vec<::komai::rust::SettingsConfigValue> &values)
@@ -195,10 +170,11 @@ loadImpl(UserSettings &settings,
         return *secureBackendAvailable;
     };
 
-    auto provider = settings::persistence::providerFromConfigValue(
-      readConfigStringValue(configSnapshot.values,
-                            SettingKey::SecretsProvider,
-                            QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
+    auto provider =
+      settings::persistence::providerFromConfigValue(settings::rust_config_values::readStringValue(
+        configSnapshot.values,
+        SettingKey::SecretsProvider,
+        QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
     if (!configFileExists) {
         const bool secureAvailable = secureBackendAvailableNow();
         provider                   = preferredProviderForAvailability(secureAvailable);

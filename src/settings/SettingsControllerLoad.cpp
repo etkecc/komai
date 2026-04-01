@@ -8,7 +8,6 @@
 #include "komai-rust-cxxbridge/lib.h"
 
 #include "logging/Logging.h"
-#include <yaml-cpp/yaml.h>
 
 #include "profile/Paths.h"
 #include "settings/SettingKeys.h"
@@ -18,15 +17,14 @@
 #include "settings/SettingsSerializerLoad.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"
-#include "settings/YamlSettings.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {
 
 using settings::storage::createDir;
-using settings::storage::loadYamlFile;
 using settings::storage::pathExists;
-using settings::storage::writeYamlFile;
+using settings::storage::readTextFile;
+using settings::storage::writeTextFile;
 
 const char *
 providerToken(staged_load_plan::SecretsProvider provider)
@@ -44,33 +42,23 @@ preferredProviderForAvailability(bool secureBackendAvailable)
 }
 
 void
-setConfigSecretsProvider(YAML::Node &configRoot, staged_load_plan::SecretsProvider provider)
+logConfigMigrationWarnings(const ::komai::rust::SettingsLoadedConfig &config)
 {
-    yaml_settings::setNode(configRoot,
-                           SettingKey::SecretsProvider,
-                           QString::fromLatin1(providerToken(provider)).toStdString());
-}
-
-void
-logMigrationWarnings(const char *scopeName,
-                     const settings::migrations::ScopeMigrationOutcome &outcome,
-                     int currentVersion)
-{
-    if (outcome.hadFutureVersion) {
+    if (config.had_future_version) {
         settings::activeLoggers().ui->warn(
           "{} schema version {} is newer than supported version {}; "
           "known keys will still be loaded but no migration will be applied",
-          scopeName,
-          outcome.sourceVersion,
-          currentVersion);
+          "Config",
+          config.source_version,
+          settings::migrations::kCurrentConfigSchemaVersion);
     }
-    if (outcome.hadUnsupportedPath) {
+    if (config.had_unsupported_path) {
         settings::activeLoggers().ui->warn(
           "{} migration path is unsupported from schema version {} to {}; "
           "loaded values may be partially migrated",
-          scopeName,
-          outcome.sourceVersion,
-          currentVersion);
+          "Config",
+          config.source_version,
+          settings::migrations::kCurrentConfigSchemaVersion);
     }
 }
 
@@ -113,27 +101,69 @@ logStateMigrationWarnings(const ::komai::rust::SettingsLoadedState &state)
 }
 
 void
-writeMigratedScopeIfNeeded(const QString &path,
-                           const char *scopeName,
-                           bool persistMigrationWriteback,
-                           bool fileExists,
-                           const settings::migrations::ScopeMigrationOutcome &outcome)
+setConfigStringValue(::rust::Vec<::komai::rust::SettingsConfigValue> &values,
+                     const char *key,
+                     const QString &value)
 {
-    if (!persistMigrationWriteback || !fileExists || outcome.hadFutureVersion ||
-        outcome.hadUnsupportedPath || outcome.sourceVersion == outcome.migratedVersion)
-        return;
+    for (auto &entry : values) {
+        if (static_cast<std::string>(entry.key) != key)
+            continue;
 
-    if (!writeYamlFile(path, outcome.migratedRoot, false)) {
-        settings::activeLoggers().ui->warn(
-          "Failed to persist migrated {} settings at: {}", scopeName, path.toStdString());
+        entry.kind         = ::komai::rust::SettingsConfigValueKind::String;
+        entry.bool_value   = false;
+        entry.int_value    = 0;
+        entry.double_value = 0.0;
+        entry.string_value = value.toStdString();
+        entry.string_list_value.clear();
+        entry.string_list_map_value.clear();
         return;
     }
 
-    settings::activeLoggers().ui->info("Persisted {} settings schema migration {} -> {} at: {}",
-                                       scopeName,
-                                       outcome.sourceVersion,
-                                       outcome.migratedVersion,
-                                       path.toStdString());
+    values.push_back({.key                   = key,
+                      .kind                  = ::komai::rust::SettingsConfigValueKind::String,
+                      .bool_value            = false,
+                      .int_value             = 0,
+                      .double_value          = 0.0,
+                      .string_value          = value.toStdString(),
+                      .string_list_value     = {},
+                      .string_list_map_value = {}});
+}
+
+QString
+readConfigStringValue(const ::rust::Vec<::komai::rust::SettingsConfigValue> &values,
+                      const char *key,
+                      const QString &defaultValue)
+{
+    for (const auto &entry : values) {
+        if (static_cast<std::string>(entry.key) != key)
+            continue;
+
+        switch (entry.kind) {
+        case ::komai::rust::SettingsConfigValueKind::String:
+            return QString::fromStdString(static_cast<std::string>(entry.string_value));
+        case ::komai::rust::SettingsConfigValueKind::Bool:
+            return entry.bool_value ? QStringLiteral("true") : QStringLiteral("false");
+        case ::komai::rust::SettingsConfigValueKind::Int:
+            return QString::number(entry.int_value);
+        case ::komai::rust::SettingsConfigValueKind::Double:
+            return QString::number(entry.double_value, 'g', 16);
+        default:
+            return defaultValue;
+        }
+    }
+
+    return defaultValue;
+}
+
+bool
+writeConfigSnapshot(const QString &path,
+                    const ::rust::Vec<::komai::rust::SettingsConfigValue> &values)
+{
+    const ::komai::rust::SettingsConfigSnapshot snapshot{.values = values};
+    return writeTextFile(path,
+                         QString::fromStdString(static_cast<std::string>(
+                           ::komai::rust::settings_encode_config_yaml(snapshot))),
+                         false);
 }
 
 void
@@ -152,11 +182,11 @@ loadImpl(UserSettings &settings,
     const bool configFileExists = pathExists(settings.configFilePath());
     settings.setPersistenceSuspended(true);
 
-    const auto loadedConfig = loadYamlFile(settings.configFilePath(), "config");
-    auto configOutcome      = settings::migrations::migrateConfigRoot(loadedConfig);
-    logMigrationWarnings(
-      "Config", configOutcome, settings::migrations::kCurrentConfigSchemaVersion);
-    settings::serializer::loadConfig(settings, configOutcome.migratedRoot);
+    const auto loadedConfigText = readTextFile(settings.configFilePath(), "config");
+    auto configSnapshot =
+      ::komai::rust::settings_load_config_snapshot(loadedConfigText.toStdString());
+    logConfigMigrationWarnings(configSnapshot);
+    settings::serializer::loadConfig(settings, configSnapshot.values);
 
     std::optional<bool> secureBackendAvailable;
     const auto secureBackendAvailableNow = [&]() -> bool {
@@ -166,13 +196,15 @@ loadImpl(UserSettings &settings,
     };
 
     auto provider = settings::persistence::providerFromConfigValue(
-      yaml_settings::readString(configOutcome.migratedRoot,
-                                SettingKey::SecretsProvider,
-                                QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
+      readConfigStringValue(configSnapshot.values,
+                            SettingKey::SecretsProvider,
+                            QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue)));
     if (!configFileExists) {
         const bool secureAvailable = secureBackendAvailableNow();
         provider                   = preferredProviderForAvailability(secureAvailable);
-        setConfigSecretsProvider(configOutcome.migratedRoot, provider);
+        setConfigStringValue(configSnapshot.values,
+                             SettingKey::SecretsProvider,
+                             QString::fromLatin1(providerToken(provider)));
         settings::activeLoggers().ui->info(
           "New profile '{}' selected secrets provider '{}' (secure backend available={})",
           app_paths::normalizedProfileId(settings.profileId()).toStdString(),
@@ -185,9 +217,9 @@ loadImpl(UserSettings &settings,
           providerToken(provider));
     }
 
-    if (persistMigrationWriteback && !configFileExists && !configOutcome.hadFutureVersion &&
-        !configOutcome.hadUnsupportedPath) {
-        if (!writeYamlFile(settings.configFilePath(), configOutcome.migratedRoot, false)) {
+    if (persistMigrationWriteback && !configFileExists && !configSnapshot.had_future_version &&
+        !configSnapshot.had_unsupported_path) {
+        if (!writeConfigSnapshot(settings.configFilePath(), configSnapshot.values)) {
             settings::activeLoggers().ui->warn(
               "Failed to initialize new profile config with schema version: {}",
               settings.configFilePath().toStdString());
@@ -196,12 +228,22 @@ loadImpl(UserSettings &settings,
               "Initialized new profile config with settings schema version at: {}",
               settings.configFilePath().toStdString());
         }
-    } else {
-        writeMigratedScopeIfNeeded(settings.configFilePath(),
-                                   "config",
-                                   persistMigrationWriteback,
-                                   configFileExists,
-                                   configOutcome);
+    } else if (persistMigrationWriteback && configFileExists &&
+               !configSnapshot.had_future_version && !configSnapshot.had_unsupported_path &&
+               configSnapshot.should_write_back) {
+        if (!writeTextFile(
+              settings.configFilePath(),
+              QString::fromStdString(static_cast<std::string>(configSnapshot.serialized_yaml)),
+              false)) {
+            settings::activeLoggers().ui->warn("Failed to persist migrated config settings at: {}",
+                                               settings.configFilePath().toStdString());
+        } else {
+            settings::activeLoggers().ui->info(
+              "Persisted config settings schema migration {} -> {} at: {}",
+              configSnapshot.source_version,
+              configSnapshot.migrated_version,
+              settings.configFilePath().toStdString());
+        }
     }
 
     settings.setUsesFileSecretsProvider(provider == staged_load_plan::SecretsProvider::File);
@@ -349,12 +391,13 @@ loadImpl(UserSettings &settings,
                 provider = preferredProvider;
                 settings.setUsesFileSecretsProvider(provider ==
                                                     staged_load_plan::SecretsProvider::File);
-                setConfigSecretsProvider(configOutcome.migratedRoot, provider);
+                setConfigStringValue(configSnapshot.values,
+                                     SettingKey::SecretsProvider,
+                                     QString::fromLatin1(providerToken(provider)));
 
-                if (persistMigrationWriteback && !configOutcome.hadFutureVersion &&
-                    !configOutcome.hadUnsupportedPath) {
-                    if (!writeYamlFile(
-                          settings.configFilePath(), configOutcome.migratedRoot, false)) {
+                if (persistMigrationWriteback && !configSnapshot.had_future_version &&
+                    !configSnapshot.had_unsupported_path) {
+                    if (!writeConfigSnapshot(settings.configFilePath(), configSnapshot.values)) {
                         settings::activeLoggers().ui->warn(
                           "Failed to persist startup secrets provider update at: {}",
                           settings.configFilePath().toStdString());
@@ -363,14 +406,14 @@ loadImpl(UserSettings &settings,
                           "Persisted startup secrets provider update at: {}",
                           settings.configFilePath().toStdString());
                     }
-                } else if (persistMigrationWriteback &&
-                           (configOutcome.hadFutureVersion || configOutcome.hadUnsupportedPath)) {
+                } else if (persistMigrationWriteback && (configSnapshot.had_future_version ||
+                                                         configSnapshot.had_unsupported_path)) {
                     settings::activeLoggers().ui->warn(
                       "Skipped persisting startup secrets provider update for profile '{}' "
                       "(future_version={}, unsupported_path={})",
                       app_paths::normalizedProfileId(settings.profileId()).toStdString(),
-                      configOutcome.hadFutureVersion ? "true" : "false",
-                      configOutcome.hadUnsupportedPath ? "true" : "false");
+                      configSnapshot.had_future_version ? "true" : "false",
+                      configSnapshot.had_unsupported_path ? "true" : "false");
                 }
             } else {
                 settings::activeLoggers().ui->debug(

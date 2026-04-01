@@ -5,20 +5,18 @@
 
 #pragma once
 
-namespace YAML {
-class Node;
-}
+#include "komai-rust-cxxbridge/lib.h"
 
 class UserSettings;
 
 namespace settings::serializer {
 
 /**
- * YAML-backed load helpers used by the staged settings controller.
+ * Rust-backed load helpers used by the staged settings controller.
  *
- * These remain separate from the broader serializer facade so raw YAML types
- * do not leak into unrelated startup/application code.
+ * These remain separate from the broader serializer facade so config-load
+ * bridge details do not leak into unrelated startup/application code.
  */
 void
-loadConfig(UserSettings &settings, const YAML::Node &root);
+loadConfig(UserSettings &settings, const ::rust::Vec<::komai::rust::SettingsConfigValue> &values);
 } // namespace settings::serializer

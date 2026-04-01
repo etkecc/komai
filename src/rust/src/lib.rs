@@ -93,6 +93,16 @@ mod ffi {
         values: Vec<SettingsConfigValue>,
     }
 
+    struct SettingsLoadedConfig {
+        values: Vec<SettingsConfigValue>,
+        source_version: i32,
+        migrated_version: i32,
+        had_future_version: bool,
+        had_unsupported_path: bool,
+        should_write_back: bool,
+        serialized_yaml: String,
+    }
+
     struct SettingsLoadedSession {
         user_id: String,
         device_id: String,
@@ -659,6 +669,7 @@ mod ffi {
             root_key: &str,
         ) -> Vec<SettingsStringMapEntry>;
         fn settings_encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String;
+        fn settings_load_config_snapshot(config_text: &str) -> SettingsLoadedConfig;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str)
         -> String;
@@ -1415,6 +1426,20 @@ fn settings_decode_named_string_map_yaml(
 
 fn settings_encode_config_yaml(snapshot: &ffi::SettingsConfigSnapshot) -> String {
     settings::config::encode_config_yaml(snapshot)
+}
+
+fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsLoadedConfig {
+    let snapshot = settings::config::load_config_snapshot(config_text);
+
+    ffi::SettingsLoadedConfig {
+        values: snapshot.values,
+        source_version: snapshot.source_version,
+        migrated_version: snapshot.migrated_version,
+        had_future_version: snapshot.had_future_version,
+        had_unsupported_path: snapshot.had_unsupported_path,
+        should_write_back: snapshot.should_write_back,
+        serialized_yaml: snapshot.serialized_yaml,
+    }
 }
 
 fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {

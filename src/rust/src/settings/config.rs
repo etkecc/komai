@@ -9,10 +9,21 @@ use crate::ffi::{
 };
 
 const CURRENT_CONFIG_SCHEMA_VERSION: i32 = 1;
+const CONFIG_SCHEMA_VERSION_PATH: [&str; 2] = ["meta", "settings_schema_version"];
 
 #[derive(Clone, Debug, Default)]
 pub struct StoredConfig {
     pub ui_scale_factor: Option<f32>,
+}
+
+pub struct LoadedConfig {
+    pub values: Vec<SettingsConfigValue>,
+    pub source_version: i32,
+    pub migrated_version: i32,
+    pub had_future_version: bool,
+    pub had_unsupported_path: bool,
+    pub should_write_back: bool,
+    pub serialized_yaml: String,
 }
 
 pub fn parse_config_text(config_text: &str) -> StoredConfig {
@@ -32,7 +43,7 @@ pub fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     let mut root = empty_mapping();
     set_value(
         &mut root,
-        &["meta", "settings_schema_version"],
+        &CONFIG_SCHEMA_VERSION_PATH,
         Value::Number(Number::from(CURRENT_CONFIG_SCHEMA_VERSION)),
     );
 
@@ -48,8 +59,55 @@ pub fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     serialize_yaml(&root)
 }
 
+pub fn load_config_snapshot(config_text: &str) -> LoadedConfig {
+    let mut root = parse_root(config_text);
+    let source_version = read_schema_version(&root);
+    let mut had_future_version = false;
+    let had_unsupported_path = false;
+    let migrated_version;
+    let should_write_back;
+
+    if source_version > CURRENT_CONFIG_SCHEMA_VERSION {
+        had_future_version = true;
+        migrated_version = source_version;
+        should_write_back = false;
+    } else {
+        migrated_version = CURRENT_CONFIG_SCHEMA_VERSION;
+        set_value(
+            &mut root,
+            &CONFIG_SCHEMA_VERSION_PATH,
+            Value::Number(Number::from(CURRENT_CONFIG_SCHEMA_VERSION)),
+        );
+        should_write_back = source_version != migrated_version;
+    }
+
+    let mut values = Vec::new();
+    flatten_config_values("", &root, &mut values);
+
+    LoadedConfig {
+        values,
+        source_version,
+        migrated_version,
+        had_future_version,
+        had_unsupported_path,
+        should_write_back,
+        serialized_yaml: serialize_yaml(&root),
+    }
+}
+
 fn empty_mapping() -> Value {
     Value::Mapping(Mapping::new())
+}
+
+fn parse_root(serialized: &str) -> Value {
+    if serialized.trim().is_empty() {
+        return empty_mapping();
+    }
+
+    match serde_yaml_ng::from_str::<Value>(serialized) {
+        Ok(Value::Mapping(mapping)) => Value::Mapping(mapping),
+        Ok(_) | Err(_) => empty_mapping(),
+    }
 }
 
 fn dotted_path(key: &str) -> Vec<&str> {
@@ -67,6 +125,14 @@ fn value_at_path<'a>(root: &'a Value, path: &[&str]) -> Option<&'a Value> {
     }
 
     Some(current)
+}
+
+fn read_schema_version(root: &Value) -> i32 {
+    match value_at_path(root, &CONFIG_SCHEMA_VERSION_PATH) {
+        Some(Value::Number(number)) => number.as_i64().unwrap_or_default().max(0) as i32,
+        Some(Value::String(value)) => value.parse::<i32>().ok().unwrap_or_default().max(0),
+        _ => 0,
+    }
 }
 
 fn parse_scalar_f32(value: &Value) -> Option<f32> {
@@ -126,6 +192,137 @@ fn config_value_to_yaml(value: &SettingsConfigValue) -> Value {
         SettingsConfigValueKind::StringListMap => string_list_map(&value.string_list_map_value),
         _ => Value::Null,
     }
+}
+
+fn flatten_config_values(prefix: &str, value: &Value, values: &mut Vec<SettingsConfigValue>) {
+    match value {
+        Value::Mapping(mapping) => {
+            if !prefix.is_empty() {
+                if let Some(entries) = mapping_as_string_list_map(mapping) {
+                    values.push(SettingsConfigValue {
+                        key: prefix.to_owned(),
+                        kind: SettingsConfigValueKind::StringListMap,
+                        bool_value: false,
+                        int_value: 0,
+                        double_value: 0.0,
+                        string_value: String::new(),
+                        string_list_value: vec![],
+                        string_list_map_value: entries,
+                    });
+                    return;
+                }
+            }
+
+            for (key, child) in mapping {
+                let Value::String(key) = key else {
+                    continue;
+                };
+
+                let next_prefix = if prefix.is_empty() {
+                    key.clone()
+                } else {
+                    format!("{prefix}.{key}")
+                };
+                if next_prefix == "meta.settings_schema_version" {
+                    continue;
+                }
+
+                flatten_config_values(&next_prefix, child, values);
+            }
+        }
+        Value::Bool(bool_value) => values.push(SettingsConfigValue {
+            key: prefix.to_owned(),
+            kind: SettingsConfigValueKind::Bool,
+            bool_value: *bool_value,
+            int_value: 0,
+            double_value: 0.0,
+            string_value: String::new(),
+            string_list_value: vec![],
+            string_list_map_value: vec![],
+        }),
+        Value::Number(number) => {
+            if let Some(int_value) = number.as_i64().and_then(|value| i32::try_from(value).ok()) {
+                values.push(SettingsConfigValue {
+                    key: prefix.to_owned(),
+                    kind: SettingsConfigValueKind::Int,
+                    bool_value: false,
+                    int_value,
+                    double_value: 0.0,
+                    string_value: String::new(),
+                    string_list_value: vec![],
+                    string_list_map_value: vec![],
+                });
+            } else if let Some(double_value) = number.as_f64() {
+                values.push(SettingsConfigValue {
+                    key: prefix.to_owned(),
+                    kind: SettingsConfigValueKind::Double,
+                    bool_value: false,
+                    int_value: 0,
+                    double_value,
+                    string_value: String::new(),
+                    string_list_value: vec![],
+                    string_list_map_value: vec![],
+                });
+            }
+        }
+        Value::String(string_value) => values.push(SettingsConfigValue {
+            key: prefix.to_owned(),
+            kind: SettingsConfigValueKind::String,
+            bool_value: false,
+            int_value: 0,
+            double_value: 0.0,
+            string_value: string_value.clone(),
+            string_list_value: vec![],
+            string_list_map_value: vec![],
+        }),
+        Value::Sequence(sequence) => {
+            let mut strings = Vec::new();
+            for entry in sequence {
+                let Value::String(string_value) = entry else {
+                    return;
+                };
+                strings.push(string_value.clone());
+            }
+
+            values.push(SettingsConfigValue {
+                key: prefix.to_owned(),
+                kind: SettingsConfigValueKind::StringList,
+                bool_value: false,
+                int_value: 0,
+                double_value: 0.0,
+                string_value: String::new(),
+                string_list_value: strings,
+                string_list_map_value: vec![],
+            });
+        }
+        _ => {}
+    }
+}
+
+fn mapping_as_string_list_map(mapping: &Mapping) -> Option<Vec<SettingsStringListMapEntry>> {
+    let mut entries = Vec::new();
+    for (key, value) in mapping {
+        let Value::String(key) = key else {
+            return None;
+        };
+        let Value::Sequence(sequence) = value else {
+            return None;
+        };
+
+        let mut strings = Vec::new();
+        for entry in sequence {
+            let Value::String(string_value) = entry else {
+                return None;
+            };
+            strings.push(string_value.clone());
+        }
+
+        entries.push(SettingsStringListMapEntry {
+            key: key.clone(),
+            values: strings,
+        });
+    }
+    Some(entries)
 }
 
 fn string_list_map(entries: &[SettingsStringListMapEntry]) -> Value {

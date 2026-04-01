@@ -1066,17 +1066,15 @@ if(BUILD_TESTING)
         src/settings/SettingsPersistenceSave.cpp
         src/settings/SettingsStorage.cpp
         src/settings/SettingsStoragePathApi.cpp
-        tests/support/settings/SettingsStorageYaml.cpp
         src/settings/SettingsStorageReaderWriterFilesystem.cpp
         src/settings/SettingsStorageReaderWriterInMemory.cpp
         src/settings/SettingsStorageSecureBackend.cpp
         src/settings/SettingsStorageSecretsCodec.cpp
     )
-    target_include_directories(komai_settings_storage_test PRIVATE src tests/support)
+    target_include_directories(komai_settings_storage_test PRIVATE src)
     target_link_libraries(komai_settings_storage_test PRIVATE
         Qt::Core
         Qt::Qml
-        ${YAMLCPP_TARGET_NAME}
         komai_rust
         komai-rust-cxxbridge
     )

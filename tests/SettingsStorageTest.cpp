@@ -12,7 +12,6 @@
 #include <QTemporaryDir>
 
 #include <memory>
-#include <yaml-cpp/yaml.h>
 
 #include "logging/Logging.h"
 
@@ -23,8 +22,6 @@
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
-#include "settings/SettingsStorageYaml.h"
-#include "settings/YamlSettings.h"
 #include "TestEnvironment.h"
 
 namespace {
@@ -49,19 +46,13 @@ testYamlRoundtrip()
     }
 
     const auto filePath = tempDir.path() + QStringLiteral("/settings.yml");
-    YAML::Node root(YAML::NodeType::Map);
-    root["ui"]["motion"]["enable_animations"] = true;
-    root["sidebars"]["room_list"]["width_px"] = 42;
+    const auto content = QStringLiteral("ui:\n  motion:\n    enable_animations: true\nsidebars:\n  room_list:\n    width_px: 42\n");
 
-    ok &= expect(settings::storage::writeYamlFile(filePath, root, false), "writeYamlFile persists map");
+    ok &= expect(settings::storage::writeTextFile(filePath, content, false),
+                 "writeTextFile persists config text");
 
-    const auto read = settings::storage::loadYamlFile(filePath, "settings-test");
-    ok &= expect(read["ui"]["motion"]["enable_animations"].as<bool>() ==
-                 root["ui"]["motion"]["enable_animations"].as<bool>(),
-                 "read back bool from written YAML");
-    ok &= expect(read["sidebars"]["room_list"]["width_px"].as<int>() ==
-                 root["sidebars"]["room_list"]["width_px"].as<int>(),
-                 "read back integer from written YAML");
+    const auto read = settings::storage::readTextFile(filePath, "settings-test");
+    ok &= expect(read == content, "readTextFile returns written config text");
 
     return ok;
 }
@@ -77,23 +68,8 @@ testMissingAndInvalidFiles()
     }
 
     const auto missingPath = tempDir.path() + QStringLiteral("/missing.yml");
-    const auto missingRoot = settings::storage::loadYamlFile(missingPath, "missing");
-    ok &= expect(missingRoot.IsMap(), "loadYamlFile returns map for missing file");
-    ok &= expect(missingRoot.size() == 0, "missing file load returns empty map");
-
-    const auto invalidPath = tempDir.path() + QStringLiteral("/invalid.yml");
-    {
-        QFile invalidFile{invalidPath};
-        if (!invalidFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            return expect(false, "failed to create invalid YAML fixture file");
-        }
-        invalidFile.write("ui: [\n");
-        invalidFile.close();
-    }
-
-    const auto invalidRoot = settings::storage::loadYamlFile(invalidPath, "invalid");
-    ok &= expect(invalidRoot.IsMap(), "loadYamlFile returns map for invalid YAML");
-    ok &= expect(invalidRoot.size() == 0, "invalid YAML load falls back to empty map");
+    const auto missingText = settings::storage::readTextFile(missingPath, "missing");
+    ok &= expect(missingText.isEmpty(), "readTextFile returns empty string for missing file");
 
     return ok;
 }
@@ -226,11 +202,12 @@ testLoggerInjectionNullAndInjectedLoggers()
     if (!tempDir.isValid())
         return expect(false, "temporary directory for logger smoke test is valid");
     const auto file = tempDir.path() + QStringLiteral("/config.yml");
-    YAML::Node root(YAML::NodeType::Map);
-    root["ui"]["motion"]["enable_animations"] = false;
-    ok &= expect(settings::storage::writeYamlFile(file, root, false),
+    ok &= expect(settings::storage::writeTextFile(
+                   file, QStringLiteral("ui:\n  motion:\n    enable_animations: false\n"), false),
                  "settings storage can write with null logger");
-    ok &= expect(settings::storage::loadYamlFile(file, "settings-test").IsMap(),
+    ok &= expect(
+      settings::storage::readTextFile(file, "settings-test").contains(
+        QStringLiteral("enable_animations: false")),
                  "settings storage can read with null logger");
 
     auto uiLogger = std::make_shared<nhlog::Logger>("test-ui");
@@ -240,7 +217,9 @@ testLoggerInjectionNullAndInjectedLoggers()
     ok &= expect(current.ui == uiLogger, "settings storage stores injected ui logger");
     ok &= expect(current.db == dbLogger, "settings storage stores injected db logger");
 
-    ok &= expect(settings::storage::loadYamlFile(file, "settings-test").IsMap(),
+    ok &= expect(
+      settings::storage::readTextFile(file, "settings-test").contains(
+        QStringLiteral("enable_animations: false")),
                  "settings storage can read with injected logger");
 
     return ok;
@@ -258,13 +237,12 @@ testInMemoryReaderWriterOverride()
     const auto configPath = settings::storage::configFilePathForProfile(profile);
     const auto statePath  = settings::storage::stateFilePathForProfile(profile);
 
-    YAML::Node root(YAML::NodeType::Map);
-    root["integrations"]["dbus"]["access"] = 2;
-    ok &= expect(settings::storage::writeYamlFile(configPath, root, false),
-                "in-memory writer can persist YAML nodes");
-    const auto loaded = settings::storage::loadYamlFile(configPath, "readerwriter-config");
-    ok &= expect(
-      loaded["integrations"]["dbus"]["access"].as<int>() == 2, "in-memory writer stores written data");
+    ok &= expect(settings::storage::writeTextFile(
+                   configPath, QStringLiteral("integrations:\n  dbus:\n    access: 2\n"), false),
+                 "in-memory writer can persist text content");
+    const auto loaded = settings::storage::readTextFile(configPath, "readerwriter-config");
+    ok &= expect(loaded.contains(QStringLiteral("access: 2")),
+                 "in-memory writer stores written data");
 
     ok &= expect(settings::storage::pathExists(configPath), "in-memory writer reports existing paths");
     settings::storage::removePath(configPath);
@@ -350,15 +328,12 @@ testKeyringEnvironmentTagResolution()
 bool
 testProviderSelectionHonorsConfigAndOverrides()
 {
-    YAML::Node root(YAML::NodeType::Map);
-    root["secrets"]["provider"] = staged_load_plan::ProviderSecretServiceValue;
     auto fromConfig = settings::persistence::providerFromConfigValue(
       QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue));
     auto defaultSecretService =
       expect(fromConfig == staged_load_plan::SecretsProvider::SecretService,
              "secret provider defaults to secret_service");
 
-    root["secrets"]["provider"] = staged_load_plan::ProviderFileValue;
     const bool explicitFileConfig = expect(
       settings::persistence::providerFromConfigValue(
         QString::fromLatin1(staged_load_plan::ProviderFileValue)) ==
@@ -383,9 +358,8 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
     const auto matrixSdkSecretsPath =
       QDir(settings::storage::profileDirPath(profile)).filePath(QStringLiteral("matrix-sdk-secrets.yml"));
 
-    YAML::Node config(YAML::NodeType::Map);
-    config["secrets"]["provider"] = staged_load_plan::ProviderFileValue;
-    ok &= expect(settings::storage::writeYamlFile(configPath, config, false),
+    ok &= expect(settings::storage::writeTextFile(
+                   configPath, QStringLiteral("secrets:\n  provider: file\n"), false),
                  "matrix session secrets test writes config");
 
     settings::persistence::saveProfileSecrets(
@@ -423,10 +397,8 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
     ok &= expect(payload.secrets.value(QStringLiteral("matrix_sdk.serialized_session")).isEmpty(),
                  "matrix session save no longer writes serialized session into profile secrets");
 
-    const auto matrixSdkSecretsRoot =
-      settings::storage::loadYamlFile(matrixSdkSecretsPath, "matrix-sdk secrets test");
-    const auto matrixSdkSecrets =
-      yaml_settings::readStringMap(matrixSdkSecretsRoot, SettingKey::SecretsFileMap);
+    const auto matrixSdkSecrets = settings::storage::decodeSecretsFilePayload(
+      settings::storage::readTextFile(matrixSdkSecretsPath, "matrix-sdk secrets test"));
     ok &= expect(matrixSdkSecrets.value(QStringLiteral("matrix_sdk.store_passphrase")) ==
                    QStringLiteral("store-passphrase"),
                  "matrix session save persists store passphrase in dedicated matrix-sdk secret store");

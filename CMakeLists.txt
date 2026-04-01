@@ -127,9 +127,6 @@ find_package(PkgConfig REQUIRED)
 # curl
 pkg_check_modules(libcurl REQUIRED IMPORTED_TARGET libcurl)
 
-# fmt
-find_package(fmt 8.0.0 CONFIG REQUIRED)
-
 #
 # Discover Qt dependencies.
 #
@@ -1078,7 +1075,6 @@ if(BUILD_TESTING)
     )
     target_link_libraries(komai_startup_settings_test PRIVATE
         qt6keychain
-        fmt::fmt
     )
     set_target_properties(komai_startup_settings_test PROPERTIES AUTOMOC ON)
     add_test(NAME komai_startup_settings_test COMMAND komai_startup_settings_test)
@@ -1109,7 +1105,6 @@ if(BUILD_TESTING)
     )
     target_link_libraries(komai_settings_storage_test PRIVATE
         qt6keychain
-        fmt::fmt
     )
     add_test(NAME komai_settings_storage_test COMMAND komai_settings_storage_test)
     komai_configure_test(komai_settings_storage_test "unit;settings")
@@ -1234,7 +1229,6 @@ if(BUILD_TESTING)
     target_include_directories(komai_emoji_completion_search_test PRIVATE src)
     target_link_libraries(komai_emoji_completion_search_test PRIVATE
         Qt::Core
-        fmt::fmt
     )
     set_target_properties(komai_emoji_completion_search_test PROPERTIES AUTOMOC ON)
     add_dependencies(komai_emoji_completion_search_test emoji_runtime_data)
@@ -1269,7 +1263,6 @@ if(BUILD_TESTING)
     target_include_directories(komai_navigation_history_test PRIVATE src)
     target_link_libraries(komai_navigation_history_test PRIVATE
         Qt::Core
-        fmt::fmt
     )
     add_test(NAME komai_navigation_history_test COMMAND komai_navigation_history_test)
     komai_configure_test(komai_navigation_history_test "unit;timeline")
@@ -1285,7 +1278,6 @@ if(BUILD_TESTING)
     target_link_libraries(komai_slash_commands_test PRIVATE
         Qt::Core
         Qt::Gui
-        fmt::fmt
     )
     add_test(NAME komai_slash_commands_test COMMAND komai_slash_commands_test)
     komai_configure_test(komai_slash_commands_test "unit;timeline")
@@ -1299,7 +1291,6 @@ if(BUILD_TESTING)
     target_link_libraries(komai_layout_agnostic_keys_test PRIVATE
         Qt::Core
         Qt::Qml
-        fmt::fmt
     )
     set_target_properties(komai_layout_agnostic_keys_test PROPERTIES AUTOMOC ON)
     add_test(NAME komai_layout_agnostic_keys_test COMMAND komai_layout_agnostic_keys_test)
@@ -1333,7 +1324,6 @@ endif()
 target_link_libraries(komai PRIVATE
     KF6::SyntaxHighlighting
     cmark::cmark
-    fmt::fmt
     Qt::Widgets
     Qt::Svg
     Qt::Gui

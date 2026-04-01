@@ -5,19 +5,18 @@
 
 #pragma once
 
+#include <format>
 #include <memory>
 #include <string>
 #include <string_view>
 
 #include <QString>
 
-#include <fmt/format.h>
-
 namespace nhlog {
 
 /// Lightweight logger proxy that forwards formatted messages to the Rust tracing
-/// subscriber via CXX FFI.  The public API matches spdlog::logger so that
-/// existing call sites (`nhlog::ui()->info(...)` etc.) continue to compile
+/// subscriber via CXX FFI.  The public API matches the former spdlog::logger so
+/// that existing call sites (`nhlog::ui()->info(...)` etc.) continue to compile
 /// without changes.
 class Logger
 {
@@ -28,39 +27,39 @@ public:
     }
 
     template<typename... Args>
-    void trace(fmt::format_string<Args...> fmt, Args &&...args)
+    void trace(std::format_string<Args...> fmt, Args &&...args)
     {
-        send("trace", fmt::format(fmt, std::forward<Args>(args)...));
+        send("trace", std::format(fmt, std::forward<Args>(args)...));
     }
 
     template<typename... Args>
-    void debug(fmt::format_string<Args...> fmt, Args &&...args)
+    void debug(std::format_string<Args...> fmt, Args &&...args)
     {
-        send("debug", fmt::format(fmt, std::forward<Args>(args)...));
+        send("debug", std::format(fmt, std::forward<Args>(args)...));
     }
 
     template<typename... Args>
-    void info(fmt::format_string<Args...> fmt, Args &&...args)
+    void info(std::format_string<Args...> fmt, Args &&...args)
     {
-        send("info", fmt::format(fmt, std::forward<Args>(args)...));
+        send("info", std::format(fmt, std::forward<Args>(args)...));
     }
 
     template<typename... Args>
-    void warn(fmt::format_string<Args...> fmt, Args &&...args)
+    void warn(std::format_string<Args...> fmt, Args &&...args)
     {
-        send("warn", fmt::format(fmt, std::forward<Args>(args)...));
+        send("warn", std::format(fmt, std::forward<Args>(args)...));
     }
 
     template<typename... Args>
-    void error(fmt::format_string<Args...> fmt, Args &&...args)
+    void error(std::format_string<Args...> fmt, Args &&...args)
     {
-        send("error", fmt::format(fmt, std::forward<Args>(args)...));
+        send("error", std::format(fmt, std::forward<Args>(args)...));
     }
 
     template<typename... Args>
-    void critical(fmt::format_string<Args...> fmt, Args &&...args)
+    void critical(std::format_string<Args...> fmt, Args &&...args)
     {
-        send("critical", fmt::format(fmt, std::forward<Args>(args)...));
+        send("critical", std::format(fmt, std::forward<Args>(args)...));
     }
 
     // Single-string overloads for call sites that pass a runtime std::string

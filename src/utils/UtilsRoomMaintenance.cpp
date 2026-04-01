@@ -19,8 +19,6 @@
 #include <unordered_set>
 #include <vector>
 
-#include <fmt/ranges.h>
-
 #include "logging/Logging.h"
 #include "matrix/MatrixIdentifiers.h"
 #include "settings/ui/facade/UserSettingsPage.h"

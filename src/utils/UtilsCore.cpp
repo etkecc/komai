@@ -26,8 +26,6 @@
 #include <QWindow>
 #include <QXmlStreamReader>
 
-#include <fmt/ranges.h>
-
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"

@@ -9,7 +9,7 @@
 namespace komai {
 
 // Detached notification payload used by platform notification backends.
-// This keeps the UI/platform layer independent from mtxclient-era response types.
+// This keeps the UI/platform layer independent from backend-specific response types.
 struct NotificationPayload
 {
     QString roomId;

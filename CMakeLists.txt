@@ -687,21 +687,6 @@ CPMAddPackage(
 
 set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
 set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
-# mtxclient checks USE_BUNDLED_COEURL to decide how to find coeurl.
-# When ON, it calls FetchContent_MakeAvailable(coeurl) which is a no-op
-# since CPM already populated coeurl above.
-set(USE_BUNDLED_COEURL ON CACHE INTERNAL "")
-# Always bundle MatrixClient. Distro copies are commonly older than our pinned
-# revision and may miss patches or API we rely on.
-CPMAddPackage(
-    NAME MatrixClient
-    GIT_REPOSITORY https://github.com/Nheko-Reborn/mtxclient.git
-    GIT_TAG f5766cb53c244a808b7e512c7b83b3942fb67834
-    PATCH_COMMAND git apply --whitespace=nowarn
-        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/mtxclient/0001-add-filename-to-media-messages.patch
-    FORCE True
-    UPDATE_DISCONNECTED 1
-)
 
 CPMAddPackage(
     NAME litehtml

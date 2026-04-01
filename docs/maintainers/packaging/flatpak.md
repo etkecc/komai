@@ -29,16 +29,14 @@ just flatpak-run       # Run Komai
 The Flatpak manifest at [`etc/packaging/flatpak/cc.etke.komai.yaml`](../../../etc/packaging/flatpak/cc.etke.komai.yaml) works similarly to a Dockerfile:
 
 1. Starts from the KDE Platform runtime (provides Qt6, KDE Frameworks, GStreamer, etc.)
-2. Builds dependency modules from source (libevent, olm, spdlog, etc.)
+2. Builds dependency modules from source (libevent, coeurl, spdlog, etc.)
 3. Builds Komai itself from the local source tree
 4. Packages everything into a Flatpak bundle
 
 Komai uses [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) to download most C++
 dependencies, while Cargo resolves the Rust `matrix-sdk` runtime crates. For Flatpak,
-the manifest pre-fetches `mtxclient` and `litehtml` sources as `.deps/mtxclient` and
-`.deps/litehtml`, then points CMake there via
-`-DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=.deps/mtxclient` and
-`-DFETCHCONTENT_SOURCE_DIR_LITEHTML=.deps/litehtml` so builds stay offline-friendly.
+the manifest pre-fetches the CPM source trees it still needs under `.deps/` and points
+CMake there via `-DFETCHCONTENT_SOURCE_DIR_*` flags so builds stay offline-friendly.
 
 Komai also generates runtime emoji JSON during the build. Since the Flatpak build sandbox
 has no network access, `just flatpak-build` runs `just emoji-fetch` first on the host and

@@ -14,7 +14,6 @@ depends=(
 	hicolor-icon-theme
 	kdsingleapplication
 	litehtml
-	libolm
 	'org.freedesktop.secrets'
 	qt6-base
 	qt6-declarative
@@ -57,7 +56,6 @@ build() {
 		-DCMAKE_INSTALL_LIBDIR='lib' \
 		-DMAN=OFF \
 		-DCPM_USE_LOCAL_PACKAGES=ON \
-		-DCPM_MatrixClient_USE_LOCAL=OFF \
 		-Wno-dev
 	cmake --build build
 }
@@ -65,7 +63,6 @@ build() {
 package() {
 	depends+=(
 		spdlog libspdlog.so
-		libolm libolm.so
 	)
 	DESTDIR="$pkgdir" cmake --install build
 }

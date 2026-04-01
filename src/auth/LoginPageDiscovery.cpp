@@ -47,7 +47,7 @@ normalizeHomeserverUrl(QString homeserver)
     if (url.port() < 0)
         url.setPort(443);
 
-    // mtxclient expects only protocol + host + port in set_server().
+    // Discovery/bootstrap only wants scheme + host + port here.
     url.setPath(QString());
     url.setQuery(QString());
     url.setFragment(QString());

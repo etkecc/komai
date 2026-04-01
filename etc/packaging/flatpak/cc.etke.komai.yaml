@@ -110,8 +110,8 @@ modules:
       -  -Dgst-plugins-base:gl_winsys=x11,wayland
       -  -Dgst-plugins-base:x11=enabled
       -  -Dgst-plugins-base:xshm=enabled
-  # coeurl must be a separate module (not pre-fetched) because mtxclient
-  # looks for it via pkg-config, which requires an installed .pc file.
+  # coeurl stays a separate module (not just a pre-fetched source tree) because
+  # Komai finds it via pkg-config, which requires an installed .pc file.
   - name: coeurl
     buildsystem: meson
     config-opts:
@@ -143,11 +143,9 @@ modules:
       - -DFETCHCONTENT_SOURCE_DIR_COEURL=/run/build/komai/.deps/coeurl
       - -DFETCHCONTENT_SOURCE_DIR_QT6KEYCHAIN=/run/build/komai/.deps/qtkeychain
       - -DFETCHCONTENT_SOURCE_DIR_KDSINGLEAPPLICATION=/run/build/komai/.deps/kdsingleapplication
-      - -DFETCHCONTENT_SOURCE_DIR_OLM=/run/build/komai/.deps/olm
       - -DFETCHCONTENT_SOURCE_DIR_CMARK=/run/build/komai/.deps/cmark
       - -DFETCHCONTENT_SOURCE_DIR_NLOHMANN_JSON=/run/build/komai/.deps/nlohmann_json
       - -DFETCHCONTENT_SOURCE_DIR_YAML-CPP=/run/build/komai/.deps/yaml-cpp
-      - -DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=/run/build/komai/.deps/mtxclient
       - -DFETCHCONTENT_SOURCE_DIR_LITEHTML=/run/build/komai/.deps/litehtml
       - -DBLURHASH_SOURCE_DIR=/run/build/komai/.deps/blurhash
       - -DCPP_HTTPLIB_INCLUDE_DIR=/run/build/komai/.deps/cpp-httplib
@@ -187,20 +185,6 @@ modules:
         tag: v1.2.0
         type: git
         url: https://github.com/KDAB/KDSingleApplication.git
-      - dest: .deps/olm
-        disable-lfs: true
-        disable-shallow-clone: true
-        tag: 3.2.16
-        type: git
-        url: https://gitlab.matrix.org/matrix-org/olm.git
-      - type: patch
-        path: ../../../cmake/patches/olm/0001-fix-list-const-ptr.patch
-        options:
-          - --directory=.deps/olm
-      - type: patch
-        path: ../../../cmake/patches/olm/0002-fix-cmake-cmp0148.patch
-        options:
-          - --directory=.deps/olm
       - dest: .deps/cmark
         disable-lfs: true
         tag: 0.31.2
@@ -215,15 +199,6 @@ modules:
         type: git
         url: https://github.com/jbeder/yaml-cpp.git
         tag: yaml-cpp-0.9.0
-      - dest: .deps/mtxclient
-        commit: f5766cb53c244a808b7e512c7b83b3942fb67834
-        disable-lfs: true
-        type: git
-        url: https://github.com/Nheko-Reborn/mtxclient.git
-      - type: patch
-        path: ../../../cmake/patches/mtxclient/0001-add-filename-to-media-messages.patch
-        options:
-          - --directory=.deps/mtxclient
       - dest: .deps/litehtml
         disable-lfs: true
         tag: v0.9

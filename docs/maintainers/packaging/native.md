@@ -60,11 +60,9 @@ sudo cmake --install var/build/native
 | [Qt6](https://www.qt.io/) | 6.5 | Base, Declarative, Multimedia, SVG, Tools |
 | [CMake](https://cmake.org/) | 3.15 | |
 | [Python 3](https://www.python.org/) | | Theme generation and emoji data generation at build time |
-| [mtxclient](https://github.com/Nheko-Reborn/mtxclient) | | Still bundled for remaining legacy seams during the migration |
 | [coeurl](https://nheko.im/Nheko-Reborn/coeurl) | | HTTP library |
 | [cmark](https://github.com/commonmark/cmark) | 0.29 | Markdown rendering |
 | [KSyntaxHighlighting](https://api.kde.org/frameworks/syntax-highlighting/html/index.html) | 6.x | Timeline formatted-message code block syntax highlighting |
-| [libolm](https://gitlab.matrix.org/matrix-org/olm) | | Still required by remaining legacy E2EE/calling seams |
 | [spdlog](https://github.com/gabime/spdlog) | | Logging |
 | [fmt](https://github.com/fmtlib/fmt) | | String formatting |
 | [yaml-cpp](https://github.com/jbeder/yaml-cpp) | 0.6 | Settings storage |
@@ -104,7 +102,7 @@ See [CPM.cmake options](https://github.com/cpm-cmake/CPM.cmake#options) for deta
 ```sh
 sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
     cmake gcc fontconfig python rust \
-    coeurl libolm cmark syntax-highlighting spdlog fmt re2 openssl \
+    coeurl cmark syntax-highlighting spdlog fmt re2 openssl \
     nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication litehtml
 ```
 
@@ -113,7 +111,7 @@ sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimed
 ```sh
 sudo apt install -y build-essential cmake pkg-config python3 cargo rustc \
     libevent-dev libspdlog-dev libfmt-dev libre2-dev \
-    libcurl4-openssl-dev libssl-dev libolm-dev libcmark-dev \
+    libcurl4-openssl-dev libssl-dev libcmark-dev \
     libkf6syntaxhighlighting-dev \
     nlohmann-json3-dev libyaml-cpp-dev libkdsingleapplication-qt6-dev \
     qt6-base-dev qt6-tools-dev qt6-svg-dev qt6-multimedia-dev \
@@ -122,11 +120,9 @@ sudo apt install -y build-essential cmake pkg-config python3 cargo rustc \
 ```
 
 By default, CPM downloads and builds all non-system C++ dependencies
-(`mtxclient`, `litehtml`, `blurhash`, `cpp-httplib`, etc.), while Cargo resolves
+(`coeurl`, `litehtml`, `blurhash`, `cpp-httplib`, etc.), while Cargo resolves
 the Rust runtime crates (`matrix-sdk`, `matrix-sdk-ui`, and friends). Pass
-`-DCPM_USE_LOCAL_PACKAGES=ON` to prefer system packages instead. `mtxclient`
-remains bundled intentionally for the still-unported legacy seams, and distro
-packages are typically outdated and may lack our pinned patches.
+`-DCPM_USE_LOCAL_PACKAGES=ON` to prefer system packages instead.
 
 Note: macOS bundle builds also need the Qt installation used for the build to
 include ICNS imageformat support, because the app bundle icon is generated from

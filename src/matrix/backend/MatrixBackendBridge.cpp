@@ -131,25 +131,15 @@ matrix_profile_cache_root(::rust::Str profile_id)
     return ::rust::String(app_paths::cache::profileDirectory(toQString(profile_id)).toStdString());
 }
 
-::rust::String
-matrix_store_passphrase(::rust::Str profile_id)
+::komai::rust::MatrixPersistedSessionSecrets
+matrix_load_session_secrets(::rust::Str profile_id)
 {
     const auto secrets = matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
-    return ::rust::String(secrets.storePassphrase.toStdString());
-}
-
-::rust::String
-matrix_homeserver_url(::rust::Str profile_id)
-{
-    const auto secrets = matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
-    return ::rust::String(secrets.homeserverUrl.toStdString());
-}
-
-::rust::String
-matrix_serialized_session(::rust::Str profile_id)
-{
-    const auto secrets = matrix_backend::loadPersistedMatrixSessionSecrets(toQString(profile_id));
-    return ::rust::String(secrets.serializedSession.toStdString());
+    return {
+      .store_passphrase   = ::rust::String(secrets.storePassphrase.toStdString()),
+      .homeserver_url     = ::rust::String(secrets.homeserverUrl.toStdString()),
+      .serialized_session = ::rust::String(secrets.serializedSession.toStdString()),
+    };
 }
 
 void

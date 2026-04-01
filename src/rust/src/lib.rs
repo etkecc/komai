@@ -480,6 +480,12 @@ mod ffi {
         login_url: String,
     }
 
+    struct MatrixPersistedSessionSecrets {
+        store_passphrase: String,
+        homeserver_url: String,
+        serialized_session: String,
+    }
+
     unsafe extern "C++" {
         include!("matrix/backend/MatrixBackendBridge.h");
 
@@ -488,11 +494,7 @@ mod ffi {
         #[namespace = "komai::rust_bridge"]
         fn matrix_profile_cache_root(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
-        fn matrix_store_passphrase(profile_id: &str) -> String;
-        #[namespace = "komai::rust_bridge"]
-        fn matrix_homeserver_url(profile_id: &str) -> String;
-        #[namespace = "komai::rust_bridge"]
-        fn matrix_serialized_session(profile_id: &str) -> String;
+        fn matrix_load_session_secrets(profile_id: &str) -> MatrixPersistedSessionSecrets;
         #[namespace = "komai::rust_bridge"]
         fn matrix_save_session_secrets(
             profile_id: &str,

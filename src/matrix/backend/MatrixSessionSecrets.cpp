@@ -5,6 +5,7 @@
 #include "matrix/backend/MatrixSessionSecrets.h"
 
 #include <QDir>
+#include <QHash>
 #include <QMap>
 
 #include "settings/SettingKeys.h"
@@ -30,16 +31,25 @@ struct SecretsPersistenceContext
 SecretsPersistenceContext
 loadSecretsPersistenceContext(const QString &profileId)
 {
+    static QHash<QString, SecretsPersistenceContext> cache;
+
+    auto it = cache.constFind(profileId);
+    if (it != cache.constEnd())
+        return *it;
+
     const auto configFilePath = settings::storage::configFilePathForProfile(profileId);
     const auto configRoot     = settings::storage::loadYamlFile(configFilePath, "config");
     const auto provider       = settings::persistence::providerFromConfig(configRoot);
 
-    return {
+    SecretsPersistenceContext context{
       .usesFileSecretsProvider = provider == staged_load_plan::SecretsProvider::File,
       .secretsFilePath         = QDir(settings::storage::profileDirPath(profileId))
                            .filePath(QString::fromLatin1(MatrixSdkSecretsFileName)),
       .secureStoreKey = settings::storage::secureStoreKey(profileId, MatrixSdkSecureStoreKey),
     };
+
+    cache.insert(profileId, context);
+    return context;
 }
 
 QMap<QString, QString>

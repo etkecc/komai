@@ -9,6 +9,7 @@
 #include "rust/cxx.h"
 
 namespace komai::rust {
+struct MatrixPersistedSessionSecrets;
 struct MatrixRoomSummary;
 struct MatrixNotificationItem;
 struct MatrixCallInviteEvent;
@@ -28,14 +29,8 @@ matrix_profile_data_root(::rust::Str profile_id);
 ::rust::String
 matrix_profile_cache_root(::rust::Str profile_id);
 
-::rust::String
-matrix_store_passphrase(::rust::Str profile_id);
-
-::rust::String
-matrix_homeserver_url(::rust::Str profile_id);
-
-::rust::String
-matrix_serialized_session(::rust::Str profile_id);
+::komai::rust::MatrixPersistedSessionSecrets
+matrix_load_session_secrets(::rust::Str profile_id);
 
 void
 matrix_save_session_secrets(::rust::Str profile_id,

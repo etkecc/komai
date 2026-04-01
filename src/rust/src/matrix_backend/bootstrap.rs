@@ -15,7 +15,7 @@ use super::{
     session_persistence::{
         auth_type_from_auth_session, deserialize_auth_session, load_persisted_session_secrets,
         save_persisted_session_secrets, serialize_auth_session, session_tokens_from_auth_session,
-        PersistedMatrixSessionSecrets,
+        MatrixPersistedSessionSecrets,
     },
     DerivedMatrixSdkPaths,
 };
@@ -106,12 +106,14 @@ pub async fn restore_session_preview(profile_id: &str) -> Result<MatrixRestorePr
 pub async fn restore_client(profile_id: &str) -> Result<Option<RestoredMatrixBackend>, String> {
     tracing::debug!(profile_id, "Attempting to restore persisted matrix-sdk session");
 
-    let Some(stored_session) = load_stored_session(profile_id)? else {
+    let persisted_secrets = load_persisted_session_secrets(profile_id);
+
+    let Some(stored_session) = load_stored_session_from(&persisted_secrets)? else {
         tracing::debug!(profile_id, "No serialized matrix-sdk session is stored for this profile");
         return Ok(None);
     };
 
-    let store_passphrase = ensure_store_passphrase(profile_id);
+    let store_passphrase = ensure_store_passphrase_from(profile_id, persisted_secrets);
     let paths = super::derive_matrix_sdk_paths(
         &ffi::matrix_profile_data_root(profile_id),
         &ffi::matrix_profile_cache_root(profile_id),
@@ -165,9 +167,9 @@ pub async fn restore_client(profile_id: &str) -> Result<Option<RestoredMatrixBac
     }))
 }
 
-fn load_stored_session(profile_id: &str) -> Result<Option<StoredSession>, String> {
-    let persisted_secrets = load_persisted_session_secrets(profile_id);
-
+fn load_stored_session_from(
+    persisted_secrets: &MatrixPersistedSessionSecrets,
+) -> Result<Option<StoredSession>, String> {
     if persisted_secrets.serialized_session.trim().is_empty()
         || persisted_secrets.homeserver_url.trim().is_empty()
     {
@@ -176,13 +178,20 @@ fn load_stored_session(profile_id: &str) -> Result<Option<StoredSession>, String
 
     let session = deserialize_auth_session(&persisted_secrets.serialized_session)?;
     Ok(Some(StoredSession {
-        homeserver_url: persisted_secrets.homeserver_url,
+        homeserver_url: persisted_secrets.homeserver_url.clone(),
         session,
     }))
 }
 
 pub(crate) fn ensure_store_passphrase(profile_id: &str) -> String {
     let persisted = load_persisted_session_secrets(profile_id);
+    ensure_store_passphrase_from(profile_id, persisted)
+}
+
+fn ensure_store_passphrase_from(
+    profile_id: &str,
+    persisted: MatrixPersistedSessionSecrets,
+) -> String {
     if !persisted.store_passphrase.trim().is_empty() {
         return persisted.store_passphrase;
     }
@@ -196,7 +205,7 @@ pub(crate) fn ensure_store_passphrase(profile_id: &str) -> String {
 
     save_persisted_session_secrets(
         profile_id,
-        &PersistedMatrixSessionSecrets {
+        &MatrixPersistedSessionSecrets {
             store_passphrase: store_passphrase.clone(),
             homeserver_url: persisted.homeserver_url,
             serialized_session: persisted.serialized_session,
@@ -218,7 +227,7 @@ pub(crate) fn persist_current_session(
 
     save_persisted_session_secrets(
         profile_id,
-        &PersistedMatrixSessionSecrets {
+        &MatrixPersistedSessionSecrets {
             store_passphrase: store_passphrase.to_owned(),
             homeserver_url: homeserver_url.to_owned(),
             serialized_session,

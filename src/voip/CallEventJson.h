@@ -11,6 +11,7 @@
 
 #include "mtx/events/collections.hpp"
 #include "mtx/events/voip.hpp"
+#include "voip/CallTypes.h"
 
 namespace komai::voip {
 
@@ -115,6 +116,46 @@ parseCandidates(const nlohmann::json &json)
     }
 
     return candidates;
+}
+
+inline komai::voip::CallIceCandidate
+toCallIceCandidate(const mtx::events::voip::CallCandidates::Candidate &candidate)
+{
+    return komai::voip::CallIceCandidate{
+      .sdpMid        = candidate.sdpMid,
+      .sdpMLineIndex = candidate.sdpMLineIndex,
+      .candidate     = candidate.candidate,
+    };
+}
+
+inline komai::voip::CallIceCandidateList
+toCallIceCandidates(const std::vector<mtx::events::voip::CallCandidates::Candidate> &candidates)
+{
+    komai::voip::CallIceCandidateList result;
+    result.reserve(candidates.size());
+    for (const auto &candidate : candidates)
+        result.push_back(toCallIceCandidate(candidate));
+    return result;
+}
+
+inline mtx::events::voip::CallCandidates::Candidate
+toMatrixCallIceCandidate(const komai::voip::CallIceCandidate &candidate)
+{
+    return mtx::events::voip::CallCandidates::Candidate{
+      .sdpMid        = candidate.sdpMid,
+      .sdpMLineIndex = candidate.sdpMLineIndex,
+      .candidate     = candidate.candidate,
+    };
+}
+
+inline std::vector<mtx::events::voip::CallCandidates::Candidate>
+toMatrixCallIceCandidates(const komai::voip::CallIceCandidateList &candidates)
+{
+    std::vector<mtx::events::voip::CallCandidates::Candidate> result;
+    result.reserve(candidates.size());
+    for (const auto &candidate : candidates)
+        result.push_back(toMatrixCallIceCandidate(candidate));
+    return result;
 }
 
 inline mtx::events::voip::CallHangUp::Reason

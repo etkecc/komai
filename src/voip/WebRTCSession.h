@@ -11,7 +11,7 @@
 #include <QObject>
 #include <QQmlEngine>
 
-#include "mtx/events/voip.hpp"
+#include "voip/CallTypes.h"
 
 typedef struct _GstElement GstElement;
 class CallDevices;
@@ -78,7 +78,7 @@ public:
     bool acceptOffer(const std::string &sdp);
     bool acceptAnswer(const std::string &sdp);
     bool acceptNegotiation(const std::string &sdp);
-    void acceptICECandidates(const std::vector<mtx::events::voip::CallCandidates::Candidate> &);
+    void acceptICECandidates(const komai::voip::CallIceCandidateList &);
 
     bool isMicMuted() const;
     bool toggleMicMute();
@@ -91,11 +91,9 @@ public:
     QQuickItem *getVideoItem() const { return videoItem_; }
 
 signals:
-    void offerCreated(const std::string &sdp,
-                      const std::vector<mtx::events::voip::CallCandidates::Candidate> &);
-    void answerCreated(const std::string &sdp,
-                       const std::vector<mtx::events::voip::CallCandidates::Candidate> &);
-    void newICECandidate(const mtx::events::voip::CallCandidates::Candidate &);
+    void offerCreated(const std::string &sdp, const komai::voip::CallIceCandidateList &);
+    void answerCreated(const std::string &sdp, const komai::voip::CallIceCandidateList &);
+    void newICECandidate(const komai::voip::CallIceCandidate &);
     void stateChanged(webrtc::State);
 
 private slots:

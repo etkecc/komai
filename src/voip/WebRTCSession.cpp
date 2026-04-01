@@ -51,6 +51,9 @@ using webrtc::State;
 WebRTCSession::WebRTCSession()
   : devices_(CallDevices::instance())
 {
+    qRegisterMetaType<komai::voip::CallIceCandidate>("komai::voip::CallIceCandidate");
+    qRegisterMetaType<komai::voip::CallIceCandidateList>("komai::voip::CallIceCandidateList");
+
     // qmlRegisterUncreatableMetaObject(webrtc::staticMetaObject,
     //                                  "cc.etke.komai",
     //                                  1,
@@ -97,7 +100,7 @@ WebRTCSession::init(std::string *errorMessage)
 namespace {
 
 std::string localsdp_;
-std::vector<mtx::events::voip::CallCandidates::Candidate> localcandidates_;
+komai::voip::CallIceCandidateList localcandidates_;
 bool haveAudioStream_     = false;
 bool haveVideoStream_     = false;
 GstPad *localPiPSinkPad_  = nullptr;
@@ -856,8 +859,7 @@ WebRTCSession::acceptAnswer(const std::string &sdp)
 }
 
 void
-WebRTCSession::acceptICECandidates(
-  const std::vector<mtx::events::voip::CallCandidates::Candidate> &candidates)
+WebRTCSession::acceptICECandidates(const komai::voip::CallIceCandidateList &candidates)
 {
     if (state_ >= State::INITIATED) {
         for (const auto &c : candidates) {
@@ -1375,8 +1377,7 @@ WebRTCSession::acceptAnswer(const std::string &)
 }
 
 void
-WebRTCSession::acceptICECandidates(
-  const std::vector<mtx::events::voip::CallCandidates::Candidate> &)
+WebRTCSession::acceptICECandidates(const komai::voip::CallIceCandidateList &)
 {
 }
 

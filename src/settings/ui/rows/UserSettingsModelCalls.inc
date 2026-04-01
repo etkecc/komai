@@ -6,7 +6,7 @@
     // EnableLegacyCalls
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable legacy calls",
-      QT_TR_NOOP("Allows legacy calls (potentially unreliable & not supported everywhere) to be accepted and initiated."),
+      QT_TR_NOOP("Allows legacy (pre-MatrixRTC) calls to be accepted and initiated."),
       SM::TabCalls, callsLegacyEnabled, setCallsLegacyEnabled, nullptr, CallsLegacyEnabled, SettingKey::CallsLegacyEnabled),
     // UseFallbackCallRelayServer
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use turn.matrix.org as fallback relay",

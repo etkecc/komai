@@ -8,11 +8,11 @@ import cc.etke.komai
 Loader {
     required property var componentCatalog
 
-    readonly property bool showLegacyVideoCall: CallManager.isOnCall
+    readonly property bool showCallVideo: CallManager.isOnCall
         && CallManager.callType != Voip.VOICE
         && Settings.callsLegacyEnabled
 
-    source: showLegacyVideoCall
+    source: showCallVideo
         ? (Qt.platform.os != "windows"
             ? componentCatalog.voipVideoCallComponent
             : componentCatalog.voipVideoCallD3D11Component)

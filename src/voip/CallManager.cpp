@@ -194,50 +194,60 @@ CallManager::CallManager(QObject *parent)
     }
 #endif
 
-    connect(
-      &session_,
-      &WebRTCSession::offerCreated,
-      this,
-      [this](const std::string &sdp, const std::vector<CallCandidates::Candidate> &candidates) {
-          nhlog::ui()->debug("WebRTC: call id: {} - sending offer", callid_);
-          emitCallMessage(roomid_,
-                          CallInvite{callid_,
-                                     partyid_,
-                                     SDO{sdp, SDO::Type::Offer},
-                                     callPartyVersion_,
-                                     timeoutms_,
-                                     invitee_});
-          emitCallMessage(roomid_,
-                          CallCandidates{callid_, partyid_, candidates, callPartyVersion_});
-          std::string callid(callid_);
-          QTimer::singleShot(timeoutms_, this, [this, callid]() {
-              if (session_.state() == webrtc::State::OFFERSENT && callid == callid_) {
-                  hangUp(CallHangUp::Reason::InviteTimeOut);
-                  emit ChatPage::instance()->showNotification(
-                    QStringLiteral("The remote side failed to pick up."));
-              }
-          });
-      });
+    connect(&session_,
+            &WebRTCSession::offerCreated,
+            this,
+            [this](const std::string &sdp, const komai::voip::CallIceCandidateList &candidates) {
+                nhlog::ui()->debug("WebRTC: call id: {} - sending offer", callid_);
+                emitCallMessage(roomid_,
+                                CallInvite{callid_,
+                                           partyid_,
+                                           SDO{sdp, SDO::Type::Offer},
+                                           callPartyVersion_,
+                                           timeoutms_,
+                                           invitee_});
+                emitCallMessage(
+                  roomid_,
+                  CallCandidates{callid_,
+                                 partyid_,
+                                 komai::voip::detail::toMatrixCallIceCandidates(candidates),
+                                 callPartyVersion_});
+                std::string callid(callid_);
+                QTimer::singleShot(timeoutms_, this, [this, callid]() {
+                    if (session_.state() == webrtc::State::OFFERSENT && callid == callid_) {
+                        hangUp(CallHangUp::Reason::InviteTimeOut);
+                        emit ChatPage::instance()->showNotification(
+                          QStringLiteral("The remote side failed to pick up."));
+                    }
+                });
+            });
 
     connect(
       &session_,
       &WebRTCSession::answerCreated,
       this,
-      [this](const std::string &sdp, const std::vector<CallCandidates::Candidate> &candidates) {
+      [this](const std::string &sdp, const komai::voip::CallIceCandidateList &candidates) {
           nhlog::ui()->debug("WebRTC: call id: {} - sending answer", callid_);
           emitCallMessage(
             roomid_, CallAnswer{callid_, partyid_, callPartyVersion_, SDO{sdp, SDO::Type::Answer}});
           emitCallMessage(roomid_,
-                          CallCandidates{callid_, partyid_, candidates, callPartyVersion_});
+                          CallCandidates{callid_,
+                                         partyid_,
+                                         komai::voip::detail::toMatrixCallIceCandidates(candidates),
+                                         callPartyVersion_});
       });
 
     connect(&session_,
             &WebRTCSession::newICECandidate,
             this,
-            [this](const CallCandidates::Candidate &candidate) {
+            [this](const komai::voip::CallIceCandidate &candidate) {
                 nhlog::ui()->debug("WebRTC: call id: {} - sending ice candidate", callid_);
-                emitCallMessage(roomid_,
-                                CallCandidates{callid_, partyid_, {candidate}, callPartyVersion_});
+                emitCallMessage(
+                  roomid_,
+                  CallCandidates{callid_,
+                                 partyid_,
+                                 {komai::voip::detail::toMatrixCallIceCandidate(candidate)},
+                                 callPartyVersion_});
             });
 
     connect(&turnServerTimer_, &QTimer::timeout, this, &CallManager::retrieveTurnServer);
@@ -334,7 +344,7 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
     const auto roomContext = fetchMatrixCallRoomContext(roomid);
     if (!roomContext || roomContext->directChatOtherUserId.trimmed().isEmpty()) {
         emit ChatPage::instance()->showNotification(
-          QStringLiteral("Calls are only migrated for direct rooms on the matrix-sdk branch"));
+          QStringLiteral("Calls are currently supported only in direct rooms."));
         return;
     }
 
@@ -750,12 +760,13 @@ CallManager::handleEvent(const RoomEvent<CallCandidates> &callCandidatesEvent)
 
     if (callid_ == callCandidatesEvent.content.call_id) {
         if (isOnCall())
-            session_.acceptICECandidates(callCandidatesEvent.content.candidates);
+            session_.acceptICECandidates(
+              komai::voip::detail::toCallIceCandidates(callCandidatesEvent.content.candidates));
         else {
             // CallInvite has been received and we're awaiting localUser to accept or
             // reject the call
             for (const auto &c : callCandidatesEvent.content.candidates)
-                remoteICECandidates_.push_back(c);
+                remoteICECandidates_.push_back(komai::voip::detail::toCallIceCandidate(c));
         }
     }
 }

@@ -130,7 +130,7 @@ private:
     bool answerSelected_                     = false;
     std::string isOnCallOnOtherDevice_       = "";
     std::string inviteSDP_;
-    std::vector<mtx::events::voip::CallCandidates::Candidate> remoteICECandidates_;
+    komai::voip::CallIceCandidateList remoteICECandidates_;
     std::vector<std::string> turnURIs_;
     QTimer turnServerTimer_;
     std::once_flag playerInitOnce_;

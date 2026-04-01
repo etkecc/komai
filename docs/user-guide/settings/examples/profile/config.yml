@@ -107,6 +107,7 @@ notifications:
 
 calls:
   legacy:
+    # Enable the older pre-MatrixRTC m.call-based calling UX.
     enabled: false
   relay:
     use_fallback_server: false

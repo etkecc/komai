@@ -241,7 +241,15 @@ needs_release_configure() {
 		return 0
 	fi
 
-	grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "${build_dir}/CMakeCache.txt"
+	if ! grep -q '^CMAKE_BUILD_TYPE:STRING=Release$' "${build_dir}/CMakeCache.txt"; then
+		return 0
+	fi
+
+	if ! grep -q '^MAN:BOOL=OFF$' "${build_dir}/CMakeCache.txt"; then
+		return 0
+	fi
+
+	return 1
 }
 
 configure_release() {

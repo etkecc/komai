@@ -20,7 +20,6 @@
 #include <vector>
 
 #include <fmt/ranges.h>
-#include <nlohmann/json.hpp>
 
 #include "logging/Logging.h"
 #include "matrix/MatrixIdentifiers.h"

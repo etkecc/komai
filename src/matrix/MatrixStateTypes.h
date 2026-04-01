@@ -12,8 +12,6 @@
 #include <tuple>
 #include <vector>
 
-#include <nlohmann/json_fwd.hpp>
-
 #include <mtx/events/join_rules.hpp>
 
 struct RoomMember
@@ -80,11 +78,6 @@ struct RoomInfo
     uint64_t notification_count = 0;
 };
 
-void
-to_json(nlohmann::json &j, const RoomInfo &info);
-void
-from_json(const nlohmann::json &j, RoomInfo &info);
-
 //! A plain struct with roomid, name and alias used for filling the room completer.
 struct RoomNameAlias
 {
@@ -104,11 +97,6 @@ struct MemberInfo
     std::string reason  = "";
     bool is_direct      = false;
 };
-
-void
-to_json(nlohmann::json &j, const MemberInfo &info);
-void
-from_json(const nlohmann::json &j, MemberInfo &info);
 
 struct RoomSearchResult
 {

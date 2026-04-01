@@ -20,8 +20,6 @@
 #include <thread>
 #include <unordered_set>
 
-#include <nlohmann/json.hpp>
-
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"

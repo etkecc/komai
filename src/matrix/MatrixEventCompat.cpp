@@ -7,7 +7,6 @@
 #include <mtx/events.hpp>
 #include <mtx/events/common.hpp>
 #include <mtx/events/event_type.hpp>
-#include <nlohmann/json.hpp>
 
 namespace {
 
@@ -231,22 +230,6 @@ getMessageType(const std::string &type)
         return MessageType::KeyVerificationRequest;
 
     return MessageType::Unknown;
-}
-
-MessageType
-getMessageType(const nlohmann::json &obj)
-{
-    if (obj.is_null())
-        return MessageType::Redacted;
-
-    if (!obj.contains("msgtype"))
-        return MessageType::Invalid;
-
-    try {
-        return getMessageType(obj.at("msgtype").get<std::string>());
-    } catch (...) {
-        return MessageType::Invalid;
-    }
 }
 
 } // namespace mtx::events

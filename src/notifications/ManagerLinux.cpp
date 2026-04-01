@@ -192,9 +192,11 @@ NotificationsManager::systemPostNotification(const QString &room_id,
       watcher, &QDBusPendingCallWatcher::finished, this, [watcher, this, room_id, event_id]() {
           if (watcher->reply().type() == QDBusMessage::ErrorMessage)
               qDebug() << "D-Bus Error:" << watcher->reply().errorMessage();
-          else
+          else {
               notificationIds[watcher->reply().arguments().first().toUInt()] =
                 roomEventId{room_id, event_id};
+              rememberTrackedNotification(room_id, event_id);
+          }
           watcher->deleteLater();
       });
 }
@@ -267,6 +269,10 @@ void
 NotificationsManager::notificationClosed(uint id, uint reason)
 {
     Q_UNUSED(reason);
+    if (notificationIds.contains(id)) {
+        const auto entry = notificationIds[id];
+        forgetTrackedNotification(entry.roomId, entry.eventId);
+    }
     notificationIds.remove(id);
 }
 

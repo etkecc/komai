@@ -206,4 +206,5 @@ void NotificationsManager::removeNotification(const QString& roomId, const QStri
     NSArray* identifiers = @[notificationId.toNSString()];
     [center removeDeliveredNotificationsWithIdentifiers:identifiers];
     [center removePendingNotificationRequestsWithIdentifiers:identifiers];
+    forgetTrackedNotification(roomId, eventId);
 }

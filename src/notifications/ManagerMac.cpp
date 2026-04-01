@@ -28,6 +28,7 @@ NotificationsManager::NotificationsManager(QObject *parent)
              const QString &text,
              const QImage &) {
           const auto notification_id = event_id.isEmpty() ? room_id : event_id;
+          rememberTrackedNotification(room_id, event_id);
           objCxxPostNotification(roomName,
                                  room_id,
                                  event_id,
@@ -55,20 +56,28 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
     const auto bodyText        = plainNotificationBody(notification);
     QString mediaMxcUrl        = notification.mediaMxcUrl;
     mediaMxcUrl.remove(QStringLiteral("mxc://"));
+    auto postResolvedNotification =
+      [this, room_name, room_id, target_event_id, notification_id](const QString &subtitle,
+                                                                   const QString &informativeText,
+                                                                   const QString &bodyImagePath,
+                                                                   bool playSound) {
+          rememberTrackedNotification(room_id, target_event_id);
+          objCxxPostNotification(room_name,
+                                 room_id,
+                                 target_event_id,
+                                 notification_id,
+                                 subtitle,
+                                 informativeText,
+                                 bodyImagePath,
+                                 playSound);
+      };
 
     if (notification.isEncrypted) {
         const QString messageInfo =
           (notification.isReply ? tr("%1 replied with an encrypted message")
                                 : tr("%1 sent an encrypted message"))
             .arg(sender);
-        objCxxPostNotification(room_name,
-                               room_id,
-                               target_event_id,
-                               notification_id,
-                               messageInfo,
-                               "",
-                               "",
-                               notification.playSound);
+        postResolvedNotification(messageInfo, "", "", notification.playSound);
     } else {
         const QString messageInfo =
           (notification.isReply ? tr("%1 replied to a message") : tr("%1 sent a message"))
@@ -77,31 +86,11 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
             MxcImageProvider::download(
               mediaMxcUrl,
               QSize(200, 80),
-              [this,
-               room_name,
-               room_id,
-               target_event_id,
-               notification_id,
-               messageInfo,
-               bodyText,
-               playSound = notification.playSound](QString, QSize, QImage, QString imgPath) {
-                  objCxxPostNotification(room_name,
-                                         room_id,
-                                         target_event_id,
-                                         notification_id,
-                                         messageInfo,
-                                         bodyText,
-                                         imgPath,
-                                         playSound);
+              [postResolvedNotification, messageInfo, bodyText, playSound = notification.playSound](
+                QString, QSize, QImage, QString imgPath) {
+                  postResolvedNotification(messageInfo, bodyText, imgPath, playSound);
               });
         else
-            objCxxPostNotification(room_name,
-                                   room_id,
-                                   target_event_id,
-                                   notification_id,
-                                   messageInfo,
-                                   bodyText,
-                                   "",
-                                   notification.playSound);
+            postResolvedNotification(messageInfo, bodyText, "", notification.playSound);
     }
 }

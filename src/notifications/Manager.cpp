@@ -5,7 +5,28 @@
 
 #include "notifications/Manager.h"
 
+#include <algorithm>
+
 #include "settings/ui/facade/UserSettingsPage.h"
+
+QString
+NotificationsManager::trackedNotificationKey(const QString &roomId, const QString &eventId)
+{
+    return roomId + QChar(u'\x1f') + eventId;
+}
+
+void
+NotificationsManager::rememberTrackedNotification(const QString &roomId, const QString &eventId)
+{
+    trackedNotifications.insert(trackedNotificationKey(roomId, eventId),
+                                roomEventId{roomId, eventId});
+}
+
+void
+NotificationsManager::forgetTrackedNotification(const QString &roomId, const QString &eventId)
+{
+    trackedNotifications.remove(trackedNotificationKey(roomId, eventId));
+}
 
 bool
 NotificationsManager::allowShowingImages() const
@@ -83,14 +104,20 @@ void
 NotificationsManager::removeNotifications(const QString &roomId_,
                                           const std::vector<QString> &eventIds)
 {
-    for (const auto &[roomId, eventId] : std::as_const(this->notificationIds)) {
+    std::vector<roomEventId> matches;
+    matches.reserve(trackedNotifications.size());
+
+    for (const auto &[roomId, eventId] : std::as_const(trackedNotifications)) {
         if (roomId != roomId_)
             continue;
         if (eventIds.empty() ||
             std::find(eventIds.begin(), eventIds.end(), eventId) != eventIds.end()) {
-            removeNotification(roomId, eventId);
+            matches.push_back(roomEventId{roomId, eventId});
         }
     }
+
+    for (const auto &entry : matches)
+        removeNotification(entry.roomId, entry.eventId);
 }
 
 #include "moc_Manager.cpp"

@@ -111,12 +111,18 @@ private slots:
     void notificationReplied(uint id, QString reply);
 
 private:
+    static QString trackedNotificationKey(const QString &roomId, const QString &eventId);
+    void rememberTrackedNotification(const QString &roomId, const QString &eventId);
+    void forgetTrackedNotification(const QString &roomId, const QString &eventId);
+
     QString getMessageTemplate(const komai::NotificationPayload &notification);
     QString plainNotificationBody(const komai::NotificationPayload &notification);
     QString formattedNotificationBody(const komai::NotificationPayload &notification);
     bool allowShowingImages() const;
 
-    // notification ID to (room ID, event ID)
-    // Only populated on Linux atm
+    // Cross-platform tracking for "remove all notifications in this room" semantics.
+    QMap<QString, roomEventId> trackedNotifications;
+
+    // Linux D-Bus notification id to (room ID, event ID).
     QMap<uint, roomEventId> notificationIds;
 };

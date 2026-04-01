@@ -145,6 +145,7 @@ private:
 
     void getProfileInfo();
     void syncOwnPresence();
+    void clearRoomNotifications(const QString &roomId);
 
     void resetUI();
     void deleteConfigs();

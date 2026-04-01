@@ -496,6 +496,8 @@ void
 ChatPage::sendNotificationReply(const QString &roomid, const QString &eventid, const QString &body)
 {
     view_manager_->queueReply(roomid, eventid, body);
+    clearRoomNotifications(roomid);
+
     auto exWin = MainWindow::instance()->windowForRoom(roomid);
     if (exWin) {
         exWin->setVisible(true);

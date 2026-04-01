@@ -161,7 +161,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                 if (view_manager_)
                     view_manager_->showEvent(roomid, eventid);
 
-                notificationsManager->removeNotifications(roomid, {});
+                clearRoomNotifications(roomid);
             });
     connect(notificationsManager,
             &NotificationsManager::sendNotificationReply,
@@ -170,12 +170,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
     connect(view_manager_->rooms(),
             &RoomlistModel::currentRoomIdChanged,
             this,
-            [this](const QString &roomId) {
-                if (roomId.isEmpty() || !notificationsManager)
-                    return;
-
-                notificationsManager->removeNotifications(roomId, {});
-            });
+            [this](const QString &roomId) { clearRoomNotifications(roomId); });
     connect(userSettings_.get(),
             &UserSettings::networkPresenceStatusPolicyChanged,
             this,
@@ -418,6 +413,15 @@ ChatPage::removeAllNotifications()
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
     notificationsManager->closeAllNotifications();
 #endif
+}
+
+void
+ChatPage::clearRoomNotifications(const QString &roomId)
+{
+    if (roomId.isEmpty() || !notificationsManager)
+        return;
+
+    notificationsManager->removeNotifications(roomId, {});
 }
 
 #include "moc_ChatPage.cpp"

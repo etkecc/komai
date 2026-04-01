@@ -498,7 +498,6 @@ set(SRC_FILES
     src/matrix/backend/MatrixSessionSecrets.h
     src/matrix/backend/MatrixSdkPaths.cpp
     src/matrix/backend/MatrixSdkPaths.h
-    src/matrix/MatrixEventCompat.cpp
     src/matrix/MatrixServerResolver.cpp
     src/matrix/MatrixServerResolver.h
     src/models/MemberList.cpp

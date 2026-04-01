@@ -12,8 +12,6 @@
 #include <tuple>
 #include <vector>
 
-#include <mtx/events/join_rules.hpp>
-
 struct RoomMember
 {
     QString user_id;
@@ -65,8 +63,8 @@ struct RoomInfo
     //! Total number of members in the room.
     size_t member_count = 0;
     //! Who can access to the room.
-    mtx::events::state::JoinRule join_rule = mtx::events::state::JoinRule::Public;
-    bool guest_access                      = false;
+    std::string join_rule = "public";
+    bool guest_access     = false;
     //! The list of tags associated with this room
     std::vector<std::string> tags;
 

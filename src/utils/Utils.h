@@ -8,7 +8,6 @@
 #include "matrix/MatrixStateTypes.h"
 #include <QDateTime>
 #include <QPixmap>
-#include <mtx/events.hpp>
 
 struct DescInfo;
 
@@ -21,6 +20,8 @@ displayName(const QString &room_id, const QString &user_id);
 class QComboBox;
 
 namespace utils {
+inline constexpr auto MatrixHtmlMessageFormat = "org.matrix.custom.html";
+
 bool
 codepointIsEmoji(uint code);
 
@@ -89,7 +90,7 @@ getMessageBody(const RoomMessageT &event)
     if (event.content.format.empty())
         return QString::fromStdString(event.content.body).toHtmlEscaped();
 
-    if (event.content.format != mtx::common::FORMAT_MSG_TYPE)
+    if (event.content.format != MatrixHtmlMessageFormat)
         return QString::fromStdString(event.content.body).toHtmlEscaped();
 
     return QString::fromStdString(event.content.formatted_body);

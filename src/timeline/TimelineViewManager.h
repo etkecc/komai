@@ -38,9 +38,6 @@ class UserProfile;
 class RoomSettings;
 class FilteredRoomlistModel;
 class QAbstractItemModel;
-namespace mtx::events::collections {
-struct TimelineEvents;
-}
 
 namespace komai {
 class MatrixTimelineModel;

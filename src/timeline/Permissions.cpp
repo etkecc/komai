@@ -197,8 +197,7 @@ Permissions::invalidate()
     nhlog::ui()->warn("Using conservative default room permissions for '{}' until matrix-sdk "
                       "power-level fetch is migrated",
                       roomId_.toStdString());
-    pl     = {};
-    create = {};
+    powerLevels_ = {};
 }
 
 bool
@@ -242,27 +241,27 @@ Permissions::canSend(int eventType)
 int
 Permissions::defaultLevel()
 {
-    return static_cast<int>(pl.users_default);
+    return static_cast<int>(powerLevels_.usersDefault);
 }
 
 int
 Permissions::redactLevel()
 {
-    return static_cast<int>(pl.redact);
+    return static_cast<int>(powerLevels_.redact);
 }
 
 int
 Permissions::changeLevel(int eventType)
 {
     Q_UNUSED(eventType);
-    return static_cast<int>(pl.state_default);
+    return static_cast<int>(powerLevels_.stateDefault);
 }
 
 int
 Permissions::sendLevel(int eventType)
 {
     Q_UNUSED(eventType);
-    return static_cast<int>(pl.events_default);
+    return static_cast<int>(powerLevels_.eventsDefault);
 }
 
 bool

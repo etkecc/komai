@@ -8,11 +8,10 @@
 #include <QObject>
 #include <QQmlEngine>
 
-#include "matrix/MatrixPowerLevelCompat.h"
 #include "matrix/MatrixRoomPowerLevels.h"
 
 namespace komai::timeline {
-inline constexpr qint64 CreatorPowerLevel = komai::matrix::CreatorPowerLevel;
+inline constexpr qint64 CreatorPowerLevel = komai::matrix::RuntimeCreatorPowerLevel;
 }
 
 class AbstractPermissions : public QObject
@@ -74,16 +73,9 @@ public:
 
     void invalidate();
 
-    const mtx::events::state::PowerLevels &powerlevelEvent() const { return pl; };
-    const mtx::events::StateEvent<mtx::events::state::Create> &createEvent() const
-    {
-        return create;
-    };
-
 private:
     QString roomId_;
-    mtx::events::state::PowerLevels pl;
-    mtx::events::StateEvent<mtx::events::state::Create> create;
+    komai::MatrixRoomPowerLevels powerLevels_;
 };
 
 class MatrixRoomPermissions : public AbstractPermissions

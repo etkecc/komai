@@ -964,14 +964,14 @@ if(BUILD_TESTING)
     endfunction()
 
     add_executable(komai_yaml_settings_test tests/YamlSettingsTest.cpp)
-    target_include_directories(komai_yaml_settings_test PRIVATE src)
+    target_include_directories(komai_yaml_settings_test PRIVATE src tests/support)
     target_link_libraries(komai_yaml_settings_test PRIVATE Qt::Core ${YAMLCPP_TARGET_NAME})
     add_test(NAME komai_yaml_settings_test COMMAND komai_yaml_settings_test)
     komai_configure_test(komai_yaml_settings_test "unit;settings")
 
     add_executable(komai_staged_load_plan_test tests/StagedLoadPlanTest.cpp)
     target_include_directories(komai_staged_load_plan_test PRIVATE src)
-    target_link_libraries(komai_staged_load_plan_test PRIVATE Qt::Core ${YAMLCPP_TARGET_NAME})
+    target_link_libraries(komai_staged_load_plan_test PRIVATE Qt::Core)
     add_test(NAME komai_staged_load_plan_test COMMAND komai_staged_load_plan_test)
     komai_configure_test(komai_staged_load_plan_test "unit;settings")
 
@@ -1004,7 +1004,7 @@ if(BUILD_TESTING)
         src/settings/SettingsController.cpp
         src/settings/SettingsControllerLoad.cpp
         src/settings/SettingsControllerSave.cpp
-        src/settings/SettingsMigrations.cpp
+        tests/support/settings/SettingsMigrations.cpp
         src/settings/SettingsPersistence.cpp
         src/settings/SettingsPersistenceLoad.cpp
         src/settings/SettingsPersistenceSave.cpp
@@ -1019,13 +1019,13 @@ if(BUILD_TESTING)
         src/settings/SettingsSerializerState.cpp
         src/settings/SettingsStorage.cpp
         src/settings/SettingsStoragePathApi.cpp
-        src/settings/SettingsStorageYaml.cpp
+        tests/support/settings/SettingsStorageYaml.cpp
         src/settings/SettingsStorageReaderWriterFilesystem.cpp
         src/settings/SettingsStorageReaderWriterInMemory.cpp
         src/settings/SettingsStorageSecureBackend.cpp
         src/settings/SettingsStorageSecretsCodec.cpp
         src/settings/core/StartupConfig.cpp
-        src/settings/core/SettingsSerializer.cpp
+        tests/support/settings/core/SettingsSerializer.cpp
         src/settings/core/SettingsStore.cpp
         src/timeline/TimelineEventTypes.cpp
         src/emoji/Provider.cpp
@@ -1033,6 +1033,7 @@ if(BUILD_TESTING)
     )
     target_include_directories(komai_startup_settings_test PRIVATE
         src
+        tests/support
         ${CMAKE_CURRENT_BINARY_DIR}
     )
     target_link_libraries(komai_startup_settings_test PRIVATE
@@ -1065,13 +1066,13 @@ if(BUILD_TESTING)
         src/settings/SettingsPersistenceSave.cpp
         src/settings/SettingsStorage.cpp
         src/settings/SettingsStoragePathApi.cpp
-        src/settings/SettingsStorageYaml.cpp
+        tests/support/settings/SettingsStorageYaml.cpp
         src/settings/SettingsStorageReaderWriterFilesystem.cpp
         src/settings/SettingsStorageReaderWriterInMemory.cpp
         src/settings/SettingsStorageSecureBackend.cpp
         src/settings/SettingsStorageSecretsCodec.cpp
     )
-    target_include_directories(komai_settings_storage_test PRIVATE src)
+    target_include_directories(komai_settings_storage_test PRIVATE src tests/support)
     target_link_libraries(komai_settings_storage_test PRIVATE
         Qt::Core
         Qt::Qml
@@ -1105,10 +1106,10 @@ if(BUILD_TESTING)
 
     add_executable(komai_settings_serializer_core_test
         tests/SettingsSerializerCoreTest.cpp
-        src/settings/core/SettingsSerializer.cpp
+        tests/support/settings/core/SettingsSerializer.cpp
         src/settings/core/SettingsStore.cpp
     )
-    target_include_directories(komai_settings_serializer_core_test PRIVATE src)
+    target_include_directories(komai_settings_serializer_core_test PRIVATE src tests/support)
     target_link_libraries(komai_settings_serializer_core_test PRIVATE ${YAMLCPP_TARGET_NAME})
     add_test(NAME komai_settings_serializer_core_test COMMAND komai_settings_serializer_core_test)
     komai_configure_test(komai_settings_serializer_core_test "unit;settings")

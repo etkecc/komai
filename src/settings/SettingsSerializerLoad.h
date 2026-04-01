@@ -18,5 +18,5 @@ namespace settings::serializer {
  * bridge details do not leak into unrelated startup/application code.
  */
 void
-loadConfig(UserSettings &settings, const ::rust::Vec<::komai::rust::SettingsConfigValue> &values);
+loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &snapshot);
 } // namespace settings::serializer

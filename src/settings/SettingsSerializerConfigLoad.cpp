@@ -26,8 +26,9 @@ namespace rust_cfg = settings::rust_config_values;
 namespace settings::serializer {
 
 void
-loadConfig(UserSettings &settings, const ::rust::Vec<::komai::rust::SettingsConfigValue> &values)
+loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &snapshot)
 {
+    const auto &values = snapshot.values;
     cfg::validateConfigSchemaDescriptors();
 
     for (const auto &descriptor : cfg::boolConfigSettings()) {
@@ -56,7 +57,9 @@ loadConfig(UserSettings &settings, const ::rust::Vec<::komai::rust::SettingsConf
     }
 
     const auto requestedTheme =
-      rust_cfg::readStringValue(values, SettingKey::UiThemeSlug, settings.uiThemeSlug());
+      QString::fromStdString(static_cast<std::string>(snapshot.theme_slug)).trimmed().isEmpty()
+        ? settings.uiThemeSlug()
+        : QString::fromStdString(static_cast<std::string>(snapshot.theme_slug)).trimmed();
     settings.setUiThemeSlug(requestedTheme);
     if (settings.uiThemeSlug() != requestedTheme) {
         activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
@@ -82,10 +85,12 @@ loadConfig(UserSettings &settings, const ::rust::Vec<::komai::rust::SettingsConf
       rust_cfg::readBoolValue(values,
                               SettingKey::UiMotionAnimationsEnabled,
                               settings::core::definitions::kDefaultUiMotionAnimationsEnabled));
-    const auto inputModeToken = rust_cfg::readStringValue(
-      values,
-      SettingKey::UiInputMode,
-      detail::toStorageUiInputMode(settings::core::definitions::kDefaultUiInputMode));
+    const auto loadedInputModeToken =
+      QString::fromStdString(static_cast<std::string>(snapshot.ui_input_mode)).trimmed();
+    const auto inputModeToken =
+      loadedInputModeToken.isEmpty()
+        ? detail::toStorageUiInputMode(settings::core::definitions::kDefaultUiInputMode)
+        : loadedInputModeToken;
     if (!detail::isKnownUiInputModeToken(inputModeToken)) {
         activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
                                  inputModeToken.toStdString(),
@@ -94,26 +99,29 @@ loadConfig(UserSettings &settings, const ::rust::Vec<::komai::rust::SettingsConf
     }
     settings.setUiInputMode(detail::fromStorageUiInputMode(inputModeToken));
 
-    const auto scaleFactor = rust_cfg::readDoubleValue(
-      values, SettingKey::UiScaleFactor, settings::core::definitions::kDefaultScaleFactor);
-    if (settings::core::isScaleFactorInRange(scaleFactor)) {
-        settings.setUiScaleFactor(scaleFactor);
-    } else {
-        if (rust_cfg::find(values, SettingKey::UiScaleFactor)) {
-            activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
-                                     scaleFactor,
-                                     SettingKey::UiScaleFactor,
-                                     settings::core::definitions::kDefaultScaleFactor);
-        }
-        settings.setUiScaleFactor(settings::core::definitions::kDefaultScaleFactor);
-    }
+    settings.setUiScaleFactor(snapshot.has_ui_scale_factor
+                                ? snapshot.ui_scale_factor
+                                : settings::core::definitions::kDefaultScaleFactor);
 
     settings.setHiddenTimelineEventTypes(
-      rust_cfg::readStringListValue(values,
-                                    SettingKey::TimelineHiddenEventsGlobal,
-                                    qml_mtx_events::defaultHiddenTimelineEventTypeKeys()));
-    settings.setHiddenTimelineEventTypesByRoom(
-      rust_cfg::readStringListMapValue(values, SettingKey::TimelineHiddenEventsByRoom));
+      snapshot.has_hidden_timeline_event_types
+        ? [&snapshot]() {
+              QStringList values;
+              for (const auto &value : snapshot.hidden_timeline_event_types)
+                  values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+              return values;
+          }()
+        : qml_mtx_events::defaultHiddenTimelineEventTypeKeys());
+    {
+        QMap<QString, QStringList> byRoom;
+        for (const auto &entry : snapshot.hidden_timeline_event_types_by_room) {
+            QStringList roomValues;
+            for (const auto &value : entry.values)
+                roomValues.push_back(QString::fromStdString(static_cast<std::string>(value)));
+            byRoom.insert(QString::fromStdString(static_cast<std::string>(entry.key)), roomValues);
+        }
+        settings.setHiddenTimelineEventTypesByRoom(byRoom);
+    }
 }
 
 } // namespace settings::serializer

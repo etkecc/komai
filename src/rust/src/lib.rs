@@ -105,6 +105,10 @@ mod ffi {
         has_ui_scale_factor: bool,
         ui_scale_factor: f32,
         theme_slug: String,
+        ui_input_mode: String,
+        has_hidden_timeline_event_types: bool,
+        hidden_timeline_event_types: Vec<String>,
+        hidden_timeline_event_types_by_room: Vec<SettingsStringListMapEntry>,
         secrets_provider: String,
         values: Vec<SettingsConfigValue>,
         source_version: i32,
@@ -1527,11 +1531,36 @@ fn settings_encode_config_yaml(snapshot: &ffi::SettingsConfigSnapshot) -> String
 
 fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsLoadedConfig {
     let snapshot = settings::config::load_config_snapshot(config_text);
+    let hidden_timeline_event_types_by_room = snapshot
+        .config
+        .timeline
+        .hidden_events
+        .by_room
+        .iter()
+        .map(|(key, values)| ffi::SettingsStringListMapEntry {
+            key: key.clone(),
+            values: values.clone(),
+        })
+        .collect();
 
     ffi::SettingsLoadedConfig {
         has_ui_scale_factor: snapshot.config.ui.scale.factor.is_some(),
         ui_scale_factor: snapshot.config.ui.scale.factor.unwrap_or_default(),
         theme_slug: snapshot.config.ui.theme.slug,
+        ui_input_mode: snapshot.config.ui.input.mode,
+        has_hidden_timeline_event_types: snapshot
+            .config
+            .timeline
+            .hidden_events
+            .global
+            .is_some(),
+        hidden_timeline_event_types: snapshot
+            .config
+            .timeline
+            .hidden_events
+            .global
+            .unwrap_or_default(),
+        hidden_timeline_event_types_by_room,
         secrets_provider: snapshot.config.secrets.provider,
         values: snapshot.values,
         source_version: snapshot.source_version,

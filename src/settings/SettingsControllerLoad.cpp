@@ -160,7 +160,7 @@ loadImpl(UserSettings &settings,
     auto configSnapshot =
       ::komai::rust::settings_load_config_snapshot(loadedConfigText.toStdString());
     logConfigMigrationWarnings(configSnapshot);
-    settings::serializer::loadConfig(settings, configSnapshot.values);
+    settings::serializer::loadConfig(settings, configSnapshot);
 
     std::optional<bool> secureBackendAvailable;
     const auto secureBackendAvailableNow = [&]() -> bool {

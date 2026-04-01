@@ -132,9 +132,42 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
                    const QString &expected,
                    std::string_view message)
 {
-    return expect(settings::rust_config_values::readStringValue(snapshot.values, key, {}) ==
-                    expected,
-                  message);
+    const auto keyString = QString::fromLatin1(key);
+    if (keyString == QLatin1String(SettingKey::UiThemeSlug))
+        return expect(QString::fromStdString(static_cast<std::string>(snapshot.ui.theme_slug)) ==
+                        expected,
+                      message);
+    if (keyString == QLatin1String(SettingKey::UiFontFamily))
+        return expect(QString::fromStdString(static_cast<std::string>(snapshot.ui.font_family)) ==
+                        expected,
+                      message);
+    if (keyString == QLatin1String(SettingKey::UiFontEmojiFamily))
+        return expect(
+          QString::fromStdString(static_cast<std::string>(snapshot.ui.font_emoji_family)) ==
+            expected,
+          message);
+    if (keyString == QLatin1String(SettingKey::UiInputMode))
+        return expect(QString::fromStdString(static_cast<std::string>(snapshot.ui.input_mode)) ==
+                        expected,
+                      message);
+    if (keyString == QLatin1String(SettingKey::UiScrollbarPolicy))
+        return expect(
+          QString::fromStdString(static_cast<std::string>(snapshot.ui.scrollbar_policy)) ==
+            expected,
+          message);
+    if (keyString == QLatin1String(SettingKey::UiAvatarsDefaultAvatarStyle))
+        return expect(
+          QString::fromStdString(static_cast<std::string>(snapshot.ui.default_avatar_style)) ==
+            expected,
+          message);
+    if (keyString == QLatin1String(SettingKey::SecretsProvider))
+        return expect(QString::fromStdString(static_cast<std::string>(snapshot.secrets.provider)) ==
+                        expected,
+                      message);
+
+    return expect(
+      settings::rust_config_values::readStringValue(snapshot.values, key, {}) == expected,
+      message);
 }
 
 bool
@@ -143,6 +176,18 @@ expectConfigInt(const ::komai::rust::SettingsLoadedConfig &snapshot,
                 int expected,
                 std::string_view message)
 {
+    const auto keyString = QString::fromLatin1(key);
+    if (keyString == QLatin1String(SettingKey::UiLayoutContentMaxWidthPx)) {
+        return expect(snapshot.ui.has_layout_content_max_width_px &&
+                        snapshot.ui.layout_content_max_width_px == expected,
+                      message);
+    }
+    if (keyString == QLatin1String(SettingKey::PrivacyWindowFocusBlurDelaySeconds)) {
+        return expect(snapshot.privacy.window_focus_blur.has_delay_seconds &&
+                        snapshot.privacy.window_focus_blur.delay_seconds == expected,
+                      message);
+    }
+
     return expect(settings::rust_config_values::readIntValue(snapshot.values, key, 0) == expected,
                   message);
 }
@@ -1443,6 +1488,12 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiMotionAnimationsEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiInputMode));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScaleFactor));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::PrivacyWindowFocusBlurEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::PrivacyWindowFocusBlurDelaySeconds));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::PrivacyMaintenanceExpireEvents));
 
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
         if (definition.scope != settings::core::SettingScope::Config)

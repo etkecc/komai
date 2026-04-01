@@ -110,6 +110,23 @@ mod bridge {
         provider: String,
     }
 
+    struct SettingsConfigPrivacyWindowFocusBlurSection {
+        has_enabled: bool,
+        enabled: bool,
+        has_delay_seconds: bool,
+        delay_seconds: i32,
+    }
+
+    struct SettingsConfigPrivacyMaintenanceSection {
+        has_expire_events: bool,
+        expire_events: bool,
+    }
+
+    struct SettingsConfigPrivacySection {
+        window_focus_blur: SettingsConfigPrivacyWindowFocusBlurSection,
+        maintenance: SettingsConfigPrivacyMaintenanceSection,
+    }
+
     enum SettingsConfigValueKind {
         Bool,
         Int,
@@ -134,6 +151,7 @@ mod bridge {
         ui: SettingsConfigUiSection,
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
+        privacy: SettingsConfigPrivacySection,
         values: Vec<SettingsConfigValue>,
     }
 
@@ -141,6 +159,7 @@ mod bridge {
         ui: SettingsConfigUiSection,
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
+        privacy: SettingsConfigPrivacySection,
         values: Vec<SettingsConfigValue>,
         source_version: i32,
         migrated_version: i32,

@@ -117,7 +117,10 @@ appendCoreStoreConfigValues(const UserSettings &settings,
             definition.id == settings::core::SettingId::UiScaleFactor ||
             definition.id == settings::core::SettingId::UiLayoutContentMaxWidthPx ||
             definition.id == settings::core::SettingId::UiAvatarsCircular ||
-            definition.id == settings::core::SettingId::UiLayoutCompactMode)
+            definition.id == settings::core::SettingId::UiLayoutCompactMode ||
+            definition.id == settings::core::SettingId::PrivacyWindowFocusBlurEnabled ||
+            definition.id == settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds ||
+            definition.id == settings::core::SettingId::PrivacyMaintenanceExpireEvents)
             continue;
 
         const auto stored = store.value(definition.id);
@@ -194,6 +197,21 @@ saveConfig(const UserSettings &settings,
                          ? QString::fromLatin1(staged_load_plan::ProviderFileValue)
                          : QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))
                         .toStdString(),
+        },
+      .privacy =
+        {
+          .window_focus_blur =
+            {
+              .has_enabled       = true,
+              .enabled           = settings.privacyWindowFocusBlurEnabled(),
+              .has_delay_seconds = true,
+              .delay_seconds     = settings.privacyWindowFocusBlurDelaySeconds(),
+            },
+          .maintenance =
+            {
+              .has_expire_events = true,
+              .expire_events     = settings.privacyMaintenanceExpireEvents(),
+            },
         },
       .values = {},
     };

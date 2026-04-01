@@ -13,8 +13,8 @@ use super::storage;
 
 pub use model::{
     Config, ConfigSecrets, ConfigTimeline, ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars,
-    ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme,
-    LoadedConfig,
+    ConfigPrivacy, ConfigPrivacyMaintenance, ConfigPrivacyWindowFocusBlur, ConfigUiFont,
+    ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
 };
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
@@ -34,6 +34,12 @@ const UI_SCROLLBAR_POLICY_PATH: [&str; 2] = ["ui", "scrollbar_policy"];
 const HIDDEN_EVENTS_GLOBAL_PATH: [&str; 3] = ["timeline", "hidden_events", "global"];
 const HIDDEN_EVENTS_BY_ROOM_PATH: [&str; 3] = ["timeline", "hidden_events", "by_room"];
 const SECRETS_PROVIDER_PATH: [&str; 2] = ["secrets", "provider"];
+const PRIVACY_WINDOW_FOCUS_BLUR_ENABLED_PATH: [&str; 3] =
+    ["privacy", "window_focus_blur", "enabled"];
+const PRIVACY_WINDOW_FOCUS_BLUR_DELAY_SECONDS_PATH: [&str; 3] =
+    ["privacy", "window_focus_blur", "delay_seconds"];
+const PRIVACY_MAINTENANCE_EXPIRE_EVENTS_PATH: [&str; 3] =
+    ["privacy", "maintenance", "expire_events"];
 
 pub fn parse_config_text(config_text: &str) -> Config {
     let root = yaml::parse_root(config_text);
@@ -92,6 +98,21 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
         },
         secrets: ConfigSecrets {
             provider: parse_string(yaml::value_at_path(root, &SECRETS_PROVIDER_PATH)),
+        },
+        privacy: ConfigPrivacy {
+            window_focus_blur: ConfigPrivacyWindowFocusBlur {
+                enabled: yaml::value_at_path(root, &PRIVACY_WINDOW_FOCUS_BLUR_ENABLED_PATH)
+                    .and_then(parse_scalar_bool),
+                delay_seconds: yaml::value_at_path(
+                    root,
+                    &PRIVACY_WINDOW_FOCUS_BLUR_DELAY_SECONDS_PATH,
+                )
+                .and_then(parse_scalar_i32),
+            },
+            maintenance: ConfigPrivacyMaintenance {
+                expire_events: yaml::value_at_path(root, &PRIVACY_MAINTENANCE_EXPIRE_EVENTS_PATH)
+                    .and_then(parse_scalar_bool),
+            },
         },
     }
 }

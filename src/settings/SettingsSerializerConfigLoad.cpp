@@ -172,6 +172,17 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         }
         settings.setHiddenTimelineEventTypesByRoom(byRoom);
     }
+
+    settings.setPrivacyWindowFocusBlurEnabled(snapshot.privacy.window_focus_blur.has_enabled
+                                                ? snapshot.privacy.window_focus_blur.enabled
+                                                : false);
+    settings.setPrivacyWindowFocusBlurDelaySeconds(
+      snapshot.privacy.window_focus_blur.has_delay_seconds
+        ? snapshot.privacy.window_focus_blur.delay_seconds
+        : settings::core::definitions::kDefaultPrivacyWindowFocusBlurDelaySeconds);
+    settings.setPrivacyMaintenanceExpireEvents(snapshot.privacy.maintenance.has_expire_events
+                                                 ? snapshot.privacy.maintenance.expire_events
+                                                 : false);
 }
 
 } // namespace settings::serializer

@@ -12,6 +12,7 @@ pub struct Config {
     pub ui: ConfigUi,
     pub timeline: ConfigTimeline,
     pub secrets: ConfigSecrets,
+    pub privacy: ConfigPrivacy,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -80,6 +81,23 @@ pub struct ConfigTimelineHiddenEvents {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigSecrets {
     pub provider: String,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigPrivacy {
+    pub window_focus_blur: ConfigPrivacyWindowFocusBlur,
+    pub maintenance: ConfigPrivacyMaintenance,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigPrivacyWindowFocusBlur {
+    pub enabled: Option<bool>,
+    pub delay_seconds: Option<i32>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigPrivacyMaintenance {
+    pub expire_events: Option<bool>,
 }
 
 pub struct LoadedConfig {

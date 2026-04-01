@@ -134,6 +134,27 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["secrets", "provider"],
         Value::String(snapshot.secrets.provider.clone()),
     );
+    if snapshot.privacy.window_focus_blur.has_enabled {
+        yaml::set_value(
+            &mut root,
+            &["privacy", "window_focus_blur", "enabled"],
+            Value::Bool(snapshot.privacy.window_focus_blur.enabled),
+        );
+    }
+    if snapshot.privacy.window_focus_blur.has_delay_seconds {
+        yaml::set_value(
+            &mut root,
+            &["privacy", "window_focus_blur", "delay_seconds"],
+            Value::Number(Number::from(snapshot.privacy.window_focus_blur.delay_seconds)),
+        );
+    }
+    if snapshot.privacy.maintenance.has_expire_events {
+        yaml::set_value(
+            &mut root,
+            &["privacy", "maintenance", "expire_events"],
+            Value::Bool(snapshot.privacy.maintenance.expire_events),
+        );
+    }
 
     yaml::serialize_yaml(&root)
 }
@@ -199,6 +220,14 @@ fn config_value_to_yaml(value: &SettingsConfigValue) -> Value {
 fn flatten_config_values(prefix: &str, value: &Value, values: &mut Vec<SettingsConfigValue>) {
     match value {
         Value::Mapping(mapping) => {
+            if prefix == "ui"
+                || prefix == "secrets"
+                || prefix == "privacy"
+                || prefix == "timeline.hidden_events"
+            {
+                return;
+            }
+
             if !prefix.is_empty() {
                 if let Some(entries) = tree::mapping_as_string_list_map(mapping) {
                     values.push(SettingsConfigValue {

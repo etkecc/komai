@@ -1,8 +1,0 @@
-BoolSettingDescriptor{SettingKey::PrivacyWindowFocusBlurEnabled,
-                      false,
-                      &UserSettings::privacyWindowFocusBlurEnabled,
-                      &UserSettings::setPrivacyWindowFocusBlurEnabled},
-BoolSettingDescriptor{SettingKey::PrivacyMaintenanceExpireEvents,
-                      false,
-                      &UserSettings::privacyMaintenanceExpireEvents,
-                      &UserSettings::setPrivacyMaintenanceExpireEvents},

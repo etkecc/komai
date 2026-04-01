@@ -143,11 +143,29 @@ pub(crate) fn ffi_config_secrets_section(
     }
 }
 
+pub(crate) fn ffi_config_privacy_section(
+    config: &settings::config::Config,
+) -> ffi::SettingsConfigPrivacySection {
+    ffi::SettingsConfigPrivacySection {
+        window_focus_blur: ffi::SettingsConfigPrivacyWindowFocusBlurSection {
+            has_enabled: config.privacy.window_focus_blur.enabled.is_some(),
+            enabled: config.privacy.window_focus_blur.enabled.unwrap_or_default(),
+            has_delay_seconds: config.privacy.window_focus_blur.delay_seconds.is_some(),
+            delay_seconds: config.privacy.window_focus_blur.delay_seconds.unwrap_or_default(),
+        },
+        maintenance: ffi::SettingsConfigPrivacyMaintenanceSection {
+            has_expire_events: config.privacy.maintenance.expire_events.is_some(),
+            expire_events: config.privacy.maintenance.expire_events.unwrap_or_default(),
+        },
+    }
+}
+
 pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi::SettingsLoadedConfig {
     ffi::SettingsLoadedConfig {
         ui: ffi_config_ui_section(&snapshot.config),
         timeline: ffi_config_timeline_section(&snapshot.config),
         secrets: ffi_config_secrets_section(&snapshot.config),
+        privacy: ffi_config_privacy_section(&snapshot.config),
         values: snapshot.values,
         source_version: snapshot.source_version,
         migrated_version: snapshot.migrated_version,

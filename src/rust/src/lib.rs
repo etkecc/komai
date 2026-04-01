@@ -289,6 +289,92 @@ mod ffi {
         formatted_body: String,
     }
 
+    struct MatrixCallSessionDescription {
+        sdp: String,
+        /// "offer" or "answer"
+        sdp_type: String,
+    }
+
+    struct MatrixCallIceCandidate {
+        sdp_mid: String,
+        sdp_m_line_index: u16,
+        candidate: String,
+    }
+
+    struct MatrixCallInviteEvent {
+        room_id: String,
+        sender_id: String,
+        event_id: String,
+        call_id: String,
+        party_id: String,
+        version: String,
+        lifetime: u32,
+        invitee: String,
+        offer: MatrixCallSessionDescription,
+    }
+
+    struct MatrixCallCandidatesEvent {
+        room_id: String,
+        sender_id: String,
+        event_id: String,
+        call_id: String,
+        party_id: String,
+        version: String,
+        candidates: Vec<MatrixCallIceCandidate>,
+    }
+
+    struct MatrixCallAnswerEvent {
+        room_id: String,
+        sender_id: String,
+        event_id: String,
+        call_id: String,
+        party_id: String,
+        version: String,
+        answer: MatrixCallSessionDescription,
+    }
+
+    struct MatrixCallHangUpEvent {
+        room_id: String,
+        sender_id: String,
+        event_id: String,
+        call_id: String,
+        party_id: String,
+        version: String,
+        /// One of: "ice_failed", "invite_timeout", "ice_timeout",
+        /// "user_hangup", "user_media_failed", "user_busy",
+        /// "unknown_error", "user", or "" for default (UserHangUp)
+        reason: String,
+    }
+
+    struct MatrixCallSelectAnswerEvent {
+        room_id: String,
+        sender_id: String,
+        event_id: String,
+        call_id: String,
+        party_id: String,
+        version: String,
+        selected_party_id: String,
+    }
+
+    struct MatrixCallRejectEvent {
+        room_id: String,
+        sender_id: String,
+        event_id: String,
+        call_id: String,
+        party_id: String,
+        version: String,
+    }
+
+    struct MatrixCallNegotiateEvent {
+        room_id: String,
+        sender_id: String,
+        event_id: String,
+        call_id: String,
+        party_id: String,
+        lifetime: u32,
+        description: MatrixCallSessionDescription,
+    }
+
     struct MatrixReadReceiptEntry {
         user_id: String,
         display_name: String,
@@ -439,13 +525,27 @@ mod ffi {
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_notification_received(handle_id: u64, room_id: &str, event_id: &str);
         #[namespace = "komai::rust_bridge"]
-        fn matrix_notify_call_event_received(
+        fn matrix_notify_call_invite_received(handle_id: u64, event: MatrixCallInviteEvent);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_call_candidates_received(
             handle_id: u64,
-            room_id: &str,
-            event_type: &str,
-            sender_id: &str,
-            event_id: &str,
-            content_json: &str,
+            event: MatrixCallCandidatesEvent,
+        );
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_call_answer_received(handle_id: u64, event: MatrixCallAnswerEvent);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_call_hangup_received(handle_id: u64, event: MatrixCallHangUpEvent);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_call_select_answer_received(
+            handle_id: u64,
+            event: MatrixCallSelectAnswerEvent,
+        );
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_call_reject_received(handle_id: u64, event: MatrixCallRejectEvent);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_call_negotiate_received(
+            handle_id: u64,
+            event: MatrixCallNegotiateEvent,
         );
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_sync_stopped(handle_id: u64, reason: &str, is_auth_error: bool);
@@ -917,6 +1017,73 @@ mod ffi {
             room_id: &str,
             event_type: &str,
             content_json: &str,
+        ) -> Result<()>;
+        fn matrix_send_call_invite(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            call_id: &str,
+            party_id: &str,
+            version: &str,
+            lifetime: u32,
+            invitee: &str,
+            offer_sdp: &str,
+            offer_type: &str,
+        ) -> Result<()>;
+        fn matrix_send_call_candidates(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            call_id: &str,
+            party_id: &str,
+            version: &str,
+            candidates: Vec<MatrixCallIceCandidate>,
+        ) -> Result<()>;
+        fn matrix_send_call_answer(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            call_id: &str,
+            party_id: &str,
+            version: &str,
+            answer_sdp: &str,
+            answer_type: &str,
+        ) -> Result<()>;
+        fn matrix_send_call_hangup(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            call_id: &str,
+            party_id: &str,
+            version: &str,
+            reason: &str,
+        ) -> Result<()>;
+        fn matrix_send_call_select_answer(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            call_id: &str,
+            party_id: &str,
+            version: &str,
+            selected_party_id: &str,
+        ) -> Result<()>;
+        fn matrix_send_call_reject(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            call_id: &str,
+            party_id: &str,
+            version: &str,
+        ) -> Result<()>;
+        fn matrix_send_call_negotiate(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            call_id: &str,
+            party_id: &str,
+            lifetime: u32,
+            description_sdp: &str,
+            description_type: &str,
         ) -> Result<()>;
         fn matrix_send_room_reply_message(
             context: MatrixFfiBlockingContext,
@@ -2711,6 +2878,175 @@ fn matrix_send_room_message_like_event_json(
             room_id,
             event_type,
             content_json,
+        ),
+    )
+}
+
+fn matrix_send_call_invite(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    call_id: &str,
+    party_id: &str,
+    version: &str,
+    lifetime: u32,
+    invitee: &str,
+    offer_sdp: &str,
+    offer_type: &str,
+) -> Result<(), String> {
+    let content_json = matrix_backend::runtime::serialize_call_invite(
+        call_id, party_id, version, lifetime, invitee, offer_sdp, offer_type,
+    )?;
+    ffi_block_on(
+        context,
+        "matrix_send_call_invite",
+        matrix_backend::runtime::send_room_message_like_event_json(
+            handle_id,
+            room_id,
+            "m.call.invite",
+            &content_json,
+        ),
+    )
+}
+
+fn matrix_send_call_candidates(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    call_id: &str,
+    party_id: &str,
+    version: &str,
+    candidates: Vec<ffi::MatrixCallIceCandidate>,
+) -> Result<(), String> {
+    let content_json =
+        matrix_backend::runtime::serialize_call_candidates(call_id, party_id, version, &candidates)?;
+    ffi_block_on(
+        context,
+        "matrix_send_call_candidates",
+        matrix_backend::runtime::send_room_message_like_event_json(
+            handle_id,
+            room_id,
+            "m.call.candidates",
+            &content_json,
+        ),
+    )
+}
+
+fn matrix_send_call_answer(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    call_id: &str,
+    party_id: &str,
+    version: &str,
+    answer_sdp: &str,
+    answer_type: &str,
+) -> Result<(), String> {
+    let content_json = matrix_backend::runtime::serialize_call_answer(
+        call_id, party_id, version, answer_sdp, answer_type,
+    )?;
+    ffi_block_on(
+        context,
+        "matrix_send_call_answer",
+        matrix_backend::runtime::send_room_message_like_event_json(
+            handle_id,
+            room_id,
+            "m.call.answer",
+            &content_json,
+        ),
+    )
+}
+
+fn matrix_send_call_hangup(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    call_id: &str,
+    party_id: &str,
+    version: &str,
+    reason: &str,
+) -> Result<(), String> {
+    let content_json =
+        matrix_backend::runtime::serialize_call_hangup(call_id, party_id, version, reason)?;
+    ffi_block_on(
+        context,
+        "matrix_send_call_hangup",
+        matrix_backend::runtime::send_room_message_like_event_json(
+            handle_id,
+            room_id,
+            "m.call.hangup",
+            &content_json,
+        ),
+    )
+}
+
+fn matrix_send_call_select_answer(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    call_id: &str,
+    party_id: &str,
+    version: &str,
+    selected_party_id: &str,
+) -> Result<(), String> {
+    let content_json = matrix_backend::runtime::serialize_call_select_answer(
+        call_id, party_id, version, selected_party_id,
+    )?;
+    ffi_block_on(
+        context,
+        "matrix_send_call_select_answer",
+        matrix_backend::runtime::send_room_message_like_event_json(
+            handle_id,
+            room_id,
+            "m.call.select_answer",
+            &content_json,
+        ),
+    )
+}
+
+fn matrix_send_call_reject(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    call_id: &str,
+    party_id: &str,
+    version: &str,
+) -> Result<(), String> {
+    let content_json =
+        matrix_backend::runtime::serialize_call_reject(call_id, party_id, version)?;
+    ffi_block_on(
+        context,
+        "matrix_send_call_reject",
+        matrix_backend::runtime::send_room_message_like_event_json(
+            handle_id,
+            room_id,
+            "m.call.reject",
+            &content_json,
+        ),
+    )
+}
+
+fn matrix_send_call_negotiate(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    call_id: &str,
+    party_id: &str,
+    lifetime: u32,
+    description_sdp: &str,
+    description_type: &str,
+) -> Result<(), String> {
+    let content_json = matrix_backend::runtime::serialize_call_negotiate(
+        call_id, party_id, lifetime, description_sdp, description_type,
+    )?;
+    ffi_block_on(
+        context,
+        "matrix_send_call_negotiate",
+        matrix_backend::runtime::send_room_message_like_event_json(
+            handle_id,
+            room_id,
+            "m.call.negotiate",
+            &content_json,
         ),
     )
 }

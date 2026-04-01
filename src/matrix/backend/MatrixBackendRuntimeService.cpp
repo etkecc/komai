@@ -2539,6 +2539,187 @@ MatrixBackendRuntimeService::sendRoomMessageLikeEventJson(
     }
 }
 
+void
+MatrixBackendRuntimeService::sendCallInvite(matrix_backend::BlockingCallContext context,
+                                            uint64_t handleId,
+                                            const QString &roomId,
+                                            const std::string &callId,
+                                            const std::string &partyId,
+                                            const std::string &version,
+                                            uint32_t lifetime,
+                                            const std::string &invitee,
+                                            const std::string &offerSdp,
+                                            const std::string &offerType)
+{
+    matrix_backend::invokeBlockingCall(
+      "matrix_send_call_invite",
+      matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+      [=]() {
+          ::komai::rust::matrix_send_call_invite(matrix_backend::toRustBlockingContext(context),
+                                                 handleId,
+                                                 roomId.toStdString(),
+                                                 callId,
+                                                 partyId,
+                                                 version,
+                                                 lifetime,
+                                                 invitee,
+                                                 offerSdp,
+                                                 offerType);
+      });
+}
+
+void
+MatrixBackendRuntimeService::sendCallCandidates(matrix_backend::BlockingCallContext context,
+                                                uint64_t handleId,
+                                                const QString &roomId,
+                                                const std::string &callId,
+                                                const std::string &partyId,
+                                                const std::string &version,
+                                                const komai::voip::CallIceCandidateList &candidates)
+{
+    // Copy the candidates into a plain std::vector for lambda capture, then build
+    // the rust::Vec inside the blocking call where it will be consumed.
+    auto capturedCandidates = candidates;
+    matrix_backend::invokeBlockingCall(
+      "matrix_send_call_candidates",
+      matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+      [=, capturedCandidates = std::move(capturedCandidates)]() {
+          ::rust::Vec<::komai::rust::MatrixCallIceCandidate> rustCandidates;
+          for (const auto &c : capturedCandidates) {
+              ::komai::rust::MatrixCallIceCandidate rc;
+              rc.sdp_mid          = ::rust::String(c.sdpMid);
+              rc.sdp_m_line_index = c.sdpMLineIndex;
+              rc.candidate        = ::rust::String(c.candidate);
+              rustCandidates.push_back(std::move(rc));
+          }
+          ::komai::rust::matrix_send_call_candidates(matrix_backend::toRustBlockingContext(context),
+                                                     handleId,
+                                                     roomId.toStdString(),
+                                                     callId,
+                                                     partyId,
+                                                     version,
+                                                     std::move(rustCandidates));
+      });
+}
+
+void
+MatrixBackendRuntimeService::sendCallAnswer(matrix_backend::BlockingCallContext context,
+                                            uint64_t handleId,
+                                            const QString &roomId,
+                                            const std::string &callId,
+                                            const std::string &partyId,
+                                            const std::string &version,
+                                            const std::string &answerSdp,
+                                            const std::string &answerType)
+{
+    matrix_backend::invokeBlockingCall(
+      "matrix_send_call_answer",
+      matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+      [=]() {
+          ::komai::rust::matrix_send_call_answer(matrix_backend::toRustBlockingContext(context),
+                                                 handleId,
+                                                 roomId.toStdString(),
+                                                 callId,
+                                                 partyId,
+                                                 version,
+                                                 answerSdp,
+                                                 answerType);
+      });
+}
+
+void
+MatrixBackendRuntimeService::sendCallHangUp(matrix_backend::BlockingCallContext context,
+                                            uint64_t handleId,
+                                            const QString &roomId,
+                                            const std::string &callId,
+                                            const std::string &partyId,
+                                            const std::string &version,
+                                            const std::string &reason)
+{
+    matrix_backend::invokeBlockingCall(
+      "matrix_send_call_hangup",
+      matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+      [=]() {
+          ::komai::rust::matrix_send_call_hangup(matrix_backend::toRustBlockingContext(context),
+                                                 handleId,
+                                                 roomId.toStdString(),
+                                                 callId,
+                                                 partyId,
+                                                 version,
+                                                 reason);
+      });
+}
+
+void
+MatrixBackendRuntimeService::sendCallSelectAnswer(matrix_backend::BlockingCallContext context,
+                                                  uint64_t handleId,
+                                                  const QString &roomId,
+                                                  const std::string &callId,
+                                                  const std::string &partyId,
+                                                  const std::string &version,
+                                                  const std::string &selectedPartyId)
+{
+    matrix_backend::invokeBlockingCall(
+      "matrix_send_call_select_answer",
+      matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+      [=]() {
+          ::komai::rust::matrix_send_call_select_answer(
+            matrix_backend::toRustBlockingContext(context),
+            handleId,
+            roomId.toStdString(),
+            callId,
+            partyId,
+            version,
+            selectedPartyId);
+      });
+}
+
+void
+MatrixBackendRuntimeService::sendCallReject(matrix_backend::BlockingCallContext context,
+                                            uint64_t handleId,
+                                            const QString &roomId,
+                                            const std::string &callId,
+                                            const std::string &partyId,
+                                            const std::string &version)
+{
+    matrix_backend::invokeBlockingCall(
+      "matrix_send_call_reject",
+      matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+      [=]() {
+          ::komai::rust::matrix_send_call_reject(matrix_backend::toRustBlockingContext(context),
+                                                 handleId,
+                                                 roomId.toStdString(),
+                                                 callId,
+                                                 partyId,
+                                                 version);
+      });
+}
+
+void
+MatrixBackendRuntimeService::sendCallNegotiate(matrix_backend::BlockingCallContext context,
+                                               uint64_t handleId,
+                                               const QString &roomId,
+                                               const std::string &callId,
+                                               const std::string &partyId,
+                                               uint32_t lifetime,
+                                               const std::string &descSdp,
+                                               const std::string &descType)
+{
+    matrix_backend::invokeBlockingCall(
+      "matrix_send_call_negotiate",
+      matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+      [=]() {
+          ::komai::rust::matrix_send_call_negotiate(matrix_backend::toRustBlockingContext(context),
+                                                    handleId,
+                                                    roomId.toStdString(),
+                                                    callId,
+                                                    partyId,
+                                                    lifetime,
+                                                    descSdp,
+                                                    descType);
+      });
+}
+
 bool
 MatrixBackendRuntimeService::sendRoomReplyMessage(matrix_backend::BlockingCallContext context,
                                                   uint64_t handleId,

@@ -25,63 +25,6 @@ namespace {
 constexpr auto kMatrixPendingJumpPageSize        = 50;
 constexpr auto kMatrixPendingJumpMaxPageRequests = 8;
 
-struct MatrixCallEventSendResult
-{
-    uint64_t handleId = 0;
-    QString roomId;
-    QString eventType;
-    QString error;
-    bool ok = false;
-};
-
-void
-queueMatrixCallEventSend(TimelineViewManager *manager,
-                         const QString &roomId,
-                         const QString &eventType,
-                         const QString &contentJson)
-{
-    auto *mainWindow    = MainWindow::instance();
-    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
-    if (handleId == 0 || roomId.trimmed().isEmpty()) {
-        nhlog::ui()->warn("Refusing to send matrix call event '{}' without an active runtime "
-                          "handle or room id",
-                          eventType.toStdString());
-        return;
-    }
-
-    komai::qt_worker_task::runQueued(
-      manager,
-      [handleId, roomId, eventType, contentJson]() {
-          const auto context = komai::matrix_backend::blockingCallContext();
-          QString error;
-          const bool ok = komai::MatrixBackendRuntimeService::sendRoomMessageLikeEventJson(
-            context, handleId, roomId, eventType, contentJson, &error);
-
-          return MatrixCallEventSendResult{
-            .handleId  = handleId,
-            .roomId    = roomId,
-            .eventType = eventType,
-            .error     = error,
-            .ok        = ok,
-          };
-      },
-      [](TimelineViewManager *, MatrixCallEventSendResult result) {
-          auto *mainWindow = MainWindow::instance();
-          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
-              return;
-
-          if (result.ok)
-              return;
-
-          nhlog::ui()->warn("Failed to queue matrix call event '{}' for room '{}' on handle {}: {}",
-                            result.eventType.toStdString(),
-                            result.roomId.toStdString(),
-                            result.handleId,
-                            result.error.toStdString());
-          mainWindow->showNotification(
-            TimelineViewManager::tr("Failed to send call event: %1").arg(result.error));
-      });
-}
 }
 
 void
@@ -350,14 +293,6 @@ TimelineViewManager::queueReply(const QString &roomid,
         emit matrixTimelineStateChanged();
 
     focusMessageInput();
-}
-
-void
-TimelineViewManager::queueCallMessage(const QString &roomid,
-                                      const QString &eventType,
-                                      const QString &contentJson)
-{
-    queueMatrixCallEventSend(this, roomid, eventType, contentJson);
 }
 
 void

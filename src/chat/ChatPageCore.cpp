@@ -195,11 +195,6 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
       this,
       [](std::function<void()> f) { f(); },
       Qt::QueuedConnection);
-
-    connect(callManager_,
-            &CallManager::newMessage,
-            view_manager_,
-            &TimelineViewManager::queueCallMessage);
 }
 
 QString

@@ -10,6 +10,13 @@
 
 namespace komai::rust {
 struct MatrixRoomSummary;
+struct MatrixCallInviteEvent;
+struct MatrixCallCandidatesEvent;
+struct MatrixCallAnswerEvent;
+struct MatrixCallHangUpEvent;
+struct MatrixCallSelectAnswerEvent;
+struct MatrixCallRejectEvent;
+struct MatrixCallNegotiateEvent;
 }
 
 namespace komai::rust_bridge {
@@ -66,12 +73,32 @@ matrix_notify_notification_received(std::uint64_t handle_id,
                                     ::rust::Str event_id);
 
 void
-matrix_notify_call_event_received(std::uint64_t handle_id,
-                                  ::rust::Str room_id,
-                                  ::rust::Str event_type,
-                                  ::rust::Str sender_id,
-                                  ::rust::Str event_id,
-                                  ::rust::Str content_json);
+matrix_notify_call_invite_received(std::uint64_t handle_id,
+                                   ::komai::rust::MatrixCallInviteEvent event);
+
+void
+matrix_notify_call_candidates_received(std::uint64_t handle_id,
+                                       ::komai::rust::MatrixCallCandidatesEvent event);
+
+void
+matrix_notify_call_answer_received(std::uint64_t handle_id,
+                                   ::komai::rust::MatrixCallAnswerEvent event);
+
+void
+matrix_notify_call_hangup_received(std::uint64_t handle_id,
+                                   ::komai::rust::MatrixCallHangUpEvent event);
+
+void
+matrix_notify_call_select_answer_received(std::uint64_t handle_id,
+                                          ::komai::rust::MatrixCallSelectAnswerEvent event);
+
+void
+matrix_notify_call_reject_received(std::uint64_t handle_id,
+                                   ::komai::rust::MatrixCallRejectEvent event);
+
+void
+matrix_notify_call_negotiate_received(std::uint64_t handle_id,
+                                      ::komai::rust::MatrixCallNegotiateEvent event);
 
 void
 matrix_notify_sync_stopped(std::uint64_t handle_id, ::rust::Str reason, bool is_auth_error);

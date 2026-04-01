@@ -29,7 +29,6 @@
 #include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
-#include "voip/CallEventJson.h"
 #include "voip/ScreenCastPortal.h"
 #include "voip/WebRTCSession.h"
 
@@ -48,6 +47,26 @@ typedef RTCSessionDescriptionInit SDO;
 namespace {
 std::vector<std::string>
 getTurnURIs(const komai::MatrixTurnServerInfo &turnServer);
+
+komai::voip::CallIceCandidate
+toCallIceCandidate(const mtx::events::voip::CallCandidates::Candidate &candidate)
+{
+    return komai::voip::CallIceCandidate{
+      .sdpMid        = candidate.sdpMid,
+      .sdpMLineIndex = candidate.sdpMLineIndex,
+      .candidate     = candidate.candidate,
+    };
+}
+
+komai::voip::CallIceCandidateList
+toCallIceCandidates(const std::vector<mtx::events::voip::CallCandidates::Candidate> &candidates)
+{
+    komai::voip::CallIceCandidateList result;
+    result.reserve(candidates.size());
+    for (const auto &candidate : candidates)
+        result.push_back(toCallIceCandidate(candidate));
+    return result;
+}
 
 struct MatrixCallRoomContext
 {
@@ -115,20 +134,260 @@ struct MatrixTurnServerFetchResult
     std::optional<komai::MatrixTurnServerInfo> turnServerInfo;
     QString error;
 };
+struct MatrixCallEventSendResult
+{
+    uint64_t handleId = 0;
+    QString roomId;
+    QString eventType;
+    QString error;
+    bool ok = false;
+};
+
+template<typename WorkFn>
+void
+queueCallEventSend(CallManager *manager,
+                   const QString &roomId,
+                   const char *eventTypeName,
+                   WorkFn &&workFn)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || roomId.trimmed().isEmpty()) {
+        nhlog::ui()->warn("Refusing to send matrix call event '{}' without an active runtime "
+                          "handle or room id",
+                          eventTypeName);
+        return;
+    }
+
+    const auto eventType = QString::fromUtf8(eventTypeName);
+    komai::qt_worker_task::runQueued(
+      manager,
+      [handleId, roomId, eventType, workFn = std::forward<WorkFn>(workFn)]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          bool ok = true;
+          try {
+              workFn(context, handleId, roomId);
+          } catch (const std::exception &e) {
+              error = QString::fromUtf8(e.what());
+              ok    = false;
+          }
+          return MatrixCallEventSendResult{
+            .handleId  = handleId,
+            .roomId    = roomId,
+            .eventType = eventType,
+            .error     = error,
+            .ok        = ok,
+          };
+      },
+      [](CallManager *, MatrixCallEventSendResult result) {
+          auto *mainWindow = MainWindow::instance();
+          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+              return;
+          if (result.ok)
+              return;
+          nhlog::ui()->warn("Failed to queue matrix call event '{}' for room '{}' on handle {}: {}",
+                            result.eventType.toStdString(),
+                            result.roomId.toStdString(),
+                            result.handleId,
+                            result.error.toStdString());
+      });
+}
+
+std::string
+hangUpReasonToString(CallHangUp::Reason reason)
+{
+    switch (reason) {
+    case CallHangUp::Reason::ICEFailed:
+        return "ice_failed";
+    case CallHangUp::Reason::InviteTimeOut:
+        return "invite_timeout";
+    case CallHangUp::Reason::ICETimeOut:
+        return "ice_timeout";
+    case CallHangUp::Reason::UserHangUp:
+        return "user_hangup";
+    case CallHangUp::Reason::UserMediaFailed:
+        return "user_media_failed";
+    case CallHangUp::Reason::UserBusy:
+        return "user_busy";
+    case CallHangUp::Reason::UnknownError:
+        return "unknown_error";
+    case CallHangUp::Reason::User:
+        return "user";
+    }
+    return "user_hangup";
+}
+
+CallHangUp::Reason
+hangUpReasonFromString(const std::string &reason)
+{
+    if (reason == "ice_failed")
+        return CallHangUp::Reason::ICEFailed;
+    if (reason == "invite_timeout")
+        return CallHangUp::Reason::InviteTimeOut;
+    if (reason == "ice_timeout")
+        return CallHangUp::Reason::ICETimeOut;
+    if (reason == "user_media_failed")
+        return CallHangUp::Reason::UserMediaFailed;
+    if (reason == "user_busy")
+        return CallHangUp::Reason::UserBusy;
+    if (reason == "unknown_error")
+        return CallHangUp::Reason::UnknownError;
+    if (reason == "user")
+        return CallHangUp::Reason::User;
+    return CallHangUp::Reason::UserHangUp;
+}
+
+std::string
+sdoTypeToString(RTCSessionDescriptionInit::Type type)
+{
+    return type == RTCSessionDescriptionInit::Type::Answer ? "answer" : "offer";
+}
+
 } // namespace
 
-template<typename EventT>
 void
-CallManager::emitCallMessage(const QString &roomId, const EventT &event)
+CallManager::sendCallInvite(const QString &roomId, const CallInvite &content)
 {
-    try {
-        const auto payload = komai::voip::toMatrixCallEventPayload(event);
-        emit newMessage(roomId, payload.eventType, payload.contentJson);
-    } catch (const std::exception &e) {
-        nhlog::ui()->warn("Failed to serialize outbound call event for room '{}': {}",
-                          roomId.toStdString(),
-                          e.what());
-    }
+    const auto callId   = content.call_id;
+    const auto partyId  = content.party_id;
+    const auto version  = content.version;
+    const auto lifetime = content.lifetime;
+    const auto invitee  = content.invitee;
+    const auto sdp      = content.offer.sdp;
+    const auto sdpType  = sdoTypeToString(content.offer.type);
+
+    queueCallEventSend(
+      this,
+      roomId,
+      "m.call.invite",
+      [callId, partyId, version, lifetime, invitee, sdp, sdpType](
+        komai::matrix_backend::BlockingCallContext context,
+        uint64_t handleId,
+        const QString &roomId) {
+          komai::MatrixBackendRuntimeService::sendCallInvite(
+            context, handleId, roomId, callId, partyId, version, lifetime, invitee, sdp, sdpType);
+      });
+}
+
+void
+CallManager::sendCallCandidates(const QString &roomId,
+                                const std::string &callId,
+                                const std::string &partyId,
+                                const komai::voip::CallIceCandidateList &candidates,
+                                const std::string &version)
+{
+    queueCallEventSend(
+      this,
+      roomId,
+      "m.call.candidates",
+      [callId, partyId, version, candidates](komai::matrix_backend::BlockingCallContext context,
+                                             uint64_t handleId,
+                                             const QString &roomId) {
+          komai::MatrixBackendRuntimeService::sendCallCandidates(
+            context, handleId, roomId, callId, partyId, version, candidates);
+      });
+}
+
+void
+CallManager::sendCallAnswer(const QString &roomId, const CallAnswer &content)
+{
+    const auto callId  = content.call_id;
+    const auto partyId = content.party_id;
+    const auto version = content.version;
+    const auto sdp     = content.answer.sdp;
+    const auto sdpType = sdoTypeToString(content.answer.type);
+
+    queueCallEventSend(
+      this,
+      roomId,
+      "m.call.answer",
+      [callId, partyId, version, sdp, sdpType](komai::matrix_backend::BlockingCallContext context,
+                                               uint64_t handleId,
+                                               const QString &roomId) {
+          komai::MatrixBackendRuntimeService::sendCallAnswer(
+            context, handleId, roomId, callId, partyId, version, sdp, sdpType);
+      });
+}
+
+void
+CallManager::sendCallHangUp(const QString &roomId, const CallHangUp &content)
+{
+    const auto callId  = content.call_id;
+    const auto partyId = content.party_id;
+    const auto version = content.version;
+    const auto reason  = hangUpReasonToString(content.reason);
+
+    queueCallEventSend(
+      this,
+      roomId,
+      "m.call.hangup",
+      [callId, partyId, version, reason](komai::matrix_backend::BlockingCallContext context,
+                                         uint64_t handleId,
+                                         const QString &roomId) {
+          komai::MatrixBackendRuntimeService::sendCallHangUp(
+            context, handleId, roomId, callId, partyId, version, reason);
+      });
+}
+
+void
+CallManager::sendCallSelectAnswer(const QString &roomId, const CallSelectAnswer &content)
+{
+    const auto callId          = content.call_id;
+    const auto partyId         = content.party_id;
+    const auto version         = content.version;
+    const auto selectedPartyId = content.selected_party_id;
+
+    queueCallEventSend(this,
+                       roomId,
+                       "m.call.select_answer",
+                       [callId, partyId, version, selectedPartyId](
+                         komai::matrix_backend::BlockingCallContext context,
+                         uint64_t handleId,
+                         const QString &roomId) {
+                           komai::MatrixBackendRuntimeService::sendCallSelectAnswer(
+                             context, handleId, roomId, callId, partyId, version, selectedPartyId);
+                       });
+}
+
+void
+CallManager::sendCallReject(const QString &roomId, const CallReject &content)
+{
+    const auto callId  = content.call_id;
+    const auto partyId = content.party_id;
+    const auto version = content.version;
+
+    queueCallEventSend(
+      this,
+      roomId,
+      "m.call.reject",
+      [callId, partyId, version](komai::matrix_backend::BlockingCallContext context,
+                                 uint64_t handleId,
+                                 const QString &roomId) {
+          komai::MatrixBackendRuntimeService::sendCallReject(
+            context, handleId, roomId, callId, partyId, version);
+      });
+}
+
+void
+CallManager::sendCallNegotiate(const QString &roomId, const CallNegotiate &content)
+{
+    const auto callId   = content.call_id;
+    const auto partyId  = content.party_id;
+    const auto lifetime = content.lifetime;
+    const auto sdp      = content.description.sdp;
+    const auto sdpType  = sdoTypeToString(content.description.type);
+
+    queueCallEventSend(
+      this,
+      roomId,
+      "m.call.negotiate",
+      [callId, partyId, lifetime, sdp, sdpType](komai::matrix_backend::BlockingCallContext context,
+                                                uint64_t handleId,
+                                                const QString &roomId) {
+          komai::MatrixBackendRuntimeService::sendCallNegotiate(
+            context, handleId, roomId, callId, partyId, lifetime, sdp, sdpType);
+      });
 }
 
 CallManager *
@@ -199,19 +458,14 @@ CallManager::CallManager(QObject *parent)
             this,
             [this](const std::string &sdp, const komai::voip::CallIceCandidateList &candidates) {
                 nhlog::ui()->debug("WebRTC: call id: {} - sending offer", callid_);
-                emitCallMessage(roomid_,
-                                CallInvite{callid_,
-                                           partyid_,
-                                           SDO{sdp, SDO::Type::Offer},
-                                           callPartyVersion_,
-                                           timeoutms_,
-                                           invitee_});
-                emitCallMessage(
-                  roomid_,
-                  CallCandidates{callid_,
-                                 partyid_,
-                                 komai::voip::detail::toMatrixCallIceCandidates(candidates),
-                                 callPartyVersion_});
+                sendCallInvite(roomid_,
+                               CallInvite{callid_,
+                                          partyid_,
+                                          SDO{sdp, SDO::Type::Offer},
+                                          callPartyVersion_,
+                                          timeoutms_,
+                                          invitee_});
+                sendCallCandidates(roomid_, callid_, partyid_, candidates, callPartyVersion_);
                 std::string callid(callid_);
                 QTimer::singleShot(timeoutms_, this, [this, callid]() {
                     if (session_.state() == webrtc::State::OFFERSENT && callid == callid_) {
@@ -222,32 +476,23 @@ CallManager::CallManager(QObject *parent)
                 });
             });
 
-    connect(
-      &session_,
-      &WebRTCSession::answerCreated,
-      this,
-      [this](const std::string &sdp, const komai::voip::CallIceCandidateList &candidates) {
-          nhlog::ui()->debug("WebRTC: call id: {} - sending answer", callid_);
-          emitCallMessage(
-            roomid_, CallAnswer{callid_, partyid_, callPartyVersion_, SDO{sdp, SDO::Type::Answer}});
-          emitCallMessage(roomid_,
-                          CallCandidates{callid_,
-                                         partyid_,
-                                         komai::voip::detail::toMatrixCallIceCandidates(candidates),
-                                         callPartyVersion_});
-      });
+    connect(&session_,
+            &WebRTCSession::answerCreated,
+            this,
+            [this](const std::string &sdp, const komai::voip::CallIceCandidateList &candidates) {
+                nhlog::ui()->debug("WebRTC: call id: {} - sending answer", callid_);
+                sendCallAnswer(
+                  roomid_,
+                  CallAnswer{callid_, partyid_, callPartyVersion_, SDO{sdp, SDO::Type::Answer}});
+                sendCallCandidates(roomid_, callid_, partyid_, candidates, callPartyVersion_);
+            });
 
     connect(&session_,
             &WebRTCSession::newICECandidate,
             this,
             [this](const komai::voip::CallIceCandidate &candidate) {
                 nhlog::ui()->debug("WebRTC: call id: {} - sending ice candidate", callid_);
-                emitCallMessage(
-                  roomid_,
-                  CallCandidates{callid_,
-                                 partyid_,
-                                 {komai::voip::detail::toMatrixCallIceCandidate(candidate)},
-                                 callPartyVersion_});
+                sendCallCandidates(roomid_, callid_, partyid_, {candidate}, callPartyVersion_);
             });
 
     connect(&turnServerTimer_, &QTimer::timeout, this, &CallManager::retrieveTurnServer);
@@ -377,14 +622,14 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
             else {
                 emit ChatPage::instance()->showNotification(
                   QStringLiteral("Can't place call. Call types do not match"));
-                emitCallMessage(
+                sendCallHangUp(
                   roomid_,
                   CallHangUp{callid_, partyid_, callPartyVersion_, CallHangUp::Reason::UserBusy});
             }
         } else {
             emit ChatPage::instance()->showNotification(
               QStringLiteral("Already on a call with a different user"));
-            emitCallMessage(
+            sendCallHangUp(
               roomid_,
               CallHangUp{callid_, partyid_, callPartyVersion_, CallHangUp::Reason::UserBusy});
         }
@@ -445,124 +690,252 @@ CallManager::hangUp(CallHangUp::Reason reason)
     if (!callid_.empty()) {
         nhlog::ui()->debug(
           "WebRTC: call id: {} - hanging up ({})", callid_, callHangUpReasonString(reason));
-        emitCallMessage(roomid_, CallHangUp{callid_, partyid_, callPartyVersion_, reason});
+        sendCallHangUp(roomid_, CallHangUp{callid_, partyid_, callPartyVersion_, reason});
         endCall();
     }
 }
 
+namespace {
+template<typename EventContent>
+mtx::events::RoomEvent<EventContent>
+makeCallRoomEvent(const QString &roomId,
+                  const QString &senderId,
+                  const QString &eventId,
+                  EventContent content)
+{
+    mtx::events::RoomEvent<EventContent> event;
+    event.sender           = senderId.toStdString();
+    event.content          = std::move(content);
+    event.event_id         = eventId.toStdString();
+    event.room_id          = roomId.toStdString();
+    event.origin_server_ts = 0;
+    return event;
+}
+
+RTCSessionDescriptionInit::Type
+sdoTypeFromString(const std::string &type)
+{
+    return type == "answer" ? RTCSessionDescriptionInit::Type::Answer
+                            : RTCSessionDescriptionInit::Type::Offer;
+}
+} // namespace
+
 void
-CallManager::handleIncomingCallEvent(const QString &roomId,
-                                     const QString &eventType,
-                                     const QString &senderId,
-                                     const QString &eventId,
-                                     const QString &contentJson)
+CallManager::handleCallInvite(const QString &roomId,
+                              const QString &senderId,
+                              const QString &eventId,
+                              const std::string &callId,
+                              const std::string &partyId,
+                              const std::string &version,
+                              uint32_t lifetime,
+                              const std::string &invitee,
+                              const std::string &offerSdp,
+                              const std::string &offerType)
 {
     if (!UserSettings::instance()->callsLegacyEnabled())
         return;
-
 #ifdef GSTREAMER_AVAILABLE
-    QString error;
-    if (eventType == QLatin1String("m.call.invite")) {
-        CallInvite content;
-        if (!komai::voip::parseMatrixCallEventJson(contentJson, content, &error)) {
-            nhlog::ui()->warn("Failed to parse runtime call invite event '{}' in room '{}': {}",
-                              eventId.toStdString(),
-                              roomId.toStdString(),
-                              error.toStdString());
-            return;
-        }
-        handleEvent(komai::voip::makeMatrixCallRoomEvent(roomId, senderId, eventId, content));
-        return;
-    }
-
-    if (eventType == QLatin1String("m.call.candidates")) {
-        CallCandidates content;
-        if (!komai::voip::parseMatrixCallEventJson(contentJson, content, &error)) {
-            nhlog::ui()->warn("Failed to parse runtime call candidates event '{}' in room '{}': {}",
-                              eventId.toStdString(),
-                              roomId.toStdString(),
-                              error.toStdString());
-            return;
-        }
-        handleEvent(komai::voip::makeMatrixCallRoomEvent(roomId, senderId, eventId, content));
-        return;
-    }
-
-    if (eventType == QLatin1String("m.call.answer")) {
-        CallAnswer content;
-        if (!komai::voip::parseMatrixCallEventJson(contentJson, content, &error)) {
-            nhlog::ui()->warn("Failed to parse runtime call answer event '{}' in room '{}': {}",
-                              eventId.toStdString(),
-                              roomId.toStdString(),
-                              error.toStdString());
-            return;
-        }
-        handleEvent(komai::voip::makeMatrixCallRoomEvent(roomId, senderId, eventId, content));
-        return;
-    }
-
-    if (eventType == QLatin1String("m.call.hangup")) {
-        CallHangUp content;
-        if (!komai::voip::parseMatrixCallEventJson(contentJson, content, &error)) {
-            nhlog::ui()->warn("Failed to parse runtime call hangup event '{}' in room '{}': {}",
-                              eventId.toStdString(),
-                              roomId.toStdString(),
-                              error.toStdString());
-            return;
-        }
-        handleEvent(komai::voip::makeMatrixCallRoomEvent(roomId, senderId, eventId, content));
-        return;
-    }
-
-    if (eventType == QLatin1String("m.call.select_answer")) {
-        CallSelectAnswer content;
-        if (!komai::voip::parseMatrixCallEventJson(contentJson, content, &error)) {
-            nhlog::ui()->warn(
-              "Failed to parse runtime call select_answer event '{}' in room '{}': {}",
-              eventId.toStdString(),
-              roomId.toStdString(),
-              error.toStdString());
-            return;
-        }
-        handleEvent(komai::voip::makeMatrixCallRoomEvent(roomId, senderId, eventId, content));
-        return;
-    }
-
-    if (eventType == QLatin1String("m.call.reject")) {
-        CallReject content;
-        if (!komai::voip::parseMatrixCallEventJson(contentJson, content, &error)) {
-            nhlog::ui()->warn("Failed to parse runtime call reject event '{}' in room '{}': {}",
-                              eventId.toStdString(),
-                              roomId.toStdString(),
-                              error.toStdString());
-            return;
-        }
-        handleEvent(komai::voip::makeMatrixCallRoomEvent(roomId, senderId, eventId, content));
-        return;
-    }
-
-    if (eventType == QLatin1String("m.call.negotiate")) {
-        CallNegotiate content;
-        if (!komai::voip::parseMatrixCallEventJson(contentJson, content, &error)) {
-            nhlog::ui()->warn("Failed to parse runtime call negotiate event '{}' in room '{}': {}",
-                              eventId.toStdString(),
-                              roomId.toStdString(),
-                              error.toStdString());
-            return;
-        }
-        handleEvent(komai::voip::makeMatrixCallRoomEvent(roomId, senderId, eventId, content));
-        return;
-    }
-
-    nhlog::ui()->debug("Ignoring unsupported runtime call event '{}' for room '{}'",
-                       eventType.toStdString(),
-                       roomId.toStdString());
+    CallInvite content;
+    content.call_id  = callId;
+    content.party_id = partyId;
+    content.version  = version;
+    content.lifetime = lifetime;
+    content.invitee  = invitee;
+    content.offer    = SDO{offerSdp, sdoTypeFromString(offerType)};
+    handleEvent(makeCallRoomEvent(roomId, senderId, eventId, std::move(content)));
 #else
     Q_UNUSED(roomId)
-    Q_UNUSED(eventType)
     Q_UNUSED(senderId)
     Q_UNUSED(eventId)
-    Q_UNUSED(contentJson)
+    Q_UNUSED(callId)
+    Q_UNUSED(partyId)
+    Q_UNUSED(version)
+    Q_UNUSED(lifetime)
+    Q_UNUSED(invitee)
+    Q_UNUSED(offerSdp)
+    Q_UNUSED(offerType)
+#endif
+}
+
+void
+CallManager::handleCallCandidates(const QString &roomId,
+                                  const QString &senderId,
+                                  const QString &eventId,
+                                  const std::string &callId,
+                                  const std::string &partyId,
+                                  const std::string &version,
+                                  const komai::voip::CallIceCandidateList &candidates)
+{
+    if (!UserSettings::instance()->callsLegacyEnabled())
+        return;
+#ifdef GSTREAMER_AVAILABLE
+    CallCandidates content;
+    content.call_id  = callId;
+    content.party_id = partyId;
+    content.version  = version;
+    content.candidates.reserve(candidates.size());
+    for (const auto &c : candidates) {
+        content.candidates.push_back(CallCandidates::Candidate{
+          .sdpMid        = c.sdpMid,
+          .sdpMLineIndex = c.sdpMLineIndex,
+          .candidate     = c.candidate,
+        });
+    }
+    handleEvent(makeCallRoomEvent(roomId, senderId, eventId, std::move(content)));
+#else
+    Q_UNUSED(roomId)
+    Q_UNUSED(senderId)
+    Q_UNUSED(eventId)
+    Q_UNUSED(callId)
+    Q_UNUSED(partyId)
+    Q_UNUSED(version)
+    Q_UNUSED(candidates)
+#endif
+}
+
+void
+CallManager::handleCallAnswer(const QString &roomId,
+                              const QString &senderId,
+                              const QString &eventId,
+                              const std::string &callId,
+                              const std::string &partyId,
+                              const std::string &version,
+                              const std::string &answerSdp,
+                              const std::string &answerType)
+{
+    if (!UserSettings::instance()->callsLegacyEnabled())
+        return;
+#ifdef GSTREAMER_AVAILABLE
+    CallAnswer content;
+    content.call_id  = callId;
+    content.party_id = partyId;
+    content.version  = version;
+    content.answer   = SDO{answerSdp, sdoTypeFromString(answerType)};
+    handleEvent(makeCallRoomEvent(roomId, senderId, eventId, std::move(content)));
+#else
+    Q_UNUSED(roomId)
+    Q_UNUSED(senderId)
+    Q_UNUSED(eventId)
+    Q_UNUSED(callId)
+    Q_UNUSED(partyId)
+    Q_UNUSED(version)
+    Q_UNUSED(answerSdp)
+    Q_UNUSED(answerType)
+#endif
+}
+
+void
+CallManager::handleCallHangUp(const QString &roomId,
+                              const QString &senderId,
+                              const QString &eventId,
+                              const std::string &callId,
+                              const std::string &partyId,
+                              const std::string &version,
+                              const std::string &reason)
+{
+    if (!UserSettings::instance()->callsLegacyEnabled())
+        return;
+#ifdef GSTREAMER_AVAILABLE
+    CallHangUp content;
+    content.call_id  = callId;
+    content.party_id = partyId;
+    content.version  = version;
+    content.reason   = hangUpReasonFromString(reason);
+    handleEvent(makeCallRoomEvent(roomId, senderId, eventId, std::move(content)));
+#else
+    Q_UNUSED(roomId)
+    Q_UNUSED(senderId)
+    Q_UNUSED(eventId)
+    Q_UNUSED(callId)
+    Q_UNUSED(partyId)
+    Q_UNUSED(version)
+    Q_UNUSED(reason)
+#endif
+}
+
+void
+CallManager::handleCallSelectAnswer(const QString &roomId,
+                                    const QString &senderId,
+                                    const QString &eventId,
+                                    const std::string &callId,
+                                    const std::string &partyId,
+                                    const std::string &version,
+                                    const std::string &selectedPartyId)
+{
+    if (!UserSettings::instance()->callsLegacyEnabled())
+        return;
+#ifdef GSTREAMER_AVAILABLE
+    CallSelectAnswer content;
+    content.call_id           = callId;
+    content.party_id          = partyId;
+    content.version           = version;
+    content.selected_party_id = selectedPartyId;
+    handleEvent(makeCallRoomEvent(roomId, senderId, eventId, std::move(content)));
+#else
+    Q_UNUSED(roomId)
+    Q_UNUSED(senderId)
+    Q_UNUSED(eventId)
+    Q_UNUSED(callId)
+    Q_UNUSED(partyId)
+    Q_UNUSED(version)
+    Q_UNUSED(selectedPartyId)
+#endif
+}
+
+void
+CallManager::handleCallReject(const QString &roomId,
+                              const QString &senderId,
+                              const QString &eventId,
+                              const std::string &callId,
+                              const std::string &partyId,
+                              const std::string &version)
+{
+    if (!UserSettings::instance()->callsLegacyEnabled())
+        return;
+#ifdef GSTREAMER_AVAILABLE
+    CallReject content;
+    content.call_id  = callId;
+    content.party_id = partyId;
+    content.version  = version;
+    handleEvent(makeCallRoomEvent(roomId, senderId, eventId, std::move(content)));
+#else
+    Q_UNUSED(roomId)
+    Q_UNUSED(senderId)
+    Q_UNUSED(eventId)
+    Q_UNUSED(callId)
+    Q_UNUSED(partyId)
+    Q_UNUSED(version)
+#endif
+}
+
+void
+CallManager::handleCallNegotiate(const QString &roomId,
+                                 const QString &senderId,
+                                 const QString &eventId,
+                                 const std::string &callId,
+                                 const std::string &partyId,
+                                 uint32_t lifetime,
+                                 const std::string &descSdp,
+                                 const std::string &descType)
+{
+    if (!UserSettings::instance()->callsLegacyEnabled())
+        return;
+#ifdef GSTREAMER_AVAILABLE
+    CallNegotiate content;
+    content.call_id     = callId;
+    content.party_id    = partyId;
+    content.lifetime    = lifetime;
+    content.description = SDO{descSdp, sdoTypeFromString(descType)};
+    handleEvent(makeCallRoomEvent(roomId, senderId, eventId, std::move(content)));
+#else
+    Q_UNUSED(roomId)
+    Q_UNUSED(senderId)
+    Q_UNUSED(eventId)
+    Q_UNUSED(callId)
+    Q_UNUSED(partyId)
+    Q_UNUSED(lifetime)
+    Q_UNUSED(descSdp)
+    Q_UNUSED(descType)
 #endif
 }
 
@@ -643,11 +1016,11 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
     const bool knowRoomShape = roomContext && memberCount > 0;
     if (callPartyVersion_ == "0") {
         if (knowRoomShape && memberCount != 2) {
-            emitCallMessage(QString::fromStdString(callInviteEvent.room_id),
-                            CallHangUp{callInviteEvent.content.call_id,
-                                       partyid_,
-                                       callPartyVersion_,
-                                       CallHangUp::Reason::InviteTimeOut});
+            sendCallHangUp(QString::fromStdString(callInviteEvent.room_id),
+                           CallHangUp{callInviteEvent.content.call_id,
+                                      partyid_,
+                                      callPartyVersion_,
+                                      CallHangUp::Reason::InviteTimeOut});
             return;
         }
     } else {
@@ -670,11 +1043,11 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
                                                  callInviteEvent.content.invitee);
                 }
             } else {
-                emitCallMessage(QString::fromStdString(callInviteEvent.room_id),
-                                CallHangUp{callInviteEvent.content.call_id,
-                                           partyid_,
-                                           callPartyVersion_,
-                                           CallHangUp::Reason::InviteTimeOut});
+                sendCallHangUp(QString::fromStdString(callInviteEvent.room_id),
+                               CallHangUp{callInviteEvent.content.call_id,
+                                          partyid_,
+                                          callPartyVersion_,
+                                          CallHangUp::Reason::InviteTimeOut});
                 return;
             }
         }
@@ -738,11 +1111,11 @@ CallManager::rejectInvite()
     if (callPartyVersion_ == "0") {
         hangUp();
         // send m.call.reject after sending hangup as mentioned in MSC2746
-        emitCallMessage(roomid_, CallReject{callid_, partyid_, callPartyVersion_});
+        sendCallReject(roomid_, CallReject{callid_, partyid_, callPartyVersion_});
     }
     if (!callid_.empty()) {
         nhlog::ui()->debug("WebRTC: call id: {} - rejecting call", callid_);
-        emitCallMessage(roomid_, CallReject{callid_, partyid_, callPartyVersion_});
+        sendCallReject(roomid_, CallReject{callid_, partyid_, callPartyVersion_});
         endCall(false);
     }
 }
@@ -761,12 +1134,12 @@ CallManager::handleEvent(const RoomEvent<CallCandidates> &callCandidatesEvent)
     if (callid_ == callCandidatesEvent.content.call_id) {
         if (isOnCall())
             session_.acceptICECandidates(
-              komai::voip::detail::toCallIceCandidates(callCandidatesEvent.content.candidates));
+              toCallIceCandidates(callCandidatesEvent.content.candidates));
         else {
             // CallInvite has been received and we're awaiting localUser to accept or
             // reject the call
             for (const auto &c : callCandidatesEvent.content.candidates)
-                remoteICECandidates_.push_back(komai::voip::detail::toCallIceCandidate(c));
+                remoteICECandidates_.push_back(toCallIceCandidate(c));
         }
     }
 }
@@ -808,7 +1181,7 @@ CallManager::handleEvent(const RoomEvent<CallAnswer> &callAnswerEvent)
             hangUp();
         }
     }
-    emitCallMessage(
+    sendCallSelectAnswer(
       roomid_,
       CallSelectAnswer{callid_, partyid_, callPartyVersion_, callAnswerEvent.content.party_id});
     selectedpartyid_ = callAnswerEvent.content.party_id;
@@ -895,7 +1268,7 @@ CallManager::handleEvent(const RoomEvent<CallReject> &callRejectEvent)
         if (session_.state() == webrtc::State::OFFERSENT) {
             // only accept reject if webrtc is in OFFERSENT state, else call has been
             // accepted
-            emitCallMessage(
+            sendCallSelectAnswer(
               roomid_,
               CallSelectAnswer{
                 callid_, partyid_, callPartyVersion_, callRejectEvent.content.party_id});

@@ -148,6 +148,11 @@ pub use image_packs::{
     fetch_image_packs, remove_image_pack, save_image_pack, set_image_pack_globally_enabled,
 };
 pub use runtime_voip::fetch_turn_server_info;
+pub use runtime_calls::{
+    serialize_call_invite, serialize_call_candidates, serialize_call_answer,
+    serialize_call_hangup, serialize_call_select_answer, serialize_call_reject,
+    serialize_call_negotiate,
+};
 
 pub struct MatrixBackendHandleInfo {
     pub handle_id: u64,

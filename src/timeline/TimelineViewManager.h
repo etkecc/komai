@@ -362,8 +362,6 @@ public slots:
 
     void updateColorPalette();
     void queueReply(const QString &roomid, const QString &repliedToEvent, const QString &replyBody);
-    void
-    queueCallMessage(const QString &roomid, const QString &eventType, const QString &contentJson);
 
     void setVideoCallItem();
 

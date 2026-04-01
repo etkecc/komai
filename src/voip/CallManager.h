@@ -18,6 +18,7 @@
 #include <QTimer>
 
 #include "CallDevices.h"
+#include "CallTypes.h"
 #include "WebRTCSession.h"
 #include "mtx/events.hpp"
 #include "mtx/events/voip.hpp"
@@ -79,11 +80,66 @@ public:
 
 public slots:
     void sendInvite(const QString &roomid, webrtc::CallType, unsigned int windowIndex = 0);
-    void handleIncomingCallEvent(const QString &roomId,
-                                 const QString &eventType,
-                                 const QString &senderId,
-                                 const QString &eventId,
-                                 const QString &contentJson);
+
+    void handleCallInvite(const QString &roomId,
+                          const QString &senderId,
+                          const QString &eventId,
+                          const std::string &callId,
+                          const std::string &partyId,
+                          const std::string &version,
+                          uint32_t lifetime,
+                          const std::string &invitee,
+                          const std::string &offerSdp,
+                          const std::string &offerType);
+
+    void handleCallCandidates(const QString &roomId,
+                              const QString &senderId,
+                              const QString &eventId,
+                              const std::string &callId,
+                              const std::string &partyId,
+                              const std::string &version,
+                              const komai::voip::CallIceCandidateList &candidates);
+
+    void handleCallAnswer(const QString &roomId,
+                          const QString &senderId,
+                          const QString &eventId,
+                          const std::string &callId,
+                          const std::string &partyId,
+                          const std::string &version,
+                          const std::string &answerSdp,
+                          const std::string &answerType);
+
+    void handleCallHangUp(const QString &roomId,
+                          const QString &senderId,
+                          const QString &eventId,
+                          const std::string &callId,
+                          const std::string &partyId,
+                          const std::string &version,
+                          const std::string &reason);
+
+    void handleCallSelectAnswer(const QString &roomId,
+                                const QString &senderId,
+                                const QString &eventId,
+                                const std::string &callId,
+                                const std::string &partyId,
+                                const std::string &version,
+                                const std::string &selectedPartyId);
+
+    void handleCallReject(const QString &roomId,
+                          const QString &senderId,
+                          const QString &eventId,
+                          const std::string &callId,
+                          const std::string &partyId,
+                          const std::string &version);
+
+    void handleCallNegotiate(const QString &roomId,
+                             const QString &senderId,
+                             const QString &eventId,
+                             const std::string &callId,
+                             const std::string &partyId,
+                             uint32_t lifetime,
+                             const std::string &descSdp,
+                             const std::string &descType);
     void toggleMicMute();
     void toggleLocalPiP() { session_.toggleLocalPiP(); }
     void acceptInvite();
@@ -98,7 +154,6 @@ public slots:
     void previewWindow(unsigned int windowIndex) const;
 
 signals:
-    void newMessage(const QString &roomid, const QString &eventType, const QString &contentJson);
     void newInviteState();
     void newCallState();
     void newCallDeviceState();
@@ -110,8 +165,18 @@ private slots:
     void retrieveTurnServer();
 
 private:
-    template<typename EventT>
-    void emitCallMessage(const QString &roomId, const EventT &event);
+    void sendCallInvite(const QString &roomId, const mtx::events::voip::CallInvite &content);
+    void sendCallCandidates(const QString &roomId,
+                            const std::string &callId,
+                            const std::string &partyId,
+                            const komai::voip::CallIceCandidateList &candidates,
+                            const std::string &version);
+    void sendCallAnswer(const QString &roomId, const mtx::events::voip::CallAnswer &content);
+    void sendCallHangUp(const QString &roomId, const mtx::events::voip::CallHangUp &content);
+    void
+    sendCallSelectAnswer(const QString &roomId, const mtx::events::voip::CallSelectAnswer &content);
+    void sendCallReject(const QString &roomId, const mtx::events::voip::CallReject &content);
+    void sendCallNegotiate(const QString &roomId, const mtx::events::voip::CallNegotiate &content);
 
     WebRTCSession &session_;
     QString roomid_;

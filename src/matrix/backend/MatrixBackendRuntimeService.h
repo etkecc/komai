@@ -15,6 +15,7 @@
 #include "matrix/MatrixRoomPowerLevels.h"
 #include "matrix/backend/MatrixBlockingCall.h"
 #include "timeline/Reaction.h"
+#include "voip/CallTypes.h"
 
 namespace komai {
 
@@ -820,6 +821,66 @@ public:
                                              const QString &eventType,
                                              const QString &contentJson,
                                              QString *errorOut = nullptr);
+
+    static void sendCallInvite(matrix_backend::BlockingCallContext context,
+                               uint64_t handleId,
+                               const QString &roomId,
+                               const std::string &callId,
+                               const std::string &partyId,
+                               const std::string &version,
+                               uint32_t lifetime,
+                               const std::string &invitee,
+                               const std::string &offerSdp,
+                               const std::string &offerType);
+
+    static void sendCallCandidates(matrix_backend::BlockingCallContext context,
+                                   uint64_t handleId,
+                                   const QString &roomId,
+                                   const std::string &callId,
+                                   const std::string &partyId,
+                                   const std::string &version,
+                                   const komai::voip::CallIceCandidateList &candidates);
+
+    static void sendCallAnswer(matrix_backend::BlockingCallContext context,
+                               uint64_t handleId,
+                               const QString &roomId,
+                               const std::string &callId,
+                               const std::string &partyId,
+                               const std::string &version,
+                               const std::string &answerSdp,
+                               const std::string &answerType);
+
+    static void sendCallHangUp(matrix_backend::BlockingCallContext context,
+                               uint64_t handleId,
+                               const QString &roomId,
+                               const std::string &callId,
+                               const std::string &partyId,
+                               const std::string &version,
+                               const std::string &reason);
+
+    static void sendCallSelectAnswer(matrix_backend::BlockingCallContext context,
+                                     uint64_t handleId,
+                                     const QString &roomId,
+                                     const std::string &callId,
+                                     const std::string &partyId,
+                                     const std::string &version,
+                                     const std::string &selectedPartyId);
+
+    static void sendCallReject(matrix_backend::BlockingCallContext context,
+                               uint64_t handleId,
+                               const QString &roomId,
+                               const std::string &callId,
+                               const std::string &partyId,
+                               const std::string &version);
+
+    static void sendCallNegotiate(matrix_backend::BlockingCallContext context,
+                                  uint64_t handleId,
+                                  const QString &roomId,
+                                  const std::string &callId,
+                                  const std::string &partyId,
+                                  uint32_t lifetime,
+                                  const std::string &descSdp,
+                                  const std::string &descType);
 
     static bool sendRoomReplyMessage(matrix_backend::BlockingCallContext context,
                                      uint64_t handleId,

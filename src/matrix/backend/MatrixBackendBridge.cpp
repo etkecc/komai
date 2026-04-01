@@ -22,6 +22,7 @@
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "voip/CallManager.h"
+#include "voip/CallTypes.h"
 
 namespace {
 
@@ -282,29 +283,216 @@ matrix_notify_notification_received(std::uint64_t handle_id,
     });
 }
 
-void
-matrix_notify_call_event_received(std::uint64_t handle_id,
-                                  ::rust::Str room_id,
-                                  ::rust::Str event_type,
-                                  ::rust::Str sender_id,
-                                  ::rust::Str event_id,
-                                  ::rust::Str content_json)
+namespace {
+inline std::string
+toStdString(const ::rust::String &value)
 {
-    const auto roomId      = toQString(room_id);
-    const auto eventType   = toQString(event_type);
-    const auto senderId    = toQString(sender_id);
-    const auto eventId     = toQString(event_id);
-    const auto contentJson = toQString(content_json);
+    return std::string(value.data(), value.size());
+}
 
-    postToAppThread([handle_id, roomId, eventType, senderId, eventId, contentJson]() {
-        auto *mainWindow = MainWindow::instance();
-        auto *chatPage   = ChatPage::instance();
-        auto *manager    = chatPage ? chatPage->callManager() : nullptr;
-        if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+inline CallManager *
+validCallManager(std::uint64_t handle_id)
+{
+    auto *mainWindow = MainWindow::instance();
+    auto *chatPage   = ChatPage::instance();
+    auto *manager    = chatPage ? chatPage->callManager() : nullptr;
+    if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+        return nullptr;
+    return manager;
+}
+} // namespace
+
+void
+matrix_notify_call_invite_received(std::uint64_t handle_id,
+                                   ::komai::rust::MatrixCallInviteEvent event)
+{
+    const auto roomId    = toQString(::rust::Str(event.room_id.data(), event.room_id.size()));
+    const auto senderId  = toQString(::rust::Str(event.sender_id.data(), event.sender_id.size()));
+    const auto eventId   = toQString(::rust::Str(event.event_id.data(), event.event_id.size()));
+    const auto callId    = toStdString(event.call_id);
+    const auto partyId   = toStdString(event.party_id);
+    const auto version   = toStdString(event.version);
+    const auto lifetime  = event.lifetime;
+    const auto invitee   = toStdString(event.invitee);
+    const auto offerSdp  = toStdString(event.offer.sdp);
+    const auto offerType = toStdString(event.offer.sdp_type);
+
+    postToAppThread([handle_id,
+                     roomId,
+                     senderId,
+                     eventId,
+                     callId,
+                     partyId,
+                     version,
+                     lifetime,
+                     invitee,
+                     offerSdp,
+                     offerType]() {
+        auto *manager = validCallManager(handle_id);
+        if (!manager)
             return;
 
-        manager->handleIncomingCallEvent(roomId, eventType, senderId, eventId, contentJson);
+        manager->handleCallInvite(roomId,
+                                  senderId,
+                                  eventId,
+                                  callId,
+                                  partyId,
+                                  version,
+                                  lifetime,
+                                  invitee,
+                                  offerSdp,
+                                  offerType);
     });
+}
+
+void
+matrix_notify_call_candidates_received(std::uint64_t handle_id,
+                                       ::komai::rust::MatrixCallCandidatesEvent event)
+{
+    const auto roomId   = toQString(::rust::Str(event.room_id.data(), event.room_id.size()));
+    const auto senderId = toQString(::rust::Str(event.sender_id.data(), event.sender_id.size()));
+    const auto eventId  = toQString(::rust::Str(event.event_id.data(), event.event_id.size()));
+    const auto callId   = toStdString(event.call_id);
+    const auto partyId  = toStdString(event.party_id);
+    const auto version  = toStdString(event.version);
+
+    komai::voip::CallIceCandidateList candidates;
+    candidates.reserve(event.candidates.size());
+    for (const auto &c : event.candidates) {
+        candidates.push_back(komai::voip::CallIceCandidate{
+          .sdpMid        = toStdString(c.sdp_mid),
+          .sdpMLineIndex = c.sdp_m_line_index,
+          .candidate     = toStdString(c.candidate),
+        });
+    }
+
+    postToAppThread([handle_id,
+                     roomId,
+                     senderId,
+                     eventId,
+                     callId,
+                     partyId,
+                     version,
+                     candidates = std::move(candidates)]() {
+        auto *manager = validCallManager(handle_id);
+        if (!manager)
+            return;
+
+        manager->handleCallCandidates(
+          roomId, senderId, eventId, callId, partyId, version, candidates);
+    });
+}
+
+void
+matrix_notify_call_answer_received(std::uint64_t handle_id,
+                                   ::komai::rust::MatrixCallAnswerEvent event)
+{
+    const auto roomId     = toQString(::rust::Str(event.room_id.data(), event.room_id.size()));
+    const auto senderId   = toQString(::rust::Str(event.sender_id.data(), event.sender_id.size()));
+    const auto eventId    = toQString(::rust::Str(event.event_id.data(), event.event_id.size()));
+    const auto callId     = toStdString(event.call_id);
+    const auto partyId    = toStdString(event.party_id);
+    const auto version    = toStdString(event.version);
+    const auto answerSdp  = toStdString(event.answer.sdp);
+    const auto answerType = toStdString(event.answer.sdp_type);
+
+    postToAppThread(
+      [handle_id, roomId, senderId, eventId, callId, partyId, version, answerSdp, answerType]() {
+          auto *manager = validCallManager(handle_id);
+          if (!manager)
+              return;
+
+          manager->handleCallAnswer(
+            roomId, senderId, eventId, callId, partyId, version, answerSdp, answerType);
+      });
+}
+
+void
+matrix_notify_call_hangup_received(std::uint64_t handle_id,
+                                   ::komai::rust::MatrixCallHangUpEvent event)
+{
+    const auto roomId   = toQString(::rust::Str(event.room_id.data(), event.room_id.size()));
+    const auto senderId = toQString(::rust::Str(event.sender_id.data(), event.sender_id.size()));
+    const auto eventId  = toQString(::rust::Str(event.event_id.data(), event.event_id.size()));
+    const auto callId   = toStdString(event.call_id);
+    const auto partyId  = toStdString(event.party_id);
+    const auto version  = toStdString(event.version);
+    const auto reason   = toStdString(event.reason);
+
+    postToAppThread([handle_id, roomId, senderId, eventId, callId, partyId, version, reason]() {
+        auto *manager = validCallManager(handle_id);
+        if (!manager)
+            return;
+
+        manager->handleCallHangUp(roomId, senderId, eventId, callId, partyId, version, reason);
+    });
+}
+
+void
+matrix_notify_call_select_answer_received(std::uint64_t handle_id,
+                                          ::komai::rust::MatrixCallSelectAnswerEvent event)
+{
+    const auto roomId   = toQString(::rust::Str(event.room_id.data(), event.room_id.size()));
+    const auto senderId = toQString(::rust::Str(event.sender_id.data(), event.sender_id.size()));
+    const auto eventId  = toQString(::rust::Str(event.event_id.data(), event.event_id.size()));
+    const auto callId   = toStdString(event.call_id);
+    const auto partyId  = toStdString(event.party_id);
+    const auto version  = toStdString(event.version);
+    const auto selectedPartyId = toStdString(event.selected_party_id);
+
+    postToAppThread(
+      [handle_id, roomId, senderId, eventId, callId, partyId, version, selectedPartyId]() {
+          auto *manager = validCallManager(handle_id);
+          if (!manager)
+              return;
+
+          manager->handleCallSelectAnswer(
+            roomId, senderId, eventId, callId, partyId, version, selectedPartyId);
+      });
+}
+
+void
+matrix_notify_call_reject_received(std::uint64_t handle_id,
+                                   ::komai::rust::MatrixCallRejectEvent event)
+{
+    const auto roomId   = toQString(::rust::Str(event.room_id.data(), event.room_id.size()));
+    const auto senderId = toQString(::rust::Str(event.sender_id.data(), event.sender_id.size()));
+    const auto eventId  = toQString(::rust::Str(event.event_id.data(), event.event_id.size()));
+    const auto callId   = toStdString(event.call_id);
+    const auto partyId  = toStdString(event.party_id);
+    const auto version  = toStdString(event.version);
+
+    postToAppThread([handle_id, roomId, senderId, eventId, callId, partyId, version]() {
+        auto *manager = validCallManager(handle_id);
+        if (!manager)
+            return;
+
+        manager->handleCallReject(roomId, senderId, eventId, callId, partyId, version);
+    });
+}
+
+void
+matrix_notify_call_negotiate_received(std::uint64_t handle_id,
+                                      ::komai::rust::MatrixCallNegotiateEvent event)
+{
+    const auto roomId   = toQString(::rust::Str(event.room_id.data(), event.room_id.size()));
+    const auto senderId = toQString(::rust::Str(event.sender_id.data(), event.sender_id.size()));
+    const auto eventId  = toQString(::rust::Str(event.event_id.data(), event.event_id.size()));
+    const auto callId   = toStdString(event.call_id);
+    const auto partyId  = toStdString(event.party_id);
+    const auto lifetime = event.lifetime;
+    const auto descSdp  = toStdString(event.description.sdp);
+    const auto descType = toStdString(event.description.sdp_type);
+
+    postToAppThread(
+      [handle_id, roomId, senderId, eventId, callId, partyId, lifetime, descSdp, descType]() {
+          auto *manager = validCallManager(handle_id);
+          if (!manager)
+              return;
+
+          manager->handleCallNegotiate(
+            roomId, senderId, eventId, callId, partyId, lifetime, descSdp, descType);
+      });
 }
 
 void

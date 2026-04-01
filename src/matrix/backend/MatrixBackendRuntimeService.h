@@ -885,12 +885,19 @@ public:
                                const QString &eventId,
                                QString *errorOut = nullptr);
 
-    static std::optional<QString>
-    fetchActiveRoomRawEventJson(matrix_backend::BlockingCallContext context,
-                                uint64_t handleId,
-                                const QString &roomId,
-                                const QString &eventId,
-                                QString *errorOut = nullptr);
+    struct RawEventDialogData
+    {
+        QString prettyJson;
+        QString body;
+        QString formattedBody;
+    };
+
+    static std::optional<RawEventDialogData>
+    fetchActiveRoomRawEventDialogData(matrix_backend::BlockingCallContext context,
+                                      uint64_t handleId,
+                                      const QString &roomId,
+                                      const QString &eventId,
+                                      QString *errorOut = nullptr);
 
     static std::optional<QVector<MatrixReadReceiptEntry>>
     fetchRoomReadReceipts(matrix_backend::BlockingCallContext context,

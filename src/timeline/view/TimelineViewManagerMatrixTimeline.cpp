@@ -20,8 +20,6 @@
 #include <QUrl>
 #include <QUuid>
 
-#include <nlohmann/json.hpp>
-
 #include <thread>
 
 #include "chat/ChatPage.h"
@@ -31,7 +29,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/CommunitiesModel.h"
 #include "timeline/RoomlistModel.h"
-#include "timeline/rawmessage/RawMessageDialogPayload.h"
+#include "timeline/formattedcode/RawJsonFormatter.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
 #include "ui/Theme.h"
@@ -205,7 +203,9 @@ struct MatrixTimelineRawMessageFetchResult
     uint64_t handleId = 0;
     QString roomId;
     QString eventId;
-    QString rawEventJson;
+    QString prettyJson;
+    QString body;
+    QString formattedBody;
     QString error;
     bool ok = false;
 };
@@ -1641,15 +1641,18 @@ TimelineViewManager::requestRawMessageDialogForActiveMatrixTimelineEvent(const Q
       [handleId, roomId, trimmedEventId]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
-          const auto rawEventJson = komai::MatrixBackendRuntimeService::fetchActiveRoomRawEventJson(
-            context, handleId, roomId, trimmedEventId, &error);
+          const auto dialogData =
+            komai::MatrixBackendRuntimeService::fetchActiveRoomRawEventDialogData(
+              context, handleId, roomId, trimmedEventId, &error);
           return MatrixTimelineRawMessageFetchResult{
-            .handleId     = handleId,
-            .roomId       = roomId,
-            .eventId      = trimmedEventId,
-            .rawEventJson = rawEventJson.value_or(QString()),
-            .error        = error,
-            .ok           = rawEventJson.has_value(),
+            .handleId      = handleId,
+            .roomId        = roomId,
+            .eventId       = trimmedEventId,
+            .prettyJson    = dialogData ? dialogData->prettyJson : QString(),
+            .body          = dialogData ? dialogData->body : QString(),
+            .formattedBody = dialogData ? dialogData->formattedBody : QString(),
+            .error         = error,
+            .ok            = dialogData.has_value(),
           };
       },
       [themeSlug](TimelineViewManager *manager, MatrixTimelineRawMessageFetchResult result) {
@@ -1670,24 +1673,13 @@ TimelineViewManager::requestRawMessageDialogForActiveMatrixTimelineEvent(const Q
               return;
           }
 
-          try {
-              const auto eventJson       = nlohmann::json::parse(result.rawEventJson.toStdString());
-              const auto timelinePalette = Theme::paletteFromTheme(themeSlug);
-              const auto dialogPayload =
-                timeline::rawmessage::buildRawMessageDialogPayload(eventJson, timelinePalette);
-              dialogData.insert(QStringLiteral("renderedRawMessage"),
-                                dialogPayload.renderedRawMessage);
-              dialogData.insert(QStringLiteral("rawMessageJson"), dialogPayload.rawMessageJson);
-              dialogData.insert(QStringLiteral("rawMessageBody"), dialogPayload.rawMessageBody);
-              dialogData.insert(QStringLiteral("rawMessageFormattedBody"),
-                                dialogPayload.rawMessageFormattedBody);
-          } catch (const std::exception &e) {
-              nhlog::ui()->warn(
-                "Failed to parse raw JSON for matrix-sdk room event '{}' in '{}': {}",
-                result.eventId.toStdString(),
-                result.roomId.toStdString(),
-                e.what());
-          }
+          const auto timelinePalette = Theme::paletteFromTheme(themeSlug);
+          const auto renderedRawMessage =
+            timeline::formattedcode::formatRawJsonForDialog(result.prettyJson, timelinePalette);
+          dialogData.insert(QStringLiteral("renderedRawMessage"), renderedRawMessage);
+          dialogData.insert(QStringLiteral("rawMessageJson"), result.prettyJson);
+          dialogData.insert(QStringLiteral("rawMessageBody"), result.body);
+          dialogData.insert(QStringLiteral("rawMessageFormattedBody"), result.formattedBody);
 
           emit manager->activeMatrixTimelineRawMessageDialogReady(result.eventId, dialogData);
       });

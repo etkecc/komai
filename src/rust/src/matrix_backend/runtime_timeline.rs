@@ -834,11 +834,17 @@ pub async fn fetch_room_redaction_permissions(
     })
 }
 
-pub async fn fetch_active_room_raw_event_json(
+pub struct RawEventDialogData {
+    pub pretty_json: String,
+    pub body: String,
+    pub formatted_body: String,
+}
+
+pub async fn fetch_active_room_raw_event_dialog_data(
     handle_id: u64,
     room_id: &str,
     event_id: &str,
-) -> Result<String, String> {
+) -> Result<RawEventDialogData, String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let event_id = event_id.trim();
     if event_id.is_empty() {
@@ -870,7 +876,40 @@ pub async fn fetch_active_room_raw_event_json(
             )
         })?;
 
-        return Ok(raw_event.json().get().to_owned());
+        let raw_json_str = raw_event.json().get();
+        let parsed: serde_json::Value = serde_json::from_str(raw_json_str).map_err(|e| {
+            format!("failed to parse raw JSON for matrix-sdk room event '{event_id}': {e}")
+        })?;
+
+        let pretty_json = {
+            let mut buf = Vec::new();
+            let formatter = serde_json::ser::PrettyFormatter::with_indent(b"    ");
+            let mut serializer = serde_json::Serializer::with_formatter(&mut buf, formatter);
+            serde::Serialize::serialize(&parsed, &mut serializer)
+                .ok()
+                .and_then(|_| String::from_utf8(buf).ok())
+                .unwrap_or_else(|| raw_json_str.to_owned())
+        };
+
+        let body = parsed
+            .get("content")
+            .and_then(|c| c.get("body"))
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_owned();
+
+        let formatted_body = parsed
+            .get("content")
+            .and_then(|c| c.get("formatted_body"))
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_owned();
+
+        return Ok(RawEventDialogData {
+            pretty_json,
+            body,
+            formatted_body,
+        });
     }
 
     Err(format!(

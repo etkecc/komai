@@ -2791,8 +2791,8 @@ MatrixBackendRuntimeService::unpinRoomEvent(matrix_backend::BlockingCallContext 
     }
 }
 
-std::optional<QString>
-MatrixBackendRuntimeService::fetchActiveRoomRawEventJson(
+std::optional<MatrixBackendRuntimeService::RawEventDialogData>
+MatrixBackendRuntimeService::fetchActiveRoomRawEventDialogData(
   matrix_backend::BlockingCallContext context,
   uint64_t handleId,
   const QString &roomId,
@@ -2801,16 +2801,20 @@ MatrixBackendRuntimeService::fetchActiveRoomRawEventJson(
 {
     try {
         const auto result = matrix_backend::invokeBlockingCall(
-          "matrix_fetch_active_room_raw_event_json",
+          "matrix_fetch_active_room_raw_event_dialog_data",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
           [handleId, roomId, eventId, context]() {
-              return ::komai::rust::matrix_fetch_active_room_raw_event_json(
+              return ::komai::rust::matrix_fetch_active_room_raw_event_dialog_data(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
                 roomId.toStdString(),
                 eventId.toStdString());
           });
-        return QString::fromStdString(std::string(result));
+        return RawEventDialogData{
+          .prettyJson    = QString::fromStdString(std::string(result.pretty_json)),
+          .body          = QString::fromStdString(std::string(result.body)),
+          .formattedBody = QString::fromStdString(std::string(result.formatted_body)),
+        };
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());

@@ -350,8 +350,6 @@ set(SRC_FILES
     src/timeline/litehtml/LitehtmlStylesheet.cpp
     src/timeline/litehtml/LitehtmlStylesheet.h
     src/timeline/data/RoomlistModelData.cpp
-    src/timeline/rawmessage/RawMessageDialogPayload.cpp
-    src/timeline/rawmessage/RawMessageDialogPayload.h
     src/timeline/roomlist/FilteredRoomlistModel.cpp
     src/timeline/roomlist/RoomlistModelPreviews.cpp
     src/timeline/roomlist/RoomlistPreviewSelection.cpp
@@ -1237,24 +1235,6 @@ if(BUILD_TESTING)
     )
     add_test(NAME komai_raw_json_formatter_test COMMAND komai_raw_json_formatter_test)
     komai_configure_test(komai_raw_json_formatter_test "unit;timeline")
-
-    add_executable(komai_raw_message_dialog_payload_test
-        tests/RawMessageDialogPayloadTest.cpp
-        src/timeline/rawmessage/RawMessageDialogPayload.cpp
-        src/timeline/formattedcode/RawJsonFormatter.cpp
-        src/timeline/FormattedCodeBlockHighlighter.cpp
-        src/timeline/formattedcode/HtmlRenderer.cpp
-        src/timeline/formattedcode/LanguageResolver.cpp
-    )
-    target_include_directories(komai_raw_message_dialog_payload_test PRIVATE src)
-    target_link_libraries(komai_raw_message_dialog_payload_test PRIVATE
-        Qt::Core
-        Qt::Gui
-        KF6::SyntaxHighlighting
-        nlohmann_json::nlohmann_json
-    )
-    add_test(NAME komai_raw_message_dialog_payload_test COMMAND komai_raw_message_dialog_payload_test)
-    komai_configure_test(komai_raw_message_dialog_payload_test "unit;timeline")
 
     add_executable(komai_roomlist_preview_selection_test
         tests/RoomlistPreviewSelectionTest.cpp

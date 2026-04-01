@@ -283,6 +283,12 @@ mod ffi {
         can_redact_other: bool,
     }
 
+    struct MatrixRawEventDialogData {
+        pretty_json: String,
+        body: String,
+        formatted_body: String,
+    }
+
     struct MatrixReadReceiptEntry {
         user_id: String,
         display_name: String,
@@ -975,12 +981,12 @@ mod ffi {
             room_id: &str,
             event_id: &str,
         ) -> Result<()>;
-        fn matrix_fetch_active_room_raw_event_json(
+        fn matrix_fetch_active_room_raw_event_dialog_data(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
             room_id: &str,
             event_id: &str,
-        ) -> Result<String>;
+        ) -> Result<MatrixRawEventDialogData>;
         fn matrix_fetch_room_read_receipts(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
@@ -2854,17 +2860,25 @@ fn matrix_unpin_room_event(
     )
 }
 
-fn matrix_fetch_active_room_raw_event_json(
+fn matrix_fetch_active_room_raw_event_dialog_data(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
     room_id: &str,
     event_id: &str,
-) -> Result<String, String> {
-    ffi_block_on(
+) -> Result<ffi::MatrixRawEventDialogData, String> {
+    let result = ffi_block_on(
         context,
-        "matrix_fetch_active_room_raw_event_json",
-        matrix_backend::runtime::fetch_active_room_raw_event_json(handle_id, room_id, event_id),
-    )
+        "matrix_fetch_active_room_raw_event_dialog_data",
+        matrix_backend::runtime::fetch_active_room_raw_event_dialog_data(
+            handle_id, room_id, event_id,
+        ),
+    )?;
+
+    Ok(ffi::MatrixRawEventDialogData {
+        pretty_json: result.pretty_json,
+        body: result.body,
+        formatted_body: result.formatted_body,
+    })
 }
 
 fn matrix_fetch_room_read_receipts(

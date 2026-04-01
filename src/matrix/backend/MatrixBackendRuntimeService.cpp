@@ -701,6 +701,43 @@ MatrixBackendRuntimeService::stopBackend(uint64_t handleId, QString *errorOut)
     }
 }
 
+std::optional<uint16_t>
+MatrixBackendRuntimeService::startMediaProxy(uint64_t handleId)
+{
+    try {
+        return ::komai::rust::matrix_start_media_proxy(handleId);
+    } catch (const std::exception &e) {
+        nhlog::net()->warn("Failed to start media proxy for handle {}: {}", handleId, e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::isTimelineMediaEncrypted(uint64_t handleId, const QString &itemId)
+{
+    return ::komai::rust::matrix_is_timeline_media_encrypted(handleId, itemId.toStdString());
+}
+
+std::optional<QString>
+MatrixBackendRuntimeService::registerTimelineMediaProxyUrl(uint64_t handleId,
+                                                           const QString &itemId,
+                                                           const QString &extension)
+{
+    try {
+        auto url = ::komai::rust::matrix_register_timeline_media_proxy_url(
+          handleId, itemId.toStdString(), extension.toStdString());
+        return QString::fromStdString(std::string(url));
+    } catch (const std::exception &) {
+        return std::nullopt;
+    }
+}
+
+void
+MatrixBackendRuntimeService::stopMediaProxy(uint64_t handleId)
+{
+    ::komai::rust::matrix_stop_media_proxy(handleId);
+}
+
 bool
 MatrixBackendRuntimeService::startSync(uint64_t handleId, QString *errorOut)
 {

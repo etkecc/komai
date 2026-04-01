@@ -124,9 +124,6 @@ endif()
 
 find_package(PkgConfig REQUIRED)
 
-# curl
-pkg_check_modules(libcurl REQUIRED IMPORTED_TARGET libcurl)
-
 #
 # Discover Qt dependencies.
 #
@@ -546,8 +543,6 @@ set(SRC_FILES
     src/models/RoomsModel.h
     src/auth/SSOHandler.cpp
     src/auth/SSOHandler.h
-    src/ui/MediaProxyServer.cpp
-    src/ui/MediaProxyServer.h
     src/imagepacks/SingleImagePackModel.cpp
     src/imagepacks/SingleImagePackModel.h
     src/ui/TrayIcon.cpp
@@ -943,17 +938,6 @@ else()
 endif()
 
 target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/timeline/litehtml/ src/ui/ src/encryption/ src/voip/)
-
-if(NOT CPP_HTTPLIB_INCLUDE_DIR)
-    CPMAddPackage(
-        NAME cpp-httplib
-        GIT_REPOSITORY https://github.com/yhirose/cpp-httplib.git
-        GIT_TAG v0.39.0
-        DOWNLOAD_ONLY YES
-    )
-    set(CPP_HTTPLIB_INCLUDE_DIR ${cpp-httplib_SOURCE_DIR})
-endif()
-target_include_directories(komai PRIVATE ${CPP_HTTPLIB_INCLUDE_DIR})
 
 # blurhash
 if(NOT BLURHASH_SOURCE_DIR)
@@ -1360,9 +1344,6 @@ if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.16.0")
         <algorithm>
     )
 endif()
-
-# libcurl for MediaProxyServer (direct curl_easy_* usage for streaming)
-target_link_libraries(komai PRIVATE PkgConfig::libcurl)
 
 if(TARGET PkgConfig::GSTREAMER)
     target_link_libraries(komai PRIVATE PkgConfig::GSTREAMER)

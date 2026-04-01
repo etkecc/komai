@@ -570,6 +570,14 @@ mod ffi {
         ) -> Result<MatrixBackendHandleInfo>;
         fn matrix_logout_backend(context: MatrixFfiBlockingContext, handle_id: u64) -> Result<()>;
         fn matrix_stop_backend(handle_id: u64) -> Result<()>;
+        fn matrix_start_media_proxy(handle_id: u64) -> Result<u16>;
+        fn matrix_is_timeline_media_encrypted(handle_id: u64, item_id: &str) -> bool;
+        fn matrix_register_timeline_media_proxy_url(
+            handle_id: u64,
+            item_id: &str,
+            file_extension: &str,
+        ) -> Result<String>;
+        fn matrix_stop_media_proxy(handle_id: u64);
         fn matrix_start_backend_sync(handle_id: u64) -> Result<()>;
         fn matrix_join_room(
             context: MatrixFfiBlockingContext,
@@ -1386,6 +1394,26 @@ fn matrix_logout_backend(
 fn matrix_stop_backend(handle_id: u64) -> Result<(), String> {
 
     matrix_backend::runtime::stop_backend(handle_id)
+}
+
+fn matrix_start_media_proxy(handle_id: u64) -> Result<u16, String> {
+    matrix_backend::runtime::start_media_proxy(handle_id)
+}
+
+fn matrix_is_timeline_media_encrypted(handle_id: u64, item_id: &str) -> bool {
+    matrix_backend::runtime::is_timeline_media_encrypted(handle_id, item_id)
+}
+
+fn matrix_register_timeline_media_proxy_url(
+    handle_id: u64,
+    item_id: &str,
+    file_extension: &str,
+) -> Result<String, String> {
+    matrix_backend::runtime::register_timeline_media_proxy_url(handle_id, item_id, file_extension)
+}
+
+fn matrix_stop_media_proxy(handle_id: u64) {
+    matrix_backend::runtime::stop_media_proxy(handle_id)
 }
 
 fn matrix_start_backend_sync(handle_id: u64) -> Result<(), String> {

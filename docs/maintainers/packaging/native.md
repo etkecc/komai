@@ -106,7 +106,7 @@ sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimed
 
 ```sh
 sudo apt install -y build-essential cmake pkg-config python3 cargo rustc \
-    libcurl4-openssl-dev libssl-dev libcmark-dev \
+    libssl-dev libcmark-dev \
     libkf6syntaxhighlighting-dev \
     nlohmann-json3-dev libyaml-cpp-dev libkdsingleapplication-qt6-dev \
     qt6-base-dev qt6-tools-dev qt6-svg-dev qt6-multimedia-dev \

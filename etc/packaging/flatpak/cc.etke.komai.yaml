@@ -45,7 +45,7 @@ cleanup:
 modules:
   #
   # System dependencies (not managed by CPM — found via find_package/pkg-config)
-  # fmt, OpenSSL, libcurl are provided by the KDE Platform runtime.
+  # fmt and OpenSSL are provided by the KDE Platform runtime.
   #
   - name: spdlog
     buildsystem: cmake-ninja

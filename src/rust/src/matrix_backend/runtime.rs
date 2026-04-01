@@ -92,6 +92,8 @@ mod runtime_media;
 mod runtime_voip;
 #[path = "runtime_calls.rs"]
 mod runtime_calls;
+#[path = "runtime_media_proxy.rs"]
+mod media_proxy;
 
 pub use profile_media::{
     fetch_media_content, fetch_own_presence, fetch_own_profile, fetch_room_member_profile,
@@ -152,6 +154,10 @@ pub use runtime_calls::{
     serialize_call_invite, serialize_call_candidates, serialize_call_answer,
     serialize_call_hangup, serialize_call_select_answer, serialize_call_reject,
     serialize_call_negotiate,
+};
+pub use media_proxy::{
+    start_media_proxy, stop_media_proxy,
+    is_timeline_media_encrypted, register_timeline_media_proxy_url,
 };
 
 pub struct MatrixBackendHandleInfo {
@@ -469,6 +475,7 @@ const ROOM_TIMELINE_STOP_POLL_INTERVAL_MS: u64 = 50;
 struct MatrixBackendHandle {
     client: Client,
     sync_task: Option<MatrixBackendSyncTask>,
+    media_proxy: Option<media_proxy::MediaProxyInstance>,
     room_list_snapshot: Arc<Mutex<Vec<MatrixRoomSummary>>>,
     room_timeline_task: Option<MatrixBackendRoomTimelineTask>,
     room_timeline_generation: Arc<AtomicU64>,

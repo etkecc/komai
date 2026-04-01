@@ -366,6 +366,23 @@ public:
                               uint64_t handleId,
                               QString *errorOut = nullptr);
     static bool stopBackend(uint64_t handleId, QString *errorOut = nullptr);
+
+    /// Start the local media streaming proxy. Returns the listening port.
+    static std::optional<uint16_t> startMediaProxy(uint64_t handleId);
+
+    /// Check whether a timeline media item uses encryption (cannot be streamed).
+    static bool isTimelineMediaEncrypted(uint64_t handleId, const QString &itemId);
+
+    /// Register a timeline media item for proxy streaming.
+    /// Returns the proxy URL on success, or std::nullopt if the item is encrypted,
+    /// not found, or the proxy is not running.
+    static std::optional<QString> registerTimelineMediaProxyUrl(uint64_t handleId,
+                                                                const QString &itemId,
+                                                                const QString &extension);
+
+    /// Stop the media proxy. Idempotent.
+    static void stopMediaProxy(uint64_t handleId);
+
     static bool startSync(uint64_t handleId, QString *errorOut = nullptr);
 
     static MatrixJoinRoomResult joinRoom(matrix_backend::BlockingCallContext context,

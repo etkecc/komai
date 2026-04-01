@@ -31,14 +31,18 @@ matrix-sdk-ui = { version = "0.16.0", default-features = false, features = ["nat
 
 # resolvematrix defaults to reqwest's default-tls (rustls + aws-lc-rs). We override
 # to native-tls (OpenSSL) because:
-#   1. Komai already links OpenSSL via native-tls/libcurl on the C++ side — no point bundling a second
+#   1. Komai already links OpenSSL via native-tls on the C++ side — no point bundling a second
 #      TLS implementation.
 #   2. aws-lc-sys includes C sources that require -O0, which conflicts with build
 #      environments that inject optimization flags (Flatpak).
 #   3. Fewer dependencies (~48 crates fewer).
 resolvematrix = { path = "resolvematrix", default-features = false, features = ["server"] }
 hickory-resolver = { version = "0.25", default-features = false, features = ["tokio", "system-config"] }
-reqwest = { version = "0.13", default-features = false, features = ["native-tls"] }
+reqwest = { version = "0.13", default-features = false, features = ["native-tls", "stream"] }
+hyper = { version = "1", features = ["http1", "server"] }
+hyper-util = { version = "0.1", features = ["tokio"] }
+http-body-util = "0.1"
+futures-util = "0.3"
 
 [target.'cfg(windows)'.dependencies]
 windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_System_Pipes"] }

@@ -39,6 +39,7 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
             MatrixBackendHandle {
                 client: restored.client,
                 sync_task: None,
+                media_proxy: None,
                 room_list_snapshot: Arc::new(Mutex::new(Vec::new())),
                 room_timeline_task: None,
                 room_timeline_generation: Arc::new(AtomicU64::new(0)),
@@ -96,6 +97,9 @@ pub fn stop_backend(handle_id: u64) -> Result<(), String> {
         .remove(&handle_id);
 
     if let Some(mut handle) = removed {
+        if let Some(proxy) = handle.media_proxy.take() {
+            media_proxy::stop_proxy_instance(handle_id, proxy);
+        }
         if let Some(sync_task) = handle.sync_task.take() {
             stop_sync_task(handle_id, sync_task);
         }

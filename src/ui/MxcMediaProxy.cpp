@@ -160,7 +160,13 @@ MxcMediaProxy::startDownload(bool onlyCached)
     if (mimeType.isEmpty())
         mimeType = QStringLiteral("application/octet-stream");
 
-    const bool isEnc = false;
+    const auto handleId = currentMatrixRuntimeHandleId();
+
+    // Query actual encryption status from the runtime's media lookup.
+    const bool isEnc =
+      (handleId != 0)
+        ? komai::MatrixBackendRuntimeService::isTimelineMediaEncrypted(handleId, eventId_)
+        : false;
     if (isEnc != encrypted_) {
         encrypted_ = isEnc;
         emit encryptedChanged();
@@ -210,7 +216,19 @@ MxcMediaProxy::startDownload(bool onlyCached)
     if (onlyCached)
         return;
 
-    const auto handleId = currentMatrixRuntimeHandleId();
+    // Try streaming via the local media proxy (unencrypted media only).
+    // Skip if this is a fallback retry after a streaming failure.
+    if (!isEnc && !streamingFallbackAttempted_ && handleId != 0) {
+        auto proxyUrl = komai::MatrixBackendRuntimeService::registerTimelineMediaProxyUrl(
+          handleId, eventId_, suffix);
+        if (proxyUrl) {
+            nhlog::ui()->info("Streaming media via proxy for event '{}'", eventId_.toStdString());
+            streaming_ = true;
+            setSource(QUrl(*proxyUrl));
+            emit loadedChanged();
+            return;
+        }
+    }
     if (handleId == 0) {
         nhlog::ui()->warn("Cannot fetch matrix-sdk timeline media for event '{}' without an "
                           "active runtime handle",

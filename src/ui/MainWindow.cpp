@@ -522,6 +522,8 @@ MainWindow::startMatrixBackendHandleForActiveSession(bool hadSessionIdentity)
                             result.handleInfo->deviceId.toStdString(),
                             result.handleInfo->homeserverUrl.toStdString());
 
+          komai::MatrixBackendRuntimeService::startMediaProxy(window->matrixBackendHandleId_);
+
           QString error;
           window->setStartupStatus(MainWindow::tr("Starting Komai"),
                                    MainWindow::tr("Opening your rooms..."));
@@ -550,6 +552,8 @@ MainWindow::stopMatrixBackendHandle()
     const auto handleId    = matrixBackendHandleId_;
     matrixBackendHandleId_ = 0;
     matrixBackendAuthType_.clear();
+
+    komai::MatrixBackendRuntimeService::stopMediaProxy(handleId);
 
     QString error;
     if (!komai::MatrixBackendRuntimeService::stopBackend(handleId, &error)) {

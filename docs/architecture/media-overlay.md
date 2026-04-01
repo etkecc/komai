@@ -79,76 +79,45 @@ The play button overlay starts download/playback on click.
 
 The `encrypted` Q_PROPERTY lets QML distinguish encrypted from unencrypted media (e.g. for progress indicators).
 
-### Local media proxy (`MediaProxyServer`)
+### Local media proxy (Rust-side)
 
-`QMediaPlayer::setSource(QUrl)` uses Qt's internal `QNetworkAccessManager` for HTTP URLs and provides no API to inject custom HTTP headers. The Matrix authenticated media endpoint (`/_matrix/client/v1/media/download/`) requires an `Authorization: Bearer` header. To bridge this gap, `MediaProxyServer` runs a local HTTP server.
+`QMediaPlayer::setSource(QUrl)` uses Qt's internal `QNetworkAccessManager` for HTTP URLs and provides no API to inject custom HTTP headers. The Matrix authenticated media endpoint (`/_matrix/client/v1/media/download/`) requires an `Authorization: Bearer` header. To bridge this gap, a Rust-side media proxy runs a local HTTP server using hyper.
 
 **Architecture:**
 
 ```
 Any consumer ──HTTP GET──> localhost:PORT/m/{per-media-token}.ext
 (QMediaPlayer,                      │
- VLC, mpv, etc.)            MediaProxyServer
-                                    │  looks up token → (server, media_id)
+ VLC, mpv, etc.)             media proxy (Rust/hyper)
+                                    │  looks up token → (server_name, media_id)
+                                    │  reads fresh access_token from matrix-sdk Client
                                     │
                      ┌──────────────┼──────────────┐
                      │  Adds Authorization header  │
-                     │  Streams to consumer        │
+                     │  Streams response via reqwest│
                      └──────────────┼──────────────┘
                                     │
                           Homeserver ──> media data
 ```
 
-**Binding and network safety**: The server binds to `localhost`, which resolves to the loopback interface only — `::1` (IPv6) or `127.0.0.1` (IPv4) depending on the system. This means the proxy is never reachable from the network. URLs also use `localhost` so client and server resolve consistently. httplib uses `getaddrinfo` internally, so both IPv4 and IPv6 loopback work transparently.
+**Binding and network safety**: The server binds to `127.0.0.1` (IPv4 loopback), so the proxy is never reachable from the network. URLs use `localhost` so that Qt's `QNetworkAccessManager` resolves via `getaddrinfo` — if `::1` fails (no IPv6 server), it falls back to `127.0.0.1` transparently.
 
-**URL scheme**: Each `urlForMxc()` call generates a random token and stores a `token → (server, media_id)` mapping. The proxy URL is `http://localhost:PORT/m/{random-token}.ext` — the mxc URL components never appear in the proxy URL. When a MIME type is provided, the corresponding file extension is appended (e.g. `.mp4`, `.webm`) so that the OS can identify the media type; the extension is cosmetic and ignored by the route handler.
+**URL scheme**: Each `registerTimelineMediaProxyUrl()` call generates a random 24-character alphanumeric token and stores a `token → (server_name, media_id)` mapping. The proxy URL is `http://localhost:PORT/m/{random-token}.ext` — the mxc URL components never appear in the proxy URL. The file extension is cosmetic (derived from the MIME type) and ignored by the route handler.
 
-**Token eviction policy: never evict.** Evicting after first use would break seeking (QMediaPlayer makes multiple Range requests) and external players that reconnect. Evicting on overlay close would break external players that outlive the overlay. Tokens accumulate for the session but the memory cost is negligible (a few hundred entries at most). The map resets on logout/exit with the rest of the proxy.
+**Token eviction policy: never evict.** Evicting after first use would break seeking (QMediaPlayer makes multiple Range requests) and external players that reconnect. Evicting on overlay close would break external players that outlive the overlay. Tokens accumulate for the session but the memory cost is negligible (a few hundred entries at most). The registry is destroyed on logout/exit with the rest of the proxy.
 
-**Lifecycle**: The proxy starts lazily on first media request and runs for the entire logged-in session. It stops on logout / app exit. External players (VLC, mpv) may hold the URL long after the overlay closes, so idle-timeout or stop-on-close would break them.
+**Lifecycle**: The proxy starts during backend initialization (`MatrixBackendRuntimeService::startMediaProxy()`) and runs for the entire logged-in session. It stops on logout / app exit via `stopMediaProxy()`, and is also auto-stopped as a safety net during `stop_backend()`.
 
-**Upstream streaming**: Uses `libcurl` directly (`curl_easy_*`) for the upstream HTTPS fetch. For full GET requests, a HEAD request first determines Content-Length; the body is then streamed chunk-by-chunk via httplib's `set_content_provider` (known size, enables seeking) or `set_chunked_content_provider` (unknown size).
+**Upstream streaming**: Uses `reqwest` (already a dependency for matrix-sdk) for the upstream HTTPS fetch. The response body is streamed chunk-by-chunk via `bytes_stream()` and forwarded through hyper's `StreamBody` — the proxy never buffers the full file in memory.
 
-**Request handling — multi-layer cache**: Every request (Range or full GET) checks caches before touching the network:
+**Range requests**: The proxy forwards the client's `Range` header to upstream as-is. If the server returns **206** (partial content), the proxy forwards the partial response — enabling seeking. If the server returns **200** despite the Range header (no Range support), the proxy forwards the full response and lets QMediaPlayer cope. On streaming errors, `MxcMediaProxy` automatically falls back to the full-download buffer path.
 
-1. **In-memory cache** (per-token `cachedBody` in the token map) — fastest path
-2. **Disk cache** (same cache used by `MxcMediaProxy` for in-overlay playback, looked up via `app_paths::cache::mediaMediaFileForMxc`) — avoids re-downloading files already on disk
-3. **Upstream fetch** — only when both caches miss
-
-**Range requests**: The proxy forwards the client's `Range` header to upstream. If the server returns **206** (supports Range), the partial content is served directly via a chunked content provider — bypassing httplib's built-in Range processing which would double-process the header and produce 416. If the server returns **200** (no Range support, common on Matrix homeservers), the download is **aborted immediately** and the proxy returns **416** to the client. This signals "Range not satisfiable" so the client falls back to a plain GET (streaming without seeking). The `noRangeSupport` flag is cached per-token so subsequent Range requests return 416 immediately without probing upstream again.
-
-**QMediaPlayer fallback**: QMediaPlayer/FFmpeg does not recover from 416 — it errors out instead of retrying with a plain GET. `MxcMediaProxy` detects this error (`errorOccurred` while `streaming_` is true) and automatically falls back to the runtime-backed full-download path, then plays from a local `QBuffer`. This is the same path used for encrypted media. The fallback is attempted only once per playback session (`streamingFallbackAttempted_` flag) to avoid retry loops.
-
-**Streaming GET**: Used for plain GET requests (including client fallback after 416). A HEAD request first determines Content-Length and Content-Type; the body is then streamed chunk-by-chunk via httplib's `set_content_provider` (known size) or `set_chunked_content_provider` (unknown size). This lets `QMediaPlayer` start playback before the full file is downloaded.
-
-**External player Range probe**: Before launching an external player, `openInExternalPlayer()` sends a `Range: bytes=0-0` probe to upstream. If the server responds with **206**, Range is supported and the player is launched with the proxy URL — seeking works. If the server responds with anything else (typically **200**), Range is not supported. In that case, `openInExternalPlayer()` returns `false` and the caller falls back to download-to-cache → open local file. This fallback is necessary because MP4 files (and most container formats) store the moov atom at the end of the file; without Range/seek support, external players cannot read the file index and refuse to play.
-
-**Opening in external players**: `QDesktopServices::openUrl(http://...)` opens the browser because it dispatches on the `http://` URL scheme rather than the media MIME type.  To open media in the correct application, `openInExternalPlayer()` uses platform-specific strategies:
-
-**Linux/FreeBSD:**
-
-1. `xdg-mime query default <mimetype>` — finds the `.desktop` file for the default handler (e.g. `vlc.desktop`).  This is the freedesktop.org-standard query and respects KDE/GNOME/etc. default application settings via `mimeapps.list`.
-2. `gio launch <full-desktop-path> <proxy-url>` — preferred launcher.  `gio` is part of `glib2`, which is a near-universal dependency (Qt/KDE apps depend on it transitively).
-3. `gtk-launch <desktop-name> <proxy-url>` — fallback.  Part of `gtk3`, which may not be installed on KDE-only systems.
-4. `QDesktopServices::openUrl()` — last resort, opens in the browser.
-
-**macOS:**
-
-1. Launch Services lookup — converts the MIME type to a UTI (Uniform Type Identifier) via `UTTypeCreatePreferredIdentifierForTag`, then queries the default viewer application via `LSCopyDefaultApplicationURLForContentType`.  Launches the discovered app with `open -a <app-path> <proxy-url>`.
-2. `QDesktopServices::openUrl()` — last resort, opens in the browser.
-
-**Windows:**
-
-1. `AssocQueryStringW` — queries the default executable for the file extension (e.g. `.mp4`) derived from the MIME type, then launches it directly with the proxy URL.
-2. `QDesktopServices::openUrl()` — last resort, opens in the browser.
-
-**Images skip the proxy**: Images don't benefit from streaming and player-launch would open the wrong application. When `openMedia()` is called for an image, it bypasses the proxy entirely and uses the download-to-cache → `QDesktopServices::openUrl(file://...)` path, which lets the OS open the default image viewer.
+**QMediaPlayer fallback**: When streaming fails (error while `streaming_` is true), `MxcMediaProxy` automatically falls back to the runtime-backed full-download path, then plays from a local `QBuffer`. This is the same path used for encrypted media. The fallback is attempted only once per playback session (`streamingFallbackAttempted_` flag) to avoid retry loops.
 
 **Key files:**
-- `src/ui/MediaProxyServer.h/.cpp` — proxy server implementation
-- `src/ui/MxcMediaProxy.cpp` — uses proxy for unencrypted streaming
-- `src/timeline/media/TimelineMediaController.cpp` — uses proxy for external player "open"
-- `src/timeline/view/TimelineViewManagerMedia.cpp` — uses proxy for `openMedia(mxcUrl)` path
+- `src/rust/src/matrix_backend/runtime_media_proxy.rs` — proxy server implementation (Rust)
+- `src/ui/MxcMediaProxy.cpp` — uses proxy for unencrypted streaming, fallback to buffer
+- `src/matrix/backend/MatrixBackendRuntimeService.h/.cpp` — C++ FFI wrappers for proxy start/register/stop
 
 ### Timeline video delegate
 

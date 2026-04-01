@@ -56,6 +56,12 @@ removePath(const QString &path)
     return detail::defaultReaderWriter().removePath(path);
 }
 
+QString
+readTextFile(const QString &path, const char *label)
+{
+    return detail::defaultReaderWriter().readTextFile(path, label);
+}
+
 YAML::Node
 loadYamlFile(const QString &path, const char *label)
 {

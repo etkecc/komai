@@ -47,6 +47,27 @@ public:
         return app_paths::config::profileSecretsFile(profile);
     }
 
+    QString readTextFile(const QString &path, const char *label) const override
+    {
+        QFile file(path);
+        const char *safeLabel = label ? label : "settings";
+        if (!file.exists()) {
+            activeLoggers().ui->info(
+              "{} file does not exist, using defaults: {}", safeLabel, path.toStdString());
+            return {};
+        }
+
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            activeLoggers().ui->error(
+              "Failed to read {} file {} as text", safeLabel, path.toStdString());
+            return {};
+        }
+
+        const auto contents = QString::fromUtf8(file.readAll());
+        activeLoggers().ui->info("Loaded {} from: {}", safeLabel, path.toStdString());
+        return contents;
+    }
+
     YAML::Node loadYamlFile(const QString &path, const char *label) const override
     {
         QFileInfo info(path);

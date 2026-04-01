@@ -9,6 +9,7 @@ use tokio::runtime::Runtime;
 
 pub mod logging;
 pub mod matrix_backend;
+pub mod settings;
 
 #[cxx::bridge(namespace = "komai::rust")]
 mod ffi {
@@ -51,6 +52,11 @@ mod ffi {
         device_id: String,
         state_store_root: String,
         cache_root: String,
+    }
+
+    struct SettingsStartupSnapshot {
+        has_ui_scale_factor: bool,
+        ui_scale_factor: f32,
     }
 
     struct MatrixBackendHandleInfo {
@@ -559,6 +565,7 @@ mod ffi {
             enable_debug: bool,
         );
         fn log_from_cpp(component: &str, level: &str, message: &str);
+        fn settings_load_startup_snapshot(config_text: &str) -> SettingsStartupSnapshot;
 
         fn resolve_server(
             context: MatrixFfiBlockingContext,
@@ -1275,6 +1282,15 @@ fn init_logging(level: &str, log_file_path: &str, to_stderr: bool, enable_debug:
 
 fn log_from_cpp(component: &str, level: &str, message: &str) {
     logging::log_from_cpp(component, level, message);
+}
+
+fn settings_load_startup_snapshot(config_text: &str) -> ffi::SettingsStartupSnapshot {
+    let snapshot = settings::startup::snapshot_from_config_text(config_text);
+
+    ffi::SettingsStartupSnapshot {
+        has_ui_scale_factor: snapshot.ui_scale_factor.is_some(),
+        ui_scale_factor: snapshot.ui_scale_factor.unwrap_or_default(),
+    }
 }
 
 fn runtime() -> &'static Runtime {

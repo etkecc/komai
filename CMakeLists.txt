@@ -989,6 +989,7 @@ if(BUILD_TESTING)
 
     add_executable(komai_startup_settings_test
         tests/StartupSettingsTest.cpp
+        tests/MatrixBackendBridgeStartupStub.cpp
         tests/ProfileSecretsStartupStub.cpp
         tests/UserSettingsModelStartupStub.cpp
         src/settings/ui/UserSettingsModel.h
@@ -1052,6 +1053,8 @@ if(BUILD_TESTING)
         Qt::Widgets
         Qt::Quick
         ${YAMLCPP_TARGET_NAME}
+        komai_rust
+        komai-rust-cxxbridge
     )
     target_link_libraries(komai_startup_settings_test PRIVATE
         qt6keychain

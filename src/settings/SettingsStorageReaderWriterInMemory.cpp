@@ -7,6 +7,7 @@
 #include "SettingsStorageInternal.h"
 
 #include <QHash>
+#include <QString>
 
 #include "logging/Logging.h"
 
@@ -47,6 +48,22 @@ public:
     QString secretsFilePathForProfile(const QString &profile) const override
     {
         return profileBasePath(profile) + QStringLiteral("/secrets.yml");
+    }
+
+    QString readTextFile(const QString &path, const char *label) const override
+    {
+        const auto it = nodes_.find(path);
+        if (it == nodes_.end()) {
+            const char *safeLabel = label ? label : "settings";
+            activeLoggers().ui->info(
+              "{} file does not exist, using defaults: {}", safeLabel, path.toStdString());
+            return {};
+        }
+
+        YAML::Emitter out;
+        out.SetIndent(2);
+        out << it.value();
+        return QString::fromUtf8(out.c_str());
     }
 
     YAML::Node loadYamlFile(const QString &path, const char *label) const override

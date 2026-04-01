@@ -63,6 +63,7 @@ public:
     virtual QString stateFilePathForProfile(const QString &profile) const         = 0;
     virtual QString sessionFilePathForProfile(const QString &profile) const       = 0;
     virtual QString secretsFilePathForProfile(const QString &profile) const       = 0;
+    virtual QString readTextFile(const QString &path, const char *label) const    = 0;
     virtual YAML::Node loadYamlFile(const QString &path, const char *label) const = 0;
     virtual bool
     writeYamlFile(const QString &path, const YAML::Node &root, bool ownerReadWriteOnly) const = 0;
@@ -108,6 +109,12 @@ bool
 createDir(const QString &path);
 bool
 removePath(const QString &path);
+
+/**
+ * Load raw settings file contents.
+ */
+QString
+readTextFile(const QString &path, const char *label);
 
 /**
  * Load/serialize YAML settings files.

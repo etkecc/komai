@@ -8,40 +8,17 @@
 #include <algorithm>
 
 #include <QDir>
+#include <QFile>
 #include <QFileInfo>
 #include <QMap>
-#include <QRegularExpression>
 #include <QSet>
 
-#include <yaml-cpp/yaml.h>
+#include "komai-rust-cxxbridge/lib.h"
 
 #include "logging/Logging.h"
 #include "profile/Paths.h"
 
 static ThemeRegistry *s_instance = nullptr;
-
-static const QStringList paletteKeys = {
-  QStringLiteral("window"),
-  QStringLiteral("windowText"),
-  QStringLiteral("base"),
-  QStringLiteral("alternateBase"),
-  QStringLiteral("text"),
-  QStringLiteral("brightText"),
-  QStringLiteral("button"),
-  QStringLiteral("buttonText"),
-  QStringLiteral("light"),
-  QStringLiteral("mid"),
-  QStringLiteral("dark"),
-  QStringLiteral("highlight"),
-  QStringLiteral("highlightedText"),
-  QStringLiteral("link"),
-  QStringLiteral("toolTipBase"),
-  QStringLiteral("toolTipText"),
-  QStringLiteral("attention"),
-  QStringLiteral("success"),
-  QStringLiteral("warning"),
-  QStringLiteral("error"),
-};
 
 static int
 variantRank(QStringView variant)
@@ -79,82 +56,34 @@ themeDisplayLess(const ThemeDef &a, const ThemeDef &b)
     return QString::compare(a.slug, b.slug, Qt::CaseInsensitive) < 0;
 }
 
-static std::optional<ThemeUserColorSlot>
-parseUserColorSlot(const YAML::Node &slotNode,
-                   const QString &path,
-                   QStringView label,
-                   const QRegularExpression &hexRe)
+static QString
+fromRustString(const ::rust::String &value)
 {
-    const auto labelString = label.toString();
+    return QString::fromStdString(static_cast<std::string>(value));
+}
 
-    if (!slotNode || !slotNode.IsMap()) {
-        nhlog::ui()->warn(
-          "Theme file {} {} must be a mapping", path.toStdString(), labelString.toStdString());
-        return std::nullopt;
-    }
+static QColor
+parseColor(const ::rust::String &value)
+{
+    return QColor(fromRustString(value));
+}
 
-    ThemeUserColorSlot slot;
-    const auto readOptionalColor = [&](QStringView key, QColor &target) -> bool {
-        const auto keyStd = key.toString().toStdString();
-        if (!slotNode[keyStd])
-            return true;
-        if (!slotNode[keyStd].IsScalar()) {
-            nhlog::ui()->warn("Theme file {} {}.{} must be a string",
-                              path.toStdString(),
-                              labelString.toStdString(),
-                              key.toString().toStdString());
-            return false;
-        }
+static QColor
+parseOptionalColor(const ::rust::String &value)
+{
+    const auto hex = fromRustString(value);
+    return hex.isEmpty() ? QColor() : QColor(hex);
+}
 
-        const auto hex = QString::fromStdString(slotNode[keyStd].as<std::string>());
-        if (!hexRe.match(hex).hasMatch()) {
-            nhlog::ui()->warn("Theme file {} has invalid hex '{}' for {}.{}",
-                              path.toStdString(),
-                              hex.toStdString(),
-                              labelString.toStdString(),
-                              key.toString().toStdString());
-            return false;
-        }
-
-        target = QColor(hex);
-        return true;
-    };
-
-    if (!slotNode["background"] || !slotNode["background"].IsScalar()) {
-        nhlog::ui()->warn(
-          "Theme file {} missing {}.background", path.toStdString(), labelString.toStdString());
-        return std::nullopt;
-    }
-
-    const auto backgroundHex = QString::fromStdString(slotNode["background"].as<std::string>());
-    if (!hexRe.match(backgroundHex).hasMatch()) {
-        nhlog::ui()->warn("Theme file {} has invalid hex '{}' for {}.background",
-                          path.toStdString(),
-                          backgroundHex.toStdString(),
-                          labelString.toStdString());
-        return std::nullopt;
-    }
-    slot.background = QColor(backgroundHex);
-
-    if (!readOptionalColor(QStringLiteral("text"), slot.text) ||
-        !readOptionalColor(QStringLiteral("secondaryText"), slot.secondaryText) ||
-        !readOptionalColor(QStringLiteral("link"), slot.link)) {
-        return std::nullopt;
-    }
-
-    for (auto it = slotNode.begin(); it != slotNode.end(); ++it) {
-        const auto key = QString::fromStdString(it->first.as<std::string>());
-        if (key != QLatin1String("background") && key != QLatin1String("text") &&
-            key != QLatin1String("secondaryText") && key != QLatin1String("link")) {
-            nhlog::ui()->warn("Theme file {} has unexpected key '{}' in {}",
-                              path.toStdString(),
-                              key.toStdString(),
-                              labelString.toStdString());
-            return std::nullopt;
-        }
-    }
-
-    return slot;
+static ThemeUserColorSlot
+toThemeUserColorSlot(const ::komai::rust::ThemeUserColorSlotData &slot)
+{
+    ThemeUserColorSlot converted;
+    converted.background    = parseColor(slot.background);
+    converted.text          = parseOptionalColor(slot.text);
+    converted.secondaryText = parseOptionalColor(slot.secondary_text);
+    converted.link          = parseOptionalColor(slot.link);
+    return converted;
 }
 
 void
@@ -232,124 +161,54 @@ ThemeRegistry::loadExternalThemes()
 std::optional<ThemeDef>
 ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
 {
-    YAML::Node root;
-    try {
-        root = YAML::LoadFile(path.toStdString());
-    } catch (const YAML::Exception &e) {
-        nhlog::ui()->warn("Failed to parse theme file {}: {}", path.toStdString(), e.what());
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        nhlog::ui()->warn(
+          "Failed to read theme file {}: {}", path.toStdString(), file.errorString().toStdString());
         return std::nullopt;
     }
 
-    // Validate name
-    if (!root["name"] || !root["name"].IsScalar() || root["name"].as<std::string>().empty()) {
-        nhlog::ui()->warn("Theme file {} missing or empty 'name'", path.toStdString());
-        return std::nullopt;
-    }
-
-    // Validate variant
-    if (!root["variant"] || !root["variant"].IsScalar()) {
-        nhlog::ui()->warn("Theme file {} missing 'variant'", path.toStdString());
-        return std::nullopt;
-    }
-    auto variant = root["variant"].as<std::string>();
-    if (variant != "light" && variant != "dark") {
-        nhlog::ui()->warn("Theme file {} has invalid variant '{}' (expected 'light' or 'dark')",
+    const auto parsed = ::komai::rust::theme_parse_external_theme(file.readAll().toStdString());
+    if (!parsed.has_theme) {
+        nhlog::ui()->warn("Failed to parse theme file {}: {}",
                           path.toStdString(),
-                          variant);
+                          static_cast<std::string>(parsed.error_message));
         return std::nullopt;
-    }
-
-    // Validate palette
-    if (!root["palette"] || !root["palette"].IsMap()) {
-        nhlog::ui()->warn("Theme file {} missing or invalid 'palette' map", path.toStdString());
-        return std::nullopt;
-    }
-    auto palette = root["palette"];
-
-    // Validate all 20 keys are present and are valid #-prefixed hex
-    static const QRegularExpression hexRe(QStringLiteral("^#[0-9a-fA-F]{6}$"));
-    QMap<QString, QColor> colors;
-    for (const auto &key : paletteKeys) {
-        auto keyStd = key.toStdString();
-        if (!palette[keyStd] || !palette[keyStd].IsScalar()) {
-            nhlog::ui()->warn("Theme file {} missing palette key '{}'", path.toStdString(), keyStd);
-            return std::nullopt;
-        }
-        auto hexStr = QString::fromStdString(palette[keyStd].as<std::string>());
-        if (!hexRe.match(hexStr).hasMatch()) {
-            nhlog::ui()->warn("Theme file {} has invalid hex '{}' for key '{}'",
-                              path.toStdString(),
-                              hexStr.toStdString(),
-                              keyStd);
-            return std::nullopt;
-        }
-        colors[key] = QColor(hexStr);
-    }
-
-    // Validate userColors section (required)
-    if (!root["userColors"] || !root["userColors"].IsMap()) {
-        nhlog::ui()->warn("Theme file {} missing or invalid 'userColors' map", path.toStdString());
-        return std::nullopt;
-    }
-    auto userColorsNode = root["userColors"];
-
-    auto selfSlot =
-      parseUserColorSlot(userColorsNode["self"], path, QStringLiteral("userColors.self"), hexRe);
-    if (!selfSlot)
-        return std::nullopt;
-
-    if (!userColorsNode["others"] || !userColorsNode["others"].IsSequence()) {
-        nhlog::ui()->warn("Theme file {} missing or invalid userColors.others list",
-                          path.toStdString());
-        return std::nullopt;
-    }
-    auto othersNode = userColorsNode["others"];
-    if (othersNode.size() < 1) {
-        nhlog::ui()->warn("Theme file {} userColors.others must have at least 1 entry",
-                          path.toStdString());
-        return std::nullopt;
-    }
-
-    std::vector<ThemeUserColorSlot> userColorOthers;
-    userColorOthers.reserve(othersNode.size());
-    for (std::size_t i = 0; i < othersNode.size(); ++i) {
-        auto otherSlot = parseUserColorSlot(
-          othersNode[i], path, QStringLiteral("userColors.others[%1]").arg(i), hexRe);
-        if (!otherSlot)
-            return std::nullopt;
-        userColorOthers.push_back(*otherSlot);
     }
 
     ThemeDef def;
     def.slug      = slug;
-    def.name      = QString::fromStdString(root["name"].as<std::string>());
-    def.variant   = QString::fromStdString(variant);
+    def.name      = fromRustString(parsed.theme.name);
+    def.variant   = fromRustString(parsed.theme.variant);
     def.sortOrder = 300;
     def.source    = path;
 
-    def.window          = colors[QStringLiteral("window")];
-    def.windowText      = colors[QStringLiteral("windowText")];
-    def.base            = colors[QStringLiteral("base")];
-    def.alternateBase   = colors[QStringLiteral("alternateBase")];
-    def.text            = colors[QStringLiteral("text")];
-    def.brightText      = colors[QStringLiteral("brightText")];
-    def.button          = colors[QStringLiteral("button")];
-    def.buttonText      = colors[QStringLiteral("buttonText")];
-    def.light           = colors[QStringLiteral("light")];
-    def.mid             = colors[QStringLiteral("mid")];
-    def.dark            = colors[QStringLiteral("dark")];
-    def.highlight       = colors[QStringLiteral("highlight")];
-    def.highlightedText = colors[QStringLiteral("highlightedText")];
-    def.link            = colors[QStringLiteral("link")];
-    def.toolTipBase     = colors[QStringLiteral("toolTipBase")];
-    def.toolTipText     = colors[QStringLiteral("toolTipText")];
-    def.attention       = colors[QStringLiteral("attention")];
-    def.success         = colors[QStringLiteral("success")];
-    def.warning         = colors[QStringLiteral("warning")];
-    def.error           = colors[QStringLiteral("error")];
+    const auto &palette = parsed.theme.palette;
+    def.window          = parseColor(palette.window);
+    def.windowText      = parseColor(palette.window_text);
+    def.base            = parseColor(palette.base);
+    def.alternateBase   = parseColor(palette.alternate_base);
+    def.text            = parseColor(palette.text);
+    def.brightText      = parseColor(palette.bright_text);
+    def.button          = parseColor(palette.button);
+    def.buttonText      = parseColor(palette.button_text);
+    def.light           = parseColor(palette.light);
+    def.mid             = parseColor(palette.mid);
+    def.dark            = parseColor(palette.dark);
+    def.highlight       = parseColor(palette.highlight);
+    def.highlightedText = parseColor(palette.highlighted_text);
+    def.link            = parseColor(palette.link);
+    def.toolTipBase     = parseColor(palette.tool_tip_base);
+    def.toolTipText     = parseColor(palette.tool_tip_text);
+    def.attention       = parseColor(palette.attention);
+    def.success         = parseColor(palette.success);
+    def.warning         = parseColor(palette.warning);
+    def.error           = parseColor(palette.error);
 
-    def.userColorSelf   = *selfSlot;
-    def.userColorOthers = std::move(userColorOthers);
+    def.userColorSelf = toThemeUserColorSlot(parsed.theme.user_color_self);
+    def.userColorOthers.reserve(parsed.theme.user_color_others.size());
+    for (const auto &slot : parsed.theme.user_color_others)
+        def.userColorOthers.push_back(toThemeUserColorSlot(slot));
 
     return def;
 }

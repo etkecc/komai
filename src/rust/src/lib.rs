@@ -10,6 +10,7 @@ use tokio::runtime::Runtime;
 pub mod logging;
 pub mod matrix_backend;
 pub mod settings;
+pub mod theme;
 
 #[cxx::bridge(namespace = "komai::rust")]
 mod ffi {
@@ -156,6 +157,50 @@ mod ffi {
         hidden_widgets: Vec<String>,
         collapsed_spaces: Vec<String>,
         composer_drafts_by_room: Vec<SettingsStringMapEntry>,
+    }
+
+    struct ThemeUserColorSlotData {
+        background: String,
+        text: String,
+        secondary_text: String,
+        link: String,
+    }
+
+    struct ThemePaletteData {
+        window: String,
+        window_text: String,
+        base: String,
+        alternate_base: String,
+        text: String,
+        bright_text: String,
+        button: String,
+        button_text: String,
+        light: String,
+        mid: String,
+        dark: String,
+        highlight: String,
+        highlighted_text: String,
+        link: String,
+        tool_tip_base: String,
+        tool_tip_text: String,
+        attention: String,
+        success: String,
+        warning: String,
+        error: String,
+    }
+
+    struct ThemeExternalDefinition {
+        name: String,
+        variant: String,
+        palette: ThemePaletteData,
+        user_color_self: ThemeUserColorSlotData,
+        user_color_others: Vec<ThemeUserColorSlotData>,
+    }
+
+    struct ThemeExternalParseResult {
+        has_theme: bool,
+        error_message: String,
+        theme: ThemeExternalDefinition,
     }
 
     struct MatrixBackendHandleInfo {
@@ -683,6 +728,7 @@ mod ffi {
         -> String;
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
         fn settings_encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String;
+        fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;
 
         fn resolve_server(
             context: MatrixFfiBlockingContext,
@@ -1508,6 +1554,10 @@ fn settings_load_state_snapshot(state_text: &str) -> ffi::SettingsLoadedState {
 
 fn settings_encode_state_yaml(snapshot: &ffi::SettingsStateSnapshot) -> String {
     settings::state::encode_state_yaml(snapshot)
+}
+
+fn theme_parse_external_theme(theme_text: &str) -> ffi::ThemeExternalParseResult {
+    theme::external::parse_external_theme(theme_text)
 }
 
 fn runtime() -> &'static Runtime {

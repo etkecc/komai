@@ -13,6 +13,6 @@ pub fn snapshot_from_config_text(config_text: &str) -> StartupSnapshot {
     let config = config::parse_config_text(config_text);
 
     StartupSnapshot {
-        ui_scale_factor: config.ui_scale_factor,
+        ui_scale_factor: config.ui.scale.factor,
     }
 }

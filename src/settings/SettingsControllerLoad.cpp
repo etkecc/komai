@@ -23,7 +23,6 @@ namespace {
 
 using settings::storage::createDir;
 using settings::storage::pathExists;
-using settings::storage::readTextFile;
 using settings::storage::writeTextFile;
 
 const char *
@@ -162,16 +161,11 @@ loadImpl(UserSettings &settings,
                                    pathExists(settings.sessionFilePath());
     settings.setPersistenceSuspended(true);
 
-    const auto loadedConfigText = readTextFile(settings.configFilePath(), "config");
-    const auto loadedStateText = settings::storage::readTextFile(settings.stateFilePath(), "state");
-    const auto loadedSessionText =
-      loadPolicy == settings::SettingsController::LoadPolicy::Full
-        ? settings::storage::readTextFile(settings.sessionFilePath(), "session")
-        : QString{};
-    auto profileSnapshot =
-      ::komai::rust::settings_load_profile_snapshot(loadedConfigText.toStdString(),
-                                                    loadedSessionText.toStdString(),
-                                                    loadedStateText.toStdString());
+    auto profileSnapshot = ::komai::rust::settings_load_profile_snapshot_from_paths(
+      settings.configFilePath().toStdString(),
+      settings.sessionFilePath().toStdString(),
+      settings.stateFilePath().toStdString(),
+      loadPolicy == settings::SettingsController::LoadPolicy::Full);
     auto &configSnapshot = profileSnapshot.config;
     logConfigMigrationWarnings(configSnapshot);
     settings::serializer::loadConfig(settings, configSnapshot);

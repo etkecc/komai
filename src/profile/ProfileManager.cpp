@@ -18,7 +18,6 @@
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
 #include "settings/SettingsPersistence.h"
-#include "settings/SettingsStorage.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "ui/Theme.h"
 
@@ -139,13 +138,10 @@ listProfiles(QStringView currentProfile)
         summary.isDefault = (profileId == QLatin1String("default"));
         summary.isCurrent = (profileId == currentProfile_);
 
-        const auto config = ::komai::rust::settings_load_config_overview(
-          settings::storage::readTextFile(app_paths::config::profileConfigFile(profileId), "config")
-            .toStdString());
-        const auto session = ::komai::rust::settings_load_session_snapshot(
-          settings::storage::readTextFile(app_paths::config::profileSessionFile(profileId),
-                                          "session")
-            .toStdString());
+        const auto config = ::komai::rust::settings_load_config_overview_from_path(
+          app_paths::config::profileConfigFile(profileId).toStdString());
+        const auto session = ::komai::rust::settings_load_session_snapshot_from_path(
+          app_paths::config::profileSessionFile(profileId).toStdString());
 
         summary.themeSlug =
           QString::fromStdString(static_cast<std::string>(config.theme_slug)).trimmed();
@@ -244,8 +240,8 @@ deleteProfile(QStringView profileId,
     }
 
     const auto configPath = app_paths::config::profileConfigFile(normalizedTargetProfile);
-    const auto config     = ::komai::rust::settings_load_config_overview(
-      settings::storage::readTextFile(configPath, "config").toStdString());
+    const auto config =
+      ::komai::rust::settings_load_config_overview_from_path(configPath.toStdString());
     const auto secretsProvider = settings::persistence::providerFromConfigValue(
       QString::fromStdString(static_cast<std::string>(config.secrets_provider)));
 

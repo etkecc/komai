@@ -4,6 +4,7 @@
 
 #include "komai-rust-cxxbridge/lib.h"
 #include "matrix/backend/MatrixBackendBridge.h"
+#include "settings/SettingsStorage.h"
 
 namespace komai::rust_bridge {
 
@@ -17,6 +18,16 @@ matrix_profile_data_root(::rust::Str)
 matrix_profile_cache_root(::rust::Str)
 {
     return {};
+}
+
+::rust::String
+settings_read_text_file(::rust::Str path, ::rust::Str label)
+{
+    const auto labelString = std::string(label);
+    return ::rust::String(
+      settings::storage::readTextFile(QString::fromStdString(std::string(path)),
+                                      labelString.c_str())
+        .toStdString());
 }
 
 ::komai::rust::MatrixPersistedSessionSecrets

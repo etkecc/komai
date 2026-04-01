@@ -725,6 +725,8 @@ mod ffi {
         #[namespace = "komai::rust_bridge"]
         fn matrix_profile_cache_root(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
+        fn settings_read_text_file(path: &str, label: &str) -> String;
+        #[namespace = "komai::rust_bridge"]
         fn matrix_load_session_secrets(profile_id: &str) -> MatrixPersistedSessionSecrets;
         #[namespace = "komai::rust_bridge"]
         fn matrix_save_session_secrets(
@@ -785,8 +787,9 @@ mod ffi {
             enable_debug: bool,
         );
         fn log_from_cpp(component: &str, level: &str, message: &str);
-        fn settings_load_startup_snapshot(config_text: &str) -> SettingsStartupSnapshot;
+        fn settings_load_startup_snapshot_from_path(config_path: &str) -> SettingsStartupSnapshot;
         fn settings_load_config_overview(config_text: &str) -> SettingsConfigOverview;
+        fn settings_load_config_overview_from_path(config_path: &str) -> SettingsConfigOverview;
         fn settings_encode_string_map_yaml(entries: &Vec<SettingsStringMapEntry>) -> String;
         fn settings_decode_string_map_yaml(serialized: &str) -> Vec<SettingsStringMapEntry>;
         fn settings_encode_named_string_map_yaml(
@@ -799,12 +802,14 @@ mod ffi {
         ) -> Vec<SettingsStringMapEntry>;
         fn settings_encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String;
         fn settings_load_config_snapshot(config_text: &str) -> SettingsLoadedConfig;
-        fn settings_load_profile_snapshot(
-            config_text: &str,
-            session_text: &str,
-            state_text: &str,
+        fn settings_load_profile_snapshot_from_paths(
+            config_path: &str,
+            session_path: &str,
+            state_path: &str,
+            include_session: bool,
         ) -> SettingsLoadedProfile;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
+        fn settings_load_session_snapshot_from_path(session_path: &str) -> SettingsLoadedSession;
         fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str)
         -> String;
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
@@ -1529,8 +1534,8 @@ fn log_from_cpp(component: &str, level: &str, message: &str) {
     logging::log_from_cpp(component, level, message);
 }
 
-fn settings_load_startup_snapshot(config_text: &str) -> ffi::SettingsStartupSnapshot {
-    let snapshot = settings::startup::snapshot_from_config_text(config_text);
+fn settings_load_startup_snapshot_from_path(config_path: &str) -> ffi::SettingsStartupSnapshot {
+    let snapshot = settings::startup::snapshot_from_config_path(config_path);
 
     ffi::SettingsStartupSnapshot {
         has_ui_scale_factor: snapshot.ui_scale_factor.is_some(),
@@ -1547,6 +1552,10 @@ fn settings_load_config_overview(config_text: &str) -> ffi::SettingsConfigOvervi
         theme_slug: config.ui.theme.slug,
         secrets_provider: config.secrets.provider,
     }
+}
+
+fn settings_load_config_overview_from_path(config_path: &str) -> ffi::SettingsConfigOverview {
+    settings_load_config_overview(&ffi::settings_read_text_file(config_path, "config"))
 }
 
 fn settings_encode_string_map_yaml(entries: &Vec<ffi::SettingsStringMapEntry>) -> String {
@@ -1691,12 +1700,18 @@ fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsLoadedConfig
     ffi_loaded_config(settings::config::load_config_snapshot(config_text))
 }
 
-fn settings_load_profile_snapshot(
-    config_text: &str,
-    session_text: &str,
-    state_text: &str,
+fn settings_load_profile_snapshot_from_paths(
+    config_path: &str,
+    session_path: &str,
+    state_path: &str,
+    include_session: bool,
 ) -> ffi::SettingsLoadedProfile {
-    let snapshot = settings::profile::load_profile_snapshot(config_text, session_text, state_text);
+    let snapshot = settings::profile::load_profile_snapshot_from_paths(
+        config_path,
+        session_path,
+        state_path,
+        include_session,
+    );
 
     ffi::SettingsLoadedProfile {
         config: ffi_loaded_config(snapshot.config),
@@ -1707,6 +1722,10 @@ fn settings_load_profile_snapshot(
 
 fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {
     ffi_loaded_session(settings::session::load_session_snapshot(session_text))
+}
+
+fn settings_load_session_snapshot_from_path(session_path: &str) -> ffi::SettingsLoadedSession {
+    ffi_loaded_session(settings::session::load_session_snapshot_from_path(session_path))
 }
 
 fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str) -> String {

@@ -18,6 +18,7 @@
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "profile/Paths.h"
+#include "settings/SettingsStorage.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "voip/CallManager.h"
@@ -129,6 +130,14 @@ matrix_profile_data_root(::rust::Str profile_id)
 matrix_profile_cache_root(::rust::Str profile_id)
 {
     return ::rust::String(app_paths::cache::profileDirectory(toQString(profile_id)).toStdString());
+}
+
+::rust::String
+settings_read_text_file(::rust::Str path, ::rust::Str label)
+{
+    const auto labelString = std::string(label);
+    return ::rust::String(
+      settings::storage::readTextFile(toQString(path), labelString.c_str()).toStdString());
 }
 
 ::komai::rust::MatrixPersistedSessionSecrets

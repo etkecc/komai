@@ -29,6 +29,9 @@ matrix_profile_data_root(::rust::Str profile_id);
 ::rust::String
 matrix_profile_cache_root(::rust::Str profile_id);
 
+::rust::String
+settings_read_text_file(::rust::Str path, ::rust::Str label);
+
 ::komai::rust::MatrixPersistedSessionSecrets
 matrix_load_session_secrets(::rust::Str profile_id);
 

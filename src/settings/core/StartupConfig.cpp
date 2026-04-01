@@ -6,17 +6,14 @@
 #include "StartupConfig.h"
 
 #include "komai-rust-cxxbridge/lib.h"
-#include "settings/SettingsStorage.h"
 
 namespace settings::core {
 
 StartupConfigSnapshot
 snapshotFromYamlFile(std::string_view path)
 {
-    const auto configText =
-      settings::storage::readTextFile(QString::fromStdString(std::string(path)), "startup config");
     const auto startupSnapshot =
-      ::komai::rust::settings_load_startup_snapshot(configText.toStdString());
+      ::komai::rust::settings_load_startup_snapshot_from_path(std::string(path));
 
     StartupConfigSnapshot snapshot;
     if (startupSnapshot.has_ui_scale_factor)

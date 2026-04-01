@@ -74,8 +74,9 @@ Settings flow:
 - startup:
   - `main.cpp` computes profile from args, reads pre-UI scale factor from `config.yml`, and initializes
     `UserSettings` before constructing visual UI (`MainWindow`).
-  - `main.cpp` reads a startup snapshot via `settings::startup::readStartupConfig(...)` and passes the
-    loaded `config.yml` node into `settings::SettingsController` to avoid duplicate config parsing.
+  - `main.cpp` reads a typed startup snapshot via `settings::startup::readStartupConfig(...)` for
+    pre-Qt bootstrap values only; full settings load still happens later through
+    `settings::SettingsController`.
   - `ThemeRegistry::initialize()` and logging are set up before UI creation.
   - `UserSettings::load(profile)` calls `settings::SettingsController::loadAndMigrate(...)`
     (explicit migration writeback path).

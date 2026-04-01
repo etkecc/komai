@@ -5,25 +5,20 @@
 
 #include "StartupConfig.h"
 
-#include <filesystem>
-#include <fstream>
+#include "settings/SettingsStorage.h"
+#include <yaml-cpp/yaml.h>
 
 namespace {
 
-} // namespace
-
-namespace settings::core {
-
-StartupConfigSnapshot
-snapshotFromYamlConfig(const YAML::Node &configRoot)
+settings::core::StartupConfigSnapshot
+snapshotFromYamlNode(const YAML::Node &configRoot)
 {
-    StartupConfigSnapshot snapshot;
-    snapshot.configRoot = configRoot;
+    settings::core::StartupConfigSnapshot snapshot;
 
     try {
         if (configRoot.IsDefined() && configRoot["ui"]["scale"]["factor"].IsDefined()) {
             const auto factor      = configRoot["ui"]["scale"]["factor"].as<float>(-1.0F);
-            snapshot.uiScaleFactor = normalizeScaleFactor(factor);
+            snapshot.uiScaleFactor = settings::core::normalizeScaleFactor(factor);
         }
     } catch (...) {
         // Ignore malformed UI scale factor values.
@@ -32,15 +27,16 @@ snapshotFromYamlConfig(const YAML::Node &configRoot)
     return snapshot;
 }
 
+} // namespace
+
+namespace settings::core {
+
 StartupConfigSnapshot
 snapshotFromYamlFile(std::string_view path)
 {
-    const std::filesystem::path filePath(path);
-    if (!std::filesystem::exists(filePath))
-        return {};
-
     try {
-        return snapshotFromYamlConfig(YAML::LoadFile(filePath.string()));
+        return snapshotFromYamlNode(settings::storage::loadYamlFile(
+          QString::fromStdString(std::string(path)), "startup config"));
     } catch (...) {
         return {};
     }

@@ -178,16 +178,9 @@ testStartupConfigSnapshotLoads()
         return expect(false, "test profile config can be persisted");
 
     const auto startup = settings::startup::readStartupConfig(profile);
-    const bool scaleMatches =
-      expect(startup.uiScaleFactor.has_value() && std::abs(*startup.uiScaleFactor - 1.75F) < 0.0001F,
-             "scale factor is parsed from config.yml");
-    const bool configLoaded = expect(startup.configRoot.IsDefined() &&
-                                      startup.configRoot["ui"]["font"]["size_pt"].as<int>() == 15,
-                                      "config root includes additional startup-read values");
-    const bool keyPresent = expect(startup.configRoot["ui"]["scale"]["factor"].IsDefined(),
-                                  "startup snapshot preserves nested key structure");
-
-    return scaleMatches && configLoaded && keyPresent;
+    return expect(startup.uiScaleFactor.has_value() &&
+                    std::abs(*startup.uiScaleFactor - 1.75F) < 0.0001F,
+                  "scale factor is parsed from config.yml");
 }
 
 bool
@@ -200,37 +193,53 @@ testStartupConfigSnapshotMissingProfile()
 
     const auto startup = settings::startup::readStartupConfig(profile);
 
-    return expect(!startup.uiScaleFactor.has_value(),
-                  "missing profile has no startup scale factor") &&
-           expect(!startup.configRoot.IsDefined() || startup.configRoot.size() == 0,
-                  "missing profile snapshot is empty");
+    return expect(!startup.uiScaleFactor.has_value(), "missing profile has no startup scale factor");
 }
 
 bool
 testCoreSnapshotExtraction()
 {
+    QTemporaryDir tmpDir;
+    if (!tmpDir.isValid())
+        return expect(false, "temporary directory can be created");
+
+    const auto path = tmpDir.path() + QStringLiteral("/config.yml");
+    QFile file{path};
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        return expect(false, "temporary snapshot file can be created");
+
     YAML::Node root(YAML::NodeType::Map);
     root["ui"]["scale"]["factor"] = 2.0;
-    auto snapshot = settings::core::snapshotFromYamlConfig(root);
+    file.write(QString::fromUtf8(YAML::Dump(root)).toUtf8());
+    file.close();
+
+    auto snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
     if (!expect(snapshot.uiScaleFactor.has_value() &&
-               std::abs(*snapshot.uiScaleFactor - 2.0F) < 0.0001F,
-               "core snapshot extracts supported scale factor")) {
-        return false;
-    }
-    if (!expect(!snapshot.configRoot["ui"]["scale"]["factor"].IsNull(),
-                "core snapshot keeps full config root")) {
+                  std::abs(*snapshot.uiScaleFactor - 2.0F) < 0.0001F,
+                "core snapshot extracts supported scale factor from file")) {
         return false;
     }
 
     root["ui"]["scale"]["factor"] = "invalid";
-    snapshot = settings::core::snapshotFromYamlConfig(root);
-    if (!expect(!snapshot.uiScaleFactor.has_value(), "core snapshot ignores malformed scale factor"))
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+        return expect(false, "temporary snapshot file can be rewritten");
+    file.write(QString::fromUtf8(YAML::Dump(root)).toUtf8());
+    file.close();
+
+    snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
+    if (!expect(!snapshot.uiScaleFactor.has_value(),
+                "core snapshot ignores malformed scale factor")) {
         return false;
+    }
 
     root["ui"]["scale"]["factor"] = 5.0;
-    snapshot = settings::core::snapshotFromYamlConfig(root);
-    return expect(!snapshot.uiScaleFactor.has_value(),
-                  "core snapshot ignores out-of-range scale factors");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+        return expect(false, "temporary snapshot file can be rewritten again");
+    file.write(QString::fromUtf8(YAML::Dump(root)).toUtf8());
+    file.close();
+
+    snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
+    return expect(!snapshot.uiScaleFactor.has_value(), "core snapshot ignores out-of-range scale factors");
 }
 
 bool

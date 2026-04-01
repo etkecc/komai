@@ -216,12 +216,7 @@ app::runMainApplication(int argc, char *argv[])
                                      ? UserSettings::LoadPolicy::ConfigAndStateOnly
                                      : UserSettings::LoadPolicy::Full;
 
-    if (selectedProfileSetting && startupSettings.configRoot.IsDefined()) {
-        UserSettings::initialize(
-          *selectedProfileSetting, startupSettings.configRoot, startupLoadPolicy);
-    } else if (!selectedProfileSetting && startupSettings.configRoot.IsDefined()) {
-        UserSettings::initialize(std::nullopt, startupSettings.configRoot, startupLoadPolicy);
-    } else if (selectedProfileSetting) {
+    if (selectedProfileSetting) {
         UserSettings::initialize(*selectedProfileSetting, startupLoadPolicy);
     } else {
         UserSettings::initialize(std::nullopt, startupLoadPolicy);

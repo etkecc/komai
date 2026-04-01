@@ -8,8 +8,6 @@
 #include <optional>
 #include <string>
 
-#include <yaml-cpp/yaml.h>
-
 namespace settings::core {
 
 constexpr float kMinScaleFactor  = 1.0F;
@@ -37,11 +35,7 @@ normalizeScaleFactor(float factor)
 struct StartupConfigSnapshot
 {
     std::optional<float> uiScaleFactor;
-    YAML::Node configRoot;
 };
-
-StartupConfigSnapshot
-snapshotFromYamlConfig(const YAML::Node &configRoot);
 
 /**
  * Parse startup configuration snapshot from a YAML file path.

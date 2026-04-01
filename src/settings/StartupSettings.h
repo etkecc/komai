@@ -5,11 +5,9 @@
 
 #pragma once
 
-#include <optional>
-
-#include <yaml-cpp/yaml.h>
-
 #include <QString>
+
+#include <optional>
 
 namespace settings::startup {
 
@@ -18,10 +16,7 @@ namespace settings::startup {
  */
 struct StartupSettings
 {
-    YAML::Node configRoot;
     std::optional<float> uiScaleFactor;
-    QString configFilePath;
-    bool configFileExists{false};
 };
 
 /**

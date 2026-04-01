@@ -99,7 +99,6 @@ writeMigratedScopeIfNeeded(const QString &path,
 void
 loadImpl(UserSettings &settings,
          std::optional<QString> profile,
-         const YAML::Node &configRoot,
          bool persistMigrationWriteback,
          settings::SettingsController::LoadPolicy loadPolicy)
 {
@@ -113,10 +112,8 @@ loadImpl(UserSettings &settings,
     const bool configFileExists = pathExists(settings.configFilePath());
     settings.setPersistenceSuspended(true);
 
-    const bool hasInjectedConfig = configRoot.IsDefined() && !configRoot.IsNull();
-    const auto loadedConfig =
-      hasInjectedConfig ? configRoot : loadYamlFile(settings.configFilePath(), "config");
-    auto configOutcome = settings::migrations::migrateConfigRoot(loadedConfig);
+    const auto loadedConfig = loadYamlFile(settings.configFilePath(), "config");
+    auto configOutcome      = settings::migrations::migrateConfigRoot(loadedConfig);
     logMigrationWarnings(
       "Config", configOutcome, settings::migrations::kCurrentConfigSchemaVersion);
     settings::serializer::loadConfig(settings, configOutcome.migratedRoot);
@@ -296,16 +293,7 @@ settings::SettingsController::load(UserSettings &settings,
                                    std::optional<QString> profile,
                                    LoadPolicy policy)
 {
-    load(settings, profile, YAML::Node{}, policy);
-}
-
-void
-settings::SettingsController::load(UserSettings &settings,
-                                   std::optional<QString> profile,
-                                   const YAML::Node &configRoot,
-                                   LoadPolicy policy)
-{
-    loadImpl(settings, profile, configRoot, false, policy);
+    loadImpl(settings, profile, false, policy);
 }
 
 void
@@ -313,14 +301,5 @@ settings::SettingsController::loadAndMigrate(UserSettings &settings,
                                              std::optional<QString> profile,
                                              LoadPolicy policy)
 {
-    loadAndMigrate(settings, profile, YAML::Node{}, policy);
-}
-
-void
-settings::SettingsController::loadAndMigrate(UserSettings &settings,
-                                             std::optional<QString> profile,
-                                             const YAML::Node &configRoot,
-                                             LoadPolicy policy)
-{
-    loadImpl(settings, profile, configRoot, true, policy);
+    loadImpl(settings, profile, true, policy);
 }

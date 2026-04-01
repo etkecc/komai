@@ -19,10 +19,6 @@
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/core/SettingsStore.h"
 
-namespace YAML {
-class Node;
-}
-
 namespace settings {
 class SettingsController;
 }
@@ -289,9 +285,6 @@ public:
     static QSharedPointer<UserSettings> instance();
     static void
     initialize(std::optional<QString> profile, LoadPolicy loadPolicy = LoadPolicy::Full);
-    static void initialize(std::optional<QString> profile,
-                           const YAML::Node &configRoot,
-                           LoadPolicy loadPolicy = LoadPolicy::Full);
 
     using NotificationsAccountHandleProvider = std::function<std::uint64_t()>;
     using NotificationsAccountFetchFn =
@@ -471,9 +464,6 @@ public:
 
     void save();
     void load(std::optional<QString> profile, LoadPolicy loadPolicy = LoadPolicy::Full);
-    void load(std::optional<QString> profile,
-              const YAML::Node &configRoot,
-              LoadPolicy loadPolicy = LoadPolicy::Full);
     void applyTheme();
     void setUiThemeSlug(QString theme);
     void setTimelineMessagesHoverHighlight(bool state);

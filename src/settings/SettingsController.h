@@ -8,10 +8,6 @@
 #include <memory>
 #include <optional>
 
-namespace YAML {
-class Node;
-}
-
 class UserSettings;
 class QString;
 
@@ -79,20 +75,12 @@ public:
     void load(UserSettings &settings,
               std::optional<QString> profile,
               LoadPolicy policy = LoadPolicy::Full);
-    void load(UserSettings &settings,
-              std::optional<QString> profile,
-              const YAML::Node &configRoot,
-              LoadPolicy policy = LoadPolicy::Full);
     /**
      * Load settings, apply in-memory migration steps, and persist migrated roots
      * when needed (for example version bump writeback or first-file initialization).
      */
     void loadAndMigrate(UserSettings &settings,
                         std::optional<QString> profile,
-                        LoadPolicy policy = LoadPolicy::Full);
-    void loadAndMigrate(UserSettings &settings,
-                        std::optional<QString> profile,
-                        const YAML::Node &configRoot,
                         LoadPolicy policy = LoadPolicy::Full);
     /**
      * Persist the provided UserSettings instance to all backing stores.

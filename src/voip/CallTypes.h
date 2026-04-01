@@ -12,6 +12,24 @@
 
 namespace komai::voip {
 
+enum class CallSdpType
+{
+    Offer,
+    Answer,
+};
+
+enum class CallHangUpReason
+{
+    ICEFailed,
+    InviteTimeOut,
+    ICETimeOut,
+    UserHangUp,
+    UserMediaFailed,
+    UserBusy,
+    UnknownError,
+    User,
+};
+
 struct CallIceCandidate
 {
     std::string sdpMid;

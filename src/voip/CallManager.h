@@ -20,8 +20,6 @@
 #include "CallDevices.h"
 #include "CallTypes.h"
 #include "WebRTCSession.h"
-#include "mtx/events.hpp"
-#include "mtx/events/voip.hpp"
 #include "voip/ScreenCastPortal.h"
 
 namespace komai {
@@ -143,8 +141,7 @@ public slots:
     void toggleMicMute();
     void toggleLocalPiP() { session_.toggleLocalPiP(); }
     void acceptInvite();
-    void hangUp(
-      mtx::events::voip::CallHangUp::Reason = mtx::events::voip::CallHangUp::Reason::UserHangUp);
+    void hangUp(komai::voip::CallHangUpReason reason = komai::voip::CallHangUpReason::UserHangUp);
     void rejectInvite();
     void setupScreenShareXDP();
     void setScreenShareType(unsigned int index);
@@ -165,18 +162,45 @@ private slots:
     void retrieveTurnServer();
 
 private:
-    void sendCallInvite(const QString &roomId, const mtx::events::voip::CallInvite &content);
+    void sendCallInvite(const QString &roomId,
+                        const std::string &callId,
+                        const std::string &partyId,
+                        const std::string &version,
+                        uint32_t lifetime,
+                        const std::string &invitee,
+                        const std::string &offerSdp,
+                        komai::voip::CallSdpType offerType);
     void sendCallCandidates(const QString &roomId,
                             const std::string &callId,
                             const std::string &partyId,
                             const komai::voip::CallIceCandidateList &candidates,
                             const std::string &version);
-    void sendCallAnswer(const QString &roomId, const mtx::events::voip::CallAnswer &content);
-    void sendCallHangUp(const QString &roomId, const mtx::events::voip::CallHangUp &content);
-    void
-    sendCallSelectAnswer(const QString &roomId, const mtx::events::voip::CallSelectAnswer &content);
-    void sendCallReject(const QString &roomId, const mtx::events::voip::CallReject &content);
-    void sendCallNegotiate(const QString &roomId, const mtx::events::voip::CallNegotiate &content);
+    void sendCallAnswer(const QString &roomId,
+                        const std::string &callId,
+                        const std::string &partyId,
+                        const std::string &version,
+                        const std::string &answerSdp,
+                        komai::voip::CallSdpType answerType);
+    void sendCallHangUp(const QString &roomId,
+                        const std::string &callId,
+                        const std::string &partyId,
+                        const std::string &version,
+                        komai::voip::CallHangUpReason reason);
+    void sendCallSelectAnswer(const QString &roomId,
+                              const std::string &callId,
+                              const std::string &partyId,
+                              const std::string &version,
+                              const std::string &selectedPartyId);
+    void sendCallReject(const QString &roomId,
+                        const std::string &callId,
+                        const std::string &partyId,
+                        const std::string &version);
+    void sendCallNegotiate(const QString &roomId,
+                           const std::string &callId,
+                           const std::string &partyId,
+                           uint32_t lifetime,
+                           const std::string &descSdp,
+                           komai::voip::CallSdpType descType);
 
     WebRTCSession &session_;
     QString roomid_;
@@ -207,15 +231,6 @@ private:
     std::vector<std::pair<QString, uint64_t>> windows_;
 #endif
     std::vector<std::string> rejectCallPartyIDs_;
-
-    void handleEvent(const mtx::events::RoomEvent<mtx::events::voip::CallInvite> &);
-    void handleEvent(const mtx::events::RoomEvent<mtx::events::voip::CallCandidates> &);
-    void handleEvent(const mtx::events::RoomEvent<mtx::events::voip::CallAnswer> &);
-    void handleEvent(const mtx::events::RoomEvent<mtx::events::voip::CallHangUp> &);
-    void handleEvent(const mtx::events::RoomEvent<mtx::events::voip::CallSelectAnswer> &);
-    void handleEvent(const mtx::events::RoomEvent<mtx::events::voip::CallReject> &);
-    void handleEvent(const mtx::events::RoomEvent<mtx::events::voip::CallNegotiate> &);
-    void answerInvite(const mtx::events::voip::CallInvite &, bool isVideo);
     void generateCallID();
     QStringList devices(bool isVideo) const;
     void clear(bool endAllCalls = true);

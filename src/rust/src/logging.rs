@@ -53,11 +53,11 @@ pub fn init_logging(level: &str, log_file_path: &str, to_stderr: bool, enable_de
                 .with_ansi(true)
                 .with_writer(std::io::stderr);
 
-            tracing_subscriber::registry()
+            let _ = tracing_subscriber::registry()
                 .with(filter)
                 .with(file_layer)
                 .with(stderr_layer)
-                .init();
+                .try_init();
         } else if !log_file_path.is_empty() {
             let file_appender = make_file_appender(log_file_path);
             let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);
@@ -67,25 +67,23 @@ pub fn init_logging(level: &str, log_file_path: &str, to_stderr: bool, enable_de
                 .with_ansi(false)
                 .with_writer(non_blocking);
 
-            tracing_subscriber::registry()
+            let _ = tracing_subscriber::registry()
                 .with(filter)
                 .with(file_layer)
-                .init();
+                .try_init();
         } else if to_stderr {
             let stderr_layer = fmt::layer()
                 .with_ansi(true)
                 .with_writer(std::io::stderr);
 
-            tracing_subscriber::registry()
+            let _ = tracing_subscriber::registry()
                 .with(filter)
                 .with(stderr_layer)
-                .init();
+                .try_init();
         } else {
-            // No sinks — discard everything, but still install the subscriber
-            // so that log events from Rust crates don't panic.
-            tracing_subscriber::registry()
+            let _ = tracing_subscriber::registry()
                 .with(filter)
-                .init();
+                .try_init();
         }
     });
 }

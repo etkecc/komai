@@ -61,6 +61,19 @@ void
 matrix_notify_room_timeline_snapshot_updated(std::uint64_t handle_id, ::rust::Str room_id);
 
 void
+matrix_notify_notification_received(std::uint64_t handle_id,
+                                    ::rust::Str room_id,
+                                    ::rust::Str event_id);
+
+void
+matrix_notify_call_event_received(std::uint64_t handle_id,
+                                  ::rust::Str room_id,
+                                  ::rust::Str event_type,
+                                  ::rust::Str sender_id,
+                                  ::rust::Str event_id,
+                                  ::rust::Str content_json);
+
+void
 matrix_notify_sync_stopped(std::uint64_t handle_id, ::rust::Str reason, bool is_auth_error);
 
 } // namespace komai::rust_bridge

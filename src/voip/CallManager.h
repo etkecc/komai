@@ -19,7 +19,7 @@
 
 #include "CallDevices.h"
 #include "WebRTCSession.h"
-#include "mtx/events/collections.hpp"
+#include "mtx/events.hpp"
 #include "mtx/events/voip.hpp"
 #include "voip/ScreenCastPortal.h"
 
@@ -79,7 +79,11 @@ public:
 
 public slots:
     void sendInvite(const QString &roomid, webrtc::CallType, unsigned int windowIndex = 0);
-    void syncEvent(const mtx::events::collections::TimelineEvents &event);
+    void handleIncomingCallEvent(const QString &roomId,
+                                 const QString &eventType,
+                                 const QString &senderId,
+                                 const QString &eventId,
+                                 const QString &contentJson);
     void toggleMicMute();
     void toggleLocalPiP() { session_.toggleLocalPiP(); }
     void acceptInvite();
@@ -139,8 +143,6 @@ private:
 #endif
     std::vector<std::string> rejectCallPartyIDs_;
 
-    template<typename T>
-    bool handleEvent(const mtx::events::collections::TimelineEvents &event);
     void handleEvent(const mtx::events::RoomEvent<mtx::events::voip::CallInvite> &);
     void handleEvent(const mtx::events::RoomEvent<mtx::events::voip::CallCandidates> &);
     void handleEvent(const mtx::events::RoomEvent<mtx::events::voip::CallAnswer> &);

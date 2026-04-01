@@ -90,6 +90,8 @@ mod image_packs;
 mod runtime_media;
 #[path = "runtime_voip.rs"]
 mod runtime_voip;
+#[path = "runtime_calls.rs"]
+mod runtime_calls;
 
 pub use profile_media::{
     fetch_media_content, fetch_own_presence, fetch_own_profile, fetch_room_member_profile,
@@ -473,6 +475,7 @@ struct MatrixBackendHandle {
     verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,
     pending_verification_flow_ids: Arc<Mutex<Vec<String>>>,
     _verification_event_handlers: Vec<EventHandlerDropGuard>,
+    _call_event_handlers: Vec<EventHandlerDropGuard>,
 }
 
 #[derive(Clone)]

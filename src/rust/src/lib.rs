@@ -431,6 +431,17 @@ mod ffi {
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_room_timeline_snapshot_updated(handle_id: u64, room_id: &str);
         #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_notification_received(handle_id: u64, room_id: &str, event_id: &str);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_call_event_received(
+            handle_id: u64,
+            room_id: &str,
+            event_type: &str,
+            sender_id: &str,
+            event_id: &str,
+            content_json: &str,
+        );
+        #[namespace = "komai::rust_bridge"]
         fn matrix_notify_sync_stopped(handle_id: u64, reason: &str, is_auth_error: bool);
     }
 

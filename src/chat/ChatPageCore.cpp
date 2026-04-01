@@ -160,18 +160,8 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
             &NotificationsManager::notificationClicked,
             this,
             [this](const QString &roomid, const QString &eventid) {
-                Q_UNUSED(eventid)
-                auto exWin = MainWindow::instance()->windowForRoom(roomid);
-                if (exWin) {
-                    exWin->setVisible(true);
-                    exWin->raise();
-                    exWin->requestActivate();
-                } else {
-                    view_manager_->rooms()->setCurrentRoom(roomid);
-                    MainWindow::instance()->setVisible(true);
-                    MainWindow::instance()->raise();
-                    MainWindow::instance()->requestActivate();
-                }
+                if (view_manager_)
+                    view_manager_->showEvent(roomid, eventid);
 
                 notificationsManager->removeNotifications(roomid, {});
             });

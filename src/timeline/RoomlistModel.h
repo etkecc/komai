@@ -136,6 +136,8 @@ public:
 public slots:
     void initializeRooms();
     void clear();
+    void
+    queueMatrixNotificationFetch(uint64_t handleId, const QString &roomId, const QString &eventId);
     int roomidToIndex(const QString &roomid)
     {
         for (int i = 0; i < (int)roomids.size(); i++) {
@@ -221,8 +223,11 @@ private:
     // When UI requests opening a room before sync inserts it into the room summary list,
     // remember the target and switch once the room becomes available.
     QString pendingCurrentRoomId_;
-    bool matrixRoomRefreshInFlight_ = false;
-    bool matrixRoomRefreshPending_  = false;
+    bool matrixRoomRefreshInFlight_             = false;
+    bool matrixRoomRefreshPending_              = false;
+    bool matrixNotificationFetchQueued_         = false;
+    uint64_t pendingMatrixNotificationHandleId_ = 0;
+    QHash<QString, komai::MatrixNotificationRequest> pendingMatrixNotificationRequests_;
 
 #ifdef KOMAI_DBUS_SYS
     DbusHost *dbusHost_ = nullptr;

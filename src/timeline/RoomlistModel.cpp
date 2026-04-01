@@ -221,6 +221,9 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
     currentRoomVisualStateDeferred_ = false;
     currentRoomVisualStateDeferredRoomId_.clear();
     currentRoomVisualStateGeneration_++;
+    matrixNotificationFetchQueued_     = false;
+    pendingMatrixNotificationHandleId_ = 0;
+    pendingMatrixNotificationRequests_.clear();
 
     if (clearAllDrafts) {
         if (const auto settings = UserSettings::instance())
@@ -366,6 +369,70 @@ RoomlistModel::fetchMatrixNotificationBatch(uint64_t handleId,
 }
 
 void
+RoomlistModel::queueMatrixNotificationFetch(uint64_t handleId,
+                                            const QString &roomId,
+                                            const QString &eventId)
+{
+    const auto trimmedRoomId  = roomId.trimmed();
+    const auto trimmedEventId = eventId.trimmed();
+    if (handleId == 0 || trimmedRoomId.isEmpty() || trimmedEventId.isEmpty())
+        return;
+
+    const auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
+        return;
+
+    const auto settings = UserSettings::instance().get();
+    if (!settings || !settings->notificationsAccountEnabled() || !settings->notificationsEnabled())
+        return;
+
+    if (pendingMatrixNotificationHandleId_ != 0 && pendingMatrixNotificationHandleId_ != handleId)
+        pendingMatrixNotificationRequests_.clear();
+
+    pendingMatrixNotificationHandleId_ = handleId;
+
+    const auto key = trimmedRoomId + QLatin1Char('\x1f') + trimmedEventId;
+    pendingMatrixNotificationRequests_.insert(key,
+                                              {
+                                                .roomId  = trimmedRoomId,
+                                                .eventId = trimmedEventId,
+                                              });
+
+    if (matrixNotificationFetchQueued_)
+        return;
+
+    matrixNotificationFetchQueued_ = true;
+    // Live matrix-sdk notifications may arrive in short bursts from a single
+    // sync response. Coalesce briefly before resolving the full payload batch.
+    QTimer::singleShot(50, this, [this]() {
+        matrixNotificationFetchQueued_ = false;
+
+        const auto handleId = pendingMatrixNotificationHandleId_;
+        if (handleId == 0 || pendingMatrixNotificationRequests_.isEmpty())
+            return;
+
+        const auto *mainWindow = MainWindow::instance();
+        if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId) {
+            pendingMatrixNotificationRequests_.clear();
+            pendingMatrixNotificationHandleId_ = 0;
+            return;
+        }
+
+        QVector<komai::MatrixNotificationRequest> requests;
+        requests.reserve(pendingMatrixNotificationRequests_.size());
+        for (auto it = pendingMatrixNotificationRequests_.cbegin();
+             it != pendingMatrixNotificationRequests_.cend();
+             ++it) {
+            requests.push_back(it.value());
+        }
+
+        pendingMatrixNotificationRequests_.clear();
+        pendingMatrixNotificationHandleId_ = 0;
+        fetchMatrixNotificationBatch(handleId, std::move(requests));
+    });
+}
+
+void
 RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSummary> &roomList)
 {
     std::vector<QString> newRoomIds;
@@ -373,7 +440,6 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
 
     QHash<QString, komai::MatrixRoomSummary> newMatrixRooms;
     int totalUnreadMessages = 0;
-    QVector<komai::MatrixNotificationRequest> notificationRequests;
     const QString selectedRoomId =
       currentRoomPreview_
         ? currentRoomPreview_->roomid()
@@ -387,38 +453,17 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
     const bool restoringStartupSelection =
       !selectedRoomId.isEmpty() && !currentRoomPreview_ && pendingCurrentRoomId_.isEmpty() &&
       UserSettings::instance()->currentRoomId() == selectedRoomId;
-    const auto previousMatrixRooms         = matrixJoinedRooms_;
-    const bool hadPreviousMatrixSnapshot   = !previousMatrixRooms.isEmpty();
-    const auto previousTotalNotifications  = totalNotificationCount(previousMatrixRooms);
-    const auto settings                    = UserSettings::instance().get();
-    const bool accountNotificationsEnabled = settings && settings->notificationsAccountEnabled();
-    const bool systemNotificationsEnabled =
-      accountNotificationsEnabled && settings->notificationsEnabled();
-    const bool shouldAlertOnIncoming =
-      accountNotificationsEnabled && settings->notificationsAttentionOnIncoming();
+    const auto previousMatrixRooms        = matrixJoinedRooms_;
+    const bool hadPreviousMatrixSnapshot  = !previousMatrixRooms.isEmpty();
+    const auto previousTotalNotifications = totalNotificationCount(previousMatrixRooms);
+    const auto settings                   = UserSettings::instance().get();
+    const bool shouldAlertOnIncoming      = settings && settings->notificationsAccountEnabled() &&
+                                       settings->notificationsAttentionOnIncoming();
 
     for (const auto &room : roomList) {
         newRoomIds.push_back(room.roomId);
         newMatrixRooms.insert(room.roomId, room);
         totalUnreadMessages += static_cast<int>(room.unreadMessages);
-
-        if (!hadPreviousMatrixSnapshot || !systemNotificationsEnabled ||
-            room.latestEventId.trimmed().isEmpty()) {
-            continue;
-        }
-
-        const auto previousRoom = previousMatrixRooms.constFind(room.roomId);
-        const auto previousNotificationCount =
-          previousRoom == previousMatrixRooms.cend() ? 0 : previousRoom->notificationCount;
-        const auto previousHighlightCount =
-          previousRoom == previousMatrixRooms.cend() ? 0 : previousRoom->highlightCount;
-        const bool notificationCountIncreased = room.notificationCount > previousNotificationCount;
-        const bool highlightCountIncreased    = room.highlightCount > previousHighlightCount;
-
-        if (!notificationCountIncreased && !highlightCountIncreased)
-            continue;
-
-        notificationRequests.push_back({.roomId = room.roomId, .eventId = room.latestEventId});
     }
 
     bool changed =
@@ -455,12 +500,6 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
         currentTotalNotifications > previousTotalNotifications) {
         if (auto *mainWindow = MainWindow::instance())
             mainWindow->alert(0);
-    }
-
-    if (!notificationRequests.isEmpty()) {
-        const auto *mainWindow = MainWindow::instance();
-        const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
-        fetchMatrixNotificationBatch(handleId, std::move(notificationRequests));
     }
 
     if (!selectedRoomId.isEmpty() && matrixJoinedRooms_.contains(selectedRoomId)) {

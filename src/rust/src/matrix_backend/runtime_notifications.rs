@@ -20,6 +20,35 @@ use matrix_sdk_ui::notification_client::{
 use super::*;
 use super::event_summary::{MatrixEventSummary, summarize_sync_timeline_event};
 
+fn notification_event_id(notification: &matrix_sdk::sync::Notification) -> Option<String> {
+    serde_json::to_value(&notification.event)
+        .ok()?
+        .get("event_id")?
+        .as_str()
+        .map(str::to_owned)
+}
+
+pub async fn install_live_notification_handler(handle_id: u64, client: Client) {
+    client
+        .register_notification_handler(move |notification, room, _client| async move {
+            let Some(event_id) = notification_event_id(&notification) else {
+                tracing::debug!(
+                    handle_id,
+                    room_id = %room.room_id(),
+                    "Skipping live notification without an event id"
+                );
+                return;
+            };
+
+            crate::ffi::matrix_notify_notification_received(
+                handle_id,
+                room.room_id().as_str(),
+                &event_id,
+            );
+        })
+        .await;
+}
+
 fn notification_requests_by_room(
     requests: &[MatrixNotificationRequest],
 ) -> BTreeMap<OwnedRoomId, Vec<OwnedEventId>> {

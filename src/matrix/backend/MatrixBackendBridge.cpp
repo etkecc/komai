@@ -13,6 +13,7 @@
 
 #include <utility>
 
+#include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
@@ -20,6 +21,7 @@
 #include "profile/Paths.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
+#include "voip/CallManager.h"
 
 namespace {
 
@@ -260,6 +262,48 @@ matrix_notify_room_timeline_snapshot_updated(std::uint64_t handle_id, ::rust::St
             return;
 
         manager->handleMatrixBackendRoomTimelineSnapshotUpdated(handle_id, roomId);
+    });
+}
+
+void
+matrix_notify_notification_received(std::uint64_t handle_id,
+                                    ::rust::Str room_id,
+                                    ::rust::Str event_id)
+{
+    const auto roomId  = toQString(room_id);
+    const auto eventId = toQString(event_id);
+    postToAppThread([handle_id, roomId, eventId]() {
+        auto *mainWindow = MainWindow::instance();
+        auto *manager    = TimelineViewManager::instance();
+        if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+
+        manager->handleMatrixBackendNotificationReceived(handle_id, roomId, eventId);
+    });
+}
+
+void
+matrix_notify_call_event_received(std::uint64_t handle_id,
+                                  ::rust::Str room_id,
+                                  ::rust::Str event_type,
+                                  ::rust::Str sender_id,
+                                  ::rust::Str event_id,
+                                  ::rust::Str content_json)
+{
+    const auto roomId      = toQString(room_id);
+    const auto eventType   = toQString(event_type);
+    const auto senderId    = toQString(sender_id);
+    const auto eventId     = toQString(event_id);
+    const auto contentJson = toQString(content_json);
+
+    postToAppThread([handle_id, roomId, eventType, senderId, eventId, contentJson]() {
+        auto *mainWindow = MainWindow::instance();
+        auto *chatPage   = ChatPage::instance();
+        auto *manager    = chatPage ? chatPage->callManager() : nullptr;
+        if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+
+        manager->handleIncomingCallEvent(roomId, eventType, senderId, eventId, contentJson);
     });
 }
 

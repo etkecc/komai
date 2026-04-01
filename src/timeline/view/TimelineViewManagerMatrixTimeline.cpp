@@ -1940,6 +1940,18 @@ TimelineViewManager::handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t ha
 }
 
 void
+TimelineViewManager::handleMatrixBackendNotificationReceived(std::uint64_t handleId,
+                                                             const QString &roomId,
+                                                             const QString &eventId)
+{
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId || !rooms_)
+        return;
+
+    rooms_->queueMatrixNotificationFetch(handleId, roomId, eventId);
+}
+
+void
 TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_t handleId,
                                                                     const QString &roomId)
 {

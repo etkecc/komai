@@ -350,6 +350,9 @@ public slots:
     void handleMatrixBackendIgnoredUsersUpdated(std::uint64_t handleId,
                                                 const QVector<QString> &ignoredUsers);
     void handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t handleId);
+    void handleMatrixBackendNotificationReceived(std::uint64_t handleId,
+                                                 const QString &roomId,
+                                                 const QString &eventId);
     void
     handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_t handleId, const QString &roomId);
     void

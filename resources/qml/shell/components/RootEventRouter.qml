@@ -108,7 +108,8 @@ Item {
     }
     Connections {
         function onNewInviteState() {
-            if (CallManager.haveCallInvite && !Settings.uiInputMode && Settings.callsLegacyEnabled) {
+            if (CallManager.haveCallInvite && !Settings.uiInputMode
+                    && CallManager.preMatrixRtcCallsEnabled) {
                 timelineRoot.openCatalogDialog(componentCatalog.voipCallInviteDialog);
             }
         }

@@ -7,10 +7,6 @@
 
 #include <memory>
 
-namespace YAML {
-class Node;
-}
-
 class QString;
 class UserSettings;
 namespace nhlog {
@@ -36,13 +32,6 @@ activeLoggers();
  * settings model. It remains a pure settings utility with no QML lifecycle
  * responsibilities.
  */
-void
-loadConfig(UserSettings &settings, const YAML::Node &root);
-void
-loadSession(UserSettings &settings, const YAML::Node &root);
-void
-loadState(UserSettings &settings, const YAML::Node &root);
-
 void
 saveConfig(const UserSettings &settings,
            const QString &configFilePath,

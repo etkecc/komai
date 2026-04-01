@@ -516,6 +516,8 @@ mod ffi {
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_notification_received(handle_id: u64, room_id: &str, event_id: &str);
         #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_notification_item_received(handle_id: u64, item: MatrixNotificationItem);
+        #[namespace = "komai::rust_bridge"]
         fn matrix_notify_call_invite_received(handle_id: u64, event: MatrixCallInviteEvent);
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_call_candidates_received(

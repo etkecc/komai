@@ -70,6 +70,30 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
     };
 }
 
+komai::MatrixNotificationItem
+fromRustNotificationItem(const ::komai::rust::MatrixNotificationItem &item)
+{
+    return komai::MatrixNotificationItem{
+      .roomId             = QString::fromStdString(std::string(item.room_id)),
+      .eventId            = QString::fromStdString(std::string(item.event_id)),
+      .replacementEventId = QString::fromStdString(std::string(item.replacement_event_id)),
+      .roomName           = QString::fromStdString(std::string(item.room_name)),
+      .avatarUrl =
+        komai::matrix::normalizeMxcUri(QString::fromStdString(std::string(item.avatar_url))),
+      .senderDisplayName = QString::fromStdString(std::string(item.sender_display_name)),
+      .plainBody         = QString::fromStdString(std::string(item.plain_body)),
+      .formattedBody     = QString::fromStdString(std::string(item.formatted_body)),
+      .mediaMxcUrl =
+        komai::matrix::normalizeMxcUri(QString::fromStdString(std::string(item.media_mxc_url))),
+      .isReply         = item.is_reply,
+      .isEmote         = item.is_emote,
+      .isEncrypted     = item.is_encrypted,
+      .containsSpoiler = item.contains_spoiler,
+      .hasInlineImage  = item.has_inline_image,
+      .playSound       = item.play_sound,
+    };
+}
+
 template<typename Func>
 void
 postToAppThread(Func &&func)
@@ -232,6 +256,21 @@ matrix_notify_notification_received(std::uint64_t handle_id,
             return;
 
         manager->handleMatrixBackendNotificationReceived(handle_id, roomId, eventId);
+    });
+}
+
+void
+matrix_notify_notification_item_received(std::uint64_t handle_id,
+                                         ::komai::rust::MatrixNotificationItem item)
+{
+    const auto notification = fromRustNotificationItem(item);
+    postToAppThread([handle_id, notification]() {
+        auto *mainWindow = MainWindow::instance();
+        auto *chatPage   = ChatPage::instance();
+        if (!mainWindow || !chatPage || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+
+        chatPage->dispatchMatrixNotification(notification);
     });
 }
 

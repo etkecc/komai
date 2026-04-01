@@ -4,13 +4,20 @@
 
 use std::collections::BTreeMap;
 
-use matrix_sdk::ruma::{
+use matrix_sdk::{
+    Room,
+    deserialized_responses::RawAnySyncOrStrippedTimelineEvent,
+    ruma::{
     EventId, OwnedEventId, OwnedRoomId,
     events::{
-        AnySyncMessageLikeEvent, AnySyncTimelineEvent, TimelineEventType,
-        room::message::{Relation, SyncRoomMessageEvent},
+        AnyStrippedStateEvent, AnySyncMessageLikeEvent, AnySyncTimelineEvent, TimelineEventType,
+        room::{
+            member::{MembershipState, StrippedRoomMemberEvent},
+            message::{Relation, SyncRoomMessageEvent},
+        },
     },
     push::{PredefinedOverrideRuleId, RuleKind},
+    },
 };
 use matrix_sdk_ui::notification_client::{
     NotificationClient, NotificationEvent as SdkNotificationEvent,
@@ -21,30 +28,128 @@ use super::*;
 use super::event_summary::{MatrixEventSummary, summarize_sync_timeline_event};
 
 fn notification_event_id(notification: &matrix_sdk::sync::Notification) -> Option<String> {
-    serde_json::to_value(&notification.event)
-        .ok()?
-        .get("event_id")?
-        .as_str()
-        .map(str::to_owned)
+    match &notification.event {
+        RawAnySyncOrStrippedTimelineEvent::Sync(raw_event) => {
+            let event: AnySyncTimelineEvent = raw_event.deserialize().ok()?;
+            Some(event.event_id().to_string())
+        }
+        RawAnySyncOrStrippedTimelineEvent::Stripped(_) => None,
+    }
+}
+
+async fn live_invite_notification_item(
+    room: &Room,
+    event: &StrippedRoomMemberEvent,
+) -> Option<MatrixNotificationItem> {
+    if room.state() != matrix_sdk::RoomState::Invited || event.content.membership != MembershipState::Invite {
+        return None;
+    }
+
+    let room_name = room
+        .display_name()
+        .await
+        .ok()
+        .map(|name| name.to_string())
+        .filter(|value| !value.trim().is_empty())
+        .unwrap_or_else(|| room.room_id().to_string());
+
+    let room_avatar_url = room
+        .avatar_url()
+        .map(|uri| normalize_mxc_uri(uri.to_string()))
+        .unwrap_or_default();
+
+    let invite_details = room.invite_details().await.ok();
+    let sender_display_name = invite_details
+        .as_ref()
+        .and_then(|details| details.inviter.as_ref())
+        .map(|inviter| inviter.name().to_owned())
+        .filter(|value| !value.trim().is_empty())
+        .unwrap_or_else(|| event.sender.to_string());
+
+    let sender_avatar_url = invite_details
+        .as_ref()
+        .and_then(|details| details.inviter.as_ref())
+        .and_then(|inviter| inviter.avatar_url())
+        .map(|uri| normalize_mxc_uri(uri.to_string()))
+        .unwrap_or_default();
+
+    Some(MatrixNotificationItem {
+        room_id: room.room_id().to_string(),
+        event_id: String::new(),
+        replacement_event_id: String::new(),
+        room_name,
+        avatar_url: if !room_avatar_url.is_empty() {
+            room_avatar_url
+        } else {
+            sender_avatar_url
+        },
+        sender_display_name,
+        plain_body: "Invited you to join this room".to_owned(),
+        formatted_body: String::new(),
+        media_mxc_url: String::new(),
+        is_reply: false,
+        is_emote: false,
+        is_encrypted: false,
+        contains_spoiler: false,
+        has_inline_image: false,
+        play_sound: true,
+    })
 }
 
 pub async fn install_live_notification_handler(handle_id: u64, client: Client) {
     client
         .register_notification_handler(move |notification, room, _client| async move {
-            let Some(event_id) = notification_event_id(&notification) else {
-                tracing::debug!(
-                    handle_id,
-                    room_id = %room.room_id(),
-                    "Skipping live notification without an event id"
-                );
-                return;
-            };
+            match &notification.event {
+                RawAnySyncOrStrippedTimelineEvent::Sync(_) => {
+                    let Some(event_id) = notification_event_id(&notification) else {
+                        tracing::debug!(
+                            handle_id,
+                            room_id = %room.room_id(),
+                            "Skipping live notification without an event id"
+                        );
+                        return;
+                    };
 
-            crate::ffi::matrix_notify_notification_received(
-                handle_id,
-                room.room_id().as_str(),
-                &event_id,
-            );
+                    crate::ffi::matrix_notify_notification_received(
+                        handle_id,
+                        room.room_id().as_str(),
+                        &event_id,
+                    );
+                }
+                RawAnySyncOrStrippedTimelineEvent::Stripped(raw_event) => {
+                    let Ok(event) = raw_event.deserialize() else {
+                        tracing::debug!(
+                            handle_id,
+                            room_id = %room.room_id(),
+                            "Skipping stripped live notification with unexpected event shape"
+                        );
+                        return;
+                    };
+
+                    let AnyStrippedStateEvent::RoomMember(event) = event else {
+                        tracing::debug!(
+                            handle_id,
+                            room_id = %room.room_id(),
+                            "Skipping stripped live notification without room-member payload"
+                        );
+                        return;
+                    };
+
+                    let Some(item) = live_invite_notification_item(&room, &event).await else {
+                        tracing::debug!(
+                            handle_id,
+                            room_id = %room.room_id(),
+                            "Skipping stripped live notification without invite payload"
+                        );
+                        return;
+                    };
+
+                    crate::ffi::matrix_notify_notification_item_received(
+                        handle_id,
+                        crate::into_ffi_matrix_notification_item(item),
+                    );
+                }
+            }
         })
         .await;
 }

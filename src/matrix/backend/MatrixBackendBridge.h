@@ -10,6 +10,7 @@
 
 namespace komai::rust {
 struct MatrixRoomSummary;
+struct MatrixNotificationItem;
 struct MatrixCallInviteEvent;
 struct MatrixCallCandidatesEvent;
 struct MatrixCallAnswerEvent;
@@ -63,6 +64,10 @@ void
 matrix_notify_notification_received(std::uint64_t handle_id,
                                     ::rust::Str room_id,
                                     ::rust::Str event_id);
+
+void
+matrix_notify_notification_item_received(std::uint64_t handle_id,
+                                         ::komai::rust::MatrixNotificationItem item);
 
 void
 matrix_notify_call_invite_received(std::uint64_t handle_id,

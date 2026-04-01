@@ -310,7 +310,7 @@ ChatPage::dispatchMatrixNotification(const komai::MatrixNotificationItem &notifi
     if (!userSettings_->notificationsAccountEnabled() || !userSettings_->notificationsEnabled())
         return;
 
-    if (notification.roomId.trimmed().isEmpty() || notification.eventId.trimmed().isEmpty())
+    if (notification.roomId.trimmed().isEmpty())
         return;
 
     if (isRoomActive(notification.roomId))

@@ -183,7 +183,7 @@ NotificationsManager::systemPostNotification(const QString &room_id,
     // TODO(Nico): Look into what to actually put there.
     QStringList actions;
     actions << QStringList(QStringLiteral("default")) << QLatin1String("");
-    if (!room_id.isEmpty()) {
+    if (!room_id.isEmpty() && !event_id.isEmpty()) {
         actions << QStringLiteral("inline-reply") << QLatin1String("");
     }
     argumentList << actions; // actions

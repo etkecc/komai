@@ -22,9 +22,6 @@
 
 namespace {
 
-using settings::storage::createDir;
-using settings::storage::pathExists;
-
 const char *
 providerToken(staged_load_plan::SecretsProvider provider)
 {
@@ -111,7 +108,6 @@ loadImpl(UserSettings &settings,
     else
         settings.applyProfilePathState(QLatin1String(""));
 
-    createDir(settings.profileDirPath());
     settings.setPersistenceSuspended(true);
 
     auto profileHandle = ::komai::rust::settings_open_profile_handle_for_profile(

@@ -19,8 +19,6 @@
 
 namespace {
 
-using settings::storage::createDir;
-
 ::komai::rust::SettingsProfileHandle *
 ensureRustSettingsProfileHandle(UserSettings &settings, bool includeSession)
 {
@@ -40,7 +38,6 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
 {
     if (!settings.hasResolvedProfilePaths()) {
         settings.applyProfilePathState(settings.profileId());
-        createDir(settings.profileDirPath());
     }
 
     syncCoreStoreFromSettings(settings);

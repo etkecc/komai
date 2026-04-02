@@ -126,6 +126,15 @@ expect(bool condition, std::string_view message)
 }
 
 bool
+runNamedTest(const char *name, bool (*testFn)())
+{
+    const bool ok = testFn();
+    if (!ok)
+        std::cerr << "FAILED TEST: " << name << '\n';
+    return ok;
+}
+
+bool
 expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
                    const char *key,
                    const QString &expected,
@@ -1738,31 +1747,48 @@ main()
     ThemeRegistry::initialize();
 
     bool ok = true;
-    ok &= testStartupConfigSnapshotLoads();
-    ok &= testStartupConfigSnapshotMissingProfile();
-    ok &= testCoreScaleRangeHelpers();
-    ok &= testStartupPolicySkipsSessionWritesUntilCompleteSession();
-    ok &= testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets();
-    ok &= testStartupSecretsProviderAutoSelectAndWelcomeUpgrade();
-    ok &= testStartupSecretsProviderDoesNotSwitchAfterActiveSession();
-    ok &= testStartupSecretsProviderDoesNotSwitchWhenSessionIdentityExists();
-    ok &= testEnumSettingsPersistAsStrings();
-    ok &= testInvalidConfigTokensFallbackToSafeValues();
-    ok &= testInvalidStateDimensionsFallbackToSafeValues();
-    ok &= testComposerDraftsPersistInState();
-    ok &= testSessionIdentityValuesAreTrimmedOnLoad();
-    ok &= testMalformedSessionIdentityValuesFallbackToEmpty();
-    ok &= testSessionAuthStateHelpersForIncompleteLogin();
-    ok &= testConfigSchemaVersionIsStampedOnSave();
-    ok &= testNewProfileConfigIsStampedOnInitialLoad();
-    ok &= testStateAndSessionMigrationWritebackOnLoad();
-    ok &= testMalformedFileSecretsPayloadFallsBackSafely();
-    ok &= testSerializerLoggerInjection();
-    ok &= testSettingDescriptorReadSettingValueHelper();
-    ok &= testControllerSyncsCoreStore();
-    ok &= testControllerResolvesProfilePathsPerProfile();
-    ok &= testConstrainedIntSettersRejectInvalidUpdates();
-    ok &= testConfigSchemaCoverageAndKeyUniqueness();
+    ok &= runNamedTest("testStartupConfigSnapshotLoads", testStartupConfigSnapshotLoads);
+    ok &= runNamedTest("testStartupConfigSnapshotMissingProfile", testStartupConfigSnapshotMissingProfile);
+    ok &= runNamedTest("testCoreScaleRangeHelpers", testCoreScaleRangeHelpers);
+    ok &= runNamedTest("testStartupPolicySkipsSessionWritesUntilCompleteSession",
+                       testStartupPolicySkipsSessionWritesUntilCompleteSession);
+    ok &= runNamedTest("testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets",
+                       testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets);
+    ok &= runNamedTest("testStartupSecretsProviderAutoSelectAndWelcomeUpgrade",
+                       testStartupSecretsProviderAutoSelectAndWelcomeUpgrade);
+    ok &= runNamedTest("testStartupSecretsProviderDoesNotSwitchAfterActiveSession",
+                       testStartupSecretsProviderDoesNotSwitchAfterActiveSession);
+    ok &= runNamedTest("testStartupSecretsProviderDoesNotSwitchWhenSessionIdentityExists",
+                       testStartupSecretsProviderDoesNotSwitchWhenSessionIdentityExists);
+    ok &= runNamedTest("testEnumSettingsPersistAsStrings", testEnumSettingsPersistAsStrings);
+    ok &= runNamedTest("testInvalidConfigTokensFallbackToSafeValues",
+                       testInvalidConfigTokensFallbackToSafeValues);
+    ok &= runNamedTest("testInvalidStateDimensionsFallbackToSafeValues",
+                       testInvalidStateDimensionsFallbackToSafeValues);
+    ok &= runNamedTest("testComposerDraftsPersistInState", testComposerDraftsPersistInState);
+    ok &= runNamedTest("testSessionIdentityValuesAreTrimmedOnLoad",
+                       testSessionIdentityValuesAreTrimmedOnLoad);
+    ok &= runNamedTest("testMalformedSessionIdentityValuesFallbackToEmpty",
+                       testMalformedSessionIdentityValuesFallbackToEmpty);
+    ok &= runNamedTest("testSessionAuthStateHelpersForIncompleteLogin",
+                       testSessionAuthStateHelpersForIncompleteLogin);
+    ok &= runNamedTest("testConfigSchemaVersionIsStampedOnSave", testConfigSchemaVersionIsStampedOnSave);
+    ok &= runNamedTest("testNewProfileConfigIsStampedOnInitialLoad",
+                       testNewProfileConfigIsStampedOnInitialLoad);
+    ok &= runNamedTest("testStateAndSessionMigrationWritebackOnLoad",
+                       testStateAndSessionMigrationWritebackOnLoad);
+    ok &= runNamedTest("testMalformedFileSecretsPayloadFallsBackSafely",
+                       testMalformedFileSecretsPayloadFallsBackSafely);
+    ok &= runNamedTest("testSerializerLoggerInjection", testSerializerLoggerInjection);
+    ok &= runNamedTest("testSettingDescriptorReadSettingValueHelper",
+                       testSettingDescriptorReadSettingValueHelper);
+    ok &= runNamedTest("testControllerSyncsCoreStore", testControllerSyncsCoreStore);
+    ok &= runNamedTest("testControllerResolvesProfilePathsPerProfile",
+                       testControllerResolvesProfilePathsPerProfile);
+    ok &= runNamedTest("testConstrainedIntSettersRejectInvalidUpdates",
+                       testConstrainedIntSettersRejectInvalidUpdates);
+    ok &= runNamedTest("testConfigSchemaCoverageAndKeyUniqueness",
+                       testConfigSchemaCoverageAndKeyUniqueness);
 
     return ok ? 0 : 1;
 }

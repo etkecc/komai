@@ -51,8 +51,10 @@ impl SettingsProfileHandle {
         snapshot: &ffi::SettingsConfigSnapshot,
     ) {
         let this = self.as_mut().get_mut();
-        this.loaded.config = settings::ffi::loaded_config_from_snapshot(snapshot);
-        this.config_dirty = true;
+        let updated = settings::ffi::loaded_config_from_snapshot(snapshot);
+        let changed = this.loaded.config.serialized_yaml != updated.serialized_yaml;
+        this.loaded.config = updated;
+        this.config_dirty = this.config_dirty || changed;
     }
 
     pub fn replace_session_identity(
@@ -62,14 +64,18 @@ impl SettingsProfileHandle {
         device_id: &str,
     ) {
         let this = self.as_mut().get_mut();
-        this.loaded.session = settings::ffi::loaded_session_from_identity(user_id, homeserver, device_id);
-        this.session_dirty = true;
+        let updated = settings::ffi::loaded_session_from_identity(user_id, homeserver, device_id);
+        let changed = this.loaded.session.serialized_yaml != updated.serialized_yaml;
+        this.loaded.session = updated;
+        this.session_dirty = this.session_dirty || changed;
     }
 
     pub fn replace_state_snapshot(mut self: Pin<&mut Self>, snapshot: &ffi::SettingsStateSnapshot) {
         let this = self.as_mut().get_mut();
-        this.loaded.state = settings::ffi::loaded_state_from_snapshot(snapshot);
-        this.state_dirty = true;
+        let updated = settings::ffi::loaded_state_from_snapshot(snapshot);
+        let changed = this.loaded.state.serialized_yaml != updated.serialized_yaml;
+        this.loaded.state = updated;
+        this.state_dirty = this.state_dirty || changed;
     }
 
     pub fn write_config(&mut self) -> bool {
@@ -77,6 +83,8 @@ impl SettingsProfileHandle {
         let saved = settings::ffi::write_loaded_config_to_path(&config_path, &self.loaded.config);
         if saved {
             self.config_dirty = false;
+            self.loaded.config.source_exists = true;
+            self.loaded.config.should_write_back = false;
         }
         saved
     }
@@ -86,6 +94,8 @@ impl SettingsProfileHandle {
         let saved = settings::ffi::write_loaded_session_to_path(&session_path, &self.loaded.session);
         if saved {
             self.session_dirty = false;
+            self.loaded.session.source_exists = true;
+            self.loaded.session.should_write_back = false;
         }
         saved
     }
@@ -95,6 +105,8 @@ impl SettingsProfileHandle {
         let saved = settings::ffi::write_loaded_state_to_path(&state_path, &self.loaded.state);
         if saved {
             self.state_dirty = false;
+            self.loaded.state.source_exists = true;
+            self.loaded.state.should_write_back = false;
         }
         saved
     }
@@ -106,10 +118,20 @@ impl SettingsProfileHandle {
         write_state: bool,
     ) -> ffi::SettingsProfileFlushResult {
         let this = self.as_mut().get_mut();
+        let config_path = settings::storage::config_file_path_for_profile(&this.profile_id);
+        let session_path = settings::storage::session_file_path_for_profile(&this.profile_id);
+        let state_path = settings::storage::state_file_path_for_profile(&this.profile_id);
 
-        let config_attempted = write_config && this.config_dirty;
-        let session_attempted = write_session && this.session_dirty;
-        let state_attempted = write_state && this.state_dirty;
+        let config_attempted = write_config
+            && (this.config_dirty
+                || (this.loaded.config.source_exists && !settings::storage::path_exists(&config_path)));
+        let session_attempted = write_session
+            && (this.session_dirty
+                || (this.loaded.session.source_exists
+                    && !settings::storage::path_exists(&session_path)));
+        let state_attempted = write_state
+            && (this.state_dirty
+                || (this.loaded.state.source_exists && !settings::storage::path_exists(&state_path)));
 
         let config_saved = if config_attempted {
             this.write_config()

@@ -101,6 +101,18 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
             continue;
         if (adapter.id == settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy)
             continue;
+        if (adapter.id == settings::core::SettingId::TimelineMessagesStyle)
+            continue;
+        if (adapter.id == settings::core::SettingId::TimelineMessagesPositioning)
+            continue;
+        if (adapter.id == settings::core::SettingId::TimelineUserColorCodingPolicy)
+            continue;
+        if (adapter.id == settings::core::SettingId::TimelineMessagesSenderUsername)
+            continue;
+        if (adapter.id == settings::core::SettingId::TimelineMessageActionsActivationPolicy)
+            continue;
+        if (adapter.id == settings::core::SettingId::TimelineMediaImageDisplay)
+            continue;
 
         const auto rawToken =
           rust_cfg::readStringValue(values, adapter.key, QString::fromLatin1(adapter.defaultToken));
@@ -279,6 +291,169 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         }
         settings.setHiddenTimelineEventTypesByRoom(byRoom);
     }
+
+    const auto loadedTimelineMessagesStyle =
+      QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.style)).trimmed();
+    const auto timelineMessagesStyleToken = loadedTimelineMessagesStyle.isEmpty()
+                                              ? QStringLiteral("bubbles")
+                                              : loadedTimelineMessagesStyle;
+    settings.setTimelineMessagesStyle(cfg::timelineMessagesStyleFromStorage(
+      timelineMessagesStyleToken, UserSettings::TimelineMessagesStyle::Bubbles));
+    if (timelineMessagesStyleToken != cfg::toStorageValue(settings.timelineMessagesStyle())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          timelineMessagesStyleToken.toStdString(),
+          SettingKey::TimelineMessagesStyle,
+          cfg::toStorageValue(settings.timelineMessagesStyle()).toStdString());
+    }
+
+    const auto loadedTimelineMessagesPositioning =
+      QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.positioning))
+        .trimmed();
+    const auto timelineMessagesPositioningToken = loadedTimelineMessagesPositioning.isEmpty()
+                                                    ? QStringLiteral("opposing_by_sender")
+                                                    : loadedTimelineMessagesPositioning;
+    settings.setTimelineMessagesPositioning(cfg::timelineMessagesPositioningFromStorage(
+      timelineMessagesPositioningToken,
+      UserSettings::TimelineMessagesPositioning::OpposingBySender));
+    if (timelineMessagesPositioningToken !=
+        cfg::toStorageValue(settings.timelineMessagesPositioning())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          timelineMessagesPositioningToken.toStdString(),
+          SettingKey::TimelineMessagesPositioning,
+          cfg::toStorageValue(settings.timelineMessagesPositioning()).toStdString());
+    }
+
+    const auto loadedTimelineUserColorCodingPolicy =
+      QString::fromStdString(
+        static_cast<std::string>(snapshot.timeline.messages.user_color_coding_policy))
+        .trimmed();
+    const auto timelineUserColorCodingPolicyToken = loadedTimelineUserColorCodingPolicy.isEmpty()
+                                                      ? QStringLiteral("adaptive_by_room_size")
+                                                      : loadedTimelineUserColorCodingPolicy;
+    settings.setTimelineUserColorCodingPolicy(cfg::timelineUserColorCodingPolicyFromStorage(
+      timelineUserColorCodingPolicyToken,
+      UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize));
+    if (timelineUserColorCodingPolicyToken !=
+        cfg::toStorageValue(settings.timelineUserColorCodingPolicy())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          timelineUserColorCodingPolicyToken.toStdString(),
+          SettingKey::TimelineUserColorCodingPolicy,
+          cfg::toStorageValue(settings.timelineUserColorCodingPolicy()).toStdString());
+    }
+
+    settings.setTimelineMessagesLayoutSmallAvatars(
+      snapshot.timeline.messages.has_layout_small_avatars
+        ? snapshot.timeline.messages.layout_small_avatars
+        : false);
+    settings.setTimelineMessagesLayoutShowOwnAvatar(
+      snapshot.timeline.messages.has_layout_show_own_avatar
+        ? snapshot.timeline.messages.layout_show_own_avatar
+        : true);
+
+    const auto loadedTimelineMessagesSenderUsername =
+      QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.sender_username))
+        .trimmed();
+    const auto timelineMessagesSenderUsernameToken = loadedTimelineMessagesSenderUsername.isEmpty()
+                                                       ? QStringLiteral("only_in_large_rooms")
+                                                       : loadedTimelineMessagesSenderUsername;
+    settings.setTimelineMessagesSenderUsername(cfg::showSenderUsernameFromStorage(
+      timelineMessagesSenderUsernameToken, UserSettings::ShowSenderUsername::OnlyInLargeRooms));
+    if (timelineMessagesSenderUsernameToken !=
+        cfg::toStorageValue(settings.timelineMessagesSenderUsername())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          timelineMessagesSenderUsernameToken.toStdString(),
+          SettingKey::TimelineMessagesSenderUsername,
+          cfg::toStorageValue(settings.timelineMessagesSenderUsername()).toStdString());
+    }
+
+    settings.setTimelineMessagesEmojiOnlyEnlarge(snapshot.timeline.messages.has_emoji_only_enlarge
+                                                   ? snapshot.timeline.messages.emoji_only_enlarge
+                                                   : true);
+    settings.setTimelineMessagesHoverHighlight(snapshot.timeline.messages.has_hover_highlight
+                                                 ? snapshot.timeline.messages.hover_highlight
+                                                 : false);
+    settings.setTimelineFormattedCodeSyntaxHighlighting(
+      snapshot.timeline.formatted.has_code_syntax_highlighting
+        ? snapshot.timeline.formatted.code_syntax_highlighting
+        : true);
+    settings.setTimelineTypingShowEnabled(
+      snapshot.timeline.typing.has_show_enabled ? snapshot.timeline.typing.show_enabled : true);
+    settings.setTimelineReadReceiptsEnabled(
+      snapshot.timeline.read_receipts.has_enabled ? snapshot.timeline.read_receipts.enabled : true);
+
+    const auto loadedTimelineMessageActionsActivationPolicy =
+      QString::fromStdString(
+        static_cast<std::string>(snapshot.timeline.message_actions.activation_policy))
+        .trimmed();
+    const auto timelineMessageActionsActivationPolicyToken =
+      loadedTimelineMessageActionsActivationPolicy.isEmpty()
+        ? QStringLiteral("on_button_click")
+        : loadedTimelineMessageActionsActivationPolicy;
+    settings.setTimelineMessageActionsActivationPolicy(
+      cfg::timelineMessageActionsActivationPolicyFromStorage(
+        timelineMessageActionsActivationPolicyToken,
+        UserSettings::TimelineMessageActionsActivationPolicy::ActionsButton));
+    if (timelineMessageActionsActivationPolicyToken !=
+        cfg::toStorageValue(settings.timelineMessageActionsActivationPolicy())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          timelineMessageActionsActivationPolicyToken.toStdString(),
+          SettingKey::TimelineMessageActionsActivationPolicy,
+          cfg::toStorageValue(settings.timelineMessageActionsActivationPolicy()).toStdString());
+    }
+
+    const auto loadedTimelineMessageActionsPinnedReactions =
+      QString::fromStdString(
+        static_cast<std::string>(snapshot.timeline.message_actions.pinned_reactions))
+        .trimmed();
+    settings.setTimelineMessageActionsPinnedReactions(
+      loadedTimelineMessageActionsPinnedReactions.isEmpty()
+        ? QString::fromUtf8(settings::core::definitions::kDefaultPinnedReactions)
+        : loadedTimelineMessageActionsPinnedReactions);
+
+    settings.setTimelineMediaEffectsEnabled(
+      snapshot.timeline.media.has_effects_enabled ? snapshot.timeline.media.effects_enabled : true);
+    settings.setTimelineMediaAnimateOnHover(snapshot.timeline.media.has_animate_on_hover
+                                              ? snapshot.timeline.media.animate_on_hover
+                                              : false);
+
+    const auto loadedTimelineMediaImageDisplay =
+      QString::fromStdString(static_cast<std::string>(snapshot.timeline.media.image_display))
+        .trimmed();
+    const auto timelineMediaImageDisplayToken = loadedTimelineMediaImageDisplay.isEmpty()
+                                                  ? QStringLiteral("always")
+                                                  : loadedTimelineMediaImageDisplay;
+    settings.setTimelineMediaImageDisplay(
+      cfg::showImageFromStorage(timelineMediaImageDisplayToken, UserSettings::ShowImage::Always));
+    if (timelineMediaImageDisplayToken !=
+        cfg::toStorageValue(settings.timelineMediaImageDisplay())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          timelineMediaImageDisplayToken.toStdString(),
+          SettingKey::TimelineMediaImageDisplay,
+          cfg::toStorageValue(settings.timelineMediaImageDisplay()).toStdString());
+    }
+
+    settings.setTimelineMediaOpenImagesExternal(snapshot.timeline.media.has_open_images_external
+                                                  ? snapshot.timeline.media.open_images_external
+                                                  : false);
+    settings.setTimelineMediaOpenVideosExternal(snapshot.timeline.media.has_open_videos_external
+                                                  ? snapshot.timeline.media.open_videos_external
+                                                  : false);
+    settings.setTimelineMediaAutoplayGifVideos(snapshot.timeline.media.has_autoplay_gif_videos
+                                                 ? snapshot.timeline.media.autoplay_gif_videos
+                                                 : true);
+    settings.setTimelineMediaOpenAudioExternal(snapshot.timeline.media.has_open_audio_external
+                                                 ? snapshot.timeline.media.open_audio_external
+                                                 : false);
+    settings.setTimelineMediaDefaultAudioPlaybackSpeed(
+      snapshot.timeline.media.has_default_audio_playback_speed
+        ? snapshot.timeline.media.default_audio_playback_speed
+        : settings::core::definitions::kDefaultTimelineMediaAudioPlaybackSpeed);
 
     settings.setPrivacyWindowFocusBlurEnabled(snapshot.privacy.window_focus_blur.has_enabled
                                                 ? snapshot.privacy.window_focus_blur.enabled

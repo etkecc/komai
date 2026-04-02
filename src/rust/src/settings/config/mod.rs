@@ -15,11 +15,13 @@ pub use model::{
     Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
     ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigEncryption,
     ConfigEncryptionBackup, ConfigEncryptionBackupOnline, ConfigEncryptionKeySharing,
-    ConfigSecrets, ConfigTimeline, ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars,
     ConfigIntegrations, ConfigNetwork, ConfigNotifications, ConfigPrivacy,
-    ConfigPrivacyMaintenance, ConfigPrivacyWindowFocusBlur, ConfigSidebars,
-    ConfigSidebarsCommunities, ConfigSidebarsRoomList, ConfigUiFont, ConfigUiInput,
-    ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
+    ConfigPrivacyMaintenance, ConfigPrivacyWindowFocusBlur, ConfigSecrets, ConfigSidebars,
+    ConfigSidebarsCommunities, ConfigSidebarsRoomList, ConfigTimeline,
+    ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
+    ConfigTimelineMessageActions, ConfigTimelineMessages, ConfigTimelineMessagesLayout,
+    ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi, ConfigUiAvatars, ConfigUiFont,
+    ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
 };
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
@@ -61,6 +63,46 @@ const SIDEBARS_COMMUNITIES_FILTER_SERVER_NOTICES_PATH: [&str; 4] =
     ["sidebars", "communities", "filters", "server_notices"];
 const SIDEBARS_COMMUNITIES_FILTER_LOW_PRIORITY_PATH: [&str; 4] =
     ["sidebars", "communities", "filters", "low_priority"];
+const TIMELINE_MESSAGES_STYLE_PATH: [&str; 3] = ["timeline", "messages", "style"];
+const TIMELINE_MESSAGES_POSITIONING_PATH: [&str; 3] = ["timeline", "messages", "positioning"];
+const TIMELINE_USER_COLOR_CODING_POLICY_PATH: [&str; 2] =
+    ["timeline", "user_color_coding_policy"];
+const TIMELINE_MESSAGES_LAYOUT_SMALL_AVATARS_PATH: [&str; 4] =
+    ["timeline", "messages", "layout", "small_avatars"];
+const TIMELINE_MESSAGES_LAYOUT_SHOW_OWN_AVATAR_PATH: [&str; 4] =
+    ["timeline", "messages", "layout", "show_own_avatar"];
+const TIMELINE_MESSAGES_SENDER_USERNAME_PATH: [&str; 3] =
+    ["timeline", "messages", "sender_username"];
+const TIMELINE_MESSAGES_EMOJI_ONLY_ENLARGE_PATH: [&str; 3] =
+    ["timeline", "messages", "emoji_only_enlarge"];
+const TIMELINE_MESSAGES_HOVER_HIGHLIGHT_PATH: [&str; 3] =
+    ["timeline", "messages", "hover_highlight"];
+const TIMELINE_FORMATTED_CODE_SYNTAX_HIGHLIGHTING_PATH: [&str; 3] =
+    ["timeline", "formatted", "code_syntax_highlighting"];
+const TIMELINE_TYPING_SHOW_ENABLED_PATH: [&str; 4] =
+    ["timeline", "typing", "show", "enabled"];
+const TIMELINE_READ_RECEIPTS_ENABLED_PATH: [&str; 3] =
+    ["timeline", "read_receipts", "enabled"];
+const TIMELINE_MESSAGE_ACTIONS_ACTIVATION_POLICY_PATH: [&str; 4] =
+    ["timeline", "messages", "actions", "activation_policy"];
+const TIMELINE_MESSAGE_ACTIONS_PINNED_REACTIONS_PATH: [&str; 4] =
+    ["timeline", "messages", "actions", "pinned_reactions"];
+const TIMELINE_MEDIA_EFFECTS_ENABLED_PATH: [&str; 4] =
+    ["timeline", "media", "effects", "enabled"];
+const TIMELINE_MEDIA_ANIMATE_ON_HOVER_PATH: [&str; 3] =
+    ["timeline", "media", "animate_on_hover"];
+const TIMELINE_MEDIA_IMAGE_DISPLAY_PATH: [&str; 3] =
+    ["timeline", "media", "image_display"];
+const TIMELINE_MEDIA_OPEN_IMAGES_EXTERNAL_PATH: [&str; 3] =
+    ["timeline", "media", "open_images_external"];
+const TIMELINE_MEDIA_OPEN_VIDEOS_EXTERNAL_PATH: [&str; 3] =
+    ["timeline", "media", "open_videos_external"];
+const TIMELINE_MEDIA_AUTOPLAY_GIF_VIDEOS_PATH: [&str; 3] =
+    ["timeline", "media", "autoplay_gif_videos"];
+const TIMELINE_MEDIA_OPEN_AUDIO_EXTERNAL_PATH: [&str; 3] =
+    ["timeline", "media", "open_audio_external"];
+const TIMELINE_MEDIA_DEFAULT_AUDIO_PLAYBACK_SPEED_PATH: [&str; 3] =
+    ["timeline", "media", "default_audio_playback_speed"];
 const HIDDEN_EVENTS_GLOBAL_PATH: [&str; 3] = ["timeline", "hidden_events", "global"];
 const HIDDEN_EVENTS_BY_ROOM_PATH: [&str; 3] = ["timeline", "hidden_events", "by_room"];
 const SECRETS_PROVIDER_PATH: [&str; 2] = ["secrets", "provider"];
@@ -228,6 +270,103 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             },
         },
         timeline: ConfigTimeline {
+            messages: ConfigTimelineMessages {
+                style: parse_string(yaml::value_at_path(root, &TIMELINE_MESSAGES_STYLE_PATH)),
+                positioning: parse_string(yaml::value_at_path(
+                    root,
+                    &TIMELINE_MESSAGES_POSITIONING_PATH,
+                )),
+                layout: ConfigTimelineMessagesLayout {
+                    small_avatars: yaml::value_at_path(
+                        root,
+                        &TIMELINE_MESSAGES_LAYOUT_SMALL_AVATARS_PATH,
+                    )
+                    .and_then(parse_scalar_bool),
+                    show_own_avatar: yaml::value_at_path(
+                        root,
+                        &TIMELINE_MESSAGES_LAYOUT_SHOW_OWN_AVATAR_PATH,
+                    )
+                    .and_then(parse_scalar_bool),
+                },
+                sender_username: parse_string(yaml::value_at_path(
+                    root,
+                    &TIMELINE_MESSAGES_SENDER_USERNAME_PATH,
+                )),
+                emoji_only_enlarge: yaml::value_at_path(
+                    root,
+                    &TIMELINE_MESSAGES_EMOJI_ONLY_ENLARGE_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                hover_highlight: yaml::value_at_path(
+                    root,
+                    &TIMELINE_MESSAGES_HOVER_HIGHLIGHT_PATH,
+                )
+                .and_then(parse_scalar_bool),
+            },
+            user_color_coding_policy: parse_string(yaml::value_at_path(
+                root,
+                &TIMELINE_USER_COLOR_CODING_POLICY_PATH,
+            )),
+            formatted: ConfigTimelineFormatted {
+                code_syntax_highlighting: yaml::value_at_path(
+                    root,
+                    &TIMELINE_FORMATTED_CODE_SYNTAX_HIGHLIGHTING_PATH,
+                )
+                .and_then(parse_scalar_bool),
+            },
+            typing: ConfigTimelineTyping {
+                show_enabled: yaml::value_at_path(root, &TIMELINE_TYPING_SHOW_ENABLED_PATH)
+                    .and_then(parse_scalar_bool),
+            },
+            read_receipts: ConfigTimelineReadReceipts {
+                enabled: yaml::value_at_path(root, &TIMELINE_READ_RECEIPTS_ENABLED_PATH)
+                    .and_then(parse_scalar_bool),
+            },
+            message_actions: ConfigTimelineMessageActions {
+                activation_policy: parse_string(yaml::value_at_path(
+                    root,
+                    &TIMELINE_MESSAGE_ACTIONS_ACTIVATION_POLICY_PATH,
+                )),
+                pinned_reactions: parse_string(yaml::value_at_path(
+                    root,
+                    &TIMELINE_MESSAGE_ACTIONS_PINNED_REACTIONS_PATH,
+                )),
+            },
+            media: ConfigTimelineMedia {
+                effects_enabled: yaml::value_at_path(root, &TIMELINE_MEDIA_EFFECTS_ENABLED_PATH)
+                    .and_then(parse_scalar_bool),
+                animate_on_hover: yaml::value_at_path(root, &TIMELINE_MEDIA_ANIMATE_ON_HOVER_PATH)
+                    .and_then(parse_scalar_bool),
+                image_display: parse_string(yaml::value_at_path(
+                    root,
+                    &TIMELINE_MEDIA_IMAGE_DISPLAY_PATH,
+                )),
+                open_images_external: yaml::value_at_path(
+                    root,
+                    &TIMELINE_MEDIA_OPEN_IMAGES_EXTERNAL_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                open_videos_external: yaml::value_at_path(
+                    root,
+                    &TIMELINE_MEDIA_OPEN_VIDEOS_EXTERNAL_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                autoplay_gif_videos: yaml::value_at_path(
+                    root,
+                    &TIMELINE_MEDIA_AUTOPLAY_GIF_VIDEOS_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                open_audio_external: yaml::value_at_path(
+                    root,
+                    &TIMELINE_MEDIA_OPEN_AUDIO_EXTERNAL_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                default_audio_playback_speed: yaml::value_at_path(
+                    root,
+                    &TIMELINE_MEDIA_DEFAULT_AUDIO_PLAYBACK_SPEED_PATH,
+                )
+                .and_then(parse_scalar_f64),
+            },
             hidden_events: ConfigTimelineHiddenEvents {
                 global: parse_string_list(yaml::value_at_path(root, &HIDDEN_EVENTS_GLOBAL_PATH)),
                 by_room: parse_string_list_map(yaml::value_at_path(root, &HIDDEN_EVENTS_BY_ROOM_PATH)),

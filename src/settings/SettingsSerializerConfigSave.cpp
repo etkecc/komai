@@ -127,6 +127,21 @@ appendCoreStoreConfigValues(const UserSettings &settings,
             definition.id == settings::core::SettingId::SidebarsCommunitiesFilterGroups ||
             definition.id == settings::core::SettingId::SidebarsCommunitiesFilterServerNotices ||
             definition.id == settings::core::SettingId::SidebarsCommunitiesFilterLowPriority ||
+            definition.id == settings::core::SettingId::TimelineMessagesLayoutSmallAvatars ||
+            definition.id == settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar ||
+            definition.id == settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge ||
+            definition.id == settings::core::SettingId::TimelineMessagesHoverHighlight ||
+            definition.id == settings::core::SettingId::TimelineFormattedCodeSyntaxHighlighting ||
+            definition.id == settings::core::SettingId::TimelineTypingShowEnabled ||
+            definition.id == settings::core::SettingId::TimelineReadReceiptsEnabled ||
+            definition.id == settings::core::SettingId::TimelineMessageActionsPinnedReactions ||
+            definition.id == settings::core::SettingId::TimelineMediaEffectsEnabled ||
+            definition.id == settings::core::SettingId::TimelineMediaAnimateOnHover ||
+            definition.id == settings::core::SettingId::TimelineMediaOpenImagesExternal ||
+            definition.id == settings::core::SettingId::TimelineMediaOpenVideosExternal ||
+            definition.id == settings::core::SettingId::TimelineMediaAutoplayGifVideos ||
+            definition.id == settings::core::SettingId::TimelineMediaOpenAudioExternal ||
+            definition.id == settings::core::SettingId::TimelineMediaDefaultAudioPlaybackSpeed ||
             definition.id == settings::core::SettingId::PrivacyWindowFocusBlurEnabled ||
             definition.id == settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds ||
             definition.id == settings::core::SettingId::PrivacyMaintenanceExpireEvents ||
@@ -254,6 +269,65 @@ saveConfig(const UserSettings &settings,
         },
       .timeline =
         {
+          .messages =
+            {
+              .style = cfg::toStorageValue(settings.timelineMessagesStyle()).toStdString(),
+              .positioning =
+                cfg::toStorageValue(settings.timelineMessagesPositioning()).toStdString(),
+              .user_color_coding_policy =
+                cfg::toStorageValue(settings.timelineUserColorCodingPolicy()).toStdString(),
+              .has_layout_small_avatars   = true,
+              .layout_small_avatars       = settings.timelineMessagesLayoutSmallAvatars(),
+              .has_layout_show_own_avatar = true,
+              .layout_show_own_avatar     = settings.timelineMessagesLayoutShowOwnAvatar(),
+              .sender_username =
+                cfg::toStorageValue(settings.timelineMessagesSenderUsername()).toStdString(),
+              .has_emoji_only_enlarge = true,
+              .emoji_only_enlarge     = settings.timelineMessagesEmojiOnlyEnlarge(),
+              .has_hover_highlight    = true,
+              .hover_highlight        = settings.timelineMessagesHoverHighlight(),
+            },
+          .formatted =
+            {
+              .has_code_syntax_highlighting = true,
+              .code_syntax_highlighting     = settings.timelineFormattedCodeSyntaxHighlighting(),
+            },
+          .typing =
+            {
+              .has_show_enabled = true,
+              .show_enabled     = settings.timelineTypingShowEnabled(),
+            },
+          .read_receipts =
+            {
+              .has_enabled = true,
+              .enabled     = settings.timelineReadReceiptsEnabled(),
+            },
+          .message_actions =
+            {
+              .activation_policy =
+                cfg::toStorageValue(settings.timelineMessageActionsActivationPolicy())
+                  .toStdString(),
+              .pinned_reactions = settings.timelineMessageActionsPinnedReactions().toStdString(),
+            },
+          .media =
+            {
+              .has_effects_enabled  = true,
+              .effects_enabled      = settings.timelineMediaEffectsEnabled(),
+              .has_animate_on_hover = true,
+              .animate_on_hover     = settings.timelineMediaAnimateOnHover(),
+              .image_display =
+                cfg::toStorageValue(settings.timelineMediaImageDisplay()).toStdString(),
+              .has_open_images_external         = true,
+              .open_images_external             = settings.timelineMediaOpenImagesExternal(),
+              .has_open_videos_external         = true,
+              .open_videos_external             = settings.timelineMediaOpenVideosExternal(),
+              .has_autoplay_gif_videos          = true,
+              .autoplay_gif_videos              = settings.timelineMediaAutoplayGifVideos(),
+              .has_open_audio_external          = true,
+              .open_audio_external              = settings.timelineMediaOpenAudioExternal(),
+              .has_default_audio_playback_speed = true,
+              .default_audio_playback_speed     = settings.timelineMediaDefaultAudioPlaybackSpeed(),
+            },
           .hidden_events =
             {
               .has_global = true,
@@ -403,6 +477,12 @@ saveConfig(const UserSettings &settings,
             adapter.id == settings::core::SettingId::SidebarsRoomListLastMessagePreview ||
             adapter.id == settings::core::SettingId::SidebarsRoomListSort ||
             adapter.id == settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy ||
+            adapter.id == settings::core::SettingId::TimelineMessagesStyle ||
+            adapter.id == settings::core::SettingId::TimelineMessagesPositioning ||
+            adapter.id == settings::core::SettingId::TimelineUserColorCodingPolicy ||
+            adapter.id == settings::core::SettingId::TimelineMessagesSenderUsername ||
+            adapter.id == settings::core::SettingId::TimelineMessageActionsActivationPolicy ||
+            adapter.id == settings::core::SettingId::TimelineMediaImageDisplay ||
             adapter.id == settings::core::SettingId::ComposerInputSendKey ||
             adapter.id == settings::core::SettingId::ComposerInputAutoReplaceEmoji ||
             adapter.id == settings::core::SettingId::ComposerInputEmojiPreferredGender ||

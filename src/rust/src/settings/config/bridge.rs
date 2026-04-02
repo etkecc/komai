@@ -188,6 +188,140 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         );
     }
 
+    yaml::set_value(
+        &mut root,
+        &["timeline", "messages", "style"],
+        Value::String(snapshot.timeline.messages.style.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "messages", "positioning"],
+        Value::String(snapshot.timeline.messages.positioning.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "user_color_coding_policy"],
+        Value::String(snapshot.timeline.messages.user_color_coding_policy.clone()),
+    );
+    if snapshot.timeline.messages.has_layout_small_avatars {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "messages", "layout", "small_avatars"],
+            Value::Bool(snapshot.timeline.messages.layout_small_avatars),
+        );
+    }
+    if snapshot.timeline.messages.has_layout_show_own_avatar {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "messages", "layout", "show_own_avatar"],
+            Value::Bool(snapshot.timeline.messages.layout_show_own_avatar),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["timeline", "messages", "sender_username"],
+        Value::String(snapshot.timeline.messages.sender_username.clone()),
+    );
+    if snapshot.timeline.messages.has_emoji_only_enlarge {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "messages", "emoji_only_enlarge"],
+            Value::Bool(snapshot.timeline.messages.emoji_only_enlarge),
+        );
+    }
+    if snapshot.timeline.messages.has_hover_highlight {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "messages", "hover_highlight"],
+            Value::Bool(snapshot.timeline.messages.hover_highlight),
+        );
+    }
+    if snapshot.timeline.formatted.has_code_syntax_highlighting {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "formatted", "code_syntax_highlighting"],
+            Value::Bool(snapshot.timeline.formatted.code_syntax_highlighting),
+        );
+    }
+    if snapshot.timeline.typing.has_show_enabled {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "typing", "show", "enabled"],
+            Value::Bool(snapshot.timeline.typing.show_enabled),
+        );
+    }
+    if snapshot.timeline.read_receipts.has_enabled {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "read_receipts", "enabled"],
+            Value::Bool(snapshot.timeline.read_receipts.enabled),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["timeline", "messages", "actions", "activation_policy"],
+        Value::String(snapshot.timeline.message_actions.activation_policy.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "messages", "actions", "pinned_reactions"],
+        Value::String(snapshot.timeline.message_actions.pinned_reactions.clone()),
+    );
+    if snapshot.timeline.media.has_effects_enabled {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "media", "effects", "enabled"],
+            Value::Bool(snapshot.timeline.media.effects_enabled),
+        );
+    }
+    if snapshot.timeline.media.has_animate_on_hover {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "media", "animate_on_hover"],
+            Value::Bool(snapshot.timeline.media.animate_on_hover),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["timeline", "media", "image_display"],
+        Value::String(snapshot.timeline.media.image_display.clone()),
+    );
+    if snapshot.timeline.media.has_open_images_external {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "media", "open_images_external"],
+            Value::Bool(snapshot.timeline.media.open_images_external),
+        );
+    }
+    if snapshot.timeline.media.has_open_videos_external {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "media", "open_videos_external"],
+            Value::Bool(snapshot.timeline.media.open_videos_external),
+        );
+    }
+    if snapshot.timeline.media.has_autoplay_gif_videos {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "media", "autoplay_gif_videos"],
+            Value::Bool(snapshot.timeline.media.autoplay_gif_videos),
+        );
+    }
+    if snapshot.timeline.media.has_open_audio_external {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "media", "open_audio_external"],
+            Value::Bool(snapshot.timeline.media.open_audio_external),
+        );
+    }
+    if snapshot.timeline.media.has_default_audio_playback_speed {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "media", "default_audio_playback_speed"],
+            serde_yaml_ng::to_value(snapshot.timeline.media.default_audio_playback_speed)
+                .unwrap_or(Value::Null),
+        );
+    }
     if snapshot.timeline.hidden_events.has_global {
         yaml::set_value(
             &mut root,
@@ -533,7 +667,7 @@ fn flatten_config_values(prefix: &str, value: &Value, values: &mut Vec<SettingsC
                 || prefix == "composer"
                 || prefix == "sidebars"
                 || prefix == "encryption"
-                || prefix == "timeline.hidden_events"
+                || prefix == "timeline"
             {
                 return;
             }

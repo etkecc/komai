@@ -134,7 +134,66 @@ mod bridge {
         by_room: Vec<SettingsStringListMapEntry>,
     }
 
+    struct SettingsConfigTimelineMessagesSection {
+        style: String,
+        positioning: String,
+        user_color_coding_policy: String,
+        has_layout_small_avatars: bool,
+        layout_small_avatars: bool,
+        has_layout_show_own_avatar: bool,
+        layout_show_own_avatar: bool,
+        sender_username: String,
+        has_emoji_only_enlarge: bool,
+        emoji_only_enlarge: bool,
+        has_hover_highlight: bool,
+        hover_highlight: bool,
+    }
+
+    struct SettingsConfigTimelineFormattedSection {
+        has_code_syntax_highlighting: bool,
+        code_syntax_highlighting: bool,
+    }
+
+    struct SettingsConfigTimelineTypingSection {
+        has_show_enabled: bool,
+        show_enabled: bool,
+    }
+
+    struct SettingsConfigTimelineReadReceiptsSection {
+        has_enabled: bool,
+        enabled: bool,
+    }
+
+    struct SettingsConfigTimelineMessageActionsSection {
+        activation_policy: String,
+        pinned_reactions: String,
+    }
+
+    struct SettingsConfigTimelineMediaSection {
+        has_effects_enabled: bool,
+        effects_enabled: bool,
+        has_animate_on_hover: bool,
+        animate_on_hover: bool,
+        image_display: String,
+        has_open_images_external: bool,
+        open_images_external: bool,
+        has_open_videos_external: bool,
+        open_videos_external: bool,
+        has_autoplay_gif_videos: bool,
+        autoplay_gif_videos: bool,
+        has_open_audio_external: bool,
+        open_audio_external: bool,
+        has_default_audio_playback_speed: bool,
+        default_audio_playback_speed: f64,
+    }
+
     struct SettingsConfigTimelineSection {
+        messages: SettingsConfigTimelineMessagesSection,
+        formatted: SettingsConfigTimelineFormattedSection,
+        typing: SettingsConfigTimelineTypingSection,
+        read_receipts: SettingsConfigTimelineReadReceiptsSection,
+        message_actions: SettingsConfigTimelineMessageActionsSection,
+        media: SettingsConfigTimelineMediaSection,
         hidden_events: SettingsConfigTimelineHiddenEventsSection,
     }
 

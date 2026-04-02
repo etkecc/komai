@@ -102,7 +102,63 @@ pub struct ConfigSidebarsCommunities {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigTimeline {
+    pub messages: ConfigTimelineMessages,
+    pub user_color_coding_policy: String,
+    pub formatted: ConfigTimelineFormatted,
+    pub typing: ConfigTimelineTyping,
+    pub read_receipts: ConfigTimelineReadReceipts,
+    pub message_actions: ConfigTimelineMessageActions,
+    pub media: ConfigTimelineMedia,
     pub hidden_events: ConfigTimelineHiddenEvents,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigTimelineMessages {
+    pub style: String,
+    pub positioning: String,
+    pub layout: ConfigTimelineMessagesLayout,
+    pub sender_username: String,
+    pub emoji_only_enlarge: Option<bool>,
+    pub hover_highlight: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigTimelineMessagesLayout {
+    pub small_avatars: Option<bool>,
+    pub show_own_avatar: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigTimelineFormatted {
+    pub code_syntax_highlighting: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigTimelineTyping {
+    pub show_enabled: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigTimelineReadReceipts {
+    pub enabled: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigTimelineMessageActions {
+    pub activation_policy: String,
+    pub pinned_reactions: String,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigTimelineMedia {
+    pub effects_enabled: Option<bool>,
+    pub animate_on_hover: Option<bool>,
+    pub image_display: String,
+    pub open_images_external: Option<bool>,
+    pub open_videos_external: Option<bool>,
+    pub autoplay_gif_videos: Option<bool>,
+    pub open_audio_external: Option<bool>,
+    pub default_audio_playback_speed: Option<f64>,
 }
 
 #[derive(Clone, Debug, Default)]

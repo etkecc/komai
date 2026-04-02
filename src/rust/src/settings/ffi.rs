@@ -179,6 +179,83 @@ pub(crate) fn ffi_config_timeline_section(
         .collect();
 
     ffi::SettingsConfigTimelineSection {
+        messages: ffi::SettingsConfigTimelineMessagesSection {
+            style: config.timeline.messages.style.clone(),
+            positioning: config.timeline.messages.positioning.clone(),
+            user_color_coding_policy: config.timeline.user_color_coding_policy.clone(),
+            has_layout_small_avatars: config.timeline.messages.layout.small_avatars.is_some(),
+            layout_small_avatars: config
+                .timeline
+                .messages
+                .layout
+                .small_avatars
+                .unwrap_or_default(),
+            has_layout_show_own_avatar: config.timeline.messages.layout.show_own_avatar.is_some(),
+            layout_show_own_avatar: config
+                .timeline
+                .messages
+                .layout
+                .show_own_avatar
+                .unwrap_or_default(),
+            sender_username: config.timeline.messages.sender_username.clone(),
+            has_emoji_only_enlarge: config.timeline.messages.emoji_only_enlarge.is_some(),
+            emoji_only_enlarge: config
+                .timeline
+                .messages
+                .emoji_only_enlarge
+                .unwrap_or_default(),
+            has_hover_highlight: config.timeline.messages.hover_highlight.is_some(),
+            hover_highlight: config.timeline.messages.hover_highlight.unwrap_or_default(),
+        },
+        formatted: ffi::SettingsConfigTimelineFormattedSection {
+            has_code_syntax_highlighting: config
+                .timeline
+                .formatted
+                .code_syntax_highlighting
+                .is_some(),
+            code_syntax_highlighting: config
+                .timeline
+                .formatted
+                .code_syntax_highlighting
+                .unwrap_or_default(),
+        },
+        typing: ffi::SettingsConfigTimelineTypingSection {
+            has_show_enabled: config.timeline.typing.show_enabled.is_some(),
+            show_enabled: config.timeline.typing.show_enabled.unwrap_or_default(),
+        },
+        read_receipts: ffi::SettingsConfigTimelineReadReceiptsSection {
+            has_enabled: config.timeline.read_receipts.enabled.is_some(),
+            enabled: config.timeline.read_receipts.enabled.unwrap_or_default(),
+        },
+        message_actions: ffi::SettingsConfigTimelineMessageActionsSection {
+            activation_policy: config.timeline.message_actions.activation_policy.clone(),
+            pinned_reactions: config.timeline.message_actions.pinned_reactions.clone(),
+        },
+        media: ffi::SettingsConfigTimelineMediaSection {
+            has_effects_enabled: config.timeline.media.effects_enabled.is_some(),
+            effects_enabled: config.timeline.media.effects_enabled.unwrap_or_default(),
+            has_animate_on_hover: config.timeline.media.animate_on_hover.is_some(),
+            animate_on_hover: config.timeline.media.animate_on_hover.unwrap_or_default(),
+            image_display: config.timeline.media.image_display.clone(),
+            has_open_images_external: config.timeline.media.open_images_external.is_some(),
+            open_images_external: config.timeline.media.open_images_external.unwrap_or_default(),
+            has_open_videos_external: config.timeline.media.open_videos_external.is_some(),
+            open_videos_external: config.timeline.media.open_videos_external.unwrap_or_default(),
+            has_autoplay_gif_videos: config.timeline.media.autoplay_gif_videos.is_some(),
+            autoplay_gif_videos: config.timeline.media.autoplay_gif_videos.unwrap_or_default(),
+            has_open_audio_external: config.timeline.media.open_audio_external.is_some(),
+            open_audio_external: config.timeline.media.open_audio_external.unwrap_or_default(),
+            has_default_audio_playback_speed: config
+                .timeline
+                .media
+                .default_audio_playback_speed
+                .is_some(),
+            default_audio_playback_speed: config
+                .timeline
+                .media
+                .default_audio_playback_speed
+                .unwrap_or_default(),
+        },
         hidden_events: ffi::SettingsConfigTimelineHiddenEventsSection {
             has_global: config.timeline.hidden_events.global.is_some(),
             global: config.timeline.hidden_events.global.clone().unwrap_or_default(),

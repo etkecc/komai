@@ -4,16 +4,16 @@
 
 use super::{encode_config_yaml, load_config_snapshot, parse_config_text};
 use crate::ffi::{
-    SettingsConfigComposerSection, SettingsConfigIntegrationsSection, SettingsConfigNetworkSection,
-    SettingsConfigNotificationsSection,
-    SettingsConfigEncryptionBackupOnlineSection, SettingsConfigEncryptionBackupSection,
-    SettingsConfigEncryptionKeySharingSection, SettingsConfigEncryptionSection,
-    SettingsConfigSidebarsCommunitiesSection, SettingsConfigSidebarsRoomListSection,
-    SettingsConfigSidebarsSection,
-    SettingsConfigSecretsSection, SettingsConfigSnapshot,
-    SettingsConfigTimelineHiddenEventsSection, SettingsConfigTimelineSection,
-    SettingsConfigUiSection, SettingsConfigValue, SettingsConfigValueKind,
-    SettingsStringListMapEntry,
+    SettingsConfigComposerSection, SettingsConfigEncryptionBackupOnlineSection,
+    SettingsConfigEncryptionBackupSection, SettingsConfigEncryptionKeySharingSection,
+    SettingsConfigEncryptionSection, SettingsConfigIntegrationsSection, SettingsConfigNetworkSection,
+    SettingsConfigNotificationsSection, SettingsConfigSecretsSection, SettingsConfigSidebarsCommunitiesSection,
+    SettingsConfigSidebarsRoomListSection, SettingsConfigSidebarsSection, SettingsConfigSnapshot,
+    SettingsConfigTimelineFormattedSection, SettingsConfigTimelineHiddenEventsSection,
+    SettingsConfigTimelineMediaSection, SettingsConfigTimelineMessageActionsSection,
+    SettingsConfigTimelineMessagesSection, SettingsConfigTimelineReadReceiptsSection,
+    SettingsConfigTimelineSection, SettingsConfigTimelineTypingSection, SettingsConfigUiSection,
+    SettingsConfigValue, SettingsConfigValueKind, SettingsStringListMapEntry,
 };
 use crate::settings::yaml;
 
@@ -96,6 +96,73 @@ timeline:
         config.timeline.hidden_events.by_room.get("!room:example.org"),
         Some(&vec!["m.call.candidates".to_owned(), "m.reaction".to_owned()])
     );
+}
+
+#[test]
+fn parses_timeline_section() {
+    let config = parse_config_text(
+        r#"
+timeline:
+  messages:
+    style: plain
+    positioning: all_right
+    layout:
+      small_avatars: true
+      show_own_avatar: false
+    sender_username: always
+    emoji_only_enlarge: false
+    hover_highlight: true
+    actions:
+      activation_policy: on_message_hover
+      pinned_reactions: "👍,👀"
+  user_color_coding_policy: me_vs_others
+  formatted:
+    code_syntax_highlighting: false
+  typing:
+    show:
+      enabled: false
+  read_receipts:
+    enabled: false
+  media:
+    effects:
+      enabled: false
+    animate_on_hover: true
+    image_display: never
+    open_images_external: true
+    open_videos_external: true
+    autoplay_gif_videos: false
+    open_audio_external: true
+    default_audio_playback_speed: 2.5
+"#,
+    );
+
+    assert_eq!(config.timeline.messages.style, "plain");
+    assert_eq!(config.timeline.messages.positioning, "all_right");
+    assert_eq!(config.timeline.user_color_coding_policy, "me_vs_others");
+    assert_eq!(config.timeline.messages.layout.small_avatars, Some(true));
+    assert_eq!(config.timeline.messages.layout.show_own_avatar, Some(false));
+    assert_eq!(config.timeline.messages.sender_username, "always");
+    assert_eq!(config.timeline.messages.emoji_only_enlarge, Some(false));
+    assert_eq!(config.timeline.messages.hover_highlight, Some(true));
+    assert_eq!(
+        config.timeline.message_actions.activation_policy,
+        "on_message_hover"
+    );
+    assert_eq!(config.timeline.message_actions.pinned_reactions, "👍,👀");
+    assert_eq!(
+        config.timeline.formatted.code_syntax_highlighting,
+        Some(false)
+    );
+    assert_eq!(config.timeline.typing.show_enabled, Some(false));
+    assert_eq!(config.timeline.read_receipts.enabled, Some(false));
+    assert_eq!(config.timeline.media.effects_enabled, Some(false));
+    assert_eq!(config.timeline.media.animate_on_hover, Some(true));
+    assert_eq!(config.timeline.media.image_display, "never");
+    assert_eq!(config.timeline.media.open_images_external, Some(true));
+    assert_eq!(config.timeline.media.open_videos_external, Some(true));
+    assert_eq!(config.timeline.media.autoplay_gif_videos, Some(false));
+    assert_eq!(config.timeline.media.open_audio_external, Some(true));
+    assert_eq!(config.timeline.media.default_audio_playback_speed, Some(2.5));
 }
 
 #[test]
@@ -345,6 +412,53 @@ fn encodes_generic_config_values() {
             },
         },
         timeline: SettingsConfigTimelineSection {
+            messages: SettingsConfigTimelineMessagesSection {
+                style: "plain".to_owned(),
+                positioning: "all_right".to_owned(),
+                user_color_coding_policy: "me_vs_others".to_owned(),
+                has_layout_small_avatars: true,
+                layout_small_avatars: true,
+                has_layout_show_own_avatar: true,
+                layout_show_own_avatar: false,
+                sender_username: "always".to_owned(),
+                has_emoji_only_enlarge: true,
+                emoji_only_enlarge: false,
+                has_hover_highlight: true,
+                hover_highlight: true,
+            },
+            formatted: SettingsConfigTimelineFormattedSection {
+                has_code_syntax_highlighting: true,
+                code_syntax_highlighting: false,
+            },
+            typing: SettingsConfigTimelineTypingSection {
+                has_show_enabled: true,
+                show_enabled: false,
+            },
+            read_receipts: SettingsConfigTimelineReadReceiptsSection {
+                has_enabled: true,
+                enabled: false,
+            },
+            message_actions: SettingsConfigTimelineMessageActionsSection {
+                activation_policy: "on_message_hover".to_owned(),
+                pinned_reactions: "👍,👀".to_owned(),
+            },
+            media: SettingsConfigTimelineMediaSection {
+                has_effects_enabled: true,
+                effects_enabled: false,
+                has_animate_on_hover: true,
+                animate_on_hover: true,
+                image_display: "never".to_owned(),
+                has_open_images_external: true,
+                open_images_external: true,
+                has_open_videos_external: true,
+                open_videos_external: true,
+                has_autoplay_gif_videos: true,
+                autoplay_gif_videos: false,
+                has_open_audio_external: true,
+                open_audio_external: true,
+                has_default_audio_playback_speed: true,
+                default_audio_playback_speed: 2.5,
+            },
             hidden_events: SettingsConfigTimelineHiddenEventsSection {
                 has_global: true,
                 global: vec!["m.reaction".to_owned()],
@@ -436,6 +550,99 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "theme", "slug"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "komai-dark"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "messages", "style"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "plain"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "messages", "positioning"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "all_right"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "user_color_coding_policy"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "me_vs_others"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "messages", "layout", "small_avatars"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "messages", "layout", "show_own_avatar"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "messages", "sender_username"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "always"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "messages", "emoji_only_enlarge"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "messages", "hover_highlight"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(
+            &root,
+            &["timeline", "messages", "actions", "activation_policy"]
+        ),
+        Some(serde_yaml_ng::Value::String(value)) if value == "on_message_hover"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(
+            &root,
+            &["timeline", "messages", "actions", "pinned_reactions"]
+        ),
+        Some(serde_yaml_ng::Value::String(value)) if value == "👍,👀"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "formatted", "code_syntax_highlighting"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "typing", "show", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "read_receipts", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "media", "effects", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "media", "animate_on_hover"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "media", "image_display"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "never"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "media", "open_images_external"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "media", "open_videos_external"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "media", "autoplay_gif_videos"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "media", "open_audio_external"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(
+            &root,
+            &["timeline", "media", "default_audio_playback_speed"]
+        ),
+        Some(serde_yaml_ng::Value::Number(number)) if number.as_f64() == Some(2.5)
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "hidden_events", "global"]),

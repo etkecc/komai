@@ -37,10 +37,6 @@ const DoubleSettingDescriptor DoubleSettings[] = {
                           kDefaultFontSizePt,
                           &UserSettings::uiFontSizePt,
                           &UserSettings::setUiFontSizePt},
-  DoubleSettingDescriptor{SettingKey::TimelineMediaDefaultAudioPlaybackSpeed,
-                          kDefaultTimelineMediaAudioPlaybackSpeed,
-                          &UserSettings::timelineMediaDefaultAudioPlaybackSpeed,
-                          &UserSettings::setTimelineMediaDefaultAudioPlaybackSpeed},
 };
 
 const StringSettingDescriptor StringSettings[] = {

@@ -174,6 +174,38 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
         return expect(QString::fromStdString(static_cast<std::string>(
                         snapshot.sidebars.room_list.unread_detection_policy)) == expected,
                       message);
+    if (keyString == QLatin1String(SettingKey::TimelineMessagesStyle))
+        return expect(
+          QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.style)) ==
+            expected,
+          message);
+    if (keyString == QLatin1String(SettingKey::TimelineMessagesPositioning))
+        return expect(QString::fromStdString(
+                        static_cast<std::string>(snapshot.timeline.messages.positioning)) ==
+                        expected,
+                      message);
+    if (keyString == QLatin1String(SettingKey::TimelineUserColorCodingPolicy))
+        return expect(QString::fromStdString(static_cast<std::string>(
+                        snapshot.timeline.messages.user_color_coding_policy)) == expected,
+                      message);
+    if (keyString == QLatin1String(SettingKey::TimelineMessagesSenderUsername))
+        return expect(QString::fromStdString(
+                        static_cast<std::string>(snapshot.timeline.messages.sender_username)) ==
+                        expected,
+                      message);
+    if (keyString == QLatin1String(SettingKey::TimelineMessageActionsActivationPolicy))
+        return expect(QString::fromStdString(static_cast<std::string>(
+                        snapshot.timeline.message_actions.activation_policy)) == expected,
+                      message);
+    if (keyString == QLatin1String(SettingKey::TimelineMessageActionsPinnedReactions))
+        return expect(QString::fromStdString(static_cast<std::string>(
+                        snapshot.timeline.message_actions.pinned_reactions)) == expected,
+                      message);
+    if (keyString == QLatin1String(SettingKey::TimelineMediaImageDisplay))
+        return expect(
+          QString::fromStdString(static_cast<std::string>(snapshot.timeline.media.image_display)) ==
+            expected,
+          message);
     if (keyString == QLatin1String(SettingKey::SecretsProvider))
         return expect(QString::fromStdString(static_cast<std::string>(snapshot.secrets.provider)) ==
                         expected,
@@ -218,6 +250,25 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
     return expect(
       settings::rust_config_values::readStringValue(snapshot.values, key, {}) == expected,
       message);
+}
+
+bool
+expectConfigDouble(const ::komai::rust::SettingsLoadedConfig &snapshot,
+                   const char *key,
+                   double expected,
+                   std::string_view message)
+{
+    const auto keyString = QString::fromLatin1(key);
+    if (keyString == QLatin1String(SettingKey::TimelineMediaDefaultAudioPlaybackSpeed)) {
+        return expect(snapshot.timeline.media.has_default_audio_playback_speed &&
+                        std::abs(snapshot.timeline.media.default_audio_playback_speed - expected) <
+                          0.0001,
+                      message);
+    }
+
+    return expect(settings::rust_config_values::readDoubleValue(snapshot.values, key, 0.0) ==
+                    expected,
+                  message);
 }
 
 bool
@@ -718,6 +769,10 @@ testEnumSettingsPersistAsStrings()
     settings->setPersistenceSuspended(false);
     settings->setNetworkPresenceStatusPolicy(UserSettings::Presence::Offline);
     settings->setTimelineMediaImageDisplay(UserSettings::ShowImage::Never);
+    settings->setTimelineMessagesPositioning(
+      UserSettings::TimelineMessagesPositioning::AllRight);
+    settings->setTimelineUserColorCodingPolicy(
+      UserSettings::TimelineUserColorCodingPolicy::MeVsOthers);
     settings->setTimelineMessagesSenderUsername(UserSettings::ShowSenderUsername::Always);
     settings->setComposerInputAutoReplaceEmoji(UserSettings::AutoReplaceEmoji::Never);
     settings->setComposerInputEmojiPreferredGender(UserSettings::EmojiPreferredGender::Woman);
@@ -728,8 +783,10 @@ testEnumSettingsPersistAsStrings()
     settings->setSidebarsRoomListLastMessagePreview(UserSettings::LastMessagePreview::Never);
     settings->setTimelineMessageActionsActivationPolicy(
       UserSettings::TimelineMessageActionsActivationPolicy::OnHover);
+    settings->setTimelineMessageActionsPinnedReactions(QStringLiteral("👍,👀"));
     settings->setTimelineMessagesStyle(
       UserSettings::TimelineMessagesStyle::Plain);
+    settings->setTimelineMediaDefaultAudioPlaybackSpeed(2.5);
     settings->setNotificationsMessageContentPolicy(
       UserSettings::NotificationMessageContentPolicy::Never);
     settings->setIntegrationsDbusApiAccess(IntegrationsDbusAccessReadOnly);
@@ -750,6 +807,14 @@ testEnumSettingsPersistAsStrings()
                              SettingKey::TimelineMessagesSenderUsername,
                              QStringLiteral("always"),
                              "sender username policy is persisted as string token");
+    ok &= expectConfigString(configRoot,
+                             SettingKey::TimelineMessagesPositioning,
+                             QStringLiteral("all_right"),
+                             "message positioning is persisted as string token");
+    ok &= expectConfigString(configRoot,
+                             SettingKey::TimelineUserColorCodingPolicy,
+                             QStringLiteral("me_vs_others"),
+                             "user color coding policy is persisted as string token");
     ok &= expectConfigString(configRoot,
                              SettingKey::ComposerInputAutoReplaceEmoji,
                              QStringLiteral("never"),
@@ -779,9 +844,17 @@ testEnumSettingsPersistAsStrings()
                              QStringLiteral("on_message_hover"),
                              "message actions activation policy is persisted as string token");
     ok &= expectConfigString(configRoot,
+                             SettingKey::TimelineMessageActionsPinnedReactions,
+                             QStringLiteral("👍,👀"),
+                             "pinned reactions are persisted as string value");
+    ok &= expectConfigString(configRoot,
                              SettingKey::TimelineMessagesStyle,
                              QStringLiteral("plain"),
                              "timeline layout style is persisted as string token");
+    ok &= expectConfigDouble(configRoot,
+                             SettingKey::TimelineMediaDefaultAudioPlaybackSpeed,
+                             2.5,
+                             "default audio playback speed is persisted as double");
     ok &= expectConfigString(configRoot,
                              SettingKey::NotificationsMessageContentPolicy,
                              QStringLiteral("never"),
@@ -1561,6 +1634,47 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterServerNotices));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterLowPriority));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::TimelineMessagesStyle));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMessagesPositioning));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineUserColorCodingPolicy));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMessagesLayoutSmallAvatars));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMessagesLayoutShowOwnAvatar));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMessagesSenderUsername));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMessagesEmojiOnlyEnlarge));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMessagesHoverHighlight));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineFormattedCodeSyntaxHighlighting));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineTypingShowEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineReadReceiptsEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMessageActionsActivationPolicy));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMessageActionsPinnedReactions));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMediaEffectsEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMediaAnimateOnHover));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMediaImageDisplay));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMediaOpenImagesExternal));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMediaOpenVideosExternal));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMediaAutoplayGifVideos));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMediaOpenAudioExternal));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMediaDefaultAudioPlaybackSpeed));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::PrivacyWindowFocusBlurEnabled));
     serializerHandledConfigKeys.insert(

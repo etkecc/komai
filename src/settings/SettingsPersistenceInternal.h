@@ -9,20 +9,14 @@
 
 namespace settings::persistence::detail {
 
-QString
-encodePersistedSecretsMap(const QString &accessToken, const QMap<QString, QString> &secrets);
-
 SecretsPayload
-decodePersistedSecretsMap(const QString &serialized);
-
-SecretsPayload
-loadPersistedSecretsFilePayloadForProfile(const QString &profile);
+loadProfileSecretsPayload(const QString &profile, bool usesFileSecretsProvider);
 
 bool
-writePersistedSecretsFilePayloadForProfile(const QString &profile,
-                                           const QString &accessToken,
-                                           const QMap<QString, QString> &secrets,
-                                           bool ownerReadWriteOnly);
+saveProfileSecretsPayload(const QString &profile,
+                          bool usesFileSecretsProvider,
+                          const QString &accessToken,
+                          const QMap<QString, QString> &secrets);
 
 bool
 removePersistedSecretsFileForProfile(const QString &profile);

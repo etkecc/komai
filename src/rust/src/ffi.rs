@@ -71,6 +71,11 @@ mod bridge {
         homeserver: String,
     }
 
+    struct SettingsOptionalString {
+        has_value: bool,
+        value: String,
+    }
+
     #[derive(Debug, PartialEq, Eq)]
     struct SettingsStringMapEntry {
         key: String,
@@ -969,6 +974,14 @@ mod bridge {
         #[namespace = "komai::rust_bridge"]
         fn settings_profile_matrix_sdk_secrets_path(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
+        fn settings_secure_store_key(profile_id: &str, key_name: &str) -> String;
+        #[namespace = "komai::rust_bridge"]
+        fn settings_read_secure_value(key: &str) -> SettingsOptionalString;
+        #[namespace = "komai::rust_bridge"]
+        fn settings_write_secure_value(key: &str, value: &str);
+        #[namespace = "komai::rust_bridge"]
+        fn settings_delete_secure_value(key: &str);
+        #[namespace = "komai::rust_bridge"]
         fn settings_read_text_file(path: &str, label: &str) -> String;
         #[namespace = "komai::rust_bridge"]
         fn settings_path_exists(path: &str) -> bool;
@@ -1082,6 +1095,16 @@ mod bridge {
             owner_read_write_only: bool,
         ) -> bool;
         fn settings_remove_matrix_sdk_secrets_file_for_profile(profile_id: &str) -> bool;
+        fn settings_load_profile_secrets(
+            profile_id: &str,
+            uses_file_secrets_provider: bool,
+        ) -> SettingsSecretsPayload;
+        fn settings_save_profile_secrets(
+            profile_id: &str,
+            uses_file_secrets_provider: bool,
+            access_token: &str,
+            entries: &Vec<SettingsStringMapEntry>,
+        ) -> bool;
         fn settings_load_config_snapshot(config_text: &str) -> SettingsLoadedConfig;
         fn settings_open_profile_handle_for_profile(
             profile_id: &str,

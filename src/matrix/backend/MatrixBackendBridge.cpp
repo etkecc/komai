@@ -170,6 +170,36 @@ settings_profile_matrix_sdk_secrets_path(::rust::Str profile_id)
 }
 
 ::rust::String
+settings_secure_store_key(::rust::Str profile_id, ::rust::Str key_name)
+{
+    const auto keyName = std::string(key_name);
+    return ::rust::String(
+      settings::storage::secureStoreKey(toQString(profile_id), keyName.c_str()).toStdString());
+}
+
+::komai::rust::SettingsOptionalString
+settings_read_secure_value(::rust::Str key)
+{
+    const auto value = settings::storage::readSecureValue(toQString(key));
+    return {
+      .has_value = value.has_value(),
+      .value     = ::rust::String(value ? value->toStdString() : std::string()),
+    };
+}
+
+void
+settings_write_secure_value(::rust::Str key, ::rust::Str value)
+{
+    settings::storage::writeSecureValue(toQString(key), toQString(value));
+}
+
+void
+settings_delete_secure_value(::rust::Str key)
+{
+    settings::storage::deleteSecureValue(toQString(key));
+}
+
+::rust::String
 settings_read_text_file(::rust::Str path, ::rust::Str label)
 {
     const auto labelString = std::string(label);

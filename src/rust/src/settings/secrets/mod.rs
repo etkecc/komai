@@ -15,6 +15,7 @@ const INTERNAL_SESSION_KEY_PREFIX: &str = "__session.";
 const NAMED_SECRETS_ROOT_KEY: &str = "secrets";
 const PROFILE_SECRETS_LABEL: &str = "secrets";
 const MATRIX_SDK_SECRETS_LABEL: &str = "matrix-sdk secrets";
+const PROFILE_SECURE_STORE_KEY_NAME: &str = "session.secrets";
 
 fn ordered_map(entries: &[SettingsStringMapEntry]) -> BTreeMap<String, String> {
     entries
@@ -248,6 +249,89 @@ pub fn remove_matrix_sdk_secrets_file_for_profile(profile_id: &str) -> bool {
     }
 
     storage::remove_path(&secrets_path)
+}
+
+pub fn load_profile_secrets(
+    profile_id: &str,
+    uses_file_secrets_provider: bool,
+) -> SettingsSecretsPayload {
+    if uses_file_secrets_provider {
+        let payload = load_persisted_secrets_file_for_profile(profile_id);
+        if payload.had_stale_values {
+            let _ = save_profile_secrets(
+                profile_id,
+                true,
+                &payload.access_token,
+                payload.secrets.as_slice(),
+            );
+        }
+        return payload;
+    }
+
+    let secrets_key = storage::secure_store_key(profile_id, PROFILE_SECURE_STORE_KEY_NAME);
+    let Some(serialized) = storage::read_secure_value(&secrets_key) else {
+        return SettingsSecretsPayload {
+            access_token: String::new(),
+            secrets: Vec::new(),
+            had_stale_values: false,
+        };
+    };
+
+    if serialized.is_empty() {
+        storage::delete_secure_value(&secrets_key);
+        return SettingsSecretsPayload {
+            access_token: String::new(),
+            secrets: Vec::new(),
+            had_stale_values: true,
+        };
+    }
+
+    let payload = decode_persisted_secrets_map_yaml(&serialized);
+    if payload.had_stale_values {
+        let _ = save_profile_secrets(
+            profile_id,
+            false,
+            &payload.access_token,
+            payload.secrets.as_slice(),
+        );
+    }
+    payload
+}
+
+pub fn save_profile_secrets(
+    profile_id: &str,
+    uses_file_secrets_provider: bool,
+    access_token: &str,
+    entries: &[SettingsStringMapEntry],
+) -> bool {
+    if uses_file_secrets_provider {
+        return write_persisted_secrets_file_for_profile(
+            profile_id,
+            access_token,
+            entries,
+            true,
+        );
+    }
+
+    let secrets_key = storage::secure_store_key(profile_id, PROFILE_SECURE_STORE_KEY_NAME);
+    let serialized = encode_persisted_secrets_map_yaml(access_token, entries);
+    let has_persisted_secrets = !access_token.trim().is_empty()
+        || entries
+            .iter()
+            .any(|entry| !entry.value.is_empty() && !entry.key.starts_with(INTERNAL_SESSION_KEY_PREFIX));
+
+    if has_persisted_secrets {
+        storage::write_secure_value(&secrets_key, &serialized);
+    } else {
+        storage::delete_secure_value(&secrets_key);
+    }
+
+    let secrets_path = storage::secrets_file_path_for_profile(profile_id);
+    if storage::path_exists(&secrets_path) {
+        let _ = storage::remove_path(&secrets_path);
+    }
+
+    true
 }
 
 pub fn load_named_string_map_from_path(

@@ -12,6 +12,7 @@ namespace komai::rust {
 struct MatrixPersistedSessionSecrets;
 struct MatrixRoomSummary;
 struct MatrixNotificationItem;
+struct SettingsOptionalString;
 struct MatrixCallInviteEvent;
 struct MatrixCallCandidatesEvent;
 struct MatrixCallAnswerEvent;
@@ -43,6 +44,18 @@ settings_profile_secrets_path(::rust::Str profile_id);
 
 ::rust::String
 settings_profile_matrix_sdk_secrets_path(::rust::Str profile_id);
+
+::rust::String
+settings_secure_store_key(::rust::Str profile_id, ::rust::Str key_name);
+
+::komai::rust::SettingsOptionalString
+settings_read_secure_value(::rust::Str key);
+
+void
+settings_write_secure_value(::rust::Str key, ::rust::Str value);
+
+void
+settings_delete_secure_value(::rust::Str key);
 
 ::rust::String
 settings_read_text_file(::rust::Str path, ::rust::Str label);

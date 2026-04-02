@@ -20,37 +20,12 @@ saveProfileSecrets(const QString &profile,
                    const QString &accessToken,
                    const QMap<QString, QString> &secrets)
 {
-    if (usesFileSecretsProvider) {
-        if (detail::writePersistedSecretsFilePayloadForProfile(
-              profile, accessToken, secrets, true)) {
-            activeLoggers().ui->debug("Saved secrets for profile '{}'",
-                                      app_paths::normalizedProfileId(profile).toStdString());
-        }
-        return;
+    const bool saved =
+      detail::saveProfileSecretsPayload(profile, usesFileSecretsProvider, accessToken, secrets);
+    if (usesFileSecretsProvider && saved) {
+        activeLoggers().ui->debug("Saved secrets for profile '{}'",
+                                  app_paths::normalizedProfileId(profile).toStdString());
     }
-
-    const auto secretsFilePath = settings::storage::secretsFilePathForProfile(profile);
-    const auto secretsKey      = settings::storage::secureStoreKey(profile, SecureStoreSecretsKey);
-    const auto serializedSecrets = detail::encodePersistedSecretsMap(accessToken, secrets);
-    bool hasPersistedSecrets     = !accessToken.trimmed().isEmpty();
-    if (!hasPersistedSecrets) {
-        for (auto it = secrets.cbegin(); it != secrets.cend(); ++it) {
-            if (!it.value().isEmpty() && !it.key().startsWith(QStringLiteral("__session."))) {
-                hasPersistedSecrets = true;
-                break;
-            }
-        }
-    }
-
-    if (!hasPersistedSecrets)
-        settings::storage::deleteSecureValue(secretsKey);
-    else
-        settings::storage::writeSecureValue(secretsKey, serializedSecrets);
-
-    if (settings::storage::pathExists(secretsFilePath) &&
-        !settings::storage::removePath(secretsFilePath))
-        activeLoggers().ui->warn("Failed to remove stale secrets file: {}",
-                                 secretsFilePath.toStdString());
 }
 
 bool

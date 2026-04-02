@@ -122,6 +122,27 @@ pub(crate) fn settings_remove_matrix_sdk_secrets_file_for_profile(profile_id: &s
     settings::secrets::remove_matrix_sdk_secrets_file_for_profile(profile_id)
 }
 
+pub(crate) fn settings_load_profile_secrets(
+    profile_id: &str,
+    uses_file_secrets_provider: bool,
+) -> ffi::SettingsSecretsPayload {
+    settings::secrets::load_profile_secrets(profile_id, uses_file_secrets_provider)
+}
+
+pub(crate) fn settings_save_profile_secrets(
+    profile_id: &str,
+    uses_file_secrets_provider: bool,
+    access_token: &str,
+    entries: &Vec<ffi::SettingsStringMapEntry>,
+) -> bool {
+    settings::secrets::save_profile_secrets(
+        profile_id,
+        uses_file_secrets_provider,
+        access_token,
+        entries.as_slice(),
+    )
+}
+
 pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::SettingsConfigUiSection {
     ffi::SettingsConfigUiSection {
         has_scale_factor: config.ui.scale.factor.is_some(),

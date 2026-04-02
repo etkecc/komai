@@ -18,16 +18,10 @@ namespace settings::persistence {
 SecretsPayload
 loadProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
 {
-    SecretsPayload payload;
-    bool hasEmptySecureSecrets   = false;
+    auto payload = detail::loadProfileSecretsPayload(profile, usesFileSecretsProvider);
     const auto normalizedProfile = app_paths::normalizedProfileId(profile);
 
     if (usesFileSecretsProvider) {
-        payload = detail::loadPersistedSecretsFilePayloadForProfile(profile);
-        if (payload.hadStaleValues) {
-            saveProfileSecrets(profile, true, payload.accessToken, payload.secrets);
-        }
-
         activeLoggers().ui->info(
           "Loaded file-backed secrets (has_access_token={}, secrets_count={})",
           !payload.accessToken.trimmed().isEmpty(),
@@ -35,25 +29,7 @@ loadProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
         return payload;
     }
 
-    const auto secretsStoreKey = settings::storage::secureStoreKey(profile, SecureStoreSecretsKey);
-    const auto serializedSecrets = settings::storage::readSecureValue(secretsStoreKey);
-    if (serializedSecrets && serializedSecrets->isEmpty()) {
-        activeLoggers().ui->warn("Secure backend secrets payload was empty; "
-                                 "removing stale secret storage for profile '{}'",
-                                 normalizedProfile.toStdString());
-        settings::storage::deleteSecureValue(secretsStoreKey);
-        hasEmptySecureSecrets = true;
-    } else {
-        payload = serializedSecrets ? detail::decodePersistedSecretsMap(*serializedSecrets)
-                                    : SecretsPayload{};
-
-        if (payload.hadStaleValues) {
-            saveProfileSecrets(profile, false, payload.accessToken, payload.secrets);
-            hasEmptySecureSecrets = true;
-        }
-    }
-
-    if (hasEmptySecureSecrets) {
+    if (payload.hadStaleValues) {
         activeLoggers().ui->warn("Found stale/empty secure backend values for profile '{}'",
                                  normalizedProfile.toStdString());
     }
@@ -62,8 +38,6 @@ loadProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
       "Loaded secure-backend secrets (has_access_token={}, secrets_count={})",
       !payload.accessToken.trimmed().isEmpty(),
       payload.secrets.size());
-
-    payload.hadStaleValues = hasEmptySecureSecrets;
     return payload;
 }
 

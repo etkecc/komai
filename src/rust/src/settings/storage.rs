@@ -24,6 +24,23 @@ pub fn matrix_sdk_secrets_file_path_for_profile(profile_id: &str) -> String {
     ffi::settings_profile_matrix_sdk_secrets_path(profile_id)
 }
 
+pub fn secure_store_key(profile_id: &str, key_name: &str) -> String {
+    ffi::settings_secure_store_key(profile_id, key_name)
+}
+
+pub fn read_secure_value(key: &str) -> Option<String> {
+    let value = ffi::settings_read_secure_value(key);
+    value.has_value.then_some(value.value)
+}
+
+pub fn write_secure_value(key: &str, value: &str) {
+    ffi::settings_write_secure_value(key, value)
+}
+
+pub fn delete_secure_value(key: &str) {
+    ffi::settings_delete_secure_value(key)
+}
+
 pub fn read_text_file(path: &str, label: &str) -> String {
     ffi::settings_read_text_file(path, label)
 }

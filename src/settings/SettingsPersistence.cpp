@@ -93,39 +93,23 @@ fromRustSecretsPayload(const ::komai::rust::SettingsSecretsPayload &payload)
 
 } // namespace
 
-QString
-encodePersistedSecretsMap(const QString &accessToken, const QMap<QString, QString> &secrets)
-{
-    const auto encoded = ::komai::rust::settings_encode_persisted_secrets_map_yaml(
-      accessToken.toStdString(), toRustStringMapEntries(secrets));
-    return QString::fromStdString(static_cast<std::string>(encoded));
-}
-
 SecretsPayload
-decodePersistedSecretsMap(const QString &serialized)
+loadProfileSecretsPayload(const QString &profile, bool usesFileSecretsProvider)
 {
     return fromRustSecretsPayload(
-      ::komai::rust::settings_decode_persisted_secrets_map_yaml(serialized.toStdString()));
-}
-
-SecretsPayload
-loadPersistedSecretsFilePayloadForProfile(const QString &profile)
-{
-    return fromRustSecretsPayload(
-      ::komai::rust::settings_load_persisted_secrets_file_for_profile(profile.toStdString()));
+      ::komai::rust::settings_load_profile_secrets(profile.toStdString(), usesFileSecretsProvider));
 }
 
 bool
-writePersistedSecretsFilePayloadForProfile(const QString &profile,
-                                           const QString &accessToken,
-                                           const QMap<QString, QString> &secrets,
-                                           bool ownerReadWriteOnly)
+saveProfileSecretsPayload(const QString &profile,
+                          bool usesFileSecretsProvider,
+                          const QString &accessToken,
+                          const QMap<QString, QString> &secrets)
 {
-    return ::komai::rust::settings_write_persisted_secrets_file_for_profile(
-      profile.toStdString(),
-      accessToken.toStdString(),
-      toRustStringMapEntries(secrets),
-      ownerReadWriteOnly);
+    return ::komai::rust::settings_save_profile_secrets(profile.toStdString(),
+                                                        usesFileSecretsProvider,
+                                                        accessToken.toStdString(),
+                                                        toRustStringMapEntries(secrets));
 }
 
 bool

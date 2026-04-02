@@ -16,7 +16,6 @@
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsSerializerLoad.h"
 #include "settings/SettingsStorage.h"
-#include "settings/StagedLoadPlan.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {
@@ -30,21 +29,6 @@ fromRustStringMapEntries(const ::rust::Vec<::komai::rust::SettingsStringMapEntry
           QString::fromStdString(static_cast<std::string>(entry.value));
     }
     return secrets;
-}
-
-const char *
-providerToken(staged_load_plan::SecretsProvider provider)
-{
-    return provider == staged_load_plan::SecretsProvider::File
-             ? staged_load_plan::ProviderFileValue
-             : staged_load_plan::ProviderSecretServiceValue;
-}
-
-staged_load_plan::SecretsProvider
-preferredProviderForAvailability(bool secureBackendAvailable)
-{
-    return secureBackendAvailable ? staged_load_plan::SecretsProvider::SecretService
-                                  : staged_load_plan::SecretsProvider::File;
 }
 
 void
@@ -147,219 +131,162 @@ loadImpl(UserSettings &settings,
 
     settings.setPersistenceSuspended(true);
 
-    auto profileHandle = ::komai::rust::settings_open_profile_handle_for_profile(
+    const bool secureBackendAvailable = settings::storage::isSecureBackendAvailable();
+    auto profileHandle                = ::komai::rust::settings_open_profile_handle_for_profile(
       settings.profileId().toStdString(),
       loadPolicy == settings::SettingsController::LoadPolicy::Full);
-    auto profileSnapshot               = ::komai::rust::settings_profile_snapshot(*profileHandle);
-    auto &configSnapshot               = profileSnapshot.config;
-    const bool configFileExists        = configSnapshot.source_exists;
-    const bool configShouldInitialize  = !configFileExists;
-    const bool configShouldWriteBack   = configSnapshot.should_write_back;
-    bool startupSecretsProviderChanged = false;
+    ::komai::rust::settings_profile_prepare_for_load(
+      *profileHandle,
+      loadPolicy == settings::SettingsController::LoadPolicy::Full,
+      secureBackendAvailable);
+    auto profileSnapshot              = ::komai::rust::settings_profile_snapshot(*profileHandle);
+    auto &configSnapshot              = profileSnapshot.config;
+    const bool configFileExists       = configSnapshot.source_exists;
+    const bool configShouldInitialize = !configFileExists;
+    const bool configShouldWriteBack  = configSnapshot.should_write_back;
+    const bool startupSecretsProviderChanged = profileSnapshot.startup_secrets_provider_changed;
     logConfigMigrationWarnings(configSnapshot);
     settings::serializer::loadConfig(settings, configSnapshot);
-
-    std::optional<bool> secureBackendAvailable;
-    const auto secureBackendAvailableNow = [&]() -> bool {
-        if (!secureBackendAvailable.has_value())
-            secureBackendAvailable = settings::storage::isSecureBackendAvailable();
-        return *secureBackendAvailable;
-    };
-
-    auto provider = staged_load_plan::providerFromConfigValue(
-      QString::fromStdString(static_cast<std::string>(configSnapshot.secrets.provider)));
     if (!configFileExists) {
-        const bool secureAvailable = secureBackendAvailableNow();
-        provider                   = preferredProviderForAvailability(secureAvailable);
-        configSnapshot.secrets.provider =
-          QString::fromLatin1(providerToken(provider)).toStdString();
-        ::komai::rust::settings_profile_set_config_secrets_provider(
-          *profileHandle, configSnapshot.secrets.provider);
         settings::activeLoggers().ui->info(
           "New profile '{}' selected secrets provider '{}' (secure backend available={})",
           app_paths::normalizedProfileId(settings.profileId()).toStdString(),
-          providerToken(provider),
-          secureAvailable ? "true" : "false");
+          static_cast<std::string>(configSnapshot.secrets.provider),
+          secureBackendAvailable ? "true" : "false");
     } else {
         settings::activeLoggers().ui->debug(
           "Profile '{}' configured secrets provider '{}'",
           app_paths::normalizedProfileId(settings.profileId()).toStdString(),
-          providerToken(provider));
+          static_cast<std::string>(configSnapshot.secrets.provider));
     }
 
-    settings.setUsesFileSecretsProvider(provider == staged_load_plan::SecretsProvider::File);
+    settings.setUsesFileSecretsProvider(profileSnapshot.uses_file_secrets_provider);
 
-    const auto stages = loadPolicy == settings::SettingsController::LoadPolicy::ConfigAndStateOnly
-                          ? QList<staged_load_plan::Stage>{staged_load_plan::Stage::Config,
-                                                           staged_load_plan::Stage::State}
-                          : staged_load_plan::stagesForProvider(provider);
-    for (const auto stage : stages) {
-        switch (stage) {
-        case staged_load_plan::Stage::Config:
-            break;
-        case staged_load_plan::Stage::Session: {
-            const auto &sessionSnapshot  = profileSnapshot.session;
-            const bool sessionFileExists = sessionSnapshot.source_exists;
-            logSessionMigrationWarnings(sessionSnapshot);
-            settings.setSessionSnapshot(UserSettings::SessionSnapshot{
-              .userId = QString::fromStdString(static_cast<std::string>(sessionSnapshot.user_id)),
-              .accessToken = QString(),
-              .deviceId =
-                QString::fromStdString(static_cast<std::string>(sessionSnapshot.device_id)),
-              .homeserver =
-                QString::fromStdString(static_cast<std::string>(sessionSnapshot.homeserver))});
-            if (persistMigrationWriteback && sessionFileExists &&
-                !sessionSnapshot.had_future_version && !sessionSnapshot.had_unsupported_path &&
-                sessionSnapshot.should_write_back) {
-                const auto result =
-                  ::komai::rust::settings_profile_flush(*profileHandle, false, true, false, false);
-                if (!result.session_saved) {
-                    settings::activeLoggers().ui->warn(
-                      "Failed to persist migrated session settings at: {}",
-                      settings.sessionFilePath().toStdString());
-                } else {
-                    settings::activeLoggers().ui->info(
-                      "Persisted session settings schema migration {} -> {} at: {}",
-                      sessionSnapshot.source_version,
-                      sessionSnapshot.migrated_version,
-                      settings.sessionFilePath().toStdString());
-                }
+    if (loadPolicy == settings::SettingsController::LoadPolicy::Full) {
+        const auto &sessionSnapshot  = profileSnapshot.session;
+        const bool sessionFileExists = sessionSnapshot.source_exists;
+        logSessionMigrationWarnings(sessionSnapshot);
+        settings.setSessionSnapshot(UserSettings::SessionSnapshot{
+          .userId      = QString::fromStdString(static_cast<std::string>(sessionSnapshot.user_id)),
+          .accessToken = QString(),
+          .deviceId = QString::fromStdString(static_cast<std::string>(sessionSnapshot.device_id)),
+          .homeserver =
+            QString::fromStdString(static_cast<std::string>(sessionSnapshot.homeserver))});
+        if (persistMigrationWriteback && sessionFileExists && !sessionSnapshot.had_future_version &&
+            !sessionSnapshot.had_unsupported_path && sessionSnapshot.should_write_back) {
+            const auto result =
+              ::komai::rust::settings_profile_flush(*profileHandle, false, true, false, false);
+            if (!result.session_saved) {
+                settings::activeLoggers().ui->warn(
+                  "Failed to persist migrated session settings at: {}",
+                  settings.sessionFilePath().toStdString());
+            } else {
+                settings::activeLoggers().ui->info(
+                  "Persisted session settings schema migration {} -> {} at: {}",
+                  sessionSnapshot.source_version,
+                  sessionSnapshot.migrated_version,
+                  settings.sessionFilePath().toStdString());
             }
-            break;
         }
-        case staged_load_plan::Stage::SecretsSecureBackend:
-        case staged_load_plan::Stage::SecretsFile: {
-            const auto &payload = profileSnapshot.secrets;
-            settings.applyLoadedSecrets(
-              QString::fromStdString(static_cast<std::string>(payload.access_token)),
-              fromRustStringMapEntries(payload.secrets));
-            logLoadedSecrets(settings.profileId(), settings.usesFileSecretsProvider(), payload);
-            break;
+
+        const auto &payload = profileSnapshot.secrets;
+        settings.applyLoadedSecrets(
+          QString::fromStdString(static_cast<std::string>(payload.access_token)),
+          fromRustStringMapEntries(payload.secrets));
+        logLoadedSecrets(settings.profileId(), settings.usesFileSecretsProvider(), payload);
+    }
+
+    {
+        const auto &stateSnapshot  = profileSnapshot.state;
+        const bool stateFileExists = stateSnapshot.source_exists;
+        logStateMigrationWarnings(stateSnapshot);
+        settings.setWindowWidth(stateSnapshot.window_width);
+        settings.setWindowHeight(stateSnapshot.window_height);
+        settings.setSidebarsRoomListWidthPx(stateSnapshot.sidebars_room_list_width_px);
+        settings.setSidebarsCommunitiesWidthPx(stateSnapshot.sidebars_communities_width_px);
+        settings.setCurrentFilterId(
+          QString::fromStdString(static_cast<std::string>(stateSnapshot.current_filter_id)));
+        settings.setCurrentRoomId(
+          QString::fromStdString(static_cast<std::string>(stateSnapshot.current_room_id)));
+        {
+            QStringList values;
+            for (const auto &value : stateSnapshot.global_excludes)
+                values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+            settings.setGlobalExcludes(values);
         }
-        case staged_load_plan::Stage::State: {
-            const auto &stateSnapshot  = profileSnapshot.state;
-            const bool stateFileExists = stateSnapshot.source_exists;
-            logStateMigrationWarnings(stateSnapshot);
-            settings.setWindowWidth(stateSnapshot.window_width);
-            settings.setWindowHeight(stateSnapshot.window_height);
-            settings.setSidebarsRoomListWidthPx(stateSnapshot.sidebars_room_list_width_px);
-            settings.setSidebarsCommunitiesWidthPx(stateSnapshot.sidebars_communities_width_px);
-            settings.setCurrentFilterId(
-              QString::fromStdString(static_cast<std::string>(stateSnapshot.current_filter_id)));
-            settings.setCurrentRoomId(
-              QString::fromStdString(static_cast<std::string>(stateSnapshot.current_room_id)));
-            {
-                QStringList values;
-                for (const auto &value : stateSnapshot.global_excludes)
-                    values.push_back(QString::fromStdString(static_cast<std::string>(value)));
-                settings.setGlobalExcludes(values);
-            }
-            {
-                QStringList values;
-                for (const auto &value : stateSnapshot.badges_hidden_filters)
-                    values.push_back(QString::fromStdString(static_cast<std::string>(value)));
-                settings.setBadgesHiddenFilters(values);
-            }
-            {
-                QStringList values;
-                for (const auto &value : stateSnapshot.hidden_pins)
-                    values.push_back(QString::fromStdString(static_cast<std::string>(value)));
-                settings.setHiddenPins(values);
-            }
-            {
-                QStringList values;
-                for (const auto &value : stateSnapshot.hidden_widgets)
-                    values.push_back(QString::fromStdString(static_cast<std::string>(value)));
-                settings.setHiddenWidgets(values);
-            }
-            {
-                QStringList values;
-                for (const auto &value : stateSnapshot.collapsed_spaces)
-                    values.push_back(QString::fromStdString(static_cast<std::string>(value)));
-                settings.setCollapsedSpaces(values);
-            }
-            {
-                QMap<QString, QString> drafts;
-                for (const auto &entry : stateSnapshot.composer_drafts_by_room) {
-                    drafts.insert(QString::fromStdString(static_cast<std::string>(entry.key)),
-                                  QString::fromStdString(static_cast<std::string>(entry.value)));
-                }
-                settings.setComposerDraftsByRoom(drafts);
-            }
-            if (persistMigrationWriteback && stateFileExists && !stateSnapshot.had_future_version &&
-                !stateSnapshot.had_unsupported_path && stateSnapshot.should_write_back) {
-                const auto result =
-                  ::komai::rust::settings_profile_flush(*profileHandle, false, false, false, true);
-                if (!result.state_saved) {
-                    settings::activeLoggers().ui->warn(
-                      "Failed to persist migrated state settings at: {}",
-                      settings.stateFilePath().toStdString());
-                } else {
-                    settings::activeLoggers().ui->info(
-                      "Persisted state settings schema migration {} -> {} at: {}",
-                      stateSnapshot.source_version,
-                      stateSnapshot.migrated_version,
-                      settings.stateFilePath().toStdString());
-                }
-            }
-            break;
+        {
+            QStringList values;
+            for (const auto &value : stateSnapshot.badges_hidden_filters)
+                values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+            settings.setBadgesHiddenFilters(values);
         }
+        {
+            QStringList values;
+            for (const auto &value : stateSnapshot.hidden_pins)
+                values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+            settings.setHiddenPins(values);
+        }
+        {
+            QStringList values;
+            for (const auto &value : stateSnapshot.hidden_widgets)
+                values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+            settings.setHiddenWidgets(values);
+        }
+        {
+            QStringList values;
+            for (const auto &value : stateSnapshot.collapsed_spaces)
+                values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+            settings.setCollapsedSpaces(values);
+        }
+        {
+            QMap<QString, QString> drafts;
+            for (const auto &entry : stateSnapshot.composer_drafts_by_room) {
+                drafts.insert(QString::fromStdString(static_cast<std::string>(entry.key)),
+                              QString::fromStdString(static_cast<std::string>(entry.value)));
+            }
+            settings.setComposerDraftsByRoom(drafts);
+        }
+        if (persistMigrationWriteback && stateFileExists && !stateSnapshot.had_future_version &&
+            !stateSnapshot.had_unsupported_path && stateSnapshot.should_write_back) {
+            const auto result =
+              ::komai::rust::settings_profile_flush(*profileHandle, false, false, false, true);
+            if (!result.state_saved) {
+                settings::activeLoggers().ui->warn(
+                  "Failed to persist migrated state settings at: {}",
+                  settings.stateFilePath().toStdString());
+            } else {
+                settings::activeLoggers().ui->info(
+                  "Persisted state settings schema migration {} -> {} at: {}",
+                  stateSnapshot.source_version,
+                  stateSnapshot.migrated_version,
+                  settings.stateFilePath().toStdString());
+            }
         }
     }
 
     if (loadPolicy == settings::SettingsController::LoadPolicy::Full) {
         const bool hasActiveSession            = settings.hasActiveSession();
         const bool hasPersistedSessionIdentity = settings.hasPersistedSessionIdentity();
-        if (!hasActiveSession && !hasPersistedSessionIdentity) {
-            const bool secureAvailable   = secureBackendAvailableNow();
-            const auto preferredProvider = preferredProviderForAvailability(secureAvailable);
-            if (preferredProvider != provider) {
-                settings::activeLoggers().ui->info(
-                  "Profile '{}' has no active session; switching secrets provider '{}' -> '{}' "
-                  "(secure backend available={})",
-                  app_paths::normalizedProfileId(settings.profileId()).toStdString(),
-                  providerToken(provider),
-                  providerToken(preferredProvider),
-                  secureAvailable ? "true" : "false");
-                startupSecretsProviderChanged = true;
-                provider                      = preferredProvider;
-                settings.setUsesFileSecretsProvider(provider ==
-                                                    staged_load_plan::SecretsProvider::File);
-                configSnapshot.secrets.provider =
-                  QString::fromLatin1(providerToken(provider)).toStdString();
-                ::komai::rust::settings_profile_set_config_secrets_provider(
-                  *profileHandle, configSnapshot.secrets.provider);
-
-                if (persistMigrationWriteback &&
-                    (configSnapshot.had_future_version || configSnapshot.had_unsupported_path)) {
-                    settings::activeLoggers().ui->warn(
-                      "Skipped persisting startup secrets provider update for profile '{}' "
-                      "(future_version={}, unsupported_path={})",
-                      app_paths::normalizedProfileId(settings.profileId()).toStdString(),
-                      configSnapshot.had_future_version ? "true" : "false",
-                      configSnapshot.had_unsupported_path ? "true" : "false");
-                }
-            } else {
-                settings::activeLoggers().ui->debug(
-                  "Profile '{}' has no active session; secrets provider '{}' unchanged "
-                  "(secure backend available={})",
-                  app_paths::normalizedProfileId(settings.profileId()).toStdString(),
-                  providerToken(provider),
-                  secureAvailable ? "true" : "false");
-            }
-            settings.setSecretsProviderFallbackWarningVisible(
-              provider == staged_load_plan::SecretsProvider::File && !secureAvailable);
-        } else {
-            settings.setSecretsProviderFallbackWarningVisible(false);
-            if (!hasActiveSession && hasPersistedSessionIdentity) {
-                settings::activeLoggers().ui->warn(
-                  "Profile '{}' has persisted session identity but no active session auth; "
-                  "skipping startup secrets-provider auto-switch to avoid credential loss",
-                  app_paths::normalizedProfileId(settings.profileId()).toStdString());
-            }
+        settings.setSecretsProviderFallbackWarningVisible(
+          profileSnapshot.secrets_provider_fallback_warning_visible);
+        if (!hasActiveSession && hasPersistedSessionIdentity) {
+            settings::activeLoggers().ui->warn(
+              "Profile '{}' has persisted session identity but no active session auth; "
+              "skipping startup secrets-provider auto-switch to avoid credential loss",
+              app_paths::normalizedProfileId(settings.profileId()).toStdString());
         }
     } else {
         settings.setSecretsProviderFallbackWarningVisible(false);
+    }
+
+    if (startupSecretsProviderChanged && persistMigrationWriteback &&
+        (configSnapshot.had_future_version || configSnapshot.had_unsupported_path)) {
+        settings::activeLoggers().ui->warn(
+          "Skipped persisting startup secrets provider update for profile '{}' "
+          "(future_version={}, unsupported_path={})",
+          app_paths::normalizedProfileId(settings.profileId()).toStdString(),
+          configSnapshot.had_future_version ? "true" : "false",
+          configSnapshot.had_unsupported_path ? "true" : "false");
     }
 
     if (persistMigrationWriteback && !configSnapshot.had_future_version &&

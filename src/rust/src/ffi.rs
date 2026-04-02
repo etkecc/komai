@@ -422,6 +422,9 @@ mod bridge {
         session: SettingsLoadedSession,
         state: SettingsLoadedState,
         secrets: SettingsSecretsPayload,
+        uses_file_secrets_provider: bool,
+        startup_secrets_provider_changed: bool,
+        secrets_provider_fallback_warning_visible: bool,
     }
 
     struct SettingsProfileFlushResult {
@@ -1111,9 +1114,10 @@ mod bridge {
             include_session: bool,
         ) -> Box<SettingsProfileHandle>;
         fn settings_profile_snapshot(handle: &SettingsProfileHandle) -> SettingsLoadedProfile;
-        fn settings_profile_set_config_secrets_provider(
+        fn settings_profile_prepare_for_load(
             handle: Pin<&mut SettingsProfileHandle>,
-            provider: &str,
+            full_load: bool,
+            secure_backend_available: bool,
         );
         fn settings_profile_replace_config_snapshot(
             handle: Pin<&mut SettingsProfileHandle>,

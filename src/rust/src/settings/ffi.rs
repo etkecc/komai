@@ -596,11 +596,12 @@ pub(crate) fn settings_profile_snapshot(
     handle.snapshot()
 }
 
-pub(crate) fn settings_profile_set_config_secrets_provider(
+pub(crate) fn settings_profile_prepare_for_load(
     handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
-    provider: &str,
+    full_load: bool,
+    secure_backend_available: bool,
 ) {
-    handle.set_config_secrets_provider(provider);
+    handle.prepare_for_load(full_load, secure_backend_available);
 }
 
 pub(crate) fn settings_profile_replace_config_snapshot(
@@ -941,7 +942,9 @@ fn clone_config_composer_section(
     }
 }
 
-fn loaded_config_to_snapshot(loaded: &ffi::SettingsLoadedConfig) -> ffi::SettingsConfigSnapshot {
+pub(in crate::settings) fn loaded_config_to_snapshot(
+    loaded: &ffi::SettingsLoadedConfig,
+) -> ffi::SettingsConfigSnapshot {
     ffi::SettingsConfigSnapshot {
         ui: clone_config_ui_section(&loaded.ui),
         sidebars: clone_config_sidebars_section(&loaded.sidebars),
@@ -1119,6 +1122,10 @@ pub(in crate::settings) fn clone_loaded_profile(
             secrets: loaded.secrets.secrets.to_vec(),
             had_stale_values: loaded.secrets.had_stale_values,
         },
+        uses_file_secrets_provider: loaded.uses_file_secrets_provider,
+        startup_secrets_provider_changed: loaded.startup_secrets_provider_changed,
+        secrets_provider_fallback_warning_visible: loaded
+            .secrets_provider_fallback_warning_visible,
     }
 }
 

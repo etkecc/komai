@@ -16,22 +16,14 @@ pub struct SettingsProfileHandle {
 }
 
 impl SettingsProfileHandle {
-    pub fn load_for_profile(profile_id: &str, include_session: bool) -> Self {
-        let snapshot = settings::profile::load_profile_snapshot_for_profile(profile_id, include_session);
-        let uses_file_secrets_provider =
-            snapshot.config.config.secrets.provider.to_storage_string() == "file";
-        let config_dirty = snapshot.config.source_exists && snapshot.config.should_write_back;
-        let session_dirty = snapshot.session.source_exists && snapshot.session.should_write_back;
-        let state_dirty = snapshot.state.source_exists && snapshot.state.should_write_back;
+    pub(crate) fn from_loaded(profile_id: &str, loaded: ffi::SettingsLoadedProfile) -> Self {
+        let config_dirty = loaded.config.source_exists && loaded.config.should_write_back;
+        let session_dirty = loaded.session.source_exists && loaded.session.should_write_back;
+        let state_dirty = loaded.state.source_exists && loaded.state.should_write_back;
 
         Self {
             profile_id: profile_id.to_owned(),
-            loaded: ffi::SettingsLoadedProfile {
-                config: settings::ffi::ffi_loaded_config(snapshot.config),
-                session: settings::ffi::ffi_loaded_session(snapshot.session),
-                state: settings::ffi::ffi_loaded_state(snapshot.state),
-                secrets: settings::secrets::load_profile_secrets(profile_id, uses_file_secrets_provider),
-            },
+            loaded,
             config_dirty,
             session_dirty,
             secrets_dirty: false,
@@ -39,15 +31,98 @@ impl SettingsProfileHandle {
         }
     }
 
+    fn uses_file_secrets_provider(&self) -> bool {
+        self.loaded.config.secrets.provider == "file"
+    }
+
+    fn has_persisted_session_identity(&self) -> bool {
+        !self.loaded.session.user_id.trim().is_empty()
+            && !self.loaded.session.device_id.trim().is_empty()
+            && !self.loaded.session.homeserver.trim().is_empty()
+    }
+
+    fn has_active_session(&self) -> bool {
+        self.has_persisted_session_identity() && !self.loaded.secrets.access_token.trim().is_empty()
+    }
+
+    fn preferred_secrets_provider(secure_backend_available: bool) -> &'static str {
+        if secure_backend_available {
+            "secret_service"
+        } else {
+            "file"
+        }
+    }
+
+    fn refresh_loaded_config_yaml(&mut self) {
+        self.loaded.config.serialized_yaml =
+            settings::config::encode_config_yaml(&settings::ffi::loaded_config_to_snapshot(
+                &self.loaded.config,
+            ));
+    }
+
+    pub fn load_for_profile(profile_id: &str, include_session: bool) -> Self {
+        let snapshot = settings::profile::load_profile_snapshot_for_profile(profile_id, include_session);
+        let uses_file_secrets_provider =
+            snapshot.config.config.secrets.provider.to_storage_string() == "file";
+        Self::from_loaded(
+            profile_id,
+            ffi::SettingsLoadedProfile {
+                config: settings::ffi::ffi_loaded_config(snapshot.config),
+                session: settings::ffi::ffi_loaded_session(snapshot.session),
+                state: settings::ffi::ffi_loaded_state(snapshot.state),
+                secrets: settings::secrets::load_profile_secrets(profile_id, uses_file_secrets_provider),
+                uses_file_secrets_provider,
+                startup_secrets_provider_changed: false,
+                secrets_provider_fallback_warning_visible: false,
+            },
+        )
+    }
+
+    #[cfg(test)]
+    pub(crate) fn empty_for_test(profile_id: &str) -> Self {
+        Self::from_loaded(
+            profile_id,
+            ffi::SettingsLoadedProfile {
+                config: settings::ffi::ffi_loaded_config(settings::config::load_config_snapshot("")),
+                session: settings::ffi::ffi_loaded_session(settings::session::load_session_snapshot("")),
+                state: settings::ffi::ffi_loaded_state(settings::state::load_state_snapshot("")),
+                secrets: ffi::SettingsSecretsPayload {
+                    access_token: String::new(),
+                    secrets: Vec::new(),
+                    had_stale_values: false,
+                },
+                uses_file_secrets_provider: false,
+                startup_secrets_provider_changed: false,
+                secrets_provider_fallback_warning_visible: false,
+            },
+        )
+    }
+
     pub fn snapshot(&self) -> ffi::SettingsLoadedProfile {
         settings::ffi::clone_loaded_profile(&self.loaded)
     }
 
-    pub fn set_config_secrets_provider(mut self: Pin<&mut Self>, provider: &str) {
+    pub fn prepare_for_load(mut self: Pin<&mut Self>, full_load: bool, secure_backend_available: bool) {
         let this = self.as_mut().get_mut();
-        if this.loaded.config.secrets.provider != provider {
-            this.loaded.config.secrets.provider = provider.to_owned();
+        this.loaded.startup_secrets_provider_changed = false;
+        this.loaded.secrets_provider_fallback_warning_visible = false;
+
+        let preferred_provider = Self::preferred_secrets_provider(secure_backend_available);
+        let should_switch_provider = !this.loaded.config.source_exists
+            || (full_load && !this.has_active_session() && !this.has_persisted_session_identity());
+        if should_switch_provider && this.loaded.config.secrets.provider != preferred_provider {
+            this.loaded.config.secrets.provider = preferred_provider.to_owned();
+            this.loaded.uses_file_secrets_provider = preferred_provider == "file";
+            this.loaded.startup_secrets_provider_changed = true;
             this.config_dirty = true;
+            this.refresh_loaded_config_yaml();
+        } else {
+            this.loaded.uses_file_secrets_provider = this.uses_file_secrets_provider();
+        }
+
+        if full_load && !this.has_active_session() && !this.has_persisted_session_identity() {
+            this.loaded.secrets_provider_fallback_warning_visible =
+                this.loaded.uses_file_secrets_provider && !secure_backend_available;
         }
     }
 

@@ -21,6 +21,30 @@ matrix_profile_cache_root(::rust::Str)
 }
 
 ::rust::String
+settings_profile_config_path(::rust::Str profile_id)
+{
+    return ::rust::String(
+      settings::storage::configFilePathForProfile(QString::fromStdString(std::string(profile_id)))
+        .toStdString());
+}
+
+::rust::String
+settings_profile_state_path(::rust::Str profile_id)
+{
+    return ::rust::String(
+      settings::storage::stateFilePathForProfile(QString::fromStdString(std::string(profile_id)))
+        .toStdString());
+}
+
+::rust::String
+settings_profile_session_path(::rust::Str profile_id)
+{
+    return ::rust::String(
+      settings::storage::sessionFilePathForProfile(QString::fromStdString(std::string(profile_id)))
+        .toStdString());
+}
+
+::rust::String
 settings_read_text_file(::rust::Str path, ::rust::Str label)
 {
     const auto labelString = std::string(label);

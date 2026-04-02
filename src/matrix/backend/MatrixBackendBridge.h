@@ -30,6 +30,15 @@ matrix_profile_data_root(::rust::Str profile_id);
 matrix_profile_cache_root(::rust::Str profile_id);
 
 ::rust::String
+settings_profile_config_path(::rust::Str profile_id);
+
+::rust::String
+settings_profile_state_path(::rust::Str profile_id);
+
+::rust::String
+settings_profile_session_path(::rust::Str profile_id);
+
+::rust::String
 settings_read_text_file(::rust::Str path, ::rust::Str label);
 
 bool

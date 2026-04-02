@@ -118,10 +118,8 @@ loadImpl(UserSettings &settings,
                                    pathExists(settings.sessionFilePath());
     settings.setPersistenceSuspended(true);
 
-    auto profileHandle = ::komai::rust::settings_open_profile_handle(
-      settings.configFilePath().toStdString(),
-      settings.sessionFilePath().toStdString(),
-      settings.stateFilePath().toStdString(),
+    auto profileHandle = ::komai::rust::settings_open_profile_handle_for_profile(
+      settings.profileId().toStdString(),
       loadPolicy == settings::SettingsController::LoadPolicy::Full);
     auto profileSnapshot = ::komai::rust::settings_profile_snapshot(*profileHandle);
     auto &configSnapshot = profileSnapshot.config;

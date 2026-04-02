@@ -14,6 +14,14 @@ pub struct SettingsProfileHandle {
 }
 
 impl SettingsProfileHandle {
+    pub fn load_for_profile(profile_id: &str, include_session: bool) -> Self {
+        let config_path = settings::storage::config_file_path_for_profile(profile_id);
+        let session_path = settings::storage::session_file_path_for_profile(profile_id);
+        let state_path = settings::storage::state_file_path_for_profile(profile_id);
+
+        Self::load_from_paths(&config_path, &session_path, &state_path, include_session)
+    }
+
     pub fn load_from_paths(
         config_path: &str,
         session_path: &str,

@@ -934,6 +934,12 @@ mod bridge {
         #[namespace = "komai::rust_bridge"]
         fn matrix_profile_cache_root(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
+        fn settings_profile_config_path(profile_id: &str) -> String;
+        #[namespace = "komai::rust_bridge"]
+        fn settings_profile_state_path(profile_id: &str) -> String;
+        #[namespace = "komai::rust_bridge"]
+        fn settings_profile_session_path(profile_id: &str) -> String;
+        #[namespace = "komai::rust_bridge"]
         fn settings_read_text_file(path: &str, label: &str) -> String;
         #[namespace = "komai::rust_bridge"]
         fn settings_write_text_file(
@@ -1037,6 +1043,10 @@ mod bridge {
             config_path: &str,
             session_path: &str,
             state_path: &str,
+            include_session: bool,
+        ) -> Box<SettingsProfileHandle>;
+        fn settings_open_profile_handle_for_profile(
+            profile_id: &str,
             include_session: bool,
         ) -> Box<SettingsProfileHandle>;
         fn settings_profile_snapshot(handle: &SettingsProfileHandle) -> SettingsLoadedProfile;

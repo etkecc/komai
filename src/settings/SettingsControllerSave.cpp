@@ -29,11 +29,8 @@ ensureRustSettingsProfileHandle(UserSettings &settings, bool includeSession)
     if (auto *handle = settings.rustSettingsProfileHandle(); handle != nullptr)
         return handle;
 
-    auto handle =
-      ::komai::rust::settings_open_profile_handle(settings.configFilePath().toStdString(),
-                                                  settings.sessionFilePath().toStdString(),
-                                                  settings.stateFilePath().toStdString(),
-                                                  includeSession);
+    auto handle = ::komai::rust::settings_open_profile_handle_for_profile(
+      settings.profileId().toStdString(), includeSession);
     settings.setRustSettingsProfileHandle(std::move(handle));
     return settings.rustSettingsProfileHandle();
 }

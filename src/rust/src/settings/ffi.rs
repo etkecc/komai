@@ -527,6 +527,16 @@ pub(crate) fn settings_open_profile_handle(
     ))
 }
 
+pub(crate) fn settings_open_profile_handle_for_profile(
+    profile_id: &str,
+    include_session: bool,
+) -> Box<settings::profile::SettingsProfileHandle> {
+    Box::new(settings::profile::SettingsProfileHandle::load_for_profile(
+        profile_id,
+        include_session,
+    ))
+}
+
 pub(crate) fn settings_profile_snapshot(
     handle: &settings::profile::SettingsProfileHandle,
 ) -> ffi::SettingsLoadedProfile {

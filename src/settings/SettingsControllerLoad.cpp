@@ -22,6 +22,17 @@
 
 namespace {
 
+QMap<QString, QString>
+fromRustStringMapEntries(const ::rust::Vec<::komai::rust::SettingsStringMapEntry> &entries)
+{
+    QMap<QString, QString> secrets;
+    for (const auto &entry : entries) {
+        secrets[QString::fromStdString(static_cast<std::string>(entry.key))] =
+          QString::fromStdString(static_cast<std::string>(entry.value));
+    }
+    return secrets;
+}
+
 const char *
 providerToken(staged_load_plan::SecretsProvider provider)
 {
@@ -35,6 +46,33 @@ preferredProviderForAvailability(bool secureBackendAvailable)
 {
     return secureBackendAvailable ? staged_load_plan::SecretsProvider::SecretService
                                   : staged_load_plan::SecretsProvider::File;
+}
+
+void
+logLoadedSecrets(QStringView profileId,
+                 bool usesFileSecretsProvider,
+                 const ::komai::rust::SettingsSecretsPayload &payload)
+{
+    if (usesFileSecretsProvider) {
+        settings::activeLoggers().ui->info(
+          "Loaded file-backed secrets (has_access_token={}, secrets_count={})",
+          !QString::fromStdString(static_cast<std::string>(payload.access_token))
+             .trimmed()
+             .isEmpty(),
+          payload.secrets.size());
+        return;
+    }
+
+    if (payload.had_stale_values) {
+        settings::activeLoggers().ui->warn(
+          "Found stale/empty secure backend values for profile '{}'",
+          app_paths::normalizedProfileId(profileId).toStdString());
+    }
+
+    settings::activeLoggers().ui->info(
+      "Loaded secure-backend secrets (has_access_token={}, secrets_count={})",
+      !QString::fromStdString(static_cast<std::string>(payload.access_token)).trimmed().isEmpty(),
+      payload.secrets.size());
 }
 
 void
@@ -175,7 +213,7 @@ loadImpl(UserSettings &settings,
                 !sessionSnapshot.had_future_version && !sessionSnapshot.had_unsupported_path &&
                 sessionSnapshot.should_write_back) {
                 const auto result =
-                  ::komai::rust::settings_profile_flush(*profileHandle, false, true, false);
+                  ::komai::rust::settings_profile_flush(*profileHandle, false, true, false, false);
                 if (!result.session_saved) {
                     settings::activeLoggers().ui->warn(
                       "Failed to persist migrated session settings at: {}",
@@ -192,9 +230,11 @@ loadImpl(UserSettings &settings,
         }
         case staged_load_plan::Stage::SecretsSecureBackend:
         case staged_load_plan::Stage::SecretsFile: {
-            const auto payload = settings::persistence::loadProfileSecrets(
-              settings.profileId(), settings.usesFileSecretsProvider());
-            settings.applyLoadedSecrets(payload.accessToken, payload.secrets);
+            const auto &payload = profileSnapshot.secrets;
+            settings.applyLoadedSecrets(
+              QString::fromStdString(static_cast<std::string>(payload.access_token)),
+              fromRustStringMapEntries(payload.secrets));
+            logLoadedSecrets(settings.profileId(), settings.usesFileSecretsProvider(), payload);
             break;
         }
         case staged_load_plan::Stage::State: {
@@ -250,7 +290,7 @@ loadImpl(UserSettings &settings,
             if (persistMigrationWriteback && stateFileExists && !stateSnapshot.had_future_version &&
                 !stateSnapshot.had_unsupported_path && stateSnapshot.should_write_back) {
                 const auto result =
-                  ::komai::rust::settings_profile_flush(*profileHandle, false, false, true);
+                  ::komai::rust::settings_profile_flush(*profileHandle, false, false, false, true);
                 if (!result.state_saved) {
                     settings::activeLoggers().ui->warn(
                       "Failed to persist migrated state settings at: {}",
@@ -326,7 +366,7 @@ loadImpl(UserSettings &settings,
     if (persistMigrationWriteback && !configSnapshot.had_future_version &&
         !configSnapshot.had_unsupported_path) {
         const auto result =
-          ::komai::rust::settings_profile_flush(*profileHandle, true, false, false);
+          ::komai::rust::settings_profile_flush(*profileHandle, true, false, false, false);
         if (result.config_saved) {
             if (startupSecretsProviderChanged) {
                 settings::activeLoggers().ui->info(

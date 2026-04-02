@@ -19,6 +19,19 @@
 
 namespace {
 
+::rust::Vec<::komai::rust::SettingsStringMapEntry>
+toRustStringMapEntries(const QMap<QString, QString> &entries)
+{
+    ::rust::Vec<::komai::rust::SettingsStringMapEntry> rustEntries;
+    for (auto it = entries.constBegin(); it != entries.constEnd(); ++it) {
+        rustEntries.push_back({
+          .key   = it.key().toStdString(),
+          .value = it.value().toStdString(),
+        });
+    }
+    return rustEntries;
+}
+
 ::komai::rust::SettingsProfileHandle *
 ensureRustSettingsProfileHandle(UserSettings &settings, bool includeSession)
 {
@@ -55,6 +68,7 @@ logFlushOutcome(QStringView profileId, const ::komai::rust::SettingsProfileFlush
 {
     logFlushOutcome(profileId, "config", result.config_attempted, result.config_saved);
     logFlushOutcome(profileId, "session", result.session_attempted, result.session_saved);
+    logFlushOutcome(profileId, "secrets", result.secrets_attempted, result.secrets_saved);
     logFlushOutcome(profileId, "state", result.state_attempted, result.state_saved);
 }
 
@@ -73,29 +87,32 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
         auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
         settings::serializer::stageConfig(
           settings, settings.usesFileSecretsProvider(), *profileHandle);
-        logFlushOutcome(settings.profileId(),
-                        ::komai::rust::settings_profile_flush(*profileHandle, true, false, false));
+        logFlushOutcome(
+          settings.profileId(),
+          ::komai::rust::settings_profile_flush(*profileHandle, true, false, false, false));
     } else if (policy == SavePolicy::StateOnly) {
         auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
         settings::serializer::stageState(settings, *profileHandle);
-        logFlushOutcome(settings.profileId(),
-                        ::komai::rust::settings_profile_flush(*profileHandle, false, false, true));
+        logFlushOutcome(
+          settings.profileId(),
+          ::komai::rust::settings_profile_flush(*profileHandle, false, false, false, true));
     } else if (policy == SavePolicy::Full) {
         auto *profileHandle = ensureRustSettingsProfileHandle(settings, true);
         settings::serializer::stageConfig(
           settings, settings.usesFileSecretsProvider(), *profileHandle);
         settings::serializer::stageSession(settings, *profileHandle);
-        logFlushOutcome(settings.profileId(),
-                        ::komai::rust::settings_profile_flush(*profileHandle, true, true, false));
-
-        settings::persistence::saveProfileSecrets(settings.profileId(),
-                                                  settings.usesFileSecretsProvider(),
-                                                  settings.accessToken(),
-                                                  settings.secretsMap());
+        ::komai::rust::settings_profile_replace_secrets_payload(
+          *profileHandle,
+          settings.accessToken().toStdString(),
+          toRustStringMapEntries(settings.secretsMap()));
+        logFlushOutcome(
+          settings.profileId(),
+          ::komai::rust::settings_profile_flush(*profileHandle, true, true, true, false));
 
         settings::serializer::stageState(settings, *profileHandle);
-        logFlushOutcome(settings.profileId(),
-                        ::komai::rust::settings_profile_flush(*profileHandle, false, false, true));
+        logFlushOutcome(
+          settings.profileId(),
+          ::komai::rust::settings_profile_flush(*profileHandle, false, false, false, true));
     }
     syncCoreStoreFromSettings(settings);
 }
@@ -121,7 +138,8 @@ settings::SettingsController::clearAuth(UserSettings &settings)
                                                settings.usesFileSecretsProvider());
     auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
     settings::serializer::stageState(settings, *profileHandle);
-    logFlushOutcome(settings.profileId(),
-                    ::komai::rust::settings_profile_flush(*profileHandle, false, false, true));
+    logFlushOutcome(
+      settings.profileId(),
+      ::komai::rust::settings_profile_flush(*profileHandle, false, false, false, true));
     syncCoreStoreFromSettings(settings);
 }

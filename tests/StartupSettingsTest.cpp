@@ -1235,7 +1235,7 @@ testSerializerLoggerInjection()
     settings::storage::removePath(stateFile);
 
     settings::serializer::stageState(*settings, *profileHandle);
-    ::komai::rust::settings_profile_flush(*profileHandle, false, false, true);
+    ::komai::rust::settings_profile_flush(*profileHandle, false, false, false, true);
     const bool nullLoggerWrite = expect(
       settings::storage::pathExists(stateFile), "state write succeeds with null-injected serializer logger");
 
@@ -1248,7 +1248,7 @@ testSerializerLoggerInjection()
     const bool injectedLoggerWrite = [&] {
         settings::storage::removePath(stateFile);
         settings::serializer::stageState(*settings, *profileHandle);
-        ::komai::rust::settings_profile_flush(*profileHandle, false, false, true);
+        ::komai::rust::settings_profile_flush(*profileHandle, false, false, false, true);
         return settings::storage::pathExists(stateFile);
     }();
 
@@ -1259,7 +1259,7 @@ testSerializerLoggerInjection()
       ::komai::rust::settings_open_profile_handle_for_profile(profile.toStdString(), true);
     settings::serializer::stageSession(*settings, *emptySessionHandle);
     const auto sessionFlush =
-      ::komai::rust::settings_profile_flush(*emptySessionHandle, false, true, false);
+      ::komai::rust::settings_profile_flush(*emptySessionHandle, false, true, false, false);
     const bool noSessionFileWithoutToken = expect(
       !sessionFlush.session_attempted, "session save is no-op when token is missing");
 

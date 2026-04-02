@@ -626,13 +626,22 @@ pub(crate) fn settings_profile_replace_state_snapshot(
     handle.replace_state_snapshot(snapshot);
 }
 
+pub(crate) fn settings_profile_replace_secrets_payload(
+    handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
+    access_token: &str,
+    entries: &Vec<ffi::SettingsStringMapEntry>,
+) {
+    handle.replace_secrets_payload(access_token, entries.as_slice());
+}
+
 pub(crate) fn settings_profile_flush(
     handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
     write_config: bool,
     write_session: bool,
+    write_secrets: bool,
     write_state: bool,
 ) -> ffi::SettingsProfileFlushResult {
-    handle.flush(write_config, write_session, write_state)
+    handle.flush(write_config, write_session, write_secrets, write_state)
 }
 
 pub(crate) fn settings_remove_session_file_for_profile(profile_id: &str) -> bool {
@@ -1094,6 +1103,11 @@ pub(in crate::settings) fn clone_loaded_profile(
         config: clone_loaded_config(&loaded.config),
         session: clone_loaded_session(&loaded.session),
         state: clone_loaded_state(&loaded.state),
+        secrets: ffi::SettingsSecretsPayload {
+            access_token: loaded.secrets.access_token.clone(),
+            secrets: loaded.secrets.secrets.to_vec(),
+            had_stale_values: loaded.secrets.had_stale_values,
+        },
     }
 }
 

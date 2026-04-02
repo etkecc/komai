@@ -76,7 +76,7 @@ mod bridge {
         value: String,
     }
 
-    #[derive(Debug, PartialEq, Eq)]
+    #[derive(Clone, Debug, PartialEq, Eq)]
     struct SettingsStringMapEntry {
         key: String,
         value: String,
@@ -421,6 +421,7 @@ mod bridge {
         config: SettingsLoadedConfig,
         session: SettingsLoadedSession,
         state: SettingsLoadedState,
+        secrets: SettingsSecretsPayload,
     }
 
     struct SettingsProfileFlushResult {
@@ -428,6 +429,8 @@ mod bridge {
         config_saved: bool,
         session_attempted: bool,
         session_saved: bool,
+        secrets_attempted: bool,
+        secrets_saved: bool,
         state_attempted: bool,
         state_saved: bool,
     }
@@ -1129,10 +1132,16 @@ mod bridge {
             handle: Pin<&mut SettingsProfileHandle>,
             snapshot: &SettingsStateSnapshot,
         );
+        fn settings_profile_replace_secrets_payload(
+            handle: Pin<&mut SettingsProfileHandle>,
+            access_token: &str,
+            entries: &Vec<SettingsStringMapEntry>,
+        );
         fn settings_profile_flush(
             handle: Pin<&mut SettingsProfileHandle>,
             write_config: bool,
             write_session: bool,
+            write_secrets: bool,
             write_state: bool,
         ) -> SettingsProfileFlushResult;
         fn settings_remove_session_file_for_profile(profile_id: &str) -> bool;

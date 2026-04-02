@@ -113,6 +113,7 @@ async fn run_sync_loop(
 
     let mut current_values = Vector::<RoomListItem>::new();
     let mut initial_sync_ready_notified = false;
+    let mut sync_connected = true;
     crate::ffi::matrix_notify_ignored_user_list_updated(
         handle_id,
         load_ignored_user_ids(&client).await,
@@ -159,6 +160,14 @@ async fn run_sync_loop(
             maybe_sync = sync_stream.next() => {
                 match maybe_sync {
                     Some(Ok(())) => {
+                        if !sync_connected {
+                            sync_connected = true;
+                            crate::ffi::matrix_notify_sync_connection_state_changed(handle_id, true);
+                            tracing::info!(
+                                handle_id,
+                                "Matrix-sdk-ui room-list sync recovered"
+                            );
+                        }
                         if !initial_sync_ready_notified {
                             crate::ffi::matrix_notify_initial_sync_ready(handle_id);
                             initial_sync_ready_notified = true;
@@ -172,18 +181,47 @@ async fn run_sync_loop(
                     Some(Err(error)) => {
                         let error_str = format!("{error}");
                         let is_auth_error = is_auth_failure(&error_str);
+                        let is_unknown_pos_error = is_unknown_sync_position_error(&error_str);
                         tracing::warn!(
                             handle_id,
                             %error,
                             is_auth_error,
+                            is_unknown_pos_error,
                             "Matrix-sdk-ui room-list sync failed"
                         );
-                        crate::ffi::matrix_notify_sync_stopped(
-                            handle_id,
-                            &error_str,
-                            is_auth_error,
-                        );
-                        break;
+
+                        if is_auth_error {
+                            crate::ffi::matrix_notify_sync_stopped(
+                                handle_id,
+                                &error_str,
+                                true,
+                            );
+                            break;
+                        }
+
+                        if !is_unknown_pos_error && sync_connected {
+                            sync_connected = false;
+                            crate::ffi::matrix_notify_sync_connection_state_changed(
+                                handle_id,
+                                false,
+                            );
+                        }
+
+                        if is_unknown_pos_error {
+                            tracing::info!(
+                                handle_id,
+                                "Restarting matrix-sdk-ui room-list sync stream after M_UNKNOWN_POS"
+                            );
+                        } else {
+                            tracing::info!(
+                                handle_id,
+                                "Restarting matrix-sdk-ui room-list sync stream after transient failure"
+                            );
+                            tokio::time::sleep(Duration::from_secs(1)).await;
+                        }
+
+                        sync_stream = Box::pin(room_list_service.sync());
+                        continue;
                     }
                     None => {
                         tracing::info!(handle_id, "Matrix-sdk-ui room-list sync stream ended");
@@ -238,6 +276,13 @@ fn is_auth_failure(error_message: &str) -> bool {
         || lower.contains("refresh_token")
         || lower.contains("m_unknown_token")
         || lower.contains("unknown token")
+}
+
+fn is_unknown_sync_position_error(error_message: &str) -> bool {
+    let lower = error_message.to_lowercase();
+    lower.contains("m_unknown_pos")
+        || lower.contains("unknown_pos")
+        || lower.contains("connection data unknown to server")
 }
 
 async fn build_room_list_snapshot(values: &Vector<RoomListItem>) -> Vec<MatrixRoomSummary> {

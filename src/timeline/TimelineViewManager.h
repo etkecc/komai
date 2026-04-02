@@ -344,6 +344,7 @@ public slots:
     void updateReadReceipts(const QString &room_id, const std::vector<QString> &event_ids);
     void initializeRoomlist();
     void handleMatrixBackendInitialSyncReady(std::uint64_t handleId);
+    void handleMatrixBackendSyncConnectionStateChanged(std::uint64_t handleId, bool isConnected);
     void handleMatrixBackendIgnoredUsersUpdated(std::uint64_t handleId,
                                                 const QVector<QString> &ignoredUsers);
     void handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t handleId);

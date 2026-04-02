@@ -1945,10 +1945,22 @@ TimelineViewManager::handleMatrixBackendSyncStopped(std::uint64_t handleId,
         if (chatPage)
             emit chatPage->dropToLoginPageCb(
               tr("Your session has expired. Please sign in again.\n\n(%1)").arg(reason));
-    } else {
-        isConnected_ = false;
-        emit isConnectedChanged(false);
     }
+}
+
+void
+TimelineViewManager::handleMatrixBackendSyncConnectionStateChanged(std::uint64_t handleId,
+                                                                   bool isConnected)
+{
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
+        return;
+
+    if (isConnected_ == isConnected)
+        return;
+
+    isConnected_ = isConnected;
+    emit isConnectedChanged(isConnected_);
 }
 
 bool

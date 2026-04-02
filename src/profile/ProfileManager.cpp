@@ -17,7 +17,6 @@
 #include "logging/Logging.h"
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
-#include "settings/StagedLoadPlan.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "ui/Theme.h"
 
@@ -150,10 +149,9 @@ listProfiles(QStringView currentProfile)
             summary.themeSlug =
               QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
 
-        summary.secretsProvider =
-          QString::fromStdString(static_cast<std::string>(overview.secrets_provider));
-        if (summary.secretsProvider.isEmpty())
-            summary.secretsProvider = QStringLiteral("unknown");
+        summary.secretsProvider = overview.uses_file_secrets_provider
+                                    ? QStringLiteral("file")
+                                    : QStringLiteral("secret_service");
 
         summary.userId     = QString::fromStdString(static_cast<std::string>(overview.user_id));
         summary.homeserver = QString::fromStdString(static_cast<std::string>(overview.homeserver));
@@ -239,12 +237,9 @@ deleteProfile(QStringView profileId,
 
     const auto config = ::komai::rust::settings_load_config_overview_for_profile(
       normalizedTargetProfile.toStdString());
-    const auto secretsProvider = staged_load_plan::providerFromConfigValue(
-      QString::fromStdString(static_cast<std::string>(config.secrets_provider)));
 
     const bool secretsRemoved = ::komai::rust::settings_clear_profile_secrets(
-      normalizedTargetProfile.toStdString(),
-      secretsProvider == staged_load_plan::SecretsProvider::File);
+      normalizedTargetProfile.toStdString(), config.uses_file_secrets_provider);
 
     const auto configProfileDir =
       QFileInfo(app_paths::config::profileConfigFile(normalizedTargetProfile)).absolutePath();

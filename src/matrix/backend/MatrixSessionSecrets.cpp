@@ -9,7 +9,6 @@
 #include <QMap>
 
 #include "settings/SettingsStorage.h"
-#include "settings/StagedLoadPlan.h"
 
 namespace {
 
@@ -59,11 +58,9 @@ loadSecretsPersistenceContext(const QString &profileId)
 
     const auto config =
       ::komai::rust::settings_load_config_overview_for_profile(profileId.toStdString());
-    const auto provider = staged_load_plan::providerFromConfigValue(
-      QString::fromStdString(static_cast<std::string>(config.secrets_provider)));
 
     SecretsPersistenceContext context{
-      .usesFileSecretsProvider = provider == staged_load_plan::SecretsProvider::File,
+      .usesFileSecretsProvider = config.uses_file_secrets_provider,
       .secureStoreKey = settings::storage::secureStoreKey(profileId, MatrixSdkSecureStoreKey),
     };
 

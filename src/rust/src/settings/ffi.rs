@@ -21,7 +21,7 @@ fn load_config_overview(config_text: &str) -> ffi::SettingsConfigOverview {
         has_ui_scale_factor: config.ui.scale.factor.is_some(),
         ui_scale_factor: config.ui.scale.factor.unwrap_or_default(),
         theme_slug: config.ui.theme.slug,
-        secrets_provider: config.secrets.provider.to_storage_string(),
+        uses_file_secrets_provider: config.secrets.provider.to_storage_string() == "file",
     }
 }
 
@@ -35,7 +35,8 @@ pub(crate) fn settings_load_profile_overview_for_profile(profile_id: &str) -> ff
 
     ffi::SettingsProfileOverview {
         theme_slug: loaded.config.config.ui.theme.slug,
-        secrets_provider: loaded.config.config.secrets.provider.to_storage_string(),
+        uses_file_secrets_provider: loaded.config.config.secrets.provider.to_storage_string()
+            == "file",
         user_id: loaded.session.user_id,
         homeserver: loaded.session.homeserver,
     }

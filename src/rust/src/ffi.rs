@@ -61,12 +61,12 @@ mod bridge {
         has_ui_scale_factor: bool,
         ui_scale_factor: f32,
         theme_slug: String,
-        secrets_provider: String,
+        uses_file_secrets_provider: bool,
     }
 
     struct SettingsProfileOverview {
         theme_slug: String,
-        secrets_provider: String,
+        uses_file_secrets_provider: bool,
         user_id: String,
         homeserver: String,
     }

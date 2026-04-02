@@ -1063,21 +1063,9 @@ mod bridge {
             serialized: &str,
             root_key: &str,
         ) -> Vec<SettingsStringMapEntry>;
-        fn settings_load_persisted_secrets_file_from_path(
-            path: &str,
-            label: &str,
-            root_key: &str,
-        ) -> SettingsSecretsPayload;
         fn settings_load_persisted_secrets_file_for_profile(
             profile_id: &str,
         ) -> SettingsSecretsPayload;
-        fn settings_write_persisted_secrets_file_to_path(
-            path: &str,
-            root_key: &str,
-            access_token: &str,
-            entries: &Vec<SettingsStringMapEntry>,
-            owner_read_write_only: bool,
-        ) -> bool;
         fn settings_write_persisted_secrets_file_for_profile(
             profile_id: &str,
             access_token: &str,
@@ -1094,17 +1082,6 @@ mod bridge {
             owner_read_write_only: bool,
         ) -> bool;
         fn settings_remove_matrix_sdk_secrets_file_for_profile(profile_id: &str) -> bool;
-        fn settings_load_named_string_map_from_path(
-            path: &str,
-            label: &str,
-            root_key: &str,
-        ) -> Vec<SettingsStringMapEntry>;
-        fn settings_write_named_string_map_to_path(
-            path: &str,
-            root_key: &str,
-            entries: &Vec<SettingsStringMapEntry>,
-            owner_read_write_only: bool,
-        ) -> bool;
         fn settings_load_config_snapshot(config_text: &str) -> SettingsLoadedConfig;
         fn settings_open_profile_handle_for_profile(
             profile_id: &str,

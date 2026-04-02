@@ -76,34 +76,10 @@ pub(crate) fn settings_decode_named_string_map_yaml(
     settings::secrets::decode_named_string_map_yaml(serialized, root_key)
 }
 
-pub(crate) fn settings_load_persisted_secrets_file_from_path(
-    path: &str,
-    label: &str,
-    root_key: &str,
-) -> ffi::SettingsSecretsPayload {
-    settings::secrets::load_persisted_secrets_file_from_path(path, label, root_key)
-}
-
 pub(crate) fn settings_load_persisted_secrets_file_for_profile(
     profile_id: &str,
 ) -> ffi::SettingsSecretsPayload {
     settings::secrets::load_persisted_secrets_file_for_profile(profile_id)
-}
-
-pub(crate) fn settings_write_persisted_secrets_file_to_path(
-    path: &str,
-    root_key: &str,
-    access_token: &str,
-    entries: &Vec<ffi::SettingsStringMapEntry>,
-    owner_read_write_only: bool,
-) -> bool {
-    settings::secrets::write_persisted_secrets_file_to_path(
-        path,
-        root_key,
-        access_token,
-        entries.as_slice(),
-        owner_read_write_only,
-    )
 }
 
 pub(crate) fn settings_write_persisted_secrets_file_for_profile(
@@ -144,28 +120,6 @@ pub(crate) fn settings_write_matrix_sdk_secrets_for_profile(
 
 pub(crate) fn settings_remove_matrix_sdk_secrets_file_for_profile(profile_id: &str) -> bool {
     settings::secrets::remove_matrix_sdk_secrets_file_for_profile(profile_id)
-}
-
-pub(crate) fn settings_load_named_string_map_from_path(
-    path: &str,
-    label: &str,
-    root_key: &str,
-) -> Vec<ffi::SettingsStringMapEntry> {
-    settings::secrets::load_named_string_map_from_path(path, label, root_key)
-}
-
-pub(crate) fn settings_write_named_string_map_to_path(
-    path: &str,
-    root_key: &str,
-    entries: &Vec<ffi::SettingsStringMapEntry>,
-    owner_read_write_only: bool,
-) -> bool {
-    settings::secrets::write_named_string_map_to_path(
-        path,
-        root_key,
-        entries.as_slice(),
-        owner_read_write_only,
-    )
 }
 
 pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::SettingsConfigUiSection {

@@ -1288,9 +1288,11 @@ testSerializerLoggerInjection()
     settings->setSidebarsRoomListWidthPx(260);
     settings->setSidebarsCommunitiesWidthPx(240);
     const auto stateFile = ctx.stateFile();
+    auto profileHandle   = ::komai::rust::settings_open_profile_handle(
+      ctx.configFile().toStdString(), ctx.sessionFile().toStdString(), stateFile.toStdString(), true);
     settings::storage::removePath(stateFile);
 
-    settings::serializer::saveState(*settings, stateFile);
+    settings::serializer::saveState(*settings, stateFile, *profileHandle);
     const bool nullLoggerWrite = expect(
       settings::storage::pathExists(stateFile), "state write succeeds with null-injected serializer logger");
 
@@ -1302,14 +1304,14 @@ testSerializerLoggerInjection()
 
     const bool injectedLoggerWrite = [&] {
         settings::storage::removePath(stateFile);
-        settings::serializer::saveState(*settings, stateFile);
+        settings::serializer::saveState(*settings, stateFile, *profileHandle);
         return settings::storage::pathExists(stateFile);
     }();
 
     const auto sessionFile = ctx.sessionFile();
     settings->setAccessToken(QStringLiteral(""));
     settings::storage::removePath(sessionFile);
-    settings::serializer::saveSession(*settings, sessionFile);
+    settings::serializer::saveSession(*settings, sessionFile, *profileHandle);
     const bool noSessionFileWithoutToken = expect(
       !settings::storage::pathExists(sessionFile), "session save is no-op when token is missing");
 

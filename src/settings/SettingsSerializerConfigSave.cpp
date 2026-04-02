@@ -24,7 +24,7 @@ void
 saveConfig(const UserSettings &settings,
            const QString &configFilePath,
            bool usesFileSecretsProvider,
-           ::komai::rust::SettingsProfileHandle *profileHandle)
+           ::komai::rust::SettingsProfileHandle &profileHandle)
 {
     ::komai::rust::SettingsConfigSnapshot snapshot{
       .ui =
@@ -296,12 +296,8 @@ saveConfig(const UserSettings &settings,
           {.key = it.key().toStdString(), .values = std::move(rustValues)});
     }
 
-    const bool saved =
-      profileHandle != nullptr
-        ? (::komai::rust::settings_profile_replace_config_snapshot(*profileHandle, snapshot),
-           ::komai::rust::settings_profile_write_config(*profileHandle))
-        : ::komai::rust::settings_write_config_snapshot_to_path(configFilePath.toStdString(),
-                                                                snapshot);
+    ::komai::rust::settings_profile_replace_config_snapshot(profileHandle, snapshot);
+    const bool saved = ::komai::rust::settings_profile_write_config(profileHandle);
     if (saved) {
         activeLoggers().ui->debug("Saved config to: {}", configFilePath.toStdString());
     }

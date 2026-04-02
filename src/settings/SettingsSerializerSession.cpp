@@ -28,7 +28,7 @@ namespace settings::serializer {
 void
 saveSession(const UserSettings &settings,
             const QString &sessionFilePath,
-            ::komai::rust::SettingsProfileHandle *profileHandle)
+            ::komai::rust::SettingsProfileHandle &profileHandle)
 {
     const bool hasUserId      = hasSessionValue(settings.userId());
     const bool hasDeviceId    = hasSessionValue(settings.deviceId());
@@ -48,18 +48,11 @@ saveSession(const UserSettings &settings,
         return;
     }
 
-    const bool saved = profileHandle != nullptr
-                         ? (::komai::rust::settings_profile_replace_session_identity(
-                              *profileHandle,
-                              settings.userId().toStdString(),
-                              settings.homeserver().toStdString(),
-                              settings.deviceId().toStdString()),
-                            ::komai::rust::settings_profile_write_session(*profileHandle))
-                         : ::komai::rust::settings_write_session_snapshot_to_path(
-                             sessionFilePath.toStdString(),
-                             settings.userId().toStdString(),
-                             settings.homeserver().toStdString(),
-                             settings.deviceId().toStdString());
+    ::komai::rust::settings_profile_replace_session_identity(profileHandle,
+                                                             settings.userId().toStdString(),
+                                                             settings.homeserver().toStdString(),
+                                                             settings.deviceId().toStdString());
+    const bool saved = ::komai::rust::settings_profile_write_session(profileHandle);
     if (saved) {
         activeLoggers().ui->debug("Saved session to: {}", sessionFilePath.toStdString());
     }

@@ -53,15 +53,15 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
     if (policy == SavePolicy::ConfigOnly) {
         auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
         settings::serializer::saveConfig(
-          settings, settings.configFilePath(), settings.usesFileSecretsProvider(), profileHandle);
+          settings, settings.configFilePath(), settings.usesFileSecretsProvider(), *profileHandle);
     } else if (policy == SavePolicy::StateOnly) {
         auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
-        settings::serializer::saveState(settings, settings.stateFilePath(), profileHandle);
+        settings::serializer::saveState(settings, settings.stateFilePath(), *profileHandle);
     } else if (policy == SavePolicy::Full) {
         auto *profileHandle = ensureRustSettingsProfileHandle(settings, true);
         settings::serializer::saveConfig(
-          settings, settings.configFilePath(), settings.usesFileSecretsProvider(), profileHandle);
-        settings::serializer::saveSession(settings, settings.sessionFilePath(), profileHandle);
+          settings, settings.configFilePath(), settings.usesFileSecretsProvider(), *profileHandle);
+        settings::serializer::saveSession(settings, settings.sessionFilePath(), *profileHandle);
 
         settings::persistence::saveProfileSecrets(settings.profileId(),
                                                   settings.usesFileSecretsProvider(),
@@ -69,7 +69,7 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
                                                   settings.accessToken(),
                                                   settings.secretsMap());
 
-        settings::serializer::saveState(settings, settings.stateFilePath(), profileHandle);
+        settings::serializer::saveState(settings, settings.stateFilePath(), *profileHandle);
     }
     syncCoreStoreFromSettings(settings);
 }
@@ -92,6 +92,6 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     settings::persistence::clearProfileSecrets(
       settings.profileId(), settings.usesFileSecretsProvider(), settings.secretsFilePath());
     auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
-    settings::serializer::saveState(settings, settings.stateFilePath(), profileHandle);
+    settings::serializer::saveState(settings, settings.stateFilePath(), *profileHandle);
     syncCoreStoreFromSettings(settings);
 }

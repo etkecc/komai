@@ -39,14 +39,14 @@ void
 saveConfig(const UserSettings &settings,
            const QString &configFilePath,
            bool usesFileSecretsProvider,
-           ::komai::rust::SettingsProfileHandle *profileHandle = nullptr);
+           ::komai::rust::SettingsProfileHandle &profileHandle);
 void
 saveSession(const UserSettings &settings,
             const QString &sessionFilePath,
-            ::komai::rust::SettingsProfileHandle *profileHandle = nullptr);
+            ::komai::rust::SettingsProfileHandle &profileHandle);
 void
 saveState(const UserSettings &settings,
           const QString &stateFilePath,
-          ::komai::rust::SettingsProfileHandle *profileHandle = nullptr);
+          ::komai::rust::SettingsProfileHandle &profileHandle);
 
 } // namespace settings::serializer

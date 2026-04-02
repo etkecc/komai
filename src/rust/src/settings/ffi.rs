@@ -30,6 +30,17 @@ pub(crate) fn settings_load_config_overview_for_profile(profile_id: &str) -> ffi
     load_config_overview(&settings::storage::read_text_file(&config_path, "config"))
 }
 
+pub(crate) fn settings_load_profile_overview_for_profile(profile_id: &str) -> ffi::SettingsProfileOverview {
+    let loaded = settings::profile::load_profile_snapshot_for_profile(profile_id, true);
+
+    ffi::SettingsProfileOverview {
+        theme_slug: loaded.config.config.ui.theme.slug,
+        secrets_provider: loaded.config.config.secrets.provider.to_storage_string(),
+        user_id: loaded.session.user_id,
+        homeserver: loaded.session.homeserver,
+    }
+}
+
 pub(crate) fn settings_encode_string_map_yaml(entries: &Vec<ffi::SettingsStringMapEntry>) -> String {
     settings::secrets::encode_string_map_yaml(entries.as_slice())
 }
@@ -612,11 +623,6 @@ pub(crate) fn settings_profile_write_state(handle: &settings::profile::SettingsP
 
 pub(crate) fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {
     ffi_loaded_session(settings::session::load_session_snapshot(session_text))
-}
-
-pub(crate) fn settings_load_session_snapshot_for_profile(profile_id: &str) -> ffi::SettingsLoadedSession {
-    let session_path = settings::storage::session_file_path_for_profile(profile_id);
-    ffi_loaded_session(settings::session::load_session_snapshot_from_path(&session_path))
 }
 
 pub(crate) fn settings_load_state_snapshot(state_text: &str) -> ffi::SettingsLoadedState {

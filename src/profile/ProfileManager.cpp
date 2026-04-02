@@ -138,13 +138,11 @@ listProfiles(QStringView currentProfile)
         summary.isDefault = (profileId == QLatin1String("default"));
         summary.isCurrent = (profileId == currentProfile_);
 
-        const auto config =
-          ::komai::rust::settings_load_config_overview_for_profile(profileId.toStdString());
-        const auto session =
-          ::komai::rust::settings_load_session_snapshot_for_profile(profileId.toStdString());
+        const auto overview =
+          ::komai::rust::settings_load_profile_overview_for_profile(profileId.toStdString());
 
         summary.themeSlug =
-          QString::fromStdString(static_cast<std::string>(config.theme_slug)).trimmed();
+          QString::fromStdString(static_cast<std::string>(overview.theme_slug)).trimmed();
         if (summary.themeSlug.isEmpty())
             summary.themeSlug =
               QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
@@ -153,12 +151,12 @@ listProfiles(QStringView currentProfile)
               QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
 
         summary.secretsProvider =
-          QString::fromStdString(static_cast<std::string>(config.secrets_provider));
+          QString::fromStdString(static_cast<std::string>(overview.secrets_provider));
         if (summary.secretsProvider.isEmpty())
             summary.secretsProvider = QStringLiteral("unknown");
 
-        summary.userId     = QString::fromStdString(static_cast<std::string>(session.user_id));
-        summary.homeserver = QString::fromStdString(static_cast<std::string>(session.homeserver));
+        summary.userId     = QString::fromStdString(static_cast<std::string>(overview.user_id));
+        summary.homeserver = QString::fromStdString(static_cast<std::string>(overview.homeserver));
 
         const auto palette      = Theme::paletteFromTheme(summary.themeSlug);
         summary.accentColor     = palette.color(QPalette::Highlight);

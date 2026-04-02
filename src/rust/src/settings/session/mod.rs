@@ -81,10 +81,6 @@ pub fn load_session_snapshot(session_text: &str) -> LoadedSession {
     }
 }
 
-pub fn load_session_snapshot_from_path(session_path: &str) -> LoadedSession {
-    load_session_snapshot(&storage::read_text_file(session_path, "session"))
-}
-
 pub fn encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str) -> String {
     let mut root = yaml::empty_mapping();
     stamp_schema_version(&mut root, CURRENT_SESSION_SCHEMA_VERSION);

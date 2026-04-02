@@ -64,6 +64,13 @@ mod bridge {
         secrets_provider: String,
     }
 
+    struct SettingsProfileOverview {
+        theme_slug: String,
+        secrets_provider: String,
+        user_id: String,
+        homeserver: String,
+    }
+
     #[derive(Debug, PartialEq, Eq)]
     struct SettingsStringMapEntry {
         key: String,
@@ -1023,6 +1030,7 @@ mod bridge {
         fn log_from_cpp(component: &str, level: &str, message: &str);
         fn settings_load_startup_snapshot_for_profile(profile_id: &str) -> SettingsStartupSnapshot;
         fn settings_load_config_overview_for_profile(profile_id: &str) -> SettingsConfigOverview;
+        fn settings_load_profile_overview_for_profile(profile_id: &str) -> SettingsProfileOverview;
         fn settings_encode_string_map_yaml(entries: &Vec<SettingsStringMapEntry>) -> String;
         fn settings_decode_string_map_yaml(serialized: &str) -> Vec<SettingsStringMapEntry>;
         fn settings_encode_persisted_secrets_map_yaml(
@@ -1091,7 +1099,6 @@ mod bridge {
         fn settings_profile_write_session(handle: &SettingsProfileHandle) -> bool;
         fn settings_profile_write_state(handle: &SettingsProfileHandle) -> bool;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
-        fn settings_load_session_snapshot_for_profile(profile_id: &str) -> SettingsLoadedSession;
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;
         fn theme_parse_base16_yaml(theme_text: &str) -> ThemeBase16ParseResult;

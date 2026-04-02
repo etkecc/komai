@@ -63,6 +63,22 @@ AbstractButton {
             merged.eventId = eventId;
         return merged;
     }
+    readonly property bool hasResolvedPreviewData: {
+        const data = effectivePreviewData;
+        if (!data)
+            return false;
+        if (String(data.body || "").length > 0 || String(data.formattedBody || "").length > 0)
+            return true;
+        if (String(data.formattedStateEvent || "").length > 0 || String(data.userName || "").length > 0)
+            return true;
+        if (String(data.url || "").length > 0 || String(data.thumbnailUrl || "").length > 0)
+            return true;
+        if (data.type !== undefined && data.type !== null
+                && Number(data.type) !== Number(MtxEvent.UnknownMessage)) {
+            return true;
+        }
+        return false;
+    }
     readonly property int previewType: effectivePreviewData && effectivePreviewData.type !== undefined
         ? Number(effectivePreviewData.type)
         : MtxEvent.UnknownMessage
@@ -379,14 +395,17 @@ AbstractButton {
                 implicitHeight: main ? main.implicitHeight : height
                 height: main ? main.height : 0
                 isStateEvent: false
-                room: r.roleDataSource
-                eventId: r.eventId
+                // Prefer the resolved preview snapshot when it contains real
+                // content, but keep the legacy room-backed lookup as a
+                // fallback for callers that still rely on direct role access.
+                room: r.hasResolvedPreviewData ? null : r.roleDataSource
+                eventId: r.previewEventId
                 replyTo: ""
                 mainInset: 4 + Komai.paddingMedium
                 maxWidth: r.maxWidth
                 limitAsReply: true
                 previewData: r.effectivePreviewData
-                roomModelOverride: r.roleDataSource ? null : r.effectiveRoomContext
+                roomModelOverride: r.effectiveRoomContext
             }
 
             Binding {

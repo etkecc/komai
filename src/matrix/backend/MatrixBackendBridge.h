@@ -31,19 +31,7 @@ matrix_profile_data_root(::rust::Str profile_id);
 matrix_profile_cache_root(::rust::Str profile_id);
 
 ::rust::String
-settings_profile_config_path(::rust::Str profile_id);
-
-::rust::String
-settings_profile_state_path(::rust::Str profile_id);
-
-::rust::String
-settings_profile_session_path(::rust::Str profile_id);
-
-::rust::String
-settings_profile_secrets_path(::rust::Str profile_id);
-
-::rust::String
-settings_profile_matrix_sdk_secrets_path(::rust::Str profile_id);
+settings_profile_directory(::rust::Str profile_id);
 
 ::rust::String
 settings_secure_store_key(::rust::Str profile_id, ::rust::Str key_name);

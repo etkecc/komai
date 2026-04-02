@@ -967,15 +967,7 @@ mod bridge {
         #[namespace = "komai::rust_bridge"]
         fn matrix_profile_cache_root(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
-        fn settings_profile_config_path(profile_id: &str) -> String;
-        #[namespace = "komai::rust_bridge"]
-        fn settings_profile_state_path(profile_id: &str) -> String;
-        #[namespace = "komai::rust_bridge"]
-        fn settings_profile_session_path(profile_id: &str) -> String;
-        #[namespace = "komai::rust_bridge"]
-        fn settings_profile_secrets_path(profile_id: &str) -> String;
-        #[namespace = "komai::rust_bridge"]
-        fn settings_profile_matrix_sdk_secrets_path(profile_id: &str) -> String;
+        fn settings_profile_directory(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
         fn settings_secure_store_key(profile_id: &str, key_name: &str) -> String;
         #[namespace = "komai::rust_bridge"]

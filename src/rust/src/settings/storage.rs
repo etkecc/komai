@@ -3,25 +3,37 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use crate::ffi;
+use std::path::PathBuf;
+
+pub fn profile_dir_path_for_profile(profile_id: &str) -> String {
+    ffi::settings_profile_directory(profile_id)
+}
+
+fn profile_file_path(profile_id: &str, file_name: &str) -> String {
+    PathBuf::from(profile_dir_path_for_profile(profile_id))
+        .join(file_name)
+        .to_string_lossy()
+        .into_owned()
+}
 
 pub fn config_file_path_for_profile(profile_id: &str) -> String {
-    ffi::settings_profile_config_path(profile_id)
+    profile_file_path(profile_id, "config.yml")
 }
 
 pub fn state_file_path_for_profile(profile_id: &str) -> String {
-    ffi::settings_profile_state_path(profile_id)
+    profile_file_path(profile_id, "state.yml")
 }
 
 pub fn session_file_path_for_profile(profile_id: &str) -> String {
-    ffi::settings_profile_session_path(profile_id)
+    profile_file_path(profile_id, "session.yml")
 }
 
 pub fn secrets_file_path_for_profile(profile_id: &str) -> String {
-    ffi::settings_profile_secrets_path(profile_id)
+    profile_file_path(profile_id, "secrets.yml")
 }
 
 pub fn matrix_sdk_secrets_file_path_for_profile(profile_id: &str) -> String {
-    ffi::settings_profile_matrix_sdk_secrets_path(profile_id)
+    profile_file_path(profile_id, "matrix-sdk-secrets.yml")
 }
 
 pub fn secure_store_key(profile_id: &str, key_name: &str) -> String {

@@ -299,7 +299,6 @@ pub struct ConfigComposer {
 
 pub struct LoadedConfig {
     pub config: Config,
-    pub values: Vec<crate::ffi::SettingsConfigValue>,
     pub source_version: i32,
     pub migrated_version: i32,
     pub had_future_version: bool,

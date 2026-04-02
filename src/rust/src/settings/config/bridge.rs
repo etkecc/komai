@@ -4,9 +4,7 @@
 
 use serde_yaml_ng::{Number, Value};
 
-use crate::ffi::{
-    SettingsConfigSnapshot, SettingsConfigValue, SettingsConfigValueKind,
-};
+use crate::ffi::SettingsConfigSnapshot;
 use crate::settings::yaml;
 
 use super::model::{CONFIG_SCHEMA_VERSION_PATH, CURRENT_CONFIG_SCHEMA_VERSION, LoadedConfig};
@@ -19,15 +17,6 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &CONFIG_SCHEMA_VERSION_PATH,
         yaml::number_value(CURRENT_CONFIG_SCHEMA_VERSION),
     );
-
-    for value in &snapshot.values {
-        let path = tree::dotted_path(&value.key);
-        if path.is_empty() {
-            continue;
-        }
-
-        yaml::set_value(&mut root, &path, config_value_to_yaml(value));
-    }
 
     if snapshot.ui.has_scale_factor {
         yaml::set_value(
@@ -618,158 +607,15 @@ pub(super) fn load_config_snapshot(config_text: &str) -> LoadedConfig {
         should_write_back = source_version != migrated_version;
     }
 
-    let mut values = Vec::new();
-    flatten_config_values("", &root, &mut values);
     let config = super::parse_config_root(&root);
 
     LoadedConfig {
         config,
-        values,
         source_version,
         migrated_version,
         had_future_version,
         had_unsupported_path,
         should_write_back,
         serialized_yaml: yaml::serialize_yaml(&root),
-    }
-}
-
-fn config_value_to_yaml(value: &SettingsConfigValue) -> Value {
-    match value.kind {
-        SettingsConfigValueKind::Bool => Value::Bool(value.bool_value),
-        SettingsConfigValueKind::Int => Value::Number(Number::from(value.int_value)),
-        SettingsConfigValueKind::Double => {
-            serde_yaml_ng::to_value(value.double_value).unwrap_or(Value::Null)
-        }
-        SettingsConfigValueKind::String => Value::String(value.string_value.clone()),
-        SettingsConfigValueKind::StringList => Value::Sequence(
-            value
-                .string_list_value
-                .iter()
-                .map(|entry| Value::String(entry.clone()))
-                .collect(),
-        ),
-        SettingsConfigValueKind::StringListMap => tree::string_list_map(&value.string_list_map_value),
-        _ => Value::Null,
-    }
-}
-
-fn flatten_config_values(prefix: &str, value: &Value, values: &mut Vec<SettingsConfigValue>) {
-    match value {
-        Value::Mapping(mapping) => {
-            if prefix == "ui"
-                || prefix == "secrets"
-                || prefix == "privacy"
-                || prefix == "calls"
-                || prefix == "notifications"
-                || prefix == "network"
-                || prefix == "integrations"
-                || prefix == "composer"
-                || prefix == "sidebars"
-                || prefix == "encryption"
-                || prefix == "timeline"
-            {
-                return;
-            }
-
-            if !prefix.is_empty() {
-                if let Some(entries) = tree::mapping_as_string_list_map(mapping) {
-                    values.push(SettingsConfigValue {
-                        key: prefix.to_owned(),
-                        kind: SettingsConfigValueKind::StringListMap,
-                        bool_value: false,
-                        int_value: 0,
-                        double_value: 0.0,
-                        string_value: String::new(),
-                        string_list_value: vec![],
-                        string_list_map_value: entries,
-                    });
-                    return;
-                }
-            }
-
-            for (key, child) in mapping {
-                let Value::String(key) = key else {
-                    continue;
-                };
-
-                let next_prefix = if prefix.is_empty() {
-                    key.clone()
-                } else {
-                    format!("{prefix}.{key}")
-                };
-                if next_prefix == "meta.settings_schema_version" {
-                    continue;
-                }
-
-                flatten_config_values(&next_prefix, child, values);
-            }
-        }
-        Value::Bool(bool_value) => values.push(SettingsConfigValue {
-            key: prefix.to_owned(),
-            kind: SettingsConfigValueKind::Bool,
-            bool_value: *bool_value,
-            int_value: 0,
-            double_value: 0.0,
-            string_value: String::new(),
-            string_list_value: vec![],
-            string_list_map_value: vec![],
-        }),
-        Value::Number(number) => {
-            if let Some(int_value) = number.as_i64().and_then(|value| i32::try_from(value).ok()) {
-                values.push(SettingsConfigValue {
-                    key: prefix.to_owned(),
-                    kind: SettingsConfigValueKind::Int,
-                    bool_value: false,
-                    int_value,
-                    double_value: 0.0,
-                    string_value: String::new(),
-                    string_list_value: vec![],
-                    string_list_map_value: vec![],
-                });
-            } else if let Some(double_value) = number.as_f64() {
-                values.push(SettingsConfigValue {
-                    key: prefix.to_owned(),
-                    kind: SettingsConfigValueKind::Double,
-                    bool_value: false,
-                    int_value: 0,
-                    double_value,
-                    string_value: String::new(),
-                    string_list_value: vec![],
-                    string_list_map_value: vec![],
-                });
-            }
-        }
-        Value::String(string_value) => values.push(SettingsConfigValue {
-            key: prefix.to_owned(),
-            kind: SettingsConfigValueKind::String,
-            bool_value: false,
-            int_value: 0,
-            double_value: 0.0,
-            string_value: string_value.clone(),
-            string_list_value: vec![],
-            string_list_map_value: vec![],
-        }),
-        Value::Sequence(sequence) => {
-            let mut strings = Vec::new();
-            for entry in sequence {
-                let Value::String(string_value) = entry else {
-                    return;
-                };
-                strings.push(string_value.clone());
-            }
-
-            values.push(SettingsConfigValue {
-                key: prefix.to_owned(),
-                kind: SettingsConfigValueKind::StringList,
-                bool_value: false,
-                int_value: 0,
-                double_value: 0.0,
-                string_value: String::new(),
-                string_list_value: strings,
-                string_list_map_value: vec![],
-            });
-        }
-        _ => {}
     }
 }

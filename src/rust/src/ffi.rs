@@ -328,26 +328,6 @@ mod bridge {
         extras_stickers_enabled: bool,
     }
 
-    enum SettingsConfigValueKind {
-        Bool,
-        Int,
-        Double,
-        String,
-        StringList,
-        StringListMap,
-    }
-
-    struct SettingsConfigValue {
-        key: String,
-        kind: SettingsConfigValueKind,
-        bool_value: bool,
-        int_value: i32,
-        double_value: f64,
-        string_value: String,
-        string_list_value: Vec<String>,
-        string_list_map_value: Vec<SettingsStringListMapEntry>,
-    }
-
     struct SettingsConfigSnapshot {
         ui: SettingsConfigUiSection,
         sidebars: SettingsConfigSidebarsSection,
@@ -360,7 +340,6 @@ mod bridge {
         network: SettingsConfigNetworkSection,
         integrations: SettingsConfigIntegrationsSection,
         composer: SettingsConfigComposerSection,
-        values: Vec<SettingsConfigValue>,
     }
 
     struct SettingsLoadedConfig {
@@ -375,7 +354,6 @@ mod bridge {
         network: SettingsConfigNetworkSection,
         integrations: SettingsConfigIntegrationsSection,
         composer: SettingsConfigComposerSection,
-        values: Vec<SettingsConfigValue>,
         source_version: i32,
         migrated_version: i32,
         had_future_version: bool,

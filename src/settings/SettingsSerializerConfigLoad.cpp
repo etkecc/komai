@@ -5,7 +5,6 @@
 
 #include "SettingsSerializerLoad.h"
 
-#include "SettingsRustConfigValues.h"
 #include "SettingsSerializer.h"
 
 #include <QString>
@@ -20,42 +19,12 @@
 #include "settings/core/StartupConfig.h"
 #include "timeline/TimelineEventTypes.h"
 
-namespace cfg      = settings::serializer::config;
-namespace rust_cfg = settings::rust_config_values;
-
+namespace cfg = settings::serializer::config;
 namespace settings::serializer {
 
 void
 loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &snapshot)
 {
-    const auto &values = snapshot.values;
-    cfg::validateConfigSchemaDescriptors();
-
-    for (const auto &descriptor : cfg::boolConfigSettings()) {
-        (settings.*descriptor.setter)(
-          rust_cfg::readBoolValue(values, descriptor.key, descriptor.defaultValue));
-    }
-    for (const auto &descriptor : cfg::intConfigSettings()) {
-        (settings.*descriptor.setter)(
-          rust_cfg::readIntValue(values, descriptor.key, descriptor.defaultValue));
-    }
-    for (const auto &descriptor : cfg::uintConfigSettings()) {
-        (settings.*descriptor.setter)(static_cast<uint>(
-          rust_cfg::readIntValue(values, descriptor.key, descriptor.defaultValue)));
-    }
-    for (const auto &descriptor : cfg::ulonglongConfigSettings()) {
-        (settings.*descriptor.setter)(static_cast<qulonglong>(rust_cfg::readIntValue(
-          values, descriptor.key, static_cast<int>(descriptor.defaultValue))));
-    }
-    for (const auto &descriptor : cfg::doubleConfigSettings()) {
-        (settings.*descriptor.setter)(
-          rust_cfg::readDoubleValue(values, descriptor.key, descriptor.defaultValue));
-    }
-    for (const auto &descriptor : cfg::stringConfigSettings()) {
-        (settings.*descriptor.setter)(
-          rust_cfg::readStringValue(values, descriptor.key, descriptor.defaultValue));
-    }
-
     const auto requestedTheme =
       QString::fromStdString(static_cast<std::string>(snapshot.ui.theme_slug)).trimmed().isEmpty()
         ? settings.uiThemeSlug()
@@ -79,56 +48,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       snapshot.ui.has_motion_animations_enabled
         ? snapshot.ui.motion_animations_enabled
         : settings::core::definitions::kDefaultUiMotionAnimationsEnabled);
-
-    for (const auto &adapter : cfg::enumTokenAdapters()) {
-        if (adapter.id == settings::core::SettingId::NotificationsMessageContentPolicy)
-            continue;
-        if (adapter.id == settings::core::SettingId::NetworkPresenceStatusPolicy)
-            continue;
-        if (adapter.id == settings::core::SettingId::IntegrationsDbusApiAccess)
-            continue;
-        if (adapter.id == settings::core::SettingId::UiScrollbarPolicy)
-            continue;
-        if (adapter.id == settings::core::SettingId::UiAvatarsDefaultAvatarStyle)
-            continue;
-        if (adapter.id == settings::core::SettingId::ComposerInputSendKey)
-            continue;
-        if (adapter.id == settings::core::SettingId::ComposerInputAutoReplaceEmoji)
-            continue;
-        if (adapter.id == settings::core::SettingId::ComposerInputEmojiPreferredGender)
-            continue;
-        if (adapter.id == settings::core::SettingId::ComposerInputEmojiPreferredSkinTone)
-            continue;
-        if (adapter.id == settings::core::SettingId::SidebarsRoomListLastMessagePreview)
-            continue;
-        if (adapter.id == settings::core::SettingId::SidebarsRoomListSort)
-            continue;
-        if (adapter.id == settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy)
-            continue;
-        if (adapter.id == settings::core::SettingId::TimelineMessagesStyle)
-            continue;
-        if (adapter.id == settings::core::SettingId::TimelineMessagesPositioning)
-            continue;
-        if (adapter.id == settings::core::SettingId::TimelineUserColorCodingPolicy)
-            continue;
-        if (adapter.id == settings::core::SettingId::TimelineMessagesSenderUsername)
-            continue;
-        if (adapter.id == settings::core::SettingId::TimelineMessageActionsActivationPolicy)
-            continue;
-        if (adapter.id == settings::core::SettingId::TimelineMediaImageDisplay)
-            continue;
-
-        const auto rawToken =
-          rust_cfg::readStringValue(values, adapter.key, QString::fromLatin1(adapter.defaultToken));
-        adapter.applyFromStorage(settings, rawToken);
-        const auto appliedToken = adapter.toStorage(settings);
-        if (rawToken != appliedToken) {
-            activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
-                                     rawToken.toStdString(),
-                                     adapter.key,
-                                     appliedToken.toStdString());
-        }
-    }
 
     const auto loadedScrollbarPolicy =
       QString::fromStdString(static_cast<std::string>(snapshot.ui.scrollbar_policy)).trimmed();

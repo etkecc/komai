@@ -10,7 +10,6 @@
 #include "logging/Logging.h"
 
 #include "profile/Paths.h"
-#include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsSchemaVersions.h"
 #include "settings/SettingsSerializer.h"
@@ -99,35 +98,6 @@ logStateMigrationWarnings(const ::komai::rust::SettingsLoadedState &state)
 }
 
 void
-setConfigStringValue(::rust::Vec<::komai::rust::SettingsConfigValue> &values,
-                     const char *key,
-                     const QString &value)
-{
-    for (auto &entry : values) {
-        if (static_cast<std::string>(entry.key) != key)
-            continue;
-
-        entry.kind         = ::komai::rust::SettingsConfigValueKind::String;
-        entry.bool_value   = false;
-        entry.int_value    = 0;
-        entry.double_value = 0.0;
-        entry.string_value = value.toStdString();
-        entry.string_list_value.clear();
-        entry.string_list_map_value.clear();
-        return;
-    }
-
-    values.push_back({.key                   = key,
-                      .kind                  = ::komai::rust::SettingsConfigValueKind::String,
-                      .bool_value            = false,
-                      .int_value             = 0,
-                      .double_value          = 0.0,
-                      .string_value          = value.toStdString(),
-                      .string_list_value     = {},
-                      .string_list_map_value = {}});
-}
-
-void
 loadImpl(UserSettings &settings,
          std::optional<QString> profile,
          bool persistMigrationWriteback,
@@ -169,9 +139,6 @@ loadImpl(UserSettings &settings,
         provider                   = preferredProviderForAvailability(secureAvailable);
         configSnapshot.secrets.provider =
           QString::fromLatin1(providerToken(provider)).toStdString();
-        setConfigStringValue(configSnapshot.values,
-                             SettingKey::SecretsProvider,
-                             QString::fromLatin1(providerToken(provider)));
         settings::activeLoggers().ui->info(
           "New profile '{}' selected secrets provider '{}' (secure backend available={})",
           app_paths::normalizedProfileId(settings.profileId()).toStdString(),
@@ -345,9 +312,6 @@ loadImpl(UserSettings &settings,
                                                     staged_load_plan::SecretsProvider::File);
                 configSnapshot.secrets.provider =
                   QString::fromLatin1(providerToken(provider)).toStdString();
-                setConfigStringValue(configSnapshot.values,
-                                     SettingKey::SecretsProvider,
-                                     QString::fromLatin1(providerToken(provider)));
 
                 if (persistMigrationWriteback && !configSnapshot.had_future_version &&
                     !configSnapshot.had_unsupported_path) {

@@ -459,7 +459,6 @@ pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi
         network: ffi_config_network_section(&snapshot.config),
         integrations: ffi_config_integrations_section(&snapshot.config),
         composer: ffi_config_composer_section(&snapshot.config),
-        values: snapshot.values,
         source_version: snapshot.source_version,
         migrated_version: snapshot.migrated_version,
         had_future_version: snapshot.had_future_version,
@@ -574,26 +573,6 @@ fn clone_string_list_map_entries(
         .map(|entry| ffi::SettingsStringListMapEntry {
             key: entry.key.clone(),
             values: entry.values.iter().map(|value| value.clone()).collect(),
-        })
-        .collect()
-}
-
-fn clone_config_values(values: &Vec<ffi::SettingsConfigValue>) -> Vec<ffi::SettingsConfigValue> {
-    values
-        .iter()
-        .map(|value| ffi::SettingsConfigValue {
-            key: value.key.clone(),
-            kind: value.kind,
-            bool_value: value.bool_value,
-            int_value: value.int_value,
-            double_value: value.double_value,
-            string_value: value.string_value.clone(),
-            string_list_value: value
-                .string_list_value
-                .iter()
-                .map(|entry| entry.clone())
-                .collect(),
-            string_list_map_value: clone_string_list_map_entries(&value.string_list_map_value),
         })
         .collect()
 }
@@ -873,7 +852,6 @@ fn loaded_config_to_snapshot(loaded: &ffi::SettingsLoadedConfig) -> ffi::Setting
         network: clone_config_network_section(&loaded.network),
         integrations: clone_config_integrations_section(&loaded.integrations),
         composer: clone_config_composer_section(&loaded.composer),
-        values: clone_config_values(&loaded.values),
     }
 }
 

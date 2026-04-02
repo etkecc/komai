@@ -18,7 +18,6 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/SettingKeys.h"
-#include "settings/SettingsRustConfigValues.h"
 #include "settings/SettingsSchemaVersions.h"
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsSerializerConfigConverters.h"
@@ -247,9 +246,7 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
             expected,
           message);
 
-    return expect(
-      settings::rust_config_values::readStringValue(snapshot.values, key, {}) == expected,
-      message);
+    return expect(false, message);
 }
 
 bool
@@ -266,9 +263,7 @@ expectConfigDouble(const ::komai::rust::SettingsLoadedConfig &snapshot,
                       message);
     }
 
-    return expect(settings::rust_config_values::readDoubleValue(snapshot.values, key, 0.0) ==
-                    expected,
-                  message);
+    return expect(false, message);
 }
 
 bool
@@ -289,8 +284,7 @@ expectConfigInt(const ::komai::rust::SettingsLoadedConfig &snapshot,
                       message);
     }
 
-    return expect(settings::rust_config_values::readIntValue(snapshot.values, key, 0) == expected,
-                  message);
+    return expect(false, message);
 }
 
 ::komai::rust::SettingsLoadedConfig

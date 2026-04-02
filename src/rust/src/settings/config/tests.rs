@@ -13,7 +13,7 @@ use crate::ffi::{
     SettingsConfigTimelineMediaSection, SettingsConfigTimelineMessageActionsSection,
     SettingsConfigTimelineMessagesSection, SettingsConfigTimelineReadReceiptsSection,
     SettingsConfigTimelineSection, SettingsConfigTimelineTypingSection, SettingsConfigUiSection,
-    SettingsConfigValue, SettingsConfigValueKind, SettingsStringListMapEntry,
+    SettingsStringListMapEntry,
 };
 use crate::settings::yaml;
 
@@ -569,18 +569,6 @@ fn encodes_generic_config_values() {
             has_extras_stickers_enabled: true,
             extras_stickers_enabled: true,
         },
-        values: vec![
-            SettingsConfigValue {
-                key: "meta.ignored".to_owned(),
-                kind: SettingsConfigValueKind::String,
-                bool_value: false,
-                int_value: 0,
-                double_value: 0.0,
-                string_value: "x".to_owned(),
-                string_list_value: vec![],
-                string_list_map_value: vec![],
-            },
-        ],
     });
 
     let root: serde_yaml_ng::Value = serde_yaml_ng::from_str(&yaml).expect("valid yaml");
@@ -966,6 +954,5 @@ fn loaded_snapshot_normalizes_non_map_root() {
     assert_eq!(loaded.source_version, 0);
     assert_eq!(loaded.migrated_version, 1);
     assert!(loaded.should_write_back);
-    assert!(loaded.values.is_empty());
     assert_eq!(loaded.config.ui.theme.slug, "");
 }

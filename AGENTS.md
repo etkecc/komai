@@ -29,7 +29,7 @@ komai/
 Use `just` as the build entry point:
 
 - `just build` -- CMake configure + build (output: `var/build/native/komai`)
-- `just test` -- Build and run unit tests (`ctest` in `var/build/native`)
+- `just test` -- Run the supported test suite (`ctest` C++ unit/integration tests in `var/build/native` plus Rust unit tests)
 - `just lint` -- Run selected `prek` hooks on all files (format/lint/policy/docs drift checks)
 - `just run` -- Run the compiled binary
 - `just clean` -- Remove build directory

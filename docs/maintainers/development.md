@@ -16,7 +16,7 @@ For build dependencies and distro package names, see [Packaging: Native build](p
 ```sh
 just build
 just test
-just test-integration
+just test-cpp-integration
 just run
 just lint
 ```
@@ -28,10 +28,13 @@ just lint
 just build
 
 # Run unit tests
-just test-unit
+just test-cpp-unit
 
 # Run integration tests
-just test-integration
+just test-cpp-integration
+
+# Run Rust unit tests
+just test-rust-unit
 
 # Run all tests
 just test

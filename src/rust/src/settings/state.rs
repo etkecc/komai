@@ -272,7 +272,7 @@ mod tests {
     #[test]
     fn state_snapshot_loads_lists_and_maps() {
         let loaded = load_state_snapshot(
-            "sidebars:\n  communities:\n    filtering:\n      current: people\n      global_excludes:\n        - one\n        - two\n      badges_hidden:\n        - x\n      collapsed_spaces:\n        - !space:hs\ncomposer:\n  drafts:\n    by_room:\n      !room:hs: draft\n",
+            "sidebars:\n  communities:\n    filtering:\n      current: people\n      global_excludes:\n        - one\n        - two\n      badges_hidden:\n        - x\n      collapsed_spaces:\n        - \"!space:hs\"\ncomposer:\n  drafts:\n    by_room:\n      \"!room:hs\": draft\n",
         );
 
         assert_eq!(loaded.current_filter_id, "people");

@@ -23,17 +23,33 @@ configure *args:
 build *args: _ensure_just_temp_directory
 	bash {{ justfile_directory() }}/bin/build/native.sh build {{ args }}
 
-# Runs all tests
-test *args: _ensure_just_temp_directory
-	bash {{ justfile_directory() }}/bin/build/native.sh test-all {{ args }}
+# Runs the full supported test suite (C++ unit + integration, then Rust unit tests)
+test: _ensure_just_temp_directory
+	just --justfile {{ justfile() }} test-cpp
+	just --justfile {{ justfile() }} test-rust-unit
 
-# Runs unit tests
+# Runs all C++/CTest tests
+test-cpp *args: _ensure_just_temp_directory
+	bash {{ justfile_directory() }}/bin/build/native.sh test-cpp {{ args }}
+
+# Runs C++/CTest unit tests
+test-cpp-unit *args: _ensure_just_temp_directory
+	bash {{ justfile_directory() }}/bin/build/native.sh test-cpp-unit {{ args }}
+
+# Runs C++/CTest integration tests
+test-cpp-integration *args: _ensure_just_temp_directory
+	bash {{ justfile_directory() }}/bin/build/native.sh test-cpp-integration {{ args }}
+
+# Runs Rust unit tests
+test-rust-unit *args:
+	cargo test --manifest-path {{ justfile_directory() }}/src/rust/Cargo.toml --lib {{ args }}
+
+# Backward-compatible aliases
 test-unit *args: _ensure_just_temp_directory
-	bash {{ justfile_directory() }}/bin/build/native.sh test-unit {{ args }}
+	just --justfile {{ justfile() }} test-cpp-unit {{ args }}
 
-# Runs integration tests
 test-integration *args: _ensure_just_temp_directory
-	bash {{ justfile_directory() }}/bin/build/native.sh test-integration {{ args }}
+	just --justfile {{ justfile() }} test-cpp-integration {{ args }}
 
 # Configures and builds from scratch
 rebuild *args:

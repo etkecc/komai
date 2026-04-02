@@ -24,9 +24,9 @@ Usage:
   bin/build/native.sh configure-debug [cmake args...]
   bin/build/native.sh build [cmake --build args...]
   bin/build/native.sh rebuild [cmake args...]
-  bin/build/native.sh test-unit [ctest args...]
-  bin/build/native.sh test-integration [ctest args...]
-  bin/build/native.sh test-all [ctest args...]
+  bin/build/native.sh test-cpp-unit [ctest args...]
+  bin/build/native.sh test-cpp-integration [ctest args...]
+  bin/build/native.sh test-cpp [ctest args...]
   bin/build/native.sh install [cmake --install args...]
   bin/build/native.sh clean
 EOF
@@ -333,19 +333,19 @@ rebuild)
 	configure_release "$@"
 	build_runtime_bundle
 	;;
-test-unit)
+test-cpp-unit|test-unit)
 	if needs_release_configure; then
 		configure_release
 	fi
 	run_test_label unit "$@"
 	;;
-test-integration)
+test-cpp-integration|test-integration)
 	if needs_release_configure; then
 		configure_release
 	fi
 	run_test_label integration "$@"
 	;;
-test-all)
+test-cpp|test-all)
 	if needs_release_configure; then
 		configure_release
 	fi

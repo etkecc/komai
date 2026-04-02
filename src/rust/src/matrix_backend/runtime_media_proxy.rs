@@ -4,14 +4,17 @@
 
 use std::collections::HashMap;
 use std::convert::Infallible;
+use std::pin::Pin;
 use std::sync::{
     Arc, OnceLock, RwLock,
     atomic::{AtomicBool, Ordering},
 };
+use std::task::{Context, Poll};
 use std::thread::JoinHandle;
 
-use http_body_util::BodyExt;
-use hyper::body::{Bytes, Incoming};
+use futures_util::StreamExt;
+use http_body_util::{BodyExt, StreamBody};
+use hyper::body::{Bytes, Frame, Incoming, SizeHint};
 use hyper::{Request, Response, StatusCode, header};
 use matrix_sdk::ruma::events::room::MediaSource;
 use rand::RngExt;
@@ -90,6 +93,36 @@ struct ProxyState {
 }
 
 type BoxBody = http_body_util::combinators::BoxBody<Bytes, std::io::Error>;
+
+/// Wraps a `StreamBody` with a known content length so hyper uses identity
+/// encoding instead of chunked.
+struct SizedStreamBody<B> {
+    inner: B,
+    content_length: Option<u64>,
+}
+
+impl<B> hyper::body::Body for SizedStreamBody<B>
+where
+    B: hyper::body::Body<Data = Bytes, Error = std::io::Error> + Unpin,
+{
+    type Data = Bytes;
+    type Error = std::io::Error;
+
+    fn poll_frame(
+        self: Pin<&mut Self>,
+        cx: &mut Context<'_>,
+    ) -> Poll<Option<Result<Frame<Bytes>, Self::Error>>> {
+        let this = self.get_mut();
+        Pin::new(&mut this.inner).poll_frame(cx)
+    }
+
+    fn size_hint(&self) -> SizeHint {
+        match self.content_length {
+            Some(len) => SizeHint::with_exact(len),
+            None => self.inner.size_hint(),
+        }
+    }
+}
 
 // ---------------------------------------------------------------------------
 // Public API (called from FFI bridge)
@@ -374,25 +407,36 @@ async fn handle_request(
         return Ok(serve_from_cache(cached, range_header.as_ref()));
     }
 
-    // ── Cache miss: fetch from upstream, buffer, cache, serve ───────────
+    // ── Cache miss: try upstream with Range, fall back to buffer+cache ──
     //
     // FFmpeg always opens URLs with `Range: bytes=0-` as the very first
-    // request (never a plain GET).  So this path handles both the initial
-    // fetch and populates the body cache.  We always do a plain GET to
-    // upstream (ignoring the client's Range header) to get the full body,
-    // then serve the appropriate response (full or partial) from the
-    // freshly-cached data.
-    let get_resp = match state
+    // request (never a plain GET).
+    //
+    // Strategy:
+    // 1. Forward the client's request (including Range header) to upstream.
+    // 2. If upstream returns 206 (supports Range): stream the partial content
+    //    directly — no buffering, no caching.  FFmpeg will make further Range
+    //    requests for seeking and each will be forwarded to upstream.  This is
+    //    the ideal fast path for servers with Range support.
+    // 3. If upstream returns 200 (ignores Range): buffer the full body, cache
+    //    it, and serve locally.  Subsequent Range requests (for moov-atom
+    //    seeking etc.) will be served from the cache.
+
+    let mut upstream_req = state
         .client
         .http_client()
         .get(&upstream_url)
-        .bearer_auth(&access_token)
-        .send()
-        .await
-    {
+        .bearer_auth(&access_token);
+
+    // Forward the client's Range header to probe upstream support.
+    if let Some(range_val) = range_header.as_ref() {
+        upstream_req = upstream_req.header(reqwest::header::RANGE, range_val.as_bytes());
+    }
+
+    let upstream_resp = match upstream_req.send().await {
         Ok(r) => r,
         Err(e) => {
-            tracing::warn!("Media proxy upstream GET failed: {e}");
+            tracing::warn!("Media proxy upstream request failed: {e}");
             return Ok(text_response(
                 StatusCode::BAD_GATEWAY,
                 "upstream request failed",
@@ -400,25 +444,62 @@ async fn handle_request(
         }
     };
 
-    let get_status = get_resp.status();
-    if !get_status.is_success() {
-        tracing::warn!("Media proxy upstream GET returned {get_status}");
+    let upstream_status = upstream_resp.status();
+
+    if !upstream_status.is_success() && upstream_status != reqwest::StatusCode::PARTIAL_CONTENT {
+        tracing::warn!("Media proxy upstream returned {upstream_status}");
         return Ok(text_response(
-            StatusCode::from_u16(get_status.as_u16()).unwrap_or(StatusCode::BAD_GATEWAY),
+            StatusCode::from_u16(upstream_status.as_u16()).unwrap_or(StatusCode::BAD_GATEWAY),
             "upstream error",
         ));
     }
 
-    let content_type = get_resp
+    // ── Fast path: upstream supports Range (206) → stream directly ──────
+    if upstream_status == reqwest::StatusCode::PARTIAL_CONTENT {
+        let mut builder = Response::builder()
+            .status(StatusCode::PARTIAL_CONTENT)
+            .header(header::CONNECTION, "close");
+
+        // Forward Content-Type, Content-Length, Content-Range, Accept-Ranges.
+        for name in [
+            reqwest::header::CONTENT_TYPE,
+            reqwest::header::CONTENT_LENGTH,
+            reqwest::header::CONTENT_RANGE,
+            reqwest::header::ACCEPT_RANGES,
+        ] {
+            if let Some(val) = upstream_resp.headers().get(&name) {
+                if let Ok(val) = val.to_str() {
+                    builder = builder.header(name.as_str(), val);
+                }
+            }
+        }
+
+        // Stream the partial content — no need to buffer since upstream
+        // handles Range natively.  FFmpeg will make further Range requests
+        // for seeking, each forwarded to upstream individually.
+        let content_length = upstream_resp.content_length();
+        let body_stream = upstream_resp.bytes_stream().map(|result| {
+            result
+                .map(|bytes| Frame::data(bytes))
+                .map_err(|e| std::io::Error::other(e))
+        });
+        let stream_body = SizedStreamBody {
+            inner: StreamBody::new(body_stream),
+            content_length,
+        };
+
+        return Ok(builder.body(BodyExt::boxed(stream_body)).expect("valid response"));
+    }
+
+    // ── Slow path: upstream returned 200 (no Range) → buffer and cache ──
+    let content_type = upstream_resp
         .headers()
         .get(reqwest::header::CONTENT_TYPE)
         .and_then(|v| v.to_str().ok())
         .unwrap_or("application/octet-stream")
         .to_owned();
 
-    // Buffer the full response body so we can cache it and serve Range
-    // requests locally (see the BODY_CACHE_MAX_BYTES doc comment).
-    let full_body = get_resp.bytes().await.unwrap_or_default();
+    let full_body = upstream_resp.bytes().await.unwrap_or_default();
 
     // Cache the body for this and all future requests.
     if full_body.len() <= BODY_CACHE_MAX_BYTES {
@@ -428,8 +509,7 @@ async fn handle_request(
         });
     }
 
-    // If the body is now cached, serve through the cache path which handles
-    // both full and Range responses with proper byte-range arithmetic.
+    // Serve from cache if populated (handles Range slicing).
     if let Some(cached) = reg.body_cache.get() {
         return Ok(serve_from_cache(cached, range_header.as_ref()));
     }

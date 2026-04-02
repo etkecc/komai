@@ -1098,6 +1098,16 @@ mod bridge {
             owner_read_write_only: bool,
         ) -> bool;
         fn settings_remove_matrix_sdk_secrets_file_for_profile(profile_id: &str) -> bool;
+        fn settings_load_persisted_matrix_session_secrets_for_profile(
+            profile_id: &str,
+        ) -> MatrixPersistedSessionSecrets;
+        fn settings_save_persisted_matrix_session_secrets_for_profile(
+            profile_id: &str,
+            store_passphrase: &str,
+            homeserver_url: &str,
+            serialized_session: &str,
+        ) -> bool;
+        fn settings_clear_persisted_matrix_session_secrets_for_profile(profile_id: &str) -> bool;
         fn settings_load_config_snapshot(config_text: &str) -> SettingsLoadedConfig;
         fn settings_open_profile_handle_for_profile(
             profile_id: &str,

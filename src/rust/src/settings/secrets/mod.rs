@@ -6,7 +6,7 @@ use std::collections::BTreeMap;
 
 use serde_yaml_ng::{Mapping, Value};
 
-use crate::ffi::{SettingsSecretsPayload, SettingsStringMapEntry};
+use crate::ffi::{MatrixPersistedSessionSecrets, SettingsSecretsPayload, SettingsStringMapEntry};
 
 use super::storage;
 
@@ -16,6 +16,10 @@ const NAMED_SECRETS_ROOT_KEY: &str = "secrets";
 const PROFILE_SECRETS_LABEL: &str = "secrets";
 const MATRIX_SDK_SECRETS_LABEL: &str = "matrix-sdk secrets";
 const PROFILE_SECURE_STORE_KEY_NAME: &str = "session.secrets";
+const MATRIX_SDK_STORE_PASSPHRASE_KEY: &str = "matrix_sdk.store_passphrase";
+const MATRIX_SDK_HOMESERVER_URL_KEY: &str = "matrix_sdk.homeserver_url";
+const MATRIX_SDK_SERIALIZED_SESSION_KEY: &str = "matrix_sdk.serialized_session";
+const MATRIX_SDK_SECURE_STORE_KEY_NAME: &str = "matrix_sdk.session";
 
 fn ordered_map(entries: &[SettingsStringMapEntry]) -> BTreeMap<String, String> {
     entries
@@ -249,6 +253,106 @@ pub fn remove_matrix_sdk_secrets_file_for_profile(profile_id: &str) -> bool {
     }
 
     storage::remove_path(&secrets_path)
+}
+
+fn uses_file_secrets_provider_for_profile(profile_id: &str) -> bool {
+    let config_path = storage::config_file_path_for_profile(profile_id);
+    let config_text = storage::read_text_file(&config_path, "config");
+    let config = crate::settings::config::parse_config_text(&config_text);
+    config.secrets.provider.to_storage_string() == "file"
+}
+
+fn load_matrix_sdk_secrets_from_secure_store(profile_id: &str) -> Vec<SettingsStringMapEntry> {
+    let secure_store_key = storage::secure_store_key(profile_id, MATRIX_SDK_SECURE_STORE_KEY_NAME);
+    let Some(serialized) = storage::read_secure_value(&secure_store_key) else {
+        return Vec::new();
+    };
+
+    if serialized.is_empty() {
+        storage::delete_secure_value(&secure_store_key);
+        return Vec::new();
+    }
+
+    decode_string_map_yaml(&serialized)
+}
+
+fn save_matrix_sdk_secrets_to_secure_store(
+    profile_id: &str,
+    entries: &[SettingsStringMapEntry],
+) -> bool {
+    let secure_store_key = storage::secure_store_key(profile_id, MATRIX_SDK_SECURE_STORE_KEY_NAME);
+    if entries.is_empty() {
+        storage::delete_secure_value(&secure_store_key);
+        return true;
+    }
+
+    storage::write_secure_value(&secure_store_key, &encode_string_map_yaml(entries));
+    true
+}
+
+pub fn load_persisted_matrix_session_secrets(profile_id: &str) -> MatrixPersistedSessionSecrets {
+    let entries = if uses_file_secrets_provider_for_profile(profile_id) {
+        load_matrix_sdk_secrets_for_profile(profile_id)
+    } else {
+        load_matrix_sdk_secrets_from_secure_store(profile_id)
+    };
+
+    let mut persisted = MatrixPersistedSessionSecrets {
+        store_passphrase: String::new(),
+        homeserver_url: String::new(),
+        serialized_session: String::new(),
+    };
+    for entry in entries {
+        match entry.key.as_str() {
+            MATRIX_SDK_STORE_PASSPHRASE_KEY => persisted.store_passphrase = entry.value,
+            MATRIX_SDK_HOMESERVER_URL_KEY => persisted.homeserver_url = entry.value,
+            MATRIX_SDK_SERIALIZED_SESSION_KEY => persisted.serialized_session = entry.value,
+            _ => {}
+        }
+    }
+
+    persisted
+}
+
+pub fn save_persisted_matrix_session_secrets(
+    profile_id: &str,
+    store_passphrase: &str,
+    homeserver_url: &str,
+    serialized_session: &str,
+) -> bool {
+    let mut entries = Vec::new();
+    if !store_passphrase.is_empty() {
+        entries.push(SettingsStringMapEntry {
+            key: MATRIX_SDK_STORE_PASSPHRASE_KEY.to_owned(),
+            value: store_passphrase.to_owned(),
+        });
+    }
+    if !homeserver_url.is_empty() {
+        entries.push(SettingsStringMapEntry {
+            key: MATRIX_SDK_HOMESERVER_URL_KEY.to_owned(),
+            value: homeserver_url.to_owned(),
+        });
+    }
+    if !serialized_session.is_empty() {
+        entries.push(SettingsStringMapEntry {
+            key: MATRIX_SDK_SERIALIZED_SESSION_KEY.to_owned(),
+            value: serialized_session.to_owned(),
+        });
+    }
+
+    if uses_file_secrets_provider_for_profile(profile_id) {
+        if entries.is_empty() {
+            return remove_matrix_sdk_secrets_file_for_profile(profile_id);
+        }
+
+        return write_matrix_sdk_secrets_for_profile(profile_id, entries.as_slice(), true);
+    }
+
+    save_matrix_sdk_secrets_to_secure_store(profile_id, entries.as_slice())
+}
+
+pub fn clear_persisted_matrix_session_secrets(profile_id: &str) -> bool {
+    save_persisted_matrix_session_secrets(profile_id, "", "", "")
 }
 
 pub fn load_profile_secrets(

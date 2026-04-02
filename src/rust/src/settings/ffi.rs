@@ -123,6 +123,30 @@ pub(crate) fn settings_remove_matrix_sdk_secrets_file_for_profile(profile_id: &s
     settings::secrets::remove_matrix_sdk_secrets_file_for_profile(profile_id)
 }
 
+pub(crate) fn settings_load_persisted_matrix_session_secrets_for_profile(
+    profile_id: &str,
+) -> ffi::MatrixPersistedSessionSecrets {
+    settings::secrets::load_persisted_matrix_session_secrets(profile_id)
+}
+
+pub(crate) fn settings_save_persisted_matrix_session_secrets_for_profile(
+    profile_id: &str,
+    store_passphrase: &str,
+    homeserver_url: &str,
+    serialized_session: &str,
+) -> bool {
+    settings::secrets::save_persisted_matrix_session_secrets(
+        profile_id,
+        store_passphrase,
+        homeserver_url,
+        serialized_session,
+    )
+}
+
+pub(crate) fn settings_clear_persisted_matrix_session_secrets_for_profile(profile_id: &str) -> bool {
+    settings::secrets::clear_persisted_matrix_session_secrets(profile_id)
+}
+
 pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::SettingsConfigUiSection {
     ffi::SettingsConfigUiSection {
         has_scale_factor: config.ui.scale.factor.is_some(),

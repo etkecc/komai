@@ -4,25 +4,58 @@
 
 use std::collections::HashMap;
 use std::convert::Infallible;
-use std::pin::Pin;
 use std::sync::{
-    Arc, RwLock,
+    Arc, OnceLock, RwLock,
     atomic::{AtomicBool, Ordering},
 };
-use std::task::{Context, Poll};
 use std::thread::JoinHandle;
 
-use futures_util::StreamExt;
+use http_body_util::BodyExt;
+use hyper::body::{Bytes, Incoming};
 use hyper::{Request, Response, StatusCode, header};
-use hyper::body::{Bytes, Frame, Incoming, SizeHint};
-use http_body_util::{BodyExt, StreamBody};
 use matrix_sdk::ruma::events::room::MediaSource;
 use rand::RngExt;
 
 use super::*;
 
 // ---------------------------------------------------------------------------
-// Public types
+// Configuration
+// ---------------------------------------------------------------------------
+
+/// Maximum response body size that the proxy will cache in memory per token.
+///
+/// ## Why cache at all?
+///
+/// FFmpeg (used by QMediaPlayer) cannot seek within an HTTP response body —
+/// HTTP is a forward-only stream.  When FFmpeg encounters an MP4 file with
+/// the `moov` atom at the end (the common layout for phone-recorded video),
+/// it needs to seek backwards to read the file index.  The only way to seek
+/// over HTTP is via Range requests (`Range: bytes=START-END`).
+///
+/// Many Matrix homeservers (especially those behind reverse proxies) do not
+/// support HTTP Range requests — they return the full file with chunked
+/// transfer encoding regardless.  Without local Range support in the proxy,
+/// FFmpeg's seek fails, playback errors out, and the MxcMediaProxy fallback
+/// downloads the entire file a second time into a local QBuffer.
+///
+/// By caching the response body after the first GET, the proxy can serve
+/// subsequent Range requests locally — slicing the cached bytes and returning
+/// 206 Partial Content.  This gives FFmpeg the seek capability it needs and
+/// avoids the double-download fallback.
+///
+/// ## Size limit
+///
+/// Bodies larger than this threshold are NOT cached.  For very large files
+/// (e.g., a 200 MB video), holding the full body in memory would be wasteful.
+/// Those files fall back to the MxcMediaProxy buffer-download path, which
+/// writes to disk and plays from there.
+///
+/// The cache is per-token and the entire registry (including cached bodies)
+/// is destroyed on logout / backend stop.
+const BODY_CACHE_MAX_BYTES: usize = 150 * 1024 * 1024; // 150 MB
+
+// ---------------------------------------------------------------------------
+// Types
 // ---------------------------------------------------------------------------
 
 pub(super) struct MediaProxyInstance {
@@ -32,10 +65,23 @@ pub(super) struct MediaProxyInstance {
     thread: JoinHandle<()>,
 }
 
+/// Per-token registration mapping a proxy token to upstream media coordinates.
+///
+/// The `body_cache` field holds the first GET response body so that subsequent
+/// requests (including Range seeks) can be served locally.  See the
+/// [`BODY_CACHE_MAX_BYTES`] doc comment for the full rationale.
 #[derive(Clone)]
 struct MediaRegistration {
     server_name: String,
     media_id: String,
+    body_cache: Arc<OnceLock<CachedBody>>,
+}
+
+/// A cached upstream response body with its Content-Type.
+#[derive(Clone)]
+struct CachedBody {
+    data: Bytes,
+    content_type: String,
 }
 
 struct ProxyState {
@@ -44,42 +90,6 @@ struct ProxyState {
 }
 
 type BoxBody = http_body_util::combinators::BoxBody<Bytes, std::io::Error>;
-
-/// Wraps a `StreamBody` with an optional known content length.
-///
-/// hyper uses `Body::size_hint()` to decide between identity and chunked
-/// transfer encoding.  A plain `StreamBody` always returns an unknown size,
-/// so hyper defaults to chunked — which strips the `Content-Length` header.
-/// FFmpeg (via QMediaPlayer) needs `Content-Length` to seek for the moov atom
-/// in MP4 files.  This wrapper feeds the upstream `Content-Length` back into
-/// `size_hint()`, making hyper use identity encoding and preserving the header.
-struct SizedStreamBody<B> {
-    inner: B,
-    content_length: Option<u64>,
-}
-
-impl<B> hyper::body::Body for SizedStreamBody<B>
-where
-    B: hyper::body::Body<Data = Bytes, Error = std::io::Error> + Unpin,
-{
-    type Data = Bytes;
-    type Error = std::io::Error;
-
-    fn poll_frame(
-        self: Pin<&mut Self>,
-        cx: &mut Context<'_>,
-    ) -> Poll<Option<Result<Frame<Bytes>, Self::Error>>> {
-        let this = self.get_mut();
-        Pin::new(&mut this.inner).poll_frame(cx)
-    }
-
-    fn size_hint(&self) -> SizeHint {
-        match self.content_length {
-            Some(len) => SizeHint::with_exact(len),
-            None => self.inner.size_hint(),
-        }
-    }
-}
 
 // ---------------------------------------------------------------------------
 // Public API (called from FFI bridge)
@@ -231,6 +241,7 @@ pub fn register_timeline_media_proxy_url(
             MediaRegistration {
                 server_name: server_name.to_owned(),
                 media_id: media_id.to_owned(),
+                body_cache: Arc::new(OnceLock::new()),
             },
         );
 
@@ -350,31 +361,27 @@ async fn handle_request(
         reg.media_id,
     );
 
-    let has_range = req.headers().contains_key(header::RANGE);
-    let range_value = req.headers().get(header::RANGE).cloned();
+    let range_header = req.headers().get(header::RANGE).cloned();
 
-    // ── Range request: forward to upstream ───────────────────────────────
+    // ── Serve from body cache (fastest path) ────────────────────────────
     //
-    // If upstream supports Range (returns 206), forward the partial content.
-    // If upstream ignores Range (returns 200), buffer and serve the full body
-    // so the fallback path can trigger cleanly.
-    if has_range {
-        return Ok(
-            handle_range_request(&state, &upstream_url, &access_token, range_value.as_ref())
-                .await,
-        );
+    // If a previous request already cached the response body, serve
+    // directly from memory.  For Range requests, parse the byte range and
+    // return 206 Partial Content — this is the key feature that enables
+    // FFmpeg to seek to the moov atom in MP4 files without upstream Range
+    // support.
+    if let Some(cached) = reg.body_cache.get() {
+        return Ok(serve_from_cache(cached, range_header.as_ref()));
     }
 
-    // ── Plain GET: buffer full body, serve with Content-Length ──────────
+    // ── Cache miss: fetch from upstream, buffer, cache, serve ───────────
     //
-    // Buffer the entire upstream response before serving any bytes to the
-    // client.  FFmpeg reads the first few bytes of an MP4 (ftyp box), then
-    // tries to seek to the moov atom via a Range request.  If the proxy
-    // can't serve Range requests locally, the seek fails and the
-    // MxcMediaProxy fallback downloads the file into a local QBuffer.
-    //
-    // For streaming-friendly formats (OGG/Opus audio, faststart MP4), the
-    // buffered response still works — FFmpeg reads sequentially.
+    // FFmpeg always opens URLs with `Range: bytes=0-` as the very first
+    // request (never a plain GET).  So this path handles both the initial
+    // fetch and populates the body cache.  We always do a plain GET to
+    // upstream (ignoring the client's Range header) to get the full body,
+    // then serve the appropriate response (full or partial) from the
+    // freshly-cached data.
     let get_resp = match state
         .client
         .http_client()
@@ -386,7 +393,10 @@ async fn handle_request(
         Ok(r) => r,
         Err(e) => {
             tracing::warn!("Media proxy upstream GET failed: {e}");
-            return Ok(text_response(StatusCode::BAD_GATEWAY, "upstream request failed"));
+            return Ok(text_response(
+                StatusCode::BAD_GATEWAY,
+                "upstream request failed",
+            ));
         }
     };
 
@@ -406,9 +416,28 @@ async fn handle_request(
         .unwrap_or("application/octet-stream")
         .to_owned();
 
+    // Buffer the full response body so we can cache it and serve Range
+    // requests locally (see the BODY_CACHE_MAX_BYTES doc comment).
     let full_body = get_resp.bytes().await.unwrap_or_default();
+
+    // Cache the body for this and all future requests.
+    if full_body.len() <= BODY_CACHE_MAX_BYTES {
+        let _ = reg.body_cache.set(CachedBody {
+            data: full_body.clone(),
+            content_type: content_type.clone(),
+        });
+    }
+
+    // If the body is now cached, serve through the cache path which handles
+    // both full and Range responses with proper byte-range arithmetic.
+    if let Some(cached) = reg.body_cache.get() {
+        return Ok(serve_from_cache(cached, range_header.as_ref()));
+    }
+
+    // Body too large to cache — serve the full buffered response directly.
+    // Range seeking won't work; the MxcMediaProxy fallback will handle it.
     let builder = Response::builder()
-        .status(get_status.as_u16())
+        .status(StatusCode::OK)
         .header(header::CONNECTION, "close")
         .header(header::CONTENT_TYPE, &content_type)
         .header(header::CONTENT_LENGTH, full_body.len());
@@ -417,83 +446,66 @@ async fn handle_request(
     Ok(builder.body(body.boxed()).expect("valid response"))
 }
 
-/// Handle a Range request by forwarding to upstream.
+// ---------------------------------------------------------------------------
+// Cache-based serving
+// ---------------------------------------------------------------------------
+
+/// Serve a full or partial response from the in-memory body cache.
 ///
-/// If upstream returns 206, forward the partial content.
-/// If upstream returns 200 (no Range support), buffer and serve as 200 with
-/// Content-Length so the client can fall back cleanly.
-async fn handle_range_request(
-    state: &ProxyState,
-    upstream_url: &str,
-    access_token: &str,
-    range_value: Option<&hyper::header::HeaderValue>,
+/// For plain GET requests: returns the full cached body with `Accept-Ranges: bytes`.
+/// For Range requests: parses the byte range and returns 206 with the requested slice.
+fn serve_from_cache(
+    cached: &CachedBody,
+    range_header: Option<&hyper::header::HeaderValue>,
 ) -> Response<BoxBody> {
-    let mut upstream_req = state
-        .client
-        .http_client()
-        .get(upstream_url)
-        .bearer_auth(access_token);
+    let total_len = cached.data.len();
 
-    if let Some(range) = range_value {
-        upstream_req = upstream_req.header(reqwest::header::RANGE, range.as_bytes());
-    }
+    // Parse and serve Range request from cache.
+    if let Some(range_val) = range_header {
+        if let Some(range_str) = range_val.to_str().ok() {
+            if let Some((start, end)) = parse_byte_range(range_str, total_len) {
+                let slice = cached.data.slice(start..=end);
+                let content_range =
+                    format!("bytes {start}-{end}/{total_len}");
 
-    let upstream_resp = match upstream_req.send().await {
-        Ok(r) => r,
-        Err(e) => {
-            tracing::warn!("Media proxy upstream Range request failed: {e}");
-            return text_response(StatusCode::BAD_GATEWAY, "upstream request failed");
-        }
-    };
-
-    let status = upstream_resp.status();
-    let content_length = upstream_resp.content_length();
-    let mut builder = Response::builder()
-        .status(status.as_u16())
-        .header(header::CONNECTION, "close");
-
-    // Forward relevant headers.
-    for name in [
-        reqwest::header::CONTENT_TYPE,
-        reqwest::header::CONTENT_LENGTH,
-        reqwest::header::CONTENT_RANGE,
-        reqwest::header::ACCEPT_RANGES,
-    ] {
-        if let Some(val) = upstream_resp.headers().get(&name) {
-            if let Ok(val) = val.to_str() {
-                builder = builder.header(name.as_str(), val);
+                let body = http_body_util::Full::new(slice).map_err(|never| match never {});
+                return Response::builder()
+                    .status(StatusCode::PARTIAL_CONTENT)
+                    .header(header::CONNECTION, "close")
+                    .header(header::CONTENT_TYPE, &cached.content_type)
+                    .header(header::CONTENT_LENGTH, end - start + 1)
+                    .header(header::CONTENT_RANGE, content_range)
+                    .header(header::ACCEPT_RANGES, "bytes")
+                    .body(body.boxed())
+                    .expect("valid response");
             }
         }
+
+        // Unparseable Range header — return 416.
+        let body = http_body_util::Full::new(Bytes::from("invalid range"))
+            .map_err(|never| match never {});
+        return Response::builder()
+            .status(StatusCode::RANGE_NOT_SATISFIABLE)
+            .header(header::CONNECTION, "close")
+            .header(
+                header::CONTENT_RANGE,
+                format!("bytes */{total_len}"),
+            )
+            .body(body.boxed())
+            .expect("valid response");
     }
 
-    if status == reqwest::StatusCode::PARTIAL_CONTENT {
-        // 206 — upstream supports Range.  Stream the partial content.
-        if let Some(len) = content_length {
-            let body_stream = upstream_resp.bytes_stream().map(|result| {
-                result
-                    .map(|bytes| Frame::data(bytes))
-                    .map_err(|e| std::io::Error::other(e))
-            });
-            let stream_body = SizedStreamBody {
-                inner: StreamBody::new(body_stream),
-                content_length: Some(len),
-            };
-            builder.body(BodyExt::boxed(stream_body)).expect("valid response")
-        } else {
-            let full_body = upstream_resp.bytes().await.unwrap_or_default();
-            builder = builder.header(header::CONTENT_LENGTH, full_body.len());
-            let body = http_body_util::Full::new(full_body).map_err(|never| match never {});
-            builder.body(body.boxed()).expect("valid response")
-        }
-    } else {
-        // 200 or other — upstream ignored Range.  Buffer the full body and
-        // serve it so FFmpeg/QMediaPlayer can parse enough to trigger the
-        // fallback to buffer-download.
-        let full_body = upstream_resp.bytes().await.unwrap_or_default();
-        builder = builder.header(header::CONTENT_LENGTH, full_body.len());
-        let body = http_body_util::Full::new(full_body).map_err(|never| match never {});
-        builder.body(body.boxed()).expect("valid response")
-    }
+    // Full GET from cache.
+    let body =
+        http_body_util::Full::new(cached.data.clone()).map_err(|never| match never {});
+    Response::builder()
+        .status(StatusCode::OK)
+        .header(header::CONNECTION, "close")
+        .header(header::CONTENT_TYPE, &cached.content_type)
+        .header(header::CONTENT_LENGTH, total_len)
+        .header(header::ACCEPT_RANGES, "bytes")
+        .body(body.boxed())
+        .expect("valid response")
 }
 
 // ---------------------------------------------------------------------------
@@ -520,6 +532,45 @@ fn parse_mxc_uri(uri: &str) -> Result<(&str, &str), String> {
         .ok_or_else(|| format!("invalid mxc URI format: '{uri}'"))
 }
 
+/// Parses an HTTP `Range` header value like `bytes=START-END`.
+///
+/// Supports:
+/// - `bytes=START-END` (inclusive range)
+/// - `bytes=START-` (from START to end of file)
+/// - `bytes=-SUFFIX` (last SUFFIX bytes)
+///
+/// Returns `(start, end)` as inclusive byte offsets, or `None` if unparseable.
+fn parse_byte_range(header: &str, total_len: usize) -> Option<(usize, usize)> {
+    if total_len == 0 {
+        return None;
+    }
+    let range = header.strip_prefix("bytes=")?;
+    if let Some(suffix_str) = range.strip_prefix('-') {
+        let suffix: usize = suffix_str.parse().ok()?;
+        if suffix == 0 {
+            return None;
+        }
+        let start = total_len.saturating_sub(suffix);
+        Some((start, total_len - 1))
+    } else {
+        let (start_str, end_str) = range.split_once('-')?;
+        let start: usize = start_str.parse().ok()?;
+        if start >= total_len {
+            return None;
+        }
+        let end = if end_str.is_empty() {
+            total_len - 1
+        } else {
+            let end: usize = end_str.parse().ok()?;
+            end.min(total_len - 1)
+        };
+        if start > end {
+            return None;
+        }
+        Some((start, end))
+    }
+}
+
 fn generate_token() -> String {
     const CHARSET: &[u8] = b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let mut rng = rand::rng();
@@ -529,8 +580,8 @@ fn generate_token() -> String {
 }
 
 fn text_response(status: StatusCode, body: &str) -> Response<BoxBody> {
-    let full = http_body_util::Full::new(Bytes::from(body.to_owned()))
-        .map_err(|never| match never {});
+    let full =
+        http_body_util::Full::new(Bytes::from(body.to_owned())).map_err(|never| match never {});
     Response::builder()
         .status(status)
         .header(header::CONTENT_TYPE, "text/plain")

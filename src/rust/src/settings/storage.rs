@@ -24,6 +24,10 @@ pub fn path_exists(path: &str) -> bool {
     ffi::settings_path_exists(path)
 }
 
+pub fn remove_path(path: &str) -> bool {
+    ffi::settings_remove_path(path)
+}
+
 pub fn write_text_file(path: &str, content: &str, owner_read_write_only: bool) -> bool {
     ffi::settings_write_text_file(path, content, owner_read_write_only)
 }

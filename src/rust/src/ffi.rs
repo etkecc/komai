@@ -960,6 +960,8 @@ mod bridge {
         #[namespace = "komai::rust_bridge"]
         fn settings_path_exists(path: &str) -> bool;
         #[namespace = "komai::rust_bridge"]
+        fn settings_remove_path(path: &str) -> bool;
+        #[namespace = "komai::rust_bridge"]
         fn settings_write_text_file(
             path: &str,
             content: &str,
@@ -1098,6 +1100,7 @@ mod bridge {
         fn settings_profile_write_config(handle: &SettingsProfileHandle) -> bool;
         fn settings_profile_write_session(handle: &SettingsProfileHandle) -> bool;
         fn settings_profile_write_state(handle: &SettingsProfileHandle) -> bool;
+        fn settings_remove_session_file_for_profile(profile_id: &str) -> bool;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;

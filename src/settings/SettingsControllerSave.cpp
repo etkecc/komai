@@ -20,8 +20,6 @@
 namespace {
 
 using settings::storage::createDir;
-using settings::storage::pathExists;
-using settings::storage::removePath;
 
 ::komai::rust::SettingsProfileHandle *
 ensureRustSettingsProfileHandle(UserSettings &settings, bool includeSession)
@@ -79,10 +77,12 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     settings.clearAuthInMemory();
     settings.clearRustSettingsProfileHandle();
 
-    if (pathExists(settings.sessionFilePath()) && !removePath(settings.sessionFilePath())) {
-        activeLoggers().ui->warn("Failed to remove session file '{}', keeping file to avoid "
-                                 "accidental data loss",
-                                 settings.sessionFilePath().toStdString());
+    if (!::komai::rust::settings_remove_session_file_for_profile(
+          settings.profileId().toStdString())) {
+        activeLoggers().ui->warn(
+          "Failed to remove persisted session file for profile '{}', keeping file to avoid "
+          "accidental data loss",
+          app_paths::normalizedProfileId(settings.profileId()).toStdString());
     }
 
     settings::persistence::clearProfileSecrets(settings.profileId(),

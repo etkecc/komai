@@ -621,6 +621,10 @@ pub(crate) fn settings_profile_write_state(handle: &settings::profile::SettingsP
     handle.write_state()
 }
 
+pub(crate) fn settings_remove_session_file_for_profile(profile_id: &str) -> bool {
+    settings::session::remove_session_file_for_profile(profile_id)
+}
+
 pub(crate) fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {
     ffi_loaded_session(settings::session::load_session_snapshot(session_text))
 }

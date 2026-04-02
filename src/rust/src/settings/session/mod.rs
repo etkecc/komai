@@ -103,5 +103,14 @@ pub fn write_session_snapshot_to_path(
     )
 }
 
+pub fn remove_session_file_for_profile(profile_id: &str) -> bool {
+    let session_path = storage::session_file_path_for_profile(profile_id);
+    if !storage::path_exists(&session_path) {
+        return true;
+    }
+
+    storage::remove_path(&session_path)
+}
+
 #[cfg(test)]
 mod tests;

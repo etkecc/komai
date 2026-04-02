@@ -168,6 +168,12 @@ settings_path_exists(::rust::Str path)
 }
 
 bool
+settings_remove_path(::rust::Str path)
+{
+    return settings::storage::removePath(toQString(path));
+}
+
+bool
 settings_write_text_file(::rust::Str path, ::rust::Str content, bool owner_read_write_only)
 {
     return settings::storage::writeTextFile(

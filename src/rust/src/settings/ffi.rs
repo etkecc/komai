@@ -123,27 +123,6 @@ pub(crate) fn settings_remove_matrix_sdk_secrets_file_for_profile(profile_id: &s
     settings::secrets::remove_matrix_sdk_secrets_file_for_profile(profile_id)
 }
 
-pub(crate) fn settings_load_profile_secrets(
-    profile_id: &str,
-    uses_file_secrets_provider: bool,
-) -> ffi::SettingsSecretsPayload {
-    settings::secrets::load_profile_secrets(profile_id, uses_file_secrets_provider)
-}
-
-pub(crate) fn settings_save_profile_secrets(
-    profile_id: &str,
-    uses_file_secrets_provider: bool,
-    access_token: &str,
-    entries: &Vec<ffi::SettingsStringMapEntry>,
-) -> bool {
-    settings::secrets::save_profile_secrets(
-        profile_id,
-        uses_file_secrets_provider,
-        access_token,
-        entries.as_slice(),
-    )
-}
-
 pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::SettingsConfigUiSection {
     ffi::SettingsConfigUiSection {
         has_scale_factor: config.ui.scale.factor.is_some(),
@@ -656,13 +635,6 @@ pub(crate) fn settings_profile_flush(
     write_state: bool,
 ) -> ffi::SettingsProfileFlushResult {
     handle.flush(write_config, write_session, write_secrets, write_state)
-}
-
-pub(crate) fn settings_clear_profile_secrets(profile_id: &str) -> bool {
-    let snapshot = settings::profile::load_profile_snapshot_for_profile(profile_id, false);
-    let uses_file_secrets_provider =
-        snapshot.config.config.secrets.provider.to_storage_string() == "file";
-    settings::secrets::clear_profile_secrets(profile_id, uses_file_secrets_provider)
 }
 
 pub(crate) fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {

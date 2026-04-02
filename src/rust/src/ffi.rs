@@ -1098,16 +1098,6 @@ mod bridge {
             owner_read_write_only: bool,
         ) -> bool;
         fn settings_remove_matrix_sdk_secrets_file_for_profile(profile_id: &str) -> bool;
-        fn settings_load_profile_secrets(
-            profile_id: &str,
-            uses_file_secrets_provider: bool,
-        ) -> SettingsSecretsPayload;
-        fn settings_save_profile_secrets(
-            profile_id: &str,
-            uses_file_secrets_provider: bool,
-            access_token: &str,
-            entries: &Vec<SettingsStringMapEntry>,
-        ) -> bool;
         fn settings_load_config_snapshot(config_text: &str) -> SettingsLoadedConfig;
         fn settings_open_profile_handle_for_profile(
             profile_id: &str,
@@ -1147,7 +1137,6 @@ mod bridge {
             write_secrets: bool,
             write_state: bool,
         ) -> SettingsProfileFlushResult;
-        fn settings_clear_profile_secrets(profile_id: &str) -> bool;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;

@@ -373,12 +373,12 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
     ok &= expect(configOverview.uses_file_secrets_provider,
                  "matrix session secrets test loads file provider from config overview");
 
-    const bool savedSecrets = ::komai::rust::settings_save_profile_secrets(
+    const bool savedSecrets = ::komai::rust::settings_write_persisted_secrets_file_for_profile(
       profile.toStdString(),
-      true,
       QStringLiteral("existing-access-token").toStdString(),
       toRustStringMapEntries(
-        QMap<QString, QString>{{QStringLiteral("existing.secret"), QStringLiteral("keep-me")}}));
+        QMap<QString, QString>{{QStringLiteral("existing.secret"), QStringLiteral("keep-me")}}),
+      true);
     ok &= expect(savedSecrets, "matrix session secrets test saves initial secrets payload");
 
     komai::matrix_backend::savePersistedMatrixSessionSecrets(
@@ -398,7 +398,7 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
                  "matrix session secrets load returns saved session blob");
 
     const auto payload =
-      ::komai::rust::settings_load_profile_secrets(profile.toStdString(), true);
+      ::komai::rust::settings_load_persisted_secrets_file_for_profile(profile.toStdString());
     const auto decodedPayloadSecrets = fromRustStringMapEntries(payload.secrets);
     ok &= expect(QString::fromStdString(static_cast<std::string>(payload.access_token)) ==
                    QStringLiteral("existing-access-token"),
@@ -429,7 +429,7 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
     komai::matrix_backend::clearPersistedMatrixSessionSecrets(profile);
 
     const auto clearedPayload =
-      ::komai::rust::settings_load_profile_secrets(profile.toStdString(), true);
+      ::komai::rust::settings_load_persisted_secrets_file_for_profile(profile.toStdString());
     const auto decodedClearedSecrets = fromRustStringMapEntries(clearedPayload.secrets);
     ok &= expect(
       decodedClearedSecrets.value(QStringLiteral("matrix_sdk.store_passphrase")).isEmpty(),

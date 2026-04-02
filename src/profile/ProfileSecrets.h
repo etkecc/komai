@@ -11,14 +11,18 @@
 #include <array>
 #include <string_view>
 
-#include "settings/StagedLoadPlan.h"
-
 namespace profile_secrets {
 
 struct CacheSecretDescriptor
 {
     std::string_view name;
     bool internal;
+};
+
+enum class SecretStoreBackend
+{
+    SecureStore,
+    File,
 };
 
 bool
@@ -40,15 +44,13 @@ settingsSecretNames() noexcept;
 bool
 deleteAllProfileSecretsFromStoreBlocking(QStringView profile);
 bool
-deleteAllProfileSecretsFromStoreBlocking(QStringView profile,
-                                         staged_load_plan::SecretsProvider provider);
+deleteAllProfileSecretsFromStoreBlocking(QStringView profile, SecretStoreBackend backend);
 inline bool
 deleteAllProfileSecretsFromStoreBlocking(QStringView profile, bool usesFileSecretsProvider)
 {
     return deleteAllProfileSecretsFromStoreBlocking(
       profile,
-      usesFileSecretsProvider ? staged_load_plan::SecretsProvider::File
-                              : staged_load_plan::SecretsProvider::SecretService);
+      usesFileSecretsProvider ? SecretStoreBackend::File : SecretStoreBackend::SecureStore);
 }
 bool
 deleteSettingsProfileSecretsFromStoreBlocking(QStringView profile);

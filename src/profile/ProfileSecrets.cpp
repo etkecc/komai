@@ -142,16 +142,15 @@ deleteAllProfileSecretsFromStoreBlocking(QStringView profile)
 {
     auto settings       = UserSettings::instance();
     const auto provider = (settings && settings->usesFileSecretsProvider())
-                            ? staged_load_plan::SecretsProvider::File
-                            : staged_load_plan::SecretsProvider::SecretService;
+                            ? SecretStoreBackend::File
+                            : SecretStoreBackend::SecureStore;
     return deleteAllProfileSecretsFromStoreBlocking(profile, provider);
 }
 
 bool
-deleteAllProfileSecretsFromStoreBlocking(QStringView profile,
-                                         staged_load_plan::SecretsProvider provider)
+deleteAllProfileSecretsFromStoreBlocking(QStringView profile, SecretStoreBackend backend)
 {
-    if (provider == staged_load_plan::SecretsProvider::File)
+    if (backend == SecretStoreBackend::File)
         return true;
 
     return deleteSettingsProfileSecretsFromStoreBlocking(profile) &&

@@ -38,7 +38,7 @@ deleteAllProfileSecretsFromStoreBlocking(QStringView profile)
 }
 
 bool
-deleteAllProfileSecretsFromStoreBlocking(QStringView profile, staged_load_plan::SecretsProvider)
+deleteAllProfileSecretsFromStoreBlocking(QStringView profile, SecretStoreBackend)
 {
     (void)profile;
     return true;

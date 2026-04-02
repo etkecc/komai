@@ -11,7 +11,6 @@
 
 #include "SettingsSerializerConfigConverters.h"
 #include "SettingsSerializerConfigInternal.h"
-#include "settings/StagedLoadPlan.h"
 #include "settings/core/StartupConfig.h"
 
 namespace settings::serializer {
@@ -149,10 +148,9 @@ stageConfig(const UserSettings &settings,
         },
       .secrets =
         {
-          .provider = (usesFileSecretsProvider
-                         ? QString::fromLatin1(staged_load_plan::ProviderFileValue)
-                         : QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))
-                        .toStdString(),
+          .provider =
+            (usesFileSecretsProvider ? QStringLiteral("file") : QStringLiteral("secret_service"))
+              .toStdString(),
         },
       .privacy =
         {

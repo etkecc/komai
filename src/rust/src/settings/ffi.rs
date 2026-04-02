@@ -18,7 +18,7 @@ pub(crate) fn settings_load_startup_snapshot_for_profile(profile_id: &str) -> ff
     settings_load_startup_snapshot_from_path(&config_path)
 }
 
-pub(crate) fn settings_load_config_overview(config_text: &str) -> ffi::SettingsConfigOverview {
+fn load_config_overview(config_text: &str) -> ffi::SettingsConfigOverview {
     let config = settings::config::parse_config_text(config_text);
 
     ffi::SettingsConfigOverview {
@@ -31,7 +31,7 @@ pub(crate) fn settings_load_config_overview(config_text: &str) -> ffi::SettingsC
 
 pub(crate) fn settings_load_config_overview_for_profile(profile_id: &str) -> ffi::SettingsConfigOverview {
     let config_path = settings::storage::config_file_path_for_profile(profile_id);
-    settings_load_config_overview(&settings::storage::read_text_file(&config_path, "config"))
+    load_config_overview(&settings::storage::read_text_file(&config_path, "config"))
 }
 
 pub(crate) fn settings_encode_string_map_yaml(entries: &Vec<ffi::SettingsStringMapEntry>) -> String {
@@ -76,13 +76,6 @@ pub(crate) fn settings_write_named_string_map_to_path(
         entries.as_slice(),
         owner_read_write_only,
     )
-}
-
-pub(crate) fn settings_write_config_snapshot_to_path(
-    config_path: &str,
-    snapshot: &ffi::SettingsConfigSnapshot,
-) -> bool {
-    settings::config::write_config_snapshot_to_path(config_path, snapshot)
 }
 
 pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::SettingsConfigUiSection {
@@ -590,24 +583,8 @@ pub(crate) fn settings_load_session_snapshot_for_profile(profile_id: &str) -> ff
     ffi_loaded_session(settings::session::load_session_snapshot_from_path(&session_path))
 }
 
-pub(crate) fn settings_write_session_snapshot_to_path(
-    session_path: &str,
-    user_id: &str,
-    homeserver: &str,
-    device_id: &str,
-) -> bool {
-    settings::session::write_session_snapshot_to_path(session_path, user_id, homeserver, device_id)
-}
-
 pub(crate) fn settings_load_state_snapshot(state_text: &str) -> ffi::SettingsLoadedState {
     ffi_loaded_state(settings::state::load_state_snapshot(state_text))
-}
-
-pub(crate) fn settings_write_state_snapshot_to_path(
-    state_path: &str,
-    snapshot: &ffi::SettingsStateSnapshot,
-) -> bool {
-    settings::state::write_state_snapshot_to_path(state_path, snapshot)
 }
 
 fn clone_string_list_map_entries(

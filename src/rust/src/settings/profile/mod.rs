@@ -25,16 +25,11 @@ pub fn load_profile_snapshot(
     }
 }
 
-pub fn load_profile_snapshot_from_paths(
-    config_path: &str,
-    session_path: &str,
-    state_path: &str,
-    include_session: bool,
-) -> LoadedProfile {
-    let config_text = storage::read_text_file(config_path, "config");
-    let state_text = storage::read_text_file(state_path, "state");
+pub fn load_profile_snapshot_for_profile(profile_id: &str, include_session: bool) -> LoadedProfile {
+    let config_text = storage::read_text_file(&storage::config_file_path_for_profile(profile_id), "config");
+    let state_text = storage::read_text_file(&storage::state_file_path_for_profile(profile_id), "state");
     let session_text = if include_session {
-        storage::read_text_file(session_path, "session")
+        storage::read_text_file(&storage::session_file_path_for_profile(profile_id), "session")
     } else {
         String::new()
     };

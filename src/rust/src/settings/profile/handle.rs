@@ -7,34 +7,16 @@ use std::pin::Pin;
 use crate::{ffi, settings};
 
 pub struct SettingsProfileHandle {
-    config_path: String,
-    session_path: String,
-    state_path: String,
+    profile_id: String,
     loaded: ffi::SettingsLoadedProfile,
 }
 
 impl SettingsProfileHandle {
     pub fn load_for_profile(profile_id: &str, include_session: bool) -> Self {
-        let config_path = settings::storage::config_file_path_for_profile(profile_id);
-        let session_path = settings::storage::session_file_path_for_profile(profile_id);
-        let state_path = settings::storage::state_file_path_for_profile(profile_id);
-
-        Self::load_from_paths(&config_path, &session_path, &state_path, include_session)
-    }
-
-    pub fn load_from_paths(
-        config_path: &str,
-        session_path: &str,
-        state_path: &str,
-        include_session: bool,
-    ) -> Self {
-        let snapshot =
-            settings::profile::load_profile_snapshot_from_paths(config_path, session_path, state_path, include_session);
+        let snapshot = settings::profile::load_profile_snapshot_for_profile(profile_id, include_session);
 
         Self {
-            config_path: config_path.to_owned(),
-            session_path: session_path.to_owned(),
-            state_path: state_path.to_owned(),
+            profile_id: profile_id.to_owned(),
             loaded: ffi::SettingsLoadedProfile {
                 config: settings::ffi::ffi_loaded_config(snapshot.config),
                 session: settings::ffi::ffi_loaded_session(snapshot.session),
@@ -73,14 +55,17 @@ impl SettingsProfileHandle {
     }
 
     pub fn write_config(&self) -> bool {
-        settings::ffi::write_loaded_config_to_path(&self.config_path, &self.loaded.config)
+        let config_path = settings::storage::config_file_path_for_profile(&self.profile_id);
+        settings::ffi::write_loaded_config_to_path(&config_path, &self.loaded.config)
     }
 
     pub fn write_session(&self) -> bool {
-        settings::ffi::write_loaded_session_to_path(&self.session_path, &self.loaded.session)
+        let session_path = settings::storage::session_file_path_for_profile(&self.profile_id);
+        settings::ffi::write_loaded_session_to_path(&session_path, &self.loaded.session)
     }
 
     pub fn write_state(&self) -> bool {
-        settings::ffi::write_loaded_state_to_path(&self.state_path, &self.loaded.state)
+        let state_path = settings::storage::state_file_path_for_profile(&self.profile_id);
+        settings::ffi::write_loaded_state_to_path(&state_path, &self.loaded.state)
     }
 }

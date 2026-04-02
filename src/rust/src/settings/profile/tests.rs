@@ -40,7 +40,7 @@ fn handle_prepare_for_load_keeps_provider_when_persisted_session_identity_exists
     std::pin::Pin::new(&mut handle).prepare_for_load(true, false);
     let snapshot = handle.snapshot();
 
-    assert_eq!(snapshot.config.secrets.provider, "");
+    assert_eq!(snapshot.config.secrets.provider, "secret_service");
     assert!(!snapshot.uses_file_secrets_provider);
     assert!(!snapshot.startup_secrets_provider_changed);
     assert!(!snapshot.secrets_provider_fallback_warning_visible);

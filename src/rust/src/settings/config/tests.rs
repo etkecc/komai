@@ -4,6 +4,8 @@
 
 use super::{
     encode_config_yaml, load_config_snapshot, parse_config_text,
+    ConfigSecretsProviderToken, ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken,
+    ConfigUiScrollbarPolicyToken,
     ConfigSidebarsRoomListLastMessagePreviewToken, ConfigSidebarsRoomListSortToken,
     ConfigSidebarsRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
     ConfigTimelineMessageActionsActivationPolicyToken, ConfigTimelineMessagesPositioningToken,
@@ -76,8 +78,8 @@ secrets:
     );
 
     assert_eq!(config.ui.theme.slug, "komai-dark");
-    assert_eq!(config.ui.input.mode, "".into());
-    assert_eq!(config.secrets.provider, "file".into());
+    assert_eq!(config.ui.input.mode, ConfigUiInputModeToken::Text);
+    assert_eq!(config.secrets.provider, ConfigSecretsProviderToken::File);
 }
 
 #[test]
@@ -97,7 +99,7 @@ timeline:
 "#,
     );
 
-    assert_eq!(config.ui.input.mode, "touch".into());
+    assert_eq!(config.ui.input.mode, ConfigUiInputModeToken::Touch);
     assert_eq!(config.timeline.hidden_events.global, Some(Vec::new()));
     assert_eq!(
         config.timeline.hidden_events.by_room.get("!room:example.org"),
@@ -213,8 +215,14 @@ ui:
     assert_eq!(config.ui.layout.content_max_width_px, Some(1024));
     assert_eq!(config.ui.layout.compact_mode, Some(false));
     assert_eq!(config.ui.avatars.circular, Some(true));
-    assert_eq!(config.ui.avatars.default_avatar_style, "".into());
-    assert_eq!(config.ui.scrollbar_policy, "".into());
+    assert_eq!(
+        config.ui.avatars.default_avatar_style,
+        ConfigUiDefaultAvatarStyleToken::BoringAvatarsBauhaus
+    );
+    assert_eq!(
+        config.ui.scrollbar_policy,
+        ConfigUiScrollbarPolicyToken::WhenNeeded
+    );
 }
 
 #[test]
@@ -286,7 +294,7 @@ sidebars:
     last_message_preview: never
     show_community_notification_counts: true
     sort: alphabetical
-    unread_detection_policy: marked_unread_and_mentions
+    unread_detection_policy: any_event
   communities:
     visible: false
     filters:
@@ -311,9 +319,7 @@ sidebars:
     );
     assert_eq!(
         config.sidebars.room_list.unread_detection_policy,
-        ConfigSidebarsRoomListUnreadDetectionPolicyToken::Raw(
-            "marked_unread_and_mentions".to_owned()
-        )
+        ConfigSidebarsRoomListUnreadDetectionPolicyToken::AnyEvent
     );
     assert_eq!(config.sidebars.communities.visible, Some(false));
     assert_eq!(config.sidebars.communities.filter_favourites, Some(false));
@@ -416,7 +422,7 @@ fn encodes_generic_config_values() {
                 has_show_community_counts: true,
                 show_community_counts: true,
                 sort: "alphabetical".to_owned(),
-                unread_detection_policy: "marked_unread_and_mentions".to_owned(),
+                unread_detection_policy: "any_event".to_owned(),
             },
             communities: SettingsConfigSidebarsCommunitiesSection {
                 has_visible: true,
@@ -770,7 +776,7 @@ fn encodes_generic_config_values() {
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["sidebars", "room_list", "unread_detection_policy"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "marked_unread_and_mentions"
+        Some(serde_yaml_ng::Value::String(value)) if value == "any_event"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["sidebars", "communities", "visible"]),
@@ -927,10 +933,69 @@ secrets:
 
     assert_eq!(loaded.config.ui.scale.factor, Some(1.5));
     assert_eq!(loaded.config.ui.theme.slug, "komai-dark");
-    assert_eq!(loaded.config.ui.input.mode, "".into());
+    assert_eq!(loaded.config.ui.input.mode, ConfigUiInputModeToken::Text);
     assert_eq!(loaded.config.ui.motion.animations_enabled, None);
-    assert_eq!(loaded.config.secrets.provider, "file".into());
+    assert_eq!(loaded.config.secrets.provider, ConfigSecretsProviderToken::File);
     assert!(loaded.should_write_back);
+}
+
+#[test]
+fn invalid_tokens_normalize_to_known_defaults() {
+    let config = parse_config_text(
+        r#"
+ui:
+  input:
+    mode: nonsense
+  avatars:
+    default_avatar_style: mystery
+  scrollbar_policy: odd
+network:
+  presence:
+    status_policy: ????
+sidebars:
+  room_list:
+    unread_detection_policy: impossible
+integrations:
+  dbus:
+    access: unexpected
+composer:
+  input:
+    send_key: weird
+    auto_replace_emoji: nonsense
+    emoji:
+      preferred_gender: mystery
+      preferred_skin_tone: mystery
+"#,
+    );
+
+    assert_eq!(config.ui.input.mode.to_storage_string(), "text");
+    assert_eq!(
+        config.ui.avatars.default_avatar_style.to_storage_string(),
+        "boring_avatars_bauhaus"
+    );
+    assert_eq!(config.ui.scrollbar_policy.to_storage_string(), "when_needed");
+    assert_eq!(
+        config.network.presence_status_policy.to_storage_string(),
+        "automatic_presence"
+    );
+    assert_eq!(config.integrations.dbus_api_access.to_storage_string(), "none");
+    assert_eq!(
+        config.sidebars.room_list.unread_detection_policy.to_storage_string(),
+        "any_event"
+    );
+    assert_eq!(config.composer.input_send_key.to_storage_string(), "enter");
+    assert_eq!(
+        config.composer.input_auto_replace_emoji.to_storage_string(),
+        "always"
+    );
+    assert_eq!(
+        config.composer.input_emoji_preferred_gender.to_storage_string(),
+        "no_preference"
+    );
+    assert_eq!(
+        config.composer.input_emoji_preferred_skin_tone.to_storage_string(),
+        "no_preference"
+    );
 }
 
 #[test]

@@ -73,7 +73,7 @@ async fn fetch_own_room_member(
 
 fn presence_state_from_token(presence_state: &str) -> Result<PresenceState, String> {
     match presence_state.trim() {
-        "" | "automatic" | "online" => Ok(PresenceState::Online),
+        "" | "automatic" | "automatic_presence" | "online" => Ok(PresenceState::Online),
         "unavailable" => Ok(PresenceState::Unavailable),
         "offline" => Ok(PresenceState::Offline),
         other => Err(format!("unsupported own presence state '{other}'")),

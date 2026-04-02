@@ -17,7 +17,7 @@ pub struct SettingsProfileHandle {
 
 impl SettingsProfileHandle {
     pub(crate) fn from_loaded(profile_id: &str, loaded: ffi::SettingsLoadedProfile) -> Self {
-        let config_dirty = loaded.config.source_exists && loaded.config.should_write_back;
+        let config_dirty = loaded.config.should_write_back;
         let session_dirty = loaded.session.source_exists && loaded.session.should_write_back;
         let state_dirty = loaded.state.source_exists && loaded.state.should_write_back;
 

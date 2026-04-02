@@ -13,7 +13,5 @@ QString
 toStorageUiInputMode(bool uiInputMode);
 bool
 fromStorageUiInputMode(const QString &value);
-bool
-isKnownUiInputModeToken(const QString &value);
 
 } // namespace settings::serializer::detail

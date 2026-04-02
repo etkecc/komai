@@ -70,14 +70,6 @@ fromStorageUiInputMode(const QString &value)
     return false;
 }
 
-bool
-isKnownUiInputModeToken(const QString &value)
-{
-    const auto trimmed = value.trimmed();
-    return trimmed.compare(QLatin1String(kUiInputModeDesktop), Qt::CaseInsensitive) == 0 ||
-           trimmed.compare(QLatin1String(kUiInputModeTouch), Qt::CaseInsensitive) == 0;
-}
-
 } // namespace detail
 
 } // namespace settings::serializer

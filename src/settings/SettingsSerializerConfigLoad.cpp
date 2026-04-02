@@ -57,12 +57,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         : loadedScrollbarPolicy;
     settings.setUiScrollbarPolicy(cfg::scrollbarPolicyFromStorage(
       scrollbarPolicyToken, UserSettings::ScrollbarPolicy::WhenNeeded));
-    if (scrollbarPolicyToken != cfg::toStorageValue(settings.uiScrollbarPolicy())) {
-        activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
-                                 scrollbarPolicyToken.toStdString(),
-                                 SettingKey::UiScrollbarPolicy,
-                                 cfg::toStorageValue(settings.uiScrollbarPolicy()).toStdString());
-    }
 
     const auto loadedDefaultAvatarStyle =
       QString::fromStdString(static_cast<std::string>(snapshot.ui.default_avatar_style)).trimmed();
@@ -72,13 +66,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         : loadedDefaultAvatarStyle;
     settings.setUiAvatarsDefaultAvatarStyle(cfg::defaultAvatarStyleFromStorage(
       defaultAvatarStyleToken, UserSettings::DefaultAvatarStyle::BoringAvatarsBauhaus));
-    if (defaultAvatarStyleToken != cfg::toStorageValue(settings.uiAvatarsDefaultAvatarStyle())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          defaultAvatarStyleToken.toStdString(),
-          SettingKey::UiAvatarsDefaultAvatarStyle,
-          cfg::toStorageValue(settings.uiAvatarsDefaultAvatarStyle()).toStdString());
-    }
 
     const auto loadedInputModeToken =
       QString::fromStdString(static_cast<std::string>(snapshot.ui.input_mode)).trimmed();
@@ -86,12 +73,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       loadedInputModeToken.isEmpty()
         ? detail::toStorageUiInputMode(settings::core::definitions::kDefaultUiInputMode)
         : loadedInputModeToken;
-    if (!detail::isKnownUiInputModeToken(inputModeToken)) {
-        activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
-                                 inputModeToken.toStdString(),
-                                 SettingKey::UiInputMode,
-                                 detail::toStorageUiInputMode(false).toStdString());
-    }
     settings.setUiInputMode(detail::fromStorageUiInputMode(inputModeToken));
 
     settings.setUiScaleFactor(snapshot.ui.has_scale_factor
@@ -123,14 +104,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                                          : loadedSidebarsRoomListLastMessagePreview;
     settings.setSidebarsRoomListLastMessagePreview(cfg::lastMessagePreviewFromStorage(
       sidebarsRoomListLastMessagePreviewToken, UserSettings::LastMessagePreview::Always));
-    if (sidebarsRoomListLastMessagePreviewToken !=
-        cfg::toStorageValue(settings.sidebarsRoomListLastMessagePreview())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          sidebarsRoomListLastMessagePreviewToken.toStdString(),
-          SettingKey::SidebarsRoomListLastMessagePreview,
-          cfg::toStorageValue(settings.sidebarsRoomListLastMessagePreview()).toStdString());
-    }
 
     settings.setSidebarsRoomListShowCommunityCounts(
       snapshot.sidebars.room_list.has_show_community_counts
@@ -144,13 +117,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                              : loadedSidebarsRoomListSort;
     settings.setSidebarsRoomListSort(cfg::roomSortOrderFromStorage(
       sidebarsRoomListSortToken, UserSettings::RoomSortOrder::UnreadFirst_Recent));
-    if (sidebarsRoomListSortToken != cfg::toStorageValue(settings.sidebarsRoomListSort())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          sidebarsRoomListSortToken.toStdString(),
-          SettingKey::SidebarsRoomListSort,
-          cfg::toStorageValue(settings.sidebarsRoomListSort()).toStdString());
-    }
 
     const auto loadedSidebarsRoomListUnreadDetectionPolicy =
       QString::fromStdString(
@@ -162,14 +128,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         : loadedSidebarsRoomListUnreadDetectionPolicy;
     settings.setSidebarsRoomListUnreadDetectionPolicy(cfg::unreadDetectionPolicyFromStorage(
       sidebarsRoomListUnreadDetectionPolicyToken, UserSettings::UnreadDetectionPolicy::AnyEvent));
-    if (sidebarsRoomListUnreadDetectionPolicyToken !=
-        cfg::toStorageValue(settings.sidebarsRoomListUnreadDetectionPolicy())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          sidebarsRoomListUnreadDetectionPolicyToken.toStdString(),
-          SettingKey::SidebarsRoomListUnreadDetectionPolicy,
-          cfg::toStorageValue(settings.sidebarsRoomListUnreadDetectionPolicy()).toStdString());
-    }
 
     settings.setSidebarsCommunitiesVisible(
       snapshot.sidebars.communities.has_visible ? snapshot.sidebars.communities.visible : true);
@@ -222,13 +180,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                               : loadedTimelineMessagesStyle;
     settings.setTimelineMessagesStyle(cfg::timelineMessagesStyleFromStorage(
       timelineMessagesStyleToken, UserSettings::TimelineMessagesStyle::Bubbles));
-    if (timelineMessagesStyleToken != cfg::toStorageValue(settings.timelineMessagesStyle())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          timelineMessagesStyleToken.toStdString(),
-          SettingKey::TimelineMessagesStyle,
-          cfg::toStorageValue(settings.timelineMessagesStyle()).toStdString());
-    }
 
     const auto loadedTimelineMessagesPositioning =
       QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.positioning))
@@ -239,14 +190,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setTimelineMessagesPositioning(cfg::timelineMessagesPositioningFromStorage(
       timelineMessagesPositioningToken,
       UserSettings::TimelineMessagesPositioning::OpposingBySender));
-    if (timelineMessagesPositioningToken !=
-        cfg::toStorageValue(settings.timelineMessagesPositioning())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          timelineMessagesPositioningToken.toStdString(),
-          SettingKey::TimelineMessagesPositioning,
-          cfg::toStorageValue(settings.timelineMessagesPositioning()).toStdString());
-    }
 
     const auto loadedTimelineUserColorCodingPolicy =
       QString::fromStdString(
@@ -258,14 +201,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setTimelineUserColorCodingPolicy(cfg::timelineUserColorCodingPolicyFromStorage(
       timelineUserColorCodingPolicyToken,
       UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize));
-    if (timelineUserColorCodingPolicyToken !=
-        cfg::toStorageValue(settings.timelineUserColorCodingPolicy())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          timelineUserColorCodingPolicyToken.toStdString(),
-          SettingKey::TimelineUserColorCodingPolicy,
-          cfg::toStorageValue(settings.timelineUserColorCodingPolicy()).toStdString());
-    }
 
     settings.setTimelineMessagesLayoutSmallAvatars(
       snapshot.timeline.messages.has_layout_small_avatars
@@ -284,14 +219,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                                        : loadedTimelineMessagesSenderUsername;
     settings.setTimelineMessagesSenderUsername(cfg::showSenderUsernameFromStorage(
       timelineMessagesSenderUsernameToken, UserSettings::ShowSenderUsername::OnlyInLargeRooms));
-    if (timelineMessagesSenderUsernameToken !=
-        cfg::toStorageValue(settings.timelineMessagesSenderUsername())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          timelineMessagesSenderUsernameToken.toStdString(),
-          SettingKey::TimelineMessagesSenderUsername,
-          cfg::toStorageValue(settings.timelineMessagesSenderUsername()).toStdString());
-    }
 
     settings.setTimelineMessagesEmojiOnlyEnlarge(snapshot.timeline.messages.has_emoji_only_enlarge
                                                    ? snapshot.timeline.messages.emoji_only_enlarge
@@ -320,14 +247,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       cfg::timelineMessageActionsActivationPolicyFromStorage(
         timelineMessageActionsActivationPolicyToken,
         UserSettings::TimelineMessageActionsActivationPolicy::ActionsButton));
-    if (timelineMessageActionsActivationPolicyToken !=
-        cfg::toStorageValue(settings.timelineMessageActionsActivationPolicy())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          timelineMessageActionsActivationPolicyToken.toStdString(),
-          SettingKey::TimelineMessageActionsActivationPolicy,
-          cfg::toStorageValue(settings.timelineMessageActionsActivationPolicy()).toStdString());
-    }
 
     const auto loadedTimelineMessageActionsPinnedReactions =
       QString::fromStdString(
@@ -352,14 +271,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                                   : loadedTimelineMediaImageDisplay;
     settings.setTimelineMediaImageDisplay(
       cfg::showImageFromStorage(timelineMediaImageDisplayToken, UserSettings::ShowImage::Always));
-    if (timelineMediaImageDisplayToken !=
-        cfg::toStorageValue(settings.timelineMediaImageDisplay())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          timelineMediaImageDisplayToken.toStdString(),
-          SettingKey::TimelineMediaImageDisplay,
-          cfg::toStorageValue(settings.timelineMediaImageDisplay()).toStdString());
-    }
 
     settings.setTimelineMediaOpenImagesExternal(snapshot.timeline.media.has_open_images_external
                                                   ? snapshot.timeline.media.open_images_external
@@ -454,14 +365,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setNotificationsMessageContentPolicy(cfg::notificationsMessageContentPolicyFromStorage(
       notificationsMessageContentPolicyToken,
       UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
-    if (notificationsMessageContentPolicyToken !=
-        cfg::toStorageValue(settings.notificationsMessageContentPolicy())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          notificationsMessageContentPolicyToken.toStdString(),
-          SettingKey::NotificationsMessageContentPolicy,
-          cfg::toStorageValue(settings.notificationsMessageContentPolicy()).toStdString());
-    }
 
     settings.setNetworkTlsEnableCertificateValidation(
       snapshot.network.has_tls_enable_certificate_validation
@@ -490,14 +393,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                                     : loadedNetworkPresenceStatusPolicy;
     settings.setNetworkPresenceStatusPolicy(cfg::presenceFromStorage(
       networkPresenceStatusPolicyToken, UserSettings::Presence::AutomaticPresence));
-    if (networkPresenceStatusPolicyToken !=
-        cfg::toStorageValue(settings.networkPresenceStatusPolicy())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          networkPresenceStatusPolicyToken.toStdString(),
-          SettingKey::NetworkPresenceStatusPolicy,
-          cfg::toStorageValue(settings.networkPresenceStatusPolicy()).toStdString());
-    }
 
     settings.setIntegrationsSystemTrayEnabled(snapshot.integrations.has_system_tray_enabled
                                                 ? snapshot.integrations.system_tray_enabled
@@ -516,14 +411,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                                   : loadedIntegrationsDbusApiAccess;
     settings.setIntegrationsDbusApiAccess(
       cfg::dbusAccessFromStorage(integrationsDbusApiAccessToken, IntegrationsDbusAccessNone));
-    if (integrationsDbusApiAccessToken !=
-        cfg::dbusAccessToStorage(settings.integrationsDbusApiAccess())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          integrationsDbusApiAccessToken.toStdString(),
-          SettingKey::IntegrationsDbusApiAccess,
-          cfg::dbusAccessToStorage(settings.integrationsDbusApiAccess()).toStdString());
-    }
 
     settings.setComposerInputMarkdownToHtmlEnabled(
       snapshot.composer.has_input_markdown_to_html_enabled
@@ -536,13 +423,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       loadedComposerInputSendKey.isEmpty() ? QStringLiteral("enter") : loadedComposerInputSendKey;
     settings.setComposerInputSendKey(cfg::sendMessageKeyFromStorage(
       composerInputSendKeyToken, UserSettings::SendMessageKey::Enter));
-    if (composerInputSendKeyToken != cfg::toStorageValue(settings.composerInputSendKey())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          composerInputSendKeyToken.toStdString(),
-          SettingKey::ComposerInputSendKey,
-          cfg::toStorageValue(settings.composerInputSendKey()).toStdString());
-    }
 
     const auto loadedComposerInputAutoReplaceEmoji =
       QString::fromStdString(static_cast<std::string>(snapshot.composer.input_auto_replace_emoji))
@@ -552,14 +432,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                                       : loadedComposerInputAutoReplaceEmoji;
     settings.setComposerInputAutoReplaceEmoji(cfg::autoReplaceEmojiFromStorage(
       composerInputAutoReplaceEmojiToken, UserSettings::AutoReplaceEmoji::Always));
-    if (composerInputAutoReplaceEmojiToken !=
-        cfg::toStorageValue(settings.composerInputAutoReplaceEmoji())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          composerInputAutoReplaceEmojiToken.toStdString(),
-          SettingKey::ComposerInputAutoReplaceEmoji,
-          cfg::toStorageValue(settings.composerInputAutoReplaceEmoji()).toStdString());
-    }
 
     const auto loadedComposerInputEmojiPreferredGender =
       QString::fromStdString(
@@ -570,14 +442,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                                         : loadedComposerInputEmojiPreferredGender;
     settings.setComposerInputEmojiPreferredGender(cfg::emojiPreferredGenderFromStorage(
       composerInputEmojiPreferredGenderToken, UserSettings::EmojiPreferredGender::NoPreference));
-    if (composerInputEmojiPreferredGenderToken !=
-        cfg::toStorageValue(settings.composerInputEmojiPreferredGender())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          composerInputEmojiPreferredGenderToken.toStdString(),
-          SettingKey::ComposerInputEmojiPreferredGender,
-          cfg::toStorageValue(settings.composerInputEmojiPreferredGender()).toStdString());
-    }
 
     const auto loadedComposerInputEmojiPreferredSkinTone =
       QString::fromStdString(
@@ -590,14 +454,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setComposerInputEmojiPreferredSkinTone(
       cfg::emojiPreferredSkinToneFromStorage(composerInputEmojiPreferredSkinToneToken,
                                              UserSettings::EmojiPreferredSkinTone::NoPreference));
-    if (composerInputEmojiPreferredSkinToneToken !=
-        cfg::toStorageValue(settings.composerInputEmojiPreferredSkinTone())) {
-        activeLoggers().ui->warn(
-          "Invalid value '{}' for '{}'; using '{}'",
-          composerInputEmojiPreferredSkinToneToken.toStdString(),
-          SettingKey::ComposerInputEmojiPreferredSkinTone,
-          cfg::toStorageValue(settings.composerInputEmojiPreferredSkinTone()).toStdString());
-    }
 
     settings.setComposerInputInlineEmojiPickerEnabled(
       snapshot.composer.has_input_inline_emoji_picker_enabled

@@ -240,6 +240,50 @@ pub(crate) fn ffi_config_integrations_section(
     }
 }
 
+pub(crate) fn ffi_config_composer_section(
+    config: &settings::config::Config,
+) -> ffi::SettingsConfigComposerSection {
+    ffi::SettingsConfigComposerSection {
+        has_input_markdown_to_html_enabled: config.composer.input_markdown_to_html_enabled.is_some(),
+        input_markdown_to_html_enabled: config
+            .composer
+            .input_markdown_to_html_enabled
+            .unwrap_or_default(),
+        input_send_key: config.composer.input_send_key.clone(),
+        input_auto_replace_emoji: config.composer.input_auto_replace_emoji.clone(),
+        input_emoji_preferred_gender: config.composer.input_emoji_preferred_gender.clone(),
+        input_emoji_preferred_skin_tone: config.composer.input_emoji_preferred_skin_tone.clone(),
+        has_input_inline_emoji_picker_enabled: config
+            .composer
+            .input_inline_emoji_picker_enabled
+            .is_some(),
+        input_inline_emoji_picker_enabled: config
+            .composer
+            .input_inline_emoji_picker_enabled
+            .unwrap_or_default(),
+        has_input_inline_room_picker_enabled: config
+            .composer
+            .input_inline_room_picker_enabled
+            .is_some(),
+        input_inline_room_picker_enabled: config
+            .composer
+            .input_inline_room_picker_enabled
+            .unwrap_or_default(),
+        has_input_inline_user_picker_enabled: config
+            .composer
+            .input_inline_user_picker_enabled
+            .is_some(),
+        input_inline_user_picker_enabled: config
+            .composer
+            .input_inline_user_picker_enabled
+            .unwrap_or_default(),
+        has_typing_send_enabled: config.composer.typing_send_enabled.is_some(),
+        typing_send_enabled: config.composer.typing_send_enabled.unwrap_or_default(),
+        has_extras_stickers_enabled: config.composer.extras_stickers_enabled.is_some(),
+        extras_stickers_enabled: config.composer.extras_stickers_enabled.unwrap_or_default(),
+    }
+}
+
 pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi::SettingsLoadedConfig {
     ffi::SettingsLoadedConfig {
         ui: ffi_config_ui_section(&snapshot.config),
@@ -250,6 +294,7 @@ pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi
         notifications: ffi_config_notifications_section(&snapshot.config),
         network: ffi_config_network_section(&snapshot.config),
         integrations: ffi_config_integrations_section(&snapshot.config),
+        composer: ffi_config_composer_section(&snapshot.config),
         values: snapshot.values,
         source_version: snapshot.source_version,
         migrated_version: snapshot.migrated_version,

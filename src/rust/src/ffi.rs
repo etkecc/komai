@@ -195,6 +195,25 @@ mod bridge {
         browser_command: String,
     }
 
+    struct SettingsConfigComposerSection {
+        has_input_markdown_to_html_enabled: bool,
+        input_markdown_to_html_enabled: bool,
+        input_send_key: String,
+        input_auto_replace_emoji: String,
+        input_emoji_preferred_gender: String,
+        input_emoji_preferred_skin_tone: String,
+        has_input_inline_emoji_picker_enabled: bool,
+        input_inline_emoji_picker_enabled: bool,
+        has_input_inline_room_picker_enabled: bool,
+        input_inline_room_picker_enabled: bool,
+        has_input_inline_user_picker_enabled: bool,
+        input_inline_user_picker_enabled: bool,
+        has_typing_send_enabled: bool,
+        typing_send_enabled: bool,
+        has_extras_stickers_enabled: bool,
+        extras_stickers_enabled: bool,
+    }
+
     enum SettingsConfigValueKind {
         Bool,
         Int,
@@ -224,6 +243,7 @@ mod bridge {
         notifications: SettingsConfigNotificationsSection,
         network: SettingsConfigNetworkSection,
         integrations: SettingsConfigIntegrationsSection,
+        composer: SettingsConfigComposerSection,
         values: Vec<SettingsConfigValue>,
     }
 
@@ -236,6 +256,7 @@ mod bridge {
         notifications: SettingsConfigNotificationsSection,
         network: SettingsConfigNetworkSection,
         integrations: SettingsConfigIntegrationsSection,
+        composer: SettingsConfigComposerSection,
         values: Vec<SettingsConfigValue>,
         source_version: i32,
         migrated_version: i32,

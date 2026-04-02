@@ -87,6 +87,14 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
             continue;
         if (adapter.id == settings::core::SettingId::IntegrationsDbusApiAccess)
             continue;
+        if (adapter.id == settings::core::SettingId::ComposerInputSendKey)
+            continue;
+        if (adapter.id == settings::core::SettingId::ComposerInputAutoReplaceEmoji)
+            continue;
+        if (adapter.id == settings::core::SettingId::ComposerInputEmojiPreferredGender)
+            continue;
+        if (adapter.id == settings::core::SettingId::ComposerInputEmojiPreferredSkinTone)
+            continue;
 
         const auto rawToken =
           rust_cfg::readStringValue(values, adapter.key, QString::fromLatin1(adapter.defaultToken));
@@ -314,6 +322,98 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
           SettingKey::IntegrationsDbusApiAccess,
           cfg::dbusAccessToStorage(settings.integrationsDbusApiAccess()).toStdString());
     }
+
+    settings.setComposerInputMarkdownToHtmlEnabled(
+      snapshot.composer.has_input_markdown_to_html_enabled
+        ? snapshot.composer.input_markdown_to_html_enabled
+        : true);
+
+    const auto loadedComposerInputSendKey =
+      QString::fromStdString(static_cast<std::string>(snapshot.composer.input_send_key)).trimmed();
+    const auto composerInputSendKeyToken =
+      loadedComposerInputSendKey.isEmpty() ? QStringLiteral("enter") : loadedComposerInputSendKey;
+    settings.setComposerInputSendKey(cfg::sendMessageKeyFromStorage(
+      composerInputSendKeyToken, UserSettings::SendMessageKey::Enter));
+    if (composerInputSendKeyToken != cfg::toStorageValue(settings.composerInputSendKey())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          composerInputSendKeyToken.toStdString(),
+          SettingKey::ComposerInputSendKey,
+          cfg::toStorageValue(settings.composerInputSendKey()).toStdString());
+    }
+
+    const auto loadedComposerInputAutoReplaceEmoji =
+      QString::fromStdString(static_cast<std::string>(snapshot.composer.input_auto_replace_emoji))
+        .trimmed();
+    const auto composerInputAutoReplaceEmojiToken = loadedComposerInputAutoReplaceEmoji.isEmpty()
+                                                      ? QStringLiteral("always")
+                                                      : loadedComposerInputAutoReplaceEmoji;
+    settings.setComposerInputAutoReplaceEmoji(cfg::autoReplaceEmojiFromStorage(
+      composerInputAutoReplaceEmojiToken, UserSettings::AutoReplaceEmoji::Always));
+    if (composerInputAutoReplaceEmojiToken !=
+        cfg::toStorageValue(settings.composerInputAutoReplaceEmoji())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          composerInputAutoReplaceEmojiToken.toStdString(),
+          SettingKey::ComposerInputAutoReplaceEmoji,
+          cfg::toStorageValue(settings.composerInputAutoReplaceEmoji()).toStdString());
+    }
+
+    const auto loadedComposerInputEmojiPreferredGender =
+      QString::fromStdString(
+        static_cast<std::string>(snapshot.composer.input_emoji_preferred_gender))
+        .trimmed();
+    const auto composerInputEmojiPreferredGenderToken =
+      loadedComposerInputEmojiPreferredGender.isEmpty() ? QStringLiteral("no_preference")
+                                                        : loadedComposerInputEmojiPreferredGender;
+    settings.setComposerInputEmojiPreferredGender(cfg::emojiPreferredGenderFromStorage(
+      composerInputEmojiPreferredGenderToken, UserSettings::EmojiPreferredGender::NoPreference));
+    if (composerInputEmojiPreferredGenderToken !=
+        cfg::toStorageValue(settings.composerInputEmojiPreferredGender())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          composerInputEmojiPreferredGenderToken.toStdString(),
+          SettingKey::ComposerInputEmojiPreferredGender,
+          cfg::toStorageValue(settings.composerInputEmojiPreferredGender()).toStdString());
+    }
+
+    const auto loadedComposerInputEmojiPreferredSkinTone =
+      QString::fromStdString(
+        static_cast<std::string>(snapshot.composer.input_emoji_preferred_skin_tone))
+        .trimmed();
+    const auto composerInputEmojiPreferredSkinToneToken =
+      loadedComposerInputEmojiPreferredSkinTone.isEmpty()
+        ? QStringLiteral("no_preference")
+        : loadedComposerInputEmojiPreferredSkinTone;
+    settings.setComposerInputEmojiPreferredSkinTone(
+      cfg::emojiPreferredSkinToneFromStorage(composerInputEmojiPreferredSkinToneToken,
+                                             UserSettings::EmojiPreferredSkinTone::NoPreference));
+    if (composerInputEmojiPreferredSkinToneToken !=
+        cfg::toStorageValue(settings.composerInputEmojiPreferredSkinTone())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          composerInputEmojiPreferredSkinToneToken.toStdString(),
+          SettingKey::ComposerInputEmojiPreferredSkinTone,
+          cfg::toStorageValue(settings.composerInputEmojiPreferredSkinTone()).toStdString());
+    }
+
+    settings.setComposerInputInlineEmojiPickerEnabled(
+      snapshot.composer.has_input_inline_emoji_picker_enabled
+        ? snapshot.composer.input_inline_emoji_picker_enabled
+        : true);
+    settings.setComposerInputInlineRoomPickerEnabled(
+      snapshot.composer.has_input_inline_room_picker_enabled
+        ? snapshot.composer.input_inline_room_picker_enabled
+        : true);
+    settings.setComposerInputInlineUserPickerEnabled(
+      snapshot.composer.has_input_inline_user_picker_enabled
+        ? snapshot.composer.input_inline_user_picker_enabled
+        : true);
+    settings.setComposerTypingSendEnabled(
+      snapshot.composer.has_typing_send_enabled ? snapshot.composer.typing_send_enabled : true);
+    settings.setComposerExtrasStickersEnabled(snapshot.composer.has_extras_stickers_enabled
+                                                ? snapshot.composer.extras_stickers_enabled
+                                                : false);
 }
 
 } // namespace settings::serializer

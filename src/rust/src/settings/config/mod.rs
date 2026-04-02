@@ -13,7 +13,7 @@ use super::storage;
 
 pub use model::{
     Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
-    ConfigCallsRelay, ConfigCallsScreenshare, ConfigSecrets, ConfigTimeline,
+    ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigSecrets, ConfigTimeline,
     ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars, ConfigIntegrations, ConfigNetwork,
     ConfigNotifications, ConfigPrivacy, ConfigPrivacyMaintenance,
     ConfigPrivacyWindowFocusBlur, ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion,
@@ -77,6 +77,25 @@ const INTEGRATIONS_SYSTEM_TRAY_AUTOSTART_PATH: [&str; 3] =
     ["integrations", "system_tray", "autostart"];
 const INTEGRATIONS_DBUS_API_ACCESS_PATH: [&str; 3] = ["integrations", "dbus", "access"];
 const INTEGRATIONS_BROWSER_COMMAND_PATH: [&str; 3] = ["integrations", "browser", "command"];
+const COMPOSER_INPUT_MARKDOWN_TO_HTML_ENABLED_PATH: [&str; 4] =
+    ["composer", "input", "markdown_to_html", "enabled"];
+const COMPOSER_INPUT_SEND_KEY_PATH: [&str; 3] = ["composer", "input", "send_key"];
+const COMPOSER_INPUT_AUTO_REPLACE_EMOJI_PATH: [&str; 3] =
+    ["composer", "input", "auto_replace_emoji"];
+const COMPOSER_INPUT_EMOJI_PREFERRED_GENDER_PATH: [&str; 4] =
+    ["composer", "input", "emoji", "preferred_gender"];
+const COMPOSER_INPUT_EMOJI_PREFERRED_SKIN_TONE_PATH: [&str; 4] =
+    ["composer", "input", "emoji", "preferred_skin_tone"];
+const COMPOSER_INPUT_INLINE_EMOJI_PICKER_ENABLED_PATH: [&str; 4] =
+    ["composer", "input", "inline_emoji_picker", "enabled"];
+const COMPOSER_INPUT_INLINE_ROOM_PICKER_ENABLED_PATH: [&str; 4] =
+    ["composer", "input", "inline_room_picker", "enabled"];
+const COMPOSER_INPUT_INLINE_USER_PICKER_ENABLED_PATH: [&str; 4] =
+    ["composer", "input", "inline_user_picker", "enabled"];
+const COMPOSER_TYPING_SEND_ENABLED_PATH: [&str; 4] =
+    ["composer", "typing", "send", "enabled"];
+const COMPOSER_EXTRAS_STICKERS_ENABLED_PATH: [&str; 4] =
+    ["composer", "extras", "stickers", "enabled"];
 
 pub fn parse_config_text(config_text: &str) -> Config {
     let root = yaml::parse_root(config_text);
@@ -228,6 +247,48 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             .and_then(parse_scalar_bool),
             dbus_api_access: parse_string(yaml::value_at_path(root, &INTEGRATIONS_DBUS_API_ACCESS_PATH)),
             browser_command: parse_string(yaml::value_at_path(root, &INTEGRATIONS_BROWSER_COMMAND_PATH)),
+        },
+        composer: ConfigComposer {
+            input_markdown_to_html_enabled: yaml::value_at_path(
+                root,
+                &COMPOSER_INPUT_MARKDOWN_TO_HTML_ENABLED_PATH,
+            )
+            .and_then(parse_scalar_bool),
+            input_send_key: parse_string(yaml::value_at_path(root, &COMPOSER_INPUT_SEND_KEY_PATH)),
+            input_auto_replace_emoji: parse_string(yaml::value_at_path(
+                root,
+                &COMPOSER_INPUT_AUTO_REPLACE_EMOJI_PATH,
+            )),
+            input_emoji_preferred_gender: parse_string(yaml::value_at_path(
+                root,
+                &COMPOSER_INPUT_EMOJI_PREFERRED_GENDER_PATH,
+            )),
+            input_emoji_preferred_skin_tone: parse_string(yaml::value_at_path(
+                root,
+                &COMPOSER_INPUT_EMOJI_PREFERRED_SKIN_TONE_PATH,
+            )),
+            input_inline_emoji_picker_enabled: yaml::value_at_path(
+                root,
+                &COMPOSER_INPUT_INLINE_EMOJI_PICKER_ENABLED_PATH,
+            )
+            .and_then(parse_scalar_bool),
+            input_inline_room_picker_enabled: yaml::value_at_path(
+                root,
+                &COMPOSER_INPUT_INLINE_ROOM_PICKER_ENABLED_PATH,
+            )
+            .and_then(parse_scalar_bool),
+            input_inline_user_picker_enabled: yaml::value_at_path(
+                root,
+                &COMPOSER_INPUT_INLINE_USER_PICKER_ENABLED_PATH,
+            )
+            .and_then(parse_scalar_bool),
+            typing_send_enabled: yaml::value_at_path(root, &COMPOSER_TYPING_SEND_ENABLED_PATH)
+                .and_then(parse_scalar_bool),
+            extras_stickers_enabled: yaml::value_at_path(
+                root,
+                &COMPOSER_EXTRAS_STICKERS_ENABLED_PATH,
+            )
+            .and_then(parse_scalar_bool),
         },
     }
 }

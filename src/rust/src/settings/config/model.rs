@@ -17,6 +17,7 @@ pub struct Config {
     pub notifications: ConfigNotifications,
     pub network: ConfigNetwork,
     pub integrations: ConfigIntegrations,
+    pub composer: ConfigComposer,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -166,6 +167,20 @@ pub struct ConfigIntegrations {
     pub system_tray_autostart: Option<bool>,
     pub dbus_api_access: String,
     pub browser_command: String,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigComposer {
+    pub input_markdown_to_html_enabled: Option<bool>,
+    pub input_send_key: String,
+    pub input_auto_replace_emoji: String,
+    pub input_emoji_preferred_gender: String,
+    pub input_emoji_preferred_skin_tone: String,
+    pub input_inline_emoji_picker_enabled: Option<bool>,
+    pub input_inline_room_picker_enabled: Option<bool>,
+    pub input_inline_user_picker_enabled: Option<bool>,
+    pub typing_send_enabled: Option<bool>,
+    pub extras_stickers_enabled: Option<bool>,
 }
 
 pub struct LoadedConfig {

@@ -296,6 +296,68 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["integrations", "browser", "command"],
         Value::String(snapshot.integrations.browser_command.clone()),
     );
+    if snapshot.composer.has_input_markdown_to_html_enabled {
+        yaml::set_value(
+            &mut root,
+            &["composer", "input", "markdown_to_html", "enabled"],
+            Value::Bool(snapshot.composer.input_markdown_to_html_enabled),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["composer", "input", "send_key"],
+        Value::String(snapshot.composer.input_send_key.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["composer", "input", "auto_replace_emoji"],
+        Value::String(snapshot.composer.input_auto_replace_emoji.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["composer", "input", "emoji", "preferred_gender"],
+        Value::String(snapshot.composer.input_emoji_preferred_gender.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["composer", "input", "emoji", "preferred_skin_tone"],
+        Value::String(snapshot.composer.input_emoji_preferred_skin_tone.clone()),
+    );
+    if snapshot.composer.has_input_inline_emoji_picker_enabled {
+        yaml::set_value(
+            &mut root,
+            &["composer", "input", "inline_emoji_picker", "enabled"],
+            Value::Bool(snapshot.composer.input_inline_emoji_picker_enabled),
+        );
+    }
+    if snapshot.composer.has_input_inline_room_picker_enabled {
+        yaml::set_value(
+            &mut root,
+            &["composer", "input", "inline_room_picker", "enabled"],
+            Value::Bool(snapshot.composer.input_inline_room_picker_enabled),
+        );
+    }
+    if snapshot.composer.has_input_inline_user_picker_enabled {
+        yaml::set_value(
+            &mut root,
+            &["composer", "input", "inline_user_picker", "enabled"],
+            Value::Bool(snapshot.composer.input_inline_user_picker_enabled),
+        );
+    }
+    if snapshot.composer.has_typing_send_enabled {
+        yaml::set_value(
+            &mut root,
+            &["composer", "typing", "send", "enabled"],
+            Value::Bool(snapshot.composer.typing_send_enabled),
+        );
+    }
+    if snapshot.composer.has_extras_stickers_enabled {
+        yaml::set_value(
+            &mut root,
+            &["composer", "extras", "stickers", "enabled"],
+            Value::Bool(snapshot.composer.extras_stickers_enabled),
+        );
+    }
 
     yaml::serialize_yaml(&root)
 }
@@ -368,6 +430,7 @@ fn flatten_config_values(prefix: &str, value: &Value, values: &mut Vec<SettingsC
                 || prefix == "notifications"
                 || prefix == "network"
                 || prefix == "integrations"
+                || prefix == "composer"
                 || prefix == "timeline.hidden_events"
             {
                 return;

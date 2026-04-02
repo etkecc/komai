@@ -4,7 +4,7 @@
 
 use super::{encode_config_yaml, load_config_snapshot, parse_config_text};
 use crate::ffi::{
-    SettingsConfigIntegrationsSection, SettingsConfigNetworkSection,
+    SettingsConfigComposerSection, SettingsConfigIntegrationsSection, SettingsConfigNetworkSection,
     SettingsConfigNotificationsSection,
     SettingsConfigSecretsSection, SettingsConfigSnapshot,
     SettingsConfigTimelineHiddenEventsSection, SettingsConfigTimelineSection,
@@ -190,6 +190,46 @@ integrations:
 }
 
 #[test]
+fn parses_composer_section() {
+    let config = parse_config_text(
+        r#"
+composer:
+  input:
+    markdown_to_html:
+      enabled: false
+    send_key: ctrl_enter
+    auto_replace_emoji: never
+    emoji:
+      preferred_gender: woman
+      preferred_skin_tone: medium_dark
+    inline_emoji_picker:
+      enabled: false
+    inline_room_picker:
+      enabled: true
+    inline_user_picker:
+      enabled: false
+  typing:
+    send:
+      enabled: false
+  extras:
+    stickers:
+      enabled: true
+"#,
+    );
+
+    assert_eq!(config.composer.input_markdown_to_html_enabled, Some(false));
+    assert_eq!(config.composer.input_send_key, "ctrl_enter");
+    assert_eq!(config.composer.input_auto_replace_emoji, "never");
+    assert_eq!(config.composer.input_emoji_preferred_gender, "woman");
+    assert_eq!(config.composer.input_emoji_preferred_skin_tone, "medium_dark");
+    assert_eq!(config.composer.input_inline_emoji_picker_enabled, Some(false));
+    assert_eq!(config.composer.input_inline_room_picker_enabled, Some(true));
+    assert_eq!(config.composer.input_inline_user_picker_enabled, Some(false));
+    assert_eq!(config.composer.typing_send_enabled, Some(false));
+    assert_eq!(config.composer.extras_stickers_enabled, Some(true));
+}
+
+#[test]
 fn encodes_generic_config_values() {
     let yaml = encode_config_yaml(&SettingsConfigSnapshot {
         ui: SettingsConfigUiSection {
@@ -251,6 +291,24 @@ fn encodes_generic_config_values() {
             system_tray_autostart: false,
             dbus_api_access: "read_only".to_owned(),
             browser_command: "firefox %s".to_owned(),
+        },
+        composer: SettingsConfigComposerSection {
+            has_input_markdown_to_html_enabled: true,
+            input_markdown_to_html_enabled: false,
+            input_send_key: "ctrl_enter".to_owned(),
+            input_auto_replace_emoji: "never".to_owned(),
+            input_emoji_preferred_gender: "woman".to_owned(),
+            input_emoji_preferred_skin_tone: "medium_dark".to_owned(),
+            has_input_inline_emoji_picker_enabled: true,
+            input_inline_emoji_picker_enabled: false,
+            has_input_inline_room_picker_enabled: true,
+            input_inline_room_picker_enabled: true,
+            has_input_inline_user_picker_enabled: true,
+            input_inline_user_picker_enabled: false,
+            has_typing_send_enabled: true,
+            typing_send_enabled: false,
+            has_extras_stickers_enabled: true,
+            extras_stickers_enabled: true,
         },
         values: vec![
             SettingsConfigValue {
@@ -378,6 +436,46 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["integrations", "browser", "command"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "firefox %s"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "input", "markdown_to_html", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "input", "send_key"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "ctrl_enter"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "input", "auto_replace_emoji"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "never"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "input", "emoji", "preferred_gender"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "woman"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "input", "emoji", "preferred_skin_tone"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "medium_dark"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "input", "inline_emoji_picker", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "input", "inline_room_picker", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "input", "inline_user_picker", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "typing", "send", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["composer", "extras", "stickers", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(true))
     ));
 }
 

@@ -140,7 +140,13 @@ appendCoreStoreConfigValues(const UserSettings &settings,
             definition.id == settings::core::SettingId::NetworkHttp3Enabled ||
             definition.id == settings::core::SettingId::IntegrationsSystemTrayEnabled ||
             definition.id == settings::core::SettingId::IntegrationsSystemTrayAutostart ||
-            definition.id == settings::core::SettingId::IntegrationsBrowserCommand)
+            definition.id == settings::core::SettingId::IntegrationsBrowserCommand ||
+            definition.id == settings::core::SettingId::ComposerInputMarkdownToHtmlEnabled ||
+            definition.id == settings::core::SettingId::ComposerInputInlineEmojiPickerEnabled ||
+            definition.id == settings::core::SettingId::ComposerInputInlineRoomPickerEnabled ||
+            definition.id == settings::core::SettingId::ComposerInputInlineUserPickerEnabled ||
+            definition.id == settings::core::SettingId::ComposerTypingSendEnabled ||
+            definition.id == settings::core::SettingId::ComposerExtrasStickersEnabled)
             continue;
 
         const auto stored = store.value(definition.id);
@@ -299,6 +305,28 @@ saveConfig(const UserSettings &settings,
             cfg::dbusAccessToStorage(settings.integrationsDbusApiAccess()).toStdString(),
           .browser_command = settings.integrationsBrowserCommand().toStdString(),
         },
+      .composer =
+        {
+          .has_input_markdown_to_html_enabled = true,
+          .input_markdown_to_html_enabled     = settings.composerInputMarkdownToHtmlEnabled(),
+          .input_send_key = cfg::toStorageValue(settings.composerInputSendKey()).toStdString(),
+          .input_auto_replace_emoji =
+            cfg::toStorageValue(settings.composerInputAutoReplaceEmoji()).toStdString(),
+          .input_emoji_preferred_gender =
+            cfg::toStorageValue(settings.composerInputEmojiPreferredGender()).toStdString(),
+          .input_emoji_preferred_skin_tone =
+            cfg::toStorageValue(settings.composerInputEmojiPreferredSkinTone()).toStdString(),
+          .has_input_inline_emoji_picker_enabled = true,
+          .input_inline_emoji_picker_enabled     = settings.composerInputInlineEmojiPickerEnabled(),
+          .has_input_inline_room_picker_enabled  = true,
+          .input_inline_room_picker_enabled      = settings.composerInputInlineRoomPickerEnabled(),
+          .has_input_inline_user_picker_enabled  = true,
+          .input_inline_user_picker_enabled      = settings.composerInputInlineUserPickerEnabled(),
+          .has_typing_send_enabled               = true,
+          .typing_send_enabled                   = settings.composerTypingSendEnabled(),
+          .has_extras_stickers_enabled           = true,
+          .extras_stickers_enabled               = settings.composerExtrasStickersEnabled(),
+        },
       .values = {},
     };
 
@@ -309,7 +337,11 @@ saveConfig(const UserSettings &settings,
             adapter.id == settings::core::SettingId::UiAvatarsDefaultAvatarStyle ||
             adapter.id == settings::core::SettingId::NotificationsMessageContentPolicy ||
             adapter.id == settings::core::SettingId::NetworkPresenceStatusPolicy ||
-            adapter.id == settings::core::SettingId::IntegrationsDbusApiAccess)
+            adapter.id == settings::core::SettingId::IntegrationsDbusApiAccess ||
+            adapter.id == settings::core::SettingId::ComposerInputSendKey ||
+            adapter.id == settings::core::SettingId::ComposerInputAutoReplaceEmoji ||
+            adapter.id == settings::core::SettingId::ComposerInputEmojiPreferredGender ||
+            adapter.id == settings::core::SettingId::ComposerInputEmojiPreferredSkinTone)
             continue;
         snapshot.values.push_back(
           configValue(adapter.key, adapter.toStorage(settings).toStdString()));

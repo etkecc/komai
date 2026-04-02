@@ -139,6 +139,7 @@ writeConfigSnapshot(const QString &path, const ::komai::rust::SettingsLoadedConf
     snapshot.notifications = loaded.notifications;
     snapshot.network       = loaded.network;
     snapshot.integrations  = loaded.integrations;
+    snapshot.composer      = loaded.composer;
     snapshot.values        = loaded.values;
     return ::komai::rust::settings_write_config_snapshot_to_path(path.toStdString(), snapshot);
 }

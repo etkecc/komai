@@ -179,6 +179,27 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
           QString::fromStdString(static_cast<std::string>(snapshot.integrations.dbus_api_access)) ==
             expected,
           message);
+    if (keyString == QLatin1String(SettingKey::ComposerInputSendKey))
+        return expect(
+          QString::fromStdString(static_cast<std::string>(snapshot.composer.input_send_key)) ==
+            expected,
+          message);
+    if (keyString == QLatin1String(SettingKey::ComposerInputAutoReplaceEmoji))
+        return expect(
+          QString::fromStdString(
+            static_cast<std::string>(snapshot.composer.input_auto_replace_emoji)) == expected,
+          message);
+    if (keyString == QLatin1String(SettingKey::ComposerInputEmojiPreferredGender))
+        return expect(QString::fromStdString(
+                        static_cast<std::string>(snapshot.composer.input_emoji_preferred_gender)) ==
+                        expected,
+                      message);
+    if (keyString == QLatin1String(SettingKey::ComposerInputEmojiPreferredSkinTone))
+        return expect(
+          QString::fromStdString(
+            static_cast<std::string>(snapshot.composer.input_emoji_preferred_skin_tone)) ==
+            expected,
+          message);
 
     return expect(
       settings::rust_config_values::readStringValue(snapshot.values, key, {}) == expected,
@@ -1548,6 +1569,25 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::IntegrationsDbusApiAccess));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::IntegrationsBrowserCommand));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerInputMarkdownToHtmlEnabled));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::ComposerInputSendKey));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerInputAutoReplaceEmoji));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerInputEmojiPreferredGender));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerInputEmojiPreferredSkinTone));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerInputInlineEmojiPickerEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerInputInlineRoomPickerEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerInputInlineUserPickerEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerTypingSendEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerExtrasStickersEnabled));
 
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
         if (definition.scope != settings::core::SettingScope::Config)

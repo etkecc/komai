@@ -1106,9 +1106,6 @@ mod bridge {
             handle: Pin<&mut SettingsProfileHandle>,
             snapshot: &SettingsStateSnapshot,
         );
-        fn settings_profile_write_config(handle: Pin<&mut SettingsProfileHandle>) -> bool;
-        fn settings_profile_write_session(handle: Pin<&mut SettingsProfileHandle>) -> bool;
-        fn settings_profile_write_state(handle: Pin<&mut SettingsProfileHandle>) -> bool;
         fn settings_profile_flush(
             handle: Pin<&mut SettingsProfileHandle>,
             write_config: bool,

@@ -605,24 +605,6 @@ pub(crate) fn settings_profile_replace_state_snapshot(
     handle.replace_state_snapshot(snapshot);
 }
 
-pub(crate) fn settings_profile_write_config(
-    mut handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
-) -> bool {
-    handle.as_mut().get_mut().write_config()
-}
-
-pub(crate) fn settings_profile_write_session(
-    mut handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
-) -> bool {
-    handle.as_mut().get_mut().write_session()
-}
-
-pub(crate) fn settings_profile_write_state(
-    mut handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
-) -> bool {
-    handle.as_mut().get_mut().write_state()
-}
-
 pub(crate) fn settings_profile_flush(
     handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
     write_config: bool,

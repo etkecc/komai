@@ -113,9 +113,12 @@ loadImpl(UserSettings &settings,
     auto profileHandle = ::komai::rust::settings_open_profile_handle_for_profile(
       settings.profileId().toStdString(),
       loadPolicy == settings::SettingsController::LoadPolicy::Full);
-    auto profileSnapshot        = ::komai::rust::settings_profile_snapshot(*profileHandle);
-    auto &configSnapshot        = profileSnapshot.config;
-    const bool configFileExists = configSnapshot.source_exists;
+    auto profileSnapshot               = ::komai::rust::settings_profile_snapshot(*profileHandle);
+    auto &configSnapshot               = profileSnapshot.config;
+    const bool configFileExists        = configSnapshot.source_exists;
+    const bool configShouldInitialize  = !configFileExists;
+    const bool configShouldWriteBack   = configSnapshot.should_write_back;
+    bool startupSecretsProviderChanged = false;
     logConfigMigrationWarnings(configSnapshot);
     settings::serializer::loadConfig(settings, configSnapshot);
 
@@ -147,32 +150,6 @@ loadImpl(UserSettings &settings,
           providerToken(provider));
     }
 
-    if (persistMigrationWriteback && !configFileExists && !configSnapshot.had_future_version &&
-        !configSnapshot.had_unsupported_path) {
-        if (!::komai::rust::settings_profile_write_config(*profileHandle)) {
-            settings::activeLoggers().ui->warn(
-              "Failed to initialize new profile config with schema version: {}",
-              settings.configFilePath().toStdString());
-        } else {
-            settings::activeLoggers().ui->info(
-              "Initialized new profile config with settings schema version at: {}",
-              settings.configFilePath().toStdString());
-        }
-    } else if (persistMigrationWriteback && configFileExists &&
-               !configSnapshot.had_future_version && !configSnapshot.had_unsupported_path &&
-               configSnapshot.should_write_back) {
-        if (!::komai::rust::settings_profile_write_config(*profileHandle)) {
-            settings::activeLoggers().ui->warn("Failed to persist migrated config settings at: {}",
-                                               settings.configFilePath().toStdString());
-        } else {
-            settings::activeLoggers().ui->info(
-              "Persisted config settings schema migration {} -> {} at: {}",
-              configSnapshot.source_version,
-              configSnapshot.migrated_version,
-              settings.configFilePath().toStdString());
-        }
-    }
-
     settings.setUsesFileSecretsProvider(provider == staged_load_plan::SecretsProvider::File);
 
     const auto stages = loadPolicy == settings::SettingsController::LoadPolicy::ConfigAndStateOnly
@@ -197,7 +174,9 @@ loadImpl(UserSettings &settings,
             if (persistMigrationWriteback && sessionFileExists &&
                 !sessionSnapshot.had_future_version && !sessionSnapshot.had_unsupported_path &&
                 sessionSnapshot.should_write_back) {
-                if (!::komai::rust::settings_profile_write_session(*profileHandle)) {
+                const auto result =
+                  ::komai::rust::settings_profile_flush(*profileHandle, false, true, false);
+                if (!result.session_saved) {
                     settings::activeLoggers().ui->warn(
                       "Failed to persist migrated session settings at: {}",
                       settings.sessionFilePath().toStdString());
@@ -270,7 +249,9 @@ loadImpl(UserSettings &settings,
             }
             if (persistMigrationWriteback && stateFileExists && !stateSnapshot.had_future_version &&
                 !stateSnapshot.had_unsupported_path && stateSnapshot.should_write_back) {
-                if (!::komai::rust::settings_profile_write_state(*profileHandle)) {
+                const auto result =
+                  ::komai::rust::settings_profile_flush(*profileHandle, false, false, true);
+                if (!result.state_saved) {
                     settings::activeLoggers().ui->warn(
                       "Failed to persist migrated state settings at: {}",
                       settings.stateFilePath().toStdString());
@@ -301,7 +282,8 @@ loadImpl(UserSettings &settings,
                   providerToken(provider),
                   providerToken(preferredProvider),
                   secureAvailable ? "true" : "false");
-                provider = preferredProvider;
+                startupSecretsProviderChanged = true;
+                provider                      = preferredProvider;
                 settings.setUsesFileSecretsProvider(provider ==
                                                     staged_load_plan::SecretsProvider::File);
                 configSnapshot.secrets.provider =
@@ -309,19 +291,8 @@ loadImpl(UserSettings &settings,
                 ::komai::rust::settings_profile_set_config_secrets_provider(
                   *profileHandle, configSnapshot.secrets.provider);
 
-                if (persistMigrationWriteback && !configSnapshot.had_future_version &&
-                    !configSnapshot.had_unsupported_path) {
-                    if (!::komai::rust::settings_profile_write_config(*profileHandle)) {
-                        settings::activeLoggers().ui->warn(
-                          "Failed to persist startup secrets provider update at: {}",
-                          settings.configFilePath().toStdString());
-                    } else {
-                        settings::activeLoggers().ui->info(
-                          "Persisted startup secrets provider update at: {}",
-                          settings.configFilePath().toStdString());
-                    }
-                } else if (persistMigrationWriteback && (configSnapshot.had_future_version ||
-                                                         configSnapshot.had_unsupported_path)) {
+                if (persistMigrationWriteback &&
+                    (configSnapshot.had_future_version || configSnapshot.had_unsupported_path)) {
                     settings::activeLoggers().ui->warn(
                       "Skipped persisting startup secrets provider update for profile '{}' "
                       "(future_version={}, unsupported_path={})",
@@ -350,6 +321,43 @@ loadImpl(UserSettings &settings,
         }
     } else {
         settings.setSecretsProviderFallbackWarningVisible(false);
+    }
+
+    if (persistMigrationWriteback && !configSnapshot.had_future_version &&
+        !configSnapshot.had_unsupported_path) {
+        const auto result =
+          ::komai::rust::settings_profile_flush(*profileHandle, true, false, false);
+        if (result.config_saved) {
+            if (startupSecretsProviderChanged) {
+                settings::activeLoggers().ui->info(
+                  "Persisted startup secrets provider update at: {}",
+                  settings.configFilePath().toStdString());
+            } else if (configShouldInitialize) {
+                settings::activeLoggers().ui->info(
+                  "Initialized new profile config with settings schema version at: {}",
+                  settings.configFilePath().toStdString());
+            } else if (configShouldWriteBack) {
+                settings::activeLoggers().ui->info(
+                  "Persisted config settings schema migration {} -> {} at: {}",
+                  configSnapshot.source_version,
+                  configSnapshot.migrated_version,
+                  settings.configFilePath().toStdString());
+            }
+        } else if (result.config_attempted) {
+            if (startupSecretsProviderChanged) {
+                settings::activeLoggers().ui->warn(
+                  "Failed to persist startup secrets provider update at: {}",
+                  settings.configFilePath().toStdString());
+            } else if (configShouldInitialize) {
+                settings::activeLoggers().ui->warn(
+                  "Failed to initialize new profile config with schema version: {}",
+                  settings.configFilePath().toStdString());
+            } else if (configShouldWriteBack) {
+                settings::activeLoggers().ui->warn(
+                  "Failed to persist migrated config settings at: {}",
+                  settings.configFilePath().toStdString());
+            }
+        }
     }
 
     settings.setRustSettingsProfileHandle(std::move(profileHandle));

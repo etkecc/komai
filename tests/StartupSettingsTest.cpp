@@ -1246,10 +1246,13 @@ testSerializerLoggerInjection()
     const auto sessionFile = ctx.sessionFile();
     settings->setAccessToken(QStringLiteral(""));
     settings::storage::removePath(sessionFile);
-    settings::serializer::stageSession(*settings, *profileHandle);
-    ::komai::rust::settings_profile_flush(*profileHandle, false, true, false);
+    auto emptySessionHandle =
+      ::komai::rust::settings_open_profile_handle_for_profile(profile.toStdString(), true);
+    settings::serializer::stageSession(*settings, *emptySessionHandle);
+    const auto sessionFlush =
+      ::komai::rust::settings_profile_flush(*emptySessionHandle, false, true, false);
     const bool noSessionFileWithoutToken = expect(
-      !settings::storage::pathExists(sessionFile), "session save is no-op when token is missing");
+      !sessionFlush.session_attempted, "session save is no-op when token is missing");
 
     return nullLoggerWrite && injectedLoggerWrite && noSessionFileWithoutToken;
 }

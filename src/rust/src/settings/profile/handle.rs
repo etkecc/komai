@@ -17,6 +17,9 @@ pub struct SettingsProfileHandle {
 impl SettingsProfileHandle {
     pub fn load_for_profile(profile_id: &str, include_session: bool) -> Self {
         let snapshot = settings::profile::load_profile_snapshot_for_profile(profile_id, include_session);
+        let config_dirty = snapshot.config.source_exists && snapshot.config.should_write_back;
+        let session_dirty = snapshot.session.source_exists && snapshot.session.should_write_back;
+        let state_dirty = snapshot.state.source_exists && snapshot.state.should_write_back;
 
         Self {
             profile_id: profile_id.to_owned(),
@@ -25,9 +28,9 @@ impl SettingsProfileHandle {
                 session: settings::ffi::ffi_loaded_session(snapshot.session),
                 state: settings::ffi::ffi_loaded_state(snapshot.state),
             },
-            config_dirty: false,
-            session_dirty: false,
-            state_dirty: false,
+            config_dirty,
+            session_dirty,
+            state_dirty,
         }
     }
 

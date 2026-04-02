@@ -95,6 +95,12 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
             continue;
         if (adapter.id == settings::core::SettingId::ComposerInputEmojiPreferredSkinTone)
             continue;
+        if (adapter.id == settings::core::SettingId::SidebarsRoomListLastMessagePreview)
+            continue;
+        if (adapter.id == settings::core::SettingId::SidebarsRoomListSort)
+            continue;
+        if (adapter.id == settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy)
+            continue;
 
         const auto rawToken =
           rust_cfg::readStringValue(values, adapter.key, QString::fromLatin1(adapter.defaultToken));
@@ -167,6 +173,92 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                                                    : false);
     settings.setUiLayoutCompactMode(
       snapshot.ui.has_layout_compact_mode ? snapshot.ui.layout_compact_mode : false);
+
+    settings.setSidebarsRoomListShowLastMessageTime(
+      snapshot.sidebars.room_list.has_show_last_message_time
+        ? snapshot.sidebars.room_list.show_last_message_time
+        : true);
+
+    const auto loadedSidebarsRoomListLastMessagePreview =
+      QString::fromStdString(
+        static_cast<std::string>(snapshot.sidebars.room_list.last_message_preview))
+        .trimmed();
+    const auto sidebarsRoomListLastMessagePreviewToken =
+      loadedSidebarsRoomListLastMessagePreview.isEmpty() ? QStringLiteral("always")
+                                                         : loadedSidebarsRoomListLastMessagePreview;
+    settings.setSidebarsRoomListLastMessagePreview(cfg::lastMessagePreviewFromStorage(
+      sidebarsRoomListLastMessagePreviewToken, UserSettings::LastMessagePreview::Always));
+    if (sidebarsRoomListLastMessagePreviewToken !=
+        cfg::toStorageValue(settings.sidebarsRoomListLastMessagePreview())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          sidebarsRoomListLastMessagePreviewToken.toStdString(),
+          SettingKey::SidebarsRoomListLastMessagePreview,
+          cfg::toStorageValue(settings.sidebarsRoomListLastMessagePreview()).toStdString());
+    }
+
+    settings.setSidebarsRoomListShowCommunityCounts(
+      snapshot.sidebars.room_list.has_show_community_counts
+        ? snapshot.sidebars.room_list.show_community_counts
+        : true);
+
+    const auto loadedSidebarsRoomListSort =
+      QString::fromStdString(static_cast<std::string>(snapshot.sidebars.room_list.sort)).trimmed();
+    const auto sidebarsRoomListSortToken = loadedSidebarsRoomListSort.isEmpty()
+                                             ? QStringLiteral("unread_first_recent")
+                                             : loadedSidebarsRoomListSort;
+    settings.setSidebarsRoomListSort(cfg::roomSortOrderFromStorage(
+      sidebarsRoomListSortToken, UserSettings::RoomSortOrder::UnreadFirst_Recent));
+    if (sidebarsRoomListSortToken != cfg::toStorageValue(settings.sidebarsRoomListSort())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          sidebarsRoomListSortToken.toStdString(),
+          SettingKey::SidebarsRoomListSort,
+          cfg::toStorageValue(settings.sidebarsRoomListSort()).toStdString());
+    }
+
+    const auto loadedSidebarsRoomListUnreadDetectionPolicy =
+      QString::fromStdString(
+        static_cast<std::string>(snapshot.sidebars.room_list.unread_detection_policy))
+        .trimmed();
+    const auto sidebarsRoomListUnreadDetectionPolicyToken =
+      loadedSidebarsRoomListUnreadDetectionPolicy.isEmpty()
+        ? QStringLiteral("any_event")
+        : loadedSidebarsRoomListUnreadDetectionPolicy;
+    settings.setSidebarsRoomListUnreadDetectionPolicy(cfg::unreadDetectionPolicyFromStorage(
+      sidebarsRoomListUnreadDetectionPolicyToken, UserSettings::UnreadDetectionPolicy::AnyEvent));
+    if (sidebarsRoomListUnreadDetectionPolicyToken !=
+        cfg::toStorageValue(settings.sidebarsRoomListUnreadDetectionPolicy())) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'",
+          sidebarsRoomListUnreadDetectionPolicyToken.toStdString(),
+          SettingKey::SidebarsRoomListUnreadDetectionPolicy,
+          cfg::toStorageValue(settings.sidebarsRoomListUnreadDetectionPolicy()).toStdString());
+    }
+
+    settings.setSidebarsCommunitiesVisible(
+      snapshot.sidebars.communities.has_visible ? snapshot.sidebars.communities.visible : true);
+    settings.setSidebarsCommunitiesFilterFavourites(
+      snapshot.sidebars.communities.has_filter_favourites
+        ? snapshot.sidebars.communities.filter_favourites
+        : true);
+    settings.setSidebarsCommunitiesFilterPeople(snapshot.sidebars.communities.has_filter_people
+                                                  ? snapshot.sidebars.communities.filter_people
+                                                  : true);
+    settings.setSidebarsCommunitiesFilterBots(snapshot.sidebars.communities.has_filter_bots
+                                                ? snapshot.sidebars.communities.filter_bots
+                                                : true);
+    settings.setSidebarsCommunitiesFilterGroups(snapshot.sidebars.communities.has_filter_groups
+                                                  ? snapshot.sidebars.communities.filter_groups
+                                                  : true);
+    settings.setSidebarsCommunitiesFilterServerNotices(
+      snapshot.sidebars.communities.has_filter_server_notices
+        ? snapshot.sidebars.communities.filter_server_notices
+        : true);
+    settings.setSidebarsCommunitiesFilterLowPriority(
+      snapshot.sidebars.communities.has_filter_low_priority
+        ? snapshot.sidebars.communities.filter_low_priority
+        : true);
 
     settings.setHiddenTimelineEventTypes(
       snapshot.timeline.hidden_events.has_global

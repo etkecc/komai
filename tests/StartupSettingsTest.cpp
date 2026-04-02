@@ -160,6 +160,20 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
           QString::fromStdString(static_cast<std::string>(snapshot.ui.default_avatar_style)) ==
             expected,
           message);
+    if (keyString == QLatin1String(SettingKey::SidebarsRoomListLastMessagePreview))
+        return expect(QString::fromStdString(
+                        static_cast<std::string>(snapshot.sidebars.room_list.last_message_preview)) ==
+                        expected,
+                      message);
+    if (keyString == QLatin1String(SettingKey::SidebarsRoomListSort))
+        return expect(
+          QString::fromStdString(static_cast<std::string>(snapshot.sidebars.room_list.sort)) ==
+            expected,
+          message);
+    if (keyString == QLatin1String(SettingKey::SidebarsRoomListUnreadDetectionPolicy))
+        return expect(QString::fromStdString(static_cast<std::string>(
+                        snapshot.sidebars.room_list.unread_detection_policy)) == expected,
+                      message);
     if (keyString == QLatin1String(SettingKey::SecretsProvider))
         return expect(QString::fromStdString(static_cast<std::string>(snapshot.secrets.provider)) ==
                         expected,
@@ -1524,6 +1538,29 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiMotionAnimationsEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiInputMode));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScaleFactor));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::SidebarsRoomListShowLastMessageTime));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::SidebarsRoomListLastMessagePreview));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::SidebarsRoomListShowCommunityCounts));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::SidebarsRoomListSort));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::SidebarsRoomListUnreadDetectionPolicy));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::SidebarsCommunitiesVisible));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterFavourites));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterPeople));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterBots));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterGroups));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterServerNotices));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterLowPriority));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::PrivacyWindowFocusBlurEnabled));
     serializerHandledConfigKeys.insert(

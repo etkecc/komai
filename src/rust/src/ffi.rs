@@ -96,6 +96,38 @@ mod bridge {
         default_avatar_style: String,
     }
 
+    struct SettingsConfigSidebarsRoomListSection {
+        has_show_last_message_time: bool,
+        show_last_message_time: bool,
+        last_message_preview: String,
+        has_show_community_counts: bool,
+        show_community_counts: bool,
+        sort: String,
+        unread_detection_policy: String,
+    }
+
+    struct SettingsConfigSidebarsCommunitiesSection {
+        has_visible: bool,
+        visible: bool,
+        has_filter_favourites: bool,
+        filter_favourites: bool,
+        has_filter_people: bool,
+        filter_people: bool,
+        has_filter_bots: bool,
+        filter_bots: bool,
+        has_filter_groups: bool,
+        filter_groups: bool,
+        has_filter_server_notices: bool,
+        filter_server_notices: bool,
+        has_filter_low_priority: bool,
+        filter_low_priority: bool,
+    }
+
+    struct SettingsConfigSidebarsSection {
+        room_list: SettingsConfigSidebarsRoomListSection,
+        communities: SettingsConfigSidebarsCommunitiesSection,
+    }
+
     struct SettingsConfigTimelineHiddenEventsSection {
         has_global: bool,
         global: Vec<String>,
@@ -236,6 +268,7 @@ mod bridge {
 
     struct SettingsConfigSnapshot {
         ui: SettingsConfigUiSection,
+        sidebars: SettingsConfigSidebarsSection,
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
         privacy: SettingsConfigPrivacySection,
@@ -249,6 +282,7 @@ mod bridge {
 
     struct SettingsLoadedConfig {
         ui: SettingsConfigUiSection,
+        sidebars: SettingsConfigSidebarsSection,
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
         privacy: SettingsConfigPrivacySection,

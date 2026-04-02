@@ -6,6 +6,8 @@ use super::{encode_config_yaml, load_config_snapshot, parse_config_text};
 use crate::ffi::{
     SettingsConfigComposerSection, SettingsConfigIntegrationsSection, SettingsConfigNetworkSection,
     SettingsConfigNotificationsSection,
+    SettingsConfigSidebarsCommunitiesSection, SettingsConfigSidebarsRoomListSection,
+    SettingsConfigSidebarsSection,
     SettingsConfigSecretsSection, SettingsConfigSnapshot,
     SettingsConfigTimelineHiddenEventsSection, SettingsConfigTimelineSection,
     SettingsConfigUiSection, SettingsConfigValue, SettingsConfigValueKind,
@@ -190,6 +192,46 @@ integrations:
 }
 
 #[test]
+fn parses_sidebars_section() {
+    let config = parse_config_text(
+        r#"
+sidebars:
+  room_list:
+    show_last_message_timestamp: false
+    last_message_preview: never
+    show_community_notification_counts: true
+    sort: alphabetical
+    unread_detection_policy: marked_unread_and_mentions
+  communities:
+    visible: false
+    filters:
+      favourites: false
+      people: true
+      bots: false
+      groups: true
+      server_notices: false
+      low_priority: true
+"#,
+    );
+
+    assert_eq!(config.sidebars.room_list.show_last_message_time, Some(false));
+    assert_eq!(config.sidebars.room_list.last_message_preview, "never");
+    assert_eq!(config.sidebars.room_list.show_community_counts, Some(true));
+    assert_eq!(config.sidebars.room_list.sort, "alphabetical");
+    assert_eq!(
+        config.sidebars.room_list.unread_detection_policy,
+        "marked_unread_and_mentions"
+    );
+    assert_eq!(config.sidebars.communities.visible, Some(false));
+    assert_eq!(config.sidebars.communities.filter_favourites, Some(false));
+    assert_eq!(config.sidebars.communities.filter_people, Some(true));
+    assert_eq!(config.sidebars.communities.filter_bots, Some(false));
+    assert_eq!(config.sidebars.communities.filter_groups, Some(true));
+    assert_eq!(config.sidebars.communities.filter_server_notices, Some(false));
+    assert_eq!(config.sidebars.communities.filter_low_priority, Some(true));
+}
+
+#[test]
 fn parses_composer_section() {
     let config = parse_config_text(
         r#"
@@ -253,6 +295,33 @@ fn encodes_generic_config_values() {
             avatars_circular: true,
             scrollbar_policy: "when_needed".to_owned(),
             default_avatar_style: "boring_avatars_bauhaus".to_owned(),
+        },
+        sidebars: SettingsConfigSidebarsSection {
+            room_list: SettingsConfigSidebarsRoomListSection {
+                has_show_last_message_time: true,
+                show_last_message_time: false,
+                last_message_preview: "never".to_owned(),
+                has_show_community_counts: true,
+                show_community_counts: true,
+                sort: "alphabetical".to_owned(),
+                unread_detection_policy: "marked_unread_and_mentions".to_owned(),
+            },
+            communities: SettingsConfigSidebarsCommunitiesSection {
+                has_visible: true,
+                visible: false,
+                has_filter_favourites: true,
+                filter_favourites: false,
+                has_filter_people: true,
+                filter_people: true,
+                has_filter_bots: true,
+                filter_bots: false,
+                has_filter_groups: true,
+                filter_groups: true,
+                has_filter_server_notices: true,
+                filter_server_notices: false,
+                has_filter_low_priority: true,
+                filter_low_priority: true,
+            },
         },
         timeline: SettingsConfigTimelineSection {
             hidden_events: SettingsConfigTimelineHiddenEventsSection {
@@ -384,6 +453,60 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "scrollbar_policy"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "when_needed"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["sidebars", "room_list", "show_last_message_timestamp"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["sidebars", "room_list", "last_message_preview"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "never"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(
+            &root,
+            &["sidebars", "room_list", "show_community_notification_counts"]
+        ),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["sidebars", "room_list", "sort"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "alphabetical"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["sidebars", "room_list", "unread_detection_policy"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "marked_unread_and_mentions"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["sidebars", "communities", "visible"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["sidebars", "communities", "filters", "favourites"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["sidebars", "communities", "filters", "people"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["sidebars", "communities", "filters", "bots"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["sidebars", "communities", "filters", "groups"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(
+            &root,
+            &["sidebars", "communities", "filters", "server_notices"]
+        ),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["sidebars", "communities", "filters", "low_priority"]),
+        Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["secrets", "provider"]),

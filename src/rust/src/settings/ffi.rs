@@ -112,6 +112,58 @@ pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::S
     }
 }
 
+pub(crate) fn ffi_config_sidebars_section(
+    config: &settings::config::Config,
+) -> ffi::SettingsConfigSidebarsSection {
+    ffi::SettingsConfigSidebarsSection {
+        room_list: ffi::SettingsConfigSidebarsRoomListSection {
+            has_show_last_message_time: config.sidebars.room_list.show_last_message_time.is_some(),
+            show_last_message_time: config
+                .sidebars
+                .room_list
+                .show_last_message_time
+                .unwrap_or_default(),
+            last_message_preview: config.sidebars.room_list.last_message_preview.clone(),
+            has_show_community_counts: config.sidebars.room_list.show_community_counts.is_some(),
+            show_community_counts: config
+                .sidebars
+                .room_list
+                .show_community_counts
+                .unwrap_or_default(),
+            sort: config.sidebars.room_list.sort.clone(),
+            unread_detection_policy: config.sidebars.room_list.unread_detection_policy.clone(),
+        },
+        communities: ffi::SettingsConfigSidebarsCommunitiesSection {
+            has_visible: config.sidebars.communities.visible.is_some(),
+            visible: config.sidebars.communities.visible.unwrap_or_default(),
+            has_filter_favourites: config.sidebars.communities.filter_favourites.is_some(),
+            filter_favourites: config
+                .sidebars
+                .communities
+                .filter_favourites
+                .unwrap_or_default(),
+            has_filter_people: config.sidebars.communities.filter_people.is_some(),
+            filter_people: config.sidebars.communities.filter_people.unwrap_or_default(),
+            has_filter_bots: config.sidebars.communities.filter_bots.is_some(),
+            filter_bots: config.sidebars.communities.filter_bots.unwrap_or_default(),
+            has_filter_groups: config.sidebars.communities.filter_groups.is_some(),
+            filter_groups: config.sidebars.communities.filter_groups.unwrap_or_default(),
+            has_filter_server_notices: config.sidebars.communities.filter_server_notices.is_some(),
+            filter_server_notices: config
+                .sidebars
+                .communities
+                .filter_server_notices
+                .unwrap_or_default(),
+            has_filter_low_priority: config.sidebars.communities.filter_low_priority.is_some(),
+            filter_low_priority: config
+                .sidebars
+                .communities
+                .filter_low_priority
+                .unwrap_or_default(),
+        },
+    }
+}
+
 pub(crate) fn ffi_config_timeline_section(
     config: &settings::config::Config,
 ) -> ffi::SettingsConfigTimelineSection {
@@ -287,6 +339,7 @@ pub(crate) fn ffi_config_composer_section(
 pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi::SettingsLoadedConfig {
     ffi::SettingsLoadedConfig {
         ui: ffi_config_ui_section(&snapshot.config),
+        sidebars: ffi_config_sidebars_section(&snapshot.config),
         timeline: ffi_config_timeline_section(&snapshot.config),
         secrets: ffi_config_secrets_section(&snapshot.config),
         privacy: ffi_config_privacy_section(&snapshot.config),

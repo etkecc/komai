@@ -118,6 +118,15 @@ appendCoreStoreConfigValues(const UserSettings &settings,
             definition.id == settings::core::SettingId::UiLayoutContentMaxWidthPx ||
             definition.id == settings::core::SettingId::UiAvatarsCircular ||
             definition.id == settings::core::SettingId::UiLayoutCompactMode ||
+            definition.id == settings::core::SettingId::SidebarsRoomListShowLastMessageTime ||
+            definition.id == settings::core::SettingId::SidebarsRoomListShowCommunityCounts ||
+            definition.id == settings::core::SettingId::SidebarsCommunitiesVisible ||
+            definition.id == settings::core::SettingId::SidebarsCommunitiesFilterFavourites ||
+            definition.id == settings::core::SettingId::SidebarsCommunitiesFilterPeople ||
+            definition.id == settings::core::SettingId::SidebarsCommunitiesFilterBots ||
+            definition.id == settings::core::SettingId::SidebarsCommunitiesFilterGroups ||
+            definition.id == settings::core::SettingId::SidebarsCommunitiesFilterServerNotices ||
+            definition.id == settings::core::SettingId::SidebarsCommunitiesFilterLowPriority ||
             definition.id == settings::core::SettingId::PrivacyWindowFocusBlurEnabled ||
             definition.id == settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds ||
             definition.id == settings::core::SettingId::PrivacyMaintenanceExpireEvents ||
@@ -207,6 +216,38 @@ saveConfig(const UserSettings &settings,
           .avatars_circular                       = settings.uiAvatarsCircular(),
           .scrollbar_policy                       = {},
           .default_avatar_style                   = {},
+        },
+      .sidebars =
+        {
+          .room_list =
+            {
+              .has_show_last_message_time = true,
+              .show_last_message_time     = settings.sidebarsRoomListShowLastMessageTime(),
+              .last_message_preview =
+                cfg::toStorageValue(settings.sidebarsRoomListLastMessagePreview()).toStdString(),
+              .has_show_community_counts = true,
+              .show_community_counts     = settings.sidebarsRoomListShowCommunityCounts(),
+              .sort = cfg::toStorageValue(settings.sidebarsRoomListSort()).toStdString(),
+              .unread_detection_policy =
+                cfg::toStorageValue(settings.sidebarsRoomListUnreadDetectionPolicy()).toStdString(),
+            },
+          .communities =
+            {
+              .has_visible               = true,
+              .visible                   = settings.sidebarsCommunitiesVisible(),
+              .has_filter_favourites     = true,
+              .filter_favourites         = settings.sidebarsCommunitiesFilterFavourites(),
+              .has_filter_people         = true,
+              .filter_people             = settings.sidebarsCommunitiesFilterPeople(),
+              .has_filter_bots           = true,
+              .filter_bots               = settings.sidebarsCommunitiesFilterBots(),
+              .has_filter_groups         = true,
+              .filter_groups             = settings.sidebarsCommunitiesFilterGroups(),
+              .has_filter_server_notices = true,
+              .filter_server_notices     = settings.sidebarsCommunitiesFilterServerNotices(),
+              .has_filter_low_priority   = true,
+              .filter_low_priority       = settings.sidebarsCommunitiesFilterLowPriority(),
+            },
         },
       .timeline =
         {
@@ -338,6 +379,9 @@ saveConfig(const UserSettings &settings,
             adapter.id == settings::core::SettingId::NotificationsMessageContentPolicy ||
             adapter.id == settings::core::SettingId::NetworkPresenceStatusPolicy ||
             adapter.id == settings::core::SettingId::IntegrationsDbusApiAccess ||
+            adapter.id == settings::core::SettingId::SidebarsRoomListLastMessagePreview ||
+            adapter.id == settings::core::SettingId::SidebarsRoomListSort ||
+            adapter.id == settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy ||
             adapter.id == settings::core::SettingId::ComposerInputSendKey ||
             adapter.id == settings::core::SettingId::ComposerInputAutoReplaceEmoji ||
             adapter.id == settings::core::SettingId::ComposerInputEmojiPreferredGender ||

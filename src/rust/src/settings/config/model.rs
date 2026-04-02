@@ -10,6 +10,7 @@ pub(crate) const CONFIG_SCHEMA_VERSION_PATH: [&str; 2] = ["meta", "settings_sche
 #[derive(Clone, Debug, Default)]
 pub struct Config {
     pub ui: ConfigUi,
+    pub sidebars: ConfigSidebars,
     pub timeline: ConfigTimeline,
     pub secrets: ConfigSecrets,
     pub privacy: ConfigPrivacy,
@@ -70,6 +71,32 @@ pub struct ConfigUiLayout {
 pub struct ConfigUiAvatars {
     pub circular: Option<bool>,
     pub default_avatar_style: String,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigSidebars {
+    pub room_list: ConfigSidebarsRoomList,
+    pub communities: ConfigSidebarsCommunities,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigSidebarsRoomList {
+    pub show_last_message_time: Option<bool>,
+    pub last_message_preview: String,
+    pub show_community_counts: Option<bool>,
+    pub sort: String,
+    pub unread_detection_policy: String,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigSidebarsCommunities {
+    pub visible: Option<bool>,
+    pub filter_favourites: Option<bool>,
+    pub filter_people: Option<bool>,
+    pub filter_bots: Option<bool>,
+    pub filter_groups: Option<bool>,
+    pub filter_server_notices: Option<bool>,
+    pub filter_low_priority: Option<bool>,
 }
 
 #[derive(Clone, Debug, Default)]

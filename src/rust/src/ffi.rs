@@ -63,11 +63,13 @@ mod bridge {
         secrets_provider: String,
     }
 
+    #[derive(Debug, PartialEq, Eq)]
     struct SettingsStringMapEntry {
         key: String,
         value: String,
     }
 
+    #[derive(Debug, PartialEq, Eq)]
     struct SettingsStringListMapEntry {
         key: String,
         values: Vec<String>,

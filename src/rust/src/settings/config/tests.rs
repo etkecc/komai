@@ -69,8 +69,8 @@ secrets:
     );
 
     assert_eq!(config.ui.theme.slug, "komai-dark");
-    assert_eq!(config.ui.input.mode, "");
-    assert_eq!(config.secrets.provider, "file");
+    assert_eq!(config.ui.input.mode, "".into());
+    assert_eq!(config.secrets.provider, "file".into());
 }
 
 #[test]
@@ -90,7 +90,7 @@ timeline:
 "#,
     );
 
-    assert_eq!(config.ui.input.mode, "touch");
+    assert_eq!(config.ui.input.mode, "touch".into());
     assert_eq!(config.timeline.hidden_events.global, Some(Vec::new()));
     assert_eq!(
         config.timeline.hidden_events.by_room.get("!room:example.org"),
@@ -197,8 +197,8 @@ ui:
     assert_eq!(config.ui.layout.content_max_width_px, Some(1024));
     assert_eq!(config.ui.layout.compact_mode, Some(false));
     assert_eq!(config.ui.avatars.circular, Some(true));
-    assert_eq!(config.ui.avatars.default_avatar_style, "");
-    assert_eq!(config.ui.scrollbar_policy, "");
+    assert_eq!(config.ui.avatars.default_avatar_style, "".into());
+    assert_eq!(config.ui.scrollbar_policy, "".into());
 }
 
 #[test]
@@ -214,7 +214,7 @@ notifications:
 
     assert_eq!(config.notifications.enabled, Some(false));
     assert_eq!(config.notifications.attention_on_incoming, Some(true));
-    assert_eq!(config.notifications.message_content_policy, "unencrypted_only");
+    assert_eq!(config.notifications.message_content_policy, "unencrypted_only".into());
 }
 
 #[test]
@@ -232,7 +232,7 @@ network:
 "#,
     );
 
-    assert_eq!(config.network.presence_status_policy, "offline");
+    assert_eq!(config.network.presence_status_policy, "offline".into());
     assert_eq!(config.network.tls_enable_certificate_validation, Some(false));
     assert_eq!(config.network.mrs_enabled, Some(false));
     assert_eq!(config.network.mrs_server_name, "example.org");
@@ -256,7 +256,7 @@ integrations:
 
     assert_eq!(config.integrations.system_tray_enabled, Some(true));
     assert_eq!(config.integrations.system_tray_autostart, Some(false));
-    assert_eq!(config.integrations.dbus_api_access, "read_only");
+    assert_eq!(config.integrations.dbus_api_access, "read_only".into());
     assert_eq!(config.integrations.browser_command, "firefox %s");
 }
 
@@ -329,10 +329,10 @@ composer:
     );
 
     assert_eq!(config.composer.input_markdown_to_html_enabled, Some(false));
-    assert_eq!(config.composer.input_send_key, "ctrl_enter");
-    assert_eq!(config.composer.input_auto_replace_emoji, "never");
-    assert_eq!(config.composer.input_emoji_preferred_gender, "woman");
-    assert_eq!(config.composer.input_emoji_preferred_skin_tone, "medium_dark");
+    assert_eq!(config.composer.input_send_key, "ctrl_enter".into());
+    assert_eq!(config.composer.input_auto_replace_emoji, "never".into());
+    assert_eq!(config.composer.input_emoji_preferred_gender, "woman".into());
+    assert_eq!(config.composer.input_emoji_preferred_skin_tone, "medium_dark".into());
     assert_eq!(config.composer.input_inline_emoji_picker_enabled, Some(false));
     assert_eq!(config.composer.input_inline_room_picker_enabled, Some(true));
     assert_eq!(config.composer.input_inline_user_picker_enabled, Some(false));
@@ -471,6 +471,18 @@ fn encodes_generic_config_values() {
         secrets: SettingsConfigSecretsSection {
             provider: "file".to_owned(),
         },
+        privacy: crate::ffi::SettingsConfigPrivacySection {
+            window_focus_blur: crate::ffi::SettingsConfigPrivacyWindowFocusBlurSection {
+                has_enabled: true,
+                enabled: false,
+                has_delay_seconds: true,
+                delay_seconds: 3,
+            },
+            maintenance: crate::ffi::SettingsConfigPrivacyMaintenanceSection {
+                has_expire_events: true,
+                expire_events: false,
+            },
+        },
         encryption: SettingsConfigEncryptionSection {
             key_sharing: SettingsConfigEncryptionKeySharingSection {
                 has_only_verified_users: true,
@@ -483,6 +495,35 @@ fn encodes_generic_config_values() {
                     has_enabled: true,
                     enabled: false,
                 },
+            },
+        },
+        calls: crate::ffi::SettingsConfigCallsSection {
+            legacy: crate::ffi::SettingsConfigCallsLegacySection {
+                has_enabled: true,
+                enabled: true,
+            },
+            relay: crate::ffi::SettingsConfigCallsRelaySection {
+                has_use_fallback_server: true,
+                use_fallback_server: false,
+            },
+            devices: crate::ffi::SettingsConfigCallsDevicesSection {
+                microphone: "default".to_owned(),
+                camera: "default".to_owned(),
+                camera_resolution: "hd".to_owned(),
+                camera_frame_rate: "30".to_owned(),
+            },
+            audio: crate::ffi::SettingsConfigCallsAudioSection {
+                ringtone: "default".to_owned(),
+            },
+            screenshare: crate::ffi::SettingsConfigCallsScreenshareSection {
+                has_frame_rate: true,
+                frame_rate: 15,
+                has_picture_in_picture: true,
+                picture_in_picture: false,
+                has_include_remote_video: true,
+                include_remote_video: true,
+                has_show_cursor: true,
+                show_cursor: true,
             },
         },
         notifications: SettingsConfigNotificationsSection {
@@ -874,9 +915,9 @@ secrets:
 
     assert_eq!(loaded.config.ui.scale.factor, Some(1.5));
     assert_eq!(loaded.config.ui.theme.slug, "komai-dark");
-    assert_eq!(loaded.config.ui.input.mode, "");
+    assert_eq!(loaded.config.ui.input.mode, "".into());
     assert_eq!(loaded.config.ui.motion.animations_enabled, None);
-    assert_eq!(loaded.config.secrets.provider, "file");
+    assert_eq!(loaded.config.secrets.provider, "file".into());
     assert!(loaded.should_write_back);
 }
 

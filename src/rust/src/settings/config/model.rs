@@ -4,6 +4,14 @@
 
 use std::collections::BTreeMap;
 
+use super::tokens::{
+    ConfigComposerEmojiPreferredGenderToken, ConfigComposerEmojiPreferredSkinToneToken,
+    ConfigComposerInputAutoReplaceEmojiToken, ConfigComposerInputSendKeyToken,
+    ConfigIntegrationsDbusApiAccessToken, ConfigNetworkPresenceStatusPolicyToken,
+    ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
+    ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken, ConfigUiScrollbarPolicyToken,
+};
+
 pub(crate) const CURRENT_CONFIG_SCHEMA_VERSION: i32 = 1;
 pub(crate) const CONFIG_SCHEMA_VERSION_PATH: [&str; 2] = ["meta", "settings_schema_version"];
 
@@ -31,7 +39,7 @@ pub struct ConfigUi {
     pub input: ConfigUiInput,
     pub layout: ConfigUiLayout,
     pub avatars: ConfigUiAvatars,
-    pub scrollbar_policy: String,
+    pub scrollbar_policy: ConfigUiScrollbarPolicyToken,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -58,7 +66,7 @@ pub struct ConfigUiMotion {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigUiInput {
-    pub mode: String,
+    pub mode: ConfigUiInputModeToken,
     pub touch_swipe_gestures_enabled: Option<bool>,
 }
 
@@ -71,7 +79,7 @@ pub struct ConfigUiLayout {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigUiAvatars {
     pub circular: Option<bool>,
-    pub default_avatar_style: String,
+    pub default_avatar_style: ConfigUiDefaultAvatarStyleToken,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -169,7 +177,7 @@ pub struct ConfigTimelineHiddenEvents {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigSecrets {
-    pub provider: String,
+    pub provider: ConfigSecretsProviderToken,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -255,12 +263,12 @@ pub struct ConfigCallsScreenshare {
 pub struct ConfigNotifications {
     pub enabled: Option<bool>,
     pub attention_on_incoming: Option<bool>,
-    pub message_content_policy: String,
+    pub message_content_policy: ConfigNotificationsMessageContentPolicyToken,
 }
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigNetwork {
-    pub presence_status_policy: String,
+    pub presence_status_policy: ConfigNetworkPresenceStatusPolicyToken,
     pub tls_enable_certificate_validation: Option<bool>,
     pub mrs_enabled: Option<bool>,
     pub mrs_server_name: String,
@@ -271,17 +279,17 @@ pub struct ConfigNetwork {
 pub struct ConfigIntegrations {
     pub system_tray_enabled: Option<bool>,
     pub system_tray_autostart: Option<bool>,
-    pub dbus_api_access: String,
+    pub dbus_api_access: ConfigIntegrationsDbusApiAccessToken,
     pub browser_command: String,
 }
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigComposer {
     pub input_markdown_to_html_enabled: Option<bool>,
-    pub input_send_key: String,
-    pub input_auto_replace_emoji: String,
-    pub input_emoji_preferred_gender: String,
-    pub input_emoji_preferred_skin_tone: String,
+    pub input_send_key: ConfigComposerInputSendKeyToken,
+    pub input_auto_replace_emoji: ConfigComposerInputAutoReplaceEmojiToken,
+    pub input_emoji_preferred_gender: ConfigComposerEmojiPreferredGenderToken,
+    pub input_emoji_preferred_skin_tone: ConfigComposerEmojiPreferredSkinToneToken,
     pub input_inline_emoji_picker_enabled: Option<bool>,
     pub input_inline_room_picker_enabled: Option<bool>,
     pub input_inline_user_picker_enabled: Option<bool>,

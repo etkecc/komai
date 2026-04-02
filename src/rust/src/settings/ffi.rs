@@ -20,7 +20,7 @@ pub(crate) fn settings_load_config_overview(config_text: &str) -> ffi::SettingsC
         has_ui_scale_factor: config.ui.scale.factor.is_some(),
         ui_scale_factor: config.ui.scale.factor.unwrap_or_default(),
         theme_slug: config.ui.theme.slug,
-        secrets_provider: config.secrets.provider,
+        secrets_provider: config.secrets.provider.to_storage_string(),
     }
 }
 
@@ -94,7 +94,7 @@ pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::S
         font_emoji_family: config.ui.font.emoji_family.clone(),
         has_motion_animations_enabled: config.ui.motion.animations_enabled.is_some(),
         motion_animations_enabled: config.ui.motion.animations_enabled.unwrap_or_default(),
-        input_mode: config.ui.input.mode.clone(),
+        input_mode: config.ui.input.mode.to_storage_string(),
         has_input_touch_swipe_gestures_enabled: config.ui.input.touch_swipe_gestures_enabled.is_some(),
         input_touch_swipe_gestures_enabled: config
             .ui
@@ -107,8 +107,8 @@ pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::S
         layout_compact_mode: config.ui.layout.compact_mode.unwrap_or_default(),
         has_avatars_circular: config.ui.avatars.circular.is_some(),
         avatars_circular: config.ui.avatars.circular.unwrap_or_default(),
-        scrollbar_policy: config.ui.scrollbar_policy.clone(),
-        default_avatar_style: config.ui.avatars.default_avatar_style.clone(),
+        scrollbar_policy: config.ui.scrollbar_policy.to_storage_string(),
+        default_avatar_style: config.ui.avatars.default_avatar_style.to_storage_string(),
     }
 }
 
@@ -268,7 +268,7 @@ pub(crate) fn ffi_config_secrets_section(
     config: &settings::config::Config,
 ) -> ffi::SettingsConfigSecretsSection {
     ffi::SettingsConfigSecretsSection {
-        provider: config.secrets.provider.clone(),
+        provider: config.secrets.provider.to_storage_string(),
     }
 }
 
@@ -358,7 +358,7 @@ pub(crate) fn ffi_config_notifications_section(
         enabled: config.notifications.enabled.unwrap_or_default(),
         has_attention_on_incoming: config.notifications.attention_on_incoming.is_some(),
         attention_on_incoming: config.notifications.attention_on_incoming.unwrap_or_default(),
-        message_content_policy: config.notifications.message_content_policy.clone(),
+        message_content_policy: config.notifications.message_content_policy.to_storage_string(),
     }
 }
 
@@ -366,7 +366,7 @@ pub(crate) fn ffi_config_network_section(
     config: &settings::config::Config,
 ) -> ffi::SettingsConfigNetworkSection {
     ffi::SettingsConfigNetworkSection {
-        presence_status_policy: config.network.presence_status_policy.clone(),
+        presence_status_policy: config.network.presence_status_policy.to_storage_string(),
         has_tls_enable_certificate_validation: config
             .network
             .tls_enable_certificate_validation
@@ -391,7 +391,7 @@ pub(crate) fn ffi_config_integrations_section(
         system_tray_enabled: config.integrations.system_tray_enabled.unwrap_or_default(),
         has_system_tray_autostart: config.integrations.system_tray_autostart.is_some(),
         system_tray_autostart: config.integrations.system_tray_autostart.unwrap_or_default(),
-        dbus_api_access: config.integrations.dbus_api_access.clone(),
+        dbus_api_access: config.integrations.dbus_api_access.to_storage_string(),
         browser_command: config.integrations.browser_command.clone(),
     }
 }
@@ -405,10 +405,16 @@ pub(crate) fn ffi_config_composer_section(
             .composer
             .input_markdown_to_html_enabled
             .unwrap_or_default(),
-        input_send_key: config.composer.input_send_key.clone(),
-        input_auto_replace_emoji: config.composer.input_auto_replace_emoji.clone(),
-        input_emoji_preferred_gender: config.composer.input_emoji_preferred_gender.clone(),
-        input_emoji_preferred_skin_tone: config.composer.input_emoji_preferred_skin_tone.clone(),
+        input_send_key: config.composer.input_send_key.to_storage_string(),
+        input_auto_replace_emoji: config.composer.input_auto_replace_emoji.to_storage_string(),
+        input_emoji_preferred_gender: config
+            .composer
+            .input_emoji_preferred_gender
+            .to_storage_string(),
+        input_emoji_preferred_skin_tone: config
+            .composer
+            .input_emoji_preferred_skin_tone
+            .to_storage_string(),
         has_input_inline_emoji_picker_enabled: config
             .composer
             .input_inline_emoji_picker_enabled

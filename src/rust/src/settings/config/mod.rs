@@ -5,11 +5,13 @@
 mod bridge;
 mod model;
 mod tree;
+mod tokens;
 
 use crate::ffi::SettingsConfigSnapshot;
 use crate::settings::yaml;
 
 use super::storage;
+use tokens::StorageToken;
 
 pub use model::{
     Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
@@ -22,6 +24,13 @@ pub use model::{
     ConfigTimelineMessageActions, ConfigTimelineMessages, ConfigTimelineMessagesLayout,
     ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi, ConfigUiAvatars, ConfigUiFont,
     ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
+};
+pub use tokens::{
+    ConfigComposerEmojiPreferredGenderToken, ConfigComposerEmojiPreferredSkinToneToken,
+    ConfigComposerInputAutoReplaceEmojiToken, ConfigComposerInputSendKeyToken,
+    ConfigIntegrationsDbusApiAccessToken, ConfigNetworkPresenceStatusPolicyToken,
+    ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
+    ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken, ConfigUiScrollbarPolicyToken,
 };
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
@@ -199,7 +208,7 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     .and_then(parse_scalar_bool),
             },
             input: ConfigUiInput {
-                mode: parse_string(yaml::value_at_path(root, &UI_INPUT_MODE_PATH)),
+                mode: parse_storage_token(yaml::value_at_path(root, &UI_INPUT_MODE_PATH)),
                 touch_swipe_gestures_enabled: yaml::value_at_path(
                     root,
                     &UI_INPUT_TOUCH_SWIPE_GESTURES_ENABLED_PATH,
@@ -215,11 +224,11 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             avatars: ConfigUiAvatars {
                 circular: yaml::value_at_path(root, &UI_AVATARS_CIRCULAR_PATH)
                     .and_then(parse_scalar_bool),
-                default_avatar_style: parse_string(
+                default_avatar_style: parse_storage_token(
                     yaml::value_at_path(root, &UI_AVATARS_DEFAULT_AVATAR_STYLE_PATH),
                 ),
             },
-            scrollbar_policy: parse_string(yaml::value_at_path(root, &UI_SCROLLBAR_POLICY_PATH)),
+            scrollbar_policy: parse_storage_token(yaml::value_at_path(root, &UI_SCROLLBAR_POLICY_PATH)),
         },
         sidebars: ConfigSidebars {
             room_list: ConfigSidebarsRoomList {
@@ -373,7 +382,7 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             },
         },
         secrets: ConfigSecrets {
-            provider: parse_string(yaml::value_at_path(root, &SECRETS_PROVIDER_PATH)),
+            provider: parse_storage_token(yaml::value_at_path(root, &SECRETS_PROVIDER_PATH)),
         },
         privacy: ConfigPrivacy {
             window_focus_blur: ConfigPrivacyWindowFocusBlur {
@@ -456,13 +465,13 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             enabled: yaml::value_at_path(root, &NOTIFICATIONS_ENABLED_PATH).and_then(parse_scalar_bool),
             attention_on_incoming: yaml::value_at_path(root, &NOTIFICATIONS_ATTENTION_ON_INCOMING_PATH)
                 .and_then(parse_scalar_bool),
-            message_content_policy: parse_string(yaml::value_at_path(
+            message_content_policy: parse_storage_token(yaml::value_at_path(
                 root,
                 &NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH,
             )),
         },
         network: ConfigNetwork {
-            presence_status_policy: parse_string(yaml::value_at_path(
+            presence_status_policy: parse_storage_token(yaml::value_at_path(
                 root,
                 &NETWORK_PRESENCE_STATUS_POLICY_PATH,
             )),
@@ -485,7 +494,10 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 &INTEGRATIONS_SYSTEM_TRAY_AUTOSTART_PATH,
             )
             .and_then(parse_scalar_bool),
-            dbus_api_access: parse_string(yaml::value_at_path(root, &INTEGRATIONS_DBUS_API_ACCESS_PATH)),
+            dbus_api_access: parse_storage_token(yaml::value_at_path(
+                root,
+                &INTEGRATIONS_DBUS_API_ACCESS_PATH,
+            )),
             browser_command: parse_string(yaml::value_at_path(root, &INTEGRATIONS_BROWSER_COMMAND_PATH)),
         },
         composer: ConfigComposer {
@@ -494,16 +506,19 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 &COMPOSER_INPUT_MARKDOWN_TO_HTML_ENABLED_PATH,
             )
             .and_then(parse_scalar_bool),
-            input_send_key: parse_string(yaml::value_at_path(root, &COMPOSER_INPUT_SEND_KEY_PATH)),
-            input_auto_replace_emoji: parse_string(yaml::value_at_path(
+            input_send_key: parse_storage_token(yaml::value_at_path(
+                root,
+                &COMPOSER_INPUT_SEND_KEY_PATH,
+            )),
+            input_auto_replace_emoji: parse_storage_token(yaml::value_at_path(
                 root,
                 &COMPOSER_INPUT_AUTO_REPLACE_EMOJI_PATH,
             )),
-            input_emoji_preferred_gender: parse_string(yaml::value_at_path(
+            input_emoji_preferred_gender: parse_storage_token(yaml::value_at_path(
                 root,
                 &COMPOSER_INPUT_EMOJI_PREFERRED_GENDER_PATH,
             )),
-            input_emoji_preferred_skin_tone: parse_string(yaml::value_at_path(
+            input_emoji_preferred_skin_tone: parse_storage_token(yaml::value_at_path(
                 root,
                 &COMPOSER_INPUT_EMOJI_PREFERRED_SKIN_TONE_PATH,
             )),
@@ -595,6 +610,10 @@ fn parse_string(value: Option<&serde_yaml_ng::Value>) -> String {
         Some(serde_yaml_ng::Value::String(value)) => value.trim().to_owned(),
         _ => String::new(),
     }
+}
+
+fn parse_storage_token<T: StorageToken>(value: Option<&serde_yaml_ng::Value>) -> T {
+    T::from_storage_str(&parse_string(value))
 }
 
 fn parse_string_list(value: Option<&serde_yaml_ng::Value>) -> Option<Vec<String>> {

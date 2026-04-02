@@ -1023,9 +1023,6 @@ if(BUILD_TESTING)
         src/matrix/backend/MatrixSessionSecrets.cpp
         src/profile/KeyringEnvironment.cpp
         src/profile/Paths.cpp
-        src/settings/SettingsPersistence.cpp
-        src/settings/SettingsPersistenceLoad.cpp
-        src/settings/SettingsPersistenceSave.cpp
         src/settings/SettingsStorage.cpp
         src/settings/SettingsStoragePathApi.cpp
         src/settings/SettingsStorageReaderWriterFilesystem.cpp

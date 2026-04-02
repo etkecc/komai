@@ -9,10 +9,10 @@ Komai keeps a runtime `UserSettings` API (Qt properties/signals) and persists it
 Responsibility split:
 
 - `UserSettings` owns the in-memory settings model and exposes QML properties/signals.
-- `settings::SettingsController` owns profile orchestration: path setup, staged loading, save orchestration, and auth/session clearing.
-- `settings::staged_load_plan` defines the load stages and how secrets-provider selection affects them.
-- `settings::persistence` handles secret-provider plumbing and serializing secret payloads.
+- `settings::SettingsController` owns profile orchestration and delegates load/save/clear operations to the resident Rust settings profile handle.
 - `settings::storage` owns low-level file/keyring/text operations and profile path resolution.
+- `settings::profile`, `settings::config`, `settings::session`, `settings::state`, and `settings::secrets`
+  on the Rust side own schema-versioned load/migrate/save behavior for profile-scoped settings files.
 - live schema-versioned migration logic for `config.yml`, `state.yml`, and `session.yml` now lives in
   the Rust settings loaders; the remaining C++ migration helpers are test-support only.
 - `settings::startup` owns startup-only reads that must happen before `Q(Core)Application` is created.
@@ -52,12 +52,12 @@ Current ownership map:
   - Session/auth/session-file related helpers.
 - `src/settings/SettingsController.*`
   - Profile orchestration and persistence pipeline orchestration.
-- `src/settings/SettingsPersistence.*`
-  - Secret provider strategy plus secret payload load/save/cleanup behavior.
 - `src/settings/SettingsStorage.*`
   - Profile pathing and direct file/secure-store I/O primitives.
-- `src/rust/src/settings/config/bridge.rs`, `src/rust/src/settings/session.rs`, `src/rust/src/settings/state.rs`
-  - Live settings schema-version load/migration entry points.
+- `src/rust/src/settings/profile/*`, `src/rust/src/settings/config/*`,
+  `src/rust/src/settings/session/*`, `src/rust/src/settings/state/*`,
+  `src/rust/src/settings/secrets/*`
+  - Live settings schema-version load/migration/save entry points and profile-handle ownership.
 - `src/settings/StartupSettings.*`, `src/settings/core/StartupConfig.*`
   - Bootstrap profile config preloading for startup-time scale-factor handling.
 - `src/settings/core/SettingDefinition.h`, `src/settings/core/SettingsDefinitions.h`, `src/settings/core/SettingsConstraints.h`
@@ -81,7 +81,7 @@ Settings flow:
   - `ThemeRegistry::initialize()` and logging are set up before UI creation.
   - `UserSettings::load(profile)` calls `settings::SettingsController::loadAndMigrate(...)`
     (explicit migration writeback path).
-  - Controller resolves profile paths, runs staged config/session/secret/state load, then applies theme.
+  - Controller opens a Rust profile handle, prepares the loaded profile bundle, applies config/session/secrets/state, then applies theme.
 - runtime mutation:
   - QML delegates mutate through `UserSettingsModel` -> `UserSettings`.
   - `UserSettings` updates in-memory values and persists via controller orchestration in `save()`.
@@ -94,19 +94,13 @@ Settings flow:
 
 - `src/settings/SettingsController.h/.cpp` (`settings::SettingsController`)
   - Profile lifecycle orchestration (`load`, `save`, `clearAuth`).
-  - Profile path resolution and stage sequencing.
-  - Top-level read/write ordering and event notifications.
-- `src/settings/SettingsPersistence.h/.cpp`
-  - Secret provider strategy and secrets payload handling (`secret_service` vs `file`).
-  - Payload load/save/cleanup for auth and per-profile secret maps.
+  - Top-level read/write ordering, Rust profile-handle coordination, and event notifications.
 - `src/settings/SettingsStorage.h/.cpp`
   - Profile path helpers (`configFilePathForProfile`, etc.).
   - Text file IO (`readTextFile`, `writeTextFile`).
   - Keychain wrappers (`readSecureValue`, `writeSecureValue`, `deleteSecureValue`).
 - `src/settings/SettingKeys.h`
   - Canonical settings keys for all persisted scopes (config/state/session/secrets/runtime).
-- `src/settings/StagedLoadPlan.h`
-  - Startup stage ordering and secrets-provider dispatch plan.
 - `src/settings/ui/UserSettingsModel.cpp` and `src/settings/ui/rows/UserSettingsModel*.inc` (`UserSettingsModel`)
   - UI adapter that maps setting metadata to rows, roles, and tab-filtered models.
 - `src/settings/ui/SettingDescriptor.h/.cpp`
@@ -199,8 +193,6 @@ Primary implementation files:
 - `src/settings/ui/facade/UserSettingsTheme.cpp`
 - `src/settings/SettingsController.cpp`
 - `src/settings/SettingsController.h`
-- `src/settings/SettingsPersistence.cpp`
-- `src/settings/SettingsPersistence.h`
 - `src/settings/SettingsStorage.cpp`
 - `src/settings/SettingsStorage.h`
 - `src/settings/core/SettingDefinition.h`
@@ -214,13 +206,12 @@ Persistence entry points:
 - `settings::SettingsController::loadAndMigrate(...)`
 - `settings::SettingsController::save(...)`
 - `settings::SettingsController::clearAuth(...)`
-- `settings::persistence::loadProfileSecrets(...)` / `saveProfileSecrets(...)`
 
 YAML key hierarchy is nested/dotted (for example `timeline.messages.style`).
 
-## Staged Load Order
+## Load Order
 
-Load order is intentionally staged:
+Load order is still intentionally sequenced, but that sequencing now lives in the Rust profile loader/handle rather than a separate C++ staged-load plan:
 
 1. `config.yml` (resolve `secrets.provider`)
 2. `session.yml` (account metadata)

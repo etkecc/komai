@@ -13,6 +13,7 @@
 
 #include <memory>
 
+#include "komai-rust-cxxbridge/ffi.h"
 #include "logging/Logging.h"
 
 #include "profile/KeyringEnvironment.h"
@@ -20,7 +21,6 @@
 #include "profile/ProfileId.h"
 #include "profile/ProfileSecrets.h"
 #include "matrix/backend/MatrixSessionSecrets.h"
-#include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
 #include "TestEnvironment.h"
 
@@ -34,6 +34,30 @@ expect(bool condition, std::string_view message)
 
     std::cerr << "FAILED: " << message << '\n';
     return false;
+}
+
+::rust::Vec<::komai::rust::SettingsStringMapEntry>
+toRustStringMapEntries(const QMap<QString, QString> &entries)
+{
+    ::rust::Vec<::komai::rust::SettingsStringMapEntry> rustEntries;
+    for (auto it = entries.constBegin(); it != entries.constEnd(); ++it) {
+        rustEntries.push_back({
+          .key   = it.key().toStdString(),
+          .value = it.value().toStdString(),
+        });
+    }
+    return rustEntries;
+}
+
+QMap<QString, QString>
+fromRustStringMapEntries(const ::rust::Vec<::komai::rust::SettingsStringMapEntry> &entries)
+{
+    QMap<QString, QString> decoded;
+    for (const auto &entry : entries) {
+        decoded.insert(QString::fromStdString(static_cast<std::string>(entry.key)),
+                       QString::fromStdString(static_cast<std::string>(entry.value)));
+    }
+    return decoded;
 }
 
 bool
@@ -326,24 +350,6 @@ testKeyringEnvironmentTagResolution()
 }
 
 bool
-testProviderSelectionHonorsConfigAndOverrides()
-{
-    auto fromConfig = settings::persistence::providerFromConfigValue(
-      QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue));
-    auto defaultSecretService =
-      expect(fromConfig == staged_load_plan::SecretsProvider::SecretService,
-             "secret provider defaults to secret_service");
-
-    const bool explicitFileConfig = expect(
-      settings::persistence::providerFromConfigValue(
-        QString::fromLatin1(staged_load_plan::ProviderFileValue)) ==
-        staged_load_plan::SecretsProvider::File,
-      "file provider is honored from config");
-
-    return defaultSecretService && explicitFileConfig;
-}
-
-bool
 testMatrixSessionSecretsRoundtripWithFileProvider()
 {
     bool ok = true;
@@ -362,11 +368,18 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
                    configPath, QStringLiteral("secrets:\n  provider: file\n"), false),
                  "matrix session secrets test writes config");
 
-    settings::persistence::saveProfileSecrets(
-      profile,
+    const auto configOverview =
+      ::komai::rust::settings_load_config_overview_for_profile(profile.toStdString());
+    ok &= expect(configOverview.uses_file_secrets_provider,
+                 "matrix session secrets test loads file provider from config overview");
+
+    const bool savedSecrets = ::komai::rust::settings_save_profile_secrets(
+      profile.toStdString(),
       true,
-      QStringLiteral("existing-access-token"),
-      QMap<QString, QString>{{QStringLiteral("existing.secret"), QStringLiteral("keep-me")}});
+      QStringLiteral("existing-access-token").toStdString(),
+      toRustStringMapEntries(
+        QMap<QString, QString>{{QStringLiteral("existing.secret"), QStringLiteral("keep-me")}}));
+    ok &= expect(savedSecrets, "matrix session secrets test saves initial secrets payload");
 
     komai::matrix_backend::savePersistedMatrixSessionSecrets(
       profile,
@@ -384,16 +397,21 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
     ok &= expect(persisted.serializedSession == QStringLiteral("serialized-session"),
                  "matrix session secrets load returns saved session blob");
 
-    const auto payload = settings::persistence::loadProfileSecrets(profile, true);
-    ok &= expect(payload.accessToken == QStringLiteral("existing-access-token"),
+    const auto payload =
+      ::komai::rust::settings_load_profile_secrets(profile.toStdString(), true);
+    const auto decodedPayloadSecrets = fromRustStringMapEntries(payload.secrets);
+    ok &= expect(QString::fromStdString(static_cast<std::string>(payload.access_token)) ==
+                   QStringLiteral("existing-access-token"),
                  "matrix session save preserves access token");
-    ok &= expect(payload.secrets.value(QStringLiteral("existing.secret")) == QStringLiteral("keep-me"),
+    ok &= expect(decodedPayloadSecrets.value(QStringLiteral("existing.secret")) ==
+                   QStringLiteral("keep-me"),
                  "matrix session save preserves unrelated secrets");
-    ok &= expect(payload.secrets.value(QStringLiteral("matrix_sdk.store_passphrase")).isEmpty(),
+    ok &= expect(decodedPayloadSecrets.value(QStringLiteral("matrix_sdk.store_passphrase")).isEmpty(),
                  "matrix session save no longer writes store passphrase into profile secrets");
-    ok &= expect(payload.secrets.value(QStringLiteral("matrix_sdk.homeserver_url")).isEmpty(),
+    ok &= expect(decodedPayloadSecrets.value(QStringLiteral("matrix_sdk.homeserver_url")).isEmpty(),
                  "matrix session save no longer writes homeserver into profile secrets");
-    ok &= expect(payload.secrets.value(QStringLiteral("matrix_sdk.serialized_session")).isEmpty(),
+    ok &= expect(decodedPayloadSecrets.value(QStringLiteral("matrix_sdk.serialized_session"))
+                   .isEmpty(),
                  "matrix session save no longer writes serialized session into profile secrets");
 
     const auto matrixSdkSecrets = settings::storage::decodeSecretsFilePayload(
@@ -410,20 +428,23 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
 
     komai::matrix_backend::clearPersistedMatrixSessionSecrets(profile);
 
-    const auto clearedPayload = settings::persistence::loadProfileSecrets(profile, true);
+    const auto clearedPayload =
+      ::komai::rust::settings_load_profile_secrets(profile.toStdString(), true);
+    const auto decodedClearedSecrets = fromRustStringMapEntries(clearedPayload.secrets);
     ok &= expect(
-      clearedPayload.secrets.value(QStringLiteral("matrix_sdk.store_passphrase")).isEmpty(),
+      decodedClearedSecrets.value(QStringLiteral("matrix_sdk.store_passphrase")).isEmpty(),
       "matrix session clear removes store passphrase secret");
     ok &= expect(
-      clearedPayload.secrets.value(QStringLiteral("matrix_sdk.homeserver_url")).isEmpty(),
+      decodedClearedSecrets.value(QStringLiteral("matrix_sdk.homeserver_url")).isEmpty(),
       "matrix session clear removes homeserver secret");
     ok &= expect(
-      clearedPayload.secrets.value(QStringLiteral("matrix_sdk.serialized_session")).isEmpty(),
+      decodedClearedSecrets.value(QStringLiteral("matrix_sdk.serialized_session")).isEmpty(),
       "matrix session clear removes serialized session secret");
-    ok &= expect(clearedPayload.accessToken == QStringLiteral("existing-access-token"),
+    ok &= expect(QString::fromStdString(static_cast<std::string>(clearedPayload.access_token)) ==
+                   QStringLiteral("existing-access-token"),
                  "matrix session clear preserves access token");
     ok &= expect(
-      clearedPayload.secrets.value(QStringLiteral("existing.secret")) == QStringLiteral("keep-me"),
+      decodedClearedSecrets.value(QStringLiteral("existing.secret")) == QStringLiteral("keep-me"),
       "matrix session clear preserves unrelated secrets");
     ok &= expect(!settings::storage::pathExists(matrixSdkSecretsPath),
                  "matrix session clear removes dedicated matrix-sdk secret store");
@@ -455,7 +476,6 @@ main()
     ok &= testKeyringEnvironmentTagResolution();
     ok &= testProfileIdValidation();
     ok &= testLoggerInjectionNullAndInjectedLoggers();
-    ok &= testProviderSelectionHonorsConfigAndOverrides();
     ok &= testMatrixSessionSecretsRoundtripWithFileProvider();
     ok &= testInMemoryReaderWriterOverride();
 

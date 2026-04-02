@@ -39,6 +39,9 @@ settings_profile_state_path(::rust::Str profile_id);
 settings_profile_session_path(::rust::Str profile_id);
 
 ::rust::String
+settings_profile_secrets_path(::rust::Str profile_id);
+
+::rust::String
 settings_read_text_file(::rust::Str path, ::rust::Str label);
 
 bool

@@ -21,10 +21,9 @@ loadProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
     SecretsPayload payload;
     bool hasEmptySecureSecrets   = false;
     const auto normalizedProfile = app_paths::normalizedProfileId(profile);
-    const auto secretsFilePath   = settings::storage::secretsFilePathForProfile(profile);
 
     if (usesFileSecretsProvider) {
-        payload = detail::loadPersistedSecretsFilePayloadFromPath(secretsFilePath, "secrets");
+        payload = detail::loadPersistedSecretsFilePayloadForProfile(profile);
         if (payload.hadStaleValues) {
             saveProfileSecrets(profile, true, payload.accessToken, payload.secrets);
         }

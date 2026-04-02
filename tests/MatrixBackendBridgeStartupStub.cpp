@@ -45,6 +45,14 @@ settings_profile_session_path(::rust::Str profile_id)
 }
 
 ::rust::String
+settings_profile_secrets_path(::rust::Str profile_id)
+{
+    return ::rust::String(
+      settings::storage::secretsFilePathForProfile(QString::fromStdString(std::string(profile_id)))
+        .toStdString());
+}
+
+::rust::String
 settings_read_text_file(::rust::Str path, ::rust::Str label)
 {
     const auto labelString = std::string(label);

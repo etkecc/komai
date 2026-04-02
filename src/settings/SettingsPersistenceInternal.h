@@ -16,12 +16,15 @@ SecretsPayload
 decodePersistedSecretsMap(const QString &serialized);
 
 SecretsPayload
-loadPersistedSecretsFilePayloadFromPath(const QString &path, const char *label);
+loadPersistedSecretsFilePayloadForProfile(const QString &profile);
 
 bool
-writePersistedSecretsFilePayloadToPath(const QString &path,
-                                       const QString &accessToken,
-                                       const QMap<QString, QString> &secrets,
-                                       bool ownerReadWriteOnly);
+writePersistedSecretsFilePayloadForProfile(const QString &profile,
+                                           const QString &accessToken,
+                                           const QMap<QString, QString> &secrets,
+                                           bool ownerReadWriteOnly);
+
+bool
+removePersistedSecretsFileForProfile(const QString &profile);
 
 } // namespace settings::persistence::detail

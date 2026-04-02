@@ -20,17 +20,17 @@ saveProfileSecrets(const QString &profile,
                    const QString &accessToken,
                    const QMap<QString, QString> &secrets)
 {
-    const auto secretsFilePath = settings::storage::secretsFilePathForProfile(profile);
-
     if (usesFileSecretsProvider) {
-        if (detail::writePersistedSecretsFilePayloadToPath(
-              secretsFilePath, accessToken, secrets, true)) {
-            activeLoggers().ui->debug("Saved secrets to: {}", secretsFilePath.toStdString());
+        if (detail::writePersistedSecretsFilePayloadForProfile(
+              profile, accessToken, secrets, true)) {
+            activeLoggers().ui->debug("Saved secrets for profile '{}'",
+                                      app_paths::normalizedProfileId(profile).toStdString());
         }
         return;
     }
 
-    const auto secretsKey = settings::storage::secureStoreKey(profile, SecureStoreSecretsKey);
+    const auto secretsFilePath = settings::storage::secretsFilePathForProfile(profile);
+    const auto secretsKey      = settings::storage::secureStoreKey(profile, SecureStoreSecretsKey);
     const auto serializedSecrets = detail::encodePersistedSecretsMap(accessToken, secrets);
     bool hasPersistedSecrets     = !accessToken.trimmed().isEmpty();
     if (!hasPersistedSecrets) {
@@ -56,13 +56,11 @@ saveProfileSecrets(const QString &profile,
 bool
 clearProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
 {
-    const auto secretsFilePath = settings::storage::secretsFilePathForProfile(profile);
     if (usesFileSecretsProvider) {
         const auto normalizedProfile = app_paths::normalizedProfileId(profile);
-        if (settings::storage::pathExists(secretsFilePath) &&
-            !settings::storage::removePath(secretsFilePath)) {
-            activeLoggers().ui->warn("Failed to remove stale secrets file: {}",
-                                     secretsFilePath.toStdString());
+        if (!detail::removePersistedSecretsFileForProfile(profile)) {
+            activeLoggers().ui->warn("Failed to remove file-backed secrets for profile '{}'",
+                                     normalizedProfile.toStdString());
             return false;
         }
         activeLoggers().ui->info("Cleared file-backed secrets for profile '{}'",
@@ -70,6 +68,7 @@ clearProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
         return true;
     }
 
+    const auto secretsFilePath   = settings::storage::secretsFilePathForProfile(profile);
     const auto normalizedProfile = app_paths::normalizedProfileId(profile);
     const auto provider          = usesFileSecretsProvider
                                      ? staged_load_plan::SecretsProvider::File

@@ -12,6 +12,8 @@ use super::storage;
 
 const INTERNAL_SESSION_ACCESS_TOKEN_KEY: &str = "__session.access_token";
 const INTERNAL_SESSION_KEY_PREFIX: &str = "__session.";
+const PROFILE_SECRETS_ROOT_KEY: &str = "secrets";
+const PROFILE_SECRETS_LABEL: &str = "secrets";
 
 fn ordered_map(entries: &[SettingsStringMapEntry]) -> BTreeMap<String, String> {
     entries
@@ -165,6 +167,15 @@ pub fn load_persisted_secrets_file_from_path(
     decode_persisted_secrets_file_yaml(&storage::read_text_file(path, label), root_key)
 }
 
+pub fn load_persisted_secrets_file_for_profile(profile_id: &str) -> SettingsSecretsPayload {
+    let secrets_path = storage::secrets_file_path_for_profile(profile_id);
+    load_persisted_secrets_file_from_path(
+        &secrets_path,
+        PROFILE_SECRETS_LABEL,
+        PROFILE_SECRETS_ROOT_KEY,
+    )
+}
+
 pub fn write_persisted_secrets_file_to_path(
     path: &str,
     root_key: &str,
@@ -175,6 +186,22 @@ pub fn write_persisted_secrets_file_to_path(
     storage::write_text_file(
         path,
         &encode_persisted_secrets_file_yaml(root_key, access_token, entries),
+        owner_read_write_only,
+    )
+}
+
+pub fn write_persisted_secrets_file_for_profile(
+    profile_id: &str,
+    access_token: &str,
+    entries: &[SettingsStringMapEntry],
+    owner_read_write_only: bool,
+) -> bool {
+    let secrets_path = storage::secrets_file_path_for_profile(profile_id);
+    write_persisted_secrets_file_to_path(
+        &secrets_path,
+        PROFILE_SECRETS_ROOT_KEY,
+        access_token,
+        entries,
         owner_read_write_only,
     )
 }
@@ -213,6 +240,15 @@ pub fn write_named_string_map_to_path(
         &encode_named_string_map_yaml(root_key, entries),
         owner_read_write_only,
     )
+}
+
+pub fn remove_persisted_secrets_file_for_profile(profile_id: &str) -> bool {
+    let secrets_path = storage::secrets_file_path_for_profile(profile_id);
+    if !storage::path_exists(&secrets_path) {
+        return true;
+    }
+
+    storage::remove_path(&secrets_path)
 }
 
 #[cfg(test)]

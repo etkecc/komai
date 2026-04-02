@@ -109,24 +109,29 @@ decodePersistedSecretsMap(const QString &serialized)
 }
 
 SecretsPayload
-loadPersistedSecretsFilePayloadFromPath(const QString &path, const char *label)
+loadPersistedSecretsFilePayloadForProfile(const QString &profile)
 {
-    return fromRustSecretsPayload(::komai::rust::settings_load_persisted_secrets_file_from_path(
-      path.toStdString(), label, SettingKey::SecretsFileMap));
+    return fromRustSecretsPayload(
+      ::komai::rust::settings_load_persisted_secrets_file_for_profile(profile.toStdString()));
 }
 
 bool
-writePersistedSecretsFilePayloadToPath(const QString &path,
-                                       const QString &accessToken,
-                                       const QMap<QString, QString> &secrets,
-                                       bool ownerReadWriteOnly)
+writePersistedSecretsFilePayloadForProfile(const QString &profile,
+                                           const QString &accessToken,
+                                           const QMap<QString, QString> &secrets,
+                                           bool ownerReadWriteOnly)
 {
-    return ::komai::rust::settings_write_persisted_secrets_file_to_path(
-      path.toStdString(),
-      SettingKey::SecretsFileMap,
+    return ::komai::rust::settings_write_persisted_secrets_file_for_profile(
+      profile.toStdString(),
       accessToken.toStdString(),
       toRustStringMapEntries(secrets),
       ownerReadWriteOnly);
+}
+
+bool
+removePersistedSecretsFileForProfile(const QString &profile)
+{
+    return ::komai::rust::settings_remove_persisted_secrets_file_for_profile(profile.toStdString());
 }
 
 } // namespace detail

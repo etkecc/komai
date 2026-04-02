@@ -965,6 +965,8 @@ mod bridge {
         #[namespace = "komai::rust_bridge"]
         fn settings_profile_session_path(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
+        fn settings_profile_secrets_path(profile_id: &str) -> String;
+        #[namespace = "komai::rust_bridge"]
         fn settings_read_text_file(path: &str, label: &str) -> String;
         #[namespace = "komai::rust_bridge"]
         fn settings_path_exists(path: &str) -> bool;
@@ -1064,6 +1066,9 @@ mod bridge {
             label: &str,
             root_key: &str,
         ) -> SettingsSecretsPayload;
+        fn settings_load_persisted_secrets_file_for_profile(
+            profile_id: &str,
+        ) -> SettingsSecretsPayload;
         fn settings_write_persisted_secrets_file_to_path(
             path: &str,
             root_key: &str,
@@ -1071,6 +1076,13 @@ mod bridge {
             entries: &Vec<SettingsStringMapEntry>,
             owner_read_write_only: bool,
         ) -> bool;
+        fn settings_write_persisted_secrets_file_for_profile(
+            profile_id: &str,
+            access_token: &str,
+            entries: &Vec<SettingsStringMapEntry>,
+            owner_read_write_only: bool,
+        ) -> bool;
+        fn settings_remove_persisted_secrets_file_for_profile(profile_id: &str) -> bool;
         fn settings_load_named_string_map_from_path(
             path: &str,
             label: &str,

@@ -37,16 +37,11 @@ activeLoggers();
  */
 void
 saveConfig(const UserSettings &settings,
-           const QString &configFilePath,
            bool usesFileSecretsProvider,
            ::komai::rust::SettingsProfileHandle &profileHandle);
 void
-saveSession(const UserSettings &settings,
-            const QString &sessionFilePath,
-            ::komai::rust::SettingsProfileHandle &profileHandle);
+saveSession(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &profileHandle);
 void
-saveState(const UserSettings &settings,
-          const QString &stateFilePath,
-          ::komai::rust::SettingsProfileHandle &profileHandle);
+saveState(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &profileHandle);
 
 } // namespace settings::serializer

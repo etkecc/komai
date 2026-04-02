@@ -1225,7 +1225,7 @@ testSerializerLoggerInjection()
       ::komai::rust::settings_open_profile_handle_for_profile(profile.toStdString(), true);
     settings::storage::removePath(stateFile);
 
-    settings::serializer::saveState(*settings, stateFile, *profileHandle);
+    settings::serializer::saveState(*settings, *profileHandle);
     const bool nullLoggerWrite = expect(
       settings::storage::pathExists(stateFile), "state write succeeds with null-injected serializer logger");
 
@@ -1237,14 +1237,14 @@ testSerializerLoggerInjection()
 
     const bool injectedLoggerWrite = [&] {
         settings::storage::removePath(stateFile);
-        settings::serializer::saveState(*settings, stateFile, *profileHandle);
+        settings::serializer::saveState(*settings, *profileHandle);
         return settings::storage::pathExists(stateFile);
     }();
 
     const auto sessionFile = ctx.sessionFile();
     settings->setAccessToken(QStringLiteral(""));
     settings::storage::removePath(sessionFile);
-    settings::serializer::saveSession(*settings, sessionFile, *profileHandle);
+    settings::serializer::saveSession(*settings, *profileHandle);
     const bool noSessionFileWithoutToken = expect(
       !settings::storage::pathExists(sessionFile), "session save is no-op when token is missing");
 

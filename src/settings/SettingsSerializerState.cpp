@@ -7,18 +7,15 @@
 
 #include "komai-rust-cxxbridge/ffi.h"
 
-#include <QString>
-
 #include "logging/Logging.h"
 
+#include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace settings::serializer {
 
 void
-saveState(const UserSettings &settings,
-          const QString &stateFilePath,
-          ::komai::rust::SettingsProfileHandle &profileHandle)
+saveState(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &profileHandle)
 {
     ::komai::rust::SettingsStateSnapshot snapshot{
       .window_width                  = settings.windowWidth(),
@@ -54,7 +51,9 @@ saveState(const UserSettings &settings,
     ::komai::rust::settings_profile_replace_state_snapshot(profileHandle, snapshot);
     const bool saved = ::komai::rust::settings_profile_write_state(profileHandle);
     if (saved) {
-        activeLoggers().ui->debug("Saved state to: {}", stateFilePath.toStdString());
+        activeLoggers().ui->debug(
+          "Saved state for profile '{}'",
+          app_paths::normalizedProfileId(settings.profileId()).toStdString());
     }
 }
 

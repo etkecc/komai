@@ -100,10 +100,6 @@ getMessageBody(const RoomMessageT &event)
 QString
 linkifyMessage(const QString &body);
 
-//! Convert the input markdown text to html.
-QString
-markdownToHtml(const QString &text);
-
 QString
 escapeMentionMarkdown(QString input);
 

@@ -2522,7 +2522,7 @@ MatrixBackendRuntimeService::sendRoomMessage(matrix_backend::BlockingCallContext
                                              uint64_t handleId,
                                              const QString &roomId,
                                              const QString &body,
-                                             const QString &formattedHtml,
+                                             bool useMarkdownFormatting,
                                              const QString &messageKind,
                                              QString *errorOut)
 {
@@ -2530,13 +2530,13 @@ MatrixBackendRuntimeService::sendRoomMessage(matrix_backend::BlockingCallContext
         matrix_backend::invokeBlockingCall(
           "matrix_send_room_message",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, body, formattedHtml, messageKind, context]() {
+          [handleId, roomId, body, useMarkdownFormatting, messageKind, context]() {
               ::komai::rust::matrix_send_room_message(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
                 roomId.toStdString(),
                 body.toStdString(),
-                formattedHtml.toStdString(),
+                useMarkdownFormatting,
                 messageKind.toStdString());
           });
         return true;
@@ -2763,7 +2763,7 @@ MatrixBackendRuntimeService::sendRoomReplyMessage(matrix_backend::BlockingCallCo
                                                   const QString &roomId,
                                                   const QString &repliedToEventId,
                                                   const QString &body,
-                                                  const QString &formattedHtml,
+                                                  bool useMarkdownFormatting,
                                                   const QString &messageKind,
                                                   QString *errorOut)
 {
@@ -2771,14 +2771,20 @@ MatrixBackendRuntimeService::sendRoomReplyMessage(matrix_backend::BlockingCallCo
         matrix_backend::invokeBlockingCall(
           "matrix_send_room_reply_message",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, repliedToEventId, body, formattedHtml, messageKind, context]() {
+          [handleId,
+           roomId,
+           repliedToEventId,
+           body,
+           useMarkdownFormatting,
+           messageKind,
+           context]() {
               ::komai::rust::matrix_send_room_reply_message(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
                 roomId.toStdString(),
                 repliedToEventId.toStdString(),
                 body.toStdString(),
-                formattedHtml.toStdString(),
+                useMarkdownFormatting,
                 messageKind.toStdString());
           });
         return true;
@@ -2795,7 +2801,7 @@ MatrixBackendRuntimeService::sendRoomEditMessage(matrix_backend::BlockingCallCon
                                                  const QString &roomId,
                                                  const QString &targetEventId,
                                                  const QString &body,
-                                                 const QString &formattedHtml,
+                                                 bool useMarkdownFormatting,
                                                  const QString &messageKind,
                                                  QString *errorOut)
 {
@@ -2803,14 +2809,14 @@ MatrixBackendRuntimeService::sendRoomEditMessage(matrix_backend::BlockingCallCon
         matrix_backend::invokeBlockingCall(
           "matrix_send_room_edit_message",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, targetEventId, body, formattedHtml, messageKind, context]() {
+          [handleId, roomId, targetEventId, body, useMarkdownFormatting, messageKind, context]() {
               ::komai::rust::matrix_send_room_edit_message(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
                 roomId.toStdString(),
                 targetEventId.toStdString(),
                 body.toStdString(),
-                formattedHtml.toStdString(),
+                useMarkdownFormatting,
                 messageKind.toStdString());
           });
         return true;

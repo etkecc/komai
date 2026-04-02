@@ -192,14 +192,13 @@ testCompleterTemplates()
     ok &= expect(markdownRow >= 0 &&
                    model.data(model.index(markdownRow, 0), CommandCompleter::Roles::Description)
                        .toString() ==
-                     QStringLiteral("Send a Markdown (converted to HTML) message, even if you "
-                                    "have this disabled in Settings -> Composer."),
-                 "/markdown help text explains the forced Markdown conversion");
+                     QStringLiteral("Try Markdown formatting for this message, even if you have "
+                                    "it disabled in Settings -> Composer."),
+                 "/markdown help text explains the markdown override");
     ok &= expect(plainRow >= 0 &&
                    model.data(model.index(plainRow, 0), CommandCompleter::Roles::Description)
                        .toString() ==
-                     QStringLiteral(
-                       "Send a plain message without Markdown -> HTML conversion."),
+                     QStringLiteral("Send a plain message without Markdown formatting."),
                  "/plain help text explains the plain-text override");
     return ok;
 }

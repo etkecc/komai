@@ -681,18 +681,12 @@ sendMessage(const QString &roomIdOrAlias,
         return;
     }
 
-    std::string formattedBody;
+    bool useMarkdownFormatting = false;
     if (format == QLatin1String("html")) {
-        formattedBody = utils::markdownToHtml(trimmedBody).toStdString();
+        useMarkdownFormatting = true;
     } else if (format == QLatin1String("auto")) {
         if (UserSettings::instance()->composerInputMarkdownToHtmlEnabled())
-            formattedBody = utils::markdownToHtml(trimmedBody).toStdString();
-    }
-
-    if (!formattedBody.empty() && formattedBody.find('<') == std::string::npos &&
-        trimmedBody.toStdString().find('\n') == std::string::npos &&
-        trimmedBody.toStdString().find('\\') == std::string::npos) {
-        formattedBody.clear();
+            useMarkdownFormatting = true;
     }
 
     const auto handleId = currentMatrixRuntimeHandleId();
@@ -706,15 +700,17 @@ sendMessage(const QString &roomIdOrAlias,
     const auto messageKind =
       msgtype == QLatin1String("m.notice") ? QStringLiteral("notice") : QStringLiteral("text");
     runIpcTask(
-      [handleId = *handleId,
-       roomId,
-       trimmedBody,
-       formattedBody = QString::fromStdString(formattedBody),
-       messageKind]() {
+      [handleId = *handleId, roomId, trimmedBody, useMarkdownFormatting, messageKind]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           AsyncSendResult result;
-          if (QString error; komai::MatrixBackendRuntimeService::sendRoomMessage(
-                context, handleId, roomId, trimmedBody, formattedBody, messageKind, &error)) {
+          if (QString error;
+              komai::MatrixBackendRuntimeService::sendRoomMessage(context,
+                                                                  handleId,
+                                                                  roomId,
+                                                                  trimmedBody,
+                                                                  useMarkdownFormatting,
+                                                                  messageKind,
+                                                                  &error)) {
               result.eventId = QStringLiteral("queued");
           } else {
               result.error =

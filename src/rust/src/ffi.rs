@@ -1616,7 +1616,7 @@ mod bridge {
             handle_id: u64,
             room_id: &str,
             body: &str,
-            formatted_html: &str,
+            use_markdown_formatting: bool,
             message_kind: &str,
         ) -> Result<()>;
         fn matrix_send_room_message_like_event_json(
@@ -1699,7 +1699,7 @@ mod bridge {
             room_id: &str,
             replied_to_event_id: &str,
             body: &str,
-            formatted_html: &str,
+            use_markdown_formatting: bool,
             message_kind: &str,
         ) -> Result<()>;
         fn matrix_send_room_edit_message(
@@ -1708,7 +1708,7 @@ mod bridge {
             room_id: &str,
             target_event_id: &str,
             body: &str,
-            formatted_html: &str,
+            use_markdown_formatting: bool,
             message_kind: &str,
         ) -> Result<()>;
         fn matrix_toggle_room_reaction(

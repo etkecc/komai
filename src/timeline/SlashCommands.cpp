@@ -383,7 +383,7 @@ const std::array<CommandDefinition, 23> kCommands{{
    "markdown",
    "/markdown ",
    CMD_TR("/markdown <message>"),
-   CMD_TR("Send a Markdown (converted to HTML) message, even if you have this disabled in "
+   CMD_TR("Try Markdown formatting for this message, even if you have it disabled in "
           "Settings -> Composer."),
    "markdown html formatted message",
    validateRequiredMessage},
@@ -391,7 +391,7 @@ const std::array<CommandDefinition, 23> kCommands{{
    "plain",
    "/plain ",
    CMD_TR("/plain <message>"),
-   CMD_TR("Send a plain message without Markdown -> HTML conversion."),
+   CMD_TR("Send a plain message without Markdown formatting."),
    "plain unformatted markdown html conversion message",
    validateRequiredMessage},
   {CommandId::Notice,

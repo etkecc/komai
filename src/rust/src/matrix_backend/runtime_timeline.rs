@@ -11,11 +11,12 @@ use matrix_sdk::{
     room::reply::{EnforceThread, Reply},
     ruma::{
         EventId,
+        html::{HtmlSanitizerMode, RemoveReplyFallback},
         events::EventContentFromType,
         events::receipt::{ReceiptThread, ReceiptType},
         events::room::pinned_events::RoomPinnedEventsEventContent,
         events::room::message::{
-            RoomMessageEventContentWithoutRelation, TextMessageEventContent,
+            MessageType, RoomMessageEventContentWithoutRelation, TextMessageEventContent,
         },
     },
 };
@@ -81,12 +82,13 @@ fn normalized_message_kind(message_kind: &str) -> &str {
 fn message_type_from_kind(
     message_kind: &str,
     body: &str,
-    formatted_html: &str,
-) -> Result<MessageType, String> {
+    use_markdown_formatting: bool,
+) -> Result<(MessageType, bool), String> {
     let normalized_kind = normalized_message_kind(message_kind);
     let mut data = JsonMap::new();
 
-    if !formatted_html.is_empty() {
+    let formatted_html = formatted_html_from_markdown(body, use_markdown_formatting);
+    if let Some(formatted_html) = formatted_html.as_deref() {
         data.insert(
             "format".to_owned(),
             JsonValue::String("org.matrix.custom.html".to_owned()),
@@ -97,9 +99,38 @@ fn message_type_from_kind(
         );
     }
 
-    MessageType::new(normalized_kind, body.to_owned(), data).map_err(|e| {
+    let message_type = MessageType::new(normalized_kind, body.to_owned(), data).map_err(|e| {
         format!("failed to build matrix-sdk room message kind '{normalized_kind}': {e}")
-    })
+    })?;
+
+    Ok((message_type, formatted_html.is_some()))
+}
+
+fn formatted_html_from_markdown(body: &str, use_markdown_formatting: bool) -> Option<String> {
+    if !use_markdown_formatting {
+        return None;
+    }
+
+    let mut content = TextMessageEventContent::markdown(body.to_owned());
+    let formatted = content.formatted.as_mut()?;
+    formatted.sanitize_html(HtmlSanitizerMode::Strict, RemoveReplyFallback::No);
+    let html = formatted.body.clone();
+    if html_uses_only_plain_text_wrappers(&html) {
+        return None;
+    }
+
+    Some(html)
+}
+
+fn html_uses_only_plain_text_wrappers(html: &str) -> bool {
+    let stripped = html
+        .replace("<p>", "")
+        .replace("</p>\n", "")
+        .replace("</p>", "")
+        .replace("<br />\n", "")
+        .replace("<br />", "");
+
+    !stripped.contains('<')
 }
 
 pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
@@ -361,7 +392,7 @@ pub async fn send_room_message(
     handle_id: u64,
     room_id: &str,
     body: &str,
-    formatted_html: &str,
+    use_markdown_formatting: bool,
     message_kind: &str,
 ) -> Result<(), String> {
     let client = client_for_handle(handle_id)?;
@@ -384,16 +415,15 @@ pub async fn send_room_message(
         ));
     }
 
-    let formatted_html = formatted_html.trim();
-    let content: AnyMessageLikeEventContent =
-        RoomMessageEventContent::new(message_type_from_kind(message_kind, body, formatted_html)?)
-            .into();
+    let (message_type, has_formatted_html) =
+        message_type_from_kind(message_kind, body, use_markdown_formatting)?;
+    let content: AnyMessageLikeEventContent = RoomMessageEventContent::new(message_type).into();
 
     tracing::info!(
         handle_id,
         room_id,
         message_kind,
-        has_formatted_html = !formatted_html.is_empty(),
+        has_formatted_html,
         "Queueing matrix-sdk room message"
     );
 
@@ -417,7 +447,7 @@ pub async fn send_room_reply_message(
     room_id: &str,
     replied_to_event_id: &str,
     body: &str,
-    formatted_html: &str,
+    use_markdown_formatting: bool,
     message_kind: &str,
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
@@ -431,19 +461,16 @@ pub async fn send_room_reply_message(
     let parsed_event_id = EventId::parse(replied_to_event_id)
         .map_err(|e| format!("invalid event id '{replied_to_event_id}': {e}"))?;
 
-    let formatted_html = formatted_html.trim();
-    let content = RoomMessageEventContentWithoutRelation::new(message_type_from_kind(
-        message_kind,
-        body,
-        formatted_html,
-    )?);
+    let (message_type, has_formatted_html) =
+        message_type_from_kind(message_kind, body, use_markdown_formatting)?;
+    let content = RoomMessageEventContentWithoutRelation::new(message_type);
 
     tracing::info!(
         handle_id,
         room_id = room_id.trim(),
         replied_to_event_id,
         message_kind,
-        has_formatted_html = !formatted_html.is_empty(),
+        has_formatted_html,
         "Sending matrix-sdk room reply"
     );
 
@@ -507,7 +534,7 @@ pub async fn send_room_edit_message(
     room_id: &str,
     target_event_id: &str,
     body: &str,
-    formatted_html: &str,
+    use_markdown_formatting: bool,
     message_kind: &str,
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
@@ -523,43 +550,16 @@ pub async fn send_room_edit_message(
 
     let parsed_event_id = EventId::parse(target_event_id)
         .map_err(|e| format!("invalid target event id '{target_event_id}': {e}"))?;
-    let formatted_html = formatted_html.trim();
-    let content = match message_kind {
-        "notice" => {
-            if formatted_html.is_empty() {
-                RoomMessageEventContentWithoutRelation::notice_plain(body)
-            } else {
-                RoomMessageEventContentWithoutRelation::notice_html(body, formatted_html)
-            }
-        }
-        "emote" => {
-            if formatted_html.is_empty() {
-                RoomMessageEventContentWithoutRelation::emote_plain(body)
-            } else {
-                RoomMessageEventContentWithoutRelation::emote_html(body, formatted_html)
-            }
-        }
-        "message" | "text" => {
-            if formatted_html.is_empty() {
-                RoomMessageEventContentWithoutRelation::text_plain(body)
-            } else {
-                RoomMessageEventContentWithoutRelation::text_html(body, formatted_html)
-            }
-        }
-        other => {
-            return Err(format!(
-                "unsupported matrix-sdk room edit kind '{other}' for room '{}'",
-                room_id.trim()
-            ));
-        }
-    };
+    let (message_type, has_formatted_html) =
+        message_type_from_kind(message_kind, body, use_markdown_formatting)?;
+    let content = RoomMessageEventContentWithoutRelation::new(message_type);
 
     tracing::info!(
         handle_id,
         room_id = room_id.trim(),
         target_event_id,
         message_kind,
-        has_formatted_html = !formatted_html.is_empty(),
+        has_formatted_html,
         "Queueing matrix-sdk room edit"
     );
 

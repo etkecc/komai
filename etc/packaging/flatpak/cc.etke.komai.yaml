@@ -26,7 +26,6 @@ cleanup:
   - '*.a'
   - /libexec
   - /lib/cmake
-  - /bin/cmark
   - /bin/event_rpcgen.py
   - /bin/playout
   - /bin/secret-tool
@@ -89,7 +88,6 @@ modules:
       - -DFETCHCONTENT_SOURCE_DIR_CORROSION=/run/build/komai/.deps/corrosion
       - -DFETCHCONTENT_SOURCE_DIR_QT6KEYCHAIN=/run/build/komai/.deps/qtkeychain
       - -DFETCHCONTENT_SOURCE_DIR_KDSINGLEAPPLICATION=/run/build/komai/.deps/kdsingleapplication
-      - -DFETCHCONTENT_SOURCE_DIR_CMARK=/run/build/komai/.deps/cmark
       - -DFETCHCONTENT_SOURCE_DIR_LITEHTML=/run/build/komai/.deps/litehtml
       - -DBLURHASH_SOURCE_DIR=/run/build/komai/.deps/blurhash
       - -DCPP_HTTPLIB_INCLUDE_DIR=/run/build/komai/.deps/cpp-httplib
@@ -124,11 +122,6 @@ modules:
         tag: v1.2.0
         type: git
         url: https://github.com/KDAB/KDSingleApplication.git
-      - dest: .deps/cmark
-        disable-lfs: true
-        tag: 0.31.2
-        type: git
-        url: https://github.com/commonmark/cmark.git
       - dest: .deps/litehtml
         disable-lfs: true
         tag: v0.9

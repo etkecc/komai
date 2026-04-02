@@ -11,7 +11,7 @@ pub(crate) fn matrix_send_room_message(
     handle_id: u64,
     room_id: &str,
     body: &str,
-    formatted_html: &str,
+    use_markdown_formatting: bool,
     message_kind: &str,
 ) -> Result<(), String> {
     ffi_block_on(
@@ -21,7 +21,7 @@ pub(crate) fn matrix_send_room_message(
             handle_id,
             room_id,
             body,
-            formatted_html,
+            use_markdown_formatting,
             message_kind,
         ),
     )
@@ -221,7 +221,7 @@ pub(crate) fn matrix_send_room_reply_message(
     room_id: &str,
     replied_to_event_id: &str,
     body: &str,
-    formatted_html: &str,
+    use_markdown_formatting: bool,
     message_kind: &str,
 ) -> Result<(), String> {
     ffi_block_on(
@@ -232,7 +232,7 @@ pub(crate) fn matrix_send_room_reply_message(
             room_id,
             replied_to_event_id,
             body,
-            formatted_html,
+            use_markdown_formatting,
             message_kind,
         ),
     )
@@ -244,7 +244,7 @@ pub(crate) fn matrix_send_room_edit_message(
     room_id: &str,
     target_event_id: &str,
     body: &str,
-    formatted_html: &str,
+    use_markdown_formatting: bool,
     message_kind: &str,
 ) -> Result<(), String> {
     ffi_block_on(
@@ -255,7 +255,7 @@ pub(crate) fn matrix_send_room_edit_message(
             room_id,
             target_event_id,
             body,
-            formatted_html,
+            use_markdown_formatting,
             message_kind,
         ),
     )

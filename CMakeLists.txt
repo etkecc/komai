@@ -560,7 +560,6 @@ set(SRC_FILES
     src/utils/UtilsMessageDescription.cpp
     src/utils/UtilsRoomMaintenance.cpp
     src/utils/UtilsEventExpiry.cpp
-    src/utils/UtilsMarkdown.cpp
     src/utils/UtilsTextAndUri.cpp
 
 
@@ -606,16 +605,6 @@ set(SRC_FILES
 include(FeatureSummary)
 
 find_package(OpenSSL 1.1.0 REQUIRED)
-
-CPMAddPackage(
-    NAME cmark
-    GIT_REPOSITORY https://github.com/commonmark/cmark.git
-    GIT_TAG 0.31.2
-    OPTIONS "BUILD_TESTING OFF"
-)
-if(NOT TARGET cmark::cmark)
-    add_library(cmark::cmark ALIAS cmark)
-endif()
 
 set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
 set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
@@ -1255,7 +1244,6 @@ endif()
 
 target_link_libraries(komai PRIVATE
     KF6::SyntaxHighlighting
-    cmark::cmark
     Qt::Widgets
     Qt::Svg
     Qt::Gui

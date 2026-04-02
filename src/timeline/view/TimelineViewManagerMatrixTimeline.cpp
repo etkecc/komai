@@ -38,32 +38,20 @@
 #include "utils/Utils.h"
 
 namespace {
-QString
-matrixMessageFormattedHtml(const QString &body)
+bool
+matrixMessageUsesMarkdownFormatting()
 {
     auto *chatPage       = ChatPage::instance();
     const auto *settings = chatPage ? chatPage->userSettings().get() : nullptr;
-    if (!settings || !settings->composerInputMarkdownToHtmlEnabled())
-        return {};
-
-    const auto html        = utils::markdownToHtml(body);
-    const auto trimmedBody = body.trimmed();
-
-    if (html.contains(u'<') || trimmedBody.contains(u'\n') || trimmedBody.contains(u'\\'))
-        return html;
-
-    return {};
+    return settings && settings->composerInputMarkdownToHtmlEnabled();
 }
 
 QString
-matrixMessageRenderableHtml(const QString &body)
+renderPlainMatrixMessageHtml(const QString &body)
 {
-    auto html = matrixMessageFormattedHtml(body);
-    if (html.isEmpty())
-        html = body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));
-
-    html = utils::escapeBlacklistedHtml(html);
-    html = utils::linkifyMessage(html);
+    auto html = body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));
+    html      = utils::escapeBlacklistedHtml(html);
+    html      = utils::linkifyMessage(html);
     return utils::replaceEmoji(html);
 }
 
@@ -243,7 +231,7 @@ TimelineViewManager::formatMatrixMessageHtml(const QString &body) const
     if (perfUiFlagEnabled(QStringLiteral("disable_timeline_rich_text")))
         return body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));
 
-    return matrixMessageRenderableHtml(body);
+    return renderPlainMatrixMessageHtml(body);
 }
 
 int
@@ -823,15 +811,15 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
         return false;
     }
 
-    const auto roomId        = activeMatrixTimelineRoomId_;
-    const auto formattedHtml = matrixMessageFormattedHtml(body);
-    const auto replyEventId  = matrixTimelineReplyEventId_.trimmed();
+    const auto roomId                = activeMatrixTimelineRoomId_;
+    const auto useMarkdownFormatting = matrixMessageUsesMarkdownFormatting();
+    const auto replyEventId          = matrixTimelineReplyEventId_.trimmed();
     const auto action =
       replyEventId.isEmpty() ? QStringLiteral("message") : QStringLiteral("reply");
 
     komai::qt_worker_task::runQueued(
       this,
-      [handleId, roomId, plainBody, formattedHtml, replyEventId, action]() {
+      [handleId, roomId, plainBody, useMarkdownFormatting, replyEventId, action]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok =
@@ -840,7 +828,7 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
                                                                     handleId,
                                                                     roomId,
                                                                     plainBody,
-                                                                    formattedHtml,
+                                                                    useMarkdownFormatting,
                                                                     QStringLiteral("text"),
                                                                     &error)
               : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(context,
@@ -848,7 +836,7 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
                                                                          roomId,
                                                                          replyEventId,
                                                                          plainBody,
-                                                                         formattedHtml,
+                                                                         useMarkdownFormatting,
                                                                          QStringLiteral("text"),
                                                                          &error);
 
@@ -949,24 +937,25 @@ TimelineViewManager::sendActiveMatrixEditMessage(const QString &body)
         return false;
     }
 
-    const auto roomId        = activeMatrixTimelineRoomId_;
-    const auto targetEventId = matrixTimelineEditEventId_.trimmed();
-    const auto formattedHtml = matrixMessageFormattedHtml(body);
-    const auto messageKind   = matrixTimelineEditMessageKind_;
+    const auto roomId                = activeMatrixTimelineRoomId_;
+    const auto targetEventId         = matrixTimelineEditEventId_.trimmed();
+    const auto useMarkdownFormatting = matrixMessageUsesMarkdownFormatting();
+    const auto messageKind           = matrixTimelineEditMessageKind_;
 
     komai::qt_worker_task::runQueued(
       this,
-      [handleId, roomId, targetEventId, plainBody, formattedHtml, messageKind]() {
+      [handleId, roomId, targetEventId, plainBody, useMarkdownFormatting, messageKind]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
-          const bool ok = komai::MatrixBackendRuntimeService::sendRoomEditMessage(context,
-                                                                                  handleId,
-                                                                                  roomId,
-                                                                                  targetEventId,
-                                                                                  plainBody,
-                                                                                  formattedHtml,
-                                                                                  messageKind,
-                                                                                  &error);
+          const bool ok =
+            komai::MatrixBackendRuntimeService::sendRoomEditMessage(context,
+                                                                    handleId,
+                                                                    roomId,
+                                                                    targetEventId,
+                                                                    plainBody,
+                                                                    useMarkdownFormatting,
+                                                                    messageKind,
+                                                                    &error);
 
           return MatrixTimelineMessageSendResult{
             .handleId      = handleId,
@@ -1352,9 +1341,9 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
     QString error;
 
     if (isForwardableActiveMatrixTimelineTextKind(itemKind)) {
-        const auto sourceRoomId   = activeMatrixTimelineRoomId_;
-        const auto formattedHtml  = matrixMessageFormattedHtml(item->body);
-        const auto normalizedKind = normalizedMatrixMessageKind(itemKind);
+        const auto sourceRoomId          = activeMatrixTimelineRoomId_;
+        const auto useMarkdownFormatting = matrixMessageUsesMarkdownFormatting();
+        const auto normalizedKind        = normalizedMatrixMessageKind(itemKind);
         komai::qt_worker_task::runQueued(
           this,
           [handleId,
@@ -1362,7 +1351,7 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
            trimmedTargetRoomId,
            trimmedEventId,
            body = item->body,
-           formattedHtml,
+           useMarkdownFormatting,
            normalizedKind]() {
               const auto context = komai::matrix_backend::blockingCallContext();
               QString error;
@@ -1371,7 +1360,7 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
                                                                     handleId,
                                                                     trimmedTargetRoomId,
                                                                     body,
-                                                                    formattedHtml,
+                                                                    useMarkdownFormatting,
                                                                     normalizedKind,
                                                                     &error);
               return MatrixTimelineEventActionResult{

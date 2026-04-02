@@ -70,7 +70,6 @@ AppDir:
     - qml6-module-qt5compat-graphicaleffects
 
     # Application runtime dependencies
-    - libcmark0.30.2
     - libqt6keychain1
 
     # GStreamer (for VoIP/media)
@@ -120,7 +119,6 @@ AppDir:
     exclude:
     - usr/share/man
     - usr/share/doc
-    - usr/bin/cmark
     - usr/bin/dbus*
     - usr/bin/openssl
     - usr/bin/c_rehash

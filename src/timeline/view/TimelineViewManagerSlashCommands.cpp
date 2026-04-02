@@ -91,26 +91,20 @@ splitFirstArgument(const ParsedCommand &parsed)
     return result;
 }
 
-QString
-formattedHtmlForMatrixSend(const QString &body, SlashFormatMode formatMode)
+bool
+useMarkdownFormattingForMatrixSend(SlashFormatMode formatMode)
 {
     if (formatMode == SlashFormatMode::ForcePlain)
-        return {};
+        return false;
 
     auto *chatPage       = ChatPage::instance();
     const auto *settings = chatPage ? chatPage->userSettings().get() : nullptr;
     if (formatMode == SlashFormatMode::Auto &&
         (!settings || !settings->composerInputMarkdownToHtmlEnabled())) {
-        return {};
+        return false;
     }
 
-    const auto html        = utils::markdownToHtml(body);
-    const auto trimmedBody = body.trimmed();
-
-    if (html.contains(u'<') || trimmedBody.contains(u'\n') || trimmedBody.contains(u'\\'))
-        return html;
-
-    return {};
+    return true;
 }
 
 bool
@@ -258,25 +252,30 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
             return false;
         }
 
-        const auto formattedHtml = formattedHtmlForMatrixSend(body, formatMode);
-        const auto replyEventId  = matrixTimelineReplyEventId_.trimmed();
+        const auto useMarkdownFormatting = useMarkdownFormattingForMatrixSend(formatMode);
+        const auto replyEventId          = matrixTimelineReplyEventId_.trimmed();
 
         const auto roomId = activeMatrixTimelineRoomId_;
         komai::qt_worker_task::runQueued(
           this,
-          [handleId, roomId, replyEventId, plainBody, formattedHtml, messageKind]() {
+          [handleId, roomId, replyEventId, plainBody, useMarkdownFormatting, messageKind]() {
               const auto context = komai::matrix_backend::blockingCallContext();
               QString error;
               const bool ok =
                 replyEventId.isEmpty()
-                  ? komai::MatrixBackendRuntimeService::sendRoomMessage(
-                      context, handleId, roomId, plainBody, formattedHtml, messageKind, &error)
+                  ? komai::MatrixBackendRuntimeService::sendRoomMessage(context,
+                                                                        handleId,
+                                                                        roomId,
+                                                                        plainBody,
+                                                                        useMarkdownFormatting,
+                                                                        messageKind,
+                                                                        &error)
                   : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(context,
                                                                              handleId,
                                                                              roomId,
                                                                              replyEventId,
                                                                              plainBody,
-                                                                             formattedHtml,
+                                                                             useMarkdownFormatting,
                                                                              messageKind,
                                                                              &error);
 

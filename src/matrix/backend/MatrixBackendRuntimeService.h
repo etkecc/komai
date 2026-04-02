@@ -829,7 +829,7 @@ public:
                                 uint64_t handleId,
                                 const QString &roomId,
                                 const QString &body,
-                                const QString &formattedHtml,
+                                bool useMarkdownFormatting,
                                 const QString &messageKind,
                                 QString *errorOut = nullptr);
     static bool sendRoomMessageLikeEventJson(matrix_backend::BlockingCallContext context,
@@ -904,7 +904,7 @@ public:
                                      const QString &roomId,
                                      const QString &repliedToEventId,
                                      const QString &body,
-                                     const QString &formattedHtml,
+                                     bool useMarkdownFormatting,
                                      const QString &messageKind,
                                      QString *errorOut = nullptr);
 
@@ -913,7 +913,7 @@ public:
                                     const QString &roomId,
                                     const QString &targetEventId,
                                     const QString &body,
-                                    const QString &formattedHtml,
+                                    bool useMarkdownFormatting,
                                     const QString &messageKind,
                                     QString *errorOut = nullptr);
 

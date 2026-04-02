@@ -60,7 +60,6 @@ sudo cmake --install var/build/native
 | [Qt6](https://www.qt.io/) | 6.5 | Base, Declarative, Multimedia, SVG, Tools |
 | [CMake](https://cmake.org/) | 3.15 | |
 | [Python 3](https://www.python.org/) | | Theme generation and emoji data generation at build time |
-| [cmark](https://github.com/commonmark/cmark) | 0.29 | Markdown rendering |
 | [KSyntaxHighlighting](https://api.kde.org/frameworks/syntax-highlighting/html/index.html) | 6.x | Timeline formatted-message code block syntax highlighting |
 | [OpenSSL](https://www.openssl.org/) | 1.1.0 | TLS/cryptography |
 | [qtkeychain](https://github.com/frankosterfeld/qtkeychain) | 0.12 | Credential storage |
@@ -96,7 +95,7 @@ See [CPM.cmake options](https://github.com/cpm-cmake/CPM.cmake#options) for deta
 ```sh
 sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
     cmake gcc fontconfig python rust \
-    cmark syntax-highlighting openssl \
+    syntax-highlighting openssl \
     qtkeychain-qt6 kdsingleapplication litehtml
 ```
 
@@ -104,7 +103,7 @@ sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimed
 
 ```sh
 sudo apt install -y build-essential cmake pkg-config python3 cargo rustc \
-    libssl-dev libcmark-dev \
+    libssl-dev \
     libkf6syntaxhighlighting-dev \
     libkdsingleapplication-qt6-dev \
     qt6-base-dev qt6-tools-dev qt6-svg-dev qt6-multimedia-dev \

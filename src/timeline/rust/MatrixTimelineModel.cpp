@@ -101,15 +101,11 @@ formatBodyHtml(const QString &body, const QString &formattedBody = {})
     QString html;
     if (!formattedBody.isEmpty()) {
         // The formatted body is already HTML from the server; sanitize and linkify it directly
-        // without running it through the markdown converter.
+        // without reinterpreting plain text as markdown locally.
         html = utils::escapeBlacklistedHtml(formattedBody);
         html = utils::linkifyMessage(html);
     } else {
-        html = utils::markdownToHtml(body);
-        if (!html.contains(u'<') && !body.trimmed().contains(u'\n') &&
-            !body.trimmed().contains(u'\\'))
-            html = body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));
-        html = utils::escapeBlacklistedHtml(html);
+        html = body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));
         html = utils::linkifyMessage(html);
     }
     return utils::replaceEmoji(html);

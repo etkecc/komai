@@ -6,9 +6,12 @@ use std::collections::BTreeMap;
 
 use serde_yaml_ng::{Mapping, Value};
 
-use crate::ffi::SettingsStringMapEntry;
+use crate::ffi::{SettingsSecretsPayload, SettingsStringMapEntry};
 
 use super::storage;
+
+const INTERNAL_SESSION_ACCESS_TOKEN_KEY: &str = "__session.access_token";
+const INTERNAL_SESSION_KEY_PREFIX: &str = "__session.";
 
 fn ordered_map(entries: &[SettingsStringMapEntry]) -> BTreeMap<String, String> {
     entries
@@ -53,6 +56,66 @@ fn decode_string_map_value(value: Option<&Value>) -> Vec<SettingsStringMapEntry>
     result
 }
 
+fn encode_profile_secrets_entries(
+    access_token: &str,
+    entries: &[SettingsStringMapEntry],
+) -> Vec<SettingsStringMapEntry> {
+    let mut encoded = BTreeMap::new();
+
+    for entry in entries {
+        if entry.key.starts_with(INTERNAL_SESSION_KEY_PREFIX) || entry.value.is_empty() {
+            continue;
+        }
+
+        encoded.insert(entry.key.clone(), entry.value.clone());
+    }
+
+    if !access_token.is_empty() {
+        encoded.insert(
+            INTERNAL_SESSION_ACCESS_TOKEN_KEY.to_owned(),
+            access_token.to_owned(),
+        );
+    }
+
+    encoded
+        .into_iter()
+        .map(|(key, value)| SettingsStringMapEntry { key, value })
+        .collect()
+}
+
+fn decode_profile_secrets_entries(entries: &[SettingsStringMapEntry]) -> SettingsSecretsPayload {
+    let mut access_token = String::new();
+    let mut secrets = BTreeMap::new();
+    let mut had_stale_values = false;
+
+    for entry in entries {
+        if entry.key == INTERNAL_SESSION_ACCESS_TOKEN_KEY {
+            if entry.value.is_empty() {
+                had_stale_values = true;
+            } else {
+                access_token = entry.value.clone();
+            }
+            continue;
+        }
+
+        if entry.key.starts_with(INTERNAL_SESSION_KEY_PREFIX) || entry.value.is_empty() {
+            had_stale_values = true;
+            continue;
+        }
+
+        secrets.insert(entry.key.clone(), entry.value.clone());
+    }
+
+    SettingsSecretsPayload {
+        access_token,
+        secrets: secrets
+            .into_iter()
+            .map(|(key, value)| SettingsStringMapEntry { key, value })
+            .collect(),
+        had_stale_values,
+    }
+}
+
 pub fn encode_string_map_yaml(entries: &[SettingsStringMapEntry]) -> String {
     let value = serde_yaml_ng::to_value(ordered_map(entries)).unwrap_or(Value::Mapping(Mapping::new()));
     encode_yaml_value(&value)
@@ -60,6 +123,17 @@ pub fn encode_string_map_yaml(entries: &[SettingsStringMapEntry]) -> String {
 
 pub fn decode_string_map_yaml(serialized: &str) -> Vec<SettingsStringMapEntry> {
     decode_string_map_value(parse_yaml_root(serialized).as_ref())
+}
+
+pub fn encode_persisted_secrets_map_yaml(
+    access_token: &str,
+    entries: &[SettingsStringMapEntry],
+) -> String {
+    encode_string_map_yaml(&encode_profile_secrets_entries(access_token, entries))
+}
+
+pub fn decode_persisted_secrets_map_yaml(serialized: &str) -> SettingsSecretsPayload {
+    decode_profile_secrets_entries(&decode_string_map_yaml(serialized))
 }
 
 pub fn encode_named_string_map_yaml(root_key: &str, entries: &[SettingsStringMapEntry]) -> String {
@@ -81,6 +155,43 @@ pub fn decode_named_string_map_yaml(
     };
 
     decode_string_map_value(mapping.get(Value::String(root_key.to_owned())))
+}
+
+pub fn load_persisted_secrets_file_from_path(
+    path: &str,
+    label: &str,
+    root_key: &str,
+) -> SettingsSecretsPayload {
+    decode_persisted_secrets_file_yaml(&storage::read_text_file(path, label), root_key)
+}
+
+pub fn write_persisted_secrets_file_to_path(
+    path: &str,
+    root_key: &str,
+    access_token: &str,
+    entries: &[SettingsStringMapEntry],
+    owner_read_write_only: bool,
+) -> bool {
+    storage::write_text_file(
+        path,
+        &encode_persisted_secrets_file_yaml(root_key, access_token, entries),
+        owner_read_write_only,
+    )
+}
+
+pub fn encode_persisted_secrets_file_yaml(
+    root_key: &str,
+    access_token: &str,
+    entries: &[SettingsStringMapEntry],
+) -> String {
+    encode_named_string_map_yaml(root_key, &encode_profile_secrets_entries(access_token, entries))
+}
+
+pub fn decode_persisted_secrets_file_yaml(
+    serialized: &str,
+    root_key: &str,
+) -> SettingsSecretsPayload {
+    decode_profile_secrets_entries(&decode_named_string_map_yaml(serialized, root_key))
 }
 
 pub fn load_named_string_map_from_path(

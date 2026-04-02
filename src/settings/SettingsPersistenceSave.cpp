@@ -20,33 +20,32 @@ saveProfileSecrets(const QString &profile,
                    const QString &accessToken,
                    const QMap<QString, QString> &secrets)
 {
-    const auto secretsFilePath      = settings::storage::secretsFilePathForProfile(profile);
-    auto secretsWithSessionMetadata = secrets;
-    detail::storeInternalSessionMetadata(secretsWithSessionMetadata, accessToken);
-    QMap<QString, QString> nonEmptySecrets = secretsWithSessionMetadata;
-
-    for (auto it = nonEmptySecrets.begin(); it != nonEmptySecrets.end();) {
-        if (it.value().isEmpty())
-            it = nonEmptySecrets.erase(it);
-        else
-            ++it;
-    }
+    const auto secretsFilePath = settings::storage::secretsFilePathForProfile(profile);
 
     if (usesFileSecretsProvider) {
-        if (settings::storage::writeSecretsFilePayloadToPath(
-              secretsFilePath, nonEmptySecrets, true)) {
+        if (detail::writePersistedSecretsFilePayloadToPath(
+              secretsFilePath, accessToken, secrets, true)) {
             activeLoggers().ui->debug("Saved secrets to: {}", secretsFilePath.toStdString());
         }
         return;
     }
 
     const auto secretsKey = settings::storage::secureStoreKey(profile, SecureStoreSecretsKey);
+    const auto serializedSecrets = detail::encodePersistedSecretsMap(accessToken, secrets);
+    bool hasPersistedSecrets     = !accessToken.trimmed().isEmpty();
+    if (!hasPersistedSecrets) {
+        for (auto it = secrets.cbegin(); it != secrets.cend(); ++it) {
+            if (!it.value().isEmpty() && !it.key().startsWith(QStringLiteral("__session."))) {
+                hasPersistedSecrets = true;
+                break;
+            }
+        }
+    }
 
-    if (nonEmptySecrets.isEmpty())
+    if (!hasPersistedSecrets)
         settings::storage::deleteSecureValue(secretsKey);
     else
-        settings::storage::writeSecureValue(secretsKey,
-                                            settings::storage::encodeSecretsMap(nonEmptySecrets));
+        settings::storage::writeSecureValue(secretsKey, serializedSecrets);
 
     if (settings::storage::pathExists(secretsFilePath) &&
         !settings::storage::removePath(secretsFilePath))

@@ -38,6 +38,19 @@ pub(crate) fn settings_decode_string_map_yaml(serialized: &str) -> Vec<ffi::Sett
     settings::secrets::decode_string_map_yaml(serialized)
 }
 
+pub(crate) fn settings_encode_persisted_secrets_map_yaml(
+    access_token: &str,
+    entries: &Vec<ffi::SettingsStringMapEntry>,
+) -> String {
+    settings::secrets::encode_persisted_secrets_map_yaml(access_token, entries.as_slice())
+}
+
+pub(crate) fn settings_decode_persisted_secrets_map_yaml(
+    serialized: &str,
+) -> ffi::SettingsSecretsPayload {
+    settings::secrets::decode_persisted_secrets_map_yaml(serialized)
+}
+
 pub(crate) fn settings_encode_named_string_map_yaml(
     root_key: &str,
     entries: &Vec<ffi::SettingsStringMapEntry>,
@@ -50,6 +63,30 @@ pub(crate) fn settings_decode_named_string_map_yaml(
     root_key: &str,
 ) -> Vec<ffi::SettingsStringMapEntry> {
     settings::secrets::decode_named_string_map_yaml(serialized, root_key)
+}
+
+pub(crate) fn settings_load_persisted_secrets_file_from_path(
+    path: &str,
+    label: &str,
+    root_key: &str,
+) -> ffi::SettingsSecretsPayload {
+    settings::secrets::load_persisted_secrets_file_from_path(path, label, root_key)
+}
+
+pub(crate) fn settings_write_persisted_secrets_file_to_path(
+    path: &str,
+    root_key: &str,
+    access_token: &str,
+    entries: &Vec<ffi::SettingsStringMapEntry>,
+    owner_read_write_only: bool,
+) -> bool {
+    settings::secrets::write_persisted_secrets_file_to_path(
+        path,
+        root_key,
+        access_token,
+        entries.as_slice(),
+        owner_read_write_only,
+    )
 }
 
 pub(crate) fn settings_load_named_string_map_from_path(

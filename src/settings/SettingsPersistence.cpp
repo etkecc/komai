@@ -6,7 +6,9 @@
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsPersistenceInternal.h"
 
+#include "komai-rust-cxxbridge/ffi.h"
 #include "logging/Logging.h"
+#include "settings/SettingKeys.h"
 
 #include <string>
 #include <string_view>
@@ -53,40 +55,78 @@ providerFromConfigValue(QStringView providerValue)
 
 namespace detail {
 
-void
-storeInternalSessionMetadata(QMap<QString, QString> &secrets, const QString &accessToken)
-{
-    constexpr auto sessionAccessTokenKey = "__session.access_token";
+namespace {
 
-    if (accessToken.isEmpty())
-        secrets.remove(sessionAccessTokenKey);
-    else
-        secrets[sessionAccessTokenKey] = accessToken;
+::rust::Vec<::komai::rust::SettingsStringMapEntry>
+toRustStringMapEntries(const QMap<QString, QString> &secrets)
+{
+    ::rust::Vec<::komai::rust::SettingsStringMapEntry> entries;
+    for (auto it = secrets.constBegin(); it != secrets.constEnd(); ++it) {
+        entries.push_back({
+          .key   = it.key().toStdString(),
+          .value = it.value().toStdString(),
+        });
+    }
+    return entries;
+}
+
+QMap<QString, QString>
+fromRustStringMapEntries(const ::rust::Vec<::komai::rust::SettingsStringMapEntry> &entries)
+{
+    QMap<QString, QString> secrets;
+    for (const auto &entry : entries) {
+        secrets[QString::fromStdString(static_cast<std::string>(entry.key))] =
+          QString::fromStdString(static_cast<std::string>(entry.value));
+    }
+    return secrets;
+}
+
+SecretsPayload
+fromRustSecretsPayload(const ::komai::rust::SettingsSecretsPayload &payload)
+{
+    return {
+      .accessToken    = QString::fromStdString(static_cast<std::string>(payload.access_token)),
+      .secrets        = fromRustStringMapEntries(payload.secrets),
+      .hadStaleValues = payload.had_stale_values,
+    };
+}
+
+} // namespace
+
+QString
+encodePersistedSecretsMap(const QString &accessToken, const QMap<QString, QString> &secrets)
+{
+    const auto encoded = ::komai::rust::settings_encode_persisted_secrets_map_yaml(
+      accessToken.toStdString(), toRustStringMapEntries(secrets));
+    return QString::fromStdString(static_cast<std::string>(encoded));
+}
+
+SecretsPayload
+decodePersistedSecretsMap(const QString &serialized)
+{
+    return fromRustSecretsPayload(
+      ::komai::rust::settings_decode_persisted_secrets_map_yaml(serialized.toStdString()));
+}
+
+SecretsPayload
+loadPersistedSecretsFilePayloadFromPath(const QString &path, const char *label)
+{
+    return fromRustSecretsPayload(::komai::rust::settings_load_persisted_secrets_file_from_path(
+      path.toStdString(), label, SettingKey::SecretsFileMap));
 }
 
 bool
-extractInternalSessionMetadata(SecretsPayload &payload)
+writePersistedSecretsFilePayloadToPath(const QString &path,
+                                       const QString &accessToken,
+                                       const QMap<QString, QString> &secrets,
+                                       bool ownerReadWriteOnly)
 {
-    constexpr auto sessionAccessTokenKey = "__session.access_token";
-    constexpr auto sessionKeyPrefix      = "__session.";
-
-    const auto internalAccessToken = payload.secrets.value(sessionAccessTokenKey);
-    if (!internalAccessToken.isEmpty())
-        payload.accessToken = internalAccessToken;
-
-    payload.secrets.remove(sessionAccessTokenKey);
-
-    bool prunedUnexpectedInternalKeys = false;
-    for (auto it = payload.secrets.begin(); it != payload.secrets.end();) {
-        if (it.key().startsWith(QLatin1String(sessionKeyPrefix))) {
-            it                           = payload.secrets.erase(it);
-            prunedUnexpectedInternalKeys = true;
-        } else {
-            ++it;
-        }
-    }
-
-    return prunedUnexpectedInternalKeys;
+    return ::komai::rust::settings_write_persisted_secrets_file_to_path(
+      path.toStdString(),
+      SettingKey::SecretsFileMap,
+      accessToken.toStdString(),
+      toRustStringMapEntries(secrets),
+      ownerReadWriteOnly);
 }
 
 } // namespace detail

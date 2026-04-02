@@ -24,11 +24,8 @@ loadProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
     const auto secretsFilePath   = settings::storage::secretsFilePathForProfile(profile);
 
     if (usesFileSecretsProvider) {
-        payload.secrets =
-          settings::storage::loadSecretsFilePayloadFromPath(secretsFilePath, "secrets");
-        const bool hadUnexpectedInternalSessionKeys =
-          detail::extractInternalSessionMetadata(payload);
-        if (hadUnexpectedInternalSessionKeys) {
+        payload = detail::loadPersistedSecretsFilePayloadFromPath(secretsFilePath, "secrets");
+        if (payload.hadStaleValues) {
             saveProfileSecrets(profile, true, payload.accessToken, payload.secrets);
         }
 
@@ -48,27 +45,10 @@ loadProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
         settings::storage::deleteSecureValue(secretsStoreKey);
         hasEmptySecureSecrets = true;
     } else {
-        QMap<QString, QString> decodedSecrets =
-          serializedSecrets ? settings::storage::decodeSecretsMap(*serializedSecrets)
-                            : QMap<QString, QString>{};
-        bool sessionSecretsPruned = false;
-        for (auto it = decodedSecrets.begin(); it != decodedSecrets.end();) {
-            if (it.value().isEmpty()) {
-                activeLoggers().ui->warn("Pruning empty secure secret entry '{}' for profile '{}'",
-                                         it.key().toStdString(),
-                                         normalizedProfile.toStdString());
-                it                   = decodedSecrets.erase(it);
-                sessionSecretsPruned = true;
-            } else {
-                ++it;
-            }
-        }
+        payload = serializedSecrets ? detail::decodePersistedSecretsMap(*serializedSecrets)
+                                    : SecretsPayload{};
 
-        payload.secrets = decodedSecrets;
-        const bool hadUnexpectedInternalSessionKeys =
-          detail::extractInternalSessionMetadata(payload);
-
-        if (sessionSecretsPruned || hadUnexpectedInternalSessionKeys) {
+        if (payload.hadStaleValues) {
             saveProfileSecrets(profile, false, payload.accessToken, payload.secrets);
             hasEmptySecureSecrets = true;
         }

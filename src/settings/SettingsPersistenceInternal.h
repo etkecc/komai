@@ -9,10 +9,19 @@
 
 namespace settings::persistence::detail {
 
-void
-storeInternalSessionMetadata(QMap<QString, QString> &secrets, const QString &accessToken);
+QString
+encodePersistedSecretsMap(const QString &accessToken, const QMap<QString, QString> &secrets);
+
+SecretsPayload
+decodePersistedSecretsMap(const QString &serialized);
+
+SecretsPayload
+loadPersistedSecretsFilePayloadFromPath(const QString &path, const char *label);
 
 bool
-extractInternalSessionMetadata(SecretsPayload &payload);
+writePersistedSecretsFilePayloadToPath(const QString &path,
+                                       const QString &accessToken,
+                                       const QMap<QString, QString> &secrets,
+                                       bool ownerReadWriteOnly);
 
 } // namespace settings::persistence::detail

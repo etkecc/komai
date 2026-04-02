@@ -365,7 +365,6 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
     settings::persistence::saveProfileSecrets(
       profile,
       true,
-      secretsPath,
       QStringLiteral("existing-access-token"),
       QMap<QString, QString>{{QStringLiteral("existing.secret"), QStringLiteral("keep-me")}});
 
@@ -385,7 +384,7 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
     ok &= expect(persisted.serializedSession == QStringLiteral("serialized-session"),
                  "matrix session secrets load returns saved session blob");
 
-    const auto payload = settings::persistence::loadProfileSecrets(profile, true, secretsPath);
+    const auto payload = settings::persistence::loadProfileSecrets(profile, true);
     ok &= expect(payload.accessToken == QStringLiteral("existing-access-token"),
                  "matrix session save preserves access token");
     ok &= expect(payload.secrets.value(QStringLiteral("existing.secret")) == QStringLiteral("keep-me"),
@@ -411,7 +410,7 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
 
     komai::matrix_backend::clearPersistedMatrixSessionSecrets(profile);
 
-    const auto clearedPayload = settings::persistence::loadProfileSecrets(profile, true, secretsPath);
+    const auto clearedPayload = settings::persistence::loadProfileSecrets(profile, true);
     ok &= expect(
       clearedPayload.secrets.value(QStringLiteral("matrix_sdk.store_passphrase")).isEmpty(),
       "matrix session clear removes store passphrase secret");

@@ -56,9 +56,7 @@ providerFromConfigValue(QStringView providerValue);
  * provider.
  */
 SecretsPayload
-loadProfileSecrets(const QString &profile,
-                   bool usesFileSecretsProvider,
-                   const QString &secretsFilePath);
+loadProfileSecrets(const QString &profile, bool usesFileSecretsProvider);
 
 /**
  * Persist session auth and profile secrets using the selected provider.
@@ -66,7 +64,6 @@ loadProfileSecrets(const QString &profile,
 void
 saveProfileSecrets(const QString &profile,
                    bool usesFileSecretsProvider,
-                   const QString &secretsFilePath,
                    const QString &accessToken,
                    const QMap<QString, QString> &secrets);
 
@@ -75,8 +72,6 @@ saveProfileSecrets(const QString &profile,
  * secure backends.
  */
 bool
-clearProfileSecrets(const QString &profile,
-                    bool usesFileSecretsProvider,
-                    const QString &secretsFilePath);
+clearProfileSecrets(const QString &profile, bool usesFileSecretsProvider);
 
 } // namespace settings::persistence

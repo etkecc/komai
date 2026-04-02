@@ -244,11 +244,8 @@ deleteProfile(QStringView profileId,
     const auto secretsProvider = settings::persistence::providerFromConfigValue(
       QString::fromStdString(static_cast<std::string>(config.secrets_provider)));
 
-    const auto secretsFilePath = app_paths::config::profileSecretsFile(normalizedTargetProfile);
-    const bool secretsRemoved  = settings::persistence::clearProfileSecrets(
-      normalizedTargetProfile,
-      secretsProvider == staged_load_plan::SecretsProvider::File,
-      secretsFilePath);
+    const bool secretsRemoved = settings::persistence::clearProfileSecrets(
+      normalizedTargetProfile, secretsProvider == staged_load_plan::SecretsProvider::File);
 
     const auto configProfileDir =
       QFileInfo(app_paths::config::profileConfigFile(normalizedTargetProfile)).absolutePath();

@@ -17,10 +17,10 @@ namespace settings::persistence {
 void
 saveProfileSecrets(const QString &profile,
                    bool usesFileSecretsProvider,
-                   const QString &secretsFilePath,
                    const QString &accessToken,
                    const QMap<QString, QString> &secrets)
 {
+    const auto secretsFilePath      = settings::storage::secretsFilePathForProfile(profile);
     auto secretsWithSessionMetadata = secrets;
     detail::storeInternalSessionMetadata(secretsWithSessionMetadata, accessToken);
     QMap<QString, QString> nonEmptySecrets = secretsWithSessionMetadata;
@@ -55,10 +55,9 @@ saveProfileSecrets(const QString &profile,
 }
 
 bool
-clearProfileSecrets(const QString &profile,
-                    bool usesFileSecretsProvider,
-                    const QString &secretsFilePath)
+clearProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
 {
+    const auto secretsFilePath = settings::storage::secretsFilePathForProfile(profile);
     if (usesFileSecretsProvider) {
         const auto normalizedProfile = app_paths::normalizedProfileId(profile);
         if (settings::storage::pathExists(secretsFilePath) &&

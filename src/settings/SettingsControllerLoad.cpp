@@ -220,7 +220,7 @@ loadImpl(UserSettings &settings,
         case staged_load_plan::Stage::SecretsSecureBackend:
         case staged_load_plan::Stage::SecretsFile: {
             const auto payload = settings::persistence::loadProfileSecrets(
-              settings.profileId(), settings.usesFileSecretsProvider(), settings.secretsFilePath());
+              settings.profileId(), settings.usesFileSecretsProvider());
             settings.applyLoadedSecrets(payload.accessToken, payload.secrets);
             break;
         }

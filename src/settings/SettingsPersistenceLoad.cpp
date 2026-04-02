@@ -16,13 +16,12 @@
 namespace settings::persistence {
 
 SecretsPayload
-loadProfileSecrets(const QString &profile,
-                   bool usesFileSecretsProvider,
-                   const QString &secretsFilePath)
+loadProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
 {
     SecretsPayload payload;
     bool hasEmptySecureSecrets   = false;
     const auto normalizedProfile = app_paths::normalizedProfileId(profile);
+    const auto secretsFilePath   = settings::storage::secretsFilePathForProfile(profile);
 
     if (usesFileSecretsProvider) {
         payload.secrets =
@@ -30,8 +29,7 @@ loadProfileSecrets(const QString &profile,
         const bool hadUnexpectedInternalSessionKeys =
           detail::extractInternalSessionMetadata(payload);
         if (hadUnexpectedInternalSessionKeys) {
-            saveProfileSecrets(
-              profile, true, secretsFilePath, payload.accessToken, payload.secrets);
+            saveProfileSecrets(profile, true, payload.accessToken, payload.secrets);
         }
 
         activeLoggers().ui->info(
@@ -71,8 +69,7 @@ loadProfileSecrets(const QString &profile,
           detail::extractInternalSessionMetadata(payload);
 
         if (sessionSecretsPruned || hadUnexpectedInternalSessionKeys) {
-            saveProfileSecrets(
-              profile, false, secretsFilePath, payload.accessToken, payload.secrets);
+            saveProfileSecrets(profile, false, payload.accessToken, payload.secrets);
             hasEmptySecureSecrets = true;
         }
     }

@@ -62,7 +62,6 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
 
         settings::persistence::saveProfileSecrets(settings.profileId(),
                                                   settings.usesFileSecretsProvider(),
-                                                  settings.secretsFilePath(),
                                                   settings.accessToken(),
                                                   settings.secretsMap());
 
@@ -86,8 +85,8 @@ settings::SettingsController::clearAuth(UserSettings &settings)
                                  settings.sessionFilePath().toStdString());
     }
 
-    settings::persistence::clearProfileSecrets(
-      settings.profileId(), settings.usesFileSecretsProvider(), settings.secretsFilePath());
+    settings::persistence::clearProfileSecrets(settings.profileId(),
+                                               settings.usesFileSecretsProvider());
     auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
     settings::serializer::saveState(settings, settings.stateFilePath(), *profileHandle);
     syncCoreStoreFromSettings(settings);

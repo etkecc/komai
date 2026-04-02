@@ -291,6 +291,18 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                                  ? snapshot.privacy.maintenance.expire_events
                                                  : false);
 
+    settings.setEncryptionKeySharingOnlyVerifiedUsers(
+      snapshot.encryption.key_sharing.has_only_verified_users
+        ? snapshot.encryption.key_sharing.only_verified_users
+        : false);
+    settings.setEncryptionKeySharingShareWithTrusted(
+      snapshot.encryption.key_sharing.has_share_with_trusted
+        ? snapshot.encryption.key_sharing.share_with_trusted
+        : false);
+    settings.setEncryptionBackupOnlineEnabledFromConfig(
+      snapshot.encryption.backup.online.has_enabled ? snapshot.encryption.backup.online.enabled
+                                                    : true);
+
     settings.setCallsLegacyEnabled(snapshot.calls.legacy.has_enabled ? snapshot.calls.legacy.enabled
                                                                      : false);
     settings.setCallsRelayUseFallbackServer(snapshot.calls.relay.has_use_fallback_server

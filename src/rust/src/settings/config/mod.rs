@@ -13,12 +13,13 @@ use super::storage;
 
 pub use model::{
     Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
-    ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigSecrets, ConfigTimeline,
-    ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars, ConfigIntegrations, ConfigNetwork,
-    ConfigNotifications, ConfigPrivacy, ConfigPrivacyMaintenance,
-    ConfigPrivacyWindowFocusBlur, ConfigSidebars, ConfigSidebarsCommunities,
-    ConfigSidebarsRoomList, ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion,
-    ConfigUiScale, ConfigUiTheme, LoadedConfig,
+    ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigEncryption,
+    ConfigEncryptionBackup, ConfigEncryptionBackupOnline, ConfigEncryptionKeySharing,
+    ConfigSecrets, ConfigTimeline, ConfigTimelineHiddenEvents, ConfigUi, ConfigUiAvatars,
+    ConfigIntegrations, ConfigNetwork, ConfigNotifications, ConfigPrivacy,
+    ConfigPrivacyMaintenance, ConfigPrivacyWindowFocusBlur, ConfigSidebars,
+    ConfigSidebarsCommunities, ConfigSidebarsRoomList, ConfigUiFont, ConfigUiInput,
+    ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
 };
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
@@ -69,6 +70,12 @@ const PRIVACY_WINDOW_FOCUS_BLUR_DELAY_SECONDS_PATH: [&str; 3] =
     ["privacy", "window_focus_blur", "delay_seconds"];
 const PRIVACY_MAINTENANCE_EXPIRE_EVENTS_PATH: [&str; 3] =
     ["privacy", "maintenance", "expire_events"];
+const ENCRYPTION_KEY_SHARING_ONLY_VERIFIED_USERS_PATH: [&str; 3] =
+    ["encryption", "key_sharing", "only_verified_users"];
+const ENCRYPTION_KEY_SHARING_SHARE_WITH_TRUSTED_PATH: [&str; 3] =
+    ["encryption", "key_sharing", "share_with_trusted"];
+const ENCRYPTION_BACKUP_ONLINE_ENABLED_PATH: [&str; 4] =
+    ["encryption", "backup", "online", "enabled"];
 const CALLS_LEGACY_ENABLED_PATH: [&str; 3] = ["calls", "legacy", "enabled"];
 const CALLS_RELAY_USE_FALLBACK_SERVER_PATH: [&str; 3] =
     ["calls", "relay", "use_fallback_server"];
@@ -242,6 +249,26 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             maintenance: ConfigPrivacyMaintenance {
                 expire_events: yaml::value_at_path(root, &PRIVACY_MAINTENANCE_EXPIRE_EVENTS_PATH)
                     .and_then(parse_scalar_bool),
+            },
+        },
+        encryption: ConfigEncryption {
+            key_sharing: ConfigEncryptionKeySharing {
+                only_verified_users: yaml::value_at_path(
+                    root,
+                    &ENCRYPTION_KEY_SHARING_ONLY_VERIFIED_USERS_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                share_with_trusted: yaml::value_at_path(
+                    root,
+                    &ENCRYPTION_KEY_SHARING_SHARE_WITH_TRUSTED_PATH,
+                )
+                .and_then(parse_scalar_bool),
+            },
+            backup: ConfigEncryptionBackup {
+                online: ConfigEncryptionBackupOnline {
+                    enabled: yaml::value_at_path(root, &ENCRYPTION_BACKUP_ONLINE_ENABLED_PATH)
+                        .and_then(parse_scalar_bool),
+                },
             },
         },
         calls: ConfigCalls {

@@ -136,6 +136,7 @@ writeConfigSnapshot(const QString &path, const ::komai::rust::SettingsLoadedConf
     snapshot.timeline      = loaded.timeline;
     snapshot.secrets       = loaded.secrets;
     snapshot.privacy       = loaded.privacy;
+    snapshot.encryption    = loaded.encryption;
     snapshot.calls         = loaded.calls;
     snapshot.notifications = loaded.notifications;
     snapshot.network       = loaded.network;

@@ -130,6 +130,9 @@ appendCoreStoreConfigValues(const UserSettings &settings,
             definition.id == settings::core::SettingId::PrivacyWindowFocusBlurEnabled ||
             definition.id == settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds ||
             definition.id == settings::core::SettingId::PrivacyMaintenanceExpireEvents ||
+            definition.id == settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers ||
+            definition.id == settings::core::SettingId::EncryptionKeySharingShareWithTrusted ||
+            definition.id == settings::core::SettingId::EncryptionBackupOnlineEnabled ||
             definition.id == settings::core::SettingId::CallsLegacyEnabled ||
             definition.id == settings::core::SettingId::CallsRelayUseFallbackServer ||
             definition.id == settings::core::SettingId::CallsDevicesMicrophone ||
@@ -278,6 +281,24 @@ saveConfig(const UserSettings &settings,
             {
               .has_expire_events = true,
               .expire_events     = settings.privacyMaintenanceExpireEvents(),
+            },
+        },
+      .encryption =
+        {
+          .key_sharing =
+            {
+              .has_only_verified_users = true,
+              .only_verified_users     = settings.encryptionKeySharingOnlyVerifiedUsers(),
+              .has_share_with_trusted  = true,
+              .share_with_trusted      = settings.encryptionKeySharingShareWithTrusted(),
+            },
+          .backup =
+            {
+              .online =
+                {
+                  .has_enabled = true,
+                  .enabled     = settings.encryptionBackupOnlineEnabled(),
+                },
             },
         },
       .calls =

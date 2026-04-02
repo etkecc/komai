@@ -212,6 +212,33 @@ pub(crate) fn ffi_config_privacy_section(
     }
 }
 
+pub(crate) fn ffi_config_encryption_section(
+    config: &settings::config::Config,
+) -> ffi::SettingsConfigEncryptionSection {
+    ffi::SettingsConfigEncryptionSection {
+        key_sharing: ffi::SettingsConfigEncryptionKeySharingSection {
+            has_only_verified_users: config.encryption.key_sharing.only_verified_users.is_some(),
+            only_verified_users: config
+                .encryption
+                .key_sharing
+                .only_verified_users
+                .unwrap_or_default(),
+            has_share_with_trusted: config.encryption.key_sharing.share_with_trusted.is_some(),
+            share_with_trusted: config
+                .encryption
+                .key_sharing
+                .share_with_trusted
+                .unwrap_or_default(),
+        },
+        backup: ffi::SettingsConfigEncryptionBackupSection {
+            online: ffi::SettingsConfigEncryptionBackupOnlineSection {
+                has_enabled: config.encryption.backup.online.enabled.is_some(),
+                enabled: config.encryption.backup.online.enabled.unwrap_or_default(),
+            },
+        },
+    }
+}
+
 pub(crate) fn ffi_config_calls_section(
     config: &settings::config::Config,
 ) -> ffi::SettingsConfigCallsSection {
@@ -343,6 +370,7 @@ pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi
         timeline: ffi_config_timeline_section(&snapshot.config),
         secrets: ffi_config_secrets_section(&snapshot.config),
         privacy: ffi_config_privacy_section(&snapshot.config),
+        encryption: ffi_config_encryption_section(&snapshot.config),
         calls: ffi_config_calls_section(&snapshot.config),
         notifications: ffi_config_notifications_section(&snapshot.config),
         network: ffi_config_network_section(&snapshot.config),

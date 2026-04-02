@@ -6,6 +6,8 @@ use super::{encode_config_yaml, load_config_snapshot, parse_config_text};
 use crate::ffi::{
     SettingsConfigComposerSection, SettingsConfigIntegrationsSection, SettingsConfigNetworkSection,
     SettingsConfigNotificationsSection,
+    SettingsConfigEncryptionBackupOnlineSection, SettingsConfigEncryptionBackupSection,
+    SettingsConfigEncryptionKeySharingSection, SettingsConfigEncryptionSection,
     SettingsConfigSidebarsCommunitiesSection, SettingsConfigSidebarsRoomListSection,
     SettingsConfigSidebarsSection,
     SettingsConfigSecretsSection, SettingsConfigSnapshot,
@@ -272,6 +274,25 @@ composer:
 }
 
 #[test]
+fn parses_encryption_section() {
+    let config = parse_config_text(
+        r#"
+encryption:
+  key_sharing:
+    only_verified_users: true
+    share_with_trusted: true
+  backup:
+    online:
+      enabled: false
+"#,
+    );
+
+    assert_eq!(config.encryption.key_sharing.only_verified_users, Some(true));
+    assert_eq!(config.encryption.key_sharing.share_with_trusted, Some(true));
+    assert_eq!(config.encryption.backup.online.enabled, Some(false));
+}
+
+#[test]
 fn encodes_generic_config_values() {
     let yaml = encode_config_yaml(&SettingsConfigSnapshot {
         ui: SettingsConfigUiSection {
@@ -335,6 +356,20 @@ fn encodes_generic_config_values() {
         },
         secrets: SettingsConfigSecretsSection {
             provider: "file".to_owned(),
+        },
+        encryption: SettingsConfigEncryptionSection {
+            key_sharing: SettingsConfigEncryptionKeySharingSection {
+                has_only_verified_users: true,
+                only_verified_users: true,
+                has_share_with_trusted: true,
+                share_with_trusted: true,
+            },
+            backup: SettingsConfigEncryptionBackupSection {
+                online: SettingsConfigEncryptionBackupOnlineSection {
+                    has_enabled: true,
+                    enabled: false,
+                },
+            },
         },
         notifications: SettingsConfigNotificationsSection {
             has_enabled: true,
@@ -511,6 +546,18 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["secrets", "provider"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "file"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["encryption", "key_sharing", "only_verified_users"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["encryption", "key_sharing", "share_with_trusted"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["encryption", "backup", "online", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["notifications", "enabled"]),

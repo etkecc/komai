@@ -1567,6 +1567,12 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::PrivacyWindowFocusBlurDelaySeconds));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::PrivacyMaintenanceExpireEvents));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::EncryptionKeySharingOnlyVerifiedUsers));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::EncryptionKeySharingShareWithTrusted));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::EncryptionBackupOnlineEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::CallsLegacyEnabled));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::CallsRelayUseFallbackServer));

@@ -14,6 +14,7 @@ pub struct Config {
     pub timeline: ConfigTimeline,
     pub secrets: ConfigSecrets,
     pub privacy: ConfigPrivacy,
+    pub encryption: ConfigEncryption,
     pub calls: ConfigCalls,
     pub notifications: ConfigNotifications,
     pub network: ConfigNetwork,
@@ -130,6 +131,28 @@ pub struct ConfigPrivacyWindowFocusBlur {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigPrivacyMaintenance {
     pub expire_events: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigEncryption {
+    pub key_sharing: ConfigEncryptionKeySharing,
+    pub backup: ConfigEncryptionBackup,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigEncryptionKeySharing {
+    pub only_verified_users: Option<bool>,
+    pub share_with_trusted: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigEncryptionBackup {
+    pub online: ConfigEncryptionBackupOnline,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigEncryptionBackupOnline {
+    pub enabled: Option<bool>,
 }
 
 #[derive(Clone, Debug, Default)]

@@ -159,6 +159,27 @@ mod bridge {
         maintenance: SettingsConfigPrivacyMaintenanceSection,
     }
 
+    struct SettingsConfigEncryptionKeySharingSection {
+        has_only_verified_users: bool,
+        only_verified_users: bool,
+        has_share_with_trusted: bool,
+        share_with_trusted: bool,
+    }
+
+    struct SettingsConfigEncryptionBackupOnlineSection {
+        has_enabled: bool,
+        enabled: bool,
+    }
+
+    struct SettingsConfigEncryptionBackupSection {
+        online: SettingsConfigEncryptionBackupOnlineSection,
+    }
+
+    struct SettingsConfigEncryptionSection {
+        key_sharing: SettingsConfigEncryptionKeySharingSection,
+        backup: SettingsConfigEncryptionBackupSection,
+    }
+
     struct SettingsConfigCallsLegacySection {
         has_enabled: bool,
         enabled: bool,
@@ -272,6 +293,7 @@ mod bridge {
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
         privacy: SettingsConfigPrivacySection,
+        encryption: SettingsConfigEncryptionSection,
         calls: SettingsConfigCallsSection,
         notifications: SettingsConfigNotificationsSection,
         network: SettingsConfigNetworkSection,
@@ -286,6 +308,7 @@ mod bridge {
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
         privacy: SettingsConfigPrivacySection,
+        encryption: SettingsConfigEncryptionSection,
         calls: SettingsConfigCallsSection,
         notifications: SettingsConfigNotificationsSection,
         network: SettingsConfigNetworkSection,

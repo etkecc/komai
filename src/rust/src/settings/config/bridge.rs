@@ -234,6 +234,27 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
             Value::Bool(snapshot.privacy.maintenance.expire_events),
         );
     }
+    if snapshot.encryption.key_sharing.has_only_verified_users {
+        yaml::set_value(
+            &mut root,
+            &["encryption", "key_sharing", "only_verified_users"],
+            Value::Bool(snapshot.encryption.key_sharing.only_verified_users),
+        );
+    }
+    if snapshot.encryption.key_sharing.has_share_with_trusted {
+        yaml::set_value(
+            &mut root,
+            &["encryption", "key_sharing", "share_with_trusted"],
+            Value::Bool(snapshot.encryption.key_sharing.share_with_trusted),
+        );
+    }
+    if snapshot.encryption.backup.online.has_enabled {
+        yaml::set_value(
+            &mut root,
+            &["encryption", "backup", "online", "enabled"],
+            Value::Bool(snapshot.encryption.backup.online.enabled),
+        );
+    }
     if snapshot.calls.legacy.has_enabled {
         yaml::set_value(
             &mut root,
@@ -511,6 +532,7 @@ fn flatten_config_values(prefix: &str, value: &Value, values: &mut Vec<SettingsC
                 || prefix == "integrations"
                 || prefix == "composer"
                 || prefix == "sidebars"
+                || prefix == "encryption"
                 || prefix == "timeline.hidden_events"
             {
                 return;

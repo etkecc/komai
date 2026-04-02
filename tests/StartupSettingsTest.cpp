@@ -1608,9 +1608,21 @@ testConfigSchemaCoverageAndKeyUniqueness()
     std::set<QString> serializerHandledConfigKeys = typedKeys;
     serializerHandledConfigKeys.insert(enumTokenKeys.begin(), enumTokenKeys.end());
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiThemeSlug));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiFontFamily));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiFontEmojiFamily));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiFontSizePt));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiMotionAnimationsEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiInputMode));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::UiInputTouchSwipeGesturesEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScaleFactor));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::UiLayoutContentMaxWidthPx));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiAvatarsCircular));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiLayoutCompactMode));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScrollbarPolicy));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::UiAvatarsDefaultAvatarStyle));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::SidebarsRoomListShowLastMessageTime));
     serializerHandledConfigKeys.insert(

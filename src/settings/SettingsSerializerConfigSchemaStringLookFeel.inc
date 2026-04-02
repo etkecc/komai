@@ -1,8 +1,0 @@
-StringSettingDescriptor{SettingKey::UiFontFamily,
-                        QString(),
-                        &UserSettings::uiFontFamily,
-                        &UserSettings::setUiFontFamily},
-StringSettingDescriptor{SettingKey::UiFontEmojiFamily,
-                        QString(),
-                        &UserSettings::uiFontEmojiFamilyStorageValue,
-                        &UserSettings::setUiFontEmojiFamily},

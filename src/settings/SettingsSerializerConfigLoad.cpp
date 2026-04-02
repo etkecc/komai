@@ -87,6 +87,10 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
             continue;
         if (adapter.id == settings::core::SettingId::IntegrationsDbusApiAccess)
             continue;
+        if (adapter.id == settings::core::SettingId::UiScrollbarPolicy)
+            continue;
+        if (adapter.id == settings::core::SettingId::UiAvatarsDefaultAvatarStyle)
+            continue;
         if (adapter.id == settings::core::SettingId::ComposerInputSendKey)
             continue;
         if (adapter.id == settings::core::SettingId::ComposerInputAutoReplaceEmoji)

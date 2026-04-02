@@ -361,6 +361,7 @@ mod bridge {
         network: SettingsConfigNetworkSection,
         integrations: SettingsConfigIntegrationsSection,
         composer: SettingsConfigComposerSection,
+        source_exists: bool,
         source_version: i32,
         migrated_version: i32,
         had_future_version: bool,
@@ -373,6 +374,7 @@ mod bridge {
         user_id: String,
         device_id: String,
         homeserver: String,
+        source_exists: bool,
         source_version: i32,
         migrated_version: i32,
         had_future_version: bool,
@@ -394,6 +396,7 @@ mod bridge {
         hidden_widgets: Vec<String>,
         collapsed_spaces: Vec<String>,
         composer_drafts_by_room: Vec<SettingsStringMapEntry>,
+        source_exists: bool,
         source_version: i32,
         migrated_version: i32,
         had_future_version: bool,
@@ -947,6 +950,8 @@ mod bridge {
         fn settings_profile_session_path(profile_id: &str) -> String;
         #[namespace = "komai::rust_bridge"]
         fn settings_read_text_file(path: &str, label: &str) -> String;
+        #[namespace = "komai::rust_bridge"]
+        fn settings_path_exists(path: &str) -> bool;
         #[namespace = "komai::rust_bridge"]
         fn settings_write_text_file(
             path: &str,

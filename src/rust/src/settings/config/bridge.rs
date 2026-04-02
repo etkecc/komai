@@ -611,6 +611,7 @@ pub(super) fn load_config_snapshot(config_text: &str) -> LoadedConfig {
 
     LoadedConfig {
         config,
+        source_exists: !config_text.is_empty(),
         source_version,
         migrated_version,
         had_future_version,

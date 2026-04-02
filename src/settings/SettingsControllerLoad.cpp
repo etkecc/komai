@@ -112,17 +112,14 @@ loadImpl(UserSettings &settings,
         settings.applyProfilePathState(QLatin1String(""));
 
     createDir(settings.profileDirPath());
-    const bool configFileExists  = pathExists(settings.configFilePath());
-    const bool stateFileExists   = pathExists(settings.stateFilePath());
-    const bool sessionFileExists = loadPolicy == settings::SettingsController::LoadPolicy::Full &&
-                                   pathExists(settings.sessionFilePath());
     settings.setPersistenceSuspended(true);
 
     auto profileHandle = ::komai::rust::settings_open_profile_handle_for_profile(
       settings.profileId().toStdString(),
       loadPolicy == settings::SettingsController::LoadPolicy::Full);
-    auto profileSnapshot = ::komai::rust::settings_profile_snapshot(*profileHandle);
-    auto &configSnapshot = profileSnapshot.config;
+    auto profileSnapshot        = ::komai::rust::settings_profile_snapshot(*profileHandle);
+    auto &configSnapshot        = profileSnapshot.config;
+    const bool configFileExists = configSnapshot.source_exists;
     logConfigMigrationWarnings(configSnapshot);
     settings::serializer::loadConfig(settings, configSnapshot);
 
@@ -191,7 +188,8 @@ loadImpl(UserSettings &settings,
         case staged_load_plan::Stage::Config:
             break;
         case staged_load_plan::Stage::Session: {
-            const auto &sessionSnapshot = profileSnapshot.session;
+            const auto &sessionSnapshot  = profileSnapshot.session;
+            const bool sessionFileExists = sessionSnapshot.source_exists;
             logSessionMigrationWarnings(sessionSnapshot);
             settings.setSessionSnapshot(UserSettings::SessionSnapshot{
               .userId = QString::fromStdString(static_cast<std::string>(sessionSnapshot.user_id)),
@@ -225,7 +223,8 @@ loadImpl(UserSettings &settings,
             break;
         }
         case staged_load_plan::Stage::State: {
-            const auto &stateSnapshot = profileSnapshot.state;
+            const auto &stateSnapshot  = profileSnapshot.state;
+            const bool stateFileExists = stateSnapshot.source_exists;
             logStateMigrationWarnings(stateSnapshot);
             settings.setWindowWidth(stateSnapshot.window_width);
             settings.setWindowHeight(stateSnapshot.window_height);

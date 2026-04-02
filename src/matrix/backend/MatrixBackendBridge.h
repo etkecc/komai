@@ -42,6 +42,9 @@ settings_profile_session_path(::rust::Str profile_id);
 settings_read_text_file(::rust::Str path, ::rust::Str label);
 
 bool
+settings_path_exists(::rust::Str path);
+
+bool
 settings_write_text_file(::rust::Str path, ::rust::Str content, bool owner_read_write_only);
 
 ::komai::rust::MatrixPersistedSessionSecrets

@@ -304,6 +304,7 @@ pub struct ConfigComposer {
 
 pub struct LoadedConfig {
     pub config: Config,
+    pub source_exists: bool,
     pub source_version: i32,
     pub migrated_version: i32,
     pub had_future_version: bool,

@@ -20,6 +20,10 @@ pub fn read_text_file(path: &str, label: &str) -> String {
     ffi::settings_read_text_file(path, label)
 }
 
+pub fn path_exists(path: &str) -> bool {
+    ffi::settings_path_exists(path)
+}
+
 pub fn write_text_file(path: &str, content: &str, owner_read_write_only: bool) -> bool {
     ffi::settings_write_text_file(path, content, owner_read_write_only)
 }

@@ -326,7 +326,17 @@ Item {
                     bubblePalette: resolvedReplyBubblePalette
                 }
 
-                data: [replyRow, root.wrapper.main]
+            }
+
+            // Reparent the main message delegate into the content column.
+            // Using a Binding instead of Column.data avoids disrupting the
+            // reply preview's scene-graph node when the main delegate
+            // transitions from null to ready.
+            Binding {
+                target: root.wrapper.main
+                property: "parent"
+                when: !!root.wrapper.main
+                value: contentColumn
             }
         }
 

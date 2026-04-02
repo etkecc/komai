@@ -103,14 +103,10 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
           *profileHandle,
           settings.accessToken().toStdString(),
           toRustStringMapEntries(settings.secretsMap()));
-        logFlushOutcome(
-          settings.profileId(),
-          ::komai::rust::settings_profile_flush(*profileHandle, true, true, true, false));
-
         settings::serializer::stageState(settings, *profileHandle);
         logFlushOutcome(
           settings.profileId(),
-          ::komai::rust::settings_profile_flush(*profileHandle, false, false, false, true));
+          ::komai::rust::settings_profile_flush(*profileHandle, true, true, true, true));
     }
     syncCoreStoreFromSettings(settings);
 }
@@ -122,16 +118,13 @@ settings::SettingsController::clearAuth(UserSettings &settings)
                              app_paths::normalizedProfileId(settings.profileId()).toStdString());
 
     settings.clearAuthInMemory();
-    settings.clearRustSettingsProfileHandle();
-
-    if (!::komai::rust::settings_clear_profile_auth(settings.profileId().toStdString(),
-                                                    settings.usesFileSecretsProvider())) {
+    auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
+    if (!::komai::rust::settings_profile_clear_auth(*profileHandle)) {
         activeLoggers().ui->warn(
           "Failed to clear persisted session auth for profile '{}', keeping data to avoid "
           "accidental data loss",
           app_paths::normalizedProfileId(settings.profileId()).toStdString());
     }
-    auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
     settings::serializer::stageState(settings, *profileHandle);
     logFlushOutcome(
       settings.profileId(),

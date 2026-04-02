@@ -636,6 +636,18 @@ pub(crate) fn settings_profile_replace_secrets_payload(
     handle.replace_secrets_payload(access_token, entries.as_slice());
 }
 
+pub(crate) fn settings_profile_clear_secrets(
+    handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
+) -> bool {
+    handle.clear_secrets()
+}
+
+pub(crate) fn settings_profile_clear_auth(
+    handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
+) -> bool {
+    handle.clear_auth()
+}
+
 pub(crate) fn settings_profile_flush(
     handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
     write_config: bool,
@@ -646,19 +658,11 @@ pub(crate) fn settings_profile_flush(
     handle.flush(write_config, write_session, write_secrets, write_state)
 }
 
-pub(crate) fn settings_clear_profile_secrets(
-    profile_id: &str,
-    uses_file_secrets_provider: bool,
-) -> bool {
+pub(crate) fn settings_clear_profile_secrets(profile_id: &str) -> bool {
+    let snapshot = settings::profile::load_profile_snapshot_for_profile(profile_id, false);
+    let uses_file_secrets_provider =
+        snapshot.config.config.secrets.provider.to_storage_string() == "file";
     settings::secrets::clear_profile_secrets(profile_id, uses_file_secrets_provider)
-}
-
-pub(crate) fn settings_clear_profile_auth(
-    profile_id: &str,
-    uses_file_secrets_provider: bool,
-) -> bool {
-    settings::session::remove_session_file_for_profile(profile_id)
-        && settings::secrets::clear_profile_secrets(profile_id, uses_file_secrets_provider)
 }
 
 pub(crate) fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {

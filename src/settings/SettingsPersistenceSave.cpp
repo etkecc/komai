@@ -32,7 +32,7 @@ clearProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
 {
     if (usesFileSecretsProvider) {
         const auto normalizedProfile = app_paths::normalizedProfileId(profile);
-        if (!::komai::rust::settings_clear_profile_secrets(profile.toStdString(), true)) {
+        if (!::komai::rust::settings_clear_profile_secrets(profile.toStdString())) {
             activeLoggers().ui->warn("Failed to remove file-backed secrets for profile '{}'",
                                      normalizedProfile.toStdString());
             return false;
@@ -44,7 +44,7 @@ clearProfileSecrets(const QString &profile, bool usesFileSecretsProvider)
 
     const auto normalizedProfile = app_paths::normalizedProfileId(profile);
     const auto allSecretsDeleted =
-      ::komai::rust::settings_clear_profile_secrets(profile.toStdString(), false);
+      ::komai::rust::settings_clear_profile_secrets(profile.toStdString());
     if (!allSecretsDeleted) {
         activeLoggers().ui->warn(
           "Failed to delete all profile secrets during logout for profile '{}'",

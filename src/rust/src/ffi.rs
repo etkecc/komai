@@ -1138,6 +1138,8 @@ mod bridge {
             access_token: &str,
             entries: &Vec<SettingsStringMapEntry>,
         );
+        fn settings_profile_clear_secrets(handle: Pin<&mut SettingsProfileHandle>) -> bool;
+        fn settings_profile_clear_auth(handle: Pin<&mut SettingsProfileHandle>) -> bool;
         fn settings_profile_flush(
             handle: Pin<&mut SettingsProfileHandle>,
             write_config: bool,
@@ -1145,14 +1147,7 @@ mod bridge {
             write_secrets: bool,
             write_state: bool,
         ) -> SettingsProfileFlushResult;
-        fn settings_clear_profile_secrets(
-            profile_id: &str,
-            uses_file_secrets_provider: bool,
-        ) -> bool;
-        fn settings_clear_profile_auth(
-            profile_id: &str,
-            uses_file_secrets_provider: bool,
-        ) -> bool;
+        fn settings_clear_profile_secrets(profile_id: &str) -> bool;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;

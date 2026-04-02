@@ -175,6 +175,50 @@ impl SettingsProfileHandle {
         this.secrets_dirty = this.secrets_dirty || changed;
     }
 
+    fn reset_loaded_session(&mut self) {
+        self.loaded.session = settings::ffi::ffi_loaded_session(settings::session::load_session_snapshot(""));
+        self.session_dirty = false;
+    }
+
+    fn reset_loaded_secrets(&mut self) {
+        self.loaded.secrets = ffi::SettingsSecretsPayload {
+            access_token: String::new(),
+            secrets: Vec::new(),
+            had_stale_values: false,
+        };
+        self.secrets_dirty = false;
+    }
+
+    pub fn clear_secrets(mut self: Pin<&mut Self>) -> bool {
+        let this = self.as_mut().get_mut();
+        let cleared = settings::secrets::clear_profile_secrets(
+            &this.profile_id,
+            this.uses_file_secrets_provider(),
+        );
+        if cleared {
+            this.reset_loaded_secrets();
+        }
+        cleared
+    }
+
+    pub fn clear_auth(mut self: Pin<&mut Self>) -> bool {
+        let this = self.as_mut().get_mut();
+        let session_cleared = settings::session::remove_session_file_for_profile(&this.profile_id);
+        if session_cleared {
+            this.reset_loaded_session();
+        }
+
+        let secrets_cleared = settings::secrets::clear_profile_secrets(
+            &this.profile_id,
+            this.uses_file_secrets_provider(),
+        );
+        if secrets_cleared {
+            this.reset_loaded_secrets();
+        }
+
+        session_cleared && secrets_cleared
+    }
+
     pub fn write_config(&mut self) -> bool {
         let config_path = settings::storage::config_file_path_for_profile(&self.profile_id);
         let saved = settings::ffi::write_loaded_config_to_path(&config_path, &self.loaded.config);

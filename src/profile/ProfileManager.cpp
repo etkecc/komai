@@ -235,11 +235,9 @@ deleteProfile(QStringView profileId,
         return false;
     }
 
-    const auto config = ::komai::rust::settings_load_config_overview_for_profile(
-      normalizedTargetProfile.toStdString());
-
-    const bool secretsRemoved = ::komai::rust::settings_clear_profile_secrets(
-      normalizedTargetProfile.toStdString(), config.uses_file_secrets_provider);
+    auto settingsHandle = ::komai::rust::settings_open_profile_handle_for_profile(
+      normalizedTargetProfile.toStdString(), false);
+    const bool secretsRemoved = ::komai::rust::settings_profile_clear_secrets(*settingsHandle);
 
     const auto configProfileDir =
       QFileInfo(app_paths::config::profileConfigFile(normalizedTargetProfile)).absolutePath();

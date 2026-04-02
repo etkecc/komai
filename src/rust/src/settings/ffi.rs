@@ -644,8 +644,19 @@ pub(crate) fn settings_profile_flush(
     handle.flush(write_config, write_session, write_secrets, write_state)
 }
 
-pub(crate) fn settings_remove_session_file_for_profile(profile_id: &str) -> bool {
+pub(crate) fn settings_clear_profile_secrets(
+    profile_id: &str,
+    uses_file_secrets_provider: bool,
+) -> bool {
+    settings::secrets::clear_profile_secrets(profile_id, uses_file_secrets_provider)
+}
+
+pub(crate) fn settings_clear_profile_auth(
+    profile_id: &str,
+    uses_file_secrets_provider: bool,
+) -> bool {
     settings::session::remove_session_file_for_profile(profile_id)
+        && settings::secrets::clear_profile_secrets(profile_id, uses_file_secrets_provider)
 }
 
 pub(crate) fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {

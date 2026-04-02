@@ -19,6 +19,7 @@
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "profile/Paths.h"
+#include "profile/ProfileSecrets.h"
 #include "settings/SettingsStorage.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
@@ -224,6 +225,14 @@ settings_write_text_file(::rust::Str path, ::rust::Str content, bool owner_read_
 {
     return settings::storage::writeTextFile(
       toQString(path), toQString(content), owner_read_write_only);
+}
+
+bool
+settings_delete_all_profile_secrets_from_store(::rust::Str profile_id,
+                                               bool uses_file_secrets_provider)
+{
+    return profile_secrets::deleteAllProfileSecretsFromStoreBlocking(toQString(profile_id),
+                                                                     uses_file_secrets_provider);
 }
 
 ::komai::rust::MatrixPersistedSessionSecrets

@@ -334,6 +334,21 @@ pub fn save_profile_secrets(
     true
 }
 
+pub fn clear_profile_secrets(profile_id: &str, uses_file_secrets_provider: bool) -> bool {
+    if uses_file_secrets_provider {
+        return remove_persisted_secrets_file_for_profile(profile_id);
+    }
+
+    let all_removed =
+        crate::ffi::settings_delete_all_profile_secrets_from_store(profile_id, false);
+    let secrets_path = storage::secrets_file_path_for_profile(profile_id);
+    if storage::path_exists(&secrets_path) && !storage::remove_path(&secrets_path) {
+        return false;
+    }
+
+    all_removed
+}
+
 pub fn load_named_string_map_from_path(
     path: &str,
     label: &str,

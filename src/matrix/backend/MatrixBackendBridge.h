@@ -69,6 +69,10 @@ settings_remove_path(::rust::Str path);
 bool
 settings_write_text_file(::rust::Str path, ::rust::Str content, bool owner_read_write_only);
 
+bool
+settings_delete_all_profile_secrets_from_store(::rust::Str profile_id,
+                                               bool uses_file_secrets_provider);
+
 ::komai::rust::MatrixPersistedSessionSecrets
 matrix_load_session_secrets(::rust::Str profile_id);
 

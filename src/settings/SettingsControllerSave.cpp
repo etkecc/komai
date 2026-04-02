@@ -12,9 +12,7 @@
 #include "logging/Logging.h"
 
 #include "profile/Paths.h"
-#include "settings/SettingsPersistence.h"
 #include "settings/SettingsSerializer.h"
-#include "settings/SettingsStorage.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {
@@ -126,16 +124,13 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     settings.clearAuthInMemory();
     settings.clearRustSettingsProfileHandle();
 
-    if (!::komai::rust::settings_remove_session_file_for_profile(
-          settings.profileId().toStdString())) {
+    if (!::komai::rust::settings_clear_profile_auth(settings.profileId().toStdString(),
+                                                    settings.usesFileSecretsProvider())) {
         activeLoggers().ui->warn(
-          "Failed to remove persisted session file for profile '{}', keeping file to avoid "
+          "Failed to clear persisted session auth for profile '{}', keeping data to avoid "
           "accidental data loss",
           app_paths::normalizedProfileId(settings.profileId()).toStdString());
     }
-
-    settings::persistence::clearProfileSecrets(settings.profileId(),
-                                               settings.usesFileSecretsProvider());
     auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
     settings::serializer::stageState(settings, *profileHandle);
     logFlushOutcome(

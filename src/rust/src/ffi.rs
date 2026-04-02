@@ -997,6 +997,11 @@ mod bridge {
             owner_read_write_only: bool,
         ) -> bool;
         #[namespace = "komai::rust_bridge"]
+        fn settings_delete_all_profile_secrets_from_store(
+            profile_id: &str,
+            uses_file_secrets_provider: bool,
+        ) -> bool;
+        #[namespace = "komai::rust_bridge"]
         fn matrix_load_session_secrets(profile_id: &str) -> MatrixPersistedSessionSecrets;
         #[namespace = "komai::rust_bridge"]
         fn matrix_save_session_secrets(
@@ -1144,7 +1149,14 @@ mod bridge {
             write_secrets: bool,
             write_state: bool,
         ) -> SettingsProfileFlushResult;
-        fn settings_remove_session_file_for_profile(profile_id: &str) -> bool;
+        fn settings_clear_profile_secrets(
+            profile_id: &str,
+            uses_file_secrets_provider: bool,
+        ) -> bool;
+        fn settings_clear_profile_auth(
+            profile_id: &str,
+            uses_file_secrets_provider: bool,
+        ) -> bool;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;

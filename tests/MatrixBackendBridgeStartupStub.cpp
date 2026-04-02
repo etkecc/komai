@@ -126,6 +126,12 @@ settings_write_text_file(::rust::Str path, ::rust::Str content, bool owner_read_
                                             owner_read_write_only);
 }
 
+bool
+settings_delete_all_profile_secrets_from_store(::rust::Str, bool)
+{
+    return true;
+}
+
 ::komai::rust::MatrixPersistedSessionSecrets
 matrix_load_session_secrets(::rust::Str)
 {

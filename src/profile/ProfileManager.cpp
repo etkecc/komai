@@ -138,10 +138,10 @@ listProfiles(QStringView currentProfile)
         summary.isDefault = (profileId == QLatin1String("default"));
         summary.isCurrent = (profileId == currentProfile_);
 
-        const auto config = ::komai::rust::settings_load_config_overview_from_path(
-          app_paths::config::profileConfigFile(profileId).toStdString());
-        const auto session = ::komai::rust::settings_load_session_snapshot_from_path(
-          app_paths::config::profileSessionFile(profileId).toStdString());
+        const auto config =
+          ::komai::rust::settings_load_config_overview_for_profile(profileId.toStdString());
+        const auto session =
+          ::komai::rust::settings_load_session_snapshot_for_profile(profileId.toStdString());
 
         summary.themeSlug =
           QString::fromStdString(static_cast<std::string>(config.theme_slug)).trimmed();
@@ -239,9 +239,8 @@ deleteProfile(QStringView profileId,
         return false;
     }
 
-    const auto configPath = app_paths::config::profileConfigFile(normalizedTargetProfile);
-    const auto config =
-      ::komai::rust::settings_load_config_overview_from_path(configPath.toStdString());
+    const auto config = ::komai::rust::settings_load_config_overview_for_profile(
+      normalizedTargetProfile.toStdString());
     const auto secretsProvider = settings::persistence::providerFromConfigValue(
       QString::fromStdString(static_cast<std::string>(config.secrets_provider)));
 

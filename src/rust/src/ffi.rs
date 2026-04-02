@@ -1012,7 +1012,7 @@ mod bridge {
         fn log_from_cpp(component: &str, level: &str, message: &str);
         fn settings_load_startup_snapshot_from_path(config_path: &str) -> SettingsStartupSnapshot;
         fn settings_load_config_overview(config_text: &str) -> SettingsConfigOverview;
-        fn settings_load_config_overview_from_path(config_path: &str) -> SettingsConfigOverview;
+        fn settings_load_config_overview_for_profile(profile_id: &str) -> SettingsConfigOverview;
         fn settings_encode_string_map_yaml(entries: &Vec<SettingsStringMapEntry>) -> String;
         fn settings_decode_string_map_yaml(serialized: &str) -> Vec<SettingsStringMapEntry>;
         fn settings_encode_named_string_map_yaml(
@@ -1039,12 +1039,6 @@ mod bridge {
             snapshot: &SettingsConfigSnapshot,
         ) -> bool;
         fn settings_load_config_snapshot(config_text: &str) -> SettingsLoadedConfig;
-        fn settings_open_profile_handle(
-            config_path: &str,
-            session_path: &str,
-            state_path: &str,
-            include_session: bool,
-        ) -> Box<SettingsProfileHandle>;
         fn settings_open_profile_handle_for_profile(
             profile_id: &str,
             include_session: bool,
@@ -1072,7 +1066,7 @@ mod bridge {
         fn settings_profile_write_session(handle: &SettingsProfileHandle) -> bool;
         fn settings_profile_write_state(handle: &SettingsProfileHandle) -> bool;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
-        fn settings_load_session_snapshot_from_path(session_path: &str) -> SettingsLoadedSession;
+        fn settings_load_session_snapshot_for_profile(profile_id: &str) -> SettingsLoadedSession;
         fn settings_write_session_snapshot_to_path(
             session_path: &str,
             user_id: &str,

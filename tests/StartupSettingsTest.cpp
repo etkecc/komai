@@ -1288,8 +1288,8 @@ testSerializerLoggerInjection()
     settings->setSidebarsRoomListWidthPx(260);
     settings->setSidebarsCommunitiesWidthPx(240);
     const auto stateFile = ctx.stateFile();
-    auto profileHandle   = ::komai::rust::settings_open_profile_handle(
-      ctx.configFile().toStdString(), ctx.sessionFile().toStdString(), stateFile.toStdString(), true);
+    auto profileHandle =
+      ::komai::rust::settings_open_profile_handle_for_profile(profile.toStdString(), true);
     settings::storage::removePath(stateFile);
 
     settings::serializer::saveState(*settings, stateFile, *profileHandle);

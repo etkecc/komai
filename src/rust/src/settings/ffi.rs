@@ -24,8 +24,9 @@ pub(crate) fn settings_load_config_overview(config_text: &str) -> ffi::SettingsC
     }
 }
 
-pub(crate) fn settings_load_config_overview_from_path(config_path: &str) -> ffi::SettingsConfigOverview {
-    settings_load_config_overview(&settings::storage::read_text_file(config_path, "config"))
+pub(crate) fn settings_load_config_overview_for_profile(profile_id: &str) -> ffi::SettingsConfigOverview {
+    let config_path = settings::storage::config_file_path_for_profile(profile_id);
+    settings_load_config_overview(&settings::storage::read_text_file(&config_path, "config"))
 }
 
 pub(crate) fn settings_encode_string_map_yaml(entries: &Vec<ffi::SettingsStringMapEntry>) -> String {
@@ -513,20 +514,6 @@ pub(crate) fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsL
     ffi_loaded_config(settings::config::load_config_snapshot(config_text))
 }
 
-pub(crate) fn settings_open_profile_handle(
-    config_path: &str,
-    session_path: &str,
-    state_path: &str,
-    include_session: bool,
-) -> Box<settings::profile::SettingsProfileHandle> {
-    Box::new(settings::profile::SettingsProfileHandle::load_from_paths(
-        config_path,
-        session_path,
-        state_path,
-        include_session,
-    ))
-}
-
 pub(crate) fn settings_open_profile_handle_for_profile(
     profile_id: &str,
     include_session: bool,
@@ -593,8 +580,9 @@ pub(crate) fn settings_load_session_snapshot(session_text: &str) -> ffi::Setting
     ffi_loaded_session(settings::session::load_session_snapshot(session_text))
 }
 
-pub(crate) fn settings_load_session_snapshot_from_path(session_path: &str) -> ffi::SettingsLoadedSession {
-    ffi_loaded_session(settings::session::load_session_snapshot_from_path(session_path))
+pub(crate) fn settings_load_session_snapshot_for_profile(profile_id: &str) -> ffi::SettingsLoadedSession {
+    let session_path = settings::storage::session_file_path_for_profile(profile_id);
+    ffi_loaded_session(settings::session::load_session_snapshot_from_path(&session_path))
 }
 
 pub(crate) fn settings_write_session_snapshot_to_path(

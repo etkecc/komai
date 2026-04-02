@@ -36,9 +36,8 @@ loadSecretsPersistenceContext(const QString &profileId)
     if (it != cache.constEnd())
         return *it;
 
-    const auto configFilePath = settings::storage::configFilePathForProfile(profileId);
     const auto config =
-      ::komai::rust::settings_load_config_overview_from_path(configFilePath.toStdString());
+      ::komai::rust::settings_load_config_overview_for_profile(profileId.toStdString());
     const auto provider = settings::persistence::providerFromConfigValue(
       QString::fromStdString(static_cast<std::string>(config.secrets_provider)));
 

@@ -13,6 +13,11 @@ pub(crate) fn settings_load_startup_snapshot_from_path(config_path: &str) -> ffi
     }
 }
 
+pub(crate) fn settings_load_startup_snapshot_for_profile(profile_id: &str) -> ffi::SettingsStartupSnapshot {
+    let config_path = settings::storage::config_file_path_for_profile(profile_id);
+    settings_load_startup_snapshot_from_path(&config_path)
+}
+
 pub(crate) fn settings_load_config_overview(config_text: &str) -> ffi::SettingsConfigOverview {
     let config = settings::config::parse_config_text(config_text);
 

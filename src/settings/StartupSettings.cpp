@@ -5,7 +5,6 @@
 
 #include "StartupSettings.h"
 
-#include "settings/SettingsStorage.h"
 #include "settings/core/StartupConfig.h"
 
 namespace settings::startup {
@@ -13,8 +12,7 @@ namespace settings::startup {
 StartupSettings
 readStartupConfig(const QString &profile)
 {
-    const auto path = settings::storage::configFilePathForProfile(profile);
-    const auto root = settings::core::snapshotFromYamlFile(path.toStdString());
+    const auto root = settings::core::snapshotForProfile(profile.toStdString());
     return StartupSettings{.uiScaleFactor = root.uiScaleFactor};
 }
 

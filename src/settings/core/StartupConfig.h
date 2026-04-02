@@ -45,4 +45,7 @@ struct StartupConfigSnapshot
 StartupConfigSnapshot
 snapshotFromYamlFile(std::string_view path);
 
+StartupConfigSnapshot
+snapshotForProfile(std::string_view profileId);
+
 } // namespace settings::core

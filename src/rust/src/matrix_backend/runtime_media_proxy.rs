@@ -350,34 +350,107 @@ async fn handle_request(
         reg.media_id,
     );
 
-    let mut upstream_req = state
+    let has_range = req.headers().contains_key(header::RANGE);
+    let range_value = req.headers().get(header::RANGE).cloned();
+
+    // ── Range request: forward to upstream ───────────────────────────────
+    //
+    // If upstream supports Range (returns 206), forward the partial content.
+    // If upstream ignores Range (returns 200), buffer and serve the full body
+    // so the fallback path can trigger cleanly.
+    if has_range {
+        return Ok(
+            handle_range_request(&state, &upstream_url, &access_token, range_value.as_ref())
+                .await,
+        );
+    }
+
+    // ── Plain GET: buffer full body, serve with Content-Length ──────────
+    //
+    // Buffer the entire upstream response before serving any bytes to the
+    // client.  FFmpeg reads the first few bytes of an MP4 (ftyp box), then
+    // tries to seek to the moov atom via a Range request.  If the proxy
+    // can't serve Range requests locally, the seek fails and the
+    // MxcMediaProxy fallback downloads the file into a local QBuffer.
+    //
+    // For streaming-friendly formats (OGG/Opus audio, faststart MP4), the
+    // buffered response still works — FFmpeg reads sequentially.
+    let get_resp = match state
         .client
         .http_client()
         .get(&upstream_url)
-        .bearer_auth(&access_token);
+        .bearer_auth(&access_token)
+        .send()
+        .await
+    {
+        Ok(r) => r,
+        Err(e) => {
+            tracing::warn!("Media proxy upstream GET failed: {e}");
+            return Ok(text_response(StatusCode::BAD_GATEWAY, "upstream request failed"));
+        }
+    };
 
-    // Forward Range header for seeking support.
-    if let Some(range_value) = req.headers().get(header::RANGE) {
-        upstream_req = upstream_req.header(reqwest::header::RANGE, range_value.as_bytes());
+    let get_status = get_resp.status();
+    if !get_status.is_success() {
+        tracing::warn!("Media proxy upstream GET returned {get_status}");
+        return Ok(text_response(
+            StatusCode::from_u16(get_status.as_u16()).unwrap_or(StatusCode::BAD_GATEWAY),
+            "upstream error",
+        ));
+    }
+
+    let content_type = get_resp
+        .headers()
+        .get(reqwest::header::CONTENT_TYPE)
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream")
+        .to_owned();
+
+    let full_body = get_resp.bytes().await.unwrap_or_default();
+    let builder = Response::builder()
+        .status(get_status.as_u16())
+        .header(header::CONNECTION, "close")
+        .header(header::CONTENT_TYPE, &content_type)
+        .header(header::CONTENT_LENGTH, full_body.len());
+
+    let body = http_body_util::Full::new(full_body).map_err(|never| match never {});
+    Ok(builder.body(body.boxed()).expect("valid response"))
+}
+
+/// Handle a Range request by forwarding to upstream.
+///
+/// If upstream returns 206, forward the partial content.
+/// If upstream returns 200 (no Range support), buffer and serve as 200 with
+/// Content-Length so the client can fall back cleanly.
+async fn handle_range_request(
+    state: &ProxyState,
+    upstream_url: &str,
+    access_token: &str,
+    range_value: Option<&hyper::header::HeaderValue>,
+) -> Response<BoxBody> {
+    let mut upstream_req = state
+        .client
+        .http_client()
+        .get(upstream_url)
+        .bearer_auth(access_token);
+
+    if let Some(range) = range_value {
+        upstream_req = upstream_req.header(reqwest::header::RANGE, range.as_bytes());
     }
 
     let upstream_resp = match upstream_req.send().await {
         Ok(r) => r,
         Err(e) => {
-            tracing::warn!("Media proxy upstream request failed: {e}");
-            return Ok(text_response(StatusCode::BAD_GATEWAY, "upstream request failed"));
+            tracing::warn!("Media proxy upstream Range request failed: {e}");
+            return text_response(StatusCode::BAD_GATEWAY, "upstream request failed");
         }
     };
 
     let status = upstream_resp.status();
     let content_length = upstream_resp.content_length();
-    let mut builder = Response::builder().status(status.as_u16());
-
-    // Close the connection after each response.  FFmpeg/QMediaPlayer may seek
-    // by issuing a new Range request on the same keep-alive connection before
-    // fully consuming the previous response body.  This causes hyper's leftover
-    // body bytes to be misinterpreted as the next response, corrupting the stream.
-    builder = builder.header(header::CONNECTION, "close");
+    let mut builder = Response::builder()
+        .status(status.as_u16())
+        .header(header::CONNECTION, "close");
 
     // Forward relevant headers.
     for name in [
@@ -393,36 +466,33 @@ async fn handle_request(
         }
     }
 
-    // Serve the body back to the client.
-    //
-    // When the upstream provides Content-Length, stream chunk by chunk with a
-    // SizedStreamBody so hyper uses identity encoding (preserving Content-Length).
-    //
-    // When the upstream uses chunked encoding (no Content-Length), buffer the
-    // full response and serve with an explicit Content-Length.  FFmpeg/QMediaPlayer
-    // needs Content-Length to seek for the moov atom in MP4 files; without it,
-    // video playback silently fails.  The memory cost matches the existing
-    // buffer-download fallback path.
-    if let Some(len) = content_length {
-        let body_stream = upstream_resp.bytes_stream().map(|result| {
-            result
-                .map(|bytes| Frame::data(bytes))
-                .map_err(|e| std::io::Error::other(e))
-        });
-        let stream_body = SizedStreamBody {
-            inner: StreamBody::new(body_stream),
-            content_length: Some(len),
-        };
-        Ok(builder.body(BodyExt::boxed(stream_body)).expect("valid response"))
+    if status == reqwest::StatusCode::PARTIAL_CONTENT {
+        // 206 — upstream supports Range.  Stream the partial content.
+        if let Some(len) = content_length {
+            let body_stream = upstream_resp.bytes_stream().map(|result| {
+                result
+                    .map(|bytes| Frame::data(bytes))
+                    .map_err(|e| std::io::Error::other(e))
+            });
+            let stream_body = SizedStreamBody {
+                inner: StreamBody::new(body_stream),
+                content_length: Some(len),
+            };
+            builder.body(BodyExt::boxed(stream_body)).expect("valid response")
+        } else {
+            let full_body = upstream_resp.bytes().await.unwrap_or_default();
+            builder = builder.header(header::CONTENT_LENGTH, full_body.len());
+            let body = http_body_util::Full::new(full_body).map_err(|never| match never {});
+            builder.body(body.boxed()).expect("valid response")
+        }
     } else {
-        let full_body = upstream_resp.bytes().await.map_err(|e| {
-            tracing::warn!("Media proxy failed to buffer upstream body: {e}");
-            e
-        }).unwrap_or_default();
+        // 200 or other — upstream ignored Range.  Buffer the full body and
+        // serve it so FFmpeg/QMediaPlayer can parse enough to trigger the
+        // fallback to buffer-download.
+        let full_body = upstream_resp.bytes().await.unwrap_or_default();
         builder = builder.header(header::CONTENT_LENGTH, full_body.len());
-        let body = http_body_util::Full::new(full_body)
-            .map_err(|never| match never {});
-        Ok(builder.body(body.boxed()).expect("valid response"))
+        let body = http_body_util::Full::new(full_body).map_err(|never| match never {});
+        builder.body(body.boxed()).expect("valid response")
     }
 }
 

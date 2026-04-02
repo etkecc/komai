@@ -532,6 +532,29 @@ pub(crate) fn settings_profile_set_config_secrets_provider(
     handle.set_config_secrets_provider(provider);
 }
 
+pub(crate) fn settings_profile_replace_config_snapshot(
+    handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
+    snapshot: &ffi::SettingsConfigSnapshot,
+) {
+    handle.replace_config_snapshot(snapshot);
+}
+
+pub(crate) fn settings_profile_replace_session_identity(
+    handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
+    user_id: &str,
+    homeserver: &str,
+    device_id: &str,
+) {
+    handle.replace_session_identity(user_id, homeserver, device_id);
+}
+
+pub(crate) fn settings_profile_replace_state_snapshot(
+    handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
+    snapshot: &ffi::SettingsStateSnapshot,
+) {
+    handle.replace_state_snapshot(snapshot);
+}
+
 pub(crate) fn settings_profile_write_config(
     handle: &settings::profile::SettingsProfileHandle,
 ) -> bool {
@@ -890,6 +913,30 @@ pub(in crate::settings) fn clone_loaded_config(
     }
 }
 
+pub(in crate::settings) fn loaded_config_from_snapshot(
+    snapshot: &ffi::SettingsConfigSnapshot,
+) -> ffi::SettingsLoadedConfig {
+    ffi::SettingsLoadedConfig {
+        ui: clone_config_ui_section(&snapshot.ui),
+        sidebars: clone_config_sidebars_section(&snapshot.sidebars),
+        timeline: clone_config_timeline_section(&snapshot.timeline),
+        secrets: clone_config_secrets_section(&snapshot.secrets),
+        privacy: clone_config_privacy_section(&snapshot.privacy),
+        encryption: clone_config_encryption_section(&snapshot.encryption),
+        calls: clone_config_calls_section(&snapshot.calls),
+        notifications: clone_config_notifications_section(&snapshot.notifications),
+        network: clone_config_network_section(&snapshot.network),
+        integrations: clone_config_integrations_section(&snapshot.integrations),
+        composer: clone_config_composer_section(&snapshot.composer),
+        source_version: settings::config::CURRENT_CONFIG_SCHEMA_VERSION,
+        migrated_version: settings::config::CURRENT_CONFIG_SCHEMA_VERSION,
+        had_future_version: false,
+        had_unsupported_path: false,
+        should_write_back: false,
+        serialized_yaml: settings::config::encode_config_yaml(snapshot),
+    }
+}
+
 pub(in crate::settings) fn clone_loaded_session(
     loaded: &ffi::SettingsLoadedSession,
 ) -> ffi::SettingsLoadedSession {
@@ -903,6 +950,24 @@ pub(in crate::settings) fn clone_loaded_session(
         had_unsupported_path: loaded.had_unsupported_path,
         should_write_back: loaded.should_write_back,
         serialized_yaml: loaded.serialized_yaml.clone(),
+    }
+}
+
+pub(in crate::settings) fn loaded_session_from_identity(
+    user_id: &str,
+    homeserver: &str,
+    device_id: &str,
+) -> ffi::SettingsLoadedSession {
+    ffi::SettingsLoadedSession {
+        user_id: user_id.to_owned(),
+        device_id: device_id.to_owned(),
+        homeserver: homeserver.to_owned(),
+        source_version: settings::session::CURRENT_SESSION_SCHEMA_VERSION,
+        migrated_version: settings::session::CURRENT_SESSION_SCHEMA_VERSION,
+        had_future_version: false,
+        had_unsupported_path: false,
+        should_write_back: false,
+        serialized_yaml: settings::session::encode_session_yaml(user_id, homeserver, device_id),
     }
 }
 
@@ -933,6 +998,38 @@ pub(in crate::settings) fn clone_loaded_state(loaded: &ffi::SettingsLoadedState)
         had_unsupported_path: loaded.had_unsupported_path,
         should_write_back: loaded.should_write_back,
         serialized_yaml: loaded.serialized_yaml.clone(),
+    }
+}
+
+pub(in crate::settings) fn loaded_state_from_snapshot(
+    snapshot: &ffi::SettingsStateSnapshot,
+) -> ffi::SettingsLoadedState {
+    ffi::SettingsLoadedState {
+        window_width: snapshot.window_width,
+        window_height: snapshot.window_height,
+        sidebars_room_list_width_px: snapshot.sidebars_room_list_width_px,
+        sidebars_communities_width_px: snapshot.sidebars_communities_width_px,
+        current_filter_id: snapshot.current_filter_id.clone(),
+        current_room_id: snapshot.current_room_id.clone(),
+        global_excludes: snapshot.global_excludes.iter().cloned().collect(),
+        badges_hidden_filters: snapshot.badges_hidden_filters.iter().cloned().collect(),
+        hidden_pins: snapshot.hidden_pins.iter().cloned().collect(),
+        hidden_widgets: snapshot.hidden_widgets.iter().cloned().collect(),
+        collapsed_spaces: snapshot.collapsed_spaces.iter().cloned().collect(),
+        composer_drafts_by_room: snapshot
+            .composer_drafts_by_room
+            .iter()
+            .map(|entry| ffi::SettingsStringMapEntry {
+                key: entry.key.clone(),
+                value: entry.value.clone(),
+            })
+            .collect(),
+        source_version: settings::state::CURRENT_STATE_SCHEMA_VERSION,
+        migrated_version: settings::state::CURRENT_STATE_SCHEMA_VERSION,
+        had_future_version: false,
+        had_unsupported_path: false,
+        should_write_back: false,
+        serialized_yaml: settings::state::encode_state_yaml(snapshot),
     }
 }
 

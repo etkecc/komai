@@ -11,6 +11,8 @@
 #include <QSharedPointer>
 #include <QTimer>
 
+#include "komai-rust-cxxbridge/ffi.h"
+
 #include <cstdint>
 #include <functional>
 #include <optional>
@@ -608,6 +610,10 @@ public:
     // Internal settings lifecycle hooks used by SettingsController.
     void applyProfilePathState(const QString &profile);
     void setPersistenceScopeReadyForAuth(bool ready);
+    void setRustSettingsProfileHandle(::rust::Box<::komai::rust::SettingsProfileHandle> handle);
+    void clearRustSettingsProfileHandle();
+    [[nodiscard]] bool hasRustSettingsProfileHandle() const;
+    [[nodiscard]] ::komai::rust::SettingsProfileHandle *rustSettingsProfileHandle();
 
     // Theme helpers for QML (used on the Welcome page)
     Q_INVOKABLE int themeVariantIndex() const;

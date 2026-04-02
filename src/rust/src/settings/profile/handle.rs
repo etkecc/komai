@@ -43,6 +43,27 @@ impl SettingsProfileHandle {
         self.as_mut().get_mut().loaded.config.secrets.provider = provider.to_owned();
     }
 
+    pub fn replace_config_snapshot(
+        mut self: Pin<&mut Self>,
+        snapshot: &ffi::SettingsConfigSnapshot,
+    ) {
+        self.as_mut().get_mut().loaded.config = settings::ffi::loaded_config_from_snapshot(snapshot);
+    }
+
+    pub fn replace_session_identity(
+        mut self: Pin<&mut Self>,
+        user_id: &str,
+        homeserver: &str,
+        device_id: &str,
+    ) {
+        self.as_mut().get_mut().loaded.session =
+            settings::ffi::loaded_session_from_identity(user_id, homeserver, device_id);
+    }
+
+    pub fn replace_state_snapshot(mut self: Pin<&mut Self>, snapshot: &ffi::SettingsStateSnapshot) {
+        self.as_mut().get_mut().loaded.state = settings::ffi::loaded_state_from_snapshot(snapshot);
+    }
+
     pub fn write_config(&self) -> bool {
         settings::ffi::write_loaded_config_to_path(&self.config_path, &self.loaded.config)
     }

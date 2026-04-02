@@ -7,6 +7,8 @@
 #include "SettingsControllerInternal.h"
 #include "komai-rust-cxxbridge/ffi.h"
 
+#include <utility>
+
 #include "logging/Logging.h"
 
 #include "profile/Paths.h"
@@ -357,6 +359,7 @@ loadImpl(UserSettings &settings,
         settings.setSecretsProviderFallbackWarningVisible(false);
     }
 
+    settings.setRustSettingsProfileHandle(std::move(profileHandle));
     settings.applyTheme();
     // Keep the core store synchronized from validated runtime settings only.
     // Avoid re-importing raw YAML scalars here, because that can bypass token

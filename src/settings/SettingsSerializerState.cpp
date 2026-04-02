@@ -16,7 +16,9 @@
 namespace settings::serializer {
 
 void
-saveState(const UserSettings &settings, const QString &stateFilePath)
+saveState(const UserSettings &settings,
+          const QString &stateFilePath,
+          ::komai::rust::SettingsProfileHandle *profileHandle)
 {
     ::komai::rust::SettingsStateSnapshot snapshot{
       .window_width                  = settings.windowWidth(),
@@ -49,8 +51,13 @@ saveState(const UserSettings &settings, const QString &stateFilePath)
           {.key = it.key().toStdString(), .value = it.value().toStdString()});
     }
 
-    if (::komai::rust::settings_write_state_snapshot_to_path(stateFilePath.toStdString(),
-                                                             snapshot)) {
+    const bool saved =
+      profileHandle != nullptr
+        ? (::komai::rust::settings_profile_replace_state_snapshot(*profileHandle, snapshot),
+           ::komai::rust::settings_profile_write_state(*profileHandle))
+        : ::komai::rust::settings_write_state_snapshot_to_path(stateFilePath.toStdString(),
+                                                               snapshot);
+    if (saved) {
         activeLoggers().ui->debug("Saved state to: {}", stateFilePath.toStdString());
     }
 }

@@ -144,5 +144,6 @@ QString configFilePath_;
 QString stateFilePath_;
 QString sessionFilePath_;
 QString secretsFilePath_;
+std::optional<::rust::Box<::komai::rust::SettingsProfileHandle>> rustSettingsProfileHandle_;
 
 static QSharedPointer<UserSettings> instance_;

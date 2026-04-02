@@ -12,6 +12,9 @@ class UserSettings;
 namespace nhlog {
 class Logger;
 }
+namespace komai::rust {
+struct SettingsProfileHandle;
+}
 
 namespace settings::serializer {
 
@@ -35,10 +38,15 @@ activeLoggers();
 void
 saveConfig(const UserSettings &settings,
            const QString &configFilePath,
-           bool usesFileSecretsProvider);
+           bool usesFileSecretsProvider,
+           ::komai::rust::SettingsProfileHandle *profileHandle = nullptr);
 void
-saveSession(const UserSettings &settings, const QString &sessionFilePath);
+saveSession(const UserSettings &settings,
+            const QString &sessionFilePath,
+            ::komai::rust::SettingsProfileHandle *profileHandle = nullptr);
 void
-saveState(const UserSettings &settings, const QString &stateFilePath);
+saveState(const UserSettings &settings,
+          const QString &stateFilePath,
+          ::komai::rust::SettingsProfileHandle *profileHandle = nullptr);
 
 } // namespace settings::serializer

@@ -1044,6 +1044,20 @@ mod bridge {
             handle: Pin<&mut SettingsProfileHandle>,
             provider: &str,
         );
+        fn settings_profile_replace_config_snapshot(
+            handle: Pin<&mut SettingsProfileHandle>,
+            snapshot: &SettingsConfigSnapshot,
+        );
+        fn settings_profile_replace_session_identity(
+            handle: Pin<&mut SettingsProfileHandle>,
+            user_id: &str,
+            homeserver: &str,
+            device_id: &str,
+        );
+        fn settings_profile_replace_state_snapshot(
+            handle: Pin<&mut SettingsProfileHandle>,
+            snapshot: &SettingsStateSnapshot,
+        );
         fn settings_profile_write_config(handle: &SettingsProfileHandle) -> bool;
         fn settings_profile_write_session(handle: &SettingsProfileHandle) -> bool;
         fn settings_profile_write_state(handle: &SettingsProfileHandle) -> bool;

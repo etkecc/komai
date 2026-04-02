@@ -8,7 +8,7 @@ use crate::ffi::{SettingsStateSnapshot, SettingsStringMapEntry};
 
 use super::{storage, yaml};
 
-const CURRENT_STATE_SCHEMA_VERSION: i32 = 1;
+pub(crate) const CURRENT_STATE_SCHEMA_VERSION: i32 = 1;
 
 const DEFAULT_WINDOW_WIDTH: i32 = 1600;
 const DEFAULT_WINDOW_HEIGHT: i32 = 900;

@@ -31,16 +31,17 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
     }
 
     syncCoreStoreFromSettings(settings);
+    auto *profileHandle = settings.rustSettingsProfileHandle();
 
     if (policy == SavePolicy::ConfigOnly) {
         settings::serializer::saveConfig(
-          settings, settings.configFilePath(), settings.usesFileSecretsProvider());
+          settings, settings.configFilePath(), settings.usesFileSecretsProvider(), profileHandle);
     } else if (policy == SavePolicy::StateOnly) {
-        settings::serializer::saveState(settings, settings.stateFilePath());
+        settings::serializer::saveState(settings, settings.stateFilePath(), profileHandle);
     } else if (policy == SavePolicy::Full) {
         settings::serializer::saveConfig(
-          settings, settings.configFilePath(), settings.usesFileSecretsProvider());
-        settings::serializer::saveSession(settings, settings.sessionFilePath());
+          settings, settings.configFilePath(), settings.usesFileSecretsProvider(), profileHandle);
+        settings::serializer::saveSession(settings, settings.sessionFilePath(), profileHandle);
 
         settings::persistence::saveProfileSecrets(settings.profileId(),
                                                   settings.usesFileSecretsProvider(),
@@ -48,7 +49,7 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
                                                   settings.accessToken(),
                                                   settings.secretsMap());
 
-        settings::serializer::saveState(settings, settings.stateFilePath());
+        settings::serializer::saveState(settings, settings.stateFilePath(), profileHandle);
     }
     syncCoreStoreFromSettings(settings);
 }
@@ -60,6 +61,7 @@ settings::SettingsController::clearAuth(UserSettings &settings)
                              app_paths::normalizedProfileId(settings.profileId()).toStdString());
 
     settings.clearAuthInMemory();
+    settings.clearRustSettingsProfileHandle();
 
     if (pathExists(settings.sessionFilePath()) && !removePath(settings.sessionFilePath())) {
         activeLoggers().ui->warn("Failed to remove session file '{}', keeping file to avoid "

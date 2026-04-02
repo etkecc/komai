@@ -25,6 +25,7 @@ pub use model::{
     ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi, ConfigUiAvatars, ConfigUiFont,
     ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
 };
+pub(crate) use model::CURRENT_CONFIG_SCHEMA_VERSION;
 pub use tokens::{
     ConfigComposerEmojiPreferredGenderToken, ConfigComposerEmojiPreferredSkinToneToken,
     ConfigComposerInputAutoReplaceEmojiToken, ConfigComposerInputSendKeyToken,

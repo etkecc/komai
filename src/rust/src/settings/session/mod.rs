@@ -6,7 +6,7 @@ use serde_yaml_ng::Value;
 
 use super::{storage, yaml};
 
-const CURRENT_SESSION_SCHEMA_VERSION: i32 = 1;
+pub(crate) const CURRENT_SESSION_SCHEMA_VERSION: i32 = 1;
 
 const SESSION_SCHEMA_VERSION_PATH: [&str; 2] = ["meta", "settings_schema_version"];
 const SESSION_USER_ID_PATH: [&str; 3] = ["session", "account", "user_id"];

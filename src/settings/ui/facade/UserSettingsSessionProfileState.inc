@@ -66,6 +66,30 @@ UserSettings::secretsMap() const
 }
 
 void
+UserSettings::setRustSettingsProfileHandle(::rust::Box<::komai::rust::SettingsProfileHandle> handle)
+{
+    rustSettingsProfileHandle_.emplace(std::move(handle));
+}
+
+void
+UserSettings::clearRustSettingsProfileHandle()
+{
+    rustSettingsProfileHandle_.reset();
+}
+
+bool
+UserSettings::hasRustSettingsProfileHandle() const
+{
+    return rustSettingsProfileHandle_.has_value();
+}
+
+::komai::rust::SettingsProfileHandle *
+UserSettings::rustSettingsProfileHandle()
+{
+    return rustSettingsProfileHandle_ ? &**rustSettingsProfileHandle_ : nullptr;
+}
+
+void
 UserSettings::notifyProfileChanged()
 {
     emit profileChanged(profile_);
@@ -80,6 +104,7 @@ UserSettings::applyProfilePathState(const QString &profile)
     stateFilePath_   = stateFilePathForProfile(profile_);
     sessionFilePath_ = sessionFilePathForProfile(profile_);
     secretsFilePath_ = secretsFilePathForProfile(profile_);
+    clearRustSettingsProfileHandle();
 }
 
 void

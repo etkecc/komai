@@ -127,25 +127,6 @@ setConfigStringValue(::rust::Vec<::komai::rust::SettingsConfigValue> &values,
                       .string_list_map_value = {}});
 }
 
-bool
-writeConfigSnapshot(const QString &path, const ::komai::rust::SettingsLoadedConfig &loaded)
-{
-    ::komai::rust::SettingsConfigSnapshot snapshot;
-    snapshot.ui            = loaded.ui;
-    snapshot.sidebars      = loaded.sidebars;
-    snapshot.timeline      = loaded.timeline;
-    snapshot.secrets       = loaded.secrets;
-    snapshot.privacy       = loaded.privacy;
-    snapshot.encryption    = loaded.encryption;
-    snapshot.calls         = loaded.calls;
-    snapshot.notifications = loaded.notifications;
-    snapshot.network       = loaded.network;
-    snapshot.integrations  = loaded.integrations;
-    snapshot.composer      = loaded.composer;
-    snapshot.values        = loaded.values;
-    return ::komai::rust::settings_write_config_snapshot_to_path(path.toStdString(), snapshot);
-}
-
 void
 loadImpl(UserSettings &settings,
          std::optional<QString> profile,
@@ -205,7 +186,8 @@ loadImpl(UserSettings &settings,
 
     if (persistMigrationWriteback && !configFileExists && !configSnapshot.had_future_version &&
         !configSnapshot.had_unsupported_path) {
-        if (!writeConfigSnapshot(settings.configFilePath(), configSnapshot)) {
+        if (!::komai::rust::settings_write_loaded_config_to_path(
+              settings.configFilePath().toStdString(), configSnapshot)) {
             settings::activeLoggers().ui->warn(
               "Failed to initialize new profile config with schema version: {}",
               settings.configFilePath().toStdString());
@@ -369,7 +351,8 @@ loadImpl(UserSettings &settings,
 
                 if (persistMigrationWriteback && !configSnapshot.had_future_version &&
                     !configSnapshot.had_unsupported_path) {
-                    if (!writeConfigSnapshot(settings.configFilePath(), configSnapshot)) {
+                    if (!::komai::rust::settings_write_loaded_config_to_path(
+                          settings.configFilePath().toStdString(), configSnapshot)) {
                         settings::activeLoggers().ui->warn(
                           "Failed to persist startup secrets provider update at: {}",
                           settings.configFilePath().toStdString());

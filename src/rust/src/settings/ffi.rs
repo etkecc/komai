@@ -560,11 +560,322 @@ pub(crate) fn settings_write_state_snapshot_to_path(
     settings::state::write_state_snapshot_to_path(state_path, snapshot)
 }
 
+fn clone_string_list_map_entries(
+    entries: &Vec<ffi::SettingsStringListMapEntry>,
+) -> Vec<ffi::SettingsStringListMapEntry> {
+    entries
+        .iter()
+        .map(|entry| ffi::SettingsStringListMapEntry {
+            key: entry.key.clone(),
+            values: entry.values.iter().map(|value| value.clone()).collect(),
+        })
+        .collect()
+}
+
+fn clone_config_values(values: &Vec<ffi::SettingsConfigValue>) -> Vec<ffi::SettingsConfigValue> {
+    values
+        .iter()
+        .map(|value| ffi::SettingsConfigValue {
+            key: value.key.clone(),
+            kind: value.kind,
+            bool_value: value.bool_value,
+            int_value: value.int_value,
+            double_value: value.double_value,
+            string_value: value.string_value.clone(),
+            string_list_value: value
+                .string_list_value
+                .iter()
+                .map(|entry| entry.clone())
+                .collect(),
+            string_list_map_value: clone_string_list_map_entries(&value.string_list_map_value),
+        })
+        .collect()
+}
+
+fn clone_config_ui_section(section: &ffi::SettingsConfigUiSection) -> ffi::SettingsConfigUiSection {
+    ffi::SettingsConfigUiSection {
+        has_scale_factor: section.has_scale_factor,
+        scale_factor: section.scale_factor,
+        theme_slug: section.theme_slug.clone(),
+        has_font_size_pt: section.has_font_size_pt,
+        font_size_pt: section.font_size_pt,
+        font_family: section.font_family.clone(),
+        font_emoji_family: section.font_emoji_family.clone(),
+        has_motion_animations_enabled: section.has_motion_animations_enabled,
+        motion_animations_enabled: section.motion_animations_enabled,
+        input_mode: section.input_mode.clone(),
+        has_input_touch_swipe_gestures_enabled: section.has_input_touch_swipe_gestures_enabled,
+        input_touch_swipe_gestures_enabled: section.input_touch_swipe_gestures_enabled,
+        has_layout_content_max_width_px: section.has_layout_content_max_width_px,
+        layout_content_max_width_px: section.layout_content_max_width_px,
+        has_layout_compact_mode: section.has_layout_compact_mode,
+        layout_compact_mode: section.layout_compact_mode,
+        has_avatars_circular: section.has_avatars_circular,
+        avatars_circular: section.avatars_circular,
+        scrollbar_policy: section.scrollbar_policy.clone(),
+        default_avatar_style: section.default_avatar_style.clone(),
+    }
+}
+
+fn clone_config_sidebars_section(
+    section: &ffi::SettingsConfigSidebarsSection,
+) -> ffi::SettingsConfigSidebarsSection {
+    ffi::SettingsConfigSidebarsSection {
+        room_list: ffi::SettingsConfigSidebarsRoomListSection {
+            has_show_last_message_time: section.room_list.has_show_last_message_time,
+            show_last_message_time: section.room_list.show_last_message_time,
+            last_message_preview: section.room_list.last_message_preview.clone(),
+            has_show_community_counts: section.room_list.has_show_community_counts,
+            show_community_counts: section.room_list.show_community_counts,
+            sort: section.room_list.sort.clone(),
+            unread_detection_policy: section.room_list.unread_detection_policy.clone(),
+        },
+        communities: ffi::SettingsConfigSidebarsCommunitiesSection {
+            has_visible: section.communities.has_visible,
+            visible: section.communities.visible,
+            has_filter_favourites: section.communities.has_filter_favourites,
+            filter_favourites: section.communities.filter_favourites,
+            has_filter_people: section.communities.has_filter_people,
+            filter_people: section.communities.filter_people,
+            has_filter_bots: section.communities.has_filter_bots,
+            filter_bots: section.communities.filter_bots,
+            has_filter_groups: section.communities.has_filter_groups,
+            filter_groups: section.communities.filter_groups,
+            has_filter_server_notices: section.communities.has_filter_server_notices,
+            filter_server_notices: section.communities.filter_server_notices,
+            has_filter_low_priority: section.communities.has_filter_low_priority,
+            filter_low_priority: section.communities.filter_low_priority,
+        },
+    }
+}
+
+fn clone_config_timeline_section(
+    section: &ffi::SettingsConfigTimelineSection,
+) -> ffi::SettingsConfigTimelineSection {
+    ffi::SettingsConfigTimelineSection {
+        messages: ffi::SettingsConfigTimelineMessagesSection {
+            style: section.messages.style.clone(),
+            positioning: section.messages.positioning.clone(),
+            user_color_coding_policy: section.messages.user_color_coding_policy.clone(),
+            has_layout_small_avatars: section.messages.has_layout_small_avatars,
+            layout_small_avatars: section.messages.layout_small_avatars,
+            has_layout_show_own_avatar: section.messages.has_layout_show_own_avatar,
+            layout_show_own_avatar: section.messages.layout_show_own_avatar,
+            sender_username: section.messages.sender_username.clone(),
+            has_emoji_only_enlarge: section.messages.has_emoji_only_enlarge,
+            emoji_only_enlarge: section.messages.emoji_only_enlarge,
+            has_hover_highlight: section.messages.has_hover_highlight,
+            hover_highlight: section.messages.hover_highlight,
+        },
+        formatted: ffi::SettingsConfigTimelineFormattedSection {
+            has_code_syntax_highlighting: section.formatted.has_code_syntax_highlighting,
+            code_syntax_highlighting: section.formatted.code_syntax_highlighting,
+        },
+        typing: ffi::SettingsConfigTimelineTypingSection {
+            has_show_enabled: section.typing.has_show_enabled,
+            show_enabled: section.typing.show_enabled,
+        },
+        read_receipts: ffi::SettingsConfigTimelineReadReceiptsSection {
+            has_enabled: section.read_receipts.has_enabled,
+            enabled: section.read_receipts.enabled,
+        },
+        message_actions: ffi::SettingsConfigTimelineMessageActionsSection {
+            activation_policy: section.message_actions.activation_policy.clone(),
+            pinned_reactions: section.message_actions.pinned_reactions.clone(),
+        },
+        media: ffi::SettingsConfigTimelineMediaSection {
+            has_effects_enabled: section.media.has_effects_enabled,
+            effects_enabled: section.media.effects_enabled,
+            has_animate_on_hover: section.media.has_animate_on_hover,
+            animate_on_hover: section.media.animate_on_hover,
+            image_display: section.media.image_display.clone(),
+            has_open_images_external: section.media.has_open_images_external,
+            open_images_external: section.media.open_images_external,
+            has_open_videos_external: section.media.has_open_videos_external,
+            open_videos_external: section.media.open_videos_external,
+            has_autoplay_gif_videos: section.media.has_autoplay_gif_videos,
+            autoplay_gif_videos: section.media.autoplay_gif_videos,
+            has_open_audio_external: section.media.has_open_audio_external,
+            open_audio_external: section.media.open_audio_external,
+            has_default_audio_playback_speed: section.media.has_default_audio_playback_speed,
+            default_audio_playback_speed: section.media.default_audio_playback_speed,
+        },
+        hidden_events: ffi::SettingsConfigTimelineHiddenEventsSection {
+            has_global: section.hidden_events.has_global,
+            global: section
+                .hidden_events
+                .global
+                .iter()
+                .map(|value| value.clone())
+                .collect(),
+            by_room: clone_string_list_map_entries(&section.hidden_events.by_room),
+        },
+    }
+}
+
+fn clone_config_secrets_section(
+    section: &ffi::SettingsConfigSecretsSection,
+) -> ffi::SettingsConfigSecretsSection {
+    ffi::SettingsConfigSecretsSection {
+        provider: section.provider.clone(),
+    }
+}
+
+fn clone_config_privacy_section(
+    section: &ffi::SettingsConfigPrivacySection,
+) -> ffi::SettingsConfigPrivacySection {
+    ffi::SettingsConfigPrivacySection {
+        window_focus_blur: ffi::SettingsConfigPrivacyWindowFocusBlurSection {
+            has_enabled: section.window_focus_blur.has_enabled,
+            enabled: section.window_focus_blur.enabled,
+            has_delay_seconds: section.window_focus_blur.has_delay_seconds,
+            delay_seconds: section.window_focus_blur.delay_seconds,
+        },
+        maintenance: ffi::SettingsConfigPrivacyMaintenanceSection {
+            has_expire_events: section.maintenance.has_expire_events,
+            expire_events: section.maintenance.expire_events,
+        },
+    }
+}
+
+fn clone_config_encryption_section(
+    section: &ffi::SettingsConfigEncryptionSection,
+) -> ffi::SettingsConfigEncryptionSection {
+    ffi::SettingsConfigEncryptionSection {
+        key_sharing: ffi::SettingsConfigEncryptionKeySharingSection {
+            has_only_verified_users: section.key_sharing.has_only_verified_users,
+            only_verified_users: section.key_sharing.only_verified_users,
+            has_share_with_trusted: section.key_sharing.has_share_with_trusted,
+            share_with_trusted: section.key_sharing.share_with_trusted,
+        },
+        backup: ffi::SettingsConfigEncryptionBackupSection {
+            online: ffi::SettingsConfigEncryptionBackupOnlineSection {
+                has_enabled: section.backup.online.has_enabled,
+                enabled: section.backup.online.enabled,
+            },
+        },
+    }
+}
+
+fn clone_config_calls_section(
+    section: &ffi::SettingsConfigCallsSection,
+) -> ffi::SettingsConfigCallsSection {
+    ffi::SettingsConfigCallsSection {
+        legacy: ffi::SettingsConfigCallsLegacySection {
+            has_enabled: section.legacy.has_enabled,
+            enabled: section.legacy.enabled,
+        },
+        relay: ffi::SettingsConfigCallsRelaySection {
+            has_use_fallback_server: section.relay.has_use_fallback_server,
+            use_fallback_server: section.relay.use_fallback_server,
+        },
+        devices: ffi::SettingsConfigCallsDevicesSection {
+            microphone: section.devices.microphone.clone(),
+            camera: section.devices.camera.clone(),
+            camera_resolution: section.devices.camera_resolution.clone(),
+            camera_frame_rate: section.devices.camera_frame_rate.clone(),
+        },
+        audio: ffi::SettingsConfigCallsAudioSection {
+            ringtone: section.audio.ringtone.clone(),
+        },
+        screenshare: ffi::SettingsConfigCallsScreenshareSection {
+            has_frame_rate: section.screenshare.has_frame_rate,
+            frame_rate: section.screenshare.frame_rate,
+            has_picture_in_picture: section.screenshare.has_picture_in_picture,
+            picture_in_picture: section.screenshare.picture_in_picture,
+            has_include_remote_video: section.screenshare.has_include_remote_video,
+            include_remote_video: section.screenshare.include_remote_video,
+            has_show_cursor: section.screenshare.has_show_cursor,
+            show_cursor: section.screenshare.show_cursor,
+        },
+    }
+}
+
+fn clone_config_notifications_section(
+    section: &ffi::SettingsConfigNotificationsSection,
+) -> ffi::SettingsConfigNotificationsSection {
+    ffi::SettingsConfigNotificationsSection {
+        has_enabled: section.has_enabled,
+        enabled: section.enabled,
+        has_attention_on_incoming: section.has_attention_on_incoming,
+        attention_on_incoming: section.attention_on_incoming,
+        message_content_policy: section.message_content_policy.clone(),
+    }
+}
+
+fn clone_config_network_section(
+    section: &ffi::SettingsConfigNetworkSection,
+) -> ffi::SettingsConfigNetworkSection {
+    ffi::SettingsConfigNetworkSection {
+        presence_status_policy: section.presence_status_policy.clone(),
+        has_tls_enable_certificate_validation: section.has_tls_enable_certificate_validation,
+        tls_enable_certificate_validation: section.tls_enable_certificate_validation,
+        has_mrs_enabled: section.has_mrs_enabled,
+        mrs_enabled: section.mrs_enabled,
+        mrs_server_name: section.mrs_server_name.clone(),
+        has_http3_enabled: section.has_http3_enabled,
+        http3_enabled: section.http3_enabled,
+    }
+}
+
+fn clone_config_integrations_section(
+    section: &ffi::SettingsConfigIntegrationsSection,
+) -> ffi::SettingsConfigIntegrationsSection {
+    ffi::SettingsConfigIntegrationsSection {
+        has_system_tray_enabled: section.has_system_tray_enabled,
+        system_tray_enabled: section.system_tray_enabled,
+        has_system_tray_autostart: section.has_system_tray_autostart,
+        system_tray_autostart: section.system_tray_autostart,
+        dbus_api_access: section.dbus_api_access.clone(),
+        browser_command: section.browser_command.clone(),
+    }
+}
+
+fn clone_config_composer_section(
+    section: &ffi::SettingsConfigComposerSection,
+) -> ffi::SettingsConfigComposerSection {
+    ffi::SettingsConfigComposerSection {
+        has_input_markdown_to_html_enabled: section.has_input_markdown_to_html_enabled,
+        input_markdown_to_html_enabled: section.input_markdown_to_html_enabled,
+        input_send_key: section.input_send_key.clone(),
+        input_auto_replace_emoji: section.input_auto_replace_emoji.clone(),
+        input_emoji_preferred_gender: section.input_emoji_preferred_gender.clone(),
+        input_emoji_preferred_skin_tone: section.input_emoji_preferred_skin_tone.clone(),
+        has_input_inline_emoji_picker_enabled: section.has_input_inline_emoji_picker_enabled,
+        input_inline_emoji_picker_enabled: section.input_inline_emoji_picker_enabled,
+        has_input_inline_room_picker_enabled: section.has_input_inline_room_picker_enabled,
+        input_inline_room_picker_enabled: section.input_inline_room_picker_enabled,
+        has_input_inline_user_picker_enabled: section.has_input_inline_user_picker_enabled,
+        input_inline_user_picker_enabled: section.input_inline_user_picker_enabled,
+        has_typing_send_enabled: section.has_typing_send_enabled,
+        typing_send_enabled: section.typing_send_enabled,
+        has_extras_stickers_enabled: section.has_extras_stickers_enabled,
+        extras_stickers_enabled: section.extras_stickers_enabled,
+    }
+}
+
+fn loaded_config_to_snapshot(loaded: &ffi::SettingsLoadedConfig) -> ffi::SettingsConfigSnapshot {
+    ffi::SettingsConfigSnapshot {
+        ui: clone_config_ui_section(&loaded.ui),
+        sidebars: clone_config_sidebars_section(&loaded.sidebars),
+        timeline: clone_config_timeline_section(&loaded.timeline),
+        secrets: clone_config_secrets_section(&loaded.secrets),
+        privacy: clone_config_privacy_section(&loaded.privacy),
+        encryption: clone_config_encryption_section(&loaded.encryption),
+        calls: clone_config_calls_section(&loaded.calls),
+        notifications: clone_config_notifications_section(&loaded.notifications),
+        network: clone_config_network_section(&loaded.network),
+        integrations: clone_config_integrations_section(&loaded.integrations),
+        composer: clone_config_composer_section(&loaded.composer),
+        values: clone_config_values(&loaded.values),
+    }
+}
+
 pub(crate) fn settings_write_loaded_config_to_path(
     config_path: &str,
     loaded: &ffi::SettingsLoadedConfig,
 ) -> bool {
-    settings::storage::write_text_file(config_path, &loaded.serialized_yaml, false)
+    settings::config::write_config_snapshot_to_path(config_path, &loaded_config_to_snapshot(loaded))
 }
 
 pub(crate) fn settings_write_loaded_session_to_path(

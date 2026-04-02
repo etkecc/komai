@@ -166,13 +166,4 @@ deleteSecureValueBlocking(const QString &key);
 bool
 isSecureBackendAvailable();
 
-QString
-encodeSecretsMap(const QMap<QString, QString> &secrets);
-QMap<QString, QString>
-decodeSecretsMap(const QString &serialized);
-QString
-encodeSecretsFilePayload(const QMap<QString, QString> &secrets);
-QMap<QString, QString>
-decodeSecretsFilePayload(const QString &serialized);
-
 } // namespace settings::storage

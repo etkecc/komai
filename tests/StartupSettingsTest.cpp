@@ -27,6 +27,7 @@
 #include "settings/core/StartupConfig.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsCoreStoreBridge.h"
+#include "support/settings/SettingsStorageSecretsCodec.h"
 #include "ui/ThemeRegistry.h"
 #include "TestEnvironment.h"
 

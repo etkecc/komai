@@ -22,6 +22,7 @@
 #include "profile/ProfileSecrets.h"
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "settings/SettingsStorage.h"
+#include "support/settings/SettingsStorageSecretsCodec.h"
 #include "TestEnvironment.h"
 
 namespace {

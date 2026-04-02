@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "SettingsStorage.h"
+#include "SettingsStorageSecretsCodec.h"
 
 #include "komai-rust-cxxbridge/ffi.h"
 #include "settings/SettingKeys.h"

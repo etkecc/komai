@@ -987,7 +987,7 @@ if(BUILD_TESTING)
         src/settings/SettingsStorageReaderWriterFilesystem.cpp
         src/settings/SettingsStorageReaderWriterInMemory.cpp
         src/settings/SettingsStorageSecureBackend.cpp
-        src/settings/SettingsStorageSecretsCodec.cpp
+        tests/support/settings/SettingsStorageSecretsCodec.cpp
         src/settings/core/StartupConfig.cpp
         src/settings/core/SettingsStore.cpp
         src/timeline/TimelineEventTypes.cpp
@@ -1027,7 +1027,7 @@ if(BUILD_TESTING)
         src/settings/SettingsStorageReaderWriterFilesystem.cpp
         src/settings/SettingsStorageReaderWriterInMemory.cpp
         src/settings/SettingsStorageSecureBackend.cpp
-        src/settings/SettingsStorageSecretsCodec.cpp
+        tests/support/settings/SettingsStorageSecretsCodec.cpp
     )
     target_include_directories(komai_settings_storage_test PRIVATE src)
     target_link_libraries(komai_settings_storage_test PRIVATE

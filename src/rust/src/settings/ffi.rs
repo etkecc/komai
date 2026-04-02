@@ -72,10 +72,6 @@ pub(crate) fn settings_write_named_string_map_to_path(
     )
 }
 
-pub(crate) fn settings_encode_config_yaml(snapshot: &ffi::SettingsConfigSnapshot) -> String {
-    settings::config::encode_config_yaml(snapshot)
-}
-
 pub(crate) fn settings_write_config_snapshot_to_path(
     config_path: &str,
     snapshot: &ffi::SettingsConfigSnapshot,
@@ -560,10 +556,6 @@ pub(crate) fn settings_load_session_snapshot_from_path(session_path: &str) -> ff
     ffi_loaded_session(settings::session::load_session_snapshot_from_path(session_path))
 }
 
-pub(crate) fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str) -> String {
-    settings::session::encode_session_yaml(user_id, homeserver, device_id)
-}
-
 pub(crate) fn settings_write_session_snapshot_to_path(
     session_path: &str,
     user_id: &str,
@@ -575,10 +567,6 @@ pub(crate) fn settings_write_session_snapshot_to_path(
 
 pub(crate) fn settings_load_state_snapshot(state_text: &str) -> ffi::SettingsLoadedState {
     ffi_loaded_state(settings::state::load_state_snapshot(state_text))
-}
-
-pub(crate) fn settings_encode_state_yaml(snapshot: &ffi::SettingsStateSnapshot) -> String {
-    settings::state::encode_state_yaml(snapshot)
 }
 
 pub(crate) fn settings_write_state_snapshot_to_path(

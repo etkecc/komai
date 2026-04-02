@@ -1028,7 +1028,6 @@ mod bridge {
             entries: &Vec<SettingsStringMapEntry>,
             owner_read_write_only: bool,
         ) -> bool;
-        fn settings_encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String;
         fn settings_write_config_snapshot_to_path(
             config_path: &str,
             snapshot: &SettingsConfigSnapshot,
@@ -1050,8 +1049,6 @@ mod bridge {
         fn settings_profile_write_state(handle: &SettingsProfileHandle) -> bool;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_load_session_snapshot_from_path(session_path: &str) -> SettingsLoadedSession;
-        fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str)
-        -> String;
         fn settings_write_session_snapshot_to_path(
             session_path: &str,
             user_id: &str,
@@ -1059,7 +1056,6 @@ mod bridge {
             device_id: &str,
         ) -> bool;
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
-        fn settings_encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String;
         fn settings_write_state_snapshot_to_path(
             state_path: &str,
             snapshot: &SettingsStateSnapshot,

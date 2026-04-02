@@ -1010,7 +1010,6 @@ mod bridge {
             enable_debug: bool,
         );
         fn log_from_cpp(component: &str, level: &str, message: &str);
-        fn settings_load_startup_snapshot_from_path(config_path: &str) -> SettingsStartupSnapshot;
         fn settings_load_startup_snapshot_for_profile(profile_id: &str) -> SettingsStartupSnapshot;
         fn settings_load_config_overview_for_profile(profile_id: &str) -> SettingsConfigOverview;
         fn settings_encode_string_map_yaml(entries: &Vec<SettingsStringMapEntry>) -> String;

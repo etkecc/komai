@@ -4,18 +4,14 @@
 
 use crate::{ffi, settings};
 
-pub(crate) fn settings_load_startup_snapshot_from_path(config_path: &str) -> ffi::SettingsStartupSnapshot {
-    let snapshot = settings::startup::snapshot_from_config_path(config_path);
+pub(crate) fn settings_load_startup_snapshot_for_profile(profile_id: &str) -> ffi::SettingsStartupSnapshot {
+    let config_path = settings::storage::config_file_path_for_profile(profile_id);
+    let snapshot = settings::startup::snapshot_from_config_path(&config_path);
 
     ffi::SettingsStartupSnapshot {
         has_ui_scale_factor: snapshot.ui_scale_factor.is_some(),
         ui_scale_factor: snapshot.ui_scale_factor.unwrap_or_default(),
     }
-}
-
-pub(crate) fn settings_load_startup_snapshot_for_profile(profile_id: &str) -> ffi::SettingsStartupSnapshot {
-    let config_path = settings::storage::config_file_path_for_profile(profile_id);
-    settings_load_startup_snapshot_from_path(&config_path)
 }
 
 fn load_config_overview(config_text: &str) -> ffi::SettingsConfigOverview {

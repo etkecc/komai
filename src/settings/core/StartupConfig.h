@@ -37,14 +37,6 @@ struct StartupConfigSnapshot
     std::optional<float> uiScaleFactor;
 };
 
-/**
- * Parse startup configuration snapshot from a YAML file path.
- *
- * Non-Qt helper used during bootstrap, before a QObject/QML stack exists.
- */
-StartupConfigSnapshot
-snapshotFromYamlFile(std::string_view path);
-
 StartupConfigSnapshot
 snapshotForProfile(std::string_view profileId);
 

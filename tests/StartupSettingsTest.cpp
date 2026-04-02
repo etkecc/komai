@@ -360,52 +360,6 @@ testStartupConfigSnapshotMissingProfile()
 }
 
 bool
-testCoreSnapshotExtraction()
-{
-    QTemporaryDir tmpDir;
-    if (!tmpDir.isValid())
-        return expect(false, "temporary directory can be created");
-
-    const auto path = tmpDir.path() + QStringLiteral("/config.yml");
-    if (!settings::storage::writeTextFile(path,
-                                          QStringLiteral("ui:\n"
-                                                         "  scale:\n"
-                                                         "    factor: 2.0\n"),
-                                          false))
-        return expect(false, "temporary snapshot file can be created");
-
-    auto snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
-    if (!expect(snapshot.uiScaleFactor.has_value() &&
-                  std::abs(*snapshot.uiScaleFactor - 2.0F) < 0.0001F,
-                "core snapshot extracts supported scale factor from file")) {
-        return false;
-    }
-
-    if (!settings::storage::writeTextFile(path,
-                                          QStringLiteral("ui:\n"
-                                                         "  scale:\n"
-                                                         "    factor: invalid\n"),
-                                          false))
-        return expect(false, "temporary snapshot file can be rewritten");
-
-    snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
-    if (!expect(!snapshot.uiScaleFactor.has_value(),
-                "core snapshot ignores malformed scale factor")) {
-        return false;
-    }
-
-    if (!settings::storage::writeTextFile(path,
-                                          QStringLiteral("ui:\n"
-                                                         "  scale:\n"
-                                                         "    factor: 5.0\n"),
-                                          false))
-        return expect(false, "temporary snapshot file can be rewritten again");
-
-    snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
-    return expect(!snapshot.uiScaleFactor.has_value(), "core snapshot ignores out-of-range scale factors");
-}
-
-bool
 testCoreScaleRangeHelpers()
 {
     bool ok = true;
@@ -423,27 +377,6 @@ testCoreScaleRangeHelpers()
     ok &= expect(!settings::core::normalizeScaleFactor(0.5F).has_value(),
                  "scale factor normalization rejects out-of-range values");
     return ok;
-}
-
-bool
-testCoreSnapshotFromFile()
-{
-    QTemporaryDir tmpDir;
-    if (!tmpDir.isValid())
-        return expect(false, "temporary directory can be created");
-
-    const auto path = tmpDir.path() + QStringLiteral("/config.yml");
-    if (!settings::storage::writeTextFile(path,
-                                          QStringLiteral("ui:\n"
-                                                         "  scale:\n"
-                                                         "    factor: 2.25\n"),
-                                          false))
-        return expect(false, "temporary snapshot file can be created");
-
-    const auto snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
-    return expect(snapshot.uiScaleFactor.has_value() &&
-                  std::abs(*snapshot.uiScaleFactor - 2.25F) < 0.0001F,
-                  "core snapshot loads from file path");
 }
 
 bool
@@ -1801,8 +1734,6 @@ main()
     bool ok = true;
     ok &= testStartupConfigSnapshotLoads();
     ok &= testStartupConfigSnapshotMissingProfile();
-    ok &= testCoreSnapshotExtraction();
-    ok &= testCoreSnapshotFromFile();
     ok &= testCoreScaleRangeHelpers();
     ok &= testStartupPolicySkipsSessionWritesUntilCompleteSession();
     ok &= testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets();

@@ -116,11 +116,12 @@ loadImpl(UserSettings &settings,
                                    pathExists(settings.sessionFilePath());
     settings.setPersistenceSuspended(true);
 
-    auto profileSnapshot = ::komai::rust::settings_load_profile_snapshot_from_paths(
+    auto profileHandle = ::komai::rust::settings_open_profile_handle(
       settings.configFilePath().toStdString(),
       settings.sessionFilePath().toStdString(),
       settings.stateFilePath().toStdString(),
       loadPolicy == settings::SettingsController::LoadPolicy::Full);
+    auto profileSnapshot = ::komai::rust::settings_profile_snapshot(*profileHandle);
     auto &configSnapshot = profileSnapshot.config;
     logConfigMigrationWarnings(configSnapshot);
     settings::serializer::loadConfig(settings, configSnapshot);
@@ -139,6 +140,8 @@ loadImpl(UserSettings &settings,
         provider                   = preferredProviderForAvailability(secureAvailable);
         configSnapshot.secrets.provider =
           QString::fromLatin1(providerToken(provider)).toStdString();
+        ::komai::rust::settings_profile_set_config_secrets_provider(
+          *profileHandle, configSnapshot.secrets.provider);
         settings::activeLoggers().ui->info(
           "New profile '{}' selected secrets provider '{}' (secure backend available={})",
           app_paths::normalizedProfileId(settings.profileId()).toStdString(),
@@ -153,8 +156,7 @@ loadImpl(UserSettings &settings,
 
     if (persistMigrationWriteback && !configFileExists && !configSnapshot.had_future_version &&
         !configSnapshot.had_unsupported_path) {
-        if (!::komai::rust::settings_write_loaded_config_to_path(
-              settings.configFilePath().toStdString(), configSnapshot)) {
+        if (!::komai::rust::settings_profile_write_config(*profileHandle)) {
             settings::activeLoggers().ui->warn(
               "Failed to initialize new profile config with schema version: {}",
               settings.configFilePath().toStdString());
@@ -166,8 +168,7 @@ loadImpl(UserSettings &settings,
     } else if (persistMigrationWriteback && configFileExists &&
                !configSnapshot.had_future_version && !configSnapshot.had_unsupported_path &&
                configSnapshot.should_write_back) {
-        if (!::komai::rust::settings_write_loaded_config_to_path(
-              settings.configFilePath().toStdString(), configSnapshot)) {
+        if (!::komai::rust::settings_profile_write_config(*profileHandle)) {
             settings::activeLoggers().ui->warn("Failed to persist migrated config settings at: {}",
                                                settings.configFilePath().toStdString());
         } else {
@@ -202,8 +203,7 @@ loadImpl(UserSettings &settings,
             if (persistMigrationWriteback && sessionFileExists &&
                 !sessionSnapshot.had_future_version && !sessionSnapshot.had_unsupported_path &&
                 sessionSnapshot.should_write_back) {
-                if (!::komai::rust::settings_write_loaded_session_to_path(
-                      settings.sessionFilePath().toStdString(), sessionSnapshot)) {
+                if (!::komai::rust::settings_profile_write_session(*profileHandle)) {
                     settings::activeLoggers().ui->warn(
                       "Failed to persist migrated session settings at: {}",
                       settings.sessionFilePath().toStdString());
@@ -275,8 +275,7 @@ loadImpl(UserSettings &settings,
             }
             if (persistMigrationWriteback && stateFileExists && !stateSnapshot.had_future_version &&
                 !stateSnapshot.had_unsupported_path && stateSnapshot.should_write_back) {
-                if (!::komai::rust::settings_write_loaded_state_to_path(
-                      settings.stateFilePath().toStdString(), stateSnapshot)) {
+                if (!::komai::rust::settings_profile_write_state(*profileHandle)) {
                     settings::activeLoggers().ui->warn(
                       "Failed to persist migrated state settings at: {}",
                       settings.stateFilePath().toStdString());
@@ -312,11 +311,12 @@ loadImpl(UserSettings &settings,
                                                     staged_load_plan::SecretsProvider::File);
                 configSnapshot.secrets.provider =
                   QString::fromLatin1(providerToken(provider)).toStdString();
+                ::komai::rust::settings_profile_set_config_secrets_provider(
+                  *profileHandle, configSnapshot.secrets.provider);
 
                 if (persistMigrationWriteback && !configSnapshot.had_future_version &&
                     !configSnapshot.had_unsupported_path) {
-                    if (!::komai::rust::settings_write_loaded_config_to_path(
-                          settings.configFilePath().toStdString(), configSnapshot)) {
+                    if (!::komai::rust::settings_profile_write_config(*profileHandle)) {
                         settings::activeLoggers().ui->warn(
                           "Failed to persist startup secrets provider update at: {}",
                           settings.configFilePath().toStdString());

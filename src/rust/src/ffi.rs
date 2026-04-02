@@ -5,6 +5,7 @@
 pub(crate) use crate::logging::{init_logging, log_from_cpp};
 pub(crate) use crate::matrix_backend::ffi::*;
 pub(crate) use crate::settings::ffi::*;
+pub(crate) use crate::settings::profile::SettingsProfileHandle;
 pub(crate) use crate::theme::base16::parse_base16_yaml as theme_parse_base16_yaml;
 pub(crate) use crate::theme::external::parse_external_theme as theme_parse_external_theme;
 
@@ -994,6 +995,8 @@ mod bridge {
     }
 
     extern "Rust" {
+        type SettingsProfileHandle;
+
         fn init_logging(
             level: &str,
             log_file_path: &str,
@@ -1031,12 +1034,20 @@ mod bridge {
             snapshot: &SettingsConfigSnapshot,
         ) -> bool;
         fn settings_load_config_snapshot(config_text: &str) -> SettingsLoadedConfig;
-        fn settings_load_profile_snapshot_from_paths(
+        fn settings_open_profile_handle(
             config_path: &str,
             session_path: &str,
             state_path: &str,
             include_session: bool,
-        ) -> SettingsLoadedProfile;
+        ) -> Box<SettingsProfileHandle>;
+        fn settings_profile_snapshot(handle: &SettingsProfileHandle) -> SettingsLoadedProfile;
+        fn settings_profile_set_config_secrets_provider(
+            handle: Pin<&mut SettingsProfileHandle>,
+            provider: &str,
+        );
+        fn settings_profile_write_config(handle: &SettingsProfileHandle) -> bool;
+        fn settings_profile_write_session(handle: &SettingsProfileHandle) -> bool;
+        fn settings_profile_write_state(handle: &SettingsProfileHandle) -> bool;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_load_session_snapshot_from_path(session_path: &str) -> SettingsLoadedSession;
         fn settings_encode_session_yaml(user_id: &str, homeserver: &str, device_id: &str)
@@ -1052,18 +1063,6 @@ mod bridge {
         fn settings_write_state_snapshot_to_path(
             state_path: &str,
             snapshot: &SettingsStateSnapshot,
-        ) -> bool;
-        fn settings_write_loaded_config_to_path(
-            config_path: &str,
-            loaded: &SettingsLoadedConfig,
-        ) -> bool;
-        fn settings_write_loaded_session_to_path(
-            session_path: &str,
-            loaded: &SettingsLoadedSession,
-        ) -> bool;
-        fn settings_write_loaded_state_to_path(
-            state_path: &str,
-            loaded: &SettingsLoadedState,
         ) -> bool;
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;
         fn theme_parse_base16_yaml(theme_text: &str) -> ThemeBase16ParseResult;

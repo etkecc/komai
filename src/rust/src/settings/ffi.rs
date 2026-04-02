@@ -509,24 +509,47 @@ pub(crate) fn settings_load_config_snapshot(config_text: &str) -> ffi::SettingsL
     ffi_loaded_config(settings::config::load_config_snapshot(config_text))
 }
 
-pub(crate) fn settings_load_profile_snapshot_from_paths(
+pub(crate) fn settings_open_profile_handle(
     config_path: &str,
     session_path: &str,
     state_path: &str,
     include_session: bool,
-) -> ffi::SettingsLoadedProfile {
-    let snapshot = settings::profile::load_profile_snapshot_from_paths(
+) -> Box<settings::profile::SettingsProfileHandle> {
+    Box::new(settings::profile::SettingsProfileHandle::load_from_paths(
         config_path,
         session_path,
         state_path,
         include_session,
-    );
+    ))
+}
 
-    ffi::SettingsLoadedProfile {
-        config: ffi_loaded_config(snapshot.config),
-        session: ffi_loaded_session(snapshot.session),
-        state: ffi_loaded_state(snapshot.state),
-    }
+pub(crate) fn settings_profile_snapshot(
+    handle: &settings::profile::SettingsProfileHandle,
+) -> ffi::SettingsLoadedProfile {
+    handle.snapshot()
+}
+
+pub(crate) fn settings_profile_set_config_secrets_provider(
+    handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
+    provider: &str,
+) {
+    handle.set_config_secrets_provider(provider);
+}
+
+pub(crate) fn settings_profile_write_config(
+    handle: &settings::profile::SettingsProfileHandle,
+) -> bool {
+    handle.write_config()
+}
+
+pub(crate) fn settings_profile_write_session(
+    handle: &settings::profile::SettingsProfileHandle,
+) -> bool {
+    handle.write_session()
+}
+
+pub(crate) fn settings_profile_write_state(handle: &settings::profile::SettingsProfileHandle) -> bool {
+    handle.write_state()
 }
 
 pub(crate) fn settings_load_session_snapshot(session_text: &str) -> ffi::SettingsLoadedSession {
@@ -855,21 +878,101 @@ fn loaded_config_to_snapshot(loaded: &ffi::SettingsLoadedConfig) -> ffi::Setting
     }
 }
 
-pub(crate) fn settings_write_loaded_config_to_path(
+pub(in crate::settings) fn clone_loaded_config(
+    loaded: &ffi::SettingsLoadedConfig,
+) -> ffi::SettingsLoadedConfig {
+    ffi::SettingsLoadedConfig {
+        ui: clone_config_ui_section(&loaded.ui),
+        sidebars: clone_config_sidebars_section(&loaded.sidebars),
+        timeline: clone_config_timeline_section(&loaded.timeline),
+        secrets: clone_config_secrets_section(&loaded.secrets),
+        privacy: clone_config_privacy_section(&loaded.privacy),
+        encryption: clone_config_encryption_section(&loaded.encryption),
+        calls: clone_config_calls_section(&loaded.calls),
+        notifications: clone_config_notifications_section(&loaded.notifications),
+        network: clone_config_network_section(&loaded.network),
+        integrations: clone_config_integrations_section(&loaded.integrations),
+        composer: clone_config_composer_section(&loaded.composer),
+        source_version: loaded.source_version,
+        migrated_version: loaded.migrated_version,
+        had_future_version: loaded.had_future_version,
+        had_unsupported_path: loaded.had_unsupported_path,
+        should_write_back: loaded.should_write_back,
+        serialized_yaml: loaded.serialized_yaml.clone(),
+    }
+}
+
+pub(in crate::settings) fn clone_loaded_session(
+    loaded: &ffi::SettingsLoadedSession,
+) -> ffi::SettingsLoadedSession {
+    ffi::SettingsLoadedSession {
+        user_id: loaded.user_id.clone(),
+        device_id: loaded.device_id.clone(),
+        homeserver: loaded.homeserver.clone(),
+        source_version: loaded.source_version,
+        migrated_version: loaded.migrated_version,
+        had_future_version: loaded.had_future_version,
+        had_unsupported_path: loaded.had_unsupported_path,
+        should_write_back: loaded.should_write_back,
+        serialized_yaml: loaded.serialized_yaml.clone(),
+    }
+}
+
+pub(in crate::settings) fn clone_loaded_state(loaded: &ffi::SettingsLoadedState) -> ffi::SettingsLoadedState {
+    ffi::SettingsLoadedState {
+        window_width: loaded.window_width,
+        window_height: loaded.window_height,
+        sidebars_room_list_width_px: loaded.sidebars_room_list_width_px,
+        sidebars_communities_width_px: loaded.sidebars_communities_width_px,
+        current_filter_id: loaded.current_filter_id.clone(),
+        current_room_id: loaded.current_room_id.clone(),
+        global_excludes: loaded.global_excludes.iter().cloned().collect(),
+        badges_hidden_filters: loaded.badges_hidden_filters.iter().cloned().collect(),
+        hidden_pins: loaded.hidden_pins.iter().cloned().collect(),
+        hidden_widgets: loaded.hidden_widgets.iter().cloned().collect(),
+        collapsed_spaces: loaded.collapsed_spaces.iter().cloned().collect(),
+        composer_drafts_by_room: loaded
+            .composer_drafts_by_room
+            .iter()
+            .map(|entry| ffi::SettingsStringMapEntry {
+                key: entry.key.clone(),
+                value: entry.value.clone(),
+            })
+            .collect(),
+        source_version: loaded.source_version,
+        migrated_version: loaded.migrated_version,
+        had_future_version: loaded.had_future_version,
+        had_unsupported_path: loaded.had_unsupported_path,
+        should_write_back: loaded.should_write_back,
+        serialized_yaml: loaded.serialized_yaml.clone(),
+    }
+}
+
+pub(in crate::settings) fn clone_loaded_profile(
+    loaded: &ffi::SettingsLoadedProfile,
+) -> ffi::SettingsLoadedProfile {
+    ffi::SettingsLoadedProfile {
+        config: clone_loaded_config(&loaded.config),
+        session: clone_loaded_session(&loaded.session),
+        state: clone_loaded_state(&loaded.state),
+    }
+}
+
+pub(in crate::settings) fn write_loaded_config_to_path(
     config_path: &str,
     loaded: &ffi::SettingsLoadedConfig,
 ) -> bool {
     settings::config::write_config_snapshot_to_path(config_path, &loaded_config_to_snapshot(loaded))
 }
 
-pub(crate) fn settings_write_loaded_session_to_path(
+pub(in crate::settings) fn write_loaded_session_to_path(
     session_path: &str,
     loaded: &ffi::SettingsLoadedSession,
 ) -> bool {
     settings::storage::write_text_file(session_path, &loaded.serialized_yaml, false)
 }
 
-pub(crate) fn settings_write_loaded_state_to_path(
+pub(in crate::settings) fn write_loaded_state_to_path(
     state_path: &str,
     loaded: &ffi::SettingsLoadedState,
 ) -> bool {

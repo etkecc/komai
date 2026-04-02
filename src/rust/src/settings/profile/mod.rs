@@ -4,6 +4,9 @@
 
 use super::{config, session, state, storage};
 
+mod handle;
+pub use handle::SettingsProfileHandle;
+
 pub struct LoadedProfile {
     pub config: config::LoadedConfig,
     pub session: session::LoadedSession,

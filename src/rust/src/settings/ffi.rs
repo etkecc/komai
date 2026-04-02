@@ -124,6 +124,28 @@ pub(crate) fn settings_remove_persisted_secrets_file_for_profile(profile_id: &st
     settings::secrets::remove_persisted_secrets_file_for_profile(profile_id)
 }
 
+pub(crate) fn settings_load_matrix_sdk_secrets_for_profile(
+    profile_id: &str,
+) -> Vec<ffi::SettingsStringMapEntry> {
+    settings::secrets::load_matrix_sdk_secrets_for_profile(profile_id)
+}
+
+pub(crate) fn settings_write_matrix_sdk_secrets_for_profile(
+    profile_id: &str,
+    entries: &Vec<ffi::SettingsStringMapEntry>,
+    owner_read_write_only: bool,
+) -> bool {
+    settings::secrets::write_matrix_sdk_secrets_for_profile(
+        profile_id,
+        entries.as_slice(),
+        owner_read_write_only,
+    )
+}
+
+pub(crate) fn settings_remove_matrix_sdk_secrets_file_for_profile(profile_id: &str) -> bool {
+    settings::secrets::remove_matrix_sdk_secrets_file_for_profile(profile_id)
+}
+
 pub(crate) fn settings_load_named_string_map_from_path(
     path: &str,
     label: &str,

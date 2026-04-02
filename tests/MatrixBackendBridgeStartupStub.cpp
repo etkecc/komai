@@ -6,6 +6,8 @@
 #include "matrix/backend/MatrixBackendBridge.h"
 #include "settings/SettingsStorage.h"
 
+#include <QDir>
+
 namespace komai::rust_bridge {
 
 ::rust::String
@@ -50,6 +52,15 @@ settings_profile_secrets_path(::rust::Str profile_id)
     return ::rust::String(
       settings::storage::secretsFilePathForProfile(QString::fromStdString(std::string(profile_id)))
         .toStdString());
+}
+
+::rust::String
+settings_profile_matrix_sdk_secrets_path(::rust::Str profile_id)
+{
+    const auto profileDir =
+      settings::storage::profileDirPath(QString::fromStdString(std::string(profile_id)));
+    return ::rust::String(QDir(profileDir).filePath(QStringLiteral("matrix-sdk-secrets.yml"))
+                            .toStdString());
 }
 
 ::rust::String

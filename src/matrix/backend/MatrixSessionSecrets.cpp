@@ -5,7 +5,6 @@
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "komai-rust-cxxbridge/ffi.h"
 
-#include <QDir>
 #include <QHash>
 #include <QMap>
 
@@ -18,14 +17,36 @@ constexpr auto MatrixSdkStorePassphraseKey   = "matrix_sdk.store_passphrase";
 constexpr auto MatrixSdkHomeserverUrlKey     = "matrix_sdk.homeserver_url";
 constexpr auto MatrixSdkSerializedSessionKey = "matrix_sdk.serialized_session";
 constexpr auto MatrixSdkSecureStoreKey       = "matrix_sdk.session";
-constexpr auto MatrixSdkSecretsFileName      = "matrix-sdk-secrets.yml";
 
 struct SecretsPersistenceContext
 {
     bool usesFileSecretsProvider = false;
-    QString secretsFilePath;
     QString secureStoreKey;
 };
+
+::rust::Vec<::komai::rust::SettingsStringMapEntry>
+toRustStringMapEntries(const QMap<QString, QString> &secrets)
+{
+    ::rust::Vec<::komai::rust::SettingsStringMapEntry> entries;
+    for (auto it = secrets.constBegin(); it != secrets.constEnd(); ++it) {
+        entries.push_back({
+          .key   = it.key().toStdString(),
+          .value = it.value().toStdString(),
+        });
+    }
+    return entries;
+}
+
+QMap<QString, QString>
+fromRustStringMapEntries(const ::rust::Vec<::komai::rust::SettingsStringMapEntry> &entries)
+{
+    QMap<QString, QString> secrets;
+    for (const auto &entry : entries) {
+        secrets[QString::fromStdString(static_cast<std::string>(entry.key))] =
+          QString::fromStdString(static_cast<std::string>(entry.value));
+    }
+    return secrets;
+}
 
 SecretsPersistenceContext
 loadSecretsPersistenceContext(const QString &profileId)
@@ -43,8 +64,6 @@ loadSecretsPersistenceContext(const QString &profileId)
 
     SecretsPersistenceContext context{
       .usesFileSecretsProvider = provider == staged_load_plan::SecretsProvider::File,
-      .secretsFilePath         = QDir(settings::storage::profileDirPath(profileId))
-                           .filePath(QString::fromLatin1(MatrixSdkSecretsFileName)),
       .secureStoreKey = settings::storage::secureStoreKey(profileId, MatrixSdkSecureStoreKey),
     };
 
@@ -53,11 +72,11 @@ loadSecretsPersistenceContext(const QString &profileId)
 }
 
 QMap<QString, QString>
-loadStoredMatrixSdkSecrets(const SecretsPersistenceContext &context)
+loadStoredMatrixSdkSecrets(const QString &profileId, const SecretsPersistenceContext &context)
 {
     if (context.usesFileSecretsProvider) {
-        return settings::storage::loadSecretsFilePayloadFromPath(context.secretsFilePath,
-                                                                 "matrix-sdk secrets");
+        return fromRustStringMapEntries(
+          ::komai::rust::settings_load_matrix_sdk_secrets_for_profile(profileId.toStdString()));
     }
 
     const auto serializedSecrets = settings::storage::readSecureValue(context.secureStoreKey);
@@ -69,15 +88,18 @@ loadStoredMatrixSdkSecrets(const SecretsPersistenceContext &context)
 
 void
 saveStoredMatrixSdkSecrets(const SecretsPersistenceContext &context,
+                           const QString &profileId,
                            const QMap<QString, QString> &secrets)
 {
     if (context.usesFileSecretsProvider) {
         if (secrets.isEmpty()) {
-            settings::storage::removePath(context.secretsFilePath);
+            ::komai::rust::settings_remove_matrix_sdk_secrets_file_for_profile(
+              profileId.toStdString());
             return;
         }
 
-        settings::storage::writeSecretsFilePayloadToPath(context.secretsFilePath, secrets, true);
+        ::komai::rust::settings_write_matrix_sdk_secrets_for_profile(
+          profileId.toStdString(), toRustStringMapEntries(secrets), true);
         return;
     }
 
@@ -98,7 +120,7 @@ PersistedMatrixSessionSecrets
 loadPersistedMatrixSessionSecrets(const QString &profileId)
 {
     const auto context = loadSecretsPersistenceContext(profileId);
-    const auto secrets = loadStoredMatrixSdkSecrets(context);
+    const auto secrets = loadStoredMatrixSdkSecrets(profileId, context);
 
     return {
       .storePassphrase   = secrets.value(MatrixSdkStorePassphraseKey),
@@ -129,7 +151,7 @@ savePersistedMatrixSessionSecrets(const QString &profileId,
     else
         storedSecrets[MatrixSdkSerializedSessionKey] = secrets.serializedSession;
 
-    saveStoredMatrixSdkSecrets(context, storedSecrets);
+    saveStoredMatrixSdkSecrets(context, profileId, storedSecrets);
 }
 
 void

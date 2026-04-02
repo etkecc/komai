@@ -6,6 +6,7 @@
 #include "komai-rust-cxxbridge/ffi.h"
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QMetaObject>
 #include <QString>
 #include <QThread>
@@ -158,6 +159,14 @@ settings_profile_secrets_path(::rust::Str profile_id)
 {
     return ::rust::String(
       settings::storage::secretsFilePathForProfile(toQString(profile_id)).toStdString());
+}
+
+::rust::String
+settings_profile_matrix_sdk_secrets_path(::rust::Str profile_id)
+{
+    const auto profileDir = settings::storage::profileDirPath(toQString(profile_id));
+    return ::rust::String(
+      QDir(profileDir).filePath(QStringLiteral("matrix-sdk-secrets.yml")).toStdString());
 }
 
 ::rust::String

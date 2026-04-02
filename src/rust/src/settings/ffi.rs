@@ -119,15 +119,19 @@ pub(crate) fn ffi_config_sidebars_section(
                 .room_list
                 .show_last_message_time
                 .unwrap_or_default(),
-            last_message_preview: config.sidebars.room_list.last_message_preview.clone(),
+            last_message_preview: config.sidebars.room_list.last_message_preview.to_storage_string(),
             has_show_community_counts: config.sidebars.room_list.show_community_counts.is_some(),
             show_community_counts: config
                 .sidebars
                 .room_list
                 .show_community_counts
                 .unwrap_or_default(),
-            sort: config.sidebars.room_list.sort.clone(),
-            unread_detection_policy: config.sidebars.room_list.unread_detection_policy.clone(),
+            sort: config.sidebars.room_list.sort.to_storage_string(),
+            unread_detection_policy: config
+                .sidebars
+                .room_list
+                .unread_detection_policy
+                .to_storage_string(),
         },
         communities: ffi::SettingsConfigSidebarsCommunitiesSection {
             has_visible: config.sidebars.communities.visible.is_some(),
@@ -176,9 +180,9 @@ pub(crate) fn ffi_config_timeline_section(
 
     ffi::SettingsConfigTimelineSection {
         messages: ffi::SettingsConfigTimelineMessagesSection {
-            style: config.timeline.messages.style.clone(),
-            positioning: config.timeline.messages.positioning.clone(),
-            user_color_coding_policy: config.timeline.user_color_coding_policy.clone(),
+            style: config.timeline.messages.style.to_storage_string(),
+            positioning: config.timeline.messages.positioning.to_storage_string(),
+            user_color_coding_policy: config.timeline.user_color_coding_policy.to_storage_string(),
             has_layout_small_avatars: config.timeline.messages.layout.small_avatars.is_some(),
             layout_small_avatars: config
                 .timeline
@@ -193,7 +197,7 @@ pub(crate) fn ffi_config_timeline_section(
                 .layout
                 .show_own_avatar
                 .unwrap_or_default(),
-            sender_username: config.timeline.messages.sender_username.clone(),
+            sender_username: config.timeline.messages.sender_username.to_storage_string(),
             has_emoji_only_enlarge: config.timeline.messages.emoji_only_enlarge.is_some(),
             emoji_only_enlarge: config
                 .timeline
@@ -224,7 +228,11 @@ pub(crate) fn ffi_config_timeline_section(
             enabled: config.timeline.read_receipts.enabled.unwrap_or_default(),
         },
         message_actions: ffi::SettingsConfigTimelineMessageActionsSection {
-            activation_policy: config.timeline.message_actions.activation_policy.clone(),
+            activation_policy: config
+                .timeline
+                .message_actions
+                .activation_policy
+                .to_storage_string(),
             pinned_reactions: config.timeline.message_actions.pinned_reactions.clone(),
         },
         media: ffi::SettingsConfigTimelineMediaSection {
@@ -232,7 +240,7 @@ pub(crate) fn ffi_config_timeline_section(
             effects_enabled: config.timeline.media.effects_enabled.unwrap_or_default(),
             has_animate_on_hover: config.timeline.media.animate_on_hover.is_some(),
             animate_on_hover: config.timeline.media.animate_on_hover.unwrap_or_default(),
-            image_display: config.timeline.media.image_display.clone(),
+            image_display: config.timeline.media.image_display.to_storage_string(),
             has_open_images_external: config.timeline.media.open_images_external.is_some(),
             open_images_external: config.timeline.media.open_images_external.unwrap_or_default(),
             has_open_videos_external: config.timeline.media.open_videos_external.is_some(),

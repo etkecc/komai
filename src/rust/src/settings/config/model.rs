@@ -9,6 +9,11 @@ use super::tokens::{
     ConfigComposerInputAutoReplaceEmojiToken, ConfigComposerInputSendKeyToken,
     ConfigIntegrationsDbusApiAccessToken, ConfigNetworkPresenceStatusPolicyToken,
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
+    ConfigSidebarsRoomListLastMessagePreviewToken, ConfigSidebarsRoomListSortToken,
+    ConfigSidebarsRoomListUnreadDetectionPolicyToken,
+    ConfigTimelineMediaImageDisplayToken, ConfigTimelineMessageActionsActivationPolicyToken,
+    ConfigTimelineMessagesPositioningToken, ConfigTimelineMessagesSenderUsernameToken,
+    ConfigTimelineMessagesStyleToken, ConfigTimelineUserColorCodingPolicyToken,
     ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken, ConfigUiScrollbarPolicyToken,
 };
 
@@ -91,10 +96,10 @@ pub struct ConfigSidebars {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigSidebarsRoomList {
     pub show_last_message_time: Option<bool>,
-    pub last_message_preview: String,
+    pub last_message_preview: ConfigSidebarsRoomListLastMessagePreviewToken,
     pub show_community_counts: Option<bool>,
-    pub sort: String,
-    pub unread_detection_policy: String,
+    pub sort: ConfigSidebarsRoomListSortToken,
+    pub unread_detection_policy: ConfigSidebarsRoomListUnreadDetectionPolicyToken,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -111,7 +116,7 @@ pub struct ConfigSidebarsCommunities {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigTimeline {
     pub messages: ConfigTimelineMessages,
-    pub user_color_coding_policy: String,
+    pub user_color_coding_policy: ConfigTimelineUserColorCodingPolicyToken,
     pub formatted: ConfigTimelineFormatted,
     pub typing: ConfigTimelineTyping,
     pub read_receipts: ConfigTimelineReadReceipts,
@@ -122,10 +127,10 @@ pub struct ConfigTimeline {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigTimelineMessages {
-    pub style: String,
-    pub positioning: String,
+    pub style: ConfigTimelineMessagesStyleToken,
+    pub positioning: ConfigTimelineMessagesPositioningToken,
     pub layout: ConfigTimelineMessagesLayout,
-    pub sender_username: String,
+    pub sender_username: ConfigTimelineMessagesSenderUsernameToken,
     pub emoji_only_enlarge: Option<bool>,
     pub hover_highlight: Option<bool>,
 }
@@ -153,7 +158,7 @@ pub struct ConfigTimelineReadReceipts {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigTimelineMessageActions {
-    pub activation_policy: String,
+    pub activation_policy: ConfigTimelineMessageActionsActivationPolicyToken,
     pub pinned_reactions: String,
 }
 
@@ -161,7 +166,7 @@ pub struct ConfigTimelineMessageActions {
 pub struct ConfigTimelineMedia {
     pub effects_enabled: Option<bool>,
     pub animate_on_hover: Option<bool>,
-    pub image_display: String,
+    pub image_display: ConfigTimelineMediaImageDisplayToken,
     pub open_images_external: Option<bool>,
     pub open_videos_external: Option<bool>,
     pub autoplay_gif_videos: Option<bool>,

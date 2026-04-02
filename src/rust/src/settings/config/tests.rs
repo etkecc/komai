@@ -2,7 +2,14 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use super::{encode_config_yaml, load_config_snapshot, parse_config_text};
+use super::{
+    encode_config_yaml, load_config_snapshot, parse_config_text,
+    ConfigSidebarsRoomListLastMessagePreviewToken, ConfigSidebarsRoomListSortToken,
+    ConfigSidebarsRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
+    ConfigTimelineMessageActionsActivationPolicyToken, ConfigTimelineMessagesPositioningToken,
+    ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
+    ConfigTimelineUserColorCodingPolicyToken,
+};
 use crate::ffi::{
     SettingsConfigComposerSection, SettingsConfigEncryptionBackupOnlineSection,
     SettingsConfigEncryptionBackupSection, SettingsConfigEncryptionKeySharingSection,
@@ -136,17 +143,26 @@ timeline:
 "#,
     );
 
-    assert_eq!(config.timeline.messages.style, "plain");
-    assert_eq!(config.timeline.messages.positioning, "all_right");
-    assert_eq!(config.timeline.user_color_coding_policy, "me_vs_others");
+    assert_eq!(config.timeline.messages.style, ConfigTimelineMessagesStyleToken::Plain);
+    assert_eq!(
+        config.timeline.messages.positioning,
+        ConfigTimelineMessagesPositioningToken::AllRight
+    );
+    assert_eq!(
+        config.timeline.user_color_coding_policy,
+        ConfigTimelineUserColorCodingPolicyToken::MeVsOthers
+    );
     assert_eq!(config.timeline.messages.layout.small_avatars, Some(true));
     assert_eq!(config.timeline.messages.layout.show_own_avatar, Some(false));
-    assert_eq!(config.timeline.messages.sender_username, "always");
+    assert_eq!(
+        config.timeline.messages.sender_username,
+        ConfigTimelineMessagesSenderUsernameToken::Always
+    );
     assert_eq!(config.timeline.messages.emoji_only_enlarge, Some(false));
     assert_eq!(config.timeline.messages.hover_highlight, Some(true));
     assert_eq!(
         config.timeline.message_actions.activation_policy,
-        "on_message_hover"
+        ConfigTimelineMessageActionsActivationPolicyToken::OnHover
     );
     assert_eq!(config.timeline.message_actions.pinned_reactions, "👍,👀");
     assert_eq!(
@@ -157,7 +173,7 @@ timeline:
     assert_eq!(config.timeline.read_receipts.enabled, Some(false));
     assert_eq!(config.timeline.media.effects_enabled, Some(false));
     assert_eq!(config.timeline.media.animate_on_hover, Some(true));
-    assert_eq!(config.timeline.media.image_display, "never");
+    assert_eq!(config.timeline.media.image_display, ConfigTimelineMediaImageDisplayToken::Never);
     assert_eq!(config.timeline.media.open_images_external, Some(true));
     assert_eq!(config.timeline.media.open_videos_external, Some(true));
     assert_eq!(config.timeline.media.autoplay_gif_videos, Some(false));
@@ -284,12 +300,20 @@ sidebars:
     );
 
     assert_eq!(config.sidebars.room_list.show_last_message_time, Some(false));
-    assert_eq!(config.sidebars.room_list.last_message_preview, "never");
+    assert_eq!(
+        config.sidebars.room_list.last_message_preview,
+        ConfigSidebarsRoomListLastMessagePreviewToken::Never
+    );
     assert_eq!(config.sidebars.room_list.show_community_counts, Some(true));
-    assert_eq!(config.sidebars.room_list.sort, "alphabetical");
+    assert_eq!(
+        config.sidebars.room_list.sort,
+        ConfigSidebarsRoomListSortToken::Alphabetical
+    );
     assert_eq!(
         config.sidebars.room_list.unread_detection_policy,
-        "marked_unread_and_mentions"
+        ConfigSidebarsRoomListUnreadDetectionPolicyToken::Raw(
+            "marked_unread_and_mentions".to_owned()
+        )
     );
     assert_eq!(config.sidebars.communities.visible, Some(false));
     assert_eq!(config.sidebars.communities.filter_favourites, Some(false));

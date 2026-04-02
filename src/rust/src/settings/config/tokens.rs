@@ -71,6 +71,58 @@ storage_token_enum!(ConfigUiDefaultAvatarStyleToken {
     UserIcon => "user_icon",
 });
 
+storage_token_enum!(ConfigSidebarsRoomListLastMessagePreviewToken {
+    Always => "always",
+    OnlyUnencrypted => "only_unencrypted",
+    Never => "never",
+});
+
+storage_token_enum!(ConfigSidebarsRoomListSortToken {
+    UnreadFirstRecent => "unread_first_recent",
+    UnreadFirstAlpha => "unread_first_alpha",
+    Recent => "recent",
+    Alphabetical => "alphabetical",
+});
+
+storage_token_enum!(ConfigSidebarsRoomListUnreadDetectionPolicyToken {
+    AnyEvent => "any_event",
+    MessagesOnly => "messages_only",
+});
+
+storage_token_enum!(ConfigTimelineMessagesStyleToken {
+    Plain => "plain",
+    Bubbles => "bubbles",
+});
+
+storage_token_enum!(ConfigTimelineMessagesPositioningToken {
+    OpposingBySender => "opposing_by_sender",
+    AllLeft => "all_left",
+    AllRight => "all_right",
+});
+
+storage_token_enum!(ConfigTimelineUserColorCodingPolicyToken {
+    AdaptiveByRoomSize => "adaptive_by_room_size",
+    MeVsOthers => "me_vs_others",
+});
+
+storage_token_enum!(ConfigTimelineMessagesSenderUsernameToken {
+    Always => "always",
+    OnlyInLargeRooms => "only_in_large_rooms",
+    Never => "never",
+});
+
+storage_token_enum!(ConfigTimelineMessageActionsActivationPolicyToken {
+    OnHover => "on_message_hover",
+    ActionsButton => "on_button_click",
+    Never => "never",
+});
+
+storage_token_enum!(ConfigTimelineMediaImageDisplayToken {
+    Always => "always",
+    OnlyPrivate => "only_private",
+    Never => "never",
+});
+
 storage_token_enum!(ConfigSecretsProviderToken {
     File => "file",
     SecretService => "secret_service",

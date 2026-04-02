@@ -31,6 +31,11 @@ pub use tokens::{
     ConfigComposerInputAutoReplaceEmojiToken, ConfigComposerInputSendKeyToken,
     ConfigIntegrationsDbusApiAccessToken, ConfigNetworkPresenceStatusPolicyToken,
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
+    ConfigSidebarsRoomListLastMessagePreviewToken, ConfigSidebarsRoomListSortToken,
+    ConfigSidebarsRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
+    ConfigTimelineMessageActionsActivationPolicyToken, ConfigTimelineMessagesPositioningToken,
+    ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
+    ConfigTimelineUserColorCodingPolicyToken,
     ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken, ConfigUiScrollbarPolicyToken,
 };
 
@@ -238,7 +243,7 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     &SIDEBARS_ROOM_LIST_SHOW_LAST_MESSAGE_TIME_PATH,
                 )
                 .and_then(parse_scalar_bool),
-                last_message_preview: parse_string(yaml::value_at_path(
+                last_message_preview: parse_storage_token(yaml::value_at_path(
                     root,
                     &SIDEBARS_ROOM_LIST_LAST_MESSAGE_PREVIEW_PATH,
                 )),
@@ -247,8 +252,8 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     &SIDEBARS_ROOM_LIST_SHOW_COMMUNITY_COUNTS_PATH,
                 )
                 .and_then(parse_scalar_bool),
-                sort: parse_string(yaml::value_at_path(root, &SIDEBARS_ROOM_LIST_SORT_PATH)),
-                unread_detection_policy: parse_string(yaml::value_at_path(
+                sort: parse_storage_token(yaml::value_at_path(root, &SIDEBARS_ROOM_LIST_SORT_PATH)),
+                unread_detection_policy: parse_storage_token(yaml::value_at_path(
                     root,
                     &SIDEBARS_ROOM_LIST_UNREAD_DETECTION_POLICY_PATH,
                 )),
@@ -281,8 +286,8 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
         },
         timeline: ConfigTimeline {
             messages: ConfigTimelineMessages {
-                style: parse_string(yaml::value_at_path(root, &TIMELINE_MESSAGES_STYLE_PATH)),
-                positioning: parse_string(yaml::value_at_path(
+                style: parse_storage_token(yaml::value_at_path(root, &TIMELINE_MESSAGES_STYLE_PATH)),
+                positioning: parse_storage_token(yaml::value_at_path(
                     root,
                     &TIMELINE_MESSAGES_POSITIONING_PATH,
                 )),
@@ -298,7 +303,7 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     )
                     .and_then(parse_scalar_bool),
                 },
-                sender_username: parse_string(yaml::value_at_path(
+                sender_username: parse_storage_token(yaml::value_at_path(
                     root,
                     &TIMELINE_MESSAGES_SENDER_USERNAME_PATH,
                 )),
@@ -313,7 +318,7 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 )
                 .and_then(parse_scalar_bool),
             },
-            user_color_coding_policy: parse_string(yaml::value_at_path(
+            user_color_coding_policy: parse_storage_token(yaml::value_at_path(
                 root,
                 &TIMELINE_USER_COLOR_CODING_POLICY_PATH,
             )),
@@ -333,7 +338,7 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     .and_then(parse_scalar_bool),
             },
             message_actions: ConfigTimelineMessageActions {
-                activation_policy: parse_string(yaml::value_at_path(
+                activation_policy: parse_storage_token(yaml::value_at_path(
                     root,
                     &TIMELINE_MESSAGE_ACTIONS_ACTIVATION_POLICY_PATH,
                 )),
@@ -347,7 +352,7 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     .and_then(parse_scalar_bool),
                 animate_on_hover: yaml::value_at_path(root, &TIMELINE_MEDIA_ANIMATE_ON_HOVER_PATH)
                     .and_then(parse_scalar_bool),
-                image_display: parse_string(yaml::value_at_path(
+                image_display: parse_storage_token(yaml::value_at_path(
                     root,
                     &TIMELINE_MEDIA_IMAGE_DISPLAY_PATH,
                 )),

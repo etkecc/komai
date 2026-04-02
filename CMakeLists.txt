@@ -496,7 +496,6 @@ set(SRC_FILES
     src/settings/SettingsStorageReaderWriterInMemory.cpp
     src/settings/SettingsStorageInternal.h
     src/settings/SettingsStorageSecureBackend.cpp
-    src/settings/SettingsStorageSecretsCodec.cpp
     src/settings/SettingsStorage.h
     src/settings/SettingsSerializerConfigConverters.cpp
     src/settings/SettingsSerializerConfigEnumTokenAdapters.cpp

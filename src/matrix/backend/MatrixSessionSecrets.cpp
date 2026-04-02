@@ -47,6 +47,21 @@ fromRustStringMapEntries(const ::rust::Vec<::komai::rust::SettingsStringMapEntry
     return secrets;
 }
 
+QString
+encodeSecretsMap(const QMap<QString, QString> &secrets)
+{
+    const auto encoded =
+      ::komai::rust::settings_encode_string_map_yaml(toRustStringMapEntries(secrets));
+    return QString::fromStdString(static_cast<std::string>(encoded));
+}
+
+QMap<QString, QString>
+decodeSecretsMap(const QString &serialized)
+{
+    return fromRustStringMapEntries(
+      ::komai::rust::settings_decode_string_map_yaml(serialized.toStdString()));
+}
+
 SecretsPersistenceContext
 loadSecretsPersistenceContext(const QString &profileId)
 {
@@ -80,7 +95,7 @@ loadStoredMatrixSdkSecrets(const QString &profileId, const SecretsPersistenceCon
     if (!serializedSecrets.has_value() || serializedSecrets->isEmpty())
         return {};
 
-    return settings::storage::decodeSecretsMap(*serializedSecrets);
+    return decodeSecretsMap(*serializedSecrets);
 }
 
 void
@@ -105,8 +120,7 @@ saveStoredMatrixSdkSecrets(const SecretsPersistenceContext &context,
         return;
     }
 
-    settings::storage::writeSecureValueBlocking(context.secureStoreKey,
-                                                settings::storage::encodeSecretsMap(secrets));
+    settings::storage::writeSecureValueBlocking(context.secureStoreKey, encodeSecretsMap(secrets));
 }
 
 } // namespace

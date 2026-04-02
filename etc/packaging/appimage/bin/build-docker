@@ -43,7 +43,7 @@ docker run --rm \
             qml6-module-qt5compat-graphicaleffects \
             qtkeychain-qt6-dev \
             libkf6syntaxhighlighting-dev \
-            libcmark-dev libgtest-dev \
+            libgtest-dev \
             libsecret-1-dev \
             libgl1-mesa-dev libxkbcommon-dev \
             libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \

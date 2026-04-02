@@ -945,12 +945,6 @@ if(BUILD_TESTING)
         set_property(TEST ${test_name} PROPERTY ENVIRONMENT "${komai_test_env}")
     endfunction()
 
-    add_executable(komai_staged_load_plan_test tests/StagedLoadPlanTest.cpp)
-    target_include_directories(komai_staged_load_plan_test PRIVATE src)
-    target_link_libraries(komai_staged_load_plan_test PRIVATE Qt::Core)
-    add_test(NAME komai_staged_load_plan_test COMMAND komai_staged_load_plan_test)
-    komai_configure_test(komai_staged_load_plan_test "unit;settings")
-
     add_executable(komai_startup_settings_test
         tests/StartupSettingsTest.cpp
         tests/MatrixBackendBridgeStartupStub.cpp
@@ -980,9 +974,6 @@ if(BUILD_TESTING)
         src/settings/SettingsController.cpp
         src/settings/SettingsControllerLoad.cpp
         src/settings/SettingsControllerSave.cpp
-        src/settings/SettingsPersistence.cpp
-        src/settings/SettingsPersistenceLoad.cpp
-        src/settings/SettingsPersistenceSave.cpp
         src/settings/SettingsSerializerConfig.cpp
         src/settings/SettingsSerializerConfigLoad.cpp
         src/settings/SettingsSerializerConfigSave.cpp

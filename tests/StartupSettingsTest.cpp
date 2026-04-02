@@ -24,7 +24,6 @@
 #include "settings/SettingsSerializerConfigSchema.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StartupSettings.h"
-#include "settings/StagedLoadPlan.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsCoreStoreBridge.h"
@@ -566,7 +565,7 @@ testStartupSecretsProviderAutoSelectAndWelcomeUpgrade()
     auto configRoot = loadConfigSnapshot(ctx.configFile(), "startup-auto-select-config");
     ok &= expectConfigString(configRoot,
                              SettingKey::SecretsProvider,
-                             QString::fromLatin1(staged_load_plan::ProviderFileValue),
+                             QStringLiteral("file"),
                              "new profile persists file provider when secure backend is unavailable");
     if (!ok)
         return false;
@@ -584,7 +583,7 @@ testStartupSecretsProviderAutoSelectAndWelcomeUpgrade()
     configRoot = loadConfigSnapshot(ctx.configFile(), "startup-auto-upgrade-config");
     ok &= expectConfigString(configRoot,
                              SettingKey::SecretsProvider,
-                             QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue),
+                             QStringLiteral("secret_service"),
                              "pre-auth relaunch persists upgraded secret_service provider");
     return ok;
 }
@@ -635,7 +634,7 @@ testStartupSecretsProviderDoesNotSwitchAfterActiveSession()
     const auto configRoot = loadConfigSnapshot(ctx.configFile(), "active-session-config");
     ok &= expectConfigString(configRoot,
                              SettingKey::SecretsProvider,
-                             QString::fromLatin1(staged_load_plan::ProviderFileValue),
+                             QStringLiteral("file"),
                              "active-session relaunch does not rewrite configured provider");
     return ok;
 }
@@ -684,7 +683,7 @@ testStartupSecretsProviderDoesNotSwitchWhenSessionIdentityExists()
     ok &= expectConfigString(
       persistedConfig,
       SettingKey::SecretsProvider,
-      QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue),
+      QStringLiteral("secret_service"),
       "session-identity startup keeps configured secret_service provider");
     return ok;
 }

@@ -8,8 +8,8 @@
 #include <QHash>
 #include <QMap>
 
-#include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
+#include "settings/StagedLoadPlan.h"
 
 namespace {
 
@@ -59,7 +59,7 @@ loadSecretsPersistenceContext(const QString &profileId)
 
     const auto config =
       ::komai::rust::settings_load_config_overview_for_profile(profileId.toStdString());
-    const auto provider = settings::persistence::providerFromConfigValue(
+    const auto provider = staged_load_plan::providerFromConfigValue(
       QString::fromStdString(static_cast<std::string>(config.secrets_provider)));
 
     SecretsPersistenceContext context{

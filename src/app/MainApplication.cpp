@@ -42,7 +42,6 @@
 #include "profile/ProfileId.h"
 #include "profile/ProfileManager.h"
 #include "settings/SettingsController.h"
-#include "settings/SettingsPersistence.h"
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StartupSettings.h"
@@ -197,7 +196,6 @@ app::runMainApplication(int argc, char *argv[])
     }
 
     settings::storage::setLoggers({.ui = nhlog::ui(), .db = nhlog::db()});
-    settings::persistence::setLoggers({.ui = nhlog::ui()});
     settings::setLoggers({.ui = nhlog::ui()});
     settings::serializer::setLoggers({.ui = nhlog::ui()});
 #ifdef KOMAI_DBUS_SYS

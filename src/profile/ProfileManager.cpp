@@ -17,7 +17,7 @@
 #include "logging/Logging.h"
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
-#include "settings/SettingsPersistence.h"
+#include "settings/StagedLoadPlan.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "ui/Theme.h"
 
@@ -239,11 +239,12 @@ deleteProfile(QStringView profileId,
 
     const auto config = ::komai::rust::settings_load_config_overview_for_profile(
       normalizedTargetProfile.toStdString());
-    const auto secretsProvider = settings::persistence::providerFromConfigValue(
+    const auto secretsProvider = staged_load_plan::providerFromConfigValue(
       QString::fromStdString(static_cast<std::string>(config.secrets_provider)));
 
-    const bool secretsRemoved = settings::persistence::clearProfileSecrets(
-      normalizedTargetProfile, secretsProvider == staged_load_plan::SecretsProvider::File);
+    const bool secretsRemoved = ::komai::rust::settings_clear_profile_secrets(
+      normalizedTargetProfile.toStdString(),
+      secretsProvider == staged_load_plan::SecretsProvider::File);
 
     const auto configProfileDir =
       QFileInfo(app_paths::config::profileConfigFile(normalizedTargetProfile)).absolutePath();

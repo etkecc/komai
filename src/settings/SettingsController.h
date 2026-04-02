@@ -32,9 +32,9 @@ activeLoggers();
  * file/secret paths, loads user settings in staged order, persists all settings
  * layers, and handles auth/session reset operations.
  *
- * This class intentionally delegates format/transport details to
- * settings::persistence and settings::storage helpers; it coordinates the
- * workflow only.
+ * This class intentionally delegates format/persistence details to the Rust
+ * settings owner plus the narrow C++ storage/keychain adapters; it coordinates
+ * the workflow only.
  */
 class SettingsController
 {

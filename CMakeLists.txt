@@ -490,11 +490,6 @@ set(SRC_FILES
     src/settings/core/StartupConfig.cpp
     src/settings/core/SettingsStore.h
     src/settings/core/SettingsStore.cpp
-    src/settings/SettingsPersistence.cpp
-    src/settings/SettingsPersistenceLoad.cpp
-    src/settings/SettingsPersistenceSave.cpp
-    src/settings/SettingsPersistenceInternal.h
-    src/settings/SettingsPersistence.h
     src/settings/SettingsStorage.cpp
     src/settings/SettingsStoragePathApi.cpp
     src/settings/SettingsStorageReaderWriterFilesystem.cpp

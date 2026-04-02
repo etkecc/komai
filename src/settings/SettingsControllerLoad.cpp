@@ -12,7 +12,6 @@
 #include "logging/Logging.h"
 
 #include "profile/Paths.h"
-#include "settings/SettingsPersistence.h"
 #include "settings/SettingsSchemaVersions.h"
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsSerializerLoad.h"
@@ -167,7 +166,7 @@ loadImpl(UserSettings &settings,
         return *secureBackendAvailable;
     };
 
-    auto provider = settings::persistence::providerFromConfigValue(
+    auto provider = staged_load_plan::providerFromConfigValue(
       QString::fromStdString(static_cast<std::string>(configSnapshot.secrets.provider)));
     if (!configFileExists) {
         const bool secureAvailable = secureBackendAvailableNow();

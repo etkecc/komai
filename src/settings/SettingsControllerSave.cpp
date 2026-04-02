@@ -31,6 +31,33 @@ ensureRustSettingsProfileHandle(UserSettings &settings, bool includeSession)
     return settings.rustSettingsProfileHandle();
 }
 
+void
+logFlushOutcome(QStringView profileId, const char *label, bool attempted, bool saved)
+{
+    if (!attempted)
+        return;
+
+    if (saved) {
+        settings::activeLoggers().ui->debug(
+          "Saved {} for profile '{}'",
+          label,
+          app_paths::normalizedProfileId(profileId).toStdString());
+        return;
+    }
+
+    settings::activeLoggers().ui->warn("Failed to save {} for profile '{}'",
+                                       label,
+                                       app_paths::normalizedProfileId(profileId).toStdString());
+}
+
+void
+logFlushOutcome(QStringView profileId, const ::komai::rust::SettingsProfileFlushResult &result)
+{
+    logFlushOutcome(profileId, "config", result.config_attempted, result.config_saved);
+    logFlushOutcome(profileId, "session", result.session_attempted, result.session_saved);
+    logFlushOutcome(profileId, "state", result.state_attempted, result.state_saved);
+}
+
 } // namespace
 
 void
@@ -44,23 +71,31 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
 
     if (policy == SavePolicy::ConfigOnly) {
         auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
-        settings::serializer::saveConfig(
+        settings::serializer::stageConfig(
           settings, settings.usesFileSecretsProvider(), *profileHandle);
+        logFlushOutcome(settings.profileId(),
+                        ::komai::rust::settings_profile_flush(*profileHandle, true, false, false));
     } else if (policy == SavePolicy::StateOnly) {
         auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
-        settings::serializer::saveState(settings, *profileHandle);
+        settings::serializer::stageState(settings, *profileHandle);
+        logFlushOutcome(settings.profileId(),
+                        ::komai::rust::settings_profile_flush(*profileHandle, false, false, true));
     } else if (policy == SavePolicy::Full) {
         auto *profileHandle = ensureRustSettingsProfileHandle(settings, true);
-        settings::serializer::saveConfig(
+        settings::serializer::stageConfig(
           settings, settings.usesFileSecretsProvider(), *profileHandle);
-        settings::serializer::saveSession(settings, *profileHandle);
+        settings::serializer::stageSession(settings, *profileHandle);
+        logFlushOutcome(settings.profileId(),
+                        ::komai::rust::settings_profile_flush(*profileHandle, true, true, false));
 
         settings::persistence::saveProfileSecrets(settings.profileId(),
                                                   settings.usesFileSecretsProvider(),
                                                   settings.accessToken(),
                                                   settings.secretsMap());
 
-        settings::serializer::saveState(settings, *profileHandle);
+        settings::serializer::stageState(settings, *profileHandle);
+        logFlushOutcome(settings.profileId(),
+                        ::komai::rust::settings_profile_flush(*profileHandle, false, false, true));
     }
     syncCoreStoreFromSettings(settings);
 }
@@ -85,6 +120,8 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     settings::persistence::clearProfileSecrets(settings.profileId(),
                                                settings.usesFileSecretsProvider());
     auto *profileHandle = ensureRustSettingsProfileHandle(settings, false);
-    settings::serializer::saveState(settings, *profileHandle);
+    settings::serializer::stageState(settings, *profileHandle);
+    logFlushOutcome(settings.profileId(),
+                    ::komai::rust::settings_profile_flush(*profileHandle, false, false, true));
     syncCoreStoreFromSettings(settings);
 }

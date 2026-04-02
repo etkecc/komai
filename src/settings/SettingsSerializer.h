@@ -36,12 +36,12 @@ activeLoggers();
  * responsibilities.
  */
 void
-saveConfig(const UserSettings &settings,
-           bool usesFileSecretsProvider,
-           ::komai::rust::SettingsProfileHandle &profileHandle);
+stageConfig(const UserSettings &settings,
+            bool usesFileSecretsProvider,
+            ::komai::rust::SettingsProfileHandle &profileHandle);
 void
-saveSession(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &profileHandle);
+stageSession(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &profileHandle);
 void
-saveState(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &profileHandle);
+stageState(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &profileHandle);
 
 } // namespace settings::serializer

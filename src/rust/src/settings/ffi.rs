@@ -606,19 +606,30 @@ pub(crate) fn settings_profile_replace_state_snapshot(
 }
 
 pub(crate) fn settings_profile_write_config(
-    handle: &settings::profile::SettingsProfileHandle,
+    mut handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
 ) -> bool {
-    handle.write_config()
+    handle.as_mut().get_mut().write_config()
 }
 
 pub(crate) fn settings_profile_write_session(
-    handle: &settings::profile::SettingsProfileHandle,
+    mut handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
 ) -> bool {
-    handle.write_session()
+    handle.as_mut().get_mut().write_session()
 }
 
-pub(crate) fn settings_profile_write_state(handle: &settings::profile::SettingsProfileHandle) -> bool {
-    handle.write_state()
+pub(crate) fn settings_profile_write_state(
+    mut handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
+) -> bool {
+    handle.as_mut().get_mut().write_state()
+}
+
+pub(crate) fn settings_profile_flush(
+    handle: std::pin::Pin<&mut settings::profile::SettingsProfileHandle>,
+    write_config: bool,
+    write_session: bool,
+    write_state: bool,
+) -> ffi::SettingsProfileFlushResult {
+    handle.flush(write_config, write_session, write_state)
 }
 
 pub(crate) fn settings_remove_session_file_for_profile(profile_id: &str) -> bool {

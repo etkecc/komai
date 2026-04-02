@@ -9,11 +9,8 @@
 
 #include <QString>
 
-#include "logging/Logging.h"
-
 #include "SettingsSerializerConfigConverters.h"
 #include "SettingsSerializerConfigInternal.h"
-#include "profile/Paths.h"
 #include "settings/StagedLoadPlan.h"
 #include "settings/core/StartupConfig.h"
 
@@ -22,9 +19,9 @@ namespace settings::serializer {
 namespace cfg = settings::serializer::config;
 
 void
-saveConfig(const UserSettings &settings,
-           bool usesFileSecretsProvider,
-           ::komai::rust::SettingsProfileHandle &profileHandle)
+stageConfig(const UserSettings &settings,
+            bool usesFileSecretsProvider,
+            ::komai::rust::SettingsProfileHandle &profileHandle)
 {
     ::komai::rust::SettingsConfigSnapshot snapshot{
       .ui =
@@ -297,12 +294,6 @@ saveConfig(const UserSettings &settings,
     }
 
     ::komai::rust::settings_profile_replace_config_snapshot(profileHandle, snapshot);
-    const bool saved = ::komai::rust::settings_profile_write_config(profileHandle);
-    if (saved) {
-        activeLoggers().ui->debug(
-          "Saved config for profile '{}'",
-          app_paths::normalizedProfileId(settings.profileId()).toStdString());
-    }
 }
 
 } // namespace settings::serializer

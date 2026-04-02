@@ -9,7 +9,6 @@
 
 #include "logging/Logging.h"
 
-#include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {
@@ -25,7 +24,7 @@ hasSessionValue(const QString &value)
 namespace settings::serializer {
 
 void
-saveSession(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &profileHandle)
+stageSession(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &profileHandle)
 {
     const bool hasUserId      = hasSessionValue(settings.userId());
     const bool hasDeviceId    = hasSessionValue(settings.deviceId());
@@ -49,12 +48,6 @@ saveSession(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &
                                                              settings.userId().toStdString(),
                                                              settings.homeserver().toStdString(),
                                                              settings.deviceId().toStdString());
-    const bool saved = ::komai::rust::settings_profile_write_session(profileHandle);
-    if (saved) {
-        activeLoggers().ui->debug(
-          "Saved session for profile '{}'",
-          app_paths::normalizedProfileId(settings.profileId()).toStdString());
-    }
 }
 
 } // namespace settings::serializer

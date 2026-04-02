@@ -418,6 +418,15 @@ mod bridge {
         state: SettingsLoadedState,
     }
 
+    struct SettingsProfileFlushResult {
+        config_attempted: bool,
+        config_saved: bool,
+        session_attempted: bool,
+        session_saved: bool,
+        state_attempted: bool,
+        state_saved: bool,
+    }
+
     struct SettingsStateSnapshot {
         window_width: i32,
         window_height: i32,
@@ -1097,9 +1106,15 @@ mod bridge {
             handle: Pin<&mut SettingsProfileHandle>,
             snapshot: &SettingsStateSnapshot,
         );
-        fn settings_profile_write_config(handle: &SettingsProfileHandle) -> bool;
-        fn settings_profile_write_session(handle: &SettingsProfileHandle) -> bool;
-        fn settings_profile_write_state(handle: &SettingsProfileHandle) -> bool;
+        fn settings_profile_write_config(handle: Pin<&mut SettingsProfileHandle>) -> bool;
+        fn settings_profile_write_session(handle: Pin<&mut SettingsProfileHandle>) -> bool;
+        fn settings_profile_write_state(handle: Pin<&mut SettingsProfileHandle>) -> bool;
+        fn settings_profile_flush(
+            handle: Pin<&mut SettingsProfileHandle>,
+            write_config: bool,
+            write_session: bool,
+            write_state: bool,
+        ) -> SettingsProfileFlushResult;
         fn settings_remove_session_file_for_profile(profile_id: &str) -> bool;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;

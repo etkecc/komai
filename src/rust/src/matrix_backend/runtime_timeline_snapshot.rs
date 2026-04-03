@@ -179,6 +179,10 @@ fn timeline_item_to_summary(
                     .as_ref()
                     .map(|media| media.media_size_bytes)
                     .unwrap_or(0),
+                reply_blurhash: reply_media
+                    .as_ref()
+                    .map(|media| media.blurhash.clone())
+                    .unwrap_or_default(),
                 reactions,
                 reactions_summary,
                 special_effect_names,
@@ -214,6 +218,10 @@ fn timeline_item_to_summary(
                     .as_ref()
                     .map(|media| media.media_size_bytes)
                     .unwrap_or(0),
+                blurhash: media
+                    .as_ref()
+                    .map(|media| media.blurhash.clone())
+                    .unwrap_or_default(),
                 media_is_encrypted: media
                     .as_ref()
                     .map(|media| media.media_is_encrypted)
@@ -256,6 +264,7 @@ fn timeline_item_to_summary(
                 reply_media_height: 0,
                 reply_media_duration_ms: 0,
                 reply_media_size_bytes: 0,
+                reply_blurhash: String::new(),
                 reactions: Vec::new(),
                 reactions_summary: String::new(),
                 special_effect_names: Vec::new(),
@@ -270,6 +279,7 @@ fn timeline_item_to_summary(
                 media_height: 0,
                 media_duration_ms: 0,
                 media_size_bytes: 0,
+                blurhash: String::new(),
                 media_is_encrypted: false,
                 thumbnail_is_encrypted: false,
                 timestamp: u64::from(timestamp.get()),

@@ -233,7 +233,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     case Url:                return item.mediaUrl;
     case ThumbnailUrl:       return item.thumbnailUrl;
     case Duration:           return static_cast<int>(item.mediaDurationMs);
-    case Blurhash:           return QString();
+    case Blurhash:           return item.blurhash;
     case Filename:           return item.cachedFilename;
     case Filesize:           return item.cachedFilesize;
     case FilesizeBytes:      return static_cast<int>(item.mediaSizeBytes);
@@ -330,7 +330,7 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case Url:                return parentItem.replyMediaUrl;
     case ThumbnailUrl:       return parentItem.replyThumbnailUrl;
     case Duration:           return static_cast<int>(parentItem.replyMediaDurationMs);
-    case Blurhash:           return QString();
+    case Blurhash:           return parentItem.replyBlurhash;
     case Filename:           return replyFilename;
     case Filesize:           return replyFilesize;
     case FilesizeBytes:      return static_cast<int>(parentItem.replyMediaSizeBytes);

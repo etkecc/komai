@@ -20,8 +20,6 @@
 #include <thread>
 #include <utility>
 
-#include "blurhash.hpp"
-
 #include "chat/ChatPage.h"
 #include "config/komai.h"
 #include "logging/Logging.h"

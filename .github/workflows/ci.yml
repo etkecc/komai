@@ -43,7 +43,7 @@ jobs:
       - name: Configure
         run: |
           # Use system packages where available (same approach as PKGBUILD).
-          # Only cpp-httplib and blurhash are downloaded by CPM.
+          # Only cpp-httplib is downloaded by CPM.
           # VoIP is disabled to avoid installing GStreamer dependencies.
           just configure \
             -DCPM_USE_LOCAL_PACKAGES=ON \

@@ -895,22 +895,6 @@ endif()
 
 target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/timeline/litehtml/ src/ui/ src/encryption/ src/voip/)
 
-# blurhash
-if(NOT BLURHASH_SOURCE_DIR)
-    CPMAddPackage(
-        NAME blurhash
-        GIT_REPOSITORY https://github.com/Nheko-Reborn/blurhash.git
-        GIT_TAG v0.2.0
-        DOWNLOAD_ONLY YES
-    )
-    set(BLURHASH_SOURCE_DIR ${blurhash_SOURCE_DIR})
-endif()
-target_include_directories(komai PRIVATE ${BLURHASH_SOURCE_DIR})
-target_sources(komai PRIVATE
-    ${BLURHASH_SOURCE_DIR}/blurhash.cpp
-    ${BLURHASH_SOURCE_DIR}/blurhash.hpp
-)
-
 # Fixup bundled kdsingleapplication include dirs
 target_include_directories(komai PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})
 

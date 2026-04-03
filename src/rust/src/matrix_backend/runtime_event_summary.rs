@@ -57,6 +57,7 @@ pub struct MatrixEventMediaSummary {
     pub media_height: u64,
     pub media_duration_ms: u64,
     pub media_size_bytes: u64,
+    pub blurhash: String,
     pub media_is_encrypted: bool,
     pub thumbnail_is_encrypted: bool,
     pub source: Option<MediaSource>,
@@ -727,6 +728,7 @@ fn summarize_sticker(
             media_height: opt_uint_to_u64(content.info.height),
             media_duration_ms: 0,
             media_size_bytes: opt_uint_to_u64(content.info.size),
+            blurhash: content.info.blurhash.clone().unwrap_or_default(),
             media_is_encrypted,
             thumbnail_is_encrypted,
             source: media_source,
@@ -748,6 +750,7 @@ fn media_for_image(content: &ImageMessageEventContent) -> MatrixEventMediaSummar
         media_height: info.and_then(|info| info.height).map_or(0, uint_to_u64),
         media_duration_ms: 0,
         media_size_bytes: info.and_then(|info| info.size).map_or(0, uint_to_u64),
+        blurhash: info.and_then(|info| info.blurhash.clone()).unwrap_or_default(),
         media_is_encrypted: media_source_is_encrypted(&content.source),
         thumbnail_is_encrypted: thumbnail_is_encrypted_or_primary(
             thumbnail_source.as_ref(),
@@ -776,6 +779,7 @@ fn media_for_video(content: &VideoMessageEventContent) -> MatrixEventMediaSummar
             .and_then(|info| info.duration)
             .map_or(0, duration_to_millis_u64),
         media_size_bytes: info.and_then(|info| info.size).map_or(0, uint_to_u64),
+        blurhash: info.and_then(|info| info.blurhash.clone()).unwrap_or_default(),
         media_is_encrypted: media_source_is_encrypted(&content.source),
         thumbnail_is_encrypted: thumbnail_source
             .as_ref()
@@ -800,6 +804,7 @@ fn media_for_audio(content: &AudioMessageEventContent) -> MatrixEventMediaSummar
             .and_then(|info| info.duration)
             .map_or(0, duration_to_millis_u64),
         media_size_bytes: info.and_then(|info| info.size).map_or(0, uint_to_u64),
+        blurhash: String::new(),
         media_is_encrypted: media_source_is_encrypted(&content.source),
         thumbnail_is_encrypted: false,
         source: Some(content.source.clone()),
@@ -823,6 +828,7 @@ fn media_for_file(content: &FileMessageEventContent) -> MatrixEventMediaSummary 
         media_height: 0,
         media_duration_ms: 0,
         media_size_bytes: info.and_then(|info| info.size).map_or(0, uint_to_u64),
+        blurhash: String::new(),
         media_is_encrypted: media_source_is_encrypted(&content.source),
         thumbnail_is_encrypted: thumbnail_source
             .as_ref()

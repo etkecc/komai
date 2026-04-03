@@ -7,7 +7,12 @@
 
 #include <QUrl>
 
-#include "blurhash.hpp"
+#include "rust/cxx.h"
+
+namespace komai::rust {
+::rust::Vec<::std::uint8_t>
+blurhash_decode(::rust::Str hash, ::std::uint32_t width, ::std::uint32_t height);
+}
 
 void
 BlurhashRunnable::run()
@@ -23,23 +28,32 @@ BlurhashRunnable::run()
         return;
     }
 
-    auto blurhashDecodeSize = m_requestedSize;
-    if (blurhashDecodeSize.height() > 100 && blurhashDecodeSize.width() > 100) {
-        blurhashDecodeSize.scale(100, 100, Qt::AspectRatioMode::KeepAspectRatio);
+    auto decodeSize = m_requestedSize;
+    if (decodeSize.height() > 100 && decodeSize.width() > 100) {
+        decodeSize.scale(100, 100, Qt::AspectRatioMode::KeepAspectRatio);
     }
 
-    auto decoded = blurhash::decode(QUrl::fromPercentEncoding(m_id.toUtf8()).toStdString(),
-                                    blurhashDecodeSize.width(),
-                                    blurhashDecodeSize.height());
-    if (decoded.image.empty()) {
+    auto hash = QUrl::fromPercentEncoding(m_id.toUtf8()).toStdString();
+    auto w    = static_cast<uint32_t>(decodeSize.width());
+    auto h    = static_cast<uint32_t>(decodeSize.height());
+
+    rust::Vec<uint8_t> pixels;
+    try {
+        pixels = komai::rust::blurhash_decode(rust::Str(hash.data(), hash.size()), w, h);
+    } catch (...) {
         emit error(QStringLiteral("Failed decode!"));
         return;
     }
 
-    QImage image(decoded.image.data(),
-                 (int)decoded.width,
-                 (int)decoded.height,
-                 (int)decoded.width * 3,
+    if (pixels.empty()) {
+        emit error(QStringLiteral("Failed decode!"));
+        return;
+    }
+
+    QImage image(pixels.data(),
+                 static_cast<int>(w),
+                 static_cast<int>(h),
+                 static_cast<int>(w) * 3,
                  QImage::Format_RGB888);
 
     image = image.scaled(m_requestedSize);

@@ -53,6 +53,7 @@ pub(crate) fn matrix_fetch_active_room_timeline(
                 reply_media_height: item.reply_media_height,
                 reply_media_duration_ms: item.reply_media_duration_ms,
                 reply_media_size_bytes: item.reply_media_size_bytes,
+                reply_blurhash: item.reply_blurhash,
                 reactions: item
                     .reactions
                     .into_iter()
@@ -76,6 +77,7 @@ pub(crate) fn matrix_fetch_active_room_timeline(
                 media_height: item.media_height,
                 media_duration_ms: item.media_duration_ms,
                 media_size_bytes: item.media_size_bytes,
+                blurhash: item.blurhash,
                 media_is_encrypted: item.media_is_encrypted,
                 thumbnail_is_encrypted: item.thumbnail_is_encrypted,
                 timestamp: item.timestamp,

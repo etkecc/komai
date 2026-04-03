@@ -7,12 +7,15 @@
 use super::*;
 
 use matrix_sdk::{
-    attachment::AttachmentConfig,
+    attachment::{
+        AttachmentConfig, AttachmentInfo, BaseAudioInfo, BaseFileInfo, BaseImageInfo,
+        BaseVideoInfo,
+    },
     room::{Receipts, ReportedContentScore},
     room::edit::EditedContent,
     room::reply::{EnforceThread, Reply},
     ruma::{
-        EventId,
+        EventId, UInt,
         html::{HtmlSanitizerMode, RemoveReplyFallback},
         events::EventContentFromType,
         events::room::message::{
@@ -20,6 +23,7 @@ use matrix_sdk::{
         },
     },
 };
+use image::GenericImageView;
 use mime::Mime;
 use serde_json::{Map as JsonMap, Value as JsonValue};
 use std::{fs, path::Path};
@@ -336,7 +340,9 @@ pub async fn send_room_attachment(
         })
     };
 
-    let mut config = AttachmentConfig::new();
+    let attachment_info = build_attachment_info(&mime, &data);
+
+    let mut config = AttachmentConfig::new().info(attachment_info);
     if !caption.is_empty() {
         config = config.caption(Some(TextMessageEventContent::plain(caption)));
     }
@@ -360,6 +366,45 @@ pub async fn send_room_attachment(
         .await
         .map(|_| ())
         .map_err(|e| format!("failed to send matrix-sdk room attachment: {e}"))
+}
+
+fn build_attachment_info(mime: &Mime, data: &[u8]) -> AttachmentInfo {
+    let size = Some(UInt::try_from(data.len() as u64).unwrap_or(UInt::MAX));
+
+    if mime.type_() == mime::IMAGE {
+        let (width, height, hash) = match image::load_from_memory(data) {
+            Ok(img) => {
+                let (w, h) = img.dimensions();
+                let hash = blurhash::encode(4, 3, w, h, img.to_rgba8().as_raw())
+                    .ok();
+                (
+                    Some(UInt::try_from(w as u64).unwrap_or(UInt::MAX)),
+                    Some(UInt::try_from(h as u64).unwrap_or(UInt::MAX)),
+                    hash,
+                )
+            }
+            Err(_) => (None, None, None),
+        };
+        AttachmentInfo::Image(BaseImageInfo {
+            width,
+            height,
+            size,
+            blurhash: hash,
+            is_animated: None,
+        })
+    } else if mime.type_() == mime::VIDEO {
+        AttachmentInfo::Video(BaseVideoInfo {
+            size,
+            ..Default::default()
+        })
+    } else if mime.type_() == mime::AUDIO {
+        AttachmentInfo::Audio(BaseAudioInfo {
+            size,
+            ..Default::default()
+        })
+    } else {
+        AttachmentInfo::File(BaseFileInfo { size })
+    }
 }
 
 // ---------------------------------------------------------------------------

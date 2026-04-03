@@ -288,6 +288,7 @@ struct MatrixTimelineItem
     uint64_t replyMediaHeight     = 0;
     uint64_t replyMediaDurationMs = 0;
     uint64_t replyMediaSizeBytes  = 0;
+    QString replyBlurhash;
     QVariantList reactions;
     QString reactionsSummary;
     QStringList specialEffectNames;
@@ -298,10 +299,11 @@ struct MatrixTimelineItem
     QString thumbnailUrl;
     QString fileName;
     QString mimeType;
-    uint64_t mediaWidth       = 0;
-    uint64_t mediaHeight      = 0;
-    uint64_t mediaDurationMs  = 0;
-    uint64_t mediaSizeBytes   = 0;
+    uint64_t mediaWidth      = 0;
+    uint64_t mediaHeight     = 0;
+    uint64_t mediaDurationMs = 0;
+    uint64_t mediaSizeBytes  = 0;
+    QString blurhash;
     bool mediaIsEncrypted     = false;
     bool thumbnailIsEncrypted = false;
     uint64_t timestamp        = 0;

@@ -9,6 +9,10 @@ pub(crate) use crate::settings::profile::SettingsProfileHandle;
 pub(crate) use crate::theme::base16::parse_base16_yaml as theme_parse_base16_yaml;
 pub(crate) use crate::theme::external::parse_external_theme as theme_parse_external_theme;
 
+pub(crate) fn blurhash_decode(hash: &str, width: u32, height: u32) -> Vec<u8> {
+    blurhash::decode(hash, width, height, 1.0).unwrap_or_default()
+}
+
 #[cxx::bridge(namespace = "komai::rust")]
 mod bridge {
     enum MatrixFfiBlockingThreadPolicy {
@@ -891,6 +895,7 @@ mod bridge {
         reply_media_height: u64,
         reply_media_duration_ms: u64,
         reply_media_size_bytes: u64,
+        reply_blurhash: String,
         reactions: Vec<MatrixReactionSummary>,
         reactions_summary: String,
         special_effect_names: Vec<String>,
@@ -905,6 +910,7 @@ mod bridge {
         media_height: u64,
         media_duration_ms: u64,
         media_size_bytes: u64,
+        blurhash: String,
         media_is_encrypted: bool,
         thumbnail_is_encrypted: bool,
         timestamp: u64,
@@ -1166,6 +1172,8 @@ mod bridge {
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;
         fn theme_parse_base16_yaml(theme_text: &str) -> ThemeBase16ParseResult;
+
+        fn blurhash_decode(hash: &str, width: u32, height: u32) -> Vec<u8>;
 
         fn resolve_server(
             context: MatrixFfiBlockingContext,

@@ -70,6 +70,74 @@ fn log_room_timeline_perf(
     );
 }
 
+/// After the timeline loads events for a room whose room-list entry still
+/// has `timestamp == 0` (no cached latest event from sliding sync), backfill
+/// the entry with data from the newest timeline item and re-notify C++.
+///
+/// This works around a matrix-sdk limitation where network backward
+/// pagination does not send `RoomEventCacheGenericUpdate`, so
+/// `new_latest_event` / `new_latest_event_timestamp()` remain `None` and
+/// the room list shows no timestamp or last-message preview.
+fn maybe_backfill_room_list_preview(
+    handle_id: u64,
+    room_id: &str,
+    timeline_snapshot: &[MatrixTimelineItem],
+) {
+    if timeline_snapshot.is_empty() {
+        return;
+    }
+
+    // Find the newest event by timestamp (last visible message).
+    let Some(newest) = timeline_snapshot
+        .iter()
+        .filter(|item| item.timestamp > 0 && item.item_kind == "message")
+        .max_by_key(|item| item.timestamp)
+    else {
+        return;
+    };
+
+    let handles = backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex");
+    let Some(handle) = handles.get(&handle_id) else {
+        return;
+    };
+    let mut room_list = handle
+        .room_list_snapshot
+        .lock()
+        .expect("poisoned matrix room-list snapshot mutex");
+
+    let Some(entry) = room_list.iter_mut().find(|r| r.room_id == room_id) else {
+        return;
+    };
+    if entry.timestamp > 0 {
+        return; // Already has a real timestamp — nothing to backfill.
+    }
+
+    entry.timestamp = newest.timestamp;
+    entry.last_message = newest.body.clone();
+    entry.last_message_kind = newest.matrix_event_type.clone();
+    entry.latest_event_id = newest.event_id.clone();
+
+    let ffi_snapshot: Vec<_> = room_list
+        .iter()
+        .cloned()
+        .map(crate::matrix_backend::ffi::into_ffi_matrix_room_summary)
+        .collect();
+
+    drop(room_list);
+    drop(handles);
+
+    tracing::info!(
+        handle_id,
+        room_id,
+        timestamp = newest.timestamp,
+        "Backfilled room-list preview from timeline data"
+    );
+
+    crate::ffi::matrix_notify_room_list_snapshot_updated(handle_id, ffi_snapshot);
+}
+
 fn normalized_message_kind(message_kind: &str) -> &str {
     match message_kind.trim() {
         "message" | "text" => "m.text",
@@ -1368,6 +1436,16 @@ async fn run_room_timeline_loop(
                                     item_count
                                 ),
                             );
+
+                            // Backfill the room-list entry if it still lacks a
+                            // timestamp (sliding sync didn't deliver a latest
+                            // event for this room).
+                            {
+                                let snap = room_timeline_snapshot
+                                    .lock()
+                                    .expect("poisoned matrix room timeline snapshot mutex");
+                                maybe_backfill_room_list_preview(handle_id, &room_id, &snap);
+                            }
                         }
                     }
                     None => {

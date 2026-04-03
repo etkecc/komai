@@ -398,9 +398,11 @@ async fn preload_single_room(client: &Client, room_id: &str) -> PreloadResult {
 }
 
 /// Build and return a Timeline handle for a room that already has events
-/// in the SQLite event cache.  Unlike `preload_single_room`, this does not
-/// paginate — it only calls `room.timeline().await` + `subscribe().await`
-/// to rebuild the in-memory state, then returns the handle for caching.
+/// in the SQLite event cache.  Calls `room.timeline().await` +
+/// `subscribe().await` to rebuild the in-memory state, then returns the
+/// handle for caching.  If `subscribe()` yields 0 items (some rooms do
+/// this despite having cached events), paginates backwards to populate
+/// the handle so the active timeline loop doesn't have to do it live.
 async fn warm_single_room(client: &Client, room_id: &str) -> Result<Timeline, String> {
     let parsed_room_id = RoomId::parse(room_id).map_err(|e| format!("invalid room id: {e}"))?;
 
@@ -413,9 +415,18 @@ async fn warm_single_room(client: &Client, room_id: &str) -> Result<Timeline, St
         .await
         .map_err(|e| format!("failed to build timeline: {e}"))?;
 
-    // Subscribe to populate the in-memory state from the event cache,
-    // then drop the stream — we only need the handle itself cached.
-    let _subscribe = timeline.subscribe().await;
+    // Subscribe to populate the in-memory state from the event cache.
+    let (items, _stream) = timeline.subscribe().await;
+
+    // Some rooms yield 0 items from subscribe() even though they have
+    // events in the SQLite cache.  Paginate so the cached handle has
+    // content ready — otherwise the active timeline loop would paginate
+    // live, adding ~3s latency on room switch.
+    if items.is_empty() {
+        if let Err(e) = timeline.paginate_backwards(PRELOAD_PAGE_SIZE).await {
+            tracing::warn!(room_id, "Background warm-path pagination failed: {e}");
+        }
+    }
 
     Ok(timeline)
 }

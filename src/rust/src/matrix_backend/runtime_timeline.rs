@@ -518,17 +518,10 @@ async fn run_room_timeline_loop(
 
     let own_user_id = client.user_id();
 
-    // Fetch read receipt watermark targets for delivery status indicators.
-    // Done once per room activation; reused for all snapshot builds.
-    let receipt_targets = if let Some(room) = client.get_room(&parsed_room_id) {
-        if let Some(uid) = own_user_id {
-            fetch_member_receipt_targets(&room, uid).await
-        } else {
-            HashSet::new()
-        }
-    } else {
-        HashSet::new()
-    };
+    // Receipt targets are fetched after the initial snapshot so they
+    // don't block the first paint.  Start with an empty set — delivery
+    // status indicators will appear once receipts are loaded.
+    let mut receipt_targets = HashSet::new();
 
     let subscribe_started_at = Instant::now();
     let (items, stream) = timeline.subscribe().await;
@@ -610,6 +603,42 @@ async fn run_room_timeline_loop(
                 ),
             );
         }
+    }
+
+    // Fetch read receipt watermark targets now that the initial snapshot
+    // has been delivered.  Delivery status indicators update shortly after.
+    receipt_targets = if let Some(room) = client.get_room(&parsed_room_id) {
+        if let Some(uid) = own_user_id {
+            fetch_member_receipt_targets(&room, uid).await
+        } else {
+            HashSet::new()
+        }
+    } else {
+        HashSet::new()
+    };
+    if !receipt_targets.is_empty() && subscribe_count > 0 {
+        let read_own_event_ids = compute_read_own_event_ids(&current_values, &receipt_targets);
+        let (snapshot, media_lookup) =
+            build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids);
+        {
+            let mut snapshot_guard = room_timeline_snapshot
+                .lock()
+                .expect("poisoned matrix room timeline snapshot mutex");
+            if generation_counter.load(Ordering::Acquire) != generation {
+                return;
+            }
+            *snapshot_guard = snapshot;
+        }
+        {
+            let mut media_guard = room_timeline_media_lookup
+                .lock()
+                .expect("poisoned matrix room timeline media lookup mutex");
+            if generation_counter.load(Ordering::Acquire) != generation {
+                return;
+            }
+            *media_guard = media_lookup;
+        }
+        crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
     }
 
     tracing::info!(

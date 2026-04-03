@@ -24,6 +24,17 @@ Rectangle {
     property bool attachmentsEnabled: true
     property bool showAllButtons: width > 450 || (messageInput.length == 0 && !messageInput.inputMethodComposing)
     property bool walkModeActive: false
+    property string _draftRoomId: ""
+    property string _draftText: ""
+    onInputControllerChanged: {
+        // Save draft for the room we are leaving, using the last captured text
+        if (_draftSaveTimer.running)
+            _draftSaveTimer.stop();
+        if (_draftRoomId)
+            Rooms.persistDraftForRoom(_draftRoomId, _draftText);
+        _draftRoomId = "";
+        _draftText = "";
+    }
     readonly property string text: messageInput.text
     readonly property bool textInputActiveFocus: messageInput.activeFocus
     readonly property bool hasUploads: !!(inputController && inputController.uploads && inputController.uploads.length > 0)
@@ -171,6 +182,16 @@ Rectangle {
     Layout.minimumHeight: minimumBarHeight
     Layout.preferredHeight: implicitHeight
     color: inputBar.hasUploads || (room && !inputBar.canSendTextMessages) ? palette.alternateBase : palette.window
+
+    Timer {
+        id: _draftSaveTimer
+
+        interval: 300
+        onTriggered: {
+            if (inputBar._draftRoomId)
+                Rooms.persistDraftForRoom(inputBar._draftRoomId, messageInput.text);
+        }
+    }
 
     RowLayout {
         id: row
@@ -560,6 +581,15 @@ Rectangle {
                         messageInput.maybeOpenCompleterForTrailingTokenAfterBulkInsert();
                     }
                     previousTextLength = text.length;
+                    inputBar._draftText = text;
+                    if (inputBar._draftRoomId) {
+                        if (text.length === 0) {
+                            _draftSaveTimer.stop();
+                            Rooms.persistDraftForRoom(inputBar._draftRoomId, "");
+                        } else {
+                            _draftSaveTimer.restart();
+                        }
+                    }
                 }
 
                 Connections {
@@ -567,9 +597,26 @@ Rectangle {
                         if (TimelineManager.perfUiFlagEnabled("disable_composer"))
                             return;
 
+                        // Save draft for the room we are leaving
+                        if (_draftSaveTimer.running)
+                            _draftSaveTimer.stop();
+                        if (inputBar._draftRoomId)
+                            Rooms.persistDraftForRoom(inputBar._draftRoomId, inputBar._draftText);
+                        // Blank _draftRoomId before clear() so onTextChanged doesn't clobber the saved draft
+                        inputBar._draftRoomId = "";
+
                         messageInput.clear();
                         if (inputBar.inputController && inputBar.inputController.text)
                             messageInput.append(inputBar.inputController.text);
+
+                        // Restore draft for the new room
+                        inputBar._draftRoomId = room ? room.roomId : "";
+                        if (inputBar._draftRoomId && messageInput.length === 0) {
+                            var draft = Rooms.composerDraftForRoom(inputBar._draftRoomId);
+                            if (draft)
+                                messageInput.append(draft);
+                        }
+
                         completer.completerType = "";
                         inputBar.focusTextInputIfAllowed();
                         if (room) {

@@ -296,6 +296,16 @@ public slots:
         return roomlistmodel->getRoomPreviewById(roomid);
     }
 
+    void persistDraftForRoom(const QString &roomId, const QString &draftText)
+    {
+        roomlistmodel->persistDraftForRoom(roomId, draftText);
+    }
+    QString composerDraftForRoom(const QString &roomId) const
+    {
+        const auto settings = UserSettings::instance();
+        return settings ? settings->composerDraftForRoom(roomId) : QString{};
+    }
+
     void nextRoomWithActivity();
     void nextRoom();
     void previousRoom();

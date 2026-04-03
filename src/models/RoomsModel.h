@@ -42,7 +42,8 @@ private:
         QString roomId;
         QString displayName;
         QString avatarUrl;
-        bool isSpace = false;
+        bool isSpace       = false;
+        uint64_t timestamp = 0;
     };
 
     QVector<RoomEntry> rooms_;

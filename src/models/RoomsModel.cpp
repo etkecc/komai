@@ -20,9 +20,12 @@ RoomsModel::RoomsModel(const QHash<QString, komai::MatrixRoomSummary> &matrixRoo
           .displayName = room.displayName,
           .avatarUrl   = room.avatarUrl,
           .isSpace     = room.isSpace,
+          .timestamp   = room.timestamp,
         });
     }
     std::ranges::sort(rooms_, [](const RoomEntry &a, const RoomEntry &b) {
+        if (a.timestamp != b.timestamp)
+            return a.timestamp > b.timestamp;
         return a.displayName.compare(b.displayName, Qt::CaseInsensitive) < 0;
     });
 }

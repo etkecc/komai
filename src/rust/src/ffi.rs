@@ -1759,6 +1759,14 @@ mod bridge {
             handle_id: u64,
             room_id: &str,
         ) -> Result<Vec<String>>;
+        fn matrix_fetch_room_frequent_reactions(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            lookback_days: i32,
+            max_results: u32,
+            max_scanned_events: u64,
+        ) -> Result<Vec<String>>;
         fn matrix_pin_room_event(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

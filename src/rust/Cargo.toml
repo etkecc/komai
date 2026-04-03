@@ -28,6 +28,7 @@ tracing-appender = "0.2"
 mime = "0.3"
 ruma = { version = "0.14", features = ["unstable-msc2545", "markdown", "html"] }
 matrix-sdk = { version = "0.16.0", features = ["native-tls", "sqlite", "bundled-sqlite"] }
+matrix-sdk-base = "0.16.0"
 matrix-sdk-ui = { version = "0.16.0", default-features = false, features = ["native-tls"] }
 
 # resolvematrix defaults to reqwest's default-tls (rustls + aws-lc-rs). We override

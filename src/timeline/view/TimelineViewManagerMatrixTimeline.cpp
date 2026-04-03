@@ -7,6 +7,7 @@
 #include <cmath>
 
 #include <QCoreApplication>
+#include <QDateTime>
 #include <QDesktopServices>
 #include <QDir>
 #include <QElapsedTimer>
@@ -26,6 +27,7 @@
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "models/ReadReceiptsModel.h"
+#include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/CommunitiesModel.h"
 #include "timeline/RoomlistModel.h"
@@ -155,8 +157,11 @@ shouldIgnoreMatrixTimelineWarmupShrink(int currentCount, int nextCount)
 struct MatrixTimelineRoomStateSnapshot
 {
     QStringList pinnedEventIds;
-    bool canRedactOwn   = false;
-    bool canRedactOther = false;
+    QStringList frequentReactions;
+    bool fetchedFrequentReactions       = false;
+    bool canCacheEmptyFrequentReactions = false;
+    bool canRedactOwn                   = false;
+    bool canRedactOther                 = false;
 };
 
 struct MatrixTimelineEventActionResult
@@ -323,6 +328,17 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     activeMatrixTimelineRoomId_             = roomId;
     matrixTimelineLoading_                  = true;
     matrixTimelineInitialPrefetchAttempted_ = false;
+    {
+        const auto now = QDateTime::currentMSecsSinceEpoch();
+        if (const auto it = matrixTimelineFrequentReactionsCache_.constFind(roomId);
+            it != matrixTimelineFrequentReactionsCache_.constEnd() &&
+            (now - it->timestampMs) <
+              settings::core::definitions::kReactionFrequencyCacheDurationMs) {
+            matrixTimelineFrequentReactions_ = it->reactions;
+        } else {
+            matrixTimelineFrequentReactions_.clear();
+        }
+    }
     refreshActiveMatrixTimelineRoomStateAsync();
     if (matrixTimelineModel_) {
         matrixTimelineModel_->clear();
@@ -366,10 +382,22 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
     const auto roomId   = activeMatrixTimelineRoomId_;
 
     if (handleId == 0 || roomId.isEmpty()) {
-        if (applyActiveMatrixTimelineRoomState({}, false, false))
+        if (applyActiveMatrixTimelineRoomState({}, {}, false, false))
             emit matrixTimelineStateChanged();
         return;
     }
+
+    const auto now = QDateTime::currentMSecsSinceEpoch();
+    QStringList cachedFrequentReactions;
+    bool shouldFetchFrequentReactions = true;
+    if (const auto it = matrixTimelineFrequentReactionsCache_.constFind(roomId);
+        it != matrixTimelineFrequentReactionsCache_.constEnd() &&
+        (now - it->timestampMs) < settings::core::definitions::kReactionFrequencyCacheDurationMs) {
+        cachedFrequentReactions      = it->reactions;
+        shouldFetchFrequentReactions = false;
+    }
+    const bool canCacheEmptyFrequentReactions =
+      matrixTimelineModel_ && matrixTimelineModel_->count() > 0;
 
     matrixTimelineRoomStateRefreshPending_       = true;
     matrixTimelineRoomStateRefreshPendingRoomId_ = roomId;
@@ -387,16 +415,41 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
     matrixTimelineRoomStateInFlightRoomId_    = roomId;
 
     QPointer<TimelineViewManager> guard(this);
-    std::thread([guard, handleId, roomId, requestId]() {
+    std::thread([guard,
+                 handleId,
+                 roomId,
+                 requestId,
+                 cachedFrequentReactions = std::move(cachedFrequentReactions),
+                 shouldFetchFrequentReactions,
+                 canCacheEmptyFrequentReactions]() {
         const auto context = komai::matrix_backend::blockingCallContext();
         MatrixTimelineRoomStateSnapshot snapshot;
         QString pinnedError;
+        QString frequentReactionsError;
         QString permissionsError;
 
         const auto pinned = komai::MatrixBackendRuntimeService::fetchRoomPinnedEventIds(
           context, handleId, roomId, &pinnedError);
         if (pinned)
             snapshot.pinnedEventIds = *pinned;
+        snapshot.frequentReactions              = cachedFrequentReactions;
+        snapshot.canCacheEmptyFrequentReactions = canCacheEmptyFrequentReactions;
+
+        if (shouldFetchFrequentReactions) {
+            const auto frequentReactions =
+              komai::MatrixBackendRuntimeService::fetchRoomFrequentReactions(
+                context,
+                handleId,
+                roomId,
+                settings::core::definitions::kReactionFrequencyLookbackDays,
+                settings::core::definitions::kMaxQuickReactionSlots,
+                settings::core::definitions::kMaxReactionScanEvents,
+                &frequentReactionsError);
+            if (frequentReactions) {
+                snapshot.frequentReactions        = *frequentReactions;
+                snapshot.fetchedFrequentReactions = true;
+            }
+        }
 
         const auto permissions = komai::MatrixBackendRuntimeService::fetchRoomRedactionPermissions(
           context, handleId, roomId, &permissionsError);
@@ -414,9 +467,10 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
            handleId,
            roomId,
            requestId,
-           snapshot         = std::move(snapshot),
-           pinnedError      = std::move(pinnedError),
-           permissionsError = std::move(permissionsError)]() mutable {
+           snapshot               = std::move(snapshot),
+           pinnedError            = std::move(pinnedError),
+           frequentReactionsError = std::move(frequentReactionsError),
+           permissionsError       = std::move(permissionsError)]() mutable {
               if (!guard)
                   return;
 
@@ -449,6 +503,14 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
                                     pinnedError.toStdString());
               }
 
+              if (!frequentReactionsError.isEmpty()) {
+                  nhlog::ui()->warn("Failed to fetch matrix-sdk room frequent reactions for '{}' "
+                                    "on handle {}: {}",
+                                    roomId.toStdString(),
+                                    handleId,
+                                    frequentReactionsError.toStdString());
+              }
+
               if (!permissionsError.isEmpty()) {
                   nhlog::ui()->warn("Failed to fetch matrix-sdk room redaction permissions for "
                                     "'{}' on handle {}: {}",
@@ -457,7 +519,18 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
                                     permissionsError.toStdString());
               }
 
+              if (snapshot.fetchedFrequentReactions && (!snapshot.frequentReactions.isEmpty() ||
+                                                        snapshot.canCacheEmptyFrequentReactions)) {
+                  guard->matrixTimelineFrequentReactionsCache_.insert(
+                    roomId,
+                    TimelineViewManager::MatrixTimelineFrequentReactionsCacheEntry{
+                      .reactions   = snapshot.frequentReactions,
+                      .timestampMs = QDateTime::currentMSecsSinceEpoch(),
+                    });
+              }
+
               if (guard->applyActiveMatrixTimelineRoomState(std::move(snapshot.pinnedEventIds),
+                                                            std::move(snapshot.frequentReactions),
                                                             snapshot.canRedactOwn,
                                                             snapshot.canRedactOther)) {
                   emit guard->matrixTimelineStateChanged();
@@ -474,19 +547,32 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
 
 bool
 TimelineViewManager::applyActiveMatrixTimelineRoomState(QStringList pinnedEventIds,
+                                                        QStringList frequentReactions,
                                                         bool canRedactOwn,
                                                         bool canRedactOther)
 {
     if (matrixTimelinePinnedEventIds_ == pinnedEventIds &&
+        matrixTimelineFrequentReactions_ == frequentReactions &&
         matrixTimelineCanRedactOwn_ == canRedactOwn &&
         matrixTimelineCanRedactOther_ == canRedactOther) {
         return false;
     }
 
-    matrixTimelinePinnedEventIds_ = std::move(pinnedEventIds);
-    matrixTimelineCanRedactOwn_   = canRedactOwn;
-    matrixTimelineCanRedactOther_ = canRedactOther;
+    matrixTimelinePinnedEventIds_    = std::move(pinnedEventIds);
+    matrixTimelineFrequentReactions_ = std::move(frequentReactions);
+    matrixTimelineCanRedactOwn_      = canRedactOwn;
+    matrixTimelineCanRedactOther_    = canRedactOther;
     return true;
+}
+
+void
+TimelineViewManager::invalidateMatrixTimelineFrequentReactionsCache(const QString &roomId)
+{
+    const auto trimmedRoomId = roomId.trimmed();
+    if (trimmedRoomId.isEmpty())
+        return;
+
+    matrixTimelineFrequentReactionsCache_.remove(trimmedRoomId);
 }
 
 void
@@ -764,6 +850,11 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
 
     if (!matrixTimelinePinnedEventIds_.isEmpty()) {
         matrixTimelinePinnedEventIds_.clear();
+        stateChanged = true;
+    }
+
+    if (!matrixTimelineFrequentReactions_.isEmpty()) {
+        matrixTimelineFrequentReactions_.clear();
         stateChanged = true;
     }
 
@@ -1077,13 +1168,18 @@ TimelineViewManager::toggleActiveMatrixTimelineReaction(const QString &eventId,
             .ok       = ok,
           };
       },
-      [](TimelineViewManager *, MatrixTimelineEventActionResult result) {
+      [](TimelineViewManager *manager, MatrixTimelineEventActionResult result) {
           auto *mainWindow = MainWindow::instance();
           if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
               return;
 
-          if (result.ok)
+          if (result.ok) {
+              if (manager && manager->activeMatrixTimelineRoomId_ == result.roomId) {
+                  manager->invalidateMatrixTimelineFrequentReactionsCache(result.roomId);
+                  manager->refreshActiveMatrixTimelineRoomStateAsync();
+              }
               return;
+          }
 
           nhlog::ui()->warn("Failed to toggle matrix-sdk room reaction '{}' for event '{}' in "
                             "'{}' on handle {}: {}",

@@ -1972,6 +1972,7 @@ dependencies = [
  "hyper",
  "hyper-util",
  "matrix-sdk",
+ "matrix-sdk-base",
  "matrix-sdk-ui",
  "mime",
  "rand 0.10.0",

@@ -334,6 +334,27 @@ pub(crate) fn matrix_fetch_room_pinned_event_ids(
     )
 }
 
+pub(crate) fn matrix_fetch_room_frequent_reactions(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    lookback_days: i32,
+    max_results: u32,
+    max_scanned_events: u64,
+) -> Result<Vec<String>, String> {
+    ffi_block_on(
+        context,
+        "matrix_fetch_room_frequent_reactions",
+        matrix_backend::runtime::fetch_room_frequent_reactions(
+            handle_id,
+            room_id,
+            lookback_days,
+            max_results,
+            max_scanned_events,
+        ),
+    )
+}
+
 pub(crate) fn matrix_pin_room_event(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

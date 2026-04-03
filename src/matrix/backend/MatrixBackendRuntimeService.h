@@ -951,6 +951,15 @@ public:
                             const QString &roomId,
                             QString *errorOut = nullptr);
 
+    static std::optional<QStringList>
+    fetchRoomFrequentReactions(matrix_backend::BlockingCallContext context,
+                               uint64_t handleId,
+                               const QString &roomId,
+                               int lookbackDays,
+                               int maxResults,
+                               uint64_t maxScannedEvents,
+                               QString *errorOut = nullptr);
+
     static bool pinRoomEvent(matrix_backend::BlockingCallContext context,
                              uint64_t handleId,
                              const QString &roomId,

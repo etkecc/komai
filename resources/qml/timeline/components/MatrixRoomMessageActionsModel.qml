@@ -27,7 +27,7 @@ Item {
         ? Number(roomPreview.roomMemberCount) : 0
     property bool isEncrypted: roomPreview ? !!roomPreview.isEncrypted : false
     property var input: matrixTimelineToolbarInput
-    property var frequentReactions: []
+    property var frequentReactions: TimelineManager.matrixTimelineFrequentReactions
     property var pinnedMessages: TimelineManager.matrixTimelinePinnedEventIds
     property string reply: ""
     property string edit: ""

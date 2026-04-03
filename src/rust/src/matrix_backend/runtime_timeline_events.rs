@@ -2,15 +2,116 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Event inspection, pinned events, permissions, and read receipts.
+// Event inspection, frequent reactions, pinned events, permissions, and read receipts.
 
 use super::*;
 
+use matrix_sdk_base::event_cache::store::EventCacheStoreLockState;
 use matrix_sdk::ruma::{
     EventId,
-    events::receipt::{ReceiptThread, ReceiptType},
-    events::room::pinned_events::RoomPinnedEventsEventContent,
+    events::{
+        AnySyncMessageLikeEvent, AnySyncTimelineEvent,
+        reaction::ReactionEventContent,
+        receipt::{ReceiptThread, ReceiptType},
+        room::pinned_events::RoomPinnedEventsEventContent,
+    },
 };
+
+// ---------------------------------------------------------------------------
+// Frequent reactions
+// ---------------------------------------------------------------------------
+
+pub async fn fetch_room_frequent_reactions(
+    handle_id: u64,
+    room_id: &str,
+    lookback_days: i32,
+    max_results: u32,
+    max_scanned_events: u64,
+) -> Result<Vec<String>, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let lookback_days = lookback_days.max(0);
+    let max_results = usize::try_from(max_results).unwrap_or(usize::MAX);
+    let max_scanned_events = usize::try_from(max_scanned_events).unwrap_or(usize::MAX);
+    if max_results == 0 || max_scanned_events == 0 {
+        return Ok(Vec::new());
+    }
+
+    let client = client_for_handle(handle_id)?;
+    let store_guard = match client
+        .event_cache_store()
+        .lock()
+        .await
+        .map_err(|e| format!("failed to lock matrix-sdk event cache store: {e}"))?
+    {
+        EventCacheStoreLockState::Clean(guard) | EventCacheStoreLockState::Dirty(guard) => guard,
+    };
+
+    let mut reaction_events = store_guard
+        .get_room_events(room.room_id(), Some("m.reaction"), None)
+        .await
+        .map_err(|e| format!("failed to load matrix-sdk room reactions from event cache: {e}"))?;
+
+    reaction_events.sort_by(|lhs, rhs| rhs.timestamp().cmp(&lhs.timestamp()));
+
+    let own_user_id = room.own_user_id().to_owned();
+    let now_ms = u64::from(matrix_sdk::ruma::MilliSecondsSinceUnixEpoch::now().0);
+    let cutoff_ms =
+        now_ms.saturating_sub(u64::try_from(lookback_days).unwrap_or(0).saturating_mul(86_400_000));
+
+    let mut frequency = HashMap::<String, usize>::new();
+    let mut scanned = 0usize;
+
+    for event in reaction_events {
+        scanned += 1;
+        if scanned > max_scanned_events {
+            break;
+        }
+
+        let Some(timestamp) = event.timestamp() else {
+            continue;
+        };
+        if u64::from(timestamp.0) < cutoff_ms {
+            break;
+        }
+
+        let Ok(AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::Reaction(reaction))) =
+            event.raw().deserialize()
+        else {
+            continue;
+        };
+        let Some(reaction) = reaction.as_original() else {
+            continue;
+        };
+        if reaction.sender != own_user_id {
+            continue;
+        }
+
+        let normalized = normalize_reaction_for_comparison(&reaction.content);
+        if normalized.is_empty() {
+            continue;
+        }
+
+        *frequency.entry(normalized).or_default() += 1;
+    }
+
+    let mut sorted: Vec<_> = frequency.into_iter().collect();
+    sorted.sort_by(|lhs, rhs| rhs.1.cmp(&lhs.1).then_with(|| lhs.0.cmp(&rhs.0)));
+
+    Ok(sorted
+        .into_iter()
+        .take(max_results)
+        .map(|(reaction, _count)| reaction)
+        .collect())
+}
+
+fn normalize_reaction_for_comparison(content: &ReactionEventContent) -> String {
+    content
+        .relates_to
+        .key
+        .chars()
+        .filter(|ch| *ch != '\u{FE0F}' && *ch != '\u{FE0E}')
+        .collect()
+}
 
 // ---------------------------------------------------------------------------
 // Pinned events

@@ -141,6 +141,8 @@ class TimelineViewManager final : public QObject
                  matrixTimelineStateChanged)
     Q_PROPERTY(QStringList matrixTimelinePinnedEventIds READ matrixTimelinePinnedEventIds NOTIFY
                  matrixTimelineStateChanged)
+    Q_PROPERTY(QStringList matrixTimelineFrequentReactions READ matrixTimelineFrequentReactions
+                 NOTIFY matrixTimelineStateChanged)
     Q_PROPERTY(bool matrixTimelineCanRedactOwn READ matrixTimelineCanRedactOwn NOTIFY
                  matrixTimelineStateChanged)
     Q_PROPERTY(bool matrixTimelineCanRedactOther READ matrixTimelineCanRedactOther NOTIFY
@@ -179,6 +181,7 @@ public:
     QString matrixTimelineReplyBody() const { return matrixTimelineReplyBody_; }
     QString matrixTimelineEditEventId() const { return matrixTimelineEditEventId_; }
     QStringList matrixTimelinePinnedEventIds() const { return matrixTimelinePinnedEventIds_; }
+    QStringList matrixTimelineFrequentReactions() const { return matrixTimelineFrequentReactions_; }
     bool matrixTimelineCanRedactOwn() const { return matrixTimelineCanRedactOwn_; }
     bool matrixTimelineCanRedactOther() const { return matrixTimelineCanRedactOther_; }
     QString matrixTimelinePendingJumpEventId() const { return matrixTimelinePendingJumpEventId_; }
@@ -440,6 +443,7 @@ private:
     int preferredInitialMatrixTimelinePageSize_  = 0;
     bool matrixTimelineInitialPrefetchAttempted_ = false;
     QStringList matrixTimelinePinnedEventIds_;
+    QStringList matrixTimelineFrequentReactions_;
     bool matrixTimelineCanRedactOwn_   = false;
     bool matrixTimelineCanRedactOther_ = false;
     QString matrixTimelinePendingJumpRoomId_;
@@ -466,6 +470,12 @@ private:
     QString matrixTimelineReplyBody_;
     QString matrixTimelineEditEventId_;
     QString matrixTimelineEditMessageKind_;
+    struct MatrixTimelineFrequentReactionsCacheEntry
+    {
+        QStringList reactions;
+        qint64 timestampMs = 0;
+    };
+    QHash<QString, MatrixTimelineFrequentReactionsCacheEntry> matrixTimelineFrequentReactionsCache_;
 
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
     void scheduleCurrentMatrixTimelineSelectionUpdate();
@@ -473,8 +483,10 @@ private:
     void updateCurrentMatrixTimelineSelection();
     void refreshActiveMatrixTimelineRoomStateAsync();
     bool applyActiveMatrixTimelineRoomState(QStringList pinnedEventIds,
+                                            QStringList frequentReactions,
                                             bool canRedactOwn,
                                             bool canRedactOther);
+    void invalidateMatrixTimelineFrequentReactionsCache(const QString &roomId);
     void refreshCurrentMatrixTimeline();
     void clearCurrentMatrixTimeline(bool stopBackendTask = true);
     void startNextPendingMatrixAttachment();

@@ -2965,6 +2965,40 @@ MatrixBackendRuntimeService::fetchRoomPinnedEventIds(matrix_backend::BlockingCal
     }
 }
 
+std::optional<QStringList>
+MatrixBackendRuntimeService::fetchRoomFrequentReactions(matrix_backend::BlockingCallContext context,
+                                                        uint64_t handleId,
+                                                        const QString &roomId,
+                                                        int lookbackDays,
+                                                        int maxResults,
+                                                        uint64_t maxScannedEvents,
+                                                        QString *errorOut)
+{
+    try {
+        const auto result = matrix_backend::invokeBlockingCall(
+          "matrix_fetch_room_frequent_reactions",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, lookbackDays, maxResults, maxScannedEvents, context]() {
+              return ::komai::rust::matrix_fetch_room_frequent_reactions(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                lookbackDays,
+                maxResults > 0 ? static_cast<uint32_t>(maxResults) : 0,
+                maxScannedEvents);
+          });
+        QStringList frequentReactions;
+        frequentReactions.reserve(static_cast<qsizetype>(result.size()));
+        for (const auto &reaction : result)
+            frequentReactions.push_back(QString::fromStdString(std::string(reaction)));
+        return frequentReactions;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 bool
 MatrixBackendRuntimeService::pinRoomEvent(matrix_backend::BlockingCallContext context,
                                           uint64_t handleId,

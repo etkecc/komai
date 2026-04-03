@@ -507,45 +507,59 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
         totalUnreadMessages += static_cast<int>(room.unreadMessages);
     }
 
-    bool changed =
-      roomids.size() != newRoomIds.size() || matrixJoinedRooms_.size() != newMatrixRooms.size();
-    if (!changed) {
+    // Detect whether the room set or ordering changed (structural) vs only field
+    // values changed (data-only).  A full model reset (beginResetModel/endResetModel)
+    // causes QML ListView to lose its scroll position, so we avoid it when the room
+    // set is identical and only emit targeted dataChanged signals.
+    const bool structuralChange = roomids.size() != newRoomIds.size() || [&]() {
         for (size_t i = 0; i < newRoomIds.size(); ++i) {
-            if (roomids[i] != newRoomIds[i]) {
-                changed = true;
-                break;
-            }
+            if (roomids[i] != newRoomIds[i])
+                return true;
+        }
+        return false;
+    }();
 
-            const auto it = matrixJoinedRooms_.find(newRoomIds[i]);
-            if (it == matrixJoinedRooms_.end() ||
+    if (!structuralChange) {
+        // Same rooms in same order – find rows where field values differ.
+        QVector<int> changedRows;
+        for (size_t i = 0; i < newRoomIds.size(); ++i) {
+            const auto it = matrixJoinedRooms_.constFind(newRoomIds[i]);
+            if (it == matrixJoinedRooms_.cend() ||
                 !matrixRoomSummaryEquals(it.value(), newMatrixRooms.value(newRoomIds[i]))) {
-                changed = true;
-                break;
+                changedRows.push_back(static_cast<int>(i));
             }
         }
+
+        if (changedRows.isEmpty()) {
+            emit totalUnreadMessageCountUpdated(totalUnreadMessages);
+            return;
+        }
+
+        nhlog::ui()->info("[highlight-debug] snapshot: dataChanged for {} rows (no reset)",
+                          changedRows.size());
+
+        matrixJoinedRooms_ = std::move(newMatrixRooms);
+
+        for (int row : changedRows)
+            emit dataChanged(index(row), index(row));
+    } else {
+        nhlog::ui()->info("[highlight-debug] snapshot: beginResetModel currentRoomId={} "
+                          "selectedRoomId={} hadSelection={} deferred={}",
+                          currentRoomId().toStdString(),
+                          selectedRoomId.toStdString(),
+                          hadCurrentMatrixSummarySelection,
+                          currentRoomVisualStateDeferred_);
+
+        beginResetModel();
+        resetRoomCollections(false);
+        matrixJoinedRooms_ = std::move(newMatrixRooms);
+        roomids            = std::move(newRoomIds);
+        endResetModel();
+
+        nhlog::ui()->info("[highlight-debug] snapshot: endResetModel currentRoomId={} (should be "
+                          "preserved across resetRoomCollections)",
+                          currentRoomId().toStdString());
     }
-
-    if (!changed) {
-        emit totalUnreadMessageCountUpdated(totalUnreadMessages);
-        return;
-    }
-
-    nhlog::ui()->info("[highlight-debug] snapshot: beginResetModel currentRoomId={} "
-                      "selectedRoomId={} hadSelection={} deferred={}",
-                      currentRoomId().toStdString(),
-                      selectedRoomId.toStdString(),
-                      hadCurrentMatrixSummarySelection,
-                      currentRoomVisualStateDeferred_);
-
-    beginResetModel();
-    resetRoomCollections(false);
-    matrixJoinedRooms_ = std::move(newMatrixRooms);
-    roomids            = std::move(newRoomIds);
-    endResetModel();
-
-    nhlog::ui()->info("[highlight-debug] snapshot: endResetModel currentRoomId={} (should be "
-                      "preserved across resetRoomCollections)",
-                      currentRoomId().toStdString());
 
     const auto currentTotalNotifications = totalNotificationCount(matrixJoinedRooms_);
     if (hadPreviousMatrixSnapshot && shouldAlertOnIncoming &&

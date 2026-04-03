@@ -154,7 +154,9 @@ Item {
         root.dialogRoomModel.openUserProfile(userId);
     }
 
-    function eventShown() {}
+    function eventShown() {
+        root.rootItem.highlightedEventId = "";
+    }
     function showImage() {
         return true;
     }

@@ -22,6 +22,7 @@ ColumnLayout {
     property bool walkModeActive: false
     property bool roomSwitchInProgress: false
     property string focusedEventId: ""
+    property string highlightedEventId: ""
     property var selectedEventIds: []
     property string selectionAnchorEventId: ""
     property var visibleTimelineDelegates: ({})
@@ -490,7 +491,8 @@ ColumnLayout {
                             replyContextMenu: dialogSupport.replyContextMenu
                             messageActions: dialogSupport.messageActionsHost.control
                             roomAdapter: messageActionsRoomModel
-                            scrolledToThis: false
+                            scrolledToThis: root.highlightedEventId.length > 0
+                                && root.highlightedEventId === timelineItemDelegate.stableEventId
                         }
                     }
                 }

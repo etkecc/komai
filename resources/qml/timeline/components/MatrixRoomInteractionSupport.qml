@@ -52,7 +52,9 @@ QtObject {
                 return false;
         }
 
+        rootItem.highlightedEventId = "";
         timelineList.positionViewAtIndex(row, ListView.Center);
+        rootItem.highlightedEventId = targetEventId;
         return true;
     }
 

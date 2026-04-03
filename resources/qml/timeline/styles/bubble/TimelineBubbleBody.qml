@@ -225,8 +225,8 @@ Item {
                 }
                 ScriptAction {
                     script: {
-                        if (root.wrapper.room)
-                            root.wrapper.room.eventShown()
+                        if (root.wrapper.effectiveRoomContext)
+                            root.wrapper.effectiveRoomContext.eventShown()
                     }
                 }
             }

@@ -2,14 +2,20 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::collections::HashMap;
+
 use super::*;
 use super::event_summary::summarize_sync_timeline_event;
-use matrix_sdk::ruma::{
-    events::{
-        AnySyncTimelineEvent, ignored_user_list::IgnoredUserListEventContent,
-        room::join_rules::JoinRule,
+use matrix_sdk::{
+    deserialized_responses::SyncOrStrippedState,
+    ruma::{
+        events::{
+            AnySyncTimelineEvent, SyncStateEvent, ignored_user_list::IgnoredUserListEventContent,
+            room::join_rules::JoinRule,
+            space::child::SpaceChildEventContent,
+        },
+        serde::Raw,
     },
-    serde::Raw,
 };
 
 pub fn start_sync(handle_id: u64) -> Result<(), String> {
@@ -296,6 +302,47 @@ async fn build_room_list_snapshot(values: &Vector<RoomListItem>) -> Vec<MatrixRo
     let mut snapshot = Vec::with_capacity(values.len());
     for room in values.iter() {
         snapshot.push(room_list_item_to_summary(room).await);
+    }
+
+    // Enrich parent_space_room_ids by reading m.space.child state events from
+    // each space. The per-room parent_spaces() call only looks at m.space.parent
+    // events set on the child room, which are optional and often absent.
+    // The authoritative source is m.space.child events on the space itself.
+    let mut child_to_parents: HashMap<String, Vec<String>> = HashMap::new();
+    for room in values.iter() {
+        if !room.is_space() {
+            continue;
+        }
+        let space_id = room.room_id().to_string();
+        if let Ok(child_events) = room.get_state_events_static::<SpaceChildEventContent>().await {
+            for raw_event in child_events {
+                let child_room_id: Option<String> = match raw_event.deserialize() {
+                    Ok(SyncOrStrippedState::Sync(SyncStateEvent::Original(e))) => {
+                        Some(e.state_key.to_string())
+                    }
+                    Ok(SyncOrStrippedState::Stripped(e)) => Some(e.state_key.to_string()),
+                    _ => None,
+                };
+                if let Some(child_room_id) = child_room_id {
+                    child_to_parents
+                        .entry(child_room_id)
+                        .or_default()
+                        .push(space_id.clone());
+                }
+            }
+        }
+    }
+
+    for summary in &mut snapshot {
+        if let Some(extra_parents) = child_to_parents.remove(&summary.room_id) {
+            for parent_id in extra_parents {
+                if !summary.parent_space_room_ids.contains(&parent_id) {
+                    summary.parent_space_room_ids.push(parent_id);
+                }
+            }
+            summary.parent_space_room_ids.sort();
+            summary.parent_space_room_ids.dedup();
+        }
     }
 
     snapshot

@@ -208,17 +208,17 @@ Item {
 
             SequentialAnimation {
                 PropertyAnimation {
-                    duration: 500
+                    duration: 200
                     easing.type: Easing.InOutQuad
                     from: 0
                     properties: "opacity"
                     target: scrollHighlight
-                    to: 1
+                    to: 0.5
                 }
                 PropertyAnimation {
-                    duration: 500
+                    duration: 400
                     easing.type: Easing.InOutQuad
-                    from: 1
+                    from: 0.5
                     properties: "opacity"
                     target: scrollHighlight
                     to: 0

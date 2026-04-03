@@ -1333,26 +1333,36 @@ async fn run_room_timeline_loop(
         "Requesting initial backwards pagination"
     );
     let paginate_started_at = Instant::now();
-    if let Err(error) = timeline.paginate_backwards(initial_page_size).await {
-        tracing::warn!(
-            handle_id,
-            room_id,
-            %error,
-            "Initial matrix-sdk room timeline pagination failed"
-        );
-    }
-    log_room_timeline_perf(
-        handle_id,
-        &room_id,
-        "rust.matrix_timeline.initial_paginate",
-        paginate_started_at.elapsed(),
-        &format!(" page_size={}", initial_page_size),
-    );
+    // Run the initial pagination concurrently with the stream loop so
+    // diffs can be processed as they arrive instead of buffering until
+    // the paginate future completes.
+    let initial_paginate_fut = timeline.paginate_backwards(initial_page_size);
+    tokio::pin!(initial_paginate_fut);
+    let mut initial_paginate_pending = true;
 
     let mut stream = Box::pin(stream);
     let mut first_diff_logged = false;
     while !stop_requested.load(Ordering::Relaxed) {
         tokio::select! {
+            result = &mut initial_paginate_fut, if initial_paginate_pending => {
+                initial_paginate_pending = false;
+                if let Err(error) = result {
+                    tracing::warn!(
+                        handle_id,
+                        room_id,
+                        %error,
+                        "Initial matrix-sdk room timeline pagination failed"
+                    );
+                }
+                log_room_timeline_perf(
+                    handle_id,
+                    &room_id,
+                    "rust.matrix_timeline.initial_paginate",
+                    paginate_started_at.elapsed(),
+                    &format!(" page_size={}", initial_page_size),
+                );
+            }
+
             maybe_diffs = stream.next() => {
                 match maybe_diffs {
                     Some(diffs) => {

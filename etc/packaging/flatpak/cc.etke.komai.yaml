@@ -89,7 +89,6 @@ modules:
       - -DFETCHCONTENT_SOURCE_DIR_QT6KEYCHAIN=/run/build/komai/.deps/qtkeychain
       - -DFETCHCONTENT_SOURCE_DIR_KDSINGLEAPPLICATION=/run/build/komai/.deps/kdsingleapplication
       - -DFETCHCONTENT_SOURCE_DIR_LITEHTML=/run/build/komai/.deps/litehtml
-      - -DCPP_HTTPLIB_INCLUDE_DIR=/run/build/komai/.deps/cpp-httplib
     buildsystem: cmake-ninja
     sources:
       - path: ../../..
@@ -126,8 +125,3 @@ modules:
         tag: v0.9
         type: git
         url: https://github.com/litehtml/litehtml.git
-      - dest: .deps/cpp-httplib
-        disable-lfs: true
-        tag: v0.39.0
-        type: git
-        url: https://github.com/yhirose/cpp-httplib.git

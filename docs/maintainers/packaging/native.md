@@ -112,7 +112,7 @@ sudo apt install -y build-essential cmake pkg-config python3 cargo rustc \
 ```
 
 By default, CPM downloads and builds all non-system C++ dependencies
-(`litehtml`, `cpp-httplib`, etc.), while Cargo resolves
+(`litehtml`, etc.), while Cargo resolves
 the Rust runtime crates (`matrix-sdk`, `matrix-sdk-ui`, and friends). Pass
 `-DCPM_USE_LOCAL_PACKAGES=ON` to prefer system packages instead.
 

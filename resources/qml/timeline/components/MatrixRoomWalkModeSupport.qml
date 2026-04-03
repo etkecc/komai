@@ -61,23 +61,7 @@ Item {
             return;
 
         timelineList.forceLayout();
-
-        const item = timelineList.itemAtIndex(row);
-        if (!item || item.height <= 0)
-            return;
-
-        // Map delegate position into the ListView's coordinate space.
-        // This works correctly regardless of BottomToTop layout direction.
-        const mapped = timelineList.mapFromItem(item, 0, 0);
-        const margin = 8;
-
-        if (mapped.y < margin) {
-            // Item is above the viewport — scroll up.
-            timelineList.contentY += (mapped.y - margin);
-        } else if (mapped.y + item.height > timelineList.height - margin) {
-            // Item is below the viewport — scroll down.
-            timelineList.contentY += (mapped.y + item.height - timelineList.height + margin);
-        }
+        timelineList.positionViewAtIndex(row, ListView.Contain);
     }
 
     function focusWalkModeEventById(eventId, options) {

@@ -657,9 +657,28 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
               guard->refreshActiveMatrixTimelineRoomStateAsync();
 
               if (guard->matrixTimelineLoading_) {
-                  guard->matrixTimelineLoading_ = false;
-                  guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_loading_finished");
-                  stateChanged = true;
+                  const bool hasContent =
+                    itemCount > 0 ||
+                    (guard->matrixTimelineModel_ && guard->matrixTimelineModel_->count() > 0);
+                  if (hasContent) {
+                      guard->matrixTimelineLoading_ = false;
+                      guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_loading_finished");
+                      stateChanged = true;
+                  } else {
+                      // Empty snapshot while loading — backward pagination
+                      // is still in progress.  Keep showing "Loading this
+                      // room…" instead of "Nothing has loaded for this room
+                      // yet."  A fallback clears the flag for genuinely empty
+                      // rooms (no messages ever).
+                      QTimer::singleShot(10000, guard, [guard, roomId]() {
+                          if (!guard || guard->activeMatrixTimelineRoomId_ != roomId)
+                              return;
+                          if (!guard->matrixTimelineLoading_)
+                              return;
+                          guard->matrixTimelineLoading_ = false;
+                          emit guard->matrixTimelineStateChanged();
+                      });
+                  }
               }
 
               if (stateChanged)

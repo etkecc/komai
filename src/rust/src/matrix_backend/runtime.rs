@@ -52,7 +52,7 @@ use matrix_sdk_ui::{
     room_list_service::{RoomListItem, filters},
     timeline::{
         RoomExt, Timeline, TimelineDetails, TimelineEventItemId, TimelineItem,
-        VirtualTimelineItem,
+        TimelineReadReceiptTracking, VirtualTimelineItem,
     },
 };
 use tokio::sync::mpsc;

@@ -1,0 +1,288 @@
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
+// Timeline snapshot building: converts matrix-sdk-ui TimelineItem vectors
+// into the flat MatrixTimelineItem structs consumed by the C++ side.
+
+use super::*;
+use super::event_summary::summarize_timeline_content;
+
+use std::collections::HashMap;
+
+pub fn build_room_timeline_snapshot(
+    values: &Vector<Arc<TimelineItem>>,
+    own_user_id: Option<&matrix_sdk::ruma::UserId>,
+) -> (Vec<MatrixTimelineItem>, HashMap<String, MatrixTimelineMediaRequest>) {
+    let mut items = Vec::new();
+    let mut media_lookup = HashMap::new();
+
+    for item in values.iter() {
+        if let Some((summary, media_request)) =
+            timeline_item_to_summary(item.as_ref(), own_user_id)
+        {
+            if let Some(media_request) = media_request {
+                media_lookup.insert(summary.item_id.clone(), media_request.clone());
+                if !summary.event_id.is_empty() {
+                    media_lookup.insert(summary.event_id.clone(), media_request);
+                }
+            }
+            items.push(summary);
+        }
+    }
+
+    // Reverse so index 0 = newest, matching the BottomToTop ListView
+    // layout in QML where index 0 sits at the visual bottom.
+    items.reverse();
+
+    (items, media_lookup)
+}
+
+fn timeline_item_to_summary(
+    item: &TimelineItem,
+    own_user_id: Option<&matrix_sdk::ruma::UserId>,
+) -> Option<(MatrixTimelineItem, Option<MatrixTimelineMediaRequest>)> {
+    let item_id = item.unique_id().0.clone();
+
+    if let Some(event) = item.as_event() {
+        let sender_id = event.sender().to_string();
+        let (sender_display_name, sender_avatar_url) = match event.sender_profile() {
+            TimelineDetails::Ready(profile) => (
+                profile
+                    .display_name
+                    .clone()
+                    .unwrap_or_else(|| sender_id.clone()),
+                profile
+                    .avatar_url
+                    .as_ref()
+                    .map(|url| normalize_mxc_uri(url.to_string()))
+                    .unwrap_or_default(),
+            ),
+            _ => (sender_id.clone(), String::new()),
+        };
+        let summary = summarize_timeline_content(event.content(), own_user_id);
+        let body = summary.body;
+        let formatted_body = summary.formatted_body;
+        let thread_id = summary.thread_root_id;
+        let reply_event_id = summary.reply_event_id;
+        let reply_sender_id = summary.reply_sender_id;
+        let reply_sender_display_name = summary.reply_sender_display_name;
+        let reply_item_kind = summary.reply_item_kind;
+        let reply_matrix_event_type = summary.reply_matrix_event_type;
+        let reply_body = summary.reply_body;
+        let reply_formatted_body = summary.reply_formatted_body;
+        let reply_media = summary.reply_media;
+        let reactions = summary.reactions;
+        let reactions_summary = summary.reactions_summary;
+        let special_effect_names = summary.special_effect_names;
+        let item_kind = summary.kind;
+        let matrix_event_type = summary.matrix_event_type;
+        let is_edited = summary.is_edited;
+        let media = summary.media;
+        let media_request = media.as_ref().and_then(|media| {
+            media.source.clone().map(|source| MatrixTimelineMediaRequest {
+                source,
+                thumbnail_source: media.thumbnail_source.clone(),
+            })
+        });
+
+        return Some((
+            MatrixTimelineItem {
+                item_id,
+                event_id: event.event_id().map(ToString::to_string).unwrap_or_default(),
+                delivery_state: matrix_timeline_delivery_state(event),
+                thread_id,
+                sender_id,
+                sender_display_name,
+                sender_avatar_url,
+                body,
+                formatted_body,
+                reply_event_id,
+                reply_sender_id,
+                reply_sender_display_name,
+                reply_item_kind,
+                reply_matrix_event_type,
+                reply_body,
+                reply_formatted_body,
+                reply_media_url: reply_media
+                    .as_ref()
+                    .map(|media| media.media_url.clone())
+                    .unwrap_or_default(),
+                reply_thumbnail_url: reply_media
+                    .as_ref()
+                    .map(|media| media.thumbnail_url.clone())
+                    .unwrap_or_default(),
+                reply_file_name: reply_media
+                    .as_ref()
+                    .map(|media| media.file_name.clone())
+                    .unwrap_or_default(),
+                reply_mime_type: reply_media
+                    .as_ref()
+                    .map(|media| media.mime_type.clone())
+                    .unwrap_or_default(),
+                reply_media_width: reply_media
+                    .as_ref()
+                    .map(|media| media.media_width)
+                    .unwrap_or(0),
+                reply_media_height: reply_media
+                    .as_ref()
+                    .map(|media| media.media_height)
+                    .unwrap_or(0),
+                reply_media_duration_ms: reply_media
+                    .as_ref()
+                    .map(|media| media.media_duration_ms)
+                    .unwrap_or(0),
+                reply_media_size_bytes: reply_media
+                    .as_ref()
+                    .map(|media| media.media_size_bytes)
+                    .unwrap_or(0),
+                reactions,
+                reactions_summary,
+                special_effect_names,
+                item_kind,
+                matrix_event_type,
+                is_edited,
+                media_url: media
+                    .as_ref()
+                    .map(|media| media.media_url.clone())
+                    .unwrap_or_default(),
+                thumbnail_url: media
+                    .as_ref()
+                    .map(|media| media.thumbnail_url.clone())
+                    .unwrap_or_default(),
+                file_name: media
+                    .as_ref()
+                    .map(|media| media.file_name.clone())
+                    .unwrap_or_default(),
+                mime_type: media
+                    .as_ref()
+                    .map(|media| media.mime_type.clone())
+                    .unwrap_or_default(),
+                media_width: media.as_ref().map(|media| media.media_width).unwrap_or(0),
+                media_height: media
+                    .as_ref()
+                    .map(|media| media.media_height)
+                    .unwrap_or(0),
+                media_duration_ms: media
+                    .as_ref()
+                    .map(|media| media.media_duration_ms)
+                    .unwrap_or(0),
+                media_size_bytes: media
+                    .as_ref()
+                    .map(|media| media.media_size_bytes)
+                    .unwrap_or(0),
+                media_is_encrypted: media
+                    .as_ref()
+                    .map(|media| media.media_is_encrypted)
+                    .unwrap_or(false),
+                thumbnail_is_encrypted: media
+                    .as_ref()
+                    .map(|media| media.thumbnail_is_encrypted)
+                    .unwrap_or(false),
+                timestamp: u64::from(event.timestamp().get()),
+                is_own: event.is_own(),
+            },
+            media_request,
+        ));
+    }
+
+    match item.as_virtual() {
+        Some(VirtualTimelineItem::DateDivider(timestamp)) => Some((
+            MatrixTimelineItem {
+                item_id,
+                event_id: String::new(),
+                delivery_state: String::new(),
+                thread_id: String::new(),
+                sender_id: String::new(),
+                sender_display_name: String::new(),
+                sender_avatar_url: String::new(),
+                body: String::new(),
+                formatted_body: String::new(),
+                reply_event_id: String::new(),
+                reply_sender_id: String::new(),
+                reply_sender_display_name: String::new(),
+                reply_item_kind: String::new(),
+                reply_matrix_event_type: String::new(),
+                reply_body: String::new(),
+                reply_formatted_body: String::new(),
+                reply_media_url: String::new(),
+                reply_thumbnail_url: String::new(),
+                reply_file_name: String::new(),
+                reply_mime_type: String::new(),
+                reply_media_width: 0,
+                reply_media_height: 0,
+                reply_media_duration_ms: 0,
+                reply_media_size_bytes: 0,
+                reactions: Vec::new(),
+                reactions_summary: String::new(),
+                special_effect_names: Vec::new(),
+                item_kind: "date_divider".to_owned(),
+                matrix_event_type: String::new(),
+                is_edited: false,
+                media_url: String::new(),
+                thumbnail_url: String::new(),
+                file_name: String::new(),
+                mime_type: String::new(),
+                media_width: 0,
+                media_height: 0,
+                media_duration_ms: 0,
+                media_size_bytes: 0,
+                media_is_encrypted: false,
+                thumbnail_is_encrypted: false,
+                timestamp: u64::from(timestamp.get()),
+                is_own: false,
+            },
+            None,
+        )),
+        Some(VirtualTimelineItem::ReadMarker) | Some(VirtualTimelineItem::TimelineStart) | None => {
+            None
+        }
+    }
+}
+
+fn matrix_timeline_delivery_state(event: &matrix_sdk_ui::timeline::EventTimelineItem) -> String {
+    use matrix_sdk_ui::timeline::EventSendState;
+
+    match event.send_state() {
+        Some(EventSendState::NotSentYet { .. }) => "pending".to_owned(),
+        Some(EventSendState::Sent { .. }) => "sent".to_owned(),
+        Some(EventSendState::SendingFailed { .. }) => "failed".to_owned(),
+        None => String::new(),
+    }
+}
+
+pub fn build_timeline_media_request_parameters(
+    media_request: &MatrixTimelineMediaRequest,
+    width: i32,
+    height: i32,
+    crop: bool,
+) -> Result<MediaRequestParameters, String> {
+    if width > 0 && height > 0 {
+        if let Some(thumbnail_source) = media_request.thumbnail_source.clone() {
+            return Ok(MediaRequestParameters {
+                source: thumbnail_source,
+                format: MediaFormat::File,
+            });
+        }
+
+        if matches!(&media_request.source, MediaSource::Plain(_)) {
+            let width =
+                UInt::try_from(width).map_err(|_| format!("invalid thumbnail width: {width}"))?;
+            let height =
+                UInt::try_from(height).map_err(|_| format!("invalid thumbnail height: {height}"))?;
+            let method = if crop { Method::Crop } else { Method::Scale };
+
+            return Ok(MediaRequestParameters {
+                source: media_request.source.clone(),
+                format: MediaFormat::Thumbnail(MediaThumbnailSettings::with_method(
+                    method, width, height,
+                )),
+            });
+        }
+    }
+
+    Ok(MediaRequestParameters {
+        source: media_request.source.clone(),
+        format: MediaFormat::File,
+    })
+}

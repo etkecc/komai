@@ -79,6 +79,12 @@ mod room_list;
 mod room_settings;
 #[path = "runtime_timeline.rs"]
 mod timeline;
+#[path = "runtime_timeline_messaging.rs"]
+mod timeline_messaging;
+#[path = "runtime_timeline_events.rs"]
+mod timeline_events;
+#[path = "runtime_timeline_snapshot.rs"]
+mod timeline_snapshot;
 #[path = "runtime_user_directory.rs"]
 mod user_directory;
 #[path = "runtime_room_directory.rs"]
@@ -133,16 +139,19 @@ pub use room_settings::{
     upload_room_avatar,
 };
 pub use timeline::{
-    fetch_active_room_event_content_for_forwarding,
-    fetch_active_room_raw_event_dialog_data, fetch_active_room_timeline,
-    fetch_active_room_timeline_media_content, fetch_room_pinned_event_ids,
-    fetch_room_read_receipts, fetch_room_redaction_permissions, mark_room_event_as_read,
-    paginate_active_room_timeline_backwards, pin_room_event, redact_room_event,
-    report_room_event, select_active_room_timeline, send_room_attachment,
+    fetch_active_room_timeline, fetch_active_room_timeline_media_content,
+    paginate_active_room_timeline_backwards, select_active_room_timeline,
     set_active_room_timeline_initial_page_size,
+};
+pub use timeline_messaging::{
+    mark_room_event_as_read, redact_room_event, report_room_event, send_room_attachment,
     send_room_edit_message, send_room_message, send_room_message_like_event_json,
-    send_room_reply_message,
-    toggle_room_reaction, unpin_room_event,
+    send_room_reply_message, toggle_room_reaction,
+};
+pub use timeline_events::{
+    fetch_active_room_event_content_for_forwarding, fetch_active_room_raw_event_dialog_data,
+    fetch_room_pinned_event_ids, fetch_room_read_receipts, fetch_room_redaction_permissions,
+    pin_room_event, unpin_room_event,
 };
 pub use runtime_media::{send_room_image, upload_media};
 pub use user_directory::search_users;

@@ -584,10 +584,12 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         let event = raw_event.deserialize().ok()?;
         summarize_sync_timeline_event(&event)
     });
+    // Only use the real event timestamp for display.
+    // recency_stamp() is an opaque ordering value (sliding sync bump_stamp),
+    // NOT a timestamp — using it as one produces 1970-era dates.
     let timestamp = room
         .new_latest_event_timestamp()
         .map(|ts| u64::from(ts.get()))
-        .or_else(|| room.recency_stamp().map(u64::from))
         .unwrap_or_default();
     let tags = fetch_room_tags(room).await;
     let parent_space_room_ids = fetch_parent_space_room_ids(room).await;

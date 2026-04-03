@@ -116,6 +116,10 @@ matrix_notify_room_list_snapshot_updated(std::uint64_t, ::rust::Vec<::komai::rus
 {}
 
 void
+matrix_notify_room_previews_backfilled(std::uint64_t, ::rust::Vec<::komai::rust::MatrixRoomPreviewUpdate>)
+{}
+
+void
 matrix_notify_ignored_user_list_updated(std::uint64_t, ::rust::Vec<::rust::String>)
 {}
 

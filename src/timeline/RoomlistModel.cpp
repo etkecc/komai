@@ -679,6 +679,16 @@ RoomlistModel::updateReadStatus(const std::map<QString, bool> &roomReadStatus_)
     }
 }
 
+void
+RoomlistModel::notifyRoomPreviewsBackfilled()
+{
+    if (roomids.empty())
+        return;
+    emit dataChanged(index(0),
+                     index(static_cast<int>(roomids.size()) - 1),
+                     {Roles::LastMessage, Roles::Time, Roles::Timestamp});
+}
+
 #ifdef KOMAI_DBUS_SYS
 void
 RoomlistModel::setDbusInterfaceEnabled(bool enabled)

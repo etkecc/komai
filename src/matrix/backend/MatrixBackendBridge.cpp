@@ -20,6 +20,7 @@
 #include "profile/Paths.h"
 #include "profile/ProfileSecrets.h"
 #include "settings/SettingsStorage.h"
+#include "timeline/RoomlistModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "voip/CallManager.h"
@@ -256,6 +257,54 @@ matrix_notify_room_list_snapshot_updated(std::uint64_t handle_id,
             return;
 
         manager->handleMatrixBackendRoomListSnapshotUpdated(handle_id);
+    });
+}
+
+void
+matrix_notify_room_previews_backfilled(std::uint64_t handle_id,
+                                       ::rust::Vec<::komai::rust::MatrixRoomPreviewUpdate> updates)
+{
+    struct Update
+    {
+        QString roomId;
+        QString latestEventId;
+        QString lastMessage;
+        QString lastMessageKind;
+        uint64_t timestamp;
+    };
+    QVector<Update> converted;
+    converted.reserve(static_cast<int>(updates.size()));
+    for (const auto &u : updates) {
+        converted.push_back({
+          toQString(u.room_id),
+          toQString(u.latest_event_id),
+          toQString(u.last_message),
+          toQString(u.last_message_kind),
+          u.timestamp,
+        });
+    }
+
+    postToAppThread([handle_id, converted = std::move(converted)]() {
+        auto *mainWindow = MainWindow::instance();
+        auto *manager    = TimelineViewManager::instance();
+        if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+        auto *rooms = manager->rooms();
+        if (!rooms)
+            return;
+        auto &joinedRooms = rooms->matrixJoinedRooms();
+        for (const auto &u : converted) {
+            auto it = joinedRooms.find(u.roomId);
+            if (it == joinedRooms.end())
+                continue;
+            if (it->timestamp > 0)
+                continue;
+            it->timestamp       = u.timestamp;
+            it->lastMessage     = u.lastMessage;
+            it->lastMessageKind = u.lastMessageKind;
+            it->latestEventId   = u.latestEventId;
+        }
+        rooms->notifyRoomPreviewsBackfilled();
     });
 }
 

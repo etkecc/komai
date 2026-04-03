@@ -72,12 +72,8 @@ fn log_room_timeline_perf(
 
 /// After the timeline loads events for a room whose room-list entry still
 /// has `timestamp == 0` (no cached latest event from sliding sync), backfill
-/// the entry's data in the Rust-side room-list snapshot.
-///
-/// We intentionally do NOT fire `matrix_notify_room_list_snapshot_updated`
-/// here — doing so triggers a full model reset which re-sorts the room list,
-/// causing a jarring visual jump.  The updated data will be picked up on the
-/// next natural room-list refresh from the SDK.
+/// the entry's data in the Rust-side room-list snapshot and notify C++ via
+/// the targeted preview-update path (no model reset, preserves scroll).
 ///
 /// This works around a matrix-sdk limitation where network backward
 /// pagination does not send `RoomEventCacheGenericUpdate`, so
@@ -130,11 +126,26 @@ fn maybe_backfill_room_list_preview(
     entry.last_message_kind = newest.matrix_event_type.clone();
     entry.latest_event_id = newest.event_id.clone();
 
+    drop(room_list);
+    drop(handles);
+
     tracing::info!(
         handle_id,
         room_id,
         timestamp = newest.timestamp,
-        "Backfilled room-list preview in snapshot (deferred until next refresh)"
+        "Backfilled room-list preview from timeline"
+    );
+
+    // Targeted notification — updates the C++ model without resetting it.
+    crate::ffi::matrix_notify_room_previews_backfilled(
+        handle_id,
+        vec![crate::ffi::MatrixRoomPreviewUpdate {
+            room_id: room_id.to_owned(),
+            latest_event_id: newest.event_id.clone(),
+            last_message: newest.body.clone(),
+            last_message_kind: newest.matrix_event_type.clone(),
+            timestamp: newest.timestamp,
+        }],
     );
 }
 

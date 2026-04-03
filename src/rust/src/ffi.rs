@@ -652,6 +652,14 @@ mod bridge {
         timestamp: u64,
     }
 
+    struct MatrixRoomPreviewUpdate {
+        room_id: String,
+        latest_event_id: String,
+        last_message: String,
+        last_message_kind: String,
+        timestamp: u64,
+    }
+
     struct MatrixNotificationRequest {
         room_id: String,
         event_id: String,
@@ -1011,6 +1019,11 @@ mod bridge {
         fn matrix_notify_room_list_snapshot_updated(
             handle_id: u64,
             room_list: Vec<MatrixRoomSummary>,
+        );
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_room_previews_backfilled(
+            handle_id: u64,
+            updates: Vec<MatrixRoomPreviewUpdate>,
         );
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_ignored_user_list_updated(handle_id: u64, user_ids: Vec<String>);

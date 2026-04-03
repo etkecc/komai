@@ -171,6 +171,13 @@ async fn run_sync_loop(
                         if !initial_sync_ready_notified {
                             crate::ffi::matrix_notify_initial_sync_ready(handle_id);
                             initial_sync_ready_notified = true;
+
+                            // Kick off background preloading of room timelines
+                            // so rooms have cached events before the user opens them.
+                            if let Err(error) = super::preloader::start_preload(handle_id) {
+                                tracing::warn!(handle_id, %error, "Failed to start background preloader");
+                            }
+
                             tracing::info!(
                                 handle_id,
                                 "Completed initial matrix-sdk-ui room-list sync iteration"

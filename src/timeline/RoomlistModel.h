@@ -126,10 +126,12 @@ public:
     RoomPreview getRoomPreviewById(QString roomid) const;
     QString currentRoomId() const;
 
+    QHash<QString, komai::MatrixRoomSummary> &matrixJoinedRooms() { return matrixJoinedRooms_; }
     const QHash<QString, komai::MatrixRoomSummary> &matrixJoinedRooms() const
     {
         return matrixJoinedRooms_;
     }
+    void notifyRoomPreviewsBackfilled();
 
     RoomPreview currentRoomPreview() const { return currentRoomPreview_.value_or(RoomPreview{}); }
 

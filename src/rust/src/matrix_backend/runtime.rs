@@ -94,6 +94,8 @@ mod runtime_voip;
 mod runtime_calls;
 #[path = "runtime_media_proxy.rs"]
 mod media_proxy;
+#[path = "runtime_preloader.rs"]
+mod preloader;
 
 pub use profile_media::{
     fetch_media_content, fetch_own_presence, fetch_own_profile, fetch_room_member_profile,
@@ -120,6 +122,7 @@ pub use room_actions::{
     set_invite_permission, set_own_room_display_name, set_room_is_direct, toggle_room_tag,
     unban_user,
 };
+pub use preloader::start_preload;
 pub use room_list::{fetch_room_list, start_sync};
 pub use room_settings::{
     apply_room_aliases, apply_room_power_levels, enable_room_encryption, fetch_room_aliases,

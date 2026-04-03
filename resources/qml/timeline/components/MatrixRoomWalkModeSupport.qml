@@ -17,6 +17,16 @@ Item {
     width: 0
     height: 0
 
+    property bool _pendingGoToTop: false
+
+    Timer {
+        id: walkModeGoToTopSequenceTimer
+
+        interval: 400
+        repeat: false
+        onTriggered: support._pendingGoToTop = false
+    }
+
     Timer {
         id: walkModeEntrySuppressTimer
 
@@ -129,6 +139,7 @@ Item {
         rootItem.walkModeActive = false;
         rootItem.suppressNextWalkModeOlderStep = false;
         walkModeEntrySuppressTimer.stop();
+        resetWalkModeGoToTopSequence();
 
         if (timelineList) {
             timelineList.keepPinnedToBottom = timelineList.atYEnd;
@@ -342,6 +353,22 @@ Item {
             && (modifiers & (Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
     }
 
+    function eventUsesNoWalkModeModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier | Qt.ShiftModifier)) === 0;
+    }
+
+    function eventUsesShiftOnlyWalkModeModifiers(event) {
+        const modifiers = Number(event.modifiers);
+        return (modifiers & Qt.ShiftModifier) !== 0
+            && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
+    }
+
+    function resetWalkModeGoToTopSequence() {
+        _pendingGoToTop = false;
+        walkModeGoToTopSequenceTimer.stop();
+    }
+
     function eventMatchesWalkModeLatinKey(event, latinKey) {
         if (!event)
             return false;
@@ -448,8 +475,15 @@ Item {
             return true;
         }
 
-        if (event.key === Qt.Key_Up
-                && (event.modifiers === Qt.NoModifier || event.modifiers === Qt.KeypadModifier)) {
+        const gKeyPressed = eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.G);
+        const plainGPressed = gKeyPressed && eventUsesNoWalkModeModifiers(event);
+        const shiftGPressed = gKeyPressed && eventUsesShiftOnlyWalkModeModifiers(event);
+
+        if (!plainGPressed)
+            resetWalkModeGoToTopSequence();
+
+        if ((event.key === Qt.Key_Up && (event.modifiers === Qt.NoModifier || event.modifiers === Qt.KeypadModifier))
+                || (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.K) && eventUsesWalkModeModifiers(event))) {
             if (rootItem.suppressNextWalkModeOlderStep) {
                 rootItem.suppressNextWalkModeOlderStep = false;
                 event.accepted = true;
@@ -461,8 +495,8 @@ Item {
             return true;
         }
 
-        if (event.key === Qt.Key_Down
-                && (event.modifiers === Qt.NoModifier || event.modifiers === Qt.KeypadModifier)) {
+        if ((event.key === Qt.Key_Down && (event.modifiers === Qt.NoModifier || event.modifiers === Qt.KeypadModifier))
+                || (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.J) && eventUsesWalkModeModifiers(event))) {
             moveFocusTowardNewerEvents();
             event.accepted = true;
             return true;
@@ -525,6 +559,24 @@ Item {
                                                       event.key,
                                                       event.nativeScanCode)) {
             moveFocusTowardNewerEventsByChunk();
+            event.accepted = true;
+            return true;
+        }
+
+        if (shiftGPressed) {
+            focusLatestWalkModeEvent();
+            event.accepted = true;
+            return true;
+        }
+
+        if (plainGPressed) {
+            if (_pendingGoToTop) {
+                resetWalkModeGoToTopSequence();
+                focusOldestLoadedWalkModeEvent();
+            } else {
+                _pendingGoToTop = true;
+                walkModeGoToTopSequenceTimer.restart();
+            }
             event.accepted = true;
             return true;
         }

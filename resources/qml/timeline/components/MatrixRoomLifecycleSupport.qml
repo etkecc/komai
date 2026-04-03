@@ -44,6 +44,7 @@ QtObject {
         rootItem.lastMarkedReadEventId = "";
         rootItem.lastInitialBufferTriggerCount = -1;
         rootItem.pendingComposerAutoFocus = rootItem.activeRoomId.length > 0;
+        rootItem._composerAutoFocusRetries = 0;
         rootItem.visibleTimelineDelegates = ({});
         rootItem.deferredBufferCheckGeneration += 1;
         rootItem.deferredBufferCheckQueued = false;
@@ -73,6 +74,15 @@ QtObject {
             rootItem.scheduleDeferredInitialTimelineBufferCheck();
         else
             rootItem.scheduleInitialTimelineBufferCheck();
+    }
+
+    // activeRoomId may already be set when this component is created (the binding
+    // on the parent evaluates before children exist), so the onActiveRoomIdChanged
+    // signal fires before the Connections block below is wired up.  Re-run the
+    // handler once on completion to cover that missed signal.
+    Component.onCompleted: {
+        if (rootItem.activeRoomId.length > 0)
+            support.handleActiveRoomIdChanged();
     }
 
     property var rootConnections: Connections {

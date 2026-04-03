@@ -68,6 +68,11 @@ QtObject {
         return support.dialogSupport.destroyOnClose(dialog);
     }
 
+    property var _autoFocusRetryTimer: Timer {
+        interval: 50
+        onTriggered: support.scheduleComposerAutoFocus()
+    }
+
     function scheduleComposerAutoFocus() {
         if (!rootItem.pendingComposerAutoFocus)
             return;
@@ -81,8 +86,13 @@ QtObject {
                 return;
             }
 
-            if (support.focusTextInput())
+            if (support.focusTextInput()) {
                 rootItem.pendingComposerAutoFocus = false;
+                rootItem._composerAutoFocusRetries = 0;
+            } else if (rootItem._composerAutoFocusRetries < 10) {
+                rootItem._composerAutoFocusRetries++;
+                support._autoFocusRetryTimer.restart();
+            }
         });
     }
 

@@ -78,6 +78,8 @@ ColumnLayout {
     property bool preferLatestReadMarkerEvent: false
     property int readMarkerGeneration: 0
     property bool pendingComposerAutoFocus: false
+    property int _composerAutoFocusRetries: 0
+
 
     MessageActionSupport {
         id: messageActionSupport

@@ -86,16 +86,111 @@ QtObject {
         });
     }
 
+    function composerHasTextInputFocus() {
+        return !!(composerPane
+            && composerPane.composerInput
+            && composerPane.composerInput.textInputActiveFocus);
+    }
+
+    function hasInsertableComposerText(text) {
+        const value = String(text || "");
+        return value.length > 0 && !/[\u0000-\u001F\u007F-\u009F]/.test(value);
+    }
+
+    function messageActionsControl() {
+        return dialogSupport && dialogSupport.messageActionsHost
+            ? dialogSupport.messageActionsHost.control
+            : null;
+    }
+
+    function dismissPinnedMessageActions() {
+        const control = support.messageActionsControl();
+        if (!control || !control.pinned || typeof control.dismiss !== "function")
+            return false;
+
+        control.dismiss();
+        if (rootItem.walkModeActive)
+            rootItem.focusTimelineSelection();
+        else if (!rootItem.headerSearchHasFocus)
+            Qt.callLater(function () {
+                support.focusTextInput();
+            });
+
+        return true;
+    }
+
+    function canHandleEscape() {
+        if (rootItem.hasOpenOverlayDialog)
+            return false;
+
+        const control = support.messageActionsControl();
+        if (control && control.pinned)
+            return true;
+
+        if (rootItem.walkModeActive
+                || rootItem.selectedEventIds.length > 0
+                || rootItem.hasFocusedEvent
+                || rootItem.hasPendingAttachments
+                || TimelineManager.matrixTimelineReplyEventId.length > 0
+                || rootItem.editing) {
+            return true;
+        }
+
+        if (rootItem.headerSearchHasFocus || rootItem.perfDisableComposer)
+            return false;
+
+        return !!(composerPane && composerPane.composerInput);
+    }
+
+    function handleEscape() {
+        if (!support.canHandleEscape())
+            return false;
+
+        if (support.dismissPinnedMessageActions())
+            return true;
+
+        if (rootItem.selectedEventIds.length > 0) {
+            rootItem.clearSelectedEvents();
+            rootItem.focusTimelineSelection();
+            return true;
+        }
+
+        if (rootItem.walkModeActive || rootItem.hasFocusedEvent) {
+            rootItem.exitWalkMode({
+                "focusComposer": true
+            });
+            return true;
+        }
+
+        if (rootItem.hasPendingAttachments) {
+            TimelineManager.clearActiveMatrixAttachments();
+            return true;
+        }
+
+        if (TimelineManager.matrixTimelineReplyEventId.length > 0) {
+            TimelineManager.clearActiveMatrixReply();
+            return true;
+        }
+
+        if (rootItem.editing) {
+            TimelineManager.clearActiveMatrixEdit();
+            return true;
+        }
+
+        return support.focusTextInput();
+    }
+
     function shouldRouteTextKeyToComposer(event) {
         if (!event
                 || rootItem.walkModeActive
                 || rootItem.headerSearchHasFocus
-                || rootItem.hasOpenOverlayDialog) {
+                || rootItem.hasOpenOverlayDialog
+                || support.composerHasTextInputFocus()) {
             return false;
         }
 
         const text = String(event.text || "");
-        if (text.length === 0)
+        if (!support.hasInsertableComposerText(text))
             return false;
 
         if (event.key === Qt.Key_Return

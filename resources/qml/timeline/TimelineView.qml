@@ -23,8 +23,6 @@ Item {
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property var matrixTimelineShell: matrixRoomLoader.item
     readonly property var matrixTimeline: matrixTimelineShell ? matrixTimelineShell.roomView : null
-    readonly property bool activeSearchHasFocus: !!matrixHeaderPane && !!matrixHeaderPane.searchHasFocus
-    readonly property bool activeWalkModeActive: !!matrixTimeline && !!matrixTimeline.walkModeActive
     readonly property var notificationAreaItem: matrixRoomLoader.active && matrixTimeline
         ? (matrixTimeline.notificationAreaItem ? matrixTimeline.notificationAreaItem : matrixTimeline)
         : null
@@ -67,18 +65,10 @@ Item {
 
     clip: true
 
-    // focus message input on key press, but not on Ctrl-C and such.
+    // Route printable text into the composer when focus is elsewhere in the room view.
     Keys.onPressed: event => {
-        if (useMatrixRoomView
-                && event.text
-                && event.key !== Qt.Key_Enter
-                && event.key !== Qt.Key_Return
-                && !activeSearchHasFocus
-                && !activeWalkModeActive) {
-            TimelineManager.focusMessageInput();
-            if (event.modifiers !== Qt.ControlModifier && matrixTimeline)
-                matrixTimeline.appendText(event.text);
-        }
+        if (useMatrixRoomView && matrixTimeline)
+            matrixTimeline.handleComposerTextKey(event);
     }
 
     StickerPicker {
@@ -223,10 +213,7 @@ Item {
         roomModel: null
         allowEscape: timelineView.useMatrixRoomView
             && matrixTimeline
-            && !matrixTimeline.hasOpenOverlayDialog
-            && (matrixTimeline.walkModeActive
-                || matrixTimeline.hasSelectedEvents
-                || matrixTimeline.hasFocusedEvent)
+            && matrixTimeline.canHandleEscape()
     }
     TimelineEffects {
         id: timelineEffects

@@ -157,7 +157,6 @@ ColumnLayout {
     function handleMouseSelectionToggle(eventId) { return walkModeSupport.handleMouseSelectionToggle(eventId); }
     function enterWalkModeFromBottomMostVisible() { return walkModeSupport.enterWalkModeFromBottomMostVisible(); }
     function enterWalkModeAndMoveTowardOlderEventsByChunk() { return walkModeSupport.enterWalkModeAndMoveTowardOlderEventsByChunk(); }
-    function handleEscape() { return walkModeSupport.handleEscape(); }
     function isSelectableMatrixTimelineRow(row) { return walkModeSupport.isSelectableMatrixTimelineRow(row); }
     function canPerformWalkModeAction(actionName) { return walkModeSupport.canPerformWalkModeAction(actionName); }
     function performWalkModeAction(actionName) { return walkModeSupport.performWalkModeAction(actionName); }
@@ -184,6 +183,8 @@ ColumnLayout {
     function focusTextInput() { return interactionSupport.focusTextInput(); }
     function destroyOnClose(dialog) { return interactionSupport.destroyOnClose(dialog); }
     function scheduleComposerAutoFocus() { return interactionSupport.scheduleComposerAutoFocus(); }
+    function canHandleEscape() { return interactionSupport.canHandleEscape(); }
+    function handleEscape() { return interactionSupport.handleEscape(); }
     function shouldRouteTextKeyToComposer(event) { return interactionSupport.shouldRouteTextKeyToComposer(event); }
     function handleComposerTextKey(event) { return interactionSupport.handleComposerTextKey(event); }
     function appendText(text) { return interactionSupport.appendText(text); }

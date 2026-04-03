@@ -13,10 +13,13 @@ Control {
 
     property var roomAdapter: null
     required property QtObject styleProfile
+    required property string body
     required property string eventId
     required property string filename
     required property string filesize
     required property string fileTypeIconSource
+
+    readonly property bool hasCaption: body.length > 0 && body !== filename
 
     padding: styleProfile.fileMessagePadding
     property int metadataWidth: 0
@@ -61,6 +64,7 @@ Control {
         ColumnLayout {
             id: col
 
+            spacing: 0
             Layout.fillWidth: true
 
             Text {
@@ -77,12 +81,24 @@ Control {
             Text {
                 id: filesize_
 
+                visible: evRoot.filesize.length > 0
                 Layout.fillWidth: true
                 Layout.maximumWidth: implicitWidth + 1
                 text: evRoot.filesize
                 textFormat: Text.PlainText
                 elide: Text.ElideRight
                 color: palette.text
+            }
+
+            Text {
+                id: caption_
+
+                visible: evRoot.hasCaption
+                Layout.fillWidth: true
+                text: evRoot.body
+                textFormat: Text.PlainText
+                wrapMode: Text.Wrap
+                color: palette.buttonText
             }
         }
 

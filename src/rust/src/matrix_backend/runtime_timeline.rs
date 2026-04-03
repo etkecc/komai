@@ -72,12 +72,16 @@ fn log_room_timeline_perf(
 
 /// After the timeline loads events for a room whose room-list entry still
 /// has `timestamp == 0` (no cached latest event from sliding sync), backfill
-/// the entry with data from the newest timeline item and re-notify C++.
+/// the entry's data in the Rust-side room-list snapshot.
+///
+/// We intentionally do NOT fire `matrix_notify_room_list_snapshot_updated`
+/// here — doing so triggers a full model reset which re-sorts the room list,
+/// causing a jarring visual jump.  The updated data will be picked up on the
+/// next natural room-list refresh from the SDK.
 ///
 /// This works around a matrix-sdk limitation where network backward
 /// pagination does not send `RoomEventCacheGenericUpdate`, so
-/// `new_latest_event` / `new_latest_event_timestamp()` remain `None` and
-/// the room list shows no timestamp or last-message preview.
+/// `new_latest_event` / `new_latest_event_timestamp()` remain `None`.
 fn maybe_backfill_room_list_preview(
     handle_id: u64,
     room_id: &str,
@@ -89,7 +93,7 @@ fn maybe_backfill_room_list_preview(
 
     // Find the newest event by timestamp.  Accept any event-like item
     // (including encrypted ones) — exclude only virtual items and state events.
-    let dominated_by_state = |kind: &str| {
+    let is_state_like = |kind: &str| {
         matches!(
             kind,
             "other_state" | "failed_to_parse_state" | "membership_change"
@@ -97,7 +101,7 @@ fn maybe_backfill_room_list_preview(
     };
     let Some(newest) = timeline_snapshot
         .iter()
-        .filter(|item| item.timestamp > 0 && !item.event_id.is_empty() && !dominated_by_state(&item.item_kind))
+        .filter(|item| item.timestamp > 0 && !item.event_id.is_empty() && !is_state_like(&item.item_kind))
         .max_by_key(|item| item.timestamp)
     else {
         return;
@@ -126,23 +130,12 @@ fn maybe_backfill_room_list_preview(
     entry.last_message_kind = newest.matrix_event_type.clone();
     entry.latest_event_id = newest.event_id.clone();
 
-    let ffi_snapshot: Vec<_> = room_list
-        .iter()
-        .cloned()
-        .map(crate::matrix_backend::ffi::into_ffi_matrix_room_summary)
-        .collect();
-
-    drop(room_list);
-    drop(handles);
-
     tracing::info!(
         handle_id,
         room_id,
         timestamp = newest.timestamp,
-        "Backfilled room-list preview from timeline data"
+        "Backfilled room-list preview in snapshot (deferred until next refresh)"
     );
-
-    crate::ffi::matrix_notify_room_list_snapshot_updated(handle_id, ffi_snapshot);
 }
 
 fn normalized_message_kind(message_kind: &str) -> &str {

@@ -111,21 +111,24 @@ Item {
         return merged;
     }
 
-    function refreshReplyPreviewIfAffected(topLeft, bottomRight) {
+    function replyPreviewAffectedByRowRange(startRow, endRow) {
         if (!root.wrapper.replyTo || !root.wrapper.room
                 || typeof root.wrapper.room.idToIndex !== "function") {
-            return;
+            return false;
         }
 
         const parentRow = root.wrapper.room.idToIndex(root.wrapper.eventId);
         const replyRow = root.wrapper.room.idToIndex(root.wrapper.replyTo);
+
+        return (parentRow >= startRow && parentRow <= endRow)
+            || (replyRow >= startRow && replyRow <= endRow);
+    }
+
+    function refreshReplyPreviewIfAffected(topLeft, bottomRight) {
         const startRow = topLeft ? topLeft.row : -1;
         const endRow = bottomRight ? bottomRight.row : -1;
-
-        if ((parentRow >= startRow && parentRow <= endRow)
-                || (replyRow >= startRow && replyRow <= endRow)) {
+        if (replyPreviewAffectedByRowRange(startRow, endRow))
             replyPreviewRevision += 1;
-        }
     }
 
     Connections {
@@ -136,12 +139,19 @@ Item {
             root.refreshReplyPreviewIfAffected(topLeft, bottomRight);
         }
 
-        function onRowsInserted() {
-            root.replyPreviewRevision += 1;
+        function onRowsInserted(_parent, first, last) {
+            if (root.replyPreviewAffectedByRowRange(first, last))
+                root.replyPreviewRevision += 1;
         }
 
         function onRowsRemoved() {
-            root.replyPreviewRevision += 1;
+            // After removal the old row indices are invalid. Check
+            // whether the replied-to event was the one removed.
+            if (!root.wrapper.replyTo || !root.wrapper.room
+                    || typeof root.wrapper.room.idToIndex !== "function")
+                return;
+            if (root.wrapper.room.idToIndex(root.wrapper.replyTo) < 0)
+                root.replyPreviewRevision += 1;
         }
 
         function onModelReset() {

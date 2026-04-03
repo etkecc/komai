@@ -8,18 +8,60 @@
 use super::*;
 use super::event_summary::summarize_timeline_content;
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
+
+/// Compute which own event IDs should show "read" status based on other
+/// members' read receipt positions in the timeline.  `receipt_target_event_ids`
+/// contains the event IDs that non-own members' latest read receipts point to.
+/// Every own event at or before the latest such receipt is considered "read".
+pub fn compute_read_own_event_ids(
+    items: &Vector<Arc<TimelineItem>>,
+    receipt_target_event_ids: &HashSet<String>,
+) -> HashSet<String> {
+    if receipt_target_event_ids.is_empty() {
+        return HashSet::new();
+    }
+
+    // Items are in SDK order (oldest first).  Find the highest index
+    // (newest) that matches any receipt target — that's the watermark.
+    let mut watermark_idx: Option<usize> = None;
+    for (idx, item) in items.iter().enumerate() {
+        if let Some(event) = item.as_event() {
+            if let Some(eid) = event.event_id() {
+                if receipt_target_event_ids.contains(eid.as_str()) {
+                    watermark_idx = Some(idx);
+                }
+            }
+        }
+    }
+
+    let mut read_ids = HashSet::new();
+    if let Some(wm) = watermark_idx {
+        for item in items.iter().take(wm + 1) {
+            if let Some(event) = item.as_event() {
+                if event.is_own() {
+                    if let Some(eid) = event.event_id() {
+                        read_ids.insert(eid.to_string());
+                    }
+                }
+            }
+        }
+    }
+
+    read_ids
+}
 
 pub fn build_room_timeline_snapshot(
     values: &Vector<Arc<TimelineItem>>,
     own_user_id: Option<&matrix_sdk::ruma::UserId>,
+    read_own_event_ids: &HashSet<String>,
 ) -> (Vec<MatrixTimelineItem>, HashMap<String, MatrixTimelineMediaRequest>) {
     let mut items = Vec::new();
     let mut media_lookup = HashMap::new();
 
     for item in values.iter() {
         if let Some((summary, media_request)) =
-            timeline_item_to_summary(item.as_ref(), own_user_id)
+            timeline_item_to_summary(item.as_ref(), own_user_id, read_own_event_ids)
         {
             if let Some(media_request) = media_request {
                 media_lookup.insert(summary.item_id.clone(), media_request.clone());
@@ -41,6 +83,7 @@ pub fn build_room_timeline_snapshot(
 fn timeline_item_to_summary(
     item: &TimelineItem,
     own_user_id: Option<&matrix_sdk::ruma::UserId>,
+    read_own_event_ids: &HashSet<String>,
 ) -> Option<(MatrixTimelineItem, Option<MatrixTimelineMediaRequest>)> {
     let item_id = item.unique_id().0.clone();
 
@@ -90,7 +133,7 @@ fn timeline_item_to_summary(
             MatrixTimelineItem {
                 item_id,
                 event_id: event.event_id().map(ToString::to_string).unwrap_or_default(),
-                delivery_state: matrix_timeline_delivery_state(event),
+                delivery_state: matrix_timeline_delivery_state(event, own_user_id, read_own_event_ids),
                 thread_id,
                 sender_id,
                 sender_display_name,
@@ -240,13 +283,26 @@ fn timeline_item_to_summary(
     }
 }
 
-fn matrix_timeline_delivery_state(event: &matrix_sdk_ui::timeline::EventTimelineItem) -> String {
+fn matrix_timeline_delivery_state(
+    event: &matrix_sdk_ui::timeline::EventTimelineItem,
+    own_user_id: Option<&matrix_sdk::ruma::UserId>,
+    read_own_event_ids: &HashSet<String>,
+) -> String {
     use matrix_sdk_ui::timeline::EventSendState;
+
+    let _ = own_user_id; // reserved for future use
 
     match event.send_state() {
         Some(EventSendState::NotSentYet { .. }) => "pending".to_owned(),
         Some(EventSendState::Sent { .. }) => "sent".to_owned(),
         Some(EventSendState::SendingFailed { .. }) => "failed".to_owned(),
+        None if event.is_own() => {
+            let is_read = event
+                .event_id()
+                .map(|eid| read_own_event_ids.contains(eid.as_str()))
+                .unwrap_or(false);
+            if is_read { "read".to_owned() } else { "received".to_owned() }
+        }
         None => String::new(),
     }
 }

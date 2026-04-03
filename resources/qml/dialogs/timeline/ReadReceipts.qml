@@ -30,45 +30,47 @@ OverlayDialog {
 
             clip: true
             boundsBehavior: Flickable.StopAtBounds
+            spacing: Komai.paddingSmall
             model: readReceipts
 
-            delegate: ItemDelegate {
+            delegate: Rectangle {
                 id: del
 
-                onClicked: {
-                    if (room && room.openUserProfile)
-                        room.openUserProfile(model.mxid);
-                }
-                padding: Komai.paddingMedium
                 width: ListView.view.width
-                height: receiptLayout.implicitHeight + Komai.paddingSmall * 2
-                hoverEnabled: true
-                background: Rectangle {
-                    color: del.hovered ? palette.dark : palette.window
+                implicitHeight: receiptLayout.implicitHeight + Komai.paddingSmall * 2
+                color: delHover.hovered ? palette.dark : palette.window
+                radius: Komai.paddingMedium
+                border.color: Komai.theme.separator
+                border.width: 1
+
+                HoverHandler {
+                    id: delHover
+                    blocking: false
                 }
 
-                KomaiToolTip {
-                    anchorItem: del
-                    anchorX: del.width / 2
-                    anchorY: del.height
-                    gapX: Komai.paddingMedium
-                    gapY: Komai.paddingMedium
-                    text: model.mxid
-                    requestedVisible: del.hovered
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    acceptedButtons: Qt.LeftButton
+                    onClicked: {
+                        if (readReceiptsRoot.room && readReceiptsRoot.room.openUserProfile)
+                            readReceiptsRoot.room.openUserProfile(model.mxid);
+                    }
                 }
 
                 RowLayout {
                     id: receiptLayout
 
-                    spacing: Komai.paddingMedium
                     anchors.fill: parent
                     anchors.margins: Komai.paddingSmall
+                    spacing: Komai.paddingMedium
 
                     Avatar {
                         id: avatar
 
                         Layout.preferredWidth: Komai.listIconSize
                         Layout.preferredHeight: Komai.listIconSize
+                        Layout.alignment: Qt.AlignVCenter
                         userid: model.mxid
                         url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
                         displayName: model.displayName
@@ -81,28 +83,34 @@ OverlayDialog {
 
                         ElidedLabel {
                             fullText: model.displayName
-                            color: Komai.readableAccentTextColor(
-                                readReceiptsRoot.room ? TimelineManager.roomUserColor(readReceiptsRoot.room.roomId, model ? model.mxid : "", palette.window, Settings.timelineUserColorCodingPolicy)
-                                                      : TimelineManager.userColor(model ? model.mxid : "", palette.window),
-                                palette.window)
+                            color: delHover.hovered
+                                ? palette.brightText
+                                : Komai.readableAccentTextColor(
+                                    readReceiptsRoot.room ? TimelineManager.roomUserColor(readReceiptsRoot.room.roomId, model ? model.mxid : "", palette.window, Settings.timelineUserColorCodingPolicy)
+                                                          : TimelineManager.userColor(model ? model.mxid : "", palette.window),
+                                    palette.window)
                             font.pointSize: Settings.uiFontSizePt
-                            elideWidth: del.width - Komai.paddingMedium - avatar.width
+                            elideWidth: del.width - Komai.paddingMedium * 3 - avatar.width - timeLabel.width
                             Layout.fillWidth: true
                         }
 
                         ElidedLabel {
-                            fullText: model.timestamp
-                            color: palette.buttonText
+                            fullText: model.mxid
+                            color: delHover.hovered ? palette.brightText : palette.buttonText
                             font.pointSize: Settings.uiFontSizePt * 0.9
-                            elideWidth: del.width - Komai.paddingMedium - avatar.width
+                            elideWidth: del.width - Komai.paddingMedium * 3 - avatar.width - timeLabel.width
                             Layout.fillWidth: true
                         }
                     }
-                }
 
-                KomaiCursorShape {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
+                    Label {
+                        id: timeLabel
+
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+                        text: model.timestamp
+                        color: delHover.hovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt * 0.85
+                    }
                 }
             }
         }

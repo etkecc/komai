@@ -362,18 +362,7 @@ async fn preload_single_room(client: &Client, room_id: &str) -> PreloadResult {
         None => return PreloadResult::Failed("room not known to client".to_owned()),
     };
 
-    // Use timeline_builder() with receipts disabled — the preloader only
-    // needs to populate the event cache and cache the Timeline handle.
-    // Read receipt tracking adds 2 DB calls + O(n²) per-event receipt
-    // computation that's wasted work for background preloading.  The
-    // active timeline loop (runtime_timeline.rs) uses the default
-    // room.timeline() which enables receipts for the visible room.
-    let timeline = match room
-        .timeline_builder()
-        .track_read_marker_and_receipts(TimelineReadReceiptTracking::Disabled)
-        .build()
-        .await
-    {
+    let timeline = match room.timeline().await {
         Ok(t) => t,
         Err(e) => return PreloadResult::Failed(format!("failed to build timeline: {e}")),
     };
@@ -419,11 +408,8 @@ async fn warm_single_room(client: &Client, room_id: &str) -> Result<Timeline, St
         .get_room(&parsed_room_id)
         .ok_or_else(|| "room not known to client".to_owned())?;
 
-    // Disable receipt tracking — same rationale as preload_single_room.
     let timeline = room
-        .timeline_builder()
-        .track_read_marker_and_receipts(TimelineReadReceiptTracking::Disabled)
-        .build()
+        .timeline()
         .await
         .map_err(|e| format!("failed to build timeline: {e}"))?;
 

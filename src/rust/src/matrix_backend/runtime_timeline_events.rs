@@ -322,41 +322,58 @@ pub async fn fetch_room_read_receipts(
     let parsed_event_id =
         EventId::parse(event_id).map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
 
-    let mut receipts = room
-        .load_event_receipts(ReceiptType::Read, ReceiptThread::Unthreaded, &parsed_event_id)
+    // Get the target event's timestamp so we can determine which members
+    // have read *at least* up to this event (cumulative receipts).
+    let target_ts = room
+        .load_or_fetch_event(&parsed_event_id, None)
         .await
-        .map_err(|e| format!("failed to load matrix-sdk room read receipts: {e}"))?;
+        .ok()
+        .and_then(|e| e.timestamp())
+        .map(|ts| u64::from(ts.0))
+        .unwrap_or(0);
 
-    receipts.sort_by(|a, b| {
-        let a_ts = a.1.ts.map(|ts| u64::from(ts.0)).unwrap_or(0);
-        let b_ts = b.1.ts.map(|ts| u64::from(ts.0)).unwrap_or(0);
-        b_ts.cmp(&a_ts).then_with(|| a.0.as_str().cmp(b.0.as_str()))
-    });
+    let own_user_id = room.own_user_id().to_owned();
+    let members = room
+        .members(matrix_sdk::RoomMemberships::ACTIVE)
+        .await
+        .map_err(|e| format!("failed to load room members for read receipts: {e}"))?;
 
-    let mut entries = Vec::with_capacity(receipts.len());
-    for (user_id, receipt) in receipts {
-        let member = room
-            .get_member(&user_id)
-            .await
-            .map_err(|e| format!("failed to fetch matrix-sdk room member for receipt: {e}"))?;
-        let display_name = member
-            .as_ref()
-            .and_then(|member| member.display_name().map(ToOwned::to_owned))
-            .unwrap_or_else(|| user_id.to_string());
-        let avatar_url = member
-            .as_ref()
-            .and_then(|member| member.avatar_url().map(ToString::to_string))
-            .map(normalize_mxc_uri)
-            .unwrap_or_default();
-        let timestamp = receipt.ts.map(|ts| u64::from(ts.0)).unwrap_or(0);
-
-        entries.push(MatrixReadReceiptEntry {
-            user_id: user_id.to_string(),
-            display_name,
-            avatar_url,
-            timestamp,
-        });
+    let mut entries = Vec::new();
+    for member in members.iter() {
+        if member.user_id() == own_user_id {
+            continue;
+        }
+        // Check Main (newer spec) then Unthreaded (legacy).
+        for thread in [ReceiptThread::Main, ReceiptThread::Unthreaded] {
+            if let Ok(Some((receipt_event_id, receipt))) =
+                room.load_user_receipt(ReceiptType::Read, thread, member.user_id()).await
+            {
+                let receipt_ts = receipt.ts.map(|ts| u64::from(ts.0)).unwrap_or(0);
+                // Include this member if their receipt targets this exact event,
+                // or if the receipt timestamp is >= the event's origin_server_ts
+                // (meaning they've read at least this far).
+                if receipt_event_id == parsed_event_id || (target_ts > 0 && receipt_ts >= target_ts)
+                {
+                    entries.push(MatrixReadReceiptEntry {
+                        user_id: member.user_id().to_string(),
+                        display_name: member
+                            .display_name()
+                            .map(ToOwned::to_owned)
+                            .unwrap_or_else(|| member.user_id().to_string()),
+                        avatar_url: member
+                            .avatar_url()
+                            .map(ToString::to_string)
+                            .map(normalize_mxc_uri)
+                            .unwrap_or_default(),
+                        timestamp: receipt_ts,
+                    });
+                    break;
+                }
+            }
+        }
     }
+
+    entries.sort_by(|a, b| b.timestamp.cmp(&a.timestamp).then_with(|| a.user_id.cmp(&b.user_id)));
 
     Ok(entries)
 }

@@ -557,6 +557,7 @@ Item {
             onActionToggled: {
                 root.wrapper.togglePinnedMessageActions(actionToggleButton);
             }
+            onReadReceiptsRequested: (eventId) => chatRoot.openReadReceiptsDialog(eventId)
         }
     }
 

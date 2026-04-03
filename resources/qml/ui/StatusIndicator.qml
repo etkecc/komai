@@ -51,8 +51,10 @@ ImageButton {
     }
     width: 16
 
+    signal readReceiptsRequested(string eventId)
+
     onClicked: {
         if (status == MtxEvent.Read)
-            room.showReadReceipts(eventId);
+            readReceiptsRequested(eventId);
     }
 }

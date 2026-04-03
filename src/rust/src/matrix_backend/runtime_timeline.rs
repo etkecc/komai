@@ -3,11 +3,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use super::*;
-use super::timeline_snapshot::{build_room_timeline_snapshot, build_timeline_media_request_parameters};
+use super::timeline_snapshot::{build_room_timeline_snapshot, build_timeline_media_request_parameters, compute_read_own_event_ids};
 use std::{
+    collections::HashSet,
     sync::OnceLock,
     time::{Duration as StdDuration, Instant},
 };
+use matrix_sdk::ruma::events::receipt::{ReceiptThread, ReceiptType};
 
 fn is_truthy_env_value(name: &str) -> bool {
     std::env::var_os(name).is_some_and(|value| {
@@ -387,6 +389,40 @@ pub async fn fetch_active_room_timeline_media_content(
         .map_err(|e| format!("failed to fetch matrix-sdk active timeline media: {e}"))
 }
 
+/// Fetch the event IDs that non-own members' latest read receipts point to.
+/// These are used as watermark targets: every own event at or before the
+/// newest target in the timeline is considered "read".
+async fn fetch_member_receipt_targets(
+    room: &matrix_sdk::Room,
+    own_user_id: &matrix_sdk::ruma::UserId,
+) -> HashSet<String> {
+    let members = match room.members(matrix_sdk::RoomMemberships::ACTIVE).await {
+        Ok(m) => m,
+        Err(e) => {
+            tracing::warn!("Failed to fetch room members for receipt watermark: {e}");
+            return HashSet::new();
+        }
+    };
+
+    let mut targets = HashSet::new();
+    for member in members.iter() {
+        if member.user_id() == own_user_id {
+            continue;
+        }
+        // Try Main thread (newer spec) first, then Unthreaded (legacy).
+        for thread in [ReceiptThread::Main, ReceiptThread::Unthreaded] {
+            if let Ok(Some((event_id, _))) =
+                room.load_user_receipt(ReceiptType::Read, thread, member.user_id()).await
+            {
+                targets.insert(event_id.to_string());
+                break;
+            }
+        }
+    }
+
+    targets
+}
+
 async fn run_room_timeline_loop(
     handle_id: u64,
     generation: u64,
@@ -482,6 +518,18 @@ async fn run_room_timeline_loop(
 
     let own_user_id = client.user_id();
 
+    // Fetch read receipt watermark targets for delivery status indicators.
+    // Done once per room activation; reused for all snapshot builds.
+    let receipt_targets = if let Some(room) = client.get_room(&parsed_room_id) {
+        if let Some(uid) = own_user_id {
+            fetch_member_receipt_targets(&room, uid).await
+        } else {
+            HashSet::new()
+        }
+    } else {
+        HashSet::new()
+    };
+
     let subscribe_started_at = Instant::now();
     let (items, stream) = timeline.subscribe().await;
     log_room_timeline_perf(
@@ -494,8 +542,9 @@ async fn run_room_timeline_loop(
     let mut current_values = items;
     let subscribe_count = current_values.len();
     {
+        let read_own_event_ids = compute_read_own_event_ids(&current_values, &receipt_targets);
         let snapshot_build_started_at = Instant::now();
-        let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values, own_user_id);
+        let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids);
         let snapshot_build_elapsed = snapshot_build_started_at.elapsed();
         let snapshot_count = snapshot.len();
         // Lock the snapshot BEFORE checking the generation so that a
@@ -609,9 +658,10 @@ async fn run_room_timeline_loop(
                             diff.apply(&mut current_values);
                         }
 
+                        let read_own_event_ids = compute_read_own_event_ids(&current_values, &receipt_targets);
                         let snapshot_build_started_at = Instant::now();
                         let (snapshot, media_lookup) =
-                            build_room_timeline_snapshot(&current_values, own_user_id);
+                            build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids);
                         let snapshot_build_elapsed = snapshot_build_started_at.elapsed();
                         let item_count = snapshot.len();
                         // Lock-then-check: hold the snapshot lock while

@@ -67,6 +67,7 @@ RowLayout {
     readonly property var actionToggleButton: actionToggle
 
     signal actionToggled()
+    signal readReceiptsRequested(string eventId)
 
     layoutDirection: metadata.isSender ? Qt.RightToLeft : Qt.LeftToRight
 
@@ -119,6 +120,7 @@ RowLayout {
         visible: !metadata.isStateEvent && metadata.status != MtxEvent.Empty
         eventId: metadata.eventId
         status: metadata.status
+        onReadReceiptsRequested: (eventId) => metadata.readReceiptsRequested(eventId)
     }
     Image {
         id: editedMarker

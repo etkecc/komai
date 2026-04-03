@@ -152,8 +152,8 @@ QtObject {
         return Object.assign({}, basePreview, {
             "type": itemType,
             "body": body,
-            "formattedBody": root.rootItem.formattedMatrixTextHtml(body),
-            "formattedStateEvent": root.rootItem.formattedMatrixTextHtml(body),
+            "formattedBody": String(item.formattedBody || root.rootItem.formattedMatrixTextHtml(body)),
+            "formattedStateEvent": String(item.formattedStateEvent || root.rootItem.formattedMatrixTextHtml(body)),
             "stateEventIconSource": root.rootItem.matrixStateEventIconForKind(itemKind),
             "typeString": itemKind,
             "callType": "",

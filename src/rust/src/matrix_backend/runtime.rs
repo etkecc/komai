@@ -51,7 +51,8 @@ use matrix_sdk_ui::{
     eyeball_im::{Vector, VectorDiff},
     room_list_service::{RoomListItem, filters},
     timeline::{
-        RoomExt, TimelineDetails, TimelineEventItemId, TimelineItem, VirtualTimelineItem,
+        RoomExt, Timeline, TimelineDetails, TimelineEventItemId, TimelineItem,
+        VirtualTimelineItem,
     },
 };
 use tokio::sync::mpsc;
@@ -486,6 +487,17 @@ struct MatrixBackendHandle {
     preferred_room_timeline_initial_page_size: u16,
     room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
     room_timeline_media_lookup: Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
+    /// Cached timeline handles from the background preloader or from rooms the
+    /// user previously viewed.  Reusing a cached handle avoids the expensive
+    /// `room.timeline().await` + `timeline.subscribe().await` rebuild that
+    /// otherwise takes ~2-3 seconds per room switch in matrix-sdk 0.16, even
+    /// when events are already in the local SQLite event cache.  The rebuild
+    /// cost comes from deserializing cached events and rebuilding the in-memory
+    /// timeline chunk structure — keeping the handle alive skips all of that.
+    ///
+    /// Populated by the background preloader (see `runtime_preloader.rs`) and
+    /// by the active timeline loop when the user switches away from a room.
+    preloaded_timelines: Arc<Mutex<HashMap<String, Timeline>>>,
     pending_identity_reset: Arc<Mutex<Option<IdentityResetHandle>>>,
     pending_device_sign_out: Arc<Mutex<Option<PendingDeviceSignOut>>>,
     verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,

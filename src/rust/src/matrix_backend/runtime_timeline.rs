@@ -222,6 +222,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
         previous_task,
         generation,
         initial_page_size,
+        preloaded_timelines,
     ) = {
         let mut handles = backend_handles()
             .lock()
@@ -264,6 +265,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             previous_task,
             generation,
             handle.preferred_room_timeline_initial_page_size,
+            Arc::clone(&handle.preloaded_timelines),
         )
     };
 
@@ -302,6 +304,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             room_timeline_media_lookup,
             command_receiver,
             stop_requested_for_thread,
+            preloaded_timelines,
         ));
     });
 
@@ -1213,6 +1216,7 @@ async fn run_room_timeline_loop(
     room_timeline_media_lookup: Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
     mut commands: mpsc::UnboundedReceiver<MatrixBackendRoomTimelineCommand>,
     stop_requested: Arc<AtomicBool>,
+    preloaded_timelines: Arc<Mutex<HashMap<String, Timeline>>>,
 ) {
     tracing::info!(handle_id, room_id, "Running matrix-sdk room timeline loop");
     let loop_started_at = Instant::now();
@@ -1225,34 +1229,74 @@ async fn run_room_timeline_loop(
         }
     };
 
-    let get_room_started_at = Instant::now();
-    let Some(room) = client.get_room(&parsed_room_id) else {
-        tracing::warn!(handle_id, room_id, "Matrix-sdk client does not know the requested room");
-        return;
-    };
-    log_room_timeline_perf(
-        handle_id,
-        &room_id,
-        "rust.matrix_timeline.get_room",
-        get_room_started_at.elapsed(),
-        "",
-    );
+    // Try to reuse a cached timeline handle from the background preloader
+    // or a previous room view.
+    //
+    // In matrix-sdk 0.16, `room.timeline().await` + `timeline.subscribe().await`
+    // takes ~2-3 seconds per room, even when events are already in the local
+    // SQLite event cache.  The cost comes from rebuilding the in-memory timeline
+    // state (deserializing cached events, setting up the chunk structure, etc.).
+    // Keeping the Timeline handle alive avoids this rebuild entirely — the
+    // internal state is already populated and `subscribe()` returns immediately.
+    //
+    // The background preloader (runtime_preloader.rs) eagerly builds and caches
+    // Timeline handles for all rooms after initial sync.  When the user switches
+    // away from a room, the handle is also cached back (see end of this loop).
+    let cached_timeline = preloaded_timelines
+        .lock()
+        .expect("poisoned preloaded timelines mutex")
+        .remove(&room_id);
 
-    let build_started_at = Instant::now();
-    let timeline = match room.timeline().await {
-        Ok(timeline) => timeline,
-        Err(error) => {
-            tracing::warn!(handle_id, room_id, %error, "Failed to build matrix-sdk timeline");
+    let timeline = if let Some(cached) = cached_timeline {
+        log_room_timeline_perf(
+            handle_id,
+            &room_id,
+            "rust.matrix_timeline.timeline_from_cache",
+            loop_started_at.elapsed(),
+            "",
+        );
+        cached
+    } else {
+        let get_room_started_at = Instant::now();
+        let Some(room) = client.get_room(&parsed_room_id) else {
+            tracing::warn!(
+                handle_id,
+                room_id,
+                "Matrix-sdk client does not know the requested room"
+            );
             return;
+        };
+        log_room_timeline_perf(
+            handle_id,
+            &room_id,
+            "rust.matrix_timeline.get_room",
+            get_room_started_at.elapsed(),
+            "",
+        );
+
+        let build_started_at = Instant::now();
+        match room.timeline().await {
+            Ok(timeline) => {
+                log_room_timeline_perf(
+                    handle_id,
+                    &room_id,
+                    "rust.matrix_timeline.timeline_build",
+                    build_started_at.elapsed(),
+                    "",
+                );
+                timeline
+            }
+            Err(error) => {
+                tracing::warn!(
+                    handle_id,
+                    room_id,
+                    %error,
+                    "Failed to build matrix-sdk timeline"
+                );
+                return;
+            }
         }
     };
-    log_room_timeline_perf(
-        handle_id,
-        &room_id,
-        "rust.matrix_timeline.timeline_build",
-        build_started_at.elapsed(),
-        "",
-    );
 
     let own_user_id = client.user_id();
 
@@ -1344,9 +1388,9 @@ async fn run_room_timeline_loop(
         "Requesting initial backwards pagination"
     );
     let paginate_started_at = Instant::now();
-    // Run the initial pagination concurrently with the stream loop so
-    // diffs can be processed as they arrive instead of buffering until
-    // the paginate future completes.
+    // Scope the initial paginate future so its borrow on `timeline` is
+    // released before we cache the handle at the end.
+    {
     let initial_paginate_fut = timeline.paginate_backwards(initial_page_size);
     tokio::pin!(initial_paginate_fut);
     let mut initial_paginate_pending = true;
@@ -1525,6 +1569,15 @@ async fn run_room_timeline_loop(
             }
         }
     }
+    } // Drop initial_paginate_fut, releasing borrow on timeline
+
+    // Cache the timeline handle back so switching to this room again
+    // doesn't require the expensive ~2-3s room.timeline() + subscribe()
+    // rebuild.  See the comment at the top of this function for context.
+    preloaded_timelines
+        .lock()
+        .expect("poisoned preloaded timelines mutex")
+        .insert(room_id.clone(), timeline);
 
     tracing::info!(handle_id, room_id, "Matrix-sdk room timeline loop stopped");
 }

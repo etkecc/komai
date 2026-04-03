@@ -1,13 +1,46 @@
 // SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
+//
+// ## Background preloader and timeline cache warming
+//
+// In matrix-sdk 0.16, building a room timeline from the local SQLite event
+// cache is expensive: `room.timeline().await` + `timeline.subscribe().await`
+// takes ~2-3 seconds per room, even with no network calls.  The cost comes
+// from deserializing cached events and rebuilding the in-memory chunk
+// structure inside the SDK.
+//
+// To avoid this latency on every room switch, we keep Timeline handles alive
+// in a shared cache (`preloaded_timelines` on `MatrixBackendHandle`).  This
+// preloader eagerly populates that cache in the background after initial sync:
+//
+// - **Phase 1 ("preload")**: rooms with `timestamp == 0` have no cached
+//   events yet.  We build the timeline, paginate backwards to fetch events
+//   from the server, and cache the handle.  This also backfills the room-list
+//   preview data.
+//
+// - **Phase 2 ("cache warm")**: rooms with `timestamp > 0` already have
+//   events in SQLite from a previous session.  We still need to build a
+//   Timeline handle (the expensive part) so it's ready when the user opens
+//   the room.  No pagination or server calls are needed — `subscribe()`
+//   returns the cached events immediately.
+//
+// The active timeline loop (`runtime_timeline.rs`) checks this cache before
+// calling `room.timeline().await`.  When the user switches away from a room,
+// the handle is cached back for potential reuse.
 
 use super::*;
 use super::event_summary::summarize_timeline_content;
 use std::time::{Duration as StdDuration, Instant};
 
-/// How many rooms to preload concurrently.
+/// How many rooms to preload concurrently (Phase 1).
+/// Kept low because these rooms need server pagination.
 const PRELOAD_CONCURRENCY: usize = 2;
+
+/// How many rooms to warm concurrently (Phase 2).
+/// Higher than Phase 1 because no server calls are made — we're only
+/// rebuilding timeline state from the local SQLite event cache.
+const WARM_CONCURRENCY: usize = 5;
 
 /// Delay between preloading batches to avoid server pressure.
 const PRELOAD_BATCH_DELAY: StdDuration = StdDuration::from_millis(300);
@@ -28,7 +61,7 @@ struct RoomPreviewData {
 }
 
 pub fn start_preload(handle_id: u64) -> Result<(), String> {
-    let (client, room_list_snapshot) = {
+    let (client, room_list_snapshot, preloaded_timelines) = {
         let handles = backend_handles()
             .lock()
             .expect("poisoned matrix backend handle registry mutex");
@@ -37,7 +70,11 @@ pub fn start_preload(handle_id: u64) -> Result<(), String> {
                 "matrix-sdk backend runtime handle {handle_id} is not active"
             ));
         };
-        (handle.client.clone(), Arc::clone(&handle.room_list_snapshot))
+        (
+            handle.client.clone(),
+            Arc::clone(&handle.room_list_snapshot),
+            Arc::clone(&handle.preloaded_timelines),
+        )
     };
 
     std::thread::spawn(move || {
@@ -45,6 +82,7 @@ pub fn start_preload(handle_id: u64) -> Result<(), String> {
             handle_id,
             client,
             room_list_snapshot,
+            preloaded_timelines,
         ));
     });
 
@@ -56,33 +94,43 @@ async fn run_preload(
     handle_id: u64,
     client: Client,
     room_list_snapshot: Arc<Mutex<Vec<MatrixRoomSummary>>>,
+    preloaded_timelines: Arc<Mutex<HashMap<String, Timeline>>>,
 ) {
     // Wait for things to settle after initial sync.
     tokio::time::sleep(PRELOAD_SETTLE_DELAY).await;
 
-    let rooms_to_preload = {
+    let (rooms_to_preload, rooms_to_warm) = {
         let snapshot = room_list_snapshot
             .lock()
             .expect("poisoned matrix room-list snapshot mutex");
 
-        snapshot
-            .iter()
-            .filter(|room| room.timestamp == 0 && !room.is_invite && !room.is_space)
-            .map(|room| room.room_id.clone())
-            .collect::<Vec<_>>()
+        let mut preload = Vec::new();
+        let mut warm = Vec::new();
+        for room in snapshot.iter() {
+            if room.is_invite || room.is_space {
+                continue;
+            }
+            if room.timestamp == 0 {
+                preload.push(room.room_id.clone());
+            } else {
+                warm.push(room.room_id.clone());
+            }
+        }
+        (preload, warm)
     };
 
-    if rooms_to_preload.is_empty() {
+    if rooms_to_preload.is_empty() && rooms_to_warm.is_empty() {
         tracing::info!(
             handle_id,
-            "Background preloader: no rooms need preloading"
+            "Background preloader: no rooms to process"
         );
         return;
     }
 
     tracing::info!(
         handle_id,
-        room_count = rooms_to_preload.len(),
+        preload_count = rooms_to_preload.len(),
+        warm_count = rooms_to_warm.len(),
         "Background preloader: starting"
     );
 
@@ -93,28 +141,37 @@ async fn run_preload(
     let mut previews: Vec<RoomPreviewData> = Vec::new();
 
     for chunk in rooms_to_preload.chunks(PRELOAD_CONCURRENCY) {
-        let mut tasks = Vec::with_capacity(chunk.len());
+        let mut tasks: Vec<(String, _)> = Vec::with_capacity(chunk.len());
 
         for room_id_str in chunk {
             let client = client.clone();
             let room_id = room_id_str.clone();
-            tasks.push(tokio::spawn(async move {
-                preload_single_room(&client, &room_id).await
-            }));
+            tasks.push((
+                room_id_str.clone(),
+                tokio::spawn(async move { preload_single_room(&client, &room_id).await }),
+            ));
         }
 
         let mut batch_did_work = false;
-        for task in tasks {
+        for (room_id, task) in tasks {
             match task.await {
-                Ok(PreloadResult::Loaded(preview)) => {
+                Ok(PreloadResult::Loaded(preview, timeline)) => {
                     preloaded += 1;
                     batch_did_work = true;
+                    preloaded_timelines
+                        .lock()
+                        .expect("poisoned preloaded timelines mutex")
+                        .insert(room_id, timeline);
                     if let Some(p) = preview {
                         previews.push(p);
                     }
                 }
-                Ok(PreloadResult::AlreadyCached(preview)) => {
+                Ok(PreloadResult::AlreadyCached(preview, timeline)) => {
                     skipped += 1;
+                    preloaded_timelines
+                        .lock()
+                        .expect("poisoned preloaded timelines mutex")
+                        .insert(room_id, timeline);
                     if let Some(p) = preview {
                         previews.push(p);
                     }
@@ -170,12 +227,97 @@ async fn run_preload(
         }
     }
 
+    // Phase 2: warm the timeline cache for rooms that already have events
+    // in SQLite.  No pagination or server calls — just build the Timeline
+    // handle so it's ready when the user opens the room.
+    let mut warmed = 0u32;
+    let mut warm_failed = 0u32;
+    let mut warm_skipped = 0u32;
+    if !rooms_to_warm.is_empty() {
+        tracing::info!(
+            handle_id,
+            room_count = rooms_to_warm.len(),
+            "Background preloader: warming timeline cache"
+        );
+        let warm_started_at = Instant::now();
+
+        for chunk in rooms_to_warm.chunks(WARM_CONCURRENCY) {
+            let mut tasks: Vec<(String, _)> = Vec::with_capacity(chunk.len());
+
+            for room_id_str in chunk {
+                // Skip rooms that are already cached (e.g., the user already
+                // opened this room, or it was cached by Phase 1).
+                let already_cached = preloaded_timelines
+                    .lock()
+                    .expect("poisoned preloaded timelines mutex")
+                    .contains_key(room_id_str);
+                if already_cached {
+                    warm_skipped += 1;
+                    continue;
+                }
+
+                let client = client.clone();
+                let room_id = room_id_str.clone();
+                tasks.push((
+                    room_id_str.clone(),
+                    tokio::spawn(
+                        async move { warm_single_room(&client, &room_id).await },
+                    ),
+                ));
+            }
+
+            for (room_id, task) in tasks {
+                match task.await {
+                    Ok(Ok(timeline)) => {
+                        warmed += 1;
+                        preloaded_timelines
+                            .lock()
+                            .expect("poisoned preloaded timelines mutex")
+                            .insert(room_id, timeline);
+                    }
+                    Ok(Err(error)) => {
+                        warm_failed += 1;
+                        tracing::debug!(
+                            handle_id,
+                            error,
+                            "Background preloader: cache warm failed"
+                        );
+                    }
+                    Err(join_error) => {
+                        warm_failed += 1;
+                        tracing::debug!(
+                            handle_id,
+                            %join_error,
+                            "Background preloader: cache warm task panicked"
+                        );
+                    }
+                }
+            }
+        }
+
+        tracing::info!(
+            handle_id,
+            warmed,
+            warm_failed,
+            warm_skipped,
+            elapsed_ms = warm_started_at.elapsed().as_millis() as u64,
+            "Background preloader: cache warming complete"
+        );
+    }
+
+    let cached_count = preloaded_timelines
+        .lock()
+        .expect("poisoned preloaded timelines mutex")
+        .len();
     let elapsed = started_at.elapsed();
     tracing::info!(
         handle_id,
         preloaded,
         skipped,
         failed,
+        warmed,
+        warm_failed,
+        cached_count,
         elapsed_ms = elapsed.as_millis() as u64,
         "Background preloader: finished"
     );
@@ -204,8 +346,8 @@ fn backfill_room_list_snapshot(
 }
 
 enum PreloadResult {
-    Loaded(Option<RoomPreviewData>),
-    AlreadyCached(Option<RoomPreviewData>),
+    Loaded(Option<RoomPreviewData>, Timeline),
+    AlreadyCached(Option<RoomPreviewData>, Timeline),
     Failed(String),
 }
 
@@ -232,7 +374,7 @@ async fn preload_single_room(client: &Client, room_id: &str) -> PreloadResult {
     // preview data so the room list can be backfilled.
     if !items.is_empty() {
         let preview = extract_newest_preview(room_id, &items);
-        return PreloadResult::AlreadyCached(preview);
+        return PreloadResult::AlreadyCached(preview, timeline);
     }
 
     if let Err(e) = timeline.paginate_backwards(PRELOAD_PAGE_SIZE).await {
@@ -249,11 +391,33 @@ async fn preload_single_room(client: &Client, room_id: &str) -> PreloadResult {
         has_preview = preview.is_some(),
         "Background preloader: preloaded room"
     );
-    PreloadResult::Loaded(preview)
+    PreloadResult::Loaded(preview, timeline)
+    // The timeline handle is returned to the caller and cached for
+    // reuse by the active timeline loop, avoiding the expensive
+    // room.timeline() + subscribe() rebuild on room switch.
+}
 
-    // The timeline and stream are dropped here, which triggers the
-    // auto-shrink mechanism — in-memory chunks are unloaded but the
-    // events remain in the SQLite event cache for future use.
+/// Build and return a Timeline handle for a room that already has events
+/// in the SQLite event cache.  Unlike `preload_single_room`, this does not
+/// paginate — it only calls `room.timeline().await` + `subscribe().await`
+/// to rebuild the in-memory state, then returns the handle for caching.
+async fn warm_single_room(client: &Client, room_id: &str) -> Result<Timeline, String> {
+    let parsed_room_id = RoomId::parse(room_id).map_err(|e| format!("invalid room id: {e}"))?;
+
+    let room = client
+        .get_room(&parsed_room_id)
+        .ok_or_else(|| "room not known to client".to_owned())?;
+
+    let timeline = room
+        .timeline()
+        .await
+        .map_err(|e| format!("failed to build timeline: {e}"))?;
+
+    // Subscribe to populate the in-memory state from the event cache,
+    // then drop the stream — we only need the handle itself cached.
+    let _subscribe = timeline.subscribe().await;
+
+    Ok(timeline)
 }
 
 fn extract_newest_preview(

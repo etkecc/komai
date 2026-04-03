@@ -15,7 +15,7 @@ Control {
     required property int encryptionError
     required property string eventId
     required property QtObject styleProfile
-    readonly property bool canRequestKey: !!room && typeof room.requestKeyForEvent === "function"
+    readonly property bool canRequestKey: false
 
     padding: Komai.paddingMedium
     implicitHeight: contents.implicitHeight + Komai.paddingMedium * 2

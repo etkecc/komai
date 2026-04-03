@@ -87,10 +87,17 @@ fn maybe_backfill_room_list_preview(
         return;
     }
 
-    // Find the newest event by timestamp (last visible message).
+    // Find the newest event by timestamp.  Accept any event-like item
+    // (including encrypted ones) — exclude only virtual items and state events.
+    let dominated_by_state = |kind: &str| {
+        matches!(
+            kind,
+            "other_state" | "failed_to_parse_state" | "membership_change"
+        )
+    };
     let Some(newest) = timeline_snapshot
         .iter()
-        .filter(|item| item.timestamp > 0 && item.item_kind == "message")
+        .filter(|item| item.timestamp > 0 && !item.event_id.is_empty() && !dominated_by_state(&item.item_kind))
         .max_by_key(|item| item.timestamp)
     else {
         return;

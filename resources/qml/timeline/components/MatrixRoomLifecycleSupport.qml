@@ -48,6 +48,11 @@ QtObject {
         rootItem.visibleTimelineDelegates = ({});
         rootItem.deferredBufferCheckGeneration += 1;
         rootItem.deferredBufferCheckQueued = false;
+        rootItem.walkModeActive = false;
+        rootItem.focusedEventId = "";
+        rootItem.selectedEventIds = [];
+        rootItem.selectionAnchorEventId = "";
+        rootItem.suppressNextWalkModeOlderStep = false;
 
         if (rootItem.activeRoomId.length > 0)
             support.markRoomSwitchPerfPhase("qml.matrix_room.active_room_changed");

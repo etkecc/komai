@@ -24,7 +24,7 @@ QtObject {
     property bool isEncrypted: !!roomPreview && roomPreview.isEncrypted
     property bool isPublic: !roomPreview || roomPreview.isPublic
     property AbstractPermissions permissions: PreviewPermissions {}
-    property bool supportsSearch: false
+    property bool supportsSearch: true
     property bool supportsPinnedMessagesUi: true
     property bool supportsVisibilityInfo: true
 

@@ -46,6 +46,7 @@ ColumnLayout {
     readonly property var composerShell: externalComposerPane.composerShell
     readonly property var notificationAreaItem: timelineViewport
     readonly property var timelineListItem: matrixTimelineList
+    readonly property alias filteredTimeline: filteredTimeline
     readonly property bool headerSearchHasFocus: !!externalHeaderPane.searchHasFocus
     readonly property real listViewDisplayMargin: roomSwitchInProgress
         ? 0
@@ -58,6 +59,12 @@ ColumnLayout {
     property string draftBeforeEdit: ""
     property int openOverlayDialogCount: 0
     readonly property bool hasOpenOverlayDialog: openOverlayDialogCount > 0
+    readonly property string searchString: externalHeaderPane.headerItem
+        ? String(externalHeaderPane.headerItem.searchString || "") : ""
+    readonly property bool filterByNotifications: externalHeaderPane.headerItem
+        ? !!externalHeaderPane.headerItem.filterNotifications : false
+    readonly property bool filteringRequested: searchString.length > 0 || filterByNotifications
+    readonly property bool filteringInProgress: filteredTimeline.filteringInProgress
     property bool restoringEditDraft: false
     property int lastPaginationTriggerCount: -1
     property int lastInitialBufferTriggerCount: -1
@@ -126,6 +133,23 @@ ColumnLayout {
         id: eventSupport
 
         rootItem: root
+    }
+
+    TimelineFilter {
+        id: filteredTimeline
+
+        source: TimelineManager.matrixTimelineModel
+        filterByContent: root.searchString
+        filterByNotifications: root.filterByNotifications
+
+        onRequestMoreData: TimelineManager.paginateActiveMatrixTimelineBackwards(50)
+    }
+
+    Binding {
+        target: externalHeaderPane.headerItem
+        property: "filteringInProgress"
+        value: root.filteringInProgress
+        when: !!externalHeaderPane.headerItem
     }
 
     MatrixRoomLifecycleSupport {
@@ -359,7 +383,7 @@ ColumnLayout {
                     displayMarginBeginning: root.listViewDisplayMargin
                     displayMarginEnd: root.listViewDisplayMargin
                     cacheBuffer: root.listViewCacheBuffer
-                    model: TimelineManager.matrixTimelineModel
+                    model: root.filteringRequested ? filteredTimeline : TimelineManager.matrixTimelineModel
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline
 

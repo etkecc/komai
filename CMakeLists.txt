@@ -318,6 +318,8 @@ set(SRC_FILES
     src/timeline/roomlist/RoomlistModelSelection.cpp
     src/timeline/rust/MatrixTimelineModel.cpp
     src/timeline/rust/MatrixTimelineModel.h
+    src/timeline/rust/TimelineFilter.cpp
+    src/timeline/rust/TimelineFilter.h
     src/timeline/DirectChatResolver.cpp
     src/timeline/DirectChatResolver.h
     src/timeline/Permissions.cpp
@@ -893,7 +895,7 @@ else()
     target_link_libraries(komai PRIVATE Qt6::DBus)
 endif()
 
-target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/timeline/litehtml/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/timeline/litehtml/ src/timeline/rust/ src/ui/ src/encryption/ src/voip/)
 
 # Fixup bundled kdsingleapplication include dirs
 target_include_directories(komai PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})

@@ -146,7 +146,7 @@ Item {
         chatRoot: matrixTimelineHost
         timelineRoot: timelineView.dialogHost
         emojiPopup: timelineEmojiPopup
-        filteredTimeline: null
+        filteredTimeline: matrixTimeline ? matrixTimeline.filteredTimeline : null
         timelineList: matrixTimeline ? matrixTimeline.timelineListItem : null
         messageActionsDefaultRoomModel: matrixRoomMessageActionsModel
         dialogRoomModel: matrixRoomRouteModels.dialogRoomModel

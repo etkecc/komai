@@ -78,6 +78,10 @@ ColumnLayout {
                 Layout.minimumHeight: implicitHeight
                 Layout.preferredHeight: implicitHeight
                 Layout.maximumHeight: implicitHeight
+                color: composerInput.textInputActiveFocus ? palette.highlight : Komai.theme.separator
+                implicitHeight: 2
+
+                Behavior on color { ColorAnimation { duration: 150 } }
             }
 
             Composer.MessageInput {

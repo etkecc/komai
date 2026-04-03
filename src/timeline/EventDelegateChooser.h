@@ -263,6 +263,8 @@ private:
         void statusChanged(QQmlIncubator::Status status) override;
 
         void reset(QString id);
+        bool refreshRoomlessProperties();
+        QVariant readPreviewValue(const char *propertyName) const;
 
         EventDelegateChooser &chooser;
         bool forReply;

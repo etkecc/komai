@@ -13,10 +13,23 @@
 
 #include <climits>
 
+#include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/litehtml/LitehtmlStylesheet.h"
 #include "ui/Theme.h"
 #include "utils/Utils.h"
+
+namespace {
+bool
+churnPerfEnabled()
+{
+    static const bool enabled = [] {
+        auto val = qgetenv("KOMAI_PERF_TIMELINE_CHURN").trimmed().toLower();
+        return val == "1" || val == "true" || val == "yes" || val == "on";
+    }();
+    return enabled;
+}
+} // namespace
 
 LitehtmlItem::LitehtmlItem(QQuickItem *parent)
   : QQuickPaintedItem(parent)
@@ -209,6 +222,14 @@ LitehtmlItem::rebuildDocument()
                        .arg(m_html.size())
                        .arg(qRound(width())));
     }
+    if (churnPerfEnabled()) {
+        nhlog::ui()->info("[churn] rebuild item={} count={} htmlLen={} width={} us={}",
+                          (void *)this,
+                          m_rebuildCount,
+                          m_html.size(),
+                          qRound(width()),
+                          createUs);
+    }
     update();
 }
 
@@ -243,6 +264,16 @@ LitehtmlItem::relayout()
                        .arg(m_relayoutCount)
                        .arg(w)
                        .arg(qRound(implicitHeight())));
+    }
+    if (churnPerfEnabled()) {
+        nhlog::ui()->info("[churn] relayout item={} count={} renderW={} contentW={} "
+                          "implicitH={} us={}",
+                          (void *)this,
+                          m_relayoutCount,
+                          w,
+                          cw,
+                          qRound(implicitHeight()),
+                          renderUs);
     }
 }
 
@@ -305,6 +336,12 @@ LitehtmlItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometr
     QQuickPaintedItem::geometryChange(newGeometry, oldGeometry);
 
     if (m_document && qRound(newGeometry.width()) != qRound(oldGeometry.width())) {
+        if (churnPerfEnabled()) {
+            nhlog::ui()->info("[churn] geomWidth item={} oldW={} newW={}",
+                              (void *)this,
+                              qRound(oldGeometry.width()),
+                              qRound(newGeometry.width()));
+        }
         relayout();
         update();
     } else if (qRound(newGeometry.height()) != qRound(oldGeometry.height())) {

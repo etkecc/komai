@@ -22,6 +22,16 @@
 
 namespace {
 
+bool
+churnPerfEnabled()
+{
+    static const bool enabled = [] {
+        auto val = qgetenv("KOMAI_PERF_TIMELINE_CHURN").trimmed().toLower();
+        return val == "1" || val == "true" || val == "yes" || val == "on";
+    }();
+    return enabled;
+}
+
 int
 lookupTypeRole(const QAbstractItemModel *model)
 {
@@ -137,6 +147,108 @@ EventDelegateChooser::componentComplete()
     // eventIncubator.forceCompletion();
 }
 
+QVariant
+EventDelegateChooser::DelegateIncubator::readPreviewValue(const char *propertyName) const
+{
+    auto key = QString::fromUtf8(propertyName);
+    auto previewData =
+      forReply ? chooser.property("replyPreviewData") : chooser.property("previewData");
+    if (!previewData.isValid() && forReply)
+        previewData = chooser.property("previewData");
+
+    if (const auto previewValue = readPreviewProperty(previewData, key); previewValue.isValid())
+        return previewValue;
+
+    auto chooserMeta = chooser.metaObject();
+    if (chooserMeta->indexOfProperty(propertyName) >= 0) {
+        auto directValue = chooser.property(propertyName);
+        if (directValue.isValid())
+            return directValue;
+    }
+
+    auto chooserContext = QQmlEngine::contextForObject(&chooser);
+    if (!chooserContext)
+        return {};
+
+    auto contextValue = chooserContext->contextProperty(key);
+    if (contextValue.isValid())
+        return contextValue;
+
+    auto modelData = chooserContext->contextProperty(QStringLiteral("modelData"));
+    if (modelData.canConvert<QVariantMap>()) {
+        auto modelMap = modelData.toMap();
+        if (auto it = modelMap.find(key); it != modelMap.end())
+            return it.value();
+    }
+
+    auto evaluateInContext = [chooserContext, this](const QString &expressionText) -> QVariant {
+        QQmlExpression expr(
+          chooserContext, const_cast<EventDelegateChooser *>(&chooser), expressionText);
+        auto value = expr.evaluate();
+        return expr.hasError() ? QVariant{} : value;
+    };
+
+    if (auto value = evaluateInContext(key); value.isValid())
+        return value;
+
+    if (auto value = evaluateInContext(QStringLiteral("modelData.%1").arg(key)); value.isValid())
+        return value;
+
+    if (auto value = evaluateInContext(QStringLiteral("model.%1").arg(key)); value.isValid())
+        return value;
+
+    return {};
+}
+
+bool
+EventDelegateChooser::DelegateIncubator::refreshRoomlessProperties()
+{
+    auto *obj = object();
+    if (!obj || chooser.room_)
+        return false;
+
+    // Read the preview data map directly — only keys present in this map
+    // should be written to the delegate.  The full readPreviewValue() fallback
+    // chain (context properties, expression evaluation) is too broad and would
+    // overwrite built-in QQuickItem properties like parent/x/y/width/visible.
+    QVariant previewData =
+      forReply ? chooser.property("replyPreviewData") : chooser.property("previewData");
+    if (!previewData.isValid() && forReply)
+        previewData = chooser.property("previewData");
+
+    QVariantMap previewMap;
+    if (previewData.canConvert<QVariantMap>()) {
+        previewMap = previewData.toMap();
+    } else if (previewData.userType() == qMetaTypeId<QJSValue>()) {
+        previewMap = previewData.value<QJSValue>().toVariant().toMap();
+    }
+    if (previewMap.isEmpty())
+        return false;
+
+    auto *mo = obj->metaObject();
+
+    Qt::beginPropertyUpdateGroup();
+    for (auto it = previewMap.cbegin(); it != previewMap.cend(); ++it) {
+        const auto &value = it.value();
+        if (!value.isValid())
+            continue;
+
+        int propIdx = mo->indexOfProperty(it.key().toUtf8().constData());
+        if (propIdx < 0)
+            continue;
+
+        auto prop = mo->property(propIdx);
+        if (!prop.isWritable())
+            continue;
+
+        prop.write(obj, value);
+    }
+    Qt::endPropertyUpdateGroup();
+
+    chooser.polish();
+    return true;
+}
+
 void
 EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
 {
@@ -162,63 +274,7 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
         requiredProperties.insert(prop.propertyName, propKey);
     }
 
-    auto mo                = obj->metaObject();
-    auto evaluateInContext = [chooserContext, this](const QString &expressionText) -> QVariant {
-        if (!chooserContext)
-            return {};
-
-        QQmlExpression expr(chooserContext, &chooser, expressionText);
-        auto value = expr.evaluate();
-        if (expr.hasError())
-            return {};
-        return value;
-    };
-
-    auto readPreviewValue =
-      [this, chooserContext, evaluateInContext](const char *propertyName) -> QVariant {
-        auto key = QString::fromUtf8(propertyName);
-        auto previewData =
-          forReply ? chooser.property("replyPreviewData") : chooser.property("previewData");
-        if (!previewData.isValid() && forReply)
-            previewData = chooser.property("previewData");
-
-        if (const auto previewValue = readPreviewProperty(previewData, key); previewValue.isValid())
-            return previewValue;
-
-        auto chooserMeta = chooser.metaObject();
-        if (chooserMeta->indexOfProperty(propertyName) >= 0) {
-            auto directValue = chooser.property(propertyName);
-            if (directValue.isValid())
-                return directValue;
-        }
-
-        if (!chooserContext)
-            return {};
-
-        auto name         = key;
-        auto contextValue = chooserContext->contextProperty(name);
-        if (contextValue.isValid())
-            return contextValue;
-
-        auto modelData = chooserContext->contextProperty(QStringLiteral("modelData"));
-        if (modelData.canConvert<QVariantMap>()) {
-            auto modelMap = modelData.toMap();
-            if (auto it = modelMap.find(name); it != modelMap.end())
-                return it.value();
-        }
-
-        if (auto value = evaluateInContext(name); value.isValid())
-            return value;
-
-        if (auto value = evaluateInContext(QStringLiteral("modelData.%1").arg(name));
-            value.isValid())
-            return value;
-
-        if (auto value = evaluateInContext(QStringLiteral("model.%1").arg(name)); value.isValid())
-            return value;
-
-        return {};
-    };
+    auto mo = obj->metaObject();
 
     // Preview delegates may be instantiated without a room-backed event data source.
     // In that case, populate required properties from the delegate context.
@@ -296,7 +352,16 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
               room->dataById(currentId, typeRoleId, forReply ? chooser.eventId_ : QString())
                 .toInt();
             if (type != oldType) {
-                // nhlog::ui()->debug("Type changed!");
+                if (churnPerfEnabled()) {
+                    nhlog::ui()->info("[churn] typeChangeReset chooser={} event={} forReply={} "
+                                      "oldType={} newType={} changedRolesCount={}",
+                                      (void *)&chooser,
+                                      currentId.toStdString(),
+                                      forReply,
+                                      oldType,
+                                      type,
+                                      changedRoles.size());
+                }
                 reset(currentId);
                 return;
             }
@@ -377,8 +442,6 @@ EventDelegateChooser::DelegateIncubator::reset(QString id)
     if (id.isEmpty())
         return;
 
-    // nhlog::ui()->debug("Reset with id {}, reply {}", id.toStdString(), forReply);
-
     this->currentId = id;
 
     int role = -1;
@@ -408,14 +471,39 @@ EventDelegateChooser::DelegateIncubator::reset(QString id)
 
         role = roleValue.toInt();
     }
+
+    if (churnPerfEnabled()) {
+        nhlog::ui()->info("[churn] reset chooser={} event={} forReply={} hadObject={} "
+                          "oldType={} newType={} hasRoom={}",
+                          (void *)&chooser,
+                          id.toStdString(),
+                          forReply,
+                          object() != nullptr,
+                          oldType,
+                          role,
+                          chooser.room_ != nullptr);
+    }
+
+    // For roomless delegates, if the type hasn't changed and we already have
+    // a delegate, update its properties in-place instead of destroying and
+    // recreating the entire component.
+    if (!chooser.room_ && role == oldType && object()) {
+        if (churnPerfEnabled()) {
+            nhlog::ui()->info("[churn] refreshInPlace chooser={} event={} forReply={} type={}",
+                              (void *)&chooser,
+                              id.toStdString(),
+                              forReply,
+                              role);
+        }
+        refreshRoomlessProperties();
+        return;
+    }
+
     this->oldType = role;
 
     for (const auto choice : std::as_const(chooser.choices_)) {
         const auto &choiceValue = choice->roleValues();
         if (choiceValue.contains(role) || choiceValue.empty()) {
-            // nhlog::ui()->debug(
-            //   "Instantiating type: {}, c {}", (int)role, choiceValue.contains(role));
-
             if (auto child = qobject_cast<QQuickItem *>(object())) {
                 child->setParentItem(nullptr);
             }
@@ -429,6 +517,14 @@ EventDelegateChooser::DelegateIncubator::reset(QString id)
 void
 EventDelegateChooser::DelegateIncubator::statusChanged(QQmlIncubator::Status status)
 {
+    if (churnPerfEnabled()) {
+        nhlog::ui()->info("[churn] statusChanged chooser={} event={} forReply={} status={}",
+                          (void *)&chooser,
+                          currentId.toStdString(),
+                          forReply,
+                          static_cast<int>(status));
+    }
+
     if (status == QQmlIncubator::Ready) {
         auto child = qobject_cast<QQuickItem *>(object());
         if (child == nullptr) {
@@ -467,7 +563,16 @@ EventDelegateChooser::updatePolish()
     auto mainChild  = qobject_cast<QQuickItem *>(eventIncubator.object());
     auto replyChild = qobject_cast<QQuickItem *>(replyIncubator.object());
 
-    // nhlog::ui()->trace("POLISHING {}", (void *)this);
+    if (churnPerfEnabled()) {
+        nhlog::ui()->info("[churn] polish chooser={} event={} hasMain={} hasReply={} "
+                          "maxWidth={} width={}",
+                          (void *)this,
+                          eventId_.toStdString(),
+                          mainChild != nullptr,
+                          replyChild != nullptr,
+                          maxWidth_,
+                          qRound(width()));
+    }
 
     auto layoutItem = [this](QQuickItem *item, int inset) {
         if (item) {

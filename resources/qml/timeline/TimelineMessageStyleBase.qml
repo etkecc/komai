@@ -67,6 +67,11 @@ TimelineEvent {
 
     property var hoverDismissTimerRef: null
     property string registeredEventId: ""
+    property int _delegateGeneration: chatRoot ? chatRoot.delegateRegistrationGeneration : 0
+    on_DelegateGenerationChanged: {
+        if (registeredEventId.length > 0 && chatRoot)
+            chatRoot.registerVisibleDelegate(registeredEventId, wrapper);
+    }
     readonly property color themeWindowColor: (Komai.colors && Komai.colors.window !== undefined)
         ? Komai.colors.window
         : palette.window

@@ -46,6 +46,7 @@ QtObject {
         rootItem.pendingComposerAutoFocus = rootItem.activeRoomId.length > 0;
         rootItem._composerAutoFocusRetries = 0;
         rootItem.visibleTimelineDelegates = ({});
+        rootItem.delegateRegistrationGeneration += 1;
         rootItem.deferredBufferCheckGeneration += 1;
         rootItem.deferredBufferCheckQueued = false;
         rootItem.walkModeActive = false;

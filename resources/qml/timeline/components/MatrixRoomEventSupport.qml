@@ -60,6 +60,7 @@ QtObject {
             return;
 
         rootItem.visibleTimelineDelegates[key] = delegateItem;
+        rootItem.delegateRegistrationRevision += 1;
         rootItem.visibleTimelineDelegatesChanged();
     }
 
@@ -74,6 +75,7 @@ QtObject {
             return;
 
         delete rootItem.visibleTimelineDelegates[key];
+        rootItem.delegateRegistrationRevision += 1;
         rootItem.visibleTimelineDelegatesChanged();
     }
 

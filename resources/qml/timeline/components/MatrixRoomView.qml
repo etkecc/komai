@@ -26,6 +26,8 @@ ColumnLayout {
     property var selectedEventIds: []
     property string selectionAnchorEventId: ""
     property var visibleTimelineDelegates: ({})
+    property int delegateRegistrationGeneration: 0
+    property int delegateRegistrationRevision: 0
     readonly property int selectedCount: selectedEventIds.length
     readonly property bool hasSelectedEvents: selectedCount > 0
     readonly property bool hasSingleSelection: selectedCount === 1

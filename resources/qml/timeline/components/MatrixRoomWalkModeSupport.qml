@@ -47,9 +47,48 @@ Item {
         return rootItem.visibleTimelineDelegates[rootItem.primaryActionEventId] || null;
     }
 
+    // Returns a message-model-like object for the primary action event.
+    // Prefers the registered visual delegate; falls back to model data
+    // when the delegate hasn't been created yet (async scroll/recycle).
+    function primaryActionMessageModel() {
+        const delegate = primaryActionDelegate();
+        if (delegate)
+            return delegate;
+
+        const eventId = rootItem.primaryActionEventId;
+        if (eventId.length === 0)
+            return null;
+
+        const model = TimelineManager.matrixTimelineModel;
+        if (!model)
+            return null;
+
+        const row = model.rowForEventId(eventId);
+        if (row < 0)
+            return null;
+
+        const item = model.itemAt(row);
+        if (!item)
+            return null;
+
+        return {
+            "eventId": String(item.eventId || ""),
+            "type": Number(item.type || 0),
+            "isStateEvent": Boolean(item.isStateEvent),
+            "isEditable": Boolean(item.isEditable),
+            "isSender": Boolean(item.isSender),
+            "isEncrypted": Boolean(item.isEncrypted),
+            "threadId": String(item.threadId || ""),
+            "body": String(item.body || "")
+        };
+    }
+
     function primaryActionRoomModel() {
         const delegateItem = primaryActionDelegate();
-        return delegateItem && delegateItem.roomModelOverride ? delegateItem.roomModelOverride : null;
+        if (delegateItem && delegateItem.roomModelOverride)
+            return delegateItem.roomModelOverride;
+
+        return rootItem.messageActionsRoomModel || null;
     }
 
     function ensureFocusedDelegateVisible(eventId) {
@@ -382,44 +421,44 @@ Item {
     }
 
     function openPrimaryMessageActionsDialog() {
-        const delegateItem = primaryActionDelegate();
+        const msgModel = primaryActionMessageModel();
         const roomModel = primaryActionRoomModel();
-        if (!delegateItem || !roomModel)
+        if (!msgModel || !roomModel)
             return false;
 
-        return messageActionSupport.openOptionsDialog(rootItem, delegateItem, roomModel);
+        return messageActionSupport.openOptionsDialog(rootItem, msgModel, roomModel);
     }
 
     function canPerformWalkModeAction(actionName) {
-        const delegateItem = primaryActionDelegate();
+        const msgModel = primaryActionMessageModel();
         const roomModel = primaryActionRoomModel();
-        if (!delegateItem || !roomModel)
+        if (!msgModel || !roomModel)
             return false;
 
         switch (actionName) {
         case "reply":
-            return messageActionSupport.canReply(delegateItem, roomModel);
+            return messageActionSupport.canReply(msgModel, roomModel);
         case "thread":
-            return messageActionSupport.canThread(delegateItem, roomModel);
+            return messageActionSupport.canThread(msgModel, roomModel);
         case "edit":
-            return messageActionSupport.canEdit(delegateItem, roomModel);
+            return messageActionSupport.canEdit(msgModel, roomModel);
         case "forward":
-            return messageActionSupport.canForward(delegateItem);
+            return messageActionSupport.canForward(msgModel);
         case "remove":
-            return messageActionSupport.canRemove(delegateItem, roomModel);
+            return messageActionSupport.canRemove(msgModel, roomModel);
         case "options":
-            return messageActionSupport.canOpenOptions(delegateItem);
+            return messageActionSupport.canOpenOptions(msgModel);
         case "raw":
-            return messageActionSupport.canViewRaw(delegateItem);
+            return messageActionSupport.canViewRaw(msgModel);
         default:
             return false;
         }
     }
 
     function performWalkModeAction(actionName) {
-        const delegateItem = primaryActionDelegate();
+        const msgModel = primaryActionMessageModel();
         const roomModel = primaryActionRoomModel();
-        if (!delegateItem || !roomModel)
+        if (!msgModel || !roomModel)
             return false;
 
         const exitsToComposer = actionName === "reply" || actionName === "thread" || actionName === "edit";
@@ -431,19 +470,19 @@ Item {
 
         switch (actionName) {
         case "reply":
-            return messageActionSupport.applyReply(roomModel, delegateItem);
+            return messageActionSupport.applyReply(roomModel, msgModel);
         case "thread":
-            return messageActionSupport.applyThread(roomModel, delegateItem);
+            return messageActionSupport.applyThread(roomModel, msgModel);
         case "edit":
-            return messageActionSupport.applyEdit(roomModel, delegateItem);
+            return messageActionSupport.applyEdit(roomModel, msgModel);
         case "forward":
-            return messageActionSupport.applyForward(rootItem, roomModel, delegateItem);
+            return messageActionSupport.applyForward(rootItem, roomModel, msgModel);
         case "remove":
-            return messageActionSupport.applyRemove(rootItem, roomModel, delegateItem);
+            return messageActionSupport.applyRemove(rootItem, roomModel, msgModel);
         case "raw":
-            return messageActionSupport.applyViewRaw(roomModel, delegateItem);
+            return messageActionSupport.applyViewRaw(roomModel, msgModel);
         case "options":
-            return messageActionSupport.openOptionsDialog(rootItem, delegateItem, roomModel);
+            return messageActionSupport.openOptionsDialog(rootItem, msgModel, roomModel);
         default:
             return false;
         }

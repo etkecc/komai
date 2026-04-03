@@ -42,6 +42,34 @@ Item {
         return delegateItem && delegateItem.roomModelOverride ? delegateItem.roomModelOverride : null;
     }
 
+    function ensureFocusedDelegateVisible(eventId) {
+        if (!timelineList)
+            return;
+
+        const row = matrixTimelineRowForEventId(eventId);
+        if (row < 0)
+            return;
+
+        timelineList.forceLayout();
+
+        const item = timelineList.itemAtIndex(row);
+        if (!item || item.height <= 0)
+            return;
+
+        // Map delegate position into the ListView's coordinate space.
+        // This works correctly regardless of BottomToTop layout direction.
+        const mapped = timelineList.mapFromItem(item, 0, 0);
+        const margin = 8;
+
+        if (mapped.y < margin) {
+            // Item is above the viewport — scroll up.
+            timelineList.contentY += (mapped.y - margin);
+        } else if (mapped.y + item.height > timelineList.height - margin) {
+            // Item is below the viewport — scroll down.
+            timelineList.contentY += (mapped.y + item.height - timelineList.height + margin);
+        }
+    }
+
     function focusWalkModeEventById(eventId, options) {
         let normalizedEventId = String(eventId || "");
         if (normalizedEventId.length === 0)
@@ -58,6 +86,10 @@ Item {
         }
 
         rootItem.focusedEventId = normalizedEventId;
+        if (!rootItem.walkModeActive && timelineList) {
+            timelineList.keepPinnedToBottom = false;
+            timelineList.userUnpinned = true;
+        }
         rootItem.walkModeActive = true;
         const shouldDeferFocus = !!(options && options.deferFocus);
         if (shouldDeferFocus) {
@@ -71,7 +103,7 @@ Item {
 
         const skipScroll = !!(options && options.skipScroll);
         if (!skipScroll)
-            rootItem.jumpToLoadedMatrixEvent(normalizedEventId);
+            ensureFocusedDelegateVisible(normalizedEventId);
 
         return true;
     }
@@ -97,6 +129,12 @@ Item {
         rootItem.walkModeActive = false;
         rootItem.suppressNextWalkModeOlderStep = false;
         walkModeEntrySuppressTimer.stop();
+
+        if (timelineList) {
+            timelineList.keepPinnedToBottom = timelineList.atYEnd;
+            if (timelineList.atYEnd)
+                timelineList.userUnpinned = false;
+        }
 
         if (shouldFocusComposer) {
             Qt.callLater(function () {
@@ -142,14 +180,17 @@ Item {
         });
         rootItem.suppressNextWalkModeOlderStep = true;
         walkModeEntrySuppressTimer.restart();
-        if (rootItem.isEffectivelyAtLiveEdge()) {
+
+        const atLiveEdge = rootItem.isEffectivelyAtLiveEdge();
+        const bottomMostEventId = rootItem.bottomMostVisibleEventId();
+
+        if (atLiveEdge) {
             return focusLatestWalkModeEvent({
                 "deferFocus": true
             });
         }
 
-        const targetEventId = rootItem.bottomMostVisibleEventId();
-        if (targetEventId.length === 0) {
+        if (bottomMostEventId.length === 0) {
             return focusLatestWalkModeEvent({
                 "deferFocus": true
             });

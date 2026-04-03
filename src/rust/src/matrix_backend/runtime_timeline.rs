@@ -1307,17 +1307,23 @@ async fn run_room_timeline_loop(
                 subscribe_count, snapshot_count
             ),
         );
-        crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
-        log_room_timeline_perf(
-            handle_id,
-            &room_id,
-            "rust.matrix_timeline.initial_snapshot_notified",
-            loop_started_at.elapsed(),
-            &format!(
-                " subscribe_count={} snapshot_count={}",
-                subscribe_count, snapshot_count
-            ),
-        );
+        // Only notify C++ when there are actual items.  For rooms with
+        // no cached events the initial subscribe returns 0 items; sending
+        // an empty notification would clear the loading flag prematurely
+        // (showing "Nothing has loaded" while pagination is still running).
+        if snapshot_count > 0 {
+            crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
+            log_room_timeline_perf(
+                handle_id,
+                &room_id,
+                "rust.matrix_timeline.initial_snapshot_notified",
+                loop_started_at.elapsed(),
+                &format!(
+                    " subscribe_count={} snapshot_count={}",
+                    subscribe_count, snapshot_count
+                ),
+            );
+        }
     }
 
     tracing::info!(

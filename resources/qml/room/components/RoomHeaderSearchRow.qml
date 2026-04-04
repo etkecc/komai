@@ -49,6 +49,11 @@ RowLayout {
 
         onTextChanged: searchDebounce.restart()
 
+        Keys.onEscapePressed: function (event) {
+            root.requestClose();
+            event.accepted = true;
+        }
+
         Timer {
             id: searchDebounce
 

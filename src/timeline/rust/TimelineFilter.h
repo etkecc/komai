@@ -78,4 +78,5 @@ private:
     int cachedCount = 0, incrementalSearchIndex = 0;
     int sourceCountAtLastFetch_ = 0;
     bool filterByNotifications_ = false;
+    bool waitingForData_        = false;
 };

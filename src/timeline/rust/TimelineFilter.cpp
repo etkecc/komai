@@ -48,6 +48,7 @@ TimelineFilter::startFiltering()
 {
     incrementalSearchIndex  = 0;
     sourceCountAtLastFetch_ = 0;
+    waitingForData_         = false;
     emit isFilteringChanged();
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
@@ -163,12 +164,16 @@ TimelineFilter::fetchAgain()
         // If the source didn't grow since our last request, pagination is
         // exhausted — stop requesting to avoid an infinite loop.
         if (sourceCountAtLastFetch_ > 0 && currentSourceCount <= sourceCountAtLastFetch_) {
-            cachedCount = this->rowCount();
+            waitingForData_ = false;
+            cachedCount     = this->rowCount();
+            emit isFilteringChanged();
             return;
         }
 
         sourceCountAtLastFetch_ = currentSourceCount;
         cachedCount             = this->rowCount();
+        waitingForData_         = true;
+        emit isFilteringChanged();
         emit requestMoreData();
     }
 }
@@ -212,6 +217,7 @@ TimelineFilter::setSource(QAbstractItemModel *s)
         cachedCount             = 0;
         incrementalSearchIndex  = 0;
         sourceCountAtLastFetch_ = 0;
+        waitingForData_         = false;
 
         if (orig) {
             disconnect(
@@ -272,8 +278,10 @@ TimelineFilter::currentIndex() const
 bool
 TimelineFilter::isFiltering() const
 {
-    return incrementalSearchIndex != std::numeric_limits<int>::max() &&
-           !(threadId.isEmpty() && contentFilter.isEmpty());
+    if (!hasActiveFilter())
+        return false;
+
+    return incrementalSearchIndex != std::numeric_limits<int>::max() || waitingForData_;
 }
 
 bool

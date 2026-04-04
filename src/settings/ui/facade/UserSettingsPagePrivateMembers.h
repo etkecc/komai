@@ -53,6 +53,10 @@ NotificationsAccountFetchFn notificationsAccountFetchFn_;
 NotificationsAccountSetFn notificationsAccountSetFn_;
 bool desktopNotificationsEnabled_;
 bool desktopNotificationsAttentionOnIncoming_;
+bool desktopAttentionWindowTitleEnabled_ =
+  settings::core::definitions::kDefaultDesktopAttentionWindowTitleEnabled;
+bool desktopAttentionAppBadgeEnabled_ =
+  settings::core::definitions::kDefaultDesktopAttentionAppBadgeEnabled;
 bool uiAvatarsCircular_;
 NotificationMessageContentPolicy desktopNotificationsMessageContentPolicy_ =
   NotificationMessageContentPolicy::WheneverAvailable;

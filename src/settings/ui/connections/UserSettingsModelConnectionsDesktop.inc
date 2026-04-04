@@ -18,6 +18,12 @@
     CONNECT_SETTING_ID(DesktopNotificationsMessageContentPolicy,
                        desktopNotificationsMessageContentPolicyChanged,
                        Value);
+    CONNECT_SETTING_ID(DesktopAttentionWindowTitleEnabled,
+                       desktopAttentionWindowTitleEnabledChanged,
+                       Value);
+    CONNECT_SETTING_ID(DesktopAttentionAppBadgeEnabled,
+                       desktopAttentionAppBadgeEnabledChanged,
+                       Value);
     CONNECT_SETTING_ID(DesktopSystemTrayEnabled, desktopSystemTrayEnabledChanged, Value);
     CONNECT_SETTING_ID(DesktopSystemTrayAutostart, desktopSystemTrayAutostartChanged, Value);
 

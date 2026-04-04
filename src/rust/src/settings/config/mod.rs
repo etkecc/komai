@@ -16,15 +16,16 @@ use tokens::StorageToken;
 pub use model::{
     Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
     ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigDesktop,
-    ConfigDesktopNotifications, ConfigDesktopSystemTray, ConfigDesktopWindowFocusBlur,
-    ConfigEncryption, ConfigEncryptionBackup, ConfigEncryptionBackupOnline,
-    ConfigEncryptionKeySharing, ConfigIntegrations, ConfigNetwork, ConfigSecrets,
-    ConfigSidebars, ConfigSidebarsCommunities, ConfigSidebarsRoomList, ConfigTimeline,
+    ConfigDesktopAttention, ConfigDesktopAttentionToggle, ConfigDesktopNotifications,
+    ConfigDesktopSystemTray, ConfigDesktopWindowFocusBlur, ConfigEncryption,
+    ConfigEncryptionBackup, ConfigEncryptionBackupOnline, ConfigEncryptionKeySharing,
+    ConfigIntegrations, ConfigNetwork, ConfigSecrets, ConfigSidebars,
+    ConfigSidebarsCommunities, ConfigSidebarsRoomList, ConfigTimeline,
     ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
     ConfigTimelineMaintenance, ConfigTimelineMessageActions, ConfigTimelineMessages,
     ConfigTimelineMessagesLayout, ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi,
-    ConfigUiAvatars, ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion,
-    ConfigUiScale, ConfigUiTheme, LoadedConfig,
+    ConfigUiAvatars, ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale,
+    ConfigUiTheme, LoadedConfig,
 };
 pub(crate) use model::CURRENT_CONFIG_SCHEMA_VERSION;
 pub use tokens::{
@@ -127,6 +128,10 @@ const DESKTOP_NOTIFICATIONS_ATTENTION_ON_INCOMING_PATH: [&str; 3] =
     ["desktop", "notifications", "attention_on_incoming"];
 const DESKTOP_NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH: [&str; 3] =
     ["desktop", "notifications", "message_content_policy"];
+const DESKTOP_ATTENTION_WINDOW_TITLE_ENABLED_PATH: [&str; 4] =
+    ["desktop", "attention", "window_title", "enabled"];
+const DESKTOP_ATTENTION_APP_BADGE_ENABLED_PATH: [&str; 4] =
+    ["desktop", "attention", "app_badge", "enabled"];
 const DESKTOP_SYSTEM_TRAY_ENABLED_PATH: [&str; 3] = ["desktop", "system_tray", "enabled"];
 const DESKTOP_SYSTEM_TRAY_AUTOSTART_PATH: [&str; 3] = ["desktop", "system_tray", "autostart"];
 const DESKTOP_WINDOW_FOCUS_BLUR_ENABLED_PATH: [&str; 3] =
@@ -406,6 +411,16 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     root,
                     &DESKTOP_NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH,
                 )),
+            },
+            attention: ConfigDesktopAttention {
+                window_title: ConfigDesktopAttentionToggle {
+                    enabled: yaml::value_at_path(root, &DESKTOP_ATTENTION_WINDOW_TITLE_ENABLED_PATH)
+                        .and_then(parse_scalar_bool),
+                },
+                app_badge: ConfigDesktopAttentionToggle {
+                    enabled: yaml::value_at_path(root, &DESKTOP_ATTENTION_APP_BADGE_ENABLED_PATH)
+                        .and_then(parse_scalar_bool),
+                },
             },
             system_tray: ConfigDesktopSystemTray {
                 enabled: yaml::value_at_path(root, &DESKTOP_SYSTEM_TRAY_ENABLED_PATH)

@@ -14,35 +14,37 @@
 
 namespace settings::core::definitions {
 
-inline constexpr int kDefaultSidebarsRoomListWidthPx            = 400;
-inline constexpr int kDefaultSidebarsCommunitiesWidthPx         = 220;
-inline constexpr int kDefaultWindowWidthPx                      = 1600;
-inline constexpr int kDefaultWindowHeightPx                     = 900;
-inline constexpr const char *kDefaultUiThemeSlug                = "komai-light";
-inline constexpr const char *kDefaultCallsAudioRingtone         = "Default";
-inline constexpr const char *kDefaultPinnedReactions            = "👍,👎,😀,❤️";
-inline constexpr bool kDefaultUiMotionAnimationsEnabled         = true;
-inline constexpr int kMaxQuickReactionSlots                     = 8;
-inline constexpr int kReactionFrequencyLookbackDays             = 30;
-inline constexpr int kReactionFrequencyCacheDurationMs          = 60'000;
-inline constexpr uint64_t kMaxReactionScanEvents                = 5000;
-inline constexpr bool kDefaultUiInputMode                       = false;
-inline constexpr bool kDefaultCertificateValidationEnabled      = true;
-inline constexpr bool kDefaultNetworkHttp3Enabled               = false;
-inline constexpr bool kDefaultNetworkMrsEnabled                 = true;
-inline constexpr const char *kDefaultNetworkMrsServerName       = "matrixrooms.info";
-inline constexpr double kDefaultScaleFactor                     = -1.0;
-inline constexpr double kDefaultFontSizePt                      = 13.0;
-inline constexpr double kDefaultTimelineMediaAudioPlaybackSpeed = 1.0;
-inline constexpr double kMinTimelineMediaAudioPlaybackSpeed     = 0.5;
-inline constexpr double kMaxTimelineMediaAudioPlaybackSpeed     = 3.0;
-inline constexpr double kTimelineMediaAudioPlaybackSpeedStep    = 0.5;
-inline constexpr int kDefaultUiLayoutContentMaxWidthPx          = 0;
-inline constexpr int kMinEffectiveUiLayoutContentMaxWidthPx     = 500;
-inline constexpr int kDefaultScreenShareFrameRate               = 30;
-inline constexpr bool kDefaultScreenShareShowCursor             = true;
-inline constexpr int kDefaultDesktopWindowFocusBlurDelaySeconds = 0;
-inline constexpr int kDefaultIntegrationsDbusApiAccess          = 0;
+inline constexpr int kDefaultSidebarsRoomListWidthPx             = 400;
+inline constexpr int kDefaultSidebarsCommunitiesWidthPx          = 220;
+inline constexpr int kDefaultWindowWidthPx                       = 1600;
+inline constexpr int kDefaultWindowHeightPx                      = 900;
+inline constexpr const char *kDefaultUiThemeSlug                 = "komai-light";
+inline constexpr const char *kDefaultCallsAudioRingtone          = "Default";
+inline constexpr const char *kDefaultPinnedReactions             = "👍,👎,😀,❤️";
+inline constexpr bool kDefaultUiMotionAnimationsEnabled          = true;
+inline constexpr int kMaxQuickReactionSlots                      = 8;
+inline constexpr int kReactionFrequencyLookbackDays              = 30;
+inline constexpr int kReactionFrequencyCacheDurationMs           = 60'000;
+inline constexpr uint64_t kMaxReactionScanEvents                 = 5000;
+inline constexpr bool kDefaultUiInputMode                        = false;
+inline constexpr bool kDefaultCertificateValidationEnabled       = true;
+inline constexpr bool kDefaultNetworkHttp3Enabled                = false;
+inline constexpr bool kDefaultNetworkMrsEnabled                  = true;
+inline constexpr const char *kDefaultNetworkMrsServerName        = "matrixrooms.info";
+inline constexpr double kDefaultScaleFactor                      = -1.0;
+inline constexpr double kDefaultFontSizePt                       = 13.0;
+inline constexpr double kDefaultTimelineMediaAudioPlaybackSpeed  = 1.0;
+inline constexpr double kMinTimelineMediaAudioPlaybackSpeed      = 0.5;
+inline constexpr double kMaxTimelineMediaAudioPlaybackSpeed      = 3.0;
+inline constexpr double kTimelineMediaAudioPlaybackSpeedStep     = 0.5;
+inline constexpr int kDefaultUiLayoutContentMaxWidthPx           = 0;
+inline constexpr int kMinEffectiveUiLayoutContentMaxWidthPx      = 500;
+inline constexpr int kDefaultScreenShareFrameRate                = 30;
+inline constexpr bool kDefaultScreenShareShowCursor              = true;
+inline constexpr bool kDefaultDesktopAttentionWindowTitleEnabled = true;
+inline constexpr bool kDefaultDesktopAttentionAppBadgeEnabled    = true;
+inline constexpr int kDefaultDesktopWindowFocusBlurDelaySeconds  = 0;
+inline constexpr int kDefaultIntegrationsDbusApiAccess           = 0;
 
 inline constexpr SettingId kEnumTokenConfigSettingIds[] = {
 #include "SettingsDefinitionsEnumTokenConfigSettingIds.inc"

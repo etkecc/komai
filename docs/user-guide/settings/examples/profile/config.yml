@@ -107,6 +107,11 @@ desktop:
     enabled: true
     attention_on_incoming: false
     message_content_policy: whenever_available
+  attention:
+    window_title:
+      enabled: true
+    app_badge:
+      enabled: true
   system_tray:
     enabled: false
     autostart: false

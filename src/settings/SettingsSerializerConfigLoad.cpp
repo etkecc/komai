@@ -368,6 +368,14 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       cfg::notificationsMessageContentPolicyFromStorage(
         notificationsMessageContentPolicyToken,
         UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
+    settings.setDesktopAttentionWindowTitleEnabled(
+      snapshot.desktop.attention.window_title.has_enabled
+        ? snapshot.desktop.attention.window_title.enabled
+        : settings::core::definitions::kDefaultDesktopAttentionWindowTitleEnabled);
+    settings.setDesktopAttentionAppBadgeEnabled(
+      snapshot.desktop.attention.app_badge.has_enabled
+        ? snapshot.desktop.attention.app_badge.enabled
+        : settings::core::definitions::kDefaultDesktopAttentionAppBadgeEnabled);
 
     settings.setNetworkTlsEnableCertificateValidation(
       snapshot.network.has_tls_enable_certificate_validation

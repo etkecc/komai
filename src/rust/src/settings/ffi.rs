@@ -371,6 +371,26 @@ pub(crate) fn ffi_config_desktop_section(
                 .message_content_policy
                 .to_storage_string(),
         },
+        attention: ffi::SettingsConfigDesktopAttentionSection {
+            window_title: ffi::SettingsConfigDesktopAttentionWindowTitleSection {
+                has_enabled: config.desktop.attention.window_title.enabled.is_some(),
+                enabled: config
+                    .desktop
+                    .attention
+                    .window_title
+                    .enabled
+                    .unwrap_or_default(),
+            },
+            app_badge: ffi::SettingsConfigDesktopAttentionAppBadgeSection {
+                has_enabled: config.desktop.attention.app_badge.enabled.is_some(),
+                enabled: config
+                    .desktop
+                    .attention
+                    .app_badge
+                    .enabled
+                    .unwrap_or_default(),
+            },
+        },
         system_tray: ffi::SettingsConfigDesktopSystemTraySection {
             has_enabled: config.desktop.system_tray.enabled.is_some(),
             enabled: config.desktop.system_tray.enabled.unwrap_or_default(),
@@ -832,6 +852,16 @@ fn clone_config_desktop_section(
             has_attention_on_incoming: section.notifications.has_attention_on_incoming,
             attention_on_incoming: section.notifications.attention_on_incoming,
             message_content_policy: section.notifications.message_content_policy.clone(),
+        },
+        attention: ffi::SettingsConfigDesktopAttentionSection {
+            window_title: ffi::SettingsConfigDesktopAttentionWindowTitleSection {
+                has_enabled: section.attention.window_title.has_enabled,
+                enabled: section.attention.window_title.enabled,
+            },
+            app_badge: ffi::SettingsConfigDesktopAttentionAppBadgeSection {
+                has_enabled: section.attention.app_badge.has_enabled,
+                enabled: section.attention.app_badge.enabled,
+            },
         },
         system_tray: ffi::SettingsConfigDesktopSystemTraySection {
             has_enabled: section.system_tray.has_enabled,

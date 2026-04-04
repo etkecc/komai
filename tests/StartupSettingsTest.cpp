@@ -895,6 +895,45 @@ testInvalidStateDimensionsFallbackToSafeValues()
 }
 
 bool
+testDesktopAttentionIndicatorsPersist()
+{
+    const QString profile = QStringLiteral("desktop-attention-indicators-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "desktop attention fixture config root can be created");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for desktop attention test");
+
+    settings->setPersistenceSuspended(false);
+    settings->setDesktopAttentionWindowTitleEnabled(false);
+    settings->setDesktopAttentionAppBadgeEnabled(false);
+    settings->save();
+
+    const auto configRoot = loadConfigSnapshot(ctx.configFile(), "desktop-attention-config");
+    bool ok               = true;
+    ok &= expect(configRoot.desktop.attention.window_title.has_enabled &&
+                   !configRoot.desktop.attention.window_title.enabled,
+                 "window title attention toggle persists to config.yml");
+    ok &= expect(configRoot.desktop.attention.app_badge.has_enabled &&
+                   !configRoot.desktop.attention.app_badge.enabled,
+                 "app badge attention toggle persists to config.yml");
+
+    UserSettings::initialize(profile);
+    const auto reloadedSettings = UserSettings::instance();
+    if (!reloadedSettings)
+        return expect(false, "UserSettings instance is available after desktop attention reload");
+
+    ok &= expect(!reloadedSettings->desktopAttentionWindowTitleEnabled(),
+                 "window title attention toggle reloads from config.yml");
+    ok &= expect(!reloadedSettings->desktopAttentionAppBadgeEnabled(),
+                 "app badge attention toggle reloads from config.yml");
+    return ok;
+}
+
+bool
 testComposerDraftsPersistInState()
 {
     const QString profile = QStringLiteral("composer-drafts-state-persistence-profile");
@@ -1670,6 +1709,10 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::DesktopNotificationsMessageContentPolicy));
     serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::DesktopAttentionWindowTitleEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::DesktopAttentionAppBadgeEnabled));
+    serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NetworkPresenceStatusPolicy));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NetworkTlsEnableCertificateValidation));
@@ -1763,6 +1806,8 @@ main()
     ok &= runNamedTest("testStartupSecretsProviderDoesNotSwitchWhenSessionIdentityExists",
                        testStartupSecretsProviderDoesNotSwitchWhenSessionIdentityExists);
     ok &= runNamedTest("testEnumSettingsPersistAsStrings", testEnumSettingsPersistAsStrings);
+    ok &= runNamedTest("testDesktopAttentionIndicatorsPersist",
+                       testDesktopAttentionIndicatorsPersist);
     ok &= runNamedTest("testInvalidConfigTokensFallbackToSafeValues",
                        testInvalidConfigTokensFallbackToSafeValues);
     ok &= runNamedTest("testInvalidStateDimensionsFallbackToSafeValues",

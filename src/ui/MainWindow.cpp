@@ -160,8 +160,7 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
       });
 
     connect(chat_page_, &ChatPage::closing, this, [this] { transitionToLoginPage(QString()); });
-    connect(chat_page_, &ChatPage::attentionCountChanged, this, &MainWindow::setWindowTitle);
-    connect(chat_page_, &ChatPage::attentionCountChanged, trayIcon_, &TrayIcon::setAttentionCount);
+    connect(chat_page_, &ChatPage::attentionCountChanged, this, &MainWindow::setAttentionCount);
     connect(chat_page_, &ChatPage::showLoginPage, this, [this](const QString &msg) {
         transitionToLoginPage(msg);
     });
@@ -175,6 +174,14 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
             &UserSettings::desktopSystemTrayEnabledChanged,
             trayIcon_,
             &TrayIcon::setVisible);
+    connect(userSettings_.get(),
+            &UserSettings::desktopAttentionWindowTitleEnabledChanged,
+            this,
+            [this](bool) { updateAttentionIndicators(); });
+    connect(userSettings_.get(),
+            &UserSettings::desktopAttentionAppBadgeEnabledChanged,
+            this,
+            [this](bool) { updateAttentionIndicators(); });
     connect(trayIcon_,
             SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this,
@@ -189,7 +196,7 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
 
     trayIcon_->setVisible(userSettings_->desktopSystemTrayEnabled());
     dock_ = new Dock(this);
-    connect(chat_page_, &ChatPage::attentionCountChanged, dock_, &Dock::setAttentionCount);
+    updateAttentionIndicators();
 
     // load cache on event loop
     QTimer::singleShot(0, this, [this] {
@@ -222,6 +229,26 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
         setStartupStatus(tr("Welcome to Komai"), tr("Preparing sign-in..."));
         emit switchToWelcomePage();
     });
+}
+
+void
+MainWindow::setAttentionCount(int attentionCount)
+{
+    attentionCount_ = attentionCount;
+    updateAttentionIndicators();
+}
+
+void
+MainWindow::updateAttentionIndicators()
+{
+    const int titleAttentionCount =
+      userSettings_->desktopAttentionWindowTitleEnabled() ? attentionCount_ : 0;
+    const int appBadgeAttentionCount =
+      userSettings_->desktopAttentionAppBadgeEnabled() ? attentionCount_ : 0;
+
+    setWindowTitle(titleAttentionCount);
+    trayIcon_->setAttentionCount(attentionCount_);
+    dock_->setAttentionCount(appBadgeAttentionCount);
 }
 
 void

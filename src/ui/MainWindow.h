@@ -125,6 +125,7 @@ private slots:
     //! Handle interaction with the tray icon.
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
+    void setAttentionCount(int attentionCount);
     virtual void setWindowTitle(int attentionCount);
 
 signals:
@@ -157,6 +158,7 @@ private:
     void setStartupStatus(const QString &headline, const QString &detail);
     //! Check if the current page supports the "minimize to tray" functionality.
     bool pageSupportsTray() const;
+    void updateAttentionIndicators();
 
     void registerQmlTypes();
     void updateAltPressedState(bool altPressed);
@@ -186,6 +188,7 @@ private:
     uint64_t matrixBackendHandleId_{0};
     QString matrixBackendAuthType_;
     quint64 matrixBackendStartupRequestId_{0};
+    int attentionCount_{0};
     bool altPressed_{false};
     bool backButtonPressSeen_{false};
     bool forwardButtonPressSeen_{false};

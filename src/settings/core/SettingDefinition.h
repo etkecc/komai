@@ -49,6 +49,8 @@ enum class SettingId
     DesktopNotificationsEnabled,
     DesktopNotificationsAttentionOnIncoming,
     DesktopNotificationsMessageContentPolicy,
+    DesktopAttentionWindowTitleEnabled,
+    DesktopAttentionAppBadgeEnabled,
     DesktopWindowFocusBlurEnabled,
     DesktopWindowFocusBlurDelaySeconds,
     NetworkPresenceStatusPolicy,

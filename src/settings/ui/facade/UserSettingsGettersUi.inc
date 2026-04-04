@@ -51,6 +51,8 @@
     bool notificationsAccountEnabled() const;
     bool desktopNotificationsEnabled() const;
     bool desktopNotificationsAttentionOnIncoming() const;
+    bool desktopAttentionWindowTitleEnabled() const;
+    bool desktopAttentionAppBadgeEnabled() const;
     bool notificationsAccountToggleEnabled() const;
     void refreshNotificationsAccountEnabled();
     bool hasNotifications() const;

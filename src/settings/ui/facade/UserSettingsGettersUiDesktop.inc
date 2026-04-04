@@ -136,6 +136,26 @@ UserSettings::desktopNotificationsAttentionOnIncoming() const
 }
 
 bool
+UserSettings::desktopAttentionWindowTitleEnabled() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::DesktopAttentionWindowTitleEnabled);
+        value.has_value())
+        return *value;
+    return desktopAttentionWindowTitleEnabled_;
+}
+
+bool
+UserSettings::desktopAttentionAppBadgeEnabled() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::DesktopAttentionAppBadgeEnabled);
+        value.has_value())
+        return *value;
+    return desktopAttentionAppBadgeEnabled_;
+}
+
+bool
 UserSettings::hasNotifications() const
 {
     if (hasActiveSession() && !notificationsAccountEnabled_)

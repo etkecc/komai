@@ -83,6 +83,8 @@ constexpr auto DesktopNotificationsAttentionOnIncoming =
   "desktop.notifications.attention_on_incoming";
 constexpr auto DesktopNotificationsMessageContentPolicy =
   "desktop.notifications.message_content_policy";
+constexpr auto DesktopAttentionWindowTitleEnabled    = "desktop.attention.window_title.enabled";
+constexpr auto DesktopAttentionAppBadgeEnabled       = "desktop.attention.app_badge.enabled";
 constexpr auto CallsLegacyEnabled                    = "calls.legacy.enabled";
 constexpr auto CallsRelayUseFallbackServer           = "calls.relay.use_fallback_server";
 constexpr auto CallsDevicesMicrophone                = "calls.devices.microphone";

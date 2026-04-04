@@ -362,6 +362,20 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["desktop", "notifications", "message_content_policy"],
         Value::String(snapshot.desktop.notifications.message_content_policy.clone()),
     );
+    if snapshot.desktop.attention.window_title.has_enabled {
+        yaml::set_value(
+            &mut root,
+            &["desktop", "attention", "window_title", "enabled"],
+            Value::Bool(snapshot.desktop.attention.window_title.enabled),
+        );
+    }
+    if snapshot.desktop.attention.app_badge.has_enabled {
+        yaml::set_value(
+            &mut root,
+            &["desktop", "attention", "app_badge", "enabled"],
+            Value::Bool(snapshot.desktop.attention.app_badge.enabled),
+        );
+    }
     if snapshot.desktop.system_tray.has_enabled {
         yaml::set_value(
             &mut root,

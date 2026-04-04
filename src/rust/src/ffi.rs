@@ -240,6 +240,21 @@ mod bridge {
         message_content_policy: String,
     }
 
+    struct SettingsConfigDesktopAttentionWindowTitleSection {
+        has_enabled: bool,
+        enabled: bool,
+    }
+
+    struct SettingsConfigDesktopAttentionAppBadgeSection {
+        has_enabled: bool,
+        enabled: bool,
+    }
+
+    struct SettingsConfigDesktopAttentionSection {
+        window_title: SettingsConfigDesktopAttentionWindowTitleSection,
+        app_badge: SettingsConfigDesktopAttentionAppBadgeSection,
+    }
+
     struct SettingsConfigDesktopSystemTraySection {
         has_enabled: bool,
         enabled: bool,
@@ -256,6 +271,7 @@ mod bridge {
 
     struct SettingsConfigDesktopSection {
         notifications: SettingsConfigDesktopNotificationsSection,
+        attention: SettingsConfigDesktopAttentionSection,
         system_tray: SettingsConfigDesktopSystemTraySection,
         window_focus_blur: SettingsConfigDesktopWindowFocusBlurSection,
     }

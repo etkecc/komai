@@ -55,6 +55,20 @@
       QT_TR_NOOP("Show an attention alert when a message is received (for example, taskbar icon activity)."),
       SM::TabDesktop, desktopNotificationsAttentionOnIncoming, setDesktopNotificationsAttentionOnIncoming, desktopNotificationsSettingsEnabled, DesktopNotificationsAttentionOnIncoming, SettingKey::DesktopNotificationsAttentionOnIncoming),
 
+    // DesktopAttentionIndicatorsSection
+    { QT_TR_NOOP("Attention indicators"), nullptr, SM::SectionTitle, SM::TabDesktop,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // DesktopAttentionWindowTitleEnabled
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Show attention count in window title",
+      QT_TR_NOOP("Append the number of rooms needing attention to the Komai window title."),
+      SM::TabDesktop, desktopAttentionWindowTitleEnabled, setDesktopAttentionWindowTitleEnabled, nullptr, DesktopAttentionWindowTitleEnabled, SettingKey::DesktopAttentionWindowTitleEnabled),
+    // DesktopAttentionAppBadgeEnabled
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Show attention count on app icon/taskbar badge",
+      QT_TR_NOOP("Show the number of rooms needing attention on the app/taskbar badge."),
+      SM::TabDesktop, desktopAttentionAppBadgeEnabled, setDesktopAttentionAppBadgeEnabled, nullptr, DesktopAttentionAppBadgeEnabled, SettingKey::DesktopAttentionAppBadgeEnabled),
+
     // DesktopSystemTraySection
     { QT_TR_NOOP("System tray"), nullptr, SM::SectionTitle, SM::TabDesktop,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

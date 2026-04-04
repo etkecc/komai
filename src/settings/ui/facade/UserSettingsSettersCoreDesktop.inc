@@ -19,3 +19,25 @@ UserSettings::setDesktopSystemTrayAutostart(bool s)
     emit desktopSystemTrayAutostartChanged(s);
     save();
 }
+
+void
+UserSettings::setDesktopAttentionWindowTitleEnabled(bool s)
+{
+    if (desktopAttentionWindowTitleEnabled_ == s)
+        return;
+    desktopAttentionWindowTitleEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::DesktopAttentionWindowTitleEnabled, s);
+    emit desktopAttentionWindowTitleEnabledChanged(s);
+    save();
+}
+
+void
+UserSettings::setDesktopAttentionAppBadgeEnabled(bool s)
+{
+    if (desktopAttentionAppBadgeEnabled_ == s)
+        return;
+    desktopAttentionAppBadgeEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::DesktopAttentionAppBadgeEnabled, s);
+    emit desktopAttentionAppBadgeEnabledChanged(s);
+    save();
+}

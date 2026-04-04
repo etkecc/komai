@@ -15,12 +15,14 @@ use super::{
 use crate::ffi::{
     SettingsConfigComposerSection, SettingsConfigEncryptionBackupOnlineSection,
     SettingsConfigEncryptionBackupSection, SettingsConfigEncryptionKeySharingSection,
-    SettingsConfigEncryptionSection, SettingsConfigDesktopNotificationsSection,
-    SettingsConfigDesktopSection, SettingsConfigDesktopSystemTraySection,
-    SettingsConfigDesktopWindowFocusBlurSection, SettingsConfigIntegrationsSection,
-    SettingsConfigNetworkSection, SettingsConfigSecretsSection,
-    SettingsConfigSidebarsCommunitiesSection, SettingsConfigSidebarsRoomListSection,
-    SettingsConfigSidebarsSection, SettingsConfigSnapshot, SettingsConfigTimelineFormattedSection,
+    SettingsConfigEncryptionSection, SettingsConfigDesktopAttentionAppBadgeSection,
+    SettingsConfigDesktopAttentionSection, SettingsConfigDesktopAttentionWindowTitleSection,
+    SettingsConfigDesktopNotificationsSection, SettingsConfigDesktopSection,
+    SettingsConfigDesktopSystemTraySection, SettingsConfigDesktopWindowFocusBlurSection,
+    SettingsConfigIntegrationsSection, SettingsConfigNetworkSection,
+    SettingsConfigSecretsSection, SettingsConfigSidebarsCommunitiesSection,
+    SettingsConfigSidebarsRoomListSection, SettingsConfigSidebarsSection,
+    SettingsConfigSnapshot, SettingsConfigTimelineFormattedSection,
     SettingsConfigTimelineHiddenEventsSection, SettingsConfigTimelineMaintenanceSection,
     SettingsConfigTimelineMediaSection, SettingsConfigTimelineMessageActionsSection,
     SettingsConfigTimelineMessagesSection, SettingsConfigTimelineReadReceiptsSection,
@@ -237,6 +239,11 @@ desktop:
     enabled: false
     attention_on_incoming: true
     message_content_policy: unencrypted_only
+  attention:
+    window_title:
+      enabled: false
+    app_badge:
+      enabled: true
   system_tray:
     enabled: true
     autostart: false
@@ -252,6 +259,8 @@ desktop:
         config.desktop.notifications.message_content_policy,
         "unencrypted_only".into()
     );
+    assert_eq!(config.desktop.attention.window_title.enabled, Some(false));
+    assert_eq!(config.desktop.attention.app_badge.enabled, Some(true));
     assert_eq!(config.desktop.system_tray.enabled, Some(true));
     assert_eq!(config.desktop.system_tray.autostart, Some(false));
     assert_eq!(config.desktop.window_focus_blur.enabled, Some(true));
@@ -526,6 +535,16 @@ fn encodes_generic_config_values() {
                 has_attention_on_incoming: true,
                 attention_on_incoming: true,
                 message_content_policy: "unencrypted_only".to_owned(),
+            },
+            attention: SettingsConfigDesktopAttentionSection {
+                window_title: SettingsConfigDesktopAttentionWindowTitleSection {
+                    has_enabled: true,
+                    enabled: false,
+                },
+                app_badge: SettingsConfigDesktopAttentionAppBadgeSection {
+                    has_enabled: true,
+                    enabled: true,
+                },
             },
             system_tray: SettingsConfigDesktopSystemTraySection {
                 has_enabled: true,
@@ -856,6 +875,14 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["desktop", "notifications", "message_content_policy"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "unencrypted_only"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["desktop", "attention", "window_title", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["desktop", "attention", "app_badge", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["desktop", "system_tray", "enabled"]),

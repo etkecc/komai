@@ -188,6 +188,7 @@ pub struct ConfigSecrets {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigDesktop {
     pub notifications: ConfigDesktopNotifications,
+    pub attention: ConfigDesktopAttention,
     pub system_tray: ConfigDesktopSystemTray,
     pub window_focus_blur: ConfigDesktopWindowFocusBlur,
 }
@@ -197,6 +198,17 @@ pub struct ConfigDesktopNotifications {
     pub enabled: Option<bool>,
     pub attention_on_incoming: Option<bool>,
     pub message_content_policy: ConfigNotificationsMessageContentPolicyToken,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigDesktopAttention {
+    pub window_title: ConfigDesktopAttentionToggle,
+    pub app_badge: ConfigDesktopAttentionToggle,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigDesktopAttentionToggle {
+    pub enabled: Option<bool>,
 }
 
 #[derive(Clone, Debug, Default)]

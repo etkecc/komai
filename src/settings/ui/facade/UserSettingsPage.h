@@ -146,6 +146,11 @@ class UserSettings final : public QObject
       bool desktopNotificationsAttentionOnIncoming READ desktopNotificationsAttentionOnIncoming
         WRITE setDesktopNotificationsAttentionOnIncoming NOTIFY
           desktopNotificationsAttentionOnIncomingChanged)
+    Q_PROPERTY(
+      bool desktopAttentionWindowTitleEnabled READ desktopAttentionWindowTitleEnabled WRITE
+        setDesktopAttentionWindowTitleEnabled NOTIFY desktopAttentionWindowTitleEnabledChanged)
+    Q_PROPERTY(bool desktopAttentionAppBadgeEnabled READ desktopAttentionAppBadgeEnabled WRITE
+                 setDesktopAttentionAppBadgeEnabled NOTIFY desktopAttentionAppBadgeEnabledChanged)
     Q_PROPERTY(bool uiAvatarsCircular READ uiAvatarsCircular WRITE setUiAvatarsCircular NOTIFY
                  uiAvatarsCircularChanged)
     Q_PROPERTY(
@@ -519,6 +524,8 @@ public:
     void setNotificationsAccountEnabled(bool state);
     void setDesktopNotificationsEnabled(bool state);
     void setDesktopNotificationsAttentionOnIncoming(bool state);
+    void setDesktopAttentionWindowTitleEnabled(bool state);
+    void setDesktopAttentionAppBadgeEnabled(bool state);
     void setUiAvatarsCircular(bool state);
     void setDesktopNotificationsMessageContentPolicy(NotificationMessageContentPolicy policy);
     void setSidebarsRoomListShowCommunityCounts(bool state);
@@ -668,6 +675,8 @@ signals:
     void timelineReadReceiptsEnabledChanged(bool state);
     void desktopNotificationsEnabledChanged(bool state);
     void desktopNotificationsAttentionOnIncomingChanged(bool state);
+    void desktopAttentionWindowTitleEnabledChanged(bool state);
+    void desktopAttentionAppBadgeEnabledChanged(bool state);
     void uiAvatarsCircularChanged(bool state);
     void desktopNotificationsMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
     void sidebarsRoomListShowCommunityCountsChanged(bool state);

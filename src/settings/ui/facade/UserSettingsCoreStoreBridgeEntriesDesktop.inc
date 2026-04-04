@@ -4,5 +4,7 @@ X(DesktopNotificationsEnabled, settings.desktopNotificationsEnabled())
 X(DesktopNotificationsAttentionOnIncoming, settings.desktopNotificationsAttentionOnIncoming())
 X(DesktopNotificationsMessageContentPolicy,
   static_cast<int>(settings.desktopNotificationsMessageContentPolicy()))
+X(DesktopAttentionWindowTitleEnabled, settings.desktopAttentionWindowTitleEnabled())
+X(DesktopAttentionAppBadgeEnabled, settings.desktopAttentionAppBadgeEnabled())
 X(DesktopWindowFocusBlurEnabled, settings.desktopWindowFocusBlurEnabled())
 X(DesktopWindowFocusBlurDelaySeconds, settings.desktopWindowFocusBlurDelaySeconds())

@@ -133,7 +133,6 @@ TrayIcon::TrayIcon(const QString &filename, QWindow *parent)
 void
 TrayIcon::setAttentionCount(int count)
 {
-    qGuiApp->setBadgeNumber(count);
     if (count != previousCount) {
         QString toolTip = QLatin1String("Komai");
         QString profile = UserSettings::instance()->profile();

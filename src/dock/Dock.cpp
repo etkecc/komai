@@ -60,6 +60,7 @@ Dock::Dock(QObject *parent)
 void
 Dock::setAttentionCount(const int count)
 {
+    qGuiApp->setBadgeNumber(count);
     unitySetNotificationCount(count);
 }
 void

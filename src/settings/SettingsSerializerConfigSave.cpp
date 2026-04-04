@@ -169,6 +169,19 @@ stageConfig(const UserSettings &settings,
                 cfg::toStorageValue(settings.desktopNotificationsMessageContentPolicy())
                   .toStdString(),
             },
+          .attention =
+            {
+              .window_title =
+                {
+                  .has_enabled = true,
+                  .enabled     = settings.desktopAttentionWindowTitleEnabled(),
+                },
+              .app_badge =
+                {
+                  .has_enabled = true,
+                  .enabled     = settings.desktopAttentionAppBadgeEnabled(),
+                },
+            },
           .system_tray =
             {
               .has_enabled   = true,

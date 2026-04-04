@@ -13,12 +13,12 @@ ComposerToolbarButton {
     readonly property bool uploadInProgress: !!(root.room && root.room.input && root.room.input.uploading === true)
 
     Layout.alignment: Qt.AlignBottom
-    toolTipText: qsTr("Attach an image or file")
-    image: ":/icons/icons/ui/attach.svg"
+    toolTipText: uploadInProgress ? "" : qsTr("Attach an image or file")
+    image: uploadInProgress ? "" : ":/icons/icons/ui/attach.svg"
     visible: showAllButtons
 
     onClicked: {
-        if (room && room.input)
+        if (!uploadInProgress && room && room.input)
             room.input.openFileSelection();
     }
 

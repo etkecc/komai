@@ -165,7 +165,7 @@ AbstractButton {
         EncryptionIndicator {
             enabled: false
             encrypted: isEncrypted
-            hovered: encryptionButton.hovered
+            hovered: encryptionButton.activeState
             trust: trustlevel
             toolTipText: ""
             unencryptedColor: palette.buttonText

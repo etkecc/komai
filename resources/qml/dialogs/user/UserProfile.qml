@@ -1234,9 +1234,20 @@ Components.OverlayDialog {
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
                 visible: !profile.isSelf && deviceRepeater.count === 0
-                text: qsTr("Nothing found.")
+                text: qsTr("No known devices.")
                 color: palette.buttonText
+                font.pointSize: 1.2 * Settings.uiFontSizePt
                 horizontalAlignment: Text.AlignHCenter
+            }
+
+            Label {
+                Layout.fillWidth: true
+                visible: !profile.isSelf && deviceRepeater.count === 0
+                text: qsTr("Device information becomes available only after exchanging encrypted messages with this user.")
+                color: palette.buttonText
+                font.pointSize: Settings.uiFontSizePt
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.Wrap
             }
 
             // Bottom spacer

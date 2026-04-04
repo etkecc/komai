@@ -103,7 +103,7 @@ fn timeline_item_to_summary(
             ),
             _ => (sender_id.clone(), String::new()),
         };
-        let summary = summarize_timeline_content(event.content(), own_user_id);
+        let summary = summarize_timeline_content(event.content(), own_user_id, &sender_display_name);
         let body = summary.body;
         let formatted_body = summary.formatted_body;
         let thread_id = summary.thread_root_id;

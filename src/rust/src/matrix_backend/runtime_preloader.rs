@@ -450,7 +450,7 @@ fn extract_newest_preview(
         let Some(eid) = event.event_id() else { continue };
         let event_id = eid.to_string();
 
-        let summary = summarize_timeline_content(event.content(), own_user_id);
+        let summary = summarize_timeline_content(event.content(), own_user_id, "");
         // Skip state events.
         if matches!(
             summary.kind.as_str(),

@@ -78,12 +78,13 @@ struct ReplyPreviewSummary {
 pub fn summarize_timeline_content(
     content: &TimelineItemContent,
     own_user_id: Option<&UserId>,
+    sender_display_name: &str,
 ) -> MatrixEventSummary {
     match content {
         TimelineItemContent::MsgLike(content) => summarize_msg_like_content(content, own_user_id),
         TimelineItemContent::MembershipChange(change) => summarize_membership_change(change),
         TimelineItemContent::ProfileChange(change) => summarize_profile_change(change),
-        TimelineItemContent::OtherState(state) => summarize_other_state(state),
+        TimelineItemContent::OtherState(state) => summarize_other_state(state, sender_display_name),
         TimelineItemContent::FailedToParseMessageLike { event_type, .. } => {
             let event_type = event_type.to_string();
             summary(
@@ -293,10 +294,14 @@ fn summarize_membership_change(change: &RoomMembershipChange) -> MatrixEventSumm
                 &format!("{user}'s join request was denied"),
             )
         }
+        None => summary(
+            "membership_change",
+            "m.room.member",
+            &format!("Redacted membership event for {user}"),
+        ),
         Some(MembershipChange::None)
         | Some(MembershipChange::Error)
-        | Some(MembershipChange::NotImplemented)
-        | None => summary(
+        | Some(MembershipChange::NotImplemented) => summary(
             "membership_change",
             "m.room.member",
             &format!("Membership updated for {user}"),
@@ -332,7 +337,7 @@ fn summarize_profile_change(change: &MemberProfileChange) -> MatrixEventSummary 
     )
 }
 
-fn summarize_other_state(state: &OtherState) -> MatrixEventSummary {
+fn summarize_other_state(state: &OtherState, sender: &str) -> MatrixEventSummary {
     let event_type = state.content().event_type().to_string();
 
     match state.content() {
@@ -343,10 +348,14 @@ fn summarize_other_state(state: &OtherState) -> MatrixEventSummary {
                 summary(
                     "other_state",
                     &event_type,
-                    &format!("Room name changed to {}", content.name),
+                    &format!("{sender} changed the room name to: {}", content.name),
                 )
             }
-            _ => summary("other_state", &event_type, "Room name changed"),
+            _ => summary(
+                "other_state",
+                &event_type,
+                &format!("{sender} removed the room name"),
+            ),
         },
         AnyOtherFullStateEventContent::RoomTopic(content) => match content {
             matrix_sdk::ruma::events::FullStateEventContent::Original { content, .. }
@@ -355,42 +364,91 @@ fn summarize_other_state(state: &OtherState) -> MatrixEventSummary {
                 summary(
                     "other_state",
                     &event_type,
-                    &format!("Room topic changed to {}", content.topic),
+                    &format!("{sender} changed the topic to: {}", content.topic),
                 )
             }
-            _ => summary("other_state", &event_type, "Room topic changed"),
+            _ => summary(
+                "other_state",
+                &event_type,
+                &format!("{sender} removed the topic"),
+            ),
         },
-        AnyOtherFullStateEventContent::RoomAvatar(_) => {
-            summary("other_state", &event_type, "Room avatar changed")
-        }
-        AnyOtherFullStateEventContent::RoomEncryption(_) => {
-            summary("other_state", &event_type, "Enabled end-to-end encryption")
-        }
-        AnyOtherFullStateEventContent::RoomPinnedEvents(_) => {
-            summary("other_state", &event_type, "Pinned messages changed")
-        }
-        AnyOtherFullStateEventContent::RoomPowerLevels(_) => {
-            summary("other_state", &event_type, "Room permissions changed")
-        }
-        AnyOtherFullStateEventContent::RoomJoinRules(_) => {
-            summary("other_state", &event_type, "Room access rules changed")
-        }
-        AnyOtherFullStateEventContent::RoomHistoryVisibility(_) => {
-            summary("other_state", &event_type, "Room history visibility changed")
-        }
-        AnyOtherFullStateEventContent::RoomGuestAccess(_) => {
-            summary("other_state", &event_type, "Room guest access changed")
-        }
-        AnyOtherFullStateEventContent::RoomCanonicalAlias(_) => {
-            summary("other_state", &event_type, "Room alias changed")
-        }
-        AnyOtherFullStateEventContent::RoomTombstone(_) => {
-            summary("other_state", &event_type, "Room was replaced")
-        }
+        AnyOtherFullStateEventContent::RoomAvatar(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} changed the room avatar"),
+        ),
+        AnyOtherFullStateEventContent::RoomEncryption(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} enabled end-to-end encryption"),
+        ),
+        AnyOtherFullStateEventContent::RoomPinnedEvents(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} changed the pinned messages"),
+        ),
+        AnyOtherFullStateEventContent::RoomPowerLevels(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} changed the room permissions"),
+        ),
+        AnyOtherFullStateEventContent::RoomJoinRules(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} changed the room access rules"),
+        ),
+        AnyOtherFullStateEventContent::RoomHistoryVisibility(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} changed the room history visibility"),
+        ),
+        AnyOtherFullStateEventContent::RoomGuestAccess(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} changed the room guest access"),
+        ),
+        AnyOtherFullStateEventContent::RoomCanonicalAlias(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} changed the addresses for this room"),
+        ),
+        AnyOtherFullStateEventContent::RoomTombstone(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} replaced this room"),
+        ),
+        AnyOtherFullStateEventContent::RoomServerAcl(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} changed which servers are allowed in this room"),
+        ),
+        AnyOtherFullStateEventContent::RoomCreate(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} created and configured the room"),
+        ),
+        AnyOtherFullStateEventContent::SpaceParent(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} changed the parent communities for this room"),
+        ),
+        AnyOtherFullStateEventContent::SpaceChild(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} changed a child room of this space"),
+        ),
+        AnyOtherFullStateEventContent::PolicyRuleRoom(_)
+        | AnyOtherFullStateEventContent::PolicyRuleUser(_)
+        | AnyOtherFullStateEventContent::PolicyRuleServer(_) => summary(
+            "other_state",
+            &event_type,
+            &format!("{sender} updated a moderation policy rule"),
+        ),
         other => summary(
             "other_state",
             &event_type,
-            &format!("State event: {}", other.event_type()),
+            &format!("{sender} changed unknown state event {}", other.event_type()),
         ),
     }
 }
@@ -643,7 +701,7 @@ fn summarize_reply_preview(
 }
 
 fn summarize_embedded_content(content: &TimelineItemContent) -> MatrixEventSummary {
-    summarize_timeline_content(content, None)
+    summarize_timeline_content(content, None, "")
 }
 
 fn summarize_reaction_items(

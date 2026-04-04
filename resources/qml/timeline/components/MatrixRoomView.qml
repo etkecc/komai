@@ -230,6 +230,8 @@ ColumnLayout {
     function openReadReceiptsDialog(eventId) { return interactionSupport.openReadReceiptsDialog(eventId); }
     function openMatrixForwardDialog(eventId) { return interactionSupport.openMatrixForwardDialog(eventId); }
     function openForwardDialog(eventId) { return interactionSupport.openForwardDialog(eventId); }
+    function openForwardDialogForEvents(eventIds, selectionCount) { return interactionSupport.openForwardDialogForEvents(eventIds, selectionCount); }
+    function openRemoveMessagesDialog(eventIds, selectionCount) { return interactionSupport.openRemoveMessagesDialog(eventIds, selectionCount); }
     function openReportMessageDialog(eventId) { return interactionSupport.openReportMessageDialog(eventId); }
     function openMessageActionsDialog(eventId, threadId, eventType, isSender, isEncrypted, isEditable, link, text, messageModelOverride, roomModelOverride) {
         return interactionSupport.openMessageActionsDialog(eventId,

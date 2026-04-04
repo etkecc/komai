@@ -320,6 +320,14 @@ QtObject {
         return support.dialogSupport.openMatrixForwardDialog(eventId);
     }
 
+    function openForwardDialogForEvents(eventIds, selectionCount) {
+        return support.dialogSupport.openForwardDialogForEvents(eventIds, selectionCount);
+    }
+
+    function openRemoveMessagesDialog(eventIds, selectionCount) {
+        return support.dialogSupport.openRemoveMessagesDialog(eventIds, selectionCount);
+    }
+
     function openReportMessageDialog(eventId) {
         return support.dialogSupport.openReportMessageDialog(eventId);
     }

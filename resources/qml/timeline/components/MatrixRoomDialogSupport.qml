@@ -76,6 +76,30 @@ Item {
     }
 
     Component {
+        id: removeMultipleMessagesDialogComponent
+
+        InputDialog {
+            required property var eventIds
+            required property int selectionCount
+
+            placeholderText: qsTr("Optional reason")
+            title: selectionCount > eventIds.length
+                ? qsTr("Delete %1 of %2 selected messages?").arg(eventIds.length).arg(selectionCount)
+                : qsTr("Delete %n selected messages?", "", eventIds.length)
+            titleIcon: ":/icons/icons/ui/delete.svg"
+            acceptText: qsTr("Delete")
+
+            onInputAccepted: function (text) {
+                for (let i = 0; i < eventIds.length; i++)
+                    TimelineManager.redactActiveMatrixTimelineEvent(String(eventIds[i] || ""), text);
+                support.rootItem.exitWalkMode({
+                        "focusComposer": true
+                    });
+            }
+        }
+    }
+
+    Component {
         id: rawMessageDialogComponent
 
         TimelineDialogs.RawMessageDialog {
@@ -112,8 +136,15 @@ Item {
                 return;
 
             support.pendingRawMessageEventId = "";
-            if (!payload || !payload.rawMessageJson)
+            if (!payload || !payload.rawMessageJson) {
+                support.showDialogFromComponent(rawMessageDialogComponent, {
+                    "renderedRawMessage": qsTr("Raw JSON is not available for this event. It may have been redacted."),
+                    "rawMessageJson": "",
+                    "rawMessageBody": "",
+                    "rawMessageFormattedBody": ""
+                });
                 return;
+            }
 
             support.showDialogFromComponent(rawMessageDialogComponent, payload);
         }
@@ -258,6 +289,56 @@ Item {
         dialog.open();
         support.destroyOnClose(dialog);
         return dialog;
+    }
+
+    function openForwardDialogForEvents(eventIds, selectionCount) {
+        if (!eventIds || eventIds.length === 0)
+            return null;
+
+        if (support.chatRoot && support.chatRoot.dialogHost
+                && typeof support.chatRoot.dialogHost.showForwardMessageDialog === "function") {
+            return support.chatRoot.dialogHost.showForwardMessageDialog(
+                support.forwardRoomModel,
+                eventIds,
+                null,
+                null,
+                selectionCount);
+        }
+
+        const dialogParent = support.chatRoot && support.chatRoot.dialogHost
+            ? support.chatRoot.dialogHost
+            : (support.chatRoot ? support.chatRoot : support.rootItem);
+        const dialog = forwardDialogComponent.createObject(dialogParent, {
+                "roomSource": support.forwardRoomModel,
+                "dialogViewportWidth": dialogParent && dialogParent.width !== undefined
+                    ? Number(dialogParent.width)
+                    : support.rootItem.width,
+                "modalOverlayColor": support.timelineRoot
+                    && support.timelineRoot.overlayBackdropColor !== undefined
+                    ? support.timelineRoot.overlayBackdropColor
+                    : Qt.rgba(0, 0, 0,
+                              support.rootItem.palette.window.hslLightness < 0.5 ? 0.76 : 0.68),
+                "timelineSource": null,
+                "timelineViewSource": null,
+                "showReplyPreview": true
+            });
+        if (!dialog)
+            return null;
+
+        dialog.setMessageEventIds(eventIds, selectionCount);
+        dialog.open();
+        support.destroyOnClose(dialog);
+        return dialog;
+    }
+
+    function openRemoveMessagesDialog(eventIds, selectionCount) {
+        if (!eventIds || eventIds.length === 0)
+            return null;
+
+        return showDialogFromComponent(removeMultipleMessagesDialogComponent, {
+                "eventIds": eventIds,
+                "selectionCount": selectionCount
+            });
     }
 
     function openReportMessageDialog(eventId) {

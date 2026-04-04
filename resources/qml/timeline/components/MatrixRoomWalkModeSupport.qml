@@ -437,7 +437,44 @@ Item {
         return messageActionSupport.openOptionsDialog(rootItem, msgModel, roomModel);
     }
 
+    function selectedEventIdsForAction(actionName) {
+        const model = TimelineManager.matrixTimelineModel;
+        if (!model)
+            return [];
+
+        const roomModel = primaryActionRoomModel();
+        const selected = rootItem.selectedEventIds;
+        const result = [];
+        for (let i = 0; i < selected.length; i++) {
+            const eid = String(selected[i] || "");
+            if (eid.length === 0)
+                continue;
+
+            const row = model.rowForEventId(eid);
+            if (row < 0)
+                continue;
+
+            const item = model.itemAt(row);
+            if (!item)
+                continue;
+
+            const type = Number(item.type || 0);
+            if (actionName === "forward" && messageActionSupport.isForwardableType(type))
+                result.push(eid);
+            else if (actionName === "remove" && roomModel
+                     && (Boolean(item.isSender)
+                         || (roomModel.permissions && roomModel.permissions.canRedact())))
+                result.push(eid);
+        }
+
+        return result;
+    }
+
     function canPerformWalkModeAction(actionName) {
+        // Multi-select actions: check selected events directly.
+        if (rootItem.selectedCount > 1 && (actionName === "forward" || actionName === "remove"))
+            return selectedEventIdsForAction(actionName).length > 0;
+
         const msgModel = primaryActionMessageModel();
         const roomModel = primaryActionRoomModel();
         if (!msgModel || !roomModel)
@@ -464,6 +501,18 @@ Item {
     }
 
     function performWalkModeAction(actionName) {
+        // Multi-select actions: forward and remove operate on all eligible selected IDs.
+        if (rootItem.selectedCount > 1 && (actionName === "forward" || actionName === "remove")) {
+            const eligibleIds = selectedEventIdsForAction(actionName);
+            if (eligibleIds.length === 0)
+                return false;
+
+            if (actionName === "forward")
+                return rootItem.openForwardDialogForEvents(eligibleIds, rootItem.selectedCount);
+
+            return rootItem.openRemoveMessagesDialog(eligibleIds, rootItem.selectedCount);
+        }
+
         const msgModel = primaryActionMessageModel();
         const roomModel = primaryActionRoomModel();
         if (!msgModel || !roomModel)

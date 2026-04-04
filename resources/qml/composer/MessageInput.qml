@@ -421,6 +421,14 @@ Rectangle {
                         completer.completerType = "";
                         popup.close();
                         event.accepted = true;
+                    } else if (event.key == Qt.Key_Escape) {
+                        if (TimelineManager.matrixTimelineReplyEventId.length > 0) {
+                            TimelineManager.clearActiveMatrixReply();
+                            event.accepted = true;
+                        } else if (TimelineManager.matrixTimelineEditEventId.length > 0) {
+                            TimelineManager.clearActiveMatrixEdit();
+                            event.accepted = true;
+                        }
                     } else if (event.matches(StandardKey.SelectAll) && popup.opened) {
                         completer.completerType = "";
                         popup.close();
@@ -530,12 +538,17 @@ Rectangle {
                         return;
                     }
 
-                    event.accepted = popup.opened
-                        && (event.key === Qt.Key_Escape
-                            || event.key === Qt.Key_Tab
-                            || event.key === Qt.Key_Backtab
-                            || event.key === Qt.Key_Enter
-                            || event.key === Qt.Key_Space);
+                    let escapeHandled = event.key === Qt.Key_Escape
+                        && (popup.opened
+                            || TimelineManager.matrixTimelineReplyEventId.length > 0
+                            || TimelineManager.matrixTimelineEditEventId.length > 0);
+
+                    event.accepted = escapeHandled
+                        || (popup.opened
+                            && (event.key === Qt.Key_Tab
+                                || event.key === Qt.Key_Backtab
+                                || event.key === Qt.Key_Enter
+                                || event.key === Qt.Key_Space));
                 }
                 onCursorPositionChanged: {
                     if (!inputBar.inputController)

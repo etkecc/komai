@@ -853,9 +853,9 @@ Components.OverlayDialog {
 
                 Components.KomaiActionRowButton {
                     visible: {
-                        const permissions = profile.room ? profile.room.permissions : null;
+                        const permissions = profile.permissions;
                         const _ = permissions ? permissions.revision : 0;
-                        return root.isRoomProfile && profile.room && profile.room.permissions.canKick();
+                        return root.isRoomProfile && permissions && permissions.canKick();
                     }
                     labelText: qsTr("Kick from room")
                     iconSource: ":/icons/icons/ui/round-remove-button.svg"
@@ -864,9 +864,9 @@ Components.OverlayDialog {
 
                 Components.KomaiActionRowButton {
                     visible: {
-                        const permissions = profile.room ? profile.room.permissions : null;
+                        const permissions = profile.permissions;
                         const _ = permissions ? permissions.revision : 0;
-                        return root.isRoomProfile && profile.room && profile.room.permissions.canBan();
+                        return root.isRoomProfile && permissions && permissions.canBan();
                     }
                     labelText: qsTr("Ban from room")
                     iconSource: ":/icons/icons/ui/ban.svg"

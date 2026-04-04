@@ -17,6 +17,7 @@
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "timeline/Permissions.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "utils/QtWorkerTask.h"
@@ -79,8 +80,11 @@ UserProfile::UserProfile(const QString &roomid,
   , roomAvatarUrl_(komai::matrix::normalizeMxcUri(std::move(roomAvatarUrl)))
   , globalAvatarUrl{QLatin1String("")}
   , manager(manager_)
-  , model(parent)
+  , permissions_(new MatrixRoomPermissions(this))
 {
+    if (!roomid_.isEmpty())
+        permissions_->setRoomId(roomid_);
+
     connect(this,
             &UserProfile::globalUsernameRetrieved,
             this,

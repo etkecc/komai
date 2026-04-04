@@ -32,6 +32,7 @@ Q_ENUM_NS(Status)
 }
 
 class DeviceVerificationFlow;
+class MatrixRoomPermissions;
 class TimelineViewManager;
 
 class DeviceInfo
@@ -152,7 +153,7 @@ class UserProfile final : public QObject
     Q_PROPERTY(bool canStartVerification READ canStartVerification NOTIFY devicesChanged)
     Q_PROPERTY(bool ignored READ ignored WRITE setIgnored NOTIFY ignoredChanged)
     Q_PROPERTY(bool isSelf READ isSelf CONSTANT)
-    Q_PROPERTY(QObject *room READ room CONSTANT)
+    Q_PROPERTY(MatrixRoomPermissions *permissions READ permissions CONSTANT)
 public:
     UserProfile(const QString &roomid,
                 const QString &userid,
@@ -176,7 +177,7 @@ public:
     bool canStartVerification() const;
     bool isSelf() const;
     bool isLoading() const;
-    QObject *room() const { return model; }
+    MatrixRoomPermissions *permissions() const { return permissions_; }
     QString globalDisplayNameProp() const { return globalUsername; }
     QString globalAvatarUrlProp() const { return globalAvatarUrl; }
 
@@ -241,7 +242,7 @@ private:
     bool isLoading_              = false;
     std::optional<bool> ignoredOverride_;
     TimelineViewManager *manager;
-    QObject *model;
+    MatrixRoomPermissions *permissions_;
     RoomInfoModel *sharedRooms_          = nullptr;
     bool refreshDevicesOnNextActivation_ = false;
 };

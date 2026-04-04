@@ -259,38 +259,9 @@ validateIgnoreUser(const ParsedCommand &parsed, const CommandContext &)
     return valid();
 }
 
-ValidationResult
-validateInvitePermissionTarget(const ParsedCommand &parsed, const CommandContext &)
-{
-    const auto target = trimmedArguments(parsed);
-    if (target.isEmpty())
-        return makeValidationResult(
-          ValidationState::Incomplete,
-          "Enter a user ID, room ID, server name, Matrix link, or 'all' after this command.");
-
-    for (const QChar ch : target) {
-        if (ch.isSpace())
-            return makeValidationResult(
-              ValidationState::Invalid,
-              "Enter exactly one user ID, room ID, server name, Matrix link, or 'all'.");
-    }
-
-    if (target.startsWith(u"#"))
-        return makeValidationResult(ValidationState::Invalid,
-                                    "Room aliases are not supported by this command.");
-
-    if ((target.startsWith(QLatin1String("matrix:")) ||
-         target.startsWith(QLatin1String("https://matrix.to"))) &&
-        !utils::parseMatrixUri(target).has_value())
-        return makeValidationResult(ValidationState::Invalid,
-                                    "Use a valid Matrix link after this command.");
-
-    return valid();
-}
-
 #define CMD_TR(text) QT_TRANSLATE_NOOP("CommandCompleter", text)
 
-const std::array<CommandDefinition, 23> kCommands{{
+const std::array<CommandDefinition, 21> kCommands{{
   {CommandId::Me,
    "me",
    "/me ",
@@ -443,20 +414,6 @@ const std::array<CommandDefinition, 23> kCommands{{
    CMD_TR("Stop ignoring a Matrix user."),
    "unignore user",
    validateIgnoreUser},
-  {CommandId::BlockInvites,
-   "blockinvites",
-   "/blockinvites ",
-   CMD_TR("/blockinvites <@userid>|<!roomid>|<servername>|all"),
-   CMD_TR("Block invites from a user, room, server, Matrix link, or everyone."),
-   "block invites user room server all",
-   validateInvitePermissionTarget},
-  {CommandId::AllowInvites,
-   "allowinvites",
-   "/allowinvites ",
-   CMD_TR("/allowinvites <@userid>|<!roomid>|<servername>|all"),
-   CMD_TR("Allow invites from a user, room, server, Matrix link, or everyone."),
-   "allow invites user room server all",
-   validateInvitePermissionTarget},
 }};
 
 #undef CMD_TR

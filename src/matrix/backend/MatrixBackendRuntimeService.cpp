@@ -1811,30 +1811,6 @@ MatrixBackendRuntimeService::unignoreUser(matrix_backend::BlockingCallContext co
     }
 }
 
-bool
-MatrixBackendRuntimeService::setInvitePermission(matrix_backend::BlockingCallContext context,
-                                                 uint64_t handleId,
-                                                 const QString &target,
-                                                 bool block,
-                                                 QString *errorOut)
-{
-    try {
-        invokeRuntimeWorkerCall("matrix_set_invite_permission",
-                                [context, handleId, target, block]() {
-                                    ::komai::rust::matrix_set_invite_permission(
-                                      matrix_backend::toRustBlockingContext(context),
-                                      handleId,
-                                      target.toStdString(),
-                                      block);
-                                });
-        return true;
-    } catch (const std::exception &e) {
-        if (errorOut)
-            *errorOut = QString::fromUtf8(e.what());
-        return false;
-    }
-}
-
 std::optional<QVector<MatrixRoomSummary>>
 MatrixBackendRuntimeService::fetchRoomList(matrix_backend::BlockingCallContext context,
                                            uint64_t handleId,

@@ -89,7 +89,7 @@ testRegistryInventory()
     const auto *gotoCmd = timeline::slash_commands::find(QStringLiteral("goto"));
     const auto *ignore  = timeline::slash_commands::find(CommandId::Ignore);
 
-    if (cmds.size() != 23) {
+    if (cmds.size() != 21) {
         std::cerr << "FAILED: registry contains all currently listed slash commands\n"
                   << "  actual count: " << cmds.size() << '\n';
         ok = false;
@@ -161,7 +161,6 @@ testCompleterTemplates()
     bool ok               = true;
     CommandCompleter model;
     const int ignoreRow   = commandRowByName("ignore");
-    const int blockRow    = commandRowByName("blockinvites");
     const int gotoRow     = commandRowByName("goto");
     const int inviteRow   = commandRowByName("invite");
     const int markdownRow = commandRowByName("markdown");
@@ -173,10 +172,6 @@ testCompleterTemplates()
                    model.data(model.index(ignoreRow, 0), CompletionModel::CompletionRole)
                        .toString() == QStringLiteral("/ignore @"),
                  "/ignore completion template includes the required user-id prefix");
-    ok &= expect(blockRow >= 0 &&
-                   model.data(model.index(blockRow, 0), CompletionModel::CompletionRole)
-                       .toString() == QStringLiteral("/blockinvites "),
-                 "/blockinvites completion template includes the required argument slot");
     ok &= expect(gotoRow >= 0 &&
                    model.data(model.index(gotoRow, 0), CompletionModel::SearchRole)
                        .toString() == QStringLiteral("/goto <message reference>"),

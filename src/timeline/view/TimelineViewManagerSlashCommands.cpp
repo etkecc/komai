@@ -121,33 +121,6 @@ isAllDigits(const QString &text)
     return true;
 }
 
-std::optional<QString>
-normalizeInvitePermissionTarget(const QString &text)
-{
-    const auto trimmed = text.trimmed();
-    if (trimmed.isEmpty())
-        return std::nullopt;
-
-    if (trimmed.compare(QStringLiteral("all"), Qt::CaseInsensitive) == 0 ||
-        trimmed.compare(QStringLiteral("default"), Qt::CaseInsensitive) == 0) {
-        return QStringLiteral("all");
-    }
-
-    if (trimmed.startsWith(QStringLiteral("matrix:")) ||
-        trimmed.startsWith(QStringLiteral("https://matrix.to"))) {
-        const auto parsed = utils::parseMatrixUri(trimmed);
-        if (!parsed || parsed->mxid1.isEmpty() || parsed->mxid1.startsWith(u'#'))
-            return std::nullopt;
-
-        return parsed->mxid1.trimmed();
-    }
-
-    if (trimmed.startsWith(u'#'))
-        return std::nullopt;
-
-    return trimmed;
-}
-
 } // namespace
 
 QVariantMap
@@ -600,57 +573,6 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
                     TimelineViewManager::tr("Failed to update ignored-user state: %1").arg(error));
               }
           });
-        ok = true;
-        break;
-    }
-    case CommandId::BlockInvites:
-    case CommandId::AllowInvites: {
-        if (!requireHandle())
-            return false;
-
-        const auto maybeTarget = normalizeInvitePermissionTarget(arguments);
-        if (!maybeTarget.has_value()) {
-            showNotification(
-              tr("Use a Matrix user ID, room ID, server name, Matrix link, or 'all'."));
-            return false;
-        }
-
-        const bool block    = parsed.definition->id == CommandId::BlockInvites;
-        const auto handleId = activeHandleId();
-        const auto target   = *maybeTarget;
-        const auto targetUi = arguments.trimmed().isEmpty() ? target : arguments.trimmed();
-
-        komai::qt_worker_task::runQueued(
-          this,
-          [handleId, target, block]() {
-              const auto context = komai::matrix_backend::blockingCallContext();
-              QString error;
-              const bool ok = komai::MatrixBackendRuntimeService::setInvitePermission(
-                context, handleId, target, block, &error);
-              return std::make_pair(ok, error);
-          },
-          [block, targetUi](TimelineViewManager *manager, const std::pair<bool, QString> &result) {
-              const auto &[ok, error] = result;
-              auto *mainWindow        = MainWindow::instance();
-
-              if (!ok) {
-                  if (mainWindow) {
-                      mainWindow->showNotification(
-                        TimelineViewManager::tr("Failed to update invite permissions for %1: %2")
-                          .arg(targetUi, error));
-                  }
-                  return;
-              }
-
-              manager->scheduleMatrixSidebarRefresh();
-
-              if (mainWindow) {
-                  mainWindow->showNotification(
-                    block ? TimelineViewManager::tr("Blocked invites from %1.").arg(targetUi)
-                          : TimelineViewManager::tr("Allowed invites from %1.").arg(targetUi));
-              }
-          });
-
         ok = true;
         break;
     }

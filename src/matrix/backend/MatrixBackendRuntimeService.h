@@ -664,12 +664,6 @@ public:
                              const QString &userId,
                              QString *errorOut = nullptr);
 
-    static bool setInvitePermission(matrix_backend::BlockingCallContext context,
-                                    uint64_t handleId,
-                                    const QString &target,
-                                    bool block,
-                                    QString *errorOut = nullptr);
-
     static std::optional<QVector<MatrixRoomSummary>>
     fetchRoomList(matrix_backend::BlockingCallContext context,
                   uint64_t handleId,

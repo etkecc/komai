@@ -34,8 +34,6 @@ enum class CommandId
     ConvertToRoom,
     Ignore,
     Unignore,
-    BlockInvites,
-    AllowInvites,
 };
 
 enum class ValidationState

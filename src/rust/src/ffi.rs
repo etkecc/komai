@@ -1480,12 +1480,6 @@ mod bridge {
             handle_id: u64,
             user_id: &str,
         ) -> Result<()>;
-        fn matrix_set_invite_permission(
-            context: MatrixFfiBlockingContext,
-            handle_id: u64,
-            target: &str,
-            block: bool,
-        ) -> Result<()>;
         fn matrix_fetch_room_list(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

@@ -149,16 +149,3 @@ pub(crate) fn matrix_unignore_user(
         matrix_backend::runtime::unignore_user(handle_id, user_id),
     )
 }
-
-pub(crate) fn matrix_set_invite_permission(
-    context: ffi::MatrixFfiBlockingContext,
-    handle_id: u64,
-    target: &str,
-    block: bool,
-) -> Result<(), String> {
-    ffi_block_on(
-        context,
-        "matrix_set_invite_permission",
-        matrix_backend::runtime::set_invite_permission(handle_id, target, block),
-    )
-}

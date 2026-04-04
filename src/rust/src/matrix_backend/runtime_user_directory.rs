@@ -10,7 +10,7 @@ pub async fn search_users(
     limit: u64,
 ) -> Result<Vec<MatrixDirectoryUser>, String> {
     let client = client_for_handle(handle_id)?;
-    let search_term = search_term.trim();
+    let search_term = search_term.trim().trim_start_matches('@');
 
     if search_term.is_empty() {
         return Ok(Vec::new());

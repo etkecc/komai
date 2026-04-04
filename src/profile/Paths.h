@@ -37,6 +37,40 @@ QStringList
 themeSearchDirectories();
 } // namespace data
 
+namespace desktop {
+
+/// Whether this runtime can manage per-profile desktop entries for launcher/badge isolation.
+bool
+supportsProfileDesktopEntries();
+
+/// Returns a valid desktop-entry ID for a profile-scoped app identity.
+QString
+profileDesktopEntryId(QStringView profileId);
+
+/// Returns the user-local applications directory used for generated desktop entries.
+QString
+applicationsDirectory();
+
+/// Returns the full user-local desktop entry path for a profile.
+QString
+profileDesktopEntryFile(QStringView profileId);
+
+/// Returns the first matching existing desktop entry path for a profile, or empty if none exists.
+QString
+findInstalledProfileDesktopEntry(QStringView profileId);
+
+/// Creates or updates the generated user-local desktop entry for a profile.
+bool
+ensureProfileDesktopEntry(QStringView profileId,
+                          QStringView executablePath,
+                          QString *errorOut = nullptr);
+
+/// Removes the generated user-local desktop entry for a profile.
+bool
+removeProfileDesktopEntry(QStringView profileId, QString *errorOut = nullptr);
+
+} // namespace desktop
+
 namespace cache {
 
 /// Maximum age (in days since last access) before cached media files

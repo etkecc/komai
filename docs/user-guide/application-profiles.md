@@ -24,7 +24,7 @@ You can manage profiles from:
 In **Application Profiles**:
 
 - click **Create new**
-- enter a profile name (for example `work`, `personal`)
+- enter a profile name (for example `work`, `personal`, `dev_build`)
 - click **Create and Launch**
 
 Komai launches a separate app instance with that profile.
@@ -53,4 +53,4 @@ komai -p work     # always launch profile "work" directly
 komai -p ""       # same selector-mode behavior as bare `komai`
 ```
 
-Profile names follow the same validation rules as `-p` names documented in [Settings -> Profile Location](settings/README.md#profile-location).
+Profile names follow the same validation rules as `-p` names documented in [Settings -> Profile Location](settings/README.md#profile-location). In practice, that means names like `work`, `personal`, `dev_build`, or `work-2` are valid, while names containing `.` are not.

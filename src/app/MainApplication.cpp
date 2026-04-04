@@ -157,7 +157,8 @@ app::runMainApplication(int argc, char *argv[])
       QCoreApplication::tr("Run with the given profile. A new profile is created automatically "
                            "if it does not exist yet. Multiple profiles allow separate accounts "
                            "and concurrent instances. "
-                           "Allowed profile id characters: A-Z, a-z, 0-9, '.', '_', '-'."),
+                           "Allowed non-empty profile ids: first character A-Z, a-z, or '_'; "
+                           "remaining characters A-Z, a-z, 0-9, '_', '-'."),
       QCoreApplication::tr("profile"),
       QCoreApplication::tr("profile name"));
     parser.addOption(configName);
@@ -312,7 +313,29 @@ app::runMainApplication(int argc, char *argv[])
     app.setWindowIcon(
       QIcon::fromTheme(QString::fromLatin1(komai::desktop_icon_name), QIcon{":/logos/komai.svg"}));
 #endif
-    app.setDesktopFileName(QString::fromLatin1(komai::desktop_id));
+    QString desktopFileName = QString::fromLatin1(komai::desktop_id);
+#if defined(Q_OS_LINUX)
+    if (!showStartupProfileSelector && profileName != QLatin1String("default") &&
+        app_paths::desktop::supportsProfileDesktopEntries()) {
+        const auto desktopEntryPath =
+          app_paths::desktop::findInstalledProfileDesktopEntry(profileName);
+        if (!desktopEntryPath.isEmpty()) {
+            desktopFileName = app_paths::desktop::profileDesktopEntryId(profileName);
+            nhlog::ui()->info(
+              "Using installed profile desktop entry '{}' with desktop file id '{}' "
+              "for profile '{}'",
+              desktopEntryPath.toStdString(),
+              desktopFileName.toStdString(),
+              profileName.toStdString());
+        } else {
+            nhlog::ui()->info("No installed profile desktop entry found for profile '{}'; using "
+                              "generic desktop file id '{}'",
+                              profileName.toStdString(),
+                              desktopFileName.toStdString());
+        }
+    }
+#endif
+    app.setDesktopFileName(desktopFileName);
 
     support::registerSignalHandlers();
     support::initializeGstreamerEventLoopIfNeeded(app);

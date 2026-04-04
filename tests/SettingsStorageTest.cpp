@@ -37,6 +37,17 @@ expect(bool condition, std::string_view message)
     return false;
 }
 
+bool
+expectWithContext(bool condition, std::string_view message, const QString &context)
+{
+    if (condition)
+        return true;
+
+    std::cerr << "FAILED: " << message << '\n';
+    std::cerr << context.toStdString() << '\n';
+    return false;
+}
+
 ::rust::Vec<::komai::rust::SettingsStringMapEntry>
 toRustStringMapEntries(const QMap<QString, QString> &entries)
 {
@@ -141,7 +152,84 @@ testPathHelpers()
     ok &= expect(dataProfileDir.endsWith(QStringLiteral("/profiles/profile-123")),
                  "profile data directory uses the profile root directly");
 
+#if defined(Q_OS_LINUX)
+    const auto defaultDesktopId =
+      app_paths::desktop::profileDesktopEntryId(QStringLiteral("default"));
+    const auto workDesktopId = app_paths::desktop::profileDesktopEntryId(QStringLiteral("work"));
+    const auto underscoredDesktopId =
+      app_paths::desktop::profileDesktopEntryId(QStringLiteral("work_2"));
+    const auto workDesktopFile =
+      app_paths::desktop::profileDesktopEntryFile(QStringLiteral("work"));
+    const auto missingDesktopFile =
+      app_paths::desktop::findInstalledProfileDesktopEntry(QStringLiteral("work"));
+
+    ok &= expect(app_paths::desktop::supportsProfileDesktopEntries(),
+                 "native Linux tests support generated profile desktop entries");
+    ok &= expect(defaultDesktopId == QStringLiteral("cc.etke.komai.profile.default"),
+                 "default profile desktop id stays explicit");
+    ok &= expect(workDesktopId == QStringLiteral("cc.etke.komai.profile.work"),
+                 "safe profile desktop id stays readable");
+    ok &= expect(underscoredDesktopId == QStringLiteral("cc.etke.komai.profile.work_2"),
+                 "desktop profile ids use the validated profile name directly");
+    ok &= expect(!app_paths::desktop::applicationsDirectory().isEmpty(),
+                 "applications directory path is available");
+    ok &= expect(workDesktopFile.startsWith(app_paths::desktop::applicationsDirectory() +
+                                            QStringLiteral("/")),
+                 "profile desktop entry file lives under the applications directory");
+    ok &= expect(workDesktopFile.endsWith(QStringLiteral("/applications/cc.etke.komai.profile.work.desktop")),
+                 "profile desktop entry file lives in the applications directory");
+    ok &= expect(missingDesktopFile.isEmpty(),
+                 "profile desktop entry lookup returns empty when no launcher exists");
+#endif
+
     return ok;
+}
+
+bool
+testProfileDesktopEntryRoundtrip()
+{
+#if !defined(Q_OS_LINUX)
+    return true;
+#else
+    bool ok = true;
+
+    const QString profile = QStringLiteral("work_2");
+    const QString executablePath = QStringLiteral("/tmp/Komai $Dev/bin/komai");
+    QString error;
+
+    ok &= expect(app_paths::desktop::ensureProfileDesktopEntry(profile, executablePath, &error),
+                 "generated profile desktop entry can be written");
+    ok &= expect(error.isEmpty(), "desktop entry write does not set an error on success");
+
+    const auto filePath = app_paths::desktop::profileDesktopEntryFile(profile);
+    const auto contents = settings::storage::readTextFile(filePath, "profile desktop entry test");
+    const auto foundDesktopEntry = app_paths::desktop::findInstalledProfileDesktopEntry(profile);
+
+    ok &= expect(QFileInfo::exists(filePath), "generated profile desktop entry file exists");
+    ok &= expect(foundDesktopEntry == filePath,
+                 "profile desktop entry lookup finds the generated user-local launcher");
+    ok &= expect(contents.contains(QStringLiteral("Name=Komai (work_2)\n")),
+                 "generated desktop entry includes a profile-specific display name");
+    ok &= expectWithContext(contents.contains(QStringLiteral("Exec=\"/tmp/Komai ")),
+                            "generated desktop entry starts the executable path as a quoted argument",
+                            contents);
+    ok &= expectWithContext(
+      contents.contains(QStringLiteral("$Dev/bin/komai\" -p work_2 %u\n")),
+      "generated desktop entry keeps the executable path quoted through the profile args",
+      contents);
+    ok &= expect(contents.contains(QStringLiteral("NoDisplay=true\n")),
+                 "generated desktop entry stays hidden from menus");
+    ok &= expect(!contents.contains(QStringLiteral("MimeType=")),
+                 "generated desktop entry does not register duplicate URI handlers");
+
+    error.clear();
+    ok &= expect(app_paths::desktop::removeProfileDesktopEntry(profile, &error),
+                 "generated profile desktop entry can be removed");
+    ok &= expect(error.isEmpty(), "desktop entry removal does not set an error on success");
+    ok &= expect(!QFileInfo::exists(filePath), "generated profile desktop entry file is removed");
+
+    return ok;
+#endif
 }
 
 bool
@@ -188,13 +276,19 @@ testProfileIdValidation()
                  "empty profile id is allowed and maps to default");
     ok &= expect(!profile_id::validate(QStringLiteral("default")).has_value(),
                  "default profile id is valid");
-    ok &= expect(!profile_id::validate(QStringLiteral("test8.1")).has_value(),
-                 "dot-separated ASCII profile id is valid");
     ok &= expect(!profile_id::validate(QStringLiteral("etke_cc-1")).has_value(),
                  "underscore and dash profile id is valid");
+    ok &= expect(!profile_id::validate(QStringLiteral("_scratch")).has_value(),
+                 "profile id may start with underscore");
 
     ok &= expect(profile_id::validate(QStringLiteral("../komai/.")).has_value(),
                  "path traversal style profile id is rejected");
+    ok &= expect(profile_id::validate(QStringLiteral("test8.1")).has_value(),
+                 "profile id containing dot is rejected");
+    ok &= expect(profile_id::validate(QStringLiteral("8test")).has_value(),
+                 "profile id starting with digit is rejected");
+    ok &= expect(profile_id::validate(QStringLiteral("-test")).has_value(),
+                 "profile id starting with dash is rejected");
     ok &= expect(profile_id::validate(QStringLiteral("кирилица")).has_value(),
                  "cyrillic profile id is rejected");
     ok &= expect(profile_id::validate(QStringLiteral("こまい")).has_value(),
@@ -207,8 +301,6 @@ testProfileIdValidation()
                  "profile id with backslash is rejected");
     ok &= expect(profile_id::validate(QStringLiteral(".hidden")).has_value(),
                  "profile id starting with dot is rejected");
-    ok &= expect(profile_id::validate(QStringLiteral("trailing.")).has_value(),
-                 "profile id ending with dot is rejected");
 
     return ok;
 }
@@ -473,6 +565,7 @@ main()
     ok &= testMissingAndInvalidFiles();
     ok &= testSecretsMapSerialization();
     ok &= testPathHelpers();
+    ok &= testProfileDesktopEntryRoundtrip();
     ok &= testProfileIdNormalizationAndSecretKeyIds();
     ok &= testKeyringEnvironmentTagResolution();
     ok &= testProfileIdValidation();

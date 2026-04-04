@@ -144,8 +144,8 @@ Profile id normalization:
 - empty profile id -> `default`
 - `default` -> `default`
 - any other profile id -> unchanged
-- valid non-empty profile ids are restricted to ASCII `[A-Za-z0-9._-]` and
-  must not start or end with `.`
+- valid non-empty profile ids are restricted to ASCII `[A-Za-z_][A-Za-z0-9_-]*`
+- this keeps profile ids usable directly in D-Bus service names and Linux desktop-entry IDs
 
 Examples:
 

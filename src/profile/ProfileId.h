@@ -19,6 +19,8 @@ normalized(QStringView profile)
     return profile.toString();
 }
 
+// Keep profile ids usable directly as the final element in runtime app identities
+// such as D-Bus service names and Linux desktop-entry IDs.
 inline std::optional<QString>
 validate(QStringView profile)
 {
@@ -29,8 +31,11 @@ validate(QStringView profile)
     if (profile.size() > kMaxProfileIdLength)
         return QStringLiteral("profile id must be at most 64 characters");
 
-    if (profile.front() == QLatin1Char('.') || profile.back() == QLatin1Char('.'))
-        return QStringLiteral("profile id must not start or end with '.'");
+    const auto first = profile.front().unicode();
+    const bool firstIsAsciiLetter =
+      (first >= 'a' && first <= 'z') || (first >= 'A' && first <= 'Z');
+    if (!firstIsAsciiLetter && first != '_')
+        return QStringLiteral("profile id must start with A-Z, a-z, or '_'");
 
     for (const QChar ch : profile) {
         const ushort codepoint = ch.unicode();
@@ -38,7 +43,7 @@ validate(QStringView profile)
         const bool asciiAlphaNum = (codepoint >= '0' && codepoint <= '9') ||
                                    (codepoint >= 'a' && codepoint <= 'z') ||
                                    (codepoint >= 'A' && codepoint <= 'Z');
-        const bool asciiSymbol = codepoint == '.' || codepoint == '_' || codepoint == '-';
+        const bool asciiSymbol = codepoint == '_' || codepoint == '-';
         if (asciiAlphaNum || asciiSymbol)
             continue;
 
@@ -46,8 +51,8 @@ validate(QStringView profile)
             return QStringLiteral("profile id must not contain control characters");
         if (codepoint > 0x7f)
             return QStringLiteral(
-              "profile id must contain ASCII characters only (A-Z, a-z, 0-9, '.', '_', '-')");
-        return QStringLiteral("profile id may contain only A-Z, a-z, 0-9, '.', '_', '-'");
+              "profile id must contain ASCII characters only (A-Z, a-z, 0-9, '_', '-')");
+        return QStringLiteral("profile id may contain only A-Z, a-z, 0-9, '_', '-'");
     }
 
     return std::nullopt;

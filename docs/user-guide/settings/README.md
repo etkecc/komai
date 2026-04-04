@@ -24,10 +24,10 @@ Each profile lives at:
 
 Allowed profile-id characters:
 
-- ASCII letters and digits: `A-Z`, `a-z`, `0-9`
-- punctuation: `.`, `_`, `-`
+- first character: ASCII letter or underscore (`A-Z`, `a-z`, `_`)
+- remaining characters: ASCII letters, digits, underscore, dash (`A-Z`, `a-z`, `0-9`, `_`, `-`)
 
-Other characters (for example `/`, `\`, newlines, or non-ASCII text) are rejected.
+Dots and other characters (for example `.`, `/`, `\`, newlines, or non-ASCII text) are rejected.
 
 Files in each profile directory:
 

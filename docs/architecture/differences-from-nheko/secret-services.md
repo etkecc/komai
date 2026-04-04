@@ -33,7 +33,7 @@ Profile id:
 
 - `normalized_profile_id`: empty/default -> `default`
 - all other profile IDs are unchanged
-- valid non-empty profile IDs are ASCII `[A-Za-z0-9._-]` and cannot start/end with `.`
+- valid non-empty profile IDs are ASCII `[A-Za-z_][A-Za-z0-9_-]*`
 
 Namespaces:
 

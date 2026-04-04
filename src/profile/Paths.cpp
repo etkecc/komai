@@ -6,9 +6,16 @@
 #include "profile/Paths.h"
 
 #include <QByteArray>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QRegularExpression>
+#include <QSaveFile>
 #include <QSet>
 #include <QStandardPaths>
 
+#include "config/komai.h"
+#include "profile/KeyringEnvironment.h"
 #include "profile/ProfileId.h"
 
 namespace {
@@ -16,6 +23,87 @@ QString
 rootWithAppName(QStandardPaths::StandardLocation location)
 {
     return QStandardPaths::writableLocation(location) + QStringLiteral("/komai");
+}
+
+QStringList
+desktopApplicationsSearchDirectories()
+{
+    QStringList result;
+    QSet<QString> seen;
+
+    for (const auto &location :
+         QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation)) {
+        if (location.isEmpty() || seen.contains(location))
+            continue;
+        result.push_back(location);
+        seen.insert(location);
+    }
+
+    const auto writableApplicationsDir =
+      QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
+    if (!writableApplicationsDir.isEmpty() && !seen.contains(writableApplicationsDir)) {
+        result.push_front(writableApplicationsDir);
+        seen.insert(writableApplicationsDir);
+    }
+
+    return result;
+}
+
+bool
+desktopExecArgNeedsQuotes(QStringView value)
+{
+    if (value.isEmpty())
+        return true;
+
+    static const QRegularExpression reservedChars{
+      QStringLiteral(R"([ \t\n"\'\\><~|&;\$\*\?#\(\)`])")};
+    return reservedChars.matchView(value).hasMatch();
+}
+
+QString
+desktopExecArg(QStringView value)
+{
+    const auto literal = value.toString();
+    if (!desktopExecArgNeedsQuotes(literal))
+        return literal;
+
+    QString escaped;
+    escaped.reserve(literal.size() * 2);
+
+    for (const QChar ch : literal) {
+        if (ch == QLatin1Char('\\')) {
+            escaped += QStringLiteral("\\\\\\\\");
+            continue;
+        }
+        if (ch == QLatin1Char('$')) {
+            escaped += QStringLiteral("\\\\$");
+            continue;
+        }
+        if (ch == QLatin1Char('"') || ch == QLatin1Char('`'))
+            escaped += QLatin1Char('\\');
+        escaped += ch;
+    }
+
+    return QStringLiteral("\"%1\"").arg(escaped);
+}
+
+QString
+profileDesktopEntryContents(QStringView profileId, QStringView executablePath)
+{
+    const auto normalizedProfile = app_paths::normalizedProfileId(profileId);
+    return QStringLiteral("[Desktop Entry]\n"
+                          "Version=1.5\n"
+                          "Type=Application\n"
+                          "Name=Komai (%1)\n"
+                          "Comment=Desktop client for Matrix\n"
+                          "Exec=%2 -p %3 %u\n"
+                          "Icon=%4\n"
+                          "Terminal=false\n"
+                          "NoDisplay=true\n")
+      .arg(normalizedProfile,
+           desktopExecArg(executablePath),
+           desktopExecArg(normalizedProfile),
+           QString::fromLatin1(komai::desktop_icon_name));
 }
 }
 
@@ -111,6 +199,150 @@ themeSearchDirectories()
 }
 
 } // namespace data
+
+namespace desktop {
+
+bool
+supportsProfileDesktopEntries()
+{
+#if defined(Q_OS_LINUX)
+    const auto envTag = keyring_environment::tag();
+    return envTag != QLatin1String("flatpak") && envTag != QLatin1String("snap");
+#else
+    return false;
+#endif
+}
+
+QString
+profileDesktopEntryId(QStringView profileId)
+{
+    return QStringLiteral("%1.profile.%2")
+      .arg(QString::fromLatin1(komai::desktop_id), normalizedProfileId(profileId));
+}
+
+QString
+applicationsDirectory()
+{
+    const auto applicationsDir =
+      QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
+    if (!applicationsDir.isEmpty())
+        return applicationsDir;
+
+    const auto dataRoot = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    if (!dataRoot.isEmpty())
+        return dataRoot + QStringLiteral("/applications");
+
+    return {};
+}
+
+QString
+profileDesktopEntryFile(QStringView profileId)
+{
+    const auto applicationsDir = applicationsDirectory();
+    if (applicationsDir.isEmpty())
+        return {};
+
+    return applicationsDir + QStringLiteral("/") + profileDesktopEntryId(profileId) +
+           QStringLiteral(".desktop");
+}
+
+QString
+findInstalledProfileDesktopEntry(QStringView profileId)
+{
+    const auto fileName = profileDesktopEntryId(profileId) + QStringLiteral(".desktop");
+    for (const auto &applicationsDir : desktopApplicationsSearchDirectories()) {
+        const auto filePath = applicationsDir + QStringLiteral("/") + fileName;
+        if (QFileInfo::exists(filePath))
+            return filePath;
+    }
+
+    return {};
+}
+
+bool
+ensureProfileDesktopEntry(QStringView profileId, QStringView executablePath, QString *errorOut)
+{
+    if (!supportsProfileDesktopEntries()) {
+        if (errorOut)
+            *errorOut = QStringLiteral("generated profile desktop entries are not supported here");
+        return false;
+    }
+
+    if (executablePath.isEmpty()) {
+        if (errorOut)
+            *errorOut = QStringLiteral("current executable path is empty");
+        return false;
+    }
+
+    const auto applicationsDir = applicationsDirectory();
+    if (applicationsDir.isEmpty()) {
+        if (errorOut)
+            *errorOut = QStringLiteral("applications directory is unavailable");
+        return false;
+    }
+
+    if (!QDir().mkpath(applicationsDir)) {
+        if (errorOut)
+            *errorOut =
+              QStringLiteral("failed to create applications directory: %1").arg(applicationsDir);
+        return false;
+    }
+
+    const auto filePath = profileDesktopEntryFile(profileId);
+    const auto contents = profileDesktopEntryContents(profileId, executablePath);
+
+    QFile currentFile(filePath);
+    if (currentFile.open(QIODevice::ReadOnly | QIODevice::Text) &&
+        QString::fromUtf8(currentFile.readAll()) == contents) {
+        return true;
+    }
+
+    QSaveFile file(filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (errorOut)
+            *errorOut =
+              QStringLiteral("failed to open desktop entry for writing: %1").arg(filePath);
+        return false;
+    }
+
+    if (file.write(contents.toUtf8()) < 0) {
+        if (errorOut)
+            *errorOut = QStringLiteral("failed to write desktop entry: %1").arg(filePath);
+        return false;
+    }
+
+    if (!file.commit()) {
+        if (errorOut)
+            *errorOut = QStringLiteral("failed to commit desktop entry: %1").arg(filePath);
+        return false;
+    }
+
+    return true;
+}
+
+bool
+removeProfileDesktopEntry(QStringView profileId, QString *errorOut)
+{
+    if (!supportsProfileDesktopEntries())
+        return true;
+
+    const auto filePath = profileDesktopEntryFile(profileId);
+    if (filePath.isEmpty())
+        return true;
+
+    const QFileInfo info(filePath);
+    if (!info.exists())
+        return true;
+
+    if (QFile::remove(filePath))
+        return true;
+
+    if (errorOut)
+        *errorOut = QStringLiteral("failed to remove desktop entry: %1").arg(filePath);
+    return false;
+}
+
+} // namespace desktop
 
 namespace cache {
 

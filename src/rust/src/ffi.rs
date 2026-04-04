@@ -653,6 +653,8 @@ mod bridge {
         topic: String,
         last_message: String,
         last_message_kind: String,
+        last_message_sender_id: String,
+        last_message_sender_display_name: String,
         tags: Vec<String>,
         parent_space_room_ids: Vec<String>,
         direct_chat_other_user_id: String,
@@ -674,6 +676,8 @@ mod bridge {
         latest_event_id: String,
         last_message: String,
         last_message_kind: String,
+        last_message_sender_id: String,
+        last_message_sender_display_name: String,
         timestamp: u64,
     }
 

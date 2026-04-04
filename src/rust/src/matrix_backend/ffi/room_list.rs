@@ -17,6 +17,8 @@ pub(crate) fn into_ffi_matrix_room_summary(
         topic: room.topic,
         last_message: room.last_message,
         last_message_kind: room.last_message_kind,
+        last_message_sender_id: room.last_message_sender_id,
+        last_message_sender_display_name: room.last_message_sender_display_name,
         tags: room.tags,
         parent_space_room_ids: room.parent_space_room_ids,
         direct_chat_other_user_id: room.direct_chat_other_user_id,

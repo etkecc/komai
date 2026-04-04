@@ -291,7 +291,10 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
       .avatarUrl   = matrix::normalizeMxcUri(QString::fromStdString(std::string(room.avatar_url))),
       .topic       = QString::fromStdString(std::string(room.topic)),
       .lastMessage = QString::fromStdString(std::string(room.last_message)),
-      .lastMessageKind       = QString::fromStdString(std::string(room.last_message_kind)),
+      .lastMessageKind     = QString::fromStdString(std::string(room.last_message_kind)),
+      .lastMessageSenderId = QString::fromStdString(std::string(room.last_message_sender_id)),
+      .lastMessageSenderDisplayName =
+        QString::fromStdString(std::string(room.last_message_sender_display_name)),
       .tags                  = std::move(tags),
       .parentSpaceRoomIds    = std::move(parentSpaceRoomIds),
       .directChatOtherUserId = QString::fromStdString(std::string(room.direct_chat_other_user_id)),

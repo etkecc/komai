@@ -662,6 +662,43 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         .and_then(|event| event.event_id())
         .map(|id| id.to_string())
         .unwrap_or_default();
+    let (last_message_sender_id, last_message_sender_display_name) = match latest_event.as_ref() {
+        Some(event) => {
+            let sender_id = event
+                .event()
+                .raw()
+                .get_field::<OwnedUserId>("sender")
+                .ok()
+                .flatten();
+            let mut sender_display_name = event
+                .sender_display_name()
+                .map(str::trim)
+                .filter(|name| !name.is_empty())
+                .map(ToOwned::to_owned)
+                .unwrap_or_default();
+
+            if sender_display_name.is_empty() {
+                if let Some(sender_id) = sender_id.as_ref() {
+                    match room.get_member_no_sync(sender_id).await {
+                        Ok(Some(member)) => {
+                            sender_display_name = member
+                                .display_name()
+                                .map(str::trim)
+                                .filter(|name| !name.is_empty())
+                                .map(ToOwned::to_owned)
+                                .unwrap_or_default();
+                        }
+                        Ok(None) | Err(_) => {}
+                    }
+                }
+            }
+            (
+                sender_id.map(|user_id| user_id.to_string()).unwrap_or_default(),
+                sender_display_name,
+            )
+        }
+        None => (String::new(), String::new()),
+    };
     let tags = fetch_room_tags(room).await;
     let parent_space_room_ids = fetch_parent_space_room_ids(room).await;
 
@@ -696,6 +733,8 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         last_message_kind: latest_preview
             .map(|preview| preview.kind)
             .unwrap_or_default(),
+        last_message_sender_id,
+        last_message_sender_display_name,
         tags,
         parent_space_room_ids,
         direct_chat_other_user_id: classification.direct_chat_other_user_id,

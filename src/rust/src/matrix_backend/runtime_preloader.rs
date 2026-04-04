@@ -57,6 +57,8 @@ struct RoomPreviewData {
     timestamp: u64,
     last_message: String,
     last_message_kind: String,
+    last_message_sender_id: String,
+    last_message_sender_display_name: String,
     latest_event_id: String,
 }
 
@@ -220,6 +222,8 @@ async fn run_preload(
                     latest_event_id: p.latest_event_id.clone(),
                     last_message: p.last_message.clone(),
                     last_message_kind: p.last_message_kind.clone(),
+                    last_message_sender_id: p.last_message_sender_id.clone(),
+                    last_message_sender_display_name: p.last_message_sender_display_name.clone(),
                     timestamp: p.timestamp,
                 })
                 .collect();
@@ -337,6 +341,9 @@ fn backfill_room_list_snapshot(
                 entry.timestamp = preview.timestamp;
                 entry.last_message = preview.last_message.clone();
                 entry.last_message_kind = preview.last_message_kind.clone();
+                entry.last_message_sender_id = preview.last_message_sender_id.clone();
+                entry.last_message_sender_display_name =
+                    preview.last_message_sender_display_name.clone();
                 entry.latest_event_id = preview.latest_event_id.clone();
                 count += 1;
             }
@@ -449,8 +456,19 @@ fn extract_newest_preview(
 
         let Some(eid) = event.event_id() else { continue };
         let event_id = eid.to_string();
+        let sender_id = event.sender().to_string();
+        let sender_display_name = match event.sender_profile() {
+            TimelineDetails::Ready(profile) => profile
+                .display_name
+                .as_deref()
+                .map(str::trim)
+                .filter(|name| !name.is_empty())
+                .map(ToOwned::to_owned)
+                .unwrap_or_default(),
+            _ => String::new(),
+        };
 
-        let summary = summarize_timeline_content(event.content(), own_user_id, "");
+        let summary = summarize_timeline_content(event.content(), own_user_id, &sender_display_name);
         // Skip state events.
         if matches!(
             summary.kind.as_str(),
@@ -463,7 +481,9 @@ fn extract_newest_preview(
             room_id: room_id.to_owned(),
             timestamp,
             last_message: summary.body,
-            last_message_kind: summary.matrix_event_type,
+            last_message_kind: summary.kind,
+            last_message_sender_id: sender_id,
+            last_message_sender_display_name: sender_display_name,
             latest_event_id: event_id,
         });
     }

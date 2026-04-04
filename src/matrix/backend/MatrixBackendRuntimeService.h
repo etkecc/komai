@@ -147,6 +147,8 @@ struct MatrixRoomSummary
     QString topic;
     QString lastMessage;
     QString lastMessageKind;
+    QString lastMessageSenderId;
+    QString lastMessageSenderDisplayName;
     QVector<QString> tags;
     QVector<QString> parentSpaceRoomIds;
     QString directChatOtherUserId;

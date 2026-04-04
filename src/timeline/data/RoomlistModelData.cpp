@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <optional>
 
+#include <QCoreApplication>
 #include <QDateTime>
 #include <QTimer>
 
@@ -15,6 +16,53 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/roomlist/RoomlistPreviewSelection.h"
 #include "utils/Utils.h"
+
+namespace {
+QString
+roomListPreviewSenderName(const komai::MatrixRoomSummary &room)
+{
+    const auto displayName = room.lastMessageSenderDisplayName.trimmed();
+    if (!displayName.isEmpty())
+        return displayName;
+
+    return room.lastMessageSenderId.trimmed();
+}
+
+QString
+formatMatrixRoomListPreview(const komai::MatrixRoomSummary &room)
+{
+    if (room.lastMessage.isEmpty())
+        return room.lastMessage;
+
+    if (room.lastMessageKind == QStringLiteral("emote")) {
+        const auto senderName = roomListPreviewSenderName(room);
+        if (senderName.isEmpty())
+            return room.lastMessage;
+
+        return QStringLiteral("* %1 %2").arg(senderName, room.lastMessage);
+    }
+
+    if (room.lastMessageKind == QStringLiteral("membership_change") ||
+        room.lastMessageKind == QStringLiteral("profile_change") ||
+        room.lastMessageKind == QStringLiteral("other_state") ||
+        room.lastMessageKind == QStringLiteral("failed_to_parse_state")) {
+        return room.lastMessage;
+    }
+
+    const auto senderName = roomListPreviewSenderName(room);
+    if (senderName.isEmpty())
+        return room.lastMessage;
+
+    const auto localUserId = utils::localUser().trimmed();
+    const bool isLocal =
+      !localUserId.isEmpty() && room.lastMessageSenderId.trimmed() == localUserId;
+
+    return isLocal ? QCoreApplication::translate("message-description sent:", "You: %1")
+                       .arg(room.lastMessage)
+                   : QCoreApplication::translate("message-description sent:", "%1: %2")
+                       .arg(senderName, room.lastMessage);
+}
+} // namespace
 
 std::optional<QVariant>
 RoomlistModel::commonRoomData(const QString &room_id, int role) const
@@ -69,7 +117,7 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
         const bool previewsEnabled =
           style == UserSettings::LastMessagePreview::Always ||
           (style == UserSettings::LastMessagePreview::OnlyUnencrypted && !room.isEncrypted);
-        return previewsEnabled ? room.lastMessage : QString{};
+        return previewsEnabled ? formatMatrixRoomListPreview(room) : QString{};
     }
     case Roles::Time:
         if (room.timestamp > 0) {

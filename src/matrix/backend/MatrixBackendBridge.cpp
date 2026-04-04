@@ -53,9 +53,12 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
       .displayName   = QString::fromStdString(std::string(room.display_name)),
       .avatarUrl =
         komai::matrix::normalizeMxcUri(QString::fromStdString(std::string(room.avatar_url))),
-      .topic                 = QString::fromStdString(std::string(room.topic)),
-      .lastMessage           = QString::fromStdString(std::string(room.last_message)),
-      .lastMessageKind       = QString::fromStdString(std::string(room.last_message_kind)),
+      .topic               = QString::fromStdString(std::string(room.topic)),
+      .lastMessage         = QString::fromStdString(std::string(room.last_message)),
+      .lastMessageKind     = QString::fromStdString(std::string(room.last_message_kind)),
+      .lastMessageSenderId = QString::fromStdString(std::string(room.last_message_sender_id)),
+      .lastMessageSenderDisplayName =
+        QString::fromStdString(std::string(room.last_message_sender_display_name)),
       .tags                  = std::move(tags),
       .parentSpaceRoomIds    = std::move(parentSpaceRoomIds),
       .directChatOtherUserId = QString::fromStdString(std::string(room.direct_chat_other_user_id)),
@@ -270,6 +273,8 @@ matrix_notify_room_previews_backfilled(std::uint64_t handle_id,
         QString latestEventId;
         QString lastMessage;
         QString lastMessageKind;
+        QString lastMessageSenderId;
+        QString lastMessageSenderDisplayName;
         uint64_t timestamp;
     };
     QVector<Update> converted;
@@ -280,6 +285,8 @@ matrix_notify_room_previews_backfilled(std::uint64_t handle_id,
           toQString(u.latest_event_id),
           toQString(u.last_message),
           toQString(u.last_message_kind),
+          toQString(u.last_message_sender_id),
+          toQString(u.last_message_sender_display_name),
           u.timestamp,
         });
     }
@@ -299,10 +306,12 @@ matrix_notify_room_previews_backfilled(std::uint64_t handle_id,
                 continue;
             if (it->timestamp > 0)
                 continue;
-            it->timestamp       = u.timestamp;
-            it->lastMessage     = u.lastMessage;
-            it->lastMessageKind = u.lastMessageKind;
-            it->latestEventId   = u.latestEventId;
+            it->timestamp                    = u.timestamp;
+            it->lastMessage                  = u.lastMessage;
+            it->lastMessageKind              = u.lastMessageKind;
+            it->lastMessageSenderId          = u.lastMessageSenderId;
+            it->lastMessageSenderDisplayName = u.lastMessageSenderDisplayName;
+            it->latestEventId                = u.latestEventId;
         }
         rooms->notifyRoomPreviewsBackfilled();
     });

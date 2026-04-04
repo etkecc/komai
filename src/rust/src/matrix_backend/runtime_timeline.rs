@@ -105,7 +105,9 @@ fn maybe_backfill_room_list_preview(
 
     entry.timestamp = newest.timestamp;
     entry.last_message = newest.body.clone();
-    entry.last_message_kind = newest.matrix_event_type.clone();
+    entry.last_message_kind = newest.item_kind.clone();
+    entry.last_message_sender_id = newest.sender_id.clone();
+    entry.last_message_sender_display_name = newest.sender_display_name.clone();
     entry.latest_event_id = newest.event_id.clone();
 
     drop(room_list);
@@ -125,7 +127,9 @@ fn maybe_backfill_room_list_preview(
             room_id: room_id.to_owned(),
             latest_event_id: newest.event_id.clone(),
             last_message: newest.body.clone(),
-            last_message_kind: newest.matrix_event_type.clone(),
+            last_message_kind: newest.item_kind.clone(),
+            last_message_sender_id: newest.sender_id.clone(),
+            last_message_sender_display_name: newest.sender_display_name.clone(),
             timestamp: newest.timestamp,
         }],
     );

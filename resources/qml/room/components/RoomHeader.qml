@@ -23,6 +23,7 @@ Pane {
     property string roomTopic: room ? room.roomTopic : ""
     property bool searchHasFocus: roomSearchRow.searchHasFocus
     property string searchString: ""
+    property Item roomListLastActionButton: null
     property bool showBackButton: false
     property bool filteringInProgress: false
     property bool filterNotifications: false
@@ -207,7 +208,9 @@ Pane {
                 RoomHeaderRoomAvatar {
                     id: roomSettingsButton
 
-                    KeyNavigation.backtab: backToRoomsButton.visible ? backToRoomsButton : null
+                    KeyNavigation.backtab: backToRoomsButton.visible ? backToRoomsButton
+                        : topBar.roomListLastActionButton ? topBar.roomListLastActionButton
+                        : null
                     KeyNavigation.tab: pinButton.visible ? pinButton
                         : searchButton.visible ? searchButton
                         : memberButton.visible ? memberButton
@@ -258,6 +261,11 @@ Pane {
                     topBarRef: topBar
                     column: 4
                     KeyNavigation.backtab: roomSettingsButton
+                    KeyNavigation.tab: searchButton.visible ? searchButton
+                        : memberButton.visible ? memberButton
+                        : encryptionButton.visible ? encryptionButton
+                        : leaveRoomButton.visible ? leaveRoomButton
+                        : null
                     room: topBar.roomModelSupportsPinnedMessagesUi ? topBar.roomModel : null
                     roomId: topBar.roomId
                     showTextLabel: topBar.showActionLabels
@@ -268,6 +276,10 @@ Pane {
                     topBarRef: topBar
                     column: 5
                     KeyNavigation.backtab: pinButton.visible ? pinButton : roomSettingsButton
+                    KeyNavigation.tab: memberButton.visible ? memberButton
+                        : encryptionButton.visible ? encryptionButton
+                        : leaveRoomButton.visible ? leaveRoomButton
+                        : null
                     room: topBar.roomModelSupportsSearch ? topBar.roomModel : null
                     showTextLabel: topBar.showActionLabels
 
@@ -285,12 +297,23 @@ Pane {
 
                     topBarRef: topBar
                     column: 6
+                    KeyNavigation.backtab: searchButton.visible ? searchButton
+                        : pinButton.visible ? pinButton
+                        : roomSettingsButton
+                    KeyNavigation.tab: encryptionButton.visible ? encryptionButton
+                        : leaveRoomButton.visible ? leaveRoomButton
+                        : null
                     room: topBar.roomModel
                     showTextLabel: topBar.showActionLabels
                 }
                 RoomEncryptionStatusButton {
                     id: encryptionButton
 
+                    KeyNavigation.backtab: memberButton.visible ? memberButton
+                        : searchButton.visible ? searchButton
+                        : pinButton.visible ? pinButton
+                        : roomSettingsButton
+                    KeyNavigation.tab: leaveRoomButton.visible ? leaveRoomButton : null
                     roomId: topBar.roomModel ? topBar.roomModel.roomId : ""
                     isEncrypted: topBar.isEncrypted
                     roomAvailable: !!topBar.roomModel
@@ -305,6 +328,11 @@ Pane {
 
                     topBarRef: topBar
                     column: 8
+                    KeyNavigation.backtab: encryptionButton.visible ? encryptionButton
+                        : memberButton.visible ? memberButton
+                        : searchButton.visible ? searchButton
+                        : pinButton.visible ? pinButton
+                        : roomSettingsButton
                     roomAvailable: !!topBar.roomModel
                     roomId: topBar.roomId
                     showTextLabel: topBar.showActionLabels

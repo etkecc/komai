@@ -14,6 +14,7 @@ Rectangle {
     id: chatPage
 
     required property var timelineRoot
+    readonly property Item roomListLastActionButton: roomlist.roomListLastActionButton
     readonly property var notificationAreaItem: timeline.notificationAreaItem
     readonly property var notificationAvoidBottomItem: timeline.notificationAvoidBottomItem
     color: palette.window
@@ -120,6 +121,7 @@ Rectangle {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
                         dialogHost: chatPage.timelineRoot
+                        roomListLastActionButton: chatPage.roomListLastActionButton
                         windowFocusBlurOverlay: windowFocusBlurOverlay
                         roomPreview: Rooms.currentRoomPreview.roomid ? Rooms.currentRoomPreview : null
                         showBackButton: adaptiveView.singlePageMode

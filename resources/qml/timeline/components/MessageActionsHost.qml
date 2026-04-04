@@ -115,6 +115,10 @@ Item {
         z: 10
         parent: root.chatContentItem
         // No anchors — x/y set imperatively by the message styles
+        onPositionedChanged: {
+            if (positioned && keyboardActive)
+                Qt.callLater(focusFirstVisibleButton);
+        }
         onWidthChanged: scheduleReposition()
         onHeightChanged: scheduleReposition()
         onImplicitWidthChanged: scheduleReposition()

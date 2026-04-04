@@ -192,6 +192,7 @@ ColumnLayout {
     function timelineSelectionFocusTarget() { return walkModeSupport.timelineSelectionFocusTarget(); }
     function focusTimelineSelection() { return walkModeSupport.focusTimelineSelection(); }
     function openWalkModeHelpDialog() { return walkModeSupport.openWalkModeHelpDialog(); }
+    function lastRoomHeaderActionButtonTarget() { return walkModeSupport.lastRoomHeaderActionButtonTarget(); }
     function openPrimaryMessageActionsDialog() { return walkModeSupport.openPrimaryMessageActionsDialog(); }
 
     function matrixTimelineHeightCacheKey(eventId, itemId) { return eventSupport.matrixTimelineHeightCacheKey(eventId, itemId); }

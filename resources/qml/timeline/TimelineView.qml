@@ -12,6 +12,7 @@ Item {
 
     required property var windowFocusBlurOverlay
     property var dialogHost: null
+    property Item roomListLastActionButton: null
     property var roomPreview: null
     property bool shouldEffectsRun: false
     property bool showBackButton: false
@@ -94,6 +95,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
+        roomListLastActionButton: timelineView.roomListLastActionButton
         roomPreview: timelineView.roomPreview
         showBackButton: timelineView.showBackButton
         perfDisableRoomHeader: timelineView.perfDisableRoomHeader

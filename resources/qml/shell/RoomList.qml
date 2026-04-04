@@ -18,6 +18,7 @@ Page {
     property int avatarSize: Komai.listIconSize
     property bool collapsed: false
     property var communitiesTarget: null
+    readonly property Item roomListLastActionButton: roomActionsBar.lastFocusableActionButton
     property bool pendingGoToTopRequest: false
     readonly property var profileMenu: profileContextMenu
 
@@ -137,6 +138,8 @@ Page {
             Layout.preferredHeight: Settings.sidebarsCommunitiesVisible ? 0 : 2
         }
         RoomListActionsBar {
+            id: roomActionsBar
+
             Layout.fillWidth: true
             Layout.preferredHeight: Komai.navigationRowHeight
             avatarSize: roomListPage.avatarSize

@@ -420,6 +420,14 @@ Item {
         return text === "?" && (modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)) === 0;
     }
 
+    function keyboardActionsControl() {
+        const delegate = primaryActionDelegate();
+        if (!delegate)
+            return null;
+        const actions = delegate.messageActions;
+        return (actions && actions.keyboardActive) ? actions : null;
+    }
+
     function openPrimaryMessageActionsDialog() {
         const msgModel = primaryActionMessageModel();
         const roomModel = primaryActionRoomModel();
@@ -491,6 +499,61 @@ Item {
     function handleWalkModeKey(event) {
         if (!event || !rootItem.walkModeActive)
             return false;
+
+        const kbActions = keyboardActionsControl();
+        if (kbActions) {
+            if (event.key === Qt.Key_Escape) {
+                kbActions.dismiss();
+                event.accepted = true;
+                return true;
+            }
+
+            if ((event.key === Qt.Key_Left
+                        || eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.H))
+                    && eventUsesWalkModeModifiers(event)) {
+                kbActions.moveFocus(-1);
+                event.accepted = true;
+                return true;
+            }
+
+            if ((event.key === Qt.Key_Right
+                        || eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.L))
+                    && eventUsesWalkModeModifiers(event)) {
+                kbActions.moveFocus(1);
+                event.accepted = true;
+                return true;
+            }
+
+            if (kbActions.usesTwoRowLayout()) {
+                if ((event.key === Qt.Key_Up
+                            || eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.K))
+                        && eventUsesWalkModeModifiers(event)) {
+                    kbActions.moveFocus(-1);
+                    event.accepted = true;
+                    return true;
+                }
+
+                if ((event.key === Qt.Key_Down
+                            || eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.J))
+                        && eventUsesWalkModeModifiers(event)) {
+                    kbActions.moveFocus(1);
+                    event.accepted = true;
+                    return true;
+                }
+            }
+
+            if (isWalkModeEnterKey(event) && event.modifiers === Qt.NoModifier) {
+                kbActions.activateFocusedButton();
+                event.accepted = true;
+                return true;
+            }
+
+            if (event.key === Qt.Key_Space && event.modifiers === Qt.NoModifier) {
+                kbActions.activateFocusedButton();
+                event.accepted = true;
+                return true;
+            }
+        }
 
         if (event.key === Qt.Key_Escape) {
             handleEscape();
@@ -617,7 +680,11 @@ Item {
         }
 
         if (isWalkModeEnterKey(event) && event.modifiers === Qt.NoModifier) {
-            openPrimaryMessageActionsDialog();
+            const delegate = primaryActionDelegate();
+            if (delegate && typeof delegate.openKeyboardMessageActions === "function")
+                delegate.openKeyboardMessageActions();
+            else
+                openPrimaryMessageActionsDialog();
             event.accepted = true;
             return true;
         }

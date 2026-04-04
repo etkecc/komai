@@ -15,6 +15,7 @@ Pane {
     required property var componentCatalog
     required property var profileContextMenu
     required property var timelineRoot
+    readonly property Item lastFocusableActionButton: switchRoomsButton
     property int buttonSize: Komai.barIconSize
     readonly property int actionButtonCount: 2
     readonly property string newActionLabel: qsTr("New")

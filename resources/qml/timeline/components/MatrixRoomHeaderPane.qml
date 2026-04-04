@@ -13,6 +13,7 @@ ColumnLayout {
     required property bool showBackButton
     required property bool perfDisableRoomHeader
     required property var headerRoomModel
+    property Item roomListLastActionButton: null
 
     property alias headerItem: roomHeader
     property alias searchHasFocus: roomHeader.searchHasFocus
@@ -28,6 +29,7 @@ ColumnLayout {
         Layout.preferredHeight: visible ? implicitHeight : 0
         Layout.maximumHeight: visible ? implicitHeight : 0
         room: null
+        roomListLastActionButton: root.roomListLastActionButton
         roomModel: root.headerRoomModel
         roomId: root.roomPreview ? root.roomPreview.roomid : ""
         roomName: root.roomPreview ? root.roomPreview.roomName : qsTr("No room selected")

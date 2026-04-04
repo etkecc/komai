@@ -136,7 +136,7 @@ Item {
                     Layout.bottomMargin: Komai.paddingMedium
                     text: profileNameField.text.trim() === "default" ? qsTr("Default already uses the packaged Komai launcher.") : qsTr("Recommended for non-default Linux profiles. This makes app badges and taskbar grouping reliable when you launch the profile from its own desktop launcher.")
                     color: palette.buttonText
-                    font.pointSize: 0.9 * Settings.uiFontSizePt
+                    font.pointSize: Settings.uiFontSizePt
                     wrapMode: Text.Wrap
                 }
             }

@@ -1153,7 +1153,7 @@ Item {
                                             anchors.rightMargin: Komai.paddingMedium
                                             text: qsTr("Last seen: %1").arg(new Date(deviceDelegate.lastTs).toLocaleString(Locale.ShortFormat))
                                             color: palette.buttonText
-                                            font.pointSize: 0.9 * Settings.uiFontSizePt
+                                            font.pointSize: Settings.uiFontSizePt
                                         }
                                     }
                                 }

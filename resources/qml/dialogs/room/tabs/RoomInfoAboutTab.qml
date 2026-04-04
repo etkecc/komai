@@ -136,7 +136,7 @@ Item {
                     Label {
                         text: qsTr("Determines which features the room supports. <a href=\"https://spec.matrix.org/v1.17/rooms/\">Learn more</a>.")
                         color: versionRowHover.hovered ? palette.brightText : palette.buttonText
-                        font.pointSize: 0.9 * Settings.uiFontSizePt
+                        font.pointSize: Settings.uiFontSizePt
                         wrapMode: Text.Wrap
                         Layout.fillWidth: true
                         Layout.leftMargin: Komai.paddingMedium

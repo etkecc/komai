@@ -77,7 +77,7 @@ RowLayout {
                 id: labelText
                 visible: !root.useStackedLayout
                 color: palette.text
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
             }
 
             Ui.ToggleButton {

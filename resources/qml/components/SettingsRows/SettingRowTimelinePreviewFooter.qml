@@ -33,7 +33,7 @@ Rectangle {
         anchors.leftMargin: Komai.paddingMedium
         anchors.rightMargin: Komai.paddingMedium
         color: palette.text
-        font.pointSize: 0.92 * Settings.uiFontSizePt
+        font.pointSize: Settings.uiFontSizePt
         text: root.text
         textFormat: Text.RichText
         wrapMode: Text.Wrap

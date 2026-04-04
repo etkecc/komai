@@ -48,7 +48,7 @@ Item {
             Layout.rightMargin: Komai.paddingMedium
             color: rowHover.hovered ? palette.brightText : palette.buttonText
             text: qsTr("Use this command to launch links; use %u where the link URL should be inserted.")
-            font.pointSize: 0.9 * Settings.uiFontSizePt
+            font.pointSize: Settings.uiFontSizePt
             wrapMode: Text.Wrap
         }
 

@@ -93,7 +93,7 @@ ColumnLayout {
             Label {
                 text: qsTr("<a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'>Aliases</a> are alternative addresses (like #room:example.com) that people can use to find this room.")
                 color: aliasRowHover.hovered ? palette.brightText : palette.buttonText
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
@@ -186,7 +186,7 @@ ColumnLayout {
             Label {
                 text: qsTr("Non-members can <a href='https://spec.matrix.org/v1.17/client-server-api/#knocking-on-rooms'>request to join</a>. Users with invite permission can accept.")
                 color: knockRowHover.hovered ? palette.brightText : palette.buttonText
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
@@ -239,7 +239,7 @@ ColumnLayout {
             Label {
                 text: qsTr("Members of selected Spaces can <a href='https://spec.matrix.org/v1.17/client-server-api/#restricted-rooms'>join without an invitation</a>.")
                 color: restrictedRowHover.hovered ? palette.brightText : palette.buttonText
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
@@ -321,7 +321,7 @@ ColumnLayout {
             Label {
                 text: qsTr("Lets <a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'>temporary accounts</a> without full registration join the room.")
                 color: guestRowHover.hovered ? palette.brightText : palette.buttonText
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
@@ -390,7 +390,7 @@ ColumnLayout {
             Label {
                 text: qsTr("Useful for room previews and public websites.")
                 color: publicHistoryRowHover.hovered ? palette.brightText : palette.buttonText
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
@@ -455,7 +455,7 @@ ColumnLayout {
             Label {
                 text: qsTr("Changing this won't affect already sent messages, only new ones.")
                 color: historyComboRowHover.hovered ? palette.brightText : palette.buttonText
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium

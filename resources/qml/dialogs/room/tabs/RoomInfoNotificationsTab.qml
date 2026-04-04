@@ -83,7 +83,7 @@ Item {
                     Label {
                         text: qsTr("Configure how you receive notifications for this room.")
                         color: notifRowHover.hovered ? palette.brightText : palette.buttonText
-                        font.pointSize: 0.9 * Settings.uiFontSizePt
+                        font.pointSize: Settings.uiFontSizePt
                         Layout.fillWidth: true
                         Layout.leftMargin: Komai.paddingMedium
                         Layout.rightMargin: Komai.paddingMedium

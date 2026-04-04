@@ -369,7 +369,7 @@ Item {
                     Label {
                         text: qsTr("Once enabled, encryption cannot be disabled.")
                         color: encryptionRowHover.hovered ? palette.brightText : palette.buttonText
-                        font.pointSize: 0.9 * Settings.uiFontSizePt
+                        font.pointSize: Settings.uiFontSizePt
                         Layout.fillWidth: true
                         Layout.leftMargin: Komai.paddingMedium
                         Layout.rightMargin: Komai.paddingMedium

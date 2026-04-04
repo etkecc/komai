@@ -434,7 +434,7 @@ Item {
                             text: r.model.description ?? ""
                             textFormat: Text.RichText
                             color: rowHover.hovered ? palette.brightText : palette.buttonText
-                            font.pointSize: 0.9 * Settings.uiFontSizePt
+                            font.pointSize: Settings.uiFontSizePt
                             wrapMode: Text.Wrap
                             readOnly: true
                             selectByMouse: true

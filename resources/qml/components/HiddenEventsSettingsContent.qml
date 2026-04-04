@@ -150,7 +150,7 @@ Item {
                 Layout.topMargin: -Komai.paddingSmall
                 color: rowHover.hovered ? palette.brightText : palette.buttonText
                 text: rowRoot.description
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
                 wrapMode: Text.Wrap
             }
         }

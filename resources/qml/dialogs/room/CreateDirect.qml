@@ -310,7 +310,7 @@ OverlayDialog {
                 Layout.bottomMargin: Komai.paddingMedium
                 text: qsTr("End-to-end encryption protects messages so only you and the recipient can read them.")
                 color: palette.buttonText
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
                 wrapMode: Text.Wrap
             }
         }

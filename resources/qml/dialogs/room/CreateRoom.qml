@@ -97,7 +97,7 @@ Components.OverlayDialog {
                 Layout.bottomMargin: Komai.paddingMedium
                 text: createRoomRoot.space ? qsTr("Anyone can join a public space. Private spaces require an invite.") : qsTr("Anyone can join a public room. Private rooms require an invite.")
                 color: palette.buttonText
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
                 wrapMode: Text.Wrap
             }
         }
@@ -144,7 +144,7 @@ Components.OverlayDialog {
                 Layout.bottomMargin: Komai.paddingMedium
                 text: qsTr("Invitees get the same power level as the room creator.")
                 color: palette.buttonText
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
                 wrapMode: Text.Wrap
             }
         }
@@ -190,7 +190,7 @@ Components.OverlayDialog {
                 Layout.bottomMargin: Komai.paddingMedium
                 text: qsTr("Only participants can read messages. Cannot be disabled once enabled.")
                 color: palette.buttonText
-                font.pointSize: 0.9 * Settings.uiFontSizePt
+                font.pointSize: Settings.uiFontSizePt
                 wrapMode: Text.Wrap
             }
         }
@@ -205,7 +205,7 @@ Components.OverlayDialog {
         visible: isPublic.checked && isEncrypted.checked && !createRoomRoot.space
         text: qsTr("Encryption has a high cost in public rooms with many participants.")
         color: Komai.theme.attention
-        font.pointSize: 0.9 * Settings.uiFontSizePt
+        font.pointSize: Settings.uiFontSizePt
         wrapMode: Text.Wrap
     }
 

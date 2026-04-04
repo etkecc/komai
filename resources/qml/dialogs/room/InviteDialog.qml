@@ -298,7 +298,9 @@ OverlayDialog {
                     Label {
                         Layout.fillWidth: true
                         text: resultDelegate.displayNameText || qsTr("Unknown display name")
-                        color: resultDelegate.displayNameText ? palette.text : palette.buttonText
+                        color: resultDelegate.activeState
+                            ? palette.brightText
+                            : resultDelegate.displayNameText ? palette.text : palette.buttonText
                         font.pointSize: Settings.uiFontSizePt
                         font.italic: !resultDelegate.displayNameText
                         elide: Text.ElideRight
@@ -307,7 +309,7 @@ OverlayDialog {
                     Label {
                         Layout.fillWidth: true
                         text: resultDelegate.userIdText
-                        color: palette.buttonText
+                        color: resultDelegate.activeState ? palette.brightText : palette.buttonText
                         font.pointSize: Settings.uiFontSizePt * 0.9
                         elide: Text.ElideRight
                     }

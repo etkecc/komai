@@ -4,7 +4,7 @@
 <h1 align="center">Komai (<a target="_blank" href="https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84">こまい</a>)</h1>
 <h2 align="center">A fine <a target="_blank" href="https://matrix.org/">Matrix</a> chat app you can get to love</h2>
 
-🦁 **Komai** is a [Matrix](https://matrix.org/) chat application built with [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML). It began as a [usability](https://en.wikipedia.org/wiki/Usability)-focused [fork](https://en.wikipedia.org/wiki/Fork_(software_development)) of [nheko](https://nheko.im/nheko-reborn/nheko) (see [differences from nheko](docs/user-guide/differences-from-nheko.md)).
+🦁 **Komai** is a [Matrix](https://matrix.org/) chat application built with [Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML). It began as a [usability](https://en.wikipedia.org/wiki/Usability)-focused [fork](https://en.wikipedia.org/wiki/Fork_(software_development)) of [nheko](https://nheko.im/nheko-reborn/nheko) (see [differences from nheko](docs/user-guide/differences-from-nheko.md)).
 
 Komai was started by the [etke.cc](https://etke.cc/) team, but contributions by anyone are welcome! It's fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping.
 
@@ -15,16 +15,16 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 🖥️ **Desktop-first UX** — optimized for large screens
 - 👓 **Readable and easy to use** — comfortably readable text, larger hit targets, and interaction patterns that respect [Fitts's law](https://www.nngroup.com/articles/fitts-law/) so actions are easier to hit and harder to miss
 - 🎨 **Subtle but effective** — [themeable](docs/user-guide/themes.md), [customizable](docs/user-guide/settings/README.md), user-first, insanely fast
-- 🐱 **Built on [nheko](https://nheko.im/nheko-reborn/nheko)** — inherits nheko's solid Matrix protocol support while [improving it in various ways](docs/user-guide/differences-from-nheko.md)
+- 🐱 **Built on [nheko](https://nheko.im/nheko-reborn/nheko)** — improves on [nheko](https://nheko.im/nheko-reborn/nheko)'s UI while [improving it in various ways](docs/user-guide/differences-from-nheko.md) and rebuilding it on top of a mode modern stack ([matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) and many other code moved from C++ to Rust)
 
 
 ## 🌟 Features
 
-Everything [nheko](https://nheko.im/nheko-reborn/nheko) offers, plus [UX improvements & additional features on top](docs/user-guide/differences-from-nheko.md).
+Almost everything [nheko](https://nheko.im/nheko-reborn/nheko) offers, plus [UX improvements & additional features on top](docs/user-guide/differences-from-nheko.md).
 
 Highlights:
 
-- 💬 [Matrix](https://matrix.org/) messaging with end-to-end encryption support (powered by the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) runtime, with some remaining legacy dependencies still being migrated away)
+- 💬 [Matrix](https://matrix.org/) messaging with end-to-end encryption support (powered by the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) runtime)
 - 📞 (Legacy) Voice & video calls (no [Element Call](https://github.com/element-hq/element-call) support yet)
 - 📎 File, image, audio & emoji messages (including custom stickers), with a built-in media viewer featuring gallery navigation and in-app video playback
 - 😀 Richer emoji discovery via localized [Unicode CLDR](https://cldr.unicode.org/) keywords (for example, `:whiskey` finds 🥃) -- see [Emoji Search and Picker](docs/user-guide/emojis.md)
@@ -32,7 +32,7 @@ Highlights:
 - 👥 Multi-account support via dedicated [application profiles](docs/user-guide/application-profiles.md)
 - 🎨 10+ [built-in themes](docs/user-guide/themes.md#-built-in-themes), maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for common UI text pairings, but also [🗂️ user-themable](docs/user-guide/themes.md#️-user-themes)
 - 🌐 30+ languages with inherited nheko translations and AI-assisted gap filling (see [Translations](docs/maintainers/translations.md))
-- 🧠 [User Interface](https://en.wikipedia.org/wiki/User_interface) that both grandma and you can use, making neither of you feel stupid or incapable
+- 🧠 [User Interface](https://en.wikipedia.org/wiki/User_interface) that both grandma and power users can use, making neither of you feel stupid or incapable
 - 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md) - you're in control
 - 🧭 First-class [Matrix Room Search](https://github.com/etkecc/mrs) support (enabled by default via [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=readme), with language filtering) and room size filtering
 - 📋 Good support for hundreds of rooms and spaces

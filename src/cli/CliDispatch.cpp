@@ -14,6 +14,7 @@
 #include "AppCommands.h"
 #include "McpCommands.h"
 #include "MediaCommands.h"
+#include "ProfileCommands.h"
 #include "RoomCommands.h"
 #include "SettingsCommands.h"
 #include "ThemeCommands.h"
@@ -28,6 +29,7 @@ commandGroups()
       {QStringLiteral("app"), runAppCommand},
       {QStringLiteral("media"), runMediaCommand},
       {QStringLiteral("mcp"), runMcpCommand},
+      {QStringLiteral("profiles"), runProfileCommand},
       {QStringLiteral("rooms"), runRoomsCommand},
       {QStringLiteral("settings"), runSettingsCommand},
       {QStringLiteral("theme"), runThemeCommand},

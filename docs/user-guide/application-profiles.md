@@ -54,3 +54,52 @@ komai -p ""       # same selector-mode behavior as bare `komai`
 ```
 
 Profile names follow the same validation rules as `-p` names documented in [Settings -> Profile Location](settings/README.md#profile-location). In practice, that means names like `work`, `personal`, `dev_build`, or `work-2` are valid, while names containing `.` are not.
+
+## Reliable App Badges With Multiple Profiles
+
+On native Linux, the packaged `default` profile launcher already has a stable
+app/launcher identity. Non-default profiles only get reliable app-icon/taskbar
+badges when they are launched from their own desktop launcher.
+
+Create a launcher explicitly:
+
+```bash
+komai profiles launcher create work
+```
+
+This writes:
+
+```text
+~/.local/share/applications/cc.etke.komai.profile.work.desktop
+```
+
+Remove it later with:
+
+```bash
+komai profiles launcher remove work
+```
+
+After creating the launcher, start that profile from the created desktop entry
+instead of `komai -p work` in a terminal if you want reliable app/taskbar badge
+targeting.
+
+Manual desktop-entry example:
+
+```ini
+[Desktop Entry]
+Version=1.5
+Type=Application
+Name=Komai (work)
+Comment=Desktop client for Matrix
+Exec=/absolute/path/to/komai -p work %u
+Icon=cc.etke.komai
+Categories=Network;InstantMessaging;Qt;
+Terminal=false
+X-GNOME-UsesNotifications=true
+```
+
+Keep the filename aligned with the profile desktop ID:
+
+```text
+cc.etke.komai.profile.work.desktop
+```

@@ -581,6 +581,8 @@ set(SRC_FILES
     src/cli/MediaCommands.h
     src/cli/McpCommands.cpp
     src/cli/McpCommands.h
+    src/cli/ProfileCommands.cpp
+    src/cli/ProfileCommands.h
     src/cli/RoomCommands.cpp
     src/cli/RoomCommands.h
     src/cli/SettingsCommands.cpp
@@ -1119,6 +1121,19 @@ if(BUILD_TESTING)
     add_test(NAME komai_mcp_commands_test COMMAND komai_mcp_commands_test)
     komai_configure_test(komai_mcp_commands_test "unit;cli")
 
+    add_executable(komai_profile_commands_test
+        tests/ProfileCommandsTest.cpp
+        src/cli/ProfileCommands.cpp
+        src/profile/Paths.cpp
+        src/profile/KeyringEnvironment.cpp
+    )
+    target_include_directories(komai_profile_commands_test PRIVATE src src/cli/ ${CMAKE_CURRENT_BINARY_DIR})
+    target_link_libraries(komai_profile_commands_test PRIVATE
+        Qt::Core
+    )
+    add_test(NAME komai_profile_commands_test COMMAND komai_profile_commands_test)
+    komai_configure_test(komai_profile_commands_test "unit;cli")
+
     add_executable(komai_bot_detection_test
         tests/BotDetectionTest.cpp
         src/utils/BotDetection.cpp
@@ -1219,6 +1234,7 @@ if(BUILD_TESTING)
         komai_roomlist_preview_selection_test
         komai_theme_color_utils_test
         komai_mcp_commands_test
+        komai_profile_commands_test
         komai_bot_detection_test
         komai_emoji_completion_search_test
         komai_emoji_normalization_test

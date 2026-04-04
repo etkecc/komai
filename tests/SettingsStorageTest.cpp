@@ -164,7 +164,7 @@ testPathHelpers()
       app_paths::desktop::findInstalledProfileDesktopEntry(QStringLiteral("work"));
 
     ok &= expect(app_paths::desktop::supportsProfileDesktopEntries(),
-                 "native Linux tests support generated profile desktop entries");
+                 "native Linux tests support explicit profile desktop launchers");
     ok &= expect(defaultDesktopId == QStringLiteral("cc.etke.komai.profile.default"),
                  "default profile desktop id stays explicit");
     ok &= expect(workDesktopId == QStringLiteral("cc.etke.komai.profile.work"),
@@ -198,35 +198,37 @@ testProfileDesktopEntryRoundtrip()
     QString error;
 
     ok &= expect(app_paths::desktop::ensureProfileDesktopEntry(profile, executablePath, &error),
-                 "generated profile desktop entry can be written");
+                 "profile desktop launcher can be written");
     ok &= expect(error.isEmpty(), "desktop entry write does not set an error on success");
 
     const auto filePath = app_paths::desktop::profileDesktopEntryFile(profile);
     const auto contents = settings::storage::readTextFile(filePath, "profile desktop entry test");
     const auto foundDesktopEntry = app_paths::desktop::findInstalledProfileDesktopEntry(profile);
 
-    ok &= expect(QFileInfo::exists(filePath), "generated profile desktop entry file exists");
+    ok &= expect(QFileInfo::exists(filePath), "profile desktop launcher file exists");
     ok &= expect(foundDesktopEntry == filePath,
-                 "profile desktop entry lookup finds the generated user-local launcher");
+                 "profile desktop entry lookup finds the explicit user-local launcher");
     ok &= expect(contents.contains(QStringLiteral("Name=Komai (work_2)\n")),
-                 "generated desktop entry includes a profile-specific display name");
+                 "profile desktop launcher includes a profile-specific display name");
     ok &= expectWithContext(contents.contains(QStringLiteral("Exec=\"/tmp/Komai ")),
-                            "generated desktop entry starts the executable path as a quoted argument",
+                            "profile desktop launcher starts the executable path as a quoted argument",
                             contents);
     ok &= expectWithContext(
       contents.contains(QStringLiteral("$Dev/bin/komai\" -p work_2 %u\n")),
-      "generated desktop entry keeps the executable path quoted through the profile args",
+      "profile desktop launcher keeps the executable path quoted through the profile args",
       contents);
-    ok &= expect(contents.contains(QStringLiteral("NoDisplay=true\n")),
-                 "generated desktop entry stays hidden from menus");
+    ok &= expect(contents.contains(QStringLiteral("Categories=Network;InstantMessaging;Qt;\n")),
+                 "profile desktop launcher advertises standard app categories");
+    ok &= expect(!contents.contains(QStringLiteral("NoDisplay=")),
+                 "profile desktop launcher stays visible in app menus");
     ok &= expect(!contents.contains(QStringLiteral("MimeType=")),
-                 "generated desktop entry does not register duplicate URI handlers");
+                 "profile desktop launcher does not register duplicate URI handlers");
 
     error.clear();
     ok &= expect(app_paths::desktop::removeProfileDesktopEntry(profile, &error),
-                 "generated profile desktop entry can be removed");
+                 "profile desktop launcher can be removed");
     ok &= expect(error.isEmpty(), "desktop entry removal does not set an error on success");
-    ok &= expect(!QFileInfo::exists(filePath), "generated profile desktop entry file is removed");
+    ok &= expect(!QFileInfo::exists(filePath), "profile desktop launcher file is removed");
 
     return ok;
 #endif

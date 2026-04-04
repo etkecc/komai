@@ -98,8 +98,9 @@ profileDesktopEntryContents(QStringView profileId, QStringView executablePath)
                           "Comment=Desktop client for Matrix\n"
                           "Exec=%2 -p %3 %u\n"
                           "Icon=%4\n"
+                          "Categories=Network;InstantMessaging;Qt;\n"
                           "Terminal=false\n"
-                          "NoDisplay=true\n")
+                          "X-GNOME-UsesNotifications=true\n")
       .arg(normalizedProfile,
            desktopExecArg(executablePath),
            desktopExecArg(normalizedProfile),

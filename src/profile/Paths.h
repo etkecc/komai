@@ -47,7 +47,7 @@ supportsProfileDesktopEntries();
 QString
 profileDesktopEntryId(QStringView profileId);
 
-/// Returns the user-local applications directory used for generated desktop entries.
+/// Returns the user-local applications directory used for explicit profile launchers.
 QString
 applicationsDirectory();
 
@@ -59,13 +59,13 @@ profileDesktopEntryFile(QStringView profileId);
 QString
 findInstalledProfileDesktopEntry(QStringView profileId);
 
-/// Creates or updates the generated user-local desktop entry for a profile.
+/// Creates or updates the user-local desktop entry for a profile launcher.
 bool
 ensureProfileDesktopEntry(QStringView profileId,
                           QStringView executablePath,
                           QString *errorOut = nullptr);
 
-/// Removes the generated user-local desktop entry for a profile.
+/// Removes the user-local desktop entry for a profile launcher.
 bool
 removeProfileDesktopEntry(QStringView profileId, QString *errorOut = nullptr);
 

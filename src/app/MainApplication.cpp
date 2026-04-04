@@ -120,6 +120,7 @@ app::runMainApplication(int argc, char *argv[])
                   "\n"
                   "Subcommands (run without a display server):\n"
                   "  %1 app        Instance metadata (JSON)\n"
+                  "  %1 profiles   Profile launcher management (offline)\n"
                   "  %1 rooms      Room discovery and navigation (JSON)\n"
                   "  %1 user       Account and presence (JSON)\n"
                   "  %1 settings   Appearance settings (JSON)\n"

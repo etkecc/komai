@@ -7,6 +7,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import "../../components" as Components
+import "../../components/SettingsRows"
 import "../../ui" as UI
 import cc.etke.komai
 
@@ -1202,6 +1203,48 @@ Item {
                                         }
                                     }
                                 }
+                            }
+                        }
+                    }
+
+                    // ── Users section ────────────────────────────────────────
+
+                    Components.SettingsSection {
+                        label: qsTr("Users")
+                        Layout.fillWidth: true
+                        Layout.leftMargin: scrollContent.sideMargin
+                        Layout.rightMargin: scrollContent.sideMargin
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: scrollContent.sideMargin
+                        Layout.rightMargin: scrollContent.sideMargin
+                        implicitHeight: ignoredUsersRowContent.implicitHeight
+                        HoverHandler { id: ignoredUsersRowHover; blocking: false }
+                        Rectangle { anchors.fill: ignoredUsersRowContent; color: ignoredUsersRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+                        RowLayout {
+                            id: ignoredUsersRowContent
+                            width: parent.width
+                            spacing: Komai.paddingMedium
+
+                            Label {
+                                text: qsTr("Ignored users")
+                                color: ignoredUsersRowHover.hovered ? palette.brightText : palette.text
+                                font.pointSize: 1.1 * Settings.uiFontSizePt
+                                Layout.topMargin: Komai.paddingMedium
+                                Layout.bottomMargin: Komai.paddingMedium
+                                Layout.leftMargin: Komai.paddingMedium
+                            }
+
+                            Components.SyncedToMatrixBadge {
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+
+                            Item { Layout.fillWidth: true }
+
+                            SettingRowIgnoredUsers {
+                                Layout.rightMargin: Komai.paddingMedium
                             }
                         }
                     }

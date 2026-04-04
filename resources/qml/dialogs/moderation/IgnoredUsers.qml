@@ -17,11 +17,99 @@ Components.OverlayDialog {
 
     width: Math.round((parent ? parent.width : 500) * 0.6)
 
+    Components.OverlayDialog {
+        id: ignoreUserDialog
+
+        title: qsTr("Ignore User")
+        titleIcon: ":/icons/icons/ui/ban.svg"
+
+        property string validationMessage: ""
+
+        onOpened: {
+            validationMessage = "";
+            userIdField.text = "";
+        }
+
+        Label {
+            Layout.fillWidth: true
+            wrapMode: Text.Wrap
+            color: palette.text
+            text: qsTr("Matrix user ID")
+        }
+
+        Components.KomaiTextField {
+            id: userIdField
+
+            Layout.fillWidth: true
+            placeholderText: "@user:example.com"
+            onAccepted: ignoreButton.clicked()
+        }
+
+        Label {
+            Layout.fillWidth: true
+            visible: ignoreUserDialog.validationMessage.length > 0
+            wrapMode: Text.Wrap
+            color: Komai.theme.error
+            text: ignoreUserDialog.validationMessage
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+
+            Components.KomaiButton {
+                text: qsTr("Cancel")
+                onClicked: ignoreUserDialog.close()
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            Components.KomaiButton {
+                id: ignoreButton
+
+                highlighted: true
+                text: qsTr("Ignore")
+                onClicked: {
+                    var userId = userIdField.text.trim();
+                    if (!userId.length) {
+                        ignoreUserDialog.validationMessage = qsTr("Please enter a user ID.");
+                        return;
+                    }
+                    if (!/^@[^:]+:.+$/.test(userId)) {
+                        ignoreUserDialog.validationMessage = qsTr("Invalid format. Expected: @user:server.com");
+                        return;
+                    }
+                    if (TimelineManager.ignoredUsers.indexOf(userId) >= 0) {
+                        ignoreUserDialog.validationMessage = qsTr("This user is already ignored.");
+                        return;
+                    }
+                    TimelineManager.ignoreUser(userId);
+                    ignoreUserDialog.close();
+                }
+            }
+        }
+    }
+
     Label {
         Layout.fillWidth: true
         wrapMode: Text.Wrap
         color: palette.text
         text: qsTr("Ignoring a user hides their messages (they can still see yours!).")
+    }
+
+    RowLayout {
+        Layout.fillWidth: true
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Components.KomaiButton {
+            text: qsTr("New")
+            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
+            onClicked: ignoreUserDialog.open()
+        }
     }
 
     ScrollView {

@@ -265,6 +265,8 @@ public:
     Q_INVOKABLE void openRoomUserProfile(QString roomId, QString userId);
     Q_INVOKABLE UserProfile *getGlobalUserProfile(QString userId);
 
+    Q_INVOKABLE void ignoreUser(const QString &userId);
+
     Q_INVOKABLE void focusMessageInput();
     Q_INVOKABLE void markRoomSwitchPhase(const QString &roomId, const QString &phase);
     Q_INVOKABLE bool roomSwitchPerfEnabled() const { return roomSwitchPerfEnabled_; }

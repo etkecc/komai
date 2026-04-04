@@ -296,6 +296,37 @@ TimelineViewManager::queueReply(const QString &roomid,
 }
 
 void
+TimelineViewManager::ignoreUser(const QString &userId)
+{
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow)
+        return;
+
+    const auto handleId = mainWindow->matrixBackendHandleId();
+    if (handleId == 0)
+        return;
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, userId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok =
+            komai::MatrixBackendRuntimeService::ignoreUser(context, handleId, userId, &error);
+          return std::make_pair(ok, error);
+      },
+      [userId](TimelineViewManager *, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (ok)
+              return;
+          if (auto *mw = MainWindow::instance()) {
+              mw->showNotification(
+                TimelineViewManager::tr("Failed to ignore user %1: %2").arg(userId, error));
+          }
+      });
+}
+
+void
 TimelineViewManager::focusMessageInput()
 {
     emit focusInput();

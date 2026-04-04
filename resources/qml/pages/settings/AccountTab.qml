@@ -620,8 +620,6 @@ Item {
                                         onActiveFocusChanged: if (!activeFocus) applyName()
                                     }
 
-                                    // Spacer to align with rows that have copy buttons
-                                    Item { Layout.preferredWidth: 24; Layout.preferredHeight: 24 }
                                 }
 
 
@@ -1168,6 +1166,7 @@ Item {
                     Components.SettingsSection {
                         label: qsTr("Users")
                         Layout.fillWidth: true
+                        Layout.topMargin: Komai.paddingLarge
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
                     }

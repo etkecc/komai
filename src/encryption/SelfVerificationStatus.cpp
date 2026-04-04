@@ -20,12 +20,6 @@
 
 namespace {
 QString
-notMigratedMessage()
-{
-    return SelfVerificationStatus::tr("Failed to start the matrix-sdk self-verification flow.");
-}
-
-QString
 missingRuntimeMessage()
 {
     return SelfVerificationStatus::tr(
@@ -201,7 +195,7 @@ SelfVerificationStatus::verifyMasterKey()
         if (!guard)
             return;
 
-        emit guard->setupFailed(error.isEmpty() ? notMigratedMessage() : error);
+        emit guard->setupFailed(error);
     });
     return true;
 }

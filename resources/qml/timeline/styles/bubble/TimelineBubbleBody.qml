@@ -309,7 +309,18 @@ Item {
 
                 Reply {
                     id: replyRow
-                    visible: root.wrapper.replyTo
+                    // Hide reply previews for threaded messages. The Matrix thread
+                    // protocol always sets m.in_reply_to (often with is_falling_back: true)
+                    // for compatibility with clients that don't understand threads.
+                    // Even for genuine in-thread replies the preview is redundant in a
+                    // flat timeline — the thread icon in the metadata already signals
+                    // thread membership. This matches Element X/Web behavior.
+                    //
+                    // A more precise approach would be to wire the is_falling_back flag
+                    // through Rust → C++ model role → QML and only hide fallback replies,
+                    // preserving previews for genuine in-thread replies. We skip that for
+                    // now to keep the plumbing slim.
+                    visible: root.wrapper.replyTo && !root.wrapper.threadId
                     enabled: !root.perfDisableTimelineInteraction
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -551,7 +562,7 @@ Item {
             isStateEvent: root.wrapper.isStateEvent
             threadId: root.wrapper.threadId
             timestamp: root.wrapper.timestamp
-            room: root.wrapper.room
+            room: root.wrapper.effectiveRoomContext
             isSender: root.wrapper.isStateEvent ? false : root.wrapper.messageIsRightAligned
             actionBarActive: root.wrapper.messageActions.pinned && root.wrapper.messageActions.attached === root.wrapper
             onActionToggled: {

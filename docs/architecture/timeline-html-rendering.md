@@ -16,7 +16,7 @@ For the `FormattedBody` role in `TimelineModel`:
 3. Remove reply fallback block for replies (`<mx-reply>...</mx-reply>`).
 4. Sanitize HTML via `utils::escapeBlacklistedHtml(...)`.
 5. Rewrite `mxc://` image URLs for the QML image provider.
-6. Apply formatted code highlighting via `timeline::highlightFormattedCodeBlocks(...)` if enabled.
+6. Apply formatted code highlighting via `komai::rust::highlight_formatted_code_blocks(...)` if enabled.
 7. Run `utils::linkifyMessage(...)`.
 8. Run `utils::replaceEmoji(...)`.
 9. Render via litehtml (`LitehtmlItem` QQuickPaintedItem) in QML for timeline message delegates (`TextMessage.qml`, `NoticeMessage.qml`). Blockquotes, tables, and other CSS-styled elements are handled natively by litehtml. Non-timeline uses (dialogs, room headers, login pages) continue to use Qt RichText via `MatrixText.qml`.
@@ -145,19 +145,11 @@ Since the two shipped optimizations (conditional text run collection and hover d
 
 ## Code Highlighting: What Uses Which Library
 
-- Parsing/orchestration of HTML code blocks is implemented in:
-  - `src/timeline/FormattedCodeBlockHighlighter.cpp`
-- Language resolution and content-based detection live in:
-  - `src/timeline/formattedcode/LanguageResolver.cpp`
-- Highlighted HTML span generation lives in:
-  - `src/timeline/formattedcode/HtmlRenderer.cpp`
-- Syntax grammar/theme lookup and token styling are done by KDE Frameworks:
-  - `KSyntaxHighlighting::Repository`
-  - `KSyntaxHighlighting::SyntaxHighlighter`
-- MIME sniffing for snippet data is provided by Qt:
-  - `QMimeDatabase`
-
-So, auto-detection is primarily Komai logic with MIME assistance; it is not delegated to a standalone external language-detection library.
+- All syntax highlighting logic lives in Rust:
+  - `src/rust/src/syntax_highlight.rs`
+- HTML parsing, language detection, and highlighting are powered by [syntect](https://github.com/trishume/syntect) (Sublime Text syntax definitions, pure Rust).
+- The C++ side calls `komai::rust::highlight_formatted_code_blocks()` via CXX bridge.
+- Raw JSON formatting for dialogs goes through `komai::rust::highlight_raw_json()`, with a thin C++ wrapper in `src/timeline/formattedcode/RawJsonFormatter.cpp`.
 
 ## Language Resolution Behavior
 
@@ -166,19 +158,17 @@ For `<pre><code>...</code></pre>` blocks:
 1. Try explicit language from `class` on `<code>`:
    - `language-<token>`
    - `lang-<token>`
-2. If missing, apply Komai heuristics:
-   - First, try MIME-based definition lookup (`QMimeDatabase` -> `Repository::definitionForMimeType`)
-   - Then fallback to Komai heuristics when MIME lookup is inconclusive
+2. If missing, apply heuristics:
    - PHP prolog (`<?php`)
    - shebang detection (`python`, `bash/zsh/sh`, `node`)
    - diff markers (`diff --git`, `@@`, `---`, `+++`)
-   - JSON (validated parse via `QJsonDocument`)
+   - JSON (validated parse)
    - XML-like content
 3. If no valid definition is found, preserve original block unchanged.
 
 ## Safety and Performance Guardrails
 
-Current guardrails in `FormattedCodeBlockHighlighter` include:
+Current guardrails in `syntax_highlight.rs` include:
 
 - Total HTML size cap.
 - Parsed-tag count cap.

@@ -4,18 +4,17 @@
 
 #include "timeline/formattedcode/RawJsonFormatter.h"
 
-#include "timeline/FormattedCodeBlockHighlighter.h"
+#include "komai-rust-cxxbridge/ffi.h"
 
 namespace timeline::formattedcode {
 
 QString
 formatRawJsonForDialog(const QString &rawJson, const QPalette &palette)
 {
-    const auto escaped = rawJson.toHtmlEscaped();
-    const auto wrapped =
-      QStringLiteral("<pre><code class=\"language-json\">%1</code></pre>").arg(escaped);
-
-    return highlightFormattedCodeBlocks(wrapped, palette, true);
+    const bool isDark = palette.color(QPalette::Base).lightness() < 128;
+    const auto rawStd = rawJson.toStdString();
+    return QString::fromStdString(std::string(
+      komai::rust::highlight_raw_json(::rust::Str(rawStd.data(), rawStd.size()), isDark)));
 }
 
 } // namespace timeline::formattedcode

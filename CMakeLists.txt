@@ -132,7 +132,6 @@ find_package(Qt6 6.5 COMPONENTS Core Widgets Gui LinguistTools Svg Multimedia Qm
 if (Qt6Qml_VERSION VERSION_GREATER_EQUAL "6.10.0")
     find_package(Qt6 REQUIRED COMPONENTS GuiPrivate QmlPrivate)
 endif()
-find_package(KF6SyntaxHighlighting REQUIRED)
 find_package(Qt6DBus)
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
@@ -296,13 +295,7 @@ set(SRC_FILES
     src/timeline/EventDelegateChooser.h
     src/timeline/SlashCommands.cpp
     src/timeline/SlashCommands.h
-    src/timeline/FormattedCodeBlockHighlighter.cpp
-    src/timeline/FormattedCodeBlockHighlighter.h
     src/timeline/RoomRoles.h
-    src/timeline/formattedcode/HtmlRenderer.cpp
-    src/timeline/formattedcode/HtmlRenderer.h
-    src/timeline/formattedcode/LanguageResolver.cpp
-    src/timeline/formattedcode/LanguageResolver.h
     src/timeline/formattedcode/RawJsonFormatter.cpp
     src/timeline/formattedcode/RawJsonFormatter.h
     src/timeline/formattedmessage/HtmlProcessor.cpp
@@ -1034,21 +1027,6 @@ if(BUILD_TESTING)
     add_test(NAME komai_setting_input_validation_test COMMAND komai_setting_input_validation_test)
     komai_configure_test(komai_setting_input_validation_test "unit;settings")
 
-    add_executable(komai_formatted_code_block_highlighter_test
-        tests/FormattedCodeBlockHighlighterTest.cpp
-        src/timeline/FormattedCodeBlockHighlighter.cpp
-        src/timeline/formattedcode/HtmlRenderer.cpp
-        src/timeline/formattedcode/LanguageResolver.cpp
-    )
-    target_include_directories(komai_formatted_code_block_highlighter_test PRIVATE src)
-    target_link_libraries(komai_formatted_code_block_highlighter_test PRIVATE
-        Qt::Core
-        Qt::Gui
-        KF6::SyntaxHighlighting
-    )
-    add_test(NAME komai_formatted_code_block_highlighter_test COMMAND komai_formatted_code_block_highlighter_test)
-    komai_configure_test(komai_formatted_code_block_highlighter_test "unit;timeline")
-
     add_executable(komai_formatted_message_html_processor_test
         tests/FormattedMessageHtmlProcessorTest.cpp
         src/timeline/formattedmessage/HtmlProcessor.cpp
@@ -1058,21 +1036,7 @@ if(BUILD_TESTING)
     add_test(NAME komai_formatted_message_html_processor_test COMMAND komai_formatted_message_html_processor_test)
     komai_configure_test(komai_formatted_message_html_processor_test "unit;timeline")
 
-    add_executable(komai_raw_json_formatter_test
-        tests/RawJsonFormatterTest.cpp
-        src/timeline/formattedcode/RawJsonFormatter.cpp
-        src/timeline/FormattedCodeBlockHighlighter.cpp
-        src/timeline/formattedcode/HtmlRenderer.cpp
-        src/timeline/formattedcode/LanguageResolver.cpp
-    )
-    target_include_directories(komai_raw_json_formatter_test PRIVATE src)
-    target_link_libraries(komai_raw_json_formatter_test PRIVATE
-        Qt::Core
-        Qt::Gui
-        KF6::SyntaxHighlighting
-    )
-    add_test(NAME komai_raw_json_formatter_test COMMAND komai_raw_json_formatter_test)
-    komai_configure_test(komai_raw_json_formatter_test "unit;timeline")
+
 
     add_executable(komai_notification_payload_test
         tests/NotificationPayloadTest.cpp
@@ -1224,9 +1188,7 @@ if(BUILD_TESTING)
         komai_settings_store_test
         komai_setting_input_validation_test
         komai_settings_serializer_core_test
-        komai_formatted_code_block_highlighter_test
         komai_formatted_message_html_processor_test
-        komai_raw_json_formatter_test
         komai_notification_payload_test
         komai_roomlist_preview_selection_test
         komai_theme_color_utils_test
@@ -1242,7 +1204,6 @@ if(BUILD_TESTING)
 endif()
 
 target_link_libraries(komai PRIVATE
-    KF6::SyntaxHighlighting
     Qt::Widgets
     Qt::Svg
     Qt::Gui

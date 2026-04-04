@@ -35,7 +35,6 @@ jobs:
           pacman -S --noconfirm --needed \
             cmake just python python-yaml mise reuse rust \
             qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-multimedia-ffmpeg qt6-svg \
-            syntax-highlighting \
             cmark openssl \
             qtkeychain-qt6 kdsingleapplication litehtml \
             curl libsecret kwallet pipewire-jack

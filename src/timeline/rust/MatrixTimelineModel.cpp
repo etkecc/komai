@@ -5,7 +5,6 @@
 #include "timeline/rust/MatrixTimelineModel.h"
 
 #include "settings/ui/facade/UserSettingsPage.h"
-#include "timeline/FormattedCodeBlockHighlighter.h"
 #include "timeline/TimelineEventTypes.h"
 #include "utils/MediaIcons.h"
 #include "utils/Utils.h"
@@ -13,7 +12,10 @@
 #include <QByteArray>
 #include <QDateTime>
 #include <QGuiApplication>
+#include <QPalette>
 #include <algorithm>
+
+#include "komai-rust-cxxbridge/ffi.h"
 
 namespace komai {
 
@@ -107,10 +109,12 @@ formatBodyHtml(const QString &body, const QString &formattedBody = {})
         html = utils::escapeBlacklistedHtml(formattedBody);
 
         const auto settings = UserSettings::instance();
-        const bool highlightEnabled =
-          settings && settings->timelineFormattedCodeSyntaxHighlighting();
-        html = timeline::highlightFormattedCodeBlocks(
-          html, QGuiApplication::palette(), highlightEnabled);
+        if (settings && settings->timelineFormattedCodeSyntaxHighlighting()) {
+            const bool isDark  = QGuiApplication::palette().color(QPalette::Base).lightness() < 128;
+            const auto htmlStd = html.toStdString();
+            html = QString::fromStdString(std::string(komai::rust::highlight_formatted_code_blocks(
+              ::rust::Str(htmlStd.data(), htmlStd.size()), isDark)));
+        }
 
         html = utils::linkifyMessage(html);
     } else {

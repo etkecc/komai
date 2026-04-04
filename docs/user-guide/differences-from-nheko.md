@@ -60,7 +60,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **[Message special effects](message-effects.md)** -- emoji-triggered visual effects (confetti, sunlight, hearts, rainfall, lightning, and the Komai logo) that also work in a non-animated static form when UI animations are disabled
 - **Pinned and recent emoji reactions** directly in the action bar
 - **Swipe-to-reply disabled** by default to prevent accidental replies on desktop
-- **Formatted-message code block highlighting** (powered by [KSyntaxHighlighting](https://api.kde.org/frameworks/syntax-highlighting/html/index.html)) with MIME-assisted and heuristic language auto-detection for unlabeled fenced blocks, and a user toggle under [Settings](settings/README.md).
+- **Formatted-message code block highlighting** (powered by [syntect](https://github.com/trishume/syntect)) with heuristic language auto-detection for unlabeled fenced blocks, and a user toggle under [Settings](settings/README.md).
 - **Replaced the HTML message renderer with [litehtml](https://github.com/litehtml/litehtml)** -- produces prettier blockquotes, code blocks, and overall HTML rendering, and enables collapsible long messages with "Show more" / "Show less" buttons so they don't dominate the timeline.
 - **Styled user and room mention pills** -- `@user` and `#room` mentions in timeline messages are rendered as styled pills with inline avatars instead of plain links
 

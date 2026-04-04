@@ -6,6 +6,7 @@ pub(crate) use crate::logging::{init_logging, log_from_cpp};
 pub(crate) use crate::matrix_backend::ffi::*;
 pub(crate) use crate::settings::ffi::*;
 pub(crate) use crate::settings::profile::SettingsProfileHandle;
+pub(crate) use crate::syntax_highlight::{highlight_formatted_code_blocks, highlight_raw_json};
 pub(crate) use crate::theme::base16::parse_base16_yaml as theme_parse_base16_yaml;
 pub(crate) use crate::theme::external::parse_external_theme as theme_parse_external_theme;
 
@@ -1192,6 +1193,9 @@ mod bridge {
         fn theme_parse_base16_yaml(theme_text: &str) -> ThemeBase16ParseResult;
 
         fn blurhash_decode(hash: &str, width: u32, height: u32) -> Vec<u8>;
+
+        fn highlight_formatted_code_blocks(html: &str, is_dark_theme: bool) -> String;
+        fn highlight_raw_json(raw_json: &str, is_dark_theme: bool) -> String;
 
         fn resolve_server(
             context: MatrixFfiBlockingContext,

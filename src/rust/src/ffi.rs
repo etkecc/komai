@@ -888,6 +888,7 @@ mod bridge {
         event_id: String,
         delivery_state: String,
         thread_id: String,
+        is_thread_root: bool,
         sender_id: String,
         sender_display_name: String,
         sender_avatar_url: String,

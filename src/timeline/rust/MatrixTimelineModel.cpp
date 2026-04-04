@@ -280,6 +280,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
         return prev >= 0 ? items_.at(prev).itemKind : QString();
     }
     case DeliveryState:      return item.deliveryState;
+    case IsThreadRoot:       return item.isThreadRoot;
 
     default:                 return {};
     }
@@ -420,6 +421,7 @@ MatrixTimelineModel::roleNames() const
       {PreviousSenderId, "previousSenderId"},
       {PreviousItemKind, "previousItemKind"},
       {DeliveryState, "deliveryState"},
+      {IsThreadRoot, "isThreadRoot"},
     };
 }
 
@@ -923,6 +925,25 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
 
     for (auto &item : items)
         computeDerivedFields(item, roomId_);
+
+    // Derive isThreadRoot: collect all threadId values (these reference the
+    // thread root event), then mark items whose eventId appears in that set.
+    // The SDK's thread_summary field would be the canonical source for this,
+    // but it is not populated on timeline snapshots from the local store,
+    // so we derive it from sibling items instead.
+    {
+        QSet<QString> threadRootIds;
+        for (const auto &item : items) {
+            if (!item.threadId.isEmpty())
+                threadRootIds.insert(item.threadId);
+        }
+        for (auto &item : items) {
+            if (!item.isThreadRoot && !item.eventId.isEmpty() &&
+                threadRootIds.contains(item.eventId)) {
+                item.isThreadRoot = true;
+            }
+        }
+    }
 
     emitEffectsForPrependedItems(items);
     allItems_ = items;

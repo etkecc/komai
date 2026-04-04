@@ -236,6 +236,7 @@ fn notification_item_from_sdk(
                     body: "[Unsupported message event]".to_owned(),
                     formatted_body: String::new(),
                     thread_root_id: String::new(),
+                    is_thread_root: false,
                     reply_event_id: String::new(),
                     reply_sender_id: String::new(),
                     reply_sender_display_name: String::new(),

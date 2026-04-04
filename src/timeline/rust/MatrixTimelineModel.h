@@ -82,6 +82,7 @@ public:
         PreviousSenderId,
         PreviousItemKind,
         DeliveryState,
+        IsThreadRoot,
     };
 
     explicit MatrixTimelineModel(QObject *parent = nullptr);

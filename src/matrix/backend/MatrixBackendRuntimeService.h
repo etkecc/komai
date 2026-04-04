@@ -268,6 +268,7 @@ struct MatrixTimelineItem
     QString eventId;
     QString deliveryState;
     QString threadId;
+    bool isThreadRoot = false;
     QString senderId;
     QString senderDisplayName;
     QString senderAvatarUrl;

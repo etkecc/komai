@@ -163,11 +163,14 @@ Item {
         id: threadBackground
         anchors.fill: parent
         radius: 8
+        // For thread replies, color by thread root ID; for thread roots, color by own event ID.
+        readonly property string effectiveThreadId: root.wrapper.threadId
+            || (root.wrapper.isThreadRoot ? root.wrapper.eventId : "")
         property color threadColor: {
             const _revision = root.wrapper.timelineColorRevision;
-            return TimelineManager.userColor(root.wrapper.threadId, palette.base);
+            return TimelineManager.userColor(effectiveThreadId, palette.base);
         }
-        property color threadBackgroundColor: root.wrapper.threadId ? Qt.tint(palette.base, Qt.hsla(threadColor.hslHue, 0.7, threadColor.hslLightness, 0.1)) : "transparent"
+        property color threadBackgroundColor: effectiveThreadId ? Qt.tint(palette.base, Qt.hsla(threadColor.hslHue, 0.7, threadColor.hslLightness, 0.1)) : "transparent"
         color: (!root.perfDisableTimelineHover && Settings.timelineMessagesHoverHighlight && messageHover.hovered)
             ? palette.alternateBase
             : threadBackgroundColor
@@ -561,6 +564,7 @@ Item {
             isEncrypted: root.wrapper.isEncrypted
             isStateEvent: root.wrapper.isStateEvent
             threadId: root.wrapper.threadId
+            isThreadRoot: root.wrapper.isThreadRoot
             timestamp: root.wrapper.timestamp
             room: root.wrapper.effectiveRoomContext
             isSender: root.wrapper.isStateEvent ? false : root.wrapper.messageIsRightAligned
@@ -679,7 +683,7 @@ Item {
     TimelineRoundedOutline {
         anchors.fill: parent
         z: 2
-        visible: !!root.wrapper.threadId && !root.wrapper.isStateEvent
+        visible: (!!root.wrapper.threadId || root.wrapper.isThreadRoot) && !root.wrapper.isStateEvent
         borderColor: threadBackground.threadColor
         strokeWidth: 1.5
         dashPattern: [6, 10]

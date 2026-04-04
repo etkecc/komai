@@ -440,6 +440,7 @@ pub struct MatrixTimelineItem {
     pub event_id: String,
     pub delivery_state: String,
     pub thread_id: String,
+    pub is_thread_root: bool,
     pub sender_id: String,
     pub sender_display_name: String,
     pub sender_avatar_url: String,

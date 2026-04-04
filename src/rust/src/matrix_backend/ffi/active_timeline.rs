@@ -33,6 +33,7 @@ pub(crate) fn matrix_fetch_active_room_timeline(
                 event_id: item.event_id,
                 delivery_state: item.delivery_state,
                 thread_id: item.thread_id,
+                is_thread_root: item.is_thread_root,
                 sender_id: item.sender_id,
                 sender_display_name: item.sender_display_name,
                 sender_avatar_url: item.sender_avatar_url,

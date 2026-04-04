@@ -32,6 +32,7 @@ TimelineEvent {
     required property string userId
     required property string userName
     required property string threadId
+    required property bool isThreadRoot
     required property int userPowerlevel
     required property bool isEdited
     required property bool isEncrypted

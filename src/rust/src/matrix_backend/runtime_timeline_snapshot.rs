@@ -107,6 +107,7 @@ fn timeline_item_to_summary(
         let body = summary.body;
         let formatted_body = summary.formatted_body;
         let thread_id = summary.thread_root_id;
+        let is_thread_root = summary.is_thread_root;
         let reply_event_id = summary.reply_event_id;
         let reply_sender_id = summary.reply_sender_id;
         let reply_sender_display_name = summary.reply_sender_display_name;
@@ -135,6 +136,7 @@ fn timeline_item_to_summary(
                 event_id: event.event_id().map(ToString::to_string).unwrap_or_default(),
                 delivery_state: matrix_timeline_delivery_state(event, own_user_id, read_own_event_ids),
                 thread_id,
+                is_thread_root,
                 sender_id,
                 sender_display_name,
                 sender_avatar_url,
@@ -244,6 +246,7 @@ fn timeline_item_to_summary(
                 event_id: String::new(),
                 delivery_state: String::new(),
                 thread_id: String::new(),
+                is_thread_root: false,
                 sender_id: String::new(),
                 sender_display_name: String::new(),
                 sender_avatar_url: String::new(),

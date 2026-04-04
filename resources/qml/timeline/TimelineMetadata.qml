@@ -78,12 +78,14 @@ RowLayout {
     required property bool isEncrypted
     required property bool isStateEvent
     required property string threadId
+    property bool isThreadRoot: false
     required property date timestamp
     required property var room
     readonly property string roomEditEventId: (room && room.edit !== undefined) ? room.edit : ""
     readonly property bool roomIsEncrypted: (room && room.isEncrypted !== undefined) ? room.isEncrypted : false
+    readonly property string effectiveThreadId: threadId || (isThreadRoot ? eventId : "")
     readonly property bool canOpenThreadNavigation: !!room
-        && threadId !== ""
+        && effectiveThreadId !== ""
         && room.supportsThreadNavigation !== false
         && room.thread !== undefined
 
@@ -184,13 +186,13 @@ RowLayout {
         toolTipVisible: hovered
         buttonTextColor: {
             const _revision = colorRevision;
-            return TimelineManager.userColor(metadata.threadId, effectiveBaseColor);
+            return TimelineManager.userColor(metadata.effectiveThreadId, effectiveBaseColor);
         }
         image: visible ? ":/icons/icons/ui/thread.svg" : ""
 
         onClicked: {
             if (metadata.room)
-                metadata.room.thread = threadId
+                metadata.room.thread = metadata.effectiveThreadId
         }
     }
 }

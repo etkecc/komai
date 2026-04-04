@@ -445,6 +445,7 @@ ColumnLayout {
                         required property string eventId
                         required property string itemId
                         required property string threadId
+                        required property bool isThreadRoot
                         required property string body
                         required property string formattedBody
                         required property string formattedStateEvent
@@ -512,6 +513,7 @@ ColumnLayout {
                             userId: timelineItemDelegate.userId
                             userName: timelineItemDelegate.userName
                             threadId: timelineItemDelegate.threadId
+                            isThreadRoot: timelineItemDelegate.isThreadRoot
                             userPowerlevel: 0
                             isEdited: timelineItemDelegate.isEdited
                             isEncrypted: timelineItemDelegate.isEncrypted

@@ -336,13 +336,6 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["secrets", "provider"],
         Value::String(snapshot.secrets.provider.clone()),
     );
-    if snapshot.timeline.maintenance.has_expire_events {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "maintenance", "expire_events"],
-            Value::Bool(snapshot.timeline.maintenance.expire_events),
-        );
-    }
     if snapshot.desktop.notifications.has_enabled {
         yaml::set_value(
             &mut root,

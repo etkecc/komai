@@ -1676,8 +1676,6 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::DesktopWindowFocusBlurDelaySeconds));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::TimelineMaintenanceExpireEvents));
-    serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::EncryptionKeySharingOnlyVerifiedUsers));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::EncryptionKeySharingShareWithTrusted));

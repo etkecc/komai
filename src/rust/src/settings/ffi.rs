@@ -333,10 +333,6 @@ pub(crate) fn ffi_config_timeline_section(
             global: config.timeline.hidden_events.global.clone().unwrap_or_default(),
             by_room,
         },
-        maintenance: ffi::SettingsConfigTimelineMaintenanceSection {
-            has_expire_events: config.timeline.maintenance.expire_events.is_some(),
-            expire_events: config.timeline.maintenance.expire_events.unwrap_or_default(),
-        },
     }
 }
 
@@ -826,10 +822,6 @@ fn clone_config_timeline_section(
                 .map(|value| value.clone())
                 .collect(),
             by_room: clone_string_list_map_entries(&section.hidden_events.by_room),
-        },
-        maintenance: ffi::SettingsConfigTimelineMaintenanceSection {
-            has_expire_events: section.maintenance.has_expire_events,
-            expire_events: section.maintenance.expire_events,
         },
     }
 }

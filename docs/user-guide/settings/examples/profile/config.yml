@@ -77,8 +77,6 @@ timeline:
       enabled: true
   read_receipts:
     enabled: true
-  maintenance:
-    expire_events: false
 
 composer:
   input:

@@ -98,7 +98,6 @@ constexpr auto CallsScreenshareIncludeRemoteVideo    = "calls.screenshare.includ
 constexpr auto CallsScreenshareShowCursor            = "calls.screenshare.show_cursor";
 constexpr auto DesktopWindowFocusBlurEnabled         = "desktop.window_focus_blur.enabled";
 constexpr auto DesktopWindowFocusBlurDelaySeconds    = "desktop.window_focus_blur.delay_seconds";
-constexpr auto TimelineMaintenanceExpireEvents       = "timeline.maintenance.expire_events";
 constexpr auto EncryptionKeySharingOnlyVerifiedUsers = "encryption.key_sharing.only_verified_users";
 constexpr auto EncryptionKeySharingShareWithTrusted  = "encryption.key_sharing.share_with_trusted";
 constexpr auto EncryptionBackupOnlineEnabled         = "encryption.backup.online.enabled";

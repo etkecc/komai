@@ -100,7 +100,3 @@
    SettingScope::Config,
    SettingKey::TimelineMediaDefaultAudioPlaybackSpeed,
    false},
-  {SettingId::TimelineMaintenanceExpireEvents,
-   SettingScope::Config,
-   SettingKey::TimelineMaintenanceExpireEvents,
-   false},

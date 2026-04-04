@@ -9,16 +9,6 @@ UserSettings::timelineMediaOpenImagesExternal() const
 }
 
 bool
-UserSettings::timelineMaintenanceExpireEvents() const
-{
-    if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMaintenanceExpireEvents);
-        value.has_value())
-        return *value;
-    return timelineMaintenanceExpireEvents_;
-}
-
-bool
 UserSettings::timelineMediaOpenVideosExternal() const
 {
     if (const auto value =

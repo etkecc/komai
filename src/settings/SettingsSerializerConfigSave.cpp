@@ -145,11 +145,6 @@ stageConfig(const UserSettings &settings,
               .global     = {},
               .by_room    = {},
             },
-          .maintenance =
-            {
-              .has_expire_events = true,
-              .expire_events     = settings.timelineMaintenanceExpireEvents(),
-            },
         },
       .secrets =
         {

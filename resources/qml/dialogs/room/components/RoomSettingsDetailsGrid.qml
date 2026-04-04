@@ -523,47 +523,6 @@ ColumnLayout {
         }
     }
 
-    // Event expiration
-    Item {
-        Layout.fillWidth: true
-        Layout.leftMargin: Komai.paddingMedium
-        Layout.rightMargin: Komai.paddingMedium
-        implicitHeight: eventExpRowContent.implicitHeight
-        HoverHandler { id: eventExpRowHover; blocking: false }
-        Rectangle { anchors.fill: eventExpRowContent; color: eventExpRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
-        RowLayout {
-            id: eventExpRowContent
-            width: parent.width
-
-            Label {
-                text: qsTr("Event expiration")
-                color: eventExpRowHover.hovered ? palette.brightText : palette.text
-                font.pointSize: 1.1 * Settings.uiFontSizePt
-                Layout.topMargin: Komai.paddingMedium
-                Layout.bottomMargin: Komai.paddingMedium
-                Layout.leftMargin: Komai.paddingMedium
-            }
-
-            Components.SyncedToMatrixBadge {
-                Layout.alignment: Qt.AlignVCenter
-            }
-
-            Item { Layout.fillWidth: true }
-
-            EventExpirationDialog {
-                id: eventExpirationDialog
-                roomid: detailsGrid.roomSettings ? detailsGrid.roomSettings.roomId : ""
-                roomName: detailsGrid.roomSettings ? detailsGrid.roomSettings.roomName : ""
-            }
-
-            Components.KomaiButton {
-                text: qsTr("Configure")
-                onClicked: eventExpirationDialog.open()
-                Layout.rightMargin: Komai.paddingMedium
-            }
-        }
-    }
-
     // --- Extra section ---
     Components.SettingsSection {
         label: qsTr("Extra")

@@ -23,7 +23,7 @@ use crate::ffi::{
     SettingsConfigSecretsSection, SettingsConfigSidebarsCommunitiesSection,
     SettingsConfigSidebarsRoomListSection, SettingsConfigSidebarsSection,
     SettingsConfigSnapshot, SettingsConfigTimelineFormattedSection,
-    SettingsConfigTimelineHiddenEventsSection, SettingsConfigTimelineMaintenanceSection,
+    SettingsConfigTimelineHiddenEventsSection,
     SettingsConfigTimelineMediaSection, SettingsConfigTimelineMessageActionsSection,
     SettingsConfigTimelineMessagesSection, SettingsConfigTimelineReadReceiptsSection,
     SettingsConfigTimelineSection, SettingsConfigTimelineTypingSection, SettingsConfigUiSection,
@@ -520,10 +520,6 @@ fn encodes_generic_config_values() {
                     values: vec!["m.call.candidates".to_owned()],
                 }],
             },
-            maintenance: SettingsConfigTimelineMaintenanceSection {
-                has_expire_events: true,
-                expire_events: false,
-            },
         },
         secrets: SettingsConfigSecretsSection {
             provider: "file".to_owned(),
@@ -858,10 +854,6 @@ fn encodes_generic_config_values() {
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["encryption", "backup", "online", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(false))
-    ));
-    assert!(matches!(
-        yaml::value_at_path(&root, &["timeline", "maintenance", "expire_events"]),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(

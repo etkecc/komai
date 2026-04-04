@@ -22,7 +22,7 @@ pub use model::{
     ConfigIntegrations, ConfigNetwork, ConfigSecrets, ConfigSidebars,
     ConfigSidebarsCommunities, ConfigSidebarsRoomList, ConfigTimeline,
     ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
-    ConfigTimelineMaintenance, ConfigTimelineMessageActions, ConfigTimelineMessages,
+    ConfigTimelineMessageActions, ConfigTimelineMessages,
     ConfigTimelineMessagesLayout, ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi,
     ConfigUiAvatars, ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale,
     ConfigUiTheme, LoadedConfig,
@@ -138,8 +138,6 @@ const DESKTOP_WINDOW_FOCUS_BLUR_ENABLED_PATH: [&str; 3] =
     ["desktop", "window_focus_blur", "enabled"];
 const DESKTOP_WINDOW_FOCUS_BLUR_DELAY_SECONDS_PATH: [&str; 3] =
     ["desktop", "window_focus_blur", "delay_seconds"];
-const TIMELINE_MAINTENANCE_EXPIRE_EVENTS_PATH: [&str; 3] =
-    ["timeline", "maintenance", "expire_events"];
 const ENCRYPTION_KEY_SHARING_ONLY_VERIFIED_USERS_PATH: [&str; 3] =
     ["encryption", "key_sharing", "only_verified_users"];
 const ENCRYPTION_KEY_SHARING_SHARE_WITH_TRUSTED_PATH: [&str; 3] =
@@ -389,10 +387,6 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             hidden_events: ConfigTimelineHiddenEvents {
                 global: parse_string_list(yaml::value_at_path(root, &HIDDEN_EVENTS_GLOBAL_PATH)),
                 by_room: parse_string_list_map(yaml::value_at_path(root, &HIDDEN_EVENTS_BY_ROOM_PATH)),
-            },
-            maintenance: ConfigTimelineMaintenance {
-                expire_events: yaml::value_at_path(root, &TIMELINE_MAINTENANCE_EXPIRE_EVENTS_PATH)
-                    .and_then(parse_scalar_bool),
             },
         },
         secrets: ConfigSecrets {

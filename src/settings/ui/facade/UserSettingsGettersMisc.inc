@@ -26,7 +26,6 @@
     QStringList collapsedSpaces() const;
     int integrationsDbusApiAccess() const;
     QString integrationsBrowserCommand() const;
-    bool timelineMaintenanceExpireEvents() const;
     int windowWidth() const;
     int windowHeight() const;
     bool usesFileSecretsProvider() const;

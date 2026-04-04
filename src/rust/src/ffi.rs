@@ -212,11 +212,6 @@ mod bridge {
         default_audio_playback_speed: f64,
     }
 
-    struct SettingsConfigTimelineMaintenanceSection {
-        has_expire_events: bool,
-        expire_events: bool,
-    }
-
     struct SettingsConfigTimelineSection {
         messages: SettingsConfigTimelineMessagesSection,
         formatted: SettingsConfigTimelineFormattedSection,
@@ -225,7 +220,6 @@ mod bridge {
         message_actions: SettingsConfigTimelineMessageActionsSection,
         media: SettingsConfigTimelineMediaSection,
         hidden_events: SettingsConfigTimelineHiddenEventsSection,
-        maintenance: SettingsConfigTimelineMaintenanceSection,
     }
 
     struct SettingsConfigSecretsSection {

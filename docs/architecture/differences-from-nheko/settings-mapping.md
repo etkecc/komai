@@ -98,7 +98,6 @@ Note:
 | Calls | SCREEN SHARING | Show mouse cursor | `settings::core::SettingId::CallsScreenshareShowCursor` | `screen_share_hide_cursor` | `calls.screenshare.show_cursor` | config.yml | yes |
 | Desktop | WINDOW BLUR | Blur on focus loss | `settings::core::SettingId::DesktopWindowFocusBlurEnabled` | `privacy_screen` | `desktop.window_focus_blur.enabled` | config.yml | yes |
 | Desktop | WINDOW BLUR | Blur delay (seconds) | `settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds` | `privacy_screen_timeout_seconds` | `desktop.window_focus_blur.delay_seconds` | config.yml | yes |
-| Timeline | MAINTENANCE | Delete expired events periodically | `settings::core::SettingId::TimelineMaintenanceExpireEvents` | `expire_events` | `timeline.maintenance.expire_events` | config.yml | yes |
 | Timeline | DATA & MAINTENANCE | Hidden events | `UserSettingsModel::HiddenTimelineEvents` | `-` | `timeline.hidden_events.global`, `timeline.hidden_events.by_room` | config.yml | no |
 | Account | USERS | Ignored users | `UserSettingsModel::IgnoredUsers` | `-` | `account.users.ignored` | runtime/UI-specific | no |
 | Encryption | KEY SHARING | Send encrypted messages to verified users only | `settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers` | `only_share_keys_with_verified_users` | `encryption.key_sharing.only_verified_users` | config.yml | yes |

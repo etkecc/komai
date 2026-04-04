@@ -296,10 +296,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       snapshot.desktop.window_focus_blur.has_delay_seconds
         ? snapshot.desktop.window_focus_blur.delay_seconds
         : settings::core::definitions::kDefaultDesktopWindowFocusBlurDelaySeconds);
-    settings.setTimelineMaintenanceExpireEvents(snapshot.timeline.maintenance.has_expire_events
-                                                  ? snapshot.timeline.maintenance.expire_events
-                                                  : false);
-
     settings.setEncryptionKeySharingOnlyVerifiedUsers(
       snapshot.encryption.key_sharing.has_only_verified_users
         ? snapshot.encryption.key_sharing.only_verified_users

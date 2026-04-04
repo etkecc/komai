@@ -152,9 +152,6 @@ readImage(const QByteArray &data);
 std::vector<std::string>
 roomVias(const std::string &roomid);
 
-void
-removeExpiredEvents();
-
 QString
 glitchText(const QString &text);
 

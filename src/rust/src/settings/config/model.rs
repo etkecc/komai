@@ -122,7 +122,6 @@ pub struct ConfigTimeline {
     pub message_actions: ConfigTimelineMessageActions,
     pub media: ConfigTimelineMedia,
     pub hidden_events: ConfigTimelineHiddenEvents,
-    pub maintenance: ConfigTimelineMaintenance,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -221,11 +220,6 @@ pub struct ConfigDesktopSystemTray {
 pub struct ConfigDesktopWindowFocusBlur {
     pub enabled: Option<bool>,
     pub delay_seconds: Option<i32>,
-}
-
-#[derive(Clone, Debug, Default)]
-pub struct ConfigTimelineMaintenance {
-    pub expire_events: Option<bool>,
 }
 
 #[derive(Clone, Debug, Default)]

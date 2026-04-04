@@ -54,7 +54,6 @@ enum class SettingId
     DesktopWindowFocusBlurEnabled,
     DesktopWindowFocusBlurDelaySeconds,
     NetworkPresenceStatusPolicy,
-    TimelineMaintenanceExpireEvents,
     IntegrationsDbusApiAccess,
     IntegrationsBrowserCommand,
     ComposerInputMarkdownToHtmlEnabled,

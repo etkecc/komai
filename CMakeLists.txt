@@ -346,8 +346,6 @@ set(SRC_FILES
     # UI components
     src/ui/HiddenEvents.cpp
     src/ui/HiddenEvents.h
-    src/ui/EventExpiry.cpp
-    src/ui/EventExpiry.h
     src/ui/MxcAnimatedImage.cpp
     src/ui/MxcAnimatedImage.h
     src/ui/MxcMediaProxy.cpp
@@ -561,7 +559,6 @@ set(SRC_FILES
     src/utils/UtilsColor.cpp
     src/utils/UtilsMessageDescription.cpp
     src/utils/UtilsRoomMaintenance.cpp
-    src/utils/UtilsEventExpiry.cpp
     src/utils/UtilsTextAndUri.cpp
 
 

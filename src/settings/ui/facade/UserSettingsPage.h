@@ -266,9 +266,6 @@ class UserSettings final : public QObject
     Q_PROPERTY(QStringList hiddenPins READ hiddenPins WRITE setHiddenPins NOTIFY hiddenPinsChanged)
     Q_PROPERTY(QStringList hiddenWidgets READ hiddenWidgets WRITE setHiddenWidgets NOTIFY
                  hiddenWidgetsChanged)
-    Q_PROPERTY(bool timelineMaintenanceExpireEvents READ timelineMaintenanceExpireEvents WRITE
-                 setTimelineMaintenanceExpireEvents NOTIFY timelineMaintenanceExpireEventsChanged)
-
     // Window geometry (not exposed to QML, used internally)
     Q_PROPERTY(int windowWidth READ windowWidth WRITE setWindowWidth NOTIFY windowWidthChanged)
     Q_PROPERTY(int windowHeight READ windowHeight WRITE setWindowHeight NOTIFY windowHeightChanged)
@@ -581,7 +578,6 @@ public:
     void setIntegrationsBrowserCommand(QString command);
     void setCollapsedSpaces(QStringList spaces);
     void setIntegrationsDbusApiAccess(int access);
-    void setTimelineMaintenanceExpireEvents(bool state);
     void setWindowWidth(int width);
     void setWindowHeight(int height);
     void setNetworkMrsEnabled(bool state);
@@ -731,7 +727,6 @@ signals:
     void composerDraftsByRoomChanged();
     void integrationsDbusApiAccessChanged(int state);
     void integrationsBrowserCommandChanged(QString command);
-    void timelineMaintenanceExpireEventsChanged(bool state);
     void windowWidthChanged(int width);
     void windowHeightChanged(int height);
     void networkMrsEnabledChanged(bool state);

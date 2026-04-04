@@ -137,6 +137,8 @@ class TimelineViewManager final : public QObject
                  matrixTimelineStateChanged)
     Q_PROPERTY(QString matrixTimelineReplyBody READ matrixTimelineReplyBody NOTIFY
                  matrixTimelineStateChanged)
+    Q_PROPERTY(QString matrixTimelineThreadEventId READ matrixTimelineThreadEventId NOTIFY
+                 matrixTimelineStateChanged)
     Q_PROPERTY(QString matrixTimelineEditEventId READ matrixTimelineEditEventId NOTIFY
                  matrixTimelineStateChanged)
     Q_PROPERTY(QStringList matrixTimelinePinnedEventIds READ matrixTimelinePinnedEventIds NOTIFY
@@ -179,6 +181,7 @@ public:
     }
     QString matrixTimelineReplySenderId() const { return matrixTimelineReplySenderId_; }
     QString matrixTimelineReplyBody() const { return matrixTimelineReplyBody_; }
+    QString matrixTimelineThreadEventId() const { return matrixTimelineThreadEventId_; }
     QString matrixTimelineEditEventId() const { return matrixTimelineEditEventId_; }
     QStringList matrixTimelinePinnedEventIds() const { return matrixTimelinePinnedEventIds_; }
     QStringList matrixTimelineFrequentReactions() const { return matrixTimelineFrequentReactions_; }
@@ -272,6 +275,8 @@ public:
                                             const QString &senderDisplayName,
                                             const QString &body);
     Q_INVOKABLE void clearActiveMatrixReply();
+    Q_INVOKABLE bool queueActiveMatrixThread(const QString &threadEventId);
+    Q_INVOKABLE void clearActiveMatrixThread();
     Q_INVOKABLE bool
     toggleActiveMatrixTimelineReaction(const QString &eventId, const QString &reactionKey);
     Q_INVOKABLE bool
@@ -464,6 +469,7 @@ private:
         QString filename;
         QString body;
         QString replyEventId;
+        QString threadId;
         QString mimeType;
     };
     std::deque<PendingMatrixAttachment> pendingMatrixAttachments_;
@@ -473,6 +479,7 @@ private:
     QString matrixTimelineReplySenderDisplayName_;
     QString matrixTimelineReplySenderId_;
     QString matrixTimelineReplyBody_;
+    QString matrixTimelineThreadEventId_;
     QString matrixTimelineEditEventId_;
     QString matrixTimelineEditMessageKind_;
     struct MatrixTimelineFrequentReactionsCacheEntry
@@ -503,6 +510,8 @@ private:
                                    const QString &senderDisplayName,
                                    const QString &body);
     bool clearActiveMatrixReplyState();
+    bool setActiveMatrixThreadState(const QString &threadEventId);
+    bool clearActiveMatrixThreadState();
     bool setActiveMatrixEditState(const QString &eventId, const QString &messageKind);
     bool clearActiveMatrixEditState();
     void fetchActiveMatrixTimelineMediaToFile(const QString &itemId,

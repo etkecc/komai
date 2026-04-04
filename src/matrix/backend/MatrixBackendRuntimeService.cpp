@@ -2743,6 +2743,7 @@ MatrixBackendRuntimeService::sendRoomReplyMessage(matrix_backend::BlockingCallCo
                                                   const QString &body,
                                                   bool useMarkdownFormatting,
                                                   const QString &messageKind,
+                                                  const QString &threadId,
                                                   QString *errorOut)
 {
     try {
@@ -2755,6 +2756,7 @@ MatrixBackendRuntimeService::sendRoomReplyMessage(matrix_backend::BlockingCallCo
            body,
            useMarkdownFormatting,
            messageKind,
+           threadId,
            context]() {
               ::komai::rust::matrix_send_room_reply_message(
                 matrix_backend::toRustBlockingContext(context),
@@ -2763,7 +2765,8 @@ MatrixBackendRuntimeService::sendRoomReplyMessage(matrix_backend::BlockingCallCo
                 repliedToEventId.toStdString(),
                 body.toStdString(),
                 useMarkdownFormatting,
-                messageKind.toStdString());
+                messageKind.toStdString(),
+                threadId.toStdString());
           });
         return true;
     } catch (const std::exception &e) {
@@ -3126,6 +3129,7 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
                                                 const QString &filename,
                                                 const QString &caption,
                                                 const QString &replyEventId,
+                                                const QString &threadId,
                                                 const QString &mimeType,
                                                 QString *errorOut)
 {
@@ -3133,7 +3137,15 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
         matrix_backend::invokeBlockingCall(
           "matrix_send_room_attachment",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, filePath, filename, caption, replyEventId, mimeType, context]() {
+          [handleId,
+           roomId,
+           filePath,
+           filename,
+           caption,
+           replyEventId,
+           threadId,
+           mimeType,
+           context]() {
               ::komai::rust::matrix_send_room_attachment(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
@@ -3142,6 +3154,7 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
                 filename.toStdString(),
                 caption.toStdString(),
                 replyEventId.toStdString(),
+                threadId.toStdString(),
                 mimeType.toStdString());
           });
         return true;

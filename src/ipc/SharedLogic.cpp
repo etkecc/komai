@@ -875,6 +875,7 @@ sendImageFromFile(const QString &roomIdOrAlias,
                                                                                  effectiveFilename,
                                                                                  trimmedBody,
                                                                                  {},
+                                                                                 {},
                                                                                  mimeType,
                                                                                  &error);
           if (ok) {

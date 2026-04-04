@@ -1731,6 +1731,7 @@ mod bridge {
             body: &str,
             use_markdown_formatting: bool,
             message_kind: &str,
+            thread_id: &str,
         ) -> Result<()>;
         fn matrix_send_room_edit_message(
             context: MatrixFfiBlockingContext,
@@ -1825,6 +1826,7 @@ mod bridge {
             filename: &str,
             caption: &str,
             reply_event_id: &str,
+            thread_id: &str,
             mime_type: &str,
         ) -> Result<()>;
         fn matrix_upload_media(

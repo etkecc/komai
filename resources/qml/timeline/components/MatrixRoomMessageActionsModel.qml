@@ -32,7 +32,7 @@ Item {
     property string reply: ""
     property string edit: ""
     property string thread: ""
-    property bool supportsThreadNavigation: false
+    property bool supportsThreadNavigation: true
     property bool paginationInProgress: false
     property bool canLoadMoreMedia: true
     property int pendingPaginationCount: -1
@@ -259,8 +259,11 @@ Item {
     }
 
     onThreadChanged: {
-        if (thread)
-            thread = "";
+        if (!thread)
+            return;
+
+        TimelineManager.queueActiveMatrixThread(thread);
+        thread = "";
     }
 
     QtObject {

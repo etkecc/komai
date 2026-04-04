@@ -902,7 +902,8 @@ public:
                                      const QString &body,
                                      bool useMarkdownFormatting,
                                      const QString &messageKind,
-                                     QString *errorOut = nullptr);
+                                     const QString &threadId = QString(),
+                                     QString *errorOut       = nullptr);
 
     static bool sendRoomEditMessage(matrix_backend::BlockingCallContext context,
                                     uint64_t handleId,
@@ -1009,6 +1010,7 @@ public:
                                    const QString &filename,
                                    const QString &caption,
                                    const QString &replyEventId,
+                                   const QString &threadId,
                                    const QString &mimeType,
                                    QString *errorOut = nullptr);
 

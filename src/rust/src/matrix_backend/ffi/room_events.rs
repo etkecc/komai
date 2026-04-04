@@ -223,6 +223,7 @@ pub(crate) fn matrix_send_room_reply_message(
     body: &str,
     use_markdown_formatting: bool,
     message_kind: &str,
+    thread_id: &str,
 ) -> Result<(), String> {
     ffi_block_on(
         context,
@@ -234,6 +235,7 @@ pub(crate) fn matrix_send_room_reply_message(
             body,
             use_markdown_formatting,
             message_kind,
+            thread_id,
         ),
     )
 }
@@ -468,6 +470,7 @@ pub(crate) fn matrix_send_room_attachment(
     filename: &str,
     caption: &str,
     reply_event_id: &str,
+    thread_id: &str,
     mime_type: &str,
 ) -> Result<(), String> {
     ffi_block_on(
@@ -480,6 +483,7 @@ pub(crate) fn matrix_send_room_attachment(
             filename,
             caption,
             reply_event_id,
+            thread_id,
             mime_type,
         ),
     )

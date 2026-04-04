@@ -160,6 +160,7 @@ pub async fn send_room_reply_message(
     body: &str,
     use_markdown_formatting: bool,
     message_kind: &str,
+    thread_id: &str,
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let replied_to_event_id = replied_to_event_id.trim();
@@ -168,6 +169,7 @@ pub async fn send_room_reply_message(
     }
 
     let body = body.trim();
+    let thread_id = thread_id.trim();
 
     let parsed_event_id = EventId::parse(replied_to_event_id)
         .map_err(|e| format!("invalid event id '{replied_to_event_id}': {e}"))?;
@@ -176,27 +178,53 @@ pub async fn send_room_reply_message(
         message_type_from_kind(message_kind, body, use_markdown_formatting)?;
     let content = RoomMessageEventContentWithoutRelation::new(message_type);
 
+    let is_threaded = !thread_id.is_empty();
+
     tracing::info!(
         handle_id,
         room_id = room_id.trim(),
         replied_to_event_id,
         message_kind,
         has_formatted_html,
+        is_threaded,
         "Sending matrix-sdk room reply"
     );
 
-    room.timeline()
-        .await
-        .map_err(|e| format!("failed to build matrix-sdk room timeline for reply: {e}"))?
-        .send_reply(content, parsed_event_id)
-        .await
-        .map_err(|e| format!("failed to send matrix-sdk room reply: {e}"))?;
+    if is_threaded {
+        // When a thread_id is set, build the reply manually with EnforceThread::Threaded
+        // so the message is placed into the correct thread.
+        let is_reply_within_thread = replied_to_event_id != thread_id;
+        let reply_within_thread = if is_reply_within_thread {
+            matrix_sdk::ruma::events::room::message::ReplyWithinThread::Yes
+        } else {
+            matrix_sdk::ruma::events::room::message::ReplyWithinThread::No
+        };
+        let reply = Reply {
+            event_id: parsed_event_id,
+            enforce_thread: EnforceThread::Threaded(reply_within_thread),
+        };
+        let reply_content = room.make_reply_event(content, reply)
+            .await
+            .map_err(|e| format!("failed to build matrix-sdk threaded reply event: {e}"))?;
+        room.send_queue()
+            .send(reply_content.into())
+            .await
+            .map_err(|e| format!("failed to queue matrix-sdk threaded reply: {e}"))?;
+    } else {
+        room.timeline()
+            .await
+            .map_err(|e| format!("failed to build matrix-sdk room timeline for reply: {e}"))?
+            .send_reply(content, parsed_event_id)
+            .await
+            .map_err(|e| format!("failed to send matrix-sdk room reply: {e}"))?;
+    }
 
     tracing::debug!(
         handle_id,
         room_id = room_id.trim(),
         replied_to_event_id,
         message_kind,
+        is_threaded,
         "Queued matrix-sdk room reply"
     );
 
@@ -302,6 +330,7 @@ pub async fn send_room_attachment(
     filename: &str,
     caption: &str,
     reply_event_id: &str,
+    thread_id: &str,
     mime_type: &str,
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
@@ -330,13 +359,31 @@ pub async fn send_room_attachment(
         }
     };
     let caption = caption.trim();
-    let reply = if reply_event_id.trim().is_empty() {
+    let thread_id = thread_id.trim();
+    let reply = if reply_event_id.trim().is_empty() && thread_id.is_empty() {
         None
     } else {
+        // When in a thread but no specific reply, reply to the thread root.
+        let effective_reply_event_id = if reply_event_id.trim().is_empty() {
+            thread_id
+        } else {
+            reply_event_id.trim()
+        };
+        let enforce_thread = if thread_id.is_empty() {
+            EnforceThread::MaybeThreaded
+        } else {
+            let is_reply_within_thread = effective_reply_event_id != thread_id;
+            let reply_within_thread = if is_reply_within_thread {
+                matrix_sdk::ruma::events::room::message::ReplyWithinThread::Yes
+            } else {
+                matrix_sdk::ruma::events::room::message::ReplyWithinThread::No
+            };
+            EnforceThread::Threaded(reply_within_thread)
+        };
         Some(Reply {
-            event_id: EventId::parse(reply_event_id.trim())
-                .map_err(|e| format!("invalid reply event id '{reply_event_id}': {e}"))?,
-            enforce_thread: EnforceThread::Unthreaded,
+            event_id: EventId::parse(effective_reply_event_id)
+                .map_err(|e| format!("invalid reply event id '{effective_reply_event_id}': {e}"))?,
+            enforce_thread,
         })
     };
 

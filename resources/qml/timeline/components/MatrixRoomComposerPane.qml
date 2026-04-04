@@ -50,6 +50,7 @@ ColumnLayout {
         matrixReplyDisplayName: TimelineManager.matrixTimelineReplySenderDisplayName
         matrixReplyBody: TimelineManager.matrixTimelineReplyBody
         matrixEditEventId: TimelineManager.matrixTimelineEditEventId
+        matrixThreadEventId: TimelineManager.matrixTimelineThreadEventId
         roomModel: root.composerRoom
         roundTopCorners: true
     }

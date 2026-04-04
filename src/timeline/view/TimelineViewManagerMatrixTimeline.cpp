@@ -302,6 +302,7 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     }
 
     clearActiveMatrixReplyState();
+    clearActiveMatrixThreadState();
 
     setPreferredInitialMatrixTimelinePageSize(preferredInitialMatrixTimelinePageSize_ > 0
                                                 ? preferredInitialMatrixTimelinePageSize_
@@ -822,7 +823,8 @@ void
 TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
 {
     bool stateChanged = clearActiveMatrixReplyState();
-    stateChanged      = clearActiveMatrixEditState() || stateChanged;
+    stateChanged |= clearActiveMatrixThreadState();
+    stateChanged |= clearActiveMatrixEditState();
     if (!matrixTimelinePendingJumpRoomId_.isEmpty() ||
         !matrixTimelinePendingJumpEventId_.isEmpty() ||
         matrixTimelinePendingJumpPaginationAttempts_ != 0 ||
@@ -929,16 +931,25 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
     const auto roomId                = activeMatrixTimelineRoomId_;
     const auto useMarkdownFormatting = matrixMessageUsesMarkdownFormatting();
     const auto replyEventId          = matrixTimelineReplyEventId_.trimmed();
-    const auto action =
-      replyEventId.isEmpty() ? QStringLiteral("message") : QStringLiteral("reply");
+    const auto threadId              = matrixTimelineThreadEventId_.trimmed();
+    // When in a thread but no explicit reply, reply to the thread root.
+    const auto effectiveReplyEventId = replyEventId.isEmpty() ? threadId : replyEventId;
+    const auto isReplyOrThread       = !effectiveReplyEventId.isEmpty();
+    const auto action = isReplyOrThread ? QStringLiteral("reply") : QStringLiteral("message");
 
     komai::qt_worker_task::runQueued(
       this,
-      [handleId, roomId, plainBody, useMarkdownFormatting, replyEventId, action]() {
+      [handleId,
+       roomId,
+       plainBody,
+       useMarkdownFormatting,
+       effectiveReplyEventId,
+       threadId,
+       action]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok =
-            replyEventId.isEmpty()
+            effectiveReplyEventId.isEmpty()
               ? komai::MatrixBackendRuntimeService::sendRoomMessage(context,
                                                                     handleId,
                                                                     roomId,
@@ -949,16 +960,17 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
               : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(context,
                                                                          handleId,
                                                                          roomId,
-                                                                         replyEventId,
+                                                                         effectiveReplyEventId,
                                                                          plainBody,
                                                                          useMarkdownFormatting,
                                                                          QStringLiteral("text"),
+                                                                         threadId,
                                                                          &error);
 
           return MatrixTimelineMessageSendResult{
             .handleId      = handleId,
             .roomId        = roomId,
-            .targetEventId = replyEventId,
+            .targetEventId = effectiveReplyEventId,
             .action        = action,
             .error         = error,
             .ok            = ok,
@@ -981,7 +993,9 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
             TimelineViewManager::tr("Failed to send message: %1").arg(result.error));
       });
 
-    if (clearActiveMatrixReplyState())
+    bool stateChanged = clearActiveMatrixReplyState();
+    stateChanged |= clearActiveMatrixThreadState();
+    if (stateChanged)
         emit matrixTimelineStateChanged();
 
     return true;
@@ -1016,7 +1030,8 @@ TimelineViewManager::queueActiveMatrixEdit(const QString &eventId,
     if (body.trimmed().isEmpty())
         return false;
 
-    const auto clearedReplyState = clearActiveMatrixReplyState();
+    bool clearedReplyState = clearActiveMatrixReplyState();
+    clearedReplyState |= clearActiveMatrixThreadState();
     const auto stateChanged =
       setActiveMatrixEditState(trimmedEventId, normalizedMatrixMessageKind(messageKind));
 
@@ -2246,16 +2261,20 @@ TimelineViewManager::sendActiveMatrixAttachments()
         return false;
 
     const auto replyEventId = matrixTimelineReplyEventId_.trimmed();
-    if (!replyEventId.isEmpty()) {
+    const auto threadId     = matrixTimelineThreadEventId_.trimmed();
+    if (!replyEventId.isEmpty() || !threadId.isEmpty()) {
         for (auto &attachment : pendingMatrixAttachments_) {
             if (attachment.replyEventId.isEmpty())
                 attachment.replyEventId = replyEventId;
+            if (attachment.threadId.isEmpty())
+                attachment.threadId = threadId;
         }
     }
 
-    const auto clearedReplyState = clearActiveMatrixReplyState();
+    bool clearedState = clearActiveMatrixReplyState();
+    clearedState |= clearActiveMatrixThreadState();
     startNextPendingMatrixAttachment();
-    if (clearedReplyState)
+    if (clearedState)
         emit replyClosed();
     return true;
 }
@@ -2496,6 +2515,7 @@ TimelineViewManager::startNextPendingMatrixAttachment()
                                                                  attachment.filename,
                                                                  attachment.body,
                                                                  attachment.replyEventId,
+                                                                 attachment.threadId,
                                                                  attachment.mimeType,
                                                                  &error);
 
@@ -2547,6 +2567,52 @@ TimelineViewManager::clearActiveMatrixReplyState()
     matrixTimelineReplySenderDisplayName_.clear();
     matrixTimelineReplyBody_.clear();
     emit replyingEventChanged(QString());
+    return true;
+}
+
+bool
+TimelineViewManager::queueActiveMatrixThread(const QString &threadEventId)
+{
+    if (activeMatrixTimelineRoomId_.isEmpty())
+        return false;
+
+    const auto trimmedThreadEventId = threadEventId.trimmed();
+    if (trimmedThreadEventId.isEmpty())
+        return false;
+
+    if (setActiveMatrixThreadState(trimmedThreadEventId))
+        emit matrixTimelineStateChanged();
+    focusMessageInput();
+    return true;
+}
+
+void
+TimelineViewManager::clearActiveMatrixThread()
+{
+    if (!clearActiveMatrixThreadState())
+        return;
+
+    emit matrixTimelineStateChanged();
+}
+
+bool
+TimelineViewManager::setActiveMatrixThreadState(const QString &threadEventId)
+{
+    const auto trimmed = threadEventId.trimmed();
+    if (matrixTimelineThreadEventId_ == trimmed)
+        return false;
+
+    matrixTimelineThreadEventId_ = trimmed;
+    return true;
+}
+
+bool
+TimelineViewManager::clearActiveMatrixThreadState()
+{
+    if (matrixTimelineThreadEventId_.isEmpty())
+        return false;
+
+    matrixTimelineThreadEventId_.clear();
     return true;
 }
 

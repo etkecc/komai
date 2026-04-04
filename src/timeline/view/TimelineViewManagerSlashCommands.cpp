@@ -179,7 +179,9 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
             mainWindow->showNotification(message);
     };
     const auto clearReplyIfNeeded = [this]() {
-        if (clearActiveMatrixReplyState())
+        bool changed = clearActiveMatrixReplyState();
+        changed |= clearActiveMatrixThreadState();
+        if (changed)
             emit matrixTimelineStateChanged();
     };
     const auto activeHandleId = [mainWindow]() -> uint64_t {
@@ -227,15 +229,23 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
 
         const auto useMarkdownFormatting = useMarkdownFormattingForMatrixSend(formatMode);
         const auto replyEventId          = matrixTimelineReplyEventId_.trimmed();
+        const auto threadId              = matrixTimelineThreadEventId_.trimmed();
+        const auto effectiveReplyEventId = replyEventId.isEmpty() ? threadId : replyEventId;
 
         const auto roomId = activeMatrixTimelineRoomId_;
         komai::qt_worker_task::runQueued(
           this,
-          [handleId, roomId, replyEventId, plainBody, useMarkdownFormatting, messageKind]() {
+          [handleId,
+           roomId,
+           effectiveReplyEventId,
+           threadId,
+           plainBody,
+           useMarkdownFormatting,
+           messageKind]() {
               const auto context = komai::matrix_backend::blockingCallContext();
               QString error;
               const bool ok =
-                replyEventId.isEmpty()
+                effectiveReplyEventId.isEmpty()
                   ? komai::MatrixBackendRuntimeService::sendRoomMessage(context,
                                                                         handleId,
                                                                         roomId,
@@ -246,10 +256,11 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
                   : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(context,
                                                                              handleId,
                                                                              roomId,
-                                                                             replyEventId,
+                                                                             effectiveReplyEventId,
                                                                              plainBody,
                                                                              useMarkdownFormatting,
                                                                              messageKind,
+                                                                             threadId,
                                                                              &error);
 
               return SlashCommandSendResult{

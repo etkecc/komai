@@ -20,9 +20,13 @@ Rectangle {
     property string matrixReplyDisplayName: ""
     property string matrixReplyBody: ""
     property string matrixEditEventId: ""
+    property string matrixThreadEventId: ""
     readonly property bool matrixReplyMode: matrixReplyEventId.length > 0
     readonly property bool matrixEditMode: matrixEditEventId.length > 0
-    property color threadColor: roomModel ? TimelineManager.userColor(roomModel.thread, palette.base) : palette.buttonText
+    readonly property bool matrixThreadMode: matrixThreadEventId.length > 0
+    property color threadColor: matrixThreadMode
+        ? TimelineManager.userColor(matrixThreadEventId, palette.base)
+        : (roomModel ? TimelineManager.userColor(roomModel.thread, palette.base) : palette.buttonText)
     readonly property string matrixReplyPreviewUserId: matrixReplySenderId !== ""
         ? matrixReplySenderId
         : (matrixReplyDisplayName !== "" ? matrixReplyDisplayName : matrixReplyEventId)
@@ -34,6 +38,7 @@ Rectangle {
         : replyPopup.palette.base
     readonly property bool layoutVisible: matrixReplyMode
         || matrixEditMode
+        || matrixThreadMode
         || !!(roomModel && (roomModel.reply || roomModel.thread || roomModel.edit))
     property int headerTextHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int headerIconSize: Math.ceil(replyPopup.headerTextHeight * 0.5)
@@ -72,7 +77,8 @@ Rectangle {
 
         // ── Thread header (visible when in a thread) ──
         RowLayout {
-            visible: !!(roomModel && roomModel.thread) && !replyPopup.matrixReplyMode
+            visible: replyPopup.matrixThreadMode
+                || (!!(roomModel && roomModel.thread) && !replyPopup.matrixReplyMode)
             spacing: Komai.paddingSmall
             width: parent.width
 
@@ -107,7 +113,12 @@ Rectangle {
                 hoverEnabled: true
                 image: ":/icons/icons/ui/dismiss.svg"
 
-                onClicked: roomModel.thread = undefined
+                onClicked: {
+                    if (replyPopup.matrixThreadMode)
+                        TimelineManager.clearActiveMatrixThread();
+                    else
+                        roomModel.thread = undefined;
+                }
             }
         }
 

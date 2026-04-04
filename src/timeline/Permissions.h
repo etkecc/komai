@@ -74,8 +74,12 @@ public:
     void invalidate();
 
 private:
+    qlonglong currentUserPowerLevel() const;
+    qlonglong requiredEventLevel(int eventType) const;
+
     QString roomId_;
     komai::MatrixRoomPowerLevels powerLevels_;
+    bool loaded_ = false;
 };
 
 class MatrixRoomPermissions : public AbstractPermissions

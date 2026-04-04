@@ -188,54 +188,92 @@ Permissions::Permissions(QString roomId, QObject *parent)
   : AbstractPermissions(parent)
   , roomId_(std::move(roomId))
 {
-    invalidate();
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || roomId_.isEmpty()) {
+        powerLevels_ = {};
+        return;
+    }
+
+    const auto context = komai::matrix_backend::blockingCallContext();
+    QString error;
+    const auto result =
+      komai::MatrixBackendRuntimeService::fetchRoomPowerLevels(context, handleId, roomId_, &error);
+
+    if (result) {
+        powerLevels_ = *result;
+        loaded_      = true;
+    } else {
+        if (!error.isEmpty()) {
+            nhlog::ui()->warn("Failed to fetch room power levels for '{}': {}",
+                              roomId_.toStdString(),
+                              error.toStdString());
+        }
+        powerLevels_ = {};
+    }
 }
 
 void
 Permissions::invalidate()
 {
-    nhlog::ui()->warn("Using conservative default room permissions for '{}' until matrix-sdk "
-                      "power-level fetch is migrated",
-                      roomId_.toStdString());
     powerLevels_ = {};
+    loaded_      = false;
+}
+
+qlonglong
+Permissions::currentUserPowerLevel() const
+{
+    return komai::matrix::effectiveUserPowerLevel(powerLevels_, utils::localUser().trimmed());
+}
+
+qlonglong
+Permissions::requiredEventLevel(int eventType) const
+{
+    const auto key = matrixEventTypeKey(static_cast<qml_mtx_events::EventType>(eventType));
+    if (key.isEmpty())
+        return std::numeric_limits<qlonglong>::max();
+
+    return eventLevelForKey(
+      powerLevels_, key, isStateEventType(static_cast<qml_mtx_events::EventType>(eventType)));
 }
 
 bool
 Permissions::canInvite()
 {
-    return false;
+    return loaded_ && currentUserPowerLevel() >= powerLevels_.invite;
 }
 
 bool
 Permissions::canBan()
 {
-    return false;
+    return loaded_ && currentUserPowerLevel() >= powerLevels_.ban;
 }
 
 bool
 Permissions::canKick()
 {
-    return false;
+    return loaded_ && currentUserPowerLevel() >= powerLevels_.kick;
 }
 
 bool
 Permissions::canRedact()
 {
-    return false;
+    return loaded_ && currentUserPowerLevel() >= powerLevels_.redact;
 }
 
 bool
 Permissions::canChange(int eventType)
 {
-    Q_UNUSED(eventType);
-    return false;
+    return loaded_ && currentUserPowerLevel() >= requiredEventLevel(eventType);
 }
 
 bool
 Permissions::canSend(int eventType)
 {
-    Q_UNUSED(eventType);
-    return true;
+    if (!loaded_)
+        return true;
+
+    return currentUserPowerLevel() >= requiredEventLevel(eventType);
 }
 
 int
@@ -253,21 +291,24 @@ Permissions::redactLevel()
 int
 Permissions::changeLevel(int eventType)
 {
-    Q_UNUSED(eventType);
-    return static_cast<int>(powerLevels_.stateDefault);
+    const auto level = requiredEventLevel(eventType);
+    return level >= std::numeric_limits<int>::max() ? std::numeric_limits<int>::max()
+                                                    : static_cast<int>(level);
 }
 
 int
 Permissions::sendLevel(int eventType)
 {
-    Q_UNUSED(eventType);
-    return static_cast<int>(powerLevels_.eventsDefault);
+    const auto level = requiredEventLevel(eventType);
+    return level >= std::numeric_limits<int>::max() ? std::numeric_limits<int>::max()
+                                                    : static_cast<int>(level);
 }
 
 bool
 Permissions::canPingRoom()
 {
-    return true;
+    return loaded_ && currentUserPowerLevel() >=
+                        eventLevelForKey(powerLevels_, QStringLiteral("m.room.message"), false);
 }
 
 MatrixRoomPermissions::MatrixRoomPermissions(QObject *parent)

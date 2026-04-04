@@ -22,8 +22,8 @@ Rectangle {
     readonly property bool canReply: _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("reply")
     readonly property bool canThread: _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("thread")
     readonly property bool canEdit: _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("edit")
-    readonly property bool canForward: _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("forward")
-    readonly property bool canRemove: _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("remove")
+    readonly property bool canForward: _rev >= 0 && (_eid.length > 0 || chatRoot.selectedCount > 1) && chatRoot.canPerformWalkModeAction("forward")
+    readonly property bool canRemove: _rev >= 0 && (_eid.length > 0 || chatRoot.selectedCount > 1) && chatRoot.canPerformWalkModeAction("remove")
     readonly property bool canOpenOptions: _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("options")
     readonly property bool canClearSelection: chatRoot.selectedCount > 0
     readonly property int headerButtonHeight: Komai.listIconSize

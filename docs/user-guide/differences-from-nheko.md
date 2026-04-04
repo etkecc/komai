@@ -106,7 +106,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Audio media handling controls** -- Timeline settings now distinguish image, video, and audio external-open behavior, and let you choose the default inline playback speed
 - **Improved text accessibility controls** -- UI text follows the configured font size more consistently, and you can adjust font size quickly with keyboard shortcuts (`Ctrl` + `+` and `Ctrl` + `-`)
 - **Profile and Logout buttons** easily accessible in the Session tab
-- **Account notifications toggle** -- control your homeserver's master push rule directly from Settings > Notifications, letting you mute notifications across all clients/devices without leaving Komai
+- **Account notifications toggle** -- control your homeserver's master push rule directly from Settings > Desktop, letting you mute notifications across all clients/devices without leaving Komai
 - **Configurable browser command for links** -- allows opening links through a custom command (for a specific browser/profile or script workflow), while still supporting system defaults when not set.
 - **Revamped settings storage** -- Komai uses per-profile, human-readable YAML files (`config.yml`, `state.yml`, `session.yml`, `secrets.yml`) instead of one monolithic Qt settings store.
 

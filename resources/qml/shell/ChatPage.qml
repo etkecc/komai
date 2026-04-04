@@ -134,9 +134,9 @@ Rectangle {
         id: windowFocusBlurOverlay
 
         anchors.fill: parent
-        screenTimeout: Settings.privacyWindowFocusBlurDelaySeconds
+        screenTimeout: Settings.desktopWindowFocusBlurDelaySeconds
         timelineRoot: adaptiveView
-        visible: Settings.privacyWindowFocusBlurEnabled
+        visible: Settings.desktopWindowFocusBlurEnabled
         windowTarget: MainWindow
     }
 }

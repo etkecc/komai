@@ -333,6 +333,10 @@ pub(crate) fn ffi_config_timeline_section(
             global: config.timeline.hidden_events.global.clone().unwrap_or_default(),
             by_room,
         },
+        maintenance: ffi::SettingsConfigTimelineMaintenanceSection {
+            has_expire_events: config.timeline.maintenance.expire_events.is_some(),
+            expire_events: config.timeline.maintenance.expire_events.unwrap_or_default(),
+        },
     }
 }
 
@@ -344,19 +348,40 @@ pub(crate) fn ffi_config_secrets_section(
     }
 }
 
-pub(crate) fn ffi_config_privacy_section(
+pub(crate) fn ffi_config_desktop_section(
     config: &settings::config::Config,
-) -> ffi::SettingsConfigPrivacySection {
-    ffi::SettingsConfigPrivacySection {
-        window_focus_blur: ffi::SettingsConfigPrivacyWindowFocusBlurSection {
-            has_enabled: config.privacy.window_focus_blur.enabled.is_some(),
-            enabled: config.privacy.window_focus_blur.enabled.unwrap_or_default(),
-            has_delay_seconds: config.privacy.window_focus_blur.delay_seconds.is_some(),
-            delay_seconds: config.privacy.window_focus_blur.delay_seconds.unwrap_or_default(),
+) -> ffi::SettingsConfigDesktopSection {
+    ffi::SettingsConfigDesktopSection {
+        notifications: ffi::SettingsConfigDesktopNotificationsSection {
+            has_enabled: config.desktop.notifications.enabled.is_some(),
+            enabled: config.desktop.notifications.enabled.unwrap_or_default(),
+            has_attention_on_incoming: config
+                .desktop
+                .notifications
+                .attention_on_incoming
+                .is_some(),
+            attention_on_incoming: config
+                .desktop
+                .notifications
+                .attention_on_incoming
+                .unwrap_or_default(),
+            message_content_policy: config
+                .desktop
+                .notifications
+                .message_content_policy
+                .to_storage_string(),
         },
-        maintenance: ffi::SettingsConfigPrivacyMaintenanceSection {
-            has_expire_events: config.privacy.maintenance.expire_events.is_some(),
-            expire_events: config.privacy.maintenance.expire_events.unwrap_or_default(),
+        system_tray: ffi::SettingsConfigDesktopSystemTraySection {
+            has_enabled: config.desktop.system_tray.enabled.is_some(),
+            enabled: config.desktop.system_tray.enabled.unwrap_or_default(),
+            has_autostart: config.desktop.system_tray.autostart.is_some(),
+            autostart: config.desktop.system_tray.autostart.unwrap_or_default(),
+        },
+        window_focus_blur: ffi::SettingsConfigDesktopWindowFocusBlurSection {
+            has_enabled: config.desktop.window_focus_blur.enabled.is_some(),
+            enabled: config.desktop.window_focus_blur.enabled.unwrap_or_default(),
+            has_delay_seconds: config.desktop.window_focus_blur.delay_seconds.is_some(),
+            delay_seconds: config.desktop.window_focus_blur.delay_seconds.unwrap_or_default(),
         },
     }
 }
@@ -422,18 +447,6 @@ pub(crate) fn ffi_config_calls_section(
     }
 }
 
-pub(crate) fn ffi_config_notifications_section(
-    config: &settings::config::Config,
-) -> ffi::SettingsConfigNotificationsSection {
-    ffi::SettingsConfigNotificationsSection {
-        has_enabled: config.notifications.enabled.is_some(),
-        enabled: config.notifications.enabled.unwrap_or_default(),
-        has_attention_on_incoming: config.notifications.attention_on_incoming.is_some(),
-        attention_on_incoming: config.notifications.attention_on_incoming.unwrap_or_default(),
-        message_content_policy: config.notifications.message_content_policy.to_storage_string(),
-    }
-}
-
 pub(crate) fn ffi_config_network_section(
     config: &settings::config::Config,
 ) -> ffi::SettingsConfigNetworkSection {
@@ -459,10 +472,6 @@ pub(crate) fn ffi_config_integrations_section(
     config: &settings::config::Config,
 ) -> ffi::SettingsConfigIntegrationsSection {
     ffi::SettingsConfigIntegrationsSection {
-        has_system_tray_enabled: config.integrations.system_tray_enabled.is_some(),
-        system_tray_enabled: config.integrations.system_tray_enabled.unwrap_or_default(),
-        has_system_tray_autostart: config.integrations.system_tray_autostart.is_some(),
-        system_tray_autostart: config.integrations.system_tray_autostart.unwrap_or_default(),
         dbus_api_access: config.integrations.dbus_api_access.to_storage_string(),
         browser_command: config.integrations.browser_command.clone(),
     }
@@ -524,10 +533,9 @@ pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi
         sidebars: ffi_config_sidebars_section(&snapshot.config),
         timeline: ffi_config_timeline_section(&snapshot.config),
         secrets: ffi_config_secrets_section(&snapshot.config),
-        privacy: ffi_config_privacy_section(&snapshot.config),
+        desktop: ffi_config_desktop_section(&snapshot.config),
         encryption: ffi_config_encryption_section(&snapshot.config),
         calls: ffi_config_calls_section(&snapshot.config),
-        notifications: ffi_config_notifications_section(&snapshot.config),
         network: ffi_config_network_section(&snapshot.config),
         integrations: ffi_config_integrations_section(&snapshot.config),
         composer: ffi_config_composer_section(&snapshot.config),
@@ -799,6 +807,10 @@ fn clone_config_timeline_section(
                 .collect(),
             by_room: clone_string_list_map_entries(&section.hidden_events.by_room),
         },
+        maintenance: ffi::SettingsConfigTimelineMaintenanceSection {
+            has_expire_events: section.maintenance.has_expire_events,
+            expire_events: section.maintenance.expire_events,
+        },
     }
 }
 
@@ -810,19 +822,28 @@ fn clone_config_secrets_section(
     }
 }
 
-fn clone_config_privacy_section(
-    section: &ffi::SettingsConfigPrivacySection,
-) -> ffi::SettingsConfigPrivacySection {
-    ffi::SettingsConfigPrivacySection {
-        window_focus_blur: ffi::SettingsConfigPrivacyWindowFocusBlurSection {
+fn clone_config_desktop_section(
+    section: &ffi::SettingsConfigDesktopSection,
+) -> ffi::SettingsConfigDesktopSection {
+    ffi::SettingsConfigDesktopSection {
+        notifications: ffi::SettingsConfigDesktopNotificationsSection {
+            has_enabled: section.notifications.has_enabled,
+            enabled: section.notifications.enabled,
+            has_attention_on_incoming: section.notifications.has_attention_on_incoming,
+            attention_on_incoming: section.notifications.attention_on_incoming,
+            message_content_policy: section.notifications.message_content_policy.clone(),
+        },
+        system_tray: ffi::SettingsConfigDesktopSystemTraySection {
+            has_enabled: section.system_tray.has_enabled,
+            enabled: section.system_tray.enabled,
+            has_autostart: section.system_tray.has_autostart,
+            autostart: section.system_tray.autostart,
+        },
+        window_focus_blur: ffi::SettingsConfigDesktopWindowFocusBlurSection {
             has_enabled: section.window_focus_blur.has_enabled,
             enabled: section.window_focus_blur.enabled,
             has_delay_seconds: section.window_focus_blur.has_delay_seconds,
             delay_seconds: section.window_focus_blur.delay_seconds,
-        },
-        maintenance: ffi::SettingsConfigPrivacyMaintenanceSection {
-            has_expire_events: section.maintenance.has_expire_events,
-            expire_events: section.maintenance.expire_events,
         },
     }
 }
@@ -880,18 +901,6 @@ fn clone_config_calls_section(
     }
 }
 
-fn clone_config_notifications_section(
-    section: &ffi::SettingsConfigNotificationsSection,
-) -> ffi::SettingsConfigNotificationsSection {
-    ffi::SettingsConfigNotificationsSection {
-        has_enabled: section.has_enabled,
-        enabled: section.enabled,
-        has_attention_on_incoming: section.has_attention_on_incoming,
-        attention_on_incoming: section.attention_on_incoming,
-        message_content_policy: section.message_content_policy.clone(),
-    }
-}
-
 fn clone_config_network_section(
     section: &ffi::SettingsConfigNetworkSection,
 ) -> ffi::SettingsConfigNetworkSection {
@@ -911,10 +920,6 @@ fn clone_config_integrations_section(
     section: &ffi::SettingsConfigIntegrationsSection,
 ) -> ffi::SettingsConfigIntegrationsSection {
     ffi::SettingsConfigIntegrationsSection {
-        has_system_tray_enabled: section.has_system_tray_enabled,
-        system_tray_enabled: section.system_tray_enabled,
-        has_system_tray_autostart: section.has_system_tray_autostart,
-        system_tray_autostart: section.system_tray_autostart,
         dbus_api_access: section.dbus_api_access.clone(),
         browser_command: section.browser_command.clone(),
     }
@@ -951,10 +956,9 @@ pub(in crate::settings) fn loaded_config_to_snapshot(
         sidebars: clone_config_sidebars_section(&loaded.sidebars),
         timeline: clone_config_timeline_section(&loaded.timeline),
         secrets: clone_config_secrets_section(&loaded.secrets),
-        privacy: clone_config_privacy_section(&loaded.privacy),
+        desktop: clone_config_desktop_section(&loaded.desktop),
         encryption: clone_config_encryption_section(&loaded.encryption),
         calls: clone_config_calls_section(&loaded.calls),
-        notifications: clone_config_notifications_section(&loaded.notifications),
         network: clone_config_network_section(&loaded.network),
         integrations: clone_config_integrations_section(&loaded.integrations),
         composer: clone_config_composer_section(&loaded.composer),
@@ -969,10 +973,9 @@ pub(in crate::settings) fn clone_loaded_config(
         sidebars: clone_config_sidebars_section(&loaded.sidebars),
         timeline: clone_config_timeline_section(&loaded.timeline),
         secrets: clone_config_secrets_section(&loaded.secrets),
-        privacy: clone_config_privacy_section(&loaded.privacy),
+        desktop: clone_config_desktop_section(&loaded.desktop),
         encryption: clone_config_encryption_section(&loaded.encryption),
         calls: clone_config_calls_section(&loaded.calls),
-        notifications: clone_config_notifications_section(&loaded.notifications),
         network: clone_config_network_section(&loaded.network),
         integrations: clone_config_integrations_section(&loaded.integrations),
         composer: clone_config_composer_section(&loaded.composer),
@@ -994,10 +997,9 @@ pub(in crate::settings) fn loaded_config_from_snapshot(
         sidebars: clone_config_sidebars_section(&snapshot.sidebars),
         timeline: clone_config_timeline_section(&snapshot.timeline),
         secrets: clone_config_secrets_section(&snapshot.secrets),
-        privacy: clone_config_privacy_section(&snapshot.privacy),
+        desktop: clone_config_desktop_section(&snapshot.desktop),
         encryption: clone_config_encryption_section(&snapshot.encryption),
         calls: clone_config_calls_section(&snapshot.calls),
-        notifications: clone_config_notifications_section(&snapshot.notifications),
         network: clone_config_network_section(&snapshot.network),
         integrations: clone_config_integrations_section(&snapshot.integrations),
         composer: clone_config_composer_section(&snapshot.composer),

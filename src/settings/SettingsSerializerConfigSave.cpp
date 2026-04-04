@@ -145,6 +145,11 @@ stageConfig(const UserSettings &settings,
               .global     = {},
               .by_room    = {},
             },
+          .maintenance =
+            {
+              .has_expire_events = true,
+              .expire_events     = settings.timelineMaintenanceExpireEvents(),
+            },
         },
       .secrets =
         {
@@ -152,19 +157,31 @@ stageConfig(const UserSettings &settings,
             (usesFileSecretsProvider ? QStringLiteral("file") : QStringLiteral("secret_service"))
               .toStdString(),
         },
-      .privacy =
+      .desktop =
         {
+          .notifications =
+            {
+              .has_enabled               = true,
+              .enabled                   = settings.desktopNotificationsEnabled(),
+              .has_attention_on_incoming = true,
+              .attention_on_incoming     = settings.desktopNotificationsAttentionOnIncoming(),
+              .message_content_policy =
+                cfg::toStorageValue(settings.desktopNotificationsMessageContentPolicy())
+                  .toStdString(),
+            },
+          .system_tray =
+            {
+              .has_enabled   = true,
+              .enabled       = settings.desktopSystemTrayEnabled(),
+              .has_autostart = true,
+              .autostart     = settings.desktopSystemTrayAutostart(),
+            },
           .window_focus_blur =
             {
               .has_enabled       = true,
-              .enabled           = settings.privacyWindowFocusBlurEnabled(),
+              .enabled           = settings.desktopWindowFocusBlurEnabled(),
               .has_delay_seconds = true,
-              .delay_seconds     = settings.privacyWindowFocusBlurDelaySeconds(),
-            },
-          .maintenance =
-            {
-              .has_expire_events = true,
-              .expire_events     = settings.privacyMaintenanceExpireEvents(),
+              .delay_seconds     = settings.desktopWindowFocusBlurDelaySeconds(),
             },
         },
       .encryption =
@@ -220,15 +237,6 @@ stageConfig(const UserSettings &settings,
               .show_cursor              = settings.callsScreenshareShowCursor(),
             },
         },
-      .notifications =
-        {
-          .has_enabled               = true,
-          .enabled                   = settings.notificationsEnabled(),
-          .has_attention_on_incoming = true,
-          .attention_on_incoming     = settings.notificationsAttentionOnIncoming(),
-          .message_content_policy =
-            cfg::toStorageValue(settings.notificationsMessageContentPolicy()).toStdString(),
-        },
       .network =
         {
           .presence_status_policy =
@@ -243,10 +251,6 @@ stageConfig(const UserSettings &settings,
         },
       .integrations =
         {
-          .has_system_tray_enabled   = true,
-          .system_tray_enabled       = settings.integrationsSystemTrayEnabled(),
-          .has_system_tray_autostart = true,
-          .system_tray_autostart     = settings.integrationsSystemTrayAutostart(),
           .dbus_api_access =
             cfg::dbusAccessToStorage(settings.integrationsDbusApiAccess()).toStdString(),
           .browser_command = settings.integrationsBrowserCommand().toStdString(),

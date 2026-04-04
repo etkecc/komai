@@ -110,6 +110,7 @@
         <file alias="icons/ui/table-simple.svg">icons/fluent/assets/Table Simple/SVG/ic_fluent_table_simple_24_regular.svg</file>
         <file alias="icons/ui/slide-content.svg">icons/fluent/assets/Slide Content/SVG/ic_fluent_slide_content_24_regular.svg</file>
         <file alias="icons/ui/image.svg">icons/fluent/assets/Image/SVG/ic_fluent_image_24_regular.svg</file>
+        <file alias="icons/ui/desktop.svg">icons/fluent/assets/Desktop/SVG/ic_fluent_desktop_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

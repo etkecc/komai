@@ -153,7 +153,7 @@ Components.OverlayDialog {
     }
 
     MatrixText {
-        visible: !Settings.privacyMaintenanceExpireEvents
+        visible: !Settings.timelineMaintenanceExpireEvents
         text: qsTr("Enable event expiration in Settings -> Privacy, or these rules will not run.")
         color: Komai.theme.attention
         Layout.fillWidth: true

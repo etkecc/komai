@@ -26,3 +26,4 @@
     CONNECT_SETTING_ID(TimelineMediaAutoplayGifVideos, timelineMediaAutoplayGifVideosChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaOpenAudioExternal, timelineMediaOpenAudioExternalChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaDefaultAudioPlaybackSpeed, timelineMediaDefaultAudioPlaybackSpeedChanged, Value);
+    CONNECT_SETTING_ID(TimelineMaintenanceExpireEvents, timelineMaintenanceExpireEventsChanged, Value);

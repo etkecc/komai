@@ -87,7 +87,7 @@ Development/testing override:
 
 ## What Goes Where
 
-- `config.yml`: theme, fonts, notifications, timeline behavior, timeline media handling (including image/video/audio external-open preferences and the default inline playback speed), local HiddenEvents preferences (`timeline.hidden_events.global` / `timeline.hidden_events.by_room`), [communities sidebar filters](../communities-sidebar.md#-settings), network/db settings, `secrets.provider`, `network.presence.status_policy`
+- `config.yml`: theme, fonts, desktop behavior (`desktop.notifications.*`, `desktop.system_tray.*`, `desktop.window_focus_blur.*`), timeline behavior and maintenance, timeline media handling (including image/video/audio external-open preferences and the default inline playback speed), local HiddenEvents preferences (`timeline.hidden_events.global` / `timeline.hidden_events.by_room`), [communities sidebar filters](../communities-sidebar.md#-settings), network/db settings, `secrets.provider`, `network.presence.status_policy`
 - `state.yml`: window size, sidebar widths, [hidden/collapsed sidebar state](../communities-sidebar.md#-hiding-sections), hidden pins/widgets, drafts, and similar runtime UI state
 - `session.yml`: user id, homeserver, device id
 - `secrets.yml`: `secrets` map (only when `secrets.provider=file`)

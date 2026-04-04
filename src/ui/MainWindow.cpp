@@ -172,7 +172,7 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
           setColor(Theme::paletteFromTheme(theme).window().color());
       });
     connect(userSettings_.get(),
-            &UserSettings::integrationsSystemTrayEnabledChanged,
+            &UserSettings::desktopSystemTrayEnabledChanged,
             trayIcon_,
             &TrayIcon::setVisible);
     connect(trayIcon_,
@@ -187,7 +187,7 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
             [this](int) { refreshDbusAvailability(); });
 #endif
 
-    trayIcon_->setVisible(userSettings_->integrationsSystemTrayEnabled());
+    trayIcon_->setVisible(userSettings_->desktopSystemTrayEnabled());
     dock_ = new Dock(this);
     connect(chat_page_, &ChatPage::attentionCountChanged, dock_, &Dock::setAttentionCount);
 
@@ -626,7 +626,7 @@ MainWindow::closeEvent(QCloseEvent *event)
     }
 
     if (!qApp->isSavingSession() && isVisible() && pageSupportsTray() &&
-        userSettings_->integrationsSystemTrayEnabled()) {
+        userSettings_->desktopSystemTrayEnabled()) {
         event->ignore();
         hide();
         return;

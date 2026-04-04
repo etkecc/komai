@@ -41,7 +41,7 @@ inline constexpr int kDefaultUiLayoutContentMaxWidthPx          = 0;
 inline constexpr int kMinEffectiveUiLayoutContentMaxWidthPx     = 500;
 inline constexpr int kDefaultScreenShareFrameRate               = 30;
 inline constexpr bool kDefaultScreenShareShowCursor             = true;
-inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds = 0;
+inline constexpr int kDefaultDesktopWindowFocusBlurDelaySeconds = 0;
 inline constexpr int kDefaultIntegrationsDbusApiAccess          = 0;
 
 inline constexpr SettingId kEnumTokenConfigSettingIds[] = {
@@ -55,11 +55,10 @@ inline constexpr SettingId kNumericConstrainedConfigSettingIds[] = {
 inline constexpr SettingDefinition kPersistedSettingDefinitions[] = {
 #include "SettingsDefinitionsPersistedCalls.inc"
 #include "SettingsDefinitionsPersistedComposer.inc"
+#include "SettingsDefinitionsPersistedDesktop.inc"
 #include "SettingsDefinitionsPersistedEncryption.inc"
 #include "SettingsDefinitionsPersistedIntegrations.inc"
 #include "SettingsDefinitionsPersistedNetwork.inc"
-#include "SettingsDefinitionsPersistedNotifications.inc"
-#include "SettingsDefinitionsPersistedPrivacy.inc"
 #include "SettingsDefinitionsPersistedSidebars.inc"
 #include "SettingsDefinitionsPersistedTimeline.inc"
 #include "SettingsDefinitionsPersistedUi.inc"

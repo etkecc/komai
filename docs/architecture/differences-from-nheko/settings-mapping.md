@@ -48,8 +48,8 @@ Note:
 | Sidebars | COMMUNITIES SIDEBAR | Show Direct Chats filter | `settings::core::SettingId::SidebarsCommunitiesFilterDirectChats` | `-` | `sidebars.communities.filters.direct_chats` | config.yml | yes |
 | Sidebars | COMMUNITIES SIDEBAR | Show Favourites filter | `settings::core::SettingId::SidebarsCommunitiesFilterFavourites` | `-` | `sidebars.communities.filters.favourites` | config.yml | yes |
 | Sidebars | COMMUNITIES SIDEBAR | Show Low Priority filter | `settings::core::SettingId::SidebarsCommunitiesFilterLowPriority` | `-` | `sidebars.communities.filters.low_priority` | config.yml | yes |
-| Integrations | SYSTEM TRAY | Minimize to tray | `settings::core::SettingId::IntegrationsSystemTrayEnabled` | `tray` | `integrations.system_tray.enabled` | config.yml | yes |
-| Integrations | SYSTEM TRAY | Start in tray | `settings::core::SettingId::IntegrationsSystemTrayAutostart` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |
+| Desktop | SYSTEM TRAY | Minimize to tray | `settings::core::SettingId::DesktopSystemTrayEnabled` | `tray` | `desktop.system_tray.enabled` | config.yml | yes |
+| Desktop | SYSTEM TRAY | Start in tray | `settings::core::SettingId::DesktopSystemTrayAutostart` | `start_in_tray` | `desktop.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `settings::core::SettingId::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `settings::core::SettingId::IntegrationsBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Interaction mode | `settings::core::SettingId::UiInputMode` | `mobile_mode` | `ui.input.mode` | config.yml | yes |
@@ -80,9 +80,9 @@ Note:
 | Composer | EXTRAS | Enable stickers | `settings::core::SettingId::ComposerExtrasStickersEnabled` | `enable_stickers` | `composer.extras.stickers.enabled` | config.yml | yes |
 | Timeline | FEEDBACK | Show when others are typing | `settings::core::SettingId::TimelineTypingShowEnabled` | `typing_notifications` | `timeline.typing.show.enabled` | config.yml | yes |
 | Timeline | FEEDBACK | Read receipts | `settings::core::SettingId::TimelineReadReceiptsEnabled` | `read_receipts` | `timeline.read_receipts.enabled` | config.yml | yes |
-| Notifications | SYSTEM NOTIFICATIONS | Enable system notifications | `settings::core::SettingId::NotificationsEnabled` | `desktop_notifications` | `notifications.enabled` | config.yml | yes |
-| Notifications | SYSTEM NOTIFICATIONS | Flash app window/taskbar on incoming messages | `settings::core::SettingId::NotificationsAttentionOnIncoming` | `alert_on_incoming_messages` | `notifications.attention_on_incoming` | config.yml | yes |
-| Notifications | SYSTEM NOTIFICATIONS | Message content in notifications | `settings::core::SettingId::NotificationsMessageContentPolicy` | `decrypt_notifications` | `notifications.message_content_policy` | config.yml | yes |
+| Desktop | SYSTEM NOTIFICATIONS | Enable system notifications | `settings::core::SettingId::DesktopNotificationsEnabled` | `desktop_notifications` | `desktop.notifications.enabled` | config.yml | yes |
+| Desktop | SYSTEM NOTIFICATIONS | Flash app window/taskbar on incoming messages | `settings::core::SettingId::DesktopNotificationsAttentionOnIncoming` | `alert_on_incoming_messages` | `desktop.notifications.attention_on_incoming` | config.yml | yes |
+| Desktop | SYSTEM NOTIFICATIONS | Message content in notifications | `settings::core::SettingId::DesktopNotificationsMessageContentPolicy` | `decrypt_notifications` | `desktop.notifications.message_content_policy` | config.yml | yes |
 | Calls | GENERAL | Enable legacy calls | `settings::core::SettingId::CallsLegacyEnabled` | `enable_legacy_calls` | `calls.legacy.enabled` | config.yml | yes |
 | Calls | GENERAL | Use turn.matrix.org as fallback relay | `settings::core::SettingId::CallsRelayUseFallbackServer` | `use_fallback_call_relay_server` | `calls.relay.use_fallback_server` | config.yml | yes |
 | Calls | DEVICES | Microphone | `settings::core::SettingId::CallsDevicesMicrophone` | `microphone` | `calls.devices.microphone` | config.yml | yes |
@@ -94,11 +94,11 @@ Note:
 | Calls | SCREEN SHARING | Include camera picture-in-picture | `settings::core::SettingId::CallsScreensharePictureInPicture` | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | yes |
 | Calls | SCREEN SHARING | Show participant camera while screen sharing | `settings::core::SettingId::CallsScreenshareIncludeRemoteVideo` | `screen_share_remote_video` | `calls.screenshare.include_remote_video` | config.yml | yes |
 | Calls | SCREEN SHARING | Show mouse cursor | `settings::core::SettingId::CallsScreenshareShowCursor` | `screen_share_hide_cursor` | `calls.screenshare.show_cursor` | config.yml | yes |
-| Privacy | WINDOW BLUR | Blur on focus loss | `settings::core::SettingId::PrivacyWindowFocusBlurEnabled` | `privacy_screen` | `privacy.window_focus_blur.enabled` | config.yml | yes |
-| Privacy | WINDOW BLUR | Blur delay (seconds) | `settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds` | `privacy_screen_timeout_seconds` | `privacy.window_focus_blur.delay_seconds` | config.yml | yes |
-| Privacy | DATA & MAINTENANCE | Delete expired events periodically | `settings::core::SettingId::PrivacyMaintenanceExpireEvents` | `expire_events` | `privacy.maintenance.expire_events` | config.yml | yes |
-| Privacy | DATA & MAINTENANCE | Hidden events | `UserSettingsModel::HiddenTimelineEvents` | `-` | `timeline.hidden_events.global`, `timeline.hidden_events.by_room` | config.yml | no |
-| Privacy | USERS | Ignored users | `UserSettingsModel::IgnoredUsers` | `-` | `privacy.users.ignored` | runtime/UI-specific | no |
+| Desktop | WINDOW BLUR | Blur on focus loss | `settings::core::SettingId::DesktopWindowFocusBlurEnabled` | `privacy_screen` | `desktop.window_focus_blur.enabled` | config.yml | yes |
+| Desktop | WINDOW BLUR | Blur delay (seconds) | `settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds` | `privacy_screen_timeout_seconds` | `desktop.window_focus_blur.delay_seconds` | config.yml | yes |
+| Timeline | MAINTENANCE | Delete expired events periodically | `settings::core::SettingId::TimelineMaintenanceExpireEvents` | `expire_events` | `timeline.maintenance.expire_events` | config.yml | yes |
+| Timeline | DATA & MAINTENANCE | Hidden events | `UserSettingsModel::HiddenTimelineEvents` | `-` | `timeline.hidden_events.global`, `timeline.hidden_events.by_room` | config.yml | no |
+| Account | USERS | Ignored users | `UserSettingsModel::IgnoredUsers` | `-` | `account.users.ignored` | runtime/UI-specific | no |
 | Encryption | KEY SHARING | Send encrypted messages to verified users only | `settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers` | `only_share_keys_with_verified_users` | `encryption.key_sharing.only_verified_users` | config.yml | yes |
 | Encryption | KEY SHARING | Share keys with verified users and devices | `settings::core::SettingId::EncryptionKeySharingShareWithTrusted` | `share_keys_with_trusted_users` | `encryption.key_sharing.share_with_trusted` | config.yml | yes |
 | Encryption | BACKUP | Enable online key backup | `settings::core::SettingId::EncryptionBackupOnlineEnabled` | `use_online_key_backup` | `encryption.backup.online.enabled` | config.yml | yes |

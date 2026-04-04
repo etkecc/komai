@@ -15,10 +15,13 @@ use super::{
 use crate::ffi::{
     SettingsConfigComposerSection, SettingsConfigEncryptionBackupOnlineSection,
     SettingsConfigEncryptionBackupSection, SettingsConfigEncryptionKeySharingSection,
-    SettingsConfigEncryptionSection, SettingsConfigIntegrationsSection, SettingsConfigNetworkSection,
-    SettingsConfigNotificationsSection, SettingsConfigSecretsSection, SettingsConfigSidebarsCommunitiesSection,
-    SettingsConfigSidebarsRoomListSection, SettingsConfigSidebarsSection, SettingsConfigSnapshot,
-    SettingsConfigTimelineFormattedSection, SettingsConfigTimelineHiddenEventsSection,
+    SettingsConfigEncryptionSection, SettingsConfigDesktopNotificationsSection,
+    SettingsConfigDesktopSection, SettingsConfigDesktopSystemTraySection,
+    SettingsConfigDesktopWindowFocusBlurSection, SettingsConfigIntegrationsSection,
+    SettingsConfigNetworkSection, SettingsConfigSecretsSection,
+    SettingsConfigSidebarsCommunitiesSection, SettingsConfigSidebarsRoomListSection,
+    SettingsConfigSidebarsSection, SettingsConfigSnapshot, SettingsConfigTimelineFormattedSection,
+    SettingsConfigTimelineHiddenEventsSection, SettingsConfigTimelineMaintenanceSection,
     SettingsConfigTimelineMediaSection, SettingsConfigTimelineMessageActionsSection,
     SettingsConfigTimelineMessagesSection, SettingsConfigTimelineReadReceiptsSection,
     SettingsConfigTimelineSection, SettingsConfigTimelineTypingSection, SettingsConfigUiSection,
@@ -226,19 +229,33 @@ ui:
 }
 
 #[test]
-fn parses_notifications_section() {
+fn parses_desktop_section() {
     let config = parse_config_text(
         r#"
-notifications:
-  enabled: false
-  attention_on_incoming: true
-  message_content_policy: unencrypted_only
+desktop:
+  notifications:
+    enabled: false
+    attention_on_incoming: true
+    message_content_policy: unencrypted_only
+  system_tray:
+    enabled: true
+    autostart: false
+  window_focus_blur:
+    enabled: true
+    delay_seconds: 3
 "#,
     );
 
-    assert_eq!(config.notifications.enabled, Some(false));
-    assert_eq!(config.notifications.attention_on_incoming, Some(true));
-    assert_eq!(config.notifications.message_content_policy, "unencrypted_only".into());
+    assert_eq!(config.desktop.notifications.enabled, Some(false));
+    assert_eq!(config.desktop.notifications.attention_on_incoming, Some(true));
+    assert_eq!(
+        config.desktop.notifications.message_content_policy,
+        "unencrypted_only".into()
+    );
+    assert_eq!(config.desktop.system_tray.enabled, Some(true));
+    assert_eq!(config.desktop.system_tray.autostart, Some(false));
+    assert_eq!(config.desktop.window_focus_blur.enabled, Some(true));
+    assert_eq!(config.desktop.window_focus_blur.delay_seconds, Some(3));
 }
 
 #[test]
@@ -250,9 +267,11 @@ network:
     status_policy: offline
   tls:
     enable_certificate_validation: false
-  mrs_enabled: false
-  mrs_server_name: example.org
-  http3_enabled: true
+  mrs:
+    enabled: false
+    server_name: example.org
+  http3:
+    enabled: true
 "#,
     );
 
@@ -268,9 +287,6 @@ fn parses_integrations_section() {
     let config = parse_config_text(
         r#"
 integrations:
-  system_tray:
-    enabled: true
-    autostart: false
   dbus:
     access: read_only
   browser:
@@ -278,8 +294,6 @@ integrations:
 "#,
     );
 
-    assert_eq!(config.integrations.system_tray_enabled, Some(true));
-    assert_eq!(config.integrations.system_tray_autostart, Some(false));
     assert_eq!(config.integrations.dbus_api_access, "read_only".into());
     assert_eq!(config.integrations.browser_command, "firefox %s");
 }
@@ -497,20 +511,33 @@ fn encodes_generic_config_values() {
                     values: vec!["m.call.candidates".to_owned()],
                 }],
             },
+            maintenance: SettingsConfigTimelineMaintenanceSection {
+                has_expire_events: true,
+                expire_events: false,
+            },
         },
         secrets: SettingsConfigSecretsSection {
             provider: "file".to_owned(),
         },
-        privacy: crate::ffi::SettingsConfigPrivacySection {
-            window_focus_blur: crate::ffi::SettingsConfigPrivacyWindowFocusBlurSection {
+        desktop: SettingsConfigDesktopSection {
+            notifications: SettingsConfigDesktopNotificationsSection {
+                has_enabled: true,
+                enabled: false,
+                has_attention_on_incoming: true,
+                attention_on_incoming: true,
+                message_content_policy: "unencrypted_only".to_owned(),
+            },
+            system_tray: SettingsConfigDesktopSystemTraySection {
+                has_enabled: true,
+                enabled: true,
+                has_autostart: true,
+                autostart: false,
+            },
+            window_focus_blur: SettingsConfigDesktopWindowFocusBlurSection {
                 has_enabled: true,
                 enabled: false,
                 has_delay_seconds: true,
                 delay_seconds: 3,
-            },
-            maintenance: crate::ffi::SettingsConfigPrivacyMaintenanceSection {
-                has_expire_events: true,
-                expire_events: false,
             },
         },
         encryption: SettingsConfigEncryptionSection {
@@ -556,13 +583,6 @@ fn encodes_generic_config_values() {
                 show_cursor: true,
             },
         },
-        notifications: SettingsConfigNotificationsSection {
-            has_enabled: true,
-            enabled: false,
-            has_attention_on_incoming: true,
-            attention_on_incoming: true,
-            message_content_policy: "unencrypted_only".to_owned(),
-        },
         network: SettingsConfigNetworkSection {
             presence_status_policy: "offline".to_owned(),
             has_tls_enable_certificate_validation: true,
@@ -574,10 +594,6 @@ fn encodes_generic_config_values() {
             http3_enabled: true,
         },
         integrations: SettingsConfigIntegrationsSection {
-            has_system_tray_enabled: true,
-            system_tray_enabled: true,
-            has_system_tray_autostart: true,
-            system_tray_autostart: false,
             dbus_api_access: "read_only".to_owned(),
             browser_command: "firefox %s".to_owned(),
         },
@@ -826,16 +842,36 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["notifications", "enabled"]),
+        yaml::value_at_path(&root, &["timeline", "maintenance", "expire_events"]),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["notifications", "attention_on_incoming"]),
+        yaml::value_at_path(&root, &["desktop", "notifications", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["desktop", "notifications", "attention_on_incoming"]),
         Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["notifications", "message_content_policy"]),
+        yaml::value_at_path(&root, &["desktop", "notifications", "message_content_policy"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "unencrypted_only"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["desktop", "system_tray", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(true))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["desktop", "system_tray", "autostart"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["desktop", "window_focus_blur", "enabled"]),
+        Some(serde_yaml_ng::Value::Bool(false))
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["desktop", "window_focus_blur", "delay_seconds"]),
+        Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(3)
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["network", "presence", "status_policy"]),
@@ -846,24 +882,16 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["network", "mrs_enabled"]),
+        yaml::value_at_path(&root, &["network", "mrs", "enabled"]),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["network", "mrs_server_name"]),
+        yaml::value_at_path(&root, &["network", "mrs", "server_name"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "example.org"
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["network", "http3_enabled"]),
+        yaml::value_at_path(&root, &["network", "http3", "enabled"]),
         Some(serde_yaml_ng::Value::Bool(true))
-    ));
-    assert!(matches!(
-        yaml::value_at_path(&root, &["integrations", "system_tray", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(true))
-    ));
-    assert!(matches!(
-        yaml::value_at_path(&root, &["integrations", "system_tray", "autostart"]),
-        Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["integrations", "dbus", "access"]),

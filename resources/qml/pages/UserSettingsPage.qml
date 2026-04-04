@@ -34,10 +34,9 @@ Rectangle {
         { text: qsTr("Sidebars"), icon: "qrc:/icons/icons/ui/sidebar.svg", tab: UserSettingsModel.TabSidebars },
         { text: qsTr("Timeline"), icon: "qrc:/icons/icons/ui/speech-bubbles.svg", tab: UserSettingsModel.TabTimeline },
         { text: qsTr("Composer"), icon: "qrc:/icons/icons/ui/edit.svg", tab: UserSettingsModel.TabComposer },
-        { text: qsTr("Notifications"), icon: "qrc:/icons/icons/ui/alert.svg", tab: UserSettingsModel.TabNotifications },
+        { text: qsTr("Desktop"), icon: "qrc:/icons/icons/ui/desktop.svg", tab: UserSettingsModel.TabDesktop },
         { text: qsTr("Calls"), icon: "qrc:/icons/icons/ui/place-call.svg", tab: UserSettingsModel.TabCalls },
         { text: qsTr("Network"), icon: "qrc:/icons/icons/ui/world.svg", tab: UserSettingsModel.TabNetwork },
-        { text: qsTr("Privacy"), icon: "qrc:/icons/icons/ui/eye-hide.svg", tab: UserSettingsModel.TabPrivacy },
         { text: qsTr("Encryption"), icon: "qrc:/icons/icons/ui/shield-regular.svg", tab: UserSettingsModel.TabEncryption },
         { text: qsTr("Account"), icon: "qrc:/icons/icons/ui/person.svg", tab: UserSettingsModel.TabAccount, requiresSession: true },
         { text: qsTr("Integrations"), icon: "qrc:/icons/icons/ui/integrations.svg", tab: UserSettingsModel.TabIntegrations },
@@ -323,14 +322,12 @@ Rectangle {
                         return "settings/TimelineTab.qml";
                     case UserSettingsModel.TabComposer:
                         return "settings/ComposerTab.qml";
-                    case UserSettingsModel.TabNotifications:
-                        return "settings/NotificationsTab.qml";
+                    case UserSettingsModel.TabDesktop:
+                        return "settings/DesktopTab.qml";
                     case UserSettingsModel.TabCalls:
                         return "settings/CallsTab.qml";
                     case UserSettingsModel.TabNetwork:
                         return "settings/NetworkTab.qml";
-                    case UserSettingsModel.TabPrivacy:
-                        return "settings/PrivacyTab.qml";
                     case UserSettingsModel.TabEncryption:
                         return "settings/EncryptionTab.qml";
                     case UserSettingsModel.TabAccount:

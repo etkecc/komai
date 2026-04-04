@@ -74,37 +74,62 @@ UserSettings::setNotificationsAccountEnabled(bool s)
 }
 
 void
-UserSettings::setNotificationsEnabled(bool s)
+UserSettings::setDesktopNotificationsEnabled(bool s)
 {
-    if (notificationsEnabled_ == s)
+    if (desktopNotificationsEnabled_ == s)
         return;
-    notificationsEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NotificationsEnabled, s);
-    emit notificationsEnabledChanged(s);
+    desktopNotificationsEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::DesktopNotificationsEnabled, s);
+    emit desktopNotificationsEnabledChanged(s);
     save();
 }
 
 void
-UserSettings::setNotificationsAttentionOnIncoming(bool s)
+UserSettings::setDesktopNotificationsAttentionOnIncoming(bool s)
 {
-    if (notificationsAttentionOnIncoming_ == s)
+    if (desktopNotificationsAttentionOnIncoming_ == s)
         return;
-    notificationsAttentionOnIncoming_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NotificationsAttentionOnIncoming, s);
-    emit notificationsAttentionOnIncomingChanged(s);
+    desktopNotificationsAttentionOnIncoming_ = s;
+    (void)coreStore_.set(settings::core::SettingId::DesktopNotificationsAttentionOnIncoming, s);
+    emit desktopNotificationsAttentionOnIncomingChanged(s);
     save();
 }
 
 void
-UserSettings::setNotificationsMessageContentPolicy(NotificationMessageContentPolicy s)
+UserSettings::setDesktopNotificationsMessageContentPolicy(NotificationMessageContentPolicy s)
 {
-    if (notificationsMessageContentPolicy_ == s)
+    if (desktopNotificationsMessageContentPolicy_ == s)
         return;
-    if (!setCoreValue(settings::core::SettingId::NotificationsMessageContentPolicy,
+    if (!setCoreValue(settings::core::SettingId::DesktopNotificationsMessageContentPolicy,
                       static_cast<int>(s),
-                      "notifications.message_content_policy"))
+                      "desktop.notifications.message_content_policy"))
         return;
-    notificationsMessageContentPolicy_ = s;
-    emit notificationsMessageContentPolicyChanged(s);
+    desktopNotificationsMessageContentPolicy_ = s;
+    emit desktopNotificationsMessageContentPolicyChanged(s);
+    save();
+}
+
+void
+UserSettings::setDesktopWindowFocusBlurEnabled(bool s)
+{
+    if (desktopWindowFocusBlurEnabled_ == s)
+        return;
+    desktopWindowFocusBlurEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::DesktopWindowFocusBlurEnabled, s);
+    emit desktopWindowFocusBlurEnabledChanged(s);
+    save();
+}
+
+void
+UserSettings::setDesktopWindowFocusBlurDelaySeconds(int s)
+{
+    if (desktopWindowFocusBlurDelaySeconds_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds,
+                      s,
+                      SettingKey::DesktopWindowFocusBlurDelaySeconds))
+        return;
+    desktopWindowFocusBlurDelaySeconds_ = s;
+    emit desktopWindowFocusBlurDelaySecondsChanged(s);
     save();
 }

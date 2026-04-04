@@ -49,10 +49,10 @@ class UserSettings final : public QObject
       bool timelineFormattedCodeSyntaxHighlighting READ timelineFormattedCodeSyntaxHighlighting
         WRITE setTimelineFormattedCodeSyntaxHighlighting NOTIFY
           timelineFormattedCodeSyntaxHighlightingChanged)
-    Q_PROPERTY(bool integrationsSystemTrayEnabled READ integrationsSystemTrayEnabled WRITE
-                 setIntegrationsSystemTrayEnabled NOTIFY integrationsSystemTrayEnabledChanged)
-    Q_PROPERTY(bool integrationsSystemTrayAutostart READ integrationsSystemTrayAutostart WRITE
-                 setIntegrationsSystemTrayAutostart NOTIFY integrationsSystemTrayAutostartChanged)
+    Q_PROPERTY(bool desktopSystemTrayEnabled READ desktopSystemTrayEnabled WRITE
+                 setDesktopSystemTrayEnabled NOTIFY desktopSystemTrayEnabledChanged)
+    Q_PROPERTY(bool desktopSystemTrayAutostart READ desktopSystemTrayAutostart WRITE
+                 setDesktopSystemTrayAutostart NOTIFY desktopSystemTrayAutostartChanged)
     Q_PROPERTY(bool sidebarsCommunitiesVisible READ sidebarsCommunitiesVisible WRITE
                  setSidebarsCommunitiesVisible NOTIFY sidebarsCommunitiesVisibleChanged)
     Q_PROPERTY(
@@ -138,17 +138,20 @@ class UserSettings final : public QObject
           NOTIFY timelineMessageActionsActivationPolicyChanged)
     Q_PROPERTY(bool timelineReadReceiptsEnabled READ timelineReadReceiptsEnabled WRITE
                  setTimelineReadReceiptsEnabled NOTIFY timelineReadReceiptsEnabledChanged)
-    Q_PROPERTY(bool notificationsEnabled READ notificationsEnabled WRITE setNotificationsEnabled
-                 NOTIFY notificationsEnabledChanged)
+    Q_PROPERTY(bool desktopNotificationsEnabled READ desktopNotificationsEnabled WRITE
+                 setDesktopNotificationsEnabled NOTIFY desktopNotificationsEnabledChanged)
     Q_PROPERTY(bool notificationsAccountEnabled READ notificationsAccountEnabled WRITE
                  setNotificationsAccountEnabled NOTIFY notificationsAccountEnabledChanged)
-    Q_PROPERTY(bool notificationsAttentionOnIncoming READ notificationsAttentionOnIncoming WRITE
-                 setNotificationsAttentionOnIncoming NOTIFY notificationsAttentionOnIncomingChanged)
+    Q_PROPERTY(
+      bool desktopNotificationsAttentionOnIncoming READ desktopNotificationsAttentionOnIncoming
+        WRITE setDesktopNotificationsAttentionOnIncoming NOTIFY
+          desktopNotificationsAttentionOnIncomingChanged)
     Q_PROPERTY(bool uiAvatarsCircular READ uiAvatarsCircular WRITE setUiAvatarsCircular NOTIFY
                  uiAvatarsCircularChanged)
-    Q_PROPERTY(NotificationMessageContentPolicy notificationsMessageContentPolicy READ
-                 notificationsMessageContentPolicy WRITE setNotificationsMessageContentPolicy NOTIFY
-                   notificationsMessageContentPolicyChanged)
+    Q_PROPERTY(
+      NotificationMessageContentPolicy desktopNotificationsMessageContentPolicy READ
+        desktopNotificationsMessageContentPolicy WRITE setDesktopNotificationsMessageContentPolicy
+          NOTIFY desktopNotificationsMessageContentPolicyChanged)
     Q_PROPERTY(
       bool sidebarsRoomListShowCommunityCounts READ sidebarsRoomListShowCommunityCounts WRITE
         setSidebarsRoomListShowCommunityCounts NOTIFY sidebarsRoomListShowCommunityCountsChanged)
@@ -164,11 +167,11 @@ class UserSettings final : public QObject
                  setTimelineMediaEffectsEnabled NOTIFY timelineMediaEffectsEnabledChanged)
     Q_PROPERTY(bool uiMotionAnimationsEnabled READ uiMotionAnimationsEnabled WRITE
                  setUiMotionAnimationsEnabled NOTIFY uiMotionAnimationsEnabledChanged)
-    Q_PROPERTY(bool privacyWindowFocusBlurEnabled READ privacyWindowFocusBlurEnabled WRITE
-                 setPrivacyWindowFocusBlurEnabled NOTIFY privacyWindowFocusBlurEnabledChanged)
+    Q_PROPERTY(bool desktopWindowFocusBlurEnabled READ desktopWindowFocusBlurEnabled WRITE
+                 setDesktopWindowFocusBlurEnabled NOTIFY desktopWindowFocusBlurEnabledChanged)
     Q_PROPERTY(
-      int privacyWindowFocusBlurDelaySeconds READ privacyWindowFocusBlurDelaySeconds WRITE
-        setPrivacyWindowFocusBlurDelaySeconds NOTIFY privacyWindowFocusBlurDelaySecondsChanged)
+      int desktopWindowFocusBlurDelaySeconds READ desktopWindowFocusBlurDelaySeconds WRITE
+        setDesktopWindowFocusBlurDelaySeconds NOTIFY desktopWindowFocusBlurDelaySecondsChanged)
     Q_PROPERTY(int uiLayoutContentMaxWidthPx READ uiLayoutContentMaxWidthPx WRITE
                  setUiLayoutContentMaxWidthPx NOTIFY uiLayoutContentMaxWidthPxChanged)
     Q_PROPERTY(int uiLayoutContentMaxWidthEffectivePx READ uiLayoutContentMaxWidthEffectivePx NOTIFY
@@ -258,8 +261,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(QStringList hiddenPins READ hiddenPins WRITE setHiddenPins NOTIFY hiddenPinsChanged)
     Q_PROPERTY(QStringList hiddenWidgets READ hiddenWidgets WRITE setHiddenWidgets NOTIFY
                  hiddenWidgetsChanged)
-    Q_PROPERTY(bool privacyMaintenanceExpireEvents READ privacyMaintenanceExpireEvents WRITE
-                 setPrivacyMaintenanceExpireEvents NOTIFY privacyMaintenanceExpireEventsChanged)
+    Q_PROPERTY(bool timelineMaintenanceExpireEvents READ timelineMaintenanceExpireEvents WRITE
+                 setTimelineMaintenanceExpireEvents NOTIFY timelineMaintenanceExpireEventsChanged)
 
     // Window geometry (not exposed to QML, used internally)
     Q_PROPERTY(int windowWidth READ windowWidth WRITE setWindowWidth NOTIFY windowWidthChanged)
@@ -471,8 +474,8 @@ public:
     void setTimelineMessagesHoverHighlight(bool state);
     void setTimelineMessagesEmojiOnlyEnlarge(bool state);
     void setTimelineFormattedCodeSyntaxHighlighting(bool state);
-    void setIntegrationsSystemTrayEnabled(bool state);
-    void setIntegrationsSystemTrayAutostart(bool state);
+    void setDesktopSystemTrayEnabled(bool state);
+    void setDesktopSystemTrayAutostart(bool state);
     void setUiInputMode(bool mode);
     void setUiInputTouchSwipeGesturesEnabled(bool mode);
     void setUiScaleFactor(double factor);
@@ -514,18 +517,18 @@ public:
     void setSidebarsCommunitiesWidthPx(int state);
     void setSidebarsRoomListWidthPx(int state);
     void setNotificationsAccountEnabled(bool state);
-    void setNotificationsEnabled(bool state);
-    void setNotificationsAttentionOnIncoming(bool state);
+    void setDesktopNotificationsEnabled(bool state);
+    void setDesktopNotificationsAttentionOnIncoming(bool state);
     void setUiAvatarsCircular(bool state);
-    void setNotificationsMessageContentPolicy(NotificationMessageContentPolicy policy);
+    void setDesktopNotificationsMessageContentPolicy(NotificationMessageContentPolicy policy);
     void setSidebarsRoomListShowCommunityCounts(bool state);
     void setUiLayoutCompactMode(bool state);
     void setSidebarsRoomListShowLastMessageTime(bool state);
     void setSidebarsRoomListLastMessagePreview(LastMessagePreview style);
     void setTimelineMediaEffectsEnabled(bool state);
     void setUiMotionAnimationsEnabled(bool state);
-    void setPrivacyWindowFocusBlurEnabled(bool state);
-    void setPrivacyWindowFocusBlurDelaySeconds(int state);
+    void setDesktopWindowFocusBlurEnabled(bool state);
+    void setDesktopWindowFocusBlurDelaySeconds(int state);
     void setNetworkPresenceStatusPolicy(Presence state);
     void setTimelineMediaImageDisplay(ShowImage state);
     void setCallsAudioRingtone(QString callsAudioRingtone);
@@ -571,7 +574,7 @@ public:
     void setIntegrationsBrowserCommand(QString command);
     void setCollapsedSpaces(QStringList spaces);
     void setIntegrationsDbusApiAccess(int access);
-    void setPrivacyMaintenanceExpireEvents(bool state);
+    void setTimelineMaintenanceExpireEvents(bool state);
     void setWindowWidth(int width);
     void setWindowHeight(int height);
     void setNetworkMrsEnabled(bool state);
@@ -639,8 +642,8 @@ signals:
     void timelineMessagesHoverHighlightChanged(bool state);
     void timelineMessagesEmojiOnlyEnlargeChanged(bool state);
     void timelineFormattedCodeSyntaxHighlightingChanged(bool state);
-    void integrationsSystemTrayEnabledChanged(bool state);
-    void integrationsSystemTrayAutostartChanged(bool state);
+    void desktopSystemTrayEnabledChanged(bool state);
+    void desktopSystemTrayAutostartChanged(bool state);
     void composerInputMarkdownToHtmlEnabledChanged(bool state);
     void composerInputSendKeyChanged(SendMessageKey key);
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
@@ -663,18 +666,18 @@ signals:
     void
     timelineMessageActionsActivationPolicyChanged(TimelineMessageActionsActivationPolicy policy);
     void timelineReadReceiptsEnabledChanged(bool state);
-    void notificationsEnabledChanged(bool state);
-    void notificationsAttentionOnIncomingChanged(bool state);
+    void desktopNotificationsEnabledChanged(bool state);
+    void desktopNotificationsAttentionOnIncomingChanged(bool state);
     void uiAvatarsCircularChanged(bool state);
-    void notificationsMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
+    void desktopNotificationsMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
     void sidebarsRoomListShowCommunityCountsChanged(bool state);
     void uiLayoutCompactModeChanged(bool state);
     void sidebarsRoomListShowLastMessageTimeChanged(bool state);
     void sidebarsRoomListLastMessagePreviewChanged(LastMessagePreview style);
     void timelineMediaEffectsEnabledChanged(bool state);
     void uiMotionAnimationsEnabledChanged(bool state);
-    void privacyWindowFocusBlurEnabledChanged(bool state);
-    void privacyWindowFocusBlurDelaySecondsChanged(int state);
+    void desktopWindowFocusBlurEnabledChanged(bool state);
+    void desktopWindowFocusBlurDelaySecondsChanged(int state);
     void uiLayoutContentMaxWidthPxChanged(int state);
     void sidebarsRoomListWidthPxChanged(int state);
     void sidebarsCommunitiesWidthPxChanged(int state);
@@ -719,7 +722,7 @@ signals:
     void composerDraftsByRoomChanged();
     void integrationsDbusApiAccessChanged(int state);
     void integrationsBrowserCommandChanged(QString command);
-    void privacyMaintenanceExpireEventsChanged(bool state);
+    void timelineMaintenanceExpireEventsChanged(bool state);
     void windowWidthChanged(int width);
     void windowHeightChanged(int height);
     void networkMrsEnabledChanged(bool state);

@@ -26,10 +26,9 @@ pub struct Config {
     pub sidebars: ConfigSidebars,
     pub timeline: ConfigTimeline,
     pub secrets: ConfigSecrets,
-    pub privacy: ConfigPrivacy,
+    pub desktop: ConfigDesktop,
     pub encryption: ConfigEncryption,
     pub calls: ConfigCalls,
-    pub notifications: ConfigNotifications,
     pub network: ConfigNetwork,
     pub integrations: ConfigIntegrations,
     pub composer: ConfigComposer,
@@ -123,6 +122,7 @@ pub struct ConfigTimeline {
     pub message_actions: ConfigTimelineMessageActions,
     pub media: ConfigTimelineMedia,
     pub hidden_events: ConfigTimelineHiddenEvents,
+    pub maintenance: ConfigTimelineMaintenance,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -186,19 +186,33 @@ pub struct ConfigSecrets {
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct ConfigPrivacy {
-    pub window_focus_blur: ConfigPrivacyWindowFocusBlur,
-    pub maintenance: ConfigPrivacyMaintenance,
+pub struct ConfigDesktop {
+    pub notifications: ConfigDesktopNotifications,
+    pub system_tray: ConfigDesktopSystemTray,
+    pub window_focus_blur: ConfigDesktopWindowFocusBlur,
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct ConfigPrivacyWindowFocusBlur {
+pub struct ConfigDesktopNotifications {
+    pub enabled: Option<bool>,
+    pub attention_on_incoming: Option<bool>,
+    pub message_content_policy: ConfigNotificationsMessageContentPolicyToken,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigDesktopSystemTray {
+    pub enabled: Option<bool>,
+    pub autostart: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigDesktopWindowFocusBlur {
     pub enabled: Option<bool>,
     pub delay_seconds: Option<i32>,
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct ConfigPrivacyMaintenance {
+pub struct ConfigTimelineMaintenance {
     pub expire_events: Option<bool>,
 }
 
@@ -265,13 +279,6 @@ pub struct ConfigCallsScreenshare {
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct ConfigNotifications {
-    pub enabled: Option<bool>,
-    pub attention_on_incoming: Option<bool>,
-    pub message_content_policy: ConfigNotificationsMessageContentPolicyToken,
-}
-
-#[derive(Clone, Debug, Default)]
 pub struct ConfigNetwork {
     pub presence_status_policy: ConfigNetworkPresenceStatusPolicyToken,
     pub tls_enable_certificate_validation: Option<bool>,
@@ -282,8 +289,6 @@ pub struct ConfigNetwork {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigIntegrations {
-    pub system_tray_enabled: Option<bool>,
-    pub system_tray_autostart: Option<bool>,
     pub dbus_api_access: ConfigIntegrationsDbusApiAccessToken,
     pub browser_command: String,
 }

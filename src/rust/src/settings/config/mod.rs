@@ -15,15 +15,16 @@ use tokens::StorageToken;
 
 pub use model::{
     Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
-    ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigEncryption,
-    ConfigEncryptionBackup, ConfigEncryptionBackupOnline, ConfigEncryptionKeySharing,
-    ConfigIntegrations, ConfigNetwork, ConfigNotifications, ConfigPrivacy,
-    ConfigPrivacyMaintenance, ConfigPrivacyWindowFocusBlur, ConfigSecrets, ConfigSidebars,
-    ConfigSidebarsCommunities, ConfigSidebarsRoomList, ConfigTimeline,
+    ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigDesktop,
+    ConfigDesktopNotifications, ConfigDesktopSystemTray, ConfigDesktopWindowFocusBlur,
+    ConfigEncryption, ConfigEncryptionBackup, ConfigEncryptionBackupOnline,
+    ConfigEncryptionKeySharing, ConfigIntegrations, ConfigNetwork, ConfigSecrets,
+    ConfigSidebars, ConfigSidebarsCommunities, ConfigSidebarsRoomList, ConfigTimeline,
     ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
-    ConfigTimelineMessageActions, ConfigTimelineMessages, ConfigTimelineMessagesLayout,
-    ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi, ConfigUiAvatars, ConfigUiFont,
-    ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale, ConfigUiTheme, LoadedConfig,
+    ConfigTimelineMaintenance, ConfigTimelineMessageActions, ConfigTimelineMessages,
+    ConfigTimelineMessagesLayout, ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi,
+    ConfigUiAvatars, ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion,
+    ConfigUiScale, ConfigUiTheme, LoadedConfig,
 };
 pub(crate) use model::CURRENT_CONFIG_SCHEMA_VERSION;
 pub use tokens::{
@@ -121,12 +122,19 @@ const TIMELINE_MEDIA_DEFAULT_AUDIO_PLAYBACK_SPEED_PATH: [&str; 3] =
 const HIDDEN_EVENTS_GLOBAL_PATH: [&str; 3] = ["timeline", "hidden_events", "global"];
 const HIDDEN_EVENTS_BY_ROOM_PATH: [&str; 3] = ["timeline", "hidden_events", "by_room"];
 const SECRETS_PROVIDER_PATH: [&str; 2] = ["secrets", "provider"];
-const PRIVACY_WINDOW_FOCUS_BLUR_ENABLED_PATH: [&str; 3] =
-    ["privacy", "window_focus_blur", "enabled"];
-const PRIVACY_WINDOW_FOCUS_BLUR_DELAY_SECONDS_PATH: [&str; 3] =
-    ["privacy", "window_focus_blur", "delay_seconds"];
-const PRIVACY_MAINTENANCE_EXPIRE_EVENTS_PATH: [&str; 3] =
-    ["privacy", "maintenance", "expire_events"];
+const DESKTOP_NOTIFICATIONS_ENABLED_PATH: [&str; 3] = ["desktop", "notifications", "enabled"];
+const DESKTOP_NOTIFICATIONS_ATTENTION_ON_INCOMING_PATH: [&str; 3] =
+    ["desktop", "notifications", "attention_on_incoming"];
+const DESKTOP_NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH: [&str; 3] =
+    ["desktop", "notifications", "message_content_policy"];
+const DESKTOP_SYSTEM_TRAY_ENABLED_PATH: [&str; 3] = ["desktop", "system_tray", "enabled"];
+const DESKTOP_SYSTEM_TRAY_AUTOSTART_PATH: [&str; 3] = ["desktop", "system_tray", "autostart"];
+const DESKTOP_WINDOW_FOCUS_BLUR_ENABLED_PATH: [&str; 3] =
+    ["desktop", "window_focus_blur", "enabled"];
+const DESKTOP_WINDOW_FOCUS_BLUR_DELAY_SECONDS_PATH: [&str; 3] =
+    ["desktop", "window_focus_blur", "delay_seconds"];
+const TIMELINE_MAINTENANCE_EXPIRE_EVENTS_PATH: [&str; 3] =
+    ["timeline", "maintenance", "expire_events"];
 const ENCRYPTION_KEY_SHARING_ONLY_VERIFIED_USERS_PATH: [&str; 3] =
     ["encryption", "key_sharing", "only_verified_users"];
 const ENCRYPTION_KEY_SHARING_SHARE_WITH_TRUSTED_PATH: [&str; 3] =
@@ -150,21 +158,12 @@ const CALLS_SCREENSHARE_INCLUDE_REMOTE_VIDEO_PATH: [&str; 3] =
     ["calls", "screenshare", "include_remote_video"];
 const CALLS_SCREENSHARE_SHOW_CURSOR_PATH: [&str; 3] =
     ["calls", "screenshare", "show_cursor"];
-const NOTIFICATIONS_ENABLED_PATH: [&str; 2] = ["notifications", "enabled"];
-const NOTIFICATIONS_ATTENTION_ON_INCOMING_PATH: [&str; 2] =
-    ["notifications", "attention_on_incoming"];
-const NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH: [&str; 2] =
-    ["notifications", "message_content_policy"];
 const NETWORK_PRESENCE_STATUS_POLICY_PATH: [&str; 3] = ["network", "presence", "status_policy"];
 const NETWORK_TLS_ENABLE_CERTIFICATE_VALIDATION_PATH: [&str; 3] =
     ["network", "tls", "enable_certificate_validation"];
-const NETWORK_MRS_ENABLED_PATH: [&str; 2] = ["network", "mrs_enabled"];
-const NETWORK_MRS_SERVER_NAME_PATH: [&str; 2] = ["network", "mrs_server_name"];
-const NETWORK_HTTP3_ENABLED_PATH: [&str; 2] = ["network", "http3_enabled"];
-const INTEGRATIONS_SYSTEM_TRAY_ENABLED_PATH: [&str; 3] =
-    ["integrations", "system_tray", "enabled"];
-const INTEGRATIONS_SYSTEM_TRAY_AUTOSTART_PATH: [&str; 3] =
-    ["integrations", "system_tray", "autostart"];
+const NETWORK_MRS_ENABLED_PATH: [&str; 3] = ["network", "mrs", "enabled"];
+const NETWORK_MRS_SERVER_NAME_PATH: [&str; 3] = ["network", "mrs", "server_name"];
+const NETWORK_HTTP3_ENABLED_PATH: [&str; 3] = ["network", "http3", "enabled"];
 const INTEGRATIONS_DBUS_API_ACCESS_PATH: [&str; 3] = ["integrations", "dbus", "access"];
 const INTEGRATIONS_BROWSER_COMMAND_PATH: [&str; 3] = ["integrations", "browser", "command"];
 const COMPOSER_INPUT_MARKDOWN_TO_HTML_ENABLED_PATH: [&str; 4] =
@@ -386,23 +385,42 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 global: parse_string_list(yaml::value_at_path(root, &HIDDEN_EVENTS_GLOBAL_PATH)),
                 by_room: parse_string_list_map(yaml::value_at_path(root, &HIDDEN_EVENTS_BY_ROOM_PATH)),
             },
+            maintenance: ConfigTimelineMaintenance {
+                expire_events: yaml::value_at_path(root, &TIMELINE_MAINTENANCE_EXPIRE_EVENTS_PATH)
+                    .and_then(parse_scalar_bool),
+            },
         },
         secrets: ConfigSecrets {
             provider: parse_storage_token(yaml::value_at_path(root, &SECRETS_PROVIDER_PATH)),
         },
-        privacy: ConfigPrivacy {
-            window_focus_blur: ConfigPrivacyWindowFocusBlur {
-                enabled: yaml::value_at_path(root, &PRIVACY_WINDOW_FOCUS_BLUR_ENABLED_PATH)
+        desktop: ConfigDesktop {
+            notifications: ConfigDesktopNotifications {
+                enabled: yaml::value_at_path(root, &DESKTOP_NOTIFICATIONS_ENABLED_PATH)
+                    .and_then(parse_scalar_bool),
+                attention_on_incoming: yaml::value_at_path(
+                    root,
+                    &DESKTOP_NOTIFICATIONS_ATTENTION_ON_INCOMING_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                message_content_policy: parse_storage_token(yaml::value_at_path(
+                    root,
+                    &DESKTOP_NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH,
+                )),
+            },
+            system_tray: ConfigDesktopSystemTray {
+                enabled: yaml::value_at_path(root, &DESKTOP_SYSTEM_TRAY_ENABLED_PATH)
+                    .and_then(parse_scalar_bool),
+                autostart: yaml::value_at_path(root, &DESKTOP_SYSTEM_TRAY_AUTOSTART_PATH)
+                    .and_then(parse_scalar_bool),
+            },
+            window_focus_blur: ConfigDesktopWindowFocusBlur {
+                enabled: yaml::value_at_path(root, &DESKTOP_WINDOW_FOCUS_BLUR_ENABLED_PATH)
                     .and_then(parse_scalar_bool),
                 delay_seconds: yaml::value_at_path(
                     root,
-                    &PRIVACY_WINDOW_FOCUS_BLUR_DELAY_SECONDS_PATH,
+                    &DESKTOP_WINDOW_FOCUS_BLUR_DELAY_SECONDS_PATH,
                 )
                 .and_then(parse_scalar_i32),
-            },
-            maintenance: ConfigPrivacyMaintenance {
-                expire_events: yaml::value_at_path(root, &PRIVACY_MAINTENANCE_EXPIRE_EVENTS_PATH)
-                    .and_then(parse_scalar_bool),
             },
         },
         encryption: ConfigEncryption {
@@ -467,15 +485,6 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     .and_then(parse_scalar_bool),
             },
         },
-        notifications: ConfigNotifications {
-            enabled: yaml::value_at_path(root, &NOTIFICATIONS_ENABLED_PATH).and_then(parse_scalar_bool),
-            attention_on_incoming: yaml::value_at_path(root, &NOTIFICATIONS_ATTENTION_ON_INCOMING_PATH)
-                .and_then(parse_scalar_bool),
-            message_content_policy: parse_storage_token(yaml::value_at_path(
-                root,
-                &NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH,
-            )),
-        },
         network: ConfigNetwork {
             presence_status_policy: parse_storage_token(yaml::value_at_path(
                 root,
@@ -493,13 +502,6 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 .and_then(parse_scalar_bool),
         },
         integrations: ConfigIntegrations {
-            system_tray_enabled: yaml::value_at_path(root, &INTEGRATIONS_SYSTEM_TRAY_ENABLED_PATH)
-                .and_then(parse_scalar_bool),
-            system_tray_autostart: yaml::value_at_path(
-                root,
-                &INTEGRATIONS_SYSTEM_TRAY_AUTOSTART_PATH,
-            )
-            .and_then(parse_scalar_bool),
             dbus_api_access: parse_storage_token(yaml::value_at_path(
                 root,
                 &INTEGRATIONS_DBUS_API_ACCESS_PATH,

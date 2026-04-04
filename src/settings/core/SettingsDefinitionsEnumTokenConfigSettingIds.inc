@@ -7,6 +7,9 @@
   SettingId::SidebarsRoomListSort,
   SettingId::SidebarsRoomListUnreadDetectionPolicy,
 
+  // desktop
+  SettingId::DesktopNotificationsMessageContentPolicy,
+
   // network
   SettingId::NetworkPresenceStatusPolicy,
 
@@ -18,9 +21,6 @@
   SettingId::ComposerInputAutoReplaceEmoji,
   SettingId::ComposerInputEmojiPreferredGender,
   SettingId::ComposerInputEmojiPreferredSkinTone,
-
-  // notifications
-  SettingId::NotificationsMessageContentPolicy,
 
   // timeline
   SettingId::TimelineMessagesStyle,

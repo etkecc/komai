@@ -11,7 +11,7 @@
 void
 utils::removeExpiredEvents()
 {
-    if (!UserSettings::instance()->privacyMaintenanceExpireEvents())
+    if (!UserSettings::instance()->timelineMaintenanceExpireEvents())
         return;
 
     nhlog::ui()->warn(

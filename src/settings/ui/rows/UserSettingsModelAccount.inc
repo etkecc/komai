@@ -32,6 +32,18 @@
       SM::AccessTokenField, SM::TabAccount,
       getSettingValue<&UserSettings::accessToken>,
       nullptr, {}, {}, {}, nullptr, nullptr },
+    // AccountUsersSection
+    { QT_TR_NOOP("Users"), nullptr, SM::SectionTitle, SM::TabAccount,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // IgnoredUsers
+    { QT_TR_NOOP("Ignored users"),
+      nullptr,
+      SM::ManageIgnoredUsers, SM::TabAccount,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
+      settings::core::SettingId::Unknown,
+      nullptr,  // icon
+      nullptr,  // tagId
+      true },   // syncedToMatrix
     // AccountActionsSection
     { QT_TR_NOOP("Actions"), nullptr, SM::SectionTitle, SM::TabAccount,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

@@ -77,6 +77,8 @@ timeline:
       enabled: true
   read_receipts:
     enabled: true
+  maintenance:
+    expire_events: false
 
 composer:
   input:
@@ -100,10 +102,17 @@ composer:
     stickers:
       enabled: false
 
-notifications:
-  enabled: true
-  attention_on_incoming: false
-  message_content_policy: whenever_available
+desktop:
+  notifications:
+    enabled: true
+    attention_on_incoming: false
+    message_content_policy: whenever_available
+  system_tray:
+    enabled: false
+    autostart: false
+  window_focus_blur:
+    enabled: false
+    delay_seconds: 0
 
 calls:
   legacy:
@@ -123,13 +132,6 @@ calls:
     picture_in_picture: true
     include_remote_video: false
     show_cursor: true
-
-privacy:
-  window_focus_blur:
-    enabled: false
-    delay_seconds: 0
-  maintenance:
-    expire_events: false
 
 encryption:
   key_sharing:
@@ -152,9 +154,6 @@ db:
   max_stores: 0
 
 integrations:
-  system_tray:
-    enabled: false
-    autostart: false
   dbus:
     access: none
   # Optional command used when opening links from Komai.

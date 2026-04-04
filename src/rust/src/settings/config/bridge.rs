@@ -336,25 +336,58 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["secrets", "provider"],
         Value::String(snapshot.secrets.provider.clone()),
     );
-    if snapshot.privacy.window_focus_blur.has_enabled {
+    if snapshot.timeline.maintenance.has_expire_events {
         yaml::set_value(
             &mut root,
-            &["privacy", "window_focus_blur", "enabled"],
-            Value::Bool(snapshot.privacy.window_focus_blur.enabled),
+            &["timeline", "maintenance", "expire_events"],
+            Value::Bool(snapshot.timeline.maintenance.expire_events),
         );
     }
-    if snapshot.privacy.window_focus_blur.has_delay_seconds {
+    if snapshot.desktop.notifications.has_enabled {
         yaml::set_value(
             &mut root,
-            &["privacy", "window_focus_blur", "delay_seconds"],
-            Value::Number(Number::from(snapshot.privacy.window_focus_blur.delay_seconds)),
+            &["desktop", "notifications", "enabled"],
+            Value::Bool(snapshot.desktop.notifications.enabled),
         );
     }
-    if snapshot.privacy.maintenance.has_expire_events {
+    if snapshot.desktop.notifications.has_attention_on_incoming {
         yaml::set_value(
             &mut root,
-            &["privacy", "maintenance", "expire_events"],
-            Value::Bool(snapshot.privacy.maintenance.expire_events),
+            &["desktop", "notifications", "attention_on_incoming"],
+            Value::Bool(snapshot.desktop.notifications.attention_on_incoming),
+        );
+    }
+    yaml::set_value(
+        &mut root,
+        &["desktop", "notifications", "message_content_policy"],
+        Value::String(snapshot.desktop.notifications.message_content_policy.clone()),
+    );
+    if snapshot.desktop.system_tray.has_enabled {
+        yaml::set_value(
+            &mut root,
+            &["desktop", "system_tray", "enabled"],
+            Value::Bool(snapshot.desktop.system_tray.enabled),
+        );
+    }
+    if snapshot.desktop.system_tray.has_autostart {
+        yaml::set_value(
+            &mut root,
+            &["desktop", "system_tray", "autostart"],
+            Value::Bool(snapshot.desktop.system_tray.autostart),
+        );
+    }
+    if snapshot.desktop.window_focus_blur.has_enabled {
+        yaml::set_value(
+            &mut root,
+            &["desktop", "window_focus_blur", "enabled"],
+            Value::Bool(snapshot.desktop.window_focus_blur.enabled),
+        );
+    }
+    if snapshot.desktop.window_focus_blur.has_delay_seconds {
+        yaml::set_value(
+            &mut root,
+            &["desktop", "window_focus_blur", "delay_seconds"],
+            Value::Number(Number::from(snapshot.desktop.window_focus_blur.delay_seconds)),
         );
     }
     if snapshot.encryption.key_sharing.has_only_verified_users {
@@ -445,25 +478,6 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
             Value::Bool(snapshot.calls.screenshare.show_cursor),
         );
     }
-    if snapshot.notifications.has_enabled {
-        yaml::set_value(
-            &mut root,
-            &["notifications", "enabled"],
-            Value::Bool(snapshot.notifications.enabled),
-        );
-    }
-    if snapshot.notifications.has_attention_on_incoming {
-        yaml::set_value(
-            &mut root,
-            &["notifications", "attention_on_incoming"],
-            Value::Bool(snapshot.notifications.attention_on_incoming),
-        );
-    }
-    yaml::set_value(
-        &mut root,
-        &["notifications", "message_content_policy"],
-        Value::String(snapshot.notifications.message_content_policy.clone()),
-    );
     yaml::set_value(
         &mut root,
         &["network", "presence", "status_policy"],
@@ -479,34 +493,20 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     if snapshot.network.has_mrs_enabled {
         yaml::set_value(
             &mut root,
-            &["network", "mrs_enabled"],
+            &["network", "mrs", "enabled"],
             Value::Bool(snapshot.network.mrs_enabled),
         );
     }
     yaml::set_value(
         &mut root,
-        &["network", "mrs_server_name"],
+        &["network", "mrs", "server_name"],
         Value::String(snapshot.network.mrs_server_name.clone()),
     );
     if snapshot.network.has_http3_enabled {
         yaml::set_value(
             &mut root,
-            &["network", "http3_enabled"],
+            &["network", "http3", "enabled"],
             Value::Bool(snapshot.network.http3_enabled),
-        );
-    }
-    if snapshot.integrations.has_system_tray_enabled {
-        yaml::set_value(
-            &mut root,
-            &["integrations", "system_tray", "enabled"],
-            Value::Bool(snapshot.integrations.system_tray_enabled),
-        );
-    }
-    if snapshot.integrations.has_system_tray_autostart {
-        yaml::set_value(
-            &mut root,
-            &["integrations", "system_tray", "autostart"],
-            Value::Bool(snapshot.integrations.system_tray_autostart),
         );
     }
     yaml::set_value(

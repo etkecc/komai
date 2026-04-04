@@ -1,12 +1,13 @@
 QString
 notificationsMessageContentPolicyToStorage(const UserSettings &settings)
 {
-    return toStorageValue(settings.notificationsMessageContentPolicy());
+    return toStorageValue(settings.desktopNotificationsMessageContentPolicy());
 }
 
 void
 applyNotificationMessageContentPolicyFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setNotificationsMessageContentPolicy(notificationsMessageContentPolicyFromStorage(
-      rawToken, UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
+    settings.setDesktopNotificationsMessageContentPolicy(
+      notificationsMessageContentPolicyFromStorage(
+        rawToken, UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
 }

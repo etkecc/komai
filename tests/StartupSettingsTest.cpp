@@ -218,10 +218,11 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
         return expect(QString::fromStdString(static_cast<std::string>(snapshot.secrets.provider)) ==
                         expected,
                       message);
-    if (keyString == QLatin1String(SettingKey::NotificationsMessageContentPolicy))
+    if (keyString == QLatin1String(SettingKey::DesktopNotificationsMessageContentPolicy))
         return expect(
           QString::fromStdString(
-            static_cast<std::string>(snapshot.notifications.message_content_policy)) == expected,
+            static_cast<std::string>(snapshot.desktop.notifications.message_content_policy)) ==
+            expected,
           message);
     if (keyString == QLatin1String(SettingKey::NetworkPresenceStatusPolicy))
         return expect(
@@ -287,9 +288,9 @@ expectConfigInt(const ::komai::rust::SettingsLoadedConfig &snapshot,
                         snapshot.ui.layout_content_max_width_px == expected,
                       message);
     }
-    if (keyString == QLatin1String(SettingKey::PrivacyWindowFocusBlurDelaySeconds)) {
-        return expect(snapshot.privacy.window_focus_blur.has_delay_seconds &&
-                        snapshot.privacy.window_focus_blur.delay_seconds == expected,
+    if (keyString == QLatin1String(SettingKey::DesktopWindowFocusBlurDelaySeconds)) {
+        return expect(snapshot.desktop.window_focus_blur.has_delay_seconds &&
+                        snapshot.desktop.window_focus_blur.delay_seconds == expected,
                       message);
     }
 
@@ -723,7 +724,7 @@ testEnumSettingsPersistAsStrings()
     settings->setTimelineMessagesStyle(
       UserSettings::TimelineMessagesStyle::Plain);
     settings->setTimelineMediaDefaultAudioPlaybackSpeed(2.5);
-    settings->setNotificationsMessageContentPolicy(
+    settings->setDesktopNotificationsMessageContentPolicy(
       UserSettings::NotificationMessageContentPolicy::Never);
     settings->setIntegrationsDbusApiAccess(IntegrationsDbusAccessReadOnly);
     settings->setUiInputMode(true);
@@ -792,7 +793,7 @@ testEnumSettingsPersistAsStrings()
                              2.5,
                              "default audio playback speed is persisted as double");
     ok &= expectConfigString(configRoot,
-                             SettingKey::NotificationsMessageContentPolicy,
+                             SettingKey::DesktopNotificationsMessageContentPolicy,
                              QStringLiteral("never"),
                              "notification message content policy is persisted as string token");
     ok &= expectConfigString(configRoot,
@@ -1414,25 +1415,25 @@ testConstrainedIntSettersRejectInvalidUpdates()
     settings->setPersistenceSuspended(false);
 
     settings->setUiLayoutContentMaxWidthPx(1200);
-    settings->setPrivacyWindowFocusBlurDelaySeconds(5);
+    settings->setDesktopWindowFocusBlurDelaySeconds(5);
 
     const auto baselineContentWidth = settings->uiLayoutContentMaxWidthPx();
-    const auto baselineBlurDelay     = settings->privacyWindowFocusBlurDelaySeconds();
+    const auto baselineBlurDelay    = settings->desktopWindowFocusBlurDelaySeconds();
 
     settings->setUiLayoutContentMaxWidthPx(50000);         // invalid: > 20000
-    settings->setPrivacyWindowFocusBlurDelaySeconds(-3); // invalid: < 0
+    settings->setDesktopWindowFocusBlurDelaySeconds(-3); // invalid: < 0
 
     bool ok = true;
     ok &= expect(settings->uiLayoutContentMaxWidthPx() == baselineContentWidth,
                  "invalid max content width update is ignored");
-    ok &= expect(settings->privacyWindowFocusBlurDelaySeconds() == baselineBlurDelay,
+    ok &= expect(settings->desktopWindowFocusBlurDelaySeconds() == baselineBlurDelay,
                  "invalid window blur delay update is ignored");
 
     const auto &store = settings->coreStore();
     const auto contentWidthValue =
       store.valueAs<int>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
     const auto blurDelayValue =
-      store.valueAs<int>(settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds);
+      store.valueAs<int>(settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds);
 
     ok &= expect(contentWidthValue.has_value() && *contentWidthValue == baselineContentWidth,
                  "core store keeps previous max content width on invalid update");
@@ -1445,7 +1446,7 @@ testConstrainedIntSettersRejectInvalidUpdates()
                           baselineContentWidth,
                           "config keeps previous max content width on invalid update");
     ok &= expectConfigInt(configRoot,
-                          SettingKey::PrivacyWindowFocusBlurDelaySeconds,
+                          SettingKey::DesktopWindowFocusBlurDelaySeconds,
                           baselineBlurDelay,
                           "config keeps previous window blur delay on invalid update");
 
@@ -1632,11 +1633,11 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMediaDefaultAudioPlaybackSpeed));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::PrivacyWindowFocusBlurEnabled));
+      QString::fromLatin1(SettingKey::DesktopWindowFocusBlurEnabled));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::PrivacyWindowFocusBlurDelaySeconds));
+      QString::fromLatin1(SettingKey::DesktopWindowFocusBlurDelaySeconds));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::PrivacyMaintenanceExpireEvents));
+      QString::fromLatin1(SettingKey::TimelineMaintenanceExpireEvents));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::EncryptionKeySharingOnlyVerifiedUsers));
     serializerHandledConfigKeys.insert(
@@ -1662,11 +1663,12 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::CallsScreenshareIncludeRemoteVideo));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::CallsScreenshareShowCursor));
-    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NotificationsEnabled));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::NotificationsAttentionOnIncoming));
+      QString::fromLatin1(SettingKey::DesktopNotificationsEnabled));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::NotificationsMessageContentPolicy));
+      QString::fromLatin1(SettingKey::DesktopNotificationsAttentionOnIncoming));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::DesktopNotificationsMessageContentPolicy));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NetworkPresenceStatusPolicy));
     serializerHandledConfigKeys.insert(
@@ -1675,9 +1677,9 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NetworkMrsServerName));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NetworkHttp3Enabled));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::IntegrationsSystemTrayEnabled));
+      QString::fromLatin1(SettingKey::DesktopSystemTrayEnabled));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::IntegrationsSystemTrayAutostart));
+      QString::fromLatin1(SettingKey::DesktopSystemTrayAutostart));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::IntegrationsDbusApiAccess));
     serializerHandledConfigKeys.insert(

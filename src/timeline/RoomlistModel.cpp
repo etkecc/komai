@@ -550,7 +550,8 @@ RoomlistModel::queueMatrixNotificationFetch(uint64_t handleId,
         return;
 
     const auto settings = UserSettings::instance().get();
-    if (!settings || !settings->notificationsAccountEnabled() || !settings->notificationsEnabled())
+    if (!settings || !settings->notificationsAccountEnabled() ||
+        !settings->desktopNotificationsEnabled())
         return;
 
     if (pendingMatrixNotificationHandleId_ != 0 && pendingMatrixNotificationHandleId_ != handleId)
@@ -624,7 +625,7 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
     const auto previousTotalNotifications = totalNotificationCount(previousMatrixRooms);
     const auto settings                   = UserSettings::instance().get();
     const bool shouldAlertOnIncoming      = settings && settings->notificationsAccountEnabled() &&
-                                       settings->notificationsAttentionOnIncoming();
+                                       settings->desktopNotificationsAttentionOnIncoming();
 
     for (const auto &room : roomList) {
         newRoomIds.push_back(room.roomId);

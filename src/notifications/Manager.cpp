@@ -70,8 +70,9 @@ NotificationsManager::allowShowingImages() const
 QString
 NotificationsManager::getMessageTemplate(const komai::NotificationPayload &notification)
 {
-    const auto sender               = notification.senderDisplayName;
-    const auto messageContentPolicy = UserSettings::instance()->notificationsMessageContentPolicy();
+    const auto sender = notification.senderDisplayName;
+    const auto messageContentPolicy =
+      UserSettings::instance()->desktopNotificationsMessageContentPolicy();
 
     if (messageContentPolicy == UserSettings::NotificationMessageContentPolicy::Never)
         return tr("%1 sent a message").arg(sender);

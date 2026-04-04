@@ -1,7 +1,6 @@
 #include "UserSettingsSettersUiComposer.inc"
+#include "UserSettingsSettersUiDesktop.inc"
 #include "UserSettingsSettersUiTimeline.inc"
 #include "UserSettingsSettersUiLookFeel.inc"
 #include "UserSettingsSettersUiLayout.inc"
-#include "UserSettingsSettersUiNotifications.inc"
-#include "UserSettingsSettersUiPrivacy.inc"
 #include "UserSettingsSettersUiSidebars.inc"

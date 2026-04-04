@@ -1,14 +1,34 @@
-UserSettings::NotificationMessageContentPolicy
-UserSettings::notificationsMessageContentPolicy() const
+bool
+UserSettings::desktopSystemTrayEnabled() const
 {
     if (const auto value =
-          coreStore_.valueAs<int>(settings::core::SettingId::NotificationsMessageContentPolicy);
+          coreStore_.valueAs<bool>(settings::core::SettingId::DesktopSystemTrayEnabled);
+        value.has_value())
+        return *value;
+    return desktopSystemTrayEnabled_;
+}
+
+bool
+UserSettings::desktopSystemTrayAutostart() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::DesktopSystemTrayAutostart);
+        value.has_value())
+        return *value;
+    return desktopSystemTrayAutostart_;
+}
+
+UserSettings::NotificationMessageContentPolicy
+UserSettings::desktopNotificationsMessageContentPolicy() const
+{
+    if (const auto value = coreStore_.valueAs<int>(
+          settings::core::SettingId::DesktopNotificationsMessageContentPolicy);
         value.has_value() &&
         *value >= static_cast<int>(UserSettings::NotificationMessageContentPolicy::Never) &&
         *value <=
           static_cast<int>(UserSettings::NotificationMessageContentPolicy::WheneverAvailable))
         return static_cast<UserSettings::NotificationMessageContentPolicy>(*value);
-    return notificationsMessageContentPolicy_;
+    return desktopNotificationsMessageContentPolicy_;
 }
 
 bool
@@ -18,13 +38,13 @@ UserSettings::notificationsAccountEnabled() const
 }
 
 bool
-UserSettings::notificationsEnabled() const
+UserSettings::desktopNotificationsEnabled() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::NotificationsEnabled);
+          coreStore_.valueAs<bool>(settings::core::SettingId::DesktopNotificationsEnabled);
         value.has_value())
         return *value;
-    return notificationsEnabled_;
+    return desktopNotificationsEnabled_;
 }
 
 bool
@@ -106,13 +126,13 @@ UserSettings::refreshNotificationsAccountEnabled()
 }
 
 bool
-UserSettings::notificationsAttentionOnIncoming() const
+UserSettings::desktopNotificationsAttentionOnIncoming() const
 {
-    if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::NotificationsAttentionOnIncoming);
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::DesktopNotificationsAttentionOnIncoming);
         value.has_value())
         return *value;
-    return notificationsAttentionOnIncoming_;
+    return desktopNotificationsAttentionOnIncoming_;
 }
 
 bool
@@ -121,5 +141,25 @@ UserSettings::hasNotifications() const
     if (hasActiveSession() && !notificationsAccountEnabled_)
         return false;
 
-    return notificationsEnabled() || notificationsAttentionOnIncoming();
+    return desktopNotificationsEnabled() || desktopNotificationsAttentionOnIncoming();
+}
+
+bool
+UserSettings::desktopWindowFocusBlurEnabled() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::DesktopWindowFocusBlurEnabled);
+        value.has_value())
+        return *value;
+    return desktopWindowFocusBlurEnabled_;
+}
+
+int
+UserSettings::desktopWindowFocusBlurDelaySeconds() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds);
+        value.has_value())
+        return *value;
+    return desktopWindowFocusBlurDelaySeconds_;
 }

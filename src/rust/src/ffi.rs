@@ -212,6 +212,11 @@ mod bridge {
         default_audio_playback_speed: f64,
     }
 
+    struct SettingsConfigTimelineMaintenanceSection {
+        has_expire_events: bool,
+        expire_events: bool,
+    }
+
     struct SettingsConfigTimelineSection {
         messages: SettingsConfigTimelineMessagesSection,
         formatted: SettingsConfigTimelineFormattedSection,
@@ -220,27 +225,39 @@ mod bridge {
         message_actions: SettingsConfigTimelineMessageActionsSection,
         media: SettingsConfigTimelineMediaSection,
         hidden_events: SettingsConfigTimelineHiddenEventsSection,
+        maintenance: SettingsConfigTimelineMaintenanceSection,
     }
 
     struct SettingsConfigSecretsSection {
         provider: String,
     }
 
-    struct SettingsConfigPrivacyWindowFocusBlurSection {
+    struct SettingsConfigDesktopNotificationsSection {
+        has_enabled: bool,
+        enabled: bool,
+        has_attention_on_incoming: bool,
+        attention_on_incoming: bool,
+        message_content_policy: String,
+    }
+
+    struct SettingsConfigDesktopSystemTraySection {
+        has_enabled: bool,
+        enabled: bool,
+        has_autostart: bool,
+        autostart: bool,
+    }
+
+    struct SettingsConfigDesktopWindowFocusBlurSection {
         has_enabled: bool,
         enabled: bool,
         has_delay_seconds: bool,
         delay_seconds: i32,
     }
 
-    struct SettingsConfigPrivacyMaintenanceSection {
-        has_expire_events: bool,
-        expire_events: bool,
-    }
-
-    struct SettingsConfigPrivacySection {
-        window_focus_blur: SettingsConfigPrivacyWindowFocusBlurSection,
-        maintenance: SettingsConfigPrivacyMaintenanceSection,
+    struct SettingsConfigDesktopSection {
+        notifications: SettingsConfigDesktopNotificationsSection,
+        system_tray: SettingsConfigDesktopSystemTraySection,
+        window_focus_blur: SettingsConfigDesktopWindowFocusBlurSection,
     }
 
     struct SettingsConfigEncryptionKeySharingSection {
@@ -304,14 +321,6 @@ mod bridge {
         screenshare: SettingsConfigCallsScreenshareSection,
     }
 
-    struct SettingsConfigNotificationsSection {
-        has_enabled: bool,
-        enabled: bool,
-        has_attention_on_incoming: bool,
-        attention_on_incoming: bool,
-        message_content_policy: String,
-    }
-
     struct SettingsConfigNetworkSection {
         presence_status_policy: String,
         has_tls_enable_certificate_validation: bool,
@@ -324,10 +333,6 @@ mod bridge {
     }
 
     struct SettingsConfigIntegrationsSection {
-        has_system_tray_enabled: bool,
-        system_tray_enabled: bool,
-        has_system_tray_autostart: bool,
-        system_tray_autostart: bool,
         dbus_api_access: String,
         browser_command: String,
     }
@@ -356,10 +361,9 @@ mod bridge {
         sidebars: SettingsConfigSidebarsSection,
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
-        privacy: SettingsConfigPrivacySection,
+        desktop: SettingsConfigDesktopSection,
         encryption: SettingsConfigEncryptionSection,
         calls: SettingsConfigCallsSection,
-        notifications: SettingsConfigNotificationsSection,
         network: SettingsConfigNetworkSection,
         integrations: SettingsConfigIntegrationsSection,
         composer: SettingsConfigComposerSection,
@@ -370,10 +374,9 @@ mod bridge {
         sidebars: SettingsConfigSidebarsSection,
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
-        privacy: SettingsConfigPrivacySection,
+        desktop: SettingsConfigDesktopSection,
         encryption: SettingsConfigEncryptionSection,
         calls: SettingsConfigCallsSection,
-        notifications: SettingsConfigNotificationsSection,
         network: SettingsConfigNetworkSection,
         integrations: SettingsConfigIntegrationsSection,
         composer: SettingsConfigComposerSection,

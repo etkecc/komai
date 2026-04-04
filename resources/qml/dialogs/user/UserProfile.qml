@@ -892,7 +892,7 @@ Components.OverlayDialog {
                         wrapMode: Text.WordWrap
                         text: profile.ignored
                             ? qsTr("You will see their messages again.")
-                            : qsTr("After ignoring, you will no longer see their messages in any room.\nYou can unignore later via this user's profile or via Settings → Privacy → Ignored users.")
+                            : qsTr("After ignoring, you will no longer see their messages in any room.\nYou can unignore later via this user's profile or via Settings → Account → Ignored users.")
                     }
 
                     RowLayout {

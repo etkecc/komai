@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 static QVariant
-notificationsMessageContentPolicyValues()
+desktopNotificationsMessageContentPolicyValues()
 {
     QStringList values;
     values << QCoreApplication::translate("UserSettingsModel", "Never")
@@ -14,7 +14,7 @@ notificationsMessageContentPolicyValues()
 }
 
 static QVariant
-notificationsAccountEnabledValue()
+desktopNotificationsAccountEnabledValue()
 {
     if (const auto settings = UserSettings::instance()) {
         settings->refreshNotificationsAccountEnabled();
@@ -25,7 +25,7 @@ notificationsAccountEnabledValue()
 }
 
 static bool
-setNotificationsAccountEnabledValue(const QVariant &value)
+setDesktopNotificationsAccountEnabledValue(const QVariant &value)
 {
     bool enabled = true;
     if (!readSettingValue(value, enabled))
@@ -40,7 +40,7 @@ setNotificationsAccountEnabledValue(const QVariant &value)
 }
 
 static bool
-notificationsAccountEnabledSettingEnabled()
+desktopNotificationsAccountToggleEnabled()
 {
     if (const auto settings = UserSettings::instance())
         return settings->notificationsAccountToggleEnabled();
@@ -49,7 +49,7 @@ notificationsAccountEnabledSettingEnabled()
 }
 
 static bool
-notificationsSystemSettingsEnabled()
+desktopNotificationsSettingsEnabled()
 {
     if (const auto settings = UserSettings::instance()) {
         if (!settings->hasActiveSession())
@@ -59,4 +59,11 @@ notificationsSystemSettingsEnabled()
     }
 
     return false;
+}
+
+static bool
+desktopWindowFocusBlurDelaySecondsEnabled()
+{
+    auto i = I;
+    return i && i->desktopWindowFocusBlurEnabled();
 }

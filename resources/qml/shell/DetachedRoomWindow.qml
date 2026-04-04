@@ -45,9 +45,9 @@ ApplicationWindow {
         id: windowFocusBlurOverlay
 
         anchors.fill: parent
-        screenTimeout: Settings.privacyWindowFocusBlurDelaySeconds
+        screenTimeout: Settings.desktopWindowFocusBlurDelaySeconds
         timelineRoot: timeline
-        visible: Settings.privacyWindowFocusBlurEnabled
+        visible: Settings.desktopWindowFocusBlurEnabled
         windowTarget: roomWindowW
     }
 }

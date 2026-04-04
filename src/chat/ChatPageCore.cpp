@@ -302,7 +302,8 @@ ChatPage::dispatchMatrixNotification(const komai::MatrixNotificationItem &notifi
     if (shuttingDown_ || !notificationsManager || !userSettings_)
         return;
 
-    if (!userSettings_->notificationsAccountEnabled() || !userSettings_->notificationsEnabled())
+    if (!userSettings_->notificationsAccountEnabled() ||
+        !userSettings_->desktopNotificationsEnabled())
         return;
 
     if (notification.roomId.trimmed().isEmpty())
@@ -339,7 +340,7 @@ ChatPage::dispatchMatrixNotification(const komai::MatrixNotificationItem &notifi
               return;
 
           if (!guard->userSettings_->notificationsAccountEnabled() ||
-              !guard->userSettings_->notificationsEnabled()) {
+              !guard->userSettings_->desktopNotificationsEnabled()) {
               return;
           }
 

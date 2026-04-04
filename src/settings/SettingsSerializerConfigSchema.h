@@ -97,8 +97,8 @@ inline constexpr double kDefaultTimelineMediaAudioPlaybackSpeed =
   settings::core::definitions::kDefaultTimelineMediaAudioPlaybackSpeed;
 inline constexpr int kDefaultScreenShareFrameRate =
   settings::core::definitions::kDefaultScreenShareFrameRate;
-inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds =
-  settings::core::definitions::kDefaultPrivacyWindowFocusBlurDelaySeconds;
+inline constexpr int kDefaultDesktopWindowFocusBlurDelaySeconds =
+  settings::core::definitions::kDefaultDesktopWindowFocusBlurDelaySeconds;
 inline constexpr int kDefaultUiLayoutContentMaxWidthPx =
   settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx;
 

@@ -10,6 +10,5 @@
 #include "UserSettingsGettersMiscCoreStore.inc"
 #include "UserSettingsGettersMiscIntegrations.inc"
 #include "UserSettingsGettersMiscNetwork.inc"
-#include "UserSettingsGettersMiscPrivacy.inc"
 #include "UserSettingsGettersMiscSessionRuntime.inc"
 #include "UserSettingsGettersMiscTimeline.inc"

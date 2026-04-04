@@ -32,7 +32,7 @@ constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::IntegrationsDbusApiAccess,
   settings::core::SettingId::NetworkPresenceStatusPolicy,
   settings::core::SettingId::CallsScreenshareFrameRate,
-  settings::core::SettingId::NotificationsMessageContentPolicy,
+  settings::core::SettingId::DesktopNotificationsMessageContentPolicy,
   settings::core::SettingId::ComposerInputSendKey,
   settings::core::SettingId::ComposerInputAutoReplaceEmoji,
   settings::core::SettingId::ComposerInputEmojiPreferredGender,
@@ -46,7 +46,7 @@ constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::TimelineMessagesSenderUsername,
   settings::core::SettingId::TimelineMediaImageDisplay,
   settings::core::SettingId::TimelineMessageActionsActivationPolicy,
-  settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds,
+  settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds,
 };
 
 constexpr std::string_view kLegacyEnabledSuffix{"_enabled"};

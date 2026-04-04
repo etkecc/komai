@@ -158,3 +158,11 @@
       0.5, 3.0, 0.5,
       TimelineMediaDefaultAudioPlaybackSpeed,
       SettingKey::TimelineMediaDefaultAudioPlaybackSpeed),
+    // TimelineMaintenanceSection
+    { QT_TR_NOOP("Maintenance"), nullptr, SM::SectionTitle, SM::TabTimeline,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // TimelineMaintenanceExpireEvents
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Delete expired events periodically",
+      QT_TR_NOOP("Regularly redact expired events based on room expiration rules. Because homeservers may not do this automatically, at least one of your clients should keep this enabled."),
+      SM::TabTimeline, timelineMaintenanceExpireEvents, setTimelineMaintenanceExpireEvents, nullptr, TimelineMaintenanceExpireEvents, SettingKey::TimelineMaintenanceExpireEvents),

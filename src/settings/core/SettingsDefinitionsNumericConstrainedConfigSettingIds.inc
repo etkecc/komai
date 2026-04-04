@@ -3,5 +3,5 @@
 
   // calls
   SettingId::CallsScreenshareFrameRate,
-  // privacy
-  SettingId::PrivacyWindowFocusBlurDelaySeconds,
+  // desktop
+  SettingId::DesktopWindowFocusBlurDelaySeconds,

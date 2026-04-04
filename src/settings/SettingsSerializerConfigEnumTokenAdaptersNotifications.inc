@@ -1,5 +1,5 @@
-  {settings::core::SettingId::NotificationsMessageContentPolicy,
-   SettingKey::NotificationsMessageContentPolicy,
+  {settings::core::SettingId::DesktopNotificationsMessageContentPolicy,
+   SettingKey::DesktopNotificationsMessageContentPolicy,
    "whenever_available",
    &notificationsMessageContentPolicyToStorage,
    &applyNotificationMessageContentPolicyFromStorage},

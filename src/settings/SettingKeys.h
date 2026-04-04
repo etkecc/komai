@@ -12,8 +12,8 @@ namespace SettingKey {
 // config.yml
 constexpr auto SchemaVersion                    = "meta.settings_schema_version";
 constexpr auto ConfigSchemaVersion              = SchemaVersion;
-constexpr auto IntegrationsSystemTrayEnabled    = "integrations.system_tray.enabled";
-constexpr auto IntegrationsSystemTrayAutostart  = "integrations.system_tray.autostart";
+constexpr auto DesktopSystemTrayEnabled         = "desktop.system_tray.enabled";
+constexpr auto DesktopSystemTrayAutostart       = "desktop.system_tray.autostart";
 constexpr auto UiThemeSlug                      = "ui.theme.slug";
 constexpr auto UiFontFamily                     = "ui.font.family";
 constexpr auto UiFontEmojiFamily                = "ui.font.emoji_family";
@@ -78,9 +78,11 @@ constexpr auto ComposerInputInlineRoomPickerEnabled  = "composer.input.inline_ro
 constexpr auto ComposerInputInlineUserPickerEnabled  = "composer.input.inline_user_picker.enabled";
 constexpr auto ComposerTypingSendEnabled             = "composer.typing.send.enabled";
 constexpr auto ComposerExtrasStickersEnabled         = "composer.extras.stickers.enabled";
-constexpr auto NotificationsEnabled                  = "notifications.enabled";
-constexpr auto NotificationsAttentionOnIncoming      = "notifications.attention_on_incoming";
-constexpr auto NotificationsMessageContentPolicy     = "notifications.message_content_policy";
+constexpr auto DesktopNotificationsEnabled           = "desktop.notifications.enabled";
+constexpr auto DesktopNotificationsAttentionOnIncoming =
+  "desktop.notifications.attention_on_incoming";
+constexpr auto DesktopNotificationsMessageContentPolicy =
+  "desktop.notifications.message_content_policy";
 constexpr auto CallsLegacyEnabled                    = "calls.legacy.enabled";
 constexpr auto CallsRelayUseFallbackServer           = "calls.relay.use_fallback_server";
 constexpr auto CallsDevicesMicrophone                = "calls.devices.microphone";
@@ -92,9 +94,9 @@ constexpr auto CallsScreenshareFrameRate             = "calls.screenshare.frame_
 constexpr auto CallsScreensharePictureInPicture      = "calls.screenshare.picture_in_picture";
 constexpr auto CallsScreenshareIncludeRemoteVideo    = "calls.screenshare.include_remote_video";
 constexpr auto CallsScreenshareShowCursor            = "calls.screenshare.show_cursor";
-constexpr auto PrivacyWindowFocusBlurEnabled         = "privacy.window_focus_blur.enabled";
-constexpr auto PrivacyWindowFocusBlurDelaySeconds    = "privacy.window_focus_blur.delay_seconds";
-constexpr auto PrivacyMaintenanceExpireEvents        = "privacy.maintenance.expire_events";
+constexpr auto DesktopWindowFocusBlurEnabled         = "desktop.window_focus_blur.enabled";
+constexpr auto DesktopWindowFocusBlurDelaySeconds    = "desktop.window_focus_blur.delay_seconds";
+constexpr auto TimelineMaintenanceExpireEvents       = "timeline.maintenance.expire_events";
 constexpr auto EncryptionKeySharingOnlyVerifiedUsers = "encryption.key_sharing.only_verified_users";
 constexpr auto EncryptionKeySharingShareWithTrusted  = "encryption.key_sharing.share_with_trusted";
 constexpr auto EncryptionBackupOnlineEnabled         = "encryption.backup.online.enabled";

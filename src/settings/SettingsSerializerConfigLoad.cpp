@@ -289,16 +289,16 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         ? snapshot.timeline.media.default_audio_playback_speed
         : settings::core::definitions::kDefaultTimelineMediaAudioPlaybackSpeed);
 
-    settings.setPrivacyWindowFocusBlurEnabled(snapshot.privacy.window_focus_blur.has_enabled
-                                                ? snapshot.privacy.window_focus_blur.enabled
+    settings.setDesktopWindowFocusBlurEnabled(snapshot.desktop.window_focus_blur.has_enabled
+                                                ? snapshot.desktop.window_focus_blur.enabled
                                                 : false);
-    settings.setPrivacyWindowFocusBlurDelaySeconds(
-      snapshot.privacy.window_focus_blur.has_delay_seconds
-        ? snapshot.privacy.window_focus_blur.delay_seconds
-        : settings::core::definitions::kDefaultPrivacyWindowFocusBlurDelaySeconds);
-    settings.setPrivacyMaintenanceExpireEvents(snapshot.privacy.maintenance.has_expire_events
-                                                 ? snapshot.privacy.maintenance.expire_events
-                                                 : false);
+    settings.setDesktopWindowFocusBlurDelaySeconds(
+      snapshot.desktop.window_focus_blur.has_delay_seconds
+        ? snapshot.desktop.window_focus_blur.delay_seconds
+        : settings::core::definitions::kDefaultDesktopWindowFocusBlurDelaySeconds);
+    settings.setTimelineMaintenanceExpireEvents(snapshot.timeline.maintenance.has_expire_events
+                                                  ? snapshot.timeline.maintenance.expire_events
+                                                  : false);
 
     settings.setEncryptionKeySharingOnlyVerifiedUsers(
       snapshot.encryption.key_sharing.has_only_verified_users
@@ -349,22 +349,25 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         ? snapshot.calls.screenshare.show_cursor
         : settings::core::definitions::kDefaultScreenShareShowCursor);
 
-    settings.setNotificationsEnabled(
-      snapshot.notifications.has_enabled ? snapshot.notifications.enabled : true);
-    settings.setNotificationsAttentionOnIncoming(snapshot.notifications.has_attention_on_incoming
-                                                   ? snapshot.notifications.attention_on_incoming
-                                                   : false);
+    settings.setDesktopNotificationsEnabled(
+      snapshot.desktop.notifications.has_enabled ? snapshot.desktop.notifications.enabled : true);
+    settings.setDesktopNotificationsAttentionOnIncoming(
+      snapshot.desktop.notifications.has_attention_on_incoming
+        ? snapshot.desktop.notifications.attention_on_incoming
+        : false);
 
-    const auto loadedNotificationsMessageContentPolicy =
+    const auto loadedDesktopNotificationsMessageContentPolicy =
       QString::fromStdString(
-        static_cast<std::string>(snapshot.notifications.message_content_policy))
+        static_cast<std::string>(snapshot.desktop.notifications.message_content_policy))
         .trimmed();
     const auto notificationsMessageContentPolicyToken =
-      loadedNotificationsMessageContentPolicy.isEmpty() ? QStringLiteral("whenever_available")
-                                                        : loadedNotificationsMessageContentPolicy;
-    settings.setNotificationsMessageContentPolicy(cfg::notificationsMessageContentPolicyFromStorage(
-      notificationsMessageContentPolicyToken,
-      UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
+      loadedDesktopNotificationsMessageContentPolicy.isEmpty()
+        ? QStringLiteral("whenever_available")
+        : loadedDesktopNotificationsMessageContentPolicy;
+    settings.setDesktopNotificationsMessageContentPolicy(
+      cfg::notificationsMessageContentPolicyFromStorage(
+        notificationsMessageContentPolicyToken,
+        UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
 
     settings.setNetworkTlsEnableCertificateValidation(
       snapshot.network.has_tls_enable_certificate_validation
@@ -394,12 +397,10 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setNetworkPresenceStatusPolicy(cfg::presenceFromStorage(
       networkPresenceStatusPolicyToken, UserSettings::Presence::AutomaticPresence));
 
-    settings.setIntegrationsSystemTrayEnabled(snapshot.integrations.has_system_tray_enabled
-                                                ? snapshot.integrations.system_tray_enabled
-                                                : false);
-    settings.setIntegrationsSystemTrayAutostart(snapshot.integrations.has_system_tray_autostart
-                                                  ? snapshot.integrations.system_tray_autostart
-                                                  : false);
+    settings.setDesktopSystemTrayEnabled(
+      snapshot.desktop.system_tray.has_enabled ? snapshot.desktop.system_tray.enabled : false);
+    settings.setDesktopSystemTrayAutostart(
+      snapshot.desktop.system_tray.has_autostart ? snapshot.desktop.system_tray.autostart : false);
     settings.setIntegrationsBrowserCommand(
       QString::fromStdString(static_cast<std::string>(snapshot.integrations.browser_command)));
 

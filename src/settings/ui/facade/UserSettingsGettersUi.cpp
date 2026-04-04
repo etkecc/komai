@@ -8,8 +8,6 @@
 #include "logging/Logging.h"
 #include "utils/QtWorkerTask.h"
 
-#include "UserSettingsGettersUiIntegrations.inc"
+#include "UserSettingsGettersUiDesktop.inc"
 #include "UserSettingsGettersUiLookFeel.inc"
-#include "UserSettingsGettersUiNotifications.inc"
-#include "UserSettingsGettersUiPrivacy.inc"
 #include "UserSettingsGettersUiSidebars.inc"

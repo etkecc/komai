@@ -125,6 +125,8 @@ public:
 signals:
     void countChanged();
     void specialEffectsTriggered(const QStringList &effectNames);
+    void aboutToReplaceContent();
+    void contentReplaced();
 
 private:
     QVariant replyData(const MatrixTimelineItem &parentItem, int role) const;

@@ -878,21 +878,22 @@ MatrixTimelineModel::replaceVisibleItems(QVector<MatrixTimelineItem> items)
         if (oldChanged > 0)
             emit dataChanged(index(prefix), index(prefix + oldChanged - 1));
     } else {
-        // Avoid beginResetModel — it resets the ListView's contentY
-        // in BottomToTop mode, causing unwanted scroll-to-bottom.
-        // Decompose into remove + insert instead.
-        if (oldChanged > 0) {
-            beginRemoveRows({}, prefix, prefix + oldChanged - 1);
-            items_.erase(items_.begin() + prefix, items_.begin() + prefix + oldChanged);
-            endRemoveRows();
-        }
-        if (newChanged > 0) {
-            beginInsertRows({}, prefix, prefix + newChanged - 1);
-            items_ = std::move(items);
-            endInsertRows();
-        } else {
-            items_ = std::move(items);
-        }
+        // Use a full model reset for mixed remove+insert changes.
+        // The previous decomposed remove+insert approach (endRemoveRows
+        // followed by endInsertRows) could trigger a Qt 6 incremental GC
+        // bug: delegate destruction during endRemoveRows freed V4 heap
+        // objects whose stale references remained on the GC worklist,
+        // causing SIGSEGV in QV4::GCStateMachine::transition() when the
+        // GC later followed pointers into 0xAA-filled freed memory.
+        //
+        // beginResetModel resets the ListView's contentY in BottomToTop
+        // mode, so we emit aboutToReplaceContent/contentReplaced to let
+        // the QML side save and restore the scroll position.
+        emit aboutToReplaceContent();
+        beginResetModel();
+        items_ = std::move(items);
+        endResetModel();
+        emit contentReplaced();
     }
 
     // Bubble grouping/section/avatar layout for row N depends on the next visible row (N + 1).

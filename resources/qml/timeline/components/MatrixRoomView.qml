@@ -145,6 +145,12 @@ ColumnLayout {
         onRequestMoreData: TimelineManager.paginateActiveMatrixTimelineBackwards(50)
     }
 
+    Connections {
+        target: TimelineManager.matrixTimelineModel
+        function onAboutToReplaceContent() { listShellSupport.handleModelResetAboutToReplace(); }
+        function onContentReplaced() { listShellSupport.handleModelResetContentReplaced(); }
+    }
+
     Binding {
         target: externalHeaderPane.headerItem
         property: "filteringInProgress"

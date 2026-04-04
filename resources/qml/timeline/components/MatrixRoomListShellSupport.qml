@@ -14,6 +14,12 @@ QtObject {
 
     property real previousWheelRotation: 0
 
+    // Scroll position state saved before a model reset (beginResetModel
+    // in BottomToTop mode resets contentY).  Restored in
+    // handleModelResetContentReplaced() after the reset completes.
+    property string savedResetEventId: ""
+    property bool savedResetWasPinnedToBottom: true
+
     property var wheelSettleTimer: Timer {
         interval: 250
         onTriggered: {
@@ -321,9 +327,86 @@ QtObject {
         rootItem.lastInitialBufferTriggerCount = -1;
     }
 
+    function handleModelResetAboutToReplace() {
+        savedResetEventId = "";
+        savedResetWasPinnedToBottom = true;
+
+        if (!timelineList || timelineList.count <= 0)
+            return;
+
+        savedResetWasPinnedToBottom = timelineList.keepPinnedToBottom && !timelineList.userUnpinned;
+        if (savedResetWasPinnedToBottom)
+            return;
+
+        // Find the event ID of the item nearest the viewport center so we
+        // can restore the scroll position after the model reset.
+        var model = timelineList.model;
+        if (!model || typeof model.itemAt !== "function")
+            return;
+
+        var centerY = timelineList.contentY + timelineList.height / 2;
+        var halfW = Math.max(1, Math.round(timelineList.width / 2));
+        var idx = timelineList.indexAt(halfW, centerY);
+
+        // indexAt can return -1 during layout transitions; fall back to
+        // the bottom-visible index (index 0 in BottomToTop is at the
+        // visual bottom).
+        if (idx < 0)
+            idx = timelineList.indexAt(halfW, timelineList.contentY + 2);
+        if (idx < 0 || idx >= timelineList.count)
+            return;
+
+        var item = model.itemAt(idx);
+        if (item) {
+            var eid = item["eventId"] || "";
+            if (eid.length > 0)
+                savedResetEventId = eid;
+        }
+    }
+
+    function handleModelResetContentReplaced() {
+        if (!timelineList)
+            return;
+
+        if (savedResetWasPinnedToBottom) {
+            timelineList.positionViewAtBeginning();
+            updateBottomPin();
+            updateLastScroll();
+            savedResetEventId = "";
+            return;
+        }
+
+        if (savedResetEventId.length === 0)
+            return;
+
+        var eid = savedResetEventId;
+        savedResetEventId = "";
+
+        // Defer positioning to the next frame so the ListView has
+        // finished laying out delegates from the new model data.
+        Qt.callLater(function () {
+            if (!timelineList || !timelineList.model)
+                return;
+
+            var model = timelineList.model;
+            if (typeof model.rowForEventId !== "function")
+                return;
+
+            var row = model.rowForEventId(eid);
+            if (row < 0 || row >= timelineList.count)
+                return;
+
+            timelineList.positionViewAtIndex(row, ListView.Center);
+            timelineList.returnToBounds();
+            updateLastScroll();
+        });
+    }
+
     function resetForRoomSwitch() {
         previousWheelRotation = 0;
         wheelSettleTimer.stop();
+        savedResetEventId = "";
+        savedResetWasPinnedToBottom = true;
         if (!timelineList)
             return;
 

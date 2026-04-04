@@ -279,6 +279,8 @@ set(SRC_FILES
     src/emoji/Provider.h
     src/emoji/Emoji.cpp
     src/emoji/Emoji.h
+    src/emoji/EmoticonReplace.cpp
+    src/emoji/EmoticonReplace.h
     src/emoji/EmojiNormalize.cpp
     src/emoji/EmojiNormalize.h
 

@@ -13,6 +13,7 @@
 #include <utility>
 
 #include "chat/ChatPage.h"
+#include "emoji/EmoticonReplace.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -213,7 +214,8 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
     const auto sendMessage = [this, mainWindow](const QString &body,
                                                 const QString &messageKind,
                                                 SlashFormatMode formatMode) {
-        const auto plainBody = body.trimmed();
+        const auto plainBody = emoji::replaceEmoticons(
+          body.trimmed(), UserSettings::instance()->composerInputAutoReplaceEmoji());
         if (plainBody.isEmpty() &&
             (messageKind == QStringLiteral("text") || messageKind == QStringLiteral("notice") ||
              messageKind == QStringLiteral("emote"))) {

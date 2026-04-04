@@ -22,6 +22,7 @@
 
 #include "chat/ChatPage.h"
 #include "config/komai.h"
+#include "emoji/EmoticonReplace.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
@@ -672,7 +673,8 @@ sendMessage(const QString &roomIdOrAlias,
         return;
     }
 
-    const auto trimmedBody = body.trimmed();
+    const auto trimmedBody = emoji::replaceEmoticons(
+      body.trimmed(), UserSettings::instance()->composerInputAutoReplaceEmoji());
     if (trimmedBody.isEmpty()) {
         if (callback)
             callback({}, QStringLiteral("message body must not be empty"));

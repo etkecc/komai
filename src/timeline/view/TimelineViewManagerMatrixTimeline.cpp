@@ -29,6 +29,7 @@
 #include <thread>
 
 #include "chat/ChatPage.h"
+#include "emoji/EmoticonReplace.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "models/ReadReceiptsModel.h"
@@ -916,7 +917,8 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
 bool
 TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
 {
-    const auto plainBody = body.trimmed();
+    const auto plainBody = emoji::replaceEmoticons(
+      body.trimmed(), UserSettings::instance()->composerInputAutoReplaceEmoji());
     if (plainBody.isEmpty())
         return false;
 
@@ -1054,7 +1056,8 @@ TimelineViewManager::clearActiveMatrixEdit()
 bool
 TimelineViewManager::sendActiveMatrixEditMessage(const QString &body)
 {
-    const auto plainBody = body.trimmed();
+    const auto plainBody = emoji::replaceEmoticons(
+      body.trimmed(), UserSettings::instance()->composerInputAutoReplaceEmoji());
     if (plainBody.isEmpty())
         return false;
 

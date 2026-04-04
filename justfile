@@ -251,14 +251,6 @@ translations-claude-translate-all *args: _ensure_just_temp_directory
 		}
 	done
 
-# Regenerates docs/architecture/settings/3-layer-mapping.md from settings source-of-truth files
-settings-3-layer-mapping-generate *args:
-	{{ justfile_directory() }}/bin/settings/settings-3-layer-mapping.sh {{ args }}
-
-# Checks whether docs/architecture/settings/3-layer-mapping.md is up to date (no rewrite)
-settings-3-layer-mapping-check *args:
-	{{ justfile_directory() }}/bin/settings/settings-3-layer-mapping.sh check {{ args }}
-
 # Checks Markdown links for local path validity
 docs-check-links:
 	python3 {{ justfile_directory() }}/bin/docs/check-links.py
@@ -270,13 +262,6 @@ perf-room-switch-report logfile:
 # Summarizes room-switch performance markers for a profile (default: default)
 perf-room-switch-report-profile profile="default":
 	python3 {{ justfile_directory() }}/bin/perf/room_switch_report.py --profile "{{ profile }}"
-
-# Backward-compatible aliases (deprecated; prefer settings-3-layer-mapping-*)
-settings-generate-3-layer-mapping *args:
-	just --justfile {{ justfile() }} settings-3-layer-mapping-generate {{ args }}
-
-settings-check-3-layer-mapping *args:
-	just --justfile {{ justfile() }} settings-3-layer-mapping-check {{ args }}
 
 # Regenerates etc/packaging/flatpak/cargo-sources.json from src/rust/Cargo.lock
 flatpak-cargo-sources:
@@ -357,7 +342,6 @@ lint:
 		icons-audit \
 		icons-list-check \
 			icons-derived-check \
-			settings-3-layer-mapping-check \
 			check-markdown-links \
 			no-qsettings \
 			db-boundary \

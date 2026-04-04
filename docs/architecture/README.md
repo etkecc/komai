@@ -6,7 +6,6 @@ Technical documentation for Komai internals.
 
 - ⚙️ [Settings Architecture](settings/README.md) -- persistence model, load order, and secret-provider behavior
 - 🧱 [Settings Migrations](settings/migrations.md) -- schema versioning and migration strategy
-- 🧭 [Settings 3-Layer Mapping](settings/3-layer-mapping.md) -- `SettingId` ↔ runtime getter ↔ persisted key audit report
 - 🧩 [Icons Architecture](icons.md) -- icon source of truth, validation, and Fluent sync workflow
 - 😀 [Emoji Architecture](emojis.md) -- upstream sources, localization pipeline, overrides, and runtime loading
 - 📦 [Binary Size Notes](binary-size.md) -- why local build-tree binaries are larger than packaged installs

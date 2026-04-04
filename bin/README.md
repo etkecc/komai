@@ -21,7 +21,6 @@ The big picture:
 - [`icons/`](icons/README.md) - icon audit and pinned Fluent sync helpers.
 - [`license/`](license/README.md) - REUSE license checks and SPDX header injection helpers.
 - [`prek/`](prek/README.md) - project-specific hook wrappers used by `.pre-commit-config.yaml`.
-- [`settings/`](settings/README.md) - settings architecture audit helpers and mapping report generation.
 - [`theme/`](theme/README.md) - theme validation, import, and C++ header generation.
 - [`translations/`](translations/README.md) - translation normalization and Claude-assisted translation tooling.
 

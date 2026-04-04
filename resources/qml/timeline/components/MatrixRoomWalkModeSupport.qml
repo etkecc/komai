@@ -444,7 +444,7 @@ Item {
 
         const roomModel = primaryActionRoomModel();
         const selected = rootItem.selectedEventIds;
-        const result = [];
+        const entries = [];
         for (let i = 0; i < selected.length; i++) {
             const eid = String(selected[i] || "");
             if (eid.length === 0)
@@ -460,14 +460,17 @@ Item {
 
             const type = Number(item.type || 0);
             if (actionName === "forward" && messageActionSupport.isForwardableType(type))
-                result.push(eid);
+                entries.push({ "row": row, "eid": eid });
             else if (actionName === "remove" && roomModel
                      && (Boolean(item.isSender)
                          || (roomModel.permissions && roomModel.permissions.canRedact())))
-                result.push(eid);
+                entries.push({ "row": row, "eid": eid });
         }
 
-        return result;
+        // Sort by timeline position (row 0 = newest in the reversed
+        // model, so descending row order gives chronological order).
+        entries.sort((a, b) => b.row - a.row);
+        return entries.map(e => e.eid);
     }
 
     function canPerformWalkModeAction(actionName) {

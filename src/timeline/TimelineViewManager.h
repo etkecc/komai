@@ -282,6 +282,8 @@ public:
                                                      int score             = -50);
     Q_INVOKABLE bool
     forwardActiveMatrixTimelineEvent(const QString &eventId, const QString &targetRoomId);
+    Q_INVOKABLE bool
+    forwardActiveMatrixTimelineEvents(const QStringList &eventIds, const QString &targetRoomId);
     Q_INVOKABLE bool pinActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE bool unpinActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE bool requestRawMessageDialogForActiveMatrixTimelineEvent(const QString &eventId);

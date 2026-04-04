@@ -69,9 +69,15 @@ Popup {
     }
     function confirmForward() {
         if (activeRoom) {
-            for (let index = 0; index < forwardMessagePopup.messageEventIds.length; index++)
-                activeRoom.forwardMessage(String(forwardMessagePopup.messageEventIds[index] || ""),
-                                          forwardMessagePopup.pendingRoomId);
+            if (forwardMessagePopup.messageEventIds.length > 1
+                    && typeof activeRoom.forwardMessages === "function") {
+                activeRoom.forwardMessages(forwardMessagePopup.messageEventIds,
+                                           forwardMessagePopup.pendingRoomId);
+            } else {
+                for (let index = 0; index < forwardMessagePopup.messageEventIds.length; index++)
+                    activeRoom.forwardMessage(String(forwardMessagePopup.messageEventIds[index] || ""),
+                                              forwardMessagePopup.pendingRoomId);
+            }
         }
         forwardMessagePopup.close();
     }

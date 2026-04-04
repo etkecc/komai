@@ -40,6 +40,11 @@ Item {
                                                             String(targetRoomId || ""));
         }
 
+        function forwardMessages(eventIds, targetRoomId) {
+            TimelineManager.forwardActiveMatrixTimelineEvents(eventIds,
+                                                              String(targetRoomId || ""));
+        }
+
         function dataById(id, role, relatedTo) {
             const model = TimelineManager.matrixTimelineModel;
             if (model && typeof model.dataById === "function")

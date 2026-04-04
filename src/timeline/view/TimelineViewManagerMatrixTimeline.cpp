@@ -1572,6 +1572,140 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
 }
 
 bool
+TimelineViewManager::forwardActiveMatrixTimelineEvents(const QStringList &eventIds,
+                                                       const QString &targetRoomId)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to forward matrix-sdk room events without an active runtime "
+                          "handle or selected matrix room");
+        return false;
+    }
+
+    const auto trimmedTargetRoomId = targetRoomId.trimmed();
+    if (trimmedTargetRoomId.isEmpty())
+        return false;
+
+    if (!matrixTimelineModel_) {
+        nhlog::ui()->warn("Refusing to forward matrix-sdk room events without an active "
+                          "timeline model");
+        return false;
+    }
+
+    struct ForwardEntry
+    {
+        QString eventId;
+        QString itemKind;
+        QString body;
+    };
+
+    const auto sourceRoomId          = activeMatrixTimelineRoomId_;
+    const auto useMarkdownFormatting = matrixMessageUsesMarkdownFormatting();
+    QVector<ForwardEntry> entries;
+    entries.reserve(eventIds.size());
+
+    for (const auto &rawId : eventIds) {
+        const auto eid = rawId.trimmed();
+        if (eid.isEmpty())
+            continue;
+
+        const auto item = matrixTimelineModel_->itemByEventId(eid);
+        if (!item) {
+            nhlog::ui()->warn("Skipping unknown matrix-sdk room event '{}' during batch forward",
+                              eid.toStdString());
+            continue;
+        }
+
+        entries.append(ForwardEntry{
+          .eventId  = eid,
+          .itemKind = item->itemKind.trimmed().toLower(),
+          .body     = item->body,
+        });
+    }
+
+    if (entries.isEmpty())
+        return false;
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId,
+       sourceRoomId,
+       trimmedTargetRoomId,
+       useMarkdownFormatting,
+       entries = std::move(entries)]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          int failCount      = 0;
+          QString lastError;
+
+          for (const auto &entry : entries) {
+              QString error;
+              bool ok = false;
+
+              if (isForwardableActiveMatrixTimelineTextKind(entry.itemKind)) {
+                  const auto normalizedKind =
+                    entry.itemKind == QStringLiteral("notice")
+                      ? QStringLiteral("notice")
+                      : (entry.itemKind == QStringLiteral("emote") ? QStringLiteral("emote")
+                                                                   : QStringLiteral("text"));
+                  ok = komai::MatrixBackendRuntimeService::sendRoomMessage(context,
+                                                                           handleId,
+                                                                           trimmedTargetRoomId,
+                                                                           entry.body,
+                                                                           useMarkdownFormatting,
+                                                                           normalizedKind,
+                                                                           &error);
+              } else {
+                  auto content =
+                    komai::MatrixBackendRuntimeService::fetchActiveRoomEventContentForForwarding(
+                      context, handleId, sourceRoomId, entry.eventId, &error);
+                  if (content) {
+                      ok = komai::MatrixBackendRuntimeService::sendRoomMessageLikeEventJson(
+                        context,
+                        handleId,
+                        trimmedTargetRoomId,
+                        content->eventType,
+                        content->contentJson,
+                        &error);
+                  }
+              }
+
+              if (!ok) {
+                  ++failCount;
+                  lastError = error;
+                  nhlog::ui()->warn(
+                    "Failed to forward matrix-sdk room event '{}' from '{}' to '{}': {}",
+                    entry.eventId.toStdString(),
+                    sourceRoomId.toStdString(),
+                    trimmedTargetRoomId.toStdString(),
+                    error.toStdString());
+              }
+          }
+
+          return MatrixTimelineEventActionResult{
+            .handleId = handleId,
+            .roomId   = sourceRoomId,
+            .eventId  = QString::number(entries.size()),
+            .detail   = trimmedTargetRoomId,
+            .error    = lastError,
+            .ok       = failCount == 0,
+          };
+      },
+      [](TimelineViewManager *, MatrixTimelineEventActionResult result) {
+          if (result.ok)
+              return;
+
+          auto *mainWindow = MainWindow::instance();
+          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+              return;
+
+          mainWindow->showNotification(
+            TimelineViewManager::tr("Failed to forward some messages: %1").arg(result.error));
+      });
+    return true;
+}
+
+bool
 TimelineViewManager::pinActiveMatrixTimelineEvent(const QString &eventId)
 {
     auto *mainWindow    = MainWindow::instance();

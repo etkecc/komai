@@ -5,7 +5,7 @@ set -eu
 repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
 target_dir="$repo_root/src"
 
-matches="$(grep -R -n -w --line-number --color=never 'QSettings' "$target_dir" 2>/dev/null || true)"
+matches="$(grep -R -n -w --line-number --color=never --exclude-dir=target 'QSettings' "$target_dir" 2>/dev/null || true)"
 
 if [ -n "$matches" ]; then
     echo "QSettings usage is not allowed in Komai source files."

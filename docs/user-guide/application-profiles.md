@@ -82,9 +82,10 @@ Remove it later with:
 komai profiles launcher remove work
 ```
 
-After creating the launcher, start that profile from the created desktop entry
-instead of `komai -p work` in a terminal if you want reliable app/taskbar badge
-targeting.
+After creating the launcher, Komai can use that profile-specific desktop/app
+identity even when you start it with `komai -p work`, because startup checks
+for an installed matching launcher entry. Starting from the created desktop
+entry is still convenient, but not required for badge targeting.
 
 Manual desktop-entry example:
 

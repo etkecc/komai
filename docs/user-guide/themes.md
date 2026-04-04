@@ -20,7 +20,7 @@ Example:
 ```yaml
 ui:
   theme:
-    slug: komai-dark
+    slug: dark-komai
 ```
 
 See [Settings: What Goes Where](settings/README.md#what-goes-where) for config semantics and

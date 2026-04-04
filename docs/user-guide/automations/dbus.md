@@ -270,7 +270,7 @@ Appearance settings.
 
 ### theme / setTheme
 
-Reads or sets the active theme. `setTheme` expects a valid theme slug (`komai-light`, `komai-dark`, `nheko-light`, ...), not a display label.
+Reads or sets the active theme. `setTheme` expects a valid theme slug (`light-komai`, `dark-komai`, `light-nheko`, ...), not a display label.
 
 > Required D-Bus access level: 👁️ read (get) / ✏️ write (set)
 
@@ -279,7 +279,7 @@ Reads or sets the active theme. `setTheme` expects a valid theme slug (`komai-li
 busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Settings.UI theme
 
 # Set
-busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Settings.UI setTheme s 'komai-dark'
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Settings.UI setTheme s 'dark-komai'
 ```
 
 ## 🖼️ Media

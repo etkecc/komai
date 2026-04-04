@@ -410,7 +410,7 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
                                         "  provider: file\n"
                                         "ui:\n"
                                         "  theme:\n"
-                                        "    slug: komai-light\n")))
+                                        "    slug: light-komai\n")))
         return expect(false, "startup-policy fixture config can be persisted");
 
     UserSettings::initialize(profile);
@@ -508,7 +508,7 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
                                         "  provider: file\n"
                                         "ui:\n"
                                         "  theme:\n"
-                                        "    slug: komai-light\n")))
+                                        "    slug: light-komai\n")))
         return expect(false, "startup-policy-config-only fixture config can be persisted");
 
     UserSettings::initialize(profile);
@@ -517,7 +517,7 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
         return expect(false, "UserSettings instance is available after initialize");
 
     settings->setPersistenceSuspended(false);
-    settings->setUiThemeSlug(QStringLiteral("komai-dark"));
+    settings->setUiThemeSlug(QStringLiteral("dark-komai"));
 
     if (!expect(settings::storage::pathExists(configFile),
                 "theme change creates config.yml in config-only mode"))
@@ -527,7 +527,7 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
     const bool persistedTheme =
       expectConfigString(configAfter,
                          SettingKey::UiThemeSlug,
-                         QStringLiteral("komai-dark"),
+                         QStringLiteral("dark-komai"),
                          "theme change is persisted to config.yml");
 
     return persistedTheme &&
@@ -1095,7 +1095,7 @@ testConfigSchemaVersionIsStampedOnSave()
 
     if (!ctx.writeConfig(QStringLiteral("ui:\n"
                                         "  theme:\n"
-                                        "    slug: komai-light\n")))
+                                        "    slug: light-komai\n")))
         return expect(false, "config schema version fixture can be persisted");
 
     UserSettings::initialize(profile);
@@ -1104,7 +1104,7 @@ testConfigSchemaVersionIsStampedOnSave()
         return expect(false, "UserSettings instance is available for schema version test");
 
     settings->setPersistenceSuspended(false);
-    settings->setUiThemeSlug(QStringLiteral("komai-dark"));
+    settings->setUiThemeSlug(QStringLiteral("dark-komai"));
 
     const auto persisted = loadConfigSnapshot(ctx.configFile(), "schema-version");
     return expect(persisted.source_version ==
@@ -1159,7 +1159,7 @@ testStateAndSessionMigrationWritebackOnLoad()
 
     if (!ctx.writeConfig(QStringLiteral("ui:\n"
                                         "  theme:\n"
-                                        "    slug: komai-light\n")))
+                                        "    slug: light-komai\n")))
         return expect(false, "state/session migration fixture config can be persisted");
 
     if (!ctx.writeSession(QStringLiteral("session:\n"
@@ -1257,7 +1257,7 @@ testSerializerLoggerInjection()
 
     if (!ctx.writeConfig(QStringLiteral("ui:\n"
                                         "  theme:\n"
-                                        "    slug: komai-light\n")))
+                                        "    slug: light-komai\n")))
         return expect(false, "serializer logger fixture config can be persisted");
 
     UserSettings::initialize(profile);
@@ -1336,7 +1336,7 @@ testControllerSyncsCoreStore()
 
     if (!ctx.writeConfig(QStringLiteral("ui:\n"
                                         "  theme:\n"
-                                        "    slug: komai-dark\n"
+                                        "    slug: dark-komai\n"
                                         "  font:\n"
                                         "    size_pt: 15.5\n"
                                         "network:\n"
@@ -1387,7 +1387,7 @@ testControllerSyncsCoreStore()
     }
 
     settings->setPersistenceSuspended(false);
-    settings->setUiThemeSlug(QStringLiteral("komai-light"));
+    settings->setUiThemeSlug(QStringLiteral("light-komai"));
     const auto updatedTheme =
       settings->coreStore().valueAs<std::string>(settings::core::SettingId::UiThemeSlug);
     ok &= expect(updatedTheme.has_value() && *updatedTheme == settings->uiThemeSlug().toStdString(),

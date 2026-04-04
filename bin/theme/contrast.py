@@ -3,8 +3,8 @@
 
 Usage examples:
   python3 bin/theme/contrast.py
-  python3 bin/theme/contrast.py komai-light
-  python3 bin/theme/contrast.py resources/themes/komai-light.yml --fail-aa
+  python3 bin/theme/contrast.py light-komai
+  python3 bin/theme/contrast.py resources/themes/light-komai.yml --fail-aa
 """
 
 from __future__ import annotations

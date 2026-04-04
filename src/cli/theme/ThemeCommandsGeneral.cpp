@@ -85,7 +85,7 @@ handleCreateSample(int argc, char *argv[], QCoreApplication & /*app*/)
 
     auto outputFile =
       QStringLiteral("%1/%2-%3.yml")
-        .arg(userThemesDir(), QString::fromStdString(name), QString::fromStdString(variant));
+        .arg(userThemesDir(), QString::fromStdString(variant), QString::fromStdString(name));
 
     if (QFile::exists(outputFile) && !force) {
         std::cerr << "Theme already exists: " << outputFile.toStdString() << "\n"
@@ -93,10 +93,10 @@ handleCreateSample(int argc, char *argv[], QCoreApplication & /*app*/)
         return 1;
     }
 
-    // Distinct sample palettes (intentionally different from komai-light/komai-dark)
+    // Distinct sample palettes (intentionally different from light-komai/dark-komai)
     theme_color::Palette palette;
     if (variant == "light") {
-        // Warm off-white + slate + teal (distinct from komai-light: pure white + warning)
+        // Warm off-white + slate + teal (distinct from light-komai: pure white + warning)
         palette = {
           {"window", "f8f6f2"},
           {"windowText", "3b4252"},
@@ -120,7 +120,7 @@ handleCreateSample(int argc, char *argv[], QCoreApplication & /*app*/)
           {"error", "bf616a"},
         };
     } else {
-        // Neutral dark + muted purple accent (distinct from komai-dark: warning accent)
+        // Neutral dark + muted purple accent (distinct from dark-komai: warning accent)
         palette = {
           {"window", "2e3440"},
           {"windowText", "d8dee9"},

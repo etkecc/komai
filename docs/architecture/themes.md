@@ -279,7 +279,7 @@ done
 # Verify output
 python3 bin/theme/check.py
 just theme-check-contrast
-just theme-check-contrast-strict komai-light
+just theme-check-contrast-strict light-komai
 just generate-themes
 ```
 

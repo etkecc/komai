@@ -289,15 +289,15 @@ Appearance settings.
 
 ### ui theme / ui set-theme
 
-Reads or sets the active theme. `set-theme` expects a valid theme slug (`komai-light`, `komai-dark`, `nheko-light`, ...), not a display label.
+Reads or sets the active theme. `set-theme` expects a valid theme slug (`light-komai`, `dark-komai`, `light-nheko`, ...), not a display label.
 
 ```bash
 # Get
 komai settings ui theme
-# {"theme":"komai-dark"}
+# {"theme":"dark-komai"}
 
 # Set
-komai settings ui set-theme komai-dark
+komai settings ui set-theme dark-komai
 ```
 
 ## 🖼️ Media

@@ -5,7 +5,7 @@ meta:
 
 ui:
   theme:
-    slug: komai-light
+    slug: light-komai
   font:
     family: ""
     emoji_family: ""

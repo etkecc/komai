@@ -76,13 +76,13 @@ fn parses_theme_and_secrets_provider() {
         r#"
 ui:
   theme:
-    slug: komai-dark
+    slug: dark-komai
 secrets:
   provider: file
 "#,
     );
 
-    assert_eq!(config.ui.theme.slug, "komai-dark");
+    assert_eq!(config.ui.theme.slug, "dark-komai");
     assert_eq!(config.ui.input.mode, ConfigUiInputModeToken::Text);
     assert_eq!(config.secrets.provider, ConfigSecretsProviderToken::File);
 }
@@ -418,7 +418,7 @@ fn encodes_generic_config_values() {
         ui: SettingsConfigUiSection {
             has_scale_factor: false,
             scale_factor: 0.0,
-            theme_slug: "komai-dark".to_owned(),
+            theme_slug: "dark-komai".to_owned(),
             has_font_size_pt: true,
             font_size_pt: 14.0,
             font_family: "Iosevka".to_owned(),
@@ -639,7 +639,7 @@ fn encodes_generic_config_values() {
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "theme", "slug"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "komai-dark"
+        Some(serde_yaml_ng::Value::String(value)) if value == "dark-komai"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "messages", "style"]),
@@ -972,14 +972,14 @@ ui:
   scale:
     factor: 1.5
   theme:
-    slug: komai-dark
+    slug: dark-komai
 secrets:
   provider: file
 "#,
     );
 
     assert_eq!(loaded.config.ui.scale.factor, Some(1.5));
-    assert_eq!(loaded.config.ui.theme.slug, "komai-dark");
+    assert_eq!(loaded.config.ui.theme.slug, "dark-komai");
     assert_eq!(loaded.config.ui.input.mode, ConfigUiInputModeToken::Text);
     assert_eq!(loaded.config.ui.motion.animations_enabled, None);
     assert_eq!(loaded.config.secrets.provider, ConfigSecretsProviderToken::File);
@@ -1053,7 +1053,7 @@ meta:
   settings_schema_version: 8
 ui:
   theme:
-    slug: komai-dark
+    slug: dark-komai
 "#,
     );
 
@@ -1061,7 +1061,7 @@ ui:
     assert!(!loaded.should_write_back);
     assert_eq!(loaded.source_version, 8);
     assert_eq!(loaded.migrated_version, 8);
-    assert_eq!(loaded.config.ui.theme.slug, "komai-dark");
+    assert_eq!(loaded.config.ui.theme.slug, "dark-komai");
 }
 
 #[test]
@@ -1072,7 +1072,7 @@ meta:
   settings_schema_version: -5
 ui:
   theme:
-    slug: komai-dark
+    slug: dark-komai
 "#,
     );
 
@@ -1080,7 +1080,7 @@ ui:
     assert_eq!(loaded.source_version, 0);
     assert_eq!(loaded.migrated_version, 1);
     assert!(loaded.should_write_back);
-    assert_eq!(loaded.config.ui.theme.slug, "komai-dark");
+    assert_eq!(loaded.config.ui.theme.slug, "dark-komai");
 }
 
 #[test]

@@ -33,7 +33,7 @@ variantRank(QStringView variant)
 static bool
 isPinnedKomaiTheme(const ThemeDef &theme)
 {
-    return theme.slug.startsWith(QLatin1String("komai-"));
+    return theme.slug.endsWith(QLatin1String("-komai"));
 }
 
 static bool
@@ -259,5 +259,5 @@ ThemeRegistry::defaultThemeSlug(QStringView variant) const
         if (t.variant == variant)
             return t.slug;
     }
-    return QStringLiteral("komai-light");
+    return QStringLiteral("light-komai");
 }

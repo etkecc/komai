@@ -112,7 +112,7 @@ handleTintedImport(int argc, char *argv[], QCoreApplication & /*app*/)
     // Determine output name
     auto outputBase = customName.isEmpty() ? slug : customName;
     auto outputFile = QStringLiteral("%1/%2-%3.yml")
-                        .arg(userThemesDir(), outputBase, QString::fromStdString(variant));
+                        .arg(userThemesDir(), QString::fromStdString(variant), outputBase);
 
     if (QFile::exists(outputFile) && !force) {
         std::cerr << "Theme already exists: " << outputFile.toStdString() << "\n"

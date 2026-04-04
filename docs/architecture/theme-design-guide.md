@@ -118,8 +118,8 @@ Useful local checks:
 
 ```sh
 python3 bin/theme/check.py
-python3 bin/theme/contrast.py komai-light
-just theme-check-contrast komai-light
+python3 bin/theme/contrast.py light-komai
+just theme-check-contrast light-komai
 just theme-preview-run
 just lint
 ```

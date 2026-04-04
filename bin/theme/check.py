@@ -22,7 +22,7 @@ from colors import (
 
 REQUIRED_FIELDS = ("name", "variant", "palette", "userColors")
 VALID_VARIANTS = ("light", "dark")
-VALID_THEME_SUFFIXES = tuple(f"-{variant}" for variant in VALID_VARIANTS)
+VALID_THEME_PREFIXES = tuple(f"{variant}-" for variant in VALID_VARIANTS)
 BASE16_SLOTS = [f"base{i:02X}" for i in range(16)]
 
 def validate_theme(path: str) -> list[str]:
@@ -58,17 +58,17 @@ def validate_theme(path: str) -> list[str]:
                     " — the variant field already carries this; strip the suffix"
                 )
 
-    # Check theme identifier suffix consistency
+    # Check theme identifier prefix consistency
     slug = os.path.splitext(filename)[0]
     slug_lower = slug.lower()
-    if not any(slug_lower.endswith(suffix) for suffix in VALID_THEME_SUFFIXES):
-        suffixes = ", ".join(VALID_THEME_SUFFIXES)
+    if not any(slug_lower.startswith(prefix) for prefix in VALID_THEME_PREFIXES):
+        prefixes = ", ".join(VALID_THEME_PREFIXES)
         errors.append(
-            f"{filename}: theme identifier must end with one of: {suffixes}"
+            f"{filename}: theme identifier must start with one of: {prefixes}"
         )
 
     if variant and variant in VALID_VARIANTS:
-        if not slug_lower.endswith(f"-{variant}"):
+        if not slug_lower.startswith(f"{variant}-"):
             errors.append(
                 f"{filename}: variant={variant!r} does not match theme identifier '{filename}'"
             )

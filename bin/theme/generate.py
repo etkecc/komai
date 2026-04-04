@@ -193,7 +193,7 @@ def generate_header(themes: list[dict]) -> str:
     lines.append("    for (const auto& t : themeDefinitions()) {")
     lines.append("        if (t.variant == variant) return t.slug;")
     lines.append("    }")
-    lines.append('    return QStringLiteral("komai-light");')
+    lines.append('    return QStringLiteral("light-komai");')
     lines.append("}")
     lines.append("")
 
@@ -218,11 +218,11 @@ def main():
 
     # Sort order: komai themes first (0-99), nheko themes (100-199), others alphabetically (200+)
     def sort_key(slug: str) -> int:
-        if slug == "komai-light":
+        if slug == "light-komai":
             return 0
-        elif slug == "komai-dark":
+        elif slug == "dark-komai":
             return 1
-        elif slug.startswith("nheko"):
+        elif "nheko" in slug:
             return 100 + ord(slug[-1]) if slug else 100
         else:
             return 200

@@ -92,9 +92,6 @@ EventDelegateChooser {
                           : chooserMainSurfaceColor
             font.italic: type == MtxEvent.NoticeMessage
             formatted: formattedBody
-            isOnlyEmoji: (parent && parent.previewData && parent.previewData.isOnlyEmoji !== undefined)
-                ? Number(parent.previewData.isOnlyEmoji)
-                : 0
             keepFullText: true
         }
     }

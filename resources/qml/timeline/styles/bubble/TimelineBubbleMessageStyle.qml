@@ -207,9 +207,8 @@ TimelineMessageStyleBase {
             z: 5
 
             onLeftClicked: {
-                if (wrapper.room) {
-                    wrapper.room.openUserProfile(wrapper.userId)
-                }
+                if (wrapper.roomIdForColorCoding && wrapper.userId)
+                    TimelineManager.openRoomUserProfile(wrapper.roomIdForColorCoding, wrapper.userId)
             }
 
             Connections {

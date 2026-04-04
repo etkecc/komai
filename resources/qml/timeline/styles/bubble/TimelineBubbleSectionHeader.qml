@@ -119,7 +119,10 @@ Column {
                 textFormat: Text.RichText
             }
 
-            onClicked: roomRef.openUserProfile(userId)
+            onClicked: {
+                if (roomRef && roomRef.roomId && userId)
+                    TimelineManager.openRoomUserProfile(roomRef.roomId, userId)
+            }
 
             TextMetrics {
                 id: userNameTextMetrics

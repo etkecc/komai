@@ -5,12 +5,14 @@
 #include "timeline/rust/MatrixTimelineModel.h"
 
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/FormattedCodeBlockHighlighter.h"
 #include "timeline/TimelineEventTypes.h"
 #include "utils/MediaIcons.h"
 #include "utils/Utils.h"
 
 #include <QByteArray>
 #include <QDateTime>
+#include <QGuiApplication>
 #include <algorithm>
 
 namespace komai {
@@ -103,6 +105,13 @@ formatBodyHtml(const QString &body, const QString &formattedBody = {})
         // The formatted body is already HTML from the server; sanitize and linkify it directly
         // without reinterpreting plain text as markdown locally.
         html = utils::escapeBlacklistedHtml(formattedBody);
+
+        const auto settings = UserSettings::instance();
+        const bool highlightEnabled =
+          settings && settings->timelineFormattedCodeSyntaxHighlighting();
+        html = timeline::highlightFormattedCodeBlocks(
+          html, QGuiApplication::palette(), highlightEnabled);
+
         html = utils::linkifyMessage(html);
     } else {
         html = body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));

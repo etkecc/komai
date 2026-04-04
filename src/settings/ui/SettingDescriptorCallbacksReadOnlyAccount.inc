@@ -13,10 +13,3 @@ sessionProfileValue()
     return i->profile().isEmpty() ? QCoreApplication::translate("UserSettingsModel", "Default")
                                   : i->profile();
 }
-
-static QVariant
-sessionDeviceFingerprintValue()
-{
-    return QCoreApplication::translate("UserSettingsModel",
-                                       "Not available on the matrix-sdk migration branch");
-}

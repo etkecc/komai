@@ -624,50 +624,6 @@ Item {
                                     Item { Layout.preferredWidth: 24; Layout.preferredHeight: 24 }
                                 }
 
-                                // Body: Device fingerprint
-                                RowLayout {
-                                    Layout.fillWidth: true
-                                    Layout.topMargin: Komai.paddingSmall
-                                    Layout.leftMargin: Komai.paddingMedium
-                                    Layout.rightMargin: Komai.paddingMedium
-                                    spacing: Komai.paddingSmall
-
-                                    Label {
-                                        text: qsTr("Device fingerprint")
-                                        color: palette.text
-                                        font.pointSize: 1.1 * Settings.uiFontSizePt
-                                        Layout.fillWidth: true
-                                    }
-
-                                    Components.KomaiTextField {
-                                        id: fingerprintField
-                                        text: UserSettingsModel.deviceFingerprint()
-                                        readOnly: true
-                                        font.pointSize: Settings.uiFontSizePt
-                                        Layout.preferredWidth: currentDeviceCardContent.controlWidth
-                                        Layout.maximumWidth: currentDeviceCardContent.controlWidth
-                                    }
-
-                                    Components.ImageButton {
-                                        id: copyFingerprintBtn
-                                        property bool copied: false
-                                        Layout.preferredWidth: 24
-                                        Layout.preferredHeight: 24
-                                        image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
-                                        toolTipVisible: hovered
-                                        toolTipText: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
-                                        onClicked: {
-                                            Clipboard.text = UserSettingsModel.deviceFingerprint();
-                                            copied = true;
-                                            copyFingerprintTimer.start();
-                                        }
-                                        Timer {
-                                            id: copyFingerprintTimer
-                                            interval: 2000
-                                            onTriggered: copyFingerprintBtn.copied = false
-                                        }
-                                    }
-                                }
 
                                 // Body: Access token
                                 RowLayout {

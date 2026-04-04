@@ -58,8 +58,6 @@ public:
         SectionTitle,
         SectionBar,
         KeyStatus,
-        SessionKeyImportExport,
-        XSignKeysRequestDownload,
         ManageIgnoredUsers,
         Link,
         ThemeSelector,
@@ -100,11 +98,6 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
     Q_INVOKABLE QObject *modelForTab(int tab) const;
-    Q_INVOKABLE void importSessionKeys();
-    Q_INVOKABLE void exportSessionKeys();
-    Q_INVOKABLE void requestCrossSigningSecrets();
-    Q_INVOKABLE void downloadCrossSigningSecrets();
-    Q_INVOKABLE QString deviceFingerprint() const;
 
 private:
     void wireSettingConnections(UserSettings *settings);

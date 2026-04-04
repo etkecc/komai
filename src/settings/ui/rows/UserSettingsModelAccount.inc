@@ -22,10 +22,6 @@
     { QT_TR_NOOP("Device ID"), nullptr, SM::ReadOnlyText, SM::TabAccount,
       getSettingValue<&UserSettings::deviceId>,
       nullptr, {}, {}, {}, nullptr, nullptr },
-    // DeviceFingerprint
-    { QT_TR_NOOP("Device fingerprint"), nullptr, SM::ReadOnlyText, SM::TabAccount,
-      sessionDeviceFingerprintValue,
-      nullptr, {}, {}, {}, nullptr, nullptr },
     // AccessToken
     { QT_TR_NOOP("Access token"),
       QT_TR_NOOP("Your access token gives full access to your account. Do not share it with anyone."),

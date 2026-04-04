@@ -21,9 +21,6 @@
       "Enable online key backup",
       QT_TR_NOOP("Download message encryption keys from and upload to the encrypted online key backup."),
       SM::TabEncryption, encryptionBackupOnlineEnabled, setEncryptionBackupOnlineEnabled, nullptr, EncryptionBackupOnlineEnabled, SettingKey::EncryptionBackupOnlineEnabled),
-    // SessionKeys
-    { QT_TR_NOOP("Session keys"), nullptr, SM::SessionKeyImportExport, SM::TabEncryption,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EncryptionCrossSigningSection
     { QT_TR_NOOP("Cross-signing"), nullptr, SM::SectionTitle, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
@@ -55,6 +52,3 @@
       encryptionMasterSigningKeyStatusValue,
       nullptr, {}, {}, {}, nullptr, nullptr, CORE_RUNTIME_ID(EncryptionMasterSigningKeyStatus),
       },
-    // CrossSigningSecrets
-    { QT_TR_NOOP("Cross-signing secrets"), nullptr, SM::XSignKeysRequestDownload, SM::TabEncryption,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

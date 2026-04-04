@@ -5,7 +5,6 @@
 
 #include <QSortFilterProxyModel>
 
-#include "settings/ui/SessionKeyActions.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/UserSettingsModel.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -67,33 +66,6 @@ UserSettingsModel::modelForTab(int tab) const
     filteredModels_.insert(tab, proxyModel);
 
     return proxyModel;
-}
-
-void
-UserSettingsModel::importSessionKeys()
-{
-    settings::ui::importSessionKeys();
-}
-void
-UserSettingsModel::exportSessionKeys()
-{
-    settings::ui::exportSessionKeys();
-}
-void
-UserSettingsModel::requestCrossSigningSecrets()
-{
-    settings::ui::requestCrossSigningSecrets();
-}
-void
-UserSettingsModel::downloadCrossSigningSecrets()
-{
-    settings::ui::downloadCrossSigningSecrets();
-}
-
-QString
-UserSettingsModel::deviceFingerprint() const
-{
-    return tr("Not available on the matrix-sdk migration branch");
 }
 
 UserSettingsModel::UserSettingsModel(QObject *p)

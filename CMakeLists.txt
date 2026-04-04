@@ -483,8 +483,6 @@ set(SRC_FILES
     src/settings/ui/SettingRoleData.cpp
     src/settings/ui/SettingInputValidation.h
     src/settings/ui/SettingInputValidation.cpp
-    src/settings/ui/SessionKeyActions.h
-    src/settings/ui/SessionKeyActions.cpp
     src/settings/StartupSettings.h
     src/settings/StartupSettings.cpp
     src/settings/core/SettingDefinition.h

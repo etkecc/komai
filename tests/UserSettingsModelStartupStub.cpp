@@ -57,32 +57,6 @@ UserSettingsModel::modelForTab(int) const
     return nullptr;
 }
 
-void
-UserSettingsModel::importSessionKeys()
-{
-}
-
-void
-UserSettingsModel::exportSessionKeys()
-{
-}
-
-void
-UserSettingsModel::requestCrossSigningSecrets()
-{
-}
-
-void
-UserSettingsModel::downloadCrossSigningSecrets()
-{
-}
-
-QString
-UserSettingsModel::deviceFingerprint() const
-{
-    return {};
-}
-
 namespace settings::ui {
 
 const SettingMeta settingsTable[] = {

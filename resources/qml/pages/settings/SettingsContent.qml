@@ -362,20 +362,6 @@ Item {
                                         }
                                     }
                                     DelegateChoice {
-                                        roleValue: UserSettingsModel.SessionKeyImportExport
-                                        SettingRowSessionKeys {
-                                            anchors.left: r.useStackedLayout ? parent.left : undefined
-                                            anchors.right: r.useStackedLayout ? undefined : parent.right
-                                        }
-                                    }
-                                    DelegateChoice {
-                                        roleValue: UserSettingsModel.XSignKeysRequestDownload
-                                        SettingRowXSignKeys {
-                                            anchors.left: r.useStackedLayout ? parent.left : undefined
-                                            anchors.right: r.useStackedLayout ? undefined : parent.right
-                                        }
-                                    }
-                                    DelegateChoice {
                                         roleValue: UserSettingsModel.ManageIgnoredUsers
                                         SettingRowIgnoredUsers {
                                             anchors.left: r.useStackedLayout ? parent.left : undefined

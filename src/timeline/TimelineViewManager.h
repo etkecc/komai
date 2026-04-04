@@ -291,6 +291,7 @@ public:
     Q_INVOKABLE bool requestRawMessageDialogForActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE bool requestReadReceiptsModelForActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
+    Q_INVOKABLE bool tryPasteClipboardAttachment(bool strict);
     bool stageMatrixAttachmentsForRoom(const QString &roomId, const QStringList &filePaths);
     Q_INVOKABLE bool sendActiveMatrixAttachments();
     Q_INVOKABLE void clearActiveMatrixAttachments();

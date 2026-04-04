@@ -6,6 +6,8 @@
 
 #include <cmath>
 
+#include <QBuffer>
+#include <QClipboard>
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QDesktopServices>
@@ -14,6 +16,9 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QGuiApplication>
+#include <QImage>
+#include <QMimeData>
 #include <QMimeDatabase>
 #include <QPointer>
 #include <QStandardPaths>
@@ -2050,6 +2055,115 @@ TimelineViewManager::openActiveMatrixAttachmentSelection()
         return false;
 
     return stageMatrixAttachmentsForRoom(targetRoomId, filePaths);
+}
+
+bool
+TimelineViewManager::tryPasteClipboardAttachment(bool strict)
+{
+    const auto targetRoomId = activeMatrixTimelineRoomId_.trimmed();
+    if (targetRoomId.isEmpty())
+        return false;
+
+    auto *clipboard = QGuiApplication::clipboard();
+    if (!clipboard)
+        return false;
+
+    const auto *md = strict ? clipboard->mimeData(QClipboard::Selection)
+                            : clipboard->mimeData(QClipboard::Clipboard);
+    if (!md)
+        return false;
+
+    nhlog::ui()->info("Clipboard paste: formats=[{}], hasImage={}",
+                      md->formats().join(QStringLiteral(", ")).toStdString(),
+                      md->hasImage());
+
+    const auto formats = md->formats().filter(QStringLiteral("/"));
+    const auto image   = formats.filter(QStringLiteral("image/"), Qt::CaseInsensitive);
+    const auto audio   = formats.filter(QStringLiteral("audio/"), Qt::CaseInsensitive);
+    const auto video   = formats.filter(QStringLiteral("video/"), Qt::CaseInsensitive);
+
+    // Helper: save raw MIME bytes to a temp file and stage them.
+    auto stageFromMimeData = [&](const QString &mimeType) -> bool {
+        const auto data = md->data(mimeType);
+        if (data.isEmpty())
+            return false;
+
+        QMimeDatabase db;
+        const auto suffix   = db.mimeTypeForName(mimeType).preferredSuffix();
+        const auto tempDir  = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+        const auto filePath = tempDir + QStringLiteral("/komai-paste-") +
+                              QUuid::createUuid().toString(QUuid::Id128) +
+                              (suffix.isEmpty() ? QString{} : QStringLiteral(".") + suffix);
+
+        QFile file(filePath);
+        if (!file.open(QIODevice::WriteOnly)) {
+            nhlog::ui()->warn("Failed to create temp file for clipboard paste: {}",
+                              filePath.toStdString());
+            return false;
+        }
+        file.write(data);
+        file.close();
+
+        return stageMatrixAttachmentsForRoom(targetRoomId, {filePath});
+    };
+
+    if (md->hasImage()) {
+        if (formats.contains(QStringLiteral("image/svg+xml"), Qt::CaseInsensitive)) {
+            return stageFromMimeData(QStringLiteral("image/svg+xml"));
+        } else if (formats.contains(QStringLiteral("image/png"), Qt::CaseInsensitive)) {
+            return stageFromMimeData(QStringLiteral("image/png"));
+        } else if (image.empty()) {
+            // Convert generic image data to PNG.
+            QByteArray ba;
+            QBuffer buffer(&ba);
+            buffer.open(QIODevice::WriteOnly);
+            qvariant_cast<QImage>(md->imageData()).save(&buffer, "PNG");
+            buffer.close();
+
+            const auto tempDir  = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+            const auto filePath = tempDir + QStringLiteral("/komai-paste-") +
+                                  QUuid::createUuid().toString(QUuid::Id128) +
+                                  QStringLiteral(".png");
+
+            QFile file(filePath);
+            if (!file.open(QIODevice::WriteOnly))
+                return false;
+            file.write(ba);
+            file.close();
+
+            return stageMatrixAttachmentsForRoom(targetRoomId, {filePath});
+        } else {
+            return stageFromMimeData(image.first());
+        }
+    } else if (!audio.empty()) {
+        return stageFromMimeData(audio.first());
+    } else if (!video.empty()) {
+        return stageFromMimeData(video.first());
+    } else if (md->hasUrls()) {
+        QStringList filePaths;
+        for (const auto &url : md->urls()) {
+            if (url.isLocalFile())
+                filePaths.push_back(url.toLocalFile());
+        }
+        if (!filePaths.isEmpty())
+            return stageMatrixAttachmentsForRoom(targetRoomId, filePaths);
+    } else if (md->hasFormat(QStringLiteral("x-special/gnome-copied-files"))) {
+        auto data = md->data(QStringLiteral("x-special/gnome-copied-files")).split('\n');
+        if (data.size() < 2)
+            return false;
+
+        QStringList filePaths;
+        for (int i = 1; i < data.size(); ++i) {
+            QUrl url{QString::fromUtf8(data[i])};
+            if (url.isLocalFile())
+                filePaths.push_back(url.toLocalFile());
+        }
+        if (!filePaths.isEmpty())
+            return stageMatrixAttachmentsForRoom(targetRoomId, filePaths);
+    }
+
+    // No non-text content found — let Qt handle the normal text paste.
+    return false;
 }
 
 bool

@@ -92,8 +92,8 @@ Item {
             return Clipboard.text;
         }
 
-        function tryPasteAttachment(_strict) {
-            return false;
+        function tryPasteAttachment(strict) {
+            return TimelineManager.tryPasteClipboardAttachment(!!strict);
         }
 
         function commandCompletionSearchString(prefix, cursorPosition) {

@@ -17,7 +17,7 @@ class Dock final : public QObject
 public:
     Dock(QObject *parent = nullptr);
 public slots:
-    void setUnreadCount(const int count);
+    void setAttentionCount(const int count);
 
 private:
 #if defined(KOMAI_DBUS_SYS)

@@ -131,7 +131,7 @@ TrayIcon::TrayIcon(const QString &filename, QWindow *parent)
 }
 
 void
-TrayIcon::setUnreadCount(int count)
+TrayIcon::setAttentionCount(int count)
 {
     qGuiApp->setBadgeNumber(count);
     if (count != previousCount) {
@@ -141,7 +141,7 @@ TrayIcon::setUnreadCount(int count)
             toolTip.append(QStringLiteral(" | %1").arg(profile));
 
         if (count != 0)
-            toolTip.append(tr("\n%n unread message(s)", "", count));
+            toolTip.append(tr("\n%n room(s) need attention", "", count));
 
         setToolTip(toolTip);
     }

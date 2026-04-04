@@ -160,8 +160,8 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
       });
 
     connect(chat_page_, &ChatPage::closing, this, [this] { transitionToLoginPage(QString()); });
-    connect(chat_page_, &ChatPage::unreadMessages, this, &MainWindow::setWindowTitle);
-    connect(chat_page_, &ChatPage::unreadMessages, trayIcon_, &TrayIcon::setUnreadCount);
+    connect(chat_page_, &ChatPage::attentionCountChanged, this, &MainWindow::setWindowTitle);
+    connect(chat_page_, &ChatPage::attentionCountChanged, trayIcon_, &TrayIcon::setAttentionCount);
     connect(chat_page_, &ChatPage::showLoginPage, this, [this](const QString &msg) {
         transitionToLoginPage(msg);
     });
@@ -189,7 +189,7 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
 
     trayIcon_->setVisible(userSettings_->integrationsSystemTrayEnabled());
     dock_ = new Dock(this);
-    connect(chat_page_, SIGNAL(unreadMessages(int)), dock_, SLOT(setUnreadCount(int)));
+    connect(chat_page_, &ChatPage::attentionCountChanged, dock_, &Dock::setAttentionCount);
 
     // load cache on event loop
     QTimer::singleShot(0, this, [this] {
@@ -288,14 +288,14 @@ MainWindow::refreshDbusAvailability()
 #endif
 
 void
-MainWindow::setWindowTitle(int notificationCount)
+MainWindow::setWindowTitle(int attentionCount)
 {
     QString name = QStringLiteral("Komai");
 
     if (!userSettings_.data()->profile().isEmpty())
         name += " | " + userSettings_.data()->profile();
-    if (notificationCount > 0) {
-        name.append(QString{QStringLiteral(" (%1)")}.arg(notificationCount));
+    if (attentionCount > 0) {
+        name.append(QString{QStringLiteral(" (%1)")}.arg(attentionCount));
     }
     QQuickView::setTitle(name);
 }

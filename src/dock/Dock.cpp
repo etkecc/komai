@@ -58,7 +58,7 @@ Dock::Dock(QObject *parent)
 }
 
 void
-Dock::setUnreadCount(const int count)
+Dock::setAttentionCount(const int count)
 {
     unitySetNotificationCount(count);
 }
@@ -86,7 +86,7 @@ Dock::Dock(QObject *parent)
 {
 }
 void
-Dock::setUnreadCount(const int count)
+Dock::setAttentionCount(const int count)
 {
     qGuiApp->setBadgeNumber(count);
 }

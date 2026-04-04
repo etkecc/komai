@@ -125,7 +125,7 @@ private slots:
     //! Handle interaction with the tray icon.
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
-    virtual void setWindowTitle(int notificationCount);
+    virtual void setWindowTitle(int attentionCount);
 
 signals:
     // HACK: https://bugreports.qt.io/browse/QTBUG-83972, qtwayland cannot auto hide menu
@@ -172,7 +172,7 @@ private:
     ChatPage *chat_page_;
     QSharedPointer<UserSettings> userSettings_;
     bool showProfileSwitcherOnStartup_{false};
-    //! Tray icon that shows the unread message count.
+    //! Tray icon that shows the app attention count.
     TrayIcon *trayIcon_;
     Dock *dock_;
 

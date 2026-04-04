@@ -102,6 +102,120 @@ RoomlistModel::isCachedEncryptedPreview(const QString &room_id, const DescInfo &
     return false;
 }
 
+RoomlistModel::AttentionState
+RoomlistModel::attentionStateForRow(const QAbstractItemModel *model, const QModelIndex &idx)
+{
+    AttentionState state;
+    if (!model || !idx.isValid())
+        return state;
+
+    state.hasUnread    = model->data(idx, RoomlistModel::HasUnreadMessages).toBool();
+    state.hasDraft     = model->data(idx, RoomlistModel::HasDraft).toBool();
+    state.hasHighlight = model->data(idx, RoomlistModel::HasLoudNotification).toBool();
+
+    if (state.hasUnread && !state.hasHighlight) {
+        const auto tags     = model->data(idx, RoomlistModel::Tags).toStringList();
+        state.isLowPriority = tags.contains(QStringLiteral("m.lowpriority"));
+    }
+
+    return state;
+}
+
+RoomlistModel::GlobalExcludeState
+RoomlistModel::globalExcludesFromSettings(const UserSettings &settings)
+{
+    GlobalExcludeState state;
+    const auto excluded = settings.globalExcludes();
+    for (const auto &entry : excluded) {
+        if (entry.startsWith(QLatin1String("tag:")))
+            state.tags.push_back(entry.mid(4));
+        else if (entry.startsWith(QLatin1String("space:")))
+            state.spaces.push_back(entry.mid(6));
+        else if (entry == QLatin1String("people"))
+            state.excludePeople = true;
+        else if (entry == QLatin1String("bot"))
+            state.excludeBots = true;
+        else if (entry == QLatin1String("group"))
+            state.excludeGroups = true;
+    }
+
+    return state;
+}
+
+bool
+RoomlistModel::isExcludedFromAllRooms(const QModelIndex &idx,
+                                      const GlobalExcludeState &globalExcludes) const
+{
+    const auto tags = data(idx, RoomlistModel::Tags).toStringList();
+    for (const auto &tag : tags) {
+        if (globalExcludes.tags.contains(tag))
+            return true;
+    }
+
+    const auto parents = data(idx, RoomlistModel::ParentSpaces).toStringList();
+    for (const auto &space : parents) {
+        if (globalExcludes.spaces.contains(space))
+            return true;
+    }
+
+    const bool isDirect = data(idx, RoomlistModel::IsDirect).toBool();
+    const bool isBot    = data(idx, RoomlistModel::IsBotRoom).toBool();
+    if (globalExcludes.excludePeople && isDirect && !isBot)
+        return true;
+    if (globalExcludes.excludeBots && isBot)
+        return true;
+    if (globalExcludes.excludeGroups && !isDirect)
+        return true;
+
+    return false;
+}
+
+int
+RoomlistModel::computeAttentionCount() const
+{
+    if (auto *filtered = FilteredRoomlistModel::instance();
+        filtered && filtered->sourceModel() == this) {
+        const auto badges = filtered->computeFilterBadges({QString()});
+        if (const auto it = badges.constFind(QString()); it != badges.cend())
+            return it.value().unreadCount;
+    }
+
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return 0;
+
+    const auto globalExcludes = globalExcludesFromSettings(*settings);
+    int totalAttentionCount   = 0;
+
+    const int rows = rowCount();
+    for (int row = 0; row < rows; ++row) {
+        const auto idx            = index(row, 0);
+        const auto attentionState = attentionStateForRow(this, idx);
+        if (!attentionState.hasAnyAttention())
+            continue;
+
+        const bool isSpace = data(idx, RoomlistModel::IsSpace).toBool();
+        if (isSpace) {
+            const auto roomId = data(idx, RoomlistModel::RoomId).toString();
+            if (globalExcludes.spaces.contains(roomId))
+                continue;
+        } else if (isExcludedFromAllRooms(idx, globalExcludes)) {
+            continue;
+        }
+
+        if (attentionState.countAsActive(false))
+            totalAttentionCount++;
+    }
+
+    return totalAttentionCount;
+}
+
+void
+RoomlistModel::emitAttentionCount()
+{
+    emit attentionCountUpdated(computeAttentionCount());
+}
+
 RoomlistModel::RoomlistModel(TimelineViewManager *parent)
   : QAbstractListModel(parent)
   , manager(parent)
@@ -123,9 +237,20 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
             });
 
     connect(this,
-            &RoomlistModel::totalUnreadMessageCountUpdated,
+            &RoomlistModel::attentionCountUpdated,
             ChatPage::instance(),
-            &ChatPage::unreadMessages);
+            &ChatPage::attentionCountChanged);
+
+    connect(
+      UserSettings::instance().get(),
+      &UserSettings::globalExcludesChanged,
+      this,
+      [this]() { emitAttentionCount(); },
+      Qt::QueuedConnection);
+    connect(UserSettings::instance().get(),
+            &UserSettings::composerDraftsByRoomChanged,
+            this,
+            [this]() { emitAttentionCount(); });
 
     connect(
       this,
@@ -301,6 +426,7 @@ RoomlistModel::initializeRooms()
     beginResetModel();
     resetRoomCollections(false);
     endResetModel();
+    emitAttentionCount();
 
     if (mainWindow && mainWindow->matrixBackendHandleId() != 0) {
         refreshMatrixBackendRooms();
@@ -480,7 +606,6 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
     newRoomIds.reserve(static_cast<size_t>(roomList.size()));
 
     QHash<QString, komai::MatrixRoomSummary> newMatrixRooms;
-    int totalUnreadMessages = 0;
     const QString selectedRoomId =
       currentRoomPreview_
         ? currentRoomPreview_->roomid()
@@ -504,7 +629,6 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
     for (const auto &room : roomList) {
         newRoomIds.push_back(room.roomId);
         newMatrixRooms.insert(room.roomId, room);
-        totalUnreadMessages += static_cast<int>(room.unreadMessages);
     }
 
     // Detect whether the room set or ordering changed (structural) vs only field
@@ -531,7 +655,7 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
         }
 
         if (changedRows.isEmpty()) {
-            emit totalUnreadMessageCountUpdated(totalUnreadMessages);
+            emitAttentionCount();
             return;
         }
 
@@ -615,7 +739,7 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
         clearCurrentRoomSelection();
     }
 
-    emit totalUnreadMessageCountUpdated(totalUnreadMessages);
+    emitAttentionCount();
 }
 
 bool
@@ -691,6 +815,8 @@ RoomlistModel::updateReadStatus(const std::map<QString, bool> &roomReadStatus_)
                            Roles::HasUnreadMessages,
                          });
     }
+
+    emitAttentionCount();
 }
 
 void
@@ -744,6 +870,7 @@ RoomlistModel::clear()
     notifyCurrentRoomIdChanged();
     scheduleCurrentRoomVisualStateChanged();
     endResetModel();
+    emitAttentionCount();
 }
 
 #include "moc_RoomlistModel.cpp"

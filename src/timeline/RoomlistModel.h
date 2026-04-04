@@ -173,13 +173,39 @@ private slots:
     void updateReadStatus(const std::map<QString, bool> &roomReadStatus_);
 
 signals:
-    void totalUnreadMessageCountUpdated(int unreadMessages);
+    void attentionCountUpdated(int attentionCount);
     void currentRoomIdChanged(QString currentRoomId);
     void currentRoomPreviewChanged();
     void fetchedPreview(QString roomid, RoomInfo info);
     void spaceSelected(QString roomId);
 
 private:
+    struct AttentionState
+    {
+        bool hasUnread     = false;
+        bool hasDraft      = false;
+        bool hasHighlight  = false;
+        bool isLowPriority = false;
+
+        bool hasAnyAttention() const { return hasUnread || hasDraft || hasHighlight; }
+        bool countAsActive(bool includeLowPriorityUnread) const
+        {
+            if (includeLowPriorityUnread)
+                return hasUnread || hasDraft;
+
+            return isLowPriority ? (hasDraft || hasHighlight) : (hasUnread || hasDraft);
+        }
+    };
+
+    struct GlobalExcludeState
+    {
+        QStringList tags;
+        QStringList spaces;
+        bool excludePeople = false;
+        bool excludeBots   = false;
+        bool excludeGroups = false;
+    };
+
     std::optional<QVariant> commonRoomData(const QString &room_id, int role) const;
     QVariant
     dataForMatrixRoom(const QString &room_id, const komai::MatrixRoomSummary &room, int role) const;
@@ -208,6 +234,13 @@ private:
     void fetchMatrixNotificationBatch(uint64_t handleId,
                                       QVector<komai::MatrixNotificationRequest> requests);
     void applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSummary> &roomList);
+    static AttentionState
+    attentionStateForRow(const QAbstractItemModel *model, const QModelIndex &idx);
+    static GlobalExcludeState globalExcludesFromSettings(const UserSettings &settings);
+    bool
+    isExcludedFromAllRooms(const QModelIndex &idx, const GlobalExcludeState &globalExcludes) const;
+    int computeAttentionCount() const;
+    void emitAttentionCount();
     void refreshMatrixBackendRooms();
     TimelineViewManager *manager = nullptr;
     std::vector<QString> roomids;

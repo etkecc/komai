@@ -130,6 +130,10 @@ FilteredRoomlistModel::FilteredRoomlistModel(RoomlistModel *model, QObject *pare
                          this->sidebarsRoomListSort = static_cast<int>(order);
                          invalidate();
                      });
+    QObject::connect(UserSettings::instance().get(),
+                     &UserSettings::globalExcludesChanged,
+                     this,
+                     &FilteredRoomlistModel::updateGlobalExcludes);
 
     connect(roomlistmodel,
             &RoomlistModel::currentRoomIdChanged,
@@ -419,22 +423,8 @@ FilteredRoomlistModel::computeFilterBadges(const QStringList &communityIds) cons
         if (sourceModel()->data(idx, RoomlistModel::IsSpace).toBool())
             continue;
 
-        // Match the visual "emphasizeUnreadState" logic from the QML delegate:
-        // low-priority rooms are only considered unread when they have a loud notification.
-        bool hasUnread    = sourceModel()->data(idx, RoomlistModel::HasUnreadMessages).toBool();
-        bool hasDraft     = sourceModel()->data(idx, RoomlistModel::HasDraft).toBool();
-        bool hasHighlight = sourceModel()->data(idx, RoomlistModel::HasLoudNotification).toBool();
-
-        bool isLowPriority = false;
-        if (hasUnread && !hasHighlight) {
-            const auto tags = sourceModel()->data(idx, RoomlistModel::Tags).toStringList();
-            if (tags.contains(QStringLiteral("m.lowpriority")))
-                isLowPriority = true;
-        }
-
-        bool active           = hasUnread || hasDraft;
-        bool suppressedActive = (isLowPriority ? (hasDraft || hasHighlight) : active);
-        if (!active && !hasHighlight)
+        const auto attentionState = RoomlistModel::attentionStateForRow(sourceModel(), idx);
+        if (!attentionState.hasAnyAttention())
             continue;
 
         for (const auto &f : filters) {
@@ -443,12 +433,12 @@ FilteredRoomlistModel::computeFilterBadges(const QStringList &communityIds) cons
                 // For other filters, suppress low-priority rooms without highlights.
                 bool isLowPriorityFilter =
                   (f.type == FilterBy::Tag && f.str == QStringLiteral("m.lowpriority"));
-                bool countActive = isLowPriorityFilter ? active : suppressedActive;
+                bool countActive = attentionState.countAsActive(isLowPriorityFilter);
 
                 auto &badge = result[f.id];
                 if (countActive)
                     badge.unreadCount++;
-                if (hasHighlight)
+                if (attentionState.hasHighlight)
                     badge.hasHighlight = true;
             }
         }
@@ -467,18 +457,14 @@ FilteredRoomlistModel::computeFilterBadges(const QStringList &communityIds) cons
             if (globalExcludedSpaces.contains(roomId))
                 continue;
 
-            bool hasUnread = sourceModel()->data(idx, RoomlistModel::HasUnreadMessages).toBool();
-            bool hasDraft  = sourceModel()->data(idx, RoomlistModel::HasDraft).toBool();
-            bool hasHighlight =
-              sourceModel()->data(idx, RoomlistModel::HasLoudNotification).toBool();
-            bool active = hasUnread || hasDraft;
-            if (!active && !hasHighlight)
+            const auto attentionState = RoomlistModel::attentionStateForRow(sourceModel(), idx);
+            if (!attentionState.hasAnyAttention())
                 continue;
 
             auto &badge = result[QString()];
-            if (active)
+            if (attentionState.countAsActive(false))
                 badge.unreadCount++;
-            if (hasHighlight)
+            if (attentionState.hasHighlight)
                 badge.hasHighlight = true;
         }
     }

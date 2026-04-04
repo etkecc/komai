@@ -390,7 +390,7 @@ ChatPage::resetUI()
 {
     view_manager_->clearAll();
 
-    emit unreadMessages(0);
+    emit attentionCountChanged(0);
 }
 
 void

@@ -713,8 +713,10 @@ signals:
     void timelineMediaOpenAudioExternalChanged(bool state);
     void timelineMediaDefaultAudioPlaybackSpeedChanged(double speed);
     void hiddenPinsChanged();
+    void globalExcludesChanged();
     void hiddenWidgetsChanged();
     void hiddenTimelineEventTypesChanged();
+    void composerDraftsByRoomChanged();
     void integrationsDbusApiAccessChanged(int state);
     void integrationsBrowserCommandChanged(QString command);
     void privacyMaintenanceExpireEventsChanged(bool state);

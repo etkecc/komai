@@ -38,7 +38,7 @@ public:
     TrayIcon(const QString &filename, QWindow *parent);
 
 public slots:
-    void setUnreadCount(int count);
+    void setAttentionCount(int count);
 
 private:
     QAction *toggleAction_;

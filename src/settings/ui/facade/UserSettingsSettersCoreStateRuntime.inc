@@ -43,8 +43,12 @@ normalizeHiddenTimelineEventTypesByRoom(const QMap<QString, QStringList> &eventT
 void
 UserSettings::setGlobalExcludes(const QStringList &globalExcludes)
 {
+    if (globalExcludes_ == globalExcludes)
+        return;
+
     globalExcludes_ = globalExcludes;
     save();
+    emit globalExcludesChanged();
 }
 
 void
@@ -130,13 +134,19 @@ UserSettings::setHiddenTimelineEventTypesForRoom(const QString &roomId,
 void
 UserSettings::setComposerDraftsByRoom(const QMap<QString, QString> &draftsByRoom)
 {
-    composerDraftsByRoom_.clear();
+    QMap<QString, QString> normalizedDraftsByRoom;
     for (auto it = draftsByRoom.constBegin(); it != draftsByRoom.constEnd(); ++it) {
         if (it.key().isEmpty() || it.value().trimmed().isEmpty())
             continue;
-        composerDraftsByRoom_.insert(it.key(), it.value());
+        normalizedDraftsByRoom.insert(it.key(), it.value());
     }
+
+    if (composerDraftsByRoom_ == normalizedDraftsByRoom)
+        return;
+
+    composerDraftsByRoom_ = std::move(normalizedDraftsByRoom);
     save();
+    emit composerDraftsByRoomChanged();
 }
 
 void
@@ -156,6 +166,7 @@ UserSettings::setComposerDraftForRoom(const QString &roomId, const QString &draf
         return;
 
     composerDraftsByRoom_.insert(roomId, draftText);
+    emit composerDraftsByRoomChanged();
     if (suppressSettingsSave_)
         return;
 
@@ -172,6 +183,7 @@ UserSettings::clearComposerDraftForRoom(const QString &roomId)
     if (composerDraftsByRoom_.remove(roomId) == 0)
         return;
 
+    emit composerDraftsByRoomChanged();
     if (suppressSettingsSave_)
         return;
 
@@ -186,6 +198,7 @@ UserSettings::clearAllComposerDrafts()
         return;
 
     composerDraftsByRoom_.clear();
+    emit composerDraftsByRoomChanged();
     if (suppressSettingsSave_)
         return;
 

@@ -253,6 +253,6 @@ modules:
         url: https://github.com/Nheko-Reborn/blurhash.git
       - dest: .deps/cpp-httplib
         disable-lfs: true
-        tag: v0.39.0
+        tag: v0.41.0
         type: git
         url: https://github.com/yhirose/cpp-httplib.git

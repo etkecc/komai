@@ -3,25 +3,17 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import QtQuick.Layouts
 import cc.etke.komai
+import "../../ui/"
 
-ColumnLayout {
+LoadingSplash {
     id: root
 
     required property var rootItem
 
-    anchors.centerIn: parent
-    spacing: Komai.paddingMedium
+    anchors.fill: parent
     visible: !root.rootItem.hasTimeline
-    width: Math.min(parent.width - Komai.paddingLarge * 2, 560)
-
-    MatrixText {
-        Layout.fillWidth: true
-        horizontalAlignment: TextEdit.AlignHCenter
-        text: root.rootItem.loading
-            ? qsTr("Loading this room…")
-            : qsTr("Nothing has loaded for this room yet.")
-        wrapMode: Text.WordWrap
-    }
+    spinning: root.rootItem.loading
+    headline: root.rootItem.loading ? qsTr("Loading room…") : ""
+    detail: ""
 }

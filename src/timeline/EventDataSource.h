@@ -6,6 +6,7 @@
 
 #include <QAbstractItemModel>
 #include <QModelRoleData>
+#include <QQmlEngine>
 #include <QString>
 #include <QVariant>
 
@@ -16,6 +17,8 @@
 class EventDataSource : public QAbstractListModel
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("")
 
 public:
     using QAbstractListModel::QAbstractListModel;

@@ -379,14 +379,14 @@ AbstractButton {
                 implicitHeight: main ? main.implicitHeight : height
                 height: main ? main.height : 0
                 isStateEvent: false
-                room: r.roleDataSource
+                room: (r.roleDataSource instanceof EventDataSource) ? r.roleDataSource : null
                 eventId: r.eventId
                 replyTo: ""
                 mainInset: 4 + Komai.paddingMedium
                 maxWidth: r.maxWidth
                 limitAsReply: true
                 previewData: r.effectivePreviewData
-                roomModelOverride: r.roleDataSource ? null : r.effectiveRoomContext
+                roomModelOverride: (r.roleDataSource instanceof EventDataSource) ? null : (r.roleDataSource ?? r.effectiveRoomContext)
             }
 
             Binding {

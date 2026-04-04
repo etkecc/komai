@@ -633,28 +633,41 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
     let room_state = room.state();
     let hero_candidates = room_hero_candidates(room);
     let classification = classify_room(room, &hero_candidates);
-    let latest_preview = room.latest_event().and_then(|event| {
+    let latest_event = room.latest_event();
+    let latest_preview = latest_event.as_ref().and_then(|event| {
         let raw_event: Raw<AnySyncTimelineEvent> = event.event().raw().clone();
         let event = raw_event.deserialize().ok()?;
         summarize_sync_timeline_event(&event)
     });
-    // Only use the real event timestamp for display.
-    // recency_stamp() is an opaque ordering value (sliding sync bump_stamp),
-    // NOT a timestamp — using it as one produces 1970-era dates.
-    let timestamp = room
+    // The SDK exposes two independent timestamp sources:
+    // - latest_event() from sliding sync (the same source as the preview text)
+    // - new_latest_event_timestamp() from the event cache
+    // Neither is consistently more up-to-date: sliding sync may lag behind
+    // the event cache for rooms outside the visible window, and the event
+    // cache may lag behind sliding sync for rooms without an active timeline
+    // subscription. Using the maximum of both ensures we always pick the
+    // freshest timestamp for room list sorting and display.
+    let latest_event_ts = latest_event
+        .as_ref()
+        .and_then(|event| event.event().timestamp())
+        .map(|ts| u64::from(ts.get()))
+        .unwrap_or_default();
+    let new_latest_event_ts = room
         .new_latest_event_timestamp()
         .map(|ts| u64::from(ts.get()))
+        .unwrap_or_default();
+    let timestamp = latest_event_ts.max(new_latest_event_ts);
+    let latest_event_id = latest_event
+        .as_ref()
+        .and_then(|event| event.event_id())
+        .map(|id| id.to_string())
         .unwrap_or_default();
     let tags = fetch_room_tags(room).await;
     let parent_space_room_ids = fetch_parent_space_room_ids(room).await;
 
     MatrixRoomSummary {
         room_id: room.room_id().to_string(),
-        latest_event_id: room
-            .latest_event()
-            .and_then(|event| event.event_id())
-            .map(|event_id| event_id.to_string())
-            .unwrap_or_default(),
+        latest_event_id,
         display_name: room
             .cached_display_name()
             .map(|name| name.to_string())

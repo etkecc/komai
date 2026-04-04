@@ -90,8 +90,7 @@ Item {
             acceptText: qsTr("Delete")
 
             onInputAccepted: function (text) {
-                for (let i = 0; i < eventIds.length; i++)
-                    TimelineManager.redactActiveMatrixTimelineEvent(String(eventIds[i] || ""), text);
+                TimelineManager.redactActiveMatrixTimelineEvents(eventIds, text);
                 support.rootItem.exitWalkMode({
                         "focusComposer": true
                     });

@@ -1254,6 +1254,85 @@ TimelineViewManager::redactActiveMatrixTimelineEvent(const QString &eventId, con
 }
 
 bool
+TimelineViewManager::redactActiveMatrixTimelineEvents(const QStringList &eventIds,
+                                                      const QString &reason)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        nhlog::ui()->warn("Refusing to redact matrix-sdk room events without an active runtime "
+                          "handle or selected matrix room");
+        return false;
+    }
+
+    const auto roomId        = activeMatrixTimelineRoomId_;
+    const auto trimmedReason = reason.trimmed();
+
+    QStringList trimmedIds;
+    trimmedIds.reserve(eventIds.size());
+    for (const auto &rawId : eventIds) {
+        const auto eid = rawId.trimmed();
+        if (!eid.isEmpty())
+            trimmedIds.append(eid);
+    }
+
+    if (trimmedIds.isEmpty())
+        return false;
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId, trimmedReason, trimmedIds]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          int failCount      = 0;
+          QString lastError;
+
+          for (const auto &eventId : trimmedIds) {
+              QString error;
+              const bool ok = komai::MatrixBackendRuntimeService::redactRoomEvent(
+                context, handleId, roomId, eventId, trimmedReason, &error);
+
+              if (!ok) {
+                  ++failCount;
+                  lastError = error;
+                  nhlog::ui()->warn(
+                    "Failed to redact matrix-sdk room event '{}' in '{}' on handle {}: {}",
+                    eventId.toStdString(),
+                    roomId.toStdString(),
+                    handleId,
+                    error.toStdString());
+              }
+          }
+
+          return MatrixTimelineEventActionResult{
+            .handleId = handleId,
+            .roomId   = roomId,
+            .eventId  = trimmedIds.join(QStringLiteral(",")),
+            .detail   = {},
+            .error    = lastError,
+            .ok       = failCount == 0,
+          };
+      },
+      [trimmedIds](TimelineViewManager *manager, MatrixTimelineEventActionResult result) {
+          if (manager->activeMatrixTimelineRoomId_ == result.roomId &&
+              manager->matrixTimelineModel_) {
+              for (const auto &eventId : trimmedIds)
+                  manager->matrixTimelineModel_->redactItemByEventId(eventId);
+          }
+
+          if (result.ok)
+              return;
+
+          auto *mainWindow = MainWindow::instance();
+          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+              return;
+
+          mainWindow->showNotification(
+            TimelineViewManager::tr("Failed to delete some messages: %1").arg(result.error));
+      });
+    return true;
+}
+
+bool
 TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
 {
     auto *mainWindow    = MainWindow::instance();

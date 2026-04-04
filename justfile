@@ -95,12 +95,6 @@ run-with-perf-trace *args: _ensure_just_temp_directory
 	fi
 	exec "$binary" {{ args }}
 
-# Regenerates ThemeDefinitions.h from resources/themes/*.yml
-generate-themes:
-	python3 {{ justfile_directory() }}/bin/theme/generate.py \
-		{{ justfile_directory() }}/src/ui/ThemeDefinitions.h \
-		{{ justfile_directory() }}/resources/themes
-
 # Reports theme contrast ratios (all themes by default, or pass one/more slugs)
 theme-check-contrast *themes:
 	python3 {{ justfile_directory() }}/bin/theme/contrast.py {{ themes }}

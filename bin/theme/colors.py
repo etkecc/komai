@@ -1,7 +1,7 @@
 """Shared color utilities for theme scripts.
 
 Contains a tiny YAML parser, color utilities, and helpers for the theme
-schema. Used by check.py, contrast.py, generate.py, and preview support.
+schema. Used by check.py, contrast.py, and preview support.
 """
 
 import colorsys

@@ -17,17 +17,12 @@ komai theme tinted-import    ← applies Base16→QPalette mapping + contrast he
 resources/themes/*.yml      ← resolved palette colors (16 Qt + 4 app) + userColors
         │
         ▼
-bin/theme/generate.py        ← reads colors as-is, generates C++ header
-        │
-        ▼
-src/ui/ThemeDefinitions.h    ← compiled into the binary
+include_str!() in Rust       ← embedded in binary, parsed at startup by ThemeRegistry
 ```
 
 All color derivation happens at **import time** (in the C++ CLI).
-The build step (`generate.py`) is a straightforward YAML→C++ transcription
-with no color logic.
-Python theme scripts may reuse similar parsing and contrast helpers for audit
-and generation tasks, but they do not define the import behavior.
+The theme YAML files are embedded into the Rust binary via `include_str!`
+and parsed at startup — no code generation step is needed.
 
 
 ## Runtime theme loading
@@ -51,13 +46,10 @@ tinted-theming/schemes (Base16 YAML)            │
 komai theme tinted-import                       │
         │                                       │
         ▼                                       │
-resources/themes/*.yml                         │
-        │                                       │
-        ▼                                       │
-bin/theme/generate.py                           │
+resources/themes/*.yml (embedded via include_str!)
         │                                       │
         ▼                                       ▼
-src/ui/ThemeDefinitions.h ──► ThemeRegistry (merged list at startup)
+        Rust FFI (theme_builtin_themes) ──► ThemeRegistry (merged list at startup)
 ```
 
 `ThemeRegistry` is a singleton initialized once from `main()` before
@@ -95,7 +87,7 @@ slot foregrounds are absent.
 
 Imported themes include an optional `source_base16:` section preserving the
 original Base16 palette. This section is purely informational and is ignored
-by both `generate.py` and `check.py`.
+by both the Rust theme parser and `check.py`.
 
 Auto-generated themes also get `userColors` written as final literal bubble
 slot values. `komai theme tinted-import` and `komai theme create-sample`
@@ -280,7 +272,6 @@ done
 python3 bin/theme/check.py
 just theme-check-contrast
 just theme-check-contrast-strict light-komai
-just generate-themes
 ```
 
 Hand-crafted themes (without `source_base16:`) must be updated manually.
@@ -319,5 +310,4 @@ See [CLI Architecture](cli.md) for the subcommand dispatch design.
 |--------|---------|
 | `bin/theme/colors.py` | Shared module for Python-side YAML parsing and color/contrast helpers |
 | `bin/theme/contrast.py` | Report practical contrast ratios for palette roles and bubble/user colors |
-| `bin/theme/generate.py` | Read resolved YAMLs, generate C++ header |
 | `bin/theme/check.py` | Validate theme YAML files (palette colors, userColors, hex format) |

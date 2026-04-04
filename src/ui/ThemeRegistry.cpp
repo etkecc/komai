@@ -99,11 +99,58 @@ ThemeRegistry::instance()
     return *s_instance;
 }
 
+static ThemeDef
+convertFfiTheme(const ::komai::rust::ThemeExternalDefinition &ffi,
+                const QString &slug,
+                int sortOrder,
+                const QString &source)
+{
+    ThemeDef def;
+    def.slug      = slug;
+    def.name      = fromRustString(ffi.name);
+    def.variant   = fromRustString(ffi.variant);
+    def.sortOrder = sortOrder;
+    def.source    = source;
+
+    const auto &palette = ffi.palette;
+    def.window          = parseColor(palette.window);
+    def.windowText      = parseColor(palette.window_text);
+    def.base            = parseColor(palette.base);
+    def.alternateBase   = parseColor(palette.alternate_base);
+    def.text            = parseColor(palette.text);
+    def.brightText      = parseColor(palette.bright_text);
+    def.button          = parseColor(palette.button);
+    def.buttonText      = parseColor(palette.button_text);
+    def.light           = parseColor(palette.light);
+    def.mid             = parseColor(palette.mid);
+    def.dark            = parseColor(palette.dark);
+    def.highlight       = parseColor(palette.highlight);
+    def.highlightedText = parseColor(palette.highlighted_text);
+    def.link            = parseColor(palette.link);
+    def.toolTipBase     = parseColor(palette.tool_tip_base);
+    def.toolTipText     = parseColor(palette.tool_tip_text);
+    def.attention       = parseColor(palette.attention);
+    def.success         = parseColor(palette.success);
+    def.warning         = parseColor(palette.warning);
+    def.error           = parseColor(palette.error);
+
+    def.userColorSelf = toThemeUserColorSlot(ffi.user_color_self);
+    def.userColorOthers.reserve(ffi.user_color_others.size());
+    for (const auto &slot : ffi.user_color_others)
+        def.userColorOthers.push_back(toThemeUserColorSlot(slot));
+
+    return def;
+}
+
 ThemeRegistry::ThemeRegistry()
 {
-    // Copy built-in themes
-    const auto &builtins = themeDefinitions();
-    allThemes_.assign(builtins.begin(), builtins.end());
+    const auto builtins = ::komai::rust::theme_builtin_themes();
+    for (const auto &entry : builtins.themes) {
+        allThemes_.push_back(convertFfiTheme(
+          entry.theme, fromRustString(entry.slug), entry.sort_order, QStringLiteral("builtin")));
+    }
+    for (const auto &err : builtins.errors)
+        nhlog::ui()->error("Built-in theme error: {}", static_cast<std::string>(err));
 
     loadExternalThemes();
 
@@ -176,41 +223,7 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
         return std::nullopt;
     }
 
-    ThemeDef def;
-    def.slug      = slug;
-    def.name      = fromRustString(parsed.theme.name);
-    def.variant   = fromRustString(parsed.theme.variant);
-    def.sortOrder = 300;
-    def.source    = path;
-
-    const auto &palette = parsed.theme.palette;
-    def.window          = parseColor(palette.window);
-    def.windowText      = parseColor(palette.window_text);
-    def.base            = parseColor(palette.base);
-    def.alternateBase   = parseColor(palette.alternate_base);
-    def.text            = parseColor(palette.text);
-    def.brightText      = parseColor(palette.bright_text);
-    def.button          = parseColor(palette.button);
-    def.buttonText      = parseColor(palette.button_text);
-    def.light           = parseColor(palette.light);
-    def.mid             = parseColor(palette.mid);
-    def.dark            = parseColor(palette.dark);
-    def.highlight       = parseColor(palette.highlight);
-    def.highlightedText = parseColor(palette.highlighted_text);
-    def.link            = parseColor(palette.link);
-    def.toolTipBase     = parseColor(palette.tool_tip_base);
-    def.toolTipText     = parseColor(palette.tool_tip_text);
-    def.attention       = parseColor(palette.attention);
-    def.success         = parseColor(palette.success);
-    def.warning         = parseColor(palette.warning);
-    def.error           = parseColor(palette.error);
-
-    def.userColorSelf = toThemeUserColorSlot(parsed.theme.user_color_self);
-    def.userColorOthers.reserve(parsed.theme.user_color_others.size());
-    for (const auto &slot : parsed.theme.user_color_others)
-        def.userColorOthers.push_back(toThemeUserColorSlot(slot));
-
-    return def;
+    return convertFfiTheme(parsed.theme, slug, 300, path);
 }
 
 const ThemeDef *

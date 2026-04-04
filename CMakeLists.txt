@@ -364,6 +364,7 @@ set(SRC_FILES
     src/ui/RoomSummary.h
     src/ui/Theme.cpp
     src/ui/Theme.h
+    src/ui/ThemeDef.h
     src/ui/ThemeRegistry.cpp
     src/ui/ThemeRegistry.h
     src/ui/UserProfile.cpp
@@ -713,23 +714,7 @@ add_custom_command(
 )
 add_custom_target(logo_assets ALL DEPENDS ${KOMAI_LOGO_GENERATED_FILES})
 
-# Generate ThemeDefinitions.h from theme YAML files.
-# Re-runs automatically when any theme YAML changes.
-file(GLOB THEME_YAML_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/resources/themes/*.yml")
-set(THEME_DEFINITIONS_H "${CMAKE_CURRENT_SOURCE_DIR}/src/ui/ThemeDefinitions.h")
-add_custom_command(
-    OUTPUT "${THEME_DEFINITIONS_H}"
-    COMMAND Python3::Interpreter
-        "${CMAKE_CURRENT_SOURCE_DIR}/bin/theme/generate.py"
-        "${THEME_DEFINITIONS_H}"
-        "${CMAKE_CURRENT_SOURCE_DIR}/resources/themes"
-    DEPENDS
-        "${CMAKE_CURRENT_SOURCE_DIR}/bin/theme/generate.py"
-        "${CMAKE_CURRENT_SOURCE_DIR}/bin/theme/colors.py"
-        ${THEME_YAML_FILES}
-    COMMENT "Generating ThemeDefinitions.h from theme YAML files"
-    VERBATIM
-)
+
 
 # Generate runtime emoji data JSON files from pinned upstream cache/sources.
 file(GLOB EMOJI_LANG_DIRS
@@ -791,8 +776,7 @@ set_source_files_properties(
 set(KOMAI_DEPS
     ${SRC_FILES}
     ${QRC}
-    ${META_FILES_TO_INCLUDE}
-    ${THEME_DEFINITIONS_H})
+    ${META_FILES_TO_INCLUDE})
 
 if(ASAN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined")
@@ -959,7 +943,6 @@ if(BUILD_TESTING)
         src/settings/core/SettingsStore.cpp
         src/timeline/TimelineEventTypes.cpp
         src/emoji/Provider.cpp
-        ${THEME_DEFINITIONS_H}
     )
     target_include_directories(komai_startup_settings_test PRIVATE
         src

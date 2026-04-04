@@ -11,4 +11,5 @@ fn main() {
     println!("cargo:rerun-if-changed=src/lib.rs");
     println!("cargo:rerun-if-changed=../matrix/backend/MatrixBackendBridge.h");
     println!("cargo:rerun-if-changed=src/matrix_backend/session_persistence.rs");
+    println!("cargo:rerun-if-changed=../../resources/themes");
 }

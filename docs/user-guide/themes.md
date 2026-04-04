@@ -168,6 +168,4 @@ See [docs/architecture/themes.md](../architecture/themes.md) for the technical p
 
 ## ⚙️ How it works
 
-At build time, CMake runs [`bin/theme/generate.py`](../../bin/theme/generate.py) which reads all [`resources/themes/*.yml`](../../resources/themes/) files and generates `src/ui/ThemeDefinitions.h` — a C++ header containing a registry of all theme palettes with inline lookup functions. This header is gitignored as a build artifact.
-
-The `just generate-themes` recipe can also be used to regenerate the header manually.
+Built-in themes live in [`resources/themes/*.yml`](../../resources/themes/) and are compiled into the binary. Editing a theme YAML and rebuilding is all that's needed. See [Architecture: Themes](../architecture/themes.md) for internals.

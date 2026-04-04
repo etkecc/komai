@@ -12,7 +12,7 @@
 #include <QStringList>
 #include <QStringView>
 
-#include "ThemeDefinitions.h"
+#include "ThemeDef.h"
 
 class ThemeRegistry
 {

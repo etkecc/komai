@@ -8,6 +8,7 @@ pub(crate) use crate::settings::ffi::*;
 pub(crate) use crate::settings::profile::SettingsProfileHandle;
 pub(crate) use crate::syntax_highlight::{highlight_formatted_code_blocks, highlight_raw_json};
 pub(crate) use crate::theme::base16::parse_base16_yaml as theme_parse_base16_yaml;
+pub(crate) use crate::theme::builtins::builtin_themes as theme_builtin_themes;
 pub(crate) use crate::theme::external::parse_external_theme as theme_parse_external_theme;
 
 pub(crate) fn blurhash_decode(hash: &str, width: u32, height: u32) -> Vec<u8> {
@@ -513,6 +514,17 @@ mod bridge {
         has_theme: bool,
         error_message: String,
         theme: ThemeExternalDefinition,
+    }
+
+    struct ThemeBuiltinEntry {
+        slug: String,
+        sort_order: i32,
+        theme: ThemeExternalDefinition,
+    }
+
+    struct ThemeBuiltinListResult {
+        themes: Vec<ThemeBuiltinEntry>,
+        errors: Vec<String>,
     }
 
     struct ThemeBase16PaletteData {
@@ -1189,6 +1201,7 @@ mod bridge {
         ) -> SettingsProfileFlushResult;
         fn settings_load_session_snapshot(session_text: &str) -> SettingsLoadedSession;
         fn settings_load_state_snapshot(state_text: &str) -> SettingsLoadedState;
+        fn theme_builtin_themes() -> ThemeBuiltinListResult;
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;
         fn theme_parse_base16_yaml(theme_text: &str) -> ThemeBase16ParseResult;
 

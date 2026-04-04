@@ -60,6 +60,7 @@ class Komai : public QObject
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
     Q_PROPERTY(QString taglineTemplate READ taglineTemplate CONSTANT)
     Q_PROPERTY(QString matrixWord READ matrixWord CONSTANT)
+    Q_PROPERTY(bool profileDesktopLaunchersSupported READ profileDesktopLaunchersSupported CONSTANT)
 
     Q_PROPERTY(UserProfile *currentUser READ currentUser NOTIFY profileChanged)
     Q_PROPERTY(
@@ -105,6 +106,7 @@ public:
     QString taglineTemplate() const { return tr("A fine %1 chat app you can get to love"); }
     QString matrixWord() const { return tr("Matrix"); }
     QString tagline() const { return taglineTemplate().arg(matrixWord()); }
+    bool profileDesktopLaunchersSupported() const;
 
     UserProfile *currentUser() const;
     QVariantList applicationProfiles() const { return applicationProfiles_; }
@@ -123,7 +125,8 @@ public:
     Q_INVOKABLE void setStatusMessage(QString msg) const;
     Q_INVOKABLE void refreshApplicationProfiles();
     Q_INVOKABLE QString validateApplicationProfileId(QString profileId) const;
-    Q_INVOKABLE QString createAndLaunchApplicationProfile(QString profileId) const;
+    Q_INVOKABLE QString createAndLaunchApplicationProfile(QString profileId,
+                                                          bool createDesktopLauncher = false) const;
     Q_INVOKABLE QString launchApplicationProfile(QString profileId) const;
     Q_INVOKABLE QString launchProfileSwitcher() const;
     Q_INVOKABLE QString deleteApplicationProfile(QString profileId,

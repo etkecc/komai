@@ -42,6 +42,8 @@ std::optional<QString>
 validateNewProfileId(QStringView profileId);
 
 bool
+ensureProfileDesktopLauncher(QStringView profileId, QString *errorOut = nullptr);
+bool
 launchProfileDetached(QStringView profileId, QString *errorOut = nullptr);
 bool
 launchStartupSelectorDetached(QString *errorOut = nullptr);

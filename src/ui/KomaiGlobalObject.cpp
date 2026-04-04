@@ -233,6 +233,12 @@ Komai::fileTypeIconSource(const QString &mimeType) const
     return utils::fileTypeIconSource(mimeType);
 }
 
+bool
+Komai::profileDesktopLaunchersSupported() const
+{
+    return app_paths::desktop::supportsProfileDesktopEntries();
+}
+
 int
 Komai::tooltipDelay() const
 {
@@ -437,7 +443,7 @@ Komai::validateApplicationProfileId(QString profileId) const
 }
 
 QString
-Komai::createAndLaunchApplicationProfile(QString profileId) const
+Komai::createAndLaunchApplicationProfile(QString profileId, bool createDesktopLauncher) const
 {
     const auto trimmedProfile = profileId.trimmed();
     if (const auto validationError = profile_manager::validateNewProfileId(trimmedProfile);
@@ -446,6 +452,11 @@ Komai::createAndLaunchApplicationProfile(QString profileId) const
     }
 
     QString error;
+    if (createDesktopLauncher &&
+        !profile_manager::ensureProfileDesktopLauncher(trimmedProfile, &error)) {
+        return error;
+    }
+
     if (!profile_manager::launchProfileDetached(trimmedProfile, &error))
         return error;
 

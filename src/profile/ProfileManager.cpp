@@ -196,6 +196,38 @@ validateNewProfileId(QStringView profileId)
 }
 
 bool
+ensureProfileDesktopLauncher(QStringView profileId, QString *errorOut)
+{
+    const auto normalized = profile_id::normalized(profileId);
+
+    if (const auto validationError = profile_id::validate(normalized); validationError) {
+        setError(errorOut, QObject::tr("Invalid profile name: %1").arg(*validationError));
+        return false;
+    }
+
+    if (normalized == QLatin1String("default"))
+        return true;
+
+    if (!app_paths::desktop::supportsProfileDesktopEntries()) {
+        setError(errorOut,
+                 QObject::tr("Explicit profile launchers are not supported in this runtime."));
+        return false;
+    }
+
+    const QString executablePath = QCoreApplication::applicationFilePath();
+    if (executablePath.isEmpty()) {
+        setError(errorOut,
+                 QObject::tr("Unable to determine current executable path for launcher creation."));
+        return false;
+    }
+
+    if (!app_paths::desktop::ensureProfileDesktopEntry(normalized, executablePath, errorOut))
+        return false;
+
+    return true;
+}
+
+bool
 launchProfileDetached(QStringView profileId, QString *errorOut)
 {
     const auto normalized = profile_id::normalized(profileId);

@@ -25,6 +25,7 @@ In **Application Profiles**:
 
 - click **Create new**
 - enter a profile name (for example `work`, `personal`, `dev_build`)
+- on native Linux, leave **Create desktop launcher** enabled for non-default profiles if you want reliable app badges and launcher grouping
 - click **Create and Launch**
 
 Komai launches a separate app instance with that profile.
@@ -61,7 +62,9 @@ On native Linux, the packaged `default` profile launcher already has a stable
 app/launcher identity. Non-default profiles only get reliable app-icon/taskbar
 badges when they are launched from their own desktop launcher.
 
-Create a launcher explicitly:
+The **Create Application Profile** dialog offers this by default for new
+non-default profiles. If you already have a profile, create its launcher
+explicitly:
 
 ```bash
 komai profiles launcher create work

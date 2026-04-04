@@ -66,10 +66,12 @@ Item {
         titleIcon: ":/icons/icons/ui/plus-circle.svg"
 
         property string validationMessage: ""
+        property bool createDesktopLauncher: Komai.profileDesktopLaunchersSupported
 
         onOpened: {
             validationMessage = "";
             profileNameField.text = "";
+            createDesktopLauncher = Komai.profileDesktopLaunchersSupported;
         }
 
         Label {
@@ -91,6 +93,53 @@ Item {
             wrapMode: Text.Wrap
             color: palette.buttonText
             text: qsTr("Examples: work, personal")
+        }
+
+        Item {
+            Layout.fillWidth: true
+            visible: Komai.profileDesktopLaunchersSupported
+            implicitHeight: launcherRowContent.implicitHeight
+
+            ColumnLayout {
+                id: launcherRowContent
+
+                width: parent.width
+                spacing: 0
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.topMargin: Komai.paddingMedium
+                    Layout.leftMargin: Komai.paddingMedium
+                    Layout.rightMargin: Komai.paddingMedium
+                    Layout.bottomMargin: Komai.paddingSmall
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("Create desktop launcher")
+                        color: palette.text
+                    }
+
+                    SettingControlToggle {
+                        id: createLauncherToggle
+
+                        value: createProfileDialog.createDesktopLauncher
+                        onToggledValue: function (value) {
+                            createProfileDialog.createDesktopLauncher = value;
+                        }
+                    }
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: Komai.paddingMedium
+                    Layout.rightMargin: Komai.paddingMedium
+                    Layout.bottomMargin: Komai.paddingMedium
+                    text: profileNameField.text.trim() === "default" ? qsTr("Default already uses the packaged Komai launcher.") : qsTr("Recommended for non-default Linux profiles. This makes app badges and taskbar grouping reliable when you launch the profile from its own desktop launcher.")
+                    color: palette.buttonText
+                    font.pointSize: 0.9 * Settings.uiFontSizePt
+                    wrapMode: Text.Wrap
+                }
+            }
         }
 
         Label {
@@ -120,7 +169,7 @@ Item {
                 text: qsTr("Create and Launch")
                 icon.source: "qrc:/icons/icons/ui/open-externally.svg"
                 onClicked: {
-                    const error = Komai.createAndLaunchApplicationProfile(profileNameField.text);
+                    const error = Komai.createAndLaunchApplicationProfile(profileNameField.text, createProfileDialog.createDesktopLauncher);
                     if (error.length > 0) {
                         createProfileDialog.validationMessage = error;
                         return;

@@ -357,6 +357,7 @@ install)
 	;;
 clean)
 	rm -rf "${build_dir}"
+	find "${repo_root}/src/rust" -maxdepth 2 -type d -name target -exec rm -rf {} + 2>/dev/null || true
 	;;
 *)
 	usage

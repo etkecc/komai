@@ -249,7 +249,7 @@ Item {
                               support.rootItem.palette.window.hslLightness < 0.5 ? 0.76 : 0.68),
                 "timelineSource": null,
                 "timelineViewSource": null,
-                "showReplyPreview": false
+                "showReplyPreview": true
             });
         if (!dialog)
             return null;

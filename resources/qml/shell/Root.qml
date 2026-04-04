@@ -74,7 +74,7 @@ function openCatalogDialog(componentUrl, properties) {
                 "modalOverlayColor": timelineRoot.overlayBackdropColor,
                 "timelineSource": timeline ?? null,
                 "timelineViewSource": timelineView ?? null,
-                "showReplyPreview": !!timeline && !!timelineView
+                "showReplyPreview": true
             });
         if (!dialog) {
             console.error("Failed to create ForwardCompleter object");

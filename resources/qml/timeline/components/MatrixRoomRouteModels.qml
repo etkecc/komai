@@ -39,5 +39,19 @@ Item {
             TimelineManager.forwardActiveMatrixTimelineEvent(String(eventId || ""),
                                                             String(targetRoomId || ""));
         }
+
+        function dataById(id, role, relatedTo) {
+            const model = TimelineManager.matrixTimelineModel;
+            if (model && typeof model.dataById === "function")
+                return model.dataById(id, role, relatedTo);
+            return "";
+        }
+
+        function previewDataForEvent(eventId) {
+            const model = TimelineManager.matrixTimelineModel;
+            if (model && typeof model.previewDataForEvent === "function")
+                return model.previewDataForEvent(eventId);
+            return ({});
+        }
     }
 }

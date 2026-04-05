@@ -40,11 +40,11 @@ Item {
         : previewFallbackAvatarUrl
     readonly property string previewAliceTemplate: qsTr("I just stumbled upon %1 - finally, a %2 chat app that I really like! 🦁")
     readonly property string previewAliceBody: previewAliceTemplate.arg(previewKomaiLabel).arg(previewMatrixLabel)
-    readonly property string previewAliceFormattedBody: previewAliceTemplate
+    readonly property string previewAliceFormattedBody: Komai.formatHtmlEmojis(previewAliceTemplate
         .arg("<a href=\"" + previewKomaiUrl + "\">" + previewKomaiLabel + "</a>")
-        .arg("<a href=\"" + previewMatrixUrl + "\">" + previewMatrixLabel + "</a>")
+        .arg("<a href=\"" + previewMatrixUrl + "\">" + previewMatrixLabel + "</a>"))
     readonly property string previewCarolBody: qsTr("I'm testing it as we speak and currently configuring how messages look..\n\nIt's quite pleasing to the eye, but also insanely fast! ⚡")
-    readonly property string previewCarolFormattedBody: previewCarolBody.split("\n").join("<br>")
+    readonly property string previewCarolFormattedBody: Komai.formatHtmlEmojis(previewCarolBody.split("\n").join("<br>"))
     readonly property int previewOwnMessageStatus: Settings.timelineReadReceiptsEnabled ? MtxEvent.Read : MtxEvent.Received
     readonly property date previewTsAlice: new Date(Date.now() - (9 * 60 * 1000))
     readonly property date previewTsBob: new Date(Date.now() - (6 * 60 * 1000))

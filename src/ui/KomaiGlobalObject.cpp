@@ -8,6 +8,7 @@
 #include <algorithm>
 
 #include "emoji/EmojiNormalize.h"
+#include "utils/Utils.h"
 
 #include <QApplication>
 #include <QDesktopServices>
@@ -395,6 +396,11 @@ QString
 Komai::normalizeEmojiForComparison(const QString &emoji)
 {
     return emoji::normalizeForComparison(emoji);
+}
+QString
+Komai::formatHtmlEmojis(const QString &html)
+{
+    return utils::replaceEmoji(html);
 }
 
 QString

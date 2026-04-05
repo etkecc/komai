@@ -116,6 +116,7 @@ public:
         return QFontDatabase::systemFont(QFontDatabase::FixedFont);
     }
     Q_INVOKABLE static QString normalizeEmojiForComparison(const QString &emoji);
+    Q_INVOKABLE static QString formatHtmlEmojis(const QString &html);
     Q_INVOKABLE QColor readableAccentTextColor(QColor accentColor, QColor backgroundColor) const;
     Q_INVOKABLE QString humanReadableFileSize(qulonglong bytes) const;
     Q_INVOKABLE QString fileTypeIconSource(const QString &mimeType) const;

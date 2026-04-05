@@ -107,6 +107,7 @@ Popup {
             id: roomTextInput
 
             font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.6)
+            implicitHeight: Math.max(controlHeight, Math.round(font.pixelSize * 2.0))
             placeholderText: qsTr("Room or space name, #address or !id...")
             width: parent.width
 

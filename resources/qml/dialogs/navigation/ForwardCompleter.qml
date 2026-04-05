@@ -276,6 +276,7 @@ Popup {
             id: roomTextInput
 
             font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
+            implicitHeight: Math.max(controlHeight, Math.round(font.pixelSize * 2.0))
             placeholderText: qsTr("Room name, address or id...")
             visible: !forwardMessagePopup.confirming
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2

@@ -83,9 +83,9 @@ Note: QML linting expects Qt6 `qmllint`. If unavailable, it is skipped with a me
 
 Representative C++ test executables:
 
-- `komai_yaml_settings_test`
 - `komai_settings_storage_test`
 - `komai_startup_settings_test`
+- `komai_settings_store_test`
 
 ## 📁 Useful Paths
 

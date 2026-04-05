@@ -1164,13 +1164,10 @@ if(BUILD_TESTING)
     komai_configure_test(komai_layout_agnostic_keys_test "unit;ui")
 
     add_custom_target(komai_tests DEPENDS
-        komai_yaml_settings_test
-        komai_staged_load_plan_test
         komai_startup_settings_test
         komai_settings_storage_test
         komai_settings_store_test
         komai_setting_input_validation_test
-        komai_settings_serializer_core_test
         komai_formatted_message_html_processor_test
         komai_notification_payload_test
         komai_roomlist_preview_selection_test

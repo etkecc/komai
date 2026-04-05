@@ -32,6 +32,22 @@ pub async fn fetch_recovery_status(handle_id: u64) -> Result<MatrixRecoveryStatu
 
     let has_unverified_own_devices = if let Some(user_id) = client.user_id() {
         let current_device_id = client.device_id().map(|device_id| device_id.to_owned());
+
+        // Use the server's /devices endpoint as the authoritative list of active
+        // sessions, since the local crypto store can retain stale devices that
+        // have already been signed out.
+        let active_device_ids: std::collections::HashSet<_> = client
+            .devices()
+            .await
+            .map(|response| {
+                response
+                    .devices
+                    .into_iter()
+                    .map(|d| d.device_id)
+                    .collect()
+            })
+            .unwrap_or_default();
+
         let devices = encryption
             .get_user_devices(user_id)
             .await
@@ -46,6 +62,7 @@ pub async fn fetch_recovery_status(handle_id: u64) -> Result<MatrixRecoveryStatu
                 && !device.is_dehydrated()
                 && device.curve25519_key().is_some()
                 && !device.is_cross_signed_by_owner()
+                && active_device_ids.contains(device.device_id())
         })
     } else {
         false

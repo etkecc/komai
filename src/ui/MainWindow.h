@@ -132,7 +132,6 @@ signals:
     // HACK: https://bugreports.qt.io/browse/QTBUG-83972, qtwayland cannot auto hide menu
     void hideMenu();
     void reload();
-    void secretsChanged();
 
     void showNotification(QString msg);
     void altPressedChanged();

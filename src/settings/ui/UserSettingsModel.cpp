@@ -32,7 +32,6 @@ UserSettingsModel::roleNames() const
       {ValueUpperBound, "valueUpperBound"},
       {ValueStep, "valueStep"},
       {Values, "values"},
-      {Good, "good"},
       {Enabled, "enabled"},
       {ThemeVariantValue, "themeVariantValue"},
       {ThemeVariantValues, "themeVariantValues"},

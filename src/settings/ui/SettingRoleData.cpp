@@ -115,15 +115,6 @@ autoplayGifVideosDescriptionRoleData(int role)
       .arg(maxDurationS);
 }
 
-QVariant
-keyStatusRoleData(int role, bool good)
-{
-    if (role == UserSettingsModel::Good)
-        return good;
-
-    return {};
-}
-
 } // namespace
 
 QVariant
@@ -138,14 +129,6 @@ roleDataForSetting(settings::core::SettingId id, int role)
         return presenceStatusDescriptionRoleData(role);
     case settings::core::SettingId::TimelineMediaAutoplayGifVideos:
         return autoplayGifVideosDescriptionRoleData(role);
-    case settings::core::SettingId::EncryptionOnlineBackupKeyStatus:
-        return keyStatusRoleData(role, false);
-    case settings::core::SettingId::EncryptionSelfSigningKeyStatus:
-        return keyStatusRoleData(role, false);
-    case settings::core::SettingId::EncryptionUserSigningKeyStatus:
-        return keyStatusRoleData(role, false);
-    case settings::core::SettingId::EncryptionMasterSigningKeyStatus:
-        return keyStatusRoleData(role, false);
     default:
         return {};
     }

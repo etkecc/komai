@@ -12,6 +12,5 @@
 #include "settings/ui/SettingDescriptorCallbacksOptionsSidebars.inc"
 #include "settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc"
 #include "settings/ui/SettingDescriptorCallbacksOptionsComposer.inc"
-#include "settings/ui/SettingDescriptorCallbacksReadOnlyEncryption.inc"
 #include "settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc"
 #include "settings/ui/SettingDescriptorCallbacksReadOnlyAbout.inc"

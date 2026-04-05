@@ -59,7 +59,6 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         return m.step;
     case Values:
         return m.getValues ? m.getValues() : QVariant{};
-    case Good:
     case ThemeVariantValue:
     case ThemeVariantValues:
         if (const auto roleData = settings::ui::roleDataForSetting(m.settingId, role);

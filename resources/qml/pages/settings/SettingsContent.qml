@@ -354,14 +354,6 @@ Item {
                                         }
                                     }
                                     DelegateChoice {
-                                        roleValue: UserSettingsModel.KeyStatus
-                                        SettingRowKeyStatus {
-                                            anchors.left: r.useStackedLayout ? parent.left : undefined
-                                            anchors.right: r.useStackedLayout ? undefined : parent.right
-                                            model: r.model
-                                        }
-                                    }
-                                    DelegateChoice {
                                         roleValue: UserSettingsModel.ManageIgnoredUsers
                                         SettingRowIgnoredUsers {
                                             anchors.left: r.useStackedLayout ? parent.left : undefined

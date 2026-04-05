@@ -20,11 +20,6 @@ isRuntimeStatusSettingId(settings::core::SettingId id)
 {
     switch (id) {
     case settings::core::SettingId::NotificationsAccountEnabled:
-    case settings::core::SettingId::EncryptionOnlineBackupKeyStatus:
-    case settings::core::SettingId::EncryptionSelfSigningKeyStatus:
-    case settings::core::SettingId::EncryptionUserSigningKeyStatus:
-    case settings::core::SettingId::EncryptionMasterSigningKeyStatus:
-        return true;
     default:
         return false;
     }
@@ -54,10 +49,6 @@ validateSettingsTable()
                 Q_ASSERT_X(!row.getValue && !row.setValue,
                            "settings::ui::validateSettingsTable",
                            "SectionTitle rows must not provide value mutators.");
-            } else if (row.type == UserSettingsModel::KeyStatus) {
-                Q_ASSERT_X(row.getValue && !row.setValue,
-                           "settings::ui::validateSettingsTable",
-                           "KeyStatus rows must be read-only and provide a value getter.");
             }
 
             if (row.settingId != settings::core::SettingId::Unknown) {

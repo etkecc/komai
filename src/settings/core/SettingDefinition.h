@@ -106,10 +106,6 @@ enum class SettingId
     EncryptionKeySharingOnlyVerifiedUsers,
     EncryptionKeySharingShareWithTrusted,
     EncryptionBackupOnlineEnabled,
-    EncryptionOnlineBackupKeyStatus,
-    EncryptionSelfSigningKeyStatus,
-    EncryptionUserSigningKeyStatus,
-    EncryptionMasterSigningKeyStatus,
 };
 
 struct SettingDefinition

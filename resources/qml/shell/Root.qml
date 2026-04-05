@@ -156,6 +156,13 @@ function openCatalogDialog(componentUrl, properties) {
     }
     SelfVerificationCoordinator {
     }
+    Shortcut {
+        sequence: "Escape"
+        enabled: mainWindow.depth > 1
+                 && mainWindow.currentItem
+                 && mainWindow.currentItem.objectName === "userSettingsPage"
+        onActivated: mainWindow.pop()
+    }
     StackView {
         id: mainWindow
 
@@ -217,6 +224,7 @@ function openCatalogDialog(componentUrl, properties) {
 
             target: Settings
         }
+
     }
     Component {
         id: startupRestorePage

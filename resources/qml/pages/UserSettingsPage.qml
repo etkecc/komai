@@ -45,10 +45,6 @@ Rectangle {
     ]
     color: palette.window
 
-    // Handle Escape key to go back
-    focus: true
-    Keys.onEscapePressed: mainWindow.pop()
-
     // Font metrics for dynamic sidebar width measurement
     FontMetrics {
         id: sidebarNavFontMetrics

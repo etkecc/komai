@@ -216,6 +216,8 @@ Item {
         allowEscape: timelineView.useMatrixRoomView
             && matrixTimeline
             && matrixTimeline.canHandleEscape()
+            && mainWindow.depth <= 1
+            && !timelineRoot.activeMediaOverlay
     }
     TimelineEffects {
         id: timelineEffects

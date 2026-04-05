@@ -358,7 +358,17 @@ DeviceVerificationFlow::applyMatrixSession(const komai::MatrixVerificationSessio
         emit errorChanged();
     }
 
-    setState(matrixStateFromString(session.state));
+    const auto nextState = matrixStateFromString(session.state);
+
+    // When auto-start is pending and the backend still reports PromptStartVerification,
+    // skip setting that state — we'll override it to WaitingForOtherToAccept below.
+    // Without this guard, the state bounces every poll cycle and restarts the
+    // StackView slide animation in the QML dialog.
+    const bool suppressBackendState =
+      pendingAutoStart_ && nextState == PromptStartVerification && deviceId.isEmpty();
+    if (!suppressBackendState)
+        setState(nextState);
+
     if (detailsChangedNow)
         emit detailsChanged();
     if (state_ == Success || state_ == Failed)

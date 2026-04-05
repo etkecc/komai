@@ -609,6 +609,7 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
     newRoomIds.reserve(static_cast<size_t>(roomList.size()));
 
     QHash<QString, komai::MatrixRoomSummary> newMatrixRooms;
+    const QString savedPendingRoomId = pendingCurrentRoomId_;
     const QString selectedRoomId =
       currentRoomPreview_
         ? currentRoomPreview_->roomid()
@@ -740,6 +741,18 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
                           "selectedRoomId={}",
                           selectedRoomId.toStdString());
         clearCurrentRoomSelection();
+    }
+
+    // Resolve a deferred room switch (e.g. after creating a new room) that was
+    // pending before this snapshot arrived.  The restore logic above preserves the
+    // *previous* selection; now that the snapshot has landed we can honour the
+    // pending switch if the target room is present.
+    if (!savedPendingRoomId.isEmpty() && savedPendingRoomId != selectedRoomId &&
+        matrixJoinedRooms_.contains(savedPendingRoomId)) {
+        nhlog::ui()->info(
+          "[highlight-debug] snapshot: resolving deferred pending room switch to {}",
+          savedPendingRoomId.toStdString());
+        setCurrentRoom(savedPendingRoomId);
     }
 
     emitAttentionCount();

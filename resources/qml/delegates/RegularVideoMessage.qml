@@ -5,6 +5,7 @@
 
 import QtMultimedia
 import QtQuick
+import QtQuick.Window
 import cc.etke.komai
 import Qt5Compat.GraphicalEffects
 
@@ -109,6 +110,8 @@ Item {
                 : "image://colorimage/:/icons/icons/ui/video-file.svg?" + palette.windowText
             asynchronous: true
             fillMode: Image.PreserveAspectFit
+            sourceSize.width: Math.min(Screen.desktopAvailableWidth, content.tempWidth) * Screen.devicePixelRatio
+            sourceSize.height: Math.min(Screen.desktopAvailableHeight, content.tempWidth * content.safeProportionalHeight) * Screen.devicePixelRatio
 
             VideoOutput {
                 id: videoOutput

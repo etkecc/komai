@@ -326,14 +326,14 @@ pub fn build_timeline_media_request_parameters(
     height: i32,
     crop: bool,
 ) -> Result<MediaRequestParameters, String> {
-    if width > 0 && height > 0 {
-        if let Some(thumbnail_source) = media_request.thumbnail_source.clone() {
-            return Ok(MediaRequestParameters {
-                source: thumbnail_source,
-                format: MediaFormat::File,
-            });
-        }
+    if let Some(thumbnail_source) = media_request.thumbnail_source.clone() {
+        return Ok(MediaRequestParameters {
+            source: thumbnail_source,
+            format: MediaFormat::File,
+        });
+    }
 
+    if width > 0 && height > 0 {
         if matches!(&media_request.source, MediaSource::Plain(_)) {
             let width =
                 UInt::try_from(width).map_err(|_| format!("invalid thumbnail width: {width}"))?;

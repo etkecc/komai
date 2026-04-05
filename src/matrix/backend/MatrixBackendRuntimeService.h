@@ -250,6 +250,14 @@ struct MatrixRoomMember
     qlonglong powerLevel = 0;
 };
 
+struct MatrixChildSpaceEntry
+{
+    QString roomId;
+    QString displayName;
+    QString avatarUrl;
+    MatrixRoomPowerLevels powerLevels;
+};
+
 struct MatrixRoomRedactionPermissions
 {
     bool canRedactOwn   = false;
@@ -750,6 +758,12 @@ public:
                                      const QString &roomId,
                                      const MatrixRoomPowerLevels &powerLevels,
                                      QString *errorOut = nullptr);
+
+    static std::optional<QVector<MatrixChildSpaceEntry>>
+    fetchRoomChildSpaces(matrix_backend::BlockingCallContext context,
+                         uint64_t handleId,
+                         const QString &roomId,
+                         QString *errorOut = nullptr);
 
     static std::optional<MatrixRoomRedactionPermissions>
     fetchRoomRedactionPermissions(matrix_backend::BlockingCallContext context,

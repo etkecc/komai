@@ -791,6 +791,13 @@ mod bridge {
         users_default: i64,
     }
 
+    struct MatrixChildSpaceEntry {
+        room_id: String,
+        display_name: String,
+        avatar_url: String,
+        power_levels: MatrixRoomPowerLevels,
+    }
+
     struct MatrixRoomRedactionPermissions {
         can_redact_own: bool,
         can_redact_other: bool,
@@ -1583,6 +1590,11 @@ mod bridge {
             room_id: &str,
             power_levels: MatrixRoomPowerLevels,
         ) -> Result<()>;
+        fn matrix_fetch_room_child_spaces(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<Vec<MatrixChildSpaceEntry>>;
         fn matrix_fetch_media_content(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

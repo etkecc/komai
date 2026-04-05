@@ -5,9 +5,15 @@
 
 #include "powerlevels/PowerlevelsEditModels.h"
 
+#include <QCoreApplication>
+#include <QPointer>
+#include <thread>
 #include <tuple>
 
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
+#include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "ui/MainWindow.h"
 #include "utils/Utils.h"
 
 static bool
@@ -41,7 +47,7 @@ PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(
   , oldPowerLevels_(powerLevels)
 {
     beginResetModel();
-    spaces.push_back(Entry{room_id, oldPowerLevels_, true});
+    spaces.push_back(Entry{room_id, room_id, {}, oldPowerLevels_, true});
     endResetModel();
     updateToDefaults();
 }
@@ -49,16 +55,77 @@ PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(
 void
 PowerlevelsSpacesListModel::commit()
 {
-    int selectedSpaceCount = 0;
+    QVector<QPair<QString, komai::MatrixRoomPowerLevels>> toApply;
     for (const auto &space : std::as_const(spaces)) {
-        if (space.apply)
-            ++selectedSpaceCount;
+        if (space.apply && space.roomid != room_id)
+            toApply.push_back({space.roomid, newPowerlevels_});
     }
 
-    Q_UNUSED(selectedSpaceCount)
-    ChatPage::instance()->showNotification(
-      tr("Applying power levels to child spaces has not been migrated to the matrix-sdk "
-         "backend yet."));
+    if (toApply.isEmpty())
+        return;
+
+    const auto *mainWindow = MainWindow::instance();
+    const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0)
+        return;
+
+    QPointer<PowerlevelsSpacesListModel> self(this);
+    std::thread([self, handleId, toApply]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
+        int failCount      = 0;
+        QString lastError;
+
+        for (const auto &[roomId, powerLevels] : toApply) {
+            QString error;
+            const bool ok = komai::MatrixBackendRuntimeService::applyRoomPowerLevels(
+              context, handleId, roomId, powerLevels, &error);
+            if (!ok) {
+                ++failCount;
+                lastError = error;
+                nhlog::ui()->warn("Failed to apply power levels to child space '{}': {}",
+                                  roomId.toStdString(),
+                                  error.toStdString());
+            }
+        }
+
+        auto *app = QCoreApplication::instance();
+        if (!app)
+            return;
+
+        const int total   = toApply.size();
+        const int success = total - failCount;
+        QMetaObject::invokeMethod(
+          app,
+          [self, success, failCount, lastError = std::move(lastError)]() {
+              if (!self)
+                  return;
+
+              if (failCount == 0) {
+                  ChatPage::instance()->showNotification(PowerlevelsSpacesListModel::tr(
+                    "Applied permissions to %n child space(s).", nullptr, success));
+              } else {
+                  ChatPage::instance()->showNotification(
+                    PowerlevelsSpacesListModel::tr(
+                      "Failed to apply permissions to %n child space(s): %1", nullptr, failCount)
+                      .arg(lastError));
+              }
+          },
+          Qt::QueuedConnection);
+    }).detach();
+}
+
+void
+PowerlevelsSpacesListModel::addChildSpaces(QVector<Entry> children)
+{
+    if (children.isEmpty())
+        return;
+
+    beginInsertRows({}, spaces.size(), spaces.size() + children.size() - 1);
+    for (auto &child : children)
+        spaces.push_back(std::move(child));
+    endInsertRows();
+
+    updateToDefaults();
 }
 
 void
@@ -94,9 +161,9 @@ PowerlevelsSpacesListModel::data(QModelIndex const &index, int role) const
 
     if (role == Roles::DisplayName || role == Roles::AvatarUrl || role == Roles::IsSpace) {
         if (role == Roles::DisplayName)
-            return spaces.at(row).roomid;
+            return spaces.at(row).displayName;
         if (role == Roles::AvatarUrl)
-            return {};
+            return spaces.at(row).avatarUrl;
         return row == 0;
     }
 

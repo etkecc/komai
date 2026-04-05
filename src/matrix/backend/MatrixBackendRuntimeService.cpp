@@ -2210,6 +2210,37 @@ MatrixBackendRuntimeService::applyRoomPowerLevels(matrix_backend::BlockingCallCo
     }
 }
 
+std::optional<QVector<MatrixChildSpaceEntry>>
+MatrixBackendRuntimeService::fetchRoomChildSpaces(matrix_backend::BlockingCallContext context,
+                                                  uint64_t handleId,
+                                                  const QString &roomId,
+                                                  QString *errorOut)
+{
+    try {
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_room_child_spaces", [context, handleId, roomId]() {
+              return ::komai::rust::matrix_fetch_room_child_spaces(
+                matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+          });
+
+        QVector<MatrixChildSpaceEntry> entries;
+        entries.reserve(static_cast<int>(result.size()));
+        for (const auto &entry : result) {
+            entries.push_back(MatrixChildSpaceEntry{
+              .roomId      = QString::fromStdString(std::string(entry.room_id)),
+              .displayName = QString::fromStdString(std::string(entry.display_name)),
+              .avatarUrl   = QString::fromStdString(std::string(entry.avatar_url)),
+              .powerLevels = fromRustRoomPowerLevels(entry.power_levels),
+            });
+        }
+        return entries;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 bool
 MatrixBackendRuntimeService::setRoomNotificationMode(matrix_backend::BlockingCallContext context,
                                                      uint64_t handleId,

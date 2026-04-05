@@ -132,9 +132,10 @@ pub use room_actions::{
 pub use preloader::start_preload;
 pub use room_list::{fetch_room_list, start_sync};
 pub use room_settings::{
+    MatrixChildSpaceEntry,
     apply_room_aliases, apply_room_power_levels, enable_room_encryption, fetch_room_aliases,
-    fetch_room_members, fetch_room_power_levels, fetch_room_settings, remove_room_avatar,
-    set_room_access_rules,
+    fetch_room_child_spaces, fetch_room_members, fetch_room_power_levels, fetch_room_settings,
+    remove_room_avatar, set_room_access_rules,
     set_room_history_visibility, set_room_name, set_room_notification_mode, set_room_topic,
     upload_room_avatar,
 };

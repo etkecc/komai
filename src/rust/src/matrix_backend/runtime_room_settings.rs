@@ -6,6 +6,7 @@ use std::fs;
 
 use super::*;
 use matrix_sdk::{
+    deserialized_responses::SyncOrStrippedState,
     notification_settings::RoomNotificationMode,
     RoomMemberships,
     room::ParentSpace,
@@ -14,6 +15,7 @@ use matrix_sdk::{
         UInt,
         api::client::room::aliases as room_aliases,
         events::{
+            SyncStateEvent,
             StateEventType,
             room::{
                 avatar::ImageInfo,
@@ -24,6 +26,7 @@ use matrix_sdk::{
                 power_levels::RoomPowerLevelsEventContent,
                 power_levels::UserPowerLevel,
             },
+            space::child::SpaceChildEventContent,
         },
     },
 };
@@ -317,6 +320,74 @@ pub async fn apply_room_power_levels(
         .map_err(|e| format!("failed to apply room power levels via matrix-sdk: {e}"))?;
 
     Ok(())
+}
+
+pub struct MatrixChildSpaceEntry {
+    pub room_id: String,
+    pub display_name: String,
+    pub avatar_url: String,
+    pub power_levels: MatrixRoomPowerLevels,
+}
+
+pub async fn fetch_room_child_spaces(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<Vec<MatrixChildSpaceEntry>, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+
+    let child_events = room
+        .get_state_events_static::<SpaceChildEventContent>()
+        .await
+        .map_err(|e| format!("failed to fetch space child events: {e}"))?;
+
+    let mut child_room_ids = Vec::new();
+    for raw_event in child_events {
+        let child_room_id: Option<String> = match raw_event.deserialize() {
+            Ok(SyncOrStrippedState::Sync(SyncStateEvent::Original(e))) => {
+                Some(e.state_key.to_string())
+            }
+            Ok(SyncOrStrippedState::Stripped(e)) => Some(e.state_key.to_string()),
+            _ => None,
+        };
+        if let Some(id) = child_room_id {
+            child_room_ids.push(id);
+        }
+    }
+
+    let client = client_for_handle(handle_id)?;
+    let mut results = Vec::new();
+
+    for child_id in child_room_ids {
+        let Ok(room_id) = child_id.as_str().try_into() else {
+            continue;
+        };
+        let Some(child_room) = client.get_room(room_id) else {
+            continue;
+        };
+
+        let power_levels = match fetch_room_power_levels(handle_id, &child_id).await {
+            Ok(pl) => pl,
+            Err(_) => continue,
+        };
+
+        let display_name = child_room
+            .name()
+            .unwrap_or_else(|| child_id.clone());
+
+        let avatar_url = child_room
+            .avatar_url()
+            .map(|u| normalize_mxc_uri(u.to_string()))
+            .unwrap_or_default();
+
+        results.push(MatrixChildSpaceEntry {
+            room_id: child_id,
+            display_name,
+            avatar_url,
+            power_levels,
+        });
+    }
+
+    Ok(results)
 }
 
 pub async fn fetch_room_settings(

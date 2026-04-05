@@ -46,13 +46,21 @@ PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *paren
         const auto powerLevels = komai::MatrixBackendRuntimeService::fetchRoomPowerLevels(
           context, handleId, roomId, &error);
 
+        QString childError;
+        const auto childSpaces = komai::MatrixBackendRuntimeService::fetchRoomChildSpaces(
+          context, handleId, roomId, &childError);
+
         auto *app = QCoreApplication::instance();
         if (!app)
             return;
 
         QMetaObject::invokeMethod(
           app,
-          [self, roomId, error = std::move(error), powerLevels]() mutable {
+          [self,
+           roomId,
+           error = std::move(error),
+           powerLevels,
+           childSpaces = std::move(childSpaces)]() mutable {
               if (!self)
                   return;
 
@@ -70,6 +78,20 @@ PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *paren
               }
 
               self->setPowerLevels(*powerLevels);
+
+              if (childSpaces && !childSpaces->isEmpty()) {
+                  QVector<PowerlevelsSpacesListModel::Entry> children;
+                  children.reserve(childSpaces->size());
+                  for (const auto &child : *childSpaces) {
+                      children.push_back(PowerlevelsSpacesListModel::Entry{child.roomId,
+                                                                           child.displayName,
+                                                                           child.avatarUrl,
+                                                                           child.powerLevels,
+                                                                           false});
+                  }
+                  self->spaces_.addChildSpaces(std::move(children));
+                  emit self->isSpaceChanged();
+              }
           },
           Qt::QueuedConnection);
     }).detach();
@@ -78,7 +100,7 @@ PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *paren
 bool
 PowerlevelEditingModels::isSpace() const
 {
-    return false;
+    return spaces_.spaces.size() > 1;
 }
 
 komai::MatrixRoomPowerLevels

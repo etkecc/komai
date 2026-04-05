@@ -139,6 +139,56 @@ pub(crate) fn matrix_fetch_room_power_levels(
     })
 }
 
+pub(crate) fn matrix_fetch_room_child_spaces(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+) -> Result<Vec<ffi::MatrixChildSpaceEntry>, String> {
+    let results = ffi_block_on(
+        context,
+        "matrix_fetch_room_child_spaces",
+        matrix_backend::runtime::fetch_room_child_spaces(handle_id, room_id),
+    )?;
+
+    Ok(results
+        .into_iter()
+        .map(|entry| ffi::MatrixChildSpaceEntry {
+            room_id: entry.room_id,
+            display_name: entry.display_name,
+            avatar_url: entry.avatar_url,
+            power_levels: ffi::MatrixRoomPowerLevels {
+                room_version: entry.power_levels.room_version,
+                creators: entry.power_levels.creators,
+                events: entry
+                    .power_levels
+                    .events
+                    .into_iter()
+                    .map(|e| ffi::MatrixPowerLevelEntry {
+                        key: e.key,
+                        level: e.level,
+                    })
+                    .collect(),
+                users: entry
+                    .power_levels
+                    .users
+                    .into_iter()
+                    .map(|e| ffi::MatrixPowerLevelEntry {
+                        key: e.key,
+                        level: e.level,
+                    })
+                    .collect(),
+                ban: entry.power_levels.ban,
+                events_default: entry.power_levels.events_default,
+                invite: entry.power_levels.invite,
+                kick: entry.power_levels.kick,
+                redact: entry.power_levels.redact,
+                state_default: entry.power_levels.state_default,
+                users_default: entry.power_levels.users_default,
+            },
+        })
+        .collect())
+}
+
 pub(crate) fn matrix_apply_room_power_levels(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

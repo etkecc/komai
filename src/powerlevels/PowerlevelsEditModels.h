@@ -178,18 +178,21 @@ public:
         updateToDefaults();
     }
 
-    void updateToDefaults();
-
-    Q_INVOKABLE void commit();
-
     struct Entry
     {
         ~Entry() = default;
 
         QString roomid;
+        QString displayName;
+        QString avatarUrl;
         komai::MatrixRoomPowerLevels pl;
         bool apply = false;
     };
+
+    void updateToDefaults();
+    void addChildSpaces(QVector<Entry> children);
+
+    Q_INVOKABLE void commit();
 
     QString room_id;
     QVector<Entry> spaces;
@@ -212,7 +215,7 @@ class PowerlevelEditingModels final : public QObject
     Q_PROPERTY(qlonglong adminLevel READ adminLevel NOTIFY adminLevelChanged)
     Q_PROPERTY(qlonglong moderatorLevel READ moderatorLevel NOTIFY moderatorLevelChanged)
     Q_PROPERTY(qlonglong defaultUserLevel READ defaultUserLevel NOTIFY defaultUserLevelChanged)
-    Q_PROPERTY(bool isSpace READ isSpace CONSTANT)
+    Q_PROPERTY(bool isSpace READ isSpace NOTIFY isSpaceChanged)
     Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
     Q_PROPERTY(bool committing READ committing NOTIFY committingChanged)
 
@@ -220,6 +223,7 @@ signals:
     void adminLevelChanged();
     void moderatorLevelChanged();
     void defaultUserLevelChanged();
+    void isSpaceChanged();
     void loadedChanged();
     void committingChanged();
 

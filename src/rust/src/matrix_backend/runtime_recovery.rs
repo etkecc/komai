@@ -24,11 +24,29 @@ pub async fn fetch_recovery_status(handle_id: u64) -> Result<MatrixRecoveryStatu
     client.encryption().wait_for_e2ee_initialization_tasks().await;
     let encryption = client.encryption();
 
-    let own_device_is_verified = encryption
-        .get_own_device()
-        .await
-        .map_err(|e| format!("failed to inspect current device verification state: {e}"))?
-        .is_some_and(|device| device.is_cross_signed_by_owner());
+    let own_device_is_verified = {
+        let cross_signed = encryption
+            .get_own_device()
+            .await
+            .map_err(|e| format!("failed to inspect current device verification state: {e}"))?
+            .is_some_and(|device| device.is_cross_signed_by_owner());
+
+        if cross_signed {
+            true
+        } else {
+            // The device may not appear as cross-signed if the server's /keys/query
+            // response doesn't reflect the signature (e.g. race condition or server
+            // quirk). Fall back to checking whether we hold all cross-signing keys
+            // and recovery is enabled — if so, the device has full signing authority.
+            let cross_signing_complete = encryption
+                .cross_signing_status()
+                .await
+                .is_some_and(|s| s.is_complete());
+            let recovery_enabled =
+                encryption.recovery().state() == RecoveryState::Enabled;
+            cross_signing_complete && recovery_enabled
+        }
+    };
 
     let has_unverified_own_devices = if let Some(user_id) = client.user_id() {
         let current_device_id = client.device_id().map(|device_id| device_id.to_owned());

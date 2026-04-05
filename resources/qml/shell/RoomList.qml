@@ -395,9 +395,6 @@ Page {
             Connections {
                 function onCurrentRoomIdChanged() {
                     const roomId = Rooms.currentRoomId;
-                    console.info("[highlight-debug] RoomList onCurrentRoomIdChanged roomId="
-                        + roomId + " activeFocus=" + roomlist.activeFocus
-                        + " currentIndex=" + roomlist.currentIndex + " count=" + roomlist.count);
                     if (!roomId)
                         return;
 

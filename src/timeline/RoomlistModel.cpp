@@ -285,11 +285,7 @@ RoomlistModel::emitCurrentRoomVisualStateChanged()
 void
 RoomlistModel::notifyCurrentRoomIdChanged()
 {
-    const auto id = currentRoomId();
-    nhlog::ui()->info("[highlight-debug] notifyCurrentRoomIdChanged: emitting currentRoomIdChanged "
-                      "roomId={}",
-                      id.toStdString());
-    emit currentRoomIdChanged(id);
+    emit currentRoomIdChanged(currentRoomId());
 }
 
 void
@@ -298,23 +294,10 @@ RoomlistModel::scheduleCurrentRoomVisualStateChanged()
     currentRoomVisualStateDeferred_ = false;
     currentRoomVisualStateDeferredRoomId_.clear();
     const auto generation = ++currentRoomVisualStateGeneration_;
-    nhlog::ui()->info(
-      "[highlight-debug] scheduleCurrentRoomVisualStateChanged: scheduling gen={} roomId={}",
-      generation,
-      currentRoomId().toStdString());
     QTimer::singleShot(0, this, [this, generation]() {
-        if (generation != currentRoomVisualStateGeneration_) {
-            nhlog::ui()->info("[highlight-debug] scheduleCurrentRoomVisualStateChanged: stale "
-                              "gen={} current={}",
-                              generation,
-                              currentRoomVisualStateGeneration_);
+        if (generation != currentRoomVisualStateGeneration_)
             return;
-        }
 
-        nhlog::ui()->info(
-          "[highlight-debug] scheduleCurrentRoomVisualStateChanged: firing gen={} roomId={}",
-          generation,
-          currentRoomId().toStdString());
         emitCurrentRoomVisualStateChanged();
     });
 }
@@ -325,25 +308,14 @@ RoomlistModel::deferCurrentRoomVisualState(const QString &roomId)
     currentRoomVisualStateGeneration_++;
     currentRoomVisualStateDeferred_       = !roomId.isEmpty();
     currentRoomVisualStateDeferredRoomId_ = currentRoomVisualStateDeferred_ ? roomId : QString{};
-    nhlog::ui()->info("[highlight-debug] deferCurrentRoomVisualState: roomId={} deferred={}",
-                      roomId.toStdString(),
-                      currentRoomVisualStateDeferred_);
 }
 
 void
 RoomlistModel::flushDeferredCurrentRoomVisualState(const QString &roomId)
 {
-    if (!currentRoomVisualStateDeferred_ || currentRoomVisualStateDeferredRoomId_ != roomId) {
-        nhlog::ui()->info("[highlight-debug] flushDeferredCurrentRoomVisualState: no-op "
-                          "roomId={} deferred={} deferredRoomId={}",
-                          roomId.toStdString(),
-                          currentRoomVisualStateDeferred_,
-                          currentRoomVisualStateDeferredRoomId_.toStdString());
+    if (!currentRoomVisualStateDeferred_ || currentRoomVisualStateDeferredRoomId_ != roomId)
         return;
-    }
 
-    nhlog::ui()->info("[highlight-debug] flushDeferredCurrentRoomVisualState: flushing roomId={}",
-                      roomId.toStdString());
     currentRoomVisualStateDeferred_ = false;
     currentRoomVisualStateDeferredRoomId_.clear();
     emit currentRoomPreviewChanged();
@@ -663,30 +635,16 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
             return;
         }
 
-        nhlog::ui()->info("[highlight-debug] snapshot: dataChanged for {} rows (no reset)",
-                          changedRows.size());
-
         matrixJoinedRooms_ = std::move(newMatrixRooms);
 
         for (int row : changedRows)
             emit dataChanged(index(row), index(row));
     } else {
-        nhlog::ui()->info("[highlight-debug] snapshot: beginResetModel currentRoomId={} "
-                          "selectedRoomId={} hadSelection={} deferred={}",
-                          currentRoomId().toStdString(),
-                          selectedRoomId.toStdString(),
-                          hadCurrentMatrixSummarySelection,
-                          currentRoomVisualStateDeferred_);
-
         beginResetModel();
         resetRoomCollections(false);
         matrixJoinedRooms_ = std::move(newMatrixRooms);
         roomids            = std::move(newRoomIds);
         endResetModel();
-
-        nhlog::ui()->info("[highlight-debug] snapshot: endResetModel currentRoomId={} (should be "
-                          "preserved across resetRoomCollections)",
-                          currentRoomId().toStdString());
     }
 
     const auto currentTotalNotifications = totalNotificationCount(matrixJoinedRooms_);
@@ -701,8 +659,6 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
 
     if (!selectedRoomId.isEmpty() && matrixJoinedRooms_.contains(selectedRoomId)) {
         if (restoringStartupSelection) {
-            nhlog::ui()->info("[highlight-debug] snapshot: restore branch=deferStartup roomId={}",
-                              selectedRoomId.toStdString());
             deferStartupCurrentRoomRestore(selectedRoomId);
         } else if (hadCurrentMatrixSummarySelection) {
             allowDeferredStartupCurrentRoomRestore_ = false;
@@ -715,12 +671,6 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
               !roomPreviewEquals(previousCurrentRoomPreview, *currentRoomPreview_);
             const bool deferredMatch = currentRoomVisualStateDeferred_ &&
                                        currentRoomVisualStateDeferredRoomId_ == selectedRoomId;
-            nhlog::ui()->info("[highlight-debug] snapshot: restore "
-                              "branch=hadSelection roomId={} previewChanged={} "
-                              "deferredMatch={} (NO currentRoomIdChanged emitted)",
-                              selectedRoomId.toStdString(),
-                              previewChanged,
-                              deferredMatch);
 
             if (previewChanged) {
                 if (deferredMatch) {
@@ -731,15 +681,9 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
                 }
             }
         } else {
-            nhlog::ui()->info("[highlight-debug] snapshot: restore branch=setCurrentRoom "
-                              "roomId={}",
-                              selectedRoomId.toStdString());
             setCurrentRoom(selectedRoomId);
         }
     } else if (hadCurrentMatrixSummarySelection) {
-        nhlog::ui()->info("[highlight-debug] snapshot: restore branch=clearSelection "
-                          "selectedRoomId={}",
-                          selectedRoomId.toStdString());
         clearCurrentRoomSelection();
     }
 
@@ -749,9 +693,6 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
     // pending switch if the target room is present.
     if (!savedPendingRoomId.isEmpty() && savedPendingRoomId != selectedRoomId &&
         matrixJoinedRooms_.contains(savedPendingRoomId)) {
-        nhlog::ui()->info(
-          "[highlight-debug] snapshot: resolving deferred pending room switch to {}",
-          savedPendingRoomId.toStdString());
         setCurrentRoom(savedPendingRoomId);
     }
 

@@ -40,12 +40,6 @@ ItemDelegate {
     required property string time
     required property bool isEncrypted
     readonly property bool isSelected: roomId === Rooms.currentRoomId
-    onIsSelectedChanged: console.info("[highlight-debug] delegate isSelected=" + isSelected
-        + " roomId=" + roomId + " currentRoomId=" + Rooms.currentRoomId)
-    Component.onCompleted: {
-        if (isSelected)
-            console.info("[highlight-debug] delegate CREATED isSelected=true roomId=" + roomId);
-    }
     readonly property bool isLowPriorityRoom: !!tags && tags.indexOf && tags.indexOf("m.lowpriority") !== -1
     readonly property bool emphasizeUnreadState: hasUnreadMessages && (!isLowPriorityRoom || hasLoudNotification || Communities.currentFilterId === "tag:m.lowpriority")
     readonly property bool emphasizeDraftState: hasDraft && !emphasizeUnreadState

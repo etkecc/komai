@@ -501,6 +501,7 @@ ColumnLayout {
 
                         TimelineBubbleMessageStyle {
                             id: bubbleStyle
+                            chatRoot: root
 
                             eventId: timelineItemDelegate.stableEventId
                             replyTo: timelineItemDelegate.replyTo

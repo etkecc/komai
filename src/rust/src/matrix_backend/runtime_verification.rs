@@ -442,7 +442,10 @@ pub async fn fetch_user_verification_state(
 
     let devices = devices
         .devices()
-        .filter(|device| !device.is_dehydrated())
+        .filter(|device| {
+            !device.is_dehydrated()
+                && (!is_self || own_device_metadata.contains_key(device.device_id().as_str()))
+        })
         .map(|device| {
             let device_id = device.device_id().to_string();
             let own_metadata = own_device_metadata.get(&device_id);

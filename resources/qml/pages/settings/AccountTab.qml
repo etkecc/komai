@@ -1151,7 +1151,7 @@ Item {
                                             anchors.verticalCenter: parent.verticalCenter
                                             anchors.leftMargin: Komai.paddingMedium
                                             anchors.rightMargin: Komai.paddingMedium
-                                            text: qsTr("Last seen: %1").arg(new Date(deviceDelegate.lastTs).toLocaleString(Locale.ShortFormat))
+                                            text: deviceDelegate.lastTs > 0 ? qsTr("Last seen: %1").arg(new Date(deviceDelegate.lastTs).toLocaleString(Locale.ShortFormat)) : qsTr("Last seen: Unknown")
                                             color: palette.buttonText
                                             font.pointSize: Settings.uiFontSizePt
                                         }

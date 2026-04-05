@@ -218,8 +218,8 @@ OverlayDialog {
         placeholderText: qsTr("Search by name or @user:example.com")
         font.pixelSize: Math.ceil(Komai.fontPixelSize * 1.2)
         onAccepted: inviteDialogRoot.addCurrentInvite()
-        Keys.onShortcutOverride: event.accepted = ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && (event.modifiers & Qt.ControlModifier))
-        Keys.onPressed: {
+        Keys.onShortcutOverride: function(event) { event.accepted = ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && (event.modifiers & Qt.ControlModifier)); }
+        Keys.onPressed: function(event) {
             if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && (event.modifiers & Qt.ControlModifier))
                 inviteDialogRoot.cleanUpAndClose();
         }
@@ -241,6 +241,111 @@ OverlayDialog {
         }
     }
 
+    // Direct MXID invite card — shown when input is a valid MXID
+    AbstractButton {
+        id: directInviteCard
+
+        readonly property bool activeState: hovered || pressed
+        readonly property bool alreadyAdded: inviteDialogRoot.selectedCount > 0
+            && inviteDialogRoot.invitees.containsUser(inviteeEntry.resolvedMxid)
+        property string resolvedDisplayName: ""
+        property string resolvedAvatarUrl: ""
+        property string resolvedMxid: ""
+
+        function resetResolved() {
+            resolvedDisplayName = "";
+            resolvedAvatarUrl = "";
+            resolvedMxid = "";
+        }
+
+        Layout.fillWidth: true
+        visible: inviteeEntry.isValidMxid && !alreadyAdded
+        implicitHeight: directInviteRow.implicitHeight + Komai.paddingSmall * 2
+        onClicked: inviteDialogRoot.addInvite(inviteeEntry.resolvedMxid,
+            directInviteCard.resolvedDisplayName, directInviteCard.resolvedAvatarUrl)
+
+        Connections {
+            target: inviteeEntry
+            function onResolvedMxidChanged() {
+                directInviteCard.resetResolved();
+                if (inviteeEntry.isValidMxid)
+                    userDirectory.resolveUser(inviteeEntry.resolvedMxid);
+            }
+        }
+
+        Connections {
+            target: userDirectory
+            function onUserResolved(mxid, displayName, avatarUrl) {
+                if (mxid === inviteeEntry.resolvedMxid) {
+                    directInviteCard.resolvedMxid = mxid;
+                    directInviteCard.resolvedDisplayName = displayName;
+                    directInviteCard.resolvedAvatarUrl = avatarUrl;
+                }
+            }
+        }
+
+        background: Rectangle {
+            radius: Komai.paddingMedium
+            color: directInviteCard.activeState ? palette.dark : palette.window
+            border.color: Komai.theme.separator
+            border.width: 1
+        }
+
+        contentItem: RowLayout {
+            id: directInviteRow
+
+            spacing: Komai.paddingMedium
+
+            Avatar {
+                Layout.preferredWidth: Komai.listIconSize
+                Layout.preferredHeight: Komai.listIconSize
+                Layout.alignment: Qt.AlignVCenter
+                Layout.leftMargin: Komai.paddingMedium
+                userid: inviteeEntry.resolvedMxid
+                displayName: directInviteCard.resolvedDisplayName
+                url: (directInviteCard.resolvedAvatarUrl || "").replace("mxc://", "image://MxcImage/")
+                enabled: false
+            }
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: Komai.paddingSmall
+
+                Label {
+                    Layout.fillWidth: true
+                    text: directInviteCard.resolvedDisplayName || qsTr("Invite directly")
+                    color: directInviteCard.activeState ? palette.brightText : palette.text
+                    font.pointSize: Settings.uiFontSizePt
+                    font.italic: !directInviteCard.resolvedDisplayName
+                    elide: Text.ElideRight
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: inviteeEntry.resolvedMxid
+                    color: directInviteCard.activeState ? palette.brightText : palette.buttonText
+                    font.pointSize: Settings.uiFontSizePt * 0.9
+                    elide: Text.ElideRight
+                }
+            }
+
+            Image {
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredWidth: 18
+                Layout.preferredHeight: 18
+                Layout.rightMargin: Komai.paddingMedium
+                fillMode: Image.PreserveAspectFit
+                source: "image://colorimage/:/icons/icons/ui/plus-circle.svg?"
+                    + (directInviteCard.activeState ? palette.brightText : palette.buttonText)
+            }
+        }
+
+        KomaiCursorShape {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+        }
+    }
+
     ListView {
         id: searchResults
 
@@ -253,7 +358,7 @@ OverlayDialog {
             id: resultDelegate
 
             readonly property bool activeState: hovered || pressed
-            readonly property bool alreadySelected: inviteDialogRoot.selectedCount >= 0
+            readonly property bool alreadySelected: inviteDialogRoot.selectedCount > 0
                 && inviteDialogRoot.invitees.containsUser(model.userid)
             property string userIdText: model.userid
             property string displayNameText: model.displayName
@@ -342,17 +447,28 @@ OverlayDialog {
             font.pointSize: Settings.uiFontSizePt * 0.9
         }
 
-        Label {
+        Column {
             anchors.centerIn: parent
+            spacing: Komai.paddingSmall
             visible: searchResults.count === 0
                 && inviteeEntry.text.trim().length > 0
                 && !searchTimer.running
                 && !userDirectory.searchingUsers
-            text: inviteeEntry.isValidMxid
-                ? qsTr("No results found. Press Enter to use this ID directly.")
-                : qsTr("No results found")
-            color: palette.buttonText
-            font.pointSize: Settings.uiFontSizePt * 0.9
+
+            Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("No matching users found.")
+                color: palette.buttonText
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+            }
+
+            Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: inviteeEntry.isValidMxid
+                text: qsTr("Use the suggestion above to invite by Matrix ID.")
+                color: palette.buttonText
+                font.pointSize: Settings.uiFontSizePt
+            }
         }
 
         Spinner {

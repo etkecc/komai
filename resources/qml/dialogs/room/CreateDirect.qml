@@ -98,6 +98,106 @@ OverlayDialog {
         }
     }
 
+    // Direct MXID card — shown when input is a valid MXID
+    AbstractButton {
+        id: directCard
+
+        readonly property bool activeState: hovered || pressed
+        property string resolvedDisplayName: ""
+        property string resolvedAvatarUrl: ""
+
+        function resetResolved() {
+            resolvedDisplayName = "";
+            resolvedAvatarUrl = "";
+        }
+
+        visible: !createDirectRoot.selectedMxid && userID.isValidMxid
+        Layout.fillWidth: true
+        implicitHeight: directRow.implicitHeight + Komai.paddingSmall * 2
+        onClicked: createDirectRoot.selectUser(userID.resolvedMxid,
+            directCard.resolvedDisplayName, directCard.resolvedAvatarUrl)
+
+        Connections {
+            target: userID
+            function onResolvedMxidChanged() {
+                directCard.resetResolved();
+                if (userID.isValidMxid)
+                    userDirectory.resolveUser(userID.resolvedMxid);
+            }
+        }
+
+        Connections {
+            target: userDirectory
+            function onUserResolved(mxid, displayName, avatarUrl) {
+                if (mxid === userID.resolvedMxid) {
+                    directCard.resolvedDisplayName = displayName;
+                    directCard.resolvedAvatarUrl = avatarUrl;
+                }
+            }
+        }
+
+        background: Rectangle {
+            radius: Komai.paddingMedium
+            color: directCard.activeState ? palette.dark : palette.window
+            border.color: Komai.theme.separator
+            border.width: 1
+        }
+
+        contentItem: RowLayout {
+            id: directRow
+
+            spacing: Komai.paddingMedium
+
+            Avatar {
+                Layout.preferredWidth: Komai.listIconSize
+                Layout.preferredHeight: Komai.listIconSize
+                Layout.alignment: Qt.AlignVCenter
+                Layout.leftMargin: Komai.paddingMedium
+                userid: userID.resolvedMxid
+                displayName: directCard.resolvedDisplayName
+                url: (directCard.resolvedAvatarUrl || "").replace("mxc://", "image://MxcImage/")
+                enabled: false
+            }
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: Komai.paddingSmall
+
+                Label {
+                    Layout.fillWidth: true
+                    text: directCard.resolvedDisplayName || qsTr("Start chat directly")
+                    color: directCard.activeState ? palette.brightText : palette.text
+                    font.pointSize: Settings.uiFontSizePt
+                    font.italic: !directCard.resolvedDisplayName
+                    elide: Text.ElideRight
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: userID.resolvedMxid
+                    color: directCard.activeState ? palette.brightText : palette.buttonText
+                    font.pointSize: Settings.uiFontSizePt * 0.9
+                    elide: Text.ElideRight
+                }
+            }
+
+            Image {
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredWidth: 18
+                Layout.preferredHeight: 18
+                Layout.rightMargin: Komai.paddingMedium
+                fillMode: Image.PreserveAspectFit
+                source: "image://colorimage/:/icons/icons/ui/plus-circle.svg?"
+                    + (directCard.activeState ? palette.brightText : palette.buttonText)
+            }
+        }
+
+        KomaiCursorShape {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+        }
+    }
+
     // Search results — fixed height to prevent dialog jumping
     ListView {
         id: searchResults
@@ -177,12 +277,25 @@ OverlayDialog {
         }
 
         // No results (only shown when search is fully complete)
-        Label {
+        Column {
             anchors.centerIn: parent
+            spacing: Komai.paddingSmall
             visible: searchResults.count === 0 && userID.text.trim().length > 0 && !searchTimer.running && !userDirectory.searchingUsers
-            text: userID.isValidMxid ? qsTr("No results found. Press Enter to use this ID directly.") : qsTr("No results found")
-            color: palette.buttonText
-            font.pointSize: Settings.uiFontSizePt * 0.9
+
+            Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("No matching users found.")
+                color: palette.buttonText
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+            }
+
+            Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: userID.isValidMxid
+                text: qsTr("Use the suggestion above to start a chat by Matrix ID.")
+                color: palette.buttonText
+                font.pointSize: Settings.uiFontSizePt
+            }
         }
 
         // Pulsing Komai logo spinner while searching

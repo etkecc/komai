@@ -178,4 +178,39 @@ UserDirectoryModel::failSearch(uint64_t generation,
                       errorMessage.toStdString());
 }
 
+void
+UserDirectoryModel::resolveUser(const QString &mxid)
+{
+    const auto trimmed = mxid.trimmed();
+    if (trimmed.isEmpty())
+        return;
+
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0)
+        return;
+
+    QPointer<UserDirectoryModel> guard(this);
+    std::thread([guard, handleId, mxid = trimmed]() {
+        const auto context = komai::matrix_backend::blockingCallContext();
+        const auto profile =
+          komai::MatrixBackendRuntimeService::fetchUserProfile(context, handleId, mxid);
+        if (!guard || !profile.has_value())
+            return;
+
+        const auto displayName =
+          profile->displayName.trimmed().isEmpty() ? mxid : profile->displayName.trimmed();
+        const auto avatarUrl = profile->avatarUrl;
+
+        QMetaObject::invokeMethod(
+          QCoreApplication::instance(),
+          [guard, mxid, displayName, avatarUrl]() {
+              if (!guard)
+                  return;
+
+              emit guard->userResolved(mxid, displayName, avatarUrl);
+          },
+          Qt::QueuedConnection);
+    }).detach();
+}
+
 #include "moc_UserDirectoryModel.cpp"

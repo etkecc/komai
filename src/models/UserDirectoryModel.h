@@ -59,8 +59,12 @@ private:
                       const QVector<UserDirectoryEntry> &results);
     void failSearch(uint64_t generation, const QString &searchTerm, const QString &errorMessage);
 
+public:
+    Q_INVOKABLE void resolveUser(const QString &mxid);
+
 signals:
     void searchingUsersChanged();
+    void userResolved(const QString &mxid, const QString &displayName, const QString &avatarUrl);
 
 public slots:
     void setSearchString(const QString &f);

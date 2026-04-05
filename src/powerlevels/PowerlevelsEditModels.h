@@ -90,6 +90,7 @@ public:
         IsUser,
         Moveable,
         Removeable,
+        IsCreator,
     };
 
     explicit PowerlevelsUserListModel(const komai::MatrixRoomPowerLevels &powerLevels,

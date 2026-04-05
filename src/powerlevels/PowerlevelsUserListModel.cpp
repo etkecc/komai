@@ -103,6 +103,7 @@ PowerlevelsUserListModel::roleNames() const
       {IsUser, "isUser"},
       {Moveable, "moveable"},
       {Removeable, "removeable"},
+      {IsCreator, "isCreator"},
     };
 }
 
@@ -133,6 +134,8 @@ PowerlevelsUserListModel::data(const QModelIndex &index, int role) const
         return !user.mxid.isEmpty() && user.pl != komai::powerlevels::CreatorPowerLevel;
     case Removeable:
         return !user.mxid.isEmpty() && user.mxid.contains(':');
+    case IsCreator:
+        return user.pl == komai::powerlevels::CreatorPowerLevel;
     }
 
     return {};

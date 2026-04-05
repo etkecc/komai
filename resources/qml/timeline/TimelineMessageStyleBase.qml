@@ -66,6 +66,7 @@ TimelineEvent {
         && chatRoot.selectedEventIds
         && chatRoot.selectedEventIds.indexOf(wrapper.eventId) >= 0
 
+    property var chatRoot: null
     property var hoverDismissTimerRef: null
     property string registeredEventId: ""
     property int _delegateGeneration: chatRoot ? chatRoot.delegateRegistrationGeneration : 0

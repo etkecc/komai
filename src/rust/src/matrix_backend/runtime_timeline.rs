@@ -343,6 +343,85 @@ pub async fn fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTime
     Ok(snapshot)
 }
 
+/// Fetch a room's timeline with optional server-side backfill.
+///
+/// Uses the preloaded timeline cache when available, otherwise builds a fresh
+/// timeline handle.  If the cached items are fewer than `limit`, paginates
+/// backwards to fetch more from the server.  The timeline handle is always
+/// returned to the cache for reuse.
+pub async fn fetch_room_timeline(
+    handle_id: u64,
+    room_id: &str,
+    limit: u16,
+) -> Result<Vec<MatrixTimelineItem>, String> {
+    let (client, preloaded_timelines) = {
+        let handles = backend_handles()
+            .lock()
+            .expect("poisoned matrix backend handle registry mutex");
+        let handle = handles
+            .get(&handle_id)
+            .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))?;
+        (handle.client.clone(), Arc::clone(&handle.preloaded_timelines))
+    };
+
+    let cached = preloaded_timelines
+        .lock()
+        .expect("poisoned preloaded timelines mutex")
+        .remove(room_id);
+
+    let timeline = if let Some(t) = cached {
+        t
+    } else {
+        let parsed_room_id = RoomId::parse(room_id)
+            .map_err(|e| format!("invalid room id: {e}"))?;
+        let room = client
+            .get_room(&parsed_room_id)
+            .ok_or_else(|| format!("room '{}' not known to client", room_id))?;
+        room.timeline()
+            .await
+            .map_err(|e| format!("failed to build timeline for '{}': {e}", room_id))?
+    };
+
+    let (items, _stream) = timeline.subscribe().await;
+
+    // Paginate backwards if we don't have enough items.
+    if items.len() < limit as usize {
+        if let Err(e) = timeline.paginate_backwards(limit).await {
+            tracing::warn!(
+                handle_id,
+                room_id,
+                "IPC timeline backfill pagination failed: {e}"
+            );
+        }
+    }
+
+    let (items_after, _stream) = timeline.subscribe().await;
+    let items_to_convert = if items_after.len() >= items.len() {
+        &items_after
+    } else {
+        &items
+    };
+
+    let empty_receipts = HashSet::new();
+    let (snapshot, _media_lookup) =
+        build_room_timeline_snapshot(items_to_convert, None, &empty_receipts);
+
+    // Cache the timeline handle back for reuse.
+    preloaded_timelines
+        .lock()
+        .expect("poisoned preloaded timelines mutex")
+        .insert(room_id.to_owned(), timeline);
+
+    tracing::debug!(
+        handle_id,
+        room_id,
+        item_count = snapshot.len(),
+        "Fetched room timeline with backfill"
+    );
+
+    Ok(snapshot)
+}
+
 pub async fn fetch_active_room_timeline_media_content(
     handle_id: u64,
     item_id: &str,

@@ -834,6 +834,13 @@ public:
                             uint64_t handleId,
                             QString *errorOut = nullptr);
 
+    static std::optional<QVector<MatrixTimelineItem>>
+    fetchRoomTimeline(matrix_backend::BlockingCallContext context,
+                      uint64_t handleId,
+                      const QString &roomId,
+                      uint16_t limit,
+                      QString *errorOut = nullptr);
+
     static bool paginateActiveRoomTimelineBackwards(uint64_t handleId,
                                                     uint16_t pageSize,
                                                     QString *errorOut = nullptr);

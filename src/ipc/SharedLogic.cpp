@@ -362,16 +362,75 @@ public:
 
     void start()
     {
-        if (!refreshSlice())
+        // Try the active room's in-memory model first (fast path).
+        if (refreshSlice() && (fetchMode_ != TimelineFetchMode::ServerFetchIfNeeded ||
+                               slice_.events.size() >= limit_)) {
+            finish();
             return;
-
-        if (fetchMode_ == TimelineFetchMode::ServerFetchIfNeeded) {
-            nhlog::ui()->debug("IPC timeline read requested server fetch for room '{}', but this "
-                               "migration branch is cache-only here",
-                               roomId_.toStdString());
         }
 
-        finish();
+        if (fetchMode_ != TimelineFetchMode::ServerFetchIfNeeded) {
+            finish();
+            return;
+        }
+
+        // Server fetch: use the Rust timeline with backfill (works for any room).
+        const auto *mainWindow = MainWindow::instance();
+        const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+        if (handleId == 0) {
+            fail(QStringLiteral("matrix backend is not available"));
+            return;
+        }
+
+        QPointer<TimelineReadOperation> self(this);
+        std::thread([self,
+                     handleId,
+                     roomId                = roomId_,
+                     limit                 = limit_,
+                     beforeEventId         = beforeEventId_,
+                     includeUnsignedFields = includeUnsignedFields_]() {
+            const auto context = komai::matrix_backend::blockingCallContext();
+            QString error;
+            const auto items = komai::MatrixBackendRuntimeService::fetchRoomTimeline(
+              context, handleId, roomId, static_cast<uint16_t>(limit), &error);
+
+            auto *app = QCoreApplication::instance();
+            if (!app)
+                return;
+
+            QMetaObject::invokeMethod(
+              app,
+              [self, roomId, beforeEventId, includeUnsignedFields, items, error]() {
+                  if (!self)
+                      return;
+
+                  if (!items) {
+                      self->fail(error.isEmpty() ? QStringLiteral("failed to fetch room timeline")
+                                                 : error);
+                      return;
+                  }
+
+                  TimelineSlice slice;
+                  bool pastBefore = beforeEventId.isEmpty();
+                  for (const auto &item : *items) {
+                      if (!pastBefore) {
+                          if (matrixTimelineEventId(item) == beforeEventId)
+                              pastBefore = true;
+                          continue;
+                      }
+                      if (!shouldExposeMatrixTimelineItemOverIpc(item))
+                          continue;
+                      slice.events.append(
+                        serializedMatrixTimelineItem(roomId, item, includeUnsignedFields));
+                      if (slice.events.size() >= self->limit_)
+                          break;
+                  }
+
+                  self->slice_ = std::move(slice);
+                  self->finish();
+              },
+              Qt::QueuedConnection);
+        }).detach();
     }
 
 private:
@@ -380,10 +439,8 @@ private:
         QString error;
         const auto slice = sliceTimelineFromActiveMatrixTimeline(
           roomId_, beforeEventId_, limit_, includeUnsignedFields_, &error);
-        if (!slice.has_value()) {
-            fail(error);
+        if (!slice.has_value())
             return false;
-        }
 
         slice_ = *slice;
         return true;

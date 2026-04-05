@@ -2515,6 +2515,35 @@ MatrixBackendRuntimeService::fetchActiveRoomTimeline(matrix_backend::BlockingCal
     }
 }
 
+std::optional<QVector<MatrixTimelineItem>>
+MatrixBackendRuntimeService::fetchRoomTimeline(matrix_backend::BlockingCallContext context,
+                                               uint64_t handleId,
+                                               const QString &roomId,
+                                               uint16_t limit,
+                                               QString *errorOut)
+{
+    try {
+        const auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_room_timeline", [context, handleId, roomId, limit]() {
+              return ::komai::rust::matrix_fetch_room_timeline(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                limit);
+          });
+
+        QVector<MatrixTimelineItem> items;
+        items.reserve(static_cast<int>(result.size()));
+        for (const auto &item : result)
+            items.push_back(fromRustTimelineItem(item));
+        return items;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 bool
 MatrixBackendRuntimeService::paginateActiveRoomTimelineBackwards(uint64_t handleId,
                                                                  uint16_t pageSize,

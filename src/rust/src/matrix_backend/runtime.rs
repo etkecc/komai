@@ -141,6 +141,7 @@ pub use room_settings::{
 };
 pub use timeline::{
     fetch_active_room_timeline, fetch_active_room_timeline_media_content,
+    fetch_room_timeline,
     paginate_active_room_timeline_backwards, select_active_room_timeline,
     set_active_room_timeline_initial_page_size,
 };

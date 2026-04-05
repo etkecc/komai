@@ -86,6 +86,8 @@ Components.OverlayDialog {
             targetProfile.kickUser(reason);
         else if (action === "ban")
             targetProfile.banUser(reason);
+        else if (action === "redactAll")
+            targetProfile.redactAllUserMessages(reason);
 
         closeDialogSoon();
     }
@@ -871,6 +873,17 @@ Components.OverlayDialog {
                     labelText: qsTr("Ban from room")
                     iconSource: ":/icons/icons/ui/ban.svg"
                     onClicked: root.openModerationPrompt("ban")
+                }
+
+                Components.KomaiActionRowButton {
+                    visible: {
+                        const permissions = profile.permissions;
+                        const _ = permissions ? permissions.revision : 0;
+                        return root.isRoomProfile && permissions && permissions.canRedact();
+                    }
+                    labelText: qsTr("Remove all messages")
+                    iconSource: ":/icons/icons/ui/delete.svg"
+                    onClicked: root.openModerationPrompt("redactAll")
                 }
             }
 

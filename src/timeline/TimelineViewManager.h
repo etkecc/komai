@@ -285,6 +285,8 @@ public:
     redactActiveMatrixTimelineEvent(const QString &eventId, const QString &reason = QString());
     Q_INVOKABLE bool redactActiveMatrixTimelineEvents(const QStringList &eventIds,
                                                       const QString &reason = QString());
+    Q_INVOKABLE bool redactActiveMatrixTimelineEventsByUser(const QString &userId,
+                                                            const QString &reason = QString());
     Q_INVOKABLE bool markActiveMatrixTimelineEventAsRead(const QString &eventId);
     Q_INVOKABLE bool reportActiveMatrixTimelineEvent(const QString &eventId,
                                                      const QString &reason = QString(),

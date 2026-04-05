@@ -190,6 +190,7 @@ public:
     Q_INVOKABLE void banUser(const QString &reason = QLatin1String(""));
     Q_INVOKABLE void signOutDevice(const QString &deviceID);
     Q_INVOKABLE void kickUser(const QString &reason = QLatin1String(""));
+    Q_INVOKABLE void redactAllUserMessages(const QString &reason = QLatin1String(""));
     Q_INVOKABLE void startChat();
     Q_INVOKABLE void startChat(bool encryptionEnabled);
     Q_INVOKABLE void changeUsername(const QString &username);

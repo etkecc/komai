@@ -48,6 +48,15 @@ UserProfile::kickUser(const QString &reason)
 }
 
 void
+UserProfile::redactAllUserMessages(const QString &reason)
+{
+    if (!manager)
+        return;
+
+    manager->redactActiveMatrixTimelineEventsByUser(userid_, reason);
+}
+
+void
 UserProfile::startChat(bool encryption)
 {
     ChatPage::instance()->startChat(this->userid_, encryption);

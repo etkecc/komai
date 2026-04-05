@@ -1356,6 +1356,26 @@ TimelineViewManager::redactActiveMatrixTimelineEvents(const QStringList &eventId
 }
 
 bool
+TimelineViewManager::redactActiveMatrixTimelineEventsByUser(const QString &userId,
+                                                            const QString &reason)
+{
+    if (!matrixTimelineModel_ || userId.isEmpty())
+        return false;
+
+    QStringList eventIds;
+    const auto items = matrixTimelineModel_->visibleItemsSnapshot();
+    for (const auto &item : items) {
+        if (item.senderId == userId && !item.eventId.isEmpty())
+            eventIds.append(item.eventId);
+    }
+
+    if (eventIds.isEmpty())
+        return false;
+
+    return redactActiveMatrixTimelineEvents(eventIds, reason);
+}
+
+bool
 TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
 {
     auto *mainWindow    = MainWindow::instance();

@@ -331,9 +331,9 @@ const std::array<CommandDefinition, 21> kCommands{{
   {CommandId::Redact,
    "redact",
    "/redact ",
-   CMD_TR("/redact <$eventid|@userid>"),
-   CMD_TR("Redact an event by event id or that you are replying to or all locally cached "
-          "messages of a user."),
+   CMD_TR("/redact <$eventid|@userid> [reason]"),
+   CMD_TR("Redact an event by event id or that you are replying to, or all locally cached "
+          "messages of a user. An optional reason can be provided."),
    "redact moderation event user",
    validateRedact},
   {CommandId::Roomnick,

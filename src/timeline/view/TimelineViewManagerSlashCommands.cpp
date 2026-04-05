@@ -392,7 +392,14 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
             targetEventId = argSplit.first;
             reason        = argSplit.rest;
         } else if (argSplit.first.startsWith(u"@")) {
-            return notifyUnsupported(parsed.definition->name);
+            reason = argSplit.rest;
+            ok     = redactActiveMatrixTimelineEventsByUser(argSplit.first, reason);
+            if (!ok) {
+                ChatPage::instance()->showNotification(
+                  tr("No messages found from %1 in the visible timeline.").arg(argSplit.first));
+                return true;
+            }
+            break;
         } else if (!replyEvent.isEmpty()) {
             targetEventId = replyEvent;
             reason        = arguments;

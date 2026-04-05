@@ -17,6 +17,11 @@ Item {
     property var room
     property var appRoot
 
+    MatrixRoomPermissions {
+        id: memberPermissions
+        roomId: membersTab.members ? membersTab.members.roomId : ""
+    }
+
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: Komai.paddingMedium
@@ -255,7 +260,8 @@ Item {
                                             sourceSize.width: width
                                             sourceSize.height: height
                                             powerlevel: model.powerlevel
-                                            permissions: membersTab.room ? membersTab.room.permissions : null
+                                            isCreator: model.isCreator
+                                            permissions: memberPermissions
                                             iconColor: delHover.hovered ? palette.brightText : palette.buttonText
                                         }
 

@@ -28,6 +28,7 @@ public:
         AvatarUrl,
         Trustlevel,
         Powerlevel,
+        IsCreator,
     };
 
     MemberListBackend(const QString &room_id, QObject *parent = nullptr);

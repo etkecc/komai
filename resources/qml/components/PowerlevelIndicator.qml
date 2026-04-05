@@ -11,13 +11,10 @@ Image {
 
     required property var powerlevel
     required property AbstractPermissions permissions
+    property bool isCreator: false
     property color iconColor: palette.buttonText
     readonly property int permissionsRevision: permissions ? permissions.revision : 0
 
-    readonly property bool isV12Creator: {
-        const _ = permissionsRevision;
-        return permissions ? permissions.creatorLevel() == powerlevel : false;
-    }
     readonly property bool isAdmin: {
         const _ = permissionsRevision;
         return permissions ? permissions.changeLevel(MtxEvent.PowerLevels) <= powerlevel : false;
@@ -33,7 +30,7 @@ Image {
 
     readonly property string roleName: {
         let pl = powerlevel.toLocaleString(Qt.locale(), "f", 0);
-        if (isV12Creator)
+        if (isCreator)
             return qsTr("Creator");
         else if (isAdmin)
             return qsTr("Administrator");
@@ -44,7 +41,7 @@ Image {
     }
 
     readonly property string sourceUrl: {
-        if (isAdmin || isV12Creator)
+        if (isAdmin || isCreator)
              return "image://colorimage/:/icons/icons/ui/ribbon_star.svg?";
         else if (isModerator)
             return "image://colorimage/:/icons/icons/ui/ribbon.svg?";
@@ -55,7 +52,7 @@ Image {
     source: sourceUrl + (ma.hovered ? palette.highlight : iconColor)
     readonly property string toolTipText: {
         let pl = powerlevel.toLocaleString(Qt.locale(), "f", 0);
-        if (isV12Creator)
+        if (isCreator)
             return qsTr("Creator");
         else if (isAdmin)
             return qsTr("Administrator (%1)").arg(pl);

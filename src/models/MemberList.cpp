@@ -10,6 +10,7 @@
 #include <thread>
 
 #include "logging/Logging.h"
+#include "matrix/MatrixRoomPowerLevels.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/DirectChatResolver.h"
 #include "ui/MainWindow.h"
@@ -148,6 +149,7 @@ MemberListBackend::roleNames() const
       {AvatarUrl, "avatarUrl"},
       {Trustlevel, "trustlevel"},
       {Powerlevel, "powerlevel"},
+      {IsCreator, "isCreator"},
     };
 }
 
@@ -168,6 +170,8 @@ MemberListBackend::data(const QModelIndex &index, int role) const
         return 0;
     case Powerlevel:
         return m_memberList[index.row()].powerLevel;
+    case IsCreator:
+        return m_memberList[index.row()].powerLevel == komai::matrix::RuntimeCreatorPowerLevel;
     default:
         return {};
     }

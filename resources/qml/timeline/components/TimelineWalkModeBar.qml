@@ -329,9 +329,7 @@ Rectangle {
                     navigationHost: walkBar
                     enabled: walkBar.canRemove
                     image: ":/icons/icons/ui/delete.svg"
-                    labelText: chatRoot.selectedCount > 1
-                        ? qsTr("Delete messages")
-                        : qsTr("Delete message")
+                    labelText: qsTr("Delete")
                     nextTabTarget: walkBar.nextVisibleButton(deleteButton)
                     previousTabTarget: walkBar.previousVisibleButton(deleteButton)
                         || (walkBar.chatRoot ? walkBar.chatRoot.timelineSelectionFocusTarget() : null)

@@ -110,6 +110,27 @@ CompletionProxyModel::CompletionProxyModel(QAbstractItemModel *model,
     hasEmojiProviderIndexRole_ =
       sourceModel()->roleNames().contains(CompletionModel::EmojiProviderIndexRole);
 
+    rebuildTrie();
+
+    connect(
+      this,
+      &CompletionProxyModel::newSearchString,
+      this,
+      [this](const QString &s) {
+          searchString_ = normalizeForTrieSearch(s);
+          invalidate();
+      },
+      Qt::QueuedConnection);
+
+    connect(
+      sourceModel(), &QAbstractItemModel::modelReset, this, &CompletionProxyModel::rebuildTrie);
+}
+
+void
+CompletionProxyModel::rebuildTrie()
+{
+    trie_ = {};
+
     auto insertParts = [this](const QString &str, int id) {
         QTextBoundaryFinder finder(QTextBoundaryFinder::BoundaryType::Word, str);
         finder.toStart();
@@ -175,18 +196,10 @@ CompletionProxyModel::CompletionProxyModel(QAbstractItemModel *model,
     nhlog::ui()->debug("CompletionProxyModel: build trie: {} ms", build_time.count());
 
     // initialize default mapping
-    mapping.resize(std::min(max_completions_, static_cast<size_t>(model->rowCount())));
+    beginResetModel();
+    mapping.resize(std::min(max_completions_, static_cast<size_t>(sourceModel()->rowCount())));
     std::iota(mapping.begin(), mapping.end(), 0);
-
-    connect(
-      this,
-      &CompletionProxyModel::newSearchString,
-      this,
-      [this](const QString &s) {
-          searchString_ = normalizeForTrieSearch(s);
-          invalidate();
-      },
-      Qt::QueuedConnection);
+    endResetModel();
 }
 
 void

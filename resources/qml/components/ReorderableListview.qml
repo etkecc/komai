@@ -22,11 +22,11 @@ Item {
             required property var model
             required property int index
 
-            enabled: model.moveable == undefined || model.moveable
+            enabled: model ? (model.moveable == undefined || model.moveable) : false
 
             property bool held: false
 
-            anchors { left: parent.left; right: parent.right }
+            anchors { left: parent ? parent.left : undefined; right: parent ? parent.right : undefined }
             height: content.height
 
             drag.target: held ? content : undefined

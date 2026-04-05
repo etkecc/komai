@@ -82,14 +82,15 @@ OverlayDialog {
                                     Layout.fillWidth: true
 
                                     Text {
-                                        visible: model.isType
-                                        text: model.displayName
+                                        visible: model ? model.isType : false
+                                        text: model ? model.displayName : ""
                                         color: palette.text
                                     }
 
                                     Text {
-                                        visible: !model.isType
+                                        visible: model ? !model.isType : false
                                         text: {
+                                            if (!model) return "";
                                             let pl = model.powerlevel.toLocaleString(Qt.locale(), "f", 0);
                                             if (plEditorW.editingModel.adminLevel == model.powerlevel)
                                                 return qsTr("Administrator (%1)").arg(pl);
@@ -107,11 +108,11 @@ OverlayDialog {
                                 ImageButton {
                                     Layout.alignment: Qt.AlignRight
                                     Layout.rightMargin: 2
-                                    image: model.isType ? ":/icons/icons/ui/dismiss.svg" : ":/icons/icons/ui/plus-circle.svg"
-                                    visible: !model.isType || model.removeable
+                                    image: model ? (model.isType ? ":/icons/icons/ui/dismiss.svg" : ":/icons/icons/ui/plus-circle.svg") : ""
+                                    visible: model ? (!model.isType || model.removeable) : false
                                     hoverEnabled: true
                                     toolTipVisible: hovered
-                                    toolTipText: model.isType ? qsTr("Remove event type") : qsTr("Add event type")
+                                    toolTipText: model ? (model.isType ? qsTr("Remove event type") : qsTr("Add event type")) : ""
                                     onClicked: {
                                         if (model.isType) {
                                             plEditorW.editingModel.types.remove(index);
@@ -295,10 +296,11 @@ OverlayDialog {
                                     Layout.preferredHeight: Komai.listIconSize / 2
                                     Layout.preferredWidth: Komai.listIconSize / 2
                                     Layout.leftMargin: 2
-                                    userid: model.mxid
+                                    userid: model ? model.mxid : ""
                                     url: {
+                                        if (!model) return "";
                                         if (model.isUser)
-                                            return model.avatarUrl.replace("mxc://", "image://MxcImage/");
+                                            return (model.avatarUrl || "").replace("mxc://", "image://MxcImage/");
                                         else if (model.isCreator)
                                             return "image://colorimage/:/icons/icons/ui/ribbon_star.svg?" + palette.buttonText;
                                         else if (plEditorW.editingModel.adminLevel >= model.powerlevel)
@@ -308,7 +310,7 @@ OverlayDialog {
                                         else
                                             return "image://colorimage/:/icons/icons/ui/person.svg?" + palette.buttonText;
                                     }
-                                    displayName: model.displayName
+                                    displayName: model ? model.displayName : ""
                                     enabled: false
                                 }
 
@@ -316,20 +318,21 @@ OverlayDialog {
                                     Layout.fillWidth: true
 
                                     Text {
-                                        visible: model.isUser
-                                        text: model.displayName
+                                        visible: model ? model.isUser : false
+                                        text: model ? model.displayName : ""
                                         color: palette.text
                                     }
 
                                     Text {
-                                        visible: model.isUser
-                                        text: model.mxid
+                                        visible: model ? model.isUser : false
+                                        text: model ? model.mxid : ""
                                         color: palette.text
                                     }
 
                                     Text {
-                                        visible: !model.isUser
+                                        visible: model ? !model.isUser : false
                                         text: {
+                                            if (!model) return "";
                                             let pl = model.powerlevel.toLocaleString(Qt.locale(), "f", 0);
                                             if (model.isCreator)
                                                 return qsTr("Creator");
@@ -349,11 +352,11 @@ OverlayDialog {
                                 ImageButton {
                                     Layout.alignment: Qt.AlignRight
                                     Layout.rightMargin: 2
-                                    image: model.isUser ? ":/icons/icons/ui/dismiss.svg" : ":/icons/icons/ui/plus-circle.svg"
-                                    visible: (!model.isUser || model.removeable) && !model.isCreator
+                                    image: model ? (model.isUser ? ":/icons/icons/ui/dismiss.svg" : ":/icons/icons/ui/plus-circle.svg") : ""
+                                    visible: model ? ((!model.isUser || model.removeable) && !model.isCreator) : false
                                     hoverEnabled: true
                                     toolTipVisible: hovered
-                                    toolTipText: model.isUser ? qsTr("Remove user") : qsTr("Add user")
+                                    toolTipText: model ? (model.isUser ? qsTr("Remove user") : qsTr("Add user")) : ""
                                     onClicked: {
                                         if (model.isUser) {
                                             plEditorW.editingModel.users.remove(index);

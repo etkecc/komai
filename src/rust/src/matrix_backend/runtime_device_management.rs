@@ -178,6 +178,25 @@ pub async fn continue_sign_out_device_with_password(
     {
         Ok(_) => Ok(()),
         Err(error) => {
+            if let Some(uiaa_info) = error.as_uiaa_response() {
+                let mut pending = pending
+                    .lock()
+                    .expect("poisoned matrix backend pending device sign-out mutex");
+                *pending = Some(PendingDeviceSignOut {
+                    device_id: pending_sign_out.device_id,
+                    uiaa_info: uiaa_info.clone(),
+                });
+
+                return Err(
+                    uiaa_info
+                        .auth_error
+                        .as_ref()
+                        .map(|e| e.message.clone())
+                        .filter(|m| !m.is_empty())
+                        .unwrap_or_else(|| "incorrect password or authentication failed".to_owned()),
+                );
+            }
+
             let mut pending = pending
                 .lock()
                 .expect("poisoned matrix backend pending device sign-out mutex");

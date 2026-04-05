@@ -113,6 +113,16 @@ public:
                             uint64_t handleId,
                             const komai::MatrixVerificationSession &session);
 
+    static DeviceVerificationFlow *createPending(QObject *parent,
+                                                 uint64_t handleId,
+                                                 bool isSelfVerification,
+                                                 bool isMultiDeviceVerification,
+                                                 const QString &userId,
+                                                 const QString &deviceId);
+
+    void adoptStartedSession(const komai::MatrixVerificationSession &session);
+    void handleStartFailure();
+
     // getters
     QString state();
     Error error() { return error_; }
@@ -141,6 +151,7 @@ public slots:
     void cancel();
 
 signals:
+    void startRequested();
     void refreshProfile();
     void stateChanged();
     void errorChanged();
@@ -169,6 +180,7 @@ private:
 
     std::string transaction_id;
     uint64_t backendHandleId_    = 0;
+    bool pendingStart_           = false;
     bool pendingAutoStart_       = false;
     bool matrixRefreshInFlight_  = false;
     bool matrixRefreshPending_   = false;

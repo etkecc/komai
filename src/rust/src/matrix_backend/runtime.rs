@@ -48,6 +48,7 @@ use matrix_sdk::{
 };
 use matrix_sdk_ui::{
     RoomListService,
+    encryption_sync_service::{EncryptionSyncPermit, EncryptionSyncService, WithLocking},
     eyeball_im::{Vector, VectorDiff},
     room_list_service::{RoomListItem, filters},
     timeline::{
@@ -55,7 +56,7 @@ use matrix_sdk_ui::{
         VirtualTimelineItem,
     },
 };
-use tokio::sync::mpsc;
+use tokio::sync::{Mutex as AsyncMutex, mpsc};
 
 use super::bootstrap;
 

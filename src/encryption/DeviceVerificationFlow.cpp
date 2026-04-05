@@ -109,7 +109,20 @@ DeviceVerificationFlow::state()
 void
 DeviceVerificationFlow::next()
 {
-    if (backendHandleId_ == 0 || transaction_id.empty()) {
+    if (backendHandleId_ == 0) {
+        failUnavailable();
+        return;
+    }
+
+    if (pendingStart_) {
+        pendingStart_     = false;
+        pendingAutoStart_ = sender && deviceId.isEmpty();
+        setState(WaitingForOtherToAccept);
+        emit startRequested();
+        return;
+    }
+
+    if (transaction_id.empty()) {
         failUnavailable();
         return;
     }
@@ -414,6 +427,38 @@ DeviceVerificationFlow::createFromMatrixSession(QObject *parent,
     flow->applyMatrixSession(session);
     flow->startMatrixRefreshTimer();
     return flow;
+}
+
+DeviceVerificationFlow *
+DeviceVerificationFlow::createPending(QObject *parent,
+                                      uint64_t handleId,
+                                      bool isSelfVerification,
+                                      bool isMultiDeviceVerification,
+                                      const QString &userId,
+                                      const QString &deviceId)
+{
+    auto *flow                = new DeviceVerificationFlow(parent, Type::ToDevice, userId, {});
+    flow->backendHandleId_    = handleId;
+    flow->pendingStart_       = true;
+    flow->sender              = true;
+    flow->isSelfVerification_ = isSelfVerification;
+    flow->isMultiDeviceVerification_ = isMultiDeviceVerification;
+    flow->deviceId                   = deviceId;
+    flow->state_                     = PromptStartVerification;
+    return flow;
+}
+
+void
+DeviceVerificationFlow::adoptStartedSession(const komai::MatrixVerificationSession &session)
+{
+    applyMatrixSession(session);
+    startMatrixRefreshTimer();
+}
+
+void
+DeviceVerificationFlow::handleStartFailure()
+{
+    setState(Failed);
 }
 
 #include "moc_DeviceVerificationFlow.cpp"

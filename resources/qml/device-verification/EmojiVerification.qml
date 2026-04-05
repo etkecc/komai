@@ -354,7 +354,7 @@ ColumnLayout {
                 ColumnLayout {
                     id: col
 
-                    property var emoji: emojis.mapping[flow.sasList[index]]
+                    property var emoji: (index < flow.sasList.length) ? emojis.mapping[flow.sasList[index]] : null
 
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom
@@ -362,7 +362,7 @@ ColumnLayout {
                     Label {
                         //height: font.pixelSize * 2
                         Layout.alignment: Qt.AlignHCenter
-                        text: col.emoji.emoji
+                        text: col.emoji ? col.emoji.emoji : ""
                         font.pointSize: Settings.uiFontSizePt * 2
                         font.family: Settings.uiFontEmojiFamily
                         color: palette.text
@@ -370,7 +370,7 @@ ColumnLayout {
 
                     Label {
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                        text: col.emoji.description
+                        text: col.emoji ? col.emoji.description : ""
                         color: palette.text
                     }
 

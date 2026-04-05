@@ -288,21 +288,57 @@ async fn register_incoming_verification_session(
         return Ok(());
     }
 
+    // If this flow is already registered (e.g. we got the initial `request` event
+    // earlier and now receive `start`), check whether the verification has
+    // transitioned to SAS and auto-accept on behalf of the receiving side.
+    let existing_entry = {
+        let mut sessions = verification_sessions
+            .lock()
+            .expect("poisoned matrix backend verification sessions mutex");
+        sessions.remove(flow_id)
+    };
+
+    if let Some(mut entry) = existing_entry {
+        if entry.sas.is_none() {
+            if let VerificationRequestState::Transitioned { verification } = entry.request.state()
+            {
+                if let Some(sas) = verification.sas() {
+                    if !sas.we_started() && matches!(sas.state(), SasState::Started { .. }) {
+                        match sas.accept().await {
+                            Ok(()) => tracing::info!(
+                                sender, flow_id,
+                                "Auto-accepted incoming SAS verification start"
+                            ),
+                            Err(error) => tracing::warn!(
+                                sender, flow_id, %error,
+                                "Failed to auto-accept incoming SAS verification start"
+                            ),
+                        }
+                    }
+                    entry.sas = Some(sas);
+                }
+            }
+        }
+
+        verification_sessions
+            .lock()
+            .expect("poisoned matrix backend verification sessions mutex")
+            .insert(flow_id.to_owned(), entry);
+        return Ok(());
+    }
+
+    tracing::info!(sender, flow_id, "Registering incoming verification flow");
+
     let mut entry = MatrixVerificationSessionEntry { request, sas: None };
     let snapshot = snapshot_from_entry(flow_id, &mut entry);
     if matches!(snapshot.state.as_str(), "Success" | "Failed") {
         return Ok(());
     }
 
-    {
-        let mut sessions = verification_sessions
-            .lock()
-            .expect("poisoned matrix backend verification sessions mutex");
-        if sessions.contains_key(flow_id) {
-            return Ok(());
-        }
-        sessions.insert(flow_id.to_owned(), entry);
-    }
+    verification_sessions
+        .lock()
+        .expect("poisoned matrix backend verification sessions mutex")
+        .insert(flow_id.to_owned(), entry);
 
     let mut pending = pending_flow_ids
         .lock()
@@ -331,6 +367,8 @@ pub(crate) fn install_incoming_verification_event_handlers(
                 else {
                     return;
                 };
+
+                tracing::info!(handle_id, sender, flow_id, "Received to-device verification event");
 
                 if let Err(error) = register_incoming_verification_session(
                     client,

@@ -98,6 +98,40 @@ async fn run_sync_loop(
         }
     };
 
+    // EncryptionSyncService handles to-device and e2ee sliding sync extensions
+    // that RoomListService deliberately does not enable. This is required for
+    // receiving verification requests, key sharing, and other e2ee events.
+    let encryption_sync = match EncryptionSyncService::new(client.clone(), None, WithLocking::No)
+        .await
+    {
+        Ok(service) => Arc::new(service),
+        Err(error) => {
+            tracing::warn!(handle_id, %error, "Failed to create matrix-sdk-ui EncryptionSyncService");
+            return;
+        }
+    };
+    let permit_guard = Arc::new(AsyncMutex::new(EncryptionSyncPermit::new_for_testing()))
+        .lock_owned()
+        .await;
+    let encryption_sync_task = tokio::spawn({
+        let encryption_sync = Arc::clone(&encryption_sync);
+        async move {
+        let stream = encryption_sync.sync(permit_guard);
+        futures_util::pin_mut!(stream);
+        while let Some(result) = stream.next().await {
+            match result {
+                Ok(()) => {
+                    tracing::trace!(handle_id, "Encryption sync received an update");
+                }
+                Err(error) => {
+                    tracing::warn!(handle_id, %error, "Encryption sync error");
+                    break;
+                }
+            }
+        }
+        tracing::info!(handle_id, "Encryption sync task ended");
+    }});
+
     let room_list = match room_list_service.all_rooms().await {
         Ok(room_list) => room_list,
         Err(error) => {
@@ -278,6 +312,8 @@ async fn run_sync_loop(
     if let Err(error) = room_list_service.stop_sync() {
         tracing::debug!(handle_id, %error, "Stopping matrix-sdk-ui room-list sync returned an error");
     }
+
+    encryption_sync_task.abort();
 
     tracing::info!(handle_id, "Matrix-sdk room-list sync loop stopped");
 }

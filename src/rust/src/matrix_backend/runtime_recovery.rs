@@ -101,15 +101,42 @@ pub async fn setup_recovery(
     let recovery_key = if use_ssss {
         if encryption_backup_online_enabled {
             let recovery = encryption.recovery();
+
+            // Delete any stale backup left on the server (e.g. after an identity reset
+            // that left the server in a half-cleaned state). recovery.enable() refuses
+            // to proceed if a backup already exists.
+            if recovery.state() != RecoveryState::Enabled
+                && encryption
+                    .backups()
+                    .fetch_exists_on_server()
+                    .await
+                    .unwrap_or(false)
+            {
+                encryption
+                    .backups()
+                    .disable_and_delete()
+                    .await
+                    .map_err(|e| format!("failed to remove stale server backup: {e}"))?;
+            }
+
             let enable = if trimmed_passphrase.is_empty() {
                 recovery.enable()
             } else {
                 recovery.enable().with_passphrase(trimmed_passphrase)
             };
 
-            enable
+            let key = enable
                 .await
-                .map_err(|e| format!("failed to enable encrypted recovery: {e}"))?
+                .map_err(|e| format!("failed to enable encrypted recovery: {e}"))?;
+
+            // Immediately recover with the new key so the local device imports
+            // all secrets and is marked as verified (cross-signed).
+            recovery
+                .recover(&key)
+                .await
+                .map_err(|e| format!("failed to recover secrets after enabling recovery: {e}"))?;
+
+            key
         } else {
             let secret_storage = encryption.secret_storage();
             let create_store = if trimmed_passphrase.is_empty() {

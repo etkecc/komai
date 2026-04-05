@@ -356,7 +356,7 @@ SelfVerificationStatus::resetEncryptionIdentity()
                 "Reset encryption identity through matrix-sdk without extra auth");
               status->scheduleRuntimeStateRefresh();
               notifyLocalVerificationStateRefresh();
-              emit status->resetEncryptionIdentityCompleted();
+              status->setupEncryptionBackup();
               return;
           }
 
@@ -407,7 +407,7 @@ SelfVerificationStatus::submitResetEncryptionIdentityPassword(const QString &pas
             "Completed matrix-sdk encryption identity reset using password authentication");
           status->scheduleRuntimeStateRefresh();
           notifyLocalVerificationStateRefresh();
-          emit status->resetEncryptionIdentityCompleted();
+          status->setupEncryptionBackup();
       });
 }
 
@@ -443,7 +443,7 @@ SelfVerificationStatus::continueResetEncryptionIdentityAfterApproval()
             "Completed matrix-sdk encryption identity reset after browser approval");
           status->scheduleRuntimeStateRefresh();
           notifyLocalVerificationStateRefresh();
-          emit status->resetEncryptionIdentityCompleted();
+          status->setupEncryptionBackup();
       });
 }
 

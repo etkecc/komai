@@ -92,9 +92,11 @@ Item {
         titleIcon: ":/icons/icons/ui/shield-regular-exclamation-mark.svg"
         titleIconColor: Komai.theme.error
 
-        Label {
+        TextEdit {
             Layout.fillWidth: true
             color: palette.text
+            readOnly: true
+            selectByMouse: true
             wrapMode: Text.WordWrap
             text: qsTr("Failed to setup encryption: %1").arg(failureDialog.errorMessage)
         }

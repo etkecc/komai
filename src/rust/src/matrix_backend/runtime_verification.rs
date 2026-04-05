@@ -440,37 +440,67 @@ pub async fn fetch_user_verification_state(
         .await
         .map_err(|e| format!("failed to fetch user devices for '{user_id}': {e}"))?;
 
-    let devices = devices
+    let crypto_devices: HashMap<String, _> = devices
         .devices()
-        .filter(|device| {
-            !device.is_dehydrated()
-                && (!is_self || own_device_metadata.contains_key(device.device_id().as_str()))
-        })
-        .map(|device| {
-            let device_id = device.device_id().to_string();
-            let own_metadata = own_device_metadata.get(&device_id);
-
-            MatrixUserDevice {
-                device_id,
-                display_name: own_metadata
-                    .and_then(|device| device.display_name.clone())
-                    .or_else(|| device.display_name().map(ToOwned::to_owned))
-                    .unwrap_or_default(),
-                verification_state: device_verification_state_name(
-                    &device,
-                    current_device_id.as_ref(),
-                    is_self,
-                ),
-                last_seen_ip: own_metadata
-                    .and_then(|device| device.last_seen_ip.clone())
-                    .unwrap_or_default(),
-                last_seen_ts: own_metadata
-                    .and_then(|device| device.last_seen_ts)
-                    .map(|timestamp| u64::from(timestamp.get()))
-                    .unwrap_or_default(),
-            }
-        })
+        .filter(|device| !device.is_dehydrated())
+        .map(|device| (device.device_id().to_string(), device))
         .collect();
+
+    let devices = if is_self {
+        // For own devices, use the server's /devices list as the primary source
+        // (it is authoritative for which sessions are active) and supplement
+        // with crypto store data for verification status.
+        let result: Vec<MatrixUserDevice> = own_device_metadata
+            .iter()
+            .map(|(device_id, metadata)| {
+                let crypto_device = crypto_devices.get(device_id);
+
+                MatrixUserDevice {
+                    device_id: device_id.clone(),
+                    display_name: metadata
+                        .display_name
+                        .clone()
+                        .or_else(|| {
+                            crypto_device.and_then(|d| d.display_name().map(ToOwned::to_owned))
+                        })
+                        .unwrap_or_default(),
+                    verification_state: crypto_device
+                        .map(|d| {
+                            device_verification_state_name(d, current_device_id.as_ref(), is_self)
+                        })
+                        .unwrap_or_default(),
+                    last_seen_ip: metadata.last_seen_ip.clone().unwrap_or_default(),
+                    last_seen_ts: metadata
+                        .last_seen_ts
+                        .map(|timestamp| u64::from(timestamp.get()))
+                        .unwrap_or_default(),
+                }
+            })
+            .collect();
+
+        result
+    } else {
+        // For other users, we only have crypto store data
+        crypto_devices
+            .into_values()
+            .map(|device| {
+                MatrixUserDevice {
+                    device_id: device.device_id().to_string(),
+                    display_name: device
+                        .display_name()
+                        .map(ToOwned::to_owned)
+                        .unwrap_or_default(),
+                    verification_state: device_verification_state_name(
+                        &device,
+                        current_device_id.as_ref(),
+                        is_self,
+                    ),
+                    last_seen_ip: String::new(),
+                    last_seen_ts: 0,
+                }
+            })
+            .collect()
+    };
 
     Ok(MatrixUserVerificationState {
         has_master_key: identity.is_some(),

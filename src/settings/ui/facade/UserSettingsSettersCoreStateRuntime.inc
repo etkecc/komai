@@ -214,6 +214,11 @@ UserSettings::setCollapsedSpaces(QStringList spaces)
 }
 
 void
+UserSettings::setDonationStatus(QString s)
+{
+    setSetting(donationStatus_, s, &UserSettings::donationStatusChanged);
+}
+void
 UserSettings::setWindowWidth(int s)
 {
     setSetting(windowWidth_, s, &UserSettings::windowWidthChanged);

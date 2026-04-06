@@ -26,6 +26,7 @@
     QStringList collapsedSpaces() const;
     int integrationsDbusApiAccess() const;
     QString integrationsBrowserCommand() const;
+    QString donationStatus() const;
     int windowWidth() const;
     int windowHeight() const;
     bool usesFileSecretsProvider() const;

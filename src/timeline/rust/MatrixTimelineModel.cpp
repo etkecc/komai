@@ -128,7 +128,13 @@ formatBodyHtml(const QString &body, const QString &formattedBody = {})
 
         html = utils::linkifyMessage(html);
     } else {
-        html = body.toHtmlEscaped().replace(u'\n', QStringLiteral("<br>"));
+        html = body.toHtmlEscaped();
+        // Wrap in <p> tags and convert double-newlines to paragraph breaks
+        // so that blank lines in plain-text messages are preserved.
+        html = QStringLiteral("<p>") +
+               html.replace(QStringLiteral("\n\n"), QStringLiteral("</p><p>"))
+                 .replace(u'\n', QStringLiteral("<br>")) +
+               QStringLiteral("</p>");
         html = utils::linkifyMessage(html);
     }
     return utils::replaceEmoji(html);

@@ -575,6 +575,7 @@ pub(crate) fn ffi_loaded_state(snapshot: settings::state::LoadedState) -> ffi::S
         hidden_widgets: snapshot.hidden_widgets,
         collapsed_spaces: snapshot.collapsed_spaces,
         composer_drafts_by_room: snapshot.composer_drafts_by_room,
+        donation_status: snapshot.donation_status,
         source_exists: snapshot.source_exists,
         source_version: snapshot.source_version,
         migrated_version: snapshot.migrated_version,
@@ -1065,6 +1066,7 @@ pub(in crate::settings) fn clone_loaded_state(loaded: &ffi::SettingsLoadedState)
                 value: entry.value.clone(),
             })
             .collect(),
+        donation_status: loaded.donation_status.clone(),
         source_exists: loaded.source_exists,
         source_version: loaded.source_version,
         migrated_version: loaded.migrated_version,
@@ -1098,6 +1100,7 @@ pub(in crate::settings) fn loaded_state_from_snapshot(
                 value: entry.value.clone(),
             })
             .collect(),
+        donation_status: snapshot.donation_status.clone(),
         source_exists: true,
         source_version: settings::state::CURRENT_STATE_SCHEMA_VERSION,
         migrated_version: settings::state::CURRENT_STATE_SCHEMA_VERSION,

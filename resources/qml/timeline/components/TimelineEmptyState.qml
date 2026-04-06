@@ -9,7 +9,11 @@ import QtQuick.Layouts
 import cc.etke.komai
 
 ColumnLayout {
-    spacing: 16
+    id: root
+
+    required property var dialogHost
+
+    spacing: 0
 
     Image {
         Layout.alignment: Qt.AlignHCenter
@@ -23,8 +27,20 @@ ColumnLayout {
 
     Label {
         Layout.alignment: Qt.AlignHCenter
+        Layout.topMargin: Komai.paddingMedium
+        Layout.bottomMargin: Komai.paddingLarge
         font.pointSize: Settings.uiFontSizePt * 1.85
         text: qsTr("No room open")
         color: palette.text
+    }
+
+    TimelineEmptyStateActions {
+        Layout.alignment: Qt.AlignHCenter
+        dialogHost: root.dialogHost
+    }
+
+    TimelineEmptyStateLinks {
+        Layout.alignment: Qt.AlignHCenter
+        Layout.topMargin: Komai.paddingLarge
     }
 }

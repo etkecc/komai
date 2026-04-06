@@ -27,6 +27,7 @@ stageState(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &p
       .hidden_widgets                = {},
       .collapsed_spaces              = {},
       .composer_drafts_by_room       = {},
+      .donation_status               = settings.donationStatus().toStdString(),
     };
     for (const auto &value : settings.globalExcludes())
         snapshot.global_excludes.push_back(value.toStdString());

@@ -119,6 +119,7 @@ double timelineMediaDefaultAudioPlaybackSpeed_ =
   settings::core::definitions::kDefaultTimelineMediaAudioPlaybackSpeed;
 int integrationsDbusApiAccess_ = settings::core::definitions::kDefaultIntegrationsDbusApiAccess;
 QString integrationsBrowserCommand_;
+QString donationStatus_                     = QStringLiteral("visible");
 int windowWidth_                            = settings::core::definitions::kDefaultWindowWidthPx;
 int windowHeight_                           = settings::core::definitions::kDefaultWindowHeightPx;
 bool usesFileSecretsProvider_               = false;

@@ -414,6 +414,7 @@ mod bridge {
         hidden_widgets: Vec<String>,
         collapsed_spaces: Vec<String>,
         composer_drafts_by_room: Vec<SettingsStringMapEntry>,
+        donation_status: String,
         source_exists: bool,
         source_version: i32,
         migrated_version: i32,
@@ -457,6 +458,7 @@ mod bridge {
         hidden_widgets: Vec<String>,
         collapsed_spaces: Vec<String>,
         composer_drafts_by_room: Vec<SettingsStringMapEntry>,
+        donation_status: String,
     }
 
     struct ThemeUserColorSlotData {

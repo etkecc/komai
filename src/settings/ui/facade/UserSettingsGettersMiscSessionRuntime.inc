@@ -113,6 +113,11 @@ UserSettings::collapsedSpaces() const
 {
     return collapsedSpaces_;
 }
+QString
+UserSettings::donationStatus() const
+{
+    return donationStatus_;
+}
 int
 UserSettings::windowWidth() const
 {

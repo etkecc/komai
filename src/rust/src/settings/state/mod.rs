@@ -30,6 +30,7 @@ const CURRENT_FILTER_PATH: [&str; 4] = ["sidebars", "communities", "filtering", 
 const HIDDEN_PINS_PATH: [&str; 3] = ["timeline", "pins", "hidden"];
 const HIDDEN_WIDGETS_PATH: [&str; 3] = ["timeline", "widgets", "hidden"];
 const COMPOSER_DRAFTS_PATH: [&str; 3] = ["composer", "drafts", "by_room"];
+const DONATION_STATUS_PATH: [&str; 2] = ["ui", "donation_status"];
 
 pub struct LoadedState {
     pub window_width: i32,
@@ -44,6 +45,7 @@ pub struct LoadedState {
     pub hidden_widgets: Vec<String>,
     pub collapsed_spaces: Vec<String>,
     pub composer_drafts_by_room: Vec<SettingsStringMapEntry>,
+    pub donation_status: String,
     pub source_exists: bool,
     pub source_version: i32,
     pub migrated_version: i32,
@@ -147,6 +149,13 @@ pub fn load_state_snapshot(state_text: &str) -> LoadedState {
         hidden_widgets: read_string_list(&root, &HIDDEN_WIDGETS_PATH, &[]),
         collapsed_spaces: read_string_list(&root, &COLLAPSED_SPACES_PATH, &[]),
         composer_drafts_by_room: read_string_map(&root, &COMPOSER_DRAFTS_PATH),
+        donation_status: {
+            let raw = read_string(&root, &DONATION_STATUS_PATH);
+            match raw.as_str() {
+                "sponsoring" | "hidden" => raw,
+                _ => "visible".to_owned(),
+            }
+        },
         source_exists: !state_text.is_empty(),
         source_version,
         migrated_version,
@@ -234,6 +243,11 @@ pub fn encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String {
         &mut root,
         &COMPOSER_DRAFTS_PATH,
         string_map(&snapshot.composer_drafts_by_room),
+    );
+    yaml::set_value(
+        &mut root,
+        &DONATION_STATUS_PATH,
+        Value::String(snapshot.donation_status.clone()),
     );
     yaml::serialize_yaml(&root)
 }

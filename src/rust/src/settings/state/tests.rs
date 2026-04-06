@@ -31,6 +31,7 @@ fn state_snapshot_loads_defaults_and_migrates() {
             .map(|value| (*value).to_owned())
             .collect::<Vec<_>>()
     );
+    assert_eq!(loaded.donation_status, "visible");
     assert!(loaded.should_write_back);
 }
 
@@ -62,6 +63,7 @@ fn state_yaml_roundtrip() {
         hidden_widgets: vec!["!widget".to_owned()],
         collapsed_spaces: vec!["!space:hs".to_owned()],
         composer_drafts_by_room: vec![entry("!room:hs", "draft")],
+        donation_status: "sponsoring".to_owned(),
     });
     let loaded = load_state_snapshot(&encoded);
 
@@ -70,4 +72,5 @@ fn state_yaml_roundtrip() {
     assert_eq!(loaded.current_filter_id, "people");
     assert_eq!(loaded.current_room_id, "!room:hs");
     assert_eq!(loaded.composer_drafts_by_room, vec![entry("!room:hs", "draft")]);
+    assert_eq!(loaded.donation_status, "sponsoring");
 }

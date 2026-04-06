@@ -112,7 +112,7 @@ Item {
                 Layout.fillWidth: true
                 font.pointSize: Settings.uiFontSizePt * 0.9
                 text: "<style>a { color: " + palette.highlight + "; }</style>" +
-                      qsTr("%1 is created by %2.")
+                      qsTr("%1 is created by %2 (managed Matrix server hosting).")
                       .arg(root.komaiProjectLink)
                       .arg(root.etkeProjectLink)
                 color: palette.buttonText

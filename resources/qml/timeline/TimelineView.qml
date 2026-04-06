@@ -85,6 +85,7 @@ Item {
     TimelineEmptyState {
         anchors.centerIn: parent
         visible: !useMatrixRoomView && !TimelineManager.waitingForFirstSync && (!roomPreview || !roomPreview.roomid)
+        dialogHost: timelineView.dialogHost
     }
     TimelineFirstSyncSpinner {
         waitingForFirstSync: TimelineManager.waitingForFirstSync

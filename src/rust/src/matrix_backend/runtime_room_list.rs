@@ -90,47 +90,19 @@ async fn run_sync_loop(
 ) {
     tracing::info!(handle_id, "Running matrix-sdk room-list sync loop");
 
-    let room_list_service = match RoomListService::new(client.clone()).await {
-        Ok(service) => Arc::new(service),
+    let sync_service = match SyncService::builder(client.clone())
+        .with_offline_mode()
+        .build()
+        .await
+    {
+        Ok(service) => service,
         Err(error) => {
-            tracing::warn!(handle_id, %error, "Failed to create matrix-sdk-ui RoomListService");
+            tracing::warn!(handle_id, %error, "Failed to create matrix-sdk-ui SyncService");
             return;
         }
     };
 
-    // EncryptionSyncService handles to-device and e2ee sliding sync extensions
-    // that RoomListService deliberately does not enable. This is required for
-    // receiving verification requests, key sharing, and other e2ee events.
-    let encryption_sync = match EncryptionSyncService::new(client.clone(), None, WithLocking::No)
-        .await
-    {
-        Ok(service) => Arc::new(service),
-        Err(error) => {
-            tracing::warn!(handle_id, %error, "Failed to create matrix-sdk-ui EncryptionSyncService");
-            return;
-        }
-    };
-    let permit_guard = Arc::new(AsyncMutex::new(EncryptionSyncPermit::new_for_testing()))
-        .lock_owned()
-        .await;
-    let encryption_sync_task = tokio::spawn({
-        let encryption_sync = Arc::clone(&encryption_sync);
-        async move {
-        let stream = encryption_sync.sync(permit_guard);
-        futures_util::pin_mut!(stream);
-        while let Some(result) = stream.next().await {
-            match result {
-                Ok(()) => {
-                    tracing::trace!(handle_id, "Encryption sync received an update");
-                }
-                Err(error) => {
-                    tracing::warn!(handle_id, %error, "Encryption sync error");
-                    break;
-                }
-            }
-        }
-        tracing::info!(handle_id, "Encryption sync task ended");
-    }});
+    let room_list_service = sync_service.room_list_service();
 
     let room_list = match room_list_service.all_rooms().await {
         Ok(room_list) => room_list,
@@ -146,9 +118,10 @@ async fn run_sync_loop(
         tracing::warn!(handle_id, "Failed to install matrix-sdk-ui room-list filter");
     }
 
-    let sync_stream = room_list_service.sync();
+    sync_service.start().await;
+
+    let mut state_subscriber = sync_service.state();
     let mut entries_stream = Box::pin(entries_stream);
-    let mut sync_stream = Box::pin(sync_stream);
     let mut ignored_user_list_changes = Some(Box::pin(client.subscribe_to_ignore_user_list_changes()));
 
     let mut current_values = Vector::<RoomListItem>::new();
@@ -184,11 +157,26 @@ async fn run_sync_loop(
                             ffi_snapshot,
                         );
 
-                        tracing::debug!(
-                            handle_id,
-                            room_count,
-                            "Updated matrix-sdk room-list snapshot"
-                        );
+                        if !initial_sync_ready_notified {
+                            crate::ffi::matrix_notify_initial_sync_ready(handle_id);
+                            initial_sync_ready_notified = true;
+
+                            if let Err(error) = super::preloader::start_preload(handle_id) {
+                                tracing::warn!(handle_id, %error, "Failed to start background preloader");
+                            }
+
+                            tracing::info!(
+                                handle_id,
+                                room_count,
+                                "Completed initial matrix-sdk-ui room-list sync iteration"
+                            );
+                        } else {
+                            tracing::debug!(
+                                handle_id,
+                                room_count,
+                                "Updated matrix-sdk room-list snapshot"
+                            );
+                        }
                     }
                     None => {
                         tracing::info!(handle_id, "Matrix-sdk-ui room-list entries stream ended");
@@ -197,44 +185,23 @@ async fn run_sync_loop(
                 }
             }
 
-            maybe_sync = sync_stream.next() => {
-                match maybe_sync {
-                    Some(Ok(())) => {
+            maybe_state = state_subscriber.next() => {
+                match maybe_state {
+                    Some(SyncServiceState::Running) => {
                         if !sync_connected {
                             sync_connected = true;
                             crate::ffi::matrix_notify_sync_connection_state_changed(handle_id, true);
-                            tracing::info!(
-                                handle_id,
-                                "Matrix-sdk-ui room-list sync recovered"
-                            );
+                            tracing::info!(handle_id, "Matrix-sdk-ui sync service recovered");
                         }
-                        if !initial_sync_ready_notified {
-                            crate::ffi::matrix_notify_initial_sync_ready(handle_id);
-                            initial_sync_ready_notified = true;
-
-                            // Kick off background preloading of room timelines
-                            // so rooms have cached events before the user opens them.
-                            if let Err(error) = super::preloader::start_preload(handle_id) {
-                                tracing::warn!(handle_id, %error, "Failed to start background preloader");
-                            }
-
-                            tracing::info!(
-                                handle_id,
-                                "Completed initial matrix-sdk-ui room-list sync iteration"
-                            );
-                        }
-                        tracing::debug!(handle_id, "Completed matrix-sdk-ui room-list sync iteration");
                     }
-                    Some(Err(error)) => {
+                    Some(SyncServiceState::Error(error)) => {
                         let error_str = format!("{error}");
                         let is_auth_error = is_auth_failure(&error_str);
-                        let is_unknown_pos_error = is_unknown_sync_position_error(&error_str);
                         tracing::warn!(
                             handle_id,
                             %error,
                             is_auth_error,
-                            is_unknown_pos_error,
-                            "Matrix-sdk-ui room-list sync failed"
+                            "Matrix-sdk-ui sync service error"
                         );
 
                         if is_auth_error {
@@ -246,7 +213,7 @@ async fn run_sync_loop(
                             break;
                         }
 
-                        if !is_unknown_pos_error && sync_connected {
+                        if sync_connected {
                             sync_connected = false;
                             crate::ffi::matrix_notify_sync_connection_state_changed(
                                 handle_id,
@@ -254,24 +221,28 @@ async fn run_sync_loop(
                             );
                         }
 
-                        if is_unknown_pos_error {
-                            tracing::info!(
+                        // Attempt to restart after non-auth errors.
+                        sync_service.start().await;
+                    }
+                    Some(SyncServiceState::Offline) => {
+                        tracing::info!(handle_id, "Matrix-sdk-ui sync service entered offline mode");
+                        if sync_connected {
+                            sync_connected = false;
+                            crate::ffi::matrix_notify_sync_connection_state_changed(
                                 handle_id,
-                                "Restarting matrix-sdk-ui room-list sync stream after M_UNKNOWN_POS"
+                                false,
                             );
-                        } else {
-                            tracing::info!(
-                                handle_id,
-                                "Restarting matrix-sdk-ui room-list sync stream after transient failure"
-                            );
-                            tokio::time::sleep(Duration::from_secs(1)).await;
                         }
-
-                        sync_stream = Box::pin(room_list_service.sync());
-                        continue;
+                    }
+                    Some(SyncServiceState::Terminated) => {
+                        tracing::info!(handle_id, "Matrix-sdk-ui sync service terminated");
+                        break;
+                    }
+                    Some(SyncServiceState::Idle) => {
+                        tracing::debug!(handle_id, "Matrix-sdk-ui sync service idle");
                     }
                     None => {
-                        tracing::info!(handle_id, "Matrix-sdk-ui room-list sync stream ended");
+                        tracing::info!(handle_id, "Matrix-sdk-ui sync service state stream ended");
                         break;
                     }
                 }
@@ -309,11 +280,7 @@ async fn run_sync_loop(
         }
     }
 
-    if let Err(error) = room_list_service.stop_sync() {
-        tracing::debug!(handle_id, %error, "Stopping matrix-sdk-ui room-list sync returned an error");
-    }
-
-    encryption_sync_task.abort();
+    sync_service.stop().await;
 
     tracing::info!(handle_id, "Matrix-sdk room-list sync loop stopped");
 }
@@ -325,13 +292,6 @@ fn is_auth_failure(error_message: &str) -> bool {
         || lower.contains("refresh_token")
         || lower.contains("m_unknown_token")
         || lower.contains("unknown token")
-}
-
-fn is_unknown_sync_position_error(error_message: &str) -> bool {
-    let lower = error_message.to_lowercase();
-    lower.contains("m_unknown_pos")
-        || lower.contains("unknown_pos")
-        || lower.contains("connection data unknown to server")
 }
 
 async fn build_room_list_snapshot(values: &Vector<RoomListItem>) -> Vec<MatrixRoomSummary> {

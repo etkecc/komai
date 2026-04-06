@@ -47,16 +47,15 @@ use matrix_sdk::{
     stream::StreamExt,
 };
 use matrix_sdk_ui::{
-    RoomListService,
-    encryption_sync_service::{EncryptionSyncPermit, EncryptionSyncService, WithLocking},
     eyeball_im::{Vector, VectorDiff},
     room_list_service::{RoomListItem, filters},
+    sync_service::{SyncService, State as SyncServiceState},
     timeline::{
         RoomExt, Timeline, TimelineDetails, TimelineEventItemId, TimelineItem,
         VirtualTimelineItem,
     },
 };
-use tokio::sync::{Mutex as AsyncMutex, mpsc};
+use tokio::sync::mpsc;
 
 use super::bootstrap;
 

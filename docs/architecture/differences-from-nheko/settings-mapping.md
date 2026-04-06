@@ -113,7 +113,7 @@ Note:
 | About | APPLICATION | Name | `UserSettingsModel::AppName` | `-` | `about.application.name` | derived/runtime | no |
 | About | APPLICATION | Platform | `UserSettingsModel::Platform` | `-` | `about.application.platform` | derived/runtime | no |
 | About | APPLICATION | Based on | `UserSettingsModel::BasedOn` | `-` | `about.application.based_on` | derived/runtime | no |
-| About | APPLICATION | Maintained by | `UserSettingsModel::MaintainedBy` | `-` | `about.application.maintained_by` | derived/runtime | no |
+| About | APPLICATION | Created by | `UserSettingsModel::MaintainedBy` | `-` | `about.application.maintained_by` | derived/runtime | no |
 
 ## Additional Persisted Keys (Not in UI Settings Table)
 

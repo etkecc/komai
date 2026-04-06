@@ -6,7 +6,7 @@
 <h1 align="center">Komai (<a target="_blank" href="https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84">こまい</a>)</h1>
 <h2 align="center">A fine <a target="_blank" href="https://matrix.org/">Matrix</a> chat app you can get to love</h2>
 
-Komai is a [fork](https://en.wikipedia.org/wiki/Fork_(software_development)) of the [nheko](https://nheko.im/nheko-reborn/nheko) Matrix chat application.
+Komai started as a [fork](https://en.wikipedia.org/wiki/Fork_(software_development)) of the [nheko](https://nheko.im/nheko-reborn/nheko) Matrix chat application, but has since been heavily rebuilt into its own client.
 
 This page covers both Komai's direction as a project and the story behind its name.
 
@@ -17,6 +17,10 @@ Komai began life as a fork of [nheko](https://nheko.im/nheko-reborn/nheko). At f
 After roughly **100** patches, this approach became hard to sustain. Tracking upstream while carrying many local changes created significant maintenance cost for limited benefit.
 
 We also recognized that many of these changes reflected Komai-specific product decisions and were unlikely to be fully upstreamed. Rather than spending a long time reconciling divergent goals, we chose to focus on quickly shipping a polished client aligned with Komai's vision.
+
+Over time, that also meant replacing major parts of the original technical stack. The old `mtxclient` + `libolm` Matrix core was removed in favor of the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk), and more application logic kept moving from C++ into Rust as Komai evolved.
+
+At that point, Komai stopped being "nheko with patches" and became a different application with clear upstream ancestry.
 
 ### 🏷️ Name
 

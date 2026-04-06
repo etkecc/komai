@@ -4,7 +4,7 @@
 <h1 align="center">Komai (<a target="_blank" href="https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84">こまい</a>)</h1>
 <h2 align="center">A fine <a target="_blank" href="https://matrix.org/">Matrix</a> chat app you can get to love</h2>
 
-🦁 **Komai** is a [Matrix](https://matrix.org/) chat application built with [Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML). It began as a [usability](https://en.wikipedia.org/wiki/Usability)-focused [fork](https://en.wikipedia.org/wiki/Fork_(software_development)) of [nheko](https://nheko.im/nheko-reborn/nheko) (see [differences from nheko](docs/user-guide/differences-from-nheko.md)).
+🦁 **Komai** is a [Matrix](https://matrix.org/) chat application built with [Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML). It began as a [usability](https://en.wikipedia.org/wiki/Usability)-focused [fork](https://en.wikipedia.org/wiki/Fork_(software_development)) of [nheko](https://nheko.im/nheko-reborn/nheko), but has since been heavily rebuilt around the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) runtime and a growing Rust core (see [differences from nheko](docs/user-guide/differences-from-nheko.md)).
 
 Komai was started by the [etke.cc](https://etke.cc/) team, but contributions by anyone are welcome! It's fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping.
 
@@ -15,12 +15,12 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 🖥️ **Desktop-first UX** — optimized for large screens
 - 👓 **Readable and easy to use** — comfortably readable text, larger hit targets, and interaction patterns that respect [Fitts's law](https://www.nngroup.com/articles/fitts-law/) so actions are easier to hit and harder to miss
 - 🎨 **Subtle but effective** — [themeable](docs/user-guide/themes.md), [customizable](docs/user-guide/settings/README.md), user-first, insanely fast
-- 🐱 **Built on [nheko](https://nheko.im/nheko-reborn/nheko)** — improves on [nheko](https://nheko.im/nheko-reborn/nheko)'s UI while [improving it in various ways](docs/user-guide/differences-from-nheko.md) and rebuilding it on top of a mode modern stack ([matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) and many other code moved from C++ to Rust)
+- 🛠️ **Started from [nheko](https://nheko.im/nheko-reborn/nheko), rebuilt for Komai** — Komai began as a nheko fork, but replaced the original `mtxclient` + `libolm` Matrix stack with Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) and keeps moving more core functionality from C++ to Rust
 
 
 ## 🌟 Features
 
-Almost everything [nheko](https://nheko.im/nheko-reborn/nheko) offers, plus [UX improvements & additional features on top](docs/user-guide/differences-from-nheko.md).
+Much of what [nheko](https://nheko.im/nheko-reborn/nheko) offered, plus [UX improvements, Rust-driven architectural changes, and additional features](docs/user-guide/differences-from-nheko.md).
 
 Highlights:
 
@@ -99,7 +99,7 @@ See [Development](docs/maintainers/development.md).
 
 ## 🙏 Acknowledgements
 
-Komai is built on top of [nheko](https://nheko.im/nheko-reborn/nheko) by the Nheko-Reborn team. We're grateful for their work on the Matrix protocol implementation and the Qt/QML client foundation.
+Komai started as a fork of [nheko](https://nheko.im/nheko-reborn/nheko) by the Nheko-Reborn team. We're grateful for the original application and the Qt/QML groundwork that made Komai possible.
 
 - [Boring Avatars](https://github.com/boringdesigners/boring-avatars) — default avatar generation algorithms (Beam, Marble, Bauhaus styles), ported from TypeScript to C++
 - [Fluent Icons](https://github.com/microsoft/fluentui-system-icons)

@@ -11,9 +11,9 @@
     { QT_TR_NOOP("Platform"), nullptr, SM::ReadOnlyText, SM::TabAbout,
       aboutPlatformValue,
       nullptr, {}, {}, {}, nullptr, nullptr },
-    // MaintainedBy
-    { QT_TR_NOOP("Maintained by"), nullptr, SM::Link, SM::TabAbout,
-      aboutMaintainedByValue,
+    // CreatedBy
+    { QT_TR_NOOP("Created by"), nullptr, SM::Link, SM::TabAbout,
+      aboutCreatedByValue,
       nullptr, {}, {}, {}, nullptr, nullptr },
     // KomaiLicense
     { QT_TR_NOOP("License"), nullptr, SM::Link, SM::TabAbout,

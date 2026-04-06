@@ -1,6 +1,6 @@
 # 🔀 Differences from nheko
 
-Komai is a fork of [nheko](https://nheko.im/nheko-reborn/nheko) with UX improvements focused on desktop usability. This page lists the notable user-facing changes.
+Komai started as a fork of [nheko](https://nheko.im/nheko-reborn/nheko) and has since diverged with UX improvements focused on desktop usability. This page lists the notable user-facing changes.
 
 > 💡 This document was written in February-March 2026, around Komai's initial release period. As both Komai and nheko evolve, some details here may become outdated over time.
 

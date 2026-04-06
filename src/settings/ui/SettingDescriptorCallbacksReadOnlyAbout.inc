@@ -49,7 +49,7 @@ aboutAcknowledgementBoringAvatarsProjectValue()
 }
 
 static QVariant
-aboutMaintainedByValue()
+aboutCreatedByValue()
 {
     return QStringLiteral("<a href=\"https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=settings/about\">etke.cc</a>");
 }

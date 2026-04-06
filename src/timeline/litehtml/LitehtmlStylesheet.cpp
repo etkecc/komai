@@ -18,6 +18,7 @@ generateMasterStylesheet(const QPalette &palette,
     const auto link          = palette.color(QPalette::Link).name();
     const auto alternateBase = palette.color(QPalette::AlternateBase).name();
     const auto highlight     = palette.color(QPalette::Highlight).name();
+    const auto pillBackground = palette.color(QPalette::Mid).name();
 
     const auto blockMargin = compact ? QStringLiteral("0.15em 0") : QStringLiteral("0.65em 0");
 
@@ -115,7 +116,7 @@ generateMasterStylesheet(const QPalette &palette,
                           "}"
                           "a.pill {"
                           "  display: inline-block;"
-                          "  background-color: %5;"
+                          "  background-color: %12;"
                           "  border-radius: 4px;"
                           "  padding: 0 5px 0 4px;"
                           "  text-decoration: none;"
@@ -136,7 +137,8 @@ generateMasterStylesheet(const QPalette &palette,
       .arg(font.pointSizeF())
       .arg(text, highlight, alternateBase, link, blockMargin)
       .arg(errorColor, attentionColor, successColor)
-      .arg(emojiScaleFactor);
+      .arg(emojiScaleFactor)
+      .arg(pillBackground);
 }
 
 } // namespace timeline::litehtml

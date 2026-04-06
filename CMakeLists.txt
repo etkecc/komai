@@ -645,7 +645,10 @@ set_property(TARGET komai_rust-static APPEND
 
 if(VOIP)
     include(FindPkgConfig)
-    pkg_check_modules(GSTREAMER REQUIRED IMPORTED_TARGET gstreamer-sdp-1.0>=1.18 gstreamer-webrtc-1.0>=1.18 gstreamer-gl-1.0)
+    # gstreamer-allocators-1.0 is listed explicitly because gstreamer-video
+    # declares it as Requires.private, so pkg-config omits it from link flags.
+    # Without it the linker cannot resolve gst_udmabuf_allocator_get.
+    pkg_check_modules(GSTREAMER REQUIRED IMPORTED_TARGET gstreamer-allocators-1.0 gstreamer-sdp-1.0>=1.18 gstreamer-webrtc-1.0>=1.18 gstreamer-gl-1.0)
     if (WIN32)
         pkg_check_modules(GSTREAMER REQUIRED IMPORTED_TARGET gstreamer-d3d11-1.0)
     endif()

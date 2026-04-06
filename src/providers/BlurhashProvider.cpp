@@ -50,11 +50,17 @@ BlurhashRunnable::run()
         return;
     }
 
+    const auto expectedPixelBytes = static_cast<size_t>(w) * static_cast<size_t>(h) * 4;
+    if (pixels.size() != expectedPixelBytes) {
+        emit error(QStringLiteral("Unexpected blurhash pixel buffer size"));
+        return;
+    }
+
     QImage image(pixels.data(),
                  static_cast<int>(w),
                  static_cast<int>(h),
-                 static_cast<int>(w) * 3,
-                 QImage::Format_RGB888);
+                 static_cast<int>(w) * 4,
+                 QImage::Format_RGBA8888);
 
     image = image.scaled(m_requestedSize);
 

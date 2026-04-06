@@ -69,6 +69,12 @@ def build_core_checks(palette: dict[str, str]) -> list[CheckResult]:
             4.5,
             True,
         ),
+        CheckResult(
+            "light/windowText",
+            contrast_ratio(palette["light"], palette["windowText"]),
+            4.5,
+            True,
+        ),
         CheckResult("window/link", contrast_ratio(palette["window"], palette["link"]), 4.5, True),
         CheckResult("base/link", contrast_ratio(palette["base"], palette["link"]), 4.5, True),
         CheckResult(

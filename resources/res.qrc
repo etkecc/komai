@@ -113,6 +113,8 @@
         <file alias="icons/ui/desktop.svg">icons/fluent/assets/Desktop/SVG/ic_fluent_desktop_24_regular.svg</file>
         <file alias="icons/ui/state-member-change.svg">icons/fluent/assets/Person Add/SVG/ic_fluent_person_add_20_regular.svg</file>
         <file alias="icons/ui/state-member-leave.svg">icons/fluent/assets/Arrow Turn Down Left/SVG/ic_fluent_arrow_turn_down_left_20_regular.svg</file>
+        <file alias="icons/ui/heart.svg">icons/fluent/assets/Heart/SVG/ic_fluent_heart_24_regular.svg</file>
+        <file alias="icons/ui/heart-color.svg">icons/fluent/assets/Heart/SVG/ic_fluent_heart_24_color.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

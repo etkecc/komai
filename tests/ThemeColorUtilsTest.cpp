@@ -132,7 +132,6 @@ testBase16ToPalette()
     expect(result["alternateBase"] == "#313244", "b16palette alternateBase = base02");
     expect(result["text"] == "#cdd6f4", "b16palette text = base05");
     expect(result["button"] == "#181825", "b16palette button = base01");
-    expect(result["light"] == "#f5e0dc", "b16palette light = base06");
     expect(result["mid"] == "#45475a", "b16palette mid = base03");
     expect(result["toolTipBase"] == "#181825", "b16palette toolTipBase = base01");
     expect(result["toolTipText"] == "#cdd6f4", "b16palette toolTipText = base05");
@@ -145,6 +144,10 @@ testBase16ToPalette()
     // Contrast check: highlightedText on highlight should be >= 4.5
     auto htCr = theme_color::contrastRatio(result["highlightedText"], result["highlight"]);
     expect(htCr >= 4.5, "b16palette highlightedText/highlight contrast >= 4.5");
+
+    // Contrast check: windowText on light (menu hover) should be >= 4.5
+    expect(theme_color::contrastRatio(result["windowText"], result["light"]) >= 4.5,
+           "b16palette windowText readable on light (menu hover)");
 }
 
 static void

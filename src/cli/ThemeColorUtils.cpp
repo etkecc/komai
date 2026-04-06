@@ -317,6 +317,21 @@ ensureContrast(Palette &mapping, const Palette &palette, const std::string &vari
         mapping["dark"] = bestDark;
     }
 
+    // windowText on light (menu hover background)
+    if (contrastRatio(mapping["windowText"], mapping["light"]) < MIN_TEXT_ON_ACCENT) {
+        const std::string lightToward = (variant == "light") ? "#ffffff" : "#000000";
+        double lo = 0.0, hi = 1.0;
+        for (int i = 0; i < 30; ++i) {
+            double m       = (lo + hi) / 2;
+            auto candidate = blendToward(mapping["light"], lightToward, m);
+            if (contrastRatio(mapping["windowText"], candidate) >= MIN_TEXT_ON_ACCENT)
+                hi = m;
+            else
+                lo = m;
+        }
+        mapping["light"] = blendToward(mapping["light"], lightToward, hi);
+    }
+
     const std::vector<std::string> neutralSurfaces = {
       mapping["window"],
       mapping["base"],

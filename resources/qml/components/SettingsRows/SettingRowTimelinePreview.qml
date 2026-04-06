@@ -105,7 +105,7 @@ Item {
             body: "🚀",
             day: root.previewDayKey(root.previewTsBob),
             eventId: "$preview-2",
-            formattedBody: "🚀",
+            formattedBody: Komai.formatHtmlEmojis("🚀"),
             isOnlyEmoji: true,
             isEditable: false,
             isEdited: false,

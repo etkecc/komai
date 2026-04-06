@@ -1105,6 +1105,14 @@ mod tests {
             !unsafe_out.contains("onerror"),
             "unsafe image attribute is removed"
         );
+
+        // Verify that a pre-crafted image:// URL cannot bypass the mxc:// gate.
+        let injected =
+            sanitize_html(r#"<img src="image://mxcImage/evil.org/payload">"#);
+        assert!(
+            !injected.contains("image://"),
+            "image:// src must be rejected (only mxc:// is accepted)"
+        );
     }
 
     #[test]

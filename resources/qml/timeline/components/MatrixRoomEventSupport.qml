@@ -180,7 +180,7 @@ QtObject {
     function matrixStateEventIconForKind(kind) {
         switch (String(kind || "")) {
         case "membership_change":
-            return ":/icons/icons/ui/state-member-join.svg";
+            return ":/icons/icons/ui/state-member-change.svg";
         case "profile_change":
             return ":/icons/icons/ui/state-member-display-name.svg";
         default:

@@ -28,6 +28,7 @@ use super::MatrixReactionSummary;
 
 pub struct MatrixEventSummary {
     pub kind: String,
+    pub membership_change_kind: String,
     pub matrix_event_type: String,
     pub body: String,
     pub formatted_body: String,
@@ -220,8 +221,9 @@ fn summarize_room_message_event(message: &SyncRoomMessageEvent) -> MatrixEventSu
 
 fn summarize_membership_change(change: &RoomMembershipChange) -> MatrixEventSummary {
     let user = human_name(change.display_name().as_deref(), change.user_id().as_str());
+    let membership_change_kind = membership_change_kind_key(change.change());
 
-    match change.change() {
+    let mut summary = match change.change() {
         Some(MembershipChange::Joined) => {
             summary("membership_change", "m.room.member", &format!("{user} joined the room"))
         }
@@ -308,7 +310,10 @@ fn summarize_membership_change(change: &RoomMembershipChange) -> MatrixEventSumm
             "m.room.member",
             &format!("Membership updated for {user}"),
         ),
-    }
+    };
+
+    summary.membership_change_kind = membership_change_kind.to_owned();
+    summary
 }
 
 fn summarize_profile_change(change: &MemberProfileChange) -> MatrixEventSummary {
@@ -604,6 +609,7 @@ fn human_name(display_name: Option<&str>, user_id: &str) -> String {
 fn summary(kind: &str, matrix_event_type: &str, body: &str) -> MatrixEventSummary {
     MatrixEventSummary {
         kind: kind.to_owned(),
+        membership_change_kind: String::new(),
         matrix_event_type: matrix_event_type.to_owned(),
         body: body.to_owned(),
         formatted_body: String::new(),
@@ -633,6 +639,7 @@ fn summary_with_media(
 ) -> MatrixEventSummary {
     MatrixEventSummary {
         kind: kind.to_owned(),
+        membership_change_kind: String::new(),
         matrix_event_type: matrix_event_type.to_owned(),
         body: body.to_owned(),
         formatted_body: String::new(),
@@ -651,6 +658,46 @@ fn summary_with_media(
         special_effect_names: Vec::new(),
         is_edited: false,
         media: Some(media),
+    }
+}
+
+fn membership_change_kind_key(change: Option<MembershipChange>) -> &'static str {
+    match change {
+        Some(MembershipChange::Joined) => "joined",
+        Some(MembershipChange::Left) => "left",
+        Some(MembershipChange::Banned) => "banned",
+        Some(MembershipChange::Unbanned) => "unbanned",
+        Some(MembershipChange::Kicked) => "kicked",
+        Some(MembershipChange::Invited) => "invited",
+        Some(MembershipChange::KickedAndBanned) => "kicked_and_banned",
+        Some(MembershipChange::InvitationAccepted) => "invitation_accepted",
+        Some(MembershipChange::InvitationRejected) => "invitation_rejected",
+        Some(MembershipChange::InvitationRevoked) => "invitation_revoked",
+        Some(MembershipChange::Knocked) => "knocked",
+        Some(MembershipChange::KnockAccepted) => "knock_accepted",
+        Some(MembershipChange::KnockRetracted) => "knock_retracted",
+        Some(MembershipChange::KnockDenied) => "knock_denied",
+        Some(MembershipChange::None) => "none",
+        Some(MembershipChange::Error) => "error",
+        Some(MembershipChange::NotImplemented) => "not_implemented",
+        None => "redacted",
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::membership_change_kind_key;
+    use matrix_sdk_ui::timeline::MembershipChange;
+
+    #[test]
+    fn membership_change_kind_key_returns_join_and_left_variants() {
+        assert_eq!(membership_change_kind_key(Some(MembershipChange::Joined)), "joined");
+        assert_eq!(membership_change_kind_key(Some(MembershipChange::Left)), "left");
+        assert_eq!(
+            membership_change_kind_key(Some(MembershipChange::InvitationAccepted)),
+            "invitation_accepted"
+        );
+        assert_eq!(membership_change_kind_key(None), "redacted");
     }
 }
 

@@ -925,6 +925,7 @@ mod bridge {
         reactions_summary: String,
         special_effect_names: Vec<String>,
         item_kind: String,
+        membership_change_kind: String,
         matrix_event_type: String,
         is_edited: bool,
         media_url: String,

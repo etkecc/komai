@@ -120,6 +120,7 @@ fn timeline_item_to_summary(
         let reactions_summary = summary.reactions_summary;
         let special_effect_names = summary.special_effect_names;
         let item_kind = summary.kind;
+        let membership_change_kind = summary.membership_change_kind;
         let matrix_event_type = summary.matrix_event_type;
         let is_edited = summary.is_edited;
         let media = summary.media;
@@ -189,6 +190,7 @@ fn timeline_item_to_summary(
                 reactions_summary,
                 special_effect_names,
                 item_kind,
+                membership_change_kind,
                 matrix_event_type,
                 is_edited,
                 media_url: media
@@ -272,6 +274,7 @@ fn timeline_item_to_summary(
                 reactions_summary: String::new(),
                 special_effect_names: Vec::new(),
                 item_kind: "date_divider".to_owned(),
+                membership_change_kind: String::new(),
                 matrix_event_type: String::new(),
                 is_edited: false,
                 media_url: String::new(),

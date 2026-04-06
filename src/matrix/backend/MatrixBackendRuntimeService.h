@@ -304,6 +304,7 @@ struct MatrixTimelineItem
     QString reactionsSummary;
     QStringList specialEffectNames;
     QString itemKind;
+    QString membershipChangeKind;
     QString matrixEventType;
     bool isEdited = false;
     QString mediaUrl;

@@ -94,7 +94,7 @@
         <file alias="icons/ui/compass-northwest.svg">icons/fluent/assets/Compass Northwest/SVG/ic_fluent_compass_northwest_24_regular.svg</file>
         <file alias="icons/ui/prohibited.svg">icons/fluent/assets/Prohibited/SVG/ic_fluent_prohibited_24_regular.svg</file>
         <file alias="icons/ui/upload.svg">icons/fluent/assets/Arrow Upload/SVG/ic_fluent_arrow_upload_24_regular.svg</file>
-        <file alias="icons/ui/state-member-join.svg">icons/fluent/assets/Person Add/SVG/ic_fluent_person_add_20_regular.svg</file>
+        <file alias="icons/ui/state-member-join.svg">icons/fluent/assets/Arrow Turn Down Right/SVG/ic_fluent_arrow_turn_down_right_20_regular.svg</file>
         <file alias="icons/ui/state-member-display-name.svg">icons/fluent/assets/Text Bullet List Square Person/SVG/ic_fluent_text_bullet_list_square_person_20_regular.svg</file>
         <file alias="icons/ui/cloud-arrow-up.svg">icons/fluent/assets/Cloud Arrow Up/SVG/ic_fluent_cloud_arrow_up_20_regular.svg</file>
         <file alias="icons/ui/chevron-double-up.svg">icons/fluent/assets/Chevron Double Up/SVG/ic_fluent_chevron_double_up_20_regular.svg</file>
@@ -111,6 +111,8 @@
         <file alias="icons/ui/slide-content.svg">icons/fluent/assets/Slide Content/SVG/ic_fluent_slide_content_24_regular.svg</file>
         <file alias="icons/ui/image.svg">icons/fluent/assets/Image/SVG/ic_fluent_image_24_regular.svg</file>
         <file alias="icons/ui/desktop.svg">icons/fluent/assets/Desktop/SVG/ic_fluent_desktop_24_regular.svg</file>
+        <file alias="icons/ui/state-member-change.svg">icons/fluent/assets/Person Add/SVG/ic_fluent_person_add_20_regular.svg</file>
+        <file alias="icons/ui/state-member-leave.svg">icons/fluent/assets/Arrow Turn Down Left/SVG/ic_fluent_arrow_turn_down_left_20_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

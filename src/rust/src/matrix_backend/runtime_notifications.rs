@@ -232,6 +232,7 @@ fn notification_item_from_sdk(
             let summary = summarize_sync_timeline_event(event.as_ref()).unwrap_or_else(|| {
                 MatrixEventSummary {
                     kind: "unknown_message".to_owned(),
+                    membership_change_kind: String::new(),
                     matrix_event_type: event.event_type().to_string(),
                     body: "[Unsupported message event]".to_owned(),
                     formatted_body: String::new(),

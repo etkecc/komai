@@ -69,13 +69,40 @@ deliveryStateToEventState(const QString &state)
 }
 
 QString
+defaultMembershipStateEventIcon()
+{
+    return QStringLiteral(":/icons/icons/ui/state-member-change.svg");
+}
+
+QString
+stateEventIconForMembershipChangeKind(const QString &membershipChangeKind)
+{
+    const auto normalizedMembershipChangeKind = membershipChangeKind.trimmed().toLower();
+    if (normalizedMembershipChangeKind == QStringLiteral("joined"))
+        return QStringLiteral(":/icons/icons/ui/state-member-join.svg");
+    if (normalizedMembershipChangeKind == QStringLiteral("left"))
+        return QStringLiteral(":/icons/icons/ui/state-member-leave.svg");
+
+    return defaultMembershipStateEventIcon();
+}
+
+QString
 stateEventIconForKind(const QString &kind)
 {
     if (kind == QStringLiteral("membership_change"))
-        return QStringLiteral(":/icons/icons/ui/state-member-join.svg");
+        return defaultMembershipStateEventIcon();
     if (kind == QStringLiteral("profile_change"))
         return QStringLiteral(":/icons/icons/ui/state-member-display-name.svg");
     return QStringLiteral(":/icons/icons/ui/state-event.svg");
+}
+
+QString
+stateEventIconForItem(const MatrixTimelineItem &item)
+{
+    if (item.itemKind == QStringLiteral("membership_change"))
+        return stateEventIconForMembershipChangeKind(item.membershipChangeKind);
+
+    return stateEventIconForKind(item.itemKind);
 }
 
 QString
@@ -160,7 +187,7 @@ computeDerivedFields(MatrixTimelineItem &item, const QString &roomId)
     item.cachedFormattedBody = isState ? QString() : formatBodyHtml(item.body, item.formattedBody);
     item.cachedFormattedStateEvent =
       isState ? formatBodyHtml(item.body, item.formattedBody) : QString();
-    item.cachedStateEventIcon = isState ? stateEventIconForKind(item.itemKind) : QString();
+    item.cachedStateEventIcon = isState ? stateEventIconForItem(item) : QString();
     item.cachedFilesize =
       item.mediaSizeBytes > 0 ? utils::humanReadableFileSize(item.mediaSizeBytes) : QString();
     item.cachedFilename =
@@ -709,6 +736,7 @@ MatrixTimelineModel::applyRedactedPresentation(MatrixTimelineItem &item) const
     item.reactions.clear();
     item.reactionsSummary.clear();
     item.itemKind = QStringLiteral("redacted");
+    item.membershipChangeKind.clear();
     item.isEdited = false;
     item.mediaUrl.clear();
     item.thumbnailUrl.clear();

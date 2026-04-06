@@ -595,6 +595,7 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .reactionsSummary     = QString::fromStdString(std::string(item.reactions_summary)),
       .specialEffectNames   = specialEffectNames,
       .itemKind             = QString::fromStdString(std::string(item.item_kind)),
+      .membershipChangeKind = QString::fromStdString(std::string(item.membership_change_kind)),
       .matrixEventType      = QString::fromStdString(std::string(item.matrix_event_type)),
       .isEdited             = item.is_edited,
       .mediaUrl = matrix::normalizeMxcUri(QString::fromStdString(std::string(item.media_url))),

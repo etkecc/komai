@@ -470,6 +470,7 @@ pub struct MatrixTimelineItem {
     pub reactions_summary: String,
     pub special_effect_names: Vec<String>,
     pub item_kind: String,
+    pub membership_change_kind: String,
     pub matrix_event_type: String,
     pub is_edited: bool,
     pub media_url: String,

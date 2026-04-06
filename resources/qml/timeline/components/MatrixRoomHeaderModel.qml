@@ -107,7 +107,7 @@ QtObject {
                 "type": itemType,
                 "isOnlyEmoji": 0,
                 "formattedStateEvent": root.rootItem.formattedMatrixTextHtml(body),
-                "stateEventIconSource": root.rootItem.matrixStateEventIconForKind(itemKind)
+                "stateEventIconSource": String(item.stateEventIconSource || root.rootItem.matrixStateEventIconForKind(itemKind))
             });
         }
 

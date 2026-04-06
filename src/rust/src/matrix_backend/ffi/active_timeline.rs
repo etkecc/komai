@@ -57,6 +57,7 @@ fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimeline
         reactions_summary: item.reactions_summary,
         special_effect_names: item.special_effect_names,
         item_kind: item.item_kind,
+        membership_change_kind: item.membership_change_kind,
         matrix_event_type: item.matrix_event_type,
         is_edited: item.is_edited,
         media_url: item.media_url,

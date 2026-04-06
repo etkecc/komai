@@ -422,10 +422,12 @@ fn sanitize_mxc_url(raw: &str) -> Option<String> {
     if !v[..3].eq_ignore_ascii_case("mxc") || !v[3..].starts_with("://") {
         return None;
     }
-    if v[6..].is_empty() {
+    let rest = &v[6..];
+    if rest.is_empty() {
         return None;
     }
-    Some(v.to_string())
+    // Rewrite mxc:// to the image://mxcImage/ scheme that litehtml can load.
+    Some(format!("image://mxcImage/{rest}"))
 }
 
 fn sanitize_target(raw: &str) -> Option<String> {
@@ -1092,8 +1094,8 @@ mod tests {
         let unsafe_out =
             sanitize_html(r#"<img src="https://example.org/x.png" onerror="e()">"#);
         assert!(
-            safe_out.contains(r#"src="mxc://example.org/id""#),
-            "mxc image source is preserved"
+            safe_out.contains(r#"src="image://mxcImage/example.org/id""#),
+            "mxc image source is rewritten to image://mxcImage/"
         );
         assert!(
             !unsafe_out.contains(r#"src="https://"#),

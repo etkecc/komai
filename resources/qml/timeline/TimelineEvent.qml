@@ -149,7 +149,18 @@ EventDelegateChooser {
                           ? chooserReplySurfaceColor
                           : chooserMainSurfaceColor
             font.italic: true
-            formatted: TimelineManager.escapeEmoji(userName) + " " + formattedBody
+            formatted: {
+                var prefix = TimelineManager.escapeEmoji(userName) + " ";
+                var body = formattedBody;
+                // Inject the username prefix inside the first block-level tag
+                // to keep everything inline. Without this, "Name <p>text</p>"
+                // renders as two separate blocks with a line break.
+                var match = body.match(/^(<p[^>]*>)/i);
+                var inner = match
+                    ? body.replace(match[1], match[1] + prefix)
+                    : prefix + body;
+                return "<span style=\"font-style:italic\">" + inner + "</span>";
+            }
             isOnlyEmoji: 0
             keepFullText: true
         }

@@ -533,8 +533,11 @@ Item {
             readonly property real visualAnchorHeight: Math.max(buttonSize, indicatorSize)
             readonly property real bubbleBottomMargin: root.wrapper.isStateEvent
                 ? 0
-                // Avoid a self-referential vertical-anchor loop through implicitHeight.
-                : Math.round(Math.max(1, messageBubble.bottomPadding - Math.max(0, (visualAnchorHeight - buttonSize) / 2)))
+                // Center the metadata row vertically with the last line of
+                // message text instead of bottom-aligning it.  The row is
+                // taller than a text line (driven by buttonSize), so without
+                // this correction it sits visually too high.
+                : Math.round(Math.max(0, messageBubble.bottomPadding - (visualAnchorHeight - fontMetrics.height) / 2))
 
             visible: !root.wrapper.isStateEvent
                 || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton

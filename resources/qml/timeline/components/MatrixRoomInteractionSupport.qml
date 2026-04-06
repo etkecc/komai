@@ -182,6 +182,11 @@ QtObject {
             return true;
         }
 
+        if (TimelineManager.matrixTimelineThreadEventId.length > 0) {
+            TimelineManager.clearActiveMatrixThread();
+            return true;
+        }
+
         if (rootItem.editing) {
             TimelineManager.clearActiveMatrixEdit();
             return true;

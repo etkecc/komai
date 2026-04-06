@@ -428,6 +428,9 @@ Rectangle {
                         } else if (TimelineManager.matrixTimelineEditEventId.length > 0) {
                             TimelineManager.clearActiveMatrixEdit();
                             event.accepted = true;
+                        } else if (TimelineManager.matrixTimelineThreadEventId.length > 0) {
+                            TimelineManager.clearActiveMatrixThread();
+                            event.accepted = true;
                         }
                     } else if (event.matches(StandardKey.SelectAll) && popup.opened) {
                         completer.completerType = "";
@@ -541,7 +544,8 @@ Rectangle {
                     let escapeHandled = event.key === Qt.Key_Escape
                         && (popup.opened
                             || TimelineManager.matrixTimelineReplyEventId.length > 0
-                            || TimelineManager.matrixTimelineEditEventId.length > 0);
+                            || TimelineManager.matrixTimelineEditEventId.length > 0
+                            || TimelineManager.matrixTimelineThreadEventId.length > 0);
 
                     event.accepted = escapeHandled
                         || (popup.opened

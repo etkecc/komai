@@ -7,6 +7,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineEventTypes.h"
 #include "timeline/formattedmessage/HtmlProcessor.h"
+#include "ui/KomaiGlobalObject.h"
 #include "utils/MediaIcons.h"
 #include "utils/Utils.h"
 
@@ -108,7 +109,9 @@ stateEventIconForItem(const MatrixTimelineItem &item)
 }
 
 QString
-formatBodyHtml(const QString &body, const QString &formattedBody = {})
+formatBodyHtml(const QString &body,
+               const QString &formattedBody                                       = {},
+               const timeline::formattedmessage::PillAvatarResolver &pillResolver = nullptr)
 {
     if (body.isEmpty() && formattedBody.isEmpty())
         return {};
@@ -128,6 +131,7 @@ formatBodyHtml(const QString &body, const QString &formattedBody = {})
         }
 
         html = utils::linkifyMessage(html);
+        html = timeline::formattedmessage::decorateMatrixPills(html, pillResolver);
     } else {
         html = timeline::formattedmessage::plainTextToHtml(body);
         html = utils::linkifyMessage(html);
@@ -194,7 +198,9 @@ effectiveReplyPreviewDisplayName(const MatrixTimelineItem &item)
 }
 
 void
-computeDerivedFields(MatrixTimelineItem &item, const QString &roomId)
+computeDerivedFields(MatrixTimelineItem &item,
+                     const QString &roomId,
+                     const timeline::formattedmessage::PillAvatarResolver &pillResolver = nullptr)
 {
     const bool isState = isStateLikeKind(item.itemKind);
     item.cachedType = qml_mtx_events::matrixTimelineEventType(item.itemKind, item.matrixEventType);
@@ -215,7 +221,8 @@ computeDerivedFields(MatrixTimelineItem &item, const QString &roomId)
     item.cachedProportionalH = (item.mediaWidth > 0 && item.mediaHeight > 0)
                                  ? static_cast<double>(item.mediaHeight) / item.mediaWidth
                                  : 0.0;
-    item.cachedFormattedBody = isState ? QString() : formatBodyHtml(item.body, item.formattedBody);
+    item.cachedFormattedBody =
+      isState ? QString() : formatBodyHtml(item.body, item.formattedBody, pillResolver);
     item.cachedFormattedStateEvent =
       isState ? formatBodyHtml(item.body, item.formattedBody) : QString();
     item.cachedStateEventIcon = isState ? stateEventIconForItem(item) : QString();
@@ -699,6 +706,26 @@ MatrixTimelineModel::avatarUrl(const QString &userId) const
     return {};
 }
 
+timeline::formattedmessage::PillAvatarResolver
+MatrixTimelineModel::pillAvatarResolver() const
+{
+    const int pillThumbSourcePx = Komai::listIconLogicalSize();
+
+    return [this, pillThumbSourcePx](const QString &matrixId) -> QString {
+        if (!matrixId.startsWith(QLatin1Char('@')))
+            return {};
+
+        const auto mxcUrl = avatarUrl(matrixId);
+        if (mxcUrl.isEmpty() || !mxcUrl.startsWith(QLatin1String("mxc://")))
+            return {};
+
+        auto src = mxcUrl;
+        src.replace(QLatin1String("mxc://"), QLatin1String("image://mxcImage/"));
+        src.append(QStringLiteral("?avatarSize=%1&radius=25").arg(pillThumbSourcePx));
+        return src;
+    };
+}
+
 QString
 MatrixTimelineModel::copyTextForEventIds(const QVariantList &eventIds, bool plainText) const
 {
@@ -885,8 +912,9 @@ MatrixTimelineModel::refreshDerivedFields()
         return;
     }
 
+    const auto resolver = pillAvatarResolver();
     for (auto &item : allItems_)
-        computeDerivedFields(item, roomId_);
+        computeDerivedFields(item, roomId_, resolver);
 
     revealedItemCount_ = std::clamp(revealedItemCount_, 0, static_cast<int>(allItems_.size()));
     replaceVisibleItems(visibleItemsForRawCount(revealedItemCount_));
@@ -1002,8 +1030,9 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
                                }),
                 items.end());
 
+    const auto resolver = pillAvatarResolver();
     for (auto &item : items)
-        computeDerivedFields(item, roomId_);
+        computeDerivedFields(item, roomId_, resolver);
 
     // Derive isThreadRoot: collect all threadId values (these reference the
     // thread root event), then mark items whose eventId appears in that set.

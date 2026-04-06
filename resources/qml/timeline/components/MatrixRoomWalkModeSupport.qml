@@ -594,6 +594,10 @@ Item {
         if (!event || !rootItem.walkModeActive)
             return false;
 
+        const gKeyPressed = eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.G);
+        const plainGPressed = gKeyPressed && eventUsesNoWalkModeModifiers(event);
+        const shiftGPressed = gKeyPressed && eventUsesShiftOnlyWalkModeModifiers(event);
+
         const kbActions = keyboardActionsControl();
         if (kbActions) {
             if (event.key === Qt.Key_Escape) {
@@ -647,6 +651,24 @@ Item {
                 event.accepted = true;
                 return true;
             }
+
+            if (shiftGPressed) {
+                kbActions.focusLastVisibleButton();
+                event.accepted = true;
+                return true;
+            }
+
+            if (plainGPressed) {
+                if (_pendingGoToTop) {
+                    resetWalkModeGoToTopSequence();
+                    kbActions.focusFirstVisibleButton();
+                } else {
+                    _pendingGoToTop = true;
+                    walkModeGoToTopSequenceTimer.restart();
+                }
+                event.accepted = true;
+                return true;
+            }
         }
 
         if (event.key === Qt.Key_Escape) {
@@ -654,10 +676,6 @@ Item {
             event.accepted = true;
             return true;
         }
-
-        const gKeyPressed = eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.G);
-        const plainGPressed = gKeyPressed && eventUsesNoWalkModeModifiers(event);
-        const shiftGPressed = gKeyPressed && eventUsesShiftOnlyWalkModeModifiers(event);
 
         if (!plainGPressed)
             resetWalkModeGoToTopSequence();
@@ -763,6 +781,14 @@ Item {
 
         if (isWalkModeHelpKey(event)) {
             openWalkModeHelpDialog();
+            event.accepted = true;
+            return true;
+        }
+
+        if (eventMatchesWalkModeLatinKey(event, LayoutAgnosticKeys.LatinKey.I) && eventUsesWalkModeModifiers(event)) {
+            exitWalkMode({
+                "focusComposer": true
+            });
             event.accepted = true;
             return true;
         }

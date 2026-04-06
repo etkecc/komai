@@ -19,27 +19,34 @@ using LatinKey = LayoutAgnosticKeys::LatinKey;
 struct NativeLatinKeyDefinition
 {
     int logicalQtKey;
-    std::array<quint32, 2> linuxScanCodes;
+    // evdev hardware scan code for this key position. On X11 (XKB), Qt reports
+    // evdev + 8 as the native scan code, so both conventions are derived from
+    // this single value to avoid cross-key collisions.
+    quint32 linuxEvdevScanCode;
     quint32 windowsScanCode;
 };
 
 constexpr auto kNativeLatinKeys = std::to_array<NativeLatinKeyDefinition>({
-  {.logicalQtKey = Qt::Key_D, .linuxScanCodes = {40, 32}, .windowsScanCode = 32},
-  {.logicalQtKey = Qt::Key_E, .linuxScanCodes = {26, 18}, .windowsScanCode = 18},
-  {.logicalQtKey = Qt::Key_F, .linuxScanCodes = {41, 33}, .windowsScanCode = 33},
-  {.logicalQtKey = Qt::Key_G, .linuxScanCodes = {42, 34}, .windowsScanCode = 34},
-  {.logicalQtKey = Qt::Key_H, .linuxScanCodes = {43, 35}, .windowsScanCode = 35},
-  {.logicalQtKey = Qt::Key_I, .linuxScanCodes = {31, 23}, .windowsScanCode = 23},
-  {.logicalQtKey = Qt::Key_J, .linuxScanCodes = {44, 36}, .windowsScanCode = 36},
-  {.logicalQtKey = Qt::Key_K, .linuxScanCodes = {45, 37}, .windowsScanCode = 37},
-  {.logicalQtKey = Qt::Key_L, .linuxScanCodes = {46, 38}, .windowsScanCode = 38},
-  {.logicalQtKey = Qt::Key_O, .linuxScanCodes = {32, 24}, .windowsScanCode = 24},
-  {.logicalQtKey = Qt::Key_R, .linuxScanCodes = {27, 19}, .windowsScanCode = 19},
-  {.logicalQtKey = Qt::Key_T, .linuxScanCodes = {28, 20}, .windowsScanCode = 20},
-  {.logicalQtKey = Qt::Key_U, .linuxScanCodes = {30, 22}, .windowsScanCode = 22},
+  {.logicalQtKey = Qt::Key_D, .linuxEvdevScanCode = 32, .windowsScanCode = 32},
+  {.logicalQtKey = Qt::Key_E, .linuxEvdevScanCode = 18, .windowsScanCode = 18},
+  {.logicalQtKey = Qt::Key_F, .linuxEvdevScanCode = 33, .windowsScanCode = 33},
+  {.logicalQtKey = Qt::Key_G, .linuxEvdevScanCode = 34, .windowsScanCode = 34},
+  {.logicalQtKey = Qt::Key_H, .linuxEvdevScanCode = 35, .windowsScanCode = 35},
+  {.logicalQtKey = Qt::Key_I, .linuxEvdevScanCode = 23, .windowsScanCode = 23},
+  {.logicalQtKey = Qt::Key_J, .linuxEvdevScanCode = 36, .windowsScanCode = 36},
+  {.logicalQtKey = Qt::Key_K, .linuxEvdevScanCode = 37, .windowsScanCode = 37},
+  {.logicalQtKey = Qt::Key_L, .linuxEvdevScanCode = 38, .windowsScanCode = 38},
+  {.logicalQtKey = Qt::Key_O, .linuxEvdevScanCode = 24, .windowsScanCode = 24},
+  {.logicalQtKey = Qt::Key_R, .linuxEvdevScanCode = 19, .windowsScanCode = 19},
+  {.logicalQtKey = Qt::Key_T, .linuxEvdevScanCode = 20, .windowsScanCode = 20},
+  {.logicalQtKey = Qt::Key_U, .linuxEvdevScanCode = 22, .windowsScanCode = 22},
 });
 
 constexpr std::size_t kLatinKeyCount = static_cast<std::size_t>(LatinKey::Count);
+
+// XKB keycodes are evdev scan codes offset by 8. Qt reports XKB keycodes as
+// nativeScanCode on both X11 and Wayland, so we always apply this offset.
+constexpr quint32 kXkbEvdevOffset = 8;
 
 static_assert(kNativeLatinKeys.size() == kLatinKeyCount);
 
@@ -65,8 +72,10 @@ latinKeyDefinition(LatinKey latinKey)
 bool
 matchesLinuxScanCode(quint32 nativeScanCode, const NativeLatinKeyDefinition &definition)
 {
-    return nativeScanCode != 0 && (nativeScanCode == definition.linuxScanCodes[0] ||
-                                   nativeScanCode == definition.linuxScanCodes[1]);
+    if (nativeScanCode == 0)
+        return false;
+
+    return nativeScanCode == definition.linuxEvdevScanCode + kXkbEvdevOffset;
 }
 
 bool
@@ -74,6 +83,11 @@ canUseNativeScanCodeFallback(int key)
 {
     if (key == 0 || key == Qt::Key_unknown)
         return true;
+
+    // If the key already resolved to a Latin letter, the physical position is
+    // unambiguous — scan-code fallback would only risk cross-key collisions.
+    if (key >= Qt::Key_A && key <= Qt::Key_Z)
+        return false;
 
     // Native scan-code matching is only safe for printable text keys. Special keys like
     // Backspace can share platform keycodes with letter positions on some backends.

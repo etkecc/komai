@@ -32,12 +32,17 @@ jobs:
           # - org.freedesktop.secrets -> kwallet
           # - jack -> pipewire-jack (pulled transitively via ffmpeg)
           # Also install python-yaml because the emoji pipeline requires PyYAML.
+          # Use rustup instead of Arch's rolling rust package so Corrosion and
+          # rust-toolchain.toml can honor the repo's pinned toolchain.
           pacman -S --noconfirm --needed \
-            cmake just python python-yaml mise reuse rust \
+            cmake just python python-yaml mise reuse rustup \
             qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-multimedia-ffmpeg qt6-svg \
             cmark openssl \
             qtkeychain-qt6 kdsingleapplication litehtml \
             curl libsecret kwallet pipewire-jack
+          # Warm the repo-pinned toolchain before CMake/Corrosion enumerates
+          # installed rustup toolchains during configure.
+          cargo --version
 
       - name: Configure
         run: |

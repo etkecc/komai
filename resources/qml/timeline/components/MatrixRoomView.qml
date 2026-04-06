@@ -36,6 +36,17 @@ ColumnLayout {
         ? singleSelectedEventId
         : (!hasSelectedEvents ? focusedEventId : "")
     readonly property bool hasFocusedEvent: focusedEventId.length > 0
+    readonly property bool selectionModeCopyShortcutEnabled: {
+        if (!(walkModeActive || hasSelectedEvents || hasFocusedEvent))
+            return false;
+
+        const activeItem = root.Window.activeFocusItem;
+        return (itemIsInSubtree(activeItem, root)
+                || itemIsInSubtree(activeItem, externalComposerPane)
+                || itemIsInSubtree(activeItem, externalHeaderPane ? externalHeaderPane.headerItem : null)
+                || itemIsInSubtree(activeItem, dialogSupport ? dialogSupport.messageActionsHost : null))
+            && !focusOwnsSelectedTextCopy(activeItem);
+    }
 
     readonly property bool hasTimeline: TimelineManager.matrixTimelineItemCount > 0
     readonly property bool loading: TimelineManager.matrixTimelineLoading
@@ -200,6 +211,7 @@ ColumnLayout {
     function openWalkModeHelpDialog() { return walkModeSupport.openWalkModeHelpDialog(); }
     function lastRoomHeaderActionButtonTarget() { return walkModeSupport.lastRoomHeaderActionButtonTarget(); }
     function openPrimaryMessageActionsDialog() { return walkModeSupport.openPrimaryMessageActionsDialog(); }
+    function copySelectionModeText(plainText) { return walkModeSupport.copySelectionModeText(plainText); }
 
     function matrixTimelineHeightCacheKey(eventId, itemId) { return eventSupport.matrixTimelineHeightCacheKey(eventId, itemId); }
     function rememberedTimelineHeight(cacheKey) { return eventSupport.rememberedTimelineHeight(cacheKey); }
@@ -244,6 +256,40 @@ ColumnLayout {
                                                            text,
                                                            messageModelOverride,
                                                            roomModelOverride);
+    }
+
+    function itemIsInSubtree(item, ancestor) {
+        if (!item || !ancestor)
+            return false;
+
+        let current = item;
+        while (current) {
+            if (current === ancestor)
+                return true;
+            current = current.parent;
+        }
+
+        return false;
+    }
+
+    function focusOwnsSelectedTextCopy(item) {
+        const activeItem = item || root.Window.activeFocusItem;
+        if (!activeItem)
+            return false;
+
+        let current = activeItem;
+        while (current) {
+            const selectedText = current.selectedText;
+            if (selectedText !== undefined && String(selectedText).length > 0)
+                return true;
+
+            if (current === root)
+                break;
+
+            current = current.parent;
+        }
+
+        return false;
     }
 
     enabled: visible

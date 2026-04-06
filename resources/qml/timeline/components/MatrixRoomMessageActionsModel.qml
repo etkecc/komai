@@ -142,6 +142,26 @@ Item {
         });
     }
 
+    function dataById(eventId, role, relatedTo) {
+        const model = TimelineManager.matrixTimelineModel;
+        if (!model || typeof model.dataById !== "function")
+            return undefined;
+
+        return model.dataById(String(eventId || ""),
+                              Number(role),
+                              relatedTo === undefined || relatedTo === null || relatedTo === false
+                              ? ""
+                              : String(relatedTo));
+    }
+
+    function copyTextForEventIds(eventIds, plainText) {
+        const model = TimelineManager.matrixTimelineModel;
+        if (!model || typeof model.copyTextForEventIds !== "function")
+            return "";
+
+        return String(model.copyTextForEventIds(eventIds || [], !!plainText) || "");
+    }
+
     function formatDateSeparator(timestamp) {
         return Qt.formatDate(timestamp, "ddd, MMM d");
     }

@@ -46,6 +46,38 @@ Item {
                 chatRoot.handleEscape();
         }
     }
+    Shortcut {
+        sequences: [StandardKey.Copy]
+        context: Qt.ApplicationShortcut
+        enabled: !!chatRoot
+            && chatRoot.selectionModeCopyShortcutEnabled !== undefined
+            && !!chatRoot.selectionModeCopyShortcutEnabled
+
+        onActivated: {
+            if (chatRoot && typeof chatRoot.copySelectionModeText === "function")
+                chatRoot.copySelectionModeText(false);
+        }
+        onActivatedAmbiguously: {
+            if (chatRoot && typeof chatRoot.copySelectionModeText === "function")
+                chatRoot.copySelectionModeText(false);
+        }
+    }
+    Shortcut {
+        sequences: ["Ctrl+Shift+C"]
+        context: Qt.ApplicationShortcut
+        enabled: !!chatRoot
+            && chatRoot.selectionModeCopyShortcutEnabled !== undefined
+            && !!chatRoot.selectionModeCopyShortcutEnabled
+
+        onActivated: {
+            if (chatRoot && typeof chatRoot.copySelectionModeText === "function")
+                chatRoot.copySelectionModeText(true);
+        }
+        onActivatedAmbiguously: {
+            if (chatRoot && typeof chatRoot.copySelectionModeText === "function")
+                chatRoot.copySelectionModeText(true);
+        }
+    }
     Timer {
         id: readTimer
 

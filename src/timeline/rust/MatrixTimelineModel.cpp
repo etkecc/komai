@@ -13,6 +13,7 @@
 #include <QDateTime>
 #include <QGuiApplication>
 #include <QPalette>
+#include <QTextDocument>
 #include <algorithm>
 
 #include "komai-rust-cxxbridge/ffi.h"
@@ -134,6 +135,35 @@ formatBodyHtml(const QString &body, const QString &formattedBody = {})
 }
 
 QString
+htmlToPlainText(const QString &html)
+{
+    if (html.isEmpty())
+        return {};
+
+    QTextDocument document;
+    document.setHtml(html);
+    return document.toPlainText();
+}
+
+QString
+originalCopyTextForItem(const MatrixTimelineItem &item)
+{
+    return item.body;
+}
+
+QString
+plainCopyTextForItem(const MatrixTimelineItem &item)
+{
+    const auto html =
+      item.cachedIsStateEvent ? item.cachedFormattedStateEvent : item.cachedFormattedBody;
+    const auto text = htmlToPlainText(html);
+    if (!text.isEmpty())
+        return text;
+
+    return originalCopyTextForItem(item);
+}
+
+QString
 stableTimelineItemKey(const MatrixTimelineItem &item)
 {
     const auto eventId = item.eventId.trimmed();
@@ -244,7 +274,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     case IsOnlyEmoji:        return item.cachedEmojiOnlyCount;
     case Body:               return item.body;
     case FormattedBody:      return item.cachedFormattedBody;
-    case HasFormattedBody:   return !item.cachedIsStateEvent && !item.body.isEmpty();
+    case HasFormattedBody:   return !item.cachedIsStateEvent && !item.formattedBody.isEmpty();
     case FormattedStateEvent:return item.cachedFormattedStateEvent;
     case StateEventIconSource:return item.cachedStateEventIcon;
     case IsSender:           return item.isOwn;
@@ -342,7 +372,7 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case IsOnlyEmoji:        return utils::emojiOnlyCodepointCount(effectiveBody);
     case Body:               return effectiveBody;
     case FormattedBody:      return effectiveFormattedBody;
-    case HasFormattedBody:   return !effectiveBody.isEmpty() || !parentItem.replyFormattedBody.isEmpty();
+    case HasFormattedBody:   return !parentItem.replyFormattedBody.isEmpty();
     case FormattedStateEvent:return QString();
     case StateEventIconSource:return QString();
     case IsSender:           return false;
@@ -666,6 +696,30 @@ MatrixTimelineModel::avatarUrl(const QString &userId) const
     }
 
     return {};
+}
+
+QString
+MatrixTimelineModel::copyTextForEventIds(const QVariantList &eventIds, bool plainText) const
+{
+    QStringList copiedTexts;
+    copiedTexts.reserve(eventIds.size());
+
+    for (const auto &eventIdValue : eventIds) {
+        const auto eventId = eventIdValue.toString().trimmed();
+        if (eventId.isEmpty())
+            continue;
+
+        const auto item = itemByEventId(eventId);
+        if (!item)
+            continue;
+
+        const auto copiedText =
+          plainText ? plainCopyTextForItem(*item) : originalCopyTextForItem(*item);
+        if (!copiedText.isEmpty())
+            copiedTexts.push_back(copiedText);
+    }
+
+    return copiedTexts.join(QStringLiteral("\n\n"));
 }
 
 QString

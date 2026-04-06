@@ -79,7 +79,8 @@ Item {
             "isSender": Boolean(item.isSender),
             "isEncrypted": Boolean(item.isEncrypted),
             "threadId": String(item.threadId || ""),
-            "body": String(item.body || "")
+            "body": String(item.body || ""),
+            "formattedBody": String(item.formattedBody || "")
         };
     }
 
@@ -471,6 +472,47 @@ Item {
         // model, so descending row order gives chronological order).
         entries.sort((a, b) => b.row - a.row);
         return entries.map(e => e.eid);
+    }
+
+    function orderedExistingEventIds(eventIds) {
+        const model = TimelineManager.matrixTimelineModel;
+        if (!model)
+            return [];
+
+        const entries = [];
+        for (let i = 0; i < eventIds.length; i++) {
+            const eid = String(eventIds[i] || "");
+            if (eid.length === 0)
+                continue;
+
+            const row = model.rowForEventId(eid);
+            if (row < 0)
+                continue;
+
+            entries.push({ "row": row, "eid": eid });
+        }
+
+        entries.sort((a, b) => b.row - a.row);
+        return entries.map(e => e.eid);
+    }
+
+    function copySelectionModeText(plainText) {
+        const roomModel = rootItem.messageActionsRoomModel;
+        if (!roomModel || typeof roomModel.copyTextForEventIds !== "function")
+            return false;
+
+        const eventIds = rootItem.selectedEventIds.length > 0
+            ? orderedExistingEventIds(rootItem.selectedEventIds)
+            : (rootItem.focusedEventId.length > 0 ? [rootItem.focusedEventId] : []);
+        if (eventIds.length === 0)
+            return false;
+
+        const copiedText = String(roomModel.copyTextForEventIds(eventIds, !!plainText) || "");
+        if (copiedText.length === 0)
+            return false;
+
+        Clipboard.text = copiedText;
+        return true;
     }
 
     function canPerformWalkModeAction(actionName) {

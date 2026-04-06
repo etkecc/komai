@@ -105,6 +105,7 @@ public:
                                                 const QString &relatedTo = QString()) const;
     Q_INVOKABLE QString avatarUrl(const QString &userId) const;
     Q_INVOKABLE QVariant dataByIndex(int row, int role) const { return data(index(row), role); }
+    Q_INVOKABLE QString copyTextForEventIds(const QVariantList &eventIds, bool plainText) const;
 
     /// Quick per-event accessors for toolbar / action bar — O(1) after ID lookup.
     Q_INVOKABLE QString userNameForEvent(const QString &eventId) const;

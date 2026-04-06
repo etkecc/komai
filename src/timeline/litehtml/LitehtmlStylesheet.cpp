@@ -14,10 +14,10 @@ generateMasterStylesheet(const QPalette &palette,
                          const QString &attentionColor,
                          const QString &successColor)
 {
-    const auto text          = palette.color(QPalette::Text).name();
-    const auto link          = palette.color(QPalette::Link).name();
-    const auto alternateBase = palette.color(QPalette::AlternateBase).name();
-    const auto highlight     = palette.color(QPalette::Highlight).name();
+    const auto text           = palette.color(QPalette::Text).name();
+    const auto link           = palette.color(QPalette::Link).name();
+    const auto alternateBase  = palette.color(QPalette::AlternateBase).name();
+    const auto highlight      = palette.color(QPalette::Highlight).name();
     const auto pillBackground = palette.color(QPalette::Mid).name();
 
     const auto blockMargin = compact ? QStringLiteral("0.15em 0") : QStringLiteral("0.65em 0");

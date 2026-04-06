@@ -7,6 +7,32 @@ pub(crate) use crate::matrix_backend::ffi::*;
 pub(crate) use crate::settings::ffi::*;
 pub(crate) use crate::settings::profile::SettingsProfileHandle;
 pub(crate) use crate::syntax_highlight::{highlight_formatted_code_blocks, highlight_raw_json};
+
+pub(crate) fn html_sanitize(html: &str) -> String {
+    crate::html_processor::sanitize_html(html)
+}
+
+pub(crate) fn html_linkify(html: &str) -> String {
+    crate::html_processor::linkify_html(html)
+}
+
+pub(crate) fn format_body_html(
+    body: &str,
+    formatted_body: &str,
+    pill_avatars: &Vec<HtmlPillAvatar>,
+    pill_avatar_size: u32,
+    is_dark_theme: bool,
+    syntax_highlight: bool,
+) -> String {
+    crate::html_processor::format_body_html(
+        body,
+        formatted_body,
+        pill_avatars,
+        pill_avatar_size,
+        is_dark_theme,
+        syntax_highlight,
+    )
+}
 pub(crate) use crate::theme::base16::parse_base16_yaml as theme_parse_base16_yaml;
 pub(crate) use crate::theme::builtins::builtin_themes as theme_builtin_themes;
 pub(crate) use crate::theme::external::parse_external_theme as theme_parse_external_theme;
@@ -75,6 +101,11 @@ mod bridge {
         uses_file_secrets_provider: bool,
         user_id: String,
         homeserver: String,
+    }
+
+    struct HtmlPillAvatar {
+        user_id: String,
+        mxc_url: String,
     }
 
     struct SettingsOptionalString {
@@ -1206,6 +1237,18 @@ mod bridge {
 
         fn highlight_formatted_code_blocks(html: &str, is_dark_theme: bool) -> String;
         fn highlight_raw_json(raw_json: &str, is_dark_theme: bool) -> String;
+
+        fn html_sanitize(html: &str) -> String;
+        fn html_linkify(html: &str) -> String;
+
+        fn format_body_html(
+            body: &str,
+            formatted_body: &str,
+            pill_avatars: &Vec<HtmlPillAvatar>,
+            pill_avatar_size: u32,
+            is_dark_theme: bool,
+            syntax_highlight: bool,
+        ) -> String;
 
         fn resolve_server(
             context: MatrixFfiBlockingContext,

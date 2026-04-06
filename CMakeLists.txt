@@ -298,8 +298,6 @@ set(SRC_FILES
     src/timeline/RoomRoles.h
     src/timeline/formattedcode/RawJsonFormatter.cpp
     src/timeline/formattedcode/RawJsonFormatter.h
-    src/timeline/formattedmessage/HtmlProcessor.cpp
-    src/timeline/formattedmessage/HtmlProcessor.h
     src/timeline/litehtml/LitehtmlContainer.cpp
     src/timeline/litehtml/LitehtmlContainer.h
     src/timeline/litehtml/LitehtmlItem.cpp
@@ -424,7 +422,6 @@ set(SRC_FILES
     src/models/CompletionModelRoles.h
     src/models/CompletionProxyModel.cpp
     src/models/CompletionProxyModel.h
-    src/timeline/formattedmessage/LinkPatterns.h
     src/matrix/MatrixStateTypes.h
     src/imagepacks/ImagePackListModel.cpp
     src/imagepacks/ImagePackListModel.h
@@ -1010,16 +1007,6 @@ if(BUILD_TESTING)
     add_test(NAME komai_setting_input_validation_test COMMAND komai_setting_input_validation_test)
     komai_configure_test(komai_setting_input_validation_test "unit;settings")
 
-    add_executable(komai_formatted_message_html_processor_test
-        tests/FormattedMessageHtmlProcessorTest.cpp
-        src/timeline/formattedmessage/HtmlProcessor.cpp
-    )
-    target_include_directories(komai_formatted_message_html_processor_test PRIVATE src)
-    target_link_libraries(komai_formatted_message_html_processor_test PRIVATE Qt::Core)
-    add_test(NAME komai_formatted_message_html_processor_test COMMAND komai_formatted_message_html_processor_test)
-    komai_configure_test(komai_formatted_message_html_processor_test "unit;timeline")
-
-
 
     add_executable(komai_notification_payload_test
         tests/NotificationPayloadTest.cpp
@@ -1168,7 +1155,6 @@ if(BUILD_TESTING)
         komai_settings_storage_test
         komai_settings_store_test
         komai_setting_input_validation_test
-        komai_formatted_message_html_processor_test
         komai_notification_payload_test
         komai_roomlist_preview_selection_test
         komai_theme_color_utils_test

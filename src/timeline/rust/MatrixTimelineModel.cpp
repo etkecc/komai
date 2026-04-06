@@ -6,7 +6,6 @@
 
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineEventTypes.h"
-#include "timeline/formattedmessage/HtmlProcessor.h"
 #include "ui/KomaiGlobalObject.h"
 #include "utils/MediaIcons.h"
 #include "utils/Utils.h"
@@ -110,32 +109,28 @@ stateEventIconForItem(const MatrixTimelineItem &item)
 
 QString
 formatBodyHtml(const QString &body,
-               const QString &formattedBody                                       = {},
-               const timeline::formattedmessage::PillAvatarResolver &pillResolver = nullptr)
+               const QString &formattedBody                                  = {},
+               const ::rust::Vec<::komai::rust::HtmlPillAvatar> &pillAvatars = {})
 {
     if (body.isEmpty() && formattedBody.isEmpty())
         return {};
 
-    QString html;
-    if (!formattedBody.isEmpty()) {
-        // The formatted body is already HTML from the server; sanitize and linkify it directly
-        // without reinterpreting plain text as markdown locally.
-        html = utils::escapeBlacklistedHtml(formattedBody);
+    const auto bodyStd          = body.toStdString();
+    const auto formattedBodyStd = formattedBody.toStdString();
 
-        const auto settings = UserSettings::instance();
-        if (settings && settings->timelineFormattedCodeSyntaxHighlighting()) {
-            const bool isDark  = QGuiApplication::palette().color(QPalette::Base).lightness() < 128;
-            const auto htmlStd = html.toStdString();
-            html = QString::fromStdString(std::string(komai::rust::highlight_formatted_code_blocks(
-              ::rust::Str(htmlStd.data(), htmlStd.size()), isDark)));
-        }
+    const auto settings        = UserSettings::instance();
+    const bool syntaxHighlight = settings && settings->timelineFormattedCodeSyntaxHighlighting();
+    const bool isDark          = QGuiApplication::palette().color(QPalette::Base).lightness() < 128;
+    const int pillAvatarSize   = Komai::listIconLogicalSize();
 
-        html = utils::linkifyMessage(html);
-        html = timeline::formattedmessage::decorateMatrixPills(html, pillResolver);
-    } else {
-        html = timeline::formattedmessage::plainTextToHtml(body);
-        html = utils::linkifyMessage(html);
-    }
+    auto html = QString::fromStdString(std::string(
+      komai::rust::format_body_html(::rust::Str(bodyStd.data(), bodyStd.size()),
+                                    ::rust::Str(formattedBodyStd.data(), formattedBodyStd.size()),
+                                    pillAvatars,
+                                    static_cast<uint32_t>(pillAvatarSize),
+                                    isDark,
+                                    syntaxHighlight)));
+
     return utils::replaceEmoji(html);
 }
 
@@ -200,7 +195,7 @@ effectiveReplyPreviewDisplayName(const MatrixTimelineItem &item)
 void
 computeDerivedFields(MatrixTimelineItem &item,
                      const QString &roomId,
-                     const timeline::formattedmessage::PillAvatarResolver &pillResolver = nullptr)
+                     const ::rust::Vec<::komai::rust::HtmlPillAvatar> &pillAvatars = {})
 {
     const bool isState = isStateLikeKind(item.itemKind);
     item.cachedType = qml_mtx_events::matrixTimelineEventType(item.itemKind, item.matrixEventType);
@@ -222,7 +217,7 @@ computeDerivedFields(MatrixTimelineItem &item,
                                  ? static_cast<double>(item.mediaHeight) / item.mediaWidth
                                  : 0.0;
     item.cachedFormattedBody =
-      isState ? QString() : formatBodyHtml(item.body, item.formattedBody, pillResolver);
+      isState ? QString() : formatBodyHtml(item.body, item.formattedBody, pillAvatars);
     item.cachedFormattedStateEvent =
       isState ? formatBodyHtml(item.body, item.formattedBody) : QString();
     item.cachedStateEventIcon = isState ? stateEventIconForItem(item) : QString();
@@ -706,24 +701,28 @@ MatrixTimelineModel::avatarUrl(const QString &userId) const
     return {};
 }
 
-timeline::formattedmessage::PillAvatarResolver
-MatrixTimelineModel::pillAvatarResolver() const
+::rust::Vec<::komai::rust::HtmlPillAvatar>
+MatrixTimelineModel::buildPillAvatars(const QVector<MatrixTimelineItem> &items)
 {
-    const int pillThumbSourcePx = Komai::listIconLogicalSize();
+    ::rust::Vec<::komai::rust::HtmlPillAvatar> avatars;
 
-    return [this, pillThumbSourcePx](const QString &matrixId) -> QString {
-        if (!matrixId.startsWith(QLatin1Char('@')))
-            return {};
+    QSet<QString> seen;
+    for (const auto &item : items) {
+        if (item.senderId.isEmpty() || item.senderAvatarUrl.isEmpty())
+            continue;
+        if (!item.senderAvatarUrl.startsWith(QLatin1String("mxc://")))
+            continue;
+        if (seen.contains(item.senderId))
+            continue;
+        seen.insert(item.senderId);
 
-        const auto mxcUrl = avatarUrl(matrixId);
-        if (mxcUrl.isEmpty() || !mxcUrl.startsWith(QLatin1String("mxc://")))
-            return {};
+        ::komai::rust::HtmlPillAvatar entry;
+        entry.user_id = ::rust::String(item.senderId.toStdString());
+        entry.mxc_url = ::rust::String(item.senderAvatarUrl.toStdString());
+        avatars.push_back(std::move(entry));
+    }
 
-        auto src = mxcUrl;
-        src.replace(QLatin1String("mxc://"), QLatin1String("image://mxcImage/"));
-        src.append(QStringLiteral("?avatarSize=%1&radius=25").arg(pillThumbSourcePx));
-        return src;
-    };
+    return avatars;
 }
 
 QString
@@ -912,9 +911,9 @@ MatrixTimelineModel::refreshDerivedFields()
         return;
     }
 
-    const auto resolver = pillAvatarResolver();
+    const auto avatars = buildPillAvatars(allItems_);
     for (auto &item : allItems_)
-        computeDerivedFields(item, roomId_, resolver);
+        computeDerivedFields(item, roomId_, avatars);
 
     revealedItemCount_ = std::clamp(revealedItemCount_, 0, static_cast<int>(allItems_.size()));
     replaceVisibleItems(visibleItemsForRawCount(revealedItemCount_));
@@ -1030,9 +1029,9 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
                                }),
                 items.end());
 
-    const auto resolver = pillAvatarResolver();
+    const auto avatars = buildPillAvatars(items);
     for (auto &item : items)
-        computeDerivedFields(item, roomId_, resolver);
+        computeDerivedFields(item, roomId_, avatars);
 
     // Derive isThreadRoot: collect all threadId values (these reference the
     // thread root event), then mark items whose eventId appears in that set.

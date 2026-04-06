@@ -27,9 +27,9 @@
 #include <QXmlStreamReader>
 
 #include "chat/ChatPage.h"
+#include "komai-rust-cxxbridge/ffi.h"
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
-#include "timeline/formattedmessage/HtmlProcessor.h"
 
 QString
 utils::firstChar(const QString &input)
@@ -165,7 +165,9 @@ utils::humanReadableFingerprint(const std::string &ed25519_)
 QString
 utils::linkifyMessage(const QString &body)
 {
-    return timeline::formattedmessage::linkifyHtml(body);
+    const auto bodyStd = body.toStdString();
+    return QString::fromStdString(
+      std::string(komai::rust::html_linkify(::rust::Str(bodyStd.data(), bodyStd.size()))));
 }
 
 QString
@@ -199,7 +201,9 @@ utils::escapeMentionMarkdown(QString input)
 QString
 utils::escapeBlacklistedHtml(const QString &rawStr)
 {
-    return timeline::formattedmessage::sanitizeHtml(rawStr);
+    const auto rawStd = rawStr.toStdString();
+    return QString::fromStdString(
+      std::string(komai::rust::html_sanitize(::rust::Str(rawStd.data(), rawStd.size()))));
 }
 
 void

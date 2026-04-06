@@ -10,9 +10,9 @@
 #include <QVector>
 #include <optional>
 
+#include "komai-rust-cxxbridge/ffi.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/EventDataSource.h"
-#include "timeline/formattedmessage/HtmlProcessor.h"
 
 namespace komai {
 
@@ -105,7 +105,8 @@ public:
     Q_INVOKABLE QVariantMap previewDataForEvent(const QString &eventId,
                                                 const QString &relatedTo = QString()) const;
     Q_INVOKABLE QString avatarUrl(const QString &userId) const;
-    timeline::formattedmessage::PillAvatarResolver pillAvatarResolver() const;
+    static ::rust::Vec<::komai::rust::HtmlPillAvatar>
+    buildPillAvatars(const QVector<MatrixTimelineItem> &items);
     Q_INVOKABLE QVariant dataByIndex(int row, int role) const { return data(index(row), role); }
     Q_INVOKABLE QString copyTextForEventIds(const QVariantList &eventIds, bool plainText) const;
 

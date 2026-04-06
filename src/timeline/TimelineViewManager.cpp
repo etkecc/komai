@@ -196,6 +196,12 @@ TimelineViewManager::escapeEmoji(QString str) const
     return utils::replaceEmoji(str);
 }
 
+int
+TimelineViewManager::emojiOnlyCodepointCount(const QString &body) const
+{
+    return utils::emojiOnlyCodepointCount(body);
+}
+
 void
 TimelineViewManager::markRoomSwitchRequested(const QString &roomId, const QString &reason)
 {

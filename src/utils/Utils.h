@@ -25,6 +25,9 @@ inline constexpr auto MatrixHtmlMessageFormat = "org.matrix.custom.html";
 bool
 codepointIsEmoji(uint code);
 
+int
+emojiOnlyCodepointCount(const QString &body);
+
 /// Resolved emoji font family name. Returns the user's configured emoji font,
 /// or the system's default emoji font resolved via QFontInfo.
 QString

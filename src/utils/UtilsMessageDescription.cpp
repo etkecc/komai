@@ -36,6 +36,24 @@ utils::codepointIsEmoji(uint code)
            (code >= 0x25fb && code <= 0x25fe) || (code >= 0x2460 && code <= 0x24ff);
 }
 
+int
+utils::emojiOnlyCodepointCount(const QString &body)
+{
+    if (body.isEmpty())
+        return 0;
+
+    const auto utf32 = body.toUcs4();
+    int emojiCount   = 0;
+
+    for (const auto code : utf32) {
+        if (!utils::codepointIsEmoji(code))
+            return 0;
+        ++emojiCount;
+    }
+
+    return emojiCount;
+}
+
 QString
 utils::effectiveEmojiFontFamily()
 {

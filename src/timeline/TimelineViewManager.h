@@ -244,6 +244,7 @@ public:
                                                          int roomMemberCount,
                                                          int colorCodingPolicy = -1);
     Q_INVOKABLE QString escapeEmoji(QString str) const;
+    Q_INVOKABLE int emojiOnlyCodepointCount(const QString &body) const;
     Q_INVOKABLE QString htmlEscape(QString str) const { return str.toHtmlEscaped(); }
     Q_INVOKABLE QString formatMatrixMessageHtml(const QString &body) const;
     Q_INVOKABLE QVariantMap inspectActiveMatrixSlashCommand(const QString &text) const;

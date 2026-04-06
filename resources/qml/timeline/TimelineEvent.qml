@@ -90,6 +90,7 @@ EventDelegateChooser {
             surfaceColor: EventDelegateChooser.isReply
                           ? chooserReplySurfaceColor
                           : chooserMainSurfaceColor
+            eventType: type
             font.italic: type == MtxEvent.NoticeMessage
             formatted: formattedBody
             keepFullText: true

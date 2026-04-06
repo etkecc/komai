@@ -11,7 +11,10 @@ import cc.etke.komai
 LitehtmlItem {
     id: litehtmlRoot
     required property string body
-    required property int isOnlyEmoji
+    property int eventType: MtxEvent.UnknownMessage
+    property int isOnlyEmoji: eventType === MtxEvent.TextMessage
+        ? TimelineManager.emojiOnlyCodepointCount(body)
+        : 0
     property bool isReply: EventDelegateChooser.isReply
     required property bool keepFullText
     required property string formatted

@@ -12,6 +12,8 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQmlExpression>
+#include <QQmlProperty>
+#include <QSet>
 #include <QtGlobal>
 
 #include <ranges>
@@ -68,6 +70,74 @@ readPreviewProperty(const QVariant &previewData, const QString &propertyName)
     }
 
     return {};
+}
+
+QVariantMap
+previewDataToMap(const QVariant &previewData)
+{
+    if (!previewData.isValid())
+        return {};
+
+    if (previewData.canConvert<QVariantMap>())
+        return previewData.toMap();
+
+    if (previewData.userType() == qMetaTypeId<QJSValue>())
+        return previewData.value<QJSValue>().toVariant().toMap();
+
+    return {};
+}
+
+QStringList
+requiredDelegatePropertyNames(QObject *obj,
+                              const QHash<QString, QList<RequiredPropertyKey>> &requiredProperties)
+{
+    QStringList propertyNames;
+    QSet<QString> seen;
+    const auto *mo = obj->metaObject();
+
+    for (int i = 0; i < mo->propertyCount(); ++i) {
+        const auto prop         = mo->property(i);
+        const auto propertyName = QString::fromUtf8(prop.name());
+        if (!prop.isRequired() && !requiredProperties.contains(propertyName))
+            continue;
+        if (seen.contains(propertyName))
+            continue;
+
+        seen.insert(propertyName);
+        propertyNames.push_back(propertyName);
+    }
+
+    for (auto it = requiredProperties.cbegin(); it != requiredProperties.cend(); ++it) {
+        if (seen.contains(it.key()))
+            continue;
+
+        seen.insert(it.key());
+        propertyNames.push_back(it.key());
+    }
+
+    return propertyNames;
+}
+
+void
+removeRequiredPropertyKeys(QQmlIncubator *incubator,
+                           const QHash<QString, QList<RequiredPropertyKey>> &requiredProperties,
+                           const QString &propertyName)
+{
+    if (const auto it = requiredProperties.find(propertyName); it != requiredProperties.end()) {
+        for (const auto &key : it.value())
+            QQmlIncubatorPrivate::get(incubator)->requiredProperties()->remove(key);
+    }
+}
+
+bool
+writeResolvedProperty(QObject *obj,
+                      const QString &propertyName,
+                      const QVariant &value,
+                      QQmlContext *fallbackContext)
+{
+    QQmlProperty property = fallbackContext ? QQmlProperty(obj, propertyName, fallbackContext)
+                                            : QQmlProperty(obj, propertyName);
+    return property.isValid() && property.isWritable() && property.write(value);
 }
 
 } // namespace
@@ -217,15 +287,13 @@ EventDelegateChooser::DelegateIncubator::refreshRoomlessProperties()
         previewData = chooser.property("previewData");
 
     QVariantMap previewMap;
-    if (previewData.canConvert<QVariantMap>()) {
-        previewMap = previewData.toMap();
-    } else if (previewData.userType() == qMetaTypeId<QJSValue>()) {
-        previewMap = previewData.value<QJSValue>().toVariant().toMap();
-    }
+    previewMap = previewDataToMap(previewData);
     if (previewMap.isEmpty())
         return false;
 
-    auto *mo = obj->metaObject();
+    auto *context = QQmlEngine::contextForObject(obj);
+    if (!context)
+        context = QQmlEngine::contextForObject(&chooser);
 
     Qt::beginPropertyUpdateGroup();
     for (auto it = previewMap.cbegin(); it != previewMap.cend(); ++it) {
@@ -233,15 +301,8 @@ EventDelegateChooser::DelegateIncubator::refreshRoomlessProperties()
         if (!value.isValid())
             continue;
 
-        int propIdx = mo->indexOfProperty(it.key().toUtf8().constData());
-        if (propIdx < 0)
+        if (!writeResolvedProperty(obj, it.key(), value, context))
             continue;
-
-        auto prop = mo->property(propIdx);
-        if (!prop.isWritable())
-            continue;
-
-        prop.write(obj, value);
     }
     Qt::endPropertyUpdateGroup();
 
@@ -264,35 +325,58 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
     Q_ASSERT(attached != nullptr);
     attached->setIsReply(this->forReply || chooser.limitAsReply_);
 
-    auto chooserContext = QQmlEngine::contextForObject(&chooser);
+    auto *objectContext  = QQmlEngine::contextForObject(obj);
+    auto *chooserContext = QQmlEngine::contextForObject(&chooser);
     if (!chooserContext)
-        chooserContext = QQmlEngine::contextForObject(obj);
+        chooserContext = objectContext;
     // Workaround for https://bugreports.qt.io/browse/QTBUG-98846
-    QHash<QString, RequiredPropertyKey> requiredProperties;
+    QHash<QString, QList<RequiredPropertyKey>> requiredProperties;
     for (const auto &[propKey, prop] :
          QQmlIncubatorPrivate::get(this)->requiredProperties()->asKeyValueRange()) {
-        requiredProperties.insert(prop.propertyName, propKey);
+        if (propKey.object != obj)
+            continue;
+        requiredProperties[prop.propertyName].push_back(propKey);
     }
 
-    auto mo = obj->metaObject();
+    const auto propertyNames = requiredDelegatePropertyNames(obj, requiredProperties);
 
     // Preview delegates may be instantiated without a room-backed event data source.
     // In that case, populate required properties from the delegate context.
     if (!chooser.room_) {
+        QVariant previewData =
+          forReply ? chooser.property("replyPreviewData") : chooser.property("previewData");
+        if (!previewData.isValid() && forReply)
+            previewData = chooser.property("previewData");
+        const auto previewMap = previewDataToMap(previewData);
+        QSet<QString> writtenProperties;
+
         Qt::beginPropertyUpdateGroup();
-        for (int i = 0; i < mo->propertyCount(); i++) {
-            auto prop = mo->property(i);
-            if (!prop.isRequired() && !requiredProperties.contains(prop.name()))
+        for (auto it = previewMap.cbegin(); it != previewMap.cend(); ++it) {
+            if (!it.value().isValid())
                 continue;
 
-            auto value = readPreviewValue(prop.name());
+            if (!writeResolvedProperty(
+                  obj, it.key(), it.value(), objectContext ? objectContext : chooserContext))
+                continue;
+
+            writtenProperties.insert(it.key());
+            removeRequiredPropertyKeys(this, requiredProperties, it.key());
+        }
+
+        for (const auto &propertyName : propertyNames) {
+            if (writtenProperties.contains(propertyName))
+                continue;
+
+            const auto propertyNameUtf8 = propertyName.toUtf8();
+            auto value                  = readPreviewValue(propertyNameUtf8.constData());
             if (!value.isValid())
                 continue;
 
-            mo->property(i).write(obj, value);
-            if (const auto &req = requiredProperties.find(prop.name());
-                req != requiredProperties.end())
-                QQmlIncubatorPrivate::get(this)->requiredProperties()->remove(*req);
+            if (!writeResolvedProperty(
+                  obj, propertyName, value, objectContext ? objectContext : chooserContext))
+                continue;
+
+            removeRequiredPropertyKeys(this, requiredProperties, propertyName);
         }
         Qt::endPropertyUpdateGroup();
         return;
@@ -304,36 +388,47 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
         nameToRole.insert(v, k);
     }
 
-    QHash<int, int> roleToPropIdx;
+    QHash<int, QString> roleToPropertyName;
     std::vector<QModelRoleData> roles;
-    for (int i = 0; i < mo->propertyCount(); i++) {
-        auto prop = mo->property(i);
-        if (!prop.isRequired() && !requiredProperties.contains(prop.name()))
-            continue;
-
-        if (auto role = nameToRole.find(prop.name()); role != nameToRole.end()) {
-            roleToPropIdx.insert(*role, i);
+    auto *propertyContext = objectContext ? objectContext : chooserContext;
+    for (const auto &propertyName : propertyNames) {
+        const auto propertyNameUtf8 = propertyName.toUtf8();
+        if (auto role = nameToRole.find(propertyNameUtf8); role != nameToRole.end()) {
+            roleToPropertyName.insert(*role, propertyName);
             roles.emplace_back(*role);
         } else {
-            nhlog::ui()->critical("Required property {} not found in model!", prop.name());
+            nhlog::ui()->critical("Required property {} not found in model!",
+                                  propertyName.toStdString());
         }
+    }
+
+    for (const auto &[role, roleName] : roleNames.asKeyValueRange()) {
+        if (roleToPropertyName.contains(role))
+            continue;
+
+        const auto propertyName = QString::fromUtf8(roleName);
+        const auto property     = propertyContext ? QQmlProperty(obj, propertyName, propertyContext)
+                                                  : QQmlProperty(obj, propertyName);
+        if (!property.isProperty() || !property.isValid() || !property.isWritable())
+            continue;
+
+        roleToPropertyName.insert(role, propertyName);
+        roles.emplace_back(role);
     }
 
     chooser.room_->multiData(currentId, forReply ? chooser.eventId_ : QString(), roles);
 
     Qt::beginPropertyUpdateGroup();
     for (const auto &role : roles) {
-        const auto &roleName = roleNames[role.role()];
         // nhlog::ui()->critical("Setting role {}, {} to {}",
         //                       role.role(),
-        //                       roleName.toStdString(),
+        //                       roleNames[role.role()].toStdString(),
         //                       role.data().toString().toStdString());
 
-        // nhlog::ui()->critical("Setting {}", mo->property(roleToPropIdx[role.role()]).name());
-        mo->property(roleToPropIdx[role.role()]).write(obj, role.data());
+        const auto propertyName = roleToPropertyName.value(role.role());
+        writeResolvedProperty(obj, propertyName, role.data(), propertyContext);
 
-        if (const auto &req = requiredProperties.find(roleName); req != requiredProperties.end())
-            QQmlIncubatorPrivate::get(this)->requiredProperties()->remove(*req);
+        removeRequiredPropertyKeys(this, requiredProperties, propertyName);
     }
 
     Qt::endPropertyUpdateGroup();
@@ -342,57 +437,58 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
 
     const int typeRoleId = lookupTypeRole(chooser.room_);
 
-    auto update = [this, obj, roleToPropIdx = std::move(roleToPropIdx), typeRoleId](
-                    const QList<int> &changedRoles, EventDataSource *room) {
-        if (!room)
-            return;
+    auto update =
+      [this, obj, propertyContext, roleToPropertyName = std::move(roleToPropertyName), typeRoleId](
+        const QList<int> &changedRoles, EventDataSource *room) {
+          if (!room)
+              return;
 
-        if (typeRoleId >= 0 && (changedRoles.empty() || changedRoles.contains(typeRoleId))) {
-            int type =
-              room->dataById(currentId, typeRoleId, forReply ? chooser.eventId_ : QString())
-                .toInt();
-            if (type != oldType) {
-                if (churnPerfEnabled()) {
-                    nhlog::ui()->info("[churn] typeChangeReset chooser={} event={} forReply={} "
-                                      "oldType={} newType={} changedRolesCount={}",
-                                      (void *)&chooser,
-                                      currentId.toStdString(),
-                                      forReply,
-                                      oldType,
-                                      type,
-                                      changedRoles.size());
-                }
-                reset(currentId);
-                return;
-            }
-        }
+          if (typeRoleId >= 0 && (changedRoles.empty() || changedRoles.contains(typeRoleId))) {
+              int type =
+                room->dataById(currentId, typeRoleId, forReply ? chooser.eventId_ : QString())
+                  .toInt();
+              if (type != oldType) {
+                  if (churnPerfEnabled()) {
+                      nhlog::ui()->info("[churn] typeChangeReset chooser={} event={} forReply={} "
+                                        "oldType={} newType={} changedRolesCount={}",
+                                        (void *)&chooser,
+                                        currentId.toStdString(),
+                                        forReply,
+                                        oldType,
+                                        type,
+                                        changedRoles.size());
+                  }
+                  reset(currentId);
+                  return;
+              }
+          }
 
-        std::vector<QModelRoleData> rolesToRequest;
+          std::vector<QModelRoleData> rolesToRequest;
 
-        if (changedRoles.empty()) {
-            for (const auto role :
-                 std::ranges::subrange(roleToPropIdx.keyBegin(), roleToPropIdx.keyEnd()))
-                rolesToRequest.emplace_back(role);
-        } else {
-            for (auto role : changedRoles) {
-                if (roleToPropIdx.contains(role)) {
-                    rolesToRequest.emplace_back(role);
-                }
-            }
-        }
+          if (changedRoles.empty()) {
+              for (const auto role : std::ranges::subrange(roleToPropertyName.keyBegin(),
+                                                           roleToPropertyName.keyEnd()))
+                  rolesToRequest.emplace_back(role);
+          } else {
+              for (auto role : changedRoles) {
+                  if (roleToPropertyName.contains(role)) {
+                      rolesToRequest.emplace_back(role);
+                  }
+              }
+          }
 
-        if (rolesToRequest.empty())
-            return;
+          if (rolesToRequest.empty())
+              return;
 
-        auto mo = obj->metaObject();
-        room->multiData(currentId, forReply ? chooser.eventId_ : QString(), rolesToRequest);
+          room->multiData(currentId, forReply ? chooser.eventId_ : QString(), rolesToRequest);
 
-        Qt::beginPropertyUpdateGroup();
-        for (const auto &role : rolesToRequest) {
-            mo->property(roleToPropIdx[role.role()]).write(obj, role.data());
-        }
-        Qt::endPropertyUpdateGroup();
-    };
+          Qt::beginPropertyUpdateGroup();
+          for (const auto &role : rolesToRequest) {
+              writeResolvedProperty(
+                obj, roleToPropertyName.value(role.role()), role.data(), propertyContext);
+          }
+          Qt::endPropertyUpdateGroup();
+      };
 
     const auto trackedId      = currentId;
     const auto trackedEventId = chooser.eventId_;

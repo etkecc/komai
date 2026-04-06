@@ -35,24 +35,6 @@ configuredInitialVisibleWindow()
     return count;
 }
 
-int
-emojiOnlyCodepointCount(const QString &body)
-{
-    if (body.isEmpty())
-        return 0;
-
-    const auto utf32 = body.toUcs4();
-    int emojiCount   = 0;
-
-    for (const auto code : utf32) {
-        if (!utils::codepointIsEmoji(code))
-            return 0;
-        ++emojiCount;
-    }
-
-    return emojiCount;
-}
-
 bool
 isStateLikeKind(const QString &kind)
 {
@@ -161,12 +143,13 @@ computeDerivedFields(MatrixTimelineItem &item, const QString &roomId)
     item.cachedIsHiddenEvent =
       UserSettings::instance() &&
       UserSettings::instance()->isTimelineEventHiddenInRoom(item.cachedType, roomId);
-    item.cachedEmojiOnlyCount =
-      item.cachedType == qml_mtx_events::TextMessage ? emojiOnlyCodepointCount(item.body) : 0;
-    item.cachedDay          = dayKeyFromTimestamp(item.timestamp);
-    item.cachedStatus       = deliveryStateToEventState(item.deliveryState);
-    item.cachedIsStateEvent = isState;
-    item.cachedIsEncrypted  = item.mediaIsEncrypted || item.thumbnailIsEncrypted ||
+    item.cachedEmojiOnlyCount = item.cachedType == qml_mtx_events::TextMessage
+                                  ? utils::emojiOnlyCodepointCount(item.body)
+                                  : 0;
+    item.cachedDay            = dayKeyFromTimestamp(item.timestamp);
+    item.cachedStatus         = deliveryStateToEventState(item.deliveryState);
+    item.cachedIsStateEvent   = isState;
+    item.cachedIsEncrypted    = item.mediaIsEncrypted || item.thumbnailIsEncrypted ||
                              item.itemKind == QStringLiteral("unable_to_decrypt");
     item.cachedIsEditable    = item.isOwn && (item.itemKind == QStringLiteral("message") ||
                                            item.itemKind == QStringLiteral("notice") ||
@@ -329,7 +312,7 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case Type:               return replyType;
     case TypeString:         return parentItem.replyItemKind.isEmpty() ? QStringLiteral("message")
                                                                        : parentItem.replyItemKind;
-    case IsOnlyEmoji:        return emojiOnlyCodepointCount(effectiveBody);
+    case IsOnlyEmoji:        return utils::emojiOnlyCodepointCount(effectiveBody);
     case Body:               return effectiveBody;
     case FormattedBody:      return effectiveFormattedBody;
     case HasFormattedBody:   return !effectiveBody.isEmpty() || !parentItem.replyFormattedBody.isEmpty();

@@ -1,10 +1,18 @@
 # 🦀 Rust in Komai
 
-Komai includes Rust code for functionality best served by existing Rust crates. The first integration is **[resolvematrix](https://crates.io/crates/resolvematrix)** for Matrix server discovery (`.well-known/matrix/server` + SRV records).
+Komai's Rust code is now part of the application's core runtime. It owns the
+Matrix client/backend layer built on [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk),
+plus settings codecs, syntax highlighting, theme embedding, homeserver
+discovery, and the `komai-mcp` automation binary.
 
 ## Why Rust?
 
-Rust is a long-game investment. A memory-safe language that is also fast is a great fit for making a C++ codebase better — without throwing it all away and going "Rust only." We bridge to Rust where it adds value: leveraging existing crates (like `resolvematrix` for Matrix server discovery) and gradually writing new functionality in a safer language. The first integration is Matrix server-to-server endpoint discovery for direct MRS API calls.
+Rust is a long-game investment. A memory-safe language that is also fast is a
+great fit for making a C++ codebase better without throwing it all away and
+going "Rust only." Komai started with Rust for Matrix homeserver discovery via
+**[resolvematrix](https://crates.io/crates/resolvematrix)**; it now also uses
+Rust for the matrix-sdk runtime and other high-churn core infrastructure where
+safety and existing crate ecosystems pay off.
 
 ## Interop Pattern
 
@@ -28,31 +36,34 @@ This means the rest of Komai never sees CXX types. If we ever change interop mec
 
 ## Directory Layout
 
+Representative layout:
+
 ```
 src/rust/
-├── Cargo.toml          # Package manifest (staticlib + rlib + binaries)
-├── Cargo.lock          # Committed for reproducible builds
-├── build.rs            # CXX build script
+├── Cargo.toml              # Workspace root for komai-rust
+├── Cargo.lock              # Committed for reproducible builds
+├── build.rs                # CXX bridge build script
+├── komai-mcp/              # Rust MCP server binary crate
+├── resolvematrix/          # Vendored Matrix homeserver discovery crate
 └── src/
-    ├── lib.rs          # Shared Rust library modules + CXX bridge
-    ├── bin/
-    │   └── komai-mcp.rs
-    ├── ipc/
-    │   ├── client.rs
-    │   ├── mod.rs
-    │   ├── protocol.rs
-    │   ├── unix.rs
-    │   └── windows.rs
-    └── mcp/
-        ├── errors.rs
-        ├── mod.rs
-        ├── results.rs
-        ├── server.rs
-        └── tools.rs
+    ├── lib.rs              # Shared Rust library modules + CXX bridge
+    ├── ffi.rs              # FFI bridge types/helpers
+    ├── logging.rs          # Tracing/logging bridge
+    ├── matrix_backend/     # matrix-sdk runtime, room list, timeline, auth
+    ├── settings/           # config/state/session/secrets codecs
+    ├── syntax_highlight.rs # syntect-based code highlighting
+    └── theme/              # built-in theme embedding
 
 src/matrix/
-├── MatrixServerResolver.h    # C++ wrapper (public API)
-└── MatrixServerResolver.cpp  # Wrapper implementation
+├── MatrixServerResolver.*       # C++ wrapper around resolvematrix
+└── backend/
+    ├── MatrixAuthService.*      # Login/bootstrap bridge
+    ├── MatrixBackendBridge.*    # Rust runtime ownership/lifecycle
+    ├── MatrixBackendRuntimeService.* # Blocking worker-thread bridge methods
+    ├── MatrixBlockingCall.h     # C++ blocking-call policy
+    ├── MatrixFfiBlockingContext.h
+    ├── MatrixSdkPaths.*         # Per-profile filesystem layout
+    └── MatrixSessionSecrets.*   # Session secret marshalling
 ```
 
 ## Build Integration

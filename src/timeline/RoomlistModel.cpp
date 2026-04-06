@@ -406,8 +406,7 @@ RoomlistModel::initializeRooms()
         refreshMatrixBackendRooms();
     } else {
         nhlog::ui()->warn(
-          "RoomlistModel initialization without an active matrix-sdk runtime is not supported "
-          "on the migration branch");
+          "RoomlistModel initialization without an active matrix-sdk runtime is not supported");
     }
 
 #ifdef KOMAI_DBUS_SYS

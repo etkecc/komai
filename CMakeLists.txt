@@ -620,7 +620,7 @@ if(litehtml_ADDED)
     endif()
 endif()
 
-# Rust integration via Corrosion (CXX bridge for resolvematrix and future crates)
+# Rust integration via Corrosion (matrix-sdk backend, resolvematrix, and supporting crates)
 #
 # matrix-sdk 0.16 currently fails to compile on Rust 1.94.x due an upstream
 # compiler/query-depth issue. Pin the Corrosion toolchain to 1.93.0 by default

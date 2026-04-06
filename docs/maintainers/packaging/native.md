@@ -8,7 +8,12 @@ Build and install Komai directly on your system using CMake.
 - **Python 3** (for theme generation and emoji data generation at build time)
 - **CMake** 3.15+
 - **C++20 compiler**: GCC 11.3+, Clang 16+, or MSVC 19.13+
-- **Rust** 1.70+ (rustc + cargo) -- for the CXX-bridged Rust crate (`resolvematrix`)
+- **Rust** 1.93.0 toolchain (rustc + cargo; `rustup` recommended) -- for the matrix-sdk runtime,
+  settings/theme/syntax helpers, and supporting Rust crates
+
+Komai pins Rust via [`rust-toolchain.toml`](../../../rust-toolchain.toml), and CMake defaults
+Corrosion to the `1.93.0` rustup toolchain because `matrix-sdk` 0.16 currently fails on Rust
+`1.94.x`.
 
 ## Quick start
 
@@ -113,6 +118,10 @@ By default, CPM downloads and builds all non-system C++ dependencies
 (`litehtml`, etc.), while Cargo resolves
 the Rust runtime crates (`matrix-sdk`, `matrix-sdk-ui`, and friends). Pass
 `-DCPM_USE_LOCAL_PACKAGES=ON` to prefer system packages instead.
+
+If your distro `cargo`/`rustc` packages do not provide Rust `1.93.0`, install that toolchain via
+`rustup toolchain install 1.93.0` so Corrosion can use the pinned version from
+`rust-toolchain.toml`.
 
 Note: macOS bundle builds also need the Qt installation used for the build to
 include ICNS imageformat support, because the app bundle icon is generated from

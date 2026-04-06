@@ -21,9 +21,15 @@ OverlayDialog {
     // Per-tab room size filter combo index: 0 = up to large, 1 = up to very large, 2 = any
     property var sizeFilterPerTab: ({
         [RoomDirectory.ServerMode.Mine]: RoomDirectory.SizeFilter.Any,
-        [RoomDirectory.ServerMode.MRS]: RoomDirectory.SizeFilter.Any,
+        [RoomDirectory.ServerMode.MRS]: RoomDirectory.SizeFilter.UpToLarge,
         [RoomDirectory.ServerMode.Custom]: RoomDirectory.SizeFilter.Any
     })
+
+    function defaultSizeFilterForMode(mode) {
+        return mode === RoomDirectory.ServerMode.MRS
+            ? RoomDirectory.SizeFilter.UpToLarge
+            : RoomDirectory.SizeFilter.Any;
+    }
 
     function sizeFilterValueForIndex(index) {
         switch (index) {
@@ -144,7 +150,7 @@ OverlayDialog {
         serverMode = mode;
 
         // Restore new tab's size filter
-        applySizeFilter(sizeFilterPerTab[mode] ?? RoomDirectory.SizeFilter.Any);
+        applySizeFilter(sizeFilterPerTab[mode] ?? defaultSizeFilterForMode(mode));
 
         // Clear language filter when leaving MRS tab
         if (mode !== RoomDirectory.ServerMode.MRS && publicRooms.mrsLanguageFilter !== "") {
@@ -447,7 +453,8 @@ OverlayDialog {
                     qsTr("Up to very large (≤ %1 members)").arg(roomDirectoryRoot.veryLargeRoomThreshold.toLocaleString()),
                     qsTr("Any")
                 ]
-                currentIndex: roomDirectoryRoot.sizeFilterPerTab[roomDirectoryRoot.serverMode] ?? RoomDirectory.SizeFilter.Any
+                currentIndex: roomDirectoryRoot.sizeFilterPerTab[roomDirectoryRoot.serverMode]
+                    ?? roomDirectoryRoot.defaultSizeFilterForMode(roomDirectoryRoot.serverMode)
                 onActivated: function(index) {
                     roomDirectoryRoot.sizeFilterPerTab[roomDirectoryRoot.serverMode] = index;
                     publicRooms.maxMemberFilter = roomDirectoryRoot.sizeFilterValueForIndex(index);

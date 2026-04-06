@@ -19,7 +19,6 @@ use matrix_sdk::{
         ClientRegistrationData, UrlOrQuery,
         registration::{ApplicationType, ClientMetadata, Localized, OAuthGrantType},
     },
-    config::SyncSettings,
     Client, ClientBuildError, Error as MatrixSdkError, HttpError, RumaApiError,
     ruma::{
         api::{
@@ -530,18 +529,6 @@ pub async fn finish_oauth_login(
     }
 
     pending.client.encryption().wait_for_e2ee_initialization_tasks().await;
-
-    if let Err(error) = pending
-        .client
-        .sync_once(SyncSettings::new().timeout(Duration::from_secs(0)))
-        .await
-    {
-        tracing::warn!(
-            login_id,
-            error = %error,
-            "OAuth login post-init sync_once failed"
-        );
-    }
 
     let user_id = pending
         .client

@@ -139,7 +139,11 @@ AbstractButton {
         return !previewBodySummaryText.match(/\.[A-Za-z0-9]{2,8}$/);
     }
     readonly property string mediaPreviewSummaryText: mediaPreviewHasCaption ? previewBodySummaryText : ""
-    readonly property real compactPreviewTextAvailableWidth: Math.max(0, resolvedContentWidth - compactMediaWidth - Komai.paddingSmall)
+    // Use the external width cap rather than this item's current width to avoid
+    // a width -> implicitWidth feedback loop when the bubble sizes itself from
+    // the reply preview's implicit width.
+    readonly property real compactPreviewContentWidthLimit: Math.max(0, maxWidth - leftPadding - rightPadding)
+    readonly property real compactPreviewTextAvailableWidth: Math.max(0, compactPreviewContentWidthLimit - compactMediaWidth - Komai.paddingSmall)
     readonly property real compactPreviewTextWidth: mediaPreviewSummaryText.length > 0
         ? Math.min(compactPreviewTextMetrics.advanceWidth, compactPreviewTextAvailableWidth)
         : 0

@@ -530,6 +530,20 @@ pub async fn finish_oauth_login(
 
     pending.client.encryption().wait_for_e2ee_initialization_tasks().await;
 
+    // WARNING: Do NOT call client.sync_once() or any v2 /sync API here.
+    //
+    // The v2 sync stores its string-format next_batch token (e.g. "s3726933_...")
+    // into the crypto store's next_batch_token key. The EncryptionSyncService
+    // (inside SyncService) later reads this back and sends it as sliding sync's
+    // to_device.since field, which the server expects to be an integer. This
+    // causes M_INVALID_PARAM errors that permanently break encryption sync
+    // (verification, key sharing, all to-device e2ee) until the profile's
+    // crypto store is deleted and recreated.
+    //
+    // All syncing is handled by SyncService via sliding sync. Any initialization
+    // that sync_once was previously used for is covered by the SyncService's
+    // initial sliding sync iteration.
+
     let user_id = pending
         .client
         .user_id()

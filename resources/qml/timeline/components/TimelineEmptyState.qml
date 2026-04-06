@@ -29,9 +29,27 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         Layout.topMargin: Komai.paddingMedium
         Layout.bottomMargin: Komai.paddingLarge
-        font.pointSize: Settings.uiFontSizePt * 1.85
-        text: qsTr("No room open")
-        color: palette.text
+        font.pointSize: Settings.uiFontSizePt * 1.4
+        color: palette.buttonText
+        text: {
+            const messages = [
+                qsTr("The ten thousand chats can't happen in a void. Open a room?"),
+                qsTr("Your friends are just a room away"),
+                qsTr("Connect with friends. Or bots. We don't judge."),
+                qsTr("Friends, bots, communities - all one click away"),
+                qsTr("Be present for a bit. Then open a room."),
+                qsTr("The best conversations haven't happened yet"),
+                qsTr("An empty screen, a full inbox of possibilities"),
+                qsTr("Open a room. The rest follows."),
+                qsTr("Open a room to start a conversation"),
+                qsTr("Next conversation, a click away"),
+                qsTr("Ready to chat - pick a room"),
+                qsTr("All quiet here. Open a room?"),
+                qsTr("Chat rooms await - pick one or start your own"),
+                qsTr("No room leads to no chat"),
+            ];
+            return messages[Math.floor(Math.random() * messages.length)];
+        }
     }
 
     TimelineEmptyStateActions {

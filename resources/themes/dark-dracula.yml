@@ -10,7 +10,7 @@ palette:
   brightText: "#ffffff"
   button: "#363447"
   buttonText: "#aeb9db"
-  light: "#f0f1f4"
+  light: "#44475a"
   mid: "#6272a4"
   dark: "#504f5b"
   highlight: "#6599cd"

@@ -290,6 +290,7 @@ pub struct MatrixRoomSummary {
     pub display_name: String,
     pub avatar_url: String,
     pub topic: String,
+    pub room_alias: String,
     pub last_message: String,
     pub last_message_kind: String,
     pub last_message_sender_id: String,

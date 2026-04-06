@@ -15,6 +15,7 @@
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
+#include "matrix/backend/MatrixBackendFfiConversions.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "matrix/backend/MatrixSessionSecrets.h"
 #include "profile/Paths.h"
@@ -32,48 +33,6 @@ QString
 toQString(::rust::Str value)
 {
     return QString::fromUtf8(value.data(), static_cast<qsizetype>(value.size()));
-}
-
-komai::MatrixRoomSummary
-fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
-{
-    QVector<QString> tags;
-    tags.reserve(static_cast<int>(room.tags.size()));
-    for (const auto &value : room.tags)
-        tags.push_back(QString::fromStdString(std::string(value)));
-
-    QVector<QString> parentSpaceRoomIds;
-    parentSpaceRoomIds.reserve(static_cast<int>(room.parent_space_room_ids.size()));
-    for (const auto &value : room.parent_space_room_ids)
-        parentSpaceRoomIds.push_back(QString::fromStdString(std::string(value)));
-
-    return komai::MatrixRoomSummary{
-      .roomId        = QString::fromStdString(std::string(room.room_id)),
-      .latestEventId = QString::fromStdString(std::string(room.latest_event_id)),
-      .displayName   = QString::fromStdString(std::string(room.display_name)),
-      .avatarUrl =
-        komai::matrix::normalizeMxcUri(QString::fromStdString(std::string(room.avatar_url))),
-      .topic               = QString::fromStdString(std::string(room.topic)),
-      .lastMessage         = QString::fromStdString(std::string(room.last_message)),
-      .lastMessageKind     = QString::fromStdString(std::string(room.last_message_kind)),
-      .lastMessageSenderId = QString::fromStdString(std::string(room.last_message_sender_id)),
-      .lastMessageSenderDisplayName =
-        QString::fromStdString(std::string(room.last_message_sender_display_name)),
-      .tags                  = std::move(tags),
-      .parentSpaceRoomIds    = std::move(parentSpaceRoomIds),
-      .directChatOtherUserId = QString::fromStdString(std::string(room.direct_chat_other_user_id)),
-      .isInvite              = room.is_invite,
-      .isSpace               = room.is_space,
-      .isDirect              = room.is_direct,
-      .isBotRoom             = room.is_bot_room,
-      .isEncrypted           = room.is_encrypted,
-      .isPublic              = room.is_public,
-      .memberCount           = room.member_count,
-      .unreadMessages        = room.unread_message_count,
-      .notificationCount     = room.notification_count,
-      .highlightCount        = room.highlight_count,
-      .timestamp             = room.timestamp,
-    };
 }
 
 komai::MatrixNotificationItem
@@ -250,7 +209,7 @@ matrix_notify_room_list_snapshot_updated(std::uint64_t handle_id,
     QVector<komai::MatrixRoomSummary> snapshot;
     snapshot.reserve(static_cast<int>(room_list.size()));
     for (const auto &room : room_list)
-        snapshot.push_back(fromRustRoomSummary(room));
+        snapshot.push_back(komai::fromFfiRoomSummary(room));
 
     postToAppThread([handle_id, snapshot = std::move(snapshot)]() {
         auto *mainWindow = MainWindow::instance();

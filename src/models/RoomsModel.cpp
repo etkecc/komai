@@ -7,7 +7,10 @@
 
 #include <algorithm>
 
+#include <QUrl>
+
 #include "models/CompletionModelRoles.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 RoomsModel::RoomsModel(const QHash<QString, komai::MatrixRoomSummary> &matrixRooms, QObject *parent)
   : QAbstractListModel(parent)
@@ -19,6 +22,7 @@ RoomsModel::RoomsModel(const QHash<QString, komai::MatrixRoomSummary> &matrixRoo
           .roomId      = room.roomId,
           .displayName = room.displayName,
           .avatarUrl   = room.avatarUrl,
+          .roomAlias   = room.roomAlias,
           .isSpace     = room.isSpace,
           .timestamp   = room.timestamp,
         });
@@ -56,15 +60,24 @@ RoomsModel::data(const QModelIndex &index, int role) const
     const auto &room = rooms_.at(index.row());
 
     switch (role) {
-    case CompletionModel::CompletionRole:
-        return room.roomId;
+    case CompletionModel::CompletionRole: {
+        // Use canonical alias if available, otherwise fall back to room ID.
+        const auto &identifier = room.roomAlias.isEmpty() ? room.roomId : room.roomAlias;
+        if (UserSettings::instance()->composerInputMarkdownToHtmlEnabled()) {
+            QString percentEncoding = QUrl::toPercentEncoding(identifier);
+            return QStringLiteral("[%1](https://matrix.to/#/%2)")
+              .arg(identifier.toHtmlEscaped(), percentEncoding);
+        } else {
+            return identifier;
+        }
+    }
     case CompletionModel::SearchRole:
     case Qt::DisplayRole:
     case Roles::RoomName:
         return room.displayName;
     case CompletionModel::SearchRole2:
     case Roles::RoomAlias:
-        return room.roomId;
+        return room.roomAlias.isEmpty() ? room.roomId : room.roomAlias;
     case CompletionModel::SearchRole3:
         return room.roomId;
     case Roles::AvatarUrl:

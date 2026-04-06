@@ -145,6 +145,7 @@ struct MatrixRoomSummary
     QString displayName;
     QString avatarUrl;
     QString topic;
+    QString roomAlias;
     QString lastMessage;
     QString lastMessageKind;
     QString lastMessageSenderId;

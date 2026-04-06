@@ -271,8 +271,10 @@ fromRustPublicRoomDirectoryEntry(const ::komai::rust::MatrixPublicRoomDirectoryE
     };
 }
 
+} // anonymous namespace
+
 MatrixRoomSummary
-fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
+fromFfiRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
 {
     QVector<QString> tags;
     tags.reserve(static_cast<int>(room.tags.size()));
@@ -290,6 +292,7 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
       .displayName   = QString::fromStdString(std::string(room.display_name)),
       .avatarUrl   = matrix::normalizeMxcUri(QString::fromStdString(std::string(room.avatar_url))),
       .topic       = QString::fromStdString(std::string(room.topic)),
+      .roomAlias   = QString::fromStdString(std::string(room.room_alias)),
       .lastMessage = QString::fromStdString(std::string(room.last_message)),
       .lastMessageKind     = QString::fromStdString(std::string(room.last_message_kind)),
       .lastMessageSenderId = QString::fromStdString(std::string(room.last_message_sender_id)),
@@ -311,6 +314,8 @@ fromRustRoomSummary(const ::komai::rust::MatrixRoomSummary &room)
       .timestamp             = room.timestamp,
     };
 }
+
+namespace {
 
 MatrixNotificationItem
 fromRustNotificationItem(const ::komai::rust::MatrixNotificationItem &item)
@@ -1833,7 +1838,7 @@ MatrixBackendRuntimeService::fetchRoomList(matrix_backend::BlockingCallContext c
         QVector<MatrixRoomSummary> rooms;
         rooms.reserve(static_cast<int>(result.size()));
         for (const auto &room : result)
-            rooms.push_back(fromRustRoomSummary(room));
+            rooms.push_back(fromFfiRoomSummary(room));
         cachedRoomListSnapshots.insert(handleId, rooms);
         return rooms;
     } catch (const std::exception &e) {

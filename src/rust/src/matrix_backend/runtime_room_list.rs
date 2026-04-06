@@ -722,6 +722,11 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
             })
             .unwrap_or_default(),
         topic: room.topic().unwrap_or_default(),
+        room_alias: room
+            .canonical_alias()
+            .map(|alias| alias.to_string())
+            .or_else(|| room.alt_aliases().into_iter().next().map(|alias| alias.to_string()))
+            .unwrap_or_default(),
         last_message: latest_preview
             .as_ref()
             .map(|preview| preview.body.clone())

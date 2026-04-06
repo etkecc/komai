@@ -42,6 +42,7 @@ private:
         QString roomId;
         QString displayName;
         QString avatarUrl;
+        QString roomAlias;
         bool isSpace       = false;
         uint64_t timestamp = 0;
     };

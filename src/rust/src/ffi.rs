@@ -684,6 +684,7 @@ mod bridge {
         display_name: String,
         avatar_url: String,
         topic: String,
+        room_alias: String,
         last_message: String,
         last_message_kind: String,
         last_message_sender_id: String,

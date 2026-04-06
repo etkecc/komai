@@ -15,6 +15,7 @@ pub(crate) fn into_ffi_matrix_room_summary(
         display_name: room.display_name,
         avatar_url: room.avatar_url,
         topic: room.topic,
+        room_alias: room.room_alias,
         last_message: room.last_message,
         last_message_kind: room.last_message_kind,
         last_message_sender_id: room.last_message_sender_id,

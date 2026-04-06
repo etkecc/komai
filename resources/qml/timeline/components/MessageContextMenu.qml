@@ -231,7 +231,6 @@ Menu {
         Component {
             MenuItem {
                 text: qsTr("View decrypted raw message")
-                // TODO(Nico): Fix this still being iterated over, when using keyboard to select options
                 visible: messageContextMenuRoot.isEncrypted
                     && messageActionSupport.canViewRaw(messageContextMenuRoot.effectiveMessageModel)
 

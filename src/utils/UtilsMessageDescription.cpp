@@ -28,7 +28,8 @@ utils::localUser()
 bool
 utils::codepointIsEmoji(uint code)
 {
-    // TODO: Be more precise here.
+    // Keep this broad enough to accept emoji presentation selectors and ZWJ sequences when
+    // deciding whether a message should render as emoji-only.
     return (code >= 0x2600 && code <= 0x27bf) || (code >= 0x2b00 && code <= 0x2bff) ||
            (code >= 0x1f000 && code <= 0x1faff) || code == 0x200d || code == 0xfe0f ||
            code == 0x231a || code == 0x231b || (code >= 0x23e9 && code <= 0x23ff) ||
@@ -88,10 +89,8 @@ utils::replaceEmoji(const QString &body)
                            utils::effectiveEmojiFontFamily() % QStringLiteral("'\">");
                 insideEmojiSpan = true;
             } else if (code == 0xfe0f) {
-                // BUG(Nico):
-                // Workaround https://bugreports.qt.io/browse/QTBUG-97401
+                // Skip the variation selector to work around QTBUG-97401 when rendering emoji.
                 // See also https://github.com/matrix-org/matrix-react-sdk/pull/1458/files
-                // Upstream bug: https://github.com/Nheko-Reborn/nheko/issues/439
                 continue;
             }
         } else if (insideEmojiSpan) {

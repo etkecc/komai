@@ -43,7 +43,6 @@ utils::generateContrastingHexColor(const QString &input, const QColor &backgroun
     // Create a color for the input
     auto hash = hashQString(input);
     // create a hue value based on the hash of the input.
-    // Adapted to make Nico blue
     auto userHue = static_cast<double>(hash - static_cast<uint32_t>(0x60'00'00'00)) /
                    std::numeric_limits<uint32_t>::max() * 360.;
     // start with moderate saturation and lightness values.

@@ -230,7 +230,7 @@ TimelineViewManager::copyImage(const QString &mxcUrl) const
       0);
 }
 
-//! WORKAROUND(Nico): for https://bugreports.qt.io/browse/QTBUG-93281
+//! Work around QTBUG-93281 on Qt < 6.7.
 void
 TimelineViewManager::fixImageRendering([[maybe_unused]] QQuickTextDocument *t,
                                        [[maybe_unused]] QQuickItem *i)

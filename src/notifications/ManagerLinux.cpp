@@ -174,13 +174,10 @@ NotificationsManager::systemPostNotification(const QString &room_id,
     argumentList << roomName;         // summary
     argumentList << text;             // body
 
-    // The list of actions has always the action name and then a localized version of that
-    // action. Currently we just use an empty string for that.
-    // TODO(Nico): Look into what to actually put there.
     QStringList actions;
-    actions << QStringList(QStringLiteral("default")) << QLatin1String("");
+    actions << QStringLiteral("default") << tr("Open");
     if (!room_id.isEmpty() && !event_id.isEmpty()) {
-        actions << QStringLiteral("inline-reply") << QLatin1String("");
+        actions << QStringLiteral("inline-reply") << tr("Reply");
     }
     argumentList << actions; // actions
     argumentList << hints;   // hints

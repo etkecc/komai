@@ -296,8 +296,7 @@ app::runMainApplication(int argc, char *argv[])
         std::cout << "Activating main app (instead of opening it a second time)."
                   << token.toStdString() << std::endl;
 
-        //  open uri in main instance
-        //  TODO(Nico): Send also an activation token.
+        // Focus the running instance and forward the activation token when available.
         singleapp.sendMessage("activate" + token);
 
         if (!matrixUri.isEmpty()) {

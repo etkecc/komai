@@ -135,7 +135,7 @@ Rectangle {
                         callTimer.startTime: Math.floor((new Date()).getTime() / 1000)
                     }
 
-                    // HACK(Nico): Somehow this causes a crash when not using the custom parser for that property change...
+                    // The shorthand PropertyChanges form crashes here; keep the explicit target.
                     //PropertyChanges {
                     //    stackLayout.currentIndex: CallManager.callType != Voip.VOICE ? 1 : 0
                     //}
@@ -154,7 +154,7 @@ Rectangle {
                         callStateLabel.text: ""
                     }
 
-                    // HACK(Nico): Somehow this causes a crash when not using the custom parser for that property change...
+                    // The shorthand PropertyChanges form crashes here; keep the explicit target.
                     //PropertyChanges {
                     //    stackLayout.currentIndex: 0
                     //}

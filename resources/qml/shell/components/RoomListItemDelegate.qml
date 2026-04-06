@@ -143,7 +143,7 @@ ItemDelegate {
         cursorShape: roomItem.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
     }
 
-    // NOTE(Nico): We want to prevent the touch areas from overlapping. For some reason we need to add 1px of padding for that...
+    // Keep 1px of padding here so the touch areas do not overlap.
     Item {
         anchors.fill: parent
         anchors.margins: 1

@@ -50,7 +50,7 @@ AbstractButton {
         anchors.centerIn: parent
         width: avatar.frameWidth
         height: avatar.frameHeight
-        color: palette.alternateBase
+        color: "transparent"
         border.width: avatar.showFallbackBorder ? avatar.fallbackBorderWidth : 0
         border.color: avatar.fallbackBorderColor
         radius: avatar.avatarRadius

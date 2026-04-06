@@ -1,5 +1,24 @@
     // ── Network Tab ─────────────────────────────────────────────────────────
 
+    // NetworkEncryptionSection
+    { QT_TR_NOOP("Encryption"), nullptr, SM::SectionTitle, SM::TabNetwork,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // EncryptionKeySharingOnlyVerifiedUsers
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Send encrypted messages to verified users only",
+      QT_TR_NOOP("Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious."),
+      SM::TabNetwork, encryptionKeySharingOnlyVerifiedUsers, setEncryptionKeySharingOnlyVerifiedUsers, nullptr, EncryptionKeySharingOnlyVerifiedUsers, SettingKey::EncryptionKeySharingOnlyVerifiedUsers),
+    // EncryptionKeySharingShareWithTrusted
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Share keys with verified users and devices",
+      QT_TR_NOOP("Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise."),
+      SM::TabNetwork, encryptionKeySharingShareWithTrusted, setEncryptionKeySharingShareWithTrusted, nullptr, EncryptionKeySharingShareWithTrusted, SettingKey::EncryptionKeySharingShareWithTrusted),
+    // EncryptionBackupOnlineEnabled
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Enable online key backup",
+      QT_TR_NOOP("Download message encryption keys from and upload to the encrypted online key backup."),
+      SM::TabNetwork, encryptionBackupOnlineEnabled, setEncryptionBackupOnlineEnabled, nullptr, EncryptionBackupOnlineEnabled, SettingKey::EncryptionBackupOnlineEnabled),
+
     // NetworkPresenceSection
     { QT_TR_NOOP("Presence"), nullptr, SM::SectionTitle, SM::TabNetwork,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

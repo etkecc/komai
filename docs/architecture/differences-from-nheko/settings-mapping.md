@@ -100,15 +100,9 @@ Note:
 | Desktop | WINDOW BLUR | Blur delay (seconds) | `settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds` | `privacy_screen_timeout_seconds` | `desktop.window_focus_blur.delay_seconds` | config.yml | yes |
 | Timeline | DATA & MAINTENANCE | Hidden events | `UserSettingsModel::HiddenTimelineEvents` | `-` | `timeline.hidden_events.global`, `timeline.hidden_events.by_room` | config.yml | no |
 | Account | USERS | Ignored users | `UserSettingsModel::IgnoredUsers` | `-` | `account.users.ignored` | runtime/UI-specific | no |
-| Encryption | KEY SHARING | Send encrypted messages to verified users only | `settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers` | `only_share_keys_with_verified_users` | `encryption.key_sharing.only_verified_users` | config.yml | yes |
-| Encryption | KEY SHARING | Share keys with verified users and devices | `settings::core::SettingId::EncryptionKeySharingShareWithTrusted` | `share_keys_with_trusted_users` | `encryption.key_sharing.share_with_trusted` | config.yml | yes |
-| Encryption | BACKUP | Enable online key backup | `settings::core::SettingId::EncryptionBackupOnlineEnabled` | `use_online_key_backup` | `encryption.backup.online.enabled` | config.yml | yes |
-| Encryption | BACKUP | Session keys | `UserSettingsModel::SessionKeys` | `-` | `encryption.backup.session_keys` | action only | no |
-| Encryption | CROSS-SIGNING | Online backup key | `UserSettingsModel::OnlineBackupKey` | `-` | `encryption.cross_signing.online_backup_key_cached` | derived/runtime | optional |
-| Encryption | CROSS-SIGNING | Self signing key | `UserSettingsModel::SelfSigningKey` | `-` | `encryption.cross_signing.self_signing_key_cached` | derived/runtime | optional |
-| Encryption | CROSS-SIGNING | User signing key | `UserSettingsModel::UserSigningKey` | `-` | `encryption.cross_signing.user_signing_key_cached` | derived/runtime | optional |
-| Encryption | CROSS-SIGNING | Master signing key | `UserSettingsModel::MasterKey` | `-` | `encryption.cross_signing.master_key_cached` | derived/runtime | optional |
-| Encryption | CROSS-SIGNING | Cross-signing secrets | `UserSettingsModel::CrossSigningSecrets` | `-` | `encryption.cross_signing.secrets` | action only | no |
+| Network | ENCRYPTION | Send encrypted messages to verified users only | `settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers` | `only_share_keys_with_verified_users` | `network.encryption.only_verified_users` | config.yml | yes |
+| Network | ENCRYPTION | Share keys with verified users and devices | `settings::core::SettingId::EncryptionKeySharingShareWithTrusted` | `share_keys_with_trusted_users` | `network.encryption.share_with_trusted` | config.yml | yes |
+| Network | ENCRYPTION | Enable online key backup | `settings::core::SettingId::EncryptionBackupOnlineEnabled` | `use_online_key_backup` | `network.encryption.key_backup` | config.yml | yes |
 | Session | ACCOUNT | User ID | `UserSettingsModel::UserId` | `user_id` | `session.account.user_id` | session.yml | yes |
 | Session | ACCOUNT | Homeserver | `UserSettingsModel::Homeserver` | `homeserver` | `session.account.homeserver` | session.yml | yes |
 | Session | ACCOUNT | Profile | `UserSettingsModel::Profile` | `-` | `session.profile.name` | runtime only | no |

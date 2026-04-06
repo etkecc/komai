@@ -297,16 +297,15 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         ? snapshot.desktop.window_focus_blur.delay_seconds
         : settings::core::definitions::kDefaultDesktopWindowFocusBlurDelaySeconds);
     settings.setEncryptionKeySharingOnlyVerifiedUsers(
-      snapshot.encryption.key_sharing.has_only_verified_users
-        ? snapshot.encryption.key_sharing.only_verified_users
+      snapshot.network.encryption.has_only_verified_users
+        ? snapshot.network.encryption.only_verified_users
         : false);
     settings.setEncryptionKeySharingShareWithTrusted(
-      snapshot.encryption.key_sharing.has_share_with_trusted
-        ? snapshot.encryption.key_sharing.share_with_trusted
+      snapshot.network.encryption.has_share_with_trusted
+        ? snapshot.network.encryption.share_with_trusted
         : false);
     settings.setEncryptionBackupOnlineEnabledFromConfig(
-      snapshot.encryption.backup.online.has_enabled ? snapshot.encryption.backup.online.enabled
-                                                    : true);
+      snapshot.network.encryption.has_key_backup ? snapshot.network.encryption.key_backup : true);
 
     settings.setCallsLegacyEnabled(snapshot.calls.legacy.has_enabled ? snapshot.calls.legacy.enabled
                                                                      : false);

@@ -17,9 +17,8 @@ pub use model::{
     Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
     ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigDesktop,
     ConfigDesktopAttention, ConfigDesktopAttentionToggle, ConfigDesktopNotifications,
-    ConfigDesktopSystemTray, ConfigDesktopWindowFocusBlur, ConfigEncryption,
-    ConfigEncryptionBackup, ConfigEncryptionBackupOnline, ConfigEncryptionKeySharing,
-    ConfigIntegrations, ConfigNetwork, ConfigSecrets, ConfigSidebars,
+    ConfigDesktopSystemTray, ConfigDesktopWindowFocusBlur,
+    ConfigIntegrations, ConfigNetwork, ConfigNetworkEncryption, ConfigSecrets, ConfigSidebars,
     ConfigSidebarsCommunities, ConfigSidebarsRoomList, ConfigTimeline,
     ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
     ConfigTimelineMessageActions, ConfigTimelineMessages,
@@ -138,12 +137,12 @@ const DESKTOP_WINDOW_FOCUS_BLUR_ENABLED_PATH: [&str; 3] =
     ["desktop", "window_focus_blur", "enabled"];
 const DESKTOP_WINDOW_FOCUS_BLUR_DELAY_SECONDS_PATH: [&str; 3] =
     ["desktop", "window_focus_blur", "delay_seconds"];
-const ENCRYPTION_KEY_SHARING_ONLY_VERIFIED_USERS_PATH: [&str; 3] =
-    ["encryption", "key_sharing", "only_verified_users"];
-const ENCRYPTION_KEY_SHARING_SHARE_WITH_TRUSTED_PATH: [&str; 3] =
-    ["encryption", "key_sharing", "share_with_trusted"];
-const ENCRYPTION_BACKUP_ONLINE_ENABLED_PATH: [&str; 4] =
-    ["encryption", "backup", "online", "enabled"];
+const NETWORK_ENCRYPTION_ONLY_VERIFIED_USERS_PATH: [&str; 3] =
+    ["network", "encryption", "only_verified_users"];
+const NETWORK_ENCRYPTION_SHARE_WITH_TRUSTED_PATH: [&str; 3] =
+    ["network", "encryption", "share_with_trusted"];
+const NETWORK_ENCRYPTION_KEY_BACKUP_PATH: [&str; 3] =
+    ["network", "encryption", "key_backup"];
 const CALLS_LEGACY_ENABLED_PATH: [&str; 3] = ["calls", "legacy", "enabled"];
 const CALLS_RELAY_USE_FALLBACK_SERVER_PATH: [&str; 3] =
     ["calls", "relay", "use_fallback_server"];
@@ -432,26 +431,6 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 .and_then(parse_scalar_i32),
             },
         },
-        encryption: ConfigEncryption {
-            key_sharing: ConfigEncryptionKeySharing {
-                only_verified_users: yaml::value_at_path(
-                    root,
-                    &ENCRYPTION_KEY_SHARING_ONLY_VERIFIED_USERS_PATH,
-                )
-                .and_then(parse_scalar_bool),
-                share_with_trusted: yaml::value_at_path(
-                    root,
-                    &ENCRYPTION_KEY_SHARING_SHARE_WITH_TRUSTED_PATH,
-                )
-                .and_then(parse_scalar_bool),
-            },
-            backup: ConfigEncryptionBackup {
-                online: ConfigEncryptionBackupOnline {
-                    enabled: yaml::value_at_path(root, &ENCRYPTION_BACKUP_ONLINE_ENABLED_PATH)
-                        .and_then(parse_scalar_bool),
-                },
-            },
-        },
         calls: ConfigCalls {
             legacy: ConfigCallsLegacy {
                 enabled: yaml::value_at_path(root, &CALLS_LEGACY_ENABLED_PATH)
@@ -495,6 +474,20 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             },
         },
         network: ConfigNetwork {
+            encryption: ConfigNetworkEncryption {
+                only_verified_users: yaml::value_at_path(
+                    root,
+                    &NETWORK_ENCRYPTION_ONLY_VERIFIED_USERS_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                share_with_trusted: yaml::value_at_path(
+                    root,
+                    &NETWORK_ENCRYPTION_SHARE_WITH_TRUSTED_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                key_backup: yaml::value_at_path(root, &NETWORK_ENCRYPTION_KEY_BACKUP_PATH)
+                    .and_then(parse_scalar_bool),
+            },
             presence_status_policy: parse_storage_token(yaml::value_at_path(
                 root,
                 &NETWORK_PRESENCE_STATUS_POLICY_PATH,

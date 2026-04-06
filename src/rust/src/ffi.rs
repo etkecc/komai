@@ -272,25 +272,13 @@ mod bridge {
         window_focus_blur: SettingsConfigDesktopWindowFocusBlurSection,
     }
 
-    struct SettingsConfigEncryptionKeySharingSection {
+    struct SettingsConfigNetworkEncryptionSection {
         has_only_verified_users: bool,
         only_verified_users: bool,
         has_share_with_trusted: bool,
         share_with_trusted: bool,
-    }
-
-    struct SettingsConfigEncryptionBackupOnlineSection {
-        has_enabled: bool,
-        enabled: bool,
-    }
-
-    struct SettingsConfigEncryptionBackupSection {
-        online: SettingsConfigEncryptionBackupOnlineSection,
-    }
-
-    struct SettingsConfigEncryptionSection {
-        key_sharing: SettingsConfigEncryptionKeySharingSection,
-        backup: SettingsConfigEncryptionBackupSection,
+        has_key_backup: bool,
+        key_backup: bool,
     }
 
     struct SettingsConfigCallsLegacySection {
@@ -334,6 +322,7 @@ mod bridge {
     }
 
     struct SettingsConfigNetworkSection {
+        encryption: SettingsConfigNetworkEncryptionSection,
         presence_status_policy: String,
         has_tls_enable_certificate_validation: bool,
         tls_enable_certificate_validation: bool,
@@ -374,7 +363,6 @@ mod bridge {
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
         desktop: SettingsConfigDesktopSection,
-        encryption: SettingsConfigEncryptionSection,
         calls: SettingsConfigCallsSection,
         network: SettingsConfigNetworkSection,
         integrations: SettingsConfigIntegrationsSection,
@@ -387,7 +375,6 @@ mod bridge {
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
         desktop: SettingsConfigDesktopSection,
-        encryption: SettingsConfigEncryptionSection,
         calls: SettingsConfigCallsSection,
         network: SettingsConfigNetworkSection,
         integrations: SettingsConfigIntegrationsSection,

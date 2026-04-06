@@ -52,7 +52,6 @@ const SettingMeta settingsTable[] = {
     #include "rows/UserSettingsModelCalls.inc"
     #include "rows/UserSettingsModelIntegrations.inc"
     #include "rows/UserSettingsModelNetwork.inc"
-    #include "rows/UserSettingsModelEncryption.inc"
     #include "rows/UserSettingsModelAccount.inc"
     #include "rows/UserSettingsModelAbout.inc"
 };

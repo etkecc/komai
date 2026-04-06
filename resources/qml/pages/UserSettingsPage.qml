@@ -37,7 +37,6 @@ Rectangle {
         { text: qsTr("Desktop"), icon: "qrc:/icons/icons/ui/desktop.svg", tab: UserSettingsModel.TabDesktop },
         { text: qsTr("Calls"), icon: "qrc:/icons/icons/ui/place-call.svg", tab: UserSettingsModel.TabCalls },
         { text: qsTr("Network"), icon: "qrc:/icons/icons/ui/world.svg", tab: UserSettingsModel.TabNetwork },
-        { text: qsTr("Encryption"), icon: "qrc:/icons/icons/ui/shield-regular.svg", tab: UserSettingsModel.TabEncryption },
         { text: qsTr("Account"), icon: "qrc:/icons/icons/ui/person.svg", tab: UserSettingsModel.TabAccount, requiresSession: true },
         { text: qsTr("Integrations"), icon: "qrc:/icons/icons/ui/integrations.svg", tab: UserSettingsModel.TabIntegrations },
         { text: qsTr("Application Profiles"), icon: "qrc:/icons/icons/ui/people.svg", tab: UserSettingsModel.TabApplicationProfiles },
@@ -324,8 +323,6 @@ Rectangle {
                         return "settings/CallsTab.qml";
                     case UserSettingsModel.TabNetwork:
                         return "settings/NetworkTab.qml";
-                    case UserSettingsModel.TabEncryption:
-                        return "settings/EncryptionTab.qml";
                     case UserSettingsModel.TabAccount:
                         return "settings/AccountTab.qml";
                     case UserSettingsModel.TabApplicationProfiles:

@@ -33,7 +33,6 @@ public:
         TabDesktop,
         TabCalls,
         TabNetwork,
-        TabEncryption,
         TabAccount,
         TabApplicationProfiles,
         TabIntegrations,

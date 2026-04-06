@@ -397,25 +397,25 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
             Value::Number(Number::from(snapshot.desktop.window_focus_blur.delay_seconds)),
         );
     }
-    if snapshot.encryption.key_sharing.has_only_verified_users {
+    if snapshot.network.encryption.has_only_verified_users {
         yaml::set_value(
             &mut root,
-            &["encryption", "key_sharing", "only_verified_users"],
-            Value::Bool(snapshot.encryption.key_sharing.only_verified_users),
+            &["network", "encryption", "only_verified_users"],
+            Value::Bool(snapshot.network.encryption.only_verified_users),
         );
     }
-    if snapshot.encryption.key_sharing.has_share_with_trusted {
+    if snapshot.network.encryption.has_share_with_trusted {
         yaml::set_value(
             &mut root,
-            &["encryption", "key_sharing", "share_with_trusted"],
-            Value::Bool(snapshot.encryption.key_sharing.share_with_trusted),
+            &["network", "encryption", "share_with_trusted"],
+            Value::Bool(snapshot.network.encryption.share_with_trusted),
         );
     }
-    if snapshot.encryption.backup.online.has_enabled {
+    if snapshot.network.encryption.has_key_backup {
         yaml::set_value(
             &mut root,
-            &["encryption", "backup", "online", "enabled"],
-            Value::Bool(snapshot.encryption.backup.online.enabled),
+            &["network", "encryption", "key_backup"],
+            Value::Bool(snapshot.network.encryption.key_backup),
         );
     }
     if snapshot.calls.legacy.has_enabled {

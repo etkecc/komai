@@ -402,32 +402,6 @@ pub(crate) fn ffi_config_desktop_section(
     }
 }
 
-pub(crate) fn ffi_config_encryption_section(
-    config: &settings::config::Config,
-) -> ffi::SettingsConfigEncryptionSection {
-    ffi::SettingsConfigEncryptionSection {
-        key_sharing: ffi::SettingsConfigEncryptionKeySharingSection {
-            has_only_verified_users: config.encryption.key_sharing.only_verified_users.is_some(),
-            only_verified_users: config
-                .encryption
-                .key_sharing
-                .only_verified_users
-                .unwrap_or_default(),
-            has_share_with_trusted: config.encryption.key_sharing.share_with_trusted.is_some(),
-            share_with_trusted: config
-                .encryption
-                .key_sharing
-                .share_with_trusted
-                .unwrap_or_default(),
-        },
-        backup: ffi::SettingsConfigEncryptionBackupSection {
-            online: ffi::SettingsConfigEncryptionBackupOnlineSection {
-                has_enabled: config.encryption.backup.online.enabled.is_some(),
-                enabled: config.encryption.backup.online.enabled.unwrap_or_default(),
-            },
-        },
-    }
-}
 
 pub(crate) fn ffi_config_calls_section(
     config: &settings::config::Config,
@@ -467,6 +441,14 @@ pub(crate) fn ffi_config_network_section(
     config: &settings::config::Config,
 ) -> ffi::SettingsConfigNetworkSection {
     ffi::SettingsConfigNetworkSection {
+        encryption: ffi::SettingsConfigNetworkEncryptionSection {
+            has_only_verified_users: config.network.encryption.only_verified_users.is_some(),
+            only_verified_users: config.network.encryption.only_verified_users.unwrap_or_default(),
+            has_share_with_trusted: config.network.encryption.share_with_trusted.is_some(),
+            share_with_trusted: config.network.encryption.share_with_trusted.unwrap_or_default(),
+            has_key_backup: config.network.encryption.key_backup.is_some(),
+            key_backup: config.network.encryption.key_backup.unwrap_or_default(),
+        },
         presence_status_policy: config.network.presence_status_policy.to_storage_string(),
         has_tls_enable_certificate_validation: config
             .network
@@ -550,7 +532,6 @@ pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi
         timeline: ffi_config_timeline_section(&snapshot.config),
         secrets: ffi_config_secrets_section(&snapshot.config),
         desktop: ffi_config_desktop_section(&snapshot.config),
-        encryption: ffi_config_encryption_section(&snapshot.config),
         calls: ffi_config_calls_section(&snapshot.config),
         network: ffi_config_network_section(&snapshot.config),
         integrations: ffi_config_integrations_section(&snapshot.config),
@@ -870,22 +851,16 @@ fn clone_config_desktop_section(
     }
 }
 
-fn clone_config_encryption_section(
-    section: &ffi::SettingsConfigEncryptionSection,
-) -> ffi::SettingsConfigEncryptionSection {
-    ffi::SettingsConfigEncryptionSection {
-        key_sharing: ffi::SettingsConfigEncryptionKeySharingSection {
-            has_only_verified_users: section.key_sharing.has_only_verified_users,
-            only_verified_users: section.key_sharing.only_verified_users,
-            has_share_with_trusted: section.key_sharing.has_share_with_trusted,
-            share_with_trusted: section.key_sharing.share_with_trusted,
-        },
-        backup: ffi::SettingsConfigEncryptionBackupSection {
-            online: ffi::SettingsConfigEncryptionBackupOnlineSection {
-                has_enabled: section.backup.online.has_enabled,
-                enabled: section.backup.online.enabled,
-            },
-        },
+fn clone_config_network_encryption_section(
+    section: &ffi::SettingsConfigNetworkEncryptionSection,
+) -> ffi::SettingsConfigNetworkEncryptionSection {
+    ffi::SettingsConfigNetworkEncryptionSection {
+        has_only_verified_users: section.has_only_verified_users,
+        only_verified_users: section.only_verified_users,
+        has_share_with_trusted: section.has_share_with_trusted,
+        share_with_trusted: section.share_with_trusted,
+        has_key_backup: section.has_key_backup,
+        key_backup: section.key_backup,
     }
 }
 
@@ -927,6 +902,7 @@ fn clone_config_network_section(
     section: &ffi::SettingsConfigNetworkSection,
 ) -> ffi::SettingsConfigNetworkSection {
     ffi::SettingsConfigNetworkSection {
+        encryption: clone_config_network_encryption_section(&section.encryption),
         presence_status_policy: section.presence_status_policy.clone(),
         has_tls_enable_certificate_validation: section.has_tls_enable_certificate_validation,
         tls_enable_certificate_validation: section.tls_enable_certificate_validation,
@@ -979,7 +955,6 @@ pub(in crate::settings) fn loaded_config_to_snapshot(
         timeline: clone_config_timeline_section(&loaded.timeline),
         secrets: clone_config_secrets_section(&loaded.secrets),
         desktop: clone_config_desktop_section(&loaded.desktop),
-        encryption: clone_config_encryption_section(&loaded.encryption),
         calls: clone_config_calls_section(&loaded.calls),
         network: clone_config_network_section(&loaded.network),
         integrations: clone_config_integrations_section(&loaded.integrations),
@@ -996,7 +971,6 @@ pub(in crate::settings) fn clone_loaded_config(
         timeline: clone_config_timeline_section(&loaded.timeline),
         secrets: clone_config_secrets_section(&loaded.secrets),
         desktop: clone_config_desktop_section(&loaded.desktop),
-        encryption: clone_config_encryption_section(&loaded.encryption),
         calls: clone_config_calls_section(&loaded.calls),
         network: clone_config_network_section(&loaded.network),
         integrations: clone_config_integrations_section(&loaded.integrations),
@@ -1020,7 +994,6 @@ pub(in crate::settings) fn loaded_config_from_snapshot(
         timeline: clone_config_timeline_section(&snapshot.timeline),
         secrets: clone_config_secrets_section(&snapshot.secrets),
         desktop: clone_config_desktop_section(&snapshot.desktop),
-        encryption: clone_config_encryption_section(&snapshot.encryption),
         calls: clone_config_calls_section(&snapshot.calls),
         network: clone_config_network_section(&snapshot.network),
         integrations: clone_config_integrations_section(&snapshot.integrations),

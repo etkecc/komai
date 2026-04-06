@@ -27,7 +27,6 @@ pub struct Config {
     pub timeline: ConfigTimeline,
     pub secrets: ConfigSecrets,
     pub desktop: ConfigDesktop,
-    pub encryption: ConfigEncryption,
     pub calls: ConfigCalls,
     pub network: ConfigNetwork,
     pub integrations: ConfigIntegrations,
@@ -223,25 +222,10 @@ pub struct ConfigDesktopWindowFocusBlur {
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct ConfigEncryption {
-    pub key_sharing: ConfigEncryptionKeySharing,
-    pub backup: ConfigEncryptionBackup,
-}
-
-#[derive(Clone, Debug, Default)]
-pub struct ConfigEncryptionKeySharing {
+pub struct ConfigNetworkEncryption {
     pub only_verified_users: Option<bool>,
     pub share_with_trusted: Option<bool>,
-}
-
-#[derive(Clone, Debug, Default)]
-pub struct ConfigEncryptionBackup {
-    pub online: ConfigEncryptionBackupOnline,
-}
-
-#[derive(Clone, Debug, Default)]
-pub struct ConfigEncryptionBackupOnline {
-    pub enabled: Option<bool>,
+    pub key_backup: Option<bool>,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -286,6 +270,7 @@ pub struct ConfigCallsScreenshare {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigNetwork {
+    pub encryption: ConfigNetworkEncryption,
     pub presence_status_policy: ConfigNetworkPresenceStatusPolicyToken,
     pub tls_enable_certificate_validation: Option<bool>,
     pub mrs_enabled: Option<bool>,

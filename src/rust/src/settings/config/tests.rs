@@ -13,13 +13,12 @@ use super::{
     ConfigTimelineUserColorCodingPolicyToken,
 };
 use crate::ffi::{
-    SettingsConfigComposerSection, SettingsConfigEncryptionBackupOnlineSection,
-    SettingsConfigEncryptionBackupSection, SettingsConfigEncryptionKeySharingSection,
-    SettingsConfigEncryptionSection, SettingsConfigDesktopAttentionAppBadgeSection,
+    SettingsConfigComposerSection, SettingsConfigDesktopAttentionAppBadgeSection,
     SettingsConfigDesktopAttentionSection, SettingsConfigDesktopAttentionWindowTitleSection,
     SettingsConfigDesktopNotificationsSection, SettingsConfigDesktopSection,
     SettingsConfigDesktopSystemTraySection, SettingsConfigDesktopWindowFocusBlurSection,
-    SettingsConfigIntegrationsSection, SettingsConfigNetworkSection,
+    SettingsConfigIntegrationsSection, SettingsConfigNetworkEncryptionSection,
+    SettingsConfigNetworkSection,
     SettingsConfigSecretsSection, SettingsConfigSidebarsCommunitiesSection,
     SettingsConfigSidebarsRoomListSection, SettingsConfigSidebarsSection,
     SettingsConfigSnapshot, SettingsConfigTimelineFormattedSection,
@@ -394,22 +393,20 @@ composer:
 }
 
 #[test]
-fn parses_encryption_section() {
+fn parses_network_encryption_section() {
     let config = parse_config_text(
         r#"
-encryption:
-  key_sharing:
+network:
+  encryption:
     only_verified_users: true
     share_with_trusted: true
-  backup:
-    online:
-      enabled: false
+    key_backup: false
 "#,
     );
 
-    assert_eq!(config.encryption.key_sharing.only_verified_users, Some(true));
-    assert_eq!(config.encryption.key_sharing.share_with_trusted, Some(true));
-    assert_eq!(config.encryption.backup.online.enabled, Some(false));
+    assert_eq!(config.network.encryption.only_verified_users, Some(true));
+    assert_eq!(config.network.encryption.share_with_trusted, Some(true));
+    assert_eq!(config.network.encryption.key_backup, Some(false));
 }
 
 #[test]
@@ -555,20 +552,6 @@ fn encodes_generic_config_values() {
                 delay_seconds: 3,
             },
         },
-        encryption: SettingsConfigEncryptionSection {
-            key_sharing: SettingsConfigEncryptionKeySharingSection {
-                has_only_verified_users: true,
-                only_verified_users: true,
-                has_share_with_trusted: true,
-                share_with_trusted: true,
-            },
-            backup: SettingsConfigEncryptionBackupSection {
-                online: SettingsConfigEncryptionBackupOnlineSection {
-                    has_enabled: true,
-                    enabled: false,
-                },
-            },
-        },
         calls: crate::ffi::SettingsConfigCallsSection {
             legacy: crate::ffi::SettingsConfigCallsLegacySection {
                 has_enabled: true,
@@ -599,6 +582,14 @@ fn encodes_generic_config_values() {
             },
         },
         network: SettingsConfigNetworkSection {
+            encryption: SettingsConfigNetworkEncryptionSection {
+                has_only_verified_users: true,
+                only_verified_users: true,
+                has_share_with_trusted: true,
+                share_with_trusted: true,
+                has_key_backup: true,
+                key_backup: false,
+            },
             presence_status_policy: "offline".to_owned(),
             has_tls_enable_certificate_validation: true,
             tls_enable_certificate_validation: false,
@@ -845,15 +836,15 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::String(value)) if value == "file"
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["encryption", "key_sharing", "only_verified_users"]),
+        yaml::value_at_path(&root, &["network", "encryption", "only_verified_users"]),
         Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["encryption", "key_sharing", "share_with_trusted"]),
+        yaml::value_at_path(&root, &["network", "encryption", "share_with_trusted"]),
         Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["encryption", "backup", "online", "enabled"]),
+        yaml::value_at_path(&root, &["network", "encryption", "key_backup"]),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(

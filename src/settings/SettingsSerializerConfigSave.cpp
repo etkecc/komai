@@ -192,24 +192,6 @@ stageConfig(const UserSettings &settings,
               .delay_seconds     = settings.desktopWindowFocusBlurDelaySeconds(),
             },
         },
-      .encryption =
-        {
-          .key_sharing =
-            {
-              .has_only_verified_users = true,
-              .only_verified_users     = settings.encryptionKeySharingOnlyVerifiedUsers(),
-              .has_share_with_trusted  = true,
-              .share_with_trusted      = settings.encryptionKeySharingShareWithTrusted(),
-            },
-          .backup =
-            {
-              .online =
-                {
-                  .has_enabled = true,
-                  .enabled     = settings.encryptionBackupOnlineEnabled(),
-                },
-            },
-        },
       .calls =
         {
           .legacy =
@@ -247,6 +229,15 @@ stageConfig(const UserSettings &settings,
         },
       .network =
         {
+          .encryption =
+            {
+              .has_only_verified_users = true,
+              .only_verified_users     = settings.encryptionKeySharingOnlyVerifiedUsers(),
+              .has_share_with_trusted  = true,
+              .share_with_trusted      = settings.encryptionKeySharingShareWithTrusted(),
+              .has_key_backup          = true,
+              .key_backup              = settings.encryptionBackupOnlineEnabled(),
+            },
           .presence_status_policy =
             cfg::toStorageValue(settings.networkPresenceStatusPolicy()).toStdString(),
           .has_tls_enable_certificate_validation = true,

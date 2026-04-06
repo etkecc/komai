@@ -6,6 +6,7 @@
 
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineEventTypes.h"
+#include "timeline/formattedmessage/HtmlProcessor.h"
 #include "utils/MediaIcons.h"
 #include "utils/Utils.h"
 
@@ -128,13 +129,7 @@ formatBodyHtml(const QString &body, const QString &formattedBody = {})
 
         html = utils::linkifyMessage(html);
     } else {
-        html = body.toHtmlEscaped();
-        // Wrap in <p> tags and convert double-newlines to paragraph breaks
-        // so that blank lines in plain-text messages are preserved.
-        html = QStringLiteral("<p>") +
-               html.replace(QStringLiteral("\n\n"), QStringLiteral("</p><p>"))
-                 .replace(u'\n', QStringLiteral("<br>")) +
-               QStringLiteral("</p>");
+        html = timeline::formattedmessage::plainTextToHtml(body);
         html = utils::linkifyMessage(html);
     }
     return utils::replaceEmoji(html);

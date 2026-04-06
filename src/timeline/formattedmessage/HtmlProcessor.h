@@ -26,4 +26,9 @@ using PillAvatarResolver = std::function<QString(const QString &matrixId)>;
 QString
 decorateMatrixPills(const QString &html, const PillAvatarResolver &avatarResolver);
 
+/// Convert a plain-text message body to HTML, preserving paragraph breaks
+/// (double newlines) and line breaks (single newlines).
+QString
+plainTextToHtml(const QString &body);
+
 } // namespace timeline::formattedmessage

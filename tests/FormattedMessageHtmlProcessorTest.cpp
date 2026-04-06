@@ -384,6 +384,65 @@ testPillWithEventLink()
     return ok;
 }
 
+bool
+testPlainTextToHtmlPreservesDoubleNewlines()
+{
+    const QString input = QStringLiteral("Hello!\n\nWorld!\n\nAnother");
+    const QString out   = timeline::formattedmessage::plainTextToHtml(input);
+
+    bool ok = true;
+    ok &= expect(out == QStringLiteral("<p>Hello!</p><p>World!</p><p>Another</p>"),
+                 "double newlines become paragraph breaks");
+    return ok;
+}
+
+bool
+testPlainTextToHtmlPreservesSingleNewlines()
+{
+    const QString input = QStringLiteral("Line1\nLine2\nLine3");
+    const QString out   = timeline::formattedmessage::plainTextToHtml(input);
+
+    bool ok = true;
+    ok &= expect(out == QStringLiteral("<p>Line1<br>Line2<br>Line3</p>"),
+                 "single newlines become <br> within a paragraph");
+    return ok;
+}
+
+bool
+testPlainTextToHtmlMixedNewlines()
+{
+    const QString input = QStringLiteral("A\nB\n\nC\nD");
+    const QString out   = timeline::formattedmessage::plainTextToHtml(input);
+
+    bool ok = true;
+    ok &= expect(out == QStringLiteral("<p>A<br>B</p><p>C<br>D</p>"),
+                 "mixed single and double newlines are handled correctly");
+    return ok;
+}
+
+bool
+testPlainTextToHtmlEscapesHtml()
+{
+    const QString input = QStringLiteral("<b>bold</b> & \"quoted\"");
+    const QString out   = timeline::formattedmessage::plainTextToHtml(input);
+
+    bool ok = true;
+    ok &= expect(!out.contains(QStringLiteral("<b>")), "HTML tags are escaped");
+    ok &= expect(out.contains(QStringLiteral("&amp;")), "ampersand is escaped");
+    ok &= expect(out.contains(QStringLiteral("&lt;b&gt;")), "angle brackets are escaped");
+    return ok;
+}
+
+bool
+testPlainTextToHtmlEmpty()
+{
+    const QString out = timeline::formattedmessage::plainTextToHtml({});
+
+    bool ok = true;
+    ok &= expect(out.isEmpty(), "empty input produces empty output");
+    return ok;
+}
+
 } // namespace
 
 int
@@ -410,6 +469,11 @@ main(int argc, char **argv)
     ok &= testPillPreservesMultipleLinks();
     ok &= testPillWithNullResolver();
     ok &= testPillWithEventLink();
+    ok &= testPlainTextToHtmlPreservesDoubleNewlines();
+    ok &= testPlainTextToHtmlPreservesSingleNewlines();
+    ok &= testPlainTextToHtmlMixedNewlines();
+    ok &= testPlainTextToHtmlEscapesHtml();
+    ok &= testPlainTextToHtmlEmpty();
 
     return ok ? 0 : 1;
 }

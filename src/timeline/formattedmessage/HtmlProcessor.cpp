@@ -734,4 +734,18 @@ decorateMatrixPills(const QString &html, const PillAvatarResolver &avatarResolve
     return out;
 }
 
+QString
+plainTextToHtml(const QString &body)
+{
+    if (body.isEmpty())
+        return {};
+
+    QString html = body.toHtmlEscaped();
+    html         = QStringLiteral("<p>") +
+           html.replace(QStringLiteral("\n\n"), QStringLiteral("</p><p>"))
+             .replace(u'\n', QStringLiteral("<br>")) +
+           QStringLiteral("</p>");
+    return html;
+}
+
 } // namespace timeline::formattedmessage

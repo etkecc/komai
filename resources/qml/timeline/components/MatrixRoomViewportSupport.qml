@@ -11,6 +11,9 @@ QtObject {
     required property var rootItem
     required property var timelineList
 
+    property bool destroyed: false
+    Component.onDestruction: destroyed = true
+
     property var readMarkerUpdateTimer: Timer {
         interval: 0
         onTriggered: support.updateReadMarkerForVisibleContent()
@@ -32,6 +35,8 @@ QtObject {
         rootItem.initialBufferCheckQueued = true;
         const scheduledGeneration = rootItem.initialBufferCheckGeneration;
         Qt.callLater(function() {
+            if (support.destroyed)
+                return;
             rootItem.initialBufferCheckQueued = false;
             if (scheduledGeneration !== rootItem.initialBufferCheckGeneration) {
                 if (rootItem.initialTimelineBufferPending)
@@ -51,6 +56,8 @@ QtObject {
         rootItem.deferredBufferCheckQueued = true;
         const scheduledGeneration = rootItem.deferredBufferCheckGeneration;
         Qt.callLater(function() {
+            if (support.destroyed)
+                return;
             rootItem.deferredBufferCheckQueued = false;
             if (scheduledGeneration !== rootItem.deferredBufferCheckGeneration) {
                 if (rootItem.deferredInitialBufferTopUpPending)
@@ -235,7 +242,8 @@ QtObject {
         timelineList.maybeScrollToBottom(true);
 
         Qt.callLater(function () {
-            if (!timelineList
+            if (support.destroyed
+                    || !timelineList
                     || rootItem.activeRoomId !== roomId
                     || rootItem.loading
                     || !rootItem.hasTimeline) {

@@ -4,9 +4,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../components" as Components
-import QtQuick 2.15
-import QtQuick.Layouts 1.2
-import QtQuick.Window 2.13
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Window
 import cc.etke.komai 1.0
 
 EventDelegateChooser {

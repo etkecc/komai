@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick 2.5
+import QtQuick
 import cc.etke.komai 1.0
 
 

@@ -4,9 +4,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../components" as Components
-import QtQuick 2.3
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.10
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 ColumnLayout {
     property string title: qsTr("Verification Complete")

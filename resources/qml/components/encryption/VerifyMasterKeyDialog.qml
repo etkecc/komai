@@ -4,8 +4,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import ".." as Components
-import QtQuick 2.15
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Layouts
 import cc.etke.komai 1.0
 
 Components.OverlayDialog {

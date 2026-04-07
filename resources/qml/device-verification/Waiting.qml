@@ -5,9 +5,9 @@
 
 import "../components" as Components
 import "../ui"
-import QtQuick 2.3
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.10
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import cc.etke.komai 1.0
 
 ColumnLayout {

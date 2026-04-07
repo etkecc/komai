@@ -4,10 +4,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../components"
-import QtQuick 2.9
-import QtQuick.Controls 2.5
-import QtQuick.Layouts 1.3
-import QtQuick.Window 2.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Window
 import Qt5Compat.GraphicalEffects
 import cc.etke.komai 1.0
 

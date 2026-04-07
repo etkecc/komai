@@ -60,11 +60,7 @@ It means **fine/slender**, though spellings and kanji use vary by region.
 
 You can also think of **Komai** as **comm**unications + **AI**, because it's a largely [AI-vibe-engineered](https://en.wikipedia.org/wiki/Artificial_intelligence) Matrix chat application.
 
-[AI-assisted software development](https://en.wikipedia.org/wiki/AI-assisted_software_development) is becoming more popular.
-
-Komai is a [proof-of-concept](https://en.wikipedia.org/wiki/Proof_of_concept) application, built by a team of professional software engineers using AI assistance to code in a language stack ([C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML)) which is not their strong suit.
-
-We think that **AI in capable hands can deliver above-average results**. Could this work? Let's see!
+For more on how AI is used to build Komai, see [Built with AI](ai.md).
 
 
 #### ❤️ It's a love thing

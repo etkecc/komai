@@ -7,7 +7,8 @@ members = [".", "komai-mcp"]
 
 [package]
 name = "komai-rust"
-version = "0.1.0"
+# Not published to crates.io — version is irrelevant. The app version is managed in CMakeLists.txt.
+version = "0.0.0"
 edition = "2024"
 publish = false
 

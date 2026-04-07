@@ -561,7 +561,10 @@ FilteredRoomlistModel::nextRoomWithActivity()
             // don't break, we must continue looking for rooms with mentions
         }
         if (roomWithNotification == -1 && roomWithUnreadMessage == -1 &&
-            this->data(index(i, 0), RoomlistModel::HasUnreadMessages).toBool()) {
+            this->data(index(i, 0), RoomlistModel::HasUnreadMessages).toBool() &&
+            !this->data(index(i, 0), RoomlistModel::Tags)
+               .toStringList()
+               .contains(QStringLiteral("m.lowpriority"))) {
             roomWithUnreadMessage = i;
             // don't break, we must continue looking for rooms with mentions
         }

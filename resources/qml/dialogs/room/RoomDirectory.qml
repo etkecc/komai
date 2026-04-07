@@ -45,6 +45,21 @@ OverlayDialog {
         publicRooms.maxMemberFilter = sizeFilterValueForIndex(comboIndex);
     }
 
+    // Per-tab room type filter index: 0 = all, 1 = rooms, 2 = spaces
+    property var typeFilterPerTab: ({
+        [RoomDirectory.ServerMode.Mine]: RoomDirectory.TypeFilter.All,
+        [RoomDirectory.ServerMode.MRS]: RoomDirectory.TypeFilter.All,
+        [RoomDirectory.ServerMode.Custom]: RoomDirectory.TypeFilter.All
+    })
+
+    function typeFilterValueForIndex(index) {
+        switch (index) {
+        case RoomDirectory.TypeFilter.Rooms: return "room";
+        case RoomDirectory.TypeFilter.Spaces: return "space";
+        default: return "";
+        }
+    }
+
     function roomSizeWarning(memberCount) {
         if (memberCount >= veryLargeRoomThreshold)
             return qsTr("This room is extremely large. You should probably stay away from it unless you have a very powerful server. Joining may take a very long time.");
@@ -80,6 +95,7 @@ OverlayDialog {
 
     enum ServerMode { Mine, MRS, Custom }
     enum SizeFilter { UpToLarge, UpToVeryLarge, Any }
+    enum TypeFilter { All, Rooms, Spaces }
     property int serverMode: RoomDirectory.ServerMode.Mine
     property string customServer: ""
     property bool autoSelectionDone: false
@@ -143,14 +159,19 @@ OverlayDialog {
     }
 
     function switchServer(mode) {
-        // Save current tab's size filter before switching
-        if (serverMode !== mode)
+        // Save current tab's filters before switching
+        if (serverMode !== mode) {
             sizeFilterPerTab[serverMode] = roomSizeFilter.currentIndex;
+            typeFilterPerTab[serverMode] = roomTypeFilter.currentIndex;
+        }
 
         serverMode = mode;
 
-        // Restore new tab's size filter
+        // Restore new tab's filters
         applySizeFilter(sizeFilterPerTab[mode] ?? defaultSizeFilterForMode(mode));
+        var typeIdx = typeFilterPerTab[mode] ?? RoomDirectory.TypeFilter.All;
+        roomTypeFilter.currentIndex = typeIdx;
+        publicRooms.roomTypeFilter = typeFilterValueForIndex(typeIdx);
 
         // Clear language filter when leaving MRS tab
         if (mode !== RoomDirectory.ServerMode.MRS && publicRooms.mrsLanguageFilter !== "") {
@@ -410,6 +431,63 @@ OverlayDialog {
         Layout.fillWidth: true
     }
 
+    // -- Room type filter card --
+
+    Item {
+        Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
+        implicitHeight: roomTypeCardContent.implicitHeight
+
+        HoverHandler { id: roomTypeCardHover; blocking: false }
+        Rectangle {
+            anchors.fill: roomTypeCardContent
+            color: roomTypeCardHover.hovered ? palette.dark : palette.window
+            radius: Komai.paddingMedium
+            z: -1
+        }
+
+        RowLayout {
+            id: roomTypeCardContent
+            width: parent.width
+            spacing: Komai.paddingMedium
+
+            Label {
+                text: qsTr("Type")
+                color: roomTypeCardHover.hovered ? palette.brightText : palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+            }
+
+            SegmentedButton {
+                id: roomTypeFilter
+
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.maximumWidth: Math.min(350, parent.width * 0.5)
+                model: [
+                    { text: qsTr("All") },
+                    { text: qsTr("Rooms") },
+                    { text: qsTr("Spaces") }
+                ]
+                currentIndex: roomDirectoryRoot.typeFilterPerTab[roomDirectoryRoot.serverMode]
+                    ?? RoomDirectory.TypeFilter.All
+                onActivated: function(index) {
+                    roomDirectoryRoot.typeFilterPerTab[roomDirectoryRoot.serverMode] = index;
+                    publicRooms.roomTypeFilter = roomDirectoryRoot.typeFilterValueForIndex(index);
+                    if (roomDirectoryRoot.serverMode === RoomDirectory.ServerMode.Custom
+                        && roomDirectoryRoot.customServer.trim().length === 0) {
+                        publicRooms.clearResults();
+                    }
+                }
+            }
+        }
+    }
+
     // -- Room size filter card --
 
     Item {
@@ -432,7 +510,7 @@ OverlayDialog {
             spacing: Komai.paddingMedium
 
             Label {
-                text: qsTr("Show rooms of size")
+                text: qsTr("Size")
                 color: roomSizeCardHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true

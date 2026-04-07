@@ -1602,20 +1602,22 @@ MatrixBackendRuntimeService::fetchPublicRoomDirectoryPage(
   uint64_t limit,
   const QString &since,
   const QString &server,
+  const QString &roomTypeFilter,
   QString *errorOut)
 {
     try {
-        const auto result =
-          invokeRuntimeWorkerCall("matrix_fetch_public_room_directory_page",
-                                  [context, handleId, searchTerm, limit, since, server]() {
-                                      return ::komai::rust::matrix_fetch_public_room_directory_page(
-                                        matrix_backend::toRustBlockingContext(context),
-                                        handleId,
-                                        searchTerm.toStdString(),
-                                        limit,
-                                        since.toStdString(),
-                                        server.toStdString());
-                                  });
+        const auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_public_room_directory_page",
+          [context, handleId, searchTerm, limit, since, server, roomTypeFilter]() {
+              return ::komai::rust::matrix_fetch_public_room_directory_page(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                searchTerm.toStdString(),
+                limit,
+                since.toStdString(),
+                server.toStdString(),
+                roomTypeFilter.toStdString());
+          });
         MatrixPublicRoomDirectoryPage page;
         page.nextBatch              = QString::fromStdString(std::string(result.next_batch));
         page.totalRoomCountEstimate = result.total_room_count_estimate;

@@ -71,6 +71,7 @@ pub(crate) fn matrix_fetch_public_room_directory_page(
     limit: u64,
     since: &str,
     server: &str,
+    room_type_filter: &str,
 ) -> Result<ffi::MatrixPublicRoomDirectoryPage, String> {
     ffi_block_on(
         context,
@@ -81,6 +82,7 @@ pub(crate) fn matrix_fetch_public_room_directory_page(
             limit,
             since,
             server,
+            room_type_filter,
         ),
     )
     .map(|page| ffi::MatrixPublicRoomDirectoryPage {

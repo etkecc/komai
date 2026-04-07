@@ -31,6 +31,8 @@ class RoomDirectoryModel : public QAbstractListModel
                  mrsLanguageFilterChanged)
     Q_PROPERTY(int maxMemberFilter READ maxMemberFilter WRITE setMaxMemberFilter NOTIFY
                  maxMemberFilterChanged)
+    Q_PROPERTY(QString roomTypeFilter READ roomTypeFilter WRITE setRoomTypeFilter NOTIFY
+                 roomTypeFilterChanged)
 
 public:
     explicit RoomDirectoryModel(QObject *parent = nullptr, const QString &server = {});
@@ -79,6 +81,9 @@ public:
     int maxMemberFilter() const { return maxMemberFilter_; }
     void setMaxMemberFilter(int max);
 
+    QString roomTypeFilter() const { return roomTypeFilter_; }
+    void setRoomTypeFilter(const QString &filter);
+
     Q_INVOKABLE static QStringList availableLanguages();
     Q_INVOKABLE void clearResults();
 
@@ -98,6 +103,7 @@ signals:
     void mrsRoomCountChanged();
     void mrsLanguageFilterChanged();
     void maxMemberFilterChanged();
+    void roomTypeFilterChanged();
 
 public slots:
     void setMatrixServer(const QString &s = QLatin1String(""));
@@ -154,6 +160,7 @@ private:
     bool mrsRoomCountLoading_{false};
     QString mrsLanguageFilter_;
     int maxMemberFilter_{0};
+    QString roomTypeFilter_;
     mutable QStringList cachedKnownServers_;
     mutable bool knownServersCached_{false};
 

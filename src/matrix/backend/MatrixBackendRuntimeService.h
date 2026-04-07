@@ -626,6 +626,7 @@ public:
                                  uint64_t limit,
                                  const QString &since,
                                  const QString &server,
+                                 const QString &roomTypeFilter,
                                  QString *errorOut = nullptr);
 
     static bool setOwnDisplayName(matrix_backend::BlockingCallContext context,

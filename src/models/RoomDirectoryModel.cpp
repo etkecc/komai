@@ -281,17 +281,27 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
     loadingMoreRooms_ = true;
     emit loadingMoreRoomsChanged();
 
+    const auto requestedRoomTypeFilter = roomTypeFilter_;
+
     QPointer<RoomDirectoryModel> guard(this);
     std::thread([guard,
                  handleId,
                  generation,
                  requestedSearchTerm,
                  requestedServer,
-                 requestedSince]() {
+                 requestedSince,
+                 requestedRoomTypeFilter]() {
         const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
-        const auto page = komai::MatrixBackendRuntimeService::fetchPublicRoomDirectoryPage(
-          context, handleId, requestedSearchTerm, limit_, requestedSince, requestedServer, &error);
+        const auto page =
+          komai::MatrixBackendRuntimeService::fetchPublicRoomDirectoryPage(context,
+                                                                           handleId,
+                                                                           requestedSearchTerm,
+                                                                           limit_,
+                                                                           requestedSince,
+                                                                           requestedServer,
+                                                                           requestedRoomTypeFilter,
+                                                                           &error);
 
         QVector<RoomDirectoryEntry> rooms;
         QString nextBatch;
@@ -374,6 +384,21 @@ RoomDirectoryModel::displayRooms(uint64_t generation,
                        limit_,
                        prevBatch_.toStdString(),
                        next_batch.toStdString());
+
+    // Apply client-side room type filter
+    if (!roomTypeFilter_.isEmpty()) {
+        auto beforeCount      = fetched_rooms.size();
+        const bool wantSpaces = (roomTypeFilter_ == QLatin1String("space"));
+        fetched_rooms.erase(
+          std::remove_if(fetched_rooms.begin(),
+                         fetched_rooms.end(),
+                         [wantSpaces](const auto &room) { return room.isSpace != wantSpaces; }),
+          fetched_rooms.end());
+        nhlog::net()->info("Room type filter: {} -> {} rooms (filter: {})",
+                           beforeCount,
+                           fetched_rooms.size(),
+                           roomTypeFilter_.toStdString());
+    }
 
     // Apply client-side member count filter
     if (maxMemberFilter_ > 0) {
@@ -571,6 +596,18 @@ RoomDirectoryModel::setMaxMemberFilter(int max)
 
     maxMemberFilter_ = max;
     emit maxMemberFilterChanged();
+
+    resetDisplayedData();
+}
+
+void
+RoomDirectoryModel::setRoomTypeFilter(const QString &filter)
+{
+    if (roomTypeFilter_ == filter)
+        return;
+
+    roomTypeFilter_ = filter;
+    emit roomTypeFilterChanged();
 
     resetDisplayedData();
 }

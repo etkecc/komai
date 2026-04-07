@@ -6,7 +6,7 @@ use super::*;
 use matrix_sdk::ruma::{
     ServerName,
     api::client::directory::get_public_rooms_filtered,
-    directory::Filter,
+    directory::{Filter, RoomTypeFilter},
     room::RoomType,
 };
 
@@ -16,16 +16,23 @@ pub async fn fetch_public_room_directory_page(
     limit: u64,
     since: &str,
     server: &str,
+    room_type_filter: &str,
 ) -> Result<MatrixPublicRoomDirectoryPage, String> {
     let client = client_for_handle(handle_id)?;
 
     let search_term = search_term.trim();
     let since = since.trim();
     let server = server.trim();
+    let room_type_filter = room_type_filter.trim();
 
     let mut filter = Filter::new();
     if !search_term.is_empty() {
         filter.generic_search_term = Some(search_term.to_owned());
+    }
+    match room_type_filter {
+        "room" => filter.room_types = vec![RoomTypeFilter::Default],
+        "space" => filter.room_types = vec![RoomTypeFilter::Space],
+        _ => {} // empty vec = all types
     }
 
     let parsed_server = if server.is_empty() {
@@ -54,6 +61,7 @@ pub async fn fetch_public_room_directory_page(
         limit,
         since,
         server,
+        room_type_filter,
         "Fetching Matrix public room directory page via matrix-sdk backend runtime"
     );
 

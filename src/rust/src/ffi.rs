@@ -1499,6 +1499,7 @@ mod bridge {
             limit: u64,
             since: &str,
             server: &str,
+            room_type_filter: &str,
         ) -> Result<MatrixPublicRoomDirectoryPage>;
         fn matrix_set_own_display_name(
             context: MatrixFfiBlockingContext,

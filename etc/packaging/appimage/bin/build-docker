@@ -44,6 +44,7 @@ docker run --rm \
             qtkeychain-qt6-dev \
             libgtest-dev \
             libsecret-1-dev \
+            libssl-dev \
             libgl1-mesa-dev libxkbcommon-dev \
             libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
             curl \
@@ -51,8 +52,10 @@ docker run --rm \
             gtk-update-icon-cache \
             >/dev/null 2>&1
 
-        # Install Rust via rustup (distro Rust may be too old for edition 2024 crates)
-        curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal >/dev/null 2>&1
+        # Install Rust via rustup (distro Rust may be too old for edition 2024 crates).
+        # Install the specific toolchain pinned in rust-toolchain.toml so that
+        # Corrosion/FindRust can locate it during CMake configure.
+        curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.93.0 >/dev/null 2>&1
         export PATH="$HOME/.cargo/bin:$PATH"
 
         # Workaround: appimage-builder checks for apt-key on $PATH but never
@@ -78,8 +81,10 @@ docker run --rm \
 
         /tmp/src/etc/packaging/appimage/bin/build-native /tmp/src /out
 
-        chown "$HOST_UID:$HOST_GID" /out/komai-latest-x86_64.AppImage
+        komai_version=$(cat /tmp/src/VERSION | tr -d "[:space:]")
+        chown "$HOST_UID:$HOST_GID" "/out/komai-$komai_version-x86_64.AppImage"
     '
 
+komai_version="$(cat "$src_dir/VERSION" | tr -d '[:space:]')"
 echo ""
-echo "AppImage: $out_dir/komai-latest-x86_64.AppImage"
+echo "AppImage: $out_dir/komai-$komai_version-x86_64.AppImage"

@@ -12,7 +12,7 @@ AppDir:
   app_info:
     id: cc.etke.komai
     name: komai
-    icon: komai
+    icon: cc.etke.komai
     version: latest
     exec: usr/bin/komai
     exec_args: $@

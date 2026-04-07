@@ -6,7 +6,7 @@
 # Usage:
 #   etc/packaging/appimage/bin/build-native <source_dir> <output_dir>
 #
-# The output .AppImage will be written to <output_dir>/komai-latest-x86_64.AppImage
+# The output .AppImage will be written to <output_dir>/komai-<version>-x86_64.AppImage
 
 set -euo pipefail
 
@@ -61,6 +61,7 @@ src_dir="${1:?Usage: build-native <source_dir> <output_dir>}"
 out_dir="${2:?Usage: build-native <source_dir> <output_dir>}"
 build_dir="${APPIMAGE_BUILD_DIR:-/tmp/komai-appimage-build}"
 appimage_dir="${APPIMAGE_WORK_DIR:-/tmp/komai-appimage}"
+komai_version="$(cat "$src_dir/VERSION" | tr -d '[:space:]')"
 
 echo "=== Building komai ==="
 cmake -GNinja -H"$src_dir" -B"$build_dir" \
@@ -74,11 +75,13 @@ cmake --build "$build_dir" --parallel "$(nproc)"
 echo "=== Creating AppImage ==="
 mkdir -p "$appimage_dir"
 DESTDIR="$appimage_dir/AppDir" cmake --install "$build_dir"
-cp "$src_dir/etc/packaging/appimage/AppImageBuilder.yml" "$appimage_dir/"
+# Inject the version from the VERSION file into the AppImageBuilder recipe
+sed "s/version: latest/version: $komai_version/" \
+    "$src_dir/etc/packaging/appimage/AppImageBuilder.yml" > "$appimage_dir/AppImageBuilder.yml"
 cd "$appimage_dir"
 appimage-builder --skip-test --recipe AppImageBuilder.yml
 
 echo "=== Copying result ==="
 mkdir -p "$out_dir"
-cp "$appimage_dir/komai-latest-x86_64.AppImage" "$out_dir/"
-echo "AppImage: $out_dir/komai-latest-x86_64.AppImage"
+cp "$appimage_dir/komai-$komai_version-x86_64.AppImage" "$out_dir/"
+echo "AppImage: $out_dir/komai-$komai_version-x86_64.AppImage"

@@ -87,5 +87,7 @@ appimage-builder --skip-test --recipe AppImageBuilder.yml
 
 echo "=== Copying result ==="
 mkdir -p "$out_dir"
+# Remove old AppImage files so version bumps don't accumulate cruft.
+rm -f "$out_dir"/komai-*.AppImage
 cp "$appimage_dir/komai-$komai_version-x86_64.AppImage" "$out_dir/"
 echo "AppImage: $out_dir/komai-$komai_version-x86_64.AppImage"

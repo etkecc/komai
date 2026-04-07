@@ -126,7 +126,7 @@ pub use verification::{
 };
 pub use room_actions::{
     ban_user, create_room, invite_user, join_room, kick_user, knock_room, leave_room,
-    set_own_room_display_name, set_room_is_direct, toggle_room_tag,
+    send_typing_notice, set_own_room_display_name, set_room_is_direct, toggle_room_tag,
     unban_user,
 };
 pub use preloader::start_preload;

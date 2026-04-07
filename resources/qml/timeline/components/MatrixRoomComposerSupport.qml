@@ -132,6 +132,17 @@ Item {
             : 0
         property var permissions: support.permissions
         property var input: matrixComposerInputController
+        property var typingUsers: TimelineManager.matrixTimelineTypingUsers
+
+        function formatTypingUsers(users, _bg) {
+            if (!users || users.length === 0)
+                return "";
+            if (users.length === 1)
+                return qsTr("%1 is typing…").arg(users[0]);
+            if (users.length === 2)
+                return qsTr("%1 and %2 are typing…").arg(users[0]).arg(users[1]);
+            return qsTr("%1, %2 and %3 others are typing…").arg(users[0]).arg(users[1]).arg(users.length - 2);
+        }
 
         function showEvent(eventId) {
             return support.rootItem.jumpToLoadedMatrixEvent(eventId);

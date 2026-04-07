@@ -601,6 +601,19 @@ async fn run_room_timeline_loop(
 
     let own_user_id = client.user_id();
 
+    // Subscribe to typing notifications for this room.
+    // The EventHandlerDropGuard auto-unsubscribes when this loop exits.
+    let (_typing_drop_guard, mut typing_receiver) = {
+        let room = client.get_room(&parsed_room_id);
+        match room {
+            Some(room) => {
+                let (guard, receiver) = room.subscribe_to_typing_notifications();
+                (Some(guard), Some(receiver))
+            }
+            None => (None, None),
+        }
+    };
+
     // Receipt targets are fetched after the initial snapshot so they
     // don't block the first paint.  Start with an empty set — delivery
     // status indicators will appear once receipts are loaded.
@@ -902,6 +915,46 @@ async fn run_room_timeline_loop(
                             "Matrix-sdk room timeline command channel closed"
                         );
                         break;
+                    }
+                }
+            }
+
+            maybe_typing = async {
+                match typing_receiver.as_mut() {
+                    Some(rx) => rx.recv().await,
+                    None => std::future::pending().await,
+                }
+            } => {
+                match maybe_typing {
+                    Ok(typing_user_ids) => {
+                        let mut display_names: Vec<String> = Vec::with_capacity(typing_user_ids.len());
+                        if let Some(room) = client.get_room(&parsed_room_id) {
+                            for user_id in &typing_user_ids {
+                                let name = match room.get_member_no_sync(user_id).await {
+                                    Ok(Some(member)) => member
+                                        .display_name()
+                                        .unwrap_or_else(|| user_id.as_str())
+                                        .to_owned(),
+                                    _ => user_id.to_string(),
+                                };
+                                display_names.push(name);
+                            }
+                        } else {
+                            for user_id in &typing_user_ids {
+                                display_names.push(user_id.to_string());
+                            }
+                        }
+                        crate::ffi::matrix_notify_typing_users_updated(
+                            handle_id,
+                            &room_id,
+                            display_names,
+                        );
+                    }
+                    Err(tokio::sync::broadcast::error::RecvError::Lagged(_)) => {
+                        // Missed some events; continue to get latest state.
+                    }
+                    Err(tokio::sync::broadcast::error::RecvError::Closed) => {
+                        typing_receiver = None;
                     }
                 }
             }

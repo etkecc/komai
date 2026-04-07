@@ -872,6 +872,11 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
         stateChanged                  = true;
     }
 
+    if (!matrixTimelineTypingUsers_.isEmpty()) {
+        matrixTimelineTypingUsers_.clear();
+        emit matrixTimelineTypingUsersChanged();
+    }
+
     if (!activeMatrixTimelineRoomId_.isEmpty()) {
         if (stopBackendTask) {
             const auto *mainWindow = MainWindow::instance();
@@ -2772,4 +2777,44 @@ TimelineViewManager::fetchActiveMatrixTimelineMediaToFile(const QString &itemId,
           },
           Qt::QueuedConnection);
     }).detach();
+}
+
+void
+TimelineViewManager::handleMatrixBackendTypingUsersUpdated(std::uint64_t handleId,
+                                                           const QString &roomId,
+                                                           const QStringList &displayNames)
+{
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
+        return;
+    if (activeMatrixTimelineRoomId_ != roomId)
+        return;
+
+    if (matrixTimelineTypingUsers_ != displayNames) {
+        matrixTimelineTypingUsers_ = displayNames;
+        emit matrixTimelineTypingUsersChanged();
+    }
+}
+
+void
+TimelineViewManager::sendActiveMatrixTypingNotice(bool typing)
+{
+    if (activeMatrixTimelineRoomId_.isEmpty())
+        return;
+
+    auto *mainWindow = MainWindow::instance();
+    if (!mainWindow)
+        return;
+    const auto handleId = mainWindow->matrixBackendHandleId();
+    if (handleId == 0)
+        return;
+
+    const auto roomId = activeMatrixTimelineRoomId_;
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId, typing]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          komai::MatrixBackendRuntimeService::sendTypingNotice(context, handleId, roomId, typing);
+      },
+      [](TimelineViewManager *) {});
 }

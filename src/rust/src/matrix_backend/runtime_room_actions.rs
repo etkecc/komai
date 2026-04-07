@@ -6,6 +6,13 @@ use super::*;
 use matrix_sdk::ruma::serde::Raw;
 use std::str::FromStr;
 
+pub async fn send_typing_notice(handle_id: u64, room_id: &str, typing: bool) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    room.typing_notice(typing)
+        .await
+        .map_err(|e| format!("failed to send typing notice: {e}"))
+}
+
 
 pub async fn join_room(
     handle_id: u64,

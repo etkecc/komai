@@ -1128,6 +1128,12 @@ mod bridge {
         );
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_sync_stopped(handle_id: u64, reason: &str, is_auth_error: bool);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_typing_users_updated(
+            handle_id: u64,
+            room_id: &str,
+            display_names: Vec<String>,
+        );
     }
 
     extern "Rust" {
@@ -1715,6 +1721,12 @@ mod bridge {
             height: i32,
             crop: bool,
         ) -> Result<Vec<u8>>;
+        fn matrix_send_typing_notice(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            typing: bool,
+        ) -> Result<()>;
         fn matrix_send_room_message(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

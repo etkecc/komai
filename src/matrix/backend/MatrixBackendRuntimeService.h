@@ -847,6 +847,11 @@ public:
                                                     uint16_t pageSize,
                                                     QString *errorOut = nullptr);
 
+    static bool sendTypingNotice(matrix_backend::BlockingCallContext context,
+                                 uint64_t handleId,
+                                 const QString &roomId,
+                                 bool typing,
+                                 QString *errorOut = nullptr);
     static bool sendRoomMessage(matrix_backend::BlockingCallContext context,
                                 uint64_t handleId,
                                 const QString &roomId,

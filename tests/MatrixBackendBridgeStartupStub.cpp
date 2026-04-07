@@ -175,4 +175,8 @@ void
 matrix_notify_sync_stopped(std::uint64_t, ::rust::Str, bool)
 {}
 
+void
+matrix_notify_typing_users_updated(std::uint64_t, ::rust::Str, ::rust::Vec<::rust::String>)
+{}
+
 } // namespace komai::rust_bridge

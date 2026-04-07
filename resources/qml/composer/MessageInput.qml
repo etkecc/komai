@@ -607,6 +607,12 @@ Rectangle {
                             _draftSaveTimer.restart();
                         }
                     }
+                    if (Settings.composerTypingSendEnabled
+                            && inputBar.room && inputBar.room.isActiveMatrixTimelineRoom
+                            && !inputBar.walkModeActive) {
+                        const shouldType = text.length >= 4 && !text.startsWith("/");
+                        TimelineManager.sendActiveMatrixTypingNotice(shouldType);
+                    }
                 }
 
                 Connections {

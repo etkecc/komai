@@ -2566,6 +2566,32 @@ MatrixBackendRuntimeService::paginateActiveRoomTimelineBackwards(uint64_t handle
 }
 
 bool
+MatrixBackendRuntimeService::sendTypingNotice(matrix_backend::BlockingCallContext context,
+                                              uint64_t handleId,
+                                              const QString &roomId,
+                                              bool typing,
+                                              QString *errorOut)
+{
+    try {
+        matrix_backend::invokeBlockingCall(
+          "matrix_send_typing_notice",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, typing, context]() {
+              ::komai::rust::matrix_send_typing_notice(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                typing);
+          });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
 MatrixBackendRuntimeService::sendRoomMessage(matrix_backend::BlockingCallContext context,
                                              uint64_t handleId,
                                              const QString &roomId,

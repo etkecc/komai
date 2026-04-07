@@ -274,6 +274,9 @@ QtObject {
         if (!ok)
             return false;
 
+        if (Settings.composerTypingSendEnabled)
+            TimelineManager.sendActiveMatrixTypingNotice(false);
+
         if (!rootItem.editing)
             support.setComposerText("");
 

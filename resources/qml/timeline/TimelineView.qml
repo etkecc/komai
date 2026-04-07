@@ -176,6 +176,7 @@ Item {
                 externalDialogHost: timelineView.dialogHost
                 externalHeaderPane: matrixHeaderPane
                 externalComposerPane: matrixComposerPane
+                composerRoom: matrixRoomComposerSupport.composerRoom
             }
 
             MatrixRoomComposerPane {

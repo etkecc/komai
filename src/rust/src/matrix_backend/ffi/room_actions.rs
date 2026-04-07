@@ -79,6 +79,19 @@ pub(crate) fn matrix_create_room(
     )
 }
 
+pub(crate) fn matrix_send_typing_notice(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    typing: bool,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_send_typing_notice",
+        matrix_backend::runtime::send_typing_notice(handle_id, room_id, typing),
+    )
+}
+
 pub(crate) fn matrix_leave_room(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../../composer" as Composer
 import "../styles/bubble"
 import QtQuick
 import QtQuick.Controls
@@ -19,6 +20,7 @@ ColumnLayout {
     required property var externalDialogHost
     required property var externalHeaderPane
     required property var externalComposerPane
+    property var composerRoom: null
     property bool walkModeActive: false
     property bool roomSwitchInProgress: false
     property string focusedEventId: ""
@@ -422,6 +424,7 @@ ColumnLayout {
 
                     anchors.fill: parent
                     anchors.margins: Komai.paddingLarge
+                    anchors.bottomMargin: matrixTypingIndicator.visible ? 0 : Komai.paddingLarge
                     anchors.rightMargin: Komai.paddingLarge + (matrixTimelineScrollbar.interactive ? matrixTimelineScrollbar.width : 0)
                     keyNavigationEnabled: false
                     KeyNavigation.priority: KeyNavigation.BeforeItem
@@ -586,6 +589,16 @@ ColumnLayout {
                 MatrixRoomEmptyState {
                     rootItem: root
                 }
+            }
+
+            Composer.TypingIndicator {
+                id: matrixTypingIndicator
+
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingLarge
+                Layout.rightMargin: Komai.paddingLarge
+                room: root.composerRoom
+                visible: Settings.timelineTypingShowEnabled
             }
         }
     }

@@ -594,4 +594,25 @@ matrix_notify_sync_stopped(std::uint64_t handle_id, ::rust::Str reason, bool is_
     });
 }
 
+void
+matrix_notify_typing_users_updated(std::uint64_t handle_id,
+                                   ::rust::Str room_id,
+                                   ::rust::Vec<::rust::String> display_names)
+{
+    const auto roomId = toQString(room_id);
+    QStringList users;
+    users.reserve(static_cast<int>(display_names.size()));
+    for (const auto &name : display_names)
+        users.push_back(QString::fromStdString(std::string(name)));
+
+    postToAppThread([handle_id, roomId, users = std::move(users)]() {
+        auto *mainWindow = MainWindow::instance();
+        auto *manager    = TimelineViewManager::instance();
+        if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+
+        manager->handleMatrixBackendTypingUsersUpdated(handle_id, roomId, users);
+    });
+}
+
 } // namespace komai::rust_bridge

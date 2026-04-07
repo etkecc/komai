@@ -135,4 +135,9 @@ matrix_notify_call_negotiate_received(std::uint64_t handle_id,
 void
 matrix_notify_sync_stopped(std::uint64_t handle_id, ::rust::Str reason, bool is_auth_error);
 
+void
+matrix_notify_typing_users_updated(std::uint64_t handle_id,
+                                   ::rust::Str room_id,
+                                   ::rust::Vec<::rust::String> display_names);
+
 } // namespace komai::rust_bridge

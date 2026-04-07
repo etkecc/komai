@@ -151,6 +151,8 @@ class TimelineViewManager final : public QObject
                  matrixTimelineStateChanged)
     Q_PROPERTY(QString matrixTimelinePendingJumpEventId READ matrixTimelinePendingJumpEventId NOTIFY
                  matrixTimelineStateChanged)
+    Q_PROPERTY(QStringList matrixTimelineTypingUsers READ matrixTimelineTypingUsers NOTIFY
+                 matrixTimelineTypingUsersChanged)
 
 public:
     TimelineViewManager(CallManager *callManager, ChatPage *parent = nullptr);
@@ -188,6 +190,7 @@ public:
     bool matrixTimelineCanRedactOwn() const { return matrixTimelineCanRedactOwn_; }
     bool matrixTimelineCanRedactOther() const { return matrixTimelineCanRedactOther_; }
     QString matrixTimelinePendingJumpEventId() const { return matrixTimelinePendingJumpEventId_; }
+    QStringList matrixTimelineTypingUsers() const { return matrixTimelineTypingUsers_; }
     Q_INVOKABLE void openMediaOverlay(QObject *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
@@ -310,6 +313,7 @@ public:
     queueActiveMatrixEdit(const QString &eventId, const QString &body, const QString &messageKind);
     Q_INVOKABLE void clearActiveMatrixEdit();
     Q_INVOKABLE bool sendActiveMatrixEditMessage(const QString &body);
+    Q_INVOKABLE void sendActiveMatrixTypingNotice(bool typing);
     Q_INVOKABLE bool paginateActiveMatrixTimelineBackwards(int pageSize = 0);
     Q_INVOKABLE void setPreferredInitialMatrixTimelinePageSize(int pageSize);
     Q_INVOKABLE bool
@@ -357,6 +361,7 @@ signals:
     void ignoredUsersChanged(const QVector<QString> &ignoredUsers);
     void colorRevisionChanged();
     void matrixTimelineStateChanged();
+    void matrixTimelineTypingUsersChanged();
 
 public slots:
     void updateReadReceipts(const QString &room_id, const std::vector<QString> &event_ids);
@@ -373,6 +378,9 @@ public slots:
     handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_t handleId, const QString &roomId);
     void
     handleMatrixBackendSyncStopped(std::uint64_t handleId, const QString &reason, bool isAuthError);
+    void handleMatrixBackendTypingUsersUpdated(std::uint64_t handleId,
+                                               const QString &roomId,
+                                               const QStringList &displayNames);
 
     void showEvent(const QString &room_id, const QString &event_id);
 
@@ -487,6 +495,7 @@ private:
     QString matrixTimelineThreadEventId_;
     QString matrixTimelineEditEventId_;
     QString matrixTimelineEditMessageKind_;
+    QStringList matrixTimelineTypingUsers_;
     struct MatrixTimelineFrequentReactionsCacheEntry
     {
         QStringList reactions;

@@ -45,7 +45,6 @@ OverlayDialog {
 
                 HoverHandler {
                     id: delHover
-                    blocking: false
                 }
 
                 MouseArea {

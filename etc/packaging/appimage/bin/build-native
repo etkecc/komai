@@ -63,18 +63,22 @@ build_dir="${APPIMAGE_BUILD_DIR:-/tmp/komai-appimage-build}"
 appimage_dir="${APPIMAGE_WORK_DIR:-/tmp/komai-appimage}"
 komai_version="$(cat "$src_dir/VERSION" | tr -d '[:space:]')"
 
-echo "=== Building komai ==="
+echo "=== Configuring build ==="
 cmake -GNinja -H"$src_dir" -B"$build_dir" \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_TESTING=OFF \
     -DMAN=OFF \
     -DFETCHCONTENT_QUIET=OFF
+
+echo "=== Compiling ($(nproc) jobs) ==="
 cmake --build "$build_dir" --parallel "$(nproc)"
 
-echo "=== Creating AppImage ==="
+echo "=== Installing to AppDir ==="
 mkdir -p "$appimage_dir"
 DESTDIR="$appimage_dir/AppDir" cmake --install "$build_dir"
+
+echo "=== Packaging AppImage ==="
 # Inject the version from the VERSION file into the AppImageBuilder recipe
 sed "s/version: latest/version: $komai_version/" \
     "$src_dir/etc/packaging/appimage/AppImageBuilder.yml" > "$appimage_dir/AppImageBuilder.yml"

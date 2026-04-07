@@ -77,7 +77,9 @@ docker run --rm \
         sed -i "s/return version.parse(self.version) > version.parse(other.version)/return Dpkg.compare_versions(self.version, other.version) > 0/" "$pkg_py"
 
         echo "=== Copying source tree ==="
-        cp -a /src /tmp/src
+        # Exclude heavy build artifacts that would be rebuilt from scratch anyway.
+        tar -cf - -C / --exclude="src/rust/target" --exclude="src/var" src | tar -xf - -C /tmp
+        echo "=== Starting build ==="
 
         /tmp/src/etc/packaging/appimage/bin/build-native /tmp/src /out
 

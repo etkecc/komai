@@ -12,11 +12,23 @@
     <name>Komai</name>
   </developer>
   <name>Komai</name>
-  <summary>Desktop client for the Matrix protocol</summary>
+  <summary>A Matrix chat app you can get to love</summary>
   <description>
-    <p>The motivation behind the project is to provide a native
-        desktop app for Matrix that feels more like a mainstream
-        chat app.</p>
+    <p>Komai is a desktop-first Matrix chat application built with Rust, C++ and QML. It is optimized for large screens, with comfortably readable text, larger hit targets, and a keyboard-driven workflow designed for productivity.</p>
+    <p>Komai began as a usability-focused fork of nheko, but has since been heavily rebuilt around the Rust matrix-sdk runtime and a growing Rust core.</p>
+    <p>Features include:</p>
+    <ul>
+      <li>Matrix messaging with end-to-end encryption support</li>
+      <li>Voice and video calls</li>
+      <li>File, image, audio and emoji messages with a built-in media viewer</li>
+      <li>Replies, threads, and message forwarding</li>
+      <li>Multi-account support via dedicated application profiles</li>
+      <li>10+ built-in themes meeting WCAG AA contrast guidelines, plus user-themable support</li>
+      <li>30+ languages</li>
+      <li>Keyboard-driven workflow with Vim-style shortcuts</li>
+      <li>Local automation via Model Context Protocol (MCP), CLI commands, and D-Bus</li>
+    </ul>
+    <p>Komai is fully Free Software (GPL-3.0-or-later), with no CLA and no contributor gatekeeping.</p>
   </description>
   <languages>
     <lang>cs</lang>
@@ -62,44 +74,6 @@
   <url type="homepage">https://github.com/etkecc/komai</url>
   <update_contact>https://github.com/etkecc</update_contact>
   <releases>
-    <release date="2025-08-10" version="0.12.1">
-      <description>
-        <p>This release fixes a few security issues around rendering rich text messages. Otherwise it also includes a lot of minor improvements.</p>
-      </description>
-
-    </release>
-    <release date="2024-06-12" version="0.12.0">
-      <description>
-        <p>This release features a complete port to Qt6, intentional mentions, expiring messages, ignoring users, better sticker and emoji handling and much, much more!</p>
-      </description>
-
-    </release>
-    <release date="2023-02-23" version="0.11.3"/>
-    <release date="2023-02-20" version="0.11.2"/>
-    <release date="2023-01-15" version="0.11.1"/>
-    <release date="2023-01-12" version="0.11.0"/>
-    <release date="2022-09-28" version="0.10.2"/>
-    <release date="2022-09-07" version="0.10.1"/>
-    <release date="2022-07-22" version="0.10.0"/>
-    <release date="2022-03-25" version="0.9.3"/>
-    <release date="2022-03-09" version="0.9.2"/>
-    <release date="2021-12-21" version="0.9.1"/>
-    <release date="2021-11-19" version="0.9.0"/>
-    <release date="2021-04-23" version="0.8.2"/>
-    <release date="2021-01-27" version="0.8.1"/>
-    <release date="2021-01-21" version="0.8.0"/>
-    <release date="2020-06-12" version="0.7.2"/>
-    <release date="2020-04-24" version="0.7.1"/>
-    <release date="2020-04-19" version="0.7.0"/>
-    <release date="2019-05-22" version="0.6.4"/>
-    <release date="2019-02-08" version="0.6.3"/>
-    <release date="2018-10-07" version="0.6.2"/>
-    <release date="2018-09-26" version="0.6.1"/>
-    <release date="2018-09-21" version="0.6.0"/>
-    <release date="2018-09-01" version="0.5.5"/>
-    <release date="2018-08-21" version="0.5.4"/>
-    <release date="2018-08-12" version="0.5.3"/>
-    <release date="2018-07-28" version="0.5.2"/>
   </releases>
   <developer_name>Komai</developer_name>
   <url type="bugtracker">https://github.com/etkecc/komai/issues</url>

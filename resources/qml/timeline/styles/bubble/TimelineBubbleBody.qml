@@ -342,9 +342,10 @@ Item {
                     property string replyUserId: (previewData && previewData.userId !== undefined)
                         ? String(previewData.userId)
                         : ""
-                    readonly property color resolvedReplyUserColor: root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeWindowColor)
-                    readonly property color resolvedReplyRoomColor: root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeBaseColor)
-                    readonly property var resolvedReplyBubblePalette: root.wrapper.resolveUserBubblePalette(replyUserId, resolvedReplyRoomColor)
+                    readonly property bool hasReplyUser: replyUserId.length > 0
+                    readonly property color resolvedReplyUserColor: hasReplyUser ? root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeWindowColor) : palette.mid
+                    readonly property color resolvedReplyRoomColor: hasReplyUser ? root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeBaseColor) : palette.mid
+                    readonly property var resolvedReplyBubblePalette: hasReplyUser ? root.wrapper.resolveUserBubblePalette(replyUserId, resolvedReplyRoomColor) : root.wrapper.bubblePalette
                     userColor: resolvedReplyUserColor
                     roomColor: resolvedReplyRoomColor
                     bubblePalette: resolvedReplyBubblePalette

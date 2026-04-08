@@ -558,7 +558,7 @@ Item {
             }
             y: root.wrapper.isStateEvent
                 ? Math.round((root.height - height) / 2)
-                : Math.round(messageBubble.y + messageBubble.height - height - bubbleBottomMargin)
+                : Math.max(0, Math.round(messageBubble.y + messageBubble.height - height - bubbleBottomMargin))
 
             eventId: root.wrapper.eventId
             status: root.wrapper.status

@@ -37,9 +37,9 @@ cd "$build_dir"
 # In Docker containers, snapcraft cannot use its usual LXD/Multipass isolation,
 # so --destructive-mode is required.  The Docker build script sets this variable.
 if [[ "${SNAP_DESTRUCTIVE_MODE:-}" == "1" ]]; then
-    snapcraft --destructive-mode
+    snapcraft pack --destructive-mode
 else
-    snapcraft
+    snapcraft pack
 fi
 
 echo "=== Copying result ==="

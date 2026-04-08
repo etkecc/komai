@@ -823,19 +823,20 @@ OverlayDialog {
                                 Rectangle {
                                     id: spaceBadgeRect
                                     visible: roomDelegate.isSpace
+                                    readonly property color badgeColor: roomDelegate.actionTextColor
                                     anchors.verticalCenter: parent.verticalCenter
                                     implicitWidth: spaceBadgeLabel.implicitWidth + Komai.paddingSmall * 2
                                     implicitHeight: spaceBadgeLabel.implicitHeight + Komai.paddingSmall * 0.5
                                     radius: Komai.paddingSmall
-                                    color: Qt.rgba(palette.text.r, palette.text.g, palette.text.b, 0.15)
-                                    border.color: Qt.rgba(palette.text.r, palette.text.g, palette.text.b, 0.4)
+                                    color: Qt.rgba(badgeColor.r, badgeColor.g, badgeColor.b, 0.15)
+                                    border.color: Qt.rgba(badgeColor.r, badgeColor.g, badgeColor.b, 0.4)
                                     border.width: 1
 
                                     Label {
                                         id: spaceBadgeLabel
                                         anchors.centerIn: parent
                                         text: qsTr("Space")
-                                        color: palette.text
+                                        color: spaceBadgeRect.badgeColor
                                         font.pointSize: Settings.uiFontSizePt * 0.8
                                     }
                                 }
@@ -914,7 +915,7 @@ OverlayDialog {
                         readonly property string warningText: roomDirectoryRoot.roomSizeWarning(roomDelegate.numMembers)
                         readonly property color badgeColor: isVeryLargeRoom
                             ? Komai.theme.error
-                            : isLargeRoom ? Komai.theme.warning : palette.text
+                            : isLargeRoom ? Komai.theme.warning : roomDelegate.actionTextColor
                         readonly property int badgeIconSize: Math.max(14, Math.round(Settings.uiFontSizePt * 1.5))
 
                         Layout.alignment: Qt.AlignVCenter

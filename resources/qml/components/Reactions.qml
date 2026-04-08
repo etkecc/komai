@@ -41,6 +41,7 @@ Flow {
                 anchorItem: reaction
                 anchorX: reaction.width / 2
                 anchorY: 0
+                maxWidth: 300
                 text: reaction.reactionToolTipText
                 delay: Komai.tooltipDelay
                 requestedVisible: reaction.hovered && reaction.reactionToolTipText.length > 0

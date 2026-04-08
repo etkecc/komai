@@ -759,15 +759,23 @@ fn summarize_reaction_items(
     reactions: &ReactionsByKeyBySender,
     own_user_id: Option<&UserId>,
 ) -> Vec<MatrixReactionSummary> {
+    const MAX_DISPLAYED_REACTIONS: usize = 10;
+    const MAX_DISPLAYED_USERS: usize = 10;
+
     reactions
         .iter()
-        .take(6)
+        .take(MAX_DISPLAYED_REACTIONS)
         .map(|(key, senders)| {
-            let users = senders
+            let total_senders = senders.len();
+            let mut users: Vec<String> = senders
                 .keys()
+                .take(MAX_DISPLAYED_USERS)
                 .map(|sender_id| sender_id.to_string())
-                .collect::<Vec<_>>()
-                .join(", ");
+                .collect();
+            if total_senders > MAX_DISPLAYED_USERS {
+                users.push(format!("… and {} more", total_senders - MAX_DISPLAYED_USERS));
+            }
+            let users = users.join("\n");
             let self_reacted_event = own_user_id
                 .and_then(|user_id| senders.get(user_id))
                 .map(|info| match &info.status {

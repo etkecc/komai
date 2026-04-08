@@ -76,7 +76,10 @@ Item {
         }
         return Math.round(rawY);
     }
-    implicitWidth: label.implicitWidth + leftPadding + rightPadding
+    property int maxWidth: 0
+    implicitWidth: maxWidth > 0
+        ? Math.min(label.implicitWidth + leftPadding + rightPadding, maxWidth)
+        : label.implicitWidth + leftPadding + rightPadding
     implicitHeight: Math.ceil(label.contentHeight) + topPadding + bottomPadding
     width: implicitWidth
     height: implicitHeight

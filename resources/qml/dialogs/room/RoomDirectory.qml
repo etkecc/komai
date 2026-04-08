@@ -1010,7 +1010,7 @@ OverlayDialog {
                     && !publicRooms.loadingMoreRooms
                     && publicRooms.reachedEndOfPagination
                     && publicRooms.errorString.length === 0
-                text: qsTr("No rooms found.")
+                text: qsTr("Nothing found.")
                 color: palette.buttonText
                 font.pointSize: Settings.uiFontSizePt * 1.5
             }

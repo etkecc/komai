@@ -629,7 +629,16 @@ endif()
 # compiler/query-depth issue. Pin the Corrosion toolchain to 1.93.0 by default
 # so clean configs use the working toolchain automatically.
 if(NOT DEFINED Rust_TOOLCHAIN)
-    set(Rust_TOOLCHAIN "1.93.0-x86_64-unknown-linux-gnu" CACHE STRING
+    # Map CMake's host architecture to the Rust target triple so this works on
+    # both x86_64 and aarch64 (and potentially others) without manual override.
+    if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
+        set(_rust_host_triple "aarch64-unknown-linux-gnu")
+    elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
+        set(_rust_host_triple "x86_64-unknown-linux-gnu")
+    else()
+        set(_rust_host_triple "${CMAKE_HOST_SYSTEM_PROCESSOR}-unknown-linux-gnu")
+    endif()
+    set(Rust_TOOLCHAIN "1.93.0-${_rust_host_triple}" CACHE STRING
         "Rust toolchain used by Corrosion"
     )
 endif()

@@ -84,9 +84,9 @@ docker run --rm \
         /tmp/src/etc/packaging/appimage/bin/build-native /tmp/src /out
 
         komai_version=$(cat /tmp/src/VERSION | tr -d "[:space:]")
-        chown "$HOST_UID:$HOST_GID" "/out/komai-$komai_version-x86_64.AppImage"
+        chown "$HOST_UID:$HOST_GID" "/out/komai-$komai_version-$(uname -m).AppImage"
     '
 
 komai_version="$(cat "$src_dir/VERSION" | tr -d '[:space:]')"
 echo ""
-echo "AppImage: $out_dir/komai-$komai_version-x86_64.AppImage"
+echo "AppImage: $out_dir/komai-$komai_version-$(uname -m).AppImage"

@@ -6,7 +6,7 @@
 # Usage:
 #   etc/packaging/appimage/bin/build-native <source_dir> <output_dir>
 #
-# The output .AppImage will be written to <output_dir>/komai-<version>-x86_64.AppImage
+# The output .AppImage will be written to <output_dir>/komai-<version>-<arch>.AppImage
 
 set -euo pipefail
 
@@ -62,6 +62,7 @@ out_dir="${2:?Usage: build-native <source_dir> <output_dir>}"
 build_dir="${APPIMAGE_BUILD_DIR:-/tmp/komai-appimage-build}"
 appimage_dir="${APPIMAGE_WORK_DIR:-/tmp/komai-appimage}"
 komai_version="$(cat "$src_dir/VERSION" | tr -d '[:space:]')"
+host_arch="$(uname -m)"
 
 echo "=== Configuring build ==="
 cmake -GNinja -H"$src_dir" -B"$build_dir" \
@@ -89,5 +90,5 @@ echo "=== Copying result ==="
 mkdir -p "$out_dir"
 # Remove old AppImage files so version bumps don't accumulate cruft.
 rm -f "$out_dir"/komai-*.AppImage
-cp "$appimage_dir/komai-$komai_version-x86_64.AppImage" "$out_dir/"
-echo "AppImage: $out_dir/komai-$komai_version-x86_64.AppImage"
+cp "$appimage_dir/komai-$komai_version-$host_arch.AppImage" "$out_dir/"
+echo "AppImage: $out_dir/komai-$komai_version-$host_arch.AppImage"

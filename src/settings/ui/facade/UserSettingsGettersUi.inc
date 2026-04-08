@@ -56,6 +56,4 @@
     bool notificationsAccountToggleEnabled() const;
     void refreshNotificationsAccountEnabled();
     bool hasNotifications() const;
-    int uiLayoutContentMaxWidthPx() const;
-    int uiLayoutContentMaxWidthEffectivePx() const;
-    int uiLayoutContentMaxWidthMinEffectivePx() const;
+    int timelineMessagesLayoutMaxWidthPercent() const;

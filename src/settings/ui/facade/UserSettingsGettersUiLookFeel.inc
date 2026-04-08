@@ -45,30 +45,6 @@ UserSettings::uiInputTouchSwipeGesturesEnabled() const
     return uiInputTouchSwipeGesturesEnabled_;
 }
 
-int
-UserSettings::uiLayoutContentMaxWidthPx() const
-{
-    if (const auto value =
-          coreStore_.valueAs<int>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
-        value.has_value())
-        return settings::core::definitions::normalizeUiLayoutContentMaxWidthPx(*value);
-    return settings::core::definitions::normalizeUiLayoutContentMaxWidthPx(
-      uiLayoutContentMaxWidthPx_);
-}
-
-int
-UserSettings::uiLayoutContentMaxWidthEffectivePx() const
-{
-    return settings::core::definitions::effectiveUiLayoutContentMaxWidthPx(
-      uiLayoutContentMaxWidthPx());
-}
-
-int
-UserSettings::uiLayoutContentMaxWidthMinEffectivePx() const
-{
-    return settings::core::definitions::kMinEffectiveUiLayoutContentMaxWidthPx;
-}
-
 bool
 UserSettings::uiLayoutCompactMode() const
 {

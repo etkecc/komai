@@ -165,8 +165,6 @@ pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::S
             .input
             .touch_swipe_gestures_enabled
             .unwrap_or_default(),
-        has_layout_content_max_width_px: config.ui.layout.content_max_width_px.is_some(),
-        layout_content_max_width_px: config.ui.layout.content_max_width_px.unwrap_or_default(),
         has_layout_compact_mode: config.ui.layout.compact_mode.is_some(),
         layout_compact_mode: config.ui.layout.compact_mode.unwrap_or_default(),
         has_avatars_circular: config.ui.avatars.circular.is_some(),
@@ -258,6 +256,18 @@ pub(crate) fn ffi_config_timeline_section(
                 .messages
                 .layout
                 .show_own_avatar
+                .unwrap_or_default(),
+            has_layout_max_width_percent: config
+                .timeline
+                .messages
+                .layout
+                .max_width_percent
+                .is_some(),
+            layout_max_width_percent: config
+                .timeline
+                .messages
+                .layout
+                .max_width_percent
                 .unwrap_or_default(),
             sender_username: config.timeline.messages.sender_username.to_storage_string(),
             has_emoji_only_enlarge: config.timeline.messages.emoji_only_enlarge.is_some(),
@@ -695,8 +705,6 @@ fn clone_config_ui_section(section: &ffi::SettingsConfigUiSection) -> ffi::Setti
         input_mode: section.input_mode.clone(),
         has_input_touch_swipe_gestures_enabled: section.has_input_touch_swipe_gestures_enabled,
         input_touch_swipe_gestures_enabled: section.input_touch_swipe_gestures_enabled,
-        has_layout_content_max_width_px: section.has_layout_content_max_width_px,
-        layout_content_max_width_px: section.layout_content_max_width_px,
         has_layout_compact_mode: section.has_layout_compact_mode,
         layout_compact_mode: section.layout_compact_mode,
         has_avatars_circular: section.has_avatars_circular,
@@ -749,6 +757,8 @@ fn clone_config_timeline_section(
             layout_avatar_size: section.messages.layout_avatar_size.clone(),
             has_layout_show_own_avatar: section.messages.has_layout_show_own_avatar,
             layout_show_own_avatar: section.messages.layout_show_own_avatar,
+            has_layout_max_width_percent: section.messages.has_layout_max_width_percent,
+            layout_max_width_percent: section.messages.layout_max_width_percent,
             sender_username: section.messages.sender_username.clone(),
             has_emoji_only_enlarge: section.messages.has_emoji_only_enlarge,
             emoji_only_enlarge: section.messages.emoji_only_enlarge,

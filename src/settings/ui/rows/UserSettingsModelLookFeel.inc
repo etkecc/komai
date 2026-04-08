@@ -96,17 +96,6 @@
     // LookFeelLayoutSection
     { QT_TR_NOOP("Layout"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // MaxContentWidth
-    { QT_TR_NOOP("Maximum content width"),
-      nullptr,
-      SM::IntegerWithDescription, SM::TabLookFeel,
-      getCoreIntValue<settings::core::SettingId::UiLayoutContentMaxWidthPx,
-                      &UserSettings::uiLayoutContentMaxWidthPx>,
-      setSettingValue<&UserSettings::setUiLayoutContentMaxWidthPx, int>,
-      0, 20000, 20,
-      nullptr,
-      nullptr,
-      CORE_CONFIG_ID(UiLayoutContentMaxWidthPx, SettingKey::UiLayoutContentMaxWidthPx) },
     // CompactLayout
     { QT_TR_NOOP("Compact mode"),
       QT_TR_NOOP("Affects spacing and icon sizes."),

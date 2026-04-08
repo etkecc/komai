@@ -99,7 +99,4 @@ inline constexpr int kDefaultScreenShareFrameRate =
   settings::core::definitions::kDefaultScreenShareFrameRate;
 inline constexpr int kDefaultDesktopWindowFocusBlurDelaySeconds =
   settings::core::definitions::kDefaultDesktopWindowFocusBlurDelaySeconds;
-inline constexpr int kDefaultUiLayoutContentMaxWidthPx =
-  settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx;
-
 } // namespace settings::serializer::config

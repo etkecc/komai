@@ -76,7 +76,6 @@ pub struct ConfigUiInput {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigUiLayout {
-    pub content_max_width_px: Option<i32>,
     pub compact_mode: Option<bool>,
 }
 
@@ -138,6 +137,7 @@ pub struct ConfigTimelineMessagesLayout {
     pub positioning: ConfigTimelineMessagesPositioningToken,
     pub avatar_size: ConfigTimelineMessagesLayoutAvatarSizeToken,
     pub show_own_avatar: Option<bool>,
+    pub max_width_percent: Option<i32>,
 }
 
 #[derive(Clone, Debug, Default)]

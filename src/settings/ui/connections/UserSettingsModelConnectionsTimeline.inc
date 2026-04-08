@@ -7,6 +7,8 @@
       TimelineMessagesLayoutAvatarSize, timelineMessagesLayoutAvatarSizeChanged, Value);
     CONNECT_SETTING_ID(
       TimelineMessagesLayoutShowOwnAvatar, timelineMessagesLayoutShowOwnAvatarChanged, Value);
+    CONNECT_SETTING_ID(
+      TimelineMessagesLayoutMaxWidthPercent, timelineMessagesLayoutMaxWidthPercentChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesSenderUsername, timelineMessagesSenderUsernameChanged, Value);
 
     // When avatar size changes, the sender username description may change (hidden-avatar warning)

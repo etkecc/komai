@@ -35,7 +35,7 @@ Note:
 | Look & Feel | FONTS | Emoji font family | `settings::core::SettingId::UiFontEmojiFamily` | `emoji_font_family` | `ui.font.emoji_family` | config.yml | yes |
 | Look & Feel | FONTS | Scale factor | `settings::core::SettingId::UiScaleFactor` | `settings/scale_factor` | `ui.scale.factor` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable UI animations | `settings::core::SettingId::UiMotionAnimationsEnabled` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
-| Look & Feel | LAYOUT | Maximum content width | `settings::core::SettingId::UiLayoutContentMaxWidthPx` | `max_timeline_width` | `ui.layout.content.max_width_px` | config.yml | yes |
+| Timeline | PRESENTATION | Maximum message width | `settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent` | *(new)* | `timeline.messages.layout.max_width_percent` | config.yml | yes |
 | Look & Feel | AVATARS | Use circular avatars | `settings::core::SettingId::UiAvatarsCircular` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
 | Look & Feel | AVATARS | Default avatar style | `settings::core::SettingId::UiAvatarsDefaultAvatarStyle` | _(removed)_ | `ui.avatars.default_avatar_style` | config.yml | yes |
 | Look & Feel | LAYOUT | Compact mode | `settings::core::SettingId::UiLayoutCompactMode` | `compact_room_list` | `ui.layout.compact_mode` | config.yml | yes |

@@ -283,12 +283,12 @@ expectConfigInt(const ::komai::rust::SettingsLoadedConfig &snapshot,
                 std::string_view message)
 {
     const auto keyString = QString::fromLatin1(key);
-    if (keyString == QLatin1String(SettingKey::UiLayoutContentMaxWidthPx)) {
-        return expect(snapshot.ui.has_layout_content_max_width_px &&
-                        snapshot.ui.layout_content_max_width_px == expected,
+    if (keyString == QLatin1String(SettingKey::TimelineMessagesLayoutMaxWidthPercent)) {
+        return expect(snapshot.timeline.messages.has_layout_max_width_percent &&
+                        snapshot.timeline.messages.layout_max_width_percent == expected,
                       message);
     }
-    if (keyString == QLatin1String(SettingKey::DesktopWindowFocusBlurDelaySeconds)) {
+if (keyString == QLatin1String(SettingKey::DesktopWindowFocusBlurDelaySeconds)) {
         return expect(snapshot.desktop.window_focus_blur.has_delay_seconds &&
                         snapshot.desktop.window_focus_blur.delay_seconds == expected,
                       message);
@@ -1453,37 +1453,37 @@ testConstrainedIntSettersRejectInvalidUpdates()
 
     settings->setPersistenceSuspended(false);
 
-    settings->setUiLayoutContentMaxWidthPx(1200);
+    settings->setTimelineMessagesLayoutMaxWidthPercent(70);
     settings->setDesktopWindowFocusBlurDelaySeconds(5);
 
-    const auto baselineContentWidth = settings->uiLayoutContentMaxWidthPx();
-    const auto baselineBlurDelay    = settings->desktopWindowFocusBlurDelaySeconds();
+    const auto baselineMaxWidth  = settings->timelineMessagesLayoutMaxWidthPercent();
+    const auto baselineBlurDelay = settings->desktopWindowFocusBlurDelaySeconds();
 
-    settings->setUiLayoutContentMaxWidthPx(50000);         // invalid: > 20000
-    settings->setDesktopWindowFocusBlurDelaySeconds(-3); // invalid: < 0
+    settings->setTimelineMessagesLayoutMaxWidthPercent(200); // invalid: > 100
+    settings->setDesktopWindowFocusBlurDelaySeconds(-3);     // invalid: < 0
 
     bool ok = true;
-    ok &= expect(settings->uiLayoutContentMaxWidthPx() == baselineContentWidth,
-                 "invalid max content width update is ignored");
+    ok &= expect(settings->timelineMessagesLayoutMaxWidthPercent() == baselineMaxWidth,
+                 "invalid max width percent update is ignored");
     ok &= expect(settings->desktopWindowFocusBlurDelaySeconds() == baselineBlurDelay,
                  "invalid window blur delay update is ignored");
 
     const auto &store = settings->coreStore();
-    const auto contentWidthValue =
-      store.valueAs<int>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
+    const auto maxWidthValue =
+      store.valueAs<int>(settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent);
     const auto blurDelayValue =
       store.valueAs<int>(settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds);
 
-    ok &= expect(contentWidthValue.has_value() && *contentWidthValue == baselineContentWidth,
-                 "core store keeps previous max content width on invalid update");
+    ok &= expect(maxWidthValue.has_value() && *maxWidthValue == baselineMaxWidth,
+                 "core store keeps previous max width percent on invalid update");
     ok &= expect(blurDelayValue.has_value() && *blurDelayValue == baselineBlurDelay,
                  "core store keeps previous window blur delay on invalid update");
 
     const auto configRoot = loadConfigSnapshot(ctx.configFile(), "config");
     ok &= expectConfigInt(configRoot,
-                          SettingKey::UiLayoutContentMaxWidthPx,
-                          baselineContentWidth,
-                          "config keeps previous max content width on invalid update");
+                          SettingKey::TimelineMessagesLayoutMaxWidthPercent,
+                          baselineMaxWidth,
+                          "config keeps previous max width percent on invalid update");
     ok &= expectConfigInt(configRoot,
                           SettingKey::DesktopWindowFocusBlurDelaySeconds,
                           baselineBlurDelay,
@@ -1601,7 +1601,7 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::UiInputTouchSwipeGesturesEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScaleFactor));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::UiLayoutContentMaxWidthPx));
+      QString::fromLatin1(SettingKey::TimelineMessagesLayoutMaxWidthPercent));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiAvatarsCircular));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiLayoutCompactMode));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScrollbarPolicy));

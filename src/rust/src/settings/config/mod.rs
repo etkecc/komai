@@ -50,7 +50,6 @@ const UI_MOTION_ANIMATIONS_ENABLED_PATH: [&str; 3] = ["ui", "motion", "enable_an
 const UI_INPUT_MODE_PATH: [&str; 3] = ["ui", "input", "mode"];
 const UI_INPUT_TOUCH_SWIPE_GESTURES_ENABLED_PATH: [&str; 5] =
     ["ui", "input", "touch", "swipe_gestures", "enabled"];
-const UI_LAYOUT_CONTENT_MAX_WIDTH_PX_PATH: [&str; 4] = ["ui", "layout", "content", "max_width_px"];
 const UI_LAYOUT_COMPACT_MODE_PATH: [&str; 3] = ["ui", "layout", "compact_mode"];
 const UI_AVATARS_CIRCULAR_PATH: [&str; 3] = ["ui", "avatars", "circular"];
 const UI_AVATARS_DEFAULT_AVATAR_STYLE_PATH: [&str; 3] = ["ui", "avatars", "default_avatar_style"];
@@ -89,6 +88,8 @@ const TIMELINE_MESSAGES_LAYOUT_AVATAR_SIZE_PATH: [&str; 4] =
     ["timeline", "messages", "layout", "avatar_size"];
 const TIMELINE_MESSAGES_LAYOUT_SHOW_OWN_AVATAR_PATH: [&str; 4] =
     ["timeline", "messages", "layout", "show_own_avatar"];
+const TIMELINE_MESSAGES_LAYOUT_MAX_WIDTH_PERCENT_PATH: [&str; 4] =
+    ["timeline", "messages", "layout", "max_width_percent"];
 const TIMELINE_MESSAGES_SENDER_USERNAME_PATH: [&str; 3] =
     ["timeline", "messages", "sender_username"];
 const TIMELINE_MESSAGES_EMOJI_ONLY_ENLARGE_PATH: [&str; 3] =
@@ -225,8 +226,6 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 .and_then(parse_scalar_bool),
             },
             layout: ConfigUiLayout {
-                content_max_width_px: yaml::value_at_path(root, &UI_LAYOUT_CONTENT_MAX_WIDTH_PX_PATH)
-                    .and_then(parse_scalar_i32),
                 compact_mode: yaml::value_at_path(root, &UI_LAYOUT_COMPACT_MODE_PATH)
                     .and_then(parse_scalar_bool),
             },
@@ -304,6 +303,11 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                         &TIMELINE_MESSAGES_LAYOUT_SHOW_OWN_AVATAR_PATH,
                     )
                     .and_then(parse_scalar_bool),
+                    max_width_percent: yaml::value_at_path(
+                        root,
+                        &TIMELINE_MESSAGES_LAYOUT_MAX_WIDTH_PERCENT_PATH,
+                    )
+                    .and_then(parse_scalar_i32),
                 },
                 sender_username: parse_storage_token(yaml::value_at_path(
                     root,

@@ -81,10 +81,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setUiInputTouchSwipeGesturesEnabled(snapshot.ui.has_input_touch_swipe_gestures_enabled
                                                    ? snapshot.ui.input_touch_swipe_gestures_enabled
                                                    : false);
-    settings.setUiLayoutContentMaxWidthPx(
-      snapshot.ui.has_layout_content_max_width_px
-        ? snapshot.ui.layout_content_max_width_px
-        : settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx);
     settings.setUiAvatarsCircular(snapshot.ui.has_avatars_circular ? snapshot.ui.avatars_circular
                                                                    : false);
     settings.setUiLayoutCompactMode(
@@ -215,6 +211,10 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       snapshot.timeline.messages.has_layout_show_own_avatar
         ? snapshot.timeline.messages.layout_show_own_avatar
         : true);
+    settings.setTimelineMessagesLayoutMaxWidthPercent(
+      snapshot.timeline.messages.has_layout_max_width_percent
+        ? snapshot.timeline.messages.layout_max_width_percent
+        : settings::core::definitions::kDefaultTimelineMessagesLayoutMaxWidthPercent);
 
     const auto loadedTimelineMessagesSenderUsername =
       QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.sender_username))

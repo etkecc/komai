@@ -28,7 +28,7 @@ expect(bool condition, const char *message)
 constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::UiScrollbarPolicy,
   settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
-  settings::core::SettingId::UiLayoutContentMaxWidthPx,
+  settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent,
   settings::core::SettingId::IntegrationsDbusApiAccess,
   settings::core::SettingId::NetworkPresenceStatusPolicy,
   settings::core::SettingId::CallsScreenshareFrameRate,
@@ -96,12 +96,12 @@ bool
 testTypeMismatchRead()
 {
     settings::core::SettingsStore store;
-    (void)store.set(settings::core::SettingId::UiLayoutContentMaxWidthPx, 1200);
+    (void)store.set(settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent, 1200);
 
     const auto asDouble =
-      store.valueAs<double>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
+      store.valueAs<double>(settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent);
     const auto asString =
-      store.valueAs<std::string>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
+      store.valueAs<std::string>(settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent);
 
     return expect(!asDouble.has_value(), "valueAs<double> rejects int value") &&
            expect(!asString.has_value(), "valueAs<string> rejects int value");

@@ -66,14 +66,7 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
             Value::Bool(snapshot.ui.input_touch_swipe_gestures_enabled),
         );
     }
-    if snapshot.ui.has_layout_content_max_width_px {
-        yaml::set_value(
-            &mut root,
-            &["ui", "layout", "content", "max_width_px"],
-            Value::Number(Number::from(snapshot.ui.layout_content_max_width_px)),
-        );
-    }
-    if snapshot.ui.has_layout_compact_mode {
+if snapshot.ui.has_layout_compact_mode {
         yaml::set_value(
             &mut root,
             &["ui", "layout", "compact_mode"],
@@ -202,6 +195,13 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
             &mut root,
             &["timeline", "messages", "layout", "show_own_avatar"],
             Value::Bool(snapshot.timeline.messages.layout_show_own_avatar),
+        );
+    }
+    if snapshot.timeline.messages.has_layout_max_width_percent {
+        yaml::set_value(
+            &mut root,
+            &["timeline", "messages", "layout", "max_width_percent"],
+            Value::Number(Number::from(snapshot.timeline.messages.layout_max_width_percent)),
         );
     }
     yaml::set_value(

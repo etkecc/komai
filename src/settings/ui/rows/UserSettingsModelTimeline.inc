@@ -26,6 +26,17 @@
       nullptr,
       TimelineMessagesLayoutPositioning,
       SettingKey::TimelineMessagesLayoutPositioning),
+    // TimelineMessagesLayoutMaxWidthPercent
+    { QT_TR_NOOP("Maximum message width (%)"),
+      QT_TR_NOOP("Percentage of available timeline width that a single message can occupy."),
+      SM::IntegerWithDescription, SM::TabTimeline,
+      getCoreIntValue<settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent,
+                      &UserSettings::timelineMessagesLayoutMaxWidthPercent>,
+      setSettingValue<&UserSettings::setTimelineMessagesLayoutMaxWidthPercent, int>,
+      30, 100, 5,
+      nullptr,
+      nullptr,
+      CORE_CONFIG_ID(TimelineMessagesLayoutMaxWidthPercent, SettingKey::TimelineMessagesLayoutMaxWidthPercent) },
     // TimelineUserColorCodingPolicy
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Sender/message color coding",

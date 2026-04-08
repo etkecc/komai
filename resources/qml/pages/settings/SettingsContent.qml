@@ -37,8 +37,7 @@ Item {
             id: grid
 
             spacing: Komai.paddingSmall
-            property real contentMaxWidth: Settings.uiLayoutContentMaxWidthEffectivePx > 0 ? Settings.uiLayoutContentMaxWidthEffectivePx : Number.POSITIVE_INFINITY
-            property real sideMargin: Math.max(Komai.paddingMedium, (scroll.width - contentMaxWidth) / 2)
+            property real sideMargin: Komai.paddingMedium
             property int settingRowStackBreakpoint: 700
             width: Math.max(0, scroll.width - sideMargin * 2)
             x: sideMargin

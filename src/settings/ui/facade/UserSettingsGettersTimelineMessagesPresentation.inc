@@ -87,6 +87,16 @@ UserSettings::timelineMessagesLayoutShowOwnAvatar() const
     return timelineMessagesLayoutShowOwnAvatar_;
 }
 
+int
+UserSettings::timelineMessagesLayoutMaxWidthPercent() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent);
+        value.has_value())
+        return *value;
+    return timelineMessagesLayoutMaxWidthPercent_;
+}
+
 UserSettings::ShowSenderUsername
 UserSettings::timelineMessagesSenderUsername() const
 {

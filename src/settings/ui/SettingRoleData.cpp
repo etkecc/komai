@@ -83,19 +83,6 @@ presenceStatusDescriptionRoleData(int role)
 }
 
 QVariant
-uiLayoutContentMaxWidthDescriptionRoleData(int role)
-{
-    if (role != UserSettingsModel::Description)
-        return {};
-
-    return QCoreApplication::translate(
-             "UserSettingsModel",
-             "Set the maximum width (in pixels) for app content, including timeline messages. "
-             "Use 0 for uncapped; minimum effective value is %1.")
-      .arg(settings::core::definitions::kMinEffectiveUiLayoutContentMaxWidthPx);
-}
-
-QVariant
 autoplayGifVideosDescriptionRoleData(int role)
 {
     if (role != UserSettingsModel::Description)
@@ -158,8 +145,6 @@ roleDataForSetting(settings::core::SettingId id, int role)
     switch (id) {
     case settings::core::SettingId::UiThemeSlug:
         return themeRoleData(role);
-    case settings::core::SettingId::UiLayoutContentMaxWidthPx:
-        return uiLayoutContentMaxWidthDescriptionRoleData(role);
     case settings::core::SettingId::NetworkPresenceStatusPolicy:
         return presenceStatusDescriptionRoleData(role);
     case settings::core::SettingId::TimelineMediaAutoplayGifVideos:

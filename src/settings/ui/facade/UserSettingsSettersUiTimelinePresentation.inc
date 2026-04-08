@@ -64,6 +64,19 @@ UserSettings::setTimelineMessagesLayoutShowOwnAvatar(bool s)
     save();
 }
 void
+UserSettings::setTimelineMessagesLayoutMaxWidthPercent(int s)
+{
+    if (timelineMessagesLayoutMaxWidthPercent_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent,
+                      s,
+                      SettingKey::TimelineMessagesLayoutMaxWidthPercent))
+        return;
+    timelineMessagesLayoutMaxWidthPercent_ = s;
+    emit timelineMessagesLayoutMaxWidthPercentChanged(s);
+    save();
+}
+void
 UserSettings::setTimelineMessagesSenderUsername(ShowSenderUsername s)
 {
     if (timelineMessagesSenderUsername_ == s)

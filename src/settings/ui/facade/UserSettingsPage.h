@@ -111,6 +111,9 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool timelineMessagesLayoutShowOwnAvatar READ timelineMessagesLayoutShowOwnAvatar WRITE
         setTimelineMessagesLayoutShowOwnAvatar NOTIFY timelineMessagesLayoutShowOwnAvatarChanged)
+    Q_PROPERTY(int timelineMessagesLayoutMaxWidthPercent READ timelineMessagesLayoutMaxWidthPercent
+                 WRITE setTimelineMessagesLayoutMaxWidthPercent NOTIFY
+                   timelineMessagesLayoutMaxWidthPercentChanged)
     Q_PROPERTY(
       QString timelineMessageActionsPinnedReactions READ timelineMessageActionsPinnedReactions WRITE
         setTimelineMessageActionsPinnedReactions NOTIFY
@@ -177,12 +180,6 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       int desktopWindowFocusBlurDelaySeconds READ desktopWindowFocusBlurDelaySeconds WRITE
         setDesktopWindowFocusBlurDelaySeconds NOTIFY desktopWindowFocusBlurDelaySecondsChanged)
-    Q_PROPERTY(int uiLayoutContentMaxWidthPx READ uiLayoutContentMaxWidthPx WRITE
-                 setUiLayoutContentMaxWidthPx NOTIFY uiLayoutContentMaxWidthPxChanged)
-    Q_PROPERTY(int uiLayoutContentMaxWidthEffectivePx READ uiLayoutContentMaxWidthEffectivePx NOTIFY
-                 uiLayoutContentMaxWidthPxChanged)
-    Q_PROPERTY(
-      int uiLayoutContentMaxWidthMinEffectivePx READ uiLayoutContentMaxWidthMinEffectivePx CONSTANT)
     Q_PROPERTY(int sidebarsRoomListWidthPx READ sidebarsRoomListWidthPx WRITE
                  setSidebarsRoomListWidthPx NOTIFY sidebarsRoomListWidthPxChanged)
     Q_PROPERTY(int sidebarsCommunitiesWidthPx READ sidebarsCommunitiesWidthPx WRITE
@@ -516,6 +513,7 @@ public:
     void setTimelineMessagesLayoutAvatarSize(AvatarSize size);
     void setComposerExtrasStickersEnabled(bool state);
     void setTimelineMessagesLayoutShowOwnAvatar(bool state);
+    void setTimelineMessagesLayoutMaxWidthPercent(int value);
     void setTimelineMessageActionsPinnedReactions(QString value);
     void setTimelineMessagesSenderUsername(ShowSenderUsername state);
     void setTimelineMediaAnimateOnHover(bool state);
@@ -525,7 +523,6 @@ public:
     void setSidebarsRoomListSort(RoomSortOrder order);
     void setSidebarsRoomListUnreadDetectionPolicy(UnreadDetectionPolicy policy);
     void setTimelineMessageActionsActivationPolicy(TimelineMessageActionsActivationPolicy policy);
-    void setUiLayoutContentMaxWidthPx(int state);
     void setSidebarsCommunitiesWidthPx(int state);
     void setSidebarsRoomListWidthPx(int state);
     void setNotificationsAccountEnabled(bool state);
@@ -672,6 +669,7 @@ signals:
     void timelineMessagesLayoutAvatarSizeChanged(AvatarSize size);
     void composerExtrasStickersEnabledChanged(bool state);
     void timelineMessagesLayoutShowOwnAvatarChanged(bool state);
+    void timelineMessagesLayoutMaxWidthPercentChanged(int value);
     void timelineMessageActionsPinnedReactionsChanged(const QString &value);
     void timelineMessagesSenderUsernameChanged(ShowSenderUsername state);
     void timelineMediaAnimateOnHoverChanged(bool state);
@@ -694,7 +692,6 @@ signals:
     void uiMotionAnimationsEnabledChanged(bool state);
     void desktopWindowFocusBlurEnabledChanged(bool state);
     void desktopWindowFocusBlurDelaySecondsChanged(int state);
-    void uiLayoutContentMaxWidthPxChanged(int state);
     void sidebarsRoomListWidthPxChanged(int state);
     void sidebarsCommunitiesWidthPxChanged(int state);
     void uiInputModeChanged(bool mode);

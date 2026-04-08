@@ -34,6 +34,8 @@ TimelineUserColorCodingPolicy timelineUserColorCodingPolicy_ =
 AvatarSize timelineMessagesLayoutAvatarSize_{};
 bool composerExtrasStickersEnabled_;
 bool timelineMessagesLayoutShowOwnAvatar_;
+int timelineMessagesLayoutMaxWidthPercent_ =
+  settings::core::definitions::kDefaultTimelineMessagesLayoutMaxWidthPercent;
 QString timelineMessageActionsPinnedReactions_;
 ShowSenderUsername timelineMessagesSenderUsername_;
 bool timelineMediaAnimateOnHover_;
@@ -73,7 +75,6 @@ bool encryptionKeySharingOnlyVerifiedUsers_;
 bool encryptionBackupOnlineEnabled_;
 bool uiInputMode_;
 bool uiInputTouchSwipeGesturesEnabled_;
-int uiLayoutContentMaxWidthPx_  = settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx;
 int sidebarsRoomListWidthPx_    = settings::core::definitions::kDefaultSidebarsRoomListWidthPx;
 int sidebarsCommunitiesWidthPx_ = settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx;
 double uiScaleFactor_           = settings::core::definitions::kDefaultScaleFactor;

@@ -1,5 +1,5 @@
-  // look and feel
-  SettingId::UiLayoutContentMaxWidthPx,
+  // timeline
+  SettingId::TimelineMessagesLayoutMaxWidthPercent,
 
   // calls
   SettingId::CallsScreenshareFrameRate,

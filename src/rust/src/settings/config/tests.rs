@@ -123,6 +123,7 @@ timeline:
       positioning: all_right
       avatar_size: small
       show_own_avatar: false
+      max_width_percent: 70
     sender_username: always
     emoji_only_enlarge: false
     hover_highlight: true
@@ -161,6 +162,7 @@ timeline:
     );
     assert_eq!(config.timeline.messages.layout.avatar_size, ConfigTimelineMessagesLayoutAvatarSizeToken::Small);
     assert_eq!(config.timeline.messages.layout.show_own_avatar, Some(false));
+    assert_eq!(config.timeline.messages.layout.max_width_percent, Some(70));
     assert_eq!(
         config.timeline.messages.sender_username,
         ConfigTimelineMessagesSenderUsernameToken::Always
@@ -204,8 +206,6 @@ ui:
       swipe_gestures:
         enabled: true
   layout:
-    content:
-      max_width_px: 1024
     compact_mode: false
   avatars:
     circular: true
@@ -217,8 +217,7 @@ ui:
     assert_eq!(config.ui.font.size_pt, Some(14.0));
     assert_eq!(config.ui.motion.animations_enabled, Some(true));
     assert_eq!(config.ui.input.touch_swipe_gestures_enabled, Some(true));
-    assert_eq!(config.ui.layout.content_max_width_px, Some(1024));
-    assert_eq!(config.ui.layout.compact_mode, Some(false));
+assert_eq!(config.ui.layout.compact_mode, Some(false));
     assert_eq!(config.ui.avatars.circular, Some(true));
     assert_eq!(
         config.ui.avatars.default_avatar_style,
@@ -426,8 +425,6 @@ fn encodes_generic_config_values() {
             input_mode: "desktop".to_owned(),
             has_input_touch_swipe_gestures_enabled: true,
             input_touch_swipe_gestures_enabled: true,
-            has_layout_content_max_width_px: true,
-            layout_content_max_width_px: 1024,
             has_layout_compact_mode: true,
             layout_compact_mode: false,
             has_avatars_circular: true,
@@ -470,6 +467,8 @@ fn encodes_generic_config_values() {
                 layout_avatar_size: "small".to_owned(),
                 has_layout_show_own_avatar: true,
                 layout_show_own_avatar: false,
+                has_layout_max_width_percent: true,
+                layout_max_width_percent: 70,
                 sender_username: "always".to_owned(),
                 has_emoji_only_enlarge: true,
                 emoji_only_enlarge: false,
@@ -653,6 +652,10 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
+        yaml::value_at_path(&root, &["timeline", "messages", "layout", "max_width_percent"]),
+        Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(70)
+    ));
+    assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "messages", "sender_username"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "always"
     ));
@@ -756,10 +759,6 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "input", "touch", "swipe_gestures", "enabled"]),
         Some(serde_yaml_ng::Value::Bool(true))
-    ));
-    assert!(matches!(
-        yaml::value_at_path(&root, &["ui", "layout", "content", "max_width_px"]),
-        Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(1024)
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "layout", "compact_mode"]),

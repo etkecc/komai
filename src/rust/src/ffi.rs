@@ -194,7 +194,7 @@ mod bridge {
 
     struct SettingsConfigTimelineMessagesSection {
         style: String,
-        positioning: String,
+        layout_positioning: String,
         user_color_coding_policy: String,
         layout_avatar_size: String,
         has_layout_show_own_avatar: bool,

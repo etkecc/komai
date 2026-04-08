@@ -127,7 +127,6 @@ pub struct ConfigTimeline {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigTimelineMessages {
     pub style: ConfigTimelineMessagesStyleToken,
-    pub positioning: ConfigTimelineMessagesPositioningToken,
     pub layout: ConfigTimelineMessagesLayout,
     pub sender_username: ConfigTimelineMessagesSenderUsernameToken,
     pub emoji_only_enlarge: Option<bool>,
@@ -136,6 +135,7 @@ pub struct ConfigTimelineMessages {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigTimelineMessagesLayout {
+    pub positioning: ConfigTimelineMessagesPositioningToken,
     pub avatar_size: ConfigTimelineMessagesLayoutAvatarSizeToken,
     pub show_own_avatar: Option<bool>,
 }

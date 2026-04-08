@@ -67,14 +67,14 @@ applyTimelineStyleFromStorage(UserSettings &settings, const QString &rawToken)
 QString
 timelinePositioningToStorage(const UserSettings &settings)
 {
-    return toStorageValue(settings.timelineMessagesPositioning());
+    return toStorageValue(settings.timelineMessagesLayoutPositioning());
 }
 
 void
 applyTimelinePositioningFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setTimelineMessagesPositioning(timelineMessagesPositioningFromStorage(
-      rawToken, UserSettings::TimelineMessagesPositioning::OpposingBySender));
+    settings.setTimelineMessagesLayoutPositioning(timelineMessagesLayoutPositioningFromStorage(
+      rawToken, UserSettings::TimelineMessagesLayoutPositioning::OpposingBySender));
 }
 
 QString

@@ -95,10 +95,11 @@ timelineMessagesStyleFromStorage(const QString &value,
                                  UserSettings::TimelineMessagesStyle fallback);
 
 QString
-toStorageValue(UserSettings::TimelineMessagesPositioning value);
-UserSettings::TimelineMessagesPositioning
-timelineMessagesPositioningFromStorage(const QString &value,
-                                       UserSettings::TimelineMessagesPositioning fallback);
+toStorageValue(UserSettings::TimelineMessagesLayoutPositioning value);
+UserSettings::TimelineMessagesLayoutPositioning
+timelineMessagesLayoutPositioningFromStorage(
+  const QString &value,
+  UserSettings::TimelineMessagesLayoutPositioning fallback);
 
 QString
 toStorageValue(UserSettings::TimelineUserColorCodingPolicy value);

@@ -89,12 +89,12 @@ TimelineEvent {
         || wrapper.previousMessageIsStateEvent !== wrapper.isStateEvent
     readonly property bool hasRoom: wrapper.room !== null
     readonly property bool messageIsRightAligned: {
-        switch (Settings.timelineMessagesPositioning) {
-        case Settings.TimelineMessagesPositioning.AllLeft:
+        switch (Settings.timelineMessagesLayoutPositioning) {
+        case Settings.TimelineMessagesLayoutPositioning.AllLeft:
             return false;
-        case Settings.TimelineMessagesPositioning.AllRight:
+        case Settings.TimelineMessagesLayoutPositioning.AllRight:
             return true;
-        case Settings.TimelineMessagesPositioning.OpposingBySender:
+        case Settings.TimelineMessagesLayoutPositioning.OpposingBySender:
         default:
             return wrapper.isSender;
         }

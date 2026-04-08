@@ -249,7 +249,7 @@ pub(crate) fn ffi_config_timeline_section(
     ffi::SettingsConfigTimelineSection {
         messages: ffi::SettingsConfigTimelineMessagesSection {
             style: config.timeline.messages.style.to_storage_string(),
-            positioning: config.timeline.messages.positioning.to_storage_string(),
+            layout_positioning: config.timeline.messages.layout.positioning.to_storage_string(),
             user_color_coding_policy: config.timeline.user_color_coding_policy.to_storage_string(),
             layout_avatar_size: config.timeline.messages.layout.avatar_size.to_storage_string(),
             has_layout_show_own_avatar: config.timeline.messages.layout.show_own_avatar.is_some(),
@@ -744,7 +744,7 @@ fn clone_config_timeline_section(
     ffi::SettingsConfigTimelineSection {
         messages: ffi::SettingsConfigTimelineMessagesSection {
             style: section.messages.style.clone(),
-            positioning: section.messages.positioning.clone(),
+            layout_positioning: section.messages.layout_positioning.clone(),
             user_color_coding_policy: section.messages.user_color_coding_policy.clone(),
             layout_avatar_size: section.messages.layout_avatar_size.clone(),
             has_layout_show_own_avatar: section.messages.has_layout_show_own_avatar,

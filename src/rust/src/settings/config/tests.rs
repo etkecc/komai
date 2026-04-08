@@ -119,8 +119,8 @@ fn parses_timeline_section() {
 timeline:
   messages:
     style: plain
-    positioning: all_right
     layout:
+      positioning: all_right
       avatar_size: small
       show_own_avatar: false
     sender_username: always
@@ -152,7 +152,7 @@ timeline:
 
     assert_eq!(config.timeline.messages.style, ConfigTimelineMessagesStyleToken::Plain);
     assert_eq!(
-        config.timeline.messages.positioning,
+        config.timeline.messages.layout.positioning,
         ConfigTimelineMessagesPositioningToken::AllRight
     );
     assert_eq!(
@@ -465,7 +465,7 @@ fn encodes_generic_config_values() {
         timeline: SettingsConfigTimelineSection {
             messages: SettingsConfigTimelineMessagesSection {
                 style: "plain".to_owned(),
-                positioning: "all_right".to_owned(),
+                layout_positioning: "all_right".to_owned(),
                 user_color_coding_policy: "me_vs_others".to_owned(),
                 layout_avatar_size: "small".to_owned(),
                 has_layout_show_own_avatar: true,
@@ -637,7 +637,7 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::String(value)) if value == "plain"
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["timeline", "messages", "positioning"]),
+        yaml::value_at_path(&root, &["timeline", "messages", "layout", "positioning"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "all_right"
     ));
     assert!(matches!(

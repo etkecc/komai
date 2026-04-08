@@ -31,7 +31,7 @@
     bool composerInputInlineRoomPickerEnabled() const;
     bool composerInputInlineUserPickerEnabled() const;
     TimelineMessagesStyle timelineMessagesStyle() const;
-    TimelineMessagesPositioning timelineMessagesPositioning() const;
+    TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning() const;
     TimelineUserColorCodingPolicy timelineUserColorCodingPolicy() const;
     AvatarSize timelineMessagesLayoutAvatarSize() const;
     bool composerExtrasStickersEnabled() const;

@@ -17,15 +17,15 @@
       nullptr,
       TimelineMessagesStyle,
       SettingKey::TimelineMessagesStyle),
-    // TimelineMessagesPositioning
+    // TimelineMessagesLayoutPositioning
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Horizontal positioning",
       QT_TR_NOOP("Choose whether messages stay on one side or are positioned opposite each other by sender."),
-      SM::TabTimeline, timelineMessagesPositioning, setTimelineMessagesPositioning, UserSettings::TimelineMessagesPositioning,
-      timelineMessagesPositioningValues,
+      SM::TabTimeline, timelineMessagesLayoutPositioning, setTimelineMessagesLayoutPositioning, UserSettings::TimelineMessagesLayoutPositioning,
+      timelineMessagesLayoutPositioningValues,
       nullptr,
-      TimelineMessagesPositioning,
-      SettingKey::TimelineMessagesPositioning),
+      TimelineMessagesLayoutPositioning,
+      SettingKey::TimelineMessagesLayoutPositioning),
     // TimelineUserColorCodingPolicy
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Sender/message color coding",

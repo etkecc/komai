@@ -41,7 +41,7 @@ constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy,
   settings::core::SettingId::SidebarsRoomListLastMessagePreview,
   settings::core::SettingId::TimelineMessagesStyle,
-  settings::core::SettingId::TimelineMessagesPositioning,
+  settings::core::SettingId::TimelineMessagesLayoutPositioning,
   settings::core::SettingId::TimelineUserColorCodingPolicy,
   settings::core::SettingId::TimelineMessagesLayoutAvatarSize,
   settings::core::SettingId::TimelineMessagesSenderUsername,

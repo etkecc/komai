@@ -184,8 +184,8 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
-        &["timeline", "messages", "positioning"],
-        Value::String(snapshot.timeline.messages.positioning.clone()),
+        &["timeline", "messages", "layout", "positioning"],
+        Value::String(snapshot.timeline.messages.layout_positioning.clone()),
     );
     yaml::set_value(
         &mut root,

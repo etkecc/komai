@@ -210,7 +210,7 @@ Item {
             boundsBehavior: Flickable.StopAtBounds
             clip: true
             interactive: contentHeight > height
-            model: root.previewEventsModelFor(Settings.timelineMessagesStyle, Settings.timelineMessagesPositioning)
+            model: root.previewEventsModelFor(Settings.timelineMessagesStyle, Settings.timelineMessagesLayoutPositioning)
             topMargin: Komai.paddingSmall
             bottomMargin: Komai.paddingSmall
             spacing: 2
@@ -259,7 +259,7 @@ Item {
                 }
             }
 
-            delegate: styleDelegateFor(Settings.timelineMessagesStyle, Settings.timelineMessagesPositioning)
+            delegate: styleDelegateFor(Settings.timelineMessagesStyle, Settings.timelineMessagesLayoutPositioning)
         }
 
         MouseArea {

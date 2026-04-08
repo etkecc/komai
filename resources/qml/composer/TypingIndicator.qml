@@ -11,7 +11,7 @@ import cc.etke.komai 1.0
 Item {
     property var room: null
     readonly property bool alignRightByPositioning:
-        Settings.timelineMessagesPositioning === Settings.TimelineMessagesPositioning.AllRight
+        Settings.timelineMessagesLayoutPositioning === Settings.TimelineMessagesLayoutPositioning.AllRight
 
     Layout.fillWidth: true
     implicitHeight: Math.max(fontMetrics.height * 1.2, typingDisplay.implicitHeight)

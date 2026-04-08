@@ -83,7 +83,7 @@ enum class SettingId
     NetworkMrsEnabled,
     NetworkMrsServerName,
     TimelineMessagesStyle,
-    TimelineMessagesPositioning,
+    TimelineMessagesLayoutPositioning,
     TimelineUserColorCodingPolicy,
     TimelineMessagesLayoutAvatarSize,
     TimelineMessagesLayoutShowOwnAvatar,

@@ -13,16 +13,16 @@ UserSettings::setTimelineMessagesStyle(TimelineMessagesStyle s)
 }
 
 void
-UserSettings::setTimelineMessagesPositioning(TimelineMessagesPositioning s)
+UserSettings::setTimelineMessagesLayoutPositioning(TimelineMessagesLayoutPositioning s)
 {
-    if (timelineMessagesPositioning_ == s)
+    if (timelineMessagesLayoutPositioning_ == s)
         return;
-    if (!setCoreValue(settings::core::SettingId::TimelineMessagesPositioning,
+    if (!setCoreValue(settings::core::SettingId::TimelineMessagesLayoutPositioning,
                       static_cast<int>(s),
-                      "timeline.messages.positioning"))
+                      "timeline.messages.layout.positioning"))
         return;
-    timelineMessagesPositioning_ = s;
-    emit timelineMessagesPositioningChanged(s);
+    timelineMessagesLayoutPositioning_ = s;
+    emit timelineMessagesLayoutPositioningChanged(s);
     save();
 }
 

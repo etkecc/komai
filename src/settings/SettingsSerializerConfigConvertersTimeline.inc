@@ -17,11 +17,11 @@ constexpr std::array<std::pair<UserSettings::TimelineMessagesStyle, const char *
     {UserSettings::TimelineMessagesStyle::Bubbles, "bubbles"},
   }};
 
-constexpr std::array<std::pair<UserSettings::TimelineMessagesPositioning, const char *>, 3>
+constexpr std::array<std::pair<UserSettings::TimelineMessagesLayoutPositioning, const char *>, 3>
   kTimelinePositioningTokens{{
-    {UserSettings::TimelineMessagesPositioning::OpposingBySender, "opposing_by_sender"},
-    {UserSettings::TimelineMessagesPositioning::AllLeft, "all_left"},
-    {UserSettings::TimelineMessagesPositioning::AllRight, "all_right"},
+    {UserSettings::TimelineMessagesLayoutPositioning::OpposingBySender, "opposing_by_sender"},
+    {UserSettings::TimelineMessagesLayoutPositioning::AllLeft, "all_left"},
+    {UserSettings::TimelineMessagesLayoutPositioning::AllRight, "all_right"},
   }};
 
 constexpr std::array<std::pair<UserSettings::TimelineUserColorCodingPolicy, const char *>, 2>
@@ -59,15 +59,15 @@ timelineMessagesStyleFromStorage(const QString &value,
 }
 
 QString
-toStorageValue(UserSettings::TimelineMessagesPositioning value)
+toStorageValue(UserSettings::TimelineMessagesLayoutPositioning value)
 {
     return valueToStorageToken(value, kTimelinePositioningTokens, "opposing_by_sender");
 }
 
-UserSettings::TimelineMessagesPositioning
-timelineMessagesPositioningFromStorage(
+UserSettings::TimelineMessagesLayoutPositioning
+timelineMessagesLayoutPositioningFromStorage(
   const QString &value,
-  UserSettings::TimelineMessagesPositioning fallback)
+  UserSettings::TimelineMessagesLayoutPositioning fallback)
 {
     return valueFromStorageToken(value, fallback, kTimelinePositioningTokens);
 }

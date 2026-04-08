@@ -97,9 +97,9 @@ class UserSettings final : public QObject
         setComposerInputInlineUserPickerEnabled NOTIFY composerInputInlineUserPickerEnabledChanged)
     Q_PROPERTY(TimelineMessagesStyle timelineMessagesStyle READ timelineMessagesStyle WRITE
                  setTimelineMessagesStyle NOTIFY timelineMessagesStyleChanged)
-    Q_PROPERTY(
-      TimelineMessagesPositioning timelineMessagesPositioning READ timelineMessagesPositioning WRITE
-        setTimelineMessagesPositioning NOTIFY timelineMessagesPositioningChanged)
+    Q_PROPERTY(TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning READ
+                 timelineMessagesLayoutPositioning WRITE setTimelineMessagesLayoutPositioning NOTIFY
+                   timelineMessagesLayoutPositioningChanged)
     Q_PROPERTY(
       TimelineUserColorCodingPolicy timelineUserColorCodingPolicy READ timelineUserColorCodingPolicy
         WRITE setTimelineUserColorCodingPolicy NOTIFY timelineUserColorCodingPolicyChanged)
@@ -406,13 +406,13 @@ public:
     };
     Q_ENUM(TimelineMessagesStyle)
 
-    enum class TimelineMessagesPositioning
+    enum class TimelineMessagesLayoutPositioning
     {
         OpposingBySender,
         AllLeft,
         AllRight,
     };
-    Q_ENUM(TimelineMessagesPositioning)
+    Q_ENUM(TimelineMessagesLayoutPositioning)
 
     enum class TimelineUserColorCodingPolicy
     {
@@ -511,7 +511,7 @@ public:
     void setComposerInputInlineRoomPickerEnabled(bool state);
     void setComposerInputInlineUserPickerEnabled(bool state);
     void setTimelineMessagesStyle(TimelineMessagesStyle style);
-    void setTimelineMessagesPositioning(TimelineMessagesPositioning positioning);
+    void setTimelineMessagesLayoutPositioning(TimelineMessagesLayoutPositioning positioning);
     void setTimelineUserColorCodingPolicy(TimelineUserColorCodingPolicy policy);
     void setTimelineMessagesLayoutAvatarSize(AvatarSize size);
     void setComposerExtrasStickersEnabled(bool state);
@@ -667,7 +667,7 @@ signals:
     void composerInputInlineRoomPickerEnabledChanged(bool state);
     void composerInputInlineUserPickerEnabledChanged(bool state);
     void timelineMessagesStyleChanged(TimelineMessagesStyle style);
-    void timelineMessagesPositioningChanged(TimelineMessagesPositioning positioning);
+    void timelineMessagesLayoutPositioningChanged(TimelineMessagesLayoutPositioning positioning);
     void timelineUserColorCodingPolicyChanged(TimelineUserColorCodingPolicy policy);
     void timelineMessagesLayoutAvatarSizeChanged(AvatarSize size);
     void composerExtrasStickersEnabledChanged(bool state);

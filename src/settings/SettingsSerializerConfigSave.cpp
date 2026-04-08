@@ -83,8 +83,8 @@ stageConfig(const UserSettings &settings,
           .messages =
             {
               .style = cfg::toStorageValue(settings.timelineMessagesStyle()).toStdString(),
-              .positioning =
-                cfg::toStorageValue(settings.timelineMessagesPositioning()).toStdString(),
+              .layout_positioning =
+                cfg::toStorageValue(settings.timelineMessagesLayoutPositioning()).toStdString(),
               .user_color_coding_policy =
                 cfg::toStorageValue(settings.timelineUserColorCodingPolicy()).toStdString(),
               .layout_avatar_size =

@@ -33,7 +33,7 @@ timelineMessagesStyleValues()
 }
 
 static QVariant
-timelineMessagesPositioningValues()
+timelineMessagesLayoutPositioningValues()
 {
     QStringList values;
     values << QCoreApplication::translate("UserSettingsModel", "Opposing by sender")

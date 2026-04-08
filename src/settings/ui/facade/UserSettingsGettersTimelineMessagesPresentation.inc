@@ -40,16 +40,16 @@ UserSettings::timelineMessagesStyle() const
     return timelineMessagesStyle_;
 }
 
-UserSettings::TimelineMessagesPositioning
-UserSettings::timelineMessagesPositioning() const
+UserSettings::TimelineMessagesLayoutPositioning
+UserSettings::timelineMessagesLayoutPositioning() const
 {
     if (const auto value =
-          coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesPositioning);
+          coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesLayoutPositioning);
         value.has_value() &&
-        *value >= static_cast<int>(UserSettings::TimelineMessagesPositioning::OpposingBySender) &&
-        *value <= static_cast<int>(UserSettings::TimelineMessagesPositioning::AllRight))
-        return static_cast<UserSettings::TimelineMessagesPositioning>(*value);
-    return timelineMessagesPositioning_;
+        *value >= static_cast<int>(UserSettings::TimelineMessagesLayoutPositioning::OpposingBySender) &&
+        *value <= static_cast<int>(UserSettings::TimelineMessagesLayoutPositioning::AllRight))
+        return static_cast<UserSettings::TimelineMessagesLayoutPositioning>(*value);
+    return timelineMessagesLayoutPositioning_;
 }
 
 UserSettings::TimelineUserColorCodingPolicy

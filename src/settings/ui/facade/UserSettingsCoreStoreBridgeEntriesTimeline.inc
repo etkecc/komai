@@ -1,5 +1,5 @@
 X(TimelineMessagesStyle, static_cast<int>(settings.timelineMessagesStyle()))
-X(TimelineMessagesPositioning, static_cast<int>(settings.timelineMessagesPositioning()))
+X(TimelineMessagesLayoutPositioning, static_cast<int>(settings.timelineMessagesLayoutPositioning()))
 X(TimelineUserColorCodingPolicy, static_cast<int>(settings.timelineUserColorCodingPolicy()))
 X(TimelineMessagesLayoutAvatarSize, static_cast<int>(settings.timelineMessagesLayoutAvatarSize()))
 X(TimelineMessagesLayoutShowOwnAvatar, settings.timelineMessagesLayoutShowOwnAvatar())

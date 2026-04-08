@@ -81,7 +81,8 @@ const SIDEBARS_COMMUNITIES_FILTER_SERVER_NOTICES_PATH: [&str; 4] =
 const SIDEBARS_COMMUNITIES_FILTER_LOW_PRIORITY_PATH: [&str; 4] =
     ["sidebars", "communities", "filters", "low_priority"];
 const TIMELINE_MESSAGES_STYLE_PATH: [&str; 3] = ["timeline", "messages", "style"];
-const TIMELINE_MESSAGES_POSITIONING_PATH: [&str; 3] = ["timeline", "messages", "positioning"];
+const TIMELINE_MESSAGES_LAYOUT_POSITIONING_PATH: [&str; 4] =
+    ["timeline", "messages", "layout", "positioning"];
 const TIMELINE_USER_COLOR_CODING_POLICY_PATH: [&str; 2] =
     ["timeline", "user_color_coding_policy"];
 const TIMELINE_MESSAGES_LAYOUT_AVATAR_SIZE_PATH: [&str; 4] =
@@ -289,11 +290,11 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
         timeline: ConfigTimeline {
             messages: ConfigTimelineMessages {
                 style: parse_storage_token(yaml::value_at_path(root, &TIMELINE_MESSAGES_STYLE_PATH)),
-                positioning: parse_storage_token(yaml::value_at_path(
-                    root,
-                    &TIMELINE_MESSAGES_POSITIONING_PATH,
-                )),
                 layout: ConfigTimelineMessagesLayout {
+                    positioning: parse_storage_token(yaml::value_at_path(
+                        root,
+                        &TIMELINE_MESSAGES_LAYOUT_POSITIONING_PATH,
+                    )),
                     avatar_size: parse_storage_token(yaml::value_at_path(
                         root,
                         &TIMELINE_MESSAGES_LAYOUT_AVATAR_SIZE_PATH,

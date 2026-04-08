@@ -187,9 +187,9 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
           QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.style)) ==
             expected,
           message);
-    if (keyString == QLatin1String(SettingKey::TimelineMessagesPositioning))
+    if (keyString == QLatin1String(SettingKey::TimelineMessagesLayoutPositioning))
         return expect(QString::fromStdString(
-                        static_cast<std::string>(snapshot.timeline.messages.positioning)) ==
+                        static_cast<std::string>(snapshot.timeline.messages.layout_positioning)) ==
                         expected,
                       message);
     if (keyString == QLatin1String(SettingKey::TimelineUserColorCodingPolicy))
@@ -706,8 +706,8 @@ testEnumSettingsPersistAsStrings()
     settings->setPersistenceSuspended(false);
     settings->setNetworkPresenceStatusPolicy(UserSettings::Presence::Offline);
     settings->setTimelineMediaImageDisplay(UserSettings::ShowImage::Never);
-    settings->setTimelineMessagesPositioning(
-      UserSettings::TimelineMessagesPositioning::AllRight);
+    settings->setTimelineMessagesLayoutPositioning(
+      UserSettings::TimelineMessagesLayoutPositioning::AllRight);
     settings->setTimelineUserColorCodingPolicy(
       UserSettings::TimelineUserColorCodingPolicy::MeVsOthers);
     settings->setTimelineMessagesSenderUsername(UserSettings::ShowSenderUsername::Always);
@@ -745,7 +745,7 @@ testEnumSettingsPersistAsStrings()
                              QStringLiteral("always"),
                              "sender username policy is persisted as string token");
     ok &= expectConfigString(configRoot,
-                             SettingKey::TimelineMessagesPositioning,
+                             SettingKey::TimelineMessagesLayoutPositioning,
                              QStringLiteral("all_right"),
                              "message positioning is persisted as string token");
     ok &= expectConfigString(configRoot,
@@ -1632,7 +1632,7 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterLowPriority));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::TimelineMessagesStyle));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::TimelineMessagesPositioning));
+      QString::fromLatin1(SettingKey::TimelineMessagesLayoutPositioning));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineUserColorCodingPolicy));
     serializerHandledConfigKeys.insert(

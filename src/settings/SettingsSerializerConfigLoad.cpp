@@ -181,15 +181,16 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setTimelineMessagesStyle(cfg::timelineMessagesStyleFromStorage(
       timelineMessagesStyleToken, UserSettings::TimelineMessagesStyle::Bubbles));
 
-    const auto loadedTimelineMessagesPositioning =
-      QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.positioning))
+    const auto loadedTimelineMessagesLayoutPositioning =
+      QString::fromStdString(
+        static_cast<std::string>(snapshot.timeline.messages.layout_positioning))
         .trimmed();
-    const auto timelineMessagesPositioningToken = loadedTimelineMessagesPositioning.isEmpty()
-                                                    ? QStringLiteral("opposing_by_sender")
-                                                    : loadedTimelineMessagesPositioning;
-    settings.setTimelineMessagesPositioning(cfg::timelineMessagesPositioningFromStorage(
-      timelineMessagesPositioningToken,
-      UserSettings::TimelineMessagesPositioning::OpposingBySender));
+    const auto timelineMessagesLayoutPositioningToken =
+      loadedTimelineMessagesLayoutPositioning.isEmpty() ? QStringLiteral("opposing_by_sender")
+                                                        : loadedTimelineMessagesLayoutPositioning;
+    settings.setTimelineMessagesLayoutPositioning(cfg::timelineMessagesLayoutPositioningFromStorage(
+      timelineMessagesLayoutPositioningToken,
+      UserSettings::TimelineMessagesLayoutPositioning::OpposingBySender));
 
     const auto loadedTimelineUserColorCodingPolicy =
       QString::fromStdString(

@@ -43,7 +43,7 @@ constexpr auto SidebarsCommunitiesFilterServerNotices =
   "sidebars.communities.filters.server_notices";
 constexpr auto SidebarsCommunitiesFilterLowPriority = "sidebars.communities.filters.low_priority";
 constexpr auto TimelineMessagesStyle                = "timeline.messages.style";
-constexpr auto TimelineMessagesPositioning          = "timeline.messages.positioning";
+constexpr auto TimelineMessagesLayoutPositioning    = "timeline.messages.layout.positioning";
 constexpr auto TimelineUserColorCodingPolicy        = "timeline.user_color_coding_policy";
 constexpr auto TimelineMessagesLayoutAvatarSize     = "timeline.messages.layout.avatar_size";
 constexpr auto TimelineMessagesLayoutShowOwnAvatar  = "timeline.messages.layout.show_own_avatar";

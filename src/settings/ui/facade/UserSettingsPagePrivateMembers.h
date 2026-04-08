@@ -27,8 +27,8 @@ bool composerInputInlineEmojiPickerEnabled_                 = true;
 bool composerInputInlineRoomPickerEnabled_                  = true;
 bool composerInputInlineUserPickerEnabled_                  = true;
 TimelineMessagesStyle timelineMessagesStyle_                = TimelineMessagesStyle::Bubbles;
-TimelineMessagesPositioning timelineMessagesPositioning_ =
-  TimelineMessagesPositioning::OpposingBySender;
+TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning_ =
+  TimelineMessagesLayoutPositioning::OpposingBySender;
 TimelineUserColorCodingPolicy timelineUserColorCodingPolicy_ =
   TimelineUserColorCodingPolicy::AdaptiveByRoomSize;
 AvatarSize timelineMessagesLayoutAvatarSize_{};

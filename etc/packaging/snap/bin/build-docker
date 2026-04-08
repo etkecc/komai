@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+#
+# Build Komai snap inside a Docker container.
+# Works on any Linux distro -- only requires Docker.
+#
+# Usage:
+#   etc/packaging/snap/bin/build-docker <source_dir> <output_dir>
+#
+# Uses the official Snapcraft Rocks OCI image (ghcr.io/canonical/snapcraft).
+# The container image tag is read from etc/packaging/snap/builder-image.
+
+set -euo pipefail
+
+src_dir="${1:?Usage: build-docker <source_dir> <output_dir>}"
+out_dir="${2:?Usage: build-docker <source_dir> <output_dir>}"
+
+snap_dir="$src_dir/etc/packaging/snap"
+image="$(tr -d '[:space:]' < "$snap_dir/builder-image")"
+komai_version="$(tr -d '[:space:]' < "$src_dir/VERSION")"
+
+# Prepare build tree with snap/snapcraft.yaml in place.
+build_dir="${SNAP_BUILD_DIR:-/tmp/komai-snap-build}"
+# The previous build may have left root-owned files (from the container).
+# Try a normal rm first; fall back to Docker-based cleanup.
+rm -rf "$build_dir" 2>/dev/null || \
+    docker run --rm -v "$(dirname "$build_dir"):/cleanup" --entrypoint bash \
+        "$image" -c "rm -rf /cleanup/$(basename "$build_dir")"
+mkdir -p "$build_dir"
+
+echo "=== Preparing build tree ==="
+tar -cf - -C "$src_dir" \
+    --exclude=var \
+    --exclude=.git \
+    --exclude=src/rust/target \
+    . | tar -xf - -C "$build_dir"
+mkdir -p "$build_dir/snap"
+cp "$snap_dir/snap/snapcraft.yaml" "$build_dir/snap/snapcraft.yaml"
+
+echo "=== Building snap (snapcraft rocks image) ==="
+mkdir -p "$out_dir"
+
+# The kde-neon-6 extension needs two things that are missing from the
+# Snapcraft Rocks OCI image:
+#
+# 1. The command-chain-kde desktop helpers — bundled with the snapcraft *snap*
+#    at /usr/share/snapcraft/extensions/desktop/, but in the Rocks image they
+#    end up under /usr/lib/python3.12/site-packages/extensions/desktop/.
+#    A symlink fixes the path mismatch.
+#
+# 2. The KDE SDK build-snaps (kde-qt6-core24-sdk, kf6-core24-sdk) — normally
+#    installed via snapd, which doesn't run in containers.  We download them
+#    with `snap download` (works without snapd) and unsquash to /snap/.
+#
+# The entrypoint is overridden so we can run the setup before snapcraft.
+docker run --rm \
+    -v "$build_dir:/project" \
+    --entrypoint bash \
+    "$image" \
+    -c '
+        set -euo pipefail
+
+        # --- Fix 1: symlink extension data to the expected location ---
+        # The Rocks image has extensions data at a different path than snapcraft
+        # expects.  /usr/share/snapcraft/extensions/ already exists (with keyrings
+        # and schema), so we symlink the missing "desktop" subdirectory into it.
+        ln -sfn /usr/lib/python3.12/site-packages/extensions/desktop \
+            /usr/share/snapcraft/extensions/desktop
+
+        # --- Fix 2: download and extract KDE SDK snaps ---
+        echo "=== Downloading KDE SDK snaps ==="
+        cd /tmp
+        snap download kde-qt6-core24-sdk 2>&1 | tail -1
+        snap download kf6-core24-sdk 2>&1 | tail -1
+
+        echo "=== Extracting SDK snaps ==="
+        mkdir -p /snap/kde-qt6-core24-sdk/current
+        unsquashfs -f -d /snap/kde-qt6-core24-sdk/current kde-qt6-core24-sdk_*.snap >/dev/null
+        mkdir -p /snap/kf6-core24-sdk/current
+        unsquashfs -f -d /snap/kf6-core24-sdk/current kf6-core24-sdk_*.snap >/dev/null
+        rm -f /tmp/*.snap /tmp/*.assert
+
+        echo "=== Running snapcraft ==="
+        apt-get update -qq >/dev/null 2>&1
+        cd /project
+        /bin/snapcraft pack --destructive-mode --verbosity=brief
+    '
+
+echo "=== Copying result ==="
+# Remove old snap files so version bumps don't accumulate cruft.
+rm -f "$out_dir"/komai_*.snap
+cp "$build_dir"/komai_*.snap "$out_dir/"
+# Fix ownership (the container runs as root).
+chown "$(id -u):$(id -g)" "$out_dir"/komai_*.snap
+
+echo ""
+echo "Snap: $(ls "$out_dir"/komai_*.snap)"

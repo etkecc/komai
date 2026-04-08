@@ -4,6 +4,7 @@ set tempdir := "var/tmp/just"
 build_dir := justfile_directory() / "var/build/native"
 flatpak_build_dir := justfile_directory() / "var/build/flatpak"
 appimage_build_dir := justfile_directory() / "var/build/appimage"
+snap_build_dir := justfile_directory() / "var/build/snap"
 static_web_server_container_image := "ghcr.io/static-web-server/static-web-server:2.41.0"
 
 # mise (dev tool version manager)
@@ -308,6 +309,33 @@ appimage-build-docker: emoji-fetch
 # Builds an AppImage bundle natively (requires Ubuntu 25.04+ with appimage-builder installed)
 appimage-build-native: emoji-fetch
 	{{ justfile_directory() }}/etc/packaging/appimage/bin/build-native "{{ justfile_directory() }}" "{{ appimage_build_dir }}"
+
+# Builds a snap package inside a Docker container (works on any distro)
+snap-build-docker: emoji-fetch
+	{{ justfile_directory() }}/etc/packaging/snap/bin/build-docker "{{ justfile_directory() }}" "{{ snap_build_dir }}"
+
+# Builds a snap package natively (requires snapcraft installed)
+snap-build-native: emoji-fetch
+	{{ justfile_directory() }}/etc/packaging/snap/bin/build-native "{{ justfile_directory() }}" "{{ snap_build_dir }}"
+
+# Installs the locally-built snap (--dangerous for unsigned local snaps)
+snap-install:
+	sudo snap install --dangerous "{{ snap_build_dir }}"/komai_*.snap
+
+# Runs the snap-installed Komai
+snap-run *args:
+	snap run komai {{ args }}
+
+# Removes the snap build directory (uses Docker if needed for root-owned files)
+snap-clean: _ensure_just_temp_directory
+	#!/usr/bin/env bash
+	set -euo pipefail
+	if [[ ! -e "{{ snap_build_dir }}" ]]; then
+		exit 0
+	fi
+	image="$(tr -d '[:space:]' < "{{ justfile_directory() }}/etc/packaging/snap/builder-image")"
+	rm -rf "{{ snap_build_dir }}" 2>/dev/null || \
+		docker run --rm -v "{{ justfile_directory() }}/var/build:/cleanup" --entrypoint bash "$image" -c "rm -rf /cleanup/snap"
 
 # Removes the AppImage build directory (uses Docker if needed for root-owned files)
 appimage-clean: _ensure_just_temp_directory

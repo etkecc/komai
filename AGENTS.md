@@ -35,6 +35,7 @@ Use `just` as the build entry point:
 - `just clean` -- Remove build directory
 - `just appimage-build-docker` -- Build AppImage in Docker
 - `just flatpak-build` -- Build Flatpak package
+- `just snap-build-docker` -- Build Snap package in Docker
 
 When making changes to C++/QML files, always run `just build` to verify the build succeeds and to prepare it for the human operator to test.
 Use `just lint` as a quick local verification step (including docs-only changes; it validates Markdown links and docs drift checks).

@@ -1,0 +1,124 @@
+# snapcraft manifest -- see https://snapcraft.io/docs/snapcraft-yaml-reference
+#
+# Usage (via justfile):
+#   just snap-build-native    # builds .snap on host (requires snapcraft)
+#   just snap-build-docker    # builds .snap inside Docker container
+#   just snap-clean           # removes var/build/snap/
+#
+# The kde-neon-6 extension provides the Qt 6.7+ runtime and SDK via content
+# snaps, so Qt libraries are NOT listed in build-packages or stage-packages.
+# Only non-Qt dependencies (GStreamer, QtKeychain, libsecret, etc.) are bundled.
+name: komai
+base: core24
+summary: A Matrix chat app you can get to love
+description: |
+  Komai is a desktop-first Matrix chat application built with Rust, C++ and QML.
+  Optimized for large screens with comfortably readable text, larger hit targets,
+  and a keyboard-driven workflow designed for productivity.
+
+  Features include end-to-end encryption, voice/video calls, file and media
+  messages, replies and threads, multi-account profiles, 10+ built-in themes,
+  30+ languages, Vim-style shortcuts, and local automation via MCP/D-Bus.
+grade: stable
+confinement: strict
+license: GPL-3.0-or-later
+icon: resources/komai.svg
+
+adopt-info: komai
+
+platforms:
+  amd64:
+    build-on: [amd64]
+    build-for: [amd64]
+
+apps:
+  komai:
+    command: usr/bin/komai
+    extensions: [kde-neon-6]
+    common-id: cc.etke.komai
+    desktop: usr/share/applications/cc.etke.komai.desktop
+    plugs:
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
+      - opengl
+      - network
+      - network-bind
+      - audio-playback
+      - audio-record
+      - camera
+      - home
+      - removable-media
+      - password-manager-service
+      - screen-inhibit-control
+    environment:
+      GST_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gstreamer-1.0
+      GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gstreamer-1.0
+
+parts:
+  komai:
+    plugin: cmake
+    source: .
+    cmake-generator: Ninja
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_TESTING=OFF
+      - -DMAN=OFF
+      - -DFETCHCONTENT_QUIET=OFF
+    build-packages:
+      - g++
+      - git
+      - ca-certificates
+      - python3
+      - qtkeychain-qt6-dev
+      - libgtest-dev
+      - libsecret-1-dev
+      - libssl-dev
+      - libgl1-mesa-dev
+      - libxkbcommon-dev
+      - libgstreamer1.0-dev
+      - libgstreamer-plugins-base1.0-dev
+      - libgstreamer-plugins-bad1.0-dev
+      # libpulse-dev provides the system libpulse matching the base's
+      # libpulsecommon.  Without it, the linker picks up the SDK snap's
+      # libpulse.so which has ABI mismatches against the base's PulseAudio.
+      - libpulse-dev
+      - curl
+    stage-packages:
+      # QtKeychain (not part of the kde-neon-6 content snap)
+      - libqt6keychain1
+      # GStreamer runtime plugins (for VoIP/media)
+      - gstreamer1.0-plugins-good
+      - gstreamer1.0-plugins-bad
+      - gstreamer1.0-gl
+      - gstreamer1.0-nice
+      - gstreamer1.0-x
+      # Proxy support (Qt6 network loads libpxbackend at runtime)
+      - libproxy1v5
+    override-build: |
+      # Ensure craftctl is on PATH (Rocks OCI image places it in /usr/libexec).
+      export PATH="/usr/libexec/snapcraft:$PATH"
+
+      # Install Rust via rustup -- rust-toolchain.toml pins the exact version.
+      if ! command -v cargo &>/dev/null; then
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+          | sh -s -- -y --profile minimal --default-toolchain none
+      fi
+      export PATH="$HOME/.cargo/bin:$PATH"
+
+      # Trigger toolchain auto-install from rust-toolchain.toml
+      cd "$CRAFT_PART_SRC"
+      cargo --version
+
+      # Fetch emoji data (the build step generates runtime JSON from these)
+      python3 bin/emoji/pipeline.py fetch --repo-root "$CRAFT_PART_SRC"
+
+      # Proceed with standard cmake plugin build
+      craftctl default
+    override-prime: |
+      export PATH="/usr/libexec/snapcraft:$PATH"
+      craftctl default
+      # Set snap version from VERSION file (CalVer: YYYY.MM.DD.BUILD)
+      craftctl set version="$(tr -d '[:space:]' < $CRAFT_PART_SRC/VERSION)"

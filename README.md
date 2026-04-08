@@ -79,6 +79,7 @@ Pre-built packaging formats (alphabetical):
 - [AppImage](docs/maintainers/packaging/appimage.md) -- `just appimage-build-docker` (portable single-file bundle)
 - [Arch Linux](docs/maintainers/packaging/archlinux.md) -- PKGBUILD for `makepkg` / AUR
 - [Flatpak](docs/maintainers/packaging/flatpak.md) -- `just flatpak-build && just flatpak-install`
+- [Snap](docs/maintainers/packaging/snap.md) -- `just snap-build-docker && just snap-install`
 
 See 📄 [Packaging](docs/maintainers/packaging/README.md) for an overview of all methods.
 

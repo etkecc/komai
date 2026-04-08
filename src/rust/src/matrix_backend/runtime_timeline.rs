@@ -9,6 +9,7 @@ use std::{
     sync::OnceLock,
     time::{Duration as StdDuration, Instant},
 };
+use matrix_sdk::ruma::EventId;
 use matrix_sdk::ruma::events::receipt::{ReceiptThread, ReceiptType};
 
 fn is_truthy_env_value(name: &str) -> bool {
@@ -907,6 +908,26 @@ async fn run_room_timeline_loop(
                                 &room_id,
                             );
                         }
+                    }
+                    Some(MatrixBackendRoomTimelineCommand::ToggleReaction { event_id, reaction_key, response }) => {
+                        tracing::info!(
+                            handle_id,
+                            room_id,
+                            event_id,
+                            reaction_key,
+                            "Toggling reaction on active matrix-sdk room timeline"
+                        );
+                        let result = match EventId::parse(&event_id) {
+                            Ok(parsed_event_id) => {
+                                timeline
+                                    .toggle_reaction(&TimelineEventItemId::EventId(parsed_event_id), &reaction_key)
+                                    .await
+                                    .map(|_| ())
+                                    .map_err(|e| format!("failed to toggle matrix-sdk room reaction: {e}"))
+                            }
+                            Err(e) => Err(format!("invalid event id '{event_id}': {e}")),
+                        };
+                        let _ = response.send(result);
                     }
                     None => {
                         tracing::debug!(

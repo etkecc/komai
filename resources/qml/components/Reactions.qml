@@ -113,9 +113,10 @@ Flow {
             }
 
             onClicked: {
-                console.debug("Picked " + modelData.key + "in response to " + reactionFlow.eventId + ". selfReactedEvent: " + modelData.selfReactedEvent);
                 if (reactionFlow.effectiveRoomModel && reactionFlow.effectiveRoomModel.input)
                     reactionFlow.effectiveRoomModel.input.reaction(reactionFlow.eventId, modelData.key);
+                else
+                    TimelineManager.toggleActiveMatrixTimelineReaction(String(reactionFlow.eventId || ""), String(modelData.key || ""));
             }
 
             KomaiCursorShape {

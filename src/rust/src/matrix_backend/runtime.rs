@@ -550,6 +550,11 @@ struct MatrixBackendRoomTimelineTask {
 
 enum MatrixBackendRoomTimelineCommand {
     PaginateBackwards(u16),
+    ToggleReaction {
+        event_id: String,
+        reaction_key: String,
+        response: tokio::sync::oneshot::Sender<Result<(), String>>,
+    },
 }
 
 #[derive(Clone, Debug)]

@@ -443,6 +443,7 @@ ColumnLayout {
                     displayMarginEnd: root.listViewDisplayMargin
                     cacheBuffer: root.listViewCacheBuffer
                     model: root.filteringRequested ? filteredTimeline : TimelineManager.matrixTimelineModel
+                    header: Item { width: 1; height: Komai.paddingSmall }
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline
 

@@ -138,6 +138,7 @@ public:
 public slots:
     void initializeRooms();
     void clear();
+    void setInteractionSuppressed(bool suppressed);
     void
     queueMatrixNotificationFetch(uint64_t handleId, const QString &roomId, const QString &eventId);
     int roomidToIndex(const QString &roomid)
@@ -234,6 +235,7 @@ private:
     void fetchMatrixNotificationBatch(uint64_t handleId,
                                       QVector<komai::MatrixNotificationRequest> requests);
     void applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSummary> &roomList);
+    void resumeDeferredMatrixRoomRefresh();
     static AttentionState
     attentionStateForRow(const QAbstractItemModel *model, const QModelIndex &idx);
     static GlobalExcludeState globalExcludesFromSettings(const UserSettings &settings);
@@ -258,8 +260,10 @@ private:
     // When UI requests opening a room before sync inserts it into the room summary list,
     // remember the target and switch once the room becomes available.
     QString pendingCurrentRoomId_;
-    bool matrixRoomRefreshInFlight_             = false;
-    bool matrixRoomRefreshPending_              = false;
+    bool interactionSuppressed_     = false;
+    bool matrixRoomRefreshInFlight_ = false;
+    bool matrixRoomRefreshPending_  = false;
+    std::optional<QVector<komai::MatrixRoomSummary>> deferredMatrixRoomListSnapshot_;
     bool matrixNotificationFetchQueued_         = false;
     uint64_t pendingMatrixNotificationHandleId_ = 0;
     QHash<QString, komai::MatrixNotificationRequest> pendingMatrixNotificationRequests_;
@@ -309,6 +313,7 @@ public slots:
     {
         return mapFromSource(roomlistmodel->index(roomlistmodel->roomidToIndex(roomid))).row();
     }
+    void setInteractionSuppressed(bool suppressed);
     QString roomIdAt(int row) const
     {
         if (row < 0 || row >= rowCount())
@@ -413,9 +418,10 @@ private:
     QString filterStr   = QLatin1String("");
     FilterBy filterType = FilterBy::Nothing;
     QStringList globalExcludedTags, globalExcludedSpaces;
-    bool excludePeople = false;
-    bool excludeBots   = false;
-    bool excludeGroups = false;
+    bool excludePeople          = false;
+    bool excludeBots            = false;
+    bool excludeGroups          = false;
+    bool interactionSuppressed_ = false;
 
     inline static FilteredRoomlistModel *instance_ = nullptr;
 };

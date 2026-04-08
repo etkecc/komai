@@ -364,11 +364,23 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
     matrixNotificationFetchQueued_     = false;
     pendingMatrixNotificationHandleId_ = 0;
     pendingMatrixNotificationRequests_.clear();
+    deferredMatrixRoomListSnapshot_.reset();
 
     if (clearAllDrafts) {
         if (const auto settings = UserSettings::instance())
             settings->clearAllComposerDrafts();
     }
+}
+
+void
+RoomlistModel::setInteractionSuppressed(bool suppressed)
+{
+    if (interactionSuppressed_ == suppressed)
+        return;
+
+    interactionSuppressed_ = suppressed;
+    if (!interactionSuppressed_)
+        resumeDeferredMatrixRoomRefresh();
 }
 
 void
@@ -422,6 +434,11 @@ RoomlistModel::refreshMatrixBackendRooms()
         return;
     }
 
+    if (interactionSuppressed_) {
+        matrixRoomRefreshPending_ = true;
+        return;
+    }
+
     if (matrixRoomRefreshInFlight_) {
         matrixRoomRefreshPending_ = true;
         return;
@@ -456,11 +473,18 @@ RoomlistModel::startMatrixBackendRoomsRefresh(uint64_t handleId)
           if (!result.roomList.has_value()) {
               nhlog::ui()->warn("Failed to fetch matrix-sdk room list snapshot: {}",
                                 result.error.toStdString());
+              if (model->interactionSuppressed_)
+                  model->matrixRoomRefreshPending_ = true;
+          } else if (model->interactionSuppressed_) {
+              model->deferredMatrixRoomListSnapshot_ = *result.roomList;
           } else {
               model->applyMatrixBackendRoomsSnapshot(*result.roomList);
           }
 
           if (model->matrixRoomRefreshPending_) {
+              if (model->interactionSuppressed_)
+                  return;
+
               model->matrixRoomRefreshPending_ = false;
               model->startMatrixBackendRoomsRefresh(currentHandle);
           }
@@ -696,6 +720,27 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
     }
 
     emitAttentionCount();
+}
+
+void
+RoomlistModel::resumeDeferredMatrixRoomRefresh()
+{
+    if (matrixRoomRefreshInFlight_)
+        return;
+
+    if (matrixRoomRefreshPending_) {
+        deferredMatrixRoomListSnapshot_.reset();
+        matrixRoomRefreshPending_ = false;
+        refreshMatrixBackendRooms();
+        return;
+    }
+
+    if (!deferredMatrixRoomListSnapshot_.has_value())
+        return;
+
+    const auto snapshot = std::move(*deferredMatrixRoomListSnapshot_);
+    deferredMatrixRoomListSnapshot_.reset();
+    applyMatrixBackendRoomsSnapshot(snapshot);
 }
 
 bool

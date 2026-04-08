@@ -172,6 +172,28 @@ FilteredRoomlistModel::create(QQmlEngine *qmlEngine, QJSEngine *)
 }
 
 void
+FilteredRoomlistModel::setInteractionSuppressed(bool suppressed)
+{
+    if (interactionSuppressed_ == suppressed)
+        return;
+
+    interactionSuppressed_ = suppressed;
+
+    if (interactionSuppressed_) {
+        nhlog::ui()->info("Pausing room list live updates while the user is interacting with it");
+        setDynamicSortFilter(false);
+        roomlistmodel->setInteractionSuppressed(true);
+        return;
+    }
+
+    nhlog::ui()->info("Resuming room list live updates after room-list interaction");
+    roomlistmodel->setInteractionSuppressed(false);
+    setDynamicSortFilter(true);
+    invalidate();
+    sort(0);
+}
+
+void
 FilteredRoomlistModel::updateGlobalExcludes()
 {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)

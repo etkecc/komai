@@ -88,6 +88,11 @@ Page {
         return communitiesTarget.focusKeyboardNavigation();
     }
 
+    function updateInteractionSuppression() {
+        Rooms.setInteractionSuppressed(
+                    visible && (roomListInteractionHoverHandler.hovered || roomlist.activeFocus));
+    }
+
     function focusKeyboardNavigation() {
         if (!visible)
             return false;
@@ -101,6 +106,12 @@ Page {
         });
         return true;
     }
+
+    onVisibleChanged: updateInteractionSuppression()
+
+    Component.onCompleted: updateInteractionSuppression()
+
+    Component.onDestruction: Rooms.setInteractionSuppressed(false)
 
     ComponentCatalog {
         id: componentCatalog
@@ -221,54 +232,61 @@ Page {
                 ensureKeyboardCursorVisible();
             }
 
-        function moveKeyboardCursor(delta) {
-            if (count <= 0)
-                return;
+            function moveKeyboardCursor(delta) {
+                if (count <= 0)
+                    return;
 
-            if (currentIndex < 0) {
+                if (currentIndex < 0) {
                     seedKeyboardCursor();
                     return;
                 }
 
-            currentIndex = Math.max(0, Math.min(count - 1, currentIndex + delta));
-            ensureKeyboardCursorVisible();
-        }
+                currentIndex = Math.max(0, Math.min(count - 1, currentIndex + delta));
+                ensureKeyboardCursorVisible();
+            }
 
-        function moveKeyboardCursorByChunk(delta) {
-            if (count <= 0)
-                return;
+            function moveKeyboardCursorByChunk(delta) {
+                if (count <= 0)
+                    return;
 
-            const halfScreenRows = Math.max(1, Math.floor((height / Math.max(1, Komai.navigationRowHeight)) / 2));
-            moveKeyboardCursor(delta * halfScreenRows);
-        }
+                const halfScreenRows = Math.max(1, Math.floor((height / Math.max(1, Komai.navigationRowHeight)) / 2));
+                moveKeyboardCursor(delta * halfScreenRows);
+            }
 
-        function activateKeyboardCursor() {
-            if (currentIndex < 0 || currentIndex >= count || !Rooms.roomIdAt)
-                return;
+            function activateKeyboardCursor() {
+                if (currentIndex < 0 || currentIndex >= count || !Rooms.roomIdAt)
+                    return;
 
                 const roomId = Rooms.roomIdAt(currentIndex);
                 if (!roomId)
                     return;
 
-            Rooms.setCurrentRoom(roomId);
-            ensureKeyboardCursorVisible();
-        }
+                Rooms.setCurrentRoom(roomId);
+                ensureKeyboardCursorVisible();
+            }
 
-        function goToFirstItem() {
-            if (count <= 0)
-                return;
+            function goToFirstItem() {
+                if (count <= 0)
+                    return;
 
-            currentIndex = 0;
-            ensureKeyboardCursorVisible();
-        }
+                currentIndex = 0;
+                ensureKeyboardCursorVisible();
+            }
 
-        function goToLastItem() {
-            if (count <= 0)
-                return;
+            function goToLastItem() {
+                if (count <= 0)
+                    return;
 
-            currentIndex = count - 1;
-            ensureKeyboardCursorVisible();
-        }
+                currentIndex = count - 1;
+                ensureKeyboardCursorVisible();
+            }
+
+            HoverHandler {
+                id: roomListInteractionHoverHandler
+
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad | PointerDevice.Stylus
+                onHoveredChanged: roomListPage.updateInteractionSuppression()
+            }
 
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -281,83 +299,83 @@ Page {
                 if (roomListPage.isForwardTabEvent(event) || roomListPage.isBackwardTabEvent(event))
                     event.accepted = true;
             }
-        Keys.priority: Keys.BeforeItem
-        Keys.onPressed: event => {
-            const gKeyPressed = roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.G);
-            const plainGPressed = gKeyPressed && roomListPage.eventUsesNoModifiers(event);
-            const shiftGPressed = gKeyPressed && roomListPage.eventUsesShiftOnlyModifiers(event);
+            Keys.priority: Keys.BeforeItem
+            Keys.onPressed: event => {
+                const gKeyPressed = roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.G);
+                const plainGPressed = gKeyPressed && roomListPage.eventUsesNoModifiers(event);
+                const shiftGPressed = gKeyPressed && roomListPage.eventUsesShiftOnlyModifiers(event);
 
-            if (roomListPage.isForwardTabEvent(event) || roomListPage.isBackwardTabEvent(event)) {
-                roomListPage.resetGoToTopSequence();
-                event.accepted = roomListPage.focusCommunities();
-                return;
-            }
-
-            if (!plainGPressed)
-                roomListPage.resetGoToTopSequence();
-
-            if ((event.key === Qt.Key_Up
-                        || roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.K))
-                    && roomListPage.eventUsesNavigationModifiers(event)) {
-                roomlist.moveKeyboardCursor(-1);
-                event.accepted = true;
-                return;
-            }
-
-            if ((event.key === Qt.Key_Down
-                        || roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.J))
-                    && roomListPage.eventUsesNavigationModifiers(event)) {
-                roomlist.moveKeyboardCursor(1);
-                event.accepted = true;
-                return;
-            }
-
-            if (roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.U)
-                    && roomListPage.eventUsesCtrlOnlyModifiers(event)) {
-                roomlist.moveKeyboardCursorByChunk(-1);
-                event.accepted = true;
-                return;
-            }
-
-            if (roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.D)
-                    && roomListPage.eventUsesCtrlOnlyModifiers(event)) {
-                roomlist.moveKeyboardCursorByChunk(1);
-                event.accepted = true;
-                return;
-            }
-
-            if (shiftGPressed) {
-                roomlist.goToLastItem();
-                event.accepted = true;
-                return;
-            }
-
-            if (plainGPressed) {
-                if (roomListPage.pendingGoToTopRequest) {
+                if (roomListPage.isForwardTabEvent(event) || roomListPage.isBackwardTabEvent(event)) {
                     roomListPage.resetGoToTopSequence();
-                    roomlist.goToFirstItem();
-                } else {
-                    roomListPage.pendingGoToTopRequest = true;
-                    goToTopSequenceTimer.restart();
+                    event.accepted = roomListPage.focusCommunities();
+                    return;
                 }
-                event.accepted = true;
-                return;
-            }
 
-            switch (event.key) {
-            case Qt.Key_Home:
-                roomlist.goToFirstItem();
-                event.accepted = true;
-                break;
-            case Qt.Key_End:
-                roomlist.goToLastItem();
-                event.accepted = true;
-                break;
-            case Qt.Key_Return:
-            case Qt.Key_Enter:
-                roomlist.activateKeyboardCursor();
-                event.accepted = true;
-                break;
+                if (!plainGPressed)
+                    roomListPage.resetGoToTopSequence();
+
+                if ((event.key === Qt.Key_Up
+                            || roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.K))
+                        && roomListPage.eventUsesNavigationModifiers(event)) {
+                    roomlist.moveKeyboardCursor(-1);
+                    event.accepted = true;
+                    return;
+                }
+
+                if ((event.key === Qt.Key_Down
+                            || roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.J))
+                        && roomListPage.eventUsesNavigationModifiers(event)) {
+                    roomlist.moveKeyboardCursor(1);
+                    event.accepted = true;
+                    return;
+                }
+
+                if (roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.U)
+                        && roomListPage.eventUsesCtrlOnlyModifiers(event)) {
+                    roomlist.moveKeyboardCursorByChunk(-1);
+                    event.accepted = true;
+                    return;
+                }
+
+                if (roomListPage.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.D)
+                        && roomListPage.eventUsesCtrlOnlyModifiers(event)) {
+                    roomlist.moveKeyboardCursorByChunk(1);
+                    event.accepted = true;
+                    return;
+                }
+
+                if (shiftGPressed) {
+                    roomlist.goToLastItem();
+                    event.accepted = true;
+                    return;
+                }
+
+                if (plainGPressed) {
+                    if (roomListPage.pendingGoToTopRequest) {
+                        roomListPage.resetGoToTopSequence();
+                        roomlist.goToFirstItem();
+                    } else {
+                        roomListPage.pendingGoToTopRequest = true;
+                        goToTopSequenceTimer.restart();
+                    }
+                    event.accepted = true;
+                    return;
+                }
+
+                switch (event.key) {
+                case Qt.Key_Home:
+                    roomlist.goToFirstItem();
+                    event.accepted = true;
+                    break;
+                case Qt.Key_End:
+                    roomlist.goToLastItem();
+                    event.accepted = true;
+                    break;
+                case Qt.Key_Return:
+                case Qt.Key_Enter:
+                    roomlist.activateKeyboardCursor();
+                    event.accepted = true;
+                    break;
                 case Qt.Key_Escape:
                     TimelineManager.focusMessageInput();
                     event.accepted = true;
@@ -453,6 +471,7 @@ Page {
             }
 
             onActiveFocusChanged: {
+                roomListPage.updateInteractionSuppression();
                 if (activeFocus)
                     seedKeyboardCursor();
             }

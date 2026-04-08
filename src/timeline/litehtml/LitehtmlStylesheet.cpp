@@ -20,7 +20,7 @@ generateMasterStylesheet(const QPalette &palette,
     const auto highlight      = palette.color(QPalette::Highlight).name();
     const auto pillBackground = palette.color(QPalette::Mid).name();
 
-    const auto blockMargin = compact ? QStringLiteral("0.15em 0") : QStringLiteral("0.65em 0");
+    const auto blockMargin = compact ? QStringLiteral("0.4em 0") : QStringLiteral("0.65em 0");
 
     return QStringLiteral("html, body {"
                           "  margin: 0;"

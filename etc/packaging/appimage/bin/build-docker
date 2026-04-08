@@ -53,9 +53,10 @@ docker run --rm \
             >/dev/null 2>&1
 
         # Install Rust via rustup (distro Rust may be too old for edition 2024 crates).
-        # Install the specific toolchain pinned in rust-toolchain.toml so that
-        # Corrosion/FindRust can locate it during CMake configure.
-        curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.93.0 >/dev/null 2>&1
+        # No default toolchain -- rust-toolchain.toml in the source tree pins
+        # the exact version.  The toolchain is auto-installed below after the
+        # source tree is copied (rustup reads rust-toolchain.toml from $PWD).
+        curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none >/dev/null 2>&1
         export PATH="$HOME/.cargo/bin:$PATH"
 
         # Workaround: appimage-builder checks for apt-key on $PATH but never
@@ -79,6 +80,10 @@ docker run --rm \
         echo "=== Copying source tree ==="
         # Exclude heavy build artifacts that would be rebuilt from scratch anyway.
         tar -cf - -C / --exclude="src/rust/target" --exclude="src/var" src | tar -xf - -C /tmp
+        echo "=== Installing Rust toolchain ==="
+        # Trigger rustup auto-install of the toolchain pinned in rust-toolchain.toml.
+        (cd /tmp/src && cargo --version)
+
         echo "=== Starting build ==="
 
         /tmp/src/etc/packaging/appimage/bin/build-native /tmp/src /out

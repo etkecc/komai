@@ -237,6 +237,7 @@ OverlayDialog {
         Layout.fillWidth: true
         Layout.leftMargin: Komai.paddingMedium
         Layout.rightMargin: Komai.paddingMedium
+        implicitHeight: Math.max(46, Math.round(Settings.uiFontSizePt * 3.4))
         currentIndex: roomDirectoryRoot.serverMode
         model: {
             var mineBadge = roomDirectoryRoot.homeserverRoomCount >= 0

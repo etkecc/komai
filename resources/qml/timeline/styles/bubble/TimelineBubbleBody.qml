@@ -345,7 +345,7 @@ Item {
                     readonly property bool hasReplyUser: replyUserId.length > 0
                     readonly property color resolvedReplyUserColor: hasReplyUser ? root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeWindowColor) : palette.mid
                     readonly property color resolvedReplyRoomColor: hasReplyUser ? root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeBaseColor) : palette.mid
-                    readonly property var resolvedReplyBubblePalette: hasReplyUser ? root.wrapper.resolveUserBubblePalette(replyUserId, resolvedReplyRoomColor) : root.wrapper.bubblePalette
+                    readonly property var resolvedReplyBubblePalette: hasReplyUser ? root.wrapper.resolveUserBubblePalette(replyUserId, resolvedReplyRoomColor) : messageBubble.roomBubblePalette
                     userColor: resolvedReplyUserColor
                     roomColor: resolvedReplyRoomColor
                     bubblePalette: resolvedReplyBubblePalette

@@ -236,6 +236,33 @@ acquire_legacy_lock() {
 	trap 'cleanup_lock $?' EXIT INT TERM HUP
 }
 
+# Ensure the pinned Rust toolchain is installed.  Corrosion's FindRust checks
+# `rustup toolchain list` but does NOT auto-install missing toolchains, so a
+# fresh clone would fail without this.
+ensure_rust_toolchain() {
+	local toolchain_file="${repo_root}/rust-toolchain.toml"
+	if [[ ! -f "${toolchain_file}" ]]; then
+		echo "WARNING: ${toolchain_file} not found — cannot verify Rust toolchain." >&2
+		return
+	fi
+	local channel
+	channel="$(sed -n 's/^channel[[:space:]]*=[[:space:]]*"\(.*\)"/\1/p' "${toolchain_file}")"
+	if [[ -z "${channel}" ]]; then
+		echo "WARNING: could not parse channel from ${toolchain_file} — cannot verify Rust toolchain." >&2
+		return
+	fi
+	if ! command -v rustup >/dev/null 2>&1; then
+		echo "WARNING: rustup not found — cannot auto-install Rust toolchain ${channel}." >&2
+		echo "  Install rustup (https://rustup.rs/) or manually install Rust ${channel}." >&2
+		return
+	fi
+	if rustup toolchain list | grep -q "^${channel}"; then
+		return
+	fi
+	echo "Installing Rust toolchain ${channel} (from rust-toolchain.toml)..."
+	rustup toolchain install "${channel}"
+}
+
 needs_release_configure() {
 	if [[ ! -f "${build_dir}/CMakeCache.txt" ]]; then
 		return 0
@@ -314,6 +341,8 @@ if command -v flock >/dev/null 2>&1 || command -v python3 >/dev/null 2>&1; then
 else
 	acquire_legacy_lock
 fi
+
+ensure_rust_toolchain
 
 case "${command_name}" in
 configure)

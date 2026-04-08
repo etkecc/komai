@@ -333,6 +333,8 @@ pub async fn send_room_attachment(
     thread_id: &str,
     mime_type: &str,
     duration_ms: u64,
+    is_voice: bool,
+    waveform: &[f32],
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let file_path = file_path.trim();
@@ -388,7 +390,7 @@ pub async fn send_room_attachment(
         })
     };
 
-    let attachment_info = build_attachment_info(&mime, &data, duration_ms);
+    let attachment_info = build_attachment_info(&mime, &data, duration_ms, is_voice, waveform);
 
     let mut config = AttachmentConfig::new().info(attachment_info);
     if !caption.is_empty() {
@@ -416,7 +418,13 @@ pub async fn send_room_attachment(
         .map_err(|e| format!("failed to send matrix-sdk room attachment: {e}"))
 }
 
-fn build_attachment_info(mime: &Mime, data: &[u8], duration_ms: u64) -> AttachmentInfo {
+fn build_attachment_info(
+    mime: &Mime,
+    data: &[u8],
+    duration_ms: u64,
+    is_voice: bool,
+    waveform: &[f32],
+) -> AttachmentInfo {
     let size = Some(UInt::try_from(data.len() as u64).unwrap_or(UInt::MAX));
 
     if mime.type_() == mime::IMAGE {
@@ -451,11 +459,21 @@ fn build_attachment_info(mime: &Mime, data: &[u8], duration_ms: u64) -> Attachme
         } else {
             None
         };
-        AttachmentInfo::Audio(BaseAudioInfo {
+        let waveform_data = if waveform.is_empty() {
+            None
+        } else {
+            Some(waveform.to_vec())
+        };
+        let audio_info = BaseAudioInfo {
             size,
             duration,
-            ..Default::default()
-        })
+            waveform: waveform_data,
+        };
+        if is_voice {
+            AttachmentInfo::Voice(audio_info)
+        } else {
+            AttachmentInfo::Audio(audio_info)
+        }
     } else {
         AttachmentInfo::File(BaseFileInfo { size })
     }

@@ -22,6 +22,8 @@ Rectangle {
     required property string filename
     required property string filesize
     required property string mimetype
+    property bool isVoiceMessage: false
+    property var waveform: []
 
     property bool autoPlayPending: false
     property real desiredVolume: 1.0
@@ -561,7 +563,27 @@ Rectangle {
                 color: palette.buttonText
             }
 
+            WaveformBars {
+                visible: root.isVoiceMessage && root.waveform.length > 0
+                Layout.fillWidth: true
+                Layout.minimumWidth: 120
+                Layout.preferredHeight: 28
+                Layout.alignment: Qt.AlignVCenter
+                samples: root.waveform
+                progress: {
+                    const maxDuration = Math.max(root.duration, mediaPlayer.duration, 1);
+                    return mediaPlayer.position / maxDuration;
+                }
+                interactive: root.inlinePlaybackEnabled && root.mediaReady
+                onSeekRequested: position => {
+                    root.focusPlayer();
+                    const maxDuration = Math.max(root.duration, mediaPlayer.duration, 1);
+                    mediaPlayer.position = position * maxDuration;
+                }
+            }
+
             KomaiSlider {
+                visible: !root.isVoiceMessage || root.waveform.length === 0
                 Layout.fillWidth: true
                 Layout.minimumWidth: 120
                 Layout.alignment: Qt.AlignVCenter

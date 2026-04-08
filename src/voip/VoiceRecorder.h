@@ -5,6 +5,7 @@
 #pragma once
 
 #include <QAudioInput>
+#include <QAudioSource>
 #include <QMediaCaptureSession>
 #include <QMediaRecorder>
 #include <QObject>
@@ -22,6 +23,8 @@ class VoiceRecorder : public QObject
     Q_PROPERTY(bool hasRecording READ hasRecording NOTIFY stateChanged)
     Q_PROPERTY(QString filePath READ filePath NOTIFY stateChanged)
     Q_PROPERTY(int durationMs READ durationMs NOTIFY durationChanged)
+    Q_PROPERTY(float audioLevel READ audioLevel NOTIFY audioLevelChanged)
+    Q_PROPERTY(QList<float> waveformSamples READ waveformSamples NOTIFY waveformSamplesChanged)
 
 public:
     explicit VoiceRecorder(QObject *parent = nullptr);
@@ -32,6 +35,10 @@ public:
     bool hasRecording() const;
     QString filePath() const;
     int durationMs() const;
+    float audioLevel() const;
+    QList<float> waveformSamples() const;
+
+    Q_INVOKABLE QList<float> normalizedWaveform(int targetSamples = 256) const;
 
     Q_INVOKABLE void startRecording();
     Q_INVOKABLE void pauseRecording();
@@ -43,16 +50,24 @@ public:
 signals:
     void stateChanged();
     void durationChanged();
+    void audioLevelChanged();
+    void waveformSamplesChanged();
     void errorOccurred(const QString &message);
 
 private:
     void cleanupTempFile();
+    void startLevelMonitor();
+    void stopLevelMonitor();
 
     QMediaCaptureSession captureSession_;
     QAudioInput audioInput_;
     QMediaRecorder recorder_;
     QTimer durationTimer_;
     QString filePath_;
-    int durationMs_ = 0;
-    bool stopped_   = false;
+    int durationMs_   = 0;
+    bool stopped_     = false;
+    float audioLevel_ = 0.0f;
+    QList<float> waveformSamples_;
+    QAudioSource *levelSource_ = nullptr;
+    QIODevice *levelDevice_    = nullptr;
 };

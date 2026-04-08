@@ -319,8 +319,10 @@ struct MatrixTimelineItem
     QString blurhash;
     bool mediaIsEncrypted     = false;
     bool thumbnailIsEncrypted = false;
-    uint64_t timestamp        = 0;
-    bool isOwn                = false;
+    bool isVoiceMessage       = false;
+    QList<float> waveform;
+    uint64_t timestamp = 0;
+    bool isOwn         = false;
     // Pre-computed derived fields (populated by MatrixTimelineModel, not the Rust bridge).
     int cachedType             = 0;
     int cachedEmojiOnlyCount   = 0;
@@ -1044,8 +1046,10 @@ public:
                                    const QString &replyEventId,
                                    const QString &threadId,
                                    const QString &mimeType,
-                                   uint64_t durationMs = 0,
-                                   QString *errorOut   = nullptr);
+                                   uint64_t durationMs          = 0,
+                                   bool isVoice                 = false,
+                                   const QList<float> &waveform = {},
+                                   QString *errorOut            = nullptr);
 
     static std::optional<QString> uploadMedia(matrix_backend::BlockingCallContext context,
                                               uint64_t handleId,

@@ -71,6 +71,8 @@ fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimeline
         blurhash: item.blurhash,
         media_is_encrypted: item.media_is_encrypted,
         thumbnail_is_encrypted: item.thumbnail_is_encrypted,
+        is_voice_message: item.is_voice_message,
+        waveform: item.waveform,
         timestamp: item.timestamp,
         is_own: item.is_own,
     }

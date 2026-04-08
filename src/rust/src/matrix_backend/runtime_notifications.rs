@@ -251,6 +251,8 @@ fn notification_item_from_sdk(
                     special_effect_names: Vec::new(),
                     is_edited: false,
                     media: None,
+                    is_voice_message: false,
+                    waveform: Vec::new(),
                 }
             });
 

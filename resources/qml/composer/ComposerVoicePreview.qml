@@ -7,6 +7,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import "../ui"
+import "../ui/media"
 import cc.etke.komai
 
 Item {
@@ -63,15 +64,16 @@ Item {
         // Recording indicator (visible while actively recording)
         RowLayout {
             visible: VoiceRecorder.recording
+            Layout.fillWidth: true
             spacing: Komai.paddingSmall
 
             Rectangle {
                 id: recordingDot
 
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredWidth: 10
-                Layout.preferredHeight: 10
-                radius: 5
+                Layout.preferredWidth: 8
+                Layout.preferredHeight: 8
+                radius: 4
                 color: Komai.theme.error
 
                 SequentialAnimation on opacity {
@@ -82,15 +84,15 @@ Item {
                 }
             }
 
-            Label {
+            LiveWaveformBars {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 24
                 Layout.alignment: Qt.AlignVCenter
-                text: qsTr("Recording")
-                color: Komai.theme.error
+                samples: VoiceRecorder.waveformSamples
             }
 
             Label {
                 Layout.alignment: Qt.AlignVCenter
-                Layout.fillWidth: true
                 text: root.formatDuration(VoiceRecorder.durationMs)
                 color: palette.text
             }
@@ -158,18 +160,20 @@ Item {
                 color: palette.buttonText
             }
 
-            KomaiSlider {
+            WaveformBars {
                 Layout.fillWidth: true
                 Layout.minimumWidth: 80
+                Layout.preferredHeight: 28
                 Layout.alignment: Qt.AlignVCenter
-                enabled: previewPlayer.duration > 0
-                focusPolicy: Qt.NoFocus
-                value: previewPlayer.position
-                sliderRadius: 14
-                onMoved: previewPlayer.position = value
-                from: 0
-                to: Math.max(VoiceRecorder.durationMs, previewPlayer.duration, 1)
-                alwaysShowSlider: true
+                samples: VoiceRecorder.waveformSamples
+                progress: previewPlayer.duration > 0
+                    ? previewPlayer.position / previewPlayer.duration
+                    : 0
+                interactive: previewPlayer.duration > 0
+                onSeekRequested: position => {
+                    const maxDuration = Math.max(VoiceRecorder.durationMs, previewPlayer.duration, 1);
+                    previewPlayer.position = position * maxDuration;
+                }
             }
 
             Label {

@@ -473,6 +473,8 @@ pub(crate) fn matrix_send_room_attachment(
     thread_id: &str,
     mime_type: &str,
     duration_ms: u64,
+    is_voice: bool,
+    waveform: &[f32],
 ) -> Result<(), String> {
     ffi_block_on(
         context,
@@ -487,6 +489,8 @@ pub(crate) fn matrix_send_room_attachment(
             thread_id,
             mime_type,
             duration_ms,
+            is_voice,
+            waveform,
         ),
     )
 }

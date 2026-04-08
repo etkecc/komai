@@ -972,6 +972,8 @@ mod bridge {
         blurhash: String,
         media_is_encrypted: bool,
         thumbnail_is_encrypted: bool,
+        is_voice_message: bool,
+        waveform: Vec<f32>,
         timestamp: u64,
         is_own: bool,
     }
@@ -1915,6 +1917,8 @@ mod bridge {
             thread_id: &str,
             mime_type: &str,
             duration_ms: u64,
+            is_voice: bool,
+            waveform: &[f32],
         ) -> Result<()>;
         fn matrix_upload_media(
             context: MatrixFfiBlockingContext,

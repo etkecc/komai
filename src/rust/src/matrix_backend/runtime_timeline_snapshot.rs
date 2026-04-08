@@ -123,6 +123,8 @@ fn timeline_item_to_summary(
         let membership_change_kind = summary.membership_change_kind;
         let matrix_event_type = summary.matrix_event_type;
         let is_edited = summary.is_edited;
+        let is_voice_message = summary.is_voice_message;
+        let waveform = summary.waveform;
         let media = summary.media;
         let media_request = media.as_ref().and_then(|media| {
             media.source.clone().map(|source| MatrixTimelineMediaRequest {
@@ -234,6 +236,8 @@ fn timeline_item_to_summary(
                     .as_ref()
                     .map(|media| media.thumbnail_is_encrypted)
                     .unwrap_or(false),
+                is_voice_message,
+                waveform,
                 timestamp: u64::from(event.timestamp().get()),
                 is_own: event.is_own(),
             },
@@ -288,6 +292,8 @@ fn timeline_item_to_summary(
                 blurhash: String::new(),
                 media_is_encrypted: false,
                 thumbnail_is_encrypted: false,
+                is_voice_message: false,
+                waveform: Vec::new(),
                 timestamp: u64::from(timestamp.get()),
                 is_own: false,
             },

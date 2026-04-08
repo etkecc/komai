@@ -47,6 +47,8 @@ pub struct MatrixEventSummary {
     pub special_effect_names: Vec<String>,
     pub is_edited: bool,
     pub media: Option<MatrixEventMediaSummary>,
+    pub is_voice_message: bool,
+    pub waveform: Vec<f32>,
 }
 
 #[derive(Clone, Debug)]
@@ -519,12 +521,24 @@ fn summary_from_message_type(message_type: &MessageType) -> MatrixEventSummary {
             )
         }
         MessageType::Audio(content) => {
-            summary_with_media(
+            let mut s = summary_with_media(
                 "audio",
                 "m.room.message",
                 caption_or_filename(content),
                 media_for_audio(content),
-            )
+            );
+            s.is_voice_message = content.voice.is_some();
+            if let Some(ref audio) = content.audio {
+                s.waveform = audio
+                    .waveform
+                    .iter()
+                    .map(|amp| {
+                        let v = u64::from(amp.get());
+                        (v as f32 / 1024.0).clamp(0.0, 1.0)
+                    })
+                    .collect();
+            }
+            s
         }
         MessageType::File(content) => {
             summary_with_media(
@@ -628,6 +642,8 @@ fn summary(kind: &str, matrix_event_type: &str, body: &str) -> MatrixEventSummar
         special_effect_names: Vec::new(),
         is_edited: false,
         media: None,
+        is_voice_message: false,
+        waveform: Vec::new(),
     }
 }
 
@@ -658,6 +674,8 @@ fn summary_with_media(
         special_effect_names: Vec::new(),
         is_edited: false,
         media: Some(media),
+        is_voice_message: false,
+        waveform: Vec::new(),
     }
 }
 

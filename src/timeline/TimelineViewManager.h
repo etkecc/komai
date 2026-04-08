@@ -309,6 +309,7 @@ public:
     Q_INVOKABLE bool sendActiveMatrixAttachments();
     Q_INVOKABLE bool stageVoiceRecording(const QString &filePath);
     Q_INVOKABLE void setActiveAttachmentDurationMs(uint64_t durationMs);
+    Q_INVOKABLE void setActiveAttachmentVoiceWaveform(const QList<float> &waveform);
     Q_INVOKABLE bool stageAndSendVoiceRecording(const QString &filePath, int durationMs);
     Q_INVOKABLE void clearActiveMatrixAttachments();
     Q_INVOKABLE void removeActiveMatrixAttachment(int index);
@@ -488,6 +489,8 @@ private:
         QString threadId;
         QString mimeType;
         uint64_t durationMs = 0;
+        bool isVoice        = false;
+        QList<float> waveform;
     };
     std::deque<PendingMatrixAttachment> pendingMatrixAttachments_;
     QList<MatrixPendingAttachmentUpload *> matrixPendingAttachmentItems_;

@@ -251,9 +251,12 @@ QtObject {
         }
 
         if (rootItem.hasPendingAttachments) {
-            // Set audio duration on the attachment before sending (if this is a voice recording)
-            if (VoiceRecorder.durationMs > 0)
+            // Set audio duration and voice metadata on the attachment before sending
+            if (VoiceRecorder.durationMs > 0) {
                 TimelineManager.setActiveAttachmentDurationMs(VoiceRecorder.durationMs);
+                TimelineManager.setActiveAttachmentVoiceWaveform(
+                    VoiceRecorder.normalizedWaveform(256));
+            }
             // Release recorder state without deleting the temp file (upload queue owns it now)
             VoiceRecorder.releaseRecording();
             return TimelineManager.sendActiveMatrixAttachments();

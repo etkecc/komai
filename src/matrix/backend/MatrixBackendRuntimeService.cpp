@@ -606,15 +606,24 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .mediaUrl = matrix::normalizeMxcUri(QString::fromStdString(std::string(item.media_url))),
       .thumbnailUrl =
         matrix::normalizeMxcUri(QString::fromStdString(std::string(item.thumbnail_url))),
-      .fileName                  = QString::fromStdString(std::string(item.file_name)),
-      .mimeType                  = QString::fromStdString(std::string(item.mime_type)),
-      .mediaWidth                = item.media_width,
-      .mediaHeight               = item.media_height,
-      .mediaDurationMs           = item.media_duration_ms,
-      .mediaSizeBytes            = item.media_size_bytes,
-      .blurhash                  = QString::fromStdString(std::string(item.blurhash)),
-      .mediaIsEncrypted          = item.media_is_encrypted,
-      .thumbnailIsEncrypted      = item.thumbnail_is_encrypted,
+      .fileName             = QString::fromStdString(std::string(item.file_name)),
+      .mimeType             = QString::fromStdString(std::string(item.mime_type)),
+      .mediaWidth           = item.media_width,
+      .mediaHeight          = item.media_height,
+      .mediaDurationMs      = item.media_duration_ms,
+      .mediaSizeBytes       = item.media_size_bytes,
+      .blurhash             = QString::fromStdString(std::string(item.blurhash)),
+      .mediaIsEncrypted     = item.media_is_encrypted,
+      .thumbnailIsEncrypted = item.thumbnail_is_encrypted,
+      .isVoiceMessage       = item.is_voice_message,
+      .waveform =
+        [&item]() {
+            QList<float> list;
+            list.reserve(static_cast<int>(item.waveform.size()));
+            for (float v : item.waveform)
+                list.append(v);
+            return list;
+        }(),
       .timestamp                 = item.timestamp,
       .isOwn                     = item.is_own,
       .cachedType                = 0,
@@ -3230,6 +3239,8 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
                                                 const QString &threadId,
                                                 const QString &mimeType,
                                                 uint64_t durationMs,
+                                                bool isVoice,
+                                                const QList<float> &waveform,
                                                 QString *errorOut)
 {
     try {
@@ -3245,7 +3256,11 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
            threadId,
            mimeType,
            durationMs,
+           isVoice,
+           waveform,
            context]() {
+              const auto waveformSlice = ::rust::Slice<const float>(
+                waveform.constData(), static_cast<size_t>(waveform.size()));
               ::komai::rust::matrix_send_room_attachment(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
@@ -3256,7 +3271,9 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
                 replyEventId.toStdString(),
                 threadId.toStdString(),
                 mimeType.toStdString(),
-                durationMs);
+                durationMs,
+                isVoice,
+                waveformSlice);
           });
         return true;
     } catch (const std::exception &e) {

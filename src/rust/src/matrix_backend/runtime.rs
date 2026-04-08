@@ -439,7 +439,7 @@ pub struct MatrixReactionSummary {
     pub count: u64,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MatrixTimelineItem {
     pub item_id: String,
     pub event_id: String,
@@ -485,6 +485,8 @@ pub struct MatrixTimelineItem {
     pub blurhash: String,
     pub media_is_encrypted: bool,
     pub thumbnail_is_encrypted: bool,
+    pub is_voice_message: bool,
+    pub waveform: Vec<f32>,
     pub timestamp: u64,
     pub is_own: bool,
 }

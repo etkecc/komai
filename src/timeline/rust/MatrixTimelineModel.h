@@ -84,6 +84,8 @@ public:
         PreviousItemKind,
         DeliveryState,
         IsThreadRoot,
+        IsVoiceMessage,
+        Waveform,
     };
 
     explicit MatrixTimelineModel(QObject *parent = nullptr);

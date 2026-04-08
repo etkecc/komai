@@ -2326,11 +2326,18 @@ TimelineViewManager::setActiveAttachmentDurationMs(uint64_t durationMs)
         attachment.durationMs = durationMs;
 }
 
+void
+TimelineViewManager::setActiveAttachmentVoiceWaveform(const QList<float> &waveform)
+{
+    for (auto &attachment : pendingMatrixAttachments_) {
+        attachment.isVoice  = true;
+        attachment.waveform = waveform;
+    }
+}
+
 bool
 TimelineViewManager::stageAndSendVoiceRecording(const QString &filePath, int durationMs)
 {
-    Q_UNUSED(durationMs); // TODO: pass duration to attachment metadata when MSC3245 is implemented
-
     const auto targetRoomId = activeMatrixTimelineRoomId_.trimmed();
     if (targetRoomId.isEmpty() || filePath.isEmpty()) {
         nhlog::ui()->warn("stageAndSendVoiceRecording: missing room or file path");
@@ -2339,6 +2346,11 @@ TimelineViewManager::stageAndSendVoiceRecording(const QString &filePath, int dur
 
     if (!stageMatrixAttachmentsForRoom(targetRoomId, {filePath}))
         return false;
+
+    for (auto &attachment : pendingMatrixAttachments_) {
+        attachment.isVoice    = true;
+        attachment.durationMs = static_cast<uint64_t>(std::max(0, durationMs));
+    }
 
     return sendActiveMatrixAttachments();
 }
@@ -2582,6 +2594,8 @@ TimelineViewManager::startNextPendingMatrixAttachment()
                                                                  attachment.threadId,
                                                                  attachment.mimeType,
                                                                  attachment.durationMs,
+                                                                 attachment.isVoice,
+                                                                 attachment.waveform,
                                                                  &error);
 
         QMetaObject::invokeMethod(

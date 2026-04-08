@@ -337,6 +337,14 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     }
     case DeliveryState:      return item.deliveryState;
     case IsThreadRoot:       return item.isThreadRoot;
+    case IsVoiceMessage:     return item.isVoiceMessage;
+    case Waveform: {
+        QVariantList list;
+        list.reserve(static_cast<int>(item.waveform.size()));
+        for (float v : item.waveform)
+            list.append(v);
+        return list;
+    }
 
     default:                 return {};
     }
@@ -478,6 +486,8 @@ MatrixTimelineModel::roleNames() const
       {PreviousItemKind, "previousItemKind"},
       {DeliveryState, "deliveryState"},
       {IsThreadRoot, "isThreadRoot"},
+      {IsVoiceMessage, "isVoiceMessage"},
+      {Waveform, "waveform"},
     };
 }
 
@@ -829,6 +839,8 @@ MatrixTimelineModel::applyRedactedPresentation(MatrixTimelineItem &item) const
     item.mediaSizeBytes       = 0;
     item.mediaIsEncrypted     = false;
     item.thumbnailIsEncrypted = false;
+    item.isVoiceMessage       = false;
+    item.waveform.clear();
     computeDerivedFields(item, roomId_);
 }
 

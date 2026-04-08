@@ -15,6 +15,8 @@ Item {
     required property string filename
     required property string filesize
     required property string mimetype
+    required property bool isVoiceMessage
+    required property var waveform
     readonly property var roomContext: roomAdapter
         ? roomAdapter
         : (typeof effectiveRoomContext !== "undefined" && effectiveRoomContext)
@@ -39,5 +41,7 @@ Item {
         filename: content.filename
         filesize: content.filesize
         mimetype: content.mimetype
+        isVoiceMessage: content.isVoiceMessage
+        waveform: content.waveform
     }
 }

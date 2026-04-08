@@ -332,6 +332,7 @@ pub async fn send_room_attachment(
     reply_event_id: &str,
     thread_id: &str,
     mime_type: &str,
+    duration_ms: u64,
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let file_path = file_path.trim();
@@ -387,7 +388,7 @@ pub async fn send_room_attachment(
         })
     };
 
-    let attachment_info = build_attachment_info(&mime, &data);
+    let attachment_info = build_attachment_info(&mime, &data, duration_ms);
 
     let mut config = AttachmentConfig::new().info(attachment_info);
     if !caption.is_empty() {
@@ -415,7 +416,7 @@ pub async fn send_room_attachment(
         .map_err(|e| format!("failed to send matrix-sdk room attachment: {e}"))
 }
 
-fn build_attachment_info(mime: &Mime, data: &[u8]) -> AttachmentInfo {
+fn build_attachment_info(mime: &Mime, data: &[u8], duration_ms: u64) -> AttachmentInfo {
     let size = Some(UInt::try_from(data.len() as u64).unwrap_or(UInt::MAX));
 
     if mime.type_() == mime::IMAGE {
@@ -445,8 +446,14 @@ fn build_attachment_info(mime: &Mime, data: &[u8]) -> AttachmentInfo {
             ..Default::default()
         })
     } else if mime.type_() == mime::AUDIO {
+        let duration = if duration_ms > 0 {
+            Some(std::time::Duration::from_millis(duration_ms))
+        } else {
+            None
+        };
         AttachmentInfo::Audio(BaseAudioInfo {
             size,
+            duration,
             ..Default::default()
         })
     } else {

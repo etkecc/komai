@@ -16,6 +16,7 @@ ComposerToolbarButton {
     toolTipText: uploadInProgress ? "" : qsTr("Attach an image or file")
     image: uploadInProgress ? "" : ":/icons/icons/ui/attach.svg"
     visible: showAllButtons
+    opacity: enabled ? 1.0 : 0.3
 
     onClicked: {
         if (!uploadInProgress && room && room.input)

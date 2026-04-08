@@ -77,6 +77,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Improved snackbar notifications** -- in-app notifications are easier to read, sit near the bottom-right, support selecting/copying text, and stay visible once you interact with them until you dismiss them
 - Polished reply popup with proper background, headers, and spacing
 - Polished forward dialog with a confirmation step and a more relevant default set of rooms (excluding "Low Priority" or rooms you haven't interacted in recently)
+- **Voice messages** -- record, pause/resume, preview, and send voice messages directly from the composer (`Ctrl+R` or the mic button)
 - Legacy VoIP call UI and sticker button hidden for a cleaner look
 
 

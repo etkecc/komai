@@ -246,8 +246,18 @@ QtObject {
     }
 
     function trySendMessage() {
-        if (rootItem.hasPendingAttachments)
+        if (VoiceRecorder.recording || VoiceRecorder.paused) {
+            VoiceRecorder.stopRecording();
+        }
+
+        if (rootItem.hasPendingAttachments) {
+            // Set audio duration on the attachment before sending (if this is a voice recording)
+            if (VoiceRecorder.durationMs > 0)
+                TimelineManager.setActiveAttachmentDurationMs(VoiceRecorder.durationMs);
+            // Release recorder state without deleting the temp file (upload queue owns it now)
+            VoiceRecorder.releaseRecording();
             return TimelineManager.sendActiveMatrixAttachments();
+        }
 
         const body = composerPane.composerInput.text;
         if (!rootItem.editing) {

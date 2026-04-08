@@ -1044,7 +1044,8 @@ public:
                                    const QString &replyEventId,
                                    const QString &threadId,
                                    const QString &mimeType,
-                                   QString *errorOut = nullptr);
+                                   uint64_t durationMs = 0,
+                                   QString *errorOut   = nullptr);
 
     static std::optional<QString> uploadMedia(matrix_backend::BlockingCallContext context,
                                               uint64_t handleId,

@@ -145,12 +145,13 @@ These shortcuts apply in the message composer.
 | `Ctrl+U` | Enter Selection mode and move about half a screen toward older messages |
 | `Ctrl+P` | Load the previous composer draft/history entry |
 | `Ctrl+N` | Load the next composer draft/history entry |
-| `Tab` | Open the inline completer, or move within completer results |
-| `Shift+Tab` | Move the other direction within completer results |
+| `Ctrl+R` | Toggle voice recording (start, pause, or resume) |
+| `Tab` | Open the inline completer, or move within completer results. During voice recording, cycle through composer controls |
+| `Shift+Tab` | Move the other direction within completer results. During voice recording, cycle through composer controls in reverse |
 | `Up` | Move up inside the completer, or enter Selection mode when the caret is already at the start of the top composer line |
 | `Down` | Move down inside the completer |
-| `Escape` | Close the inline completer popup, or otherwise keep you in the composer |
-| `Enter` / `Shift+Enter` / `Ctrl+Enter` | Send or insert a newline depending on your configured send-key setting |
+| `Escape` | Close the inline completer popup, or pause an active voice recording, or otherwise keep you in the composer |
+| `Enter` / `Shift+Enter` / `Ctrl+Enter` | Send or insert a newline depending on your configured send-key setting. During voice recording, `Enter` always sends (plus the configured send-key combo) |
 
 Typing note: when the timeline has focus, typing usually moves focus into the composer. On some
 platforms or keyboard layouts, some `Ctrl+letter` combinations may also do that even though they

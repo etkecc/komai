@@ -1914,6 +1914,7 @@ mod bridge {
             reply_event_id: &str,
             thread_id: &str,
             mime_type: &str,
+            duration_ms: u64,
         ) -> Result<()>;
         fn matrix_upload_media(
             context: MatrixFfiBlockingContext,

@@ -936,6 +936,7 @@ sendImageFromFile(const QString &roomIdOrAlias,
                                                                                  {},
                                                                                  {},
                                                                                  mimeType,
+                                                                                 0,
                                                                                  &error);
           if (ok) {
               result.eventId = QStringLiteral("queued");

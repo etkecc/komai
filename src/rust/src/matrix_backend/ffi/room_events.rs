@@ -472,6 +472,7 @@ pub(crate) fn matrix_send_room_attachment(
     reply_event_id: &str,
     thread_id: &str,
     mime_type: &str,
+    duration_ms: u64,
 ) -> Result<(), String> {
     ffi_block_on(
         context,
@@ -485,6 +486,7 @@ pub(crate) fn matrix_send_room_attachment(
             reply_event_id,
             thread_id,
             mime_type,
+            duration_ms,
         ),
     )
 }

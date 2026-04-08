@@ -64,8 +64,8 @@ Important examples:
 - [resources/qml/timeline/TimelineView.qml](../../resources/qml/timeline/TimelineView.qml)
   Timeline typing moves focus into the composer, except while Selection mode is active.
 - [resources/qml/composer/MessageInput.qml](../../resources/qml/composer/MessageInput.qml)
-  The composer distinguishes paste, send/newline logic, completer navigation, and Selection mode
-  entry from the start-of-top-line `Up` boundary.
+  The composer distinguishes paste, send/newline logic, completer navigation, voice recording
+  toggle (`Ctrl+R`), and Selection mode entry from the start-of-top-line `Up` boundary.
 - [resources/qml/timeline/components/MatrixRoomWalkModeSupport.qml](../../resources/qml/timeline/components/MatrixRoomWalkModeSupport.qml)
   Selection mode movement, action keys, inline-actions navigation, `gg`, and `Escape` precedence
   live in the matrix room walk-mode controller.

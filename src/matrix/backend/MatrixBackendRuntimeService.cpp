@@ -3229,6 +3229,7 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
                                                 const QString &replyEventId,
                                                 const QString &threadId,
                                                 const QString &mimeType,
+                                                uint64_t durationMs,
                                                 QString *errorOut)
 {
     try {
@@ -3243,6 +3244,7 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
            replyEventId,
            threadId,
            mimeType,
+           durationMs,
            context]() {
               ::komai::rust::matrix_send_room_attachment(
                 matrix_backend::toRustBlockingContext(context),
@@ -3253,7 +3255,8 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
                 caption.toStdString(),
                 replyEventId.toStdString(),
                 threadId.toStdString(),
-                mimeType.toStdString());
+                mimeType.toStdString(),
+                durationMs);
           });
         return true;
     } catch (const std::exception &e) {

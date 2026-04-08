@@ -38,7 +38,17 @@ Rectangle {
     readonly property string text: messageInput.text
     readonly property bool textInputActiveFocus: messageInput.activeFocus
     readonly property bool hasUploads: !!(inputController && inputController.uploads && inputController.uploads.length > 0)
-    readonly property bool composerEnabled: !hasUploads
+    readonly property bool hasVoiceRecording: VoiceRecorder.recording || VoiceRecorder.paused || VoiceRecorder.hasRecording
+    onHasVoiceRecordingChanged: {
+        if (hasVoiceRecording && voiceButton.visible)
+            voiceButton.forceActiveFocus(Qt.OtherFocusReason);
+    }
+    onHasUploadsChanged: {
+        // If the staged attachment was removed via UploadBox, also discard the voice recording
+        if (!hasUploads && hasVoiceRecording)
+            VoiceRecorder.discardRecording();
+    }
+    readonly property bool composerEnabled: !hasUploads && !hasVoiceRecording
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
     readonly property int minimumBarHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property bool composerExpanded: textInput.targetTextAreaHeight > textInput.singleLineHeight
@@ -142,6 +152,8 @@ Rectangle {
     }
 
     function composerBacktabTarget() {
+        if (voiceButton.visible && voiceButton.enabled)
+            return voiceButton;
         if (attachButton.visible && attachButton.enabled)
             return attachButton;
         if (callButton.visible && callButton.enabled)
@@ -183,6 +195,77 @@ Rectangle {
     Layout.preferredHeight: implicitHeight
     color: inputBar.hasUploads || (room && !inputBar.canSendTextMessages) ? palette.alternateBase : palette.window
 
+    Shortcut {
+        sequence: "Ctrl+R"
+        enabled: inputBar.canSendCurrentRoom
+        onActivated: {
+            if (VoiceRecorder.recording)
+                VoiceRecorder.pauseRecording();
+            else if (VoiceRecorder.paused)
+                VoiceRecorder.resumeRecording();
+            else if (!VoiceRecorder.hasRecording && !inputBar.hasUploads) {
+                VoiceRecorder.startRecording();
+                TimelineManager.stageVoiceRecording(VoiceRecorder.filePath);
+            }
+        }
+    }
+
+    Shortcut {
+        sequences: {
+            // Plain Enter always works for voice (no newline concept).
+            // Also honour the user's configured send-key combo.
+            var seqs = ["Return", "Enter"];
+            if (Settings.composerInputSendKey == 1) // Shift+Enter
+                seqs.push("Shift+Return", "Shift+Enter");
+            else if (Settings.composerInputSendKey == 2) // Ctrl+Enter
+                seqs.push("Ctrl+Return", "Ctrl+Enter");
+            return seqs;
+        }
+        enabled: inputBar.hasVoiceRecording && inputBar.inputController
+        onActivated: inputBar.inputController.send()
+    }
+
+    Shortcut {
+        sequence: "Tab"
+        enabled: inputBar.hasVoiceRecording
+        onActivated: {
+            // Cycle: voiceButton → play/finalize → trash → sendButton → voiceButton
+            var previewBtn = voicePreview.focusableButton;
+            var trashBtn = voicePreview.deleteButton;
+            if (voiceButton.activeFocus && previewBtn)
+                previewBtn.forceActiveFocus(Qt.TabFocusReason);
+            else if ((voiceButton.activeFocus || (previewBtn && previewBtn.activeFocus)) && trashBtn)
+                trashBtn.forceActiveFocus(Qt.TabFocusReason);
+            else if (trashBtn && trashBtn.activeFocus)
+                sendButton.forceActiveFocus(Qt.TabFocusReason);
+            else if (sendButton.activeFocus && voiceButton.visible)
+                voiceButton.forceActiveFocus(Qt.TabFocusReason);
+            else
+                sendButton.forceActiveFocus(Qt.TabFocusReason);
+        }
+    }
+
+    Shortcut {
+        sequence: "Shift+Tab"
+        enabled: inputBar.hasVoiceRecording
+        onActivated: {
+            var previewBtn = voicePreview.focusableButton;
+            var trashBtn = voicePreview.deleteButton;
+            if (sendButton.activeFocus && trashBtn)
+                trashBtn.forceActiveFocus(Qt.TabFocusReason);
+            else if (trashBtn && trashBtn.activeFocus && previewBtn)
+                previewBtn.forceActiveFocus(Qt.TabFocusReason);
+            else if ((previewBtn && previewBtn.activeFocus) && voiceButton.visible)
+                voiceButton.forceActiveFocus(Qt.TabFocusReason);
+            else if (voiceButton.activeFocus)
+                sendButton.forceActiveFocus(Qt.TabFocusReason);
+            else if (voiceButton.visible)
+                voiceButton.forceActiveFocus(Qt.TabFocusReason);
+            else
+                sendButton.forceActiveFocus(Qt.TabFocusReason);
+        }
+    }
+
     Timer {
         id: _draftSaveTimer
 
@@ -216,11 +299,29 @@ Rectangle {
 
             Layout.alignment: inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter
             Layout.leftMargin: callButton.visible ? 0 : Komai.paddingMedium
-            enabled: inputBar.attachmentsEnabled
+            enabled: inputBar.attachmentsEnabled && !inputBar.hasVoiceRecording
             KeyNavigation.backtab: callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget()
-            KeyNavigation.tab: messageInput
+            KeyNavigation.tab: voiceButton.visible ? voiceButton : messageInput
             room: inputBar.room
             showAllButtons: inputBar.showAllButtons
+        }
+        ComposerVoiceButton {
+            id: voiceButton
+
+            Layout.alignment: inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter
+            KeyNavigation.backtab: attachButton.visible ? attachButton : (callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget())
+            KeyNavigation.tab: inputBar.hasVoiceRecording ? sendButton : messageInput
+            showAllButtons: inputBar.showAllButtons
+            composerHasText: messageInput.length > 0 || inputBar.hasUploads
+        }
+        ComposerVoicePreview {
+            id: voicePreview
+
+            Layout.alignment: Qt.AlignVCenter
+            Layout.fillWidth: true
+            Layout.leftMargin: Komai.paddingSmall
+            Layout.rightMargin: Komai.paddingSmall
+            visible: inputBar.hasVoiceRecording
         }
         ScrollView {
             id: textInput
@@ -233,6 +334,7 @@ Rectangle {
             Layout.maximumHeight: Window.height / 4
             Layout.minimumHeight: visible ? targetTextAreaHeight : 0
             Layout.preferredHeight: visible ? targetTextAreaHeight : 0
+            visible: !inputBar.hasVoiceRecording
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             contentWidth: availableWidth
             implicitHeight: targetTextAreaHeight
@@ -372,6 +474,7 @@ Rectangle {
                         messageInput.openCompleter(tokenStart, type);
                 }
 
+                KeyNavigation.backtab: voiceButton.visible ? voiceButton : (attachButton.visible ? attachButton : (callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget()))
                 background: null
                 bottomPadding: 6
                 color: palette.text
@@ -840,7 +943,7 @@ Rectangle {
             KeyNavigation.tab: emojiButton.visible ? emojiButton : sendButton
             toolTipText: qsTr("Stickers")
             image: ":/icons/icons/ui/sticky-note-solid.svg"
-            visible: showAllButtons && inputBar.allowStickers && Settings.composerExtrasStickersEnabled
+            visible: showAllButtons && inputBar.allowStickers && Settings.composerExtrasStickersEnabled && !inputBar.hasVoiceRecording
 
             onClicked: {
                 if (!inputBar.inputController || typeof inputBar.inputController.sticker !== "function")
@@ -866,7 +969,7 @@ Rectangle {
             KeyNavigation.tab: sendButton
             toolTipText: qsTr("Emoji")
             image: ":/icons/icons/ui/smile.svg"
-            visible: inputBar.composerEnabled
+            visible: inputBar.composerEnabled && !inputBar.hasVoiceRecording
 
             onClicked: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(emojiButton, room.roomId, function (plaintext, markdown) {
                     messageInput.insert(messageInput.cursorPosition, markdown);
@@ -884,7 +987,7 @@ Rectangle {
 
             Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
             Layout.rightMargin: Komai.paddingMedium
-            KeyNavigation.backtab: emojiButton.visible ? emojiButton : (stickerButton.visible ? stickerButton : messageInput)
+            KeyNavigation.backtab: emojiButton.visible ? emojiButton : (stickerButton.visible ? stickerButton : (inputBar.hasVoiceRecording && voiceButton.visible ? voiceButton : messageInput))
             toolTipText: qsTr("Send")
             buttonTextColor: inputBar.hasSendableContent ? palette.highlight : palette.buttonText
             image: ":/icons/icons/ui/send.svg"
@@ -945,6 +1048,6 @@ Rectangle {
         anchors.centerIn: parent
         color: palette.buttonText
         text: qsTr("Attach more files or send the upload")
-        visible: inputBar.hasUploads
+        visible: inputBar.hasUploads && !inputBar.hasVoiceRecording
     }
 }

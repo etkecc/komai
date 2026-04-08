@@ -307,6 +307,9 @@ public:
     Q_INVOKABLE bool tryPasteClipboardAttachment(bool strict);
     bool stageMatrixAttachmentsForRoom(const QString &roomId, const QStringList &filePaths);
     Q_INVOKABLE bool sendActiveMatrixAttachments();
+    Q_INVOKABLE bool stageVoiceRecording(const QString &filePath);
+    Q_INVOKABLE void setActiveAttachmentDurationMs(uint64_t durationMs);
+    Q_INVOKABLE bool stageAndSendVoiceRecording(const QString &filePath, int durationMs);
     Q_INVOKABLE void clearActiveMatrixAttachments();
     Q_INVOKABLE void removeActiveMatrixAttachment(int index);
     Q_INVOKABLE bool
@@ -484,6 +487,7 @@ private:
         QString replyEventId;
         QString threadId;
         QString mimeType;
+        uint64_t durationMs = 0;
     };
     std::deque<PendingMatrixAttachment> pendingMatrixAttachments_;
     QList<MatrixPendingAttachmentUpload *> matrixPendingAttachmentItems_;

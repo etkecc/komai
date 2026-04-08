@@ -384,6 +384,8 @@ set(SRC_FILES
     src/voip/ScreenCastPortal.cpp
     src/voip/ScreenCastPortal.h
     src/voip/WebRTCSession.h
+    src/voip/VoiceRecorder.cpp
+    src/voip/VoiceRecorder.h
     src/voip/WebRTCSession.cpp
     src/voip/WebRTCSession.h
 

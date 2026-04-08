@@ -38,13 +38,13 @@ Item {
     readonly property string previewYouAvatarUrl: (Komai.currentUser && Komai.currentUser.avatarUrl && Komai.currentUser.avatarUrl.length > 0)
         ? Komai.currentUser.avatarUrl
         : previewFallbackAvatarUrl
-    readonly property string previewAliceTemplate: qsTr("I just stumbled upon %1 - finally, a %2 chat app that I really like! 🦁")
+    readonly property string previewAliceTemplate: qsTr("I just stumbled upon %1 - finally, a %2 chat app I love! ❤️")
     readonly property string previewAliceBody: previewAliceTemplate.arg(previewKomaiLabel).arg(previewMatrixLabel)
     readonly property string previewAliceFormattedBody: Komai.formatHtmlEmojis(previewAliceTemplate
         .arg("<a href=\"" + previewKomaiUrl + "\">" + previewKomaiLabel + "</a>")
         .arg("<a href=\"" + previewMatrixUrl + "\">" + previewMatrixLabel + "</a>"))
-    readonly property string previewCarolBody: qsTr("I'm testing it as we speak and currently configuring how messages look..\n\nIt's quite pleasing to the eye, but also insanely fast! ⚡")
-    readonly property string previewCarolFormattedBody: Komai.formatHtmlEmojis(previewCarolBody.split("\n").join("<br>"))
+    readonly property string previewOwnBody: qsTr("I'm giving it a try too! Currently tweaking how messages look.\nIt seems pleasing to the eye and insanely fast! 🚀")
+    readonly property string previewOwnFormattedBody: Komai.formatHtmlEmojis(previewOwnBody.split("\n").join("<br>"))
     readonly property int previewOwnMessageStatus: Settings.timelineReadReceiptsEnabled ? MtxEvent.Read : MtxEvent.Received
     readonly property date previewTsAlice: new Date(Date.now() - (9 * 60 * 1000))
     readonly property date previewTsBob: new Date(Date.now() - (6 * 60 * 1000))
@@ -102,10 +102,10 @@ Item {
             userPowerlevel: 100
         },
         {
-            body: "🚀",
+            body: "🔥",
             day: root.previewDayKey(root.previewTsBob),
             eventId: "$preview-2",
-            formattedBody: Komai.formatHtmlEmojis("🚀"),
+            formattedBody: Komai.formatHtmlEmojis("🔥"),
             isOnlyEmoji: true,
             isEditable: false,
             isEdited: false,
@@ -128,10 +128,10 @@ Item {
             userPowerlevel: 0
         },
         {
-            body: root.previewCarolBody,
+            body: root.previewOwnBody,
             day: root.previewDayKey(root.previewTsYou),
             eventId: "$preview-3",
-            formattedBody: root.previewCarolFormattedBody,
+            formattedBody: root.previewOwnFormattedBody,
             isOnlyEmoji: 0,
             isEditable: true,
             isEdited: false,

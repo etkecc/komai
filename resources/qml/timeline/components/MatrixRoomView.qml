@@ -4,6 +4,7 @@
 
 import "../../composer" as Composer
 import "../styles/bubble"
+import "../styles/plain"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -544,45 +545,98 @@ ColumnLayout {
                             const replyH = replyTo.length > 0 ? lineH * 2 : 0;
                             return lines * lineH + replyH + pad + lineH;
                         }
-                        height: bubbleStyle.height > 0
-                            ? bubbleStyle.height
+                        height: sharedTimelineBubble.item
+                            ? sharedTimelineBubble.item.height
                             : heuristicHeight
 
-                        TimelineBubbleMessageStyle {
-                            id: bubbleStyle
-                            chatRoot: root
+                        Component {
+                            id: matrixPlainMessageStyle
 
-                            eventId: timelineItemDelegate.stableEventId
-                            replyTo: timelineItemDelegate.replyTo
-                            room: TimelineManager.matrixTimelineModel
-                            index: timelineItemDelegate.index
-                            day: timelineItemDelegate.day
-                            isSender: timelineItemDelegate.isSender
-                            isStateEvent: timelineItemDelegate.isStateEvent
-                            timestamp: timelineItemDelegate.timestamp
-                            userId: timelineItemDelegate.userId
-                            userName: timelineItemDelegate.userName
-                            threadId: timelineItemDelegate.threadId
-                            isThreadRoot: timelineItemDelegate.isThreadRoot
-                            userPowerlevel: 0
-                            isEdited: timelineItemDelegate.isEdited
-                            isEncrypted: timelineItemDelegate.isEncrypted
-                            reactions: timelineItemDelegate.reactions
-                            status: timelineItemDelegate.status
-                            trustlevel: 0
-                            notificationlevel: MtxEvent.Empty
-                            type: timelineItemDelegate.type
-                            isEditable: timelineItemDelegate.isEditable
-                            // Hidden rows are filtered out of MatrixTimelineModel
-                            // before they reach the ListView, so delegate-level
-                            // collapse is intentionally disabled here.
-                            isHiddenEvent: false
-                            messageContextMenu: dialogSupport.messageContextMenu
-                            replyContextMenu: dialogSupport.replyContextMenu
-                            messageActions: dialogSupport.messageActionsHost.control
-                            roomAdapter: messageActionsRoomModel
-                            scrolledToThis: root.highlightedEventId.length > 0
-                                && root.highlightedEventId === timelineItemDelegate.stableEventId
+                            TimelinePlainMessageStyle {
+                                chatRoot: root
+
+                                eventId: timelineItemDelegate.stableEventId
+                                replyTo: timelineItemDelegate.replyTo
+                                room: TimelineManager.matrixTimelineModel
+                                index: timelineItemDelegate.index
+                                day: timelineItemDelegate.day
+                                isSender: timelineItemDelegate.isSender
+                                isStateEvent: timelineItemDelegate.isStateEvent
+                                timestamp: timelineItemDelegate.timestamp
+                                userId: timelineItemDelegate.userId
+                                userName: timelineItemDelegate.userName
+                                threadId: timelineItemDelegate.threadId
+                                isThreadRoot: timelineItemDelegate.isThreadRoot
+                                userPowerlevel: 0
+                                isEdited: timelineItemDelegate.isEdited
+                                isEncrypted: timelineItemDelegate.isEncrypted
+                                reactions: timelineItemDelegate.reactions
+                                status: timelineItemDelegate.status
+                                trustlevel: 0
+                                notificationlevel: MtxEvent.Empty
+                                type: timelineItemDelegate.type
+                                isEditable: timelineItemDelegate.isEditable
+                                // Hidden rows are filtered out of MatrixTimelineModel
+                                // before they reach the ListView, so delegate-level
+                                // collapse is intentionally disabled here.
+                                isHiddenEvent: false
+                                messageContextMenu: dialogSupport.messageContextMenu
+                                replyContextMenu: dialogSupport.replyContextMenu
+                                messageActions: dialogSupport.messageActionsHost.control
+                                roomAdapter: messageActionsRoomModel
+                                scrolledToThis: root.highlightedEventId.length > 0
+                                    && root.highlightedEventId === timelineItemDelegate.stableEventId
+                            }
+                        }
+
+                        Component {
+                            id: matrixBubbleMessageStyle
+
+                            TimelineBubbleMessageStyle {
+                                chatRoot: root
+
+                                eventId: timelineItemDelegate.stableEventId
+                                replyTo: timelineItemDelegate.replyTo
+                                room: TimelineManager.matrixTimelineModel
+                                index: timelineItemDelegate.index
+                                day: timelineItemDelegate.day
+                                isSender: timelineItemDelegate.isSender
+                                isStateEvent: timelineItemDelegate.isStateEvent
+                                timestamp: timelineItemDelegate.timestamp
+                                userId: timelineItemDelegate.userId
+                                userName: timelineItemDelegate.userName
+                                threadId: timelineItemDelegate.threadId
+                                isThreadRoot: timelineItemDelegate.isThreadRoot
+                                userPowerlevel: 0
+                                isEdited: timelineItemDelegate.isEdited
+                                isEncrypted: timelineItemDelegate.isEncrypted
+                                reactions: timelineItemDelegate.reactions
+                                status: timelineItemDelegate.status
+                                trustlevel: 0
+                                notificationlevel: MtxEvent.Empty
+                                type: timelineItemDelegate.type
+                                isEditable: timelineItemDelegate.isEditable
+                                // Hidden rows are filtered out of MatrixTimelineModel
+                                // before they reach the ListView, so delegate-level
+                                // collapse is intentionally disabled here.
+                                isHiddenEvent: false
+                                messageContextMenu: dialogSupport.messageContextMenu
+                                replyContextMenu: dialogSupport.replyContextMenu
+                                messageActions: dialogSupport.messageActionsHost.control
+                                roomAdapter: messageActionsRoomModel
+                                scrolledToThis: root.highlightedEventId.length > 0
+                                    && root.highlightedEventId === timelineItemDelegate.stableEventId
+                            }
+                        }
+
+                        Loader {
+                            id: sharedTimelineBubble
+
+                            active: true
+                            sourceComponent: Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Plain
+                                ? matrixPlainMessageStyle
+                                : matrixBubbleMessageStyle
+                            visible: active
                         }
                     }
                 }

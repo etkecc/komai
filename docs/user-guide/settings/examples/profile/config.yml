@@ -44,7 +44,7 @@ timeline:
   messages:
     layout:
       style: bubbles
-      small_avatars: false
+      avatar_size: regular
       show_own_avatar: true
     sender_username: only_in_large_rooms
     max_width_px: 0

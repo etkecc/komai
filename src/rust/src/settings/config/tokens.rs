@@ -103,6 +103,12 @@ storage_token_enum!(ConfigTimelineUserColorCodingPolicyToken, AdaptiveByRoomSize
     MeVsOthers => "me_vs_others",
 });
 
+storage_token_enum!(ConfigTimelineMessagesLayoutAvatarSizeToken, Regular {
+    Regular => "regular",
+    Small => "small",
+    Hidden => "hidden",
+});
+
 storage_token_enum!(ConfigTimelineMessagesSenderUsernameToken, OnlyInLargeRooms {
     Always => "always",
     OnlyInLargeRooms => "only_in_large_rooms",

@@ -35,6 +35,11 @@ UserSettings::ShowImage
 showImageFromStorage(const QString &value, UserSettings::ShowImage fallback);
 
 QString
+toStorageValue(UserSettings::AvatarSize value);
+UserSettings::AvatarSize
+avatarSizeFromStorage(const QString &value, UserSettings::AvatarSize fallback);
+
+QString
 toStorageValue(UserSettings::ShowSenderUsername value);
 UserSettings::ShowSenderUsername
 showSenderUsernameFromStorage(const QString &value, UserSettings::ShowSenderUsername fallback);

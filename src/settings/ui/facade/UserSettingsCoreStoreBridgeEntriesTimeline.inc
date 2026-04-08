@@ -1,7 +1,7 @@
 X(TimelineMessagesStyle, static_cast<int>(settings.timelineMessagesStyle()))
 X(TimelineMessagesPositioning, static_cast<int>(settings.timelineMessagesPositioning()))
 X(TimelineUserColorCodingPolicy, static_cast<int>(settings.timelineUserColorCodingPolicy()))
-X(TimelineMessagesLayoutSmallAvatars, settings.timelineMessagesLayoutSmallAvatars())
+X(TimelineMessagesLayoutAvatarSize, static_cast<int>(settings.timelineMessagesLayoutAvatarSize()))
 X(TimelineMessagesLayoutShowOwnAvatar, settings.timelineMessagesLayoutShowOwnAvatar())
 X(TimelineMessagesSenderUsername, static_cast<int>(settings.timelineMessagesSenderUsername()))
 X(TimelineMessagesEmojiOnlyEnlarge, settings.timelineMessagesEmojiOnlyEnlarge())

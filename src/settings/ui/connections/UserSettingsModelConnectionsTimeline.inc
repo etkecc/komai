@@ -4,10 +4,21 @@
     CONNECT_SETTING_ID(
       TimelineUserColorCodingPolicy, timelineUserColorCodingPolicyChanged, Value);
     CONNECT_SETTING_ID(
-      TimelineMessagesLayoutSmallAvatars, timelineMessagesLayoutSmallAvatarsChanged, Value);
+      TimelineMessagesLayoutAvatarSize, timelineMessagesLayoutAvatarSizeChanged, Value);
     CONNECT_SETTING_ID(
       TimelineMessagesLayoutShowOwnAvatar, timelineMessagesLayoutShowOwnAvatarChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesSenderUsername, timelineMessagesSenderUsernameChanged, Value);
+
+    // When avatar size changes, the sender username description may change (hidden-avatar warning)
+    if (const int senderUsernameIdx =
+          rowForSettingId(settings::core::SettingId::TimelineMessagesSenderUsername);
+        senderUsernameIdx >= 0) {
+        connect(settings, &UserSettings::timelineMessagesLayoutAvatarSizeChanged, this,
+                [this, senderUsernameIdx]() {
+                    emit dataChanged(index(senderUsernameIdx), index(senderUsernameIdx),
+                                     {Description});
+                });
+    }
     CONNECT_SETTING_ID(TimelineMessagesEmojiOnlyEnlarge, timelineMessagesEmojiOnlyEnlargeChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesHoverHighlight, timelineMessagesHoverHighlightChanged, Value);
     CONNECT_SETTING_ID(TimelineFormattedCodeSyntaxHighlighting,

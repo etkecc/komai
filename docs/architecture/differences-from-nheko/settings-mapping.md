@@ -55,7 +55,7 @@ Note:
 | Look & Feel | BEHAVIOR | Interaction mode | `settings::core::SettingId::UiInputMode` | `mobile_mode` | `ui.input.mode` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable swipe gestures | `settings::core::SettingId::UiInputTouchSwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.touch.swipe_gestures.enabled` | config.yml | yes |
 | Timeline | PRESENTATION | Style | `settings::core::SettingId::TimelineMessagesStyle` | `bubbles` | `timeline.messages.style` | config.yml | yes |
-| Timeline | PRESENTATION | Use small avatars | `settings::core::SettingId::TimelineMessagesLayoutSmallAvatars` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
+| Timeline | PRESENTATION | Avatar size | `settings::core::SettingId::TimelineMessagesLayoutAvatarSize` | `small_avatars` | `timeline.messages.layout.avatar_size` | config.yml | yes |
 | Timeline | PRESENTATION | Show avatar next to own message bubbles | `settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
 | Timeline | PRESENTATION | Show sender username above messages | `settings::core::SettingId::TimelineMessagesSenderUsername` | `show_sender_username` | `timeline.messages.sender_username` | config.yml | yes |
 | Timeline | PRESENTATION | Enlarge emoji-only messages | `settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |

@@ -87,8 +87,8 @@ stageConfig(const UserSettings &settings,
                 cfg::toStorageValue(settings.timelineMessagesPositioning()).toStdString(),
               .user_color_coding_policy =
                 cfg::toStorageValue(settings.timelineUserColorCodingPolicy()).toStdString(),
-              .has_layout_small_avatars   = true,
-              .layout_small_avatars       = settings.timelineMessagesLayoutSmallAvatars(),
+              .layout_avatar_size =
+                cfg::toStorageValue(settings.timelineMessagesLayoutAvatarSize()).toStdString(),
               .has_layout_show_own_avatar = true,
               .layout_show_own_avatar     = settings.timelineMessagesLayoutShowOwnAvatar(),
               .sender_username =

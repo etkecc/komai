@@ -12,6 +12,19 @@ applyShowImageFromStorage(UserSettings &settings, const QString &rawToken)
 }
 
 QString
+avatarSizeToStorage(const UserSettings &settings)
+{
+    return toStorageValue(settings.timelineMessagesLayoutAvatarSize());
+}
+
+void
+applyAvatarSizeFromStorage(UserSettings &settings, const QString &rawToken)
+{
+    settings.setTimelineMessagesLayoutAvatarSize(
+      avatarSizeFromStorage(rawToken, UserSettings::AvatarSize::Regular));
+}
+
+QString
 showSenderUsernameToStorage(const UserSettings &settings)
 {
     return toStorageValue(settings.timelineMessagesSenderUsername());

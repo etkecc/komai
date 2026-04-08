@@ -192,13 +192,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["timeline", "user_color_coding_policy"],
         Value::String(snapshot.timeline.messages.user_color_coding_policy.clone()),
     );
-    if snapshot.timeline.messages.has_layout_small_avatars {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "messages", "layout", "small_avatars"],
-            Value::Bool(snapshot.timeline.messages.layout_small_avatars),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["timeline", "messages", "layout", "avatar_size"],
+        Value::String(snapshot.timeline.messages.layout_avatar_size.clone()),
+    );
     if snapshot.timeline.messages.has_layout_show_own_avatar {
         yaml::set_value(
             &mut root,

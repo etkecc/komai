@@ -12,7 +12,8 @@ use super::tokens::{
     ConfigSidebarsRoomListLastMessagePreviewToken, ConfigSidebarsRoomListSortToken,
     ConfigSidebarsRoomListUnreadDetectionPolicyToken,
     ConfigTimelineMediaImageDisplayToken, ConfigTimelineMessageActionsActivationPolicyToken,
-    ConfigTimelineMessagesPositioningToken, ConfigTimelineMessagesSenderUsernameToken,
+    ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
+    ConfigTimelineMessagesSenderUsernameToken,
     ConfigTimelineMessagesStyleToken, ConfigTimelineUserColorCodingPolicyToken,
     ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken, ConfigUiScrollbarPolicyToken,
 };
@@ -135,7 +136,7 @@ pub struct ConfigTimelineMessages {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigTimelineMessagesLayout {
-    pub small_avatars: Option<bool>,
+    pub avatar_size: ConfigTimelineMessagesLayoutAvatarSizeToken,
     pub show_own_avatar: Option<bool>,
 }
 

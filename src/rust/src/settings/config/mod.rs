@@ -34,7 +34,8 @@ pub use tokens::{
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
     ConfigSidebarsRoomListLastMessagePreviewToken, ConfigSidebarsRoomListSortToken,
     ConfigSidebarsRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
-    ConfigTimelineMessageActionsActivationPolicyToken, ConfigTimelineMessagesPositioningToken,
+    ConfigTimelineMessageActionsActivationPolicyToken,
+    ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
     ConfigTimelineUserColorCodingPolicyToken,
     ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken, ConfigUiScrollbarPolicyToken,
@@ -83,8 +84,8 @@ const TIMELINE_MESSAGES_STYLE_PATH: [&str; 3] = ["timeline", "messages", "style"
 const TIMELINE_MESSAGES_POSITIONING_PATH: [&str; 3] = ["timeline", "messages", "positioning"];
 const TIMELINE_USER_COLOR_CODING_POLICY_PATH: [&str; 2] =
     ["timeline", "user_color_coding_policy"];
-const TIMELINE_MESSAGES_LAYOUT_SMALL_AVATARS_PATH: [&str; 4] =
-    ["timeline", "messages", "layout", "small_avatars"];
+const TIMELINE_MESSAGES_LAYOUT_AVATAR_SIZE_PATH: [&str; 4] =
+    ["timeline", "messages", "layout", "avatar_size"];
 const TIMELINE_MESSAGES_LAYOUT_SHOW_OWN_AVATAR_PATH: [&str; 4] =
     ["timeline", "messages", "layout", "show_own_avatar"];
 const TIMELINE_MESSAGES_SENDER_USERNAME_PATH: [&str; 3] =
@@ -293,11 +294,10 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     &TIMELINE_MESSAGES_POSITIONING_PATH,
                 )),
                 layout: ConfigTimelineMessagesLayout {
-                    small_avatars: yaml::value_at_path(
+                    avatar_size: parse_storage_token(yaml::value_at_path(
                         root,
-                        &TIMELINE_MESSAGES_LAYOUT_SMALL_AVATARS_PATH,
-                    )
-                    .and_then(parse_scalar_bool),
+                        &TIMELINE_MESSAGES_LAYOUT_AVATAR_SIZE_PATH,
+                    )),
                     show_own_avatar: yaml::value_at_path(
                         root,
                         &TIMELINE_MESSAGES_LAYOUT_SHOW_OWN_AVATAR_PATH,

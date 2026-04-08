@@ -115,6 +115,41 @@ autoplayGifVideosDescriptionRoleData(int role)
       .arg(maxDurationS);
 }
 
+QVariant
+senderUsernameDescriptionRoleData(int role)
+{
+    if (role != UserSettingsModel::Description)
+        return {};
+
+    auto i = UserSettings::instance();
+    const bool avatarsHidden =
+      i && i->timelineMessagesLayoutAvatarSize() == UserSettings::AvatarSize::Hidden;
+
+    auto base = QCoreApplication::translate(
+      "UserSettingsModel",
+      "Control when sender usernames are displayed above messages. In bubble mode, your own "
+      "username is always hidden. In smaller rooms, avatars and bubble colors are often enough "
+      "context.");
+
+    if (avatarsHidden) {
+        QString warningColor;
+        if (const auto *theme = ThemeRegistry::instance().findTheme(i->uiThemeSlug()))
+            warningColor = theme->attention.name();
+
+        const auto warning = QCoreApplication::translate(
+          "UserSettingsModel",
+          "⚠ Avatar size is set to Hidden, so sender usernames are always shown.");
+
+        if (!warningColor.isEmpty())
+            base += QStringLiteral("<br><br><span style=\"color:%1\">%2</span>")
+                      .arg(warningColor, warning);
+        else
+            base += QStringLiteral("<br><br>") + warning;
+    }
+
+    return base;
+}
+
 } // namespace
 
 QVariant
@@ -129,6 +164,8 @@ roleDataForSetting(settings::core::SettingId id, int role)
         return presenceStatusDescriptionRoleData(role);
     case settings::core::SettingId::TimelineMediaAutoplayGifVideos:
         return autoplayGifVideosDescriptionRoleData(role);
+    case settings::core::SettingId::TimelineMessagesSenderUsername:
+        return senderUsernameDescriptionRoleData(role);
     default:
         return {};
     }

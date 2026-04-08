@@ -65,14 +65,16 @@ UserSettings::timelineUserColorCodingPolicy() const
     return timelineUserColorCodingPolicy_;
 }
 
-bool
-UserSettings::timelineMessagesLayoutSmallAvatars() const
+UserSettings::AvatarSize
+UserSettings::timelineMessagesLayoutAvatarSize() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessagesLayoutSmallAvatars);
-        value.has_value())
-        return *value;
-    return timelineMessagesLayoutSmallAvatars_;
+          coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesLayoutAvatarSize);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::AvatarSize::Regular) &&
+        *value <= static_cast<int>(UserSettings::AvatarSize::Hidden))
+        return static_cast<UserSettings::AvatarSize>(*value);
+    return timelineMessagesLayoutAvatarSize_;
 }
 
 bool

@@ -9,6 +9,13 @@ constexpr std::array<std::pair<UserSettings::ShowImage, const char *>, 3> kShowI
   {UserSettings::ShowImage::Never, "never"},
 }};
 
+constexpr std::array<std::pair<UserSettings::AvatarSize, const char *>, 3>
+  kAvatarSizeTokens{{
+    {UserSettings::AvatarSize::Regular, "regular"},
+    {UserSettings::AvatarSize::Small, "small"},
+    {UserSettings::AvatarSize::Hidden, "hidden"},
+  }};
+
 constexpr std::array<std::pair<UserSettings::ShowSenderUsername, const char *>, 3>
   kShowSenderUsernameTokens{{
     {UserSettings::ShowSenderUsername::Always, "always"},
@@ -26,6 +33,18 @@ UserSettings::ShowImage
 showImageFromStorage(const QString &value, UserSettings::ShowImage fallback)
 {
     return valueFromStorageToken(value, fallback, kShowImageTokens);
+}
+
+QString
+toStorageValue(UserSettings::AvatarSize value)
+{
+    return valueToStorageToken(value, kAvatarSizeTokens, "regular");
+}
+
+UserSettings::AvatarSize
+avatarSizeFromStorage(const QString &value, UserSettings::AvatarSize fallback)
+{
+    return valueFromStorageToken(value, fallback, kAvatarSizeTokens);
 }
 
 QString

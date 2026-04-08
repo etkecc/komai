@@ -43,6 +43,7 @@ constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::TimelineMessagesStyle,
   settings::core::SettingId::TimelineMessagesPositioning,
   settings::core::SettingId::TimelineUserColorCodingPolicy,
+  settings::core::SettingId::TimelineMessagesLayoutAvatarSize,
   settings::core::SettingId::TimelineMessagesSenderUsername,
   settings::core::SettingId::TimelineMediaImageDisplay,
   settings::core::SettingId::TimelineMessageActionsActivationPolicy,

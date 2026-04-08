@@ -31,7 +31,7 @@ TimelineMessagesPositioning timelineMessagesPositioning_ =
   TimelineMessagesPositioning::OpposingBySender;
 TimelineUserColorCodingPolicy timelineUserColorCodingPolicy_ =
   TimelineUserColorCodingPolicy::AdaptiveByRoomSize;
-bool timelineMessagesLayoutSmallAvatars_;
+AvatarSize timelineMessagesLayoutAvatarSize_{};
 bool composerExtrasStickersEnabled_;
 bool timelineMessagesLayoutShowOwnAvatar_;
 QString timelineMessageActionsPinnedReactions_;

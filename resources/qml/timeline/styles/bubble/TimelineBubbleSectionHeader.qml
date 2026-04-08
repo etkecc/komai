@@ -30,14 +30,16 @@ Column {
     property int oneHour: 60 * 60 * 1000
     property bool dayBoundaryChanged: previousMessageDay !== day
     property bool showLabel: dayBoundaryChanged || timestamp - previousMessageTimestamp > oneHour
-    property bool shouldShowSenderUsername: Settings.timelineMessagesSenderUsername === 0
+    property bool shouldShowSenderUsername: Settings.timelineMessagesLayoutAvatarSize === Settings.AvatarSize.Hidden
         ? true
-        : Settings.timelineMessagesSenderUsername === 2
-            ? false
-            : (roomRef
-               ? roomRef.roomMemberCount
-                   > Settings.timelineMessagesSenderUsernameLargeRoomThreshold
-               : false)
+        : Settings.timelineMessagesSenderUsername === 0
+            ? true
+            : Settings.timelineMessagesSenderUsername === 2
+                ? false
+                : (roomRef
+                   ? roomRef.roomMemberCount
+                       > Settings.timelineMessagesSenderUsernameLargeRoomThreshold
+                   : false)
 
     bottomPadding: showLabel ? Komai.paddingMedium : (isSender ? 0 : 2)
     spacing: 8
@@ -69,7 +71,7 @@ Column {
 
         height: userName_.height
         spacing: 4
-        visible: !isStateEvent && shouldShowSenderUsername && !isSender
+        visible: !isStateEvent && shouldShowSenderUsername && (!isSender || Settings.timelineMessagesLayoutAvatarSize === Settings.AvatarSize.Hidden)
 
         AbstractButton {
             id: userNameButton

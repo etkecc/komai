@@ -33,7 +33,7 @@
     TimelineMessagesStyle timelineMessagesStyle() const;
     TimelineMessagesPositioning timelineMessagesPositioning() const;
     TimelineUserColorCodingPolicy timelineUserColorCodingPolicy() const;
-    bool timelineMessagesLayoutSmallAvatars() const;
+    AvatarSize timelineMessagesLayoutAvatarSize() const;
     bool composerExtrasStickersEnabled() const;
     bool timelineMessagesLayoutShowOwnAvatar() const;
     QString timelineMessageActionsPinnedReactions() const;

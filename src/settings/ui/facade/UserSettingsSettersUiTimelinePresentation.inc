@@ -41,13 +41,16 @@ UserSettings::setTimelineUserColorCodingPolicy(TimelineUserColorCodingPolicy s)
 }
 
 void
-UserSettings::setTimelineMessagesLayoutSmallAvatars(bool s)
+UserSettings::setTimelineMessagesLayoutAvatarSize(AvatarSize s)
 {
-    if (timelineMessagesLayoutSmallAvatars_ == s)
+    if (timelineMessagesLayoutAvatarSize_ == s)
         return;
-    timelineMessagesLayoutSmallAvatars_ = s;
-    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesLayoutSmallAvatars, s);
-    emit timelineMessagesLayoutSmallAvatarsChanged(s);
+    if (!setCoreValue(settings::core::SettingId::TimelineMessagesLayoutAvatarSize,
+                      static_cast<int>(s),
+                      "timeline.messages.layout.avatar_size"))
+        return;
+    timelineMessagesLayoutAvatarSize_ = s;
+    emit timelineMessagesLayoutAvatarSizeChanged(s);
     save();
 }
 void

@@ -202,10 +202,14 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       timelineUserColorCodingPolicyToken,
       UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize));
 
-    settings.setTimelineMessagesLayoutSmallAvatars(
-      snapshot.timeline.messages.has_layout_small_avatars
-        ? snapshot.timeline.messages.layout_small_avatars
-        : false);
+    const auto loadedTimelineAvatarSize =
+      QString::fromStdString(
+        static_cast<std::string>(snapshot.timeline.messages.layout_avatar_size))
+        .trimmed();
+    const auto timelineAvatarSizeToken =
+      loadedTimelineAvatarSize.isEmpty() ? QStringLiteral("regular") : loadedTimelineAvatarSize;
+    settings.setTimelineMessagesLayoutAvatarSize(
+      cfg::avatarSizeFromStorage(timelineAvatarSizeToken, UserSettings::AvatarSize::Regular));
     settings.setTimelineMessagesLayoutShowOwnAvatar(
       snapshot.timeline.messages.has_layout_show_own_avatar
         ? snapshot.timeline.messages.layout_show_own_avatar

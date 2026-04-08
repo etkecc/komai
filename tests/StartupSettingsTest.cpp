@@ -1636,7 +1636,7 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineUserColorCodingPolicy));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::TimelineMessagesLayoutSmallAvatars));
+      QString::fromLatin1(SettingKey::TimelineMessagesLayoutAvatarSize));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMessagesLayoutShowOwnAvatar));
     serializerHandledConfigKeys.insert(

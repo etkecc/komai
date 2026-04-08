@@ -251,13 +251,7 @@ pub(crate) fn ffi_config_timeline_section(
             style: config.timeline.messages.style.to_storage_string(),
             positioning: config.timeline.messages.positioning.to_storage_string(),
             user_color_coding_policy: config.timeline.user_color_coding_policy.to_storage_string(),
-            has_layout_small_avatars: config.timeline.messages.layout.small_avatars.is_some(),
-            layout_small_avatars: config
-                .timeline
-                .messages
-                .layout
-                .small_avatars
-                .unwrap_or_default(),
+            layout_avatar_size: config.timeline.messages.layout.avatar_size.to_storage_string(),
             has_layout_show_own_avatar: config.timeline.messages.layout.show_own_avatar.is_some(),
             layout_show_own_avatar: config
                 .timeline
@@ -752,8 +746,7 @@ fn clone_config_timeline_section(
             style: section.messages.style.clone(),
             positioning: section.messages.positioning.clone(),
             user_color_coding_policy: section.messages.user_color_coding_policy.clone(),
-            has_layout_small_avatars: section.messages.has_layout_small_avatars,
-            layout_small_avatars: section.messages.layout_small_avatars,
+            layout_avatar_size: section.messages.layout_avatar_size.clone(),
             has_layout_show_own_avatar: section.messages.has_layout_show_own_avatar,
             layout_show_own_avatar: section.messages.layout_show_own_avatar,
             sender_username: section.messages.sender_username.clone(),

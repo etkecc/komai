@@ -45,10 +45,15 @@
       nullptr,
       TimelineMessagesSenderUsername,
       SettingKey::TimelineMessagesSenderUsername),
-    // TimelineSmallAvatarsEnabled
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Use small avatars",
-                           nullptr,
-                           SM::TabTimeline, timelineMessagesLayoutSmallAvatars, setTimelineMessagesLayoutSmallAvatars, nullptr, TimelineMessagesLayoutSmallAvatars, SettingKey::TimelineMessagesLayoutSmallAvatars),
+    // TimelineAvatarSize
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Avatar size",
+      nullptr,
+      SM::TabTimeline, timelineMessagesLayoutAvatarSize, setTimelineMessagesLayoutAvatarSize, UserSettings::AvatarSize,
+      timelineAvatarSizeValues,
+      nullptr,
+      TimelineMessagesLayoutAvatarSize,
+      SettingKey::TimelineMessagesLayoutAvatarSize),
     // TimelineShowOwnAvatarInBubbleLayout
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show avatar next to own message bubbles",

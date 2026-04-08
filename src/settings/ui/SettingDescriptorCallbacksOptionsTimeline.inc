@@ -4,6 +4,16 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 static QVariant
+timelineAvatarSizeValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Regular")
+           << QCoreApplication::translate("UserSettingsModel", "Small")
+           << QCoreApplication::translate("UserSettingsModel", "Hidden");
+    return values;
+}
+
+static QVariant
 timelineSenderUsernameValues()
 {
     QStringList values;

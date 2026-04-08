@@ -8,7 +8,8 @@ use super::{
     ConfigUiScrollbarPolicyToken,
     ConfigSidebarsRoomListLastMessagePreviewToken, ConfigSidebarsRoomListSortToken,
     ConfigSidebarsRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
-    ConfigTimelineMessageActionsActivationPolicyToken, ConfigTimelineMessagesPositioningToken,
+    ConfigTimelineMessageActionsActivationPolicyToken,
+    ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
     ConfigTimelineUserColorCodingPolicyToken,
 };
@@ -120,7 +121,7 @@ timeline:
     style: plain
     positioning: all_right
     layout:
-      small_avatars: true
+      avatar_size: small
       show_own_avatar: false
     sender_username: always
     emoji_only_enlarge: false
@@ -158,7 +159,7 @@ timeline:
         config.timeline.user_color_coding_policy,
         ConfigTimelineUserColorCodingPolicyToken::MeVsOthers
     );
-    assert_eq!(config.timeline.messages.layout.small_avatars, Some(true));
+    assert_eq!(config.timeline.messages.layout.avatar_size, ConfigTimelineMessagesLayoutAvatarSizeToken::Small);
     assert_eq!(config.timeline.messages.layout.show_own_avatar, Some(false));
     assert_eq!(
         config.timeline.messages.sender_username,
@@ -466,8 +467,7 @@ fn encodes_generic_config_values() {
                 style: "plain".to_owned(),
                 positioning: "all_right".to_owned(),
                 user_color_coding_policy: "me_vs_others".to_owned(),
-                has_layout_small_avatars: true,
-                layout_small_avatars: true,
+                layout_avatar_size: "small".to_owned(),
                 has_layout_show_own_avatar: true,
                 layout_show_own_avatar: false,
                 sender_username: "always".to_owned(),
@@ -645,8 +645,8 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::String(value)) if value == "me_vs_others"
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["timeline", "messages", "layout", "small_avatars"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        yaml::value_at_path(&root, &["timeline", "messages", "layout", "avatar_size"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "small"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "messages", "layout", "show_own_avatar"]),

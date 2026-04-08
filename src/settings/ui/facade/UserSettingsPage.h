@@ -104,8 +104,8 @@ class UserSettings final : public QObject
       TimelineUserColorCodingPolicy timelineUserColorCodingPolicy READ timelineUserColorCodingPolicy
         WRITE setTimelineUserColorCodingPolicy NOTIFY timelineUserColorCodingPolicyChanged)
     Q_PROPERTY(
-      bool timelineMessagesLayoutSmallAvatars READ timelineMessagesLayoutSmallAvatars WRITE
-        setTimelineMessagesLayoutSmallAvatars NOTIFY timelineMessagesLayoutSmallAvatarsChanged)
+      AvatarSize timelineMessagesLayoutAvatarSize READ timelineMessagesLayoutAvatarSize WRITE
+        setTimelineMessagesLayoutAvatarSize NOTIFY timelineMessagesLayoutAvatarSizeChanged)
     Q_PROPERTY(bool composerExtrasStickersEnabled READ composerExtrasStickersEnabled WRITE
                  setComposerExtrasStickersEnabled NOTIFY composerExtrasStickersEnabledChanged)
     Q_PROPERTY(
@@ -340,6 +340,14 @@ public:
     };
     Q_ENUM(ShowImage)
 
+    enum class AvatarSize
+    {
+        Regular,
+        Small,
+        Hidden,
+    };
+    Q_ENUM(AvatarSize)
+
     enum class ShowSenderUsername
     {
         Always,
@@ -505,7 +513,7 @@ public:
     void setTimelineMessagesStyle(TimelineMessagesStyle style);
     void setTimelineMessagesPositioning(TimelineMessagesPositioning positioning);
     void setTimelineUserColorCodingPolicy(TimelineUserColorCodingPolicy policy);
-    void setTimelineMessagesLayoutSmallAvatars(bool state);
+    void setTimelineMessagesLayoutAvatarSize(AvatarSize size);
     void setComposerExtrasStickersEnabled(bool state);
     void setTimelineMessagesLayoutShowOwnAvatar(bool state);
     void setTimelineMessageActionsPinnedReactions(QString value);
@@ -661,7 +669,7 @@ signals:
     void timelineMessagesStyleChanged(TimelineMessagesStyle style);
     void timelineMessagesPositioningChanged(TimelineMessagesPositioning positioning);
     void timelineUserColorCodingPolicyChanged(TimelineUserColorCodingPolicy policy);
-    void timelineMessagesLayoutSmallAvatarsChanged(bool state);
+    void timelineMessagesLayoutAvatarSizeChanged(AvatarSize size);
     void composerExtrasStickersEnabledChanged(bool state);
     void timelineMessagesLayoutShowOwnAvatarChanged(bool state);
     void timelineMessageActionsPinnedReactionsChanged(const QString &value);

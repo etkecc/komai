@@ -85,7 +85,7 @@ enum class SettingId
     TimelineMessagesStyle,
     TimelineMessagesPositioning,
     TimelineUserColorCodingPolicy,
-    TimelineMessagesLayoutSmallAvatars,
+    TimelineMessagesLayoutAvatarSize,
     TimelineMessagesLayoutShowOwnAvatar,
     TimelineMessagesSenderUsername,
     TimelineMessagesEmojiOnlyEnlarge,

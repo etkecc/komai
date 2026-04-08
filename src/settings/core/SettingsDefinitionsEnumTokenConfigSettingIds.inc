@@ -26,6 +26,7 @@
   SettingId::TimelineMessagesStyle,
   SettingId::TimelineMessagesPositioning,
   SettingId::TimelineUserColorCodingPolicy,
+  SettingId::TimelineMessagesLayoutAvatarSize,
   SettingId::TimelineMessagesSenderUsername,
   SettingId::TimelineMessageActionsActivationPolicy,
   SettingId::TimelineMediaImageDisplay,

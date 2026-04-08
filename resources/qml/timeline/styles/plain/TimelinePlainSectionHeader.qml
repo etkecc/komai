@@ -28,11 +28,13 @@ Column {
     property int oneHour: 60 * 60 * 1000
     property bool dayBoundaryChanged: previousMessageDay !== day
     property bool showLabel: dayBoundaryChanged || timestamp - previousMessageTimestamp > oneHour
-    property bool shouldShowSenderUsername: Settings.timelineMessagesSenderUsername === 0
+    property bool shouldShowSenderUsername: Settings.timelineMessagesLayoutAvatarSize === Settings.AvatarSize.Hidden
         ? true
-        : Settings.timelineMessagesSenderUsername === 2
-            ? false
-            : (room ? room.roomMemberCount > Settings.timelineMessagesSenderUsernameLargeRoomThreshold : false)
+        : Settings.timelineMessagesSenderUsername === 0
+            ? true
+            : Settings.timelineMessagesSenderUsername === 2
+                ? false
+                : (room ? room.roomMemberCount > Settings.timelineMessagesSenderUsernameLargeRoomThreshold : false)
 
     bottomPadding: showLabel ? (Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium) : (Komai.uiLayoutCompactMode ? 1 : 3)
     spacing: Komai.uiLayoutCompactMode ? 4 : 8

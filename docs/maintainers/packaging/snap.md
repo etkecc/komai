@@ -44,8 +44,10 @@ Use this when LXD is not available, e.g. inside a VM where nested containers lac
 **Prerequisites**: [snapcraft](https://snapcraft.io/docs/snapcraft-overview) (`sudo snap install snapcraft --classic`)
 
 ```sh
-just snap-build-native-destructive
+sudo just snap-build-native-destructive
 ```
+
+Requires `sudo` because snapcraft installs build dependencies system-wide in this mode.
 
 ## Installing the snap
 

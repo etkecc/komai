@@ -314,9 +314,13 @@ appimage-build-native: emoji-fetch
 snap-build-docker: emoji-fetch
 	{{ justfile_directory() }}/etc/packaging/snap/bin/build-docker "{{ justfile_directory() }}" "{{ snap_build_dir }}"
 
-# Builds a snap package natively (requires snapcraft installed)
+# Builds a snap package natively (requires snapcraft + LXD)
 snap-build-native: emoji-fetch
 	{{ justfile_directory() }}/etc/packaging/snap/bin/build-native "{{ justfile_directory() }}" "{{ snap_build_dir }}"
+
+# Builds a snap package natively in destructive mode (no LXD, builds directly on host)
+snap-build-native-destructive: emoji-fetch
+	SNAP_DESTRUCTIVE_MODE=1 {{ justfile_directory() }}/etc/packaging/snap/bin/build-native "{{ justfile_directory() }}" "{{ snap_build_dir }}"
 
 # Installs the locally-built snap (--dangerous for unsigned local snaps)
 snap-install:

@@ -310,6 +310,20 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
 
+                // Compute reply palette here (not on the Reply item) to avoid
+                // a binding loop: Reply sets its own palette.* from bubblePalette,
+                // and QML detects a cycle when the computation lives on the same
+                // object whose palette is being written.
+                property string replyUserId: (replyRow.previewData && replyRow.previewData.userId !== undefined)
+                    ? String(replyRow.previewData.userId)
+                    : ""
+                readonly property bool hasReplyUser: replyUserId.length > 0
+                readonly property color resolvedReplyUserColor: hasReplyUser ? root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeWindowColor) : messageBubble.palette.mid
+                readonly property color resolvedReplyRoomColor: hasReplyUser ? root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeBaseColor) : messageBubble.palette.mid
+                readonly property var resolvedReplyBubblePalette: root.wrapper.resolveUserBubblePalette(
+                    hasReplyUser ? replyUserId : root.wrapper.userId,
+                    hasReplyUser ? resolvedReplyRoomColor : messageBubble.roomColor)
+
                 Reply {
                     id: replyRow
                     // Hide reply previews for threaded messages. The Matrix thread
@@ -338,17 +352,9 @@ Item {
                     replyContextMenuOverride: root.wrapper.replyContextMenu
                     keepFullText: true
                     maxWidth: root.wrapper.maxWidth
-
-                    property string replyUserId: (previewData && previewData.userId !== undefined)
-                        ? String(previewData.userId)
-                        : ""
-                    readonly property bool hasReplyUser: replyUserId.length > 0
-                    readonly property color resolvedReplyUserColor: hasReplyUser ? root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeWindowColor) : palette.mid
-                    readonly property color resolvedReplyRoomColor: hasReplyUser ? root.wrapper.resolveUserColor(replyUserId, root.wrapper.themeBaseColor) : palette.mid
-                    readonly property var resolvedReplyBubblePalette: hasReplyUser ? root.wrapper.resolveUserBubblePalette(replyUserId, resolvedReplyRoomColor) : messageBubble.roomBubblePalette
-                    userColor: resolvedReplyUserColor
-                    roomColor: resolvedReplyRoomColor
-                    bubblePalette: resolvedReplyBubblePalette
+                    userColor: contentColumn.resolvedReplyUserColor
+                    roomColor: contentColumn.resolvedReplyRoomColor
+                    bubblePalette: contentColumn.resolvedReplyBubblePalette
                 }
 
             }

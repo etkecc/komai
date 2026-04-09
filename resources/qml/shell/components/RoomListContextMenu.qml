@@ -39,7 +39,7 @@ Menu {
         }
     }
     MenuItem {
-        text: qsTr("Open separately")
+        text: qsTr("Open in new window")
 
         onTriggered: {
             var roomWindow = root.roomWindowComponent.createObject(null, {
@@ -48,16 +48,6 @@ Menu {
             roomWindow.showNormal();
             root.timelineRoot.destroyOnClose(roomWindow);
         }
-    }
-    MenuItem {
-        text: qsTr("Room settings")
-
-        onTriggered: TimelineManager.openRoomInfo(root.roomid, "settings")
-    }
-    MenuItem {
-        text: qsTr("Leave room")
-
-        onTriggered: TimelineManager.openLeaveRoomDialog(root.roomid)
     }
     MenuItem {
         text: qsTr("Copy room link")
@@ -101,5 +91,15 @@ Menu {
 
             onTriggered: newTag.open()
         }
+    }
+    MenuItem {
+        text: qsTr("Room settings")
+
+        onTriggered: TimelineManager.openRoomInfo(root.roomid, "settings")
+    }
+    MenuItem {
+        text: qsTr("Leave room")
+
+        onTriggered: TimelineManager.openLeaveRoomDialog(root.roomid)
     }
 }

@@ -18,6 +18,7 @@ Page {
     property int avatarSize: Komai.listIconSize
     property bool collapsed: false
     property var communitiesTarget: null
+    property bool interactionSuppressed: false
     readonly property Item roomListLastActionButton: roomActionsBar.lastFocusableActionButton
     property bool pendingGoToTopRequest: false
     readonly property var profileMenu: profileContextMenu
@@ -89,8 +90,9 @@ Page {
     }
 
     function updateInteractionSuppression() {
-        Rooms.setInteractionSuppressed(
-                    visible && (roomListInteractionHoverHandler.hovered || roomlist.activeFocus));
+        interactionSuppressed = visible
+            && (roomListInteractionHoverHandler.hovered || roomlist.activeFocus || roomListFreezeIndicator.indicatorHovered);
+        Rooms.setInteractionSuppressed(interactionSuppressed);
     }
 
     function focusKeyboardNavigation() {
@@ -454,8 +456,15 @@ Page {
                 scrollbarItem: scrollbar
                 collapsed: roomListPage.collapsed
             }
+            RoomListFreezeIndicator {
+                id: roomListFreezeIndicator
+                roomList: roomlist
+                suppressed: roomListPage.interactionSuppressed
+            }
 
             footer: Column {
+                id: roomListFooter
+
                 width: roomlist.width
 
                 RoomListExploreFooter {

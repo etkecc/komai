@@ -116,6 +116,7 @@
         <file alias="icons/ui/heart.svg">icons/fluent/assets/Heart/SVG/ic_fluent_heart_24_regular.svg</file>
         <file alias="icons/ui/heart-color.svg">icons/fluent/assets/Heart/SVG/ic_fluent_heart_24_color.svg</file>
         <file alias="icons/ui/mic-record.svg">icons/fluent/assets/Mic/SVG/ic_fluent_mic_24_regular.svg</file>
+        <file alias="icons/ui/pause-circle.svg">icons/fluent/assets/Pause Circle/SVG/ic_fluent_pause_circle_20_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

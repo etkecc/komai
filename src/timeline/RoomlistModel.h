@@ -125,6 +125,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     RoomPreview getRoomPreviewById(QString roomid) const;
     QString currentRoomId() const;
+    bool hasSuppressedUpdates() const { return hasSuppressedUpdates_; }
 
     QHash<QString, komai::MatrixRoomSummary> &matrixJoinedRooms() { return matrixJoinedRooms_; }
     const QHash<QString, komai::MatrixRoomSummary> &matrixJoinedRooms() const
@@ -178,6 +179,7 @@ signals:
     void currentRoomIdChanged(QString currentRoomId);
     void currentRoomPreviewChanged();
     void fetchedPreview(QString roomid, RoomInfo info);
+    void suppressedUpdatesChanged();
     void spaceSelected(QString roomId);
 
 private:
@@ -235,7 +237,10 @@ private:
     void fetchMatrixNotificationBatch(uint64_t handleId,
                                       QVector<komai::MatrixNotificationRequest> requests);
     void applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSummary> &roomList);
+    bool matrixRoomListSnapshotDiffersFromAppliedState(
+      const QVector<komai::MatrixRoomSummary> &roomList) const;
     void resumeDeferredMatrixRoomRefresh();
+    void setHasSuppressedUpdates(bool hasSuppressedUpdates);
     static AttentionState
     attentionStateForRow(const QAbstractItemModel *model, const QModelIndex &idx);
     static GlobalExcludeState globalExcludesFromSettings(const UserSettings &settings);
@@ -261,6 +266,7 @@ private:
     // remember the target and switch once the room becomes available.
     QString pendingCurrentRoomId_;
     bool interactionSuppressed_     = false;
+    bool hasSuppressedUpdates_      = false;
     bool matrixRoomRefreshInFlight_ = false;
     bool matrixRoomRefreshPending_  = false;
     std::optional<QVector<komai::MatrixRoomSummary>> deferredMatrixRoomListSnapshot_;
@@ -289,6 +295,8 @@ class FilteredRoomlistModel final : public QSortFilterProxyModel
       QString currentRoomId READ currentRoomId NOTIFY currentRoomIdChanged RESET resetCurrentRoom)
     Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY
                  currentRoomPreviewChanged RESET resetCurrentRoom)
+    Q_PROPERTY(
+      bool hasSuppressedUpdates READ hasSuppressedUpdates NOTIFY hasSuppressedUpdatesChanged)
 public:
     FilteredRoomlistModel(RoomlistModel *model, QObject *parent = nullptr);
 
@@ -307,6 +315,7 @@ public:
     QHash<QString, FilterBadge> computeFilterBadges(const QStringList &communityIds) const;
     QString currentRoomId() const { return roomlistmodel->currentRoomId(); }
     RoomPreview currentRoomPreview() const { return roomlistmodel->currentRoomPreview(); }
+    bool hasSuppressedUpdates() const { return roomlistmodel->hasSuppressedUpdates(); }
 
 public slots:
     int roomidToIndex(QString roomid)
@@ -387,6 +396,7 @@ public slots:
 signals:
     void currentRoomIdChanged(QString currentRoomId);
     void currentRoomPreviewChanged();
+    void hasSuppressedUpdatesChanged();
 
 private:
     QModelIndex sourceRowIndex(int sourceRow) const;

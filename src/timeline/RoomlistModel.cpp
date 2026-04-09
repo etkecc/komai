@@ -365,6 +365,7 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
     pendingMatrixNotificationHandleId_ = 0;
     pendingMatrixNotificationRequests_.clear();
     deferredMatrixRoomListSnapshot_.reset();
+    setHasSuppressedUpdates(false);
 
     if (clearAllDrafts) {
         if (const auto settings = UserSettings::instance())
@@ -379,8 +380,41 @@ RoomlistModel::setInteractionSuppressed(bool suppressed)
         return;
 
     interactionSuppressed_ = suppressed;
+    setHasSuppressedUpdates(false);
     if (!interactionSuppressed_)
         resumeDeferredMatrixRoomRefresh();
+}
+
+void
+RoomlistModel::setHasSuppressedUpdates(bool hasSuppressedUpdates)
+{
+    if (hasSuppressedUpdates_ == hasSuppressedUpdates)
+        return;
+
+    hasSuppressedUpdates_ = hasSuppressedUpdates;
+    emit suppressedUpdatesChanged();
+}
+
+bool
+RoomlistModel::matrixRoomListSnapshotDiffersFromAppliedState(
+  const QVector<komai::MatrixRoomSummary> &roomList) const
+{
+    if (roomids.size() != static_cast<size_t>(roomList.size()))
+        return true;
+
+    for (int i = 0; i < roomList.size(); ++i) {
+        const auto &room = roomList.at(i);
+        if (roomids[static_cast<size_t>(i)] != room.roomId)
+            return true;
+
+        const auto currentIt = matrixJoinedRooms_.constFind(room.roomId);
+        if (currentIt == matrixJoinedRooms_.cend() ||
+            !matrixRoomSummaryEquals(currentIt.value(), room)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void
@@ -434,11 +468,6 @@ RoomlistModel::refreshMatrixBackendRooms()
         return;
     }
 
-    if (interactionSuppressed_) {
-        matrixRoomRefreshPending_ = true;
-        return;
-    }
-
     if (matrixRoomRefreshInFlight_) {
         matrixRoomRefreshPending_ = true;
         return;
@@ -476,13 +505,19 @@ RoomlistModel::startMatrixBackendRoomsRefresh(uint64_t handleId)
               if (model->interactionSuppressed_)
                   model->matrixRoomRefreshPending_ = true;
           } else if (model->interactionSuppressed_) {
-              model->deferredMatrixRoomListSnapshot_ = *result.roomList;
+              const bool hasSuppressedUpdates =
+                model->matrixRoomListSnapshotDiffersFromAppliedState(*result.roomList);
+              if (hasSuppressedUpdates)
+                  model->deferredMatrixRoomListSnapshot_ = *result.roomList;
+              else
+                  model->deferredMatrixRoomListSnapshot_.reset();
+              model->setHasSuppressedUpdates(hasSuppressedUpdates);
           } else {
               model->applyMatrixBackendRoomsSnapshot(*result.roomList);
           }
 
           if (model->matrixRoomRefreshPending_) {
-              if (model->interactionSuppressed_)
+              if (!result.roomList.has_value() && model->interactionSuppressed_)
                   return;
 
               model->matrixRoomRefreshPending_ = false;
@@ -730,6 +765,7 @@ RoomlistModel::resumeDeferredMatrixRoomRefresh()
 
     if (matrixRoomRefreshPending_) {
         deferredMatrixRoomListSnapshot_.reset();
+        setHasSuppressedUpdates(false);
         matrixRoomRefreshPending_ = false;
         refreshMatrixBackendRooms();
         return;
@@ -740,6 +776,7 @@ RoomlistModel::resumeDeferredMatrixRoomRefresh()
 
     const auto snapshot = std::move(*deferredMatrixRoomListSnapshot_);
     deferredMatrixRoomListSnapshot_.reset();
+    setHasSuppressedUpdates(false);
     applyMatrixBackendRoomsSnapshot(snapshot);
 }
 

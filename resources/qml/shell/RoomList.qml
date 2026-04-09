@@ -459,7 +459,7 @@ Page {
             RoomListFreezeIndicator {
                 id: roomListFreezeIndicator
                 roomList: roomlist
-                suppressed: roomListPage.interactionSuppressed
+                suppressed: roomListPage.interactionSuppressed && Rooms.hasSuppressedUpdates
             }
 
             footer: Column {

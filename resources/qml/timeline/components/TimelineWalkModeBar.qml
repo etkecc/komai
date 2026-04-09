@@ -308,13 +308,12 @@ Rectangle {
                     chatRoot: walkBar.chatRoot
                     navigationHost: walkBar
                     enabled: walkBar.canForward
-                    image: ":/icons/icons/ui/reply.svg"
+                    image: ":/icons/icons/ui/forward.svg"
                     labelText: qsTr("Forward")
                     nextTabTarget: walkBar.nextVisibleButton(forwardButton)
                     previousTabTarget: walkBar.previousVisibleButton(forwardButton)
                         || (walkBar.chatRoot ? walkBar.chatRoot.timelineSelectionFocusTarget() : null)
                     showLabel: walkBar.showActionLabels
-                    mirrorIcon: true
                     toolTipText: chatRoot.selectedCount > 1
                         ? qsTr("Forward selected messages [F]")
                         : qsTr("Forward message [F]")

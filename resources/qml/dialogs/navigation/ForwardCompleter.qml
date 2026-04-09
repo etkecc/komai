@@ -180,8 +180,7 @@ Popup {
                 anchors.verticalCenter: parent.verticalCenter
                 height: titleLabel.font.pixelSize
                 width: height
-                mirror: true
-                source: "image://colorimage/:/icons/icons/ui/reply.svg?" + palette.text
+                source: "image://colorimage/:/icons/icons/ui/forward.svg?" + palette.text
                 sourceSize.height: height * Screen.devicePixelRatio
                 sourceSize.width: width * Screen.devicePixelRatio
             }

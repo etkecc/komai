@@ -418,10 +418,9 @@ Item {
             id: forwardButton
 
             toolbarRef: toolbar
-            image: ":/icons/icons/ui/reply.svg"
+            image: ":/icons/icons/ui/forward.svg"
             labelText: toolbar.showActionLabels ? qsTr("Forward") : ""
             toolTipText: qsTr("Forward")
-            mirrorIcon: true
             visible: toolbar.canForward
 
             onClicked: {

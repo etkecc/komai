@@ -125,22 +125,22 @@ Menu {
         }
         Component {
             MenuItem {
+                text: qsTr("Reply in &Thread")
+                icon.source: "qrc:/icons/icons/ui/thread.svg"
+                visible: messageActionSupport.canThread(messageContextMenuRoot.effectiveMessageModel,
+                                                        messageContextMenuRoot.effectiveRoomModel)
+
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.thread = (messageContextMenuRoot.threadId || messageContextMenuRoot.eventId)
+            }
+        }
+        Component {
+            MenuItem {
                 text: qsTr("&Edit")
                 icon.source: "qrc:/icons/icons/ui/edit.svg"
                 visible: messageActionSupport.canEdit(messageContextMenuRoot.effectiveMessageModel,
                                                       messageContextMenuRoot.effectiveRoomModel)
 
                 onTriggered: messageContextMenuRoot.effectiveRoomModel.edit = (messageContextMenuRoot.eventId)
-            }
-        }
-        Component {
-            MenuItem {
-                text: qsTr("&Thread")
-                icon.source: "qrc:/icons/icons/ui/thread.svg"
-                visible: messageActionSupport.canThread(messageContextMenuRoot.effectiveMessageModel,
-                                                        messageContextMenuRoot.effectiveRoomModel)
-
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.thread = (messageContextMenuRoot.threadId || messageContextMenuRoot.eventId)
             }
         }
         Component {
@@ -159,7 +159,7 @@ Menu {
         Component {
             MenuItem {
                 text: qsTr("&Forward")
-                icon.source: "qrc:/icons/icons/ui/send.svg"
+                icon.source: "qrc:/icons/icons/ui/forward.svg"
                 visible: messageActionSupport.canForward(messageContextMenuRoot.effectiveMessageModel)
 
                 onTriggered: messageActionSupport.applyForward(messageContextMenuRoot.chatRoot,

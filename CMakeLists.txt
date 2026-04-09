@@ -627,12 +627,17 @@ endif()
 
 # Rust integration via Corrosion (matrix-sdk backend, resolvematrix, and supporting crates)
 #
-# matrix-sdk 0.16 currently fails to compile on Rust 1.94.x due an upstream
-# compiler/query-depth issue. Pin the Corrosion toolchain to 1.93.0 by default
-# so clean configs use the working toolchain automatically.
+# Corrosion's FindRust does not read rust-toolchain.toml — it picks the default
+# rustup toolchain. We parse the channel ourselves so the version is defined in
+# one place (rust-toolchain.toml) and Corrosion uses the same one.
 if(NOT DEFINED Rust_TOOLCHAIN)
-    # Map CMake's host architecture to the Rust target triple so this works on
-    # both x86_64 and aarch64 (and potentially others) without manual override.
+    file(READ "${CMAKE_CURRENT_SOURCE_DIR}/rust-toolchain.toml" _rust_toolchain_toml)
+    string(REGEX MATCH "channel *= *\"([^\"]+)\"" _rust_channel_match "${_rust_toolchain_toml}")
+    if(NOT CMAKE_MATCH_1)
+        message(FATAL_ERROR "Could not parse channel from rust-toolchain.toml")
+    endif()
+    set(_rust_channel "${CMAKE_MATCH_1}")
+
     if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
         set(_rust_host_triple "aarch64-unknown-linux-gnu")
     elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
@@ -640,7 +645,7 @@ if(NOT DEFINED Rust_TOOLCHAIN)
     else()
         set(_rust_host_triple "${CMAKE_HOST_SYSTEM_PROCESSOR}-unknown-linux-gnu")
     endif()
-    set(Rust_TOOLCHAIN "1.93.0-${_rust_host_triple}" CACHE STRING
+    set(Rust_TOOLCHAIN "${_rust_channel}-${_rust_host_triple}" CACHE STRING
         "Rust toolchain used by Corrosion"
     )
 endif()

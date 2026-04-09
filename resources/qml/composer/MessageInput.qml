@@ -230,8 +230,9 @@ Rectangle {
         enabled: inputBar.hasVoiceRecording
         onActivated: {
             // Cycle: voiceButton → play/finalize → trash → sendButton → voiceButton
-            var previewBtn = voicePreview.focusableButton;
-            var trashBtn = voicePreview.deleteButton;
+            var voicePreview = voicePreviewLoader.item;
+            var previewBtn = voicePreview ? voicePreview.focusableButton : null;
+            var trashBtn = voicePreview ? voicePreview.deleteButton : null;
             if (voiceButton.activeFocus && previewBtn)
                 previewBtn.forceActiveFocus(Qt.TabFocusReason);
             else if ((voiceButton.activeFocus || (previewBtn && previewBtn.activeFocus)) && trashBtn)
@@ -249,8 +250,9 @@ Rectangle {
         sequence: "Shift+Tab"
         enabled: inputBar.hasVoiceRecording
         onActivated: {
-            var previewBtn = voicePreview.focusableButton;
-            var trashBtn = voicePreview.deleteButton;
+            var voicePreview = voicePreviewLoader.item;
+            var previewBtn = voicePreview ? voicePreview.focusableButton : null;
+            var trashBtn = voicePreview ? voicePreview.deleteButton : null;
             if (sendButton.activeFocus && trashBtn)
                 trashBtn.forceActiveFocus(Qt.TabFocusReason);
             else if (trashBtn && trashBtn.activeFocus && previewBtn)
@@ -314,14 +316,16 @@ Rectangle {
             showAllButtons: inputBar.showAllButtons
             composerHasText: messageInput.length > 0 || inputBar.hasUploads
         }
-        ComposerVoicePreview {
-            id: voicePreview
+        Loader {
+            id: voicePreviewLoader
 
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
             Layout.leftMargin: Komai.paddingSmall
             Layout.rightMargin: Komai.paddingSmall
-            visible: inputBar.hasVoiceRecording
+            active: inputBar.hasVoiceRecording
+            visible: active
+            sourceComponent: ComposerVoicePreview {}
         }
         ScrollView {
             id: textInput

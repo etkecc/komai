@@ -108,7 +108,7 @@ Item {
                             Layout.topMargin: r.index === 0 ? Komai.paddingMedium : Komai.paddingLarge
                             Layout.bottomMargin: Komai.paddingSmall
                             visible: r.model.type == UserSettingsModel.SectionTitle
-                            label: r.model.name
+                            label: r.model.name ?? ""
                             helperText: {
                                 if (r.model.tagId === "notifications-system-section"
                                         && Settings.hasActiveSession
@@ -166,7 +166,7 @@ Item {
                                     Layout.minimumWidth: 0
                                     color: rowHover.hovered ? palette.brightText : palette.text
                                     linkColor: palette.highlight
-                                    text: r.model.name
+                                    text: r.model.name ?? ""
                                     textFormat: Text.AutoText
                                     font.pointSize: 1.1 * Settings.uiFontSizePt
                                     wrapMode: Text.Wrap

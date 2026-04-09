@@ -91,7 +91,7 @@ Page {
 
     function updateInteractionSuppression() {
         interactionSuppressed = visible
-            && (roomListInteractionHoverHandler.hovered || roomlist.activeFocus || roomListFreezeIndicator.indicatorHovered);
+            && (roomListInteractionHoverHandler.hovered || roomlist.activeFocus || roomListFreezeIndicator.indicatorHovered || roomListContextMenu.visible);
         Rooms.setInteractionSuppressed(interactionSuppressed);
     }
 
@@ -450,6 +450,7 @@ Page {
 
                 timelineRoot: roomListPage.timelineRoot
                 roomWindowComponent: roomWindowComponent
+                onVisibleChanged: roomListPage.updateInteractionSuppression()
             }
             RoomListToTopButton {
                 roomList: roomlist

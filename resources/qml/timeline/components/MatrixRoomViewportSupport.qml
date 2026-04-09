@@ -28,43 +28,27 @@ QtObject {
     }
 
     function scheduleInitialTimelineBufferCheck() {
-        rootItem.initialBufferCheckGeneration += 1;
         if (rootItem.initialBufferCheckQueued)
             return;
 
         rootItem.initialBufferCheckQueued = true;
-        const scheduledGeneration = rootItem.initialBufferCheckGeneration;
         Qt.callLater(function() {
             if (support.destroyed)
                 return;
             rootItem.initialBufferCheckQueued = false;
-            if (scheduledGeneration !== rootItem.initialBufferCheckGeneration) {
-                if (rootItem.initialTimelineBufferPending)
-                    support.scheduleInitialTimelineBufferCheck();
-                return;
-            }
-
             support.maybeRequestInitialTimelineBuffer();
         });
     }
 
     function scheduleDeferredInitialTimelineBufferCheck() {
-        rootItem.deferredBufferCheckGeneration += 1;
         if (rootItem.deferredBufferCheckQueued)
             return;
 
         rootItem.deferredBufferCheckQueued = true;
-        const scheduledGeneration = rootItem.deferredBufferCheckGeneration;
         Qt.callLater(function() {
             if (support.destroyed)
                 return;
             rootItem.deferredBufferCheckQueued = false;
-            if (scheduledGeneration !== rootItem.deferredBufferCheckGeneration) {
-                if (rootItem.deferredInitialBufferTopUpPending)
-                    support.scheduleDeferredInitialTimelineBufferCheck();
-                return;
-            }
-
             support.maybeRequestDeferredInitialTimelineBuffer();
         });
     }
@@ -308,7 +292,6 @@ QtObject {
                 rootItem.deferredInitialBufferTopUpPending = false;
                 rootItem.bufferPaginationInFlight = false;
                 rootItem.lastInitialBufferTriggerCount = -1;
-                rootItem.deferredBufferCheckGeneration += 1;
                 rootItem.deferredBufferCheckQueued = false;
                 return;
             }

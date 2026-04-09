@@ -90,8 +90,6 @@ ColumnLayout {
     property bool bufferPaginationInFlight: false
     property bool initialBufferCheckQueued: false
     property bool deferredBufferCheckQueued: false
-    property int initialBufferCheckGeneration: 0
-    property int deferredBufferCheckGeneration: 0
     property bool perfLoggedCountNonZero: false
     property bool perfLoggedContentHeightReady: false
     property bool perfLoggedUsefulHeightReady: false

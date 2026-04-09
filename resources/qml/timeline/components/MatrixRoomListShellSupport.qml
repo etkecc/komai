@@ -136,7 +136,6 @@ QtObject {
                 rootItem.initialTimelineBufferPending = false;
             if (rootItem.deferredInitialBufferTopUpPending)
                 rootItem.deferredInitialBufferTopUpPending = false;
-            rootItem.deferredBufferCheckGeneration += 1;
             rootItem.deferredBufferCheckQueued = false;
         }
 
@@ -185,7 +184,6 @@ QtObject {
                 rootItem.initialTimelineBufferPending = false;
             if (rootItem.deferredInitialBufferTopUpPending)
                 rootItem.deferredInitialBufferTopUpPending = false;
-            rootItem.deferredBufferCheckGeneration += 1;
             rootItem.deferredBufferCheckQueued = false;
         }
     }

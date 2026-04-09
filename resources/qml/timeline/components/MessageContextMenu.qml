@@ -44,6 +44,9 @@ Menu {
             "isEditable": isEditable,
             "isStateEvent": isStateEvent
         })
+    readonly property bool hasFormattedBody: effectiveRoomModel
+        && typeof effectiveRoomModel.dataById === "function"
+        && !!effectiveRoomModel.dataById(eventId, Room.HasFormattedBody, false)
 
     function wasJustClosedFor(eventId_, anchor_) {
         if (!eventId_ || !anchor_)
@@ -109,9 +112,140 @@ Menu {
     KomaiMenuVisibilityFilter on contentData {
         id: messageActionsFilter
 
+        // --- Compose section ---
+        Component {
+            MenuItem {
+                text: qsTr("Repl&y")
+                icon.source: "qrc:/icons/icons/ui/reply.svg"
+                visible: messageActionSupport.canReply(messageContextMenuRoot.effectiveMessageModel,
+                                                       messageContextMenuRoot.effectiveRoomModel)
+
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.reply = (messageContextMenuRoot.eventId)
+            }
+        }
+        Component {
+            MenuItem {
+                text: qsTr("&Edit")
+                icon.source: "qrc:/icons/icons/ui/edit.svg"
+                visible: messageActionSupport.canEdit(messageContextMenuRoot.effectiveMessageModel,
+                                                      messageContextMenuRoot.effectiveRoomModel)
+
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.edit = (messageContextMenuRoot.eventId)
+            }
+        }
+        Component {
+            MenuItem {
+                text: qsTr("&Thread")
+                icon.source: "qrc:/icons/icons/ui/thread.svg"
+                visible: messageActionSupport.canThread(messageContextMenuRoot.effectiveMessageModel,
+                                                        messageContextMenuRoot.effectiveRoomModel)
+
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.thread = (messageContextMenuRoot.threadId || messageContextMenuRoot.eventId)
+            }
+        }
+        Component {
+            MenuItem {
+                text: qsTr("Re&act")
+                icon.source: "qrc:/icons/icons/ui/smile-add.svg"
+                visible: messageActionSupport.canReact(messageContextMenuRoot.effectiveMessageModel,
+                                                       messageContextMenuRoot.effectiveRoomModel)
+
+                onTriggered: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(null, messageContextMenuRoot.effectiveRoomModel.roomId, function (plaintext, markdown) {
+                    messageContextMenuRoot.effectiveRoomModel.input.reaction(messageContextMenuRoot.eventId, plaintext);
+                    TimelineManager.focusMessageInput();
+                })
+            }
+        }
+        Component {
+            MenuItem {
+                text: qsTr("&Forward")
+                icon.source: "qrc:/icons/icons/ui/send.svg"
+                visible: messageActionSupport.canForward(messageContextMenuRoot.effectiveMessageModel)
+
+                onTriggered: messageActionSupport.applyForward(messageContextMenuRoot.chatRoot,
+                                                               messageContextMenuRoot.effectiveRoomModel,
+                                                               messageContextMenuRoot.effectiveMessageModel)
+            }
+        }
+
+        // --- Separator: Compose / Clipboard ---
+        Component {
+            MenuSeparator {
+                visible: messageActionSupport.canReply(messageContextMenuRoot.effectiveMessageModel, messageContextMenuRoot.effectiveRoomModel)
+                    || messageActionSupport.canEdit(messageContextMenuRoot.effectiveMessageModel, messageContextMenuRoot.effectiveRoomModel)
+                    || messageActionSupport.canThread(messageContextMenuRoot.effectiveMessageModel, messageContextMenuRoot.effectiveRoomModel)
+                    || messageActionSupport.canReact(messageContextMenuRoot.effectiveMessageModel, messageContextMenuRoot.effectiveRoomModel)
+                    || messageActionSupport.canForward(messageContextMenuRoot.effectiveMessageModel)
+            }
+        }
+
+        // --- Clipboard section ---
+        Component {
+            MenuItem {
+                text: qsTr("&Copy")
+                icon.source: "qrc:/icons/icons/ui/copy.svg"
+                visible: messageContextMenuRoot.text
+
+                onTriggered: Clipboard.text = messageContextMenuRoot.text
+            }
+        }
+        Component {
+            MenuItem {
+                text: qsTr("Copy formatted text")
+                icon.source: "qrc:/icons/icons/ui/copy.svg"
+                visible: messageContextMenuRoot.hasFormattedBody
+
+                onTriggered: Clipboard.text = messageContextMenuRoot.effectiveRoomModel.dataById(messageContextMenuRoot.eventId, Room.FormattedBody, "")
+            }
+        }
+        Component {
+            MenuItem {
+                text: qsTr("Copy &link location")
+                icon.source: "qrc:/icons/icons/ui/link.svg"
+                visible: messageContextMenuRoot.link
+
+                onTriggered: Clipboard.text = messageContextMenuRoot.link
+            }
+        }
+        Component {
+            MenuItem {
+                text: qsTr("Copy link to eve&nt")
+                icon.source: "qrc:/icons/icons/ui/link.svg"
+                visible: messageActionSupport.canCopyEventLink(messageContextMenuRoot.effectiveMessageModel,
+                                                               messageContextMenuRoot.effectiveRoomModel)
+
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.copyLinkToEvent(messageContextMenuRoot.eventId)
+            }
+        }
+
+        // --- Separator: Clipboard / Manage ---
+        Component {
+            MenuSeparator {
+                visible: messageContextMenuRoot.text
+                    || messageContextMenuRoot.hasFormattedBody
+                    || messageContextMenuRoot.link
+                    || messageActionSupport.canCopyEventLink(messageContextMenuRoot.effectiveMessageModel, messageContextMenuRoot.effectiveRoomModel)
+            }
+        }
+
+        // --- Manage section ---
+        Component {
+            MenuItem {
+                text: visible && messageContextMenuRoot.effectiveRoomModel.pinnedMessages.includes(messageContextMenuRoot.eventId) ? qsTr("Un&pin") : qsTr("&Pin")
+                icon.source: visible && messageContextMenuRoot.effectiveRoomModel.pinnedMessages.includes(messageContextMenuRoot.eventId)
+                    ? "qrc:/icons/icons/ui/pin-off.svg" : "qrc:/icons/icons/ui/pin.svg"
+                visible: messageActionSupport.canPin(messageContextMenuRoot.effectiveMessageModel,
+                                                     messageContextMenuRoot.effectiveRoomModel)
+
+                onTriggered: visible && messageContextMenuRoot.effectiveRoomModel.pinnedMessages.includes(messageContextMenuRoot.eventId)
+                    ? messageContextMenuRoot.effectiveRoomModel.unpin(messageContextMenuRoot.eventId)
+                    : messageContextMenuRoot.effectiveRoomModel.pin(messageContextMenuRoot.eventId)
+            }
+        }
         Component {
             MenuItem {
                 text: qsTr("Go to &message")
+                icon.source: "qrc:/icons/icons/ui/go-to.svg"
                 visible: messageActionSupport.canGoToMessage(messageContextMenuRoot.effectiveMessageModel,
                                                              filteredTimelineModel)
 
@@ -124,77 +258,50 @@ Menu {
                 }
             }
         }
+
+        // --- Separator: Manage / Media ---
+        Component {
+            MenuSeparator {
+                visible: messageActionSupport.canPin(messageContextMenuRoot.effectiveMessageModel, messageContextMenuRoot.effectiveRoomModel)
+                    || messageActionSupport.canGoToMessage(messageContextMenuRoot.effectiveMessageModel, filteredTimelineModel)
+            }
+        }
+
+        // --- Media section ---
         Component {
             MenuItem {
-                text: qsTr("&Copy")
-                visible: messageContextMenuRoot.text
+                text: qsTr("&Save as")
+                icon.source: "qrc:/icons/icons/ui/download.svg"
+                visible: messageActionSupport.canSaveMedia(messageContextMenuRoot.effectiveMessageModel,
+                                                           messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: Clipboard.text = messageContextMenuRoot.text
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.saveMedia(messageContextMenuRoot.eventId)
             }
         }
         Component {
             MenuItem {
-                text: qsTr("Copy &link location")
-                visible: messageContextMenuRoot.link
+                text: qsTr("&Open in external program")
+                icon.source: "qrc:/icons/icons/ui/open-externally.svg"
+                visible: messageActionSupport.canOpenMedia(messageContextMenuRoot.effectiveMessageModel,
+                                                           messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: Clipboard.text = messageContextMenuRoot.link
+                onTriggered: messageContextMenuRoot.effectiveRoomModel.openMedia(messageContextMenuRoot.eventId)
             }
         }
+
+        // --- Separator: Media / Inspect ---
         Component {
-            MenuItem {
-                id: reactionOption
-
-                text: qsTr("Re&act")
-                visible: messageActionSupport.canReact(messageContextMenuRoot.effectiveMessageModel,
-                                                       messageContextMenuRoot.effectiveRoomModel)
-
-                onTriggered: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(null, messageContextMenuRoot.effectiveRoomModel.roomId, function (plaintext, markdown) {
-                    messageContextMenuRoot.effectiveRoomModel.input.reaction(messageContextMenuRoot.eventId, plaintext);
-                    TimelineManager.focusMessageInput();
-                })
+            MenuSeparator {
+                visible: messageActionSupport.canSaveMedia(messageContextMenuRoot.effectiveMessageModel, messageContextMenuRoot.effectiveRoomModel)
+                    || messageActionSupport.canOpenMedia(messageContextMenuRoot.effectiveMessageModel, messageContextMenuRoot.effectiveRoomModel)
             }
         }
-        Component {
-            MenuItem {
-                text: qsTr("Repl&y")
-                visible: messageActionSupport.canReply(messageContextMenuRoot.effectiveMessageModel,
-                                                       messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.reply = (messageContextMenuRoot.eventId)
-            }
-        }
-        Component {
-            MenuItem {
-                text: qsTr("&Edit")
-                visible: messageActionSupport.canEdit(messageContextMenuRoot.effectiveMessageModel,
-                                                      messageContextMenuRoot.effectiveRoomModel)
-
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.edit = (messageContextMenuRoot.eventId)
-            }
-        }
-        Component {
-            MenuItem {
-                text: qsTr("&Thread")
-                visible: messageActionSupport.canThread(messageContextMenuRoot.effectiveMessageModel,
-                                                        messageContextMenuRoot.effectiveRoomModel)
-
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.thread = (messageContextMenuRoot.threadId || messageContextMenuRoot.eventId)
-            }
-        }
-        Component {
-            MenuItem {
-                text: visible && messageContextMenuRoot.effectiveRoomModel.pinnedMessages.includes(messageContextMenuRoot.eventId) ? qsTr("Un&pin") : qsTr("&Pin")
-                visible: messageActionSupport.canPin(messageContextMenuRoot.effectiveMessageModel,
-                                                     messageContextMenuRoot.effectiveRoomModel)
-
-                onTriggered: visible && messageContextMenuRoot.effectiveRoomModel.pinnedMessages.includes(messageContextMenuRoot.eventId)
-                    ? messageContextMenuRoot.effectiveRoomModel.unpin(messageContextMenuRoot.eventId)
-                    : messageContextMenuRoot.effectiveRoomModel.pin(messageContextMenuRoot.eventId)
-            }
-        }
+        // --- Inspect section ---
         Component {
             MenuItem {
                 text: qsTr("&Read receipts")
+                icon.source: "qrc:/icons/icons/ui/eye-show.svg"
                 visible: messageActionSupport.canReadReceipts(messageContextMenuRoot.effectiveMessageModel,
                                                               messageContextMenuRoot.effectiveRoomModel)
 
@@ -203,26 +310,8 @@ Menu {
         }
         Component {
             MenuItem {
-                text: qsTr("&Forward")
-                visible: messageActionSupport.canForward(messageContextMenuRoot.effectiveMessageModel)
-
-                onTriggered: messageActionSupport.applyForward(messageContextMenuRoot.chatRoot,
-                                                               messageContextMenuRoot.effectiveRoomModel,
-                                                               messageContextMenuRoot.effectiveMessageModel)
-            }
-        }
-        Component {
-            MenuItem {
-                text: qsTr("&Mark as read")
-                visible: messageActionSupport.canMarkAsRead(messageContextMenuRoot.effectiveMessageModel,
-                                                            messageContextMenuRoot.effectiveRoomModel)
-
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.markEventAsRead(messageContextMenuRoot.eventId)
-            }
-        }
-        Component {
-            MenuItem {
                 text: qsTr("View raw message")
+                icon.source: "qrc:/icons/icons/ui/raw-message.svg"
                 visible: messageActionSupport.canViewRaw(messageContextMenuRoot.effectiveMessageModel)
 
                 onTriggered: messageContextMenuRoot.effectiveRoomModel.viewRawMessage(messageContextMenuRoot.eventId)
@@ -231,24 +320,27 @@ Menu {
         Component {
             MenuItem {
                 text: qsTr("View decrypted raw message")
+                icon.source: "qrc:/icons/icons/ui/raw-message.svg"
                 visible: messageContextMenuRoot.isEncrypted
                     && messageActionSupport.canViewRaw(messageContextMenuRoot.effectiveMessageModel)
 
                 onTriggered: messageContextMenuRoot.effectiveRoomModel.viewDecryptedRawMessage(messageContextMenuRoot.eventId)
             }
         }
-        Component {
-            MenuItem {
-                text: qsTr("&Delete message")
-                visible: messageActionSupport.canRemove(messageContextMenuRoot.effectiveMessageModel,
-                                                        messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: chatRoot.openRemoveMessageDialog(messageContextMenuRoot.eventId)
+        // --- Separator: Inspect / Moderate ---
+        Component {
+            MenuSeparator {
+                visible: messageActionSupport.canReadReceipts(messageContextMenuRoot.effectiveMessageModel, messageContextMenuRoot.effectiveRoomModel)
+                    || messageActionSupport.canViewRaw(messageContextMenuRoot.effectiveMessageModel)
             }
         }
+
+        // --- Moderate section ---
         Component {
             MenuItem {
                 text: qsTr("Report message")
+                icon.source: "qrc:/icons/icons/ui/alert.svg"
                 visible: messageActionSupport.canReport(messageContextMenuRoot.effectiveMessageModel, chatRoot)
 
                 onTriggered: function () {
@@ -261,29 +353,12 @@ Menu {
         }
         Component {
             MenuItem {
-                text: qsTr("&Save as")
-                visible: messageActionSupport.canSaveMedia(messageContextMenuRoot.effectiveMessageModel,
-                                                           messageContextMenuRoot.effectiveRoomModel)
+                text: qsTr("&Delete message")
+                icon.source: "qrc:/icons/icons/ui/delete.svg"
+                visible: messageActionSupport.canRemove(messageContextMenuRoot.effectiveMessageModel,
+                                                        messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.saveMedia(messageContextMenuRoot.eventId)
-            }
-        }
-        Component {
-            MenuItem {
-                text: qsTr("&Open in external program")
-                visible: messageActionSupport.canOpenMedia(messageContextMenuRoot.effectiveMessageModel,
-                                                           messageContextMenuRoot.effectiveRoomModel)
-
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.openMedia(messageContextMenuRoot.eventId)
-            }
-        }
-        Component {
-            MenuItem {
-                text: qsTr("Copy link to eve&nt")
-                visible: messageActionSupport.canCopyEventLink(messageContextMenuRoot.effectiveMessageModel,
-                                                               messageContextMenuRoot.effectiveRoomModel)
-
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.copyLinkToEvent(messageContextMenuRoot.eventId)
+                onTriggered: chatRoot.openRemoveMessageDialog(messageContextMenuRoot.eventId)
             }
         }
     }

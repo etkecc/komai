@@ -19,7 +19,7 @@ RoomHeaderActionButton {
     image: ":/icons/icons/ui/pin.svg"
     labelText: qsTr("Pins (%1)").arg(pinCount)
     showLabel: showTextLabel
-    visible: !!room && pinCount > 0
+    visible: !!room
 
     onClicked: {
         const component = Qt.createComponent("qrc:/resources/qml/dialogs/timeline/PinnedMessagesDialog.qml");

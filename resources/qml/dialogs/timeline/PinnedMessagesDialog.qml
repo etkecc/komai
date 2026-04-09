@@ -19,7 +19,7 @@ OverlayDialog {
 
     readonly property int pinCount: room ? room.pinnedMessages.length : 0
 
-    title: qsTr("Pinned messages (%1)").arg(pinCount)
+    title: pinCount > 0 ? qsTr("Pinned messages (%1)").arg(pinCount) : qsTr("Pinned messages")
     titleIcon: ":/icons/icons/ui/pin.svg"
     overlayDialogMaxWidthRatio: 0.8
     width: {
@@ -30,12 +30,7 @@ OverlayDialog {
         return Math.min(viewportMax, ratioMax);
     }
 
-    onPinCountChanged: {
-        if (pinCount === 0)
-            root.close();
-        else
-            rebuildModel();
-    }
+    onPinCountChanged: rebuildModel()
 
     Component.onCompleted: rebuildModel()
 
@@ -205,13 +200,29 @@ OverlayDialog {
         delegate: styleDelegateFor(Settings.timelineMessagesStyle, Settings.timelineMessagesLayoutPositioning)
     }
 
-    Label {
+    ColumnLayout {
         Layout.fillWidth: true
-        Layout.alignment: Qt.AlignHCenter
-        horizontalAlignment: Text.AlignHCenter
-        text: qsTr("No pinned messages")
-        color: palette.buttonText
-        font.pointSize: Settings.uiFontSizePt
+        Layout.topMargin: Komai.paddingMedium
+        Layout.bottomMargin: Komai.paddingMedium
+        spacing: Komai.paddingSmall
         visible: !root.room || root.room.pinnedMessages.length === 0
+
+        Label {
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("No pinned messages")
+            color: palette.buttonText
+            font.pointSize: Settings.uiFontSizePt * 1.2
+            font.bold: true
+        }
+
+        Label {
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("Important messages can be pinned (if you have privileges to do so) and they will show up here.")
+            color: palette.placeholderText
+            font.pointSize: Settings.uiFontSizePt
+            wrapMode: Text.WordWrap
+        }
     }
 }

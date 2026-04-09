@@ -29,7 +29,7 @@ ApplicationWindow {
     Component.onDestruction: MainWindow.removePerRoomWindow(effectiveRoomId, roomWindowW)
 
     Shortcut {
-        sequence: StandardKey.Cancel
+        sequences: [StandardKey.Cancel]
 
         onActivated: roomWindowW.close()
     }

@@ -54,7 +54,7 @@
         <file alias="icons/ui/speech-bubbles.svg">icons/fluent/assets/Chat Multiple/SVG/ic_fluent_chat_multiple_24_regular.svg</file>
         <file alias="icons/ui/star.svg">icons/fluent/assets/Star/SVG/ic_fluent_star_28_regular.svg</file>
         <file alias="icons/ui/sticky-note-solid.svg">icons/fluent/assets/Sticker/SVG/ic_fluent_sticker_24_regular.svg</file>
-        <file alias="icons/ui/tag.svg">icons/fluent/assets/Tag/SVG/ic_fluent_tag_32_regular.svg</file>
+        <file alias="icons/ui/tag.svg">icons/fluent/assets/Tag/SVG/ic_fluent_tag_24_regular.svg</file>
         <file alias="icons/ui/video-file.svg">icons/fluent/assets/Video Clip/SVG/ic_fluent_video_clip_24_regular.svg</file>
         <file alias="icons/ui/video.svg">icons/fluent/assets/Video/SVG/ic_fluent_video_32_regular.svg</file>
         <file alias="icons/ui/volume-off-indicator.svg">icons/fluent/assets/Speaker Mute/SVG/ic_fluent_speaker_mute_28_regular.svg</file>
@@ -117,6 +117,7 @@
         <file alias="icons/ui/heart-color.svg">icons/fluent/assets/Heart/SVG/ic_fluent_heart_24_color.svg</file>
         <file alias="icons/ui/mic-record.svg">icons/fluent/assets/Mic/SVG/ic_fluent_mic_24_regular.svg</file>
         <file alias="icons/ui/pause-circle.svg">icons/fluent/assets/Pause Circle/SVG/ic_fluent_pause_circle_20_regular.svg</file>
+        <file alias="icons/ui/window-new.svg">icons/fluent/assets/Window New/SVG/ic_fluent_window_new_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

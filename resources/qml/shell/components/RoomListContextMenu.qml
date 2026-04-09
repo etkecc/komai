@@ -40,6 +40,7 @@ Menu {
     }
     MenuItem {
         text: qsTr("Open in new window")
+        icon.source: "qrc:/icons/icons/ui/window-new.svg"
 
         onTriggered: {
             var roomWindow = root.roomWindowComponent.createObject(null, {
@@ -51,6 +52,7 @@ Menu {
     }
     MenuItem {
         text: qsTr("Copy room link")
+        icon.source: "qrc:/icons/icons/ui/copy.svg"
 
         onTriggered: Rooms.copyLink(root.roomid)
     }
@@ -58,6 +60,7 @@ Menu {
         id: tagsMenu
 
         title: qsTr("Tag room as:")
+        icon.source: "qrc:/icons/icons/ui/tag.svg"
 
         Instantiator {
             model: Communities.tagsWithDefault
@@ -94,11 +97,13 @@ Menu {
     }
     MenuItem {
         text: qsTr("Room settings")
+        icon.source: "qrc:/icons/icons/ui/settings.svg"
 
         onTriggered: TimelineManager.openRoomInfo(root.roomid, "settings")
     }
     MenuItem {
         text: qsTr("Leave room")
+        icon.source: "qrc:/icons/icons/ui/power-off.svg"
 
         onTriggered: TimelineManager.openLeaveRoomDialog(root.roomid)
     }

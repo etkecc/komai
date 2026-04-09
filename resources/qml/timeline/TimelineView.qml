@@ -227,7 +227,7 @@ Item {
         anchors.fill: parent
         shouldEffectsRun: timelineView.shouldEffectsRun
         animationsEnabled: Settings.uiMotionAnimationsEnabled
-        visible: !timelineView.perfDisableTimelineEffects
+        visible: timelineView.shouldEffectsRun && !timelineView.perfDisableTimelineEffects
     }
     Connections {
         target: TimelineManager.matrixTimelineModel

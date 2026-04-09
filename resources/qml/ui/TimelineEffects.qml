@@ -88,6 +88,8 @@ Item {
         if (!effectNames || effectNames.length === 0)
             return;
 
+        particleSystem.running = true;
+
         const repeatLightning = effectNames.indexOf("rainfall") !== -1
             && effectNames.indexOf("lightning") !== -1;
 
@@ -159,6 +161,7 @@ Item {
     {
         resetOverlays();
         particleSystem.reset();
+        particleSystem.running = false;
     }
 
     function triggerConfetti()
@@ -312,6 +315,7 @@ Item {
         id: particleSystem
 
         anchors.fill: parent
+        running: false
     }
 
     Emitter {

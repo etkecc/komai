@@ -5,9 +5,13 @@
 #include "voip/VoiceRecorder.h"
 
 #include <QAudioFormat>
+#include <QAudioInput>
+#include <QAudioSource>
 #include <QDir>
+#include <QMediaCaptureSession>
 #include <QMediaDevices>
 #include <QMediaFormat>
+#include <QMediaRecorder>
 #include <QStandardPaths>
 #include <QUuid>
 
@@ -18,36 +22,54 @@
 VoiceRecorder::VoiceRecorder(QObject *parent)
   : QObject(parent)
 {
-    captureSession_.setAudioInput(&audioInput_);
-    captureSession_.setRecorder(&recorder_);
-
-    recorder_.setMediaFormat([] {
-        QMediaFormat fmt;
-        fmt.setFileFormat(QMediaFormat::Ogg);
-        fmt.setAudioCodec(QMediaFormat::AudioCodec::Opus);
-        return fmt;
-    }());
-    recorder_.setQuality(QMediaRecorder::NormalQuality);
-
     durationTimer_.setInterval(100);
     connect(&durationTimer_, &QTimer::timeout, this, [this] {
-        durationMs_ = static_cast<int>(recorder_.duration());
+        durationMs_ = static_cast<int>(recorder_->duration());
         emit durationChanged();
         // Accumulate current audio level as a waveform sample
         waveformSamples_.append(audioLevel_);
         emit waveformSamplesChanged();
     });
+}
 
-    connect(&recorder_, &QMediaRecorder::recorderStateChanged, this, [this](auto state) {
+VoiceRecorder::~VoiceRecorder()
+{
+    if (recorder_ && recorder_->recorderState() != QMediaRecorder::StoppedState)
+        recorder_->stop();
+    cleanupTempFile();
+}
+
+void
+VoiceRecorder::ensureInitialized()
+{
+    if (recorder_)
+        return;
+
+    audioInput_     = new QAudioInput(this);
+    captureSession_ = new QMediaCaptureSession(this);
+    recorder_       = new QMediaRecorder(this);
+
+    captureSession_->setAudioInput(audioInput_);
+    captureSession_->setRecorder(recorder_);
+
+    recorder_->setMediaFormat([] {
+        QMediaFormat fmt;
+        fmt.setFileFormat(QMediaFormat::Ogg);
+        fmt.setAudioCodec(QMediaFormat::AudioCodec::Opus);
+        return fmt;
+    }());
+    recorder_->setQuality(QMediaRecorder::NormalQuality);
+
+    connect(recorder_, &QMediaRecorder::recorderStateChanged, this, [this](auto state) {
         if (state == QMediaRecorder::StoppedState && stopped_) {
             durationTimer_.stop();
-            durationMs_ = static_cast<int>(recorder_.duration());
+            durationMs_ = static_cast<int>(recorder_->duration());
             emit durationChanged();
         }
         emit stateChanged();
     });
 
-    connect(&recorder_,
+    connect(recorder_,
             &QMediaRecorder::errorOccurred,
             this,
             [this](QMediaRecorder::Error error, const QString &errorString) {
@@ -57,23 +79,16 @@ VoiceRecorder::VoiceRecorder(QObject *parent)
             });
 }
 
-VoiceRecorder::~VoiceRecorder()
-{
-    if (recorder_.recorderState() != QMediaRecorder::StoppedState)
-        recorder_.stop();
-    cleanupTempFile();
-}
-
 bool
 VoiceRecorder::recording() const
 {
-    return recorder_.recorderState() == QMediaRecorder::RecordingState;
+    return recorder_ && recorder_->recorderState() == QMediaRecorder::RecordingState;
 }
 
 bool
 VoiceRecorder::paused() const
 {
-    return recorder_.recorderState() == QMediaRecorder::PausedState;
+    return recorder_ && recorder_->recorderState() == QMediaRecorder::PausedState;
 }
 
 bool
@@ -134,7 +149,9 @@ VoiceRecorder::normalizedWaveform(int targetSamples) const
 void
 VoiceRecorder::startRecording()
 {
-    if (recorder_.recorderState() != QMediaRecorder::StoppedState) {
+    ensureInitialized();
+
+    if (recorder_->recorderState() != QMediaRecorder::StoppedState) {
         nhlog::ui()->warn("VoiceRecorder::startRecording called while already recording");
         return;
     }
@@ -150,8 +167,8 @@ VoiceRecorder::startRecording()
     filePath_          = tempDir + QStringLiteral("/komai-voice-") +
                 QUuid::createUuid().toString(QUuid::Id128) + QStringLiteral(".ogg");
 
-    recorder_.setOutputLocation(QUrl::fromLocalFile(filePath_));
-    recorder_.record();
+    recorder_->setOutputLocation(QUrl::fromLocalFile(filePath_));
+    recorder_->record();
     durationTimer_.start();
     startLevelMonitor();
     emit stateChanged();
@@ -160,13 +177,13 @@ VoiceRecorder::startRecording()
 void
 VoiceRecorder::pauseRecording()
 {
-    if (recorder_.recorderState() != QMediaRecorder::RecordingState)
+    if (!recorder_ || recorder_->recorderState() != QMediaRecorder::RecordingState)
         return;
 
-    recorder_.pause();
+    recorder_->pause();
     durationTimer_.stop();
     stopLevelMonitor();
-    durationMs_ = static_cast<int>(recorder_.duration());
+    durationMs_ = static_cast<int>(recorder_->duration());
     emit durationChanged();
     emit stateChanged();
 }
@@ -174,10 +191,10 @@ VoiceRecorder::pauseRecording()
 void
 VoiceRecorder::resumeRecording()
 {
-    if (recorder_.recorderState() != QMediaRecorder::PausedState)
+    if (!recorder_ || recorder_->recorderState() != QMediaRecorder::PausedState)
         return;
 
-    recorder_.record();
+    recorder_->record();
     durationTimer_.start();
     startLevelMonitor();
     emit stateChanged();
@@ -186,20 +203,20 @@ VoiceRecorder::resumeRecording()
 void
 VoiceRecorder::stopRecording()
 {
-    if (recorder_.recorderState() == QMediaRecorder::StoppedState)
+    if (!recorder_ || recorder_->recorderState() == QMediaRecorder::StoppedState)
         return;
 
     stopped_ = true;
     stopLevelMonitor();
-    recorder_.stop();
+    recorder_->stop();
     // stateChanged emitted via the recorderStateChanged connection
 }
 
 void
 VoiceRecorder::discardRecording()
 {
-    if (recorder_.recorderState() != QMediaRecorder::StoppedState)
-        recorder_.stop();
+    if (recorder_ && recorder_->recorderState() != QMediaRecorder::StoppedState)
+        recorder_->stop();
 
     stopped_    = false;
     durationMs_ = 0;
@@ -216,8 +233,8 @@ void
 VoiceRecorder::releaseRecording()
 {
     // Reset state without deleting the temp file (caller takes ownership).
-    if (recorder_.recorderState() != QMediaRecorder::StoppedState)
-        recorder_.stop();
+    if (recorder_ && recorder_->recorderState() != QMediaRecorder::StoppedState)
+        recorder_->stop();
 
     stopped_    = false;
     durationMs_ = 0;

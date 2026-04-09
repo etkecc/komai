@@ -4,13 +4,14 @@
 
 #pragma once
 
-#include <QAudioInput>
-#include <QAudioSource>
-#include <QMediaCaptureSession>
-#include <QMediaRecorder>
 #include <QObject>
 #include <QQmlEngine>
 #include <QTimer>
+
+class QAudioInput;
+class QAudioSource;
+class QMediaCaptureSession;
+class QMediaRecorder;
 
 class VoiceRecorder : public QObject
 {
@@ -55,13 +56,14 @@ signals:
     void errorOccurred(const QString &message);
 
 private:
+    void ensureInitialized();
     void cleanupTempFile();
     void startLevelMonitor();
     void stopLevelMonitor();
 
-    QMediaCaptureSession captureSession_;
-    QAudioInput audioInput_;
-    QMediaRecorder recorder_;
+    QMediaCaptureSession *captureSession_ = nullptr;
+    QAudioInput *audioInput_              = nullptr;
+    QMediaRecorder *recorder_             = nullptr;
     QTimer durationTimer_;
     QString filePath_;
     int durationMs_   = 0;

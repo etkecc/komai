@@ -578,6 +578,7 @@ pub(crate) fn ffi_loaded_state(snapshot: settings::state::LoadedState) -> ffi::S
         hidden_pins: snapshot.hidden_pins,
         hidden_widgets: snapshot.hidden_widgets,
         collapsed_spaces: snapshot.collapsed_spaces,
+        hidden_spaces: snapshot.hidden_spaces,
         composer_drafts_by_room: snapshot.composer_drafts_by_room,
         donation_status: snapshot.donation_status,
         source_exists: snapshot.source_exists,
@@ -1061,6 +1062,7 @@ pub(in crate::settings) fn clone_loaded_state(loaded: &ffi::SettingsLoadedState)
         hidden_pins: loaded.hidden_pins.iter().cloned().collect(),
         hidden_widgets: loaded.hidden_widgets.iter().cloned().collect(),
         collapsed_spaces: loaded.collapsed_spaces.iter().cloned().collect(),
+        hidden_spaces: loaded.hidden_spaces.iter().cloned().collect(),
         composer_drafts_by_room: loaded
             .composer_drafts_by_room
             .iter()
@@ -1095,6 +1097,7 @@ pub(in crate::settings) fn loaded_state_from_snapshot(
         hidden_pins: snapshot.hidden_pins.iter().cloned().collect(),
         hidden_widgets: snapshot.hidden_widgets.iter().cloned().collect(),
         collapsed_spaces: snapshot.collapsed_spaces.iter().cloned().collect(),
+        hidden_spaces: snapshot.hidden_spaces.iter().cloned().collect(),
         composer_drafts_by_room: snapshot
             .composer_drafts_by_room
             .iter()

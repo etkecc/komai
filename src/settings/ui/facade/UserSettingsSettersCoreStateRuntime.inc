@@ -75,6 +75,17 @@ UserSettings::setHiddenWidgets(const QStringList &hiddenTags)
 }
 
 void
+UserSettings::setHiddenSpaces(const QStringList &hiddenSpaces)
+{
+    if (hiddenSpaces_ == hiddenSpaces)
+        return;
+
+    hiddenSpaces_ = hiddenSpaces;
+    save();
+    emit hiddenSpacesChanged();
+}
+
+void
 UserSettings::setHiddenTimelineEventTypes(const QStringList &eventTypes)
 {
     const auto normalizedGlobal = normalizeHiddenTimelineEventTypes(eventTypes);

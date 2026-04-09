@@ -27,7 +27,7 @@ Menu {
         case "tag:m.lowpriority":
             return true;
         default:
-            return false;
+            return tagId.startsWith("space:");
         }
     }
 
@@ -46,12 +46,18 @@ Menu {
 
     MenuItem {
         checkable: true
-        checked: true
+        checked: root.tagId.startsWith("space:") ? !Communities.isSpaceHidden(root.tagId) : true
         visible: root.isHideableFilter
         icon.source: "qrc:/icons/icons/ui/eye-show.svg"
         text: qsTr("Show")
 
-        onTriggered: root.hideFilterRequested()
+        onTriggered: {
+            if (root.tagId.startsWith("space:")) {
+                Communities.toggleSpaceHidden(root.tagId);
+            } else {
+                root.hideFilterRequested();
+            }
+        }
     }
     MenuItem {
         checkable: true

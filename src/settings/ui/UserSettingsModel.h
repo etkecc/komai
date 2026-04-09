@@ -66,6 +66,7 @@ public:
         TimelinePreview,
         AvatarPreview,
         CommunityFilterRow,
+        SpacesFilterSection,
     };
     Q_ENUM(Types);
 

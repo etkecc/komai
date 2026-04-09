@@ -62,6 +62,7 @@ fn state_yaml_roundtrip() {
         hidden_pins: vec!["!pin".to_owned()],
         hidden_widgets: vec!["!widget".to_owned()],
         collapsed_spaces: vec!["!space:hs".to_owned()],
+        hidden_spaces: vec!["!hidden:hs".to_owned()],
         composer_drafts_by_room: vec![entry("!room:hs", "draft")],
         donation_status: "sponsoring".to_owned(),
     });

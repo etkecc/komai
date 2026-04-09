@@ -24,6 +24,7 @@
     bool timelineMediaOpenAudioExternal() const;
     double timelineMediaDefaultAudioPlaybackSpeed() const;
     QStringList collapsedSpaces() const;
+    QStringList hiddenSpaces() const;
     int integrationsDbusApiAccess() const;
     QString integrationsBrowserCommand() const;
     QString donationStatus() const;

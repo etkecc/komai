@@ -210,6 +210,15 @@ FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObj
     setDynamicSortFilter(true);
     sort(0);
 
+    auto invalidateFilterSlot = [this] {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        beginFilterChange();
+        endFilterChange();
+#else
+        invalidateFilter();
+#endif
+    };
+
     auto settings = UserSettings::instance();
     if (settings) {
         for (auto sig : {
@@ -220,15 +229,10 @@ FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObj
                &UserSettings::sidebarsCommunitiesFilterGroupsChanged,
                &UserSettings::sidebarsCommunitiesFilterServerNoticesChanged,
              })
-            connect(settings.get(), sig, this, [this] {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-                beginFilterChange();
-                endFilterChange();
-#else
-                invalidateFilter();
-#endif
-            });
+            connect(settings.get(), sig, this, invalidateFilterSlot);
     }
+
+    connect(model, &CommunitiesModel::hiddenSpacesChanged, this, invalidateFilterSlot);
 }
 
 namespace {
@@ -329,6 +333,18 @@ FilteredCommunitiesModel::filterAcceptsRow(int sourceRow, const QModelIndex &) c
         return true;
 
     auto idx = sourceRow - CommunitiesModel::kFixedRowCount;
+
+    // Check if this space or any ancestor is hidden
+    {
+        auto checkIdx = idx;
+        while (checkIdx >= 0) {
+            if (m->hiddenSpaceIds_.contains(m->spaceOrder_.tree[checkIdx].id))
+                return false;
+            if (m->spaceOrder_.tree[checkIdx].depth == 0)
+                break;
+            checkIdx = m->spaceOrder_.parent(checkIdx);
+        }
+    }
 
     while (idx >= 0 && m->spaceOrder_.tree[idx].depth > 0) {
         idx = m->spaceOrder_.parent(idx);

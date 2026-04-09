@@ -36,7 +36,7 @@ validateSettingsTable()
             const auto &row = settingsTable[i];
 
             Q_ASSERT_X(row.type >= UserSettingsModel::Toggle &&
-                         row.type <= UserSettingsModel::AccessTokenField,
+                         row.type <= UserSettingsModel::SpacesFilterSection,
                        "settings::ui::validateSettingsTable",
                        "settingsTable row has an invalid type enum value.");
 

@@ -90,6 +90,7 @@ CommunitiesModel::CommunitiesModel(QObject *parent)
   : QAbstractListModel(parent)
   , globalExcludedFilterIds_{UserSettings::instance()->globalExcludes()}
   , badgesHiddenFilterIds_{UserSettings::instance()->badgesHiddenFilters()}
+  , hiddenSpaceIds_{UserSettings::instance()->hiddenSpaces()}
 {
     instance_ = this;
 
@@ -553,6 +554,64 @@ bool
 CommunitiesModel::isGlobalExcluded(const QString &filterId) const
 {
     return globalExcludedFilterIds_.contains(filterId);
+}
+
+bool
+CommunitiesModel::isSpaceHidden(const QString &spaceId) const
+{
+    // Accept both bare room IDs and "space:"-prefixed IDs
+    if (spaceId.startsWith(QLatin1String("space:")))
+        return hiddenSpaceIds_.contains(spaceId.mid(6));
+    return hiddenSpaceIds_.contains(spaceId);
+}
+
+void
+CommunitiesModel::toggleSpaceHidden(const QString &spaceId)
+{
+    auto bareId = spaceId.startsWith(QLatin1String("space:")) ? spaceId.mid(6) : spaceId;
+
+    if (hiddenSpaceIds_.contains(bareId))
+        hiddenSpaceIds_.removeOne(bareId);
+    else
+        hiddenSpaceIds_.push_back(bareId);
+
+    // Remove stale entries for spaces that no longer exist
+    hiddenSpaceIds_.removeIf([this](const QString &id) { return !spaces_.contains(id); });
+
+    UserSettings::instance()->setHiddenSpaces(hiddenSpaceIds_);
+
+    // Notify the filtered proxy to re-evaluate visibility
+    auto idx = spaceOrder_.indexOf(bareId);
+    if (idx != -1) {
+        auto lastChild = spaceOrder_.lastChild(idx);
+        emit dataChanged(index(idx + kFixedRowCount), index(lastChild + kFixedRowCount), {Hidden});
+    }
+
+    emit hiddenSpacesChanged();
+}
+
+QVariantList
+CommunitiesModel::spaceEntries() const
+{
+    QVariantList result;
+    result.reserve(spaceOrder_.size());
+
+    for (const auto &elem : spaceOrder_.tree) {
+        if (elem.depth > 0)
+            continue; // Only top-level spaces for settings; subspaces inherit parent visibility
+
+        auto it = spaces_.find(elem.id);
+        if (it == spaces_.end())
+            continue;
+
+        QVariantMap entry;
+        entry[QStringLiteral("id")]        = QStringLiteral("space:") + elem.id;
+        entry[QStringLiteral("name")]      = QString::fromStdString(it->second.name);
+        entry[QStringLiteral("avatarUrl")] = QString::fromStdString(it->second.avatar_url);
+        result.append(entry);
+    }
+
+    return result;
 }
 
 #include "moc_CommunitiesModel.cpp"

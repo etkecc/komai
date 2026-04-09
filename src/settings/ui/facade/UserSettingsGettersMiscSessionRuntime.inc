@@ -113,6 +113,11 @@ UserSettings::collapsedSpaces() const
 {
     return collapsedSpaces_;
 }
+QStringList
+UserSettings::hiddenSpaces() const
+{
+    return hiddenSpaces_;
+}
 QString
 UserSettings::donationStatus() const
 {

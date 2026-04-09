@@ -60,7 +60,8 @@ Item {
                     implicitHeight: row.implicitHeight
                     width: grid.width
 
-                    readonly property bool isFullWidthPreviewRow: r.model.type == UserSettingsModel.TimelinePreview || r.model.type == UserSettingsModel.AvatarPreview
+                    readonly property bool isSelfContainedCardRow: r.model.type == UserSettingsModel.CommunityFilterRow || r.model.type == UserSettingsModel.SpacesFilterSection
+                    readonly property bool isFullWidthPreviewRow: r.model.type == UserSettingsModel.TimelinePreview || r.model.type == UserSettingsModel.AvatarPreview || r.isSelfContainedCardRow
                     readonly property bool useStackedLayout: grid.width < grid.settingRowStackBreakpoint
                     readonly property bool hasSettingIcon: !r.isFullWidthPreviewRow && !!r.model.icon
                     readonly property string settingIconSource: {
@@ -78,6 +79,7 @@ Item {
                     readonly property bool hasSyncedToMatrix: r.model.type != UserSettingsModel.SectionTitle
                         && !!r.model.syncedToMatrix
                     readonly property bool hasDescription: r.model.type != UserSettingsModel.SectionTitle
+                        && !r.isSelfContainedCardRow
                         && !!r.model.description
 
                     HoverHandler {
@@ -90,7 +92,7 @@ Item {
                         anchors.fill: row
                         color: settingRow.visible && rowHover.hovered && !r.isFullWidthPreviewRow ? palette.dark : palette.window
                         radius: Komai.paddingMedium
-                        visible: settingRow.visible
+                        visible: settingRow.visible && !r.isSelfContainedCardRow
                         z: -1
                     }
 
@@ -126,10 +128,10 @@ Item {
                             id: settingRow
                             Layout.fillWidth: true
                             visible: r.model.type != UserSettingsModel.SectionTitle
-                            Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
-                            Layout.leftMargin: Komai.paddingSmall
-                            Layout.rightMargin: Komai.paddingSmall
-                            Layout.bottomMargin: r.hasDescription ? 0 : (Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium)
+                            Layout.topMargin: r.isSelfContainedCardRow ? 0 : (Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium)
+                            Layout.leftMargin: r.isSelfContainedCardRow ? 0 : Komai.paddingSmall
+                            Layout.rightMargin: r.isSelfContainedCardRow ? 0 : Komai.paddingSmall
+                            Layout.bottomMargin: r.isSelfContainedCardRow ? 0 : (r.hasDescription ? 0 : (Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium))
                             columns: r.useStackedLayout ? 1 : 2
                             rowSpacing: r.useStackedLayout && !r.isFullWidthPreviewRow ? Komai.paddingSmall : 0
                             columnSpacing: r.isFullWidthPreviewRow ? 0 : Komai.paddingSmall
@@ -399,10 +401,17 @@ Item {
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.CommunityFilterRow
                                         SettingRowCommunityFilter {
-                                            anchors.left: r.useStackedLayout ? parent.left : undefined
-                                            anchors.right: r.useStackedLayout ? undefined : parent.right
+                                            anchors.left: parent.left
+                                            anchors.right: parent.right
                                             model: r.model
                                             useStackedLayout: r.useStackedLayout
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.SpacesFilterSection
+                                        SettingRowSpacesFilter {
+                                            anchors.left: parent.left
+                                            anchors.right: parent.right
                                         }
                                     }
                                     DelegateChoice {

@@ -199,6 +199,9 @@ public slots:
 
     Q_INVOKABLE bool areFilterBadgesHidden(const QString &filterId) const;
     Q_INVOKABLE bool isGlobalExcluded(const QString &filterId) const;
+    Q_INVOKABLE bool isSpaceHidden(const QString &spaceId) const;
+    Q_INVOKABLE void toggleSpaceHidden(const QString &spaceId);
+    Q_INVOKABLE QVariantList spaceEntries() const;
 
     FilteredCommunitiesModel *filtered() { return new FilteredCommunitiesModel(this, this); }
 
@@ -207,6 +210,7 @@ signals:
     void globalExcludesChanged();
     void badgesHiddenFiltersChanged();
     void tagsChanged();
+    void hiddenSpacesChanged();
     void containsSubspacesChanged();
 
 private slots:
@@ -222,6 +226,7 @@ private:
     QString currentFilterId_;
     QStringList globalExcludedFilterIds_;
     QStringList badgesHiddenFilterIds_;
+    QStringList hiddenSpaceIds_;
     FlatTree spaceOrder_;
     std::map<QString, RoomInfo> spaces_;
 

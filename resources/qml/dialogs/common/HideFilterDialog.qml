@@ -58,6 +58,11 @@ Components.OverlayDialog {
     }
 
     function hideFilter(tagId) {
+        if (tagId.startsWith("space:")) {
+            Communities.toggleSpaceHidden(tagId);
+            return;
+        }
+
         switch (tagId) {
         case "people":
             Settings.sidebarsCommunitiesFilterPeople = false;

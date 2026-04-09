@@ -225,6 +225,9 @@
       SettingKey::SidebarsCommunitiesFilterLowPriority,
       ":/icons/icons/ui/lowprio.svg",
       "tag:m.lowpriority"),
+    // SpacesFilterSection (dynamic placeholder for space filter cards)
+    {nullptr, nullptr, SM::SpacesFilterSection, SM::TabSidebars,
+     nullptr, nullptr, {}, {}, {}, nullptr, sidebarsCommunitiesVisibleEnabled},
     // SidebarsRoomListSection
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

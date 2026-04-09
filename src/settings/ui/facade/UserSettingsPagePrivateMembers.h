@@ -111,6 +111,7 @@ QStringList hiddenTimelineEventTypes_;
 QMap<QString, QStringList> hiddenTimelineEventTypesByRoom_;
 QMap<QString, QString> composerDraftsByRoom_;
 QStringList collapsedSpaces_;
+QStringList hiddenSpaces_;
 DefaultAvatarStyle uiAvatarsDefaultAvatarStyle_ = DefaultAvatarStyle::BoringAvatarsBauhaus;
 bool timelineMediaOpenImagesExternal_;
 bool timelineMediaOpenVideosExternal_;

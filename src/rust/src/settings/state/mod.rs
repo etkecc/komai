@@ -26,6 +26,8 @@ const GLOBAL_EXCLUDES_PATH: [&str; 4] = ["sidebars", "communities", "filtering",
 const BADGES_HIDDEN_PATH: [&str; 4] = ["sidebars", "communities", "filtering", "badges_hidden"];
 const COLLAPSED_SPACES_PATH: [&str; 4] =
     ["sidebars", "communities", "filtering", "collapsed_spaces"];
+const HIDDEN_SPACES_PATH: [&str; 4] =
+    ["sidebars", "communities", "filtering", "hidden_spaces"];
 const CURRENT_FILTER_PATH: [&str; 4] = ["sidebars", "communities", "filtering", "current"];
 const HIDDEN_PINS_PATH: [&str; 3] = ["timeline", "pins", "hidden"];
 const HIDDEN_WIDGETS_PATH: [&str; 3] = ["timeline", "widgets", "hidden"];
@@ -44,6 +46,7 @@ pub struct LoadedState {
     pub hidden_pins: Vec<String>,
     pub hidden_widgets: Vec<String>,
     pub collapsed_spaces: Vec<String>,
+    pub hidden_spaces: Vec<String>,
     pub composer_drafts_by_room: Vec<SettingsStringMapEntry>,
     pub donation_status: String,
     pub source_exists: bool,
@@ -148,6 +151,7 @@ pub fn load_state_snapshot(state_text: &str) -> LoadedState {
         hidden_pins: read_string_list(&root, &HIDDEN_PINS_PATH, &[]),
         hidden_widgets: read_string_list(&root, &HIDDEN_WIDGETS_PATH, &[]),
         collapsed_spaces: read_string_list(&root, &COLLAPSED_SPACES_PATH, &[]),
+        hidden_spaces: read_string_list(&root, &HIDDEN_SPACES_PATH, &[]),
         composer_drafts_by_room: read_string_map(&root, &COMPOSER_DRAFTS_PATH),
         donation_status: {
             let raw = read_string(&root, &DONATION_STATUS_PATH);
@@ -238,6 +242,11 @@ pub fn encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String {
         &mut root,
         &COLLAPSED_SPACES_PATH,
         string_sequence(&snapshot.collapsed_spaces),
+    );
+    yaml::set_value(
+        &mut root,
+        &HIDDEN_SPACES_PATH,
+        string_sequence(&snapshot.hidden_spaces),
     );
     yaml::set_value(
         &mut root,

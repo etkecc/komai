@@ -241,6 +241,12 @@ loadImpl(UserSettings &settings,
             settings.setCollapsedSpaces(values);
         }
         {
+            QStringList values;
+            for (const auto &value : stateSnapshot.hidden_spaces)
+                values.push_back(QString::fromStdString(static_cast<std::string>(value)));
+            settings.setHiddenSpaces(values);
+        }
+        {
             QMap<QString, QString> drafts;
             for (const auto &entry : stateSnapshot.composer_drafts_by_room) {
                 drafts.insert(QString::fromStdString(static_cast<std::string>(entry.key)),

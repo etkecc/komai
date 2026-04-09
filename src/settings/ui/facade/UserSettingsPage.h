@@ -263,6 +263,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(QStringList hiddenPins READ hiddenPins WRITE setHiddenPins NOTIFY hiddenPinsChanged)
     Q_PROPERTY(QStringList hiddenWidgets READ hiddenWidgets WRITE setHiddenWidgets NOTIFY
                  hiddenWidgetsChanged)
+    Q_PROPERTY(
+      QStringList hiddenSpaces READ hiddenSpaces WRITE setHiddenSpaces NOTIFY hiddenSpacesChanged)
     Q_PROPERTY(QString donationStatus READ donationStatus WRITE setDonationStatus NOTIFY
                  donationStatusChanged)
     // Window geometry (not exposed to QML, used internally)
@@ -569,6 +571,7 @@ public:
     void setBadgesHiddenFilters(const QStringList &badgesHiddenFilters);
     void setHiddenPins(const QStringList &hiddenTags);
     void setHiddenWidgets(const QStringList &hiddenTags);
+    void setHiddenSpaces(const QStringList &hiddenSpaces);
     void setHiddenTimelineEventTypes(const QStringList &eventTypes);
     void setHiddenTimelineEventTypesByRoom(const QMap<QString, QStringList> &eventTypesByRoom);
     void setHiddenTimelineEventTypesForRoom(const QString &roomId, const QStringList &eventTypes);
@@ -731,6 +734,7 @@ signals:
     void hiddenPinsChanged();
     void globalExcludesChanged();
     void hiddenWidgetsChanged();
+    void hiddenSpacesChanged();
     void hiddenTimelineEventTypesChanged();
     void composerDraftsByRoomChanged();
     void integrationsDbusApiAccessChanged(int state);

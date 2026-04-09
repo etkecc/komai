@@ -34,7 +34,7 @@ Pane {
     property bool isPublic: room ? room.isPublic : true
     property bool showActionLabels: false
     property int actionLabelsHysteresisPx: 8
-    readonly property string membersActionLabel: qsTr("%n member(s)", "", roomModel ? roomModel.roomMemberCount : 0)
+    readonly property string membersActionLabel: qsTr("Members (%1)").arg(roomModel ? roomModel.roomMemberCount : 0)
     readonly property string encryptionActionLabel: shortEncryptionLabel()
     readonly property string visibilityActionLabel: isPublic ? qsTr("Public") : qsTr("Private")
     readonly property bool roomModelSupportsSearch: !!roomModel
@@ -46,15 +46,15 @@ Pane {
     readonly property real actionButtonWidth: topBarAvatarSize
     readonly property real actionButtonLabelGap: Komai.paddingSmall
     readonly property int visibleActionButtonCount:
-        (pinButton.visible ? 1 : 0)
-        + (searchButton.visible ? 1 : 0)
+        (searchButton.visible ? 1 : 0)
+        + (pinButton.visible ? 1 : 0)
         + (memberButton.visible ? 1 : 0)
         + (encryptionButton.visible ? 1 : 0)
         + (leaveRoomButton.visible ? 1 : 0)
     readonly property real requiredIconOnlyActionWidth: visibleActionButtonCount * actionButtonWidth
     readonly property real requiredLabeledActionWidth: requiredIconOnlyActionWidth
-        + (pinButton.visible ? (actionButtonLabelGap + pinLabelMetrics.advanceWidth) : 0)
         + (searchButton.visible ? (actionButtonLabelGap + searchLabelMetrics.advanceWidth) : 0)
+        + (pinButton.visible ? (actionButtonLabelGap + pinLabelMetrics.advanceWidth) : 0)
         + (memberButton.visible ? (actionButtonLabelGap + membersLabelMetrics.advanceWidth) : 0)
         + (encryptionButton.visible ? (actionButtonLabelGap + encryptionLabelMetrics.advanceWidth) : 0)
         + (leaveRoomButton.visible ? (actionButtonLabelGap + leaveLabelMetrics.advanceWidth) : 0)
@@ -97,8 +97,8 @@ Pane {
         const buttons = [];
 
         addVisibleActionButton(buttons, backToRoomsButton);
-        addVisibleActionButton(buttons, pinButton);
         addVisibleActionButton(buttons, searchButton);
+        addVisibleActionButton(buttons, pinButton);
         addVisibleActionButton(buttons, memberButton);
         addVisibleActionButton(buttons, encryptionButton);
         addVisibleActionButton(buttons, leaveRoomButton);
@@ -136,7 +136,7 @@ Pane {
             "bold": true,
             "pointSize": Settings.uiFontSizePt
         })
-        text: qsTr("Pins")
+        text: pinButton.labelText
     }
     TextMetrics {
         id: searchLabelMetrics
@@ -211,8 +211,8 @@ Pane {
                     KeyNavigation.backtab: backToRoomsButton.visible ? backToRoomsButton
                         : topBar.roomListLastActionButton ? topBar.roomListLastActionButton
                         : null
-                    KeyNavigation.tab: pinButton.visible ? pinButton
-                        : searchButton.visible ? searchButton
+                    KeyNavigation.tab: searchButton.visible ? searchButton
+                        : pinButton.visible ? pinButton
                         : memberButton.visible ? memberButton
                         : encryptionButton.visible ? encryptionButton
                         : leaveRoomButton.visible ? leaveRoomButton
@@ -255,28 +255,14 @@ Pane {
                 //         topBar.filterNotifications = !topBar.filterNotifications
                 //     }
                 // }
-                RoomHeaderPinButton {
-                    id: pinButton
-
-                    topBarRef: topBar
-                    column: 4
-                    KeyNavigation.backtab: roomSettingsButton
-                    KeyNavigation.tab: searchButton.visible ? searchButton
-                        : memberButton.visible ? memberButton
-                        : encryptionButton.visible ? encryptionButton
-                        : leaveRoomButton.visible ? leaveRoomButton
-                        : null
-                    room: topBar.roomModelSupportsPinnedMessagesUi ? topBar.roomModel : null
-                    roomId: topBar.roomId
-                    showTextLabel: topBar.showActionLabels
-                }
                 RoomHeaderSearchButton {
                     id: searchButton
 
                     topBarRef: topBar
-                    column: 5
-                    KeyNavigation.backtab: pinButton.visible ? pinButton : roomSettingsButton
-                    KeyNavigation.tab: memberButton.visible ? memberButton
+                    column: 4
+                    KeyNavigation.backtab: roomSettingsButton
+                    KeyNavigation.tab: pinButton.visible ? pinButton
+                        : memberButton.visible ? memberButton
                         : encryptionButton.visible ? encryptionButton
                         : leaveRoomButton.visible ? leaveRoomButton
                         : null
@@ -292,13 +278,27 @@ Pane {
                         }
                     }
                 }
+                RoomHeaderPinButton {
+                    id: pinButton
+
+                    topBarRef: topBar
+                    column: 5
+                    KeyNavigation.backtab: searchButton.visible ? searchButton : roomSettingsButton
+                    KeyNavigation.tab: memberButton.visible ? memberButton
+                        : encryptionButton.visible ? encryptionButton
+                        : leaveRoomButton.visible ? leaveRoomButton
+                        : null
+                    room: topBar.roomModelSupportsPinnedMessagesUi ? topBar.roomModel : null
+                    roomId: topBar.roomId
+                    showTextLabel: topBar.showActionLabels
+                }
                 RoomHeaderMembersButton {
                     id: memberButton
 
                     topBarRef: topBar
                     column: 6
-                    KeyNavigation.backtab: searchButton.visible ? searchButton
-                        : pinButton.visible ? pinButton
+                    KeyNavigation.backtab: pinButton.visible ? pinButton
+                        : searchButton.visible ? searchButton
                         : roomSettingsButton
                     KeyNavigation.tab: encryptionButton.visible ? encryptionButton
                         : leaveRoomButton.visible ? leaveRoomButton
@@ -310,8 +310,8 @@ Pane {
                     id: encryptionButton
 
                     KeyNavigation.backtab: memberButton.visible ? memberButton
-                        : searchButton.visible ? searchButton
                         : pinButton.visible ? pinButton
+                        : searchButton.visible ? searchButton
                         : roomSettingsButton
                     KeyNavigation.tab: leaveRoomButton.visible ? leaveRoomButton : null
                     roomId: topBar.roomModel ? topBar.roomModel.roomId : ""
@@ -330,8 +330,8 @@ Pane {
                     column: 8
                     KeyNavigation.backtab: encryptionButton.visible ? encryptionButton
                         : memberButton.visible ? memberButton
-                        : searchButton.visible ? searchButton
                         : pinButton.visible ? pinButton
+                        : searchButton.visible ? searchButton
                         : roomSettingsButton
                     roomAvailable: !!topBar.roomModel
                     roomId: topBar.roomId
@@ -344,11 +344,6 @@ Pane {
                 roomTopic: topBar.roomTopic
                 compactMode: Komai.uiLayoutCompactMode
                 lineSpacing: fontMetrics.lineSpacing
-            }
-            RoomPinnedMessagesSection {
-                Layout.fillWidth: true
-                room: topBar.roomModelSupportsPinnedMessagesUi ? topBar.roomModel : null
-                roomId: topBar.roomId
             }
             RoomWidgetsSection {
                 Layout.fillWidth: true

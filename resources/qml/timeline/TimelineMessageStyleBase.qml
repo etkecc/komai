@@ -47,6 +47,7 @@ TimelineEvent {
     required property QtObject messageContextMenu
     required property QtObject replyContextMenu
     required property Item messageActions
+    property bool metadataActionsEnabled: true
     property Item keyboardActionAnchorItem: null
     readonly property int delegateContainerHeight: (typeof timelineView !== "undefined" && timelineView && timelineView.height > 0)
         ? timelineView.height

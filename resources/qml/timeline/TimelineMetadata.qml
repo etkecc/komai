@@ -64,6 +64,7 @@ RowLayout {
     property double buttonScale: 2
     required property bool isSender
     property bool actionBarActive: false
+    property bool actionsEnabled: true
     readonly property var actionToggleButton: actionToggle
 
     signal actionToggled()
@@ -159,12 +160,31 @@ RowLayout {
         visible: metadata.roomIsEncrypted
     }
     ImageButton {
+        id: unpinButton
+
+        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+        Layout.preferredHeight: metadata.buttonSize
+        Layout.preferredWidth: metadata.buttonSize
+        visible: {
+            const pinnedIds = TimelineManager.matrixTimelinePinnedEventIds;
+            return pinnedIds && pinnedIds.indexOf(metadata.eventId) >= 0;
+        }
+        toolTipText: qsTr("Unpin")
+        toolTipVisible: hovered
+        buttonTextColor: effectiveSecondaryTextColor
+        highlightColor: effectiveHighlightColor
+        changeColorOnHover: true
+        image: visible ? ":/icons/icons/ui/pin-off.svg" : ""
+
+        onClicked: TimelineManager.unpinActiveMatrixTimelineEvent(metadata.eventId)
+    }
+    ImageButton {
         id: actionToggle
 
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: metadata.buttonSize
         Layout.preferredWidth: metadata.buttonSize
-        visible: Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
+        visible: metadata.actionsEnabled && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
         toolTipDelay: 0
         toolTipText: qsTr("Message actions")
         toolTipVisible: hovered && !metadata.actionBarActive

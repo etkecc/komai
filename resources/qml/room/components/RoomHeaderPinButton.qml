@@ -12,24 +12,33 @@ RoomHeaderActionButton {
     required property string roomId
     property bool showTextLabel: false
 
-    property bool pinsShown: !Settings.hiddenPins.includes(roomId)
+    readonly property int pinCount: room ? room.pinnedMessages.length : 0
 
-    toolTipText: qsTr("Show or hide pinned messages")
-    image: pinsShown ? ":/icons/icons/ui/pin.svg" : ":/icons/icons/ui/pin-off.svg"
-    labelText: qsTr("Pins")
+    alwaysShowToolTip: true
+    toolTipText: qsTr("Show pinned messages")
+    image: ":/icons/icons/ui/pin.svg"
+    labelText: qsTr("Pins (%1)").arg(pinCount)
     showLabel: showTextLabel
-    visible: !!room && room.pinnedMessages.length > 0
+    visible: !!room && pinCount > 0
 
     onClicked: {
-        var ps = Settings.hiddenPins;
-        if (pinsShown) {
-            ps.push(roomId);
-        } else {
-            const index = ps.indexOf(roomId);
-            if (index > -1) {
-                ps.splice(index, 1);
-            }
+        const component = Qt.createComponent("qrc:/resources/qml/dialogs/timeline/PinnedMessagesDialog.qml");
+        if (component.status !== Component.Ready) {
+            console.error("PinnedMessagesDialog: " + component.errorString());
+            return;
         }
-        Settings.hiddenPins = ps;
+
+        const dialog = component.createObject(root, {
+            "room": root.room,
+            "roomId": root.roomId
+        });
+        if (!dialog)
+            return;
+
+        dialog.open();
+        if (dialog.closing !== undefined)
+            dialog.closing.connect(() => dialog.destroy(1000));
+        else if (dialog.aboutToHide !== undefined)
+            dialog.aboutToHide.connect(() => dialog.destroy(1000));
     }
 }

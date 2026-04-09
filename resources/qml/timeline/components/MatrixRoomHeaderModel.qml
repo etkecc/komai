@@ -170,6 +170,14 @@ QtObject {
         };
     }
 
+    function formatDateSeparator(timestamp) {
+        return Qt.formatDate(timestamp, "ddd, MMM d");
+    }
+
+    function formatLaterSeparator(_previous, timestamp) {
+        return Qt.formatTime(timestamp, "hh:mm");
+    }
+
     function showEvent(eventId) {
         return root.rootItem.jumpToLoadedMatrixEvent(String(eventId || ""));
     }

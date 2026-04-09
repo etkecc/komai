@@ -13,7 +13,7 @@ RoomHeaderActionButton {
 
     toolTipText: qsTr("Show room members.")
     image: ":/icons/icons/ui/people.svg"
-    labelText: qsTr("%n member(s)", "", memberCount)
+    labelText: qsTr("Members (%1)").arg(memberCount)
     showLabel: showTextLabel
     visible: !!room
 

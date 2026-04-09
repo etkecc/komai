@@ -578,6 +578,7 @@ Item {
             timestamp: root.wrapper.timestamp
             room: root.wrapper.effectiveRoomContext
             isSender: root.wrapper.isStateEvent ? false : root.wrapper.messageIsRightAligned
+            actionsEnabled: root.wrapper.metadataActionsEnabled
             actionBarActive: root.wrapper.messageActions.pinned && root.wrapper.messageActions.attached === root.wrapper
             onActionToggled: {
                 root.wrapper.togglePinnedMessageActions(actionToggleButton);

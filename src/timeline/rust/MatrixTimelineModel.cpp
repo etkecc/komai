@@ -104,6 +104,9 @@ stateEventIconForItem(const MatrixTimelineItem &item)
     if (item.itemKind == QStringLiteral("membership_change"))
         return stateEventIconForMembershipChangeKind(item.membershipChangeKind);
 
+    if (item.matrixEventType == QStringLiteral("m.room.pinned_events"))
+        return QStringLiteral(":/icons/icons/ui/pin.svg");
+
     return stateEventIconForKind(item.itemKind);
 }
 

@@ -1885,6 +1885,12 @@ mod bridge {
             room_id: &str,
             event_id: &str,
         ) -> Result<()>;
+        fn matrix_set_room_pinned_event_ids(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            event_ids: Vec<String>,
+        ) -> Result<()>;
         fn matrix_fetch_active_room_raw_event_dialog_data(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

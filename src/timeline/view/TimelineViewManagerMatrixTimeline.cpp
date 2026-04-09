@@ -558,6 +558,24 @@ TimelineViewManager::applyActiveMatrixTimelineRoomState(QStringList pinnedEventI
                                                         bool canRedactOwn,
                                                         bool canRedactOther)
 {
+    // Clear optimistic entries that the server has now confirmed.
+    // If the fetched list already includes an optimistically-pinned event,
+    // the sync has caught up and the optimistic flag is no longer needed.
+    // Likewise for unpins: if the event is already absent, clear the flag.
+    matrixTimelineOptimisticallyPinnedEventIds_.removeIf(
+      [&pinnedEventIds](const QString &id) { return pinnedEventIds.contains(id); });
+    matrixTimelineOptimisticallyUnpinnedEventIds_.removeIf(
+      [&pinnedEventIds](const QString &id) { return !pinnedEventIds.contains(id); });
+
+    // Apply remaining optimistic changes on top of the server state.
+    for (const auto &id : std::as_const(matrixTimelineOptimisticallyPinnedEventIds_)) {
+        if (!pinnedEventIds.contains(id))
+            pinnedEventIds.push_back(id);
+    }
+    for (const auto &id : std::as_const(matrixTimelineOptimisticallyUnpinnedEventIds_)) {
+        pinnedEventIds.removeAll(id);
+    }
+
     if (matrixTimelinePinnedEventIds_ == pinnedEventIds &&
         matrixTimelineFrequentReactions_ == frequentReactions &&
         matrixTimelineCanRedactOwn_ == canRedactOwn &&
@@ -856,6 +874,8 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
     matrixTimelineWarmupGuardActive_ = false;
     ++matrixTimelineWarmupGuardGeneration_;
 
+    matrixTimelineOptimisticallyPinnedEventIds_.clear();
+    matrixTimelineOptimisticallyUnpinnedEventIds_.clear();
     if (!matrixTimelinePinnedEventIds_.isEmpty()) {
         matrixTimelinePinnedEventIds_.clear();
         stateChanged = true;
@@ -1847,14 +1867,27 @@ TimelineViewManager::pinActiveMatrixTimelineEvent(const QString &eventId)
     if (trimmedEventId.isEmpty())
         return false;
 
+    // Compute desired pinned list from current state
+    auto desiredPinnedIds = matrixTimelinePinnedEventIds_;
+    if (!desiredPinnedIds.contains(trimmedEventId))
+        desiredPinnedIds.push_back(trimmedEventId);
+
+    // Apply optimistic update immediately
+    matrixTimelineOptimisticallyPinnedEventIds_.insert(trimmedEventId);
+    matrixTimelineOptimisticallyUnpinnedEventIds_.remove(trimmedEventId);
+    if (!matrixTimelinePinnedEventIds_.contains(trimmedEventId)) {
+        matrixTimelinePinnedEventIds_.push_back(trimmedEventId);
+        emit matrixTimelineStateChanged();
+    }
+
     const auto roomId = activeMatrixTimelineRoomId_;
     komai::qt_worker_task::runQueued(
       this,
-      [handleId, roomId, trimmedEventId]() {
+      [handleId, roomId, trimmedEventId, desiredPinnedIds]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
-          const bool ok = komai::MatrixBackendRuntimeService::pinRoomEvent(
-            context, handleId, roomId, trimmedEventId, &error);
+          const bool ok = komai::MatrixBackendRuntimeService::setRoomPinnedEventIds(
+            context, handleId, roomId, desiredPinnedIds, &error);
           return MatrixTimelineEventActionResult{
             .handleId = handleId,
             .roomId   = roomId,
@@ -1877,15 +1910,13 @@ TimelineViewManager::pinActiveMatrixTimelineEvent(const QString &eventId)
                                 result.error.toStdString());
               mainWindow->showNotification(
                 TimelineViewManager::tr("Failed to pin message: %1").arg(result.error));
-              return;
-          }
 
-          if (manager->activeMatrixTimelineRoomId_ != result.roomId)
-              return;
-
-          if (!manager->matrixTimelinePinnedEventIds_.contains(result.eventId)) {
-              manager->matrixTimelinePinnedEventIds_.push_back(result.eventId);
-              emit manager->matrixTimelineStateChanged();
+              // Revert optimistic update on failure
+              if (manager->activeMatrixTimelineRoomId_ == result.roomId) {
+                  manager->matrixTimelineOptimisticallyPinnedEventIds_.remove(result.eventId);
+                  if (manager->matrixTimelinePinnedEventIds_.removeAll(result.eventId) > 0)
+                      emit manager->matrixTimelineStateChanged();
+              }
           }
       });
     return true;
@@ -1906,14 +1937,24 @@ TimelineViewManager::unpinActiveMatrixTimelineEvent(const QString &eventId)
     if (trimmedEventId.isEmpty())
         return false;
 
+    // Compute desired pinned list from current state
+    auto desiredPinnedIds = matrixTimelinePinnedEventIds_;
+    desiredPinnedIds.removeAll(trimmedEventId);
+
+    // Apply optimistic update immediately
+    matrixTimelineOptimisticallyUnpinnedEventIds_.insert(trimmedEventId);
+    matrixTimelineOptimisticallyPinnedEventIds_.remove(trimmedEventId);
+    if (matrixTimelinePinnedEventIds_.removeAll(trimmedEventId) > 0)
+        emit matrixTimelineStateChanged();
+
     const auto roomId = activeMatrixTimelineRoomId_;
     komai::qt_worker_task::runQueued(
       this,
-      [handleId, roomId, trimmedEventId]() {
+      [handleId, roomId, trimmedEventId, desiredPinnedIds]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
-          const bool ok = komai::MatrixBackendRuntimeService::unpinRoomEvent(
-            context, handleId, roomId, trimmedEventId, &error);
+          const bool ok = komai::MatrixBackendRuntimeService::setRoomPinnedEventIds(
+            context, handleId, roomId, desiredPinnedIds, &error);
           return MatrixTimelineEventActionResult{
             .handleId = handleId,
             .roomId   = roomId,
@@ -1937,14 +1978,16 @@ TimelineViewManager::unpinActiveMatrixTimelineEvent(const QString &eventId)
                 result.error.toStdString());
               mainWindow->showNotification(
                 TimelineViewManager::tr("Failed to unpin message: %1").arg(result.error));
-              return;
+
+              // Revert optimistic update on failure
+              if (manager->activeMatrixTimelineRoomId_ == result.roomId) {
+                  manager->matrixTimelineOptimisticallyUnpinnedEventIds_.remove(result.eventId);
+                  if (!manager->matrixTimelinePinnedEventIds_.contains(result.eventId)) {
+                      manager->matrixTimelinePinnedEventIds_.push_back(result.eventId);
+                      emit manager->matrixTimelineStateChanged();
+                  }
+              }
           }
-
-          if (manager->activeMatrixTimelineRoomId_ != result.roomId)
-              return;
-
-          if (manager->matrixTimelinePinnedEventIds_.removeAll(result.eventId) > 0)
-              emit manager->matrixTimelineStateChanged();
       });
     return true;
 }

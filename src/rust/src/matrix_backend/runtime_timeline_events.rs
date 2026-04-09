@@ -138,6 +138,34 @@ pub async fn unpin_room_event(
     update_room_pinned_event_ids(handle_id, room_id, event_id, false).await
 }
 
+pub async fn set_room_pinned_event_ids(
+    handle_id: u64,
+    room_id: &str,
+    event_ids: Vec<String>,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+
+    let pinned_event_ids = event_ids
+        .iter()
+        .map(|id| {
+            EventId::parse(id.as_str())
+                .map_err(|e| format!("invalid pinned event id '{id}': {e}"))
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        count = pinned_event_ids.len(),
+        "Setting matrix-sdk room pinned events"
+    );
+
+    room.send_state_event(RoomPinnedEventsEventContent::new(pinned_event_ids))
+        .await
+        .map(|_| ())
+        .map_err(|e| format!("failed to set matrix-sdk room pinned events: {e}"))
+}
+
 async fn update_room_pinned_event_ids(
     handle_id: u64,
     room_id: &str,

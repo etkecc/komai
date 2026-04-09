@@ -231,15 +231,21 @@ Menu {
         // --- Manage section ---
         Component {
             MenuItem {
-                text: visible && messageContextMenuRoot.effectiveRoomModel.pinnedMessages.includes(messageContextMenuRoot.eventId) ? qsTr("Un&pin") : qsTr("&Pin")
-                icon.source: visible && messageContextMenuRoot.effectiveRoomModel.pinnedMessages.includes(messageContextMenuRoot.eventId)
-                    ? "qrc:/icons/icons/ui/pin-off.svg" : "qrc:/icons/icons/ui/pin.svg"
+                readonly property bool isPinned: messageContextMenuRoot.effectiveRoomModel
+                    && messageContextMenuRoot.effectiveRoomModel.pinnedMessages
+                    && messageContextMenuRoot.effectiveRoomModel.pinnedMessages.includes(messageContextMenuRoot.eventId)
+
+                text: isPinned ? qsTr("Un&pin") : qsTr("&Pin")
+                icon.source: isPinned ? "qrc:/icons/icons/ui/pin-off.svg" : "qrc:/icons/icons/ui/pin.svg"
                 visible: messageActionSupport.canPin(messageContextMenuRoot.effectiveMessageModel,
                                                      messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: visible && messageContextMenuRoot.effectiveRoomModel.pinnedMessages.includes(messageContextMenuRoot.eventId)
-                    ? messageContextMenuRoot.effectiveRoomModel.unpin(messageContextMenuRoot.eventId)
-                    : messageContextMenuRoot.effectiveRoomModel.pin(messageContextMenuRoot.eventId)
+                onTriggered: {
+                    if (isPinned)
+                        messageContextMenuRoot.effectiveRoomModel.unpin(messageContextMenuRoot.eventId);
+                    else
+                        messageContextMenuRoot.effectiveRoomModel.pin(messageContextMenuRoot.eventId);
+                }
             }
         }
         Component {

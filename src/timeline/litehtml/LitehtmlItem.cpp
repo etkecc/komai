@@ -451,19 +451,22 @@ LitehtmlItem::mousePressEvent(QMouseEvent *event)
         return;
     }
 
-    int padLeft = static_cast<int>(m_leftPadding);
-    auto pos    = event->position().toPoint();
-    int docX    = pos.x() - padLeft;
-    int docY    = pos.y();
+    auto pos = event->position().toPoint();
 
     bool hadSelection = m_selStart.isValid() && m_selEnd.isValid() && m_selStart != m_selEnd;
     clearSelection();
-    m_selectStartPos = QPoint(docX, docY);
+    // Use screen-space coordinates for selection — text runs recorded during
+    // paint include the leftPadding offset, so selection must match.
+    m_selectStartPos = pos;
     m_selectEndPos   = m_selectStartPos;
     m_selecting      = true;
 
     forceActiveFocus();
 
+    // litehtml needs document-space coordinates for link hit testing.
+    int padLeft = static_cast<int>(m_leftPadding);
+    int docX    = pos.x() - padLeft;
+    int docY    = pos.y();
     litehtml::position::vector redraw;
     m_document->on_lbutton_down(docX, docY, docX, docY, redraw);
 
@@ -485,9 +488,8 @@ LitehtmlItem::mouseMoveEvent(QMouseEvent *event)
     if (!keepMouseGrab())
         setKeepMouseGrab(true);
 
-    int padLeft    = static_cast<int>(m_leftPadding);
     auto pos       = event->position().toPoint();
-    m_selectEndPos = QPoint(pos.x() - padLeft, pos.y());
+    m_selectEndPos = pos;
 
     resolveSelection();
 
@@ -539,11 +541,9 @@ LitehtmlItem::mouseDoubleClickEvent(QMouseEvent *event)
 
     m_selecting = false;
 
-    int padLeft = static_cast<int>(m_leftPadding);
-    auto pos    = event->position().toPoint();
-    QPoint docPos(pos.x() - padLeft, pos.y());
+    auto pos = event->position().toPoint();
 
-    auto sp = hitTestTextRun(docPos);
+    auto sp = hitTestTextRun(pos);
     if (!sp.isValid()) {
         event->accept();
         return;

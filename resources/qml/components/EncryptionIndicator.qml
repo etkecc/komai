@@ -60,6 +60,8 @@ Image {
     }
     fillMode: Image.PreserveAspectFit
     height: 16
+    sourceSize.width: width
+    sourceSize.height: height
     source: {
         if (encrypted) {
             const useHover = stateImg.hovered && encryptedHoverEnabled;

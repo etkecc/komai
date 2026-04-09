@@ -68,6 +68,8 @@ Popup {
                 Layout.alignment: Qt.AlignCenter
                 Layout.preferredWidth: callInv.height / 10
                 Layout.preferredHeight: callInv.height / 10
+                sourceSize.width: callInv.height / 10
+                sourceSize.height: callInv.height / 10
                 source: "image://colorimage/" + image + "?" + palette.windowText
             }
 
@@ -94,6 +96,8 @@ Popup {
                 Image {
                     Layout.preferredWidth: deviceCombos.imageSize
                     Layout.preferredHeight: deviceCombos.imageSize
+                    sourceSize.width: deviceCombos.imageSize
+                    sourceSize.height: deviceCombos.imageSize
                     source: "image://colorimage/:/icons/icons/ui/microphone-unmute.svg?" + palette.windowText
                 }
 
@@ -113,6 +117,8 @@ Popup {
                 Image {
                     Layout.preferredWidth: deviceCombos.imageSize
                     Layout.preferredHeight: deviceCombos.imageSize
+                    sourceSize.width: deviceCombos.imageSize
+                    sourceSize.height: deviceCombos.imageSize
                     source: "image://colorimage/:/icons/icons/ui/video.svg?" + palette.windowText
                 }
 
@@ -163,6 +169,8 @@ Popup {
 
                 contentItem: Image {
                     source: "image://colorimage/:/icons/icons/ui/end-call.svg?#ffffff"
+                    sourceSize.width: buttonLayout.buttonSize
+                    sourceSize.height: buttonLayout.buttonSize
                 }
 
             }
@@ -192,6 +200,8 @@ Popup {
 
                 contentItem: Image {
                     source: "image://colorimage/" + acceptButton.image + "?#ffffff"
+                    sourceSize.width: buttonLayout.buttonSize
+                    sourceSize.height: buttonLayout.buttonSize
                 }
 
             }

@@ -138,6 +138,8 @@ Popup {
                 Image {
                     Layout.preferredWidth: 22
                     Layout.preferredHeight: 22
+                    sourceSize.width: 22
+                    sourceSize.height: 22
                     source: "image://colorimage/:/icons/icons/ui/microphone-unmute.svg?" + palette.windowText
                 }
 
@@ -159,6 +161,8 @@ Popup {
                 Image {
                     Layout.preferredWidth: 22
                     Layout.preferredHeight: 22
+                    sourceSize.width: 22
+                    sourceSize.height: 22
                     source: "image://colorimage/:/icons/icons/ui/video.svg?" + palette.windowText
                 }
 

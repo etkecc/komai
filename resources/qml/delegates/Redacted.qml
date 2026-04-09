@@ -49,6 +49,8 @@ Control {
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             Layout.preferredWidth: fontMetrics.font.pixelSize
             Layout.preferredHeight: fontMetrics.font.pixelSize
+            sourceSize.width: fontMetrics.font.pixelSize
+            sourceSize.height: fontMetrics.font.pixelSize
             source: "image://colorimage/:/icons/icons/ui/delete.svg?" + palette.text
         }
         Label {

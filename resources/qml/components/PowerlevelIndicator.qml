@@ -49,6 +49,8 @@ Image {
             return "image://colorimage/:/icons/icons/ui/person.svg?";
     }
 
+    sourceSize.width: width
+    sourceSize.height: height
     source: sourceUrl + (ma.hovered ? palette.highlight : iconColor)
     readonly property string toolTipText: {
         let pl = powerlevel.toLocaleString(Qt.locale(), "f", 0);

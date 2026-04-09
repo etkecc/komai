@@ -29,6 +29,8 @@ Control {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredWidth: 24
             Layout.preferredHeight: 24
+            sourceSize.width: 24
+            sourceSize.height: 24
         }
 
         ColumnLayout {

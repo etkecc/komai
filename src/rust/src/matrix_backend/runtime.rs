@@ -153,8 +153,7 @@ pub use timeline_messaging::{
 pub use timeline_events::{
     fetch_active_room_event_content_for_forwarding, fetch_active_room_raw_event_dialog_data,
     fetch_room_frequent_reactions, fetch_room_pinned_event_ids, fetch_room_read_receipts,
-    fetch_room_redaction_permissions, pin_room_event, set_room_pinned_event_ids,
-    unpin_room_event,
+    fetch_room_redaction_permissions, pin_room_event, unpin_room_event,
 };
 pub use runtime_media::{send_room_image, upload_media};
 pub use user_directory::search_users;

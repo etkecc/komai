@@ -123,7 +123,7 @@ pub async fn fetch_room_pinned_event_ids(
 ) -> Result<Vec<String>, String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
 
-    load_cached_pinned_event_ids(&room).await
+    load_pinned_event_ids_from_server(&room).await
 }
 
 pub async fn pin_room_event(handle_id: u64, room_id: &str, event_id: &str) -> Result<(), String> {
@@ -136,34 +136,6 @@ pub async fn unpin_room_event(
     event_id: &str,
 ) -> Result<(), String> {
     update_room_pinned_event_ids(handle_id, room_id, event_id, false).await
-}
-
-pub async fn set_room_pinned_event_ids(
-    handle_id: u64,
-    room_id: &str,
-    event_ids: Vec<String>,
-) -> Result<(), String> {
-    let room = joined_room_for_handle(handle_id, room_id)?;
-
-    let pinned_event_ids = event_ids
-        .iter()
-        .map(|id| {
-            EventId::parse(id.as_str())
-                .map_err(|e| format!("invalid pinned event id '{id}': {e}"))
-        })
-        .collect::<Result<Vec<_>, _>>()?;
-
-    tracing::info!(
-        handle_id,
-        room_id = room_id.trim(),
-        count = pinned_event_ids.len(),
-        "Setting matrix-sdk room pinned events"
-    );
-
-    room.send_state_event(RoomPinnedEventsEventContent::new(pinned_event_ids))
-        .await
-        .map(|_| ())
-        .map_err(|e| format!("failed to set matrix-sdk room pinned events: {e}"))
 }
 
 async fn update_room_pinned_event_ids(
@@ -180,12 +152,15 @@ async fn update_room_pinned_event_ids(
 
     let parsed_event_id =
         EventId::parse(event_id).map_err(|e| format!("invalid event id '{event_id}': {e}"))?;
-    let mut pinned_event_ids = load_cached_pinned_event_ids(&room)
+
+    // Fetch current pinned events from the server (not the local state store,
+    // which is empty because sliding sync does not request m.room.pinned_events).
+    let mut pinned_event_ids = load_pinned_event_ids_from_server(&room)
         .await?
         .into_iter()
         .map(|event_id| {
             EventId::parse(&event_id)
-                .map_err(|e| format!("invalid pinned event id '{event_id}' from state store: {e}"))
+                .map_err(|e| format!("invalid pinned event id '{event_id}' from server: {e}"))
         })
         .collect::<Result<Vec<_>, _>>()?;
 
@@ -220,32 +195,18 @@ async fn update_room_pinned_event_ids(
         .map_err(|e| format!("failed to update matrix-sdk room pinned events: {e}"))
 }
 
-async fn load_cached_pinned_event_ids(room: &Room) -> Result<Vec<String>, String> {
-    let Some(raw_event) = room
-        .get_state_event_static::<RoomPinnedEventsEventContent>()
-        .await
-        .map_err(|e| format!("failed to load matrix-sdk room pinned events from state store: {e}"))?
-    else {
-        return Ok(Vec::new());
-    };
-
-    let event = raw_event.deserialize().map_err(|e| {
-        format!("failed to deserialize matrix-sdk room pinned events from state store: {e}")
-    })?;
-
-    Ok(match event {
-        matrix_sdk::deserialized_responses::SyncOrStrippedState::Sync(ev) => ev
-            .as_original()
-            .map(|ev| {
-                ev.content
-                    .pinned
-                    .iter()
-                    .map(|event_id| event_id.to_string())
-                    .collect()
-            })
-            .unwrap_or_default(),
-        matrix_sdk::deserialized_responses::SyncOrStrippedState::Stripped(_) => Vec::new(),
-    })
+/// Fetch pinned event IDs from the server via the `/state` endpoint.
+///
+/// The local SDK state store is not used because sliding sync does not include
+/// `m.room.pinned_events` in its default required state — only room
+/// subscriptions (which Komai does not use) add it.  Reading from the state
+/// store would always return an empty list.
+async fn load_pinned_event_ids_from_server(room: &Room) -> Result<Vec<String>, String> {
+    match room.load_pinned_events().await {
+        Ok(Some(ids)) => Ok(ids.into_iter().map(|id| id.to_string()).collect()),
+        Ok(None) => Ok(Vec::new()),
+        Err(e) => Err(format!("failed to fetch pinned events from server: {e}")),
+    }
 }
 
 // ---------------------------------------------------------------------------

@@ -470,8 +470,6 @@ private:
     int preferredInitialMatrixTimelinePageSize_  = 0;
     bool matrixTimelineInitialPrefetchAttempted_ = false;
     QStringList matrixTimelinePinnedEventIds_;
-    QSet<QString> matrixTimelineOptimisticallyPinnedEventIds_;
-    QSet<QString> matrixTimelineOptimisticallyUnpinnedEventIds_;
     QStringList matrixTimelineFrequentReactions_;
     bool matrixTimelineCanRedactOwn_   = false;
     bool matrixTimelineCanRedactOther_ = false;

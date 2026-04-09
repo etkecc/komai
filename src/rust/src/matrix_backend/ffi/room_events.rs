@@ -383,19 +383,6 @@ pub(crate) fn matrix_unpin_room_event(
     )
 }
 
-pub(crate) fn matrix_set_room_pinned_event_ids(
-    context: ffi::MatrixFfiBlockingContext,
-    handle_id: u64,
-    room_id: &str,
-    event_ids: Vec<String>,
-) -> Result<(), String> {
-    ffi_block_on(
-        context,
-        "matrix_set_room_pinned_event_ids",
-        matrix_backend::runtime::set_room_pinned_event_ids(handle_id, room_id, event_ids),
-    )
-}
-
 pub(crate) fn matrix_fetch_active_room_raw_event_dialog_data(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

@@ -1003,12 +1003,6 @@ public:
                                const QString &eventId,
                                QString *errorOut = nullptr);
 
-    static bool setRoomPinnedEventIds(matrix_backend::BlockingCallContext context,
-                                      uint64_t handleId,
-                                      const QString &roomId,
-                                      const QStringList &eventIds,
-                                      QString *errorOut = nullptr);
-
     struct RawEventDialogData
     {
         QString prettyJson;

@@ -3137,32 +3137,6 @@ MatrixBackendRuntimeService::unpinRoomEvent(matrix_backend::BlockingCallContext 
     }
 }
 
-bool
-MatrixBackendRuntimeService::setRoomPinnedEventIds(matrix_backend::BlockingCallContext context,
-                                                   uint64_t handleId,
-                                                   const QString &roomId,
-                                                   const QStringList &eventIds,
-                                                   QString *errorOut)
-{
-    try {
-        matrix_backend::invokeBlockingCall(
-          "matrix_set_room_pinned_event_ids",
-          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, eventIds, context]() {
-              ::komai::rust::matrix_set_room_pinned_event_ids(
-                matrix_backend::toRustBlockingContext(context),
-                handleId,
-                roomId.toStdString(),
-                toRustStringVec(eventIds));
-          });
-        return true;
-    } catch (const std::exception &e) {
-        if (errorOut)
-            *errorOut = QString::fromUtf8(e.what());
-        return false;
-    }
-}
-
 std::optional<MatrixBackendRuntimeService::RawEventDialogData>
 MatrixBackendRuntimeService::fetchActiveRoomRawEventDialogData(
   matrix_backend::BlockingCallContext context,

@@ -291,7 +291,7 @@ Item {
                         Keys.onReturnPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
                         Keys.onEnterPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
 
-                        onTextChanged: serverDebounce.restart()
+                        onTextEdited: serverDebounce.restart()
 
                         Timer {
                             id: serverDebounce

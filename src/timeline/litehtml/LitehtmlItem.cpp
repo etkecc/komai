@@ -304,16 +304,13 @@ LitehtmlItem::paint(QPainter *painter)
     clip.width  = static_cast<int>(width());
     clip.height = static_cast<int>(height());
 
-    // Only collect text runs when selection is active or in progress — this avoids
-    // rebuilding the text run vectors on every paint frame during normal scrolling.
-    bool collectRuns = needsTextRunCollection();
+    // Always collect text runs so they are available for double-click word
+    // selection without requiring a prior drag selection paint pass.
     QElapsedTimer timer;
     timer.start();
-    if (collectRuns)
-        m_container->beginTextRunCollection();
+    m_container->beginTextRunCollection();
     m_document->draw(reinterpret_cast<litehtml::uint_ptr>(painter), padLeft, 0, &clip);
-    if (collectRuns)
-        m_container->endTextRunCollection();
+    m_container->endTextRunCollection();
 
     if (m_selStart.isValid() && m_selEnd.isValid() && m_selStart != m_selEnd)
         drawSelection(painter);
@@ -347,12 +344,6 @@ LitehtmlItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometr
     } else if (qRound(newGeometry.height()) != qRound(oldGeometry.height())) {
         updateTextureSize();
     }
-}
-
-bool
-LitehtmlItem::needsTextRunCollection() const
-{
-    return m_selecting || m_selStart.isValid();
 }
 
 bool

@@ -120,7 +120,6 @@ private:
     void drawSelection(QPainter *painter);
     void clearSelection();
 
-    bool needsTextRunCollection() const;
     bool roomSwitchPerfEnabled() const;
     void logPerfPhase(const char *phase, qint64 elapsedUs, const QString &extra = {}) const;
 

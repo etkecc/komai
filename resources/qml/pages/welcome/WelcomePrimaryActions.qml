@@ -26,16 +26,20 @@ RowLayout {
         font.pointSize: Settings.uiFontSizePt * 1.5
         highlighted: true
         onClicked: actions.registerRequested()
+        Keys.onReturnPressed: actions.registerRequested()
+        Keys.onEnterPressed: actions.registerRequested()
     }
 
     KomaiButton {
         Layout.margins: Komai.paddingLarge
         Layout.alignment: Qt.AlignHCenter
-        text: qsTr("Login")
+        text: qsTr("Sign in")
         icon.source: "qrc:/icons/icons/ui/arrow-right.svg"
         font.pointSize: Settings.uiFontSizePt * 1.5
         highlighted: true
         onClicked: actions.loginRequested()
+        Keys.onReturnPressed: actions.loginRequested()
+        Keys.onEnterPressed: actions.loginRequested()
     }
 
     Item {

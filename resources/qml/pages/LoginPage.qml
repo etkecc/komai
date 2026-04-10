@@ -20,7 +20,10 @@ Item {
     readonly property var login: loginController
     property string error: login.error
 
-    StackView.onActivated: matrixIdField.forceActiveFocus()
+    StackView.onActivated: {
+        matrixIdField.forceActiveFocus();
+        suggestRandomBtn.randomName = login.deviceNameRandom();
+    }
 
     // Step management (0-based)
     property int currentStep: 0
@@ -231,7 +234,7 @@ Item {
             Label {
                 Layout.fillWidth: true
                 visible: !login.mxidError
-                text: qsTr("Accounts live on a server. Enter a full ID or just a username with the server below.")
+                text: qsTr("Accounts live on a server. A full ID will attempt server auto-detection.")
                 color: palette.buttonText
                 font.pointSize: Settings.uiFontSizePt
                 wrapMode: Text.Wrap
@@ -466,6 +469,9 @@ Item {
                     rightPadding: Komai.paddingSmall
                     highlighted: deviceNameField.text === text
                     onClicked: deviceNameField.text = randomName
+                    // Fix width to the longest possible name so rerolls don't reflow
+                    width: randomNameMaxMetrics.advanceWidth + leftPadding + rightPadding
+                    TextMetrics { id: randomNameMaxMetrics; font: suggestRandomBtn.font; text: login.deviceNameRandomMax() }
                 }
 
                 KomaiButton {

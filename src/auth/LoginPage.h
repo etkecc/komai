@@ -87,49 +87,33 @@ public:
 
     Q_INVOKABLE QString deviceNameRandom() const
     {
-        // ~50 adjectives + ~50 nouns for fun, unique, privacy-friendly names
-        static const QStringList adjectives = {
-          QStringLiteral("swift"),  QStringLiteral("calm"),   QStringLiteral("bright"),
-          QStringLiteral("quiet"),  QStringLiteral("bold"),   QStringLiteral("keen"),
-          QStringLiteral("warm"),   QStringLiteral("cool"),   QStringLiteral("wild"),
-          QStringLiteral("brave"),  QStringLiteral("clever"), QStringLiteral("gentle"),
-          QStringLiteral("noble"),  QStringLiteral("vivid"),  QStringLiteral("steady"),
-          QStringLiteral("lucky"),  QStringLiteral("nimble"), QStringLiteral("witty"),
-          QStringLiteral("merry"),  QStringLiteral("cosmic"), QStringLiteral("snowy"),
-          QStringLiteral("golden"), QStringLiteral("silver"), QStringLiteral("rustic"),
-          QStringLiteral("misty"),  QStringLiteral("starry"), QStringLiteral("sandy"),
-          QStringLiteral("mossy"),  QStringLiteral("coral"),  QStringLiteral("velvet"),
-          QStringLiteral("amber"),  QStringLiteral("ivory"),  QStringLiteral("cedar"),
-          QStringLiteral("maple"),  QStringLiteral("polar"),  QStringLiteral("lunar"),
-          QStringLiteral("solar"),  QStringLiteral("alpine"), QStringLiteral("rusty"),
-          QStringLiteral("azure"),  QStringLiteral("jade"),   QStringLiteral("copper"),
-          QStringLiteral("sage"),   QStringLiteral("plum"),   QStringLiteral("olive"),
-          QStringLiteral("dusky"),  QStringLiteral("frosty"), QStringLiteral("lively"),
-          QStringLiteral("crisp"),  QStringLiteral("rosy"),
-        };
-        static const QStringList nouns = {
-          QStringLiteral("owl"),    QStringLiteral("river"),  QStringLiteral("summit"),
-          QStringLiteral("harbor"), QStringLiteral("fox"),    QStringLiteral("grove"),
-          QStringLiteral("peak"),   QStringLiteral("brook"),  QStringLiteral("cliff"),
-          QStringLiteral("reef"),   QStringLiteral("meadow"), QStringLiteral("falcon"),
-          QStringLiteral("otter"),  QStringLiteral("cedar"),  QStringLiteral("maple"),
-          QStringLiteral("canyon"), QStringLiteral("ridge"),  QStringLiteral("dune"),
-          QStringLiteral("cove"),   QStringLiteral("trail"),  QStringLiteral("pine"),
-          QStringLiteral("wolf"),   QStringLiteral("heron"),  QStringLiteral("pebble"),
-          QStringLiteral("orchid"), QStringLiteral("ember"),  QStringLiteral("breeze"),
-          QStringLiteral("moss"),   QStringLiteral("coral"),  QStringLiteral("stone"),
-          QStringLiteral("fern"),   QStringLiteral("lark"),   QStringLiteral("wren"),
-          QStringLiteral("crane"),  QStringLiteral("lotus"),  QStringLiteral("spark"),
-          QStringLiteral("flint"),  QStringLiteral("drift"),  QStringLiteral("vale"),
-          QStringLiteral("marsh"),  QStringLiteral("cloud"),  QStringLiteral("bloom"),
-          QStringLiteral("shell"),  QStringLiteral("leaf"),   QStringLiteral("bay"),
-          QStringLiteral("coast"),  QStringLiteral("tide"),   QStringLiteral("gale"),
-        };
-
-        auto *rng       = QRandomGenerator::global();
-        const auto adj  = adjectives[rng->bounded(adjectives.size())];
-        const auto noun = nouns[rng->bounded(nouns.size())];
+        const auto &[adjectives, nouns] = randomWordLists_();
+        auto *rng                       = QRandomGenerator::global();
+        const auto adj                  = adjectives[rng->bounded(adjectives.size())];
+        const auto noun                 = nouns[rng->bounded(nouns.size())];
         return QStringLiteral("Komai-%1-%2").arg(adj, noun);
+    }
+
+    // Returns the longest possible random device name (for stable UI sizing).
+    Q_INVOKABLE QString deviceNameRandomMax() const
+    {
+        const auto &[adjectives, nouns] = randomWordLists_();
+        int maxAdj                      = 0;
+        int maxNoun                     = 0;
+        QString longestAdj, longestNoun;
+        for (const auto &a : adjectives) {
+            if (a.size() > maxAdj) {
+                maxAdj     = a.size();
+                longestAdj = a;
+            }
+        }
+        for (const auto &n : nouns) {
+            if (n.size() > maxNoun) {
+                maxNoun     = n.size();
+                longestNoun = n;
+            }
+        }
+        return QStringLiteral("Komai-%1-%2").arg(longestAdj, longestNoun);
     }
 
     bool lookingUpHs() const { return lookingUpHs_; }
@@ -215,6 +199,50 @@ public slots:
                    QVariantList identityProviders);
 
 private:
+    static const std::pair<QStringList, QStringList> &randomWordLists_()
+    {
+        static const std::pair<QStringList, QStringList> lists = {
+          {
+            QStringLiteral("swift"),  QStringLiteral("calm"),   QStringLiteral("bright"),
+            QStringLiteral("quiet"),  QStringLiteral("bold"),   QStringLiteral("keen"),
+            QStringLiteral("warm"),   QStringLiteral("cool"),   QStringLiteral("wild"),
+            QStringLiteral("brave"),  QStringLiteral("clever"), QStringLiteral("gentle"),
+            QStringLiteral("noble"),  QStringLiteral("vivid"),  QStringLiteral("steady"),
+            QStringLiteral("lucky"),  QStringLiteral("nimble"), QStringLiteral("witty"),
+            QStringLiteral("merry"),  QStringLiteral("cosmic"), QStringLiteral("snowy"),
+            QStringLiteral("golden"), QStringLiteral("silver"), QStringLiteral("rustic"),
+            QStringLiteral("misty"),  QStringLiteral("starry"), QStringLiteral("sandy"),
+            QStringLiteral("mossy"),  QStringLiteral("coral"),  QStringLiteral("velvet"),
+            QStringLiteral("amber"),  QStringLiteral("ivory"),  QStringLiteral("cedar"),
+            QStringLiteral("maple"),  QStringLiteral("polar"),  QStringLiteral("lunar"),
+            QStringLiteral("solar"),  QStringLiteral("alpine"), QStringLiteral("rusty"),
+            QStringLiteral("azure"),  QStringLiteral("jade"),   QStringLiteral("copper"),
+            QStringLiteral("sage"),   QStringLiteral("plum"),   QStringLiteral("olive"),
+            QStringLiteral("dusky"),  QStringLiteral("frosty"), QStringLiteral("lively"),
+            QStringLiteral("crisp"),  QStringLiteral("rosy"),
+          },
+          {
+            QStringLiteral("owl"),    QStringLiteral("river"),  QStringLiteral("summit"),
+            QStringLiteral("harbor"), QStringLiteral("fox"),    QStringLiteral("grove"),
+            QStringLiteral("peak"),   QStringLiteral("brook"),  QStringLiteral("cliff"),
+            QStringLiteral("reef"),   QStringLiteral("meadow"), QStringLiteral("falcon"),
+            QStringLiteral("otter"),  QStringLiteral("cedar"),  QStringLiteral("maple"),
+            QStringLiteral("canyon"), QStringLiteral("ridge"),  QStringLiteral("dune"),
+            QStringLiteral("cove"),   QStringLiteral("trail"),  QStringLiteral("pine"),
+            QStringLiteral("wolf"),   QStringLiteral("heron"),  QStringLiteral("pebble"),
+            QStringLiteral("orchid"), QStringLiteral("ember"),  QStringLiteral("breeze"),
+            QStringLiteral("moss"),   QStringLiteral("coral"),  QStringLiteral("stone"),
+            QStringLiteral("fern"),   QStringLiteral("lark"),   QStringLiteral("wren"),
+            QStringLiteral("crane"),  QStringLiteral("lotus"),  QStringLiteral("spark"),
+            QStringLiteral("flint"),  QStringLiteral("drift"),  QStringLiteral("vale"),
+            QStringLiteral("marsh"),  QStringLiteral("cloud"),  QStringLiteral("bloom"),
+            QStringLiteral("shell"),  QStringLiteral("leaf"),   QStringLiteral("bay"),
+            QStringLiteral("coast"),  QStringLiteral("tide"),   QStringLiteral("gale"),
+          },
+        };
+        return lists;
+    }
+
     void beginStartupRestoreHandoff();
     void startLoginFlowDiscovery(const QString &serverNameOrUrl, const QString &expectedHomeserver);
     QVariantList buildIdentityProviders(

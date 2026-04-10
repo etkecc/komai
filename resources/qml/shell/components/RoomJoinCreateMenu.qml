@@ -9,8 +9,6 @@ import cc.etke.komai
 Menu {
     id: root
 
-    required property var profileContextMenu
-
     MenuItem {
         text: qsTr("Join room")
 
@@ -20,18 +18,18 @@ Menu {
     MenuItem {
         text: qsTr("New room")
 
-        onTriggered: root.profileContextMenu.openCreateRoomDialog({})
+        onTriggered: timelineRoot.openCatalogDialog(componentCatalog.roomCreateDialog, {})
     }
     MenuItem {
         text: qsTr("New direct chat")
 
-        onTriggered: root.profileContextMenu.openCreateDirectDialog()
+        onTriggered: timelineRoot.openCatalogDialog(componentCatalog.roomCreateDirectDialog)
     }
     MenuSeparator {}
     MenuItem {
         text: qsTr("New space")
 
-        onTriggered: root.profileContextMenu.openCreateRoomDialog({
+        onTriggered: timelineRoot.openCatalogDialog(componentCatalog.roomCreateDialog, {
                 "space": true
             })
     }

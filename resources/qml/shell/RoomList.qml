@@ -473,7 +473,6 @@ Page {
                 RoomListBotChatFooter {
                     width: parent.width
                     collapsed: roomListPage.collapsed
-                    profileContextMenu: roomListPage.profileMenu
                 }
             }
 

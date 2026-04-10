@@ -160,8 +160,6 @@ Pane {
         }
         RoomJoinCreateDialog {
             id: roomJoinCreateDialog
-
-            profileContextMenu: roomActionsBar.profileContextMenu
         }
     }
 

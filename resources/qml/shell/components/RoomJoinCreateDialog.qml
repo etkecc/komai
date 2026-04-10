@@ -11,8 +11,6 @@ import cc.etke.komai 1.0
 Components.OverlayDialog {
     id: root
 
-    required property var profileContextMenu
-
     title: qsTr("New")
     titleIcon: ":/icons/icons/ui/plus-circle.svg"
 
@@ -138,7 +136,7 @@ Components.OverlayDialog {
             shortcutDisplayText: qsTr("E")
             onClicked: {
                 root.close();
-                root.profileContextMenu.openRoomDirectoryDialog();
+                timelineRoot.openRoomDirectory();
             }
         }
 
@@ -157,7 +155,7 @@ Components.OverlayDialog {
             shortcutDisplayText: qsTr("D")
             onClicked: {
                 root.close();
-                root.profileContextMenu.openCreateDirectDialog();
+                timelineRoot.openCatalogDialog(componentCatalog.roomCreateDirectDialog);
             }
         }
 
@@ -169,7 +167,7 @@ Components.OverlayDialog {
             shortcutDisplayText: qsTr("R")
             onClicked: {
                 root.close();
-                root.profileContextMenu.openCreateRoomDialog({});
+                timelineRoot.openCatalogDialog(componentCatalog.roomCreateDialog, {});
             }
         }
 
@@ -181,7 +179,7 @@ Components.OverlayDialog {
             shortcutDisplayText: qsTr("S")
             onClicked: {
                 root.close();
-                root.profileContextMenu.openCreateRoomDialog({
+                timelineRoot.openCatalogDialog(componentCatalog.roomCreateDialog, {
                         "space": true
                     });
             }

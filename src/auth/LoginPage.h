@@ -8,9 +8,15 @@
 #include "matrix/backend/MatrixAuthService.h"
 #include <QHostInfo>
 #include <QObject>
+#include <QPointer>
 #include <QQmlEngine>
 #include <QRandomGenerator>
 #include <QVariantList>
+
+#include <atomic>
+#include <memory>
+
+class SSOHandler;
 
 struct SSOProvider
 {
@@ -57,6 +63,8 @@ public:
     Q_ENUM(LoginMethod)
 
     LoginPage(QObject *parent = nullptr);
+
+    Q_INVOKABLE void cancelLogin();
 
     Q_INVOKABLE QString initialDeviceName() const
     {
@@ -286,4 +294,8 @@ private:
     bool homeserverNeeded_            = false;
     bool homeserverValid_             = false;
     bool startupRestoreHandoffActive_ = false;
+
+    // Active SSO login state (for cancellation)
+    QPointer<SSOHandler> activeSsoHandler_;
+    std::shared_ptr<std::atomic<uint64_t>> activeOauthLoginId_;
 };

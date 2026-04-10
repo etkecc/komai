@@ -21,6 +21,10 @@ Item {
     property string error: login.error
 
     StackView.onActivated: {
+        if (login.loggingIn)
+            login.cancelLogin();
+        loginPage.currentStep = 0;
+        loginPage.signInMethodIndex = 0;
         matrixIdField.forceActiveFocus();
         suggestRandomBtn.randomName = login.deviceNameRandom();
     }
@@ -732,6 +736,8 @@ Item {
                             { text: qsTr("Password"), value: "password" }
                         ]
                         onActivated: function(index) {
+                            if (login.loggingIn)
+                                login.cancelLogin();
                             loginPage.signInMethodIndex = index;
                         }
                     }

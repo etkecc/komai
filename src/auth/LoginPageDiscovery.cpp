@@ -292,6 +292,11 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
     } else {
         auto sso          = new SSOHandler();
         auto oauthLoginId = std::make_shared<std::atomic<uint64_t>>(0);
+
+        // Store for cancellation via cancelLogin()
+        activeSsoHandler_   = sso;
+        activeOauthLoginId_ = oauthLoginId;
+
         QPointer<LoginPage> guard(this);
         const auto profileId                = UserSettings::instance()->profile();
         const auto homeserver               = homeserver_;
@@ -472,4 +477,33 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
 
     loggingIn_ = true;
     emit loggingInChanged();
+}
+
+void
+LoginPage::cancelLogin()
+{
+    if (!loggingIn_)
+        return;
+
+    // Cancel pending OAuth login
+    if (activeOauthLoginId_) {
+        const auto pendingId = activeOauthLoginId_->exchange(0, std::memory_order_relaxed);
+        if (pendingId != 0) {
+            QString error;
+            if (!komai::MatrixAuthService::cancelOauthLogin(pendingId, &error) && !error.isEmpty())
+                nhlog::net()->warn(
+                  "Failed to cancel pending OAuth login {}: {}", pendingId, error.toStdString());
+        }
+        activeOauthLoginId_.reset();
+    }
+
+    // Stop SSO callback server
+    if (activeSsoHandler_) {
+        activeSsoHandler_->deleteLater();
+        activeSsoHandler_ = nullptr;
+    }
+
+    loggingIn_ = false;
+    emit loggingInChanged();
+    clearErrors();
 }

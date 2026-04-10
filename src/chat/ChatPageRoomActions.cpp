@@ -262,10 +262,9 @@ ChatPage::inviteUser(const QString &room, QString userid, QString reason)
                                 error.toStdString());
               Q_EMIT page->showNotification(
                 ChatPage::tr("Failed to invite %1 to %2: %3").arg(userid, room, error));
-              return;
           }
-
-          Q_EMIT page->showNotification(ChatPage::tr("Invited user: %1").arg(userid));
+          if (page->view_manager_)
+              Q_EMIT page->view_manager_->roomMembersChanged(room);
       });
 }
 

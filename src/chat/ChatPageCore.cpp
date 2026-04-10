@@ -108,8 +108,11 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
 
                 auto inviteNext = std::make_shared<std::function<void(int)>>();
                 *inviteNext     = [this, roomId, users, handleId, inviteNext](int index) {
-                    if (index >= users.size())
+                    if (index >= users.size()) {
+                        if (view_manager_)
+                            emit view_manager_->roomMembersChanged(roomId);
                         return;
+                    }
 
                     const auto user = users.at(index);
                     QPointer<ChatPage> guard(this);
@@ -135,9 +138,6 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                                     error.toStdString());
                                   emit guard->showNotification(
                                     ChatPage::tr("Failed to invite %1: %2").arg(user, error));
-                              } else {
-                                  emit guard->showNotification(
-                                    ChatPage::tr("Invited user: %1").arg(user));
                               }
 
                               (*inviteNext)(index + 1);

@@ -341,6 +341,7 @@ signals:
     void activeMatrixTimelineRawMessageDialogReady(QString eventId, QVariantMap payload);
     void activeMatrixTimelineReadReceiptsReady(QString eventId, QObject *readReceipts);
     void inviteUsers(QString roomId, QStringList users);
+    void roomMembersChanged(QString roomId);
     void showRoomList();
     void narrowViewChanged();
     void focusInput();

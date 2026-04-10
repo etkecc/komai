@@ -22,6 +22,14 @@ Item {
         roomId: membersTab.members ? membersTab.members.roomId : ""
     }
 
+    Connections {
+        target: TimelineManager
+        function onRoomMembersChanged(roomId) {
+            if (membersTab.members && roomId === membersTab.members.roomId)
+                membersTab.members.reload();
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: Komai.paddingMedium

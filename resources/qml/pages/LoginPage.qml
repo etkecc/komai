@@ -518,37 +518,11 @@ Item {
             // STEP 3: Sign In
             // ════════════════════════════════════════
 
-            // ── Logging in spinner ──
-            Item {
-                Layout.preferredHeight: login.loggingIn ? Komai.listIconSize : 0
-                Layout.fillWidth: true
-                visible: loginPage.currentStep === 2
-
-                Spinner {
-                    height: Komai.listIconSize
-                    anchors.centerIn: parent
-                    visible: running
-                    running: login.loggingIn
-                    foreground: palette.mid
-                }
-            }
-
-            // ── Step 3 error ──
-            MatrixText {
-                Layout.fillWidth: true
-                textFormat: Text.PlainText
-                color: Komai.theme.error
-                text: loginPage.error
-                visible: text && loginPage.currentStep === 2
-                wrapMode: TextEdit.Wrap
-            }
-
             // ── SSO-only: single button ──
             KomaiButton {
                 visible: loginPage.currentStep === 2 && login.ssoSupported && !login.passwordSupported
-                    && login.identityProviders.length <= 1
+                    && login.identityProviders.length <= 1 && !login.loggingIn
                 onVisibleChanged: if (visible) forceActiveFocus()
-                enabled: !login.loggingIn
                 Layout.alignment: Qt.AlignHCenter
                 Layout.topMargin: Komai.paddingMedium
                 text: qsTr("Continue in browser (SSO)")
@@ -568,14 +542,13 @@ Item {
             Repeater {
                 id: ssoOnlyRepeater
                 model: (loginPage.currentStep === 2 && login.ssoSupported && !login.passwordSupported
-                    && login.identityProviders.length > 1) ? login.identityProviders : []
+                    && login.identityProviders.length > 1 && !login.loggingIn) ? login.identityProviders : []
 
                 delegate: KomaiButton {
                     id: ssoIdpBtn
                     required property int index
                     required property var modelData
                     Component.onCompleted: if (index === 0) forceActiveFocus()
-                    enabled: !login.loggingIn
                     Layout.alignment: Qt.AlignHCenter
                     text: modelData.name
                     icon.source: modelData.avatarUrl ? modelData.avatarUrl.replace("mxc://", "image://MxcImage/") : ""
@@ -588,6 +561,41 @@ Item {
                     Keys.onReturnPressed: if (enabled) doSsoLogin()
                     Keys.onEnterPressed: if (enabled) doSsoLogin()
                 }
+            }
+
+            // ── SSO-only: browser launched indicator (replaces SSO buttons) ──
+            Item {
+                Layout.preferredHeight: Komai.listIconSize
+                Layout.fillWidth: true
+                visible: loginPage.currentStep === 2 && login.loggingIn && login.ssoSupported && !login.passwordSupported
+
+                Spinner {
+                    height: Komai.listIconSize
+                    anchors.centerIn: parent
+                    visible: running
+                    running: parent.visible
+                    foreground: palette.mid
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                visible: loginPage.currentStep === 2 && login.loggingIn && login.ssoSupported && !login.passwordSupported
+                text: qsTr("Your browser has been launched. Continue there.")
+                color: palette.buttonText
+                font.pointSize: Settings.uiFontSizePt
+                wrapMode: Text.Wrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            // ── SSO-only error (shown after SSO failure) ──
+            MatrixText {
+                Layout.fillWidth: true
+                textFormat: Text.PlainText
+                color: Komai.theme.error
+                text: loginPage.error
+                visible: text && loginPage.currentStep === 2 && login.ssoSupported && !login.passwordSupported
+                wrapMode: TextEdit.Wrap
             }
 
             // ── Password-only: password field + sign in ──
@@ -639,6 +647,29 @@ Item {
                         Keys.onReturnPressed: if (pwOnlyBtn.enabled) pwOnlyBtn.doPwLogin()
                         Keys.onEnterPressed: if (pwOnlyBtn.enabled) pwOnlyBtn.doPwLogin()
                     }
+                }
+            }
+
+            MatrixText {
+                Layout.fillWidth: true
+                textFormat: Text.PlainText
+                color: Komai.theme.error
+                text: loginPage.error
+                visible: text && loginPage.currentStep === 2 && login.passwordSupported && !login.ssoSupported
+                wrapMode: TextEdit.Wrap
+            }
+
+            Item {
+                Layout.preferredHeight: Komai.listIconSize
+                Layout.fillWidth: true
+                visible: loginPage.currentStep === 2 && login.loggingIn && login.passwordSupported && !login.ssoSupported
+
+                Spinner {
+                    height: Komai.listIconSize
+                    anchors.centerIn: parent
+                    visible: running
+                    running: parent.visible
+                    foreground: palette.mid
                 }
             }
 
@@ -709,7 +740,7 @@ Item {
 
             // ── Both: SSO provider buttons (when browser/SSO selected) ──
             Repeater {
-                model: (loginPage.currentStep === 2 && login.passwordSupported && login.ssoSupported && !loginPage.showPasswordField)
+                model: (loginPage.currentStep === 2 && login.passwordSupported && login.ssoSupported && !loginPage.showPasswordField && !login.loggingIn)
                     ? login.identityProviders : []
 
                 delegate: KomaiButton {
@@ -717,7 +748,6 @@ Item {
                     required property int index
                     required property var modelData
                     Component.onCompleted: if (index === 0) forceActiveFocus()
-                    enabled: !login.loggingIn
                     Layout.alignment: Qt.AlignHCenter
                     text: modelData.name
                     icon.source: modelData.avatarUrl ? modelData.avatarUrl.replace("mxc://", "image://MxcImage/") : "qrc:/icons/icons/ui/forward.svg"
@@ -730,6 +760,41 @@ Item {
                     Keys.onReturnPressed: if (enabled) doSsoLogin()
                     Keys.onEnterPressed: if (enabled) doSsoLogin()
                 }
+            }
+
+            // ── Both: SSO browser launched indicator (replaces SSO buttons) ──
+            Item {
+                Layout.preferredHeight: Komai.listIconSize
+                Layout.fillWidth: true
+                visible: loginPage.currentStep === 2 && login.loggingIn && login.ssoSupported && login.passwordSupported && !loginPage.showPasswordField
+
+                Spinner {
+                    height: Komai.listIconSize
+                    anchors.centerIn: parent
+                    visible: running
+                    running: parent.visible
+                    foreground: palette.mid
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                visible: loginPage.currentStep === 2 && login.loggingIn && login.ssoSupported && login.passwordSupported && !loginPage.showPasswordField
+                text: qsTr("Your browser has been launched. Continue there.")
+                color: palette.buttonText
+                font.pointSize: Settings.uiFontSizePt
+                wrapMode: Text.Wrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            // ── Both: SSO error (shown after SSO failure) ──
+            MatrixText {
+                Layout.fillWidth: true
+                textFormat: Text.PlainText
+                color: Komai.theme.error
+                text: loginPage.error
+                visible: text && loginPage.currentStep === 2 && login.ssoSupported && login.passwordSupported && !loginPage.showPasswordField
+                wrapMode: TextEdit.Wrap
             }
 
             // ── Both: Password field (when password selected) ──
@@ -788,6 +853,29 @@ Item {
                         Keys.onReturnPressed: if (pwBothBtn.enabled) pwBothBtn.doPwLogin()
                         Keys.onEnterPressed: if (pwBothBtn.enabled) pwBothBtn.doPwLogin()
                     }
+                }
+            }
+
+            MatrixText {
+                Layout.fillWidth: true
+                textFormat: Text.PlainText
+                color: Komai.theme.error
+                text: loginPage.error
+                visible: text && loginPage.currentStep === 2 && login.passwordSupported && login.ssoSupported && loginPage.showPasswordField
+                wrapMode: TextEdit.Wrap
+            }
+
+            Item {
+                Layout.preferredHeight: Komai.listIconSize
+                Layout.fillWidth: true
+                visible: loginPage.currentStep === 2 && login.loggingIn && login.passwordSupported && login.ssoSupported && loginPage.showPasswordField
+
+                Spinner {
+                    height: Komai.listIconSize
+                    anchors.centerIn: parent
+                    visible: running
+                    running: parent.visible
+                    foreground: palette.mid
                 }
             }
 

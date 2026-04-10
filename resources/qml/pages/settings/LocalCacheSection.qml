@@ -374,7 +374,7 @@ Item {
                         Layout.rightMargin: Komai.paddingMedium
                         Layout.topMargin: 2
                         Layout.bottomMargin: Komai.paddingMedium
-                        text: qsTr("Managed automatically. To reset local state, log out and sign back in.")
+                        text: qsTr("Managed automatically. To reset local state, sign out and sign back in.")
                         textColor: Komai.theme.attention
                     }
                 }

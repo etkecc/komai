@@ -12,14 +12,14 @@ import cc.etke.komai 1.0
 Components.OverlayDialog {
     id: logoutRoot
 
-    title: qsTr("Log out")
+    title: qsTr("Sign out")
     titleIcon: ":/icons/icons/ui/power-off.svg"
 
     Label {
         Layout.fillWidth: true
         color: palette.text
         wrapMode: Text.WordWrap
-        text: CallManager.isOnCall ? qsTr("A call is in progress. Log out?") : qsTr("Are you sure you want to log out?")
+        text: CallManager.isOnCall ? qsTr("A call is in progress. Sign out?") : qsTr("Are you sure you want to sign out?")
     }
 
     RowLayout {
@@ -36,7 +36,7 @@ Components.OverlayDialog {
         }
 
         Components.KomaiButton {
-            text: qsTr("Log out")
+            text: qsTr("Sign out")
             highlighted: true
             onClicked: {
                 Komai.logout();

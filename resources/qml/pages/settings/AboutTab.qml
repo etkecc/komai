@@ -24,8 +24,11 @@ SettingsContent {
             Image {
                 Layout.alignment: Qt.AlignHCenter
                 source: "qrc:/logos/komai.svg"
+                sourceSize.width: 128
+                sourceSize.height: 128
                 Layout.preferredHeight: 128
                 Layout.preferredWidth: 128
+                fillMode: Image.PreserveAspectFit
             }
 
             Text {

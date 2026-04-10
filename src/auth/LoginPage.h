@@ -6,8 +6,10 @@
 #pragma once
 
 #include "matrix/backend/MatrixAuthService.h"
+#include <QHostInfo>
 #include <QObject>
 #include <QQmlEngine>
+#include <QRandomGenerator>
 #include <QVariantList>
 
 struct SSOProvider
@@ -59,6 +61,75 @@ public:
     Q_INVOKABLE QString initialDeviceName() const
     {
         return QString::fromStdString(initialDeviceName_());
+    }
+
+    Q_INVOKABLE QString deviceNameOS() const
+    {
+#if defined(Q_OS_MAC)
+        return QStringLiteral("Komai-macOS");
+#elif defined(Q_OS_LINUX)
+        return QStringLiteral("Komai-Linux");
+#elif defined(Q_OS_WIN)
+        return QStringLiteral("Komai-Windows");
+#elif defined(Q_OS_FREEBSD)
+        return QStringLiteral("Komai-FreeBSD");
+#elif defined(Q_OS_OPENBSD)
+        return QStringLiteral("Komai-OpenBSD");
+#else
+        return QStringLiteral("Komai");
+#endif
+    }
+
+    Q_INVOKABLE QString deviceNameHostname() const
+    {
+        return QStringLiteral("Komai-%1").arg(QHostInfo::localHostName());
+    }
+
+    Q_INVOKABLE QString deviceNameRandom() const
+    {
+        // ~50 adjectives + ~50 nouns for fun, unique, privacy-friendly names
+        static const QStringList adjectives = {
+          QStringLiteral("swift"),  QStringLiteral("calm"),   QStringLiteral("bright"),
+          QStringLiteral("quiet"),  QStringLiteral("bold"),   QStringLiteral("keen"),
+          QStringLiteral("warm"),   QStringLiteral("cool"),   QStringLiteral("wild"),
+          QStringLiteral("brave"),  QStringLiteral("clever"), QStringLiteral("gentle"),
+          QStringLiteral("noble"),  QStringLiteral("vivid"),  QStringLiteral("steady"),
+          QStringLiteral("lucky"),  QStringLiteral("nimble"), QStringLiteral("witty"),
+          QStringLiteral("merry"),  QStringLiteral("cosmic"), QStringLiteral("snowy"),
+          QStringLiteral("golden"), QStringLiteral("silver"), QStringLiteral("rustic"),
+          QStringLiteral("misty"),  QStringLiteral("starry"), QStringLiteral("sandy"),
+          QStringLiteral("mossy"),  QStringLiteral("coral"),  QStringLiteral("velvet"),
+          QStringLiteral("amber"),  QStringLiteral("ivory"),  QStringLiteral("cedar"),
+          QStringLiteral("maple"),  QStringLiteral("polar"),  QStringLiteral("lunar"),
+          QStringLiteral("solar"),  QStringLiteral("alpine"), QStringLiteral("rusty"),
+          QStringLiteral("azure"),  QStringLiteral("jade"),   QStringLiteral("copper"),
+          QStringLiteral("sage"),   QStringLiteral("plum"),   QStringLiteral("olive"),
+          QStringLiteral("dusky"),  QStringLiteral("frosty"), QStringLiteral("lively"),
+          QStringLiteral("crisp"),  QStringLiteral("rosy"),
+        };
+        static const QStringList nouns = {
+          QStringLiteral("owl"),    QStringLiteral("river"),  QStringLiteral("summit"),
+          QStringLiteral("harbor"), QStringLiteral("fox"),    QStringLiteral("grove"),
+          QStringLiteral("peak"),   QStringLiteral("brook"),  QStringLiteral("cliff"),
+          QStringLiteral("reef"),   QStringLiteral("meadow"), QStringLiteral("falcon"),
+          QStringLiteral("otter"),  QStringLiteral("cedar"),  QStringLiteral("maple"),
+          QStringLiteral("canyon"), QStringLiteral("ridge"),  QStringLiteral("dune"),
+          QStringLiteral("cove"),   QStringLiteral("trail"),  QStringLiteral("pine"),
+          QStringLiteral("wolf"),   QStringLiteral("heron"),  QStringLiteral("pebble"),
+          QStringLiteral("orchid"), QStringLiteral("ember"),  QStringLiteral("breeze"),
+          QStringLiteral("moss"),   QStringLiteral("coral"),  QStringLiteral("stone"),
+          QStringLiteral("fern"),   QStringLiteral("lark"),   QStringLiteral("wren"),
+          QStringLiteral("crane"),  QStringLiteral("lotus"),  QStringLiteral("spark"),
+          QStringLiteral("flint"),  QStringLiteral("drift"),  QStringLiteral("vale"),
+          QStringLiteral("marsh"),  QStringLiteral("cloud"),  QStringLiteral("bloom"),
+          QStringLiteral("shell"),  QStringLiteral("leaf"),   QStringLiteral("bay"),
+          QStringLiteral("coast"),  QStringLiteral("tide"),   QStringLiteral("gale"),
+        };
+
+        auto *rng       = QRandomGenerator::global();
+        const auto adj  = adjectives[rng->bounded(adjectives.size())];
+        const auto noun = nouns[rng->bounded(nouns.size())];
+        return QStringLiteral("Komai-%1-%2").arg(adj, noun);
     }
 
     bool lookingUpHs() const { return lookingUpHs_; }

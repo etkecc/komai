@@ -83,7 +83,7 @@ Pane {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: userInfoPanel.lineSpacing * 2
             Layout.preferredWidth: userInfoPanel.lineSpacing * 2
-            toolTipText: qsTr("Logout")
+            toolTipText: qsTr("Sign out")
             toolTipVisible: hovered
             image: ":/icons/icons/ui/power-off.svg"
             visible: !userInfoPanel.collapsed

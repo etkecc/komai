@@ -209,7 +209,7 @@ Item {
                 Layout.margins: Komai.paddingMedium
                 Layout.maximumWidth: Math.floor(grid.width / 2) - Komai.paddingMedium * 2
                 color: palette.text
-                text: "Use online key backup.\nStore the keys for your messages securely encrypted online. In general you do want this, because it protects your messages from becoming unreadable, if you log out by accident. It does however carry a small security risk, if you ever share your recovery key by accident. Currently this also has some other weaknesses, that might allow the server to insert new keys into your backup. The server will however never be able to read your messages."
+                text: "Use online key backup.\nStore the keys for your messages securely encrypted online. In general you do want this, because it protects your messages from becoming unreadable, if you sign out by accident. It does however carry a small security risk, if you ever share your recovery key by accident. Currently this also has some other weaknesses, that might allow the server to insert new keys into your backup. The server will however never be able to read your messages."
                 wrapMode: Text.Wrap
             }
             Item {

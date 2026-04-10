@@ -561,7 +561,7 @@ Item {
                                         Item { Layout.fillWidth: true }
 
                                         Components.KomaiButton {
-                                            text: qsTr("Logout")
+                                            text: qsTr("Sign out")
                                             icon.source: "qrc:/icons/icons/ui/power-off.svg"
                                             Layout.topMargin: Komai.paddingMedium + 2
                                             Layout.bottomMargin: Komai.paddingMedium + 2
@@ -1018,7 +1018,7 @@ Item {
                                             }
 
                                             Components.KomaiButton {
-                                                text: qsTr("Logout")
+                                                text: qsTr("Sign out")
                                                 icon.source: "qrc:/icons/icons/ui/power-off.svg"
                                                 Layout.topMargin: Komai.paddingMedium + 2
                                                 Layout.bottomMargin: Komai.paddingMedium + 2

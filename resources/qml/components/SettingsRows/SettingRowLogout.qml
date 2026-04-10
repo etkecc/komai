@@ -9,7 +9,7 @@ import "../../dialogs/account"
 
 KomaiButton {
     id: logoutBtn
-    text: qsTr("Logout")
+    text: qsTr("Sign out")
     icon.source: "qrc:/icons/icons/ui/power-off.svg"
 
     onClicked: {

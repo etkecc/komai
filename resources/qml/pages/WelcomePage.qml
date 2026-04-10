@@ -30,8 +30,11 @@ Item {
             Image {
                 Layout.alignment: Qt.AlignHCenter
                 source: "qrc:/logos/komai.svg"
+                sourceSize.width: 256
+                sourceSize.height: 256
                 Layout.preferredHeight: 256
                 Layout.preferredWidth: 256
+                fillMode: Image.PreserveAspectFit
             }
 
             Welcome.WelcomeRichText {

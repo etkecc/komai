@@ -339,6 +339,7 @@ Item {
                                             anchors.left: r.useStackedLayout ? parent.left : undefined
                                             anchors.right: r.useStackedLayout ? undefined : parent.right
                                             model: r.model
+                                            hovered: rowHover.hovered
                                         }
                                     }
                                     DelegateChoice {
@@ -420,6 +421,7 @@ Item {
                                             anchors.right: r.useStackedLayout ? undefined : parent.right
                                             model: r.model
                                             leftAligned: r.useStackedLayout
+                                            hovered: rowHover.hovered
                                         }
                                     }
                                 }

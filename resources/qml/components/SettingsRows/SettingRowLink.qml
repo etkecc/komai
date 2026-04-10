@@ -10,8 +10,9 @@ TextEdit {
     id: root
 
     required property var model
+    property bool hovered: false
 
-    color: palette.text
+    color: root.hovered ? palette.brightText : palette.text
     text: model.value
     textFormat: Text.RichText
     readOnly: true

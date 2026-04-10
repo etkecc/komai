@@ -12,12 +12,13 @@ TextEdit {
 
     required property var model
     property bool leftAligned: false
+    property bool hovered: false
 
     x: 0
     width: parent ? parent.width : implicitWidth
     height: Math.ceil(contentHeight)
     clip: true
-    color: palette.text
+    color: root.hovered ? palette.brightText : palette.text
     font.pointSize: Settings.uiFontSizePt
     horizontalAlignment: root.leftAligned ? Text.AlignLeft : Text.AlignRight
     wrapMode: root.leftAligned ? TextEdit.WrapAnywhere : TextEdit.NoWrap

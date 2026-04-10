@@ -10,9 +10,6 @@ import cc.etke.komai
 ColumnLayout {
     id: root
 
-    readonly property string komaiProjectLink: "<a href=\"https://github.com/etkecc/komai\">Komai</a>"
-    readonly property string etkeProjectLink: "<a href=\"https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=empty_state\">etke.cc</a>"
-
     spacing: Komai.paddingLarge
 
     RowLayout {
@@ -106,25 +103,6 @@ ColumnLayout {
         MenuItem {
             text: qsTr("Hide")
             onTriggered: root.showHideConfirmDialog()
-        }
-    }
-
-    Text {
-        Layout.alignment: Qt.AlignHCenter
-        textFormat: Text.RichText
-        font.pointSize: Settings.uiFontSizePt
-        color: palette.buttonText
-        text: "<style>a { color: " + palette.highlight + "; }</style>" +
-              qsTr("%1 is created by %2 (managed Matrix server hosting).")
-              .arg(root.komaiProjectLink)
-              .arg(root.etkeProjectLink)
-
-        onLinkActivated: function(link) { Qt.openUrlExternally(link) }
-
-        MouseArea {
-            anchors.fill: parent
-            acceptedButtons: Qt.NoButton
-            cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
         }
     }
 

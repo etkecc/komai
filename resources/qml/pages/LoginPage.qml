@@ -968,5 +968,7 @@ Rectangle {
                 Keys.onEnterPressed: if (enabled) doPwLogin()
             }
         }
+
+        AttributionFooter {}
     }
 }

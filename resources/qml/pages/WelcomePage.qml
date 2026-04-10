@@ -11,21 +11,26 @@ import cc.etke.komai 1.0
 import "onboarding" as Onboarding
 import "welcome" as Welcome
 
-Item {
+Rectangle {
     id: root
     property int maxExpansion: 760
 
     readonly property string matrixUrl: "https://matrix.org/"
     readonly property string komaiMeaningUrl: "https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84"
     readonly property string secretsStorageDocsUrl: "https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/secret-storage.md"
-    readonly property string komaiProjectLink: "<a href=\"https://github.com/etkecc/komai\">Komai</a>"
-    readonly property string etkeProjectLink: "<a href=\"https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=welcome\">etke.cc</a>"
 
-    Onboarding.OnboardingScrollPage {
-        id: scroll
+    color: palette.window
+
+    ColumnLayout {
         anchors.fill: parent
-        maxContentWidth: root.maxExpansion
-        topSpacerHeight: Komai.paddingLarge * 2
+        spacing: 0
+
+        Onboarding.OnboardingScrollPage {
+            id: scroll
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            maxContentWidth: root.maxExpansion
+            topSpacerHeight: Komai.paddingLarge * 2
 
             Image {
                 Layout.alignment: Qt.AlignHCenter
@@ -106,20 +111,8 @@ Item {
                 Layout.rightMargin: Komai.paddingLarge
             }
 
-            Welcome.WelcomeRichText {
-                Layout.alignment: Qt.AlignHCenter
-                Layout.topMargin: Komai.paddingLarge
-                Layout.bottomMargin: Komai.paddingLarge
-                Layout.leftMargin: Komai.paddingLarge
-                Layout.rightMargin: Komai.paddingLarge
-                Layout.fillWidth: true
-                font.pointSize: Settings.uiFontSizePt
-                text: "<style>a { color: " + palette.highlight + "; }</style>" +
-                      qsTr("%1 is created by %2 (managed Matrix server hosting).")
-                      .arg(root.komaiProjectLink)
-                      .arg(root.etkeProjectLink)
-                color: palette.buttonText
-                horizontalAlignment: Text.AlignHCenter
-            }
+        }
+
+        AttributionFooter {}
     }
 }

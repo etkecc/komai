@@ -82,10 +82,22 @@ Item {
 
         onActivated: Rooms.resetCurrentRoom()
     }
-    TimelineEmptyState {
-        anchors.centerIn: parent
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: 0
         visible: !useMatrixRoomView && !TimelineManager.waitingForFirstSync && (!roomPreview || !roomPreview.roomid)
-        dialogHost: timelineView.dialogHost
+
+        Item {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            TimelineEmptyState {
+                anchors.centerIn: parent
+                dialogHost: timelineView.dialogHost
+            }
+        }
+
+        AttributionFooter {}
     }
     TimelineFirstSyncSpinner {
         waitingForFirstSync: TimelineManager.waitingForFirstSync

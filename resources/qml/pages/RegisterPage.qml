@@ -346,5 +346,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
             }
         }
+
+        AttributionFooter {}
     }
 }

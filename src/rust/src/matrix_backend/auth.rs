@@ -570,6 +570,12 @@ pub async fn finish_oauth_login(
 }
 
 pub fn cancel_oauth_login(login_id: u64) -> Result<(), String> {
+    // Enter the Tokio runtime context so that the Client (and its SqliteStateStore /
+    // deadpool connection pool) can be dropped safely.  This function is sync and may
+    // be called from a Qt thread that has no reactor — without the guard, the drop
+    // chain panics with "there is no reactor running".
+    let _rt_guard = crate::ffi::runtime().enter();
+
     pending_oauth_logins()
         .lock()
         .expect("poisoned OAuth login registry mutex")

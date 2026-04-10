@@ -140,6 +140,16 @@ public:
         }
     }
 
+    // Sets the Matrix ID without triggering homeserver auto-detection.
+    // Use when the homeserver is already known (e.g. bare username with explicit server URL).
+    Q_INVOKABLE void setMxidOnly(const QString &id)
+    {
+        if (id != mxid_) {
+            mxid_ = id;
+            emit matrixIdChanged();
+        }
+    }
+
     static std::string initialDeviceName_()
     {
 #if defined(Q_OS_MAC)

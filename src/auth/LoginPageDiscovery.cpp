@@ -93,7 +93,7 @@ LoginPage::onMatrixIdEntered()
 
     const auto user = komai::parseMatrixUserId(mxid_);
     if (!user.has_value()) {
-        mxidError_ = tr("You have entered an invalid Matrix ID e.g. @user:yourserver.example.com");
+        mxidError_ = tr("Invalid Matrix ID (e.g. @user:example.com)");
         emit mxidErrorChanged();
         return;
     }
@@ -186,7 +186,7 @@ LoginPage::checkHomeserverVersion()
     clearErrors();
 
     if (!komai::parseMatrixUserId(mxid_).has_value()) {
-        mxidError_ = tr("You have entered an invalid Matrix ID e.g. @user:yourserver.example.com");
+        mxidError_ = tr("Invalid Matrix ID (e.g. @user:example.com)");
         emit mxidErrorChanged();
         return;
     }
@@ -235,7 +235,7 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
 
     const auto user = komai::parseMatrixUserId(userid);
     if (!user.has_value()) {
-        mxidError_ = tr("You have entered an invalid Matrix ID e.g. @user:yourserver.example.com");
+        mxidError_ = tr("Invalid Matrix ID (e.g. @user:example.com)");
         emit mxidErrorChanged();
         return;
     }

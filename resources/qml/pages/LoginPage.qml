@@ -82,13 +82,11 @@ Item {
         const server = serverField.text.trim();
         if (server.length === 0) return mxid;
         const local = mxid.startsWith("@") ? mxid.substring(1) : mxid;
-        // Extract hostname from URL if needed
+        // Extract just the hostname from URL (port is a transport detail, not part of the Matrix server name)
         let hostname = server;
         if (hostname.indexOf("://") >= 0) {
             try {
-                const url = new URL(hostname);
-                hostname = url.hostname;
-                if (url.port) hostname += ":" + url.port;
+                hostname = new URL(hostname).hostname;
             } catch(e) {}
         }
         return "@" + local + ":" + hostname;
@@ -213,8 +211,20 @@ Item {
                             id: mxidDebounce
                             interval: 350
                             onTriggered: {
-                                if (!loginPage.isBareUsername)
+                                if (loginPage.isBareUsername) {
+                                    // Bare username: set mxid without auto-detection,
+                                    // then use the server URL directly for discovery
+                                    if (serverField.text.trim().length > 0) {
+                                        login.setMxidOnly(loginPage.effectiveMatrixId());
+                                        login.homeserver = serverField.text;
+                                    }
+                                } else {
                                     login.mxid = matrixIdField.text;
+                                    // If user manually entered a different server URL, use it
+                                    // instead of the auto-detected one
+                                    if (serverField.text !== login.homeserver && serverField.text.trim().length > 0)
+                                        login.homeserver = serverField.text;
+                                }
                             }
                         }
                     }
@@ -297,13 +307,14 @@ Item {
                             id: serverDebounce
                             interval: 350
                             onTriggered: {
-                                // For bare username, construct the full @user:server ID
-                                // and set it before the homeserver — so that
-                                // checkHomeserverVersion() can parse it.
-                                if (loginPage.isBareUsername && serverField.text.trim().length > 0)
-                                    login.mxid = loginPage.effectiveMatrixId();
-                                else
+                                if (loginPage.isBareUsername && serverField.text.trim().length > 0) {
+                                    // Bare username: set mxid without auto-detection,
+                                    // then use the server URL directly
+                                    login.setMxidOnly(loginPage.effectiveMatrixId());
                                     login.homeserver = serverField.text;
+                                } else {
+                                    login.homeserver = serverField.text;
+                                }
                             }
                         }
                     }

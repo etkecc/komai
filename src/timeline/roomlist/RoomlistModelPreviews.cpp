@@ -8,6 +8,7 @@
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
+#include "utils/Utils.h"
 
 void
 RoomlistModel::fetchPreviews(QString roomid_, const std::string &from)
@@ -102,7 +103,8 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
         const auto room                = matrixJoinedRooms_.value(roomid);
         preview.roomid_                = roomid;
         preview.roomName_              = room.displayName.isEmpty() ? roomid : room.displayName;
-        preview.roomTopic_             = room.topic;
+        preview.roomTopic_             = utils::replaceEmoji(utils::linkifyMessage(
+          room.topic.toHtmlEscaped().replace(QLatin1String("\n"), QLatin1String("<br>"))));
         preview.roomAvatarUrl_         = komai::matrix::normalizeMxcUri(room.avatarUrl);
         preview.directChatOtherUserId_ = room.directChatOtherUserId;
         preview.memberCount_           = static_cast<int>(room.memberCount);
@@ -134,7 +136,9 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
         if (i) {
             preview.roomid_    = roomid;
             preview.roomName_  = QString::fromStdString(i->name);
-            preview.roomTopic_ = QString::fromStdString(i->topic);
+            preview.roomTopic_ = utils::replaceEmoji(
+              utils::linkifyMessage(QString::fromStdString(i->topic).toHtmlEscaped().replace(
+                QLatin1String("\n"), QLatin1String("<br>"))));
             preview.roomAvatarUrl_ =
               komai::matrix::normalizeMxcUri(QString::fromStdString(i->avatar_url));
             preview.memberCount_ = static_cast<int>(i->member_count);

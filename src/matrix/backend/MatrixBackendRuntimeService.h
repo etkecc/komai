@@ -253,6 +253,7 @@ struct MatrixRoomMember
     QString displayName;
     QString avatarUrl;
     qlonglong powerLevel = 0;
+    bool isInvited       = false;
 };
 
 struct MatrixChildSpaceEntry

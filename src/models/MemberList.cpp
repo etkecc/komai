@@ -65,6 +65,7 @@ MemberListBackend::fetchMembersAsync()
                   .displayName = member.displayName,
                   .avatarUrl   = member.avatarUrl,
                   .powerLevel  = member.powerLevel,
+                  .isInvited   = member.isInvited,
                 });
             }
             if (memberCount <= 0)
@@ -155,6 +156,7 @@ MemberListBackend::roleNames() const
       {Trustlevel, "trustlevel"},
       {Powerlevel, "powerlevel"},
       {IsCreator, "isCreator"},
+      {IsInvited, "isInvited"},
     };
 }
 
@@ -177,6 +179,8 @@ MemberListBackend::data(const QModelIndex &index, int role) const
         return m_memberList[index.row()].powerLevel;
     case IsCreator:
         return m_memberList[index.row()].powerLevel == komai::matrix::RuntimeCreatorPowerLevel;
+    case IsInvited:
+        return m_memberList[index.row()].isInvited;
     default:
         return {};
     }

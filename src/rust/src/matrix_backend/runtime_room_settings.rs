@@ -566,21 +566,25 @@ pub async fn fetch_room_members(
 
     Ok(members
         .into_iter()
-        .map(|member| MatrixRoomMember {
-            user_id: member.user_id().to_string(),
-            display_name: member
-                .display_name()
-                .map(ToOwned::to_owned)
-                .unwrap_or_else(|| member.user_id().to_string()),
-            avatar_url: member
-                .avatar_url()
-                .map(|uri| normalize_mxc_uri(uri.to_string()))
-                .unwrap_or_default(),
-            power_level: match member.power_level() {
-                UserPowerLevel::Int(value) => i64::from(value),
-                UserPowerLevel::Infinite => i64::MAX,
-                _ => 0,
-            },
+        .map(|member| {
+            use matrix_sdk::ruma::events::room::member::MembershipState;
+            MatrixRoomMember {
+                user_id: member.user_id().to_string(),
+                display_name: member
+                    .display_name()
+                    .map(ToOwned::to_owned)
+                    .unwrap_or_else(|| member.user_id().to_string()),
+                avatar_url: member
+                    .avatar_url()
+                    .map(|uri| normalize_mxc_uri(uri.to_string()))
+                    .unwrap_or_default(),
+                power_level: match member.power_level() {
+                    UserPowerLevel::Int(value) => i64::from(value),
+                    UserPowerLevel::Infinite => i64::MAX,
+                    _ => 0,
+                },
+                is_invited: member.membership() == &MembershipState::Invite,
+            }
         })
         .collect())
 }

@@ -29,6 +29,7 @@ public:
         Trustlevel,
         Powerlevel,
         IsCreator,
+        IsInvited,
     };
 
     MemberListBackend(const QString &room_id, QObject *parent = nullptr);
@@ -67,6 +68,7 @@ private:
         QString displayName;
         QString avatarUrl;
         qlonglong powerLevel = 0;
+        bool isInvited       = false;
     };
 
     void fetchMembersAsync();

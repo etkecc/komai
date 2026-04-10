@@ -251,7 +251,7 @@ Item {
                                     implicitWidth: plBadgeRow.implicitWidth + Komai.paddingSmall * 2
                                     implicitHeight: plBadgeRow.implicitHeight + Komai.paddingSmall
                                     radius: Komai.paddingSmall
-                                    color: "transparent"
+                                    color: model.isInvited ? Komai.theme.attention : "transparent"
                                     visible: true
 
                                     RowLayout {
@@ -271,11 +271,12 @@ Item {
                                             isCreator: model.isCreator
                                             permissions: memberPermissions
                                             iconColor: delHover.hovered ? palette.brightText : palette.buttonText
+                                            visible: !model.isInvited
                                         }
 
                                         Label {
-                                            text: plIcon.roleName
-                                            color: delHover.hovered ? palette.brightText : palette.buttonText
+                                            text: model.isInvited ? qsTr("Invited") : plIcon.roleName
+                                            color: delHover.hovered ? palette.brightText : (model.isInvited ? palette.brightText : palette.buttonText)
                                             font.pixelSize: Math.ceil(fontMetrics.font.pixelSize * 0.8)
                                         }
                                     }

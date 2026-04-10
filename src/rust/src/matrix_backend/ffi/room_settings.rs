@@ -95,6 +95,7 @@ pub(crate) fn matrix_fetch_room_members(
             display_name: member.display_name,
             avatar_url: member.avatar_url,
             power_level: member.power_level,
+            is_invited: member.is_invited,
         })
         .collect())
 }

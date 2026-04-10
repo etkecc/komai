@@ -398,6 +398,7 @@ pub struct MatrixRoomMember {
     pub display_name: String,
     pub avatar_url: String,
     pub power_level: i64,
+    pub is_invited: bool,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

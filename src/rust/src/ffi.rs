@@ -796,6 +796,7 @@ mod bridge {
         display_name: String,
         avatar_url: String,
         power_level: i64,
+        is_invited: bool,
     }
 
     struct MatrixPowerLevelEntry {

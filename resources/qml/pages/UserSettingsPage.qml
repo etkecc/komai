@@ -28,7 +28,6 @@ Rectangle {
         return Math.max(120, Math.ceil(Komai.paddingMedium + 24 + Komai.paddingMedium + maxWidth + Komai.paddingLarge));
     }
     property int headerIconSize: Komai.barIconSize
-    property int headerButtonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     property var navModel: [
         { text: qsTr("Look & Feel"), icon: "qrc:/icons/icons/ui/toggles.svg", tab: UserSettingsModel.TabLookFeel },
         { text: qsTr("Sidebars"), icon: "qrc:/icons/icons/ui/sidebar.svg", tab: UserSettingsModel.TabSidebars },
@@ -248,9 +247,7 @@ Rectangle {
                 color: palette.alternateBase
 
                 RowLayout {
-                    anchors.fill: parent
-                    anchors.leftMargin: Komai.paddingMedium
-                    anchors.rightMargin: Komai.paddingMedium
+                    anchors.centerIn: parent
                     spacing: Komai.paddingMedium
 
                     Image {
@@ -264,28 +261,11 @@ Rectangle {
                     }
 
                     Label {
-                        Layout.fillWidth: true
                         Layout.alignment: Qt.AlignVCenter
                         text: qsTr("Settings")
                         font.pointSize: Settings.uiFontSizePt * 1.1
                         font.bold: true
                         color: palette.text
-                        elide: Text.ElideRight
-                    }
-
-                    ImageButton {
-                        Layout.alignment: Qt.AlignVCenter
-                        Layout.preferredWidth: userSettingsDialog.headerIconSize
-                        Layout.preferredHeight: userSettingsDialog.headerIconSize
-                        leftPadding: userSettingsDialog.headerButtonPaddingH
-                        rightPadding: userSettingsDialog.headerButtonPaddingH
-                        topPadding: 0
-                        bottomPadding: 0
-                        toolTipText: qsTr("Close")
-                        toolTipVisible: hovered
-                        image: ":/icons/icons/ui/dismiss.svg"
-
-                        onClicked: mainWindow.pop()
                     }
                 }
             }

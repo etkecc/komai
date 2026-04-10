@@ -7,7 +7,6 @@
 
 #include <QInputDialog>
 #include <QLineEdit>
-#include <QMessageBox>
 #include <QPointer>
 #include <QQmlEngine>
 #include <QUrl>
@@ -48,13 +47,6 @@ toQStringVector(const std::vector<std::string> &values)
     for (const auto &value : values)
         result.push_back(QString::fromStdString(value));
     return result;
-}
-
-QString
-displayNameOrUserId(const QString &roomId, const QString &userId)
-{
-    (void)roomId;
-    return userId;
 }
 
 template<typename WorkFnT, typename UiFnT>
@@ -248,13 +240,6 @@ ChatPage::changeRoom(const QString &room_id)
 void
 ChatPage::inviteUser(const QString &room, QString userid, QString reason)
 {
-    if (QMessageBox::question(nullptr,
-                              tr("Confirm invite"),
-                              tr("Do you really want to invite %1 (%2)?")
-                                .arg(displayNameOrUserId(room, userid), userid)) !=
-        QMessageBox::Yes)
-        return;
-
     const auto handleId = requireMatrixBackendHandle(this, "invite a user");
     if (!handleId)
         return;
@@ -343,13 +328,6 @@ ChatPage::banUser(const QString &room, QString userid, QString reason)
 void
 ChatPage::unbanUser(const QString &room, QString userid, QString reason)
 {
-    if (QMessageBox::question(nullptr,
-                              tr("Confirm unban"),
-                              tr("Do you really want to unban %1 (%2)?")
-                                .arg(displayNameOrUserId(room, userid).toHtmlEscaped(),
-                                     userid.toHtmlEscaped())) != QMessageBox::Yes)
-        return;
-
     const auto handleId = requireMatrixBackendHandle(this, "unban a user");
     if (!handleId)
         return;

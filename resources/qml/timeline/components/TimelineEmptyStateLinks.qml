@@ -30,12 +30,13 @@ ColumnLayout {
         KomaiButton {
             id: donateButton
 
+            readonly property string heartIcon: Settings.donationStatus === "sponsoring"
+                ? "qrc:/icons/icons/ui/heart-filled.svg" : "qrc:/icons/icons/ui/heart.svg"
+
             Layout.preferredWidth: linksRow.linksUniformWidth
             visible: Settings.donationStatus !== "hidden"
-            text: Settings.donationStatus === "sponsoring" ? qsTr("Sponsoring!") : qsTr("Donate")
-            icon.source: Settings.donationStatus === "sponsoring"
-                ? "qrc:/icons/icons/ui/heart-color.svg"
-                : "qrc:/icons/icons/ui/heart.svg"
+            text: Settings.donationStatus === "sponsoring" ? qsTr("Donating!") : qsTr("Donate")
+            icon.source: "image://colorimage/:" + heartIcon.substring(4) + "?" + Komai.theme.error
             onClicked: {
                 if (Settings.donationStatus === "sponsoring")
                     sponsoringMenu.popup(donateButton);
@@ -70,7 +71,7 @@ ColumnLayout {
         MenuSeparator {}
 
         MenuItem {
-            text: qsTr("I no longer sponsor")
+            text: qsTr("I no longer donate")
             onTriggered: Settings.donationStatus = "visible"
         }
 
@@ -96,7 +97,7 @@ ColumnLayout {
         MenuSeparator {}
 
         MenuItem {
-            text: qsTr("I already sponsor!")
+            text: qsTr("I already donate!")
             onTriggered: Settings.donationStatus = "sponsoring"
         }
 

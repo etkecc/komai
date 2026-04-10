@@ -114,12 +114,12 @@
         <file alias="icons/ui/state-member-change.svg">icons/fluent/assets/Person Add/SVG/ic_fluent_person_add_20_regular.svg</file>
         <file alias="icons/ui/state-member-leave.svg">icons/fluent/assets/Arrow Turn Down Left/SVG/ic_fluent_arrow_turn_down_left_20_regular.svg</file>
         <file alias="icons/ui/heart.svg">icons/fluent/assets/Heart/SVG/ic_fluent_heart_24_regular.svg</file>
-        <file alias="icons/ui/heart-color.svg">icons/fluent/assets/Heart/SVG/ic_fluent_heart_24_color.svg</file>
         <file alias="icons/ui/mic-record.svg">icons/fluent/assets/Mic/SVG/ic_fluent_mic_24_regular.svg</file>
         <file alias="icons/ui/pause-circle.svg">icons/fluent/assets/Pause Circle/SVG/ic_fluent_pause_circle_20_regular.svg</file>
         <file alias="icons/ui/window-new.svg">icons/fluent/assets/Window New/SVG/ic_fluent_window_new_24_regular.svg</file>
         <file alias="icons/ui/forward.svg">icons/fluent/assets/Arrow Forward/SVG/ic_fluent_arrow_forward_24_regular.svg</file>
         <file alias="icons/ui/arrow-clockwise.svg">icons/fluent/assets/Arrow Clockwise/SVG/ic_fluent_arrow_clockwise_24_regular.svg</file>
+        <file alias="icons/ui/heart-filled.svg">icons/fluent/assets/Heart/SVG/ic_fluent_heart_24_filled.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

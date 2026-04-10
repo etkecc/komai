@@ -156,6 +156,7 @@ SSOHandler::pageHtml(bool success)
       ".success .indicator{background:" + successBg + "}"
       ".success p{color:" + successBg + "}"
       ".error .indicator{background:" + attentionBg + "}"
+      ".error .logo{transform:rotate(180deg)}"
       ".error p{color:" + attentionBg + "}"
       "code{font-family:'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:0.9em;padding:0.15em 0.4em;border-radius:4px;background:" + bg + ";border:1px solid " + subtext + "}"
       ".hint{color:" + subtext + " !important;margin-top:0.6rem}"

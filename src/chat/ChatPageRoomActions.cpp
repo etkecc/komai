@@ -393,13 +393,6 @@ ChatPage::startChat(QString userid, std::optional<bool> encryptionEnabled)
         }
     }
 
-    if (QMessageBox::Yes !=
-        QMessageBox::question(
-          nullptr,
-          tr("Confirm invite"),
-          tr("Do you really want to start a private chat with %1?").arg(userid)))
-        return;
-
     komai::MatrixCreateRoomRequest request;
     request.preset   = komai::MatrixCreateRoomPreset::TrustedPrivateChat;
     request.isPublic = false;

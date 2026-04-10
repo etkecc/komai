@@ -12,42 +12,107 @@ import "onboarding" as Onboarding
 import "../components/"
 import "../ui/"
 
-Item {
+Rectangle {
     id: registrationPage
     property int maxExpansion: 800
+    property int headerIconSize: Komai.barIconSize
     readonly property string matrixUrl: "https://matrix.org/"
     readonly property string matrixHostingProvidersUrl: "https://matrix.org/ecosystem/hosting/"
     readonly property string etkeRegisterUrl: "https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=register"
 
-    Onboarding.OnboardingScrollPage {
-        id: scroll
+    color: palette.window
+
+    ColumnLayout {
         anchors.fill: parent
-        maxContentWidth: registrationPage.maxExpansion
-        topSpacerHeight: Komai.paddingLarge * 3
+        spacing: 0
 
-            Image {
-                Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/logos/komai.svg"
-                sourceSize.width: 128
-                sourceSize.height: 128
-                Layout.preferredHeight: 128
-                Layout.preferredWidth: 128
-                fillMode: Image.PreserveAspectFit
+        // ── Header bar ──
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: Komai.navigationRowHeight
+            color: palette.alternateBase
+
+            // Cancel button — flush against left edge
+            ItemDelegate {
+                id: headerCancel
+                anchors.left: parent.left
+                height: parent.height
+                topPadding: 0
+                bottomPadding: 0
+                leftPadding: Komai.paddingMedium
+                rightPadding: Komai.paddingMedium
+
+                HoverHandler {
+                    cursorShape: Qt.PointingHandCursor
+                }
+
+                background: Rectangle {
+                    color: headerCancel.hovered ? palette.dark : "transparent"
+                }
+
+                onClicked: mainWindow.pop()
+
+                contentItem: RowLayout {
+                    spacing: Komai.paddingSmall
+
+                    Image {
+                        Layout.preferredWidth: 24
+                        Layout.preferredHeight: 24
+                        Layout.alignment: Qt.AlignVCenter
+                        source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + (headerCancel.hovered ? palette.brightText : palette.text)
+                        sourceSize.width: 24
+                        sourceSize.height: 24
+                    }
+
+                    Label {
+                        Layout.alignment: Qt.AlignVCenter
+                        text: qsTr("Cancel")
+                        font.pointSize: Settings.uiFontSizePt
+                        font.bold: true
+                        color: headerCancel.hovered ? palette.brightText : palette.text
+                    }
+                }
             }
 
-            Label {
-                Layout.topMargin: Komai.paddingMedium
-                Layout.leftMargin: Komai.paddingLarge
-                Layout.rightMargin: Komai.paddingLarge
-                Layout.bottomMargin: 0
-                Layout.alignment: Qt.AlignHCenter
-                Layout.fillWidth: true
-                text: qsTr("Register a Matrix account")
-                color: palette.text
-                font.pointSize: Settings.uiFontSizePt * 1.5
-                wrapMode: Text.Wrap
-                horizontalAlignment: Text.AlignHCenter
+            // Centered logo + title overlay
+            RowLayout {
+                anchors.centerIn: parent
+                spacing: Komai.paddingMedium
+
+                Image {
+                    Layout.preferredWidth: registrationPage.headerIconSize
+                    Layout.preferredHeight: registrationPage.headerIconSize
+                    Layout.alignment: Qt.AlignVCenter
+                    source: "qrc:/logos/komai.svg"
+                    sourceSize.width: registrationPage.headerIconSize
+                    sourceSize.height: registrationPage.headerIconSize
+                    fillMode: Image.PreserveAspectFit
+                }
+
+                Label {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr("Register")
+                    font.pointSize: Settings.uiFontSizePt * 1.1
+                    font.bold: true
+                    color: palette.text
+                }
             }
+        }
+
+        // ── Separator ──
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 1
+            color: Komai.theme.separator
+        }
+
+        // ── Content ──
+        Onboarding.OnboardingScrollPage {
+            id: scroll
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            maxContentWidth: registrationPage.maxExpansion
+            topSpacerHeight: Komai.paddingLarge
 
             Label {
                 Layout.topMargin: Komai.paddingSmall
@@ -56,9 +121,9 @@ Item {
                 Layout.bottomMargin: Komai.paddingMedium
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
-                text: qsTr("But... where?")
-                color: palette.buttonText
-                font.pointSize: Settings.uiFontSizePt
+                text: qsTr("Register a Matrix account, but... where?")
+                color: palette.text
+                font.pointSize: Settings.uiFontSizePt * 1.2
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -280,17 +345,6 @@ Item {
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignHCenter
             }
-    }
-
-    ImageButton {
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.margins: Komai.paddingMedium
-        width: Komai.listIconSize
-        height: Komai.listIconSize
-        image: ":/icons/icons/ui/angle-arrow-left.svg"
-        toolTipVisible: hovered
-        toolTipText: qsTr("Back")
-        onClicked: mainWindow.pop()
+        }
     }
 }

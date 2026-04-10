@@ -544,6 +544,10 @@ pub async fn fetch_room_members(
     room_id: &str,
 ) -> Result<Vec<MatrixRoomMember>, String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
+    // Force a fresh /members request. With sliding sync the SDK persists
+    // members_synced = true after the first fetch, so subsequent calls skip
+    // the server and return stale data from the state store.
+    room.mark_members_missing();
     let mut members = room
         .members(RoomMemberships::ACTIVE)
         .await

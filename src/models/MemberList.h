@@ -69,6 +69,7 @@ private:
         qlonglong powerLevel = 0;
     };
 
+    void fetchMembersAsync();
     void setRoomInfo(const QString &roomName, const QString &avatarUrl, int memberCount);
     void setMembers(QVector<MemberEntry> members, int memberCount);
 
@@ -126,6 +127,7 @@ signals:
 public slots:
     void setFilterString(const QString &text);
     void sortBy(const MemberSortRoles role);
+    void reload();
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;

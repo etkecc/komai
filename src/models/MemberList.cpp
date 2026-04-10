@@ -20,7 +20,12 @@ MemberListBackend::MemberListBackend(const QString &room_id, QObject *parent)
   , room_id_{room_id}
 {
     roomName_ = room_id_;
+    fetchMembersAsync();
+}
 
+void
+MemberListBackend::fetchMembersAsync()
+{
     const auto *mainWindow = MainWindow::instance();
     const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0)
@@ -219,6 +224,12 @@ MemberList::setFilterString(const QString &text)
 {
     filterString = text;
     setFilterFixedString(text);
+}
+
+void
+MemberList::reload()
+{
+    m_model.fetchMembersAsync();
 }
 
 void

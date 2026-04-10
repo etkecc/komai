@@ -112,7 +112,7 @@ ColumnLayout {
     Text {
         Layout.alignment: Qt.AlignHCenter
         textFormat: Text.RichText
-        font.pointSize: Settings.uiFontSizePt * 0.9
+        font.pointSize: Settings.uiFontSizePt
         color: palette.buttonText
         text: "<style>a { color: " + palette.highlight + "; }</style>" +
               qsTr("%1 is created by %2 (managed Matrix server hosting).")

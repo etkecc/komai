@@ -113,7 +113,7 @@ Item {
                 Layout.leftMargin: Komai.paddingLarge
                 Layout.rightMargin: Komai.paddingLarge
                 Layout.fillWidth: true
-                font.pointSize: Settings.uiFontSizePt * 0.9
+                font.pointSize: Settings.uiFontSizePt
                 text: "<style>a { color: " + palette.highlight + "; }</style>" +
                       qsTr("%1 is created by %2 (managed Matrix server hosting).")
                       .arg(root.komaiProjectLink)

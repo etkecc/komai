@@ -115,19 +115,42 @@ ColumnLayout {
     Component {
         id: hideConfirmComponent
 
-        Dialog {
-            anchors.centerIn: parent
+        OverlayDialog {
             title: qsTr("Hide donation button?")
-            modal: true
-            standardButtons: Dialog.Yes | Dialog.No
 
             Label {
+                Layout.fillWidth: true
+                color: palette.buttonText
+                wrapMode: Text.WordWrap
                 text: qsTr("This will permanently hide the donation button from this screen.")
-                wrapMode: Text.Wrap
-                width: parent.width
             }
 
-            onAccepted: Settings.donationStatus = "hidden"
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Komai.paddingMedium
+
+                KomaiButton {
+                    text: qsTr("Cancel")
+                    onClicked: close()
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                KomaiButton {
+                    id: hideButton
+
+                    text: qsTr("Hide")
+                    highlighted: true
+                    onClicked: {
+                        Settings.donationStatus = "hidden";
+                        close();
+                    }
+                }
+            }
+
+            initialFocusItem: hideButton
             onClosed: destroy()
         }
     }

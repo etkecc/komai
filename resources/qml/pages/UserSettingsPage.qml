@@ -22,7 +22,7 @@ Rectangle {
         // Read font height to track font size changes in this binding
         var _d1 = sidebarNavFontMetrics.height;
 
-        var maxWidth = sidebarNavFontMetrics.advanceWidth(qsTr("Back to main"));
+        var maxWidth = sidebarNavFontMetrics.advanceWidth(qsTr("Back"));
         for (var i = 0; i < navModel.length; i++)
             maxWidth = Math.max(maxWidth, sidebarNavFontMetrics.advanceWidth(navModel[i].text));
         return Math.max(120, Math.ceil(Komai.paddingMedium + 24 + Komai.paddingMedium + maxWidth + Komai.paddingLarge));
@@ -102,7 +102,7 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignVCenter
-                            text: qsTr("Back to main")
+                            text: qsTr("Back")
                             font.pointSize: Settings.uiFontSizePt
                             font.bold: true
                             color: headerBack.hovered ? palette.brightText : palette.text
@@ -115,7 +115,7 @@ Rectangle {
                         anchorY: headerBack.height
                         gapX: Komai.paddingMedium
                         gapY: Komai.paddingMedium
-                        text: qsTr("Back to main")
+                        text: qsTr("Back")
                         delay: Komai.tooltipDelay
                         requestedVisible: headerBack.hovered
                     }

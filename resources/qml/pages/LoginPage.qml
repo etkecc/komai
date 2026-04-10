@@ -12,13 +12,16 @@ import "onboarding" as Onboarding
 import "../components/"
 import "../ui/"
 
-Item {
+Rectangle {
     id: loginPage
     property int maxExpansion: 800
     required property var loginController
 
     readonly property var login: loginController
     property string error: login.error
+    property int headerIconSize: Komai.barIconSize
+
+    color: palette.window
 
     StackView.onActivated: {
         if (login.loggingIn)
@@ -107,35 +110,97 @@ Item {
             currentStep = step;
     }
 
-    Onboarding.OnboardingScrollPage {
-        id: scroll
+    ColumnLayout {
         anchors.fill: parent
-        maxContentWidth: loginPage.maxExpansion
-        topSpacerHeight: Komai.paddingLarge * 2
+        spacing: 0
 
-            Image {
-                Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/logos/komai.svg"
-                sourceSize.width: 128
-                sourceSize.height: 128
-                Layout.preferredHeight: 128
-                Layout.preferredWidth: 128
-                fillMode: Image.PreserveAspectFit
+        // ── Header bar ──
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: Komai.navigationRowHeight
+            color: palette.alternateBase
+
+            // Cancel button — flush against left edge
+            ItemDelegate {
+                id: headerCancel
+                anchors.left: parent.left
+                height: parent.height
+                topPadding: 0
+                bottomPadding: 0
+                leftPadding: Komai.paddingMedium
+                rightPadding: Komai.paddingMedium
+
+                HoverHandler {
+                    cursorShape: Qt.PointingHandCursor
+                }
+
+                background: Rectangle {
+                    color: headerCancel.hovered ? palette.dark : "transparent"
+                }
+
+                onClicked: mainWindow.pop()
+
+                contentItem: RowLayout {
+                    spacing: Komai.paddingSmall
+
+                    Image {
+                        Layout.preferredWidth: 24
+                        Layout.preferredHeight: 24
+                        Layout.alignment: Qt.AlignVCenter
+                        source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + (headerCancel.hovered ? palette.brightText : palette.text)
+                        sourceSize.width: 24
+                        sourceSize.height: 24
+                    }
+
+                    Label {
+                        Layout.alignment: Qt.AlignVCenter
+                        text: qsTr("Cancel")
+                        font.pointSize: Settings.uiFontSizePt
+                        font.bold: true
+                        color: headerCancel.hovered ? palette.brightText : palette.text
+                    }
+                }
             }
 
-            Label {
-                Layout.topMargin: Komai.paddingMedium
-                Layout.leftMargin: Komai.paddingLarge
-                Layout.rightMargin: Komai.paddingLarge
-                Layout.bottomMargin: Komai.paddingMedium
-                Layout.alignment: Qt.AlignHCenter
-                Layout.fillWidth: true
-                text: qsTr("Sign in to Matrix")
-                color: palette.text
-                font.pointSize: Settings.uiFontSizePt * 1.5
-                wrapMode: Text.Wrap
-                horizontalAlignment: Text.AlignHCenter
+            // Centered logo + title overlay
+            RowLayout {
+                anchors.centerIn: parent
+                spacing: Komai.paddingMedium
+
+                Image {
+                    Layout.preferredWidth: loginPage.headerIconSize
+                    Layout.preferredHeight: loginPage.headerIconSize
+                    Layout.alignment: Qt.AlignVCenter
+                    source: "qrc:/logos/komai.svg"
+                    sourceSize.width: loginPage.headerIconSize
+                    sourceSize.height: loginPage.headerIconSize
+                    fillMode: Image.PreserveAspectFit
+                }
+
+                Label {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr("Sign in")
+                    font.pointSize: Settings.uiFontSizePt * 1.1
+                    font.bold: true
+                    color: palette.text
+                }
             }
+        }
+
+        // ── Separator ──
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 1
+            color: Komai.theme.separator
+        }
+
+        // ── Content ──
+        Onboarding.OnboardingScrollPage {
+            id: scroll
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            maxContentWidth: loginPage.maxExpansion
+            topSpacerHeight: Komai.paddingLarge
 
             // ── Step Indicator ──
             StepIndicator {
@@ -902,17 +967,6 @@ Item {
                 Keys.onReturnPressed: if (enabled) doPwLogin()
                 Keys.onEnterPressed: if (enabled) doPwLogin()
             }
-    }
-
-    ImageButton {
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.margins: Komai.paddingMedium
-        width: Komai.listIconSize
-        height: Komai.listIconSize
-        image: ":/icons/icons/ui/angle-arrow-left.svg"
-        toolTipVisible: hovered
-        toolTipText: qsTr("Back")
-        onClicked: mainWindow.pop()
+        }
     }
 }

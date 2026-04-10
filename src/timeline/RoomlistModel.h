@@ -77,6 +77,7 @@ public:
     int roomMemberCount() const { return memberCount_; }
 
     QString roomid_, roomName_, roomAvatarUrl_, roomTopic_, directChatOtherUserId_, reason_;
+    QString inviterAvatarUrl_, inviterDisplayName_, inviterUserId_;
     int memberCount_ = 0;
     bool isDirect_ = false, isEncrypted_ = false, isPublic_ = true, isSpace_ = false;
     bool isInvite_ = false, isFetched_ = true, canJoin_ = false, isMatrixSummary_ = false;
@@ -265,6 +266,7 @@ private:
     // When UI requests opening a room before sync inserts it into the room summary list,
     // remember the target and switch once the room becomes available.
     QString pendingCurrentRoomId_;
+    QString recentlyAcceptedInviteRoomId_;
     bool interactionSuppressed_     = false;
     bool hasSuppressedUpdates_      = false;
     bool matrixRoomRefreshInFlight_ = false;

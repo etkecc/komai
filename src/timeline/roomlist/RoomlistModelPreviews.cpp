@@ -56,8 +56,12 @@ RoomlistModel::joinPreview(const QString &roomid)
 void
 RoomlistModel::acceptInvite(QString roomid)
 {
-    if (invites.contains(roomid))
+    if (invites.contains(roomid)) {
         ChatPage::instance()->joinRoom(roomid);
+    } else if (matrixJoinedRooms_.contains(roomid) && matrixJoinedRooms_.value(roomid).isInvite) {
+        recentlyAcceptedInviteRoomId_ = roomid;
+        ChatPage::instance()->joinRoom(roomid);
+    }
 }
 
 void
@@ -73,6 +77,19 @@ RoomlistModel::declineInvite(QString roomid)
             endRemoveRows();
             ChatPage::instance()->leaveRoom(roomid, "");
         }
+    } else if (matrixJoinedRooms_.contains(roomid) && matrixJoinedRooms_.value(roomid).isInvite) {
+        ChatPage::instance()->leaveRoom(roomid, "");
+        if (currentRoomPreview_ && currentRoomPreview_->roomid() == roomid)
+            resetCurrentRoom();
+
+        auto idx = roomidToIndex(roomid);
+        if (idx != -1) {
+            beginRemoveRows(QModelIndex(), idx, idx);
+            roomids.erase(roomids.begin() + idx);
+            endRemoveRows();
+        }
+        matrixJoinedRooms_.remove(roomid);
+        removeRoomState(roomid);
     }
 }
 
@@ -113,9 +130,15 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
         preview.isPublic_              = room.isPublic;
         preview.isSpace_               = room.isSpace;
         preview.isFetched_             = true;
-        preview.isInvite_              = false;
+        preview.isInvite_              = room.isInvite;
         preview.canJoin_               = false;
         preview.isMatrixSummary_       = true;
+        if (room.isInvite) {
+            preview.inviterUserId_      = room.inviterUserId;
+            preview.inviterDisplayName_ = room.inviterDisplayName;
+            preview.inviterAvatarUrl_   = room.inviterAvatarUrl;
+            preview.reason_             = room.inviteReason;
+        }
         return preview;
     }
 
@@ -153,17 +176,17 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
 QString
 RoomPreview::inviterAvatarUrl() const
 {
-    return QString();
+    return inviterAvatarUrl_;
 }
 
 QString
 RoomPreview::inviterDisplayName() const
 {
-    return QString();
+    return inviterDisplayName_;
 }
 
 QString
 RoomPreview::inviterUserId() const
 {
-    return QString();
+    return inviterUserId_;
 }

@@ -46,7 +46,6 @@ ColumnLayout {
         Layout.fillWidth: true
         font.pixelSize: 24
         text: (!room && !(roomPreview?.isFetched ?? false)) ? qsTr("No preview available") : preview.roomName
-
     }
     ImageButton {
         Layout.alignment: Qt.AlignHCenter
@@ -109,31 +108,6 @@ ColumnLayout {
     }
     Components.KomaiButton {
         Layout.alignment: Qt.AlignHCenter
-        text: qsTr("Accept invite")
-        highlighted: true
-        visible: roomPreview && roomPreview.isInvite
-
-        onClicked: Rooms.acceptInvite(roomPreview.roomid)
-    }
-    Components.KomaiButton {
-        Layout.alignment: Qt.AlignHCenter
-        text: qsTr("Decline invite")
-        visible: roomPreview && roomPreview.isInvite
-
-        onClicked: Rooms.declineInvite(roomPreview.roomid)
-    }
-    Components.KomaiButton {
-        Layout.alignment: Qt.AlignHCenter
-        text: qsTr("Decline invite and ignore user")
-        visible: roomPreview && roomPreview.isInvite
-
-        onClicked: {
-            var inviter = TimelineManager.getGlobalUserProfile(roomPreview.inviterUserId)
-            inviter.ignored = true
-        }
-    }
-    Components.KomaiButton {
-        Layout.alignment: Qt.AlignHCenter
         text: qsTr("Leave")
         visible: !!room
 
@@ -146,67 +120,6 @@ ColumnLayout {
         text: qsTr("This room is available in the room list, but its timeline is not loaded yet.")
         visible: !room && roomPreview && !roomPreview.isInvite && !roomPreview.canJoin
         wrapMode: Text.WordWrap
-    }
-    RowLayout {
-        Layout.alignment: Qt.AlignHCenter
-        Layout.fillWidth: true
-        spacing: Komai.paddingMedium
-        visible: roomPreview && roomPreview.isInvite && reasonField.showReason
-
-        MatrixText {
-            Layout.maximumWidth: contentWidth
-            Layout.preferredWidth: contentWidth
-            Layout.fillWidth: true
-            text: qsTr("Invited by %1 (%2)").arg(TimelineManager.escapeEmoji(inviterAvatar.displayName)).arg(TimelineManager.escapeEmoji(TimelineManager.htmlEscape(inviterAvatar.userid)))
-        }
-        Avatar {
-            id: inviterAvatar
-
-            Layout.alignment: Qt.AlignHCenter
-            displayName: roomPreview?.inviterDisplayName ?? ""
-            enabled: true
-            implicitHeight: Komai.listIconSize
-            roomid: preview.roomId
-            url: (roomPreview?.inviterAvatarUrl ?? "").replace("mxc://", "image://MxcImage/")
-            userid: roomPreview?.inviterUserId ?? ""
-            implicitWidth: Komai.listIconSize
-
-            onClicked: TimelineManager.openGlobalUserProfile(roomPreview.inviterUserId)
-        }
-    }
-    ScrollView {
-        id: reasonField
-
-        property bool showReason: false
-
-        Layout.alignment: Qt.AlignHCenter
-        Layout.fillWidth: true
-        Layout.minimumWidth: 0
-        visible: preview.reason !== "" && showReason
-        contentWidth: availableWidth
-
-        Components.KomaiTextArea {
-            width: reasonField.availableWidth
-            background: null
-            horizontalAlignment: TextEdit.AlignHCenter
-            readOnly: true
-            text: TimelineManager.escapeEmoji(preview.reason)
-            textFormat: TextEdit.RichText
-            wrapMode: TextEdit.WordWrap
-        }
-    }
-    Components.KomaiButton {
-        id: showReasonButton
-
-        Layout.alignment: Qt.AlignHCenter
-        Layout.leftMargin: Komai.paddingLarge
-        Layout.rightMargin: Komai.paddingLarge
-        text: reasonField.showReason ? qsTr("Hide invite reason") : qsTr("Show invite reason")
-        visible: roomPreview && roomPreview.isInvite
-
-        onClicked: {
-            reasonField.showReason = !reasonField.showReason;
-        }
     }
     Item {
         Layout.preferredHeight: Math.ceil(fontMetrics.lineSpacing * 2)

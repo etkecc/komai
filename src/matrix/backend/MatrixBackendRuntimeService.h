@@ -153,6 +153,10 @@ struct MatrixRoomSummary
     QVector<QString> tags;
     QVector<QString> parentSpaceRoomIds;
     QString directChatOtherUserId;
+    QString inviterUserId;
+    QString inviterDisplayName;
+    QString inviterAvatarUrl;
+    QString inviteReason;
     bool isInvite              = false;
     bool isSpace               = false;
     bool isDirect              = false;

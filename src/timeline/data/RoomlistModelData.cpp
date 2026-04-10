@@ -113,6 +113,13 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
     case Roles::RoomName:
         return room.displayName.isEmpty() ? room_id : room.displayName;
     case Roles::LastMessage: {
+        if (room.isInvite) {
+            if (!room.inviterDisplayName.isEmpty())
+                return tr("Invited by %1").arg(room.inviterDisplayName);
+            if (!room.inviterUserId.isEmpty())
+                return tr("Invited by %1").arg(room.inviterUserId);
+            return tr("Pending invite");
+        }
         const auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
         const bool previewsEnabled =
           style == UserSettings::LastMessagePreview::Always ||

@@ -156,20 +156,20 @@ pub async fn create_room(
 pub async fn leave_room(handle_id: u64, room_id: &str, reason: &str) -> Result<(), String> {
     let client = client_for_handle(handle_id)?;
     let parsed_room_id = parse_room_id(room_id)?;
-    let mut request = leave_room::v3::Request::new(parsed_room_id);
-    request.reason = trim_reason(reason);
 
     tracing::info!(
         handle_id,
         room_id = room_id.trim(),
-        has_reason = request.reason.is_some(),
+        has_reason = !reason.trim().is_empty(),
         "Leaving room via matrix-sdk backend runtime"
     );
 
-    client
-        .send(request)
+    let room = client
+        .get_room(&parsed_room_id)
+        .ok_or_else(|| format!("room {room_id} not found in matrix-sdk room list"))?;
+
+    room.leave()
         .await
-        .map(|_| ())
         .map_err(|e| format!("failed to leave room via matrix-sdk: {e}"))
 }
 

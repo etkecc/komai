@@ -17,6 +17,7 @@ QtObject {
     readonly property string mediaOverlayDialog: "qrc:/resources/qml/dialogs/media/MediaOverlay.qml"
     readonly property string mediaImagePackSettingsDialog: "qrc:/resources/qml/dialogs/media/ImagePackSettingsDialog.qml"
     readonly property string roomInviteDialog: "qrc:/resources/qml/dialogs/room/InviteDialog.qml"
+    readonly property string roomInviteResponseDialog: "qrc:/resources/qml/dialogs/room/InviteResponseDialog.qml"
     readonly property string roomJoinDialog: "qrc:/resources/qml/dialogs/room/JoinRoomDialog.qml"
     readonly property string roomLeaveDialog: "qrc:/resources/qml/dialogs/room/LeaveRoomDialog.qml"
     readonly property string accountLogoutDialog: "qrc:/resources/qml/dialogs/account/LogoutDialog.qml"

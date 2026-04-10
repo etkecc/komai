@@ -698,6 +698,35 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
     let tags = fetch_room_tags(room).await;
     let parent_space_room_ids = fetch_parent_space_room_ids(room).await;
 
+    let is_invite = matches!(room_state, RoomState::Invited);
+    let (inviter_user_id, inviter_display_name, inviter_avatar_url, invite_reason) = if is_invite {
+        let invite_details = room.invite_details().await.ok();
+        let inviter_user_id = invite_details
+            .as_ref()
+            .and_then(|details| details.inviter.as_ref())
+            .map(|inviter| inviter.user_id().to_string())
+            .unwrap_or_default();
+        let inviter_display_name = invite_details
+            .as_ref()
+            .and_then(|details| details.inviter.as_ref())
+            .map(|inviter| inviter.name().to_owned())
+            .filter(|value| !value.trim().is_empty())
+            .unwrap_or_default();
+        let inviter_avatar_url = invite_details
+            .as_ref()
+            .and_then(|details| details.inviter.as_ref())
+            .and_then(|inviter| inviter.avatar_url())
+            .map(|uri| normalize_mxc_uri(uri.to_string()))
+            .unwrap_or_default();
+        let invite_reason = invite_details
+            .as_ref()
+            .and_then(|details| details.invitee.event().reason().map(ToOwned::to_owned))
+            .unwrap_or_default();
+        (inviter_user_id, inviter_display_name, inviter_avatar_url, invite_reason)
+    } else {
+        (String::new(), String::new(), String::new(), String::new())
+    };
+
     MatrixRoomSummary {
         room_id: room.room_id().to_string(),
         latest_event_id,
@@ -739,7 +768,11 @@ async fn room_list_item_to_summary(room: &RoomListItem) -> MatrixRoomSummary {
         tags,
         parent_space_room_ids,
         direct_chat_other_user_id: classification.direct_chat_other_user_id,
-        is_invite: matches!(room_state, RoomState::Invited),
+        is_invite,
+        inviter_user_id,
+        inviter_display_name,
+        inviter_avatar_url,
+        invite_reason,
         is_space: room.is_space(),
         is_direct: classification.is_direct,
         is_bot_room: classification.is_bot_room,

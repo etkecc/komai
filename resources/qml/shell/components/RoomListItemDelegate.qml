@@ -124,10 +124,13 @@ ItemDelegate {
 
     onClicked: {
         console.log("tapped " + roomId);
-        if (Rooms.currentRoomId !== roomId)
+        if (isInvite) {
+            TimelineManager.openInviteResponseDialog(roomId);
+        } else if (Rooms.currentRoomId !== roomId) {
             Rooms.setCurrentRoom(roomId);
-        else
+        } else {
             Rooms.resetCurrentRoom();
+        }
     }
     onPressAndHold: {
         if (!isInvite)

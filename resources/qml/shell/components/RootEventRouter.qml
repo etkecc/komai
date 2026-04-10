@@ -40,6 +40,11 @@ Item {
                     "invitees": invitees
                 });
         }
+        function onOpenInviteResponseDialog(roomid) {
+            timelineRoot.openCatalogDialog(componentCatalog.roomInviteResponseDialog, {
+                    "roomId": roomid
+                });
+        }
         function onOpenLeaveRoomDialog(roomid, reason) {
             timelineRoot.openCatalogDialog(componentCatalog.roomLeaveDialog, {
                     "roomId": roomid,

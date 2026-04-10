@@ -352,6 +352,7 @@ signals:
     void openProfile(UserProfile *profile);
     void showImagePackSettings(ImagePackListModel *packlist, bool canCreateRoomPack);
     void openLeaveRoomDialog(QString roomid, QString reason = "");
+    void openInviteResponseDialog(QString roomid);
     void showMediaOverlay(QObject *room,
                           QString eventId,
                           QString url,

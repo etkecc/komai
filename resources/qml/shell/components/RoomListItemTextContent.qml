@@ -53,17 +53,30 @@ ColumnLayout {
             anchors.left: parent.left
             anchors.verticalCenter: root.compactMode ? parent.verticalCenter : undefined
             color: root.importantText
-            elideWidth: parent.width - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0) - ((inlinePreview.visible || inlineDraftPreview.visible) ? Komai.paddingSmall : 0)
+            elideWidth: parent.width - (inviteIcon.visible ? inviteIcon.width + Komai.paddingSmall : 0) - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0) - ((inlinePreview.visible || inlineDraftPreview.visible) ? Komai.paddingSmall : 0)
             font.bold: root.hasUnreadMessages
             font.pointSize: Settings.uiFontSizePt
             font.family: Komai.fontFamily
             fullText: TimelineManager.htmlEscape(root.roomName)
             textFormat: Text.RichText
         }
+        Image {
+            id: inviteIcon
+
+            anchors.left: titleText.right
+            anchors.leftMargin: Komai.paddingSmall
+            anchors.verticalCenter: titleText.verticalCenter
+            height: Math.round(Komai.fontPixelSize * 0.9)
+            source: "image://colorimage/:/icons/icons/ui/state-member-change.svg?" + root.importantText
+            sourceSize.height: height
+            sourceSize.width: width
+            visible: root.isInvite
+            width: height
+        }
         ElidedLabel {
             id: inlinePreview
 
-            anchors.left: titleText.right
+            anchors.left: inviteIcon.visible ? inviteIcon.right : titleText.right
             anchors.leftMargin: Komai.paddingSmall
             anchors.baseline: titleText.baseline
             anchors.right: timestamp.visible ? timestamp.left : (spaceNotificationBubble.visible ? spaceNotificationBubble.left : parent.right)
@@ -77,7 +90,7 @@ ColumnLayout {
         Item {
             id: inlineDraftPreview
 
-            anchors.left: titleText.right
+            anchors.left: inviteIcon.visible ? inviteIcon.right : titleText.right
             anchors.leftMargin: Komai.paddingSmall
             anchors.right: timestamp.visible ? timestamp.left : (spaceNotificationBubble.visible ? spaceNotificationBubble.left : parent.right)
             anchors.rightMargin: (timestamp.visible || spaceNotificationBubble.visible) ? Komai.paddingSmall : 0
@@ -148,7 +161,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignBottom
         Layout.fillWidth: true
         Layout.preferredHeight: root.hasDraft ? subtextDraftText.implicitHeight : subtitleText.implicitHeight
-        visible: titleRow.previewsEnabled
+        visible: titleRow.previewsEnabled || root.isInvite
 
         ElidedLabel {
             id: subtitleText

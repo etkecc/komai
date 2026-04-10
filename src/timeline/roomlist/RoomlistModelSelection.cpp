@@ -124,6 +124,20 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
     deferredStartupCurrentRoomId_.clear();
 
     nhlog::ui()->debug("Trying to switch to: {}", roomid.toStdString());
+
+    // Invited rooms are handled via a dialog, not by selecting them in the timeline.
+    // Skip the dialog if this room was just accepted — the join callback triggers
+    // setCurrentRoom before the room list has refreshed, so isInvite is still true.
+    if (matrixJoinedRooms_.contains(roomid) && matrixJoinedRooms_.value(roomid).isInvite) {
+        if (recentlyAcceptedInviteRoomId_ == roomid) {
+            recentlyAcceptedInviteRoomId_.clear();
+        } else {
+            if (manager)
+                emit manager->openInviteResponseDialog(roomid);
+            return;
+        }
+    }
+
     if (manager)
         manager->markRoomSwitchRequested(roomid, "setCurrentRoom");
 

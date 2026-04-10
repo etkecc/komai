@@ -706,11 +706,20 @@ fn handle_sso_callback_request(
     let request_target = read_request_target(&mut stream).unwrap_or_default();
     let callback_query = extract_callback_query(&request_target).unwrap_or_default();
     let login_token = extract_login_token(&request_target).unwrap_or_default();
-    let success = !callback_query.is_empty();
+    let callback_error = extract_callback_error(&callback_query);
+    let success = !callback_query.is_empty() && callback_error.is_none();
 
-    let status = if success { "200 OK" } else { "400 Bad Request" };
-    let body = if success { success_html } else { failure_html };
-    let _ = write_html_response(&mut stream, status, body);
+    let (status, body);
+    if success {
+        status = "200 OK";
+        body = success_html.to_owned();
+    } else {
+        status = "400 Bad Request";
+        let error_code = callback_error.as_deref().unwrap_or("unknown");
+        let error_code_escaped = html_escape(error_code);
+        body = failure_html.replace("{{SSO_ERROR_CODE}}", &error_code_escaped);
+    }
+    let _ = write_html_response(&mut stream, status, &body);
 
     SsoCallbackResult {
         success,
@@ -755,6 +764,15 @@ fn extract_login_token(request_target: &str) -> Option<String> {
     url.query_pairs().find_map(|(key, value)| {
         (key == "loginToken" && !value.is_empty()).then(|| value.into_owned())
     })
+}
+
+/// Extracts the `error` query parameter from an SSO/OAuth callback query string, if present.
+fn extract_callback_error(query: &str) -> Option<String> {
+    Url::parse(&format!("http://localhost/sso?{query}"))
+        .ok()?
+        .query_pairs()
+        .find(|(key, _)| key == "error")
+        .map(|(_, value)| value.into_owned())
 }
 
 fn extract_callback_query(request_target: &str) -> Option<String> {
@@ -855,6 +873,14 @@ fn format_ruma_api_error(prefix: &str, error: &RumaApiError) -> String {
     }
 
     format!("{prefix}: {error}")
+}
+
+fn html_escape(s: &str) -> String {
+    s.replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
+        .replace('"', "&quot;")
+        .replace('\'', "&#x27;")
 }
 
 fn format_client_api_error(prefix: &str, error: &matrix_sdk::ruma::api::client::Error) -> String {

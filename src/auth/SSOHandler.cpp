@@ -115,7 +115,7 @@ SSOHandler::pageHtml(bool success)
     const auto successBg   = css(theme.success());
     const auto attentionBg = css(theme.attention());
 
-    std::string title, subtitle;
+    std::string title, subtitle, hint;
     const auto statusClass = success ? "success" : "error";
 
     if (success) {
@@ -123,7 +123,8 @@ SSOHandler::pageHtml(bool success)
         subtitle = tr("Close this page and switch back to Komai!").toStdString();
     } else {
         title    = tr("Single Sign-On authentication failed").toStdString();
-        subtitle = tr("Missing login token. Please try again.").toStdString();
+        subtitle = tr("Error: %1").arg("<code>{{SSO_ERROR_CODE}}</code>").toStdString();
+        hint     = tr("You can close this page and try again in Komai.").toStdString();
     }
 
     // clang-format off
@@ -156,13 +157,16 @@ SSOHandler::pageHtml(bool success)
       ".success p{color:" + successBg + "}"
       ".error .indicator{background:" + attentionBg + "}"
       ".error p{color:" + attentionBg + "}"
+      "code{font-family:'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:0.9em;padding:0.15em 0.4em;border-radius:4px;background:" + bg + ";border:1px solid " + subtext + "}"
+      ".hint{color:" + subtext + " !important;margin-top:0.6rem}"
       "</style>"
       "</head>"
       "<body>"
       "<div class=\"container " + statusClass + "\">"
       "<div class=\"logo\">" + logo + "</div>"
       "<h1><span class=\"indicator\"></span>" + title + "</h1>"
-      "<p>" + subtitle + "</p>"
+      "<p>" + subtitle + "</p>" +
+      (hint.empty() ? std::string() : "<p class=\"hint\">" + hint + "</p>") +
       "</div>"
       "</body>"
       "</html>";

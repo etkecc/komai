@@ -178,9 +178,6 @@ Page {
     }
     RoomListProfileMenu {
         id: profileContextMenu
-
-        timelineRoot: roomListPage.timelineRoot
-        componentCatalog: componentCatalog
     }
     ColumnLayout {
         anchors.fill: parent

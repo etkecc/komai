@@ -10,19 +10,6 @@ import cc.etke.komai
 Menu {
     id: root
 
-    required property var timelineRoot
-    required property var componentCatalog
-
-    function openCreateRoomDialog(properties) {
-        timelineRoot.openCatalogDialog(componentCatalog.roomCreateDialog, properties || {});
-    }
-    function openCreateDirectDialog(properties) {
-        timelineRoot.openCatalogDialog(componentCatalog.roomCreateDirectDialog, properties || {});
-    }
-    function openRoomDirectoryDialog() {
-        timelineRoot.openRoomDirectory();
-    }
-
     Component.onCompleted: {
         if (root.popupType != undefined)
             root.popupType = 2;
@@ -56,7 +43,7 @@ Menu {
     MenuSeparator {
     }
     MenuItem {
-        text: qsTr("Application Settings")
+        text: qsTr("App Settings")
         icon.source: "qrc:/icons/icons/ui/toggles.svg"
         onTriggered: MainWindow.showUserSettingsPage()
     }
@@ -70,37 +57,6 @@ Menu {
             if (error.length > 0)
                 console.error("Failed to launch profile switcher:", error);
         }
-    }
-    MenuSeparator {
-    }
-    MenuItem {
-        text: qsTr("Join room")
-        icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-        onTriggered: Komai.openJoinRoomDialog()
-    }
-    MenuSeparator {}
-    MenuItem {
-        text: qsTr("New room")
-        icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-        onTriggered: root.openCreateRoomDialog({})
-    }
-    MenuItem {
-        text: qsTr("New direct chat")
-        icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-        onTriggered: root.openCreateDirectDialog()
-    }
-    MenuSeparator {}
-    MenuItem {
-        text: qsTr("New space")
-        icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-        onTriggered: root.openCreateRoomDialog({
-                "space": true
-            })
-    }
-    MenuItem {
-        text: qsTr("Explore public rooms")
-        icon.source: "qrc:/icons/icons/ui/room-directory.svg"
-        onTriggered: root.openRoomDirectoryDialog()
     }
     MenuSeparator {
     }

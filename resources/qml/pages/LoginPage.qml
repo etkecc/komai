@@ -423,7 +423,7 @@ Item {
             Label {
                 Layout.fillWidth: true
                 visible: loginPage.currentStep >= 1
-                text: qsTr("Multiple Matrix chat apps and devices can be disorienting. Pick a name that you and others can recognize.")
+                text: qsTr("Choose a recognizable name. Others can see it too.")
                 color: palette.buttonText
                 font.pointSize: Settings.uiFontSizePt
                 wrapMode: Text.Wrap

@@ -29,6 +29,7 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QMessageBox>
+#include <QQuickItem>
 
 #ifdef KOMAI_DBUS_SYS
 #include "dbus/Api.h"
@@ -56,6 +57,15 @@ hideMenuOnWaylandMousePress()
 }
 }
 
+QObject *
+MainWindow::pageStack()
+{
+    auto *root = rootObject();
+    if (!root)
+        return nullptr;
+    return root->findChild<QObject *>(QStringLiteral("mainWindow"));
+}
+
 bool
 MainWindow::handleNavigationMouseButtonEvent(QEvent *event)
 {
@@ -78,12 +88,28 @@ MainWindow::handleNavigationMouseButtonEvent(QEvent *event)
         nhlog::ui()->info("[nav-history] mouse BackButton {}", isPress ? "pressed" : "released");
         if (isPress) {
             backButtonPressSeen_ = true;
-            if (auto *mgr = ChatPage::instance()->timelineManager())
+            // If a page is pushed on the stack (Login, Register, Settings),
+            // pop it instead of navigating room history.
+            auto *stack = pageStack();
+            if (stack && stack->property("depth").toInt() > 1) {
+                nhlog::ui()->info("[nav-history] BackButton: popping page stack (depth={})",
+                                  stack->property("depth").toInt());
+                QMetaObject::invokeMethod(stack, "popPage");
+            } else if (auto *mgr = ChatPage::instance()->timelineManager()) {
                 mgr->navigateBack();
+            }
         } else if (isRelease) {
             if (!backButtonPressSeen_) {
-                if (auto *mgr = ChatPage::instance()->timelineManager())
+                // Press may have been consumed by QML; check stack depth here too.
+                auto *stack = pageStack();
+                if (stack && stack->property("depth").toInt() > 1) {
+                    nhlog::ui()->info(
+                      "[nav-history] BackButton release: popping page stack (depth={})",
+                      stack->property("depth").toInt());
+                    QMetaObject::invokeMethod(stack, "popPage");
+                } else if (auto *mgr = ChatPage::instance()->timelineManager()) {
                     mgr->navigateBack();
+                }
             }
             backButtonPressSeen_ = false;
         }
@@ -97,12 +123,21 @@ MainWindow::handleNavigationMouseButtonEvent(QEvent *event)
         nhlog::ui()->info("[nav-history] mouse ForwardButton {}", isPress ? "pressed" : "released");
         if (isPress) {
             forwardButtonPressSeen_ = true;
-            if (auto *mgr = ChatPage::instance()->timelineManager())
-                mgr->navigateForward();
-        } else if (isRelease) {
-            if (!forwardButtonPressSeen_) {
+            // Don't navigate room history while a page is pushed on the stack.
+            auto *stack = pageStack();
+            if (!stack || stack->property("depth").toInt() <= 1) {
                 if (auto *mgr = ChatPage::instance()->timelineManager())
                     mgr->navigateForward();
+            }
+        } else if (isRelease) {
+            if (!forwardButtonPressSeen_) {
+                // Press may have been consumed by QML; check stack depth here too.
+                auto *stack = pageStack();
+                if (stack && stack->property("depth").toInt() > 1) {
+                    // Suppress — don't navigate room history while on a pushed page.
+                } else if (auto *mgr = ChatPage::instance()->timelineManager()) {
+                    mgr->navigateForward();
+                }
             }
             forwardButtonPressSeen_ = false;
         }

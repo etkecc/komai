@@ -165,6 +165,9 @@ function openCatalogDialog(componentUrl, properties) {
     }
     StackView {
         id: mainWindow
+        objectName: "mainWindow"
+
+        function popPage() { pop(); }
 
         property Transition popEnterOrg
         property Transition popExitOrg

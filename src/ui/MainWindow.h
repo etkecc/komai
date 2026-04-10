@@ -148,6 +148,8 @@ signals:
 
 private:
     bool handleNavigationMouseButtonEvent(QEvent *event);
+    //! Returns the QML StackView used for page navigation, or nullptr.
+    QObject *pageStack();
     void showDialog(QWidget *dialog);
     bool hasActiveUser();
     void restoreWindowSize();

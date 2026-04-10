@@ -305,6 +305,11 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     clearActiveMatrixReplyState();
     clearActiveMatrixThreadState();
 
+    if (!matrixTimelineTypingUsers_.isEmpty()) {
+        matrixTimelineTypingUsers_.clear();
+        emit matrixTimelineTypingUsersChanged();
+    }
+
     setPreferredInitialMatrixTimelinePageSize(preferredInitialMatrixTimelinePageSize_ > 0
                                                 ? preferredInitialMatrixTimelinePageSize_
                                                 : fallbackInitialMatrixTimelinePageSize());

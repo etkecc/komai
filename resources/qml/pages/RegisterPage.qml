@@ -843,63 +843,68 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
-                implicitHeight: confirmRow.implicitHeight
+                implicitHeight: confirmCol.implicitHeight
                 visible: registrationPage.currentStep >= 1
 
                 HoverHandler { id: confirmHover; blocking: false }
-                Rectangle { anchors.fill: confirmRow; color: confirmHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+                Rectangle { anchors.fill: confirmCol; color: confirmHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
 
-                RowLayout {
-                    id: confirmRow
+                ColumnLayout {
+                    id: confirmCol
                     width: parent.width
-                    spacing: Komai.paddingSmall
+                    spacing: 0
 
-                    Label {
-                        Layout.preferredWidth: registrationPage.fieldLabelWidth
-                        Layout.margins: Komai.paddingMedium
-                        text: qsTr("Confirm")
-                        color: confirmHover.hovered ? palette.brightText : palette.text
-                        font.pointSize: Settings.uiFontSizePt * 1.1
-                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Komai.paddingSmall
 
-                    Item {
-                        Layout.preferredWidth: confirmField.height / 2
-                        Layout.preferredHeight: confirmField.height / 2
-                        Layout.alignment: Qt.AlignVCenter
+                        Label {
+                            Layout.preferredWidth: registrationPage.fieldLabelWidth
+                            Layout.margins: Komai.paddingMedium
+                            text: qsTr("Confirm")
+                            color: confirmHover.hovered ? palette.brightText : palette.text
+                            font.pointSize: Settings.uiFontSizePt * 1.1
+                        }
 
-                        Image {
-                            anchors.fill: parent
-                            visible: confirmField.text.length > 0 && passwordField.text === confirmField.text
-                            source: "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success
-                            sourceSize.width: width
-                            sourceSize.height: height
+                        Item {
+                            Layout.preferredWidth: confirmField.height / 2
+                            Layout.preferredHeight: confirmField.height / 2
+                            Layout.alignment: Qt.AlignVCenter
+
+                            Image {
+                                anchors.fill: parent
+                                visible: confirmField.text.length > 0 && passwordField.text === confirmField.text
+                                source: "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success
+                                sourceSize.width: width
+                                sourceSize.height: height
+                            }
+                        }
+
+                        KomaiTextField {
+                            id: confirmField
+                            Layout.fillWidth: true
+                            Layout.minimumWidth: 300
+                            Layout.topMargin: Komai.paddingSmall
+                            Layout.bottomMargin: Komai.paddingSmall
+                            Layout.rightMargin: Komai.paddingSmall
+                            font.pointSize: Settings.uiFontSizePt * 1.1
+                            echoMode: TextInput.Password
+                            placeholderText: qsTr("Confirm password")
+                            readOnly: registrationPage.currentStep > 1
                         }
                     }
 
-                    KomaiTextField {
-                        id: confirmField
+                    Label {
+                        visible: confirmField.text.length > 0 && passwordField.text !== confirmField.text
                         Layout.fillWidth: true
-                        Layout.minimumWidth: 300
-                        Layout.topMargin: Komai.paddingSmall
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
                         Layout.bottomMargin: Komai.paddingSmall
-                        Layout.rightMargin: Komai.paddingSmall
-                        font.pointSize: Settings.uiFontSizePt * 1.1
-                        echoMode: TextInput.Password
-                        placeholderText: qsTr("Confirm password")
-                        readOnly: registrationPage.currentStep > 1
+                        text: qsTr("Passwords do not match")
+                        color: Komai.theme.error
+                        horizontalAlignment: Text.AlignRight
                     }
                 }
-            }
-
-            // Password mismatch warning
-            Label {
-                visible: registrationPage.currentStep >= 1 && confirmField.text.length > 0 && passwordField.text !== confirmField.text
-                Layout.fillWidth: true
-                Layout.leftMargin: Komai.paddingLarge
-                Layout.rightMargin: Komai.paddingLarge
-                text: qsTr("Passwords do not match")
-                color: Komai.theme.error
-                horizontalAlignment: Text.AlignRight
             }
 
             // Device name
@@ -907,125 +912,130 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
-                implicitHeight: deviceRow.implicitHeight
+                implicitHeight: deviceCol.implicitHeight
                 visible: registrationPage.currentStep >= 1
 
                 HoverHandler { id: deviceHover; blocking: false }
-                Rectangle { anchors.fill: deviceRow; color: deviceHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+                Rectangle { anchors.fill: deviceCol; color: deviceHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
 
-                RowLayout {
-                    id: deviceRow
+                ColumnLayout {
+                    id: deviceCol
                     width: parent.width
-                    spacing: Komai.paddingSmall
+                    spacing: 0
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Komai.paddingSmall
+
+                        Label {
+                            Layout.preferredWidth: registrationPage.fieldLabelWidth
+                            Layout.margins: Komai.paddingMedium
+                            text: qsTr("Device name")
+                            color: deviceHover.hovered ? palette.brightText : palette.text
+                            font.pointSize: Settings.uiFontSizePt * 1.1
+                        }
+
+                        // Spacer matching the spinner slot in other rows
+                        Item {
+                            Layout.preferredWidth: regDeviceField.height / 2
+                            Layout.preferredHeight: regDeviceField.height / 2
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        KomaiTextField {
+                            id: regDeviceField
+                            Layout.fillWidth: true
+                            Layout.minimumWidth: 300
+                            Layout.topMargin: Komai.paddingSmall
+                            Layout.bottomMargin: Komai.paddingSmall
+                            Layout.rightMargin: Komai.paddingSmall
+                            font.pointSize: Settings.uiFontSizePt * 1.1
+                            text: reg.deviceNameOS()
+                            readOnly: registrationPage.currentStep > 1
+                        }
+                    }
 
                     Label {
-                        Layout.preferredWidth: registrationPage.fieldLabelWidth
-                        Layout.margins: Komai.paddingMedium
-                        text: qsTr("Device name")
-                        color: deviceHover.hovered ? palette.brightText : palette.text
-                        font.pointSize: Settings.uiFontSizePt * 1.1
-                    }
-
-                    // Spacer matching the spinner slot in other rows
-                    Item {
-                        Layout.preferredWidth: regDeviceField.height / 2
-                        Layout.preferredHeight: regDeviceField.height / 2
-                        Layout.alignment: Qt.AlignVCenter
-                    }
-
-                    KomaiTextField {
-                        id: regDeviceField
                         Layout.fillWidth: true
-                        Layout.minimumWidth: 300
-                        Layout.topMargin: Komai.paddingSmall
-                        Layout.bottomMargin: Komai.paddingSmall
-                        Layout.rightMargin: Komai.paddingSmall
-                        font.pointSize: Settings.uiFontSizePt * 1.1
-                        text: reg.deviceNameOS()
-                        readOnly: registrationPage.currentStep > 1
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        text: qsTr("Choose a recognizable name. Others can see it too.")
+                        color: deviceHover.hovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        wrapMode: Text.Wrap
+                        horizontalAlignment: Text.AlignRight
+                        lineHeight: 1.3
                     }
-                }
-            }
 
-            // ── Device name explanation ──
-            Label {
-                Layout.fillWidth: true
-                visible: registrationPage.currentStep >= 1
-                text: qsTr("Choose a recognizable name. Others can see it too.")
-                color: palette.buttonText
-                font.pointSize: Settings.uiFontSizePt
-                wrapMode: Text.Wrap
-                horizontalAlignment: Text.AlignRight
-                lineHeight: 1.3
-            }
+                    Flow {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingSmall
+                        layoutDirection: Qt.RightToLeft
+                        spacing: Komai.paddingSmall
 
-            // ── Device name suggestions ──
-            Flow {
-                Layout.maximumWidth: parent.width - Komai.paddingMedium * 2
-                Layout.alignment: Qt.AlignRight
-                Layout.rightMargin: Komai.paddingMedium
-                spacing: Komai.paddingSmall
-                visible: registrationPage.currentStep >= 1
+                        KomaiButton {
+                            enabled: registrationPage.currentStep === 1
+                            icon.source: "qrc:/icons/icons/ui/arrow-clockwise.svg"
+                            display: AbstractButton.IconOnly
+                            topPadding: Komai.paddingSmall * 0.5
+                            bottomPadding: Komai.paddingSmall * 0.5
+                            leftPadding: Komai.paddingMedium
+                            rightPadding: Komai.paddingMedium
+                            toolTipText: qsTr("Generate another random name")
+                            onClicked: regSuggestRandomBtn.randomName = reg.deviceNameRandom()
+                        }
 
-                Label {
-                    text: qsTr("Suggestions:")
-                    color: palette.buttonText
-                    font.pointSize: Settings.uiFontSizePt
-                    height: regSuggestOsBtn.height
-                    verticalAlignment: Text.AlignVCenter
-                }
+                        KomaiButton {
+                            id: regSuggestRandomBtn
+                            enabled: registrationPage.currentStep === 1
+                            property string randomName: reg.deviceNameRandom()
+                            text: randomName
+                            font.pointSize: Settings.uiFontSizePt
+                            topPadding: Komai.paddingSmall * 0.5
+                            bottomPadding: Komai.paddingSmall * 0.5
+                            leftPadding: Komai.paddingSmall
+                            rightPadding: Komai.paddingSmall
+                            highlighted: regDeviceField.text === text
+                            onClicked: regDeviceField.text = randomName
+                            width: regRandomNameMaxMetrics.advanceWidth + leftPadding + rightPadding
+                            TextMetrics { id: regRandomNameMaxMetrics; font: regSuggestRandomBtn.font; text: reg.deviceNameRandomMax() }
+                        }
 
-                KomaiButton {
-                    id: regSuggestOsBtn
-                    enabled: registrationPage.currentStep === 1
-                    text: reg.deviceNameOS()
-                    font.pointSize: Settings.uiFontSizePt
-                    topPadding: Komai.paddingSmall * 0.5
-                    bottomPadding: Komai.paddingSmall * 0.5
-                    leftPadding: Komai.paddingSmall
-                    rightPadding: Komai.paddingSmall
-                    highlighted: regDeviceField.text === text
-                    onClicked: regDeviceField.text = text
-                }
+                        KomaiButton {
+                            enabled: registrationPage.currentStep === 1
+                            text: reg.deviceNameHostname()
+                            font.pointSize: Settings.uiFontSizePt
+                            topPadding: Komai.paddingSmall * 0.5
+                            bottomPadding: Komai.paddingSmall * 0.5
+                            leftPadding: Komai.paddingSmall
+                            rightPadding: Komai.paddingSmall
+                            highlighted: regDeviceField.text === text
+                            onClicked: regDeviceField.text = text
+                        }
 
-                KomaiButton {
-                    enabled: registrationPage.currentStep === 1
-                    text: reg.deviceNameHostname()
-                    font.pointSize: Settings.uiFontSizePt
-                    topPadding: Komai.paddingSmall * 0.5
-                    bottomPadding: Komai.paddingSmall * 0.5
-                    leftPadding: Komai.paddingSmall
-                    rightPadding: Komai.paddingSmall
-                    highlighted: regDeviceField.text === text
-                    onClicked: regDeviceField.text = text
-                }
+                        KomaiButton {
+                            id: regSuggestOsBtn
+                            enabled: registrationPage.currentStep === 1
+                            text: reg.deviceNameOS()
+                            font.pointSize: Settings.uiFontSizePt
+                            topPadding: Komai.paddingSmall * 0.5
+                            bottomPadding: Komai.paddingSmall * 0.5
+                            leftPadding: Komai.paddingSmall
+                            rightPadding: Komai.paddingSmall
+                            highlighted: regDeviceField.text === text
+                            onClicked: regDeviceField.text = text
+                        }
 
-                KomaiButton {
-                    id: regSuggestRandomBtn
-                    enabled: registrationPage.currentStep === 1
-                    property string randomName: reg.deviceNameRandom()
-                    text: randomName
-                    font.pointSize: Settings.uiFontSizePt
-                    topPadding: Komai.paddingSmall * 0.5
-                    bottomPadding: Komai.paddingSmall * 0.5
-                    leftPadding: Komai.paddingSmall
-                    rightPadding: Komai.paddingSmall
-                    highlighted: regDeviceField.text === text
-                    onClicked: regDeviceField.text = randomName
-                    width: regRandomNameMaxMetrics.advanceWidth + leftPadding + rightPadding
-                    TextMetrics { id: regRandomNameMaxMetrics; font: regSuggestRandomBtn.font; text: reg.deviceNameRandomMax() }
-                }
-
-                KomaiButton {
-                    enabled: registrationPage.currentStep === 1
-                    icon.source: "qrc:/icons/icons/ui/arrow-clockwise.svg"
-                    display: AbstractButton.IconOnly
-                    topPadding: Komai.paddingSmall * 0.5
-                    bottomPadding: Komai.paddingSmall * 0.5
-                    leftPadding: Komai.paddingMedium
-                    rightPadding: Komai.paddingMedium
-                    toolTipText: qsTr("Generate another random name")
-                    onClicked: regSuggestRandomBtn.randomName = reg.deviceNameRandom()
+                        Label {
+                            text: qsTr("Suggestions:")
+                            color: deviceHover.hovered ? palette.brightText : palette.buttonText
+                            font.pointSize: Settings.uiFontSizePt
+                            height: regSuggestOsBtn.height
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
                 }
             }
 

@@ -11,6 +11,7 @@ Item {
     id: timelineView
 
     required property var windowFocusBlurOverlay
+    property var tabController: null
     property var dialogHost: null
     property Item roomListLastActionButton: null
     property var roomPreview: null
@@ -79,6 +80,8 @@ Item {
     }
     Shortcut {
         sequences: [StandardKey.Close]
+        // When tabs are open, Ctrl+W is handled by ChatPage's tab shortcut instead.
+        enabled: !tabController || tabController.tabs.count === 0
 
         onActivated: Rooms.resetCurrentRoom()
     }

@@ -243,7 +243,7 @@ Komai::profileDesktopLaunchersSupported() const
 int
 Komai::tooltipDelay() const
 {
-    return QApplication::style()->styleHint(QStyle::StyleHint::SH_ToolTip_WakeUpDelay);
+    return 0;
 }
 
 bool

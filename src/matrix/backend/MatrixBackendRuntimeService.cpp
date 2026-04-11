@@ -456,8 +456,8 @@ fromRustRoomMember(const ::komai::rust::MatrixRoomMember &member)
       .userId      = QString::fromStdString(std::string(member.user_id)),
       .displayName = QString::fromStdString(std::string(member.display_name)),
       .avatarUrl  = matrix::normalizeMxcUri(QString::fromStdString(std::string(member.avatar_url))),
-      .powerLevel  = member.power_level,
-      .isInvited   = member.is_invited,
+      .powerLevel = member.power_level,
+      .isInvited  = member.is_invited,
     };
 }
 

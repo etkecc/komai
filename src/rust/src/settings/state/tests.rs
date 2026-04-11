@@ -63,6 +63,7 @@ fn state_yaml_roundtrip() {
         hidden_widgets: vec!["!widget".to_owned()],
         collapsed_spaces: vec!["!space:hs".to_owned()],
         hidden_spaces: vec!["!hidden:hs".to_owned()],
+        open_tabs: vec!["!tab1:hs".to_owned(), "!tab2:hs".to_owned()],
         composer_drafts_by_room: vec![entry("!room:hs", "draft")],
         donation_status: "sponsoring".to_owned(),
     });
@@ -72,6 +73,7 @@ fn state_yaml_roundtrip() {
     assert_eq!(loaded.window_height, 800);
     assert_eq!(loaded.current_filter_id, "people");
     assert_eq!(loaded.current_room_id, "!room:hs");
+    assert_eq!(loaded.open_tabs, vec!["!tab1:hs".to_owned(), "!tab2:hs".to_owned()]);
     assert_eq!(loaded.composer_drafts_by_room, vec![entry("!room:hs", "draft")]);
     assert_eq!(loaded.donation_status, "sponsoring");
 }

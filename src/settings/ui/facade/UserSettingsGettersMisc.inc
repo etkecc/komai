@@ -9,6 +9,7 @@
     QStringList globalExcludes() const;
     QStringList badgesHiddenFilters() const;
     QStringList hiddenPins() const;
+    QStringList openTabs() const;
     QStringList hiddenWidgets() const;
     QStringList hiddenTimelineEventTypes() const;
     const QMap<QString, QStringList> &hiddenTimelineEventTypesByRoom() const;

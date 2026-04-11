@@ -261,6 +261,7 @@ class UserSettings final : public QObject
                  setIntegrationsDbusApiAccess NOTIFY integrationsDbusApiAccessChanged)
 
     Q_PROPERTY(QStringList hiddenPins READ hiddenPins WRITE setHiddenPins NOTIFY hiddenPinsChanged)
+    Q_PROPERTY(QStringList openTabs READ openTabs WRITE setOpenTabs NOTIFY openTabsChanged)
     Q_PROPERTY(QStringList hiddenWidgets READ hiddenWidgets WRITE setHiddenWidgets NOTIFY
                  hiddenWidgetsChanged)
     Q_PROPERTY(
@@ -572,6 +573,7 @@ public:
     void setHiddenPins(const QStringList &hiddenTags);
     void setHiddenWidgets(const QStringList &hiddenTags);
     void setHiddenSpaces(const QStringList &hiddenSpaces);
+    void setOpenTabs(const QStringList &openTabs);
     void setHiddenTimelineEventTypes(const QStringList &eventTypes);
     void setHiddenTimelineEventTypesByRoom(const QMap<QString, QStringList> &eventTypesByRoom);
     void setHiddenTimelineEventTypesForRoom(const QString &roomId, const QStringList &eventTypes);
@@ -732,6 +734,7 @@ signals:
     void timelineMediaOpenAudioExternalChanged(bool state);
     void timelineMediaDefaultAudioPlaybackSpeedChanged(double speed);
     void hiddenPinsChanged();
+    void openTabsChanged();
     void globalExcludesChanged();
     void hiddenWidgetsChanged();
     void hiddenSpacesChanged();

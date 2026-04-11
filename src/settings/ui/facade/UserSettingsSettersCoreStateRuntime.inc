@@ -67,6 +67,14 @@ UserSettings::setHiddenPins(const QStringList &hiddenTags)
 }
 
 void
+UserSettings::setOpenTabs(const QStringList &openTabs)
+{
+    openTabs_ = openTabs;
+    save();
+    emit openTabsChanged();
+}
+
+void
 UserSettings::setHiddenWidgets(const QStringList &hiddenTags)
 {
     hiddenWidgets_ = hiddenTags;

@@ -14,6 +14,7 @@ Page {
     //rightPadding: Komai.paddingSmall
     required property var adaptiveView
     required property var timelineRoot
+    required property var tabController
     property bool compactMode: Komai.uiLayoutCompactMode
     property int avatarSize: Komai.listIconSize
     property bool collapsed: false
@@ -407,6 +408,7 @@ Page {
                 collapsed: roomListPage.collapsed
                 roomContextMenu: roomListContextMenu
                 scrollbarReservedWidth: roomlist.reservedScrollbarWidth
+                tabController: roomListPage.tabController
             }
 
             Connections {

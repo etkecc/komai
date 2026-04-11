@@ -17,6 +17,7 @@ Item {
     property real gapY: Komai.paddingMedium
     property bool preferRight: true
     property bool preferBelow: false
+    property bool followMouse: true
     property string text: ""
     property int delay: 0
     property bool requestedVisible: false
@@ -33,44 +34,70 @@ Item {
     property int bottomPadding: padding
     property int viewportMargin: 6
     property bool showing: false
+
+    // Tracks pointer position inside anchorItem for followMouse mode.
+    HoverHandler {
+        id: mouseTracker
+
+        parent: control.followMouse && control.anchorItem ? control.anchorItem : control
+        enabled: control.followMouse && !!control.anchorItem
+    }
+
     readonly property point anchorPoint: {
+        // In followMouse mode, anchor to the current pointer position.
+        if (followMouse && mouseTracker.hovered && anchorItem) {
+            const mousePos = mouseTracker.point.position;
+            if (anchorItem.mapToGlobal && parent && parent.mapFromGlobal) {
+                const globalPoint = anchorItem.mapToGlobal(mousePos.x, mousePos.y);
+                return parent.mapFromGlobal(globalPoint.x, globalPoint.y);
+            }
+            if (anchorItem.mapToItem && parent)
+                return anchorItem.mapToItem(parent, mousePos.x, mousePos.y);
+            return mousePos;
+        }
+
+        // Static anchor fallback.
         if (anchorItem && anchorItem.mapToGlobal && parent && parent.mapFromGlobal) {
             const globalPoint = anchorItem.mapToGlobal(anchorX, anchorY);
             return parent.mapFromGlobal(globalPoint.x, globalPoint.y);
         }
-
         if (anchorItem && anchorItem.mapToItem && parent)
             return anchorItem.mapToItem(parent, anchorX, anchorY);
-
         return Qt.point(anchorX, anchorY);
     }
 
+    // In followMouse mode, always start below-right of cursor with enough gap to clear it.
+    readonly property bool _prefRight: followMouse ? true : preferRight
+    readonly property bool _prefBelow: followMouse ? true : preferBelow
+    readonly property real _gapX: followMouse ? Math.max(gapX, 16) : gapX
+    readonly property real _gapY: followMouse ? Math.max(gapY, 24) : gapY
+
     parent: Overlay.overlay
     x: {
-        let rawX = preferRight ? anchorPoint.x + gapX : anchorPoint.x - width - gapX;
+        let rawX = _prefRight ? anchorPoint.x + _gapX : anchorPoint.x - width - _gapX;
         if (parent) {
             const minX = viewportMargin;
             const maxX = parent.width - width - viewportMargin;
 
-            if (preferRight && rawX > maxX)
-                rawX = anchorPoint.x - width - gapX;
-            else if (!preferRight && rawX < minX)
-                rawX = anchorPoint.x + gapX;
+            if (_prefRight && rawX > maxX)
+                rawX = anchorPoint.x - width - _gapX;
+            else if (!_prefRight && rawX < minX)
+                rawX = anchorPoint.x + _gapX;
 
             rawX = Math.max(minX, Math.min(rawX, maxX));
         }
         return Math.round(rawX);
     }
     y: {
-        let rawY = preferBelow ? anchorPoint.y + gapY : anchorPoint.y - height - gapY;
+        let rawY = _prefBelow ? anchorPoint.y + _gapY : anchorPoint.y - height - _gapY;
         if (parent) {
             const minY = viewportMargin;
             const maxY = parent.height - height - viewportMargin;
 
-            if (preferBelow && rawY > maxY)
-                rawY = anchorPoint.y - height - gapY;
-            else if (!preferBelow && rawY < minY)
-                rawY = anchorPoint.y + gapY;
+            if (_prefBelow && rawY > maxY)
+                rawY = anchorPoint.y - height - _gapY;
+            else if (!_prefBelow && rawY < minY)
+                rawY = anchorPoint.y + _gapY;
 
             rawY = Math.max(minY, Math.min(rawY, maxY));
         }

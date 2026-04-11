@@ -49,6 +49,11 @@ UserSettings::hiddenPins() const
     return hiddenPins_;
 }
 QStringList
+UserSettings::openTabs() const
+{
+    return openTabs_;
+}
+QStringList
 UserSettings::hiddenWidgets() const
 {
     return hiddenWidgets_;

@@ -445,6 +445,7 @@ mod bridge {
         hidden_widgets: Vec<String>,
         collapsed_spaces: Vec<String>,
         hidden_spaces: Vec<String>,
+        open_tabs: Vec<String>,
         composer_drafts_by_room: Vec<SettingsStringMapEntry>,
         donation_status: String,
         source_exists: bool,
@@ -490,6 +491,7 @@ mod bridge {
         hidden_widgets: Vec<String>,
         collapsed_spaces: Vec<String>,
         hidden_spaces: Vec<String>,
+        open_tabs: Vec<String>,
         composer_drafts_by_room: Vec<SettingsStringMapEntry>,
         donation_status: String,
     }

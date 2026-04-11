@@ -26,6 +26,8 @@ stageState(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &p
       .hidden_pins                   = {},
       .hidden_widgets                = {},
       .collapsed_spaces              = {},
+      .hidden_spaces                 = {},
+      .open_tabs                     = {},
       .composer_drafts_by_room       = {},
       .donation_status               = settings.donationStatus().toStdString(),
     };
@@ -41,6 +43,8 @@ stageState(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &p
         snapshot.collapsed_spaces.push_back(value.toStdString());
     for (const auto &value : settings.hiddenSpaces())
         snapshot.hidden_spaces.push_back(value.toStdString());
+    for (const auto &value : settings.openTabs())
+        snapshot.open_tabs.push_back(value.toStdString());
     for (auto it = settings.composerDraftsByRoom().constBegin();
          it != settings.composerDraftsByRoom().constEnd();
          ++it) {

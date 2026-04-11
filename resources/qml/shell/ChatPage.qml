@@ -17,7 +17,52 @@ Rectangle {
     readonly property Item roomListLastActionButton: roomlist.roomListLastActionButton
     readonly property var notificationAreaItem: timeline.notificationAreaItem
     readonly property var notificationAvoidBottomItem: timeline.notificationAvoidBottomItem
+    readonly property alias tabController: tabController
     color: palette.window
+
+    RoomTabController {
+        id: tabController
+
+        Component.onCompleted: restoreTabs()
+    }
+
+    // Handle external room changes (quick switcher, etc.) for tab-aware navigation.
+    Connections {
+        target: Rooms
+
+        function onCurrentRoomIdChanged(currentRoomId) {
+            tabController.handleExternalRoomChange(currentRoomId);
+        }
+    }
+
+    // Tab keyboard shortcuts.
+    Shortcut { sequence: "Alt+1"; onActivated: tabController.switchToTab(0) }
+    Shortcut { sequence: "Alt+2"; onActivated: tabController.switchToTab(1) }
+    Shortcut { sequence: "Alt+3"; onActivated: tabController.switchToTab(2) }
+    Shortcut { sequence: "Alt+4"; onActivated: tabController.switchToTab(3) }
+    Shortcut { sequence: "Alt+5"; onActivated: tabController.switchToTab(4) }
+    Shortcut { sequence: "Alt+6"; onActivated: tabController.switchToTab(5) }
+    Shortcut { sequence: "Alt+7"; onActivated: tabController.switchToTab(6) }
+    Shortcut { sequence: "Alt+8"; onActivated: tabController.switchToTab(7) }
+    Shortcut { sequence: "Alt+9"; onActivated: tabController.switchToTab(8) }
+    Shortcut {
+        sequence: "Ctrl+W"
+        enabled: tabController.tabs.count > 0
+
+        onActivated: tabController.closeCurrentTab()
+    }
+    Shortcut {
+        sequence: "Ctrl+Tab"
+        enabled: tabController.tabs.count > 1
+
+        onActivated: tabController.nextTab()
+    }
+    Shortcut {
+        sequence: "Ctrl+Shift+Tab"
+        enabled: tabController.tabs.count > 1
+
+        onActivated: tabController.previousTab()
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -90,6 +135,7 @@ Rectangle {
                     communitiesTarget: communitiesList
                     height: adaptiveView.height
                     timelineRoot: chatPage.timelineRoot
+                    tabController: chatPage.tabController
                 }
                 Binding {
                     delayed: true
@@ -109,6 +155,11 @@ Rectangle {
                     anchors.fill: parent
                     spacing: 0
 
+                    RoomTabBar {
+                        Layout.fillWidth: true
+                        tabController: chatPage.tabController
+                        visible: !adaptiveView.singlePageMode && tabController.tabs.count > 0
+                    }
                     NetworkConnectivityBanner {
                         Layout.fillWidth: true
                     }
@@ -120,6 +171,7 @@ Rectangle {
 
                         Layout.fillHeight: true
                         Layout.fillWidth: true
+                        tabController: chatPage.tabController
                         dialogHost: chatPage.timelineRoot
                         roomListLastActionButton: chatPage.roomListLastActionButton
                         windowFocusBlurOverlay: windowFocusBlurOverlay

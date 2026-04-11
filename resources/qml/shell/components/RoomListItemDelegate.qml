@@ -18,6 +18,7 @@ ItemDelegate {
     readonly property real baseFontPixelSize: Komai.fontPixelSize
     required property var roomContextMenu
     required property real scrollbarReservedWidth
+    required property var tabController
     required property string avatarUrl
     property color backgroundColor: palette.window
     property color bubbleBackground: palette.highlight
@@ -122,16 +123,7 @@ ItemDelegate {
         }
     ]
 
-    onClicked: {
-        console.log("tapped " + roomId);
-        if (isInvite) {
-            TimelineManager.openInviteResponseDialog(roomId);
-        } else if (Rooms.currentRoomId !== roomId) {
-            Rooms.setCurrentRoom(roomId);
-        } else {
-            Rooms.resetCurrentRoom();
-        }
-    }
+    onClicked: {} // Click logic handled by roomClickArea below for modifier detection.
     onPressAndHold: {
         if (!isInvite)
             roomContextMenu.show(roomItem, roomId, tags);
@@ -161,6 +153,27 @@ ItemDelegate {
             onSingleTapped: {
                 if (!TimelineManager.isInvite)
                     roomContextMenu.show(roomItemTh.parent, roomId, tags);
+            }
+        }
+        MouseArea {
+            id: roomClickArea
+
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton | Qt.MiddleButton
+            hoverEnabled: false
+
+            onClicked: function(mouse) {
+                console.log("tapped " + roomId);
+                if (mouse.button === Qt.MiddleButton) {
+                    tabController.openTab(roomId);
+                    return;
+                }
+                var ctrlHeld = !!(mouse.modifiers & Qt.ControlModifier);
+                tabController.handleRoomClick(roomId, isInvite, ctrlHeld);
+            }
+            onPressAndHold: function(mouse) {
+                if (!isInvite)
+                    roomContextMenu.show(roomItem, roomId, tags);
             }
         }
     }

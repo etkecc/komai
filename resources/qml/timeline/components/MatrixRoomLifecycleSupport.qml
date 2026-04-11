@@ -100,5 +100,14 @@ QtObject {
         function onLoadingChanged() {
             support.handleLoadingChanged();
         }
+
+        function onVisibleChanged() {
+            if (rootItem.visible
+                    && rootItem.activeRoomId.length > 0
+                    && !rootItem.roomSwitchInProgress
+                    && rootItem.lastMarkedReadEventId.length === 0) {
+                viewportSupport.scheduleReadMarkerUpdate(true);
+            }
+        }
     }
 }

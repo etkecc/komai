@@ -377,7 +377,10 @@ QtObject {
                 rootItem.perfLoggedBufferFilled = true;
                 rootItem.markRoomSwitchPerfPhase("qml.matrix_room.buffer_filled");
             }
+            const wasRoomSwitchInProgress = rootItem.roomSwitchInProgress;
             rootItem.roomSwitchInProgress = false;
+            if (wasRoomSwitchInProgress)
+                support.scheduleReadMarkerUpdate(true);
             console.info("[timeline-load] Buffer filled: contentH="
                 + Math.round(timelineList.contentHeight)
                 + " desired=" + Math.round(desiredBufferedHeight)

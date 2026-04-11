@@ -7,6 +7,7 @@
 #include "komai-rust-cxxbridge/ffi.h"
 #include "matrix/backend/MatrixFfiBlockingContext.h"
 
+#include <QLocale>
 #include <stdexcept>
 
 namespace komai {
@@ -65,7 +66,8 @@ fromRustPolicies(const ::rust::Vec<::komai::rust::RegistrationTermsPolicy> &poli
 std::vector<ServerListEntry>
 MatrixRegistrationService::loadServerList()
 {
-    auto result = ::komai::rust::serverlist_entries();
+    const auto locale = QLocale().name().toStdString();
+    auto result       = ::komai::rust::serverlist_entries(locale);
 
     if (!result.error_message.empty()) {
         // Log but don't fail — return whatever entries we got

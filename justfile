@@ -360,6 +360,7 @@ lint:
 		check-yaml \
 		check-json \
 		clang-format \
+		check-serverlist \
 		check-theme-yaml \
 		builtin-theme-wcag-aa \
 		check-ts-normalized \

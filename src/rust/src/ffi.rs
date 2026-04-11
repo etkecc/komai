@@ -1317,7 +1317,7 @@ mod bridge {
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;
         fn theme_parse_base16_yaml(theme_text: &str) -> ThemeBase16ParseResult;
 
-        fn serverlist_entries() -> ServerListResult;
+        fn serverlist_entries(locale: &str) -> ServerListResult;
 
         fn matrix_registration_probe(
             context: MatrixFfiBlockingContext,

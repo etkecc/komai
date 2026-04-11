@@ -22,6 +22,12 @@ repos:
   # Local hooks that run project-specific tools
   - repo: local
     hooks:
+      - id: check-serverlist
+        name: Check Server List Localization
+        entry: python3 bin/serverlist/check.py
+        language: system
+        files: '(resources/serverlist/.*\.yml$|bin/serverlist/)'
+        pass_filenames: false
       - id: check-theme-yaml
         name: Check Theme YAML Validity
         entry: python3 bin/theme/check.py

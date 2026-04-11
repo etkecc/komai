@@ -8,7 +8,8 @@ servers:
   # --- etke.cc demo ---
   - name: demo.etke.host
     client_domain: matrix.demo.etke.host
-    description: "Demo server for testing Matrix, bridges, bots, and other etke.cc services. Not for real use."
+    description:
+      en: "Demo server for testing Matrix, bridges, bots, and other etke.cc services. Not for real use."
     homepage: https://etke.cc/demo/
     using_vanilla_reg: true
     software: Synapse
@@ -17,13 +18,15 @@ servers:
     email: true
     rank: 10
     category: demo
-    editorial: "Test Matrix and [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=register) services (some bridges & bots) on a [demo instance](https://etke.cc/demo/). Accounts may be periodically reset."
+    editorial:
+      en: "Test Matrix and [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=register) services (some bridges & bots) on a [demo instance](https://etke.cc/demo/). Accounts may be periodically reset."
     featured: true
 
   # --- Web-based registration (not UIAA) ---
   - name: matrix.org
     client_domain: matrix-client.matrix.org
-    description: "The original Matrix homeserver, operated by the Matrix.org Foundation."
+    description:
+      en: "The original Matrix homeserver, operated by the Matrix.org Foundation."
     homepage: https://matrix.org/homeserver/about/
     using_vanilla_reg: false
     software: Synapse
@@ -33,12 +36,14 @@ servers:
     reg_link: https://app.element.io/#/register
     rank: 15
     category: recommended
-    editorial: "The flagship Matrix server. Free accounts available, with [paid options](https://matrix.org/homeserver/pricing/) for higher limits. Sometimes overloaded and slow."
+    editorial:
+      en: "The flagship Matrix server. Free accounts available, with [paid options](https://matrix.org/homeserver/pricing/) for higher limits. Sometimes overloaded and slow."
 
   # --- Servers requiring only email ---
   - name: nope.chat
     client_domain: nope.chat
-    description: "Operated by adminForge.de, hosts other FOSS services."
+    description:
+      en: "Operated by adminForge.de, hosts other FOSS services."
     homepage: https://nope.chat
     using_vanilla_reg: true
     software: Synapse
@@ -50,7 +55,8 @@ servers:
 
   - name: dewrito.net
     client_domain: dewrito.net
-    description: "A general-purpose Matrix homeserver."
+    description:
+      en: "A general-purpose Matrix homeserver."
     using_vanilla_reg: true
     software: Synapse
     languages: [English]
@@ -61,7 +67,8 @@ servers:
 
   - name: glasgow.social
     client_domain: glasgow.social
-    description: "Community server for Glasgow and Scotland."
+    description:
+      en: "Community server for Glasgow and Scotland."
     using_vanilla_reg: true
     software: Synapse
     languages: [English]
@@ -73,7 +80,8 @@ servers:
   # --- Servers requiring terms + email ---
   - name: gemeinsam.jetzt
     client_domain: gemeinsam.jetzt
-    description: "A German community homeserver."
+    description:
+      en: "A German community homeserver."
     using_vanilla_reg: true
     software: Synapse
     languages: [Deutsch]
@@ -85,7 +93,8 @@ servers:
   # --- Servers requiring recaptcha + email ---
   - name: tchncs.de
     client_domain: matrix.tchncs.de
-    description: "A general homeserver. Owner also hosts other FOSS services."
+    description:
+      en: "A general homeserver. Owner also hosts other FOSS services."
     homepage: https://tchncs.de/matrix
     using_vanilla_reg: true
     software: Synapse
@@ -98,11 +107,13 @@ servers:
     features: [Bridges]
     rank: 20
     category: recommended
-    editorial: "Well-established community favorite. Bridges to other networks."
+    editorial:
+      en: "Well-established community favorite. Bridges to other networks."
 
   - name: 4d2.org
     client_domain: matrix.4d2.org
-    description: "A general-purpose Matrix homeserver."
+    description:
+      en: "A general-purpose Matrix homeserver."
     using_vanilla_reg: true
     software: Synapse
     languages: [English]
@@ -113,7 +124,8 @@ servers:
 
   - name: g24.at
     client_domain: matrix.g24.at
-    description: "Austrian community homeserver."
+    description:
+      en: "Austrian community homeserver."
     using_vanilla_reg: true
     software: Synapse
     languages: [Deutsch, English]
@@ -125,7 +137,8 @@ servers:
 
   - name: gnulinux.club
     client_domain: element.gnulinux.club
-    description: "For GNU/Linux and FOSS enthusiasts."
+    description:
+      en: "For GNU/Linux and FOSS enthusiasts."
     using_vanilla_reg: true
     software: Synapse
     languages: [English]
@@ -137,7 +150,8 @@ servers:
 
   - name: grin.hu
     client_domain: matrix.grin.hu
-    description: "Hungarian community homeserver."
+    description:
+      en: "Hungarian community homeserver."
     using_vanilla_reg: true
     software: Synapse
     languages: [Magyar, English]
@@ -149,7 +163,8 @@ servers:
 
   - name: hot-chilli.im
     client_domain: chat.hot-chilli.im
-    description: "A general-purpose Matrix homeserver."
+    description:
+      en: "A general-purpose Matrix homeserver."
     using_vanilla_reg: true
     software: Synapse
     languages: [Deutsch, English]
@@ -160,7 +175,8 @@ servers:
 
   - name: imagisphe.re
     client_domain: matrix.imagisphe.re
-    description: "A general-purpose Matrix homeserver."
+    description:
+      en: "A general-purpose Matrix homeserver."
     using_vanilla_reg: true
     software: Synapse
     languages: [English]
@@ -171,7 +187,8 @@ servers:
 
   - name: secure-channel.net
     client_domain: matrix.secure-channel.net
-    description: "Privacy-focused Matrix homeserver."
+    description:
+      en: "Privacy-focused Matrix homeserver."
     using_vanilla_reg: true
     software: Synapse
     languages: [English]
@@ -182,7 +199,8 @@ servers:
 
   - name: unredacted.org
     client_domain: matrix.unredacted.org
-    description: "Privacy and free speech focused homeserver."
+    description:
+      en: "Privacy and free speech focused homeserver."
     using_vanilla_reg: true
     software: Synapse
     languages: [English]

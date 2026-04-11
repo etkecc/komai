@@ -9,7 +9,7 @@ use model::{ServerEntry, ServerListFile};
 
 const SERVERS_YAML: &str = include_str!("../../../../resources/serverlist/servers.yml");
 
-pub fn entries() -> ServerListResult {
+pub fn entries(locale: &str) -> ServerListResult {
     match serde_yaml_ng::from_str::<ServerListFile>(SERVERS_YAML) {
         Ok(parsed) => {
             if let Err(error) = parsed.validate() {
@@ -20,7 +20,7 @@ pub fn entries() -> ServerListResult {
             }
 
             let mut entries: Vec<ServerListEntry> =
-                parsed.servers.iter().map(to_ffi_entry).collect();
+                parsed.servers.iter().map(|e| to_ffi_entry(e, locale)).collect();
 
             entries.sort_by(|a, b| a.rank.cmp(&b.rank).then_with(|| a.name.cmp(&b.name)));
 
@@ -36,11 +36,11 @@ pub fn entries() -> ServerListResult {
     }
 }
 
-fn to_ffi_entry(entry: &ServerEntry) -> ServerListEntry {
+fn to_ffi_entry(entry: &ServerEntry, locale: &str) -> ServerListEntry {
     ServerListEntry {
         name: entry.name.clone(),
         client_domain: entry.client_domain.clone(),
-        description: entry.description.clone(),
+        description: entry.description.resolve(locale),
         homepage: entry.homepage.clone(),
         using_vanilla_reg: entry.using_vanilla_reg,
         languages: entry.languages.clone(),
@@ -56,7 +56,7 @@ fn to_ffi_entry(entry: &ServerEntry) -> ServerListEntry {
         reg_note: entry.reg_note.clone(),
         rank: entry.rank,
         category: entry.category.clone(),
-        editorial: entry.editorial.clone(),
+        editorial: entry.editorial.resolve(locale),
         featured: entry.featured,
     }
 }

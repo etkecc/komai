@@ -23,14 +23,106 @@ Item {
     readonly property bool perfDisableTimelineList: TimelineManager.perfUiFlagEnabled("disable_timeline_list")
     readonly property bool useMatrixRoomView: roomPreview && roomPreview.isMatrixSummary
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
-    readonly property var matrixTimelineShell: matrixRoomLoader.item
+    readonly property var matrixTimelineShell: _activePoolEntry
     readonly property var matrixTimeline: matrixTimelineShell ? matrixTimelineShell.roomView : null
-    readonly property var notificationAreaItem: matrixRoomLoader.active && matrixTimeline
+    readonly property var notificationAreaItem: _activePoolEntry && matrixTimeline
         ? (matrixTimeline.notificationAreaItem ? matrixTimeline.notificationAreaItem : matrixTimeline)
         : null
-    readonly property var notificationAvoidBottomItem: matrixRoomLoader.active && matrixTimeline
+    readonly property var notificationAvoidBottomItem: _activePoolEntry && matrixTimeline
         ? matrixTimeline.composerShell
         : null
+
+    // Timeline cache pool: keeps recently-visited room timelines alive (hidden)
+    // so switching back is fast (no QML component recreation).
+    property var _activePoolEntry: null
+    property var _poolEntries: ({})
+    property var _poolLru: []
+    property int _poolMaxSize: 20
+    property string _poolCurrentRoomId: useMatrixRoomView && roomPreview
+        ? String(roomPreview.roomid || "") : ""
+    on_PoolCurrentRoomIdChanged: _poolSwitchTo(_poolCurrentRoomId)
+
+    function _poolSwitchTo(roomId) {
+        _poolDeactivateCurrent();
+
+        if (!roomId)
+            return;
+
+        var entry = _poolGetOrCreate(roomId);
+        var isReactivation = (entry.roomView.activeRoomId === roomId);
+        var poolSize = Object.keys(_poolEntries).length;
+
+        entry.poolSlotActive = true;
+        _activePoolEntry = entry;
+
+        if (isReactivation) {
+            console.info("[timeline-pool] hit room=" + roomId
+                         + " poolSize=" + poolSize);
+            entry.roomView.handlePoolReactivation();
+        } else {
+            console.info("[timeline-pool] miss room=" + roomId
+                         + " poolSize=" + poolSize);
+            entry.roomView.activeRoomId = roomId;
+        }
+    }
+
+    function _poolDeactivateCurrent() {
+        if (_activePoolEntry) {
+            _activePoolEntry.poolSlotActive = false;
+            _activePoolEntry = null;
+        }
+    }
+
+    function _poolGetOrCreate(roomId) {
+        var entry = _poolEntries[roomId];
+        if (entry) {
+            _poolTouchLru(roomId);
+            return entry;
+        }
+
+        _poolEvictIfNeeded();
+
+        entry = matrixTimelineComponent.createObject(timelinePoolContainer, {});
+        _poolEntries[roomId] = entry;
+        _poolTouchLru(roomId);
+        return entry;
+    }
+
+    function _poolTouchLru(roomId) {
+        var idx = _poolLru.indexOf(roomId);
+        if (idx !== -1)
+            _poolLru.splice(idx, 1);
+        _poolLru.unshift(roomId);
+    }
+
+    function _poolEvictIfNeeded() {
+        while (Object.keys(_poolEntries).length >= _poolMaxSize) {
+            var evicted = false;
+            for (var i = _poolLru.length - 1; i >= 0; i--) {
+                var candidate = _poolLru[i];
+                if (tabController && tabController.findTab(candidate) !== -1)
+                    continue;
+                console.info("[timeline-pool] evict room=" + candidate
+                             + " poolSize=" + Object.keys(_poolEntries).length);
+                _poolRemove(candidate);
+                evicted = true;
+                break;
+            }
+            if (!evicted)
+                break;
+        }
+    }
+
+    function _poolRemove(roomId) {
+        var entry = _poolEntries[roomId];
+        if (entry) {
+            entry.destroy();
+            delete _poolEntries[roomId];
+        }
+        var idx = _poolLru.indexOf(roomId);
+        if (idx !== -1)
+            _poolLru.splice(idx, 1);
+    }
 
     ComponentCatalog {
         id: componentCatalog
@@ -175,16 +267,19 @@ Item {
 
         ColumnLayout {
             property alias roomView: matrixRoomView
+            property bool poolSlotActive: false
 
             anchors.fill: parent
             spacing: 0
+            visible: poolSlotActive
 
             MatrixRoomView {
                 id: matrixRoomView
 
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                roomPreview: timelineView.roomPreview
+                poolActive: parent.poolSlotActive
+                roomPreview: parent.poolSlotActive ? timelineView.roomPreview : null
                 dialogSupport: matrixRoomDialogSupport
                 messageActionsRoomModel: matrixRoomMessageActionsModel
                 composerInputController: matrixRoomComposerSupport.composerInputController
@@ -206,16 +301,22 @@ Item {
             }
         }
     }
-    Loader {
-        id: matrixRoomLoader
+    Item {
+        id: timelinePoolContainer
 
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top
-        active: timelineView.useMatrixRoomView
-        sourceComponent: matrixTimelineComponent
-        visible: active
+        visible: timelineView.useMatrixRoomView
+    }
+
+    Connections {
+        target: tabController
+
+        function onAboutToSwitchRoom() {
+            timelineView._poolDeactivateCurrent();
+        }
     }
     TimelinePreviewPane {
         roomPreview: timelineView.useMatrixRoomView ? null : timelineView.roomPreview

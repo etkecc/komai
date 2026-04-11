@@ -15,6 +15,7 @@ ColumnLayout {
     id: root
 
     required property var roomPreview
+    property bool poolActive: true
     required property var dialogSupport
     required property var messageActionsRoomModel
     required property var composerInputController
@@ -82,7 +83,7 @@ ColumnLayout {
     property bool restoringEditDraft: false
     property int lastPaginationTriggerCount: -1
     property int lastInitialBufferTriggerCount: -1
-    property string activeRoomId: roomPreview ? String(roomPreview.roomid || "") : ""
+    property string activeRoomId: ""
     property var measuredTimelineHeights: ({})
     property bool initialBottomPinPending: false
     property bool initialTimelineBufferPending: false
@@ -150,7 +151,7 @@ ColumnLayout {
     TimelineFilter {
         id: filteredTimeline
 
-        source: TimelineManager.matrixTimelineModel
+        source: root.poolActive ? TimelineManager.matrixTimelineModel : null
         filterByContent: root.searchString
         filterByNotifications: root.filterByNotifications
 
@@ -158,7 +159,7 @@ ColumnLayout {
     }
 
     Connections {
-        target: TimelineManager.matrixTimelineModel
+        target: root.poolActive ? TimelineManager.matrixTimelineModel : null
         function onAboutToReplaceContent() { listShellSupport.handleModelResetAboutToReplace(); }
         function onContentReplaced() { listShellSupport.handleModelResetContentReplaced(); }
     }
@@ -181,6 +182,7 @@ ColumnLayout {
 
     function clearSearch() { return lifecycleSupport.clearSearch(); }
     function markRoomSwitchPerfPhase(phase) { return lifecycleSupport.markRoomSwitchPerfPhase(phase); }
+    function handlePoolReactivation() { return lifecycleSupport.handlePoolReactivation(); }
 
     function selectedEventIdsContains(eventId) { return eventSupport.selectedEventIdsContains(eventId); }
     function canExplicitlySelectEventId(eventId) { return eventSupport.canExplicitlySelectEventId(eventId); }
@@ -440,7 +442,9 @@ ColumnLayout {
                     displayMarginBeginning: root.listViewDisplayMargin
                     displayMarginEnd: root.listViewDisplayMargin
                     cacheBuffer: root.listViewCacheBuffer
-                    model: root.filteringRequested ? filteredTimeline : TimelineManager.matrixTimelineModel
+                    model: root.poolActive
+                        ? (root.filteringRequested ? filteredTimeline : TimelineManager.matrixTimelineModel)
+                        : null
                     header: Item { width: 1; height: Komai.paddingSmall }
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline

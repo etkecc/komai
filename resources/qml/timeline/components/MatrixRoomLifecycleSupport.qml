@@ -28,6 +28,19 @@ QtObject {
     }
 
     function handleActiveRoomIdChanged() {
+        if (!rootItem.poolActive)
+            return;
+        _resetForRoom(true);
+    }
+
+    // Lightweight reactivation for pool entries returning to the foreground.
+    // Reconnects viewport and model state but preserves walk mode, selection,
+    // and other user-interaction state.
+    function handlePoolReactivation() {
+        _resetForRoom(false);
+    }
+
+    function _resetForRoom(fullReset) {
         rootItem.updatePreferredInitialTimelinePageSize();
         rootItem.measuredTimelineHeights = ({});
         rootItem.roomSwitchInProgress = rootItem.activeRoomId.length > 0;
@@ -48,14 +61,19 @@ QtObject {
         rootItem.visibleTimelineDelegates = ({});
         rootItem.delegateRegistrationGeneration += 1;
         rootItem.deferredBufferCheckQueued = false;
-        rootItem.walkModeActive = false;
-        rootItem.focusedEventId = "";
-        rootItem.selectedEventIds = [];
-        rootItem.selectionAnchorEventId = "";
-        rootItem.suppressNextWalkModeOlderStep = false;
+
+        if (fullReset) {
+            rootItem.walkModeActive = false;
+            rootItem.focusedEventId = "";
+            rootItem.selectedEventIds = [];
+            rootItem.selectionAnchorEventId = "";
+            rootItem.suppressNextWalkModeOlderStep = false;
+        }
 
         if (rootItem.activeRoomId.length > 0)
-            support.markRoomSwitchPerfPhase("qml.matrix_room.active_room_changed");
+            support.markRoomSwitchPerfPhase(fullReset
+                ? "qml.matrix_room.active_room_changed"
+                : "qml.matrix_room.pool_reactivated");
         if (rootItem.pendingComposerAutoFocus)
             rootItem.scheduleComposerAutoFocus();
 
@@ -86,7 +104,7 @@ QtObject {
     // signal fires before the Connections block below is wired up.  Re-run the
     // handler once on completion to cover that missed signal.
     Component.onCompleted: {
-        if (rootItem.activeRoomId.length > 0)
+        if (rootItem.poolActive && rootItem.activeRoomId.length > 0)
             support.handleActiveRoomIdChanged();
     }
 
@@ -98,10 +116,14 @@ QtObject {
         }
 
         function onLoadingChanged() {
+            if (!rootItem.poolActive)
+                return;
             support.handleLoadingChanged();
         }
 
         function onVisibleChanged() {
+            if (!rootItem.poolActive)
+                return;
             if (rootItem.visible
                     && rootItem.activeRoomId.length > 0
                     && !rootItem.roomSwitchInProgress

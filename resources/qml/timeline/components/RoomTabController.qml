@@ -8,6 +8,8 @@ import cc.etke.komai
 QtObject {
     id: controller
 
+    signal aboutToSwitchRoom()
+
     property ListModel tabs: ListModel {}
 
     // Suppresses handling of Rooms.currentRoomIdChanged when we initiated the change.
@@ -96,6 +98,7 @@ QtObject {
         if (tabs.count === 0) {
             _internalNavigation = true;
             _previousRoomId = "";
+            aboutToSwitchRoom();
             Rooms.resetCurrentRoom();
             _internalNavigation = false;
             return;
@@ -149,6 +152,7 @@ QtObject {
     function _setCurrentRoom(roomId) {
         _internalNavigation = true;
         _previousRoomId = roomId;
+        aboutToSwitchRoom();
         Rooms.setCurrentRoom(roomId);
         _internalNavigation = false;
     }

@@ -200,6 +200,7 @@ Item {
                     isHiddenEvent: modelData && modelData.isHiddenEvent !== undefined ? modelData.isHiddenEvent : false
                     messageActions: messageActionsC
                     messageContextMenu: previewRuntime.messageContextMenu
+                    metadataActionsEnabled: false
                     previewData: modelData
                     replyContextMenu: previewRuntime.replyContextMenu
                     scrolledToThis: false
@@ -214,6 +215,7 @@ Item {
                     isHiddenEvent: modelData && modelData.isHiddenEvent !== undefined ? modelData.isHiddenEvent : false
                     messageActions: messageActionsC
                     messageContextMenu: previewRuntime.messageContextMenu
+                    metadataActionsEnabled: false
                     previewData: modelData
                     replyContextMenu: previewRuntime.replyContextMenu
                     scrolledToThis: false

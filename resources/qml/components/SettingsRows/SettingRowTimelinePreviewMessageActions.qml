@@ -15,7 +15,7 @@ Control {
     property Item anchorItem: null
     property var model: null
     property string activationMode: ""
-    property bool pinned: false
+    readonly property bool pinned: activationMode === "button" || activationMode === "keyboard"
     property bool positioned: false
     readonly property bool canEdit: !!root.model && root.model.isEditable
     property int itemHorizontalPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
@@ -61,7 +61,7 @@ Control {
     }
 
     function dismiss() {
-        pinned = false;
+        activationMode = "";
         attached = null;
         anchorItem = null;
         positioned = false;

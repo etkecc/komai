@@ -354,24 +354,20 @@ pub async fn kick_user(
     user_id: &str,
     reason: &str,
 ) -> Result<(), String> {
-    let client = client_for_handle(handle_id)?;
-    let parsed_room_id = parse_room_id(room_id)?;
+    let room = joined_room_for_handle(handle_id, room_id)?;
     let parsed_user_id = parse_user_id(user_id)?;
-    let mut request = kick_user::v3::Request::new(parsed_room_id, parsed_user_id);
-    request.reason = trim_reason(reason);
+    let reason = trim_reason(reason);
 
     tracing::info!(
         handle_id,
         room_id = room_id.trim(),
         user_id = user_id.trim(),
-        has_reason = request.reason.is_some(),
+        has_reason = reason.is_some(),
         "Kicking user via matrix-sdk backend runtime"
     );
 
-    client
-        .send(request)
+    room.kick_user(&parsed_user_id, reason.as_deref())
         .await
-        .map(|_| ())
         .map_err(|e| format!("failed to kick user via matrix-sdk: {e}"))
 }
 
@@ -381,24 +377,20 @@ pub async fn ban_user(
     user_id: &str,
     reason: &str,
 ) -> Result<(), String> {
-    let client = client_for_handle(handle_id)?;
-    let parsed_room_id = parse_room_id(room_id)?;
+    let room = joined_room_for_handle(handle_id, room_id)?;
     let parsed_user_id = parse_user_id(user_id)?;
-    let mut request = ban_user::v3::Request::new(parsed_room_id, parsed_user_id);
-    request.reason = trim_reason(reason);
+    let reason = trim_reason(reason);
 
     tracing::info!(
         handle_id,
         room_id = room_id.trim(),
         user_id = user_id.trim(),
-        has_reason = request.reason.is_some(),
+        has_reason = reason.is_some(),
         "Banning user via matrix-sdk backend runtime"
     );
 
-    client
-        .send(request)
+    room.ban_user(&parsed_user_id, reason.as_deref())
         .await
-        .map(|_| ())
         .map_err(|e| format!("failed to ban user via matrix-sdk: {e}"))
 }
 
@@ -408,23 +400,19 @@ pub async fn unban_user(
     user_id: &str,
     reason: &str,
 ) -> Result<(), String> {
-    let client = client_for_handle(handle_id)?;
-    let parsed_room_id = parse_room_id(room_id)?;
+    let room = joined_room_for_handle(handle_id, room_id)?;
     let parsed_user_id = parse_user_id(user_id)?;
-    let mut request = unban_user::v3::Request::new(parsed_room_id, parsed_user_id);
-    request.reason = trim_reason(reason);
+    let reason = trim_reason(reason);
 
     tracing::info!(
         handle_id,
         room_id = room_id.trim(),
         user_id = user_id.trim(),
-        has_reason = request.reason.is_some(),
+        has_reason = reason.is_some(),
         "Unbanning user via matrix-sdk backend runtime"
     );
 
-    client
-        .send(request)
+    room.unban_user(&parsed_user_id, reason.as_deref())
         .await
-        .map(|_| ())
         .map_err(|e| format!("failed to unban user via matrix-sdk: {e}"))
 }

@@ -28,7 +28,7 @@ use matrix_sdk::{
         RoomOrAliasId, ServerName, UInt, UserId,
         api::client::{
             error::ErrorKind,
-            membership::{ban_user, invite_user, kick_user, leave_room, unban_user},
+            membership::invite_user,
             room::{Visibility, create_room},
         },
         api::client::media::get_content_thumbnail::v3::Method,

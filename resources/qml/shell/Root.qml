@@ -17,6 +17,10 @@ Pane {
         id: sharedLoginController
     }
 
+    Registration {
+        id: sharedRegistrationController
+    }
+
     ComponentCatalog {
         id: componentCatalog
     }
@@ -265,6 +269,7 @@ function openCatalogDialog(componentUrl, properties) {
         id: registerPage
 
         RegisterPage {
+            registrationController: sharedRegistrationController
         }
     }
     Component {

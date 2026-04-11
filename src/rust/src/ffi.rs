@@ -33,6 +33,7 @@ pub(crate) fn format_body_html(
         syntax_highlight,
     )
 }
+pub(crate) use crate::serverlist::entries as serverlist_entries;
 pub(crate) use crate::theme::base16::parse_base16_yaml as theme_parse_base16_yaml;
 pub(crate) use crate::theme::builtins::builtin_themes as theme_builtin_themes;
 pub(crate) use crate::theme::external::parse_external_theme as theme_parse_external_theme;
@@ -573,6 +574,74 @@ mod bridge {
         name: String,
         author: String,
         palette: ThemeBase16PaletteData,
+    }
+
+    struct ServerListEntry {
+        name: String,
+        client_domain: String,
+        description: String,
+        homepage: String,
+        using_vanilla_reg: bool,
+        languages: Vec<String>,
+        software: String,
+        staff_jur: String,
+        rules: String,
+        privacy: String,
+        captcha: bool,
+        email: bool,
+        features: Vec<String>,
+        sliding_sync: bool,
+        reg_link: String,
+        reg_note: String,
+        rank: i32,
+        category: String,
+        editorial: String,
+        featured: bool,
+    }
+
+    struct ServerListResult {
+        entries: Vec<ServerListEntry>,
+        error_message: String,
+    }
+
+    struct RegistrationFlowStages {
+        stages: Vec<String>,
+    }
+
+    struct RegistrationTermsPolicy {
+        id: String,
+        version: String,
+        name: String,
+        url: String,
+    }
+
+    struct RegistrationProbeResult {
+        registration_id: u64,
+        homeserver_url: String,
+        session: String,
+        chosen_flow_stages: Vec<String>,
+        all_flows: Vec<RegistrationFlowStages>,
+        terms_policies: Vec<RegistrationTermsPolicy>,
+    }
+
+    struct RegistrationUsernameResult {
+        available: bool,
+    }
+
+    struct RegistrationSubmitResult {
+        completed: bool,
+        user_id: String,
+        access_token: String,
+        device_id: String,
+        homeserver_url: String,
+        session: String,
+        remaining_stages: Vec<String>,
+        completed_stages: Vec<String>,
+        terms_policies: Vec<RegistrationTermsPolicy>,
+    }
+
+    struct RegistrationEmailTokenResult {
+        sid: String,
     }
 
     struct MatrixBackendHandleInfo {
@@ -1247,6 +1316,38 @@ mod bridge {
         fn theme_builtin_themes() -> ThemeBuiltinListResult;
         fn theme_parse_external_theme(theme_text: &str) -> ThemeExternalParseResult;
         fn theme_parse_base16_yaml(theme_text: &str) -> ThemeBase16ParseResult;
+
+        fn serverlist_entries() -> ServerListResult;
+
+        fn matrix_registration_probe(
+            context: MatrixFfiBlockingContext,
+            server_name_or_url: &str,
+            verify_certificates: bool,
+        ) -> Result<RegistrationProbeResult>;
+        fn matrix_registration_check_username(
+            context: MatrixFfiBlockingContext,
+            registration_id: u64,
+            username: &str,
+        ) -> Result<RegistrationUsernameResult>;
+        fn matrix_registration_submit_stage(
+            context: MatrixFfiBlockingContext,
+            registration_id: u64,
+            username: &str,
+            password: &str,
+            device_name: &str,
+            stage_type: &str,
+            token: &str,
+            email_sid: &str,
+            email_client_secret: &str,
+        ) -> Result<RegistrationSubmitResult>;
+        fn matrix_registration_request_email_token(
+            context: MatrixFfiBlockingContext,
+            registration_id: u64,
+            email: &str,
+            client_secret: &str,
+            send_attempt: u64,
+        ) -> Result<RegistrationEmailTokenResult>;
+        fn matrix_registration_cancel(registration_id: u64) -> Result<()>;
 
         fn blurhash_decode(hash: &str, width: u32, height: u32) -> Vec<u8>;
 

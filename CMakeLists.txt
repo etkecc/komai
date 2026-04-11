@@ -450,10 +450,14 @@ set(SRC_FILES
     src/auth/LoginPage.cpp
     src/auth/LoginPageDiscovery.cpp
     src/auth/LoginPage.h
+    src/auth/RegisterPage.cpp
+    src/auth/RegisterPage.h
     src/ui/MainWindow.cpp
     src/ui/MainWindow.h
     src/matrix/backend/MatrixAuthService.cpp
     src/matrix/backend/MatrixAuthService.h
+    src/matrix/backend/MatrixRegistrationService.cpp
+    src/matrix/backend/MatrixRegistrationService.h
     src/matrix/backend/MatrixBackendBridge.cpp
     src/matrix/backend/MatrixBackendBridge.h
     src/matrix/backend/MatrixBackendRuntimeService.cpp

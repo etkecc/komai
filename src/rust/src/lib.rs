@@ -5,6 +5,7 @@
 pub mod html_processor;
 pub mod logging;
 pub mod matrix_backend;
+pub mod serverlist;
 pub mod settings;
 pub mod syntax_highlight;
 pub mod theme;

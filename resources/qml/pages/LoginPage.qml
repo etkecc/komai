@@ -21,7 +21,7 @@ Rectangle {
     property string error: login.error
     property int headerIconSize: Komai.barIconSize
 
-    color: palette.window
+    color: palette.alternateBase
 
     StackView.onActivated: {
         if (login.loggingIn)
@@ -229,194 +229,216 @@ Rectangle {
             // ── Matrix ID ──
             Item {
                 Layout.fillWidth: true
-                implicitHeight: mxidRow.implicitHeight
+                implicitHeight: mxidCol.implicitHeight
                 visible: loginPage.currentStep >= 0
 
                 HoverHandler { id: mxidHover; blocking: false }
-                Rectangle { anchors.fill: mxidRow; color: mxidHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+                Rectangle { anchors.fill: mxidCol; color: mxidHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
 
-                RowLayout {
-                    id: mxidRow
+                ColumnLayout {
+                    id: mxidCol
                     width: parent.width
-                    spacing: Komai.paddingSmall
+                    spacing: 0
 
-                    Label {
-                        Layout.preferredWidth: loginPage.fieldLabelWidth
-                        Layout.margins: Komai.paddingMedium
-                        text: qsTr("Matrix ID")
-                        color: mxidHover.hovered ? palette.brightText : palette.text
-                        font.pointSize: Settings.uiFontSizePt * 1.1
-                    }
-
-                    Item {
-                        Layout.preferredWidth: matrixIdField.height / 2
-                        Layout.preferredHeight: matrixIdField.height / 2
-                        Layout.alignment: Qt.AlignVCenter
-
-                        Spinner {
-                            anchors.fill: parent
-                            visible: running
-                            running: login.lookingUpHs
-                            foreground: palette.mid
-                        }
-                    }
-
-                    KomaiTextField {
-                        id: matrixIdField
+                    RowLayout {
                         Layout.fillWidth: true
-                        Layout.minimumWidth: 300
-                        Layout.topMargin: Komai.paddingSmall
-                        Layout.bottomMargin: Komai.paddingSmall
-                        Layout.rightMargin: Komai.paddingSmall
-                        font.pointSize: Settings.uiFontSizePt * 1.1
-                        placeholderText: qsTr("e.g. @user:example.com or user")
-                        readOnly: loginPage.currentStep !== 0
-                        Keys.onReturnPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
-                        Keys.onEnterPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
+                        spacing: Komai.paddingSmall
 
-                        onTextChanged: mxidDebounce.restart()
+                        Label {
+                            Layout.preferredWidth: loginPage.fieldLabelWidth
+                            Layout.margins: Komai.paddingMedium
+                            text: qsTr("Matrix ID")
+                            color: mxidHover.hovered ? palette.brightText : palette.text
+                            font.pointSize: Settings.uiFontSizePt * 1.1
+                        }
 
-                        Timer {
-                            id: mxidDebounce
-                            interval: 350
-                            onTriggered: {
-                                if (loginPage.isBareUsername) {
-                                    // Bare username: set mxid without auto-detection,
-                                    // then use the server URL directly for discovery
-                                    if (serverField.text.trim().length > 0) {
-                                        login.setMxidOnly(loginPage.effectiveMatrixId());
-                                        login.homeserver = serverField.text;
+                        Item {
+                            Layout.preferredWidth: matrixIdField.height / 2
+                            Layout.preferredHeight: matrixIdField.height / 2
+                            Layout.alignment: Qt.AlignVCenter
+
+                            Spinner {
+                                anchors.fill: parent
+                                visible: running
+                                running: login.lookingUpHs
+                                foreground: palette.mid
+                            }
+                        }
+
+                        KomaiTextField {
+                            id: matrixIdField
+                            Layout.fillWidth: true
+                            Layout.minimumWidth: 300
+                            Layout.topMargin: Komai.paddingSmall
+                            Layout.bottomMargin: Komai.paddingSmall
+                            Layout.rightMargin: Komai.paddingSmall
+                            font.pointSize: Settings.uiFontSizePt * 1.1
+                            placeholderText: qsTr("e.g. @user:example.com or user")
+                            readOnly: loginPage.currentStep !== 0
+                            Keys.onReturnPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
+                            Keys.onEnterPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
+
+                            onTextChanged: mxidDebounce.restart()
+
+                            Timer {
+                                id: mxidDebounce
+                                interval: 350
+                                onTriggered: {
+                                    if (loginPage.isBareUsername) {
+                                        // Bare username: set mxid without auto-detection,
+                                        // then use the server URL directly for discovery
+                                        if (serverField.text.trim().length > 0) {
+                                            login.setMxidOnly(loginPage.effectiveMatrixId());
+                                            login.homeserver = serverField.text;
+                                        }
+                                    } else {
+                                        login.mxid = matrixIdField.text;
+                                        // If user manually entered a different server URL, use it
+                                        // instead of the auto-detected one
+                                        if (serverField.text !== login.homeserver && serverField.text.trim().length > 0)
+                                            login.homeserver = serverField.text;
                                     }
-                                } else {
-                                    login.mxid = matrixIdField.text;
-                                    // If user manually entered a different server URL, use it
-                                    // instead of the auto-detected one
-                                    if (serverField.text !== login.homeserver && serverField.text.trim().length > 0)
-                                        login.homeserver = serverField.text;
                                 }
                             }
                         }
                     }
+
+                    MatrixText {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingSmall
+                        textFormat: Text.PlainText
+                        color: Komai.theme.error
+                        text: login.mxidError
+                        visible: text && loginPage.currentStep === 0
+                        wrapMode: TextEdit.Wrap
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingSmall
+                        visible: !login.mxidError
+                        text: qsTr("Accounts live on a server. A full ID will attempt server auto-detection.")
+                        color: mxidHover.hovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        wrapMode: Text.Wrap
+                        horizontalAlignment: Text.AlignRight
+                        lineHeight: 1.3
+                    }
                 }
-            }
-
-            MatrixText {
-                Layout.fillWidth: true
-                textFormat: Text.PlainText
-                color: Komai.theme.error
-                text: login.mxidError
-                visible: text && loginPage.currentStep === 0
-                wrapMode: TextEdit.Wrap
-            }
-
-            // ── Matrix ID hint (always visible on step 1) ──
-            Label {
-                Layout.fillWidth: true
-                visible: !login.mxidError
-                text: qsTr("Accounts live on a server. A full ID will attempt server auto-detection.")
-                color: palette.buttonText
-                font.pointSize: Settings.uiFontSizePt
-                wrapMode: Text.Wrap
-                horizontalAlignment: Text.AlignRight
-                lineHeight: 1.3
             }
 
             // ── Server field ──
             Item {
                 Layout.fillWidth: true
-                implicitHeight: serverRow.implicitHeight
+                implicitHeight: serverCol.implicitHeight
                 visible: loginPage.currentStep >= 0
 
                 HoverHandler { id: serverHover; blocking: false }
-                Rectangle { anchors.fill: serverRow; color: serverHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+                Rectangle { anchors.fill: serverCol; color: serverHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
 
-                RowLayout {
-                    id: serverRow
+                ColumnLayout {
+                    id: serverCol
                     width: parent.width
-                    spacing: Komai.paddingSmall
+                    spacing: 0
 
-                    Label {
-                        Layout.preferredWidth: loginPage.fieldLabelWidth
-                        Layout.margins: Komai.paddingMedium
-                        text: qsTr("Server")
-                        color: serverHover.hovered ? palette.brightText : palette.text
-                        font.pointSize: Settings.uiFontSizePt * 1.1
-                    }
-
-                    Item {
-                        Layout.preferredWidth: serverField.height / 2
-                        Layout.preferredHeight: serverField.height / 2
-                        Layout.alignment: Qt.AlignVCenter
-
-                        Spinner {
-                            anchors.fill: parent
-                            visible: running
-                            running: login.lookingUpHs
-                            foreground: palette.mid
-                        }
-                    }
-
-                    KomaiTextField {
-                        id: serverField
+                    RowLayout {
                         Layout.fillWidth: true
-                        Layout.minimumWidth: 300
-                        Layout.topMargin: Komai.paddingSmall
-                        Layout.bottomMargin: Komai.paddingSmall
-                        Layout.rightMargin: Komai.paddingSmall
-                        font.pointSize: Settings.uiFontSizePt * 1.1
-                        placeholderText: qsTr("e.g. example.com or https://matrix.example.com")
-                        text: login.homeserver
-                        readOnly: loginPage.currentStep !== 0
-                        Keys.onReturnPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
-                        Keys.onEnterPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
+                        spacing: Komai.paddingSmall
 
-                        onTextEdited: serverDebounce.restart()
+                        Label {
+                            Layout.preferredWidth: loginPage.fieldLabelWidth
+                            Layout.margins: Komai.paddingMedium
+                            text: qsTr("Server")
+                            color: serverHover.hovered ? palette.brightText : palette.text
+                            font.pointSize: Settings.uiFontSizePt * 1.1
+                        }
 
-                        Timer {
-                            id: serverDebounce
-                            interval: 350
-                            onTriggered: {
-                                if (loginPage.isBareUsername && serverField.text.trim().length > 0) {
-                                    // Bare username: set mxid without auto-detection,
-                                    // then use the server URL directly
-                                    login.setMxidOnly(loginPage.effectiveMatrixId());
-                                    login.homeserver = serverField.text;
-                                } else {
-                                    login.homeserver = serverField.text;
+                        Item {
+                            Layout.preferredWidth: serverField.height / 2
+                            Layout.preferredHeight: serverField.height / 2
+                            Layout.alignment: Qt.AlignVCenter
+
+                            Spinner {
+                                anchors.fill: parent
+                                visible: running
+                                running: login.lookingUpHs
+                                foreground: palette.mid
+                            }
+                        }
+
+                        KomaiTextField {
+                            id: serverField
+                            Layout.fillWidth: true
+                            Layout.minimumWidth: 300
+                            Layout.topMargin: Komai.paddingSmall
+                            Layout.bottomMargin: Komai.paddingSmall
+                            Layout.rightMargin: Komai.paddingSmall
+                            font.pointSize: Settings.uiFontSizePt * 1.1
+                            placeholderText: qsTr("e.g. example.com or https://matrix.example.com")
+                            text: login.homeserver
+                            readOnly: loginPage.currentStep !== 0
+                            Keys.onReturnPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
+                            Keys.onEnterPressed: if (loginPage.step1Complete) loginPage.advanceToStep(1)
+
+                            onTextEdited: serverDebounce.restart()
+
+                            Timer {
+                                id: serverDebounce
+                                interval: 350
+                                onTriggered: {
+                                    if (loginPage.isBareUsername && serverField.text.trim().length > 0) {
+                                        // Bare username: set mxid without auto-detection,
+                                        // then use the server URL directly
+                                        login.setMxidOnly(loginPage.effectiveMatrixId());
+                                        login.homeserver = serverField.text;
+                                    } else {
+                                        login.homeserver = serverField.text;
+                                    }
                                 }
                             }
                         }
                     }
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingSmall
+                        text: qsTr("Both a server name and a full homeserver URL work.")
+                        color: serverHover.hovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        wrapMode: Text.Wrap
+                        horizontalAlignment: Text.AlignRight
+                    }
+
+                    MatrixText {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingSmall
+                        textFormat: Text.PlainText
+                        color: Komai.theme.error
+                        text: loginPage.error
+                        visible: text && loginPage.currentStep === 0
+                        wrapMode: TextEdit.Wrap
+                    }
+
+                    MatrixText {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingSmall
+                        textFormat: Text.PlainText
+                        color: palette.buttonText
+                        visible: loginPage.currentStep === 0 && !loginPage.error && login.lookingUpHs
+                        text: qsTr("Checking server...")
+                        wrapMode: TextEdit.Wrap
+                    }
                 }
-            }
-
-            // ── Server help text ──
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Both a server name and a full homeserver URL work.")
-                color: palette.buttonText
-                font.pointSize: Settings.uiFontSizePt
-                wrapMode: Text.Wrap
-                horizontalAlignment: Text.AlignRight
-            }
-
-            // ── Step 1 status messages ──
-            MatrixText {
-                Layout.fillWidth: true
-                textFormat: Text.PlainText
-                color: Komai.theme.error
-                text: loginPage.error
-                visible: text && loginPage.currentStep === 0
-                wrapMode: TextEdit.Wrap
-            }
-
-            MatrixText {
-                Layout.fillWidth: true
-                textFormat: Text.PlainText
-                color: palette.buttonText
-                visible: loginPage.currentStep === 0 && !loginPage.error && login.lookingUpHs
-                text: qsTr("Checking server...")
-                wrapMode: TextEdit.Wrap
             }
 
             // ── Step 1 Continue button ──
@@ -441,129 +463,133 @@ Rectangle {
             // ── Device name field ──
             Item {
                 Layout.fillWidth: true
-                Layout.topMargin: Komai.paddingLarge
-                implicitHeight: deviceRow.implicitHeight
+                implicitHeight: deviceCol.implicitHeight
                 visible: loginPage.currentStep >= 1
 
                 HoverHandler { id: deviceHover; blocking: false }
-                Rectangle { anchors.fill: deviceRow; color: deviceHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
+                Rectangle { anchors.fill: deviceCol; color: deviceHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
 
-                RowLayout {
-                    id: deviceRow
+                ColumnLayout {
+                    id: deviceCol
                     width: parent.width
-                    spacing: Komai.paddingSmall
+                    spacing: 0
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Komai.paddingSmall
+
+                        Label {
+                            Layout.preferredWidth: loginPage.fieldLabelWidth
+                            Layout.margins: Komai.paddingMedium
+                            text: qsTr("Device name")
+                            color: deviceHover.hovered ? palette.brightText : palette.text
+                            font.pointSize: Settings.uiFontSizePt * 1.1
+                        }
+
+                        // Spacer matching the spinner slot in other rows
+                        Item {
+                            Layout.preferredWidth: deviceNameField.height / 2
+                            Layout.preferredHeight: deviceNameField.height / 2
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        KomaiTextField {
+                            id: deviceNameField
+                            Layout.fillWidth: true
+                            Layout.minimumWidth: 300
+                            Layout.topMargin: Komai.paddingSmall
+                            Layout.bottomMargin: Komai.paddingSmall
+                            Layout.rightMargin: Komai.paddingSmall
+                            font.pointSize: Settings.uiFontSizePt * 1.1
+                            text: login.deviceNameOS()
+                            readOnly: loginPage.currentStep !== 1
+                            Keys.onReturnPressed: loginPage.advanceToStep(2)
+                            Keys.onEnterPressed: loginPage.advanceToStep(2)
+                        }
+                    }
 
                     Label {
-                        Layout.preferredWidth: loginPage.fieldLabelWidth
-                        Layout.margins: Komai.paddingMedium
-                        text: qsTr("Device name")
-                        color: deviceHover.hovered ? palette.brightText : palette.text
-                        font.pointSize: Settings.uiFontSizePt * 1.1
-                    }
-
-                    // Spacer matching the spinner slot in other rows
-                    Item {
-                        Layout.preferredWidth: deviceNameField.height / 2
-                        Layout.preferredHeight: deviceNameField.height / 2
-                        Layout.alignment: Qt.AlignVCenter
-                    }
-
-                    KomaiTextField {
-                        id: deviceNameField
                         Layout.fillWidth: true
-                        Layout.minimumWidth: 300
-                        Layout.topMargin: Komai.paddingSmall
-                        Layout.bottomMargin: Komai.paddingSmall
-                        Layout.rightMargin: Komai.paddingSmall
-                        font.pointSize: Settings.uiFontSizePt * 1.1
-                        text: login.deviceNameOS()
-                        readOnly: loginPage.currentStep !== 1
-                        Keys.onReturnPressed: loginPage.advanceToStep(2)
-                        Keys.onEnterPressed: loginPage.advanceToStep(2)
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        text: qsTr("Choose a recognizable name. Others can see it too.")
+                        color: deviceHover.hovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        wrapMode: Text.Wrap
+                        horizontalAlignment: Text.AlignRight
+                        lineHeight: 1.3
                     }
-                }
-            }
 
-            // ── Device name explanation (below field) ──
-            Label {
-                Layout.fillWidth: true
-                visible: loginPage.currentStep >= 1
-                text: qsTr("Choose a recognizable name. Others can see it too.")
-                color: palette.buttonText
-                font.pointSize: Settings.uiFontSizePt
-                wrapMode: Text.Wrap
-                horizontalAlignment: Text.AlignRight
-                lineHeight: 1.3
-            }
+                    Flow {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingSmall
+                        layoutDirection: Qt.RightToLeft
+                        spacing: Komai.paddingSmall
 
-            // ── Device name suggestions ──
-            Flow {
-                Layout.maximumWidth: parent.width - Komai.paddingMedium * 2
-                Layout.alignment: Qt.AlignRight
-                Layout.rightMargin: Komai.paddingMedium
-                spacing: Komai.paddingSmall
-                visible: loginPage.currentStep >= 1
+                        KomaiButton {
+                            enabled: loginPage.currentStep === 1
+                            icon.source: "qrc:/icons/icons/ui/arrow-clockwise.svg"
+                            display: AbstractButton.IconOnly
+                            topPadding: Komai.paddingSmall * 0.5
+                            bottomPadding: Komai.paddingSmall * 0.5
+                            leftPadding: Komai.paddingMedium
+                            rightPadding: Komai.paddingMedium
+                            toolTipText: qsTr("Generate another random name")
+                            onClicked: suggestRandomBtn.randomName = login.deviceNameRandom()
+                        }
 
-                Label {
-                    text: qsTr("Suggestions:")
-                    color: palette.buttonText
-                    font.pointSize: Settings.uiFontSizePt
-                    height: suggestOsBtn.height
-                    verticalAlignment: Text.AlignVCenter
-                }
+                        KomaiButton {
+                            id: suggestRandomBtn
+                            enabled: loginPage.currentStep === 1
+                            property string randomName: login.deviceNameRandom()
+                            text: randomName
+                            font.pointSize: Settings.uiFontSizePt
+                            topPadding: Komai.paddingSmall * 0.5
+                            bottomPadding: Komai.paddingSmall * 0.5
+                            leftPadding: Komai.paddingSmall
+                            rightPadding: Komai.paddingSmall
+                            highlighted: deviceNameField.text === text
+                            onClicked: deviceNameField.text = randomName
+                            // Fix width to the longest possible name so rerolls don't reflow
+                            width: randomNameMaxMetrics.advanceWidth + leftPadding + rightPadding
+                            TextMetrics { id: randomNameMaxMetrics; font: suggestRandomBtn.font; text: login.deviceNameRandomMax() }
+                        }
 
-                KomaiButton {
-                    id: suggestOsBtn
-                    enabled: loginPage.currentStep === 1
-                    text: login.deviceNameOS()
-                    font.pointSize: Settings.uiFontSizePt
-                    topPadding: Komai.paddingSmall * 0.5
-                    bottomPadding: Komai.paddingSmall * 0.5
-                    leftPadding: Komai.paddingSmall
-                    rightPadding: Komai.paddingSmall
-                    highlighted: deviceNameField.text === text
-                    onClicked: deviceNameField.text = text
-                }
+                        KomaiButton {
+                            enabled: loginPage.currentStep === 1
+                            text: login.deviceNameHostname()
+                            font.pointSize: Settings.uiFontSizePt
+                            topPadding: Komai.paddingSmall * 0.5
+                            bottomPadding: Komai.paddingSmall * 0.5
+                            leftPadding: Komai.paddingSmall
+                            rightPadding: Komai.paddingSmall
+                            highlighted: deviceNameField.text === text
+                            onClicked: deviceNameField.text = text
+                        }
 
-                KomaiButton {
-                    enabled: loginPage.currentStep === 1
-                    text: login.deviceNameHostname()
-                    font.pointSize: Settings.uiFontSizePt
-                    topPadding: Komai.paddingSmall * 0.5
-                    bottomPadding: Komai.paddingSmall * 0.5
-                    leftPadding: Komai.paddingSmall
-                    rightPadding: Komai.paddingSmall
-                    highlighted: deviceNameField.text === text
-                    onClicked: deviceNameField.text = text
-                }
+                        KomaiButton {
+                            id: suggestOsBtn
+                            enabled: loginPage.currentStep === 1
+                            text: login.deviceNameOS()
+                            font.pointSize: Settings.uiFontSizePt
+                            topPadding: Komai.paddingSmall * 0.5
+                            bottomPadding: Komai.paddingSmall * 0.5
+                            leftPadding: Komai.paddingSmall
+                            rightPadding: Komai.paddingSmall
+                            highlighted: deviceNameField.text === text
+                            onClicked: deviceNameField.text = text
+                        }
 
-                KomaiButton {
-                    id: suggestRandomBtn
-                    enabled: loginPage.currentStep === 1
-                    property string randomName: login.deviceNameRandom()
-                    text: randomName
-                    font.pointSize: Settings.uiFontSizePt
-                    topPadding: Komai.paddingSmall * 0.5
-                    bottomPadding: Komai.paddingSmall * 0.5
-                    leftPadding: Komai.paddingSmall
-                    rightPadding: Komai.paddingSmall
-                    highlighted: deviceNameField.text === text
-                    onClicked: deviceNameField.text = randomName
-                    // Fix width to the longest possible name so rerolls don't reflow
-                    width: randomNameMaxMetrics.advanceWidth + leftPadding + rightPadding
-                    TextMetrics { id: randomNameMaxMetrics; font: suggestRandomBtn.font; text: login.deviceNameRandomMax() }
-                }
-
-                KomaiButton {
-                    enabled: loginPage.currentStep === 1
-                    icon.source: "qrc:/icons/icons/ui/arrow-clockwise.svg"
-                    display: AbstractButton.IconOnly
-                    topPadding: Komai.paddingSmall * 0.5
-                    bottomPadding: Komai.paddingSmall * 0.5
-                    leftPadding: Komai.paddingMedium
-                    rightPadding: Komai.paddingMedium
-                    toolTipText: qsTr("Generate another random name")
-                    onClicked: suggestRandomBtn.randomName = login.deviceNameRandom()
+                        Label {
+                            text: qsTr("Suggestions:")
+                            color: deviceHover.hovered ? palette.brightText : palette.buttonText
+                            font.pointSize: Settings.uiFontSizePt
+                            height: suggestOsBtn.height
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
                 }
             }
 

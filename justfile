@@ -104,10 +104,6 @@ theme-check-contrast *themes:
 theme-check-contrast-strict *themes:
 	python3 {{ justfile_directory() }}/bin/theme/contrast.py --fail-aa {{ themes }}
 
-# No build step is required; the preview reads theme YAML files directly in the browser.
-theme-preview-build:
-	@echo "No build step required. Run 'just theme-preview-run'."
-
 # Serves the theme preview SPA with built-in themes mounted at /resources/themes/
 theme-preview-run port='20680':
 	#!/usr/bin/env bash

@@ -382,6 +382,14 @@ Rectangle {
             }
         }
 
+        Image {
+            Layout.preferredWidth: tabDelegate.avatarSizePx
+            Layout.preferredHeight: tabDelegate.avatarSizePx
+            source: "qrc:/logos/komai.svg"
+            sourceSize: Qt.size(tabDelegate.avatarSizePx, tabDelegate.avatarSizePx)
+            visible: tabDelegate.isEmptyTab
+        }
+
         Avatar {
             Layout.preferredWidth: tabDelegate.avatarSizePx
             Layout.preferredHeight: tabDelegate.avatarSizePx
@@ -389,6 +397,7 @@ Rectangle {
             url: tabDelegate.avatarUrl.replace("mxc://", "image://MxcImage/")
             roomid: tabDelegate.roomId
             enabled: false
+            visible: !tabDelegate.isEmptyTab
         }
 
         Text {

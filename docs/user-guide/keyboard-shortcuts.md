@@ -24,6 +24,8 @@ These shortcuts work across the main window unless a more specific control handl
 | `Ctrl+Shift+A` | Fallback for **next room with activity** |
 | `Ctrl+Down` / `Ctrl+PgDown` | Switch to the next room |
 | `Ctrl+Up` / `Ctrl+PgUp` | Switch to the previous room |
+| `Alt+Left` | Navigate back in room history (macOS: `Cmd+[`) |
+| `Alt+Right` | Navigate forward in room history (macOS: `Cmd+]`) |
 | `Ctrl+Q` | Quit Komai |
 
 

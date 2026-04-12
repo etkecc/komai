@@ -55,4 +55,14 @@ Item {
 
         onActivated: Rooms.previousRoom()
     }
+    Shortcut {
+        sequences: [StandardKey.Back]
+
+        onActivated: TimelineManager.navigateBack()
+    }
+    Shortcut {
+        sequences: [StandardKey.Forward]
+
+        onActivated: TimelineManager.navigateForward()
+    }
 }

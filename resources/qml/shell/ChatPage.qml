@@ -46,6 +46,11 @@ Rectangle {
     Shortcut { sequence: "Alt+8"; onActivated: tabController.switchToTab(7) }
     Shortcut { sequence: "Alt+9"; onActivated: tabController.switchToTab(8) }
     Shortcut {
+        sequence: "Ctrl+T"
+
+        onActivated: tabController.openNewTab()
+    }
+    Shortcut {
         sequence: "Ctrl+W"
         enabled: tabController.tabs.count > 0
 

@@ -121,6 +121,7 @@
         <file alias="icons/ui/arrow-clockwise.svg">icons/fluent/assets/Arrow Clockwise/SVG/ic_fluent_arrow_clockwise_24_regular.svg</file>
         <file alias="icons/ui/heart-filled.svg">icons/fluent/assets/Heart/SVG/ic_fluent_heart_24_filled.svg</file>
         <file alias="icons/ui/pin-filled.svg">icons/fluent/assets/Pin/SVG/ic_fluent_pin_24_filled.svg</file>
+        <file alias="icons/ui/tab-add.svg">icons/fluent/assets/Tab Add/SVG/ic_fluent_tab_add_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

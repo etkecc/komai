@@ -22,6 +22,9 @@ QtObject {
     // Bumped on Rooms model data changes; forces attention-state bindings to re-evaluate.
     property int attentionRevision: 0
 
+    // Bumped to trigger a shake animation on the empty tab delegate.
+    property int shakeEmptyTabRevision: 0
+
     // Role constants matching RoomlistModel::Roles enum (Qt::UserRole = 256).
     readonly property int roleAvatarUrl: 256
     readonly property int roleRoomName: 257
@@ -31,10 +34,14 @@ QtObject {
     readonly property int roleTags: 271
 
     // Persist tab list to Settings after any mutation.
+    // Empty tabs (roomId="") are ephemeral and not persisted.
     function _saveTabs() {
         var roomIds = [];
-        for (var i = 0; i < tabs.count; i++)
-            roomIds.push(tabs.get(i).roomId);
+        for (var i = 0; i < tabs.count; i++) {
+            var rid = tabs.get(i).roomId;
+            if (rid)
+                roomIds.push(rid);
+        }
         Settings.openTabs = roomIds;
     }
 
@@ -74,6 +81,19 @@ QtObject {
             return roomId;
         var name = Rooms.data(Rooms.index(row, 0), roleRoomName);
         return name || roomId;
+    }
+
+    function openNewTab() {
+        // Only one empty tab allowed. If one exists, focus it and shake.
+        var existing = findTab("");
+        if (existing !== -1) {
+            switchToTab(existing);
+            shakeEmptyTabRevision++;
+            return;
+        }
+        tabs.append({ "roomId": "", "roomName": "", "pinned": false });
+        // Don't persist empty tabs.
+        _setCurrentRoom("");
     }
 
     function openTab(roomId) {

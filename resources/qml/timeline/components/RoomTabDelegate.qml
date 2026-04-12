@@ -21,7 +21,33 @@ Rectangle {
     required property var tabController
     required property var parentListView
 
-    readonly property bool isActive: roomId === Rooms.currentRoomId
+    readonly property bool isEmptyTab: !roomId
+    readonly property bool isActive: isEmptyTab ? !Rooms.currentRoomId : roomId === Rooms.currentRoomId
+
+    // Shake animation (triggered when controller bumps shakeEmptyTabRevision).
+    Connections {
+        target: tabController
+        enabled: tabDelegate.isEmptyTab
+
+        function onShakeEmptyTabRevisionChanged() {
+            shakeAnimation.stop();
+            tabDelegate.x = tabDelegate.x; // reset to current layout position
+            shakeAnimation.start();
+        }
+    }
+
+    SequentialAnimation {
+        id: shakeAnimation
+
+        property real baseX: tabDelegate.x
+
+        NumberAnimation { target: tabDelegate; property: "x"; to: shakeAnimation.baseX + 4; duration: 40 }
+        NumberAnimation { target: tabDelegate; property: "x"; to: shakeAnimation.baseX - 4; duration: 40 }
+        NumberAnimation { target: tabDelegate; property: "x"; to: shakeAnimation.baseX + 2; duration: 40 }
+        NumberAnimation { target: tabDelegate; property: "x"; to: shakeAnimation.baseX; duration: 40 }
+
+        onStarted: baseX = tabDelegate.x
+    }
     readonly property bool isHovered: tabHoverHandler.hovered || closeArea.containsMouse || pinArea.containsMouse
     readonly property bool isLastTab: index === tabController.tabs.count - 1
 
@@ -60,6 +86,8 @@ Rectangle {
 
     // Live room name from model (falls back to ListModel value).
     readonly property string displayName: {
+        if (isEmptyTab)
+            return qsTr("New Tab");
         var r = _attRev;
         if (_roomRow < 0)
             return roomName;
@@ -149,7 +177,7 @@ Rectangle {
         preventStealing: tabDelegate._dragPending || tabController.isDragging
 
         onPressed: function(mouse) {
-            if (mouse.button === Qt.LeftButton) {
+            if (mouse.button === Qt.LeftButton && !tabDelegate.isEmptyTab) {
                 tabDelegate._dragStartX = mouse.x;
                 tabDelegate._dragPending = true;
 
@@ -271,8 +299,10 @@ Rectangle {
         while (tabContextMenu.count > 0)
             tabContextMenu.takeItem(0).destroy();
 
-        tabContextMenu.addItem(menuItemPinToggle.createObject(tabContextMenu));
-        tabContextMenu.addItem(menuSeparatorComponent.createObject(tabContextMenu));
+        if (!isEmptyTab) {
+            tabContextMenu.addItem(menuItemPinToggle.createObject(tabContextMenu));
+            tabContextMenu.addItem(menuSeparatorComponent.createObject(tabContextMenu));
+        }
         if (closeableOtherCount > 0)
             tabContextMenu.addItem(menuItemCloseOther.createObject(tabContextMenu));
         if (closeableRightCount > 0)
@@ -326,11 +356,13 @@ Rectangle {
         spacing: Komai.paddingSmall
 
         // Pin toggle button (leftmost, before avatar). Always visible to prevent width shifts.
+        // Hidden for empty tabs (not pinnable).
         Rectangle {
             id: pinBtn
 
-            Layout.preferredWidth: tabDelegate.actionBtnSize
-            Layout.preferredHeight: tabDelegate.actionBtnSize
+            Layout.preferredWidth: tabDelegate.isEmptyTab ? 0 : tabDelegate.actionBtnSize
+            Layout.preferredHeight: tabDelegate.isEmptyTab ? 0 : tabDelegate.actionBtnSize
+            visible: !tabDelegate.isEmptyTab
             radius: tabDelegate.actionBtnSize / 2
             color: pinArea.containsMouse
                 ? Qt.rgba(tabDelegate.textColor.r, tabDelegate.textColor.g, tabDelegate.textColor.b, 0.2)

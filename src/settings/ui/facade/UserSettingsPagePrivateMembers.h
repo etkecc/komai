@@ -107,6 +107,7 @@ QStringList globalExcludes_;
 QStringList badgesHiddenFilters_;
 QStringList hiddenPins_;
 QStringList openTabs_;
+QStringList pinnedTabs_;
 QStringList hiddenWidgets_;
 QStringList hiddenTimelineEventTypes_;
 QMap<QString, QStringList> hiddenTimelineEventTypesByRoom_;

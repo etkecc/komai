@@ -580,6 +580,7 @@ pub(crate) fn ffi_loaded_state(snapshot: settings::state::LoadedState) -> ffi::S
         collapsed_spaces: snapshot.collapsed_spaces,
         hidden_spaces: snapshot.hidden_spaces,
         open_tabs: snapshot.open_tabs,
+        pinned_tabs: snapshot.pinned_tabs,
         composer_drafts_by_room: snapshot.composer_drafts_by_room,
         donation_status: snapshot.donation_status,
         source_exists: snapshot.source_exists,
@@ -1065,6 +1066,7 @@ pub(in crate::settings) fn clone_loaded_state(loaded: &ffi::SettingsLoadedState)
         collapsed_spaces: loaded.collapsed_spaces.iter().cloned().collect(),
         hidden_spaces: loaded.hidden_spaces.iter().cloned().collect(),
         open_tabs: loaded.open_tabs.iter().cloned().collect(),
+        pinned_tabs: loaded.pinned_tabs.iter().cloned().collect(),
         composer_drafts_by_room: loaded
             .composer_drafts_by_room
             .iter()
@@ -1101,6 +1103,7 @@ pub(in crate::settings) fn loaded_state_from_snapshot(
         collapsed_spaces: snapshot.collapsed_spaces.iter().cloned().collect(),
         hidden_spaces: snapshot.hidden_spaces.iter().cloned().collect(),
         open_tabs: snapshot.open_tabs.iter().cloned().collect(),
+        pinned_tabs: snapshot.pinned_tabs.iter().cloned().collect(),
         composer_drafts_by_room: snapshot
             .composer_drafts_by_room
             .iter()

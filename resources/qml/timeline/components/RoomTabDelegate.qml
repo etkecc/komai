@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
 
@@ -16,10 +17,11 @@ Rectangle {
     required property int index
     required property string roomId
     required property string roomName
+    required property bool pinned
     required property var tabController
 
     readonly property bool isActive: roomId === Rooms.currentRoomId
-    readonly property bool isHovered: tabHoverHandler.hovered || closeArea.containsMouse
+    readonly property bool isHovered: tabHoverHandler.hovered || closeArea.containsMouse || pinArea.containsMouse
     readonly property bool isLastTab: index === tabController.tabs.count - 1
 
     // Attention state (re-evaluated when attentionRevision changes).
@@ -80,8 +82,11 @@ Rectangle {
     // Avatar size relative to font size (roughly 1.2x line height).
     readonly property int avatarSizePx: Math.round(Komai.fontPixelSize * 1.4)
 
-    // Close button size (~2x the original 18px).
-    readonly property int closeBtnSize: Math.round(Komai.fontPixelSize * 1.6)
+    // Close/pin button size.
+    readonly property int actionBtnSize: Math.round(Komai.fontPixelSize * 1.6)
+
+    // Pin icon image size (inside the button area).
+    readonly property int pinIconSize: Math.round(actionBtnSize * 0.6)
 
     // The effective opaque background (composited for the close-button backdrop).
     // tabDelegate.color may be semi-transparent, so we need a fully opaque version
@@ -100,25 +105,95 @@ Rectangle {
         return palette.window;
     }
 
+    // Count of closeable (non-pinned) tabs other than this one.
+    readonly property int closeableOtherCount: {
+        var r = _attRev; // rebind on model changes
+        var count = 0;
+        for (var i = 0; i < tabController.tabs.count; i++) {
+            if (i !== index && !tabController.tabs.get(i).pinned)
+                count++;
+        }
+        return count;
+    }
+
+    // Count of closeable (non-pinned) tabs to the right.
+    readonly property int closeableRightCount: {
+        var r = _attRev;
+        var count = 0;
+        for (var i = index + 1; i < tabController.tabs.count; i++) {
+            if (!tabController.tabs.get(i).pinned)
+                count++;
+        }
+        return count;
+    }
+
     width: 180
     height: parent ? parent.height : 32
     color: isActive ? Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.12)
                     : (isHovered ? palette.dark : "transparent")
 
-    // Main click area (under the visual content so close button can steal clicks).
+    // Main click area (under the visual content so close/pin buttons can steal clicks).
     MouseArea {
         id: tabMouseArea
 
         anchors.fill: parent
-        acceptedButtons: Qt.LeftButton | Qt.MiddleButton
+        acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
         hoverEnabled: true
 
         onClicked: function(mouse) {
+            if (mouse.button === Qt.RightButton) {
+                tabContextMenu.popup();
+                return;
+            }
             if (mouse.button === Qt.MiddleButton) {
-                tabController.closeTab(tabDelegate.roomId);
+                if (!tabDelegate.pinned)
+                    tabController.closeTab(tabDelegate.roomId);
                 return;
             }
             tabController.switchToTab(tabDelegate.index);
+        }
+    }
+
+    Menu {
+        id: tabContextMenu
+
+        Component.onCompleted: {
+            if (tabContextMenu.popupType != undefined)
+                tabContextMenu.popupType = 2;
+        }
+
+        MenuItem {
+            text: tabDelegate.pinned ? qsTr("Unpin Tab") : qsTr("Pin Tab")
+            icon.source: tabDelegate.pinned
+                ? "qrc:/icons/icons/ui/pin-off.svg"
+                : "qrc:/icons/icons/ui/pin.svg"
+
+            onTriggered: {
+                if (tabDelegate.pinned)
+                    tabController.unpinTab(tabDelegate.roomId);
+                else
+                    tabController.pinTab(tabDelegate.roomId);
+            }
+        }
+
+        MenuSeparator {}
+
+        MenuItem {
+            text: qsTr("Close Tab")
+
+            onTriggered: tabController.closeTab(tabDelegate.roomId)
+        }
+        MenuItem {
+            text: qsTr("Close Other Tabs")
+            enabled: tabDelegate.closeableOtherCount > 0
+
+            onTriggered: tabController.closeOtherTabs(tabDelegate.roomId)
+        }
+        MenuItem {
+            text: qsTr("Close Tabs to the Right")
+            enabled: tabDelegate.closeableRightCount > 0
+
+            onTriggered: tabController.closeTabsToTheRight(tabDelegate.roomId)
         }
     }
 
@@ -131,13 +206,16 @@ Rectangle {
                     closeLabel += "  [Ctrl+W]";
                 return closeLabel;
             }
+            if (pinArea.containsMouse) {
+                return tabDelegate.pinned ? qsTr("Unpin Tab") : qsTr("Pin Tab");
+            }
             var label = tabDelegate.displayName;
             if (tabDelegate.index < 9)
                 label += "  [Alt+" + (tabDelegate.index + 1) + "]";
             return label;
         }
         delay: Komai.tooltipDelay
-        requestedVisible: tabDelegate.isHovered
+        requestedVisible: tabDelegate.isHovered && !tabContextMenu.visible
     }
 
     // Left attention bar (always reserves space; transparent when inactive).
@@ -155,12 +233,48 @@ Rectangle {
             : "transparent"
     }
 
-    // Tab content: avatar + room name (fills the full width; no space reserved for close button).
+    // Tab content: pin icon + avatar + room name.
     RowLayout {
         anchors.fill: parent
-        anchors.leftMargin: Komai.paddingMedium + Komai.paddingSmall
+        anchors.leftMargin: Komai.paddingSmall
         anchors.rightMargin: Komai.paddingSmall
         spacing: Komai.paddingSmall
+
+        // Pin toggle button (leftmost, before avatar). Always visible to prevent width shifts.
+        Rectangle {
+            id: pinBtn
+
+            Layout.preferredWidth: tabDelegate.actionBtnSize
+            Layout.preferredHeight: tabDelegate.actionBtnSize
+            radius: tabDelegate.actionBtnSize / 2
+            color: pinArea.containsMouse
+                ? Qt.rgba(tabDelegate.textColor.r, tabDelegate.textColor.g, tabDelegate.textColor.b, 0.2)
+                : "transparent"
+
+            Image {
+                anchors.centerIn: parent
+                width: tabDelegate.pinIconSize
+                height: tabDelegate.pinIconSize
+                source: tabDelegate.pinned
+                    ? "image://colorimage/:/icons/icons/ui/pin-filled.svg?" + palette.highlight
+                    : "image://colorimage/:/icons/icons/ui/pin.svg?" + tabDelegate.textColor
+                sourceSize: Qt.size(tabDelegate.pinIconSize, tabDelegate.pinIconSize)
+            }
+
+            MouseArea {
+                id: pinArea
+
+                anchors.fill: parent
+                hoverEnabled: true
+
+                onClicked: {
+                    if (tabDelegate.pinned)
+                        tabController.unpinTab(tabDelegate.roomId);
+                    else
+                        tabController.pinTab(tabDelegate.roomId);
+                }
+            }
+        }
 
         Avatar {
             Layout.preferredWidth: tabDelegate.avatarSizePx
@@ -183,22 +297,22 @@ Rectangle {
     }
 
     // Close button overlay (Chrome-style): floats on top of text at the right edge.
-    // A gradient fades text out so the button doesn't cut characters abruptly.
+    // Hidden for pinned tabs.
     Item {
         id: closeOverlay
 
         anchors.right: parent.right
         anchors.rightMargin: Komai.paddingSmall
         anchors.verticalCenter: parent.verticalCenter
-        width: tabDelegate.closeBtnSize + tabDelegate.closeBtnSize // button + fade zone
+        width: tabDelegate.actionBtnSize + tabDelegate.actionBtnSize // button + fade zone
         height: parent.height
-        visible: true
+        visible: !tabDelegate.pinned
 
         // Gradient that fades from transparent to the opaque background.
         Rectangle {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            width: tabDelegate.closeBtnSize
+            width: tabDelegate.actionBtnSize
             height: parent.height
             gradient: Gradient {
                 orientation: Gradient.Horizontal
@@ -212,7 +326,7 @@ Rectangle {
         Rectangle {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            width: tabDelegate.closeBtnSize
+            width: tabDelegate.actionBtnSize
             height: parent.height
             color: tabDelegate.opaqueBackgroundColor
         }
@@ -223,9 +337,9 @@ Rectangle {
 
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            width: tabDelegate.closeBtnSize
-            height: tabDelegate.closeBtnSize
-            radius: tabDelegate.closeBtnSize / 2
+            width: tabDelegate.actionBtnSize
+            height: tabDelegate.actionBtnSize
+            radius: tabDelegate.actionBtnSize / 2
             color: closeArea.containsMouse
                 ? Qt.rgba(tabDelegate.textColor.r, tabDelegate.textColor.g, tabDelegate.textColor.b, 0.2)
                 : "transparent"
@@ -233,7 +347,7 @@ Rectangle {
             Text {
                 anchors.centerIn: parent
                 text: "\u00D7"
-                font.pixelSize: Math.round(tabDelegate.closeBtnSize * 0.7)
+                font.pixelSize: Math.round(tabDelegate.actionBtnSize * 0.7)
                 color: tabDelegate.textColor
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter

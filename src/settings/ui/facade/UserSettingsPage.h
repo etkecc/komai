@@ -262,6 +262,7 @@ class UserSettings final : public QObject
 
     Q_PROPERTY(QStringList hiddenPins READ hiddenPins WRITE setHiddenPins NOTIFY hiddenPinsChanged)
     Q_PROPERTY(QStringList openTabs READ openTabs WRITE setOpenTabs NOTIFY openTabsChanged)
+    Q_PROPERTY(QStringList pinnedTabs READ pinnedTabs WRITE setPinnedTabs NOTIFY pinnedTabsChanged)
     Q_PROPERTY(QStringList hiddenWidgets READ hiddenWidgets WRITE setHiddenWidgets NOTIFY
                  hiddenWidgetsChanged)
     Q_PROPERTY(
@@ -574,6 +575,7 @@ public:
     void setHiddenWidgets(const QStringList &hiddenTags);
     void setHiddenSpaces(const QStringList &hiddenSpaces);
     void setOpenTabs(const QStringList &openTabs);
+    void setPinnedTabs(const QStringList &pinnedTabs);
     void setHiddenTimelineEventTypes(const QStringList &eventTypes);
     void setHiddenTimelineEventTypesByRoom(const QMap<QString, QStringList> &eventTypesByRoom);
     void setHiddenTimelineEventTypesForRoom(const QString &roomId, const QStringList &eventTypes);
@@ -735,6 +737,7 @@ signals:
     void timelineMediaDefaultAudioPlaybackSpeedChanged(double speed);
     void hiddenPinsChanged();
     void openTabsChanged();
+    void pinnedTabsChanged();
     void globalExcludesChanged();
     void hiddenWidgetsChanged();
     void hiddenSpacesChanged();

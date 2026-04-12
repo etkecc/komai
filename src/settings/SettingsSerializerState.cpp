@@ -45,6 +45,8 @@ stageState(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &p
         snapshot.hidden_spaces.push_back(value.toStdString());
     for (const auto &value : settings.openTabs())
         snapshot.open_tabs.push_back(value.toStdString());
+    for (const auto &value : settings.pinnedTabs())
+        snapshot.pinned_tabs.push_back(value.toStdString());
     for (auto it = settings.composerDraftsByRoom().constBegin();
          it != settings.composerDraftsByRoom().constEnd();
          ++it) {

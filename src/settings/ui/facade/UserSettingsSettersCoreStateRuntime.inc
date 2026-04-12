@@ -75,6 +75,14 @@ UserSettings::setOpenTabs(const QStringList &openTabs)
 }
 
 void
+UserSettings::setPinnedTabs(const QStringList &pinnedTabs)
+{
+    pinnedTabs_ = pinnedTabs;
+    save();
+    emit pinnedTabsChanged();
+}
+
+void
 UserSettings::setHiddenWidgets(const QStringList &hiddenTags)
 {
     hiddenWidgets_ = hiddenTags;

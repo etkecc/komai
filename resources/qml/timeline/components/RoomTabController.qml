@@ -38,16 +38,34 @@ QtObject {
         Settings.openTabs = roomIds;
     }
 
+    // Persist pinned tab list to Settings.
+    function _savePinnedTabs() {
+        var pinnedIds = [];
+        for (var i = 0; i < tabs.count; i++) {
+            if (tabs.get(i).pinned)
+                pinnedIds.push(tabs.get(i).roomId);
+        }
+        Settings.pinnedTabs = pinnedIds;
+    }
+
     // Restore tabs from Settings on startup.
     function restoreTabs() {
         var saved = Settings.openTabs;
         if (!saved || saved.length === 0)
             return;
+        var pinnedSet = {};
+        var pinnedList = Settings.pinnedTabs;
+        if (pinnedList) {
+            for (var p = 0; p < pinnedList.length; p++)
+                pinnedSet[pinnedList[p]] = true;
+        }
         for (var i = 0; i < saved.length; i++) {
             var roomId = saved[i];
             if (findTab(roomId) === -1)
-                tabs.append({ "roomId": roomId, "roomName": _getRoomName(roomId) });
+                tabs.append({ "roomId": roomId, "roomName": _getRoomName(roomId), "pinned": !!pinnedSet[roomId] });
         }
+        // Ensure pinned tabs are sorted to the left.
+        _sortPinnedToLeft();
     }
 
     function _getRoomName(roomId) {
@@ -64,7 +82,7 @@ QtObject {
             _setCurrentRoom(roomId);
             return;
         }
-        tabs.append({ "roomId": roomId, "roomName": _getRoomName(roomId) });
+        tabs.append({ "roomId": roomId, "roomName": _getRoomName(roomId), "pinned": false });
         _saveTabs();
         _setCurrentRoom(roomId);
     }
@@ -74,16 +92,22 @@ QtObject {
             openTab(roomId);
             return;
         }
+        // Find the active unpinned tab to navigate.
         var activeIndex = _previousRoomId ? findTab(_previousRoomId) : -1;
         if (activeIndex === -1)
             activeIndex = findTab(Rooms.currentRoomId);
+        // Skip pinned tabs — they are locked.
+        if (activeIndex !== -1 && tabs.get(activeIndex).pinned)
+            activeIndex = -1;
         if (activeIndex !== -1) {
             tabs.set(activeIndex, {
                 "roomId": roomId,
-                "roomName": _getRoomName(roomId)
+                "roomName": _getRoomName(roomId),
+                "pinned": false
             });
         } else {
-            tabs.append({ "roomId": roomId, "roomName": _getRoomName(roomId) });
+            // No active unpinned tab — open a new one at the end.
+            tabs.append({ "roomId": roomId, "roomName": _getRoomName(roomId), "pinned": false });
         }
         _saveTabs();
         _setCurrentRoom(roomId);
@@ -96,6 +120,7 @@ QtObject {
         var wasActive = (roomId === Rooms.currentRoomId);
         tabs.remove(index);
         _saveTabs();
+        _savePinnedTabs();
         if (tabs.count === 0) {
             _internalNavigation = true;
             _previousRoomId = "";
@@ -117,6 +142,34 @@ QtObject {
         var rid = Rooms.currentRoomId;
         if (rid && findTab(rid) !== -1)
             closeTab(rid);
+    }
+
+    function closeOtherTabs(roomId) {
+        var keepIndex = findTab(roomId);
+        if (keepIndex === -1)
+            return;
+        // Remove from the end to avoid index shifting issues.
+        for (var i = tabs.count - 1; i >= 0; i--) {
+            if (i !== keepIndex && !tabs.get(i).pinned)
+                tabs.remove(i);
+        }
+        _saveTabs();
+        _savePinnedTabs();
+        // Ensure the kept room is active.
+        if (Rooms.currentRoomId !== roomId)
+            _setCurrentRoom(roomId);
+    }
+
+    function closeTabsToTheRight(roomId) {
+        var fromIndex = findTab(roomId);
+        if (fromIndex === -1)
+            return;
+        for (var i = tabs.count - 1; i > fromIndex; i--) {
+            if (!tabs.get(i).pinned)
+                tabs.remove(i);
+        }
+        _saveTabs();
+        _savePinnedTabs();
     }
 
     function switchToTab(index) {
@@ -151,6 +204,52 @@ QtObject {
         switchToTab((current - 1 + tabs.count) % tabs.count);
     }
 
+    function pinTab(roomId) {
+        var index = findTab(roomId);
+        if (index === -1 || tabs.get(index).pinned)
+            return;
+        tabs.setProperty(index, "pinned", true);
+        _sortPinnedToLeft();
+        _saveTabs();
+        _savePinnedTabs();
+    }
+
+    function unpinTab(roomId) {
+        var index = findTab(roomId);
+        if (index === -1 || !tabs.get(index).pinned)
+            return;
+        tabs.setProperty(index, "pinned", false);
+        // Tab stays in place (now the first unpinned tab).
+        _saveTabs();
+        _savePinnedTabs();
+    }
+
+    function isTabPinned(roomId) {
+        var index = findTab(roomId);
+        return index !== -1 && tabs.get(index).pinned;
+    }
+
+    // Returns the index of the first unpinned tab (= insertion point for new tabs).
+    function _firstUnpinnedIndex() {
+        for (var i = 0; i < tabs.count; i++) {
+            if (!tabs.get(i).pinned)
+                return i;
+        }
+        return tabs.count;
+    }
+
+    // Move all pinned tabs to the left, preserving relative order within each group.
+    function _sortPinnedToLeft() {
+        var insertPos = 0;
+        for (var i = 0; i < tabs.count; i++) {
+            if (tabs.get(i).pinned && i !== insertPos) {
+                tabs.move(i, insertPos, 1);
+            }
+            if (tabs.get(insertPos).pinned)
+                insertPos++;
+        }
+    }
+
     function _setCurrentRoom(roomId) {
         _internalNavigation = true;
         _previousRoomId = roomId;
@@ -174,10 +273,14 @@ QtObject {
         }
         // External navigation to a room not in any tab: navigate the current tab.
         var prevTabIndex = _previousRoomId ? findTab(_previousRoomId) : -1;
+        // Skip pinned tabs — they are locked.
+        if (prevTabIndex !== -1 && tabs.get(prevTabIndex).pinned)
+            prevTabIndex = -1;
         if (prevTabIndex !== -1) {
             tabs.set(prevTabIndex, {
                 "roomId": newRoomId,
-                "roomName": _getRoomName(newRoomId)
+                "roomName": _getRoomName(newRoomId),
+                "pinned": false
             });
             _saveTabs();
         }
@@ -191,10 +294,11 @@ QtObject {
         }
         var existingIndex = findTab(roomId);
         // Clicking active room: close its tab (or deselect if no tabs).
+        // But never close a pinned tab via click.
         if (roomId === Rooms.currentRoomId) {
-            if (existingIndex !== -1)
+            if (existingIndex !== -1 && !tabs.get(existingIndex).pinned)
                 closeTab(roomId);
-            else
+            else if (existingIndex === -1)
                 Rooms.resetCurrentRoom();
             return;
         }

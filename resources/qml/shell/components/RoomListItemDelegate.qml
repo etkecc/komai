@@ -133,11 +133,6 @@ ItemDelegate {
         color: Qt.rgba(palette.dark.r, palette.dark.g, palette.dark.b, 0.5)
     }
 
-    KomaiCursorShape {
-        anchors.fill: parent
-        cursorShape: roomItem.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-    }
-
     // Keep 1px of padding here so the touch areas do not overlap.
     Item {
         anchors.fill: parent
@@ -160,7 +155,8 @@ ItemDelegate {
 
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton | Qt.MiddleButton
-            hoverEnabled: false
+            hoverEnabled: true
+            cursorShape: roomItem.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
 
             onClicked: function(mouse) {
                 console.log("tapped " + roomId);

@@ -56,9 +56,4 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         dialogHost: root.dialogHost
     }
-
-    TimelineEmptyStateLinks {
-        Layout.alignment: Qt.AlignHCenter
-        Layout.topMargin: Komai.paddingLarge
-    }
 }

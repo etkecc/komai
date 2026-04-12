@@ -388,7 +388,7 @@ EventDelegateChooser {
             required property var room
             required property string userId
             required property string userName
-            readonly property bool hasKnockAction: room && room.showAcceptKnockButton(eventId)
+            readonly property bool hasKnockAction: room && typeof room.showAcceptKnockButton === "function" && room.showAcceptKnockButton(eventId)
 
             NoticeMessage {
                 Layout.fillWidth: true

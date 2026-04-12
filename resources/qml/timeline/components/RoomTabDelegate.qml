@@ -19,6 +19,7 @@ Rectangle {
     required property string roomName
     required property bool pinned
     required property var tabController
+    required property var parentListView
 
     readonly property bool isActive: roomId === Rooms.currentRoomId
     readonly property bool isHovered: tabHoverHandler.hovered || closeArea.containsMouse || pinArea.containsMouse
@@ -132,6 +133,12 @@ Rectangle {
     color: isActive ? Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.12)
                     : (isHovered ? palette.dark : "transparent")
 
+    // Drag state tracked per-delegate.
+    property real _dragStartX: 0
+    property bool _dragPending: false
+    property bool _dragJustFinished: false
+    readonly property bool _isDraggedTab: tabController.isDragging && tabController._dragRoomId === roomId
+
     // Main click area (under the visual content so close/pin buttons can steal clicks).
     MouseArea {
         id: tabMouseArea
@@ -139,8 +146,50 @@ Rectangle {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
         hoverEnabled: true
+        preventStealing: tabDelegate._dragPending || tabController.isDragging
+
+        onPressed: function(mouse) {
+            if (mouse.button === Qt.LeftButton) {
+                tabDelegate._dragStartX = mouse.x;
+                tabDelegate._dragPending = true;
+                console.info("[tab-drag] press roomId=" + tabDelegate.roomId + " x=" + mouse.x);
+            }
+        }
+
+        onPositionChanged: function(mouse) {
+            if (tabDelegate._dragPending) {
+                if (Math.abs(mouse.x - tabDelegate._dragStartX) > 5) {
+                    console.info("[tab-drag] threshold exceeded, beginning drag roomId=" + tabDelegate.roomId);
+                    tabDelegate._dragPending = false;
+                    tabController.beginDrag(tabDelegate.roomId);
+                }
+                return;
+            }
+            if (tabController.isDragging) {
+                var listPos = tabDelegate.mapToItem(tabDelegate.parentListView, mouse.x, 0);
+                var contentX = listPos.x + tabDelegate.parentListView.contentX;
+                var targetIndex = Math.floor(contentX / 180);
+                targetIndex = Math.max(0, Math.min(targetIndex, tabController.tabs.count - 1));
+                console.info("[tab-drag] move contentX=" + contentX + " targetIndex=" + targetIndex);
+                tabController.updateDragPosition(targetIndex);
+            }
+        }
+
+        onReleased: function(mouse) {
+            console.info("[tab-drag] released isDragging=" + tabController.isDragging + " dragPending=" + tabDelegate._dragPending);
+            tabDelegate._dragPending = false;
+            if (tabController.isDragging) {
+                tabController.commitDrag();
+                tabDelegate._dragJustFinished = true;
+                return;
+            }
+        }
 
         onClicked: function(mouse) {
+            if (tabDelegate._dragJustFinished) {
+                tabDelegate._dragJustFinished = false;
+                return;
+            }
             if (mouse.button === Qt.RightButton) {
                 _openContextMenu();
                 return;

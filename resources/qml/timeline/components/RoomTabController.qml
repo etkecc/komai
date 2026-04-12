@@ -250,6 +250,74 @@ QtObject {
         }
     }
 
+    // --- Drag-and-drop reordering ---
+
+    property bool isDragging: false
+    property string _dragRoomId: ""
+    property int _dragOriginalIndex: -1
+    property bool _dragOriginalPinned: false
+
+    function beginDrag(roomId) {
+        var index = findTab(roomId);
+        if (index === -1)
+            return;
+        _dragRoomId = roomId;
+        _dragOriginalIndex = index;
+        _dragOriginalPinned = tabs.get(index).pinned;
+        isDragging = true;
+    }
+
+    function updateDragPosition(targetIndex) {
+        if (!isDragging)
+            return;
+        targetIndex = Math.max(0, Math.min(targetIndex, tabs.count - 1));
+        var currentIndex = findTab(_dragRoomId);
+        if (currentIndex === -1 || currentIndex === targetIndex)
+            return;
+        tabs.move(currentIndex, targetIndex, 1);
+        // Update pinned state based on new position.
+        var shouldPin = _shouldBePinnedAtIndex(targetIndex);
+        if (tabs.get(targetIndex).pinned !== shouldPin)
+            tabs.setProperty(targetIndex, "pinned", shouldPin);
+    }
+
+    function commitDrag() {
+        if (!isDragging)
+            return;
+        isDragging = false;
+        _dragRoomId = "";
+        _dragOriginalIndex = -1;
+        _saveTabs();
+        _savePinnedTabs();
+    }
+
+    function cancelDrag() {
+        if (!isDragging)
+            return;
+        // Restore original position and pinned state.
+        var currentIndex = findTab(_dragRoomId);
+        if (currentIndex !== -1 && currentIndex !== _dragOriginalIndex)
+            tabs.move(currentIndex, _dragOriginalIndex, 1);
+        if (_dragOriginalIndex >= 0 && _dragOriginalIndex < tabs.count)
+            tabs.setProperty(_dragOriginalIndex, "pinned", _dragOriginalPinned);
+        isDragging = false;
+        _dragRoomId = "";
+        _dragOriginalIndex = -1;
+    }
+
+    // Determine if a tab at the given index should be pinned based on its neighbors.
+    // Rule: pinned if all tabs before it are pinned (contiguous with pinned group).
+    function _shouldBePinnedAtIndex(index) {
+        for (var i = 0; i < index; i++) {
+            if (!tabs.get(i).pinned)
+                return false;
+        }
+        // At index 0: only pin if there's a pinned tab after it.
+        if (index === 0)
+            return tabs.count > 1 && tabs.get(1).pinned;
+        return true;
+    }
+
     function _setCurrentRoom(roomId) {
         _internalNavigation = true;
         _previousRoomId = roomId;

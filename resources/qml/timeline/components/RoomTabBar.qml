@@ -11,6 +11,8 @@ Rectangle {
 
     required property var tabController
 
+    readonly property int tabWidth: 180
+
     implicitHeight: Math.max(28, Math.round(fontMetrics.height * 2.2))
     visible: tabController.tabs.count > 0
     color: palette.window
@@ -37,19 +39,26 @@ Rectangle {
         orientation: Qt.Horizontal
         clip: true
         boundsBehavior: Flickable.StopAtBounds
-        interactive: contentWidth > width
+        interactive: contentWidth > width && !tabController.isDragging
         model: tabController.tabs
 
         delegate: RoomTabDelegate {
             tabController: tabBar.tabController
+            parentListView: tabListView
+        }
+
+        // Animate non-dragged tabs sliding into place.
+        displaced: Transition {
+            NumberAnimation { properties: "x"; duration: 150; easing.type: Easing.OutQuad }
         }
     }
 
-    // Convert vertical mouse wheel to horizontal scroll.
+    // Convert vertical mouse wheel to horizontal scroll (only when not dragging).
     MouseArea {
         anchors.fill: tabListView
         acceptedButtons: Qt.NoButton
         propagateComposedEvents: true
+        enabled: !tabController.isDragging
 
         onWheel: function(wheel) {
             var delta = wheel.angleDelta.y || wheel.angleDelta.x;

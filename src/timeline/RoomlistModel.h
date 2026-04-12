@@ -326,6 +326,7 @@ public slots:
     }
     // Look up a role value by room ID from the unfiltered source model.
     // Unlike roomidToIndex + data, this works even when the room is hidden by the current filter.
+    Q_INVOKABLE int unfilteredRowCount() const { return roomlistmodel->rowCount(); }
     Q_INVOKABLE QVariant unfilteredRoomData(const QString &roomid, int role)
     {
         int srcRow = roomlistmodel->roomidToIndex(roomid);

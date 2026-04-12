@@ -116,7 +116,10 @@ Rectangle {
 
     // Convert vertical mouse wheel to horizontal scroll (only when not dragging).
     MouseArea {
-        anchors.fill: tabListView
+        x: tabListView.x
+        y: tabListView.y
+        width: tabListView.width
+        height: tabListView.height
         acceptedButtons: Qt.NoButton
         propagateComposedEvents: true
         enabled: !tabController.isDragging

@@ -201,18 +201,18 @@ Item {
         onActivated: Rooms.resetCurrentRoom()
     }
     ColumnLayout {
+        id: newTabLayout
+
         anchors.fill: parent
         spacing: 0
         visible: !_activePoolEntry && !useMatrixRoomView && !TimelineManager.waitingForFirstSync && (!roomPreview || !roomPreview.roomid)
 
-        Item {
+        NewTabPage {
             Layout.fillWidth: true
             Layout.fillHeight: true
-
-            TimelineEmptyState {
-                anchors.centerIn: parent
-                dialogHost: timelineView.dialogHost
-            }
+            active: newTabLayout.visible
+            dialogHost: timelineView.dialogHost
+            tabController: timelineView.tabController
         }
 
         AttributionFooter {}

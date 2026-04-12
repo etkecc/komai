@@ -104,6 +104,18 @@ QtObject {
         _setCurrentRoom(roomId);
     }
 
+    // Navigate from the new tab page: if the room already has a tab, focus it
+    // and close the empty tab; otherwise navigate the empty tab to the room.
+    function navigateFromNewTab(roomId) {
+        var existingIndex = findTab(roomId);
+        if (existingIndex !== -1) {
+            switchToTab(existingIndex);
+            closeTab("");
+        } else {
+            navigateCurrentTab(roomId);
+        }
+    }
+
     function navigateCurrentTab(roomId) {
         if (tabs.count === 0) {
             openTab(roomId);

@@ -282,8 +282,11 @@ QtObject {
                 "roomName": _getRoomName(newRoomId),
                 "pinned": false
             });
-            _saveTabs();
+        } else {
+            // No navigable tab (all pinned or no previous tab) — open a new one.
+            tabs.append({ "roomId": newRoomId, "roomName": _getRoomName(newRoomId), "pinned": false });
         }
+        _saveTabs();
         _previousRoomId = newRoomId;
     }
 

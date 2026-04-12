@@ -125,6 +125,12 @@ Rectangle {
     KomaiToolTip {
         anchorItem: tabDelegate
         text: {
+            if (closeArea.containsMouse) {
+                var closeLabel = qsTr("Close %1").arg(tabDelegate.displayName);
+                if (tabDelegate.isActive)
+                    closeLabel += "  [Ctrl+W]";
+                return closeLabel;
+            }
             var label = tabDelegate.displayName;
             if (tabDelegate.index < 9)
                 label += "  [Alt+" + (tabDelegate.index + 1) + "]";

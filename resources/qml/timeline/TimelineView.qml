@@ -53,6 +53,12 @@ Item {
     }
 
     function _poolSwitchTo(roomId) {
+        // Already showing this room — nothing to do.  This guard prevents
+        // redundant deactivation/reactivation when both the roomPreview
+        // binding and the roomSwitched signal resolve to the same room.
+        if (roomId && _activePoolEntry && _poolEntries[roomId] === _activePoolEntry)
+            return;
+
         console.info("[timeline-pool] switchTo room=" + roomId
                      + " useMatrixRoomView=" + useMatrixRoomView
                      + " hasActiveEntry=" + !!_activePoolEntry
@@ -226,11 +232,13 @@ Item {
         perfDisableRoomHeader: timelineView.perfDisableRoomHeader
         headerRoomModel: matrixTimeline ? matrixHeaderRoomModel : null
         visible: !!timelineView._activePoolEntry || timelineView.useMatrixRoomView
+
     }
     MatrixRoomRouteModels {
         id: matrixRoomRouteModels
 
         roomPreview: timelineView.roomPreview
+
     }
     MatrixRoomHeaderModel {
         id: matrixHeaderRoomModel
@@ -239,6 +247,7 @@ Item {
         roomPreview: timelineView.roomPreview
         dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
         permissions: matrixRoomPermissions
+
     }
     MatrixRoomPermissions {
         id: matrixRoomPermissions
@@ -246,6 +255,7 @@ Item {
         roomId: timelineView.useMatrixRoomView && timelineView.roomPreview
             ? String(timelineView.roomPreview.roomid || "")
             : ""
+
     }
     MatrixRoomComposerSupport {
         id: matrixRoomComposerSupport
@@ -255,6 +265,7 @@ Item {
         dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
         headerRoomModel: matrixHeaderRoomModel
         permissions: matrixRoomPermissions
+
     }
     MatrixRoomMessageActionsModel {
         id: matrixRoomMessageActionsModel
@@ -264,6 +275,7 @@ Item {
         dialogRoomModel: matrixRoomRouteModels.dialogRoomModel
         headerRoomModel: matrixHeaderRoomModel
         permissions: matrixRoomPermissions
+
     }
     MatrixRoomDialogSupport {
         id: matrixRoomDialogSupport

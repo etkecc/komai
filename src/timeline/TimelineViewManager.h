@@ -400,6 +400,10 @@ public slots:
                                      const QString &roomId = QLatin1String(QLatin1String("")));
     RoomlistModel *rooms() { return rooms_; }
     void primeCurrentMatrixTimelineSelection();
+    void suppressAutoTimelineSelection(bool suppress)
+    {
+        matrixTimelineAutoSelectionSuppressed_ = suppress;
+    }
     void markRoomSwitchRequested(const QString &roomId, const QString &reason);
     void markRoomSwitchPhaseCpp(const QString &roomId, const QString &phase);
 
@@ -450,13 +454,14 @@ private:
     komai::MatrixTimelineModel *matrixTimelineModel_ = nullptr;
     QHash<QString, komai::MatrixTimelineModel *> perRoomModels_;
     QString activeMatrixTimelineRoomId_;
-    bool matrixTimelineLoading_               = false;
-    bool matrixSidebarRefreshQueued_          = false;
-    bool matrixRoomListRefreshQueued_         = false;
-    bool matrixRoomListRefreshPending_        = false;
-    bool matrixTimelineSelectionUpdateQueued_ = false;
-    bool matrixTimelineRefreshQueued_         = false;
-    bool matrixTimelineRefreshPending_        = false;
+    bool matrixTimelineLoading_                 = false;
+    bool matrixSidebarRefreshQueued_            = false;
+    bool matrixRoomListRefreshQueued_           = false;
+    bool matrixRoomListRefreshPending_          = false;
+    bool matrixTimelineSelectionUpdateQueued_   = false;
+    bool matrixTimelineAutoSelectionSuppressed_ = false;
+    bool matrixTimelineRefreshQueued_           = false;
+    bool matrixTimelineRefreshPending_          = false;
     QString matrixTimelineRefreshPendingRoomId_;
     quint64 matrixTimelineRefreshRequestId_         = 0;
     quint64 matrixTimelineRefreshInFlightRequestId_ = 0;

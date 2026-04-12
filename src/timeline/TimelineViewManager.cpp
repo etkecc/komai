@@ -97,7 +97,8 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
         communities_->setCurrentFilterId("space:" + roomId);
     });
     connect(rooms_, &RoomlistModel::currentRoomIdChanged, this, [this](const QString &) {
-        scheduleCurrentMatrixTimelineSelectionUpdate();
+        if (!matrixTimelineAutoSelectionSuppressed_)
+            scheduleCurrentMatrixTimelineSelectionUpdate();
     });
     connect(matrixTimelineModel_,
             &komai::MatrixTimelineModel::countChanged,

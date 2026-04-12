@@ -156,13 +156,18 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
 
         handle.active_room_id = Some(room_id.to_owned());
 
-        // If a loop is already running for this room, nothing more to do.
+        // If a loop is already running for this room, sync its generation
+        // with the current global counter so the stale-check doesn't kill it
+        // (other rooms may have bumped the counter since this loop started).
         if let Some(task) = handle.room_timeline_tasks.get(room_id) {
             if !task.thread.is_finished() {
+                let current_gen = handle.room_timeline_generation.load(Ordering::Acquire);
+                task.generation.store(current_gen, Ordering::Release);
                 tracing::info!(
                     handle_id,
                     room_id,
                     task_count = handle.room_timeline_tasks.len(),
+                    generation = current_gen,
                     "Matrix-sdk room timeline task is already running, reusing"
                 );
                 return Ok(());
@@ -235,10 +240,15 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             .map(|h| Arc::clone(&h.room_timeline_generation))
             .expect("handle must exist after select_active_room_timeline setup")
     };
+    // Per-task generation: shared with the loop so the "reuse" path can
+    // update it when re-selecting this room after other rooms bumped the
+    // global counter.
+    let task_generation = Arc::new(AtomicU64::new(generation));
+    let task_generation_for_thread = Arc::clone(&task_generation);
     let room_timeline_task = std::thread::spawn(move || {
         crate::matrix_backend::ffi::runtime().block_on(run_room_timeline_loop(
             handle_id,
-            generation,
+            task_generation_for_thread,
             generation_counter,
             client,
             room_id_for_thread,
@@ -262,6 +272,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
                     room_id: room_id_owned.clone(),
                     commands: command_sender,
                     stop_requested,
+                    generation: task_generation,
                     thread: room_timeline_task,
                 },
             );
@@ -602,7 +613,7 @@ async fn fetch_member_receipt_targets(
 
 async fn run_room_timeline_loop(
     handle_id: u64,
-    generation: u64,
+    task_generation: Arc<AtomicU64>,
     generation_counter: Arc<AtomicU64>,
     client: Client,
     room_id: String,
@@ -739,11 +750,11 @@ async fn run_room_timeline_loop(
             let mut snapshot_guard = room_timeline_snapshot
                 .lock()
                 .expect("poisoned matrix room timeline snapshot mutex");
-            if generation_counter.load(Ordering::Acquire) != generation {
+            if generation_counter.load(Ordering::Acquire) != task_generation.load(Ordering::Acquire) {
                 tracing::debug!(
                     handle_id,
                     room_id,
-                    generation,
+                    generation = task_generation.load(Ordering::Acquire),
                     "Discarding stale initial matrix-sdk timeline snapshot for an inactive room generation"
                 );
                 return;
@@ -754,7 +765,7 @@ async fn run_room_timeline_loop(
             let mut media_guard = room_timeline_media_lookup
                 .lock()
                 .expect("poisoned matrix room timeline media lookup mutex");
-            if generation_counter.load(Ordering::Acquire) != generation {
+            if generation_counter.load(Ordering::Acquire) != task_generation.load(Ordering::Acquire) {
                 return;
             }
             *media_guard = media_lookup;
@@ -814,7 +825,7 @@ async fn run_room_timeline_loop(
             let mut snapshot_guard = room_timeline_snapshot
                 .lock()
                 .expect("poisoned matrix room timeline snapshot mutex");
-            if generation_counter.load(Ordering::Acquire) != generation {
+            if generation_counter.load(Ordering::Acquire) != task_generation.load(Ordering::Acquire) {
                 return;
             }
             *snapshot_guard = snapshot;
@@ -823,7 +834,7 @@ async fn run_room_timeline_loop(
             let mut media_guard = room_timeline_media_lookup
                 .lock()
                 .expect("poisoned matrix room timeline media lookup mutex");
-            if generation_counter.load(Ordering::Acquire) != generation {
+            if generation_counter.load(Ordering::Acquire) != task_generation.load(Ordering::Acquire) {
                 return;
             }
             *media_guard = media_lookup;
@@ -890,11 +901,11 @@ async fn run_room_timeline_loop(
                             let mut snapshot_guard = room_timeline_snapshot
                                 .lock()
                                 .expect("poisoned matrix room timeline snapshot mutex");
-                            if generation_counter.load(Ordering::Acquire) != generation {
+                            if generation_counter.load(Ordering::Acquire) != task_generation.load(Ordering::Acquire) {
                                 tracing::debug!(
                                     handle_id,
                                     room_id,
-                                    generation,
+                                    generation = task_generation.load(Ordering::Acquire),
                                     "Stopping stale matrix-sdk room timeline loop after room switch"
                                 );
                                 break;
@@ -905,7 +916,7 @@ async fn run_room_timeline_loop(
                             let mut media_guard = room_timeline_media_lookup
                                 .lock()
                                 .expect("poisoned matrix room timeline media lookup mutex");
-                            if generation_counter.load(Ordering::Acquire) != generation {
+                            if generation_counter.load(Ordering::Acquire) != task_generation.load(Ordering::Acquire) {
                                 break;
                             }
                             *media_guard = media_lookup;

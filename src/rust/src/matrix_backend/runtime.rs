@@ -564,6 +564,10 @@ struct MatrixBackendRoomTimelineTask {
     room_id: String,
     commands: mpsc::UnboundedSender<MatrixBackendRoomTimelineCommand>,
     stop_requested: Arc<AtomicBool>,
+    /// The loop's generation, shared with the running thread so it can be
+    /// updated on "reuse" to keep the loop valid after other rooms bump the
+    /// global generation counter.
+    generation: Arc<AtomicU64>,
     thread: JoinHandle<()>,
 }
 

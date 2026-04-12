@@ -44,13 +44,25 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
         manager->markRoomSwitchPhaseCpp(roomid, "cpp.matrix_summary_selected");
     nhlog::ui()->debug("Switched to matrix room summary: {}", roomid.toStdString());
 
+    // Suppress the automatic currentRoomIdChanged → scheduleCurrentMatrixTimelineSelectionUpdate
+    // connection so that UI signals fire first (room list highlight, header, pool activation)
+    // before the heavier timeline selection work runs.
     if (manager)
-        manager->primeCurrentMatrixTimelineSelection();
+        manager->suppressAutoTimelineSelection(true);
 
     notifyCurrentRoomIdChanged();
-    deferCurrentRoomVisualState(roomid);
+    currentRoomVisualStateDeferred_ = false;
+    currentRoomVisualStateDeferredRoomId_.clear();
+    ++currentRoomVisualStateGeneration_;
+    emitCurrentRoomVisualStateChanged();
     if (manager)
         manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_summary_changed_emitted");
+
+    if (manager)
+        manager->suppressAutoTimelineSelection(false);
+
+    if (manager)
+        manager->primeCurrentMatrixTimelineSelection();
 
     return true;
 }

@@ -11,6 +11,7 @@
 #include <QLocale>
 #include <QStringBuilder>
 
+#include "komai-rust-cxxbridge/ffi.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 QString
@@ -43,16 +44,9 @@ utils::emojiOnlyCodepointCount(const QString &body)
     if (body.isEmpty())
         return 0;
 
-    const auto utf32 = body.toUcs4();
-    int emojiCount   = 0;
-
-    for (const auto code : utf32) {
-        if (!utils::codepointIsEmoji(code))
-            return 0;
-        ++emojiCount;
-    }
-
-    return emojiCount;
+    const auto utf8 = body.toUtf8();
+    return komai::rust::emoji_only_visual_count(
+      ::rust::Str(utf8.constData(), static_cast<size_t>(utf8.size())));
 }
 
 QString

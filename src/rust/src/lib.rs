@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+pub mod emoji;
 pub mod html_processor;
 pub mod logging;
 pub mod matrix_backend;

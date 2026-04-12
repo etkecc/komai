@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+pub(crate) use crate::emoji::emoji_only_visual_count;
 pub(crate) use crate::logging::{init_logging, log_from_cpp};
 pub(crate) use crate::matrix_backend::ffi::*;
 pub(crate) use crate::settings::ffi::*;
@@ -1355,6 +1356,8 @@ mod bridge {
 
         fn highlight_formatted_code_blocks(html: &str, is_dark_theme: bool) -> String;
         fn highlight_raw_json(raw_json: &str, is_dark_theme: bool) -> String;
+
+        fn emoji_only_visual_count(body: &str) -> i32;
 
         fn html_sanitize(html: &str) -> String;
         fn html_linkify(html: &str) -> String;

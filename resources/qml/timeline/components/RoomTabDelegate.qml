@@ -9,13 +9,17 @@ import cc.etke.komai
 Rectangle {
     id: tabDelegate
 
+    HoverHandler {
+        id: tabHoverHandler
+    }
+
     required property int index
     required property string roomId
     required property string roomName
     required property var tabController
 
     readonly property bool isActive: roomId === Rooms.currentRoomId
-    readonly property bool isHovered: tabMouseArea.containsMouse || closeArea.containsMouse
+    readonly property bool isHovered: tabHoverHandler.hovered || closeArea.containsMouse
     readonly property bool isLastTab: index === tabController.tabs.count - 1
 
     // Attention state (re-evaluated when attentionRevision changes).

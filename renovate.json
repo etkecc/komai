@@ -5,7 +5,9 @@
     {
       "customType": "regex",
       "description": "CPM dependencies (GitHub) in CMakeLists.txt",
-      "fileMatch": ["^CMakeLists\\.txt$"],
+      "managerFilePatterns": [
+        "/^CMakeLists\\.txt$/"
+      ],
       "matchStrings": [
         "GIT_REPOSITORY\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)\\.git\\s+GIT_TAG\\s+(?<currentValue>\\S*\\.\\S+)"
       ],
@@ -14,7 +16,9 @@
     {
       "customType": "regex",
       "description": "CPM dependencies (non-GitHub) in CMakeLists.txt",
-      "fileMatch": ["^CMakeLists\\.txt$"],
+      "managerFilePatterns": [
+        "/^CMakeLists\\.txt$/"
+      ],
       "matchStrings": [
         "GIT_REPOSITORY\\s+(?<packageName>https://nheko\\.im/\\S+\\.git)\\s+GIT_TAG\\s+(?<currentValue>\\S+)"
       ],
@@ -23,7 +27,9 @@
     {
       "customType": "regex",
       "description": "Flatpak GitHub git sources (tag before url)",
-      "fileMatch": ["^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$"],
+      "managerFilePatterns": [
+        "/^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$/"
+      ],
       "matchStrings": [
         "tag:\\s+(?<currentValue>\\S+)\\n(?:\\s+[\\w-]+:[^\\n]*\\n)*?\\s+url:\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)\\.git"
       ],
@@ -32,7 +38,9 @@
     {
       "customType": "regex",
       "description": "Flatpak GitHub git sources (url before tag)",
-      "fileMatch": ["^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$"],
+      "managerFilePatterns": [
+        "/^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$/"
+      ],
       "matchStrings": [
         "url:\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)\\.git\\n\\s+tag:\\s+(?<currentValue>\\S+)"
       ],
@@ -41,7 +49,9 @@
     {
       "customType": "regex",
       "description": "Flatpak non-GitHub git sources (tag before url)",
-      "fileMatch": ["^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$"],
+      "managerFilePatterns": [
+        "/^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$/"
+      ],
       "matchStrings": [
         "tag:\\s+(?<currentValue>\\S+)\\n(?:\\s+[\\w-]+:[^\\n]*\\n)*?\\s+url:\\s+(?<packageName>https://(?:nheko\\.im|gitlab\\.matrix\\.org|gitlab\\.freedesktop\\.org|git\\.openldap\\.org)/\\S+\\.git)"
       ],
@@ -50,7 +60,9 @@
     {
       "customType": "regex",
       "description": "Fluent UI System Icons version pin",
-      "fileMatch": ["^bin/icons/FLUENT_VERSION_REF$"],
+      "managerFilePatterns": [
+        "/^bin/icons/FLUENT_VERSION_REF$/"
+      ],
       "matchStrings": ["^(?<currentValue>\\d+\\.\\d+\\.\\d+)$"],
       "depNameTemplate": "microsoft/fluentui-system-icons",
       "datasourceTemplate": "github-tags"
@@ -58,7 +70,9 @@
     {
       "customType": "regex",
       "description": "CLDR JSON version for emoji pipeline",
-      "fileMatch": ["^bin/emoji/sources\\.lock\\.yml$"],
+      "managerFilePatterns": [
+        "/^bin/emoji/sources\\.lock\\.yml$/"
+      ],
       "matchStrings": ["ref:\\s+\"(?<currentValue>[^\"]+)\""],
       "depNameTemplate": "unicode-org/cldr-json",
       "datasourceTemplate": "github-tags"
@@ -66,7 +80,9 @@
     {
       "customType": "regex",
       "description": "AppImage Docker base image",
-      "fileMatch": ["^etc/packaging/appimage/builder-image$"],
+      "managerFilePatterns": [
+        "/^etc/packaging/appimage/builder-image$/"
+      ],
       "matchStrings": ["(?:docker\\.io/)?(?<depName>[^:\\s]+):(?<currentValue>\\S+)"],
       "datasourceTemplate": "docker"
     }

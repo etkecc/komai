@@ -152,14 +152,14 @@ Rectangle {
             if (mouse.button === Qt.LeftButton) {
                 tabDelegate._dragStartX = mouse.x;
                 tabDelegate._dragPending = true;
-                console.info("[tab-drag] press roomId=" + tabDelegate.roomId + " x=" + mouse.x);
+
             }
         }
 
         onPositionChanged: function(mouse) {
             if (tabDelegate._dragPending) {
                 if (Math.abs(mouse.x - tabDelegate._dragStartX) > 5) {
-                    console.info("[tab-drag] threshold exceeded, beginning drag roomId=" + tabDelegate.roomId);
+
                     tabDelegate._dragPending = false;
                     tabController.beginDrag(tabDelegate.roomId);
                 }
@@ -170,13 +170,13 @@ Rectangle {
                 var contentX = listPos.x + tabDelegate.parentListView.contentX;
                 var targetIndex = Math.floor(contentX / 180);
                 targetIndex = Math.max(0, Math.min(targetIndex, tabController.tabs.count - 1));
-                console.info("[tab-drag] move contentX=" + contentX + " targetIndex=" + targetIndex);
+
                 tabController.updateDragPosition(targetIndex);
             }
         }
 
         onReleased: function(mouse) {
-            console.info("[tab-drag] released isDragging=" + tabController.isDragging + " dragPending=" + tabDelegate._dragPending);
+
             tabDelegate._dragPending = false;
             if (tabController.isDragging) {
                 tabController.commitDrag();

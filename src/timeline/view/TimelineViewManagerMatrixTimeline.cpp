@@ -365,7 +365,7 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
 void
 TimelineViewManager::scheduleCurrentMatrixTimelineRefresh()
 {
-    const auto roomId = activeMatrixTimelineRoomId_;
+    const auto roomId = matrixTimelineRefreshPendingRoomId_;
     if (roomId.isEmpty())
         return;
 
@@ -373,17 +373,21 @@ TimelineViewManager::scheduleCurrentMatrixTimelineRefresh()
         return;
 
     matrixTimelineRefreshQueued_ = true;
-    markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_queued");
+    if (roomId == activeMatrixTimelineRoomId_)
+        markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_queued");
     QTimer::singleShot(0, this, [this, roomId]() {
         matrixTimelineRefreshQueued_ = false;
 
-        if (!matrixTimelineRefreshPending_ || matrixTimelineRefreshPendingRoomId_ != roomId ||
-            activeMatrixTimelineRoomId_ != roomId) {
+        if (!matrixTimelineRefreshPending_ || matrixTimelineRefreshPendingRoomId_ != roomId) {
+            // Pending room changed while queued.  Re-schedule for the current one.
+            if (matrixTimelineRefreshPending_)
+                scheduleCurrentMatrixTimelineRefresh();
             return;
         }
 
         matrixTimelineRefreshPending_ = false;
-        markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_dequeued");
+        if (roomId == activeMatrixTimelineRoomId_)
+            markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_dequeued");
         refreshCurrentMatrixTimeline();
     });
 }

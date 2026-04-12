@@ -76,10 +76,7 @@ QtObject {
     }
 
     function _getRoomName(roomId) {
-        var row = Rooms.roomidToIndex(roomId);
-        if (row < 0)
-            return roomId;
-        var name = Rooms.data(Rooms.index(row, 0), roleRoomName);
+        var name = Rooms.unfilteredRoomData(roomId, roleRoomName);
         return name || roomId;
     }
 

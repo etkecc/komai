@@ -52,31 +52,24 @@ Rectangle {
     readonly property bool isLastTab: index === tabController.tabs.count - 1
 
     // Attention state (re-evaluated when attentionRevision changes).
+    // Uses unfilteredRoomData so tabs stay correct even when the room is
+    // hidden by the current community/space filter.
     readonly property int _attRev: tabController.attentionRevision
-    readonly property int _roomRow: {
-        var r = _attRev;
-        return Rooms.roomidToIndex(roomId);
-    }
     readonly property bool hasUnread: {
         var r = _attRev;
-        return _roomRow >= 0
-            && !!Rooms.data(Rooms.index(_roomRow, 0), tabController.roleHasUnreadMessages);
+        return !!Rooms.unfilteredRoomData(roomId, tabController.roleHasUnreadMessages);
     }
     readonly property bool hasLoudNotification: {
         var r = _attRev;
-        return _roomRow >= 0
-            && !!Rooms.data(Rooms.index(_roomRow, 0), tabController.roleHasLoudNotification);
+        return !!Rooms.unfilteredRoomData(roomId, tabController.roleHasLoudNotification);
     }
     readonly property bool hasDraft: {
         var r = _attRev;
-        return _roomRow >= 0
-            && !!Rooms.data(Rooms.index(_roomRow, 0), tabController.roleHasDraft);
+        return !!Rooms.unfilteredRoomData(roomId, tabController.roleHasDraft);
     }
     readonly property bool isLowPriority: {
         var r = _attRev;
-        if (_roomRow < 0)
-            return false;
-        var tags = Rooms.data(Rooms.index(_roomRow, 0), tabController.roleTags);
+        var tags = Rooms.unfilteredRoomData(roomId, tabController.roleTags);
         return !!tags && !!tags.indexOf && tags.indexOf("m.lowpriority") !== -1;
     }
     readonly property bool emphasizeUnread: hasUnread
@@ -89,18 +82,14 @@ Rectangle {
         if (isEmptyTab)
             return qsTr("New Tab");
         var r = _attRev;
-        if (_roomRow < 0)
-            return roomName;
-        var name = Rooms.data(Rooms.index(_roomRow, 0), tabController.roleRoomName);
+        var name = Rooms.unfilteredRoomData(roomId, tabController.roleRoomName);
         return name || roomName;
     }
 
     // Live avatar URL from model.
     readonly property string avatarUrl: {
         var r = _attRev;
-        if (_roomRow < 0)
-            return "";
-        return Rooms.data(Rooms.index(_roomRow, 0), tabController.roleAvatarUrl) || "";
+        return Rooms.unfilteredRoomData(roomId, tabController.roleAvatarUrl) || "";
     }
 
     // Text color adapts to highlight/hover state.

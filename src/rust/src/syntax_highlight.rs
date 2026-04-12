@@ -354,35 +354,37 @@ fn is_whitespace_only(html: &str, start: usize, end: usize) -> bool {
 
 fn decode_html_entities(s: &str) -> String {
     let mut out = String::with_capacity(s.len());
-    let mut i = 0;
-    let bytes = s.as_bytes();
+    let mut pos = 0;
 
-    while i < bytes.len() {
-        if bytes[i] != b'&' {
-            out.push(bytes[i] as char);
-            i += 1;
+    while pos < s.len() {
+        if s.as_bytes()[pos] != b'&' {
+            // Advance by one full UTF-8 character, not one byte.
+            let ch = &s[pos..];
+            let c = ch.chars().next().unwrap();
+            out.push(c);
+            pos += c.len_utf8();
             continue;
         }
         // Find ';'
-        let remaining = &s[i..];
+        let remaining = &s[pos..];
         if let Some(semi) = remaining.find(';') {
             if semi > 10 {
                 // Too long for a valid entity — emit '&' and move on.
                 out.push('&');
-                i += 1;
+                pos += 1;
                 continue;
             }
             let entity = &remaining[1..semi];
             if let Some(decoded) = decode_entity(entity) {
                 out.push(decoded);
-                i += semi + 1;
+                pos += semi + 1;
             } else {
                 out.push('&');
-                i += 1;
+                pos += 1;
             }
         } else {
             out.push('&');
-            i += 1;
+            pos += 1;
         }
     }
     out
@@ -796,6 +798,23 @@ echo "Hello, world!";
         let output = highlight_raw_json(json, true);
         assert!(output.contains("<span style=\""));
         assert!(output.contains("<pre><code class=\"language-json\">"));
+    }
+
+    #[test]
+    fn highlight_raw_json_preserves_emoji() {
+        let json = r#"{"body": "🤷‍♂️"}"#;
+        let output = highlight_raw_json(json, true);
+        assert!(
+            output.contains("🤷‍♂️"),
+            "emoji should be preserved in highlighted output: {output}"
+        );
+    }
+
+    #[test]
+    fn decode_html_entities_preserves_emoji() {
+        // Emojis should pass through decode_html_entities unchanged.
+        assert_eq!(decode_html_entities("🤷‍♂️"), "🤷‍♂️");
+        assert_eq!(decode_html_entities("hi 🎉 &amp; bye"), "hi 🎉 & bye");
     }
 
     #[test]

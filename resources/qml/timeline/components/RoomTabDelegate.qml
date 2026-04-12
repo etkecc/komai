@@ -73,7 +73,7 @@ Rectangle {
     }
 
     // Text color adapts to highlight/hover state.
-    readonly property color textColor: isActive ? palette.highlightedText
+    readonly property color textColor: isActive ? palette.text
         : isHovered ? palette.brightText
         : palette.buttonText
 

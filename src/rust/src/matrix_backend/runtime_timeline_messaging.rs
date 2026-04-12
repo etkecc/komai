@@ -519,10 +519,14 @@ pub async fn toggle_room_reaction(
         let handle = handles
             .get(&handle_id)
             .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))?;
-        let task = handle
-            .room_timeline_task
-            .as_ref()
-            .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} has no active room timeline"))?;
+        let active_room = handle.active_room_id.as_ref().ok_or_else(|| {
+            format!("matrix-sdk backend runtime handle {handle_id} has no active room")
+        })?;
+        let task = handle.room_timeline_tasks.get(active_room).ok_or_else(|| {
+            format!(
+                "matrix-sdk backend runtime handle {handle_id} has no timeline task for active room '{active_room}'"
+            )
+        })?;
         if task.thread.is_finished() {
             return Err(format!(
                 "matrix-sdk active room timeline task for '{}' is no longer running",

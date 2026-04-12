@@ -237,6 +237,26 @@ TimelineViewManager::matrixTimelineModel() const
     return matrixTimelineModel_;
 }
 
+QAbstractItemModel *
+TimelineViewManager::ensureModelForRoom(const QString &roomId)
+{
+    const auto trimmed = roomId.trimmed();
+    if (trimmed.isEmpty())
+        return nullptr;
+
+    auto it = perRoomModels_.find(trimmed);
+    if (it != perRoomModels_.end())
+        return *it;
+
+    auto *model = new komai::MatrixTimelineModel(this);
+    model->setRoomId(trimmed);
+    perRoomModels_.insert(trimmed, model);
+    nhlog::ui()->info("Created per-room timeline model for '{}' (pool size: {})",
+                      trimmed.toStdString(),
+                      perRoomModels_.size());
+    return model;
+}
+
 int
 TimelineViewManager::matrixTimelineItemCount() const
 {

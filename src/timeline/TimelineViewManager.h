@@ -171,6 +171,7 @@ public:
     bool isConnected() const { return isConnected_; }
     int colorRevision() const { return colorRevision_; }
     QAbstractItemModel *matrixTimelineModel() const;
+    Q_INVOKABLE QAbstractItemModel *ensureModelForRoom(const QString &roomId);
     int matrixTimelineItemCount() const;
     bool matrixTimelineLoading() const { return matrixTimelineLoading_; }
     bool matrixTimelineAttachmentSending() const { return matrixAttachmentUploadInFlight_; }
@@ -447,6 +448,7 @@ private:
     NavigationHistory navHistory_;
     bool navigating_                                 = false;
     komai::MatrixTimelineModel *matrixTimelineModel_ = nullptr;
+    QHash<QString, komai::MatrixTimelineModel *> perRoomModels_;
     QString activeMatrixTimelineRoomId_;
     bool matrixTimelineLoading_               = false;
     bool matrixSidebarRefreshQueued_          = false;

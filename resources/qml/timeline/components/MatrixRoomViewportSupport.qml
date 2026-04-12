@@ -79,11 +79,11 @@ QtObject {
     }
 
     function latestLoadedSelectableEventId() {
-        for (let row = 0; row < TimelineManager.matrixTimelineItemCount; row++) {
+        for (let row = 0; row < (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0); row++) {
             if (!rootItem.isSelectableMatrixTimelineRow(row))
                 continue;
 
-            const item = TimelineManager.matrixTimelineModel.itemAt(row);
+            const item = rootItem.perRoomModel.itemAt(row);
             const eventId = String(item.eventId || "");
             if (eventId.length > 0)
                 return eventId;
@@ -108,8 +108,8 @@ QtObject {
     }
 
     function selectableEventIdNearMatrixRow(row) {
-        const model = TimelineManager.matrixTimelineModel;
-        const rowCount = TimelineManager.matrixTimelineItemCount;
+        const model = rootItem.perRoomModel;
+        const rowCount = (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0);
         if (!model || row < 0 || row >= rowCount)
             return "";
 
@@ -141,7 +141,7 @@ QtObject {
                 return latestEventId;
         }
 
-        if (!timelineList || !TimelineManager.matrixTimelineModel || timelineList.width <= 0
+        if (!timelineList || !rootItem.perRoomModel || timelineList.width <= 0
                 || timelineList.height <= 0) {
             const delegateItem = support.bottomMostVisibleDelegate();
             return delegateItem && delegateItem.eventId
@@ -287,7 +287,7 @@ QtObject {
                 console.info("[timeline-load] Buffer filled: contentH="
                     + Math.round(timelineList.contentHeight)
                     + " desired=" + Math.round(desiredBufferedHeight)
-                    + " count=" + TimelineManager.matrixTimelineItemCount);
+                    + " count=" + (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0));
                 rootItem.initialTimelineBufferPending = false;
                 rootItem.deferredInitialBufferTopUpPending = false;
                 rootItem.bufferPaginationInFlight = false;
@@ -304,7 +304,7 @@ QtObject {
 
         rootItem.bufferPaginationInFlight = false;
 
-        const itemCount = TimelineManager.matrixTimelineItemCount;
+        const itemCount = (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0);
         if (itemCount <= 0 || rootItem.lastInitialBufferTriggerCount === itemCount)
             return;
 
@@ -384,7 +384,7 @@ QtObject {
             console.info("[timeline-load] Buffer filled: contentH="
                 + Math.round(timelineList.contentHeight)
                 + " desired=" + Math.round(desiredBufferedHeight)
-                + " count=" + TimelineManager.matrixTimelineItemCount);
+                + " count=" + (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0));
             rootItem.deferredInitialBufferTopUpPending = false;
             rootItem.bufferPaginationInFlight = false;
             rootItem.lastInitialBufferTriggerCount = -1;
@@ -393,7 +393,7 @@ QtObject {
 
         rootItem.bufferPaginationInFlight = false;
 
-        const itemCount = TimelineManager.matrixTimelineItemCount;
+        const itemCount = (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0);
         if (itemCount <= 0 || rootItem.lastInitialBufferTriggerCount === itemCount)
             return;
 

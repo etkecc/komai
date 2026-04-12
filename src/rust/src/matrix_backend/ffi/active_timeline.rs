@@ -115,6 +115,26 @@ pub(crate) fn matrix_fetch_room_timeline(
     .map(runtime_to_ffi_timeline_items)
 }
 
+pub(crate) fn matrix_stop_room_timeline(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<(), String> {
+    matrix_backend::runtime::stop_room_timeline(handle_id, room_id)
+}
+
+pub(crate) fn matrix_fetch_room_timeline_snapshot(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+) -> Result<Vec<ffi::MatrixTimelineItem>, String> {
+    ffi_block_on(
+        context,
+        "matrix_fetch_room_timeline_snapshot",
+        matrix_backend::runtime::fetch_room_timeline_snapshot(handle_id, room_id),
+    )
+    .map(runtime_to_ffi_timeline_items)
+}
+
 pub(crate) fn matrix_paginate_active_room_timeline_backwards(
     handle_id: u64,
     page_size: u16,

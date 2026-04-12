@@ -40,9 +40,23 @@ Item {
     property int _poolMaxSize: 20
     property string _poolCurrentRoomId: useMatrixRoomView && roomPreview
         ? String(roomPreview.roomid || "") : ""
-    on_PoolCurrentRoomIdChanged: _poolSwitchTo(_poolCurrentRoomId)
+    on_PoolCurrentRoomIdChanged: {
+        // Skip if the aboutToSwitchRoom handler already activated this room.
+        if (_activePoolEntry && _poolEntries[_poolCurrentRoomId] === _activePoolEntry) {
+            console.info("[timeline-pool] _poolCurrentRoomIdChanged SKIPPED (already active) newId="
+                         + _poolCurrentRoomId);
+            return;
+        }
+        console.info("[timeline-pool] _poolCurrentRoomIdChanged PROCEEDING newId="
+                     + _poolCurrentRoomId);
+        _poolSwitchTo(_poolCurrentRoomId);
+    }
 
     function _poolSwitchTo(roomId) {
+        console.info("[timeline-pool] switchTo room=" + roomId
+                     + " useMatrixRoomView=" + useMatrixRoomView
+                     + " hasActiveEntry=" + !!_activePoolEntry
+                     + " hasEntry=" + !!_poolEntries[roomId]);
         _poolDeactivateCurrent();
 
         if (!roomId)
@@ -56,8 +70,10 @@ Item {
         _activePoolEntry = entry;
 
         if (isReactivation) {
+            var modelCount = entry.roomView.perRoomModel ? entry.roomView.perRoomModel.count : 0;
             console.info("[timeline-pool] hit room=" + roomId
-                         + " poolSize=" + poolSize);
+                         + " poolSize=" + poolSize
+                         + " modelItems=" + modelCount);
             entry.roomView.handlePoolReactivation();
         } else {
             console.info("[timeline-pool] miss room=" + roomId
@@ -83,6 +99,7 @@ Item {
         _poolEvictIfNeeded();
 
         entry = matrixTimelineComponent.createObject(timelinePoolContainer, {});
+        entry.roomView.perRoomModel = TimelineManager.ensureModelForRoom(roomId);
         _poolEntries[roomId] = entry;
         _poolTouchLru(roomId);
         return entry;
@@ -180,7 +197,7 @@ Item {
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
-        visible: !useMatrixRoomView && !TimelineManager.waitingForFirstSync && (!roomPreview || !roomPreview.roomid)
+        visible: !_activePoolEntry && !useMatrixRoomView && !TimelineManager.waitingForFirstSync && (!roomPreview || !roomPreview.roomid)
 
         Item {
             Layout.fillWidth: true
@@ -208,7 +225,7 @@ Item {
         showBackButton: timelineView.showBackButton
         perfDisableRoomHeader: timelineView.perfDisableRoomHeader
         headerRoomModel: matrixTimeline ? matrixHeaderRoomModel : null
-        visible: timelineView.useMatrixRoomView
+        visible: !!timelineView._activePoolEntry || timelineView.useMatrixRoomView
     }
     MatrixRoomRouteModels {
         id: matrixRoomRouteModels
@@ -308,7 +325,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top
-        visible: timelineView.useMatrixRoomView
+        visible: !!timelineView._activePoolEntry || timelineView.useMatrixRoomView
     }
 
     Connections {
@@ -316,6 +333,11 @@ Item {
 
         function onAboutToSwitchRoom() {
             timelineView._poolDeactivateCurrent();
+        }
+
+        function onRoomSwitched(newRoomId) {
+            if (newRoomId)
+                timelineView._poolSwitchTo(newRoomId);
         }
     }
     TimelinePreviewPane {

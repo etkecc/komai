@@ -43,7 +43,7 @@ QtObject {
 
     function previewDataForEvent(eventId) {
         const model = TimelineManager.matrixTimelineModel;
-        if (!model)
+        if (!model || !root.rootItem)
             return ({});
 
         const row = model.rowForEventId(String(eventId || ""));

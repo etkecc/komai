@@ -9,6 +9,7 @@ QtObject {
     id: controller
 
     signal aboutToSwitchRoom()
+    signal roomSwitched(string newRoomId)
 
     property ListModel tabs: ListModel {}
 
@@ -100,6 +101,7 @@ QtObject {
             _previousRoomId = "";
             aboutToSwitchRoom();
             Rooms.resetCurrentRoom();
+            roomSwitched("");
             _internalNavigation = false;
             return;
         }
@@ -154,6 +156,7 @@ QtObject {
         _previousRoomId = roomId;
         aboutToSwitchRoom();
         Rooms.setCurrentRoom(roomId);
+        roomSwitched(roomId);
         _internalNavigation = false;
     }
 

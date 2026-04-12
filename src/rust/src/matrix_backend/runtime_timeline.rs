@@ -139,15 +139,8 @@ fn maybe_backfill_room_list_preview(
 pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
     let room_id = room_id.trim();
 
-    let (
-        client,
-        room_timeline_snapshot,
-        room_timeline_media_lookup,
-        previous_task,
-        generation,
-        initial_page_size,
-        preloaded_timelines,
-    ) = {
+    // Update active_room_id and check if a loop is already running for this room.
+    {
         let mut handles = backend_handles()
             .lock()
             .expect("poisoned matrix backend handle registry mutex");
@@ -155,52 +148,78 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             return Err(format!("matrix-sdk backend runtime handle {handle_id} is not active"));
         };
 
-        if let Some(task) = handle.room_timeline_task.as_ref() {
-            if task.room_id == room_id && !task.thread.is_finished() {
-                tracing::debug!(
+        if room_id.is_empty() {
+            handle.active_room_id = None;
+            tracing::info!(handle_id, "Cleared active matrix-sdk room timeline selection");
+            return Ok(());
+        }
+
+        handle.active_room_id = Some(room_id.to_owned());
+
+        // If a loop is already running for this room, nothing more to do.
+        if let Some(task) = handle.room_timeline_tasks.get(room_id) {
+            if !task.thread.is_finished() {
+                tracing::info!(
                     handle_id,
                     room_id,
-                    "Matrix-sdk room timeline task is already running for the active room"
+                    task_count = handle.room_timeline_tasks.len(),
+                    "Matrix-sdk room timeline task is already running, reusing"
                 );
                 return Ok(());
             }
+            // Loop finished (crashed?) — remove and restart below.
+            tracing::warn!(
+                handle_id,
+                room_id,
+                "Matrix-sdk room timeline task had finished, restarting"
+            );
         }
+    }
 
-        let previous_task = handle.room_timeline_task.take();
+    // Start a new loop for this room.
+    let (
+        client,
+        room_timeline_snapshot,
+        room_timeline_media_lookup,
+        generation,
+        initial_page_size,
+        preloaded_timelines,
+    ) = {
+        let mut handles = backend_handles()
+            .lock()
+            .expect("poisoned matrix backend handle registry mutex");
+        let handle = handles
+            .get_mut(&handle_id)
+            .expect("handle must exist after active_room_id update");
+
+        // Remove any finished task entry for this room.
+        handle.room_timeline_tasks.remove(room_id);
+
         let generation = handle
             .room_timeline_generation
             .fetch_add(1, Ordering::Release)
             + 1;
-        handle
-            .room_timeline_snapshot
+
+        // Get or create per-room snapshot.
+        let room_timeline_snapshot = handle
+            .room_timeline_snapshots
+            .entry(room_id.to_owned())
+            .or_insert_with(|| Arc::new(Mutex::new(Vec::new())));
+        // Clear stale snapshot data for a fresh loop.
+        room_timeline_snapshot
             .lock()
             .expect("poisoned matrix room timeline snapshot mutex")
-            .clear();
-        handle
-            .room_timeline_media_lookup
-            .lock()
-            .expect("poisoned matrix room timeline media lookup mutex")
             .clear();
 
         (
             handle.client.clone(),
-            Arc::clone(&handle.room_timeline_snapshot),
+            Arc::clone(room_timeline_snapshot),
             Arc::clone(&handle.room_timeline_media_lookup),
-            previous_task,
             generation,
             handle.preferred_room_timeline_initial_page_size,
             Arc::clone(&handle.preloaded_timelines),
         )
     };
-
-    if let Some(previous_task) = previous_task {
-        std::thread::spawn(move || stop_room_timeline_task(handle_id, previous_task));
-    }
-
-    if room_id.is_empty() {
-        tracing::info!(handle_id, "Cleared active matrix-sdk room timeline selection");
-        return Ok(());
-    }
 
     let stop_requested = Arc::new(AtomicBool::new(false));
     let stop_requested_for_thread = Arc::clone(&stop_requested);
@@ -237,12 +256,15 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
         .expect("poisoned matrix backend handle registry mutex")
         .entry(handle_id)
         .and_modify(|handle| {
-            handle.room_timeline_task = Some(MatrixBackendRoomTimelineTask {
-                room_id: room_id_owned.clone(),
-                commands: command_sender,
-                stop_requested,
-                thread: room_timeline_task,
-            });
+            handle.room_timeline_tasks.insert(
+                room_id_owned.clone(),
+                MatrixBackendRoomTimelineTask {
+                    room_id: room_id_owned.clone(),
+                    commands: command_sender,
+                    stop_requested,
+                    thread: room_timeline_task,
+                },
+            );
         });
 
     tracing::info!(
@@ -250,6 +272,37 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
         room_id = %room_id_owned,
         "Started matrix-sdk room timeline task"
     );
+    Ok(())
+}
+
+/// Stop a specific room's timeline loop and remove it from the task map.
+pub fn stop_room_timeline(handle_id: u64, room_id: &str) -> Result<(), String> {
+    let room_id = room_id.trim();
+    let task = {
+        let mut handles = backend_handles()
+            .lock()
+            .expect("poisoned matrix backend handle registry mutex");
+        let handle = handles
+            .get_mut(&handle_id)
+            .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))?;
+        handle.room_timeline_tasks.remove(room_id)
+    };
+
+    if let Some(task) = task {
+        std::thread::spawn(move || stop_room_timeline_task(handle_id, task));
+        tracing::info!(handle_id, room_id, "Stopping matrix-sdk room timeline task");
+    }
+
+    // Clean up the per-room snapshot.
+    {
+        let mut handles = backend_handles()
+            .lock()
+            .expect("poisoned matrix backend handle registry mutex");
+        if let Some(handle) = handles.get_mut(&handle_id) {
+            handle.room_timeline_snapshots.remove(room_id);
+        }
+    }
+
     Ok(())
 }
 
@@ -280,11 +333,14 @@ pub fn paginate_active_room_timeline_backwards(
         let Some(handle) = handles.get(&handle_id) else {
             return Err(format!("matrix-sdk backend runtime handle {handle_id} is not active"));
         };
-        let Some(task) = handle.room_timeline_task.as_ref() else {
-            return Err(format!(
-                "matrix-sdk backend runtime handle {handle_id} has no active room timeline"
-            ));
-        };
+        let active_room = handle.active_room_id.as_ref().ok_or_else(|| {
+            format!("matrix-sdk backend runtime handle {handle_id} has no active room")
+        })?;
+        let task = handle.room_timeline_tasks.get(active_room).ok_or_else(|| {
+            format!(
+                "matrix-sdk backend runtime handle {handle_id} has no timeline task for active room '{active_room}'"
+            )
+        })?;
 
         if task.thread.is_finished() {
             return Err(format!(
@@ -326,19 +382,56 @@ pub async fn fetch_active_room_timeline(handle_id: u64) -> Result<Vec<MatrixTime
         .lock()
         .expect("poisoned matrix backend handle registry mutex")
         .get(&handle_id)
-        .map(|handle| {
-            handle
-                .room_timeline_snapshot
-                .lock()
-                .expect("poisoned matrix room timeline snapshot mutex")
-                .clone()
+        .and_then(|handle| {
+            let room_id = handle.active_room_id.as_ref()?;
+            let snapshot_arc = handle.room_timeline_snapshots.get(room_id)?;
+            Some(
+                snapshot_arc
+                    .lock()
+                    .expect("poisoned matrix room timeline snapshot mutex")
+                    .clone(),
+            )
         })
-        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))?;
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active or has no active room"))?;
 
     tracing::debug!(
         handle_id,
         item_count = snapshot.len(),
-        "Fetched matrix room timeline snapshot"
+        "Fetched active matrix room timeline snapshot"
+    );
+
+    Ok(snapshot)
+}
+
+/// Fetch a specific room's timeline snapshot (for per-room model updates).
+pub async fn fetch_room_timeline_snapshot(
+    handle_id: u64,
+    room_id: &str,
+) -> Result<Vec<MatrixTimelineItem>, String> {
+    let snapshot = backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .get(&handle_id)
+        .and_then(|handle| {
+            let snapshot_arc = handle.room_timeline_snapshots.get(room_id)?;
+            Some(
+                snapshot_arc
+                    .lock()
+                    .expect("poisoned matrix room timeline snapshot mutex")
+                    .clone(),
+            )
+        })
+        .ok_or_else(|| {
+            format!(
+                "matrix-sdk backend runtime handle {handle_id} has no snapshot for room '{room_id}'"
+            )
+        })?;
+
+    tracing::debug!(
+        handle_id,
+        room_id,
+        item_count = snapshot.len(),
+        "Fetched room timeline snapshot"
     );
 
     Ok(snapshot)

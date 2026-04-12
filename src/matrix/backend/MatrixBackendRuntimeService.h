@@ -835,6 +835,15 @@ public:
     static bool
     selectActiveRoomTimeline(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
 
+    static bool
+    stopRoomTimeline(uint64_t handleId, const QString &roomId, QString *errorOut = nullptr);
+
+    static std::optional<QVector<MatrixTimelineItem>>
+    fetchRoomTimelineSnapshot(matrix_backend::BlockingCallContext context,
+                              uint64_t handleId,
+                              const QString &roomId,
+                              QString *errorOut = nullptr);
+
     static bool setActiveRoomTimelineInitialPageSize(uint64_t handleId,
                                                      uint16_t pageSize,
                                                      QString *errorOut = nullptr);

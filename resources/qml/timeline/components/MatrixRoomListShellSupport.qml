@@ -157,14 +157,14 @@ QtObject {
     function handleAtYBeginningChanged() {
         if (!timelineList || !timelineList.atYBeginning || !rootItem.hasTimeline || rootItem.loading
                 || !timelineList.userUnpinned || rootItem.initialTimelineBufferPending
-                || rootItem.lastPaginationTriggerCount === TimelineManager.matrixTimelineItemCount) {
+                || rootItem.lastPaginationTriggerCount === (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0)) {
             return;
         }
 
         console.info("[timeline-load] Scroll-triggered pagination at top, count="
-            + TimelineManager.matrixTimelineItemCount);
+            + (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0));
         if (TimelineManager.paginateActiveMatrixTimelineBackwards(0))
-            rootItem.lastPaginationTriggerCount = TimelineManager.matrixTimelineItemCount;
+            rootItem.lastPaginationTriggerCount = (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0);
     }
 
     function handleContentYChanged() {
@@ -172,7 +172,7 @@ QtObject {
             return;
 
         if (!timelineList.atYBeginning
-                && rootItem.lastPaginationTriggerCount === TimelineManager.matrixTimelineItemCount) {
+                && rootItem.lastPaginationTriggerCount === (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0)) {
             rootItem.lastPaginationTriggerCount = -1;
         }
 

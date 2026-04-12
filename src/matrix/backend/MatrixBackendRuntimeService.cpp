@@ -2469,6 +2469,45 @@ MatrixBackendRuntimeService::selectActiveRoomTimeline(uint64_t handleId,
 }
 
 bool
+MatrixBackendRuntimeService::stopRoomTimeline(uint64_t handleId,
+                                              const QString &roomId,
+                                              QString *errorOut)
+{
+    try {
+        ::komai::rust::matrix_stop_room_timeline(handleId, roomId.toStdString());
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+std::optional<QVector<MatrixTimelineItem>>
+MatrixBackendRuntimeService::fetchRoomTimelineSnapshot(matrix_backend::BlockingCallContext context,
+                                                       uint64_t handleId,
+                                                       const QString &roomId,
+                                                       QString *errorOut)
+{
+    try {
+        const auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_room_timeline_snapshot", [context, handleId, roomId]() {
+              return ::komai::rust::matrix_fetch_room_timeline_snapshot(
+                matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
+          });
+        QVector<MatrixTimelineItem> items;
+        items.reserve(static_cast<int>(result.size()));
+        for (const auto &item : result)
+            items.push_back(fromRustTimelineItem(item));
+        return items;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
 MatrixBackendRuntimeService::setActiveRoomTimelineInitialPageSize(uint64_t handleId,
                                                                   uint16_t pageSize,
                                                                   QString *errorOut)

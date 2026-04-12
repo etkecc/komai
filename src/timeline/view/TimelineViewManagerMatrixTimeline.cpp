@@ -338,7 +338,6 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_select_done");
 
     activeMatrixTimelineRoomId_             = roomId;
-    matrixTimelineLoading_                  = true;
     matrixTimelineInitialPrefetchAttempted_ = false;
     {
         const auto now = QDateTime::currentMSecsSinceEpoch();
@@ -352,10 +351,13 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
         }
     }
     refreshActiveMatrixTimelineRoomStateAsync();
-    if (matrixTimelineModel_) {
-        matrixTimelineModel_->clear();
-        matrixTimelineModel_->setRoomId(roomId);
-    }
+
+    // Swap to the per-room model (creates one if needed).  Don't clear old
+    // models — they stay populated so switching back is instant.
+    auto *roomModel        = qobject_cast<komai::MatrixTimelineModel *>(ensureModelForRoom(roomId));
+    matrixTimelineModel_   = roomModel;
+    matrixTimelineLoading_ = roomModel ? (roomModel->count() == 0) : true;
+
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_loading_started");
     emit matrixTimelineStateChanged();
 }
@@ -593,22 +595,23 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
 
-    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+    const auto roomId = matrixTimelineRefreshPendingRoomId_;
+    if (handleId == 0 || roomId.isEmpty()) {
         clearCurrentMatrixTimeline(false);
         return;
     }
 
     if (matrixTimelineRefreshInFlightRequestId_ != 0 &&
-        matrixTimelineRefreshInFlightRoomId_ == activeMatrixTimelineRoomId_) {
+        matrixTimelineRefreshInFlightRoomId_ == roomId) {
         return;
     }
 
-    const auto roomId                       = activeMatrixTimelineRoomId_;
     const auto requestId                    = ++matrixTimelineRefreshRequestId_;
     matrixTimelineRefreshInFlightRequestId_ = requestId;
     matrixTimelineRefreshInFlightRoomId_    = roomId;
 
-    markRoomSwitchPhaseCpp(activeMatrixTimelineRoomId_, "cpp.matrix_timeline_fetch_begin");
+    if (roomId == activeMatrixTimelineRoomId_)
+        markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_fetch_begin");
 
     QPointer<TimelineViewManager> guard(this);
     std::thread([guard, handleId, roomId, requestId]() {
@@ -616,8 +619,8 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
         QString error;
         QElapsedTimer fetchTimer;
         fetchTimer.start();
-        const auto items =
-          komai::MatrixBackendRuntimeService::fetchActiveRoomTimeline(context, handleId, &error);
+        const auto items = komai::MatrixBackendRuntimeService::fetchRoomTimelineSnapshot(
+          context, handleId, roomId, &error);
         const auto fetchElapsedUs = fetchTimer.nsecsElapsed() / 1000;
 
         if (!guard)
@@ -641,16 +644,20 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
               if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
                   return;
 
-              if (guard->activeMatrixTimelineRoomId_ != roomId) {
-                  if (guard->matrixTimelineRefreshPending_ &&
-                      guard->matrixTimelineRefreshPendingRoomId_ ==
-                        guard->activeMatrixTimelineRoomId_) {
+              // Look up the per-room model for this refresh target.
+              auto *targetModel = guard->perRoomModels_.value(roomId, nullptr);
+              if (!targetModel) {
+                  // Room was evicted from the model pool while the fetch was in flight.
+                  if (guard->matrixTimelineRefreshPending_) {
                       guard->scheduleCurrentMatrixTimelineRefresh();
                   }
                   return;
               }
 
-              guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_fetch_done");
+              const bool isActiveRoom = (roomId == guard->activeMatrixTimelineRoomId_);
+
+              if (isActiveRoom)
+                  guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_fetch_done");
 
               if (guard->roomSwitchPerfEnabled()) {
                   nhlog::ui()->info("[room-switch-perf] "
@@ -661,25 +668,37 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
 
               if (!items) {
                   nhlog::ui()->warn(
-                    "Failed to fetch active matrix-sdk room timeline for '{}' on handle {}: {}",
+                    "Failed to fetch matrix-sdk room timeline snapshot for '{}' on handle {}: {}",
                     roomId.toStdString(),
                     handleId,
                     error.toStdString());
-                  guard->clearCurrentMatrixTimeline(false);
+                  if (isActiveRoom)
+                      guard->clearCurrentMatrixTimeline(false);
                   return;
               }
 
+              const auto itemCount         = items->size();
+              const auto currentModelCount = targetModel->count();
+
+              // For background (non-active) rooms, just update the model and
+              // schedule any pending refreshes.  No warmup guard, loading
+              // state, or initial prefetch logic needed.
+              if (!isActiveRoom) {
+                  targetModel->replaceItems(*items);
+                  if (guard->matrixTimelineRefreshPending_) {
+                      guard->scheduleCurrentMatrixTimelineRefresh();
+                  }
+                  return;
+              }
+
+              // Active room: full warmup guard + loading + prefetch logic.
               const auto preferredInitialPageSize =
                 guard->preferredInitialMatrixTimelinePageSize_ > 0
                   ? guard->preferredInitialMatrixTimelinePageSize_
                   : fallbackInitialMatrixTimelinePageSize();
               const auto canDelayFirstPaint = guard->matrixTimelineLoading_ &&
-                                              guard->matrixTimelineModel_ &&
-                                              guard->matrixTimelineModel_->count() == 0 &&
+                                              targetModel->count() == 0 &&
                                               !guard->matrixTimelineInitialPrefetchAttempted_;
-              const auto itemCount = items->size();
-              const auto currentModelCount =
-                guard->matrixTimelineModel_ ? guard->matrixTimelineModel_->count() : 0;
               if (guard->matrixTimelineWarmupGuardActive_ &&
                   shouldIgnoreMatrixTimelineWarmupShrink(currentModelCount, itemCount)) {
                   if (guard->roomSwitchPerfEnabled()) {
@@ -748,16 +767,14 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
                   guard->matrixTimelineInitialPrefetchAttempted_ = true;
               }
 
-              guard->matrixTimelineModel_->replaceItems(*items);
+              targetModel->replaceItems(*items);
               guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_model_replaced");
 
               auto stateChanged = false;
               guard->refreshActiveMatrixTimelineRoomStateAsync();
 
               if (guard->matrixTimelineLoading_) {
-                  const bool hasContent =
-                    itemCount > 0 ||
-                    (guard->matrixTimelineModel_ && guard->matrixTimelineModel_->count() > 0);
+                  const bool hasContent = itemCount > 0 || targetModel->count() > 0;
                   if (hasContent) {
                       guard->matrixTimelineLoading_ = false;
                       guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_loading_finished");
@@ -915,10 +932,9 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
     clearMatrixReadMarkerQueue();
     matrixTimelineInitialPrefetchAttempted_ = false;
 
-    if (matrixTimelineModel_) {
-        matrixTimelineModel_->clear();
-        matrixTimelineModel_->setRoomId(QString());
-    }
+    // Don't clear the per-room model — it stays populated in perRoomModels_
+    // so switching back to this room is instant.  Just null the active pointer.
+    matrixTimelineModel_ = nullptr;
 
     if (stateChanged)
         emit matrixTimelineStateChanged();
@@ -2445,13 +2461,17 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
     if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
         return;
 
-    if (activeMatrixTimelineRoomId_ != roomId)
+    // Accept snapshot updates for any room that has a per-room model, not
+    // just the active room.  This keeps background room models up to date
+    // with real-time events from their concurrent Rust timeline loops.
+    if (!perRoomModels_.contains(roomId))
         return;
 
     if (matrixTimelinePendingJumpRoomId_ == roomId)
         matrixTimelinePendingJumpAwaitingSnapshot_ = false;
 
-    markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_signal");
+    if (roomId == activeMatrixTimelineRoomId_)
+        markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_signal");
 
     if (waitingForFirstSync_) {
         nhlog::ui()->info("Clearing waitingForFirstSync from first active matrix-sdk room "

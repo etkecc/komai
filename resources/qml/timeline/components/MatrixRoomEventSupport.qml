@@ -17,10 +17,10 @@ QtObject {
 
     function canExplicitlySelectEventId(eventId) {
         const normalizedEventId = String(eventId || "");
-        if (normalizedEventId.length === 0 || !TimelineManager.matrixTimelineModel)
+        if (normalizedEventId.length === 0 || !rootItem.perRoomModel)
             return false;
 
-        const row = TimelineManager.matrixTimelineModel.rowForEventId(normalizedEventId);
+        const row = rootItem.perRoomModel.rowForEventId(normalizedEventId);
         return row >= 0 && rootItem.isSelectableMatrixTimelineRow(row);
     }
 

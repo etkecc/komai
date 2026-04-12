@@ -41,10 +41,11 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
                 sync_task: None,
                 media_proxy: None,
                 room_list_snapshot: Arc::new(Mutex::new(Vec::new())),
-                room_timeline_task: None,
+                room_timeline_tasks: HashMap::new(),
+                active_room_id: None,
                 room_timeline_generation: Arc::new(AtomicU64::new(0)),
                 preferred_room_timeline_initial_page_size: ROOM_TIMELINE_INITIAL_PAGE_SIZE,
-                room_timeline_snapshot: Arc::new(Mutex::new(Vec::new())),
+                room_timeline_snapshots: HashMap::new(),
                 room_timeline_media_lookup: Arc::new(Mutex::new(HashMap::new())),
                 preloaded_timelines: Arc::new(Mutex::new(HashMap::new())),
                 pending_identity_reset: Arc::new(Mutex::new(None)),
@@ -104,8 +105,8 @@ pub fn stop_backend(handle_id: u64) -> Result<(), String> {
         if let Some(sync_task) = handle.sync_task.take() {
             stop_sync_task(handle_id, sync_task);
         }
-        if let Some(room_timeline_task) = handle.room_timeline_task.take() {
-            stop_room_timeline_task(handle_id, room_timeline_task);
+        for (_, task) in handle.room_timeline_tasks.drain() {
+            stop_room_timeline_task(handle_id, task);
         }
         // Drop the handle (and the Client it owns) inside the tokio runtime
         // so that async destructors like the SQLite connection pool can run.

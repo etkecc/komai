@@ -141,9 +141,9 @@ pub use room_settings::{
 };
 pub use timeline::{
     fetch_active_room_timeline, fetch_active_room_timeline_media_content,
-    fetch_room_timeline,
+    fetch_room_timeline, fetch_room_timeline_snapshot,
     paginate_active_room_timeline_backwards, select_active_room_timeline,
-    set_active_room_timeline_initial_page_size,
+    set_active_room_timeline_initial_page_size, stop_room_timeline,
 };
 pub use timeline_messaging::{
     mark_room_event_as_read, redact_room_event, report_room_event, send_room_attachment,
@@ -507,10 +507,22 @@ struct MatrixBackendHandle {
     sync_task: Option<MatrixBackendSyncTask>,
     media_proxy: Option<media_proxy::MediaProxyInstance>,
     room_list_snapshot: Arc<Mutex<Vec<MatrixRoomSummary>>>,
-    room_timeline_task: Option<MatrixBackendRoomTimelineTask>,
+    /// Per-room timeline tasks.  Each visited room gets its own loop that
+    /// processes timeline diffs from the sync stream and updates the room's
+    /// snapshot.  Loops stay alive when the user switches away so hidden
+    /// rooms continue to receive real-time updates.
+    room_timeline_tasks: HashMap<String, MatrixBackendRoomTimelineTask>,
+    /// Which room currently has UI focus.  Used by command-routing functions
+    /// (pagination, reactions) that always operate on the active room.
+    active_room_id: Option<String>,
     room_timeline_generation: Arc<AtomicU64>,
     preferred_room_timeline_initial_page_size: u16,
-    room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
+    /// Per-room timeline snapshots.  Each room's loop writes to its own
+    /// snapshot so rooms don't interfere with each other.
+    room_timeline_snapshots: HashMap<String, Arc<Mutex<Vec<MatrixTimelineItem>>>>,
+    /// Shared media lookup across all rooms.  Entries are keyed by item ID
+    /// (globally unique) and accumulate from all visited rooms.  NOT cleared
+    /// on room switch.
     room_timeline_media_lookup: Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
     /// Cached timeline handles from the background preloader or from rooms the
     /// user previously viewed.  Reusing a cached handle avoids the expensive

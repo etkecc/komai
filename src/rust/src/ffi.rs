@@ -1821,6 +1821,12 @@ mod bridge {
             room_id: &str,
             limit: u16,
         ) -> Result<Vec<MatrixTimelineItem>>;
+        fn matrix_stop_room_timeline(handle_id: u64, room_id: &str) -> Result<()>;
+        fn matrix_fetch_room_timeline_snapshot(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+        ) -> Result<Vec<MatrixTimelineItem>>;
         fn matrix_paginate_active_room_timeline_backwards(
             handle_id: u64,
             page_size: u16,

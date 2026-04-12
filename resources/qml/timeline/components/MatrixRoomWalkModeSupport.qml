@@ -59,7 +59,7 @@ Item {
         if (eventId.length === 0)
             return null;
 
-        const model = TimelineManager.matrixTimelineModel;
+        const model = rootItem.perRoomModel;
         if (!model)
             return null;
 
@@ -269,17 +269,17 @@ Item {
 
     function matrixTimelineRowForEventId(eventId) {
         const normalizedEventId = String(eventId || "");
-        if (normalizedEventId.length === 0 || !TimelineManager.matrixTimelineModel)
+        if (normalizedEventId.length === 0 || !rootItem.perRoomModel)
             return -1;
 
-        return TimelineManager.matrixTimelineModel.rowForEventId(normalizedEventId);
+        return rootItem.perRoomModel.rowForEventId(normalizedEventId);
     }
 
     function isSelectableMatrixTimelineRow(row) {
-        if (!TimelineManager.matrixTimelineModel || row < 0 || row >= TimelineManager.matrixTimelineItemCount)
+        if (!rootItem.perRoomModel || row < 0 || row >= (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0))
             return false;
 
-        const item = TimelineManager.matrixTimelineModel.itemAt(row);
+        const item = rootItem.perRoomModel.itemAt(row);
         return !!item
             && String(item.eventId || "").length > 0
             && String(item.typeString || "") !== "date_divider"
@@ -290,7 +290,7 @@ Item {
         if (!isSelectableMatrixTimelineRow(row))
             return false;
 
-        const item = TimelineManager.matrixTimelineModel.itemAt(row);
+        const item = rootItem.perRoomModel.itemAt(row);
         return focusWalkModeEventById(String(item.eventId || ""), options || {});
     }
 
@@ -299,7 +299,7 @@ Item {
         if (currentRow < 0)
             return false;
 
-        for (let row = currentRow + step; row >= 0 && row < TimelineManager.matrixTimelineItemCount; row += step) {
+        for (let row = currentRow + step; row >= 0 && row < (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0); row += step) {
             if (focusMatrixTimelineRow(row))
                 return true;
         }
@@ -320,7 +320,7 @@ Item {
             return false;
 
         let remaining = walkModeChunkSize();
-        for (let row = currentRow + step; row >= 0 && row < TimelineManager.matrixTimelineItemCount; row += step) {
+        for (let row = currentRow + step; row >= 0 && row < (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0); row += step) {
             if (!isSelectableMatrixTimelineRow(row))
                 continue;
 
@@ -349,7 +349,7 @@ Item {
     }
 
     function focusOldestLoadedWalkModeEvent(options) {
-        for (let row = TimelineManager.matrixTimelineItemCount - 1; row >= 0; row--) {
+        for (let row = (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0) - 1; row >= 0; row--) {
             if (focusMatrixTimelineRow(row, options || {}))
                 return true;
         }
@@ -358,7 +358,7 @@ Item {
     }
 
     function focusLatestWalkModeEvent(options) {
-        for (let row = 0; row < TimelineManager.matrixTimelineItemCount; row++) {
+        for (let row = 0; row < (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0); row++) {
             if (focusMatrixTimelineRow(row, options || {}))
                 return true;
         }
@@ -439,7 +439,7 @@ Item {
     }
 
     function selectedEventIdsForAction(actionName) {
-        const model = TimelineManager.matrixTimelineModel;
+        const model = rootItem.perRoomModel;
         if (!model)
             return [];
 
@@ -475,7 +475,7 @@ Item {
     }
 
     function orderedExistingEventIds(eventIds) {
-        const model = TimelineManager.matrixTimelineModel;
+        const model = rootItem.perRoomModel;
         if (!model)
             return [];
 

@@ -16,6 +16,7 @@ ColumnLayout {
 
     required property var roomPreview
     property bool poolActive: true
+    property var perRoomModel: null
     required property var dialogSupport
     required property var messageActionsRoomModel
     required property var composerInputController
@@ -52,7 +53,7 @@ ColumnLayout {
             && !focusOwnsSelectedTextCopy(activeItem);
     }
 
-    readonly property bool hasTimeline: TimelineManager.matrixTimelineItemCount > 0
+    readonly property bool hasTimeline: perRoomModel ? perRoomModel.count > 0 : false
     readonly property bool loading: TimelineManager.matrixTimelineLoading
     readonly property bool perfDisableComposer: TimelineManager.perfUiFlagEnabled("disable_composer")
     readonly property bool perfDisableTimelineBubbles: TimelineManager.perfUiFlagEnabled("disable_timeline_bubbles")
@@ -151,7 +152,7 @@ ColumnLayout {
     TimelineFilter {
         id: filteredTimeline
 
-        source: root.poolActive ? TimelineManager.matrixTimelineModel : null
+        source: root.perRoomModel
         filterByContent: root.searchString
         filterByNotifications: root.filterByNotifications
 
@@ -159,7 +160,7 @@ ColumnLayout {
     }
 
     Connections {
-        target: root.poolActive ? TimelineManager.matrixTimelineModel : null
+        target: root.perRoomModel
         function onAboutToReplaceContent() { listShellSupport.handleModelResetAboutToReplace(); }
         function onContentReplaced() { listShellSupport.handleModelResetContentReplaced(); }
     }
@@ -297,7 +298,7 @@ ColumnLayout {
 
     enabled: visible
     spacing: 0
-    visible: !!roomPreview && roomPreview.isMatrixSummary
+    visible: (!!roomPreview && roomPreview.isMatrixSummary) || (poolActive && activeRoomId.length > 0)
 
     Rectangle {
         Layout.fillHeight: true
@@ -442,9 +443,7 @@ ColumnLayout {
                     displayMarginBeginning: root.listViewDisplayMargin
                     displayMarginEnd: root.listViewDisplayMargin
                     cacheBuffer: root.listViewCacheBuffer
-                    model: root.poolActive
-                        ? (root.filteringRequested ? filteredTimeline : TimelineManager.matrixTimelineModel)
-                        : null
+                    model: root.filteringRequested ? filteredTimeline : root.perRoomModel
                     header: Item { width: 1; height: Komai.paddingSmall }
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline
@@ -560,7 +559,7 @@ ColumnLayout {
 
                                 eventId: timelineItemDelegate.stableEventId
                                 replyTo: timelineItemDelegate.replyTo
-                                room: TimelineManager.matrixTimelineModel
+                                room: root.perRoomModel
                                 index: timelineItemDelegate.index
                                 day: timelineItemDelegate.day
                                 isSender: timelineItemDelegate.isSender
@@ -600,7 +599,7 @@ ColumnLayout {
 
                                 eventId: timelineItemDelegate.stableEventId
                                 replyTo: timelineItemDelegate.replyTo
-                                room: TimelineManager.matrixTimelineModel
+                                room: root.perRoomModel
                                 index: timelineItemDelegate.index
                                 day: timelineItemDelegate.day
                                 isSender: timelineItemDelegate.isSender

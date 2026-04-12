@@ -122,6 +122,7 @@
         <file alias="icons/ui/heart-filled.svg">icons/fluent/assets/Heart/SVG/ic_fluent_heart_24_filled.svg</file>
         <file alias="icons/ui/pin-filled.svg">icons/fluent/assets/Pin/SVG/ic_fluent_pin_24_filled.svg</file>
         <file alias="icons/ui/tab-add.svg">icons/fluent/assets/Tab Add/SVG/ic_fluent_tab_add_24_regular.svg</file>
+        <file alias="icons/ui/presence-blocked.svg">icons/fluent/assets/Presence Blocked/SVG/ic_fluent_presence_blocked_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

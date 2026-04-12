@@ -84,6 +84,9 @@ stateEventIconForMembershipChangeKind(const QString &membershipChangeKind)
         return QStringLiteral(":/icons/icons/ui/state-member-join.svg");
     if (normalizedMembershipChangeKind == QStringLiteral("left"))
         return QStringLiteral(":/icons/icons/ui/state-member-leave.svg");
+    if (normalizedMembershipChangeKind == QStringLiteral("banned") ||
+        normalizedMembershipChangeKind == QStringLiteral("kicked_and_banned"))
+        return QStringLiteral(":/icons/icons/ui/presence-blocked.svg");
 
     return defaultMembershipStateEventIcon();
 }

@@ -219,7 +219,14 @@ QtObject {
         if (index === -1 || !tabs.get(index).pinned)
             return;
         tabs.setProperty(index, "pinned", false);
-        // Tab stays in place (now the first unpinned tab).
+        // Move right after the last remaining pinned tab.
+        var lastPinnedIndex = -1;
+        for (var i = 0; i < tabs.count; i++) {
+            if (tabs.get(i).pinned)
+                lastPinnedIndex = i;
+        }
+        if (index <= lastPinnedIndex)
+            tabs.move(index, lastPinnedIndex, 1);
         _saveTabs();
         _savePinnedTabs();
     }

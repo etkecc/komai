@@ -8,8 +8,12 @@ use matrix_sdk::{
         UInt,
         events::{
             AnySyncMessageLikeEvent, AnySyncStateEvent, AnySyncTimelineEvent,
+            FullStateEventContent,
             room::{
                 MediaSource,
+                guest_access::GuestAccess,
+                history_visibility::HistoryVisibility,
+                join_rules::JoinRule,
                 message::{
                     AudioMessageEventContent, FileMessageEventContent, ImageMessageEventContent,
                     MessageType, Relation, SyncRoomMessageEvent, VideoMessageEventContent,
@@ -86,7 +90,9 @@ pub fn summarize_timeline_content(
 ) -> MatrixEventSummary {
     match content {
         TimelineItemContent::MsgLike(content) => summarize_msg_like_content(content, own_user_id),
-        TimelineItemContent::MembershipChange(change) => summarize_membership_change(change),
+        TimelineItemContent::MembershipChange(change) => {
+            summarize_membership_change(change, sender_display_name)
+        }
         TimelineItemContent::ProfileChange(change) => summarize_profile_change(change),
         TimelineItemContent::OtherState(state) => summarize_other_state(state, sender_display_name),
         TimelineItemContent::FailedToParseMessageLike { event_type, .. } => {
@@ -221,101 +227,111 @@ fn summarize_room_message_event(message: &SyncRoomMessageEvent) -> MatrixEventSu
     }
 }
 
-fn summarize_membership_change(change: &RoomMembershipChange) -> MatrixEventSummary {
+fn summarize_membership_change(
+    change: &RoomMembershipChange,
+    sender_display_name: &str,
+) -> MatrixEventSummary {
     let user = human_name(change.display_name().as_deref(), change.user_id().as_str());
     let membership_change_kind = membership_change_kind_key(change.change());
 
-    let mut summary = match change.change() {
-        Some(MembershipChange::Joined) => {
-            summary("membership_change", "m.room.member", &format!("{user} joined the room"))
-        }
-        Some(MembershipChange::Left) => {
-            summary("membership_change", "m.room.member", &format!("{user} left the room"))
-        }
-        Some(MembershipChange::Banned) => {
-            summary("membership_change", "m.room.member", &format!("{user} was banned"))
-        }
-        Some(MembershipChange::Unbanned) => {
-            summary("membership_change", "m.room.member", &format!("{user} was unbanned"))
-        }
-        Some(MembershipChange::Kicked) => {
-            summary("membership_change", "m.room.member", &format!("{user} was kicked"))
-        }
-        Some(MembershipChange::Invited) => {
-            summary("membership_change", "m.room.member", &format!("{user} was invited"))
-        }
-        Some(MembershipChange::KickedAndBanned) => {
-            summary(
-                "membership_change",
-                "m.room.member",
-                &format!("{user} was kicked and banned"),
-            )
-        }
-        Some(MembershipChange::InvitationAccepted) => {
-            summary(
-                "membership_change",
-                "m.room.member",
-                &format!("{user} accepted the invite"),
-            )
-        }
-        Some(MembershipChange::InvitationRejected) => {
-            summary(
-                "membership_change",
-                "m.room.member",
-                &format!("{user} rejected the invite"),
-            )
-        }
-        Some(MembershipChange::InvitationRevoked) => {
-            summary(
-                "membership_change",
-                "m.room.member",
-                &format!("{user}'s invite was revoked"),
-            )
-        }
-        Some(MembershipChange::Knocked) => {
-            summary(
-                "membership_change",
-                "m.room.member",
-                &format!("{user} requested to join"),
-            )
-        }
-        Some(MembershipChange::KnockAccepted) => {
-            summary(
-                "membership_change",
-                "m.room.member",
-                &format!("{user}'s knock was accepted"),
-            )
-        }
-        Some(MembershipChange::KnockRetracted) => {
-            summary(
-                "membership_change",
-                "m.room.member",
-                &format!("{user} withdrew the join request"),
-            )
-        }
-        Some(MembershipChange::KnockDenied) => {
-            summary(
-                "membership_change",
-                "m.room.member",
-                &format!("{user}'s join request was denied"),
-            )
-        }
-        None => summary(
-            "membership_change",
-            "m.room.member",
-            &format!("Redacted membership event for {user}"),
-        ),
-        Some(MembershipChange::None)
-        | Some(MembershipChange::Error)
-        | Some(MembershipChange::NotImplemented) => summary(
-            "membership_change",
-            "m.room.member",
-            &format!("Membership updated for {user}"),
-        ),
+    // Whether the sender is a distinct person from the target user.
+    let has_sender = !sender_display_name.is_empty() && sender_display_name != user;
+    let sender = sender_display_name;
+
+    // Extract reason from the membership event content, if available.
+    let reason = match change.content() {
+        FullStateEventContent::Original { content, .. } => content
+            .reason
+            .as_deref()
+            .filter(|r| !r.is_empty())
+            .map(truncate_reason),
+        _ => None,
     };
 
-    summary.membership_change_kind = membership_change_kind.to_owned();
-    summary
+    // Each combination of (has_sender, has_reason) is a distinct full sentence
+    // so that future translations can reorder all parts freely.
+    // The affected user leads the sentence for scannability.
+    let body = match change.change() {
+        Some(MembershipChange::Joined) => format!("{user} joined the room"),
+        Some(MembershipChange::Left) => format!("{user} left the room"),
+        Some(MembershipChange::Banned) => match (has_sender, &reason) {
+            (true, Some(reason)) => format!("{user} was banned by {sender}: {reason}"),
+            (true, None) => format!("{user} was banned by {sender}"),
+            (false, Some(reason)) => format!("{user} was banned: {reason}"),
+            (false, None) => format!("{user} was banned"),
+        },
+        Some(MembershipChange::Unbanned) => {
+            if has_sender {
+                format!("{user} was unbanned by {sender}")
+            } else {
+                format!("{user} was unbanned")
+            }
+        }
+        Some(MembershipChange::Kicked) => match (has_sender, &reason) {
+            (true, Some(reason)) => format!("{user} was kicked by {sender}: {reason}"),
+            (true, None) => format!("{user} was kicked by {sender}"),
+            (false, Some(reason)) => format!("{user} was kicked: {reason}"),
+            (false, None) => format!("{user} was kicked"),
+        },
+        Some(MembershipChange::Invited) => {
+            if has_sender {
+                format!("{user} was invited by {sender}")
+            } else {
+                format!("{user} was invited")
+            }
+        }
+        Some(MembershipChange::KickedAndBanned) => match (has_sender, &reason) {
+            (true, Some(reason)) => {
+                format!("{user} was kicked and banned by {sender}: {reason}")
+            }
+            (true, None) => format!("{user} was kicked and banned by {sender}"),
+            (false, Some(reason)) => format!("{user} was kicked and banned: {reason}"),
+            (false, None) => format!("{user} was kicked and banned"),
+        },
+        Some(MembershipChange::InvitationAccepted) => format!("{user} accepted the invite"),
+        Some(MembershipChange::InvitationRejected) => format!("{user} rejected the invite"),
+        Some(MembershipChange::InvitationRevoked) => {
+            if has_sender {
+                format!("{user}'s invite was revoked by {sender}")
+            } else {
+                format!("{user}'s invite was revoked")
+            }
+        }
+        Some(MembershipChange::Knocked) => format!("{user} requested to join"),
+        Some(MembershipChange::KnockAccepted) => {
+            if has_sender {
+                format!("{user}'s knock was accepted by {sender}")
+            } else {
+                format!("{user}'s knock was accepted")
+            }
+        }
+        Some(MembershipChange::KnockRetracted) => format!("{user} withdrew the join request"),
+        Some(MembershipChange::KnockDenied) => {
+            if has_sender {
+                format!("{user}'s join request was denied by {sender}")
+            } else {
+                format!("{user}'s join request was denied")
+            }
+        }
+        None => format!("Redacted membership event for {user}"),
+        Some(MembershipChange::None)
+        | Some(MembershipChange::Error)
+        | Some(MembershipChange::NotImplemented) => format!("Membership updated for {user}"),
+    };
+
+    let mut s = summary("membership_change", "m.room.member", &body);
+    s.membership_change_kind = membership_change_kind.to_owned();
+    s
+}
+
+/// Truncate a reason string to at most 200 characters, adding an ellipsis if needed.
+fn truncate_reason(reason: &str) -> String {
+    if reason.chars().count() > 200 {
+        let truncated: String = reason.chars().take(200).collect();
+        format!("{truncated}…")
+    } else {
+        reason.to_owned()
+    }
 }
 
 fn summarize_profile_change(change: &MemberProfileChange) -> MatrixEventSummary {
@@ -402,21 +418,63 @@ fn summarize_other_state(state: &OtherState, sender: &str) -> MatrixEventSummary
             &event_type,
             &format!("{sender} changed the room permissions"),
         ),
-        AnyOtherFullStateEventContent::RoomJoinRules(_) => summary(
-            "other_state",
-            &event_type,
-            &format!("{sender} changed the room access rules"),
-        ),
-        AnyOtherFullStateEventContent::RoomHistoryVisibility(_) => summary(
-            "other_state",
-            &event_type,
-            &format!("{sender} changed the room history visibility"),
-        ),
-        AnyOtherFullStateEventContent::RoomGuestAccess(_) => summary(
-            "other_state",
-            &event_type,
-            &format!("{sender} changed the room guest access"),
-        ),
+        AnyOtherFullStateEventContent::RoomJoinRules(content) => {
+            let detail = match content {
+                FullStateEventContent::Original { content, .. } => {
+                    match &content.join_rule {
+                        JoinRule::Invite => " to invite-only",
+                        JoinRule::Knock => " to knock-to-join",
+                        JoinRule::Public => " to public",
+                        JoinRule::Private => " to private",
+                        JoinRule::Restricted(_) => " to restricted",
+                        JoinRule::KnockRestricted(_) => " to knock (restricted)",
+                        _ => "",
+                    }
+                }
+                _ => "",
+            };
+            summary(
+                "other_state",
+                &event_type,
+                &format!("{sender} changed the room access rules{detail}"),
+            )
+        }
+        AnyOtherFullStateEventContent::RoomHistoryVisibility(content) => {
+            let detail = match content {
+                FullStateEventContent::Original { content, .. } => {
+                    match content.history_visibility {
+                        HistoryVisibility::Invited => " to visible since invite",
+                        HistoryVisibility::Joined => " to visible since join",
+                        HistoryVisibility::Shared => " to shared",
+                        HistoryVisibility::WorldReadable => " to world-readable",
+                        _ => "",
+                    }
+                }
+                _ => "",
+            };
+            summary(
+                "other_state",
+                &event_type,
+                &format!("{sender} changed the room history visibility{detail}"),
+            )
+        }
+        AnyOtherFullStateEventContent::RoomGuestAccess(content) => {
+            let detail = match content {
+                FullStateEventContent::Original { content, .. } => {
+                    match content.guest_access {
+                        GuestAccess::CanJoin => " to allowed",
+                        GuestAccess::Forbidden => " to forbidden",
+                        _ => "",
+                    }
+                }
+                _ => "",
+            };
+            summary(
+                "other_state",
+                &event_type,
+                &format!("{sender} changed the room guest access{detail}"),
+            )
+        }
         AnyOtherFullStateEventContent::RoomCanonicalAlias(_) => summary(
             "other_state",
             &event_type,

@@ -142,7 +142,7 @@ Rectangle {
 
         onClicked: function(mouse) {
             if (mouse.button === Qt.RightButton) {
-                tabContextMenu.popup();
+                _openContextMenu();
                 return;
             }
             if (mouse.button === Qt.MiddleButton) {
@@ -161,6 +161,10 @@ Rectangle {
             if (tabContextMenu.popupType != undefined)
                 tabContextMenu.popupType = 2;
         }
+    }
+
+    Component {
+        id: menuItemPinToggle
 
         MenuItem {
             text: tabDelegate.pinned ? qsTr("Unpin Tab") : qsTr("Pin Tab")
@@ -175,26 +179,58 @@ Rectangle {
                     tabController.pinTab(tabDelegate.roomId);
             }
         }
+    }
 
-        MenuSeparator {}
+    Component {
+        id: menuItemCloseTab
 
         MenuItem {
-            text: qsTr("Close Tab")
+            text: tabDelegate.isActive ? qsTr("Close Tab [Ctrl+W]") : qsTr("Close Tab")
 
             onTriggered: tabController.closeTab(tabDelegate.roomId)
         }
+    }
+
+    Component {
+        id: menuItemCloseOther
+
         MenuItem {
             text: qsTr("Close Other Tabs")
-            enabled: tabDelegate.closeableOtherCount > 0
 
             onTriggered: tabController.closeOtherTabs(tabDelegate.roomId)
         }
+    }
+
+    Component {
+        id: menuItemCloseRight
+
         MenuItem {
             text: qsTr("Close Tabs to the Right")
-            enabled: tabDelegate.closeableRightCount > 0
 
             onTriggered: tabController.closeTabsToTheRight(tabDelegate.roomId)
         }
+    }
+
+    Component {
+        id: menuSeparatorComponent
+
+        MenuSeparator {}
+    }
+
+    function _openContextMenu() {
+        // Clear previous items.
+        while (tabContextMenu.count > 0)
+            tabContextMenu.takeItem(0).destroy();
+
+        tabContextMenu.addItem(menuItemPinToggle.createObject(tabContextMenu));
+        tabContextMenu.addItem(menuSeparatorComponent.createObject(tabContextMenu));
+        if (closeableOtherCount > 0)
+            tabContextMenu.addItem(menuItemCloseOther.createObject(tabContextMenu));
+        if (closeableRightCount > 0)
+            tabContextMenu.addItem(menuItemCloseRight.createObject(tabContextMenu));
+        tabContextMenu.addItem(menuItemCloseTab.createObject(tabContextMenu));
+
+        tabContextMenu.popup();
     }
 
     KomaiToolTip {

@@ -17,325 +17,328 @@ ColumnLayout {
     RowLayout {
         id: emojis
 
+        // SAS emoji descriptions from the Matrix spec (MSC 1267).
+        // Wrapped in qsTr() so translators can localise the labels
+        // shown beneath each emoji during device verification.
         property var mapping: [{
             "number": 0,
             "emoji": "\u{1F436}",
-            "description": "Dog",
+            "description": qsTr("Dog"),
             "unicode": "U+1F436"
         }, {
             "number": 1,
             "emoji": "\u{1F431}",
-            "description": "Cat",
+            "description": qsTr("Cat"),
             "unicode": "U+1F431"
         }, {
             "number": 2,
             "emoji": "\u{1F981}",
-            "description": "Lion",
+            "description": qsTr("Lion"),
             "unicode": "U+1F981"
         }, {
             "number": 3,
             "emoji": "\u{1F40E}",
-            "description": "Horse",
+            "description": qsTr("Horse"),
             "unicode": "U+1F40E"
         }, {
             "number": 4,
             "emoji": "\u{1F984}",
-            "description": "Unicorn",
+            "description": qsTr("Unicorn"),
             "unicode": "U+1F984"
         }, {
             "number": 5,
             "emoji": "\u{1F437}",
-            "description": "Pig",
+            "description": qsTr("Pig"),
             "unicode": "U+1F437"
         }, {
             "number": 6,
             "emoji": "\u{1F418}",
-            "description": "Elephant",
+            "description": qsTr("Elephant"),
             "unicode": "U+1F418"
         }, {
             "number": 7,
             "emoji": "\u{1F430}",
-            "description": "Rabbit",
+            "description": qsTr("Rabbit"),
             "unicode": "U+1F430"
         }, {
             "number": 8,
             "emoji": "\u{1F43C}",
-            "description": "Panda",
+            "description": qsTr("Panda"),
             "unicode": "U+1F43C"
         }, {
             "number": 9,
             "emoji": "\u{1F413}",
-            "description": "Rooster",
+            "description": qsTr("Rooster"),
             "unicode": "U+1F413"
         }, {
             "number": 10,
             "emoji": "\u{1F427}",
-            "description": "Penguin",
+            "description": qsTr("Penguin"),
             "unicode": "U+1F427"
         }, {
             "number": 11,
             "emoji": "\u{1F422}",
-            "description": "Turtle",
+            "description": qsTr("Turtle"),
             "unicode": "U+1F422"
         }, {
             "number": 12,
             "emoji": "\u{1F41F}",
-            "description": "Fish",
+            "description": qsTr("Fish"),
             "unicode": "U+1F41F"
         }, {
             "number": 13,
             "emoji": "\u{1F419}",
-            "description": "Octopus",
+            "description": qsTr("Octopus"),
             "unicode": "U+1F419"
         }, {
             "number": 14,
             "emoji": "\u{1F98B}",
-            "description": "Butterfly",
+            "description": qsTr("Butterfly"),
             "unicode": "U+1F98B"
         }, {
             "number": 15,
             "emoji": "\u{1F337}",
-            "description": "Flower",
+            "description": qsTr("Flower"),
             "unicode": "U+1F337"
         }, {
             "number": 16,
             "emoji": "\u{1F333}",
-            "description": "Tree",
+            "description": qsTr("Tree"),
             "unicode": "U+1F333"
         }, {
             "number": 17,
             "emoji": "\u{1F335}",
-            "description": "Cactus",
+            "description": qsTr("Cactus"),
             "unicode": "U+1F335"
         }, {
             "number": 18,
             "emoji": "\u{1F344}",
-            "description": "Mushroom",
+            "description": qsTr("Mushroom"),
             "unicode": "U+1F344"
         }, {
             "number": 19,
             "emoji": "\u{1F30F}",
-            "description": "Globe",
+            "description": qsTr("Globe"),
             "unicode": "U+1F30F"
         }, {
             "number": 20,
             "emoji": "\u{1F319}",
-            "description": "Moon",
+            "description": qsTr("Moon"),
             "unicode": "U+1F319"
         }, {
             "number": 21,
             "emoji": "\u2601\uFE0F",
-            "description": "Cloud",
+            "description": qsTr("Cloud"),
             "unicode": "U+2601U+FE0F"
         }, {
             "number": 22,
             "emoji": "\u{1F525}",
-            "description": "Fire",
+            "description": qsTr("Fire"),
             "unicode": "U+1F525"
         }, {
             "number": 23,
             "emoji": "\u{1F34C}",
-            "description": "Banana",
+            "description": qsTr("Banana"),
             "unicode": "U+1F34C"
         }, {
             "number": 24,
             "emoji": "\u{1F34E}",
-            "description": "Apple",
+            "description": qsTr("Apple"),
             "unicode": "U+1F34E"
         }, {
             "number": 25,
             "emoji": "\u{1F353}",
-            "description": "Strawberry",
+            "description": qsTr("Strawberry"),
             "unicode": "U+1F353"
         }, {
             "number": 26,
             "emoji": "\u{1F33D}",
-            "description": "Corn",
+            "description": qsTr("Corn"),
             "unicode": "U+1F33D"
         }, {
             "number": 27,
             "emoji": "\u{1F355}",
-            "description": "Pizza",
+            "description": qsTr("Pizza"),
             "unicode": "U+1F355"
         }, {
             "number": 28,
             "emoji": "\u{1F382}",
-            "description": "Cake",
+            "description": qsTr("Cake"),
             "unicode": "U+1F382"
         }, {
             "number": 29,
             "emoji": "\u2764\uFE0F",
-            "description": "Heart",
+            "description": qsTr("Heart"),
             "unicode": "U+2764U+FE0F"
         }, {
             "number": 30,
             "emoji": "\u{1F600}",
-            "description": "Smiley",
+            "description": qsTr("Smiley"),
             "unicode": "U+1F600"
         }, {
             "number": 31,
             "emoji": "\u{1F916}",
-            "description": "Robot",
+            "description": qsTr("Robot"),
             "unicode": "U+1F916"
         }, {
             "number": 32,
             "emoji": "\u{1F3A9}",
-            "description": "Hat",
+            "description": qsTr("Hat"),
             "unicode": "U+1F3A9"
         }, {
             "number": 33,
             "emoji": "\u{1F453}",
-            "description": "Glasses",
+            "description": qsTr("Glasses"),
             "unicode": "U+1F453"
         }, {
             "number": 34,
             "emoji": "\u{1F527}",
-            "description": "Spanner",
+            "description": qsTr("Spanner"),
             "unicode": "U+1F527"
         }, {
             "number": 35,
             "emoji": "\u{1F385}",
-            "description": "Santa",
+            "description": qsTr("Santa"),
             "unicode": "U+1F385"
         }, {
             "number": 36,
             "emoji": "\u{1F44D}",
-            "description": "Thumbs Up",
+            "description": qsTr("Thumbs Up"),
             "unicode": "U+1F44D"
         }, {
             "number": 37,
             "emoji": "\u2602\uFE0F",
-            "description": "Umbrella",
+            "description": qsTr("Umbrella"),
             "unicode": "U+2602U+FE0F"
         }, {
             "number": 38,
             "emoji": "\u231B",
-            "description": "Hourglass",
+            "description": qsTr("Hourglass"),
             "unicode": "U+231B"
         }, {
             "number": 39,
             "emoji": "\u23F0",
-            "description": "Clock",
+            "description": qsTr("Clock"),
             "unicode": "U+23F0"
         }, {
             "number": 40,
             "emoji": "\u{1F381}",
-            "description": "Gift",
+            "description": qsTr("Gift"),
             "unicode": "U+1F381"
         }, {
             "number": 41,
             "emoji": "\u{1F4A1}",
-            "description": "Light Bulb",
+            "description": qsTr("Light Bulb"),
             "unicode": "U+1F4A1"
         }, {
             "number": 42,
             "emoji": "\u{1F4D5}",
-            "description": "Book",
+            "description": qsTr("Book"),
             "unicode": "U+1F4D5"
         }, {
             "number": 43,
             "emoji": "\u270F\uFE0F",
-            "description": "Pencil",
+            "description": qsTr("Pencil"),
             "unicode": "U+270FU+FE0F"
         }, {
             "number": 44,
             "emoji": "\u{1F4CE}",
-            "description": "Paperclip",
+            "description": qsTr("Paperclip"),
             "unicode": "U+1F4CE"
         }, {
             "number": 45,
             "emoji": "\u2702\uFE0F",
-            "description": "Scissors",
+            "description": qsTr("Scissors"),
             "unicode": "U+2702U+FE0F"
         }, {
             "number": 46,
             "emoji": "\u{1F512}",
-            "description": "Lock",
+            "description": qsTr("Lock"),
             "unicode": "U+1F512"
         }, {
             "number": 47,
             "emoji": "\u{1F511}",
-            "description": "Key",
+            "description": qsTr("Key"),
             "unicode": "U+1F511"
         }, {
             "number": 48,
             "emoji": "\u{1F528}",
-            "description": "Hammer",
+            "description": qsTr("Hammer"),
             "unicode": "U+1F528"
         }, {
             "number": 49,
             "emoji": "\u260E\uFE0F",
-            "description": "Telephone",
+            "description": qsTr("Telephone"),
             "unicode": "U+260EU+FE0F"
         }, {
             "number": 50,
             "emoji": "\u{1F3C1}",
-            "description": "Flag",
+            "description": qsTr("Flag"),
             "unicode": "U+1F3C1"
         }, {
             "number": 51,
             "emoji": "\u{1F682}",
-            "description": "Train",
+            "description": qsTr("Train"),
             "unicode": "U+1F682"
         }, {
             "number": 52,
             "emoji": "\u{1F6B2}",
-            "description": "Bicycle",
+            "description": qsTr("Bicycle"),
             "unicode": "U+1F6B2"
         }, {
             "number": 53,
             "emoji": "\u2708\uFE0F",
-            "description": "Aeroplane",
+            "description": qsTr("Aeroplane"),
             "unicode": "U+2708U+FE0F"
         }, {
             "number": 54,
             "emoji": "\u{1F680}",
-            "description": "Rocket",
+            "description": qsTr("Rocket"),
             "unicode": "U+1F680"
         }, {
             "number": 55,
             "emoji": "\u{1F3C6}",
-            "description": "Trophy",
+            "description": qsTr("Trophy"),
             "unicode": "U+1F3C6"
         }, {
             "number": 56,
             "emoji": "\u26BD",
-            "description": "Ball",
+            "description": qsTr("Ball"),
             "unicode": "U+26BD"
         }, {
             "number": 57,
             "emoji": "\u{1F3B8}",
-            "description": "Guitar",
+            "description": qsTr("Guitar"),
             "unicode": "U+1F3B8"
         }, {
             "number": 58,
             "emoji": "\u{1F3BA}",
-            "description": "Trumpet",
+            "description": qsTr("Trumpet"),
             "unicode": "U+1F3BA"
         }, {
             "number": 59,
             "emoji": "\u{1F514}",
-            "description": "Bell",
+            "description": qsTr("Bell"),
             "unicode": "U+1F514"
         }, {
             "number": 60,
             "emoji": "\u2693",
-            "description": "Anchor",
+            "description": qsTr("Anchor"),
             "unicode": "U+2693"
         }, {
             "number": 61,
             "emoji": "\u{1F3A7}",
-            "description": "Headphones",
+            "description": qsTr("Headphones"),
             "unicode": "U+1F3A7"
         }, {
             "number": 62,
             "emoji": "\u{1F4C1}",
-            "description": "Folder",
+            "description": qsTr("Folder"),
             "unicode": "U+1F4C1"
         }, {
             "number": 63,
             "emoji": "\u{1F4CC}",
-            "description": "Pin",
+            "description": qsTr("Pin"),
             "unicode": "U+1F4CC"
         }]
 

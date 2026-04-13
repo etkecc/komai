@@ -286,19 +286,59 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
 
-    const auto preview = rooms_->currentRoomPreview();
-    if (!preview.isMatrixSummary() || handleId == 0) {
-        clearCurrentMatrixTimeline(handleId != 0);
+    // Backend gone — clear everything without saving (state is meaningless
+    // without a backend connection).
+    if (handleId == 0) {
+        clearCurrentMatrixTimeline(false);
         return;
     }
 
-    const auto roomId = preview.roomid();
-    if (roomId.isEmpty()) {
-        clearCurrentMatrixTimeline(handleId != 0);
-        return;
-    }
+    const auto preview = rooms_->currentRoomPreview();
+    const auto roomId  = preview.isMatrixSummary() ? preview.roomid() : QString();
 
     if (activeMatrixTimelineRoomId_ == roomId) {
+        return;
+    }
+
+    // Save outgoing room's interaction state so it can be restored later.
+    // This runs before any early returns so that navigating to "no room"
+    // (closing last tab) or to an invite room also preserves state.
+    if (!activeMatrixTimelineRoomId_.isEmpty()) {
+        PerRoomInteractionState outgoing;
+        outgoing.replyEventId           = matrixTimelineReplyEventId_;
+        outgoing.replySenderDisplayName = matrixTimelineReplySenderDisplayName_;
+        outgoing.replySenderId          = matrixTimelineReplySenderId_;
+        outgoing.replyBody              = matrixTimelineReplyBody_;
+        outgoing.threadEventId          = matrixTimelineThreadEventId_;
+        outgoing.editEventId            = matrixTimelineEditEventId_;
+        outgoing.editMessageKind        = matrixTimelineEditMessageKind_;
+
+        // Sync user-edited body/filename from QML items into the pending structs.
+        for (int i = 0; i < static_cast<int>(pendingMatrixAttachments_.size()) &&
+                        i < matrixPendingAttachmentItems_.size();
+             ++i) {
+            if (auto *item = matrixPendingAttachmentItems_.at(i)) {
+                pendingMatrixAttachments_[static_cast<size_t>(i)].filename =
+                  item->filename().trimmed();
+                pendingMatrixAttachments_[static_cast<size_t>(i)].body = item->body().trimmed();
+            }
+        }
+
+        // Skip the in-flight entry (index 0) — it will complete on its own.
+        const size_t skip =
+          (matrixAttachmentUploadInFlight_ && !pendingMatrixAttachments_.empty()) ? 1 : 0;
+        outgoing.attachments.assign(pendingMatrixAttachments_.begin() +
+                                      static_cast<std::ptrdiff_t>(skip),
+                                    pendingMatrixAttachments_.end());
+
+        if (!outgoing.isEmpty())
+            perRoomInteractionState_[activeMatrixTimelineRoomId_] = std::move(outgoing);
+        else
+            perRoomInteractionState_.remove(activeMatrixTimelineRoomId_);
+    }
+
+    if (roomId.isEmpty()) {
+        clearCurrentMatrixTimeline(true);
         return;
     }
 
@@ -306,9 +346,18 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     clearActiveMatrixThreadState();
     clearActiveMatrixEditState();
 
-    // Clear staged uploads so they don't bleed to the new room.
-    if (!pendingMatrixAttachments_.empty() || !matrixPendingAttachmentItems_.empty()) {
-        pendingMatrixAttachments_.clear();
+    // Clear staged uploads.  Keep the in-flight entry so
+    // finishPendingMatrixAttachment() can pop it.
+    {
+        const bool keepFront =
+          matrixAttachmentUploadInFlight_ && !pendingMatrixAttachments_.empty();
+        if (keepFront) {
+            auto front = std::move(pendingMatrixAttachments_.front());
+            pendingMatrixAttachments_.clear();
+            pendingMatrixAttachments_.push_back(std::move(front));
+        } else {
+            pendingMatrixAttachments_.clear();
+        }
         for (auto *attachment : matrixPendingAttachmentItems_) {
             if (attachment)
                 attachment->deleteLater();
@@ -368,6 +417,31 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     auto *roomModel        = qobject_cast<komai::MatrixTimelineModel *>(ensureModelForRoom(roomId));
     matrixTimelineModel_   = roomModel;
     matrixTimelineLoading_ = roomModel ? (roomModel->count() == 0) : true;
+
+    // Restore saved interaction state for the incoming room.
+    if (auto it = perRoomInteractionState_.find(roomId); it != perRoomInteractionState_.end()) {
+        auto saved = std::move(*it);
+        perRoomInteractionState_.erase(it);
+
+        setActiveMatrixReplyState(
+          saved.replyEventId, saved.replySenderId, saved.replySenderDisplayName, saved.replyBody);
+        setActiveMatrixThreadState(saved.threadEventId);
+        setActiveMatrixEditState(saved.editEventId, saved.editMessageKind);
+
+        for (auto &att : saved.attachments) {
+            pendingMatrixAttachments_.push_back(std::move(att));
+            const auto &back = pendingMatrixAttachments_.back();
+            matrixPendingAttachmentItems_.push_back(new MatrixPendingAttachmentUpload(
+              back.filePath,
+              back.filename,
+              back.mimeType,
+              utils::fileTypeIconSource(back.mimeType),
+              matrixPendingAttachmentThumbnail(back.filePath, back.mimeType),
+              this));
+            if (!back.body.isEmpty())
+                matrixPendingAttachmentItems_.back()->setBody(back.body);
+        }
+    }
 
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_loading_started");
     emit matrixTimelineStateChanged();

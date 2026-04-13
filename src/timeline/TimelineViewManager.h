@@ -511,6 +511,25 @@ private:
     QString matrixTimelineThreadEventId_;
     QString matrixTimelineEditEventId_;
     QString matrixTimelineEditMessageKind_;
+
+    struct PerRoomInteractionState
+    {
+        QString replyEventId;
+        QString replySenderDisplayName;
+        QString replySenderId;
+        QString replyBody;
+        QString threadEventId;
+        QString editEventId;
+        QString editMessageKind;
+        std::vector<PendingMatrixAttachment> attachments;
+
+        bool isEmpty() const
+        {
+            return replyEventId.isEmpty() && threadEventId.isEmpty() && editEventId.isEmpty() &&
+                   attachments.empty();
+        }
+    };
+    QHash<QString, PerRoomInteractionState> perRoomInteractionState_;
     QStringList matrixTimelineTypingUsers_;
     struct MatrixTimelineFrequentReactionsCacheEntry
     {

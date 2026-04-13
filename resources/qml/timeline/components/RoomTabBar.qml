@@ -33,12 +33,16 @@ Rectangle {
     readonly property bool _mouseInTabBar: tabBarHover.hovered
 
     on_LiveTabWidthChanged: {
-        if (!_mouseInTabBar)
+        if (!_mouseInTabBar) {
             _stableTabWidth = _liveTabWidth;
+            tabListView.forceLayout();
+        }
     }
     on_MouseInTabBarChanged: {
-        if (!_mouseInTabBar)
+        if (!_mouseInTabBar) {
             _stableTabWidth = _liveTabWidth;
+            tabListView.forceLayout();
+        }
     }
 
     readonly property int effectiveTabWidth: _stableTabWidth

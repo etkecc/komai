@@ -169,8 +169,15 @@ QtObject {
         if (tabs.count === 0)
             return;
         var rid = Rooms.currentRoomId;
-        if (rid && findTab(rid) !== -1)
-            closeTab(rid);
+        if (rid) {
+            if (findTab(rid) !== -1)
+                closeTab(rid);
+        } else {
+            // Empty room ID means "New Tab" page — close it.
+            var emptyIndex = findTab("");
+            if (emptyIndex !== -1)
+                closeTab("");
+        }
     }
 
     function closeOtherTabs(roomId) {

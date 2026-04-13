@@ -181,9 +181,22 @@ mod bridge {
         filter_low_priority: bool,
     }
 
+    struct SettingsConfigNavigationTabsSection {
+        show_pin_button: String,
+        pinned_tab_label: String,
+        tab_label: String,
+        has_preferred_width_px: bool,
+        preferred_width_px: i32,
+        has_minimum_width_px: bool,
+        minimum_width_px: i32,
+        has_max_pre_rendered_timelines: bool,
+        max_pre_rendered_timelines: i32,
+    }
+
     struct SettingsConfigNavigationSection {
         room_list: SettingsConfigNavigationRoomListSection,
         communities: SettingsConfigNavigationCommunitiesSection,
+        tabs: SettingsConfigNavigationTabsSection,
     }
 
     struct SettingsConfigTimelineHiddenEventsSection {

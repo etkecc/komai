@@ -43,6 +43,12 @@ bool composerTypingSendEnabled_;
 bool timelineTypingShowEnabled_;
 RoomSortOrder navigationRoomListSort_;
 UnreadDetectionPolicy navigationRoomListUnreadDetectionPolicy_ = UnreadDetectionPolicy::AnyEvent;
+TabPinButtonVisibility navigationTabsShowPinButton_            = TabPinButtonVisibility::Never;
+TabLabelDisplay navigationTabsPinnedTabLabel_                  = TabLabelDisplay::AvatarAndLabel;
+TabLabelDisplay navigationTabsTabLabel_                        = TabLabelDisplay::AvatarAndLabel;
+int navigationTabsPreferredWidthPx_                            = 200;
+int navigationTabsMinimumWidthPx_                              = 120;
+int navigationTabsMaxPreRenderedTimelines_                     = 20;
 TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy_ =
   TimelineMessageActionsActivationPolicy::ActionsButton;
 bool timelineReadReceiptsEnabled_;

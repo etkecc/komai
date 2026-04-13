@@ -275,3 +275,60 @@
       nullptr,
       NavigationRoomListUnreadDetectionPolicy,
       SettingKey::NavigationRoomListUnreadDetectionPolicy),
+    // NavigationTabBarSection
+    { QT_TR_NOOP("Tab bar"), nullptr, SM::SectionTitle, SM::TabNavigation,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // TabBarShowPinButton
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Show pin button",
+      nullptr,
+      SM::TabNavigation,
+      navigationTabsShowPinButton,
+      setNavigationTabsShowPinButton,
+      UserSettings::TabPinButtonVisibility,
+      navigationTabsShowPinButtonValues,
+      nullptr,
+      NavigationTabsShowPinButton,
+      SettingKey::NavigationTabsShowPinButton),
+    // TabBarPinnedTabLabel
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Pinned tab label",
+      nullptr,
+      SM::TabNavigation,
+      navigationTabsPinnedTabLabel,
+      setNavigationTabsPinnedTabLabel,
+      UserSettings::TabLabelDisplay,
+      navigationTabsPinnedTabLabelValues,
+      nullptr,
+      NavigationTabsPinnedTabLabel,
+      SettingKey::NavigationTabsPinnedTabLabel),
+    // TabBarTabLabel
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Regular tab label",
+      nullptr,
+      SM::TabNavigation,
+      navigationTabsTabLabel,
+      setNavigationTabsTabLabel,
+      UserSettings::TabLabelDisplay,
+      navigationTabsTabLabelValues,
+      nullptr,
+      NavigationTabsTabLabel,
+      SettingKey::NavigationTabsTabLabel),
+    // TabBarPreferredWidthPx
+    SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(
+      "Preferred tab width",
+      nullptr,
+      SM::TabNavigation, navigationTabsPreferredWidthPx, setNavigationTabsPreferredWidthPx, 60, 600, 10,
+      nullptr, nullptr, NavigationTabsPreferredWidthPx, SettingKey::NavigationTabsPreferredWidthPx),
+    // TabBarMinimumWidthPx
+    SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(
+      "Minimum tab width",
+      nullptr,
+      SM::TabNavigation, navigationTabsMinimumWidthPx, setNavigationTabsMinimumWidthPx, 40, 400, 10,
+      nullptr, nullptr, NavigationTabsMinimumWidthPx, SettingKey::NavigationTabsMinimumWidthPx),
+    // TabBarMaxPreRenderedTimelines
+    SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(
+      "Max pre-rendered timelines",
+      QT_TR_NOOP("Pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Set to 0 to disable."),
+      SM::TabNavigation, navigationTabsMaxPreRenderedTimelines, setNavigationTabsMaxPreRenderedTimelines, 0, 100, 1,
+      nullptr, nullptr, NavigationTabsMaxPreRenderedTimelines, SettingKey::NavigationTabsMaxPreRenderedTimelines),

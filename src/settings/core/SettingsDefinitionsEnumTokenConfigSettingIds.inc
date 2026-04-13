@@ -6,6 +6,9 @@
   SettingId::NavigationRoomListLastMessagePreview,
   SettingId::NavigationRoomListSort,
   SettingId::NavigationRoomListUnreadDetectionPolicy,
+  SettingId::NavigationTabsShowPinButton,
+  SettingId::NavigationTabsPinnedTabLabel,
+  SettingId::NavigationTabsTabLabel,
 
   // desktop
   SettingId::DesktopNotificationsMessageContentPolicy,

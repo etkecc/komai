@@ -227,6 +227,25 @@ pub(crate) fn ffi_config_navigation_section(
                 .filter_low_priority
                 .unwrap_or_default(),
         },
+        tabs: ffi::SettingsConfigNavigationTabsSection {
+            show_pin_button: config.navigation.tabs.show_pin_button.to_storage_string(),
+            pinned_tab_label: config.navigation.tabs.pinned_tab_label.to_storage_string(),
+            tab_label: config.navigation.tabs.tab_label.to_storage_string(),
+            has_preferred_width_px: config.navigation.tabs.preferred_width_px.is_some(),
+            preferred_width_px: config.navigation.tabs.preferred_width_px.unwrap_or(200),
+            has_minimum_width_px: config.navigation.tabs.minimum_width_px.is_some(),
+            minimum_width_px: config.navigation.tabs.minimum_width_px.unwrap_or(120),
+            has_max_pre_rendered_timelines: config
+                .navigation
+                .tabs
+                .max_pre_rendered_timelines
+                .is_some(),
+            max_pre_rendered_timelines: config
+                .navigation
+                .tabs
+                .max_pre_rendered_timelines
+                .unwrap_or(20),
+        },
     }
 }
 
@@ -745,6 +764,17 @@ fn clone_config_navigation_section(
             filter_server_notices: section.communities.filter_server_notices,
             has_filter_low_priority: section.communities.has_filter_low_priority,
             filter_low_priority: section.communities.filter_low_priority,
+        },
+        tabs: ffi::SettingsConfigNavigationTabsSection {
+            show_pin_button: section.tabs.show_pin_button.clone(),
+            pinned_tab_label: section.tabs.pinned_tab_label.clone(),
+            tab_label: section.tabs.tab_label.clone(),
+            has_preferred_width_px: section.tabs.has_preferred_width_px,
+            preferred_width_px: section.tabs.preferred_width_px,
+            has_minimum_width_px: section.tabs.has_minimum_width_px,
+            minimum_width_px: section.tabs.minimum_width_px,
+            has_max_pre_rendered_timelines: section.tabs.has_max_pre_rendered_timelines,
+            max_pre_rendered_timelines: section.tabs.max_pre_rendered_timelines,
         },
     }
 }

@@ -76,6 +76,19 @@ class UserSettings final : public QObject
           navigationCommunitiesFilterLowPriorityChanged)
     Q_PROPERTY(ScrollbarPolicy uiScrollbarPolicy READ uiScrollbarPolicy WRITE setUiScrollbarPolicy
                  NOTIFY uiScrollbarPolicyChanged)
+    Q_PROPERTY(TabPinButtonVisibility navigationTabsShowPinButton READ navigationTabsShowPinButton
+                 WRITE setNavigationTabsShowPinButton NOTIFY navigationTabsShowPinButtonChanged)
+    Q_PROPERTY(TabLabelDisplay navigationTabsPinnedTabLabel READ navigationTabsPinnedTabLabel WRITE
+                 setNavigationTabsPinnedTabLabel NOTIFY navigationTabsPinnedTabLabelChanged)
+    Q_PROPERTY(TabLabelDisplay navigationTabsTabLabel READ navigationTabsTabLabel WRITE
+                 setNavigationTabsTabLabel NOTIFY navigationTabsTabLabelChanged)
+    Q_PROPERTY(int navigationTabsPreferredWidthPx READ navigationTabsPreferredWidthPx WRITE
+                 setNavigationTabsPreferredWidthPx NOTIFY navigationTabsPreferredWidthPxChanged)
+    Q_PROPERTY(int navigationTabsMinimumWidthPx READ navigationTabsMinimumWidthPx WRITE
+                 setNavigationTabsMinimumWidthPx NOTIFY navigationTabsMinimumWidthPxChanged)
+    Q_PROPERTY(int navigationTabsMaxPreRenderedTimelines READ navigationTabsMaxPreRenderedTimelines
+                 WRITE setNavigationTabsMaxPreRenderedTimelines NOTIFY
+                   navigationTabsMaxPreRenderedTimelinesChanged)
     Q_PROPERTY(
       bool composerInputMarkdownToHtmlEnabled READ composerInputMarkdownToHtmlEnabled WRITE
         setComposerInputMarkdownToHtmlEnabled NOTIFY composerInputMarkdownToHtmlEnabledChanged)
@@ -457,6 +470,20 @@ public:
     };
     Q_ENUM(ScrollbarPolicy)
 
+    enum class TabPinButtonVisibility
+    {
+        Always, // Always show the pin button
+        Never,  // Never show the pin button
+    };
+    Q_ENUM(TabPinButtonVisibility)
+
+    enum class TabLabelDisplay
+    {
+        AvatarAndLabel, // Show avatar and room name
+        AvatarOnly,     // Show avatar only
+    };
+    Q_ENUM(TabLabelDisplay)
+
     enum class DefaultAvatarStyle
     {
         BoringAvatarsBauhaus,
@@ -543,6 +570,12 @@ public:
     void setUiLayoutCompactMode(bool state);
     void setNavigationRoomListShowLastMessageTime(bool state);
     void setNavigationRoomListLastMessagePreview(LastMessagePreview style);
+    void setNavigationTabsShowPinButton(TabPinButtonVisibility policy);
+    void setNavigationTabsPinnedTabLabel(TabLabelDisplay display);
+    void setNavigationTabsTabLabel(TabLabelDisplay display);
+    void setNavigationTabsPreferredWidthPx(int px);
+    void setNavigationTabsMinimumWidthPx(int px);
+    void setNavigationTabsMaxPreRenderedTimelines(int count);
     void setTimelineMediaEffectsEnabled(bool state);
     void setUiMotionAnimationsEnabled(bool state);
     void setDesktopWindowFocusBlurEnabled(bool state);
@@ -698,6 +731,12 @@ signals:
     void uiLayoutCompactModeChanged(bool state);
     void navigationRoomListShowLastMessageTimeChanged(bool state);
     void navigationRoomListLastMessagePreviewChanged(LastMessagePreview style);
+    void navigationTabsShowPinButtonChanged(TabPinButtonVisibility policy);
+    void navigationTabsPinnedTabLabelChanged(TabLabelDisplay display);
+    void navigationTabsTabLabelChanged(TabLabelDisplay display);
+    void navigationTabsPreferredWidthPxChanged(int px);
+    void navigationTabsMinimumWidthPxChanged(int px);
+    void navigationTabsMaxPreRenderedTimelinesChanged(int count);
     void timelineMediaEffectsEnabledChanged(bool state);
     void uiMotionAnimationsEnabledChanged(bool state);
     void desktopWindowFocusBlurEnabledChanged(bool state);

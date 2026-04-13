@@ -151,6 +151,46 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         ? snapshot.navigation.communities.filter_low_priority
         : true);
 
+    {
+        const auto loadedShowPinButton =
+          QString::fromStdString(static_cast<std::string>(snapshot.navigation.tabs.show_pin_button))
+            .trimmed();
+        const auto showPinButtonToken =
+          loadedShowPinButton.isEmpty() ? QStringLiteral("never") : loadedShowPinButton;
+        settings.setNavigationTabsShowPinButton(cfg::tabPinButtonVisibilityFromStorage(
+          showPinButtonToken, UserSettings::TabPinButtonVisibility::Never));
+    }
+    {
+        const auto loadedPinnedTabLabel =
+          QString::fromStdString(
+            static_cast<std::string>(snapshot.navigation.tabs.pinned_tab_label))
+            .trimmed();
+        const auto pinnedTabLabelToken = loadedPinnedTabLabel.isEmpty()
+                                           ? QStringLiteral("avatar_and_label")
+                                           : loadedPinnedTabLabel;
+        settings.setNavigationTabsPinnedTabLabel(cfg::tabLabelDisplayFromStorage(
+          pinnedTabLabelToken, UserSettings::TabLabelDisplay::AvatarAndLabel));
+    }
+    {
+        const auto loadedTabLabel =
+          QString::fromStdString(static_cast<std::string>(snapshot.navigation.tabs.tab_label))
+            .trimmed();
+        const auto tabLabelToken =
+          loadedTabLabel.isEmpty() ? QStringLiteral("avatar_and_label") : loadedTabLabel;
+        settings.setNavigationTabsTabLabel(cfg::tabLabelDisplayFromStorage(
+          tabLabelToken, UserSettings::TabLabelDisplay::AvatarAndLabel));
+    }
+    settings.setNavigationTabsPreferredWidthPx(snapshot.navigation.tabs.has_preferred_width_px
+                                                 ? snapshot.navigation.tabs.preferred_width_px
+                                                 : 200);
+    settings.setNavigationTabsMinimumWidthPx(snapshot.navigation.tabs.has_minimum_width_px
+                                               ? snapshot.navigation.tabs.minimum_width_px
+                                               : 120);
+    settings.setNavigationTabsMaxPreRenderedTimelines(
+      snapshot.navigation.tabs.has_max_pre_rendered_timelines
+        ? snapshot.navigation.tabs.max_pre_rendered_timelines
+        : 20);
+
     settings.setHiddenTimelineEventTypes(
       snapshot.timeline.hidden_events.has_global
         ? [&snapshot]() {

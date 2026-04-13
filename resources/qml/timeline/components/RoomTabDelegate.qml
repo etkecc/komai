@@ -93,8 +93,14 @@ Rectangle {
         return Rooms.unfilteredRoomData(roomId, tabController.roleAvatarUrl) || "";
     }
 
-    // Text color adapts to highlight/hover state.
-    readonly property color textColor: isActive ? palette.text
+    // Draft activity base color (blended highlight + attention), matching the room list.
+    readonly property color draftActivityBase: Qt.rgba(
+        (Komai.theme.attention.r + palette.highlight.r) / 2,
+        (Komai.theme.attention.g + palette.highlight.g) / 2,
+        (Komai.theme.attention.b + palette.highlight.b) / 2, 1)
+
+    // Text color adapts to active/hover/activity state.
+    readonly property color textColor: isActive ? palette.highlightedText
         : isHovered ? palette.brightText
         : palette.buttonText
 
@@ -108,19 +114,42 @@ Rectangle {
     readonly property int pinIconSize: Math.round(actionBtnSize * 0.6)
 
     // The effective opaque background (composited for the close-button backdrop).
-    // tabDelegate.color may be semi-transparent, so we need a fully opaque version
-    // for the gradient/solid that hides text behind the close button.
+    // Must match the actual visual background so the gradient hides text cleanly.
     readonly property color opaqueBackgroundColor: {
         if (isActive) {
-            var a = 0.12;
-            return Qt.rgba(
-                palette.highlight.r * a + palette.window.r * (1 - a),
-                palette.highlight.g * a + palette.window.g * (1 - a),
-                palette.highlight.b * a + palette.window.b * (1 - a),
-                1.0);
+            if (emphasizeDraft) {
+                var db = draftActivityBase;
+                return Qt.rgba(
+                    palette.highlight.r * 0.75 + db.r * 0.25,
+                    palette.highlight.g * 0.75 + db.g * 0.25,
+                    palette.highlight.b * 0.75 + db.b * 0.25, 1);
+            }
+            return palette.highlight;
         }
-        if (isHovered)
+        if (isHovered) {
+            if (emphasizeDraft) {
+                var db2 = draftActivityBase;
+                return Qt.rgba(
+                    palette.dark.r * 0.7 + db2.r * 0.3,
+                    palette.dark.g * 0.7 + db2.g * 0.3,
+                    palette.dark.b * 0.7 + db2.b * 0.3, 1);
+            }
             return palette.dark;
+        }
+        if (emphasizeDraft) {
+            var a = Komai.theme.attention;
+            return Qt.rgba(
+                a.r * 0.12 + palette.window.r * 0.88,
+                a.g * 0.12 + palette.window.g * 0.88,
+                a.b * 0.12 + palette.window.b * 0.88, 1);
+        }
+        if (emphasizeUnread) {
+            var h = palette.highlight;
+            return Qt.rgba(
+                h.r * 0.15 + palette.window.r * 0.85,
+                h.g * 0.15 + palette.window.g * 0.85,
+                h.b * 0.15 + palette.window.b * 0.85, 1);
+        }
         return palette.window;
     }
 
@@ -148,8 +177,29 @@ Rectangle {
 
     width: tabWidth
     height: parent ? parent.height : 32
-    color: isActive ? Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.12)
-                    : (isHovered ? palette.dark : "transparent")
+    color: {
+        if (isActive) {
+            if (emphasizeDraft)
+                return Qt.rgba(
+                    (palette.highlight.r * 0.75) + (draftActivityBase.r * 0.25),
+                    (palette.highlight.g * 0.75) + (draftActivityBase.g * 0.25),
+                    (palette.highlight.b * 0.75) + (draftActivityBase.b * 0.25), 1);
+            return palette.highlight;
+        }
+        if (isHovered) {
+            if (emphasizeDraft)
+                return Qt.rgba(
+                    (palette.dark.r * 0.7) + (draftActivityBase.r * 0.3),
+                    (palette.dark.g * 0.7) + (draftActivityBase.g * 0.3),
+                    (palette.dark.b * 0.7) + (draftActivityBase.b * 0.3), 1);
+            return palette.dark;
+        }
+        if (emphasizeDraft)
+            return Qt.rgba(Komai.theme.attention.r, Komai.theme.attention.g, Komai.theme.attention.b, 0.12);
+        if (emphasizeUnread)
+            return Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15);
+        return "transparent";
+    }
 
     // Drag state tracked per-delegate.
     property real _dragStartX: 0
@@ -340,9 +390,9 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: Komai.paddingSmall / 2
         anchors.verticalCenter: parent.verticalCenter
-        width: 3
+        width: 4
         height: parent.height - Komai.paddingMedium * 2
-        radius: 1.5
+        radius: 2
         color: (tabDelegate.emphasizeUnread || tabDelegate.emphasizeDraft)
             ? (tabDelegate.hasLoudNotification ? Komai.theme.red
                 : tabDelegate.emphasizeDraft ? Komai.theme.attention
@@ -351,20 +401,25 @@ Rectangle {
     }
 
     // Tab content: pin icon + avatar + room name.
+    // Left margin accounts for the attention bar (3px wide at paddingSmall/2 offset)
+    // so content never overlaps the indicator regardless of pin button visibility.
     RowLayout {
         anchors.fill: parent
-        anchors.leftMargin: Komai.paddingSmall
+        anchors.leftMargin: Math.round(Komai.paddingSmall / 2) + 4 + Komai.paddingSmall
         anchors.rightMargin: Komai.paddingSmall
         spacing: Komai.paddingSmall
 
-        // Pin toggle button (leftmost, before avatar). Always visible to prevent width shifts.
-        // Hidden for empty tabs (not pinnable).
+        // Pin toggle button (leftmost, before avatar).
+        // Hidden for empty tabs and when the setting is "never".
         Rectangle {
             id: pinBtn
 
-            Layout.preferredWidth: tabDelegate.isEmptyTab ? 0 : tabDelegate.actionBtnSize
-            Layout.preferredHeight: tabDelegate.isEmptyTab ? 0 : tabDelegate.actionBtnSize
-            visible: !tabDelegate.isEmptyTab
+            readonly property bool showPin: !tabDelegate.isEmptyTab
+                && Settings.navigationTabsShowPinButton === Settings.TabPinButtonVisibility.Always
+
+            Layout.preferredWidth: showPin ? tabDelegate.actionBtnSize : 0
+            Layout.preferredHeight: showPin ? tabDelegate.actionBtnSize : 0
+            visible: showPin
             radius: tabDelegate.actionBtnSize / 2
             color: pinArea.containsMouse
                 ? Qt.rgba(tabDelegate.textColor.r, tabDelegate.textColor.g, tabDelegate.textColor.b, 0.2)
@@ -414,7 +469,14 @@ Rectangle {
         }
 
         Text {
-            Layout.fillWidth: true
+            readonly property bool labelVisible: tabDelegate.isEmptyTab
+                || (tabDelegate.pinned
+                    ? Settings.navigationTabsPinnedTabLabel !== Settings.TabLabelDisplay.AvatarOnly
+                    : Settings.navigationTabsTabLabel !== Settings.TabLabelDisplay.AvatarOnly)
+
+            Layout.fillWidth: labelVisible
+            Layout.preferredWidth: labelVisible ? -1 : 0
+            visible: labelVisible
             text: tabDelegate.displayName
             elide: Text.ElideRight
             font.bold: tabDelegate.emphasizeUnread

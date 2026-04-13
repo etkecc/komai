@@ -1630,6 +1630,17 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::NavigationCommunitiesFilterServerNotices));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NavigationCommunitiesFilterLowPriority));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::NavigationTabsShowPinButton));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::NavigationTabsPinnedTabLabel));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NavigationTabsTabLabel));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::NavigationTabsPreferredWidthPx));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::NavigationTabsMinimumWidthPx));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::NavigationTabsMaxPreRenderedTimelines));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::TimelineMessagesStyle));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMessagesLayoutPositioning));

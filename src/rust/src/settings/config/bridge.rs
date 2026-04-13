@@ -169,6 +169,42 @@ if snapshot.ui.has_layout_compact_mode {
             Value::Bool(snapshot.navigation.communities.filter_low_priority),
         );
     }
+    yaml::set_value(
+        &mut root,
+        &["navigation", "tabs", "show_pin_button"],
+        Value::String(snapshot.navigation.tabs.show_pin_button.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["navigation", "tabs", "pinned_tab_label"],
+        Value::String(snapshot.navigation.tabs.pinned_tab_label.clone()),
+    );
+    yaml::set_value(
+        &mut root,
+        &["navigation", "tabs", "tab_label"],
+        Value::String(snapshot.navigation.tabs.tab_label.clone()),
+    );
+    if snapshot.navigation.tabs.has_preferred_width_px {
+        yaml::set_value(
+            &mut root,
+            &["navigation", "tabs", "preferred_width_px"],
+            Value::Number(Number::from(snapshot.navigation.tabs.preferred_width_px)),
+        );
+    }
+    if snapshot.navigation.tabs.has_minimum_width_px {
+        yaml::set_value(
+            &mut root,
+            &["navigation", "tabs", "minimum_width_px"],
+            Value::Number(Number::from(snapshot.navigation.tabs.minimum_width_px)),
+        );
+    }
+    if snapshot.navigation.tabs.has_max_pre_rendered_timelines {
+        yaml::set_value(
+            &mut root,
+            &["navigation", "tabs", "max_pre_rendered_timelines"],
+            Value::Number(Number::from(snapshot.navigation.tabs.max_pre_rendered_timelines)),
+        );
+    }
 
     yaml::set_value(
         &mut root,

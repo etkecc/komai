@@ -11,6 +11,7 @@ use super::tokens::{
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
     ConfigNavigationRoomListUnreadDetectionPolicyToken,
+    ConfigNavigationTabsLabelDisplayToken, ConfigNavigationTabsPinButtonVisibilityToken,
     ConfigTimelineMediaImageDisplayToken, ConfigTimelineMessageActionsActivationPolicyToken,
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken,
@@ -89,6 +90,7 @@ pub struct ConfigUiAvatars {
 pub struct ConfigNavigation {
     pub room_list: ConfigNavigationRoomList,
     pub communities: ConfigNavigationCommunities,
+    pub tabs: ConfigNavigationTabs,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -109,6 +111,16 @@ pub struct ConfigNavigationCommunities {
     pub filter_groups: Option<bool>,
     pub filter_server_notices: Option<bool>,
     pub filter_low_priority: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigNavigationTabs {
+    pub show_pin_button: ConfigNavigationTabsPinButtonVisibilityToken,
+    pub pinned_tab_label: ConfigNavigationTabsLabelDisplayToken,
+    pub tab_label: ConfigNavigationTabsLabelDisplayToken,
+    pub preferred_width_px: Option<i32>,
+    pub minimum_width_px: Option<i32>,
+    pub max_pre_rendered_timelines: Option<i32>,
 }
 
 #[derive(Clone, Debug, Default)]

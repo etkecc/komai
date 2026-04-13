@@ -44,6 +44,12 @@
     bool timelineTypingShowEnabled() const;
     RoomSortOrder navigationRoomListSort() const;
     UnreadDetectionPolicy navigationRoomListUnreadDetectionPolicy() const;
+    TabPinButtonVisibility navigationTabsShowPinButton() const;
+    TabLabelDisplay navigationTabsPinnedTabLabel() const;
+    TabLabelDisplay navigationTabsTabLabel() const;
+    int navigationTabsPreferredWidthPx() const;
+    int navigationTabsMinimumWidthPx() const;
+    int navigationTabsMaxPreRenderedTimelines() const;
     TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy() const;
     bool uiInputMode() const;
     bool uiInputTouchSwipeGesturesEnabled() const;

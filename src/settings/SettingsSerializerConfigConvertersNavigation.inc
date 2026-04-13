@@ -59,3 +59,40 @@ unreadDetectionPolicyFromStorage(const QString &value,
 {
     return valueFromStorageToken(value, fallback, kUnreadDetectionPolicyTokens);
 }
+
+constexpr std::array<std::pair<UserSettings::TabPinButtonVisibility, const char *>, 2>
+  kTabPinButtonVisibilityTokens{{
+    {UserSettings::TabPinButtonVisibility::Always, "always"},
+    {UserSettings::TabPinButtonVisibility::Never, "never"},
+  }};
+
+QString
+toStorageValue(UserSettings::TabPinButtonVisibility value)
+{
+    return valueToStorageToken(value, kTabPinButtonVisibilityTokens, "never");
+}
+
+UserSettings::TabPinButtonVisibility
+tabPinButtonVisibilityFromStorage(const QString &value,
+                                  UserSettings::TabPinButtonVisibility fallback)
+{
+    return valueFromStorageToken(value, fallback, kTabPinButtonVisibilityTokens);
+}
+
+constexpr std::array<std::pair<UserSettings::TabLabelDisplay, const char *>, 2>
+  kTabLabelDisplayTokens{{
+    {UserSettings::TabLabelDisplay::AvatarAndLabel, "avatar_and_label"},
+    {UserSettings::TabLabelDisplay::AvatarOnly, "avatar_only"},
+  }};
+
+QString
+toStorageValue(UserSettings::TabLabelDisplay value)
+{
+    return valueToStorageToken(value, kTabLabelDisplayTokens, "avatar_and_label");
+}
+
+UserSettings::TabLabelDisplay
+tabLabelDisplayFromStorage(const QString &value, UserSettings::TabLabelDisplay fallback)
+{
+    return valueFromStorageToken(value, fallback, kTabLabelDisplayTokens);
+}

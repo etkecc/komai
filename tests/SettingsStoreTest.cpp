@@ -40,6 +40,12 @@ constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::NavigationRoomListSort,
   settings::core::SettingId::NavigationRoomListUnreadDetectionPolicy,
   settings::core::SettingId::NavigationRoomListLastMessagePreview,
+  settings::core::SettingId::NavigationTabsShowPinButton,
+  settings::core::SettingId::NavigationTabsPinnedTabLabel,
+  settings::core::SettingId::NavigationTabsTabLabel,
+  settings::core::SettingId::NavigationTabsPreferredWidthPx,
+  settings::core::SettingId::NavigationTabsMinimumWidthPx,
+  settings::core::SettingId::NavigationTabsMaxPreRenderedTimelines,
   settings::core::SettingId::TimelineMessagesStyle,
   settings::core::SettingId::TimelineMessagesLayoutPositioning,
   settings::core::SettingId::TimelineUserColorCodingPolicy,
@@ -255,7 +261,7 @@ testConstrainedDefinitionsEnforceRanges()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::size_t expectedPersistedDefinitionCount = 86;
+    constexpr std::size_t expectedPersistedDefinitionCount = 92;
     const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;

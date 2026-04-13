@@ -87,6 +87,16 @@ storage_token_enum!(ConfigNavigationRoomListUnreadDetectionPolicyToken, AnyEvent
     MessagesOnly => "messages_only",
 });
 
+storage_token_enum!(ConfigNavigationTabsPinButtonVisibilityToken, Never {
+    Always => "always",
+    Never => "never",
+});
+
+storage_token_enum!(ConfigNavigationTabsLabelDisplayToken, AvatarAndLabel {
+    AvatarAndLabel => "avatar_and_label",
+    AvatarOnly => "avatar_only",
+});
+
 storage_token_enum!(ConfigTimelineMessagesStyleToken, Bubbles {
     Plain => "plain",
     Bubbles => "bubbles",

@@ -133,3 +133,69 @@ UserSettings::navigationRoomListUnreadDetectionPolicy() const
         return static_cast<UserSettings::UnreadDetectionPolicy>(*value);
     return navigationRoomListUnreadDetectionPolicy_;
 }
+
+UserSettings::TabPinButtonVisibility
+UserSettings::navigationTabsShowPinButton() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::NavigationTabsShowPinButton);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::TabPinButtonVisibility::Always) &&
+        *value <= static_cast<int>(UserSettings::TabPinButtonVisibility::Never))
+        return static_cast<UserSettings::TabPinButtonVisibility>(*value);
+    return navigationTabsShowPinButton_;
+}
+
+UserSettings::TabLabelDisplay
+UserSettings::navigationTabsPinnedTabLabel() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::NavigationTabsPinnedTabLabel);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::TabLabelDisplay::AvatarAndLabel) &&
+        *value <= static_cast<int>(UserSettings::TabLabelDisplay::AvatarOnly))
+        return static_cast<UserSettings::TabLabelDisplay>(*value);
+    return navigationTabsPinnedTabLabel_;
+}
+
+UserSettings::TabLabelDisplay
+UserSettings::navigationTabsTabLabel() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::NavigationTabsTabLabel);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::TabLabelDisplay::AvatarAndLabel) &&
+        *value <= static_cast<int>(UserSettings::TabLabelDisplay::AvatarOnly))
+        return static_cast<UserSettings::TabLabelDisplay>(*value);
+    return navigationTabsTabLabel_;
+}
+
+int
+UserSettings::navigationTabsPreferredWidthPx() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::NavigationTabsPreferredWidthPx);
+        value.has_value())
+        return *value;
+    return navigationTabsPreferredWidthPx_;
+}
+
+int
+UserSettings::navigationTabsMinimumWidthPx() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::NavigationTabsMinimumWidthPx);
+        value.has_value())
+        return *value;
+    return navigationTabsMinimumWidthPx_;
+}
+
+int
+UserSettings::navigationTabsMaxPreRenderedTimelines() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::NavigationTabsMaxPreRenderedTimelines);
+        value.has_value())
+        return *value;
+    return navigationTabsMaxPreRenderedTimelines_;
+}

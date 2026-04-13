@@ -125,6 +125,17 @@ UserSettings::DefaultAvatarStyle
 defaultAvatarStyleFromStorage(const QString &value, UserSettings::DefaultAvatarStyle fallback);
 
 QString
+toStorageValue(UserSettings::TabPinButtonVisibility value);
+UserSettings::TabPinButtonVisibility
+tabPinButtonVisibilityFromStorage(const QString &value,
+                                  UserSettings::TabPinButtonVisibility fallback);
+
+QString
+toStorageValue(UserSettings::TabLabelDisplay value);
+UserSettings::TabLabelDisplay
+tabLabelDisplayFromStorage(const QString &value, UserSettings::TabLabelDisplay fallback);
+
+QString
 dbusAccessToStorage(int value);
 int
 dbusAccessFromStorage(const QString &value, int fallback);

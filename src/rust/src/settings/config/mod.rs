@@ -19,7 +19,7 @@ pub use model::{
     ConfigDesktopAttention, ConfigDesktopAttentionToggle, ConfigDesktopNotifications,
     ConfigDesktopSystemTray, ConfigDesktopWindowFocusBlur,
     ConfigIntegrations, ConfigNetwork, ConfigNetworkEncryption, ConfigSecrets, ConfigNavigation,
-    ConfigNavigationCommunities, ConfigNavigationRoomList, ConfigTimeline,
+    ConfigNavigationCommunities, ConfigNavigationRoomList, ConfigNavigationTabs, ConfigTimeline,
     ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
     ConfigTimelineMessageActions, ConfigTimelineMessages,
     ConfigTimelineMessagesLayout, ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi,
@@ -33,7 +33,9 @@ pub use tokens::{
     ConfigIntegrationsDbusApiAccessToken, ConfigNetworkPresenceStatusPolicyToken,
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
-    ConfigNavigationRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
+    ConfigNavigationRoomListUnreadDetectionPolicyToken,
+    ConfigNavigationTabsLabelDisplayToken, ConfigNavigationTabsPinButtonVisibilityToken,
+    ConfigTimelineMediaImageDisplayToken,
     ConfigTimelineMessageActionsActivationPolicyToken,
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
@@ -79,6 +81,17 @@ const NAVIGATION_COMMUNITIES_FILTER_SERVER_NOTICES_PATH: [&str; 4] =
     ["navigation", "communities", "filters", "server_notices"];
 const NAVIGATION_COMMUNITIES_FILTER_LOW_PRIORITY_PATH: [&str; 4] =
     ["navigation", "communities", "filters", "low_priority"];
+const NAVIGATION_TABS_SHOW_PIN_BUTTON_PATH: [&str; 3] =
+    ["navigation", "tabs", "show_pin_button"];
+const NAVIGATION_TABS_PINNED_TAB_LABEL_PATH: [&str; 3] =
+    ["navigation", "tabs", "pinned_tab_label"];
+const NAVIGATION_TABS_TAB_LABEL_PATH: [&str; 3] = ["navigation", "tabs", "tab_label"];
+const NAVIGATION_TABS_PREFERRED_WIDTH_PX_PATH: [&str; 3] =
+    ["navigation", "tabs", "preferred_width_px"];
+const NAVIGATION_TABS_MINIMUM_WIDTH_PX_PATH: [&str; 3] =
+    ["navigation", "tabs", "minimum_width_px"];
+const NAVIGATION_TABS_MAX_PRE_RENDERED_TIMELINES_PATH: [&str; 3] =
+    ["navigation", "tabs", "max_pre_rendered_timelines"];
 const TIMELINE_MESSAGES_STYLE_PATH: [&str; 3] = ["timeline", "messages", "style"];
 const TIMELINE_MESSAGES_LAYOUT_POSITIONING_PATH: [&str; 4] =
     ["timeline", "messages", "layout", "positioning"];
@@ -284,6 +297,35 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     &NAVIGATION_COMMUNITIES_FILTER_LOW_PRIORITY_PATH,
                 )
                 .and_then(parse_scalar_bool),
+            },
+            tabs: ConfigNavigationTabs {
+                show_pin_button: parse_storage_token(yaml::value_at_path(
+                    root,
+                    &NAVIGATION_TABS_SHOW_PIN_BUTTON_PATH,
+                )),
+                pinned_tab_label: parse_storage_token(yaml::value_at_path(
+                    root,
+                    &NAVIGATION_TABS_PINNED_TAB_LABEL_PATH,
+                )),
+                tab_label: parse_storage_token(yaml::value_at_path(
+                    root,
+                    &NAVIGATION_TABS_TAB_LABEL_PATH,
+                )),
+                preferred_width_px: yaml::value_at_path(
+                    root,
+                    &NAVIGATION_TABS_PREFERRED_WIDTH_PX_PATH,
+                )
+                .and_then(parse_scalar_i32),
+                minimum_width_px: yaml::value_at_path(
+                    root,
+                    &NAVIGATION_TABS_MINIMUM_WIDTH_PX_PATH,
+                )
+                .and_then(parse_scalar_i32),
+                max_pre_rendered_timelines: yaml::value_at_path(
+                    root,
+                    &NAVIGATION_TABS_MAX_PRE_RENDERED_TIMELINES_PATH,
+                )
+                .and_then(parse_scalar_i32),
             },
         },
         timeline: ConfigTimeline {

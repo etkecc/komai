@@ -76,6 +76,20 @@ stageConfig(const UserSettings &settings,
               .has_filter_low_priority   = true,
               .filter_low_priority       = settings.navigationCommunitiesFilterLowPriority(),
             },
+          .tabs =
+            {
+              .show_pin_button =
+                cfg::toStorageValue(settings.navigationTabsShowPinButton()).toStdString(),
+              .pinned_tab_label =
+                cfg::toStorageValue(settings.navigationTabsPinnedTabLabel()).toStdString(),
+              .tab_label = cfg::toStorageValue(settings.navigationTabsTabLabel()).toStdString(),
+              .has_preferred_width_px         = true,
+              .preferred_width_px             = settings.navigationTabsPreferredWidthPx(),
+              .has_minimum_width_px           = true,
+              .minimum_width_px               = settings.navigationTabsMinimumWidthPx(),
+              .has_max_pre_rendered_timelines = true,
+              .max_pre_rendered_timelines     = settings.navigationTabsMaxPreRenderedTimelines(),
+            },
         },
       .timeline =
         {

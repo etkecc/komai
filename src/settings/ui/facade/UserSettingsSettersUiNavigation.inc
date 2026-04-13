@@ -77,3 +77,87 @@ UserSettings::setNavigationRoomListLastMessagePreview(LastMessagePreview s)
     emit navigationRoomListLastMessagePreviewChanged(s);
     save();
 }
+
+void
+UserSettings::setNavigationTabsShowPinButton(TabPinButtonVisibility s)
+{
+    if (navigationTabsShowPinButton_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::NavigationTabsShowPinButton,
+                      static_cast<int>(s),
+                      SettingKey::NavigationTabsShowPinButton))
+        return;
+    navigationTabsShowPinButton_ = s;
+    emit navigationTabsShowPinButtonChanged(s);
+    save();
+}
+
+void
+UserSettings::setNavigationTabsPinnedTabLabel(TabLabelDisplay s)
+{
+    if (navigationTabsPinnedTabLabel_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::NavigationTabsPinnedTabLabel,
+                      static_cast<int>(s),
+                      SettingKey::NavigationTabsPinnedTabLabel))
+        return;
+    navigationTabsPinnedTabLabel_ = s;
+    emit navigationTabsPinnedTabLabelChanged(s);
+    save();
+}
+
+void
+UserSettings::setNavigationTabsTabLabel(TabLabelDisplay s)
+{
+    if (navigationTabsTabLabel_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::NavigationTabsTabLabel,
+                      static_cast<int>(s),
+                      SettingKey::NavigationTabsTabLabel))
+        return;
+    navigationTabsTabLabel_ = s;
+    emit navigationTabsTabLabelChanged(s);
+    save();
+}
+
+void
+UserSettings::setNavigationTabsPreferredWidthPx(int s)
+{
+    if (navigationTabsPreferredWidthPx_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::NavigationTabsPreferredWidthPx,
+                      s,
+                      SettingKey::NavigationTabsPreferredWidthPx))
+        return;
+    navigationTabsPreferredWidthPx_ = s;
+    emit navigationTabsPreferredWidthPxChanged(s);
+    save();
+}
+
+void
+UserSettings::setNavigationTabsMinimumWidthPx(int s)
+{
+    if (navigationTabsMinimumWidthPx_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::NavigationTabsMinimumWidthPx,
+                      s,
+                      SettingKey::NavigationTabsMinimumWidthPx))
+        return;
+    navigationTabsMinimumWidthPx_ = s;
+    emit navigationTabsMinimumWidthPxChanged(s);
+    save();
+}
+
+void
+UserSettings::setNavigationTabsMaxPreRenderedTimelines(int s)
+{
+    if (navigationTabsMaxPreRenderedTimelines_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::NavigationTabsMaxPreRenderedTimelines,
+                      s,
+                      SettingKey::NavigationTabsMaxPreRenderedTimelines))
+        return;
+    navigationTabsMaxPreRenderedTimelines_ = s;
+    emit navigationTabsMaxPreRenderedTimelinesChanged(s);
+    save();
+}

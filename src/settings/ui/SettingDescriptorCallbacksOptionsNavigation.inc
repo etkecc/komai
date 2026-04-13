@@ -38,3 +38,30 @@ navigationUnreadDetectionPolicyValues()
            << QCoreApplication::translate("UserSettingsModel", "Messages only");
     return values;
 }
+
+static QVariant
+navigationTabsShowPinButtonValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Always")
+           << QCoreApplication::translate("UserSettingsModel", "Never");
+    return values;
+}
+
+static QVariant
+navigationTabsPinnedTabLabelValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Avatar and label")
+           << QCoreApplication::translate("UserSettingsModel", "Avatar only");
+    return values;
+}
+
+static QVariant
+navigationTabsTabLabelValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Avatar and label")
+           << QCoreApplication::translate("UserSettingsModel", "Avatar only");
+    return values;
+}

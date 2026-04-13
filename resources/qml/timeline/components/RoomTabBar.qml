@@ -11,11 +11,45 @@ Rectangle {
 
     required property var tabController
 
-    readonly property int tabWidth: 180
+    readonly property int preferredTabWidth: 180
+    readonly property int minimumTabWidth: 100
+
+    // Compute ideal tab width from available space and tab count.
+    readonly property int _liveTabWidth: {
+        var count = tabController.tabs.count;
+        if (count === 0)
+            return preferredTabWidth;
+        var available = tabListView.width;
+        if (count * preferredTabWidth <= available)
+            return preferredTabWidth;
+        var shrunk = Math.floor(available / count);
+        return Math.max(minimumTabWidth, shrunk);
+    }
+
+    // Stable-close: freeze tab width while the mouse is inside the tab bar
+    // so that closing a tab keeps X buttons aligned.  Recalculate only when
+    // the mouse leaves.
+    property int _stableTabWidth: _liveTabWidth
+    readonly property bool _mouseInTabBar: tabBarHover.hovered
+
+    on_LiveTabWidthChanged: {
+        if (!_mouseInTabBar)
+            _stableTabWidth = _liveTabWidth;
+    }
+    on_MouseInTabBarChanged: {
+        if (!_mouseInTabBar)
+            _stableTabWidth = _liveTabWidth;
+    }
+
+    readonly property int effectiveTabWidth: _stableTabWidth
 
     implicitHeight: Math.max(28, Math.round(fontMetrics.height * 2.2))
     visible: tabController.tabs.count > 0
     color: palette.window
+
+    HoverHandler {
+        id: tabBarHover
+    }
 
     FontMetrics {
         id: tabBarFontMetrics
@@ -50,6 +84,7 @@ Rectangle {
             delegate: RoomTabDelegate {
                 tabController: tabBar.tabController
                 parentListView: tabListView
+                tabWidth: tabBar.effectiveTabWidth
             }
 
             // Animate non-dragged tabs sliding into place.
@@ -112,6 +147,74 @@ Rectangle {
                 requestedVisible: newTabArea.containsMouse
             }
         }
+    }
+
+    // Left edge fade (visible when tabs are scrolled past the start).
+    Rectangle {
+        visible: tabListView.contentX > 1
+        x: tabListView.x
+        y: tabListView.y
+        width: 40
+        height: tabListView.height
+        z: 2
+
+        gradient: Gradient {
+            orientation: Gradient.Horizontal
+            GradientStop { position: 0.0; color: palette.window }
+            GradientStop { position: 0.6; color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.5) }
+            GradientStop { position: 1.0; color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0) }
+        }
+    }
+
+    // Right edge fade (visible when tabs extend past the visible area).
+    Rectangle {
+        visible: tabListView.contentX + tabListView.width < tabListView.contentWidth - 1
+        x: tabListView.x + tabListView.width - 40
+        y: tabListView.y
+        width: 40
+        height: tabListView.height
+        z: 2
+
+        gradient: Gradient {
+            orientation: Gradient.Horizontal
+            GradientStop { position: 0.0; color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0) }
+            GradientStop { position: 0.4; color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.5) }
+            GradientStop { position: 1.0; color: palette.window }
+        }
+    }
+
+    // Scroll the active tab into view when the current room changes.
+    function ensureActiveTabVisible() {
+        var idx = tabController.findTab(Rooms.currentRoomId);
+        if (idx === -1)
+            return;
+        var tabLeft = idx * effectiveTabWidth;
+        var tabRight = tabLeft + effectiveTabWidth;
+        var viewLeft = tabListView.contentX;
+        var viewRight = viewLeft + tabListView.width;
+        if (tabLeft >= viewLeft && tabRight <= viewRight)
+            return; // already fully visible
+        var target;
+        if (tabLeft < viewLeft)
+            target = tabLeft;
+        else
+            target = tabRight - tabListView.width;
+        target = Math.max(0, Math.min(target, tabListView.contentWidth - tabListView.width));
+        scrollAnimation.to = target;
+        scrollAnimation.restart();
+    }
+
+    NumberAnimation {
+        id: scrollAnimation
+        target: tabListView
+        property: "contentX"
+        duration: 150
+        easing.type: Easing.OutQuad
+    }
+
+    Connections {
+        target: Rooms
+        function onCurrentRoomIdChanged() { tabBar.ensureActiveTabVisible(); }
     }
 
     // Convert vertical mouse wheel to horizontal scroll (only when not dragging).

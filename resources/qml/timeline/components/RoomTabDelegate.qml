@@ -20,6 +20,7 @@ Rectangle {
     required property bool pinned
     required property var tabController
     required property var parentListView
+    required property int tabWidth
 
     readonly property bool isEmptyTab: !roomId
     readonly property bool isActive: isEmptyTab ? !Rooms.currentRoomId : roomId === Rooms.currentRoomId
@@ -145,7 +146,7 @@ Rectangle {
         return count;
     }
 
-    width: 180
+    width: tabWidth
     height: parent ? parent.height : 32
     color: isActive ? Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.12)
                     : (isHovered ? palette.dark : "transparent")
@@ -185,7 +186,7 @@ Rectangle {
             if (tabController.isDragging) {
                 var listPos = tabDelegate.mapToItem(tabDelegate.parentListView, mouse.x, 0);
                 var contentX = listPos.x + tabDelegate.parentListView.contentX;
-                var targetIndex = Math.floor(contentX / 180);
+                var targetIndex = Math.floor(contentX / tabDelegate.tabWidth);
                 targetIndex = Math.max(0, Math.min(targetIndex, tabController.tabs.count - 1));
 
                 tabController.updateDragPosition(targetIndex);

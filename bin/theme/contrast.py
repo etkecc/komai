@@ -19,6 +19,7 @@ from colors import (
     derive_readable_accent_text_color,
     normalize_user_color_slot,
     parse_yaml,
+    tint_color,
 )
 
 
@@ -100,6 +101,47 @@ def build_surface_checks(palette: dict[str, str]) -> list[CheckResult]:
             contrast_ratio(palette["window"], palette["highlight"]),
             3.0,
             False,
+        ),
+    ]
+
+
+def build_activity_tint_checks(palette: dict[str, str]) -> list[CheckResult]:
+    """Check that room list / tab bar activity tints have readable text.
+
+    These match the QML blending used in RoomListItemDelegate and RoomTabDelegate:
+    - Unread: 15% highlight over window, text is buttonText
+    - Draft:  12% attention over window, text is buttonText
+    - Active: 50% dark over window, text is text
+    - Hover:  30% dark over window, text is buttonText
+    """
+    unread_bg = tint_color(palette["highlight"], palette["window"], 0.15)
+    draft_bg = tint_color(palette["attention"], palette["window"], 0.12)
+    active_bg = tint_color(palette["dark"], palette["window"], 0.85)
+    hover_bg = tint_color(palette["dark"], palette["window"], 0.30)
+    return [
+        CheckResult(
+            "tint:unread/buttonText",
+            contrast_ratio(unread_bg, palette["buttonText"]),
+            4.5,
+            True,
+        ),
+        CheckResult(
+            "tint:draft/buttonText",
+            contrast_ratio(draft_bg, palette["buttonText"]),
+            4.5,
+            True,
+        ),
+        CheckResult(
+            "tint:active/brightText",
+            contrast_ratio(active_bg, palette["brightText"]),
+            4.5,
+            True,
+        ),
+        CheckResult(
+            "tint:hover/text",
+            contrast_ratio(hover_bg, palette["text"]),
+            4.5,
+            True,
         ),
     ]
 
@@ -268,8 +310,9 @@ def report_theme(path: str, verbose: bool) -> tuple[str, int]:
 
     core_checks = build_core_checks(palette)
     surface_checks = build_surface_checks(palette)
+    activity_checks = build_activity_tint_checks(palette)
     bubble_checks = build_bubble_summary_checks(palette, user_colors)
-    all_checks = core_checks + surface_checks + bubble_checks
+    all_checks = core_checks + surface_checks + activity_checks + bubble_checks
     hard_failures = sum(1 for check in all_checks if check.hard and check.ratio < check.target)
 
     lines = [f"Theme: {slug} ({variant})"]
@@ -292,6 +335,17 @@ def report_theme(path: str, verbose: bool) -> tuple[str, int]:
             [
                 [check.label, f"{check.ratio:.2f}", f">={check.target:.1f}", check.status]
                 for check in surface_checks
+            ],
+        )
+    )
+    lines.append("")
+    lines.append("Activity tint checks")
+    lines.append(
+        render_table(
+            ["Pair", "Ratio", "Target", "Status"],
+            [
+                [check.label, f"{check.ratio:.2f}", f">={check.target:.1f}", check.status]
+                for check in activity_checks
             ],
         )
     )

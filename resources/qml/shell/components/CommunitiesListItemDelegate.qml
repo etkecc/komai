@@ -53,10 +53,13 @@ ItemDelegate {
         Rectangle {
             anchors.fill: parent
             color: "transparent"
-            border.color: communityItem.state === "selected" ? palette.highlightedText : palette.highlight
+            border.color: palette.highlight
             border.width: communityItem.keyboardFocused ? 2 : 0
         }
     }
+    readonly property color hoverBackground: Qt.rgba(palette.dark.r * 0.30 + palette.window.r * 0.70, palette.dark.g * 0.30 + palette.window.g * 0.70, palette.dark.b * 0.30 + palette.window.b * 0.70, 1)
+    readonly property color selectedBackground: Qt.rgba(palette.dark.r * 0.85 + palette.window.r * 0.15, palette.dark.g * 0.85 + palette.window.g * 0.15, palette.dark.b * 0.85 + palette.window.b * 0.15, 1)
+
     states: [
         State {
             name: "highlight"
@@ -64,11 +67,11 @@ ItemDelegate {
 
             PropertyChanges {
                 communityItem {
-                    backgroundColor: palette.dark
+                    backgroundColor: communityItem.hoverBackground
                     bubbleBackground: palette.highlight
                     bubbleText: palette.highlightedText
-                    importantText: palette.brightText
-                    unimportantText: palette.brightText
+                    importantText: palette.text
+                    unimportantText: palette.text
                 }
             }
         },
@@ -78,11 +81,11 @@ ItemDelegate {
 
             PropertyChanges {
                 communityItem {
-                    backgroundColor: palette.highlight
-                    bubbleBackground: palette.highlightedText
-                    bubbleText: palette.highlight
-                    importantText: palette.highlightedText
-                    unimportantText: palette.highlightedText
+                    backgroundColor: communityItem.selectedBackground
+                    bubbleBackground: palette.highlight
+                    bubbleText: palette.highlightedText
+                    importantText: palette.brightText
+                    unimportantText: palette.brightText
                 }
             }
         }

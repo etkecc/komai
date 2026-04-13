@@ -43,10 +43,10 @@ Popup {
     }
     readonly property int gridColumnWidth: stickersPerRow * stickerDimPad + 20 - Komai.paddingSmall
     readonly property var sidebarPalette: timelineRoot ? timelineRoot.palette : palette
-    readonly property color sidebarHoverBackground: sidebarPalette.dark
-    readonly property color sidebarHoverText: sidebarPalette.brightText
-    readonly property color sidebarActiveBackground: sidebarPalette.highlight
-    readonly property color sidebarActiveText: sidebarPalette.highlightedText
+    readonly property color sidebarHoverBackground: Qt.rgba(sidebarPalette.dark.r * 0.30 + sidebarPalette.window.r * 0.70, sidebarPalette.dark.g * 0.30 + sidebarPalette.window.g * 0.70, sidebarPalette.dark.b * 0.30 + sidebarPalette.window.b * 0.70, 1)
+    readonly property color sidebarHoverText: sidebarPalette.text
+    readonly property color sidebarActiveBackground: Qt.rgba(sidebarPalette.dark.r * 0.85 + sidebarPalette.window.r * 0.15, sidebarPalette.dark.g * 0.85 + sidebarPalette.window.g * 0.15, sidebarPalette.dark.b * 0.85 + sidebarPalette.window.b * 0.15, 1)
+    readonly property color sidebarActiveText: sidebarPalette.brightText
     property int activeSectionIndex: -1
     property int activeSectionFirstRow: -1
     property string activeSectionName: ""

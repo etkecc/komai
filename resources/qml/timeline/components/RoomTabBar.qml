@@ -108,7 +108,11 @@ Rectangle {
 
             Layout.preferredWidth: newTabContent.implicitWidth + Komai.paddingMedium * 2
             Layout.fillHeight: true
-            color: newTabArea.containsMouse ? palette.dark : "transparent"
+            color: newTabArea.containsMouse
+                ? Qt.rgba(palette.dark.r * 0.30 + palette.window.r * 0.70,
+                          palette.dark.g * 0.30 + palette.window.g * 0.70,
+                          palette.dark.b * 0.30 + palette.window.b * 0.70, 1)
+                : "transparent"
 
             RowLayout {
                 id: newTabContent
@@ -120,14 +124,14 @@ Rectangle {
                     Layout.preferredWidth: Math.round(Komai.fontPixelSize * 1.2)
                     Layout.preferredHeight: Math.round(Komai.fontPixelSize * 1.2)
                     source: "image://colorimage/:/icons/icons/ui/tab-add.svg?"
-                        + (newTabArea.containsMouse ? palette.brightText : palette.buttonText)
+                        + (newTabArea.containsMouse ? palette.text : palette.buttonText)
                     sourceSize: Qt.size(width, height)
                 }
 
                 Text {
                     text: qsTr("New")
                     font.pixelSize: Komai.fontPixelSize
-                    color: newTabArea.containsMouse ? palette.brightText : palette.buttonText
+                    color: newTabArea.containsMouse ? palette.text : palette.buttonText
                 }
             }
 

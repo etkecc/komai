@@ -22,14 +22,14 @@ const PALETTE_KEYS = [
 ];
 
 const COMMUNITY_ITEMS = [
-  { icon: "AR", label: "All rooms" },
+  { icon: "AR", label: "All rooms", badge: 12 },
   { icon: "FV", label: "Favourites" },
-  { icon: "PE", label: "People" },
+  { icon: "PE", label: "People", badge: 3 },
   { icon: "BT", label: "Bots" },
   { icon: "GR", label: "Groups", hover: true },
   { icon: "LP", label: "Low priority" },
-  { icon: "PS", label: "Product Space", selected: true },
-  { icon: "EN", label: "Engineering" },
+  { icon: "PS", label: "Product Space", selected: true, badge: 5 },
+  { icon: "EN", label: "Engineering", badge: 1 },
   { icon: "MK", label: "Marketing" },
 ];
 
@@ -53,6 +53,14 @@ const ROOM_ITEMS = [
     title: "#ops",
     preview: "The release note draft is waiting for a final pass.",
     time: "14:11",
+    unread: true,
+  },
+  {
+    avatar: "RF",
+    title: "#refactoring",
+    preview: "Draft: I started writing the migration plan for the new API...",
+    time: "13:45",
+    draft: true,
   },
   {
     avatar: "QA",
@@ -706,22 +714,27 @@ function renderCommunityItem(item) {
     : item.hover
       ? "community-item is-hover-demo"
       : "community-item";
+  const badge = item.badge
+    ? `<span class="community-item__badge">${item.badge}</span>`
+    : "";
   return `
     <div class="${stateClass}">
       <div class="community-item__icon">${escapeHtml(item.icon)}</div>
-      <div class="community-item__label">${escapeHtml(item.label)}</div>
+      <div class="community-item__label">${escapeHtml(item.label)}${badge}</div>
     </div>
   `;
 }
 
 function renderRoomItem(item) {
-  const stateClass = item.selected
-    ? "room-item is-selected"
-    : item.hover
-      ? "room-item is-hover-demo"
-      : "room-item";
+  let stateClass = "room-item";
+  if (item.selected) stateClass += " is-selected";
+  else if (item.hover) stateClass += " is-hover-demo";
+  if (item.unread) stateClass += " is-unread";
+  if (item.draft) stateClass += " is-draft";
+
   return `
     <div class="${stateClass}">
+      <div class="room-item__indicator"></div>
       <div class="room-item__avatar">${escapeHtml(item.avatar)}</div>
       <div class="room-item__body">
         <div class="room-item__topline">

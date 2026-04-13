@@ -372,6 +372,7 @@ input {
   margin: 0 0.35rem;
   padding: 0.55rem 0.8rem;
   border-radius: 0;
+  background: var(--window);
   color: var(--text);
 }
 
@@ -389,29 +390,46 @@ input {
 }
 
 .community-item__label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 0.9rem;
+}
+
+.community-item__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.3em;
+  padding: 0.1em 0.35em;
+  border-radius: 0.3em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--highlight);
+  color: var(--highlighted-text);
+  margin-left: auto;
 }
 
 .community-item:hover,
 .community-item.is-hover-demo {
-  background: var(--dark);
-  color: var(--bright-text);
+  background: color-mix(in srgb, var(--dark) 30%, var(--window));
+  color: var(--text);
 }
 
 .community-item.is-selected {
-  background: var(--highlight);
-  color: var(--highlighted-text);
+  background: color-mix(in srgb, var(--dark) 85%, var(--window));
+  color: var(--bright-text);
 }
 
 .community-item:hover .community-item__icon,
 .community-item.is-hover-demo .community-item__icon {
-  background: var(--dark);
-  color: var(--bright-text);
+  background: color-mix(in srgb, var(--dark) 30%, var(--window));
+  color: var(--text);
 }
 
 .community-item.is-selected .community-item__icon {
-  background: var(--highlight);
-  color: var(--highlighted-text);
+  background: color-mix(in srgb, var(--dark) 85%, var(--window));
+  color: var(--bright-text);
   border-color: var(--mid);
 }
 
@@ -527,13 +545,44 @@ input {
 
 .room-item {
   display: grid;
-  grid-template-columns: 3.4rem minmax(0, 1fr);
-  gap: 0.7rem;
+  grid-template-columns: 4px 3.4rem minmax(0, 1fr);
+  gap: 0 0.7rem;
   align-items: center;
   padding: 0.65rem 0.8rem;
+  padding-left: 0.4rem;
   background: var(--window);
   border-bottom: 1px solid var(--mid);
   color: var(--text);
+}
+
+.room-item__indicator {
+  width: 4px;
+  height: 70%;
+  border-radius: 2px;
+  background: transparent;
+  align-self: center;
+}
+
+.room-item.is-unread .room-item__indicator {
+  background: var(--highlight);
+}
+
+.room-item.is-draft .room-item__indicator {
+  background: var(--attention);
+}
+
+.room-item.is-unread {
+  background: color-mix(in srgb, var(--highlight) 15%, var(--window));
+  color: var(--button-text);
+}
+
+.room-item.is-unread .room-item__topline strong {
+  font-weight: 900;
+}
+
+.room-item.is-draft {
+  background: color-mix(in srgb, var(--attention) 12%, var(--window));
+  color: var(--button-text);
 }
 
 .room-item__avatar {
@@ -575,24 +624,24 @@ input {
 
 .room-item:hover,
 .room-item.is-hover-demo {
-  background: var(--dark);
-  color: var(--bright-text);
+  background: color-mix(in srgb, var(--dark) 30%, var(--window));
+  color: var(--text);
 }
 
 .room-item.is-selected {
-  background: var(--highlight);
-  color: var(--highlighted-text);
+  background: color-mix(in srgb, var(--dark) 85%, var(--window));
+  color: var(--bright-text);
 }
 
 .room-item:hover .room-item__avatar,
 .room-item.is-hover-demo .room-item__avatar {
-  background: var(--dark);
-  color: var(--bright-text);
+  background: color-mix(in srgb, var(--dark) 30%, var(--window));
+  color: var(--text);
 }
 
 .room-item.is-selected .room-item__avatar {
-  background: var(--highlight);
-  color: var(--highlighted-text);
+  background: color-mix(in srgb, var(--dark) 85%, var(--window));
+  color: var(--bright-text);
 }
 
 .timeline-panel {

@@ -260,6 +260,21 @@ def rgb_to_hex(rgb):
     return "#{:02x}{:02x}{:02x}".format(*rgb)
 
 
+def tint_color(fg_hex, bg_hex, alpha):
+    """Alpha-composite fg over bg at the given opacity (0.0-1.0).
+
+    Returns a #rrggbb string representing the resulting opaque color,
+    matching QML's Qt.rgba() blending: result = fg * alpha + bg * (1 - alpha).
+    """
+    fr, fg_, fb = parse_color(fg_hex)
+    br, bg_, bb = parse_color(bg_hex)
+    return rgb_to_hex((
+        round(fr * alpha + br * (1 - alpha)),
+        round(fg_ * alpha + bg_ * (1 - alpha)),
+        round(fb * alpha + bb * (1 - alpha)),
+    ))
+
+
 def qcolor_darker(hex_str, factor):
     """Approximate QColor::darker(factor) for a hex color string."""
     r, g, b = parse_color(hex_str)

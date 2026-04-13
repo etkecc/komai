@@ -100,8 +100,8 @@ Rectangle {
         (Komai.theme.attention.b + palette.highlight.b) / 2, 1)
 
     // Text color adapts to active/hover/activity state.
-    readonly property color textColor: isActive ? palette.highlightedText
-        : isHovered ? palette.brightText
+    readonly property color textColor: isActive ? palette.brightText
+        : isHovered ? palette.text
         : palette.buttonText
 
     // Avatar size relative to font size (roughly 1.2x line height).
@@ -117,24 +117,18 @@ Rectangle {
     // Must match the actual visual background so the gradient hides text cleanly.
     readonly property color opaqueBackgroundColor: {
         if (isActive) {
-            if (emphasizeDraft) {
-                var db = draftActivityBase;
-                return Qt.rgba(
-                    palette.highlight.r * 0.75 + db.r * 0.25,
-                    palette.highlight.g * 0.75 + db.g * 0.25,
-                    palette.highlight.b * 0.75 + db.b * 0.25, 1);
-            }
-            return palette.highlight;
+            var d = palette.dark;
+            return Qt.rgba(
+                d.r * 0.85 + palette.window.r * 0.15,
+                d.g * 0.85 + palette.window.g * 0.15,
+                d.b * 0.85 + palette.window.b * 0.15, 1);
         }
         if (isHovered) {
-            if (emphasizeDraft) {
-                var db2 = draftActivityBase;
-                return Qt.rgba(
-                    palette.dark.r * 0.7 + db2.r * 0.3,
-                    palette.dark.g * 0.7 + db2.g * 0.3,
-                    palette.dark.b * 0.7 + db2.b * 0.3, 1);
-            }
-            return palette.dark;
+            var d2 = palette.dark;
+            return Qt.rgba(
+                d2.r * 0.30 + palette.window.r * 0.70,
+                d2.g * 0.30 + palette.window.g * 0.70,
+                d2.b * 0.30 + palette.window.b * 0.70, 1);
         }
         if (emphasizeDraft) {
             var a = Komai.theme.attention;
@@ -178,22 +172,10 @@ Rectangle {
     width: tabWidth
     height: parent ? parent.height : 32
     color: {
-        if (isActive) {
-            if (emphasizeDraft)
-                return Qt.rgba(
-                    (palette.highlight.r * 0.75) + (draftActivityBase.r * 0.25),
-                    (palette.highlight.g * 0.75) + (draftActivityBase.g * 0.25),
-                    (palette.highlight.b * 0.75) + (draftActivityBase.b * 0.25), 1);
-            return palette.highlight;
-        }
-        if (isHovered) {
-            if (emphasizeDraft)
-                return Qt.rgba(
-                    (palette.dark.r * 0.7) + (draftActivityBase.r * 0.3),
-                    (palette.dark.g * 0.7) + (draftActivityBase.g * 0.3),
-                    (palette.dark.b * 0.7) + (draftActivityBase.b * 0.3), 1);
-            return palette.dark;
-        }
+        if (isActive)
+            return Qt.rgba(palette.dark.r, palette.dark.g, palette.dark.b, 0.85);
+        if (isHovered)
+            return Qt.rgba(palette.dark.r, palette.dark.g, palette.dark.b, 0.30);
         if (emphasizeDraft)
             return Qt.rgba(Komai.theme.attention.r, Komai.theme.attention.g, Komai.theme.attention.b, 0.12);
         if (emphasizeUnread)

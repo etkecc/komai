@@ -47,8 +47,8 @@ ItemDelegate {
     readonly property bool emphasizeActivityState: emphasizeUnreadState || emphasizeDraftState
     readonly property bool keyboardFocused: ListView.view && ListView.view.activeFocus && ListView.isCurrentItem
     readonly property color draftActivityBase: Qt.rgba((Komai.theme.attention.r + palette.highlight.r) / 2, (Komai.theme.attention.g + palette.highlight.g) / 2, (Komai.theme.attention.b + palette.highlight.b) / 2, 1)
-    readonly property color draftHoverBackground: Qt.rgba((palette.dark.r * 0.7) + (draftActivityBase.r * 0.3), (palette.dark.g * 0.7) + (draftActivityBase.g * 0.3), (palette.dark.b * 0.7) + (draftActivityBase.b * 0.3), 1)
-    readonly property color draftSelectedBackground: Qt.rgba((palette.highlight.r * 0.75) + (draftActivityBase.r * 0.25), (palette.highlight.g * 0.75) + (draftActivityBase.g * 0.25), (palette.highlight.b * 0.75) + (draftActivityBase.b * 0.25), 1)
+    readonly property color hoverBackground: Qt.rgba(palette.dark.r * 0.30 + palette.window.r * 0.70, palette.dark.g * 0.30 + palette.window.g * 0.70, palette.dark.b * 0.30 + palette.window.b * 0.70, 1)
+    readonly property color selectedBackground: Qt.rgba(palette.dark.r * 0.85 + palette.window.r * 0.15, palette.dark.g * 0.85 + palette.window.g * 0.15, palette.dark.b * 0.85 + palette.window.b * 0.15, 1)
     property color unimportantText: palette.buttonText
 
     KomaiToolTip {
@@ -86,7 +86,7 @@ ItemDelegate {
         Rectangle {
             anchors.fill: parent
             color: "transparent"
-            border.color: roomItem.isSelected ? palette.highlightedText : palette.highlight
+            border.color: palette.highlight
             border.width: roomItem.keyboardFocused ? 2 : 0
         }
     }
@@ -97,12 +97,11 @@ ItemDelegate {
 
             PropertyChanges {
                 roomItem {
-                    backgroundColor: roomItem.emphasizeDraftState ? roomItem.draftHoverBackground : palette.dark
+                    backgroundColor: roomItem.hoverBackground
                     bubbleBackground: palette.highlight
                     bubbleText: palette.highlightedText
-                    draftIndicatorColor: palette.brightText
-                    importantText: palette.brightText
-                    unimportantText: palette.brightText
+                    importantText: palette.text
+                    unimportantText: palette.text
                 }
             }
         },
@@ -112,12 +111,12 @@ ItemDelegate {
 
             PropertyChanges {
                 roomItem {
-                    backgroundColor: roomItem.emphasizeDraftState ? roomItem.draftSelectedBackground : palette.highlight
-                    bubbleBackground: palette.highlightedText
-                    bubbleText: palette.highlight
-                    draftIndicatorColor: palette.highlightedText
-                    importantText: palette.highlightedText
-                    unimportantText: palette.highlightedText
+                    backgroundColor: roomItem.selectedBackground
+                    bubbleBackground: palette.highlight
+                    bubbleText: palette.highlightedText
+                    draftIndicatorColor: palette.brightText
+                    importantText: palette.brightText
+                    unimportantText: palette.brightText
                 }
             }
         }

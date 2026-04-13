@@ -156,6 +156,9 @@ Rectangle {
                             color: navItem.backgroundColor
                         }
 
+                        readonly property color hoverBackground: Qt.rgba(palette.dark.r * 0.30 + palette.window.r * 0.70, palette.dark.g * 0.30 + palette.window.g * 0.70, palette.dark.b * 0.30 + palette.window.b * 0.70, 1)
+                        readonly property color selectedBackground: Qt.rgba(palette.dark.r * 0.85 + palette.window.r * 0.15, palette.dark.g * 0.85 + palette.window.g * 0.15, palette.dark.b * 0.85 + palette.window.b * 0.15, 1)
+
                         states: [
                             State {
                                 name: "hover"
@@ -163,8 +166,8 @@ Rectangle {
 
                                 PropertyChanges {
                                     navItem {
-                                        backgroundColor: palette.dark
-                                        textColor: palette.brightText
+                                        backgroundColor: navItem.hoverBackground
+                                        textColor: palette.text
                                     }
                                 }
                             },
@@ -174,8 +177,8 @@ Rectangle {
 
                                 PropertyChanges {
                                     navItem {
-                                        backgroundColor: palette.highlight
-                                        textColor: palette.highlightedText
+                                        backgroundColor: navItem.selectedBackground
+                                        textColor: palette.brightText
                                     }
                                 }
                             }

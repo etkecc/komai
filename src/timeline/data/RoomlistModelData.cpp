@@ -14,6 +14,7 @@
 
 #include "matrix/MatrixMediaUri.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/StateEventText.h"
 #include "timeline/roomlist/RoomlistPreviewSelection.h"
 #include "utils/Utils.h"
 
@@ -31,36 +32,43 @@ roomListPreviewSenderName(const komai::MatrixRoomSummary &room)
 QString
 formatMatrixRoomListPreview(const komai::MatrixRoomSummary &room)
 {
-    if (room.lastMessage.isEmpty())
-        return room.lastMessage;
+    if (room.lastMessage.isEmpty() && room.lastMessageKind.isEmpty())
+        return {};
+
+    // Translate the preview body based on the kind key.  For non-content
+    // kinds (event type labels, state events) this returns a translated
+    // label; for content kinds it returns the original lastMessage.
+    const auto body =
+      StateEventText::translateRoomListPreview(room.lastMessageKind, room.lastMessage);
+    if (body.isEmpty())
+        return {};
 
     if (room.lastMessageKind == QStringLiteral("emote")) {
         const auto senderName = roomListPreviewSenderName(room);
         if (senderName.isEmpty())
-            return room.lastMessage;
+            return body;
 
-        return QStringLiteral("* %1 %2").arg(senderName, room.lastMessage);
+        return QStringLiteral("* %1 %2").arg(senderName, body);
     }
 
     if (room.lastMessageKind == QStringLiteral("membership_change") ||
         room.lastMessageKind == QStringLiteral("profile_change") ||
         room.lastMessageKind == QStringLiteral("other_state") ||
         room.lastMessageKind == QStringLiteral("failed_to_parse_state")) {
-        return room.lastMessage;
+        return body;
     }
 
     const auto senderName = roomListPreviewSenderName(room);
     if (senderName.isEmpty())
-        return room.lastMessage;
+        return body;
 
     const auto localUserId = utils::localUser().trimmed();
     const bool isLocal =
       !localUserId.isEmpty() && room.lastMessageSenderId.trimmed() == localUserId;
 
-    return isLocal ? QCoreApplication::translate("message-description sent:", "You: %1")
-                       .arg(room.lastMessage)
+    return isLocal ? QCoreApplication::translate("message-description sent:", "You: %1").arg(body)
                    : QCoreApplication::translate("message-description sent:", "%1: %2")
-                       .arg(senderName, room.lastMessage);
+                       .arg(senderName, body);
 }
 } // namespace
 

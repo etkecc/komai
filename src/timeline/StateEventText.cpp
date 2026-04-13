@@ -345,4 +345,113 @@ translateNotificationBody(const MatrixNotificationItem &notification)
     return notification.plainBody;
 }
 
+// ── Room-list last-message preview ──────────────────────────────────
+
+QString
+translateRoomListPreview(const QString &kind, const QString &body)
+{
+    // Event-type labels (redacted, poll, sticker, etc.)
+    const auto label = eventTypeLabel(kind, {});
+    if (!label.isEmpty())
+        return label;
+
+    // State event kinds that need generic labels
+    if (kind == QStringLiteral("membership_change"))
+        return TR("[Membership change]");
+    if (kind == QStringLiteral("profile_change"))
+        return TR("[Profile updated]");
+    if (kind == QStringLiteral("other_state"))
+        return TR("[Room state changed]");
+
+    // Content-bearing kinds -- use original body as-is
+    return body;
+}
+
+// ── Auth / registration error translation ───────────────────────────
+//
+// Known constant error strings from Rust auth.rs and registration.rs.
+// When changing error strings in those files, update the mappings here.
+
+namespace {
+
+// Try to split "Prefix: detail" and translate just the prefix.
+// Returns empty string if the error does not start with the prefix.
+QString
+translateErrorPrefix(const QString &error, const QLatin1String &prefix, const char *translated)
+{
+    if (!error.startsWith(prefix))
+        return {};
+
+    const auto detail = error.mid(prefix.size()).trimmed();
+    if (detail.isEmpty())
+        return TR(translated);
+
+    return QStringLiteral("%1 %2").arg(TR(translated), detail);
+}
+
+} // anonymous namespace
+
+QString
+translateAuthError(const QString &error)
+{
+    // ── Constant strings (exact match) ──
+
+    if (error ==
+        QLatin1String("Received malformed response. Make sure the homeserver domain is valid."))
+        return TR("Received malformed response. Make sure the homeserver domain is valid.");
+    if (error == QLatin1String("Autodiscovery failed. Received malformed response."))
+        return TR("Autodiscovery failed. Received malformed response.");
+    if (error == QLatin1String("Autodiscovery failed. Unknown error when requesting .well-known."))
+        return TR("Autodiscovery failed. Unknown error when requesting .well-known.");
+    if (error ==
+        QLatin1String("The required endpoints were not found. Possibly not a Matrix server."))
+        return TR("The required endpoints were not found. Possibly not a Matrix server.");
+    if (error ==
+        QLatin1String(
+          "Server does not require any authentication for registration. This is unexpected."))
+        return TR(
+          "Server does not require any authentication for registration. This is unexpected.");
+    if (error ==
+        QLatin1String("Server returned no registration flows. Registration may be disabled."))
+        return TR("Server returned no registration flows. Registration may be disabled.");
+    if (error == QLatin1String("Registration is disabled on this server."))
+        return TR("Registration is disabled on this server.");
+    if (error == QLatin1String("Registration token cannot be empty"))
+        return TR("Registration token cannot be empty");
+    if (error == QLatin1String("OAuth callback query cannot be empty"))
+        return TR("OAuth callback query cannot be empty");
+
+    // ── Dynamic strings with translatable prefix ──
+    // Pattern: "Prefix: SDK-error-detail"
+
+    QString result;
+
+    result = translateErrorPrefix(error,
+                                  QLatin1String("Failed to contact the homeserver:"),
+                                  "Failed to contact the homeserver:");
+    if (!result.isEmpty())
+        return result;
+
+    result = translateErrorPrefix(error,
+                                  QLatin1String("Failed to discover Matrix login flows:"),
+                                  "Failed to discover Matrix login flows:");
+    if (!result.isEmpty())
+        return result;
+
+    result =
+      translateErrorPrefix(error, QLatin1String("Registration failed:"), "Registration failed:");
+    if (!result.isEmpty())
+        return result;
+
+    result =
+      translateErrorPrefix(error,
+                           QLatin1String("Autodiscovery failed while requesting .well-known:"),
+                           "Autodiscovery failed while requesting .well-known:");
+    if (!result.isEmpty())
+        return result;
+
+    // Unrecognised error -- return as-is.
+    return error;
+}
+
 } // namespace StateEventText

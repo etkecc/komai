@@ -30,7 +30,7 @@ Rectangle {
     property int headerIconSize: Komai.barIconSize
     property var navModel: [
         { text: qsTr("Look & Feel"), icon: "qrc:/icons/icons/ui/toggles.svg", tab: UserSettingsModel.TabLookFeel },
-        { text: qsTr("Navigation"), icon: "qrc:/icons/icons/ui/sidebar.svg", tab: UserSettingsModel.TabNavigation },
+        { text: qsTr("Navigation"), icon: "qrc:/icons/icons/ui/panel-left-header.svg", tab: UserSettingsModel.TabNavigation },
         { text: qsTr("Timeline"), icon: "qrc:/icons/icons/ui/speech-bubbles.svg", tab: UserSettingsModel.TabTimeline },
         { text: qsTr("Composer"), icon: "qrc:/icons/icons/ui/edit.svg", tab: UserSettingsModel.TabComposer },
         { text: qsTr("Desktop"), icon: "qrc:/icons/icons/ui/desktop.svg", tab: UserSettingsModel.TabDesktop },

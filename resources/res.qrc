@@ -48,7 +48,6 @@
         <file alias="icons/ui/search.svg">icons/fluent/assets/Search/SVG/ic_fluent_search_32_regular.svg</file>
         <file alias="icons/ui/send.svg">icons/fluent/assets/Send/SVG/ic_fluent_send_28_regular.svg</file>
         <file alias="icons/ui/settings.svg">icons/fluent/assets/Settings/SVG/ic_fluent_settings_32_regular.svg</file>
-        <file alias="icons/ui/sidebar.svg">icons/fluent/assets/Panel Left/SVG/ic_fluent_panel_left_24_regular.svg</file>
         <file alias="icons/ui/smile.svg">icons/fluent/assets/Emoji/SVG/ic_fluent_emoji_32_regular.svg</file>
         <file alias="icons/ui/smile-add.svg">icons/fluent/assets/Emoji Add/SVG/ic_fluent_emoji_add_24_regular.svg</file>
         <file alias="icons/ui/speech-bubbles.svg">icons/fluent/assets/Chat Multiple/SVG/ic_fluent_chat_multiple_24_regular.svg</file>
@@ -123,6 +122,7 @@
         <file alias="icons/ui/pin-filled.svg">icons/fluent/assets/Pin/SVG/ic_fluent_pin_24_filled.svg</file>
         <file alias="icons/ui/tab-add.svg">icons/fluent/assets/Tab Add/SVG/ic_fluent_tab_add_24_regular.svg</file>
         <file alias="icons/ui/presence-blocked.svg">icons/fluent/assets/Presence Blocked/SVG/ic_fluent_presence_blocked_24_regular.svg</file>
+        <file alias="icons/ui/panel-left-header.svg">icons/fluent/assets/Panel Left Header/SVG/ic_fluent_panel_left_header_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

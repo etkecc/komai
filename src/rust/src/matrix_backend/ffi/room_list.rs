@@ -51,6 +51,7 @@ pub(crate) fn into_ffi_matrix_notification_item(
         room_name: item.room_name,
         avatar_url: item.avatar_url,
         sender_display_name: item.sender_display_name,
+        notification_kind: item.notification_kind,
         plain_body: item.plain_body,
         formatted_body: item.formatted_body,
         media_mxc_url: item.media_mxc_url,

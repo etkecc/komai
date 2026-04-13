@@ -8,10 +8,12 @@
 
 namespace komai {
 struct MatrixTimelineItem;
+struct MatrixNotificationItem;
 }
 
 namespace StateEventText {
 
+using komai::MatrixNotificationItem;
 using komai::MatrixTimelineItem;
 
 /// Returns translated text for a state event (membership change, profile
@@ -25,5 +27,12 @@ translate(const MatrixTimelineItem &item);
 /// Returns an empty string when the kind needs no label override.
 QString
 eventTypeLabel(const QString &itemKind, const QString &matrixEventType);
+
+/// Translates notification body text based on the notification kind key.
+/// For kinds that have translatable labels (e.g. "invite", "redacted"),
+/// returns the translated string.  For content-bearing kinds (text, image,
+/// etc.), returns the original plainBody unchanged.
+QString
+translateNotificationBody(const MatrixNotificationItem &notification);
 
 } // namespace StateEventText

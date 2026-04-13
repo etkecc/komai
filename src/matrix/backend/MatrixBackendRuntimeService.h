@@ -184,6 +184,7 @@ struct MatrixNotificationItem
     QString roomName;
     QString avatarUrl;
     QString senderDisplayName;
+    QString notificationKind;
     QString plainBody;
     QString formattedBody;
     QString mediaMxcUrl;

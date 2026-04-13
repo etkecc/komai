@@ -38,6 +38,7 @@
 #include "timeline/Permissions.h"
 #include "timeline/PresenceEmitter.h"
 #include "timeline/RoomlistModel.h"
+#include "timeline/StateEventText.h"
 #include "timeline/TimelineViewManager.h"
 
 namespace {
@@ -312,13 +313,15 @@ ChatPage::dispatchMatrixNotification(const komai::MatrixNotificationItem &notifi
     if (isRoomActive(notification.roomId))
         return;
 
+    const auto translatedBody = StateEventText::translateNotificationBody(notification);
+
     komai::NotificationPayload payload{
       .roomId             = notification.roomId,
       .eventId            = notification.eventId,
       .replacementEventId = notification.replacementEventId,
       .roomName           = notification.roomName,
       .senderDisplayName  = notification.senderDisplayName,
-      .plainBody          = notification.plainBody,
+      .plainBody          = translatedBody,
       .formattedBody      = notification.formattedBody,
       .mediaMxcUrl        = notification.mediaMxcUrl,
       .isReply            = notification.isReply,

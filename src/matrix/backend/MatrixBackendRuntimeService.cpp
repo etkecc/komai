@@ -332,6 +332,7 @@ fromRustNotificationItem(const ::komai::rust::MatrixNotificationItem &item)
       .roomName           = QString::fromStdString(std::string(item.room_name)),
       .avatarUrl = matrix::normalizeMxcUri(QString::fromStdString(std::string(item.avatar_url))),
       .senderDisplayName = QString::fromStdString(std::string(item.sender_display_name)),
+      .notificationKind  = QString::fromStdString(std::string(item.notification_kind)),
       .plainBody         = QString::fromStdString(std::string(item.plain_body)),
       .formattedBody     = QString::fromStdString(std::string(item.formatted_body)),
       .mediaMxcUrl =

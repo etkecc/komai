@@ -806,6 +806,7 @@ mod bridge {
         room_name: String,
         avatar_url: String,
         sender_display_name: String,
+        notification_kind: String,
         plain_body: String,
         formatted_body: String,
         media_mxc_url: String,

@@ -317,4 +317,32 @@ translate(const MatrixTimelineItem &item)
     return {};
 }
 
+// ── Notification body translation ───────────────────────────────────
+
+QString
+translateNotificationBody(const MatrixNotificationItem &notification)
+{
+    const auto &kind = notification.notificationKind;
+
+    // Invite notifications have no body from Rust -- provide translated text.
+    if (kind == QStringLiteral("invite"))
+        return TR("Invited you to join this room");
+
+    // For event-type kinds that have translatable labels, use eventTypeLabel().
+    // This covers: redacted, unable_to_decrypt, poll, call_invite, sticker,
+    // reaction, other_message, unknown_message, etc.
+    const auto label = eventTypeLabel(kind, {});
+    if (!label.isEmpty())
+        return label;
+
+    // For membership/state events shown in notifications, provide a generic label.
+    if (kind == QStringLiteral("membership_change"))
+        return TR("[Membership change]");
+    if (kind == QStringLiteral("other_state"))
+        return TR("[Room state changed]");
+
+    // Content-bearing kinds (text, image, video, etc.) -- use original body.
+    return notification.plainBody;
+}
+
 } // namespace StateEventText

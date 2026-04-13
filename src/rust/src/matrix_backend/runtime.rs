@@ -329,6 +329,10 @@ pub struct MatrixNotificationItem {
     pub room_name: String,
     pub avatar_url: String,
     pub sender_display_name: String,
+    /// Machine-readable notification kind key for C++ translation.
+    /// Translated to user-visible text in C++ StateEventText::translateNotificationBody().
+    /// When adding or changing notification_kind keys, update that function too.
+    pub notification_kind: String,
     pub plain_body: String,
     pub formatted_body: String,
     pub media_mxc_url: String,

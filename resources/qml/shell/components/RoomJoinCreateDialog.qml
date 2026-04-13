@@ -11,6 +11,8 @@ import cc.etke.komai 1.0
 Components.OverlayDialog {
     id: root
 
+    required property var dialogHost
+
     title: qsTr("New")
     titleIcon: ":/icons/icons/ui/plus-circle.svg"
 
@@ -110,43 +112,6 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingSmall
 
-        // --- Join section ---
-        Components.SettingsSection {
-            label: qsTr("Join")
-            Layout.fillWidth: true
-        }
-
-        ActionButton {
-            labelText: qsTr("Join room")
-            descriptionText: qsTr("Enter a room address or alias to join")
-            iconSource: ":/icons/icons/ui/arrow-join.svg"
-            shortcutSequence: "J"
-            shortcutDisplayText: qsTr("J")
-            onClicked: {
-                root.close();
-                Komai.openJoinRoomDialog();
-            }
-        }
-
-        ActionButton {
-            labelText: qsTr("Explore public rooms")
-            descriptionText: qsTr("Browse the public room directory")
-            iconSource: ":/icons/icons/ui/compass-northwest.svg"
-            shortcutSequence: "E"
-            shortcutDisplayText: qsTr("E")
-            onClicked: {
-                root.close();
-                timelineRoot.openRoomDirectory();
-            }
-        }
-
-        // --- Create section ---
-        Components.SettingsSection {
-            label: qsTr("Create")
-            Layout.fillWidth: true
-            Layout.topMargin: Komai.paddingMedium
-        }
-
         ActionButton {
             labelText: qsTr("New direct chat")
             descriptionText: qsTr("A 1-on-1 conversation with another user where you both get the same power level")
@@ -155,7 +120,8 @@ Components.OverlayDialog {
             shortcutDisplayText: qsTr("D")
             onClicked: {
                 root.close();
-                timelineRoot.openCatalogDialog(componentCatalog.roomCreateDirectDialog);
+                root.dialogHost.openCatalogDialog(
+                    "qrc:/resources/qml/dialogs/room/CreateDirect.qml", {});
             }
         }
 
@@ -167,7 +133,8 @@ Components.OverlayDialog {
             shortcutDisplayText: qsTr("R")
             onClicked: {
                 root.close();
-                timelineRoot.openCatalogDialog(componentCatalog.roomCreateDialog, {});
+                root.dialogHost.openCatalogDialog(
+                    "qrc:/resources/qml/dialogs/room/CreateRoom.qml", {});
             }
         }
 
@@ -179,9 +146,8 @@ Components.OverlayDialog {
             shortcutDisplayText: qsTr("S")
             onClicked: {
                 root.close();
-                timelineRoot.openCatalogDialog(componentCatalog.roomCreateDialog, {
-                        "space": true
-                    });
+                root.dialogHost.openCatalogDialog(
+                    "qrc:/resources/qml/dialogs/room/CreateRoom.qml", {"space": true});
             }
         }
     }

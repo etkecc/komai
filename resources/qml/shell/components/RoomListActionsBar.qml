@@ -138,7 +138,7 @@ Pane {
                     userSettingsButton.forceActiveFocus(Qt.TabFocusReason);
                     event.accepted = true;
                 }
-                toolTipText: qsTr("Join or create a new chat or space [Ctrl+N]")
+                toolTipText: qsTr("Create a new chat or space [Ctrl+N]")
                 iconSource: ":/icons/icons/ui/plus-circle.svg"
                 labelText: roomActionsBar.newActionLabel
                 showLabel: roomActionsBar.showActionLabels
@@ -160,6 +160,7 @@ Pane {
         }
         RoomJoinCreateDialog {
             id: roomJoinCreateDialog
+            dialogHost: roomActionsBar.timelineRoot
         }
     }
 

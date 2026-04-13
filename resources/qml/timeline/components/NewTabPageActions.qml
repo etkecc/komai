@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
+import "../../shell/components" as ShellComponents
 
 RowLayout {
     id: root
@@ -41,32 +42,12 @@ RowLayout {
         text: qsTr("New")
         toolTipText: qsTr("Create a new chat or space [Ctrl+N]")
         icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-        onClicked: newMenu.popup(newButton)
+        onClicked: newDialog.open()
     }
 
-    Menu {
-        id: newMenu
-
-        MenuItem {
-            text: qsTr("New direct chat")
-            icon.source: "qrc:/icons/icons/ui/person.svg"
-            onTriggered: root.dialogHost.openCatalogDialog(
-                "qrc:/resources/qml/dialogs/room/CreateDirect.qml", {})
-        }
-
-        MenuItem {
-            text: qsTr("New room")
-            icon.source: "qrc:/icons/icons/ui/people-community.svg"
-            onTriggered: root.dialogHost.openCatalogDialog(
-                "qrc:/resources/qml/dialogs/room/CreateRoom.qml", {})
-        }
-
-        MenuItem {
-            text: qsTr("New space")
-            icon.source: "qrc:/icons/icons/ui/squares-nested.svg"
-            onTriggered: root.dialogHost.openCatalogDialog(
-                "qrc:/resources/qml/dialogs/room/CreateRoom.qml", {"space": true})
-        }
+    ShellComponents.RoomJoinCreateDialog {
+        id: newDialog
+        dialogHost: root.dialogHost
     }
 
     // Measure natural content widths without circular bindings.

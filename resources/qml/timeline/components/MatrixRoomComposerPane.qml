@@ -10,7 +10,7 @@ import cc.etke.komai
 ColumnLayout {
     id: root
 
-    required property var rootItem
+    property var rootItem: null
     required property var uploadsController
     required property var composerRoom
     required property var composerInputController
@@ -27,24 +27,24 @@ ColumnLayout {
 
     Composer.UploadBox {
         Layout.minimumHeight: 0
-        Layout.preferredHeight: !root.rootItem.perfDisableComposer
+        Layout.preferredHeight: composerContainer.visible
             && layoutVisible
-            && !root.rootItem.walkModeActive ? implicitHeight : 0
-        Layout.maximumHeight: !root.rootItem.perfDisableComposer
+            && !composerContainer._walkMode ? implicitHeight : 0
+        Layout.maximumHeight: composerContainer.visible
             && layoutVisible
-            && !root.rootItem.walkModeActive ? implicitHeight : 0
+            && !composerContainer._walkMode ? implicitHeight : 0
         uploadsController: root.uploadsController
         uploadsSending: TimelineManager.matrixTimelineAttachmentSending
     }
 
     Composer.ReplyPopup {
         Layout.minimumHeight: 0
-        Layout.preferredHeight: !root.rootItem.perfDisableComposer
+        Layout.preferredHeight: composerContainer.visible
             && layoutVisible
-            && !root.rootItem.walkModeActive ? implicitHeight : 0
-        Layout.maximumHeight: !root.rootItem.perfDisableComposer
+            && !composerContainer._walkMode ? implicitHeight : 0
+        Layout.maximumHeight: composerContainer.visible
             && layoutVisible
-            && !root.rootItem.walkModeActive ? implicitHeight : 0
+            && !composerContainer._walkMode ? implicitHeight : 0
         matrixReplyEventId: TimelineManager.matrixTimelineReplyEventId
         matrixReplySenderId: TimelineManager.matrixTimelineReplySenderId
         matrixReplyDisplayName: TimelineManager.matrixTimelineReplySenderDisplayName
@@ -58,16 +58,19 @@ ColumnLayout {
     Rectangle {
         id: composerContainer
 
-        readonly property int contentHeight: root.rootItem.walkModeActive
-            ? root.rootItem.composerBaselineHeight
-            : Math.max(root.rootItem.composerBaselineHeight, composerInput.implicitHeight)
+        readonly property bool _hasRootItem: !!root.rootItem
+        readonly property bool _walkMode: _hasRootItem && root.rootItem.walkModeActive
+        readonly property int _baselineHeight: _hasRootItem ? root.rootItem.composerBaselineHeight : Math.max(48, Komai.navigationRowHeight)
+        readonly property int contentHeight: _walkMode
+            ? _baselineHeight
+            : Math.max(_baselineHeight, composerInput.implicitHeight)
         Layout.fillWidth: true
         Layout.minimumHeight: visible ? implicitHeight : 0
         Layout.preferredHeight: visible ? implicitHeight : 0
         Layout.maximumHeight: visible ? implicitHeight : 0
         color: palette.window
         implicitHeight: inputShellSeparator.implicitHeight + contentHeight
-        visible: !root.rootItem.perfDisableComposer
+        visible: !_hasRootItem || !root.rootItem.perfDisableComposer
 
         ColumnLayout {
             anchors.fill: parent
@@ -89,34 +92,34 @@ ColumnLayout {
                 id: composerInput
 
                 Layout.fillWidth: true
-                Layout.minimumHeight: visible ? root.rootItem.composerBaselineHeight : 0
+                Layout.minimumHeight: visible ? composerContainer._baselineHeight : 0
                 Layout.preferredHeight: visible
-                    ? Math.max(root.rootItem.composerBaselineHeight, implicitHeight)
+                    ? Math.max(composerContainer._baselineHeight, implicitHeight)
                     : 0
                 Layout.maximumHeight: visible
-                    ? Math.max(root.rootItem.composerBaselineHeight, implicitHeight)
+                    ? Math.max(composerContainer._baselineHeight, implicitHeight)
                     : 0
                 room: root.composerRoom
                 timelineRoot: root.timelineRoot ? root.timelineRoot : root.rootItem
                 selectionModeRoot: root.rootItem
-                walkModeActive: root.rootItem.walkModeActive
+                walkModeActive: composerContainer._walkMode
                 inputController: root.composerInputController
                 allowCalls: false
                 allowStickers: false
-                allowCommandCompleter: !root.rootItem.editing
-                attachmentsEnabled: !root.rootItem.editing
+                allowCommandCompleter: composerContainer._hasRootItem && !root.rootItem.editing
+                attachmentsEnabled: composerContainer._hasRootItem && !root.rootItem.editing
                 showAllButtons: true
-                visible: !root.rootItem.walkModeActive
+                visible: !composerContainer._walkMode
             }
 
             TimelineWalkModeBar {
                 Layout.fillWidth: true
-                Layout.minimumHeight: visible ? root.rootItem.composerBaselineHeight : 0
-                Layout.preferredHeight: visible ? root.rootItem.composerBaselineHeight : 0
-                Layout.maximumHeight: visible ? root.rootItem.composerBaselineHeight : 0
-                minimumHeight: root.rootItem.composerBaselineHeight
+                Layout.minimumHeight: visible ? composerContainer._baselineHeight : 0
+                Layout.preferredHeight: visible ? composerContainer._baselineHeight : 0
+                Layout.maximumHeight: visible ? composerContainer._baselineHeight : 0
+                minimumHeight: composerContainer._baselineHeight
                 chatRoot: root.rootItem
-                visible: root.rootItem.walkModeActive
+                visible: composerContainer._walkMode
             }
         }
     }

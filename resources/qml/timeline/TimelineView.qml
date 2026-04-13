@@ -28,8 +28,8 @@ Item {
     readonly property var notificationAreaItem: _activePoolEntry && matrixTimeline
         ? (matrixTimeline.notificationAreaItem ? matrixTimeline.notificationAreaItem : matrixTimeline)
         : null
-    readonly property var notificationAvoidBottomItem: _activePoolEntry && matrixTimeline
-        ? matrixTimeline.composerShell
+    readonly property var notificationAvoidBottomItem: matrixComposerPane.visible
+        ? matrixComposerPane.composerShell
         : null
 
     // Timeline cache pool: keeps recently-visited room timelines alive (hidden)
@@ -317,26 +317,28 @@ Item {
                 externalComposerPane: matrixComposerPane
                 composerRoom: matrixRoomComposerSupport.composerRoom
             }
-
-            MatrixRoomComposerPane {
-                id: matrixComposerPane
-
-                Layout.fillWidth: true
-                rootItem: matrixRoomView
-                uploadsController: matrixRoomComposerSupport.uploadsController
-                composerRoom: matrixRoomComposerSupport.composerRoom
-                composerInputController: matrixRoomComposerSupport.composerInputController
-                timelineRoot: timelineView.dialogHost
-            }
         }
     }
     Item {
         id: timelinePoolContainer
 
-        anchors.bottom: parent.bottom
+        anchors.bottom: matrixComposerPane.visible ? matrixComposerPane.top : parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top
+        visible: !!timelineView._activePoolEntry || timelineView.useMatrixRoomView
+    }
+    MatrixRoomComposerPane {
+        id: matrixComposerPane
+
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        rootItem: timelineView.matrixTimeline
+        uploadsController: matrixRoomComposerSupport.uploadsController
+        composerRoom: matrixRoomComposerSupport.composerRoom
+        composerInputController: matrixRoomComposerSupport.composerInputController
+        timelineRoot: timelineView.dialogHost
         visible: !!timelineView._activePoolEntry || timelineView.useMatrixRoomView
     }
 

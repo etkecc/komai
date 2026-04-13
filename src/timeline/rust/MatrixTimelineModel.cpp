@@ -5,6 +5,7 @@
 #include "timeline/rust/MatrixTimelineModel.h"
 
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/StateEventText.h"
 #include "timeline/TimelineEventTypes.h"
 #include "ui/KomaiGlobalObject.h"
 #include "utils/MediaIcons.h"
@@ -224,8 +225,14 @@ computeDerivedFields(MatrixTimelineItem &item,
                                  : 0.0;
     item.cachedFormattedBody =
       isState ? QString() : formatBodyHtml(item.body, item.formattedBody, pillAvatars);
-    item.cachedFormattedStateEvent =
-      isState ? formatBodyHtml(item.body, item.formattedBody) : QString();
+
+    if (isState) {
+        const auto translated = StateEventText::translate(item);
+        item.cachedFormattedStateEvent =
+          formatBodyHtml(!translated.isEmpty() ? translated : item.body, {});
+    } else {
+        item.cachedFormattedStateEvent = {};
+    }
     item.cachedStateEventIcon = isState ? stateEventIconForItem(item) : QString();
     item.cachedFilesize =
       item.mediaSizeBytes > 0 ? utils::humanReadableFileSize(item.mediaSizeBytes) : QString();

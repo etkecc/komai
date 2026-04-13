@@ -1057,6 +1057,10 @@ mod bridge {
         waveform: Vec<f32>,
         timestamp: u64,
         is_own: bool,
+        state_event_target_user: String,
+        state_event_detail: String,
+        state_event_reason: String,
+        state_event_has_sender: bool,
     }
 
     struct MatrixReactionSummary {

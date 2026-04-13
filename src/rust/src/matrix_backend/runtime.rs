@@ -494,6 +494,10 @@ pub struct MatrixTimelineItem {
     pub waveform: Vec<f32>,
     pub timestamp: u64,
     pub is_own: bool,
+    pub state_event_target_user: String,
+    pub state_event_detail: String,
+    pub state_event_reason: String,
+    pub state_event_has_sender: bool,
 }
 
 static NEXT_BACKEND_HANDLE_ID: AtomicU64 = AtomicU64::new(1);

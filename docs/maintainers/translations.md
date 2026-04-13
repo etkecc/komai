@@ -25,7 +25,7 @@ The English file (`en/komai_en.ts`) serves as the reference — it contains all 
 
 ## 🔄 Updating source strings
 
-After modifying UI strings in source code (C++ or QML), run:
+After modifying UI strings in source code (C++, QML, or Rust-originated strings in C++ translation modules), run:
 
 ```sh
 just translations-update
@@ -112,6 +112,7 @@ git add resources/langs/ && git commit -m "Update translations"
 
 ### ⚠️ Caveats
 
+- **Rust-originated strings** (timeline state events, event type labels, errors, etc.) are translated on the C++ side via dedicated translation modules. When adding or changing these strings in Rust, update the corresponding `tr()` call in the appropriate C++ module and run `just translations-update`. See [architecture/translations.md](../architecture/translations.md) for details.
 - **Plural forms** (numerus messages like `%n file(s)`) are not yet supported by the AI translation pipeline. They require language-specific plural rules and multiple translation variants per string. The script skips them and reports the count.
 - Short or ambiguous strings (single words like "Call", "State") may occasionally be skipped by Claude. Re-running picks them up since only unfinished strings are processed.
 - The script requires the `claude` CLI to be installed and authenticated.

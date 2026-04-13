@@ -329,6 +329,8 @@ set(SRC_FILES
     src/timeline/Reaction.h
     src/timeline/RoomlistModel.cpp
     src/timeline/RoomlistModel.h
+    src/timeline/StateEventText.cpp
+    src/timeline/StateEventText.h
     src/timeline/TimelineEventTypes.cpp
     src/timeline/TimelineEventTypes.h
     src/timeline/NavigationHistory.cpp

@@ -328,6 +328,11 @@ struct MatrixTimelineItem
     QList<float> waveform;
     uint64_t timestamp = 0;
     bool isOwn         = false;
+    // Structured state event parameters (populated by Rust, translated by C++).
+    QString stateEventTargetUser;
+    QString stateEventDetail;
+    QString stateEventReason;
+    bool stateEventHasSender = false;
     // Pre-computed derived fields (populated by MatrixTimelineModel, not the Rust bridge).
     int cachedType             = 0;
     int cachedEmojiOnlyCount   = 0;

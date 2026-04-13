@@ -101,6 +101,40 @@ Plural messages are currently **skipped** by the translation pipeline. They requ
 The script reports the count of skipped plural forms so users are aware. This is a known limitation to be addressed in a future iteration.
 
 
+## Rust-originated strings
+
+The Rust backend generates user-facing strings for timeline state events, event type labels, error messages, and more. These are translated on the C++ side using Qt's `tr()` mechanism, keeping a single translation system.
+
+### How it works
+
+Rust passes **structured data** (machine-readable keys + parameters) through the cxx FFI bridge instead of pre-formatted English sentences. C++ translation modules map these keys and parameters to translated strings via `QCoreApplication::translate()`.
+
+Data flow:
+
+```
+Rust (e.g. runtime_event_summary.rs)
+  ├── item_kind: "membership_change"
+  ├── membership_change_kind: "banned"
+  ├── state_event_target_user: "Alice"
+  ├── state_event_reason: "spam"
+  └── state_event_has_sender: true
+        │
+        ▼  (cxx FFI bridge)
+C++ translation module (e.g. StateEventText.cpp)
+  └── tr("%1 was banned by %2: %3").arg("Alice", "Bob", "spam")
+        │
+        ▼  (lupdate extracts tr() calls)
+.ts files → translated by AI pipeline → .qm at runtime
+```
+
+### Adding new Rust-originated translatable strings
+
+1. Have Rust populate structured fields (keys + parameters) — don't construct English sentences
+2. Add the corresponding `tr()` call in the appropriate C++ translation module
+3. Run `just translations-update` — `lupdate` picks up the new `tr()` calls automatically
+4. Run `just translations-claude-translate-all` to translate
+
+
 ## Claude CLI integration
 
 ### Prompt structure

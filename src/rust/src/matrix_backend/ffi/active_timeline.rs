@@ -75,6 +75,10 @@ fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimeline
         waveform: item.waveform,
         timestamp: item.timestamp,
         is_own: item.is_own,
+        state_event_target_user: item.state_event_target_user,
+        state_event_detail: item.state_event_detail,
+        state_event_reason: item.state_event_reason,
+        state_event_has_sender: item.state_event_has_sender,
     }
 }
 

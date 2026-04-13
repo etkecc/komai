@@ -3130,7 +3130,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Leer recibos</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3175,7 +3175,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+10"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Reportar el mensaje</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3324,7 +3324,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+20"/>
         <source>Report message</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Reportar el mensaje</translation>
     </message>
     <message>
         <location line="+14"/>

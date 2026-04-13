@@ -7387,7 +7387,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelinePreviewPane.qml" line="+48"/>
         <source>No preview available</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Podgląd pokoju niedostępny</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -7398,9 +7398,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+19"/>
         <source>%n member(s)</source>
         <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+            <numerusform>%n członek</numerusform>
+            <numerusform>%n członków</numerusform>
+            <numerusform>%n członków</numerusform>
         </translation>
     </message>
     <message>

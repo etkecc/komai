@@ -339,6 +339,7 @@ struct MatrixTimelineItem
     bool isOwn         = false;
     // Structured state event parameters (populated by Rust, translated by C++).
     QString stateEventTargetUser;
+    QString stateEventTargetUserId;
     QString stateEventDetail;
     QString stateEventReason;
     bool stateEventHasSender = false;

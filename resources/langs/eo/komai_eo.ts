@@ -198,7 +198,7 @@
     <message>
         <location line="+20"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Malatentitaj uzantoj</translation>
     </message>
     <message>
         <location line="+64"/>
@@ -7393,8 +7393,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+19"/>
         <source>%n member(s)</source>
         <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+            <numerusform>%n ano</numerusform>
+            <numerusform>%n anoj</numerusform>
         </translation>
     </message>
     <message>
@@ -9332,7 +9332,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Malatentitaj uzantoj</translation>
     </message>
     <message>
         <location line="+12"/>

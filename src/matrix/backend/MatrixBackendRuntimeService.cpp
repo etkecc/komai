@@ -634,9 +634,11 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .timestamp            = item.timestamp,
       .isOwn                = item.is_own,
       .stateEventTargetUser = QString::fromStdString(std::string(item.state_event_target_user)),
-      .stateEventDetail     = QString::fromStdString(std::string(item.state_event_detail)),
-      .stateEventReason     = QString::fromStdString(std::string(item.state_event_reason)),
-      .stateEventHasSender  = item.state_event_has_sender,
+      .stateEventTargetUserId =
+        QString::fromStdString(std::string(item.state_event_target_user_id)),
+      .stateEventDetail    = QString::fromStdString(std::string(item.state_event_detail)),
+      .stateEventReason    = QString::fromStdString(std::string(item.state_event_reason)),
+      .stateEventHasSender = item.state_event_has_sender,
       .powerLevelChanges =
         [&item]() {
             QList<PowerLevelChange> list;

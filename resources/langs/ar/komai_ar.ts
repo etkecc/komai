@@ -5066,12 +5066,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+10"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">انضمام</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">فتح</translation>
     </message>
     <message>
         <location line="+44"/>
@@ -5152,12 +5152,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">موثّق</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Trusted</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">موثوق</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5185,7 +5185,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location filename="../../qml/room/components/RoomHeader.qml" line="+21"/>
         <source>No room selected</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">لم يتم تحديد غرفة</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -5195,7 +5195,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+2"/>
         <source>Public</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">عام</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -5210,12 +5210,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+3"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">موثّق</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Trusted</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">موثوق</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5225,12 +5225,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+71"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">بحث</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">مغادرة</translation>
     </message>
 </context>
 <context>
@@ -5298,7 +5298,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+35"/>
         <source>Public</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">عام</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -5316,7 +5316,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+2"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">بحث</translation>
     </message>
 </context>
 <context>
@@ -5350,12 +5350,12 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+27"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تم النسخ!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">نسخ إلى الحافظة</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -5505,23 +5505,23 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+35"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الصورة الرمزية</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تغيير</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+49"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إزالة</translation>
     </message>
     <message>
         <location line="-24"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إزالة الصورة الرمزية</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -5532,12 +5532,12 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+8"/>
         <location line="+235"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إلغاء</translation>
     </message>
     <message>
         <location line="-187"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الاسم</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -5547,7 +5547,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+48"/>
         <source>Topic</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الموضوع</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -5557,7 +5557,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+48"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">التشفير</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -5586,12 +5586,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomJoinCreateDialog.qml" line="+14"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">جديد</translation>
     </message>
     <message>
         <location line="+101"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">انضمام</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -5611,7 +5611,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+8"/>
         <source>Explore public rooms</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">استعراض الغرف العامة</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5621,17 +5621,17 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>E</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">E</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Create</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إنشاء</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>New direct chat</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">محادثة مباشرة جديدة</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5641,12 +5641,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">D</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>New room</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">غرفة جديدة</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5656,12 +5656,12 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">R</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>New space</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">فضاء جديد</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5671,7 +5671,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+3"/>
         <source>S</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">S</translation>
     </message>
 </context>
 <context>
@@ -5684,17 +5684,17 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+6"/>
         <source>New room</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">غرفة جديدة</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>New direct chat</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">محادثة مباشرة جديدة</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>New space</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">فضاء جديد</translation>
     </message>
 </context>
 <context>
@@ -5702,7 +5702,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListActionsBar.qml" line="+21"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">جديد</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5743,7 +5743,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+2"/>
         <source>Create</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إنشاء</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -5864,7 +5864,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+11"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تسجيل الخروج</translation>
     </message>
 </context>
 <context>
@@ -5877,7 +5877,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+40"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">فضاء</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -5887,7 +5887,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+27"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">مغادرة</translation>
     </message>
 </context>
 <context>
@@ -5939,7 +5939,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+7"/>
         <source>Unavailable</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">غير متوفر</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -5952,7 +5952,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/shell/components/RoomListUserInfoPanel.qml" line="+86"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تسجيل الخروج</translation>
     </message>
 </context>
 <context>
@@ -5965,7 +5965,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location line="+2"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">مغادرة</translation>
     </message>
 </context>
 <context>
@@ -5973,7 +5973,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إلغاء التثبيت</translation>
     </message>
 </context>
 <context>
@@ -6117,7 +6117,7 @@ Please take note that it can't be disabled afterwards.</source>
         <location line="+12"/>
         <location line="+283"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تغيير</translation>
     </message>
     <message>
         <location line="-256"/>
@@ -6201,7 +6201,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+93"/>
         <source>New</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">جديد</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -6260,7 +6260,7 @@ Please take note that it can't be disabled afterwards.</source>
         <location filename="../../../src/timeline/data/RoomlistModelData.cpp" line="+126"/>
         <location line="+2"/>
         <source>Invited by %1</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">دعوة من %1</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6333,12 +6333,12 @@ You’ll need it to access encrypted messages if you sign out, reinstall, or set
     <message>
         <location line="+27"/>
         <source>Copied</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تم النسخ</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">نسخ</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -6407,7 +6407,7 @@ You’ll need it to access encrypted messages if you sign out, reinstall, or set
     <message>
         <location line="+7"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إلغاء</translation>
     </message>
 </context>
 <context>
@@ -6435,7 +6435,7 @@ You’ll need it to access encrypted messages if you sign out, reinstall, or set
     <message>
         <location line="+0"/>
         <source>K</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">K</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6505,7 +6505,7 @@ You’ll need it to access encrypted messages if you sign out, reinstall, or set
     <message>
         <location line="+4"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">فضاء</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6550,7 +6550,7 @@ You’ll need it to access encrypted messages if you sign out, reinstall, or set
     <message>
         <location line="+5"/>
         <source>R</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">R</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6570,7 +6570,7 @@ You’ll need it to access encrypted messages if you sign out, reinstall, or set
     <message>
         <location line="+5"/>
         <source>E</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">E</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6590,7 +6590,7 @@ You’ll need it to access encrypted messages if you sign out, reinstall, or set
     <message>
         <location line="+5"/>
         <source>D</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">D</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6600,7 +6600,7 @@ You’ll need it to access encrypted messages if you sign out, reinstall, or set
     <message>
         <location line="+5"/>
         <source>U</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">U</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6610,7 +6610,7 @@ You’ll need it to access encrypted messages if you sign out, reinstall, or set
     <message>
         <location line="+5"/>
         <source>O</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">O</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6635,7 +6635,7 @@ You’ll need it to access encrypted messages if you sign out, reinstall, or set
     <message>
         <location line="+5"/>
         <source>I</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">I</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6681,7 +6681,7 @@ You’ll need it to access encrypted messages if you sign out, reinstall, or set
     <message>
         <location line="+48"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إغلاق</translation>
     </message>
 </context>
 <context>
@@ -6767,17 +6767,17 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowAccessTokenField.qml" line="+24"/>
         <source>Click to reveal</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">انقر للكشف</translation>
     </message>
     <message>
         <location line="+24"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تم النسخ!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">نسخ إلى الحافظة</translation>
     </message>
 </context>
 <context>
@@ -6837,7 +6837,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <location line="+11"/>
         <location line="+2"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تضمين في 'كل الغرف'</translation>
     </message>
 </context>
 <context>
@@ -6845,7 +6845,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowIgnoredUsers.qml" line="+12"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إدارة</translation>
     </message>
 </context>
 <context>
@@ -6853,7 +6853,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowLogout.qml" line="+12"/>
         <source>Sign out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تسجيل الخروج</translation>
     </message>
 </context>
 <context>
@@ -6887,7 +6887,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+90"/>
         <source>Space</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">فضاء</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -6913,7 +6913,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
         <location line="+7"/>
         <location line="+2"/>
         <source>Include in 'All rooms'</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تضمين في 'كل الغرف'</translation>
     </message>
 </context>
 <context>
@@ -6967,7 +6967,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+108"/>
         <location line="+1"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تعديل</translation>
     </message>
     <message>
         <location line="-100"/>
@@ -6979,12 +6979,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="-48"/>
         <source>React</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تفاعل</translation>
     </message>
     <message>
         <location line="+65"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">خيارات</translation>
     </message>
 </context>
 <context>
@@ -6992,17 +6992,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+62"/>
         <source>%1 is typing…</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">%1 يكتب…</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 and %2 are typing…</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">%1 و%2 يكتبان…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>%1, %2 and %3 others are typing…</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">%1 و%2 و%3 آخرون يكتبون…</translation>
     </message>
 </context>
 <context>
@@ -7026,7 +7026,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../../src/imagepacks/SingleImagePackModel.cpp" line="+54"/>
         <source>Account Pack</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">حزمة الحساب</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -7055,7 +7055,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+36"/>
         <location line="+65"/>
         <source>Matrix backend is not ready yet.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الواجهة الخلفية لـ Matrix ليست جاهزة بعد.</translation>
     </message>
     <message>
         <location line="-253"/>
@@ -7176,12 +7176,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+14"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إغلاق</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>Search</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">بحث</translation>
     </message>
     <message>
         <location line="+346"/>
@@ -7204,7 +7204,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+11"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إغلاق</translation>
     </message>
 </context>
 <context>
@@ -7254,61 +7254,61 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+25"/>
         <source>Report an issue</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الإبلاغ عن مشكلة</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Donating!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">أتبرع!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Donate</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تبرّع</translation>
     </message>
     <message>
         <location line="+24"/>
         <location line="+26"/>
         <source>GitHub Sponsors</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">رعاة GitHub</translation>
     </message>
     <message>
         <location line="-21"/>
         <location line="+26"/>
         <source>Liberapay</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Liberapay</translation>
     </message>
     <message>
         <location line="-19"/>
         <source>I no longer donate</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">لم أعد أتبرع</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+26"/>
         <location line="+39"/>
         <source>Hide</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إخفاء</translation>
     </message>
     <message>
         <location line="-44"/>
         <source>I already donate!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">أنا أتبرع بالفعل!</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Hide donation button?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إخفاء زر التبرع؟</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>This will permanently hide the donation button from this screen.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">سيؤدي هذا إلى إخفاء زر التبرع نهائيًا من هذه الشاشة.</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إلغاء</translation>
     </message>
 </context>
 <context>
@@ -7395,7 +7395,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+4"/>
         <source>Don't mention them in this message</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">لا تذكرهم في هذه الرسالة</translation>
     </message>
 </context>
 <context>
@@ -7408,12 +7408,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+25"/>
         <source>Unpin</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إلغاء التثبيت</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Message actions</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إجراءات الرسالة</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -7471,7 +7471,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+8"/>
         <source>Leave</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">مغادرة</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -7728,7 +7728,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تعديل</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -7738,7 +7738,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Forward</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إعادة توجيه</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7753,7 +7753,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">حذف</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -7768,7 +7768,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+12"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">خيارات</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -7788,7 +7788,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+23"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إغلاق</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -7860,7 +7860,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+10"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إلغاء</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -8054,12 +8054,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+57"/>
         <source>Profile</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الملف الشخصي</translation>
     </message>
     <message>
         <location line="+78"/>
         <source>Avatar</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الصورة الرمزية</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -8069,7 +8069,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+0"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تغيير</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -8080,7 +8080,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+7"/>
         <location line="+100"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إزالة</translation>
     </message>
     <message>
         <location line="-69"/>
@@ -8118,27 +8118,27 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+527"/>
         <location line="+381"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إلغاء</translation>
     </message>
     <message>
         <location line="-935"/>
         <source>Reset</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إعادة تعيين</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Remove avatar</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إزالة الصورة الرمزية</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Are you sure you want to remove your avatar?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">هل أنت متأكد أنك تريد إزالة صورتك الرمزية؟</translation>
     </message>
     <message>
         <location line="+47"/>
         <source>Display name</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الاسم المعروض</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -8154,7 +8154,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+32"/>
         <location line="+69"/>
         <source>Copied!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تم النسخ!</translation>
     </message>
     <message>
         <location line="-69"/>
@@ -8164,12 +8164,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+38"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">معرّف المستخدم</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Copy user ID</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">نسخ معرّف المستخدم</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -8179,13 +8179,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+58"/>
         <source>Verification</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">التحقق</translation>
     </message>
     <message>
         <location line="+72"/>
         <location line="+402"/>
         <source>Verified</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">موثّق</translation>
     </message>
     <message>
         <location line="-400"/>
@@ -8196,7 +8196,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+2"/>
         <location line="+400"/>
         <source>Unverified</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">غير موثّق</translation>
     </message>
     <message>
         <location line="-383"/>
@@ -8282,12 +8282,12 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+15"/>
         <source>Unignore</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إلغاء التجاهل</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Ignore</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تجاهل</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -8302,42 +8302,42 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="+15"/>
         <source>Refreshed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تم التحديث</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Refresh</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تحديث</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Manage</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إدارة</translation>
     </message>
     <message>
         <location line="+103"/>
         <source>This device</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">هذا الجهاز</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Blocked</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">محظور</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Verify</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تحقّق</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Unblock</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إلغاء الحظر</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Block</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">حظر</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -8372,7 +8372,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     <message>
         <location line="-96"/>
         <source>Unverify</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إلغاء التوثيق</translation>
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
@@ -8526,7 +8526,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الحساب</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8588,7 +8588,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+11"/>
         <source>Not now</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">ليس الآن</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -8636,7 +8636,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+16"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إلغاء</translation>
     </message>
 </context>
 <context>
@@ -8644,7 +8644,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/WelcomePage.qml" line="+52"/>
         <source>Welcome to Komai</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">مرحبًا بك في Komai</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -8667,12 +8667,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+24"/>
         <source>Register</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">التسجيل</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Sign in</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">تسجيل الدخول</translation>
     </message>
 </context>
 <context>
@@ -8766,7 +8766,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/emoji/Emoji.cpp" line="+14"/>
         <source>People</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الأشخاص</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -8908,7 +8908,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+7"/>
         <source>All rooms</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">جميع الغرف</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9100,7 +9100,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Emoji</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">إيموجي</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9220,7 +9220,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+3"/>
         <source>Devices</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الأجهزة</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9295,7 +9295,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">التشفير</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -9351,17 +9351,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="-40"/>
         <source>Account</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الحساب</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>User ID</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">معرّف المستخدم</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Homeserver</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الخادم الرئيسي</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -9371,7 +9371,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Device</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الجهاز</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -9381,7 +9381,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+4"/>
         <source>Access token</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">رمز الوصول</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9391,12 +9391,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+5"/>
         <source>Users</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">المستخدمون</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">المستخدمون المتجاهَلون</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -9411,7 +9411,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">الاسم</translation>
     </message>
     <message>
         <location line="+4"/>

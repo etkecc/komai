@@ -3131,7 +3131,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+8"/>
         <source>Read receipts</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Просмотр получателей</translation>
     </message>
     <message>
         <location line="+3"/>

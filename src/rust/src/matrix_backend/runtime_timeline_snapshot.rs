@@ -127,6 +127,7 @@ fn timeline_item_to_summary(
         let waveform = summary.waveform;
         let media = summary.media;
         let state_event_target_user = summary.state_event_target_user;
+        let state_event_target_user_id = summary.state_event_target_user_id;
         let state_event_detail = summary.state_event_detail;
         let state_event_reason = summary.state_event_reason;
         let state_event_has_sender = summary.state_event_has_sender;
@@ -246,6 +247,7 @@ fn timeline_item_to_summary(
                 timestamp: u64::from(event.timestamp().get()),
                 is_own: event.is_own(),
                 state_event_target_user,
+                state_event_target_user_id,
                 state_event_detail,
                 state_event_reason,
                 state_event_has_sender,
@@ -307,6 +309,7 @@ fn timeline_item_to_summary(
                 timestamp: u64::from(timestamp.get()),
                 is_own: false,
                 state_event_target_user: String::new(),
+                state_event_target_user_id: String::new(),
                 state_event_detail: String::new(),
                 state_event_reason: String::new(),
                 state_event_has_sender: false,

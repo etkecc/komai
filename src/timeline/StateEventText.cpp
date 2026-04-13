@@ -14,13 +14,23 @@
 
 namespace StateEventText {
 
+// ── Helpers ─────────────────────────────────────────────────────────
+
+static QString
+formatUser(const QString &displayName, const QString &userId)
+{
+    if (displayName.isEmpty() || displayName == userId)
+        return userId;
+    return TR("%1 (%2)").arg(displayName, userId);
+}
+
 // ── Membership changes ──────────────────────────────────────────────
 
 static QString
 translateMembershipChange(const MatrixTimelineItem &item)
 {
-    const auto &user     = item.stateEventTargetUser;
-    const auto &sender   = item.senderDisplayName;
+    const auto user      = formatUser(item.stateEventTargetUser, item.stateEventTargetUserId);
+    const auto sender    = formatUser(item.senderDisplayName, item.senderId);
     const auto &reason   = item.stateEventReason;
     const bool hasSender = item.stateEventHasSender;
     const bool hasReason = !reason.isEmpty();
@@ -119,7 +129,7 @@ translateMembershipChange(const MatrixTimelineItem &item)
 static QString
 translateProfileChange(const MatrixTimelineItem &item)
 {
-    const auto &user   = item.stateEventTargetUser;
+    const auto user    = formatUser(item.stateEventTargetUser, item.stateEventTargetUserId);
     const auto &detail = item.stateEventDetail;
 
     // membershipChangeKind is reused to carry the profile-change sub-kind.
@@ -142,7 +152,7 @@ translateProfileChange(const MatrixTimelineItem &item)
 static QString
 translateRoomName(const MatrixTimelineItem &item)
 {
-    const auto &sender = item.senderDisplayName;
+    const auto sender  = formatUser(item.senderDisplayName, item.senderId);
     const auto &detail = item.stateEventDetail;
 
     if (!detail.isEmpty())
@@ -153,7 +163,7 @@ translateRoomName(const MatrixTimelineItem &item)
 static QString
 translateRoomTopic(const MatrixTimelineItem &item)
 {
-    const auto &sender = item.senderDisplayName;
+    const auto sender  = formatUser(item.senderDisplayName, item.senderId);
     const auto &detail = item.stateEventDetail;
 
     if (!detail.isEmpty())
@@ -164,7 +174,7 @@ translateRoomTopic(const MatrixTimelineItem &item)
 static QString
 translateJoinRules(const MatrixTimelineItem &item)
 {
-    const auto &sender = item.senderDisplayName;
+    const auto sender  = formatUser(item.senderDisplayName, item.senderId);
     const auto &detail = item.stateEventDetail;
 
     if (detail == QStringLiteral("invite"))
@@ -186,7 +196,7 @@ translateJoinRules(const MatrixTimelineItem &item)
 static QString
 translateHistoryVisibility(const MatrixTimelineItem &item)
 {
-    const auto &sender = item.senderDisplayName;
+    const auto sender  = formatUser(item.senderDisplayName, item.senderId);
     const auto &detail = item.stateEventDetail;
 
     if (detail == QStringLiteral("invited"))
@@ -204,7 +214,7 @@ translateHistoryVisibility(const MatrixTimelineItem &item)
 static QString
 translateGuestAccess(const MatrixTimelineItem &item)
 {
-    const auto &sender = item.senderDisplayName;
+    const auto sender  = formatUser(item.senderDisplayName, item.senderId);
     const auto &detail = item.stateEventDetail;
 
     if (detail == QStringLiteral("can_join"))
@@ -230,7 +240,7 @@ powerLevelName(int64_t level)
 static QString
 translatePowerLevels(const MatrixTimelineItem &item)
 {
-    const auto &sender  = item.senderDisplayName;
+    const auto sender   = formatUser(item.senderDisplayName, item.senderId);
     const auto &changes = item.powerLevelChanges;
 
     if (changes.empty())
@@ -250,7 +260,7 @@ translatePowerLevels(const MatrixTimelineItem &item)
 static QString
 translateOtherState(const MatrixTimelineItem &item)
 {
-    const auto &sender    = item.senderDisplayName;
+    const auto sender     = formatUser(item.senderDisplayName, item.senderId);
     const auto &eventType = item.matrixEventType;
 
     if (eventType == QStringLiteral("m.room.name"))
@@ -344,7 +354,8 @@ translate(const MatrixTimelineItem &item)
     // introduce in the future.  Guarantees we never return an empty string
     // for something the timeline treats as a state event.
     if (!item.senderDisplayName.isEmpty())
-        return TR("Room state changed by %1").arg(item.senderDisplayName);
+        return TR("Room state changed by %1")
+          .arg(formatUser(item.senderDisplayName, item.senderId));
 
     return {};
 }

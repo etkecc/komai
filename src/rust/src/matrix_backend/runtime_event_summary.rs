@@ -55,6 +55,8 @@ pub struct MatrixEventSummary {
     pub waveform: Vec<f32>,
     /// The affected user's display name (for membership/profile events).
     pub state_event_target_user: String,
+    /// The affected user's MXID (for membership/profile events).
+    pub state_event_target_user_id: String,
     /// Dynamic value: new room name, topic, join rule key, etc.
     pub state_event_detail: String,
     /// Reason for kicks/bans.
@@ -268,6 +270,7 @@ fn summarize_membership_change(
     let mut s = summary("membership_change", "m.room.member", "");
     s.membership_change_kind = membership_change_kind.to_owned();
     s.state_event_target_user = user;
+    s.state_event_target_user_id = change.user_id().to_string();
     s.state_event_reason = reason.unwrap_or_default();
     s.state_event_has_sender = has_sender;
     s
@@ -303,6 +306,7 @@ fn summarize_profile_change(change: &MemberProfileChange) -> MatrixEventSummary 
 
     let mut s = summary("profile_change", "m.room.member", "");
     s.state_event_target_user = user;
+    s.state_event_target_user_id = change.user_id().to_string();
     s.membership_change_kind = detail_key.to_owned();
     s.state_event_detail = detail_value;
     s
@@ -563,6 +567,7 @@ fn summary(kind: &str, matrix_event_type: &str, body: &str) -> MatrixEventSummar
         is_voice_message: false,
         waveform: Vec::new(),
         state_event_target_user: String::new(),
+        state_event_target_user_id: String::new(),
         state_event_detail: String::new(),
         state_event_reason: String::new(),
         state_event_has_sender: false,
@@ -600,6 +605,7 @@ fn summary_with_media(
         is_voice_message: false,
         waveform: Vec::new(),
         state_event_target_user: String::new(),
+        state_event_target_user_id: String::new(),
         state_event_detail: String::new(),
         state_event_reason: String::new(),
         state_event_has_sender: false,

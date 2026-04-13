@@ -501,6 +501,7 @@ pub struct MatrixTimelineItem {
     pub timestamp: u64,
     pub is_own: bool,
     pub state_event_target_user: String,
+    pub state_event_target_user_id: String,
     pub state_event_detail: String,
     pub state_event_reason: String,
     pub state_event_has_sender: bool,

@@ -255,6 +255,7 @@ fn notification_item_from_sdk(
                     is_voice_message: false,
                     waveform: Vec::new(),
                     state_event_target_user: String::new(),
+                    state_event_target_user_id: String::new(),
                     state_event_detail: String::new(),
                     state_event_reason: String::new(),
                     state_event_has_sender: false,

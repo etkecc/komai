@@ -7397,9 +7397,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+19"/>
         <source>%n member(s)</source>
         <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+            <numerusform>%n учасник</numerusform>
+            <numerusform>%n учасників</numerusform>
+            <numerusform>%n учасників</numerusform>
         </translation>
     </message>
     <message>

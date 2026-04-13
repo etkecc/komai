@@ -198,7 +198,7 @@
     <message>
         <location line="+20"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Utilisateurs(rices) ignoré(e)s</translation>
     </message>
     <message>
         <location line="+64"/>
@@ -9329,7 +9329,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+3"/>
         <source>Ignored users</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Utilisateurs(rices) ignoré(e)s</translation>
     </message>
     <message>
         <location line="+12"/>

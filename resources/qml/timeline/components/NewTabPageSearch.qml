@@ -60,20 +60,18 @@ ColumnLayout {
         placeholderText: qsTr("Search your rooms & spaces...")
 
         Keys.onPressed: event => {
-            if (event.key === Qt.Key_Up || (event.key === Qt.Key_Tab && (event.modifiers & Qt.ShiftModifier))) {
+            const isBackTab = event.key === Qt.Key_Tab && (event.modifiers & Qt.ShiftModifier);
+            const isTab = event.key === Qt.Key_Tab && !(event.modifiers & Qt.ShiftModifier);
+            if (event.key === Qt.Key_Up || (isBackTab && resultsList.count > 0)) {
                 event.accepted = true;
-                if (resultsList.count > 0) {
-                    resultsList.currentIndex--;
-                    if (resultsList.currentIndex < 0)
-                        resultsList.currentIndex = resultsList.count - 1;
-                }
-            } else if (event.key === Qt.Key_Down || event.key === Qt.Key_Tab) {
+                resultsList.currentIndex--;
+                if (resultsList.currentIndex < 0)
+                    resultsList.currentIndex = resultsList.count - 1;
+            } else if (event.key === Qt.Key_Down || (isTab && resultsList.count > 0)) {
                 event.accepted = true;
-                if (resultsList.count > 0) {
-                    resultsList.currentIndex++;
-                    if (resultsList.currentIndex >= resultsList.count)
-                        resultsList.currentIndex = 0;
-                }
+                resultsList.currentIndex++;
+                if (resultsList.currentIndex >= resultsList.count)
+                    resultsList.currentIndex = 0;
             } else if (event.matches(StandardKey.InsertParagraphSeparator)) {
                 event.accepted = true;
                 root.selectResult();

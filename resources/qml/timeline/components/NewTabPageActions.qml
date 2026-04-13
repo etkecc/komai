@@ -19,6 +19,7 @@ RowLayout {
 
         Layout.preferredWidth: root.uniformWidth
         text: qsTr("Join room")
+        toolTipText: qsTr("Join an existing room by address or alias")
         icon.source: "qrc:/icons/icons/ui/arrow-join.svg"
         onClicked: Komai.openJoinRoomDialog()
     }
@@ -28,6 +29,7 @@ RowLayout {
 
         Layout.preferredWidth: root.uniformWidth
         text: qsTr("Explore public rooms")
+        toolTipText: qsTr("Browse the public room directory")
         icon.source: "qrc:/icons/icons/ui/compass-northwest.svg"
         onClicked: root.dialogHost.openRoomDirectory()
     }
@@ -37,6 +39,7 @@ RowLayout {
 
         Layout.preferredWidth: root.uniformWidth
         text: qsTr("New")
+        toolTipText: qsTr("Create a new chat or space [Ctrl+N]")
         icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
         onClicked: newMenu.popup(newButton)
     }

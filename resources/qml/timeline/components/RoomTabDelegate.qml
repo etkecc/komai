@@ -279,6 +279,16 @@ Rectangle {
     }
 
     Component {
+        id: menuItemCloseUnpinned
+
+        MenuItem {
+            text: qsTr("Close Unpinned Tabs")
+
+            onTriggered: tabController.closeUnpinnedTabs()
+        }
+    }
+
+    Component {
         id: menuSeparatorComponent
 
         MenuSeparator {}
@@ -297,6 +307,8 @@ Rectangle {
             tabContextMenu.addItem(menuItemCloseOther.createObject(tabContextMenu));
         if (closeableRightCount > 0)
             tabContextMenu.addItem(menuItemCloseRight.createObject(tabContextMenu));
+        if (closeableOtherCount > 0 || !tabDelegate.pinned)
+            tabContextMenu.addItem(menuItemCloseUnpinned.createObject(tabContextMenu));
         tabContextMenu.addItem(menuItemCloseTab.createObject(tabContextMenu));
 
         tabContextMenu.popup();

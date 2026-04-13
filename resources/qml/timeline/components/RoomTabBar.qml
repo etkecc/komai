@@ -184,22 +184,32 @@ Rectangle {
     }
 
     // Scroll the active tab into view when the current room changes.
+    // Uses the tab count to compute expected content width so it works
+    // even when called before the ListView has laid out a newly added tab.
     function ensureActiveTabVisible() {
         var idx = tabController.findTab(Rooms.currentRoomId);
         if (idx === -1)
             return;
-        var tabLeft = idx * effectiveTabWidth;
-        var tabRight = tabLeft + effectiveTabWidth;
+        var tw = effectiveTabWidth;
+        var tabLeft = idx * tw;
+        var tabRight = tabLeft + tw;
         var viewLeft = tabListView.contentX;
         var viewRight = viewLeft + tabListView.width;
         if (tabLeft >= viewLeft && tabRight <= viewRight)
             return; // already fully visible
+        // Use the larger of actual and expected content width so that a
+        // just-appended tab (not yet laid out) can still be scrolled to.
+        var expectedContentWidth = tabController.tabs.count * tw;
+        var maxScroll = Math.max(tabListView.contentWidth, expectedContentWidth)
+                        - tabListView.width;
+        if (maxScroll <= 0)
+            return;
         var target;
         if (tabLeft < viewLeft)
             target = tabLeft;
         else
             target = tabRight - tabListView.width;
-        target = Math.max(0, Math.min(target, tabListView.contentWidth - tabListView.width));
+        target = Math.max(0, Math.min(target, maxScroll));
         scrollAnimation.to = target;
         scrollAnimation.restart();
     }

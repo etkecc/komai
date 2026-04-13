@@ -208,6 +208,20 @@ QtObject {
         _savePinnedTabs();
     }
 
+    function closeUnpinnedTabs() {
+        for (var i = tabs.count - 1; i >= 0; i--) {
+            if (!tabs.get(i).pinned)
+                tabs.remove(i);
+        }
+        _saveTabs();
+        _savePinnedTabs();
+        // Switch to the last pinned tab if current room was closed.
+        if (tabs.count > 0 && findTab(Rooms.currentRoomId) === -1)
+            _setCurrentRoom(tabs.get(tabs.count - 1).roomId);
+        else if (tabs.count === 0)
+            Rooms.resetCurrentRoom();
+    }
+
     function switchToTab(index) {
         if (index < 0 || index >= tabs.count)
             return;

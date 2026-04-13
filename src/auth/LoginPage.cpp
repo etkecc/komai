@@ -7,6 +7,7 @@
 
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/StateEventText.h"
 #include "ui/MainWindow.h"
 
 LoginPage::LoginPage(QObject *parent)
@@ -77,12 +78,12 @@ LoginPage::showError(const QString &msg)
     loggingIn_                   = false;
     emit loggingInChanged();
 
-    error_ = msg;
+    error_ = StateEventText::translateAuthError(msg);
     emit errorOccurred();
 
     if (returnToLoginPage) {
         if (auto *mainWindow = MainWindow::instance())
-            emit mainWindow->switchToLoginPage(msg);
+            emit mainWindow->switchToLoginPage(error_);
     }
 }
 

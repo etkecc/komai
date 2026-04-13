@@ -577,6 +577,8 @@ fn format_client_build_error(error: &ClientBuildError) -> String {
     }
 }
 
+/// Translated to user-visible text in C++ StateEventText::translateAuthError().
+/// When adding or changing constant error strings here, update that function too.
 fn format_registration_error(error: &matrix_sdk::Error) -> String {
     if let Some(api_error) = error.as_client_api_error() {
         if api_error.status_code.as_u16() == 403 {

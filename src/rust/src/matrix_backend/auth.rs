@@ -825,6 +825,8 @@ fn join_sso_listener(entry: &Arc<SsoListenerEntry>) {
     }
 }
 
+/// Translated to user-visible text in C++ StateEventText::translateAuthError().
+/// When adding or changing constant error strings here, update that function too.
 fn format_client_build_error(error: &ClientBuildError) -> String {
     match error {
         ClientBuildError::InvalidServerName => {

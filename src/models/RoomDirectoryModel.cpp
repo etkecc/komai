@@ -25,6 +25,7 @@
 #include "matrix/MatrixServerResolver.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/RoomlistModel.h"
+#include "timeline/StateEventText.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 
@@ -489,7 +490,7 @@ RoomDirectoryModel::handleFetchError(uint64_t generation,
     reachedEndOfPagination_ = true;
     emit reachedEndOfPaginationChanged();
 
-    errorString_ = errorMessage;
+    errorString_ = StateEventText::translateAuthError(errorMessage);
     emit errorStringChanged();
 }
 

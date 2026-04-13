@@ -8,6 +8,7 @@
 #include "matrix/backend/MatrixAuthService.h"
 #include "matrix/backend/MatrixRegistrationService.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/StateEventText.h"
 #include "ui/MainWindow.h"
 
 #include <QCoreApplication>
@@ -332,7 +333,7 @@ RegisterPage::reset()
 void
 RegisterPage::showError(const QString &msg)
 {
-    error_ = msg;
+    error_ = StateEventText::translateAuthError(msg);
     emit errorChanged();
 }
 

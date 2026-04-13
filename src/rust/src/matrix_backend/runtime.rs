@@ -61,6 +61,8 @@ use super::bootstrap;
 
 #[path = "runtime_profile_media.rs"]
 mod profile_media;
+#[path = "runtime_event_detail.rs"]
+mod event_detail;
 #[path = "runtime_event_summary.rs"]
 mod event_summary;
 #[path = "runtime_recovery.rs"]
@@ -502,6 +504,7 @@ pub struct MatrixTimelineItem {
     pub state_event_detail: String,
     pub state_event_reason: String,
     pub state_event_has_sender: bool,
+    pub power_level_changes: Vec<event_detail::PowerLevelChange>,
 }
 
 static NEXT_BACKEND_HANDLE_ID: AtomicU64 = AtomicU64::new(1);

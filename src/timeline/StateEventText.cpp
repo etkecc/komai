@@ -216,6 +216,38 @@ translateGuestAccess(const MatrixTimelineItem &item)
 }
 
 static QString
+powerLevelName(int64_t level)
+{
+    if (level == 0)
+        return TR("Default (%1)").arg(level);
+    if (level == 50)
+        return TR("Moderator (%1)").arg(level);
+    if (level == 100)
+        return TR("Administrator (%1)").arg(level);
+    return TR("Custom (%1)").arg(level);
+}
+
+static QString
+translatePowerLevels(const MatrixTimelineItem &item)
+{
+    const auto &sender  = item.senderDisplayName;
+    const auto &changes = item.powerLevelChanges;
+
+    if (changes.empty())
+        return TR("%1 changed the room permissions").arg(sender);
+
+    QStringList lines;
+    for (const auto &change : changes) {
+        lines.append(TR("%1 changed the power level of %2 from %3 to %4")
+                       .arg(sender,
+                            change.userId,
+                            powerLevelName(change.oldLevel),
+                            powerLevelName(change.newLevel)));
+    }
+    return lines.join(QStringLiteral("\n"));
+}
+
+static QString
 translateOtherState(const MatrixTimelineItem &item)
 {
     const auto &sender    = item.senderDisplayName;
@@ -232,7 +264,7 @@ translateOtherState(const MatrixTimelineItem &item)
     if (eventType == QStringLiteral("m.room.pinned_events"))
         return TR("%1 changed the pinned messages").arg(sender);
     if (eventType == QStringLiteral("m.room.power_levels"))
-        return TR("%1 changed the room permissions").arg(sender);
+        return translatePowerLevels(item);
     if (eventType == QStringLiteral("m.room.join_rules"))
         return translateJoinRules(item);
     if (eventType == QStringLiteral("m.room.history_visibility"))

@@ -637,15 +637,27 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .stateEventDetail     = QString::fromStdString(std::string(item.state_event_detail)),
       .stateEventReason     = QString::fromStdString(std::string(item.state_event_reason)),
       .stateEventHasSender  = item.state_event_has_sender,
-      .cachedType           = 0,
-      .cachedEmojiOnlyCount = 0,
-      .cachedDay            = 0,
-      .cachedStatus         = 0,
-      .cachedIsStateEvent   = false,
-      .cachedIsEncrypted    = false,
-      .cachedIsEditable     = false,
-      .cachedProportionalH  = 0.0,
-      .cachedFormattedBody  = QString(),
+      .powerLevelChanges =
+        [&item]() {
+            QList<PowerLevelChange> list;
+            list.reserve(static_cast<int>(item.power_level_changes.size()));
+            for (const auto &change : item.power_level_changes)
+                list.append(PowerLevelChange{
+                  .userId   = QString::fromStdString(std::string(change.user_id)),
+                  .oldLevel = change.old_level,
+                  .newLevel = change.new_level,
+                });
+            return list;
+        }(),
+      .cachedType                = 0,
+      .cachedEmojiOnlyCount      = 0,
+      .cachedDay                 = 0,
+      .cachedStatus              = 0,
+      .cachedIsStateEvent        = false,
+      .cachedIsEncrypted         = false,
+      .cachedIsEditable          = false,
+      .cachedProportionalH       = 0.0,
+      .cachedFormattedBody       = QString(),
       .cachedFormattedStateEvent = QString(),
       .cachedStateEventIcon      = QString(),
       .cachedFilesize            = QString(),

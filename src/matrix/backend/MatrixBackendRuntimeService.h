@@ -279,6 +279,14 @@ struct MatrixReadReceiptEntry
     uint64_t timestamp = 0;
 };
 
+struct PowerLevelChange
+{
+    QString userId;
+    int64_t oldLevel                                = 0;
+    int64_t newLevel                                = 0;
+    bool operator==(const PowerLevelChange &) const = default;
+};
+
 struct MatrixTimelineItem
 {
     QString itemId;
@@ -334,6 +342,7 @@ struct MatrixTimelineItem
     QString stateEventDetail;
     QString stateEventReason;
     bool stateEventHasSender = false;
+    QList<PowerLevelChange> powerLevelChanges;
     // Pre-computed derived fields (populated by MatrixTimelineModel, not the Rust bridge).
     int cachedType             = 0;
     int cachedEmojiOnlyCount   = 0;

@@ -1062,6 +1062,13 @@ mod bridge {
         state_event_detail: String,
         state_event_reason: String,
         state_event_has_sender: bool,
+        power_level_changes: Vec<MatrixPowerLevelChange>,
+    }
+
+    struct MatrixPowerLevelChange {
+        user_id: String,
+        old_level: i64,
+        new_level: i64,
     }
 
     struct MatrixReactionSummary {

@@ -61,6 +61,8 @@ pub struct MatrixEventSummary {
     pub state_event_reason: String,
     /// Whether the sender is distinct from the target user.
     pub state_event_has_sender: bool,
+    /// Power level user changes for enriched m.room.power_levels messages.
+    pub power_level_changes: Vec<super::event_detail::PowerLevelChange>,
 }
 
 #[derive(Clone, Debug)]
@@ -362,8 +364,19 @@ fn summarize_other_state(state: &OtherState, _sender: &str) -> MatrixEventSummar
         _ => String::new(),
     };
 
+    // Extract power level user changes for enriched messages.
+    // Translated in C++ `StateEventText::translatePowerLevels()`.
+    let power_level_changes = match state.content() {
+        AnyOtherFullStateEventContent::RoomPowerLevels(FullStateEventContent::Original {
+            content,
+            prev_content: Some(prev),
+        }) => super::event_detail::diff_power_level_users(content, prev),
+        _ => Vec::new(),
+    };
+
     let mut s = summary("other_state", &event_type, "");
     s.state_event_detail = detail;
+    s.power_level_changes = power_level_changes;
     s
 }
 
@@ -553,6 +566,7 @@ fn summary(kind: &str, matrix_event_type: &str, body: &str) -> MatrixEventSummar
         state_event_detail: String::new(),
         state_event_reason: String::new(),
         state_event_has_sender: false,
+        power_level_changes: Vec::new(),
     }
 }
 
@@ -589,6 +603,7 @@ fn summary_with_media(
         state_event_detail: String::new(),
         state_event_reason: String::new(),
         state_event_has_sender: false,
+        power_level_changes: Vec::new(),
     }
 }
 

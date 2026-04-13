@@ -17,15 +17,15 @@ Rectangle {
     // inside deep forwarding chains.  These explicit dependencies
     // ensure re-evaluation when the focused event changes or a
     // delegate registers/unregisters after scroll.
-    readonly property string _eid: chatRoot.primaryActionEventId
-    readonly property int _rev: chatRoot.delegateRegistrationRevision
-    readonly property bool canReply: _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("reply")
-    readonly property bool canThread: _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("thread")
-    readonly property bool canEdit: _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("edit")
-    readonly property bool canForward: _rev >= 0 && (_eid.length > 0 || chatRoot.selectedCount > 1) && chatRoot.canPerformWalkModeAction("forward")
-    readonly property bool canRemove: _rev >= 0 && (_eid.length > 0 || chatRoot.selectedCount > 1) && chatRoot.canPerformWalkModeAction("remove")
-    readonly property bool canOpenOptions: _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("options")
-    readonly property bool canClearSelection: chatRoot.selectedCount > 0
+    readonly property string _eid: chatRoot ? chatRoot.primaryActionEventId : ""
+    readonly property int _rev: chatRoot ? chatRoot.delegateRegistrationRevision : -1
+    readonly property bool canReply: chatRoot && _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("reply")
+    readonly property bool canThread: chatRoot && _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("thread")
+    readonly property bool canEdit: chatRoot && _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("edit")
+    readonly property bool canForward: chatRoot && _rev >= 0 && (_eid.length > 0 || chatRoot.selectedCount > 1) && chatRoot.canPerformWalkModeAction("forward")
+    readonly property bool canRemove: chatRoot && _rev >= 0 && (_eid.length > 0 || chatRoot.selectedCount > 1) && chatRoot.canPerformWalkModeAction("remove")
+    readonly property bool canOpenOptions: chatRoot && _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("options")
+    readonly property bool canClearSelection: chatRoot ? chatRoot.selectedCount > 0 : false
     readonly property int headerButtonHeight: Komai.listIconSize
     readonly property int separatorSlotWidth: Komai.paddingMedium * 2 + 1
     readonly property int verticalMargin: Math.max(0, Math.floor((minimumHeight - headerButtonHeight) / 2))
@@ -174,6 +174,8 @@ Rectangle {
     }
 
     function statusText() {
+        if (!chatRoot)
+            return qsTr("Selection mode");
         if (chatRoot.selectedCount > 1)
             return qsTr("%n selected messages", "", chatRoot.selectedCount);
         if (chatRoot.selectedCount === 1)
@@ -314,7 +316,7 @@ Rectangle {
                     previousTabTarget: walkBar.previousVisibleButton(forwardButton)
                         || (walkBar.chatRoot ? walkBar.chatRoot.timelineSelectionFocusTarget() : null)
                     showLabel: walkBar.showActionLabels
-                    toolTipText: chatRoot.selectedCount > 1
+                    toolTipText: chatRoot && chatRoot.selectedCount > 1
                         ? qsTr("Forward selected messages [F]")
                         : qsTr("Forward message [F]")
 
@@ -333,7 +335,7 @@ Rectangle {
                     previousTabTarget: walkBar.previousVisibleButton(deleteButton)
                         || (walkBar.chatRoot ? walkBar.chatRoot.timelineSelectionFocusTarget() : null)
                     showLabel: walkBar.showActionLabels
-                    toolTipText: chatRoot.selectedCount > 1
+                    toolTipText: chatRoot && chatRoot.selectedCount > 1
                         ? qsTr("Delete selected messages [D]")
                         : qsTr("Delete message [D]")
 

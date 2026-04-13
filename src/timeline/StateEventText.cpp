@@ -262,7 +262,7 @@ translateOtherState(const MatrixTimelineItem &item)
 // ── Event type labels ───────────────────────────────────────────────
 
 QString
-eventTypeLabel(const QString &itemKind, const QString &matrixEventType)
+eventTypeLabel(const QString &itemKind, const QString & /*matrixEventType*/)
 {
     if (itemKind == QStringLiteral("redacted"))
         return TR("Deleted message");
@@ -307,6 +307,12 @@ translate(const MatrixTimelineItem &item)
     const auto label = eventTypeLabel(item.itemKind, item.matrixEventType);
     if (!label.isEmpty())
         return label;
+
+    // Catch-all for any unrecognised state-like event kind that Rust may
+    // introduce in the future.  Guarantees we never return an empty string
+    // for something the timeline treats as a state event.
+    if (!item.senderDisplayName.isEmpty())
+        return TR("Room state changed by %1").arg(item.senderDisplayName);
 
     return {};
 }

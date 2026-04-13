@@ -91,6 +91,12 @@ struct ReplyPreviewSummary {
     media: Option<MatrixEventMediaSummary>,
 }
 
+/// Summarize a timeline event into structured data for the C++ UI layer.
+///
+/// State events and event-type labels are translated to user-visible text
+/// by C++ `StateEventText` (src/timeline/StateEventText.cpp).
+/// When adding new item_kind values or state event types here, add
+/// corresponding tr() calls there.
 pub fn summarize_timeline_content(
     content: &TimelineItemContent,
     own_user_id: Option<&UserId>,
@@ -235,6 +241,8 @@ fn summarize_room_message_event(message: &SyncRoomMessageEvent) -> MatrixEventSu
     }
 }
 
+/// Translated to user-visible text in C++ `StateEventText::translateMembershipChange()`.
+/// When adding or changing membership_change_kind keys, update that function too.
 fn summarize_membership_change(
     change: &RoomMembershipChange,
     sender_display_name: &str,
@@ -273,6 +281,8 @@ fn truncate_reason(reason: &str) -> String {
     }
 }
 
+/// Translated to user-visible text in C++ `StateEventText::translateProfileChange()`.
+/// When adding or changing profile-change sub-kinds, update that function too.
 fn summarize_profile_change(change: &MemberProfileChange) -> MatrixEventSummary {
     let user = human_name(None, change.user_id().as_str());
 
@@ -296,6 +306,9 @@ fn summarize_profile_change(change: &MemberProfileChange) -> MatrixEventSummary 
     s
 }
 
+/// Translated to user-visible text in C++ `StateEventText::translateOtherState()`.
+/// When adding new matrix_event_type handling or state_event_detail keys, update
+/// that function too.
 fn summarize_other_state(state: &OtherState, _sender: &str) -> MatrixEventSummary {
     let event_type = state.content().event_type().to_string();
 

@@ -240,7 +240,7 @@ private:
     void applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSummary> &roomList);
     bool matrixRoomListSnapshotDiffersFromAppliedState(
       const QVector<komai::MatrixRoomSummary> &roomList) const;
-    void resumeDeferredMatrixRoomRefresh();
+    bool resumeDeferredMatrixRoomRefresh();
     void setHasSuppressedUpdates(bool hasSuppressedUpdates);
     static AttentionState
     attentionStateForRow(const QAbstractItemModel *model, const QModelIndex &idx);

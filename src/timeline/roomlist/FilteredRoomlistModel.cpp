@@ -191,10 +191,13 @@ FilteredRoomlistModel::setInteractionSuppressed(bool suppressed)
     }
 
     nhlog::ui()->info("Resuming room list live updates after room-list interaction");
-    roomlistmodel->setInteractionSuppressed(false);
+
+    // Re-enable dynamic sort/filter BEFORE applying deferred changes so the proxy
+    // auto-sorts incrementally as the source model emits signals.  This avoids a
+    // blanket invalidate() + sort(0) which emits layoutChanged and resets the
+    // QML ListView scroll position.
     setDynamicSortFilter(true);
-    invalidate();
-    sort(0);
+    roomlistmodel->setInteractionSuppressed(false);
 }
 
 void

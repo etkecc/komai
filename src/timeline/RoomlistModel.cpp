@@ -757,27 +757,28 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
     emitAttentionCount();
 }
 
-void
+bool
 RoomlistModel::resumeDeferredMatrixRoomRefresh()
 {
     if (matrixRoomRefreshInFlight_)
-        return;
+        return false;
 
     if (matrixRoomRefreshPending_) {
         deferredMatrixRoomListSnapshot_.reset();
         setHasSuppressedUpdates(false);
         matrixRoomRefreshPending_ = false;
         refreshMatrixBackendRooms();
-        return;
+        return true;
     }
 
     if (!deferredMatrixRoomListSnapshot_.has_value())
-        return;
+        return false;
 
     const auto snapshot = std::move(*deferredMatrixRoomListSnapshot_);
     deferredMatrixRoomListSnapshot_.reset();
     setHasSuppressedUpdates(false);
     applyMatrixBackendRoomsSnapshot(snapshot);
+    return true;
 }
 
 bool

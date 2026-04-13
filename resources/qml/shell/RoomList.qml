@@ -92,7 +92,7 @@ Page {
 
     function updateInteractionSuppression() {
         interactionSuppressed = visible
-            && (roomListInteractionHoverHandler.hovered || roomlist.activeFocus || roomListFreezeIndicator.indicatorHovered || roomListContextMenu.visible);
+            && (roomListInteractionHoverHandler.hovered || roomlist.activeFocus || roomListFreezeIndicator.indicatorHovered || roomListToTopButton.hovered || roomListContextMenu.visible);
         Rooms.setInteractionSuppressed(interactionSuppressed);
     }
 
@@ -452,9 +452,11 @@ Page {
                 onVisibleChanged: roomListPage.updateInteractionSuppression()
             }
             RoomListToTopButton {
+                id: roomListToTopButton
                 roomList: roomlist
                 scrollbarItem: scrollbar
                 collapsed: roomListPage.collapsed
+                onHoveredChanged: roomListPage.updateInteractionSuppression()
             }
             RoomListFreezeIndicator {
                 id: roomListFreezeIndicator

@@ -11,8 +11,8 @@ Rectangle {
 
     required property var tabController
 
-    readonly property int preferredTabWidth: 180
-    readonly property int minimumTabWidth: 100
+    readonly property int preferredTabWidth: 200
+    readonly property int minimumTabWidth: 120
 
     // Compute ideal tab width from available space and tab count.
     readonly property int _liveTabWidth: {

@@ -54,9 +54,9 @@ FilteredRoomlistModel::calculateImportance(const QModelIndex &idx) const
             return NoPreview;
     } else if (sourceModel()->data(idx, RoomlistModel::IsInvite).toBool()) {
         return Invite;
-    } else if (this->sidebarsRoomListSort ==
+    } else if (this->navigationRoomListSort ==
                  static_cast<int>(UserSettings::RoomSortOrder::Recent) ||
-               this->sidebarsRoomListSort ==
+               this->navigationRoomListSort ==
                  static_cast<int>(UserSettings::RoomSortOrder::Alphabetical)) {
         return ImportanceDisabled;
     } else if (sourceModel()->data(idx, RoomlistModel::HasLoudNotification).toBool()) {
@@ -91,9 +91,9 @@ FilteredRoomlistModel::lessThan(const QModelIndex &left, const QModelIndex &righ
     // Zero if empty, otherwise the time that the event occured
 
     bool sortAlphabetically =
-      (this->sidebarsRoomListSort ==
+      (this->navigationRoomListSort ==
          static_cast<int>(UserSettings::RoomSortOrder::UnreadFirst_Alpha) ||
-       this->sidebarsRoomListSort == static_cast<int>(UserSettings::RoomSortOrder::Alphabetical));
+       this->navigationRoomListSort == static_cast<int>(UserSettings::RoomSortOrder::Alphabetical));
 
     if (sortAlphabetically) {
         QString a_order = sourceModel()->data(left_idx, RoomlistModel::RoomName).toString();
@@ -119,15 +119,16 @@ FilteredRoomlistModel::FilteredRoomlistModel(RoomlistModel *model, QObject *pare
 {
     instance_ = this;
 
-    this->sidebarsRoomListSort = static_cast<int>(UserSettings::instance()->sidebarsRoomListSort());
+    this->navigationRoomListSort =
+      static_cast<int>(UserSettings::instance()->navigationRoomListSort());
     setSourceModel(model);
     setDynamicSortFilter(true);
 
     QObject::connect(UserSettings::instance().get(),
-                     &UserSettings::sidebarsRoomListSortChanged,
+                     &UserSettings::navigationRoomListSortChanged,
                      this,
                      [this](UserSettings::RoomSortOrder order) {
-                         this->sidebarsRoomListSort = static_cast<int>(order);
+                         this->navigationRoomListSort = static_cast<int>(order);
                          invalidate();
                      });
     QObject::connect(UserSettings::instance().get(),

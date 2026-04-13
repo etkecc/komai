@@ -6,14 +6,14 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 
 int
-UserSettings::sidebarsCommunitiesWidthPx() const
+UserSettings::navigationCommunitiesWidthPx() const
 {
-    return sidebarsCommunitiesWidthPx_;
+    return navigationCommunitiesWidthPx_;
 }
 int
-UserSettings::sidebarsRoomListWidthPx() const
+UserSettings::navigationRoomListWidthPx() const
 {
-    return sidebarsRoomListWidthPx_;
+    return navigationRoomListWidthPx_;
 }
 double
 UserSettings::uiScaleFactor() const

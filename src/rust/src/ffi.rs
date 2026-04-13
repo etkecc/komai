@@ -154,7 +154,7 @@ mod bridge {
         default_avatar_style: String,
     }
 
-    struct SettingsConfigSidebarsRoomListSection {
+    struct SettingsConfigNavigationRoomListSection {
         has_show_last_message_time: bool,
         show_last_message_time: bool,
         last_message_preview: String,
@@ -164,7 +164,7 @@ mod bridge {
         unread_detection_policy: String,
     }
 
-    struct SettingsConfigSidebarsCommunitiesSection {
+    struct SettingsConfigNavigationCommunitiesSection {
         has_visible: bool,
         visible: bool,
         has_filter_favourites: bool,
@@ -181,9 +181,9 @@ mod bridge {
         filter_low_priority: bool,
     }
 
-    struct SettingsConfigSidebarsSection {
-        room_list: SettingsConfigSidebarsRoomListSection,
-        communities: SettingsConfigSidebarsCommunitiesSection,
+    struct SettingsConfigNavigationSection {
+        room_list: SettingsConfigNavigationRoomListSection,
+        communities: SettingsConfigNavigationCommunitiesSection,
     }
 
     struct SettingsConfigTimelineHiddenEventsSection {
@@ -391,7 +391,7 @@ mod bridge {
 
     struct SettingsConfigSnapshot {
         ui: SettingsConfigUiSection,
-        sidebars: SettingsConfigSidebarsSection,
+        navigation: SettingsConfigNavigationSection,
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
         desktop: SettingsConfigDesktopSection,
@@ -403,7 +403,7 @@ mod bridge {
 
     struct SettingsLoadedConfig {
         ui: SettingsConfigUiSection,
-        sidebars: SettingsConfigSidebarsSection,
+        navigation: SettingsConfigNavigationSection,
         timeline: SettingsConfigTimelineSection,
         secrets: SettingsConfigSecretsSection,
         desktop: SettingsConfigDesktopSection,
@@ -436,8 +436,8 @@ mod bridge {
     struct SettingsLoadedState {
         window_width: i32,
         window_height: i32,
-        sidebars_room_list_width_px: i32,
-        sidebars_communities_width_px: i32,
+        navigation_room_list_width_px: i32,
+        navigation_communities_width_px: i32,
         current_filter_id: String,
         current_room_id: String,
         global_excludes: Vec<String>,
@@ -483,8 +483,8 @@ mod bridge {
     struct SettingsStateSnapshot {
         window_width: i32,
         window_height: i32,
-        sidebars_room_list_width_px: i32,
-        sidebars_communities_width_px: i32,
+        navigation_room_list_width_px: i32,
+        navigation_communities_width_px: i32,
         current_filter_id: String,
         current_room_id: String,
         global_excludes: Vec<String>,

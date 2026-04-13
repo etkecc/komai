@@ -14,8 +14,8 @@
 
 namespace settings::core::definitions {
 
-inline constexpr int kDefaultSidebarsRoomListWidthPx               = 400;
-inline constexpr int kDefaultSidebarsCommunitiesWidthPx            = 220;
+inline constexpr int kDefaultNavigationRoomListWidthPx             = 400;
+inline constexpr int kDefaultNavigationCommunitiesWidthPx          = 220;
 inline constexpr int kDefaultWindowWidthPx                         = 1600;
 inline constexpr int kDefaultWindowHeightPx                        = 900;
 inline constexpr const char *kDefaultUiThemeSlug                   = "light-komai";
@@ -61,8 +61,8 @@ inline constexpr SettingDefinition kPersistedSettingDefinitions[] = {
 #include "SettingsDefinitionsPersistedDesktop.inc"
 #include "SettingsDefinitionsPersistedEncryption.inc"
 #include "SettingsDefinitionsPersistedIntegrations.inc"
+#include "SettingsDefinitionsPersistedNavigation.inc"
 #include "SettingsDefinitionsPersistedNetwork.inc"
-#include "SettingsDefinitionsPersistedSidebars.inc"
 #include "SettingsDefinitionsPersistedTimeline.inc"
 #include "SettingsDefinitionsPersistedUi.inc"
 };
@@ -163,13 +163,13 @@ static_assert(hasCompleteConstrainedConfigClassification(),
 [[nodiscard]] constexpr int
 normalizeRoomListWidthPx(int value)
 {
-    return value > 0 ? value : kDefaultSidebarsRoomListWidthPx;
+    return value > 0 ? value : kDefaultNavigationRoomListWidthPx;
 }
 
 [[nodiscard]] constexpr int
 normalizeCommunitiesWidthPx(int value)
 {
-    return value > 0 ? value : kDefaultSidebarsCommunitiesWidthPx;
+    return value > 0 ? value : kDefaultNavigationCommunitiesWidthPx;
 }
 
 [[nodiscard]] constexpr int

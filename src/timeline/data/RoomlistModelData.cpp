@@ -128,7 +128,7 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
                 return tr("Invited by %1").arg(room.inviterUserId);
             return tr("Pending invite");
         }
-        const auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
+        const auto style = UserSettings::instance()->navigationRoomListLastMessagePreview();
         const bool previewsEnabled =
           style == UserSettings::LastMessagePreview::Always ||
           (style == UserSettings::LastMessagePreview::OnlyUnencrypted && !room.isEncrypted);

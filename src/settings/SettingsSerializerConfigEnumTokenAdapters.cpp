@@ -16,18 +16,18 @@ namespace {
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsComposer.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsIntegrations.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsLookFeel.inc"
+#include "SettingsSerializerConfigEnumTokenAdaptersFnsNavigation.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsNetwork.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsNotifications.inc"
-#include "SettingsSerializerConfigEnumTokenAdaptersFnsSidebars.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsTimeline.inc"
 
 constexpr EnumTokenAdapter kEnumTokenAdapters[] = {
 #include "SettingsSerializerConfigEnumTokenAdaptersComposer.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersIntegrations.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersLookFeel.inc"
+#include "SettingsSerializerConfigEnumTokenAdaptersNavigation.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersNetwork.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersNotifications.inc"
-#include "SettingsSerializerConfigEnumTokenAdaptersSidebars.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersTimeline.inc"
 };
 

@@ -1,38 +1,38 @@
 QString
 roomSortOrderToStorage(const UserSettings &settings)
 {
-    return toStorageValue(settings.sidebarsRoomListSort());
+    return toStorageValue(settings.navigationRoomListSort());
 }
 
 void
 applyRoomSortOrderFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setSidebarsRoomListSort(
+    settings.setNavigationRoomListSort(
       roomSortOrderFromStorage(rawToken, UserSettings::RoomSortOrder::UnreadFirst_Recent));
 }
 
 QString
 lastMessagePreviewToStorage(const UserSettings &settings)
 {
-    return toStorageValue(settings.sidebarsRoomListLastMessagePreview());
+    return toStorageValue(settings.navigationRoomListLastMessagePreview());
 }
 
 void
 applyLastMessagePreviewFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setSidebarsRoomListLastMessagePreview(
+    settings.setNavigationRoomListLastMessagePreview(
       lastMessagePreviewFromStorage(rawToken, UserSettings::LastMessagePreview::Always));
 }
 
 QString
 unreadDetectionPolicyToStorage(const UserSettings &settings)
 {
-    return toStorageValue(settings.sidebarsRoomListUnreadDetectionPolicy());
+    return toStorageValue(settings.navigationRoomListUnreadDetectionPolicy());
 }
 
 void
 applyUnreadDetectionPolicyFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setSidebarsRoomListUnreadDetectionPolicy(
+    settings.setNavigationRoomListUnreadDetectionPolicy(
       unreadDetectionPolicyFromStorage(rawToken, UserSettings::UnreadDetectionPolicy::AnyEvent));
 }

@@ -50,8 +50,8 @@ class Komai : public QObject
     Q_PROPERTY(int fontPixelSize READ fontPixelSize NOTIFY layoutMetricsChanged)
     // Resolved font family name (never empty, never "default")
     Q_PROPERTY(QString fontFamily READ fontFamily NOTIFY layoutMetricsChanged)
-    Q_PROPERTY(bool sidebarsRoomListShowLastMessageTime READ sidebarsRoomListShowLastMessageTime
-                 NOTIFY sidebarsRoomListShowLastMessageTimeChanged)
+    Q_PROPERTY(bool navigationRoomListShowLastMessageTime READ navigationRoomListShowLastMessageTime
+                 NOTIFY navigationRoomListShowLastMessageTimeChanged)
     // Maximum file size in bytes for a video to be considered a GIF-like video (1 MB).
     Q_PROPERTY(int gifVideoMaxSizeBytes READ gifVideoMaxSizeBytes CONSTANT)
     // Maximum duration in milliseconds for a video to be considered a GIF-like video (3 seconds).
@@ -101,7 +101,7 @@ public:
     int barIconSize() const;
     int fontPixelSize() const;
     QString fontFamily() const;
-    bool sidebarsRoomListShowLastMessageTime() const;
+    bool navigationRoomListShowLastMessageTime() const;
 
     QString taglineTemplate() const { return tr("A fine %1 chat app you can get to love"); }
     QString matrixWord() const { return tr("Matrix"); }
@@ -165,7 +165,7 @@ signals:
     void applicationProfilesChanged();
     void localCacheInfoChanged();
     void layoutMetricsChanged();
-    void sidebarsRoomListShowLastMessageTimeChanged();
+    void navigationRoomListShowLastMessageTimeChanged();
 
     void openLogoutDialog();
     void openJoinRoomDialog();

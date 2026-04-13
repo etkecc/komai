@@ -86,67 +86,69 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setUiLayoutCompactMode(
       snapshot.ui.has_layout_compact_mode ? snapshot.ui.layout_compact_mode : false);
 
-    settings.setSidebarsRoomListShowLastMessageTime(
-      snapshot.sidebars.room_list.has_show_last_message_time
-        ? snapshot.sidebars.room_list.show_last_message_time
+    settings.setNavigationRoomListShowLastMessageTime(
+      snapshot.navigation.room_list.has_show_last_message_time
+        ? snapshot.navigation.room_list.show_last_message_time
         : true);
 
-    const auto loadedSidebarsRoomListLastMessagePreview =
+    const auto loadedNavigationRoomListLastMessagePreview =
       QString::fromStdString(
-        static_cast<std::string>(snapshot.sidebars.room_list.last_message_preview))
+        static_cast<std::string>(snapshot.navigation.room_list.last_message_preview))
         .trimmed();
-    const auto sidebarsRoomListLastMessagePreviewToken =
-      loadedSidebarsRoomListLastMessagePreview.isEmpty() ? QStringLiteral("always")
-                                                         : loadedSidebarsRoomListLastMessagePreview;
-    settings.setSidebarsRoomListLastMessagePreview(cfg::lastMessagePreviewFromStorage(
-      sidebarsRoomListLastMessagePreviewToken, UserSettings::LastMessagePreview::Always));
+    const auto navigationRoomListLastMessagePreviewToken =
+      loadedNavigationRoomListLastMessagePreview.isEmpty()
+        ? QStringLiteral("always")
+        : loadedNavigationRoomListLastMessagePreview;
+    settings.setNavigationRoomListLastMessagePreview(cfg::lastMessagePreviewFromStorage(
+      navigationRoomListLastMessagePreviewToken, UserSettings::LastMessagePreview::Always));
 
-    settings.setSidebarsRoomListShowCommunityCounts(
-      snapshot.sidebars.room_list.has_show_community_counts
-        ? snapshot.sidebars.room_list.show_community_counts
+    settings.setNavigationRoomListShowCommunityCounts(
+      snapshot.navigation.room_list.has_show_community_counts
+        ? snapshot.navigation.room_list.show_community_counts
         : true);
 
-    const auto loadedSidebarsRoomListSort =
-      QString::fromStdString(static_cast<std::string>(snapshot.sidebars.room_list.sort)).trimmed();
-    const auto sidebarsRoomListSortToken = loadedSidebarsRoomListSort.isEmpty()
-                                             ? QStringLiteral("unread_first_recent")
-                                             : loadedSidebarsRoomListSort;
-    settings.setSidebarsRoomListSort(cfg::roomSortOrderFromStorage(
-      sidebarsRoomListSortToken, UserSettings::RoomSortOrder::UnreadFirst_Recent));
-
-    const auto loadedSidebarsRoomListUnreadDetectionPolicy =
-      QString::fromStdString(
-        static_cast<std::string>(snapshot.sidebars.room_list.unread_detection_policy))
+    const auto loadedNavigationRoomListSort =
+      QString::fromStdString(static_cast<std::string>(snapshot.navigation.room_list.sort))
         .trimmed();
-    const auto sidebarsRoomListUnreadDetectionPolicyToken =
-      loadedSidebarsRoomListUnreadDetectionPolicy.isEmpty()
+    const auto navigationRoomListSortToken = loadedNavigationRoomListSort.isEmpty()
+                                               ? QStringLiteral("unread_first_recent")
+                                               : loadedNavigationRoomListSort;
+    settings.setNavigationRoomListSort(cfg::roomSortOrderFromStorage(
+      navigationRoomListSortToken, UserSettings::RoomSortOrder::UnreadFirst_Recent));
+
+    const auto loadedNavigationRoomListUnreadDetectionPolicy =
+      QString::fromStdString(
+        static_cast<std::string>(snapshot.navigation.room_list.unread_detection_policy))
+        .trimmed();
+    const auto navigationRoomListUnreadDetectionPolicyToken =
+      loadedNavigationRoomListUnreadDetectionPolicy.isEmpty()
         ? QStringLiteral("any_event")
-        : loadedSidebarsRoomListUnreadDetectionPolicy;
-    settings.setSidebarsRoomListUnreadDetectionPolicy(cfg::unreadDetectionPolicyFromStorage(
-      sidebarsRoomListUnreadDetectionPolicyToken, UserSettings::UnreadDetectionPolicy::AnyEvent));
+        : loadedNavigationRoomListUnreadDetectionPolicy;
+    settings.setNavigationRoomListUnreadDetectionPolicy(cfg::unreadDetectionPolicyFromStorage(
+      navigationRoomListUnreadDetectionPolicyToken, UserSettings::UnreadDetectionPolicy::AnyEvent));
 
-    settings.setSidebarsCommunitiesVisible(
-      snapshot.sidebars.communities.has_visible ? snapshot.sidebars.communities.visible : true);
-    settings.setSidebarsCommunitiesFilterFavourites(
-      snapshot.sidebars.communities.has_filter_favourites
-        ? snapshot.sidebars.communities.filter_favourites
+    settings.setNavigationCommunitiesVisible(
+      snapshot.navigation.communities.has_visible ? snapshot.navigation.communities.visible : true);
+    settings.setNavigationCommunitiesFilterFavourites(
+      snapshot.navigation.communities.has_filter_favourites
+        ? snapshot.navigation.communities.filter_favourites
         : true);
-    settings.setSidebarsCommunitiesFilterPeople(snapshot.sidebars.communities.has_filter_people
-                                                  ? snapshot.sidebars.communities.filter_people
+    settings.setNavigationCommunitiesFilterPeople(snapshot.navigation.communities.has_filter_people
+                                                    ? snapshot.navigation.communities.filter_people
+                                                    : true);
+    settings.setNavigationCommunitiesFilterBots(snapshot.navigation.communities.has_filter_bots
+                                                  ? snapshot.navigation.communities.filter_bots
                                                   : true);
-    settings.setSidebarsCommunitiesFilterBots(snapshot.sidebars.communities.has_filter_bots
-                                                ? snapshot.sidebars.communities.filter_bots
-                                                : true);
-    settings.setSidebarsCommunitiesFilterGroups(snapshot.sidebars.communities.has_filter_groups
-                                                  ? snapshot.sidebars.communities.filter_groups
-                                                  : true);
-    settings.setSidebarsCommunitiesFilterServerNotices(
-      snapshot.sidebars.communities.has_filter_server_notices
-        ? snapshot.sidebars.communities.filter_server_notices
+    settings.setNavigationCommunitiesFilterGroups(snapshot.navigation.communities.has_filter_groups
+                                                    ? snapshot.navigation.communities.filter_groups
+                                                    : true);
+    settings.setNavigationCommunitiesFilterServerNotices(
+      snapshot.navigation.communities.has_filter_server_notices
+        ? snapshot.navigation.communities.filter_server_notices
         : true);
-    settings.setSidebarsCommunitiesFilterLowPriority(
-      snapshot.sidebars.communities.has_filter_low_priority
-        ? snapshot.sidebars.communities.filter_low_priority
+    settings.setNavigationCommunitiesFilterLowPriority(
+      snapshot.navigation.communities.has_filter_low_priority
+        ? snapshot.navigation.communities.filter_low_priority
         : true);
 
     settings.setHiddenTimelineEventTypes(

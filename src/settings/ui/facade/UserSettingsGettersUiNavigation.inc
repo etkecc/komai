@@ -1,11 +1,11 @@
 bool
-UserSettings::sidebarsCommunitiesVisible() const
+UserSettings::navigationCommunitiesVisible() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsCommunitiesVisible);
+          coreStore_.valueAs<bool>(settings::core::SettingId::NavigationCommunitiesVisible);
         value.has_value())
         return *value;
-    return sidebarsCommunitiesVisible_;
+    return navigationCommunitiesVisible_;
 }
 
 UserSettings::ScrollbarPolicy
@@ -21,115 +21,115 @@ UserSettings::uiScrollbarPolicy() const
 }
 
 bool
-UserSettings::sidebarsRoomListShowCommunityCounts() const
+UserSettings::navigationRoomListShowCommunityCounts() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsRoomListShowCommunityCounts);
+          coreStore_.valueAs<bool>(settings::core::SettingId::NavigationRoomListShowCommunityCounts);
         value.has_value())
         return *value;
-    return sidebarsRoomListShowCommunityCounts_;
+    return navigationRoomListShowCommunityCounts_;
 }
 
 bool
-UserSettings::sidebarsCommunitiesFilterFavourites() const
+UserSettings::navigationCommunitiesFilterFavourites() const
 {
     if (const auto value = coreStore_.valueAs<bool>(
-          settings::core::SettingId::SidebarsCommunitiesFilterFavourites);
+          settings::core::SettingId::NavigationCommunitiesFilterFavourites);
         value.has_value())
         return *value;
-    return sidebarsCommunitiesFilterFavourites_;
+    return navigationCommunitiesFilterFavourites_;
 }
 
 bool
-UserSettings::sidebarsCommunitiesFilterPeople() const
+UserSettings::navigationCommunitiesFilterPeople() const
 {
     if (const auto value = coreStore_.valueAs<bool>(
-          settings::core::SettingId::SidebarsCommunitiesFilterPeople);
+          settings::core::SettingId::NavigationCommunitiesFilterPeople);
         value.has_value())
         return *value;
-    return sidebarsCommunitiesFilterPeople_;
+    return navigationCommunitiesFilterPeople_;
 }
 
 bool
-UserSettings::sidebarsCommunitiesFilterBots() const
+UserSettings::navigationCommunitiesFilterBots() const
 {
     if (const auto value = coreStore_.valueAs<bool>(
-          settings::core::SettingId::SidebarsCommunitiesFilterBots);
+          settings::core::SettingId::NavigationCommunitiesFilterBots);
         value.has_value())
         return *value;
-    return sidebarsCommunitiesFilterBots_;
+    return navigationCommunitiesFilterBots_;
 }
 
 bool
-UserSettings::sidebarsCommunitiesFilterGroups() const
+UserSettings::navigationCommunitiesFilterGroups() const
 {
     if (const auto value = coreStore_.valueAs<bool>(
-          settings::core::SettingId::SidebarsCommunitiesFilterGroups);
+          settings::core::SettingId::NavigationCommunitiesFilterGroups);
         value.has_value())
         return *value;
-    return sidebarsCommunitiesFilterGroups_;
+    return navigationCommunitiesFilterGroups_;
 }
 
 bool
-UserSettings::sidebarsCommunitiesFilterServerNotices() const
+UserSettings::navigationCommunitiesFilterServerNotices() const
 {
     if (const auto value = coreStore_.valueAs<bool>(
-          settings::core::SettingId::SidebarsCommunitiesFilterServerNotices);
+          settings::core::SettingId::NavigationCommunitiesFilterServerNotices);
         value.has_value())
         return *value;
-    return sidebarsCommunitiesFilterServerNotices_;
+    return navigationCommunitiesFilterServerNotices_;
 }
 
 bool
-UserSettings::sidebarsCommunitiesFilterLowPriority() const
+UserSettings::navigationCommunitiesFilterLowPriority() const
 {
     if (const auto value = coreStore_.valueAs<bool>(
-          settings::core::SettingId::SidebarsCommunitiesFilterLowPriority);
+          settings::core::SettingId::NavigationCommunitiesFilterLowPriority);
         value.has_value())
         return *value;
-    return sidebarsCommunitiesFilterLowPriority_;
+    return navigationCommunitiesFilterLowPriority_;
 }
 
 bool
-UserSettings::sidebarsRoomListShowLastMessageTime() const
+UserSettings::navigationRoomListShowLastMessageTime() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsRoomListShowLastMessageTime);
+          coreStore_.valueAs<bool>(settings::core::SettingId::NavigationRoomListShowLastMessageTime);
         value.has_value())
         return *value;
-    return sidebarsRoomListShowLastMessageTime_;
+    return navigationRoomListShowLastMessageTime_;
 }
 
 UserSettings::LastMessagePreview
-UserSettings::sidebarsRoomListLastMessagePreview() const
+UserSettings::navigationRoomListLastMessagePreview() const
 {
     if (const auto value =
-          coreStore_.valueAs<int>(settings::core::SettingId::SidebarsRoomListLastMessagePreview);
+          coreStore_.valueAs<int>(settings::core::SettingId::NavigationRoomListLastMessagePreview);
         value.has_value() && *value >= static_cast<int>(UserSettings::LastMessagePreview::Always) &&
         *value <= static_cast<int>(UserSettings::LastMessagePreview::Never))
         return static_cast<UserSettings::LastMessagePreview>(*value);
-    return sidebarsRoomListLastMessagePreview_;
+    return navigationRoomListLastMessagePreview_;
 }
 
 UserSettings::RoomSortOrder
-UserSettings::sidebarsRoomListSort() const
+UserSettings::navigationRoomListSort() const
 {
-    if (const auto value = coreStore_.valueAs<int>(settings::core::SettingId::SidebarsRoomListSort);
+    if (const auto value = coreStore_.valueAs<int>(settings::core::SettingId::NavigationRoomListSort);
         value.has_value() &&
         *value >= static_cast<int>(UserSettings::RoomSortOrder::UnreadFirst_Recent) &&
         *value <= static_cast<int>(UserSettings::RoomSortOrder::Alphabetical))
         return static_cast<UserSettings::RoomSortOrder>(*value);
-    return sidebarsRoomListSort_;
+    return navigationRoomListSort_;
 }
 
 UserSettings::UnreadDetectionPolicy
-UserSettings::sidebarsRoomListUnreadDetectionPolicy() const
+UserSettings::navigationRoomListUnreadDetectionPolicy() const
 {
     if (const auto value = coreStore_.valueAs<int>(
-          settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy);
+          settings::core::SettingId::NavigationRoomListUnreadDetectionPolicy);
         value.has_value() &&
         *value >= static_cast<int>(UserSettings::UnreadDetectionPolicy::AnyEvent) &&
         *value <= static_cast<int>(UserSettings::UnreadDetectionPolicy::MessagesOnly))
         return static_cast<UserSettings::UnreadDetectionPolicy>(*value);
-    return sidebarsRoomListUnreadDetectionPolicy_;
+    return navigationRoomListUnreadDetectionPolicy_;
 }

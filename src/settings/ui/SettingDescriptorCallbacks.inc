@@ -9,7 +9,7 @@
 #include "settings/ui/SettingDescriptorCallbacksIntegrations.inc"
 #include "settings/ui/SettingDescriptorCallbacksNetwork.inc"
 #include "settings/ui/SettingDescriptorCallbacksCalls.inc"
-#include "settings/ui/SettingDescriptorCallbacksOptionsSidebars.inc"
+#include "settings/ui/SettingDescriptorCallbacksOptionsNavigation.inc"
 #include "settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc"
 #include "settings/ui/SettingDescriptorCallbacksOptionsComposer.inc"
 #include "settings/ui/SettingDescriptorCallbacksReadOnlyAccount.inc"

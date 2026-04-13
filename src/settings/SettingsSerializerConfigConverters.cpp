@@ -46,9 +46,9 @@ valueFromStorageToken(const QString &value,
 #include "SettingsSerializerConfigConvertersComposer.inc"
 #include "SettingsSerializerConfigConvertersIntegrations.inc"
 #include "SettingsSerializerConfigConvertersLookFeel.inc"
+#include "SettingsSerializerConfigConvertersNavigation.inc"
 #include "SettingsSerializerConfigConvertersNetwork.inc"
 #include "SettingsSerializerConfigConvertersNotifications.inc"
-#include "SettingsSerializerConfigConvertersSidebars.inc"
 #include "SettingsSerializerConfigConvertersTimeline.inc"
 
 } // namespace settings::serializer::config

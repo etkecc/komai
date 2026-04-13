@@ -8,7 +8,7 @@ ui:
     width_px: 1600
     height_px: 900
 
-sidebars:
+navigation:
   room_list:
     width_px: 320
     current_room_id: ""

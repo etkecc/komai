@@ -91,82 +91,82 @@ if snapshot.ui.has_layout_compact_mode {
         Value::String(snapshot.ui.scrollbar_policy.clone()),
     );
 
-    if snapshot.sidebars.room_list.has_show_last_message_time {
+    if snapshot.navigation.room_list.has_show_last_message_time {
         yaml::set_value(
             &mut root,
-            &["sidebars", "room_list", "show_last_message_timestamp"],
-            Value::Bool(snapshot.sidebars.room_list.show_last_message_time),
+            &["navigation", "room_list", "show_last_message_timestamp"],
+            Value::Bool(snapshot.navigation.room_list.show_last_message_time),
         );
     }
     yaml::set_value(
         &mut root,
-        &["sidebars", "room_list", "last_message_preview"],
-        Value::String(snapshot.sidebars.room_list.last_message_preview.clone()),
+        &["navigation", "room_list", "last_message_preview"],
+        Value::String(snapshot.navigation.room_list.last_message_preview.clone()),
     );
-    if snapshot.sidebars.room_list.has_show_community_counts {
+    if snapshot.navigation.room_list.has_show_community_counts {
         yaml::set_value(
             &mut root,
-            &["sidebars", "room_list", "show_community_notification_counts"],
-            Value::Bool(snapshot.sidebars.room_list.show_community_counts),
+            &["navigation", "room_list", "show_community_notification_counts"],
+            Value::Bool(snapshot.navigation.room_list.show_community_counts),
         );
     }
     yaml::set_value(
         &mut root,
-        &["sidebars", "room_list", "sort"],
-        Value::String(snapshot.sidebars.room_list.sort.clone()),
+        &["navigation", "room_list", "sort"],
+        Value::String(snapshot.navigation.room_list.sort.clone()),
     );
     yaml::set_value(
         &mut root,
-        &["sidebars", "room_list", "unread_detection_policy"],
-        Value::String(snapshot.sidebars.room_list.unread_detection_policy.clone()),
+        &["navigation", "room_list", "unread_detection_policy"],
+        Value::String(snapshot.navigation.room_list.unread_detection_policy.clone()),
     );
-    if snapshot.sidebars.communities.has_visible {
+    if snapshot.navigation.communities.has_visible {
         yaml::set_value(
             &mut root,
-            &["sidebars", "communities", "visible"],
-            Value::Bool(snapshot.sidebars.communities.visible),
+            &["navigation", "communities", "visible"],
+            Value::Bool(snapshot.navigation.communities.visible),
         );
     }
-    if snapshot.sidebars.communities.has_filter_favourites {
+    if snapshot.navigation.communities.has_filter_favourites {
         yaml::set_value(
             &mut root,
-            &["sidebars", "communities", "filters", "favourites"],
-            Value::Bool(snapshot.sidebars.communities.filter_favourites),
+            &["navigation", "communities", "filters", "favourites"],
+            Value::Bool(snapshot.navigation.communities.filter_favourites),
         );
     }
-    if snapshot.sidebars.communities.has_filter_people {
+    if snapshot.navigation.communities.has_filter_people {
         yaml::set_value(
             &mut root,
-            &["sidebars", "communities", "filters", "people"],
-            Value::Bool(snapshot.sidebars.communities.filter_people),
+            &["navigation", "communities", "filters", "people"],
+            Value::Bool(snapshot.navigation.communities.filter_people),
         );
     }
-    if snapshot.sidebars.communities.has_filter_bots {
+    if snapshot.navigation.communities.has_filter_bots {
         yaml::set_value(
             &mut root,
-            &["sidebars", "communities", "filters", "bots"],
-            Value::Bool(snapshot.sidebars.communities.filter_bots),
+            &["navigation", "communities", "filters", "bots"],
+            Value::Bool(snapshot.navigation.communities.filter_bots),
         );
     }
-    if snapshot.sidebars.communities.has_filter_groups {
+    if snapshot.navigation.communities.has_filter_groups {
         yaml::set_value(
             &mut root,
-            &["sidebars", "communities", "filters", "groups"],
-            Value::Bool(snapshot.sidebars.communities.filter_groups),
+            &["navigation", "communities", "filters", "groups"],
+            Value::Bool(snapshot.navigation.communities.filter_groups),
         );
     }
-    if snapshot.sidebars.communities.has_filter_server_notices {
+    if snapshot.navigation.communities.has_filter_server_notices {
         yaml::set_value(
             &mut root,
-            &["sidebars", "communities", "filters", "server_notices"],
-            Value::Bool(snapshot.sidebars.communities.filter_server_notices),
+            &["navigation", "communities", "filters", "server_notices"],
+            Value::Bool(snapshot.navigation.communities.filter_server_notices),
         );
     }
-    if snapshot.sidebars.communities.has_filter_low_priority {
+    if snapshot.navigation.communities.has_filter_low_priority {
         yaml::set_value(
             &mut root,
-            &["sidebars", "communities", "filters", "low_priority"],
-            Value::Bool(snapshot.sidebars.communities.filter_low_priority),
+            &["navigation", "communities", "filters", "low_priority"],
+            Value::Bool(snapshot.navigation.communities.filter_low_priority),
         );
     }
 

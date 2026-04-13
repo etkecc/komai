@@ -149,7 +149,7 @@ Page {
         Rectangle {
             Layout.fillWidth: true
             color: Komai.theme.separator
-            Layout.preferredHeight: Settings.sidebarsCommunitiesVisible ? 0 : 2
+            Layout.preferredHeight: Settings.navigationCommunitiesVisible ? 0 : 2
         }
         RoomListActionsBar {
             id: roomActionsBar

@@ -222,12 +222,12 @@ FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObj
     auto settings = UserSettings::instance();
     if (settings) {
         for (auto sig : {
-               &UserSettings::sidebarsCommunitiesFilterFavouritesChanged,
-               &UserSettings::sidebarsCommunitiesFilterPeopleChanged,
-               &UserSettings::sidebarsCommunitiesFilterLowPriorityChanged,
-               &UserSettings::sidebarsCommunitiesFilterBotsChanged,
-               &UserSettings::sidebarsCommunitiesFilterGroupsChanged,
-               &UserSettings::sidebarsCommunitiesFilterServerNoticesChanged,
+               &UserSettings::navigationCommunitiesFilterFavouritesChanged,
+               &UserSettings::navigationCommunitiesFilterPeopleChanged,
+               &UserSettings::navigationCommunitiesFilterLowPriorityChanged,
+               &UserSettings::navigationCommunitiesFilterBotsChanged,
+               &UserSettings::navigationCommunitiesFilterGroupsChanged,
+               &UserSettings::navigationCommunitiesFilterServerNoticesChanged,
              })
             connect(settings.get(), sig, this, invalidateFilterSlot);
     }
@@ -309,22 +309,22 @@ FilteredCommunitiesModel::filterAcceptsRow(int sourceRow, const QModelIndex &) c
     if (settings) {
         const auto tagId = m->data(m->index(sourceRow), CommunitiesModel::Roles::Id).toString();
         if (tagId == QLatin1String("people") &&
-            (!settings->sidebarsCommunitiesFilterPeople() || !m->hasRoomsForFixedFilter(tagId)))
+            (!settings->navigationCommunitiesFilterPeople() || !m->hasRoomsForFixedFilter(tagId)))
             return false;
         if (tagId == QLatin1String("bot") &&
-            (!settings->sidebarsCommunitiesFilterBots() || !m->hasRoomsForFixedFilter(tagId)))
+            (!settings->navigationCommunitiesFilterBots() || !m->hasRoomsForFixedFilter(tagId)))
             return false;
         if (tagId == QLatin1String("group") &&
-            (!settings->sidebarsCommunitiesFilterGroups() || !m->hasRoomsForFixedFilter(tagId)))
+            (!settings->navigationCommunitiesFilterGroups() || !m->hasRoomsForFixedFilter(tagId)))
             return false;
         if (tagId == QLatin1String("tag:m.favourite") &&
-            !settings->sidebarsCommunitiesFilterFavourites())
+            !settings->navigationCommunitiesFilterFavourites())
             return false;
         if (tagId == QLatin1String("tag:m.server_notice") &&
-            !settings->sidebarsCommunitiesFilterServerNotices())
+            !settings->navigationCommunitiesFilterServerNotices())
             return false;
         if (tagId == QLatin1String("tag:m.lowpriority") &&
-            !settings->sidebarsCommunitiesFilterLowPriority())
+            !settings->navigationCommunitiesFilterLowPriority())
             return false;
     }
 

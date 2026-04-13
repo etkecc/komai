@@ -174,55 +174,55 @@ pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::S
     }
 }
 
-pub(crate) fn ffi_config_sidebars_section(
+pub(crate) fn ffi_config_navigation_section(
     config: &settings::config::Config,
-) -> ffi::SettingsConfigSidebarsSection {
-    ffi::SettingsConfigSidebarsSection {
-        room_list: ffi::SettingsConfigSidebarsRoomListSection {
-            has_show_last_message_time: config.sidebars.room_list.show_last_message_time.is_some(),
+) -> ffi::SettingsConfigNavigationSection {
+    ffi::SettingsConfigNavigationSection {
+        room_list: ffi::SettingsConfigNavigationRoomListSection {
+            has_show_last_message_time: config.navigation.room_list.show_last_message_time.is_some(),
             show_last_message_time: config
-                .sidebars
+                .navigation
                 .room_list
                 .show_last_message_time
                 .unwrap_or_default(),
-            last_message_preview: config.sidebars.room_list.last_message_preview.to_storage_string(),
-            has_show_community_counts: config.sidebars.room_list.show_community_counts.is_some(),
+            last_message_preview: config.navigation.room_list.last_message_preview.to_storage_string(),
+            has_show_community_counts: config.navigation.room_list.show_community_counts.is_some(),
             show_community_counts: config
-                .sidebars
+                .navigation
                 .room_list
                 .show_community_counts
                 .unwrap_or_default(),
-            sort: config.sidebars.room_list.sort.to_storage_string(),
+            sort: config.navigation.room_list.sort.to_storage_string(),
             unread_detection_policy: config
-                .sidebars
+                .navigation
                 .room_list
                 .unread_detection_policy
                 .to_storage_string(),
         },
-        communities: ffi::SettingsConfigSidebarsCommunitiesSection {
-            has_visible: config.sidebars.communities.visible.is_some(),
-            visible: config.sidebars.communities.visible.unwrap_or_default(),
-            has_filter_favourites: config.sidebars.communities.filter_favourites.is_some(),
+        communities: ffi::SettingsConfigNavigationCommunitiesSection {
+            has_visible: config.navigation.communities.visible.is_some(),
+            visible: config.navigation.communities.visible.unwrap_or_default(),
+            has_filter_favourites: config.navigation.communities.filter_favourites.is_some(),
             filter_favourites: config
-                .sidebars
+                .navigation
                 .communities
                 .filter_favourites
                 .unwrap_or_default(),
-            has_filter_people: config.sidebars.communities.filter_people.is_some(),
-            filter_people: config.sidebars.communities.filter_people.unwrap_or_default(),
-            has_filter_bots: config.sidebars.communities.filter_bots.is_some(),
-            filter_bots: config.sidebars.communities.filter_bots.unwrap_or_default(),
-            has_filter_groups: config.sidebars.communities.filter_groups.is_some(),
-            filter_groups: config.sidebars.communities.filter_groups.unwrap_or_default(),
-            has_filter_server_notices: config.sidebars.communities.filter_server_notices.is_some(),
+            has_filter_people: config.navigation.communities.filter_people.is_some(),
+            filter_people: config.navigation.communities.filter_people.unwrap_or_default(),
+            has_filter_bots: config.navigation.communities.filter_bots.is_some(),
+            filter_bots: config.navigation.communities.filter_bots.unwrap_or_default(),
+            has_filter_groups: config.navigation.communities.filter_groups.is_some(),
+            filter_groups: config.navigation.communities.filter_groups.unwrap_or_default(),
+            has_filter_server_notices: config.navigation.communities.filter_server_notices.is_some(),
             filter_server_notices: config
-                .sidebars
+                .navigation
                 .communities
                 .filter_server_notices
                 .unwrap_or_default(),
-            has_filter_low_priority: config.sidebars.communities.filter_low_priority.is_some(),
+            has_filter_low_priority: config.navigation.communities.filter_low_priority.is_some(),
             filter_low_priority: config
-                .sidebars
+                .navigation
                 .communities
                 .filter_low_priority
                 .unwrap_or_default(),
@@ -532,7 +532,7 @@ pub(crate) fn ffi_config_composer_section(
 pub(crate) fn ffi_loaded_config(snapshot: settings::config::LoadedConfig) -> ffi::SettingsLoadedConfig {
     ffi::SettingsLoadedConfig {
         ui: ffi_config_ui_section(&snapshot.config),
-        sidebars: ffi_config_sidebars_section(&snapshot.config),
+        navigation: ffi_config_navigation_section(&snapshot.config),
         timeline: ffi_config_timeline_section(&snapshot.config),
         secrets: ffi_config_secrets_section(&snapshot.config),
         desktop: ffi_config_desktop_section(&snapshot.config),
@@ -569,8 +569,8 @@ pub(crate) fn ffi_loaded_state(snapshot: settings::state::LoadedState) -> ffi::S
     ffi::SettingsLoadedState {
         window_width: snapshot.window_width,
         window_height: snapshot.window_height,
-        sidebars_room_list_width_px: snapshot.sidebars_room_list_width_px,
-        sidebars_communities_width_px: snapshot.sidebars_communities_width_px,
+        navigation_room_list_width_px: snapshot.navigation_room_list_width_px,
+        navigation_communities_width_px: snapshot.navigation_communities_width_px,
         current_filter_id: snapshot.current_filter_id,
         current_room_id: snapshot.current_room_id,
         global_excludes: snapshot.global_excludes,
@@ -717,11 +717,11 @@ fn clone_config_ui_section(section: &ffi::SettingsConfigUiSection) -> ffi::Setti
     }
 }
 
-fn clone_config_sidebars_section(
-    section: &ffi::SettingsConfigSidebarsSection,
-) -> ffi::SettingsConfigSidebarsSection {
-    ffi::SettingsConfigSidebarsSection {
-        room_list: ffi::SettingsConfigSidebarsRoomListSection {
+fn clone_config_navigation_section(
+    section: &ffi::SettingsConfigNavigationSection,
+) -> ffi::SettingsConfigNavigationSection {
+    ffi::SettingsConfigNavigationSection {
+        room_list: ffi::SettingsConfigNavigationRoomListSection {
             has_show_last_message_time: section.room_list.has_show_last_message_time,
             show_last_message_time: section.room_list.show_last_message_time,
             last_message_preview: section.room_list.last_message_preview.clone(),
@@ -730,7 +730,7 @@ fn clone_config_sidebars_section(
             sort: section.room_list.sort.clone(),
             unread_detection_policy: section.room_list.unread_detection_policy.clone(),
         },
-        communities: ffi::SettingsConfigSidebarsCommunitiesSection {
+        communities: ffi::SettingsConfigNavigationCommunitiesSection {
             has_visible: section.communities.has_visible,
             visible: section.communities.visible,
             has_filter_favourites: section.communities.has_filter_favourites,
@@ -958,7 +958,7 @@ pub(in crate::settings) fn loaded_config_to_snapshot(
 ) -> ffi::SettingsConfigSnapshot {
     ffi::SettingsConfigSnapshot {
         ui: clone_config_ui_section(&loaded.ui),
-        sidebars: clone_config_sidebars_section(&loaded.sidebars),
+        navigation: clone_config_navigation_section(&loaded.navigation),
         timeline: clone_config_timeline_section(&loaded.timeline),
         secrets: clone_config_secrets_section(&loaded.secrets),
         desktop: clone_config_desktop_section(&loaded.desktop),
@@ -974,7 +974,7 @@ pub(in crate::settings) fn clone_loaded_config(
 ) -> ffi::SettingsLoadedConfig {
     ffi::SettingsLoadedConfig {
         ui: clone_config_ui_section(&loaded.ui),
-        sidebars: clone_config_sidebars_section(&loaded.sidebars),
+        navigation: clone_config_navigation_section(&loaded.navigation),
         timeline: clone_config_timeline_section(&loaded.timeline),
         secrets: clone_config_secrets_section(&loaded.secrets),
         desktop: clone_config_desktop_section(&loaded.desktop),
@@ -997,7 +997,7 @@ pub(in crate::settings) fn loaded_config_from_snapshot(
 ) -> ffi::SettingsLoadedConfig {
     ffi::SettingsLoadedConfig {
         ui: clone_config_ui_section(&snapshot.ui),
-        sidebars: clone_config_sidebars_section(&snapshot.sidebars),
+        navigation: clone_config_navigation_section(&snapshot.navigation),
         timeline: clone_config_timeline_section(&snapshot.timeline),
         secrets: clone_config_secrets_section(&snapshot.secrets),
         desktop: clone_config_desktop_section(&snapshot.desktop),
@@ -1055,8 +1055,8 @@ pub(in crate::settings) fn clone_loaded_state(loaded: &ffi::SettingsLoadedState)
     ffi::SettingsLoadedState {
         window_width: loaded.window_width,
         window_height: loaded.window_height,
-        sidebars_room_list_width_px: loaded.sidebars_room_list_width_px,
-        sidebars_communities_width_px: loaded.sidebars_communities_width_px,
+        navigation_room_list_width_px: loaded.navigation_room_list_width_px,
+        navigation_communities_width_px: loaded.navigation_communities_width_px,
         current_filter_id: loaded.current_filter_id.clone(),
         current_room_id: loaded.current_room_id.clone(),
         global_excludes: loaded.global_excludes.iter().cloned().collect(),
@@ -1092,8 +1092,8 @@ pub(in crate::settings) fn loaded_state_from_snapshot(
     ffi::SettingsLoadedState {
         window_width: snapshot.window_width,
         window_height: snapshot.window_height,
-        sidebars_room_list_width_px: snapshot.sidebars_room_list_width_px,
-        sidebars_communities_width_px: snapshot.sidebars_communities_width_px,
+        navigation_room_list_width_px: snapshot.navigation_room_list_width_px,
+        navigation_communities_width_px: snapshot.navigation_communities_width_px,
         current_filter_id: snapshot.current_filter_id.clone(),
         current_room_id: snapshot.current_room_id.clone(),
         global_excludes: snapshot.global_excludes.iter().cloned().collect(),

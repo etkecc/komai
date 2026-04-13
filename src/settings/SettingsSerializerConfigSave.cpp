@@ -44,36 +44,37 @@ stageConfig(const UserSettings &settings,
           .scrollbar_policy                       = {},
           .default_avatar_style                   = {},
         },
-      .sidebars =
+      .navigation =
         {
           .room_list =
             {
               .has_show_last_message_time = true,
-              .show_last_message_time     = settings.sidebarsRoomListShowLastMessageTime(),
+              .show_last_message_time     = settings.navigationRoomListShowLastMessageTime(),
               .last_message_preview =
-                cfg::toStorageValue(settings.sidebarsRoomListLastMessagePreview()).toStdString(),
+                cfg::toStorageValue(settings.navigationRoomListLastMessagePreview()).toStdString(),
               .has_show_community_counts = true,
-              .show_community_counts     = settings.sidebarsRoomListShowCommunityCounts(),
-              .sort = cfg::toStorageValue(settings.sidebarsRoomListSort()).toStdString(),
+              .show_community_counts     = settings.navigationRoomListShowCommunityCounts(),
+              .sort = cfg::toStorageValue(settings.navigationRoomListSort()).toStdString(),
               .unread_detection_policy =
-                cfg::toStorageValue(settings.sidebarsRoomListUnreadDetectionPolicy()).toStdString(),
+                cfg::toStorageValue(settings.navigationRoomListUnreadDetectionPolicy())
+                  .toStdString(),
             },
           .communities =
             {
               .has_visible               = true,
-              .visible                   = settings.sidebarsCommunitiesVisible(),
+              .visible                   = settings.navigationCommunitiesVisible(),
               .has_filter_favourites     = true,
-              .filter_favourites         = settings.sidebarsCommunitiesFilterFavourites(),
+              .filter_favourites         = settings.navigationCommunitiesFilterFavourites(),
               .has_filter_people         = true,
-              .filter_people             = settings.sidebarsCommunitiesFilterPeople(),
+              .filter_people             = settings.navigationCommunitiesFilterPeople(),
               .has_filter_bots           = true,
-              .filter_bots               = settings.sidebarsCommunitiesFilterBots(),
+              .filter_bots               = settings.navigationCommunitiesFilterBots(),
               .has_filter_groups         = true,
-              .filter_groups             = settings.sidebarsCommunitiesFilterGroups(),
+              .filter_groups             = settings.navigationCommunitiesFilterGroups(),
               .has_filter_server_notices = true,
-              .filter_server_notices     = settings.sidebarsCommunitiesFilterServerNotices(),
+              .filter_server_notices     = settings.navigationCommunitiesFilterServerNotices(),
               .has_filter_low_priority   = true,
-              .filter_low_priority       = settings.sidebarsCommunitiesFilterLowPriority(),
+              .filter_low_priority       = settings.navigationCommunitiesFilterLowPriority(),
             },
         },
       .timeline =

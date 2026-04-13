@@ -7,36 +7,36 @@ CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiMotionAnimationsEnabledChanged, 
     CONNECT_SETTING_ID(UiInputMode, uiInputModeChanged, Value);
     CONNECT_SETTING_ID(UiLayoutCompactMode, uiLayoutCompactModeChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsRoomListShowLastMessageTime, sidebarsRoomListShowLastMessageTimeChanged, Value);
-    CONNECT_SETTING_ID(SidebarsRoomListLastMessagePreview, sidebarsRoomListLastMessagePreviewChanged, Value);
+      NavigationRoomListShowLastMessageTime, navigationRoomListShowLastMessageTimeChanged, Value);
+    CONNECT_SETTING_ID(NavigationRoomListLastMessagePreview, navigationRoomListLastMessagePreviewChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsRoomListShowCommunityCounts, sidebarsRoomListShowCommunityCountsChanged, Value);
+      NavigationRoomListShowCommunityCounts, navigationRoomListShowCommunityCountsChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsCircular, uiAvatarsCircularChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsDefaultAvatarStyle, uiAvatarsDefaultAvatarStyleChanged, Value);
     CONNECT_SETTING_ID(UiScrollbarPolicy, uiScrollbarPolicyChanged, Value);
-    CONNECT_SETTING_ID(SidebarsRoomListSort, sidebarsRoomListSortChanged, Value);
-    CONNECT_SETTING_ID(SidebarsCommunitiesVisible, sidebarsCommunitiesVisibleChanged, Value);
+    CONNECT_SETTING_ID(NavigationRoomListSort, navigationRoomListSortChanged, Value);
+    CONNECT_SETTING_ID(NavigationCommunitiesVisible, navigationCommunitiesVisibleChanged, Value);
     // When communities sidebar visibility changes, update Enabled state on filter rows
     // The "All rooms" row is immediately before the first filter row (filterFav - 1).
-    if (const int filterFav = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterFavourites),
-                 filterLP = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterLowPriority);
+    if (const int filterFav = rowForSettingId(settings::core::SettingId::NavigationCommunitiesFilterFavourites),
+                 filterLP = rowForSettingId(settings::core::SettingId::NavigationCommunitiesFilterLowPriority);
         filterFav > 0 && filterLP >= filterFav) {
         const int filterAllRooms = filterFav - 1;
-        connect(settings, &UserSettings::sidebarsCommunitiesVisibleChanged, this,
+        connect(settings, &UserSettings::navigationCommunitiesVisibleChanged, this,
                 [this, filterAllRooms, filterLP]() {
                     emit dataChanged(index(filterAllRooms), index(filterLP), {Enabled});
                 });
     }
     CONNECT_SETTING_ID(
-      SidebarsCommunitiesFilterFavourites, sidebarsCommunitiesFilterFavouritesChanged, Value);
+      NavigationCommunitiesFilterFavourites, navigationCommunitiesFilterFavouritesChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsCommunitiesFilterPeople, sidebarsCommunitiesFilterPeopleChanged, Value);
+      NavigationCommunitiesFilterPeople, navigationCommunitiesFilterPeopleChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsCommunitiesFilterBots, sidebarsCommunitiesFilterBotsChanged, Value);
+      NavigationCommunitiesFilterBots, navigationCommunitiesFilterBotsChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsCommunitiesFilterGroups, sidebarsCommunitiesFilterGroupsChanged, Value);
+      NavigationCommunitiesFilterGroups, navigationCommunitiesFilterGroupsChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsCommunitiesFilterServerNotices, sidebarsCommunitiesFilterServerNoticesChanged, Value);
+      NavigationCommunitiesFilterServerNotices, navigationCommunitiesFilterServerNoticesChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsCommunitiesFilterLowPriority, sidebarsCommunitiesFilterLowPriorityChanged, Value);
+      NavigationCommunitiesFilterLowPriority, navigationCommunitiesFilterLowPriorityChanged, Value);
     CONNECT_SETTING_ID(UiInputTouchSwipeGesturesEnabled, uiInputTouchSwipeGesturesEnabledChanged, Value);

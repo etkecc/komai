@@ -425,7 +425,7 @@ private:
     bool excludedByGroups(int sourceRow) const;
     short int calculateImportance(const QModelIndex &idx) const;
     RoomlistModel *roomlistmodel;
-    int sidebarsRoomListSort = 0; // UserSettings::RoomSortOrder enum value
+    int navigationRoomListSort = 0; // UserSettings::RoomSortOrder enum value
 
     enum class FilterBy
     {

@@ -1,6 +1,6 @@
 # Communities Sidebar
 
-The communities sidebar is a panel on the left side of Komai that lets you quickly filter your room list by category. Each filter can be configured in **Settings > Sidebars**.
+The communities sidebar is a panel on the left side of Komai that lets you quickly filter your room list by category. Each filter can be configured in **Settings > Navigation**.
 
 ## Keyboard Navigation
 
@@ -60,7 +60,7 @@ Shows rooms you've marked as low priority. Like favourites, this uses a standard
 
 ## Settings
 
-Each filter has up to three options, configurable in **Settings > Sidebars > Communities Sidebar** or via right-click context menu on the filter button:
+Each filter has up to three options, configurable in **Settings > Navigation > Communities Sidebar** or via right-click context menu on the filter button:
 
 ### Per-filter options
 

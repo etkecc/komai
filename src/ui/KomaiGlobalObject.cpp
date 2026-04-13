@@ -143,13 +143,13 @@ Komai::Komai()
             this,
             &Komai::layoutMetricsChanged);
     connect(UserSettings::instance().get(),
-            &UserSettings::sidebarsRoomListLastMessagePreviewChanged,
+            &UserSettings::navigationRoomListLastMessagePreviewChanged,
             this,
             &Komai::layoutMetricsChanged);
     connect(UserSettings::instance().get(),
-            &UserSettings::sidebarsRoomListShowLastMessageTimeChanged,
+            &UserSettings::navigationRoomListShowLastMessageTimeChanged,
             this,
-            &Komai::sidebarsRoomListShowLastMessageTimeChanged);
+            &Komai::navigationRoomListShowLastMessageTimeChanged);
     connect(UserSettings::instance().get(),
             &UserSettings::profileChanged,
             this,
@@ -253,15 +253,15 @@ Komai::uiLayoutCompactMode() const
 }
 
 bool
-Komai::sidebarsRoomListShowLastMessageTime() const
+Komai::navigationRoomListShowLastMessageTime() const
 {
-    return UserSettings::instance()->sidebarsRoomListShowLastMessageTime();
+    return UserSettings::instance()->navigationRoomListShowLastMessageTime();
 }
 
 bool
 Komai::hasPreviewLayout() const
 {
-    return UserSettings::instance()->sidebarsRoomListLastMessagePreview() !=
+    return UserSettings::instance()->navigationRoomListLastMessagePreview() !=
            UserSettings::LastMessagePreview::Never;
 }
 
@@ -311,7 +311,7 @@ Komai::listIconLogicalSize()
 
     const bool compact = settings->uiLayoutCompactMode();
     const bool preview =
-      settings->sidebarsRoomListLastMessagePreview() != UserSettings::LastMessagePreview::Never;
+      settings->navigationRoomListLastMessagePreview() != UserSettings::LastMessagePreview::Never;
     const double avatarMultiplier = compact ? (preview ? 2.0 : 1.0) : (preview ? 2.0 : 1.25);
     const QFontMetricsF fm(QGuiApplication::font());
     const int rawSize = qMax(1, qCeil(fm.lineSpacing() * avatarMultiplier));

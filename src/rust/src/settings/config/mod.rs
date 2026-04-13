@@ -18,8 +18,8 @@ pub use model::{
     ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigDesktop,
     ConfigDesktopAttention, ConfigDesktopAttentionToggle, ConfigDesktopNotifications,
     ConfigDesktopSystemTray, ConfigDesktopWindowFocusBlur,
-    ConfigIntegrations, ConfigNetwork, ConfigNetworkEncryption, ConfigSecrets, ConfigSidebars,
-    ConfigSidebarsCommunities, ConfigSidebarsRoomList, ConfigTimeline,
+    ConfigIntegrations, ConfigNetwork, ConfigNetworkEncryption, ConfigSecrets, ConfigNavigation,
+    ConfigNavigationCommunities, ConfigNavigationRoomList, ConfigTimeline,
     ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
     ConfigTimelineMessageActions, ConfigTimelineMessages,
     ConfigTimelineMessagesLayout, ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi,
@@ -32,8 +32,8 @@ pub use tokens::{
     ConfigComposerInputAutoReplaceEmojiToken, ConfigComposerInputSendKeyToken,
     ConfigIntegrationsDbusApiAccessToken, ConfigNetworkPresenceStatusPolicyToken,
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
-    ConfigSidebarsRoomListLastMessagePreviewToken, ConfigSidebarsRoomListSortToken,
-    ConfigSidebarsRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
+    ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
+    ConfigNavigationRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
     ConfigTimelineMessageActionsActivationPolicyToken,
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
@@ -54,31 +54,31 @@ const UI_LAYOUT_COMPACT_MODE_PATH: [&str; 3] = ["ui", "layout", "compact_mode"];
 const UI_AVATARS_CIRCULAR_PATH: [&str; 3] = ["ui", "avatars", "circular"];
 const UI_AVATARS_DEFAULT_AVATAR_STYLE_PATH: [&str; 3] = ["ui", "avatars", "default_avatar_style"];
 const UI_SCROLLBAR_POLICY_PATH: [&str; 2] = ["ui", "scrollbar_policy"];
-const SIDEBARS_ROOM_LIST_SHOW_LAST_MESSAGE_TIME_PATH: [&str; 3] =
-    ["sidebars", "room_list", "show_last_message_timestamp"];
-const SIDEBARS_ROOM_LIST_LAST_MESSAGE_PREVIEW_PATH: [&str; 3] =
-    ["sidebars", "room_list", "last_message_preview"];
-const SIDEBARS_ROOM_LIST_SHOW_COMMUNITY_COUNTS_PATH: [&str; 3] = [
-    "sidebars",
+const NAVIGATION_ROOM_LIST_SHOW_LAST_MESSAGE_TIME_PATH: [&str; 3] =
+    ["navigation", "room_list", "show_last_message_timestamp"];
+const NAVIGATION_ROOM_LIST_LAST_MESSAGE_PREVIEW_PATH: [&str; 3] =
+    ["navigation", "room_list", "last_message_preview"];
+const NAVIGATION_ROOM_LIST_SHOW_COMMUNITY_COUNTS_PATH: [&str; 3] = [
+    "navigation",
     "room_list",
     "show_community_notification_counts",
 ];
-const SIDEBARS_ROOM_LIST_SORT_PATH: [&str; 3] = ["sidebars", "room_list", "sort"];
-const SIDEBARS_ROOM_LIST_UNREAD_DETECTION_POLICY_PATH: [&str; 3] =
-    ["sidebars", "room_list", "unread_detection_policy"];
-const SIDEBARS_COMMUNITIES_VISIBLE_PATH: [&str; 3] = ["sidebars", "communities", "visible"];
-const SIDEBARS_COMMUNITIES_FILTER_FAVOURITES_PATH: [&str; 4] =
-    ["sidebars", "communities", "filters", "favourites"];
-const SIDEBARS_COMMUNITIES_FILTER_PEOPLE_PATH: [&str; 4] =
-    ["sidebars", "communities", "filters", "people"];
-const SIDEBARS_COMMUNITIES_FILTER_BOTS_PATH: [&str; 4] =
-    ["sidebars", "communities", "filters", "bots"];
-const SIDEBARS_COMMUNITIES_FILTER_GROUPS_PATH: [&str; 4] =
-    ["sidebars", "communities", "filters", "groups"];
-const SIDEBARS_COMMUNITIES_FILTER_SERVER_NOTICES_PATH: [&str; 4] =
-    ["sidebars", "communities", "filters", "server_notices"];
-const SIDEBARS_COMMUNITIES_FILTER_LOW_PRIORITY_PATH: [&str; 4] =
-    ["sidebars", "communities", "filters", "low_priority"];
+const NAVIGATION_ROOM_LIST_SORT_PATH: [&str; 3] = ["navigation", "room_list", "sort"];
+const NAVIGATION_ROOM_LIST_UNREAD_DETECTION_POLICY_PATH: [&str; 3] =
+    ["navigation", "room_list", "unread_detection_policy"];
+const NAVIGATION_COMMUNITIES_VISIBLE_PATH: [&str; 3] = ["navigation", "communities", "visible"];
+const NAVIGATION_COMMUNITIES_FILTER_FAVOURITES_PATH: [&str; 4] =
+    ["navigation", "communities", "filters", "favourites"];
+const NAVIGATION_COMMUNITIES_FILTER_PEOPLE_PATH: [&str; 4] =
+    ["navigation", "communities", "filters", "people"];
+const NAVIGATION_COMMUNITIES_FILTER_BOTS_PATH: [&str; 4] =
+    ["navigation", "communities", "filters", "bots"];
+const NAVIGATION_COMMUNITIES_FILTER_GROUPS_PATH: [&str; 4] =
+    ["navigation", "communities", "filters", "groups"];
+const NAVIGATION_COMMUNITIES_FILTER_SERVER_NOTICES_PATH: [&str; 4] =
+    ["navigation", "communities", "filters", "server_notices"];
+const NAVIGATION_COMMUNITIES_FILTER_LOW_PRIORITY_PATH: [&str; 4] =
+    ["navigation", "communities", "filters", "low_priority"];
 const TIMELINE_MESSAGES_STYLE_PATH: [&str; 3] = ["timeline", "messages", "style"];
 const TIMELINE_MESSAGES_LAYOUT_POSITIONING_PATH: [&str; 4] =
     ["timeline", "messages", "layout", "positioning"];
@@ -238,50 +238,50 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             },
             scrollbar_policy: parse_storage_token(yaml::value_at_path(root, &UI_SCROLLBAR_POLICY_PATH)),
         },
-        sidebars: ConfigSidebars {
-            room_list: ConfigSidebarsRoomList {
+        navigation: ConfigNavigation {
+            room_list: ConfigNavigationRoomList {
                 show_last_message_time: yaml::value_at_path(
                     root,
-                    &SIDEBARS_ROOM_LIST_SHOW_LAST_MESSAGE_TIME_PATH,
+                    &NAVIGATION_ROOM_LIST_SHOW_LAST_MESSAGE_TIME_PATH,
                 )
                 .and_then(parse_scalar_bool),
                 last_message_preview: parse_storage_token(yaml::value_at_path(
                     root,
-                    &SIDEBARS_ROOM_LIST_LAST_MESSAGE_PREVIEW_PATH,
+                    &NAVIGATION_ROOM_LIST_LAST_MESSAGE_PREVIEW_PATH,
                 )),
                 show_community_counts: yaml::value_at_path(
                     root,
-                    &SIDEBARS_ROOM_LIST_SHOW_COMMUNITY_COUNTS_PATH,
+                    &NAVIGATION_ROOM_LIST_SHOW_COMMUNITY_COUNTS_PATH,
                 )
                 .and_then(parse_scalar_bool),
-                sort: parse_storage_token(yaml::value_at_path(root, &SIDEBARS_ROOM_LIST_SORT_PATH)),
+                sort: parse_storage_token(yaml::value_at_path(root, &NAVIGATION_ROOM_LIST_SORT_PATH)),
                 unread_detection_policy: parse_storage_token(yaml::value_at_path(
                     root,
-                    &SIDEBARS_ROOM_LIST_UNREAD_DETECTION_POLICY_PATH,
+                    &NAVIGATION_ROOM_LIST_UNREAD_DETECTION_POLICY_PATH,
                 )),
             },
-            communities: ConfigSidebarsCommunities {
-                visible: yaml::value_at_path(root, &SIDEBARS_COMMUNITIES_VISIBLE_PATH)
+            communities: ConfigNavigationCommunities {
+                visible: yaml::value_at_path(root, &NAVIGATION_COMMUNITIES_VISIBLE_PATH)
                     .and_then(parse_scalar_bool),
                 filter_favourites: yaml::value_at_path(
                     root,
-                    &SIDEBARS_COMMUNITIES_FILTER_FAVOURITES_PATH,
+                    &NAVIGATION_COMMUNITIES_FILTER_FAVOURITES_PATH,
                 )
                 .and_then(parse_scalar_bool),
-                filter_people: yaml::value_at_path(root, &SIDEBARS_COMMUNITIES_FILTER_PEOPLE_PATH)
+                filter_people: yaml::value_at_path(root, &NAVIGATION_COMMUNITIES_FILTER_PEOPLE_PATH)
                     .and_then(parse_scalar_bool),
-                filter_bots: yaml::value_at_path(root, &SIDEBARS_COMMUNITIES_FILTER_BOTS_PATH)
+                filter_bots: yaml::value_at_path(root, &NAVIGATION_COMMUNITIES_FILTER_BOTS_PATH)
                     .and_then(parse_scalar_bool),
-                filter_groups: yaml::value_at_path(root, &SIDEBARS_COMMUNITIES_FILTER_GROUPS_PATH)
+                filter_groups: yaml::value_at_path(root, &NAVIGATION_COMMUNITIES_FILTER_GROUPS_PATH)
                     .and_then(parse_scalar_bool),
                 filter_server_notices: yaml::value_at_path(
                     root,
-                    &SIDEBARS_COMMUNITIES_FILTER_SERVER_NOTICES_PATH,
+                    &NAVIGATION_COMMUNITIES_FILTER_SERVER_NOTICES_PATH,
                 )
                 .and_then(parse_scalar_bool),
                 filter_low_priority: yaml::value_at_path(
                     root,
-                    &SIDEBARS_COMMUNITIES_FILTER_LOW_PRIORITY_PATH,
+                    &NAVIGATION_COMMUNITIES_FILTER_LOW_PRIORITY_PATH,
                 )
                 .and_then(parse_scalar_bool),
             },

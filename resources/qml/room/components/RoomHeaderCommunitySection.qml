@@ -14,9 +14,9 @@ RowLayout {
     required property var room
     required property real lineSpacing
 
-    readonly property string communityAvatarUrl: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomAvatarUrl) || ""
-    readonly property string communityId: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomid) || ""
-    readonly property string communityName: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomName) || ""
+    readonly property string communityAvatarUrl: (Settings.navigationCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomAvatarUrl) || ""
+    readonly property string communityId: (Settings.navigationCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomid) || ""
+    readonly property string communityName: (Settings.navigationCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomName) || ""
     readonly property bool communityVisible: !Komai.uiLayoutCompactMode && communityId && room.parentSpace.isLoaded && ("space:" + room.parentSpace.roomid != Communities.currentFilterId)
 
     Layout.column: 1

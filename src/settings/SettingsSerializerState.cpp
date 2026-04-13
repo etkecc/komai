@@ -15,21 +15,21 @@ void
 stageState(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &profileHandle)
 {
     ::komai::rust::SettingsStateSnapshot snapshot{
-      .window_width                  = settings.windowWidth(),
-      .window_height                 = settings.windowHeight(),
-      .sidebars_room_list_width_px   = settings.sidebarsRoomListWidthPx(),
-      .sidebars_communities_width_px = settings.sidebarsCommunitiesWidthPx(),
-      .current_filter_id             = settings.currentFilterId().toStdString(),
-      .current_room_id               = settings.currentRoomId().toStdString(),
-      .global_excludes               = {},
-      .badges_hidden_filters         = {},
-      .hidden_pins                   = {},
-      .hidden_widgets                = {},
-      .collapsed_spaces              = {},
-      .hidden_spaces                 = {},
-      .open_tabs                     = {},
-      .composer_drafts_by_room       = {},
-      .donation_status               = settings.donationStatus().toStdString(),
+      .window_width                    = settings.windowWidth(),
+      .window_height                   = settings.windowHeight(),
+      .navigation_room_list_width_px   = settings.navigationRoomListWidthPx(),
+      .navigation_communities_width_px = settings.navigationCommunitiesWidthPx(),
+      .current_filter_id               = settings.currentFilterId().toStdString(),
+      .current_room_id                 = settings.currentRoomId().toStdString(),
+      .global_excludes                 = {},
+      .badges_hidden_filters           = {},
+      .hidden_pins                     = {},
+      .hidden_widgets                  = {},
+      .collapsed_spaces                = {},
+      .hidden_spaces                   = {},
+      .open_tabs                       = {},
+      .composer_drafts_by_room         = {},
+      .donation_status                 = settings.donationStatus().toStdString(),
     };
     for (const auto &value : settings.globalExcludes())
         snapshot.global_excludes.push_back(value.toStdString());

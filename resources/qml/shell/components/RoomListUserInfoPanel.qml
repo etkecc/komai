@@ -23,7 +23,7 @@ Pane {
         MainWindow.showUserSettingsPage(UserSettingsModel.TabAccount);
     }
 
-    Layout.maximumHeight: Settings.sidebarsCommunitiesVisible ? 0 : -1
+    Layout.maximumHeight: Settings.navigationCommunitiesVisible ? 0 : -1
     clip: true
     Layout.alignment: Qt.AlignBottom
     Layout.fillWidth: true

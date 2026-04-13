@@ -6,8 +6,8 @@ use super::{
     encode_config_yaml, load_config_snapshot, parse_config_text,
     ConfigSecretsProviderToken, ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken,
     ConfigUiScrollbarPolicyToken,
-    ConfigSidebarsRoomListLastMessagePreviewToken, ConfigSidebarsRoomListSortToken,
-    ConfigSidebarsRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
+    ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
+    ConfigNavigationRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
     ConfigTimelineMessageActionsActivationPolicyToken,
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
@@ -20,8 +20,8 @@ use crate::ffi::{
     SettingsConfigDesktopSystemTraySection, SettingsConfigDesktopWindowFocusBlurSection,
     SettingsConfigIntegrationsSection, SettingsConfigNetworkEncryptionSection,
     SettingsConfigNetworkSection,
-    SettingsConfigSecretsSection, SettingsConfigSidebarsCommunitiesSection,
-    SettingsConfigSidebarsRoomListSection, SettingsConfigSidebarsSection,
+    SettingsConfigSecretsSection, SettingsConfigNavigationCommunitiesSection,
+    SettingsConfigNavigationRoomListSection, SettingsConfigNavigationSection,
     SettingsConfigSnapshot, SettingsConfigTimelineFormattedSection,
     SettingsConfigTimelineHiddenEventsSection,
     SettingsConfigTimelineMediaSection, SettingsConfigTimelineMessageActionsSection,
@@ -307,10 +307,10 @@ integrations:
 }
 
 #[test]
-fn parses_sidebars_section() {
+fn parses_navigation_section() {
     let config = parse_config_text(
         r#"
-sidebars:
+navigation:
   room_list:
     show_last_message_timestamp: false
     last_message_preview: never
@@ -329,27 +329,27 @@ sidebars:
 "#,
     );
 
-    assert_eq!(config.sidebars.room_list.show_last_message_time, Some(false));
+    assert_eq!(config.navigation.room_list.show_last_message_time, Some(false));
     assert_eq!(
-        config.sidebars.room_list.last_message_preview,
-        ConfigSidebarsRoomListLastMessagePreviewToken::Never
+        config.navigation.room_list.last_message_preview,
+        ConfigNavigationRoomListLastMessagePreviewToken::Never
     );
-    assert_eq!(config.sidebars.room_list.show_community_counts, Some(true));
+    assert_eq!(config.navigation.room_list.show_community_counts, Some(true));
     assert_eq!(
-        config.sidebars.room_list.sort,
-        ConfigSidebarsRoomListSortToken::Alphabetical
+        config.navigation.room_list.sort,
+        ConfigNavigationRoomListSortToken::Alphabetical
     );
     assert_eq!(
-        config.sidebars.room_list.unread_detection_policy,
-        ConfigSidebarsRoomListUnreadDetectionPolicyToken::AnyEvent
+        config.navigation.room_list.unread_detection_policy,
+        ConfigNavigationRoomListUnreadDetectionPolicyToken::AnyEvent
     );
-    assert_eq!(config.sidebars.communities.visible, Some(false));
-    assert_eq!(config.sidebars.communities.filter_favourites, Some(false));
-    assert_eq!(config.sidebars.communities.filter_people, Some(true));
-    assert_eq!(config.sidebars.communities.filter_bots, Some(false));
-    assert_eq!(config.sidebars.communities.filter_groups, Some(true));
-    assert_eq!(config.sidebars.communities.filter_server_notices, Some(false));
-    assert_eq!(config.sidebars.communities.filter_low_priority, Some(true));
+    assert_eq!(config.navigation.communities.visible, Some(false));
+    assert_eq!(config.navigation.communities.filter_favourites, Some(false));
+    assert_eq!(config.navigation.communities.filter_people, Some(true));
+    assert_eq!(config.navigation.communities.filter_bots, Some(false));
+    assert_eq!(config.navigation.communities.filter_groups, Some(true));
+    assert_eq!(config.navigation.communities.filter_server_notices, Some(false));
+    assert_eq!(config.navigation.communities.filter_low_priority, Some(true));
 }
 
 #[test]
@@ -432,8 +432,8 @@ fn encodes_generic_config_values() {
             scrollbar_policy: "when_needed".to_owned(),
             default_avatar_style: "boring_avatars_bauhaus".to_owned(),
         },
-        sidebars: SettingsConfigSidebarsSection {
-            room_list: SettingsConfigSidebarsRoomListSection {
+        navigation: SettingsConfigNavigationSection {
+            room_list: SettingsConfigNavigationRoomListSection {
                 has_show_last_message_time: true,
                 show_last_message_time: false,
                 last_message_preview: "never".to_owned(),
@@ -442,7 +442,7 @@ fn encodes_generic_config_values() {
                 sort: "alphabetical".to_owned(),
                 unread_detection_policy: "any_event".to_owned(),
             },
-            communities: SettingsConfigSidebarsCommunitiesSection {
+            communities: SettingsConfigNavigationCommunitiesSection {
                 has_visible: true,
                 visible: false,
                 has_filter_favourites: true,
@@ -777,57 +777,57 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::String(value)) if value == "when_needed"
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["sidebars", "room_list", "show_last_message_timestamp"]),
+        yaml::value_at_path(&root, &["navigation", "room_list", "show_last_message_timestamp"]),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["sidebars", "room_list", "last_message_preview"]),
+        yaml::value_at_path(&root, &["navigation", "room_list", "last_message_preview"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "never"
     ));
     assert!(matches!(
         yaml::value_at_path(
             &root,
-            &["sidebars", "room_list", "show_community_notification_counts"]
+            &["navigation", "room_list", "show_community_notification_counts"]
         ),
         Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["sidebars", "room_list", "sort"]),
+        yaml::value_at_path(&root, &["navigation", "room_list", "sort"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "alphabetical"
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["sidebars", "room_list", "unread_detection_policy"]),
+        yaml::value_at_path(&root, &["navigation", "room_list", "unread_detection_policy"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "any_event"
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["sidebars", "communities", "visible"]),
+        yaml::value_at_path(&root, &["navigation", "communities", "visible"]),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["sidebars", "communities", "filters", "favourites"]),
+        yaml::value_at_path(&root, &["navigation", "communities", "filters", "favourites"]),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["sidebars", "communities", "filters", "people"]),
+        yaml::value_at_path(&root, &["navigation", "communities", "filters", "people"]),
         Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["sidebars", "communities", "filters", "bots"]),
+        yaml::value_at_path(&root, &["navigation", "communities", "filters", "bots"]),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["sidebars", "communities", "filters", "groups"]),
+        yaml::value_at_path(&root, &["navigation", "communities", "filters", "groups"]),
         Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(
             &root,
-            &["sidebars", "communities", "filters", "server_notices"]
+            &["navigation", "communities", "filters", "server_notices"]
         ),
         Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["sidebars", "communities", "filters", "low_priority"]),
+        yaml::value_at_path(&root, &["navigation", "communities", "filters", "low_priority"]),
         Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
@@ -989,7 +989,7 @@ ui:
 network:
   presence:
     status_policy: ????
-sidebars:
+navigation:
   room_list:
     unread_detection_policy: impossible
 integrations:
@@ -1017,7 +1017,7 @@ composer:
     );
     assert_eq!(config.integrations.dbus_api_access.to_storage_string(), "none");
     assert_eq!(
-        config.sidebars.room_list.unread_detection_policy.to_storage_string(),
+        config.navigation.room_list.unread_detection_policy.to_storage_string(),
         "any_event"
     );
     assert_eq!(config.composer.input_send_key.to_storage_string(), "enter");

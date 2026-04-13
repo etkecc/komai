@@ -168,19 +168,19 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
           QString::fromStdString(static_cast<std::string>(snapshot.ui.default_avatar_style)) ==
             expected,
           message);
-    if (keyString == QLatin1String(SettingKey::SidebarsRoomListLastMessagePreview))
+    if (keyString == QLatin1String(SettingKey::NavigationRoomListLastMessagePreview))
         return expect(QString::fromStdString(
-                        static_cast<std::string>(snapshot.sidebars.room_list.last_message_preview)) ==
+                        static_cast<std::string>(snapshot.navigation.room_list.last_message_preview)) ==
                         expected,
                       message);
-    if (keyString == QLatin1String(SettingKey::SidebarsRoomListSort))
+    if (keyString == QLatin1String(SettingKey::NavigationRoomListSort))
         return expect(
-          QString::fromStdString(static_cast<std::string>(snapshot.sidebars.room_list.sort)) ==
+          QString::fromStdString(static_cast<std::string>(snapshot.navigation.room_list.sort)) ==
             expected,
           message);
-    if (keyString == QLatin1String(SettingKey::SidebarsRoomListUnreadDetectionPolicy))
+    if (keyString == QLatin1String(SettingKey::NavigationRoomListUnreadDetectionPolicy))
         return expect(QString::fromStdString(static_cast<std::string>(
-                        snapshot.sidebars.room_list.unread_detection_policy)) == expected,
+                        snapshot.navigation.room_list.unread_detection_policy)) == expected,
                       message);
     if (keyString == QLatin1String(SettingKey::TimelineMessagesStyle))
         return expect(
@@ -716,8 +716,8 @@ testEnumSettingsPersistAsStrings()
     settings->setComposerInputEmojiPreferredSkinTone(
       UserSettings::EmojiPreferredSkinTone::MediumDark);
     settings->setComposerInputSendKey(UserSettings::SendMessageKey::CtrlEnter);
-    settings->setSidebarsRoomListSort(UserSettings::RoomSortOrder::Alphabetical);
-    settings->setSidebarsRoomListLastMessagePreview(UserSettings::LastMessagePreview::Never);
+    settings->setNavigationRoomListSort(UserSettings::RoomSortOrder::Alphabetical);
+    settings->setNavigationRoomListLastMessagePreview(UserSettings::LastMessagePreview::Never);
     settings->setTimelineMessageActionsActivationPolicy(
       UserSettings::TimelineMessageActionsActivationPolicy::OnHover);
     settings->setTimelineMessageActionsPinnedReactions(QStringLiteral("👍,👀"));
@@ -769,11 +769,11 @@ testEnumSettingsPersistAsStrings()
                              QStringLiteral("ctrl_enter"),
                              "send key policy is persisted as string token");
     ok &= expectConfigString(configRoot,
-                             SettingKey::SidebarsRoomListSort,
+                             SettingKey::NavigationRoomListSort,
                              QStringLiteral("alphabetical"),
                              "room sort policy is persisted as string token");
     ok &= expectConfigString(configRoot,
-                             SettingKey::SidebarsRoomListLastMessagePreview,
+                             SettingKey::NavigationRoomListLastMessagePreview,
                              QStringLiteral("never"),
                              "last message preview policy is persisted as string token");
     ok &= expectConfigString(configRoot,
@@ -867,7 +867,7 @@ testInvalidStateDimensionsFallbackToSafeValues()
                                        "    size:\n"
                                        "      width: -10\n"
                                        "      height: 0\n"
-                                       "sidebars:\n"
+                                       "navigation:\n"
                                        "  room_list:\n"
                                        "    width_px: -20\n"
                                        "  communities:\n"
@@ -884,11 +884,11 @@ testInvalidStateDimensionsFallbackToSafeValues()
                  "invalid window width falls back to default");
     ok &= expect(settings->windowHeight() == settings::core::definitions::kDefaultWindowHeightPx,
                  "invalid window height falls back to default");
-    ok &= expect(settings->sidebarsRoomListWidthPx() ==
-                   settings::core::definitions::kDefaultSidebarsRoomListWidthPx,
+    ok &= expect(settings->navigationRoomListWidthPx() ==
+                   settings::core::definitions::kDefaultNavigationRoomListWidthPx,
                  "invalid room list width falls back to default");
-    ok &= expect(settings->sidebarsCommunitiesWidthPx() ==
-                   settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx,
+    ok &= expect(settings->navigationCommunitiesWidthPx() ==
+                   settings::core::definitions::kDefaultNavigationCommunitiesWidthPx,
                  "invalid communities width falls back to default");
 
     return ok;
@@ -1267,8 +1267,8 @@ testSerializerLoggerInjection()
 
     settings->setWindowWidth(1366);
     settings->setWindowHeight(768);
-    settings->setSidebarsRoomListWidthPx(260);
-    settings->setSidebarsCommunitiesWidthPx(240);
+    settings->setNavigationRoomListWidthPx(260);
+    settings->setNavigationCommunitiesWidthPx(240);
     const auto stateFile = ctx.stateFile();
     auto profileHandle =
       ::komai::rust::settings_open_profile_handle_for_profile(profile.toStdString(), true);
@@ -1608,28 +1608,28 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::UiAvatarsDefaultAvatarStyle));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::SidebarsRoomListShowLastMessageTime));
+      QString::fromLatin1(SettingKey::NavigationRoomListShowLastMessageTime));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::SidebarsRoomListLastMessagePreview));
+      QString::fromLatin1(SettingKey::NavigationRoomListLastMessagePreview));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::SidebarsRoomListShowCommunityCounts));
-    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::SidebarsRoomListSort));
+      QString::fromLatin1(SettingKey::NavigationRoomListShowCommunityCounts));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NavigationRoomListSort));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::SidebarsRoomListUnreadDetectionPolicy));
+      QString::fromLatin1(SettingKey::NavigationRoomListUnreadDetectionPolicy));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::SidebarsCommunitiesVisible));
+      QString::fromLatin1(SettingKey::NavigationCommunitiesVisible));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterFavourites));
+      QString::fromLatin1(SettingKey::NavigationCommunitiesFilterFavourites));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterPeople));
+      QString::fromLatin1(SettingKey::NavigationCommunitiesFilterPeople));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterBots));
+      QString::fromLatin1(SettingKey::NavigationCommunitiesFilterBots));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterGroups));
+      QString::fromLatin1(SettingKey::NavigationCommunitiesFilterGroups));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterServerNotices));
+      QString::fromLatin1(SettingKey::NavigationCommunitiesFilterServerNotices));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::SidebarsCommunitiesFilterLowPriority));
+      QString::fromLatin1(SettingKey::NavigationCommunitiesFilterLowPriority));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::TimelineMessagesStyle));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMessagesLayoutPositioning));

@@ -25,22 +25,24 @@ constexpr auto UiInputTouchSwipeGesturesEnabled = "ui.input.touch.swipe_gestures
 constexpr auto UiAvatarsCircular                = "ui.avatars.circular";
 constexpr auto UiAvatarsDefaultAvatarStyle      = "ui.avatars.default_avatar_style";
 constexpr auto UiLayoutCompactMode              = "ui.layout.compact_mode";
-constexpr auto SidebarsRoomListShowLastMessageTime =
-  "sidebars.room_list.show_last_message_timestamp";
-constexpr auto SidebarsRoomListLastMessagePreview = "sidebars.room_list.last_message_preview";
-constexpr auto SidebarsRoomListShowCommunityCounts =
-  "sidebars.room_list.show_community_notification_counts";
-constexpr auto UiScrollbarPolicy                     = "ui.scrollbar_policy";
-constexpr auto SidebarsRoomListSort                  = "sidebars.room_list.sort";
-constexpr auto SidebarsRoomListUnreadDetectionPolicy = "sidebars.room_list.unread_detection_policy";
-constexpr auto SidebarsCommunitiesVisible            = "sidebars.communities.visible";
-constexpr auto SidebarsCommunitiesFilterFavourites   = "sidebars.communities.filters.favourites";
-constexpr auto SidebarsCommunitiesFilterPeople       = "sidebars.communities.filters.people";
-constexpr auto SidebarsCommunitiesFilterBots         = "sidebars.communities.filters.bots";
-constexpr auto SidebarsCommunitiesFilterGroups       = "sidebars.communities.filters.groups";
-constexpr auto SidebarsCommunitiesFilterServerNotices =
-  "sidebars.communities.filters.server_notices";
-constexpr auto SidebarsCommunitiesFilterLowPriority  = "sidebars.communities.filters.low_priority";
+constexpr auto NavigationRoomListShowLastMessageTime =
+  "navigation.room_list.show_last_message_timestamp";
+constexpr auto NavigationRoomListLastMessagePreview = "navigation.room_list.last_message_preview";
+constexpr auto NavigationRoomListShowCommunityCounts =
+  "navigation.room_list.show_community_notification_counts";
+constexpr auto UiScrollbarPolicy      = "ui.scrollbar_policy";
+constexpr auto NavigationRoomListSort = "navigation.room_list.sort";
+constexpr auto NavigationRoomListUnreadDetectionPolicy =
+  "navigation.room_list.unread_detection_policy";
+constexpr auto NavigationCommunitiesVisible          = "navigation.communities.visible";
+constexpr auto NavigationCommunitiesFilterFavourites = "navigation.communities.filters.favourites";
+constexpr auto NavigationCommunitiesFilterPeople     = "navigation.communities.filters.people";
+constexpr auto NavigationCommunitiesFilterBots       = "navigation.communities.filters.bots";
+constexpr auto NavigationCommunitiesFilterGroups     = "navigation.communities.filters.groups";
+constexpr auto NavigationCommunitiesFilterServerNotices =
+  "navigation.communities.filters.server_notices";
+constexpr auto NavigationCommunitiesFilterLowPriority =
+  "navigation.communities.filters.low_priority";
 constexpr auto TimelineMessagesStyle                 = "timeline.messages.style";
 constexpr auto TimelineMessagesLayoutPositioning     = "timeline.messages.layout.positioning";
 constexpr auto TimelineUserColorCodingPolicy         = "timeline.user_color_coding_policy";
@@ -111,22 +113,22 @@ constexpr auto IntegrationsBrowserCommand            = "integrations.browser.com
 constexpr auto SecretsProvider                       = "secrets.provider";
 
 // state.yml
-constexpr auto StateSchemaVersion            = SchemaVersion;
-constexpr auto UiWindowWidthPx               = "ui.window.width_px";
-constexpr auto UiWindowHeightPx              = "ui.window.height_px";
-constexpr auto SidebarsRoomListWidthPx       = "sidebars.room_list.width_px";
-constexpr auto SidebarsRoomListCurrentRoomId = "sidebars.room_list.current_room_id";
-constexpr auto SidebarsCommunitiesWidthPx    = "sidebars.communities.width_px";
-constexpr auto SidebarsCommunitiesFilteringGlobalExcludes =
-  "sidebars.communities.filtering.global_excludes";
-constexpr auto SidebarsCommunitiesFilteringBadgesHidden =
-  "sidebars.communities.filtering.badges_hidden";
-constexpr auto SidebarsCommunitiesFilteringCollapsedSpaces =
-  "sidebars.communities.filtering.collapsed_spaces";
-constexpr auto SidebarsCommunitiesFilteringCurrent = "sidebars.communities.filtering.current";
-constexpr auto TimelinePinsHidden                  = "timeline.pins.hidden";
-constexpr auto TimelineWidgetsHidden               = "timeline.widgets.hidden";
-constexpr auto ComposerDraftsByRoom                = "composer.drafts.by_room";
+constexpr auto StateSchemaVersion              = SchemaVersion;
+constexpr auto UiWindowWidthPx                 = "ui.window.width_px";
+constexpr auto UiWindowHeightPx                = "ui.window.height_px";
+constexpr auto NavigationRoomListWidthPx       = "navigation.room_list.width_px";
+constexpr auto NavigationRoomListCurrentRoomId = "navigation.room_list.current_room_id";
+constexpr auto NavigationCommunitiesWidthPx    = "navigation.communities.width_px";
+constexpr auto NavigationCommunitiesFilteringGlobalExcludes =
+  "navigation.communities.filtering.global_excludes";
+constexpr auto NavigationCommunitiesFilteringBadgesHidden =
+  "navigation.communities.filtering.badges_hidden";
+constexpr auto NavigationCommunitiesFilteringCollapsedSpaces =
+  "navigation.communities.filtering.collapsed_spaces";
+constexpr auto NavigationCommunitiesFilteringCurrent = "navigation.communities.filtering.current";
+constexpr auto TimelinePinsHidden                    = "timeline.pins.hidden";
+constexpr auto TimelineWidgetsHidden                 = "timeline.widgets.hidden";
+constexpr auto ComposerDraftsByRoom                  = "composer.drafts.by_room";
 
 // session.yml
 constexpr auto SessionSchemaVersion     = SchemaVersion;

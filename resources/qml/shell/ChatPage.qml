@@ -104,10 +104,10 @@ Rectangle {
 
                 collapsedWidth: Math.max(Komai.navigationRowHeight, 1)
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
-                preferredWidth: Settings.sidebarsCommunitiesWidthPx > collapsedWidth
-                                ? Settings.sidebarsCommunitiesWidthPx
+                preferredWidth: Settings.navigationCommunitiesWidthPx > collapsedWidth
+                                ? Settings.navigationCommunitiesWidthPx
                                 : collapsedWidth
-                visible: Settings.sidebarsCommunitiesVisible
+                visible: Settings.navigationCommunitiesVisible
 
                 CommunitiesList {
                     id: communitiesList
@@ -118,7 +118,7 @@ Rectangle {
                 }
                 Binding {
                     delayed: true
-                    property: 'sidebarsCommunitiesWidthPx'
+                    property: 'navigationCommunitiesWidthPx'
                     restoreMode: Binding.RestoreBindingOrValue
                     target: Settings
                     value: communityListC.preferredWidth
@@ -130,7 +130,7 @@ Rectangle {
 
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
                 collapsedWidth: Math.max(Komai.navigationRowHeight, 1)
-                preferredWidth: Math.max(Settings.sidebarsRoomListWidthPx, collapsedWidth)
+                preferredWidth: Math.max(Settings.navigationRoomListWidthPx, collapsedWidth)
 
                 RoomList {
                     id: roomlist
@@ -144,7 +144,7 @@ Rectangle {
                 }
                 Binding {
                     delayed: true
-                    property: 'sidebarsRoomListWidthPx'
+                    property: 'navigationRoomListWidthPx'
                     restoreMode: Binding.RestoreBindingOrValue
                     target: Settings
                     value: roomListC.preferredWidth

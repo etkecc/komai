@@ -1,5 +1,5 @@
-    int sidebarsCommunitiesWidthPx() const;
-    int sidebarsRoomListWidthPx() const;
+    int navigationCommunitiesWidthPx() const;
+    int navigationRoomListWidthPx() const;
     double uiScaleFactor() const;
     double uiFontSizePt() const;
     QString uiFontFamily() const;

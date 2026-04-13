@@ -2,10 +2,10 @@
   SettingId::UiScrollbarPolicy,
   SettingId::UiAvatarsDefaultAvatarStyle,
 
-  // sidebars
-  SettingId::SidebarsRoomListLastMessagePreview,
-  SettingId::SidebarsRoomListSort,
-  SettingId::SidebarsRoomListUnreadDetectionPolicy,
+  // navigation
+  SettingId::NavigationRoomListLastMessagePreview,
+  SettingId::NavigationRoomListSort,
+  SettingId::NavigationRoomListUnreadDetectionPolicy,
 
   // desktop
   SettingId::DesktopNotificationsMessageContentPolicy,

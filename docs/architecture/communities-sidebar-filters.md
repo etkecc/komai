@@ -63,8 +63,8 @@ All fixed filter rows (except All Rooms) are hidden when no rooms match the filt
 |---|---|
 | Tag ID | `"tag:m.favourite"` |
 | Icon | `star.svg` |
-| Setting key | `sidebars.communities.filters.favourites` |
-| Setting ID | `SidebarsCommunitiesFilterFavourites` |
+| Setting key | `navigation.communities.filters.favourites` |
+| Setting ID | `NavigationCommunitiesFilterFavourites` |
 | Default | enabled |
 | Room filter | `FilterBy::Tag` with `filterStr = "m.favourite"` |
 | Visibility | only shown when at least one room has the `m.favourite` tag |
@@ -80,8 +80,8 @@ Rooms tagged with `m.favourite` via the Matrix [room tagging API](https://spec.m
 | Tag ID | `"people"` |
 | Row constant | `kRowPeople` (1) |
 | Icon | `person.svg` |
-| Setting key | `sidebars.communities.filters.people` |
-| Setting ID | `SidebarsCommunitiesFilterPeople` |
+| Setting key | `navigation.communities.filters.people` |
+| Setting ID | `NavigationCommunitiesFilterPeople` |
 | Default | enabled |
 | Room filter | `FilterBy::People` -- accepts rooms where `IsDirect` is true AND `IsBotRoom` is false |
 | Visibility | only shown when `hasPeopleRooms_` is true (at least one non-bot DM exists) |
@@ -97,8 +97,8 @@ Direct chats with real people, excluding users categorized as bots. A room is a 
 | Tag ID | `"bot"` |
 | Row constant | `kRowBots` (2) |
 | Icon | `robot-sparkle.svg` |
-| Setting key | `sidebars.communities.filters.bots` |
-| Setting ID | `SidebarsCommunitiesFilterBots` |
+| Setting key | `navigation.communities.filters.bots` |
+| Setting ID | `NavigationCommunitiesFilterBots` |
 | Default | enabled |
 | Room filter | `FilterBy::Bots` -- accepts rooms where `RoomlistModel::IsBotRoom` is true |
 | Visibility | only shown when `hasBotRooms_` is true (at least one bot room exists) |
@@ -124,8 +124,8 @@ Bot rooms are a strict subset of direct chats. A room is a bot room when its DM 
 | Tag ID | `"group"` |
 | Row constant | `kRowGroups` (3) |
 | Icon | `people.svg` |
-| Setting key | `sidebars.communities.filters.groups` |
-| Setting ID | `SidebarsCommunitiesFilterGroups` |
+| Setting key | `navigation.communities.filters.groups` |
+| Setting ID | `NavigationCommunitiesFilterGroups` |
 | Default | enabled |
 | Room filter | `FilterBy::Groups` -- accepts rooms where `IsDirect` is false |
 | Visibility | only shown when `hasGroupRooms_` is true (at least one non-DM, non-space room exists) |
@@ -140,8 +140,8 @@ Multi-participant rooms that are not direct chats. Spaces are excluded from this
 |---|---|
 | Tag ID | `"tag:m.server_notice"` |
 | Icon | `tag.svg` |
-| Setting key | `sidebars.communities.filters.server_notices` |
-| Setting ID | `SidebarsCommunitiesFilterServerNotices` |
+| Setting key | `navigation.communities.filters.server_notices` |
+| Setting ID | `NavigationCommunitiesFilterServerNotices` |
 | Default | enabled |
 | Room filter | `FilterBy::Tag` with `filterStr = "m.server_notice"` |
 | Visibility | only shown when at least one room has the `m.server_notice` tag |
@@ -156,8 +156,8 @@ Rooms tagged with `m.server_notice` by the homeserver. See the Matrix spec [Serv
 |---|---|
 | Tag ID | `"tag:m.lowpriority"` |
 | Icon | `lowprio.svg` |
-| Setting key | `sidebars.communities.filters.low_priority` |
-| Setting ID | `SidebarsCommunitiesFilterLowPriority` |
+| Setting key | `navigation.communities.filters.low_priority` |
+| Setting ID | `NavigationCommunitiesFilterLowPriority` |
 | Default | enabled |
 | Room filter | `FilterBy::Tag` with `filterStr = "m.lowpriority"` |
 | Visibility | only shown when at least one room has the `m.lowpriority` tag |
@@ -179,7 +179,7 @@ For tag-based filters (backed by Matrix room tags), unread tracking uses `tagNot
 
 ## Global excludes mechanism
 
-Users can exclude individual sidebar sections from the "All rooms" filter via context menu. Excluded filter IDs are stored in `state.yml` at `sidebars.communities.filtering.global_excludes`. The `FilteredRoomlistModel` parses these to populate `globalExcludedTags`, `globalExcludedSpaces`, `hidePeople`, `hideBots`, and `hideGroups` flags, which suppress matching rooms from the room list when the section is excluded.
+Users can exclude individual sidebar sections from the "All rooms" filter via context menu. Excluded filter IDs are stored in `state.yml` at `navigation.communities.filtering.global_excludes`. The `FilteredRoomlistModel` parses these to populate `globalExcludedTags`, `globalExcludedSpaces`, `hidePeople`, `hideBots`, and `hideGroups` flags, which suppress matching rooms from the room list when the section is excluded.
 
 ## Design decisions
 

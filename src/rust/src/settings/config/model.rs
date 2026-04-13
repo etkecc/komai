@@ -9,8 +9,8 @@ use super::tokens::{
     ConfigComposerInputAutoReplaceEmojiToken, ConfigComposerInputSendKeyToken,
     ConfigIntegrationsDbusApiAccessToken, ConfigNetworkPresenceStatusPolicyToken,
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
-    ConfigSidebarsRoomListLastMessagePreviewToken, ConfigSidebarsRoomListSortToken,
-    ConfigSidebarsRoomListUnreadDetectionPolicyToken,
+    ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
+    ConfigNavigationRoomListUnreadDetectionPolicyToken,
     ConfigTimelineMediaImageDisplayToken, ConfigTimelineMessageActionsActivationPolicyToken,
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken,
@@ -24,7 +24,7 @@ pub(crate) const CONFIG_SCHEMA_VERSION_PATH: [&str; 2] = ["meta", "settings_sche
 #[derive(Clone, Debug, Default)]
 pub struct Config {
     pub ui: ConfigUi,
-    pub sidebars: ConfigSidebars,
+    pub navigation: ConfigNavigation,
     pub timeline: ConfigTimeline,
     pub secrets: ConfigSecrets,
     pub desktop: ConfigDesktop,
@@ -86,22 +86,22 @@ pub struct ConfigUiAvatars {
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct ConfigSidebars {
-    pub room_list: ConfigSidebarsRoomList,
-    pub communities: ConfigSidebarsCommunities,
+pub struct ConfigNavigation {
+    pub room_list: ConfigNavigationRoomList,
+    pub communities: ConfigNavigationCommunities,
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct ConfigSidebarsRoomList {
+pub struct ConfigNavigationRoomList {
     pub show_last_message_time: Option<bool>,
-    pub last_message_preview: ConfigSidebarsRoomListLastMessagePreviewToken,
+    pub last_message_preview: ConfigNavigationRoomListLastMessagePreviewToken,
     pub show_community_counts: Option<bool>,
-    pub sort: ConfigSidebarsRoomListSortToken,
-    pub unread_detection_policy: ConfigSidebarsRoomListUnreadDetectionPolicyToken,
+    pub sort: ConfigNavigationRoomListSortToken,
+    pub unread_detection_policy: ConfigNavigationRoomListUnreadDetectionPolicyToken,
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct ConfigSidebarsCommunities {
+pub struct ConfigNavigationCommunities {
     pub visible: Option<bool>,
     pub filter_favourites: Option<bool>,
     pub filter_people: Option<bool>,

@@ -26,7 +26,7 @@ ui:
   scale:
     factor: 1.0
 
-sidebars:
+navigation:
   room_list:
     compact: false
     show_last_message_timestamp: true

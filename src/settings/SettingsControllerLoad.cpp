@@ -204,8 +204,8 @@ loadImpl(UserSettings &settings,
           QString::fromStdString(static_cast<std::string>(stateSnapshot.donation_status)));
         settings.setWindowWidth(stateSnapshot.window_width);
         settings.setWindowHeight(stateSnapshot.window_height);
-        settings.setSidebarsRoomListWidthPx(stateSnapshot.sidebars_room_list_width_px);
-        settings.setSidebarsCommunitiesWidthPx(stateSnapshot.sidebars_communities_width_px);
+        settings.setNavigationRoomListWidthPx(stateSnapshot.navigation_room_list_width_px);
+        settings.setNavigationCommunitiesWidthPx(stateSnapshot.navigation_communities_width_px);
         settings.setCurrentFilterId(
           QString::fromStdString(static_cast<std::string>(stateSnapshot.current_filter_id)));
         settings.setCurrentRoomId(

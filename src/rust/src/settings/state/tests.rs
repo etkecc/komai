@@ -22,8 +22,8 @@ fn state_snapshot_loads_defaults_and_migrates() {
 
     assert_eq!(loaded.window_width, DEFAULT_WINDOW_WIDTH);
     assert_eq!(loaded.window_height, DEFAULT_WINDOW_HEIGHT);
-    assert_eq!(loaded.sidebars_room_list_width_px, DEFAULT_ROOM_LIST_WIDTH);
-    assert_eq!(loaded.sidebars_communities_width_px, DEFAULT_COMMUNITIES_WIDTH);
+    assert_eq!(loaded.navigation_room_list_width_px, DEFAULT_ROOM_LIST_WIDTH);
+    assert_eq!(loaded.navigation_communities_width_px, DEFAULT_COMMUNITIES_WIDTH);
     assert_eq!(
         loaded.badges_hidden_filters,
         DEFAULT_BADGES_HIDDEN_FILTERS
@@ -38,7 +38,7 @@ fn state_snapshot_loads_defaults_and_migrates() {
 #[test]
 fn state_snapshot_loads_lists_and_maps() {
     let loaded = load_state_snapshot(
-        "sidebars:\n  communities:\n    filtering:\n      current: people\n      global_excludes:\n        - one\n        - two\n      badges_hidden:\n        - x\n      collapsed_spaces:\n        - \"!space:hs\"\ncomposer:\n  drafts:\n    by_room:\n      \"!room:hs\": draft\n",
+        "navigation:\n  communities:\n    filtering:\n      current: people\n      global_excludes:\n        - one\n        - two\n      badges_hidden:\n        - x\n      collapsed_spaces:\n        - \"!space:hs\"\ncomposer:\n  drafts:\n    by_room:\n      \"!room:hs\": draft\n",
     );
 
     assert_eq!(loaded.current_filter_id, "people");
@@ -53,8 +53,8 @@ fn state_yaml_roundtrip() {
     let encoded = encode_state_yaml(&SettingsStateSnapshot {
         window_width: 1200,
         window_height: 800,
-        sidebars_room_list_width_px: 320,
-        sidebars_communities_width_px: 240,
+        navigation_room_list_width_px: 320,
+        navigation_communities_width_px: 240,
         current_filter_id: "people".to_owned(),
         current_room_id: "!room:hs".to_owned(),
         global_excludes: vec!["global".to_owned()],

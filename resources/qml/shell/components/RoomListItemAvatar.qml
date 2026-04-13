@@ -38,7 +38,7 @@ Avatar {
         bubbleBackgroundColor: root.bubbleBackground
         bubbleTextColor: root.bubbleText
         hasLoudNotification: root.hasLoudNotification
-        mayBeVisible: root.collapsed && (root.isSpace ? Settings.sidebarsRoomListShowCommunityCounts : true)
+        mayBeVisible: root.collapsed && (root.isSpace ? Settings.navigationRoomListShowCommunityCounts : true)
         notificationCount: root.notificationCount
     }
 }

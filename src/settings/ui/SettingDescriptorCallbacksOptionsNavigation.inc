@@ -4,13 +4,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 static bool
-sidebarsCommunitiesVisibleEnabled()
+navigationCommunitiesVisibleEnabled()
 {
-    return I->sidebarsCommunitiesVisible();
+    return I->navigationCommunitiesVisible();
 }
 
 static QVariant
-sidebarsLastMessagePreviewValues()
+navigationLastMessagePreviewValues()
 {
     QStringList values;
     values << QCoreApplication::translate("UserSettingsModel", "Always")
@@ -20,7 +20,7 @@ sidebarsLastMessagePreviewValues()
 }
 
 static QVariant
-sidebarsRoomSortValues()
+navigationRoomSortValues()
 {
     QStringList values;
     values << QCoreApplication::translate("UserSettingsModel", "Unread first, then recent")
@@ -31,7 +31,7 @@ sidebarsRoomSortValues()
 }
 
 static QVariant
-sidebarsUnreadDetectionPolicyValues()
+navigationUnreadDetectionPolicyValues()
 {
     QStringList values;
     values << QCoreApplication::translate("UserSettingsModel", "Any")

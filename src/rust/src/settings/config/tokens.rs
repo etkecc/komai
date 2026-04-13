@@ -69,20 +69,20 @@ storage_token_enum!(ConfigUiDefaultAvatarStyleToken, BoringAvatarsBauhaus {
     UserIcon => "user_icon",
 });
 
-storage_token_enum!(ConfigSidebarsRoomListLastMessagePreviewToken, Always {
+storage_token_enum!(ConfigNavigationRoomListLastMessagePreviewToken, Always {
     Always => "always",
     OnlyUnencrypted => "only_unencrypted",
     Never => "never",
 });
 
-storage_token_enum!(ConfigSidebarsRoomListSortToken, UnreadFirstRecent {
+storage_token_enum!(ConfigNavigationRoomListSortToken, UnreadFirstRecent {
     UnreadFirstRecent => "unread_first_recent",
     UnreadFirstAlpha => "unread_first_alpha",
     Recent => "recent",
     Alphabetical => "alphabetical",
 });
 
-storage_token_enum!(ConfigSidebarsRoomListUnreadDetectionPolicyToken, AnyEvent {
+storage_token_enum!(ConfigNavigationRoomListUnreadDetectionPolicyToken, AnyEvent {
     AnyEvent => "any_event",
     MessagesOnly => "messages_only",
 });

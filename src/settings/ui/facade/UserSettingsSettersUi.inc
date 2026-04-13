@@ -3,4 +3,4 @@
 #include "UserSettingsSettersUiTimeline.inc"
 #include "UserSettingsSettersUiLookFeel.inc"
 #include "UserSettingsSettersUiLayout.inc"
-#include "UserSettingsSettersUiSidebars.inc"
+#include "UserSettingsSettersUiNavigation.inc"

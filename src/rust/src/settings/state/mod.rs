@@ -19,16 +19,16 @@ const DEFAULT_BADGES_HIDDEN_FILTERS: [&str; 2] = ["global", "tag:m.lowpriority"]
 const STATE_SCHEMA_VERSION_PATH: [&str; 2] = ["meta", "settings_schema_version"];
 const WINDOW_WIDTH_PATH: [&str; 3] = ["ui", "window", "width_px"];
 const WINDOW_HEIGHT_PATH: [&str; 3] = ["ui", "window", "height_px"];
-const ROOM_LIST_WIDTH_PATH: [&str; 3] = ["sidebars", "room_list", "width_px"];
-const CURRENT_ROOM_ID_PATH: [&str; 3] = ["sidebars", "room_list", "current_room_id"];
-const COMMUNITIES_WIDTH_PATH: [&str; 3] = ["sidebars", "communities", "width_px"];
-const GLOBAL_EXCLUDES_PATH: [&str; 4] = ["sidebars", "communities", "filtering", "global_excludes"];
-const BADGES_HIDDEN_PATH: [&str; 4] = ["sidebars", "communities", "filtering", "badges_hidden"];
+const ROOM_LIST_WIDTH_PATH: [&str; 3] = ["navigation", "room_list", "width_px"];
+const CURRENT_ROOM_ID_PATH: [&str; 3] = ["navigation", "room_list", "current_room_id"];
+const COMMUNITIES_WIDTH_PATH: [&str; 3] = ["navigation", "communities", "width_px"];
+const GLOBAL_EXCLUDES_PATH: [&str; 4] = ["navigation", "communities", "filtering", "global_excludes"];
+const BADGES_HIDDEN_PATH: [&str; 4] = ["navigation", "communities", "filtering", "badges_hidden"];
 const COLLAPSED_SPACES_PATH: [&str; 4] =
-    ["sidebars", "communities", "filtering", "collapsed_spaces"];
+    ["navigation", "communities", "filtering", "collapsed_spaces"];
 const HIDDEN_SPACES_PATH: [&str; 4] =
-    ["sidebars", "communities", "filtering", "hidden_spaces"];
-const CURRENT_FILTER_PATH: [&str; 4] = ["sidebars", "communities", "filtering", "current"];
+    ["navigation", "communities", "filtering", "hidden_spaces"];
+const CURRENT_FILTER_PATH: [&str; 4] = ["navigation", "communities", "filtering", "current"];
 const HIDDEN_PINS_PATH: [&str; 3] = ["timeline", "pins", "hidden"];
 const HIDDEN_WIDGETS_PATH: [&str; 3] = ["timeline", "widgets", "hidden"];
 const OPEN_TABS_PATH: [&str; 2] = ["tabs", "open"];
@@ -39,8 +39,8 @@ const DONATION_STATUS_PATH: [&str; 2] = ["ui", "donation_status"];
 pub struct LoadedState {
     pub window_width: i32,
     pub window_height: i32,
-    pub sidebars_room_list_width_px: i32,
-    pub sidebars_communities_width_px: i32,
+    pub navigation_room_list_width_px: i32,
+    pub navigation_communities_width_px: i32,
     pub current_filter_id: String,
     pub current_room_id: String,
     pub global_excludes: Vec<String>,
@@ -138,8 +138,8 @@ pub fn load_state_snapshot(state_text: &str) -> LoadedState {
     LoadedState {
         window_width: read_int(&root, &WINDOW_WIDTH_PATH, DEFAULT_WINDOW_WIDTH),
         window_height: read_int(&root, &WINDOW_HEIGHT_PATH, DEFAULT_WINDOW_HEIGHT),
-        sidebars_room_list_width_px: read_int(&root, &ROOM_LIST_WIDTH_PATH, DEFAULT_ROOM_LIST_WIDTH),
-        sidebars_communities_width_px: read_int(
+        navigation_room_list_width_px: read_int(&root, &ROOM_LIST_WIDTH_PATH, DEFAULT_ROOM_LIST_WIDTH),
+        navigation_communities_width_px: read_int(
             &root,
             &COMMUNITIES_WIDTH_PATH,
             DEFAULT_COMMUNITIES_WIDTH,
@@ -207,12 +207,12 @@ pub fn encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String {
     yaml::set_value(
         &mut root,
         &ROOM_LIST_WIDTH_PATH,
-        yaml::number_value(snapshot.sidebars_room_list_width_px),
+        yaml::number_value(snapshot.navigation_room_list_width_px),
     );
     yaml::set_value(
         &mut root,
         &COMMUNITIES_WIDTH_PATH,
-        yaml::number_value(snapshot.sidebars_communities_width_px),
+        yaml::number_value(snapshot.navigation_communities_width_px),
     );
     yaml::set_value(
         &mut root,

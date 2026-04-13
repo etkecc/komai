@@ -41,7 +41,7 @@ ColumnLayout {
     Item {
         id: titleRow
 
-        property bool previewsEnabled: !root.isSpace && (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !root.isEncrypted))
+        property bool previewsEnabled: !root.isSpace && (Settings.navigationRoomListLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.navigationRoomListLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !root.isEncrypted))
 
         Layout.alignment: Qt.AlignTop
         Layout.fillWidth: true
@@ -141,7 +141,7 @@ ColumnLayout {
             color: root.unimportantText
             font.pointSize: Settings.uiFontSizePt * 0.95
             text: root.time
-            visible: !root.isInvite && !root.isSpace && Komai.sidebarsRoomListShowLastMessageTime
+            visible: !root.isInvite && !root.isSpace && Komai.navigationRoomListShowLastMessageTime
         }
         NotificationBubble {
             id: spaceNotificationBubble
@@ -150,7 +150,7 @@ ColumnLayout {
             bubbleBackgroundColor: root.bubbleBackground
             bubbleTextColor: root.bubbleText
             hasLoudNotification: root.hasLoudNotification
-            mayBeVisible: !root.collapsed && (root.isSpace ? Settings.sidebarsRoomListShowCommunityCounts : !subtextRow.visible)
+            mayBeVisible: !root.collapsed && (root.isSpace ? Settings.navigationRoomListShowCommunityCounts : !subtextRow.visible)
             notificationCount: root.notificationCount
             parent: (root.isSpace || !subtextRow.visible) ? titleRow : subtextRow
         }

@@ -10,4 +10,4 @@
 
 #include "UserSettingsGettersUiDesktop.inc"
 #include "UserSettingsGettersUiLookFeel.inc"
-#include "UserSettingsGettersUiSidebars.inc"
+#include "UserSettingsGettersUiNavigation.inc"

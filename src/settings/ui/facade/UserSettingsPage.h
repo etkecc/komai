@@ -53,24 +53,27 @@ class UserSettings final : public QObject
                  setDesktopSystemTrayEnabled NOTIFY desktopSystemTrayEnabledChanged)
     Q_PROPERTY(bool desktopSystemTrayAutostart READ desktopSystemTrayAutostart WRITE
                  setDesktopSystemTrayAutostart NOTIFY desktopSystemTrayAutostartChanged)
-    Q_PROPERTY(bool sidebarsCommunitiesVisible READ sidebarsCommunitiesVisible WRITE
-                 setSidebarsCommunitiesVisible NOTIFY sidebarsCommunitiesVisibleChanged)
+    Q_PROPERTY(bool navigationCommunitiesVisible READ navigationCommunitiesVisible WRITE
+                 setNavigationCommunitiesVisible NOTIFY navigationCommunitiesVisibleChanged)
+    Q_PROPERTY(bool navigationCommunitiesFilterFavourites READ navigationCommunitiesFilterFavourites
+                 WRITE setNavigationCommunitiesFilterFavourites NOTIFY
+                   navigationCommunitiesFilterFavouritesChanged)
     Q_PROPERTY(
-      bool sidebarsCommunitiesFilterFavourites READ sidebarsCommunitiesFilterFavourites WRITE
-        setSidebarsCommunitiesFilterFavourites NOTIFY sidebarsCommunitiesFilterFavouritesChanged)
-    Q_PROPERTY(bool sidebarsCommunitiesFilterPeople READ sidebarsCommunitiesFilterPeople WRITE
-                 setSidebarsCommunitiesFilterPeople NOTIFY sidebarsCommunitiesFilterPeopleChanged)
-    Q_PROPERTY(bool sidebarsCommunitiesFilterBots READ sidebarsCommunitiesFilterBots WRITE
-                 setSidebarsCommunitiesFilterBots NOTIFY sidebarsCommunitiesFilterBotsChanged)
+      bool navigationCommunitiesFilterPeople READ navigationCommunitiesFilterPeople WRITE
+        setNavigationCommunitiesFilterPeople NOTIFY navigationCommunitiesFilterPeopleChanged)
+    Q_PROPERTY(bool navigationCommunitiesFilterBots READ navigationCommunitiesFilterBots WRITE
+                 setNavigationCommunitiesFilterBots NOTIFY navigationCommunitiesFilterBotsChanged)
     Q_PROPERTY(
-      bool sidebarsCommunitiesFilterServerNotices READ sidebarsCommunitiesFilterServerNotices WRITE
-        setSidebarsCommunitiesFilterServerNotices NOTIFY
-          sidebarsCommunitiesFilterServerNoticesChanged)
-    Q_PROPERTY(bool sidebarsCommunitiesFilterGroups READ sidebarsCommunitiesFilterGroups WRITE
-                 setSidebarsCommunitiesFilterGroups NOTIFY sidebarsCommunitiesFilterGroupsChanged)
+      bool navigationCommunitiesFilterServerNotices READ navigationCommunitiesFilterServerNotices
+        WRITE setNavigationCommunitiesFilterServerNotices NOTIFY
+          navigationCommunitiesFilterServerNoticesChanged)
     Q_PROPERTY(
-      bool sidebarsCommunitiesFilterLowPriority READ sidebarsCommunitiesFilterLowPriority WRITE
-        setSidebarsCommunitiesFilterLowPriority NOTIFY sidebarsCommunitiesFilterLowPriorityChanged)
+      bool navigationCommunitiesFilterGroups READ navigationCommunitiesFilterGroups WRITE
+        setNavigationCommunitiesFilterGroups NOTIFY navigationCommunitiesFilterGroupsChanged)
+    Q_PROPERTY(
+      bool navigationCommunitiesFilterLowPriority READ navigationCommunitiesFilterLowPriority WRITE
+        setNavigationCommunitiesFilterLowPriority NOTIFY
+          navigationCommunitiesFilterLowPriorityChanged)
     Q_PROPERTY(ScrollbarPolicy uiScrollbarPolicy READ uiScrollbarPolicy WRITE setUiScrollbarPolicy
                  NOTIFY uiScrollbarPolicyChanged)
     Q_PROPERTY(
@@ -129,12 +132,12 @@ class UserSettings final : public QObject
                  setComposerTypingSendEnabled NOTIFY composerTypingSendEnabledChanged)
     Q_PROPERTY(bool timelineTypingShowEnabled READ timelineTypingShowEnabled WRITE
                  setTimelineTypingShowEnabled NOTIFY timelineTypingShowEnabledChanged)
-    Q_PROPERTY(RoomSortOrder sidebarsRoomListSort READ sidebarsRoomListSort WRITE
-                 setSidebarsRoomListSort NOTIFY sidebarsRoomListSortChanged)
+    Q_PROPERTY(RoomSortOrder navigationRoomListSort READ navigationRoomListSort WRITE
+                 setNavigationRoomListSort NOTIFY navigationRoomListSortChanged)
     Q_PROPERTY(
-      UnreadDetectionPolicy sidebarsRoomListUnreadDetectionPolicy READ
-        sidebarsRoomListUnreadDetectionPolicy WRITE setSidebarsRoomListUnreadDetectionPolicy NOTIFY
-          sidebarsRoomListUnreadDetectionPolicyChanged)
+      UnreadDetectionPolicy navigationRoomListUnreadDetectionPolicy READ
+        navigationRoomListUnreadDetectionPolicy WRITE setNavigationRoomListUnreadDetectionPolicy
+          NOTIFY navigationRoomListUnreadDetectionPolicyChanged)
     Q_PROPERTY(
       TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy READ
         timelineMessageActionsActivationPolicy WRITE setTimelineMessageActionsActivationPolicy
@@ -160,17 +163,17 @@ class UserSettings final : public QObject
       NotificationMessageContentPolicy desktopNotificationsMessageContentPolicy READ
         desktopNotificationsMessageContentPolicy WRITE setDesktopNotificationsMessageContentPolicy
           NOTIFY desktopNotificationsMessageContentPolicyChanged)
-    Q_PROPERTY(
-      bool sidebarsRoomListShowCommunityCounts READ sidebarsRoomListShowCommunityCounts WRITE
-        setSidebarsRoomListShowCommunityCounts NOTIFY sidebarsRoomListShowCommunityCountsChanged)
+    Q_PROPERTY(bool navigationRoomListShowCommunityCounts READ navigationRoomListShowCommunityCounts
+                 WRITE setNavigationRoomListShowCommunityCounts NOTIFY
+                   navigationRoomListShowCommunityCountsChanged)
     Q_PROPERTY(bool uiLayoutCompactMode READ uiLayoutCompactMode WRITE setUiLayoutCompactMode NOTIFY
                  uiLayoutCompactModeChanged)
-    Q_PROPERTY(
-      bool sidebarsRoomListShowLastMessageTime READ sidebarsRoomListShowLastMessageTime WRITE
-        setSidebarsRoomListShowLastMessageTime NOTIFY sidebarsRoomListShowLastMessageTimeChanged)
-    Q_PROPERTY(LastMessagePreview sidebarsRoomListLastMessagePreview READ
-                 sidebarsRoomListLastMessagePreview WRITE setSidebarsRoomListLastMessagePreview
-                   NOTIFY sidebarsRoomListLastMessagePreviewChanged)
+    Q_PROPERTY(bool navigationRoomListShowLastMessageTime READ navigationRoomListShowLastMessageTime
+                 WRITE setNavigationRoomListShowLastMessageTime NOTIFY
+                   navigationRoomListShowLastMessageTimeChanged)
+    Q_PROPERTY(LastMessagePreview navigationRoomListLastMessagePreview READ
+                 navigationRoomListLastMessagePreview WRITE setNavigationRoomListLastMessagePreview
+                   NOTIFY navigationRoomListLastMessagePreviewChanged)
     Q_PROPERTY(bool timelineMediaEffectsEnabled READ timelineMediaEffectsEnabled WRITE
                  setTimelineMediaEffectsEnabled NOTIFY timelineMediaEffectsEnabledChanged)
     Q_PROPERTY(bool uiMotionAnimationsEnabled READ uiMotionAnimationsEnabled WRITE
@@ -180,10 +183,10 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       int desktopWindowFocusBlurDelaySeconds READ desktopWindowFocusBlurDelaySeconds WRITE
         setDesktopWindowFocusBlurDelaySeconds NOTIFY desktopWindowFocusBlurDelaySecondsChanged)
-    Q_PROPERTY(int sidebarsRoomListWidthPx READ sidebarsRoomListWidthPx WRITE
-                 setSidebarsRoomListWidthPx NOTIFY sidebarsRoomListWidthPxChanged)
-    Q_PROPERTY(int sidebarsCommunitiesWidthPx READ sidebarsCommunitiesWidthPx WRITE
-                 setSidebarsCommunitiesWidthPx NOTIFY sidebarsCommunitiesWidthPxChanged)
+    Q_PROPERTY(int navigationRoomListWidthPx READ navigationRoomListWidthPx WRITE
+                 setNavigationRoomListWidthPx NOTIFY navigationRoomListWidthPxChanged)
+    Q_PROPERTY(int navigationCommunitiesWidthPx READ navigationCommunitiesWidthPx WRITE
+                 setNavigationCommunitiesWidthPx NOTIFY navigationCommunitiesWidthPxChanged)
     Q_PROPERTY(bool uiInputMode READ uiInputMode WRITE setUiInputMode NOTIFY uiInputModeChanged)
     Q_PROPERTY(bool uiInputTouchSwipeGesturesEnabled READ uiInputTouchSwipeGesturesEnabled WRITE
                  setUiInputTouchSwipeGesturesEnabled NOTIFY uiInputTouchSwipeGesturesEnabledChanged)
@@ -495,13 +498,13 @@ public:
     void setUiFontSizePt(double size);
     void setUiFontFamily(QString family);
     void setUiFontEmojiFamily(QString family);
-    void setSidebarsCommunitiesVisible(bool state);
-    void setSidebarsCommunitiesFilterFavourites(bool state);
-    void setSidebarsCommunitiesFilterPeople(bool state);
-    void setSidebarsCommunitiesFilterBots(bool state);
-    void setSidebarsCommunitiesFilterGroups(bool state);
-    void setSidebarsCommunitiesFilterServerNotices(bool state);
-    void setSidebarsCommunitiesFilterLowPriority(bool state);
+    void setNavigationCommunitiesVisible(bool state);
+    void setNavigationCommunitiesFilterFavourites(bool state);
+    void setNavigationCommunitiesFilterPeople(bool state);
+    void setNavigationCommunitiesFilterBots(bool state);
+    void setNavigationCommunitiesFilterGroups(bool state);
+    void setNavigationCommunitiesFilterServerNotices(bool state);
+    void setNavigationCommunitiesFilterLowPriority(bool state);
     void setUiScrollbarPolicy(ScrollbarPolicy policy);
     void setComposerInputMarkdownToHtmlEnabled(bool state);
     void setComposerInputSendKey(SendMessageKey key);
@@ -524,11 +527,11 @@ public:
     void setTimelineReadReceiptsEnabled(bool state);
     void setComposerTypingSendEnabled(bool state);
     void setTimelineTypingShowEnabled(bool state);
-    void setSidebarsRoomListSort(RoomSortOrder order);
-    void setSidebarsRoomListUnreadDetectionPolicy(UnreadDetectionPolicy policy);
+    void setNavigationRoomListSort(RoomSortOrder order);
+    void setNavigationRoomListUnreadDetectionPolicy(UnreadDetectionPolicy policy);
     void setTimelineMessageActionsActivationPolicy(TimelineMessageActionsActivationPolicy policy);
-    void setSidebarsCommunitiesWidthPx(int state);
-    void setSidebarsRoomListWidthPx(int state);
+    void setNavigationCommunitiesWidthPx(int state);
+    void setNavigationRoomListWidthPx(int state);
     void setNotificationsAccountEnabled(bool state);
     void setDesktopNotificationsEnabled(bool state);
     void setDesktopNotificationsAttentionOnIncoming(bool state);
@@ -536,10 +539,10 @@ public:
     void setDesktopAttentionAppBadgeEnabled(bool state);
     void setUiAvatarsCircular(bool state);
     void setDesktopNotificationsMessageContentPolicy(NotificationMessageContentPolicy policy);
-    void setSidebarsRoomListShowCommunityCounts(bool state);
+    void setNavigationRoomListShowCommunityCounts(bool state);
     void setUiLayoutCompactMode(bool state);
-    void setSidebarsRoomListShowLastMessageTime(bool state);
-    void setSidebarsRoomListLastMessagePreview(LastMessagePreview style);
+    void setNavigationRoomListShowLastMessageTime(bool state);
+    void setNavigationRoomListLastMessagePreview(LastMessagePreview style);
     void setTimelineMediaEffectsEnabled(bool state);
     void setUiMotionAnimationsEnabled(bool state);
     void setDesktopWindowFocusBlurEnabled(bool state);
@@ -646,16 +649,16 @@ public:
 #include "settings/ui/facade/UserSettingsGetters.inc"
 
 signals:
-    void sidebarsCommunitiesVisibleChanged(bool state);
-    void sidebarsCommunitiesFilterFavouritesChanged(bool state);
-    void sidebarsCommunitiesFilterPeopleChanged(bool state);
-    void sidebarsCommunitiesFilterBotsChanged(bool state);
-    void sidebarsCommunitiesFilterGroupsChanged(bool state);
-    void sidebarsCommunitiesFilterServerNoticesChanged(bool state);
-    void sidebarsCommunitiesFilterLowPriorityChanged(bool state);
+    void navigationCommunitiesVisibleChanged(bool state);
+    void navigationCommunitiesFilterFavouritesChanged(bool state);
+    void navigationCommunitiesFilterPeopleChanged(bool state);
+    void navigationCommunitiesFilterBotsChanged(bool state);
+    void navigationCommunitiesFilterGroupsChanged(bool state);
+    void navigationCommunitiesFilterServerNoticesChanged(bool state);
+    void navigationCommunitiesFilterLowPriorityChanged(bool state);
     void uiScrollbarPolicyChanged(ScrollbarPolicy policy);
-    void sidebarsRoomListSortChanged(RoomSortOrder order);
-    void sidebarsRoomListUnreadDetectionPolicyChanged(UnreadDetectionPolicy policy);
+    void navigationRoomListSortChanged(RoomSortOrder order);
+    void navigationRoomListUnreadDetectionPolicyChanged(UnreadDetectionPolicy policy);
     void uiThemeSlugChanged(QString state);
     void timelineMessagesHoverHighlightChanged(bool state);
     void timelineMessagesEmojiOnlyEnlargeChanged(bool state);
@@ -691,16 +694,16 @@ signals:
     void desktopAttentionAppBadgeEnabledChanged(bool state);
     void uiAvatarsCircularChanged(bool state);
     void desktopNotificationsMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
-    void sidebarsRoomListShowCommunityCountsChanged(bool state);
+    void navigationRoomListShowCommunityCountsChanged(bool state);
     void uiLayoutCompactModeChanged(bool state);
-    void sidebarsRoomListShowLastMessageTimeChanged(bool state);
-    void sidebarsRoomListLastMessagePreviewChanged(LastMessagePreview style);
+    void navigationRoomListShowLastMessageTimeChanged(bool state);
+    void navigationRoomListLastMessagePreviewChanged(LastMessagePreview style);
     void timelineMediaEffectsEnabledChanged(bool state);
     void uiMotionAnimationsEnabledChanged(bool state);
     void desktopWindowFocusBlurEnabledChanged(bool state);
     void desktopWindowFocusBlurDelaySecondsChanged(int state);
-    void sidebarsRoomListWidthPxChanged(int state);
-    void sidebarsCommunitiesWidthPxChanged(int state);
+    void navigationRoomListWidthPxChanged(int state);
+    void navigationCommunitiesWidthPxChanged(int state);
     void uiInputModeChanged(bool mode);
     void uiInputTouchSwipeGesturesEnabledChanged(bool state);
     void uiScaleFactorChanged(double factor);

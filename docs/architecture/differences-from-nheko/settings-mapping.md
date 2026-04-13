@@ -39,15 +39,15 @@ Note:
 | Look & Feel | AVATARS | Use circular avatars | `settings::core::SettingId::UiAvatarsCircular` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
 | Look & Feel | AVATARS | Default avatar style | `settings::core::SettingId::UiAvatarsDefaultAvatarStyle` | _(removed)_ | `ui.avatars.default_avatar_style` | config.yml | yes |
 | Look & Feel | LAYOUT | Compact mode | `settings::core::SettingId::UiLayoutCompactMode` | `compact_room_list` | `ui.layout.compact_mode` | config.yml | yes |
-| Sidebars | ROOM LIST | Show last message timestamp | `settings::core::SettingId::SidebarsRoomListShowLastMessageTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
-| Sidebars | ROOM LIST | Show last message preview | `settings::core::SettingId::SidebarsRoomListLastMessagePreview` | `show_last_message_preview` | `sidebars.room_list.last_message_preview` | config.yml | yes |
-| Sidebars | ROOM LIST | Show notification counts | `settings::core::SettingId::SidebarsRoomListShowCommunityCounts` | `show_community_notification_counts` | `sidebars.room_list.show_community_notification_counts` | config.yml | yes |
+| Navigation | ROOM LIST | Show last message timestamp | `settings::core::SettingId::NavigationRoomListShowLastMessageTime` | `show_room_list_time` | `navigation.room_list.show_last_message_timestamp` | config.yml | yes |
+| Navigation | ROOM LIST | Show last message preview | `settings::core::SettingId::NavigationRoomListLastMessagePreview` | `show_last_message_preview` | `navigation.room_list.last_message_preview` | config.yml | yes |
+| Navigation | ROOM LIST | Show notification counts | `settings::core::SettingId::NavigationRoomListShowCommunityCounts` | `show_community_notification_counts` | `navigation.room_list.show_community_notification_counts` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Scrollbar visibility | `settings::core::SettingId::UiScrollbarPolicy` | `scrollbars_in_roomlist` | `ui.scrollbar_policy` | config.yml | yes |
-| Sidebars | ROOM LIST | Sorting | `settings::core::SettingId::SidebarsRoomListSort` | `room_sort_order` | `sidebars.room_list.sort` | config.yml | yes |
-| Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `settings::core::SettingId::SidebarsCommunitiesVisible` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
-| Sidebars | COMMUNITIES SIDEBAR | Show Direct Chats filter | `settings::core::SettingId::SidebarsCommunitiesFilterDirectChats` | `-` | `sidebars.communities.filters.direct_chats` | config.yml | yes |
-| Sidebars | COMMUNITIES SIDEBAR | Show Favourites filter | `settings::core::SettingId::SidebarsCommunitiesFilterFavourites` | `-` | `sidebars.communities.filters.favourites` | config.yml | yes |
-| Sidebars | COMMUNITIES SIDEBAR | Show Low Priority filter | `settings::core::SettingId::SidebarsCommunitiesFilterLowPriority` | `-` | `sidebars.communities.filters.low_priority` | config.yml | yes |
+| Navigation | ROOM LIST | Sorting | `settings::core::SettingId::NavigationRoomListSort` | `room_sort_order` | `navigation.room_list.sort` | config.yml | yes |
+| Navigation | COMMUNITIES SIDEBAR | Show communities sidebar | `settings::core::SettingId::NavigationCommunitiesVisible` | `show_communities_sidebar` | `navigation.communities.visible` | config.yml | yes |
+| Navigation | COMMUNITIES SIDEBAR | Show Direct Chats filter | `settings::core::SettingId::NavigationCommunitiesFilterDirectChats` | `-` | `navigation.communities.filters.direct_chats` | config.yml | yes |
+| Navigation | COMMUNITIES SIDEBAR | Show Favourites filter | `settings::core::SettingId::NavigationCommunitiesFilterFavourites` | `-` | `navigation.communities.filters.favourites` | config.yml | yes |
+| Navigation | COMMUNITIES SIDEBAR | Show Low Priority filter | `settings::core::SettingId::NavigationCommunitiesFilterLowPriority` | `-` | `navigation.communities.filters.low_priority` | config.yml | yes |
 | Desktop | SYSTEM TRAY | Minimize to tray | `settings::core::SettingId::DesktopSystemTrayEnabled` | `tray` | `desktop.system_tray.enabled` | config.yml | yes |
 | Desktop | SYSTEM TRAY | Start in tray | `settings::core::SettingId::DesktopSystemTrayAutostart` | `start_in_tray` | `desktop.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `settings::core::SettingId::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
@@ -121,17 +121,17 @@ Note:
 | --- | --- | --- | --- | --- |
 | `window_width` | `ui.window.width_px` | state.yml | int | runtime window geometry |
 | `window_height` | `ui.window.height_px` | state.yml | int | runtime window geometry |
-| `room_list_width` | `sidebars.room_list.width_px` | state.yml | int | runtime sidebar width |
-| `community_list_width` | `sidebars.communities.width_px` | state.yml | int | runtime sidebar width |
-| `current_tag_id` | `sidebars.communities.filtering.current` | state.yml | text | runtime community sidebar state |
-| `-` | `sidebars.room_list.current_room_id` | state.yml | text | last open room restored on restart |
-| `hidden_tags` | `sidebars.communities.filtering.global_excludes` | state.yml | list(text) | filters excluded from "All rooms" |
-| `muted_tags` | `sidebars.communities.filtering.badges_hidden` | state.yml | list(text) | filters with attention badges hidden |
+| `room_list_width` | `navigation.room_list.width_px` | state.yml | int | runtime sidebar width |
+| `community_list_width` | `navigation.communities.width_px` | state.yml | int | runtime sidebar width |
+| `current_tag_id` | `navigation.communities.filtering.current` | state.yml | text | runtime community sidebar state |
+| `-` | `navigation.room_list.current_room_id` | state.yml | text | last open room restored on restart |
+| `hidden_tags` | `navigation.communities.filtering.global_excludes` | state.yml | list(text) | filters excluded from "All rooms" |
+| `muted_tags` | `navigation.communities.filtering.badges_hidden` | state.yml | list(text) | filters with attention badges hidden |
 | `hidden_pins` | `timeline.pins.hidden` | state.yml | list(text) | runtime timeline state |
 | `hidden_widgets` | `timeline.widgets.hidden` | state.yml | list(text) | runtime timeline state |
 | `recent_reactions` | `composer.reactions.recent` | state.yml | list(text) | runtime convenience state |
 | `room_drafts` | `composer.drafts.by_room` | state.yml | map(text->text) | unsent composer drafts per room, restored across restarts |
-| `collapsed_spaces` | `sidebars.communities.filtering.collapsed_spaces` | state.yml | list(text) | runtime expansion state |
+| `collapsed_spaces` | `navigation.communities.filtering.collapsed_spaces` | state.yml | list(text) | runtime expansion state |
 | `presence` | `network.presence.status_policy` | config.yml | enum | account-scoped preference |
 | `screen_share_frame_rate` | `calls.screenshare.frame_rate` | config.yml | int | advanced calls/screenshare pref |
 | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | bool | advanced calls/screenshare pref |

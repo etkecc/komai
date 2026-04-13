@@ -6,5 +6,5 @@
 import cc.etke.komai
 
 SettingsContent {
-    tabFilter: UserSettingsModel.TabSidebars
+    tabFilter: UserSettingsModel.TabNavigation
 }

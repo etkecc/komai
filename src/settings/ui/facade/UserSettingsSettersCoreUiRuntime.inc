@@ -49,73 +49,73 @@ UserSettings::setUiInputTouchSwipeGesturesEnabled(bool s)
     save();
 }
 void
-UserSettings::setSidebarsCommunitiesVisible(bool s)
+UserSettings::setNavigationCommunitiesVisible(bool s)
 {
-    if (sidebarsCommunitiesVisible_ == s)
+    if (navigationCommunitiesVisible_ == s)
         return;
-    sidebarsCommunitiesVisible_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesVisible, s);
-    emit sidebarsCommunitiesVisibleChanged(s);
+    navigationCommunitiesVisible_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationCommunitiesVisible, s);
+    emit navigationCommunitiesVisibleChanged(s);
     save();
 }
 void
-UserSettings::setSidebarsCommunitiesFilterFavourites(bool s)
+UserSettings::setNavigationCommunitiesFilterFavourites(bool s)
 {
-    if (sidebarsCommunitiesFilterFavourites_ == s)
+    if (navigationCommunitiesFilterFavourites_ == s)
         return;
-    sidebarsCommunitiesFilterFavourites_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesFilterFavourites, s);
-    emit sidebarsCommunitiesFilterFavouritesChanged(s);
+    navigationCommunitiesFilterFavourites_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationCommunitiesFilterFavourites, s);
+    emit navigationCommunitiesFilterFavouritesChanged(s);
     save();
 }
 void
-UserSettings::setSidebarsCommunitiesFilterPeople(bool s)
+UserSettings::setNavigationCommunitiesFilterPeople(bool s)
 {
-    if (sidebarsCommunitiesFilterPeople_ == s)
+    if (navigationCommunitiesFilterPeople_ == s)
         return;
-    sidebarsCommunitiesFilterPeople_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesFilterPeople, s);
-    emit sidebarsCommunitiesFilterPeopleChanged(s);
+    navigationCommunitiesFilterPeople_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationCommunitiesFilterPeople, s);
+    emit navigationCommunitiesFilterPeopleChanged(s);
     save();
 }
 void
-UserSettings::setSidebarsCommunitiesFilterBots(bool s)
+UserSettings::setNavigationCommunitiesFilterBots(bool s)
 {
-    if (sidebarsCommunitiesFilterBots_ == s)
+    if (navigationCommunitiesFilterBots_ == s)
         return;
-    sidebarsCommunitiesFilterBots_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesFilterBots, s);
-    emit sidebarsCommunitiesFilterBotsChanged(s);
+    navigationCommunitiesFilterBots_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationCommunitiesFilterBots, s);
+    emit navigationCommunitiesFilterBotsChanged(s);
     save();
 }
 void
-UserSettings::setSidebarsCommunitiesFilterGroups(bool s)
+UserSettings::setNavigationCommunitiesFilterGroups(bool s)
 {
-    if (sidebarsCommunitiesFilterGroups_ == s)
+    if (navigationCommunitiesFilterGroups_ == s)
         return;
-    sidebarsCommunitiesFilterGroups_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesFilterGroups, s);
-    emit sidebarsCommunitiesFilterGroupsChanged(s);
+    navigationCommunitiesFilterGroups_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationCommunitiesFilterGroups, s);
+    emit navigationCommunitiesFilterGroupsChanged(s);
     save();
 }
 void
-UserSettings::setSidebarsCommunitiesFilterServerNotices(bool s)
+UserSettings::setNavigationCommunitiesFilterServerNotices(bool s)
 {
-    if (sidebarsCommunitiesFilterServerNotices_ == s)
+    if (navigationCommunitiesFilterServerNotices_ == s)
         return;
-    sidebarsCommunitiesFilterServerNotices_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesFilterServerNotices, s);
-    emit sidebarsCommunitiesFilterServerNoticesChanged(s);
+    navigationCommunitiesFilterServerNotices_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationCommunitiesFilterServerNotices, s);
+    emit navigationCommunitiesFilterServerNoticesChanged(s);
     save();
 }
 void
-UserSettings::setSidebarsCommunitiesFilterLowPriority(bool s)
+UserSettings::setNavigationCommunitiesFilterLowPriority(bool s)
 {
-    if (sidebarsCommunitiesFilterLowPriority_ == s)
+    if (navigationCommunitiesFilterLowPriority_ == s)
         return;
-    sidebarsCommunitiesFilterLowPriority_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesFilterLowPriority, s);
-    emit sidebarsCommunitiesFilterLowPriorityChanged(s);
+    navigationCommunitiesFilterLowPriority_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationCommunitiesFilterLowPriority, s);
+    emit navigationCommunitiesFilterLowPriorityChanged(s);
     save();
 }
 void

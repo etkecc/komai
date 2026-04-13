@@ -82,7 +82,7 @@ testYamlRoundtrip()
     }
 
     const auto filePath = tempDir.path() + QStringLiteral("/settings.yml");
-    const auto content = QStringLiteral("ui:\n  motion:\n    enable_animations: true\nsidebars:\n  room_list:\n    width_px: 42\n");
+    const auto content = QStringLiteral("ui:\n  motion:\n    enable_animations: true\nnavigation:\n  room_list:\n    width_px: 42\n");
 
     ok &= expect(settings::storage::writeTextFile(filePath, content, false),
                  "writeTextFile persists config text");

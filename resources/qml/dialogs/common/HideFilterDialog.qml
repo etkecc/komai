@@ -21,7 +21,7 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         color: palette.text
         wrapMode: Text.WordWrap
-        text: qsTr("To show this filter again, go to Application Settings → Sidebars → Communities Sidebar and enable the \"Show\" toggle for \"%1\".").arg(hideFilterRoot.filterName)
+        text: qsTr("To show this filter again, go to Application Settings → Navigation → Communities Sidebar and enable the \"Show\" toggle for \"%1\".").arg(hideFilterRoot.filterName)
     }
 
     Label {
@@ -30,7 +30,7 @@ Components.OverlayDialog {
         color: Communities.isGlobalExcluded(hideFilterRoot.tagId) ? Komai.theme.warning : palette.text
         wrapMode: Text.WordWrap
         text: Communities.isGlobalExcluded(hideFilterRoot.tagId)
-            ? qsTr("This filter is currently excluded from \"All rooms\", so its rooms won't appear there either. You can change this in Application Settings → Sidebars.")
+            ? qsTr("This filter is currently excluded from \"All rooms\", so its rooms won't appear there either. You can change this in Application Settings → Navigation.")
             : qsTr("You'll still be able to find rooms that belonged to it in \"All rooms\".")
     }
 
@@ -65,22 +65,22 @@ Components.OverlayDialog {
 
         switch (tagId) {
         case "people":
-            Settings.sidebarsCommunitiesFilterPeople = false;
+            Settings.navigationCommunitiesFilterPeople = false;
             break;
         case "bot":
-            Settings.sidebarsCommunitiesFilterBots = false;
+            Settings.navigationCommunitiesFilterBots = false;
             break;
         case "group":
-            Settings.sidebarsCommunitiesFilterGroups = false;
+            Settings.navigationCommunitiesFilterGroups = false;
             break;
         case "tag:m.favourite":
-            Settings.sidebarsCommunitiesFilterFavourites = false;
+            Settings.navigationCommunitiesFilterFavourites = false;
             break;
         case "tag:m.server_notice":
-            Settings.sidebarsCommunitiesFilterServerNotices = false;
+            Settings.navigationCommunitiesFilterServerNotices = false;
             break;
         case "tag:m.lowpriority":
-            Settings.sidebarsCommunitiesFilterLowPriority = false;
+            Settings.navigationCommunitiesFilterLowPriority = false;
             break;
         }
     }

@@ -146,7 +146,7 @@ Popup {
 
             onCompletionSelected: (id) => {
                 if (completerPopup.lastCompletionWasSpace
-                        && Settings.sidebarsCommunitiesVisible) {
+                        && Settings.navigationCommunitiesVisible) {
                     Communities.setCurrentFilterId("space:" + id);
                 } else {
                     Rooms.setCurrentRoom(id);

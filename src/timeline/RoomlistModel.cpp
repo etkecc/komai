@@ -223,12 +223,12 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
   , manager(parent)
 {
     connect(UserSettings::instance().get(),
-            &UserSettings::sidebarsRoomListUnreadDetectionPolicyChanged,
+            &UserSettings::navigationRoomListUnreadDetectionPolicyChanged,
             this,
             [this](auto) { refreshMatrixBackendRooms(); });
 
     connect(UserSettings::instance().get(),
-            &UserSettings::sidebarsRoomListLastMessagePreviewChanged,
+            &UserSettings::navigationRoomListLastMessagePreviewChanged,
             this,
             [this]() {
                 if (!roomids.empty()) {

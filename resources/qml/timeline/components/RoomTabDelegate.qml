@@ -537,11 +537,13 @@ Rectangle {
     }
 
     // Active tab indicator (bottom accent line).
+    // Height is 3px because the tab bar's 1px bottom border overlaps the
+    // lowest pixel, resulting in a visually consistent 2px accent.
     Rectangle {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 2
+        height: 3
         color: palette.highlight
         visible: tabDelegate.isActive
     }

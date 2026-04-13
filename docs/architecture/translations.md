@@ -103,11 +103,11 @@ The script reports the count of skipped plural forms so users are aware. This is
 
 ## Rust-originated strings
 
-The Rust backend generates user-facing strings for timeline state events, event type labels, error messages, and more. These are translated on the C++ side using Qt's `tr()` mechanism, keeping a single translation system.
+The Rust backend generates user-facing strings for timeline state events, event type labels, notifications, error messages, and more. These are translated on the C++ side using Qt's `tr()` mechanism, keeping a single translation system.
 
-### How it works
+### Core principle
 
-Rust passes **structured data** (machine-readable keys + parameters) through the cxx FFI bridge instead of pre-formatted English sentences. C++ translation modules map these keys and parameters to translated strings via `QCoreApplication::translate()`.
+**Rust extracts facts. C++ constructs sentences.** Rust passes structured data (machine-readable keys + parameters) through the cxx FFI bridge. C++ translation modules map these to translated strings via `QCoreApplication::translate()`. `lupdate` picks up the `tr()` calls automatically, and the existing AI translation pipeline translates them.
 
 Data flow:
 
@@ -127,12 +127,53 @@ C++ translation module (e.g. StateEventText.cpp)
 .ts files → translated by AI pipeline → .qm at runtime
 ```
 
+### Categories of Rust strings
+
+| Category | Rust source | C++ translation | Notes |
+|----------|------------|-----------------|-------|
+| Timeline state events | `runtime_event_summary.rs` sets `item_kind` + parameter fields | `StateEventText::translate()` | ~60 sentence variants for membership, profile, room state |
+| Event type labels | `runtime_event_summary.rs` sets `item_kind` | `StateEventText::eventTypeLabel()` | "[Poll]", "Deleted message", etc. |
+| Notifications | `runtime_notifications.rs` sets `notification_kind` | `StateEventText::translateNotificationBody()` | Invite text, event labels in notifications |
+| Room list previews | `runtime_room_list.rs` sets `last_message_kind` | `StateEventText::translateRoomListPreview()` | Reuses `eventTypeLabel()` + state event labels |
+| Verification UI | `runtime_verification.rs` sends enum-like keys | QML `qsTr()` + C++ enums | State names are internal keys; user text is in QML |
+| SAS emoji descriptions | Defined in QML `EmojiVerification.qml` | `qsTr()` in QML | 64 emoji labels from the Matrix SAS spec |
+| Auth/registration errors | `auth.rs`, `registration.rs` | `StateEventText::translateAuthError()` | String-matching approach; see below |
+
+### Robustness
+
+Since the Rust↔C++ key contract can't be enforced at compile time, two measures prevent silent failures:
+
+1. **C++ catch-all fallbacks**: Every translation function has a catch-all that returns a generic translated message for unrecognised keys (e.g., `"Membership updated for %1"`, `"Room state changed by %1"`). State events never produce empty display text.
+
+2. **Cross-reference comments in Rust**: Each Rust summary/error function has a doc comment pointing to its C++ translation counterpart (e.g., `/// Translated to user-visible text in C++ StateEventText::translateMembershipChange(). When adding or changing keys, update that function too.`).
+
+Rust does NOT generate English fallback text in `body` for state events. The `body` field is empty for state events -- all display text comes from C++.
+
+### Auth/registration errors
+
+Auth errors use a different pattern from the key-based approach. Errors flow as `Result<_, String>` through FFI, and most C++ consumers already wrap them in `tr("Failed to X: %1").arg(error)`. For the few display sites that show raw Rust errors (login/registration pages, room directory), `StateEventText::translateAuthError()` maps known constant strings and recognised dynamic prefixes to `tr()` calls via string matching.
+
+### Key files
+
+| File | Role |
+|------|------|
+| `src/rust/src/matrix_backend/runtime_event_summary.rs` | Extracts structured data from Matrix events |
+| `src/rust/src/ffi.rs` | FFI structs with state event / notification parameter fields |
+| `src/timeline/StateEventText.cpp` | Central C++ translation module with `tr()` calls |
+| `src/timeline/StateEventText.h` | Header for all translation functions |
+| `src/timeline/rust/MatrixTimelineModel.cpp` | Calls `StateEventText::translate()` in `computeDerivedFields()` |
+| `src/chat/ChatPageCore.cpp` | Calls `translateNotificationBody()` for notifications |
+| `src/timeline/data/RoomlistModelData.cpp` | Calls `translateRoomListPreview()` for room list |
+| `src/auth/LoginPage.cpp`, `RegisterPage.cpp` | Call `translateAuthError()` for auth errors |
+| `resources/qml/device-verification/EmojiVerification.qml` | SAS emoji descriptions with `qsTr()` |
+
 ### Adding new Rust-originated translatable strings
 
-1. Have Rust populate structured fields (keys + parameters) — don't construct English sentences
+1. Have Rust populate structured fields (keys + parameters) -- don't construct English sentences
 2. Add the corresponding `tr()` call in the appropriate C++ translation module
-3. Run `just translations-update` — `lupdate` picks up the new `tr()` calls automatically
-4. Run `just translations-claude-translate-all` to translate
+3. Add a cross-reference comment on the Rust function pointing to the C++ counterpart
+4. Run `just translations-update` -- `lupdate` picks up the new `tr()` calls automatically
+5. Run `just translations-claude-translate-all` to translate
 
 
 ## Claude CLI integration

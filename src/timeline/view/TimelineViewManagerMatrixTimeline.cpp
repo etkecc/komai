@@ -304,6 +304,17 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
 
     clearActiveMatrixReplyState();
     clearActiveMatrixThreadState();
+    clearActiveMatrixEditState();
+
+    // Clear staged uploads so they don't bleed to the new room.
+    if (!pendingMatrixAttachments_.empty() || !matrixPendingAttachmentItems_.empty()) {
+        pendingMatrixAttachments_.clear();
+        for (auto *attachment : matrixPendingAttachmentItems_) {
+            if (attachment)
+                attachment->deleteLater();
+        }
+        matrixPendingAttachmentItems_.clear();
+    }
 
     if (!matrixTimelineTypingUsers_.isEmpty()) {
         matrixTimelineTypingUsers_.clear();

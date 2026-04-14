@@ -196,19 +196,7 @@ Rectangle {
         return w;
     }
     height: parent ? parent.height : 32
-    color: {
-        if (isActive)
-            return Qt.rgba(palette.dark.r, palette.dark.g, palette.dark.b, 0.85);
-        if (isHovered)
-            return Qt.rgba(palette.dark.r, palette.dark.g, palette.dark.b, 0.30);
-        if (emphasizeDraft)
-            return Qt.rgba(Komai.theme.attention.r, Komai.theme.attention.g, Komai.theme.attention.b, 0.12);
-        if (emphasizeUnread)
-            return Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15);
-        if (pinned)
-            return palette.alternateBase;
-        return palette.window;
-    }
+    color: opaqueBackgroundColor
 
     // Drag state tracked per-delegate.
     property real _dragStartX: 0
@@ -658,10 +646,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.topMargin: Komai.paddingMedium
-        anchors.bottomMargin: Komai.paddingMedium
         width: 1
-        color: (tabDelegate.isLastTab || tabDelegate.isActive || tabDelegate.isHovered)
-            ? "transparent" : Komai.theme.separator
+        color: Komai.theme.separator
     }
 }

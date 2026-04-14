@@ -103,8 +103,6 @@ Rectangle {
         Rectangle {
             Layout.preferredWidth: 1
             Layout.fillHeight: true
-            Layout.topMargin: Komai.paddingMedium
-            Layout.bottomMargin: Komai.paddingMedium
             color: Komai.theme.separator
         }
 

@@ -294,12 +294,6 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
 
         return true;
     };
-    const auto notifyUnsupported = [this, &showNotification](const char *commandName) {
-        showNotification(tr("The /%1 command is not migrated to the matrix-sdk room composer yet.")
-                           .arg(QString::fromLatin1(commandName)));
-        return false;
-    };
-
     const auto parsed      = inspection.parsed;
     const auto arguments   = trimmedArguments(parsed);
     const auto argSplit    = splitFirstArgument(parsed);

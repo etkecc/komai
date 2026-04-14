@@ -2368,7 +2368,11 @@ TimelineViewManager::stageMatrixAttachmentsForRoom(const QString &roomId,
           .filename     = fileName,
           .body         = {},
           .replyEventId = {},
+          .threadId     = {},
           .mimeType     = effectiveMimeType,
+          .durationMs   = 0,
+          .isVoice      = false,
+          .waveform     = {},
         });
         matrixPendingAttachmentItems_.push_back(new MatrixPendingAttachmentUpload(
           absoluteFilePath,

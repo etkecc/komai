@@ -28,6 +28,7 @@ stageState(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &p
       .collapsed_spaces                = {},
       .hidden_spaces                   = {},
       .open_tabs                       = {},
+      .pinned_tabs                     = {},
       .composer_drafts_by_room         = {},
       .donation_status                 = settings.donationStatus().toStdString(),
     };

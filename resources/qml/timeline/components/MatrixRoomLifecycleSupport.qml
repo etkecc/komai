@@ -30,24 +30,31 @@ QtObject {
     function handleActiveRoomIdChanged() {
         if (!rootItem.poolActive)
             return;
-        _resetForRoom(true);
+        _resetForRoom(true, false);
     }
 
     // Lightweight reactivation for pool entries returning to the foreground.
     // Reconnects viewport and model state but preserves walk mode, selection,
-    // and other user-interaction state.
-    function handlePoolReactivation() {
-        _resetForRoom(false);
+    // and other user-interaction state.  When preserveScroll is true (tab
+    // switch back to an already-open tab), scroll position and buffer state
+    // are kept intact instead of resetting to the bottom.
+    function handlePoolReactivation(preserveScroll) {
+        _resetForRoom(false, !!preserveScroll);
     }
 
-    function _resetForRoom(fullReset) {
-        rootItem.updatePreferredInitialTimelinePageSize();
-        rootItem.measuredTimelineHeights = ({});
-        rootItem.roomSwitchInProgress = rootItem.activeRoomId.length > 0;
-        rootItem.initialBottomPinPending = rootItem.activeRoomId.length > 0;
-        rootItem.initialTimelineBufferPending = rootItem.activeRoomId.length > 0;
-        rootItem.deferredInitialBufferTopUpPending = false;
-        rootItem.bufferPaginationInFlight = false;
+    function _resetForRoom(fullReset, preserveScroll) {
+        if (!preserveScroll) {
+            rootItem.updatePreferredInitialTimelinePageSize();
+            rootItem.measuredTimelineHeights = ({});
+            rootItem.roomSwitchInProgress = rootItem.activeRoomId.length > 0;
+            rootItem.initialBottomPinPending = rootItem.activeRoomId.length > 0;
+            rootItem.initialTimelineBufferPending = rootItem.activeRoomId.length > 0;
+            rootItem.deferredInitialBufferTopUpPending = false;
+            rootItem.bufferPaginationInFlight = false;
+            rootItem.lastInitialBufferTriggerCount = -1;
+            rootItem.deferredBufferCheckQueued = false;
+        }
+
         rootItem.perfLoggedCountNonZero = false;
         rootItem.perfLoggedContentHeightReady = false;
         rootItem.perfLoggedUsefulHeightReady = false;
@@ -55,12 +62,10 @@ QtObject {
         rootItem.readMarkerGeneration += 1;
         rootItem.preferLatestReadMarkerEvent = false;
         rootItem.lastMarkedReadEventId = "";
-        rootItem.lastInitialBufferTriggerCount = -1;
         rootItem.pendingComposerAutoFocus = rootItem.activeRoomId.length > 0;
         rootItem._composerAutoFocusRetries = 0;
         rootItem.visibleTimelineDelegates = ({});
         rootItem.delegateRegistrationGeneration += 1;
-        rootItem.deferredBufferCheckQueued = false;
 
         if (fullReset) {
             rootItem.walkModeActive = false;
@@ -77,7 +82,8 @@ QtObject {
         if (rootItem.pendingComposerAutoFocus)
             rootItem.scheduleComposerAutoFocus();
 
-        listShellSupport.resetForRoomSwitch();
+        if (!preserveScroll)
+            listShellSupport.resetForRoomSwitch();
         viewportSupport.resetReadMarkerState();
     }
 

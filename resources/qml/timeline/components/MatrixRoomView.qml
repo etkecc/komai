@@ -183,7 +183,7 @@ ColumnLayout {
 
     function clearSearch() { return lifecycleSupport.clearSearch(); }
     function markRoomSwitchPerfPhase(phase) { return lifecycleSupport.markRoomSwitchPerfPhase(phase); }
-    function handlePoolReactivation() { return lifecycleSupport.handlePoolReactivation(); }
+    function handlePoolReactivation(preserveScroll) { return lifecycleSupport.handlePoolReactivation(preserveScroll); }
 
     function selectedEventIdsContains(eventId) { return eventSupport.selectedEventIdsContains(eventId); }
     function canExplicitlySelectEventId(eventId) { return eventSupport.canExplicitlySelectEventId(eventId); }

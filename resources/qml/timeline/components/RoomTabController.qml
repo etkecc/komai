@@ -10,6 +10,7 @@ QtObject {
 
     signal aboutToSwitchRoom()
     signal roomSwitched(string newRoomId)
+    signal tabClosed(string roomId)
 
     property ListModel tabs: ListModel {}
 
@@ -150,6 +151,8 @@ QtObject {
         tabs.remove(index);
         _saveTabs();
         _savePinnedTabs();
+        if (roomId)
+            tabClosed(roomId);
         if (tabs.count === 0) {
             _internalNavigation = true;
             _previousRoomId = "";
@@ -186,8 +189,12 @@ QtObject {
             return;
         // Remove from the end to avoid index shifting issues.
         for (var i = tabs.count - 1; i >= 0; i--) {
-            if (i !== keepIndex && !tabs.get(i).pinned)
+            if (i !== keepIndex && !tabs.get(i).pinned) {
+                var closedId = tabs.get(i).roomId;
                 tabs.remove(i);
+                if (closedId)
+                    tabClosed(closedId);
+            }
         }
         _saveTabs();
         _savePinnedTabs();
@@ -201,8 +208,12 @@ QtObject {
         if (fromIndex === -1)
             return;
         for (var i = tabs.count - 1; i > fromIndex; i--) {
-            if (!tabs.get(i).pinned)
+            if (!tabs.get(i).pinned) {
+                var closedId = tabs.get(i).roomId;
                 tabs.remove(i);
+                if (closedId)
+                    tabClosed(closedId);
+            }
         }
         _saveTabs();
         _savePinnedTabs();
@@ -210,8 +221,12 @@ QtObject {
 
     function closeUnpinnedTabs() {
         for (var i = tabs.count - 1; i >= 0; i--) {
-            if (!tabs.get(i).pinned)
+            if (!tabs.get(i).pinned) {
+                var closedId = tabs.get(i).roomId;
                 tabs.remove(i);
+                if (closedId)
+                    tabClosed(closedId);
+            }
         }
         _saveTabs();
         _savePinnedTabs();

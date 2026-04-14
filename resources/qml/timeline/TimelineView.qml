@@ -76,11 +76,14 @@ Item {
         _activePoolEntry = entry;
 
         if (isReactivation) {
+            var preserveScroll = entry.preserveScrollOnReactivation;
+            entry.preserveScrollOnReactivation = false;
             var modelCount = entry.roomView.perRoomModel ? entry.roomView.perRoomModel.count : 0;
             console.info("[timeline-pool] hit room=" + roomId
                          + " poolSize=" + poolSize
-                         + " modelItems=" + modelCount);
-            entry.roomView.handlePoolReactivation();
+                         + " modelItems=" + modelCount
+                         + " preserveScroll=" + preserveScroll);
+            entry.roomView.handlePoolReactivation(preserveScroll);
         } else {
             console.info("[timeline-pool] miss room=" + roomId
                          + " poolSize=" + poolSize);
@@ -90,6 +93,12 @@ Item {
 
     function _poolDeactivateCurrent() {
         if (_activePoolEntry) {
+            // If the room still has an open tab, preserve scroll on next
+            // reactivation (tab switch).  If the tab was closed or reused,
+            // findTab returns -1 and scroll resets to bottom.
+            var roomId = _activePoolEntry.roomView.activeRoomId;
+            _activePoolEntry.preserveScrollOnReactivation = tabController
+                && tabController.findTab(roomId) !== -1;
             _activePoolEntry.poolSlotActive = false;
             _activePoolEntry = null;
         }
@@ -297,6 +306,7 @@ Item {
         ColumnLayout {
             property alias roomView: matrixRoomView
             property bool poolSlotActive: false
+            property bool preserveScrollOnReactivation: false
 
             anchors.fill: parent
             spacing: 0
@@ -352,6 +362,12 @@ Item {
         function onRoomSwitched(newRoomId) {
             if (newRoomId)
                 timelineView._poolSwitchTo(newRoomId);
+        }
+
+        function onTabClosed(roomId) {
+            var entry = timelineView._poolEntries[roomId];
+            if (entry)
+                entry.preserveScrollOnReactivation = false;
         }
     }
     TimelinePreviewPane {

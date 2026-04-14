@@ -28,6 +28,7 @@ ItemDelegate {
     required property bool hasUnreadMessages
     required property bool hasDraft
     property color draftIndicatorColor: Komai.theme.attention
+    property color unreadIndicatorColor: palette.highlight
     property color importantText: palette.text
     required property bool isDirect
     required property bool isInvite
@@ -117,6 +118,7 @@ ItemDelegate {
                     draftIndicatorColor: palette.brightText
                     importantText: palette.brightText
                     unimportantText: palette.brightText
+                    unreadIndicatorColor: palette.brightText
                 }
             }
         }
@@ -232,7 +234,7 @@ ItemDelegate {
         anchors.left: parent.left
         anchors.leftMargin: Komai.paddingSmall / 2
         anchors.verticalCenter: parent.verticalCenter
-        color: roomItem.emphasizeDraftState ? roomItem.draftIndicatorColor : palette.highlight
+        color: roomItem.emphasizeDraftState ? Komai.theme.attention : roomItem.unreadIndicatorColor
         height: parent.height - Komai.paddingMedium * 2
         visible: roomItem.emphasizeActivityState
         width: 6

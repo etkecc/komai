@@ -207,7 +207,7 @@ Rectangle {
             return Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15);
         if (pinned)
             return palette.alternateBase;
-        return "transparent";
+        return palette.window;
     }
 
     // Drag state tracked per-delegate.

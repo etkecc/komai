@@ -353,16 +353,16 @@ Rectangle {
             tabContextMenu.takeItem(0).destroy();
 
         if (!isEmptyTab) {
-            tabContextMenu.addItem(menuItemPinToggle.createObject(tabContextMenu));
-            tabContextMenu.addItem(menuSeparatorComponent.createObject(tabContextMenu));
+            tabContextMenu.addItem(menuItemPinToggle.createObject(null));
+            tabContextMenu.addItem(menuSeparatorComponent.createObject(null));
         }
         if (closeableOtherCount > 0)
-            tabContextMenu.addItem(menuItemCloseOther.createObject(tabContextMenu));
+            tabContextMenu.addItem(menuItemCloseOther.createObject(null));
         if (closeableRightCount > 0)
-            tabContextMenu.addItem(menuItemCloseRight.createObject(tabContextMenu));
+            tabContextMenu.addItem(menuItemCloseRight.createObject(null));
         if (closeableOtherCount > 0 || !tabDelegate.pinned)
-            tabContextMenu.addItem(menuItemCloseUnpinned.createObject(tabContextMenu));
-        tabContextMenu.addItem(menuItemCloseTab.createObject(tabContextMenu));
+            tabContextMenu.addItem(menuItemCloseUnpinned.createObject(null));
+        tabContextMenu.addItem(menuItemCloseTab.createObject(null));
 
         tabContextMenu.popup();
     }

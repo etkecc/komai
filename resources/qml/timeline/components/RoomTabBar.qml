@@ -176,7 +176,15 @@ Rectangle {
         var viewRight = viewLeft + tabListView.width;
         if (tabLeft >= viewLeft && tabRight <= viewRight)
             return; // already fully visible
-        var maxScroll = Math.max(0, tabListView.contentWidth - tabListView.width);
+        // Use the larger of actual and estimated content width so that a
+        // just-appended tab (not yet laid out) can still be scrolled to.
+        var estimatedContentWidth = tabRight;
+        for (var j = idx + 1; j < tabController.tabs.count; j++) {
+            var jItem = tabListView.itemAtIndex(j);
+            estimatedContentWidth += jItem ? jItem.width : tw;
+        }
+        var maxScroll = Math.max(0,
+            Math.max(tabListView.contentWidth, estimatedContentWidth) - tabListView.width);
         if (maxScroll <= 0)
             return;
         var target;

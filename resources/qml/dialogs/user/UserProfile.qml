@@ -61,6 +61,13 @@ Components.OverlayDialog {
         Qt.callLater(() => root.close());
     }
 
+    function openChangePowerLevelDialog()
+    {
+        var dialog = changePowerLevelDialogComponent.createObject(root.parent);
+        dialog.open();
+        dialog.closed.connect(function() { Qt.callLater(() => dialog.destroy()); });
+    }
+
     function openModerationPrompt(action)
     {
         moderationAction = action;
@@ -676,6 +683,13 @@ Components.OverlayDialog {
                 implicitHeight: powerLevelRowContent.implicitHeight
                 visible: root.isRoomProfile
 
+                readonly property bool canChange: {
+                    const permissions = profile.permissions;
+                    const _ = permissions ? permissions.revision : 0;
+                    return !profile.isSelf && permissions
+                        && permissions.canChange(MtxEvent.PowerLevels);
+                }
+
                 HoverHandler { id: powerLevelRowHover; blocking: false }
                 readonly property bool rowHovered: powerLevelRowHover.hovered
                 Rectangle {
@@ -683,6 +697,17 @@ Components.OverlayDialog {
                     color: parent.rowHovered ? palette.dark : palette.window
                     radius: Komai.paddingMedium
                     z: -1
+                }
+
+                TapHandler {
+                    enabled: powerLevelRowItem.canChange
+                    onTapped: root.openChangePowerLevelDialog()
+                }
+
+                Components.KomaiCursorShape {
+                    anchors.fill: parent
+                    cursorShape: powerLevelRowItem.canChange
+                        ? Qt.PointingHandCursor : Qt.ArrowCursor
                 }
 
                 RowLayout {
@@ -914,11 +939,7 @@ Components.OverlayDialog {
                     }
                     labelText: qsTr("Change power level")
                     iconSource: ":/icons/icons/ui/arrow-sort.svg"
-                    onClicked: {
-                        var dialog = changePowerLevelDialogComponent.createObject(root.parent);
-                        dialog.open();
-                        dialog.closed.connect(function() { Qt.callLater(() => dialog.destroy()); });
-                    }
+                    onClicked: root.openChangePowerLevelDialog()
                 }
 
                 Components.KomaiActionRowButton {

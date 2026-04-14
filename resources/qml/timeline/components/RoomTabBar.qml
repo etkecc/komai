@@ -145,6 +145,7 @@ Rectangle {
 
                 anchors.fill: parent
                 hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
 
                 onClicked: tabController.openNewTab()
             }
@@ -237,22 +238,18 @@ Rectangle {
     }
 
     // Convert vertical mouse wheel to horizontal scroll (only when not dragging).
-    MouseArea {
-        x: tabListView.x
-        y: tabListView.y
-        width: tabListView.width
-        height: tabListView.height
-        acceptedButtons: Qt.NoButton
-        propagateComposedEvents: true
+    // Uses WheelHandler instead of MouseArea to avoid overriding delegate cursor shapes.
+    WheelHandler {
+        target: null
+        parent: tabListView
         enabled: !tabController.isDragging
 
-        onWheel: function(wheel) {
-            var delta = wheel.angleDelta.y || wheel.angleDelta.x;
+        onWheel: function(event) {
+            var delta = event.angleDelta.y || event.angleDelta.x;
             if (delta === 0)
                 return;
             var maxX = Math.max(0, tabListView.contentWidth - tabListView.width);
             tabListView.contentX = Math.max(0, Math.min(maxX, tabListView.contentX - delta));
-            wheel.accepted = true;
         }
     }
 

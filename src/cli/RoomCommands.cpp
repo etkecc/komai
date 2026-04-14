@@ -72,7 +72,6 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
           << "    --include-unsigned-fields      Include Matrix unsigned event fields\n"
           << "    --fetch-mode cached_only|server_fetch_if_needed\n"
           << "                                   Fetch older history from the server when needed\n"
-          << "  activate <room-id-or-alias>  Activate (focus) a room\n"
           << "  join <room-id-or-alias>      Join a room\n"
           << "  new-direct-chat <user-id>    Start or open a direct chat\n"
           << "  send <room-id-or-alias> <message>  Send a message to a room\n"
@@ -133,21 +132,6 @@ runRoomsCommand(int argc, char *argv[], QCoreApplication & /*app*/)
 
         const auto result = response.value(QStringLiteral("result")).toObject();
         std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
-        return 0;
-    }
-
-    if (subcmd == QLatin1String("activate")) {
-        if (args.size() < 2) {
-            std::cerr << "Usage: komai rooms activate <room-id-or-alias>\n";
-            return 1;
-        }
-        if (!requireNonEmptyValue(args.at(1), "room-id-or-alias"))
-            return 1;
-        auto response = cli_ipc::call(profileId,
-                                      QStringLiteral("rooms.activate"),
-                                      {{QStringLiteral("roomIdOrAlias"), args.at(1)}});
-        if (handleIpcError(response))
-            return 1;
         return 0;
     }
 

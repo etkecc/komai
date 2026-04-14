@@ -96,22 +96,12 @@ Returns all joined rooms with explicit local read state, notification/highlight 
 Returned struct fields are ordered as:
 `id`, `alias`, `name`, `avatarUrl`, `read`, `serverNotificationCount`, `memberCount`, `mostRecentEventTimestampMs`, `highlighted`, `categories`, `tags`, `parentSpaces`, `dmUserId`, `encrypted`.
 
-See also: [activate](#activate), [join](#join).
+See also: [join](#join).
 
 > Required D-Bus access level: 👁️ read
 
 ```bash
 busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms list
-```
-
-### activate
-
-Activates (focuses) a room by room ID or alias. See also: [list](#list).
-
-> Required D-Bus access level: ✏️ write
-
-```bash
-busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms activate s '!a:example.org'
 ```
 
 ### timeline

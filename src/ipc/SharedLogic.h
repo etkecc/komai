@@ -53,8 +53,6 @@ struct RoomInfo
 QVector<RoomInfo>
 roomList();
 void
-activateRoom(const QString &roomIdOrAlias);
-void
 joinRoom(const QString &roomIdOrAlias);
 void
 newDirectChat(const QString &userId);

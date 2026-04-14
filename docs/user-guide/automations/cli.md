@@ -74,7 +74,7 @@ Returns a JSON array of joined rooms. Each room summary includes:
 
 Draft state is intentionally not exposed here.
 
-See also: [activate](#activate), [join](#join).
+See also: [join](#join).
 
 ```bash
 komai rooms list
@@ -101,15 +101,6 @@ komai rooms list | jq '[.[] | select((.categories | index("bot")) and (.tags | i
 
 # Find a room by alias
 komai rooms list | jq -r '.[] | select(.alias == "#komai:example.org") | .id'
-```
-
-### activate
-
-Activates (focuses) a room by room ID or alias. See also: [list](#list).
-
-```bash
-komai rooms activate '!abc123:example.org'
-komai rooms activate '#komai:example.org'
 ```
 
 ### timeline

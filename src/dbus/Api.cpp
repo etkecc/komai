@@ -225,15 +225,6 @@ roomTimeline(const QString &profileId,
 }
 
 void
-activateRoom(const QString &profileId, const QString &roomIdOrAlias)
-{
-    QDBusInterface iface{
-      serviceName(profileId), QStringLiteral("/"), QStringLiteral("cc.etke.komai.Rooms")};
-    if (iface.isValid())
-        iface.call(QDBus::NoBlock, QStringLiteral("activate"), roomIdOrAlias);
-}
-
-void
 joinRoom(const QString &profileId, const QString &roomIdOrAlias)
 {
     QDBusInterface iface{

@@ -91,7 +91,6 @@ Simple JSON-lines over the transport — one request line, one response line:
 | `app.apiVersion`             | —                             | `string`        |
 | `rooms.list`                 | —                             | `array`         |
 | `rooms.timeline`             | `roomIdOrAlias`, `limit`?, `beforeEventId`?, `includeUnsignedFields`?, `fetchMode`? | `object` |
-| `rooms.activate`             | `roomIdOrAlias`               | `true`          |
 | `rooms.join`                 | `roomIdOrAlias`               | `true`          |
 | `rooms.newDirectChat`        | `userId`                      | `true`          |
 | `rooms.send`                 | `roomIdOrAlias`, `body`, `msgtype`?, `format`? | `object` |

@@ -117,9 +117,6 @@ roomTimeline(const QString &profileId,
              const QString &beforeEventId = {},
              bool includeUnsignedFields   = false,
              const QString &fetchMode     = {});
-//! Activates a currently joined room.
-void
-activateRoom(const QString &profileId, const QString &roomIdOrAlias);
 //! Joins a room.
 void
 joinRoom(const QString &profileId, const QString &roomIdOrAlias);

@@ -80,7 +80,6 @@ public slots:
                      bool includeUnsignedFields,
                      const QString &fetchMode,
                      const QDBusMessage &message) const;
-    void activate(const QString &roomIdOrAlias) const;
     void join(const QString &roomIdOrAlias) const;
     void newDirectChat(const QString &userId) const;
     QString send(const QString &roomIdOrAlias,

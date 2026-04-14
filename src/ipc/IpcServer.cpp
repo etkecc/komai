@@ -199,16 +199,6 @@ IpcServer::handleRequest(QLocalSocket *socket)
         writeResponse(socket, {{QStringLiteral("result"), arr}});
         return;
     }
-    if (method == QLatin1String("rooms.activate")) {
-        QString roomIdOrAlias;
-        if (!requireNonEmptyString(
-              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
-            return;
-        }
-        activateRoom(roomIdOrAlias);
-        writeResponse(socket, {{QStringLiteral("result"), true}});
-        return;
-    }
     if (method == QLatin1String("rooms.join")) {
         QString roomIdOrAlias;
         if (!requireNonEmptyString(

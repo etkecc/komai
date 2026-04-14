@@ -56,7 +56,6 @@ Both read and write tools are advertised.
 
 Examples of additional write tools:
 
-- `rooms_activate`
 - `rooms_join`
 - `rooms_new_direct_chat`
 - `rooms_send`

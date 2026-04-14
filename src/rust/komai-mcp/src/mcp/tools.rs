@@ -620,29 +620,6 @@ fn handle_rooms_get_timeline(
     )
 }
 
-fn handle_rooms_activate(
-    backend: &dyn Backend,
-    arguments: &Map<String, Value>,
-) -> Result<ToolSuccess, ToolFailure> {
-    reject_unknown_keys(arguments, &["roomIdOrAlias"])?;
-    let room_id_or_alias = require_non_empty_string(arguments, "roomIdOrAlias")?;
-    backend_bool_true(
-        backend,
-        "rooms.activate",
-        json!({ "roomIdOrAlias": room_id_or_alias }),
-    )?;
-
-    success(
-        json!({
-            "ok": true,
-            "roomIdOrAlias": room_id_or_alias,
-        }),
-        vec![results::text_content(format!(
-            "Activated room {room_id_or_alias}."
-        ))],
-    )
-}
-
 fn handle_rooms_join(
     backend: &dyn Backend,
     arguments: &Map<String, Value>,
@@ -1051,23 +1028,6 @@ const TOOLS: &[ToolDefinition] = &[
             )
         },
         handler: handle_rooms_get_timeline,
-    },
-    ToolDefinition {
-        name: "rooms_activate",
-        title: "Activate Room",
-        description: "Focus a room in the running Komai UI.",
-        access: ToolAccess::Write,
-        destructive: false,
-        idempotent: true,
-        open_world: false,
-        input_schema: || {
-            object_schema(
-                vec![("roomIdOrAlias", string_schema("Room ID or room alias."))],
-                &["roomIdOrAlias"],
-            )
-        },
-        output_schema: || ok_with_key_output_schema("roomIdOrAlias", "Room ID or alias."),
-        handler: handle_rooms_activate,
     },
     ToolDefinition {
         name: "rooms_join",

@@ -206,19 +206,6 @@ DbusRoomsInterface::timeline(const QString &roomIdOrAlias,
 }
 
 void
-DbusRoomsInterface::activate(const QString &roomIdOrAlias) const
-{
-    if (!dbusWriteAccessEnabled())
-        return;
-
-    const auto normalized = stripDbusTypePrefix(roomIdOrAlias);
-    if (normalized.isEmpty())
-        return;
-
-    komai::ipc::activateRoom(normalized);
-}
-
-void
 DbusRoomsInterface::join(const QString &roomIdOrAlias) const
 {
     if (!dbusWriteAccessEnabled())

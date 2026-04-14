@@ -558,15 +558,6 @@ roomList()
 }
 
 void
-activateRoom(const QString &roomIdOrAlias)
-{
-    MainWindow::instance()->show();
-    MainWindow::instance()->raise();
-    if (auto *rl = currentRoomlistModel())
-        rl->setCurrentRoom(roomIdOrAlias);
-}
-
-void
 joinRoom(const QString &roomIdOrAlias)
 {
     MainWindow::instance()->show();

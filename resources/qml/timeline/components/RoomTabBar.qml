@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
+import "../../shell/components" as ShellComponents
 
 Rectangle {
     id: tabBar
@@ -50,7 +51,7 @@ Rectangle {
 
     implicitHeight: Komai.navigationRowHeight
     visible: tabController.tabs.count > 0
-    color: palette.window
+    color: palette.alternateBase
 
     HoverHandler {
         id: tabBarHover
@@ -107,55 +108,18 @@ Rectangle {
             color: Komai.theme.separator
         }
 
-        // "New" tab button.
-        Rectangle {
+        // "New" tab button — reuses RoomListActionButton for consistent styling.
+        ShellComponents.RoomListActionButton {
             id: newTabBtn
 
-            Layout.preferredWidth: newTabContent.implicitWidth + Komai.paddingMedium * 2
-            Layout.fillHeight: true
-            color: newTabArea.containsMouse
-                ? Qt.rgba(palette.dark.r * 0.30 + palette.window.r * 0.70,
-                          palette.dark.g * 0.30 + palette.window.g * 0.70,
-                          palette.dark.b * 0.30 + palette.window.b * 0.70, 1)
-                : "transparent"
+            buttonSize: Komai.barIconSize
+            iconSource: ":/icons/icons/ui/tab-add.svg"
+            toolTipText: qsTr("Open a new tab [Ctrl+T]")
+            labelText: qsTr("New")
+            showLabel: true
+            Layout.alignment: Qt.AlignVCenter
 
-            RowLayout {
-                id: newTabContent
-
-                anchors.centerIn: parent
-                spacing: Komai.paddingSmall / 2
-
-                Image {
-                    Layout.preferredWidth: Math.round(Komai.fontPixelSize * 1.2)
-                    Layout.preferredHeight: Math.round(Komai.fontPixelSize * 1.2)
-                    source: "image://colorimage/:/icons/icons/ui/tab-add.svg?"
-                        + (newTabArea.containsMouse ? palette.text : palette.buttonText)
-                    sourceSize: Qt.size(width, height)
-                }
-
-                Text {
-                    text: qsTr("New")
-                    font.pixelSize: Komai.fontPixelSize
-                    color: newTabArea.containsMouse ? palette.text : palette.buttonText
-                }
-            }
-
-            MouseArea {
-                id: newTabArea
-
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-
-                onClicked: tabController.openNewTab()
-            }
-
-            KomaiToolTip {
-                anchorItem: newTabBtn
-                text: qsTr("Open a new tab [Ctrl+T]")
-                delay: Komai.tooltipDelay
-                requestedVisible: newTabArea.containsMouse
-            }
+            onClicked: tabController.openNewTab()
         }
     }
 
@@ -170,9 +134,9 @@ Rectangle {
 
         gradient: Gradient {
             orientation: Gradient.Horizontal
-            GradientStop { position: 0.0; color: palette.window }
-            GradientStop { position: 0.6; color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.5) }
-            GradientStop { position: 1.0; color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0) }
+            GradientStop { position: 0.0; color: palette.alternateBase }
+            GradientStop { position: 0.6; color: Qt.rgba(palette.alternateBase.r, palette.alternateBase.g, palette.alternateBase.b, 0.5) }
+            GradientStop { position: 1.0; color: Qt.rgba(palette.alternateBase.r, palette.alternateBase.g, palette.alternateBase.b, 0) }
         }
     }
 
@@ -187,9 +151,9 @@ Rectangle {
 
         gradient: Gradient {
             orientation: Gradient.Horizontal
-            GradientStop { position: 0.0; color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0) }
-            GradientStop { position: 0.4; color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.5) }
-            GradientStop { position: 1.0; color: palette.window }
+            GradientStop { position: 0.0; color: Qt.rgba(palette.alternateBase.r, palette.alternateBase.g, palette.alternateBase.b, 0) }
+            GradientStop { position: 0.4; color: Qt.rgba(palette.alternateBase.r, palette.alternateBase.g, palette.alternateBase.b, 0.5) }
+            GradientStop { position: 1.0; color: palette.alternateBase }
         }
     }
 

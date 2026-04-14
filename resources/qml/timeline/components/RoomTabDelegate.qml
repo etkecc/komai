@@ -104,8 +104,7 @@ Rectangle {
         : isHovered ? palette.text
         : palette.buttonText
 
-    // Avatar size relative to font size (roughly 1.2x line height).
-    readonly property int avatarSizePx: Math.round(Komai.fontPixelSize * 1.4)
+    readonly property int avatarSizePx: Komai.listIconSize
 
     // Close/pin button size.
     readonly property int actionBtnSize: Math.round(Komai.fontPixelSize * 1.6)
@@ -502,11 +501,11 @@ Rectangle {
             }
 
             Image {
-                readonly property int badgeSize: Math.round(tabDelegate.avatarSizePx * 0.65)
+                readonly property int badgeSize: Math.round(tabDelegate.avatarSizePx * 0.40)
                 anchors.top: parent.top
                 anchors.right: parent.right
-                anchors.topMargin: -Math.round(badgeSize * 0.65)
-                anchors.rightMargin: -Math.round(badgeSize * 0.60)
+                anchors.topMargin: -Math.round(badgeSize * (Komai.uiLayoutCompactMode ? 0.10 : 0.25))
+                anchors.rightMargin: -Math.round(badgeSize * (Komai.uiLayoutCompactMode ? 0.45 : 0.60))
                 width: badgeSize
                 height: badgeSize
                 visible: tabDelegate.pinned

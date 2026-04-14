@@ -48,7 +48,7 @@ Rectangle {
 
     readonly property int effectiveTabWidth: _stableTabWidth
 
-    implicitHeight: Math.max(28, Math.round(fontMetrics.height * 2.2))
+    implicitHeight: Komai.navigationRowHeight
     visible: tabController.tabs.count > 0
     color: palette.window
 

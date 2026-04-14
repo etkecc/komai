@@ -46,7 +46,7 @@ constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::NavigationTabsTabLabel,
   settings::core::SettingId::NavigationTabsPreferredWidthPx,
   settings::core::SettingId::NavigationTabsMinimumWidthPx,
-  settings::core::SettingId::NavigationTabsMaxPreRenderedTimelines,
+  settings::core::SettingId::NavigationTabsMaxRecentlyClosedTimelines,
   settings::core::SettingId::TimelineMessagesStyle,
   settings::core::SettingId::TimelineMessagesLayoutPositioning,
   settings::core::SettingId::TimelineUserColorCodingPolicy,

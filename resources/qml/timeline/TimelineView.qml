@@ -37,7 +37,7 @@ Item {
     property var _activePoolEntry: null
     property var _poolEntries: ({})
     property var _poolLru: []
-    property int _poolMaxSize: Settings.navigationTabsMaxPreRenderedTimelines
+    property int _poolMaxSize: Settings.navigationTabsMaxRecentlyClosedTimelines
     property string _poolCurrentRoomId: useMatrixRoomView && roomPreview
         ? String(roomPreview.roomid || "") : ""
     on_PoolMaxSizeChanged: _poolTrimExcess()

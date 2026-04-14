@@ -16,4 +16,4 @@ X(NavigationTabsPinnedTabLabel, static_cast<int>(settings.navigationTabsPinnedTa
 X(NavigationTabsTabLabel, static_cast<int>(settings.navigationTabsTabLabel()))
 X(NavigationTabsPreferredWidthPx, settings.navigationTabsPreferredWidthPx())
 X(NavigationTabsMinimumWidthPx, settings.navigationTabsMinimumWidthPx())
-X(NavigationTabsMaxPreRenderedTimelines, settings.navigationTabsMaxPreRenderedTimelines())
+X(NavigationTabsMaxRecentlyClosedTimelines, settings.navigationTabsMaxRecentlyClosedTimelines())

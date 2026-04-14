@@ -341,9 +341,9 @@
       nullptr,
       SM::TabNavigation, navigationTabsMinimumWidthPx, setNavigationTabsMinimumWidthPx, 40, 400, 10,
       nullptr, nullptr, NavigationTabsMinimumWidthPx, SettingKey::NavigationTabsMinimumWidthPx),
-    // TabBarMaxPreRenderedTimelines
+    // TabBarMaxRecentlyClosedTimelines
     SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(
-      "Max pre-rendered timelines",
-      QT_TR_NOOP("Pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Set to 0 to disable."),
-      SM::TabNavigation, navigationTabsMaxPreRenderedTimelines, setNavigationTabsMaxPreRenderedTimelines, 0, 100, 1,
-      nullptr, nullptr, NavigationTabsMaxPreRenderedTimelines, SettingKey::NavigationTabsMaxPreRenderedTimelines),
+      "Max recently-closed pre-rendered timelines",
+      QT_TR_NOOP("Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs."),
+      SM::TabNavigation, navigationTabsMaxRecentlyClosedTimelines, setNavigationTabsMaxRecentlyClosedTimelines, 0, 100, 1,
+      nullptr, nullptr, NavigationTabsMaxRecentlyClosedTimelines, SettingKey::NavigationTabsMaxRecentlyClosedTimelines),

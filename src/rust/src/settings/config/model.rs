@@ -122,7 +122,7 @@ pub struct ConfigNavigationTabs {
     pub tab_label: ConfigNavigationTabsLabelDisplayToken,
     pub preferred_width_px: Option<i32>,
     pub minimum_width_px: Option<i32>,
-    pub max_pre_rendered_timelines: Option<i32>,
+    pub max_recently_closed_timelines: Option<i32>,
 }
 
 #[derive(Clone, Debug, Default)]

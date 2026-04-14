@@ -49,7 +49,7 @@ enum class SettingId
     NavigationTabsTabLabel,
     NavigationTabsPreferredWidthPx,
     NavigationTabsMinimumWidthPx,
-    NavigationTabsMaxPreRenderedTimelines,
+    NavigationTabsMaxRecentlyClosedTimelines,
     DesktopSystemTrayEnabled,
     DesktopSystemTrayAutostart,
     DesktopNotificationsEnabled,

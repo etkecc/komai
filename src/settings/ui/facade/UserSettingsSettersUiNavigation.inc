@@ -163,15 +163,15 @@ UserSettings::setNavigationTabsMinimumWidthPx(int s)
 }
 
 void
-UserSettings::setNavigationTabsMaxPreRenderedTimelines(int s)
+UserSettings::setNavigationTabsMaxRecentlyClosedTimelines(int s)
 {
-    if (navigationTabsMaxPreRenderedTimelines_ == s)
+    if (navigationTabsMaxRecentlyClosedTimelines_ == s)
         return;
-    if (!setCoreValue(settings::core::SettingId::NavigationTabsMaxPreRenderedTimelines,
+    if (!setCoreValue(settings::core::SettingId::NavigationTabsMaxRecentlyClosedTimelines,
                       s,
-                      SettingKey::NavigationTabsMaxPreRenderedTimelines))
+                      SettingKey::NavigationTabsMaxRecentlyClosedTimelines))
         return;
-    navigationTabsMaxPreRenderedTimelines_ = s;
-    emit navigationTabsMaxPreRenderedTimelinesChanged(s);
+    navigationTabsMaxRecentlyClosedTimelines_ = s;
+    emit navigationTabsMaxRecentlyClosedTimelinesChanged(s);
     save();
 }

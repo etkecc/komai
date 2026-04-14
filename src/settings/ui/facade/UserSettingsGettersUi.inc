@@ -50,7 +50,7 @@
     TabLabelDisplay navigationTabsTabLabel() const;
     int navigationTabsPreferredWidthPx() const;
     int navigationTabsMinimumWidthPx() const;
-    int navigationTabsMaxPreRenderedTimelines() const;
+    int navigationTabsMaxRecentlyClosedTimelines() const;
     TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy() const;
     bool uiInputMode() const;
     bool uiInputTouchSwipeGesturesEnabled() const;

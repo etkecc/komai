@@ -473,8 +473,8 @@ fn encodes_generic_config_values() {
                 preferred_width_px: 0,
                 has_minimum_width_px: false,
                 minimum_width_px: 0,
-                has_max_pre_rendered_timelines: false,
-                max_pre_rendered_timelines: 0,
+                has_max_recently_closed_timelines: false,
+                max_recently_closed_timelines: 0,
             },
         },
         timeline: SettingsConfigTimelineSection {

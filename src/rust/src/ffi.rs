@@ -190,8 +190,8 @@ mod bridge {
         preferred_width_px: i32,
         has_minimum_width_px: bool,
         minimum_width_px: i32,
-        has_max_pre_rendered_timelines: bool,
-        max_pre_rendered_timelines: i32,
+        has_max_recently_closed_timelines: bool,
+        max_recently_closed_timelines: i32,
     }
 
     struct SettingsConfigNavigationSection {

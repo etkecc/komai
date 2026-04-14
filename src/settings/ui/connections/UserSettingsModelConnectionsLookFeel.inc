@@ -46,4 +46,4 @@ CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiMotionAnimationsEnabledChanged, 
     CONNECT_SETTING_ID(NavigationTabsTabLabel, navigationTabsTabLabelChanged, Value);
     CONNECT_SETTING_ID(NavigationTabsPreferredWidthPx, navigationTabsPreferredWidthPxChanged, Value);
     CONNECT_SETTING_ID(NavigationTabsMinimumWidthPx, navigationTabsMinimumWidthPxChanged, Value);
-    CONNECT_SETTING_ID(NavigationTabsMaxPreRenderedTimelines, navigationTabsMaxPreRenderedTimelinesChanged, Value);
+    CONNECT_SETTING_ID(NavigationTabsMaxRecentlyClosedTimelines, navigationTabsMaxRecentlyClosedTimelinesChanged, Value);

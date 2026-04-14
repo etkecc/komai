@@ -49,7 +49,7 @@ TabLabelDisplay navigationTabsPinnedTabLabel_          = TabLabelDisplay::Avatar
 TabLabelDisplay navigationTabsTabLabel_                = TabLabelDisplay::AvatarAndLabel;
 int navigationTabsPreferredWidthPx_                    = 200;
 int navigationTabsMinimumWidthPx_                      = 120;
-int navigationTabsMaxPreRenderedTimelines_             = 20;
+int navigationTabsMaxRecentlyClosedTimelines_          = 20;
 TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy_ =
   TimelineMessageActionsActivationPolicy::ActionsButton;
 bool timelineReadReceiptsEnabled_;

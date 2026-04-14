@@ -6,7 +6,7 @@
   // navigation
   SettingId::NavigationTabsPreferredWidthPx,
   SettingId::NavigationTabsMinimumWidthPx,
-  SettingId::NavigationTabsMaxPreRenderedTimelines,
+  SettingId::NavigationTabsMaxRecentlyClosedTimelines,
 
   // desktop
   SettingId::DesktopWindowFocusBlurDelaySeconds,

@@ -203,11 +203,11 @@ UserSettings::navigationTabsMinimumWidthPx() const
 }
 
 int
-UserSettings::navigationTabsMaxPreRenderedTimelines() const
+UserSettings::navigationTabsMaxRecentlyClosedTimelines() const
 {
     if (const auto value =
-          coreStore_.valueAs<int>(settings::core::SettingId::NavigationTabsMaxPreRenderedTimelines);
+          coreStore_.valueAs<int>(settings::core::SettingId::NavigationTabsMaxRecentlyClosedTimelines);
         value.has_value())
         return *value;
-    return navigationTabsMaxPreRenderedTimelines_;
+    return navigationTabsMaxRecentlyClosedTimelines_;
 }

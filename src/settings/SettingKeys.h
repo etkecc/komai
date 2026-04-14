@@ -44,12 +44,13 @@ constexpr auto NavigationCommunitiesFilterServerNotices =
   "navigation.communities.filters.server_notices";
 constexpr auto NavigationCommunitiesFilterLowPriority =
   "navigation.communities.filters.low_priority";
-constexpr auto NavigationTabsShowPinButton           = "navigation.tabs.show_pin_button";
-constexpr auto NavigationTabsPinnedTabLabel          = "navigation.tabs.pinned_tab_label";
-constexpr auto NavigationTabsTabLabel                = "navigation.tabs.tab_label";
-constexpr auto NavigationTabsPreferredWidthPx        = "navigation.tabs.preferred_width_px";
-constexpr auto NavigationTabsMinimumWidthPx          = "navigation.tabs.minimum_width_px";
-constexpr auto NavigationTabsMaxPreRenderedTimelines = "navigation.tabs.max_pre_rendered_timelines";
+constexpr auto NavigationTabsShowPinButton    = "navigation.tabs.show_pin_button";
+constexpr auto NavigationTabsPinnedTabLabel   = "navigation.tabs.pinned_tab_label";
+constexpr auto NavigationTabsTabLabel         = "navigation.tabs.tab_label";
+constexpr auto NavigationTabsPreferredWidthPx = "navigation.tabs.preferred_width_px";
+constexpr auto NavigationTabsMinimumWidthPx   = "navigation.tabs.minimum_width_px";
+constexpr auto NavigationTabsMaxRecentlyClosedTimelines =
+  "navigation.tabs.max_recently_closed_timelines";
 constexpr auto TimelineMessagesStyle                 = "timeline.messages.style";
 constexpr auto TimelineMessagesLayoutPositioning     = "timeline.messages.layout.positioning";
 constexpr auto TimelineUserColorCodingPolicy         = "timeline.user_color_coding_policy";

@@ -196,9 +196,9 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setNavigationTabsMinimumWidthPx(snapshot.navigation.tabs.has_minimum_width_px
                                                ? snapshot.navigation.tabs.minimum_width_px
                                                : 120);
-    settings.setNavigationTabsMaxPreRenderedTimelines(
-      snapshot.navigation.tabs.has_max_pre_rendered_timelines
-        ? snapshot.navigation.tabs.max_pre_rendered_timelines
+    settings.setNavigationTabsMaxRecentlyClosedTimelines(
+      snapshot.navigation.tabs.has_max_recently_closed_timelines
+        ? snapshot.navigation.tabs.max_recently_closed_timelines
         : 20);
 
     settings.setHiddenTimelineEventTypes(

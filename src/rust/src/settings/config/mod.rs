@@ -94,7 +94,7 @@ const NAVIGATION_TABS_PREFERRED_WIDTH_PX_PATH: [&str; 3] =
 const NAVIGATION_TABS_MINIMUM_WIDTH_PX_PATH: [&str; 3] =
     ["navigation", "tabs", "minimum_width_px"];
 const NAVIGATION_TABS_MAX_PRE_RENDERED_TIMELINES_PATH: [&str; 3] =
-    ["navigation", "tabs", "max_pre_rendered_timelines"];
+    ["navigation", "tabs", "max_recently_closed_timelines"];
 const TIMELINE_MESSAGES_STYLE_PATH: [&str; 3] = ["timeline", "messages", "style"];
 const TIMELINE_MESSAGES_LAYOUT_POSITIONING_PATH: [&str; 4] =
     ["timeline", "messages", "layout", "positioning"];
@@ -328,7 +328,7 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     &NAVIGATION_TABS_MINIMUM_WIDTH_PX_PATH,
                 )
                 .and_then(parse_scalar_i32),
-                max_pre_rendered_timelines: yaml::value_at_path(
+                max_recently_closed_timelines: yaml::value_at_path(
                     root,
                     &NAVIGATION_TABS_MAX_PRE_RENDERED_TIMELINES_PATH,
                 )

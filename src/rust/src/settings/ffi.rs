@@ -236,15 +236,15 @@ pub(crate) fn ffi_config_navigation_section(
             preferred_width_px: config.navigation.tabs.preferred_width_px.unwrap_or(200),
             has_minimum_width_px: config.navigation.tabs.minimum_width_px.is_some(),
             minimum_width_px: config.navigation.tabs.minimum_width_px.unwrap_or(120),
-            has_max_pre_rendered_timelines: config
+            has_max_recently_closed_timelines: config
                 .navigation
                 .tabs
-                .max_pre_rendered_timelines
+                .max_recently_closed_timelines
                 .is_some(),
-            max_pre_rendered_timelines: config
+            max_recently_closed_timelines: config
                 .navigation
                 .tabs
-                .max_pre_rendered_timelines
+                .max_recently_closed_timelines
                 .unwrap_or(20),
         },
     }
@@ -775,8 +775,8 @@ fn clone_config_navigation_section(
             preferred_width_px: section.tabs.preferred_width_px,
             has_minimum_width_px: section.tabs.has_minimum_width_px,
             minimum_width_px: section.tabs.minimum_width_px,
-            has_max_pre_rendered_timelines: section.tabs.has_max_pre_rendered_timelines,
-            max_pre_rendered_timelines: section.tabs.max_pre_rendered_timelines,
+            has_max_recently_closed_timelines: section.tabs.has_max_recently_closed_timelines,
+            max_recently_closed_timelines: section.tabs.max_recently_closed_timelines,
         },
     }
 }

@@ -1689,7 +1689,7 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NavigationTabsMinimumWidthPx));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::NavigationTabsMaxPreRenderedTimelines));
+      QString::fromLatin1(SettingKey::NavigationTabsMaxRecentlyClosedTimelines));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::TimelineMessagesStyle));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMessagesLayoutPositioning));

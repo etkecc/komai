@@ -203,11 +203,11 @@ if snapshot.ui.has_layout_compact_mode {
             Value::Number(Number::from(snapshot.navigation.tabs.minimum_width_px)),
         );
     }
-    if snapshot.navigation.tabs.has_max_pre_rendered_timelines {
+    if snapshot.navigation.tabs.has_max_recently_closed_timelines {
         yaml::set_value(
             &mut root,
-            &["navigation", "tabs", "max_pre_rendered_timelines"],
-            Value::Number(Number::from(snapshot.navigation.tabs.max_pre_rendered_timelines)),
+            &["navigation", "tabs", "max_recently_closed_timelines"],
+            Value::Number(Number::from(snapshot.navigation.tabs.max_recently_closed_timelines)),
         );
     }
 

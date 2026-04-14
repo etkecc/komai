@@ -89,9 +89,10 @@ class UserSettings final : public QObject
                  setNavigationTabsPreferredWidthPx NOTIFY navigationTabsPreferredWidthPxChanged)
     Q_PROPERTY(int navigationTabsMinimumWidthPx READ navigationTabsMinimumWidthPx WRITE
                  setNavigationTabsMinimumWidthPx NOTIFY navigationTabsMinimumWidthPxChanged)
-    Q_PROPERTY(int navigationTabsMaxPreRenderedTimelines READ navigationTabsMaxPreRenderedTimelines
-                 WRITE setNavigationTabsMaxPreRenderedTimelines NOTIFY
-                   navigationTabsMaxPreRenderedTimelinesChanged)
+    Q_PROPERTY(
+      int navigationTabsMaxRecentlyClosedTimelines READ navigationTabsMaxRecentlyClosedTimelines
+        WRITE setNavigationTabsMaxRecentlyClosedTimelines NOTIFY
+          navigationTabsMaxRecentlyClosedTimelinesChanged)
     Q_PROPERTY(
       bool composerInputMarkdownToHtmlEnabled READ composerInputMarkdownToHtmlEnabled WRITE
         setComposerInputMarkdownToHtmlEnabled NOTIFY composerInputMarkdownToHtmlEnabledChanged)
@@ -586,7 +587,7 @@ public:
     void setNavigationTabsTabLabel(TabLabelDisplay display);
     void setNavigationTabsPreferredWidthPx(int px);
     void setNavigationTabsMinimumWidthPx(int px);
-    void setNavigationTabsMaxPreRenderedTimelines(int count);
+    void setNavigationTabsMaxRecentlyClosedTimelines(int count);
     void setTimelineMediaEffectsEnabled(bool state);
     void setUiMotionAnimationsEnabled(bool state);
     void setDesktopWindowFocusBlurEnabled(bool state);
@@ -748,7 +749,7 @@ signals:
     void navigationTabsTabLabelChanged(TabLabelDisplay display);
     void navigationTabsPreferredWidthPxChanged(int px);
     void navigationTabsMinimumWidthPxChanged(int px);
-    void navigationTabsMaxPreRenderedTimelinesChanged(int count);
+    void navigationTabsMaxRecentlyClosedTimelinesChanged(int count);
     void timelineMediaEffectsEnabledChanged(bool state);
     void uiMotionAnimationsEnabledChanged(bool state);
     void desktopWindowFocusBlurEnabledChanged(bool state);

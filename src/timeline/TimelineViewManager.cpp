@@ -5,6 +5,10 @@
 
 #include "TimelineViewManager.h"
 
+#ifdef __GLIBC__
+#include <malloc.h>
+#endif
+
 #include <QByteArray>
 #include <QClipboard>
 #include <QGuiApplication>
@@ -256,6 +260,50 @@ TimelineViewManager::ensureModelForRoom(const QString &roomId)
                       trimmed.toStdString(),
                       perRoomModels_.size());
     return model;
+}
+
+void
+TimelineViewManager::releaseModelForRoom(const QString &roomId)
+{
+    const auto trimmed = roomId.trimmed();
+    if (trimmed.isEmpty())
+        return;
+
+    // Never release the model for the currently active room.
+    if (trimmed == activeMatrixTimelineRoomId_)
+        return;
+
+    auto it = perRoomModels_.find(trimmed);
+    if (it == perRoomModels_.end())
+        return;
+
+    auto *model = *it;
+    perRoomModels_.erase(it);
+    model->deleteLater();
+
+    // Stop the concurrent Rust timeline loop for this room.
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId) {
+        QString error;
+        if (!komai::MatrixBackendRuntimeService::stopRoomTimeline(handleId, trimmed, &error))
+            nhlog::ui()->warn("Failed to stop room timeline for '{}': {}",
+                              trimmed.toStdString(),
+                              error.toStdString());
+    }
+
+    nhlog::ui()->info("Released per-room timeline model for '{}' (pool size: {})",
+                      trimmed.toStdString(),
+                      perRoomModels_.size());
+}
+
+void
+TimelineViewManager::trimProcessMemory()
+{
+#ifdef __GLIBC__
+    ::malloc_trim(0);
+    nhlog::ui()->info("Trimmed process memory (malloc_trim)");
+#endif
 }
 
 int

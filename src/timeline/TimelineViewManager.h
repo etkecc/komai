@@ -172,6 +172,8 @@ public:
     int colorRevision() const { return colorRevision_; }
     QAbstractItemModel *matrixTimelineModel() const;
     Q_INVOKABLE QAbstractItemModel *ensureModelForRoom(const QString &roomId);
+    Q_INVOKABLE void releaseModelForRoom(const QString &roomId);
+    Q_INVOKABLE void trimProcessMemory();
     int matrixTimelineItemCount() const;
     bool matrixTimelineLoading() const { return matrixTimelineLoading_; }
     bool matrixTimelineAttachmentSending() const { return matrixAttachmentUploadInFlight_; }

@@ -148,11 +148,14 @@ QtObject {
         if (activeIndex !== -1 && tabs.get(activeIndex).pinned)
             activeIndex = -1;
         if (activeIndex !== -1) {
+            var previousRoomId = tabs.get(activeIndex).roomId;
             tabs.set(activeIndex, {
                 "roomId": roomId,
                 "roomName": _getRoomName(roomId),
                 "pinned": false
             });
+            if (previousRoomId && previousRoomId !== roomId)
+                tabClosed(previousRoomId);
         } else {
             // No active unpinned tab — open a new one at the end.
             tabs.append({ "roomId": roomId, "roomName": _getRoomName(roomId), "pinned": false });
@@ -454,11 +457,14 @@ QtObject {
         if (prevTabIndex !== -1 && tabs.get(prevTabIndex).pinned)
             prevTabIndex = -1;
         if (prevTabIndex !== -1) {
+            var previousRoomId = tabs.get(prevTabIndex).roomId;
             tabs.set(prevTabIndex, {
                 "roomId": newRoomId,
                 "roomName": _getRoomName(newRoomId),
                 "pinned": false
             });
+            if (previousRoomId && previousRoomId !== newRoomId)
+                tabClosed(previousRoomId);
         } else {
             // No navigable tab (all pinned or no previous tab) — open a new one.
             tabs.append({ "roomId": newRoomId, "roomName": _getRoomName(newRoomId), "pinned": false });

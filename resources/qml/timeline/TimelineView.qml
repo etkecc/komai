@@ -37,9 +37,10 @@ Item {
     property var _activePoolEntry: null
     property var _poolEntries: ({})
     property var _poolLru: []
-    property int _poolMaxSize: 20
+    property int _poolMaxSize: Settings.navigationTabsMaxPreRenderedTimelines
     property string _poolCurrentRoomId: useMatrixRoomView && roomPreview
         ? String(roomPreview.roomid || "") : ""
+    on_PoolMaxSizeChanged: _poolTrimExcess()
     on_PoolCurrentRoomIdChanged: {
         // Skip if the aboutToSwitchRoom handler already activated this room.
         if (_activePoolEntry && _poolEntries[_poolCurrentRoomId] === _activePoolEntry) {
@@ -65,8 +66,10 @@ Item {
                      + " hasEntry=" + !!_poolEntries[roomId]);
         _poolDeactivateCurrent();
 
-        if (!roomId)
+        if (!roomId) {
+            _poolTrimExcess();
             return;
+        }
 
         var entry = _poolGetOrCreate(roomId);
         var isReactivation = (entry.roomView.activeRoomId === roomId);
@@ -154,6 +157,38 @@ Item {
         var idx = _poolLru.indexOf(roomId);
         if (idx !== -1)
             _poolLru.splice(idx, 1);
+        TimelineManager.releaseModelForRoom(roomId);
+    }
+
+    function _poolTrimExcess() {
+        var poolSize = Object.keys(_poolEntries).length;
+        while (Object.keys(_poolEntries).length > _poolMaxSize) {
+            var evicted = false;
+            for (var i = _poolLru.length - 1; i >= 0; i--) {
+                var candidate = _poolLru[i];
+                if (_poolEntries[candidate] === _activePoolEntry)
+                    continue;
+                if (tabController && tabController.findTab(candidate) !== -1)
+                    continue;
+                _poolRemove(candidate);
+                evicted = true;
+                break;
+            }
+            if (!evicted)
+                break;
+        }
+        if (poolSize !== Object.keys(_poolEntries).length)
+            _poolMemoryTrimTimer.restart();
+    }
+
+    Timer {
+        id: _poolMemoryTrimTimer
+
+        interval: 500
+        onTriggered: {
+            gc();
+            TimelineManager.trimProcessMemory();
+        }
     }
 
     ComponentCatalog {
@@ -368,6 +403,7 @@ Item {
             var entry = timelineView._poolEntries[roomId];
             if (entry)
                 entry.preserveScrollOnReactivation = false;
+            timelineView._poolTrimExcess();
         }
     }
     TimelinePreviewPane {

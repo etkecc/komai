@@ -103,6 +103,49 @@ stateEventIconForKind(const QString &kind)
 }
 
 QString
+stateEventIconColorCategoryForMembershipChangeKind(const QString &membershipChangeKind)
+{
+    const auto kind = membershipChangeKind.trimmed().toLower();
+
+    // Positive: gaining a member or lifting a restriction
+    if (kind == QStringLiteral("joined") || kind == QStringLiteral("invited") ||
+        kind == QStringLiteral("invitation_accepted") || kind == QStringLiteral("knock_accepted") ||
+        kind == QStringLiteral("unbanned"))
+        return QStringLiteral("positive");
+
+    // Negative: punitive moderation actions
+    if (kind == QStringLiteral("banned") || kind == QStringLiteral("kicked") ||
+        kind == QStringLiteral("kicked_and_banned") || kind == QStringLiteral("knock_denied"))
+        return QStringLiteral("negative");
+
+    // Cautious: departures and declined participation
+    if (kind == QStringLiteral("left") || kind == QStringLiteral("invitation_rejected") ||
+        kind == QStringLiteral("invitation_revoked") || kind == QStringLiteral("knock_retracted") ||
+        kind == QStringLiteral("redacted"))
+        return QStringLiteral("cautious");
+
+    return QStringLiteral("neutral");
+}
+
+QString
+stateEventIconColorCategoryForItem(const MatrixTimelineItem &item)
+{
+    if (item.itemKind == QStringLiteral("membership_change"))
+        return stateEventIconColorCategoryForMembershipChangeKind(item.membershipChangeKind);
+
+    // Positive: security improvement or room genesis
+    if (item.matrixEventType == QStringLiteral("m.room.encryption") ||
+        item.matrixEventType == QStringLiteral("m.room.create"))
+        return QStringLiteral("positive");
+
+    // Negative: room replaced/killed
+    if (item.matrixEventType == QStringLiteral("m.room.tombstone"))
+        return QStringLiteral("negative");
+
+    return QStringLiteral("neutral");
+}
+
+QString
 stateEventIconForItem(const MatrixTimelineItem &item)
 {
     if (item.itemKind == QStringLiteral("membership_change"))
@@ -234,6 +277,8 @@ computeDerivedFields(MatrixTimelineItem &item,
         item.cachedFormattedStateEvent = {};
     }
     item.cachedStateEventIcon = isState ? stateEventIconForItem(item) : QString();
+    item.cachedStateEventIconColorCategory =
+      isState ? stateEventIconColorCategoryForItem(item) : QString();
     item.cachedFilesize =
       item.mediaSizeBytes > 0 ? utils::humanReadableFileSize(item.mediaSizeBytes) : QString();
     item.cachedFilename =
@@ -293,6 +338,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     case HasFormattedBody:   return !item.cachedIsStateEvent && !item.formattedBody.isEmpty();
     case FormattedStateEvent:return item.cachedFormattedStateEvent;
     case StateEventIconSource:return item.cachedStateEventIcon;
+    case StateEventIconColorCategory:return item.cachedStateEventIconColorCategory;
     case IsSender:           return item.isOwn;
     case UserId:             return item.senderId;
     case UserName:           return item.senderDisplayName;
@@ -399,6 +445,7 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case HasFormattedBody:   return !parentItem.replyFormattedBody.isEmpty();
     case FormattedStateEvent:return QString();
     case StateEventIconSource:return QString();
+    case StateEventIconColorCategory:return QString();
     case IsSender:           return false;
     case UserId:             return parentItem.replySenderId;
     case UserName:           return effectiveDisplayName;
@@ -489,6 +536,7 @@ MatrixTimelineModel::roleNames() const
       {Dump, "dump"},
       {RelatedEventCacheBuster, "relatedEventCacheBuster"},
       {IsHiddenEvent, "isHiddenEvent"},
+      {StateEventIconColorCategory, "stateEventIconColorCategory"},
 
       // Extra roles
       {ItemId, "itemId"},
@@ -630,6 +678,8 @@ MatrixTimelineModel::previewDataForEvent(const QString &eventId, const QString &
         previewData.insert(QStringLiteral("formattedBody"), item.cachedFormattedBody);
         previewData.insert(QStringLiteral("formattedStateEvent"), item.cachedFormattedStateEvent);
         previewData.insert(QStringLiteral("stateEventIconSource"), item.cachedStateEventIcon);
+        previewData.insert(QStringLiteral("stateEventIconColorCategory"),
+                           item.cachedStateEventIconColorCategory);
         previewData.insert(QStringLiteral("isOnlyEmoji"), item.cachedEmojiOnlyCount);
         previewData.insert(QStringLiteral("url"), item.mediaUrl);
         previewData.insert(QStringLiteral("thumbnailUrl"), item.thumbnailUrl);
@@ -685,6 +735,8 @@ MatrixTimelineModel::previewDataForEvent(const QString &eventId, const QString &
                     replyData(parentItem, FormattedStateEvent));
     insertReplyRole(QStringLiteral("stateEventIconSource"),
                     replyData(parentItem, StateEventIconSource));
+    insertReplyRole(QStringLiteral("stateEventIconColorCategory"),
+                    replyData(parentItem, StateEventIconColorCategory));
     insertReplyRole(QStringLiteral("isOnlyEmoji"), replyData(parentItem, IsOnlyEmoji));
     insertReplyRole(QStringLiteral("url"), replyData(parentItem, Url));
     insertReplyRole(QStringLiteral("thumbnailUrl"), replyData(parentItem, ThumbnailUrl));

@@ -274,6 +274,7 @@ AbstractButton {
             "fileTypeIconSource": String(roleValue(Room.FileTypeIconSource, "")),
             "formattedStateEvent": String(roleValue(Room.FormattedStateEvent, "")),
             "stateEventIconSource": String(roleValue(Room.StateEventIconSource, "")),
+            "stateEventIconColorCategory": String(roleValue(Room.StateEventIconColorCategory, "")),
             "callType": String(roleValue(Room.CallType, "")),
             "isEdited": Boolean(roleValue(Room.IsEdited, false)),
             "isEditable": Boolean(roleValue(Room.IsEditable, false)),

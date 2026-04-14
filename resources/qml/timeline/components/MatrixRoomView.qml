@@ -502,6 +502,7 @@ ColumnLayout {
                         required property string formattedBody
                         required property string formattedStateEvent
                         required property string stateEventIconSource
+                        required property string stateEventIconColorCategory
                         required property var reactions
                         required property date timestamp
                         required property bool isEdited

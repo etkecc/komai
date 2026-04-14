@@ -12,8 +12,17 @@ TextMessage {
 
     property bool isStateEvent
     property string stateEventIconSource: ":/icons/icons/ui/state-event.svg"
+    property string stateEventIconColorCategory: "neutral"
     readonly property int rawStateEventIconSize: Math.round(Math.floor(stateEventFontMetrics.ascent * 0.9) * 2)
     readonly property int stateEventIconSize: Math.max(12, (rawStateEventIconSize % 2 === 0) ? rawStateEventIconSize : (rawStateEventIconSize + 1))
+    readonly property color stateEventIconColor: {
+        switch (stateEventIconColorCategory) {
+        case "positive": return Komai.theme.success;
+        case "negative": return Komai.theme.error;
+        case "cautious": return Komai.theme.warning;
+        default:         return root.color;
+        }
+    }
 
     font.italic: true
     color: palette.buttonText
@@ -34,7 +43,7 @@ TextMessage {
         height: root.stateEventIconSize
         width: root.stateEventIconSize
         fillMode: Image.PreserveAspectFit
-        source: root.stateEventIconSource ? ("image://colorimage/" + root.stateEventIconSource + "?" + root.color) : ""
+        source: root.stateEventIconSource ? ("image://colorimage/" + root.stateEventIconSource + "?" + root.stateEventIconColor) : ""
         sourceSize.height: root.stateEventIconSize
         sourceSize.width: root.stateEventIconSize
     }

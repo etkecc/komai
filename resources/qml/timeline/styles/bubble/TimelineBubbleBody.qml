@@ -77,6 +77,7 @@ Item {
             "eventId": String(readReplyRole(Room.EventId, root.wrapper.replyTo)),
             "fileTypeIconSource": String(readReplyRole(Room.FileTypeIconSource, "")),
             "stateEventIconSource": String(readReplyRole(Room.StateEventIconSource, "")),
+            "stateEventIconColorCategory": String(readReplyRole(Room.StateEventIconColorCategory, "")),
             "formattedStateEvent": String(readReplyRole(Room.FormattedStateEvent, "")),
             "callType": String(readReplyRole(Room.CallType, "")),
             "isEdited": Boolean(readReplyRole(Room.IsEdited, false)),

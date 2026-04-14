@@ -59,6 +59,7 @@ enum Roles
     RelatedEventCacheBuster,
     IsHiddenEvent,
     FileTypeIconSource,
+    StateEventIconColorCategory,
 };
 Q_ENUM_NS(Roles)
 } // namespace komai::timeline

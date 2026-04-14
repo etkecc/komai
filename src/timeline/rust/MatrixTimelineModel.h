@@ -29,51 +29,52 @@ public:
     {
         // --- TimelineModel-compatible block (values must match 1:1) ---
         Type = 0,
-        TypeString,              // 1
-        IsOnlyEmoji,             // 2
-        Body,                    // 3
-        FormattedBody,           // 4
-        HasFormattedBody,        // 5
-        FormattedStateEvent,     // 6
-        StateEventIconSource,    // 7
-        IsSender,                // 8
-        UserId,                  // 9
-        UserName,                // 10
-        UserPowerlevel,          // 11
-        Day,                     // 12
-        Timestamp,               // 13
-        Url,                     // 14
-        ThumbnailUrl,            // 15
-        Duration,                // 16
-        Blurhash,                // 17
-        Filename,                // 18
-        Filesize,                // 19
-        FilesizeBytes,           // 20
-        MimeType,                // 21
-        OriginalHeight,          // 22
-        OriginalWidth,           // 23
-        ProportionalHeight,      // 24
-        EventId,                 // 25
-        Status,                  // 26 — TimelineModel::State, role name "status"
-        IsEdited,                // 27
-        IsEditable,              // 28
-        IsEncrypted,             // 29
-        IsStateEvent,            // 30
-        Trustlevel,              // 31
-        Notificationlevel,       // 32
-        EncryptionError,         // 33
-        ReplyTo,                 // 34
-        ThreadId,                // 35
-        Reactions,               // 36
-        Room,                    // 37
-        RoomId,                  // 38
-        _RoomNameGap  = 39,      // placeholder for TimelineModel::RoomName
-        _RoomTopicGap = 40,      // placeholder for TimelineModel::RoomTopic
-        CallType,                // 41
-        Dump,                    // 42
-        RelatedEventCacheBuster, // 43
-        IsHiddenEvent,           // 44
-        FileTypeIconSource,      // 45
+        TypeString,                  // 1
+        IsOnlyEmoji,                 // 2
+        Body,                        // 3
+        FormattedBody,               // 4
+        HasFormattedBody,            // 5
+        FormattedStateEvent,         // 6
+        StateEventIconSource,        // 7
+        IsSender,                    // 8
+        UserId,                      // 9
+        UserName,                    // 10
+        UserPowerlevel,              // 11
+        Day,                         // 12
+        Timestamp,                   // 13
+        Url,                         // 14
+        ThumbnailUrl,                // 15
+        Duration,                    // 16
+        Blurhash,                    // 17
+        Filename,                    // 18
+        Filesize,                    // 19
+        FilesizeBytes,               // 20
+        MimeType,                    // 21
+        OriginalHeight,              // 22
+        OriginalWidth,               // 23
+        ProportionalHeight,          // 24
+        EventId,                     // 25
+        Status,                      // 26 — TimelineModel::State, role name "status"
+        IsEdited,                    // 27
+        IsEditable,                  // 28
+        IsEncrypted,                 // 29
+        IsStateEvent,                // 30
+        Trustlevel,                  // 31
+        Notificationlevel,           // 32
+        EncryptionError,             // 33
+        ReplyTo,                     // 34
+        ThreadId,                    // 35
+        Reactions,                   // 36
+        Room,                        // 37
+        RoomId,                      // 38
+        _RoomNameGap  = 39,          // placeholder for TimelineModel::RoomName
+        _RoomTopicGap = 40,          // placeholder for TimelineModel::RoomTopic
+        CallType,                    // 41
+        Dump,                        // 42
+        RelatedEventCacheBuster,     // 43
+        IsHiddenEvent,               // 44
+        FileTypeIconSource,          // 45
+        StateEventIconColorCategory, // 46
 
         // --- Extra roles (not in TimelineModel) ---
         ItemId = Qt::UserRole,

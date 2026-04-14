@@ -19,7 +19,7 @@ For the `FormattedBody` role in `TimelineModel`:
 6. Apply formatted code highlighting via `komai::rust::highlight_formatted_code_blocks(...)` if enabled.
 7. Run `utils::linkifyMessage(...)`.
 8. Run `utils::replaceEmoji(...)`.
-9. Render via litehtml (`LitehtmlItem` QQuickPaintedItem) in QML for timeline message delegates (`TextMessage.qml`, `NoticeMessage.qml`). Blockquotes, tables, and other CSS-styled elements are handled natively by litehtml. Non-timeline uses (dialogs, room headers, login pages) continue to use Qt RichText via `MatrixText.qml`.
+9. Render via litehtml (`LitehtmlItem` QQuickPaintedItem) in QML for timeline message delegates (`TextMessage.qml`, `StateEventMessage.qml`). Blockquotes, tables, and other CSS-styled elements are handled natively by litehtml. Non-timeline uses (dialogs, room headers, login pages) continue to use Qt RichText via `MatrixText.qml`.
 
 Primary callsites:
 

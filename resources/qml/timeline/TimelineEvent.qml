@@ -21,6 +21,7 @@ EventDelegateChooser {
     property string formattedBody: ""
     property string formattedStateEvent: ""
     property string stateEventIconSource: ""
+    property string stateEventIconColorCategory: ""
     readonly property int colorRevision: TimelineManager.colorRevision
     property bool scrolledToThis: false
     property QtObject styleProfile: TimelineStyleProfile {}
@@ -167,8 +168,9 @@ EventDelegateChooser {
     }
     EventDelegateChoice {
         roleValues: [MtxEvent.CanonicalAlias, MtxEvent.ServerAcl, MtxEvent.Name, MtxEvent.Topic, MtxEvent.Avatar, MtxEvent.PinnedEvents, MtxEvent.ImagePackInRoom, MtxEvent.SpaceParent, MtxEvent.RoomCreate, MtxEvent.PowerLevels, MtxEvent.PolicyRuleUser, MtxEvent.PolicyRuleRoom, MtxEvent.PolicyRuleServer, MtxEvent.RoomJoinRules, MtxEvent.RoomHistoryVisibility, MtxEvent.RoomGuestAccess,]
-        NoticeMessage {
+        StateEventMessage {
             required property string formattedStateEvent
+            required property string stateEventIconColorCategory
             required property string userId
             required property string userName
 
@@ -178,6 +180,7 @@ EventDelegateChooser {
             isOnlyEmoji: 0
             isReply: EventDelegateChooser.isReply
             isStateEvent: true
+            stateEventIconColorCategory: stateEventIconColorCategory
             readonly property color chooserMainSecondaryTextColor: (parent && parent.mainMessageSecondaryTextColor !== undefined && parent.mainMessageSecondaryTextColor !== null) ? parent.mainMessageSecondaryTextColor : palette.buttonText
             readonly property color chooserMainLinkColor: (parent && parent.mainMessageLinkColor !== undefined && parent.mainMessageLinkColor !== null) ? parent.mainMessageLinkColor : palette.link
             readonly property color chooserMainSurfaceColor: (parent && parent.mainMessageSurfaceColor !== undefined && parent.mainMessageSurfaceColor !== null) ? parent.mainMessageSurfaceColor : palette.alternateBase
@@ -385,12 +388,13 @@ EventDelegateChooser {
 
             required property string formattedStateEvent
             required property string stateEventIconSource
+            required property string stateEventIconColorCategory
             required property var room
             required property string userId
             required property string userName
             readonly property bool hasKnockAction: room && typeof room.showAcceptKnockButton === "function" && room.showAcceptKnockButton(eventId)
 
-            NoticeMessage {
+            StateEventMessage {
                 Layout.fillWidth: true
                 body: formatted
                 formatted: member.formattedStateEvent
@@ -398,6 +402,7 @@ EventDelegateChooser {
                 isReply: EventDelegateChooser.isReply
                 isStateEvent: true
                 stateEventIconSource: member.stateEventIconSource
+                stateEventIconColorCategory: member.stateEventIconColorCategory
                 keepFullText: true
             }
             Components.KomaiButton {
@@ -424,13 +429,14 @@ EventDelegateChooser {
             required property string userId
             required property string userName
 
-            NoticeMessage {
+            StateEventMessage {
                 Layout.fillWidth: true
                 body: formatted
                 formatted: qsTr("This room was replaced for the following reason: %1").arg(tombstone.body)
                 isOnlyEmoji: 0
                 isReply: EventDelegateChooser.isReply
                 isStateEvent: true
+                stateEventIconColorCategory: "negative"
                 keepFullText: true
             }
             Components.KomaiButton {

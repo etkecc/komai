@@ -107,7 +107,8 @@ QtObject {
                 "type": itemType,
                 "isOnlyEmoji": 0,
                 "formattedStateEvent": root.rootItem.formattedMatrixTextHtml(body),
-                "stateEventIconSource": String(item.stateEventIconSource || root.rootItem.matrixStateEventIconForKind(itemKind))
+                "stateEventIconSource": String(item.stateEventIconSource || root.rootItem.matrixStateEventIconForKind(itemKind)),
+                "stateEventIconColorCategory": String(item.stateEventIconColorCategory || "")
             });
         }
 
@@ -155,6 +156,7 @@ QtObject {
             "formattedBody": String(item.formattedBody || root.rootItem.formattedMatrixTextHtml(body)),
             "formattedStateEvent": String(item.formattedStateEvent || root.rootItem.formattedMatrixTextHtml(body)),
             "stateEventIconSource": root.rootItem.matrixStateEventIconForKind(itemKind),
+            "stateEventIconColorCategory": "",
             "typeString": itemKind,
             "callType": "",
             "isOnlyEmoji": 0

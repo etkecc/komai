@@ -352,6 +352,7 @@ struct MatrixTimelineItem
     QString cachedFormattedBody;
     QString cachedFormattedStateEvent;
     QString cachedStateEventIcon;
+    QString cachedStateEventIconColorCategory;
     QString cachedFilesize;
     QString cachedFilename;
     QString cachedFileTypeIcon;

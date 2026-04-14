@@ -652,6 +652,7 @@ Rectangle {
         anchors.topMargin: Komai.paddingMedium
         anchors.bottomMargin: Komai.paddingMedium
         width: 1
-        color: tabDelegate.isLastTab ? "transparent" : Komai.theme.separator
+        color: (tabDelegate.isLastTab || tabDelegate.isActive || tabDelegate.isHovered)
+            ? "transparent" : Komai.theme.separator
     }
 }

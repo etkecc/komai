@@ -72,6 +72,7 @@ private:
     };
 
     void fetchMembersAsync();
+    void updateMemberPowerLevel(const QString &userId, qlonglong level);
     void setRoomInfo(const QString &roomName, const QString &avatarUrl, int memberCount);
     void setMembers(QVector<MemberEntry> members, int memberCount);
 
@@ -130,6 +131,7 @@ public slots:
     void setFilterString(const QString &text);
     void sortBy(const MemberSortRoles role);
     void reload();
+    void updateMemberPowerLevel(const QString &userId, int level);
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;

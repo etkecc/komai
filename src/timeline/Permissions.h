@@ -108,6 +108,9 @@ public:
     int sendLevel(int eventType) override;
     qint64 creatorLevel() const override { return komai::matrix::RuntimeCreatorPowerLevel; }
     bool canPingRoom() override { return true; }
+    Q_INVOKABLE int userPowerLevel(const QString &userId) const;
+    Q_INVOKABLE QString powerLevelDisplayLabel(int level, bool isCreator = false) const;
+    void updateCachedUserPowerLevel(const QString &userId, int level);
 
 signals:
     void roomIdChanged();

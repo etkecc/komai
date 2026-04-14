@@ -322,6 +322,38 @@ pub async fn apply_room_power_levels(
     Ok(())
 }
 
+pub async fn set_user_power_level(
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+    power_level: i64,
+) -> Result<(), String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+    let parsed_user_id = parse_user_id(user_id)?;
+    let mut current = room.power_levels_or_default().await;
+
+    let level = power_level
+        .try_into()
+        .map_err(|e| format!("invalid power level: {e}"))?;
+    current.users.insert(parsed_user_id.to_owned(), level);
+
+    let content = RoomPowerLevelsEventContent::try_from(current)
+        .map_err(|e| format!("failed to serialize room power levels: {e}"))?;
+    room.send_state_event(content)
+        .await
+        .map_err(|e| format!("failed to set user power level via matrix-sdk: {e}"))?;
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        user_id = user_id.trim(),
+        power_level,
+        "Set user power level via matrix-sdk backend runtime"
+    );
+
+    Ok(())
+}
+
 pub struct MatrixChildSpaceEntry {
     pub room_id: String,
     pub display_name: String,

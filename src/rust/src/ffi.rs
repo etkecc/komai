@@ -1436,6 +1436,13 @@ mod bridge {
             user_id: &str,
             reason: &str,
         ) -> Result<()>;
+        fn matrix_set_user_power_level(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            user_id: &str,
+            power_level: i64,
+        ) -> Result<()>;
         fn matrix_fetch_own_profile(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

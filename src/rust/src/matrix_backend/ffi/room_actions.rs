@@ -187,3 +187,17 @@ pub(crate) fn matrix_unban_user(
         matrix_backend::runtime::unban_user(handle_id, room_id, user_id, reason),
     )
 }
+
+pub(crate) fn matrix_set_user_power_level(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    user_id: &str,
+    power_level: i64,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_set_user_power_level",
+        matrix_backend::runtime::set_user_power_level(handle_id, room_id, user_id, power_level),
+    )
+}

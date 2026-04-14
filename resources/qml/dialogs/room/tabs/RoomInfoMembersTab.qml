@@ -28,6 +28,10 @@ Item {
             if (membersTab.members && roomId === membersTab.members.roomId)
                 membersTab.members.reload();
         }
+        function onRoomMemberPowerLevelChanged(roomId, userId, powerLevel) {
+            if (membersTab.members && roomId === membersTab.members.roomId)
+                membersTab.members.updateMemberPowerLevel(userId, powerLevel);
+        }
     }
 
     ColumnLayout {

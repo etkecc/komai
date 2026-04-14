@@ -114,6 +114,13 @@ public:
                           const QString &reason = {},
                           QString *errorOut     = nullptr);
 
+    static bool setUserPowerLevel(matrix_backend::BlockingCallContext context,
+                                  uint64_t handleId,
+                                  const QString &roomId,
+                                  const QString &userId,
+                                  int64_t powerLevel,
+                                  QString *errorOut = nullptr);
+
     static std::optional<MatrixOwnProfile>
     fetchOwnProfile(matrix_backend::BlockingCallContext context,
                     uint64_t handleId,

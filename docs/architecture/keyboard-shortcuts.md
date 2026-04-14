@@ -22,7 +22,6 @@ The codebase intentionally mixes these approaches. There is no single global sho
 App-wide bindings usually live in dedicated QML containers and use `Shortcut`:
 
 - [resources/qml/shell/components/AppShortcuts.qml](../../resources/qml/shell/components/AppShortcuts.qml)
-- [resources/qml/shell/components/RoomListActionsBar.qml](../../resources/qml/shell/components/RoomListActionsBar.qml)
 - [resources/qml/room/components/RoomHeader.qml](../../resources/qml/room/components/RoomHeader.qml)
 
 Use this pattern when:

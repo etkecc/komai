@@ -139,7 +139,7 @@ pub use room_settings::{
     fetch_room_child_spaces, fetch_room_members, fetch_room_power_levels, fetch_room_settings,
     remove_room_avatar, set_room_access_rules,
     set_room_history_visibility, set_room_name, set_room_notification_mode, set_room_topic,
-    upload_room_avatar,
+    set_user_power_level, upload_room_avatar,
 };
 pub use timeline::{
     fetch_active_room_timeline, fetch_active_room_timeline_media_content,

@@ -123,6 +123,7 @@
         <file alias="icons/ui/tab-add.svg">icons/fluent/assets/Tab Add/SVG/ic_fluent_tab_add_24_regular.svg</file>
         <file alias="icons/ui/presence-blocked.svg">icons/fluent/assets/Presence Blocked/SVG/ic_fluent_presence_blocked_24_regular.svg</file>
         <file alias="icons/ui/panel-left-header.svg">icons/fluent/assets/Panel Left Header/SVG/ic_fluent_panel_left_header_24_regular.svg</file>
+        <file alias="icons/ui/arrow-sort.svg">icons/fluent/assets/Arrow Sort/SVG/ic_fluent_arrow_sort_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

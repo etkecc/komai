@@ -472,6 +472,32 @@ MatrixBackendRuntimeService::unbanUser(matrix_backend::BlockingCallContext conte
     }
 }
 
+bool
+MatrixBackendRuntimeService::setUserPowerLevel(matrix_backend::BlockingCallContext context,
+                                               uint64_t handleId,
+                                               const QString &roomId,
+                                               const QString &userId,
+                                               int64_t powerLevel,
+                                               QString *errorOut)
+{
+    try {
+        invokeRuntimeWorkerCall("matrix_set_user_power_level",
+                                [context, handleId, &roomId, &userId, powerLevel]() {
+                                    ::komai::rust::matrix_set_user_power_level(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      userId.toStdString(),
+                                      powerLevel);
+                                });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
 std::optional<MatrixRoomSettings>
 MatrixBackendRuntimeService::fetchRoomSettings(matrix_backend::BlockingCallContext context,
                                                uint64_t handleId,

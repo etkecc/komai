@@ -669,6 +669,57 @@ Components.OverlayDialog {
                 }
             }
 
+            // Power level row: label | [value]
+            Item {
+                id: powerLevelRowItem
+                Layout.fillWidth: true
+                implicitHeight: powerLevelRowContent.implicitHeight
+                visible: root.isRoomProfile
+
+                HoverHandler { id: powerLevelRowHover; blocking: false }
+                readonly property bool rowHovered: powerLevelRowHover.hovered
+                Rectangle {
+                    anchors.fill: powerLevelRowContent
+                    color: parent.rowHovered ? palette.dark : palette.window
+                    radius: Komai.paddingMedium
+                    z: -1
+                }
+
+                RowLayout {
+                    id: powerLevelRowContent
+                    width: parent.width
+                    spacing: Komai.paddingMedium
+
+                    Label {
+                        text: qsTr("Power level")
+                        color: powerLevelRowItem.rowHovered ? palette.brightText : palette.text
+                        font.pointSize: 1.1 * Settings.uiFontSizePt
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.leftMargin: Komai.paddingMedium
+                    }
+
+                    Item { Layout.fillWidth: true }
+
+                    Label {
+                        text: {
+                            const permissions = profile.permissions;
+                            const _ = permissions ? permissions.revision : 0;
+                            if (!permissions) return "";
+                            return permissions.powerLevelDisplayLabel(
+                                permissions.userPowerLevel(profile.userid));
+                        }
+                        color: powerLevelRowItem.rowHovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        elide: Text.ElideRight
+                        Layout.maximumWidth: scrollView.availableWidth * 0.5
+                    }
+                }
+            }
+
             // Verification row: label | [badge]
             Item {
                 id: verificationRowItem
@@ -853,6 +904,23 @@ Components.OverlayDialog {
                     }
                 }
 
+                // Change power level
+                Components.KomaiActionRowButton {
+                    visible: {
+                        const permissions = profile.permissions;
+                        const _ = permissions ? permissions.revision : 0;
+                        return root.isRoomProfile && !profile.isSelf
+                            && permissions && permissions.canChange(MtxEvent.PowerLevels);
+                    }
+                    labelText: qsTr("Change power level")
+                    iconSource: ":/icons/icons/ui/arrow-sort.svg"
+                    onClicked: {
+                        var dialog = changePowerLevelDialogComponent.createObject(root.parent);
+                        dialog.open();
+                        dialog.closed.connect(function() { Qt.callLater(() => dialog.destroy()); });
+                    }
+                }
+
                 Components.KomaiActionRowButton {
                     visible: {
                         const permissions = profile.permissions;
@@ -925,6 +993,107 @@ Components.OverlayDialog {
                             onClicked: {
                                 profile.ignored = !profile.ignored;
                                 confirmIgnoreDialog.close();
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Change power level dialog
+            Component {
+                id: changePowerLevelDialogComponent
+
+                Components.OverlayDialog {
+                    id: changePowerLevelDialog
+
+                    title: qsTr("Change power level")
+                    titleIcon: ":/icons/icons/ui/arrow-sort.svg"
+
+                    Label {
+                        Layout.fillWidth: true
+                        color: palette.text
+                        wrapMode: Text.WordWrap
+                        text: qsTr("Set the power level for %1 in this room.").arg(profile.userid)
+                    }
+
+                    Components.KomaiSpinBox {
+                        id: powerLevelInput
+
+                        Layout.fillWidth: true
+                        editable: true
+                        from: -2000000000
+                        to: 2000000000
+                        value: {
+                            const permissions = profile.permissions;
+                            const _ = permissions ? permissions.revision : 0;
+                            return permissions ? permissions.userPowerLevel(profile.userid) : 0;
+                        }
+                    }
+
+                    Flow {
+                        Layout.fillWidth: true
+                        spacing: Komai.paddingSmall
+
+                        Label {
+                            text: qsTr("Presets:")
+                            color: palette.buttonText
+                            font.pointSize: Settings.uiFontSizePt * 0.9
+                            height: parent.children.length > 1 ? parent.children[1].height : implicitHeight
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                        Components.KomaiButton {
+                            text: qsTr("User (0)")
+                            highlighted: powerLevelInput.value === 0
+                            font.pointSize: Settings.uiFontSizePt * 0.8
+                            topPadding: Komai.paddingSmall * 0.5
+                            bottomPadding: Komai.paddingSmall * 0.5
+                            leftPadding: Komai.paddingSmall
+                            rightPadding: Komai.paddingSmall
+                            onClicked: powerLevelInput.value = 0
+                        }
+
+                        Components.KomaiButton {
+                            text: qsTr("Moderator (50)")
+                            highlighted: powerLevelInput.value === 50
+                            font.pointSize: Settings.uiFontSizePt * 0.8
+                            topPadding: Komai.paddingSmall * 0.5
+                            bottomPadding: Komai.paddingSmall * 0.5
+                            leftPadding: Komai.paddingSmall
+                            rightPadding: Komai.paddingSmall
+                            onClicked: powerLevelInput.value = 50
+                        }
+
+                        Components.KomaiButton {
+                            text: qsTr("Administrator (100)")
+                            highlighted: powerLevelInput.value === 100
+                            font.pointSize: Settings.uiFontSizePt * 0.8
+                            topPadding: Komai.paddingSmall * 0.5
+                            bottomPadding: Komai.paddingSmall * 0.5
+                            leftPadding: Komai.paddingSmall
+                            rightPadding: Komai.paddingSmall
+                            onClicked: powerLevelInput.value = 100
+                        }
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Komai.paddingMedium
+
+                        Components.KomaiButton {
+                            text: qsTr("Cancel")
+                            onClicked: changePowerLevelDialog.close()
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Components.KomaiButton {
+                            text: qsTr("Change power level")
+                            icon.source: ":/icons/icons/ui/arrow-sort.svg"
+                            highlighted: true
+                            onClicked: {
+                                profile.setUserPowerLevel(powerLevelInput.value);
+                                changePowerLevelDialog.close();
                             }
                         }
                     }

@@ -15,6 +15,7 @@
 #include "chat/ChatPage.h"
 #include "encryption/VerificationManager.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "timeline/Permissions.h"
 #include "timeline/TimelineViewManager.h"
 #include "utils/QtWorkerTask.h"
 
@@ -45,6 +46,44 @@ void
 UserProfile::kickUser(const QString &reason)
 {
     ChatPage::instance()->kickUser(roomid_, this->userid_, reason);
+}
+
+void
+UserProfile::setUserPowerLevel(int powerLevel)
+{
+    const auto handleId = matrixBackendHandleId();
+    if (handleId == 0) {
+        emit displayError(tr("Matrix backend runtime is not available."));
+        return;
+    }
+
+    const auto roomId = roomid_;
+    const auto userId = userid_;
+
+    runUserProfileRuntimeTask(
+      this,
+      [handleId, roomId, userId, powerLevel]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::setUserPowerLevel(
+            context, handleId, roomId, userId, static_cast<int64_t>(powerLevel), &error);
+          return std::make_pair(ok, error);
+      },
+      [userId, powerLevel](UserProfile *profile, const std::pair<bool, QString> &result) {
+          const auto &[ok, error] = result;
+          if (!ok) {
+              emit profile->displayError(
+                error.isEmpty() ? tr("Failed to set power level for %1.").arg(userId)
+                                : tr("Failed to set power level for %1: %2").arg(userId, error));
+              return;
+          }
+
+          if (profile->permissions_)
+              profile->permissions_->updateCachedUserPowerLevel(userId, powerLevel);
+          if (profile->manager)
+              emit profile->manager->roomMemberPowerLevelChanged(
+                profile->roomid_, userId, powerLevel);
+      });
 }
 
 void

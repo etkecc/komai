@@ -237,6 +237,25 @@ MemberList::reload()
 }
 
 void
+MemberList::updateMemberPowerLevel(const QString &userId, int level)
+{
+    m_model.updateMemberPowerLevel(userId, static_cast<qlonglong>(level));
+}
+
+void
+MemberListBackend::updateMemberPowerLevel(const QString &userId, qlonglong level)
+{
+    for (int i = 0; i < m_memberList.size(); ++i) {
+        if (m_memberList[i].userId == userId) {
+            m_memberList[i].powerLevel = level;
+            const auto idx             = index(i);
+            emit dataChanged(idx, idx, {Roles::Powerlevel, Roles::IsCreator});
+            return;
+        }
+    }
+}
+
+void
 MemberList::sortBy(const MemberSortRoles role)
 {
     currentSortRole_ = role;

@@ -8,6 +8,7 @@
 #include <QCoreApplication>
 #include <QPointer>
 
+#include <algorithm>
 #include <limits>
 #include <thread>
 
@@ -343,6 +344,25 @@ MatrixRoomPermissions::clearLoadedState()
 }
 
 void
+MatrixRoomPermissions::updateCachedUserPowerLevel(const QString &userId, int level)
+{
+    const auto trimmedId = userId.trimmed();
+    bool found           = false;
+    for (auto &entry : powerLevels_.users) {
+        if (entry.key == trimmedId) {
+            entry.level = level;
+            found       = true;
+            break;
+        }
+    }
+    if (!found)
+        powerLevels_.users.append({trimmedId, static_cast<qlonglong>(level)});
+
+    ++revision_;
+    emit revisionChanged();
+}
+
+void
 MatrixRoomPermissions::refreshAsync()
 {
     auto *mainWindow    = MainWindow::instance();
@@ -396,6 +416,52 @@ MatrixRoomPermissions::refreshAsync()
           },
           Qt::QueuedConnection);
     }).detach();
+}
+
+int
+MatrixRoomPermissions::userPowerLevel(const QString &userId) const
+{
+    if (!loaded_)
+        return 0;
+
+    const auto level = komai::matrix::effectiveUserPowerLevel(powerLevels_, userId.trimmed());
+    return static_cast<int>(std::clamp<qlonglong>(
+      level, std::numeric_limits<int>::min(), std::numeric_limits<int>::max()));
+}
+
+QString
+MatrixRoomPermissions::powerLevelDisplayLabel(int level, bool isCreator) const
+{
+    if (isCreator)
+        return tr("Creator");
+
+    const auto numStr = QString::number(level);
+
+    if (loaded_) {
+        const auto adminThreshold =
+          eventLevelForKey(powerLevels_, QStringLiteral("m.room.power_levels"), true);
+        const auto modThreshold     = powerLevels_.redact;
+        const auto defaultUserLevel = powerLevels_.usersDefault;
+
+        if (level >= adminThreshold)
+            return tr("Administrator (%1)").arg(numStr);
+        if (level >= modThreshold)
+            return tr("Moderator (%1)").arg(numStr);
+        if (level == defaultUserLevel)
+            return tr("User (%1)").arg(numStr);
+
+        return tr("Custom (%1)").arg(numStr);
+    }
+
+    // Fallback to standard Matrix defaults
+    if (level >= 100)
+        return tr("Administrator (%1)").arg(numStr);
+    if (level >= 50)
+        return tr("Moderator (%1)").arg(numStr);
+    if (level == 0)
+        return tr("User (%1)").arg(numStr);
+
+    return tr("Custom (%1)").arg(numStr);
 }
 
 qlonglong

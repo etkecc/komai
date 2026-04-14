@@ -33,11 +33,11 @@ Image {
         if (isCreator)
             return qsTr("Creator");
         else if (isAdmin)
-            return qsTr("Administrator");
+            return qsTr("Administrator (%1)").arg(pl);
         else if (isModerator)
-            return qsTr("Moderator");
+            return qsTr("Moderator (%1)").arg(pl);
         else
-            return qsTr("User");
+            return qsTr("User (%1)").arg(pl);
     }
 
     readonly property string sourceUrl: {
@@ -52,17 +52,7 @@ Image {
     sourceSize.width: width
     sourceSize.height: height
     source: sourceUrl + (ma.hovered ? palette.highlight : iconColor)
-    readonly property string toolTipText: {
-        let pl = powerlevel.toLocaleString(Qt.locale(), "f", 0);
-        if (isCreator)
-            return qsTr("Creator");
-        else if (isAdmin)
-            return qsTr("Administrator (%1)").arg(pl);
-        else if (isModerator)
-            return qsTr("Moderator: %1").arg(pl);
-        else
-            return qsTr("User: %1").arg(pl);
-    }
+    readonly property string toolTipText: roleName
 
     KomaiToolTip {
         anchorItem: root

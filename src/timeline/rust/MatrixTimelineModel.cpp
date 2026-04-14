@@ -146,6 +146,26 @@ stateEventIconColorCategoryForItem(const MatrixTimelineItem &item)
     if (item.matrixEventType == QStringLiteral("m.room.server_acl"))
         return QStringLiteral("cautious");
 
+    // Power levels: positive if all promotions, negative if all demotions,
+    // cautious if mixed, neutral if no user changes.
+    if (item.matrixEventType == QStringLiteral("m.room.power_levels") &&
+        !item.powerLevelChanges.empty()) {
+        bool hasPromotion = false;
+        bool hasDemotion  = false;
+        for (const auto &change : item.powerLevelChanges) {
+            if (change.newLevel > change.oldLevel)
+                hasPromotion = true;
+            else if (change.newLevel < change.oldLevel)
+                hasDemotion = true;
+        }
+        if (hasPromotion && !hasDemotion)
+            return QStringLiteral("positive");
+        if (hasDemotion && !hasPromotion)
+            return QStringLiteral("negative");
+        if (hasPromotion && hasDemotion)
+            return QStringLiteral("cautious");
+    }
+
     return QStringLiteral("neutral");
 }
 
@@ -159,6 +179,8 @@ stateEventIconForItem(const MatrixTimelineItem &item)
         return QStringLiteral(":/icons/icons/ui/pin.svg");
     if (item.matrixEventType == QStringLiteral("m.room.server_acl"))
         return QStringLiteral(":/icons/icons/ui/stop.svg");
+    if (item.matrixEventType == QStringLiteral("m.room.power_levels"))
+        return QStringLiteral(":/icons/icons/ui/arrow-sort.svg");
 
     return stateEventIconForKind(item.itemKind);
 }

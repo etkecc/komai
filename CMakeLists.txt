@@ -462,8 +462,14 @@ set(SRC_FILES
     src/matrix/backend/MatrixRegistrationService.h
     src/matrix/backend/MatrixBackendBridge.cpp
     src/matrix/backend/MatrixBackendBridge.h
-    src/matrix/backend/MatrixBackendRuntimeService.cpp
     src/matrix/backend/MatrixBackendRuntimeService.h
+    src/matrix/backend/MatrixBackendRuntimeServiceCore.cpp
+    src/matrix/backend/MatrixBackendRuntimeServiceEncryption.cpp
+    src/matrix/backend/MatrixBackendRuntimeServiceInternal.h
+    src/matrix/backend/MatrixBackendRuntimeServiceProfile.cpp
+    src/matrix/backend/MatrixBackendRuntimeServiceRooms.cpp
+    src/matrix/backend/MatrixBackendRuntimeServiceTimeline.cpp
+    src/matrix/backend/MatrixBackendRuntimeServiceTypes.h
     src/matrix/backend/MatrixSessionSecrets.cpp
     src/matrix/backend/MatrixSessionSecrets.h
     src/matrix/backend/MatrixSdkPaths.cpp

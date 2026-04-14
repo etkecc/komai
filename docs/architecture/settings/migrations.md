@@ -51,8 +51,8 @@ When introducing a breaking settings change:
 ## Testing Expectations
 
 For each new migration step, add or update tests in the corresponding Rust settings module, and
-extend `tests/StartupSettingsTest.cpp` only when the C++ startup/settings seam still needs direct
-coverage, to cover:
+extend `tests/SettingsIntegrationTest.cpp` only when the C++/Rust settings orchestration seam
+still needs direct coverage, to cover:
 
 - old format -> migrated runtime values
 - invalid/malformed legacy values

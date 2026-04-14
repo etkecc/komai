@@ -923,8 +923,8 @@ if(BUILD_TESTING)
         set_property(TEST ${test_name} PROPERTY ENVIRONMENT "${komai_test_env}")
     endfunction()
 
-    add_executable(komai_startup_settings_test
-        tests/StartupSettingsTest.cpp
+    add_executable(komai_settings_integration_test
+        tests/SettingsIntegrationTest.cpp
         tests/MatrixBackendBridgeStartupStub.cpp
         tests/ProfileSecretsStartupStub.cpp
         tests/UserSettingsModelStartupStub.cpp
@@ -948,7 +948,6 @@ if(BUILD_TESTING)
         src/settings/ui/facade/UserSettingsTheme.cpp
         src/ui/Theme.cpp
         src/ui/ThemeRegistry.cpp
-        src/settings/StartupSettings.cpp
         src/settings/SettingsController.cpp
         src/settings/SettingsControllerLoad.cpp
         src/settings/SettingsControllerSave.cpp
@@ -967,16 +966,15 @@ if(BUILD_TESTING)
         src/settings/SettingsStorageReaderWriterInMemory.cpp
         src/settings/SettingsStorageSecureBackend.cpp
         tests/support/settings/SettingsStorageSecretsCodec.cpp
-        src/settings/core/StartupConfig.cpp
         src/settings/core/SettingsStore.cpp
         src/timeline/TimelineEventTypes.cpp
         src/emoji/Provider.cpp
     )
-    target_include_directories(komai_startup_settings_test PRIVATE
+    target_include_directories(komai_settings_integration_test PRIVATE
         src
         ${CMAKE_CURRENT_BINARY_DIR}
     )
-    target_link_libraries(komai_startup_settings_test PRIVATE
+    target_link_libraries(komai_settings_integration_test PRIVATE
         Qt::Core
         Qt::Qml
         Qt::Gui
@@ -985,12 +983,12 @@ if(BUILD_TESTING)
         komai_rust
         komai-rust-cxxbridge
     )
-    target_link_libraries(komai_startup_settings_test PRIVATE
+    target_link_libraries(komai_settings_integration_test PRIVATE
         qt6keychain
     )
-    set_target_properties(komai_startup_settings_test PROPERTIES AUTOMOC ON)
-    add_test(NAME komai_startup_settings_test COMMAND komai_startup_settings_test)
-    komai_configure_test(komai_startup_settings_test "integration;settings")
+    set_target_properties(komai_settings_integration_test PROPERTIES AUTOMOC ON)
+    add_test(NAME komai_settings_integration_test COMMAND komai_settings_integration_test)
+    komai_configure_test(komai_settings_integration_test "integration;settings")
 
     add_executable(komai_settings_storage_test
         tests/SettingsStorageTest.cpp
@@ -1182,7 +1180,7 @@ if(BUILD_TESTING)
     komai_configure_test(komai_layout_agnostic_keys_test "unit;ui")
 
     add_custom_target(komai_tests DEPENDS
-        komai_startup_settings_test
+        komai_settings_integration_test
         komai_settings_storage_test
         komai_settings_store_test
         komai_setting_input_validation_test

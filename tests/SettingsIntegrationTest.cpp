@@ -10,7 +10,6 @@
 #include <string_view>
 
 #include <QApplication>
-#include <QTemporaryDir>
 
 #include "komai-rust-cxxbridge/ffi.h"
 #include "logging/Logging.h"
@@ -23,8 +22,6 @@
 #include "settings/SettingsSerializerConfigConverters.h"
 #include "settings/SettingsSerializerConfigSchema.h"
 #include "settings/SettingsStorage.h"
-#include "settings/StartupSettings.h"
-#include "settings/core/StartupConfig.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsCoreStoreBridge.h"
 #include "support/settings/SettingsStorageSecretsCodec.h"
@@ -37,7 +34,7 @@ struct StartupSettingsTestContext
 {
     explicit StartupSettingsTestContext(QStringView profile)
       : profile_{profile}
-      , baseDir_{QStringLiteral("/tmp/komai-startup-settings-test/") + profile.toString()}
+      , baseDir_{QStringLiteral("/tmp/komai-settings-integration-test/") + profile.toString()}
       , writerOverride_{settings::storage::inMemoryReaderWriter(baseDir_)}
     {
     }
@@ -333,60 +330,6 @@ QMap<QString, QString>
 loadSecretsMap(const QString &path, const char *label)
 {
     return settings::storage::decodeSecretsFilePayload(settings::storage::readTextFile(path, label));
-}
-
-bool
-testStartupConfigSnapshotLoads()
-{
-    const QString profile = QStringLiteral("profile-startup");
-    StartupSettingsTestContext ctx{profile};
-    if (!ctx.isValid())
-        return expect(false, "temporary config root can be created");
-
-    if (!ctx.writeConfig(QStringLiteral("ui:\n"
-                                        "  scale:\n"
-                                        "    factor: 1.75\n"
-                                        "  font:\n"
-                                        "    size_pt: 15\n")))
-        return expect(false, "test profile config can be persisted");
-
-    const auto startup = settings::startup::readStartupConfig(profile);
-    return expect(startup.uiScaleFactor.has_value() &&
-                    std::abs(*startup.uiScaleFactor - 1.75F) < 0.0001F,
-                  "scale factor is parsed from config.yml");
-}
-
-bool
-testStartupConfigSnapshotMissingProfile()
-{
-    const QString profile = QStringLiteral("missing-startup-profile");
-    StartupSettingsTestContext ctx{profile};
-    if (!ctx.isValid())
-        return expect(false, "temporary config root can be created");
-
-    const auto startup = settings::startup::readStartupConfig(profile);
-
-    return expect(!startup.uiScaleFactor.has_value(), "missing profile has no startup scale factor");
-}
-
-bool
-testCoreScaleRangeHelpers()
-{
-    bool ok = true;
-    ok &= expect(settings::core::isScaleFactorInRange(1.0F),
-                 "scale factor accepts lower bound");
-    ok &= expect(settings::core::isScaleFactorInRange(3.0F),
-                 "scale factor accepts upper bound");
-    ok &= expect(!settings::core::isScaleFactorInRange(0.5F),
-                 "scale factor rejects values below range");
-    ok &= expect(!settings::core::isScaleFactorInRange(3.5F),
-                 "scale factor rejects values above range");
-    const auto normalized = settings::core::normalizeScaleFactor(1.75F);
-    ok &= expect(normalized.has_value() && std::abs(*normalized - 1.75F) < 0.0001F,
-                 "scale factor normalization preserves in-range value");
-    ok &= expect(!settings::core::normalizeScaleFactor(0.5F).has_value(),
-                 "scale factor normalization rejects out-of-range values");
-    return ok;
 }
 
 bool
@@ -1784,7 +1727,7 @@ testConfigSchemaCoverageAndKeyUniqueness()
 int
 main()
 {
-    test_env::ScopedTestHome testHome{QStringLiteral("komai-startup-settings-test")};
+    test_env::ScopedTestHome testHome{QStringLiteral("komai-settings-integration-test")};
     if (!testHome.isValid()) {
         std::cerr << "FAILED: test home environment can be created\n";
         return 1;
@@ -1795,15 +1738,12 @@ main()
     }
 
     int argc = 1;
-    char arg0[] = "komai-startup-settings-test";
+    char arg0[] = "komai-settings-integration-test";
     char *argv[] = {arg0, nullptr};
     QApplication app(argc, argv);
     ThemeRegistry::initialize();
 
     bool ok = true;
-    ok &= runNamedTest("testStartupConfigSnapshotLoads", testStartupConfigSnapshotLoads);
-    ok &= runNamedTest("testStartupConfigSnapshotMissingProfile", testStartupConfigSnapshotMissingProfile);
-    ok &= runNamedTest("testCoreScaleRangeHelpers", testCoreScaleRangeHelpers);
     ok &= runNamedTest("testStartupPolicySkipsSessionWritesUntilCompleteSession",
                        testStartupPolicySkipsSessionWritesUntilCompleteSession);
     ok &= runNamedTest("testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets",

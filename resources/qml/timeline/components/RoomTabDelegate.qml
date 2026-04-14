@@ -362,7 +362,18 @@ Rectangle {
             if (pinArea.containsMouse) {
                 return tabDelegate.pinned ? qsTr("Unpin Tab") : qsTr("Pin Tab");
             }
-            var label = tabDelegate.displayName;
+            var prefix = "";
+            if (tabDelegate.hasUnread && tabDelegate.hasDraft)
+                prefix = qsTr("(Unread & Draft) ");
+            else if (tabDelegate.hasUnread)
+                prefix = qsTr("(Unread) ");
+            else if (tabDelegate.hasDraft)
+                prefix = qsTr("(Draft) ");
+
+            var label = prefix + tabDelegate.displayName;
+
+            if (tabDelegate.pinned)
+                label += " " + qsTr("(Pinned)");
             if (tabDelegate.index < 9)
                 label += "  [Alt+" + (tabDelegate.index + 1) + "]";
             return label;

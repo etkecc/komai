@@ -18,13 +18,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         yaml::number_value(CURRENT_CONFIG_SCHEMA_VERSION),
     );
 
-    if snapshot.ui.has_scale_factor {
-        yaml::set_value(
-            &mut root,
-            &["ui", "scale", "factor"],
-            serde_yaml_ng::to_value(snapshot.ui.scale_factor).unwrap_or(Value::Null),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["ui", "scale", "factor"],
+        serde_yaml_ng::to_value(snapshot.ui.scale_factor).unwrap_or(Value::Null),
+    );
     yaml::set_value(
         &mut root,
         &["ui", "theme", "slug"],
@@ -288,21 +286,19 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         serde_yaml_ng::to_value(snapshot.timeline.media.default_audio_playback_speed)
             .unwrap_or(Value::Null),
     );
-    if snapshot.timeline.hidden_events.has_global {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "hidden_events", "global"],
-            Value::Sequence(
-                snapshot
-                    .timeline
-                    .hidden_events
-                    .global
-                    .iter()
-                    .map(|entry| Value::String(entry.clone()))
-                    .collect(),
-            ),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["timeline", "hidden_events", "global"],
+        Value::Sequence(
+            snapshot
+                .timeline
+                .hidden_events
+                .global
+                .iter()
+                .map(|entry| Value::String(entry.clone()))
+                .collect(),
+        ),
+    );
     yaml::set_value(
         &mut root,
         &["timeline", "hidden_events", "by_room"],

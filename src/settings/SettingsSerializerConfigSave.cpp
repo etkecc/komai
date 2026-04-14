@@ -25,12 +25,11 @@ stageConfig(const UserSettings &settings,
     ::komai::rust::SettingsConfigSnapshot snapshot{
       .ui =
         {
-          .has_scale_factor  = settings::core::isScaleFactorInRange(settings.uiScaleFactor()),
-          .scale_factor      = static_cast<float>(settings.uiScaleFactor()),
-          .theme_slug        = settings.uiThemeSlug().toStdString(),
-          .font_size_pt      = settings.uiFontSizePt(),
-          .font_family       = settings.uiFontFamily().toStdString(),
-          .font_emoji_family = settings.uiFontEmojiFamilyStorageValue().toStdString(),
+          .scale_factor              = static_cast<float>(settings.uiScaleFactor()),
+          .theme_slug                = settings.uiThemeSlug().toStdString(),
+          .font_size_pt              = settings.uiFontSizePt(),
+          .font_family               = settings.uiFontFamily().toStdString(),
+          .font_emoji_family         = settings.uiFontEmojiFamilyStorageValue().toStdString(),
           .motion_animations_enabled = settings.uiMotionAnimationsEnabled(),
           .input_mode = detail::toStorageUiInputMode(settings.uiInputMode()).toStdString(),
           .input_touch_swipe_gestures_enabled = settings.uiInputTouchSwipeGesturesEnabled(),
@@ -127,9 +126,8 @@ stageConfig(const UserSettings &settings,
             },
           .hidden_events =
             {
-              .has_global = true,
-              .global     = {},
-              .by_room    = {},
+              .global  = {},
+              .by_room = {},
             },
         },
       .secrets =

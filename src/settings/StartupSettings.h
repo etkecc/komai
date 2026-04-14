@@ -7,8 +7,6 @@
 
 #include <QString>
 
-#include <optional>
-
 namespace settings::startup {
 
 /**
@@ -16,7 +14,8 @@ namespace settings::startup {
  */
 struct StartupSettings
 {
-    std::optional<float> uiScaleFactor;
+    /// Scale factor from config.  0.0 means auto-detect (do not set QT_SCALE_FACTOR).
+    float uiScaleFactor = 0.0F;
 };
 
 /**

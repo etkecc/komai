@@ -82,7 +82,7 @@ bool uiInputTouchSwipeGesturesEnabled_;
 int navigationRoomListWidthPx_ = settings::core::definitions::kDefaultNavigationRoomListWidthPx;
 int navigationCommunitiesWidthPx_ =
   settings::core::definitions::kDefaultNavigationCommunitiesWidthPx;
-double uiScaleFactor_ = settings::core::definitions::kDefaultScaleFactor;
+double uiScaleFactor_ = 0.0;
 double uiFontSizePt_  = settings::core::definitions::kDefaultFontSizePt;
 QString uiFontFamily_;
 QString uiFontEmojiFamily_;

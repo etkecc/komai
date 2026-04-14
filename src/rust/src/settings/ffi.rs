@@ -10,8 +10,7 @@ pub(crate) fn settings_load_startup_snapshot_for_profile(profile_id: &str) -> ff
     let snapshot = settings::startup::snapshot_from_config_path(&config_path);
 
     ffi::SettingsStartupSnapshot {
-        has_ui_scale_factor: snapshot.ui_scale_factor.is_some(),
-        ui_scale_factor: snapshot.ui_scale_factor.unwrap_or_default(),
+        ui_scale_factor: snapshot.ui_scale_factor.unwrap_or(defaults::SCALE_FACTOR),
     }
 }
 
@@ -19,8 +18,7 @@ fn load_config_overview(config_text: &str) -> ffi::SettingsConfigOverview {
     let config = settings::config::parse_config_text(config_text);
 
     ffi::SettingsConfigOverview {
-        has_ui_scale_factor: config.ui.scale.factor.is_some(),
-        ui_scale_factor: config.ui.scale.factor.unwrap_or_default(),
+        ui_scale_factor: config.ui.scale.factor.unwrap_or(defaults::SCALE_FACTOR),
         theme_slug: config.ui.theme.slug,
         uses_file_secrets_provider: config.secrets.provider.to_storage_string() == "file",
     }
@@ -150,7 +148,6 @@ pub(crate) fn settings_clear_persisted_matrix_session_secrets_for_profile(profil
 
 pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::SettingsConfigUiSection {
     ffi::SettingsConfigUiSection {
-        has_scale_factor: config.ui.scale.factor.is_some(),
         scale_factor: config.ui.scale.factor.unwrap_or(defaults::SCALE_FACTOR),
         theme_slug: config.ui.theme.slug.clone(),
         font_size_pt: config.ui.font.size_pt.unwrap_or(defaults::FONT_SIZE_PT),
@@ -248,8 +245,9 @@ pub(crate) fn ffi_config_timeline_section(
             default_audio_playback_speed: config.timeline.media.default_audio_playback_speed.unwrap_or(defaults::MEDIA_DEFAULT_AUDIO_PLAYBACK_SPEED),
         },
         hidden_events: ffi::SettingsConfigTimelineHiddenEventsSection {
-            has_global: config.timeline.hidden_events.global.is_some(),
-            global: config.timeline.hidden_events.global.clone().unwrap_or_default(),
+            global: config.timeline.hidden_events.global.clone().unwrap_or_else(|| {
+                defaults::HIDDEN_TIMELINE_EVENT_TYPES.iter().map(|s| s.to_string()).collect()
+            }),
             by_room,
         },
     }
@@ -530,7 +528,6 @@ fn clone_string_list_map_entries(
 
 fn clone_config_ui_section(section: &ffi::SettingsConfigUiSection) -> ffi::SettingsConfigUiSection {
     ffi::SettingsConfigUiSection {
-        has_scale_factor: section.has_scale_factor,
         scale_factor: section.scale_factor,
         theme_slug: section.theme_slug.clone(),
         font_size_pt: section.font_size_pt,
@@ -617,7 +614,6 @@ fn clone_config_timeline_section(
             default_audio_playback_speed: section.media.default_audio_playback_speed,
         },
         hidden_events: ffi::SettingsConfigTimelineHiddenEventsSection {
-            has_global: section.hidden_events.has_global,
             global: section.hidden_events.global.iter().map(|value| value.clone()).collect(),
             by_room: clone_string_list_map_entries(&section.hidden_events.by_room),
         },

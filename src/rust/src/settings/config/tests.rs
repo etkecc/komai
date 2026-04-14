@@ -419,7 +419,6 @@ network:
 fn encodes_generic_config_values() {
     let yaml = encode_config_yaml(&SettingsConfigSnapshot {
         ui: SettingsConfigUiSection {
-            has_scale_factor: false,
             scale_factor: 0.0,
             theme_slug: "dark-komai".to_owned(),
             font_size_pt: 14.0,
@@ -496,7 +495,6 @@ fn encodes_generic_config_values() {
                 default_audio_playback_speed: 2.5,
             },
             hidden_events: SettingsConfigTimelineHiddenEventsSection {
-                has_global: true,
                 global: vec!["m.reaction".to_owned()],
                 by_room: vec![SettingsStringListMapEntry {
                     key: "!room:example.org".to_owned(),

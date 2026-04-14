@@ -10,7 +10,7 @@
 
 namespace settings::core {
 
-constexpr float kMinScaleFactor  = 1.0F;
+constexpr float kMinScaleFactor  = 0.0F;
 constexpr float kMaxScaleFactor  = 3.0F;
 constexpr float kScaleFactorStep = 0.25F;
 
@@ -18,12 +18,6 @@ inline bool
 isScaleFactorInRange(float factor)
 {
     return factor >= kMinScaleFactor && factor <= kMaxScaleFactor;
-}
-
-inline std::optional<float>
-normalizeScaleFactor(float factor)
-{
-    return isScaleFactorInRange(factor) ? std::optional<float>{factor} : std::nullopt;
 }
 
 /*!
@@ -34,7 +28,8 @@ normalizeScaleFactor(float factor)
  */
 struct StartupConfigSnapshot
 {
-    std::optional<float> uiScaleFactor;
+    /// Scale factor from config.  0.0 means auto-detect (do not set QT_SCALE_FACTOR).
+    float uiScaleFactor = 0.0F;
 };
 
 StartupConfigSnapshot

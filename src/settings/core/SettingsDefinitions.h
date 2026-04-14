@@ -26,7 +26,6 @@ inline constexpr int kReactionFrequencyLookbackDays            = 30;
 inline constexpr int kReactionFrequencyCacheDurationMs         = 60'000;
 inline constexpr uint64_t kMaxReactionScanEvents               = 5000;
 inline constexpr const char *kDefaultNetworkMrsServerName      = "matrixrooms.info";
-inline constexpr double kDefaultScaleFactor                    = -1.0;
 inline constexpr double kDefaultFontSizePt                     = 13.0;
 inline constexpr double kMinTimelineMediaAudioPlaybackSpeed    = 0.5;
 inline constexpr double kMaxTimelineMediaAudioPlaybackSpeed    = 3.0;

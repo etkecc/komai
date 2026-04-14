@@ -17,7 +17,6 @@
 #include "settings/SettingKeys.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/core/StartupConfig.h"
-#include "timeline/TimelineEventTypes.h"
 
 namespace cfg = settings::serializer::config;
 namespace settings::serializer {
@@ -26,9 +25,7 @@ void
 loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &snapshot)
 {
     // Defaults are resolved by the Rust FFI layer — C++ unconditionally trusts
-    // the snapshot values.  The only exception is hidden_events.has_global,
-    // which distinguishes "absent from YAML" (use computed C++ default) from
-    // "present but empty".
+    // the snapshot values.
 
     const auto requestedTheme =
       QString::fromStdString(static_cast<std::string>(snapshot.ui.theme_slug)).trimmed().isEmpty()
@@ -56,9 +53,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       UserSettings::DefaultAvatarStyle::BoringAvatarsBauhaus));
     settings.setUiInputMode(detail::fromStorageUiInputMode(
       QString::fromStdString(static_cast<std::string>(snapshot.ui.input_mode)).trimmed()));
-    settings.setUiScaleFactor(snapshot.ui.has_scale_factor
-                                ? snapshot.ui.scale_factor
-                                : settings::core::definitions::kDefaultScaleFactor);
+    settings.setUiScaleFactor(snapshot.ui.scale_factor);
     settings.setUiInputTouchSwipeGesturesEnabled(snapshot.ui.input_touch_swipe_gestures_enabled);
     settings.setUiAvatarsCircular(snapshot.ui.avatars_circular);
     settings.setUiLayoutCompactMode(snapshot.ui.layout_compact_mode);
@@ -114,15 +109,12 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setNavigationTabsMaxRecentlyClosedTimelines(
       snapshot.navigation.tabs.max_recently_closed_timelines);
 
-    settings.setHiddenTimelineEventTypes(
-      snapshot.timeline.hidden_events.has_global
-        ? [&snapshot]() {
-              QStringList values;
-              for (const auto &value : snapshot.timeline.hidden_events.global)
-                  values.push_back(QString::fromStdString(static_cast<std::string>(value)));
-              return values;
-          }()
-        : qml_mtx_events::defaultHiddenTimelineEventTypeKeys());
+    {
+        QStringList hiddenEventValues;
+        for (const auto &value : snapshot.timeline.hidden_events.global)
+            hiddenEventValues.push_back(QString::fromStdString(static_cast<std::string>(value)));
+        settings.setHiddenTimelineEventTypes(hiddenEventValues);
+    }
     {
         QMap<QString, QStringList> byRoom;
         for (const auto &entry : snapshot.timeline.hidden_events.by_room) {

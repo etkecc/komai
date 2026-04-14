@@ -87,12 +87,10 @@ mod bridge {
     }
 
     struct SettingsStartupSnapshot {
-        has_ui_scale_factor: bool,
         ui_scale_factor: f32,
     }
 
     struct SettingsConfigOverview {
-        has_ui_scale_factor: bool,
         ui_scale_factor: f32,
         theme_slug: String,
         uses_file_secrets_provider: bool,
@@ -134,7 +132,6 @@ mod bridge {
     }
 
     struct SettingsConfigUiSection {
-        has_scale_factor: bool,
         scale_factor: f32,
         theme_slug: String,
         font_size_pt: f64,
@@ -184,7 +181,6 @@ mod bridge {
     }
 
     struct SettingsConfigTimelineHiddenEventsSection {
-        has_global: bool,
         global: Vec<String>,
         by_room: Vec<SettingsStringListMapEntry>,
     }

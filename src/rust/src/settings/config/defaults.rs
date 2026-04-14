@@ -9,7 +9,8 @@
 // trusts whatever the Rust FFI snapshot provides.
 
 // -- ui -----------------------------------------------------------------------
-pub const SCALE_FACTOR: f32 = -1.0;
+/// 0.0 means "auto-detect" — do not override QT_SCALE_FACTOR.
+pub const SCALE_FACTOR: f32 = 0.0;
 pub const FONT_SIZE_PT: f64 = 13.0;
 pub const MOTION_ANIMATIONS_ENABLED: bool = true;
 pub const INPUT_TOUCH_SWIPE_GESTURES_ENABLED: bool = false;
@@ -31,6 +32,12 @@ pub const TABS_MINIMUM_WIDTH_PX: i32 = 120;
 pub const TABS_MAX_RECENTLY_CLOSED_TIMELINES: i32 = 3;
 
 // -- timeline -----------------------------------------------------------------
+pub const HIDDEN_TIMELINE_EVENT_TYPES: &[&str] = &[
+    "m.reaction",
+    "m.call.candidates",
+    "m.call.select_answer",
+    "m.call.negotiate",
+];
 pub const LAYOUT_SHOW_OWN_AVATAR: bool = true;
 pub const LAYOUT_MAX_WIDTH_PERCENT: i32 = 80;
 pub const EMOJI_ONLY_ENLARGE: bool = true;

@@ -24,13 +24,8 @@ UserSettings::setUiFontSizePt(double size)
 void
 UserSettings::setUiScaleFactor(double factor)
 {
-    if (!settings::core::isScaleFactorInRange(factor)) {
-        if (factor >= 0.0)
-            return;
+    if (settings::core::isScaleFactorInRange(factor))
         setSetting(uiScaleFactor_, factor, &UserSettings::uiScaleFactorChanged);
-        return;
-    }
-    setSetting(uiScaleFactor_, factor, &UserSettings::uiScaleFactorChanged);
 }
 
 void

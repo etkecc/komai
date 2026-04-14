@@ -91,8 +91,8 @@ app::runMainApplication(int argc, char *argv[])
     // file then?
 #if !defined(Q_OS_MACOS)
     if (qgetenv("QT_SCALE_FACTOR").size() == 0) {
-        if (startupSettings.uiScaleFactor)
-            qputenv("QT_SCALE_FACTOR", QString::number(*startupSettings.uiScaleFactor).toUtf8());
+        if (startupSettings.uiScaleFactor > 0.0F)
+            qputenv("QT_SCALE_FACTOR", QString::number(startupSettings.uiScaleFactor).toUtf8());
     }
 #endif
 

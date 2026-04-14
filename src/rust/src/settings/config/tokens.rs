@@ -97,7 +97,7 @@ storage_token_enum!(ConfigNavigationTabsPinButtonVisibilityToken, Never {
     Never => "never",
 });
 
-storage_token_enum!(ConfigNavigationTabsLabelDisplayToken, AvatarAndLabel {
+storage_token_enum!(ConfigNavigationTabsLabelDisplayToken, AvatarOnly {
     AvatarAndLabel => "avatar_and_label",
     AvatarOnly => "avatar_only",
 });

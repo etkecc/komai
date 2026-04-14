@@ -44,7 +44,7 @@ RoomSortOrder navigationRoomListSort_;
 UnreadDetectionPolicy navigationRoomListUnreadDetectionPolicy_ = UnreadDetectionPolicy::AnyEvent;
 RoomListOpeningPolicy navigationRoomListOpeningPolicy_ = RoomListOpeningPolicy::ReuseActiveTab;
 TabPinButtonVisibility navigationTabsShowPinButton_    = TabPinButtonVisibility::Never;
-TabLabelDisplay navigationTabsPinnedTabLabel_          = TabLabelDisplay::AvatarAndLabel;
+TabLabelDisplay navigationTabsPinnedTabLabel_          = TabLabelDisplay::AvatarOnly;
 TabLabelDisplay navigationTabsTabLabel_                = TabLabelDisplay::AvatarAndLabel;
 int navigationTabsPreferredWidthPx_                    = 200;
 int navigationTabsMinimumWidthPx_                      = 120;

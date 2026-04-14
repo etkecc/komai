@@ -509,6 +509,7 @@ Rectangle {
                 width: badgeSize
                 height: badgeSize
                 visible: tabDelegate.pinned
+                    && Settings.navigationTabsShowPinButton !== Settings.TabPinButtonVisibility.Always
                 source: "image://colorimage/:/icons/icons/ui/pin-filled.svg?" + palette.highlight
                 sourceSize: Qt.size(badgeSize, badgeSize)
             }

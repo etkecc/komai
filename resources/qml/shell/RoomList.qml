@@ -433,14 +433,17 @@ Page {
             footer: Column {
                 id: roomListFooter
 
+                visible: exploreFooter.visible || botChatFooter.visible
                 width: roomlist.width
 
                 RoomListExploreFooter {
+                    id: exploreFooter
                     width: parent.width
                     collapsed: roomListPage.collapsed
-                    timelineRoot: roomListPage.timelineRoot
+                    tabController: roomListPage.tabController
                 }
                 RoomListBotChatFooter {
+                    id: botChatFooter
                     width: parent.width
                     collapsed: roomListPage.collapsed
                 }

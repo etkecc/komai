@@ -8,11 +8,11 @@ import cc.etke.komai
 RoomListFooterBar {
     id: root
 
-    required property var timelineRoot
+    required property var tabController
 
     visible: Communities.currentFilterId === ""
-    actionLabel: qsTr("Explore")
-    actionIcon: ":/icons/icons/ui/compass-northwest.svg"
+    actionLabel: qsTr("New")
+    actionIcon: ":/icons/icons/ui/tab-add.svg"
 
-    onActionClicked: root.timelineRoot.openRoomDirectory()
+    onActionClicked: root.tabController.openNewTab()
 }

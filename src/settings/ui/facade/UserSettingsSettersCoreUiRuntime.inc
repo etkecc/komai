@@ -49,16 +49,6 @@ UserSettings::setUiInputTouchSwipeGesturesEnabled(bool s)
     save();
 }
 void
-UserSettings::setNavigationCommunitiesVisible(bool s)
-{
-    if (navigationCommunitiesVisible_ == s)
-        return;
-    navigationCommunitiesVisible_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NavigationCommunitiesVisible, s);
-    emit navigationCommunitiesVisibleChanged(s);
-    save();
-}
-void
 UserSettings::setNavigationCommunitiesFilterFavourites(bool s)
 {
     if (navigationCommunitiesFilterFavourites_ == s)

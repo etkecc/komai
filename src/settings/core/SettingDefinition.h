@@ -36,7 +36,6 @@ enum class SettingId
     UiScrollbarPolicy,
     NavigationRoomListSort,
     NavigationRoomListUnreadDetectionPolicy,
-    NavigationCommunitiesVisible,
     NavigationCommunitiesFilterFavourites,
     NavigationCommunitiesFilterPeople,
     NavigationCommunitiesFilterBots,

@@ -10,7 +10,6 @@ bool timelineMessagesEmojiOnlyEnlarge_;
 bool timelineFormattedCodeSyntaxHighlighting_;
 bool desktopSystemTrayEnabled_;
 bool desktopSystemTrayAutostart_;
-bool navigationCommunitiesVisible_;
 bool navigationCommunitiesFilterFavourites_    = true;
 bool navigationCommunitiesFilterPeople_        = true;
 bool navigationCommunitiesFilterBots_          = true;

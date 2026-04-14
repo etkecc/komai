@@ -3,7 +3,6 @@ X(NavigationRoomListLastMessagePreview, static_cast<int>(settings.navigationRoom
 X(NavigationRoomListShowCommunityCounts, settings.navigationRoomListShowCommunityCounts())
 X(NavigationRoomListSort, static_cast<int>(settings.navigationRoomListSort()))
 X(NavigationRoomListUnreadDetectionPolicy, static_cast<int>(settings.navigationRoomListUnreadDetectionPolicy()))
-X(NavigationCommunitiesVisible, settings.navigationCommunitiesVisible())
 X(NavigationCommunitiesFilterFavourites, settings.navigationCommunitiesFilterFavourites())
 X(NavigationCommunitiesFilterPeople, settings.navigationCommunitiesFilterPeople())
 X(NavigationCommunitiesFilterBots, settings.navigationCommunitiesFilterBots())

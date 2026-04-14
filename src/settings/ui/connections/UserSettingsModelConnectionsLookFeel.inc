@@ -15,18 +15,6 @@ CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiMotionAnimationsEnabledChanged, 
     CONNECT_SETTING_ID(UiAvatarsDefaultAvatarStyle, uiAvatarsDefaultAvatarStyleChanged, Value);
     CONNECT_SETTING_ID(UiScrollbarPolicy, uiScrollbarPolicyChanged, Value);
     CONNECT_SETTING_ID(NavigationRoomListSort, navigationRoomListSortChanged, Value);
-    CONNECT_SETTING_ID(NavigationCommunitiesVisible, navigationCommunitiesVisibleChanged, Value);
-    // When communities sidebar visibility changes, update Enabled state on filter rows
-    // The "All rooms" row is immediately before the first filter row (filterFav - 1).
-    if (const int filterFav = rowForSettingId(settings::core::SettingId::NavigationCommunitiesFilterFavourites),
-                 filterLP = rowForSettingId(settings::core::SettingId::NavigationCommunitiesFilterLowPriority);
-        filterFav > 0 && filterLP >= filterFav) {
-        const int filterAllRooms = filterFav - 1;
-        connect(settings, &UserSettings::navigationCommunitiesVisibleChanged, this,
-                [this, filterAllRooms, filterLP]() {
-                    emit dataChanged(index(filterAllRooms), index(filterLP), {Enabled});
-                });
-    }
     CONNECT_SETTING_ID(
       NavigationCommunitiesFilterFavourites, navigationCommunitiesFilterFavouritesChanged, Value);
     CONNECT_SETTING_ID(

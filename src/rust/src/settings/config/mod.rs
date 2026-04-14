@@ -72,7 +72,6 @@ const NAVIGATION_ROOM_LIST_UNREAD_DETECTION_POLICY_PATH: [&str; 3] =
     ["navigation", "room_list", "unread_detection_policy"];
 const NAVIGATION_ROOM_LIST_OPENING_POLICY_PATH: [&str; 3] =
     ["navigation", "room_list", "opening_policy"];
-const NAVIGATION_COMMUNITIES_VISIBLE_PATH: [&str; 3] = ["navigation", "communities", "visible"];
 const NAVIGATION_COMMUNITIES_FILTER_FAVOURITES_PATH: [&str; 4] =
     ["navigation", "communities", "filters", "favourites"];
 const NAVIGATION_COMMUNITIES_FILTER_PEOPLE_PATH: [&str; 4] =
@@ -282,8 +281,6 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 )),
             },
             communities: ConfigNavigationCommunities {
-                visible: yaml::value_at_path(root, &NAVIGATION_COMMUNITIES_VISIBLE_PATH)
-                    .and_then(parse_scalar_bool),
                 filter_favourites: yaml::value_at_path(
                     root,
                     &NAVIGATION_COMMUNITIES_FILTER_FAVOURITES_PATH,

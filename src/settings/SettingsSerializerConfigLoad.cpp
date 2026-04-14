@@ -77,7 +77,6 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         .trimmed(),
       UserSettings::UnreadDetectionPolicy::AnyEvent));
 
-    settings.setNavigationCommunitiesVisible(snapshot.navigation.communities.visible);
     settings.setNavigationCommunitiesFilterFavourites(
       snapshot.navigation.communities.filter_favourites);
     settings.setNavigationCommunitiesFilterPeople(snapshot.navigation.communities.filter_people);

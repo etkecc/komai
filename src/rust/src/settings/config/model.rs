@@ -106,7 +106,6 @@ pub struct ConfigNavigationRoomList {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigNavigationCommunities {
-    pub visible: Option<bool>,
     pub filter_favourites: Option<bool>,
     pub filter_people: Option<bool>,
     pub filter_bots: Option<bool>,

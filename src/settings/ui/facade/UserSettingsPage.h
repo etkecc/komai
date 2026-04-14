@@ -53,8 +53,6 @@ class UserSettings final : public QObject
                  setDesktopSystemTrayEnabled NOTIFY desktopSystemTrayEnabledChanged)
     Q_PROPERTY(bool desktopSystemTrayAutostart READ desktopSystemTrayAutostart WRITE
                  setDesktopSystemTrayAutostart NOTIFY desktopSystemTrayAutostartChanged)
-    Q_PROPERTY(bool navigationCommunitiesVisible READ navigationCommunitiesVisible WRITE
-                 setNavigationCommunitiesVisible NOTIFY navigationCommunitiesVisibleChanged)
     Q_PROPERTY(bool navigationCommunitiesFilterFavourites READ navigationCommunitiesFilterFavourites
                  WRITE setNavigationCommunitiesFilterFavourites NOTIFY
                    navigationCommunitiesFilterFavouritesChanged)
@@ -536,7 +534,6 @@ public:
     void setUiFontSizePt(double size);
     void setUiFontFamily(QString family);
     void setUiFontEmojiFamily(QString family);
-    void setNavigationCommunitiesVisible(bool state);
     void setNavigationCommunitiesFilterFavourites(bool state);
     void setNavigationCommunitiesFilterPeople(bool state);
     void setNavigationCommunitiesFilterBots(bool state);
@@ -694,7 +691,6 @@ public:
 #include "settings/ui/facade/UserSettingsGetters.inc"
 
 signals:
-    void navigationCommunitiesVisibleChanged(bool state);
     void navigationCommunitiesFilterFavouritesChanged(bool state);
     void navigationCommunitiesFilterPeopleChanged(bool state);
     void navigationCommunitiesFilterBotsChanged(bool state);

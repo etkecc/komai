@@ -1661,8 +1661,6 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NavigationRoomListUnreadDetectionPolicy));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::NavigationCommunitiesVisible));
-    serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NavigationCommunitiesFilterFavourites));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NavigationCommunitiesFilterPeople));

@@ -44,7 +44,6 @@ Note:
 | Navigation | ROOM LIST | Show notification counts | `settings::core::SettingId::NavigationRoomListShowCommunityCounts` | `show_community_notification_counts` | `navigation.room_list.show_community_notification_counts` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Scrollbar visibility | `settings::core::SettingId::UiScrollbarPolicy` | `scrollbars_in_roomlist` | `ui.scrollbar_policy` | config.yml | yes |
 | Navigation | ROOM LIST | Sorting | `settings::core::SettingId::NavigationRoomListSort` | `room_sort_order` | `navigation.room_list.sort` | config.yml | yes |
-| Navigation | COMMUNITIES SIDEBAR | Show communities sidebar | `settings::core::SettingId::NavigationCommunitiesVisible` | `show_communities_sidebar` | `navigation.communities.visible` | config.yml | yes |
 | Navigation | COMMUNITIES SIDEBAR | Show Direct Chats filter | `settings::core::SettingId::NavigationCommunitiesFilterDirectChats` | `-` | `navigation.communities.filters.direct_chats` | config.yml | yes |
 | Navigation | COMMUNITIES SIDEBAR | Show Favourites filter | `settings::core::SettingId::NavigationCommunitiesFilterFavourites` | `-` | `navigation.communities.filters.favourites` | config.yml | yes |
 | Navigation | COMMUNITIES SIDEBAR | Show Low Priority filter | `settings::core::SettingId::NavigationCommunitiesFilterLowPriority` | `-` | `navigation.communities.filters.low_priority` | config.yml | yes |

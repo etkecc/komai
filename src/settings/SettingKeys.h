@@ -35,7 +35,6 @@ constexpr auto NavigationRoomListSort = "navigation.room_list.sort";
 constexpr auto NavigationRoomListUnreadDetectionPolicy =
   "navigation.room_list.unread_detection_policy";
 constexpr auto NavigationRoomListOpeningPolicy       = "navigation.room_list.opening_policy";
-constexpr auto NavigationCommunitiesVisible          = "navigation.communities.visible";
 constexpr auto NavigationCommunitiesFilterFavourites = "navigation.communities.filters.favourites";
 constexpr auto NavigationCommunitiesFilterPeople     = "navigation.communities.filters.people";
 constexpr auto NavigationCommunitiesFilterBots       = "navigation.communities.filters.bots";

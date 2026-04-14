@@ -156,7 +156,6 @@ mod bridge {
     }
 
     struct SettingsConfigNavigationCommunitiesSection {
-        visible: bool,
         filter_favourites: bool,
         filter_people: bool,
         filter_bots: bool,

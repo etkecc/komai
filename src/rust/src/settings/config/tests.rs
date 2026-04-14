@@ -349,7 +349,6 @@ navigation:
         config.navigation.room_list.opening_policy,
         ConfigNavigationRoomListOpeningPolicyToken::ReuseActiveTab
     );
-    assert_eq!(config.navigation.communities.visible, Some(false));
     assert_eq!(config.navigation.communities.filter_favourites, Some(false));
     assert_eq!(config.navigation.communities.filter_people, Some(true));
     assert_eq!(config.navigation.communities.filter_bots, Some(false));
@@ -442,7 +441,6 @@ fn encodes_generic_config_values() {
                 opening_policy: "reuse_active_tab".to_owned(),
             },
             communities: SettingsConfigNavigationCommunitiesSection {
-                visible: false,
                 filter_favourites: false,
                 filter_people: true,
                 filter_bots: false,
@@ -761,10 +759,6 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "room_list", "opening_policy"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "reuse_active_tab"
-    ));
-    assert!(matches!(
-        yaml::value_at_path(&root, &["navigation", "communities", "visible"]),
-        Some(serde_yaml_ng::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "communities", "filters", "favourites"]),

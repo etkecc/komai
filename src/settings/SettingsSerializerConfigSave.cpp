@@ -55,7 +55,6 @@ stageConfig(const UserSettings &settings,
             },
           .communities =
             {
-              .visible               = settings.navigationCommunitiesVisible(),
               .filter_favourites     = settings.navigationCommunitiesFilterFavourites(),
               .filter_people         = settings.navigationCommunitiesFilterPeople(),
               .filter_bots           = settings.navigationCommunitiesFilterBots(),

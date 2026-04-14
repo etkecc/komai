@@ -111,11 +111,6 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
-        &["navigation", "communities", "visible"],
-        Value::Bool(snapshot.navigation.communities.visible),
-    );
-    yaml::set_value(
-        &mut root,
         &["navigation", "communities", "filters", "favourites"],
         Value::Bool(snapshot.navigation.communities.filter_favourites),
     );

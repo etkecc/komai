@@ -3,12 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-static bool
-navigationCommunitiesVisibleEnabled()
-{
-    return I->navigationCommunitiesVisible();
-}
-
 static QVariant
 navigationLastMessagePreviewValues()
 {

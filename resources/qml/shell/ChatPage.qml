@@ -113,7 +113,7 @@ Rectangle {
                 preferredWidth: Settings.navigationCommunitiesWidthPx > collapsedWidth
                                 ? Settings.navigationCommunitiesWidthPx
                                 : collapsedWidth
-                visible: Settings.navigationCommunitiesVisible
+                visible: true
 
                 CommunitiesList {
                     id: communitiesList

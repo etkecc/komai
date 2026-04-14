@@ -4,7 +4,6 @@
     bool timelineFormattedCodeSyntaxHighlighting() const;
     bool desktopSystemTrayEnabled() const;
     bool desktopSystemTrayAutostart() const;
-    bool navigationCommunitiesVisible() const;
     bool navigationCommunitiesFilterFavourites() const;
     bool navigationCommunitiesFilterPeople() const;
     bool navigationCommunitiesFilterBots() const;

@@ -176,7 +176,6 @@ pub(crate) fn ffi_config_navigation_section(
             opening_policy: config.navigation.room_list.opening_policy.to_storage_string(),
         },
         communities: ffi::SettingsConfigNavigationCommunitiesSection {
-            visible: config.navigation.communities.visible.unwrap_or(defaults::COMMUNITIES_VISIBLE),
             filter_favourites: config.navigation.communities.filter_favourites.unwrap_or(defaults::COMMUNITIES_FILTER_FAVOURITES),
             filter_people: config.navigation.communities.filter_people.unwrap_or(defaults::COMMUNITIES_FILTER_PEOPLE),
             filter_bots: config.navigation.communities.filter_bots.unwrap_or(defaults::COMMUNITIES_FILTER_BOTS),
@@ -556,7 +555,6 @@ fn clone_config_navigation_section(
             opening_policy: section.room_list.opening_policy.clone(),
         },
         communities: ffi::SettingsConfigNavigationCommunitiesSection {
-            visible: section.communities.visible,
             filter_favourites: section.communities.filter_favourites,
             filter_people: section.communities.filter_people,
             filter_bots: section.communities.filter_bots,

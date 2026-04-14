@@ -145,8 +145,7 @@ Popup {
             width: parent.width
 
             onCompletionSelected: (id) => {
-                if (completerPopup.lastCompletionWasSpace
-                        && Settings.navigationCommunitiesVisible) {
+                if (completerPopup.lastCompletionWasSpace) {
                     Communities.setCurrentFilterId("space:" + id);
                 } else {
                     Rooms.setCurrentRoom(id);

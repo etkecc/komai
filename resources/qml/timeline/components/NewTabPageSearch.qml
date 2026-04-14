@@ -43,7 +43,7 @@ ColumnLayout {
         if (!item || !item.modelData)
             return;
         var roomId = item.modelData.rawroomid;
-        if (item.modelData.isSpace && Settings.navigationCommunitiesVisible)
+        if (item.modelData.isSpace)
             Communities.setCurrentFilterId("space:" + roomId);
         root.tabController.navigateFromNewTab(roomId);
     }

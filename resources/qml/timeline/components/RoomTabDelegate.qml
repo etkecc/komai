@@ -234,8 +234,20 @@ Rectangle {
             if (tabController.isDragging) {
                 var listPos = tabDelegate.mapToItem(tabDelegate.parentListView, mouse.x, 0);
                 var contentX = listPos.x + tabDelegate.parentListView.contentX;
-                var targetIndex = Math.floor(contentX / tabDelegate.tabWidth);
-                targetIndex = Math.max(0, Math.min(targetIndex, tabController.tabs.count - 1));
+
+                // Compute target index by accumulating actual delegate widths,
+                // since avatar-only pinned tabs are narrower than tabWidth.
+                var targetIndex = tabController.tabs.count - 1;
+                var accumulated = 0;
+                for (var i = 0; i < tabController.tabs.count; i++) {
+                    var item = tabDelegate.parentListView.itemAtIndex(i);
+                    var w = item ? item.width : tabDelegate.tabWidth;
+                    if (contentX < accumulated + w) {
+                        targetIndex = i;
+                        break;
+                    }
+                    accumulated += w;
+                }
 
                 tabController.updateDragPosition(targetIndex);
             }

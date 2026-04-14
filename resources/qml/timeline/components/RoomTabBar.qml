@@ -162,18 +162,21 @@ Rectangle {
         var idx = tabController.findTab(Rooms.currentRoomId);
         if (idx === -1)
             return;
+        // Accumulate actual delegate widths to find the tab's position,
+        // since avatar-only pinned tabs are narrower than effectiveTabWidth.
         var tw = effectiveTabWidth;
-        var tabLeft = idx * tw;
-        var tabRight = tabLeft + tw;
+        var tabLeft = 0;
+        for (var i = 0; i < idx; i++) {
+            var item = tabListView.itemAtIndex(i);
+            tabLeft += item ? item.width : tw;
+        }
+        var activeItem = tabListView.itemAtIndex(idx);
+        var tabRight = tabLeft + (activeItem ? activeItem.width : tw);
         var viewLeft = tabListView.contentX;
         var viewRight = viewLeft + tabListView.width;
         if (tabLeft >= viewLeft && tabRight <= viewRight)
             return; // already fully visible
-        // Use the larger of actual and expected content width so that a
-        // just-appended tab (not yet laid out) can still be scrolled to.
-        var expectedContentWidth = tabController.tabs.count * tw;
-        var maxScroll = Math.max(tabListView.contentWidth, expectedContentWidth)
-                        - tabListView.width;
+        var maxScroll = Math.max(0, tabListView.contentWidth - tabListView.width);
         if (maxScroll <= 0)
             return;
         var target;

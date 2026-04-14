@@ -449,6 +449,7 @@ Page {
 
                 timelineRoot: roomListPage.timelineRoot
                 roomWindowComponent: roomWindowComponent
+                tabController: roomListPage.tabController
                 onVisibleChanged: roomListPage.updateInteractionSuppression()
             }
             RoomListToTopButton {

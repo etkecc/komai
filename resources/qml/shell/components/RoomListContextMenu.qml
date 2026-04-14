@@ -12,6 +12,7 @@ Menu {
 
     required property var timelineRoot
     required property var roomWindowComponent
+    required property var tabController
     property string roomid
     property var tags
 
@@ -37,6 +38,12 @@ Menu {
         onInputAccepted: function (text) {
             Rooms.toggleTag(root.roomid, "u." + text, true);
         }
+    }
+    MenuItem {
+        text: qsTr("Open in a new tab")
+        icon.source: "qrc:/icons/icons/ui/tab-add.svg"
+
+        onTriggered: root.tabController.openTab(root.roomid)
     }
     MenuItem {
         text: qsTr("Open in new window")

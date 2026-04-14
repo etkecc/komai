@@ -171,7 +171,31 @@ Rectangle {
         return count;
     }
 
-    width: tabWidth
+    // Whether this tab is in avatar-only display mode.
+    readonly property bool isAvatarOnly: !isEmptyTab
+        && (pinned
+            ? Settings.navigationTabsPinnedTabLabel === Settings.TabLabelDisplay.AvatarOnly
+            : Settings.navigationTabsTabLabel === Settings.TabLabelDisplay.AvatarOnly)
+
+    // Intrinsic width for avatar-only tabs.
+    // Close button is part of the RowLayout flow in this mode, so the
+    // RowLayout sizing handles it automatically via implicitWidth.
+    readonly property int _attentionBarMargin: Math.round(Komai.paddingSmall / 2) + 4 + Komai.paddingSmall
+
+    width: {
+        if (!isAvatarOnly)
+            return tabWidth;
+        var w = _attentionBarMargin; // left margin (attention bar zone)
+        if (pinBtn.showPin)
+            w += actionBtnSize + Komai.paddingSmall; // pin button
+        w += avatarSizePx;
+        if (!pinned)
+            w += Komai.paddingSmall + actionBtnSize; // inline close button
+        w += _attentionBarMargin; // right margin (mirrors attention bar zone)
+        if (pinned)
+            w += Komai.paddingSmall; // extra space for pin indicator overhang
+        return w;
+    }
     height: parent ? parent.height : 32
     color: {
         if (isActive)
@@ -402,6 +426,7 @@ Rectangle {
     // Left margin accounts for the attention bar (3px wide at paddingSmall/2 offset)
     // so content never overlaps the indicator regardless of pin button visibility.
     RowLayout {
+        id: tabContentRow
         anchors.fill: parent
         anchors.leftMargin: Math.round(Komai.paddingSmall / 2) + 4 + Komai.paddingSmall
         anchors.rightMargin: Komai.paddingSmall
@@ -499,26 +524,62 @@ Rectangle {
             color: tabDelegate.textColor
             verticalAlignment: Text.AlignVCenter
         }
+
+        // Inline close button for avatar-only mode (in-flow, not overlaid).
+        Rectangle {
+            id: inlineCloseBtn
+
+            Layout.preferredWidth: tabDelegate.actionBtnSize
+            Layout.preferredHeight: tabDelegate.actionBtnSize
+            visible: tabDelegate.isAvatarOnly && !tabDelegate.pinned
+            radius: tabDelegate.actionBtnSize / 2
+            color: inlineCloseArea.containsMouse
+                ? Qt.rgba(tabDelegate.textColor.r, tabDelegate.textColor.g, tabDelegate.textColor.b, 0.2)
+                : "transparent"
+
+            Text {
+                anchors.centerIn: parent
+                text: "\u00D7"
+                font.pixelSize: Math.round(tabDelegate.actionBtnSize * 0.7)
+                color: tabDelegate.textColor
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            MouseArea {
+                id: inlineCloseArea
+
+                anchors.fill: parent
+                hoverEnabled: true
+
+                onClicked: tabController.closeTab(tabDelegate.roomId)
+            }
+        }
     }
 
     // Close button overlay (Chrome-style): floats on top of text at the right edge.
-    // Hidden for pinned tabs.
+    // Hidden for pinned tabs. In avatar-only mode the fade zone is skipped since
+    // there is no text to hide behind the gradient.
     Item {
         id: closeOverlay
 
         anchors.right: parent.right
         anchors.rightMargin: Komai.paddingSmall
         anchors.verticalCenter: parent.verticalCenter
-        width: tabDelegate.actionBtnSize + tabDelegate.actionBtnSize // button + fade zone
+        width: tabDelegate.isAvatarOnly
+            ? tabDelegate.actionBtnSize
+            : tabDelegate.actionBtnSize + tabDelegate.actionBtnSize
         height: parent.height
-        visible: !tabDelegate.pinned
+        visible: !tabDelegate.pinned && !tabDelegate.isAvatarOnly
 
         // Gradient that fades from transparent to the opaque background.
+        // Hidden in avatar-only mode (no text to fade).
         Rectangle {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             width: tabDelegate.actionBtnSize
             height: parent.height
+            visible: !tabDelegate.isAvatarOnly
             gradient: Gradient {
                 orientation: Gradient.Horizontal
 
@@ -528,11 +589,13 @@ Rectangle {
         }
 
         // Solid opaque background behind the button so text is fully hidden.
+        // Hidden in avatar-only mode.
         Rectangle {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             width: tabDelegate.actionBtnSize
             height: parent.height
+            visible: !tabDelegate.isAvatarOnly
             color: tabDelegate.opaqueBackgroundColor
         }
 

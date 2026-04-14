@@ -87,6 +87,11 @@ storage_token_enum!(ConfigNavigationRoomListUnreadDetectionPolicyToken, AnyEvent
     MessagesOnly => "messages_only",
 });
 
+storage_token_enum!(ConfigNavigationRoomListOpeningPolicyToken, ReuseActiveTab {
+    ReuseActiveTab => "reuse_active_tab",
+    OpenNewTab => "open_new_tab",
+});
+
 storage_token_enum!(ConfigNavigationTabsPinButtonVisibilityToken, Never {
     Always => "always",
     Never => "never",

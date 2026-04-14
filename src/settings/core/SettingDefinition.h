@@ -43,6 +43,7 @@ enum class SettingId
     NavigationCommunitiesFilterGroups,
     NavigationCommunitiesFilterServerNotices,
     NavigationCommunitiesFilterLowPriority,
+    NavigationRoomListOpeningPolicy,
     NavigationTabsShowPinButton,
     NavigationTabsPinnedTabLabel,
     NavigationTabsTabLabel,

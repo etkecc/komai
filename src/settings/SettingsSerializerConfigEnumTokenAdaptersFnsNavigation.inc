@@ -38,6 +38,19 @@ applyUnreadDetectionPolicyFromStorage(UserSettings &settings, const QString &raw
 }
 
 QString
+roomListOpeningPolicyToStorage(const UserSettings &settings)
+{
+    return toStorageValue(settings.navigationRoomListOpeningPolicy());
+}
+
+void
+applyRoomListOpeningPolicyFromStorage(UserSettings &settings, const QString &rawToken)
+{
+    settings.setNavigationRoomListOpeningPolicy(
+      roomListOpeningPolicyFromStorage(rawToken, UserSettings::RoomListOpeningPolicy::ReuseActiveTab));
+}
+
+QString
 tabPinButtonVisibilityToStorage(const UserSettings &settings)
 {
     return toStorageValue(settings.navigationTabsShowPinButton());

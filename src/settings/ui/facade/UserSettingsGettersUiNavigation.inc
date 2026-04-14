@@ -134,6 +134,18 @@ UserSettings::navigationRoomListUnreadDetectionPolicy() const
     return navigationRoomListUnreadDetectionPolicy_;
 }
 
+UserSettings::RoomListOpeningPolicy
+UserSettings::navigationRoomListOpeningPolicy() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::NavigationRoomListOpeningPolicy);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::RoomListOpeningPolicy::ReuseActiveTab) &&
+        *value <= static_cast<int>(UserSettings::RoomListOpeningPolicy::OpenNewTab))
+        return static_cast<UserSettings::RoomListOpeningPolicy>(*value);
+    return navigationRoomListOpeningPolicy_;
+}
+
 UserSettings::TabPinButtonVisibility
 UserSettings::navigationTabsShowPinButton() const
 {

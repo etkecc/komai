@@ -125,6 +125,12 @@ UserSettings::DefaultAvatarStyle
 defaultAvatarStyleFromStorage(const QString &value, UserSettings::DefaultAvatarStyle fallback);
 
 QString
+toStorageValue(UserSettings::RoomListOpeningPolicy value);
+UserSettings::RoomListOpeningPolicy
+roomListOpeningPolicyFromStorage(const QString &value,
+                                 UserSettings::RoomListOpeningPolicy fallback);
+
+QString
 toStorageValue(UserSettings::TabPinButtonVisibility value);
 UserSettings::TabPinButtonVisibility
 tabPinButtonVisibilityFromStorage(const QString &value,

@@ -277,6 +277,18 @@
       nullptr,
       NavigationRoomListUnreadDetectionPolicy,
       SettingKey::NavigationRoomListUnreadDetectionPolicy),
+    // RoomListOpeningPolicy
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Room list opening policy",
+      QT_TR_NOOP("Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases."),
+      SM::TabNavigation,
+      navigationRoomListOpeningPolicy,
+      setNavigationRoomListOpeningPolicy,
+      UserSettings::RoomListOpeningPolicy,
+      navigationRoomListOpeningPolicyValues,
+      nullptr,
+      NavigationRoomListOpeningPolicy,
+      SettingKey::NavigationRoomListOpeningPolicy),
     // NavigationTabBarSection
     { QT_TR_NOOP("Tab bar"), nullptr, SM::SectionTitle, SM::TabNavigation,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr,

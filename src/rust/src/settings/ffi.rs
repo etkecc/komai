@@ -198,6 +198,7 @@ pub(crate) fn ffi_config_navigation_section(
                 .room_list
                 .unread_detection_policy
                 .to_storage_string(),
+            opening_policy: config.navigation.room_list.opening_policy.to_storage_string(),
         },
         communities: ffi::SettingsConfigNavigationCommunitiesSection {
             has_visible: config.navigation.communities.visible.is_some(),
@@ -748,6 +749,7 @@ fn clone_config_navigation_section(
             show_community_counts: section.room_list.show_community_counts,
             sort: section.room_list.sort.clone(),
             unread_detection_policy: section.room_list.unread_detection_policy.clone(),
+            opening_policy: section.room_list.opening_policy.clone(),
         },
         communities: ffi::SettingsConfigNavigationCommunitiesSection {
             has_visible: section.communities.has_visible,

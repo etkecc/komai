@@ -11,6 +11,7 @@ use super::tokens::{
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
     ConfigNavigationRoomListUnreadDetectionPolicyToken,
+    ConfigNavigationRoomListOpeningPolicyToken,
     ConfigNavigationTabsLabelDisplayToken, ConfigNavigationTabsPinButtonVisibilityToken,
     ConfigTimelineMediaImageDisplayToken, ConfigTimelineMessageActionsActivationPolicyToken,
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
@@ -100,6 +101,7 @@ pub struct ConfigNavigationRoomList {
     pub show_community_counts: Option<bool>,
     pub sort: ConfigNavigationRoomListSortToken,
     pub unread_detection_policy: ConfigNavigationRoomListUnreadDetectionPolicyToken,
+    pub opening_policy: ConfigNavigationRoomListOpeningPolicyToken,
 }
 
 #[derive(Clone, Debug, Default)]

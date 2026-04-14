@@ -76,6 +76,9 @@ class UserSettings final : public QObject
           navigationCommunitiesFilterLowPriorityChanged)
     Q_PROPERTY(ScrollbarPolicy uiScrollbarPolicy READ uiScrollbarPolicy WRITE setUiScrollbarPolicy
                  NOTIFY uiScrollbarPolicyChanged)
+    Q_PROPERTY(
+      RoomListOpeningPolicy navigationRoomListOpeningPolicy READ navigationRoomListOpeningPolicy
+        WRITE setNavigationRoomListOpeningPolicy NOTIFY navigationRoomListOpeningPolicyChanged)
     Q_PROPERTY(TabPinButtonVisibility navigationTabsShowPinButton READ navigationTabsShowPinButton
                  WRITE setNavigationTabsShowPinButton NOTIFY navigationTabsShowPinButtonChanged)
     Q_PROPERTY(TabLabelDisplay navigationTabsPinnedTabLabel READ navigationTabsPinnedTabLabel WRITE
@@ -470,6 +473,13 @@ public:
     };
     Q_ENUM(ScrollbarPolicy)
 
+    enum class RoomListOpeningPolicy
+    {
+        ReuseActiveTab, // Navigate in the current active tab
+        OpenNewTab,     // Open a new tab for each room
+    };
+    Q_ENUM(RoomListOpeningPolicy)
+
     enum class TabPinButtonVisibility
     {
         Always, // Always show the pin button
@@ -570,6 +580,7 @@ public:
     void setUiLayoutCompactMode(bool state);
     void setNavigationRoomListShowLastMessageTime(bool state);
     void setNavigationRoomListLastMessagePreview(LastMessagePreview style);
+    void setNavigationRoomListOpeningPolicy(RoomListOpeningPolicy policy);
     void setNavigationTabsShowPinButton(TabPinButtonVisibility policy);
     void setNavigationTabsPinnedTabLabel(TabLabelDisplay display);
     void setNavigationTabsTabLabel(TabLabelDisplay display);
@@ -731,6 +742,7 @@ signals:
     void uiLayoutCompactModeChanged(bool state);
     void navigationRoomListShowLastMessageTimeChanged(bool state);
     void navigationRoomListLastMessagePreviewChanged(LastMessagePreview style);
+    void navigationRoomListOpeningPolicyChanged(RoomListOpeningPolicy policy);
     void navigationTabsShowPinButtonChanged(TabPinButtonVisibility policy);
     void navigationTabsPinnedTabLabelChanged(TabLabelDisplay display);
     void navigationTabsTabLabelChanged(TabLabelDisplay display);

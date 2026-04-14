@@ -60,6 +60,25 @@ unreadDetectionPolicyFromStorage(const QString &value,
     return valueFromStorageToken(value, fallback, kUnreadDetectionPolicyTokens);
 }
 
+constexpr std::array<std::pair<UserSettings::RoomListOpeningPolicy, const char *>, 2>
+  kRoomListOpeningPolicyTokens{{
+    {UserSettings::RoomListOpeningPolicy::ReuseActiveTab, "reuse_active_tab"},
+    {UserSettings::RoomListOpeningPolicy::OpenNewTab, "open_new_tab"},
+  }};
+
+QString
+toStorageValue(UserSettings::RoomListOpeningPolicy value)
+{
+    return valueToStorageToken(value, kRoomListOpeningPolicyTokens, "reuse_active_tab");
+}
+
+UserSettings::RoomListOpeningPolicy
+roomListOpeningPolicyFromStorage(const QString &value,
+                                 UserSettings::RoomListOpeningPolicy fallback)
+{
+    return valueFromStorageToken(value, fallback, kRoomListOpeningPolicyTokens);
+}
+
 constexpr std::array<std::pair<UserSettings::TabPinButtonVisibility, const char *>, 2>
   kTabPinButtonVisibilityTokens{{
     {UserSettings::TabPinButtonVisibility::Always, "always"},

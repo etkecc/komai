@@ -79,6 +79,20 @@ UserSettings::setNavigationRoomListLastMessagePreview(LastMessagePreview s)
 }
 
 void
+UserSettings::setNavigationRoomListOpeningPolicy(RoomListOpeningPolicy s)
+{
+    if (navigationRoomListOpeningPolicy_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::NavigationRoomListOpeningPolicy,
+                      static_cast<int>(s),
+                      SettingKey::NavigationRoomListOpeningPolicy))
+        return;
+    navigationRoomListOpeningPolicy_ = s;
+    emit navigationRoomListOpeningPolicyChanged(s);
+    save();
+}
+
+void
 UserSettings::setNavigationTabsShowPinButton(TabPinButtonVisibility s)
 {
     if (navigationTabsShowPinButton_ == s)

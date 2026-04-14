@@ -40,6 +40,7 @@ CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiMotionAnimationsEnabledChanged, 
     CONNECT_SETTING_ID(
       NavigationCommunitiesFilterLowPriority, navigationCommunitiesFilterLowPriorityChanged, Value);
     CONNECT_SETTING_ID(UiInputTouchSwipeGesturesEnabled, uiInputTouchSwipeGesturesEnabledChanged, Value);
+    CONNECT_SETTING_ID(NavigationRoomListOpeningPolicy, navigationRoomListOpeningPolicyChanged, Value);
     CONNECT_SETTING_ID(NavigationTabsShowPinButton, navigationTabsShowPinButtonChanged, Value);
     CONNECT_SETTING_ID(NavigationTabsPinnedTabLabel, navigationTabsPinnedTabLabelChanged, Value);
     CONNECT_SETTING_ID(NavigationTabsTabLabel, navigationTabsTabLabelChanged, Value);

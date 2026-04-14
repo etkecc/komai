@@ -7,6 +7,7 @@ use super::{
     ConfigSecretsProviderToken, ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken,
     ConfigUiScrollbarPolicyToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
+    ConfigNavigationRoomListOpeningPolicyToken,
     ConfigNavigationRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
     ConfigTimelineMessageActionsActivationPolicyToken,
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
@@ -317,6 +318,7 @@ navigation:
     show_community_notification_counts: true
     sort: alphabetical
     unread_detection_policy: any_event
+    opening_policy: reuse_active_tab
   communities:
     visible: false
     filters:
@@ -342,6 +344,10 @@ navigation:
     assert_eq!(
         config.navigation.room_list.unread_detection_policy,
         ConfigNavigationRoomListUnreadDetectionPolicyToken::AnyEvent
+    );
+    assert_eq!(
+        config.navigation.room_list.opening_policy,
+        ConfigNavigationRoomListOpeningPolicyToken::ReuseActiveTab
     );
     assert_eq!(config.navigation.communities.visible, Some(false));
     assert_eq!(config.navigation.communities.filter_favourites, Some(false));
@@ -441,6 +447,7 @@ fn encodes_generic_config_values() {
                 show_community_counts: true,
                 sort: "alphabetical".to_owned(),
                 unread_detection_policy: "any_event".to_owned(),
+                opening_policy: "reuse_active_tab".to_owned(),
             },
             communities: SettingsConfigNavigationCommunitiesSection {
                 has_visible: true,
@@ -809,6 +816,10 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "room_list", "unread_detection_policy"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "any_event"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["navigation", "room_list", "opening_policy"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "reuse_active_tab"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "communities", "visible"]),

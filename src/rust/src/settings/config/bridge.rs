@@ -120,6 +120,11 @@ if snapshot.ui.has_layout_compact_mode {
         &["navigation", "room_list", "unread_detection_policy"],
         Value::String(snapshot.navigation.room_list.unread_detection_policy.clone()),
     );
+    yaml::set_value(
+        &mut root,
+        &["navigation", "room_list", "opening_policy"],
+        Value::String(snapshot.navigation.room_list.opening_policy.clone()),
+    );
     if snapshot.navigation.communities.has_visible {
         yaml::set_value(
             &mut root,

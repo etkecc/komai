@@ -162,6 +162,7 @@ mod bridge {
         show_community_counts: bool,
         sort: String,
         unread_detection_policy: String,
+        opening_policy: String,
     }
 
     struct SettingsConfigNavigationCommunitiesSection {

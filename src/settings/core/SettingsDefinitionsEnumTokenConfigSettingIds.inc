@@ -6,6 +6,7 @@
   SettingId::NavigationRoomListLastMessagePreview,
   SettingId::NavigationRoomListSort,
   SettingId::NavigationRoomListUnreadDetectionPolicy,
+  SettingId::NavigationRoomListOpeningPolicy,
   SettingId::NavigationTabsShowPinButton,
   SettingId::NavigationTabsPinnedTabLabel,
   SettingId::NavigationTabsTabLabel,

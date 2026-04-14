@@ -450,8 +450,9 @@ QtObject {
             switchToTab(existingIndex);
             return;
         }
-        // Ctrl+Click or no tabs yet: open new tab.
-        if (ctrlHeld || tabs.count === 0)
+        // Ctrl+Click, no tabs yet, or "open new tab" policy: open new tab.
+        if (ctrlHeld || tabs.count === 0
+            || Settings.navigationRoomListOpeningPolicy === Settings.RoomListOpeningPolicy.OpenNewTab)
             openTab(roomId);
         else
             navigateCurrentTab(roomId);

@@ -58,6 +58,8 @@ stageConfig(const UserSettings &settings,
               .unread_detection_policy =
                 cfg::toStorageValue(settings.navigationRoomListUnreadDetectionPolicy())
                   .toStdString(),
+              .opening_policy =
+                cfg::toStorageValue(settings.navigationRoomListOpeningPolicy()).toStdString(),
             },
           .communities =
             {

@@ -44,6 +44,7 @@
     bool timelineTypingShowEnabled() const;
     RoomSortOrder navigationRoomListSort() const;
     UnreadDetectionPolicy navigationRoomListUnreadDetectionPolicy() const;
+    RoomListOpeningPolicy navigationRoomListOpeningPolicy() const;
     TabPinButtonVisibility navigationTabsShowPinButton() const;
     TabLabelDisplay navigationTabsPinnedTabLabel() const;
     TabLabelDisplay navigationTabsTabLabel() const;

@@ -152,6 +152,16 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         : true);
 
     {
+        const auto loadedOpeningPolicy =
+          QString::fromStdString(
+            static_cast<std::string>(snapshot.navigation.room_list.opening_policy))
+            .trimmed();
+        const auto openingPolicyToken =
+          loadedOpeningPolicy.isEmpty() ? QStringLiteral("reuse_active_tab") : loadedOpeningPolicy;
+        settings.setNavigationRoomListOpeningPolicy(cfg::roomListOpeningPolicyFromStorage(
+          openingPolicyToken, UserSettings::RoomListOpeningPolicy::ReuseActiveTab));
+    }
+    {
         const auto loadedShowPinButton =
           QString::fromStdString(static_cast<std::string>(snapshot.navigation.tabs.show_pin_button))
             .trimmed();

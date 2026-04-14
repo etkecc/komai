@@ -40,6 +40,7 @@ constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::NavigationRoomListSort,
   settings::core::SettingId::NavigationRoomListUnreadDetectionPolicy,
   settings::core::SettingId::NavigationRoomListLastMessagePreview,
+  settings::core::SettingId::NavigationRoomListOpeningPolicy,
   settings::core::SettingId::NavigationTabsShowPinButton,
   settings::core::SettingId::NavigationTabsPinnedTabLabel,
   settings::core::SettingId::NavigationTabsTabLabel,
@@ -261,7 +262,7 @@ testConstrainedDefinitionsEnforceRanges()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::size_t expectedPersistedDefinitionCount = 92;
+    constexpr std::size_t expectedPersistedDefinitionCount = 93;
     const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;

@@ -40,6 +40,15 @@ navigationUnreadDetectionPolicyValues()
 }
 
 static QVariant
+navigationRoomListOpeningPolicyValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Reuse active tab")
+           << QCoreApplication::translate("UserSettingsModel", "Open new tab");
+    return values;
+}
+
+static QVariant
 navigationTabsShowPinButtonValues()
 {
     QStringList values;

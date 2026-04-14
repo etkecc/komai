@@ -6,6 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
+import Qt5Compat.GraphicalEffects
 import cc.etke.komai
 
 AbstractButton {
@@ -441,7 +442,14 @@ AbstractButton {
 
                     width: r.compactMediaWidth
                     height: r.compactMediaHeight
-                    clip: true
+                    layer.enabled: true
+                    layer.effect: OpacityMask {
+                        maskSource: Rectangle {
+                            width: mediaThumbFrame.width
+                            height: mediaThumbFrame.height
+                            radius: Komai.paddingMedium
+                        }
+                    }
                     Rectangle {
                         anchors.fill: parent
                         radius: Komai.paddingMedium
@@ -462,13 +470,15 @@ AbstractButton {
                         anchors.fill: parent
                         asynchronous: true
                         cache: true
-                        fillMode: Image.PreserveAspectFit
-                        horizontalAlignment: Image.AlignLeft
+                        fillMode: Image.PreserveAspectCrop
+                        horizontalAlignment: Image.AlignHCenter
+                        verticalAlignment: Image.AlignVCenter
                         smooth: true
                         mipmap: true
                         source: r.compactPreviewImageSource
-                        sourceSize.width: Math.max(1, Math.round(parent.width * Screen.devicePixelRatio))
-                        sourceSize.height: Math.max(1, Math.round(parent.height * Screen.devicePixelRatio))
+                        readonly property int _sourcePx: Math.max(1, Math.round(Math.max(parent.width, parent.height) * Screen.devicePixelRatio))
+                        sourceSize.width: _sourcePx
+                        sourceSize.height: _sourcePx
 
                     }
 

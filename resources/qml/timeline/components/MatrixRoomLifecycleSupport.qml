@@ -40,6 +40,14 @@ QtObject {
     // are kept intact instead of resetting to the bottom.
     function handlePoolReactivation(preserveScroll) {
         _resetForRoom(false, !!preserveScroll);
+        // Pool reactivation doesn't trigger onVisibleChanged (the item is
+        // already visible when poolActive becomes true), so explicitly
+        // schedule a read marker update for unread messages on tab switch.
+        if (rootItem.visible
+                && rootItem.activeRoomId.length > 0
+                && !rootItem.roomSwitchInProgress) {
+            viewportSupport.scheduleReadMarkerUpdate(true);
+        }
     }
 
     function _resetForRoom(fullReset, preserveScroll) {

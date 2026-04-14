@@ -9,6 +9,7 @@
 #include <QHash>
 #include <QPalette>
 #include <QQmlEngine>
+#include <QSet>
 #include <QVariantList>
 #include <QVariantMap>
 
@@ -463,8 +464,7 @@ private:
     bool matrixTimelineSelectionUpdateQueued_   = false;
     bool matrixTimelineAutoSelectionSuppressed_ = false;
     bool matrixTimelineRefreshQueued_           = false;
-    bool matrixTimelineRefreshPending_          = false;
-    QString matrixTimelineRefreshPendingRoomId_;
+    QSet<QString> matrixTimelineRefreshPendingRoomIds_;
     quint64 matrixTimelineRefreshRequestId_         = 0;
     quint64 matrixTimelineRefreshInFlightRequestId_ = 0;
     bool matrixTimelineRoomStateRefreshPending_     = false;
@@ -550,7 +550,7 @@ private:
                                             bool canRedactOwn,
                                             bool canRedactOther);
     void invalidateMatrixTimelineFrequentReactionsCache(const QString &roomId);
-    void refreshCurrentMatrixTimeline();
+    void refreshCurrentMatrixTimeline(const QString &roomId);
     void clearCurrentMatrixTimeline(bool stopBackendTask = true);
     void startNextPendingMatrixAttachment();
     void finishPendingMatrixAttachment(bool ok,

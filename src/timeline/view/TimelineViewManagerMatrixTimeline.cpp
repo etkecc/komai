@@ -450,12 +450,16 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
 void
 TimelineViewManager::scheduleCurrentMatrixTimelineRefresh()
 {
-    const auto roomId = matrixTimelineRefreshPendingRoomId_;
-    if (roomId.isEmpty())
+    if (matrixTimelineRefreshPendingRoomIds_.isEmpty())
         return;
 
     if (matrixTimelineRefreshQueued_)
         return;
+
+    // Prioritize the active room so the user sees updates immediately.
+    const auto roomId = matrixTimelineRefreshPendingRoomIds_.contains(activeMatrixTimelineRoomId_)
+                          ? activeMatrixTimelineRoomId_
+                          : *matrixTimelineRefreshPendingRoomIds_.constBegin();
 
     matrixTimelineRefreshQueued_ = true;
     if (roomId == activeMatrixTimelineRoomId_)
@@ -463,17 +467,17 @@ TimelineViewManager::scheduleCurrentMatrixTimelineRefresh()
     QTimer::singleShot(0, this, [this, roomId]() {
         matrixTimelineRefreshQueued_ = false;
 
-        if (!matrixTimelineRefreshPending_ || matrixTimelineRefreshPendingRoomId_ != roomId) {
-            // Pending room changed while queued.  Re-schedule for the current one.
-            if (matrixTimelineRefreshPending_)
+        if (!matrixTimelineRefreshPendingRoomIds_.contains(roomId)) {
+            // This room was removed while queued; schedule for whatever remains.
+            if (!matrixTimelineRefreshPendingRoomIds_.isEmpty())
                 scheduleCurrentMatrixTimelineRefresh();
             return;
         }
 
-        matrixTimelineRefreshPending_ = false;
+        matrixTimelineRefreshPendingRoomIds_.remove(roomId);
         if (roomId == activeMatrixTimelineRoomId_)
             markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_refresh_dequeued");
-        refreshCurrentMatrixTimeline();
+        refreshCurrentMatrixTimeline(roomId);
     });
 }
 
@@ -679,12 +683,11 @@ TimelineViewManager::invalidateMatrixTimelineFrequentReactionsCache(const QStrin
 }
 
 void
-TimelineViewManager::refreshCurrentMatrixTimeline()
+TimelineViewManager::refreshCurrentMatrixTimeline(const QString &roomId)
 {
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
 
-    const auto roomId = matrixTimelineRefreshPendingRoomId_;
     if (handleId == 0 || roomId.isEmpty()) {
         clearCurrentMatrixTimeline(false);
         return;
@@ -737,7 +740,7 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
               auto *targetModel = guard->perRoomModels_.value(roomId, nullptr);
               if (!targetModel) {
                   // Room was evicted from the model pool while the fetch was in flight.
-                  if (guard->matrixTimelineRefreshPending_) {
+                  if (!guard->matrixTimelineRefreshPendingRoomIds_.isEmpty()) {
                       guard->scheduleCurrentMatrixTimelineRefresh();
                   }
                   return;
@@ -774,7 +777,7 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
               // state, or initial prefetch logic needed.
               if (!isActiveRoom) {
                   targetModel->replaceItems(*items);
-                  if (guard->matrixTimelineRefreshPending_) {
+                  if (!guard->matrixTimelineRefreshPendingRoomIds_.isEmpty()) {
                       guard->scheduleCurrentMatrixTimelineRefresh();
                   }
                   return;
@@ -799,8 +802,7 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
                         itemCount);
                   }
 
-                  if (guard->matrixTimelineRefreshPending_ &&
-                      guard->matrixTimelineRefreshPendingRoomId_ == roomId) {
+                  if (guard->matrixTimelineRefreshPendingRoomIds_.contains(roomId)) {
                       guard->scheduleCurrentMatrixTimelineRefresh();
                   }
                   return;
@@ -841,8 +843,7 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
                             "because the model is still empty",
                             roomId.toStdString());
 
-                          guard->matrixTimelineRefreshPending_       = true;
-                          guard->matrixTimelineRefreshPendingRoomId_ = roomId;
+                          guard->matrixTimelineRefreshPendingRoomIds_.insert(roomId);
                           guard->scheduleCurrentMatrixTimelineRefresh();
                       });
                       return;
@@ -891,8 +892,7 @@ TimelineViewManager::refreshCurrentMatrixTimeline()
               guard->rooms_->flushDeferredCurrentRoomVisualState(roomId);
               guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_refreshed");
 
-              if (guard->matrixTimelineRefreshPending_ &&
-                  guard->matrixTimelineRefreshPendingRoomId_ == roomId) {
+              if (!guard->matrixTimelineRefreshPendingRoomIds_.isEmpty()) {
                   guard->scheduleCurrentMatrixTimelineRefresh();
               }
           },
@@ -1008,9 +1008,8 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
         stateChanged = true;
     }
 
-    matrixTimelineRefreshQueued_  = false;
-    matrixTimelineRefreshPending_ = false;
-    matrixTimelineRefreshPendingRoomId_.clear();
+    matrixTimelineRefreshQueued_ = false;
+    matrixTimelineRefreshPendingRoomIds_.clear();
     matrixTimelineRefreshInFlightRequestId_ = 0;
     matrixTimelineRefreshInFlightRoomId_.clear();
     matrixTimelineRoomStateRefreshPending_ = false;
@@ -2575,8 +2574,7 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
         emit waitingForFirstSyncChanged(false);
     }
 
-    matrixTimelineRefreshPending_       = true;
-    matrixTimelineRefreshPendingRoomId_ = roomId;
+    matrixTimelineRefreshPendingRoomIds_.insert(roomId);
 
     scheduleCurrentMatrixTimelineRefresh();
 }

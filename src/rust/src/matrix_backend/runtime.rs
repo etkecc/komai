@@ -527,7 +527,6 @@ struct MatrixBackendHandle {
     /// Which room currently has UI focus.  Used by command-routing functions
     /// (pagination, reactions) that always operate on the active room.
     active_room_id: Option<String>,
-    room_timeline_generation: Arc<AtomicU64>,
     preferred_room_timeline_initial_page_size: u16,
     /// Per-room timeline snapshots.  Each room's loop writes to its own
     /// snapshot so rooms don't interfere with each other.
@@ -576,10 +575,6 @@ struct MatrixBackendRoomTimelineTask {
     room_id: String,
     commands: mpsc::UnboundedSender<MatrixBackendRoomTimelineCommand>,
     stop_requested: Arc<AtomicBool>,
-    /// The loop's generation, shared with the running thread so it can be
-    /// updated on "reuse" to keep the loop valid after other rooms bump the
-    /// global generation counter.
-    generation: Arc<AtomicU64>,
     thread: JoinHandle<()>,
 }
 

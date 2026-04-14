@@ -43,7 +43,6 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
                 room_list_snapshot: Arc::new(Mutex::new(Vec::new())),
                 room_timeline_tasks: HashMap::new(),
                 active_room_id: None,
-                room_timeline_generation: Arc::new(AtomicU64::new(0)),
                 preferred_room_timeline_initial_page_size: ROOM_TIMELINE_INITIAL_PAGE_SIZE,
                 room_timeline_snapshots: HashMap::new(),
                 room_timeline_media_lookup: Arc::new(Mutex::new(HashMap::new())),

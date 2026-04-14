@@ -397,4 +397,28 @@ Page {
     HideFilterDialog {
         id: hideFilterDialog
     }
+
+    // Right-click on empty sidebar space shows settings shortcut.
+    TapHandler {
+        acceptedButtons: Qt.RightButton
+        onTapped: communitiesSidebarSettingsMenu.popup()
+    }
+
+    Menu {
+        id: communitiesSidebarSettingsMenu
+
+        Component.onCompleted: {
+            if (communitiesSidebarSettingsMenu.popupType != undefined)
+                communitiesSidebarSettingsMenu.popupType = 2;
+        }
+
+        MenuItem {
+            text: qsTr("Settings...") // Keep short: Qt may clip/elide longer menu item text
+            icon.source: "qrc:/icons/icons/ui/settings.svg"
+
+            onTriggered: MainWindow.showUserSettingsPage(
+                UserSettingsModel.TabNavigation,
+                "navigation-communities-sidebar-section")
+        }
+    }
 }

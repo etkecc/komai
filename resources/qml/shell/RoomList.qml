@@ -487,4 +487,28 @@ Page {
             }
         }
     }
+
+    // Right-click on empty room list space shows settings shortcut.
+    TapHandler {
+        acceptedButtons: Qt.RightButton
+        onTapped: roomListSettingsMenu.popup()
+    }
+
+    Menu {
+        id: roomListSettingsMenu
+
+        Component.onCompleted: {
+            if (roomListSettingsMenu.popupType != undefined)
+                roomListSettingsMenu.popupType = 2;
+        }
+
+        MenuItem {
+            text: qsTr("Settings...") // Keep short: Qt may clip/elide longer menu item text
+            icon.source: "qrc:/icons/icons/ui/settings.svg"
+
+            onTriggered: MainWindow.showUserSettingsPage(
+                UserSettingsModel.TabNavigation,
+                "navigation-room-list-section")
+        }
+    }
 }

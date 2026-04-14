@@ -133,7 +133,8 @@
       SettingKey::UiAvatarsDefaultAvatarStyle),
     // LookFeelCommunitiesSidebarSection
     { QT_TR_NOOP("Communities sidebar"), nullptr, SM::SectionTitle, SM::TabNavigation,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
+      settings::core::SettingId::Unknown, nullptr, "navigation-communities-sidebar-section" },
     // CommunitiesSidebarVisible
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show communities sidebar",
                         nullptr,
@@ -230,7 +231,8 @@
      nullptr, nullptr, {}, {}, {}, nullptr, navigationCommunitiesVisibleEnabled},
     // NavigationRoomListSection
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabNavigation,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
+      settings::core::SettingId::Unknown, nullptr, "navigation-room-list-section" },
     // RoomListShowLastMessageTime
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show last message timestamp",
                         nullptr,

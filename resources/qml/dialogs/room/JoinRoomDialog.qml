@@ -16,13 +16,15 @@ Components.OverlayDialog {
     titleIcon: ":/icons/icons/ui/arrow-join.svg"
     initialFocusItem: input
 
+    readonly property bool canJoin: input.text.match(/^(!.+|#.+:.+)$/)
+
     Components.KomaiTextField {
         id: input
 
         Layout.fillWidth: true
         placeholderText: qsTr("E.g. !roomID or #alias:example.com")
         onAccepted: {
-            if (input.text.match(/^[#!].+?:.{3,}/)) {
+            if (joinRoomRoot.canJoin) {
                 Komai.joinRoom(input.text);
                 joinRoomRoot.close();
             }
@@ -33,7 +35,7 @@ Components.OverlayDialog {
         Layout.alignment: Qt.AlignRight
         text: qsTr("Join")
         highlighted: true
-        enabled: input.text.match(/^[#!].+?:.{3,}/)
+        enabled: joinRoomRoot.canJoin
         onClicked: {
             Komai.joinRoom(input.text);
             joinRoomRoot.close();

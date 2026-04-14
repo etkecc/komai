@@ -17,6 +17,12 @@ Item {
 
     required property int tabFilter
     property bool collapsed: false
+    property string scrollToTagId: ""
+
+    onScrollToTagIdChanged: {
+        if (scrollToTagId && settingsRepeater.count > 0)
+            scrollTimer.restart();
+    }
     // Extra content to show above the repeater (used by AboutTab for logo)
     property Component headerContent: null
     property Component footerContent: null
@@ -49,7 +55,13 @@ Item {
             }
 
             Repeater {
+                id: settingsRepeater
                 model: UserSettingsModel.modelForTab(root.tabFilter)
+
+                onCountChanged: {
+                    if (root.scrollToTagId && count > 0)
+                        scrollTimer.restart();
+                }
 
                 delegate: Item {
                     id: r
@@ -478,6 +490,29 @@ Item {
         onPositionChanged: {
             if (active)
                 scroll.contentY = position * scroll.contentHeight
+        }
+    }
+
+    Timer {
+        id: scrollTimer
+        interval: 50
+        onTriggered: root._scrollToTag()
+    }
+
+    function _scrollToTag() {
+        if (!scrollToTagId)
+            return;
+        var tag = scrollToTagId;
+        scrollToTagId = "";
+        for (var i = 0; i < settingsRepeater.count; i++) {
+            var item = settingsRepeater.itemAt(i);
+            if (!item || !item.model)
+                continue;
+            if (item.model.tagId === tag) {
+                var maxY = Math.max(0, scroll.contentHeight - scroll.height);
+                scroll.contentY = Math.min(item.y, maxY);
+                return;
+            }
         }
     }
 }

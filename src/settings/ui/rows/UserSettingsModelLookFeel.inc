@@ -277,7 +277,8 @@
       SettingKey::NavigationRoomListUnreadDetectionPolicy),
     // NavigationTabBarSection
     { QT_TR_NOOP("Tab bar"), nullptr, SM::SectionTitle, SM::TabNavigation,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
+      settings::core::SettingId::Unknown, nullptr, "navigation-tab-bar-section" },
     // TabBarShowPinButton
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show pin button",

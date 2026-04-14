@@ -657,6 +657,12 @@ MainWindow::showUserSettingsPage(int initialTab)
     emit showUserSettingsPageWithTabRequested(initialTab);
 }
 
+void
+MainWindow::showUserSettingsPage(int initialTab, const QString &scrollToSection)
+{
+    emit showUserSettingsPageWithTabAndSectionRequested(initialTab, scrollToSection);
+}
+
 bool
 KomaiFixupPaletteEventFilter::eventFilter(QObject *obj, QEvent *event)
 {

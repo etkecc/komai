@@ -18,6 +18,7 @@ Rectangle {
     property int collapsePoint: 600
     property bool collapsed: width < collapsePoint
     property int currentTab: UserSettingsModel.TabLookFeel
+    property string scrollToSection: ""
     property int sidebarWidth: {
         // Read font height to track font size changes in this binding
         var _d1 = sidebarNavFontMetrics.height;
@@ -319,6 +320,10 @@ Rectangle {
 
                 onLoaded: {
                     item.collapsed = Qt.binding(function() { return userSettingsDialog.collapsed; });
+                    if (userSettingsDialog.scrollToSection) {
+                        item.scrollToTagId = userSettingsDialog.scrollToSection;
+                        userSettingsDialog.scrollToSection = "";
+                    }
                 }
             }
         }

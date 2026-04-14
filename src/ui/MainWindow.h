@@ -101,6 +101,7 @@ public:
     //! Request showing the user settings page from any app page/state.
     Q_INVOKABLE void showUserSettingsPage();
     Q_INVOKABLE void showUserSettingsPage(int initialTab);
+    Q_INVOKABLE void showUserSettingsPage(int initialTab, const QString &scrollToSection);
     Q_INVOKABLE void openRoomDirectory() { emit openRoomDirectoryRequested(); }
 
 #ifdef KOMAI_DBUS_SYS
@@ -143,6 +144,8 @@ signals:
     void switchToLoginPage(QString error);
     void showUserSettingsPageRequested();
     void showUserSettingsPageWithTabRequested(int initialTab);
+    void
+    showUserSettingsPageWithTabAndSectionRequested(int initialTab, const QString &scrollToSection);
     void showProfileSwitcherPageRequested();
     void openRoomDirectoryRequested();
 

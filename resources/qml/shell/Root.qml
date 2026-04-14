@@ -191,14 +191,21 @@ function openCatalogDialog(componentUrl, properties) {
             replaceExit = Settings.uiMotionAnimationsEnabled ? replaceExitOrg : noopExitTransition;
         }
 
-        function openUserSettingsPage(initialTab) {
+        function openUserSettingsPage(initialTab, scrollToSection) {
             if (mainWindow.currentItem && mainWindow.currentItem.objectName === "userSettingsPage") {
                 if (initialTab !== undefined)
                     mainWindow.currentItem.currentTab = initialTab;
+                if (scrollToSection)
+                    mainWindow.currentItem.scrollToSection = scrollToSection;
                 return;
             }
+            var props = {};
             if (initialTab !== undefined)
-                mainWindow.push(userSettingsPage, { "currentTab": initialTab });
+                props.currentTab = initialTab;
+            if (scrollToSection)
+                props.scrollToSection = scrollToSection;
+            if (Object.keys(props).length > 0)
+                mainWindow.push(userSettingsPage, props);
             else
                 mainWindow.push(userSettingsPage);
         }
@@ -318,6 +325,9 @@ function openCatalogDialog(componentUrl, properties) {
         }
         function onShowUserSettingsPageWithTabRequested(initialTab) {
             mainWindow.openUserSettingsPage(initialTab);
+        }
+        function onShowUserSettingsPageWithTabAndSectionRequested(initialTab, scrollToSection) {
+            mainWindow.openUserSettingsPage(initialTab, scrollToSection);
         }
         function onShowProfileSwitcherPageRequested() {
             mainWindow.replace(null, profileSwitcherPage);

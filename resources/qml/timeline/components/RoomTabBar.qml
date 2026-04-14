@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
 
@@ -262,5 +263,29 @@ Rectangle {
         anchors.right: parent.right
         height: 1
         color: Komai.theme.separator
+    }
+
+    // Right-click on empty tab bar space shows settings shortcut.
+    TapHandler {
+        acceptedButtons: Qt.RightButton
+        onTapped: tabBarSettingsMenu.popup()
+    }
+
+    Menu {
+        id: tabBarSettingsMenu
+
+        Component.onCompleted: {
+            if (tabBarSettingsMenu.popupType != undefined)
+                tabBarSettingsMenu.popupType = 2;
+        }
+
+        MenuItem {
+            text: qsTr("Tab Bar Settings...")
+            icon.source: "qrc:/icons/icons/ui/settings.svg"
+
+            onTriggered: MainWindow.showUserSettingsPage(
+                UserSettingsModel.TabNavigation,
+                "navigation-tab-bar-section")
+        }
     }
 }

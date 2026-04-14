@@ -199,7 +199,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setNavigationTabsMaxRecentlyClosedTimelines(
       snapshot.navigation.tabs.has_max_recently_closed_timelines
         ? snapshot.navigation.tabs.max_recently_closed_timelines
-        : 20);
+        : 3);
 
     settings.setHiddenTimelineEventTypes(
       snapshot.timeline.hidden_events.has_global

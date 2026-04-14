@@ -51,20 +51,5 @@ Image {
 
     sourceSize.width: width
     sourceSize.height: height
-    source: sourceUrl + (ma.hovered ? palette.highlight : iconColor)
-    readonly property string toolTipText: roleName
-
-    KomaiToolTip {
-        anchorItem: root
-        anchorX: root.width / 2
-        anchorY: root.height
-        gapX: Komai.paddingMedium
-        gapY: Komai.paddingMedium
-        text: root.toolTipText
-        requestedVisible: ma.hovered && root.toolTipText.length > 0
-    }
-
-    HoverHandler {
-        id: ma
-    }
+    source: sourceUrl + iconColor
 }

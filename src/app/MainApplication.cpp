@@ -90,10 +90,8 @@ app::runMainApplication(int argc, char *argv[])
     // this needs to be after setting the application name. Or how would we find our settings
     // file then?
 #if !defined(Q_OS_MACOS)
-    if (qgetenv("QT_SCALE_FACTOR").size() == 0) {
-        if (startupSettings.uiScaleFactor > 0.0F)
-            qputenv("QT_SCALE_FACTOR", QString::number(startupSettings.uiScaleFactor).toUtf8());
-    }
+    if (qgetenv("QT_SCALE_FACTOR").size() == 0)
+        qputenv("QT_SCALE_FACTOR", QString::number(startupSettings.uiScaleFactor).toUtf8());
 #endif
 
     // Handle CLI subcommands (e.g. "komai theme ...") before creating the GUI app.

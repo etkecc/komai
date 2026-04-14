@@ -5,12 +5,11 @@
 
 #pragma once
 
-#include <optional>
 #include <string>
 
 namespace settings::core {
 
-constexpr float kMinScaleFactor  = 0.0F;
+constexpr float kMinScaleFactor  = 1.0F;
 constexpr float kMaxScaleFactor  = 3.0F;
 constexpr float kScaleFactorStep = 0.25F;
 
@@ -28,8 +27,8 @@ isScaleFactorInRange(float factor)
  */
 struct StartupConfigSnapshot
 {
-    /// Scale factor from config.  0.0 means auto-detect (do not set QT_SCALE_FACTOR).
-    float uiScaleFactor = 0.0F;
+    /// Additional scale multiplier applied via QT_SCALE_FACTOR at startup.
+    float uiScaleFactor = 1.0F;
 };
 
 StartupConfigSnapshot

@@ -14,8 +14,8 @@ namespace settings::startup {
  */
 struct StartupSettings
 {
-    /// Scale factor from config.  0.0 means auto-detect (do not set QT_SCALE_FACTOR).
-    float uiScaleFactor = 0.0F;
+    /// Additional scale multiplier applied via QT_SCALE_FACTOR at startup.
+    float uiScaleFactor = 1.0F;
 };
 
 /**

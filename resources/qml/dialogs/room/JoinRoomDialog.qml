@@ -16,17 +16,13 @@ Components.OverlayDialog {
     titleIcon: ":/icons/icons/ui/arrow-join.svg"
     initialFocusItem: input
 
-    Label {
-        text: qsTr("Room ID or alias")
-        color: palette.text
-    }
-
     Components.KomaiTextField {
         id: input
 
         Layout.fillWidth: true
+        placeholderText: qsTr("E.g. !roomID or #alias:example.com")
         onAccepted: {
-            if (input.text.match("#.+?:.{3,}")) {
+            if (input.text.match(/^[#!].+?:.{3,}/)) {
                 Komai.joinRoom(input.text);
                 joinRoomRoot.close();
             }
@@ -37,7 +33,7 @@ Components.OverlayDialog {
         Layout.alignment: Qt.AlignRight
         text: qsTr("Join")
         highlighted: true
-        enabled: input.text.match("#.+?:.{3,}")
+        enabled: input.text.match(/^[#!].+?:.{3,}/)
         onClicked: {
             Komai.joinRoom(input.text);
             joinRoomRoot.close();

@@ -18,7 +18,7 @@ UserSettings::navigationRoomListWidthPx() const
 double
 UserSettings::uiScaleFactor() const
 {
-    return uiScaleFactor_ > 0.0 ? uiScaleFactor_ : 1.0;
+    return uiScaleFactor_;
 }
 double
 UserSettings::uiFontSizePt() const

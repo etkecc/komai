@@ -73,7 +73,7 @@ void
 applyTabPinnedTabLabelFromStorage(UserSettings &settings, const QString &rawToken)
 {
     settings.setNavigationTabsPinnedTabLabel(
-      tabLabelDisplayFromStorage(rawToken, UserSettings::TabLabelDisplay::AvatarAndLabel));
+      tabLabelDisplayFromStorage(rawToken, UserSettings::TabLabelDisplay::AvatarOnly));
 }
 
 QString

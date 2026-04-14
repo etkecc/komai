@@ -25,7 +25,7 @@
    &applyTabPinButtonVisibilityFromStorage},
   {settings::core::SettingId::NavigationTabsPinnedTabLabel,
    SettingKey::NavigationTabsPinnedTabLabel,
-   "avatar_and_label",
+   "avatar_only",
    &tabPinnedTabLabelToStorage,
    &applyTabPinnedTabLabelFromStorage},
   {settings::core::SettingId::NavigationTabsTabLabel,

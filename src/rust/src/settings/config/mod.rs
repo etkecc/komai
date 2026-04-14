@@ -312,10 +312,10 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     root,
                     &NAVIGATION_TABS_PINNED_TAB_LABEL_PATH,
                 )),
-                tab_label: parse_storage_token(yaml::value_at_path(
-                    root,
-                    &NAVIGATION_TABS_TAB_LABEL_PATH,
-                )),
+                tab_label: parse_storage_token_or(
+                    yaml::value_at_path(root, &NAVIGATION_TABS_TAB_LABEL_PATH),
+                    ConfigNavigationTabsLabelDisplayToken::AvatarAndLabel,
+                ),
                 preferred_width_px: yaml::value_at_path(
                     root,
                     &NAVIGATION_TABS_PREFERRED_WIDTH_PX_PATH,
@@ -676,6 +676,15 @@ fn parse_string(value: Option<&serde_yaml_ng::Value>) -> String {
 
 fn parse_storage_token<T: StorageToken>(value: Option<&serde_yaml_ng::Value>) -> T {
     T::from_storage_str(&parse_string(value))
+}
+
+fn parse_storage_token_or<T: StorageToken>(value: Option<&serde_yaml_ng::Value>, default: T) -> T {
+    let s = parse_string(value);
+    if s.is_empty() {
+        default
+    } else {
+        T::from_storage_str(&s)
+    }
 }
 
 fn parse_string_list(value: Option<&serde_yaml_ng::Value>) -> Option<Vec<String>> {

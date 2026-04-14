@@ -98,7 +98,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setNavigationTabsPinnedTabLabel(cfg::tabLabelDisplayFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.navigation.tabs.pinned_tab_label))
         .trimmed(),
-      UserSettings::TabLabelDisplay::AvatarAndLabel));
+      UserSettings::TabLabelDisplay::AvatarOnly));
     settings.setNavigationTabsTabLabel(cfg::tabLabelDisplayFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.navigation.tabs.tab_label))
         .trimmed(),

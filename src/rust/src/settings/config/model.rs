@@ -114,7 +114,7 @@ pub struct ConfigNavigationCommunities {
     pub filter_low_priority: Option<bool>,
 }
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct ConfigNavigationTabs {
     pub show_pin_button: ConfigNavigationTabsPinButtonVisibilityToken,
     pub pinned_tab_label: ConfigNavigationTabsLabelDisplayToken,
@@ -122,6 +122,19 @@ pub struct ConfigNavigationTabs {
     pub preferred_width_px: Option<i32>,
     pub minimum_width_px: Option<i32>,
     pub max_recently_closed_timelines: Option<i32>,
+}
+
+impl Default for ConfigNavigationTabs {
+    fn default() -> Self {
+        Self {
+            show_pin_button: Default::default(),
+            pinned_tab_label: ConfigNavigationTabsLabelDisplayToken::AvatarOnly,
+            tab_label: ConfigNavigationTabsLabelDisplayToken::AvatarAndLabel,
+            preferred_width_px: None,
+            minimum_width_px: None,
+            max_recently_closed_timelines: None,
+        }
+    }
 }
 
 #[derive(Clone, Debug, Default)]

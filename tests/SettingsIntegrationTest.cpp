@@ -481,6 +481,112 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
 }
 
 bool
+testStartupTabRestoreNormalization()
+{
+    const auto verifyCase = [](QStringView profileSuffix,
+                               QStringView stateText,
+                               const QStringList &expectedOpenTabs,
+                               const QStringList &expectedPinnedTabs,
+                               QStringView expectedCurrentRoomId,
+                               std::string_view labelPrefix) {
+        const QString profile = QStringLiteral("startup-tab-normalization-") + profileSuffix.toString();
+        StartupSettingsTestContext ctx{profile};
+        if (!ctx.isValid())
+            return expect(false, "startup tab-normalization fixture config root can be created");
+        if (!ctx.writeState(stateText))
+            return expect(false, "startup tab-normalization fixture state can be persisted");
+
+        UserSettings::initialize(profile, UserSettings::LoadPolicy::ConfigAndStateOnly);
+        const auto settings = UserSettings::instance();
+        if (!settings)
+            return expect(false, "UserSettings instance is available for startup tab normalization");
+
+        bool ok = true;
+        ok &= expect(settings->openTabs() == expectedOpenTabs,
+                     std::string(labelPrefix) + ": open tabs are normalized");
+        ok &= expect(settings->pinnedTabs() == expectedPinnedTabs,
+                     std::string(labelPrefix) + ": pinned tabs are normalized");
+        ok &= expect(settings->currentRoomId() == expectedCurrentRoomId,
+                     std::string(labelPrefix) + ": current room is normalized");
+        return ok;
+    };
+
+    bool ok = true;
+    ok &= verifyCase(QStringLiteral("empty-state"),
+                     QStringLiteral("navigation:\n"
+                                    "  room_list:\n"
+                                    "    current_room_id: \"\"\n"
+                                    "tabs:\n"
+                                    "  open: []\n"
+                                    "  pinned: []\n"),
+                     QStringList{QString()},
+                     {},
+                     QStringLiteral(""),
+                     "empty state");
+    ok &= verifyCase(QStringLiteral("room-without-tab"),
+                     QStringLiteral("navigation:\n"
+                                    "  room_list:\n"
+                                    "    current_room_id: \"!orphan:example.org\"\n"
+                                    "tabs:\n"
+                                    "  open: []\n"
+                                    "  pinned: []\n"),
+                     QStringList{QStringLiteral("!orphan:example.org")},
+                     {},
+                     QStringLiteral("!orphan:example.org"),
+                     "room without tab");
+    ok &= verifyCase(QStringLiteral("missing-active-room"),
+                     QStringLiteral("navigation:\n"
+                                    "  room_list:\n"
+                                    "    current_room_id: \"!missing:example.org\"\n"
+                                    "tabs:\n"
+                                    "  open:\n"
+                                    "    - \"!tab1:example.org\"\n"
+                                    "  pinned:\n"
+                                    "    - \"!tab1:example.org\"\n"),
+                     QStringList{QStringLiteral("!tab1:example.org"),
+                                 QStringLiteral("!missing:example.org")},
+                     QStringList{QStringLiteral("!tab1:example.org")},
+                     QStringLiteral("!missing:example.org"),
+                     "missing active room");
+    ok &= verifyCase(QStringLiteral("empty-tab-and-invalid-pins"),
+                     QStringLiteral("navigation:\n"
+                                    "  room_list:\n"
+                                    "    current_room_id: \"\"\n"
+                                    "tabs:\n"
+                                    "  open:\n"
+                                    "    - \"\"\n"
+                                    "    - \"!tab1:example.org\"\n"
+                                    "    - \"\"\n"
+                                    "    - \"!tab1:example.org\"\n"
+                                    "  pinned:\n"
+                                    "    - \"\"\n"
+                                    "    - \"!tab1:example.org\"\n"
+                                    "    - \"!missing:example.org\"\n"
+                                    "    - \"!tab1:example.org\"\n"),
+                     QStringList{QString(), QStringLiteral("!tab1:example.org")},
+                     QStringList{QStringLiteral("!tab1:example.org")},
+                     QStringLiteral(""),
+                     "empty tab and invalid pins");
+    ok &= verifyCase(QStringLiteral("fallback-to-first-tab"),
+                     QStringLiteral("navigation:\n"
+                                    "  room_list:\n"
+                                    "    current_room_id: \"\"\n"
+                                    "tabs:\n"
+                                    "  open:\n"
+                                    "    - \"!tab1:example.org\"\n"
+                                    "    - \"!tab2:example.org\"\n"
+                                    "  pinned:\n"
+                                    "    - \"!tab2:example.org\"\n"),
+                     QStringList{QStringLiteral("!tab1:example.org"),
+                                 QStringLiteral("!tab2:example.org")},
+                     QStringList{QStringLiteral("!tab2:example.org")},
+                     QStringLiteral("!tab1:example.org"),
+                     "fallback to first tab");
+
+    return ok;
+}
+
+bool
 testStartupSecretsProviderAutoSelectAndWelcomeUpgrade()
 {
     const QString profile = QStringLiteral("startup-secrets-provider-auto-profile");
@@ -1748,6 +1854,8 @@ main()
                        testStartupPolicySkipsSessionWritesUntilCompleteSession);
     ok &= runNamedTest("testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets",
                        testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets);
+    ok &= runNamedTest("testStartupTabRestoreNormalization",
+                       testStartupTabRestoreNormalization);
     ok &= runNamedTest("testStartupSecretsProviderAutoSelectAndWelcomeUpgrade",
                        testStartupSecretsProviderAutoSelectAndWelcomeUpgrade);
     ok &= runNamedTest("testStartupSecretsProviderDoesNotSwitchAfterActiveSession",

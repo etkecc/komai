@@ -7,6 +7,8 @@
 #include "SettingsControllerInternal.h"
 #include "komai-rust-cxxbridge/ffi.h"
 
+#include <QSet>
+
 #include <utility>
 
 #include "logging/Logging.h"
@@ -117,6 +119,68 @@ logStateMigrationWarnings(const ::komai::rust::SettingsLoadedState &state)
     }
 }
 
+struct NormalizedTabRestoreState
+{
+    QStringList openTabs;
+    QStringList pinnedTabs;
+    QString currentRoomId;
+    bool changed = false;
+};
+
+NormalizedTabRestoreState
+normalizeTabRestoreState(const QStringList &loadedOpenTabs,
+                         const QStringList &loadedPinnedTabs,
+                         const QString &loadedCurrentRoomId)
+{
+    NormalizedTabRestoreState normalized{
+      .openTabs      = {},
+      .pinnedTabs    = {},
+      .currentRoomId = loadedCurrentRoomId.trimmed(),
+      .changed       = false,
+    };
+
+    QSet<QString> seenOpenTabs;
+    for (const auto &roomId : loadedOpenTabs) {
+        const auto normalizedRoomId = roomId.trimmed();
+        if (seenOpenTabs.contains(normalizedRoomId))
+            continue;
+
+        seenOpenTabs.insert(normalizedRoomId);
+        normalized.openTabs.push_back(normalizedRoomId);
+    }
+
+    if (normalized.openTabs.isEmpty()) {
+        normalized.openTabs.push_back(
+          normalized.currentRoomId.isEmpty() ? QString() : normalized.currentRoomId);
+    } else if (normalized.currentRoomId.isEmpty()) {
+        if (!normalized.openTabs.contains(QString()))
+            normalized.currentRoomId = normalized.openTabs.front();
+    } else if (!normalized.openTabs.contains(normalized.currentRoomId)) {
+        normalized.openTabs.push_back(normalized.currentRoomId);
+    }
+
+    QSet<QString> openTabsSet;
+    for (const auto &roomId : normalized.openTabs)
+        openTabsSet.insert(roomId);
+
+    QSet<QString> seenPinnedTabs;
+    for (const auto &roomId : loadedPinnedTabs) {
+        const auto normalizedRoomId = roomId.trimmed();
+        if (normalizedRoomId.isEmpty() || !openTabsSet.contains(normalizedRoomId) ||
+            seenPinnedTabs.contains(normalizedRoomId)) {
+            continue;
+        }
+
+        seenPinnedTabs.insert(normalizedRoomId);
+        normalized.pinnedTabs.push_back(normalizedRoomId);
+    }
+
+    normalized.changed = normalized.openTabs != loadedOpenTabs ||
+                         normalized.pinnedTabs != loadedPinnedTabs ||
+                         normalized.currentRoomId != loadedCurrentRoomId;
+    return normalized;
+}
+
 void
 loadImpl(UserSettings &settings,
          std::optional<QString> profile,
@@ -206,10 +270,10 @@ loadImpl(UserSettings &settings,
         settings.setWindowHeight(stateSnapshot.window_height);
         settings.setNavigationRoomListWidthPx(stateSnapshot.navigation_room_list_width_px);
         settings.setNavigationCommunitiesWidthPx(stateSnapshot.navigation_communities_width_px);
+        QString currentRoomId =
+          QString::fromStdString(static_cast<std::string>(stateSnapshot.current_room_id));
         settings.setCurrentFilterId(
           QString::fromStdString(static_cast<std::string>(stateSnapshot.current_filter_id)));
-        settings.setCurrentRoomId(
-          QString::fromStdString(static_cast<std::string>(stateSnapshot.current_room_id)));
         {
             QStringList values;
             for (const auto &value : stateSnapshot.global_excludes)
@@ -246,18 +310,32 @@ loadImpl(UserSettings &settings,
                 values.push_back(QString::fromStdString(static_cast<std::string>(value)));
             settings.setHiddenSpaces(values);
         }
+        QStringList openTabs;
         {
-            QStringList values;
             for (const auto &value : stateSnapshot.open_tabs)
-                values.push_back(QString::fromStdString(static_cast<std::string>(value)));
-            settings.setOpenTabs(values);
+                openTabs.push_back(QString::fromStdString(static_cast<std::string>(value)));
         }
+        QStringList pinnedTabs;
         {
-            QStringList values;
             for (const auto &value : stateSnapshot.pinned_tabs)
-                values.push_back(QString::fromStdString(static_cast<std::string>(value)));
-            settings.setPinnedTabs(values);
+                pinnedTabs.push_back(QString::fromStdString(static_cast<std::string>(value)));
         }
+        const auto normalizedTabs = normalizeTabRestoreState(openTabs, pinnedTabs, currentRoomId);
+        if (normalizedTabs.changed) {
+            settings::activeLoggers().ui->info(
+              "Normalized persisted tab restore state for profile '{}' "
+              "(open_tabs={} -> {}, pinned_tabs={} -> {}, current_room_id='{}' -> '{}')",
+              app_paths::normalizedProfileId(settings.profileId()).toStdString(),
+              openTabs.size(),
+              normalizedTabs.openTabs.size(),
+              pinnedTabs.size(),
+              normalizedTabs.pinnedTabs.size(),
+              currentRoomId.toStdString(),
+              normalizedTabs.currentRoomId.toStdString());
+        }
+        settings.setCurrentRoomId(normalizedTabs.currentRoomId);
+        settings.setOpenTabs(normalizedTabs.openTabs);
+        settings.setPinnedTabs(normalizedTabs.pinnedTabs);
         {
             QMap<QString, QString> drafts;
             for (const auto &entry : stateSnapshot.composer_drafts_by_room) {

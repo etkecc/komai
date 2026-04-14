@@ -35,14 +35,11 @@ QtObject {
     readonly property int roleTags: 271
 
     // Persist tab list to Settings after any mutation.
-    // Empty tabs (roomId="") are ephemeral and not persisted.
+    // Empty tabs (roomId="") are persisted as startup-restorable "new tab" entries.
     function _saveTabs() {
         var roomIds = [];
-        for (var i = 0; i < tabs.count; i++) {
-            var rid = tabs.get(i).roomId;
-            if (rid)
-                roomIds.push(rid);
-        }
+        for (var i = 0; i < tabs.count; i++)
+            roomIds.push(tabs.get(i).roomId);
         Settings.openTabs = roomIds;
     }
 
@@ -50,7 +47,7 @@ QtObject {
     function _savePinnedTabs() {
         var pinnedIds = [];
         for (var i = 0; i < tabs.count; i++) {
-            if (tabs.get(i).pinned)
+            if (tabs.get(i).pinned && tabs.get(i).roomId)
                 pinnedIds.push(tabs.get(i).roomId);
         }
         Settings.pinnedTabs = pinnedIds;
@@ -70,7 +67,11 @@ QtObject {
         for (var i = 0; i < saved.length; i++) {
             var roomId = saved[i];
             if (findTab(roomId) === -1)
-                tabs.append({ "roomId": roomId, "roomName": _getRoomName(roomId), "pinned": !!pinnedSet[roomId] });
+                tabs.append({
+                    "roomId": roomId,
+                    "roomName": roomId ? _getRoomName(roomId) : "",
+                    "pinned": roomId ? !!pinnedSet[roomId] : false
+                });
         }
         // Ensure pinned tabs are sorted to the left.
         _sortPinnedToLeft();
@@ -90,7 +91,7 @@ QtObject {
             return;
         }
         tabs.append({ "roomId": "", "roomName": "", "pinned": false });
-        // Don't persist empty tabs.
+        _saveTabs();
         _setCurrentRoom("");
     }
 

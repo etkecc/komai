@@ -20,11 +20,22 @@ Components.OverlayDialog {
     initialFocusItem: newRoomName
     overlayDialogMinWidth: 620
 
+    function submit() {
+        var preset = 0;
+        if (isPublic.checked)
+            preset = 1;
+        else
+            preset = isTrusted.checked ? 2 : 0;
+        Komai.createRoom(createRoomRoot.space, newRoomName.text, newRoomTopic.text, newRoomAlias.text, isEncrypted.checked, preset);
+        createRoomRoot.close();
+    }
+
     Components.KomaiTextField {
         id: newRoomName
 
         Layout.fillWidth: true
         placeholderText: qsTr("Name")
+        onAccepted: createRoomRoot.submit()
     }
 
     Components.KomaiTextField {
@@ -32,6 +43,7 @@ Components.OverlayDialog {
 
         Layout.fillWidth: true
         placeholderText: qsTr("Topic")
+        onAccepted: createRoomRoot.submit()
     }
 
     RowLayout {
@@ -48,6 +60,7 @@ Components.OverlayDialog {
 
             Layout.fillWidth: true
             placeholderText: qsTr("Alias")
+            onAccepted: createRoomRoot.submit()
         }
 
         Label {
@@ -213,14 +226,6 @@ Components.OverlayDialog {
         Layout.alignment: Qt.AlignRight
         text: qsTr("Create")
         highlighted: true
-        onClicked: {
-            var preset = 0;
-            if (isPublic.checked)
-                preset = 1;
-            else
-                preset = isTrusted.checked ? 2 : 0;
-            Komai.createRoom(createRoomRoot.space, newRoomName.text, newRoomTopic.text, newRoomAlias.text, isEncrypted.checked, preset);
-            createRoomRoot.close();
-        }
+        onClicked: createRoomRoot.submit()
     }
 }

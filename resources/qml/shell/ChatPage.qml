@@ -57,6 +57,12 @@ Rectangle {
         onActivated: tabController.closeCurrentTab()
     }
     Shortcut {
+        sequence: "Ctrl+Shift+T"
+        enabled: tabController._closedTabsStack.length > 0
+
+        onActivated: tabController.reopenClosedTab()
+    }
+    Shortcut {
         sequence: "Ctrl+Tab"
         enabled: tabController.tabs.count > 1
 

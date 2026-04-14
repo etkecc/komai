@@ -26,6 +26,23 @@ QtObject {
     // Bumped to trigger a shake animation on the empty tab delegate.
     property int shakeEmptyTabRevision: 0
 
+    // Stack of recently closed room IDs for Ctrl+Shift+T restore.
+    // Must use _pushClosedTab/_popClosedTab to trigger QML change notifications.
+    property var _closedTabsStack: []
+
+    function _pushClosedTab(roomId) {
+        var stack = _closedTabsStack.slice();
+        stack.push(roomId);
+        _closedTabsStack = stack;
+    }
+
+    function _popClosedTab() {
+        var stack = _closedTabsStack.slice();
+        var roomId = stack.pop();
+        _closedTabsStack = stack;
+        return roomId;
+    }
+
     // Role constants matching RoomlistModel::Roles enum (Qt::UserRole = 256).
     readonly property int roleAvatarUrl: 256
     readonly property int roleRoomName: 257
@@ -152,8 +169,10 @@ QtObject {
         tabs.remove(index);
         _saveTabs();
         _savePinnedTabs();
-        if (roomId)
+        if (roomId) {
+            _pushClosedTab(roomId);
             tabClosed(roomId);
+        }
         if (tabs.count === 0) {
             _internalNavigation = true;
             _previousRoomId = "";
@@ -184,6 +203,17 @@ QtObject {
         }
     }
 
+    function reopenClosedTab() {
+        while (_closedTabsStack.length > 0) {
+            var roomId = _popClosedTab();
+            // Skip if already open.
+            if (findTab(roomId) !== -1)
+                continue;
+            openTab(roomId);
+            return;
+        }
+    }
+
     function closeOtherTabs(roomId) {
         var keepIndex = findTab(roomId);
         if (keepIndex === -1)
@@ -193,8 +223,10 @@ QtObject {
             if (i !== keepIndex && !tabs.get(i).pinned) {
                 var closedId = tabs.get(i).roomId;
                 tabs.remove(i);
-                if (closedId)
+                if (closedId) {
+                    _pushClosedTab(closedId);
                     tabClosed(closedId);
+                }
             }
         }
         _saveTabs();
@@ -212,8 +244,10 @@ QtObject {
             if (!tabs.get(i).pinned) {
                 var closedId = tabs.get(i).roomId;
                 tabs.remove(i);
-                if (closedId)
+                if (closedId) {
+                    _pushClosedTab(closedId);
                     tabClosed(closedId);
+                }
             }
         }
         _saveTabs();
@@ -225,8 +259,10 @@ QtObject {
             if (!tabs.get(i).pinned) {
                 var closedId = tabs.get(i).roomId;
                 tabs.remove(i);
-                if (closedId)
+                if (closedId) {
+                    _pushClosedTab(closedId);
                     tabClosed(closedId);
+                }
             }
         }
         _saveTabs();

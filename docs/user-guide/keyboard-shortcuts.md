@@ -49,6 +49,20 @@ These shortcuts apply after you focus the [**Communities sidebar**](communities-
 | `Escape` | Return focus to the composer textarea |
 
 
+## 📑 Tabs
+
+These shortcuts manage room tabs.
+
+| Shortcut | Action |
+| --- | --- |
+| `Ctrl+T` | Open a new tab |
+| `Ctrl+W` | Close the current tab |
+| `Ctrl+Shift+T` | Reopen the most recently closed tab |
+| `Ctrl+Tab` | Switch to the next tab |
+| `Ctrl+Shift+Tab` | Switch to the previous tab |
+| `Alt+1` … `Alt+9` | Switch to tab by position |
+
+
 ## 💬 Timeline and Room View
 
 These shortcuts apply while you are viewing a room timeline.
@@ -56,7 +70,6 @@ These shortcuts apply while you are viewing a room timeline.
 | Shortcut | Action |
 | --- | --- |
 | `Ctrl+F` | Toggle search within the current room |
-| `Ctrl+W` | Close the current room view |
 | `Page Up` | Scroll the timeline up by about one page |
 | `Page Down` | Scroll the timeline down by about one page |
 | `Escape` | Close the nearest timeline or composer state first. Repeated `Escape` always settles back to the composer |

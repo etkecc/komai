@@ -264,8 +264,7 @@ expectConfigDouble(const ::komai::rust::SettingsLoadedConfig &snapshot,
 {
     const auto keyString = QString::fromLatin1(key);
     if (keyString == QLatin1String(SettingKey::TimelineMediaDefaultAudioPlaybackSpeed)) {
-        return expect(snapshot.timeline.media.has_default_audio_playback_speed &&
-                        std::abs(snapshot.timeline.media.default_audio_playback_speed - expected) <
+        return expect(std::abs(snapshot.timeline.media.default_audio_playback_speed - expected) <
                           0.0001,
                       message);
     }
@@ -281,13 +280,11 @@ expectConfigInt(const ::komai::rust::SettingsLoadedConfig &snapshot,
 {
     const auto keyString = QString::fromLatin1(key);
     if (keyString == QLatin1String(SettingKey::TimelineMessagesLayoutMaxWidthPercent)) {
-        return expect(snapshot.timeline.messages.has_layout_max_width_percent &&
-                        snapshot.timeline.messages.layout_max_width_percent == expected,
+        return expect(snapshot.timeline.messages.layout_max_width_percent == expected,
                       message);
     }
 if (keyString == QLatin1String(SettingKey::DesktopWindowFocusBlurDelaySeconds)) {
-        return expect(snapshot.desktop.window_focus_blur.has_delay_seconds &&
-                        snapshot.desktop.window_focus_blur.delay_seconds == expected,
+        return expect(snapshot.desktop.window_focus_blur.delay_seconds == expected,
                       message);
     }
 
@@ -963,11 +960,9 @@ testDesktopAttentionIndicatorsPersist()
 
     const auto configRoot = loadConfigSnapshot(ctx.configFile(), "desktop-attention-config");
     bool ok               = true;
-    ok &= expect(configRoot.desktop.attention.window_title.has_enabled &&
-                   !configRoot.desktop.attention.window_title.enabled,
+    ok &= expect(!configRoot.desktop.attention.window_title.enabled,
                  "window title attention toggle persists to config.yml");
-    ok &= expect(configRoot.desktop.attention.app_badge.has_enabled &&
-                   !configRoot.desktop.attention.app_badge.enabled,
+    ok &= expect(!configRoot.desktop.attention.app_badge.enabled,
                  "app badge attention toggle persists to config.yml");
 
     UserSettings::initialize(profile);

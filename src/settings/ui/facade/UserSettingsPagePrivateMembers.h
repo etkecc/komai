@@ -34,8 +34,7 @@ TimelineUserColorCodingPolicy timelineUserColorCodingPolicy_ =
 AvatarSize timelineMessagesLayoutAvatarSize_{};
 bool composerExtrasStickersEnabled_;
 bool timelineMessagesLayoutShowOwnAvatar_;
-int timelineMessagesLayoutMaxWidthPercent_ =
-  settings::core::definitions::kDefaultTimelineMessagesLayoutMaxWidthPercent;
+int timelineMessagesLayoutMaxWidthPercent_ = 80;
 QString timelineMessageActionsPinnedReactions_;
 ShowSenderUsername timelineMessagesSenderUsername_;
 bool timelineMediaAnimateOnHover_;
@@ -62,10 +61,8 @@ NotificationsAccountFetchFn notificationsAccountFetchFn_;
 NotificationsAccountSetFn notificationsAccountSetFn_;
 bool desktopNotificationsEnabled_;
 bool desktopNotificationsAttentionOnIncoming_;
-bool desktopAttentionWindowTitleEnabled_ =
-  settings::core::definitions::kDefaultDesktopAttentionWindowTitleEnabled;
-bool desktopAttentionAppBadgeEnabled_ =
-  settings::core::definitions::kDefaultDesktopAttentionAppBadgeEnabled;
+bool desktopAttentionWindowTitleEnabled_ = true;
+bool desktopAttentionAppBadgeEnabled_    = true;
 bool uiAvatarsCircular_;
 NotificationMessageContentPolicy desktopNotificationsMessageContentPolicy_ =
   NotificationMessageContentPolicy::WheneverAvailable;
@@ -99,11 +96,10 @@ QString callsDevicesCameraFrameRate_;
 int callsScreenshareFrameRate_;
 bool callsScreensharePictureInPicture_;
 bool callsScreenshareIncludeRemoteVideo_;
-bool callsScreenshareShowCursor_ = settings::core::definitions::kDefaultScreenShareShowCursor;
+bool callsScreenshareShowCursor_ = true;
 bool callsRelayUseFallbackServer_;
 bool callsLegacyEnabled_;
-bool networkTlsEnableCertificateValidation_ =
-  settings::core::definitions::kDefaultCertificateValidationEnabled;
+bool networkTlsEnableCertificateValidation_ = true;
 QString profile_;
 QString userId_;
 QString accessToken_;
@@ -127,19 +123,18 @@ bool timelineMediaOpenImagesExternal_;
 bool timelineMediaOpenVideosExternal_;
 bool timelineMediaAutoplayGifVideos_ = true;
 bool timelineMediaOpenAudioExternal_;
-double timelineMediaDefaultAudioPlaybackSpeed_ =
-  settings::core::definitions::kDefaultTimelineMediaAudioPlaybackSpeed;
-int integrationsDbusApiAccess_ = settings::core::definitions::kDefaultIntegrationsDbusApiAccess;
+double timelineMediaDefaultAudioPlaybackSpeed_ = 1.0;
+int integrationsDbusApiAccess_                 = 0;
 QString integrationsBrowserCommand_;
 QString donationStatus_                     = QStringLiteral("visible");
 int windowWidth_                            = settings::core::definitions::kDefaultWindowWidthPx;
 int windowHeight_                           = settings::core::definitions::kDefaultWindowHeightPx;
 bool usesFileSecretsProvider_               = false;
 bool secretsProviderFallbackWarningVisible_ = false;
-bool networkMrsEnabled_ = settings::core::definitions::kDefaultNetworkMrsEnabled;
+bool networkMrsEnabled_                     = true;
 QString networkMrsServerName_ =
   QString::fromLatin1(settings::core::definitions::kDefaultNetworkMrsServerName);
-bool networkHttp3Enabled_ = settings::core::definitions::kDefaultNetworkHttp3Enabled;
+bool networkHttp3Enabled_ = false;
 QMap<QString, QString> secrets_;
 settings::core::SettingsStore coreStore_;
 bool suppressSettingsSave_ = false;

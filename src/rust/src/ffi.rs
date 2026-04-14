@@ -137,28 +137,21 @@ mod bridge {
         has_scale_factor: bool,
         scale_factor: f32,
         theme_slug: String,
-        has_font_size_pt: bool,
         font_size_pt: f64,
         font_family: String,
         font_emoji_family: String,
-        has_motion_animations_enabled: bool,
         motion_animations_enabled: bool,
         input_mode: String,
-        has_input_touch_swipe_gestures_enabled: bool,
         input_touch_swipe_gestures_enabled: bool,
-        has_layout_compact_mode: bool,
         layout_compact_mode: bool,
-        has_avatars_circular: bool,
         avatars_circular: bool,
         scrollbar_policy: String,
         default_avatar_style: String,
     }
 
     struct SettingsConfigNavigationRoomListSection {
-        has_show_last_message_time: bool,
         show_last_message_time: bool,
         last_message_preview: String,
-        has_show_community_counts: bool,
         show_community_counts: bool,
         sort: String,
         unread_detection_policy: String,
@@ -166,19 +159,12 @@ mod bridge {
     }
 
     struct SettingsConfigNavigationCommunitiesSection {
-        has_visible: bool,
         visible: bool,
-        has_filter_favourites: bool,
         filter_favourites: bool,
-        has_filter_people: bool,
         filter_people: bool,
-        has_filter_bots: bool,
         filter_bots: bool,
-        has_filter_groups: bool,
         filter_groups: bool,
-        has_filter_server_notices: bool,
         filter_server_notices: bool,
-        has_filter_low_priority: bool,
         filter_low_priority: bool,
     }
 
@@ -186,11 +172,8 @@ mod bridge {
         show_pin_button: String,
         pinned_tab_label: String,
         tab_label: String,
-        has_preferred_width_px: bool,
         preferred_width_px: i32,
-        has_minimum_width_px: bool,
         minimum_width_px: i32,
-        has_max_recently_closed_timelines: bool,
         max_recently_closed_timelines: i32,
     }
 
@@ -211,29 +194,22 @@ mod bridge {
         layout_positioning: String,
         user_color_coding_policy: String,
         layout_avatar_size: String,
-        has_layout_show_own_avatar: bool,
         layout_show_own_avatar: bool,
-        has_layout_max_width_percent: bool,
         layout_max_width_percent: i32,
         sender_username: String,
-        has_emoji_only_enlarge: bool,
         emoji_only_enlarge: bool,
-        has_hover_highlight: bool,
         hover_highlight: bool,
     }
 
     struct SettingsConfigTimelineFormattedSection {
-        has_code_syntax_highlighting: bool,
         code_syntax_highlighting: bool,
     }
 
     struct SettingsConfigTimelineTypingSection {
-        has_show_enabled: bool,
         show_enabled: bool,
     }
 
     struct SettingsConfigTimelineReadReceiptsSection {
-        has_enabled: bool,
         enabled: bool,
     }
 
@@ -243,20 +219,13 @@ mod bridge {
     }
 
     struct SettingsConfigTimelineMediaSection {
-        has_effects_enabled: bool,
         effects_enabled: bool,
-        has_animate_on_hover: bool,
         animate_on_hover: bool,
         image_display: String,
-        has_open_images_external: bool,
         open_images_external: bool,
-        has_open_videos_external: bool,
         open_videos_external: bool,
-        has_autoplay_gif_videos: bool,
         autoplay_gif_videos: bool,
-        has_open_audio_external: bool,
         open_audio_external: bool,
-        has_default_audio_playback_speed: bool,
         default_audio_playback_speed: f64,
     }
 
@@ -275,20 +244,16 @@ mod bridge {
     }
 
     struct SettingsConfigDesktopNotificationsSection {
-        has_enabled: bool,
         enabled: bool,
-        has_attention_on_incoming: bool,
         attention_on_incoming: bool,
         message_content_policy: String,
     }
 
     struct SettingsConfigDesktopAttentionWindowTitleSection {
-        has_enabled: bool,
         enabled: bool,
     }
 
     struct SettingsConfigDesktopAttentionAppBadgeSection {
-        has_enabled: bool,
         enabled: bool,
     }
 
@@ -298,16 +263,12 @@ mod bridge {
     }
 
     struct SettingsConfigDesktopSystemTraySection {
-        has_enabled: bool,
         enabled: bool,
-        has_autostart: bool,
         autostart: bool,
     }
 
     struct SettingsConfigDesktopWindowFocusBlurSection {
-        has_enabled: bool,
         enabled: bool,
-        has_delay_seconds: bool,
         delay_seconds: i32,
     }
 
@@ -319,21 +280,16 @@ mod bridge {
     }
 
     struct SettingsConfigNetworkEncryptionSection {
-        has_only_verified_users: bool,
         only_verified_users: bool,
-        has_share_with_trusted: bool,
         share_with_trusted: bool,
-        has_key_backup: bool,
         key_backup: bool,
     }
 
     struct SettingsConfigCallsLegacySection {
-        has_enabled: bool,
         enabled: bool,
     }
 
     struct SettingsConfigCallsRelaySection {
-        has_use_fallback_server: bool,
         use_fallback_server: bool,
     }
 
@@ -349,13 +305,9 @@ mod bridge {
     }
 
     struct SettingsConfigCallsScreenshareSection {
-        has_frame_rate: bool,
         frame_rate: i32,
-        has_picture_in_picture: bool,
         picture_in_picture: bool,
-        has_include_remote_video: bool,
         include_remote_video: bool,
-        has_show_cursor: bool,
         show_cursor: bool,
     }
 
@@ -370,12 +322,9 @@ mod bridge {
     struct SettingsConfigNetworkSection {
         encryption: SettingsConfigNetworkEncryptionSection,
         presence_status_policy: String,
-        has_tls_enable_certificate_validation: bool,
         tls_enable_certificate_validation: bool,
-        has_mrs_enabled: bool,
         mrs_enabled: bool,
         mrs_server_name: String,
-        has_http3_enabled: bool,
         http3_enabled: bool,
     }
 
@@ -385,21 +334,15 @@ mod bridge {
     }
 
     struct SettingsConfigComposerSection {
-        has_input_markdown_to_html_enabled: bool,
         input_markdown_to_html_enabled: bool,
         input_send_key: String,
         input_auto_replace_emoji: String,
         input_emoji_preferred_gender: String,
         input_emoji_preferred_skin_tone: String,
-        has_input_inline_emoji_picker_enabled: bool,
         input_inline_emoji_picker_enabled: bool,
-        has_input_inline_room_picker_enabled: bool,
         input_inline_room_picker_enabled: bool,
-        has_input_inline_user_picker_enabled: bool,
         input_inline_user_picker_enabled: bool,
-        has_typing_send_enabled: bool,
         typing_send_enabled: bool,
-        has_extras_stickers_enabled: bool,
         extras_stickers_enabled: bool,
     }
 

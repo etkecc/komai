@@ -25,6 +25,11 @@ namespace settings::serializer {
 void
 loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &snapshot)
 {
+    // Defaults are resolved by the Rust FFI layer — C++ unconditionally trusts
+    // the snapshot values.  The only exception is hidden_events.has_global,
+    // which distinguishes "absent from YAML" (use computed C++ default) from
+    // "present but empty".
+
     const auto requestedTheme =
       QString::fromStdString(static_cast<std::string>(snapshot.ui.theme_slug)).trimmed().isEmpty()
         ? settings.uiThemeSlug()
@@ -37,169 +42,77 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                  settings.uiThemeSlug().toStdString());
     }
 
-    settings.setUiFontSizePt(snapshot.ui.has_font_size_pt
-                               ? snapshot.ui.font_size_pt
-                               : settings::core::definitions::kDefaultFontSizePt);
+    settings.setUiFontSizePt(snapshot.ui.font_size_pt);
     settings.setUiFontFamily(
       QString::fromStdString(static_cast<std::string>(snapshot.ui.font_family)));
     settings.setUiFontEmojiFamily(
       QString::fromStdString(static_cast<std::string>(snapshot.ui.font_emoji_family)));
-    settings.setUiMotionAnimationsEnabled(
-      snapshot.ui.has_motion_animations_enabled
-        ? snapshot.ui.motion_animations_enabled
-        : settings::core::definitions::kDefaultUiMotionAnimationsEnabled);
-
-    const auto loadedScrollbarPolicy =
-      QString::fromStdString(static_cast<std::string>(snapshot.ui.scrollbar_policy)).trimmed();
-    const auto scrollbarPolicyToken =
-      loadedScrollbarPolicy.isEmpty()
-        ? cfg::toStorageValue(UserSettings::ScrollbarPolicy::WhenNeeded)
-        : loadedScrollbarPolicy;
+    settings.setUiMotionAnimationsEnabled(snapshot.ui.motion_animations_enabled);
     settings.setUiScrollbarPolicy(cfg::scrollbarPolicyFromStorage(
-      scrollbarPolicyToken, UserSettings::ScrollbarPolicy::WhenNeeded));
-
-    const auto loadedDefaultAvatarStyle =
-      QString::fromStdString(static_cast<std::string>(snapshot.ui.default_avatar_style)).trimmed();
-    const auto defaultAvatarStyleToken =
-      loadedDefaultAvatarStyle.isEmpty()
-        ? cfg::toStorageValue(UserSettings::DefaultAvatarStyle::BoringAvatarsBauhaus)
-        : loadedDefaultAvatarStyle;
+      QString::fromStdString(static_cast<std::string>(snapshot.ui.scrollbar_policy)).trimmed(),
+      UserSettings::ScrollbarPolicy::WhenNeeded));
     settings.setUiAvatarsDefaultAvatarStyle(cfg::defaultAvatarStyleFromStorage(
-      defaultAvatarStyleToken, UserSettings::DefaultAvatarStyle::BoringAvatarsBauhaus));
-
-    const auto loadedInputModeToken =
-      QString::fromStdString(static_cast<std::string>(snapshot.ui.input_mode)).trimmed();
-    const auto inputModeToken =
-      loadedInputModeToken.isEmpty()
-        ? detail::toStorageUiInputMode(settings::core::definitions::kDefaultUiInputMode)
-        : loadedInputModeToken;
-    settings.setUiInputMode(detail::fromStorageUiInputMode(inputModeToken));
-
+      QString::fromStdString(static_cast<std::string>(snapshot.ui.default_avatar_style)).trimmed(),
+      UserSettings::DefaultAvatarStyle::BoringAvatarsBauhaus));
+    settings.setUiInputMode(detail::fromStorageUiInputMode(
+      QString::fromStdString(static_cast<std::string>(snapshot.ui.input_mode)).trimmed()));
     settings.setUiScaleFactor(snapshot.ui.has_scale_factor
                                 ? snapshot.ui.scale_factor
                                 : settings::core::definitions::kDefaultScaleFactor);
-    settings.setUiInputTouchSwipeGesturesEnabled(snapshot.ui.has_input_touch_swipe_gestures_enabled
-                                                   ? snapshot.ui.input_touch_swipe_gestures_enabled
-                                                   : false);
-    settings.setUiAvatarsCircular(snapshot.ui.has_avatars_circular ? snapshot.ui.avatars_circular
-                                                                   : false);
-    settings.setUiLayoutCompactMode(
-      snapshot.ui.has_layout_compact_mode ? snapshot.ui.layout_compact_mode : false);
+    settings.setUiInputTouchSwipeGesturesEnabled(snapshot.ui.input_touch_swipe_gestures_enabled);
+    settings.setUiAvatarsCircular(snapshot.ui.avatars_circular);
+    settings.setUiLayoutCompactMode(snapshot.ui.layout_compact_mode);
 
     settings.setNavigationRoomListShowLastMessageTime(
-      snapshot.navigation.room_list.has_show_last_message_time
-        ? snapshot.navigation.room_list.show_last_message_time
-        : true);
-
-    const auto loadedNavigationRoomListLastMessagePreview =
+      snapshot.navigation.room_list.show_last_message_time);
+    settings.setNavigationRoomListLastMessagePreview(cfg::lastMessagePreviewFromStorage(
       QString::fromStdString(
         static_cast<std::string>(snapshot.navigation.room_list.last_message_preview))
-        .trimmed();
-    const auto navigationRoomListLastMessagePreviewToken =
-      loadedNavigationRoomListLastMessagePreview.isEmpty()
-        ? QStringLiteral("always")
-        : loadedNavigationRoomListLastMessagePreview;
-    settings.setNavigationRoomListLastMessagePreview(cfg::lastMessagePreviewFromStorage(
-      navigationRoomListLastMessagePreviewToken, UserSettings::LastMessagePreview::Always));
-
+        .trimmed(),
+      UserSettings::LastMessagePreview::Always));
     settings.setNavigationRoomListShowCommunityCounts(
-      snapshot.navigation.room_list.has_show_community_counts
-        ? snapshot.navigation.room_list.show_community_counts
-        : true);
-
-    const auto loadedNavigationRoomListSort =
-      QString::fromStdString(static_cast<std::string>(snapshot.navigation.room_list.sort))
-        .trimmed();
-    const auto navigationRoomListSortToken = loadedNavigationRoomListSort.isEmpty()
-                                               ? QStringLiteral("unread_first_recent")
-                                               : loadedNavigationRoomListSort;
+      snapshot.navigation.room_list.show_community_counts);
     settings.setNavigationRoomListSort(cfg::roomSortOrderFromStorage(
-      navigationRoomListSortToken, UserSettings::RoomSortOrder::UnreadFirst_Recent));
-
-    const auto loadedNavigationRoomListUnreadDetectionPolicy =
+      QString::fromStdString(static_cast<std::string>(snapshot.navigation.room_list.sort))
+        .trimmed(),
+      UserSettings::RoomSortOrder::UnreadFirst_Recent));
+    settings.setNavigationRoomListUnreadDetectionPolicy(cfg::unreadDetectionPolicyFromStorage(
       QString::fromStdString(
         static_cast<std::string>(snapshot.navigation.room_list.unread_detection_policy))
-        .trimmed();
-    const auto navigationRoomListUnreadDetectionPolicyToken =
-      loadedNavigationRoomListUnreadDetectionPolicy.isEmpty()
-        ? QStringLiteral("any_event")
-        : loadedNavigationRoomListUnreadDetectionPolicy;
-    settings.setNavigationRoomListUnreadDetectionPolicy(cfg::unreadDetectionPolicyFromStorage(
-      navigationRoomListUnreadDetectionPolicyToken, UserSettings::UnreadDetectionPolicy::AnyEvent));
+        .trimmed(),
+      UserSettings::UnreadDetectionPolicy::AnyEvent));
 
-    settings.setNavigationCommunitiesVisible(
-      snapshot.navigation.communities.has_visible ? snapshot.navigation.communities.visible : true);
+    settings.setNavigationCommunitiesVisible(snapshot.navigation.communities.visible);
     settings.setNavigationCommunitiesFilterFavourites(
-      snapshot.navigation.communities.has_filter_favourites
-        ? snapshot.navigation.communities.filter_favourites
-        : true);
-    settings.setNavigationCommunitiesFilterPeople(snapshot.navigation.communities.has_filter_people
-                                                    ? snapshot.navigation.communities.filter_people
-                                                    : true);
-    settings.setNavigationCommunitiesFilterBots(snapshot.navigation.communities.has_filter_bots
-                                                  ? snapshot.navigation.communities.filter_bots
-                                                  : true);
-    settings.setNavigationCommunitiesFilterGroups(snapshot.navigation.communities.has_filter_groups
-                                                    ? snapshot.navigation.communities.filter_groups
-                                                    : true);
+      snapshot.navigation.communities.filter_favourites);
+    settings.setNavigationCommunitiesFilterPeople(snapshot.navigation.communities.filter_people);
+    settings.setNavigationCommunitiesFilterBots(snapshot.navigation.communities.filter_bots);
+    settings.setNavigationCommunitiesFilterGroups(snapshot.navigation.communities.filter_groups);
     settings.setNavigationCommunitiesFilterServerNotices(
-      snapshot.navigation.communities.has_filter_server_notices
-        ? snapshot.navigation.communities.filter_server_notices
-        : true);
+      snapshot.navigation.communities.filter_server_notices);
     settings.setNavigationCommunitiesFilterLowPriority(
-      snapshot.navigation.communities.has_filter_low_priority
-        ? snapshot.navigation.communities.filter_low_priority
-        : true);
+      snapshot.navigation.communities.filter_low_priority);
 
-    {
-        const auto loadedOpeningPolicy =
-          QString::fromStdString(
-            static_cast<std::string>(snapshot.navigation.room_list.opening_policy))
-            .trimmed();
-        const auto openingPolicyToken =
-          loadedOpeningPolicy.isEmpty() ? QStringLiteral("reuse_active_tab") : loadedOpeningPolicy;
-        settings.setNavigationRoomListOpeningPolicy(cfg::roomListOpeningPolicyFromStorage(
-          openingPolicyToken, UserSettings::RoomListOpeningPolicy::ReuseActiveTab));
-    }
-    {
-        const auto loadedShowPinButton =
-          QString::fromStdString(static_cast<std::string>(snapshot.navigation.tabs.show_pin_button))
-            .trimmed();
-        const auto showPinButtonToken =
-          loadedShowPinButton.isEmpty() ? QStringLiteral("never") : loadedShowPinButton;
-        settings.setNavigationTabsShowPinButton(cfg::tabPinButtonVisibilityFromStorage(
-          showPinButtonToken, UserSettings::TabPinButtonVisibility::Never));
-    }
-    {
-        const auto loadedPinnedTabLabel =
-          QString::fromStdString(
-            static_cast<std::string>(snapshot.navigation.tabs.pinned_tab_label))
-            .trimmed();
-        const auto pinnedTabLabelToken = loadedPinnedTabLabel.isEmpty()
-                                           ? QStringLiteral("avatar_and_label")
-                                           : loadedPinnedTabLabel;
-        settings.setNavigationTabsPinnedTabLabel(cfg::tabLabelDisplayFromStorage(
-          pinnedTabLabelToken, UserSettings::TabLabelDisplay::AvatarAndLabel));
-    }
-    {
-        const auto loadedTabLabel =
-          QString::fromStdString(static_cast<std::string>(snapshot.navigation.tabs.tab_label))
-            .trimmed();
-        const auto tabLabelToken =
-          loadedTabLabel.isEmpty() ? QStringLiteral("avatar_and_label") : loadedTabLabel;
-        settings.setNavigationTabsTabLabel(cfg::tabLabelDisplayFromStorage(
-          tabLabelToken, UserSettings::TabLabelDisplay::AvatarAndLabel));
-    }
-    settings.setNavigationTabsPreferredWidthPx(snapshot.navigation.tabs.has_preferred_width_px
-                                                 ? snapshot.navigation.tabs.preferred_width_px
-                                                 : 200);
-    settings.setNavigationTabsMinimumWidthPx(snapshot.navigation.tabs.has_minimum_width_px
-                                               ? snapshot.navigation.tabs.minimum_width_px
-                                               : 120);
+    settings.setNavigationRoomListOpeningPolicy(cfg::roomListOpeningPolicyFromStorage(
+      QString::fromStdString(static_cast<std::string>(snapshot.navigation.room_list.opening_policy))
+        .trimmed(),
+      UserSettings::RoomListOpeningPolicy::ReuseActiveTab));
+    settings.setNavigationTabsShowPinButton(cfg::tabPinButtonVisibilityFromStorage(
+      QString::fromStdString(static_cast<std::string>(snapshot.navigation.tabs.show_pin_button))
+        .trimmed(),
+      UserSettings::TabPinButtonVisibility::Never));
+    settings.setNavigationTabsPinnedTabLabel(cfg::tabLabelDisplayFromStorage(
+      QString::fromStdString(static_cast<std::string>(snapshot.navigation.tabs.pinned_tab_label))
+        .trimmed(),
+      UserSettings::TabLabelDisplay::AvatarAndLabel));
+    settings.setNavigationTabsTabLabel(cfg::tabLabelDisplayFromStorage(
+      QString::fromStdString(static_cast<std::string>(snapshot.navigation.tabs.tab_label))
+        .trimmed(),
+      UserSettings::TabLabelDisplay::AvatarAndLabel));
+    settings.setNavigationTabsPreferredWidthPx(snapshot.navigation.tabs.preferred_width_px);
+    settings.setNavigationTabsMinimumWidthPx(snapshot.navigation.tabs.minimum_width_px);
     settings.setNavigationTabsMaxRecentlyClosedTimelines(
-      snapshot.navigation.tabs.has_max_recently_closed_timelines
-        ? snapshot.navigation.tabs.max_recently_closed_timelines
-        : 3);
+      snapshot.navigation.tabs.max_recently_closed_timelines);
 
     settings.setHiddenTimelineEventTypes(
       snapshot.timeline.hidden_events.has_global
@@ -221,154 +134,78 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         settings.setHiddenTimelineEventTypesByRoom(byRoom);
     }
 
-    const auto loadedTimelineMessagesStyle =
-      QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.style)).trimmed();
-    const auto timelineMessagesStyleToken = loadedTimelineMessagesStyle.isEmpty()
-                                              ? QStringLiteral("bubbles")
-                                              : loadedTimelineMessagesStyle;
     settings.setTimelineMessagesStyle(cfg::timelineMessagesStyleFromStorage(
-      timelineMessagesStyleToken, UserSettings::TimelineMessagesStyle::Bubbles));
-
-    const auto loadedTimelineMessagesLayoutPositioning =
+      QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.style)).trimmed(),
+      UserSettings::TimelineMessagesStyle::Bubbles));
+    settings.setTimelineMessagesLayoutPositioning(cfg::timelineMessagesLayoutPositioningFromStorage(
       QString::fromStdString(
         static_cast<std::string>(snapshot.timeline.messages.layout_positioning))
-        .trimmed();
-    const auto timelineMessagesLayoutPositioningToken =
-      loadedTimelineMessagesLayoutPositioning.isEmpty() ? QStringLiteral("opposing_by_sender")
-                                                        : loadedTimelineMessagesLayoutPositioning;
-    settings.setTimelineMessagesLayoutPositioning(cfg::timelineMessagesLayoutPositioningFromStorage(
-      timelineMessagesLayoutPositioningToken,
+        .trimmed(),
       UserSettings::TimelineMessagesLayoutPositioning::OpposingBySender));
-
-    const auto loadedTimelineUserColorCodingPolicy =
+    settings.setTimelineUserColorCodingPolicy(cfg::timelineUserColorCodingPolicyFromStorage(
       QString::fromStdString(
         static_cast<std::string>(snapshot.timeline.messages.user_color_coding_policy))
-        .trimmed();
-    const auto timelineUserColorCodingPolicyToken = loadedTimelineUserColorCodingPolicy.isEmpty()
-                                                      ? QStringLiteral("adaptive_by_room_size")
-                                                      : loadedTimelineUserColorCodingPolicy;
-    settings.setTimelineUserColorCodingPolicy(cfg::timelineUserColorCodingPolicyFromStorage(
-      timelineUserColorCodingPolicyToken,
+        .trimmed(),
       UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize));
-
-    const auto loadedTimelineAvatarSize =
+    settings.setTimelineMessagesLayoutAvatarSize(cfg::avatarSizeFromStorage(
       QString::fromStdString(
         static_cast<std::string>(snapshot.timeline.messages.layout_avatar_size))
-        .trimmed();
-    const auto timelineAvatarSizeToken =
-      loadedTimelineAvatarSize.isEmpty() ? QStringLiteral("regular") : loadedTimelineAvatarSize;
-    settings.setTimelineMessagesLayoutAvatarSize(
-      cfg::avatarSizeFromStorage(timelineAvatarSizeToken, UserSettings::AvatarSize::Regular));
+        .trimmed(),
+      UserSettings::AvatarSize::Regular));
     settings.setTimelineMessagesLayoutShowOwnAvatar(
-      snapshot.timeline.messages.has_layout_show_own_avatar
-        ? snapshot.timeline.messages.layout_show_own_avatar
-        : true);
+      snapshot.timeline.messages.layout_show_own_avatar);
     settings.setTimelineMessagesLayoutMaxWidthPercent(
-      snapshot.timeline.messages.has_layout_max_width_percent
-        ? snapshot.timeline.messages.layout_max_width_percent
-        : settings::core::definitions::kDefaultTimelineMessagesLayoutMaxWidthPercent);
-
-    const auto loadedTimelineMessagesSenderUsername =
-      QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.sender_username))
-        .trimmed();
-    const auto timelineMessagesSenderUsernameToken = loadedTimelineMessagesSenderUsername.isEmpty()
-                                                       ? QStringLiteral("only_in_large_rooms")
-                                                       : loadedTimelineMessagesSenderUsername;
+      snapshot.timeline.messages.layout_max_width_percent);
     settings.setTimelineMessagesSenderUsername(cfg::showSenderUsernameFromStorage(
-      timelineMessagesSenderUsernameToken, UserSettings::ShowSenderUsername::OnlyInLargeRooms));
-
-    settings.setTimelineMessagesEmojiOnlyEnlarge(snapshot.timeline.messages.has_emoji_only_enlarge
-                                                   ? snapshot.timeline.messages.emoji_only_enlarge
-                                                   : true);
-    settings.setTimelineMessagesHoverHighlight(snapshot.timeline.messages.has_hover_highlight
-                                                 ? snapshot.timeline.messages.hover_highlight
-                                                 : false);
+      QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.sender_username))
+        .trimmed(),
+      UserSettings::ShowSenderUsername::OnlyInLargeRooms));
+    settings.setTimelineMessagesEmojiOnlyEnlarge(snapshot.timeline.messages.emoji_only_enlarge);
+    settings.setTimelineMessagesHoverHighlight(snapshot.timeline.messages.hover_highlight);
     settings.setTimelineFormattedCodeSyntaxHighlighting(
-      snapshot.timeline.formatted.has_code_syntax_highlighting
-        ? snapshot.timeline.formatted.code_syntax_highlighting
-        : true);
-    settings.setTimelineTypingShowEnabled(
-      snapshot.timeline.typing.has_show_enabled ? snapshot.timeline.typing.show_enabled : true);
-    settings.setTimelineReadReceiptsEnabled(
-      snapshot.timeline.read_receipts.has_enabled ? snapshot.timeline.read_receipts.enabled : true);
+      snapshot.timeline.formatted.code_syntax_highlighting);
+    settings.setTimelineTypingShowEnabled(snapshot.timeline.typing.show_enabled);
+    settings.setTimelineReadReceiptsEnabled(snapshot.timeline.read_receipts.enabled);
 
-    const auto loadedTimelineMessageActionsActivationPolicy =
-      QString::fromStdString(
-        static_cast<std::string>(snapshot.timeline.message_actions.activation_policy))
-        .trimmed();
-    const auto timelineMessageActionsActivationPolicyToken =
-      loadedTimelineMessageActionsActivationPolicy.isEmpty()
-        ? QStringLiteral("on_button_click")
-        : loadedTimelineMessageActionsActivationPolicy;
     settings.setTimelineMessageActionsActivationPolicy(
       cfg::timelineMessageActionsActivationPolicyFromStorage(
-        timelineMessageActionsActivationPolicyToken,
+        QString::fromStdString(
+          static_cast<std::string>(snapshot.timeline.message_actions.activation_policy))
+          .trimmed(),
         UserSettings::TimelineMessageActionsActivationPolicy::ActionsButton));
-
-    const auto loadedTimelineMessageActionsPinnedReactions =
+    settings.setTimelineMessageActionsPinnedReactions(
       QString::fromStdString(
         static_cast<std::string>(snapshot.timeline.message_actions.pinned_reactions))
-        .trimmed();
-    settings.setTimelineMessageActionsPinnedReactions(
-      loadedTimelineMessageActionsPinnedReactions.isEmpty()
+          .trimmed()
+          .isEmpty()
         ? QString::fromUtf8(settings::core::definitions::kDefaultPinnedReactions)
-        : loadedTimelineMessageActionsPinnedReactions);
+        : QString::fromStdString(
+            static_cast<std::string>(snapshot.timeline.message_actions.pinned_reactions)));
 
-    settings.setTimelineMediaEffectsEnabled(
-      snapshot.timeline.media.has_effects_enabled ? snapshot.timeline.media.effects_enabled : true);
-    settings.setTimelineMediaAnimateOnHover(snapshot.timeline.media.has_animate_on_hover
-                                              ? snapshot.timeline.media.animate_on_hover
-                                              : false);
-
-    const auto loadedTimelineMediaImageDisplay =
+    settings.setTimelineMediaEffectsEnabled(snapshot.timeline.media.effects_enabled);
+    settings.setTimelineMediaAnimateOnHover(snapshot.timeline.media.animate_on_hover);
+    settings.setTimelineMediaImageDisplay(cfg::showImageFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.timeline.media.image_display))
-        .trimmed();
-    const auto timelineMediaImageDisplayToken = loadedTimelineMediaImageDisplay.isEmpty()
-                                                  ? QStringLiteral("always")
-                                                  : loadedTimelineMediaImageDisplay;
-    settings.setTimelineMediaImageDisplay(
-      cfg::showImageFromStorage(timelineMediaImageDisplayToken, UserSettings::ShowImage::Always));
-
-    settings.setTimelineMediaOpenImagesExternal(snapshot.timeline.media.has_open_images_external
-                                                  ? snapshot.timeline.media.open_images_external
-                                                  : false);
-    settings.setTimelineMediaOpenVideosExternal(snapshot.timeline.media.has_open_videos_external
-                                                  ? snapshot.timeline.media.open_videos_external
-                                                  : false);
-    settings.setTimelineMediaAutoplayGifVideos(snapshot.timeline.media.has_autoplay_gif_videos
-                                                 ? snapshot.timeline.media.autoplay_gif_videos
-                                                 : true);
-    settings.setTimelineMediaOpenAudioExternal(snapshot.timeline.media.has_open_audio_external
-                                                 ? snapshot.timeline.media.open_audio_external
-                                                 : false);
+        .trimmed(),
+      UserSettings::ShowImage::Always));
+    settings.setTimelineMediaOpenImagesExternal(snapshot.timeline.media.open_images_external);
+    settings.setTimelineMediaOpenVideosExternal(snapshot.timeline.media.open_videos_external);
+    settings.setTimelineMediaAutoplayGifVideos(snapshot.timeline.media.autoplay_gif_videos);
+    settings.setTimelineMediaOpenAudioExternal(snapshot.timeline.media.open_audio_external);
     settings.setTimelineMediaDefaultAudioPlaybackSpeed(
-      snapshot.timeline.media.has_default_audio_playback_speed
-        ? snapshot.timeline.media.default_audio_playback_speed
-        : settings::core::definitions::kDefaultTimelineMediaAudioPlaybackSpeed);
+      snapshot.timeline.media.default_audio_playback_speed);
 
-    settings.setDesktopWindowFocusBlurEnabled(snapshot.desktop.window_focus_blur.has_enabled
-                                                ? snapshot.desktop.window_focus_blur.enabled
-                                                : false);
+    settings.setDesktopWindowFocusBlurEnabled(snapshot.desktop.window_focus_blur.enabled);
     settings.setDesktopWindowFocusBlurDelaySeconds(
-      snapshot.desktop.window_focus_blur.has_delay_seconds
-        ? snapshot.desktop.window_focus_blur.delay_seconds
-        : settings::core::definitions::kDefaultDesktopWindowFocusBlurDelaySeconds);
+      snapshot.desktop.window_focus_blur.delay_seconds);
     settings.setEncryptionKeySharingOnlyVerifiedUsers(
-      snapshot.network.encryption.has_only_verified_users
-        ? snapshot.network.encryption.only_verified_users
-        : false);
+      snapshot.network.encryption.only_verified_users);
     settings.setEncryptionKeySharingShareWithTrusted(
-      snapshot.network.encryption.has_share_with_trusted
-        ? snapshot.network.encryption.share_with_trusted
-        : false);
-    settings.setEncryptionBackupOnlineEnabledFromConfig(
-      snapshot.network.encryption.has_key_backup ? snapshot.network.encryption.key_backup : true);
+      snapshot.network.encryption.share_with_trusted);
+    settings.setEncryptionBackupOnlineEnabledFromConfig(snapshot.network.encryption.key_backup);
 
-    settings.setCallsLegacyEnabled(snapshot.calls.legacy.has_enabled ? snapshot.calls.legacy.enabled
-                                                                     : false);
-    settings.setCallsRelayUseFallbackServer(snapshot.calls.relay.has_use_fallback_server
-                                              ? snapshot.calls.relay.use_fallback_server
-                                              : false);
+    settings.setCallsLegacyEnabled(snapshot.calls.legacy.enabled);
+    settings.setCallsRelayUseFallbackServer(snapshot.calls.relay.use_fallback_server);
     settings.setCallsDevicesMicrophone(
       QString::fromStdString(static_cast<std::string>(snapshot.calls.devices.microphone)));
     settings.setCallsDevicesCamera(
@@ -385,57 +222,26 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         ? QString::fromLatin1(settings::core::definitions::kDefaultCallsAudioRingtone)
         : loadedCallsAudioRingtone);
 
-    settings.setCallsScreenshareFrameRate(
-      snapshot.calls.screenshare.has_frame_rate
-        ? snapshot.calls.screenshare.frame_rate
-        : settings::core::definitions::kDefaultScreenShareFrameRate);
-    settings.setCallsScreensharePictureInPicture(snapshot.calls.screenshare.has_picture_in_picture
-                                                   ? snapshot.calls.screenshare.picture_in_picture
-                                                   : true);
-    settings.setCallsScreenshareIncludeRemoteVideo(
-      snapshot.calls.screenshare.has_include_remote_video
-        ? snapshot.calls.screenshare.include_remote_video
-        : false);
-    settings.setCallsScreenshareShowCursor(
-      snapshot.calls.screenshare.has_show_cursor
-        ? snapshot.calls.screenshare.show_cursor
-        : settings::core::definitions::kDefaultScreenShareShowCursor);
+    settings.setCallsScreenshareFrameRate(snapshot.calls.screenshare.frame_rate);
+    settings.setCallsScreensharePictureInPicture(snapshot.calls.screenshare.picture_in_picture);
+    settings.setCallsScreenshareIncludeRemoteVideo(snapshot.calls.screenshare.include_remote_video);
+    settings.setCallsScreenshareShowCursor(snapshot.calls.screenshare.show_cursor);
 
-    settings.setDesktopNotificationsEnabled(
-      snapshot.desktop.notifications.has_enabled ? snapshot.desktop.notifications.enabled : true);
+    settings.setDesktopNotificationsEnabled(snapshot.desktop.notifications.enabled);
     settings.setDesktopNotificationsAttentionOnIncoming(
-      snapshot.desktop.notifications.has_attention_on_incoming
-        ? snapshot.desktop.notifications.attention_on_incoming
-        : false);
-
-    const auto loadedDesktopNotificationsMessageContentPolicy =
-      QString::fromStdString(
-        static_cast<std::string>(snapshot.desktop.notifications.message_content_policy))
-        .trimmed();
-    const auto notificationsMessageContentPolicyToken =
-      loadedDesktopNotificationsMessageContentPolicy.isEmpty()
-        ? QStringLiteral("whenever_available")
-        : loadedDesktopNotificationsMessageContentPolicy;
+      snapshot.desktop.notifications.attention_on_incoming);
     settings.setDesktopNotificationsMessageContentPolicy(
       cfg::notificationsMessageContentPolicyFromStorage(
-        notificationsMessageContentPolicyToken,
+        QString::fromStdString(
+          static_cast<std::string>(snapshot.desktop.notifications.message_content_policy))
+          .trimmed(),
         UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
-    settings.setDesktopAttentionWindowTitleEnabled(
-      snapshot.desktop.attention.window_title.has_enabled
-        ? snapshot.desktop.attention.window_title.enabled
-        : settings::core::definitions::kDefaultDesktopAttentionWindowTitleEnabled);
-    settings.setDesktopAttentionAppBadgeEnabled(
-      snapshot.desktop.attention.app_badge.has_enabled
-        ? snapshot.desktop.attention.app_badge.enabled
-        : settings::core::definitions::kDefaultDesktopAttentionAppBadgeEnabled);
+    settings.setDesktopAttentionWindowTitleEnabled(snapshot.desktop.attention.window_title.enabled);
+    settings.setDesktopAttentionAppBadgeEnabled(snapshot.desktop.attention.app_badge.enabled);
 
     settings.setNetworkTlsEnableCertificateValidation(
-      snapshot.network.has_tls_enable_certificate_validation
-        ? snapshot.network.tls_enable_certificate_validation
-        : settings::core::definitions::kDefaultCertificateValidationEnabled);
-    settings.setNetworkMrsEnabled(snapshot.network.has_mrs_enabled
-                                    ? snapshot.network.mrs_enabled
-                                    : settings::core::definitions::kDefaultNetworkMrsEnabled);
+      snapshot.network.tls_enable_certificate_validation);
+    settings.setNetworkMrsEnabled(snapshot.network.mrs_enabled);
 
     const auto loadedNetworkMrsServerName =
       QString::fromStdString(static_cast<std::string>(snapshot.network.mrs_server_name)).trimmed();
@@ -444,95 +250,50 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         ? QString::fromLatin1(settings::core::definitions::kDefaultNetworkMrsServerName)
         : loadedNetworkMrsServerName);
 
-    settings.setNetworkHttp3Enabled(snapshot.network.has_http3_enabled
-                                      ? snapshot.network.http3_enabled
-                                      : settings::core::definitions::kDefaultNetworkHttp3Enabled);
+    settings.setNetworkHttp3Enabled(snapshot.network.http3_enabled);
 
-    const auto loadedNetworkPresenceStatusPolicy =
-      QString::fromStdString(static_cast<std::string>(snapshot.network.presence_status_policy))
-        .trimmed();
-    const auto networkPresenceStatusPolicyToken = loadedNetworkPresenceStatusPolicy.isEmpty()
-                                                    ? QStringLiteral("automatic_presence")
-                                                    : loadedNetworkPresenceStatusPolicy;
     settings.setNetworkPresenceStatusPolicy(cfg::presenceFromStorage(
-      networkPresenceStatusPolicyToken, UserSettings::Presence::AutomaticPresence));
+      QString::fromStdString(static_cast<std::string>(snapshot.network.presence_status_policy))
+        .trimmed(),
+      UserSettings::Presence::AutomaticPresence));
 
-    settings.setDesktopSystemTrayEnabled(
-      snapshot.desktop.system_tray.has_enabled ? snapshot.desktop.system_tray.enabled : false);
-    settings.setDesktopSystemTrayAutostart(
-      snapshot.desktop.system_tray.has_autostart ? snapshot.desktop.system_tray.autostart : false);
+    settings.setDesktopSystemTrayEnabled(snapshot.desktop.system_tray.enabled);
+    settings.setDesktopSystemTrayAutostart(snapshot.desktop.system_tray.autostart);
     settings.setIntegrationsBrowserCommand(
       QString::fromStdString(static_cast<std::string>(snapshot.integrations.browser_command)));
 
-    const auto loadedIntegrationsDbusApiAccess =
+    settings.setIntegrationsDbusApiAccess(cfg::dbusAccessFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.integrations.dbus_api_access))
-        .trimmed();
-    const auto integrationsDbusApiAccessToken = loadedIntegrationsDbusApiAccess.isEmpty()
-                                                  ? QStringLiteral("none")
-                                                  : loadedIntegrationsDbusApiAccess;
-    settings.setIntegrationsDbusApiAccess(
-      cfg::dbusAccessFromStorage(integrationsDbusApiAccessToken, IntegrationsDbusAccessNone));
+        .trimmed(),
+      IntegrationsDbusAccessNone));
 
     settings.setComposerInputMarkdownToHtmlEnabled(
-      snapshot.composer.has_input_markdown_to_html_enabled
-        ? snapshot.composer.input_markdown_to_html_enabled
-        : true);
-
-    const auto loadedComposerInputSendKey =
-      QString::fromStdString(static_cast<std::string>(snapshot.composer.input_send_key)).trimmed();
-    const auto composerInputSendKeyToken =
-      loadedComposerInputSendKey.isEmpty() ? QStringLiteral("enter") : loadedComposerInputSendKey;
+      snapshot.composer.input_markdown_to_html_enabled);
     settings.setComposerInputSendKey(cfg::sendMessageKeyFromStorage(
-      composerInputSendKeyToken, UserSettings::SendMessageKey::Enter));
-
-    const auto loadedComposerInputAutoReplaceEmoji =
-      QString::fromStdString(static_cast<std::string>(snapshot.composer.input_auto_replace_emoji))
-        .trimmed();
-    const auto composerInputAutoReplaceEmojiToken = loadedComposerInputAutoReplaceEmoji.isEmpty()
-                                                      ? QStringLiteral("always")
-                                                      : loadedComposerInputAutoReplaceEmoji;
+      QString::fromStdString(static_cast<std::string>(snapshot.composer.input_send_key)).trimmed(),
+      UserSettings::SendMessageKey::Enter));
     settings.setComposerInputAutoReplaceEmoji(cfg::autoReplaceEmojiFromStorage(
-      composerInputAutoReplaceEmojiToken, UserSettings::AutoReplaceEmoji::Always));
-
-    const auto loadedComposerInputEmojiPreferredGender =
+      QString::fromStdString(static_cast<std::string>(snapshot.composer.input_auto_replace_emoji))
+        .trimmed(),
+      UserSettings::AutoReplaceEmoji::Always));
+    settings.setComposerInputEmojiPreferredGender(cfg::emojiPreferredGenderFromStorage(
       QString::fromStdString(
         static_cast<std::string>(snapshot.composer.input_emoji_preferred_gender))
-        .trimmed();
-    const auto composerInputEmojiPreferredGenderToken =
-      loadedComposerInputEmojiPreferredGender.isEmpty() ? QStringLiteral("no_preference")
-                                                        : loadedComposerInputEmojiPreferredGender;
-    settings.setComposerInputEmojiPreferredGender(cfg::emojiPreferredGenderFromStorage(
-      composerInputEmojiPreferredGenderToken, UserSettings::EmojiPreferredGender::NoPreference));
-
-    const auto loadedComposerInputEmojiPreferredSkinTone =
+        .trimmed(),
+      UserSettings::EmojiPreferredGender::NoPreference));
+    settings.setComposerInputEmojiPreferredSkinTone(cfg::emojiPreferredSkinToneFromStorage(
       QString::fromStdString(
         static_cast<std::string>(snapshot.composer.input_emoji_preferred_skin_tone))
-        .trimmed();
-    const auto composerInputEmojiPreferredSkinToneToken =
-      loadedComposerInputEmojiPreferredSkinTone.isEmpty()
-        ? QStringLiteral("no_preference")
-        : loadedComposerInputEmojiPreferredSkinTone;
-    settings.setComposerInputEmojiPreferredSkinTone(
-      cfg::emojiPreferredSkinToneFromStorage(composerInputEmojiPreferredSkinToneToken,
-                                             UserSettings::EmojiPreferredSkinTone::NoPreference));
-
+        .trimmed(),
+      UserSettings::EmojiPreferredSkinTone::NoPreference));
     settings.setComposerInputInlineEmojiPickerEnabled(
-      snapshot.composer.has_input_inline_emoji_picker_enabled
-        ? snapshot.composer.input_inline_emoji_picker_enabled
-        : true);
+      snapshot.composer.input_inline_emoji_picker_enabled);
     settings.setComposerInputInlineRoomPickerEnabled(
-      snapshot.composer.has_input_inline_room_picker_enabled
-        ? snapshot.composer.input_inline_room_picker_enabled
-        : true);
+      snapshot.composer.input_inline_room_picker_enabled);
     settings.setComposerInputInlineUserPickerEnabled(
-      snapshot.composer.has_input_inline_user_picker_enabled
-        ? snapshot.composer.input_inline_user_picker_enabled
-        : true);
-    settings.setComposerTypingSendEnabled(
-      snapshot.composer.has_typing_send_enabled ? snapshot.composer.typing_send_enabled : true);
-    settings.setComposerExtrasStickersEnabled(snapshot.composer.has_extras_stickers_enabled
-                                                ? snapshot.composer.extras_stickers_enabled
-                                                : false);
+      snapshot.composer.input_inline_user_picker_enabled);
+    settings.setComposerTypingSendEnabled(snapshot.composer.typing_send_enabled);
+    settings.setComposerExtrasStickersEnabled(snapshot.composer.extras_stickers_enabled);
 }
 
 } // namespace settings::serializer

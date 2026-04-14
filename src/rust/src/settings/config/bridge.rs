@@ -30,13 +30,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["ui", "theme", "slug"],
         Value::String(snapshot.ui.theme_slug.clone()),
     );
-    if snapshot.ui.has_font_size_pt {
-        yaml::set_value(
-            &mut root,
-            &["ui", "font", "size_pt"],
-            serde_yaml_ng::to_value(snapshot.ui.font_size_pt).unwrap_or(Value::Null),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["ui", "font", "size_pt"],
+        serde_yaml_ng::to_value(snapshot.ui.font_size_pt).unwrap_or(Value::Null),
+    );
     yaml::set_value(
         &mut root,
         &["ui", "font", "family"],
@@ -47,39 +45,31 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["ui", "font", "emoji_family"],
         Value::String(snapshot.ui.font_emoji_family.clone()),
     );
-    if snapshot.ui.has_motion_animations_enabled {
-        yaml::set_value(
-            &mut root,
-            &["ui", "motion", "enable_animations"],
-            Value::Bool(snapshot.ui.motion_animations_enabled),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["ui", "motion", "enable_animations"],
+        Value::Bool(snapshot.ui.motion_animations_enabled),
+    );
     yaml::set_value(
         &mut root,
         &["ui", "input", "mode"],
         Value::String(snapshot.ui.input_mode.clone()),
     );
-    if snapshot.ui.has_input_touch_swipe_gestures_enabled {
-        yaml::set_value(
-            &mut root,
-            &["ui", "input", "touch", "swipe_gestures", "enabled"],
-            Value::Bool(snapshot.ui.input_touch_swipe_gestures_enabled),
-        );
-    }
-if snapshot.ui.has_layout_compact_mode {
-        yaml::set_value(
-            &mut root,
-            &["ui", "layout", "compact_mode"],
-            Value::Bool(snapshot.ui.layout_compact_mode),
-        );
-    }
-    if snapshot.ui.has_avatars_circular {
-        yaml::set_value(
-            &mut root,
-            &["ui", "avatars", "circular"],
-            Value::Bool(snapshot.ui.avatars_circular),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["ui", "input", "touch", "swipe_gestures", "enabled"],
+        Value::Bool(snapshot.ui.input_touch_swipe_gestures_enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["ui", "layout", "compact_mode"],
+        Value::Bool(snapshot.ui.layout_compact_mode),
+    );
+    yaml::set_value(
+        &mut root,
+        &["ui", "avatars", "circular"],
+        Value::Bool(snapshot.ui.avatars_circular),
+    );
     yaml::set_value(
         &mut root,
         &["ui", "avatars", "default_avatar_style"],
@@ -91,25 +81,21 @@ if snapshot.ui.has_layout_compact_mode {
         Value::String(snapshot.ui.scrollbar_policy.clone()),
     );
 
-    if snapshot.navigation.room_list.has_show_last_message_time {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "room_list", "show_last_message_timestamp"],
-            Value::Bool(snapshot.navigation.room_list.show_last_message_time),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["navigation", "room_list", "show_last_message_timestamp"],
+        Value::Bool(snapshot.navigation.room_list.show_last_message_time),
+    );
     yaml::set_value(
         &mut root,
         &["navigation", "room_list", "last_message_preview"],
         Value::String(snapshot.navigation.room_list.last_message_preview.clone()),
     );
-    if snapshot.navigation.room_list.has_show_community_counts {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "room_list", "show_community_notification_counts"],
-            Value::Bool(snapshot.navigation.room_list.show_community_counts),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["navigation", "room_list", "show_community_notification_counts"],
+        Value::Bool(snapshot.navigation.room_list.show_community_counts),
+    );
     yaml::set_value(
         &mut root,
         &["navigation", "room_list", "sort"],
@@ -125,55 +111,41 @@ if snapshot.ui.has_layout_compact_mode {
         &["navigation", "room_list", "opening_policy"],
         Value::String(snapshot.navigation.room_list.opening_policy.clone()),
     );
-    if snapshot.navigation.communities.has_visible {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "communities", "visible"],
-            Value::Bool(snapshot.navigation.communities.visible),
-        );
-    }
-    if snapshot.navigation.communities.has_filter_favourites {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "communities", "filters", "favourites"],
-            Value::Bool(snapshot.navigation.communities.filter_favourites),
-        );
-    }
-    if snapshot.navigation.communities.has_filter_people {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "communities", "filters", "people"],
-            Value::Bool(snapshot.navigation.communities.filter_people),
-        );
-    }
-    if snapshot.navigation.communities.has_filter_bots {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "communities", "filters", "bots"],
-            Value::Bool(snapshot.navigation.communities.filter_bots),
-        );
-    }
-    if snapshot.navigation.communities.has_filter_groups {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "communities", "filters", "groups"],
-            Value::Bool(snapshot.navigation.communities.filter_groups),
-        );
-    }
-    if snapshot.navigation.communities.has_filter_server_notices {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "communities", "filters", "server_notices"],
-            Value::Bool(snapshot.navigation.communities.filter_server_notices),
-        );
-    }
-    if snapshot.navigation.communities.has_filter_low_priority {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "communities", "filters", "low_priority"],
-            Value::Bool(snapshot.navigation.communities.filter_low_priority),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["navigation", "communities", "visible"],
+        Value::Bool(snapshot.navigation.communities.visible),
+    );
+    yaml::set_value(
+        &mut root,
+        &["navigation", "communities", "filters", "favourites"],
+        Value::Bool(snapshot.navigation.communities.filter_favourites),
+    );
+    yaml::set_value(
+        &mut root,
+        &["navigation", "communities", "filters", "people"],
+        Value::Bool(snapshot.navigation.communities.filter_people),
+    );
+    yaml::set_value(
+        &mut root,
+        &["navigation", "communities", "filters", "bots"],
+        Value::Bool(snapshot.navigation.communities.filter_bots),
+    );
+    yaml::set_value(
+        &mut root,
+        &["navigation", "communities", "filters", "groups"],
+        Value::Bool(snapshot.navigation.communities.filter_groups),
+    );
+    yaml::set_value(
+        &mut root,
+        &["navigation", "communities", "filters", "server_notices"],
+        Value::Bool(snapshot.navigation.communities.filter_server_notices),
+    );
+    yaml::set_value(
+        &mut root,
+        &["navigation", "communities", "filters", "low_priority"],
+        Value::Bool(snapshot.navigation.communities.filter_low_priority),
+    );
     yaml::set_value(
         &mut root,
         &["navigation", "tabs", "show_pin_button"],
@@ -189,27 +161,21 @@ if snapshot.ui.has_layout_compact_mode {
         &["navigation", "tabs", "tab_label"],
         Value::String(snapshot.navigation.tabs.tab_label.clone()),
     );
-    if snapshot.navigation.tabs.has_preferred_width_px {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "tabs", "preferred_width_px"],
-            Value::Number(Number::from(snapshot.navigation.tabs.preferred_width_px)),
-        );
-    }
-    if snapshot.navigation.tabs.has_minimum_width_px {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "tabs", "minimum_width_px"],
-            Value::Number(Number::from(snapshot.navigation.tabs.minimum_width_px)),
-        );
-    }
-    if snapshot.navigation.tabs.has_max_recently_closed_timelines {
-        yaml::set_value(
-            &mut root,
-            &["navigation", "tabs", "max_recently_closed_timelines"],
-            Value::Number(Number::from(snapshot.navigation.tabs.max_recently_closed_timelines)),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["navigation", "tabs", "preferred_width_px"],
+        Value::Number(Number::from(snapshot.navigation.tabs.preferred_width_px)),
+    );
+    yaml::set_value(
+        &mut root,
+        &["navigation", "tabs", "minimum_width_px"],
+        Value::Number(Number::from(snapshot.navigation.tabs.minimum_width_px)),
+    );
+    yaml::set_value(
+        &mut root,
+        &["navigation", "tabs", "max_recently_closed_timelines"],
+        Value::Number(Number::from(snapshot.navigation.tabs.max_recently_closed_timelines)),
+    );
 
     yaml::set_value(
         &mut root,
@@ -231,60 +197,46 @@ if snapshot.ui.has_layout_compact_mode {
         &["timeline", "messages", "layout", "avatar_size"],
         Value::String(snapshot.timeline.messages.layout_avatar_size.clone()),
     );
-    if snapshot.timeline.messages.has_layout_show_own_avatar {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "messages", "layout", "show_own_avatar"],
-            Value::Bool(snapshot.timeline.messages.layout_show_own_avatar),
-        );
-    }
-    if snapshot.timeline.messages.has_layout_max_width_percent {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "messages", "layout", "max_width_percent"],
-            Value::Number(Number::from(snapshot.timeline.messages.layout_max_width_percent)),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["timeline", "messages", "layout", "show_own_avatar"],
+        Value::Bool(snapshot.timeline.messages.layout_show_own_avatar),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "messages", "layout", "max_width_percent"],
+        Value::Number(Number::from(snapshot.timeline.messages.layout_max_width_percent)),
+    );
     yaml::set_value(
         &mut root,
         &["timeline", "messages", "sender_username"],
         Value::String(snapshot.timeline.messages.sender_username.clone()),
     );
-    if snapshot.timeline.messages.has_emoji_only_enlarge {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "messages", "emoji_only_enlarge"],
-            Value::Bool(snapshot.timeline.messages.emoji_only_enlarge),
-        );
-    }
-    if snapshot.timeline.messages.has_hover_highlight {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "messages", "hover_highlight"],
-            Value::Bool(snapshot.timeline.messages.hover_highlight),
-        );
-    }
-    if snapshot.timeline.formatted.has_code_syntax_highlighting {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "formatted", "code_syntax_highlighting"],
-            Value::Bool(snapshot.timeline.formatted.code_syntax_highlighting),
-        );
-    }
-    if snapshot.timeline.typing.has_show_enabled {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "typing", "show", "enabled"],
-            Value::Bool(snapshot.timeline.typing.show_enabled),
-        );
-    }
-    if snapshot.timeline.read_receipts.has_enabled {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "read_receipts", "enabled"],
-            Value::Bool(snapshot.timeline.read_receipts.enabled),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["timeline", "messages", "emoji_only_enlarge"],
+        Value::Bool(snapshot.timeline.messages.emoji_only_enlarge),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "messages", "hover_highlight"],
+        Value::Bool(snapshot.timeline.messages.hover_highlight),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "formatted", "code_syntax_highlighting"],
+        Value::Bool(snapshot.timeline.formatted.code_syntax_highlighting),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "typing", "show", "enabled"],
+        Value::Bool(snapshot.timeline.typing.show_enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "read_receipts", "enabled"],
+        Value::Bool(snapshot.timeline.read_receipts.enabled),
+    );
     yaml::set_value(
         &mut root,
         &["timeline", "messages", "actions", "activation_policy"],
@@ -295,61 +247,47 @@ if snapshot.ui.has_layout_compact_mode {
         &["timeline", "messages", "actions", "pinned_reactions"],
         Value::String(snapshot.timeline.message_actions.pinned_reactions.clone()),
     );
-    if snapshot.timeline.media.has_effects_enabled {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "media", "effects", "enabled"],
-            Value::Bool(snapshot.timeline.media.effects_enabled),
-        );
-    }
-    if snapshot.timeline.media.has_animate_on_hover {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "media", "animate_on_hover"],
-            Value::Bool(snapshot.timeline.media.animate_on_hover),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["timeline", "media", "effects", "enabled"],
+        Value::Bool(snapshot.timeline.media.effects_enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "media", "animate_on_hover"],
+        Value::Bool(snapshot.timeline.media.animate_on_hover),
+    );
     yaml::set_value(
         &mut root,
         &["timeline", "media", "image_display"],
         Value::String(snapshot.timeline.media.image_display.clone()),
     );
-    if snapshot.timeline.media.has_open_images_external {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "media", "open_images_external"],
-            Value::Bool(snapshot.timeline.media.open_images_external),
-        );
-    }
-    if snapshot.timeline.media.has_open_videos_external {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "media", "open_videos_external"],
-            Value::Bool(snapshot.timeline.media.open_videos_external),
-        );
-    }
-    if snapshot.timeline.media.has_autoplay_gif_videos {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "media", "autoplay_gif_videos"],
-            Value::Bool(snapshot.timeline.media.autoplay_gif_videos),
-        );
-    }
-    if snapshot.timeline.media.has_open_audio_external {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "media", "open_audio_external"],
-            Value::Bool(snapshot.timeline.media.open_audio_external),
-        );
-    }
-    if snapshot.timeline.media.has_default_audio_playback_speed {
-        yaml::set_value(
-            &mut root,
-            &["timeline", "media", "default_audio_playback_speed"],
-            serde_yaml_ng::to_value(snapshot.timeline.media.default_audio_playback_speed)
-                .unwrap_or(Value::Null),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["timeline", "media", "open_images_external"],
+        Value::Bool(snapshot.timeline.media.open_images_external),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "media", "open_videos_external"],
+        Value::Bool(snapshot.timeline.media.open_videos_external),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "media", "autoplay_gif_videos"],
+        Value::Bool(snapshot.timeline.media.autoplay_gif_videos),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "media", "open_audio_external"],
+        Value::Bool(snapshot.timeline.media.open_audio_external),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "media", "default_audio_playback_speed"],
+        serde_yaml_ng::to_value(snapshot.timeline.media.default_audio_playback_speed)
+            .unwrap_or(Value::Null),
+    );
     if snapshot.timeline.hidden_events.has_global {
         yaml::set_value(
             &mut root,
@@ -375,102 +313,76 @@ if snapshot.ui.has_layout_compact_mode {
         &["secrets", "provider"],
         Value::String(snapshot.secrets.provider.clone()),
     );
-    if snapshot.desktop.notifications.has_enabled {
-        yaml::set_value(
-            &mut root,
-            &["desktop", "notifications", "enabled"],
-            Value::Bool(snapshot.desktop.notifications.enabled),
-        );
-    }
-    if snapshot.desktop.notifications.has_attention_on_incoming {
-        yaml::set_value(
-            &mut root,
-            &["desktop", "notifications", "attention_on_incoming"],
-            Value::Bool(snapshot.desktop.notifications.attention_on_incoming),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["desktop", "notifications", "enabled"],
+        Value::Bool(snapshot.desktop.notifications.enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["desktop", "notifications", "attention_on_incoming"],
+        Value::Bool(snapshot.desktop.notifications.attention_on_incoming),
+    );
     yaml::set_value(
         &mut root,
         &["desktop", "notifications", "message_content_policy"],
         Value::String(snapshot.desktop.notifications.message_content_policy.clone()),
     );
-    if snapshot.desktop.attention.window_title.has_enabled {
-        yaml::set_value(
-            &mut root,
-            &["desktop", "attention", "window_title", "enabled"],
-            Value::Bool(snapshot.desktop.attention.window_title.enabled),
-        );
-    }
-    if snapshot.desktop.attention.app_badge.has_enabled {
-        yaml::set_value(
-            &mut root,
-            &["desktop", "attention", "app_badge", "enabled"],
-            Value::Bool(snapshot.desktop.attention.app_badge.enabled),
-        );
-    }
-    if snapshot.desktop.system_tray.has_enabled {
-        yaml::set_value(
-            &mut root,
-            &["desktop", "system_tray", "enabled"],
-            Value::Bool(snapshot.desktop.system_tray.enabled),
-        );
-    }
-    if snapshot.desktop.system_tray.has_autostart {
-        yaml::set_value(
-            &mut root,
-            &["desktop", "system_tray", "autostart"],
-            Value::Bool(snapshot.desktop.system_tray.autostart),
-        );
-    }
-    if snapshot.desktop.window_focus_blur.has_enabled {
-        yaml::set_value(
-            &mut root,
-            &["desktop", "window_focus_blur", "enabled"],
-            Value::Bool(snapshot.desktop.window_focus_blur.enabled),
-        );
-    }
-    if snapshot.desktop.window_focus_blur.has_delay_seconds {
-        yaml::set_value(
-            &mut root,
-            &["desktop", "window_focus_blur", "delay_seconds"],
-            Value::Number(Number::from(snapshot.desktop.window_focus_blur.delay_seconds)),
-        );
-    }
-    if snapshot.network.encryption.has_only_verified_users {
-        yaml::set_value(
-            &mut root,
-            &["network", "encryption", "only_verified_users"],
-            Value::Bool(snapshot.network.encryption.only_verified_users),
-        );
-    }
-    if snapshot.network.encryption.has_share_with_trusted {
-        yaml::set_value(
-            &mut root,
-            &["network", "encryption", "share_with_trusted"],
-            Value::Bool(snapshot.network.encryption.share_with_trusted),
-        );
-    }
-    if snapshot.network.encryption.has_key_backup {
-        yaml::set_value(
-            &mut root,
-            &["network", "encryption", "key_backup"],
-            Value::Bool(snapshot.network.encryption.key_backup),
-        );
-    }
-    if snapshot.calls.legacy.has_enabled {
-        yaml::set_value(
-            &mut root,
-            &["calls", "legacy", "enabled"],
-            Value::Bool(snapshot.calls.legacy.enabled),
-        );
-    }
-    if snapshot.calls.relay.has_use_fallback_server {
-        yaml::set_value(
-            &mut root,
-            &["calls", "relay", "use_fallback_server"],
-            Value::Bool(snapshot.calls.relay.use_fallback_server),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["desktop", "attention", "window_title", "enabled"],
+        Value::Bool(snapshot.desktop.attention.window_title.enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["desktop", "attention", "app_badge", "enabled"],
+        Value::Bool(snapshot.desktop.attention.app_badge.enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["desktop", "system_tray", "enabled"],
+        Value::Bool(snapshot.desktop.system_tray.enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["desktop", "system_tray", "autostart"],
+        Value::Bool(snapshot.desktop.system_tray.autostart),
+    );
+    yaml::set_value(
+        &mut root,
+        &["desktop", "window_focus_blur", "enabled"],
+        Value::Bool(snapshot.desktop.window_focus_blur.enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["desktop", "window_focus_blur", "delay_seconds"],
+        Value::Number(Number::from(snapshot.desktop.window_focus_blur.delay_seconds)),
+    );
+    yaml::set_value(
+        &mut root,
+        &["network", "encryption", "only_verified_users"],
+        Value::Bool(snapshot.network.encryption.only_verified_users),
+    );
+    yaml::set_value(
+        &mut root,
+        &["network", "encryption", "share_with_trusted"],
+        Value::Bool(snapshot.network.encryption.share_with_trusted),
+    );
+    yaml::set_value(
+        &mut root,
+        &["network", "encryption", "key_backup"],
+        Value::Bool(snapshot.network.encryption.key_backup),
+    );
+    yaml::set_value(
+        &mut root,
+        &["calls", "legacy", "enabled"],
+        Value::Bool(snapshot.calls.legacy.enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["calls", "relay", "use_fallback_server"],
+        Value::Bool(snapshot.calls.relay.use_fallback_server),
+    );
     yaml::set_value(
         &mut root,
         &["calls", "devices", "microphone"],
@@ -496,65 +408,51 @@ if snapshot.ui.has_layout_compact_mode {
         &["calls", "audio", "ringtone"],
         Value::String(snapshot.calls.audio.ringtone.clone()),
     );
-    if snapshot.calls.screenshare.has_frame_rate {
-        yaml::set_value(
-            &mut root,
-            &["calls", "screenshare", "frame_rate"],
-            Value::Number(Number::from(snapshot.calls.screenshare.frame_rate)),
-        );
-    }
-    if snapshot.calls.screenshare.has_picture_in_picture {
-        yaml::set_value(
-            &mut root,
-            &["calls", "screenshare", "picture_in_picture"],
-            Value::Bool(snapshot.calls.screenshare.picture_in_picture),
-        );
-    }
-    if snapshot.calls.screenshare.has_include_remote_video {
-        yaml::set_value(
-            &mut root,
-            &["calls", "screenshare", "include_remote_video"],
-            Value::Bool(snapshot.calls.screenshare.include_remote_video),
-        );
-    }
-    if snapshot.calls.screenshare.has_show_cursor {
-        yaml::set_value(
-            &mut root,
-            &["calls", "screenshare", "show_cursor"],
-            Value::Bool(snapshot.calls.screenshare.show_cursor),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["calls", "screenshare", "frame_rate"],
+        Value::Number(Number::from(snapshot.calls.screenshare.frame_rate)),
+    );
+    yaml::set_value(
+        &mut root,
+        &["calls", "screenshare", "picture_in_picture"],
+        Value::Bool(snapshot.calls.screenshare.picture_in_picture),
+    );
+    yaml::set_value(
+        &mut root,
+        &["calls", "screenshare", "include_remote_video"],
+        Value::Bool(snapshot.calls.screenshare.include_remote_video),
+    );
+    yaml::set_value(
+        &mut root,
+        &["calls", "screenshare", "show_cursor"],
+        Value::Bool(snapshot.calls.screenshare.show_cursor),
+    );
     yaml::set_value(
         &mut root,
         &["network", "presence", "status_policy"],
         Value::String(snapshot.network.presence_status_policy.clone()),
     );
-    if snapshot.network.has_tls_enable_certificate_validation {
-        yaml::set_value(
-            &mut root,
-            &["network", "tls", "enable_certificate_validation"],
-            Value::Bool(snapshot.network.tls_enable_certificate_validation),
-        );
-    }
-    if snapshot.network.has_mrs_enabled {
-        yaml::set_value(
-            &mut root,
-            &["network", "mrs", "enabled"],
-            Value::Bool(snapshot.network.mrs_enabled),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["network", "tls", "enable_certificate_validation"],
+        Value::Bool(snapshot.network.tls_enable_certificate_validation),
+    );
+    yaml::set_value(
+        &mut root,
+        &["network", "mrs", "enabled"],
+        Value::Bool(snapshot.network.mrs_enabled),
+    );
     yaml::set_value(
         &mut root,
         &["network", "mrs", "server_name"],
         Value::String(snapshot.network.mrs_server_name.clone()),
     );
-    if snapshot.network.has_http3_enabled {
-        yaml::set_value(
-            &mut root,
-            &["network", "http3", "enabled"],
-            Value::Bool(snapshot.network.http3_enabled),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["network", "http3", "enabled"],
+        Value::Bool(snapshot.network.http3_enabled),
+    );
     yaml::set_value(
         &mut root,
         &["integrations", "dbus", "access"],
@@ -565,13 +463,11 @@ if snapshot.ui.has_layout_compact_mode {
         &["integrations", "browser", "command"],
         Value::String(snapshot.integrations.browser_command.clone()),
     );
-    if snapshot.composer.has_input_markdown_to_html_enabled {
-        yaml::set_value(
-            &mut root,
-            &["composer", "input", "markdown_to_html", "enabled"],
-            Value::Bool(snapshot.composer.input_markdown_to_html_enabled),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["composer", "input", "markdown_to_html", "enabled"],
+        Value::Bool(snapshot.composer.input_markdown_to_html_enabled),
+    );
     yaml::set_value(
         &mut root,
         &["composer", "input", "send_key"],
@@ -592,41 +488,31 @@ if snapshot.ui.has_layout_compact_mode {
         &["composer", "input", "emoji", "preferred_skin_tone"],
         Value::String(snapshot.composer.input_emoji_preferred_skin_tone.clone()),
     );
-    if snapshot.composer.has_input_inline_emoji_picker_enabled {
-        yaml::set_value(
-            &mut root,
-            &["composer", "input", "inline_emoji_picker", "enabled"],
-            Value::Bool(snapshot.composer.input_inline_emoji_picker_enabled),
-        );
-    }
-    if snapshot.composer.has_input_inline_room_picker_enabled {
-        yaml::set_value(
-            &mut root,
-            &["composer", "input", "inline_room_picker", "enabled"],
-            Value::Bool(snapshot.composer.input_inline_room_picker_enabled),
-        );
-    }
-    if snapshot.composer.has_input_inline_user_picker_enabled {
-        yaml::set_value(
-            &mut root,
-            &["composer", "input", "inline_user_picker", "enabled"],
-            Value::Bool(snapshot.composer.input_inline_user_picker_enabled),
-        );
-    }
-    if snapshot.composer.has_typing_send_enabled {
-        yaml::set_value(
-            &mut root,
-            &["composer", "typing", "send", "enabled"],
-            Value::Bool(snapshot.composer.typing_send_enabled),
-        );
-    }
-    if snapshot.composer.has_extras_stickers_enabled {
-        yaml::set_value(
-            &mut root,
-            &["composer", "extras", "stickers", "enabled"],
-            Value::Bool(snapshot.composer.extras_stickers_enabled),
-        );
-    }
+    yaml::set_value(
+        &mut root,
+        &["composer", "input", "inline_emoji_picker", "enabled"],
+        Value::Bool(snapshot.composer.input_inline_emoji_picker_enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["composer", "input", "inline_room_picker", "enabled"],
+        Value::Bool(snapshot.composer.input_inline_room_picker_enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["composer", "input", "inline_user_picker", "enabled"],
+        Value::Bool(snapshot.composer.input_inline_user_picker_enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["composer", "typing", "send", "enabled"],
+        Value::Bool(snapshot.composer.typing_send_enabled),
+    );
+    yaml::set_value(
+        &mut root,
+        &["composer", "extras", "stickers", "enabled"],
+        Value::Bool(snapshot.composer.extras_stickers_enabled),
+    );
 
     yaml::serialize_yaml(&root)
 }

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 mod bridge;
+pub(crate) mod defaults;
 mod model;
 mod tree;
 mod tokens;

@@ -142,6 +142,10 @@ stateEventIconColorCategoryForItem(const MatrixTimelineItem &item)
     if (item.matrixEventType == QStringLiteral("m.room.tombstone"))
         return QStringLiteral("negative");
 
+    // Cautious: server access restrictions (defensive but noteworthy)
+    if (item.matrixEventType == QStringLiteral("m.room.server_acl"))
+        return QStringLiteral("cautious");
+
     return QStringLiteral("neutral");
 }
 
@@ -153,6 +157,8 @@ stateEventIconForItem(const MatrixTimelineItem &item)
 
     if (item.matrixEventType == QStringLiteral("m.room.pinned_events"))
         return QStringLiteral(":/icons/icons/ui/pin.svg");
+    if (item.matrixEventType == QStringLiteral("m.room.server_acl"))
+        return QStringLiteral(":/icons/icons/ui/stop.svg");
 
     return stateEventIconForKind(item.itemKind);
 }

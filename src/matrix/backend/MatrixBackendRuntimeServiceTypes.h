@@ -282,6 +282,29 @@ struct PowerLevelChange
     bool operator==(const PowerLevelChange &) const = default;
 };
 
+struct ServerAclChange
+{
+    QStringList allowedAdded;
+    QStringList allowedRemoved;
+    QStringList deniedAdded;
+    QStringList deniedRemoved;
+    /// 0 = unchanged, 1 = now allowed, 2 = now denied
+    uint8_t ipLiteralsChange                       = 0;
+    bool operator==(const ServerAclChange &) const = default;
+
+    [[nodiscard]] bool isEmpty() const
+    {
+        return allowedAdded.isEmpty() && allowedRemoved.isEmpty() && deniedAdded.isEmpty() &&
+               deniedRemoved.isEmpty() && ipLiteralsChange == 0;
+    }
+
+    [[nodiscard]] int totalChanges() const
+    {
+        return allowedAdded.size() + allowedRemoved.size() + deniedAdded.size() +
+               deniedRemoved.size() + (ipLiteralsChange != 0 ? 1 : 0);
+    }
+};
+
 struct MatrixTimelineItem
 {
     QString itemId;
@@ -339,6 +362,7 @@ struct MatrixTimelineItem
     QString stateEventReason;
     bool stateEventHasSender = false;
     QList<PowerLevelChange> powerLevelChanges;
+    ServerAclChange serverAclChange;
     // Pre-computed derived fields (populated by MatrixTimelineModel, not the Rust bridge).
     int cachedType             = 0;
     int cachedEmojiOnlyCount   = 0;

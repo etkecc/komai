@@ -170,7 +170,6 @@ EventDelegateChooser {
         roleValues: [MtxEvent.CanonicalAlias, MtxEvent.ServerAcl, MtxEvent.Name, MtxEvent.Topic, MtxEvent.Avatar, MtxEvent.PinnedEvents, MtxEvent.ImagePackInRoom, MtxEvent.SpaceParent, MtxEvent.RoomCreate, MtxEvent.PowerLevels, MtxEvent.PolicyRuleUser, MtxEvent.PolicyRuleRoom, MtxEvent.PolicyRuleServer, MtxEvent.RoomJoinRules, MtxEvent.RoomHistoryVisibility, MtxEvent.RoomGuestAccess,]
         StateEventMessage {
             required property string formattedStateEvent
-            required property string stateEventIconColorCategory
             required property string userId
             required property string userName
 
@@ -180,7 +179,6 @@ EventDelegateChooser {
             isOnlyEmoji: 0
             isReply: EventDelegateChooser.isReply
             isStateEvent: true
-            stateEventIconColorCategory: stateEventIconColorCategory
             readonly property color chooserMainSecondaryTextColor: (parent && parent.mainMessageSecondaryTextColor !== undefined && parent.mainMessageSecondaryTextColor !== null) ? parent.mainMessageSecondaryTextColor : palette.buttonText
             readonly property color chooserMainLinkColor: (parent && parent.mainMessageLinkColor !== undefined && parent.mainMessageLinkColor !== null) ? parent.mainMessageLinkColor : palette.link
             readonly property color chooserMainSurfaceColor: (parent && parent.mainMessageSurfaceColor !== undefined && parent.mainMessageSurfaceColor !== null) ? parent.mainMessageSurfaceColor : palette.alternateBase

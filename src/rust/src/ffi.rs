@@ -1016,6 +1016,12 @@ mod bridge {
         state_event_reason: String,
         state_event_has_sender: bool,
         power_level_changes: Vec<MatrixPowerLevelChange>,
+        server_acl_allowed_added: Vec<String>,
+        server_acl_allowed_removed: Vec<String>,
+        server_acl_denied_added: Vec<String>,
+        server_acl_denied_removed: Vec<String>,
+        /// 0 = unchanged, 1 = now allowed, 2 = now denied
+        server_acl_ip_literals_change: u8,
     }
 
     struct MatrixPowerLevelChange {

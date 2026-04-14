@@ -260,6 +260,7 @@ fn notification_item_from_sdk(
                     state_event_reason: String::new(),
                     state_event_has_sender: false,
                     power_level_changes: Vec::new(),
+                    server_acl_changes: None,
                 }
             });
 

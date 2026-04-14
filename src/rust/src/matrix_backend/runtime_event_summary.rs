@@ -65,6 +65,8 @@ pub struct MatrixEventSummary {
     pub state_event_has_sender: bool,
     /// Power level user changes for enriched m.room.power_levels messages.
     pub power_level_changes: Vec<super::event_detail::PowerLevelChange>,
+    /// Server ACL changes for enriched m.room.server_acl messages.
+    pub server_acl_changes: Option<super::event_detail::ServerAclChange>,
 }
 
 #[derive(Clone, Debug)]
@@ -378,9 +380,23 @@ fn summarize_other_state(state: &OtherState, _sender: &str) -> MatrixEventSummar
         _ => Vec::new(),
     };
 
+    // Extract server ACL changes for enriched messages.
+    // Translated in C++ `StateEventText::translateServerAcl()`.
+    let server_acl_changes = match state.content() {
+        AnyOtherFullStateEventContent::RoomServerAcl(FullStateEventContent::Original {
+            content,
+            prev_content: Some(prev),
+        }) => {
+            let change = super::event_detail::diff_server_acl(content, prev);
+            if change.is_empty() { None } else { Some(change) }
+        }
+        _ => None,
+    };
+
     let mut s = summary("other_state", &event_type, "");
     s.state_event_detail = detail;
     s.power_level_changes = power_level_changes;
+    s.server_acl_changes = server_acl_changes;
     s
 }
 
@@ -572,6 +588,7 @@ fn summary(kind: &str, matrix_event_type: &str, body: &str) -> MatrixEventSummar
         state_event_reason: String::new(),
         state_event_has_sender: false,
         power_level_changes: Vec::new(),
+        server_acl_changes: None,
     }
 }
 
@@ -610,6 +627,7 @@ fn summary_with_media(
         state_event_reason: String::new(),
         state_event_has_sender: false,
         power_level_changes: Vec::new(),
+        server_acl_changes: None,
     }
 }
 

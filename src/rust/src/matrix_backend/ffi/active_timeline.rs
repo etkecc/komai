@@ -89,6 +89,31 @@ fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimeline
                 new_level: change.new_level,
             })
             .collect(),
+        server_acl_allowed_added: item
+            .server_acl_changes
+            .as_ref()
+            .map(|c| c.allowed_added.clone())
+            .unwrap_or_default(),
+        server_acl_allowed_removed: item
+            .server_acl_changes
+            .as_ref()
+            .map(|c| c.allowed_removed.clone())
+            .unwrap_or_default(),
+        server_acl_denied_added: item
+            .server_acl_changes
+            .as_ref()
+            .map(|c| c.denied_added.clone())
+            .unwrap_or_default(),
+        server_acl_denied_removed: item
+            .server_acl_changes
+            .as_ref()
+            .map(|c| c.denied_removed.clone())
+            .unwrap_or_default(),
+        server_acl_ip_literals_change: match item.server_acl_changes.as_ref().and_then(|c| c.ip_literals_changed) {
+            None => 0,
+            Some(true) => 1,
+            Some(false) => 2,
+        },
     }
 }
 

@@ -142,6 +142,23 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
                 });
             return list;
         }(),
+      .serverAclChange =
+        [&item]() {
+            auto toStringList = [](const ::rust::Vec<::rust::String> &v) {
+                QStringList list;
+                list.reserve(static_cast<int>(v.size()));
+                for (const auto &s : v)
+                    list.append(QString::fromStdString(std::string(s)));
+                return list;
+            };
+            return ServerAclChange{
+              .allowedAdded     = toStringList(item.server_acl_allowed_added),
+              .allowedRemoved   = toStringList(item.server_acl_allowed_removed),
+              .deniedAdded      = toStringList(item.server_acl_denied_added),
+              .deniedRemoved    = toStringList(item.server_acl_denied_removed),
+              .ipLiteralsChange = item.server_acl_ip_literals_change,
+            };
+        }(),
       .cachedType                        = 0,
       .cachedEmojiOnlyCount              = 0,
       .cachedDay                         = 0,

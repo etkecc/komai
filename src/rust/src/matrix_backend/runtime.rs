@@ -506,6 +506,7 @@ pub struct MatrixTimelineItem {
     pub state_event_reason: String,
     pub state_event_has_sender: bool,
     pub power_level_changes: Vec<event_detail::PowerLevelChange>,
+    pub server_acl_changes: Option<event_detail::ServerAclChange>,
 }
 
 static NEXT_BACKEND_HANDLE_ID: AtomicU64 = AtomicU64::new(1);

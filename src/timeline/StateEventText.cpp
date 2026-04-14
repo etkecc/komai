@@ -257,6 +257,36 @@ translatePowerLevels(const MatrixTimelineItem &item)
     return lines.join(QStringLiteral("\n"));
 }
 
+static constexpr int serverAclMaxDetailedChanges = 10;
+
+static QString
+translateServerAcl(const MatrixTimelineItem &item)
+{
+    const auto sender  = formatUser(item.senderDisplayName, item.senderId);
+    const auto &change = item.serverAclChange;
+
+    if (change.isEmpty() || change.totalChanges() > serverAclMaxDetailedChanges)
+        return TR("%1 changed which servers are allowed in this room").arg(sender);
+
+    QStringList lines;
+
+    for (const auto &server : change.deniedAdded)
+        lines.append(TR("%1 blocked servers matching %2").arg(sender, server));
+    for (const auto &server : change.deniedRemoved)
+        lines.append(TR("%1 unblocked servers matching %2").arg(sender, server));
+    for (const auto &server : change.allowedAdded)
+        lines.append(TR("%1 allowed servers matching %2").arg(sender, server));
+    for (const auto &server : change.allowedRemoved)
+        lines.append(TR("%1 disallowed servers matching %2").arg(sender, server));
+
+    if (change.ipLiteralsChange == 1)
+        lines.append(TR("%1 allowed connections from IP literal servers").arg(sender));
+    else if (change.ipLiteralsChange == 2)
+        lines.append(TR("%1 blocked connections from IP literal servers").arg(sender));
+
+    return lines.join(QStringLiteral("\n"));
+}
+
 static QString
 translateOtherState(const MatrixTimelineItem &item)
 {
@@ -286,7 +316,7 @@ translateOtherState(const MatrixTimelineItem &item)
     if (eventType == QStringLiteral("m.room.tombstone"))
         return TR("%1 replaced this room").arg(sender);
     if (eventType == QStringLiteral("m.room.server_acl"))
-        return TR("%1 changed which servers are allowed in this room").arg(sender);
+        return translateServerAcl(item);
     if (eventType == QStringLiteral("m.room.create"))
         return TR("%1 created and configured the room").arg(sender);
     if (eventType == QStringLiteral("m.space.parent"))

@@ -14,8 +14,8 @@ These shortcuts work across the main window unless a more specific control handl
 | --- | --- |
 | `Ctrl+N` | Open the **New** dialog |
 | `Ctrl+Shift+N` | Fallback for opening the **New** dialog when `Ctrl+N` is captured by a focused text field |
-| `Ctrl+K` | Open **Find & switch room or space** |
-| `Ctrl+P` | Alternative shortcut for **Find & switch room or space** |
+| `Ctrl+K` | Open a **New Tab** with search |
+| `Ctrl+P` | Alternative shortcut for opening a **New Tab** with search |
 | `Ctrl+Shift+C` | Focus the [**Communities sidebar**](communities-sidebar.md) list |
 | `Ctrl+Shift+R` | Focus the **Room list** sidebar |
 | `Ctrl++` / `Ctrl+=` | Increase UI font size |
@@ -171,20 +171,6 @@ These shortcuts apply in the message composer.
 Typing note: when the timeline has focus, typing usually moves focus into the composer. On some
 platforms or keyboard layouts, some `Ctrl+letter` combinations may also do that even though they
 are not dedicated composer shortcuts.
-
-
-## 🔎 Find and Switch Room
-
-In the **Find & switch room or space** dialog:
-
-| Shortcut | Action |
-| --- | --- |
-| `Up` | Move selection up |
-| `Down` | Move selection down |
-| `Tab` | Move selection down |
-| `Shift+Tab` | Move selection up |
-| `Enter` | Open the selected room or space |
-| `Escape` | Close the dialog |
 
 
 ## ➕ New Dialog

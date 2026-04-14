@@ -51,6 +51,22 @@ Rectangle {
         onActivated: tabController.openNewTab()
     }
     Shortcut {
+        sequences: ["Ctrl+K", "Ctrl+P"]
+
+        onActivated: tabController.openNewTab()
+    }
+    Shortcut {
+        sequences: ["Ctrl+N", "Ctrl+Shift+N"]
+        context: Qt.ApplicationShortcut
+
+        onActivated: roomJoinCreateDialog.open()
+        onActivatedAmbiguously: roomJoinCreateDialog.open()
+    }
+    RoomJoinCreateDialog {
+        id: roomJoinCreateDialog
+        dialogHost: timeline
+    }
+    Shortcut {
         sequence: "Ctrl+W"
         enabled: tabController.tabs.count > 0
 

@@ -23,11 +23,6 @@ Item {
         onActivatedAmbiguously: timelineRoot.activeMediaOverlay.close()
     }
     Shortcut {
-        sequences: ["Ctrl+K", "Ctrl+P"]
-
-        onActivated: timelineRoot.openCatalogDialog(componentCatalog.navigationQuickSwitcherDialog)
-    }
-    Shortcut {
         sequences: [StandardKey.ZoomIn, "Ctrl+Plus", "Ctrl+Equal", "Ctrl+Shift+Equal"]
         context: Qt.ApplicationShortcut
 

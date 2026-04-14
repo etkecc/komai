@@ -20,9 +20,8 @@ Page {
     property bool collapsed: false
     property var communitiesTarget: null
     property bool interactionSuppressed: false
-    readonly property Item roomListLastActionButton: roomActionsBar.lastFocusableActionButton
+    readonly property Item roomListLastActionButton: null
     property bool pendingGoToTopRequest: false
-    readonly property var profileMenu: profileContextMenu
 
     function eventMatchesLatinKey(event, latinKey) {
         if (!event)
@@ -138,47 +137,13 @@ Page {
         repeat: false
         onTriggered: roomListPage.pendingGoToTopRequest = false
     }
-    header: ColumnLayout {
-        spacing: 0
-
-        RoomListUserInfoPanel {
-            id: userInfoPanel
-            collapsed: roomListPage.collapsed
-            Layout.fillWidth: true
-        }
-        Rectangle {
-            Layout.fillWidth: true
-            color: Komai.theme.separator
-            Layout.preferredHeight: 0
-        }
-        RoomListActionsBar {
-            id: roomActionsBar
-
-            Layout.fillWidth: true
-            Layout.preferredHeight: Komai.navigationRowHeight
-            avatarSize: roomListPage.avatarSize
-            profileContextMenu: profileContextMenu
-            componentCatalog: componentCatalog
-            timelineRoot: roomListPage.timelineRoot
-        }
-        Rectangle {
-            Layout.fillWidth: true
-            color: Komai.theme.separator
-            Layout.preferredHeight: 1
-        }
-    }
-
     // HACK: https://bugreports.qt.io/browse/QTBUG-83972, qtwayland cannot auto hide menu
     Connections {
         function onHideMenu() {
-            userInfoPanel.closeMenu();
             roomListContextMenu.close();
         }
 
         target: MainWindow
-    }
-    RoomListProfileMenu {
-        id: profileContextMenu
     }
     ColumnLayout {
         anchors.fill: parent

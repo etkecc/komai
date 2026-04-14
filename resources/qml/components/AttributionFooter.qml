@@ -32,7 +32,27 @@ Rectangle {
         anchors.rightMargin: Komai.paddingMedium
         spacing: Komai.paddingMedium
 
+        Image {
+            id: footerLogo
+
+            readonly property real logoSize: footerText.implicitHeight * 1.5
+
+            Layout.preferredWidth: logoSize
+            Layout.preferredHeight: logoSize
+            Layout.alignment: Qt.AlignVCenter
+            source: "qrc:/logos/komai.svg"
+            sourceSize: Qt.size(logoSize * 2, logoSize * 2)
+
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked: Qt.openUrlExternally("https://github.com/etkecc/komai")
+            }
+        }
+
         Text {
+            id: footerText
+
             Layout.fillWidth: true
             textFormat: Text.RichText
             font.pointSize: Settings.uiFontSizePt

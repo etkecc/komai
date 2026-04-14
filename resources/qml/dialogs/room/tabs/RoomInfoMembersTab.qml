@@ -251,11 +251,21 @@ Item {
                                 Rectangle {
                                     id: plBadge
 
+                                    readonly property color badgeBase: Komai.theme.attention
+
                                     Layout.alignment: Qt.AlignVCenter
                                     implicitWidth: plBadgeRow.implicitWidth + Komai.paddingSmall * 2
                                     implicitHeight: plBadgeRow.implicitHeight + Komai.paddingSmall
                                     radius: Komai.paddingSmall
-                                    color: model.isInvited ? Komai.theme.attention : "transparent"
+                                    color: model.isInvited
+                                        ? Qt.rgba(
+                                            palette.window.r * 0.85 + badgeBase.r * 0.15,
+                                            palette.window.g * 0.85 + badgeBase.g * 0.15,
+                                            palette.window.b * 0.85 + badgeBase.b * 0.15,
+                                            1.0)
+                                        : "transparent"
+                                    border.color: model.isInvited ? badgeBase : "transparent"
+                                    border.width: model.isInvited ? 1 : 0
                                     visible: true
 
                                     RowLayout {
@@ -280,7 +290,9 @@ Item {
 
                                         Label {
                                             text: model.isInvited ? qsTr("Invited") : plIcon.roleName
-                                            color: delHover.hovered ? palette.brightText : (model.isInvited ? palette.brightText : palette.buttonText)
+                                            color: delHover.hovered
+                                                ? palette.brightText
+                                                : (model.isInvited ? plBadge.badgeBase : palette.buttonText)
                                             font.pixelSize: Math.ceil(fontMetrics.font.pixelSize * 0.8)
                                         }
                                     }

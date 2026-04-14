@@ -294,13 +294,22 @@ pub async fn fetch_active_room_event_content_for_forwarding(
             .unwrap_or("m.room.message")
             .to_owned();
 
-        let content = parsed
+        let mut content = parsed
             .get("content")
             .ok_or_else(|| {
                 format!("matrix-sdk room event '{event_id}' has no content field")
-            })?;
+            })?
+            .clone();
 
-        let content_json = serde_json::to_string(content).map_err(|e| {
+        // Strip fields that are context-specific to the original room:
+        // - m.relates_to: thread/reply relations cause "Relations must be in the same room"
+        // - m.mentions: avoids pinging people mentioned in the original message
+        if let Some(obj) = content.as_object_mut() {
+            obj.remove("m.relates_to");
+            obj.remove("m.mentions");
+        }
+
+        let content_json = serde_json::to_string(&content).map_err(|e| {
             format!("failed to serialize content of matrix-sdk room event '{event_id}': {e}")
         })?;
 

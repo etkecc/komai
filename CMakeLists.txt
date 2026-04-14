@@ -466,6 +466,8 @@ set(SRC_FILES
     src/matrix/backend/MatrixBackendRuntimeServiceCore.cpp
     src/matrix/backend/MatrixBackendRuntimeServiceEncryption.cpp
     src/matrix/backend/MatrixBackendRuntimeServiceInternal.h
+    src/matrix/backend/MatrixBackendRuntimeServiceMedia.cpp
+    src/matrix/backend/MatrixBackendRuntimeServiceMessaging.cpp
     src/matrix/backend/MatrixBackendRuntimeServiceProfile.cpp
     src/matrix/backend/MatrixBackendRuntimeServiceRooms.cpp
     src/matrix/backend/MatrixBackendRuntimeServiceTimeline.cpp

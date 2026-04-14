@@ -1,0 +1,192 @@
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+#include "matrix/backend/MatrixBackendRuntimeService.h"
+
+#include <QByteArray>
+
+#include "komai-rust-cxxbridge/ffi.h"
+#include "matrix/MatrixMediaUri.h"
+#include "matrix/backend/MatrixBackendBridge.h"
+#include "matrix/backend/MatrixBackendRuntimeServiceInternal.h"
+#include "matrix/backend/MatrixBlockingCall.h"
+#include "matrix/backend/MatrixFfiBlockingContext.h"
+
+namespace komai {
+
+bool
+MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallContext context,
+                                                uint64_t handleId,
+                                                const QString &roomId,
+                                                const QString &filePath,
+                                                const QString &filename,
+                                                const QString &caption,
+                                                const QString &replyEventId,
+                                                const QString &threadId,
+                                                const QString &mimeType,
+                                                uint64_t durationMs,
+                                                bool isVoice,
+                                                const QList<float> &waveform,
+                                                QString *errorOut)
+{
+    try {
+        matrix_backend::invokeBlockingCall(
+          "matrix_send_room_attachment",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId,
+           roomId,
+           filePath,
+           filename,
+           caption,
+           replyEventId,
+           threadId,
+           mimeType,
+           durationMs,
+           isVoice,
+           waveform,
+           context]() {
+              const auto waveformSlice = ::rust::Slice<const float>(
+                waveform.constData(), static_cast<size_t>(waveform.size()));
+              ::komai::rust::matrix_send_room_attachment(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                filePath.toStdString(),
+                filename.toStdString(),
+                caption.toStdString(),
+                replyEventId.toStdString(),
+                threadId.toStdString(),
+                mimeType.toStdString(),
+                durationMs,
+                isVoice,
+                waveformSlice);
+          });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+std::optional<QString>
+MatrixBackendRuntimeService::uploadMedia(matrix_backend::BlockingCallContext context,
+                                         uint64_t handleId,
+                                         const QString &filePath,
+                                         const QString &mimeType,
+                                         QString *errorOut)
+{
+    try {
+        return matrix::normalizeMxcUri(QString::fromStdString(std::string(
+          invokeRuntimeWorkerCall("matrix_upload_media", [context, handleId, filePath, mimeType]() {
+              return ::komai::rust::matrix_upload_media(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                filePath.toStdString(),
+                mimeType.toStdString());
+          }))));
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::sendRoomImage(matrix_backend::BlockingCallContext context,
+                                           uint64_t handleId,
+                                           const QString &roomId,
+                                           const QString &mxcUri,
+                                           const QString &body,
+                                           const QString &filename,
+                                           const QString &infoJson,
+                                           QString *errorOut)
+{
+    try {
+        invokeRuntimeWorkerCall("matrix_send_room_image",
+                                [context, handleId, roomId, mxcUri, body, filename, infoJson]() {
+                                    ::komai::rust::matrix_send_room_image(
+                                      matrix_backend::toRustBlockingContext(context),
+                                      handleId,
+                                      roomId.toStdString(),
+                                      mxcUri.toStdString(),
+                                      body.toStdString(),
+                                      filename.toStdString(),
+                                      infoJson.toStdString());
+                                });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+std::optional<QByteArray>
+MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
+  matrix_backend::BlockingCallContext context,
+  uint64_t handleId,
+  const QString &itemId,
+  int width,
+  int height,
+  bool crop,
+  QString *errorOut)
+{
+    try {
+        const auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_active_room_timeline_media_content",
+          [context, handleId, &itemId, width, height, crop]() {
+              return ::komai::rust::matrix_fetch_active_room_timeline_media_content(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                itemId.toStdString(),
+                width,
+                height,
+                crop);
+          });
+        QByteArray data;
+        data.reserve(static_cast<qsizetype>(result.size()));
+        data.append(reinterpret_cast<const char *>(result.data()),
+                    static_cast<qsizetype>(result.size()));
+        return data;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<QByteArray>
+MatrixBackendRuntimeService::fetchMediaContent(matrix_backend::BlockingCallContext context,
+                                               uint64_t handleId,
+                                               const QString &mxcUri,
+                                               int width,
+                                               int height,
+                                               bool crop,
+                                               QString *errorOut)
+{
+    try {
+        const auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_media_content", [context, handleId, &mxcUri, width, height, crop]() {
+              return ::komai::rust::matrix_fetch_media_content(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                mxcUri.toStdString(),
+                width,
+                height,
+                crop);
+          });
+        QByteArray data;
+        data.reserve(static_cast<qsizetype>(result.size()));
+        data.append(reinterpret_cast<const char *>(result.data()),
+                    static_cast<qsizetype>(result.size()));
+        return data;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+} // namespace komai

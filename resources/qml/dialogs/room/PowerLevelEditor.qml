@@ -22,7 +22,13 @@ OverlayDialog {
 
     Item {
         Layout.fillWidth: true
-        Layout.preferredHeight: plEditorW.parent ? plEditorW.parent.height * 0.8 : 600
+        Layout.preferredHeight: {
+            if (!plEditorW.parent) return 600;
+            // Cap so the dialog (at y ≈ 25%) doesn't overflow the viewport.
+            var available = plEditorW.parent.height - plEditorW.y
+                - plEditorW.overlayDialogChromeHeight - Komai.paddingLarge;
+            return Math.min(plEditorW.parent.height * 0.7, Math.max(300, available));
+        }
 
         ColumnLayout {
             anchors.fill: parent

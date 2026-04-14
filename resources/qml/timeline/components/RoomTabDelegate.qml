@@ -144,6 +144,8 @@ Rectangle {
                 h.g * 0.15 + palette.window.g * 0.85,
                 h.b * 0.15 + palette.window.b * 0.85, 1);
         }
+        if (pinned)
+            return palette.alternateBase;
         return palette.window;
     }
 
@@ -180,6 +182,8 @@ Rectangle {
             return Qt.rgba(Komai.theme.attention.r, Komai.theme.attention.g, Komai.theme.attention.b, 0.12);
         if (emphasizeUnread)
             return Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15);
+        if (pinned)
+            return palette.alternateBase;
         return "transparent";
     }
 
@@ -382,6 +386,7 @@ Rectangle {
             : "transparent"
     }
 
+
     // Tab content: pin icon + avatar + room name.
     // Left margin accounts for the attention bar (3px wide at paddingSmall/2 offset)
     // so content never overlaps the indicator regardless of pin button visibility.
@@ -440,14 +445,31 @@ Rectangle {
             visible: tabDelegate.isEmptyTab
         }
 
-        Avatar {
+        Item {
             Layout.preferredWidth: tabDelegate.avatarSizePx
             Layout.preferredHeight: tabDelegate.avatarSizePx
-            displayName: tabDelegate.displayName
-            url: tabDelegate.avatarUrl.replace("mxc://", "image://MxcImage/")
-            roomid: tabDelegate.roomId
-            enabled: false
             visible: !tabDelegate.isEmptyTab
+
+            Avatar {
+                anchors.fill: parent
+                displayName: tabDelegate.displayName
+                url: tabDelegate.avatarUrl.replace("mxc://", "image://MxcImage/")
+                roomid: tabDelegate.roomId
+                enabled: false
+            }
+
+            Image {
+                readonly property int badgeSize: Math.round(tabDelegate.avatarSizePx * 0.65)
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.topMargin: -Math.round(badgeSize * 0.65)
+                anchors.rightMargin: -Math.round(badgeSize * 0.60)
+                width: badgeSize
+                height: badgeSize
+                visible: tabDelegate.pinned
+                source: "image://colorimage/:/icons/icons/ui/pin-filled.svg?" + palette.highlight
+                sourceSize: Qt.size(badgeSize, badgeSize)
+            }
         }
 
         Text {

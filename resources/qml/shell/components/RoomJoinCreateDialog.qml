@@ -13,7 +13,7 @@ Components.OverlayDialog {
 
     required property var dialogHost
 
-    title: qsTr("New")
+    title: qsTr("New room/space")
     titleIcon: ":/icons/icons/ui/plus-circle.svg"
 
     onAboutToShow: contentItem.forceActiveFocus()

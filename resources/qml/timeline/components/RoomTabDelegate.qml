@@ -224,6 +224,7 @@ Rectangle {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
         hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
         preventStealing: tabDelegate._dragPending || tabController.isDragging
 
         onPressed: function(mouse) {
@@ -279,6 +280,11 @@ Rectangle {
             }
             tabController.switchToTab(tabDelegate.index);
         }
+    }
+
+    KomaiCursorShape {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
     }
 
     Menu {
@@ -463,6 +469,7 @@ Rectangle {
 
                 anchors.fill: parent
                 hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
 
                 onClicked: {
                     if (tabDelegate.pinned)
@@ -551,6 +558,7 @@ Rectangle {
 
                 anchors.fill: parent
                 hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
 
                 onClicked: tabController.closeTab(tabDelegate.roomId)
             }
@@ -626,6 +634,7 @@ Rectangle {
 
                 anchors.fill: parent
                 hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
 
                 onClicked: tabController.closeTab(tabDelegate.roomId)
             }

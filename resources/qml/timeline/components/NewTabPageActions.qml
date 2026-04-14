@@ -39,8 +39,8 @@ RowLayout {
         id: newButton
 
         Layout.preferredWidth: root.uniformWidth
-        text: qsTr("New")
-        toolTipText: qsTr("Create a new chat or space [Ctrl+N]")
+        text: qsTr("New room/space")
+        toolTipText: qsTr("Create a new room or space [Ctrl+N]")
         icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
         onClicked: newDialog.open()
     }

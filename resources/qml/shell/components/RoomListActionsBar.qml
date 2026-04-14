@@ -18,7 +18,7 @@ Pane {
     readonly property Item lastFocusableActionButton: switchRoomsButton
     property int buttonSize: Komai.barIconSize
     readonly property int actionButtonCount: 2
-    readonly property string newActionLabel: qsTr("New")
+    readonly property string newActionLabel: qsTr("New room/space")
     readonly property string switchActionLabel: qsTr("Switch")
     readonly property real requiredIconOnlyActionWidth: actionButtonCount * buttonSize
     readonly property real requiredLabeledActionWidth: requiredIconOnlyActionWidth

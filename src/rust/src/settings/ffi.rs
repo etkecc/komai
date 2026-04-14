@@ -245,7 +245,7 @@ pub(crate) fn ffi_config_navigation_section(
                 .navigation
                 .tabs
                 .max_recently_closed_timelines
-                .unwrap_or(20),
+                .unwrap_or(3),
         },
     }
 }

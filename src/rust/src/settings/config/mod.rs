@@ -667,7 +667,10 @@ fn parse_scalar_bool(value: &serde_yaml_ng::Value) -> Option<bool> {
 }
 
 fn normalize_scale_factor(factor: f32) -> Option<f32> {
-    (1.0..=3.0).contains(&factor).then_some(factor)
+    // 0.0 is a valid sentinel meaning "auto-detect" but is stored as None
+    // (resolved to 0.0 by defaults::SCALE_FACTOR in the FFI layer).
+    // Accept positive values in the UI range [0.25, 3.0].
+    (0.25..=3.0).contains(&factor).then_some(factor)
 }
 
 fn parse_string(value: Option<&serde_yaml_ng::Value>) -> String {

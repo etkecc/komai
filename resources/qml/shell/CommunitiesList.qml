@@ -6,6 +6,7 @@
 import QtQml
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import cc.etke.komai
 
 Page {
@@ -250,6 +251,95 @@ Page {
         clip: true
         model: Communities.filtered()
         boundsBehavior: Flickable.StopAtBounds
+
+        header: Rectangle {
+            id: userSettingsItem
+
+            readonly property var profile: Komai.currentUser
+            readonly property string mxid: profile ? profile.userid : ""
+            readonly property string displayName: profile ? profile.displayName : ""
+            readonly property bool showSecondRow: displayName.length > 0
+                && Settings.navigationRoomListLastMessagePreview !== Settings.LastMessagePreview.Never
+            readonly property bool isHovered: hoverHandler.hovered
+            readonly property color textColor: isHovered ? palette.brightText : palette.text
+            readonly property color secondaryTextColor: isHovered ? palette.brightText : palette.buttonText
+
+            width: communitiesList.width - communitiesList.reservedScrollbarWidth
+            height: Komai.navigationRowHeight
+            color: isHovered ? palette.dark : palette.alternateBase
+
+            HoverHandler {
+                id: hoverHandler
+            }
+
+            KomaiCursorShape {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+            }
+
+            TapHandler {
+                acceptedButtons: Qt.LeftButton
+                gesturePolicy: TapHandler.ReleaseWithinBounds
+                onSingleTapped: MainWindow.showUserSettingsPage()
+            }
+
+            TapHandler {
+                acceptedButtons: Qt.RightButton
+                gesturePolicy: TapHandler.ReleaseWithinBounds
+                onSingleTapped: userSettingsContextMenu.popup()
+            }
+
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: Komai.paddingMedium
+                anchors.rightMargin: Komai.paddingMedium + Komai.paddingSmall
+                anchors.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
+                anchors.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
+                spacing: Komai.paddingMedium
+
+                UserSettingsFlipButton {
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredHeight: communitySidebar.avatarSize
+                    Layout.preferredWidth: communitySidebar.avatarSize
+                    avatarButtonSize: communitySidebar.avatarSize
+                    flipAngle: (activeFocus || userSettingsItem.isHovered) ? 180 : 0
+                    externalActive: userSettingsItem.isHovered
+
+                    onLeftClicked: MainWindow.showUserSettingsPage()
+                    onRightClicked: userSettingsContextMenu.popup()
+                }
+
+                ColumnLayout {
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.fillWidth: true
+                    spacing: 0
+                    visible: !communitySidebar.collapsed
+
+                    ElidedLabel {
+                        Layout.fillWidth: true
+                        color: userSettingsItem.textColor
+                        elideWidth: width
+                        fullText: userSettingsItem.mxid
+                        textFormat: Text.PlainText
+                        font.pixelSize: userSettingsItem.showSecondRow ? Komai.fontPixelSize * 0.9 : Komai.fontPixelSize
+                    }
+
+                    ElidedLabel {
+                        Layout.fillWidth: true
+                        color: userSettingsItem.secondaryTextColor
+                        elideWidth: width
+                        fullText: userSettingsItem.displayName
+                        textFormat: Text.PlainText
+                        font.pixelSize: Komai.fontPixelSize * 0.9
+                        visible: userSettingsItem.showSecondRow
+                    }
+                }
+            }
+
+            RoomListProfileMenu {
+                id: userSettingsContextMenu
+            }
+        }
 
         Keys.onShortcutOverride: event => {
             if (communitySidebar.isForwardTabEvent(event) || communitySidebar.isBackwardTabEvent(event))

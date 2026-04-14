@@ -199,6 +199,8 @@ ItemDelegate {
             collapsed: roomItem.collapsed
             isSpace: roomItem.isSpace
             notificationCount: roomItem.notificationCount
+            bounceOnUnread: roomItem.emphasizeUnreadState
+            isSelected: roomItem.isSelected
         }
         ShellComponents.RoomListItemTextContent {
             compactMode: roomItem.compactMode

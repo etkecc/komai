@@ -21,8 +21,12 @@ Avatar {
     property bool collapsed: false
     property bool isSpace: false
     property int notificationCount: 0
+    property bool bounceOnUnread: false
+    property bool isSelected: false
 
     Layout.alignment: Qt.AlignVCenter
+    Layout.bottomMargin: avatarBounce.running ? -avatarBounce.offset : 0
+    Layout.topMargin: avatarBounce.running ? avatarBounce.offset : 0
     displayName: roomName
     enabled: false
     roomid: roomId
@@ -30,6 +34,11 @@ Avatar {
     userid: isDirect ? directChatOtherUserId : ""
     Layout.preferredWidth: avatarSize
     Layout.preferredHeight: avatarSize
+
+    UnreadBounceAnimation {
+        id: avatarBounce
+        active: root.bounceOnUnread && !root.isSelected
+    }
 
     NotificationBubble {
         anchors.bottom: parent.bottom

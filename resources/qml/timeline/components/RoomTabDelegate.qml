@@ -482,10 +482,17 @@ Rectangle {
 
             Avatar {
                 anchors.fill: parent
+                anchors.bottomMargin: avatarBounce.running ? -avatarBounce.offset : 0
+                anchors.topMargin: avatarBounce.running ? avatarBounce.offset : 0
                 displayName: tabDelegate.displayName
                 url: tabDelegate.avatarUrl.replace("mxc://", "image://MxcImage/")
                 roomid: tabDelegate.roomId
                 enabled: false
+            }
+
+            UnreadBounceAnimation {
+                id: avatarBounce
+                active: tabDelegate.emphasizeUnread && !tabDelegate.isActive
             }
 
             Image {

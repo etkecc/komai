@@ -82,11 +82,6 @@ storage_token_enum!(ConfigNavigationRoomListSortToken, UnreadFirstRecent {
     Alphabetical => "alphabetical",
 });
 
-storage_token_enum!(ConfigNavigationRoomListUnreadDetectionPolicyToken, AnyEvent {
-    AnyEvent => "any_event",
-    MessagesOnly => "messages_only",
-});
-
 storage_token_enum!(ConfigNavigationRoomListOpeningPolicyToken, ReuseActiveTab {
     ReuseActiveTab => "reuse_active_tab",
     OpenNewTab => "open_new_tab",

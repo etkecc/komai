@@ -175,10 +175,6 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
           QString::fromStdString(static_cast<std::string>(snapshot.navigation.room_list.sort)) ==
             expected,
           message);
-    if (keyString == QLatin1String(SettingKey::NavigationRoomListUnreadDetectionPolicy))
-        return expect(QString::fromStdString(static_cast<std::string>(
-                        snapshot.navigation.room_list.unread_detection_policy)) == expected,
-                      message);
     if (keyString == QLatin1String(SettingKey::TimelineMessagesStyle))
         return expect(
           QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.style)) ==
@@ -1656,10 +1652,10 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NavigationRoomListLastMessagePreview));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::NavigationRoomListShowCommunityCounts));
-    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NavigationRoomListSort));
+      QString::fromLatin1(SettingKey::NavigationRoomListShowUnreadCounts));
     serializerHandledConfigKeys.insert(
-      QString::fromLatin1(SettingKey::NavigationRoomListUnreadDetectionPolicy));
+      QString::fromLatin1(SettingKey::NavigationCommunitiesShowUnreadCounts));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::NavigationRoomListSort));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NavigationCommunitiesFilterFavourites));
     serializerHandledConfigKeys.insert(

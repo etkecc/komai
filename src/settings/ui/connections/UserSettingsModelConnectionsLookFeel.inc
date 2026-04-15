@@ -10,7 +10,9 @@ CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiMotionAnimationsEnabledChanged, 
       NavigationRoomListShowLastMessageTime, navigationRoomListShowLastMessageTimeChanged, Value);
     CONNECT_SETTING_ID(NavigationRoomListLastMessagePreview, navigationRoomListLastMessagePreviewChanged, Value);
     CONNECT_SETTING_ID(
-      NavigationRoomListShowCommunityCounts, navigationRoomListShowCommunityCountsChanged, Value);
+      NavigationRoomListShowUnreadCounts, navigationRoomListShowUnreadCountsChanged, Value);
+    CONNECT_SETTING_ID(
+      NavigationCommunitiesShowUnreadCounts, navigationCommunitiesShowUnreadCountsChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsCircular, uiAvatarsCircularChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsDefaultAvatarStyle, uiAvatarsDefaultAvatarStyleChanged, Value);
     CONNECT_SETTING_ID(UiScrollbarPolicy, uiScrollbarPolicyChanged, Value);

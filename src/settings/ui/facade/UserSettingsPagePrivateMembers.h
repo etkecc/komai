@@ -40,7 +40,6 @@ bool timelineMediaAnimateOnHover_;
 bool composerTypingSendEnabled_;
 bool timelineTypingShowEnabled_;
 RoomSortOrder navigationRoomListSort_;
-UnreadDetectionPolicy navigationRoomListUnreadDetectionPolicy_ = UnreadDetectionPolicy::AnyEvent;
 RoomListOpeningPolicy navigationRoomListOpeningPolicy_ = RoomListOpeningPolicy::ReuseActiveTab;
 TabPinButtonVisibility navigationTabsShowPinButton_    = TabPinButtonVisibility::Never;
 TabLabelDisplay navigationTabsPinnedTabLabel_          = TabLabelDisplay::AvatarOnly;
@@ -65,7 +64,8 @@ bool desktopAttentionAppBadgeEnabled_    = true;
 bool uiAvatarsCircular_;
 NotificationMessageContentPolicy desktopNotificationsMessageContentPolicy_ =
   NotificationMessageContentPolicy::WheneverAvailable;
-bool navigationRoomListShowCommunityCounts_;
+bool navigationRoomListShowUnreadCounts_;
+bool navigationCommunitiesShowUnreadCounts_;
 bool uiLayoutCompactMode_;
 bool navigationRoomListShowLastMessageTime_;
 LastMessagePreview navigationRoomListLastMessagePreview_;

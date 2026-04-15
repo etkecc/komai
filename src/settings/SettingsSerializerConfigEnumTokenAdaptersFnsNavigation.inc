@@ -25,19 +25,6 @@ applyLastMessagePreviewFromStorage(UserSettings &settings, const QString &rawTok
 }
 
 QString
-unreadDetectionPolicyToStorage(const UserSettings &settings)
-{
-    return toStorageValue(settings.navigationRoomListUnreadDetectionPolicy());
-}
-
-void
-applyUnreadDetectionPolicyFromStorage(UserSettings &settings, const QString &rawToken)
-{
-    settings.setNavigationRoomListUnreadDetectionPolicy(
-      unreadDetectionPolicyFromStorage(rawToken, UserSettings::UnreadDetectionPolicy::AnyEvent));
-}
-
-QString
 roomListOpeningPolicyToStorage(const UserSettings &settings)
 {
     return toStorageValue(settings.navigationRoomListOpeningPolicy());

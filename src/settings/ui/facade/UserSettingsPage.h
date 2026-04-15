@@ -150,10 +150,6 @@ class UserSettings final : public QObject
     Q_PROPERTY(RoomSortOrder navigationRoomListSort READ navigationRoomListSort WRITE
                  setNavigationRoomListSort NOTIFY navigationRoomListSortChanged)
     Q_PROPERTY(
-      UnreadDetectionPolicy navigationRoomListUnreadDetectionPolicy READ
-        navigationRoomListUnreadDetectionPolicy WRITE setNavigationRoomListUnreadDetectionPolicy
-          NOTIFY navigationRoomListUnreadDetectionPolicyChanged)
-    Q_PROPERTY(
       TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy READ
         timelineMessageActionsActivationPolicy WRITE setTimelineMessageActionsActivationPolicy
           NOTIFY timelineMessageActionsActivationPolicyChanged)
@@ -178,9 +174,12 @@ class UserSettings final : public QObject
       NotificationMessageContentPolicy desktopNotificationsMessageContentPolicy READ
         desktopNotificationsMessageContentPolicy WRITE setDesktopNotificationsMessageContentPolicy
           NOTIFY desktopNotificationsMessageContentPolicyChanged)
-    Q_PROPERTY(bool navigationRoomListShowCommunityCounts READ navigationRoomListShowCommunityCounts
-                 WRITE setNavigationRoomListShowCommunityCounts NOTIFY
-                   navigationRoomListShowCommunityCountsChanged)
+    Q_PROPERTY(
+      bool navigationRoomListShowUnreadCounts READ navigationRoomListShowUnreadCounts WRITE
+        setNavigationRoomListShowUnreadCounts NOTIFY navigationRoomListShowUnreadCountsChanged)
+    Q_PROPERTY(bool navigationCommunitiesShowUnreadCounts READ navigationCommunitiesShowUnreadCounts
+                 WRITE setNavigationCommunitiesShowUnreadCounts NOTIFY
+                   navigationCommunitiesShowUnreadCountsChanged)
     Q_PROPERTY(bool uiLayoutCompactMode READ uiLayoutCompactMode WRITE setUiLayoutCompactMode NOTIFY
                  uiLayoutCompactModeChanged)
     Q_PROPERTY(bool navigationRoomListShowLastMessageTime READ navigationRoomListShowLastMessageTime
@@ -457,13 +456,6 @@ public:
     };
     Q_ENUM(LastMessagePreview)
 
-    enum class UnreadDetectionPolicy
-    {
-        AnyEvent,     // Any timeline event marks a room unread
-        MessagesOnly, // Only message events mark a room unread
-    };
-    Q_ENUM(UnreadDetectionPolicy)
-
     enum class ScrollbarPolicy
     {
         WhenNeeded, // Show scrollbars only when content overflows
@@ -563,7 +555,6 @@ public:
     void setComposerTypingSendEnabled(bool state);
     void setTimelineTypingShowEnabled(bool state);
     void setNavigationRoomListSort(RoomSortOrder order);
-    void setNavigationRoomListUnreadDetectionPolicy(UnreadDetectionPolicy policy);
     void setTimelineMessageActionsActivationPolicy(TimelineMessageActionsActivationPolicy policy);
     void setNavigationCommunitiesWidthPx(int state);
     void setNavigationRoomListWidthPx(int state);
@@ -574,7 +565,8 @@ public:
     void setDesktopAttentionAppBadgeEnabled(bool state);
     void setUiAvatarsCircular(bool state);
     void setDesktopNotificationsMessageContentPolicy(NotificationMessageContentPolicy policy);
-    void setNavigationRoomListShowCommunityCounts(bool state);
+    void setNavigationRoomListShowUnreadCounts(bool state);
+    void setNavigationCommunitiesShowUnreadCounts(bool state);
     void setUiLayoutCompactMode(bool state);
     void setNavigationRoomListShowLastMessageTime(bool state);
     void setNavigationRoomListLastMessagePreview(LastMessagePreview style);
@@ -699,7 +691,6 @@ signals:
     void navigationCommunitiesFilterLowPriorityChanged(bool state);
     void uiScrollbarPolicyChanged(ScrollbarPolicy policy);
     void navigationRoomListSortChanged(RoomSortOrder order);
-    void navigationRoomListUnreadDetectionPolicyChanged(UnreadDetectionPolicy policy);
     void uiThemeSlugChanged(QString state);
     void timelineMessagesHoverHighlightChanged(bool state);
     void timelineMessagesEmojiOnlyEnlargeChanged(bool state);
@@ -735,7 +726,8 @@ signals:
     void desktopAttentionAppBadgeEnabledChanged(bool state);
     void uiAvatarsCircularChanged(bool state);
     void desktopNotificationsMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
-    void navigationRoomListShowCommunityCountsChanged(bool state);
+    void navigationRoomListShowUnreadCountsChanged(bool state);
+    void navigationCommunitiesShowUnreadCountsChanged(bool state);
     void uiLayoutCompactModeChanged(bool state);
     void navigationRoomListShowLastMessageTimeChanged(bool state);
     void navigationRoomListLastMessagePreviewChanged(LastMessagePreview style);

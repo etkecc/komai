@@ -222,11 +222,6 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
   , manager(parent)
 {
     connect(UserSettings::instance().get(),
-            &UserSettings::navigationRoomListUnreadDetectionPolicyChanged,
-            this,
-            [this](auto) { refreshMatrixBackendRooms(); });
-
-    connect(UserSettings::instance().get(),
             &UserSettings::navigationRoomListLastMessagePreviewChanged,
             this,
             [this]() {

@@ -13,20 +13,6 @@ UserSettings::setNavigationRoomListSort(RoomSortOrder s)
 }
 
 void
-UserSettings::setNavigationRoomListUnreadDetectionPolicy(UnreadDetectionPolicy s)
-{
-    if (navigationRoomListUnreadDetectionPolicy_ == s)
-        return;
-    if (!setCoreValue(settings::core::SettingId::NavigationRoomListUnreadDetectionPolicy,
-                      static_cast<int>(s),
-                      "navigation.room_list.unread_detection_policy"))
-        return;
-    navigationRoomListUnreadDetectionPolicy_ = s;
-    emit navigationRoomListUnreadDetectionPolicyChanged(s);
-    save();
-}
-
-void
 UserSettings::setNavigationCommunitiesWidthPx(int s)
 {
     setSetting(navigationCommunitiesWidthPx_,
@@ -43,13 +29,24 @@ UserSettings::setNavigationRoomListWidthPx(int s)
 }
 
 void
-UserSettings::setNavigationRoomListShowCommunityCounts(bool s)
+UserSettings::setNavigationRoomListShowUnreadCounts(bool s)
 {
-    if (navigationRoomListShowCommunityCounts_ == s)
+    if (navigationRoomListShowUnreadCounts_ == s)
         return;
-    navigationRoomListShowCommunityCounts_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NavigationRoomListShowCommunityCounts, s);
-    emit navigationRoomListShowCommunityCountsChanged(s);
+    navigationRoomListShowUnreadCounts_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationRoomListShowUnreadCounts, s);
+    emit navigationRoomListShowUnreadCountsChanged(s);
+    save();
+}
+
+void
+UserSettings::setNavigationCommunitiesShowUnreadCounts(bool s)
+{
+    if (navigationCommunitiesShowUnreadCounts_ == s)
+        return;
+    navigationCommunitiesShowUnreadCounts_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationCommunitiesShowUnreadCounts, s);
+    emit navigationCommunitiesShowUnreadCountsChanged(s);
     save();
 }
 

@@ -65,17 +65,14 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
         static_cast<std::string>(snapshot.navigation.room_list.last_message_preview))
         .trimmed(),
       UserSettings::LastMessagePreview::Always));
-    settings.setNavigationRoomListShowCommunityCounts(
-      snapshot.navigation.room_list.show_community_counts);
+    settings.setNavigationRoomListShowUnreadCounts(
+      snapshot.navigation.room_list.show_unread_counts);
+    settings.setNavigationCommunitiesShowUnreadCounts(
+      snapshot.navigation.communities.show_unread_counts);
     settings.setNavigationRoomListSort(cfg::roomSortOrderFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.navigation.room_list.sort))
         .trimmed(),
       UserSettings::RoomSortOrder::UnreadFirst_Recent));
-    settings.setNavigationRoomListUnreadDetectionPolicy(cfg::unreadDetectionPolicyFromStorage(
-      QString::fromStdString(
-        static_cast<std::string>(snapshot.navigation.room_list.unread_detection_policy))
-        .trimmed(),
-      UserSettings::UnreadDetectionPolicy::AnyEvent));
 
     settings.setNavigationCommunitiesFilterFavourites(
       snapshot.navigation.communities.filter_favourites);

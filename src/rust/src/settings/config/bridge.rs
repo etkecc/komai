@@ -92,7 +92,7 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     yaml::set_value(
         &mut root,
         &["navigation", "room_list", "show_community_notification_counts"],
-        Value::Bool(snapshot.navigation.room_list.show_community_counts),
+        Value::Bool(snapshot.navigation.room_list.show_unread_counts),
     );
     yaml::set_value(
         &mut root,
@@ -101,13 +101,13 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
-        &["navigation", "room_list", "unread_detection_policy"],
-        Value::String(snapshot.navigation.room_list.unread_detection_policy.clone()),
+        &["navigation", "room_list", "opening_policy"],
+        Value::String(snapshot.navigation.room_list.opening_policy.clone()),
     );
     yaml::set_value(
         &mut root,
-        &["navigation", "room_list", "opening_policy"],
-        Value::String(snapshot.navigation.room_list.opening_policy.clone()),
+        &["navigation", "communities", "show_unread_counts"],
+        Value::Bool(snapshot.navigation.communities.show_unread_counts),
     );
     yaml::set_value(
         &mut root,

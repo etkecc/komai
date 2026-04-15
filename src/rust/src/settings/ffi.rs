@@ -170,12 +170,12 @@ pub(crate) fn ffi_config_navigation_section(
         room_list: ffi::SettingsConfigNavigationRoomListSection {
             show_last_message_time: config.navigation.room_list.show_last_message_time.unwrap_or(defaults::SHOW_LAST_MESSAGE_TIME),
             last_message_preview: config.navigation.room_list.last_message_preview.to_storage_string(),
-            show_community_counts: config.navigation.room_list.show_community_counts.unwrap_or(defaults::SHOW_COMMUNITY_COUNTS),
+            show_unread_counts: config.navigation.room_list.show_unread_counts.unwrap_or(defaults::SHOW_ROOM_LIST_UNREAD_COUNTS),
             sort: config.navigation.room_list.sort.to_storage_string(),
-            unread_detection_policy: config.navigation.room_list.unread_detection_policy.to_storage_string(),
             opening_policy: config.navigation.room_list.opening_policy.to_storage_string(),
         },
         communities: ffi::SettingsConfigNavigationCommunitiesSection {
+            show_unread_counts: config.navigation.communities.show_unread_counts.unwrap_or(defaults::SHOW_COMMUNITIES_UNREAD_COUNTS),
             filter_favourites: config.navigation.communities.filter_favourites.unwrap_or(defaults::COMMUNITIES_FILTER_FAVOURITES),
             filter_people: config.navigation.communities.filter_people.unwrap_or(defaults::COMMUNITIES_FILTER_PEOPLE),
             filter_bots: config.navigation.communities.filter_bots.unwrap_or(defaults::COMMUNITIES_FILTER_BOTS),
@@ -549,12 +549,12 @@ fn clone_config_navigation_section(
         room_list: ffi::SettingsConfigNavigationRoomListSection {
             show_last_message_time: section.room_list.show_last_message_time,
             last_message_preview: section.room_list.last_message_preview.clone(),
-            show_community_counts: section.room_list.show_community_counts,
+            show_unread_counts: section.room_list.show_unread_counts,
             sort: section.room_list.sort.clone(),
-            unread_detection_policy: section.room_list.unread_detection_policy.clone(),
             opening_policy: section.room_list.opening_policy.clone(),
         },
         communities: ffi::SettingsConfigNavigationCommunitiesSection {
+            show_unread_counts: section.communities.show_unread_counts,
             filter_favourites: section.communities.filter_favourites,
             filter_people: section.communities.filter_people,
             filter_bots: section.communities.filter_bots,

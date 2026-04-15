@@ -25,15 +25,6 @@ navigationRoomSortValues()
 }
 
 static QVariant
-navigationUnreadDetectionPolicyValues()
-{
-    QStringList values;
-    values << QCoreApplication::translate("UserSettingsModel", "Any")
-           << QCoreApplication::translate("UserSettingsModel", "Messages only");
-    return values;
-}
-
-static QVariant
 navigationRoomListOpeningPolicyValues()
 {
     QStringList values;

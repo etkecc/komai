@@ -13,7 +13,8 @@
     ScrollbarPolicy uiScrollbarPolicy() const;
     bool uiAvatarsCircular() const;
     NotificationMessageContentPolicy desktopNotificationsMessageContentPolicy() const;
-    bool navigationRoomListShowCommunityCounts() const;
+    bool navigationRoomListShowUnreadCounts() const;
+    bool navigationCommunitiesShowUnreadCounts() const;
     bool uiLayoutCompactMode() const;
     bool navigationRoomListShowLastMessageTime() const;
     LastMessagePreview navigationRoomListLastMessagePreview() const;
@@ -42,7 +43,6 @@
     bool composerTypingSendEnabled() const;
     bool timelineTypingShowEnabled() const;
     RoomSortOrder navigationRoomListSort() const;
-    UnreadDetectionPolicy navigationRoomListUnreadDetectionPolicy() const;
     RoomListOpeningPolicy navigationRoomListOpeningPolicy() const;
     TabPinButtonVisibility navigationTabsShowPinButton() const;
     TabLabelDisplay navigationTabsPinnedTabLabel() const;

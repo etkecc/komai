@@ -38,7 +38,6 @@ constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::ComposerInputEmojiPreferredGender,
   settings::core::SettingId::ComposerInputEmojiPreferredSkinTone,
   settings::core::SettingId::NavigationRoomListSort,
-  settings::core::SettingId::NavigationRoomListUnreadDetectionPolicy,
   settings::core::SettingId::NavigationRoomListLastMessagePreview,
   settings::core::SettingId::NavigationRoomListOpeningPolicy,
   settings::core::SettingId::NavigationTabsShowPinButton,

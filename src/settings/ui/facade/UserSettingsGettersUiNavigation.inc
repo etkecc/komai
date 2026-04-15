@@ -12,13 +12,23 @@ UserSettings::uiScrollbarPolicy() const
 }
 
 bool
-UserSettings::navigationRoomListShowCommunityCounts() const
+UserSettings::navigationRoomListShowUnreadCounts() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::NavigationRoomListShowCommunityCounts);
+          coreStore_.valueAs<bool>(settings::core::SettingId::NavigationRoomListShowUnreadCounts);
         value.has_value())
         return *value;
-    return navigationRoomListShowCommunityCounts_;
+    return navigationRoomListShowUnreadCounts_;
+}
+
+bool
+UserSettings::navigationCommunitiesShowUnreadCounts() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::NavigationCommunitiesShowUnreadCounts);
+        value.has_value())
+        return *value;
+    return navigationCommunitiesShowUnreadCounts_;
 }
 
 bool
@@ -111,18 +121,6 @@ UserSettings::navigationRoomListSort() const
         *value <= static_cast<int>(UserSettings::RoomSortOrder::Alphabetical))
         return static_cast<UserSettings::RoomSortOrder>(*value);
     return navigationRoomListSort_;
-}
-
-UserSettings::UnreadDetectionPolicy
-UserSettings::navigationRoomListUnreadDetectionPolicy() const
-{
-    if (const auto value = coreStore_.valueAs<int>(
-          settings::core::SettingId::NavigationRoomListUnreadDetectionPolicy);
-        value.has_value() &&
-        *value >= static_cast<int>(UserSettings::UnreadDetectionPolicy::AnyEvent) &&
-        *value <= static_cast<int>(UserSettings::UnreadDetectionPolicy::MessagesOnly))
-        return static_cast<UserSettings::UnreadDetectionPolicy>(*value);
-    return navigationRoomListUnreadDetectionPolicy_;
 }
 
 UserSettings::RoomListOpeningPolicy

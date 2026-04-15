@@ -151,7 +151,7 @@ ColumnLayout {
             bubbleBackgroundColor: root.bubbleBackground
             bubbleTextColor: root.bubbleText
             hasLoudNotification: root.hasLoudNotification
-            mayBeVisible: !root.collapsed && (root.isSpace ? Settings.navigationRoomListShowCommunityCounts : !subtextRow.visible)
+            mayBeVisible: !root.collapsed && (root.isSpace ? Settings.navigationCommunitiesShowUnreadCounts : !subtextRow.visible) && (root.isSpace || Settings.navigationRoomListShowUnreadCounts)
             unreadCount: root.unreadCount
             parent: (root.isSpace || !subtextRow.visible) ? titleRow : subtextRow
         }
@@ -226,7 +226,7 @@ ColumnLayout {
             bubbleBackgroundColor: root.bubbleBackground
             bubbleTextColor: root.bubbleText
             hasLoudNotification: root.hasLoudNotification
-            mayBeVisible: !root.collapsed
+            mayBeVisible: !root.collapsed && Settings.navigationRoomListShowUnreadCounts
             unreadCount: root.unreadCount
         }
     }

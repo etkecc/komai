@@ -35,7 +35,6 @@ pub use tokens::{
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
     ConfigNavigationRoomListOpeningPolicyToken,
-    ConfigNavigationRoomListUnreadDetectionPolicyToken,
     ConfigNavigationTabsLabelDisplayToken, ConfigNavigationTabsPinButtonVisibilityToken,
     ConfigTimelineMediaImageDisplayToken,
     ConfigTimelineMessageActionsActivationPolicyToken,
@@ -62,14 +61,11 @@ const NAVIGATION_ROOM_LIST_SHOW_LAST_MESSAGE_TIME_PATH: [&str; 3] =
     ["navigation", "room_list", "show_last_message_timestamp"];
 const NAVIGATION_ROOM_LIST_LAST_MESSAGE_PREVIEW_PATH: [&str; 3] =
     ["navigation", "room_list", "last_message_preview"];
-const NAVIGATION_ROOM_LIST_SHOW_COMMUNITY_COUNTS_PATH: [&str; 3] = [
-    "navigation",
-    "room_list",
-    "show_community_notification_counts",
-];
+const NAVIGATION_ROOM_LIST_SHOW_UNREAD_COUNTS_PATH: [&str; 3] =
+    ["navigation", "room_list", "show_unread_counts"];
 const NAVIGATION_ROOM_LIST_SORT_PATH: [&str; 3] = ["navigation", "room_list", "sort"];
-const NAVIGATION_ROOM_LIST_UNREAD_DETECTION_POLICY_PATH: [&str; 3] =
-    ["navigation", "room_list", "unread_detection_policy"];
+const NAVIGATION_COMMUNITIES_SHOW_UNREAD_COUNTS_PATH: [&str; 3] =
+    ["navigation", "communities", "show_unread_counts"];
 const NAVIGATION_ROOM_LIST_OPENING_POLICY_PATH: [&str; 3] =
     ["navigation", "room_list", "opening_policy"];
 const NAVIGATION_COMMUNITIES_FILTER_FAVOURITES_PATH: [&str; 4] =
@@ -265,22 +261,23 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     root,
                     &NAVIGATION_ROOM_LIST_LAST_MESSAGE_PREVIEW_PATH,
                 )),
-                show_community_counts: yaml::value_at_path(
+                show_unread_counts: yaml::value_at_path(
                     root,
-                    &NAVIGATION_ROOM_LIST_SHOW_COMMUNITY_COUNTS_PATH,
+                    &NAVIGATION_ROOM_LIST_SHOW_UNREAD_COUNTS_PATH,
                 )
                 .and_then(parse_scalar_bool),
                 sort: parse_storage_token(yaml::value_at_path(root, &NAVIGATION_ROOM_LIST_SORT_PATH)),
-                unread_detection_policy: parse_storage_token(yaml::value_at_path(
-                    root,
-                    &NAVIGATION_ROOM_LIST_UNREAD_DETECTION_POLICY_PATH,
-                )),
                 opening_policy: parse_storage_token(yaml::value_at_path(
                     root,
                     &NAVIGATION_ROOM_LIST_OPENING_POLICY_PATH,
                 )),
             },
             communities: ConfigNavigationCommunities {
+                show_unread_counts: yaml::value_at_path(
+                    root,
+                    &NAVIGATION_COMMUNITIES_SHOW_UNREAD_COUNTS_PATH,
+                )
+                .and_then(parse_scalar_bool),
                 filter_favourites: yaml::value_at_path(
                     root,
                     &NAVIGATION_COMMUNITIES_FILTER_FAVOURITES_PATH,

@@ -8,7 +8,7 @@ use super::{
     ConfigUiScrollbarPolicyToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
     ConfigNavigationRoomListOpeningPolicyToken,
-    ConfigNavigationRoomListUnreadDetectionPolicyToken, ConfigTimelineMediaImageDisplayToken,
+    ConfigTimelineMediaImageDisplayToken,
     ConfigTimelineMessageActionsActivationPolicyToken,
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
@@ -315,12 +315,11 @@ navigation:
   room_list:
     show_last_message_timestamp: false
     last_message_preview: never
-    show_community_notification_counts: true
+    show_unread_counts: true
     sort: alphabetical
-    unread_detection_policy: any_event
     opening_policy: reuse_active_tab
   communities:
-    visible: false
+    show_unread_counts: true
     filters:
       favourites: false
       people: true
@@ -336,19 +335,16 @@ navigation:
         config.navigation.room_list.last_message_preview,
         ConfigNavigationRoomListLastMessagePreviewToken::Never
     );
-    assert_eq!(config.navigation.room_list.show_community_counts, Some(true));
+    assert_eq!(config.navigation.room_list.show_unread_counts, Some(true));
     assert_eq!(
         config.navigation.room_list.sort,
         ConfigNavigationRoomListSortToken::Alphabetical
     );
     assert_eq!(
-        config.navigation.room_list.unread_detection_policy,
-        ConfigNavigationRoomListUnreadDetectionPolicyToken::AnyEvent
-    );
-    assert_eq!(
         config.navigation.room_list.opening_policy,
         ConfigNavigationRoomListOpeningPolicyToken::ReuseActiveTab
     );
+    assert_eq!(config.navigation.communities.show_unread_counts, Some(true));
     assert_eq!(config.navigation.communities.filter_favourites, Some(false));
     assert_eq!(config.navigation.communities.filter_people, Some(true));
     assert_eq!(config.navigation.communities.filter_bots, Some(false));
@@ -435,12 +431,12 @@ fn encodes_generic_config_values() {
             room_list: SettingsConfigNavigationRoomListSection {
                 show_last_message_time: false,
                 last_message_preview: "never".to_owned(),
-                show_community_counts: true,
+                show_unread_counts: true,
                 sort: "alphabetical".to_owned(),
-                unread_detection_policy: "any_event".to_owned(),
                 opening_policy: "reuse_active_tab".to_owned(),
             },
             communities: SettingsConfigNavigationCommunitiesSection {
+                show_unread_counts: true,
                 filter_favourites: false,
                 filter_people: true,
                 filter_bots: false,
@@ -753,12 +749,12 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::String(value)) if value == "alphabetical"
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["navigation", "room_list", "unread_detection_policy"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "any_event"
-    ));
-    assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "room_list", "opening_policy"]),
         Some(serde_yaml_ng::Value::String(value)) if value == "reuse_active_tab"
+    ));
+    assert!(matches!(
+        yaml::value_at_path(&root, &["navigation", "communities", "show_unread_counts"]),
+        Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "communities", "filters", "favourites"]),
@@ -946,9 +942,6 @@ ui:
 network:
   presence:
     status_policy: ????
-navigation:
-  room_list:
-    unread_detection_policy: impossible
 integrations:
   dbus:
     access: unexpected
@@ -973,10 +966,6 @@ composer:
         "automatic_presence"
     );
     assert_eq!(config.integrations.dbus_api_access.to_storage_string(), "none");
-    assert_eq!(
-        config.navigation.room_list.unread_detection_policy.to_storage_string(),
-        "any_event"
-    );
     assert_eq!(config.composer.input_send_key.to_storage_string(), "enter");
     assert_eq!(
         config.composer.input_auto_replace_emoji.to_storage_string(),

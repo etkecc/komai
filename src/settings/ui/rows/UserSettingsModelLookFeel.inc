@@ -135,6 +135,10 @@
     { QT_TR_NOOP("Communities sidebar"), nullptr, SM::SectionTitle, SM::TabNavigation,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
       settings::core::SettingId::Unknown, nullptr, "navigation-communities-sidebar-section" },
+    // ShowCommunitiesUnreadCounts
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show unread counts",
+                        QT_TR_NOOP("Show unread room count badges on community and tag filters."),
+                        SM::TabNavigation, navigationCommunitiesShowUnreadCounts, setNavigationCommunitiesShowUnreadCounts, nullptr, NavigationCommunitiesShowUnreadCounts, SettingKey::NavigationCommunitiesShowUnreadCounts),
     // CommunitiesFilterAllRooms (Show/Exclude disabled, Mute enabled)
     {QT_TR_NOOP("All rooms"),
      QT_TR_NOOP("Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list."),
@@ -229,6 +233,10 @@
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabNavigation,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
       settings::core::SettingId::Unknown, nullptr, "navigation-room-list-section" },
+    // ShowRoomListUnreadCounts
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show unread counts",
+                        QT_TR_NOOP("Show unread message count badges next to rooms."),
+                        SM::TabNavigation, navigationRoomListShowUnreadCounts, setNavigationRoomListShowUnreadCounts, nullptr, NavigationRoomListShowUnreadCounts, SettingKey::NavigationRoomListShowUnreadCounts),
     // RoomListShowLastMessageTime
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show last message timestamp",
                         nullptr,
@@ -245,10 +253,6 @@
       nullptr,
       NavigationRoomListLastMessagePreview,
       SettingKey::NavigationRoomListLastMessagePreview),
-    // ShowCommunityNotificationCounts
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Show notification counts",
-                        QT_TR_NOOP("Show total notification counts for communities and tags."),
-                        SM::TabNavigation, navigationRoomListShowCommunityCounts, setNavigationRoomListShowCommunityCounts, nullptr, NavigationRoomListShowCommunityCounts, SettingKey::NavigationRoomListShowCommunityCounts),
     // RoomSorting
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Sorting",
@@ -261,18 +265,6 @@
       nullptr,
       NavigationRoomListSort,
       SettingKey::NavigationRoomListSort),
-    // UnreadDetectionPolicy
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
-      "Show rooms unread for new events of type",
-      nullptr,
-      SM::TabNavigation,
-      navigationRoomListUnreadDetectionPolicy,
-      setNavigationRoomListUnreadDetectionPolicy,
-      UserSettings::UnreadDetectionPolicy,
-      navigationUnreadDetectionPolicyValues,
-      nullptr,
-      NavigationRoomListUnreadDetectionPolicy,
-      SettingKey::NavigationRoomListUnreadDetectionPolicy),
     // RoomListOpeningPolicy
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Room list opening policy",

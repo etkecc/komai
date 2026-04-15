@@ -45,16 +45,14 @@ stageConfig(const UserSettings &settings,
               .show_last_message_time = settings.navigationRoomListShowLastMessageTime(),
               .last_message_preview =
                 cfg::toStorageValue(settings.navigationRoomListLastMessagePreview()).toStdString(),
-              .show_community_counts = settings.navigationRoomListShowCommunityCounts(),
+              .show_unread_counts = settings.navigationRoomListShowUnreadCounts(),
               .sort = cfg::toStorageValue(settings.navigationRoomListSort()).toStdString(),
-              .unread_detection_policy =
-                cfg::toStorageValue(settings.navigationRoomListUnreadDetectionPolicy())
-                  .toStdString(),
               .opening_policy =
                 cfg::toStorageValue(settings.navigationRoomListOpeningPolicy()).toStdString(),
             },
           .communities =
             {
+              .show_unread_counts    = settings.navigationCommunitiesShowUnreadCounts(),
               .filter_favourites     = settings.navigationCommunitiesFilterFavourites(),
               .filter_people         = settings.navigationCommunitiesFilterPeople(),
               .filter_bots           = settings.navigationCommunitiesFilterBots(),

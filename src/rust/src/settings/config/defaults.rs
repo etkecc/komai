@@ -18,7 +18,8 @@ pub const AVATARS_CIRCULAR: bool = false;
 
 // -- navigation ---------------------------------------------------------------
 pub const SHOW_LAST_MESSAGE_TIME: bool = true;
-pub const SHOW_COMMUNITY_COUNTS: bool = true;
+pub const SHOW_ROOM_LIST_UNREAD_COUNTS: bool = true;
+pub const SHOW_COMMUNITIES_UNREAD_COUNTS: bool = true;
 pub const COMMUNITIES_FILTER_FAVOURITES: bool = true;
 pub const COMMUNITIES_FILTER_PEOPLE: bool = true;
 pub const COMMUNITIES_FILTER_BOTS: bool = true;

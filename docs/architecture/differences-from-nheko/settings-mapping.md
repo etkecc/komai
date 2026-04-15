@@ -41,7 +41,8 @@ Note:
 | Look & Feel | LAYOUT | Compact mode | `settings::core::SettingId::UiLayoutCompactMode` | `compact_room_list` | `ui.layout.compact_mode` | config.yml | yes |
 | Navigation | ROOM LIST | Show last message timestamp | `settings::core::SettingId::NavigationRoomListShowLastMessageTime` | `show_room_list_time` | `navigation.room_list.show_last_message_timestamp` | config.yml | yes |
 | Navigation | ROOM LIST | Show last message preview | `settings::core::SettingId::NavigationRoomListLastMessagePreview` | `show_last_message_preview` | `navigation.room_list.last_message_preview` | config.yml | yes |
-| Navigation | ROOM LIST | Show notification counts | `settings::core::SettingId::NavigationRoomListShowCommunityCounts` | `show_community_notification_counts` | `navigation.room_list.show_community_notification_counts` | config.yml | yes |
+| Navigation | ROOM LIST | Show unread counts | `settings::core::SettingId::NavigationRoomListShowUnreadCounts` | `-` | `navigation.room_list.show_unread_counts` | config.yml | yes |
+| Navigation | COMMUNITIES SIDEBAR | Show unread counts | `settings::core::SettingId::NavigationCommunitiesShowUnreadCounts` | `-` | `navigation.communities.show_unread_counts` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Scrollbar visibility | `settings::core::SettingId::UiScrollbarPolicy` | `scrollbars_in_roomlist` | `ui.scrollbar_policy` | config.yml | yes |
 | Navigation | ROOM LIST | Sorting | `settings::core::SettingId::NavigationRoomListSort` | `room_sort_order` | `navigation.room_list.sort` | config.yml | yes |
 | Navigation | COMMUNITIES SIDEBAR | Show Direct Chats filter | `settings::core::SettingId::NavigationCommunitiesFilterDirectChats` | `-` | `navigation.communities.filters.direct_chats` | config.yml | yes |

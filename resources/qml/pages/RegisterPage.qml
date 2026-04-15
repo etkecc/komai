@@ -22,6 +22,7 @@ Rectangle {
     color: palette.alternateBase
 
     // ── State ──
+    property int initialServerTab: 0    // Set before push to pre-select tab
     property int currentStep: 0
     property int serverTab: 0           // 0 = Public, 1 = Custom
     property string selectedServer: ""
@@ -49,12 +50,14 @@ Rectangle {
     StackView.onActivated: {
         reg.reset();
         registrationPage.currentStep = 0;
-        registrationPage.serverTab = 0;
+        registrationPage.serverTab = registrationPage.initialServerTab;
         registrationPage.selectedServer = "";
         registrationPage.selectedServerDomain = "";
         registrationPage.selectedServerVanillaReg = true;
         registrationPage.selectedServerRegLink = "";
                 registrationPage.currentStageIndex = 0;
+        if (registrationPage.initialServerTab === 1)
+            customServerField.forceActiveFocus();
     }
 
     // Track stage completion to auto-advance

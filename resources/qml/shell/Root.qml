@@ -253,6 +253,12 @@ function openCatalogDialog(componentUrl, properties) {
         }
     }
     Component {
+        id: newToMatrixPage
+
+        NewToMatrixPage {
+        }
+    }
+    Component {
         id: profileSwitcherPage
 
         ProfileSwitcherPage {

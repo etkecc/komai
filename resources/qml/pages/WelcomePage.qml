@@ -88,6 +88,9 @@ Rectangle {
             }
 
             Welcome.WelcomePrimaryActions {
+                onNewToMatrixRequested: {
+                    mainWindow.push(newToMatrixPage);
+                }
                 onRegisterRequested: {
                     mainWindow.push(registerPage);
                 }

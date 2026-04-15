@@ -125,6 +125,7 @@
         <file alias="icons/ui/panel-left-header.svg">icons/fluent/assets/Panel Left Header/SVG/ic_fluent_panel_left_header_24_regular.svg</file>
         <file alias="icons/ui/arrow-sort.svg">icons/fluent/assets/Arrow Sort/SVG/ic_fluent_arrow_sort_24_regular.svg</file>
         <file alias="icons/ui/stop.svg">icons/fluent/assets/Record Stop/SVG/ic_fluent_record_stop_24_regular.svg</file>
+        <file alias="icons/ui/lightbulb.svg">icons/fluent/assets/Lightbulb/SVG/ic_fluent_lightbulb_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

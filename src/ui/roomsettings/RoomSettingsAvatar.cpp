@@ -19,8 +19,7 @@ struct RoomAvatarMutationResult
 {
     bool ok = false;
     QString actionError;
-    std::optional<komai::MatrixRoomSettings> refreshedSettings;
-    QString refreshError;
+    QString newAvatarUrl;
 };
 } // namespace
 
@@ -84,13 +83,9 @@ RoomSettings::updateAvatar()
        height   = dimensions.height()]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           RoomAvatarMutationResult result;
-          result.ok = komai::MatrixBackendRuntimeService::uploadRoomAvatar(
+          result.newAvatarUrl = komai::MatrixBackendRuntimeService::uploadRoomAvatar(
             context, handleId, roomId, fileName, mimeName, width, height, &result.actionError);
-          if (!result.ok)
-              return result;
-
-          result.refreshedSettings = komai::MatrixBackendRuntimeService::fetchRoomSettings(
-            context, handleId, roomId, &result.refreshError);
+          result.ok = !result.newAvatarUrl.isEmpty();
           return result;
       },
       [](RoomSettings *settings, const RoomAvatarMutationResult &result) {
@@ -103,13 +98,8 @@ RoomSettings::updateAvatar()
               return;
           }
 
-          if (result.refreshedSettings.has_value()) {
-              settings->applyMatrixRoomSettings(*result.refreshedSettings);
-              return;
-          }
-
-          nhlog::ui()->warn("Failed to refresh room settings after avatar upload: {}",
-                            result.refreshError.toStdString());
+          settings->info_.avatar_url = result.newAvatarUrl.toStdString();
+          emit settings->avatarUrlChanged();
       });
 }
 
@@ -130,11 +120,6 @@ RoomSettings::removeAvatar()
           RoomAvatarMutationResult result;
           result.ok = komai::MatrixBackendRuntimeService::removeRoomAvatar(
             context, handleId, roomId, &result.actionError);
-          if (!result.ok)
-              return result;
-
-          result.refreshedSettings = komai::MatrixBackendRuntimeService::fetchRoomSettings(
-            context, handleId, roomId, &result.refreshError);
           return result;
       },
       [](RoomSettings *settings, const RoomAvatarMutationResult &result) {
@@ -147,12 +132,7 @@ RoomSettings::removeAvatar()
               return;
           }
 
-          if (result.refreshedSettings.has_value()) {
-              settings->applyMatrixRoomSettings(*result.refreshedSettings);
-              return;
-          }
-
-          nhlog::ui()->warn("Failed to refresh room settings after avatar removal: {}",
-                            result.refreshError.toStdString());
+          settings->info_.avatar_url.clear();
+          emit settings->avatarUrlChanged();
       });
 }

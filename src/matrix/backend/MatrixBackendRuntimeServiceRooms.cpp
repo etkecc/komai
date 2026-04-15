@@ -752,7 +752,7 @@ MatrixBackendRuntimeService::setRoomTopic(matrix_backend::BlockingCallContext co
     }
 }
 
-bool
+QString
 MatrixBackendRuntimeService::uploadRoomAvatar(matrix_backend::BlockingCallContext context,
                                               uint64_t handleId,
                                               const QString &roomId,
@@ -763,22 +763,23 @@ MatrixBackendRuntimeService::uploadRoomAvatar(matrix_backend::BlockingCallContex
                                               QString *errorOut)
 {
     try {
-        invokeRuntimeWorkerCall("matrix_upload_room_avatar",
-                                [context, handleId, roomId, filePath, mimeType, width, height]() {
-                                    ::komai::rust::matrix_upload_room_avatar(
-                                      matrix_backend::toRustBlockingContext(context),
-                                      handleId,
-                                      roomId.toStdString(),
-                                      filePath.toStdString(),
-                                      mimeType.toStdString(),
-                                      width,
-                                      height);
-                                });
-        return true;
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_upload_room_avatar",
+                                  [context, handleId, roomId, filePath, mimeType, width, height]() {
+                                      return ::komai::rust::matrix_upload_room_avatar(
+                                        matrix_backend::toRustBlockingContext(context),
+                                        handleId,
+                                        roomId.toStdString(),
+                                        filePath.toStdString(),
+                                        mimeType.toStdString(),
+                                        width,
+                                        height);
+                                  });
+        return QString::fromStdString(std::string(result));
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
-        return false;
+        return {};
     }
 }
 

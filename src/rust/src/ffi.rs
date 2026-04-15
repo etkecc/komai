@@ -1764,7 +1764,7 @@ mod bridge {
             mime_type: &str,
             width: i32,
             height: i32,
-        ) -> Result<()>;
+        ) -> Result<String>;
         fn matrix_remove_room_avatar(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

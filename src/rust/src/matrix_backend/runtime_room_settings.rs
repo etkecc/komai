@@ -683,8 +683,9 @@ pub async fn upload_room_avatar(
     mime_type: &str,
     width: i32,
     height: i32,
-) -> Result<(), String> {
+) -> Result<String, String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
+    let client = client_for_handle(handle_id)?;
     let file_path = file_path.trim();
     let mime: Mime = mime_type
         .trim()
@@ -711,10 +712,21 @@ pub async fn upload_room_avatar(
         "Uploading room avatar via matrix-sdk backend runtime"
     );
 
-    room.upload_avatar(&mime, data, Some(info))
+    let upload_response = client
+        .media()
+        .upload(&mime, data, None)
         .await
-        .map(|_| ())
-        .map_err(|e| format!("failed to upload room avatar via matrix-sdk: {e}"))
+        .map_err(|e| format!("failed to upload room avatar media via matrix-sdk: {e}"))?;
+
+    let content_uri = upload_response.content_uri.clone();
+    info.blurhash = upload_response.blurhash;
+    info.mimetype = Some(mime.to_string());
+
+    room.set_avatar_url(&upload_response.content_uri, Some(info))
+        .await
+        .map_err(|e| format!("failed to set room avatar state event via matrix-sdk: {e}"))?;
+
+    Ok(content_uri.to_string())
 }
 
 pub async fn remove_room_avatar(handle_id: u64, room_id: &str) -> Result<(), String> {

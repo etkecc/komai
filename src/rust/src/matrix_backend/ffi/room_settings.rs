@@ -295,7 +295,7 @@ pub(crate) fn matrix_upload_room_avatar(
     mime_type: &str,
     width: i32,
     height: i32,
-) -> Result<(), String> {
+) -> Result<String, String> {
     ffi_block_on(
         context,
         "matrix_upload_room_avatar",

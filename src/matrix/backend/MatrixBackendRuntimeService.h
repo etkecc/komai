@@ -448,14 +448,14 @@ public:
                              const QString &topic,
                              QString *errorOut = nullptr);
 
-    static bool uploadRoomAvatar(matrix_backend::BlockingCallContext context,
-                                 uint64_t handleId,
-                                 const QString &roomId,
-                                 const QString &filePath,
-                                 const QString &mimeType,
-                                 int width,
-                                 int height,
-                                 QString *errorOut = nullptr);
+    static QString uploadRoomAvatar(matrix_backend::BlockingCallContext context,
+                                    uint64_t handleId,
+                                    const QString &roomId,
+                                    const QString &filePath,
+                                    const QString &mimeType,
+                                    int width,
+                                    int height,
+                                    QString *errorOut = nullptr);
 
     static bool removeRoomAvatar(matrix_backend::BlockingCallContext context,
                                  uint64_t handleId,

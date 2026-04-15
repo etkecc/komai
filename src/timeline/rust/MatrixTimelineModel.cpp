@@ -510,6 +510,8 @@ MatrixTimelineModel::replyData(const MatrixTimelineItem &parentItem, int role) c
     case RelatedEventCacheBuster: return 0;
     case IsHiddenEvent:      return false;
     case FileTypeIconSource: return replyFileTypeIcon;
+    case IsVoiceMessage:     return false;
+    case Waveform:           return QVariantList{};
     default:                 return {};
     }
     // clang-format on
@@ -787,6 +789,8 @@ MatrixTimelineModel::previewDataForEvent(const QString &eventId, const QString &
     insertReplyRole(QStringLiteral("isStateEvent"), replyData(parentItem, IsStateEvent));
     insertReplyRole(QStringLiteral("replyTo"), replyData(parentItem, ReplyTo));
     insertReplyRole(QStringLiteral("threadId"), replyData(parentItem, ThreadId));
+    insertReplyRole(QStringLiteral("isVoiceMessage"), replyData(parentItem, IsVoiceMessage));
+    insertReplyRole(QStringLiteral("waveform"), replyData(parentItem, Waveform));
     return previewData;
 }
 

@@ -420,11 +420,6 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
 
     Qt::beginPropertyUpdateGroup();
     for (const auto &role : roles) {
-        // nhlog::ui()->critical("Setting role {}, {} to {}",
-        //                       role.role(),
-        //                       roleNames[role.role()].toStdString(),
-        //                       role.data().toString().toStdString());
-
         const auto propertyName = roleToPropertyName.value(role.role());
         writeResolvedProperty(obj, propertyName, role.data(), propertyContext);
 

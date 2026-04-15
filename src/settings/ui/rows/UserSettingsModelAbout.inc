@@ -28,8 +28,12 @@
       aboutAcknowledgementForkBaseProjectValue,
       nullptr, {}, {}, {}, nullptr, nullptr },
     // AcknowledgementsFluentIcons
-    { QT_TR_NOOP("Icon set"), nullptr, SM::Link, SM::TabAbout,
+    { QT_TR_NOOP("Icon set (Fluent)"), nullptr, SM::Link, SM::TabAbout,
       aboutAcknowledgementFluentIconsProjectValue,
+      nullptr, {}, {}, {}, nullptr, nullptr },
+    // AcknowledgementsFontAwesome
+    { QT_TR_NOOP("Icon set (Font Awesome)"), nullptr, SM::Link, SM::TabAbout,
+      aboutAcknowledgementFontAwesomeProjectValue,
       nullptr, {}, {}, {}, nullptr, nullptr },
     // AcknowledgementsBoringAvatars
     { QT_TR_NOOP("Default avatars (Boring Avatars)"), nullptr, SM::Link, SM::TabAbout,

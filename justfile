@@ -192,6 +192,14 @@ icons-sync-fluent *args:
 icons-fetch-fluent rel_path alias_svg_name:
 	{{ justfile_directory() }}/bin/icons/fluent/fetch.sh "{{ rel_path }}" "{{ alias_svg_name }}"
 
+# Syncs mirrored Font Awesome icons from pinned source
+icons-sync-fontawesome *args:
+	{{ justfile_directory() }}/bin/icons/fontawesome/sync.sh {{ args }}
+
+# Fetches one Font Awesome icon (e.g. rel_path = svgs/solid/hammer.svg) into resources/icons/fontawesome/ and wires a qrc alias
+icons-fetch-fontawesome rel_path alias_svg_name:
+	{{ justfile_directory() }}/bin/icons/fontawesome/fetch.sh "{{ rel_path }}" "{{ alias_svg_name }}"
+
 # Removes the build directory
 clean:
 	bash {{ justfile_directory() }}/bin/build/native.sh clean

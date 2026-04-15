@@ -11,6 +11,7 @@
 # - qrc alias present but not referenced by code,
 # - ui/emoji-categories files present on disk but missing in qrc.
 # - mirrored Fluent files present on disk but unreferenced by qrc targets.
+# - mirrored Font Awesome files present on disk but unreferenced by qrc targets.
 
 set -eu
 export LC_ALL=C
@@ -28,6 +29,8 @@ files_file="$tmpdir/files.txt"
 ui_emoji_files_file="$tmpdir/ui-emoji-files.txt"
 fluent_files_file="$tmpdir/fluent-files.txt"
 qrc_fluent_targets_file="$tmpdir/qrc-fluent-targets.txt"
+fa_files_file="$tmpdir/fa-files.txt"
+qrc_fa_targets_file="$tmpdir/qrc-fa-targets.txt"
 
 extract_refs() {
     {
@@ -87,6 +90,7 @@ qrc_only="$tmpdir/qrc-only.txt"
 missing_targets="$tmpdir/missing-targets.txt"
 files_not_qrc="$tmpdir/ui-emoji-files-not-qrc.txt"
 fluent_orphans="$tmpdir/fluent-orphans.txt"
+fa_orphans="$tmpdir/fa-orphans.txt"
 
 comm -23 "$refs_file" "$qrc_alias_file" > "$missing_qrc"
 comm -23 "$qrc_alias_file" "$refs_file" > "$qrc_only"
@@ -106,6 +110,17 @@ fi
 
 grep '^fluent/.*\.svg$' "$qrc_target_file" | sort -u > "$qrc_fluent_targets_file" || true
 comm -23 "$fluent_files_file" "$qrc_fluent_targets_file" > "$fluent_orphans"
+
+if [ -d "resources/icons/fontawesome" ]; then
+    list_svgs resources/icons/fontawesome \
+        | sed 's#^resources/icons/##' \
+        | sort -u > "$fa_files_file"
+else
+    : > "$fa_files_file"
+fi
+
+grep '^fontawesome/.*\.svg$' "$qrc_target_file" | sort -u > "$qrc_fa_targets_file" || true
+comm -23 "$fa_files_file" "$qrc_fa_targets_file" > "$fa_orphans"
 
 print_section() {
     title="$1"
@@ -137,12 +152,13 @@ print_section "res.qrc alias targets missing on disk" "$missing_targets" 1
 print_section "Present in res.qrc but not referenced by code" "$qrc_only" 0
 print_section "Present on disk (ui/emoji-categories) but missing in res.qrc" "$files_not_qrc" 1
 print_section "Mirrored Fluent SVGs on disk but unreferenced in res.qrc" "$fluent_orphans" 1
+print_section "Mirrored Font Awesome SVGs on disk but unreferenced in res.qrc" "$fa_orphans" 1
 
 hard_fail=0
 if [ -s "$missing_qrc" ] || [ -s "$missing_targets" ] || [ -s "$qrc_only" ] || [ -s "$files_not_qrc" ]; then
     hard_fail=1
 fi
-if [ -s "$fluent_orphans" ]; then
+if [ -s "$fluent_orphans" ] || [ -s "$fa_orphans" ]; then
     hard_fail=1
 fi
 

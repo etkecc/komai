@@ -40,6 +40,16 @@ aboutAcknowledgementFluentIconsProjectValue()
 }
 
 static QVariant
+aboutAcknowledgementFontAwesomeProjectValue()
+{
+    return QStringLiteral(
+      "<a href=\"https://github.com/FortAwesome/Font-Awesome\">Font Awesome Free</a> @ ") +
+           QString::fromStdString(komai::fontawesome_icons_ref) +
+           QStringLiteral(" by <a href=\"https://fontawesome.com\">Fonticons, Inc.</a> "
+                          "(<a href=\"https://github.com/FortAwesome/Font-Awesome/blob/6.x/LICENSE.txt\">CC BY 4.0</a>)");
+}
+
+static QVariant
 aboutAcknowledgementBoringAvatarsProjectValue()
 {
     return QStringLiteral(

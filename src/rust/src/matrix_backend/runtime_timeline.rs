@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use super::*;
-use super::timeline_snapshot::{build_room_timeline_snapshot, build_timeline_media_request_parameters, compute_read_own_event_ids};
+use super::timeline_snapshot::{build_room_timeline_snapshot, build_timeline_media_request_parameters, collect_unavailable_reply_event_ids, compute_read_own_event_ids};
 use std::{
     collections::HashSet,
     sync::OnceLock,
@@ -672,6 +672,7 @@ async fn run_room_timeline_loop(
             }
         }
     };
+    let timeline = Arc::new(timeline);
 
     let own_user_id = client.user_id();
 
@@ -755,6 +756,20 @@ async fn run_room_timeline_loop(
                     subscribe_count, snapshot_count
                 ),
             );
+        }
+    }
+
+    // Fetch reply details for events whose replied-to content is unavailable.
+    // These fire-and-forget tasks update the timeline items via diffs.
+    let mut reply_detail_fetch_requested: HashSet<OwnedEventId> = HashSet::new();
+    for event_id in collect_unavailable_reply_event_ids(&current_values) {
+        if reply_detail_fetch_requested.insert(event_id.clone()) {
+            let timeline_clone = timeline.clone();
+            tokio::spawn(async move {
+                if let Err(e) = timeline_clone.fetch_details_for_event(&event_id).await {
+                    tracing::info!("Failed to fetch reply details for {}: {e}", event_id);
+                }
+            });
         }
     }
 
@@ -853,6 +868,17 @@ async fn run_room_timeline_loop(
                             media_guard.extend(media_lookup);
                         }
                         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
+
+                        for event_id in collect_unavailable_reply_event_ids(&current_values) {
+                            if reply_detail_fetch_requested.insert(event_id.clone()) {
+                                let timeline_clone = timeline.clone();
+                                tokio::spawn(async move {
+                                    if let Err(e) = timeline_clone.fetch_details_for_event(&event_id).await {
+                                        tracing::info!("Failed to fetch reply details for {}: {e}", event_id);
+                                    }
+                                });
+                            }
+                        }
 
                         let diff_count = diffs.len();
                         tracing::info!(
@@ -1027,10 +1053,21 @@ async fn run_room_timeline_loop(
     // Cache the timeline handle back so switching to this room again
     // doesn't require the expensive ~2-3s room.timeline() + subscribe()
     // rebuild.  See the comment at the top of this function for context.
-    preloaded_timelines
-        .lock()
-        .expect("poisoned preloaded timelines mutex")
-        .insert(room_id.clone(), timeline);
+    match Arc::try_unwrap(timeline) {
+        Ok(timeline) => {
+            preloaded_timelines
+                .lock()
+                .expect("poisoned preloaded timelines mutex")
+                .insert(room_id.clone(), timeline);
+        }
+        Err(_) => {
+            tracing::warn!(
+                handle_id,
+                room_id,
+                "Cannot cache timeline handle back — reply detail fetch tasks still hold a reference"
+            );
+        }
+    }
 
     tracing::info!(handle_id, room_id, "Matrix-sdk room timeline loop stopped");
 }

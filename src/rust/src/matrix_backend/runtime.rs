@@ -24,7 +24,7 @@ use matrix_sdk::{
     event_handler::EventHandlerDropGuard,
     media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings},
     ruma::{
-        MxcUri, OwnedDeviceId, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
+        MxcUri, OwnedDeviceId, OwnedEventId, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
         RoomOrAliasId, ServerName, UInt, UserId,
         api::client::{
             error::ErrorKind,

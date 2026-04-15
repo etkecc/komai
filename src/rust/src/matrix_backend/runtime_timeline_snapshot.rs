@@ -341,6 +341,23 @@ fn timeline_item_to_summary(
     }
 }
 
+/// Collect event IDs of timeline items whose reply details are unavailable
+/// so the caller can trigger `Timeline::fetch_details_for_event` for each.
+pub fn collect_unavailable_reply_event_ids(
+    values: &Vector<Arc<TimelineItem>>,
+) -> Vec<OwnedEventId> {
+    let mut result = Vec::new();
+    for item in values.iter() {
+        let Some(event) = item.as_event() else { continue };
+        let Some(event_id) = event.event_id() else { continue };
+        let Some(in_reply_to) = event.content().in_reply_to() else { continue };
+        if matches!(in_reply_to.event, TimelineDetails::Unavailable) {
+            result.push(event_id.to_owned());
+        }
+    }
+    result
+}
+
 fn matrix_timeline_delivery_state(
     event: &matrix_sdk_ui::timeline::EventTimelineItem,
     own_user_id: Option<&matrix_sdk::ruma::UserId>,

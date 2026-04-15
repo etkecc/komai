@@ -185,12 +185,12 @@ icons-generate-derived *args:
 	python3 {{ justfile_directory() }}/bin/icons/generate-derived.py {{ args }}
 
 # Syncs mirrored Fluent icons from pinned source
-icons-sync *args:
-	{{ justfile_directory() }}/bin/icons/sync-fluent.sh {{ args }}
+icons-sync-fluent *args:
+	{{ justfile_directory() }}/bin/icons/fluent/sync.sh {{ args }}
 
 # Fetches one Fluent icon  (e.g. rel_path = assets/Something/something.svg) into resources/icons/fluent/ and wires a qrc alias
-icons-fetch rel_path alias_svg_name:
-	{{ justfile_directory() }}/bin/icons/fetch.sh "{{ rel_path }}" "{{ alias_svg_name }}"
+icons-fetch-fluent rel_path alias_svg_name:
+	{{ justfile_directory() }}/bin/icons/fluent/fetch.sh "{{ rel_path }}" "{{ alias_svg_name }}"
 
 # Removes the build directory
 clean:

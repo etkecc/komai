@@ -3,8 +3,8 @@
 # Sync all mirrored Fluent icons from pinned upstream.
 #
 # Inputs:
-# - bin/icons/fluent-icons.lock (FLUENT_REPO pin)
-# - bin/icons/FLUENT_VERSION_REF (pinned version/tag/commit ref)
+# - bin/icons/fluent/repo.conf (FLUENT_REPO pin)
+# - bin/icons/fluent/VERSION_REF (pinned version/tag/commit ref)
 #
 # This script is a maintenance tool (not part of normal build flow).
 # It downloads all SVGs currently present under resources/icons/fluent/
@@ -13,11 +13,12 @@
 
 set -eu
 
-repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
+script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+repo_root="$(CDPATH= cd -- "$script_dir/../../.." && pwd)"
 cd "$repo_root"
 
-lock_file="$repo_root/bin/icons/fluent-icons.lock"
-version_ref_file="$repo_root/bin/icons/FLUENT_VERSION_REF"
+lock_file="$script_dir/repo.conf"
+version_ref_file="$script_dir/VERSION_REF"
 fluent_root="$repo_root/resources/icons/fluent"
 
 dry_run=0
@@ -37,7 +38,7 @@ if [ ! -f "$version_ref_file" ]; then
 fi
 raw_ref="$(awk 'NF > 0 && $1 !~ /^#/ { print $1; exit }' "$version_ref_file")"
 if [ -z "$raw_ref" ]; then
-    echo "Set a version/ref in bin/icons/FLUENT_VERSION_REF first." >&2
+    echo "Set a version/ref in bin/icons/fluent/VERSION_REF first." >&2
     exit 1
 fi
 
@@ -45,7 +46,7 @@ fi
 . "$lock_file"
 
 if [ -z "${FLUENT_REPO:-}" ]; then
-    echo "Set FLUENT_REPO in bin/icons/fluent-icons.lock first." >&2
+    echo "Set FLUENT_REPO in bin/icons/fluent/repo.conf first." >&2
     exit 1
 fi
 

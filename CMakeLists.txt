@@ -254,7 +254,7 @@ message(STATUS "Git commit: ${GIT_COMMIT_HASH}")
 
 # Read pinned Fluent icon source ref (used by About acknowledgements)
 set(FLUENT_ICONS_VERSION "unknown")
-set(FLUENT_VERSION_REF_FILE "${CMAKE_SOURCE_DIR}/bin/icons/FLUENT_VERSION_REF")
+set(FLUENT_VERSION_REF_FILE "${CMAKE_SOURCE_DIR}/bin/icons/fluent/VERSION_REF")
 if(EXISTS "${FLUENT_VERSION_REF_FILE}")
     file(STRINGS "${FLUENT_VERSION_REF_FILE}" FLUENT_VERSION_REF_LINES)
     foreach(_line IN LISTS FLUENT_VERSION_REF_LINES)

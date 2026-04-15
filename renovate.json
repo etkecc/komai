@@ -61,7 +61,7 @@
       "customType": "regex",
       "description": "Fluent UI System Icons version pin",
       "managerFilePatterns": [
-        "/^bin/icons/FLUENT_VERSION_REF$/"
+        "/^bin/icons/fluent/VERSION_REF$/"
       ],
       "matchStrings": ["^(?<currentValue>\\d+\\.\\d+\\.\\d+)$"],
       "depNameTemplate": "microsoft/fluentui-system-icons",

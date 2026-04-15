@@ -10,11 +10,12 @@
 
 set -eu
 
-repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
+script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+repo_root="$(CDPATH= cd -- "$script_dir/../../.." && pwd)"
 cd "$repo_root"
 
-lock_file="$repo_root/bin/icons/fluent-icons.lock"
-version_ref_file="$repo_root/bin/icons/FLUENT_VERSION_REF"
+lock_file="$script_dir/repo.conf"
+version_ref_file="$script_dir/VERSION_REF"
 
 if [ "$#" -ne 2 ]; then
     echo "Usage: $0 REL_PATH ALIAS_SVG_NAME" >&2
@@ -45,7 +46,7 @@ fi
 
 raw_ref="$(awk 'NF > 0 && $1 !~ /^#/ { print $1; exit }' "$version_ref_file")"
 if [ -z "$raw_ref" ]; then
-    echo "Set a version/ref in bin/icons/FLUENT_VERSION_REF first." >&2
+    echo "Set a version/ref in bin/icons/fluent/VERSION_REF first." >&2
     exit 1
 fi
 
@@ -53,7 +54,7 @@ fi
 . "$lock_file"
 
 if [ -z "${FLUENT_REPO:-}" ]; then
-    echo "Set FLUENT_REPO in bin/icons/fluent-icons.lock first." >&2
+    echo "Set FLUENT_REPO in bin/icons/fluent/repo.conf first." >&2
     exit 1
 fi
 

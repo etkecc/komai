@@ -79,6 +79,13 @@ SPDX-License-Identifier = "MIT"
 
 [[annotations]]
 path = [
+  "fontawesome/**/*.svg",
+]
+SPDX-FileCopyrightText = "Fonticons, Inc."
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = [
   "ui/integrations.svg",
   "ui/plus-circle.svg",
   "ui/state-event.svg",

@@ -349,7 +349,7 @@ Rectangle {
                         Layout.preferredWidth: 32
                         Layout.preferredHeight: 32
                         Layout.alignment: Qt.AlignTop
-                        source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.highlight
+                        source: "image://colorimage/:/icons/icons/ui/github.svg?" + palette.highlight
                         sourceSize.width: 32
                         sourceSize.height: 32
                     }

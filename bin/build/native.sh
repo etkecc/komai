@@ -276,6 +276,23 @@ needs_release_configure() {
 		return 0
 	fi
 
+	# Verify the cached Rust toolchain matches rust-toolchain.toml.
+	# Corrosion caches resolved rustc/cargo paths as INTERNAL CMake variables,
+	# so a stale cache silently uses the wrong compiler even after reconfigure.
+	# The only reliable fix is wiping the build directory.
+	local expected_channel
+	expected_channel="$(sed -n 's/^channel[[:space:]]*=[[:space:]]*"\(.*\)"/\1/p' "${repo_root}/rust-toolchain.toml")"
+	if [[ -n "${expected_channel}" ]]; then
+		local cached_toolchain
+		cached_toolchain="$(sed -n 's/^Rust_TOOLCHAIN:STRING=//p' "${build_dir}/CMakeCache.txt")"
+		if [[ -n "${cached_toolchain}" && "${cached_toolchain}" != "${expected_channel}-"* ]]; then
+			echo "Cached Rust toolchain (${cached_toolchain}) does not match rust-toolchain.toml (${expected_channel})." >&2
+			echo "Clearing build directory for reconfiguration..." >&2
+			rm -rf "${build_dir}"
+			return 0
+		fi
+	fi
+
 	return 1
 }
 

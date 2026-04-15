@@ -146,7 +146,8 @@ ColumnLayout {
         NotificationBubble {
             id: spaceNotificationBubble
 
-            anchors.right: parent.right
+            anchors.right: (timestamp.visible && !subtextRow.visible && !root.isSpace) ? timestamp.left : parent.right
+            anchors.rightMargin: (timestamp.visible && !subtextRow.visible && !root.isSpace) ? Komai.paddingSmall : 0
             bubbleBackgroundColor: root.bubbleBackground
             bubbleTextColor: root.bubbleText
             hasLoudNotification: root.hasLoudNotification

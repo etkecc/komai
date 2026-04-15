@@ -499,7 +499,7 @@ RoomInfo::toJson() const
       {QStringLiteral("name"), name},
       {QStringLiteral("avatarUrl"), avatarUrl},
       {QStringLiteral("read"), read},
-      {QStringLiteral("serverNotificationCount"), serverNotificationCount},
+      {QStringLiteral("unreadCount"), unreadCount},
       {QStringLiteral("memberCount"), memberCount},
       {QStringLiteral("mostRecentEventTimestampMs"),
        static_cast<qint64>(mostRecentEventTimestampMs)},
@@ -538,12 +538,12 @@ roomList()
           joinedRoomIt != rl->matrixJoinedRooms().cend() ? joinedRoomIt->memberCount : 0;
 
         RoomInfo info;
-        info.roomId                  = roomId;
-        info.name                    = rl->data(index, RoomlistModel::RoomName).toString();
-        info.avatarUrl               = rl->data(index, RoomlistModel::AvatarUrl).toString();
-        info.read                    = !rl->data(index, RoomlistModel::HasUnreadMessages).toBool();
-        info.serverNotificationCount = rl->data(index, RoomlistModel::NotificationCount).toInt();
-        info.memberCount             = memberCount;
+        info.roomId      = roomId;
+        info.name        = rl->data(index, RoomlistModel::RoomName).toString();
+        info.avatarUrl   = rl->data(index, RoomlistModel::AvatarUrl).toString();
+        info.read        = !rl->data(index, RoomlistModel::HasUnreadMessages).toBool();
+        info.unreadCount = rl->data(index, RoomlistModel::UnreadCount).toInt();
+        info.memberCount = memberCount;
         info.mostRecentEventTimestampMs = rl->data(index, RoomlistModel::Timestamp).toULongLong();
         info.highlighted  = rl->data(index, RoomlistModel::HasLoudNotification).toBool();
         info.categories   = roomCategories(rl, index);

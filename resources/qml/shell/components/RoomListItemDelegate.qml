@@ -35,7 +35,7 @@ ItemDelegate {
     required property bool isSpace
     required property string lastMessage
     required property string draftPreview
-    required property int notificationCount
+    required property int unreadCount
     required property string roomId
     required property string roomName
     required property var tags
@@ -198,7 +198,7 @@ ItemDelegate {
             hasLoudNotification: roomItem.hasLoudNotification
             collapsed: roomItem.collapsed
             isSpace: roomItem.isSpace
-            notificationCount: roomItem.notificationCount
+            unreadCount: roomItem.unreadCount
             bounceOnUnread: roomItem.emphasizeUnreadState
             isSelected: roomItem.isSelected
         }
@@ -211,7 +211,7 @@ ItemDelegate {
             hasUnreadMessages: roomItem.emphasizeUnreadState
             hasDraft: roomItem.hasDraft
             hasLoudNotification: roomItem.hasLoudNotification
-            notificationCount: roomItem.notificationCount
+            unreadCount: roomItem.unreadCount
             avatarHeight: avatar.height
             baseFontPixelSize: roomItem.baseFontPixelSize
             roomName: roomItem.roomName

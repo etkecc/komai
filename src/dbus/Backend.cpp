@@ -155,7 +155,7 @@ DbusRoomsInterface::list() const
                                                   r.name,
                                                   r.avatarUrl,
                                                   r.read,
-                                                  r.serverNotificationCount,
+                                                  r.unreadCount,
                                                   r.memberCount,
                                                   r.mostRecentEventTimestampMs,
                                                   r.highlighted,

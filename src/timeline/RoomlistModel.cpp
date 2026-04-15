@@ -71,7 +71,7 @@ totalNotificationCount(const QHash<QString, komai::MatrixRoomSummary> &rooms)
 {
     uint64_t total = 0;
     for (auto it = rooms.cbegin(); it != rooms.cend(); ++it)
-        total += it.value().notificationCount;
+        total += it.value().unreadMessages;
     return total;
 }
 
@@ -85,10 +85,9 @@ reconcileRoomNotificationCounts(const QHash<QString, komai::MatrixRoomSummary> &
 
     for (auto it = previousRooms.cbegin(); it != previousRooms.cend(); ++it) {
         const auto currentIt     = currentRooms.constFind(it.key());
-        const auto previousCount = static_cast<int>(it.value().notificationCount);
-        const auto currentCount  = currentIt == currentRooms.cend()
-                                     ? 0
-                                     : static_cast<int>(currentIt.value().notificationCount);
+        const auto previousCount = static_cast<int>(it.value().unreadMessages);
+        const auto currentCount =
+          currentIt == currentRooms.cend() ? 0 : static_cast<int>(currentIt.value().unreadMessages);
 
         if (currentCount < previousCount)
             chatPage->reconcileRoomNotifications(it.key(), currentCount);
@@ -333,7 +332,7 @@ RoomlistModel::roleNames() const
       {Timestamp, "timestamp"},
       {HasUnreadMessages, "hasUnreadMessages"},
       {HasLoudNotification, "hasLoudNotification"},
-      {NotificationCount, "notificationCount"},
+      {UnreadCount, "unreadCount"},
       {HasDraft, "hasDraft"},
       {DraftPreview, "draftPreview"},
       {IsInvite, "isInvite"},

@@ -511,7 +511,7 @@ CommunitiesModel::handleRoomlistDataChanged(const QModelIndex &topLeft,
 
     if (roles.isEmpty() || roles.contains(RoomlistModel::HasUnreadMessages) ||
         roles.contains(RoomlistModel::HasLoudNotification) ||
-        roles.contains(RoomlistModel::NotificationCount) || roles.contains(RoomlistModel::Tags) ||
+        roles.contains(RoomlistModel::UnreadCount) || roles.contains(RoomlistModel::Tags) ||
         roles.contains(RoomlistModel::ParentSpaces) || roles.contains(RoomlistModel::IsDirect) ||
         roles.contains(RoomlistModel::IsBotRoom) || roles.contains(RoomlistModel::IsSpace)) {
         recomputeFilterBadges();

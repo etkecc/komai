@@ -10,7 +10,7 @@ import cc.etke.komai 1.0
 Rectangle {
     id: bubbleRoot
 
-    required property int notificationCount
+    required property int unreadCount
     required property bool hasLoudNotification
     required property color bubbleBackgroundColor
     required property color bubbleTextColor
@@ -19,7 +19,7 @@ Rectangle {
     property alias font: notificationBubbleText.font
     baselineOffset: notificationBubbleText.baseline - bubbleRoot.top
 
-    visible: mayBeVisible && notificationCount > 0
+    visible: mayBeVisible && unreadCount > 0
     implicitHeight: notificationBubbleText.height + Komai.paddingSmall
     implicitWidth: Math.max(notificationBubbleText.width, height)
     radius: height / 8
@@ -31,9 +31,9 @@ Rectangle {
         anchorY: bubbleRoot.height
         gapX: Komai.paddingMedium
         gapY: Komai.paddingMedium
-        text: String(bubbleRoot.notificationCount)
+        text: String(bubbleRoot.unreadCount)
         delay: Komai.tooltipDelay
-        requestedVisible: notificationBubbleHover.hovered && bubbleRoot.notificationCount > 9999
+        requestedVisible: notificationBubbleHover.hovered && bubbleRoot.unreadCount > 9999
     }
 
     Label {
@@ -46,7 +46,7 @@ Rectangle {
         font.bold: true
         font.pixelSize: bubbleRoot.baseFontPixelSize * 0.8
         color: bubbleRoot.hasLoudNotification ? "white" : bubbleRoot.bubbleTextColor
-        text: bubbleRoot.notificationCount > 9999 ? "9999+" : bubbleRoot.notificationCount
+        text: bubbleRoot.unreadCount > 9999 ? "9999+" : bubbleRoot.unreadCount
 
         HoverHandler {
             id: notificationBubbleHover

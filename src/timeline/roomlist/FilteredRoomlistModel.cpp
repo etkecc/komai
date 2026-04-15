@@ -61,7 +61,7 @@ FilteredRoomlistModel::calculateImportance(const QModelIndex &idx) const
         return ImportanceDisabled;
     } else if (sourceModel()->data(idx, RoomlistModel::HasLoudNotification).toBool()) {
         return NewMentions;
-    } else if (sourceModel()->data(idx, RoomlistModel::NotificationCount).toInt() > 0) {
+    } else if (sourceModel()->data(idx, RoomlistModel::UnreadCount).toInt() > 0) {
         return NewMessage;
     } else if (sourceModel()->data(idx, RoomlistModel::HasDraft).toBool()) {
         return Draft;
@@ -586,7 +586,7 @@ FilteredRoomlistModel::nextRoomWithActivity()
             break;
         }
         if (roomWithNotification == -1 &&
-            this->data(index(i, 0), RoomlistModel::NotificationCount).toInt() > 0) {
+            this->data(index(i, 0), RoomlistModel::UnreadCount).toInt() > 0) {
             roomWithNotification = i;
             // don't break, we must continue looking for rooms with mentions
         }

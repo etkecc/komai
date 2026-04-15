@@ -18,7 +18,7 @@ ColumnLayout {
     required property bool hasUnreadMessages
     required property bool hasLoudNotification
     required property bool hasDraft
-    required property int notificationCount
+    required property int unreadCount
     required property real avatarHeight
     required property real baseFontPixelSize
     required property string roomName
@@ -152,7 +152,7 @@ ColumnLayout {
             bubbleTextColor: root.bubbleText
             hasLoudNotification: root.hasLoudNotification
             mayBeVisible: !root.collapsed && (root.isSpace ? Settings.navigationRoomListShowCommunityCounts : !subtextRow.visible)
-            notificationCount: root.notificationCount
+            unreadCount: root.unreadCount
             parent: (root.isSpace || !subtextRow.visible) ? titleRow : subtextRow
         }
     }
@@ -227,7 +227,7 @@ ColumnLayout {
             bubbleTextColor: root.bubbleText
             hasLoudNotification: root.hasLoudNotification
             mayBeVisible: !root.collapsed
-            notificationCount: root.notificationCount
+            unreadCount: root.unreadCount
         }
     }
 }

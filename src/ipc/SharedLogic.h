@@ -37,7 +37,7 @@ struct RoomInfo
     QString name;
     QString avatarUrl;
     bool read                             = true;
-    int serverNotificationCount           = 0;
+    int unreadCount                       = 0;
     int memberCount                       = 0;
     qulonglong mostRecentEventTimestampMs = 0;
     bool highlighted                      = false;

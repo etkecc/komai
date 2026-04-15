@@ -45,7 +45,7 @@ public:
                  const QString &name                         = QString{},
                  const QString &avatarUrl                    = QString{},
                  const bool read                             = true,
-                 const int serverNotificationCount           = 0,
+                 const int unreadCount                       = 0,
                  const int memberCount                       = 0,
                  const qulonglong mostRecentEventTimestampMs = 0,
                  const bool highlighted                      = false,
@@ -63,7 +63,7 @@ public:
     const QString &name() const { return name_; }
     const QString &avatarUrl() const { return avatarUrl_; }
     bool read() const { return read_; }
-    int serverNotificationCount() const { return serverNotificationCount_; }
+    int unreadCount() const { return unreadCount_; }
     int memberCount() const { return memberCount_; }
     qulonglong mostRecentEventTimestampMs() const { return mostRecentEventTimestampMs_; }
     bool highlighted() const { return highlighted_; }
@@ -84,7 +84,7 @@ private:
     QString name_;
     QString avatarUrl_;
     bool read_;
-    int serverNotificationCount_;
+    int unreadCount_;
     int memberCount_;
     qulonglong mostRecentEventTimestampMs_;
     bool highlighted_;

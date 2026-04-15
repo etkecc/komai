@@ -146,8 +146,8 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
         return room.unreadMessages > 0;
     case Roles::HasLoudNotification:
         return room.highlightCount > 0;
-    case Roles::NotificationCount:
-        return static_cast<int>(room.notificationCount);
+    case Roles::UnreadCount:
+        return static_cast<int>(room.unreadMessages);
     case Roles::IsInvite:
         return room.isInvite;
     case Roles::IsSpace:
@@ -180,7 +180,7 @@ RoomlistModel::dataForInviteRoom(const RoomInfo &room, int role) const
     case Roles::HasUnreadMessages:
     case Roles::HasLoudNotification:
         return false;
-    case Roles::NotificationCount:
+    case Roles::UnreadCount:
         return 0;
     case Roles::IsInvite:
         return true;
@@ -214,7 +214,7 @@ RoomlistModel::dataForPreviewRoom(const RoomInfo &room, int role) const
     case Roles::HasUnreadMessages:
     case Roles::HasLoudNotification:
         return false;
-    case Roles::NotificationCount:
+    case Roles::UnreadCount:
         return 0;
     case Roles::IsInvite:
         return false;
@@ -255,7 +255,7 @@ RoomlistModel::dataForUnavailablePreview(int role) const
     case Roles::HasUnreadMessages:
     case Roles::HasLoudNotification:
         return false;
-    case Roles::NotificationCount:
+    case Roles::UnreadCount:
         return 0;
     case Roles::IsInvite:
         return false;

@@ -166,7 +166,7 @@ ItemDelegate {
                 font.pixelSize: baseFontPixelSize * 0.6
                 hasLoudNotification: model.hasLoudNotification
                 mayBeVisible: collapsed && !model.badgesHidden && Settings.navigationRoomListShowCommunityCounts
-                notificationCount: model.unreadMessages
+                unreadCount: model.unreadMessages
             }
         }
         ElidedLabel {
@@ -188,7 +188,7 @@ ItemDelegate {
             bubbleTextColor: communityItem.bubbleText
             hasLoudNotification: model.hasLoudNotification
             mayBeVisible: !collapsed && !model.badgesHidden && Settings.navigationRoomListShowCommunityCounts
-            notificationCount: model.unreadMessages
+            unreadCount: model.unreadMessages
         }
     }
 }

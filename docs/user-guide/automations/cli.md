@@ -62,7 +62,7 @@ Room discovery and navigation.
 Returns a JSON array of joined rooms. Each room summary includes:
 
 - `read` -- Komai's local room-list read state
-- `serverNotificationCount` -- homeserver-derived notification count
+- `unreadCount` -- locally-tracked unread message count
 - `memberCount` -- joined member count from Komai's cached room metadata
 - `mostRecentEventTimestampMs` -- best-known most recent room event timestamp in Unix milliseconds
 - `highlighted` -- whether the room currently has a highlight
@@ -78,7 +78,7 @@ See also: [join](#join).
 
 ```bash
 komai rooms list
-# [{"id":"!abc:example.org","alias":"#room:example.org","name":"My Room","avatarUrl":"mxc://example.org/abc","read":false,"serverNotificationCount":3,"memberCount":42,"mostRecentEventTimestampMs":1742810400000,"highlighted":false,"categories":["group","encrypted"],"tags":["m.favourite"],"parentSpaces":["!space:example.org"],"dmUserId":"","encrypted":true},...]
+# [{"id":"!abc:example.org","alias":"#room:example.org","name":"My Room","avatarUrl":"mxc://example.org/abc","read":false,"unreadCount":3,"memberCount":42,"mostRecentEventTimestampMs":1742810400000,"highlighted":false,"categories":["group","encrypted"],"tags":["m.favourite"],"parentSpaces":["!space:example.org"],"dmUserId":"","encrypted":true},...]
 ```
 
 Scripting examples:

@@ -101,7 +101,7 @@ public:
         Timestamp,
         HasUnreadMessages,
         HasLoudNotification,
-        NotificationCount,
+        UnreadCount,
         HasDraft,
         DraftPreview,
         IsInvite,

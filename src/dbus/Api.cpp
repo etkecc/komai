@@ -75,7 +75,7 @@ RoomInfoItem::RoomInfoItem(const QString &roomId,
                            const QString &name,
                            const QString &avatarUrl,
                            const bool read,
-                           const int serverNotificationCount,
+                           const int unreadCount,
                            const int memberCount,
                            const qulonglong mostRecentEventTimestampMs,
                            const bool highlighted,
@@ -91,7 +91,7 @@ RoomInfoItem::RoomInfoItem(const QString &roomId,
   , name_{name}
   , avatarUrl_{avatarUrl}
   , read_{read}
-  , serverNotificationCount_{serverNotificationCount}
+  , unreadCount_{unreadCount}
   , memberCount_{memberCount}
   , mostRecentEventTimestampMs_{mostRecentEventTimestampMs}
   , highlighted_{highlighted}
@@ -110,7 +110,7 @@ RoomInfoItem::RoomInfoItem(const RoomInfoItem &other)
   , name_{other.name_}
   , avatarUrl_{other.avatarUrl_}
   , read_{other.read_}
-  , serverNotificationCount_{other.serverNotificationCount_}
+  , unreadCount_{other.unreadCount_}
   , memberCount_{other.memberCount_}
   , mostRecentEventTimestampMs_{other.mostRecentEventTimestampMs_}
   , highlighted_{other.highlighted_}
@@ -130,7 +130,7 @@ RoomInfoItem::operator=(const RoomInfoItem &other)
     name_                       = other.name_;
     avatarUrl_                  = other.avatarUrl_;
     read_                       = other.read_;
-    serverNotificationCount_    = other.serverNotificationCount_;
+    unreadCount_                = other.unreadCount_;
     memberCount_                = other.memberCount_;
     mostRecentEventTimestampMs_ = other.mostRecentEventTimestampMs_;
     highlighted_                = other.highlighted_;
@@ -147,7 +147,7 @@ operator<<(QDBusArgument &arg, const RoomInfoItem &item)
 {
     arg.beginStructure();
     arg << item.roomId_ << item.alias_ << item.name_ << item.avatarUrl_ << item.read_
-        << item.serverNotificationCount_ << item.memberCount_ << item.mostRecentEventTimestampMs_
+        << item.unreadCount_ << item.memberCount_ << item.mostRecentEventTimestampMs_
         << item.highlighted_ << item.categories_ << item.tags_ << item.parentSpaces_
         << item.dmUserId_ << item.encrypted_;
     arg.endStructure();
@@ -159,7 +159,7 @@ operator>>(const QDBusArgument &arg, RoomInfoItem &item)
 {
     arg.beginStructure();
     arg >> item.roomId_ >> item.alias_ >> item.name_ >> item.avatarUrl_ >> item.read_ >>
-      item.serverNotificationCount_ >> item.memberCount_ >> item.mostRecentEventTimestampMs_ >>
+      item.unreadCount_ >> item.memberCount_ >> item.mostRecentEventTimestampMs_ >>
       item.highlighted_ >> item.categories_ >> item.tags_ >> item.parentSpaces_ >> item.dmUserId_ >>
       item.encrypted_;
 

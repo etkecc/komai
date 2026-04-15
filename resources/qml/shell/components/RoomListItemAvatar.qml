@@ -20,7 +20,7 @@ Avatar {
     property bool hasLoudNotification: false
     property bool collapsed: false
     property bool isSpace: false
-    property int notificationCount: 0
+    property int unreadCount: 0
     property bool bounceOnUnread: false
     property bool isSelected: false
 
@@ -48,6 +48,6 @@ Avatar {
         bubbleTextColor: root.bubbleText
         hasLoudNotification: root.hasLoudNotification
         mayBeVisible: root.collapsed && (root.isSpace ? Settings.navigationRoomListShowCommunityCounts : true)
-        notificationCount: root.notificationCount
+        unreadCount: root.unreadCount
     }
 }

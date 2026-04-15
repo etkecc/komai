@@ -16,15 +16,58 @@ Rectangle {
     readonly property int preferredTabWidth: Settings.navigationTabsPreferredWidthPx
     readonly property int minimumTabWidth: Settings.navigationTabsMinimumWidthPx
 
-    // Compute ideal tab width from available space and tab count.
+    // Shared metrics (mirroring RoomTabDelegate layout constants).
+    readonly property int _avatarSizePx: Komai.listIconSize
+    readonly property int _actionBtnSize: Math.round(Komai.fontPixelSize * 1.6)
+    readonly property int _attentionBarMargin: Math.round(Komai.paddingSmall / 2) + 4 + Komai.paddingSmall
+    readonly property bool _showPinButton: Settings.navigationTabsShowPinButton === Settings.TabPinButtonVisibility.Always
+
+    // Pre-computed avatar-only widths for pinned and unpinned tabs.
+    readonly property int _avatarOnlyPinnedWidth: {
+        var w = _attentionBarMargin + _avatarSizePx + _attentionBarMargin + Komai.paddingSmall;
+        if (_showPinButton)
+            w += _actionBtnSize + Komai.paddingSmall;
+        return w;
+    }
+    readonly property int _avatarOnlyUnpinnedWidth: {
+        var w = _attentionBarMargin + _avatarSizePx + Komai.paddingSmall + _actionBtnSize + _attentionBarMargin;
+        if (_showPinButton)
+            w += _actionBtnSize + Komai.paddingSmall;
+        return w;
+    }
+
+    // Compute ideal label-tab width by subtracting fixed avatar-only tab
+    // widths from available space, then distributing the rest among label tabs.
     readonly property int _liveTabWidth: {
         var count = tabController.tabs.count;
         if (count === 0)
             return preferredTabWidth;
+
         var available = tabListView.width;
-        if (count * preferredTabWidth <= available)
+        var avatarOnlyTotal = 0;
+        var labelCount = 0;
+
+        for (var i = 0; i < count; i++) {
+            var tab = tabController.tabs.get(i);
+            var isAvatarOnly = !!tab.roomId
+                && (tab.pinned
+                    ? Settings.navigationTabsPinnedTabLabel === Settings.TabLabelDisplay.AvatarOnly
+                    : Settings.navigationTabsTabLabel === Settings.TabLabelDisplay.AvatarOnly);
+            if (isAvatarOnly) {
+                avatarOnlyTotal += tab.pinned ? _avatarOnlyPinnedWidth : _avatarOnlyUnpinnedWidth;
+            } else {
+                labelCount++;
+            }
+        }
+
+        // All tabs are avatar-only — return preferred as a fallback (unused).
+        if (labelCount === 0)
             return preferredTabWidth;
-        var shrunk = Math.floor(available / count);
+
+        var remainingSpace = available - avatarOnlyTotal;
+        if (labelCount * preferredTabWidth <= remainingSpace)
+            return preferredTabWidth;
+        var shrunk = Math.floor(remainingSpace / labelCount);
         return Math.max(minimumTabWidth, shrunk);
     }
 
@@ -84,7 +127,7 @@ Rectangle {
             orientation: Qt.Horizontal
             clip: true
             boundsBehavior: Flickable.StopAtBounds
-            interactive: contentWidth > width && !tabController.isDragging
+            interactive: false
             model: tabController.tabs
 
             delegate: RoomTabDelegate {
@@ -210,21 +253,9 @@ Rectangle {
         function onCurrentRoomIdChanged() { tabBar.ensureActiveTabVisible(); }
     }
 
-    // Convert vertical mouse wheel to horizontal scroll (only when not dragging).
-    // Uses WheelHandler instead of MouseArea to avoid overriding delegate cursor shapes.
-    WheelHandler {
-        target: null
-        parent: tabListView
-        enabled: !tabController.isDragging
-
-        onWheel: function(event) {
-            var delta = event.angleDelta.y || event.angleDelta.x;
-            if (delta === 0)
-                return;
-            var maxX = Math.max(0, tabListView.contentWidth - tabListView.width);
-            tabListView.contentX = Math.max(0, Math.min(maxX, tabListView.contentX - delta));
-        }
-    }
+    // Wheel scroll is handled by RoomTabDelegate.onWheel (MouseArea.onWheel)
+    // rather than a WheelHandler here, because WheelHandler events don't
+    // reach the tab bar reliably through the ListView delegate hierarchy.
 
     // Bottom border.
     Rectangle {

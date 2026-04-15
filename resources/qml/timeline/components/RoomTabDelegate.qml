@@ -14,6 +14,7 @@ Rectangle {
         id: tabHoverHandler
     }
 
+
     required property int index
     required property string roomId
     required property string roomName
@@ -261,6 +262,16 @@ Rectangle {
                 tabDelegate._dragJustFinished = true;
                 return;
             }
+        }
+
+        onWheel: function(wheel) {
+            var delta = wheel.angleDelta.y || wheel.angleDelta.x;
+            if (delta === 0)
+                return;
+            var lv = tabDelegate.parentListView;
+            var maxX = Math.max(0, lv.contentWidth - lv.width);
+            lv.contentX = Math.max(0, Math.min(maxX, lv.contentX - delta));
+            wheel.accepted = true;
         }
 
         onClicked: function(mouse) {

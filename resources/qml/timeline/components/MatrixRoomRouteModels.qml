@@ -34,6 +34,7 @@ Item {
         id: matrixForwardRoomModel
 
         property string roomId: roomPreview ? roomPreview.roomid : ""
+        property bool isActiveMatrixTimelineRoom: true
 
         function forwardMessage(eventId, targetRoomId) {
             TimelineManager.forwardActiveMatrixTimelineEvent(String(eventId || ""),

@@ -161,9 +161,14 @@ AbstractButton {
         && compactPreviewMediaRoomContext.roomId !== undefined
         ? String(compactPreviewMediaRoomContext.roomId || "")
         : ""
+    readonly property bool useActiveMatrixTimelineSource: !!effectiveRoomContext
+        && effectiveRoomContext.isActiveMatrixTimelineRoom === true
     readonly property string compactPreviewImageSource: {
         if (previewMediaUrl.length === 0)
             return "";
+
+        if (useActiveMatrixTimelineSource && previewEventId.length > 0)
+            return "image://MxcImage/matrix-timeline:" + previewEventId + "?scale";
 
         const providerSource = previewMediaUrl.replace("mxc://", "image://MxcImage/");
         return compactPreviewRoomId.length > 0

@@ -60,13 +60,20 @@ pub fn build_room_timeline_snapshot(
     let mut media_lookup = HashMap::new();
 
     for item in values.iter() {
-        if let Some((summary, media_request)) =
+        if let Some((summary, media_request, reply_media_request)) =
             timeline_item_to_summary(item.as_ref(), own_user_id, read_own_event_ids)
         {
             if let Some(media_request) = media_request {
                 media_lookup.insert(summary.item_id.clone(), media_request.clone());
                 if !summary.event_id.is_empty() {
                     media_lookup.insert(summary.event_id.clone(), media_request);
+                }
+            }
+            if let Some(reply_media_request) = reply_media_request {
+                if !summary.reply_event_id.is_empty() {
+                    media_lookup
+                        .entry(summary.reply_event_id.clone())
+                        .or_insert(reply_media_request);
                 }
             }
             items.push(summary);
@@ -84,7 +91,7 @@ fn timeline_item_to_summary(
     item: &TimelineItem,
     own_user_id: Option<&matrix_sdk::ruma::UserId>,
     read_own_event_ids: &HashSet<String>,
-) -> Option<(MatrixTimelineItem, Option<MatrixTimelineMediaRequest>)> {
+) -> Option<(MatrixTimelineItem, Option<MatrixTimelineMediaRequest>, Option<MatrixTimelineMediaRequest>)> {
     let item_id = item.unique_id().0.clone();
 
     if let Some(event) = item.as_event() {
@@ -134,6 +141,12 @@ fn timeline_item_to_summary(
         let power_level_changes = summary.power_level_changes;
         let server_acl_changes = summary.server_acl_changes;
         let media_request = media.as_ref().and_then(|media| {
+            media.source.clone().map(|source| MatrixTimelineMediaRequest {
+                source,
+                thumbnail_source: media.thumbnail_source.clone(),
+            })
+        });
+        let reply_media_request = reply_media.as_ref().and_then(|media| {
             media.source.clone().map(|source| MatrixTimelineMediaRequest {
                 source,
                 thumbnail_source: media.thumbnail_source.clone(),
@@ -256,6 +269,7 @@ fn timeline_item_to_summary(
                 server_acl_changes,
             },
             media_request,
+            reply_media_request,
         ));
     }
 
@@ -318,6 +332,7 @@ fn timeline_item_to_summary(
                 power_level_changes: Vec::new(),
                 server_acl_changes: None,
             },
+            None,
             None,
         )),
         Some(VirtualTimelineItem::ReadMarker) | Some(VirtualTimelineItem::TimelineStart) | None => {

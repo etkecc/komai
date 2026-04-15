@@ -181,6 +181,8 @@ stateEventIconForItem(const MatrixTimelineItem &item)
         return QStringLiteral(":/icons/icons/ui/stop.svg");
     if (item.matrixEventType == QStringLiteral("m.room.power_levels"))
         return QStringLiteral(":/icons/icons/ui/arrow-sort.svg");
+    if (item.matrixEventType == QStringLiteral("m.room.create"))
+        return QStringLiteral(":/icons/icons/ui/hammer.svg");
 
     return stateEventIconForKind(item.itemKind);
 }

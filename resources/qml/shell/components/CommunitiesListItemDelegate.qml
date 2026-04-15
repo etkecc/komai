@@ -52,6 +52,11 @@ ItemDelegate {
 
         Rectangle {
             anchors.fill: parent
+            color: Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15)
+            visible: model.unreadMessages > 0 && communityItem.state !== "selected"
+        }
+        Rectangle {
+            anchors.fill: parent
             color: "transparent"
             border.color: palette.highlight
             border.width: communityItem.keyboardFocused ? 2 : 0
@@ -115,7 +120,7 @@ ItemDelegate {
         id: row
 
         anchors.fill: parent
-        anchors.leftMargin: Komai.paddingMedium + (collapsed ? 0 : (lineSpacing * model.depth))
+        anchors.leftMargin: Komai.paddingMedium + Komai.paddingSmall + (collapsed ? 0 : (lineSpacing * model.depth))
         anchors.rightMargin: Komai.paddingMedium + Komai.paddingSmall
         anchors.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
         anchors.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
@@ -190,5 +195,15 @@ ItemDelegate {
             mayBeVisible: !collapsed && !model.badgesHidden && Settings.navigationCommunitiesShowUnreadCounts
             unreadCount: model.unreadMessages
         }
+    }
+    Rectangle {
+        anchors.left: parent.left
+        anchors.leftMargin: Komai.paddingSmall / 2
+        anchors.verticalCenter: parent.verticalCenter
+        color: palette.highlight
+        height: parent.height - Komai.paddingMedium * 2
+        visible: model.unreadMessages > 0
+        width: 6
+        radius: 3
     }
 }

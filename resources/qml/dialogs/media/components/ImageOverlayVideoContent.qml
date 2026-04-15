@@ -21,6 +21,8 @@ Item {
     required property string thumbnailUrl
     required property int mediaDuration
     required property int cornerRadius
+    readonly property bool useActiveMatrixTimelineSource: !!room
+        && room.isActiveMatrixTimelineRoom === true
 
     // Expose player state for the shell.
     readonly property bool loaded: mediaPlayer.loaded
@@ -78,13 +80,21 @@ Item {
             id: videoThumbnail
 
             anchors.fill: parent
-            source: videoContent.thumbnailUrl
-                ? videoContent.thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale" + (videoContent.room ? "&room=" + videoContent.room.roomId : "")
+            source: (videoContent.thumbnailUrl && videoContent.eventId !== "")
+                ? (videoContent.useActiveMatrixTimelineSource
+                    ? ("image://MxcImage/matrix-timeline:" + videoContent.eventId + "?scale")
+                    : (videoContent.thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale" + (videoContent.room ? "&room=" + videoContent.room.roomId : "")))
                 : ""
             asynchronous: true
             fillMode: Image.PreserveAspectFit
             smooth: true
             mipmap: true
+            // Provide sourceSize so the matrix-timeline: path knows a
+            // thumbnail (not the full video) is wanted.
+            sourceSize.width: videoContent.useActiveMatrixTimelineSource
+                ? Screen.desktopAvailableWidth * Screen.devicePixelRatio : 0
+            sourceSize.height: videoContent.useActiveMatrixTimelineSource
+                ? Screen.desktopAvailableHeight * Screen.devicePixelRatio : 0
             visible: !videoOutput.visible
         }
 

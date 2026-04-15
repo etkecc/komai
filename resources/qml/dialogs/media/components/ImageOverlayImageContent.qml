@@ -19,6 +19,8 @@ Item {
     required property string eventId
     property var room
     required property int cornerRadius
+    readonly property bool useActiveMatrixTimelineSource: !!room
+        && room.isActiveMatrixTimelineRoom === true
     property bool animateOnHover: false
     property bool hovered: false
 
@@ -56,7 +58,11 @@ Item {
 
             visible: !mxcimage.loaded
             anchors.fill: parent
-            source: imageContent.visible ? (imageContent.url.replace("mxc://", "image://MxcImage/") + (imageContent.room ? "?room=" + imageContent.room.roomId : "")) : ""
+            source: imageContent.visible
+                ? (imageContent.useActiveMatrixTimelineSource
+                    ? ("image://MxcImage/matrix-timeline:" + imageContent.eventId)
+                    : (imageContent.url.replace("mxc://", "image://MxcImage/") + (imageContent.room ? "?room=" + imageContent.room.roomId : "")))
+                : ""
             asynchronous: true
             fillMode: Image.PreserveAspectFit
             smooth: true

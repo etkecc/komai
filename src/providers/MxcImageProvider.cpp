@@ -300,7 +300,11 @@ MxcImageProvider::download(const QString &id,
                     return;
                 }
 
-                auto image = prepareThumbnailImage(*data, requestedSize, false, radius, id);
+                QImage image;
+                if (requestedSize.isValid())
+                    image = prepareThumbnailImage(*data, requestedSize, false, radius, id);
+                else
+                    image = utils::readImage(*data);
                 then(id, requestedSize, image, QLatin1String(""));
             });
             return;

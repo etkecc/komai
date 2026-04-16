@@ -70,7 +70,7 @@ Button {
     TextMetrics {
         id: toolTipMetrics
 
-        font: control.font
+        font.pointSize: Settings.uiFontSizePt
         text: control.toolTipText
     }
 

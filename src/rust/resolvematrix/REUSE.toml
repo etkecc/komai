@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: Komai Contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+version = 1
+
+[[annotations]]
+path = [
+  "Cargo.toml",
+  "Cargo.lock",
+  "LICENSE",
+  "src/**/*.rs",
+]
+SPDX-FileCopyrightText = "Jade Ellis <jade@ellis.link>"
+SPDX-License-Identifier = "MPL-2.0"

@@ -25,7 +25,7 @@ if [ ! -f "$mit_license_file" ]; then
 fi
 
 status=0
-if ! find src resources/qml -type f \( -iname "*.cpp" -o -iname "*.h" -o -iname "*.qml" \) -print0 | \
+if ! find src resources/qml -type f \( -iname "*.cpp" -o -iname "*.h" -o -iname "*.qml" -o -iname "*.rs" -o -name "REUSE.toml" \) -print0 | \
     xargs -0 -r reuse --no-multiprocessing lint-file; then
     status=1
 fi

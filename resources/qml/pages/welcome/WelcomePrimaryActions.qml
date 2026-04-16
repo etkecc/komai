@@ -38,7 +38,7 @@ ColumnLayout {
             Layout.alignment: Qt.AlignHCenter
             text: qsTr("Register")
             icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-            font.pointSize: Settings.uiFontSizePt * 1.5
+            font.pointSize: Settings.uiFontSizePt * 1.3
             highlighted: true
             onClicked: actions.registerRequested()
             Keys.onReturnPressed: actions.registerRequested()
@@ -50,7 +50,7 @@ ColumnLayout {
             Layout.alignment: Qt.AlignHCenter
             text: qsTr("Sign in")
             icon.source: "qrc:/icons/icons/ui/arrow-right.svg"
-            font.pointSize: Settings.uiFontSizePt * 1.5
+            font.pointSize: Settings.uiFontSizePt * 1.3
             highlighted: true
             onClicked: actions.loginRequested()
             Keys.onReturnPressed: actions.loginRequested()

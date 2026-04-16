@@ -86,6 +86,13 @@ SPDX-License-Identifier = "CC-BY-4.0"
 
 [[annotations]]
 path = [
+  "liberapay/**/*.svg",
+]
+SPDX-FileCopyrightText = "Liberapay contributors (https://github.com/liberapay/liberapay.com)"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = [
   "ui/integrations.svg",
   "ui/plus-circle.svg",
   "ui/state-event.svg",

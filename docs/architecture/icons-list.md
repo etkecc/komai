@@ -135,4 +135,5 @@ Generated from `resources/res.qrc`, sorted by icon source path.
 | ![icons/fontawesome/svgs/brands/github.svg](../../resources/icons/fontawesome/svgs/brands/github.svg)<br>`icons/fontawesome/svgs/brands/github.svg` | `icons/ui/github.svg` |
 | ![icons/fontawesome/svgs/solid/bug.svg](../../resources/icons/fontawesome/svgs/solid/bug.svg)<br>`icons/fontawesome/svgs/solid/bug.svg` | `icons/ui/bug.svg` |
 | ![icons/fontawesome/svgs/solid/hammer.svg](../../resources/icons/fontawesome/svgs/solid/hammer.svg)<br>`icons/fontawesome/svgs/solid/hammer.svg` | `icons/ui/hammer.svg` |
+| ![icons/liberapay/icon-v2_black-on-yellow.svg](../../resources/icons/liberapay/icon-v2_black-on-yellow.svg)<br>`icons/liberapay/icon-v2_black-on-yellow.svg` | `icons/ui/liberapay.svg` |
 | ![icons/ui/double-checkmark.svg](../../resources/icons/ui/double-checkmark.svg)<br>`icons/ui/double-checkmark.svg` | `icons/ui/double-checkmark.svg` |

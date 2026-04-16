@@ -26,6 +26,7 @@ OverlayDialog {
         required property string descriptionText
         required property string iconSource
         property color iconColor: actionBtn.actionTextColor
+        property bool rawIcon: false
         property bool forceHighlight: false
 
         Layout.fillWidth: true
@@ -53,7 +54,9 @@ OverlayDialog {
                 Layout.preferredWidth: actionBtn.actionIconSize
                 Layout.preferredHeight: actionBtn.actionIconSize
                 fillMode: Image.PreserveAspectFit
-                source: actionBtn.iconSource !== "" ? "image://colorimage/" + actionBtn.iconSource + "?" + actionBtn.iconColor : ""
+                source: actionBtn.iconSource !== ""
+                    ? (actionBtn.rawIcon ? ("qrc" + actionBtn.iconSource) : ("image://colorimage/" + actionBtn.iconSource + "?" + actionBtn.iconColor))
+                    : ""
                 sourceSize.width: width * Screen.devicePixelRatio
                 sourceSize.height: height * Screen.devicePixelRatio
             }
@@ -152,7 +155,8 @@ OverlayDialog {
         ActionButton {
             labelText: qsTr("Liberapay")
             descriptionText: qsTr("Support via Liberapay")
-            iconSource: ":/icons/icons/ui/globe.svg"
+            iconSource: ":/icons/icons/ui/liberapay.svg"
+            rawIcon: true
             onClicked: Qt.openUrlExternally("https://liberapay.com/etkecc")
         }
     }

@@ -154,6 +154,10 @@ class TimelineViewManager final : public QObject
                  matrixTimelineStateChanged)
     Q_PROPERTY(QStringList matrixTimelineTypingUsers READ matrixTimelineTypingUsers NOTIFY
                  matrixTimelineTypingUsersChanged)
+    Q_PROPERTY(QAbstractItemModel *matrixThreadTimelineModel READ matrixThreadTimelineModel NOTIFY
+                 matrixThreadTimelineChanged)
+    Q_PROPERTY(bool matrixThreadTimelineLoading READ matrixThreadTimelineLoading NOTIFY
+                 matrixThreadTimelineChanged)
 
 public:
     TimelineViewManager(CallManager *callManager, ChatPage *parent = nullptr);
@@ -195,6 +199,9 @@ public:
     bool matrixTimelineCanRedactOther() const { return matrixTimelineCanRedactOther_; }
     QString matrixTimelinePendingJumpEventId() const { return matrixTimelinePendingJumpEventId_; }
     QStringList matrixTimelineTypingUsers() const { return matrixTimelineTypingUsers_; }
+    QAbstractItemModel *matrixThreadTimelineModel() const;
+    bool matrixThreadTimelineLoading() const { return matrixThreadTimelineLoading_; }
+    Q_INVOKABLE void paginateActiveMatrixThreadTimelineBackwards(int limit = 50);
     Q_INVOKABLE void openMediaOverlay(QObject *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
@@ -377,6 +384,7 @@ signals:
     void matrixTimelineStateChanged();
     void matrixTimelineTypingUsersChanged();
     void matrixRoomThreadRootsReady(QVariantList items, QString nextBatchToken);
+    void matrixThreadTimelineChanged();
 
 public slots:
     void updateReadReceipts(const QString &room_id, const std::vector<QString> &event_ids);
@@ -391,6 +399,9 @@ public slots:
                                                  const QString &eventId);
     void
     handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_t handleId, const QString &roomId);
+    void handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint64_t handleId,
+                                                          const QString &roomId,
+                                                          const QString &threadRootId);
     void
     handleMatrixBackendSyncStopped(std::uint64_t handleId, const QString &reason, bool isAuthError);
     void handleMatrixBackendTypingUsersUpdated(std::uint64_t handleId,
@@ -516,6 +527,8 @@ private:
     QString matrixTimelineReplySenderId_;
     QString matrixTimelineReplyBody_;
     QString matrixTimelineThreadEventId_;
+    komai::MatrixTimelineModel *matrixThreadTimelineModel_ = nullptr;
+    bool matrixThreadTimelineLoading_                      = false;
     QString matrixTimelineEditEventId_;
     QString matrixTimelineEditMessageKind_;
 

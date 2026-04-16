@@ -30,8 +30,10 @@
 
 #include "chat/ChatPage.h"
 #include "emoji/EmoticonReplace.h"
+#include "komai-rust-cxxbridge/ffi.h"
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
+#include "matrix/backend/MatrixFfiBlockingContext.h"
 #include "models/ReadReceiptsModel.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -959,6 +961,25 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
         stateChanged = true;
     }
 
+    // Clear thread timeline state and unsubscribe.
+    if (matrixThreadTimelineModel_) {
+        matrixThreadTimelineModel_->clear();
+    }
+    if (matrixThreadTimelineLoading_) {
+        matrixThreadTimelineLoading_ = false;
+        emit matrixThreadTimelineChanged();
+    }
+    {
+        auto *mainWindow    = MainWindow::instance();
+        const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+        if (handleId != 0) {
+            try {
+                ::komai::rust::matrix_unsubscribe_from_thread_timeline(handleId);
+            } catch (const std::exception &) {
+            }
+        }
+    }
+
     if (matrixTimelineLoading_) {
         matrixTimelineLoading_ = false;
         stateChanged           = true;
@@ -1109,9 +1130,10 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
             TimelineViewManager::tr("Failed to send message: %1").arg(result.error));
       });
 
-    bool stateChanged = clearActiveMatrixReplyState();
-    stateChanged |= clearActiveMatrixThreadState();
-    if (stateChanged)
+    // Clear the reply state but keep the thread state — the user stays in
+    // the thread view after sending and the message will appear via the
+    // subscription receiver.
+    if (clearActiveMatrixReplyState())
         emit matrixTimelineStateChanged();
 
     return true;
@@ -1147,7 +1169,6 @@ TimelineViewManager::queueActiveMatrixEdit(const QString &eventId,
         return false;
 
     bool clearedReplyState = clearActiveMatrixReplyState();
-    clearedReplyState |= clearActiveMatrixThreadState();
     const auto stateChanged =
       setActiveMatrixEditState(trimmedEventId, normalizedMatrixMessageKind(messageKind));
 
@@ -2466,7 +2487,6 @@ TimelineViewManager::sendActiveMatrixAttachments()
     }
 
     bool clearedState = clearActiveMatrixReplyState();
-    clearedState |= clearActiveMatrixThreadState();
     startNextPendingMatrixAttachment();
     if (clearedState)
         emit replyClosed();
@@ -2630,6 +2650,25 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
     matrixTimelineRefreshPendingRoomIds_.insert(roomId);
 
     scheduleCurrentMatrixTimelineRefresh();
+
+    // If we have an active thread subscription for this room, refresh it to
+    // pick up new events that arrived via sync.  The SDK's thread event cache
+    // does not automatically route sync events to per-thread subscriptions,
+    // so we re-read the event cache on each room timeline update.
+    if (roomId == activeMatrixTimelineRoomId_ && !matrixTimelineThreadEventId_.isEmpty()) {
+        komai::qt_worker_task::runQueued(
+          this,
+          [handleId]() {
+              const auto context = komai::matrix_backend::blockingCallContext();
+              try {
+                  ::komai::rust::matrix_refresh_thread_timeline(
+                    komai::matrix_backend::toRustBlockingContext(context), handleId);
+              } catch (const std::exception &) {
+              }
+              return 0;
+          },
+          [](TimelineViewManager *, int) {});
+    }
 }
 
 void
@@ -2830,6 +2869,44 @@ TimelineViewManager::queueActiveMatrixThread(const QString &threadEventId)
 
     if (setActiveMatrixThreadState(trimmedThreadEventId))
         emit matrixTimelineStateChanged();
+
+    // Initialize thread timeline state and trigger the initial fetch.
+    // Subsequent updates arrive via refresh_thread_timeline dispatched
+    // from handleMatrixBackendRoomTimelineSnapshotUpdated on each sync.
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId != 0) {
+        matrixThreadTimelineLoading_ = true;
+        emit matrixThreadTimelineChanged();
+
+        try {
+            ::komai::rust::matrix_subscribe_to_thread_timeline(
+              handleId,
+              activeMatrixTimelineRoomId_.toStdString(),
+              trimmedThreadEventId.toStdString());
+        } catch (const std::exception &e) {
+            nhlog::ui()->warn("Failed to init thread timeline: {}", e.what());
+            matrixThreadTimelineLoading_ = false;
+            emit matrixThreadTimelineChanged();
+            focusMessageInput();
+            return true;
+        }
+
+        // Dispatch the initial /relations fetch on a worker thread.
+        komai::qt_worker_task::runQueued(
+          this,
+          [handleId]() {
+              const auto context = komai::matrix_backend::blockingCallContext();
+              try {
+                  ::komai::rust::matrix_refresh_thread_timeline(
+                    komai::matrix_backend::toRustBlockingContext(context), handleId);
+              } catch (const std::exception &) {
+              }
+              return 0;
+          },
+          [](TimelineViewManager *, int) {});
+    }
+
     focusMessageInput();
     return true;
 }
@@ -2840,7 +2917,137 @@ TimelineViewManager::clearActiveMatrixThread()
     if (!clearActiveMatrixThreadState())
         return;
 
+    // Unsubscribe from the thread timeline.
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId != 0) {
+        try {
+            ::komai::rust::matrix_unsubscribe_from_thread_timeline(handleId);
+        } catch (const std::exception &) {
+        }
+    }
+
+    // Clear the thread timeline model.
+    if (matrixThreadTimelineModel_) {
+        matrixThreadTimelineModel_->clear();
+    }
+    matrixThreadTimelineLoading_ = false;
+    emit matrixThreadTimelineChanged();
+
     emit matrixTimelineStateChanged();
+}
+
+QAbstractItemModel *
+TimelineViewManager::matrixThreadTimelineModel() const
+{
+    return matrixThreadTimelineModel_;
+}
+
+void
+TimelineViewManager::handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint64_t handleId,
+                                                                      const QString &roomId,
+                                                                      const QString &threadRootId)
+{
+    if (activeMatrixTimelineRoomId_ != roomId)
+        return;
+    if (matrixTimelineThreadEventId_ != threadRootId)
+        return;
+
+    // Fetch the snapshot from Rust on a worker thread.
+    struct Result
+    {
+        uint64_t handleId;
+        QString roomId;
+        QString threadRootId;
+        QVector<komai::MatrixTimelineItem> items;
+        QString error;
+    };
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const auto result = komai::MatrixBackendRuntimeService::fetchThreadTimelineSnapshot(
+            context, handleId, &error);
+          Result out;
+          out.handleId = handleId;
+          if (result) {
+              out.items = *result;
+          } else {
+              out.error = error;
+          }
+          return out;
+      },
+      [](TimelineViewManager *manager, Result result) {
+          auto *mainWindow = MainWindow::instance();
+          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+              return;
+
+          manager->matrixThreadTimelineLoading_ = false;
+
+          if (!result.error.isEmpty()) {
+              nhlog::ui()->warn("Failed to fetch thread timeline snapshot: {}",
+                                result.error.toStdString());
+              emit manager->matrixThreadTimelineChanged();
+              return;
+          }
+
+          if (!manager->matrixThreadTimelineModel_) {
+              manager->matrixThreadTimelineModel_ = new komai::MatrixTimelineModel(manager);
+          }
+
+          manager->matrixThreadTimelineModel_->replaceItems(std::move(result.items));
+          emit manager->matrixThreadTimelineChanged();
+      });
+}
+
+void
+TimelineViewManager::paginateActiveMatrixThreadTimelineBackwards(int limit)
+{
+    if (matrixThreadTimelineLoading_)
+        return;
+
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0)
+        return;
+
+    matrixThreadTimelineLoading_ = true;
+    emit matrixThreadTimelineChanged();
+
+    struct Result
+    {
+        QString error;
+        bool hitStart = false;
+    };
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, limit]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const auto result = komai::MatrixBackendRuntimeService::paginateThreadTimelineBackwards(
+            context, handleId, static_cast<uint16_t>(limit), &error);
+          Result out;
+          if (result) {
+              out.hitStart = *result;
+          } else {
+              out.error = error;
+          }
+          return out;
+      },
+      [](TimelineViewManager *manager, Result result) {
+          // The pagination results flow through the subscription receiver,
+          // which triggers handleMatrixBackendThreadTimelineSnapshotUpdated.
+          // We just need to clear the loading state here.
+          manager->matrixThreadTimelineLoading_ = false;
+          if (!result.error.isEmpty()) {
+              nhlog::ui()->warn("Failed to paginate thread timeline: {}",
+                                result.error.toStdString());
+          }
+          emit manager->matrixThreadTimelineChanged();
+      });
 }
 
 bool

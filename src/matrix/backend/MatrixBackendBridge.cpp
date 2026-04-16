@@ -337,6 +337,23 @@ matrix_notify_room_timeline_snapshot_updated(std::uint64_t handle_id, ::rust::St
 }
 
 void
+matrix_notify_thread_timeline_snapshot_updated(std::uint64_t handle_id,
+                                               ::rust::Str room_id,
+                                               ::rust::Str thread_root_id)
+{
+    const auto roomId       = toQString(room_id);
+    const auto threadRootId = toQString(thread_root_id);
+    postToAppThread([handle_id, roomId, threadRootId]() {
+        auto *mainWindow = MainWindow::instance();
+        auto *manager    = TimelineViewManager::instance();
+        if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+
+        manager->handleMatrixBackendThreadTimelineSnapshotUpdated(handle_id, roomId, threadRootId);
+    });
+}
+
+void
 matrix_notify_notification_received(std::uint64_t handle_id,
                                     ::rust::Str room_id,
                                     ::rust::Str event_id)

@@ -181,6 +181,53 @@ pub(crate) fn matrix_paginate_active_room_timeline_backwards(
     matrix_backend::runtime::paginate_active_room_timeline_backwards(handle_id, page_size)
 }
 
+pub(crate) fn matrix_subscribe_to_thread_timeline(
+    handle_id: u64,
+    room_id: &str,
+    thread_root_id: &str,
+) -> Result<(), String> {
+    matrix_backend::runtime::subscribe_to_thread_timeline(handle_id, room_id, thread_root_id)
+}
+
+pub(crate) fn matrix_unsubscribe_from_thread_timeline(handle_id: u64) -> Result<(), String> {
+    matrix_backend::runtime::unsubscribe_from_thread_timeline(handle_id)
+}
+
+pub(crate) fn matrix_refresh_thread_timeline(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_refresh_thread_timeline",
+        matrix_backend::runtime::refresh_thread_timeline(handle_id),
+    )
+}
+
+pub(crate) fn matrix_fetch_thread_timeline_snapshot(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<Vec<ffi::MatrixTimelineItem>, String> {
+    ffi_block_on(
+        context,
+        "matrix_fetch_thread_timeline_snapshot",
+        matrix_backend::runtime::fetch_thread_timeline_snapshot(handle_id),
+    )
+    .map(runtime_to_ffi_timeline_items)
+}
+
+pub(crate) fn matrix_paginate_thread_timeline_backwards(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    num_events: u16,
+) -> Result<bool, String> {
+    ffi_block_on(
+        context,
+        "matrix_paginate_thread_timeline_backwards",
+        matrix_backend::runtime::paginate_thread_timeline_backwards(handle_id, num_events),
+    )
+}
+
 pub(crate) fn matrix_fetch_active_room_timeline_media_content(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

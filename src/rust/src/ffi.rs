@@ -1168,6 +1168,12 @@ mod bridge {
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_room_timeline_snapshot_updated(handle_id: u64, room_id: &str);
         #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_thread_timeline_snapshot_updated(
+            handle_id: u64,
+            room_id: &str,
+            thread_root_id: &str,
+        );
+        #[namespace = "komai::rust_bridge"]
         fn matrix_notify_notification_received(handle_id: u64, room_id: &str, event_id: &str);
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_notification_item_received(handle_id: u64, item: MatrixNotificationItem);
@@ -1984,6 +1990,25 @@ mod bridge {
             from: &str,
             limit: u32,
         ) -> Result<MatrixThreadRootsResult>;
+        fn matrix_subscribe_to_thread_timeline(
+            handle_id: u64,
+            room_id: &str,
+            thread_root_id: &str,
+        ) -> Result<()>;
+        fn matrix_unsubscribe_from_thread_timeline(handle_id: u64) -> Result<()>;
+        fn matrix_refresh_thread_timeline(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<()>;
+        fn matrix_fetch_thread_timeline_snapshot(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<Vec<MatrixTimelineItem>>;
+        fn matrix_paginate_thread_timeline_backwards(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            num_events: u16,
+        ) -> Result<bool>;
         fn matrix_fetch_room_frequent_reactions(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

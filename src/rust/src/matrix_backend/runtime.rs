@@ -87,6 +87,8 @@ mod timeline_messaging;
 mod timeline_events;
 #[path = "runtime_timeline_snapshot.rs"]
 mod timeline_snapshot;
+#[path = "runtime_thread_timeline.rs"]
+mod thread_timeline;
 #[path = "runtime_user_directory.rs"]
 mod user_directory;
 #[path = "runtime_room_directory.rs"]
@@ -158,6 +160,10 @@ pub use timeline_events::{
     fetch_room_redaction_permissions, fetch_room_thread_roots, pin_room_event, unpin_room_event,
 };
 pub use runtime_media::{send_room_image, upload_media};
+pub use thread_timeline::{
+    fetch_thread_timeline_snapshot, paginate_thread_timeline_backwards,
+    refresh_thread_timeline, subscribe_to_thread_timeline, unsubscribe_from_thread_timeline,
+};
 pub use user_directory::search_users;
 pub use room_directory::fetch_public_room_directory_page;
 pub use notifications::{
@@ -547,6 +553,10 @@ struct MatrixBackendHandle {
     /// Populated by the background preloader (see `runtime_preloader.rs`) and
     /// by the active timeline loop when the user switches away from a room.
     preloaded_timelines: Arc<Mutex<HashMap<String, Timeline>>>,
+    /// Active thread timeline view.  At most one thread can be viewed at a
+    /// time.  Set by `subscribe_to_thread_timeline()`, cleared by
+    /// `unsubscribe_from_thread_timeline()`.
+    active_thread_subscription: Option<thread_timeline::ThreadTimelineState>,
     pending_identity_reset: Arc<Mutex<Option<IdentityResetHandle>>>,
     pending_device_sign_out: Arc<Mutex<Option<PendingDeviceSignOut>>>,
     verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,

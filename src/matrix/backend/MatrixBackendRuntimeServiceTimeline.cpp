@@ -532,6 +532,56 @@ MatrixBackendRuntimeService::fetchRoomThreadRoots(matrix_backend::BlockingCallCo
     }
 }
 
+std::optional<QVector<MatrixTimelineItem>>
+MatrixBackendRuntimeService::fetchThreadTimelineSnapshot(
+  matrix_backend::BlockingCallContext context,
+  uint64_t handleId,
+  QString *errorOut)
+{
+    try {
+        const auto result = matrix_backend::invokeBlockingCall(
+          "matrix_fetch_thread_timeline_snapshot",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, context]() {
+              return ::komai::rust::matrix_fetch_thread_timeline_snapshot(
+                matrix_backend::toRustBlockingContext(context), handleId);
+          });
+
+        QVector<MatrixTimelineItem> out;
+        out.reserve(static_cast<qsizetype>(result.size()));
+        for (const auto &item : result)
+            out.push_back(fromRustTimelineItem(item));
+        return out;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<bool>
+MatrixBackendRuntimeService::paginateThreadTimelineBackwards(
+  matrix_backend::BlockingCallContext context,
+  uint64_t handleId,
+  uint16_t numEvents,
+  QString *errorOut)
+{
+    try {
+        const auto hitStart = matrix_backend::invokeBlockingCall(
+          "matrix_paginate_thread_timeline_backwards",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, numEvents, context]() {
+              return ::komai::rust::matrix_paginate_thread_timeline_backwards(
+                matrix_backend::toRustBlockingContext(context), handleId, numEvents);
+          });
+        return hitStart;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 std::optional<QStringList>
 MatrixBackendRuntimeService::fetchRoomFrequentReactions(matrix_backend::BlockingCallContext context,
                                                         uint64_t handleId,

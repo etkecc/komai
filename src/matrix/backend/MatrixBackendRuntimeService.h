@@ -660,6 +660,17 @@ public:
                          uint32_t limit,
                          QString *errorOut = nullptr);
 
+    static std::optional<QVector<MatrixTimelineItem>>
+    fetchThreadTimelineSnapshot(matrix_backend::BlockingCallContext context,
+                                uint64_t handleId,
+                                QString *errorOut = nullptr);
+
+    static std::optional<bool>
+    paginateThreadTimelineBackwards(matrix_backend::BlockingCallContext context,
+                                    uint64_t handleId,
+                                    uint16_t numEvents,
+                                    QString *errorOut = nullptr);
+
     static std::optional<QStringList>
     fetchRoomFrequentReactions(matrix_backend::BlockingCallContext context,
                                uint64_t handleId,

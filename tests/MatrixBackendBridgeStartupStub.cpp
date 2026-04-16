@@ -136,6 +136,10 @@ matrix_notify_room_timeline_snapshot_updated(std::uint64_t, ::rust::Str)
 {}
 
 void
+matrix_notify_thread_timeline_snapshot_updated(std::uint64_t, ::rust::Str, ::rust::Str)
+{}
+
+void
 matrix_notify_notification_received(std::uint64_t, ::rust::Str, ::rust::Str)
 {}
 

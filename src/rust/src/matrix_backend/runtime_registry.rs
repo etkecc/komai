@@ -47,6 +47,7 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
                 room_timeline_snapshots: HashMap::new(),
                 room_timeline_media_lookup: Arc::new(Mutex::new(HashMap::new())),
                 preloaded_timelines: Arc::new(Mutex::new(HashMap::new())),
+                active_thread_subscription: None,
                 pending_identity_reset: Arc::new(Mutex::new(None)),
                 pending_device_sign_out: Arc::new(Mutex::new(None)),
                 verification_sessions,

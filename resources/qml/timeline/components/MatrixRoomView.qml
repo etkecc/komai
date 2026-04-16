@@ -53,7 +53,11 @@ ColumnLayout {
             && !focusOwnsSelectedTextCopy(activeItem);
     }
 
-    readonly property bool hasTimeline: perRoomModel ? perRoomModel.count > 0 : false
+    readonly property bool hasTimeline: {
+        if (threadViewActive)
+            return threadTimelineModel ? threadTimelineModel.count > 0 : false;
+        return perRoomModel ? perRoomModel.count > 0 : false;
+    }
     readonly property bool loading: TimelineManager.matrixTimelineLoading
     readonly property bool perfDisableComposer: TimelineManager.perfUiFlagEnabled("disable_composer")
     readonly property bool perfDisableTimelineBubbles: TimelineManager.perfUiFlagEnabled("disable_timeline_bubbles")
@@ -100,6 +104,9 @@ ColumnLayout {
     property int readMarkerGeneration: 0
     property bool pendingComposerAutoFocus: false
     property int _composerAutoFocusRetries: 0
+    readonly property bool threadViewActive: TimelineManager.matrixTimelineThreadEventId.length > 0
+    readonly property var threadTimelineModel: TimelineManager.matrixThreadTimelineModel
+    readonly property bool threadTimelineLoading: TimelineManager.matrixThreadTimelineLoading
 
 
     MessageActionSupport {
@@ -154,6 +161,19 @@ ColumnLayout {
         filterByContent: root.searchString
 
         onRequestMoreData: TimelineManager.paginateActiveMatrixTimelineBackwards(50)
+    }
+
+    // Thread view pagination: when the list reaches the oldest item
+    // (atYEnd in BottomToTop mode = visual top), load more thread events.
+    Connections {
+        target: matrixTimelineList
+        enabled: root.threadViewActive
+        function onAtYEndChanged() {
+            if (matrixTimelineList.atYEnd && root.threadViewActive
+                    && !root.threadTimelineLoading) {
+                TimelineManager.paginateActiveMatrixThreadTimelineBackwards(50);
+            }
+        }
     }
 
     Connections {
@@ -440,7 +460,9 @@ ColumnLayout {
                     displayMarginBeginning: root.listViewDisplayMargin
                     displayMarginEnd: root.listViewDisplayMargin
                     cacheBuffer: root.listViewCacheBuffer
-                    model: root.filteringRequested ? filteredTimeline : root.perRoomModel
+                    model: root.threadViewActive
+                        ? root.threadTimelineModel
+                        : (root.filteringRequested ? filteredTimeline : root.perRoomModel)
                     header: Item { width: 1; height: Komai.paddingSmall }
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline

@@ -34,17 +34,17 @@ QtObject {
     // Each roomId appears at most once.
     property var _tabHistoryStack: []
 
-    function _pushClosedTab(roomId) {
+    function _pushClosedTab(roomId, pinned) {
         var stack = _closedTabsStack.slice();
-        stack.push(roomId);
+        stack.push({ "roomId": roomId, "pinned": !!pinned });
         _closedTabsStack = stack;
     }
 
     function _popClosedTab() {
         var stack = _closedTabsStack.slice();
-        var roomId = stack.pop();
+        var entry = stack.pop();
         _closedTabsStack = stack;
-        return roomId;
+        return entry;
     }
 
     // Role constants matching RoomlistModel::Roles enum (Qt::UserRole = 256).
@@ -173,11 +173,12 @@ QtObject {
         if (index === -1)
             return;
         var wasActive = (roomId === Rooms.currentRoomId);
+        var wasPinned = tabs.get(index).pinned;
         tabs.remove(index);
         _saveTabs();
         _savePinnedTabs();
         if (roomId) {
-            _pushClosedTab(roomId);
+            _pushClosedTab(roomId, wasPinned);
             tabClosed(roomId);
         }
         if (tabs.count === 0) {
@@ -229,11 +230,13 @@ QtObject {
 
     function reopenClosedTab() {
         while (_closedTabsStack.length > 0) {
-            var roomId = _popClosedTab();
+            var entry = _popClosedTab();
             // Skip if already open.
-            if (findTab(roomId) !== -1)
+            if (findTab(entry.roomId) !== -1)
                 continue;
-            openTab(roomId);
+            openTab(entry.roomId);
+            if (entry.pinned)
+                pinTab(entry.roomId);
             return;
         }
     }

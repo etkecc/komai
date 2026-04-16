@@ -22,6 +22,7 @@ Technical documentation for Komai internals.
 - 🔙 [Navigation History](navigation-history.md) -- back/forward navigation via mouse buttons, in-memory history stack
 - 🎬 [Media Overlay](media-overlay.md) -- full-screen image/video viewer, gallery navigation, and streaming playback
 - 🎵 [Audio Playback](audio-playback.md) -- inline audio player behavior, playback-rate controls, and room-local v1 limitations
+- 🧵 [Thread Timeline](thread-timeline.md) -- SDK + /relations hybrid architecture, live updates, sync gap workaround, and delegate recycling fix
 - 🦀 [Rust in Komai](rust.md) -- CXX interop pattern, blocking FFI rules, directory layout, build integration, and packaging
 
 ## Differences from nheko

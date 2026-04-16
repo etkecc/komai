@@ -193,15 +193,8 @@ pub(crate) fn matrix_unsubscribe_from_thread_timeline(handle_id: u64) -> Result<
     matrix_backend::runtime::unsubscribe_from_thread_timeline(handle_id)
 }
 
-pub(crate) fn matrix_refresh_thread_timeline(
-    context: ffi::MatrixFfiBlockingContext,
-    handle_id: u64,
-) -> Result<(), String> {
-    ffi_block_on(
-        context,
-        "matrix_refresh_thread_timeline",
-        matrix_backend::runtime::refresh_thread_timeline(handle_id),
-    )
+pub(crate) fn matrix_refresh_thread_timeline(handle_id: u64) -> Result<(), String> {
+    matrix_backend::runtime::refresh_thread_timeline(handle_id)
 }
 
 pub(crate) fn matrix_fetch_thread_timeline_snapshot(

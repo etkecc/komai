@@ -1220,6 +1220,15 @@ MatrixTimelineModel::emitEffectsForPrependedItems(const QVector<MatrixTimelineIt
 }
 
 void
+MatrixTimelineModel::forceModelReset()
+{
+    emit aboutToReplaceContent();
+    beginResetModel();
+    endResetModel();
+    emit contentReplaced();
+}
+
+void
 MatrixTimelineModel::clear()
 {
     optimisticRedactedEventIds_.clear();

@@ -128,6 +128,7 @@ public:
     bool redactItemByEventId(const QString &eventId);
     bool revealOlderItems(int additionalCount);
     void replaceItems(QVector<MatrixTimelineItem> items);
+    void forceModelReset();
     void clear();
 
 signals:

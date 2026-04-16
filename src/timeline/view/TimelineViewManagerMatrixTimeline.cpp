@@ -2651,23 +2651,15 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
 
     scheduleCurrentMatrixTimelineRefresh();
 
-    // If we have an active thread subscription for this room, refresh it to
-    // pick up new events that arrived via sync.  The SDK's thread event cache
-    // does not automatically route sync events to per-thread subscriptions,
-    // so we re-read the event cache on each room timeline update.
+    // If we have an active thread view for this room, signal the thread
+    // timeline loop to rebuild.  TimelineFocus::Thread doesn't reliably
+    // receive sync events in matrix-sdk 0.16, so we rebuild on each room
+    // sync update to pick up new thread events.
     if (roomId == activeMatrixTimelineRoomId_ && !matrixTimelineThreadEventId_.isEmpty()) {
-        komai::qt_worker_task::runQueued(
-          this,
-          [handleId]() {
-              const auto context = komai::matrix_backend::blockingCallContext();
-              try {
-                  ::komai::rust::matrix_refresh_thread_timeline(
-                    komai::matrix_backend::toRustBlockingContext(context), handleId);
-              } catch (const std::exception &) {
-              }
-              return 0;
-          },
-          [](TimelineViewManager *, int) {});
+        try {
+            ::komai::rust::matrix_refresh_thread_timeline(handleId);
+        } catch (const std::exception &) {
+        }
     }
 }
 
@@ -2870,9 +2862,10 @@ TimelineViewManager::queueActiveMatrixThread(const QString &threadEventId)
     if (setActiveMatrixThreadState(trimmedThreadEventId))
         emit matrixTimelineStateChanged();
 
-    // Initialize thread timeline state and trigger the initial fetch.
-    // Subsequent updates arrive via refresh_thread_timeline dispatched
-    // from handleMatrixBackendRoomTimelineSnapshotUpdated on each sync.
+    // Subscribe to the thread timeline.  This spawns a background Rust
+    // task that builds a TimelineFocus::Thread timeline, subscribes to
+    // its diff stream, and notifies C++ via snapshot updates — same
+    // pipeline as the room timeline.  No explicit refresh needed.
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId != 0) {
@@ -2891,20 +2884,6 @@ TimelineViewManager::queueActiveMatrixThread(const QString &threadEventId)
             focusMessageInput();
             return true;
         }
-
-        // Dispatch the initial /relations fetch on a worker thread.
-        komai::qt_worker_task::runQueued(
-          this,
-          [handleId]() {
-              const auto context = komai::matrix_backend::blockingCallContext();
-              try {
-                  ::komai::rust::matrix_refresh_thread_timeline(
-                    komai::matrix_backend::toRustBlockingContext(context), handleId);
-              } catch (const std::exception &) {
-              }
-              return 0;
-          },
-          [](TimelineViewManager *, int) {});
     }
 
     focusMessageInput();
@@ -2927,14 +2906,23 @@ TimelineViewManager::clearActiveMatrixThread()
         }
     }
 
-    // Clear the thread timeline model.
+    // Switch QML away from the thread model BEFORE clearing it.
+    emit matrixTimelineStateChanged();
+
     if (matrixThreadTimelineModel_) {
         matrixThreadTimelineModel_->clear();
     }
     matrixThreadTimelineLoading_ = false;
     emit matrixThreadTimelineChanged();
 
-    emit matrixTimelineStateChanged();
+    // Force a full model reset on the per-room model so the ListView
+    // destroys all recycled delegates and recreates them from scratch.
+    // Without this, delegates recycled from the thread model via
+    // reuseItems carry stale visual state (the data is correct but
+    // the rendering is corrupted).
+    if (auto *perRoomModel = perRoomModels_.value(activeMatrixTimelineRoomId_)) {
+        perRoomModel->forceModelReset();
+    }
 }
 
 QAbstractItemModel *

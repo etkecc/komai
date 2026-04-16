@@ -51,7 +51,7 @@ use matrix_sdk_ui::{
     room_list_service::{RoomListItem, filters},
     sync_service::{SyncService, State as SyncServiceState},
     timeline::{
-        RoomExt, Timeline, TimelineDetails, TimelineEventItemId, TimelineItem,
+        RoomExt, Timeline, TimelineDetails, TimelineEventItemId, TimelineFocus, TimelineItem,
         VirtualTimelineItem,
     },
 };

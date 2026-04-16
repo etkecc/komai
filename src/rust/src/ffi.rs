@@ -1996,10 +1996,7 @@ mod bridge {
             thread_root_id: &str,
         ) -> Result<()>;
         fn matrix_unsubscribe_from_thread_timeline(handle_id: u64) -> Result<()>;
-        fn matrix_refresh_thread_timeline(
-            context: MatrixFfiBlockingContext,
-            handle_id: u64,
-        ) -> Result<()>;
+        fn matrix_refresh_thread_timeline(handle_id: u64) -> Result<()>;
         fn matrix_fetch_thread_timeline_snapshot(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

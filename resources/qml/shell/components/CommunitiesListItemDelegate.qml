@@ -146,7 +146,7 @@ ItemDelegate {
             id: avatar
 
             Layout.alignment: Qt.AlignVCenter
-            color: communityItem.backgroundColor
+            color: "transparent"
             displayName: model.displayName
             enabled: false
             Layout.preferredHeight: depthAvatarSize

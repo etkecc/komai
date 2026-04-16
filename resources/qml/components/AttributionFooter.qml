@@ -10,6 +10,7 @@ import cc.etke.komai
 Rectangle {
     id: root
 
+    property bool showSponsor: true
     readonly property string komaiProjectLink: "<a href=\"https://github.com/etkecc/komai\">Komai</a>"
     readonly property string etkeProjectLink: "<a href=\"https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=attribution\">etke.cc</a>"
 
@@ -79,7 +80,7 @@ Rectangle {
             readonly property string heartIcon: Settings.sponsoringStatus === "sponsoring"
                 ? "qrc:/icons/icons/ui/heart-filled.svg" : "qrc:/icons/icons/ui/heart.svg"
 
-            visible: Settings.sponsoringStatus !== "hidden"
+            visible: root.showSponsor && Settings.sponsoringStatus !== "hidden"
             text: Settings.sponsoringStatus === "sponsoring" ? qsTr("Sponsoring!") : qsTr("Sponsor")
             icon.source: "image://colorimage/:" + heartIcon.substring(4) + "?" + Komai.theme.error
             onClicked: supportDialog.open()

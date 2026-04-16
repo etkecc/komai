@@ -1361,6 +1361,6 @@ Rectangle {
             }
         }
 
-        AttributionFooter {}
+        AttributionFooter { showSponsor: false }
     }
 }

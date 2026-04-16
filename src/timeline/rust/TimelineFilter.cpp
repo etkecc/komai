@@ -40,7 +40,7 @@ TimelineFilter::TimelineFilter(QObject *parent)
 bool
 TimelineFilter::hasActiveFilter() const
 {
-    return !threadId.isEmpty() || !contentFilter.isEmpty() || filterByNotifications_;
+    return !threadId.isEmpty() || !contentFilter.isEmpty();
 }
 
 void
@@ -117,21 +117,6 @@ TimelineFilter::setThreadId(const QString &t)
         this->threadId = t;
 
         emit threadIdChanged();
-        startFiltering();
-        fetchMore({});
-    }
-}
-
-void
-TimelineFilter::setFilterNotifications(bool filter)
-{
-    if (this->filterByNotifications_ != filter) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
-        beginFilterChange();
-#endif
-        this->filterByNotifications_ = filter;
-
-        emit filterNotificationsChanged();
         startFiltering();
         fetchMore({});
     }
@@ -246,7 +231,7 @@ TimelineFilter::setSource(QAbstractItemModel *s)
         emit sourceChanged();
         emit isFilteringChanged();
 
-        if (s && (!threadId.isEmpty() || !contentFilter.isEmpty() || filterByNotifications_))
+        if (s && (!threadId.isEmpty() || !contentFilter.isEmpty()))
             continueFiltering();
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
@@ -291,7 +276,7 @@ TimelineFilter::filterAcceptsRow(int source_row, const QModelIndex &) const
     if (source_row > incrementalSearchIndex)
         return false;
 
-    if (threadId.isEmpty() && contentFilter.isEmpty() && !filterByNotifications_)
+    if (threadId.isEmpty() && contentFilter.isEmpty())
         return true;
 
     if (auto s = sourceModel()) {
@@ -300,12 +285,6 @@ TimelineFilter::filterAcceptsRow(int source_row, const QModelIndex &) const
 
         if (!contentFilter.isEmpty() &&
             !s->data(idx, R::Body).toString().contains(contentFilter, Qt::CaseInsensitive)) {
-            return false;
-        }
-
-        if (filterByNotifications_ &&
-            s->data(idx, R::Notificationlevel).value<qml_mtx_events::NotificationLevel>() !=
-              qml_mtx_events::Highlight) {
             return false;
         }
 

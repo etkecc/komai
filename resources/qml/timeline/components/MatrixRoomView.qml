@@ -77,9 +77,7 @@ ColumnLayout {
     readonly property bool hasOpenOverlayDialog: openOverlayDialogCount > 0
     readonly property string searchString: externalHeaderPane.headerItem
         ? String(externalHeaderPane.headerItem.searchString || "") : ""
-    readonly property bool filterByNotifications: externalHeaderPane.headerItem
-        ? !!externalHeaderPane.headerItem.filterNotifications : false
-    readonly property bool filteringRequested: searchString.length > 0 || filterByNotifications
+    readonly property bool filteringRequested: searchString.length > 0
     readonly property bool filteringInProgress: filteredTimeline.filteringInProgress
     property bool restoringEditDraft: false
     property int lastPaginationTriggerCount: -1
@@ -154,7 +152,6 @@ ColumnLayout {
 
         source: root.perRoomModel
         filterByContent: root.searchString
-        filterByNotifications: root.filterByNotifications
 
         onRequestMoreData: TimelineManager.paginateActiveMatrixTimelineBackwards(50)
     }

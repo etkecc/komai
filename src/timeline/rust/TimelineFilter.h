@@ -19,8 +19,6 @@ class TimelineFilter : public QSortFilterProxyModel
     QML_ELEMENT
 
     Q_PROPERTY(QString filterByThread READ filterByThread WRITE setThreadId NOTIFY threadIdChanged)
-    Q_PROPERTY(bool filterByNotifications READ filterByNotifications WRITE setFilterNotifications
-                 NOTIFY filterNotificationsChanged)
     Q_PROPERTY(QString filterByContent READ filterByContent WRITE setContentFilter NOTIFY
                  contentFilterChanged)
     Q_PROPERTY(QAbstractItemModel *source READ source WRITE setSource NOTIFY sourceChanged)
@@ -31,14 +29,12 @@ public:
     explicit TimelineFilter(QObject *parent = nullptr);
 
     QString filterByThread() const { return threadId; }
-    bool filterByNotifications() const { return filterByNotifications_; }
     QString filterByContent() const { return contentFilter; }
     QAbstractItemModel *source() const;
     int currentIndex() const;
     bool isFiltering() const;
 
     void setThreadId(const QString &t);
-    void setFilterNotifications(bool v);
     void setContentFilter(const QString &t);
     void setSource(QAbstractItemModel *s);
     void setCurrentIndex(int idx);
@@ -52,7 +48,6 @@ public:
 
 signals:
     void threadIdChanged();
-    void filterNotificationsChanged();
     void contentFilterChanged();
     void sourceChanged();
     void currentIndexChanged();
@@ -77,6 +72,5 @@ private:
     QString threadId, contentFilter;
     int cachedCount = 0, incrementalSearchIndex = 0;
     int sourceCountAtLastFetch_ = 0;
-    bool filterByNotifications_ = false;
     bool waitingForData_        = false;
 };

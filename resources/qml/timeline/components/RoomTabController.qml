@@ -30,6 +30,10 @@ QtObject {
     // Must use _pushClosedTab/_popClosedTab to trigger QML change notifications.
     property var _closedTabsStack: []
 
+    // History of visited tab roomIds for "go back" on close (most recent last).
+    // Each roomId appears at most once.
+    property var _tabHistoryStack: []
+
     function _pushClosedTab(roomId) {
         var stack = _closedTabsStack.slice();
         stack.push(roomId);
@@ -185,9 +189,26 @@ QtObject {
             _internalNavigation = false;
             return;
         }
+        // Remove the closed tab from the visit history.
+        _tabHistoryStack = _tabHistoryStack.filter(function(id) { return id !== roomId; });
         if (wasActive) {
-            var newIndex = Math.min(index, tabs.count - 1);
-            switchToTab(newIndex);
+            // Try to go back to the most recently visited tab that still exists.
+            var switched = false;
+            while (_tabHistoryStack.length > 0) {
+                var hist = _tabHistoryStack.slice();
+                var candidate = hist.pop();
+                _tabHistoryStack = hist;
+                var candidateIndex = findTab(candidate);
+                if (candidateIndex !== -1) {
+                    switchToTab(candidateIndex);
+                    switched = true;
+                    break;
+                }
+            }
+            if (!switched) {
+                var newIndex = Math.min(index, tabs.count - 1);
+                switchToTab(newIndex);
+            }
         }
     }
 
@@ -432,6 +453,13 @@ QtObject {
 
     function _setCurrentRoom(roomId) {
         _internalNavigation = true;
+        // Push the outgoing room onto the history stack (for "go back" on close).
+        var outgoing = Rooms.currentRoomId;
+        if (outgoing !== undefined && outgoing !== roomId && findTab(outgoing) !== -1) {
+            var hist = _tabHistoryStack.filter(function(id) { return id !== outgoing; });
+            hist.push(outgoing);
+            _tabHistoryStack = hist;
+        }
         _previousRoomId = roomId;
         aboutToSwitchRoom();
         Rooms.setCurrentRoom(roomId);

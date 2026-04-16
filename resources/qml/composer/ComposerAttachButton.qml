@@ -25,7 +25,7 @@ ComposerToolbarButton {
 
     Rectangle {
         anchors.fill: parent
-        color: palette.window
+        color: "transparent"
         visible: root.uploadInProgress
 
         Item {

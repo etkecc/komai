@@ -272,7 +272,6 @@ async fn run_thread_timeline_loop(
     };
 
     let own_user_id = client.user_id();
-    let own_user_id_owned = own_user_id.map(|u| u.to_owned());
 
     // -----------------------------------------------------------------------
     // Build the SDK TimelineFocus::Thread timeline

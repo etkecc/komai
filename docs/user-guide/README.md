@@ -8,6 +8,7 @@
 - 🦁 [Identity](identity.md) -- what Komai is, project naming, and identity background
 - ⌨️ [Keyboard Shortcuts](keyboard-shortcuts.md) -- app-wide, timeline, composer, sidebar, media, and dialog shortcuts
 - 💾 [Storage Locations](storage.md) -- where config/data/cache live
+- 📋 [Logging](logging.md) -- how to view and collect application logs
 - 🎨 [Themes](themes.md) -- built-in and custom themes
 - ✨ [Message Effects](message-effects.md) -- confetti, sunshine, rain, storms, and other timeline flourishes
 - 😀 [Emoji Search and Picker](emojis.md) -- localized emoji discovery, aliases, and trigger behavior

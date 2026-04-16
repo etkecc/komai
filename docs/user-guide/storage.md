@@ -19,7 +19,6 @@ Quick jumps:
 | App media cache | `~/.cache/komai/profiles/<profile-id>/media/` |
 | Optional explicit profile launcher (native Linux) | `~/.local/share/applications/cc.etke.komai.profile.<profile-id>.desktop` |
 | User themes | `~/.local/share/komai/themes/` (see [themes.md](themes.md#-user-themes)) |
-| Log file (if file logging enabled) | `~/.cache/komai/profiles/<profile-id>/logs/komai.log` |
 | HTTP alt-svc cache (HTTP/3 enabled) | `~/.cache/komai/profiles/<profile-id>/http/alt_svc_cache.txt` |
 
 `<profile-id>` is the `-p` [Application Profile](application-profiles.md) name/identifier.

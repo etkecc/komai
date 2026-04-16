@@ -70,15 +70,12 @@ Logger::send(std::string_view level, std::string message)
 }
 
 void
-init(const QString &level, const QString &path, bool to_stderr)
+init(const QString &level, bool to_stderr)
 {
     auto levelStd = level.toStdString();
-    auto pathStd  = path.toStdString();
 
-    ::komai::rust::init_logging(::rust::Str(levelStd.data(), levelStd.size()),
-                                ::rust::Str(pathStd.data(), pathStd.size()),
-                                to_stderr,
-                                komai::enable_debug_log);
+    ::komai::rust::init_logging(
+      ::rust::Str(levelStd.data(), levelStd.size()), to_stderr, komai::enable_debug_log);
 
     net_logger    = std::make_shared<Logger>("net");
     ui_logger     = std::make_shared<Logger>("ui");

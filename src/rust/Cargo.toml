@@ -25,7 +25,6 @@ rand = "0.10.*"
 tracing = "0.1"
 tracing-log = "0.2"
 tracing-subscriber = { version = "0.3", features = ["registry", "fmt", "ansi", "env-filter"] }
-tracing-appender = "0.2"
 mime = "0.3"
 image = { version = "0.25", default-features = false, features = ["jpeg", "png", "gif", "webp"] }
 blurhash = "0.2"

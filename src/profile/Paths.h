@@ -122,11 +122,6 @@ QString
 roomNotificationAvatarFile(QStringView profileId, QStringView roomId);
 
 QString
-logDirectory(QStringView profileId);
-QString
-logFile(QStringView profileId);
-
-QString
 httpCacheDirectory(QStringView profileId);
 QString
 altSvcCacheFile(QStringView profileId);

@@ -14,18 +14,15 @@ use tracing_subscriber::{
 
 static INIT: OnceLock<()> = OnceLock::new();
 
-/// Initialize the global tracing subscriber with file and/or stderr sinks.
+/// Initialize the global tracing subscriber with stderr output.
 ///
 /// `level` is a comma-separated filter string compatible with `EnvFilter`,
 /// e.g. `"warn,ui=info,net=debug"`.
 ///
-/// `log_file_path` is the path for the log file. Pass an empty string
-/// to disable file logging.
-///
 /// `to_stderr` enables colored stderr output.
 ///
 /// `enable_debug` overrides all filters to `trace`.
-pub fn init_logging(level: &str, log_file_path: &str, to_stderr: bool, enable_debug: bool) {
+pub fn init_logging(level: &str, to_stderr: bool, enable_debug: bool) {
     INIT.get_or_init(|| {
         let _ = LogTracer::init();
 
@@ -40,38 +37,7 @@ pub fn init_logging(level: &str, log_file_path: &str, to_stderr: bool, enable_de
             EnvFilter::builder().parse_lossy(level)
         };
 
-        if !log_file_path.is_empty() && to_stderr {
-            let file_appender = make_file_appender(log_file_path);
-            let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);
-            std::mem::forget(guard);
-
-            let file_layer = fmt::layer()
-                .with_ansi(false)
-                .with_writer(non_blocking);
-
-            let stderr_layer = fmt::layer()
-                .with_ansi(true)
-                .with_writer(std::io::stderr);
-
-            let _ = tracing_subscriber::registry()
-                .with(filter)
-                .with(file_layer)
-                .with(stderr_layer)
-                .try_init();
-        } else if !log_file_path.is_empty() {
-            let file_appender = make_file_appender(log_file_path);
-            let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);
-            std::mem::forget(guard);
-
-            let file_layer = fmt::layer()
-                .with_ansi(false)
-                .with_writer(non_blocking);
-
-            let _ = tracing_subscriber::registry()
-                .with(filter)
-                .with(file_layer)
-                .try_init();
-        } else if to_stderr {
+        if to_stderr {
             let stderr_layer = fmt::layer()
                 .with_ansi(true)
                 .with_writer(std::io::stderr);
@@ -114,22 +80,4 @@ pub fn log_from_cpp(component: &str, level: &str, message: &str) {
         "error" | "critical" => emit!(error, message),
         _ => emit!(info, message),
     }
-}
-
-fn make_file_appender(log_file_path: &str) -> tracing_appender::rolling::RollingFileAppender {
-    use std::path::Path;
-
-    let path = Path::new(log_file_path);
-    let dir = path.parent().unwrap_or(Path::new("."));
-    let filename = path
-        .file_name()
-        .map(|f| f.to_string_lossy().into_owned())
-        .unwrap_or_else(|| "komai.log".to_owned());
-
-    tracing_appender::rolling::Builder::new()
-        .rotation(tracing_appender::rolling::Rotation::NEVER)
-        .filename_prefix(filename)
-        .filename_suffix("")
-        .build(dir)
-        .expect("failed to create rolling file appender")
 }

@@ -142,12 +142,9 @@ body:
     id: logs
     attributes:
       label: Relevant log output
-      description: Paste relevant logs. Remove secrets/tokens before posting.
-      placeholder: |
-        Default log location:
-          Linux:   ~/.cache/komai/profiles/<profile-id>/komai.log
-          macOS:   ~/Library/Caches/komai/profiles/<profile-id>/komai.log
-          Windows: C:/Users/<USER>/AppData/Local/komai/cache/profiles/<profile-id>/komai.log
+      description: |
+        Paste relevant logs. Remove secrets/tokens before posting.
+        See [Logging](https://github.com/etkecc/komai/blob/main/docs/user-guide/logging.md) for how to collect logs.
       render: shell
     validations:
       required: false

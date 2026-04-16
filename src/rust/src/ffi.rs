@@ -1209,7 +1209,6 @@ mod bridge {
 
         fn init_logging(
             level: &str,
-            log_file_path: &str,
             to_stderr: bool,
             enable_debug: bool,
         );

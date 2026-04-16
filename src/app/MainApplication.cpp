@@ -9,7 +9,6 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDesktopServices>
-#include <QFileInfo>
 #include <QFontDatabase>
 #include <QLabel>
 #include <QLibraryInfo>
@@ -143,11 +142,10 @@ app::runMainApplication(int argc, char *argv[])
                   "is not set."),
       QObject::tr("level"));
     parser.addOption(logLevel);
-    QCommandLineOption logType(
-      QStringList() << QStringLiteral("L") << QStringLiteral("log-type"),
-      QObject::tr("Set the log output type. A comma-separated list is allowed. "
-                  "The default is 'file,stderr'. types:{file,stderr,none}"),
-      QObject::tr("type"));
+    QCommandLineOption logType(QStringList() << QStringLiteral("L") << QStringLiteral("log-type"),
+                               QObject::tr("Set the log output type. "
+                                           "The default is 'stderr'. types:{stderr,none}"),
+                               QObject::tr("type"));
     parser.addOption(logType);
     // Profile is parsed manually early for pre-QApplication scale-factor loading.
     // Keep this option in the parser for help output and validation.
@@ -165,8 +163,7 @@ app::runMainApplication(int argc, char *argv[])
     parser.process(app);
 
     // Initialize logging early so that UserSettings can log during init (e.g. emoji font
-    // resolution on Qt < 6.9). The cache directory must exist before the file logger opens.
-    support::createDirectory(QFileInfo(app_paths::cache::logFile(selectedProfile)).absolutePath());
+    // resolution on Qt < 6.9).
     try {
         QString level;
         if (parser.isSet(logLevel)) {
@@ -176,19 +173,17 @@ app::runMainApplication(int argc, char *argv[])
         }
 
         QStringList targets =
-          (parser.isSet(logType) ? parser.value(logType) : QStringLiteral("file,stderr"))
+          (parser.isSet(logType) ? parser.value(logType) : QStringLiteral("stderr"))
             .split(',', Qt::SkipEmptyParts);
         targets.removeAll("none");
         bool to_stderr = bool(targets.removeAll("stderr"));
-        QString path   = targets.removeAll("file") ? app_paths::cache::logFile(selectedProfile)
-                                                   : QLatin1String("");
         if (!targets.isEmpty()) {
             std::cerr << "Invalid log type '" << targets.first().toStdString().c_str() << "'"
                       << std::endl;
             std::exit(1);
         }
 
-        nhlog::init(level, path, to_stderr);
+        nhlog::init(level, to_stderr);
 
     } catch (const std::exception &ex) {
         std::cerr << "Log initialization failed: " << ex.what() << std::endl;

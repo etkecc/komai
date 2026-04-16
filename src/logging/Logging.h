@@ -80,7 +80,7 @@ private:
 };
 
 void
-init(const QString &level, const QString &path, bool to_stderr);
+init(const QString &level, bool to_stderr);
 
 std::shared_ptr<Logger>
 ui();

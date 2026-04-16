@@ -425,18 +425,6 @@ roomNotificationAvatarFile(QStringView profileId, QStringView roomId)
 }
 
 QString
-logDirectory(QStringView profileId)
-{
-    return profileDirectory(profileId) + QStringLiteral("/logs");
-}
-
-QString
-logFile(QStringView profileId)
-{
-    return logDirectory(profileId) + QStringLiteral("/komai.log");
-}
-
-QString
 httpCacheDirectory(QStringView profileId)
 {
     return profileDirectory(profileId) + QStringLiteral("/http");

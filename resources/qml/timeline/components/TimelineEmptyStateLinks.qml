@@ -23,7 +23,7 @@ ColumnLayout {
 
             Layout.preferredWidth: linksRow.linksUniformWidth
             text: qsTr("Report an issue")
-            icon.source: "qrc:/icons/icons/ui/alert.svg"
+            icon.source: "qrc:/icons/icons/ui/bug.svg"
             onClicked: Qt.openUrlExternally("https://github.com/etkecc/komai/issues")
         }
 

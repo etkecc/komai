@@ -133,5 +133,6 @@ Generated from `resources/res.qrc`, sorted by icon source path.
 | ![icons/fluent/assets/Video/SVG/ic_fluent_video_32_regular.svg](../../resources/icons/fluent/assets/Video/SVG/ic_fluent_video_32_regular.svg)<br>`icons/fluent/assets/Video/SVG/ic_fluent_video_32_regular.svg` | `icons/ui/video.svg` |
 | ![icons/fluent/assets/Window New/SVG/ic_fluent_window_new_24_regular.svg](../../resources/icons/fluent/assets/Window%20New/SVG/ic_fluent_window_new_24_regular.svg)<br>`icons/fluent/assets/Window New/SVG/ic_fluent_window_new_24_regular.svg` | `icons/ui/window-new.svg` |
 | ![icons/fontawesome/svgs/brands/github.svg](../../resources/icons/fontawesome/svgs/brands/github.svg)<br>`icons/fontawesome/svgs/brands/github.svg` | `icons/ui/github.svg` |
+| ![icons/fontawesome/svgs/solid/bug.svg](../../resources/icons/fontawesome/svgs/solid/bug.svg)<br>`icons/fontawesome/svgs/solid/bug.svg` | `icons/ui/bug.svg` |
 | ![icons/fontawesome/svgs/solid/hammer.svg](../../resources/icons/fontawesome/svgs/solid/hammer.svg)<br>`icons/fontawesome/svgs/solid/hammer.svg` | `icons/ui/hammer.svg` |
 | ![icons/ui/double-checkmark.svg](../../resources/icons/ui/double-checkmark.svg)<br>`icons/ui/double-checkmark.svg` | `icons/ui/double-checkmark.svg` |

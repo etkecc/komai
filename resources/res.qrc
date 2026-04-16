@@ -128,6 +128,7 @@
         <file alias="icons/ui/lightbulb.svg">icons/fluent/assets/Lightbulb/SVG/ic_fluent_lightbulb_24_regular.svg</file>
         <file alias="icons/ui/github.svg">icons/fontawesome/svgs/brands/github.svg</file>
         <file alias="icons/ui/hammer.svg">icons/fontawesome/svgs/solid/hammer.svg</file>
+        <file alias="icons/ui/bug.svg">icons/fontawesome/svgs/solid/bug.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

@@ -33,7 +33,7 @@ Button {
                        : palette.buttonText)
         : (highlighted ? palette.highlightedText
                        : ((activeState || down) ? palette.brightText : palette.text))
-    readonly property int effectiveIconSize: Math.max(14, Math.round(Settings.uiFontSizePt * 1.4))
+    readonly property int effectiveIconSize: Math.max(14, Math.round(control.font.pointSize * 1.4))
 
     font.pointSize: Settings.uiFontSizePt
     implicitHeight: Math.max(controlHeight,

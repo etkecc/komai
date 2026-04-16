@@ -16,8 +16,7 @@ ColumnLayout {
     readonly property int resultAvatarSize: Komai.listIconSize
     readonly property bool hasResults: searchField.text.length > 0 && resultsList.count > 0
     readonly property bool isSearching: searchField.text.length > 0
-    // Match the quick switcher's font sizing.
-    readonly property int searchFontPixelSize: Math.ceil(Komai.fontPixelSize * 1.4)
+    readonly property int searchFontPixelSize: Math.ceil(Komai.fontPixelSize * 1.5)
 
     spacing: 0
 

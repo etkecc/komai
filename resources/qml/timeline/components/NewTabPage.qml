@@ -15,9 +15,8 @@ Item {
     required property var dialogHost
     required property var tabController
 
-    // Search field and button row share this width so they stay aligned.
-    // Based on the button row's natural width (computed even when hidden).
-    readonly property real searchFieldMaxWidth: Math.min(
+    // Search field and button row share this maximum width so they stay aligned.
+    readonly property real sharedMaxWidth: Math.min(
         Math.max(actions.implicitWidth, 400),
         root.width - 2 * Komai.paddingLarge)
     readonly property real resultsMaxWidth: Math.min(800, root.width * 0.8)
@@ -63,12 +62,14 @@ Item {
         }
 
         Image {
+            readonly property int logoDisplaySize: search.isSearching ? Komai.timelineLogoSize : Komai.timelineLogoSize * 1.5
+
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: Komai.timelineLogoSize
-            Layout.preferredHeight: Komai.timelineLogoSize
+            Layout.preferredWidth: logoDisplaySize
+            Layout.preferredHeight: logoDisplaySize
             source: "qrc:/logos/komai.svg"
-            sourceSize.height: Komai.timelineLogoSize * 2
-            sourceSize.width: Komai.timelineLogoSize * 2
+            sourceSize.height: logoDisplaySize * 2
+            sourceSize.width: logoDisplaySize * 2
             fillMode: Image.PreserveAspectFit
         }
 
@@ -76,9 +77,10 @@ Item {
             Layout.alignment: Qt.AlignHCenter
             Layout.topMargin: Komai.paddingMedium
             Layout.bottomMargin: Komai.paddingLarge
-            font.pointSize: Settings.uiFontSizePt * 1.4
+            font.pointSize: Settings.uiFontSizePt * 1.6
             color: palette.buttonText
             text: root.greeting
+            visible: !search.isSearching
         }
 
         NewTabPageSearch {
@@ -88,7 +90,7 @@ Item {
             Layout.fillHeight: hasResults
             Layout.maximumWidth: root.resultsMaxWidth
             Layout.alignment: Qt.AlignHCenter
-            searchFieldMaxWidth: root.searchFieldMaxWidth
+            searchFieldMaxWidth: root.sharedMaxWidth
             tabController: root.tabController
         }
 
@@ -96,6 +98,7 @@ Item {
             id: actions
 
             Layout.alignment: Qt.AlignHCenter
+            Layout.maximumWidth: root.sharedMaxWidth
             Layout.topMargin: Komai.paddingLarge
             dialogHost: root.dialogHost
             visible: !search.isSearching

@@ -510,15 +510,6 @@ QtObject {
             return;
         }
         var existingIndex = findTab(roomId);
-        // Clicking active room: close its tab (or deselect if no tabs).
-        // But never close a pinned tab via click.
-        if (roomId === Rooms.currentRoomId) {
-            if (existingIndex !== -1 && !tabs.get(existingIndex).pinned)
-                closeTab(roomId);
-            else if (existingIndex === -1)
-                Rooms.resetCurrentRoom();
-            return;
-        }
         // Room already has a tab: focus it.
         if (existingIndex !== -1) {
             switchToTab(existingIndex);

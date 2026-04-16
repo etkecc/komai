@@ -324,33 +324,32 @@ OverlayDialog {
                 }
             }
         }
-    }
 
-    ColumnLayout {
-        Layout.fillWidth: true
-        Layout.topMargin: Komai.paddingMedium
-        Layout.bottomMargin: Komai.paddingMedium
-        spacing: Komai.paddingSmall
-        visible: !root.loading && threadListModel.count === 0
+        ColumnLayout {
+            anchors.centerIn: parent
+            width: parent.width - Komai.paddingMedium * 2
+            spacing: Komai.paddingSmall
+            visible: !root.loading && threadListModel.count === 0
 
-        Label {
-            Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
-            text: qsTr("No threads found")
-            color: palette.buttonText
-            font.pointSize: Settings.uiFontSizePt * 1.2
-            font.bold: true
-        }
+            Label {
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+                text: qsTr("No threads found")
+                color: palette.buttonText
+                font.pointSize: Settings.uiFontSizePt * 1.2
+                font.bold: true
+            }
 
-        Label {
-            Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
-            text: root.includeMode === 1
-                  ? qsTr("You haven't participated in any threads in this room yet.")
-                  : qsTr("No one has started a thread in this room yet.")
-            color: palette.placeholderText
-            font.pointSize: Settings.uiFontSizePt
-            wrapMode: Text.WordWrap
+            Label {
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+                text: root.includeMode === 1
+                      ? qsTr("You haven't participated in any threads in this room yet.")
+                      : qsTr("No one has started a thread in this room yet.")
+                color: palette.placeholderText
+                font.pointSize: Settings.uiFontSizePt
+                wrapMode: Text.WordWrap
+            }
         }
     }
 }

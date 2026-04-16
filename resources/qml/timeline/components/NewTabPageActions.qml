@@ -22,6 +22,7 @@ RowLayout {
         text: qsTr("Join room")
         toolTipText: qsTr("Join an existing room by address or alias")
         icon.source: "qrc:/icons/icons/ui/arrow-join.svg"
+        font.pointSize: Settings.uiFontSizePt * 1.5
         onClicked: Komai.openJoinRoomDialog()
     }
 
@@ -32,6 +33,7 @@ RowLayout {
         text: qsTr("Explore public rooms")
         toolTipText: qsTr("Browse the public room directory")
         icon.source: "qrc:/icons/icons/ui/compass-northwest.svg"
+        font.pointSize: Settings.uiFontSizePt * 1.5
         onClicked: root.dialogHost.openRoomDirectory()
     }
 
@@ -42,6 +44,7 @@ RowLayout {
         text: qsTr("New room/space")
         toolTipText: qsTr("Create a new room or space [Ctrl+N]")
         icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
+        font.pointSize: Settings.uiFontSizePt * 1.5
         onClicked: newDialog.open()
     }
 

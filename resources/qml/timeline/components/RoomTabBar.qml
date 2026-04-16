@@ -266,6 +266,13 @@ Rectangle {
         color: Komai.theme.separator
     }
 
+    // Double-click on empty tab bar space opens a new tab.
+    TapHandler {
+        acceptedButtons: Qt.LeftButton
+        gesturePolicy: TapHandler.DragThreshold
+        onDoubleTapped: tabController.openNewTab()
+    }
+
     // Right-click on empty tab bar space shows settings shortcut.
     TapHandler {
         acceptedButtons: Qt.RightButton

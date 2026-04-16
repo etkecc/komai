@@ -268,6 +268,8 @@ class UserSettings final : public QObject
                  setTimelineMediaAutoplayGifVideos NOTIFY timelineMediaAutoplayGifVideosChanged)
     Q_PROPERTY(bool timelineMediaOpenAudioExternal READ timelineMediaOpenAudioExternal WRITE
                  setTimelineMediaOpenAudioExternal NOTIFY timelineMediaOpenAudioExternalChanged)
+    Q_PROPERTY(bool timelineThreadsCollapseReplies READ timelineThreadsCollapseReplies WRITE
+                 setTimelineThreadsCollapseReplies NOTIFY timelineThreadsCollapseRepliesChanged)
     Q_PROPERTY(
       double timelineMediaDefaultAudioPlaybackSpeed READ timelineMediaDefaultAudioPlaybackSpeed
         WRITE setTimelineMediaDefaultAudioPlaybackSpeed NOTIFY
@@ -626,6 +628,7 @@ public:
     void setTimelineMediaAutoplayGifVideos(bool state);
     void setTimelineMediaOpenAudioExternal(bool state);
     void setTimelineMediaDefaultAudioPlaybackSpeed(double speed);
+    void setTimelineThreadsCollapseReplies(bool state);
     void setIntegrationsBrowserCommand(QString command);
     void setCollapsedSpaces(QStringList spaces);
     void setIntegrationsDbusApiAccess(int access);
@@ -778,6 +781,7 @@ signals:
     void timelineMediaAutoplayGifVideosChanged(bool state);
     void timelineMediaOpenAudioExternalChanged(bool state);
     void timelineMediaDefaultAudioPlaybackSpeedChanged(double speed);
+    void timelineThreadsCollapseRepliesChanged(bool state);
     void hiddenPinsChanged();
     void openTabsChanged();
     void pinnedTabsChanged();

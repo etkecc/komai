@@ -70,6 +70,7 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
       .deliveryState     = QString::fromStdString(std::string(item.delivery_state)),
       .threadId          = QString::fromStdString(std::string(item.thread_id)),
       .isThreadRoot      = item.is_thread_root,
+      .threadReplyCount  = item.thread_reply_count,
       .senderId          = QString::fromStdString(std::string(item.sender_id)),
       .senderDisplayName = QString::fromStdString(std::string(item.sender_display_name)),
       .senderAvatarUrl =

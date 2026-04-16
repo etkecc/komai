@@ -650,6 +650,7 @@ async fn raw_event_to_timeline_item(
         delivery_state: String::new(),
         thread_id: thread_root_id,
         is_thread_root: summary.is_thread_root,
+        thread_reply_count: 0,
         sender_id,
         sender_display_name,
         sender_avatar_url,

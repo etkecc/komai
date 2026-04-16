@@ -146,6 +146,12 @@ pub struct ConfigTimeline {
     pub message_actions: ConfigTimelineMessageActions,
     pub media: ConfigTimelineMedia,
     pub hidden_events: ConfigTimelineHiddenEvents,
+    pub threads: ConfigTimelineThreads,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigTimelineThreads {
+    pub collapse_replies: Option<bool>,
 }
 
 #[derive(Clone, Debug, Default)]

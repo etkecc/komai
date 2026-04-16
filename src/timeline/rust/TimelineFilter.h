@@ -21,6 +21,8 @@ class TimelineFilter : public QSortFilterProxyModel
     Q_PROPERTY(QString filterByThread READ filterByThread WRITE setThreadId NOTIFY threadIdChanged)
     Q_PROPERTY(QString filterByContent READ filterByContent WRITE setContentFilter NOTIFY
                  contentFilterChanged)
+    Q_PROPERTY(bool collapseThreadReplies READ collapseThreadReplies WRITE setCollapseThreadReplies
+                 NOTIFY collapseThreadRepliesChanged)
     Q_PROPERTY(QAbstractItemModel *source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
     Q_PROPERTY(bool filteringInProgress READ isFiltering NOTIFY isFilteringChanged)
@@ -30,12 +32,14 @@ public:
 
     QString filterByThread() const { return threadId; }
     QString filterByContent() const { return contentFilter; }
+    bool collapseThreadReplies() const { return collapseThreadReplies_; }
     QAbstractItemModel *source() const;
     int currentIndex() const;
     bool isFiltering() const;
 
     void setThreadId(const QString &t);
     void setContentFilter(const QString &t);
+    void setCollapseThreadReplies(bool collapse);
     void setSource(QAbstractItemModel *s);
     void setCurrentIndex(int idx);
 
@@ -49,6 +53,7 @@ public:
 signals:
     void threadIdChanged();
     void contentFilterChanged();
+    void collapseThreadRepliesChanged();
     void sourceChanged();
     void currentIndexChanged();
     void isFilteringChanged();
@@ -60,6 +65,7 @@ private slots:
                            const QModelIndex &bottomRight,
                            const QVector<int> &roles);
     void onSourceRowsInserted();
+    void onSourceModelReset();
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
@@ -70,6 +76,7 @@ private:
     bool hasActiveFilter() const;
 
     QString threadId, contentFilter;
+    bool collapseThreadReplies_ = false;
     int cachedCount = 0, incrementalSearchIndex = 0;
     int sourceCountAtLastFetch_ = 0;
     bool waitingForData_        = false;

@@ -80,6 +80,7 @@ RowLayout {
     required property bool isStateEvent
     required property string threadId
     property bool isThreadRoot: false
+    property int threadReplyCount: 0
     required property date timestamp
     required property var room
     readonly property string roomEditEventId: (room && room.edit !== undefined) ? room.edit : ""
@@ -195,24 +196,65 @@ RowLayout {
 
         onClicked: metadata.actionToggled()
     }
-    ImageButton {
-        id: threadButton
+    Item {
+        id: threadButtonContainer
 
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+        Layout.preferredWidth: threadIcon.width + (threadReplyCountLabel.visible ? threadReplyCountLabel.implicitWidth + 1 : 0)
         Layout.preferredHeight: metadata.buttonSize
-        Layout.preferredWidth: metadata.buttonSize
         visible: metadata.canOpenThreadNavigation
-        toolTipText: qsTr("Reply in this thread")
-        toolTipVisible: hovered
-        buttonTextColor: {
+
+        readonly property color threadColor: {
             const _revision = colorRevision;
             return TimelineManager.userColor(metadata.effectiveThreadId, effectiveBaseColor);
         }
-        image: visible ? ":/icons/icons/ui/thread.svg" : ""
 
-        onClicked: {
-            if (metadata.room)
-                metadata.room.thread = metadata.effectiveThreadId
+        Image {
+            id: threadIcon
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            width: metadata.buttonSize
+            height: metadata.buttonSize
+            sourceSize.width: width
+            sourceSize.height: height
+            source: threadButtonContainer.visible
+                ? "image://colorimage/:/icons/icons/ui/thread.svg?" + threadButtonContainer.threadColor
+                : ""
+        }
+        Label {
+            id: threadReplyCountLabel
+            anchors.left: threadIcon.right
+            anchors.leftMargin: 1
+            anchors.verticalCenter: parent.verticalCenter
+            visible: metadata.isThreadRoot && metadata.threadReplyCount > 0
+            text: metadata.threadReplyCount.toLocaleString()
+            color: threadButtonContainer.threadColor
+            font.pointSize: Settings.uiFontSizePt * metadata.scaling * 1.2
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            hoverEnabled: true
+            onClicked: {
+                if (metadata.room)
+                    metadata.room.thread = metadata.effectiveThreadId;
+            }
+
+            HoverHandler {
+                id: threadHover
+            }
+        }
+
+        KomaiToolTip {
+            anchorItem: threadButtonContainer
+            anchorX: threadButtonContainer.width / 2
+            anchorY: 0
+            text: metadata.isThreadRoot && metadata.threadReplyCount > 0
+                ? qsTr("%n thread reply(s)", "", metadata.threadReplyCount)
+                : qsTr("Reply in this thread")
+            delay: Komai.tooltipDelay
+            requestedVisible: threadHover.hovered
         }
     }
 }

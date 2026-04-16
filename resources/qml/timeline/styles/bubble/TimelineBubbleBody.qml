@@ -576,6 +576,7 @@ Item {
             isStateEvent: root.wrapper.isStateEvent
             threadId: root.wrapper.threadId
             isThreadRoot: root.wrapper.isThreadRoot
+            threadReplyCount: root.wrapper.threadReplyCount
             timestamp: root.wrapper.timestamp
             room: root.wrapper.effectiveRoomContext
             isSender: root.wrapper.isStateEvent ? false : root.wrapper.messageIsRightAligned

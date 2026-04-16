@@ -50,6 +50,7 @@ pub const MEDIA_OPEN_IMAGES_EXTERNAL: bool = false;
 pub const MEDIA_OPEN_VIDEOS_EXTERNAL: bool = false;
 pub const MEDIA_AUTOPLAY_GIF_VIDEOS: bool = true;
 pub const MEDIA_OPEN_AUDIO_EXTERNAL: bool = false;
+pub const THREADS_COLLAPSE_REPLIES: bool = false;
 pub const MEDIA_DEFAULT_AUDIO_PLAYBACK_SPEED: f64 = 1.0;
 
 // -- desktop ------------------------------------------------------------------

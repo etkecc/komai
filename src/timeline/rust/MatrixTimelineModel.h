@@ -85,6 +85,7 @@ public:
         PreviousItemKind,
         DeliveryState,
         IsThreadRoot,
+        ThreadReplyCount,
         IsVoiceMessage,
         Waveform,
     };

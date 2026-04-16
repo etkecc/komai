@@ -113,3 +113,13 @@ UserSettings::timelineMessagesSenderUsernameLargeRoomThreshold() const
 {
     return 16;
 }
+
+bool
+UserSettings::timelineThreadsCollapseReplies() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineThreadsCollapseReplies);
+        value.has_value())
+        return *value;
+    return timelineThreadsCollapseReplies_;
+}

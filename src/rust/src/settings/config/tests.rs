@@ -27,7 +27,8 @@ use crate::ffi::{
     SettingsConfigTimelineHiddenEventsSection,
     SettingsConfigTimelineMediaSection, SettingsConfigTimelineMessageActionsSection,
     SettingsConfigTimelineMessagesSection, SettingsConfigTimelineReadReceiptsSection,
-    SettingsConfigTimelineSection, SettingsConfigTimelineTypingSection, SettingsConfigUiSection,
+    SettingsConfigTimelineSection, SettingsConfigTimelineThreadsSection,
+    SettingsConfigTimelineTypingSection, SettingsConfigUiSection,
     SettingsStringListMapEntry,
 };
 use crate::settings::yaml;
@@ -494,6 +495,9 @@ fn encodes_generic_config_values() {
                     key: "!room:example.org".to_owned(),
                     values: vec!["m.call.candidates".to_owned()],
                 }],
+            },
+            threads: SettingsConfigTimelineThreadsSection {
+                collapse_replies: false,
             },
         },
         secrets: SettingsConfigSecretsSection {

@@ -123,6 +123,7 @@ bool timelineMediaOpenVideosExternal_;
 bool timelineMediaAutoplayGifVideos_ = true;
 bool timelineMediaOpenAudioExternal_;
 double timelineMediaDefaultAudioPlaybackSpeed_ = 1.0;
+bool timelineThreadsCollapseReplies_           = false;
 int integrationsDbusApiAccess_                 = 0;
 QString integrationsBrowserCommand_;
 QString sponsoringStatus_                   = QStringLiteral("visible");

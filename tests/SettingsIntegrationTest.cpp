@@ -1695,6 +1695,8 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMessagesHoverHighlight));
     serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineThreadsCollapseReplies));
+    serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineFormattedCodeSyntaxHighlighting));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineTypingShowEnabled));

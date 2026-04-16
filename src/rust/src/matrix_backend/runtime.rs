@@ -463,6 +463,7 @@ pub struct MatrixTimelineItem {
     pub delivery_state: String,
     pub thread_id: String,
     pub is_thread_root: bool,
+    pub thread_reply_count: u32,
     pub sender_id: String,
     pub sender_display_name: String,
     pub sender_avatar_url: String,

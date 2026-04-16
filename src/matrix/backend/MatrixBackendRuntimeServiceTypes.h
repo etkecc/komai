@@ -311,7 +311,8 @@ struct MatrixTimelineItem
     QString eventId;
     QString deliveryState;
     QString threadId;
-    bool isThreadRoot = false;
+    bool isThreadRoot         = false;
+    uint32_t threadReplyCount = 0;
     QString senderId;
     QString senderDisplayName;
     QString senderAvatarUrl;

@@ -123,6 +123,26 @@ TimelineFilter::setThreadId(const QString &t)
 }
 
 void
+TimelineFilter::setCollapseThreadReplies(bool collapse)
+{
+    if (collapseThreadReplies_ == collapse)
+        return;
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
+    beginFilterChange();
+#endif
+
+    collapseThreadReplies_ = collapse;
+    emit collapseThreadRepliesChanged();
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+    endFilterChange();
+#else
+    invalidateFilter();
+#endif
+}
+
+void
 TimelineFilter::setContentFilter(const QString &c)
 {
     if (this->contentFilter != c) {
@@ -177,6 +197,25 @@ TimelineFilter::onSourceRowsInserted()
 }
 
 void
+TimelineFilter::onSourceModelReset()
+{
+    // After a source model reset (e.g. thread exit forceModelReset),
+    // the proxy may not re-apply the collapse filter correctly.
+    // Force a full re-evaluation when collapse is active.
+    if (collapseThreadReplies_) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
+        beginFilterChange();
+#endif
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        endFilterChange();
+#else
+        invalidateFilter();
+#endif
+    }
+}
+
+void
 TimelineFilter::sourceDataChanged(const QModelIndex &topLeft,
                                   const QModelIndex &bottomRight,
                                   const QVector<int> &roles)
@@ -209,6 +248,8 @@ TimelineFilter::setSource(QAbstractItemModel *s)
               orig, &QAbstractItemModel::dataChanged, this, &TimelineFilter::sourceDataChanged);
             disconnect(
               orig, &QAbstractItemModel::rowsInserted, this, &TimelineFilter::onSourceRowsInserted);
+            disconnect(
+              orig, &QAbstractItemModel::modelReset, this, &TimelineFilter::onSourceModelReset);
         }
 
         this->setSourceModel(s);
@@ -223,6 +264,11 @@ TimelineFilter::setSource(QAbstractItemModel *s)
                     &QAbstractItemModel::rowsInserted,
                     this,
                     &TimelineFilter::onSourceRowsInserted,
+                    Qt::QueuedConnection);
+            connect(s,
+                    &QAbstractItemModel::modelReset,
+                    this,
+                    &TimelineFilter::onSourceModelReset,
                     Qt::QueuedConnection);
         }
 
@@ -272,9 +318,23 @@ TimelineFilter::isFiltering() const
 bool
 TimelineFilter::filterAcceptsRow(int source_row, const QModelIndex &) const
 {
-    // this chunk is still unfiltered.
-    if (source_row > incrementalSearchIndex)
-        return false;
+    // this chunk is still unfiltered (only applies to content/thread search).
+    if (!threadId.isEmpty() || !contentFilter.isEmpty()) {
+        if (source_row > incrementalSearchIndex)
+            return false;
+    }
+
+    // Thread collapsing: hide non-root thread replies.
+    if (collapseThreadReplies_) {
+        if (auto s = sourceModel()) {
+            using R  = komai::MatrixTimelineModel::Roles;
+            auto idx = s->index(source_row, 0);
+            if (!s->data(idx, R::ThreadId).toString().isEmpty() &&
+                !s->data(idx, R::IsThreadRoot).toBool()) {
+                return false;
+            }
+        }
+    }
 
     if (threadId.isEmpty() && contentFilter.isEmpty())
         return true;

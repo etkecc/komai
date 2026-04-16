@@ -426,6 +426,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     }
     case DeliveryState:      return item.deliveryState;
     case IsThreadRoot:       return item.isThreadRoot;
+    case ThreadReplyCount:   return static_cast<int>(item.threadReplyCount);
     case IsVoiceMessage:     return item.isVoiceMessage;
     case Waveform: {
         QVariantList list;
@@ -579,6 +580,7 @@ MatrixTimelineModel::roleNames() const
       {PreviousItemKind, "previousItemKind"},
       {DeliveryState, "deliveryState"},
       {IsThreadRoot, "isThreadRoot"},
+      {ThreadReplyCount, "threadReplyCount"},
       {IsVoiceMessage, "isVoiceMessage"},
       {Waveform, "waveform"},
     };

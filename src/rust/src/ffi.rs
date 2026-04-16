@@ -224,6 +224,10 @@ mod bridge {
         default_audio_playback_speed: f64,
     }
 
+    struct SettingsConfigTimelineThreadsSection {
+        collapse_replies: bool,
+    }
+
     struct SettingsConfigTimelineSection {
         messages: SettingsConfigTimelineMessagesSection,
         formatted: SettingsConfigTimelineFormattedSection,
@@ -232,6 +236,7 @@ mod bridge {
         message_actions: SettingsConfigTimelineMessageActionsSection,
         media: SettingsConfigTimelineMediaSection,
         hidden_events: SettingsConfigTimelineHiddenEventsSection,
+        threads: SettingsConfigTimelineThreadsSection,
     }
 
     struct SettingsConfigSecretsSection {
@@ -967,6 +972,7 @@ mod bridge {
         delivery_state: String,
         thread_id: String,
         is_thread_root: bool,
+        thread_reply_count: u32,
         sender_id: String,
         sender_display_name: String,
         sender_avatar_url: String,

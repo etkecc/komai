@@ -159,8 +159,27 @@ ColumnLayout {
 
         source: root.perRoomModel
         filterByContent: root.searchString
+        collapseThreadReplies: Settings.timelineThreadsCollapseReplies
 
         onRequestMoreData: TimelineManager.paginateActiveMatrixTimelineBackwards(50)
+    }
+
+    // When thread collapse is active, paginated items may all be thread
+    // replies (filtered out).  The ListView's countChanged won't fire,
+    // stalling the buffer-fill loop.  Watch the raw model's count to
+    // unblock pagination in that case.
+    Connections {
+        target: root.perRoomModel
+        enabled: filteredTimeline.collapseThreadReplies && !root.threadViewActive
+        function onCountChanged() {
+            if (root.bufferPaginationInFlight) {
+                root.bufferPaginationInFlight = false;
+                if (root.deferredInitialBufferTopUpPending)
+                    root.scheduleDeferredInitialTimelineBufferCheck();
+                else if (root.initialTimelineBufferPending)
+                    root.scheduleInitialTimelineBufferCheck();
+            }
+        }
     }
 
     // Thread view pagination: when the list reaches the oldest item
@@ -462,7 +481,8 @@ ColumnLayout {
                     cacheBuffer: root.listViewCacheBuffer
                     model: root.threadViewActive
                         ? root.threadTimelineModel
-                        : (root.filteringRequested ? filteredTimeline : root.perRoomModel)
+                        : ((root.filteringRequested || filteredTimeline.collapseThreadReplies)
+                            ? filteredTimeline : root.perRoomModel)
                     header: Item { width: 1; height: Komai.paddingSmall }
                     spacing: Komai.paddingMedium
                     visible: root.hasTimeline
@@ -517,6 +537,7 @@ ColumnLayout {
                         required property string itemId
                         required property string threadId
                         required property bool isThreadRoot
+                        required property int threadReplyCount
                         required property string body
                         required property string formattedBody
                         required property string formattedStateEvent
@@ -589,6 +610,7 @@ ColumnLayout {
                                 userName: timelineItemDelegate.userName
                                 threadId: timelineItemDelegate.threadId
                                 isThreadRoot: timelineItemDelegate.isThreadRoot
+                                threadReplyCount: timelineItemDelegate.threadReplyCount
                                 userPowerlevel: 0
                                 isEdited: timelineItemDelegate.isEdited
                                 isEncrypted: timelineItemDelegate.isEncrypted
@@ -629,6 +651,7 @@ ColumnLayout {
                                 userName: timelineItemDelegate.userName
                                 threadId: timelineItemDelegate.threadId
                                 isThreadRoot: timelineItemDelegate.isThreadRoot
+                                threadReplyCount: timelineItemDelegate.threadReplyCount
                                 userPowerlevel: 0
                                 isEdited: timelineItemDelegate.isEdited
                                 isEncrypted: timelineItemDelegate.isEncrypted

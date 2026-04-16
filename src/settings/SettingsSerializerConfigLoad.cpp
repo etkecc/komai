@@ -150,6 +150,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       UserSettings::ShowSenderUsername::OnlyInLargeRooms));
     settings.setTimelineMessagesEmojiOnlyEnlarge(snapshot.timeline.messages.emoji_only_enlarge);
     settings.setTimelineMessagesHoverHighlight(snapshot.timeline.messages.hover_highlight);
+    settings.setTimelineThreadsCollapseReplies(snapshot.timeline.threads.collapse_replies);
     settings.setTimelineFormattedCodeSyntaxHighlighting(
       snapshot.timeline.formatted.code_syntax_highlighting);
     settings.setTimelineTypingShowEnabled(snapshot.timeline.typing.show_enabled);

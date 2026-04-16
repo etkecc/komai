@@ -19,6 +19,16 @@ UserSettings::setTimelineMessagesEmojiOnlyEnlarge(bool s)
     save();
 }
 void
+UserSettings::setTimelineThreadsCollapseReplies(bool s)
+{
+    if (timelineThreadsCollapseReplies_ == s)
+        return;
+    timelineThreadsCollapseReplies_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineThreadsCollapseReplies, s);
+    emit timelineThreadsCollapseRepliesChanged(s);
+    save();
+}
+void
 UserSettings::setTimelineFormattedCodeSyntaxHighlighting(bool s)
 {
     if (timelineFormattedCodeSyntaxHighlighting_ == s)

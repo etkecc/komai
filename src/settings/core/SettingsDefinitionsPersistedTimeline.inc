@@ -110,3 +110,7 @@
    SettingScope::Config,
    SettingKey::TimelineMediaDefaultAudioPlaybackSpeed,
    false},
+  {SettingId::TimelineThreadsCollapseReplies,
+   SettingScope::Config,
+   SettingKey::TimelineThreadsCollapseReplies,
+   false},

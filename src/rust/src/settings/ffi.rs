@@ -249,6 +249,9 @@ pub(crate) fn ffi_config_timeline_section(
             }),
             by_room,
         },
+        threads: ffi::SettingsConfigTimelineThreadsSection {
+            collapse_replies: config.timeline.threads.collapse_replies.unwrap_or(defaults::THREADS_COLLAPSE_REPLIES),
+        },
     }
 }
 
@@ -614,6 +617,9 @@ fn clone_config_timeline_section(
         hidden_events: ffi::SettingsConfigTimelineHiddenEventsSection {
             global: section.hidden_events.global.iter().map(|value| value.clone()).collect(),
             by_room: clone_string_list_map_entries(&section.hidden_events.by_room),
+        },
+        threads: ffi::SettingsConfigTimelineThreadsSection {
+            collapse_replies: section.threads.collapse_replies,
         },
     }
 }

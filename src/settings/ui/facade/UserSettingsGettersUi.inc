@@ -54,6 +54,7 @@
     bool uiInputMode() const;
     bool uiInputTouchSwipeGesturesEnabled() const;
     bool timelineReadReceiptsEnabled() const;
+    bool timelineThreadsCollapseReplies() const;
     bool notificationsAccountEnabled() const;
     bool desktopNotificationsEnabled() const;
     bool desktopNotificationsAttentionOnIncoming() const;

@@ -23,6 +23,7 @@ fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimeline
         delivery_state: item.delivery_state,
         thread_id: item.thread_id,
         is_thread_root: item.is_thread_root,
+        thread_reply_count: item.thread_reply_count,
         sender_id: item.sender_id,
         sender_display_name: item.sender_display_name,
         sender_avatar_url: item.sender_avatar_url,

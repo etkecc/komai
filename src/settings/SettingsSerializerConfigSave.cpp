@@ -126,6 +126,10 @@ stageConfig(const UserSettings &settings,
               .global  = {},
               .by_room = {},
             },
+          .threads =
+            {
+              .collapse_replies = settings.timelineThreadsCollapseReplies(),
+            },
         },
       .secrets =
         {

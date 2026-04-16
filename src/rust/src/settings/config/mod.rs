@@ -22,7 +22,7 @@ pub use model::{
     ConfigIntegrations, ConfigNetwork, ConfigNetworkEncryption, ConfigSecrets, ConfigNavigation,
     ConfigNavigationCommunities, ConfigNavigationRoomList, ConfigNavigationTabs, ConfigTimeline,
     ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
-    ConfigTimelineMessageActions, ConfigTimelineMessages,
+    ConfigTimelineMessageActions, ConfigTimelineMessages, ConfigTimelineThreads,
     ConfigTimelineMessagesLayout, ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi,
     ConfigUiAvatars, ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale,
     ConfigUiTheme, LoadedConfig,
@@ -134,6 +134,8 @@ const TIMELINE_MEDIA_OPEN_AUDIO_EXTERNAL_PATH: [&str; 3] =
     ["timeline", "media", "open_audio_external"];
 const TIMELINE_MEDIA_DEFAULT_AUDIO_PLAYBACK_SPEED_PATH: [&str; 3] =
     ["timeline", "media", "default_audio_playback_speed"];
+const TIMELINE_THREADS_COLLAPSE_REPLIES_PATH: [&str; 3] =
+    ["timeline", "threads", "collapse_replies"];
 const HIDDEN_EVENTS_GLOBAL_PATH: [&str; 3] = ["timeline", "hidden_events", "global"];
 const HIDDEN_EVENTS_BY_ROOM_PATH: [&str; 3] = ["timeline", "hidden_events", "by_room"];
 const SECRETS_PROVIDER_PATH: [&str; 2] = ["secrets", "provider"];
@@ -435,6 +437,13 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             hidden_events: ConfigTimelineHiddenEvents {
                 global: parse_string_list(yaml::value_at_path(root, &HIDDEN_EVENTS_GLOBAL_PATH)),
                 by_room: parse_string_list_map(yaml::value_at_path(root, &HIDDEN_EVENTS_BY_ROOM_PATH)),
+            },
+            threads: ConfigTimelineThreads {
+                collapse_replies: yaml::value_at_path(
+                    root,
+                    &TIMELINE_THREADS_COLLAPSE_REPLIES_PATH,
+                )
+                .and_then(parse_scalar_bool),
             },
         },
         secrets: ConfigSecrets {

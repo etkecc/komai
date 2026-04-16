@@ -280,10 +280,19 @@ Item {
             return false;
 
         const item = rootItem.perRoomModel.itemAt(row);
-        return !!item
-            && String(item.eventId || "").length > 0
-            && String(item.typeString || "") !== "date_divider"
-            && !Boolean(item.isHiddenEvent);
+        if (!item
+            || String(item.eventId || "").length === 0
+            || String(item.typeString || "") === "date_divider"
+            || Boolean(item.isHiddenEvent))
+            return false;
+
+        // Skip collapsed thread replies (not visible in the timeline).
+        if (Settings.timelineThreadsCollapseReplies
+                && String(item.threadId || "").length > 0
+                && !Boolean(item.isThreadRoot))
+            return false;
+
+        return true;
     }
 
     function focusMatrixTimelineRow(row, options) {

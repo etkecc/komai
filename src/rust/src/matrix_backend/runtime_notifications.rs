@@ -239,6 +239,7 @@ fn notification_item_from_sdk(
                     formatted_body: String::new(),
                     thread_root_id: String::new(),
                     is_thread_root: false,
+                    thread_reply_count: 0,
                     reply_event_id: String::new(),
                     reply_sender_id: String::new(),
                     reply_sender_display_name: String::new(),

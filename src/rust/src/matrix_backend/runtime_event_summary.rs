@@ -38,6 +38,7 @@ pub struct MatrixEventSummary {
     pub formatted_body: String,
     pub thread_root_id: String,
     pub is_thread_root: bool,
+    pub thread_reply_count: u32,
     pub reply_event_id: String,
     pub reply_sender_id: String,
     pub reply_sender_display_name: String,
@@ -147,7 +148,10 @@ fn summarize_msg_like_content(
         .as_ref()
         .map(ToString::to_string)
         .unwrap_or_default();
-    summary.is_thread_root = content.thread_summary.is_some();
+    if let Some(ref ts) = content.thread_summary {
+        summary.is_thread_root = true;
+        summary.thread_reply_count = ts.num_replies;
+    }
 
     if let Some(reply_preview) = summarize_reply_preview(content.in_reply_to.as_ref()) {
         summary.reply_event_id = reply_preview.event_id;
@@ -567,6 +571,7 @@ fn summary(kind: &str, matrix_event_type: &str, body: &str) -> MatrixEventSummar
         formatted_body: String::new(),
         thread_root_id: String::new(),
         is_thread_root: false,
+        thread_reply_count: 0,
         reply_event_id: String::new(),
         reply_sender_id: String::new(),
         reply_sender_display_name: String::new(),
@@ -606,6 +611,7 @@ fn summary_with_media(
         formatted_body: String::new(),
         thread_root_id: String::new(),
         is_thread_root: false,
+        thread_reply_count: 0,
         reply_event_id: String::new(),
         reply_sender_id: String::new(),
         reply_sender_display_name: String::new(),

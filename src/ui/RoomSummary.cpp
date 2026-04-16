@@ -57,9 +57,10 @@ RoomSummary::RoomSummary(std::string roomIdOrAlias_,
                                        settings->joinRule == QLatin1String("knock_restricted"),
                       };
                   } else if (!error.isEmpty()) {
-                      nhlog::ui()->warn("Failed to fetch runtime room summary for '{}': {}",
-                                        summary->roomIdOrAlias,
-                                        error.toStdString());
+                      komai::logging::ui()->warn(
+                        "Failed to fetch runtime room summary for '{}': {}",
+                        summary->roomIdOrAlias,
+                        error.toStdString());
                   }
 
                   summary->loaded_ = true;

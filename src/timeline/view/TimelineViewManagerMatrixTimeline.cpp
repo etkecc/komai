@@ -389,7 +389,7 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_select_begin");
     QString error;
     if (!komai::MatrixBackendRuntimeService::selectActiveRoomTimeline(handleId, roomId, &error)) {
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "Failed to select active matrix-sdk room timeline for '{}' on handle {}: {}",
           roomId.toStdString(),
           handleId,
@@ -605,27 +605,30 @@ TimelineViewManager::refreshActiveMatrixTimelineRoomStateAsync()
               }
 
               if (!pinnedError.isEmpty()) {
-                  nhlog::ui()->warn("Failed to fetch matrix-sdk room pinned events for '{}' on "
-                                    "handle {}: {}",
-                                    roomId.toStdString(),
-                                    handleId,
-                                    pinnedError.toStdString());
+                  komai::logging::ui()->warn(
+                    "Failed to fetch matrix-sdk room pinned events for '{}' on "
+                    "handle {}: {}",
+                    roomId.toStdString(),
+                    handleId,
+                    pinnedError.toStdString());
               }
 
               if (!frequentReactionsError.isEmpty()) {
-                  nhlog::ui()->warn("Failed to fetch matrix-sdk room frequent reactions for '{}' "
-                                    "on handle {}: {}",
-                                    roomId.toStdString(),
-                                    handleId,
-                                    frequentReactionsError.toStdString());
+                  komai::logging::ui()->warn(
+                    "Failed to fetch matrix-sdk room frequent reactions for '{}' "
+                    "on handle {}: {}",
+                    roomId.toStdString(),
+                    handleId,
+                    frequentReactionsError.toStdString());
               }
 
               if (!permissionsError.isEmpty()) {
-                  nhlog::ui()->warn("Failed to fetch matrix-sdk room redaction permissions for "
-                                    "'{}' on handle {}: {}",
-                                    roomId.toStdString(),
-                                    handleId,
-                                    permissionsError.toStdString());
+                  komai::logging::ui()->warn(
+                    "Failed to fetch matrix-sdk room redaction permissions for "
+                    "'{}' on handle {}: {}",
+                    roomId.toStdString(),
+                    handleId,
+                    permissionsError.toStdString());
               }
 
               if (snapshot.fetchedFrequentReactions && (!snapshot.frequentReactions.isEmpty() ||
@@ -754,14 +757,15 @@ TimelineViewManager::refreshCurrentMatrixTimeline(const QString &roomId)
                   guard->markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_fetch_done");
 
               if (guard->roomSwitchPerfEnabled()) {
-                  nhlog::ui()->info("[room-switch-perf] "
-                                    "phase=cpp.matrix_timeline_fetch_thread_done room='{}' us={}",
-                                    roomId.toStdString(),
-                                    fetchElapsedUs);
+                  komai::logging::ui()->info(
+                    "[room-switch-perf] "
+                    "phase=cpp.matrix_timeline_fetch_thread_done room='{}' us={}",
+                    roomId.toStdString(),
+                    fetchElapsedUs);
               }
 
               if (!items) {
-                  nhlog::ui()->warn(
+                  komai::logging::ui()->warn(
                     "Failed to fetch matrix-sdk room timeline snapshot for '{}' on handle {}: {}",
                     roomId.toStdString(),
                     handleId,
@@ -796,7 +800,7 @@ TimelineViewManager::refreshCurrentMatrixTimeline(const QString &roomId)
               if (guard->matrixTimelineWarmupGuardActive_ &&
                   shouldIgnoreMatrixTimelineWarmupShrink(currentModelCount, itemCount)) {
                   if (guard->roomSwitchPerfEnabled()) {
-                      nhlog::ui()->info(
+                      komai::logging::ui()->info(
                         "[room-switch-perf] phase=cpp.matrix_timeline_warmup_shrink_ignored "
                         "room='{}' current_count={} next_count={}",
                         roomId.toStdString(),
@@ -818,7 +822,7 @@ TimelineViewManager::refreshCurrentMatrixTimeline(const QString &roomId)
                         handleId, static_cast<uint16_t>(shortfall), &paginateError)) {
                       guard->matrixTimelineInitialPrefetchAttempted_ = true;
                       if (guard->roomSwitchPerfEnabled()) {
-                          nhlog::ui()->info(
+                          komai::logging::ui()->info(
                             "[room-switch-perf] phase=cpp.matrix_timeline_initial_prefetch "
                             "room='{}' item_count={} target_count={} request_count={}",
                             roomId.toStdString(),
@@ -840,7 +844,7 @@ TimelineViewManager::refreshCurrentMatrixTimeline(const QString &roomId)
                               guard->matrixTimelineModel_->count() > 0)
                               return;
 
-                          nhlog::ui()->warn(
+                          komai::logging::ui()->warn(
                             "Initial prefetch fallback: forcing refresh for room '{}' "
                             "because the model is still empty",
                             roomId.toStdString());
@@ -851,11 +855,12 @@ TimelineViewManager::refreshCurrentMatrixTimeline(const QString &roomId)
                       return;
                   }
 
-                  nhlog::ui()->warn("Failed to prefetch additional matrix-sdk room timeline items "
-                                    "for '{}' on handle {}: {}",
-                                    roomId.toStdString(),
-                                    handleId,
-                                    paginateError.toStdString());
+                  komai::logging::ui()->warn(
+                    "Failed to prefetch additional matrix-sdk room timeline items "
+                    "for '{}' on handle {}: {}",
+                    roomId.toStdString(),
+                    handleId,
+                    paginateError.toStdString());
                   guard->matrixTimelineInitialPrefetchAttempted_ = true;
               }
 
@@ -916,10 +921,11 @@ TimelineViewManager::setPreferredInitialMatrixTimelinePageSize(int pageSize)
         QString error;
         if (!komai::MatrixBackendRuntimeService::setActiveRoomTimelineInitialPageSize(
               handleId, static_cast<uint16_t>(clampedPageSize), &error)) {
-            nhlog::ui()->warn("Failed to update active matrix-sdk room timeline initial page size "
-                              "on handle {}: {}",
-                              handleId,
-                              error.toStdString());
+            komai::logging::ui()->warn(
+              "Failed to update active matrix-sdk room timeline initial page size "
+              "on handle {}: {}",
+              handleId,
+              error.toStdString());
         }
     }
 
@@ -927,7 +933,7 @@ TimelineViewManager::setPreferredInitialMatrixTimelinePageSize(int pageSize)
         return;
 
     if (roomSwitchPerfEnabled_) {
-        nhlog::ui()->info(
+        komai::logging::ui()->info(
           "[room-switch-perf] phase=cpp.matrix_timeline_initial_page_size_hint page_size={}",
           preferredInitialMatrixTimelinePageSize_);
     }
@@ -1017,7 +1023,7 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
                 QString error;
                 if (!komai::MatrixBackendRuntimeService::selectActiveRoomTimeline(
                       handleId, QString(), &error)) {
-                    nhlog::ui()->warn(
+                    komai::logging::ui()->warn(
                       "Failed to clear active matrix-sdk room timeline on handle {}: {}",
                       handleId,
                       error.toStdString());
@@ -1060,8 +1066,9 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to send matrix-sdk room message without an active runtime "
-                          "handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to send matrix-sdk room message without an active runtime "
+          "handle or selected matrix room");
         return false;
     }
 
@@ -1121,11 +1128,11 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
           if (result.ok)
               return;
 
-          nhlog::ui()->warn("Failed to queue matrix-sdk room {} for '{}' on handle {}: {}",
-                            result.action.toStdString(),
-                            result.roomId.toStdString(),
-                            result.handleId,
-                            result.error.toStdString());
+          komai::logging::ui()->warn("Failed to queue matrix-sdk room {} for '{}' on handle {}: {}",
+                                     result.action.toStdString(),
+                                     result.roomId.toStdString(),
+                                     result.handleId,
+                                     result.error.toStdString());
           mainWindow->showNotification(
             TimelineViewManager::tr("Failed to send message: %1").arg(result.error));
       });
@@ -1200,8 +1207,9 @@ TimelineViewManager::sendActiveMatrixEditMessage(const QString &body)
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty() ||
         matrixTimelineEditEventId_.trimmed().isEmpty()) {
-        nhlog::ui()->warn("Refusing to send matrix-sdk room edit without an active runtime "
-                          "handle, selected matrix room, and edit target");
+        komai::logging::ui()->warn(
+          "Refusing to send matrix-sdk room edit without an active runtime "
+          "handle, selected matrix room, and edit target");
         return false;
     }
 
@@ -1242,7 +1250,7 @@ TimelineViewManager::sendActiveMatrixEditMessage(const QString &body)
           if (result.ok)
               return;
 
-          nhlog::ui()->warn(
+          komai::logging::ui()->warn(
             "Failed to queue matrix-sdk room edit for '{}' on handle {} targeting '{}': {}",
             result.roomId.toStdString(),
             result.handleId,
@@ -1299,8 +1307,9 @@ TimelineViewManager::toggleActiveMatrixTimelineReaction(const QString &eventId,
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to toggle a matrix-sdk room reaction without an active "
-                          "runtime handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to toggle a matrix-sdk room reaction without an active "
+          "runtime handle or selected matrix room");
         return false;
     }
 
@@ -1339,13 +1348,14 @@ TimelineViewManager::toggleActiveMatrixTimelineReaction(const QString &eventId,
               return;
           }
 
-          nhlog::ui()->warn("Failed to toggle matrix-sdk room reaction '{}' for event '{}' in "
-                            "'{}' on handle {}: {}",
-                            result.detail.toStdString(),
-                            result.eventId.toStdString(),
-                            result.roomId.toStdString(),
-                            result.handleId,
-                            result.error.toStdString());
+          komai::logging::ui()->warn(
+            "Failed to toggle matrix-sdk room reaction '{}' for event '{}' in "
+            "'{}' on handle {}: {}",
+            result.detail.toStdString(),
+            result.eventId.toStdString(),
+            result.roomId.toStdString(),
+            result.handleId,
+            result.error.toStdString());
           mainWindow->showNotification(
             TimelineViewManager::tr("Failed to react: %1").arg(result.error));
       });
@@ -1358,8 +1368,9 @@ TimelineViewManager::redactActiveMatrixTimelineEvent(const QString &eventId, con
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to redact a matrix-sdk room event without an active runtime "
-                          "handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to redact a matrix-sdk room event without an active runtime "
+          "handle or selected matrix room");
         return false;
     }
 
@@ -1391,7 +1402,7 @@ TimelineViewManager::redactActiveMatrixTimelineEvent(const QString &eventId, con
               return;
 
           if (!result.ok) {
-              nhlog::ui()->warn(
+              komai::logging::ui()->warn(
                 "Failed to redact matrix-sdk room event '{}' in '{}' on handle {}: {}",
                 result.eventId.toStdString(),
                 result.roomId.toStdString(),
@@ -1418,8 +1429,9 @@ TimelineViewManager::redactActiveMatrixTimelineEvents(const QStringList &eventId
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to redact matrix-sdk room events without an active runtime "
-                          "handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to redact matrix-sdk room events without an active runtime "
+          "handle or selected matrix room");
         return false;
     }
 
@@ -1452,7 +1464,7 @@ TimelineViewManager::redactActiveMatrixTimelineEvents(const QStringList &eventId
               if (!ok) {
                   ++failCount;
                   lastError = error;
-                  nhlog::ui()->warn(
+                  komai::logging::ui()->warn(
                     "Failed to redact matrix-sdk room event '{}' in '{}' on handle {}: {}",
                     eventId.toStdString(),
                     roomId.toStdString(),
@@ -1516,8 +1528,9 @@ TimelineViewManager::markActiveMatrixTimelineEventAsRead(const QString &eventId)
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to mark a matrix-sdk room event as read without an active "
-                          "runtime handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to mark a matrix-sdk room event as read without an active "
+          "runtime handle or selected matrix room");
         return false;
     }
 
@@ -1594,7 +1607,7 @@ TimelineViewManager::dispatchPendingMatrixReadMarker(const QString &roomId)
                   guard->matrixReadMarkerInFlightEventIdsByRoom_.remove(roomId);
 
               if (!ok) {
-                  nhlog::ui()->warn(
+                  komai::logging::ui()->warn(
                     "Failed to mark matrix-sdk room event '{}' as read in '{}' on handle {}: {}",
                     eventId.toStdString(),
                     roomId.toStdString(),
@@ -1632,8 +1645,9 @@ TimelineViewManager::reportActiveMatrixTimelineEvent(const QString &eventId,
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to report a matrix-sdk room event without an active runtime "
-                          "handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to report a matrix-sdk room event without an active runtime "
+          "handle or selected matrix room");
         return false;
     }
 
@@ -1666,11 +1680,12 @@ TimelineViewManager::reportActiveMatrixTimelineEvent(const QString &eventId,
           if (result.ok)
               return;
 
-          nhlog::ui()->warn("Failed to report matrix-sdk room event '{}' in '{}' on handle {}: {}",
-                            result.eventId.toStdString(),
-                            result.roomId.toStdString(),
-                            result.handleId,
-                            result.error.toStdString());
+          komai::logging::ui()->warn(
+            "Failed to report matrix-sdk room event '{}' in '{}' on handle {}: {}",
+            result.eventId.toStdString(),
+            result.roomId.toStdString(),
+            result.handleId,
+            result.error.toStdString());
           mainWindow->showNotification(
             TimelineViewManager::tr("Failed to report message: %1").arg(result.error));
       });
@@ -1684,8 +1699,9 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to forward a matrix-sdk room event without an active runtime "
-                          "handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to forward a matrix-sdk room event without an active runtime "
+          "handle or selected matrix room");
         return false;
     }
 
@@ -1695,17 +1711,18 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
         return false;
 
     if (!matrixTimelineModel_) {
-        nhlog::ui()->warn("Refusing to forward matrix-sdk room event '{}' without an active "
-                          "timeline model",
-                          trimmedEventId.toStdString());
+        komai::logging::ui()->warn(
+          "Refusing to forward matrix-sdk room event '{}' without an active "
+          "timeline model",
+          trimmedEventId.toStdString());
         return false;
     }
 
     const auto item = matrixTimelineModel_->itemByEventId(trimmedEventId);
     if (!item) {
-        nhlog::ui()->warn("Refusing to forward unknown matrix-sdk room event '{}' in '{}'",
-                          trimmedEventId.toStdString(),
-                          activeMatrixTimelineRoomId_.toStdString());
+        komai::logging::ui()->warn("Refusing to forward unknown matrix-sdk room event '{}' in '{}'",
+                                   trimmedEventId.toStdString(),
+                                   activeMatrixTimelineRoomId_.toStdString());
         return false;
     }
 
@@ -1752,13 +1769,14 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
               if (result.ok)
                   return;
 
-              nhlog::ui()->warn("Failed to forward matrix-sdk room event '{}' from '{}' to '{}' "
-                                "on handle {}: {}",
-                                result.eventId.toStdString(),
-                                result.roomId.toStdString(),
-                                result.detail.toStdString(),
-                                result.handleId,
-                                result.error.toStdString());
+              komai::logging::ui()->warn(
+                "Failed to forward matrix-sdk room event '{}' from '{}' to '{}' "
+                "on handle {}: {}",
+                result.eventId.toStdString(),
+                result.roomId.toStdString(),
+                result.detail.toStdString(),
+                result.handleId,
+                result.error.toStdString());
               mainWindow->showNotification(
                 TimelineViewManager::tr("Failed to forward message: %1").arg(result.error));
           });
@@ -1815,13 +1833,14 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
           if (result.ok)
               return;
 
-          nhlog::ui()->warn("Failed to forward matrix-sdk room event '{}' from '{}' to '{}' "
-                            "on handle {}: {}",
-                            result.eventId.toStdString(),
-                            result.roomId.toStdString(),
-                            result.detail.toStdString(),
-                            result.handleId,
-                            result.error.toStdString());
+          komai::logging::ui()->warn(
+            "Failed to forward matrix-sdk room event '{}' from '{}' to '{}' "
+            "on handle {}: {}",
+            result.eventId.toStdString(),
+            result.roomId.toStdString(),
+            result.detail.toStdString(),
+            result.handleId,
+            result.error.toStdString());
           mainWindow->showNotification(
             TimelineViewManager::tr("Failed to forward message: %1").arg(result.error));
       });
@@ -1835,8 +1854,9 @@ TimelineViewManager::forwardActiveMatrixTimelineEvents(const QStringList &eventI
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to forward matrix-sdk room events without an active runtime "
-                          "handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to forward matrix-sdk room events without an active runtime "
+          "handle or selected matrix room");
         return false;
     }
 
@@ -1845,8 +1865,8 @@ TimelineViewManager::forwardActiveMatrixTimelineEvents(const QStringList &eventI
         return false;
 
     if (!matrixTimelineModel_) {
-        nhlog::ui()->warn("Refusing to forward matrix-sdk room events without an active "
-                          "timeline model");
+        komai::logging::ui()->warn("Refusing to forward matrix-sdk room events without an active "
+                                   "timeline model");
         return false;
     }
 
@@ -1869,8 +1889,9 @@ TimelineViewManager::forwardActiveMatrixTimelineEvents(const QStringList &eventI
 
         const auto item = matrixTimelineModel_->itemByEventId(eid);
         if (!item) {
-            nhlog::ui()->warn("Skipping unknown matrix-sdk room event '{}' during batch forward",
-                              eid.toStdString());
+            komai::logging::ui()->warn(
+              "Skipping unknown matrix-sdk room event '{}' during batch forward",
+              eid.toStdString());
             continue;
         }
 
@@ -1930,7 +1951,7 @@ TimelineViewManager::forwardActiveMatrixTimelineEvents(const QStringList &eventI
               if (!ok) {
                   ++failCount;
                   lastError = error;
-                  nhlog::ui()->warn(
+                  komai::logging::ui()->warn(
                     "Failed to forward matrix-sdk room event '{}' from '{}' to '{}': {}",
                     entry.eventId.toStdString(),
                     sourceRoomId.toStdString(),
@@ -1968,8 +1989,9 @@ TimelineViewManager::pinActiveMatrixTimelineEvent(const QString &eventId)
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to pin a matrix-sdk room event without an active runtime "
-                          "handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to pin a matrix-sdk room event without an active runtime "
+          "handle or selected matrix room");
         return false;
     }
 
@@ -2000,11 +2022,12 @@ TimelineViewManager::pinActiveMatrixTimelineEvent(const QString &eventId)
               return;
 
           if (!result.ok) {
-              nhlog::ui()->warn("Failed to pin matrix-sdk room event '{}' in '{}' on handle {}: {}",
-                                result.eventId.toStdString(),
-                                result.roomId.toStdString(),
-                                result.handleId,
-                                result.error.toStdString());
+              komai::logging::ui()->warn(
+                "Failed to pin matrix-sdk room event '{}' in '{}' on handle {}: {}",
+                result.eventId.toStdString(),
+                result.roomId.toStdString(),
+                result.handleId,
+                result.error.toStdString());
               mainWindow->showNotification(
                 TimelineViewManager::tr("Failed to pin message: %1").arg(result.error));
               return;
@@ -2027,8 +2050,9 @@ TimelineViewManager::unpinActiveMatrixTimelineEvent(const QString &eventId)
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to unpin a matrix-sdk room event without an active runtime "
-                          "handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to unpin a matrix-sdk room event without an active runtime "
+          "handle or selected matrix room");
         return false;
     }
 
@@ -2059,7 +2083,7 @@ TimelineViewManager::unpinActiveMatrixTimelineEvent(const QString &eventId)
               return;
 
           if (!result.ok) {
-              nhlog::ui()->warn(
+              komai::logging::ui()->warn(
                 "Failed to unpin matrix-sdk room event '{}' in '{}' on handle {}: {}",
                 result.eventId.toStdString(),
                 result.roomId.toStdString(),
@@ -2125,7 +2149,8 @@ TimelineViewManager::fetchActiveMatrixRoomThreadRoots(const QString &include,
           if (manager->activeMatrixTimelineRoomId_ != result.roomId)
               return;
           if (!result.error.isEmpty()) {
-              nhlog::ui()->warn("Failed to fetch thread roots: {}", result.error.toStdString());
+              komai::logging::ui()->warn("Failed to fetch thread roots: {}",
+                                         result.error.toStdString());
               return;
           }
           emit manager->matrixRoomThreadRootsReady(result.items, result.nextBatchToken);
@@ -2174,7 +2199,7 @@ TimelineViewManager::requestRawMessageDialogForActiveMatrixTimelineEvent(const Q
               return;
 
           if (!result.ok) {
-              nhlog::ui()->warn(
+              komai::logging::ui()->warn(
                 "Failed to fetch raw JSON for matrix-sdk room event '{}' in '{}' on handle {}: {}",
                 result.eventId.toStdString(),
                 result.roomId.toStdString(),
@@ -2234,12 +2259,13 @@ TimelineViewManager::requestReadReceiptsModelForActiveMatrixTimelineEvent(const 
 
           QObject *model = nullptr;
           if (!result.ok) {
-              nhlog::ui()->warn("Failed to fetch matrix-sdk room read receipts for event '{}' in "
-                                "'{}' on handle {}: {}",
-                                result.eventId.toStdString(),
-                                result.roomId.toStdString(),
-                                result.handleId,
-                                result.error.toStdString());
+              komai::logging::ui()->warn(
+                "Failed to fetch matrix-sdk room read receipts for event '{}' in "
+                "'{}' on handle {}: {}",
+                result.eventId.toStdString(),
+                result.roomId.toStdString(),
+                result.handleId,
+                result.error.toStdString());
               emit manager->activeMatrixTimelineReadReceiptsReady(result.eventId, model);
               return;
           }
@@ -2270,7 +2296,8 @@ TimelineViewManager::openActiveMatrixAttachmentSelection()
 {
     const auto targetRoomId = activeMatrixTimelineRoomId_.trimmed();
     if (targetRoomId.isEmpty()) {
-        nhlog::ui()->warn("Refusing to queue matrix-sdk room attachment without a selected room");
+        komai::logging::ui()->warn(
+          "Refusing to queue matrix-sdk room attachment without a selected room");
         return false;
     }
 
@@ -2299,9 +2326,9 @@ TimelineViewManager::tryPasteClipboardAttachment(bool strict)
     if (!md)
         return false;
 
-    nhlog::ui()->info("Clipboard paste: formats=[{}], hasImage={}",
-                      md->formats().join(QStringLiteral(", ")).toStdString(),
-                      md->hasImage());
+    komai::logging::ui()->info("Clipboard paste: formats=[{}], hasImage={}",
+                               md->formats().join(QStringLiteral(", ")).toStdString(),
+                               md->hasImage());
 
     const auto formats = md->formats().filter(QStringLiteral("/"));
     const auto image   = formats.filter(QStringLiteral("image/"), Qt::CaseInsensitive);
@@ -2323,8 +2350,8 @@ TimelineViewManager::tryPasteClipboardAttachment(bool strict)
 
         QFile file(filePath);
         if (!file.open(QIODevice::WriteOnly)) {
-            nhlog::ui()->warn("Failed to create temp file for clipboard paste: {}",
-                              filePath.toStdString());
+            komai::logging::ui()->warn("Failed to create temp file for clipboard paste: {}",
+                                       filePath.toStdString());
             return false;
         }
         file.write(data);
@@ -2400,14 +2427,14 @@ TimelineViewManager::stageMatrixAttachmentsForRoom(const QString &roomId,
     const auto handleId     = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     const auto targetRoomId = roomId.trimmed();
     if (handleId == 0 || targetRoomId.isEmpty()) {
-        nhlog::ui()->warn("Refusing to queue matrix-sdk room attachment without an active "
-                          "runtime handle or selected matrix room (room='{}')",
-                          targetRoomId.toStdString());
+        komai::logging::ui()->warn("Refusing to queue matrix-sdk room attachment without an active "
+                                   "runtime handle or selected matrix room (room='{}')",
+                                   targetRoomId.toStdString());
         return false;
     }
 
     if (!matrixTimelineEditEventId_.isEmpty()) {
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "Refusing to stage matrix-sdk room attachments while editing an existing message");
         if (mainWindow) {
             mainWindow->showNotification(
@@ -2498,7 +2525,7 @@ TimelineViewManager::stageVoiceRecording(const QString &filePath)
 {
     const auto targetRoomId = activeMatrixTimelineRoomId_.trimmed();
     if (targetRoomId.isEmpty() || filePath.isEmpty()) {
-        nhlog::ui()->warn("stageVoiceRecording: missing room or file path");
+        komai::logging::ui()->warn("stageVoiceRecording: missing room or file path");
         return false;
     }
 
@@ -2526,7 +2553,7 @@ TimelineViewManager::stageAndSendVoiceRecording(const QString &filePath, int dur
 {
     const auto targetRoomId = activeMatrixTimelineRoomId_.trimmed();
     if (targetRoomId.isEmpty() || filePath.isEmpty()) {
-        nhlog::ui()->warn("stageAndSendVoiceRecording: missing room or file path");
+        komai::logging::ui()->warn("stageAndSendVoiceRecording: missing room or file path");
         return false;
     }
 
@@ -2580,9 +2607,10 @@ TimelineViewManager::handleMatrixBackendRoomListSnapshotUpdated(std::uint64_t ha
 
     if (waitingForFirstSync_) {
         // First snapshot: process immediately so the room list appears without delay.
-        nhlog::ui()->info("Clearing waitingForFirstSync from first matrix-sdk room-list snapshot "
-                          "for handle {}",
-                          handleId);
+        komai::logging::ui()->info(
+          "Clearing waitingForFirstSync from first matrix-sdk room-list snapshot "
+          "for handle {}",
+          handleId);
         waitingForFirstSync_ = false;
         emit waitingForFirstSyncChanged(false);
         rooms_->refreshMatrixBackendRooms();
@@ -2639,10 +2667,10 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
         markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_signal");
 
     if (waitingForFirstSync_) {
-        nhlog::ui()->info("Clearing waitingForFirstSync from first active matrix-sdk room "
-                          "timeline snapshot for handle {} room '{}'",
-                          handleId,
-                          roomId.toStdString());
+        komai::logging::ui()->info("Clearing waitingForFirstSync from first active matrix-sdk room "
+                                   "timeline snapshot for handle {} room '{}'",
+                                   handleId,
+                                   roomId.toStdString());
         waitingForFirstSync_ = false;
         emit waitingForFirstSyncChanged(false);
     }
@@ -2672,10 +2700,10 @@ TimelineViewManager::handleMatrixBackendSyncStopped(std::uint64_t handleId,
     if (!mainWindow || mainWindow->matrixBackendHandleId() != handleId)
         return;
 
-    nhlog::ui()->warn("Matrix-sdk sync stopped for handle {} (auth_error={}): {}",
-                      handleId,
-                      isAuthError,
-                      reason.toStdString());
+    komai::logging::ui()->warn("Matrix-sdk sync stopped for handle {} (auth_error={}): {}",
+                               handleId,
+                               isAuthError,
+                               reason.toStdString());
 
     if (isAuthError) {
         auto *chatPage = qobject_cast<ChatPage *>(parent());
@@ -2711,8 +2739,9 @@ TimelineViewManager::paginateActiveMatrixTimelineBackwards(int pageSize)
     const auto *mainWindow = MainWindow::instance();
     const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to paginate matrix-sdk room timeline without an active "
-                          "runtime handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to paginate matrix-sdk room timeline without an active "
+          "runtime handle or selected matrix room");
         return false;
     }
 
@@ -2721,7 +2750,7 @@ TimelineViewManager::paginateActiveMatrixTimelineBackwards(int pageSize)
     QString error;
     if (!komai::MatrixBackendRuntimeService::paginateActiveRoomTimelineBackwards(
           handleId, clampedPageSize, &error)) {
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "Failed to paginate matrix-sdk room timeline backwards for '{}' on handle {}: {}",
           activeMatrixTimelineRoomId_.toStdString(),
           handleId,
@@ -2878,7 +2907,7 @@ TimelineViewManager::queueActiveMatrixThread(const QString &threadEventId)
               activeMatrixTimelineRoomId_.toStdString(),
               trimmedThreadEventId.toStdString());
         } catch (const std::exception &e) {
-            nhlog::ui()->warn("Failed to init thread timeline: {}", e.what());
+            komai::logging::ui()->warn("Failed to init thread timeline: {}", e.what());
             matrixThreadTimelineLoading_ = false;
             emit matrixThreadTimelineChanged();
             focusMessageInput();
@@ -2975,8 +3004,8 @@ TimelineViewManager::handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint6
           manager->matrixThreadTimelineLoading_ = false;
 
           if (!result.error.isEmpty()) {
-              nhlog::ui()->warn("Failed to fetch thread timeline snapshot: {}",
-                                result.error.toStdString());
+              komai::logging::ui()->warn("Failed to fetch thread timeline snapshot: {}",
+                                         result.error.toStdString());
               emit manager->matrixThreadTimelineChanged();
               return;
           }
@@ -3031,8 +3060,8 @@ TimelineViewManager::paginateActiveMatrixThreadTimelineBackwards(int limit)
           // We just need to clear the loading state here.
           manager->matrixThreadTimelineLoading_ = false;
           if (!result.error.isEmpty()) {
-              nhlog::ui()->warn("Failed to paginate thread timeline: {}",
-                                result.error.toStdString());
+              komai::logging::ui()->warn("Failed to paginate thread timeline: {}",
+                                         result.error.toStdString());
           }
           emit manager->matrixThreadTimelineChanged();
       });
@@ -3107,12 +3136,13 @@ TimelineViewManager::finishPendingMatrixAttachment(bool ok,
     emit matrixTimelineStateChanged();
 
     if (!ok) {
-        nhlog::ui()->warn("Failed to send matrix-sdk room attachment '{}' for '{}' on handle {}: "
-                          "{}",
-                          attachment.filePath.toStdString(),
-                          attachment.roomId.toStdString(),
-                          attachment.handleId,
-                          error.toStdString());
+        komai::logging::ui()->warn(
+          "Failed to send matrix-sdk room attachment '{}' for '{}' on handle {}: "
+          "{}",
+          attachment.filePath.toStdString(),
+          attachment.roomId.toStdString(),
+          attachment.handleId,
+          error.toStdString());
         if (auto *mainWindow = MainWindow::instance()) {
             const auto filename = QFileInfo(attachment.filePath).fileName();
             mainWindow->showNotification(
@@ -3132,8 +3162,9 @@ TimelineViewManager::fetchActiveMatrixTimelineMediaToFile(const QString &itemId,
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-        nhlog::ui()->warn("Refusing to fetch matrix-sdk timeline media without an active runtime "
-                          "handle or selected matrix room");
+        komai::logging::ui()->warn(
+          "Refusing to fetch matrix-sdk timeline media without an active runtime "
+          "handle or selected matrix room");
         if (mainWindow) {
             mainWindow->showNotification(
               tr("Failed to fetch attachment '%1': no active Matrix session").arg(userVisibleName));
@@ -3170,10 +3201,11 @@ TimelineViewManager::fetchActiveMatrixTimelineMediaToFile(const QString &itemId,
           [this, ok, outputPath, userVisibleName, openAfterSave, error]() {
               auto *mainWindow = MainWindow::instance();
               if (!ok) {
-                  nhlog::ui()->warn("Failed to fetch matrix-sdk timeline media '{}' to '{}': {}",
-                                    userVisibleName.toStdString(),
-                                    outputPath.toStdString(),
-                                    error.toStdString());
+                  komai::logging::ui()->warn(
+                    "Failed to fetch matrix-sdk timeline media '{}' to '{}': {}",
+                    userVisibleName.toStdString(),
+                    outputPath.toStdString(),
+                    error.toStdString());
                   if (mainWindow) {
                       mainWindow->showNotification(
                         tr("Failed to fetch attachment '%1': %2").arg(userVisibleName, error));
@@ -3182,8 +3214,9 @@ TimelineViewManager::fetchActiveMatrixTimelineMediaToFile(const QString &itemId,
               }
 
               if (openAfterSave && !QDesktopServices::openUrl(QUrl::fromLocalFile(outputPath))) {
-                  nhlog::ui()->warn("Failed to open fetched matrix-sdk timeline media '{}'",
-                                    outputPath.toStdString());
+                  komai::logging::ui()->warn(
+                    "Failed to open fetched matrix-sdk timeline media '{}'",
+                    outputPath.toStdString());
                   if (mainWindow) {
                       mainWindow->showNotification(
                         tr("Saved attachment '%1' but failed to open it").arg(userVisibleName));

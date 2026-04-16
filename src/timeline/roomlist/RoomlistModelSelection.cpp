@@ -42,7 +42,7 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
 
     if (manager)
         manager->markRoomSwitchPhaseCpp(roomid, "cpp.matrix_summary_selected");
-    nhlog::ui()->debug("Switched to matrix room summary: {}", roomid.toStdString());
+    komai::logging::ui()->debug("Switched to matrix room summary: {}", roomid.toStdString());
 
     // Suppress the automatic currentRoomIdChanged → scheduleCurrentMatrixTimelineSelectionUpdate
     // connection so that UI signals fire first (room list highlight, header, pool activation)
@@ -80,11 +80,13 @@ RoomlistModel::trySelectCurrentPreviewRoom(const QString &roomid)
     if (currentRoomPreview_->isFetched()) {
         if (manager)
             manager->markRoomSwitchPhaseCpp(roomid, "cpp.preview_selected");
-        nhlog::ui()->debug("Switched to (preview): {}", currentRoomPreview_->roomid_.toStdString());
+        komai::logging::ui()->debug("Switched to (preview): {}",
+                                    currentRoomPreview_->roomid_.toStdString());
     } else {
         if (manager)
             manager->markRoomSwitchPhaseCpp(roomid, "cpp.preview_placeholder_selected");
-        nhlog::ui()->debug("Switched to (empty): {}", currentRoomPreview_->roomid_.toStdString());
+        komai::logging::ui()->debug("Switched to (empty): {}",
+                                    currentRoomPreview_->roomid_.toStdString());
     }
 
     notifyCurrentRoomIdChanged();
@@ -101,8 +103,8 @@ RoomlistModel::deferStartupCurrentRoomRestore(const QString &roomid)
     allowDeferredStartupCurrentRoomRestore_ = false;
     deferredStartupCurrentRoomId_           = roomid;
     pendingCurrentRoomId_.clear();
-    nhlog::ui()->info("Queued saved-room restore for after the first chat frame: {}",
-                      roomid.toStdString());
+    komai::logging::ui()->info("Queued saved-room restore for after the first chat frame: {}",
+                               roomid.toStdString());
 }
 
 void
@@ -111,7 +113,8 @@ RoomlistModel::deferCurrentRoomSelection(const QString &roomid)
     pendingCurrentRoomId_ = roomid;
     if (manager)
         manager->markRoomSwitchPhaseCpp(roomid, "cpp.switch_deferred_room_unavailable");
-    nhlog::ui()->debug("Deferring room switch until room is available: {}", roomid.toStdString());
+    komai::logging::ui()->debug("Deferring room switch until room is available: {}",
+                                roomid.toStdString());
 }
 
 void
@@ -127,15 +130,15 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
 
     if (!deferredStartupCurrentRoomId_.isEmpty() && roomid == deferredStartupCurrentRoomId_ &&
         !allowDeferredStartupCurrentRoomRestore_ && !currentRoomPreview_) {
-        nhlog::ui()->info("Ignoring premature saved-room restore before startup release: {}",
-                          roomid.toStdString());
+        komai::logging::ui()->info(
+          "Ignoring premature saved-room restore before startup release: {}", roomid.toStdString());
         return;
     }
 
     allowDeferredStartupCurrentRoomRestore_ = false;
     deferredStartupCurrentRoomId_.clear();
 
-    nhlog::ui()->debug("Trying to switch to: {}", roomid.toStdString());
+    komai::logging::ui()->debug("Trying to switch to: {}", roomid.toStdString());
 
     // Invited rooms are handled via a dialog, not by selecting them in the timeline.
     // Skip the dialog if this room was just accepted — the join callback triggers
@@ -179,7 +182,7 @@ RoomlistModel::resumeDeferredStartupCurrentRoomRestore()
         return;
 
     allowDeferredStartupCurrentRoomRestore_ = true;
-    nhlog::ui()->info("Resuming saved-room restore after the first chat frame: {}",
-                      roomid.toStdString());
+    komai::logging::ui()->info("Resuming saved-room restore after the first chat frame: {}",
+                               roomid.toStdString());
     setCurrentRoom(roomid);
 }

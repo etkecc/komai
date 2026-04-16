@@ -25,7 +25,7 @@ Dock::Dock(QObject *parent)
             [this](const QString &service) {
                 Q_UNUSED(service);
                 unityServiceAvailable = true;
-                nhlog::ui()->info("Unity service available: {}", unityServiceAvailable);
+                komai::logging::ui()->info("Unity service available: {}", unityServiceAvailable);
             });
     connect(unityServiceWatcher,
             &QDBusServiceWatcher::serviceUnregistered,
@@ -33,7 +33,7 @@ Dock::Dock(QObject *parent)
             [this](const QString &service) {
                 Q_UNUSED(service);
                 unityServiceAvailable = false;
-                nhlog::ui()->info("Unity service available: {}", unityServiceAvailable);
+                komai::logging::ui()->info("Unity service available: {}", unityServiceAvailable);
             });
     QDBusPendingCall listNamesCall =
       QDBusConnection::sessionBus().interface()->asyncCall(QStringLiteral("ListNames"));
@@ -46,14 +46,14 @@ Dock::Dock(QObject *parent)
                 watcher->deleteLater();
 
                 if (reply.isError()) {
-                    nhlog::ui()->error("Failed to list dbus names");
+                    komai::logging::ui()->error("Failed to list dbus names");
                     return;
                 }
 
                 const QStringList &services = reply.value();
 
                 unityServiceAvailable = services.contains(QLatin1String("com.canonical.Unity"));
-                nhlog::ui()->info("Unity service available: {}", unityServiceAvailable);
+                komai::logging::ui()->info("Unity service available: {}", unityServiceAvailable);
             });
 }
 

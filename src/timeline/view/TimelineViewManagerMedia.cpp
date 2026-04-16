@@ -136,7 +136,8 @@ TimelineViewManager::saveMedia(QString mxcUrl)
         return;
 
     if (!mxcUrl.startsWith(QLatin1String("mxc://"))) {
-        nhlog::ui()->warn("Saving non-mxc media is not supported here: {}", mxcUrl.toStdString());
+        komai::logging::ui()->warn("Saving non-mxc media is not supported here: {}",
+                                   mxcUrl.toStdString());
         return;
     }
 
@@ -146,14 +147,14 @@ TimelineViewManager::saveMedia(QString mxcUrl)
       QSize{},
       [filename, mxcUrl](QString, QSize, QImage, QString filePath) {
           if (filePath.isEmpty()) {
-              nhlog::ui()->warn("Failed to resolve local file path for media '{}'",
-                                mxcUrl.toStdString());
+              komai::logging::ui()->warn("Failed to resolve local file path for media '{}'",
+                                         mxcUrl.toStdString());
               return;
           }
 
           QFile::remove(filename);
           if (!QFile::copy(filePath, filename)) {
-              nhlog::ui()->warn(
+              komai::logging::ui()->warn(
                 "Failed to save media '{}' to '{}'", mxcUrl.toStdString(), filename.toStdString());
               return;
           }
@@ -182,15 +183,15 @@ TimelineViewManager::openMedia(QString mxcUrl)
       QSize{},
       [mxcUrl](QString, QSize, QImage, QString filePath) {
           if (filePath.isEmpty()) {
-              nhlog::ui()->warn("Failed to resolve local file path for media '{}'",
-                                mxcUrl.toStdString());
+              komai::logging::ui()->warn("Failed to resolve local file path for media '{}'",
+                                         mxcUrl.toStdString());
               return;
           }
 
           const auto opened = QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
           if (!opened) {
-              nhlog::ui()->warn("Failed to open media '{}' in external app",
-                                filePath.toStdString());
+              komai::logging::ui()->warn("Failed to open media '{}' in external app",
+                                         filePath.toStdString());
           }
       },
       false,
@@ -201,7 +202,8 @@ void
 TimelineViewManager::copyImage(const QString &mxcUrl) const
 {
     if (!mxcUrl.startsWith(QLatin1String("mxc://"))) {
-        nhlog::ui()->warn("Copying non-mxc media is not supported here: {}", mxcUrl.toStdString());
+        komai::logging::ui()->warn("Copying non-mxc media is not supported here: {}",
+                                   mxcUrl.toStdString());
         return;
     }
 
@@ -215,7 +217,8 @@ TimelineViewManager::copyImage(const QString &mxcUrl) const
                   image = utils::readImageFromFile(filePath);
 
               if (image.isNull()) {
-                  nhlog::ui()->warn("Failed to resolve image data for '{}'", mxcUrl.toStdString());
+                  komai::logging::ui()->warn("Failed to resolve image data for '{}'",
+                                             mxcUrl.toStdString());
                   return;
               }
 
@@ -223,7 +226,7 @@ TimelineViewManager::copyImage(const QString &mxcUrl) const
                   QGuiApplication::clipboard()->setImage(image);
               });
           } catch (const std::exception &e) {
-              nhlog::ui()->warn("Error while copying file to clipboard: {}", e.what());
+              komai::logging::ui()->warn("Error while copying file to clipboard: {}", e.what());
           }
       },
       false,

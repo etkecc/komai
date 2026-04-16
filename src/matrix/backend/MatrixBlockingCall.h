@@ -63,7 +63,7 @@ isAppUiThread()
 inline void
 logUiThreadBlockingCall(const char *operation, const char *message)
 {
-    if (auto logger = nhlog::ui(); logger) {
+    if (auto logger = komai::logging::ui(); logger) {
         logger->error("Blocking matrix-sdk call '{}' {}", operation, message);
     }
 }

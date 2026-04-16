@@ -67,7 +67,7 @@ newBusMessage(GstBus *bus G_GNUC_UNUSED, GstMessage *msg, gpointer G_GNUC_UNUSED
         GError *err     = nullptr;
         gchar *dbg_info = nullptr;
         gst_message_parse_error(msg, &err, &dbg_info);
-        nhlog::ui()->error("GST error: {}", dbg_info);
+        komai::logging::ui()->error("GST error: {}", dbg_info);
         g_error_free(err);
         g_free(dbg_info);
         close_preview_stream();
@@ -146,14 +146,14 @@ CallManager::windowList()
     std::unique_ptr<xcb_connection_t, std::function<void(xcb_connection_t *)>> connection(
       xcb_connect(nullptr, nullptr), [](xcb_connection_t *c) { xcb_disconnect(c); });
     if (xcb_connection_has_error(connection.get())) {
-        nhlog::ui()->error("Failed to connect to X server");
+        komai::logging::ui()->error("Failed to connect to X server");
         return {};
     }
 
     xcb_ewmh_connection_t ewmh;
     if (!xcb_ewmh_init_atoms_replies(
           &ewmh, xcb_ewmh_init_atoms(connection.get(), &ewmh), nullptr)) {
-        nhlog::ui()->error("Failed to connect to EWMH server");
+        komai::logging::ui()->error("Failed to connect to EWMH server");
         return {};
     }
     std::unique_ptr<xcb_ewmh_connection_t, std::function<void(xcb_ewmh_connection_t *)>>
@@ -163,7 +163,7 @@ CallManager::windowList()
         xcb_ewmh_get_windows_reply_t clients;
         if (!xcb_ewmh_get_client_list_reply(
               &ewmh, xcb_ewmh_get_client_list(&ewmh, i), &clients, nullptr)) {
-            nhlog::ui()->error("Failed to request window list");
+            komai::logging::ui()->error("Failed to request window list");
             return {};
         }
 
@@ -234,19 +234,19 @@ CallManager::previewWindow(unsigned int index) const
         return;
 
     if (pipe_ != nullptr) {
-        nhlog::ui()->warn("Preview already started");
+        komai::logging::ui()->warn("Preview already started");
         return;
     }
 
     if (screenShareType_ == ScreenShareType::X11 &&
         (windows_.empty() || index >= windows_.size())) {
-        nhlog::ui()->error("X11 screencast not available");
+        komai::logging::ui()->error("X11 screencast not available");
         return;
     }
 
     if (screenShareType_ == ScreenShareType::D3D11 &&
         (windows_.empty() || index >= windows_.size())) {
-        nhlog::ui()->error("D3D11 screencast not available");
+        komai::logging::ui()->error("D3D11 screencast not available");
         return;
     }
 
@@ -276,7 +276,7 @@ CallManager::previewWindow(unsigned int index) const
     if (screenShareType_ == ScreenShareType::X11) {
         GstElement *ximagesrc = gst_element_factory_make("ximagesrc", nullptr);
         if (!ximagesrc) {
-            nhlog::ui()->error("Failed to create ximagesrc");
+            komai::logging::ui()->error("Failed to create ximagesrc");
             gst_object_unref(pipe_);
             pipe_ = nullptr;
             return;
@@ -291,7 +291,7 @@ CallManager::previewWindow(unsigned int index) const
     } else if (screenShareType_ == ScreenShareType::D3D11) {
         GstElement *d3d11screensrc = gst_element_factory_make("d3d11screencapturesrc", nullptr);
         if (!d3d11screensrc) {
-            nhlog::ui()->error("Failed to create d3d11screencapturesrc");
+            komai::logging::ui()->error("Failed to create d3d11screencapturesrc");
             gst_object_unref(pipe_);
             pipe_ = nullptr;
             return;
@@ -306,7 +306,7 @@ CallManager::previewWindow(unsigned int index) const
         ScreenCastPortal &sc_portal            = ScreenCastPortal::instance();
         const ScreenCastPortal::Stream *stream = sc_portal.getStream();
         if (stream == nullptr) {
-            nhlog::ui()->error("xdg-desktop-portal stream not started");
+            komai::logging::ui()->error("xdg-desktop-portal stream not started");
             gst_object_unref(pipe_);
             pipe_ = nullptr;
             return;
@@ -323,14 +323,14 @@ CallManager::previewWindow(unsigned int index) const
 
     if (!gst_element_link_many(
           screencastsrc, videorate, videoconvert, videoscale, capsfilter, preview_sink, nullptr)) {
-        nhlog::ui()->error("Failed to link preview window elements");
+        komai::logging::ui()->error("Failed to link preview window elements");
         gst_object_unref(pipe_);
         pipe_ = nullptr;
         return;
     }
 
     if (gst_element_set_state(pipe_, GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE) {
-        nhlog::ui()->error("Unable to start preview pipeline");
+        komai::logging::ui()->error("Unable to start preview pipeline");
         gst_object_unref(pipe_);
         pipe_ = nullptr;
         return;
@@ -359,7 +359,7 @@ CallManager::setScreenShareType(unsigned int index)
 #ifdef GSTREAMER_AVAILABLE
     closeScreenShare();
     if (index >= screenShareTypes_.size())
-        nhlog::ui()->error("WebRTC: Screen share type index out of range");
+        komai::logging::ui()->error("WebRTC: Screen share type index out of range");
     screenShareType_ = screenShareTypes_[index];
     emit screenShareChanged();
 #else

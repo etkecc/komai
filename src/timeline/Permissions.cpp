@@ -206,9 +206,9 @@ Permissions::Permissions(QString roomId, QObject *parent)
         loaded_      = true;
     } else {
         if (!error.isEmpty()) {
-            nhlog::ui()->warn("Failed to fetch room power levels for '{}': {}",
-                              roomId_.toStdString(),
-                              error.toStdString());
+            komai::logging::ui()->warn("Failed to fetch room power levels for '{}': {}",
+                                       roomId_.toStdString(),
+                                       error.toStdString());
         }
         powerLevels_ = {};
     }
@@ -399,9 +399,10 @@ MatrixRoomPermissions::refreshAsync()
 
               if (!powerLevels) {
                   if (!error.isEmpty()) {
-                      nhlog::ui()->warn("Failed to fetch matrix-sdk room power levels for '{}': {}",
-                                        roomId.toStdString(),
-                                        error.toStdString());
+                      komai::logging::ui()->warn(
+                        "Failed to fetch matrix-sdk room power levels for '{}': {}",
+                        roomId.toStdString(),
+                        error.toStdString());
                   }
                   return;
               }

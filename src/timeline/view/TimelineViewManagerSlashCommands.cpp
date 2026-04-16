@@ -224,8 +224,9 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
 
         const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
         if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
-            nhlog::ui()->warn("Refusing to send matrix-sdk slash-command message without an "
-                              "active runtime handle or selected matrix room");
+            komai::logging::ui()->warn(
+              "Refusing to send matrix-sdk slash-command message without an "
+              "active runtime handle or selected matrix room");
             return false;
         }
 
@@ -281,12 +282,13 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
               if (result.ok)
                   return;
 
-              nhlog::ui()->warn("Failed to queue matrix-sdk slash-command room message kind='{}' "
-                                "room='{}' handle={} error='{}'",
-                                result.messageKind.toStdString(),
-                                result.roomId.toStdString(),
-                                result.handleId,
-                                result.error.toStdString());
+              komai::logging::ui()->warn(
+                "Failed to queue matrix-sdk slash-command room message kind='{}' "
+                "room='{}' handle={} error='{}'",
+                result.messageKind.toStdString(),
+                result.roomId.toStdString(),
+                result.handleId,
+                result.error.toStdString());
               mainWindow->showNotification(
                 QCoreApplication::translate("TimelineViewManager", "Failed to send message: %1")
                   .arg(result.error));

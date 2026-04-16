@@ -90,8 +90,8 @@ MxcAnimatedImage::startDownload()
                                                   suffix,
                                                   roomId)));
     if (QDir::cleanPath(filename.filePath()) != filename.filePath()) {
-        nhlog::net()->warn("Media cache path '{}' is not safe, not downloading file",
-                           filename.filePath().toStdString());
+        komai::logging::net()->warn("Media cache path '{}' is not safe, not downloading file",
+                                    filename.filePath().toStdString());
         return;
     }
 
@@ -114,16 +114,16 @@ MxcAnimatedImage::startDownload()
             buffer.open(QIODevice::ReadOnly);
             buffer.reset();
         } catch (const std::exception &e) {
-            nhlog::net()->error("Failed to setup animated image buffer: {}", e.what());
+            komai::logging::net()->error("Failed to setup animated image buffer: {}", e.what());
         }
 
         QTimer::singleShot(0, this, [this, mimeType, self] {
             if (!self)
                 return;
 
-            nhlog::ui()->info("Preparing animated media buffer with size: {}, {}",
-                              buffer.bytesAvailable(),
-                              buffer.isOpen());
+            komai::logging::ui()->info("Preparing animated media buffer with size: {}, {}",
+                                       buffer.bytesAvailable(),
+                                       buffer.isOpen());
             // Don't trust event MIME blindly: some events advertise one format while
             // bytes are a different valid image format (e.g. webp metadata with PNG bytes).
             const auto declaredFormat = mimeType.split('/').back();
@@ -131,7 +131,7 @@ MxcAnimatedImage::startDownload()
             buffer.reset();
 
             if (!detectedFormat.isEmpty() && declaredFormat != detectedFormat) {
-                nhlog::ui()->warn(
+                komai::logging::ui()->warn(
                   "Media format mismatch for event '{}': declared='{}' detected='{}'",
                   eventId_.toStdString(),
                   declaredFormat.toStdString(),
@@ -178,7 +178,7 @@ MxcAnimatedImage::startDownload()
                 canRenderMovie = false;
 
             if (!canRenderMovie) {
-                nhlog::ui()->warn(
+                komai::logging::ui()->warn(
                   "Animated media decode failed for event '{}', falling back to static image",
                   eventId_.toStdString());
                 movie.stop();
@@ -210,7 +210,7 @@ MxcAnimatedImage::startDownload()
             buf.open(QIODevice::ReadOnly);
             processBuffer(buf);
         } catch (const std::exception &e) {
-            nhlog::ui()->warn("Error while saving animated media to cache: {}", e.what());
+            komai::logging::ui()->warn("Error while saving animated media to cache: {}", e.what());
         }
     };
 
@@ -224,9 +224,10 @@ MxcAnimatedImage::startDownload()
 
     const auto handleId = currentMatrixRuntimeHandleId();
     if (handleId == 0) {
-        nhlog::ui()->warn("Cannot fetch matrix-sdk animated media for event '{}' without an "
-                          "active runtime handle",
-                          eventId_.toStdString());
+        komai::logging::ui()->warn(
+          "Cannot fetch matrix-sdk animated media for event '{}' without an "
+          "active runtime handle",
+          eventId_.toStdString());
         return;
     }
 
@@ -243,9 +244,10 @@ MxcAnimatedImage::startDownload()
             return;
 
         if (!bytes.has_value()) {
-            nhlog::net()->warn("Failed to retrieve active timeline animated media '{}': {}",
-                               eventId.toStdString(),
-                               error.toStdString());
+            komai::logging::net()->warn(
+              "Failed to retrieve active timeline animated media '{}': {}",
+              eventId.toStdString(),
+              error.toStdString());
             return;
         }
 

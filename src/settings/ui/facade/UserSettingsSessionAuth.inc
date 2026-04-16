@@ -53,7 +53,7 @@ UserSettings::persistSessionSnapshot(const SessionSnapshot &snapshot)
     const bool hadPersistedSessionIdentity = hasPersistedSessionIdentity();
     const bool hadActiveSessionState       = hasActiveSession();
 
-    nhlog::ui()->info("Persisting session snapshot for profile '{}' "
+    komai::logging::ui()->info("Persisting session snapshot for profile '{}' "
                       "(has_user_id={}, has_access_token={}, has_device_id={}, has_homeserver={})",
                       app_paths::normalizedProfileId(profile_).toStdString(),
                       hasSessionValue(snapshot.userId),
@@ -62,7 +62,7 @@ UserSettings::persistSessionSnapshot(const SessionSnapshot &snapshot)
                       hasSessionValue(snapshot.homeserver));
 
     if (!hasCompleteSessionAuth(snapshot)) {
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "Refusing to persist incomplete session snapshot "
           "(has_user_id={}, has_access_token={}, has_device_id={}, has_homeserver={})",
           hasSessionValue(snapshot.userId),
@@ -90,9 +90,9 @@ UserSettings::persistSessionSnapshot(const SessionSnapshot &snapshot)
     emitSessionAuthStateChangedIfNeeded(hadPersistedSessionIdentity, hadActiveSessionState);
 
     if (!changed)
-        nhlog::ui()->debug("Persisted session snapshot unchanged; rewriting session/auth storage");
+        komai::logging::ui()->debug("Persisted session snapshot unchanged; rewriting session/auth storage");
     else
-        nhlog::ui()->info("Persisted session snapshot fields to storage");
+        komai::logging::ui()->info("Persisted session snapshot fields to storage");
 
     // Always write on explicit auth persist requests; in-memory equality does not
     // guarantee that session.yml / secrets.yml / secure backend values are present.

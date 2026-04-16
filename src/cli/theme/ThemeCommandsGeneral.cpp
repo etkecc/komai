@@ -22,8 +22,8 @@ namespace theme_command {
 int
 handleList(int /*argc*/, char * /*argv*/[], QCoreApplication & /*app*/)
 {
-    // ThemeRegistry uses nhlog for diagnostics; initialize a minimal stderr logger.
-    nhlog::init(QStringLiteral("off"), false);
+    // ThemeRegistry uses komai::logging for diagnostics; initialize a minimal stderr logger.
+    komai::logging::init(QStringLiteral("off"), false);
 
     ThemeRegistry::initialize();
     const auto &themes = ThemeRegistry::instance().allThemes();

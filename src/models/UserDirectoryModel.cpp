@@ -46,7 +46,8 @@ UserDirectoryModel::setSearchString(const QString &f)
     userSearchString_ = f.trimmed();
     searchGeneration_++;
 
-    nhlog::ui()->debug("Received user directory query: {}", userSearchString_.toStdString());
+    komai::logging::ui()->debug("Received user directory query: {}",
+                                userSearchString_.toStdString());
 
     beginResetModel();
     results_.clear();
@@ -58,7 +59,7 @@ UserDirectoryModel::setSearchString(const QString &f)
         emit searchingUsersChanged();
 
     if (userSearchString_.isEmpty()) {
-        nhlog::ui()->debug("Rejecting empty search string");
+        komai::logging::ui()->debug("Rejecting empty search string");
         canFetchMore_ = false;
     } else {
         canFetchMore_ = true;
@@ -73,7 +74,7 @@ UserDirectoryModel::fetchMore(const QModelIndex &)
 
     const auto handleId = matrixBackendHandleId();
     if (handleId == 0) {
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "User directory search requires an active matrix-sdk backend runtime handle");
         canFetchMore_ = false;
         return;
@@ -156,9 +157,9 @@ UserDirectoryModel::finishSearch(uint64_t generation,
     endResetModel();
     canFetchMore_ = false;
 
-    nhlog::ui()->debug("Matrix user directory query '{}' returned {} result(s)",
-                       searchTerm.toStdString(),
-                       results_.size());
+    komai::logging::ui()->debug("Matrix user directory query '{}' returned {} result(s)",
+                                searchTerm.toStdString(),
+                                results_.size());
 }
 
 void
@@ -173,9 +174,9 @@ UserDirectoryModel::failSearch(uint64_t generation,
     canFetchMore_   = false;
     emit searchingUsersChanged();
 
-    nhlog::ui()->warn("Matrix user directory query '{}' failed: {}",
-                      searchTerm.toStdString(),
-                      errorMessage.toStdString());
+    komai::logging::ui()->warn("Matrix user directory query '{}' failed: {}",
+                               searchTerm.toStdString(),
+                               errorMessage.toStdString());
 }
 
 void

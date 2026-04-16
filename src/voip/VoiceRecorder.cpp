@@ -73,7 +73,7 @@ VoiceRecorder::ensureInitialized()
             &QMediaRecorder::errorOccurred,
             this,
             [this](QMediaRecorder::Error error, const QString &errorString) {
-                nhlog::ui()->error(
+                komai::logging::ui()->error(
                   "VoiceRecorder error {}: {}", static_cast<int>(error), errorString.toStdString());
                 emit errorOccurred(errorString);
             });
@@ -152,7 +152,7 @@ VoiceRecorder::startRecording()
     ensureInitialized();
 
     if (recorder_->recorderState() != QMediaRecorder::StoppedState) {
-        nhlog::ui()->warn("VoiceRecorder::startRecording called while already recording");
+        komai::logging::ui()->warn("VoiceRecorder::startRecording called while already recording");
         return;
     }
 
@@ -260,7 +260,7 @@ VoiceRecorder::startLevelMonitor()
 
     const auto device = QMediaDevices::defaultAudioInput();
     if (!device.isFormatSupported(format)) {
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "VoiceRecorder: audio level format not supported, skipping level monitor");
         return;
     }
@@ -268,7 +268,7 @@ VoiceRecorder::startLevelMonitor()
     levelSource_ = new QAudioSource(device, format, this);
     levelDevice_ = levelSource_->start();
     if (!levelDevice_) {
-        nhlog::ui()->warn("VoiceRecorder: failed to start audio level monitor");
+        komai::logging::ui()->warn("VoiceRecorder: failed to start audio level monitor");
         delete levelSource_;
         levelSource_ = nullptr;
         return;

@@ -397,8 +397,8 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
             roleToPropertyName.insert(*role, propertyName);
             roles.emplace_back(*role);
         } else {
-            nhlog::ui()->critical("Required property {} not found in model!",
-                                  propertyName.toStdString());
+            komai::logging::ui()->critical("Required property {} not found in model!",
+                                           propertyName.toStdString());
         }
     }
 
@@ -444,14 +444,15 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
                   .toInt();
               if (type != oldType) {
                   if (churnPerfEnabled()) {
-                      nhlog::ui()->info("[churn] typeChangeReset chooser={} event={} forReply={} "
-                                        "oldType={} newType={} changedRolesCount={}",
-                                        (void *)&chooser,
-                                        currentId.toStdString(),
-                                        forReply,
-                                        oldType,
-                                        type,
-                                        changedRoles.size());
+                      komai::logging::ui()->info(
+                        "[churn] typeChangeReset chooser={} event={} forReply={} "
+                        "oldType={} newType={} changedRolesCount={}",
+                        (void *)&chooser,
+                        currentId.toStdString(),
+                        forReply,
+                        oldType,
+                        type,
+                        changedRoles.size());
                   }
                   reset(currentId);
                   return;
@@ -564,15 +565,15 @@ EventDelegateChooser::DelegateIncubator::reset(QString id)
     }
 
     if (churnPerfEnabled()) {
-        nhlog::ui()->info("[churn] reset chooser={} event={} forReply={} hadObject={} "
-                          "oldType={} newType={} hasRoom={}",
-                          (void *)&chooser,
-                          id.toStdString(),
-                          forReply,
-                          object() != nullptr,
-                          oldType,
-                          role,
-                          chooser.room_ != nullptr);
+        komai::logging::ui()->info("[churn] reset chooser={} event={} forReply={} hadObject={} "
+                                   "oldType={} newType={} hasRoom={}",
+                                   (void *)&chooser,
+                                   id.toStdString(),
+                                   forReply,
+                                   object() != nullptr,
+                                   oldType,
+                                   role,
+                                   chooser.room_ != nullptr);
     }
 
     // For roomless delegates, if the type hasn't changed and we already have
@@ -580,11 +581,12 @@ EventDelegateChooser::DelegateIncubator::reset(QString id)
     // recreating the entire component.
     if (!chooser.room_ && role == oldType && object()) {
         if (churnPerfEnabled()) {
-            nhlog::ui()->info("[churn] refreshInPlace chooser={} event={} forReply={} type={}",
-                              (void *)&chooser,
-                              id.toStdString(),
-                              forReply,
-                              role);
+            komai::logging::ui()->info(
+              "[churn] refreshInPlace chooser={} event={} forReply={} type={}",
+              (void *)&chooser,
+              id.toStdString(),
+              forReply,
+              role);
         }
         refreshRoomlessProperties();
         return;
@@ -609,17 +611,18 @@ void
 EventDelegateChooser::DelegateIncubator::statusChanged(QQmlIncubator::Status status)
 {
     if (churnPerfEnabled()) {
-        nhlog::ui()->info("[churn] statusChanged chooser={} event={} forReply={} status={}",
-                          (void *)&chooser,
-                          currentId.toStdString(),
-                          forReply,
-                          static_cast<int>(status));
+        komai::logging::ui()->info(
+          "[churn] statusChanged chooser={} event={} forReply={} status={}",
+          (void *)&chooser,
+          currentId.toStdString(),
+          forReply,
+          static_cast<int>(status));
     }
 
     if (status == QQmlIncubator::Ready) {
         auto child = qobject_cast<QQuickItem *>(object());
         if (child == nullptr) {
-            nhlog::ui()->error("Delegate has to be derived of Item!");
+            komai::logging::ui()->error("Delegate has to be derived of Item!");
             return;
         }
 
@@ -629,7 +632,7 @@ EventDelegateChooser::DelegateIncubator::statusChanged(QQmlIncubator::Status sta
         // connect(child, &QQuickItem::parentChanged, child, [child](QQuickItem *) {
         //     // QTBUG-115687
         //     if (child->flags().testFlag(QQuickItem::ItemObservesViewport)) {
-        //         nhlog::ui()->critical("SETTING OBSERVES VIEWPORT");
+        //         komai::logging::ui()->critical("SETTING OBSERVES VIEWPORT");
         //         // Re-trigger the parent traversal to get subtreeTransformChangedEnabled turned
         //         on child->setFlag(QQuickItem::ItemObservesViewport);
         //     }
@@ -644,7 +647,8 @@ EventDelegateChooser::DelegateIncubator::statusChanged(QQmlIncubator::Status sta
     } else if (status == QQmlIncubator::Error) {
         auto errors_ = errors();
         for (const auto &e : std::as_const(errors_))
-            nhlog::ui()->error("Error instantiating delegate: {}", e.toString().toStdString());
+            komai::logging::ui()->error("Error instantiating delegate: {}",
+                                        e.toString().toStdString());
     }
 }
 
@@ -655,14 +659,14 @@ EventDelegateChooser::updatePolish()
     auto replyChild = qobject_cast<QQuickItem *>(replyIncubator.object());
 
     if (churnPerfEnabled()) {
-        nhlog::ui()->info("[churn] polish chooser={} event={} hasMain={} hasReply={} "
-                          "maxWidth={} width={}",
-                          (void *)this,
-                          eventId_.toStdString(),
-                          mainChild != nullptr,
-                          replyChild != nullptr,
-                          maxWidth_,
-                          qRound(width()));
+        komai::logging::ui()->info("[churn] polish chooser={} event={} hasMain={} hasReply={} "
+                                   "maxWidth={} width={}",
+                                   (void *)this,
+                                   eventId_.toStdString(),
+                                   mainChild != nullptr,
+                                   replyChild != nullptr,
+                                   maxWidth_,
+                                   qRound(width()));
     }
 
     auto layoutItem = [this](QQuickItem *item, int inset) {

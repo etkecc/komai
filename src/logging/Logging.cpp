@@ -11,12 +11,12 @@
 #include <QtGlobal>
 
 namespace {
-static std::shared_ptr<nhlog::Logger> db_logger     = nullptr;
-static std::shared_ptr<nhlog::Logger> net_logger    = nullptr;
-static std::shared_ptr<nhlog::Logger> crypto_logger = nullptr;
-static std::shared_ptr<nhlog::Logger> ui_logger     = nullptr;
-static std::shared_ptr<nhlog::Logger> qml_logger    = nullptr;
-static std::shared_ptr<nhlog::Logger> rust_logger   = nullptr;
+static std::shared_ptr<komai::logging::Logger> db_logger     = nullptr;
+static std::shared_ptr<komai::logging::Logger> net_logger    = nullptr;
+static std::shared_ptr<komai::logging::Logger> crypto_logger = nullptr;
+static std::shared_ptr<komai::logging::Logger> ui_logger     = nullptr;
+static std::shared_ptr<komai::logging::Logger> qml_logger    = nullptr;
+static std::shared_ptr<komai::logging::Logger> rust_logger   = nullptr;
 
 void
 qmlMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
@@ -59,7 +59,7 @@ qmlMessageHandler(QtMsgType type, const QMessageLogContext &context, const QStri
 }
 }
 
-namespace nhlog {
+namespace komai::logging {
 
 void
 Logger::send(std::string_view level, std::string message)

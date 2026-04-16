@@ -294,8 +294,9 @@ GridImagePackModel::loadFromRuntime()
       },
       [](GridImagePackModel *model, GridImagePackLoadResult result) {
           if (!result.error.isEmpty()) {
-              nhlog::ui()->warn("Failed to fetch matrix-sdk image packs for grid picker: {}",
-                                result.error.toStdString());
+              komai::logging::ui()->warn(
+                "Failed to fetch matrix-sdk image packs for grid picker: {}",
+                result.error.toStdString());
               return;
           }
 

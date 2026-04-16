@@ -112,9 +112,10 @@ RoomSettings::retrieveRoomInfo()
 {
     const auto handleId = matrixBackendHandleId();
     if (handleId == 0) {
-        nhlog::ui()->warn("Failed to refresh room settings via matrix-sdk runtime for '{}': {}",
-                          roomid_.toStdString(),
-                          tr("Matrix backend runtime is not available.").toStdString());
+        komai::logging::ui()->warn(
+          "Failed to refresh room settings via matrix-sdk runtime for '{}': {}",
+          roomid_.toStdString(),
+          tr("Matrix backend runtime is not available.").toStdString());
         return;
     }
 
@@ -142,10 +143,11 @@ RoomSettings::retrieveRoomInfo()
 
           if (!result.settings.has_value()) {
               if (!result.error.isEmpty()) {
-                  nhlog::ui()->warn("Failed to refresh room settings via matrix-sdk runtime for "
-                                    "'{}': {}",
-                                    settings->roomid_.toStdString(),
-                                    result.error.toStdString());
+                  komai::logging::ui()->warn(
+                    "Failed to refresh room settings via matrix-sdk runtime for "
+                    "'{}': {}",
+                    settings->roomid_.toStdString(),
+                    result.error.toStdString());
               }
               return;
           }

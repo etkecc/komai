@@ -109,7 +109,7 @@ UserSettings::refreshNotificationsAccountEnabled()
           const auto &[enabled, error] = result;
           if (!enabled.has_value()) {
               settings->notificationsAccountEnabledLoaded_ = false;
-              nhlog::ui()->warn(
+              komai::logging::ui()->warn(
                 "Failed to fetch account notification toggle from the matrix-sdk runtime: {}",
                 error.toStdString());
               return;

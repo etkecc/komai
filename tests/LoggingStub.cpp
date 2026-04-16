@@ -11,7 +11,7 @@
 // Stub implementation for test targets that do not link the Rust library.
 // Logger::send() is a no-op so log calls silently discard their output.
 
-namespace nhlog {
+namespace komai::logging {
 
 void
 Logger::send(std::string_view /*level*/, std::string /*message*/)
@@ -61,7 +61,7 @@ rust()
 }
 
 void
-init(const QString &, const QString &, bool)
+init(const QString &, bool)
 {}
 
-} // namespace nhlog
+} // namespace komai::logging

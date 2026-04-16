@@ -1319,7 +1319,7 @@ testSerializerLoggerInjection()
     const bool nullLoggerWrite = expect(
       settings::storage::pathExists(stateFile), "state write succeeds with null-injected serializer logger");
 
-    auto injectedLogger = std::make_shared<nhlog::Logger>("serializer-ui");
+    auto injectedLogger = std::make_shared<komai::logging::Logger>("serializer-ui");
     settings::serializer::setLoggers({.ui = injectedLogger});
     loggerState = settings::serializer::activeLoggers();
     if (!expect(loggerState.ui == injectedLogger, "serializer stores injected ui logger"))

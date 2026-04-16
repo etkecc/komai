@@ -69,7 +69,8 @@ void
 KomaiMenuVisibilityFilter::setTarget(const QQmlProperty &prop)
 {
     if (prop.propertyTypeCategory() != QQmlProperty::List) {
-        nhlog::ui()->warn("Target prop of KomaiMenuVisibilityFilter set to non list property");
+        komai::logging::ui()->warn(
+          "Target prop of KomaiMenuVisibilityFilter set to non list property");
         return;
     }
 

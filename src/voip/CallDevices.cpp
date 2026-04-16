@@ -91,7 +91,7 @@ addDevice(GstDevice *device)
     gchar *type  = gst_device_get_device_class(device);
     bool isVideo = !std::strncmp(type, "Video", 5);
     g_free(type);
-    nhlog::ui()->debug("WebRTC: {} device added: {}", isVideo ? "video" : "audio", name);
+    komai::logging::ui()->debug("WebRTC: {} device added: {}", isVideo ? "video" : "audio", name);
     if (!isVideo) {
         audioSources_.push_back({name, device});
         g_free(name);
@@ -101,7 +101,7 @@ addDevice(GstDevice *device)
 
     GstCaps *gstcaps = gst_device_get_caps(device);
     if (!gstcaps) {
-        nhlog::ui()->debug("WebRTC: unable to get caps for {}", name);
+        komai::logging::ui()->debug("WebRTC: unable to get caps for {}", name);
         g_free(name);
         return;
     }
@@ -157,7 +157,8 @@ removeDevice(T &sources, GstDevice *device, bool changed)
     if (auto it = std::find_if(
           sources.begin(), sources.end(), [device](const auto &s) { return s.device == device; });
         it != sources.end()) {
-        nhlog::ui()->debug("WebRTC: device {}: {}", (changed ? "changed" : "removed"), it->name);
+        komai::logging::ui()->debug(
+          "WebRTC: device {}: {}", (changed ? "changed" : "removed"), it->name);
         gst_object_unref(device);
         sources.erase(it);
         return true;
@@ -259,14 +260,14 @@ CallDevices::ensureInitialized(std::string *errorMessage)
                 strError += error->message;
                 g_error_free(error);
             }
-            nhlog::ui()->error(strError);
+            komai::logging::ui()->error(strError);
             if (errorMessage)
                 *errorMessage = strError;
             return false;
         }
 
         gchar *version = gst_version_string();
-        nhlog::ui()->info("WebRTC: initialised {}", version);
+        komai::logging::ui()->info("WebRTC: initialised {}", version);
         g_free(version);
     }
 
@@ -292,7 +293,7 @@ CallDevices::init()
         gst_bus_add_watch(bus, newBusMessage, nullptr);
         gst_object_unref(bus);
         if (!gst_device_monitor_start(monitor)) {
-            nhlog::ui()->error("WebRTC: failed to start device monitor");
+            komai::logging::ui()->error("WebRTC: failed to start device monitor");
             return;
         }
     }
@@ -360,10 +361,10 @@ CallDevices::audioDevice() const
                                audioSources_.cend(),
                                [&name](const auto &s) { return s.name == name; });
         it != audioSources_.cend()) {
-        nhlog::ui()->debug("WebRTC: microphone: {}", name);
+        komai::logging::ui()->debug("WebRTC: microphone: {}", name);
         return it->device;
     } else {
-        nhlog::ui()->error("WebRTC: unknown microphone: {}", name);
+        komai::logging::ui()->error("WebRTC: unknown microphone: {}", name);
         return nullptr;
     }
 }
@@ -374,14 +375,16 @@ CallDevices::videoDevice(std::pair<int, int> &resolution, std::pair<int, int> &f
     auto settings    = UserSettings::instance();
     std::string name = settings->callsDevicesCamera().toStdString();
     if (auto s = getVideoSource(name); s) {
-        nhlog::ui()->debug("WebRTC: camera: {}", name);
+        komai::logging::ui()->debug("WebRTC: camera: {}", name);
         resolution = tokenise(settings->callsDevicesCameraResolution().toStdString(), 'x');
         frameRate  = tokenise(settings->callsDevicesCameraFrameRate().toStdString(), '/');
-        nhlog::ui()->debug("WebRTC: camera resolution: {}x{}", resolution.first, resolution.second);
-        nhlog::ui()->debug("WebRTC: camera frame rate: {}/{}", frameRate.first, frameRate.second);
+        komai::logging::ui()->debug(
+          "WebRTC: camera resolution: {}x{}", resolution.first, resolution.second);
+        komai::logging::ui()->debug(
+          "WebRTC: camera frame rate: {}/{}", frameRate.first, frameRate.second);
         return s->device;
     } else {
-        nhlog::ui()->error("WebRTC: unknown camera: {}", name);
+        komai::logging::ui()->error("WebRTC: unknown camera: {}", name);
         return nullptr;
     }
 }

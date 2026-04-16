@@ -134,7 +134,7 @@ TimelineViewManager::showEvent(const QString &room_id, const QString &event_id)
         mainWindow->setVisible(true);
         mainWindow->raise();
         mainWindow->requestActivate();
-        nhlog::ui()->info("Activated room {}", trimmedRoomId.toStdString());
+        komai::logging::ui()->info("Activated room {}", trimmedRoomId.toStdString());
     }
 
     queueActiveMatrixPendingJump(trimmedRoomId, trimmedEventId);
@@ -160,9 +160,9 @@ TimelineViewManager::queueActiveMatrixPendingJump(const QString &roomId, const Q
     matrixTimelinePendingJumpAwaitingSnapshot_   = false;
     matrixTimelinePendingJumpExhaustedLogged_    = false;
 
-    nhlog::ui()->info("Queued matrix-sdk pending event jump room='{}' event='{}'",
-                      trimmedRoomId.toStdString(),
-                      trimmedEventId.toStdString());
+    komai::logging::ui()->info("Queued matrix-sdk pending event jump room='{}' event='{}'",
+                               trimmedRoomId.toStdString(),
+                               trimmedEventId.toStdString());
 
     if (changed)
         emit matrixTimelineStateChanged();
@@ -187,7 +187,7 @@ TimelineViewManager::resolveActiveMatrixPendingJump()
     const auto hiddenCount = matrixTimelineModel_->hiddenCount();
     if (hiddenCount > 0) {
         const auto revealCount = std::min(hiddenCount, kMatrixPendingJumpPageSize);
-        nhlog::ui()->info(
+        komai::logging::ui()->info(
           "Revealing {} locally-hidden matrix-sdk timeline items while resolving event jump "
           "room='{}' event='{}'",
           revealCount,
@@ -200,7 +200,7 @@ TimelineViewManager::resolveActiveMatrixPendingJump()
     if (matrixTimelinePendingJumpPaginationAttempts_ >= kMatrixPendingJumpMaxPageRequests) {
         if (!matrixTimelinePendingJumpExhaustedLogged_) {
             matrixTimelinePendingJumpExhaustedLogged_ = true;
-            nhlog::ui()->warn(
+            komai::logging::ui()->warn(
               "Stopped auto-paginating matrix-sdk timeline while resolving event jump after {} "
               "requests (room='{}', event='{}')",
               matrixTimelinePendingJumpPaginationAttempts_,
@@ -213,7 +213,7 @@ TimelineViewManager::resolveActiveMatrixPendingJump()
     matrixTimelinePendingJumpAwaitingSnapshot_ = true;
     matrixTimelinePendingJumpPaginationAttempts_++;
 
-    nhlog::ui()->info(
+    komai::logging::ui()->info(
       "Paginating matrix-sdk timeline to resolve pending event jump room='{}' event='{}' "
       "attempt={}/{}",
       pendingRoomId.toStdString(),

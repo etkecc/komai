@@ -12,10 +12,10 @@
 
 #include <QString>
 
-namespace nhlog {
+namespace komai::logging {
 
 /// Lightweight logger proxy that forwards formatted messages to the Rust tracing
-/// subscriber via CXX FFI while preserving the existing `nhlog::ui()->info(...)`
+/// subscriber via CXX FFI while preserving the existing `komai::logging::ui()->info(...)`
 /// call shape.
 class Logger
 {
@@ -62,7 +62,7 @@ public:
     }
 
     // Single-string overloads for call sites that pass a runtime std::string
-    // directly (e.g. nhlog::ui()->error(someString)).
+    // directly (e.g. komai::logging::ui()->error(someString)).
     void trace(std::string_view msg) { send("trace", std::string(msg)); }
     void debug(std::string_view msg) { send("debug", std::string(msg)); }
     void info(std::string_view msg) { send("info", std::string(msg)); }
@@ -70,7 +70,7 @@ public:
     void error(std::string_view msg) { send("error", std::string(msg)); }
     void critical(std::string_view msg) { send("critical", std::string(msg)); }
 
-    /// No-op: Rust tracing-appender handles flushing internally.
+    /// No-op: Rust tracing handles flushing internally.
     void flush() {}
 
 private:

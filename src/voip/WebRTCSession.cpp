@@ -112,14 +112,14 @@ newBusMessage(GstBus *bus G_GNUC_UNUSED, GstMessage *msg, gpointer user_data)
     WebRTCSession *session = static_cast<WebRTCSession *>(user_data);
     switch (GST_MESSAGE_TYPE(msg)) {
     case GST_MESSAGE_EOS:
-        nhlog::ui()->error("WebRTC: end of stream");
+        komai::logging::ui()->error("WebRTC: end of stream");
         session->end();
         break;
     case GST_MESSAGE_ERROR:
         GError *error;
         gchar *debug;
         gst_message_parse_error(msg, &error, &debug);
-        nhlog::ui()->error(
+        komai::logging::ui()->error(
           "WebRTC: error from element {}: {}", GST_OBJECT_NAME(msg->src), error->message);
         g_clear_error(&error);
         g_free(debug);
@@ -140,7 +140,7 @@ parseSDP(const std::string &sdp, GstWebRTCSDPType type)
         GST_SDP_OK) {
         return gst_webrtc_session_description_new(type, msg);
     } else {
-        nhlog::ui()->error("WebRTC: failed to parse remote session description");
+        komai::logging::ui()->error("WebRTC: failed to parse remote session description");
         gst_sdp_message_free(msg);
         return nullptr;
     }
@@ -162,7 +162,7 @@ setLocalDescription(GstPromise *promise, gpointer webrtc)
     g_free(sdp);
     gst_webrtc_session_description_free(gstsdp);
 
-    nhlog::ui()->debug(
+    komai::logging::ui()->debug(
       "WebRTC: local description set ({}):\n{}", isAnswer ? "answer" : "offer", localsdp_);
 }
 
@@ -191,7 +191,7 @@ iceGatheringStateChanged(GstElement *webrtc,
     GstWebRTCICEGatheringState newState;
     g_object_get(webrtc, "ice-gathering-state", &newState, nullptr);
     if (newState == GST_WEBRTC_ICE_GATHERING_STATE_COMPLETE) {
-        nhlog::ui()->debug("WebRTC: GstWebRTCICEGatheringState -> Complete");
+        komai::logging::ui()->debug("WebRTC: GstWebRTCICEGatheringState -> Complete");
         if (WebRTCSession::instance().isOffering()) {
             emit WebRTCSession::instance().offerCreated(localsdp_, localcandidates_);
             emit WebRTCSession::instance().stateChanged(State::OFFERSENT);
@@ -208,7 +208,7 @@ addLocalICECandidate(GstElement *webrtc G_GNUC_UNUSED,
                      gchar *candidate,
                      gpointer G_GNUC_UNUSED)
 {
-    nhlog::ui()->debug("WebRTC: local candidate: (m-line:{}):{}", mlineIndex, candidate);
+    komai::logging::ui()->debug("WebRTC: local candidate: (m-line:{}):{}", mlineIndex, candidate);
     localcandidates_.push_back({std::string() /*max-bundle*/, (uint16_t)mlineIndex, candidate});
 }
 
@@ -221,11 +221,11 @@ iceConnectionStateChanged(GstElement *webrtc,
     g_object_get(webrtc, "ice-connection-state", &newState, nullptr);
     switch (newState) {
     case GST_WEBRTC_ICE_CONNECTION_STATE_CHECKING:
-        nhlog::ui()->debug("WebRTC: GstWebRTCICEConnectionState -> Checking");
+        komai::logging::ui()->debug("WebRTC: GstWebRTCICEConnectionState -> Checking");
         emit WebRTCSession::instance().stateChanged(State::CONNECTING);
         break;
     case GST_WEBRTC_ICE_CONNECTION_STATE_FAILED:
-        nhlog::ui()->error("WebRTC: GstWebRTCICEConnectionState -> Failed");
+        komai::logging::ui()->error("WebRTC: GstWebRTCICEConnectionState -> Failed");
         emit WebRTCSession::instance().stateChanged(State::ICEFAILED);
         break;
     default:
@@ -250,9 +250,9 @@ sendKeyFrameRequest()
     if (!gst_pad_push_event(sinkpad,
                             gst_event_new_custom(GST_EVENT_CUSTOM_UPSTREAM,
                                                  gst_structure_new_empty("GstForceKeyUnit"))))
-        nhlog::ui()->error("WebRTC: key frame request failed");
+        komai::logging::ui()->error("WebRTC: key frame request failed");
     else
-        nhlog::ui()->debug("WebRTC: sent key frame request");
+        komai::logging::ui()->debug("WebRTC: sent key frame request");
 
     gst_object_unref(sinkpad);
 }
@@ -265,7 +265,8 @@ testPacketLoss_(GstPromise *promise, gpointer G_GNUC_UNUSED)
     GstStructure *rtpStats;
     if (!gst_structure_get(
           reply, keyFrameRequestData_.statsField.c_str(), GST_TYPE_STRUCTURE, &rtpStats, nullptr)) {
-        nhlog::ui()->error("WebRTC: get-stats: no field: {}", keyFrameRequestData_.statsField);
+        komai::logging::ui()->error("WebRTC: get-stats: no field: {}",
+                                    keyFrameRequestData_.statsField);
         gst_promise_unref(promise);
         return;
     }
@@ -273,7 +274,7 @@ testPacketLoss_(GstPromise *promise, gpointer G_GNUC_UNUSED)
     gst_structure_free(rtpStats);
     gst_promise_unref(promise);
     if (packetsLost > keyFrameRequestData_.packetsLost) {
-        nhlog::ui()->debug("WebRTC: inbound video lost packet count: {}", packetsLost);
+        komai::logging::ui()->debug("WebRTC: inbound video lost packet count: {}", packetsLost);
         keyFrameRequestData_.packetsLost = packetsLost;
         sendKeyFrameRequest();
     }
@@ -438,14 +439,15 @@ addLocalPiP(GstElement *pipe, const std::pair<int, int> &videoCallSize)
     const gchar *pad     = isVideo ? "sink" : "src";
     auto resolution      = getResolution(pipe, element, pad);
     auto pipSize         = getPiPDimensions(resolution, videoCallSize.first, 0.25);
-    nhlog::ui()->debug("WebRTC: local picture-in-picture: {}x{}", pipSize.first, pipSize.second);
+    komai::logging::ui()->debug(
+      "WebRTC: local picture-in-picture: {}x{}", pipSize.first, pipSize.second);
     g_object_set(localPiPSinkPad_, "width", pipSize.first, "height", pipSize.second, nullptr);
     gint offset = videoCallSize.first / 80;
     g_object_set(localPiPSinkPad_, "xpos", offset, "ypos", offset, nullptr);
 
     GstPad *srcpad = gst_element_get_static_pad(queue, "src");
     if (GST_PAD_LINK_FAILED(gst_pad_link(srcpad, localPiPSinkPad_)))
-        nhlog::ui()->error("WebRTC: failed to link local PiP elements");
+        komai::logging::ui()->error("WebRTC: failed to link local PiP elements");
     gst_object_unref(srcpad);
     gst_object_unref(compositor);
 }
@@ -458,7 +460,7 @@ addRemotePiP(GstElement *pipe)
         auto camRes   = getResolution(pipe, "camerafilter", "sink");
         auto shareRes = getResolution(pipe, "screenshare", "src");
         auto pipSize  = getPiPDimensions(camRes, shareRes.first, 0.2);
-        nhlog::ui()->debug(
+        komai::logging::ui()->debug(
           "WebRTC: screen share picture-in-picture: {}x{}", pipSize.first, pipSize.second);
 
         gint offset = shareRes.first / 100;
@@ -481,7 +483,7 @@ addLocalVideo(GstElement *pipe)
     GstPad *srcpad    = gst_element_request_pad_simple(tee, "src_%u");
     GstPad *sinkpad   = gst_element_get_static_pad(queue, "sink");
     if (GST_PAD_LINK_FAILED(gst_pad_link(srcpad, sinkpad)))
-        nhlog::ui()->error("WebRTC: failed to link videosrctee -> video sink chain");
+        komai::logging::ui()->error("WebRTC: failed to link videosrctee -> video sink chain");
     gst_object_unref(srcpad);
 }
 
@@ -502,14 +504,14 @@ linkNewPad(GstElement *decodebin, GstPad *newpad, GstElement *pipe)
     WebRTCSession *session = &WebRTCSession::instance();
     GstElement *queue      = nullptr;
     if (!std::strcmp(mediaType, "audio")) {
-        nhlog::ui()->debug("WebRTC: received incoming audio stream");
+        komai::logging::ui()->debug("WebRTC: received incoming audio stream");
         haveAudioStream_ = true;
         queue            = newAudioSinkChain(pipe);
     } else if (!std::strcmp(mediaType, "video")) {
-        nhlog::ui()->debug("WebRTC: received incoming video stream");
+        komai::logging::ui()->debug("WebRTC: received incoming video stream");
         if (!session->getVideoItem()) {
             g_free(mediaType);
-            nhlog::ui()->error("WebRTC: video call item not set");
+            komai::logging::ui()->error("WebRTC: video call item not set");
             return;
         }
         haveVideoStream_ = true;
@@ -517,19 +519,19 @@ linkNewPad(GstElement *decodebin, GstPad *newpad, GstElement *pipe)
           std::string("rtp-inbound-stream-stats_") + std::to_string(ssrc);
         queue              = newVideoSinkChain(pipe);
         auto videoCallSize = getResolution(newpad);
-        nhlog::ui()->info(
+        komai::logging::ui()->info(
           "WebRTC: incoming video resolution: {}x{}", videoCallSize.first, videoCallSize.second);
         addLocalPiP(pipe, videoCallSize);
     } else {
         g_free(mediaType);
-        nhlog::ui()->error("WebRTC: unknown pad type: {}", GST_PAD_NAME(newpad));
+        komai::logging::ui()->error("WebRTC: unknown pad type: {}", GST_PAD_NAME(newpad));
         return;
     }
 
     GstPad *queuepad = gst_element_get_static_pad(queue, "sink");
     if (queuepad) {
         if (GST_PAD_LINK_FAILED(gst_pad_link(newpad, queuepad)))
-            nhlog::ui()->error("WebRTC: unable to link new pad");
+            komai::logging::ui()->error("WebRTC: unable to link new pad");
         else {
             if (session->callType() == CallType::VOICE ||
                 (haveAudioStream_ && (haveVideoStream_ || session->isRemoteVideoRecvOnly()))) {
@@ -558,7 +560,7 @@ addDecodeBin(GstElement *webrtc G_GNUC_UNUSED, GstPad *newpad, GstElement *pipe)
     if (GST_PAD_DIRECTION(newpad) != GST_PAD_SRC)
         return;
 
-    nhlog::ui()->debug("WebRTC: received incoming stream");
+    komai::logging::ui()->debug("WebRTC: received incoming stream");
     GstElement *decodebin = gst_element_factory_make("decodebin", nullptr);
     // hardware decoding needs investigation; eg rendering fails if vaapi plugin installed
     g_object_set(decodebin, "force-sw-decoders", TRUE, nullptr);
@@ -568,7 +570,7 @@ addDecodeBin(GstElement *webrtc G_GNUC_UNUSED, GstPad *newpad, GstElement *pipe)
     gst_element_sync_state_with_parent(decodebin);
     GstPad *sinkpad = gst_element_get_static_pad(decodebin, "sink");
     if (GST_PAD_LINK_FAILED(gst_pad_link(newpad, sinkpad)))
-        nhlog::ui()->error("WebRTC: unable to link decodebin");
+        komai::logging::ui()->error("WebRTC: unable to link decodebin");
     gst_object_unref(sinkpad);
 }
 
@@ -725,7 +727,7 @@ WebRTCSession::havePlugins(bool isVideo,
 
     if (!haveVoicePlugins_ || (isVideo && !haveVideoPlugins_) ||
         (isScreenshare && !haveScreensharePlugins)) {
-        nhlog::ui()->error(strError);
+        komai::logging::ui()->error(strError);
         if (errorMessage)
             *errorMessage = strError;
         return false;
@@ -771,7 +773,7 @@ WebRTCSession::createOffer(CallType callType,
 bool
 WebRTCSession::acceptOffer(const std::string &sdp)
 {
-    nhlog::ui()->debug("WebRTC: received offer:\n{}", sdp);
+    komai::logging::ui()->debug("WebRTC: received offer:\n{}", sdp);
     if (state_ != State::DISCONNECTED)
         return false;
 
@@ -785,12 +787,12 @@ WebRTCSession::acceptOffer(const std::string &sdp)
     bool sendOnly;
     if (getMediaAttributes(offer->sdp, "audio", "opus", opusPayloadType, recvOnly, sendOnly)) {
         if (opusPayloadType == -1) {
-            nhlog::ui()->error("WebRTC: remote audio offer - no opus encoding");
+            komai::logging::ui()->error("WebRTC: remote audio offer - no opus encoding");
             gst_webrtc_session_description_free(offer);
             return false;
         }
     } else {
-        nhlog::ui()->error("WebRTC: remote offer - no audio media");
+        komai::logging::ui()->error("WebRTC: remote offer - no audio media");
         gst_webrtc_session_description_free(offer);
         return false;
     }
@@ -799,7 +801,7 @@ WebRTCSession::acceptOffer(const std::string &sdp)
     bool isVideo = getMediaAttributes(
       offer->sdp, "video", "vp8", vp8PayloadType, isRemoteVideoRecvOnly_, isRemoteVideoSendOnly_);
     if (isVideo && vp8PayloadType == -1) {
-        nhlog::ui()->error("WebRTC: remote video offer - no vp8 encoding");
+        komai::logging::ui()->error("WebRTC: remote video offer - no vp8 encoding");
         gst_webrtc_session_description_free(offer);
         return false;
     }
@@ -827,7 +829,7 @@ WebRTCSession::acceptOffer(const std::string &sdp)
 bool
 WebRTCSession::acceptNegotiation(const std::string &sdp)
 {
-    nhlog::ui()->debug("WebRTC: received negotiation offer:\n{}", sdp);
+    komai::logging::ui()->debug("WebRTC: received negotiation offer:\n{}", sdp);
     if (state_ == State::DISCONNECTED)
         return false;
     return false;
@@ -836,7 +838,7 @@ WebRTCSession::acceptNegotiation(const std::string &sdp)
 bool
 WebRTCSession::acceptAnswer(const std::string &sdp)
 {
-    nhlog::ui()->debug("WebRTC: received answer:\n{}", sdp);
+    komai::logging::ui()->debug("WebRTC: received answer:\n{}", sdp);
     if (state_ != State::OFFERSENT)
         return false;
 
@@ -863,7 +865,7 @@ WebRTCSession::acceptICECandidates(const komai::voip::CallIceCandidateList &cand
 {
     if (state_ >= State::INITIATED) {
         for (const auto &c : candidates) {
-            nhlog::ui()->debug(
+            komai::logging::ui()->debug(
               "WebRTC: remote candidate: (m-line:{}):{}", c.sdpMLineIndex, c.candidate);
             if (!c.candidate.empty()) {
                 g_signal_emit_by_name(
@@ -889,17 +891,17 @@ WebRTCSession::startPipeline(int opusPayloadType, int vp8PayloadType)
     webrtc_ = gst_bin_get_by_name(GST_BIN(pipe_), "webrtcbin");
 
     if (ChatPage::instance()->userSettings()->callsRelayUseFallbackServer()) {
-        nhlog::ui()->info("WebRTC: setting STUN server: {}", STUN_SERVER);
+        komai::logging::ui()->info("WebRTC: setting STUN server: {}", STUN_SERVER);
         g_object_set(webrtc_, "stun-server", STUN_SERVER, nullptr);
     }
 
     for (const auto &uri : turnServers_) {
-        nhlog::ui()->info("WebRTC: setting TURN server: {}", uri);
+        komai::logging::ui()->info("WebRTC: setting TURN server: {}", uri);
         gboolean udata;
         g_signal_emit_by_name(webrtc_, "add-turn-server", uri.c_str(), (gpointer)(&udata));
     }
     if (turnServers_.empty())
-        nhlog::ui()->warn("WebRTC: no TURN server provided");
+        komai::logging::ui()->warn("WebRTC: no TURN server provided");
 
     // generate the offer when the pipeline goes to PLAYING
     if (isOffering_)
@@ -926,7 +928,7 @@ WebRTCSession::startPipeline(int opusPayloadType, int vp8PayloadType)
     // start the pipeline
     GstStateChangeReturn ret = gst_element_set_state(pipe_, GST_STATE_PLAYING);
     if (ret == GST_STATE_CHANGE_FAILURE) {
-        nhlog::ui()->error("WebRTC: unable to start pipeline");
+        komai::logging::ui()->error("WebRTC: unable to start pipeline");
         end();
         return false;
     }
@@ -999,7 +1001,7 @@ WebRTCSession::createPipeline(int opusPayloadType, int vp8PayloadType)
                                capsfilter,
                                webrtcbin,
                                nullptr)) {
-        nhlog::ui()->error("WebRTC: failed to link audio pipeline elements");
+        komai::logging::ui()->error("WebRTC: failed to link audio pipeline elements");
         return false;
     }
 
@@ -1050,31 +1052,31 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
 
         gst_bin_add_many(GST_BIN(pipe_), camera, camerafilter, nullptr);
         if (!gst_element_link_many(camera, videoconvert, camerafilter, nullptr)) {
-            nhlog::ui()->error("WebRTC: failed to link camera elements");
+            komai::logging::ui()->error("WebRTC: failed to link camera elements");
             return false;
         }
         if (callType_ == CallType::VIDEO && !gst_element_link(camerafilter, tee)) {
-            nhlog::ui()->error("WebRTC: failed to link camerafilter -> tee");
+            komai::logging::ui()->error("WebRTC: failed to link camerafilter -> tee");
             return false;
         }
     }
 
     if (callType_ == CallType::SCREEN) {
-        nhlog::ui()->debug("WebRTC: screen share frame rate: {} fps",
-                           settings->callsScreenshareFrameRate());
-        nhlog::ui()->debug("WebRTC: screen share picture-in-picture: {}",
-                           settings->callsScreensharePictureInPicture());
-        nhlog::ui()->debug("WebRTC: screen share request remote camera: {}",
-                           settings->callsScreenshareIncludeRemoteVideo());
-        nhlog::ui()->debug("WebRTC: screen share show mouse cursor: {}",
-                           settings->callsScreenshareShowCursor());
+        komai::logging::ui()->debug("WebRTC: screen share frame rate: {} fps",
+                                    settings->callsScreenshareFrameRate());
+        komai::logging::ui()->debug("WebRTC: screen share picture-in-picture: {}",
+                                    settings->callsScreensharePictureInPicture());
+        komai::logging::ui()->debug("WebRTC: screen share request remote camera: {}",
+                                    settings->callsScreenshareIncludeRemoteVideo());
+        komai::logging::ui()->debug("WebRTC: screen share show mouse cursor: {}",
+                                    settings->callsScreenshareShowCursor());
 
         GstElement *screencastsrc = nullptr;
 
         if (screenShareType_ == ScreenShareType::X11) {
             GstElement *ximagesrc = gst_element_factory_make("ximagesrc", "screenshare");
             if (!ximagesrc) {
-                nhlog::ui()->error("WebRTC: failed to create ximagesrc");
+                komai::logging::ui()->error("WebRTC: failed to create ximagesrc");
                 return false;
             }
             g_object_set(ximagesrc, "use-damage", FALSE, nullptr);
@@ -1089,7 +1091,7 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
             GstElement *d3d11screensrc =
               gst_element_factory_make("d3d11screencapturesrc", "screenshare");
             if (!d3d11screensrc) {
-                nhlog::ui()->error("WebRTC: failed to create d3d11screencapturesrc");
+                komai::logging::ui()->error("WebRTC: failed to create d3d11screencapturesrc");
                 gst_object_unref(pipe_);
                 pipe_ = nullptr;
                 return false;
@@ -1104,14 +1106,15 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
             GstElement *d3d11convert = gst_element_factory_make("d3d11convert", nullptr);
             gst_bin_add(GST_BIN(pipe_), d3d11convert);
             if (!gst_element_link(d3d11screensrc, d3d11convert)) {
-                nhlog::ui()->error("WebRTC: failed to link d3d11screencapturesrc -> d3d11convert");
+                komai::logging::ui()->error(
+                  "WebRTC: failed to link d3d11screencapturesrc -> d3d11convert");
                 return false;
             }
 
             GstElement *d3d11download = gst_element_factory_make("d3d11download", nullptr);
             gst_bin_add(GST_BIN(pipe_), d3d11download);
             if (!gst_element_link(d3d11convert, d3d11download)) {
-                nhlog::ui()->error("WebRTC: failed to link d3d11convert -> d3d11download");
+                komai::logging::ui()->error("WebRTC: failed to link d3d11convert -> d3d11download");
                 return false;
             }
             screencastsrc = d3d11download;
@@ -1119,7 +1122,7 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
             ScreenCastPortal &sc_portal = ScreenCastPortal::instance();
             GstElement *pipewiresrc     = gst_element_factory_make("pipewiresrc", "screenshare");
             if (!pipewiresrc) {
-                nhlog::ui()->error("WebRTC: failed to create pipewiresrc");
+                komai::logging::ui()->error("WebRTC: failed to create pipewiresrc");
                 gst_object_unref(pipe_);
                 pipe_ = nullptr;
                 return false;
@@ -1127,7 +1130,7 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
 
             const ScreenCastPortal::Stream *stream = sc_portal.getStream();
             if (stream == nullptr) {
-                nhlog::ui()->error("xdg-desktop-portal stream not started");
+                komai::logging::ui()->error("xdg-desktop-portal stream not started");
                 gst_object_unref(pipe_);
                 pipe_ = nullptr;
                 return false;
@@ -1140,7 +1143,7 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
             GstElement *videorate = gst_element_factory_make("videorate", nullptr);
             gst_bin_add(GST_BIN(pipe_), videorate);
             if (!gst_element_link(pipewiresrc, videorate)) {
-                nhlog::ui()->error("WebRTC: failed to link pipewiresrc -> videorate");
+                komai::logging::ui()->error("WebRTC: failed to link pipewiresrc -> videorate");
                 return false;
             }
             screencastsrc = videorate;
@@ -1165,20 +1168,20 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
             g_object_set(compositor, "background", 1, nullptr);
             gst_bin_add(GST_BIN(pipe_), compositor);
             if (!gst_element_link_many(screencastsrc, compositor, capsfilter, tee, nullptr)) {
-                nhlog::ui()->error("WebRTC: failed to link screen share elements");
+                komai::logging::ui()->error("WebRTC: failed to link screen share elements");
                 return false;
             }
 
             GstPad *srcpad    = gst_element_get_static_pad(camerafilter, "src");
             remotePiPSinkPad_ = gst_element_request_pad_simple(compositor, "sink_%u");
             if (GST_PAD_LINK_FAILED(gst_pad_link(srcpad, remotePiPSinkPad_))) {
-                nhlog::ui()->error("WebRTC: failed to link camerafilter -> compositor");
+                komai::logging::ui()->error("WebRTC: failed to link camerafilter -> compositor");
                 gst_object_unref(srcpad);
                 return false;
             }
             gst_object_unref(srcpad);
         } else if (!gst_element_link_many(screencastsrc, videoconvert, capsfilter, tee, nullptr)) {
-            nhlog::ui()->error("WebRTC: failed to link screen share elements");
+            komai::logging::ui()->error("WebRTC: failed to link screen share elements");
             return false;
         }
     }
@@ -1209,7 +1212,7 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
     GstElement *webrtcbin = gst_bin_get_by_name(GST_BIN(pipe_), "webrtcbin");
     if (!gst_element_link_many(
           tee, queue, vp8enc, rtpvp8pay, rtpqueue, rtpcapsfilter, webrtcbin, nullptr)) {
-        nhlog::ui()->error("WebRTC: failed to link rtp video elements");
+        komai::logging::ui()->error("WebRTC: failed to link rtp video elements");
         gst_object_unref(webrtcbin);
         return false;
     }
@@ -1313,7 +1316,7 @@ WebRTCSession::clear()
 void
 WebRTCSession::end()
 {
-    nhlog::ui()->debug("WebRTC: ending session");
+    komai::logging::ui()->debug("WebRTC: ending session");
     keyFrameRequestData_ = KeyFrameRequestData{};
     if (pipe_) {
         GST_DEBUG_BIN_TO_DOT_FILE_WITH_TS(GST_BIN(pipe_), GST_DEBUG_GRAPH_SHOW_VERBOSE, "end");

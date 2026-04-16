@@ -73,7 +73,7 @@ postToAppThread(Func &&func)
 
     const bool invoked = QMetaObject::invokeMethod(app, callback, Qt::QueuedConnection);
     if (!invoked) {
-        if (auto logger = nhlog::rust(); logger) {
+        if (auto logger = komai::logging::rust(); logger) {
             logger->warn(
               "Failed to queue matrix backend bridge notification on app thread; running inline");
         }

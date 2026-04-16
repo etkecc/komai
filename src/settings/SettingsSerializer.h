@@ -9,7 +9,7 @@
 
 class QString;
 class UserSettings;
-namespace nhlog {
+namespace komai::logging {
 class Logger;
 }
 namespace komai::rust {
@@ -20,7 +20,7 @@ namespace settings::serializer {
 
 struct SerializerLoggers
 {
-    std::shared_ptr<nhlog::Logger> ui;
+    std::shared_ptr<komai::logging::Logger> ui;
 };
 
 void

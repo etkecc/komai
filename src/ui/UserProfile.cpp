@@ -462,9 +462,10 @@ UserProfile::updateVerificationStatus()
             return;
 
         if (!result) {
-            nhlog::crypto()->warn("Failed to fetch matrix-sdk verification status for '{}': {}",
-                                  userId.toStdString(),
-                                  error.toStdString());
+            komai::logging::crypto()->warn(
+              "Failed to fetch matrix-sdk verification status for '{}': {}",
+              userId.toStdString(),
+              error.toStdString());
         }
 
         std::vector<DeviceInfo> devices;
@@ -527,8 +528,9 @@ UserProfile::getGlobalProfileData()
 {
     const auto handleId = matrixBackendHandleId();
     if (handleId == 0) {
-        nhlog::net()->warn("failed to retrieve user profile info: matrix-sdk runtime is not "
-                           "available");
+        komai::logging::net()->warn(
+          "failed to retrieve user profile info: matrix-sdk runtime is not "
+          "available");
         emit failedToFetchProfile();
         return;
     }
@@ -581,9 +583,9 @@ UserProfile::getGlobalProfileData()
                   return;
 
               if (!globalOk && !roomProfile) {
-                  nhlog::net()->warn("failed to retrieve user profile info via matrix-sdk "
-                                     "runtime: {}",
-                                     globalError.toStdString());
+                  komai::logging::net()->warn("failed to retrieve user profile info via matrix-sdk "
+                                              "runtime: {}",
+                                              globalError.toStdString());
                   emit guard->failedToFetchProfile();
                   return;
               }
@@ -591,7 +593,7 @@ UserProfile::getGlobalProfileData()
               guard->globalAvatarUrl = komai::matrix::normalizeMxcUri(avatarUrl);
               if (roomProfile) {
                   if (!roomError.isEmpty()) {
-                      nhlog::net()->debug(
+                      komai::logging::net()->debug(
                         "failed to retrieve room-member profile info via matrix-sdk runtime: {}",
                         roomError.toStdString());
                   }

@@ -223,12 +223,12 @@ LitehtmlItem::rebuildDocument()
                        .arg(qRound(width())));
     }
     if (churnPerfEnabled()) {
-        nhlog::ui()->info("[churn] rebuild item={} count={} htmlLen={} width={} us={}",
-                          (void *)this,
-                          m_rebuildCount,
-                          m_html.size(),
-                          qRound(width()),
-                          createUs);
+        komai::logging::ui()->info("[churn] rebuild item={} count={} htmlLen={} width={} us={}",
+                                   (void *)this,
+                                   m_rebuildCount,
+                                   m_html.size(),
+                                   qRound(width()),
+                                   createUs);
     }
     update();
 }
@@ -266,14 +266,14 @@ LitehtmlItem::relayout()
                        .arg(qRound(implicitHeight())));
     }
     if (churnPerfEnabled()) {
-        nhlog::ui()->info("[churn] relayout item={} count={} renderW={} contentW={} "
-                          "implicitH={} us={}",
-                          (void *)this,
-                          m_relayoutCount,
-                          w,
-                          cw,
-                          qRound(implicitHeight()),
-                          renderUs);
+        komai::logging::ui()->info("[churn] relayout item={} count={} renderW={} contentW={} "
+                                   "implicitH={} us={}",
+                                   (void *)this,
+                                   m_relayoutCount,
+                                   w,
+                                   cw,
+                                   qRound(implicitHeight()),
+                                   renderUs);
     }
 }
 
@@ -334,10 +334,10 @@ LitehtmlItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometr
 
     if (m_document && qRound(newGeometry.width()) != qRound(oldGeometry.width())) {
         if (churnPerfEnabled()) {
-            nhlog::ui()->info("[churn] geomWidth item={} oldW={} newW={}",
-                              (void *)this,
-                              qRound(oldGeometry.width()),
-                              qRound(newGeometry.width()));
+            komai::logging::ui()->info("[churn] geomWidth item={} oldW={} newW={}",
+                                       (void *)this,
+                                       qRound(oldGeometry.width()),
+                                       qRound(newGeometry.width()));
         }
         relayout();
         update();

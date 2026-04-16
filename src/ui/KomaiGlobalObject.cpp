@@ -72,9 +72,9 @@ openWithBrowserCommand(const QString &command, const QUrl &url)
 
     const bool started = QProcess::startDetached(browserCommand, args);
     if (!started) {
-        nhlog::ui()->warn("Failed to start custom browser command '{}' for URL '{}'",
-                          trimmedCommand.toStdString(),
-                          url.toDisplayString().toStdString());
+        komai::logging::ui()->warn("Failed to start custom browser command '{}' for URL '{}'",
+                                   trimmedCommand.toStdString(),
+                                   url.toDisplayString().toStdString());
         return false;
     }
 
@@ -182,15 +182,15 @@ Komai::updateUserProfile()
     const auto localUserId      = utils::localUser().trimmed();
 
     if (hasMatrixRuntime && !localUserId.isEmpty()) {
-        nhlog::ui()->info("Refreshing Komai.currentUser (user_id='{}', matrix_runtime={})",
-                          localUserId.toStdString(),
-                          hasMatrixRuntime);
+        komai::logging::ui()->info("Refreshing Komai.currentUser (user_id='{}', matrix_runtime={})",
+                                   localUserId.toStdString(),
+                                   hasMatrixRuntime);
         currentUser_.reset(
           new UserProfile(QLatin1String(""), localUserId, ChatPage::instance()->timelineManager()));
     } else {
-        nhlog::ui()->info("Clearing Komai.currentUser (user_id='{}', matrix_runtime={})",
-                          localUserId.toStdString(),
-                          hasMatrixRuntime);
+        komai::logging::ui()->info("Clearing Komai.currentUser (user_id='{}', matrix_runtime={})",
+                                   localUserId.toStdString(),
+                                   hasMatrixRuntime);
         currentUser_.reset();
     }
     emit profileChanged();
@@ -388,8 +388,9 @@ Komai::openLink(QString link) const
         } else if (allowedUrlSchemes.contains(url.scheme()))
             QDesktopServices::openUrl(url);
         else
-            nhlog::ui()->warn("Url '{}' not opened, because the scheme is not in the allow list",
-                              url.toDisplayString().toStdString());
+            komai::logging::ui()->warn(
+              "Url '{}' not opened, because the scheme is not in the allow list",
+              url.toDisplayString().toStdString());
     }
 }
 QString
@@ -613,7 +614,7 @@ Komai::deleteApplicationProfile(QString profileId, bool allowDeletingLoadedProfi
 UserProfile *
 Komai::currentUser() const
 {
-    nhlog::ui()->debug("Profile requested");
+    komai::logging::ui()->debug("Profile requested");
 
     return currentUser_.get();
 }

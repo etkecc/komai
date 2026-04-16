@@ -85,15 +85,17 @@ MainWindow::handleNavigationMouseButtonEvent(QEvent *event)
     if (mouseEvent->button() == Qt::BackButton) {
         if (isPress)
             hideMenuOnWaylandMousePress();
-        nhlog::ui()->info("[nav-history] mouse BackButton {}", isPress ? "pressed" : "released");
+        komai::logging::ui()->info("[nav-history] mouse BackButton {}",
+                                   isPress ? "pressed" : "released");
         if (isPress) {
             backButtonPressSeen_ = true;
             // If a page is pushed on the stack (Login, Register, Settings),
             // pop it instead of navigating room history.
             auto *stack = pageStack();
             if (stack && stack->property("depth").toInt() > 1) {
-                nhlog::ui()->info("[nav-history] BackButton: popping page stack (depth={})",
-                                  stack->property("depth").toInt());
+                komai::logging::ui()->info(
+                  "[nav-history] BackButton: popping page stack (depth={})",
+                  stack->property("depth").toInt());
                 QMetaObject::invokeMethod(stack, "popPage");
             } else if (auto *mgr = ChatPage::instance()->timelineManager()) {
                 mgr->navigateBack();
@@ -103,7 +105,7 @@ MainWindow::handleNavigationMouseButtonEvent(QEvent *event)
                 // Press may have been consumed by QML; check stack depth here too.
                 auto *stack = pageStack();
                 if (stack && stack->property("depth").toInt() > 1) {
-                    nhlog::ui()->info(
+                    komai::logging::ui()->info(
                       "[nav-history] BackButton release: popping page stack (depth={})",
                       stack->property("depth").toInt());
                     QMetaObject::invokeMethod(stack, "popPage");
@@ -120,7 +122,8 @@ MainWindow::handleNavigationMouseButtonEvent(QEvent *event)
     if (mouseEvent->button() == Qt::ForwardButton) {
         if (isPress)
             hideMenuOnWaylandMousePress();
-        nhlog::ui()->info("[nav-history] mouse ForwardButton {}", isPress ? "pressed" : "released");
+        komai::logging::ui()->info("[nav-history] mouse ForwardButton {}",
+                                   isPress ? "pressed" : "released");
         if (isPress) {
             forwardButtonPressSeen_ = true;
             // Don't navigate room history while a page is pushed on the stack.
@@ -237,26 +240,28 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
     QTimer::singleShot(0, this, [this] {
         if (showProfileSwitcherOnStartup_) {
             setStartupStatus(tr("Starting Komai"), tr("Opening the profile chooser..."));
-            nhlog::ui()->info("Startup selector mode active, showing profile switcher page");
+            komai::logging::ui()->info(
+              "Startup selector mode active, showing profile switcher page");
             emit showProfileSwitcherPageRequested();
             return;
         }
 
         const auto snapshot = userSettings_->sessionSnapshot();
-        nhlog::ui()->info("Startup loaded session status (has_user_id={}, has_access_token={}, "
-                          "has_device_id={}, has_homeserver={}, user_id='{}', device_id='{}', "
-                          "homeserver='{}')",
-                          !snapshot.userId.trimmed().isEmpty(),
-                          !snapshot.accessToken.trimmed().isEmpty(),
-                          !snapshot.deviceId.trimmed().isEmpty(),
-                          !snapshot.homeserver.trimmed().isEmpty(),
-                          snapshot.userId.toStdString(),
-                          snapshot.deviceId.toStdString(),
-                          snapshot.homeserver.toStdString());
+        komai::logging::ui()->info(
+          "Startup loaded session status (has_user_id={}, has_access_token={}, "
+          "has_device_id={}, has_homeserver={}, user_id='{}', device_id='{}', "
+          "homeserver='{}')",
+          !snapshot.userId.trimmed().isEmpty(),
+          !snapshot.accessToken.trimmed().isEmpty(),
+          !snapshot.deviceId.trimmed().isEmpty(),
+          !snapshot.homeserver.trimmed().isEmpty(),
+          snapshot.userId.toStdString(),
+          snapshot.deviceId.toStdString(),
+          snapshot.homeserver.toStdString());
 
         if (hasActiveUser()) {
             setStartupStatus(tr("Starting Komai"), tr("Restoring your session..."));
-            nhlog::ui()->info("User already signed in, showing chat page");
+            komai::logging::ui()->info("User already signed in, showing chat page");
             showChatPage(userSettings_->hasPersistedSessionIdentity());
             return;
         }
@@ -322,13 +327,13 @@ MainWindow::refreshDbusAvailability()
 
         QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/"));
         if (dbusAvailable_ && !QDBusConnection::sessionBus().unregisterService(service))
-            nhlog::ui()->warn("Could not unregister D-Bus service");
+            komai::logging::ui()->warn("Could not unregister D-Bus service");
         dbusAvailable_ = false;
         return;
     }
 
     if (!QDBusConnection::sessionBus().isConnected()) {
-        nhlog::ui()->warn("Could not connect to D-Bus");
+        komai::logging::ui()->warn("Could not connect to D-Bus");
         dbusAvailable_ = false;
         return;
     }
@@ -336,10 +341,11 @@ MainWindow::refreshDbusAvailability()
     if (!dbusAvailable_) {
         if (QDBusConnection::sessionBus().registerService(service)) {
             komai::dbus::init();
-            nhlog::ui()->info("Initialized D-Bus as {}", service.toStdString());
+            komai::logging::ui()->info("Initialized D-Bus as {}", service.toStdString());
             dbusAvailable_ = true;
         } else {
-            nhlog::ui()->warn("Could not register D-Bus service: {}", service.toStdString());
+            komai::logging::ui()->warn("Could not register D-Bus service: {}",
+                                       service.toStdString());
             return;
         }
     }
@@ -414,12 +420,12 @@ MainWindow::restoreWindowSize()
     int savedWidth  = userSettings_->windowWidth();
     int savedHeight = userSettings_->windowHeight();
 
-    nhlog::ui()->info("Restoring window size {}x{}", savedWidth, savedHeight);
+    komai::logging::ui()->info("Restoring window size {}x{}", savedWidth, savedHeight);
 
     if (savedWidth <= 0 || savedHeight <= 0) {
-        nhlog::ui()->warn("Loaded invalid window size, falling back to defaults {}x{}",
-                          settings::core::definitions::kDefaultWindowWidthPx,
-                          settings::core::definitions::kDefaultWindowHeightPx);
+        komai::logging::ui()->warn("Loaded invalid window size, falling back to defaults {}x{}",
+                                   settings::core::definitions::kDefaultWindowWidthPx,
+                                   settings::core::definitions::kDefaultWindowHeightPx);
         resize(settings::core::definitions::kDefaultWindowWidthPx,
                settings::core::definitions::kDefaultWindowHeightPx);
     } else {
@@ -440,7 +446,7 @@ MainWindow::showChatPage(bool hadSessionIdentity)
 {
     if (!userSettings_->hasActiveSession()) {
         const auto snapshot = userSettings_->sessionSnapshot();
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "Refusing to show chat page without a persisted active session "
           "(has_user_id={}, has_access_token={}, has_device_id={}, has_homeserver={})",
           !snapshot.userId.trimmed().isEmpty(),
@@ -461,43 +467,47 @@ void
 MainWindow::continueShowChatPageAfterBackendStart(bool hadSessionIdentity)
 {
     const auto snapshot = userSettings_->sessionSnapshot();
-    nhlog::ui()->info("Keeping startup-restore page visible; deferring chat bootstrap to the "
-                      "next event turn");
+    komai::logging::ui()->info(
+      "Keeping startup-restore page visible; deferring chat bootstrap to the "
+      "next event turn");
 
     QTimer::singleShot(0, this, [this, snapshot, hadSessionIdentity] {
         if (matrixBackendHandleId_ == 0 || !chat_page_) {
-            nhlog::ui()->warn("Skipping deferred chat bootstrap because the matrix-sdk backend "
-                              "handle is no longer active");
+            komai::logging::ui()->warn(
+              "Skipping deferred chat bootstrap because the matrix-sdk backend "
+              "handle is no longer active");
             return;
         }
 
-        nhlog::ui()->info("Running deferred chat bootstrap for user '{}'",
-                          snapshot.userId.toStdString());
+        komai::logging::ui()->info("Running deferred chat bootstrap for user '{}'",
+                                   snapshot.userId.toStdString());
         chat_page_->bootstrap(snapshot.userId,
                               snapshot.deviceId,
                               snapshot.homeserver,
                               snapshot.accessToken,
                               hadSessionIdentity);
-        nhlog::ui()->info("Finished deferred chat bootstrap");
+        komai::logging::ui()->info("Finished deferred chat bootstrap");
         if (!chat_page_ || matrixBackendHandleId_ == 0) {
-            nhlog::ui()->warn("Skipping chat-page switch after deferred bootstrap because the "
-                              "matrix-sdk backend handle is no longer active");
+            komai::logging::ui()->warn(
+              "Skipping chat-page switch after deferred bootstrap because the "
+              "matrix-sdk backend handle is no longer active");
             return;
         }
 
         emit switchToChatPage();
-        nhlog::ui()->info("Switched to chat page after deferred bootstrap");
+        komai::logging::ui()->info("Switched to chat page after deferred bootstrap");
 
         auto *timelineManager = chat_page_->timelineManager();
         auto *rooms           = timelineManager ? timelineManager->rooms() : nullptr;
         if (rooms) {
-            nhlog::ui()->info("Deferring saved-room restore until after the first chat frame");
+            komai::logging::ui()->info(
+              "Deferring saved-room restore until after the first chat frame");
             connect(
               this,
               &QQuickWindow::frameSwapped,
               rooms,
               [rooms]() {
-                  nhlog::ui()->info(
+                  komai::logging::ui()->info(
                     "Queueing saved-room restore on the event loop after the first chat "
                     "frame");
                   QTimer::singleShot(
@@ -540,7 +550,7 @@ MainWindow::startMatrixBackendHandleForActiveSession(bool hadSessionIdentity)
                   QString stopError;
                   if (!komai::MatrixBackendRuntimeService::stopBackend(result.handleInfo->handleId,
                                                                        &stopError)) {
-                      nhlog::ui()->warn(
+                      komai::logging::ui()->warn(
                         "Failed to stop stale matrix-sdk backend handle {} after startup "
                         "request replacement: {}",
                         result.handleInfo->handleId,
@@ -551,9 +561,10 @@ MainWindow::startMatrixBackendHandleForActiveSession(bool hadSessionIdentity)
           }
 
           if (!result.handleInfo) {
-              nhlog::ui()->warn("Failed to start matrix-sdk backend handle for profile '{}': {}",
-                                normalizedProfileId.toStdString(),
-                                result.error.toStdString());
+              komai::logging::ui()->warn(
+                "Failed to start matrix-sdk backend handle for profile '{}': {}",
+                normalizedProfileId.toStdString(),
+                result.error.toStdString());
               window->setStartupStatus(MainWindow::tr("Welcome to Komai"),
                                        MainWindow::tr("Preparing sign-in..."));
               window->transitionToLoginPage(
@@ -562,10 +573,11 @@ MainWindow::startMatrixBackendHandleForActiveSession(bool hadSessionIdentity)
           }
 
           if (!result.handleInfo->hasSession || result.handleInfo->handleId == 0) {
-              nhlog::ui()->info("No persisted matrix-sdk session is available yet for profile "
-                                "'{}'; refusing to continue startup without a restored backend "
-                                "handle",
-                                normalizedProfileId.toStdString());
+              komai::logging::ui()->info(
+                "No persisted matrix-sdk session is available yet for profile "
+                "'{}'; refusing to continue startup without a restored backend "
+                "handle",
+                normalizedProfileId.toStdString());
               window->setStartupStatus(MainWindow::tr("Welcome to Komai"),
                                        MainWindow::tr("Preparing sign-in..."));
               window->transitionToLoginPage(
@@ -575,14 +587,15 @@ MainWindow::startMatrixBackendHandleForActiveSession(bool hadSessionIdentity)
 
           window->matrixBackendHandleId_ = result.handleInfo->handleId;
           window->matrixBackendAuthType_ = result.handleInfo->authType;
-          nhlog::ui()->info("Started matrix-sdk backend handle {} for profile '{}' "
-                            "(auth_type='{}', user_id='{}', device_id='{}', homeserver='{}')",
-                            window->matrixBackendHandleId_,
-                            normalizedProfileId.toStdString(),
-                            result.handleInfo->authType.toStdString(),
-                            result.handleInfo->userId.toStdString(),
-                            result.handleInfo->deviceId.toStdString(),
-                            result.handleInfo->homeserverUrl.toStdString());
+          komai::logging::ui()->info(
+            "Started matrix-sdk backend handle {} for profile '{}' "
+            "(auth_type='{}', user_id='{}', device_id='{}', homeserver='{}')",
+            window->matrixBackendHandleId_,
+            normalizedProfileId.toStdString(),
+            result.handleInfo->authType.toStdString(),
+            result.handleInfo->userId.toStdString(),
+            result.handleInfo->deviceId.toStdString(),
+            result.handleInfo->homeserverUrl.toStdString());
 
           komai::MatrixBackendRuntimeService::startMediaProxy(window->matrixBackendHandleId_);
 
@@ -591,12 +604,13 @@ MainWindow::startMatrixBackendHandleForActiveSession(bool hadSessionIdentity)
                                    MainWindow::tr("Opening your rooms..."));
           if (!komai::MatrixBackendRuntimeService::startSync(window->matrixBackendHandleId_,
                                                              &error)) {
-              nhlog::ui()->warn("Failed to start matrix-sdk sync for backend handle {}: {}",
-                                window->matrixBackendHandleId_,
-                                error.toStdString());
+              komai::logging::ui()->warn(
+                "Failed to start matrix-sdk sync for backend handle {}: {}",
+                window->matrixBackendHandleId_,
+                error.toStdString());
           } else {
-              nhlog::ui()->info("Started matrix-sdk sync for backend handle {}",
-                                window->matrixBackendHandleId_);
+              komai::logging::ui()->info("Started matrix-sdk sync for backend handle {}",
+                                         window->matrixBackendHandleId_);
           }
 
           window->continueShowChatPageAfterBackendStart(hadSessionIdentity);
@@ -619,12 +633,12 @@ MainWindow::stopMatrixBackendHandle()
 
     QString error;
     if (!komai::MatrixBackendRuntimeService::stopBackend(handleId, &error)) {
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "Failed to stop matrix-sdk backend handle {}: {}", handleId, error.toStdString());
         return;
     }
 
-    nhlog::ui()->info("Stopped matrix-sdk backend handle {}", handleId);
+    komai::logging::ui()->info("Stopped matrix-sdk backend handle {}", handleId);
 }
 
 void

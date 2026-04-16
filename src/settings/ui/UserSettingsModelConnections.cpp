@@ -25,7 +25,7 @@ UserSettingsModel::wireSettingConnections(UserSettings *settings)
             emit dataChanged(index(idx), index(idx), {__VA_ARGS__});                               \
         });                                                                                        \
     } else {                                                                                       \
-        nhlog::ui()->warn(                                                                         \
+        komai::logging::ui()->warn(                                                                \
           "Missing settings row for SettingId::{} while wiring signal '{}'", #id, #sig);           \
     }
 

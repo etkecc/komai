@@ -143,7 +143,8 @@ MatrixBackendRuntimeService::startMediaProxy(uint64_t handleId)
     try {
         return ::komai::rust::matrix_start_media_proxy(handleId);
     } catch (const std::exception &e) {
-        nhlog::net()->warn("Failed to start media proxy for handle {}: {}", handleId, e.what());
+        komai::logging::net()->warn(
+          "Failed to start media proxy for handle {}: {}", handleId, e.what());
         return std::nullopt;
     }
 }

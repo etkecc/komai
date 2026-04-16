@@ -19,9 +19,9 @@ UserSettings::setCoreValue(settings::core::SettingId id,
     if (result.success)
         return true;
 
-    nhlog::ui()->warn("Ignoring invalid settings update for '{}': {}",
-                      settingName != nullptr ? settingName : "(unknown)",
-                      result.validationError);
+    komai::logging::ui()->warn("Ignoring invalid settings update for '{}': {}",
+                               settingName != nullptr ? settingName : "(unknown)",
+                               result.validationError);
     return false;
 }
 

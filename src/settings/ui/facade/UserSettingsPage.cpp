@@ -37,12 +37,12 @@ resolveEmojiFontFamily()
 
     for (const auto &preferred : preferredEmojiFonts) {
         if (available.contains(preferred)) {
-            nhlog::ui()->info("Emoji font: using \"{}\"", preferred.toStdString());
+            komai::logging::ui()->info("Emoji font: using \"{}\"", preferred.toStdString());
             return preferred;
         }
     }
 
-    nhlog::ui()->warn(
+    komai::logging::ui()->warn(
       "Emoji font: no suitable font found (install e.g. Noto Color Emoji for emoji support)");
     return {};
 }
@@ -187,13 +187,13 @@ UserSettings::save()
 
     settings::SettingsController controller;
     if (startupPersistenceScope_ == StartupPersistenceScope::ConfigOnly) {
-        nhlog::ui()->debug("Startup settings persistence in config-only mode; skipping "
-                           "state/session/secrets writes");
+        komai::logging::ui()->debug("Startup settings persistence in config-only mode; skipping "
+                                    "state/session/secrets writes");
         controller.save(*this, settings::SettingsController::SavePolicy::ConfigOnly);
     } else {
         if (!hasActiveSession()) {
             startupPersistenceScope_ = StartupPersistenceScope::ConfigOnly;
-            nhlog::ui()->warn(
+            komai::logging::ui()->warn(
               "Startup settings persistence requested with incomplete session identity "
               "(has_user_id={}, "
               "has_access_token={}, has_device_id={}, has_homeserver={}); forcing config-only save",

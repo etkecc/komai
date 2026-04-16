@@ -20,7 +20,7 @@ namespace {
 SerializerLoggers
 defaultLoggers()
 {
-    return {.ui = std::make_shared<nhlog::Logger>("settings-serializer-ui")};
+    return {.ui = std::make_shared<komai::logging::Logger>("settings-serializer-ui")};
 }
 
 SerializerLoggers &

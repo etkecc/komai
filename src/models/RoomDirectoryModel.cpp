@@ -136,8 +136,8 @@ RoomDirectoryModel::setMatrixServer(const QString &s)
 {
     server_ = s.trimmed();
 
-    nhlog::ui()->info("Switching room directory to server: {}",
-                      server_.isEmpty() ? "(homeserver)" : server_.toStdString());
+    komai::logging::ui()->info("Switching room directory to server: {}",
+                               server_.isEmpty() ? "(homeserver)" : server_.toStdString());
 
     errorString_.clear();
     emit errorStringChanged();
@@ -155,7 +155,7 @@ RoomDirectoryModel::setSearchTerm(const QString &f)
 
     userSearchString_ = newTerm;
 
-    nhlog::ui()->info("Search term changed: '{}'", userSearchString_.toStdString());
+    komai::logging::ui()->info("Search term changed: '{}'", userSearchString_.toStdString());
 
     errorString_.clear();
     emit errorStringChanged();
@@ -202,7 +202,7 @@ RoomDirectoryModel::joinRoom(const int &index)
 {
     if (index >= 0 && index < publicRoomsData_.size()) {
         const auto &room = publicRoomsData_.at(index);
-        nhlog::ui()->info("Joining room {}", room.roomId.toStdString());
+        komai::logging::ui()->info("Joining room {}", room.roomId.toStdString());
 
         std::vector<std::string> vias;
         for (const auto &via : getViasForRoom(room))
@@ -220,7 +220,7 @@ RoomDirectoryModel::data(const QModelIndex &index, int role) const
         switch (role) {
         case Roles::Name:
             if (room.displayName.isEmpty())
-                nhlog::net()->warn("Room {} has no name", room.roomId.toStdString());
+                komai::logging::net()->warn("Room {} has no name", room.roomId.toStdString());
             return room.displayName;
         case Roles::Id:
             return room.roomId;
@@ -254,8 +254,9 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
 
     const auto handleId = matrixBackendHandleId();
     if (handleId == 0) {
-        nhlog::ui()->warn("Room directory search requires an active matrix-sdk backend runtime "
-                          "handle");
+        komai::logging::ui()->warn(
+          "Room directory search requires an active matrix-sdk backend runtime "
+          "handle");
         canFetchMore_           = false;
         reachedEndOfPagination_ = true;
         errorString_            = tr("Room directory requires an active Matrix session.");
@@ -270,11 +271,12 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
     const auto requestedSearchTerm =
       applyRoomDirectoryLanguageFilter(userSearchString_, mrsLanguageFilter_);
 
-    nhlog::net()->info("Fetching public rooms: server='{}', query='{}', limit={}, since='{}'",
-                       requestedServer.isEmpty() ? "(homeserver)" : requestedServer.toStdString(),
-                       requestedSearchTerm.toStdString(),
-                       limit_,
-                       requestedSince.toStdString());
+    komai::logging::net()->info(
+      "Fetching public rooms: server='{}', query='{}', limit={}, since='{}'",
+      requestedServer.isEmpty() ? "(homeserver)" : requestedServer.toStdString(),
+      requestedSearchTerm.toStdString(),
+      limit_,
+      requestedSince.toStdString());
 
     reachedEndOfPagination_ = false;
     emit reachedEndOfPaginationChanged();
@@ -380,11 +382,12 @@ RoomDirectoryModel::displayRooms(uint64_t generation,
         emit totalRoomCountEstimateChanged();
     }
 
-    nhlog::net()->info("Received {} rooms (requested {}), prev batch: '{}', next batch: '{}'",
-                       fetched_rooms.size(),
-                       limit_,
-                       prevBatch_.toStdString(),
-                       next_batch.toStdString());
+    komai::logging::net()->info(
+      "Received {} rooms (requested {}), prev batch: '{}', next batch: '{}'",
+      fetched_rooms.size(),
+      limit_,
+      prevBatch_.toStdString(),
+      next_batch.toStdString());
 
     // Apply client-side room type filter
     if (!roomTypeFilter_.isEmpty()) {
@@ -395,10 +398,10 @@ RoomDirectoryModel::displayRooms(uint64_t generation,
                          fetched_rooms.end(),
                          [wantSpaces](const auto &room) { return room.isSpace != wantSpaces; }),
           fetched_rooms.end());
-        nhlog::net()->info("Room type filter: {} -> {} rooms (filter: {})",
-                           beforeCount,
-                           fetched_rooms.size(),
-                           roomTypeFilter_.toStdString());
+        komai::logging::net()->info("Room type filter: {} -> {} rooms (filter: {})",
+                                    beforeCount,
+                                    fetched_rooms.size(),
+                                    roomTypeFilter_.toStdString());
     }
 
     // Apply client-side member count filter
@@ -416,7 +419,7 @@ RoomDirectoryModel::displayRooms(uint64_t generation,
                                                       static_cast<uint64_t>(maxMemberFilter_);
                                            }),
                             fetched_rooms.end());
-        nhlog::net()->info(
+        komai::logging::net()->info(
           "Room size filter: {} -> {} rooms (filter: ≤{}, page range: {}-{} members)",
           beforeCount,
           fetched_rooms.size(),
@@ -428,10 +431,10 @@ RoomDirectoryModel::displayRooms(uint64_t generation,
     if (fetched_rooms.empty()) {
         if (next_batch.isEmpty() || filterSkipCount_ >= maxFilterSkips_) {
             if (filterSkipCount_ >= maxFilterSkips_)
-                nhlog::net()->info("Reached filter skip limit ({} pages), stopping",
-                                   maxFilterSkips_);
+                komai::logging::net()->info("Reached filter skip limit ({} pages), stopping",
+                                            maxFilterSkips_);
             else
-                nhlog::net()->info("No more rooms to fetch");
+                komai::logging::net()->info("No more rooms to fetch");
             canFetchMore_           = false;
             reachedEndOfPagination_ = true;
             emit reachedEndOfPaginationChanged();
@@ -439,9 +442,9 @@ RoomDirectoryModel::displayRooms(uint64_t generation,
         } else {
             // All rooms in this page were filtered out — fetch next page
             filterSkipCount_++;
-            nhlog::net()->info("Page filtered out, fetching next (attempt {}/{})",
-                               filterSkipCount_,
-                               maxFilterSkips_);
+            komai::logging::net()->info("Page filtered out, fetching next (attempt {}/{})",
+                                        filterSkipCount_,
+                                        maxFilterSkips_);
             prevBatch_ = next_batch;
             fetchMore(QModelIndex());
         }
@@ -467,7 +470,7 @@ RoomDirectoryModel::displayRooms(uint64_t generation,
     prevBatch_ = next_batch;
     nextBatch_ = next_batch;
 
-    nhlog::ui()->info("Finished loading rooms");
+    komai::logging::ui()->info("Finished loading rooms");
 }
 
 void
@@ -515,7 +518,7 @@ RoomDirectoryModel::fetchMrsRoomCount(const QString &serverName)
         QString error;
         auto resolution = komai::MatrixServerResolver::resolve(context, serverName, &error);
         if (!resolution) {
-            nhlog::net()->warn(
+            komai::logging::net()->warn(
               "MRS stats: failed to resolve {}: {}", serverName.toStdString(), error.toStdString());
             QMetaObject::invokeMethod(QCoreApplication::instance(), [guard]() {
                 if (guard)
@@ -524,9 +527,9 @@ RoomDirectoryModel::fetchMrsRoomCount(const QString &serverName)
             return;
         }
 
-        nhlog::net()->info("MRS stats: resolved {} -> {}",
-                           serverName.toStdString(),
-                           resolution->baseUrl.toStdString());
+        komai::logging::net()->info("MRS stats: resolved {} -> {}",
+                                    serverName.toStdString(),
+                                    resolution->baseUrl.toStdString());
         QString statsUrl = resolution->baseUrl + QStringLiteral("/stats");
 
         QMetaObject::invokeMethod(QCoreApplication::instance(), [guard, statsUrl]() {
@@ -551,14 +554,15 @@ RoomDirectoryModel::fetchMrsStats(const QString &statsUrl)
         mrsRoomCountLoading_ = false;
 
         if (reply->error() != QNetworkReply::NoError) {
-            nhlog::net()->warn("MRS stats: HTTP error: {}", reply->errorString().toStdString());
+            komai::logging::net()->warn("MRS stats: HTTP error: {}",
+                                        reply->errorString().toStdString());
             return;
         }
 
         auto data = reply->readAll();
         auto doc  = QJsonDocument::fromJson(data);
         if (!doc.isObject()) {
-            nhlog::net()->warn("MRS stats: invalid JSON response");
+            komai::logging::net()->warn("MRS stats: invalid JSON response");
             return;
         }
 
@@ -570,9 +574,9 @@ RoomDirectoryModel::fetchMrsStats(const QString &statsUrl)
         if (indexed >= 0 && indexed != mrsRoomCount_) {
             mrsRoomCount_ = indexed;
             emit mrsRoomCountChanged();
-            nhlog::net()->info("MRS stats: {} indexed rooms", indexed);
+            komai::logging::net()->info("MRS stats: {} indexed rooms", indexed);
         } else if (indexed < 0) {
-            nhlog::net()->warn("MRS stats: missing or invalid rooms.indexed in response");
+            komai::logging::net()->warn("MRS stats: missing or invalid rooms.indexed in response");
         }
     });
 }

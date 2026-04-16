@@ -351,11 +351,12 @@ RegisterPage::performPostRegistrationLogin(const QString &userId,
                                            const QString &deviceId,
                                            const QString &homeserverUrl)
 {
-    nhlog::ui()->info("Registration succeeded — performing login to establish matrix-sdk session "
-                      "(user_id='{}', device_id='{}', homeserver='{}')",
-                      userId.toStdString(),
-                      deviceId.toStdString(),
-                      homeserverUrl.toStdString());
+    komai::logging::ui()->info(
+      "Registration succeeded — performing login to establish matrix-sdk session "
+      "(user_id='{}', device_id='{}', homeserver='{}')",
+      userId.toStdString(),
+      deviceId.toStdString(),
+      homeserverUrl.toStdString());
 
     QPointer<RegisterPage> guard(this);
     const auto profileId   = UserSettings::instance()->profile();
@@ -401,7 +402,7 @@ RegisterPage::performPostRegistrationLogin(const QString &userId,
                 return;
             }
 
-            nhlog::ui()->info(
+            komai::logging::ui()->info(
               "Post-registration login succeeded (user_id='{}', device_id='{}', homeserver='{}')",
               result->userId.toStdString(),
               result->deviceId.toStdString(),

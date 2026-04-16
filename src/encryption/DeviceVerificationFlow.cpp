@@ -150,9 +150,10 @@ DeviceVerificationFlow::next()
       [flowId](DeviceVerificationFlow *flow, const MatrixVerificationActionTaskResult &result) {
           flow->matrixAdvanceInFlight_ = false;
           if (!result.ok) {
-              nhlog::crypto()->warn("Failed to advance matrix-sdk verification flow {}: {}",
-                                    flowId.toStdString(),
-                                    result.error.toStdString());
+              komai::logging::crypto()->warn(
+                "Failed to advance matrix-sdk verification flow {}: {}",
+                flowId.toStdString(),
+                result.error.toStdString());
               flow->cancelVerification(UnknownMethod);
               emit flow->refreshProfile();
               return;
@@ -222,9 +223,9 @@ DeviceVerificationFlow::cancel()
       },
       [flowId](DeviceVerificationFlow *, const MatrixVerificationActionTaskResult &result) {
           if (!result.ok) {
-              nhlog::crypto()->warn("Failed to cancel matrix-sdk verification flow {}: {}",
-                                    flowId.toStdString(),
-                                    result.error.toStdString());
+              komai::logging::crypto()->warn("Failed to cancel matrix-sdk verification flow {}: {}",
+                                             flowId.toStdString(),
+                                             result.error.toStdString());
           }
       });
 }
@@ -233,8 +234,9 @@ void
 DeviceVerificationFlow::unverify()
 {
     if (backendHandleId_ == 0 || userId_.trimmed().isEmpty() || deviceId.trimmed().isEmpty()) {
-        nhlog::crypto()->warn("Cannot clear verification without an active matrix-sdk device "
-                              "verification target");
+        komai::logging::crypto()->warn(
+          "Cannot clear verification without an active matrix-sdk device "
+          "verification target");
         emit refreshProfile();
         return;
     }
@@ -260,10 +262,10 @@ DeviceVerificationFlow::unverify()
                                    const MatrixVerificationActionTaskResult &result) {
           flow->matrixUnverifyInFlight_ = false;
           if (!result.ok) {
-              nhlog::crypto()->warn("Failed to clear matrix-sdk local trust for {}:{}: {}",
-                                    userId.toStdString(),
-                                    deviceIdToUnverify.toStdString(),
-                                    result.error.toStdString());
+              komai::logging::crypto()->warn("Failed to clear matrix-sdk local trust for {}:{}: {}",
+                                             userId.toStdString(),
+                                             deviceIdToUnverify.toStdString(),
+                                             result.error.toStdString());
           }
 
           emit flow->refreshProfile();
@@ -281,8 +283,9 @@ DeviceVerificationFlow::cancelVerification(DeviceVerificationFlow::Error error_c
 void
 DeviceVerificationFlow::failUnavailable()
 {
-    nhlog::crypto()->warn("Device verification flow is unavailable because the matrix-sdk runtime "
-                          "or flow id is missing");
+    komai::logging::crypto()->warn(
+      "Device verification flow is unavailable because the matrix-sdk runtime "
+      "or flow id is missing");
     cancelVerification(UnknownMethod);
     emit refreshProfile();
 }
@@ -322,9 +325,9 @@ DeviceVerificationFlow::refreshFromMatrixRuntime()
           }
 
           if (!result.session) {
-              nhlog::crypto()->warn("Failed to fetch matrix-sdk verification flow {}: {}",
-                                    flowId.toStdString(),
-                                    result.error.toStdString());
+              komai::logging::crypto()->warn("Failed to fetch matrix-sdk verification flow {}: {}",
+                                             flowId.toStdString(),
+                                             result.error.toStdString());
               if (rerun)
                   QTimer::singleShot(0, flow, &DeviceVerificationFlow::refreshFromMatrixRuntime);
               return;

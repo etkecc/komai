@@ -11,7 +11,7 @@
 class UserSettings;
 class QString;
 
-namespace nhlog {
+namespace komai::logging {
 class Logger;
 }
 
@@ -19,7 +19,7 @@ namespace settings {
 
 struct ControllerLoggers
 {
-    std::shared_ptr<nhlog::Logger> ui;
+    std::shared_ptr<komai::logging::Logger> ui;
 };
 
 void

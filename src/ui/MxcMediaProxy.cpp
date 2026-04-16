@@ -61,15 +61,15 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
             &QMediaPlayer::errorOccurred,
             this,
             [this](QMediaPlayer::Error error, QString errorString) {
-                nhlog::ui()->warn("Media player error {} and errorStr {}",
-                                  static_cast<int>(error),
-                                  errorString.toStdString());
+                komai::logging::ui()->warn("Media player error {} and errorStr {}",
+                                           static_cast<int>(error),
+                                           errorString.toStdString());
 
                 // When streaming via the proxy fails (e.g. upstream doesn't support Range,
                 // proxy returns 416, QMediaPlayer/FFmpeg can't recover), fall back to
                 // downloading the full file and playing from a local buffer.
                 if (streaming_ && !streamingFallbackAttempted_) {
-                    nhlog::ui()->info("Streaming failed, falling back to full download");
+                    komai::logging::ui()->info("Streaming failed, falling back to full download");
                     streamingFallbackAttempted_ = true;
                     streaming_                  = false;
                     setRecoveringFromStreamingFallback(true);
@@ -80,9 +80,9 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
             });
     connect(
       this, &MxcMediaProxy::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
-          nhlog::ui()->info("Media player status {} and error {}",
-                            static_cast<int>(status),
-                            static_cast<int>(this->error()));
+          komai::logging::ui()->info("Media player status {} and error {}",
+                                     static_cast<int>(status),
+                                     static_cast<int>(this->error()));
       });
     connect(
       this, &MxcMediaProxy::playbackStateChanged, this, [this](QMediaPlayer::PlaybackState status) {
@@ -101,7 +101,7 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
         if (playbackState() != QMediaPlayer::PausedState)
             return;
 
-        nhlog::ui()->info("Releasing paused audio output after idle timeout");
+        komai::logging::ui()->info("Releasing paused audio output after idle timeout");
         releaseAudioOutput();
     });
     connect(this, &MxcMediaProxy::metaDataChanged, [this]() { emit orientationChanged(); });
@@ -115,7 +115,7 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
 int
 MxcMediaProxy::orientation() const
 {
-    // nhlog::ui()->debug("metadata: {}",
+    // komai::logging::ui()->debug("metadata: {}",
     // availableMetaData().join(QStringLiteral(",")).toStdString());
     return metaData().value(QMediaMetaData::Orientation).toInt();
 }
@@ -128,7 +128,7 @@ MxcMediaProxy::createAudioOutputIfNeeded()
     if (audioOutput())
         return;
 
-    nhlog::ui()->info("Set audio output");
+    komai::logging::ui()->info("Set audio output");
     auto newOut = new QAudioOutput(this);
     newOut->setMuted(muted_);
     newOut->setVolume(
@@ -179,8 +179,8 @@ MxcMediaProxy::startDownload(bool onlyCached)
                                                   suffix,
                                                   roomId)));
     if (QDir::cleanPath(filename.filePath()) != filename.filePath()) {
-        nhlog::net()->warn("Media cache path '{}' is not safe, not downloading file",
-                           filename.filePath().toStdString());
+        komai::logging::net()->warn("Media cache path '{}' is not safe, not downloading file",
+                                    filename.filePath().toStdString());
         return;
     }
 
@@ -197,7 +197,7 @@ MxcMediaProxy::startDownload(bool onlyCached)
         buffer.reset();
 
         QTimer::singleShot(0, this, [this, filename] {
-            nhlog::ui()->info(
+            komai::logging::ui()->info(
               "Playing buffer with size: {}, {}", buffer.bytesAvailable(), buffer.isOpen());
             setRecoveringFromStreamingFallback(false);
             this->setSourceDevice(&buffer, QUrl(filename.fileName()));
@@ -222,7 +222,8 @@ MxcMediaProxy::startDownload(bool onlyCached)
         auto proxyUrl = komai::MatrixBackendRuntimeService::registerTimelineMediaProxyUrl(
           handleId, eventId_, suffix);
         if (proxyUrl) {
-            nhlog::ui()->info("Streaming media via proxy for event '{}'", eventId_.toStdString());
+            komai::logging::ui()->info("Streaming media via proxy for event '{}'",
+                                       eventId_.toStdString());
             streaming_ = true;
             setSource(QUrl(*proxyUrl));
             emit loadedChanged();
@@ -230,9 +231,10 @@ MxcMediaProxy::startDownload(bool onlyCached)
         }
     }
     if (handleId == 0) {
-        nhlog::ui()->warn("Cannot fetch matrix-sdk timeline media for event '{}' without an "
-                          "active runtime handle",
-                          eventId_.toStdString());
+        komai::logging::ui()->warn(
+          "Cannot fetch matrix-sdk timeline media for event '{}' without an "
+          "active runtime handle",
+          eventId_.toStdString());
         return;
     }
 
@@ -254,7 +256,7 @@ MxcMediaProxy::startDownload(bool onlyCached)
               if (!bytes || bytes->isEmpty()) {
                   if (self)
                       self->setRecoveringFromStreamingFallback(false);
-                  nhlog::net()->warn(
+                  komai::logging::net()->warn(
                     "failed to retrieve active timeline media {} via matrix-sdk runtime: {}",
                     eventId.toStdString(),
                     error.toStdString());
@@ -273,7 +275,7 @@ MxcMediaProxy::startDownload(bool onlyCached)
                   buf.open(QBuffer::ReadOnly);
                   processBuffer(buf);
               } catch (const std::exception &e) {
-                  nhlog::ui()->warn("Error while saving file to: {}", e.what());
+                  komai::logging::ui()->warn("Error while saving file to: {}", e.what());
               }
           });
     }).detach();
@@ -283,7 +285,7 @@ void
 MxcMediaProxy::ensureAudioReady()
 {
     pausedAudioOutputReleaseTimer_.stop();
-    nhlog::ui()->info("Eagerly creating audio output");
+    komai::logging::ui()->info("Eagerly creating audio output");
     createAudioOutputIfNeeded();
 }
 

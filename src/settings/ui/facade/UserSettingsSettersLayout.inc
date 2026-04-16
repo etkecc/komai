@@ -67,7 +67,7 @@ UserSettings::setUiFontEmojiFamily(QString family)
     }
     (void)coreStore_.set(settings::core::SettingId::UiFontEmojiFamily, uiFontEmojiFamily_.toStdString());
 
-    nhlog::ui()->info("Emoji font: changed to \"{}\"",
+    komai::logging::ui()->info("Emoji font: changed to \"{}\"",
                       uiFontEmojiFamily_.isEmpty() ? "system default" : uiFontEmojiFamily_.toStdString());
 
     emit uiFontEmojiFamilyChanged(family);

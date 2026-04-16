@@ -87,11 +87,11 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
     view_manager_ = new TimelineViewManager(callManager_, this);
 
     connect(this, &ChatPage::connectionLost, this, [this]() {
-        nhlog::net()->info("connectivity lost");
+        komai::logging::net()->info("connectivity lost");
         isConnected_ = false;
     });
     connect(this, &ChatPage::connectionRestored, this, [this]() {
-        nhlog::net()->info("connectivity restored");
+        komai::logging::net()->info("connectivity restored");
         isConnected_ = true;
     });
 
@@ -132,7 +132,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                                   return;
 
                               if (!ok) {
-                                  nhlog::ui()->warn(
+                                  komai::logging::ui()->warn(
                                     "Failed to invite {} to {} via matrix-sdk runtime: {}",
                                     user.toStdString(),
                                     roomId.toStdString(),
@@ -221,7 +221,7 @@ ChatPage::syncOwnPresence()
     const auto *mainWindow = MainWindow::instance();
     const auto handleId    = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0) {
-        nhlog::net()->debug(
+        komai::logging::net()->debug(
           "Skipping matrix-sdk own-presence update because no runtime handle is active");
         return;
     }
@@ -233,9 +233,10 @@ ChatPage::syncOwnPresence()
           context, handleId, presenceState, statusMessage, &error);
 
         if (!ok) {
-            nhlog::net()->warn("Failed to set own presence via matrix-sdk runtime handle {}: {}",
-                               handleId,
-                               error.toStdString());
+            komai::logging::net()->warn(
+              "Failed to set own presence via matrix-sdk runtime handle {}: {}",
+              handleId,
+              error.toStdString());
         }
     }).detach();
 }
@@ -245,7 +246,7 @@ ChatPage::getProfileInfo()
 {
     const auto *mainWindow = MainWindow::instance();
     if (!mainWindow || mainWindow->matrixBackendHandleId() == 0) {
-        nhlog::net()->warn(
+        komai::logging::net()->warn(
           "Cannot retrieve own profile via matrix-sdk runtime because no runtime handle is active");
         return;
     }
@@ -269,18 +270,20 @@ ChatPage::getProfileInfo()
                 return;
 
             if (!result.profile) {
-                nhlog::net()->warn("Failed to retrieve own profile info via matrix-sdk runtime "
-                                   "handle: {}",
-                                   result.profileError.toStdString());
+                komai::logging::net()->warn(
+                  "Failed to retrieve own profile info via matrix-sdk runtime "
+                  "handle: {}",
+                  result.profileError.toStdString());
             } else {
                 emit guard->setUserDisplayName(result.profile->displayName);
                 emit guard->setUserAvatar(result.profile->avatarUrl);
             }
 
             if (!result.presenceError.isEmpty()) {
-                nhlog::net()->warn("Failed to retrieve own presence via matrix-sdk runtime "
-                                   "handle: {}",
-                                   result.presenceError.toStdString());
+                komai::logging::net()->warn(
+                  "Failed to retrieve own presence via matrix-sdk runtime "
+                  "handle: {}",
+                  result.presenceError.toStdString());
             } else if (result.presence && !guard->statusMessageShadow_.has_value()) {
                 guard->statusMessageShadow_ = result.presence->statusMessage;
             }
@@ -360,7 +363,7 @@ ChatPage::dropToLoginPage(const QString &msg)
     if (shuttingDown_)
         return;
 
-    nhlog::ui()->info("dropping to the login page: {}", msg.toStdString());
+    komai::logging::ui()->info("dropping to the login page: {}", msg.toStdString());
 
     connectivityTimer_.stop();
 

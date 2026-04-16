@@ -66,11 +66,11 @@ purgeFilesInDir(const QString &dirPath)
         if (fileInfo.fileTime(QFile::FileTime::FileAccessTime)
               .daysTo(QDateTime::currentDateTime()) > app_paths::cache::mediaPurgeAgeDays) {
             if (QFile::remove(fileInfo.absoluteFilePath()))
-                nhlog::net()->info("Deleted stale media '{}'",
-                                   fileInfo.absoluteFilePath().toStdString());
+                komai::logging::net()->info("Deleted stale media '{}'",
+                                            fileInfo.absoluteFilePath().toStdString());
             else
-                nhlog::net()->warn("Failed to delete stale media '{}'",
-                                   fileInfo.absoluteFilePath().toStdString());
+                komai::logging::net()->warn("Failed to delete stale media '{}'",
+                                            fileInfo.absoluteFilePath().toStdString());
         }
     }
 }
@@ -126,7 +126,7 @@ MxcImageProvider::MxcImageProvider()
     timer->setInterval(std::chrono::hours(1));
     connect(timer, &QTimer::timeout, this, [] {
         QThreadPool::globalInstance()->start([] {
-            nhlog::net()->info("Running media purge");
+            komai::logging::net()->info("Running media purge");
             const auto profile = currentProfileId();
 
             auto purgeMediaDir = [](const QString &baseDir) {
@@ -242,15 +242,15 @@ possiblyUpdateAccessTime(const QFileInfo &fileInfo)
 {
     if (fileInfo.fileTime(QFile::FileTime::FileAccessTime).daysTo(QDateTime::currentDateTime()) >
         7) {
-        nhlog::net()->debug("Updating file time for '{}'",
-                            fileInfo.absoluteFilePath().toStdString());
+        komai::logging::net()->debug("Updating file time for '{}'",
+                                     fileInfo.absoluteFilePath().toStdString());
 
         QFile f(fileInfo.absoluteFilePath());
 
         if (!f.open(QIODevice::ReadWrite) ||
             !f.setFileTime(QDateTime::currentDateTime(), QFile::FileTime::FileAccessTime)) {
-            nhlog::net()->warn("Failed to update filetime for '{}'",
-                               fileInfo.absoluteFilePath().toStdString());
+            komai::logging::net()->warn("Failed to update filetime for '{}'",
+                                        fileInfo.absoluteFilePath().toStdString());
         }
     }
 }
@@ -264,7 +264,7 @@ MxcImageProvider::download(const QString &id,
                            const QString &roomId)
 {
     if (id.isEmpty()) {
-        nhlog::net()->warn("Attempted to download image with empty ID");
+        komai::logging::net()->warn("Attempted to download image with empty ID");
         then(id, QSize{}, QImage{}, QString{});
         return;
     }
@@ -290,7 +290,7 @@ MxcImageProvider::download(const QString &id,
                   komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
                     context, *handleId, itemId, requestedWidth, requestedHeight, crop, &error);
                 if (!data || data->isEmpty()) {
-                    nhlog::net()->warn(
+                    komai::logging::net()->warn(
                       "Failed to fetch matrix-sdk active timeline media {} via backend handle {}: "
                       "{}",
                       itemId.toStdString(),
@@ -310,9 +310,10 @@ MxcImageProvider::download(const QString &id,
             return;
         }
 
-        nhlog::net()->warn("Refusing matrix-sdk active-timeline media fetch for '{}' without an "
-                           "active runtime handle",
-                           id.toStdString());
+        komai::logging::net()->warn(
+          "Refusing matrix-sdk active-timeline media fetch for '{}' without an "
+          "active runtime handle",
+          id.toStdString());
         then(id, QSize{}, QImage{}, QString{});
         return;
     }
@@ -386,7 +387,7 @@ MxcImageProvider::download(const QString &id,
                                                                         !cropLocally,
                                                                         &error);
                 if (!data || data->isEmpty()) {
-                    nhlog::net()->warn(
+                    komai::logging::net()->warn(
                       "Failed to fetch matrix-sdk thumbnail {} via backend handle {}: {}",
                       id.toStdString(),
                       *handleId,
@@ -398,10 +399,11 @@ MxcImageProvider::download(const QString &id,
                 auto image = prepareThumbnailImage(*data, requestedSize, cropLocally, radius, id);
                 if (image.save(fileInfo.absoluteFilePath(), "png")) {
                     utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
-                    nhlog::ui()->debug("Wrote: {}", fileInfo.absoluteFilePath().toStdString());
+                    komai::logging::ui()->debug("Wrote: {}",
+                                                fileInfo.absoluteFilePath().toStdString());
                 } else {
-                    nhlog::ui()->debug("Failed to write: {}",
-                                       fileInfo.absoluteFilePath().toStdString());
+                    komai::logging::ui()->debug("Failed to write: {}",
+                                                fileInfo.absoluteFilePath().toStdString());
                 }
 
                 then(id, requestedSize, image, fileInfo.absoluteFilePath());
@@ -409,9 +411,10 @@ MxcImageProvider::download(const QString &id,
             return;
         }
 
-        nhlog::net()->warn("Cannot fetch matrix-sdk thumbnail '{}' without an active runtime "
-                           "handle",
-                           id.toStdString());
+        komai::logging::net()->warn(
+          "Cannot fetch matrix-sdk thumbnail '{}' without an active runtime "
+          "handle",
+          id.toStdString());
         then(id, QSize(), {}, QLatin1String(""));
     } else {
         try {
@@ -441,7 +444,7 @@ MxcImageProvider::download(const QString &id,
                       const auto data = komai::MatrixBackendRuntimeService::fetchMediaContent(
                         context, *handleId, providerIdToMxcUri(id), 0, 0, false, &error);
                       if (!data || data->isEmpty()) {
-                          nhlog::net()->warn(
+                          komai::logging::net()->warn(
                             "Failed to fetch matrix-sdk media {} via backend handle {}: {}",
                             id.toStdString(),
                             *handleId,
@@ -452,9 +455,9 @@ MxcImageProvider::download(const QString &id,
 
                       QFile f(fileInfo.absoluteFilePath());
                       if (!f.open(QIODevice::Truncate | QIODevice::WriteOnly)) {
-                          nhlog::net()->error("Failed to write {}: {}",
-                                              id.toStdString(),
-                                              f.errorString().toStdString());
+                          komai::logging::net()->error("Failed to write {}: {}",
+                                                       id.toStdString(),
+                                                       f.errorString().toStdString());
                           then(id, QSize(), {}, QLatin1String(""));
                           return;
                       }
@@ -472,12 +475,13 @@ MxcImageProvider::download(const QString &id,
                 return;
             }
 
-            nhlog::net()->warn("Cannot fetch matrix-sdk full media '{}' without an active runtime "
-                               "handle",
-                               id.toStdString());
+            komai::logging::net()->warn(
+              "Cannot fetch matrix-sdk full media '{}' without an active runtime "
+              "handle",
+              id.toStdString());
             then(id, QSize(), {}, QLatin1String(""));
         } catch (std::exception &e) {
-            nhlog::net()->error("Exception while downloading media: {}", e.what());
+            komai::logging::net()->error("Exception while downloading media: {}", e.what());
         }
     }
 }

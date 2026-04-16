@@ -50,9 +50,10 @@ MemberListBackend::fetchMembersAsync()
             avatarUrl   = settings->roomAvatarUrl;
             memberCount = static_cast<int>(settings->memberCount);
         } else if (!error.isEmpty()) {
-            nhlog::ui()->warn("Failed to load matrix-sdk room settings for members tab '{}': {}",
-                              roomId.toStdString(),
-                              error.toStdString());
+            komai::logging::ui()->warn(
+              "Failed to load matrix-sdk room settings for members tab '{}': {}",
+              roomId.toStdString(),
+              error.toStdString());
         }
 
         error.clear();
@@ -71,9 +72,9 @@ MemberListBackend::fetchMembersAsync()
             if (memberCount <= 0)
                 memberCount = members.size();
         } else if (!error.isEmpty()) {
-            nhlog::ui()->warn("Failed to load matrix-sdk room members for '{}': {}",
-                              roomId.toStdString(),
-                              error.toStdString());
+            komai::logging::ui()->warn("Failed to load matrix-sdk room members for '{}': {}",
+                                       roomId.toStdString(),
+                                       error.toStdString());
         }
 
         auto *app = QCoreApplication::instance();

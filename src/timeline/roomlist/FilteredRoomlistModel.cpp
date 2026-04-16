@@ -185,13 +185,14 @@ FilteredRoomlistModel::setInteractionSuppressed(bool suppressed)
     interactionSuppressed_ = suppressed;
 
     if (interactionSuppressed_) {
-        nhlog::ui()->info("Pausing room list live updates while the user is interacting with it");
+        komai::logging::ui()->info(
+          "Pausing room list live updates while the user is interacting with it");
         setDynamicSortFilter(false);
         roomlistmodel->setInteractionSuppressed(true);
         return;
     }
 
-    nhlog::ui()->info("Resuming room list live updates after room-list interaction");
+    komai::logging::ui()->info("Resuming room list live updates after room-list interaction");
 
     // Re-enable dynamic sort/filter BEFORE applying deferred changes so the proxy
     // auto-sorts incrementally as the source model emits signals.  This avoids a
@@ -512,7 +513,7 @@ FilteredRoomlistModel::toggleTag(const QString &roomid, const QString &tag, bool
 
     const auto preview = roomlistmodel->getRoomPreviewById(roomId);
     if (!preview.isMatrixSummary()) {
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "Refusing to toggle room tag '{}' for non-joined or unavailable room '{}'",
           tagId.toStdString(),
           roomId.toStdString());
@@ -526,10 +527,11 @@ FilteredRoomlistModel::toggleTag(const QString &roomid, const QString &tag, bool
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId == 0) {
-        nhlog::ui()->warn("Refusing to toggle matrix-sdk room tag '{}' for '{}' without an "
-                          "active backend handle",
-                          tagId.toStdString(),
-                          roomId.toStdString());
+        komai::logging::ui()->warn(
+          "Refusing to toggle matrix-sdk room tag '{}' for '{}' without an "
+          "active backend handle",
+          tagId.toStdString(),
+          roomId.toStdString());
         if (mainWindow) {
             mainWindow->showNotification(tr(
               "Room tags are temporarily unavailable because the Matrix session is not active."));
@@ -551,10 +553,10 @@ FilteredRoomlistModel::toggleTag(const QString &roomid, const QString &tag, bool
           if (ok)
               return;
 
-          nhlog::ui()->warn("Failed to toggle matrix-sdk room tag '{}' for '{}': {}",
-                            tagId.toStdString(),
-                            roomId.toStdString(),
-                            error.toStdString());
+          komai::logging::ui()->warn("Failed to toggle matrix-sdk room tag '{}' for '{}': {}",
+                                     tagId.toStdString(),
+                                     roomId.toStdString(),
+                                     error.toStdString());
           if (auto *mainWindow = MainWindow::instance()) {
               mainWindow->showNotification(on ? tr("Failed to add room tag: %1").arg(error)
                                               : tr("Failed to remove room tag: %1").arg(error));
@@ -602,14 +604,14 @@ FilteredRoomlistModel::nextRoomWithActivity()
     QString targetRoomId = nullptr;
     if (roomWithMention != -1) {
         targetRoomId = this->data(index(roomWithMention, 0), RoomlistModel::RoomId).toString();
-        nhlog::ui()->debug("choosing {} for mentions", targetRoomId.toStdString());
+        komai::logging::ui()->debug("choosing {} for mentions", targetRoomId.toStdString());
     } else if (roomWithNotification != -1) {
         targetRoomId = this->data(index(roomWithNotification, 0), RoomlistModel::RoomId).toString();
-        nhlog::ui()->debug("choosing {} for notifications", targetRoomId.toStdString());
+        komai::logging::ui()->debug("choosing {} for notifications", targetRoomId.toStdString());
     } else if (roomWithUnreadMessage != -1) {
         targetRoomId =
           this->data(index(roomWithUnreadMessage, 0), RoomlistModel::RoomId).toString();
-        nhlog::ui()->debug("choosing {} for unread messages", targetRoomId.toStdString());
+        komai::logging::ui()->debug("choosing {} for unread messages", targetRoomId.toStdString());
     }
     if (targetRoomId != nullptr) {
         setCurrentRoom(targetRoomId);

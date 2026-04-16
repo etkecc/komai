@@ -98,7 +98,7 @@ LoginPage::onMatrixIdEntered()
         return;
     }
 
-    nhlog::net()->debug("hostname: {}", user->hostname.toStdString());
+    komai::logging::net()->debug("hostname: {}", user->hostname.toStdString());
 
     homeserverNeeded_ = false;
     lookingUpHs_      = true;
@@ -249,8 +249,8 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
                                                 : deviceName;
         const auto existingDeviceId         = UserSettings::instance()->deviceId().trimmed();
         if (!existingDeviceId.isEmpty())
-            nhlog::net()->info("Login reusing existing device ID: {}",
-                               existingDeviceId.toStdString());
+            komai::logging::net()->info("Login reusing existing device ID: {}",
+                                        existingDeviceId.toStdString());
 
         QPointer<LoginPage> guard(this);
         const auto profileId  = UserSettings::instance()->profile();
@@ -308,8 +308,8 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
                                                 : deviceName;
         const auto existingDeviceId         = UserSettings::instance()->deviceId().trimmed();
         if (!existingDeviceId.isEmpty())
-            nhlog::net()->info("SSO login reusing existing device ID: {}",
-                               existingDeviceId.toStdString());
+            komai::logging::net()->info("SSO login reusing existing device ID: {}",
+                                        existingDeviceId.toStdString());
         const bool verifyCertificates =
           UserSettings::instance()->networkTlsEnableCertificateValidation();
         const bool useOauthForGenericSso =
@@ -384,9 +384,9 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
                 QString error;
                 if (!komai::MatrixAuthService::cancelOauthLogin(pendingOauthLoginId, &error) &&
                     !error.isEmpty()) {
-                    nhlog::net()->warn("Failed to cancel pending OAuth login {}: {}",
-                                       pendingOauthLoginId,
-                                       error.toStdString());
+                    komai::logging::net()->warn("Failed to cancel pending OAuth login {}: {}",
+                                                pendingOauthLoginId,
+                                                error.toStdString());
                 }
             }
 
@@ -491,7 +491,7 @@ LoginPage::cancelLogin()
         if (pendingId != 0) {
             QString error;
             if (!komai::MatrixAuthService::cancelOauthLogin(pendingId, &error) && !error.isEmpty())
-                nhlog::net()->warn(
+                komai::logging::net()->warn(
                   "Failed to cancel pending OAuth login {}: {}", pendingId, error.toStdString());
         }
         activeOauthLoginId_.reset();

@@ -13,9 +13,9 @@ NavigationHistory::push(const QString &filterId, const QString &roomId, bool fil
 
     // Deduplicate against current entry.
     if (cursor_ >= 0 && cursor_ < static_cast<int>(stack_.size()) && stack_[cursor_] == entry) {
-        nhlog::ui()->info("[nav-history] push deduplicated filter='{}' room='{}'",
-                          filterId.toStdString(),
-                          roomId.toStdString());
+        komai::logging::ui()->info("[nav-history] push deduplicated filter='{}' room='{}'",
+                                   filterId.toStdString(),
+                                   roomId.toStdString());
         return;
     }
 
@@ -33,18 +33,19 @@ NavigationHistory::push(const QString &filterId, const QString &roomId, bool fil
         cursor_ -= excess;
     }
 
-    nhlog::ui()->info("[nav-history] push filter='{}' room='{}' filterOnly={} cursor={} size={}",
-                      filterId.toStdString(),
-                      roomId.toStdString(),
-                      filterOnly,
-                      cursor_,
-                      stack_.size());
+    komai::logging::ui()->info(
+      "[nav-history] push filter='{}' room='{}' filterOnly={} cursor={} size={}",
+      filterId.toStdString(),
+      roomId.toStdString(),
+      filterOnly,
+      cursor_,
+      stack_.size());
 }
 
 std::optional<NavigationEntry>
 NavigationHistory::back(const QString &currentFilterId, const QString &currentRoomId)
 {
-    nhlog::ui()->info(
+    komai::logging::ui()->info(
       "[nav-history] back requested currentFilter='{}' currentRoom='{}' cursor={} size={}",
       currentFilterId.toStdString(),
       currentRoomId.toStdString(),
@@ -56,7 +57,7 @@ NavigationHistory::back(const QString &currentFilterId, const QString &currentRo
     while (canGoBack()) {
         --cursor_;
         const auto &entry = stack_[cursor_];
-        nhlog::ui()->info(
+        komai::logging::ui()->info(
           "[nav-history] back considering cursor={} filter='{}' room='{}' filterOnly={}",
           cursor_,
           entry.filterId.toStdString(),
@@ -64,16 +65,16 @@ NavigationHistory::back(const QString &currentFilterId, const QString &currentRo
           entry.filterOnly);
         if (!entry.filterOnly)
             return entry;
-        nhlog::ui()->info("[nav-history] back skipping filter-only entry");
+        komai::logging::ui()->info("[nav-history] back skipping filter-only entry");
     }
-    nhlog::ui()->info("[nav-history] back exhausted, no valid entry found");
+    komai::logging::ui()->info("[nav-history] back exhausted, no valid entry found");
     return std::nullopt;
 }
 
 std::optional<NavigationEntry>
 NavigationHistory::forward(const QString &currentFilterId, const QString &currentRoomId)
 {
-    nhlog::ui()->info(
+    komai::logging::ui()->info(
       "[nav-history] forward requested currentFilter='{}' currentRoom='{}' cursor={} size={}",
       currentFilterId.toStdString(),
       currentRoomId.toStdString(),
@@ -83,7 +84,7 @@ NavigationHistory::forward(const QString &currentFilterId, const QString &curren
     while (canGoForward()) {
         ++cursor_;
         const auto &entry = stack_[cursor_];
-        nhlog::ui()->info(
+        komai::logging::ui()->info(
           "[nav-history] forward considering cursor={} filter='{}' room='{}' filterOnly={}",
           cursor_,
           entry.filterId.toStdString(),
@@ -91,8 +92,8 @@ NavigationHistory::forward(const QString &currentFilterId, const QString &curren
           entry.filterOnly);
         if (!entry.filterOnly)
             return entry;
-        nhlog::ui()->info("[nav-history] forward skipping filter-only entry");
+        komai::logging::ui()->info("[nav-history] forward skipping filter-only entry");
     }
-    nhlog::ui()->info("[nav-history] forward exhausted, no valid entry found");
+    komai::logging::ui()->info("[nav-history] forward exhausted, no valid entry found");
     return std::nullopt;
 }

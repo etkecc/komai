@@ -195,7 +195,7 @@ utils::markFileAsFromWeb(const QString &path [[maybe_unused]])
 #ifdef Q_OS_WINDOWS
     QFile file(path + ":Zone.Identifier");
     if (!file.open(QIODevice::Truncate | QIODevice::WriteOnly)) {
-        nhlog::net()->error("Failed to open alternate stream for {}", path.toStdString());
+        komai::logging::net()->error("Failed to open alternate stream for {}", path.toStdString());
         return;
     }
 

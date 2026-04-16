@@ -82,9 +82,9 @@ PowerlevelsSpacesListModel::commit()
             if (!ok) {
                 ++failCount;
                 lastError = error;
-                nhlog::ui()->warn("Failed to apply power levels to child space '{}': {}",
-                                  roomId.toStdString(),
-                                  error.toStdString());
+                komai::logging::ui()->warn("Failed to apply power levels to child space '{}': {}",
+                                           roomId.toStdString(),
+                                           error.toStdString());
             }
         }
 

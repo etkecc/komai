@@ -66,9 +66,10 @@ PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *paren
 
               if (!powerLevels) {
                   if (!error.isEmpty()) {
-                      nhlog::ui()->warn("Failed to load matrix-sdk room power levels for '{}': {}",
-                                        roomId.toStdString(),
-                                        error.toStdString());
+                      komai::logging::ui()->warn(
+                        "Failed to load matrix-sdk room power levels for '{}': {}",
+                        roomId.toStdString(),
+                        error.toStdString());
                       if (ChatPage::instance()) {
                           ChatPage::instance()->showNotification(PowerlevelEditingModels::tr(
                             "Failed to load room permissions from the matrix-sdk backend."));
@@ -177,9 +178,10 @@ PowerlevelEditingModels::commit()
               emit self->committingChanged();
 
               if (!ok) {
-                  nhlog::ui()->warn("Failed to apply matrix-sdk room power levels for '{}': {}",
-                                    roomId.toStdString(),
-                                    error.toStdString());
+                  komai::logging::ui()->warn(
+                    "Failed to apply matrix-sdk room power levels for '{}': {}",
+                    roomId.toStdString(),
+                    error.toStdString());
                   if (ChatPage::instance()) {
                       ChatPage::instance()->showNotification(PowerlevelEditingModels::tr(
                         "Failed to save room permissions to the matrix-sdk backend."));

@@ -445,7 +445,7 @@ RoomlistModel::initializeRooms()
     if (mainWindow && mainWindow->matrixBackendHandleId() != 0) {
         refreshMatrixBackendRooms();
     } else {
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "RoomlistModel initialization without an active matrix-sdk runtime is not supported");
     }
 
@@ -494,8 +494,8 @@ RoomlistModel::startMatrixBackendRoomsRefresh(uint64_t handleId)
           }
 
           if (!result.roomList.has_value()) {
-              nhlog::ui()->warn("Failed to fetch matrix-sdk room list snapshot: {}",
-                                result.error.toStdString());
+              komai::logging::ui()->warn("Failed to fetch matrix-sdk room list snapshot: {}",
+                                         result.error.toStdString());
               if (model->interactionSuppressed_)
                   model->matrixRoomRefreshPending_ = true;
           } else if (model->interactionSuppressed_) {
@@ -547,8 +547,8 @@ RoomlistModel::fetchMatrixNotificationBatch(uint64_t handleId,
               return;
 
           if (!result.error.isEmpty()) {
-              nhlog::ui()->warn("Failed to fetch matrix-sdk notification batch: {}",
-                                result.error.toStdString());
+              komai::logging::ui()->warn("Failed to fetch matrix-sdk notification batch: {}",
+                                         result.error.toStdString());
               return;
           }
 
@@ -873,7 +873,7 @@ RoomlistModel::setDbusInterfaceEnabled(bool enabled)
         dbusHost_ = new DbusHost{this};
         if (!QDBusConnection::sessionBus().registerObject(
               QStringLiteral("/"), dbusHost_, QDBusConnection::ExportAdaptors)) {
-            nhlog::ui()->warn("Failed to register D-Bus interfaces");
+            komai::logging::ui()->warn("Failed to register D-Bus interfaces");
             delete dbusHost_;
             dbusHost_ = nullptr;
             return;

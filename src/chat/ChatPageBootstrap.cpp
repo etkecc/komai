@@ -26,14 +26,14 @@ ChatPage::bootstrap(QString userid,
     shuttingDown_ = false;
 
     if (!(MainWindow::instance() && MainWindow::instance()->matrixBackendHandleId() != 0)) {
-        nhlog::ui()->error(
+        komai::logging::ui()->error(
           "Refusing to bootstrap chat page without a resident matrix-sdk runtime handle");
         emit dropToLoginPageCb(
           tr("Matrix backend runtime failed to start for this session. Please log in again."));
         return;
     }
 
-    nhlog::ui()->info("Bootstrapping chat page from resident matrix-sdk backend runtime");
+    komai::logging::ui()->info("Bootstrapping chat page from resident matrix-sdk backend runtime");
 
     emit initializeEmptyViews();
     callManager_->refreshTurnServer();

@@ -105,8 +105,8 @@ bool
 LayoutAgnosticKeys::matchesLatinKey(LatinKey latinKey, int key, quint32 nativeScanCode) const
 {
     if (!isValidLatinKey(latinKey)) {
-        nhlog::qml()->warn("LayoutAgnosticKeys called with invalid LatinKey value {}",
-                           static_cast<int>(latinKey));
+        komai::logging::qml()->warn("LayoutAgnosticKeys called with invalid LatinKey value {}",
+                                    static_cast<int>(latinKey));
         return false;
     }
 

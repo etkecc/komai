@@ -110,15 +110,16 @@ AliasEditingModel::loadAsync()
 
               if (!runtimeAliases.has_value()) {
                   if (!aliasError.isEmpty()) {
-                      nhlog::ui()->warn("Failed to load matrix-sdk room aliases for '{}': {}",
-                                        roomId.toStdString(),
-                                        aliasError.toStdString());
+                      komai::logging::ui()->warn(
+                        "Failed to load matrix-sdk room aliases for '{}': {}",
+                        roomId.toStdString(),
+                        aliasError.toStdString());
                       showAliasNotification(AliasEditingModel::tr(
                         "Failed to load room aliases from the matrix-sdk backend."));
                   }
 
                   if (!powerLevelsError.isEmpty()) {
-                      nhlog::ui()->warn(
+                      komai::logging::ui()->warn(
                         "Failed to load matrix-sdk room alias permissions for '{}': {}",
                         roomId.toStdString(),
                         powerLevelsError.toStdString());
@@ -420,9 +421,9 @@ AliasEditingModel::commit()
               emit self->committingChanged();
 
               if (!ok) {
-                  nhlog::ui()->warn("Failed to save matrix-sdk room aliases for '{}': {}",
-                                    roomId.toStdString(),
-                                    error.toStdString());
+                  komai::logging::ui()->warn("Failed to save matrix-sdk room aliases for '{}': {}",
+                                             roomId.toStdString(),
+                                             error.toStdString());
                   showAliasNotification(AliasEditingModel::tr(
                     "Failed to save room aliases to the matrix-sdk backend."));
                   return;
@@ -434,12 +435,13 @@ AliasEditingModel::commit()
               }
 
               if (!refreshAliasesError.isEmpty()) {
-                  nhlog::ui()->warn("Failed to refresh matrix-sdk room aliases for '{}': {}",
-                                    roomId.toStdString(),
-                                    refreshAliasesError.toStdString());
+                  komai::logging::ui()->warn(
+                    "Failed to refresh matrix-sdk room aliases for '{}': {}",
+                    roomId.toStdString(),
+                    refreshAliasesError.toStdString());
               }
               if (!powerLevelsError.isEmpty()) {
-                  nhlog::ui()->warn(
+                  komai::logging::ui()->warn(
                     "Failed to refresh matrix-sdk room alias permissions for '{}': {}",
                     roomId.toStdString(),
                     powerLevelsError.toStdString());

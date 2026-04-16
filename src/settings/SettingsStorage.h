@@ -15,7 +15,7 @@
 
 #include <optional>
 
-namespace nhlog {
+namespace komai::logging {
 class Logger;
 }
 
@@ -25,8 +25,8 @@ class ReaderWriter;
 using ReaderWriterPtr = std::shared_ptr<ReaderWriter>;
 struct StorageLoggers
 {
-    std::shared_ptr<nhlog::Logger> ui;
-    std::shared_ptr<nhlog::Logger> db;
+    std::shared_ptr<komai::logging::Logger> ui;
+    std::shared_ptr<komai::logging::Logger> db;
 };
 
 enum class SecureBackendJobStatus

@@ -45,12 +45,12 @@ deleteProfileSecretValueBlocking(const QString &key)
 {
     auto settings = UserSettings::instance();
 
-    nhlog::ui()->info("Deleting profile secret '{}'", key.toStdString());
+    komai::logging::ui()->info("Deleting profile secret '{}'", key.toStdString());
 
     if (settings->usesFileSecretsProvider()) {
         settings->removeSecret(key);
-        nhlog::ui()->info("Deleted in-memory secret '{}' for insecure secret storage mode",
-                          key.toStdString());
+        komai::logging::ui()->info("Deleted in-memory secret '{}' for insecure secret storage mode",
+                                   key.toStdString());
         return true;
     }
 
@@ -59,34 +59,36 @@ deleteProfileSecretValueBlocking(const QString &key)
     for (int attempt = 1; attempt <= kDeleteAttempts; ++attempt) {
         const auto deleteResult = settings::storage::deleteSecureValueResultBlocking(key);
         if (!deleteResult.ok() && !deleteResult.missing()) {
-            nhlog::ui()->warn("Failed to delete secret '{}' from secure backend on attempt {}: {}",
-                              key.toStdString(),
-                              attempt,
-                              deleteResult.errorCode);
+            komai::logging::ui()->warn(
+              "Failed to delete secret '{}' from secure backend on attempt {}: {}",
+              key.toStdString(),
+              attempt,
+              deleteResult.errorCode);
             return false;
         }
 
         const auto readResult = settings::storage::readSecureValueResult(key);
         if (readResult.failed()) {
-            nhlog::ui()->warn(
+            komai::logging::ui()->warn(
               "Deleted secret '{}' from secure backend but could not verify removal",
               key.toStdString());
             return true;
         }
         if (readResult.missing()) {
-            nhlog::ui()->info("Deleted secret '{}' from secure backend", key.toStdString());
+            komai::logging::ui()->info("Deleted secret '{}' from secure backend",
+                                       key.toStdString());
             return true;
         }
 
         if (attempt < kDeleteAttempts) {
-            nhlog::ui()->warn("Secret '{}' still present after deletion attempt {}."
-                              " Retrying deletion.",
-                              key.toStdString(),
-                              attempt);
+            komai::logging::ui()->warn("Secret '{}' still present after deletion attempt {}."
+                                       " Retrying deletion.",
+                                       key.toStdString(),
+                                       attempt);
             continue;
         }
 
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "Failed to delete secret '{}' after {} attempts", key.toStdString(), attempt);
         return false;
     }
@@ -99,7 +101,7 @@ deleteEmptyProfileSecretValueBlocking(const QString &key)
 {
     auto settings = UserSettings::instance();
     if (settings->usesFileSecretsProvider()) {
-        nhlog::ui()->info(
+        komai::logging::ui()->info(
           "Skipping secure-backend empty-secret cleanup for key '{}'; insecure mode",
           key.toStdString());
         settings->removeSecret(key);
@@ -108,13 +110,13 @@ deleteEmptyProfileSecretValueBlocking(const QString &key)
 
     const auto firstRead = settings::storage::readSecureValueResult(key);
     if (firstRead.failed()) {
-        nhlog::ui()->warn("Failed to verify cache secret '{}' for stale-empty cleanup",
-                          key.toStdString());
+        komai::logging::ui()->warn("Failed to verify cache secret '{}' for stale-empty cleanup",
+                                   key.toStdString());
         return false;
     }
 
     if (!firstRead.missing() && !firstRead.value.isEmpty()) {
-        nhlog::ui()->debug(
+        komai::logging::ui()->debug(
           "Skipping deletion of cache secret '{}' because it now has non-empty value",
           key.toStdString());
         return true;
@@ -122,13 +124,13 @@ deleteEmptyProfileSecretValueBlocking(const QString &key)
 
     const auto secondRead = settings::storage::readSecureValueResult(key);
     if (secondRead.failed()) {
-        nhlog::ui()->warn("Failed to re-verify cache secret '{}' for stale-empty cleanup",
-                          key.toStdString());
+        komai::logging::ui()->warn("Failed to re-verify cache secret '{}' for stale-empty cleanup",
+                                   key.toStdString());
         return false;
     }
 
     if (!secondRead.missing() && !secondRead.value.isEmpty()) {
-        nhlog::ui()->debug(
+        komai::logging::ui()->debug(
           "Skipping deletion of cache secret '{}' because it was rewritten before cleanup",
           key.toStdString());
         return true;

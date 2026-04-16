@@ -40,7 +40,7 @@ RoomlistModel::fetchPreviews(QString roomid_, const std::string &from)
     }
 
     if (!fetched)
-        nhlog::net()->debug(
+        komai::logging::net()->debug(
           "Skipping hierarchy preview fetch for '{}'; no matrix room-summary preview data is "
           "available",
           roomid.toStdString());

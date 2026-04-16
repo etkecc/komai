@@ -242,9 +242,10 @@ VerificationManager::removeVerificationFlow(DeviceVerificationFlow *flow)
               },
               [flowId](VerificationManager *, const MatrixVerificationActionTaskResult &result) {
                   if (!result.ok) {
-                      nhlog::crypto()->warn("Failed to clear matrix-sdk verification flow {}: {}",
-                                            flowId.toStdString(),
-                                            result.error.toStdString());
+                      komai::logging::crypto()->warn(
+                        "Failed to clear matrix-sdk verification flow {}: {}",
+                        flowId.toStdString(),
+                        result.error.toStdString());
                   }
               });
         }
@@ -418,9 +419,10 @@ VerificationManager::requestMatrixVerificationFlow(uint64_t handleId, const QStr
                                       const MatrixVerificationSessionTaskResult &result) {
           openingMatrixFlowIds_.remove(trimmedFlowId);
           if (!result.session) {
-              nhlog::crypto()->warn("Failed to adopt pending matrix-sdk verification flow {}: {}",
-                                    trimmedFlowId.toStdString(),
-                                    result.error.toStdString());
+              komai::logging::crypto()->warn(
+                "Failed to adopt pending matrix-sdk verification flow {}: {}",
+                trimmedFlowId.toStdString(),
+                result.error.toStdString());
               return;
           }
 
@@ -465,7 +467,7 @@ VerificationManager::pollPendingMatrixVerifications()
 
           if (!result.flowIds) {
               if (!result.error.isEmpty()) {
-                  nhlog::crypto()->warn(
+                  komai::logging::crypto()->warn(
                     "Failed to poll pending matrix-sdk verification requests: {}",
                     result.error.toStdString());
               }

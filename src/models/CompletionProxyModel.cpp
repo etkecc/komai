@@ -193,7 +193,7 @@ CompletionProxyModel::rebuildTrie()
 
     const auto end_at     = std::chrono::steady_clock::now();
     const auto build_time = std::chrono::duration<double, std::milli>(end_at - start_at);
-    nhlog::ui()->debug("CompletionProxyModel: build trie: {} ms", build_time.count());
+    komai::logging::ui()->debug("CompletionProxyModel: build trie: {} ms", build_time.count());
 
     // initialize default mapping
     beginResetModel();

@@ -150,7 +150,7 @@ ThemeRegistry::ThemeRegistry()
           entry.theme, fromRustString(entry.slug), entry.sort_order, QStringLiteral("builtin")));
     }
     for (const auto &err : builtins.errors)
-        nhlog::ui()->error("Built-in theme error: {}", static_cast<std::string>(err));
+        komai::logging::ui()->error("Built-in theme error: {}", static_cast<std::string>(err));
 
     loadExternalThemes();
 
@@ -187,17 +187,17 @@ ThemeRegistry::loadExternalThemes()
             const QString &filename = it.value();
             const QString &slug     = it.key();
             if (seenSlugs.contains(slug)) {
-                nhlog::ui()->info("Theme '{}' from {} skipped (already loaded)",
-                                  slug.toStdString(),
-                                  dir.path().toStdString());
+                komai::logging::ui()->info("Theme '{}' from {} skipped (already loaded)",
+                                           slug.toStdString(),
+                                           dir.path().toStdString());
                 continue;
             }
 
             auto theme = parseThemeFile(dir.filePath(filename), slug);
             if (theme) {
-                nhlog::ui()->info("Loaded external theme '{}' from {}",
-                                  slug.toStdString(),
-                                  dir.path().toStdString());
+                komai::logging::ui()->info("Loaded external theme '{}' from {}",
+                                           slug.toStdString(),
+                                           dir.path().toStdString());
                 allThemes_.push_back(std::move(*theme));
                 seenSlugs.insert(slug);
             }
@@ -210,16 +210,16 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
 {
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "Failed to read theme file {}: {}", path.toStdString(), file.errorString().toStdString());
         return std::nullopt;
     }
 
     const auto parsed = ::komai::rust::theme_parse_external_theme(file.readAll().toStdString());
     if (!parsed.has_theme) {
-        nhlog::ui()->warn("Failed to parse theme file {}: {}",
-                          path.toStdString(),
-                          static_cast<std::string>(parsed.error_message));
+        komai::logging::ui()->warn("Failed to parse theme file {}: {}",
+                                   path.toStdString(),
+                                   static_cast<std::string>(parsed.error_message));
         return std::nullopt;
     }
 

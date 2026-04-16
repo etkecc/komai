@@ -145,8 +145,8 @@ CombinedImagePackModel::loadFromRuntime()
       },
       [](CombinedImagePackModel *model, CombinedImagePackLoadResult result) {
           if (!result.error.isEmpty()) {
-              nhlog::ui()->warn("Failed to fetch matrix-sdk image packs for completer: {}",
-                                result.error.toStdString());
+              komai::logging::ui()->warn("Failed to fetch matrix-sdk image packs for completer: {}",
+                                         result.error.toStdString());
               return;
           }
 

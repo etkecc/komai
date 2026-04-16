@@ -38,7 +38,8 @@ utils::roomVias(const std::string &roomid)
     if (localUserParts.has_value()) {
         addVia(localUserParts->hostname.toStdString());
     } else {
-        nhlog::ui()->warn("Failed to derive local homeserver for room vias: invalid local user id");
+        komai::logging::ui()->warn(
+          "Failed to derive local homeserver for room vias: invalid local user id");
     }
 
     if (const auto colonPos = roomid.find(':');

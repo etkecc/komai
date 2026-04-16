@@ -299,9 +299,9 @@ deleteProfile(QStringView profileId,
     QString desktopEntryError;
     if (!app_paths::desktop::removeProfileDesktopEntry(normalizedTargetProfile,
                                                        &desktopEntryError)) {
-        nhlog::ui()->warn("Failed to remove generated desktop entry for profile '{}': {}",
-                          normalizedTargetProfile.toStdString(),
-                          desktopEntryError.toStdString());
+        komai::logging::ui()->warn("Failed to remove generated desktop entry for profile '{}': {}",
+                                   normalizedTargetProfile.toStdString(),
+                                   desktopEntryError.toStdString());
     }
 
     return true;

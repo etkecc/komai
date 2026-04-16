@@ -21,7 +21,7 @@ namespace {
 settings::ControllerLoggers
 defaultLoggers()
 {
-    return {.ui = std::make_shared<nhlog::Logger>("settings-controller-ui")};
+    return {.ui = std::make_shared<komai::logging::Logger>("settings-controller-ui")};
 }
 
 settings::ControllerLoggers &

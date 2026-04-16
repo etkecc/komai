@@ -22,8 +22,8 @@ StorageLoggers
 defaultLoggers()
 {
     return {
-      .ui = std::make_shared<nhlog::Logger>("settings-ui"),
-      .db = std::make_shared<nhlog::Logger>("settings-db"),
+      .ui = std::make_shared<komai::logging::Logger>("settings-ui"),
+      .db = std::make_shared<komai::logging::Logger>("settings-db"),
     };
 }
 

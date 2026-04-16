@@ -111,7 +111,7 @@ void
 UserSettings::setProfile(QString profile)
 {
     if (const auto validationError = profile_id::validate(profile); validationError) {
-        nhlog::ui()->warn("Rejected invalid profile id '{}': {}",
+        komai::logging::ui()->warn("Rejected invalid profile id '{}': {}",
                           profile.toStdString(),
                           validationError->toStdString());
         return;

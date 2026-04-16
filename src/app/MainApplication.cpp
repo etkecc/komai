@@ -183,18 +183,18 @@ app::runMainApplication(int argc, char *argv[])
             std::exit(1);
         }
 
-        nhlog::init(level, to_stderr);
+        komai::logging::init(level, to_stderr);
 
     } catch (const std::exception &ex) {
         std::cerr << "Log initialization failed: " << ex.what() << std::endl;
         std::exit(1);
     }
 
-    settings::storage::setLoggers({.ui = nhlog::ui(), .db = nhlog::db()});
-    settings::setLoggers({.ui = nhlog::ui()});
-    settings::serializer::setLoggers({.ui = nhlog::ui()});
+    settings::storage::setLoggers({.ui = komai::logging::ui(), .db = komai::logging::db()});
+    settings::setLoggers({.ui = komai::logging::ui()});
+    settings::serializer::setLoggers({.ui = komai::logging::ui()});
 #ifdef KOMAI_DBUS_SYS
-    setLoggers({.ui = nhlog::ui()});
+    setLoggers({.ui = komai::logging::ui()});
 #endif
 
     ThemeRegistry::initialize();
@@ -221,12 +221,13 @@ app::runMainApplication(int argc, char *argv[])
 
     if (const auto initialSettings = settings.lock()) {
         const auto fontFamily = initialSettings->uiFontFamily();
-        nhlog::ui()->info("Startup UI settings: scaleFactor={}, fontSizePt={}, fontFamily='{}'",
-                          initialSettings->uiScaleFactor(),
-                          initialSettings->uiFontSizePt(),
-                          (fontFamily.isEmpty() || fontFamily == QLatin1String("default"))
-                            ? "system default"
-                            : fontFamily.toStdString());
+        komai::logging::ui()->info(
+          "Startup UI settings: scaleFactor={}, fontSizePt={}, fontFamily='{}'",
+          initialSettings->uiScaleFactor(),
+          initialSettings->uiFontSizePt(),
+          (fontFamily.isEmpty() || fontFamily == QLatin1String("default"))
+            ? "system default"
+            : fontFamily.toStdString());
     }
 
     const QString singleInstanceProfileKey =
@@ -314,17 +315,18 @@ app::runMainApplication(int argc, char *argv[])
           app_paths::desktop::findInstalledProfileDesktopEntry(profileName);
         if (!desktopEntryPath.isEmpty()) {
             desktopFileName = app_paths::desktop::profileDesktopEntryId(profileName);
-            nhlog::ui()->info(
+            komai::logging::ui()->info(
               "Using installed profile desktop entry '{}' with desktop file id '{}' "
               "for profile '{}'",
               desktopEntryPath.toStdString(),
               desktopFileName.toStdString(),
               profileName.toStdString());
         } else {
-            nhlog::ui()->info("No installed profile desktop entry found for profile '{}'; using "
-                              "generic desktop file id '{}'",
-                              profileName.toStdString(),
-                              desktopFileName.toStdString());
+            komai::logging::ui()->info(
+              "No installed profile desktop entry found for profile '{}'; using "
+              "generic desktop file id '{}'",
+              profileName.toStdString(),
+              desktopFileName.toStdString());
         }
     }
 #endif
@@ -391,11 +393,11 @@ app::runMainApplication(int argc, char *argv[])
     // instances do not collide.
     komai::ipc::IpcServer ipcServer(profileName);
     if (!ipcServer.start())
-        nhlog::ui()->warn("Could not start IPC server (socket: {})",
-                          komai::ipc::IpcServer::socketName(profileName).toStdString());
+        komai::logging::ui()->warn("Could not start IPC server (socket: {})",
+                                   komai::ipc::IpcServer::socketName(profileName).toStdString());
     else
-        nhlog::ui()->info("IPC server listening on socket: {}",
-                          komai::ipc::IpcServer::socketName(profileName).toStdString());
+        komai::logging::ui()->info("IPC server listening on socket: {}",
+                                   komai::ipc::IpcServer::socketName(profileName).toStdString());
 
     QTimer::singleShot(0, [showStartupProfileSelector]() {
         // In standalone selector mode keep settings persistence suspended so the helper
@@ -433,7 +435,8 @@ app::runMainApplication(int argc, char *argv[])
           if (message.isEmpty() || message.startsWith("activate")) {
               auto token = message.remove(0, sizeof("activate") - 1);
               if (!token.isEmpty()) {
-                  nhlog::ui()->debug("Setting activation token to: {}", token.toStdString());
+                  komai::logging::ui()->debug("Setting activation token to: {}",
+                                              token.toStdString());
                   qputenv("XDG_ACTIVATION_TOKEN", token);
               }
               w.show();
@@ -465,7 +468,7 @@ app::runMainApplication(int argc, char *argv[])
     NotificationsManager::attachToMacNotifCenter();
 #endif
 
-    nhlog::ui()->info("starting komai {}", komai::version);
+    komai::logging::ui()->info("starting komai {}", komai::version);
 
     auto returnvalue = app.exec();
 

@@ -2,20 +2,20 @@ void
 UserSettings::setNotificationsAccountEnabled(bool s)
 {
     if (!hasActiveSession()) {
-        nhlog::ui()->debug(
+        komai::logging::ui()->debug(
           "Ignoring notifications account toggle without an active session");
         return;
     }
 
     if (!notificationsAccountHandleProvider_ || !notificationsAccountSetFn_) {
-        nhlog::ui()->warn("Ignoring account-wide notification toggle change because no "
+        komai::logging::ui()->warn("Ignoring account-wide notification toggle change because no "
                           "matrix-sdk notification runtime hooks are installed");
         return;
     }
 
     const auto handleId = notificationsAccountHandleProvider_();
     if (handleId == 0) {
-        nhlog::ui()->warn(
+        komai::logging::ui()->warn(
           "Ignoring account-wide notification toggle change because no matrix-sdk runtime "
           "handle is active");
         return;
@@ -61,7 +61,7 @@ UserSettings::setNotificationsAccountEnabled(bool s)
               return;
 
           settings->notificationsAccountEnabledLoaded_ = false;
-          nhlog::ui()->warn(
+          komai::logging::ui()->warn(
             "Failed to update account notification toggle through the matrix-sdk runtime: {}",
             error.toStdString());
 

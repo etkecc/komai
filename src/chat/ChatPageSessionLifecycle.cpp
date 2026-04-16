@@ -39,8 +39,9 @@ ChatPage::performLogout(LogoutPolicy policy, LogoutRoute route, const QString &l
     const auto authType    = mainWindow ? mainWindow->matrixBackendAuthType() : QString{};
 
     if (handleId == 0) {
-        nhlog::net()->info("Skipping server-side logout because no matrix-sdk backend handle is "
-                           "active for the current session");
+        komai::logging::net()->info(
+          "Skipping server-side logout because no matrix-sdk backend handle is "
+          "active for the current session");
         finalizeLogout(route, loginMessage);
         return;
     }
@@ -57,13 +58,14 @@ ChatPage::performLogout(LogoutPolicy policy, LogoutRoute route, const QString &l
       [route, loginMessage, authType](ChatPage *page, const std::pair<bool, QString> &result) {
           const auto &[ok, error] = result;
           if (ok) {
-              nhlog::net()->info("Completed server-side matrix-sdk logout using auth_type='{}'",
-                                 authType.toStdString());
+              komai::logging::net()->info(
+                "Completed server-side matrix-sdk logout using auth_type='{}'",
+                authType.toStdString());
           } else {
-              nhlog::net()->warn("Best-effort server-side matrix-sdk logout failed for "
-                                 "auth_type='{}': {}",
-                                 authType.toStdString(),
-                                 error.toStdString());
+              komai::logging::net()->warn("Best-effort server-side matrix-sdk logout failed for "
+                                          "auth_type='{}': {}",
+                                          authType.toStdString(),
+                                          error.toStdString());
           }
 
           page->finalizeLogout(route, loginMessage);
@@ -91,7 +93,8 @@ void
 ChatPage::decryptDownloadedSecrets()
 {
     pendingSecretsUnlockRequest_ = true;
-    nhlog::crypto()->info("Redirecting downloaded-secret unlock prompt to matrix-sdk recovery");
+    komai::logging::crypto()->info(
+      "Redirecting downloaded-secret unlock prompt to matrix-sdk recovery");
     emit promptUnlockKeyBackup();
 }
 
@@ -99,7 +102,7 @@ void
 ChatPage::submitSecretUnlockInput(const QString &text)
 {
     if (!pendingSecretsUnlockRequest_) {
-        nhlog::crypto()->warn(
+        komai::logging::crypto()->warn(
           "Received unlock input, but no pending secrets unlock request exists.");
         return;
     }
@@ -114,7 +117,7 @@ ChatPage::cancelSecretUnlockInput()
     if (!pendingSecretsUnlockRequest_)
         return;
 
-    nhlog::crypto()->info("Secrets unlock prompt dismissed by user.");
+    komai::logging::crypto()->info("Secrets unlock prompt dismissed by user.");
     pendingSecretsUnlockRequest_ = false;
 }
 
@@ -155,7 +158,7 @@ ChatPage::processDownloadedSecretsUnlockInput(const QString &text)
               return;
           }
 
-          nhlog::crypto()->info(
+          komai::logging::crypto()->info(
             "Recovered encryption secrets through the ChatPage unlock entry using matrix-sdk "
             "recovery");
           emit page->showNotification(tr("Encryption secrets unlocked."));

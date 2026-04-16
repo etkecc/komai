@@ -158,10 +158,10 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
               return;
           }
 
-          nhlog::crypto()->info("Configured matrix-sdk encryption recovery "
-                                "(store_secrets_online={}, online_backup_enabled={})",
-                                useSSSS,
-                                encryptionBackupOnlineEnabled);
+          komai::logging::crypto()->info("Configured matrix-sdk encryption recovery "
+                                         "(store_secrets_online={}, online_backup_enabled={})",
+                                         useSSSS,
+                                         encryptionBackupOnlineEnabled);
 
           status->scheduleRuntimeStateRefresh();
           notifyLocalVerificationStateRefresh();
@@ -239,7 +239,8 @@ SelfVerificationStatus::submitUnlockKeyBackup(const QString &keyOrPassphrase)
               return;
           }
 
-          nhlog::crypto()->info("Recovered encryption secrets through matrix-sdk recovery");
+          komai::logging::crypto()->info(
+            "Recovered encryption secrets through matrix-sdk recovery");
           status->scheduleRuntimeStateRefresh();
           notifyLocalVerificationStateRefresh();
           emit status->unlockKeyBackupCompleted();
@@ -249,7 +250,7 @@ SelfVerificationStatus::submitUnlockKeyBackup(const QString &keyOrPassphrase)
 void
 SelfVerificationStatus::cancelUnlockKeyBackup()
 {
-    nhlog::crypto()->debug("Cancelled matrix-sdk key-backup unlock prompt");
+    komai::logging::crypto()->debug("Cancelled matrix-sdk key-backup unlock prompt");
 }
 
 void
@@ -352,7 +353,7 @@ SelfVerificationStatus::resetEncryptionIdentity()
           }
 
           if (taskResult.result->completed) {
-              nhlog::crypto()->info(
+              komai::logging::crypto()->info(
                 "Reset encryption identity through matrix-sdk without extra auth");
               status->scheduleRuntimeStateRefresh();
               notifyLocalVerificationStateRefresh();
@@ -403,7 +404,7 @@ SelfVerificationStatus::submitResetEncryptionIdentityPassword(const QString &pas
               return;
           }
 
-          nhlog::crypto()->info(
+          komai::logging::crypto()->info(
             "Completed matrix-sdk encryption identity reset using password authentication");
           status->scheduleRuntimeStateRefresh();
           notifyLocalVerificationStateRefresh();
@@ -439,7 +440,7 @@ SelfVerificationStatus::continueResetEncryptionIdentityAfterApproval()
               return;
           }
 
-          nhlog::crypto()->info(
+          komai::logging::crypto()->info(
             "Completed matrix-sdk encryption identity reset after browser approval");
           status->scheduleRuntimeStateRefresh();
           notifyLocalVerificationStateRefresh();
@@ -466,7 +467,7 @@ SelfVerificationStatus::cancelResetEncryptionIdentity()
       },
       [](SelfVerificationStatus *, const BoolTaskResult &taskResult) {
           if (!taskResult.ok) {
-              nhlog::crypto()->warn(
+              komai::logging::crypto()->warn(
                 "Failed to cancel pending matrix-sdk encryption identity reset: {}",
                 taskResult.error.toStdString());
           }
@@ -538,21 +539,22 @@ SelfVerificationStatus::refreshStateFromMatrixRuntime()
           }
 
           if (!taskResult.result) {
-              nhlog::crypto()->warn("Failed to fetch matrix-sdk recovery status: {}",
-                                    taskResult.error.toStdString());
+              komai::logging::crypto()->warn("Failed to fetch matrix-sdk recovery status: {}",
+                                             taskResult.error.toStdString());
               status->invalidate();
           } else {
               const auto hasSSSS = taskResult.result->state == QLatin1String("enabled") ||
                                    taskResult.result->state == QLatin1String("incomplete");
 
-              nhlog::crypto()->debug("Matrix recovery status state='{}' has_ssss={} "
-                                     "own_device_is_verified={} has_unverified_own_devices={} "
-                                     "has_devices_to_verify_against={}",
-                                     taskResult.result->state.toStdString(),
-                                     hasSSSS,
-                                     taskResult.result->ownDeviceIsVerified,
-                                     taskResult.result->hasUnverifiedOwnDevices,
-                                     taskResult.result->hasDevicesToVerifyAgainst);
+              komai::logging::crypto()->debug(
+                "Matrix recovery status state='{}' has_ssss={} "
+                "own_device_is_verified={} has_unverified_own_devices={} "
+                "has_devices_to_verify_against={}",
+                taskResult.result->state.toStdString(),
+                hasSSSS,
+                taskResult.result->ownDeviceIsVerified,
+                taskResult.result->hasUnverifiedOwnDevices,
+                taskResult.result->hasDevicesToVerifyAgainst);
 
               Status nextStatus = AllVerified;
               if (taskResult.result->state == QLatin1String("disabled")) {

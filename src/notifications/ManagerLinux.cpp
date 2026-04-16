@@ -243,7 +243,7 @@ NotificationsManager::actionInvoked(uint id, QString action)
 void
 NotificationsManager::activationToken(uint, QString action)
 {
-    nhlog::net()->debug("Got activation token for notification");
+    komai::logging::net()->debug("Got activation token for notification");
     qputenv("XDG_ACTIVATION_TOKEN", action.toUtf8());
 }
 

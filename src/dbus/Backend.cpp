@@ -58,7 +58,7 @@ DbusBackendLoggers
 defaultLoggers()
 {
     return {
-      .ui = std::make_shared<nhlog::Logger>("dbus-ui"),
+      .ui = std::make_shared<komai::logging::Logger>("dbus-ui"),
     };
 }
 

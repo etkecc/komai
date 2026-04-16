@@ -24,7 +24,8 @@ SSOHandler::SSOHandler(QObject *parent)
                                                        120000,
                                                        &error);
     if (!server) {
-        nhlog::net()->error("Failed to start Rust SSO callback server: {}", error.toStdString());
+        komai::logging::net()->error("Failed to start Rust SSO callback server: {}",
+                                     error.toStdString());
         QTimer::singleShot(0, this, [this]() { emit ssoFailed(); });
         return;
     }
@@ -45,7 +46,8 @@ SSOHandler::~SSOHandler()
         QString error;
         if (!komai::MatrixAuthService::stopSsoCallbackServer(listenerId, &error) &&
             !error.isEmpty()) {
-            nhlog::net()->warn("Failed to stop Rust SSO callback server: {}", error.toStdString());
+            komai::logging::net()->warn("Failed to stop Rust SSO callback server: {}",
+                                        error.toStdString());
         }
     }
 }
@@ -67,7 +69,8 @@ SSOHandler::pollStatus()
     if (!status) {
         pollTimer.stop();
         listenerId = 0;
-        nhlog::net()->error("Failed to poll Rust SSO callback server: {}", error.toStdString());
+        komai::logging::net()->error("Failed to poll Rust SSO callback server: {}",
+                                     error.toStdString());
         emit ssoFailed();
         return;
     }

@@ -33,7 +33,8 @@ requireMatrixBackendHandle(ChatPage *page, const char *action)
     if (mainWindow && mainWindow->matrixBackendHandleId() != 0)
         return mainWindow->matrixBackendHandleId();
 
-    nhlog::ui()->warn("Cannot {} because no active matrix-sdk runtime handle exists", action);
+    komai::logging::ui()->warn("Cannot {} because no active matrix-sdk runtime handle exists",
+                               action);
     if (page)
         Q_EMIT page->showNotification(ChatPage::tr("Matrix backend is not ready yet."));
     return std::nullopt;
@@ -116,7 +117,8 @@ ChatPage::knockRoom(const QString &room,
               return;
           }
 
-          nhlog::ui()->info("Knocked on room '{}' via matrix-sdk runtime", roomId->toStdString());
+          komai::logging::ui()->info("Knocked on room '{}' via matrix-sdk runtime",
+                                     roomId->toStdString());
       });
 }
 
@@ -171,7 +173,8 @@ void
 ChatPage::createRoom(const komai::MatrixCreateRoomRequest &request)
 {
     if (request.roomAliasLocalpart.contains(u':') || request.roomAliasLocalpart.contains(u'#')) {
-        nhlog::net()->warn("Failed to create room: Some characters are not allowed in alias");
+        komai::logging::net()->warn(
+          "Failed to create room: Some characters are not allowed in alias");
         emit this->showNotification(tr("Room creation failed: Bad Alias"));
         return;
     }
@@ -221,9 +224,9 @@ ChatPage::leaveRoom(const QString &room_id, const QString &reason)
           const auto &[ok, error] = result;
           if (!ok) {
               Q_EMIT page->showNotification(ChatPage::tr("Failed to leave room: %1").arg(error));
-              nhlog::ui()->warn("Failed to leave room '{}' via matrix-sdk runtime: {}",
-                                room_id.toStdString(),
-                                error.toStdString());
+              komai::logging::ui()->warn("Failed to leave room '{}' via matrix-sdk runtime: {}",
+                                         room_id.toStdString(),
+                                         error.toStdString());
               return;
           }
 
@@ -256,10 +259,10 @@ ChatPage::inviteUser(const QString &room, QString userid, QString reason)
       [userid, room](ChatPage *page, const auto &result) {
           const auto &[ok, error] = result;
           if (!ok) {
-              nhlog::ui()->warn("Failed to invite {} to {} via matrix-sdk runtime: {}",
-                                userid.toStdString(),
-                                room.toStdString(),
-                                error.toStdString());
+              komai::logging::ui()->warn("Failed to invite {} to {} via matrix-sdk runtime: {}",
+                                         userid.toStdString(),
+                                         room.toStdString(),
+                                         error.toStdString());
               Q_EMIT page->showNotification(
                 ChatPage::tr("Failed to invite %1 to %2: %3").arg(userid, room, error));
           }
@@ -397,12 +400,12 @@ ChatPage::tryHandleMatrixUri(QString uri)
     if (!hasMatrixScheme && !isMatrixToLink)
         return false;
 
-    nhlog::ui()->debug("Received matrix uri: {}", uri.toStdString());
+    komai::logging::ui()->debug("Received matrix uri: {}", uri.toStdString());
 
     auto m = utils::parseMatrixUri(uri);
 
     if (!m) {
-        nhlog::ui()->warn("Failed to parse matrix uri: {}", uri.toStdString());
+        komai::logging::ui()->warn("Failed to parse matrix uri: {}", uri.toStdString());
         return false;
     }
 

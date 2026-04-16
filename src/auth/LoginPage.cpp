@@ -42,7 +42,7 @@ LoginPage::LoginPage(QObject *parent)
               return;
           }
 
-          nhlog::ui()->info(
+          komai::logging::ui()->info(
             "Persisted login session snapshot (user_id='{}', device_id='{}', homeserver='{}')",
             res.userId.toStdString(),
             res.deviceId.toStdString(),

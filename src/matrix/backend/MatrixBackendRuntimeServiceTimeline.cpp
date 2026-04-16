@@ -284,7 +284,7 @@ MatrixBackendRuntimeService::fetchActiveRoomTimeline(matrix_backend::BlockingCal
                 itemKindSummary.push_back(QStringLiteral("%1:%2").arg(it.key()).arg(it.value()));
             itemKindSummary.sort();
 
-            nhlog::ui()->info(
+            komai::logging::ui()->info(
               "[room-switch-perf] phase=cpp.matrix_backend.fetch_active_room_timeline "
               "handle_id={} item_count={} rust_us={} convert_us={} total_us={} item_kinds={}",
               handleId,

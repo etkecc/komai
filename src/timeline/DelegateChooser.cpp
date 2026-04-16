@@ -124,7 +124,7 @@ DelegateChooser::DelegateIncubator::statusChanged(QQmlIncubator::Status status)
     if (status == QQmlIncubator::Ready) {
         chooser.child_ = qobject_cast<QQuickItem *>(object());
         if (chooser.child_ == nullptr) {
-            nhlog::ui()->error("Delegate has to be derived of Item!");
+            komai::logging::ui()->error("Delegate has to be derived of Item!");
             return;
         }
 
@@ -136,7 +136,8 @@ DelegateChooser::DelegateIncubator::statusChanged(QQmlIncubator::Status status)
     } else if (status == QQmlIncubator::Error) {
         auto errors_ = errors();
         for (const auto &e : std::as_const(errors_))
-            nhlog::ui()->error("Error instantiating delegate: {}", e.toString().toStdString());
+            komai::logging::ui()->error("Error instantiating delegate: {}",
+                                        e.toString().toStdString());
     }
 }
 

@@ -13,13 +13,13 @@
 
 #include <memory>
 
-namespace nhlog {
+namespace komai::logging {
 class Logger;
 }
 
 struct DbusBackendLoggers
 {
-    std::shared_ptr<nhlog::Logger> ui;
+    std::shared_ptr<komai::logging::Logger> ui;
 };
 
 void

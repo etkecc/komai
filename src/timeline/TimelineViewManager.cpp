@@ -57,9 +57,9 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
                              isTruthyEnvValue(qgetenv("KOMAI_PERF_ROOM_SWITCH"));
 
     if (roomSwitchPerfEnabled_) {
-        nhlog::ui()->info("Room-switch performance tracing enabled (set by "
-                          "KOMAI_ROOM_SWITCH_PERF/KOMAI_PERF_ROOM_SWITCH).");
-        nhlog::ui()->flush();
+        komai::logging::ui()->info("Room-switch performance tracing enabled (set by "
+                                   "KOMAI_ROOM_SWITCH_PERF/KOMAI_PERF_ROOM_SWITCH).");
+        komai::logging::ui()->flush();
     }
 
     connect(this->communities_,
@@ -217,11 +217,12 @@ TimelineViewManager::markRoomSwitchRequested(const QString &roomId, const QStrin
     roomSwitchPerfActiveRoomId_ = roomId;
     roomSwitchPerfTimer_.restart();
 
-    nhlog::ui()->info("[perf][room-switch] switch_id={} room_id={} phase=request reason={}",
-                      roomSwitchPerfSwitchId_,
-                      roomId.toStdString(),
-                      reason.toStdString());
-    nhlog::ui()->flush();
+    komai::logging::ui()->info(
+      "[perf][room-switch] switch_id={} room_id={} phase=request reason={}",
+      roomSwitchPerfSwitchId_,
+      roomId.toStdString(),
+      reason.toStdString());
+    komai::logging::ui()->flush();
 }
 
 void
@@ -256,9 +257,9 @@ TimelineViewManager::ensureModelForRoom(const QString &roomId)
     auto *model = new komai::MatrixTimelineModel(this);
     model->setRoomId(trimmed);
     perRoomModels_.insert(trimmed, model);
-    nhlog::ui()->info("Created per-room timeline model for '{}' (pool size: {})",
-                      trimmed.toStdString(),
-                      perRoomModels_.size());
+    komai::logging::ui()->info("Created per-room timeline model for '{}' (pool size: {})",
+                               trimmed.toStdString(),
+                               perRoomModels_.size());
     return model;
 }
 
@@ -287,14 +288,14 @@ TimelineViewManager::releaseModelForRoom(const QString &roomId)
     if (handleId) {
         QString error;
         if (!komai::MatrixBackendRuntimeService::stopRoomTimeline(handleId, trimmed, &error))
-            nhlog::ui()->warn("Failed to stop room timeline for '{}': {}",
-                              trimmed.toStdString(),
-                              error.toStdString());
+            komai::logging::ui()->warn("Failed to stop room timeline for '{}': {}",
+                                       trimmed.toStdString(),
+                                       error.toStdString());
     }
 
-    nhlog::ui()->info("Released per-room timeline model for '{}' (pool size: {})",
-                      trimmed.toStdString(),
-                      perRoomModels_.size());
+    komai::logging::ui()->info("Released per-room timeline model for '{}' (pool size: {})",
+                               trimmed.toStdString(),
+                               perRoomModels_.size());
 }
 
 void
@@ -302,7 +303,7 @@ TimelineViewManager::trimProcessMemory()
 {
 #ifdef __GLIBC__
     ::malloc_trim(0);
-    nhlog::ui()->info("Trimmed process memory (malloc_trim)");
+    komai::logging::ui()->info("Trimmed process memory (malloc_trim)");
 #endif
 }
 
@@ -383,40 +384,40 @@ TimelineViewManager::logRoomSwitchPhase(const QString &roomId,
     const bool activeMatch = roomId == roomSwitchPerfActiveRoomId_;
 
     if (activeMatch) {
-        nhlog::ui()->info(
+        komai::logging::ui()->info(
           "[perf][room-switch] switch_id={} room_id={} phase={} source={} elapsed_ms={}",
           roomSwitchPerfSwitchId_,
           roomId.toStdString(),
           phase.toStdString(),
           source.toStdString(),
           elapsedMs);
-        nhlog::ui()->flush();
+        komai::logging::ui()->flush();
     } else {
-        nhlog::ui()->info("[perf][room-switch] switch_id={} room_id={} phase={} source={} "
-                          "elapsed_ms={} active_match=false active_room_id={}",
-                          roomSwitchPerfSwitchId_,
-                          roomId.toStdString(),
-                          phase.toStdString(),
-                          source.toStdString(),
-                          elapsedMs,
-                          roomSwitchPerfActiveRoomId_.toStdString());
-        nhlog::ui()->flush();
+        komai::logging::ui()->info("[perf][room-switch] switch_id={} room_id={} phase={} source={} "
+                                   "elapsed_ms={} active_match=false active_room_id={}",
+                                   roomSwitchPerfSwitchId_,
+                                   roomId.toStdString(),
+                                   phase.toStdString(),
+                                   source.toStdString(),
+                                   elapsedMs,
+                                   roomSwitchPerfActiveRoomId_.toStdString());
+        komai::logging::ui()->flush();
     }
 }
 
 void
 TimelineViewManager::navigateBack()
 {
-    nhlog::ui()->info("[nav-history] navigateBack called");
+    komai::logging::ui()->info("[nav-history] navigateBack called");
     auto entry = navHistory_.back(communities_->currentFilterId(), rooms_->currentRoomId());
     if (!entry) {
-        nhlog::ui()->info("[nav-history] navigateBack: no entry to restore");
+        komai::logging::ui()->info("[nav-history] navigateBack: no entry to restore");
         return;
     }
 
-    nhlog::ui()->info("[nav-history] navigateBack restoring filter='{}' room='{}'",
-                      entry->filterId.toStdString(),
-                      entry->roomId.toStdString());
+    komai::logging::ui()->info("[nav-history] navigateBack restoring filter='{}' room='{}'",
+                               entry->filterId.toStdString(),
+                               entry->roomId.toStdString());
     navigating_ = true;
     communities_->setCurrentFilterId(entry->filterId);
     rooms_->setCurrentRoom(entry->roomId);
@@ -426,16 +427,16 @@ TimelineViewManager::navigateBack()
 void
 TimelineViewManager::navigateForward()
 {
-    nhlog::ui()->info("[nav-history] navigateForward called");
+    komai::logging::ui()->info("[nav-history] navigateForward called");
     auto entry = navHistory_.forward(communities_->currentFilterId(), rooms_->currentRoomId());
     if (!entry) {
-        nhlog::ui()->info("[nav-history] navigateForward: no entry to restore");
+        komai::logging::ui()->info("[nav-history] navigateForward: no entry to restore");
         return;
     }
 
-    nhlog::ui()->info("[nav-history] navigateForward restoring filter='{}' room='{}'",
-                      entry->filterId.toStdString(),
-                      entry->roomId.toStdString());
+    komai::logging::ui()->info("[nav-history] navigateForward restoring filter='{}' room='{}'",
+                               entry->filterId.toStdString(),
+                               entry->roomId.toStdString());
     navigating_ = true;
     communities_->setCurrentFilterId(entry->filterId);
     rooms_->setCurrentRoom(entry->roomId);

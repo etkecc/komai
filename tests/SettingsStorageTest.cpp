@@ -329,8 +329,8 @@ testLoggerInjectionNullAndInjectedLoggers()
         QStringLiteral("enable_animations: false")),
                  "settings storage can read with null logger");
 
-    auto uiLogger = std::make_shared<nhlog::Logger>("test-ui");
-    auto dbLogger = std::make_shared<nhlog::Logger>("test-db");
+    auto uiLogger = std::make_shared<komai::logging::Logger>("test-ui");
+    auto dbLogger = std::make_shared<komai::logging::Logger>("test-db");
     settings::storage::setLoggers({.ui = uiLogger, .db = dbLogger});
     current = settings::storage::activeLoggers();
     ok &= expect(current.ui == uiLogger, "settings storage stores injected ui logger");

@@ -147,9 +147,10 @@ queueCallEventSend(CallManager *manager,
 {
     const auto handleId = activeMatrixRuntimeHandleId();
     if (handleId == 0 || roomId.trimmed().isEmpty()) {
-        nhlog::ui()->warn("Refusing to send matrix call event '{}' without an active runtime "
-                          "handle or room id",
-                          eventTypeName);
+        komai::logging::ui()->warn(
+          "Refusing to send matrix call event '{}' without an active runtime "
+          "handle or room id",
+          eventTypeName);
         return;
     }
 
@@ -179,11 +180,12 @@ queueCallEventSend(CallManager *manager,
               return;
           if (result.ok)
               return;
-          nhlog::ui()->warn("Failed to queue matrix call event '{}' for room '{}' on handle {}: {}",
-                            result.eventType.toStdString(),
-                            result.roomId.toStdString(),
-                            result.handleId,
-                            result.error.toStdString());
+          komai::logging::ui()->warn(
+            "Failed to queue matrix call event '{}' for room '{}' on handle {}: {}",
+            result.eventType.toStdString(),
+            result.roomId.toStdString(),
+            result.handleId,
+            result.error.toStdString());
       });
 }
 
@@ -461,7 +463,7 @@ CallManager::CallManager(QObject *parent)
             &WebRTCSession::offerCreated,
             this,
             [this](const std::string &sdp, const komai::voip::CallIceCandidateList &candidates) {
-                nhlog::ui()->debug("WebRTC: call id: {} - sending offer", callid_);
+                komai::logging::ui()->debug("WebRTC: call id: {} - sending offer", callid_);
                 sendCallInvite(roomid_,
                                callid_,
                                partyid_,
@@ -486,7 +488,7 @@ CallManager::CallManager(QObject *parent)
       &WebRTCSession::answerCreated,
       this,
       [this](const std::string &sdp, const komai::voip::CallIceCandidateList &candidates) {
-          nhlog::ui()->debug("WebRTC: call id: {} - sending answer", callid_);
+          komai::logging::ui()->debug("WebRTC: call id: {} - sending answer", callid_);
           sendCallAnswer(
             roomid_, callid_, partyid_, callPartyVersion_, sdp, komai::voip::CallSdpType::Answer);
           sendCallCandidates(roomid_, callid_, partyid_, candidates, callPartyVersion_);
@@ -496,7 +498,7 @@ CallManager::CallManager(QObject *parent)
             &WebRTCSession::newICECandidate,
             this,
             [this](const komai::voip::CallIceCandidate &candidate) {
-                nhlog::ui()->debug("WebRTC: call id: {} - sending ice candidate", callid_);
+                komai::logging::ui()->debug("WebRTC: call id: {} - sending ice candidate", callid_);
                 sendCallCandidates(roomid_, callid_, partyid_, {candidate}, callPartyVersion_);
             });
 
@@ -550,7 +552,7 @@ CallManager::ensurePlayerInitialized()
                 &QMediaPlayer::mediaStatusChanged,
                 this,
                 [](QMediaPlayer::MediaStatus status) {
-                    nhlog::ui()->debug(
+                    komai::logging::ui()->debug(
                       "WebRTC: ringtone status {}",
                       QMetaEnum::fromType<QMediaPlayer::MediaStatus>().valueToKey(status));
                 });
@@ -563,14 +565,14 @@ CallManager::ensurePlayerInitialized()
                     switch (error) {
                     case QMediaPlayer::FormatError:
                     case QMediaPlayer::ResourceError:
-                        nhlog::ui()->error("WebRTC: valid ringtone file not found");
+                        komai::logging::ui()->error("WebRTC: valid ringtone file not found");
                         break;
                     case QMediaPlayer::AccessDeniedError:
-                        nhlog::ui()->error("WebRTC: access to ringtone file denied");
+                        komai::logging::ui()->error("WebRTC: access to ringtone file denied");
                         break;
                     default:
-                        nhlog::ui()->error("WebRTC: unable to play ringtone, {}",
-                                           errorString.toStdString());
+                        komai::logging::ui()->error("WebRTC: unable to play ringtone, {}",
+                                                    errorString.toStdString());
                         break;
                     }
                 });
@@ -614,13 +616,13 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
     if (callType == CallType::SCREEN) {
         if (screenShareUsesWindowPicker(screenShareType_)) {
             if (windows_.empty() || windowIndex >= windows_.size()) {
-                nhlog::ui()->error("WebRTC: window index out of range");
+                komai::logging::ui()->error("WebRTC: window index out of range");
                 return;
             }
         } else {
             ScreenCastPortal &sc_portal = ScreenCastPortal::instance();
             if (sc_portal.getStream() == nullptr) {
-                nhlog::ui()->error("xdg-desktop-portal stream not started");
+                komai::logging::ui()->error("xdg-desktop-portal stream not started");
                 return;
             }
         }
@@ -628,8 +630,8 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
 #endif
 
     if (haveCallInvite_) {
-        nhlog::ui()->debug("WebRTC: Discarding outbound call for inbound call. "
-                           "localUser is polite party");
+        komai::logging::ui()->debug("WebRTC: Discarding outbound call for inbound call. "
+                                    "localUser is polite party");
         if (callParty_ == calleeId) {
             if (callType == callType_)
                 acceptInvite();
@@ -658,7 +660,7 @@ CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int w
     std::string strCallType =
       callType_ == CallType::VOICE ? "voice" : (callType_ == CallType::VIDEO ? "video" : "screen");
 
-    nhlog::ui()->debug("WebRTC: call id: {} - creating {} invite", callid_, strCallType);
+    komai::logging::ui()->debug("WebRTC: call id: {} - creating {} invite", callid_, strCallType);
     callParty_            = calleeId;
     callPartyDisplayName_ = displayNameFromCallRoomContext(roomContext, calleeId);
     callPartyAvatarUrl_   = roomContext->avatarUrl;
@@ -705,7 +707,7 @@ void
 CallManager::hangUp(komai::voip::CallHangUpReason reason)
 {
     if (!callid_.empty()) {
-        nhlog::ui()->debug(
+        komai::logging::ui()->debug(
           "WebRTC: call id: {} - hanging up ({})", callid_, callHangUpReasonString(reason));
         sendCallHangUp(roomid_, callid_, partyid_, callPartyVersion_, reason);
         endCall();
@@ -742,11 +744,11 @@ CallManager::handleCallInvite(const QString &roomId,
                                [](unsigned char c1, unsigned char c2) {
                                    return std::tolower(c1) == std::tolower(c2);
                                }) != offerSdp.cend();
-    nhlog::ui()->debug("WebRTC: call id: {} - incoming {} CallInvite from ({},{}) ",
-                       callId,
-                       (isVideo ? "video" : "voice"),
-                       senderId.toStdString(),
-                       partyId);
+    komai::logging::ui()->debug("WebRTC: call id: {} - incoming {} CallInvite from ({},{}) ",
+                                callId,
+                                (isVideo ? "video" : "voice"),
+                                senderId.toStdString(),
+                                partyId);
 
     if (callId.empty())
         return;
@@ -757,7 +759,7 @@ CallManager::handleCallInvite(const QString &roomId,
         } else if (invitee != localUserIdStd) {
             isOnCallOnOtherDevice_ = callId;
             emit newCallDeviceState();
-            nhlog::ui()->debug("WebRTC: User is on call on other device.");
+            komai::logging::ui()->debug("WebRTC: User is on call on other device.");
             return;
         }
     }
@@ -884,10 +886,10 @@ CallManager::handleCallCandidates(const QString &roomId,
 
     if (senderId.toStdString() == utils::localUser().toStdString() && partyId == partyid_)
         return;
-    nhlog::ui()->debug("WebRTC: call id: {} - incoming CallCandidates from ({}, {})",
-                       callId,
-                       senderId.toStdString(),
-                       partyId);
+    komai::logging::ui()->debug("WebRTC: call id: {} - incoming CallCandidates from ({}, {})",
+                                callId,
+                                senderId.toStdString(),
+                                partyId);
 
     if (callid_ == callId) {
         if (isOnCall()) {
@@ -926,10 +928,10 @@ CallManager::handleCallAnswer(const QString &roomId,
     Q_UNUSED(version)
     Q_UNUSED(answerType)
 
-    nhlog::ui()->debug("WebRTC: call id: {} - incoming CallAnswer from ({}, {})",
-                       callId,
-                       senderId.toStdString(),
-                       partyId);
+    komai::logging::ui()->debug("WebRTC: call id: {} - incoming CallAnswer from ({}, {})",
+                                callId,
+                                senderId.toStdString(),
+                                partyId);
     if (answerSelected_)
         return;
 
@@ -991,11 +993,11 @@ CallManager::handleCallHangUp(const QString &roomId,
     Q_UNUSED(version)
 
     const auto hangUpReason = hangUpReasonFromString(reason);
-    nhlog::ui()->debug("WebRTC: call id: {} - incoming CallHangUp ({}) from ({}, {})",
-                       callId,
-                       callHangUpReasonString(hangUpReason),
-                       senderId.toStdString(),
-                       partyId);
+    komai::logging::ui()->debug("WebRTC: call id: {} - incoming CallHangUp ({}) from ({}, {})",
+                                callId,
+                                callHangUpReasonString(hangUpReason),
+                                senderId.toStdString(),
+                                partyId);
 
     if (callid_ == callId || isOnCallOnOtherDevice_ == callId)
         endCall();
@@ -1026,10 +1028,10 @@ CallManager::handleCallSelectAnswer(const QString &roomId,
     Q_UNUSED(eventId)
     Q_UNUSED(version)
 
-    nhlog::ui()->debug("WebRTC: call id: {} - incoming CallSelectAnswer from ({}, {})",
-                       callId,
-                       senderId.toStdString(),
-                       partyId);
+    komai::logging::ui()->debug("WebRTC: call id: {} - incoming CallSelectAnswer from ({}, {})",
+                                callId,
+                                senderId.toStdString(),
+                                partyId);
     if (senderId.toStdString() == utils::localUser().toStdString()) {
         if (partyId != partyid_) {
             if (std::find(rejectCallPartyIDs_.begin(),
@@ -1039,7 +1041,8 @@ CallManager::handleCallSelectAnswer(const QString &roomId,
             } else {
                 if (selectedPartyId == partyid_)
                     return;
-                nhlog::ui()->debug("WebRTC: call id: {} - user is on call with this user!", callId);
+                komai::logging::ui()->debug("WebRTC: call id: {} - user is on call with this user!",
+                                            callId);
                 isOnCallOnOtherDevice_ = callId;
                 emit newCallDeviceState();
             }
@@ -1087,10 +1090,10 @@ CallManager::handleCallReject(const QString &roomId,
     Q_UNUSED(eventId)
     Q_UNUSED(version)
 
-    nhlog::ui()->debug("WebRTC: call id: {} - incoming CallReject from ({}, {})",
-                       callId,
-                       senderId.toStdString(),
-                       partyId);
+    komai::logging::ui()->debug("WebRTC: call id: {} - incoming CallReject from ({}, {})",
+                                callId,
+                                senderId.toStdString(),
+                                partyId);
     if (answerSelected_)
         return;
 
@@ -1136,10 +1139,10 @@ CallManager::handleCallNegotiate(const QString &roomId,
     Q_UNUSED(lifetime)
     Q_UNUSED(descType)
 
-    nhlog::ui()->debug("WebRTC: call id: {} - incoming CallNegotiate from ({}, {})",
-                       callId,
-                       senderId.toStdString(),
-                       partyId);
+    komai::logging::ui()->debug("WebRTC: call id: {} - incoming CallNegotiate from ({}, {})",
+                                callId,
+                                senderId.toStdString(),
+                                partyId);
 
     if (!session_.acceptNegotiation(descSdp)) {
         emit ChatPage::instance()->showNotification(QStringLiteral("Problem accepting new SDP"));
@@ -1200,7 +1203,7 @@ CallManager::rejectInvite()
         sendCallReject(roomid_, callid_, partyid_, callPartyVersion_);
     }
     if (!callid_.empty()) {
-        nhlog::ui()->debug("WebRTC: call id: {} - rejecting call", callid_);
+        komai::logging::ui()->debug("WebRTC: call id: {} - rejecting call", callid_);
         sendCallReject(roomid_, callid_, partyid_, callPartyVersion_);
         endCall(false);
     }
@@ -1320,8 +1323,9 @@ CallManager::retrieveTurnServer()
     turnServerTimer_.stop();
     const auto handleId = activeMatrixRuntimeHandleId();
     if (handleId == 0) {
-        nhlog::ui()->warn("Skipping TURN server retrieval because no matrix-sdk runtime handle "
-                          "is active");
+        komai::logging::ui()->warn(
+          "Skipping TURN server retrieval because no matrix-sdk runtime handle "
+          "is active");
         return;
     }
 
@@ -1344,9 +1348,9 @@ CallManager::retrieveTurnServer()
               return;
 
           if (!result.turnServerInfo) {
-              nhlog::ui()->warn("Failed to fetch TURN server info on handle {}: {}",
-                                result.handleId,
-                                result.error.toStdString());
+              komai::logging::ui()->warn("Failed to fetch TURN server info on handle {}: {}",
+                                         result.handleId,
+                                         result.error.toStdString());
               return;
           }
 
@@ -1366,7 +1370,7 @@ CallManager::playRingtone(const QUrl &ringtone, bool repeat)
     }
 
     auto *player = ensurePlayerInitialized();
-    nhlog::ui()->debug("Trying to play ringtone {}", ringtone.toString().toStdString());
+    komai::logging::ui()->debug("Trying to play ringtone {}", ringtone.toString().toStdString());
     player->setLoops(repeat ? QMediaPlayer::Infinite : 1);
     player->setSource(ringtone);
     // player_.audioOutput()->setVolume(100);
@@ -1395,12 +1399,12 @@ getTurnURIs(const komai::MatrixTurnServerInfo &turnServer)
     for (const auto &uri : turnServer.uris) {
         const auto uriString = uri.toStdString();
         if (auto c = uriString.find(':'); c == std::string::npos) {
-            nhlog::ui()->error("Invalid TURN server uri: {}", uriString);
+            komai::logging::ui()->error("Invalid TURN server uri: {}", uriString);
             continue;
         } else {
             std::string scheme = std::string(uriString, 0, c);
             if (scheme != "turn" && scheme != "turns") {
-                nhlog::ui()->error("Invalid TURN server uri: {}", uriString);
+                komai::logging::ui()->error("Invalid TURN server uri: {}", uriString);
                 continue;
             }
 
@@ -1422,13 +1426,13 @@ void
 CallManager::applyTurnServerInfo(const komai::MatrixTurnServerInfo &info)
 {
     if (info.uris.isEmpty()) {
-        nhlog::net()->info("Homeserver returned no TURN server URIs");
+        komai::logging::net()->info("Homeserver returned no TURN server URIs");
     } else {
-        nhlog::net()->info("TURN server(s) retrieved from homeserver:");
-        nhlog::net()->info("username: {}", info.username.toStdString());
-        nhlog::net()->info("ttl: {} seconds", info.ttlSeconds);
+        komai::logging::net()->info("TURN server(s) retrieved from homeserver:");
+        komai::logging::net()->info("username: {}", info.username.toStdString());
+        komai::logging::net()->info("ttl: {} seconds", info.ttlSeconds);
         for (const auto &uri : info.uris)
-            nhlog::net()->info("uri: {}", uri.toStdString());
+            komai::logging::net()->info("uri: {}", uri.toStdString());
     }
 
     // Request new credentials close to expiry.
@@ -1436,7 +1440,7 @@ CallManager::applyTurnServerInfo(const komai::MatrixTurnServerInfo &info)
 
     uint64_t ttl = std::max(info.ttlSeconds, uint64_t{3600});
     if (!info.uris.isEmpty() && info.ttlSeconds < 3600)
-        nhlog::net()->warn("Setting ttl to 1 hour");
+        komai::logging::net()->warn("Setting ttl to 1 hour");
     turnServerTimer_.setInterval(std::chrono::seconds(ttl) * 10 / 9);
 }
 

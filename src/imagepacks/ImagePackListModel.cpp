@@ -132,8 +132,9 @@ ImagePackListModel::loadFromRuntime()
       },
       [](ImagePackListModel *model, ImagePackListLoadResult result) {
           if (!result.error.isEmpty()) {
-              nhlog::ui()->warn("Failed to fetch matrix-sdk image packs for settings dialog: {}",
-                                result.error.toStdString());
+              komai::logging::ui()->warn(
+                "Failed to fetch matrix-sdk image packs for settings dialog: {}",
+                result.error.toStdString());
               return;
           }
 

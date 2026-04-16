@@ -89,10 +89,11 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
         if (!m.setValue)
             return false;
         if (!validateSettingInput(m, value)) {
-            nhlog::ui()->warn("Ignoring invalid settings input (setting_id={}, type={}, role={})",
-                              static_cast<int>(m.settingId),
-                              m.type,
-                              role);
+            komai::logging::ui()->warn(
+              "Ignoring invalid settings input (setting_id={}, type={}, role={})",
+              static_cast<int>(m.settingId),
+              m.type,
+              role);
             return false;
         }
         return m.setValue(value);
@@ -100,7 +101,7 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
 
     if (settings::ui::hasWritableRoleDataForSetting(m.settingId, role)) {
         if (!settings::ui::validateRoleInput(m.settingId, role, value)) {
-            nhlog::ui()->warn(
+            komai::logging::ui()->warn(
               "Ignoring invalid settings role input (setting_id={}, type={}, role={})",
               static_cast<int>(m.settingId),
               m.type,

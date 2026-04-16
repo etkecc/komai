@@ -97,13 +97,13 @@ ScreenCastPortal::init()
         createSession();
         break;
     case State::Starting:
-        nhlog::ui()->warn("ScreenCastPortal already starting");
+        komai::logging::ui()->warn("ScreenCastPortal already starting");
         break;
     case State::Started:
         close(true);
         break;
     case State::Closing:
-        nhlog::ui()->warn("ScreenCastPortal still closing");
+        komai::logging::ui()->warn("ScreenCastPortal still closing");
         break;
     }
 }
@@ -161,8 +161,8 @@ ScreenCastPortal::close(bool reinit)
                     QDBusPendingReply reply = *self;
 
                     if (!reply.isValid()) {
-                        nhlog::ui()->warn("org.freedesktop.portal.ScreenCast (Close): {}",
-                                          reply.error().message().toStdString());
+                        komai::logging::ui()->warn("org.freedesktop.portal.ScreenCast (Close): {}",
+                                                   reply.error().message().toStdString());
                     }
                     state = State::Closed;
                     if (reinit)
@@ -170,7 +170,7 @@ ScreenCastPortal::close(bool reinit)
                 });
     } break;
     case State::Closing:
-        nhlog::ui()->warn("ScreenCastPortal already closing");
+        komai::logging::ui()->warn("ScreenCastPortal already closing");
         break;
     }
 }
@@ -182,10 +182,10 @@ ScreenCastPortal::closedHandler(uint response, const QVariantMap &)
     disconnectClose();
 
     if (response != 0) {
-        nhlog::ui()->error("org.freedesktop.portal.ScreenCast (Closed): {}", response);
+        komai::logging::ui()->error("org.freedesktop.portal.ScreenCast (Closed): {}", response);
     }
 
-    nhlog::ui()->debug("org.freedesktop.portal.ScreenCast: Connection closed");
+    komai::logging::ui()->debug("org.freedesktop.portal.ScreenCast: Connection closed");
     state = State::Closed;
     emit readyChanged();
 }
@@ -200,7 +200,7 @@ ScreenCastPortal::createSession()
                         QStringLiteral("org.freedesktop.portal.Request"),
                         QStringLiteral("Response"),
                         SLOT(createSessionHandler(uint, QVariantMap)))) {
-        nhlog::ui()->error(
+        komai::logging::ui()->error(
           "Connection to signal Response for org.freedesktop.portal.Request failed");
         close();
         return;
@@ -221,8 +221,8 @@ ScreenCastPortal::createSession()
           QDBusPendingReply<QDBusObjectPath> reply = *self;
 
           if (!reply.isValid()) {
-              nhlog::ui()->error("org.freedesktop.portal.ScreenCast (CreateSession): {}",
-                                 reply.error().message().toStdString());
+              komai::logging::ui()->error("org.freedesktop.portal.ScreenCast (CreateSession): {}",
+                                          reply.error().message().toStdString());
               close();
           }
       });
@@ -234,20 +234,20 @@ ScreenCastPortal::createSessionHandler(uint response, const QVariantMap &results
     removeConnection();
 
     if (state != State::Starting) {
-        nhlog::ui()->warn("ScreenCastPortal not starting");
+        komai::logging::ui()->warn("ScreenCastPortal not starting");
         return;
     }
     if (response != 0) {
-        nhlog::ui()->error("org.freedesktop.portal.ScreenCast (CreateSession Response): {}",
-                           response);
+        komai::logging::ui()->error(
+          "org.freedesktop.portal.ScreenCast (CreateSession Response): {}", response);
         close();
         return;
     }
 
     sessionHandle = QDBusObjectPath(results.value(QStringLiteral("session_handle")).toString());
 
-    nhlog::ui()->debug("org.freedesktop.portal.ScreenCast: sessionHandle = {}",
-                       sessionHandle.path().toStdString());
+    komai::logging::ui()->debug("org.freedesktop.portal.ScreenCast: sessionHandle = {}",
+                                sessionHandle.path().toStdString());
 
     QDBusConnection::sessionBus().connect(QStringLiteral("org.freedesktop.portal.Desktop"),
                                           sessionHandle.path(),
@@ -277,22 +277,23 @@ ScreenCastPortal::getAvailableSourceTypes()
           QDBusPendingReply<QDBusVariant> reply = *self;
 
           if (!reply.isValid()) {
-              nhlog::ui()->error("org.freedesktop.DBus.Properties (Get AvailableSourceTypes): {}",
-                                 reply.error().message().toStdString());
+              komai::logging::ui()->error(
+                "org.freedesktop.DBus.Properties (Get AvailableSourceTypes): {}",
+                reply.error().message().toStdString());
               close();
               return;
           }
 
           if (state != State::Starting) {
-              nhlog::ui()->warn("ScreenCastPortal not starting");
+              komai::logging::ui()->warn("ScreenCastPortal not starting");
               return;
           }
           const auto &value = reply.value().variant();
           if (value.canConvert<uint>()) {
               availableSourceTypes = value.value<uint>();
           } else {
-              nhlog::ui()->error("Invalid reply from org.freedesktop.DBus.Properties (Get "
-                                 "AvailableSourceTypes)");
+              komai::logging::ui()->error("Invalid reply from org.freedesktop.DBus.Properties (Get "
+                                          "AvailableSourceTypes)");
               close();
               return;
           }
@@ -319,22 +320,23 @@ ScreenCastPortal::getAvailableCursorModes()
           QDBusPendingReply<QDBusVariant> reply = *self;
 
           if (!reply.isValid()) {
-              nhlog::ui()->error("org.freedesktop.DBus.Properties (Get AvailableCursorModes): {}",
-                                 reply.error().message().toStdString());
+              komai::logging::ui()->error(
+                "org.freedesktop.DBus.Properties (Get AvailableCursorModes): {}",
+                reply.error().message().toStdString());
               close();
               return;
           }
 
           if (state != State::Starting) {
-              nhlog::ui()->warn("ScreenCastPortal not starting");
+              komai::logging::ui()->warn("ScreenCastPortal not starting");
               return;
           }
           const auto &value = reply.value().variant();
           if (value.canConvert<uint>()) {
               availableCursorModes = value.value<uint>();
           } else {
-              nhlog::ui()->error("Invalid reply from org.freedesktop.DBus.Properties (Get "
-                                 "AvailableCursorModes)");
+              komai::logging::ui()->error("Invalid reply from org.freedesktop.DBus.Properties (Get "
+                                          "AvailableCursorModes)");
               close();
               return;
           }
@@ -353,7 +355,7 @@ ScreenCastPortal::selectSources()
                         QStringLiteral("org.freedesktop.portal.Request"),
                         QStringLiteral("Response"),
                         SLOT(selectSourcesHandler(uint, QVariantMap)))) {
-        nhlog::ui()->error(
+        komai::logging::ui()->error(
           "Connection to signal Response for org.freedesktop.portal.Request failed");
         close();
         return;
@@ -385,8 +387,8 @@ ScreenCastPortal::selectSources()
           QDBusPendingReply<QDBusObjectPath> reply = *self;
 
           if (!reply.isValid()) {
-              nhlog::ui()->error("org.freedesktop.portal.ScreenCast (SelectSources): {}",
-                                 reply.error().message().toStdString());
+              komai::logging::ui()->error("org.freedesktop.portal.ScreenCast (SelectSources): {}",
+                                          reply.error().message().toStdString());
               close();
           }
       });
@@ -398,12 +400,12 @@ ScreenCastPortal::selectSourcesHandler(uint response, const QVariantMap &)
     removeConnection();
 
     if (state != State::Starting) {
-        nhlog::ui()->warn("ScreenCastPortal not starting");
+        komai::logging::ui()->warn("ScreenCastPortal not starting");
         return;
     }
     if (response != 0) {
-        nhlog::ui()->error("org.freedesktop.portal.ScreenCast (SelectSources Response): {}",
-                           response);
+        komai::logging::ui()->error(
+          "org.freedesktop.portal.ScreenCast (SelectSources Response): {}", response);
         close();
         return;
     }
@@ -420,7 +422,7 @@ ScreenCastPortal::start()
                         QStringLiteral("org.freedesktop.portal.Request"),
                         QStringLiteral("Response"),
                         SLOT(startHandler(uint, QVariantMap)))) {
-        nhlog::ui()->error("Connection to org.freedesktop.portal.Request Response failed");
+        komai::logging::ui()->error("Connection to org.freedesktop.portal.Request Response failed");
         close();
         return;
     }
@@ -439,8 +441,8 @@ ScreenCastPortal::start()
         QDBusPendingReply<QDBusObjectPath> reply = *self;
 
         if (!reply.isValid()) {
-            nhlog::ui()->error("org.freedesktop.portal.ScreenCast (Start): {}",
-                               reply.error().message().toStdString());
+            komai::logging::ui()->error("org.freedesktop.portal.ScreenCast (Start): {}",
+                                        reply.error().message().toStdString());
         }
     });
 }
@@ -476,7 +478,8 @@ ScreenCastPortal::startHandler(uint response, const QVariantMap &results)
     removeConnection();
 
     if (response != 0) {
-        nhlog::ui()->error("org.freedesktop.portal.ScreenCast (Start Response): {}", response);
+        komai::logging::ui()->error("org.freedesktop.portal.ScreenCast (Start Response): {}",
+                                    response);
         close();
         return;
     }
@@ -484,13 +487,13 @@ ScreenCastPortal::startHandler(uint response, const QVariantMap &results)
     QVector<PipeWireStream> streams =
       qdbus_cast<QVector<PipeWireStream>>(results.value(QStringLiteral("streams")));
     if (streams.size() == 0) {
-        nhlog::ui()->error("org.freedesktop.portal.ScreenCast: No stream was returned");
+        komai::logging::ui()->error("org.freedesktop.portal.ScreenCast: No stream was returned");
         close();
         return;
     }
 
     stream.nodeId = streams[0].nodeId;
-    nhlog::ui()->debug("org.freedesktop.portal.ScreenCast: nodeId = {}", stream.nodeId);
+    komai::logging::ui()->debug("org.freedesktop.portal.ScreenCast: nodeId = {}", stream.nodeId);
     openPipeWireRemote();
 }
 
@@ -511,13 +514,14 @@ ScreenCastPortal::openPipeWireRemote()
           QDBusPendingReply<QDBusUnixFileDescriptor> reply = *self;
 
           if (!reply.isValid()) {
-              nhlog::ui()->error("org.freedesktop.portal.ScreenCast (OpenPipeWireRemote): {}",
-                                 reply.error().message().toStdString());
+              komai::logging::ui()->error(
+                "org.freedesktop.portal.ScreenCast (OpenPipeWireRemote): {}",
+                reply.error().message().toStdString());
               close();
           } else {
               stream.fd = reply.value();
-              nhlog::ui()->error("org.freedesktop.portal.ScreenCast: fd = {}",
-                                 stream.fd.fileDescriptor());
+              komai::logging::ui()->error("org.freedesktop.portal.ScreenCast: fd = {}",
+                                          stream.fd.fileDescriptor());
               state = State::Started;
               emit readyChanged();
           }

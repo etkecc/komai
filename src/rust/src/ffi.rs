@@ -1089,6 +1089,21 @@ mod bridge {
         serialized_session: String,
     }
 
+    struct MatrixThreadRootItem {
+        event_id: String,
+        sender_id: String,
+        sender_display_name: String,
+        sender_avatar_url: String,
+        body: String,
+        timestamp: u64,
+        reply_count: u32,
+    }
+
+    struct MatrixThreadRootsResult {
+        items: Vec<MatrixThreadRootItem>,
+        next_batch_token: String,
+    }
+
     unsafe extern "C++" {
         include!("matrix/backend/MatrixBackendBridge.h");
 
@@ -1962,6 +1977,14 @@ mod bridge {
             handle_id: u64,
             room_id: &str,
         ) -> Result<Vec<String>>;
+        fn matrix_fetch_room_thread_roots(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            include: &str,
+            from: &str,
+            limit: u32,
+        ) -> Result<MatrixThreadRootsResult>;
         fn matrix_fetch_room_frequent_reactions(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

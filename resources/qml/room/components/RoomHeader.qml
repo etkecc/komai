@@ -48,6 +48,7 @@ Pane {
     readonly property int visibleActionButtonCount:
         (searchButton.visible ? 1 : 0)
         + (pinButton.visible ? 1 : 0)
+        + (threadsButton.visible ? 1 : 0)
         + (memberButton.visible ? 1 : 0)
         + (encryptionButton.visible ? 1 : 0)
         + (leaveRoomButton.visible ? 1 : 0)
@@ -55,6 +56,7 @@ Pane {
     readonly property real requiredLabeledActionWidth: requiredIconOnlyActionWidth
         + (searchButton.visible ? (actionButtonLabelGap + searchLabelMetrics.advanceWidth) : 0)
         + (pinButton.visible ? (actionButtonLabelGap + pinLabelMetrics.advanceWidth) : 0)
+        + (threadsButton.visible ? (actionButtonLabelGap + threadsLabelMetrics.advanceWidth) : 0)
         + (memberButton.visible ? (actionButtonLabelGap + membersLabelMetrics.advanceWidth) : 0)
         + (encryptionButton.visible ? (actionButtonLabelGap + encryptionLabelMetrics.advanceWidth) : 0)
         + (leaveRoomButton.visible ? (actionButtonLabelGap + leaveLabelMetrics.advanceWidth) : 0)
@@ -99,6 +101,7 @@ Pane {
         addVisibleActionButton(buttons, backToRoomsButton);
         addVisibleActionButton(buttons, searchButton);
         addVisibleActionButton(buttons, pinButton);
+        addVisibleActionButton(buttons, threadsButton);
         addVisibleActionButton(buttons, memberButton);
         addVisibleActionButton(buttons, encryptionButton);
         addVisibleActionButton(buttons, leaveRoomButton);
@@ -146,6 +149,15 @@ Pane {
             "pointSize": Settings.uiFontSizePt
         })
         text: qsTr("Search")
+    }
+    TextMetrics {
+        id: threadsLabelMetrics
+
+        font: Qt.font({
+            "bold": true,
+            "pointSize": Settings.uiFontSizePt
+        })
+        text: threadsButton.labelText
     }
     TextMetrics {
         id: membersLabelMetrics
@@ -213,6 +225,7 @@ Pane {
                         : null
                     KeyNavigation.tab: searchButton.visible ? searchButton
                         : pinButton.visible ? pinButton
+                        : threadsButton.visible ? threadsButton
                         : memberButton.visible ? memberButton
                         : encryptionButton.visible ? encryptionButton
                         : leaveRoomButton.visible ? leaveRoomButton
@@ -262,6 +275,7 @@ Pane {
                     column: 4
                     KeyNavigation.backtab: roomSettingsButton
                     KeyNavigation.tab: pinButton.visible ? pinButton
+                        : threadsButton.visible ? threadsButton
                         : memberButton.visible ? memberButton
                         : encryptionButton.visible ? encryptionButton
                         : leaveRoomButton.visible ? leaveRoomButton
@@ -284,7 +298,8 @@ Pane {
                     topBarRef: topBar
                     column: 5
                     KeyNavigation.backtab: searchButton.visible ? searchButton : roomSettingsButton
-                    KeyNavigation.tab: memberButton.visible ? memberButton
+                    KeyNavigation.tab: threadsButton.visible ? threadsButton
+                        : memberButton.visible ? memberButton
                         : encryptionButton.visible ? encryptionButton
                         : leaveRoomButton.visible ? leaveRoomButton
                         : null
@@ -292,12 +307,29 @@ Pane {
                     roomId: topBar.roomId
                     showTextLabel: topBar.showActionLabels
                 }
-                RoomHeaderMembersButton {
-                    id: memberButton
+                RoomHeaderThreadsButton {
+                    id: threadsButton
 
                     topBarRef: topBar
                     column: 6
                     KeyNavigation.backtab: pinButton.visible ? pinButton
+                        : searchButton.visible ? searchButton
+                        : roomSettingsButton
+                    KeyNavigation.tab: memberButton.visible ? memberButton
+                        : encryptionButton.visible ? encryptionButton
+                        : leaveRoomButton.visible ? leaveRoomButton
+                        : null
+                    room: topBar.roomModel
+                    roomId: topBar.roomId
+                    showTextLabel: topBar.showActionLabels
+                }
+                RoomHeaderMembersButton {
+                    id: memberButton
+
+                    topBarRef: topBar
+                    column: 7
+                    KeyNavigation.backtab: threadsButton.visible ? threadsButton
+                        : pinButton.visible ? pinButton
                         : searchButton.visible ? searchButton
                         : roomSettingsButton
                     KeyNavigation.tab: encryptionButton.visible ? encryptionButton
@@ -310,6 +342,7 @@ Pane {
                     id: encryptionButton
 
                     KeyNavigation.backtab: memberButton.visible ? memberButton
+                        : threadsButton.visible ? threadsButton
                         : pinButton.visible ? pinButton
                         : searchButton.visible ? searchButton
                         : roomSettingsButton
@@ -327,9 +360,10 @@ Pane {
                     id: leaveRoomButton
 
                     topBarRef: topBar
-                    column: 8
+                    column: 9
                     KeyNavigation.backtab: encryptionButton.visible ? encryptionButton
                         : memberButton.visible ? memberButton
+                        : threadsButton.visible ? threadsButton
                         : pinButton.visible ? pinButton
                         : searchButton.visible ? searchButton
                         : roomSettingsButton

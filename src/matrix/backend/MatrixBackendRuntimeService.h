@@ -645,6 +645,21 @@ public:
                             const QString &roomId,
                             QString *errorOut = nullptr);
 
+    struct ThreadRootsResult
+    {
+        QVariantList items;
+        QString nextBatchToken;
+    };
+
+    static std::optional<ThreadRootsResult>
+    fetchRoomThreadRoots(matrix_backend::BlockingCallContext context,
+                         uint64_t handleId,
+                         const QString &roomId,
+                         const QString &include,
+                         const QString &from,
+                         uint32_t limit,
+                         QString *errorOut = nullptr);
+
     static std::optional<QStringList>
     fetchRoomFrequentReactions(matrix_backend::BlockingCallContext context,
                                uint64_t handleId,

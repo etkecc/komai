@@ -305,6 +305,9 @@ public:
     forwardActiveMatrixTimelineEvents(const QStringList &eventIds, const QString &targetRoomId);
     Q_INVOKABLE bool pinActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE bool unpinActiveMatrixTimelineEvent(const QString &eventId);
+    Q_INVOKABLE void fetchActiveMatrixRoomThreadRoots(const QString &include,
+                                                      const QString &from = {},
+                                                      int limit           = 20);
     Q_INVOKABLE bool requestRawMessageDialogForActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE bool requestReadReceiptsModelForActiveMatrixTimelineEvent(const QString &eventId);
     Q_INVOKABLE bool openActiveMatrixAttachmentSelection();
@@ -373,6 +376,7 @@ signals:
     void colorRevisionChanged();
     void matrixTimelineStateChanged();
     void matrixTimelineTypingUsersChanged();
+    void matrixRoomThreadRootsReady(QVariantList items, QString nextBatchToken);
 
 public slots:
     void updateReadReceipts(const QString &room_id, const std::vector<QString> &event_ids);

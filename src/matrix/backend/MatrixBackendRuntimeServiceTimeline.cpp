@@ -485,6 +485,53 @@ MatrixBackendRuntimeService::fetchRoomPinnedEventIds(matrix_backend::BlockingCal
     }
 }
 
+std::optional<MatrixBackendRuntimeService::ThreadRootsResult>
+MatrixBackendRuntimeService::fetchRoomThreadRoots(matrix_backend::BlockingCallContext context,
+                                                  uint64_t handleId,
+                                                  const QString &roomId,
+                                                  const QString &include,
+                                                  const QString &from,
+                                                  uint32_t limit,
+                                                  QString *errorOut)
+{
+    try {
+        const auto result = matrix_backend::invokeBlockingCall(
+          "matrix_fetch_room_thread_roots",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, include, from, limit, context]() {
+              return ::komai::rust::matrix_fetch_room_thread_roots(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                include.toStdString(),
+                from.toStdString(),
+                limit);
+          });
+
+        ThreadRootsResult out;
+        out.nextBatchToken = QString::fromStdString(std::string(result.next_batch_token));
+        out.items.reserve(static_cast<qsizetype>(result.items.size()));
+        for (const auto &item : result.items) {
+            QVariantMap map;
+            map[QStringLiteral("eventId")]  = QString::fromStdString(std::string(item.event_id));
+            map[QStringLiteral("senderId")] = QString::fromStdString(std::string(item.sender_id));
+            map[QStringLiteral("senderDisplayName")] =
+              QString::fromStdString(std::string(item.sender_display_name));
+            map[QStringLiteral("senderAvatarUrl")] =
+              QString::fromStdString(std::string(item.sender_avatar_url));
+            map[QStringLiteral("body")]       = QString::fromStdString(std::string(item.body));
+            map[QStringLiteral("timestamp")]  = static_cast<qint64>(item.timestamp);
+            map[QStringLiteral("replyCount")] = static_cast<quint32>(item.reply_count);
+            out.items.push_back(map);
+        }
+        return out;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 std::optional<QStringList>
 MatrixBackendRuntimeService::fetchRoomFrequentReactions(matrix_backend::BlockingCallContext context,
                                                         uint64_t handleId,

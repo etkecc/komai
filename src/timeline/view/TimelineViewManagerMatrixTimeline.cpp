@@ -2058,6 +2058,59 @@ TimelineViewManager::unpinActiveMatrixTimelineEvent(const QString &eventId)
     return true;
 }
 
+void
+TimelineViewManager::fetchActiveMatrixRoomThreadRoots(const QString &include,
+                                                      const QString &from,
+                                                      int limit)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty())
+        return;
+
+    const auto roomId = activeMatrixTimelineRoomId_;
+
+    struct Result
+    {
+        uint64_t handleId;
+        QString roomId;
+        QVariantList items;
+        QString nextBatchToken;
+        QString error;
+    };
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId, include, from, limit]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const auto result = komai::MatrixBackendRuntimeService::fetchRoomThreadRoots(
+            context, handleId, roomId, include, from, static_cast<uint32_t>(limit), &error);
+          Result out;
+          out.handleId = handleId;
+          out.roomId   = roomId;
+          if (result) {
+              out.items          = result->items;
+              out.nextBatchToken = result->nextBatchToken;
+          } else {
+              out.error = error;
+          }
+          return out;
+      },
+      [](TimelineViewManager *manager, Result result) {
+          auto *mainWindow = MainWindow::instance();
+          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+              return;
+          if (manager->activeMatrixTimelineRoomId_ != result.roomId)
+              return;
+          if (!result.error.isEmpty()) {
+              nhlog::ui()->warn("Failed to fetch thread roots: {}", result.error.toStdString());
+              return;
+          }
+          emit manager->matrixRoomThreadRootsReady(result.items, result.nextBatchToken);
+      });
+}
+
 bool
 TimelineViewManager::requestRawMessageDialogForActiveMatrixTimelineEvent(const QString &eventId)
 {

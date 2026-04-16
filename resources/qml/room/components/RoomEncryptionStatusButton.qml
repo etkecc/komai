@@ -66,7 +66,7 @@ AbstractButton {
     }
 
     Layout.alignment: Qt.AlignVCenter
-    Layout.column: 7
+    Layout.column: 8
     Layout.preferredHeight: topBarAvatarSize
     Layout.preferredWidth: implicitWidth
     Layout.row: 1

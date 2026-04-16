@@ -7,6 +7,7 @@
 use super::*;
 
 use matrix_sdk_base::event_cache::store::EventCacheStoreLockState;
+use matrix_sdk::room::ListThreadsOptions;
 use matrix_sdk::ruma::{
     EventId,
     events::{
@@ -16,6 +17,8 @@ use matrix_sdk::ruma::{
         room::pinned_events::RoomPinnedEventsEventContent,
     },
 };
+use matrix_sdk_base::deserialized_responses::ThreadSummaryStatus;
+use ruma::api::client::threads::get_threads::v1::IncludeThreads;
 
 // ---------------------------------------------------------------------------
 // Frequent reactions
@@ -111,6 +114,90 @@ fn normalize_reaction_for_comparison(content: &ReactionEventContent) -> String {
         .chars()
         .filter(|ch| *ch != '\u{FE0F}' && *ch != '\u{FE0E}')
         .collect()
+}
+
+// ---------------------------------------------------------------------------
+// Thread roots
+// ---------------------------------------------------------------------------
+
+pub async fn fetch_room_thread_roots(
+    handle_id: u64,
+    room_id: &str,
+    include: &str,
+    from: &str,
+    limit: u32,
+) -> Result<crate::ffi::MatrixThreadRootsResult, String> {
+    use super::event_summary::summarize_sync_timeline_event;
+
+    let room = joined_room_for_handle(handle_id, room_id)?;
+
+    let include_threads = match include {
+        "participated" => IncludeThreads::Participated,
+        _ => IncludeThreads::All,
+    };
+
+    let opts = ListThreadsOptions {
+        include_threads,
+        from: if from.is_empty() { None } else { Some(from.to_owned()) },
+        limit: if limit == 0 { None } else { Some(UInt::from(limit)) },
+    };
+
+    let result = room
+        .list_threads(opts)
+        .await
+        .map_err(|e| format!("failed to list threads: {e}"))?;
+
+    let mut items = Vec::new();
+    for event in result.chunk {
+        let Some(event_id) = event.event_id().map(|id| id.to_string()) else {
+            continue;
+        };
+        let timestamp = event.timestamp.map(|ts| ts.0.into()).unwrap_or(0u64);
+
+        let reply_count = match &event.thread_summary {
+            ThreadSummaryStatus::Some(summary) => summary.num_replies,
+            _ => 0,
+        };
+
+        let raw = event.raw();
+        let Some(deserialized) = raw.deserialize().ok() else {
+            continue;
+        };
+
+        let sender_id = deserialized.sender().to_owned();
+
+        let body = summarize_sync_timeline_event(&deserialized)
+            .map(|s| s.body)
+            .unwrap_or_default();
+
+        // Resolve sender display name and avatar URL from room membership.
+        let (sender_display_name, sender_avatar_url) =
+            match room.get_member_no_sync(&sender_id).await {
+                Ok(Some(member)) => (
+                    member.display_name().unwrap_or_default().to_owned(),
+                    member
+                        .avatar_url()
+                        .map(|u| u.to_string())
+                        .unwrap_or_default(),
+                ),
+                _ => (String::new(), String::new()),
+            };
+
+        items.push(crate::ffi::MatrixThreadRootItem {
+            event_id,
+            sender_id: sender_id.to_string(),
+            sender_display_name,
+            sender_avatar_url,
+            body,
+            timestamp,
+            reply_count,
+        });
+    }
+
+    Ok(crate::ffi::MatrixThreadRootsResult {
+        items,
+        next_batch_token: result.prev_batch_token.unwrap_or_default(),
+    })
 }
 
 // ---------------------------------------------------------------------------

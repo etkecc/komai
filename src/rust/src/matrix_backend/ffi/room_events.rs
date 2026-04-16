@@ -324,6 +324,21 @@ pub(crate) fn matrix_report_room_event(
     )
 }
 
+pub(crate) fn matrix_fetch_room_thread_roots(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    include: &str,
+    from: &str,
+    limit: u32,
+) -> Result<ffi::MatrixThreadRootsResult, String> {
+    ffi_block_on(
+        context,
+        "matrix_fetch_room_thread_roots",
+        matrix_backend::runtime::fetch_room_thread_roots(handle_id, room_id, include, from, limit),
+    )
+}
+
 pub(crate) fn matrix_fetch_room_pinned_event_ids(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

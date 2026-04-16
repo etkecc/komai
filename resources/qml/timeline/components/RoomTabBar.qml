@@ -159,6 +159,8 @@ Rectangle {
             labelText: qsTr("New")
             showLabel: true
             Layout.alignment: Qt.AlignVCenter
+            Layout.leftMargin: Komai.paddingMedium
+            Layout.rightMargin: Komai.paddingMedium
 
             onClicked: tabController.openNewTab()
         }

@@ -29,7 +29,7 @@
     QStringList hiddenSpaces() const;
     int integrationsDbusApiAccess() const;
     QString integrationsBrowserCommand() const;
-    QString donationStatus() const;
+    QString sponsoringStatus() const;
     int windowWidth() const;
     int windowHeight() const;
     bool usesFileSecretsProvider() const;

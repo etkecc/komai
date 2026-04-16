@@ -401,7 +401,7 @@ mod bridge {
         open_tabs: Vec<String>,
         pinned_tabs: Vec<String>,
         composer_drafts_by_room: Vec<SettingsStringMapEntry>,
-        donation_status: String,
+        sponsoring_status: String,
         source_exists: bool,
         source_version: i32,
         migrated_version: i32,
@@ -448,7 +448,7 @@ mod bridge {
         open_tabs: Vec<String>,
         pinned_tabs: Vec<String>,
         composer_drafts_by_room: Vec<SettingsStringMapEntry>,
-        donation_status: String,
+        sponsoring_status: String,
     }
 
     struct ThemeUserColorSlotData {

@@ -125,7 +125,7 @@ bool timelineMediaOpenAudioExternal_;
 double timelineMediaDefaultAudioPlaybackSpeed_ = 1.0;
 int integrationsDbusApiAccess_                 = 0;
 QString integrationsBrowserCommand_;
-QString donationStatus_                     = QStringLiteral("visible");
+QString sponsoringStatus_                   = QStringLiteral("visible");
 int windowWidth_                            = settings::core::definitions::kDefaultWindowWidthPx;
 int windowHeight_                           = settings::core::definitions::kDefaultWindowHeightPx;
 bool usesFileSecretsProvider_               = false;

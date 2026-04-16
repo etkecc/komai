@@ -34,7 +34,7 @@ const HIDDEN_WIDGETS_PATH: [&str; 3] = ["timeline", "widgets", "hidden"];
 const OPEN_TABS_PATH: [&str; 2] = ["tabs", "open"];
 const PINNED_TABS_PATH: [&str; 2] = ["tabs", "pinned"];
 const COMPOSER_DRAFTS_PATH: [&str; 3] = ["composer", "drafts", "by_room"];
-const DONATION_STATUS_PATH: [&str; 2] = ["ui", "donation_status"];
+const SPONSORING_STATUS_PATH: [&str; 2] = ["ui", "sponsoring_status"];
 
 pub struct LoadedState {
     pub window_width: i32,
@@ -52,7 +52,7 @@ pub struct LoadedState {
     pub open_tabs: Vec<String>,
     pub pinned_tabs: Vec<String>,
     pub composer_drafts_by_room: Vec<SettingsStringMapEntry>,
-    pub donation_status: String,
+    pub sponsoring_status: String,
     pub source_exists: bool,
     pub source_version: i32,
     pub migrated_version: i32,
@@ -159,8 +159,8 @@ pub fn load_state_snapshot(state_text: &str) -> LoadedState {
         open_tabs: read_string_list(&root, &OPEN_TABS_PATH, &[]),
         pinned_tabs: read_string_list(&root, &PINNED_TABS_PATH, &[]),
         composer_drafts_by_room: read_string_map(&root, &COMPOSER_DRAFTS_PATH),
-        donation_status: {
-            let raw = read_string(&root, &DONATION_STATUS_PATH);
+        sponsoring_status: {
+            let raw = read_string(&root, &SPONSORING_STATUS_PATH);
             match raw.as_str() {
                 "sponsoring" | "hidden" => raw,
                 _ => "visible".to_owned(),
@@ -271,8 +271,8 @@ pub fn encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
-        &DONATION_STATUS_PATH,
-        Value::String(snapshot.donation_status.clone()),
+        &SPONSORING_STATUS_PATH,
+        Value::String(snapshot.sponsoring_status.clone()),
     );
     yaml::serialize_yaml(&root)
 }

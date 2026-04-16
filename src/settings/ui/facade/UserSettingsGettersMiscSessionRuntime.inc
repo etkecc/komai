@@ -129,9 +129,9 @@ UserSettings::hiddenSpaces() const
     return hiddenSpaces_;
 }
 QString
-UserSettings::donationStatus() const
+UserSettings::sponsoringStatus() const
 {
-    return donationStatus_;
+    return sponsoringStatus_;
 }
 int
 UserSettings::windowWidth() const

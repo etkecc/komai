@@ -74,20 +74,15 @@ Rectangle {
         }
 
         KomaiButton {
-            id: donateButton
+            id: supportButton
 
-            readonly property string heartIcon: Settings.donationStatus === "sponsoring"
+            readonly property string heartIcon: Settings.sponsoringStatus === "sponsoring"
                 ? "qrc:/icons/icons/ui/heart-filled.svg" : "qrc:/icons/icons/ui/heart.svg"
 
-            visible: Settings.donationStatus !== "hidden"
-            text: Settings.donationStatus === "sponsoring" ? qsTr("Donating!") : qsTr("Donate")
+            visible: Settings.sponsoringStatus !== "hidden"
+            text: Settings.sponsoringStatus === "sponsoring" ? qsTr("Sponsoring!") : qsTr("Sponsor")
             icon.source: "image://colorimage/:" + heartIcon.substring(4) + "?" + Komai.theme.error
-            onClicked: {
-                if (Settings.donationStatus === "sponsoring")
-                    sponsoringMenu.popup(donateButton);
-                else
-                    donateMenu.popup(donateButton);
-            }
+            onClicked: supportDialog.open()
         }
 
         KomaiButton {
@@ -97,113 +92,7 @@ Rectangle {
         }
     }
 
-    Menu {
-        id: sponsoringMenu
-
-        Component.onCompleted: {
-            if (sponsoringMenu.popupType != undefined)
-                sponsoringMenu.popupType = 2;
-        }
-
-        MenuItem {
-            text: qsTr("GitHub Sponsors")
-            onTriggered: Qt.openUrlExternally("https://github.com/sponsors/etkecc")
-        }
-
-        MenuItem {
-            text: qsTr("Liberapay")
-            onTriggered: Qt.openUrlExternally("https://liberapay.com/etkecc")
-        }
-
-        MenuSeparator {}
-
-        MenuItem {
-            text: qsTr("I no longer donate")
-            onTriggered: Settings.donationStatus = "visible"
-        }
-
-        MenuItem {
-            text: qsTr("Hide")
-            onTriggered: root.showHideConfirmDialog()
-        }
-    }
-
-    Menu {
-        id: donateMenu
-
-        Component.onCompleted: {
-            if (donateMenu.popupType != undefined)
-                donateMenu.popupType = 2;
-        }
-
-        MenuItem {
-            text: qsTr("GitHub Sponsors")
-            onTriggered: Qt.openUrlExternally("https://github.com/sponsors/etkecc")
-        }
-
-        MenuItem {
-            text: qsTr("Liberapay")
-            onTriggered: Qt.openUrlExternally("https://liberapay.com/etkecc")
-        }
-
-        MenuSeparator {}
-
-        MenuItem {
-            text: qsTr("I already donate!")
-            onTriggered: Settings.donationStatus = "sponsoring"
-        }
-
-        MenuItem {
-            text: qsTr("Hide")
-            onTriggered: root.showHideConfirmDialog()
-        }
-    }
-
-    function showHideConfirmDialog() {
-        var dialog = hideConfirmComponent.createObject(Overlay.overlay);
-        dialog.open();
-    }
-
-    Component {
-        id: hideConfirmComponent
-
-        OverlayDialog {
-            title: qsTr("Hide donation button?")
-
-            Label {
-                Layout.fillWidth: true
-                color: palette.buttonText
-                wrapMode: Text.WordWrap
-                text: qsTr("This will permanently hide the donation button from this screen.")
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: Komai.paddingMedium
-
-                KomaiButton {
-                    text: qsTr("Cancel")
-                    onClicked: close()
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                KomaiButton {
-                    id: hideButton
-
-                    text: qsTr("Hide")
-                    highlighted: true
-                    onClicked: {
-                        Settings.donationStatus = "hidden";
-                        close();
-                    }
-                }
-            }
-
-            initialFocusItem: hideButton
-            onClosed: destroy()
-        }
+    SupportDialog {
+        id: supportDialog
     }
 }

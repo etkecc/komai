@@ -284,8 +284,8 @@ class UserSettings final : public QObject
                  hiddenWidgetsChanged)
     Q_PROPERTY(
       QStringList hiddenSpaces READ hiddenSpaces WRITE setHiddenSpaces NOTIFY hiddenSpacesChanged)
-    Q_PROPERTY(QString donationStatus READ donationStatus WRITE setDonationStatus NOTIFY
-                 donationStatusChanged)
+    Q_PROPERTY(QString sponsoringStatus READ sponsoringStatus WRITE setSponsoringStatus NOTIFY
+                 sponsoringStatusChanged)
     // Window geometry (not exposed to QML, used internally)
     Q_PROPERTY(int windowWidth READ windowWidth WRITE setWindowWidth NOTIFY windowWidthChanged)
     Q_PROPERTY(int windowHeight READ windowHeight WRITE setWindowHeight NOTIFY windowHeightChanged)
@@ -629,7 +629,7 @@ public:
     void setIntegrationsBrowserCommand(QString command);
     void setCollapsedSpaces(QStringList spaces);
     void setIntegrationsDbusApiAccess(int access);
-    void setDonationStatus(QString status);
+    void setSponsoringStatus(QString status);
     void setWindowWidth(int width);
     void setWindowHeight(int height);
     void setNetworkMrsEnabled(bool state);
@@ -788,7 +788,7 @@ signals:
     void composerDraftsByRoomChanged();
     void integrationsDbusApiAccessChanged(int state);
     void integrationsBrowserCommandChanged(QString command);
-    void donationStatusChanged(QString donationStatus);
+    void sponsoringStatusChanged(QString sponsoringStatus);
     void windowWidthChanged(int width);
     void windowHeightChanged(int height);
     void networkMrsEnabledChanged(bool state);

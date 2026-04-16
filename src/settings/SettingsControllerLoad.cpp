@@ -264,8 +264,8 @@ loadImpl(UserSettings &settings,
         const auto &stateSnapshot  = profileSnapshot.state;
         const bool stateFileExists = stateSnapshot.source_exists;
         logStateMigrationWarnings(stateSnapshot);
-        settings.setDonationStatus(
-          QString::fromStdString(static_cast<std::string>(stateSnapshot.donation_status)));
+        settings.setSponsoringStatus(
+          QString::fromStdString(static_cast<std::string>(stateSnapshot.sponsoring_status)));
         settings.setWindowWidth(stateSnapshot.window_width);
         settings.setWindowHeight(stateSnapshot.window_height);
         settings.setNavigationRoomListWidthPx(stateSnapshot.navigation_room_list_width_px);

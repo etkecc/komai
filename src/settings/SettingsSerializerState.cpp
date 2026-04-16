@@ -30,7 +30,7 @@ stageState(const UserSettings &settings, ::komai::rust::SettingsProfileHandle &p
       .open_tabs                       = {},
       .pinned_tabs                     = {},
       .composer_drafts_by_room         = {},
-      .donation_status                 = settings.donationStatus().toStdString(),
+      .sponsoring_status               = settings.sponsoringStatus().toStdString(),
     };
     for (const auto &value : settings.globalExcludes())
         snapshot.global_excludes.push_back(value.toStdString());

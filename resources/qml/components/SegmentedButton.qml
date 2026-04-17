@@ -27,7 +27,7 @@ Item {
 
         anchors.fill: parent
         radius: Komai.paddingSmall
-        color: palette.alternateBase
+        color: palette.window
         border.color: Komai.theme.separator
         border.width: 1
         clip: true
@@ -105,59 +105,58 @@ Item {
                         }
                     }
 
-                contentItem: Item {
-                    Row {
-                        anchors.left: parent.left
-                        anchors.leftMargin: Komai.paddingMedium
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: Komai.paddingMedium
-                        width: Math.min(implicitWidth, parent.width - Komai.paddingMedium * 2)
+                contentItem: RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: Komai.paddingMedium
+                    anchors.rightMargin: Komai.paddingMedium
+                    spacing: Komai.paddingMedium
+
+                    Label {
+                        id: segmentLabel
+
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignVCenter
+                        text: segmentButton.modelData.text
+                        color: segmentButton.isSelected
+                            ? palette.highlightedText
+                            : segmentButton.activeState
+                                ? palette.brightText
+                                : palette.text
+                        font.pointSize: Settings.uiFontSizePt
+                        font.bold: true
+                        elide: Text.ElideRight
+                        horizontalAlignment: Text.AlignLeft
+                    }
+
+                    // Inline badge (optional — model entry may have a "badge" string)
+                    Rectangle {
+                        id: badgeRect
+
+                        visible: !!segmentButton.modelData.badge
+                        Layout.alignment: Qt.AlignVCenter
+                        implicitHeight: badgeLabel.implicitHeight + Komai.paddingSmall * 0.5
+                        implicitWidth: Math.max(badgeLabel.implicitWidth + Komai.paddingSmall * 1.5, implicitHeight)
+                        radius: height / 8
+                        color: segmentButton.isSelected ? palette.highlightedText : palette.highlight
 
                         Label {
-                            id: segmentLabel
-
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: segmentButton.modelData.text
-                            color: segmentButton.isSelected
-                                ? palette.highlightedText
-                                : segmentButton.activeState
-                                    ? palette.brightText
-                                    : palette.text
-                            font.pointSize: Settings.uiFontSizePt
+                            id: badgeLabel
+                            anchors.centerIn: parent
                             font.bold: true
-                            elide: Text.ElideRight
+                            font.pointSize: Settings.uiFontSizePt * 0.8
+                            color: segmentButton.isSelected ? palette.highlight : palette.highlightedText
+                            text: segmentButton.modelData.badge || ""
                         }
 
-                        // Inline badge (optional — model entry may have a "badge" string)
-                        Rectangle {
-                            id: badgeRect
-
-                            visible: !!segmentButton.modelData.badge
-                            anchors.verticalCenter: parent.verticalCenter
-                            implicitHeight: badgeLabel.implicitHeight + Komai.paddingSmall * 0.5
-                            implicitWidth: Math.max(badgeLabel.implicitWidth + Komai.paddingSmall * 1.5, implicitHeight)
-                            radius: height / 8
-                            color: segmentButton.isSelected ? palette.highlightedText : palette.highlight
-
-                            Label {
-                                id: badgeLabel
-                                anchors.centerIn: parent
-                                font.bold: true
-                                font.pointSize: Settings.uiFontSizePt * 0.8
-                                color: segmentButton.isSelected ? palette.highlight : palette.highlightedText
-                                text: segmentButton.modelData.badge || ""
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                acceptedButtons: Qt.NoButton
-                                onContainsMouseChanged: {
-                                    if (containsMouse)
-                                        root.hoveredBadge = badgeRect;
-                                    else if (root.hoveredBadge === badgeRect)
-                                        root.hoveredBadge = null;
-                                }
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            acceptedButtons: Qt.NoButton
+                            onContainsMouseChanged: {
+                                if (containsMouse)
+                                    root.hoveredBadge = badgeRect;
+                                else if (root.hoveredBadge === badgeRect)
+                                    root.hoveredBadge = null;
                             }
                         }
                     }

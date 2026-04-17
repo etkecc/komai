@@ -33,7 +33,7 @@ navigation:
     compact: false
     show_last_message_timestamp: true
     last_message_preview: always
-    show_community_notification_counts: true
+    show_unread_indicators: true
     sort: unread_first_recent
   communities:
     visible: true

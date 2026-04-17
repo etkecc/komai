@@ -316,11 +316,11 @@ navigation:
   room_list:
     show_last_message_timestamp: false
     last_message_preview: never
-    show_unread_counts: true
+    show_unread_indicators: true
     sort: alphabetical
     opening_policy: reuse_active_tab
   communities:
-    show_unread_counts: true
+    show_unread_indicators: true
     filters:
       favourites: false
       people: true
@@ -336,7 +336,7 @@ navigation:
         config.navigation.room_list.last_message_preview,
         ConfigNavigationRoomListLastMessagePreviewToken::Never
     );
-    assert_eq!(config.navigation.room_list.show_unread_counts, Some(true));
+    assert_eq!(config.navigation.room_list.show_unread_indicators, Some(true));
     assert_eq!(
         config.navigation.room_list.sort,
         ConfigNavigationRoomListSortToken::Alphabetical
@@ -345,7 +345,7 @@ navigation:
         config.navigation.room_list.opening_policy,
         ConfigNavigationRoomListOpeningPolicyToken::ReuseActiveTab
     );
-    assert_eq!(config.navigation.communities.show_unread_counts, Some(true));
+    assert_eq!(config.navigation.communities.show_unread_indicators, Some(true));
     assert_eq!(config.navigation.communities.filter_favourites, Some(false));
     assert_eq!(config.navigation.communities.filter_people, Some(true));
     assert_eq!(config.navigation.communities.filter_bots, Some(false));
@@ -432,12 +432,12 @@ fn encodes_generic_config_values() {
             room_list: SettingsConfigNavigationRoomListSection {
                 show_last_message_time: false,
                 last_message_preview: "never".to_owned(),
-                show_unread_counts: true,
+                show_unread_indicators: true,
                 sort: "alphabetical".to_owned(),
                 opening_policy: "reuse_active_tab".to_owned(),
             },
             communities: SettingsConfigNavigationCommunitiesSection {
-                show_unread_counts: true,
+                show_unread_indicators: true,
                 filter_favourites: false,
                 filter_people: true,
                 filter_bots: false,
@@ -745,7 +745,7 @@ fn encodes_generic_config_values() {
     assert!(matches!(
         yaml::value_at_path(
             &root,
-            &["navigation", "room_list", "show_community_notification_counts"]
+            &["navigation", "room_list", "show_unread_indicators"]
         ),
         Some(serde_yaml_ng::Value::Bool(true))
     ));
@@ -758,7 +758,7 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::String(value)) if value == "reuse_active_tab"
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["navigation", "communities", "show_unread_counts"]),
+        yaml::value_at_path(&root, &["navigation", "communities", "show_unread_indicators"]),
         Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(

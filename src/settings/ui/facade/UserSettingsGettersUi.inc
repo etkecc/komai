@@ -13,8 +13,8 @@
     ScrollbarPolicy uiScrollbarPolicy() const;
     bool uiAvatarsCircular() const;
     NotificationMessageContentPolicy desktopNotificationsMessageContentPolicy() const;
-    bool navigationRoomListShowUnreadCounts() const;
-    bool navigationCommunitiesShowUnreadCounts() const;
+    bool navigationRoomListShowUnreadIndicators() const;
+    bool navigationCommunitiesShowUnreadIndicators() const;
     Density uiLayoutDensity() const;
     bool navigationRoomListShowLastMessageTime() const;
     LastMessagePreview navigationRoomListLastMessagePreview() const;

@@ -155,13 +155,13 @@ mod bridge {
     struct SettingsConfigNavigationRoomListSection {
         show_last_message_time: bool,
         last_message_preview: String,
-        show_unread_counts: bool,
+        show_unread_indicators: bool,
         sort: String,
         opening_policy: String,
     }
 
     struct SettingsConfigNavigationCommunitiesSection {
-        show_unread_counts: bool,
+        show_unread_indicators: bool,
         filter_favourites: bool,
         filter_people: bool,
         filter_bots: bool,

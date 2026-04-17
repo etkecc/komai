@@ -136,10 +136,10 @@
     { QT_TR_NOOP("Communities sidebar"), nullptr, SM::SectionTitle, SM::TabNavigation,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
       settings::core::SettingId::Unknown, nullptr, "navigation-communities-sidebar-section" },
-    // ShowCommunitiesUnreadCounts
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Show unread counts",
-                        QT_TR_NOOP("Show unread room count badges on community and tag filters."),
-                        SM::TabNavigation, navigationCommunitiesShowUnreadCounts, setNavigationCommunitiesShowUnreadCounts, nullptr, NavigationCommunitiesShowUnreadCounts, SettingKey::NavigationCommunitiesShowUnreadCounts),
+    // ShowCommunitiesUnreadIndicators
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show unread indicators",
+                        QT_TR_NOOP("Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters."),
+                        SM::TabNavigation, navigationCommunitiesShowUnreadIndicators, setNavigationCommunitiesShowUnreadIndicators, nullptr, NavigationCommunitiesShowUnreadIndicators, SettingKey::NavigationCommunitiesShowUnreadIndicators),
     // CommunitiesFilterAllRooms (Show/Exclude disabled, Mute enabled)
     {QT_TR_NOOP("All rooms"),
      QT_TR_NOOP("Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list."),
@@ -234,10 +234,10 @@
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabNavigation,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
       settings::core::SettingId::Unknown, nullptr, "navigation-room-list-section" },
-    // ShowRoomListUnreadCounts
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Show unread counts",
-                        QT_TR_NOOP("Show unread message count badges next to rooms."),
-                        SM::TabNavigation, navigationRoomListShowUnreadCounts, setNavigationRoomListShowUnreadCounts, nullptr, NavigationRoomListShowUnreadCounts, SettingKey::NavigationRoomListShowUnreadCounts),
+    // ShowRoomListUnreadIndicators
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show unread indicators",
+                        QT_TR_NOOP("Show unread emphasis (count badges, row highlight, and left-edge marker) next to rooms."),
+                        SM::TabNavigation, navigationRoomListShowUnreadIndicators, setNavigationRoomListShowUnreadIndicators, nullptr, NavigationRoomListShowUnreadIndicators, SettingKey::NavigationRoomListShowUnreadIndicators),
     // RoomListShowLastMessageTime
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show last message timestamp",
                         nullptr,

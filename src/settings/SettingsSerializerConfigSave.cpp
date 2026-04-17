@@ -45,20 +45,20 @@ stageConfig(const UserSettings &settings,
               .show_last_message_time = settings.navigationRoomListShowLastMessageTime(),
               .last_message_preview =
                 cfg::toStorageValue(settings.navigationRoomListLastMessagePreview()).toStdString(),
-              .show_unread_counts = settings.navigationRoomListShowUnreadCounts(),
+              .show_unread_indicators = settings.navigationRoomListShowUnreadIndicators(),
               .sort = cfg::toStorageValue(settings.navigationRoomListSort()).toStdString(),
               .opening_policy =
                 cfg::toStorageValue(settings.navigationRoomListOpeningPolicy()).toStdString(),
             },
           .communities =
             {
-              .show_unread_counts    = settings.navigationCommunitiesShowUnreadCounts(),
-              .filter_favourites     = settings.navigationCommunitiesFilterFavourites(),
-              .filter_people         = settings.navigationCommunitiesFilterPeople(),
-              .filter_bots           = settings.navigationCommunitiesFilterBots(),
-              .filter_groups         = settings.navigationCommunitiesFilterGroups(),
-              .filter_server_notices = settings.navigationCommunitiesFilterServerNotices(),
-              .filter_low_priority   = settings.navigationCommunitiesFilterLowPriority(),
+              .show_unread_indicators = settings.navigationCommunitiesShowUnreadIndicators(),
+              .filter_favourites      = settings.navigationCommunitiesFilterFavourites(),
+              .filter_people          = settings.navigationCommunitiesFilterPeople(),
+              .filter_bots            = settings.navigationCommunitiesFilterBots(),
+              .filter_groups          = settings.navigationCommunitiesFilterGroups(),
+              .filter_server_notices  = settings.navigationCommunitiesFilterServerNotices(),
+              .filter_low_priority    = settings.navigationCommunitiesFilterLowPriority(),
             },
           .tabs =
             {

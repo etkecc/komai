@@ -170,7 +170,7 @@ ItemDelegate {
                 bubbleTextColor: communityItem.bubbleText
                 font.pixelSize: baseFontPixelSize * 0.6
                 hasLoudNotification: model.hasLoudNotification
-                mayBeVisible: collapsed && !model.badgesHidden && Settings.navigationCommunitiesShowUnreadCounts
+                mayBeVisible: collapsed && !model.badgesHidden && Settings.navigationCommunitiesShowUnreadIndicators
                 unreadCount: model.unreadMessages
             }
         }
@@ -192,7 +192,7 @@ ItemDelegate {
             bubbleBackgroundColor: communityItem.bubbleBackground
             bubbleTextColor: communityItem.bubbleText
             hasLoudNotification: model.hasLoudNotification
-            mayBeVisible: !collapsed && !model.badgesHidden && Settings.navigationCommunitiesShowUnreadCounts
+            mayBeVisible: !collapsed && !model.badgesHidden && Settings.navigationCommunitiesShowUnreadIndicators
             unreadCount: model.unreadMessages
         }
     }

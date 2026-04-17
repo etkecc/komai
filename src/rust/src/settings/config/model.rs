@@ -98,14 +98,14 @@ pub struct ConfigNavigation {
 pub struct ConfigNavigationRoomList {
     pub show_last_message_time: Option<bool>,
     pub last_message_preview: ConfigNavigationRoomListLastMessagePreviewToken,
-    pub show_unread_counts: Option<bool>,
+    pub show_unread_indicators: Option<bool>,
     pub sort: ConfigNavigationRoomListSortToken,
     pub opening_policy: ConfigNavigationRoomListOpeningPolicyToken,
 }
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigNavigationCommunities {
-    pub show_unread_counts: Option<bool>,
+    pub show_unread_indicators: Option<bool>,
     pub filter_favourites: Option<bool>,
     pub filter_people: Option<bool>,
     pub filter_bots: Option<bool>,

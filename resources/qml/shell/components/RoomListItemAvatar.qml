@@ -47,7 +47,7 @@ Avatar {
         bubbleBackgroundColor: root.bubbleBackground
         bubbleTextColor: root.bubbleText
         hasLoudNotification: root.hasLoudNotification
-        mayBeVisible: root.collapsed && (root.isSpace ? Settings.navigationCommunitiesShowUnreadCounts : Settings.navigationRoomListShowUnreadCounts)
+        mayBeVisible: root.collapsed && (root.isSpace ? Settings.navigationCommunitiesShowUnreadIndicators : Settings.navigationRoomListShowUnreadIndicators)
         unreadCount: root.unreadCount
     }
 }

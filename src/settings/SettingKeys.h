@@ -27,9 +27,11 @@ constexpr auto UiAvatarsDefaultAvatarStyle      = "ui.avatars.default_avatar_sty
 constexpr auto UiLayoutDensity                  = "ui.layout.density";
 constexpr auto NavigationRoomListShowLastMessageTime =
   "navigation.room_list.show_last_message_timestamp";
-constexpr auto NavigationRoomListLastMessagePreview  = "navigation.room_list.last_message_preview";
-constexpr auto NavigationRoomListShowUnreadCounts    = "navigation.room_list.show_unread_counts";
-constexpr auto NavigationCommunitiesShowUnreadCounts = "navigation.communities.show_unread_counts";
+constexpr auto NavigationRoomListLastMessagePreview = "navigation.room_list.last_message_preview";
+constexpr auto NavigationRoomListShowUnreadIndicators =
+  "navigation.room_list.show_unread_indicators";
+constexpr auto NavigationCommunitiesShowUnreadIndicators =
+  "navigation.communities.show_unread_indicators";
 constexpr auto UiScrollbarPolicy                     = "ui.scrollbar_policy";
 constexpr auto NavigationRoomListSort                = "navigation.room_list.sort";
 constexpr auto NavigationRoomListOpeningPolicy       = "navigation.room_list.opening_policy";

@@ -12,23 +12,23 @@ UserSettings::uiScrollbarPolicy() const
 }
 
 bool
-UserSettings::navigationRoomListShowUnreadCounts() const
+UserSettings::navigationRoomListShowUnreadIndicators() const
 {
-    if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::NavigationRoomListShowUnreadCounts);
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::NavigationRoomListShowUnreadIndicators);
         value.has_value())
         return *value;
-    return navigationRoomListShowUnreadCounts_;
+    return navigationRoomListShowUnreadIndicators_;
 }
 
 bool
-UserSettings::navigationCommunitiesShowUnreadCounts() const
+UserSettings::navigationCommunitiesShowUnreadIndicators() const
 {
-    if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::NavigationCommunitiesShowUnreadCounts);
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::NavigationCommunitiesShowUnreadIndicators);
         value.has_value())
         return *value;
-    return navigationCommunitiesShowUnreadCounts_;
+    return navigationCommunitiesShowUnreadIndicators_;
 }
 
 bool

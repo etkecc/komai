@@ -64,8 +64,8 @@ bool desktopAttentionAppBadgeEnabled_    = true;
 bool uiAvatarsCircular_;
 NotificationMessageContentPolicy desktopNotificationsMessageContentPolicy_ =
   NotificationMessageContentPolicy::WheneverAvailable;
-bool navigationRoomListShowUnreadCounts_;
-bool navigationCommunitiesShowUnreadCounts_;
+bool navigationRoomListShowUnreadIndicators_;
+bool navigationCommunitiesShowUnreadIndicators_;
 Density uiLayoutDensity_ = Density::Spacious;
 bool navigationRoomListShowLastMessageTime_;
 LastMessagePreview navigationRoomListLastMessagePreview_;

@@ -175,11 +175,13 @@ class UserSettings final : public QObject
         desktopNotificationsMessageContentPolicy WRITE setDesktopNotificationsMessageContentPolicy
           NOTIFY desktopNotificationsMessageContentPolicyChanged)
     Q_PROPERTY(
-      bool navigationRoomListShowUnreadCounts READ navigationRoomListShowUnreadCounts WRITE
-        setNavigationRoomListShowUnreadCounts NOTIFY navigationRoomListShowUnreadCountsChanged)
-    Q_PROPERTY(bool navigationCommunitiesShowUnreadCounts READ navigationCommunitiesShowUnreadCounts
-                 WRITE setNavigationCommunitiesShowUnreadCounts NOTIFY
-                   navigationCommunitiesShowUnreadCountsChanged)
+      bool navigationRoomListShowUnreadIndicators READ navigationRoomListShowUnreadIndicators WRITE
+        setNavigationRoomListShowUnreadIndicators NOTIFY
+          navigationRoomListShowUnreadIndicatorsChanged)
+    Q_PROPERTY(
+      bool navigationCommunitiesShowUnreadIndicators READ navigationCommunitiesShowUnreadIndicators
+        WRITE setNavigationCommunitiesShowUnreadIndicators NOTIFY
+          navigationCommunitiesShowUnreadIndicatorsChanged)
     Q_PROPERTY(Density uiLayoutDensity READ uiLayoutDensity WRITE setUiLayoutDensity NOTIFY
                  uiLayoutDensityChanged)
     Q_PROPERTY(bool navigationRoomListShowLastMessageTime READ navigationRoomListShowLastMessageTime
@@ -575,8 +577,8 @@ public:
     void setDesktopAttentionAppBadgeEnabled(bool state);
     void setUiAvatarsCircular(bool state);
     void setDesktopNotificationsMessageContentPolicy(NotificationMessageContentPolicy policy);
-    void setNavigationRoomListShowUnreadCounts(bool state);
-    void setNavigationCommunitiesShowUnreadCounts(bool state);
+    void setNavigationRoomListShowUnreadIndicators(bool state);
+    void setNavigationCommunitiesShowUnreadIndicators(bool state);
     void setUiLayoutDensity(Density density);
     void setNavigationRoomListShowLastMessageTime(bool state);
     void setNavigationRoomListLastMessagePreview(LastMessagePreview style);
@@ -743,8 +745,8 @@ signals:
     void desktopAttentionAppBadgeEnabledChanged(bool state);
     void uiAvatarsCircularChanged(bool state);
     void desktopNotificationsMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
-    void navigationRoomListShowUnreadCountsChanged(bool state);
-    void navigationCommunitiesShowUnreadCountsChanged(bool state);
+    void navigationRoomListShowUnreadIndicatorsChanged(bool state);
+    void navigationCommunitiesShowUnreadIndicatorsChanged(bool state);
     void uiLayoutDensityChanged(Density density);
     void navigationRoomListShowLastMessageTimeChanged(bool state);
     void navigationRoomListLastMessagePreviewChanged(LastMessagePreview style);

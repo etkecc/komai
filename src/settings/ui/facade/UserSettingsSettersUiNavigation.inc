@@ -29,24 +29,24 @@ UserSettings::setNavigationRoomListWidthPx(int s)
 }
 
 void
-UserSettings::setNavigationRoomListShowUnreadCounts(bool s)
+UserSettings::setNavigationRoomListShowUnreadIndicators(bool s)
 {
-    if (navigationRoomListShowUnreadCounts_ == s)
+    if (navigationRoomListShowUnreadIndicators_ == s)
         return;
-    navigationRoomListShowUnreadCounts_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NavigationRoomListShowUnreadCounts, s);
-    emit navigationRoomListShowUnreadCountsChanged(s);
+    navigationRoomListShowUnreadIndicators_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationRoomListShowUnreadIndicators, s);
+    emit navigationRoomListShowUnreadIndicatorsChanged(s);
     save();
 }
 
 void
-UserSettings::setNavigationCommunitiesShowUnreadCounts(bool s)
+UserSettings::setNavigationCommunitiesShowUnreadIndicators(bool s)
 {
-    if (navigationCommunitiesShowUnreadCounts_ == s)
+    if (navigationCommunitiesShowUnreadIndicators_ == s)
         return;
-    navigationCommunitiesShowUnreadCounts_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NavigationCommunitiesShowUnreadCounts, s);
-    emit navigationCommunitiesShowUnreadCountsChanged(s);
+    navigationCommunitiesShowUnreadIndicators_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationCommunitiesShowUnreadIndicators, s);
+    emit navigationCommunitiesShowUnreadIndicatorsChanged(s);
     save();
 }
 

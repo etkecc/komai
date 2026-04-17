@@ -163,7 +163,7 @@ ColumnLayout {
             bubbleBackgroundColor: root.bubbleBackground
             bubbleTextColor: root.bubbleText
             hasLoudNotification: root.hasLoudNotification
-            mayBeVisible: !root.collapsed && (root.isSpace ? Settings.navigationCommunitiesShowUnreadIndicators : !subtextRow.visible) && (root.isSpace || Settings.navigationRoomListShowUnreadIndicators)
+            mayBeVisible: !root.collapsed && (root.isSpace ? Settings.navigationCommunitiesShowUnreadIndicators : !subtextRow.visible) && (root.isSpace || root.hasUnreadMessages)
             unreadCount: root.unreadCount
             parent: (root.isSpace || !subtextRow.visible) ? titleRow : subtextRow
         }
@@ -239,7 +239,7 @@ ColumnLayout {
             bubbleTextColor: root.bubbleText
             fontScale: root.compactPreview ? 0.64 : 0.8
             hasLoudNotification: root.hasLoudNotification
-            mayBeVisible: !root.collapsed && Settings.navigationRoomListShowUnreadIndicators
+            mayBeVisible: !root.collapsed && root.hasUnreadMessages
             unreadCount: root.unreadCount
         }
     }

@@ -199,6 +199,7 @@ ItemDelegate {
             bubbleBackground: roomItem.bubbleBackground
             bubbleText: roomItem.bubbleText
             hasLoudNotification: roomItem.hasLoudNotification
+            hasUnreadMessages: roomItem.emphasizeUnreadState
             collapsed: roomItem.collapsed
             isSpace: roomItem.isSpace
             unreadCount: roomItem.unreadCount

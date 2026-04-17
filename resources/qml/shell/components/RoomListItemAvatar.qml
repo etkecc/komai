@@ -18,6 +18,7 @@ Avatar {
     property color bubbleBackground: palette.highlight
     property color bubbleText: palette.highlightedText
     property bool hasLoudNotification: false
+    property bool hasUnreadMessages: false
     property bool collapsed: false
     property bool isSpace: false
     property int unreadCount: 0
@@ -47,7 +48,7 @@ Avatar {
         bubbleBackgroundColor: root.bubbleBackground
         bubbleTextColor: root.bubbleText
         hasLoudNotification: root.hasLoudNotification
-        mayBeVisible: root.collapsed && (root.isSpace ? Settings.navigationCommunitiesShowUnreadIndicators : Settings.navigationRoomListShowUnreadIndicators)
+        mayBeVisible: root.collapsed && (root.isSpace ? Settings.navigationCommunitiesShowUnreadIndicators : root.hasUnreadMessages)
         unreadCount: root.unreadCount
     }
 }

@@ -356,39 +356,44 @@ else
 	acquire_legacy_lock
 fi
 
-ensure_rust_toolchain
-
 case "${command_name}" in
 configure)
+	ensure_rust_toolchain
 	configure_release "$@"
 	;;
 configure-debug)
+	ensure_rust_toolchain
 	configure_debug "$@"
 	;;
 build)
+	ensure_rust_toolchain
 	if needs_release_configure; then
 		configure_release
 	fi
 	build_runtime_bundle "$@"
 	;;
 rebuild)
+	ensure_rust_toolchain
 	rm -rf "${build_dir}"
 	configure_release "$@"
 	build_runtime_bundle
 	;;
 test-cpp-unit|test-unit)
+	ensure_rust_toolchain
 	if needs_release_configure; then
 		configure_release
 	fi
 	run_test_label unit "$@"
 	;;
 test-cpp-integration|test-integration)
+	ensure_rust_toolchain
 	if needs_release_configure; then
 		configure_release
 	fi
 	run_test_label integration "$@"
 	;;
 test-cpp|test-all)
+	ensure_rust_toolchain
 	if needs_release_configure; then
 		configure_release
 	fi

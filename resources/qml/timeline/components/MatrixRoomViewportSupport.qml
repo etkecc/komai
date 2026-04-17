@@ -79,14 +79,20 @@ QtObject {
     }
 
     function latestLoadedSelectableEventId() {
+        // For read-receipt purposes we must NOT skip collapsed thread replies.
+        // The user chose to hide them from the main timeline, which means they
+        // are implicitly "read".  Skipping them here would leave the read
+        // marker stuck before the hidden replies, keeping the room unread.
         for (let row = 0; row < (rootItem.perRoomModel ? rootItem.perRoomModel.count : 0); row++) {
-            if (!rootItem.isSelectableMatrixTimelineRow(row))
-                continue;
-
             const item = rootItem.perRoomModel.itemAt(row);
+            if (!item)
+                continue;
             const eventId = String(item.eventId || "");
-            if (eventId.length > 0)
-                return eventId;
+            if (eventId.length === 0
+                    || String(item.typeString || "") === "date_divider"
+                    || Boolean(item.isHiddenEvent))
+                continue;
+            return eventId;
         }
 
         return "";

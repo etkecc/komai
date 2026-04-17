@@ -97,30 +97,9 @@ Rectangle {
         AdaptiveLayout {
             id: adaptiveView
 
-            function initializePageIndex() {
-                if (!singlePageMode)
-                    adaptiveView.pageIndex = 0;
-                else if (Rooms.currentRoomPreview.roomid)
-                    adaptiveView.pageIndex = 2;
-                else
-                    adaptiveView.pageIndex = 1;
-            }
-
             Layout.fillHeight: true
             Layout.fillWidth: true
-            pageIndex: 1
-            singlePageMode: communityListC.preferredWidth + roomListC.preferredWidth + timlineViewC.minimumWidth > width
 
-            Component.onCompleted: initializePageIndex()
-            onSinglePageModeChanged: initializePageIndex()
-
-            Connections {
-                function onCurrentRoomIdChanged() {
-                    adaptiveView.initializePageIndex();
-                }
-
-                target: Rooms
-            }
             AdaptiveLayoutElement {
                 id: communityListC
 
@@ -144,7 +123,6 @@ Rectangle {
                     restoreMode: Binding.RestoreBindingOrValue
                     target: Settings
                     value: communityListC.preferredWidth
-                    when: !adaptiveView.singlePageMode
                 }
             }
             AdaptiveLayoutElement {
@@ -170,7 +148,6 @@ Rectangle {
                     restoreMode: Binding.RestoreBindingOrValue
                     target: Settings
                     value: roomListC.preferredWidth
-                    when: !adaptiveView.singlePageMode
                 }
             }
             AdaptiveLayoutElement {
@@ -185,7 +162,7 @@ Rectangle {
                     RoomTabBar {
                         Layout.fillWidth: true
                         tabController: chatPage.tabController
-                        visible: !adaptiveView.singlePageMode && tabController.tabs.count > 0
+                        visible: tabController.tabs.count > 0
                     }
                     NetworkConnectivityBanner {
                         Layout.fillWidth: true
@@ -203,7 +180,6 @@ Rectangle {
                         roomListLastActionButton: chatPage.roomListLastActionButton
                         windowFocusBlurOverlay: windowFocusBlurOverlay
                         roomPreview: Rooms.currentRoomPreview.roomid ? Rooms.currentRoomPreview : null
-                        showBackButton: adaptiveView.singlePageMode
                     }
                 }
             }

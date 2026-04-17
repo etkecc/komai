@@ -90,9 +90,6 @@ Page {
         if (!visible)
             return false;
 
-        if (adaptiveView && adaptiveView.singlePageMode)
-            adaptiveView.pageIndex = 0;
-
         Qt.callLater(function () {
             communitiesList.seedKeyboardCursor();
             communitiesList.forceActiveFocus(Qt.ShortcutFocusReason);

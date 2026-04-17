@@ -8,19 +8,11 @@ import QtQuick.Controls
 import cc.etke.komai
 
 Container {
-    //Component.onCompleted: {
-    //    parent.width = Qt.binding(function() { return calculatedWidth; })
-    //}
-
     id: container
 
-    property bool singlePageMode: width < 800
     property int splitterGrabMargin: Komai.paddingSmall
-    property alias pageIndex: view.currentIndex
     property Component handle
     property Component handleToucharea
-
-    onSinglePageModeChanged: if (!singlePageMode) pageIndex = 0
 
     Component.onCompleted: {
         for (var i = 0; i < count - 1; i++) {
@@ -34,17 +26,12 @@ Container {
             });
         }
         contentChildren[count - 1].width = Qt.binding(function() {
-            if (container.singlePageMode) {
-                return container.width;
-            } else {
-                var w = container.width;
-                for (var i = 0; i < count - 1; i++) {
-                    if (contentChildren[i].width)
-                        w = w - contentChildren[i].width;
-
-                }
-                return w;
+            var w = container.width;
+            for (var i = 0; i < count - 1; i++) {
+                if (contentChildren[i].width)
+                    w = w - contentChildren[i].width;
             }
+            return w;
         });
         contentChildren[count - 1].splitterWidth = 0;
         for (var i = 0; i < count; i++) {
@@ -70,16 +57,8 @@ Container {
 
         property int maximumWidth: parent.maximumWidth
         property int collapsedWidth: parent.collapsedWidth
-        property int calculatedWidth: {
-            if (!visible)
-                return 0;
-            else if (container.singlePageMode)
-                return container.width;
-            else
-                return x;
-        }
+        property int calculatedWidth: visible ? x : 0
 
-        enabled: !container.singlePageMode
         height: container.height
         width: 1
         x: parent.preferredWidth
@@ -95,7 +74,6 @@ Container {
         DragHandler {
             id: dragHandler
 
-            enabled: !container.singlePageMode
             xAxis.enabled: true
             yAxis.enabled: false
             xAxis.minimum: splitter.collapsedWidth
@@ -107,12 +85,10 @@ Container {
                     splitter.x = splitter.calculatedWidth;
                     splitter.parent.preferredWidth = splitter.calculatedWidth;
                 }
-
             }
         }
 
         HoverHandler {
-            enabled: !container.singlePageMode
             margin: container.splitterGrabMargin
         }
 
@@ -122,12 +98,9 @@ Container {
         id: view
 
         model: container.contentModel
-        snapMode: ListView.SnapOneItem
         orientation: ListView.Horizontal
-        highlightRangeMode: ListView.StrictlyEnforceRange
-        interactive: Settings.uiInputTouchSwipeGesturesEnabled && singlePageMode
-        highlightMoveDuration: (container.singlePageMode && Settings.uiMotionAnimationsEnabled) ? 200 : 0
-        currentIndex: container.singlePageMode ? container.pageIndex : 0
+        interactive: false
+        currentIndex: 0
         boundsBehavior: Flickable.StopAtBounds
     }
 

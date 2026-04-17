@@ -99,9 +99,6 @@ Page {
         if (!visible)
             return false;
 
-        if (adaptiveView && adaptiveView.singlePageMode)
-            adaptiveView.pageIndex = 1;
-
         Qt.callLater(function () {
             roomlist.seedKeyboardCursor();
             roomlist.forceActiveFocus(Qt.ShortcutFocusReason);

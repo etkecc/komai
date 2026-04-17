@@ -33,8 +33,6 @@ OverlayDialog {
             var vh = win.overlayDialogViewport ? win.overlayDialogViewport.height : 700;
             return Math.min(520, Math.round(vh * 0.55));
         }
-        singlePageMode: false
-        pageIndex: 0
 
         AdaptiveLayoutElement {
             id: packlistC

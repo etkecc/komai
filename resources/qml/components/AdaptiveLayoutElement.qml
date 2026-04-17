@@ -18,7 +18,7 @@ Item {
 
     Component.onCompleted: {
         children[0].width = Qt.binding(() => {
-            return parent.singlePageMode ? parent.width : width - splitterWidth;
+            return width - splitterWidth;
         });
         children[0].height = Qt.binding(() => {
             return parent.height;

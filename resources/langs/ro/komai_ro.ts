@@ -9201,7 +9201,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
     </message>
     <message>
         <location line="+5"/>
-        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) next to rooms.</source>
+        <source>Show unread emphasis (count badges, bold room name, avatar bounce, row highlight, and left-edge marker) next to rooms.</source>
         <translation type="unfinished"/>
     </message>
     <message>

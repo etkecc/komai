@@ -765,7 +765,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+14"/>
-        <source>Show attention badges</source>
+        <source>Show unread indicators</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -6896,12 +6896,12 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     </message>
     <message>
         <location line="+11"/>
-        <source>Attention badges</source>
+        <source>Unread indicators</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Badges indicate unread messages and unsent drafts</source>
+        <source>Emphasize this filter when it has unread messages</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -6972,12 +6972,12 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     </message>
     <message>
         <location line="+7"/>
-        <source>Attention badges</source>
+        <source>Unread indicators</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Badges indicate unread messages and unsent drafts</source>
+        <source>Emphasize this filter when it has unread messages</source>
         <translation type="unfinished"/>
     </message>
     <message>

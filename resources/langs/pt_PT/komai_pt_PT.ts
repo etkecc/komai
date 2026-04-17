@@ -765,7 +765,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+14"/>
-        <source>Show attention badges</source>
+        <source>Show unread indicators</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -6890,12 +6890,12 @@ Parece que é a sua primeira vez aqui. Antes de poder encriptar as suas mensagen
     </message>
     <message>
         <location line="+11"/>
-        <source>Attention badges</source>
+        <source>Unread indicators</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Badges indicate unread messages and unsent drafts</source>
+        <source>Emphasize this filter when it has unread messages</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -6966,12 +6966,12 @@ Parece que é a sua primeira vez aqui. Antes de poder encriptar as suas mensagen
     </message>
     <message>
         <location line="+7"/>
-        <source>Attention badges</source>
+        <source>Unread indicators</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Badges indicate unread messages and unsent drafts</source>
+        <source>Emphasize this filter when it has unread messages</source>
         <translation type="unfinished"/>
     </message>
     <message>

@@ -766,7 +766,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     </message>
     <message>
         <location line="+14"/>
-        <source>Show attention badges</source>
+        <source>Show unread indicators</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -6891,12 +6891,12 @@ Sieht so aus als wärst du neu hier. Bevor wir deine Nachrichten verschlüsseln 
     </message>
     <message>
         <location line="+11"/>
-        <source>Attention badges</source>
+        <source>Unread indicators</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Badges indicate unread messages and unsent drafts</source>
+        <source>Emphasize this filter when it has unread messages</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -6967,12 +6967,12 @@ Sieht so aus als wärst du neu hier. Bevor wir deine Nachrichten verschlüsseln 
     </message>
     <message>
         <location line="+7"/>
-        <source>Attention badges</source>
+        <source>Unread indicators</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Badges indicate unread messages and unsent drafts</source>
+        <source>Emphasize this filter when it has unread messages</source>
         <translation type="unfinished"/>
     </message>
     <message>

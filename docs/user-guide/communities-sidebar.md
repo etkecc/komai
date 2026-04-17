@@ -58,6 +58,8 @@ Shows rooms created by your homeserver administrator for important announcements
 
 Shows rooms you've marked as low priority. Like favourites, this uses a standard Matrix [`m.lowpriority`](https://spec.matrix.org/v1.17/client-server-api/#events-14) room tag and syncs across clients. This filter only appears when you have at least one low-priority room.
 
+Low-priority rooms stay visually subdued in the room list: no bold name, avatar bounce, count badge, row highlight, or left-edge marker. Two exceptions still let them catch your eye: a room with a loud notification (you were directly pinged) lights up normally, and everything lights up when you're actively viewing the Low Priority filter itself.
+
 ## Settings
 
 Each filter has up to three options, configurable in **Settings > Navigation > Communities Sidebar** or via right-click context menu on the filter button:

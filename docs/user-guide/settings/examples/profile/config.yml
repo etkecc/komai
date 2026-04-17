@@ -56,6 +56,12 @@ timeline:
       # Supported values: on_message_hover | on_button_click | never
       activation_policy: on_button_click
       pinned_reactions: "👍️,👎️,😀,❤️"
+  threads:
+    collapse_replies:
+      # Hide thread replies in the main timeline, showing only root messages.
+      global: false
+      # Per-room overrides (true/false). Omit a room to use the global default.
+      by_room: {}
   hidden_events:
     # Local-only timeline visibility preferences.
     global:

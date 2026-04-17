@@ -629,6 +629,8 @@ public:
     void setTimelineMediaOpenAudioExternal(bool state);
     void setTimelineMediaDefaultAudioPlaybackSpeed(double speed);
     void setTimelineThreadsCollapseReplies(bool state);
+    Q_INVOKABLE QMap<QString, bool> timelineThreadsCollapseRepliesByRoom() const;
+    Q_INVOKABLE void setTimelineThreadsCollapseRepliesByRoom(const QMap<QString, bool> &byRoom);
     void setIntegrationsBrowserCommand(QString command);
     void setCollapsedSpaces(QStringList spaces);
     void setIntegrationsDbusApiAccess(int access);

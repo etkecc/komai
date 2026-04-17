@@ -39,4 +39,4 @@
     CONNECT_SETTING_ID(TimelineMediaAutoplayGifVideos, timelineMediaAutoplayGifVideosChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaOpenAudioExternal, timelineMediaOpenAudioExternalChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaDefaultAudioPlaybackSpeed, timelineMediaDefaultAudioPlaybackSpeedChanged, Value);
-    CONNECT_SETTING_ID(TimelineThreadsCollapseReplies, timelineThreadsCollapseRepliesChanged, Value);
+    CONNECT_SETTING_ID(TimelineThreadsCollapseRepliesGlobal, timelineThreadsCollapseRepliesChanged, Value);

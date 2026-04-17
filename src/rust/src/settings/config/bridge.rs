@@ -283,8 +283,13 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
-        &["timeline", "threads", "collapse_replies"],
-        Value::Bool(snapshot.timeline.threads.collapse_replies),
+        &["timeline", "threads", "collapse_replies", "global"],
+        Value::Bool(snapshot.timeline.threads.collapse_replies_global),
+    );
+    yaml::set_value(
+        &mut root,
+        &["timeline", "threads", "collapse_replies", "by_room"],
+        tree::bool_map(&snapshot.timeline.threads.collapse_replies_by_room),
     );
     yaml::set_value(
         &mut root,

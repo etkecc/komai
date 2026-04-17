@@ -24,7 +24,7 @@ UserSettings::setTimelineThreadsCollapseReplies(bool s)
     if (timelineThreadsCollapseReplies_ == s)
         return;
     timelineThreadsCollapseReplies_ = s;
-    (void)coreStore_.set(settings::core::SettingId::TimelineThreadsCollapseReplies, s);
+    (void)coreStore_.set(settings::core::SettingId::TimelineThreadsCollapseRepliesGlobal, s);
     emit timelineThreadsCollapseRepliesChanged(s);
     save();
 }

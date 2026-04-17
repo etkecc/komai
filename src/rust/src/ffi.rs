@@ -125,6 +125,12 @@ mod bridge {
         values: Vec<String>,
     }
 
+    #[derive(Debug, PartialEq, Eq)]
+    struct SettingsBoolMapEntry {
+        key: String,
+        value: bool,
+    }
+
     struct SettingsSecretsPayload {
         access_token: String,
         secrets: Vec<SettingsStringMapEntry>,
@@ -225,7 +231,8 @@ mod bridge {
     }
 
     struct SettingsConfigTimelineThreadsSection {
-        collapse_replies: bool,
+        collapse_replies_global: bool,
+        collapse_replies_by_room: Vec<SettingsBoolMapEntry>,
     }
 
     struct SettingsConfigTimelineSection {

@@ -109,7 +109,7 @@ enum class SettingId
     TimelineMediaAutoplayGifVideos,
     TimelineMediaOpenAudioExternal,
     TimelineMediaDefaultAudioPlaybackSpeed,
-    TimelineThreadsCollapseReplies,
+    TimelineThreadsCollapseRepliesGlobal,
     EncryptionKeySharingOnlyVerifiedUsers,
     EncryptionKeySharingShareWithTrusted,
     EncryptionBackupOnlineEnabled,

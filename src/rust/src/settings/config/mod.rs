@@ -22,7 +22,7 @@ pub use model::{
     ConfigIntegrations, ConfigNetwork, ConfigNetworkEncryption, ConfigSecrets, ConfigNavigation,
     ConfigNavigationCommunities, ConfigNavigationRoomList, ConfigNavigationTabs, ConfigTimeline,
     ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
-    ConfigTimelineMessageActions, ConfigTimelineMessages, ConfigTimelineThreads,
+    ConfigTimelineMessageActions, ConfigTimelineMessages, ConfigTimelineThreads, ConfigTimelineThreadsCollapseReplies,
     ConfigTimelineMessagesLayout, ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi,
     ConfigUiAvatars, ConfigUiFont, ConfigUiInput, ConfigUiLayout, ConfigUiMotion, ConfigUiScale,
     ConfigUiTheme, LoadedConfig,
@@ -134,8 +134,10 @@ const TIMELINE_MEDIA_OPEN_AUDIO_EXTERNAL_PATH: [&str; 3] =
     ["timeline", "media", "open_audio_external"];
 const TIMELINE_MEDIA_DEFAULT_AUDIO_PLAYBACK_SPEED_PATH: [&str; 3] =
     ["timeline", "media", "default_audio_playback_speed"];
-const TIMELINE_THREADS_COLLAPSE_REPLIES_PATH: [&str; 3] =
-    ["timeline", "threads", "collapse_replies"];
+const TIMELINE_THREADS_COLLAPSE_REPLIES_GLOBAL_PATH: [&str; 4] =
+    ["timeline", "threads", "collapse_replies", "global"];
+const TIMELINE_THREADS_COLLAPSE_REPLIES_BY_ROOM_PATH: [&str; 4] =
+    ["timeline", "threads", "collapse_replies", "by_room"];
 const HIDDEN_EVENTS_GLOBAL_PATH: [&str; 3] = ["timeline", "hidden_events", "global"];
 const HIDDEN_EVENTS_BY_ROOM_PATH: [&str; 3] = ["timeline", "hidden_events", "by_room"];
 const SECRETS_PROVIDER_PATH: [&str; 2] = ["secrets", "provider"];
@@ -439,11 +441,17 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 by_room: parse_string_list_map(yaml::value_at_path(root, &HIDDEN_EVENTS_BY_ROOM_PATH)),
             },
             threads: ConfigTimelineThreads {
-                collapse_replies: yaml::value_at_path(
-                    root,
-                    &TIMELINE_THREADS_COLLAPSE_REPLIES_PATH,
-                )
-                .and_then(parse_scalar_bool),
+                collapse_replies: ConfigTimelineThreadsCollapseReplies {
+                    global: yaml::value_at_path(
+                        root,
+                        &TIMELINE_THREADS_COLLAPSE_REPLIES_GLOBAL_PATH,
+                    )
+                    .and_then(parse_scalar_bool),
+                    by_room: parse_bool_map(yaml::value_at_path(
+                        root,
+                        &TIMELINE_THREADS_COLLAPSE_REPLIES_BY_ROOM_PATH,
+                    )),
+                },
             },
         },
         secrets: ConfigSecrets {
@@ -736,6 +744,27 @@ fn parse_string_list_map(
         if valid {
             result.insert(key.clone(), parsed);
         }
+    }
+
+    result
+}
+
+fn parse_bool_map(
+    value: Option<&serde_yaml_ng::Value>,
+) -> std::collections::BTreeMap<String, bool> {
+    let Some(serde_yaml_ng::Value::Mapping(mapping)) = value else {
+        return std::collections::BTreeMap::new();
+    };
+
+    let mut result = std::collections::BTreeMap::new();
+    for (key, value) in mapping {
+        let serde_yaml_ng::Value::String(key) = key else {
+            continue;
+        };
+        let serde_yaml_ng::Value::Bool(value) = value else {
+            continue;
+        };
+        result.insert(key.clone(), *value);
     }
 
     result

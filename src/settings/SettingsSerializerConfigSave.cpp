@@ -128,7 +128,15 @@ stageConfig(const UserSettings &settings,
             },
           .threads =
             {
-              .collapse_replies = settings.timelineThreadsCollapseReplies(),
+              .collapse_replies_global = settings.timelineThreadsCollapseReplies(),
+              .collapse_replies_by_room =
+                [&settings]() {
+                    rust::Vec<komai::rust::SettingsBoolMapEntry> entries;
+                    const auto byRoom = settings.timelineThreadsCollapseRepliesByRoom();
+                    for (auto it = byRoom.begin(); it != byRoom.end(); ++it)
+                        entries.push_back({.key = it.key().toStdString(), .value = it.value()});
+                    return entries;
+                }(),
             },
         },
       .secrets =

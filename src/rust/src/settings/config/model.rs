@@ -151,7 +151,13 @@ pub struct ConfigTimeline {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigTimelineThreads {
-    pub collapse_replies: Option<bool>,
+    pub collapse_replies: ConfigTimelineThreadsCollapseReplies,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigTimelineThreadsCollapseReplies {
+    pub global: Option<bool>,
+    pub by_room: BTreeMap<String, bool>,
 }
 
 #[derive(Clone, Debug, Default)]

@@ -4,7 +4,18 @@
 
 use serde_yaml_ng::{Mapping, Value};
 
-use crate::ffi::SettingsStringListMapEntry;
+use crate::ffi::{SettingsBoolMapEntry, SettingsStringListMapEntry};
+
+pub(super) fn bool_map(entries: &[SettingsBoolMapEntry]) -> Value {
+    let mut mapping = Mapping::new();
+    for entry in entries {
+        mapping.insert(
+            Value::String(entry.key.clone()),
+            Value::Bool(entry.value),
+        );
+    }
+    Value::Mapping(mapping)
+}
 
 pub(super) fn string_list_map(entries: &[SettingsStringListMapEntry]) -> Value {
     let mut mapping = Mapping::new();

@@ -73,7 +73,8 @@ constexpr auto TimelineMediaAutoplayGifVideos        = "timeline.media.autoplay_
 constexpr auto TimelineMediaOpenAudioExternal        = "timeline.media.open_audio_external";
 constexpr auto TimelineMediaDefaultAudioPlaybackSpeed =
   "timeline.media.default_audio_playback_speed";
-constexpr auto TimelineThreadsCollapseReplies        = "timeline.threads.collapse_replies";
+constexpr auto TimelineThreadsCollapseRepliesGlobal  = "timeline.threads.collapse_replies.global";
+constexpr auto TimelineThreadsCollapseRepliesByRoom  = "timeline.threads.collapse_replies.by_room";
 constexpr auto TimelineHiddenEventsGlobal            = "timeline.hidden_events.global";
 constexpr auto TimelineHiddenEventsByRoom            = "timeline.hidden_events.by_room";
 constexpr auto ComposerInputMarkdownToHtmlEnabled    = "composer.input.markdown_to_html.enabled";

@@ -249,8 +249,22 @@ pub(crate) fn ffi_config_timeline_section(
             }),
             by_room,
         },
-        threads: ffi::SettingsConfigTimelineThreadsSection {
-            collapse_replies: config.timeline.threads.collapse_replies.unwrap_or(defaults::THREADS_COLLAPSE_REPLIES),
+        threads: {
+            let by_room: Vec<ffi::SettingsBoolMapEntry> = config
+                .timeline
+                .threads
+                .collapse_replies
+                .by_room
+                .iter()
+                .map(|(key, &value)| ffi::SettingsBoolMapEntry {
+                    key: key.clone(),
+                    value,
+                })
+                .collect();
+            ffi::SettingsConfigTimelineThreadsSection {
+                collapse_replies_global: config.timeline.threads.collapse_replies.global.unwrap_or(defaults::THREADS_COLLAPSE_REPLIES),
+                collapse_replies_by_room: by_room,
+            }
         },
     }
 }
@@ -619,7 +633,16 @@ fn clone_config_timeline_section(
             by_room: clone_string_list_map_entries(&section.hidden_events.by_room),
         },
         threads: ffi::SettingsConfigTimelineThreadsSection {
-            collapse_replies: section.threads.collapse_replies,
+            collapse_replies_global: section.threads.collapse_replies_global,
+            collapse_replies_by_room: section
+                .threads
+                .collapse_replies_by_room
+                .iter()
+                .map(|entry| ffi::SettingsBoolMapEntry {
+                    key: entry.key.clone(),
+                    value: entry.value,
+                })
+                .collect(),
         },
     }
 }

@@ -118,8 +118,21 @@ bool
 UserSettings::timelineThreadsCollapseReplies() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineThreadsCollapseReplies);
+          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineThreadsCollapseRepliesGlobal);
         value.has_value())
         return *value;
     return timelineThreadsCollapseReplies_;
+}
+
+QMap<QString, bool>
+UserSettings::timelineThreadsCollapseRepliesByRoom() const
+{
+    return timelineThreadsCollapseRepliesByRoom_;
+}
+
+void
+UserSettings::setTimelineThreadsCollapseRepliesByRoom(const QMap<QString, bool> &byRoom)
+{
+    timelineThreadsCollapseRepliesByRoom_ = byRoom;
+    save();
 }

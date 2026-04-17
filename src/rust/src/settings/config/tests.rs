@@ -497,7 +497,8 @@ fn encodes_generic_config_values() {
                 }],
             },
             threads: SettingsConfigTimelineThreadsSection {
-                collapse_replies: false,
+                collapse_replies_global: false,
+                collapse_replies_by_room: vec![],
             },
         },
         secrets: SettingsConfigSecretsSection {

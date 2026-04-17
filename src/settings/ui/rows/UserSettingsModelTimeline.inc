@@ -89,11 +89,11 @@
       "Show message effects",
       QT_TR_NOOP("Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md\">timeline effect</a>."),
       SM::TabTimeline, timelineMediaEffectsEnabled, setTimelineMediaEffectsEnabled, nullptr, TimelineMediaEffectsEnabled, SettingKey::TimelineMediaEffectsEnabled),
-    // TimelineThreadsCollapseReplies
+    // TimelineThreadsCollapseRepliesGlobal
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Collapse thread replies",
-      QT_TR_NOOP("Hides thread replies from the main timeline, showing only thread root messages.<br>\u26A0\uFE0F Per-thread unread tracking is not supported, so you may miss replies in older threads."),
-      SM::TabTimeline, timelineThreadsCollapseReplies, setTimelineThreadsCollapseReplies, nullptr, TimelineThreadsCollapseReplies, SettingKey::TimelineThreadsCollapseReplies),
+      QT_TR_NOOP("Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info \u2192 Settings.<br>\u26A0\uFE0F Per-thread unread tracking is not supported, so you may miss replies in older threads."),
+      SM::TabTimeline, timelineThreadsCollapseReplies, setTimelineThreadsCollapseReplies, nullptr, TimelineThreadsCollapseRepliesGlobal, SettingKey::TimelineThreadsCollapseRepliesGlobal),
     // TimelineFeedbackSection
     { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

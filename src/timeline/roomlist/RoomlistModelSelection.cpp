@@ -64,6 +64,31 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
     if (manager)
         manager->primeCurrentMatrixTimelineSelection();
 
+    // Without this, opening a room while the room list is paused leaves its
+    // unread badge visible until the pause ends — the snapshot that carries the
+    // updated (zero) counts is deferred.  This looks like a stuck badge,
+    // especially when clicking through several unread rooms in a row.
+    //
+    // Because dynamic sorting is already disabled during suppression, emitting
+    // dataChanged here only updates the visual badge without reordering rooms.
+    // The deferred snapshot replaces matrixJoinedRooms_ when the pause ends.
+    if (interactionSuppressed_) {
+        auto &room = matrixJoinedRooms_[roomid];
+        if (room.unreadMessages > 0 || room.notificationCount > 0 || room.highlightCount > 0) {
+            room.unreadMessages    = 0;
+            room.notificationCount = 0;
+            room.highlightCount    = 0;
+            const auto idx         = roomidToIndex(roomid);
+            if (idx != -1) {
+                emit dataChanged(
+                  index(idx),
+                  index(idx),
+                  {Roles::HasUnreadMessages, Roles::UnreadCount, Roles::HasLoudNotification});
+            }
+            emitAttentionCount();
+        }
+    }
+
     return true;
 }
 

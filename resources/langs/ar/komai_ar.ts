@@ -248,7 +248,7 @@
 <context>
     <name>AliasEditingModel</name>
     <message>
-        <location filename="../../../src/models/AliasEditModel.cpp" line="+116"/>
+        <location filename="../../../src/models/AliasEditModel.cpp" line="+117"/>
         <source>Failed to load room aliases from the matrix-sdk backend.</source>
         <translation>فشل تحميل أسماء الغرفة المستعارة من واجهة matrix-sdk الخلفية.</translation>
     </message>
@@ -463,68 +463,24 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+43"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+64"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 من تطوير %2 (استضافة خوادم Matrix مُدارة).</translation>
     </message>
     <message>
         <location line="+20"/>
-        <source>Donating!</source>
-        <translation>أتبرع!</translation>
+        <source>Sponsoring!</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
-        <source>Donate</source>
-        <translation>تبرّع</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Report an issue</source>
-        <translation>الإبلاغ عن مشكلة</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <location line="+31"/>
-        <source>GitHub Sponsors</source>
-        <translation>رعاة GitHub</translation>
-    </message>
-    <message>
-        <location line="-26"/>
-        <location line="+31"/>
-        <source>Liberapay</source>
-        <translation>Liberapay</translation>
-    </message>
-    <message>
-        <location line="-24"/>
-        <source>I no longer donate</source>
-        <translation>لم أعد أتبرع</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <location line="+31"/>
-        <location line="+39"/>
-        <source>Hide</source>
-        <translation>إخفاء</translation>
-    </message>
-    <message>
-        <location line="-44"/>
-        <source>I already donate!</source>
-        <translation>أنا أتبرع بالفعل!</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>Hide donation button?</source>
-        <translation>إخفاء زر التبرع؟</translation>
+        <source>Sponsor</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+6"/>
-        <source>This will permanently hide the donation button from this screen.</source>
-        <translation>سيؤدي هذا إلى إخفاء زر التبرع نهائيًا من هذه الشاشة.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Cancel</source>
-        <translation>إلغاء</translation>
+        <source>Report an issue</source>
+        <translation>الإبلاغ عن مشكلة</translation>
     </message>
 </context>
 <context>
@@ -637,7 +593,7 @@
         <translation>فشلت دعوة %1: %2</translation>
     </message>
     <message>
-        <location line="+228"/>
+        <location line="+231"/>
         <source>Something went wrong</source>
         <translation>حدث خطأ ما</translation>
     </message>
@@ -669,7 +625,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>تسجيل الخروج والبدء من جديد</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+38"/>
+        <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
         <source>Matrix backend is not ready yet.</source>
         <translation>الواجهة الخلفية لـ Matrix ليست جاهزة بعد.</translation>
     </message>
@@ -689,7 +645,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>فشل طرق باب الغرفة: %1</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+62"/>
         <source>Room creation failed: Bad Alias</source>
         <translation>فشل إنشاء الغرفة: اسم مستعار غير صالح</translation>
     </message>
@@ -724,19 +680,19 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>تم رفع الحظر عن المستخدم: %1</translation>
     </message>
     <message>
-        <location line="-263"/>
+        <location line="-265"/>
         <source>You failed to join %1. You can try to knock so that others can invite you in. Do you want to do so?
 You may optionally provide a reason for others to accept your knock:</source>
         <translation>فشل انضمامك إلى %1. يمكنك محاولة الطرق ليتمكن الآخرون من دعوتك. هل تريد ذلك؟
 يمكنك اختياريًا تقديم سبب ليقبل الآخرون طلبك:</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+74"/>
         <source>Failed to join room: %1</source>
         <translation>فشل الانضمام إلى الغرفة: %1</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+35"/>
         <source>Room creation failed: %1</source>
         <translation>فشل إنشاء الغرفة: %1</translation>
     </message>
@@ -756,7 +712,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>فشل تشغيل الواجهة الخلفية لـ Matrix لهذه الجلسة. يرجى تسجيل الدخول مجددًا.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+130"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>يتطلب استرداد النسخ الاحتياطي للمفاتيح تشغيل الواجهة الخلفية لـ matrix-sdk.</translation>
     </message>
@@ -826,9 +782,17 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
 </context>
 <context>
+    <name>CommunitiesList</name>
+    <message>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+506"/>
+        <source>Settings...</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>CommunitiesListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+125"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+133"/>
         <source>Expand</source>
         <translation>توسيع</translation>
     </message>
@@ -1134,17 +1098,17 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CreateRoom</name>
     <message>
-        <location filename="../../qml/dialogs/room/CreateRoom.qml" line="+27"/>
+        <location filename="../../qml/dialogs/room/CreateRoom.qml" line="+37"/>
         <source>Name</source>
         <translation>الاسم</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Topic</source>
         <translation>الموضوع</translation>
     </message>
     <message>
-        <location line="-16"/>
+        <location line="-27"/>
         <source>New space</source>
         <translation>فضاء جديد</translation>
     </message>
@@ -1154,12 +1118,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>غرفة جديدة</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+44"/>
         <source>Alias</source>
         <translation>الاسم المستعار</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>Public</source>
         <translation>عام</translation>
     </message>
@@ -1683,12 +1647,12 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+517"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+522"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>لا يمكن تغيير وسوم الغرفة إلا للغرف المنضم إليها في هذه الجلسة.</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Room tags are temporarily unavailable because the Matrix session is not active.</source>
         <translation>وسوم الغرفة غير متاحة مؤقتًا لأن جلسة Matrix غير نشطة.</translation>
     </message>
@@ -1904,13 +1868,13 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+7"/>
-        <source>To show this filter again, go to Application Settings → Sidebars → Communities Sidebar and enable the "Show" toggle for "%1".</source>
-        <translation>لإظهار هذا المرشح مجددًا، انتقل إلى إعدادات التطبيق ← الأشرطة الجانبية ← شريط المجتمعات وفعّل مفتاح "إظهار" لـ "%1".</translation>
+        <source>To show this filter again, go to Application Settings → Navigation → Communities Sidebar and enable the "Show" toggle for "%1".</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
-        <source>This filter is currently excluded from "All rooms", so its rooms won't appear there either. You can change this in Application Settings → Sidebars.</source>
-        <translation>هذا المرشح مستبعد حاليًا من "جميع الغرف"، لذا لن تظهر غرفه هناك أيضًا. يمكنك تغيير ذلك في إعدادات التطبيق ← الأشرطة الجانبية.</translation>
+        <source>This filter is currently excluded from "All rooms", so its rooms won't appear there either. You can change this in Application Settings → Navigation.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -2331,12 +2295,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>الانضمام إلى غرفة</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Room ID or alias</source>
-        <translation>معرّف الغرفة أو الاسم المستعار</translation>
+        <location line="+10"/>
+        <source>E.g. !roomID or #alias:example.com</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+11"/>
         <source>Join</source>
         <translation>انضمام</translation>
     </message>
@@ -2344,7 +2308,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+477"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+475"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>اسم الملف الشخصي مطلوب.</translation>
@@ -2804,17 +2768,17 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../../src/ui/MainWindow.cpp" line="+166"/>
+        <location filename="../../../src/ui/MainWindow.cpp" line="+169"/>
         <location line="+73"/>
-        <location line="+19"/>
-        <location line="+197"/>
-        <location line="+59"/>
-        <location line="+76"/>
+        <location line="+21"/>
+        <location line="+198"/>
+        <location line="+63"/>
+        <location line="+79"/>
         <source>Starting Komai</source>
         <translation>جارٍ بدء Komai</translation>
     </message>
     <message>
-        <location line="-423"/>
+        <location line="-433"/>
         <source>Checking your profile...</source>
         <translation>جارٍ التحقق من ملفك الشخصي...</translation>
     </message>
@@ -2824,36 +2788,36 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>جارٍ فتح منتقي الملفات الشخصية...</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <location line="+197"/>
-        <location line="+59"/>
+        <location line="+21"/>
+        <location line="+198"/>
+        <location line="+63"/>
         <source>Restoring your session...</source>
         <translation>جارٍ استعادة جلستك...</translation>
     </message>
     <message>
-        <location line="-250"/>
-        <location line="+186"/>
-        <location line="+107"/>
-        <location line="+12"/>
+        <location line="-255"/>
+        <location line="+187"/>
+        <location line="+112"/>
+        <location line="+13"/>
         <source>Welcome to Komai</source>
         <translation>مرحبًا بك في Komai</translation>
     </message>
     <message>
-        <location line="-305"/>
-        <location line="+186"/>
-        <location line="+108"/>
-        <location line="+12"/>
+        <location line="-312"/>
+        <location line="+187"/>
+        <location line="+113"/>
+        <location line="+13"/>
         <source>Preparing sign-in...</source>
         <translation>جارٍ تحضير تسجيل الدخول...</translation>
     </message>
     <message>
-        <location line="-10"/>
-        <location line="+12"/>
+        <location line="-11"/>
+        <location line="+13"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
         <translation>فشل تهيئة جلسة Matrix. يرجى تسجيل الدخول مجددًا.</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Opening your rooms...</source>
         <translation>جارٍ فتح غرفك...</translation>
     </message>
@@ -2966,6 +2930,38 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+0"/>
         <source>Attachment</source>
         <translation>مرفق</translation>
+    </message>
+</context>
+<context>
+    <name>MatrixRoomPermissions</name>
+    <message>
+        <location filename="../../../src/timeline/Permissions.cpp" line="+437"/>
+        <source>Creator</source>
+        <translation type="unfinished">المُنشئ</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>Administrator (%1)</source>
+        <translation type="unfinished">مدير (%1)</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+11"/>
+        <source>Moderator (%1)</source>
+        <translation type="unfinished">مشرف (%1)</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+11"/>
+        <source>User (%1)</source>
+        <translation type="unfinished">مستخدم (%1)</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+11"/>
+        <source>Custom (%1)</source>
+        <translation type="unfinished">مخصص (%1)</translation>
     </message>
 </context>
 <context>
@@ -3403,7 +3399,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>NewTabPage</name>
     <message>
-        <location filename="../../qml/timeline/components/NewTabPage.qml" line="+57"/>
+        <location filename="../../qml/timeline/components/NewTabPage.qml" line="+28"/>
         <source>The ten thousand chats can't happen in a void. Open a room?</source>
         <translation>لا يمكن لعشرة آلاف محادثة أن تحدث في الفراغ. هل تفتح غرفة؟</translation>
     </message>
@@ -3419,8 +3415,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>Friends, bots, communities - all one click away</source>
-        <translation>أصدقاء، روبوتات، مجتمعات - كلها بنقرة واحدة</translation>
+        <source>Friends, bots, communities - all a click away</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
@@ -3476,45 +3472,45 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>NewTabPageActions</name>
     <message>
-        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+21"/>
+        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+22"/>
         <source>Join room</source>
         <translation>انضمام لغرفة</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+1"/>
+        <source>Join an existing room by address or alias</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Explore public rooms</source>
         <translation>استعراض الغرف العامة</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>New</source>
-        <translation>جديد</translation>
+        <location line="+1"/>
+        <source>Browse the public room directory</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
-        <source>New direct chat</source>
-        <translation>محادثة مباشرة جديدة</translation>
+        <location line="+10"/>
+        <source>New room/space</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+7"/>
-        <source>New room</source>
-        <translation>غرفة جديدة</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>New space</source>
-        <translation>فضاء جديد</translation>
+        <location line="+1"/>
+        <source>Create a new room or space [Ctrl+N]</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>NewTabPageSearch</name>
     <message>
-        <location filename="../../qml/timeline/components/NewTabPageSearch.qml" line="+60"/>
+        <location filename="../../qml/timeline/components/NewTabPageSearch.qml" line="+59"/>
         <source>Search your rooms &amp; spaces...</source>
         <translation>ابحث في غرفك وفضاءاتك...</translation>
     </message>
     <message>
-        <location line="+40"/>
+        <location line="+38"/>
         <source>No matches found.</source>
         <translation>لم يُعثر على نتائج.</translation>
     </message>
@@ -3522,6 +3518,135 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+82"/>
         <source>(Space)</source>
         <translation>(فضاء)</translation>
+    </message>
+</context>
+<context>
+    <name>NewToMatrixPage</name>
+    <message>
+        <location filename="../../qml/pages/NewToMatrixPage.qml" line="+69"/>
+        <source>Back</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>New to Matrix?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>What is Matrix?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>&lt;a href="%1"&gt;Matrix&lt;/a&gt; is an open communication network - like email, but for real-time messaging (chat).
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Your profile and message data is hosted on something called a &lt;a href="%1"&gt;homeserver&lt;/a&gt; (your home on the network), but you can talk to anyone on any other server.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Homeservers connect to each other via &lt;a href="%1"&gt;Matrix Federation&lt;/a&gt;. Unlike centralized apps, no single company controls everything - you pick what works for you.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Choose your path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Existing servers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>Public server</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Free community servers, great for getting started. Some may be busy during peak hours.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+54"/>
+        <source>Another server</source>
+        <translation type="unfinished">خادم آخر</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Register on a specific homeserver you already know about.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Self-hosting</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>matrix-docker-ansible-deploy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>An Ansible playbook for self-hosting Matrix, by the makers of Komai.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+54"/>
+        <source>Explore other self-hosting options</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Browse Matrix server distributions and deployment tools.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Managed hosting</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>etke.cc</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Your own server, professionally managed by the makers of Komai.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+54"/>
+        <source>Explore other hosting providers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Browse the Matrix hosting provider ecosystem.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+37"/>
+        <source>Matrix doesn't support migrating accounts between servers yet, so choose thoughtfully.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Already have an account?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Sign in</source>
+        <translation type="unfinished">تسجيل الدخول</translation>
     </message>
 </context>
 <context>
@@ -3737,7 +3862,7 @@ Verify to unlock encrypted messages.</source>
         <translation>الصلاحيات في %1</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+18"/>
         <source>Be careful when editing permissions. You can't lower the permissions of people with a same or higher level than you. Be careful when promoting others.</source>
         <translation>كن حذرًا عند تعديل الصلاحيات. لا يمكنك خفض صلاحيات من لديهم مستوى مساوٍ أو أعلى منك. كن حذرًا عند ترقية الآخرين.</translation>
     </message>
@@ -3882,12 +4007,12 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>PowerlevelEditingModels</name>
     <message>
-        <location filename="../../../src/powerlevels/PowerlevelEditingModels.cpp" line="+73"/>
+        <location filename="../../../src/powerlevels/PowerlevelEditingModels.cpp" line="+74"/>
         <source>Failed to load room permissions from the matrix-sdk backend.</source>
         <translation>فشل تحميل صلاحيات الغرفة من واجهة matrix-sdk الخلفية.</translation>
     </message>
     <message>
-        <location line="+111"/>
+        <location line="+112"/>
         <source>Failed to save room permissions to the matrix-sdk backend.</source>
         <translation>فشل حفظ صلاحيات الغرفة إلى واجهة matrix-sdk الخلفية.</translation>
     </message>
@@ -3896,39 +4021,23 @@ Verify to unlock encrypted messages.</source>
     <name>PowerlevelIndicator</name>
     <message>
         <location filename="../../qml/components/PowerlevelIndicator.qml" line="+34"/>
-        <location line="+24"/>
         <source>Creator</source>
         <translation>المُنشئ</translation>
     </message>
     <message>
-        <location line="-22"/>
-        <source>Administrator</source>
-        <translation>مدير</translation>
+        <location line="+4"/>
+        <source>Moderator (%1)</source>
+        <translation type="unfinished">مشرف (%1)</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Moderator</source>
-        <translation>مشرف</translation>
+        <source>User (%1)</source>
+        <translation type="unfinished">مستخدم (%1)</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>User</source>
-        <translation>مستخدم</translation>
-    </message>
-    <message>
-        <location line="+20"/>
+        <location line="-4"/>
         <source>Administrator (%1)</source>
         <translation>مدير (%1)</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Moderator: %1</source>
-        <translation>مشرف: %1</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>User: %1</source>
-        <translation>مستخدم: %1</translation>
     </message>
 </context>
 <context>
@@ -4152,7 +4261,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+158"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+154"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>التشغيل بالملف الشخصي المحدد. يتم إنشاء ملف شخصي جديد تلقائيًا إذا لم يكن موجودًا بعد. تسمح الملفات الشخصية المتعددة بحسابات منفصلة ونسخ متزامنة. معرّفات الملفات الشخصية غير الفارغة المسموح بها: الحرف الأول A-Z أو a-z أو '_'؛ الأحرف المتبقية A-Z أو a-z أو 0-9 أو '_' أو '-'.</translation>
     </message>
@@ -4170,7 +4279,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location line="-28"/>
+        <location line="-27"/>
         <source>Alias for '--log-level trace'.</source>
         <translation>اختصار لـ '--log-level trace'.</translation>
     </message>
@@ -4214,9 +4323,9 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>المستوى</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Set the log output type. A comma-separated list is allowed. The default is 'file,stderr'. types:{file,stderr,none}</source>
-        <translation>تعيين نوع مخرجات السجل. يُسمح بقائمة مفصولة بفواصل. الافتراضي هو 'file,stderr'. الأنواع: {file,stderr,none}</translation>
+        <location line="+3"/>
+        <source>Set the log output type. The default is 'stderr'. types:{stderr,none}</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -4386,14 +4495,14 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
 <context>
     <name>RegisterPage</name>
     <message>
-        <location filename="../../qml/pages/RegisterPage.qml" line="+40"/>
-        <location line="+676"/>
+        <location filename="../../qml/pages/RegisterPage.qml" line="+41"/>
+        <location line="+678"/>
         <source>Username</source>
         <translation>اسم المستخدم</translation>
     </message>
     <message>
-        <location line="-674"/>
-        <location line="+822"/>
+        <location line="-676"/>
+        <location line="+824"/>
         <source>Confirm</source>
         <translation>تأكيد</translation>
     </message>
@@ -4662,19 +4771,19 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>لقد أكملت التحقق</translation>
     </message>
     <message>
-        <location line="-1280"/>
-        <location line="+769"/>
+        <location line="-1282"/>
+        <location line="+771"/>
         <source>Password</source>
         <translation>كلمة المرور</translation>
     </message>
     <message>
-        <location line="-767"/>
-        <location line="+890"/>
+        <location line="-769"/>
+        <location line="+892"/>
         <source>Device name</source>
         <translation>اسم الجهاز</translation>
     </message>
     <message>
-        <location filename="../../../src/auth/RegisterPage.cpp" line="+382"/>
+        <location filename="../../../src/auth/RegisterPage.cpp" line="+383"/>
         <source>Account created, but automatic sign-in failed: %1
 Please go back and sign in manually.</source>
         <translation>تم إنشاء الحساب، لكن تسجيل الدخول التلقائي فشل: %1
@@ -4691,7 +4800,7 @@ Please go back and sign in manually.</source>
 <context>
     <name>Reply</name>
     <message>
-        <location filename="../../qml/delegates/Reply.qml" line="+84"/>
+        <location filename="../../qml/delegates/Reply.qml" line="+85"/>
         <source>Image</source>
         <translation>صورة</translation>
     </message>
@@ -5092,7 +5201,7 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomDirectoryModel</name>
     <message>
-        <location filename="../../../src/models/RoomDirectoryModel.cpp" line="+261"/>
+        <location filename="../../../src/models/RoomDirectoryModel.cpp" line="+262"/>
         <source>Room directory requires an active Matrix session.</source>
         <translation type="unfinished"/>
     </message>
@@ -5188,7 +5297,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation type="unfinished">لم يتم تحديد غرفة</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+15"/>
         <source>Members (%1)</source>
         <translation type="unfinished"/>
     </message>
@@ -5203,7 +5312,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+33"/>
         <source>Unencrypted</source>
         <translation type="unfinished"/>
     </message>
@@ -5223,12 +5332,12 @@ Previous server-side key backups are not removed automatically.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+72"/>
         <source>Search</source>
         <translation type="unfinished">بحث</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+36"/>
         <source>Leave</source>
         <translation type="unfinished">مغادرة</translation>
     </message>
@@ -5253,11 +5362,11 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomHeaderMembersButton</name>
     <message>
         <location filename="../../qml/room/components/RoomHeaderMembersButton.qml" line="+14"/>
-        <source>Show room members.</source>
+        <source>Show the members of this room</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Members (%1)</source>
         <translation type="unfinished"/>
     </message>
@@ -5341,6 +5450,19 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
 </context>
 <context>
+    <name>RoomHeaderThreadsButton</name>
+    <message>
+        <location filename="../../qml/room/components/RoomHeaderThreadsButton.qml" line="+16"/>
+        <source>Show threads</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Threads</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>RoomInfoAboutTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoAboutTab.qml" line="+51"/>
@@ -5404,7 +5526,7 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoMembersTab</name>
     <message numerus="yes">
-        <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+52"/>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoMembersTab.qml" line="+56"/>
         <source>%n member(s) in %1</source>
         <comment>Summary above list of members</comment>
         <translation type="unfinished">
@@ -5462,7 +5584,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+148"/>
         <source>Invited</source>
         <translation type="unfinished"/>
     </message>
@@ -5508,7 +5630,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation type="unfinished">الصورة الرمزية</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Change</source>
         <translation type="unfinished">تغيير</translation>
     </message>
@@ -5530,17 +5652,17 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+235"/>
+        <location line="+241"/>
         <source>Cancel</source>
         <translation type="unfinished">إلغاء</translation>
     </message>
     <message>
-        <location line="-187"/>
+        <location line="-193"/>
         <source>Name</source>
         <translation type="unfinished">الاسم</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+17"/>
         <source>No name set</source>
         <translation type="unfinished"/>
     </message>
@@ -5550,7 +5672,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation type="unfinished">الموضوع</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+18"/>
         <source>No topic set</source>
         <translation type="unfinished"/>
     </message>
@@ -5560,7 +5682,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation type="unfinished">التشفير</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+25"/>
         <source>Once enabled, encryption cannot be disabled.</source>
         <translation type="unfinished"/>
     </message>
@@ -5584,52 +5706,12 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomJoinCreateDialog</name>
     <message>
-        <location filename="../../qml/shell/components/RoomJoinCreateDialog.qml" line="+14"/>
-        <source>New</source>
-        <translation type="unfinished">جديد</translation>
-    </message>
-    <message>
-        <location line="+101"/>
-        <source>Join</source>
-        <translation type="unfinished">انضمام</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Join room</source>
+        <location filename="../../qml/shell/components/RoomJoinCreateDialog.qml" line="+16"/>
+        <source>New room/space</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Enter a room address or alias to join</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>J</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Explore public rooms</source>
-        <translation type="unfinished">استعراض الغرف العامة</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Browse the public room directory</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>E</source>
-        <translation type="unfinished">E</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Create</source>
-        <translation type="unfinished">إنشاء</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+100"/>
         <source>New direct chat</source>
         <translation type="unfinished">محادثة مباشرة جديدة</translation>
     </message>
@@ -5644,7 +5726,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished">D</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>New room</source>
         <translation type="unfinished">غرفة جديدة</translation>
     </message>
@@ -5659,7 +5741,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished">R</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>New space</source>
         <translation type="unfinished">فضاء جديد</translation>
     </message>
@@ -5698,25 +5780,10 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>RoomListActionsBar</name>
+    <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListActionsBar.qml" line="+21"/>
-        <source>New</source>
-        <translation type="unfinished">جديد</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Switch</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+119"/>
-        <source>Join or create a new chat or space [Ctrl+N]</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Find &amp; switch room or space [Ctrl+K or Ctrl+P]</source>
+        <location filename="../../qml/shell/RoomList.qml" line="+475"/>
+        <source>Settings...</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -5731,7 +5798,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListContextMenu</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+32"/>
+        <location filename="../../qml/shell/components/RoomListContextMenu.qml" line="+33"/>
         <source>Enter the tag you want to use:</source>
         <translation type="unfinished"/>
     </message>
@@ -5747,6 +5814,11 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
     <message>
         <location line="+7"/>
+        <source>Open in a new tab</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>Open in new window</source>
         <translation type="unfinished"/>
     </message>
@@ -5795,8 +5867,8 @@ Please take note that it can't be disabled afterwards.</source>
     <name>RoomListExploreFooter</name>
     <message>
         <location filename="../../qml/shell/components/RoomListExploreFooter.qml" line="+14"/>
-        <source>Explore</source>
-        <translation type="unfinished"/>
+        <source>New</source>
+        <translation type="unfinished">جديد</translation>
     </message>
 </context>
 <context>
@@ -5818,8 +5890,8 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListItemTextContent</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+109"/>
-        <location line="+84"/>
+        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+121"/>
+        <location line="+85"/>
         <source>You:</source>
         <translation type="unfinished"/>
     </message>
@@ -5948,22 +6020,14 @@ Please take note that it can't be disabled afterwards.</source>
     </message>
 </context>
 <context>
-    <name>RoomListUserInfoPanel</name>
-    <message>
-        <location filename="../../qml/shell/components/RoomListUserInfoPanel.qml" line="+86"/>
-        <source>Sign out</source>
-        <translation type="unfinished">تسجيل الخروج</translation>
-    </message>
-</context>
-<context>
     <name>RoomOptionsButton</name>
     <message>
         <location filename="../../qml/room/components/RoomOptionsButton.qml" line="+13"/>
-        <source>Leave room</source>
+        <source>Leave this room</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>Leave</source>
         <translation type="unfinished">مغادرة</translation>
     </message>
@@ -5979,7 +6043,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomSettings</name>
     <message>
-        <location filename="../../../src/ui/roomsettings/RoomSettingsAvatar.cpp" line="+50"/>
+        <location filename="../../../src/ui/roomsettings/RoomSettingsAvatar.cpp" line="+49"/>
         <source>Select an avatar</source>
         <translation type="unfinished"/>
     </message>
@@ -5999,12 +6063,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+31"/>
         <source>Failed to upload image.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+34"/>
         <source>Failed to remove avatar.</source>
         <translation type="unfinished"/>
     </message>
@@ -6019,12 +6083,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/ui/RoomSettings.cpp" line="+117"/>
+        <location filename="../../../src/ui/RoomSettings.cpp" line="+118"/>
         <source>Matrix backend runtime is not available.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+149"/>
+        <location line="+150"/>
         <source>Failed to enable encryption.</source>
         <translation type="unfinished"/>
     </message>
@@ -6057,19 +6121,19 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
-        <location line="+34"/>
-        <location line="+431"/>
+        <location line="+12"/>
+        <location line="+36"/>
+        <location line="+445"/>
         <source>Configure</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-438"/>
+        <location line="-454"/>
         <source>Aliases</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+15"/>
         <source>&lt;a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'&gt;Aliases&lt;/a&gt; are alternative addresses (like #room:example.com) that people can use to find this room.</source>
         <translation type="unfinished"/>
     </message>
@@ -6079,7 +6143,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+18"/>
         <source>Public (anyone can join)</source>
         <translation type="unfinished"/>
     </message>
@@ -6094,7 +6158,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Non-members can &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#knocking-on-rooms'&gt;request to join&lt;/a&gt;. Users with invite permission can accept.</source>
         <translation type="unfinished"/>
     </message>
@@ -6104,7 +6168,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+20"/>
         <source>Members of selected Spaces can &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#restricted-rooms'&gt;join without an invitation&lt;/a&gt;.</source>
         <translation type="unfinished"/>
     </message>
@@ -6114,18 +6178,18 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+12"/>
-        <location line="+283"/>
+        <location line="+14"/>
+        <location line="+361"/>
         <source>Change</source>
         <translation type="unfinished">تغيير</translation>
     </message>
     <message>
-        <location line="-256"/>
+        <location line="-334"/>
         <source>Allow guests to join</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+17"/>
         <source>Lets &lt;a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'&gt;temporary accounts&lt;/a&gt; without full registration join the room.</source>
         <translation type="unfinished"/>
     </message>
@@ -6145,7 +6209,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+17"/>
         <source>Useful for room previews and public websites.</source>
         <translation type="unfinished"/>
     </message>
@@ -6155,7 +6219,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+13"/>
         <source>The beginning</source>
         <translation type="unfinished"/>
     </message>
@@ -6186,7 +6250,34 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+43"/>
+        <source>Collapse thread replies</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Global Default (currently: %1)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location line="+1"/>
+        <source>On</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-1"/>
+        <location line="+2"/>
+        <source>Off</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Extra</source>
         <translation type="unfinished"/>
     </message>
@@ -6199,12 +6290,17 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+93"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+159"/>
         <source>New</source>
         <translation type="unfinished">جديد</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+134"/>
+        <source>Settings...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-135"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation type="unfinished"/>
     </message>
@@ -6212,24 +6308,24 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabDelegate</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+83"/>
+        <location filename="../../qml/timeline/components/RoomTabDelegate.qml" line="+85"/>
         <source>New Tab</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+153"/>
-        <location line="+78"/>
+        <location line="+228"/>
+        <location line="+90"/>
         <source>Unpin Tab</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-78"/>
-        <location line="+78"/>
+        <location line="-90"/>
+        <location line="+90"/>
         <source>Pin Tab</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-60"/>
+        <location line="-72"/>
         <source>Close Tab [Ctrl+W]</source>
         <translation type="unfinished"/>
     </message>
@@ -6249,8 +6345,33 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+10"/>
+        <source>Close Unpinned Tabs</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+36"/>
         <source>Close %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>(Unread &amp; Draft) </source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>(Unread) </source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>(Draft) </source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>(Pinned)</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -6291,7 +6412,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>SSOHandler</name>
     <message>
-        <location filename="../../../src/auth/SSOHandler.cpp" line="+122"/>
+        <location filename="../../../src/auth/SSOHandler.cpp" line="+125"/>
         <source>Single Sign-On authentication completed</source>
         <translation type="unfinished"/>
     </message>
@@ -6752,12 +6873,12 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     </message>
     <message>
         <location line="+6"/>
-        <location line="+78"/>
+        <location line="+79"/>
         <source>The verification manager is not available.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-58"/>
+        <location line="-59"/>
         <source>This account does not currently expose an unlockable key backup.</source>
         <translation type="unfinished"/>
     </message>
@@ -7008,7 +7129,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+116"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+128"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation type="unfinished"/>
     </message>
@@ -7208,6 +7329,99 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
 </context>
 <context>
+    <name>SupportDialog</name>
+    <message>
+        <location filename="../../qml/components/SupportDialog.qml" line="+18"/>
+        <source>Sponsor Komai</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+87"/>
+        <source>&lt;a href="%1"&gt;Komai&lt;/a&gt; is fully &lt;a href="%2"&gt;Free Software&lt;/a&gt; (&lt;a href="%3"&gt;GPL-3.0-or-later&lt;/a&gt;) with no &lt;a href="%4"&gt;CLA&lt;/a&gt; and no gatekeeping.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>You can support Komai by contributing code, design, testing, translations, helping others, or financially.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>If you'd like to help financially, you can use one of the options below.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Monetary support</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>GitHub Sponsors</source>
+        <translation type="unfinished">رعاة GitHub</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Support via GitHub Sponsors</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Liberapay</source>
+        <translation type="unfinished">Liberapay</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Support via Liberapay</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>I already sponsor!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Click to unmark yourself as a sponsor</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Mark yourself locally as a sponsor</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Hide this button</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Permanently hide the sponsor button from the interface</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Hide sponsor button?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>This will permanently hide the sponsor button from this screen.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Cancel</source>
+        <translation type="unfinished">إلغاء</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Hide</source>
+        <translation type="unfinished">إخفاء</translation>
+    </message>
+</context>
+<context>
     <name>SyncedToMatrixBadge</name>
     <message>
         <location filename="../../qml/components/SyncedToMatrixBadge.qml" line="+30"/>
@@ -7234,6 +7448,91 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
 </context>
 <context>
+    <name>ThreadViewBar</name>
+    <message>
+        <location filename="../../qml/timeline/components/ThreadViewBar.qml" line="+152"/>
+        <source>Thread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Thread by %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Thread by %1 (%2)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <location line="+86"/>
+        <source>%n thread reply(s)</source>
+        <translation type="unfinished">
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+        </translation>
+    </message>
+    <message>
+        <location line="+65"/>
+        <source>Close</source>
+        <translation type="unfinished">إغلاق</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Close this thread and show the main timeline [Escape]</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>ThreadsDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/timeline/ThreadsDialog.qml" line="+25"/>
+        <source>Threads</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <location line="+57"/>
+        <source>%n thread reply(s)</source>
+        <translation type="unfinished">
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+        </translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>All</source>
+        <translation type="unfinished">الكل</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Participated</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+241"/>
+        <source>No threads found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>You haven't participated in any threads in this room yet.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No one has started a thread in this room yet.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>TimelineBackButton</name>
     <message>
         <location filename="../../qml/timeline/components/TimelineBackButton.qml" line="+13"/>
@@ -7252,69 +7551,25 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineEmptyStateLinks</name>
     <message>
-        <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+25"/>
+        <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
         <source>Report an issue</source>
         <translation type="unfinished">الإبلاغ عن مشكلة</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Donating!</source>
-        <translation type="unfinished">أتبرع!</translation>
+        <source>Sponsoring!</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
-        <source>Donate</source>
-        <translation type="unfinished">تبرّع</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <location line="+26"/>
-        <source>GitHub Sponsors</source>
-        <translation type="unfinished">رعاة GitHub</translation>
-    </message>
-    <message>
-        <location line="-21"/>
-        <location line="+26"/>
-        <source>Liberapay</source>
-        <translation type="unfinished">Liberapay</translation>
-    </message>
-    <message>
-        <location line="-19"/>
-        <source>I no longer donate</source>
-        <translation type="unfinished">لم أعد أتبرع</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <location line="+26"/>
-        <location line="+39"/>
-        <source>Hide</source>
-        <translation type="unfinished">إخفاء</translation>
-    </message>
-    <message>
-        <location line="-44"/>
-        <source>I already donate!</source>
-        <translation type="unfinished">أنا أتبرع بالفعل!</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>Hide donation button?</source>
-        <translation type="unfinished">إخفاء زر التبرع؟</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>This will permanently hide the donation button from this screen.</source>
-        <translation type="unfinished">سيؤدي هذا إلى إخفاء زر التبرع نهائيًا من هذه الشاشة.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Cancel</source>
-        <translation type="unfinished">إلغاء</translation>
+        <source>Sponsor</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+228"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+229"/>
         <source>%1 placed a voice call.</source>
         <translation type="unfinished"/>
     </message>
@@ -7355,7 +7610,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+127"/>
+        <location line="+129"/>
         <source>Allow them in</source>
         <translation type="unfinished"/>
     </message>
@@ -7365,7 +7620,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Go to replacement room</source>
         <translation type="unfinished"/>
     </message>
@@ -7401,7 +7656,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+147"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+148"/>
         <source>Edited</source>
         <translation type="unfinished"/>
     </message>
@@ -7415,8 +7670,20 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <source>Message actions</source>
         <translation type="unfinished">إجراءات الرسالة</translation>
     </message>
+    <message numerus="yes">
+        <location line="+64"/>
+        <source>%n thread reply(s)</source>
+        <translation type="unfinished">
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+        </translation>
+    </message>
     <message>
-        <location line="+16"/>
+        <location line="+1"/>
         <source>Reply in this thread</source>
         <translation type="unfinished"/>
     </message>
@@ -7491,64 +7758,64 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1025"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+291"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1137"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+293"/>
         <source>Failed to send message: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+122"/>
+        <location line="+123"/>
         <source>Failed to edit message: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+100"/>
         <source>Failed to react: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+52"/>
         <source>Failed to delete message: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+119"/>
+        <location line="+120"/>
         <source>Failed to mark message as read: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="+70"/>
         <source>Failed to report message: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+88"/>
-        <location line="+63"/>
+        <location line="+91"/>
+        <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+134"/>
+        <location line="+136"/>
         <source>Failed to forward some messages: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+51"/>
         <source>Failed to pin message: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+61"/>
         <source>Failed to unpin message: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+157"/>
+        <location line="+213"/>
         <source>Select file(s)</source>
         <translation type="unfinished"/>
     </message>
@@ -7563,39 +7830,39 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+48"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+213"/>
+        <location line="+223"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+77"/>
         <source>Save attachment</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+195"/>
+        <location line="+360"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Failed to fetch attachment '%1': no active Matrix session</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+40"/>
+        <location line="+41"/>
         <source>Failed to fetch attachment '%1': %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Saved attachment '%1' but failed to open it</source>
         <translation type="unfinished"/>
     </message>
@@ -7605,7 +7872,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-96"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-98"/>
         <source>This command needs an active room.</source>
         <translation type="unfinished"/>
     </message>
@@ -7620,12 +7887,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+88"/>
-        <source>The /%1 command is not migrated to the matrix-sdk room composer yet.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+101"/>
+        <location line="+185"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation type="unfinished"/>
     </message>
@@ -7674,7 +7936,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineWalkModeBar</name>
     <message numerus="yes">
-        <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+178"/>
+        <location filename="../../qml/timeline/components/TimelineWalkModeBar.qml" line="+180"/>
         <source>%n selected messages</source>
         <translation type="unfinished">
             <numerusform/>
@@ -7691,7 +7953,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-4"/>
+        <location line="+5"/>
         <source>Selection mode</source>
         <translation type="unfinished"/>
     </message>
@@ -7905,12 +8168,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>UserProfile</name>
     <message>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="+75"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="+114"/>
         <source>Only your own profile can be changed here.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-58"/>
+        <location line="+64"/>
         <location line="+38"/>
         <location line="+68"/>
         <location line="+41"/>
@@ -7921,7 +8185,17 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-290"/>
+        <location line="-357"/>
+        <source>Failed to set power level for %1.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to set power level for %1: %2</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+66"/>
         <source>Failed to update display name.</source>
         <translation type="unfinished"/>
     </message>
@@ -8047,7 +8321,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+84"/>
+        <location line="+91"/>
         <source>Room</source>
         <translation type="unfinished"/>
     </message>
@@ -8115,13 +8389,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+8"/>
         <location line="+34"/>
-        <location line="+527"/>
-        <location line="+381"/>
+        <location line="+609"/>
+        <location line="+100"/>
+        <location line="+382"/>
         <source>Cancel</source>
         <translation type="unfinished">إلغاء</translation>
     </message>
     <message>
-        <location line="-935"/>
+        <location line="-1118"/>
         <source>Reset</source>
         <translation type="unfinished">إعادة تعيين</translation>
     </message>
@@ -8177,29 +8452,34 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+76"/>
+        <source>Power level</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+51"/>
         <source>Verification</source>
         <translation type="unfinished">التحقق</translation>
     </message>
     <message>
         <location line="+72"/>
-        <location line="+402"/>
+        <location line="+516"/>
         <source>Verified</source>
         <translation type="unfinished">موثّق</translation>
     </message>
     <message>
-        <location line="-400"/>
+        <location line="-514"/>
         <source>Implicitly trusted</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <location line="+400"/>
+        <location line="+514"/>
         <source>Unverified</source>
         <translation type="unfinished">غير موثّق</translation>
     </message>
     <message>
-        <location line="-383"/>
+        <location line="-497"/>
         <source>Accepted on first use, not explicitly verified.</source>
         <translation type="unfinished"/>
     </message>
@@ -8244,7 +8524,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+18"/>
+        <location line="+90"/>
+        <location line="+82"/>
+        <source>Change power level</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-161"/>
         <source>Kick from room</source>
         <translation type="unfinished"/>
     </message>
@@ -8290,7 +8577,32 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation type="unfinished">تجاهل</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+25"/>
+        <source>Set the power level for %1 in this room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Presets:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>User (0)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Moderator (50)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Administrator (100)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+37"/>
         <source>Rooms in common</source>
         <translation type="unfinished"/>
     </message>
@@ -8489,22 +8801,17 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+265"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+269"/>
         <source>Settings</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-233"/>
+        <location line="-236"/>
         <source>Look &amp; Feel</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Sidebars</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Timeline</source>
         <translation type="unfinished"/>
     </message>
@@ -8539,17 +8846,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+181"/>
+        <location line="+184"/>
         <source>Available after login</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-185"/>
+        <location line="-188"/>
         <source>Calls</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-4"/>
+        <source>Navigation</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>About</source>
         <translation type="unfinished"/>
     </message>
@@ -8566,7 +8878,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location filename="../../../src/encryption/VerificationManager.cpp" line="-112"/>
         <location line="+54"/>
-        <location line="+127"/>
+        <location line="+128"/>
         <location line="+56"/>
         <source>Matrix backend runtime is not available.</source>
         <translation type="unfinished"/>
@@ -8657,7 +8969,7 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+22"/>
         <source>An early touch of personality</source>
         <translation type="unfinished"/>
     </message>
@@ -8665,7 +8977,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
 <context>
     <name>WelcomePrimaryActions</name>
     <message>
-        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+24"/>
+        <location filename="../../qml/pages/welcome/WelcomePrimaryActions.qml" line="+21"/>
+        <source>New to Matrix?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+18"/>
         <source>Register</source>
         <translation type="unfinished">التسجيل</translation>
     </message>
@@ -8876,13 +9193,8 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Compact mode</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Affects spacing and icon sizes.</source>
+        <location line="+5"/>
+        <source>Affects spacing, icon sizes, and list row heights.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -8906,7 +9218,12 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+5"/>
+        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) on community and tag filters.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>All rooms</source>
         <translation type="unfinished">جميع الغرف</translation>
     </message>
@@ -8951,13 +9268,28 @@ Verification marks this device as trusted and gives you access to encrypted mess
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Adds a preview line to room list entries, influencing overall bar and avatar sizing.</source>
+        <location line="+5"/>
+        <source>Show unread emphasis (count badges, row highlight, and left-edge marker) next to rooms.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Show total notification counts for communities and tags.</source>
+        <location line="+9"/>
+        <source>Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Tab bar</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+54"/>
+        <source>Recently-closed pre-rendered timelines enable instant room switching but increase CPU and RAM usage. Open tabs are always pre-rendered. Set to 0 to only keep open tabs.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -9008,6 +9340,11 @@ Verification marks this device as trusted and gives you access to encrypted mess
     <message>
         <location line="+5"/>
         <source>Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/message-effects.md"&gt;timeline effect&lt;/a&gt;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Hides thread replies from the main timeline, showing only thread root messages. Can be overridden per room in Room Info → Settings.&lt;br&gt;⚠️ Per-thread unread tracking is not supported, so you may miss replies in older threads.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -9440,7 +9777,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
-        <source>Icon set</source>
+        <source>Icon set (Fluent)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Icon set (Font Awesome)</source>
         <translation type="unfinished"/>
     </message>
     <message>

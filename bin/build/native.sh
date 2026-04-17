@@ -298,8 +298,6 @@ needs_release_configure() {
 
 configure_release() {
 	cmake -S "${repo_root}" -B "${build_dir}" \
-		-DCMAKE_BUILD_TYPE=Release \
-		-DMAN=OFF \
 		"$@"
 }
 
@@ -307,7 +305,6 @@ configure_debug() {
 	cmake -S "${repo_root}" -B "${build_dir}" \
 		-DCMAKE_BUILD_TYPE=Debug \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
-		-DMAN=OFF \
 		"$@"
 }
 

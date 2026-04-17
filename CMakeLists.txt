@@ -17,12 +17,20 @@ option(APPVEYOR_BUILD "Build on appveyor" OFF)
 option(CI_BUILD "Set when building in CI. Enables -Werror where possible" OFF)
 option(ASAN "Compile with address sanitizers" OFF)
 option(QML_DEBUGGING "Enable qml debugging" OFF)
-if(UNIX AND NOT APPLE)
-    option(MAN "Build man page" ON)
-else()
-    option(MAN "Build man page" OFF)
-endif()
+option(MAN "Build man page" OFF)
 option(FLATPAK "Set this only if Komai is built as a flatpak" OFF)
+
+# Default to Release builds. Packagers can override with -DCMAKE_BUILD_TYPE=None/Debug/etc.
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
+
+# CPM-fetched dependencies (litehtml, KDSingleApplication, QtKeychain) are built
+# from source and linked into the komai binary. Build them as static libraries so
+# the installed binary is self-contained and doesn't require these .so files at
+# runtime. Packagers using -DCPM_USE_LOCAL_PACKAGES=ON get system shared libs
+# via find_package() instead, so this setting doesn't affect them.
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build bundled dependencies as static libraries")
 
 set(
     CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_LIST_DIR}/cmake/toolchain.cmake"
@@ -174,6 +182,7 @@ CPMAddPackage(
 )
 
 set(KDSingleApplication_QT6 ON CACHE BOOL INTERNAL)
+set(KDSingleApplication_STATIC ON CACHE BOOL INTERNAL)
 set(KDSingleApplication_EXAMPLES OFF CACHE BOOL INTERNAL)
 CPMAddPackage(
     NAME kdsingleapplication

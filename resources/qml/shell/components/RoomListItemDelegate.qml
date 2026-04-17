@@ -43,7 +43,10 @@ ItemDelegate {
     required property bool isEncrypted
     readonly property bool isSelected: roomId === Rooms.currentRoomId
     readonly property bool isLowPriorityRoom: !!tags && tags.indexOf && tags.indexOf("m.lowpriority") !== -1
-    readonly property bool emphasizeUnreadState: hasUnreadMessages && (!isLowPriorityRoom || hasLoudNotification || Communities.currentFilterId === "tag:m.lowpriority")
+    // emphasizeUnreadState governs every visual signal tied to unread state
+    // (bold title, avatar bounce, row highlight, left-edge marker, bubble),
+    // so the global toggle lives here; drafts stay emphasized regardless.
+    readonly property bool emphasizeUnreadState: hasUnreadMessages && (!isLowPriorityRoom || hasLoudNotification || Communities.currentFilterId === "tag:m.lowpriority") && Settings.navigationRoomListShowUnreadIndicators
     readonly property bool emphasizeDraftState: hasDraft && !emphasizeUnreadState
     readonly property bool emphasizeActivityState: emphasizeUnreadState || emphasizeDraftState
     readonly property bool keyboardFocused: ListView.view && ListView.view.activeFocus && ListView.isCurrentItem

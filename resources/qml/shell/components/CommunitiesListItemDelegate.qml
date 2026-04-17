@@ -53,7 +53,7 @@ ItemDelegate {
         Rectangle {
             anchors.fill: parent
             color: Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15)
-            visible: model.unreadMessages > 0 && communityItem.state !== "selected"
+            visible: model.unreadMessages > 0 && communityItem.state !== "selected" && Settings.navigationCommunitiesShowUnreadIndicators
         }
         Rectangle {
             anchors.fill: parent
@@ -202,7 +202,7 @@ ItemDelegate {
         anchors.verticalCenter: parent.verticalCenter
         color: palette.highlight
         height: parent.height - Komai.paddingMedium * 2
-        visible: model.unreadMessages > 0
+        visible: model.unreadMessages > 0 && Settings.navigationCommunitiesShowUnreadIndicators
         width: 6
         radius: 3
     }

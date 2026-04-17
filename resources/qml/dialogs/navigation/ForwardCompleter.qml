@@ -304,8 +304,8 @@ Popup {
         Completer {
             id: completerPopup
 
-            avatarHeight: Komai.listIconSize
-            avatarWidth: Komai.listIconSize
+            avatarHeight: Komai.iconSize
+            avatarWidth: Komai.iconSize
             bottomToTop: false
             completerType: "room"
             backendModel: "forwardRoom"
@@ -342,8 +342,8 @@ Popup {
                 id: confirmAvatar
 
                 anchors.verticalCenter: parent.verticalCenter
-                height: Komai.listIconSize
-                width: Komai.listIconSize
+                height: Komai.iconSize
+                width: Komai.iconSize
                 displayName: forwardMessagePopup.pendingRoomName
                 roomid: forwardMessagePopup.pendingRoomId
                 url: forwardMessagePopup.pendingRoomAvatarUrl.replace("mxc://", "image://MxcImage/")

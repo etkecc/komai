@@ -35,11 +35,11 @@ Components.OverlayDialog {
 
             displayName: root.inviterDisplayName
             enabled: true
-            implicitHeight: Komai.listIconSize
+            implicitHeight: Komai.iconSize
             roomid: root.roomId
             url: root.inviterAvatarUrl.replace("mxc://", "image://MxcImage/")
             userid: root.inviterUserId
-            implicitWidth: Komai.listIconSize
+            implicitWidth: Komai.iconSize
 
             onClicked: {
                 root.close();

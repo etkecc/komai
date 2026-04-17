@@ -31,7 +31,7 @@ AbstractButton {
     // max(displaySize, listIconSize) so small avatars reuse the standard cache
     // entry and large avatars get full resolution.  DPR scaling is handled
     // entirely in C++ (MxcImageProvider applies QScreen DPR).
-    readonly property int _mxcThumbSidePx: Math.max(Math.max(Math.round(width), Math.round(height)), Komai.listIconSize)
+    readonly property int _mxcThumbSidePx: Math.max(Math.max(Math.round(width), Math.round(height)), Komai.iconSize)
     readonly property real _devicePixelRatio: {
         if (Window.window && Window.window.screen)
             return Window.window.screen.devicePixelRatio || 1;

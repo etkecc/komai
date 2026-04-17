@@ -28,7 +28,7 @@ Item {
     readonly property int buttonPaddingH: Komai.uiLayoutCompactMode
         ? Komai.paddingSmall : Komai.paddingMedium
     readonly property int closeIconSize: Math.max(
-        14, Komai.listIconSize - 2 * buttonPaddingH)
+        14, Komai.iconSize - 2 * buttonPaddingH)
 
     implicitHeight: active
         ? Math.max(Komai.navigationRowHeight,
@@ -120,10 +120,10 @@ Item {
 
             // ── Sender avatar ──
             AvatarUserFlipButton {
-                Layout.preferredWidth: Komai.listIconSize
-                Layout.preferredHeight: Komai.listIconSize
+                Layout.preferredWidth: Komai.iconSize
+                Layout.preferredHeight: Komai.iconSize
                 Layout.alignment: Qt.AlignVCenter
-                avatarButtonSize: Komai.listIconSize
+                avatarButtonSize: Komai.iconSize
                 cleanFront: true
                 avatarUserId: threadBar._rootUserId
                 avatarRoomId: threadBar.roomId
@@ -262,8 +262,8 @@ Item {
                 hoverEnabled: true
                 focusPolicy: Qt.StrongFocus
                 activeFocusOnTab: true
-                implicitHeight: Komai.listIconSize
-                implicitWidth: Komai.listIconSize + Komai.paddingSmall
+                implicitHeight: Komai.iconSize
+                implicitWidth: Komai.iconSize + Komai.paddingSmall
                     + closeLabel.implicitWidth
                 leftPadding: threadBar.buttonPaddingH
                 rightPadding: threadBar.buttonPaddingH

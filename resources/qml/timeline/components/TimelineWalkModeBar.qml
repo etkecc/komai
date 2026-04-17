@@ -26,7 +26,7 @@ Rectangle {
     readonly property bool canRemove: chatRoot && _rev >= 0 && (_eid.length > 0 || chatRoot.selectedCount > 1) && chatRoot.canPerformWalkModeAction("remove")
     readonly property bool canOpenOptions: chatRoot && _rev >= 0 && _eid.length > 0 && chatRoot.canPerformWalkModeAction("options")
     readonly property bool canClearSelection: chatRoot ? chatRoot.selectedCount > 0 : false
-    readonly property int headerButtonHeight: Komai.listIconSize
+    readonly property int headerButtonHeight: Komai.iconSize
     readonly property int separatorSlotWidth: Komai.paddingMedium * 2 + 1
     readonly property int verticalMargin: Math.max(0, Math.floor((minimumHeight - headerButtonHeight) / 2))
 

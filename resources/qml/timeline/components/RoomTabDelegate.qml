@@ -105,7 +105,7 @@ Rectangle {
         : isHovered ? palette.text
         : palette.buttonText
 
-    readonly property int avatarSizePx: Komai.listIconSize
+    readonly property int avatarSizePx: Komai.iconSize
 
     // Close/pin button size.
     readonly property int actionBtnSize: Math.round(Komai.fontPixelSize * 1.6)

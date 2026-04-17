@@ -176,7 +176,7 @@ Rectangle {
             AdaptiveLayoutElement {
                 id: timlineViewC
 
-                minimumWidth: fontMetrics.averageCharacterWidth * 40 + Komai.listIconSize + 2 * Komai.paddingMedium
+                minimumWidth: fontMetrics.averageCharacterWidth * 40 + Komai.iconSize + 2 * Komai.paddingMedium
 
                 ColumnLayout {
                     anchors.fill: parent

@@ -16,10 +16,10 @@ ImageButton {
     anchors.margins: Komai.paddingMedium
     anchors.top: parent.top
     enabled: visible
-    height: Komai.listIconSize
+    height: Komai.iconSize
     image: ":/icons/icons/ui/angle-arrow-left.svg"
     visible: !!showBackButton
-    width: Komai.listIconSize
+    width: Komai.iconSize
 
     onClicked: Rooms.resetCurrentRoom()
 }

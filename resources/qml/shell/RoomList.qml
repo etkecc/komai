@@ -16,7 +16,7 @@ Page {
     required property var timelineRoot
     required property var tabController
     property bool compactMode: Komai.uiLayoutCompactMode
-    property int avatarSize: Komai.listIconSize
+    property int avatarSize: Komai.iconSize
     property bool collapsed: false
     property var communitiesTarget: null
     property bool interactionSuppressed: false

@@ -39,12 +39,11 @@ class Komai : public QObject
     Q_PROPERTY(bool uiLayoutCompactMode READ uiLayoutCompactMode NOTIFY layoutMetricsChanged)
     Q_PROPERTY(
       double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY layoutMetricsChanged)
-    // Font-scaled icon size for list entries (room list rows, community entries)
-    Q_PROPERTY(int listIconSize READ listIconSize NOTIFY layoutMetricsChanged)
+    // Font-scaled icon size shared across all navigation surfaces
+    // (list rows, community entries, action bars, avatars).
+    Q_PROPERTY(int iconSize READ iconSize NOTIFY layoutMetricsChanged)
     // Shared row height baseline used by navigation surfaces (room/community rows and bars).
     Q_PROPERTY(int navigationRowHeight READ navigationRowHeight NOTIFY layoutMetricsChanged)
-    // Icon size for action bars (top bar, room list actions bar)
-    Q_PROPERTY(int barIconSize READ barIconSize NOTIFY layoutMetricsChanged)
     // Resolved pixel size of the application font (always positive, unlike
     // Qt.application.font.pixelSize)
     Q_PROPERTY(int fontPixelSize READ fontPixelSize NOTIFY layoutMetricsChanged)
@@ -89,16 +88,15 @@ public:
 
     bool uiLayoutCompactMode() const;
     double sidebarAvatarMultiplier() const;
-    int listIconSize() const;
+    int iconSize() const;
     // Single authoritative logical list/avatar size. Use this from C++ code
-    // that needs the same sizing as the QML Komai.listIconSize property.
-    static int listIconLogicalSize();
+    // that needs the same sizing as the QML Komai.iconSize property.
+    static int iconLogicalSize();
     // Single authoritative physical avatar thumbnail size for cache/download.
     // Computed from font metrics + QScreen DPR. Used by MxcImageProvider and
     // LitehtmlContainer to ensure all avatar requests produce the same cache key.
     static int avatarThumbnailPhysicalSize();
     int navigationRowHeight() const;
-    int barIconSize() const;
     int fontPixelSize() const;
     QString fontFamily() const;
     bool navigationRoomListShowLastMessageTime() const;
@@ -175,8 +173,6 @@ signals:
     void showRoomJoinPrompt(RoomSummary *summary);
 
 private:
-    bool hasPreviewLayout() const;
-
     QScopedPointer<UserProfile> currentUser_;
     QVariantList applicationProfiles_;
 };

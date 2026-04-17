@@ -13,7 +13,7 @@ ColumnLayout {
     required property var tabController
     property real searchFieldMaxWidth: 500
 
-    readonly property int resultAvatarSize: Komai.listIconSize
+    readonly property int resultAvatarSize: Komai.iconSize
     readonly property bool hasResults: searchField.text.length > 0 && resultsList.count > 0
     readonly property bool isSearching: searchField.text.length > 0
     readonly property int searchFontPixelSize: Math.ceil(Komai.fontPixelSize * 1.5)

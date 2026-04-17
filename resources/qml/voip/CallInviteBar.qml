@@ -40,8 +40,8 @@ Rectangle {
         anchors.leftMargin: 8
 
         Avatar {
-            implicitWidth: Komai.listIconSize
-            implicitHeight: Komai.listIconSize
+            implicitWidth: Komai.iconSize
+            implicitHeight: Komai.iconSize
             url: CallManager.callPartyAvatarUrl.replace("mxc://", "image://MxcImage/")
             userid: CallManager.callParty
             displayName: CallManager.callPartyDisplayName

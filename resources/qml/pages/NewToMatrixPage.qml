@@ -13,7 +13,7 @@ import "../components/"
 Rectangle {
     id: root
     property int maxExpansion: 900
-    property int headerIconSize: Komai.barIconSize
+    property int headerIconSize: Komai.iconSize
 
     color: palette.alternateBase
 

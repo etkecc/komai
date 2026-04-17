@@ -201,10 +201,10 @@ OverlayDialog {
                     spacing: Komai.paddingMedium
 
                     AvatarUserFlipButton {
-                        Layout.preferredWidth: Komai.listIconSize
-                        Layout.preferredHeight: Komai.listIconSize
+                        Layout.preferredWidth: Komai.iconSize
+                        Layout.preferredHeight: Komai.iconSize
                         Layout.alignment: Qt.AlignTop
-                        avatarButtonSize: Komai.listIconSize
+                        avatarButtonSize: Komai.iconSize
                         cleanFront: true
                         avatarUserId: threadDelegate.senderId
                         avatarRoomId: root.roomId

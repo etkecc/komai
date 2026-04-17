@@ -19,7 +19,7 @@ Item {
     required property var roomModel
     property int itemHorizontalPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     property int itemVerticalPadding: 0
-    property int actionButtonHeight: Komai.listIconSize
+    property int actionButtonHeight: Komai.iconSize
     property int actionButtonIconSize: Math.max(14, actionButtonHeight - 2 * itemHorizontalPadding)
     property int labelBreakpointWidth: 600
     readonly property real actionHostWidth: (messageActionsControl && messageActionsControl.parent)

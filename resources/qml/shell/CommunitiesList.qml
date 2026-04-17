@@ -15,7 +15,7 @@ Page {
     //leftPadding: Komai.paddingSmall
     //rightPadding: Komai.paddingSmall
     required property var adaptiveView
-    property int avatarSize: Komai.listIconSize
+    property int avatarSize: Komai.iconSize
     property bool collapsed: false
     property var roomListTarget: null
     property bool pendingGoToTopRequest: false

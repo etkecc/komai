@@ -40,7 +40,7 @@ Control {
         Rectangle {
             id: iconCircle
 
-            readonly property int circleSize: Komai.listIconSize + 2 * Komai.paddingMedium
+            readonly property int circleSize: Komai.iconSize + 2 * Komai.paddingMedium
 
             color: palette.light
             radius: circleSize / 2
@@ -50,10 +50,10 @@ Control {
             Image {
                 id: img
 
-                height: Komai.listIconSize
-                width: Komai.listIconSize
-                sourceSize.height: Komai.listIconSize * Screen.devicePixelRatio
-                sourceSize.width: Komai.listIconSize * Screen.devicePixelRatio
+                height: Komai.iconSize
+                width: Komai.iconSize
+                sourceSize.height: Komai.iconSize * Screen.devicePixelRatio
+                sourceSize.width: Komai.iconSize * Screen.devicePixelRatio
 
                 anchors.centerIn: parent
                 source: "image://colorimage/" + evRoot.fileTypeIconSource + "?" + palette.buttonText

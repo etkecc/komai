@@ -81,8 +81,8 @@ ColumnLayout {
                     // Space avatar
                     Avatar {
                         Layout.alignment: Qt.AlignVCenter
-                        Layout.preferredWidth: Komai.listIconSize
-                        Layout.preferredHeight: Komai.listIconSize
+                        Layout.preferredWidth: Komai.iconSize
+                        Layout.preferredHeight: Komai.iconSize
                         displayName: spaceCard.spaceName
                         enabled: false
                         roomid: spaceCard.spaceId

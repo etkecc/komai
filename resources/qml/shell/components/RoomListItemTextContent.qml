@@ -38,12 +38,19 @@ ColumnLayout {
     spacing: compactMode ? 0 : Komai.paddingSmall
     visible: !collapsed
 
+    // In compact+preview mode both text lines shrink to ~0.8x so they fit
+    // the density-driven row without growing it.
+    readonly property bool compactPreview: titleRow.previewsEnabled && root.compactMode
+    readonly property real compactPreviewFontPt: Settings.uiFontSizePt * 0.8
+
     Item {
         id: titleRow
 
         property bool previewsEnabled: !root.isSpace && (Settings.navigationRoomListLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.navigationRoomListLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !root.isEncrypted))
 
-        Layout.alignment: Qt.AlignTop
+        // When subtextRow is hidden (preview off) the title row is the only
+        // child, so center it vertically inside the density-driven 2-line slot.
+        Layout.alignment: subtextRow.visible ? Qt.AlignTop : Qt.AlignVCenter
         Layout.fillWidth: true
         Layout.preferredHeight: titleText.implicitHeight
 
@@ -55,7 +62,7 @@ ColumnLayout {
             color: root.importantText
             elideWidth: parent.width - (inviteIcon.visible ? inviteIcon.width + Komai.paddingSmall : 0) - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0) - ((inlinePreview.visible || inlineDraftPreview.visible) ? Komai.paddingSmall : 0)
             font.bold: root.hasUnreadMessages
-            font.pointSize: Settings.uiFontSizePt
+            font.pointSize: root.compactPreview ? root.compactPreviewFontPt : Settings.uiFontSizePt
             font.family: Komai.fontFamily
             fullText: TimelineManager.htmlEscape(root.roomName)
             textFormat: Text.RichText
@@ -139,7 +146,7 @@ ColumnLayout {
             anchors.baseline: titleText.baseline
             anchors.right: parent.right
             color: root.unimportantText
-            font.pointSize: Settings.uiFontSizePt * 0.95
+            font.pointSize: root.compactPreview ? root.compactPreviewFontPt : (Settings.uiFontSizePt * 0.95)
             text: root.time
             visible: !root.isInvite && !root.isSpace && Komai.navigationRoomListShowLastMessageTime
         }
@@ -172,7 +179,7 @@ ColumnLayout {
             anchors.rightMargin: subtextNotificationBubble.visible ? Komai.paddingSmall : 0
             color: root.unimportantText
             elideWidth: subtextRow.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth + Komai.paddingSmall : 0)
-            font.pointSize: Settings.uiFontSizePt * 0.95
+            font.pointSize: root.compactPreview ? root.compactPreviewFontPt : (Settings.uiFontSizePt * 0.95)
             fullText: root.lastMessage
             visible: !root.hasDraft
         }
@@ -190,7 +197,7 @@ ColumnLayout {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 color: root.draftIndicatorColor
-                font.pointSize: Settings.uiFontSizePt * 0.95
+                font.pointSize: root.compactPreview ? root.compactPreviewFontPt : (Settings.uiFontSizePt * 0.95)
                 text: qsTr("You:")
             }
             Image {
@@ -214,7 +221,7 @@ ColumnLayout {
                 anchors.verticalCenter: parent.verticalCenter
                 color: root.draftIndicatorColor
                 elideWidth: Math.max(0, parent.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth : 0) - subtextDraftPrefix.implicitWidth - subtextDraftIcon.width - Komai.paddingSmall * 2)
-                font.pointSize: Settings.uiFontSizePt * 0.95
+                font.pointSize: root.compactPreview ? root.compactPreviewFontPt : (Settings.uiFontSizePt * 0.95)
                 fullText: root.draftPreview
             }
         }
@@ -225,6 +232,7 @@ ColumnLayout {
             anchors.right: parent.right
             bubbleBackgroundColor: root.bubbleBackground
             bubbleTextColor: root.bubbleText
+            fontScale: root.compactPreview ? 0.64 : 0.8
             hasLoudNotification: root.hasLoudNotification
             mayBeVisible: !root.collapsed && Settings.navigationRoomListShowUnreadCounts
             unreadCount: root.unreadCount

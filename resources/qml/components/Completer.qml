@@ -13,8 +13,8 @@ import cc.etke.komai 1.0
 Control {
     id: popup
 
-    property int avatarHeight: Komai.listIconSize
-    property int avatarWidth: Komai.listIconSize
+    property int avatarHeight: Komai.iconSize
+    property int avatarWidth: Komai.iconSize
     property bool bottomToTop: true
     property var completer
     property string completerType
@@ -159,7 +159,7 @@ Control {
                 || popup.completerType === "user"
                 || popup.completerType === "roomAliases"
                 || popup.completerType === "command"
-            readonly property int headerGlyphSize: Math.max(14, Math.ceil(Settings.uiFontSizePt * 1.05), Math.round(Komai.listIconSize * 0.62))
+            readonly property int headerGlyphSize: Math.max(14, Math.ceil(Settings.uiFontSizePt * 1.05), Math.round(Komai.iconSize * 0.62))
             readonly property int headerButtonSize: headerGlyphSize + Komai.paddingSmall
 
             Layout.fillWidth: true
@@ -401,7 +401,7 @@ Control {
                         roleValue: "user"
 
                         RowLayout {
-                            property int pickerAvatarSize: Komai.listIconSize
+                            property int pickerAvatarSize: Komai.iconSize
 
                             anchors.left: parent.left
                             anchors.right: parent.right
@@ -449,7 +449,7 @@ Control {
                         roleValue: "emoji"
 
                         RowLayout {
-                            property int pickerIconSize: Komai.listIconSize
+                            property int pickerIconSize: Komai.iconSize
 
                             anchors.left: parent.left
                             anchors.right: parent.right
@@ -594,7 +594,7 @@ Control {
                         roleValue: "roomAliases"
 
                         RowLayout {
-                            property int pickerAvatarSize: Komai.listIconSize
+                            property int pickerAvatarSize: Komai.iconSize
 
                             anchors.left: parent.left
                             anchors.right: parent.right

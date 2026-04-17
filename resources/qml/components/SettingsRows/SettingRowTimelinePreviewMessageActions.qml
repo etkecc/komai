@@ -20,7 +20,7 @@ Control {
     readonly property bool canEdit: !!root.model && root.model.isEditable
     property int itemHorizontalPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     property int itemVerticalPadding: 0
-    property int actionButtonHeight: Komai.listIconSize
+    property int actionButtonHeight: Komai.iconSize
     property int actionButtonIconSize: Math.max(14, actionButtonHeight - 2 * itemHorizontalPadding)
     property int labelBreakpointWidth: 600
     readonly property real actionHostWidth: (root.parent && root.parent.width > 0) ? root.parent.width : width

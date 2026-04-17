@@ -49,7 +49,7 @@ Rectangle {
             readonly property bool hasRoom: actionLabelMetrics.advanceWidth + buttonSize + Komai.paddingSmall < root.width * 0.6
 
             Layout.rightMargin: Komai.paddingMedium
-            buttonSize: Komai.barIconSize
+            buttonSize: Komai.iconSize
             activeFocusOnTab: false
             focusPolicy: Qt.NoFocus
             toolTipText: hasRoom ? "" : root.actionLabel
@@ -77,7 +77,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: Komai.paddingMedium
         anchors.verticalCenter: parent.verticalCenter
-        buttonSize: Komai.barIconSize
+        buttonSize: Komai.iconSize
         activeFocusOnTab: false
         focusPolicy: Qt.NoFocus
         toolTipText: root.actionLabel

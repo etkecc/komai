@@ -17,7 +17,7 @@ Rectangle {
     readonly property int minimumTabWidth: Settings.navigationTabsMinimumWidthPx
 
     // Shared metrics (mirroring RoomTabDelegate layout constants).
-    readonly property int _avatarSizePx: Komai.listIconSize
+    readonly property int _avatarSizePx: Komai.iconSize
     readonly property int _actionBtnSize: Math.round(Komai.fontPixelSize * 1.6)
     readonly property int _attentionBarMargin: Math.round(Komai.paddingSmall / 2) + 4 + Komai.paddingSmall
     readonly property bool _showPinButton: Settings.navigationTabsShowPinButton === Settings.TabPinButtonVisibility.Always
@@ -153,7 +153,7 @@ Rectangle {
         ShellComponents.RoomListActionButton {
             id: newTabBtn
 
-            buttonSize: Komai.barIconSize
+            buttonSize: Komai.iconSize
             iconSource: ":/icons/icons/ui/tab-add.svg"
             toolTipText: qsTr("Open a new tab [Ctrl+T]")
             labelText: qsTr("New")

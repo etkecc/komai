@@ -13,7 +13,7 @@ Popup {
 
     property int textHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int textMargin: Komai.paddingSmall
-    property int roomAvatarSize: Komai.listIconSize
+    property int roomAvatarSize: Komai.iconSize
     readonly property bool darkPopupChrome: palette.window.hslLightness < 0.5
     readonly property color popupOutlineColor: Qt.tint(
         palette.mid,

@@ -13,7 +13,7 @@ ColumnLayout {
 
     readonly property bool shouldShow: !TimelineManager.isConnected
     readonly property color accentColor: Komai.theme.error
-    readonly property int iconSize: Komai.barIconSize
+    readonly property int iconSize: Komai.iconSize
     readonly property int targetHeight: Komai.navigationRowHeight + 1
 
     spacing: 0

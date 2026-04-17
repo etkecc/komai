@@ -22,7 +22,7 @@ Rectangle {
     property int headerTextHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int headerIconSize: Math.ceil(headerTextHeight * 0.5)
     property int headerFontSize: Math.ceil(headerTextHeight * 0.45)
-    readonly property int previewSize: Math.round(Komai.listIconSize * 2)
+    readonly property int previewSize: Math.round(Komai.iconSize * 2)
     // Show "Remove" label when the row is wide enough.
     readonly property bool showRemoveLabel: uploadsList.width > previewSize * 6
 

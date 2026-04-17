@@ -12,7 +12,7 @@ import cc.etke.komai
 AbstractButton {
     id: root
 
-    property int buttonSize: Komai.barIconSize
+    property int buttonSize: Komai.iconSize
     property int buttonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     property int buttonPaddingV: 0
     property string image: ""

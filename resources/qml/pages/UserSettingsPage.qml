@@ -28,7 +28,7 @@ Rectangle {
             maxWidth = Math.max(maxWidth, sidebarNavFontMetrics.advanceWidth(navModel[i].text));
         return Math.max(120, Math.ceil(Komai.paddingMedium + 24 + Komai.paddingMedium + maxWidth + Komai.paddingLarge));
     }
-    property int headerIconSize: Komai.barIconSize
+    property int headerIconSize: Komai.iconSize
     property var navModel: [
         { text: qsTr("Look & Feel"), icon: "qrc:/icons/icons/ui/toggles.svg", tab: UserSettingsModel.TabLookFeel },
         { text: qsTr("Navigation"), icon: "qrc:/icons/icons/ui/panel-left-header.svg", tab: UserSettingsModel.TabNavigation },

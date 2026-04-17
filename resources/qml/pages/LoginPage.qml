@@ -19,7 +19,7 @@ Rectangle {
 
     readonly property var login: loginController
     property string error: login.error
-    property int headerIconSize: Komai.barIconSize
+    property int headerIconSize: Komai.iconSize
 
     color: palette.alternateBase
 
@@ -660,12 +660,12 @@ Rectangle {
 
             // ── SSO-only: browser launched indicator (replaces SSO buttons) ──
             Item {
-                Layout.preferredHeight: Komai.listIconSize
+                Layout.preferredHeight: Komai.iconSize
                 Layout.fillWidth: true
                 visible: loginPage.currentStep === 2 && login.loggingIn && login.ssoSupported && !login.passwordSupported
 
                 Spinner {
-                    height: Komai.listIconSize
+                    height: Komai.iconSize
                     anchors.centerIn: parent
                     visible: running
                     running: parent.visible
@@ -755,12 +755,12 @@ Rectangle {
             }
 
             Item {
-                Layout.preferredHeight: Komai.listIconSize
+                Layout.preferredHeight: Komai.iconSize
                 Layout.fillWidth: true
                 visible: loginPage.currentStep === 2 && login.loggingIn && login.passwordSupported && !login.ssoSupported
 
                 Spinner {
-                    height: Komai.listIconSize
+                    height: Komai.iconSize
                     anchors.centerIn: parent
                     visible: running
                     running: parent.visible
@@ -861,12 +861,12 @@ Rectangle {
 
             // ── Both: SSO browser launched indicator (replaces SSO buttons) ──
             Item {
-                Layout.preferredHeight: Komai.listIconSize
+                Layout.preferredHeight: Komai.iconSize
                 Layout.fillWidth: true
                 visible: loginPage.currentStep === 2 && login.loggingIn && login.ssoSupported && login.passwordSupported && !loginPage.showPasswordField
 
                 Spinner {
-                    height: Komai.listIconSize
+                    height: Komai.iconSize
                     anchors.centerIn: parent
                     visible: running
                     running: parent.visible
@@ -963,12 +963,12 @@ Rectangle {
             }
 
             Item {
-                Layout.preferredHeight: Komai.listIconSize
+                Layout.preferredHeight: Komai.iconSize
                 Layout.fillWidth: true
                 visible: loginPage.currentStep === 2 && login.loggingIn && login.passwordSupported && login.ssoSupported && loginPage.showPasswordField
 
                 Spinner {
-                    height: Komai.listIconSize
+                    height: Komai.iconSize
                     anchors.centerIn: parent
                     visible: running
                     running: parent.visible

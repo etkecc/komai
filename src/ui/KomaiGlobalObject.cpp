@@ -143,10 +143,6 @@ Komai::Komai()
             this,
             &Komai::layoutMetricsChanged);
     connect(UserSettings::instance().get(),
-            &UserSettings::navigationRoomListLastMessagePreviewChanged,
-            this,
-            &Komai::layoutMetricsChanged);
-    connect(UserSettings::instance().get(),
             &UserSettings::navigationRoomListShowLastMessageTimeChanged,
             this,
             &Komai::navigationRoomListShowLastMessageTimeChanged);
@@ -258,23 +254,10 @@ Komai::navigationRoomListShowLastMessageTime() const
     return UserSettings::instance()->navigationRoomListShowLastMessageTime();
 }
 
-bool
-Komai::hasPreviewLayout() const
-{
-    return UserSettings::instance()->navigationRoomListLastMessagePreview() !=
-           UserSettings::LastMessagePreview::Never;
-}
-
 double
 Komai::sidebarAvatarMultiplier() const
 {
-    // Primary driver: preview layout (2 lines vs 1 line of text).
-    // Secondary driver: compact mode (tighter vs spacious padding).
-    const bool preview = hasPreviewLayout();
-    if (uiLayoutCompactMode())
-        return preview ? 2.0 : 1.0;
-    else
-        return preview ? 2.0 : 1.25;
+    return uiLayoutCompactMode() ? 1.7 : 2.0;
 }
 
 // Resolved pixel size of the application font.
@@ -295,24 +278,21 @@ Komai::fontFamily() const
     return QFontInfo(QGuiApplication::font()).family();
 }
 
-// Font-scaled icon size for list entries (room list rows, community entries).
+// Font-scaled icon size shared across navigation surfaces.
 int
-Komai::listIconSize() const
+Komai::iconSize() const
 {
-    return listIconLogicalSize();
+    return iconLogicalSize();
 }
 
 int
-Komai::listIconLogicalSize()
+Komai::iconLogicalSize()
 {
     const auto settings = UserSettings::instance();
     if (!settings)
         return 4;
 
-    const bool compact = settings->uiLayoutCompactMode();
-    const bool preview =
-      settings->navigationRoomListLastMessagePreview() != UserSettings::LastMessagePreview::Never;
-    const double avatarMultiplier = compact ? (preview ? 2.0 : 1.0) : (preview ? 2.0 : 1.25);
+    const double avatarMultiplier = settings->uiLayoutCompactMode() ? 1.7 : 2.0;
     const QFontMetricsF fm(QGuiApplication::font());
     const int rawSize = qMax(1, qCeil(fm.lineSpacing() * avatarMultiplier));
     // Round up to the nearest multiple of 4 so the value multiplies cleanly
@@ -330,7 +310,7 @@ Komai::listIconLogicalSize()
 int
 Komai::avatarThumbnailPhysicalSize()
 {
-    const int logical = listIconLogicalSize();
+    const int logical = iconLogicalSize();
     // Use QScreen::devicePixelRatio (integer DPR, e.g. 2) for crisp HiDPI
     // rendering.  This is a stable value that doesn't vary per-surface.
     double dpr = 1.0;
@@ -341,32 +321,22 @@ Komai::avatarThumbnailPhysicalSize()
 
 // Shared baseline used to keep room-list and communities rows aligned with
 // adjacent bars (for example the top bar, room actions bar, and status banners).
-// Accounts for preview layout (1 vs 2 text lines) and compact mode padding.
+// Density-only: preview layout is content-only — the second text line
+// renders inside this slot at a smaller font rather than growing it.
 int
 Komai::navigationRowHeight() const
 {
     QFontMetricsF fm(QGuiApplication::font());
     const int lineHeight = qMax(1, qCeil(fm.lineSpacing()));
-    const bool compact   = uiLayoutCompactMode();
-    const bool preview   = hasPreviewLayout();
 
-    // Text height: 2 lines when previews are shown, 1 line otherwise.
-    // Non-compact mode adds inter-line spacing.
-    const int interLineSpacing = (preview && !compact) ? paddingSmall() : 0;
-    const int textHeight       = preview ? (2 * lineHeight + interLineSpacing) : lineHeight;
+    // Compact slot fits 2 lines shrunken to ~0.8x with zero interline — in
+    // practice ~1.7 full-size line heights of vertical room (tracks the
+    // compact avatar multiplier so bars stay in sync).
+    const bool compact = uiLayoutCompactMode();
+    const int textSlot = compact ? qCeil(1.7 * lineHeight) : (2 * lineHeight + paddingSmall());
 
-    // Vertical padding: tighter in compact mode.
-    const int vertPad = compact ? (paddingSmall() / 2) : paddingMedium();
-
-    return qMax(listIconSize(), textHeight) + 2 * vertPad;
-}
-
-// Icon size for action bars (top bar, room list actions bar).
-// Always matches listIconSize so bars align with list entries across all modes.
-int
-Komai::barIconSize() const
-{
-    return listIconSize();
+    const int vertPad = compact ? paddingSmall() : paddingMedium();
+    return qMax(iconSize(), textSlot) + 2 * vertPad;
 }
 
 void

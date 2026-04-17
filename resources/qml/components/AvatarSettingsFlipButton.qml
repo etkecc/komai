@@ -8,7 +8,7 @@ import cc.etke.komai
 MouseArea {
     id: control
 
-    property int avatarButtonSize: Komai.barIconSize
+    property int avatarButtonSize: Komai.iconSize
     readonly property int effectiveButtonSize: Math.max(1, Math.round(avatarButtonSize) - (Math.round(avatarButtonSize) % 2))
     property bool motionEnabled: Settings.uiMotionAnimationsEnabled
     property string avatarDisplayName: ""

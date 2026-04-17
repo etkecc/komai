@@ -28,8 +28,8 @@ ItemDelegate {
         Avatar {
             id: avatar
             Layout.rowSpan: 2
-            Layout.preferredWidth: Komai.listIconSize
-            Layout.preferredHeight: Komai.listIconSize
+            Layout.preferredWidth: Komai.iconSize
+            Layout.preferredHeight: Komai.iconSize
             Layout.alignment: Qt.AlignLeft
             url: avatarUrl.replace("mxc://", "image://MxcImage/")
             enabled: false

@@ -244,7 +244,7 @@
     // ShowLastMessagePreview
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show last message preview",
-      QT_TR_NOOP("Adds a preview line to room list entries, influencing overall bar and avatar sizing."),
+      QT_TR_NOOP("Adds a preview line to room list entries."),
       SM::TabNavigation,
       navigationRoomListLastMessagePreview,
       setNavigationRoomListLastMessagePreview,

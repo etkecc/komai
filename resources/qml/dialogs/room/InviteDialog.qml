@@ -96,7 +96,7 @@ OverlayDialog {
         Layout.fillWidth: true
         Layout.preferredHeight: inviteDialogRoot.selectedCount > 0
             ? Math.min(220,
-                       Math.max(Komai.listIconSize + Komai.paddingMedium * 2,
+                       Math.max(Komai.iconSize + Komai.paddingMedium * 2,
                                 selectedInvitees.contentHeight + Komai.paddingSmall * 2))
             : 0
         visible: inviteDialogRoot.selectedCount > 0
@@ -120,10 +120,10 @@ OverlayDialog {
                 spacing: Komai.paddingMedium
 
                 AvatarUserFlipButton {
-                    Layout.preferredWidth: Komai.listIconSize
-                    Layout.preferredHeight: Komai.listIconSize
+                    Layout.preferredWidth: Komai.iconSize
+                    Layout.preferredHeight: Komai.iconSize
                     Layout.alignment: Qt.AlignVCenter
-                    avatarButtonSize: Komai.listIconSize
+                    avatarButtonSize: Komai.iconSize
                     cleanFront: true
                     avatarDisplayName: model.displayName
                     avatarUrl: (model.avatarUrl || "").replace("mxc://", "image://MxcImage/")
@@ -297,8 +297,8 @@ OverlayDialog {
             spacing: Komai.paddingMedium
 
             Avatar {
-                Layout.preferredWidth: Komai.listIconSize
-                Layout.preferredHeight: Komai.listIconSize
+                Layout.preferredWidth: Komai.iconSize
+                Layout.preferredHeight: Komai.iconSize
                 Layout.alignment: Qt.AlignVCenter
                 Layout.leftMargin: Komai.paddingMedium
                 userid: inviteeEntry.resolvedMxid
@@ -386,8 +386,8 @@ OverlayDialog {
                 spacing: Komai.paddingMedium
 
                 Avatar {
-                    Layout.preferredWidth: Komai.listIconSize
-                    Layout.preferredHeight: Komai.listIconSize
+                    Layout.preferredWidth: Komai.iconSize
+                    Layout.preferredHeight: Komai.iconSize
                     Layout.alignment: Qt.AlignVCenter
                     Layout.leftMargin: Komai.paddingMedium
                     userid: resultDelegate.userIdText

@@ -14,7 +14,7 @@ RoomListActionButton {
     readonly property bool shouldShow: !collapsed && !roomList.atYBeginning
     readonly property real labeledWidth: buttonSize + Komai.paddingSmall + labelMetrics.advanceWidth
 
-    buttonSize: Komai.barIconSize
+    buttonSize: Komai.iconSize
     iconSource: ":/icons/icons/ui/upload.svg"
     toolTipText: qsTr("Scroll to top")
     labelText: qsTr("Scroll to top")

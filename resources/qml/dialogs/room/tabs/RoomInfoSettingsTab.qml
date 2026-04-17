@@ -143,8 +143,8 @@ Item {
                             url: roomSettings ? roomSettings.roomAvatarUrl.replace("mxc://", "image://MxcImage/") : ""
                             roomid: roomSettings ? roomSettings.roomId : ""
                             displayName: roomSettings ? roomSettings.roomName : ""
-                            Layout.preferredHeight: Komai.listIconSize
-                            Layout.preferredWidth: Komai.listIconSize
+                            Layout.preferredHeight: Komai.iconSize
+                            Layout.preferredWidth: Komai.iconSize
                             onClicked: {
                                 if (roomSettings && roomSettings.roomAvatarUrl !== "")
                                     TimelineManager.openMediaOverlay(null, roomSettings.roomAvatarUrl, "", 0, 0);

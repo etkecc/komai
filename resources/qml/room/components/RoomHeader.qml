@@ -27,7 +27,7 @@ Pane {
     property bool showBackButton: false
     property bool filteringInProgress: false
     property int trustlevel: room ? room.trustlevel : Crypto.Unverified
-    property int topBarAvatarSize: Komai.listIconSize
+    property int topBarAvatarSize: Komai.iconSize
     property int buttonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     property int buttonPaddingV: 0
     property bool isPublic: room ? room.isPublic : true

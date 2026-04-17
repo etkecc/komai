@@ -392,8 +392,8 @@ OverlayDialog {
                 spacing: Komai.paddingMedium
 
                 Avatar {
-                    Layout.preferredWidth: Komai.listIconSize
-                    Layout.preferredHeight: Komai.listIconSize
+                    Layout.preferredWidth: Komai.iconSize
+                    Layout.preferredHeight: Komai.iconSize
                     Layout.alignment: Qt.AlignVCenter
                     displayName: suggestionDelegate.modelData
                     roomid: "!" + suggestionDelegate.modelData + ":server"
@@ -785,8 +785,8 @@ OverlayDialog {
                     spacing: Komai.paddingMedium
 
                     Avatar {
-                        Layout.preferredWidth: Math.round(Komai.listIconSize * 1.3)
-                        Layout.preferredHeight: Math.round(Komai.listIconSize * 1.3)
+                        Layout.preferredWidth: Math.round(Komai.iconSize * 1.3)
+                        Layout.preferredHeight: Math.round(Komai.iconSize * 1.3)
                         Layout.alignment: Qt.AlignVCenter
                         url: roomDelegate.avatarUrl.replace("mxc://", "image://MxcImage/")
                         roomid: roomDelegate.roomid

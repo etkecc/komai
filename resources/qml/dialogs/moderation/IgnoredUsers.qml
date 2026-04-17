@@ -173,7 +173,7 @@ Components.OverlayDialog {
                             Layout.preferredHeight: avatarSide
                             Layout.alignment: Qt.AlignVCenter
 
-                            property int avatarSide: Komai.listIconSize
+                            property int avatarSide: Komai.iconSize
 
                             avatarButtonSize: avatarSide
                             cleanFront: true

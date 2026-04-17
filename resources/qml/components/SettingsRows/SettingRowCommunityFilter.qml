@@ -58,13 +58,13 @@ Item {
             // Large icon
             Image {
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredWidth: Komai.listIconSize
-                Layout.preferredHeight: Komai.listIconSize
+                Layout.preferredWidth: Komai.iconSize
+                Layout.preferredHeight: Komai.iconSize
                 source: root.model.icon
                     ? "image://colorimage/" + root.model.icon + "?" + (cardHover.hovered ? palette.brightText : palette.buttonText)
                     : ""
-                sourceSize.width: Komai.listIconSize
-                sourceSize.height: Komai.listIconSize
+                sourceSize.width: Komai.iconSize
+                sourceSize.height: Komai.iconSize
                 fillMode: Image.PreserveAspectFit
                 smooth: true
                 visible: (root.model.icon ?? "").length > 0

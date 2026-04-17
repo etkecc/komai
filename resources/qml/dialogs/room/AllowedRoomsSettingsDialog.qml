@@ -86,8 +86,8 @@ OverlayDialog {
             completerType: "room"
             bottomToTop: true
             fullWidth: true
-            avatarHeight: Komai.listIconSize / 2
-            avatarWidth: Komai.listIconSize / 2
+            avatarHeight: Komai.iconSize / 2
+            avatarWidth: Komai.iconSize / 2
             rowMargin: 2
             rowSpacing: 2
         }

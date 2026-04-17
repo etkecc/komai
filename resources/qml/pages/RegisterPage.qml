@@ -14,7 +14,7 @@ import "../ui/"
 Rectangle {
     id: registrationPage
     property int maxExpansion: 900
-    property int headerIconSize: Komai.barIconSize
+    property int headerIconSize: Komai.iconSize
     required property var registrationController
 
     readonly property var reg: registrationController
@@ -583,12 +583,12 @@ Rectangle {
 
             // ── Probing spinner ──
             Item {
-                Layout.preferredHeight: Komai.listIconSize
+                Layout.preferredHeight: Komai.iconSize
                 Layout.fillWidth: true
                 visible: reg.probing
 
                 Spinner {
-                    height: Komai.listIconSize
+                    height: Komai.iconSize
                     anchors.centerIn: parent
                     visible: running
                     running: parent.visible
@@ -1119,12 +1119,12 @@ Rectangle {
                     }
 
                     Item {
-                        Layout.preferredHeight: Komai.listIconSize
+                        Layout.preferredHeight: Komai.iconSize
                         Layout.fillWidth: true
                         visible: reg.requestingEmail
 
                         Spinner {
-                            height: Komai.listIconSize
+                            height: Komai.iconSize
                             anchors.centerIn: parent
                             visible: running
                             running: parent.visible
@@ -1347,12 +1347,12 @@ Rectangle {
 
             // ── Stage spinner ──
             Item {
-                Layout.preferredHeight: Komai.listIconSize
+                Layout.preferredHeight: Komai.iconSize
                 Layout.fillWidth: true
                 visible: reg.registering
 
                 Spinner {
-                    height: Komai.listIconSize
+                    height: Komai.iconSize
                     anchors.centerIn: parent
                     visible: running
                     running: parent.visible

@@ -16,6 +16,7 @@ Rectangle {
     required property color bubbleTextColor
     readonly property real baseFontPixelSize: Komai.fontPixelSize
     property bool mayBeVisible: true
+    property real fontScale: 0.8
     property alias font: notificationBubbleText.font
     baselineOffset: notificationBubbleText.baseline - bubbleRoot.top
 
@@ -44,7 +45,7 @@ Rectangle {
         verticalAlignment: Text.AlignVCenter
         width: Math.max(implicitWidth + Komai.paddingSmall, bubbleRoot.height)
         font.bold: true
-        font.pixelSize: bubbleRoot.baseFontPixelSize * 0.8
+        font.pixelSize: bubbleRoot.baseFontPixelSize * bubbleRoot.fontScale
         color: bubbleRoot.hasLoudNotification ? "white" : bubbleRoot.bubbleTextColor
         text: bubbleRoot.unreadCount > 9999 ? "9999+" : bubbleRoot.unreadCount
 

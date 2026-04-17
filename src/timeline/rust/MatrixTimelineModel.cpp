@@ -201,7 +201,7 @@ formatBodyHtml(const QString &body,
     const auto settings        = UserSettings::instance();
     const bool syntaxHighlight = settings && settings->timelineFormattedCodeSyntaxHighlighting();
     const bool isDark          = QGuiApplication::palette().color(QPalette::Base).lightness() < 128;
-    const int pillAvatarSize   = Komai::listIconLogicalSize();
+    const int pillAvatarSize   = Komai::iconLogicalSize();
 
     auto html = QString::fromStdString(std::string(
       komai::rust::format_body_html(::rust::Str(bodyStd.data(), bodyStd.size()),

@@ -67,8 +67,8 @@ OverlayDialog {
                     Avatar {
                         id: avatar
 
-                        Layout.preferredWidth: Komai.listIconSize
-                        Layout.preferredHeight: Komai.listIconSize
+                        Layout.preferredWidth: Komai.iconSize
+                        Layout.preferredHeight: Komai.iconSize
                         Layout.alignment: Qt.AlignVCenter
                         userid: model.mxid
                         url: model.avatarUrl.replace("mxc://", "image://MxcImage/")

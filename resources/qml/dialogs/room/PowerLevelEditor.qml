@@ -268,8 +268,8 @@ OverlayDialog {
                                     completerType: "user"
                                     bottomToTop: false
                                     fullWidth: true
-                                    avatarHeight: Komai.listIconSize / 2
-                                    avatarWidth: Komai.listIconSize / 2
+                                    avatarHeight: Komai.iconSize / 2
+                                    avatarWidth: Komai.iconSize / 2
                                     rowMargin: 2
                                     rowSpacing: 2
                                 }
@@ -299,8 +299,8 @@ OverlayDialog {
                                 Avatar {
                                     id: avatar
 
-                                    Layout.preferredHeight: Komai.listIconSize / 2
-                                    Layout.preferredWidth: Komai.listIconSize / 2
+                                    Layout.preferredHeight: Komai.iconSize / 2
+                                    Layout.preferredWidth: Komai.iconSize / 2
                                     Layout.leftMargin: 2
                                     userid: model ? model.mxid : ""
                                     url: {

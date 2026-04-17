@@ -165,8 +165,8 @@ Components.OverlayDialog {
                         spacing: Komai.paddingMedium
 
                         Components.Avatar {
-                            Layout.preferredHeight: Komai.listIconSize
-                            Layout.preferredWidth: Komai.listIconSize
+                            Layout.preferredHeight: Komai.iconSize
+                            Layout.preferredWidth: Komai.iconSize
                             Layout.leftMargin: Komai.paddingMedium
                             Layout.topMargin: Komai.paddingMedium
                             Layout.bottomMargin: Komai.paddingMedium
@@ -311,8 +311,8 @@ Components.OverlayDialog {
                             url: profile.avatarUrl.replace("mxc://", "image://MxcImage/")
                             displayName: profile.displayName
                             userid: profile.userid
-                            Layout.preferredHeight: Komai.listIconSize
-                            Layout.preferredWidth: Komai.listIconSize
+                            Layout.preferredHeight: Komai.iconSize
+                            Layout.preferredWidth: Komai.iconSize
                             Layout.rightMargin: Komai.paddingMedium
                             Layout.topMargin: Komai.paddingMedium
                             Layout.bottomMargin: Komai.paddingMedium
@@ -1140,7 +1140,7 @@ Components.OverlayDialog {
                     required property string avatarUrl
 
                     Layout.fillWidth: true
-                    implicitHeight: Komai.listIconSize + Komai.paddingSmall * 2
+                    implicitHeight: Komai.iconSize + Komai.paddingSmall * 2
                     leftPadding: Komai.paddingMedium
                     rightPadding: Komai.paddingMedium
                     hoverEnabled: true
@@ -1161,8 +1161,8 @@ Components.OverlayDialog {
                         Components.Avatar {
                             id: roomAvatar
 
-                            Layout.preferredHeight: Komai.listIconSize
-                            Layout.preferredWidth: Komai.listIconSize
+                            Layout.preferredHeight: Komai.iconSize
+                            Layout.preferredWidth: Komai.iconSize
                             Layout.alignment: Qt.AlignVCenter
                             url: roomDelegate.avatarUrl.replace("mxc://", "image://MxcImage/")
                             roomid: roomDelegate.roomId

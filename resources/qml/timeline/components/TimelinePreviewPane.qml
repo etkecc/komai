@@ -35,10 +35,10 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         displayName: parent.roomName
         enabled: false
-        implicitHeight: Komai.listIconSize
+        implicitHeight: Komai.iconSize
         roomid: parent.roomId
         url: parent.avatarUrl.replace("mxc://", "image://MxcImage/")
-        implicitWidth: Komai.listIconSize
+        implicitWidth: Komai.iconSize
     }
 
     MatrixText {

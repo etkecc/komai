@@ -63,6 +63,7 @@ lookFeelDensityValues()
 {
     QStringList values;
     values << QCoreApplication::translate("UserSettingsModel", "Spacious")
-           << QCoreApplication::translate("UserSettingsModel", "Compact");
+           << QCoreApplication::translate("UserSettingsModel", "Compact")
+           << QCoreApplication::translate("UserSettingsModel", "Dense");
     return values;
 }

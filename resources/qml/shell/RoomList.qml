@@ -15,7 +15,7 @@ Page {
     required property var adaptiveView
     required property var timelineRoot
     required property var tabController
-    property bool compactMode: (Komai.density !== Settings.Density.Spacious)
+    property int density: Komai.density
     property int avatarSize: Komai.iconSize
     property bool collapsed: false
     property var communitiesTarget: null
@@ -368,7 +368,7 @@ Page {
                 }
             }
             delegate: RoomListItemDelegate {
-                compactMode: roomListPage.compactMode
+                density: roomListPage.density
                 avatarSize: roomListPage.avatarSize
                 collapsed: roomListPage.collapsed
                 roomContextMenu: roomListContextMenu

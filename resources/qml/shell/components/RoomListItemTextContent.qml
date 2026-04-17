@@ -10,7 +10,7 @@ import cc.etke.komai
 ColumnLayout {
     id: root
 
-    required property bool compactMode
+    required property int density
     required property bool collapsed
     required property bool isSpace
     required property bool isInvite
@@ -31,16 +31,21 @@ ColumnLayout {
     required property color bubbleText
     required property color draftIndicatorColor
 
-    Layout.alignment: compactMode ? Qt.AlignVCenter : Qt.AlignLeft
+    readonly property bool isSpacious: density === Settings.Density.Spacious
+    readonly property bool isCompact: density === Settings.Density.Compact
+    readonly property bool isDense: density === Settings.Density.Dense
+
+    Layout.alignment: isSpacious ? Qt.AlignLeft : Qt.AlignVCenter
     Layout.fillWidth: true
     Layout.minimumWidth: 100
-    Layout.preferredHeight: compactMode ? -1 : avatarHeight
-    spacing: compactMode ? 0 : Komai.paddingSmall
+    Layout.preferredHeight: isSpacious ? avatarHeight : -1
+    spacing: isSpacious ? Komai.paddingSmall : 0
     visible: !collapsed
 
     // In compact+preview mode both text lines shrink to ~0.8x so they fit
-    // the density-driven row without growing it.
-    readonly property bool compactPreview: titleRow.previewsEnabled && root.compactMode
+    // the density-driven row without growing it. Dense never shrinks because
+    // it renders a single line (the second "stacked" line moves inline).
+    readonly property bool compactPreview: titleRow.previewsEnabled && root.isCompact
     readonly property real compactPreviewFontPt: Settings.uiFontSizePt * 0.8
 
     Item {
@@ -58,7 +63,7 @@ ColumnLayout {
             id: titleText
 
             anchors.left: parent.left
-            anchors.verticalCenter: root.compactMode ? parent.verticalCenter : undefined
+            anchors.verticalCenter: root.isSpacious ? undefined : parent.verticalCenter
             color: root.importantText
             elideWidth: parent.width - (inviteIcon.visible ? inviteIcon.width + Komai.paddingSmall : 0) - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0) - ((inlinePreview.visible || inlineDraftPreview.visible) ? Komai.paddingSmall : 0)
             font.bold: root.hasUnreadMessages
@@ -92,7 +97,7 @@ ColumnLayout {
             elideWidth: Math.max(0, parent.width - titleText.implicitWidth - Komai.paddingSmall - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0)))
             font.pointSize: Settings.uiFontSizePt * 0.95
             fullText: root.lastMessage
-            visible: false
+            visible: root.isDense && titleRow.previewsEnabled && !root.hasDraft
         }
         Item {
             id: inlineDraftPreview
@@ -104,7 +109,7 @@ ColumnLayout {
             anchors.verticalCenter: titleText.verticalCenter
             clip: true
             height: inlineDraftText.implicitHeight
-            visible: false
+            visible: root.isDense && root.hasDraft && titleRow.previewsEnabled
 
             Label {
                 id: inlineDraftPrefix
@@ -169,7 +174,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignBottom
         Layout.fillWidth: true
         Layout.preferredHeight: root.hasDraft ? subtextDraftText.implicitHeight : subtitleText.implicitHeight
-        visible: titleRow.previewsEnabled || root.isInvite
+        visible: !root.isDense && (titleRow.previewsEnabled || root.isInvite)
 
         ElidedLabel {
             id: subtitleText

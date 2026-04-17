@@ -462,6 +462,7 @@ public:
     {
         Spacious, // Default spacing and icon sizes
         Compact,  // Tighter spacing and smaller icons/avatars
+        Dense,    // One-line rows with inline last-message preview
     };
     Q_ENUM(Density)
 

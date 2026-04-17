@@ -254,10 +254,26 @@ Komai::navigationRoomListShowLastMessageTime() const
     return UserSettings::instance()->navigationRoomListShowLastMessageTime();
 }
 
+namespace {
+double
+avatarMultiplierForDensity(UserSettings::Density density)
+{
+    switch (density) {
+    case UserSettings::Density::Dense:
+        return 1.0;
+    case UserSettings::Density::Compact:
+        return 1.7;
+    case UserSettings::Density::Spacious:
+        break;
+    }
+    return 2.0;
+}
+}
+
 double
 Komai::sidebarAvatarMultiplier() const
 {
-    return uiLayoutDensity() == UserSettings::Density::Compact ? 1.7 : 2.0;
+    return avatarMultiplierForDensity(uiLayoutDensity());
 }
 
 // Resolved pixel size of the application font.
@@ -292,8 +308,7 @@ Komai::iconLogicalSize()
     if (!settings)
         return 4;
 
-    const double avatarMultiplier =
-      settings->uiLayoutDensity() == UserSettings::Density::Compact ? 1.7 : 2.0;
+    const double avatarMultiplier = avatarMultiplierForDensity(settings->uiLayoutDensity());
     const QFontMetricsF fm(QGuiApplication::font());
     const int rawSize = qMax(1, qCeil(fm.lineSpacing() * avatarMultiplier));
     // Round up to the nearest multiple of 4 so the value multiplies cleanly
@@ -322,21 +337,32 @@ Komai::avatarThumbnailPhysicalSize()
 
 // Shared baseline used to keep room-list and communities rows aligned with
 // adjacent bars (for example the top bar, room actions bar, and status banners).
-// Density-only: preview layout is content-only — the second text line
-// renders inside this slot at a smaller font rather than growing it.
+// Dense renders as a single line with inline preview; compact keeps two
+// shrunk lines in a 1.7-lineHeight slot; spacious keeps two full-size lines.
 int
 Komai::navigationRowHeight() const
 {
     QFontMetricsF fm(QGuiApplication::font());
     const int lineHeight = qMax(1, qCeil(fm.lineSpacing()));
 
-    // Compact slot fits 2 lines shrunken to ~0.8x with zero interline — in
-    // practice ~1.7 full-size line heights of vertical room (tracks the
-    // compact avatar multiplier so bars stay in sync).
-    const bool compact = uiLayoutDensity() == UserSettings::Density::Compact;
-    const int textSlot = compact ? qCeil(1.7 * lineHeight) : (2 * lineHeight + paddingSmall());
+    int textSlot;
+    int vertPad;
+    switch (uiLayoutDensity()) {
+    case UserSettings::Density::Dense:
+        textSlot = lineHeight;
+        vertPad  = paddingSmall();
+        break;
+    case UserSettings::Density::Compact:
+        textSlot = qCeil(1.7 * lineHeight);
+        vertPad  = paddingSmall();
+        break;
+    case UserSettings::Density::Spacious:
+    default:
+        textSlot = 2 * lineHeight + paddingSmall();
+        vertPad  = paddingMedium();
+        break;
+    }
 
-    const int vertPad = compact ? paddingSmall() : paddingMedium();
     return qMax(iconSize(), textSlot) + 2 * vertPad;
 }
 

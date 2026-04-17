@@ -12,7 +12,7 @@ import cc.etke.komai
 ItemDelegate {
     id: roomItem
 
-    required property bool compactMode
+    required property int density
     required property int avatarSize
     required property bool collapsed
     readonly property real baseFontPixelSize: Komai.fontPixelSize
@@ -180,8 +180,8 @@ ItemDelegate {
         anchors.fill: parent
         anchors.leftMargin: Komai.paddingMedium + Komai.paddingSmall
         anchors.rightMargin: Komai.paddingMedium + Komai.paddingSmall
-        anchors.topMargin: compactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
-        anchors.bottomMargin: compactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
+        anchors.topMargin: density === Settings.Density.Spacious ? Komai.paddingMedium : Komai.paddingSmall / 2
+        anchors.bottomMargin: density === Settings.Density.Spacious ? Komai.paddingMedium : Komai.paddingSmall / 2
         spacing: Komai.paddingMedium
 
         ShellComponents.RoomListItemAvatar {
@@ -203,7 +203,7 @@ ItemDelegate {
             isSelected: roomItem.isSelected
         }
         ShellComponents.RoomListItemTextContent {
-            compactMode: roomItem.compactMode
+            density: roomItem.density
             collapsed: roomItem.collapsed
             isSpace: roomItem.isSpace
             isInvite: roomItem.isInvite

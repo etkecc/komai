@@ -259,7 +259,7 @@ Page {
             readonly property string mxid: profile ? profile.userid : ""
             readonly property string displayName: profile ? profile.displayName : ""
             readonly property bool showSecondRow: displayName.length > 0
-                && Settings.navigationRoomListLastMessagePreview !== Settings.LastMessagePreview.Never
+                && Komai.density !== Settings.Density.Dense
             readonly property bool isHovered: hoverHandler.hovered
             readonly property color textColor: isHovered ? palette.brightText : palette.text
             readonly property color secondaryTextColor: isHovered ? palette.brightText : palette.buttonText

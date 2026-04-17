@@ -99,7 +99,7 @@
     // Density
     SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Density",
-      QT_TR_NOOP("Affects spacing and icon sizes."),
+      QT_TR_NOOP("Affects spacing, icon sizes, and list row heights."),
       SM::TabLookFeel,
       uiLayoutDensity,
       setUiLayoutDensity,
@@ -245,7 +245,7 @@
     // ShowLastMessagePreview
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show last message preview",
-      QT_TR_NOOP("Adds a preview line to room list entries."),
+      QT_TR_NOOP("Adds a last-message preview to room list entries. Shown on its own line in Spacious and Compact layouts, and inline next to the room name in Dense."),
       SM::TabNavigation,
       navigationRoomListLastMessagePreview,
       setNavigationRoomListLastMessagePreview,

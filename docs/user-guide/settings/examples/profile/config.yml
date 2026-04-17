@@ -21,7 +21,7 @@ ui:
   layout:
     content:
       max_width_px: 0
-    # Supported values: spacious | compact
+    # Supported values: spacious | compact | dense
     density: spacious
   # Supported values: when_needed | never | always
   scrollbar_policy: when_needed

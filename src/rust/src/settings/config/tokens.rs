@@ -72,6 +72,7 @@ storage_token_enum!(ConfigUiDefaultAvatarStyleToken, BoringAvatarsBauhaus {
 storage_token_enum!(ConfigUiLayoutDensityToken, Spacious {
     Spacious => "spacious",
     Compact => "compact",
+    Dense => "dense",
 });
 
 storage_token_enum!(ConfigNavigationRoomListLastMessagePreviewToken, Always {

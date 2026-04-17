@@ -44,11 +44,13 @@ ColumnLayout {
                 text: qsTr("Power levels & permissions")
                 color: plRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
-                Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
                 Layout.bottomMargin: Komai.paddingMedium
                 Layout.leftMargin: Komai.paddingMedium
             }
+
+            Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+            Item { Layout.fillWidth: true }
 
             Components.KomaiButton {
                 text: qsTr("Configure")
@@ -81,8 +83,10 @@ ColumnLayout {
                     text: qsTr("Aliases")
                     color: aliasRowHover.hovered ? palette.brightText : palette.text
                     font.pointSize: 1.1 * Settings.uiFontSizePt
-                    Layout.fillWidth: true
                 }
+
+                Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+                Item { Layout.fillWidth: true }
 
                 Components.KomaiButton {
                     text: qsTr("Configure")
@@ -121,11 +125,13 @@ ColumnLayout {
                 text: qsTr("Room access")
                 color: publicRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
-                Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
                 Layout.bottomMargin: Komai.paddingMedium
                 Layout.leftMargin: Komai.paddingMedium
             }
+
+            Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+            Item { Layout.fillWidth: true }
 
             Components.KomaiComboBox {
                 id: accessCombo
@@ -169,8 +175,10 @@ ColumnLayout {
                     text: qsTr("Allow knocking")
                     color: knockRowHover.hovered ? palette.brightText : palette.text
                     font.pointSize: 1.1 * Settings.uiFontSizePt
-                    Layout.fillWidth: true
                 }
+
+                Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+                Item { Layout.fillWidth: true }
 
                 ToggleButton {
                     id: knockingButton
@@ -222,8 +230,10 @@ ColumnLayout {
                     text: qsTr("Allow joining from Spaces")
                     color: restrictedRowHover.hovered ? palette.brightText : palette.text
                     font.pointSize: 1.1 * Settings.uiFontSizePt
-                    Layout.fillWidth: true
                 }
+
+                Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+                Item { Layout.fillWidth: true }
 
                 ToggleButton {
                     id: restrictedButton
@@ -268,11 +278,13 @@ ColumnLayout {
                 text: qsTr("Rooms to join via")
                 color: joinViaRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
-                Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
                 Layout.bottomMargin: Komai.paddingMedium
                 Layout.leftMargin: Komai.paddingMedium
             }
+
+            Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+            Item { Layout.fillWidth: true }
 
             Components.KomaiButton {
                 id: allowedRoomsButton
@@ -307,8 +319,10 @@ ColumnLayout {
                     text: qsTr("Allow guests to join")
                     color: guestRowHover.hovered ? palette.brightText : palette.text
                     font.pointSize: 1.1 * Settings.uiFontSizePt
-                    Layout.fillWidth: true
                 }
+
+                Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+                Item { Layout.fillWidth: true }
 
                 ToggleButton {
                     id: guestAccessButton
@@ -376,8 +390,10 @@ ColumnLayout {
                     text: qsTr("Allow viewing history without joining")
                     color: publicHistoryRowHover.hovered ? palette.brightText : palette.text
                     font.pointSize: 1.1 * Settings.uiFontSizePt
-                    Layout.fillWidth: true
                 }
+
+                Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+                Item { Layout.fillWidth: true }
 
                 ToggleButton {
                     id: publicHistoryButton
@@ -424,8 +440,10 @@ ColumnLayout {
                     text: qsTr("Members can see messages since")
                     color: historyComboRowHover.hovered ? palette.brightText : palette.text
                     font.pointSize: 1.1 * Settings.uiFontSizePt
-                    Layout.fillWidth: true
                 }
+
+                Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+                Item { Layout.fillWidth: true }
 
                 Components.KomaiComboBox {
                     id: historyCombo

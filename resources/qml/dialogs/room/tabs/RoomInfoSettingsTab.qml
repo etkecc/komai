@@ -118,8 +118,10 @@ Item {
                             text: qsTr("Avatar")
                             color: avatarRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
-                            Layout.fillWidth: true
                         }
+
+                        Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+                        Item { Layout.fillWidth: true }
 
                         Components.KomaiButton {
                             text: qsTr("Change")
@@ -220,8 +222,10 @@ Item {
                             text: qsTr("Name")
                             color: nameRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
-                            Layout.fillWidth: true
                         }
+
+                        Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+                        Item { Layout.fillWidth: true }
 
                         Components.KomaiTextField {
                             id: roomNameField
@@ -283,9 +287,11 @@ Item {
                             text: qsTr("Topic")
                             color: topicRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
-                            Layout.fillWidth: true
                             Layout.alignment: Qt.AlignTop
                         }
+
+                        Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+                        Item { Layout.fillWidth: true }
 
                         Components.KomaiTextArea {
                             id: roomTopicField
@@ -347,8 +353,10 @@ Item {
                             text: qsTr("Encryption")
                             color: encryptionRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
-                            Layout.fillWidth: true
                         }
+
+                        Components.SyncedToMatrixBadge { Layout.alignment: Qt.AlignVCenter }
+                        Item { Layout.fillWidth: true }
 
                         ToggleButton {
                             id: encryptionToggle

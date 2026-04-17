@@ -6,6 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Window
 import cc.etke.komai
 
 ItemDelegate {
@@ -33,9 +34,10 @@ ItemDelegate {
         anchorY: communityItem.height
         gapX: Komai.paddingMedium
         gapY: Komai.paddingMedium
+        maxWidth: Window.window ? Window.window.width / 2 : 480
         text: communityItem.model.tooltip
         delay: Komai.tooltipDelay
-        requestedVisible: communityItem.hovered && communityItem.collapsed
+        requestedVisible: communityItem.hovered
     }
 
     height: Komai.navigationRowHeight

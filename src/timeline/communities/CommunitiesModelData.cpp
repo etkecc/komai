@@ -111,7 +111,8 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
             case CommunitiesModel::Roles::DisplayName:
                 return tr("Favourites");
             case CommunitiesModel::Roles::Tooltip:
-                return tr("Rooms you have favourited.");
+                return tr("Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your "
+                          "choices sync across clients.");
             }
         } else if (tag == QLatin1String("m.lowpriority")) {
             switch (role) {
@@ -120,7 +121,8 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
             case CommunitiesModel::Roles::DisplayName:
                 return tr("Low Priority");
             case CommunitiesModel::Roles::Tooltip:
-                return tr("Rooms with low priority.");
+                return tr("Rooms tagged as low priority. They stay visually quiet in the room "
+                          "list unless you receive a loud ping or open this filter.");
             }
         } else if (tag == QLatin1String("m.server_notice")) {
             switch (role) {
@@ -129,7 +131,8 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
             case CommunitiesModel::Roles::DisplayName:
                 return tr("Server Notices");
             case CommunitiesModel::Roles::Tooltip:
-                return tr("Messages from your server or administrator.");
+                return tr("Messages from your homeserver administrator. Uses the Matrix "
+                          "m.server_notice tag.");
             }
         } else {
             switch (role) {
@@ -191,13 +194,16 @@ CommunitiesModel::fixedFilterTooltip(int row) const
 {
     switch (row) {
     case kRowAllRooms:
-        return tr("Shows all rooms without filtering.");
+        return tr("All your joined rooms. Rooms from filters you've excluded from 'All rooms' "
+                  "are omitted.");
     case kRowPeople:
-        return tr("Show direct chats with people, excluding bots.");
+        return tr("Direct chats with real people. Detected from Matrix m.direct account data "
+                  "and a 2-3 member heuristic, excluding users identified as bots.");
     case kRowBots:
-        return tr("Show direct chats with bots.");
+        return tr("Direct chats with bots or bridge accounts. Identified from username and "
+                  "display-name patterns.");
     case kRowGroups:
-        return tr("Show group rooms (non-direct chats).");
+        return tr("Multi-participant rooms that aren't direct chats.");
     default:
         return {};
     }

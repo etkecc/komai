@@ -26,7 +26,7 @@ ColumnLayout {
 
     readonly property var spacesList: Communities.spaceEntries()
 
-    spacing: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+    spacing: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
 
     // "No spaces" message
     Label {

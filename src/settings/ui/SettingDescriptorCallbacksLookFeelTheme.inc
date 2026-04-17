@@ -57,3 +57,12 @@ lookFeelDefaultAvatarStyleValues()
            << QCoreApplication::translate("UserSettingsModel", "User icon");
     return values;
 }
+
+static QVariant
+lookFeelDensityValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Spacious")
+           << QCoreApplication::translate("UserSettingsModel", "Compact");
+    return values;
+}

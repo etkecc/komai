@@ -38,7 +38,7 @@ Note:
 | Timeline | PRESENTATION | Maximum message width | `settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent` | *(new)* | `timeline.messages.layout.max_width_percent` | config.yml | yes |
 | Look & Feel | AVATARS | Use circular avatars | `settings::core::SettingId::UiAvatarsCircular` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
 | Look & Feel | AVATARS | Default avatar style | `settings::core::SettingId::UiAvatarsDefaultAvatarStyle` | _(removed)_ | `ui.avatars.default_avatar_style` | config.yml | yes |
-| Look & Feel | LAYOUT | Compact mode | `settings::core::SettingId::UiLayoutCompactMode` | `compact_room_list` | `ui.layout.compact_mode` | config.yml | yes |
+| Look & Feel | LAYOUT | Density | `settings::core::SettingId::UiLayoutDensity` | `compact_room_list` | `ui.layout.density` | config.yml | yes |
 | Navigation | ROOM LIST | Show last message timestamp | `settings::core::SettingId::NavigationRoomListShowLastMessageTime` | `show_room_list_time` | `navigation.room_list.show_last_message_timestamp` | config.yml | yes |
 | Navigation | ROOM LIST | Show last message preview | `settings::core::SettingId::NavigationRoomListLastMessagePreview` | `show_last_message_preview` | `navigation.room_list.last_message_preview` | config.yml | yes |
 | Navigation | ROOM LIST | Show unread counts | `settings::core::SettingId::NavigationRoomListShowUnreadCounts` | `-` | `navigation.room_list.show_unread_counts` | config.yml | yes |

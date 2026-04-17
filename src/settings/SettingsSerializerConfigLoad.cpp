@@ -56,7 +56,9 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setUiScaleFactor(snapshot.ui.scale_factor);
     settings.setUiInputTouchSwipeGesturesEnabled(snapshot.ui.input_touch_swipe_gestures_enabled);
     settings.setUiAvatarsCircular(snapshot.ui.avatars_circular);
-    settings.setUiLayoutCompactMode(snapshot.ui.layout_compact_mode);
+    settings.setUiLayoutDensity(cfg::densityFromStorage(
+      QString::fromStdString(static_cast<std::string>(snapshot.ui.layout_density)).trimmed(),
+      UserSettings::Density::Spacious));
 
     settings.setNavigationRoomListShowLastMessageTime(
       snapshot.navigation.room_list.show_last_message_time);

@@ -45,12 +45,13 @@ UserSettings::uiInputTouchSwipeGesturesEnabled() const
     return uiInputTouchSwipeGesturesEnabled_;
 }
 
-bool
-UserSettings::uiLayoutCompactMode() const
+UserSettings::Density
+UserSettings::uiLayoutDensity() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::UiLayoutCompactMode);
-        value.has_value())
-        return *value;
-    return uiLayoutCompactMode_;
+          coreStore_.valueAs<int>(settings::core::SettingId::UiLayoutDensity);
+        value.has_value() && *value >= static_cast<int>(UserSettings::Density::Spacious) &&
+        *value <= static_cast<int>(UserSettings::Density::Compact))
+        return static_cast<UserSettings::Density>(*value);
+    return uiLayoutDensity_;
 }

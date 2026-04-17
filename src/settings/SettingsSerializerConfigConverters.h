@@ -119,6 +119,11 @@ UserSettings::DefaultAvatarStyle
 defaultAvatarStyleFromStorage(const QString &value, UserSettings::DefaultAvatarStyle fallback);
 
 QString
+toStorageValue(UserSettings::Density value);
+UserSettings::Density
+densityFromStorage(const QString &value, UserSettings::Density fallback);
+
+QString
 toStorageValue(UserSettings::RoomListOpeningPolicy value);
 UserSettings::RoomListOpeningPolicy
 roomListOpeningPolicyFromStorage(const QString &value,

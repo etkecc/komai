@@ -122,8 +122,8 @@ ItemDelegate {
         anchors.fill: parent
         anchors.leftMargin: Komai.paddingMedium + Komai.paddingSmall + (collapsed ? 0 : (lineSpacing * model.depth))
         anchors.rightMargin: Komai.paddingMedium + Komai.paddingSmall
-        anchors.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
-        anchors.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
+        anchors.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingMedium
+        anchors.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingMedium
         spacing: Komai.paddingMedium
 
         ImageButton {

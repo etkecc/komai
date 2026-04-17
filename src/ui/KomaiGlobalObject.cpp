@@ -131,7 +131,7 @@ Komai::Komai()
             this,
             &Komai::colorsChanged);
     connect(UserSettings::instance().get(),
-            &UserSettings::uiLayoutCompactModeChanged,
+            &UserSettings::uiLayoutDensityChanged,
             this,
             &Komai::layoutMetricsChanged);
     connect(UserSettings::instance().get(),
@@ -242,10 +242,10 @@ Komai::tooltipDelay() const
     return 0;
 }
 
-bool
-Komai::uiLayoutCompactMode() const
+UserSettings::Density
+Komai::uiLayoutDensity() const
 {
-    return UserSettings::instance()->uiLayoutCompactMode();
+    return UserSettings::instance()->uiLayoutDensity();
 }
 
 bool
@@ -257,7 +257,7 @@ Komai::navigationRoomListShowLastMessageTime() const
 double
 Komai::sidebarAvatarMultiplier() const
 {
-    return uiLayoutCompactMode() ? 1.7 : 2.0;
+    return uiLayoutDensity() == UserSettings::Density::Compact ? 1.7 : 2.0;
 }
 
 // Resolved pixel size of the application font.
@@ -292,7 +292,8 @@ Komai::iconLogicalSize()
     if (!settings)
         return 4;
 
-    const double avatarMultiplier = settings->uiLayoutCompactMode() ? 1.7 : 2.0;
+    const double avatarMultiplier =
+      settings->uiLayoutDensity() == UserSettings::Density::Compact ? 1.7 : 2.0;
     const QFontMetricsF fm(QGuiApplication::font());
     const int rawSize = qMax(1, qCeil(fm.lineSpacing() * avatarMultiplier));
     // Round up to the nearest multiple of 4 so the value multiplies cleanly
@@ -332,7 +333,7 @@ Komai::navigationRowHeight() const
     // Compact slot fits 2 lines shrunken to ~0.8x with zero interline — in
     // practice ~1.7 full-size line heights of vertical room (tracks the
     // compact avatar multiplier so bars stay in sync).
-    const bool compact = uiLayoutCompactMode();
+    const bool compact = uiLayoutDensity() == UserSettings::Density::Compact;
     const int textSlot = compact ? qCeil(1.7 * lineHeight) : (2 * lineHeight + paddingSmall());
 
     const int vertPad = compact ? paddingSmall() : paddingMedium();

@@ -28,7 +28,7 @@ Pane {
     property bool filteringInProgress: false
     property int trustlevel: room ? room.trustlevel : Crypto.Unverified
     property int topBarAvatarSize: Komai.iconSize
-    property int buttonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+    property int buttonPaddingH: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
     property int buttonPaddingV: 0
     property bool isPublic: room ? room.isPublic : true
     property bool showActionLabels: false
@@ -123,8 +123,8 @@ Pane {
     }
 
     Layout.fillWidth: true
-    Layout.minimumHeight: Komai.uiLayoutCompactMode ? Komai.navigationRowHeight : 0
-    implicitHeight: Math.max(topLayout.height + (Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium) * 2, Komai.navigationRowHeight)
+    Layout.minimumHeight: (Komai.density !== Settings.Density.Spacious) ? Komai.navigationRowHeight : 0
+    implicitHeight: Math.max(topLayout.height + ((Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingMedium) * 2, Komai.navigationRowHeight)
     padding: 0
     z: 3
 
@@ -194,15 +194,15 @@ Pane {
             anchors.right: parent.right
             anchors.rightMargin: Komai.paddingMedium
             anchors.top: parent.top
-            anchors.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
-            spacing: Komai.uiLayoutCompactMode ? 0 : Komai.paddingSmall
+            anchors.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingMedium
+            spacing: (Komai.density !== Settings.Density.Spacious) ? 0 : Komai.paddingSmall
 
             GridLayout {
                 id: topGrid
 
                 Layout.fillWidth: true
                 columnSpacing: 0
-                rowSpacing: Komai.uiLayoutCompactMode ? 0 : Komai.paddingSmall
+                rowSpacing: (Komai.density !== Settings.Density.Spacious) ? 0 : Komai.paddingSmall
 
                 RoomHeaderCommunitySection {
                     room: topBar.roomModel
@@ -353,7 +353,7 @@ Pane {
             RoomHeaderTopicText {
                 Layout.fillWidth: true
                 roomTopic: topBar.roomTopic
-                compactMode: Komai.uiLayoutCompactMode
+                compactMode: (Komai.density !== Settings.Density.Spacious)
                 lineSpacing: fontMetrics.lineSpacing
             }
             RoomWidgetsSection {

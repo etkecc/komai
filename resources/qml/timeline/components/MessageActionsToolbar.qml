@@ -17,7 +17,7 @@ Item {
     required property var messageActionsControl
     required property var messageModel
     required property var roomModel
-    property int itemHorizontalPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+    property int itemHorizontalPadding: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
     property int itemVerticalPadding: 0
     property int actionButtonHeight: Komai.iconSize
     property int actionButtonIconSize: Math.max(14, actionButtonHeight - 2 * itemHorizontalPadding)

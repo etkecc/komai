@@ -72,8 +72,8 @@ Rectangle {
                     id: headerBack
                     Layout.fillWidth: true
                     Layout.preferredHeight: Komai.navigationRowHeight
-                    topPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingSmall
-                    bottomPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingSmall
+                    topPadding: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingSmall
+                    bottomPadding: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingSmall
                     leftPadding: Komai.paddingMedium
                     rightPadding: Komai.paddingMedium
 
@@ -148,8 +148,8 @@ Rectangle {
 
                         width: ListView.view.width
                         height: Komai.navigationRowHeight
-                        topPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingSmall
-                        bottomPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingSmall
+                        topPadding: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingSmall
+                        bottomPadding: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall / 2 : Komai.paddingSmall
                         leftPadding: Komai.paddingMedium
                         rightPadding: Komai.paddingMedium
 

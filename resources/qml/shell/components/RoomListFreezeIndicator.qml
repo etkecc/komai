@@ -15,7 +15,7 @@ Control {
     readonly property Item footerItem: roomList.footerItem
     readonly property bool indicatorHovered: hoverHandler.hovered
     property int buttonSize: Komai.iconSize
-    property int buttonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+    property int buttonPaddingH: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
     readonly property int iconSize: Math.max(14, buttonSize - 2 * buttonPaddingH)
     readonly property color iconColor: hoverHandler.hovered ? palette.brightText : palette.buttonText
     readonly property real footerTopInViewport: (!footerItem || !footerItem.visible || footerItem.height <= 0)

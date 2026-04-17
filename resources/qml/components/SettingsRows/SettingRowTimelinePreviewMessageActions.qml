@@ -18,7 +18,7 @@ Control {
     readonly property bool pinned: activationMode === "button" || activationMode === "keyboard"
     property bool positioned: false
     readonly property bool canEdit: !!root.model && root.model.isEditable
-    property int itemHorizontalPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+    property int itemHorizontalPadding: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
     property int itemVerticalPadding: 0
     property int actionButtonHeight: Komai.iconSize
     property int actionButtonIconSize: Math.max(14, actionButtonHeight - 2 * itemHorizontalPadding)

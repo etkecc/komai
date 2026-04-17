@@ -19,7 +19,7 @@ AbstractButton {
     property bool showLabel: false
     property real toolTipAnchorX: width / 2
     readonly property bool hasLabel: showLabel && labelText.length > 0
-    property int buttonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+    property int buttonPaddingH: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
     property int buttonPaddingV: 0
     readonly property int iconSize: Math.max(14, buttonSize - 2 * buttonPaddingH)
     readonly property bool activeState: hovered || pressed || visualFocus

@@ -1643,7 +1643,6 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMessagesLayoutMaxWidthPercent));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiAvatarsCircular));
-    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiLayoutCompactMode));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScrollbarPolicy));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::UiAvatarsDefaultAvatarStyle));

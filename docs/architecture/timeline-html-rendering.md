@@ -91,9 +91,9 @@ Only `image://mxcImage/` URLs are accepted (security). The container's `load_ima
 
 `LitehtmlItem` sets `setAntialiasing(true)` and adjusts `setTextureSize()` based on the window's `devicePixelRatio()` so the painted content matches physical pixel resolution.
 
-### Compact Mode
+### Density
 
-The `compact` property (bound to `Komai.uiLayoutCompactMode` in QML) controls paragraph/block-element margins in the generated CSS. Normal mode uses `0.65em`, compact mode uses `0.15em`.
+The `compact` property (bound to `Komai.density !== Settings.Density.Spacious` in QML) controls paragraph/block-element margins in the generated CSS. Spacious density uses `0.65em`, tighter densities use `0.15em`.
 
 ### Collapsible Long Messages
 

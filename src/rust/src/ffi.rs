@@ -146,7 +146,7 @@ mod bridge {
         motion_animations_enabled: bool,
         input_mode: String,
         input_touch_swipe_gestures_enabled: bool,
-        layout_compact_mode: bool,
+        layout_density: String,
         avatars_circular: bool,
         scrollbar_policy: String,
         default_avatar_style: String,

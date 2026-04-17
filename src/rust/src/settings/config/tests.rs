@@ -5,7 +5,7 @@
 use super::{
     encode_config_yaml, load_config_snapshot, parse_config_text,
     ConfigSecretsProviderToken, ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken,
-    ConfigUiScrollbarPolicyToken,
+    ConfigUiLayoutDensityToken, ConfigUiScrollbarPolicyToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
     ConfigNavigationRoomListOpeningPolicyToken,
     ConfigTimelineMediaImageDisplayToken,
@@ -208,7 +208,7 @@ ui:
       swipe_gestures:
         enabled: true
   layout:
-    compact_mode: false
+    density: compact
   avatars:
     circular: true
 "#,
@@ -219,7 +219,7 @@ ui:
     assert_eq!(config.ui.font.size_pt, Some(14.0));
     assert_eq!(config.ui.motion.animations_enabled, Some(true));
     assert_eq!(config.ui.input.touch_swipe_gestures_enabled, Some(true));
-assert_eq!(config.ui.layout.compact_mode, Some(false));
+    assert_eq!(config.ui.layout.density, ConfigUiLayoutDensityToken::Compact);
     assert_eq!(config.ui.avatars.circular, Some(true));
     assert_eq!(
         config.ui.avatars.default_avatar_style,
@@ -423,7 +423,7 @@ fn encodes_generic_config_values() {
             motion_animations_enabled: true,
             input_mode: "desktop".to_owned(),
             input_touch_swipe_gestures_enabled: true,
-            layout_compact_mode: false,
+            layout_density: "spacious".to_owned(),
             avatars_circular: true,
             scrollbar_policy: "when_needed".to_owned(),
             default_avatar_style: "boring_avatars_bauhaus".to_owned(),
@@ -719,8 +719,8 @@ fn encodes_generic_config_values() {
         Some(serde_yaml_ng::Value::Bool(true))
     ));
     assert!(matches!(
-        yaml::value_at_path(&root, &["ui", "layout", "compact_mode"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        yaml::value_at_path(&root, &["ui", "layout", "density"]),
+        Some(serde_yaml_ng::Value::String(value)) if value == "spacious"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "avatars", "circular"]),

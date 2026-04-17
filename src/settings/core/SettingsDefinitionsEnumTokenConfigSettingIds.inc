@@ -1,6 +1,7 @@
   // ui
   SettingId::UiScrollbarPolicy,
   SettingId::UiAvatarsDefaultAvatarStyle,
+  SettingId::UiLayoutDensity,
 
   // navigation
   SettingId::NavigationRoomListLastMessagePreview,

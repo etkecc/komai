@@ -21,12 +21,15 @@ UserSettings::setUiMotionAnimationsEnabled(bool state)
 }
 
 void
-UserSettings::setUiLayoutCompactMode(bool s)
+UserSettings::setUiLayoutDensity(Density s)
 {
-    if (uiLayoutCompactMode_ == s)
+    if (uiLayoutDensity_ == s)
         return;
-    uiLayoutCompactMode_ = s;
-    (void)coreStore_.set(settings::core::SettingId::UiLayoutCompactMode, s);
-    emit uiLayoutCompactModeChanged(s);
+    if (!setCoreValue(settings::core::SettingId::UiLayoutDensity,
+                      static_cast<int>(s),
+                      SettingKey::UiLayoutDensity))
+        return;
+    uiLayoutDensity_ = s;
+    emit uiLayoutDensityChanged(s);
     save();
 }

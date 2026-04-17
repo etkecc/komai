@@ -28,6 +28,7 @@ expect(bool condition, const char *message)
 constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::UiScrollbarPolicy,
   settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
+  settings::core::SettingId::UiLayoutDensity,
   settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent,
   settings::core::SettingId::IntegrationsDbusApiAccess,
   settings::core::SettingId::NetworkPresenceStatusPolicy,

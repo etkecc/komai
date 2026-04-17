@@ -96,17 +96,18 @@
     // LookFeelLayoutSection
     { QT_TR_NOOP("Layout"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // CompactLayout
-    { QT_TR_NOOP("Compact mode"),
+    // Density
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
+      "Density",
       QT_TR_NOOP("Affects spacing and icon sizes."),
-      SM::ToggleWithDescription, SM::TabLookFeel,
-      getCoreBoolValue<settings::core::SettingId::UiLayoutCompactMode,
-                       &UserSettings::uiLayoutCompactMode>,
-      setSettingValue<&UserSettings::setUiLayoutCompactMode, bool>,
-      {}, {}, {},
+      SM::TabLookFeel,
+      uiLayoutDensity,
+      setUiLayoutDensity,
+      UserSettings::Density,
+      lookFeelDensityValues,
       nullptr,
-      nullptr,
-      CORE_CONFIG_ID(UiLayoutCompactMode, SettingKey::UiLayoutCompactMode) },
+      UiLayoutDensity,
+      SettingKey::UiLayoutDensity),
     // LookFeelAvatarsSection
     { QT_TR_NOOP("Avatars"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

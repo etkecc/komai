@@ -180,8 +180,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool navigationCommunitiesShowUnreadCounts READ navigationCommunitiesShowUnreadCounts
                  WRITE setNavigationCommunitiesShowUnreadCounts NOTIFY
                    navigationCommunitiesShowUnreadCountsChanged)
-    Q_PROPERTY(bool uiLayoutCompactMode READ uiLayoutCompactMode WRITE setUiLayoutCompactMode NOTIFY
-                 uiLayoutCompactModeChanged)
+    Q_PROPERTY(Density uiLayoutDensity READ uiLayoutDensity WRITE setUiLayoutDensity NOTIFY
+                 uiLayoutDensityChanged)
     Q_PROPERTY(bool navigationRoomListShowLastMessageTime READ navigationRoomListShowLastMessageTime
                  WRITE setNavigationRoomListShowLastMessageTime NOTIFY
                    navigationRoomListShowLastMessageTimeChanged)
@@ -458,6 +458,13 @@ public:
     };
     Q_ENUM(LastMessagePreview)
 
+    enum class Density
+    {
+        Spacious, // Default spacing and icon sizes
+        Compact,  // Tighter spacing and smaller icons/avatars
+    };
+    Q_ENUM(Density)
+
     enum class ScrollbarPolicy
     {
         WhenNeeded, // Show scrollbars only when content overflows
@@ -569,7 +576,7 @@ public:
     void setDesktopNotificationsMessageContentPolicy(NotificationMessageContentPolicy policy);
     void setNavigationRoomListShowUnreadCounts(bool state);
     void setNavigationCommunitiesShowUnreadCounts(bool state);
-    void setUiLayoutCompactMode(bool state);
+    void setUiLayoutDensity(Density density);
     void setNavigationRoomListShowLastMessageTime(bool state);
     void setNavigationRoomListLastMessagePreview(LastMessagePreview style);
     void setNavigationRoomListOpeningPolicy(RoomListOpeningPolicy policy);
@@ -737,7 +744,7 @@ signals:
     void desktopNotificationsMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
     void navigationRoomListShowUnreadCountsChanged(bool state);
     void navigationCommunitiesShowUnreadCountsChanged(bool state);
-    void uiLayoutCompactModeChanged(bool state);
+    void uiLayoutDensityChanged(Density density);
     void navigationRoomListShowLastMessageTimeChanged(bool state);
     void navigationRoomListLastMessagePreviewChanged(LastMessagePreview style);
     void navigationRoomListOpeningPolicyChanged(RoomListOpeningPolicy policy);

@@ -14,7 +14,7 @@ AbstractButton {
 
     required property var chatRoot
     property int buttonHeight: Komai.iconSize
-    property int buttonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+    property int buttonPaddingH: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
     property int buttonPaddingV: 0
     property string image: ""
     property string labelText: ""

@@ -41,3 +41,21 @@ defaultAvatarStyleFromStorage(const QString &value, UserSettings::DefaultAvatarS
 {
     return valueFromStorageToken(value, fallback, kDefaultAvatarStyleTokens);
 }
+
+constexpr std::array<std::pair<UserSettings::Density, const char *>, 2>
+  kDensityTokens{{
+    {UserSettings::Density::Spacious, "spacious"},
+    {UserSettings::Density::Compact, "compact"},
+  }};
+
+QString
+toStorageValue(UserSettings::Density value)
+{
+    return valueToStorageToken(value, kDensityTokens, "spacious");
+}
+
+UserSettings::Density
+densityFromStorage(const QString &value, UserSettings::Density fallback)
+{
+    return valueFromStorageToken(value, fallback, kDensityTokens);
+}

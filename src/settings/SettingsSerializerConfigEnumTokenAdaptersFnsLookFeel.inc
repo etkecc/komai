@@ -27,3 +27,15 @@ applyDefaultAvatarStyleFromStorage(UserSettings &settings, const QString &rawTok
     settings.setUiAvatarsDefaultAvatarStyle(
       defaultAvatarStyleFromStorage(rawToken, UserSettings::DefaultAvatarStyle::BoringAvatarsBauhaus));
 }
+
+QString
+densityToStorage(const UserSettings &settings)
+{
+    return toStorageValue(settings.uiLayoutDensity());
+}
+
+void
+applyDensityFromStorage(UserSettings &settings, const QString &rawToken)
+{
+    settings.setUiLayoutDensity(densityFromStorage(rawToken, UserSettings::Density::Spacious));
+}

@@ -5,7 +5,7 @@
     CONNECT_SETTING_ID(UiFontEmojiFamily, uiFontEmojiFamilyChanged, Value);
 CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiMotionAnimationsEnabledChanged, Value);
     CONNECT_SETTING_ID(UiInputMode, uiInputModeChanged, Value);
-    CONNECT_SETTING_ID(UiLayoutCompactMode, uiLayoutCompactModeChanged, Value);
+    CONNECT_SETTING_ID(UiLayoutDensity, uiLayoutDensityChanged, Value);
     CONNECT_SETTING_ID(
       NavigationRoomListShowLastMessageTime, navigationRoomListShowLastMessageTimeChanged, Value);
     CONNECT_SETTING_ID(NavigationRoomListLastMessagePreview, navigationRoomListLastMessagePreviewChanged, Value);

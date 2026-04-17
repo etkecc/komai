@@ -522,8 +522,8 @@ Rectangle {
                 readonly property int badgeSize: Math.round(tabDelegate.avatarSizePx * 0.40)
                 anchors.top: parent.top
                 anchors.right: parent.right
-                anchors.topMargin: -Math.round(badgeSize * (Komai.uiLayoutCompactMode ? 0.10 : 0.25))
-                anchors.rightMargin: -Math.round(badgeSize * (Komai.uiLayoutCompactMode ? 0.45 : 0.60))
+                anchors.topMargin: -Math.round(badgeSize * ((Komai.density !== Settings.Density.Spacious) ? 0.10 : 0.25))
+                anchors.rightMargin: -Math.round(badgeSize * ((Komai.density !== Settings.Density.Spacious) ? 0.45 : 0.60))
                 width: badgeSize
                 height: badgeSize
                 visible: tabDelegate.pinned

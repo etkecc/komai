@@ -8,3 +8,8 @@
    "boring_avatars_bauhaus",
    &defaultAvatarStyleToStorage,
    &applyDefaultAvatarStyleFromStorage},
+  {settings::core::SettingId::UiLayoutDensity,
+   SettingKey::UiLayoutDensity,
+   "spacious",
+   &densityToStorage,
+   &applyDensityFromStorage},

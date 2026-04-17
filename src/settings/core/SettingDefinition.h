@@ -29,7 +29,7 @@ enum class SettingId
     UiInputTouchSwipeGesturesEnabled,
     UiAvatarsCircular,
     UiAvatarsDefaultAvatarStyle,
-    UiLayoutCompactMode,
+    UiLayoutDensity,
     NavigationRoomListShowLastMessageTime,
     NavigationRoomListLastMessagePreview,
     NavigationRoomListShowUnreadCounts,

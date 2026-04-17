@@ -25,7 +25,7 @@ Item {
     readonly property color threadColor: active
         ? TimelineManager.userColor(threadEventId, palette.base)
         : palette.buttonText
-    readonly property int buttonPaddingH: Komai.uiLayoutCompactMode
+    readonly property int buttonPaddingH: (Komai.density !== Settings.Density.Spacious)
         ? Komai.paddingSmall : Komai.paddingMedium
     readonly property int closeIconSize: Math.max(
         14, Komai.iconSize - 2 * buttonPaddingH)

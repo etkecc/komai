@@ -15,7 +15,7 @@ Page {
     required property var adaptiveView
     required property var timelineRoot
     required property var tabController
-    property bool compactMode: Komai.uiLayoutCompactMode
+    property bool compactMode: (Komai.density !== Settings.Density.Spacious)
     property int avatarSize: Komai.iconSize
     property bool collapsed: false
     property var communitiesTarget: null

@@ -17,7 +17,7 @@ RowLayout {
     readonly property string communityAvatarUrl: (room && room.parentSpace && room.parentSpace.roomAvatarUrl) || ""
     readonly property string communityId: (room && room.parentSpace && room.parentSpace.roomid) || ""
     readonly property string communityName: (room && room.parentSpace && room.parentSpace.roomName) || ""
-    readonly property bool communityVisible: !Komai.uiLayoutCompactMode && communityId && room.parentSpace.isLoaded && ("space:" + room.parentSpace.roomid != Communities.currentFilterId)
+    readonly property bool communityVisible: Komai.density === Settings.Density.Spacious && communityId && room.parentSpace.isLoaded && ("space:" + room.parentSpace.roomid != Communities.currentFilterId)
 
     Layout.column: 1
     Layout.columnSpan: 2

@@ -15,7 +15,7 @@
     NotificationMessageContentPolicy desktopNotificationsMessageContentPolicy() const;
     bool navigationRoomListShowUnreadCounts() const;
     bool navigationCommunitiesShowUnreadCounts() const;
-    bool uiLayoutCompactMode() const;
+    Density uiLayoutDensity() const;
     bool navigationRoomListShowLastMessageTime() const;
     LastMessagePreview navigationRoomListLastMessagePreview() const;
     bool timelineMediaEffectsEnabled() const;

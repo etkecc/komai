@@ -41,7 +41,8 @@ pub use tokens::{
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
     ConfigTimelineUserColorCodingPolicyToken,
-    ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken, ConfigUiScrollbarPolicyToken,
+    ConfigUiDefaultAvatarStyleToken, ConfigUiInputModeToken, ConfigUiLayoutDensityToken,
+    ConfigUiScrollbarPolicyToken,
 };
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
@@ -53,7 +54,7 @@ const UI_MOTION_ANIMATIONS_ENABLED_PATH: [&str; 3] = ["ui", "motion", "enable_an
 const UI_INPUT_MODE_PATH: [&str; 3] = ["ui", "input", "mode"];
 const UI_INPUT_TOUCH_SWIPE_GESTURES_ENABLED_PATH: [&str; 5] =
     ["ui", "input", "touch", "swipe_gestures", "enabled"];
-const UI_LAYOUT_COMPACT_MODE_PATH: [&str; 3] = ["ui", "layout", "compact_mode"];
+const UI_LAYOUT_DENSITY_PATH: [&str; 3] = ["ui", "layout", "density"];
 const UI_AVATARS_CIRCULAR_PATH: [&str; 3] = ["ui", "avatars", "circular"];
 const UI_AVATARS_DEFAULT_AVATAR_STYLE_PATH: [&str; 3] = ["ui", "avatars", "default_avatar_style"];
 const UI_SCROLLBAR_POLICY_PATH: [&str; 2] = ["ui", "scrollbar_policy"];
@@ -242,8 +243,7 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 .and_then(parse_scalar_bool),
             },
             layout: ConfigUiLayout {
-                compact_mode: yaml::value_at_path(root, &UI_LAYOUT_COMPACT_MODE_PATH)
-                    .and_then(parse_scalar_bool),
+                density: parse_storage_token(yaml::value_at_path(root, &UI_LAYOUT_DENSITY_PATH)),
             },
             avatars: ConfigUiAvatars {
                 circular: yaml::value_at_path(root, &UI_AVATARS_CIRCULAR_PATH)

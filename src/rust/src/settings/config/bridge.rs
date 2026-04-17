@@ -60,8 +60,8 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
-        &["ui", "layout", "compact_mode"],
-        Value::Bool(snapshot.ui.layout_compact_mode),
+        &["ui", "layout", "density"],
+        Value::String(snapshot.ui.layout_density.clone()),
     );
     yaml::set_value(
         &mut root,

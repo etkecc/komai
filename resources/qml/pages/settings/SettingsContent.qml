@@ -140,10 +140,10 @@ Item {
                             id: settingRow
                             Layout.fillWidth: true
                             visible: r.model.type != UserSettingsModel.SectionTitle
-                            Layout.topMargin: r.isSelfContainedCardRow ? 0 : (Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium)
+                            Layout.topMargin: r.isSelfContainedCardRow ? 0 : ((Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium)
                             Layout.leftMargin: r.isSelfContainedCardRow ? 0 : Komai.paddingSmall
                             Layout.rightMargin: r.isSelfContainedCardRow ? 0 : Komai.paddingSmall
-                            Layout.bottomMargin: r.isSelfContainedCardRow ? 0 : (r.hasDescription ? 0 : (Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium))
+                            Layout.bottomMargin: r.isSelfContainedCardRow ? 0 : (r.hasDescription ? 0 : ((Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium))
                             columns: r.useStackedLayout ? 1 : 2
                             rowSpacing: r.useStackedLayout && !r.isFullWidthPreviewRow ? Komai.paddingSmall : 0
                             columnSpacing: r.isFullWidthPreviewRow ? 0 : Komai.paddingSmall

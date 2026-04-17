@@ -304,8 +304,8 @@ OverlayDialog {
 
             RowLayout {
                 Layout.fillWidth: true
-                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
-                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
                 Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
 
@@ -459,16 +459,16 @@ OverlayDialog {
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
-                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
-                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
             }
 
             SegmentedButton {
                 id: roomTypeFilter
 
                 Layout.rightMargin: Komai.paddingMedium
-                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
-                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
                 Layout.maximumWidth: Math.min(350, parent.width * 0.5)
                 model: [
                     { text: qsTr("All") },
@@ -516,16 +516,16 @@ OverlayDialog {
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
-                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
-                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
             }
 
             KomaiComboBox {
                 id: roomSizeFilter
 
                 Layout.rightMargin: Komai.paddingMedium
-                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
-                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
                 Layout.preferredWidth: Math.max(implicitWidth, Math.min(350, parent.width * 0.5))
                 model: [
                     qsTr("Up to large (≤ %1 members)").arg(roomDirectoryRoot.largeRoomThreshold.toLocaleString()),
@@ -578,8 +578,8 @@ OverlayDialog {
                     font.pointSize: 1.1 * Settings.uiFontSizePt
                     Layout.fillWidth: true
                     Layout.leftMargin: Komai.paddingMedium
-                    Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
-                    Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                    Layout.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
+                    Layout.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
                 }
 
                 KomaiTextField {
@@ -587,8 +587,8 @@ OverlayDialog {
 
                     Layout.preferredWidth: Math.max(implicitWidth, Math.min(350, parent.width * 0.5))
                     Layout.rightMargin: Komai.paddingMedium
-                    Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
-                    Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                    Layout.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
+                    Layout.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
                     placeholderText: qsTr("e.g. Matrix, food, coffee, tech")
                     onTextChanged: searchTimer.restart()
 
@@ -607,7 +607,7 @@ OverlayDialog {
                 Layout.maximumWidth: parent.width - Komai.paddingMedium * 2
                 Layout.alignment: Qt.AlignRight
                 Layout.rightMargin: Komai.paddingMedium
-                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
                 spacing: Komai.paddingSmall
 
                 Label {
@@ -668,8 +668,8 @@ OverlayDialog {
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
-                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
-                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
             }
 
             KomaiSearchableComboBox {
@@ -677,8 +677,8 @@ OverlayDialog {
 
                 Layout.preferredWidth: Math.max(implicitWidth, Math.min(350, parent.width * 0.5))
                 Layout.rightMargin: Komai.paddingMedium
-                Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
-                Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.topMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
+                Layout.bottomMargin: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
                 model: {
                     var langs = publicRooms.availableLanguages();
                     langs.unshift(qsTr("Any language"));

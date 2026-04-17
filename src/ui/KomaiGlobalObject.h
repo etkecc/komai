@@ -17,10 +17,12 @@
 #include "UserProfile.h"
 #include "models/AliasEditModel.h"
 #include "powerlevels/PowerlevelsEditModels.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 class Komai : public QObject
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
 
     QML_ELEMENT
     QML_SINGLETON
@@ -36,7 +38,7 @@ class Komai : public QObject
     // Size of the Komai logo shown in the main timeline empty state
     // and the initial sync spinner.
     Q_PROPERTY(int timelineLogoSize READ timelineLogoSize CONSTANT)
-    Q_PROPERTY(bool uiLayoutCompactMode READ uiLayoutCompactMode NOTIFY layoutMetricsChanged)
+    Q_PROPERTY(UserSettings::Density density READ uiLayoutDensity NOTIFY layoutMetricsChanged)
     Q_PROPERTY(
       double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY layoutMetricsChanged)
     // Font-scaled icon size shared across all navigation surfaces
@@ -86,7 +88,7 @@ public:
     static constexpr int kGifVideoMaxSizeBytes  = 1048576; // 1 MB
     static constexpr int kGifVideoMaxDurationMs = 3000;    // 3 seconds
 
-    bool uiLayoutCompactMode() const;
+    UserSettings::Density uiLayoutDensity() const;
     double sidebarAvatarMultiplier() const;
     int iconSize() const;
     // Single authoritative logical list/avatar size. Use this from C++ code

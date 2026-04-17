@@ -66,7 +66,7 @@ NotificationMessageContentPolicy desktopNotificationsMessageContentPolicy_ =
   NotificationMessageContentPolicy::WheneverAvailable;
 bool navigationRoomListShowUnreadCounts_;
 bool navigationCommunitiesShowUnreadCounts_;
-bool uiLayoutCompactMode_;
+Density uiLayoutDensity_ = Density::Spacious;
 bool navigationRoomListShowLastMessageTime_;
 LastMessagePreview navigationRoomListLastMessagePreview_;
 bool timelineMediaEffectsEnabled_;

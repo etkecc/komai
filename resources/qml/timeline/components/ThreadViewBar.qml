@@ -104,7 +104,9 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: palette.alternateBase
+        color: Qt.tint(palette.window,
+            Qt.hsla(threadBar.threadColor.hslHue, 0.7,
+                    threadBar.threadColor.hslLightness, 0.1))
 
         RowLayout {
             id: barRow
@@ -140,101 +142,26 @@ Item {
                 Layout.alignment: Qt.AlignVCenter
                 spacing: 2
 
-                // Line 1: Thread by Name (MXID) [replies badge]
-                RowLayout {
+                // Line 1: Thread by Name (MXID)
+                Label {
+                    id: threadTextLabel
+
                     Layout.fillWidth: true
-                    spacing: Komai.paddingSmall
-
-                    Label {
-                        id: threadTextLabel
-
-                        Layout.fillWidth: true
-                        text: {
-                            if (threadBar._rootUserId.length === 0)
-                                return qsTr("Thread");
-                            if (threadBar._rootUserName.length === 0
-                                    || threadBar._rootUserName === threadBar._rootUserId)
-                                return qsTr("Thread by %1")
-                                    .arg(threadBar._rootUserId);
-                            return qsTr("Thread by %1 (%2)")
-                                .arg(threadBar._rootUserName)
+                    text: {
+                        if (threadBar._rootUserId.length === 0)
+                            return qsTr("Thread");
+                        if (threadBar._rootUserName.length === 0
+                                || threadBar._rootUserName === threadBar._rootUserId)
+                            return qsTr("Thread by %1")
                                 .arg(threadBar._rootUserId);
-                        }
-                        color: palette.text
-                        font.pointSize: Settings.uiFontSizePt
-                        font.bold: true
-                        elide: Text.ElideRight
+                        return qsTr("Thread by %1 (%2)")
+                            .arg(threadBar._rootUserName)
+                            .arg(threadBar._rootUserId);
                     }
-
-                    Rectangle {
-                        id: replyBadge
-
-                        visible: threadBar._replyCount > 0
-
-                        readonly property color badgeColor: palette.text
-                        readonly property int badgeIconSize: Math.max(
-                            14, Math.round(Settings.uiFontSizePt * 1.5))
-
-                        Layout.alignment: Qt.AlignVCenter
-                        implicitWidth: replyBadgeRow.implicitWidth
-                            + Komai.paddingSmall * 2
-                        implicitHeight: replyBadgeRow.implicitHeight
-                            + Komai.paddingSmall * 0.5
-                        radius: Komai.paddingSmall
-                        color: Qt.rgba(
-                            badgeColor.r, badgeColor.g, badgeColor.b, 0.15)
-                        border.color: Qt.rgba(
-                            badgeColor.r, badgeColor.g, badgeColor.b, 0.4)
-                        border.width: 1
-
-                        Row {
-                            id: replyBadgeRow
-
-                            anchors.centerIn: parent
-                            spacing: Komai.paddingSmall * 0.5
-
-                            Image {
-                                anchors.verticalCenter: parent.verticalCenter
-                                width: replyBadge.badgeIconSize
-                                height: replyBadge.badgeIconSize
-                                sourceSize.width: width
-                                sourceSize.height: height
-                                source: "image://colorimage/:/icons/icons/ui/thread.svg?"
-                                    + replyBadge.badgeColor
-                            }
-
-                            Label {
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: threadBar._replyCount.toLocaleString()
-                                color: replyBadge.badgeColor
-                                font.pointSize: Settings.uiFontSizePt * 0.8
-                            }
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            acceptedButtons: Qt.NoButton
-
-                            onContainsMouseChanged: {
-                                replyBadgeTooltip.requestedVisible = containsMouse;
-                            }
-                        }
-
-                        KomaiToolTip {
-                            id: replyBadgeTooltip
-
-                            anchorItem: replyBadge
-                            anchorX: replyBadge.width / 2
-                            anchorY: 0
-                            gapY: Komai.paddingMedium
-                            preferBelow: false
-                            text: qsTr("%n thread reply(s)", "",
-                                threadBar._replyCount)
-                            delay: 0
-                            requestedVisible: false
-                        }
-                    }
+                    color: palette.text
+                    font.pointSize: Settings.uiFontSizePt
+                    font.bold: true
+                    elide: Text.ElideRight
                 }
 
                 // Line 2: message body
@@ -246,6 +173,77 @@ Item {
                     elide: Text.ElideRight
                     wrapMode: Text.NoWrap
                     visible: threadBar._rootBody.length > 0
+                }
+            }
+
+            // ── Reply count badge ──
+            Rectangle {
+                id: replyBadge
+
+                visible: threadBar._replyCount > 0
+
+                readonly property color badgeColor: palette.text
+                readonly property int badgeIconSize: Math.max(
+                    16, Math.round(Settings.uiFontSizePt * 1.8))
+
+                Layout.alignment: Qt.AlignVCenter
+                implicitWidth: replyBadgeRow.implicitWidth
+                    + Komai.paddingSmall * 3
+                implicitHeight: replyBadgeRow.implicitHeight
+                    + Komai.paddingSmall
+                radius: Komai.paddingSmall
+                color: Qt.rgba(
+                    badgeColor.r, badgeColor.g, badgeColor.b, 0.15)
+                border.color: Qt.rgba(
+                    badgeColor.r, badgeColor.g, badgeColor.b, 0.4)
+                border.width: 1
+
+                Row {
+                    id: replyBadgeRow
+
+                    anchors.centerIn: parent
+                    spacing: Komai.paddingSmall * 0.5
+
+                    Image {
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: replyBadge.badgeIconSize
+                        height: replyBadge.badgeIconSize
+                        sourceSize.width: width
+                        sourceSize.height: height
+                        source: "image://colorimage/:/icons/icons/ui/thread.svg?"
+                            + replyBadge.badgeColor
+                    }
+
+                    Label {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: threadBar._replyCount.toLocaleString()
+                        color: replyBadge.badgeColor
+                        font.pointSize: Settings.uiFontSizePt
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    acceptedButtons: Qt.NoButton
+
+                    onContainsMouseChanged: {
+                        replyBadgeTooltip.requestedVisible = containsMouse;
+                    }
+                }
+
+                KomaiToolTip {
+                    id: replyBadgeTooltip
+
+                    anchorItem: replyBadge
+                    anchorX: replyBadge.width / 2
+                    anchorY: 0
+                    gapY: Komai.paddingMedium
+                    preferBelow: false
+                    text: qsTr("%n thread reply(s)", "",
+                        threadBar._replyCount)
+                    delay: 0
+                    requestedVisible: false
                 }
             }
 
@@ -332,13 +330,33 @@ Item {
             }
         }
 
-        // Bottom separator
-        Rectangle {
+        // Dashed bottom border in thread color (matches bubble outline)
+        Canvas {
+            id: dashedBorder
+
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            height: 1
-            color: palette.mid
+            height: 2
+
+            onPaint: {
+                var ctx = getContext("2d");
+                ctx.clearRect(0, 0, width, height);
+                ctx.strokeStyle = threadBar.threadColor;
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash([6, 10]);
+                ctx.beginPath();
+                ctx.moveTo(0, height / 2);
+                ctx.lineTo(width, height / 2);
+                ctx.stroke();
+            }
+
+            onWidthChanged: requestPaint()
+
+            Connections {
+                target: threadBar
+                function onThreadColorChanged() { dashedBorder.requestPaint() }
+            }
         }
     }
 

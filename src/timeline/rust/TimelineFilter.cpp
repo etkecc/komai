@@ -128,18 +128,22 @@ TimelineFilter::setCollapseThreadReplies(bool collapse)
     if (collapseThreadReplies_ == collapse)
         return;
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
-    beginFilterChange();
-#endif
-
     collapseThreadReplies_ = collapse;
-    emit collapseThreadRepliesChanged();
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-    endFilterChange();
-#else
-    invalidateFilter();
-#endif
+    // Use a full model reset instead of invalidateFilter().
+    // The delegate bindings (previousMessageUserId etc.) call
+    // dataByIndex() which can trigger lazy proxy mapping rebuilds
+    // during evaluation, changing chat.count mid-binding and causing
+    // a binding loop + stale grouping data (visual message overlap).
+    // A model reset forces the mapping to rebuild atomically before
+    // any delegate bindings evaluate.
+    beginResetModel();
+    endResetModel();
+
+    // Emit after the model is consistent so the ListView model
+    // binding (which may switch from perRoomModel to this proxy)
+    // sees already-correct rows.
+    emit collapseThreadRepliesChanged();
 }
 
 void

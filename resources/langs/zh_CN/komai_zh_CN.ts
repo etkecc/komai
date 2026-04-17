@@ -786,7 +786,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+133"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
         <source>Expand</source>
         <translation type="unfinished">展开</translation>
     </message>
@@ -799,7 +799,22 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+177"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Rooms tagged as low priority. They stay visually quiet in the room list unless you receive a loud ping or open this filter.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Messages from your homeserver administrator. Uses the Matrix m.server_notice tag.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+46"/>
         <source>All rooms</source>
         <translation>所有聊天室</translation>
     </message>
@@ -820,53 +835,38 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+11"/>
-        <source>Shows all rooms without filtering.</source>
-        <translation>显示所有聊天室而不过滤。</translation>
+        <source>All your joined rooms. Rooms from filters you've excluded from 'All rooms' are omitted.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-82"/>
+        <location line="+3"/>
+        <source>Direct chats with real people. Detected from Matrix m.direct account data and a 2-3 member heuristic, excluding users identified as bots.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Direct chats with bots or bridge accounts. Identified from username and display-name patterns.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Multi-participant rooms that aren't direct chats.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-94"/>
         <source>Favourites</source>
         <translation>收藏</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Rooms you have favourited.</source>
-        <translation>收藏的聊天室。</translation>
-    </message>
-    <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Low Priority</source>
         <translation>低优先级</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Rooms with low priority.</source>
-        <translation>低优先级聊天室。</translation>
-    </message>
-    <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Server Notices</source>
         <translation>服务器通知</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Messages from your server or administrator.</source>
-        <translation>来自服务器或管理员的消息。</translation>
-    </message>
-    <message>
-        <location line="+64"/>
-        <source>Show direct chats with people, excluding bots.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Show direct chats with bots.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Show group rooms (non-direct chats).</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>

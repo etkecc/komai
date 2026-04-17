@@ -785,7 +785,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+133"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+135"/>
         <source>Expand</source>
         <translation type="unfinished">Expandir</translation>
     </message>
@@ -798,7 +798,22 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>CommunitiesModel</name>
     <message>
-        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+177"/>
+        <location filename="../../../src/timeline/communities/CommunitiesModelData.cpp" line="+114"/>
+        <source>Rooms tagged as favourites. Uses the Matrix m.favourite tag, so your choices sync across clients.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Rooms tagged as low priority. They stay visually quiet in the room list unless you receive a loud ping or open this filter.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Messages from your homeserver administrator. Uses the Matrix m.server_notice tag.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+46"/>
         <source>All rooms</source>
         <translation>Todas as salas</translation>
     </message>
@@ -819,53 +834,38 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+11"/>
-        <source>Shows all rooms without filtering.</source>
-        <translation>Mostra todas as salas sem filtros.</translation>
+        <source>All your joined rooms. Rooms from filters you've excluded from 'All rooms' are omitted.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-82"/>
+        <location line="+3"/>
+        <source>Direct chats with real people. Detected from Matrix m.direct account data and a 2-3 member heuristic, excluding users identified as bots.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Direct chats with bots or bridge accounts. Identified from username and display-name patterns.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Multi-participant rooms that aren't direct chats.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-94"/>
         <source>Favourites</source>
         <translation>Favoritos</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Rooms you have favourited.</source>
-        <translation>Salas favoritas.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Low Priority</source>
         <translation>Prioridade baixa</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Rooms with low priority.</source>
-        <translation>Salas com prioridade baixa.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
+        <location line="+10"/>
         <source>Server Notices</source>
         <translation>Avisos do servidor</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Messages from your server or administrator.</source>
-        <translation>Mensagens do seu servidor ou administrador.</translation>
-    </message>
-    <message>
-        <location line="+64"/>
-        <source>Show direct chats with people, excluding bots.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Show direct chats with bots.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Show group rooms (non-direct chats).</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>

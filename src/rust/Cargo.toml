@@ -43,7 +43,7 @@ matrix-sdk-ui = { version = "0.16.0", default-features = false, features = ["nat
 #      environments that inject optimization flags (Flatpak).
 #   3. Fewer dependencies (~48 crates fewer).
 resolvematrix = { path = "resolvematrix", default-features = false, features = ["server"] }
-hickory-resolver = { version = "0.25", default-features = false, features = ["tokio", "system-config"] }
+hickory-resolver = { version = "0.26", default-features = false, features = ["tokio", "system-config"] }
 reqwest = { version = "0.13", default-features = false, features = ["native-tls", "stream"] }
 hyper = { version = "1", features = ["http1", "server"] }
 hyper-util = { version = "0.1", features = ["tokio"] }

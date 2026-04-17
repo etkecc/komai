@@ -18,9 +18,54 @@ Item {
 
     readonly property int controlHeight: Math.max(36, Math.round(Settings.uiFontSizePt * 2.7))
 
+    TextMetrics {
+        id: labelMetrics
+        font.pointSize: Settings.uiFontSizePt
+        font.bold: true
+    }
+
+    TextMetrics {
+        id: badgeMetrics
+        font.pointSize: Settings.uiFontSizePt * 0.8
+        font.bold: true
+    }
+
+    // Measured imperatively to avoid a binding loop (mutating TextMetrics.text inside a
+    // binding that reads TextMetrics.advanceWidth triggers QML's self-read detection).
+    property real _maxSegmentContentWidth: 0
+
+    function _recomputeMaxSegmentWidth() {
+        var maxW = 0;
+        var sideMargins = Komai.paddingMedium * 2;
+        var labelBadgeSpacing = Komai.paddingMedium;
+        var items = root.model || [];
+        for (var i = 0; i < items.length; i++) {
+            var entry = items[i];
+            labelMetrics.text = (entry && entry.text) ? entry.text : "";
+            var w = labelMetrics.advanceWidth;
+            if (entry && entry.badge) {
+                badgeMetrics.text = entry.badge;
+                var badgeH = badgeMetrics.boundingRect.height + Komai.paddingSmall * 0.5;
+                var badgeW = Math.max(badgeMetrics.advanceWidth + Komai.paddingSmall * 1.5, badgeH);
+                w += labelBadgeSpacing + badgeW;
+            }
+            w += sideMargins;
+            if (w > maxW)
+                maxW = w;
+        }
+        _maxSegmentContentWidth = maxW;
+    }
+
+    onModelChanged: _recomputeMaxSegmentWidth()
+    Component.onCompleted: _recomputeMaxSegmentWidth()
+    Connections {
+        target: Settings
+        function onUiFontSizePtChanged() { root._recomputeMaxSegmentWidth(); }
+    }
+
     Layout.fillWidth: true
     implicitHeight: controlHeight
-    implicitWidth: segmentRow.implicitWidth
+    implicitWidth: _maxSegmentContentWidth * (root.model ? root.model.length : 0) + 2
 
     Rectangle {
         id: outerFrame
@@ -50,6 +95,8 @@ Item {
 
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    Layout.preferredWidth: root._maxSegmentContentWidth
+                    Layout.minimumWidth: 0
 
                     readonly property bool isFirst: index === 0
                     readonly property bool isLast: index === root.model.length - 1
@@ -125,7 +172,7 @@ Item {
                         font.pointSize: Settings.uiFontSizePt
                         font.bold: true
                         elide: Text.ElideRight
-                        horizontalAlignment: Text.AlignLeft
+                        horizontalAlignment: !!segmentButton.modelData.badge ? Text.AlignLeft : Text.AlignHCenter
                     }
 
                     // Inline badge (optional — model entry may have a "badge" string)
@@ -165,6 +212,16 @@ Item {
                 KomaiCursorShape {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
+                }
+
+                KomaiToolTip {
+                    anchorItem: segmentButton
+                    anchorX: 0
+                    anchorY: segmentButton.height
+                    followMouse: false
+                    text: segmentLabel.truncated ? (segmentButton.modelData.text || "") : ""
+                    requestedVisible: segmentButton.hovered && segmentLabel.truncated
+                    delay: 300
                 }
             }
         }

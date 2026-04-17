@@ -467,7 +467,7 @@ fn publish_merged_snapshot(
     room_timeline_media_lookup: &Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
 ) {
     let (mut sdk_items, media_lookup) =
-        build_room_timeline_snapshot(sdk_values, own_user_id, read_own_event_ids);
+        build_room_timeline_snapshot(sdk_values, own_user_id, read_own_event_ids, None);
 
     // Fix stale local echoes.  In matrix-sdk 0.16, the Thread-focused
     // timeline never transitions local echoes to remote events (sync

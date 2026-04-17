@@ -55,14 +55,29 @@ pub fn build_room_timeline_snapshot(
     values: &Vector<Arc<TimelineItem>>,
     own_user_id: Option<&matrix_sdk::ruma::UserId>,
     read_own_event_ids: &HashSet<String>,
+    thread_reply_counts: Option<&HashMap<String, u32>>,
 ) -> (Vec<MatrixTimelineItem>, HashMap<String, MatrixTimelineMediaRequest>) {
     let mut items = Vec::new();
     let mut media_lookup = HashMap::new();
 
     for item in values.iter() {
-        if let Some((summary, media_request, reply_media_request)) =
+        if let Some((mut summary, media_request, reply_media_request)) =
             timeline_item_to_summary(item.as_ref(), own_user_id, read_own_event_ids)
         {
+            // Apply cached thread reply counts from list_threads() when the
+            // SDK's own thread_summary is unpopulated (the common case — see
+            // docs/architecture/thread-reply-counts.md).
+            if let Some(counts) = thread_reply_counts {
+                if !summary.event_id.is_empty() {
+                    if let Some(&count) = counts.get(&summary.event_id) {
+                        summary.is_thread_root = true;
+                        if summary.thread_reply_count == 0 {
+                            summary.thread_reply_count = count;
+                        }
+                    }
+                }
+            }
+
             if let Some(media_request) = media_request {
                 media_lookup.insert(summary.item_id.clone(), media_request.clone());
                 if !summary.event_id.is_empty() {

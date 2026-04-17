@@ -554,6 +554,11 @@ struct MatrixBackendHandle {
     /// Populated by the background preloader (see `runtime_preloader.rs`) and
     /// by the active timeline loop when the user switches away from a room.
     preloaded_timelines: Arc<Mutex<HashMap<String, Timeline>>>,
+    /// Cached thread reply counts per room, populated from
+    /// `Room::list_threads()` and incrementally updated when new thread
+    /// replies arrive via sync.  Keyed by room_id → event_id → reply_count.
+    /// See `docs/architecture/thread-reply-counts.md` for design rationale.
+    thread_reply_counts: Arc<Mutex<HashMap<String, HashMap<String, u32>>>>,
     /// Active thread timeline view.  At most one thread can be viewed at a
     /// time.  Set by `subscribe_to_thread_timeline()`, cleared by
     /// `unsubscribe_from_thread_timeline()`.

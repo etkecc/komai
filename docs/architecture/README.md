@@ -23,6 +23,7 @@ Technical documentation for Komai internals.
 - 🎬 [Media Overlay](media-overlay.md) -- full-screen image/video viewer, gallery navigation, and streaming playback
 - 🎵 [Audio Playback](audio-playback.md) -- inline audio player behavior, playback-rate controls, and room-local v1 limitations
 - 🧵 [Thread Timeline](thread-timeline.md) -- SDK + /relations hybrid architecture, live updates, sync gap workaround, and delegate recycling fix
+- 🔢 [Thread Reply Counts](thread-reply-counts.md) -- why ThreadingSupport can't be used, list_threads() caching approach, and data flow
 - 🦀 [Rust in Komai](rust.md) -- CXX interop pattern, blocking FFI rules, directory layout, build integration, and packaging
 
 ## Differences from nheko

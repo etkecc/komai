@@ -183,6 +183,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
         room_timeline_media_lookup,
         initial_page_size,
         preloaded_timelines,
+        thread_reply_counts,
     ) = {
         let mut handles = backend_handles()
             .lock()
@@ -211,6 +212,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             Arc::clone(&handle.room_timeline_media_lookup),
             handle.preferred_room_timeline_initial_page_size,
             Arc::clone(&handle.preloaded_timelines),
+            Arc::clone(&handle.thread_reply_counts),
         )
     };
 
@@ -230,6 +232,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             command_receiver,
             stop_requested_for_thread,
             preloaded_timelines,
+            thread_reply_counts,
         ));
     });
 
@@ -480,7 +483,7 @@ pub async fn fetch_room_timeline(
 
     let empty_receipts = HashSet::new();
     let (snapshot, _media_lookup) =
-        build_room_timeline_snapshot(items_to_convert, None, &empty_receipts);
+        build_room_timeline_snapshot(items_to_convert, None, &empty_receipts, None);
 
     // Cache the timeline handle back for reuse.
     preloaded_timelines
@@ -592,6 +595,7 @@ async fn run_room_timeline_loop(
     mut commands: mpsc::UnboundedReceiver<MatrixBackendRoomTimelineCommand>,
     stop_requested: Arc<AtomicBool>,
     preloaded_timelines: Arc<Mutex<HashMap<String, Timeline>>>,
+    thread_reply_counts: Arc<Mutex<HashMap<String, HashMap<String, u32>>>>,
 ) {
     tracing::info!(handle_id, room_id, "Running matrix-sdk room timeline loop");
     let loop_started_at = Instant::now();
@@ -705,10 +709,22 @@ async fn run_room_timeline_loop(
     );
     let mut current_values = items;
     let subscribe_count = current_values.len();
+
+    // Helper: snapshot the room's thread reply counts from the shared cache.
+    let get_thread_counts = |cache: &Arc<Mutex<HashMap<String, HashMap<String, u32>>>>, rid: &str| -> Option<HashMap<String, u32>> {
+        let guard = cache.lock().expect("poisoned thread reply counts mutex");
+        guard.get(rid).cloned()
+    };
+
+    // Track which thread reply event_ids we've already counted so that
+    // incremental sync diffs don't double-count.
+    let mut seen_thread_reply_event_ids: HashSet<String> = HashSet::new();
+
     {
         let read_own_event_ids = compute_read_own_event_ids(&current_values, &receipt_targets);
         let snapshot_build_started_at = Instant::now();
-        let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids);
+        let room_counts = get_thread_counts(&thread_reply_counts, &room_id);
+        let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids, room_counts.as_ref());
         let snapshot_build_elapsed = snapshot_build_started_at.elapsed();
         let snapshot_count = snapshot.len();
         {
@@ -786,8 +802,9 @@ async fn run_room_timeline_loop(
     };
     if !receipt_targets.is_empty() && subscribe_count > 0 {
         let read_own_event_ids = compute_read_own_event_ids(&current_values, &receipt_targets);
+        let room_counts = get_thread_counts(&thread_reply_counts, &room_id);
         let (snapshot, media_lookup) =
-            build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids);
+            build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids, room_counts.as_ref());
         {
             let mut snapshot_guard = room_timeline_snapshot
                 .lock()
@@ -801,6 +818,73 @@ async fn run_room_timeline_loop(
             media_guard.extend(media_lookup);
         }
         crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id);
+    }
+
+    // Spawn a background task to fetch thread reply counts from the server.
+    // This populates the shared cache so subsequent snapshot builds include
+    // accurate counts on thread root messages.
+    {
+        let client_clone = client.clone();
+        let room_id_clone = room_id.clone();
+        let cache_clone = Arc::clone(&thread_reply_counts);
+        let snapshot_clone = Arc::clone(&room_timeline_snapshot);
+        let media_lookup_clone = Arc::clone(&room_timeline_media_lookup);
+        let current_values_snapshot = current_values.clone();
+        let receipt_targets_clone = receipt_targets.clone();
+        tokio::spawn(async move {
+            if let Some(room) = client_clone.get_room(
+                &matrix_sdk::ruma::RoomId::parse(&room_id_clone).expect("already validated room_id"),
+            ) {
+                let opts = matrix_sdk::room::ListThreadsOptions::default();
+                match room.list_threads(opts).await {
+                    Ok(result) => {
+                        let mut counts = HashMap::new();
+                        for event in &result.chunk {
+                            if let Some(event_id) = event.event_id() {
+                                let reply_count = match &event.thread_summary {
+                                    matrix_sdk_base::deserialized_responses::ThreadSummaryStatus::Some(summary) => summary.num_replies,
+                                    _ => 0,
+                                };
+                                if reply_count > 0 {
+                                    counts.insert(event_id.to_string(), reply_count);
+                                }
+                            }
+                        }
+                        if !counts.is_empty() {
+                            let thread_count = counts.len();
+                            {
+                                let mut guard = cache_clone.lock().expect("poisoned thread reply counts mutex");
+                                let room_counts = guard.entry(room_id_clone.clone()).or_default();
+                                for (eid, count) in &counts {
+                                    room_counts.entry(eid.clone()).and_modify(|c| *c = (*c).max(*count)).or_insert(*count);
+                                }
+                            }
+                            // Rebuild the snapshot with the new counts.
+                            let read_own_event_ids = compute_read_own_event_ids(&current_values_snapshot, &receipt_targets_clone);
+                            let (snapshot, media_lookup) = build_room_timeline_snapshot(
+                                &current_values_snapshot,
+                                client_clone.user_id(),
+                                &read_own_event_ids,
+                                Some(&counts),
+                            );
+                            {
+                                let mut snapshot_guard = snapshot_clone.lock().expect("poisoned matrix room timeline snapshot mutex");
+                                *snapshot_guard = snapshot;
+                            }
+                            {
+                                let mut media_guard = media_lookup_clone.lock().expect("poisoned matrix room timeline media lookup mutex");
+                                media_guard.extend(media_lookup);
+                            }
+                            crate::ffi::matrix_notify_room_timeline_snapshot_updated(handle_id, &room_id_clone);
+                            tracing::info!(handle_id, room_id = %room_id_clone, thread_count, "Cached thread reply counts from list_threads()");
+                        }
+                    }
+                    Err(error) => {
+                        tracing::warn!(handle_id, room_id = %room_id_clone, %error, "Failed to fetch thread list for reply counts");
+                    }
+                }
+            }
+        });
     }
 
     tracing::info!(
@@ -849,10 +933,34 @@ async fn run_room_timeline_loop(
                             diff.apply(&mut current_values);
                         }
 
+                        // Detect new thread replies and increment cached counts.
+                        {
+                            let mut cache_guard = thread_reply_counts
+                                .lock()
+                                .expect("poisoned thread reply counts mutex");
+                            let room_counts = cache_guard.entry(room_id.clone()).or_default();
+                            for item in current_values.iter() {
+                                if let Some(event) = item.as_event() {
+                                    if let Some(event_id) = event.event_id() {
+                                        if let matrix_sdk_ui::timeline::TimelineItemContent::MsgLike(msg) = event.content() {
+                                            if let Some(thread_root) = &msg.thread_root {
+                                                let eid = event_id.to_string();
+                                                if seen_thread_reply_event_ids.insert(eid) {
+                                                    let root_id = thread_root.to_string();
+                                                    room_counts.entry(root_id).and_modify(|c| *c += 1).or_insert(1);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         let read_own_event_ids = compute_read_own_event_ids(&current_values, &receipt_targets);
                         let snapshot_build_started_at = Instant::now();
+                        let room_counts = get_thread_counts(&thread_reply_counts, &room_id);
                         let (snapshot, media_lookup) =
-                            build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids);
+                            build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids, room_counts.as_ref());
                         let snapshot_build_elapsed = snapshot_build_started_at.elapsed();
                         let item_count = snapshot.len();
                         {

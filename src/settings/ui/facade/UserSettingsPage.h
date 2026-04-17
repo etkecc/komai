@@ -631,6 +631,10 @@ public:
     void setTimelineThreadsCollapseReplies(bool state);
     Q_INVOKABLE QMap<QString, bool> timelineThreadsCollapseRepliesByRoom() const;
     Q_INVOKABLE void setTimelineThreadsCollapseRepliesByRoom(const QMap<QString, bool> &byRoom);
+    Q_INVOKABLE void setTimelineThreadsCollapseRepliesForRoom(const QString &roomId, bool value);
+    Q_INVOKABLE void removeTimelineThreadsCollapseRepliesForRoom(const QString &roomId);
+    Q_INVOKABLE QVariant timelineThreadsCollapseRepliesOverrideForRoom(const QString &roomId) const;
+    Q_INVOKABLE bool resolvedTimelineThreadsCollapseReplies(const QString &roomId) const;
     void setIntegrationsBrowserCommand(QString command);
     void setCollapsedSpaces(QStringList spaces);
     void setIntegrationsDbusApiAccess(int access);
@@ -784,6 +788,7 @@ signals:
     void timelineMediaOpenAudioExternalChanged(bool state);
     void timelineMediaDefaultAudioPlaybackSpeedChanged(double speed);
     void timelineThreadsCollapseRepliesChanged(bool state);
+    void timelineThreadsCollapseRepliesByRoomChanged();
     void hiddenPinsChanged();
     void openTabsChanged();
     void pinnedTabsChanged();

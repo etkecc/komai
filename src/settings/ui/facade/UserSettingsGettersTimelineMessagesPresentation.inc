@@ -134,5 +134,41 @@ void
 UserSettings::setTimelineThreadsCollapseRepliesByRoom(const QMap<QString, bool> &byRoom)
 {
     timelineThreadsCollapseRepliesByRoom_ = byRoom;
+    emit timelineThreadsCollapseRepliesByRoomChanged();
     save();
+}
+
+void
+UserSettings::setTimelineThreadsCollapseRepliesForRoom(const QString &roomId, bool value)
+{
+    timelineThreadsCollapseRepliesByRoom_[roomId] = value;
+    emit timelineThreadsCollapseRepliesByRoomChanged();
+    save();
+}
+
+void
+UserSettings::removeTimelineThreadsCollapseRepliesForRoom(const QString &roomId)
+{
+    if (timelineThreadsCollapseRepliesByRoom_.remove(roomId)) {
+        emit timelineThreadsCollapseRepliesByRoomChanged();
+        save();
+    }
+}
+
+QVariant
+UserSettings::timelineThreadsCollapseRepliesOverrideForRoom(const QString &roomId) const
+{
+    auto it = timelineThreadsCollapseRepliesByRoom_.find(roomId);
+    if (it != timelineThreadsCollapseRepliesByRoom_.end())
+        return QVariant(it.value());
+    return QVariant();
+}
+
+bool
+UserSettings::resolvedTimelineThreadsCollapseReplies(const QString &roomId) const
+{
+    auto it = timelineThreadsCollapseRepliesByRoom_.find(roomId);
+    if (it != timelineThreadsCollapseRepliesByRoom_.end())
+        return it.value();
+    return timelineThreadsCollapseReplies();
 }

@@ -107,6 +107,7 @@ ColumnLayout {
     readonly property bool threadViewActive: TimelineManager.matrixTimelineThreadEventId.length > 0
     readonly property var threadTimelineModel: TimelineManager.matrixThreadTimelineModel
     readonly property bool threadTimelineLoading: TimelineManager.matrixThreadTimelineLoading
+    property int _collapseByRoomRevision: 0
 
 
     MessageActionSupport {
@@ -159,9 +160,21 @@ ColumnLayout {
 
         source: root.perRoomModel
         filterByContent: root.searchString
-        collapseThreadReplies: Settings.timelineThreadsCollapseReplies
+        collapseThreadReplies: {
+            let _rev = root._collapseByRoomRevision;
+            return Settings.resolvedTimelineThreadsCollapseReplies(root.activeRoomId);
+        }
 
         onRequestMoreData: TimelineManager.paginateActiveMatrixTimelineBackwards(50)
+
+        onCollapseThreadRepliesChanged: {
+            Qt.callLater(function() {
+                if (matrixTimelineList) {
+                    matrixTimelineList.forceLayout();
+                    matrixTimelineList.maybeScrollToBottom(true);
+                }
+            });
+        }
     }
 
     // When thread collapse is active, paginated items may all be thread
@@ -192,6 +205,16 @@ ColumnLayout {
                     && !root.threadTimelineLoading) {
                 TimelineManager.paginateActiveMatrixThreadTimelineBackwards(50);
             }
+        }
+    }
+
+    Connections {
+        target: Settings
+        function onTimelineThreadsCollapseRepliesByRoomChanged() {
+            root._collapseByRoomRevision++;
+        }
+        function onTimelineThreadsCollapseRepliesChanged() {
+            root._collapseByRoomRevision++;
         }
     }
 

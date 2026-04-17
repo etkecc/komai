@@ -287,7 +287,7 @@ Item {
             return false;
 
         // Skip collapsed thread replies (not visible in the timeline).
-        if (Settings.timelineThreadsCollapseReplies
+        if (rootItem.filteredTimeline.collapseThreadReplies
                 && String(item.threadId || "").length > 0
                 && !Boolean(item.isThreadRoot))
             return false;

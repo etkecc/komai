@@ -130,8 +130,8 @@ constexpr auto NavigationRoomListCurrentRoomId = "navigation.room_list.current_r
 constexpr auto NavigationCommunitiesWidthPx    = "navigation.communities.width_px";
 constexpr auto NavigationCommunitiesFilteringGlobalExcludes =
   "navigation.communities.filtering.global_excludes";
-constexpr auto NavigationCommunitiesFilteringBadgesHidden =
-  "navigation.communities.filtering.badges_hidden";
+constexpr auto NavigationCommunitiesFilteringUnreadIndicatorsHidden =
+  "navigation.communities.filtering.unread_indicators_hidden";
 constexpr auto NavigationCommunitiesFilteringCollapsedSpaces =
   "navigation.communities.filtering.collapsed_spaces";
 constexpr auto NavigationCommunitiesFilteringCurrent = "navigation.communities.filtering.current";

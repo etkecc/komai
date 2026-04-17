@@ -619,7 +619,7 @@ public:
     void setHomeserver(QString homeserver);
     void setNetworkTlsEnableCertificateValidation(bool enabled);
     void setGlobalExcludes(const QStringList &globalExcludes);
-    void setBadgesHiddenFilters(const QStringList &badgesHiddenFilters);
+    void setUnreadIndicatorsHiddenFilters(const QStringList &unreadIndicatorsHiddenFilters);
     void setHiddenPins(const QStringList &hiddenTags);
     void setHiddenWidgets(const QStringList &hiddenTags);
     void setHiddenSpaces(const QStringList &hiddenSpaces);

@@ -14,13 +14,13 @@ ColumnLayout {
     id: root
 
     property int _hiddenSpacesRevision: 0
-    property int _badgesHiddenRevision: 0
+    property int _unreadIndicatorsHiddenRevision: 0
     property int _globalExcludesRevision: 0
 
     Connections {
         target: Communities
         function onHiddenSpacesChanged() { root._hiddenSpacesRevision++; }
-        function onBadgesHiddenFiltersChanged() { root._badgesHiddenRevision++; }
+        function onUnreadIndicatorsHiddenFiltersChanged() { root._unreadIndicatorsHiddenRevision++; }
         function onGlobalExcludesChanged() { root._globalExcludesRevision++; }
     }
 
@@ -154,13 +154,13 @@ ColumnLayout {
                             toggle.onToggled: Communities.toggleSpaceHidden(spaceCard.spaceId)
                         }
 
-                        // Attention badges toggle
+                        // Unread indicators toggle
                         SpaceTogglePill {
-                            label: qsTr("Attention badges")
+                            label: qsTr("Unread indicators")
                             iconSource: "image://colorimage/:/icons/icons/ui/counter.svg?" + palette.buttonText
-                            iconTooltip: qsTr("Badges indicate unread messages and unsent drafts")
-                            toggle.checked: { void(root._badgesHiddenRevision); return !Communities.areFilterBadgesHidden(spaceCard.spaceId); }
-                            toggle.onToggled: Communities.toggleFilterBadges(spaceCard.spaceId)
+                            iconTooltip: qsTr("Emphasize this filter when it has unread messages")
+                            toggle.checked: { void(root._unreadIndicatorsHiddenRevision); return !Communities.areFilterUnreadIndicatorsHidden(spaceCard.spaceId); }
+                            toggle.onToggled: Communities.toggleFilterUnreadIndicators(spaceCard.spaceId)
                         }
 
                         // Include in 'All rooms' toggle

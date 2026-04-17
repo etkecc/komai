@@ -52,9 +52,9 @@ UserSettings::setGlobalExcludes(const QStringList &globalExcludes)
 }
 
 void
-UserSettings::setBadgesHiddenFilters(const QStringList &badgesHiddenFilters)
+UserSettings::setUnreadIndicatorsHiddenFilters(const QStringList &unreadIndicatorsHiddenFilters)
 {
-    badgesHiddenFilters_ = badgesHiddenFilters;
+    unreadIndicatorsHiddenFilters_ = unreadIndicatorsHiddenFilters;
     save();
 }
 

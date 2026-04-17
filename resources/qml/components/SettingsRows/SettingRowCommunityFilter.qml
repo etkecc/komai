@@ -20,14 +20,14 @@ Item {
     readonly property bool isAllRooms: root.tagId === ""
     readonly property bool hasShowToggle: !root.isAllRooms
     readonly property bool hasExcludeToggle: !root.isAllRooms
-    property int _badgesHiddenRevision: 0
+    property int _unreadIndicatorsHiddenRevision: 0
     property int _hiddenRevision: 0
 
     implicitHeight: cardBg.implicitHeight
 
     Connections {
         target: Communities
-        function onBadgesHiddenFiltersChanged() { root._badgesHiddenRevision++; }
+        function onUnreadIndicatorsHiddenFiltersChanged() { root._unreadIndicatorsHiddenRevision++; }
         function onGlobalExcludesChanged() { root._hiddenRevision++; }
     }
 
@@ -116,15 +116,15 @@ Item {
                     toggle.enabled: root.model.enabled
                 }
 
-                // --- Attention badges toggle ---
+                // --- Unread indicators toggle ---
                 FilterTogglePill {
-                    label: qsTr("Attention badges")
+                    label: qsTr("Unread indicators")
                     iconSource: "image://colorimage/:/icons/icons/ui/counter.svg?" + palette.buttonText
-                    iconTooltip: qsTr("Badges indicate unread messages and unsent drafts")
+                    iconTooltip: qsTr("Emphasize this filter when it has unread messages")
 
-                    toggle.checked: { void(root._badgesHiddenRevision); return !Communities.areFilterBadgesHidden(root.tagId); }
+                    toggle.checked: { void(root._unreadIndicatorsHiddenRevision); return !Communities.areFilterUnreadIndicatorsHidden(root.tagId); }
                     toggle.onToggled: {
-                        Communities.toggleFilterBadges(root.tagId);
+                        Communities.toggleFilterUnreadIndicators(root.tagId);
                     }
                 }
 

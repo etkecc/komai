@@ -17,7 +17,7 @@ navigation:
     filtering:
       current: ""
       global_excludes: []
-      badges_hidden:
+      unread_indicators_hidden:
         - global
         - "tag:m.lowpriority"
       collapsed_spaces: []

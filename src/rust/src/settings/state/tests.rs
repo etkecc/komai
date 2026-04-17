@@ -5,8 +5,8 @@
 use crate::ffi::{SettingsStateSnapshot, SettingsStringMapEntry};
 
 use super::{
-    encode_state_yaml, load_state_snapshot, DEFAULT_BADGES_HIDDEN_FILTERS,
-    DEFAULT_COMMUNITIES_WIDTH, DEFAULT_ROOM_LIST_WIDTH, DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_WIDTH,
+    encode_state_yaml, load_state_snapshot, DEFAULT_COMMUNITIES_WIDTH, DEFAULT_ROOM_LIST_WIDTH,
+    DEFAULT_UNREAD_INDICATORS_HIDDEN_FILTERS, DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_WIDTH,
 };
 
 fn entry(key: &str, value: &str) -> SettingsStringMapEntry {
@@ -25,8 +25,8 @@ fn state_snapshot_loads_defaults_and_migrates() {
     assert_eq!(loaded.navigation_room_list_width_px, DEFAULT_ROOM_LIST_WIDTH);
     assert_eq!(loaded.navigation_communities_width_px, DEFAULT_COMMUNITIES_WIDTH);
     assert_eq!(
-        loaded.badges_hidden_filters,
-        DEFAULT_BADGES_HIDDEN_FILTERS
+        loaded.unread_indicators_hidden_filters,
+        DEFAULT_UNREAD_INDICATORS_HIDDEN_FILTERS
             .iter()
             .map(|value| (*value).to_owned())
             .collect::<Vec<_>>()
@@ -38,12 +38,12 @@ fn state_snapshot_loads_defaults_and_migrates() {
 #[test]
 fn state_snapshot_loads_lists_and_maps() {
     let loaded = load_state_snapshot(
-        "navigation:\n  communities:\n    filtering:\n      current: people\n      global_excludes:\n        - one\n        - two\n      badges_hidden:\n        - x\n      collapsed_spaces:\n        - \"!space:hs\"\ncomposer:\n  drafts:\n    by_room:\n      \"!room:hs\": draft\n",
+        "navigation:\n  communities:\n    filtering:\n      current: people\n      global_excludes:\n        - one\n        - two\n      unread_indicators_hidden:\n        - x\n      collapsed_spaces:\n        - \"!space:hs\"\ncomposer:\n  drafts:\n    by_room:\n      \"!room:hs\": draft\n",
     );
 
     assert_eq!(loaded.current_filter_id, "people");
     assert_eq!(loaded.global_excludes, vec!["one".to_owned(), "two".to_owned()]);
-    assert_eq!(loaded.badges_hidden_filters, vec!["x".to_owned()]);
+    assert_eq!(loaded.unread_indicators_hidden_filters, vec!["x".to_owned()]);
     assert_eq!(loaded.collapsed_spaces, vec!["!space:hs".to_owned()]);
     assert_eq!(loaded.composer_drafts_by_room, vec![entry("!room:hs", "draft")]);
 }
@@ -58,7 +58,7 @@ fn state_yaml_roundtrip() {
         current_filter_id: "people".to_owned(),
         current_room_id: "!room:hs".to_owned(),
         global_excludes: vec!["global".to_owned()],
-        badges_hidden_filters: vec!["x".to_owned()],
+        unread_indicators_hidden_filters: vec!["x".to_owned()],
         hidden_pins: vec!["!pin".to_owned()],
         hidden_widgets: vec!["!widget".to_owned()],
         collapsed_spaces: vec!["!space:hs".to_owned()],

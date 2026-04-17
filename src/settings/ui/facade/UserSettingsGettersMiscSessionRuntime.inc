@@ -39,9 +39,9 @@ UserSettings::globalExcludes() const
     return globalExcludes_;
 }
 QStringList
-UserSettings::badgesHiddenFilters() const
+UserSettings::unreadIndicatorsHiddenFilters() const
 {
-    return badgesHiddenFilters_;
+    return unreadIndicatorsHiddenFilters_;
 }
 QStringList
 UserSettings::hiddenPins() const

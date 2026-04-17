@@ -282,9 +282,9 @@ loadImpl(UserSettings &settings,
         }
         {
             QStringList values;
-            for (const auto &value : stateSnapshot.badges_hidden_filters)
+            for (const auto &value : stateSnapshot.unread_indicators_hidden_filters)
                 values.push_back(QString::fromStdString(static_cast<std::string>(value)));
-            settings.setBadgesHiddenFilters(values);
+            settings.setUnreadIndicatorsHiddenFilters(values);
         }
         {
             QStringList values;

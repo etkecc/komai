@@ -107,7 +107,7 @@ QString currentFilterId_;
 QString currentRoomId_;
 QString homeserver_;
 QStringList globalExcludes_;
-QStringList badgesHiddenFilters_;
+QStringList unreadIndicatorsHiddenFilters_;
 QStringList hiddenPins_;
 QStringList openTabs_;
 QStringList pinnedTabs_;

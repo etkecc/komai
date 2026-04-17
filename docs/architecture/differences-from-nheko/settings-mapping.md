@@ -126,7 +126,7 @@ Note:
 | `current_tag_id` | `navigation.communities.filtering.current` | state.yml | text | runtime community sidebar state |
 | `-` | `navigation.room_list.current_room_id` | state.yml | text | last open room restored on restart |
 | `hidden_tags` | `navigation.communities.filtering.global_excludes` | state.yml | list(text) | filters excluded from "All rooms" |
-| `muted_tags` | `navigation.communities.filtering.badges_hidden` | state.yml | list(text) | filters with attention badges hidden |
+| `muted_tags` | `navigation.communities.filtering.unread_indicators_hidden` | state.yml | list(text) | filters with unread indicators hidden |
 | `hidden_pins` | `timeline.pins.hidden` | state.yml | list(text) | runtime timeline state |
 | `hidden_widgets` | `timeline.widgets.hidden` | state.yml | list(text) | runtime timeline state |
 | `recent_reactions` | `composer.reactions.recent` | state.yml | list(text) | runtime convenience state |

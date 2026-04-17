@@ -53,7 +53,7 @@ ItemDelegate {
         Rectangle {
             anchors.fill: parent
             color: Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15)
-            visible: model.unreadMessages > 0 && communityItem.state !== "selected" && Settings.navigationCommunitiesShowUnreadIndicators
+            visible: model.unreadMessages > 0 && communityItem.state !== "selected" && Settings.navigationCommunitiesShowUnreadIndicators && !model.unreadIndicatorsHidden
         }
         Rectangle {
             anchors.fill: parent
@@ -97,7 +97,7 @@ ItemDelegate {
     ]
 
     onClicked: Communities.setCurrentFilterId(model.id)
-    onPressAndHold: communityContextMenu?.show(communityItem, model.id, model.hidden, model.badgesHidden, model.displayName)
+    onPressAndHold: communityContextMenu?.show(communityItem, model.id, model.hidden, model.unreadIndicatorsHidden, model.displayName)
 
     KomaiCursorShape {
         anchors.fill: parent
@@ -113,7 +113,7 @@ ItemDelegate {
             acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
             gesturePolicy: TapHandler.ReleaseWithinBounds
 
-            onSingleTapped: communityContextMenu?.show(communityItem, model.id, model.hidden, model.badgesHidden, model.displayName)
+            onSingleTapped: communityContextMenu?.show(communityItem, model.id, model.hidden, model.unreadIndicatorsHidden, model.displayName)
         }
     }
     RowLayout {
@@ -170,7 +170,7 @@ ItemDelegate {
                 bubbleTextColor: communityItem.bubbleText
                 font.pixelSize: baseFontPixelSize * 0.6
                 hasLoudNotification: model.hasLoudNotification
-                mayBeVisible: collapsed && !model.badgesHidden && Settings.navigationCommunitiesShowUnreadIndicators
+                mayBeVisible: collapsed && !model.unreadIndicatorsHidden && Settings.navigationCommunitiesShowUnreadIndicators
                 unreadCount: model.unreadMessages
             }
         }
@@ -192,7 +192,7 @@ ItemDelegate {
             bubbleBackgroundColor: communityItem.bubbleBackground
             bubbleTextColor: communityItem.bubbleText
             hasLoudNotification: model.hasLoudNotification
-            mayBeVisible: !collapsed && !model.badgesHidden && Settings.navigationCommunitiesShowUnreadIndicators
+            mayBeVisible: !collapsed && !model.unreadIndicatorsHidden && Settings.navigationCommunitiesShowUnreadIndicators
             unreadCount: model.unreadMessages
         }
     }
@@ -202,7 +202,7 @@ ItemDelegate {
         anchors.verticalCenter: parent.verticalCenter
         color: palette.highlight
         height: parent.height - Komai.paddingMedium * 2
-        visible: model.unreadMessages > 0 && Settings.navigationCommunitiesShowUnreadIndicators
+        visible: model.unreadMessages > 0 && Settings.navigationCommunitiesShowUnreadIndicators && !model.unreadIndicatorsHidden
         width: 6
         radius: 3
     }

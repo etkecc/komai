@@ -14,7 +14,7 @@ const DEFAULT_WINDOW_WIDTH: i32 = 1600;
 const DEFAULT_WINDOW_HEIGHT: i32 = 900;
 const DEFAULT_ROOM_LIST_WIDTH: i32 = 400;
 const DEFAULT_COMMUNITIES_WIDTH: i32 = 220;
-const DEFAULT_BADGES_HIDDEN_FILTERS: [&str; 2] = ["global", "tag:m.lowpriority"];
+const DEFAULT_UNREAD_INDICATORS_HIDDEN_FILTERS: [&str; 2] = ["global", "tag:m.lowpriority"];
 
 const STATE_SCHEMA_VERSION_PATH: [&str; 2] = ["meta", "settings_schema_version"];
 const WINDOW_WIDTH_PATH: [&str; 3] = ["ui", "window", "width_px"];
@@ -23,7 +23,8 @@ const ROOM_LIST_WIDTH_PATH: [&str; 3] = ["navigation", "room_list", "width_px"];
 const CURRENT_ROOM_ID_PATH: [&str; 3] = ["navigation", "room_list", "current_room_id"];
 const COMMUNITIES_WIDTH_PATH: [&str; 3] = ["navigation", "communities", "width_px"];
 const GLOBAL_EXCLUDES_PATH: [&str; 4] = ["navigation", "communities", "filtering", "global_excludes"];
-const BADGES_HIDDEN_PATH: [&str; 4] = ["navigation", "communities", "filtering", "badges_hidden"];
+const UNREAD_INDICATORS_HIDDEN_PATH: [&str; 4] =
+    ["navigation", "communities", "filtering", "unread_indicators_hidden"];
 const COLLAPSED_SPACES_PATH: [&str; 4] =
     ["navigation", "communities", "filtering", "collapsed_spaces"];
 const HIDDEN_SPACES_PATH: [&str; 4] =
@@ -44,7 +45,7 @@ pub struct LoadedState {
     pub current_filter_id: String,
     pub current_room_id: String,
     pub global_excludes: Vec<String>,
-    pub badges_hidden_filters: Vec<String>,
+    pub unread_indicators_hidden_filters: Vec<String>,
     pub hidden_pins: Vec<String>,
     pub hidden_widgets: Vec<String>,
     pub collapsed_spaces: Vec<String>,
@@ -147,10 +148,10 @@ pub fn load_state_snapshot(state_text: &str) -> LoadedState {
         current_filter_id: read_string(&root, &CURRENT_FILTER_PATH),
         current_room_id: read_string(&root, &CURRENT_ROOM_ID_PATH),
         global_excludes: read_string_list(&root, &GLOBAL_EXCLUDES_PATH, &[]),
-        badges_hidden_filters: read_string_list(
+        unread_indicators_hidden_filters: read_string_list(
             &root,
-            &BADGES_HIDDEN_PATH,
-            &DEFAULT_BADGES_HIDDEN_FILTERS,
+            &UNREAD_INDICATORS_HIDDEN_PATH,
+            &DEFAULT_UNREAD_INDICATORS_HIDDEN_FILTERS,
         ),
         hidden_pins: read_string_list(&root, &HIDDEN_PINS_PATH, &[]),
         hidden_widgets: read_string_list(&root, &HIDDEN_WIDGETS_PATH, &[]),
@@ -231,8 +232,8 @@ pub fn encode_state_yaml(snapshot: &SettingsStateSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
-        &BADGES_HIDDEN_PATH,
-        string_sequence(&snapshot.badges_hidden_filters),
+        &UNREAD_INDICATORS_HIDDEN_PATH,
+        string_sequence(&snapshot.unread_indicators_hidden_filters),
     );
     yaml::set_value(
         &mut root,

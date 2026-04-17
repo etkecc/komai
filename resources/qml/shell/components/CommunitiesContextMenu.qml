@@ -11,7 +11,7 @@ Menu {
     id: root
 
     property bool hidden
-    property bool badgesHidden
+    property bool unreadIndicatorsHidden
     property string tagId
     property string displayName
 
@@ -31,10 +31,10 @@ Menu {
         }
     }
 
-    function show(menuParent, id_, hidden_, badgesHidden_, displayName_) {
+    function show(menuParent, id_, hidden_, unreadIndicatorsHidden_, displayName_) {
         tagId = id_;
         hidden = hidden_;
-        badgesHidden = badgesHidden_;
+        unreadIndicatorsHidden = unreadIndicatorsHidden_;
         displayName = displayName_ ?? "";
         popup(menuParent);
     }
@@ -61,11 +61,11 @@ Menu {
     }
     MenuItem {
         checkable: true
-        checked: !root.badgesHidden
+        checked: !root.unreadIndicatorsHidden
         icon.source: "qrc:/icons/icons/ui/counter.svg"
-        text: qsTr("Show attention badges")
+        text: qsTr("Show unread indicators")
 
-        onTriggered: Communities.toggleFilterBadges(root.tagId)
+        onTriggered: Communities.toggleFilterUnreadIndicators(root.tagId)
     }
     MenuItem {
         checkable: true

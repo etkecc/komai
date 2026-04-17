@@ -74,7 +74,7 @@ public:
         Id,
         UnreadMessages,
         HasLoudNotification,
-        BadgesHidden,
+        UnreadIndicatorsHidden,
         IsDirect,
     };
 
@@ -195,9 +195,9 @@ public slots:
         return tagsWD;
     }
     void toggleGlobalExclude(QString filterId);
-    void toggleFilterBadges(QString filterId);
+    void toggleFilterUnreadIndicators(QString filterId);
 
-    Q_INVOKABLE bool areFilterBadgesHidden(const QString &filterId) const;
+    Q_INVOKABLE bool areFilterUnreadIndicatorsHidden(const QString &filterId) const;
     Q_INVOKABLE bool isGlobalExcluded(const QString &filterId) const;
     Q_INVOKABLE bool isSpaceHidden(const QString &spaceId) const;
     Q_INVOKABLE void toggleSpaceHidden(const QString &spaceId);
@@ -208,7 +208,7 @@ public slots:
 signals:
     void currentFilterIdChanged(QString filterId);
     void globalExcludesChanged();
-    void badgesHiddenFiltersChanged();
+    void unreadIndicatorsHiddenFiltersChanged();
     void tagsChanged();
     void hiddenSpacesChanged();
     void containsSubspacesChanged();
@@ -225,7 +225,7 @@ private:
     QStringList tags_;
     QString currentFilterId_;
     QStringList globalExcludedFilterIds_;
-    QStringList badgesHiddenFilterIds_;
+    QStringList unreadIndicatorsHiddenFilterIds_;
     QStringList hiddenSpaceIds_;
     FlatTree spaceOrder_;
     std::map<QString, RoomInfo> spaces_;

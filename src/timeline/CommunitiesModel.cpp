@@ -89,7 +89,7 @@ addChildren(temptree &t,
 CommunitiesModel::CommunitiesModel(QObject *parent)
   : QAbstractListModel(parent)
   , globalExcludedFilterIds_{UserSettings::instance()->globalExcludes()}
-  , badgesHiddenFilterIds_{UserSettings::instance()->badgesHiddenFilters()}
+  , unreadIndicatorsHiddenFilterIds_{UserSettings::instance()->unreadIndicatorsHiddenFilters()}
   , hiddenSpaceIds_{UserSettings::instance()->hiddenSpaces()}
 {
     instance_ = this;
@@ -112,7 +112,7 @@ CommunitiesModel::roleNames() const
       {Id, "id"},
       {UnreadMessages, "unreadMessages"},
       {HasLoudNotification, "hasLoudNotification"},
-      {BadgesHidden, "badgesHidden"},
+      {UnreadIndicatorsHidden, "unreadIndicatorsHidden"},
     };
 }
 
@@ -468,16 +468,16 @@ CommunitiesModel::toggleGlobalExclude(QString filterId)
 }
 
 void
-CommunitiesModel::toggleFilterBadges(QString filterId)
+CommunitiesModel::toggleFilterUnreadIndicators(QString filterId)
 {
     if (filterId.isEmpty())
         filterId = QStringLiteral("global");
 
-    if (badgesHiddenFilterIds_.contains(filterId))
-        badgesHiddenFilterIds_.removeOne(filterId);
+    if (unreadIndicatorsHiddenFilterIds_.contains(filterId))
+        unreadIndicatorsHiddenFilterIds_.removeOne(filterId);
     else
-        badgesHiddenFilterIds_.push_back(filterId);
-    UserSettings::instance()->setBadgesHiddenFilters(badgesHiddenFilterIds_);
+        unreadIndicatorsHiddenFilterIds_.push_back(filterId);
+    UserSettings::instance()->setUnreadIndicatorsHiddenFilters(unreadIndicatorsHiddenFilterIds_);
 
     if (filterId.startsWith(QLatin1String("tag:"))) {
         auto idx = tags_.indexOf(filterId.mid(4));
@@ -498,7 +498,7 @@ CommunitiesModel::toggleFilterBadges(QString filterId)
         emit dataChanged(index(kRowAllRooms), index(kRowAllRooms));
     }
 
-    emit badgesHiddenFiltersChanged();
+    emit unreadIndicatorsHiddenFiltersChanged();
 }
 
 void
@@ -543,11 +543,11 @@ CommunitiesModel::handleRoomlistRowsRemoved(const QModelIndex &parent, int first
 }
 
 bool
-CommunitiesModel::areFilterBadgesHidden(const QString &filterId) const
+CommunitiesModel::areFilterUnreadIndicatorsHidden(const QString &filterId) const
 {
     if (filterId.isEmpty())
-        return badgesHiddenFilterIds_.contains(QStringLiteral("global"));
-    return badgesHiddenFilterIds_.contains(filterId);
+        return unreadIndicatorsHiddenFilterIds_.contains(QStringLiteral("global"));
+    return unreadIndicatorsHiddenFilterIds_.contains(filterId);
 }
 
 bool

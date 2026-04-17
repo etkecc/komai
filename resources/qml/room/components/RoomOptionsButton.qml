@@ -10,7 +10,8 @@ RoomHeaderActionButton {
     property string roomId: ""
     property bool showTextLabel: false
 
-    toolTipText: qsTr("Leave room")
+    toolTipText: qsTr("Leave this room")
+    alwaysShowToolTip: true
     image: ":/icons/icons/ui/power-off.svg"
     labelText: qsTr("Leave")
     showLabel: showTextLabel

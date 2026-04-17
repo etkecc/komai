@@ -364,13 +364,24 @@ Item {
             }
         }
     }
+    ThreadViewBar {
+        id: threadViewBar
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top
+        roomId: timelineView.useMatrixRoomView && timelineView.roomPreview
+            ? String(timelineView.roomPreview.roomid || "") : ""
+        visible: active && (!!timelineView._activePoolEntry || timelineView.useMatrixRoomView)
+    }
     Item {
         id: timelinePoolContainer
 
         anchors.bottom: matrixComposerPane.visible ? matrixComposerPane.top : parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top
+        anchors.top: threadViewBar.visible ? threadViewBar.bottom
+            : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top)
         visible: !!timelineView._activePoolEntry || timelineView.useMatrixRoomView
     }
     MatrixRoomComposerPane {

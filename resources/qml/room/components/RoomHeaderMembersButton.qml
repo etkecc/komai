@@ -11,7 +11,8 @@ RoomHeaderActionButton {
     property bool showTextLabel: false
     readonly property int memberCount: room ? room.roomMemberCount : 0
 
-    toolTipText: qsTr("Show room members.")
+    toolTipText: qsTr("Show the members of this room")
+    alwaysShowToolTip: true
     image: ":/icons/icons/ui/people.svg"
     labelText: qsTr("Members (%1)").arg(memberCount)
     showLabel: showTextLabel

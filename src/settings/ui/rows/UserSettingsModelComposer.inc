@@ -4,7 +4,7 @@
     { QT_TR_NOOP("Input"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // SendMessageKey
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Send key",
       QT_TR_NOOP(
         "Choose which Enter key combination sends messages."),
@@ -47,7 +47,7 @@
       QT_TR_NOOP("Show an inline emoji picker when you type a colon (:) in the message input."),
       SM::TabComposer, composerInputInlineEmojiPickerEnabled, setComposerInputInlineEmojiPickerEnabled, nullptr, ComposerInputInlineEmojiPickerEnabled, SettingKey::ComposerInputInlineEmojiPickerEnabled),
     // PreferredEmojiGender
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Preferred gender",
       QT_TR_NOOP(
         "Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences\">Learn more</a>."),

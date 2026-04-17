@@ -68,7 +68,7 @@
     // InputMode
     { QT_TR_NOOP("Interaction mode"),
       QT_TR_NOOP("Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions."),
-      SM::Options, SM::TabLookFeel,
+      SM::SegmentedOptions, SM::TabLookFeel,
       lookFeelInputModeValue,
       setLookFeelInputModeValue,
       {}, {}, {},
@@ -266,7 +266,7 @@
       NavigationRoomListSort,
       SettingKey::NavigationRoomListSort),
     // RoomListOpeningPolicy
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Room list opening policy",
       QT_TR_NOOP("Whether clicking a room reuses the active tab or opens a new one. Rooms with an existing tab get it activated in all cases."),
       SM::TabNavigation,
@@ -282,7 +282,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
       settings::core::SettingId::Unknown, nullptr, "navigation-tab-bar-section" },
     // TabBarShowPinButton
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Show pin button",
       nullptr,
       SM::TabNavigation,
@@ -294,7 +294,7 @@
       NavigationTabsShowPinButton,
       SettingKey::NavigationTabsShowPinButton),
     // TabBarPinnedTabLabel
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Pinned tab label",
       nullptr,
       SM::TabNavigation,
@@ -306,7 +306,7 @@
       NavigationTabsPinnedTabLabel,
       SettingKey::NavigationTabsPinnedTabLabel),
     // TabBarTabLabel
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Regular tab label",
       nullptr,
       SM::TabNavigation,

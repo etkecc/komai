@@ -87,7 +87,7 @@ Item {
                     }
                     readonly property real controlWidth: r.useStackedLayout
                         ? Math.max(0, grid.width - Komai.paddingSmall * 2)
-                        : Math.min(500, Math.max(240, grid.width - Komai.paddingLarge * 2))
+                        : Math.min(600, Math.max(240, grid.width - Komai.paddingLarge * 2))
                     readonly property bool hasSyncedToMatrix: r.model.type != UserSettingsModel.SectionTitle
                         && !!r.model.syncedToMatrix
                     readonly property bool hasDescription: r.model.type != UserSettingsModel.SectionTitle
@@ -304,6 +304,20 @@ Item {
                                         delegate: optionsDelegate
                                     }
                                     DelegateChoice {
+                                        roleValue: UserSettingsModel.SegmentedOptions
+                                        SegmentedButton {
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
+                                            width: r.controlWidth
+                                            currentIndex: r.model.value
+                                            model: (r.model.values || []).map(function(v) { return { text: v }; })
+                                            onActivated: function(index) {
+                                                if (index !== r.model.value)
+                                                    r.model.value = index;
+                                            }
+                                        }
+                                    }
+                                    DelegateChoice {
                                         roleValue: UserSettingsModel.SearchableOptions
                                         delegate: searchableOptionsDelegate
                                     }
@@ -318,8 +332,8 @@ Item {
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.ThemeSelector
                                         SettingRowThemeSelector {
-                                            anchors.left: r.useStackedLayout ? parent.left : undefined
-                                            anchors.right: r.useStackedLayout ? undefined : parent.right
+                                            anchors.left: parent.left
+                                            anchors.right: parent.right
                                             model: r.model
                                             leftAligned: r.useStackedLayout
                                         }

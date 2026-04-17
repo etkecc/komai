@@ -49,6 +49,7 @@ public:
         ReadOnlyText,
         Options,
         OptionsWithDescription,
+        SegmentedOptions,
         SearchableOptions,
         PresenceStatusMessageField,
         Integer,

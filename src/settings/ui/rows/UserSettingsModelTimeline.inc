@@ -9,7 +9,7 @@
       SM::TimelinePreview, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // TimelineMessagesStyle
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Style",
       nullptr,
       SM::TabTimeline, timelineMessagesStyle, setTimelineMessagesStyle, UserSettings::TimelineMessagesStyle,
@@ -18,7 +18,7 @@
       TimelineMessagesStyle,
       SettingKey::TimelineMessagesStyle),
     // TimelineMessagesLayoutPositioning
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Horizontal positioning",
       QT_TR_NOOP("Choose whether messages stay on one side or are positioned opposite each other by sender."),
       SM::TabTimeline, timelineMessagesLayoutPositioning, setTimelineMessagesLayoutPositioning, UserSettings::TimelineMessagesLayoutPositioning,
@@ -57,7 +57,7 @@
       TimelineMessagesSenderUsername,
       SettingKey::TimelineMessagesSenderUsername),
     // TimelineAvatarSize
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Avatar size",
       nullptr,
       SM::TabTimeline, timelineMessagesLayoutAvatarSize, setTimelineMessagesLayoutAvatarSize, UserSettings::AvatarSize,
@@ -111,7 +111,7 @@
     { QT_TR_NOOP("Actions"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // TimelineMessageActionsActivationPolicy
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Actions activation policy",
       QT_TR_NOOP("Choose how message actions are opened."),
       SM::TabTimeline, timelineMessageActionsActivationPolicy, setTimelineMessageActionsActivationPolicy, UserSettings::TimelineMessageActionsActivationPolicy,
@@ -137,7 +137,7 @@
                         nullptr,
                         SM::TabTimeline, timelineMediaAnimateOnHover, setTimelineMediaAnimateOnHover, nullptr, TimelineMediaAnimateOnHover, SettingKey::TimelineMediaAnimateOnHover),
     // ShowImage
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+    SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(
       "Show images automatically",
       nullptr,
       SM::TabTimeline, timelineMediaImageDisplay, setTimelineMediaImageDisplay, UserSettings::ShowImage,

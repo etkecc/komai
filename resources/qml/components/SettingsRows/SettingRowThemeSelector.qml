@@ -6,6 +6,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import cc.etke.komai
 
 Item {
@@ -21,31 +22,31 @@ Item {
     readonly property var safeValues: (model && model.values !== undefined) ? model.values : []
     readonly property int safeValue: (model && model.value !== undefined) ? model.value : 0
 
-    implicitWidth: row.implicitWidth
     implicitHeight: row.implicitHeight
 
-    Row {
+    RowLayout {
         id: row
         anchors.left: parent.left
+        anchors.right: parent.right
         spacing: root.leftAligned ? Math.max(1, Math.round(Komai.paddingSmall / 2)) : Komai.paddingSmall
 
-        KomaiComboBox {
-            id: variantCombo
-            font.pointSize: Settings.uiFontSizePt
-            model: safeThemeVariantValues
-            currentIndex: safeThemeVariantValue
-            onActivated: {
+        SegmentedButton {
+            id: variantSegment
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignVCenter
+            currentIndex: root.safeThemeVariantValue
+            model: (root.safeThemeVariantValues || []).map(function(v) { return { text: v }; })
+            onActivated: function(index) {
                 if (!root.model)
                     return;
-                if (currentIndex !== safeThemeVariantValue)
-                    root.model.themeVariantValue = currentIndex;
+                if (index !== root.safeThemeVariantValue)
+                    root.model.themeVariantValue = index;
             }
-            implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
-            wheelEnabled: activeFocus
         }
 
         KomaiComboBox {
             id: themeCombo
+            Layout.alignment: Qt.AlignVCenter
             font.pointSize: Settings.uiFontSizePt
             model: safeValues
             currentIndex: safeValue

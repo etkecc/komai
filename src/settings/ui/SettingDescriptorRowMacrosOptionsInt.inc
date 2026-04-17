@@ -45,6 +45,21 @@
      enabled_cb,                                                                                   \
      CORE_CONFIG_ID(id, key)}
 
+#define SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(                                                   \
+  name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, id, key)                    \
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::SegmentedOptions,                                                                         \
+     tab,                                                                                          \
+     getCoreEnumValue<settings::core::SettingId::id, &UserSettings::getter>,                       \
+     setSettingEnumValue<&UserSettings::setter, enum_type>,                                        \
+     0,                                                                                            \
+     enumMaxValue<enum_type>(),                                                                    \
+     1,                                                                                            \
+     values_expr,                                                                                  \
+     enabled_cb,                                                                                   \
+     CORE_CONFIG_ID(id, key)}
+
 #define SIMPLE_OPTIONS_INT_SETTING_CORE(                                                           \
   name, desc, tab, getter, setter, min_v, max_v, step_v, values_expr, enabled_cb, core_def)        \
     {QT_TR_NOOP(name),                                                                             \

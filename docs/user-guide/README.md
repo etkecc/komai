@@ -13,5 +13,6 @@
 - ✨ [Message Effects](message-effects.md) -- confetti, sunshine, rain, storms, and other timeline flourishes
 - 😀 [Emoji Search and Picker](emojis.md) -- localized emoji discovery, aliases, and trigger behavior
 - 🏘️ [Communities Sidebar](communities-sidebar.md) -- filter your Matrix rooms by various builtin filters and Matrix Spaces
+- 📑 [Room Tabs](tabs.md) -- browser-style tabs for juggling multiple conversations, with pinning and closed-tab recovery
 - 🎬 [Media Playback](media-playback.md) -- inline GIF video auto-play and media handling
 - 🔀 [Differences from nheko](differences-from-nheko.md) -- notable user-facing changes

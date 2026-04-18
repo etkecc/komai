@@ -1,8 +1,10 @@
 # 🔀 Differences from nheko
 
-Komai started as a fork of [nheko](https://nheko.im/nheko-reborn/nheko) and has since diverged with UX improvements focused on desktop usability. This page lists the notable user-facing changes.
+Komai traces its origins to a fork of [nheko](https://nheko.im/nheko-reborn/nheko), but with the Matrix core swapped out for the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk), the UX reshaped, the codebase reorganized, and much of the C++ migrated into Rust, it's really a [Ship of Theseus](https://en.wikipedia.org/wiki/Ship_of_Theseus) — a nheko fork at first sight, with clear upstream ancestry, but the 🐱 cat is out of the bag: not a lot of nheko left inside.
 
-> 💡 This document was written in February-March 2026, around Komai's initial release period. As both Komai and nheko evolve, some details here may become outdated over time.
+This page still exists for readers curious about where Komai came from and the kinds of things that were reshaped along the way. It lists the notable user-facing differences, but shouldn't be read as a complete diff — far too much has changed for that to be practical.
+
+> 💡 This document was last updated in April 2026, around Komai's initial release period. As both Komai and nheko evolve, some details here may become outdated over time.
 
 For project background and naming context, see [🦁 Identity](identity.md).
 

@@ -4,25 +4,24 @@
 <h1 align="center">Komai (<a target="_blank" href="https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84">こまい</a>)</h1>
 <h2 align="center">A fine <a target="_blank" href="https://matrix.org/">Matrix</a> chat app you can get to love</h2>
 
-🦁 **Komai** is a desktop-first [Matrix](https://matrix.org/) chat application built with [Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML). It began as a [usability](https://en.wikipedia.org/wiki/Usability)-focused [fork](https://en.wikipedia.org/wiki/Fork_(software_development)) of [nheko](https://nheko.im/nheko-reborn/nheko), but has since been heavily rebuilt around the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) runtime and a growing Rust core (see [differences from nheko](docs/user-guide/differences-from-nheko.md)).
+🦁 **Komai** is a desktop-first [Matrix](https://matrix.org/) chat application built with [Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML). It traces its origins to a [usability](https://en.wikipedia.org/wiki/Usability)-focused [fork](https://en.wikipedia.org/wiki/Fork_(software_development)) of [nheko](https://nheko.im/nheko-reborn/nheko), rebuilt around the Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) runtime with a growing Rust core.
 
 **🤖 Komai is [built with AI](docs/user-guide/ai.md).** Professional [engineers](https://etke.cc/about/) + AI coding agents ([Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview), [Codex](https://openai.com/index/introducing-codex/)) working together to build a complex native application in a language stack that isn't the team's primary expertise. We think AI in capable hands can deliver above-average results.
 
-Komai was started by the [etke.cc](https://etke.cc/) team, but contributions by anyone are welcome! It's fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping.
+Komai was created by the [etke.cc](https://etke.cc/) team, but contributions by anyone are welcome! It's fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping.
 
 If you're curious about the origin of this project and its name, see the [🦁 Identity](docs/user-guide/identity.md) documentation page.
 
 ## 🎯 Design Philosophy
 
 - 🖥️ **Desktop-first UX** — optimized for large screens
-- 👓 **Readable and easy to use** — comfortably readable text, larger hit targets, and interaction patterns that respect [Fitts's law](https://www.nngroup.com/articles/fitts-law/) so actions are easier to hit and harder to miss
-- 🎨 **Subtle but effective** — [themeable](docs/user-guide/themes.md), [customizable](docs/user-guide/settings/README.md), user-first, insanely fast
-- 🛠️ **Started from [nheko](https://nheko.im/nheko-reborn/nheko), rebuilt for Komai** — Komai began as a nheko fork, but replaced the original `mtxclient` + `libolm` Matrix stack with Rust [matrix-sdk](https://github.com/matrix-org/matrix-rust-sdk) and keeps moving more core functionality from C++ to Rust
+- 👓 **Readable and easy to use** — comfortably readable text, larger hit targets, and interaction patterns that respect [Fitts's law](https://www.nngroup.com/articles/fitts-law/)
+- 🎨 **Yours to shape** — [themeable](docs/user-guide/themes.md) and [customizable](docs/user-guide/settings/README.md)
+- ⚡ **Responsive by design** — native performance is a design constraint
+- 🎓 **Educate, don't over-abstract away** — like [Arch Linux](https://wiki.archlinux.org/title/Arch_Linux), we prefer exposing Matrix's real concepts over hiding them
 
 
 ## 🌟 Features
-
-Much of what [nheko](https://nheko.im/nheko-reborn/nheko) offered, plus [UX improvements, Rust-driven architectural changes, and additional features](docs/user-guide/differences-from-nheko.md).
 
 Highlights:
 
@@ -35,16 +34,17 @@ Highlights:
 - 🎨 10+ [built-in themes](docs/user-guide/themes.md#-built-in-themes), maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for common UI text pairings, but also [🗂️ user-themable](docs/user-guide/themes.md#️-user-themes)
 - 🌐 30+ languages with inherited nheko translations and AI-assisted gap filling (see [Translations](docs/maintainers/translations.md))
 - 🧠 [User Interface](https://en.wikipedia.org/wiki/User_interface) that both grandma and power users can use, making neither of you feel stupid or incapable
-- 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md) - you're in control
+- 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md)
 - 🧭 First-class [Matrix Room Search](https://github.com/etkecc/mrs) support (enabled by default via [matrixrooms.info](https://matrixrooms.info/?utm_source=komai&utm_medium=docs&utm_campaign=readme) by [etke.cc](https://etke.cc/?utm_source=komai&utm_medium=docs&utm_campaign=readme), with language filtering) and room size filtering
 - 📋 Good support for hundreds of rooms and spaces
+- 📑 **Browser-style [room tabs](docs/user-guide/tabs.md)** for juggling multiple conversations at once, with pinning and closed-tab recovery — a power-user feature still rare among Matrix clients
 - ⌨️ [Keyboard-driven main chat workflow](docs/user-guide/keyboard-shortcuts.md), with human and [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-style shortcuts
 - 🔀 [Selection mode](docs/user-guide/keyboard-shortcuts.md#selection-mode) for bulk actions (forwarding, moderation)
 - ⚡ Quick & lightweight native application ([Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML)). No [Electron](https://www.electronjs.org/) here
 - 🤖 Human- and agent-ready local automation via [Model Context Protocol (MCP)](docs/user-guide/automations/mcp.md), [CLI commands](docs/user-guide/automations/cli.md), and the [D-Bus API](docs/user-guide/automations/dbus.md)
 - 🕊️ Fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping
 
-If you're curious about the full list of changes from [nheko](https://nheko.im/nheko-reborn/nheko), see 📄 [Differences from nheko](docs/user-guide/differences-from-nheko.md).
+Curious where Komai came from and what changed along the way? See 📄 [Differences from nheko](docs/user-guide/differences-from-nheko.md).
 
 
 ## 📸 Screenshots

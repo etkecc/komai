@@ -491,11 +491,26 @@ fn publish_merged_snapshot(
                 continue;
             }
 
-            // Match by event_id (available after Sent state), or
-            // by sender + body content (for Pending state where
-            // event_id is empty).
+            // Match by event_id when it's known (Sent state). Otherwise
+            // prefer `unsigned.transaction_id` — the homeserver round-trips
+            // the original client-supplied txn_id on events it returns to
+            // the sender, so this is a first-party reconciliation key.
+            // Fall back to sender + body for servers that strip or omit
+            // `unsigned.transaction_id` on /relations responses.
             let matched = if !sdk_item.event_id.is_empty() {
                 relations_items.iter().find(|r| r.event_id == sdk_item.event_id)
+            } else if !sdk_item.transaction_id.is_empty() {
+                relations_items
+                    .iter()
+                    .find(|r| !r.transaction_id.is_empty()
+                        && r.transaction_id == sdk_item.transaction_id)
+                    .or_else(|| {
+                        relations_items.iter().find(|r| {
+                            r.sender_id == sdk_item.sender_id
+                                && r.body == sdk_item.body
+                                && !r.body.is_empty()
+                        })
+                    })
             } else {
                 relations_items.iter().find(|r| {
                     r.sender_id == sdk_item.sender_id
@@ -640,14 +655,23 @@ async fn raw_event_to_timeline_item(
     let (sender_display_name, sender_avatar_url) =
         resolve_member_profile(room, deserialized.sender()).await;
 
-    let (thread_root_id, reply_to_event_id) = extract_relations_from_raw(raw.json().get());
+    let raw_json = raw.json().get();
+    let (thread_root_id, reply_to_event_id) = extract_relations_from_raw(raw_json);
 
     let is_own = deserialized.sender() == own_user_id;
+    // `unsigned.transaction_id` is only populated by the homeserver on
+    // events it returns to the original sender, so only read it for our
+    // own events — saves a serde parse pass on everyone else's events.
+    let transaction_id = if is_own {
+        extract_transaction_id_from_raw(raw_json)
+    } else {
+        String::new()
+    };
 
     Some(MatrixTimelineItem {
         item_id: event_id.clone(),
         event_id,
-        transaction_id: String::new(),
+        transaction_id,
         delivery_state: String::new(),
         send_error: String::new(),
         is_recoverable: false,
@@ -759,6 +783,25 @@ fn extract_relations_from_raw(json_str: &str) -> (String, String) {
         .to_owned();
 
     (thread_root_id, reply_to_event_id)
+}
+
+/// Extract the original client-supplied transaction id from a raw event's
+/// `unsigned.transaction_id` field. Per the Matrix spec, homeservers populate
+/// this on events they return to the original sender after a successful PUT,
+/// which lets us reconcile a just-sent local echo with its server-confirmed
+/// /relations twin without guessing by sender + body.
+fn extract_transaction_id_from_raw(json_str: &str) -> String {
+    let parsed: serde_json::Value = match serde_json::from_str(json_str) {
+        Ok(v) => v,
+        Err(_) => return String::new(),
+    };
+
+    parsed
+        .get("unsigned")
+        .and_then(|u| u.get("transaction_id"))
+        .and_then(|v| v.as_str())
+        .unwrap_or("")
+        .to_owned()
 }
 
 /// Fire-and-forget tasks to fetch reply details for events with unavailable

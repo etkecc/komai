@@ -236,18 +236,29 @@ Rectangle {
                 var listPos = tabDelegate.mapToItem(tabDelegate.parentListView, mouse.x, 0);
                 var contentX = listPos.x + tabDelegate.parentListView.contentX;
 
-                // Compute target index by accumulating actual delegate widths,
-                // since avatar-only pinned tabs are narrower than tabWidth.
-                var targetIndex = tabController.tabs.count - 1;
-                var accumulated = 0;
-                for (var i = 0; i < tabController.tabs.count; i++) {
+                // Compute target index using only the non-dragged tabs'
+                // midpoints as boundaries.  Including the dragged tab's
+                // own width would create a feedback loop near the
+                // pinned/unpinned boundary: auto-pinning shrinks it to
+                // avatar-only width, the cursor falls into a different
+                // slot, it unpins and widens again — flickering without
+                // the user moving the mouse.
+                var draggedIndex = tabController.findTab(tabController._dragRoomId);
+                var count = tabController.tabs.count;
+                var targetIndex = count - 1;
+                var acc = 0;
+                var gap = 0;
+                for (var i = 0; i < count; i++) {
+                    if (i === draggedIndex)
+                        continue;
                     var item = tabDelegate.parentListView.itemAtIndex(i);
                     var w = item ? item.width : tabDelegate.tabWidth;
-                    if (contentX < accumulated + w) {
-                        targetIndex = i;
+                    if (contentX < acc + w / 2) {
+                        targetIndex = gap;
                         break;
                     }
-                    accumulated += w;
+                    acc += w;
+                    gap++;
                 }
 
                 tabController.updateDragPosition(targetIndex);

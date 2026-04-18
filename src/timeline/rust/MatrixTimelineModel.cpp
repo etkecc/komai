@@ -408,6 +408,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
 
     // --- Extra roles ---
     case ItemId:             return item.itemId;
+    case TransactionId:      return item.transactionId;
     case SenderAvatarUrl:    return item.senderAvatarUrl;
     case ReactionsSummary:   return item.reactionsSummary;
     case PreviousTimestamp: {
@@ -425,6 +426,8 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
         return prev >= 0 ? items_.at(prev).itemKind : QString();
     }
     case DeliveryState:      return item.deliveryState;
+    case SendError:          return item.sendError;
+    case IsRecoverable:      return item.isRecoverable;
     case IsThreadRoot:       return item.isThreadRoot;
     case ThreadReplyCount:   return static_cast<int>(item.threadReplyCount);
     case IsVoiceMessage:     return item.isVoiceMessage;
@@ -573,12 +576,15 @@ MatrixTimelineModel::roleNames() const
 
       // Extra roles
       {ItemId, "itemId"},
+      {TransactionId, "transactionId"},
       {SenderAvatarUrl, "senderAvatarUrl"},
       {ReactionsSummary, "reactionsSummary"},
       {PreviousTimestamp, "previousTimestamp"},
       {PreviousSenderId, "previousSenderId"},
       {PreviousItemKind, "previousItemKind"},
       {DeliveryState, "deliveryState"},
+      {SendError, "sendError"},
+      {IsRecoverable, "isRecoverable"},
       {IsThreadRoot, "isThreadRoot"},
       {ThreadReplyCount, "threadReplyCount"},
       {IsVoiceMessage, "isVoiceMessage"},
@@ -959,6 +965,50 @@ MatrixTimelineModel::redactItemByEventId(const QString &eventId)
     applyRedactedPresentation(item);
 
     emit dataChanged(index(row), index(row));
+    return true;
+}
+
+bool
+MatrixTimelineModel::removeItemByTransactionId(const QString &transactionId)
+{
+    const auto normalized = transactionId.trimmed();
+    if (normalized.isEmpty())
+        return false;
+
+    int visibleRow = -1;
+    for (int row = 0; row < items_.size(); ++row) {
+        const auto &it = items_.at(row);
+        if (it.transactionId == normalized || it.itemId == normalized) {
+            visibleRow = row;
+            break;
+        }
+    }
+
+    int rawRow = -1;
+    for (int row = 0; row < allItems_.size(); ++row) {
+        const auto &it = allItems_.at(row);
+        if (it.transactionId == normalized || it.itemId == normalized) {
+            rawRow = row;
+            break;
+        }
+    }
+
+    if (rawRow < 0 && visibleRow < 0)
+        return false;
+
+    if (visibleRow >= 0) {
+        beginRemoveRows({}, visibleRow, visibleRow);
+        items_.removeAt(visibleRow);
+        endRemoveRows();
+    }
+
+    if (rawRow >= 0) {
+        allItems_.removeAt(rawRow);
+        if (revealedItemCount_ > allItems_.size())
+            revealedItemCount_ = allItems_.size();
+    }
+
+    emit countChanged();
     return true;
 }
 

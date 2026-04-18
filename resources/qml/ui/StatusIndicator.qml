@@ -11,11 +11,17 @@ ImageButton {
 
     property string eventId: ""
     property int status: MtxEvent.Empty
+    // Human-readable SDK error string from `EventSendState::SendingFailed.error`.
+    // When present on a Failed row, it's appended to the tooltip so the user
+    // can see *why* the send was rejected without digging through logs.
+    property string sendError: ""
 
     toolTipText: {
         switch (status) {
         case MtxEvent.Failed:
-            return qsTr("Failed");
+            return indicator.sendError.length > 0
+                ? qsTr("Failed: %1").arg(indicator.sendError)
+                : qsTr("Failed");
         case MtxEvent.Pending:
             return qsTr("Sending");
         case MtxEvent.Sent:
@@ -31,6 +37,9 @@ ImageButton {
     toolTipVisible: hovered && status != MtxEvent.Empty
     changeColorOnHover: (status == MtxEvent.Read)
     cursor: (status == MtxEvent.Read) ? Qt.PointingHandCursor : Qt.ArrowCursor
+    // Tint the Failed X with the theme's error color so it reads as a problem
+    // at a glance instead of looking like a regular secondary-text glyph.
+    buttonTextColor: status == MtxEvent.Failed ? Komai.theme.error : palette.buttonText
     height: 16
     hoverEnabled: true
     image: {

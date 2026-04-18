@@ -300,7 +300,7 @@ ColumnLayout {
     function appendText(text) { return interactionSupport.appendText(text); }
     function trySendMessage() { return interactionSupport.trySendMessage(); }
     function beginEdit(eventId, body, messageKind) { return interactionSupport.beginEdit(eventId, body, messageKind); }
-    function openRemoveMessageDialog(eventId) { return interactionSupport.openRemoveMessageDialog(eventId); }
+    function openRemoveMessageDialog(eventId, transactionId) { return interactionSupport.openRemoveMessageDialog(eventId, transactionId); }
     function openRawMessageDialog(eventId) { return interactionSupport.openRawMessageDialog(eventId); }
     function openReadReceiptsDialog(eventId) { return interactionSupport.openReadReceiptsDialog(eventId); }
     function openMatrixForwardDialog(eventId) { return interactionSupport.openMatrixForwardDialog(eventId); }
@@ -308,7 +308,7 @@ ColumnLayout {
     function openForwardDialogForEvents(eventIds, selectionCount) { return interactionSupport.openForwardDialogForEvents(eventIds, selectionCount); }
     function openRemoveMessagesDialog(eventIds, selectionCount) { return interactionSupport.openRemoveMessagesDialog(eventIds, selectionCount); }
     function openReportMessageDialog(eventId) { return interactionSupport.openReportMessageDialog(eventId); }
-    function openMessageActionsDialog(eventId, threadId, eventType, isSender, isEncrypted, isEditable, link, text, messageModelOverride, roomModelOverride) {
+    function openMessageActionsDialog(eventId, threadId, eventType, isSender, isEncrypted, isEditable, link, text, messageModelOverride, roomModelOverride, transactionId) {
         return interactionSupport.openMessageActionsDialog(eventId,
                                                            threadId,
                                                            eventType,
@@ -318,7 +318,8 @@ ColumnLayout {
                                                            link,
                                                            text,
                                                            messageModelOverride,
-                                                           roomModelOverride);
+                                                           roomModelOverride,
+                                                           transactionId);
     }
 
     function itemIsInSubtree(item, ancestor) {
@@ -558,6 +559,9 @@ ColumnLayout {
                         required property string typeString
                         required property string eventId
                         required property string itemId
+                        required property string transactionId
+                        required property string sendError
+                        required property bool isRecoverable
                         required property string threadId
                         required property bool isThreadRoot
                         required property int threadReplyCount
@@ -592,7 +596,18 @@ ColumnLayout {
                         required property string fileTypeIconSource
                         required property int originalWidth
                         required property int originalHeight
+                        // Lookup key for content rendering (role-data lookup via
+                        // EventDataSource.dataById). Falls back to `itemId` (matrix-sdk-ui
+                        // `unique_id`) for local echoes that don't have a real event_id yet,
+                        // so their bubble can still render. This is NOT a Matrix event id;
+                        // action handlers must branch on `isLocalEcho` (keyed on
+                        // `transactionId`, not on this lookup key) before passing it to
+                        // any Rust handler that calls `EventId::parse`.
                         readonly property string stableEventId: eventId.length > 0 ? eventId : itemId
+                        // Authoritative local-echo signal. matrix-sdk-ui only keeps
+                        // `transaction_id` for pending/failed sends; it is cleared once the
+                        // remote echo arrives, so its presence alone is reliable.
+                        readonly property bool isLocalEcho: transactionId.length > 0
 
                         width: matrixTimelineList.width
                         readonly property real heuristicHeight: {
@@ -622,6 +637,11 @@ ColumnLayout {
                                 chatRoot: root
 
                                 eventId: timelineItemDelegate.stableEventId
+                                transactionId: timelineItemDelegate.transactionId
+                                isLocalEcho: timelineItemDelegate.isLocalEcho
+                                realEventId: timelineItemDelegate.eventId
+                                sendError: timelineItemDelegate.sendError
+                                isRecoverable: timelineItemDelegate.isRecoverable
                                 replyTo: timelineItemDelegate.replyTo
                                 room: root.perRoomModel
                                 index: timelineItemDelegate.index
@@ -663,6 +683,11 @@ ColumnLayout {
                                 chatRoot: root
 
                                 eventId: timelineItemDelegate.stableEventId
+                                transactionId: timelineItemDelegate.transactionId
+                                isLocalEcho: timelineItemDelegate.isLocalEcho
+                                realEventId: timelineItemDelegate.eventId
+                                sendError: timelineItemDelegate.sendError
+                                isRecoverable: timelineItemDelegate.isRecoverable
                                 replyTo: timelineItemDelegate.replyTo
                                 room: root.perRoomModel
                                 index: timelineItemDelegate.index

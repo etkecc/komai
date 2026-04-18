@@ -1423,6 +1423,124 @@ TimelineViewManager::redactActiveMatrixTimelineEvent(const QString &eventId, con
 }
 
 bool
+TimelineViewManager::cancelActiveMatrixTimelineLocalEcho(const QString &transactionId)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        komai::logging::ui()->warn(
+          "Refusing to cancel a matrix-sdk local echo without an active runtime "
+          "handle or selected matrix room");
+        return false;
+    }
+
+    const auto trimmedTransactionId = transactionId.trimmed();
+    if (trimmedTransactionId.isEmpty())
+        return false;
+
+    const auto roomId = activeMatrixTimelineRoomId_;
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId, trimmedTransactionId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::cancelRoomLocalEcho(
+            context, handleId, roomId, trimmedTransactionId, &error);
+          return MatrixTimelineEventActionResult{
+            .handleId = handleId,
+            .roomId   = roomId,
+            .eventId  = trimmedTransactionId,
+            .detail   = {},
+            .error    = error,
+            .ok       = ok,
+          };
+      },
+      [](TimelineViewManager *manager, MatrixTimelineEventActionResult result) {
+          auto *mainWindow = MainWindow::instance();
+          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+              return;
+
+          if (!result.ok) {
+              komai::logging::ui()->warn(
+                "Failed to cancel matrix-sdk local echo '{}' in '{}' on handle {}: {}",
+                result.eventId.toStdString(),
+                result.roomId.toStdString(),
+                result.handleId,
+                result.error.toStdString());
+              mainWindow->showNotification(
+                TimelineViewManager::tr("Failed to cancel unsent message: %1").arg(result.error));
+              return;
+          }
+
+          if (manager->activeMatrixTimelineRoomId_ != result.roomId ||
+              !manager->matrixTimelineModel_)
+              return;
+
+          manager->matrixTimelineModel_->removeItemByTransactionId(result.eventId);
+      });
+    return true;
+}
+
+bool
+TimelineViewManager::retryActiveMatrixTimelineLocalEcho(const QString &transactionId)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || activeMatrixTimelineRoomId_.isEmpty()) {
+        komai::logging::ui()->warn(
+          "Refusing to retry a matrix-sdk local echo without an active runtime "
+          "handle or selected matrix room");
+        return false;
+    }
+
+    const auto trimmedTransactionId = transactionId.trimmed();
+    if (trimmedTransactionId.isEmpty())
+        return false;
+
+    const auto roomId = activeMatrixTimelineRoomId_;
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId, trimmedTransactionId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok = komai::MatrixBackendRuntimeService::retryRoomLocalEcho(
+            context, handleId, roomId, trimmedTransactionId, &error);
+          return MatrixTimelineEventActionResult{
+            .handleId = handleId,
+            .roomId   = roomId,
+            .eventId  = trimmedTransactionId,
+            .detail   = {},
+            .error    = error,
+            .ok       = ok,
+          };
+      },
+      [](TimelineViewManager *manager, MatrixTimelineEventActionResult result) {
+          auto *mainWindow = MainWindow::instance();
+          if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
+              return;
+
+          if (!result.ok) {
+              komai::logging::ui()->warn(
+                "Failed to retry matrix-sdk local echo '{}' in '{}' on handle {}: {}",
+                result.eventId.toStdString(),
+                result.roomId.toStdString(),
+                result.handleId,
+                result.error.toStdString());
+              mainWindow->showNotification(
+                TimelineViewManager::tr("Failed to retry unsent message: %1").arg(result.error));
+              return;
+          }
+
+          // On success the send queue re-attempts the send; the timeline
+          // subscription will push an updated snapshot (delivery_state flips
+          // from "failed" back to "pending", and either "sent" or "failed"
+          // once the attempt resolves). No optimistic UI update needed.
+          Q_UNUSED(manager);
+      });
+    return true;
+}
+
+bool
 TimelineViewManager::redactActiveMatrixTimelineEvents(const QStringList &eventIds,
                                                       const QString &reason)
 {

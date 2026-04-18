@@ -14,6 +14,9 @@ Components.OverlayDialog {
     id: root
 
     property string eventId
+    property string transactionId: ""
+    readonly property bool isLocalEcho: (!eventId || String(eventId).length === 0)
+        && transactionId.length > 0
     property int eventType
     property bool isSender
     property bool isEncrypted
@@ -328,7 +331,7 @@ Components.OverlayDialog {
                     iconSource: ":/icons/icons/ui/copy.svg"
                     shortcutSequence: "C"
                     shortcutDisplayText: qsTr("C")
-                    visible: root.isMediaType && root.effectiveRoomModel && typeof root.effectiveRoomModel.copyMedia === "function"
+                    visible: !root.isLocalEcho && root.isMediaType && root.effectiveRoomModel && typeof root.effectiveRoomModel.copyMedia === "function"
                     onClicked: {
                         root.effectiveRoomModel.copyMedia(root.eventId);
                         showFeedback(qsTr("Copied!"));
@@ -375,7 +378,7 @@ Components.OverlayDialog {
                 iconSource: root.isPinned ? ":/icons/icons/ui/pin-off.svg" : ":/icons/icons/ui/pin.svg"
                 shortcutSequence: "P"
                 shortcutDisplayText: qsTr("P")
-                visible: root.canChangePinned && !root.isStateEvent
+                visible: !root.isLocalEcho && root.canChangePinned && !root.isStateEvent
                     && root.effectiveRoomModel
                     && typeof root.effectiveRoomModel.pin === "function"
                     && typeof root.effectiveRoomModel.unpin === "function"
@@ -394,7 +397,7 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/double-checkmark.svg"
                 shortcutSequence: "M"
                 shortcutDisplayText: qsTr("M")
-                visible: !root.isStateEvent && root.effectiveRoomModel && typeof root.effectiveRoomModel.markEventAsRead === "function"
+                visible: !root.isLocalEcho && !root.isStateEvent && root.effectiveRoomModel && typeof root.effectiveRoomModel.markEventAsRead === "function"
                 onClicked: {
                     root.effectiveRoomModel.markEventAsRead(root.eventId);
                     showFeedback(qsTr("Done!"));
@@ -415,7 +418,7 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/download.svg"
                 shortcutSequence: "S"
                 shortcutDisplayText: qsTr("S")
-                visible: root.isMediaType && root.effectiveRoomModel && typeof root.effectiveRoomModel.saveMedia === "function"
+                visible: !root.isLocalEcho && root.isMediaType && root.effectiveRoomModel && typeof root.effectiveRoomModel.saveMedia === "function"
                 onClicked: {
                     root.close();
                     root.effectiveRoomModel.saveMedia(root.eventId);
@@ -428,7 +431,7 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/open-externally.svg"
                 shortcutSequence: "O"
                 shortcutDisplayText: qsTr("O")
-                visible: root.isMediaType && root.effectiveRoomModel && typeof root.effectiveRoomModel.openMedia === "function"
+                visible: !root.isLocalEcho && root.isMediaType && root.effectiveRoomModel && typeof root.effectiveRoomModel.openMedia === "function"
                 onClicked: {
                     root.close();
                     root.effectiveRoomModel.openMedia(root.eventId);
@@ -449,7 +452,7 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/eye-show.svg"
                 shortcutSequence: "I"
                 shortcutDisplayText: qsTr("I")
-                visible: !root.isStateEvent && root.effectiveRoomModel && typeof root.effectiveRoomModel.showReadReceipts === "function"
+                visible: !root.isLocalEcho && !root.isStateEvent && root.effectiveRoomModel && typeof root.effectiveRoomModel.showReadReceipts === "function"
                 onClicked: {
                     root.close();
                     root.effectiveRoomModel.showReadReceipts(root.eventId);
@@ -462,7 +465,7 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/raw-message.svg"
                 shortcutSequence: "U"
                 shortcutDisplayText: qsTr("U")
-                visible: root.effectiveRoomModel && typeof root.effectiveRoomModel.viewRawMessage === "function"
+                visible: !root.isLocalEcho && root.effectiveRoomModel && typeof root.effectiveRoomModel.viewRawMessage === "function"
                 onClicked: {
                     root.close();
                     root.effectiveRoomModel.viewRawMessage(root.eventId);
@@ -475,7 +478,7 @@ Components.OverlayDialog {
                 iconSource: ":/icons/icons/ui/raw-message.svg"
                 shortcutSequence: "E"
                 shortcutDisplayText: qsTr("E")
-                visible: root.isEncrypted && root.effectiveRoomModel && typeof root.effectiveRoomModel.viewDecryptedRawMessage === "function"
+                visible: !root.isLocalEcho && root.isEncrypted && root.effectiveRoomModel && typeof root.effectiveRoomModel.viewDecryptedRawMessage === "function"
                 onClicked: {
                     root.close();
                     root.effectiveRoomModel.viewDecryptedRawMessage(root.eventId);
@@ -492,14 +495,14 @@ Components.OverlayDialog {
 
             ActionButton {
                 id: removeBtn
-                labelText: qsTr("Delete message")
+                labelText: root.isLocalEcho ? qsTr("Cancel send") : qsTr("Delete message")
                 iconSource: ":/icons/icons/ui/delete.svg"
                 shortcutSequence: "D"
                 shortcutDisplayText: qsTr("D")
-                visible: root.canRedact || root.isSender
+                visible: root.isLocalEcho || root.canRedact || root.isSender
                 onClicked: {
                     root.close();
-                    root.chatRoot.openRemoveMessageDialog(root.eventId);
+                    root.chatRoot.openRemoveMessageDialog(root.eventId, root.transactionId);
                 }
             }
 
@@ -509,7 +512,7 @@ Components.OverlayDialog {
                     iconSource: ":/icons/icons/ui/alert.svg"
                     shortcutSequence: "R"
                     shortcutDisplayText: qsTr("R")
-                    visible: !root.isStateEvent
+                    visible: !root.isLocalEcho && !root.isStateEvent
                     onClicked: {
                         root.close();
                         root.chatRoot.openReportMessageDialog(root.eventId);

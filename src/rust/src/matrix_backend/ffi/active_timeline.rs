@@ -20,7 +20,10 @@ fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimeline
     ffi::MatrixTimelineItem {
         item_id: item.item_id,
         event_id: item.event_id,
+        transaction_id: item.transaction_id,
         delivery_state: item.delivery_state,
+        send_error: item.send_error,
+        is_recoverable: item.is_recoverable,
         thread_id: item.thread_id,
         is_thread_root: item.is_thread_root,
         thread_reply_count: item.thread_reply_count,

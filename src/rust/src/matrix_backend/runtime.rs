@@ -150,9 +150,9 @@ pub use timeline::{
     set_active_room_timeline_initial_page_size, stop_room_timeline,
 };
 pub use timeline_messaging::{
-    mark_room_event_as_read, redact_room_event, report_room_event, send_room_attachment,
-    send_room_edit_message, send_room_message, send_room_message_like_event_json,
-    send_room_reply_message, toggle_room_reaction,
+    cancel_local_echo, mark_room_event_as_read, redact_room_event, report_room_event,
+    retry_local_echo, send_room_attachment, send_room_edit_message, send_room_message,
+    send_room_message_like_event_json, send_room_reply_message, toggle_room_reaction,
 };
 pub use timeline_events::{
     fetch_active_room_event_content_for_forwarding, fetch_active_room_raw_event_dialog_data,
@@ -460,7 +460,15 @@ pub struct MatrixReactionSummary {
 pub struct MatrixTimelineItem {
     pub item_id: String,
     pub event_id: String,
+    pub transaction_id: String,
     pub delivery_state: String,
+    /// Human-readable error string from `EventSendState::SendingFailed`.
+    /// Populated only for failed local echoes; empty otherwise.
+    pub send_error: String,
+    /// Whether the SDK considers the send failure recoverable (retry via
+    /// `SendHandle::unwedge` may help). Meaningful only while
+    /// `delivery_state == "failed"`.
+    pub is_recoverable: bool,
     pub thread_id: String,
     pub is_thread_root: bool,
     pub thread_reply_count: u32,
@@ -600,6 +608,14 @@ enum MatrixBackendRoomTimelineCommand {
     ToggleReaction {
         event_id: String,
         reaction_key: String,
+        response: tokio::sync::oneshot::Sender<Result<(), String>>,
+    },
+    CancelLocalEcho {
+        transaction_id: String,
+        response: tokio::sync::oneshot::Sender<Result<bool, String>>,
+    },
+    RetryLocalEcho {
+        transaction_id: String,
         response: tokio::sync::oneshot::Sender<Result<(), String>>,
     },
 }

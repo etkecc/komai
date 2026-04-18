@@ -569,6 +569,10 @@ Item {
                 : Math.max(0, Math.round(messageBubble.y + messageBubble.height - height - bubbleBottomMargin))
 
             eventId: root.wrapper.eventId
+            isLocalEcho: root.wrapper.isLocalEcho
+            transactionId: root.wrapper.transactionId
+            sendError: root.wrapper.sendError
+            isRecoverable: root.wrapper.isRecoverable
             status: root.wrapper.status
             trustlevel: root.wrapper.trustlevel
             isEdited: root.wrapper.isEdited

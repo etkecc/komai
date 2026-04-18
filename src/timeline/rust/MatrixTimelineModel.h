@@ -78,12 +78,15 @@ public:
 
         // --- Extra roles (not in TimelineModel) ---
         ItemId = Qt::UserRole,
+        TransactionId,
         SenderAvatarUrl,
         ReactionsSummary,
         PreviousTimestamp,
         PreviousSenderId,
         PreviousItemKind,
         DeliveryState,
+        SendError,
+        IsRecoverable,
         IsThreadRoot,
         ThreadReplyCount,
         IsVoiceMessage,
@@ -127,6 +130,7 @@ public:
     int count() const { return items_.size(); }
     int hiddenCount() const;
     bool redactItemByEventId(const QString &eventId);
+    bool removeItemByTransactionId(const QString &transactionId);
     bool revealOlderItems(int additionalCount);
     void replaceItems(QVector<MatrixTimelineItem> items);
     void forceModelReset();

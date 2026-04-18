@@ -69,6 +69,7 @@ QtObject {
 
     function canReact(messageModel, roomModel) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && !messageModel.isStateEvent
             && actionCapability(messageModel, "supportsReaction", true)
             && roomCanSend(roomModel, MtxEvent.Reaction);
@@ -76,29 +77,36 @@ QtObject {
 
     function canEdit(messageModel, roomModel) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && !!messageModel.isEditable
             && actionCapability(messageModel, "supportsEdit", true)
             && canSendText(messageModel, roomModel);
     }
 
     function canReply(messageModel, roomModel) {
-        return actionCapability(messageModel, "supportsReply", true)
+        return !!messageModel
+            && !messageModel.isLocalEcho
+            && actionCapability(messageModel, "supportsReply", true)
             && canSendText(messageModel, roomModel);
     }
 
     function canThread(messageModel, roomModel) {
-        return actionCapability(messageModel, "supportsThread", true)
+        return !!messageModel
+            && !messageModel.isLocalEcho
+            && actionCapability(messageModel, "supportsThread", true)
             && canSendText(messageModel, roomModel);
     }
 
     function canForward(messageModel) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && actionCapability(messageModel, "supportsForward", true)
             && isForwardableType(messageModel.type);
     }
 
     function canGoToMessage(messageModel, filteredTimeline) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && !!messageModel.eventId
             && actionCapability(messageModel, "supportsGoToMessage", true)
             && !!filteredTimeline
@@ -107,27 +115,34 @@ QtObject {
 
     function canOpenOptions(messageModel) {
         return !!messageModel
-            && !!messageModel.eventId
+            && (!!messageModel.eventId || !!messageModel.transactionId)
             && actionCapability(messageModel, "supportsOptions", true);
     }
 
     function canRemove(messageModel, roomModel) {
         const _ = permissionsRevision(roomModel);
-        return !!messageModel
-            && actionCapability(messageModel, "supportsRemove", true)
-            && !!roomModel
+        if (!messageModel
+                || !actionCapability(messageModel, "supportsRemove", true))
+            return false;
+        // Local echoes never reached the server — cancelling is a local queue op,
+        // no redact permission required. Only gate on ownership instead.
+        if (messageModel.isLocalEcho)
+            return true;
+        return !!roomModel
             && roomModel.permissions
             && (roomModel.permissions.canRedact() || messageModel.isSender);
     }
 
     function canViewRaw(messageModel) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && !!messageModel.eventId
             && actionCapability(messageModel, "supportsViewRaw", true);
     }
 
     function canPin(messageModel, roomModel) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && !!messageModel.eventId
             && actionCapability(messageModel, "supportsPin", true)
             && roomCanChange(roomModel, MtxEvent.PinnedEvents);
@@ -135,6 +150,7 @@ QtObject {
 
     function canReadReceipts(messageModel, roomModel) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && !!messageModel.eventId
             && actionCapability(messageModel, "supportsReadReceipts", true)
             && roomHasMethod(roomModel, "showReadReceipts");
@@ -142,6 +158,7 @@ QtObject {
 
     function canMarkAsRead(messageModel, roomModel) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && !!messageModel.eventId
             && actionCapability(messageModel, "supportsMarkAsRead", true)
             && roomHasMethod(roomModel, "markEventAsRead");
@@ -149,6 +166,7 @@ QtObject {
 
     function canReport(messageModel, chatRoot) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && !!messageModel.eventId
             && actionCapability(messageModel, "supportsReport", true)
             && !!chatRoot
@@ -157,6 +175,7 @@ QtObject {
 
     function canSaveMedia(messageModel, roomModel) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && actionCapability(messageModel, "supportsSaveMedia", true)
             && isMediaType(messageModel.type)
             && roomHasMethod(roomModel, "saveMedia");
@@ -164,6 +183,7 @@ QtObject {
 
     function canOpenMedia(messageModel, roomModel) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && actionCapability(messageModel, "supportsOpenMedia", true)
             && isMediaType(messageModel.type)
             && roomHasMethod(roomModel, "openMedia");
@@ -171,6 +191,7 @@ QtObject {
 
     function canCopyEventLink(messageModel, roomModel) {
         return !!messageModel
+            && !messageModel.isLocalEcho
             && !!messageModel.eventId
             && actionCapability(messageModel, "supportsCopyEventLink", true)
             && roomHasMethod(roomModel, "copyLinkToEvent");
@@ -183,8 +204,15 @@ QtObject {
         const effectiveRoomModel = roomModelOverride
             ? roomModelOverride
             : ((messageModel && messageModel.roomModelOverride) ? messageModel.roomModelOverride : null);
+        // Prefer `realEventId` (empty for local echoes) over `eventId` (which is
+        // the content-lookup key — may hold the row's `itemId` fallback, so a
+        // failed local echo would otherwise look like a real remote event to the
+        // dialog and every !isLocalEcho gate would open up).
+        const actualEventId = messageModel.realEventId !== undefined
+            ? String(messageModel.realEventId || "")
+            : String(messageModel.eventId || "");
         chatRoot.openMessageActionsDialog(
-            messageModel.eventId,
+            actualEventId,
             messageModel.threadId,
             messageModel.type,
             messageModel.isSender,
@@ -193,7 +221,8 @@ QtObject {
             "",
             messageModel.body || "",
             messageModel,
-            effectiveRoomModel);
+            effectiveRoomModel,
+            messageModel.transactionId || "");
         return true;
     }
 
@@ -261,7 +290,8 @@ QtObject {
         if (!chatRoot || !canRemove(messageModel, roomModel))
             return false;
 
-        chatRoot.openRemoveMessageDialog(messageModel.eventId);
+        chatRoot.openRemoveMessageDialog(messageModel.eventId || "",
+                                         messageModel.transactionId || "");
         return true;
     }
 }

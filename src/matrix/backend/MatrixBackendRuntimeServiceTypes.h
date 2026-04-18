@@ -309,7 +309,10 @@ struct MatrixTimelineItem
 {
     QString itemId;
     QString eventId;
+    QString transactionId;
     QString deliveryState;
+    QString sendError;
+    bool isRecoverable = false;
     QString threadId;
     bool isThreadRoot         = false;
     uint32_t threadReplyCount = 0;

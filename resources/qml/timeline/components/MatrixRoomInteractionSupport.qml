@@ -15,10 +15,16 @@ QtObject {
     required property var timelineList
 
     function openMatrixMessageContextMenu(messageModel, roomModel, copyText) {
-        if (!messageModel || !roomModel || !messageModel.eventId)
+        if (!messageModel || !roomModel)
             return;
 
-        support.dialogSupport.messageContextMenu.show(messageModel.eventId,
+        // Accept local echoes (no server event_id yet, only a transactionId) —
+        // we still want users to reach "Cancel send" on them.
+        const hasIdentity = !!messageModel.eventId || !!messageModel.transactionId;
+        if (!hasIdentity)
+            return;
+
+        support.dialogSupport.messageContextMenu.show(messageModel.eventId || "",
                                                       messageModel.threadId || "",
                                                       messageModel.type,
                                                       !!messageModel.isSender,
@@ -29,7 +35,8 @@ QtObject {
                                                       copyText || "",
                                                       null,
                                                       messageModel,
-                                                      roomModel);
+                                                      roomModel,
+                                                      messageModel.transactionId || "");
     }
 
     function jumpToLoadedMatrixEvent(eventId) {
@@ -321,8 +328,8 @@ QtObject {
         return true;
     }
 
-    function openRemoveMessageDialog(eventId) {
-        return support.dialogSupport.openRemoveMessageDialog(eventId);
+    function openRemoveMessageDialog(eventId, transactionId) {
+        return support.dialogSupport.openRemoveMessageDialog(eventId, transactionId);
     }
 
     function openRawMessageDialog(eventId) {
@@ -362,7 +369,8 @@ QtObject {
                                       link,
                                       text,
                                       messageModelOverride,
-                                      roomModelOverride) {
+                                      roomModelOverride,
+                                      transactionId) {
         return support.dialogSupport.openMessageActionsDialog(eventId,
                                                               threadId,
                                                               eventType,
@@ -372,7 +380,8 @@ QtObject {
                                                               link,
                                                               text,
                                                               messageModelOverride,
-                                                              roomModelOverride);
+                                                              roomModelOverride,
+                                                              transactionId);
     }
 
     function resolvePendingMatrixEventJump() {

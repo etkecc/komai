@@ -169,11 +169,16 @@ fn timeline_item_to_summary(
             })
         });
 
+        let (delivery_state, send_error, is_recoverable) =
+            matrix_timeline_delivery_state(event, own_user_id, read_own_event_ids);
         return Some((
             MatrixTimelineItem {
                 item_id,
                 event_id: event.event_id().map(ToString::to_string).unwrap_or_default(),
-                delivery_state: matrix_timeline_delivery_state(event, own_user_id, read_own_event_ids),
+                transaction_id: event.transaction_id().map(ToString::to_string).unwrap_or_default(),
+                delivery_state,
+                send_error,
+                is_recoverable,
                 thread_id,
                 is_thread_root,
                 thread_reply_count,
@@ -295,7 +300,10 @@ fn timeline_item_to_summary(
             MatrixTimelineItem {
                 item_id,
                 event_id: String::new(),
+                transaction_id: String::new(),
                 delivery_state: String::new(),
+                send_error: String::new(),
+                is_recoverable: false,
                 thread_id: String::new(),
                 is_thread_root: false,
                 thread_reply_count: 0,
@@ -376,27 +384,42 @@ pub fn collect_unavailable_reply_event_ids(
     result
 }
 
+/// Returns the `(delivery_state, send_error, is_recoverable)` triple for a
+/// timeline item. `send_error` is populated only for `SendingFailed` items;
+/// `is_recoverable` is true only when the SDK considers the failure
+/// transient (e.g. network hiccup) and would benefit from an unwedge retry.
 fn matrix_timeline_delivery_state(
     event: &matrix_sdk_ui::timeline::EventTimelineItem,
     own_user_id: Option<&matrix_sdk::ruma::UserId>,
     read_own_event_ids: &HashSet<String>,
-) -> String {
+) -> (String, String, bool) {
     use matrix_sdk_ui::timeline::EventSendState;
 
     let _ = own_user_id; // reserved for future use
 
     match event.send_state() {
-        Some(EventSendState::NotSentYet { .. }) => "pending".to_owned(),
-        Some(EventSendState::Sent { .. }) => "sent".to_owned(),
-        Some(EventSendState::SendingFailed { .. }) => "failed".to_owned(),
+        Some(EventSendState::NotSentYet { .. }) => {
+            ("pending".to_owned(), String::new(), false)
+        }
+        Some(EventSendState::Sent { .. }) => ("sent".to_owned(), String::new(), false),
+        Some(EventSendState::SendingFailed { error, is_recoverable }) => (
+            "failed".to_owned(),
+            error.to_string(),
+            *is_recoverable,
+        ),
         None if event.is_own() => {
             let is_read = event
                 .event_id()
                 .map(|eid| read_own_event_ids.contains(eid.as_str()))
                 .unwrap_or(false);
-            if is_read { "read".to_owned() } else { "received".to_owned() }
+            let label = if is_read {
+                "read".to_owned()
+            } else {
+                "received".to_owned()
+            };
+            (label, String::new(), false)
         }
-        None => String::new(),
+        None => (String::new(), String::new(), false),
     }
 }
 

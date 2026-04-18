@@ -73,6 +73,13 @@ RowLayout {
     layoutDirection: metadata.isSender ? Qt.RightToLeft : Qt.LeftToRight
 
     required property string eventId
+    property bool isLocalEcho: false
+    property string transactionId: ""
+    // Human-readable SDK error for failed local echoes. Empty otherwise.
+    property string sendError: ""
+    // True when matrix-sdk marked the failure as transient (retry-worthy).
+    // Meaningful only when `status == MtxEvent.Failed`.
+    property bool isRecoverable: false
     required property int status
     required property int trustlevel
     required property bool isEdited
@@ -124,7 +131,31 @@ RowLayout {
         visible: !metadata.isStateEvent && metadata.status != MtxEvent.Empty
         eventId: metadata.eventId
         status: metadata.status
+        sendError: metadata.sendError
         onReadReceiptsRequested: (eventId) => metadata.readReceiptsRequested(eventId)
+    }
+    // Retry button for wedged-but-recoverable local echoes. A single click
+    // calls matrix-sdk's `SendHandle::unwedge()` which re-queues the event.
+    // Hidden for non-recoverable failures (e.g. server-rejected content) —
+    // unwedging those would just re-fail; users should cancel instead.
+    ImageButton {
+        id: retryButton
+
+        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+        Layout.preferredHeight: parent.indicatorSize
+        Layout.preferredWidth: parent.indicatorSize
+        visible: metadata.status === MtxEvent.Failed
+            && metadata.isLocalEcho
+            && metadata.isRecoverable
+            && metadata.transactionId.length > 0
+        image: ":/icons/icons/ui/refresh.svg"
+        toolTipText: qsTr("Retry sending")
+        toolTipVisible: hovered
+        buttonTextColor: palette.buttonText
+        highlightColor: Komai.theme.error
+        changeColorOnHover: true
+        cursor: Qt.PointingHandCursor
+        onClicked: TimelineManager.retryActiveMatrixTimelineLocalEcho(metadata.transactionId)
     }
     Image {
         id: editedMarker
@@ -132,8 +163,14 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: metadata.indicatorSize
         Layout.preferredWidth: metadata.indicatorSize
-        visible: metadata.isEdited || metadata.eventId == metadata.roomEditEventId
-        source: visible ? "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? effectiveHighlightColor : effectiveSecondaryTextColor) : ""
+        // Local echoes never reached the server, so they can't be "edited" and
+        // can't be the composer's active edit target. The lookup-key `eventId`
+        // may coincide with a stale `room.edit` value in surprising ways — gate
+        // explicitly on `!isLocalEcho` plus a non-empty match.
+        visible: !metadata.isLocalEcho
+            && (metadata.isEdited
+                || (metadata.eventId !== "" && metadata.eventId === metadata.roomEditEventId))
+        source: visible ? "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId !== "" && metadata.eventId === metadata.roomEditEventId) ? effectiveHighlightColor : effectiveSecondaryTextColor) : ""
         sourceSize.height: metadata.indicatorSize
         sourceSize.width: metadata.indicatorSize
         HoverHandler {

@@ -976,7 +976,10 @@ mod bridge {
     struct MatrixTimelineItem {
         item_id: String,
         event_id: String,
+        transaction_id: String,
         delivery_state: String,
+        send_error: String,
+        is_recoverable: bool,
         thread_id: String,
         is_thread_root: bool,
         thread_reply_count: u32,
@@ -1975,6 +1978,18 @@ mod bridge {
             room_id: &str,
             event_id: &str,
             reason: &str,
+        ) -> Result<()>;
+        fn matrix_cancel_room_local_echo(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            transaction_id: &str,
+        ) -> Result<bool>;
+        fn matrix_retry_room_local_echo(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            transaction_id: &str,
         ) -> Result<()>;
         fn matrix_mark_room_event_as_read(
             context: MatrixFfiBlockingContext,

@@ -67,7 +67,10 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
     return MatrixTimelineItem{
       .itemId            = QString::fromStdString(std::string(item.item_id)),
       .eventId           = QString::fromStdString(std::string(item.event_id)),
+      .transactionId     = QString::fromStdString(std::string(item.transaction_id)),
       .deliveryState     = QString::fromStdString(std::string(item.delivery_state)),
+      .sendError         = QString::fromStdString(std::string(item.send_error)),
+      .isRecoverable     = item.is_recoverable,
       .threadId          = QString::fromStdString(std::string(item.thread_id)),
       .isThreadRoot      = item.is_thread_root,
       .threadReplyCount  = item.thread_reply_count,
@@ -395,6 +398,58 @@ MatrixBackendRuntimeService::redactRoomEvent(matrix_backend::BlockingCallContext
                 roomId.toStdString(),
                 eventId.toStdString(),
                 reason.toStdString());
+          });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::cancelRoomLocalEcho(matrix_backend::BlockingCallContext context,
+                                                 uint64_t handleId,
+                                                 const QString &roomId,
+                                                 const QString &transactionId,
+                                                 QString *errorOut)
+{
+    try {
+        matrix_backend::invokeBlockingCall(
+          "matrix_cancel_room_local_echo",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, transactionId, context]() {
+              ::komai::rust::matrix_cancel_room_local_echo(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                transactionId.toStdString());
+          });
+        return true;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return false;
+    }
+}
+
+bool
+MatrixBackendRuntimeService::retryRoomLocalEcho(matrix_backend::BlockingCallContext context,
+                                                uint64_t handleId,
+                                                const QString &roomId,
+                                                const QString &transactionId,
+                                                QString *errorOut)
+{
+    try {
+        matrix_backend::invokeBlockingCall(
+          "matrix_retry_room_local_echo",
+          matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
+          [handleId, roomId, transactionId, context]() {
+              ::komai::rust::matrix_retry_room_local_echo(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                transactionId.toStdString());
           });
         return true;
     } catch (const std::exception &e) {

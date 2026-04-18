@@ -32,6 +32,23 @@ TimelineEvent {
     required property string userId
     required property string userName
     required property string threadId
+    // Transaction ID for local echoes. Empty for remote (server-confirmed) events.
+    // `isLocalEcho` flags items that never got a real event_id — these must not be
+    // routed through handlers that expect a Matrix event id (redact, reply, edit, ...).
+    property string transactionId: ""
+    property bool isLocalEcho: false
+    // Human-readable SDK error for failed local echoes (from
+    // `EventSendState::SendingFailed.error`). Empty otherwise.
+    property string sendError: ""
+    // Whether matrix-sdk marked the failure as transient and worth retrying
+    // via `SendHandle::unwedge()`. Meaningful only while `status == Failed`.
+    property bool isRecoverable: false
+    // The real Matrix event_id. Empty for local echoes, whereas `eventId` (used by
+    // EventDelegateChooser for content lookup) falls back to the row's `itemId`
+    // so the bubble can still render. Action handlers MUST use `realEventId`
+    // (and/or `transactionId`) — never `eventId` directly — to avoid sending a
+    // matrix-sdk-ui `unique_id` through paths that expect a Matrix event_id.
+    property string realEventId: ""
     required property bool isThreadRoot
     property int threadReplyCount: 0
     required property int userPowerlevel
@@ -346,7 +363,7 @@ TimelineEvent {
 
         var actionsParent = messageActions.parent ? messageActions.parent : chat.contentItem;
         if (!actionsParent) {
-            Qt.callLater(function () { wrapper.repositionMessageActions(anchorItem, pinnedState, nextAttempt); });
+            Qt.callLater(function () { wrapper.repositionMessageActions(anchorItem, activationMode, nextAttempt); });
             return;
         }
 
@@ -362,7 +379,7 @@ TimelineEvent {
         if (barW <= 0 || barH <= 0 || chatWidth <= 0 || chatHeight <= 0) {
             // Keep retrying until the control resolves its intrinsic size; we need
             // a stable width/height before showing to avoid a first-run clipped draw.
-            Qt.callLater(function () { wrapper.repositionMessageActions(anchorItem, pinnedState, nextAttempt); });
+            Qt.callLater(function () { wrapper.repositionMessageActions(anchorItem, activationMode, nextAttempt); });
             return;
         }
 
@@ -442,7 +459,7 @@ TimelineEvent {
             const chatRootRef = messageContextMenu && messageContextMenu.chatRoot ? messageContextMenu.chatRoot : null;
             if (chatRootRef && typeof chatRootRef.openMessageActionsDialog === "function") {
                 const copyText = (main && main.copyText !== undefined && main.copyText !== null) ? String(main.copyText) : "";
-                chatRootRef.openMessageActionsDialog(eventId, threadId, type, isSender, isEncrypted, isEditable, "", copyText);
+                chatRootRef.openMessageActionsDialog(realEventId, threadId, type, isSender, isEncrypted, isEditable, "", copyText, null, null, transactionId);
                 return;
             }
         }
@@ -454,8 +471,12 @@ TimelineEvent {
     }
 
     function openMessageContextMenu(hoveredLink, copyText) {
+        // Pass `realEventId` (empty for local echoes) to the context menu as
+        // `eventId`, not the lookup-key `eventId` which may hold the row's
+        // `itemId` fallback. The menu's action handlers feed this value
+        // straight to Rust handlers that parse it as a Matrix event_id.
         messageContextMenu.show(
-            eventId,
+            realEventId,
             threadId,
             type,
             isSender,
@@ -466,7 +487,8 @@ TimelineEvent {
             copyText,
             null,
             wrapper,
-            roomModelOverride);
+            roomModelOverride,
+            transactionId);
     }
 
     function resolveReplyLink(replyDelegate, x, y, quoteLineWidth, replyHeaderHeight) {

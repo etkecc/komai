@@ -296,6 +296,32 @@ pub(crate) fn matrix_redact_room_event(
     )
 }
 
+pub(crate) fn matrix_cancel_room_local_echo(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    transaction_id: &str,
+) -> Result<bool, String> {
+    ffi_block_on(
+        context,
+        "matrix_cancel_room_local_echo",
+        matrix_backend::runtime::cancel_local_echo(handle_id, room_id, transaction_id),
+    )
+}
+
+pub(crate) fn matrix_retry_room_local_echo(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    transaction_id: &str,
+) -> Result<(), String> {
+    ffi_block_on(
+        context,
+        "matrix_retry_room_local_echo",
+        matrix_backend::runtime::retry_local_echo(handle_id, room_id, transaction_id),
+    )
+}
+
 pub(crate) fn matrix_mark_room_event_as_read(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

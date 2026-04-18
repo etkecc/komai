@@ -1098,6 +1098,26 @@ async fn run_room_timeline_loop(
                         };
                         let _ = response.send(result);
                     }
+                    Some(MatrixBackendRoomTimelineCommand::CancelLocalEcho { transaction_id, response }) => {
+                        tracing::info!(
+                            handle_id,
+                            room_id,
+                            transaction_id,
+                            "Cancelling local echo on active matrix-sdk room timeline"
+                        );
+                        let result = cancel_local_echo_for_timeline(&timeline, &transaction_id).await;
+                        let _ = response.send(result);
+                    }
+                    Some(MatrixBackendRoomTimelineCommand::RetryLocalEcho { transaction_id, response }) => {
+                        tracing::info!(
+                            handle_id,
+                            room_id,
+                            transaction_id,
+                            "Retrying (unwedging) local echo on active matrix-sdk room timeline"
+                        );
+                        let result = retry_local_echo_for_timeline(&timeline, &transaction_id).await;
+                        let _ = response.send(result);
+                    }
                     None => {
                         tracing::debug!(
                             handle_id,
@@ -1178,4 +1198,93 @@ async fn run_room_timeline_loop(
     }
 
     tracing::info!(handle_id, room_id, "Matrix-sdk room timeline loop stopped");
+}
+
+/// Locate a local echo by transaction id (falls back to matrix-sdk-ui `unique_id`)
+/// and call `SendHandle::abort()` on it to remove the wedged send-queue entry.
+///
+/// Returns `Ok(true)` when the echo was aborted, `Ok(false)` when the send
+/// queue reports nothing to abort (already-sent or gone), and `Err(_)` when
+/// the item cannot be located or has no send handle.
+async fn cancel_local_echo_for_timeline(
+    timeline: &matrix_sdk_ui::timeline::Timeline,
+    transaction_id: &str,
+) -> Result<bool, String> {
+    let trimmed = transaction_id.trim();
+    if trimmed.is_empty() {
+        return Err("cannot cancel a local echo without a transaction id".to_owned());
+    }
+
+    let items = timeline.items().await;
+    for item in items.iter() {
+        let Some(event) = item.as_event() else {
+            continue;
+        };
+        let matches_transaction = event
+            .transaction_id()
+            .map(|txn| txn.as_str() == trimmed)
+            .unwrap_or(false);
+        let matches_unique_id = item.unique_id().0 == trimmed;
+        if !matches_transaction && !matches_unique_id {
+            continue;
+        }
+
+        let Some(send_handle) = event.local_echo_send_handle() else {
+            return Err(
+                "timeline item is not a local echo (already sent or a remote event)".to_owned(),
+            );
+        };
+
+        return send_handle
+            .abort()
+            .await
+            .map_err(|e| format!("failed to cancel local echo: {e}"));
+    }
+
+    Err(format!(
+        "no local echo found for transaction id '{trimmed}'"
+    ))
+}
+
+/// Locate a local echo by transaction id (falls back to matrix-sdk-ui
+/// `unique_id`) and call `SendHandle::unwedge()` on it to mark the wedged
+/// send-queue entry for retry.
+async fn retry_local_echo_for_timeline(
+    timeline: &matrix_sdk_ui::timeline::Timeline,
+    transaction_id: &str,
+) -> Result<(), String> {
+    let trimmed = transaction_id.trim();
+    if trimmed.is_empty() {
+        return Err("cannot retry a local echo without a transaction id".to_owned());
+    }
+
+    let items = timeline.items().await;
+    for item in items.iter() {
+        let Some(event) = item.as_event() else {
+            continue;
+        };
+        let matches_transaction = event
+            .transaction_id()
+            .map(|txn| txn.as_str() == trimmed)
+            .unwrap_or(false);
+        let matches_unique_id = item.unique_id().0 == trimmed;
+        if !matches_transaction && !matches_unique_id {
+            continue;
+        }
+
+        let Some(send_handle) = event.local_echo_send_handle() else {
+            return Err(
+                "timeline item is not a local echo (already sent or a remote event)".to_owned(),
+            );
+        };
+
+        return send_handle
+            .unwedge()
+            .await
+            .map_err(|e| format!("failed to retry local echo: {e}"));
+    }
+
+    Err(format!(
+        "no local echo found for transaction id '{trimmed}'"
+    ))
 }

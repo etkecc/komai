@@ -17,6 +17,7 @@ Menu {
     property var actionMessageModel: null
     property var actionRoomModel: null
     property string eventId
+    property string transactionId
     property int eventType
     property bool isEditable
     property bool isEncrypted
@@ -25,6 +26,11 @@ Menu {
     property string link
     property string text
     property string threadId
+    // Derived: true when this menu targets a local echo (no server event_id yet,
+    // only a transaction id). Most actions (reply, edit, pin, ...) require a real
+    // event id and must be hidden for these rows.
+    readonly property bool isLocalEcho: (!eventId || eventId.length === 0)
+        && transactionId.length > 0
     property Item popupAnchorItem: null
     property Item lastClosedAnchorItem: null
     property string lastClosedEventId: ""
@@ -37,6 +43,12 @@ Menu {
             : roomModel
     readonly property var effectiveMessageModel: actionMessageModel ? actionMessageModel : ({
             "eventId": eventId,
+            // Menu callers pass the real event id in via show()'s first arg, so in
+            // the non-wrapper fallback it coincides with `eventId`. Wrappers expose
+            // `realEventId` distinctly from their lookup-key `eventId`.
+            "realEventId": eventId,
+            "transactionId": transactionId,
+            "isLocalEcho": isLocalEcho,
             "threadId": threadId,
             "type": eventType,
             "isSender": isSender,
@@ -55,8 +67,9 @@ Menu {
         return lastClosedEventId === eventId_ && lastClosedAnchorItem === anchor_ && (Date.now() - lastClosedAtMs) <= closedReuseIgnoreMs;
     }
 
-    function show(eventId_, threadId_, eventType_, isSender_, isEncrypted_, isEditable_, isStateEvent_, link_, text_, showAt_, actionMessageModel_, actionRoomModel_) {
+    function show(eventId_, threadId_, eventType_, isSender_, isEncrypted_, isEditable_, isStateEvent_, link_, text_, showAt_, actionMessageModel_, actionRoomModel_, transactionId_) {
         eventId = eventId_;
+        transactionId = transactionId_ || "";
         threadId = threadId_;
         eventType = eventType_;
         isEncrypted = isEncrypted_;
@@ -359,12 +372,15 @@ Menu {
         }
         Component {
             MenuItem {
-                text: qsTr("&Delete message")
+                text: messageContextMenuRoot.isLocalEcho
+                    ? qsTr("&Cancel send")
+                    : qsTr("&Delete message")
                 icon.source: "qrc:/icons/icons/ui/delete.svg"
                 visible: messageActionSupport.canRemove(messageContextMenuRoot.effectiveMessageModel,
                                                         messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: chatRoot.openRemoveMessageDialog(messageContextMenuRoot.eventId)
+                onTriggered: chatRoot.openRemoveMessageDialog(messageContextMenuRoot.eventId,
+                                                              messageContextMenuRoot.transactionId)
             }
         }
     }

@@ -625,6 +625,18 @@ public:
                                 const QString &reason,
                                 QString *errorOut = nullptr);
 
+    static bool cancelRoomLocalEcho(matrix_backend::BlockingCallContext context,
+                                    uint64_t handleId,
+                                    const QString &roomId,
+                                    const QString &transactionId,
+                                    QString *errorOut = nullptr);
+
+    static bool retryRoomLocalEcho(matrix_backend::BlockingCallContext context,
+                                   uint64_t handleId,
+                                   const QString &roomId,
+                                   const QString &transactionId,
+                                   QString *errorOut = nullptr);
+
     static bool markRoomEventAsRead(matrix_backend::BlockingCallContext context,
                                     uint64_t handleId,
                                     const QString &roomId,

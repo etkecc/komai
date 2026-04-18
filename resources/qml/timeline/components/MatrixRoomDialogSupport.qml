@@ -2,10 +2,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../../components" as Components
 import "../../dialogs/moderation" as ModerationDialogs
 import "../../dialogs/navigation" as NavigationDialogs
 import "../../dialogs/timeline" as TimelineDialogs
 import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import cc.etke.komai
 
 Item {
@@ -71,6 +74,55 @@ Item {
                 support.rootItem.exitWalkMode({
                         "focusComposer": true
                     });
+            }
+        }
+    }
+
+    // Confirmation dialog for cancelling a local echo (a message that never reached
+    // the server). Unlike redaction there is no server event to remove, so we don't
+    // prompt for a reason — just confirm and abort the persisted send-queue entry.
+    Component {
+        id: cancelLocalEchoDialogComponent
+
+        Components.OverlayDialog {
+            id: cancelDialog
+
+            required property string transactionId
+
+            title: qsTr("Cancel unsent message?")
+            titleIcon: ":/icons/icons/ui/delete.svg"
+
+            Label {
+                Layout.fillWidth: true
+                color: palette.text
+                wrapMode: Text.WordWrap
+                text: qsTr("This message couldn't be sent. Cancelling removes it from the send queue.")
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Komai.paddingMedium
+
+                Components.KomaiButton {
+                    text: qsTr("Keep")
+                    onClicked: cancelDialog.close()
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                Components.KomaiButton {
+                    text: qsTr("Cancel send")
+                    highlighted: true
+                    onClicked: {
+                        TimelineManager.cancelActiveMatrixTimelineLocalEcho(cancelDialog.transactionId);
+                        support.rootItem.exitWalkMode({
+                                "focusComposer": true
+                            });
+                        cancelDialog.close();
+                    }
+                }
             }
         }
     }
@@ -213,8 +265,20 @@ Item {
         return dialog;
     }
 
-    function openRemoveMessageDialog(eventId) {
-        const trimmedEventId = String(eventId || "").trim();
+    function openRemoveMessageDialog(eventId, transactionId) {
+        const trimmedEventId       = String(eventId || "").trim();
+        const trimmedTransactionId = String(transactionId || "").trim();
+
+        // `transactionId` is only present for local echoes (matrix-sdk-ui clears
+        // it once the remote echo arrives). Its presence is the authoritative
+        // "this never reached the server" signal — branch on it first so we don't
+        // route to redact even if the lookup-key eventId is still populated.
+        if (trimmedTransactionId.length > 0) {
+            return showDialogFromComponent(cancelLocalEchoDialogComponent, {
+                    "transactionId": trimmedTransactionId
+                });
+        }
+
         if (trimmedEventId.length === 0)
             return null;
 
@@ -360,7 +424,8 @@ Item {
                                       link,
                                       text,
                                       messageModelOverride,
-                                      roomModelOverride) {
+                                      roomModelOverride,
+                                      transactionId) {
         const component = Qt.createComponent("qrc:/resources/qml/dialogs/timeline/MessageActionsDialog.qml");
         if (component.status !== Component.Ready) {
             console.error("MessageActionsDialog: " + component.errorString());
@@ -372,6 +437,7 @@ Item {
             : (support.chatRoot ? support.chatRoot : support.rootItem);
         const dialog = component.createObject(dialogParent, {
                 "eventId": eventId,
+                "transactionId": transactionId || "",
                 "eventType": eventType,
                 "isSender": isSender,
                 "isEncrypted": isEncrypted,

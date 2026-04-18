@@ -302,6 +302,8 @@ public:
                                                       const QString &reason = QString());
     Q_INVOKABLE bool redactActiveMatrixTimelineEventsByUser(const QString &userId,
                                                             const QString &reason = QString());
+    Q_INVOKABLE bool cancelActiveMatrixTimelineLocalEcho(const QString &transactionId);
+    Q_INVOKABLE bool retryActiveMatrixTimelineLocalEcho(const QString &transactionId);
     Q_INVOKABLE bool markActiveMatrixTimelineEventAsRead(const QString &eventId);
     Q_INVOKABLE bool reportActiveMatrixTimelineEvent(const QString &eventId,
                                                      const QString &reason = QString(),

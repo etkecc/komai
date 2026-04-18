@@ -647,7 +647,10 @@ async fn raw_event_to_timeline_item(
     Some(MatrixTimelineItem {
         item_id: event_id.clone(),
         event_id,
+        transaction_id: String::new(),
         delivery_state: String::new(),
+        send_error: String::new(),
+        is_recoverable: false,
         thread_id: thread_root_id,
         is_thread_root: summary.is_thread_root,
         thread_reply_count: 0,
